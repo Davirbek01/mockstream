@@ -6,7 +6,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "IELTS Mock Stream",
     "telegramChannel": "@ieltsmockstream",
     "testIdentifier": "mock_stream_64",
@@ -14,8 +14,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Shopping Dynamics & Artistic Expression"
   },
   "images": {
-    "img1": "https://i.ibb.co/gM1bMSXS/image.png",
-    "img2": "https://i.ibb.co/G4QH85qq/image.png",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/gM1bMSXS-image.png",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/G4QH85qq-image.png",
     "img1Alt": "Placeholder 1",
     "img2Alt": "Placeholder 2"
   },
@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like shopping?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-64-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-64-q1.mp3",
       "sampleAnswer": "I would characterize my attitude toward shopping as 'strategically selective'; I generally avoid the 'mass-market frenzy' of weekends but find a deep 'aesthetic satisfaction' in sourcing high-quality, 'long-form' items. For me, shopping isn't a 'default hobby' but a 'targeted exercise' in curation. I value the 'tactile authenticity' of physical stores, though I often do initial 'market reconnaissance' online to compare specifications. When I do find something that perfectly aligns with my 'personal style and functional needs,' there is a definite 'psychological reward' in the acquisition.",
       "vocabulary": {
         "title": "Q1 - Attitude Toward Shopping",
@@ -82,7 +82,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What's your favourite shop?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-64-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-64-q2.mp3",
       "sampleAnswer": "I'm particularly drawn to a local 'boutique stationery store' that specializes in 'analogue tools' like fountain pens and artisanal paper. It serves as a 'creative sanctuary' where the focus is on 'sensory engagement' and the 'physicality of expression' rather than digital efficiency. The 'curated atmosphere' of the shop, with its specific 'woody scent' and quiet ambience, provides a welcome 'counterpoint' to the frantic pace of modern retail. I appreciate the owners' 'deep subject-matter expertise' and the way they treat every customer as a 'collaborator in craft' rather than just a transaction.",
       "vocabulary": {
         "title": "Q2 - Favorite Shop",
@@ -128,7 +128,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you prefer shopping alone or with others?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-64-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-64-q3.mp3",
       "sampleAnswer": "I strongly prefer 'solitary shopping' as it allows for a higher level of 'cognitive focus' and 'autonomous decision-making.' When I'm alone, I can 'calibrate my pace' to the specific complexity of the purchase, spending an hour 'deconstructing' the material quality of a single coat if necessary. Shopping with others, while 'socially enriching,' often introduces 'interpersonal pressure' and 'conflicting aesthetic filters' that can lead to 'compromised choices' or impulse buys. I view shopping as a 'personal dialogue' between myself and the object, which is best conducted without 'external interference.'",
       "vocabulary": {
         "title": "Q3 - Solo vs Social Shopping",
@@ -174,7 +174,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What kinds of shops are there where you live?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-64-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-64-q4.mp3",
       "sampleAnswer": "My neighborhood is a 'vibrant commercial microcosm' that features a mix of 'utilitarian staples' and specialized 'niche outlets.' We have several 'artisan bakeries' and independent grocers that emphasize 'local provenance' and 'organic quality.' Furthermore, there is a growing 'cluster of flagship showrooms' for sustainable fashion, which reflects the 'demographic's shift' toward 'conscious consumerism.' While we lack the 'monolithic malls' of the outer suburbs, this 'granularity of retail' provides a much more 'intimate and walkable' urban experience. It's an environment that prioritizes 'distinctive character' over 'homogenized mass-market' options.",
       "vocabulary": {
         "title": "Q4 - Local Retail Landscape",
@@ -219,7 +219,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Have you ever bought anything online?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-64-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-64-q5.mp3",
       "sampleAnswer": "I utilize 'e-commerce platforms' extensively, primarily for their 'unprecedented logistical convenience' and the ability to access a 'global inventory' that is simply localized physical stores can't match. I find the 'asynchronous nature' of online shopping—being able to 'research and compare' at 2 AM—to be perfectly 'aligned' with my fluctuating schedule. However, I am acutely aware of the 'digital friction'—the inability to verify 'tactile quality' or fit before purchase. To 'mitigate this risk,' I generally stick to 'reputable vendors' with 'robust return policies.' For me, online shopping is a tool for 'efficiency optimization.'",
       "vocabulary": {
         "title": "Q5 - Online Shopping",
@@ -266,7 +266,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think men and women have different opinions about shopping?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-64-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-64-q6.mp3",
       "sampleAnswer": "I believe that 'gendered shopping patterns' are increasingly 'fragmenting' in modern society, though some 'vestigial trends' persist. Historically, there was a 'binary' where men were seen as 'transactional hunters'—seeking efficiency—and women as 'relational gatherers'—seeking experience. However, I think 'lifestyle-segmentation' is now a much more 'accurate predictor' than gender. A 'dedicated male hobbyist' might spend hours 'meticulously sourcing' parts, while a 'busy female professional' might prioritize 'digital speed.' We are moving toward a 'post-gender retail landscape' where 'individual psychological profiles' and 'time-scarcity' drive decision-making more than traditional roles.",
       "vocabulary": {
         "title": "Q6 - Gender & Shopping",
@@ -313,7 +313,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is shopping a popular activity in your country?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-64-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-64-q7.mp3",
       "sampleAnswer": "Shopping has effectively become the 'primary pillar of leisure' in my country, serving as both a 'social lubricant' and a 'measurement of status.' Malls are marketed as 'lifestyle destinations' rather than just retail centers, featuring integrated 'cultural and entertainment amenities' to maximize 'customer dwell-time.' I think this reflects a 'consumption-centric culture' where personal success is often 'externalized' through the acquisition of 'global luxury brands.' While this drives 'economic momentum,' I am concerned that it can lead to 'existential hollowness' if people lack more 'meaningful creative outlets.' It's a 'pervasive social ritual' that defines our 'urban identity.'",
       "vocabulary": {
         "title": "Q7 - Cultural Role of Shopping",
@@ -359,7 +359,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a child who loves drawing or painting.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-64-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-64-q8.mp3",
       "bulletPoints": [
         "who this child is",
         "how you knew him or her",
@@ -415,7 +415,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think all children should learn art?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-64-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-64-q9.mp3",
       "sampleAnswer": "Absolutely; I view art education as a fundamental 'neurological exercise' rather than a 'professional training.' It develops 'spatial reasoning,' fine motor skills, and most importantly, 'visual Literacy'—the ability to 'decode and interpret' the complex imagery that saturates our world. Beyond 'cognitive benefits,' art provides a 'psychological outlet' for emotions that are often 'inaccessible' to children through speech. It fosters 'creative resilience'—the understanding that there can be 'multiple correct solutions' to a single problem. It's about 'equiping the mind' with a more 'diverse toolkit' for thinking.",
       "vocabulary": {
         "title": "Q9 - Importance of Art for Kids",
@@ -460,7 +460,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is art popular in your culture?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-64-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-64-q10.mp3",
       "sampleAnswer": "Art is 'paradoxically situated' in my culture; while we have a 'deeply revered' history of traditional painting and architecture, contemporary art often feels 'alienated' from the average citizen's daily life. It is frequently seen as a 'niche preoccupation' for an 'intellectual elite.' However, there is a visible 'resurgence' of interest in art through 'digital mediums' and 'street-art murals,' which are 'reclaiming' public spaces. We are moving from a model of 'passive museum-observation' toward more 'participatory, community-based' expressions. I believe art is slowly being 'democratized' and recognized as a 'vital social fabric.'",
       "vocabulary": {
         "title": "Q10 - Art in Culture",
@@ -506,7 +506,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What is the right age for a child to learn drawing?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-64-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-64-q11.mp3",
       "sampleAnswer": "I believe that 'drawing' shouldn't be 'formally taught' until a child has had several years of 'unstructured tactile exploration.' The early years—from toddlerhood to around age six—should be about 'sensory discovery' and the 'joy of mark-making' without any 'externally imposed standards.' Formal instruction too early can 'stifle the innate creativity' and replace 'authentic expression' with 'rote imitation.' Around age seven or eight, when children start to develop more 'sophisticated spatial awareness' and 'critical thinking,' they can benefit from learning 'fundamental techniques' like perspective and anatomy. The 'right age' is less about a chronological number and more about when the child's 'internal curiosity' begins to demand 'more refined tools' for their vision.",
       "vocabulary": {
         "title": "Q11 - Age for Art Education",
@@ -552,7 +552,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Why do most children draw more often than adults do?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-64-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-64-q12.mp3",
       "sampleAnswer": "I think this is due to the 'fragmentation of the creative self' as we age; children still possess a 'unified curiosity' where play, learning, and expression are one and the same. They haven't yet 'internalized the fear of judgment' or the 'utilitarian pressure' to produce something 'valuable' or 'perfect.' As we transition into adulthood, our 'cognitive resources' are increasingly 'colonized' by professional responsibilities and a 'rigid obsession with productivity.' We start to see art as an 'optional luxury' or a 'specialized skill' rather than a 'fundamental human right.' Children draw because they are 'ontologically open'—they haven't yet 'partitioned' their world into categories of what is useful and what is merely beautiful.",
       "vocabulary": {
         "title": "Q12 - Children vs Adults in Art",
@@ -598,7 +598,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Why do some people visit galleries or museums instead of viewing artworks online?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-64-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-64-q13.mp3",
       "sampleAnswer": "Viewing an artwork online is a 'compressed, two-dimensional' experience that lacks the 'auratic presence' and 'somatic scale' of the physical object. In a museum, there is a 'spatial dialogue' between the viewer and the work—you can perceive the 'impasto texture' of the paint, the 'gravitas of size,' and the way the light 'interacts' with the surface. Furthermore, the 'ritualized silence' and 'curated sequence' of a gallery provide a 'psychological threshold' that allows for 'deep contemplative attention'—something that is constantly 'disrupted' by the 'notificational friction' of a digital device. It's the difference between 'reading a menu' and 'eating the meal.' A museum offers an 'unfiltered encounter' with human excellence.",
       "vocabulary": {
         "title": "Q13 - Physical vs Digital Art",
@@ -645,7 +645,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think galleries and museums should be free of charge?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-64-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-64-q14.mp3",
       "sampleAnswer": "I strongly advocate for 'universal accessibility' to cultural institutions, as I view them as 'public repositories of memory' rather than 'exclusive commodities.' When museums are 'monetized,' it creates a 'socio-economic filter' that excludes the very people who might benefit most from 'intellectual expansion' and 'aesthetic inspiration.' Furthermore, public funding for museums is a 'strategic investment in social cohesion'—it provides a 'shared cultural vocabulary' for diverse communities. While 'private donations' and 'commercial partnerships' can supplement the budget, the 'baseline access' should be seen as a 'fundamental right' of citizenship, similar to public libraries. A city that 'taxes curiosity' is essentially 'stifling its own future potential.'",
       "vocabulary": {
         "title": "Q14 - Free Museum Access",
@@ -690,7 +690,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How do artworks inspire people?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-64-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-64-q15.mp3",
       "sampleAnswer": "Artworks act as 'emotional catalysts' that bypass our 'logical defenses' and directly 'resonate' with our 'subconscious archetypes.' They can 'propel' a person into a state of 'radical empathy'—allowing them to see the world through a 'completely alien lens.' Beyond 'emotional stimulation,' art can provide 'moral clarification' in times of 'social ambiguity,' acting as a 'mirror for our collective anxieties' or a 'vision of our potential.' This 'aspirational quality'—the manifestation of 'human excellence' through form and color—can 'galvanize' individuals to overcome their own 'perceived limitations.' It's a 'transcendent spark' that reminds us we are capable of 'producing beauty' even in the most 'parched or difficult' circumstances.",
       "vocabulary": {
         "title": "Q15 - Power of Artistic Inspiration",
@@ -736,7 +736,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Should art reflect reality or be abstract?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-64-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-64-q16.mp3",
       "sampleAnswer": "I think the 'dichotomy' between 'representational realism' and 'abstraction' is a 'false choice'; both serve distinct 'cognitive functions.' Realism provides 'empirical documentation' and 'historical grounding'—it captures the 'physical facts' of our shared world. Abstraction, however, explores the 'internal landscape' of emotion and the 'structural essence' of reality—it captures how an object 'feels' rather than just how it 'looks.' The 'tension' between these two poles is what keeps the 'artistic discourse' vibrant. A 'mature culture' needs both: the 'mirror' of realism to see itself clearly, and the 'window' of abstraction to see 'beyond the immediate.' They are 'complementary frequencies' of human perception.",
       "vocabulary": {
         "title": "Q16 - Realism vs Abstraction",
@@ -780,7 +780,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Does technology take away the creativity of a person?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-64-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-64-q17.mp3",
       "sampleAnswer": "I believe technology doesn't 'subtract' creativity; it 'augments and reconfigures' the 'creative possibilities.' While it's true that some 'analogue skills' might 'atrophy,' we are seeing the emergence of 'entirely new modalities' of expression, like 'generative AI' or 'immersive VR environments.' These tools allow for the 'manifestation of ideas' that were previously 'logistically impossible.' The 'human spark'—the initial 'conceptual vision'—remains the 'primary driver.' Technology is simply the 'accelerant.' We should view it as an 'extension of the nervous system' rather than a 'replacement for the soul.' The danger isn't the technology itself, but the 'capitulation' to 'passive consumption' rather than using the tools for 'active authorship.'",
       "vocabulary": {
         "title": "Q17 - Technology and Creativity",

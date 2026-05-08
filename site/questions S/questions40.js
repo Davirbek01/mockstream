@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "@mock_stream",
     "testIdentifier": "mock_stream",
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you know your neighbours well?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-40-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-40-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>To be honest, I don't know my neighbours <span class=\"ml-token adv\">particularly</span> well. We exchange greetings when we see each other in the hallway, but we've never really had a <span class=\"ml-token colloc\">proper conversation</span>.</div>\n\n<div>I think this is quite common in big cities where people tend to <span class=\"ml-token colloc\">keep to themselves</span>. That said, I'd love to get to know them better because having good neighbours can make a real difference to your <span class=\"ml-token colloc\">quality of life</span>.</div>",
       "vocabulary": {
@@ -64,7 +64,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What kind of things usually make you laugh?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-40-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-40-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I'd say I have a fairly good <span class=\"ml-token colloc\">sense of humour</span> and a lot of things can make me laugh. I <span class=\"ml-token adv\">particularly</span> enjoy witty comedies and funny videos on social media — they always <span class=\"ml-token colloc\">brighten my day</span>.</div>\n\n<div>I also find that spending time with close friends tends to lead to a lot of laughter, especially when we share <span class=\"ml-token colloc\">inside jokes</span> or recall embarrassing memories together. I think laughter is truly the <span class=\"ml-token colloc\">best medicine</span>.</div>",
       "vocabulary": {
@@ -100,7 +100,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you often wear hats or caps?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-40-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-40-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Not <span class=\"ml-token adv\">particularly</span> often, to be honest. I sometimes wear a cap in the summer to <span class=\"ml-token colloc\">shield myself from</span> the sun, or a warm hat in winter when temperatures drop.</div>\n\n<div>I wouldn't say I'm a big hat person in terms of fashion, but I do appreciate their <span class=\"ml-token colloc\">practical benefits</span>. Some people can really <span class=\"ml-token colloc\">pull off</span> a stylish hat, but I tend to keep it simple.</div>",
       "vocabulary": {
@@ -136,7 +136,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-40-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-40-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>In the first picture, I can see people repairing a bicycle in a small workshop. They appear to be <span class=\"ml-token adv\">carefully</span> fixing the mechanical parts, which suggests they take <span class=\"ml-token colloc\">good care of</span> their own bike.</div>\n\n<div>In the second picture, people are renting bicycles from a <span class=\"ml-token colloc\">self-service city station</span> — it looks like a modern bike-sharing system. The <span class=\"ml-token colloc\">contrast between</span> the two images highlights the difference between <span class=\"ml-token colloc\">personal ownership</span> and the growing trend of shared mobility in cities.</div>",
       "vocabulary": {
@@ -172,7 +172,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the advantages of maintaining and repairing your own bicycle?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-40-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-40-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>There are several <span class=\"ml-token colloc\">notable advantages</span> to maintaining and repairing your own bicycle. First and foremost, it <span class=\"ml-token colloc\">saves money</span> in the long run — instead of paying a mechanic every time something breaks, you can fix basic issues yourself.</div>\n\n<div>This also gives you a deeper <span class=\"ml-token colloc\">understanding of</span> how your bike works, which means you can <span class=\"ml-token adv\">quickly</span> identify and solve problems before they become serious. There's also a real sense of <span class=\"ml-token colloc\">personal satisfaction</span> that comes from fixing something with your own hands — it's a practical skill that builds self-reliance.</div>\n\n<div>Furthermore, regular maintenance extends the <span class=\"ml-token colloc\">lifespan of your bicycle</span>, reducing waste and being more environmentally friendly. As they say, <span class=\"ml-token proverb\">\"a stitch in time saves nine\"</span> — taking care of small repairs early prevents bigger, costlier problems later.</div>",
       "vocabulary": {
@@ -208,7 +208,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why are bike-rental systems becoming popular in many cities?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-40-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-40-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Bike-rental systems are becoming <span class=\"ml-token adv\">increasingly</span> popular for a number of compelling reasons. The most obvious one is <span class=\"ml-token colloc\">sheer convenience</span> — people can pick up a bicycle at one station and drop it off at another, without worrying about storage, maintenance, or theft.</div>\n\n<div>This is <span class=\"ml-token adv\">especially</span> appealing in crowded cities where owning a bike can be impractical due to limited space. From an environmental perspective, bike-sharing schemes help <span class=\"ml-token colloc\">reduce carbon emissions</span> by offering a green alternative to cars and taxis for short trips.</div>\n\n<div>They also ease <span class=\"ml-token colloc\">traffic congestion</span> and promote a healthier, more active lifestyle among city residents. For tourists, rental bikes are an <span class=\"ml-token adv\">incredibly</span> affordable and enjoyable way to explore a new city. As the saying goes, <span class=\"ml-token proverb\">\"sharing is caring\"</span>, and these systems are a perfect example of how shared resources benefit entire communities.</div>",
       "vocabulary": {
@@ -244,7 +244,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a time you successfully repaired something that was broken.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-40-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-40-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a time you successfully repaired something that was broken.",
@@ -285,7 +285,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Everyone should adopt a vegetarian diet to protect the planet.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-40-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-40-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

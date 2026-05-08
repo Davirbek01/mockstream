@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "@mock_stream",
     "testIdentifier": "mock_stream",
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you enjoy watching documentaries?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-37-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-37-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, I <span class=\"ml-token adv\">absolutely</span> enjoy watching documentaries. I find them <span class=\"ml-token adv\">incredibly</span> informative and they often cover topics I wouldn't normally explore on my own.</div>\n\n<div>Nature and history documentaries are my favourites because they <span class=\"ml-token colloc\">broaden my horizons</span> and give me a deeper understanding of the world. I'd say I watch at least one or two a week whenever I <span class=\"ml-token colloc\">get the chance</span>.</div>",
       "vocabulary": {
@@ -64,7 +64,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you enjoy singing in your free time?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-37-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-37-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>To be honest, I do enjoy singing, although I wouldn't say I'm <span class=\"ml-token adv\">particularly</span> talented at it. I usually sing along to my favourite songs when I'm driving or doing housework — it really helps me <span class=\"ml-token colloc\">lift my mood</span>.</div>\n\n<div>I think singing is a wonderful way to <span class=\"ml-token colloc\">express emotions</span>, even if you're just doing it for fun rather than performing in front of others.</div>",
       "vocabulary": {
@@ -100,7 +100,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do you usually talk about with older people?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-37-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-37-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>When I chat with older people, we <span class=\"ml-token adv\">typically</span> discuss topics like family, health, and their <span class=\"ml-token colloc\">life experiences</span>. I find it <span class=\"ml-token adv\">fascinating</span> to hear stories about how things used to be — it gives me a real sense of perspective.</div>\n\n<div>We also sometimes talk about current events, and I enjoy hearing their <span class=\"ml-token colloc\">words of wisdom</span> on various matters. It's always a <span class=\"ml-token colloc\">rewarding conversation</span>.</div>",
       "vocabulary": {
@@ -136,7 +136,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-37-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-37-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>In the first picture, I can see a grandfather and his granddaughter in a garden. He is <span class=\"ml-token adv\">gently</span> teaching her how to water plants, and she seems to be <span class=\"ml-token adv\">eagerly</span> learning this <span class=\"ml-token colloc\">practical skill</span>. It’s a lovely example of <span class=\"ml-token colloc\">passing down knowledge</span> from one generation to the next.</div>\n\n<div>In the second picture, the roles are reversed: a grandson is explaining to his grandfather how to use a tablet. The elderly man looks interested and is paying close attention. The <span class=\"ml-token colloc\">contrast is striking</span> — both images show that <span class=\"ml-token adv\">regardless</span> of age, people can learn from one another.</div>",
       "vocabulary": {
@@ -172,7 +172,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the benefits of children learning practical skills from older generations?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-37-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-37-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>There are <span class=\"ml-token adv\">numerous</span> benefits when children learn practical skills from older generations. First of all, skills like cooking, gardening, or basic repairs are <span class=\"ml-token adv\">extremely</span> useful in everyday life and help children become more <span class=\"ml-token colloc\">self-sufficient</span>.</div>\n\n<div>Beyond the practical aspect, this kind of learning <span class=\"ml-token colloc\">strengthens family bonds</span> and creates a sense of connection between generations. Older people often have a <span class=\"ml-token colloc\">wealth of experience</span> that simply cannot be found in textbooks or online tutorials.</div>\n\n<div>Furthermore, this process helps <span class=\"ml-token colloc\">preserve cultural traditions</span> and keeps valuable knowledge alive. As the saying goes, <span class=\"ml-token proverb\">\"experience is the best teacher\"</span>, and passing these skills down ensures they won't be <span class=\"ml-token colloc\">lost over time</span>.</div>",
       "vocabulary": {
@@ -208,7 +208,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why is it important for younger people to help the elderly with modern technology?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-37-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-37-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>I think it's <span class=\"ml-token adv\">extremely</span> important for younger people to help the elderly navigate modern technology. In today's world, so many essential services — from banking to healthcare appointments — have moved online, and without <span class=\"ml-token colloc\">digital literacy</span>, older people risk being <span class=\"ml-token colloc\">left behind</span>.</div>\n\n<div>By helping them learn to use smartphones, apps, or video calls, we enable them to <span class=\"ml-token colloc\">stay connected</span> with family and friends, which is vital for their mental well-being. It also shows <span class=\"ml-token colloc\">mutual respect</span> — just as they taught us life skills, we can <span class=\"ml-token colloc\">return the favour</span> by sharing our tech knowledge.</div>\n\n<div>As they say, <span class=\"ml-token proverb\">\"one good turn deserves another\"</span>. Ultimately, bridging the <span class=\"ml-token colloc\">digital divide</span> helps create a more inclusive society for everyone.</div>",
       "vocabulary": {
@@ -244,7 +244,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a time you borrowed something useful from a friend.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-37-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-37-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a time you borrowed something useful from a friend.",
@@ -285,7 +285,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Professional athletes are paid too much money.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-37-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-37-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

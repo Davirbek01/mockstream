@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "@mock_stream",
     "testIdentifier": "mock_stream",
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is the weather the same in all parts of your country?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-49-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-49-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>No, the weather varies <span class=\"ml-token adv\">significantly</span> depending on the region. In the northern parts of my country, it tends to be <span class=\"ml-token adv\">noticeably</span> cooler, especially during the winter months, with frequent snowfall.</div>\n\n<div><span class=\"ml-token adv\">Conversely</span>, the southern regions experience a much more <span class=\"ml-token colloc\">temperate climate</span>, where summers are <span class=\"ml-token adv\">scorching</span> hot and winters remain <span class=\"ml-token adv\">relatively</span> mild. This <span class=\"ml-token colloc\">geographical diversity</span> means that <span class=\"ml-token proverb\">\"you can experience four seasons in one day\"</span> simply by traveling across the country.</div>",
       "vocabulary": {
@@ -65,7 +65,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How do you feel about visiting the doctor?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-49-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-49-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div><span class=\"ml-token adv\">To be honest</span>, visiting the doctor makes me <span class=\"ml-token adv\">slightly</span> anxious, as hospitals often have an <span class=\"ml-token colloc\">intimidating atmosphere</span>. The clinical smell and waiting rooms can be quite nerve-wracking.</div>\n\n<div><span class=\"ml-token adv\">However</span>, I <span class=\"ml-token adv\">fully</span> understand that regular check-ups are <span class=\"ml-token adv\">absolutely</span> necessary. It gives me peace of mind knowing that my health is being monitored, and as the saying goes, <span class=\"ml-token proverb\">\"prevention is better than cure.\"</span></div>",
       "vocabulary": {
@@ -102,7 +102,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like trying new foods from other countries?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-49-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-49-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, I am <span class=\"ml-token adv\">incredibly</span> adventurous when it comes to food. Trying <span class=\"ml-token colloc\">exotic cuisines</span> is one of my favorite ways to learn about different cultures and traditions <span class=\"ml-token adv\">without</span> having to travel.</div>\n\n<div><span class=\"ml-token adv\">Occasionally</span>, a new dish might not suit my palate, but <span class=\"ml-token adv\">generally</span>, I enjoy the excitement of expanding my <span class=\"ml-token colloc\">culinary horizons</span>. After all, <span class=\"ml-token proverb\">\"variety is the spice of life\"</span> and I <span class=\"ml-token adv\">eagerly</span> embrace the chance to taste foreign delicacies.</div>",
       "vocabulary": {
@@ -139,7 +139,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-49-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-49-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>The first picture shows a student working <span class=\"ml-token adv\">diligently</span> late at night, illuminated only by a desk lamp. This individual is <span class=\"ml-token adv\">clearly</span> a \"night owl,\" <span class=\"ml-token colloc\">burning the midnight oil</span> to prepare for an upcoming exam.</div>\n\n<div><span class=\"ml-token adv\">In stark contrast</span>, the second picture displays an <span class=\"ml-token adv\">early</span> riser studying in a bright, sunlit room during the morning hours. The images capture two fundamentally different approaches to achieving <span class=\"ml-token colloc\">academic success</span>—whether one prefers the quiet solitude of the night or the <span class=\"ml-token colloc\">refreshing energy</span> of the dawn.</div>",
       "vocabulary": {
@@ -176,7 +176,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Does studying early in the morning help lessons stay in memory better?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-49-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-49-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Yes, <span class=\"ml-token adv\">numerous</span> studies suggest that studying early in the morning can <span class=\"ml-token adv\">greatly</span> enhance memory retention. <span class=\"ml-token adv\">Biologically</span>, the brain is well-rested after a good night's sleep, meaning that <span class=\"ml-token colloc\">cognitive functions</span> are operating at their peak performance. This makes it easier to <span class=\"ml-token adv\">quickly</span> absorb complex information.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, there are <span class=\"ml-token adv\">significantly</span> fewer distractions during the early hours. Before the world wakes up and social media notifications start flooding in, a student can maintain <span class=\"ml-token colloc\">deep concentration</span>. This uninterrupted focus allows lessons to move from short-term to long-term memory more <span class=\"ml-token adv\">effectively</span>.</div>\n\n<div><span class=\"ml-token adv\">Ultimately</span>, while everyone has a different biological clock, prioritizing study sessions in the morning ensures that you are tackling the <span class=\"ml-token colloc\">harshest challenges</span> while your mind is freshest.</div>",
       "vocabulary": {
@@ -213,7 +213,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some students prefer studying at night?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-49-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-49-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Many students <span class=\"ml-token adv\">naturally</span> prefer studying at night primarily because of the <span class=\"ml-token colloc\">profound silence</span> it offers. Once household chores are done and family members are asleep, the environment becomes <span class=\"ml-token adv\">exceptionally</span> peaceful, allowing for <span class=\"ml-token colloc\">uninterrupted workflow</span>.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, some people are biologically wired differently. These \"night owls\" experience a surge in creative and analytical energy late in the evening. For them, tackling <span class=\"ml-token colloc\">intellectual tasks</span> after sunset feels <span class=\"ml-token adv\">strangely</span> effortless, whereas morning classes might leave them feeling <span class=\"ml-token adv\">sluggish</span>.</div>\n\n<div><span class=\"ml-token adv\">Lastly</span>, the lack of urgent daily obligations—such as answering emails or attending meetings—means they can <span class=\"ml-token adv\">fully</span> immerse themselves in their textbooks, knowing that <span class=\"ml-token proverb\">\"silence is golden\"</span> when preparing for an important examination.</div>",
       "vocabulary": {
@@ -250,7 +250,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Can you describe a person who is very optimistic?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-49-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-49-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Can you describe a person who is very optimistic?",
@@ -293,7 +293,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Young people should work while studying.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-49-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-49-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

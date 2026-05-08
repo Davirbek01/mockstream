@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "@mock_stream",
     "testIdentifier": "mock_stream",
@@ -15,8 +15,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Chet tilini bilish darajasi"
   },
   "images": {
-    "img1": "https://i.ibb.co/B58BPcpZ/2.jpg",
-    "img2": "https://i.ibb.co/76L4V8z/1.jpg",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/B58BPcpZ-2.jpg",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/76L4V8z-1.jpg",
     "img1Alt": "Festival event",
     "img2Alt": "Museum visit"
   },
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you have a hobby?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-08-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-08-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>Absolutely, I <span class=\"ml-token adv\">genuinely</span> have a hobby that I <span class=\"ml-token colloc\">hold dear</span>, and that is painting. Ever since I was a child, I’ve been captivated by the <span class=\"ml-token colloc\">world of art</span>. Initially, it was something I picked up simply for leisure, but it <span class=\"ml-token phrasal\">turned into</span> a passion that I cannot imagine living without. I <span class=\"ml-token idiom\">let my hair down</span> whenever I sit in front of a blank canvas.</p>\n\n<p>There's something <span class=\"ml-token adv\">incredibly</span> therapeutic about expressing one's emotions through colors and strokes. It helps me <span class=\"ml-token phrasal\">figure out</span> my thoughts and often serves as an escape from the hustle and bustle of daily life. As the saying goes, <span class=\"ml-token proverb\">\"Art enables us to find ourselves and lose ourselves at the same time.\"</span></p>\n\n<p>Moreover, painting has provided me with a deeper appreciation of the <span class=\"ml-token colloc\">beauty in the mundane</span>. I often find myself inspired by the simplest things, like the way sunlight falls through the leaves or the colors of a sunset. In fact, I recently joined an art workshop, which has allowed me to <span class=\"ml-token phrasal\">step into</span> a community of like-minded individuals who share my passion.</p>\n\n<p>Overall, I believe hobbies like painting are <span class=\"ml-token adv\">vitally</span> important as they not only nurture creativity but also contribute to one's emotional well-being. I <span class=\"ml-token adv\">honestly</span> can't imagine not having this artistic outlet in my life.</p>",
       "vocabulary": {
@@ -70,7 +70,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you usually carry a bag?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-08-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-08-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>Honestly, I <span class=\"ml-token adv\">rarely</span> leave the house without a bag. I think it’s <span class=\"ml-token adv\">incredibly</span> practical to have one, especially considering the <span class=\"ml-token colloc\">number of items</span> I tend to carry around daily. You see, I’m a bit of a <span class=\"ml-token colloc\">tech enthusiast</span>, so I always have my tablet and chargers on me. Moreover, you could say I'm a <span class=\"ml-token idiom\">creature of habit</span>, as my bag also contains essentials like a water bottle, some snacks, and a book to read during my commute. I find that having a bag helps me <span class=\"ml-token phrasal\">stay organized</span> and ensures I have everything I need at my fingertips. As the saying goes, <span class=\"ml-token proverb\">\"Better safe than sorry,\"</span> and that's <span class=\"ml-token adv\">exactly</span> how I feel about carrying a bag. It allows me to be prepared for any <span class=\"ml-token colloc\">unexpected situation</span> that might arise throughout the day.</p>",
       "vocabulary": {
@@ -108,7 +108,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How often do you take photographs?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-08-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-08-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>Well, I must admit, I <span class=\"ml-token adv\">genuinely</span> try to take photographs <span class=\"ml-token adv\">quite</span> <span class=\"ml-token adv\">frequently</span>. I <span class=\"ml-token idiom\">let my hair down</span> every weekend and go for a stroll with my camera, <span class=\"ml-token phrasal\">capturing moments</span> that I find <span class=\"ml-token colloc\">visually appealing</span> or <span class=\"ml-token colloc\">emotionally impactful</span>. Nowadays, with the advent of smartphones, it's <span class=\"ml-token adv\">incredibly</span> easy to <span class=\"ml-token phrasal\">snap a quick photo</span>, so I would say I take photos <span class=\"ml-token adv\">almost</span> daily. I also have a penchant for nature photography, and whenever I <span class=\"ml-token phrasal\">come across</span> a stunning landscape or a <span class=\"ml-token colloc\">majestic sunset</span>, I <span class=\"ml-token phrasal\">can't resist</span> the urge to <span class=\"ml-token phrasal\">capture its essence</span>. <span class=\"ml-token proverb\">\"A picture is worth a thousand words,\"</span> and I <span class=\"ml-token adv\">truly</span> believe that <span class=\"ml-token colloc\">having a collection</span> of photographs helps me <span class=\"ml-token phrasal\">preserve precious memories</span> and <span class=\"ml-token colloc\">relive those moments</span> time and time again.</p>",
       "vocabulary": {
@@ -146,7 +146,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-08-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-08-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<span class=\"ml-token idiom\">\"A picture is worth a thousand words,\"</span> and these images <span class=\"ml-token colloc\">tell a vivid story</span> of modern-day activities blending technology and traditional experiences. \n\nIn the first image, the young man seated at an outdoor café <span class=\"ml-token phrasal\">seems to be</span> <span class=\"ml-token adv\">deeply</span> engaged in online shopping. The way he holds his smartphone and credit card <span class=\"ml-token colloc\">suggests a seamless integration</span> of convenience and choice, <span class=\"ml-token phrasal\">tapping into</span> the digital marketplace. The surrounding lush greenery <span class=\"ml-token colloc\">creates a serene ambiance</span>, <span class=\"ml-token adv\">enhancing</span> his <span class=\"ml-token colloc\">social experience</span> in a relaxed, outdoor setting. His content expression <span class=\"ml-token phrasal\">speaks volumes</span> about the <span class=\"ml-token colloc\">joys of combining</span> leisure with <span class=\"ml-token colloc\">modern conveniences</span>.\n\nConversely, the second image portrays a young couple <span class=\"ml-token colloc\">immersed in</span> a more traditional shopping experience. The vibrant hues of their shopping bags <span class=\"ml-token colloc\">highlight the excitement</span> of exploring high-street stores, <span class=\"ml-token colloc\">creating memories</span> in the bustling urban environment. The woman’s joyful expression as she peers into her shopping bag captures the <span class=\"ml-token idiom\">thrill of the hunt</span>, <span class=\"ml-token adv\">while</span> the man, laden with bags, <span class=\"ml-token colloc\">embodies the spirit</span> of shared adventures. Together, they <span class=\"ml-token phrasal\">illustrate the timeless appeal</span> of companionship and discovery.\n\n<span class=\"ml-token adv\">In essence,</span> these images <span class=\"ml-token colloc\">reflect the coexistence</span> of digital and physical shopping experiences, <span class=\"ml-token adv\">both</span> <span class=\"ml-token idiom\">catering to</span> the human desire for connection, choice, and satisfaction.",
       "vocabulary": {
@@ -184,7 +184,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the benefits of shopping online rather than going to a store?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-08-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-08-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>Shopping online has <span class=\"ml-token adv\">undoubtedly</span> transformed the way we <span class=\"ml-token phrasal\">go about</span> acquiring goods, offering a plethora of advantages over traditional in-store shopping. Firstly, the <span class=\"ml-token colloc\">convenience factor</span> cannot be overstated. With the click of a button, consumers can <span class=\"ml-token phrasal\">browse through</span> a vast array of products from the comfort of their homes, which <span class=\"ml-token adv\">substantially</span> reduces the time and effort involved in <span class=\"ml-token colloc\">physical shopping</span>.</p>\n\n<p>Moreover, online shopping provides a <span class=\"ml-token colloc\">rich variety</span> of options, often at more competitive prices. <span class=\"ml-token proverb\">\"The early bird catches the worm,\"</span> and online retailers <span class=\"ml-token adv\">frequently</span> offer exclusive deals and discounts that are not available in <span class=\"ml-token colloc\">high-street stores</span>. This enables consumers to <span class=\"ml-token phrasal\">snap up</span> bargains and <span class=\"ml-token idiom\">get more bang for their buck</span>.</p>\n\n<p>Another significant benefit is the ability to <span class=\"ml-token adv\">easily</span> compare products and prices. Websites often provide comparison features and customer reviews, allowing shoppers to make informed decisions. I <span class=\"ml-token adv\">personally</span> find this aspect incredibly useful when deciding on a major purchase, like electronics, as it helps me avoid making impulsive decisions.</p>\n\n<p>On the downside, one might argue that online shopping lacks the <span class=\"ml-token colloc\">tangible experience</span> of physically inspecting goods. However, the advent of <span class=\"ml-token colloc\">virtual reality</span> and interactive product displays is bridging this gap, making online shopping a more immersive experience.</p>\n\n<p>In conclusion, while in-store shopping provides a <span class=\"ml-token colloc\">social experience</span> and instant gratification, the benefits of online shopping, <span class=\"ml-token adv\">especially</span> in terms of convenience, variety, and cost-effectiveness, are <span class=\"ml-token adv\">profoundly</span> appealing. As technology continues to evolve, I foresee online shopping becoming even more integrated into our daily lives.</p>",
       "vocabulary": {
@@ -226,7 +226,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some people still prefer to shop in physical stores?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-08-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-08-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>There are a plethora of reasons why some individuals <span class=\"ml-token adv\">genuinely</span> prefer to shop in physical stores rather than online. Firstly, the <span class=\"ml-token colloc\">social experience</span> of shopping is something that can't <span class=\"ml-token phrasal\">be replaced</span> by a digital platform. People <span class=\"ml-token idiom\">let their hair down</span> while browsing through <span class=\"ml-token colloc\">high-street stores</span>, engaging with sales assistants, and feeling the texture of fabrics. It’s also a fantastic way to <span class=\"ml-token phrasal\">meet up</span> with friends and family, turning shopping into a leisurely outing.</p>\n\n<p>Moreover, <span class=\"ml-token adv\">honestly</span>, there's an undeniable sense of instant gratification when you <span class=\"ml-token phrasal\">walk out</span> of a store with your purchase in hand. This immediacy is something online shopping can't match, as it often involves waiting for delivery. In addition, \"the early bird catches the worm\" applies when shopping in physical stores, as you can easily <span class=\"ml-token phrasal\">snap up</span> unique items before they sell out.</p>\n\n<p>Finally, some people <span class=\"ml-token adv\">really</span> appreciate the opportunity to support local businesses and contribute to their community's economy. By shopping in brick-and-mortar shops, they feel they're <span class=\"ml-token idiom\">putting their money where their mouth is</span> and helping to sustain their local infrastructure. All in all, while online shopping offers convenience, the <span class=\"ml-token colloc\">tangible benefits</span> of physical shopping—both emotional and practical—are <span class=\"ml-token adv\">undoubtedly</span> compelling reasons for many.</p>",
       "vocabulary": {
@@ -268,7 +268,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Discuss the following points:",
-      "audioFile": "questions S/audio/cefr-speaking-mock-08-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-08-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Tell me about a situation where being patient was difficult but necessary",
@@ -311,7 +311,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Zoos Should Be Banned",
-      "audioFile": "questions S/audio/cefr-speaking-mock-08-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-08-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

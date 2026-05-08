@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "@mock_stream",
     "testIdentifier": "mock_stream",
@@ -15,8 +15,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Chet tilini bilish darajasi"
   },
   "images": {
-    "img1": "https://i.ibb.co/8nbh12CV/image.png",
-    "img2": "https://i.ibb.co/S7NDqhTm/image.png",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/8nbh12CV-image.png",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/S7NDqhTm-image.png",
     "img1Alt": "People inside a public bus",
     "img2Alt": "Happy family driving in a car"
   },
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Tell me about your favorite teacher.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-20-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-20-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>My <span class=\"ml-token colloc\">favorite teacher</span> was my high school English teacher, Mrs. Johnson. She had a <span class=\"ml-token adv\">profound</span> impact on my education and <span class=\"ml-token adv\">genuinely</span> inspired my love for languages.</div>\n\n<div>What made her special was her <span class=\"ml-token colloc\">teaching style</span>. She didn't just lecture – she made lessons interactive and engaging. She would use games, debates, and real-world examples to make the subject come alive. Her <span class=\"ml-token colloc\">enthusiasm</span> for the subject was contagious.</div>\n\n<div>Beyond academics, she was <span class=\"ml-token adv\">incredibly</span> supportive. She took time to understand each student's strengths and weaknesses and <span class=\"ml-token adv\">always</span> encouraged us to push beyond our limits. She believed in me even when I doubted myself. As they say, <span class=\"ml-token proverb\">\"A good teacher can inspire hope, ignite imagination, and instill a love of learning.\"</span> She <span class=\"ml-token adv\">certainly</span> did all of that for me.</div>",
       "vocabulary": {
@@ -78,7 +78,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you live in a house or a flat?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-20-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-20-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I <span class=\"ml-token adv\">currently</span> live in a flat, or apartment as some people call it. It's located on the fifth floor of a modern building in the city center.</div>\n\n<div>The flat has two bedrooms, a living room, a small kitchen, and a bathroom. It's not <span class=\"ml-token adv\">particularly</span> spacious, but it's <span class=\"ml-token adv\">perfectly</span> adequate for my needs. What I <span class=\"ml-token adv\">especially</span> appreciate is the location – I'm within <span class=\"ml-token colloc\">walking distance</span> of shops, restaurants, and public transportation.</div>\n\n<div>Living in a flat has its advantages and disadvantages. On the positive side, there's less maintenance compared to a house, and I have access to amenities like a gym and parking. However, I <span class=\"ml-token adv\">sometimes</span> miss having a garden or more private outdoor space. As the saying goes, <span class=\"ml-token proverb\">\"Home is where the heart is,\"</span> and I've <span class=\"ml-token adv\">definitely</span> made this flat feel like home.</div>",
       "vocabulary": {
@@ -116,7 +116,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do you like to do on weekends?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-20-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-20-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Weekends are my time to <span class=\"ml-token phrasal\">unwind</span> and enjoy activities that I don't have time for during the busy workweek.</div>\n\n<div>On Saturday mornings, I <span class=\"ml-token adv\">typically</span> sleep in a bit later than usual – it's a <span class=\"ml-token colloc\">guilty pleasure</span> of mine. Then I often meet friends for brunch or coffee. In the afternoon, I might go to the gym, explore the city, or catch up on some reading.</div>\n\n<div>Sundays are <span class=\"ml-token adv\">usually</span> more relaxed. I like to spend time with family, prepare meals for the upcoming week, and maybe watch a movie or series. I also try to do some <span class=\"ml-token colloc\">light studying</span> or work on personal projects.</div>\n\n<div>I <span class=\"ml-token adv\">firmly</span> believe that weekends should be a balance of relaxation and <span class=\"ml-token colloc\">productive activities</span>. As they say, <span class=\"ml-token proverb\">\"All work and no play makes Jack a dull boy,\"</span> so I make sure to enjoy myself while also preparing for the week ahead.</div>",
       "vocabulary": {
@@ -154,7 +154,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-20-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-20-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>In these two pictures, I can see two different <span class=\"ml-token colloc\">modes of transportation</span> that people use in their daily lives.</div>\n\n<div>The first image shows the interior of a public bus. We can see several passengers sitting and standing, holding onto the yellow handrails. There's a woman with a backpack in the foreground, and the bus appears to be <span class=\"ml-token adv\">fairly</span> spacious with comfortable seating. The atmosphere seems calm, with passengers going about their <span class=\"ml-token colloc\">daily commute</span>. The natural lighting coming through the windows suggests it's daytime.</div>\n\n<div>The second picture presents a <span class=\"ml-token adv\">completely</span> different scene – a happy family traveling together in their private car. We can see what appears to be parents in the front seats and children in the back. The father is driving, and everyone seems to be in <span class=\"ml-token colloc\">high spirits</span>, smiling and enjoying the journey. The atmosphere is <span class=\"ml-token adv\">noticeably</span> more intimate and personal.</div>\n\n<div>These images <span class=\"ml-token adv\">effectively</span> illustrate the contrast between <span class=\"ml-token colloc\">public transportation</span> and <span class=\"ml-token colloc\">private vehicles</span>. Each option has its own advantages and appeals to different people depending on their circumstances and preferences.</div>",
       "vocabulary": {
@@ -192,7 +192,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are some of the advantages of driving a car?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-20-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-20-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Driving a car offers several <span class=\"ml-token colloc\">significant advantages</span> that make it an attractive option for many people.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, and most <span class=\"ml-token adv\">importantly</span>, cars provide unparalleled <span class=\"ml-token colloc\">flexibility and freedom</span>. You can travel wherever you want, whenever you want, without being restricted by bus schedules or train timetables. This is <span class=\"ml-token adv\">particularly</span> valuable for those living in areas with limited <span class=\"ml-token colloc\">public transportation</span> options.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, cars offer privacy and comfort. You have your own personal space where you can listen to your favorite music, make phone calls, or simply enjoy the silence. For families, as shown in the picture, cars provide a <span class=\"ml-token colloc\">bonding opportunity</span> – road trips can create <span class=\"ml-token colloc\">lasting memories</span>.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, cars are <span class=\"ml-token adv\">extremely</span> convenient for carrying heavy items, groceries, or luggage. Try doing your weekly shopping and bringing everything home on a bus!</div>\n\n<div><span class=\"ml-token adv\">Finally</span>, in certain situations, driving can be faster than public transport, <span class=\"ml-token adv\">especially</span> for <span class=\"ml-token colloc\">door-to-door</span> journeys. There's no waiting at bus stops or transferring between lines. As they say, <span class=\"ml-token proverb\">\"Time is money,\"</span> and cars can save valuable time.</div>",
       "vocabulary": {
@@ -230,7 +230,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some people prefer to use public transportation?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-20-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-20-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>There are several <span class=\"ml-token colloc\">compelling reasons</span> why many people prefer public transportation over driving their own vehicles.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, cost is a <span class=\"ml-token colloc\">major factor</span>. Owning a car involves <span class=\"ml-token colloc\">significant expenses</span> – the purchase price, fuel, insurance, maintenance, and parking fees. Public transport is <span class=\"ml-token adv\">considerably</span> more affordable, <span class=\"ml-token adv\">especially</span> for daily commuters who can buy monthly passes.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, there are <span class=\"ml-token colloc\">environmental benefits</span>. Buses and trains can carry many passengers at once, reducing the number of vehicles on the road and lowering <span class=\"ml-token colloc\">carbon emissions</span>. Environmentally-conscious people often choose public transport to reduce their carbon footprint.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, public transportation eliminates the stress of driving in heavy traffic and finding parking. Commuters can use their travel time productively – reading, working, or simply relaxing. They don't have to worry about <span class=\"ml-token colloc\">traffic jams</span> or road rage.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, in major cities with <span class=\"ml-token colloc\">well-developed networks</span>, public transport can actually be faster than driving, <span class=\"ml-token adv\">especially</span> during rush hours. Dedicated bus lanes and metro systems bypass traffic <span class=\"ml-token adv\">entirely</span>.</div>",
       "vocabulary": {
@@ -268,7 +268,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Tell me about a critical decision you have made.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-20-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-20-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Tell me about a critical decision you have made.",
@@ -311,7 +311,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Homework Should Be Optional in Schools",
-      "audioFile": "questions S/audio/cefr-speaking-mock-20-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-20-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

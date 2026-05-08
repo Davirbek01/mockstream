@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "@mock_stream",
     "testIdentifier": "mock_stream",
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you often remember your dreams when you wake up?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-36-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-36-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, I <span class=\"ml-token adv\">occasionally</span> remember bits and pieces of my dreams, especially if they were <span class=\"ml-token colloc\">particularly vivid</span> or unusual. Sometimes I wake up with a <span class=\"ml-token colloc\">strong impression</span> of what happened, but it tends to <span class=\"ml-token colloc\">fade quickly</span> within a few minutes.</div>\n\n<div>I find that keeping a dream journal can help me <span class=\"ml-token colloc\">retain the details</span> for a bit longer. <span class=\"ml-token adv\">Overall</span>, I think dreams are fascinating and I wish I could remember them more often.</div>",
       "vocabulary": {
@@ -65,7 +65,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How often do you ride a bicycle?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-36-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-36-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>To be honest, I don't ride a bicycle very often these days, mainly because I live in a busy city where cycling can be <span class=\"ml-token colloc\">quite hazardous</span>. <span class=\"ml-token adv\">However</span>, when I was younger, I used to ride <span class=\"ml-token adv\">practically</span> every day after school.</div>\n\n<div>I think cycling is a <span class=\"ml-token colloc\">fantastic form</span> of exercise, and I'd love to <span class=\"ml-token colloc\">pick it up</span> again if I had safer routes nearby.</div>",
       "vocabulary": {
@@ -102,7 +102,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you prefer visiting your relatives or having them visit you?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-36-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-36-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I'd say I <span class=\"ml-token adv\">generally</span> prefer having my relatives visit me because I feel more <span class=\"ml-token colloc\">comfortable in my own space</span> and I can be a good host.</div>\n\n<div>That said, visiting them is also enjoyable because it gives me a <span class=\"ml-token colloc\">change of scenery</span> and a chance to <span class=\"ml-token colloc\">catch up with</span> family members I haven't seen in a while. It really <span class=\"ml-token colloc\">depends on the occasion</span>.</div>",
       "vocabulary": {
@@ -139,7 +139,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-36-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-36-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>In the first picture, I can see a <span class=\"ml-token colloc\">happy family of four</span> sitting around a dining table, laughing together while playing a colourful board game with dice and cards. They seem to be <span class=\"ml-token adv\">thoroughly</span> enjoying each other's company.</div>\n\n<div>In the second picture, there's a teenager wearing headphones, sitting in a gaming chair and <span class=\"ml-token adv\">intensely</span> playing a video game on a large screen with a controller. The <span class=\"ml-token colloc\">contrast between</span> the two images is quite striking — one shows <span class=\"ml-token colloc\">social bonding</span> while the other depicts a more solitary experience.</div>",
       "vocabulary": {
@@ -176,7 +176,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the advantages of playing games with family or friends?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-36-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-36-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>There are <span class=\"ml-token adv\">numerous</span> advantages to playing games with family or friends. First and foremost, it <span class=\"ml-token colloc\">strengthens bonds</span> between people, as sharing laughs and friendly competition creates lasting memories.</div>\n\n<div>Board games, in particular, encourage <span class=\"ml-token colloc\">face-to-face interaction</span>, which is becoming <span class=\"ml-token adv\">increasingly</span> rare in our digital age. <span class=\"ml-token adv\">Additionally</span>, group games can help develop important <span class=\"ml-token colloc\">social skills</span> such as teamwork, patience, and <span class=\"ml-token colloc\">good sportsmanship</span>.</div>\n\n<div>For children, playing with family members provides a sense of security and belonging. Overall, it's a <span class=\"ml-token colloc\">wholesome activity</span> that benefits people of all ages.</div>",
       "vocabulary": {
@@ -213,7 +213,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some people prefer playing video games by themselves?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-36-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-36-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>There are several reasons why some people prefer playing video games alone. <span class=\"ml-token adv\">Primarily</span>, it offers a sense of <span class=\"ml-token colloc\">personal freedom</span> — they can play at their own pace without having to coordinate with others or compromise on which game to play.</div>\n\n<div>For many, solo gaming is a way to <span class=\"ml-token colloc\">unwind and de-stress</span> after a long day, providing a kind of <span class=\"ml-token colloc\">mental escape</span> from reality. Some people are also more introverted by nature and find social gaming <span class=\"ml-token adv\">somewhat</span> draining rather than relaxing.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, single-player games often have <span class=\"ml-token colloc\">immersive storylines</span> that are best experienced alone, allowing the player to <span class=\"ml-token colloc\">fully engage</span> with the narrative.</div>",
       "vocabulary": {
@@ -250,7 +250,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a time you lost something important.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-36-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-36-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a time you lost something important.",
@@ -292,7 +292,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Parents should limit the time their children spend playing video games.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-36-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-36-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

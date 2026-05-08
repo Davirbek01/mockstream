@@ -6,7 +6,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "IELTS Mock Stream",
     "telegramChannel": "@ieltsmockstream",
     "testIdentifier": "mock_stream_51",
@@ -14,8 +14,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Swimming, Laughing & Imagination"
   },
   "images": {
-    "img1": "https://i.ibb.co/gM1bMSXS/image.png",
-    "img2": "https://i.ibb.co/G4QH85qq/image.png",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/gM1bMSXS-image.png",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/G4QH85qq-image.png",
     "img1Alt": "Placeholder 1",
     "img2Alt": "Placeholder 2"
   },
@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How often do you go swimming?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-51-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-51-q1.mp3",
       "sampleAnswer": "I'm not as regular a swimmer as I'd like to be, primarily due to a demanding work schedule, but I strive to visit a local aquatic center at least once a fortnight. I find that swimming provides a unique form of 'total-body' exertion that is markedly different from the high-impact stress of running or gym-based training. It's as much a meditative experience for me as a physical one; the sensory deprivation of being underwater allows for a rare moment of mental clarity and detachment from the constant digital noise of daily life. I've found it to be a profoundly effective way to reset both my physical and psychological state after a particularly intense week.",
       "vocabulary": {
         "title": "Q1 - Swimming Frequency",
@@ -84,7 +84,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Will you swim a lot in the future?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-51-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-51-q2.mp3",
       "sampleAnswer": "I certainly aspire to integrate swimming more deeply into my long-term wellness strategy, especially as I become more conscious of the importance of low-impact cardiovascular exercise for longevity. I'm drawn to the idea of 'open water' swimming—perhaps in lakes or the sea—which offers a much more raw and bracing encounter with nature than a chlorinated indoor pool. I think that as our lives become increasingly sedentary and screen-dominated, the physical demand and sensory richness of swimming will become even more valuable as a counterweight. My goal is to eventually reach a level of proficiency and stamina where swimming becomes a several-times-a-week ritual, serving as a pillar of my physical health.",
       "vocabulary": {
         "title": "Q2 - Future Swimming",
@@ -127,7 +127,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Can most people in your country swim?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-51-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-51-q3.mp3",
       "sampleAnswer": "There is a significant and somewhat concerning disparity in swimming proficiency across my country, often dictated by geographical proximity to the coast and socioeconomic factors. While the majority of people living in coastal regions or affluent urban areas have access to lessons and are reasonably competent swimmers, it's far from a universal skill. In many inland or less-privileged areas, the lack of affordable aquatic infrastructure means that a large portion of the population never really achieves water confidence. There's been a growing national debate about making swimming a mandatory part of the primary school curriculum to ensure that it's seen as an essential life-saving skill rather than a recreational luxury.",
       "vocabulary": {
         "title": "Q3 - Swimming in Your Country",
@@ -176,7 +176,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you laugh at jokes a lot?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-51-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-51-q4.mp3",
       "sampleAnswer": "I'm naturally quite predisposed to finding humor in a vast range of situations; I think a healthy sense of levity is one of the most effective coping mechanisms we have for navigating the absurdities of modern life. I tend to appreciate wit and wordplay—the kind of jokes that require a split-second of cognitive processing before the 'punchline' hits. For me, laughter isn't just a spontaneous reaction to something funny; it's a way of building immediate rapport with others and defusing tension in otherwise high-stakes environments. I find that being able to laugh at oneself is particularly valuable—it prevents a certain kind of ego-driven rigidity and makes one much more approachable and resilient.",
       "vocabulary": {
         "title": "Q4 - Laughing at Jokes",
@@ -225,7 +225,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Can you tell jokes well?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-51-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-51-q5.mp3",
       "sampleAnswer": "I'm probably more of a skilled audience member than a natural raconteur; I can certainly appreciate the timing and nuance of a well-delivered joke, but I often find that I lack the performative confidence to execute one myself. I think great joke-telling is a sophisticated art form that relies heavily on 'cadence'—the rhythmic flow of speech—and the ability to read the energy of a room. My attempts usually end up being a bit too analytical or I might prematurely reveal the punchline due to a lack of dramatic tension. However, I find that I'm much better at 'situational' humor—making an observational comment that finds the comedy in a specific moment—rather than reciting pre-packaged jokes.",
       "vocabulary": {
         "title": "Q5 - Telling Jokes",
@@ -274,7 +274,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think laughing is important?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-51-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-51-q6.mp3",
       "sampleAnswer": "I believe that laughter is an absolutely vital biological and social imperative; it acts as a 'reset button' for our nervous system, physically reducing cortisol levels and releasing endorphins that improve our overall wellbeing. Socially, it's perhaps the most universal and powerful 'pro-social' signal we have—it signals safety, cooperation, and shared understanding in a way that transcends language. Without the ability to laugh, human society would likely be much more adversarial and psychologically brittle. It's essentially the emotional glue that allows us to find common ground in a complex world and provides a necessary perspective that prevents us from taking ourselves, or our problems, too seriously.",
       "vocabulary": {
         "title": "Q6 - Importance of Laughing",
@@ -322,7 +322,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What kinds of funny shows are popular in your country?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-51-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-51-q7.mp3",
       "sampleAnswer": "There's currently a major cultural fascination with 'cringe-comedy' and satirical mockumentaries that explore the awkwardness of everyday social and professional interactions. I think many people find a kind of cathartic relief in seeing the mundane frustrations of office life or family dynamics amplified for comedic effect. Additionally, stand-up comedy has exploded in popularity, specifically performers who use self-deprecating humor to tackle complex social issues or personal anxieties. It seems that we are moving away from traditional 'slapstick' or broad sitcoms and toward humor that is more observational, psychologically nuanced, and often quite self-aware. This shift reflects a more sophisticated audience that values authenticity and an acknowledgement of life's inherent complexities, even in their entertainment.",
       "vocabulary": {
         "title": "Q7 - Popular Funny Shows",
@@ -373,7 +373,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a time you needed to use your imagination.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-51-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-51-q8.mp3",
       "bulletPoints": [
         "what you did using imagination",
         "when it was",
@@ -432,7 +432,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think imagination is more important for children or adults?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-51-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-51-q9.mp3",
       "sampleAnswer": "I think it's a dangerous misconception that imagination belongs primarily to childhood; while for children it's a tool for discovery and play, for adults it is the fundamental engine of problem-solving and social progress. Without imagination, an adult is essentially trapped in the existing 'system' and unable to envision a better future or a different way of living. While children use it to understand the world, adults use it to *change* the world. I would argue that it's perhaps even more critical for adults because of the responsibility we have to innovate and empathize. It's what allows a scientist to hypothesize, a diplomat to build consensus, and a parent to understand their child's perspective. It's the skill that prevents us from becoming intellectually stagnant.",
       "vocabulary": {
         "title": "Q9 - Imagination: Child vs Adult",
@@ -478,7 +478,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is it possible to have 'too much' imagination?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-51-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-51-q10.mp3",
       "sampleAnswer": "I think there's a delicate balance; while a rich imaginative life is a tremendous asset, it can become problematic if it leads to chronic 'maladaptive daydreaming' or a complete detachment from practical reality. If someone spends all their time in a mental construct, they might struggle to perform the necessary mundane tasks of life or to form deep connections with real people. It's what psychologists sometimes refer to as 'analysis paralysis' or 'infinite potentiality,' where the imagined possibilities are so vivid that the person becomes unable to commit to any single physical action. However, for most of us, the problem is usually having *too little* imagination—being too constrained by what 'is' rather than what 'could be.' So, while excess is possible, rare is the person who is genuinely hampered by it.",
       "vocabulary": {
         "title": "Q10 - Too Much Imagination?",
@@ -526,7 +526,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What kind of jobs require imagination?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-51-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-51-q11.mp3",
       "sampleAnswer": "While the 'creative industries' like art, writing, and design are the most obvious examples, I'd argue that almost any high-level role that involves navigating complexity and uncertainty requires a significant degree of imagination. Successful entrepreneurs need to imagine products or services that don't yet exist; scientific researchers need to imagine new models and hypotheses for the unknown; and effective politicians need to imagine a better social order to inspire their constituents. Even in fields like law or engineering, imagination is crucial for anticipating problems and finding non-standard solutions to unique challenges. Ultimately, any job where the answer isn't already found in a manual or an algorithm requires the ability to project possibilities into the future—which is the very definition of imagination.",
       "vocabulary": {
         "title": "Q11 - Jobs Requiring Imagination",
@@ -574,7 +574,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do scientists need imagination in their work?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-51-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-51-q12.mp3",
       "sampleAnswer": "Absolutely; I'd even go so far as to say that imagination is the 'silent partner' of the scientific method. While the rigor of data and experimentation is essential, the initial sparking of a theory almost always comes from an imaginative leap—the ability to ask 'what if the world worked differently than we currently believe?' Some of the greatest scientific breakthroughs, from Einstein's thought experiments to the discovery of the double helix, began with a visual or conceptual imagination of patterns that weren't yet visible. A scientist without imagination is merely a data collector; they are limited to refining existing knowledge rather than pushing into the truly unknown. You need that 'creative intuition' to see the connections between disparate facts and to build the mental scaffolding for a new discovery.",
       "vocabulary": {
         "title": "Q12 - Scientists and Imagination",
@@ -623,7 +623,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think adults can have lots of imagination?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-51-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-51-q13.mp3",
       "sampleAnswer": "Yes, but I think the *nature* of that imagination often transforms from the 'fantasy' of childhood into a more 'generative' and 'empathetic' form in adulthood. An adult's imagination is grounded in a much deeper pool of experience and knowledge, which can actually make it more powerful, if they are willing to keep it active. Unfortunately, the structures of adult life—the pressure for efficiency, the fear of appearing 'unprofessional,' and the sheer weight of responsibility—can often squash our imaginative capacity. To have 'lots' of imagination as an adult requires a conscious effort to remain curious and to protect that mental space for play and speculation. When an adult manages to maintain this, they often become the most effective innovators and leaders in our society.",
       "vocabulary": {
         "title": "Q13 - Adults Having Imagination",
@@ -670,7 +670,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What subjects are helpful for children's imagination?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-51-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-51-q14.mp3",
       "sampleAnswer": "While subjects like art, music, and creative writing are the traditional bastions of imagination, I think we should recognize the power of 'narrative-based' learning in almost any field. History, when taught as a series of human dilemmas and 'might-have-beens,' can be an incredible training ground for the imagination. Similarly, mathematics and coding, which require the visualization of abstract structures and the creative solving of puzzles, can be deeply imaginative. The key isn't necessarily the subject itself, but how it's taught—whether the child is encouraged to be a passive consumer of facts or an active creator and 'possibility seeker.' I'd also argue that 'unstructured play' and outdoor exploration are perhaps more helpful than any single school subject, as they provide the raw sensory data that fuels a child's internal world.",
       "vocabulary": {
         "title": "Q14 - Subjects for Imagination",
@@ -718,7 +718,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How does the education system impact the development of imagination?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-51-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-51-q15.mp3",
       "sampleAnswer": "Historically, many education systems have been criticized for a 'standardized' approach that prioritizes rote memorization and 'single-correct-answer' testing, which can inadvertently stifle a child's imaginative growth. When a system emphasizes conformity over divergence, children learn that being 'right' is more important than being creative. However, there is a growing global movement toward 'inquiry-based' learning, which centers the student's own questions and curiosities. A system that values exploration, allows for the 'productive failure' of an experiment, and encourages interdisciplinary thinking can be a powerful engine for imagination. The challenge for modern educators is to find a way to maintain academic rigor while still providing the breathing space necessary for original, imaginative thought to flourish.",
       "vocabulary": {
         "title": "Q15 - Education and Imagination",
@@ -766,7 +766,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Can technology (like AI) replace human imagination in creative fields?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-51-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-51-q16.mp3",
       "sampleAnswer": "I think this is one of the most significant existential questions of our time; while AI can now generate impressive images, text, and music by identifying and recombining existing patterns, it currently lacks the 'subjective intentionality' and 'emotional depth' of human imagination. Human creativity is driven by our unique experiences, our suffering, and our specific cultural context—factors that an algorithm can simulate but not truly feel. I see technology more as a powerful 'imagination multiplier'—a tool that can help us to visualize and iterate on ideas more rapidly, rather than a replacement. The most exciting future is one of 'cyborg-creativity,' where human intuition and emotional resonance are combined with the sheer processing power of technology. AI might be able to 'create,' but only humans can decide what is truly meaningful.",
       "vocabulary": {
         "title": "Q16 - Technology vs Human Imagination",
@@ -814,7 +814,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Is there a link between boredom and the spark of imagination?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-51-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-51-q17.mp3",
       "sampleAnswer": "Psychologists are increasingly finding that the state of 'under-stimulation' we call boredom is actually a vital prerequisite for the imaginative process. In our current digital age, where every moment is filled with shallow, algorithmic content, we've essentially 'killed' the quiet space necessary for the mind to turn inward and start creating its own entertainment. When we are bored, our brain's 'default mode network' activates—this is the same network responsible for daydreaming, self-reflection, and making the creative 'leaps' between distant ideas. By constantly avoiding boredom with our screens, we are effectively starving our imagination of the mental stillness it needs to function. I believe that learning to sit with boredom—and to allow it to be the catalyst for creative exploration—is becoming one of the most important mental skills of the 21st century.",
       "vocabulary": {
         "title": "Q17 - Boredom and Imagination",

@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "@mock_stream",
     "testIdentifier": "mock_stream",
@@ -15,8 +15,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Chet tilini bilish darajasi"
   },
   "images": {
-    "img1": "https://i.ibb.co/7xxnsFG7/image.png",
-    "img2": "https://i.ibb.co/XZ2xnP7h/image.png",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/7xxnsFG7-image.png",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/XZ2xnP7h-image.png",
     "img1Alt": "Artist painting on canvas with brushes",
     "img2Alt": "Person creating digital art on tablet"
   },
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you enjoy visiting art galleries or museums?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-21-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-21-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, I <span class=\"ml-token adv\">absolutely</span> enjoy visiting art galleries and museums. There's something <span class=\"ml-token adv\">incredibly</span> enriching about being surrounded by <span class=\"ml-token colloc\">works of art</span> that have stood the test of time.</div>\n\n<div>I <span class=\"ml-token adv\">particularly</span> love visiting during quieter hours when I can <span class=\"ml-token adv\">really</span> <span class=\"ml-token phrasal\">take in</span> each piece without feeling rushed. Standing before a masterpiece and trying to understand the artist's <span class=\"ml-token colloc\">creative vision</span> is <span class=\"ml-token adv\">truly</span> inspiring. I find that art galleries offer a <span class=\"ml-token colloc\">peaceful escape</span> from the hustle and bustle of daily life.</div>\n\n<div>As the saying goes, <span class=\"ml-token proverb\">\"Art speaks where words are unable to explain.\"</span> I <span class=\"ml-token adv\">genuinely</span> believe that experiencing art firsthand <span class=\"ml-token phrasal\">opens up</span> new perspectives and broadens one's horizons. It's a <span class=\"ml-token colloc\">feast for the eyes</span> and food for the soul.</div>",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Have you ever tried painting or drawing?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-21-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-21-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, I have <span class=\"ml-token adv\">definitely</span> tried my hand at both painting and drawing, though I <span class=\"ml-token modal\">wouldn't</span> call myself an artist by any means!</div>\n\n<div>When I was younger, I used to <span class=\"ml-token phrasal\">dabble in</span> watercolors and colored pencils. I found it <span class=\"ml-token adv\">incredibly</span> relaxing to sit down and create something, even if the results weren't <span class=\"ml-token adv\">particularly</span> impressive. There's a certain <span class=\"ml-token colloc\">therapeutic quality</span> to putting brush to paper and watching colors blend together.</div>\n\n<div>More <span class=\"ml-token adv\">recently</span>, I've tried <span class=\"ml-token colloc\">digital drawing</span> on my tablet, which is a <span class=\"ml-token adv\">completely</span> different experience. It's more forgiving since you can easily undo mistakes! While I don't have <span class=\"ml-token colloc\">natural talent</span>, I believe that <span class=\"ml-token proverb\">\"practice makes perfect,\"</span> and the process itself is <span class=\"ml-token adv\">truly</span> enjoyable regardless of the outcome.</div>",
       "vocabulary": {
@@ -104,7 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What kind of art do you find most interesting?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-21-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-21-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I find <span class=\"ml-token colloc\">contemporary art</span> <span class=\"ml-token adv\">particularly</span> fascinating, though I <span class=\"ml-token adv\">also</span> have a deep appreciation for <span class=\"ml-token colloc\">classical paintings</span> from the Renaissance period.</div>\n\n<div>What draws me to contemporary art is how it challenges <span class=\"ml-token colloc\">conventional thinking</span> and makes you question what art <span class=\"ml-token adv\">actually</span> is. Some pieces are <span class=\"ml-token adv\">deliberately</span> provocative, while others are <span class=\"ml-token adv\">surprisingly</span> simple yet profound. I love how modern artists experiment with different mediums – from traditional paint to <span class=\"ml-token colloc\">digital installations</span> and even everyday objects.</div>\n\n<div><span class=\"ml-token adv\">However</span>, classical art has an <span class=\"ml-token colloc\">undeniable beauty</span> that's hard to match. The skill and dedication that went into works by masters like Michelangelo or Da Vinci is <span class=\"ml-token adv\">simply</span> breathtaking. As they say, <span class=\"ml-token proverb\">\"Beauty is in the eye of the beholder,\"</span> and I believe there's value in all forms of <span class=\"ml-token colloc\">artistic expression</span>.</div>",
       "vocabulary": {
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "Compare these two pictures showing different ways of creating art.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-21-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-21-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>These two pictures show two <span class=\"ml-token adv\">distinctly</span> different approaches to creating art – <span class=\"ml-token colloc\">traditional painting</span> versus <span class=\"ml-token colloc\">digital art</span>.</div>\n\n<div>In the first image, we can see an artist working with <span class=\"ml-token colloc\">traditional materials</span> – paintbrushes and canvas. The person appears to be <span class=\"ml-token adv\">deeply</span> focused on their work, carefully applying colors to create their vision. There's something <span class=\"ml-token adv\">inherently</span> romantic about this classical approach to art-making. We can see the physical tools of the trade – brushes, palette, and the texture of the canvas itself.</div>\n\n<div>The second image presents a <span class=\"ml-token adv\">completely</span> different scene – someone creating art digitally using a tablet and stylus. This represents the <span class=\"ml-token colloc\">modern evolution</span> of artistic creation. The <span class=\"ml-token colloc\">digital medium</span> offers different possibilities – unlimited colors, easy corrections, and the ability to work in layers.</div>\n\n<div>Both images capture artists in their <span class=\"ml-token colloc\">creative process</span>, but the tools and techniques couldn't be more different. The traditional artist is connected to centuries of artistic heritage, while the digital artist represents the <span class=\"ml-token colloc\">cutting edge</span> of contemporary creation. As they say, <span class=\"ml-token proverb\">\"Art knows no boundaries,\"</span> and both methods are <span class=\"ml-token adv\">equally</span> valid forms of <span class=\"ml-token colloc\">artistic expression</span>.</div>",
       "vocabulary": {
@@ -180,7 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the benefits of traditional painting with brushes and canvas?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-21-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-21-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Traditional painting with brushes and canvas offers several <span class=\"ml-token colloc\">unique benefits</span> that digital art simply cannot replicate.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, there's the <span class=\"ml-token colloc\">tactile experience</span> – the feeling of brush on canvas, the smell of oil paints, and the <span class=\"ml-token colloc\">physical connection</span> between the artist and their work. This sensory engagement makes the <span class=\"ml-token colloc\">creative process</span> more immersive and <span class=\"ml-token adv\">deeply</span> satisfying. Many artists find this hands-on approach <span class=\"ml-token adv\">incredibly</span> therapeutic.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, traditional paintings are <span class=\"ml-token colloc\">one-of-a-kind originals</span>. Each brushstroke is unique and cannot be <span class=\"ml-token adv\">perfectly</span> replicated. This gives traditional artworks <span class=\"ml-token colloc\">inherent value</span> and authenticity that collectors and galleries prize highly.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, working with physical materials teaches artists about color mixing, texture, and technique in ways that screens cannot. The \"happy accidents\" that occur with real paint – unexpected blends or textures – often lead to <span class=\"ml-token colloc\">creative breakthroughs</span>.</div>\n\n<div><span class=\"ml-token adv\">Finally</span>, traditional art connects us to <span class=\"ml-token colloc\">artistic heritage</span>. Using the same methods as masters like Van Gogh or Monet creates a <span class=\"ml-token colloc\">timeless link</span> across generations. As the proverb says, <span class=\"ml-token proverb\">\"Old is gold,\"</span> and traditional techniques have <span class=\"ml-token adv\">certainly</span> proven their enduring worth.</div>",
       "vocabulary": {
@@ -218,7 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why might some people prefer creating digital art?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-21-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-21-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>There are several <span class=\"ml-token colloc\">compelling reasons</span> why many artists today prefer the <span class=\"ml-token colloc\">digital approach</span> to creating art.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, digital art is <span class=\"ml-token adv\">incredibly</span> forgiving. With the \"undo\" button, artists can experiment freely without fear of ruining their work. Mistakes can be corrected instantly, which is <span class=\"ml-token adv\">particularly</span> valuable for beginners who are still learning. This <span class=\"ml-token colloc\">low-risk environment</span> encourages creativity and experimentation.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, digital art is more <span class=\"ml-token colloc\">cost-effective</span> in the long run. While the initial investment in a tablet and software might be high, artists don't need to <span class=\"ml-token adv\">constantly</span> buy paints, canvases, and brushes. They have access to unlimited colors and tools at their fingertips.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, digital art is highly <span class=\"ml-token colloc\">versatile and portable</span>. Artists can work anywhere with just a tablet and create art for various industries – <span class=\"ml-token colloc\">graphic design</span>, animation, video games, and advertising. The digital format also makes sharing and selling work online much easier.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, digital tools offer features impossible with traditional media – perfect symmetry, custom brushes, and working in layers. Young artists who grew up with technology often find <span class=\"ml-token colloc\">digital creation</span> more intuitive. As they say, <span class=\"ml-token proverb\">\"Different strokes for different folks\"</span> – each artist finds their preferred medium.</div>",
       "vocabulary": {
@@ -256,7 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a creative person you admire.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-21-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-21-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a creative person you admire.",
@@ -299,7 +299,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Art Education Should Be Mandatory in All Schools",
-      "audioFile": "questions S/audio/cefr-speaking-mock-21-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-21-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

@@ -6,7 +6,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "IELTS Mock Stream",
     "telegramChannel": "@ieltsmockstream",
     "testIdentifier": "mock_stream_16",
@@ -14,8 +14,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Daily Life & Reading"
   },
   "images": {
-    "img1": "https://i.ibb.co/gM1bMSXS/image.png",
-    "img2": "https://i.ibb.co/G4QH85qq/image.png",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/gM1bMSXS-image.png",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/G4QH85qq-image.png",
     "img1Alt": "Placeholder 1",
     "img2Alt": "Placeholder 2"
   },
@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Have you ever locked yourself out?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-16-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-16-q1.mp3",
       "sampleAnswer": "Yes, unfortunately I have, and it was quite a stressful experience. It happened about two years ago when I was rushing to get to work. I had stepped outside to take out the trash and the door closed behind me—I hadn't realized I'd left my keys inside on the kitchen counter. I was standing outside in my work clothes without my phone, wallet, or keys. Luckily, my neighbor was home and let me use their phone to call a locksmith. The whole ordeal took about two hours and cost me a significant amount of money, not to mention making me very late for work. Since then, I've become much more careful about checking for my keys before closing doors, and I've given a spare key to a trusted friend as a backup. It's one of those experiences that teaches you a lesson you never forget.",
       "vocabulary": {
         "title": "Q1 - Locked Out",
@@ -84,7 +84,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think it's a good idea to leave your keys with a neighbour?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-16-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-16-q2.mp3",
       "sampleAnswer": "It depends on the relationship and level of trust with the neighbor. If you have a long-standing, trustworthy neighbor you know well, it can be a practical safety measure—they can help in emergencies like lockouts, water leaks, or if you need someone to check on your home while traveling. However, there are valid security concerns. You're essentially giving someone access to your private space and belongings, which requires significant trust. I think it's important to be selective and only leave keys with people you genuinely trust and have known for a considerable time. Personally, I prefer leaving a spare key with a close friend or family member rather than a neighbor, simply because those relationships tend to be deeper and longer-term. Alternatively, modern solutions like smart locks or lockboxes can provide emergency access without giving physical keys to others.",
       "vocabulary": {
         "title": "Q2 - Keys with Neighbors",
@@ -135,7 +135,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Have you ever lost your keys?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-16-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-16-q3.mp3",
       "sampleAnswer": "Yes, I've lost my keys a few times, though fortunately never permanently. The most memorable incident was when I lost my car keys at a shopping mall. I spent nearly an hour retracing my steps through various stores, checking with customer service desks, and searching the parking lot. I was starting to panic about the cost of replacement keys and how I'd get home when I finally found them—they had fallen out of my pocket in a clothing store fitting room. That experience taught me to be more mindful about where I put my keys. Now I have designated pockets for keys and I'm much more conscious about checking for them regularly. I've also attached a small tile tracker to my keychain so I can locate them using my phone if they go missing. It's amazing how such small objects can cause such significant stress when lost.",
       "vocabulary": {
         "title": "Q3 - Lost Keys",
@@ -186,7 +186,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you always bring a lot of keys with you?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-16-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-16-q4.mp3",
       "sampleAnswer": "No, I try to minimize the number of keys I carry to avoid unnecessary bulk and weight. I typically only carry essential keys—my house key, car key, and office key. I used to have many more keys on my keychain, including keys to places I rarely visited or duplicates I didn't need, which made my keychain heavy and cumbersome. I've since streamlined it significantly. I keep non-essential keys in a drawer at home, organized and labeled so I can find them when needed. This minimalist approach makes my everyday carry lighter and reduces the chance of losing important keys among many unnecessary ones. I've also noticed that carrying fewer keys means less jingling noise in my pocket, which is a small but appreciated benefit. For some things, I've switched to digital solutions—like using keypad entry codes instead of physical keys where possible.",
       "vocabulary": {
         "title": "Q4 - Key Carrying Habits",
@@ -238,7 +238,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you remember your dreams when you wake up?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-16-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-16-q5.mp3",
       "sampleAnswer": "It varies—sometimes I remember my dreams vividly, while other times I wake up with no recollection at all. I've noticed that I'm more likely to remember dreams if I wake up naturally rather than being jolted awake by an alarm. Dreams I have just before waking tend to be more memorable than those earlier in the night. I also find that if I think about a dream immediately upon waking and perhaps tell someone about it or write it down, it stays in my memory. Otherwise, dreams tend to fade very quickly—sometimes within minutes of waking. Occasionally I'll have very vivid, memorable dreams that stay with me for days, but most dreams disappear from my memory quite rapidly. I've read that everyone dreams multiple times per night, but we only remember a small fraction of them, which I find fascinating.",
       "vocabulary": {
         "title": "Q5 - Dream Memory",
@@ -292,7 +292,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think dreams will affect life?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-16-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-16-q6.mp3",
       "sampleAnswer": "I think dreams can affect life in subtle ways, though perhaps not in the mystical or prophetic sense some people believe. Dreams often reflect our subconscious thoughts, anxieties, and desires, so paying attention to recurring themes or emotions in dreams can provide insights into our mental and emotional state. Sometimes I wake from a particularly vivid or emotional dream and it affects my mood for part of the day. Nightmares can cause genuine stress or anxiety that lingers after waking. On a positive note, some people report having creative insights or problem-solving breakthroughs in dreams—there are famous examples of scientific discoveries or artistic works inspired by dreams. However, I don't believe dreams predict the future or have supernatural significance. I think they're more valuable as a window into our subconscious mind than as guides for decision-making. That said, if a recurring dream is causing distress, it might be worth exploring what underlying issues it represents.",
       "vocabulary": {
         "title": "Q6 - Dream Influence",
@@ -348,7 +348,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you share your dreams with others?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-16-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-16-q7.mp3",
       "sampleAnswer": "Occasionally, but selectively. I'll share particularly interesting, funny, or bizarre dreams with close friends or family, usually as casual conversation or entertainment—some dreams are so strange they make good stories. I might also share a dream with my partner if they appeared in it or if it's relevant to something we're discussing. However, I don't routinely share all my dreams because honestly, most people's dreams aren't that interesting to others—they often only make sense or seem significant to the dreamer. I've noticed that when people share long, detailed dream narratives, listeners often lose interest quickly because dreams lack the logical structure and context that make stories engaging. I'm also somewhat private about dreams that feel very personal or reveal anxieties I'm not ready to discuss. That said, I find it interesting when others share their dreams, particularly recurring ones or those with strong emotional content, as they can reveal interesting aspects of someone's inner life.",
       "vocabulary": {
         "title": "Q7 - Dream Sharing",
@@ -404,7 +404,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a book you read that you found useful.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-16-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-16-q8.mp3",
       "bulletPoints": [
         "what the book is and what it is about",
         "why you read it",
@@ -498,7 +498,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you still apply the principles from this book?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-16-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-16-q9.mp3",
       "sampleAnswer": "Yes, absolutely. The principles from 'Atomic Habits' have become integrated into how I approach any kind of behavior change or goal. I still use habit stacking regularly when trying to establish new routines, and I'm very conscious about environmental design—arranging my space to make good habits easier and bad habits harder. The concept of focusing on systems rather than goals has fundamentally changed my approach to personal development. I don't always perfectly apply every principle, but the framework is always in the back of my mind. I also occasionally re-read sections of the book when I'm struggling with a particular habit, which helps me troubleshoot and get back on track.",
       "vocabulary": {
         "title": "Q9 - Continued Application",
@@ -547,7 +547,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Would you recommend this book to others?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-16-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-16-q10.mp3",
       "sampleAnswer": "Definitely, and I have recommended it to many people already. I think it's particularly valuable for anyone who feels stuck in patterns they want to change, whether that's building positive habits like exercise and reading, or breaking negative ones like procrastination or excessive screen time. The book is accessible and practical—you don't need any special background to understand and apply it. However, I always mention that reading the book alone isn't enough; you actually have to implement the strategies for them to work. It's not a magic solution, but rather a toolkit that requires effort and consistency to see results. For people who are ready to put in that effort, I think it can be genuinely transformative.",
       "vocabulary": {
         "title": "Q10 - Book Recommendation",
@@ -600,7 +600,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Which is better, paper books or e-books?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-16-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-16-q11.mp3",
       "sampleAnswer": "This is largely a matter of personal preference, as both formats have distinct advantages and disadvantages. Paper books offer a tactile, sensory experience that many readers find irreplaceable—the feel of pages, the smell of books, the physical presence on a shelf. There's no battery anxiety, no screen glare, and some research suggests better retention and comprehension with physical books. Paper books also allow for easier annotation and don't require any technology. They have aesthetic and sentimental value—a personal library is a physical representation of your reading journey. However, paper books are heavy and bulky, making them impractical for travel. They take up significant space, can be expensive, and aren't environmentally friendly due to paper production. E-books, conversely, offer incredible convenience—you can carry thousands of books in one lightweight device, adjust font size for comfort, look up definitions instantly, and often access books more cheaply or even free. They're excellent for travel and for people with limited space. E-books also offer accessibility features for people with visual impairments. However, they require charged devices, can cause eye strain, and lack the tangible satisfaction of physical books. You also don't truly 'own' e-books in the same way—they're licensed, not purchased. Personally, I use both—e-books for convenience and travel, paper books for works I want to savor or keep permanently.",
       "vocabulary": {
         "title": "Q11 - Paper vs E-books",
@@ -669,7 +669,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What should the government do to make libraries better?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-16-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-16-q12.mp3",
       "sampleAnswer": "Governments can improve libraries through various initiatives that address modern needs while preserving traditional functions. First, adequate funding is essential—many libraries are underfunded, leading to limited hours, outdated collections, and insufficient staff. Increasing budgets would allow libraries to expand collections, extend operating hours, and hire knowledgeable librarians. Modernization is important—libraries should offer digital resources like e-book lending, online databases, and digital literacy programs. Providing free internet access and computers serves communities where not everyone has home internet. Libraries should evolve into community hubs offering diverse programs—literacy classes, job search assistance, technology training, cultural events, and spaces for community meetings. Creating welcoming, comfortable spaces with modern amenities encourages use—good lighting, comfortable seating, quiet study areas, and collaborative spaces. Outreach programs can serve underserved populations through mobile libraries, partnerships with schools, and programs for elderly or disabled individuals. Governments should also support librarian training and professional development to ensure staff can meet evolving community needs. Additionally, reducing bureaucracy and giving libraries flexibility to respond to local community needs rather than rigid top-down mandates would help. Finally, promoting libraries through public awareness campaigns can remind people of the valuable free resources available to them.",
       "vocabulary": {
         "title": "Q12 - Improving Libraries",
@@ -746,7 +746,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think old people spend more time reading than young people?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-16-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-16-q13.mp3",
       "sampleAnswer": "Generally, yes, research and observation suggest that older people tend to spend more time reading traditional books than younger people, though the picture is more complex when you consider all forms of reading. Older generations often have more leisure time, particularly retirees who aren't balancing work and family responsibilities. They also grew up in an era when reading was a primary form of entertainment and information, so it's a more ingrained habit. Many older people prefer the slower, more focused engagement that book reading provides. However, younger people actually read extensively—just in different formats and contexts. They read constantly on digital devices—social media, articles, messages, online content—but this is often shorter-form, fragmented reading rather than sustained engagement with long texts. Young people's reading is more diverse and multimedia, often combining text with images and video. They're also more likely to multitask while reading, dividing attention between multiple sources. The decline in traditional book reading among youth is concerning from a literacy and depth-of-engagement perspective, but it's not accurate to say young people don't read—they read differently. That said, there are certainly young avid readers and older people who rarely read, so generalizations have limitations. The key difference is probably in the type and depth of reading rather than absolute time spent.",
       "vocabulary": {
         "title": "Q13 - Reading by Age",
@@ -817,7 +817,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Have libraries changed a lot with the development of the Internet?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-16-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-16-q14.mp3",
       "sampleAnswer": "Yes, libraries have transformed dramatically in response to the internet and digital technology. The most obvious change is the addition of digital resources—most modern libraries now offer e-book lending, online databases, digital archives, and streaming media alongside physical collections. Many have become technology hubs, providing free internet access, computers, and digital literacy training, which is crucial for communities where not everyone has home internet. The role of libraries has expanded beyond book lending to become community centers offering diverse programs and services—job search assistance, maker spaces with 3D printers, cultural events, and educational workshops. The physical space has evolved too—modern libraries often feature collaborative work areas, cafes, and flexible spaces rather than just silent reading rooms. However, some traditional functions have diminished—reference librarians are consulted less frequently now that people can Google questions, and circulation of physical books has declined in many locations. Some libraries have closed due to reduced funding and perceived obsolescence, though this is unfortunate because libraries still serve vital community functions that the internet doesn't replace—providing free access to resources for those without means, offering physical community spaces, and supporting literacy and learning. The most successful libraries have adapted by integrating digital resources while maintaining their core mission of providing equitable access to information and serving as community anchors.",
       "vocabulary": {
         "title": "Q14 - Library Evolution",
@@ -893,7 +893,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What should we do to prevent modern libraries from closing down?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-16-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-16-q15.mp3",
       "sampleAnswer": "Preventing library closures requires multi-faceted approaches involving government support, community engagement, and strategic adaptation. First and foremost, adequate public funding is essential—governments must recognize libraries as vital public infrastructure worth investing in, not expendable budget items. This means protecting library budgets even during economic downturns. Libraries need to demonstrate and communicate their value to communities and policymakers through data showing usage, community impact, and the economic value they provide—studies show that libraries return multiple dollars in value for every dollar invested. Modernization is crucial—libraries must evolve beyond just book lending to offer services that meet contemporary needs: technology access, digital literacy programs, job training, maker spaces, and community programming. This makes them relevant and valuable to diverse populations. Community engagement helps build support—when people actively use and appreciate their library, they're more likely to advocate for its funding. Libraries should conduct outreach, partner with schools and community organizations, and create programs that draw people in. Diversifying funding sources can help—seeking grants, accepting donations, and potentially generating some revenue through services like meeting room rentals or cafes, while maintaining free core services. Advocacy and awareness campaigns are important—many people don't realize the range of services modern libraries offer beyond book lending, so education about library value can build public support. Finally, libraries should collect and publicize success stories and testimonials showing how they've helped individuals and communities, which creates emotional connection and demonstrates tangible value that statistics alone can't convey.",
       "vocabulary": {
         "title": "Q15 - Preventing Closures",
@@ -978,7 +978,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What are the types of books that young people like to read?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-16-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-16-q16.mp3",
       "sampleAnswer": "Young people's reading preferences vary widely, but certain genres and formats tend to be particularly popular. Young adult (YA) fiction is specifically targeted at and popular with teenagers and young adults—these often feature coming-of-age stories, romance, dystopian settings, or fantasy worlds with protagonists close to the readers' age. Series like Harry Potter, The Hunger Games, and more recently books by authors like Colleen Hoover have massive young followings. Fantasy and science fiction are extremely popular, offering escapism and imaginative worlds—think Game of Thrones, fantasy series, or sci-fi adventures. Romance, particularly contemporary romance and romantic fantasy, has a huge young readership, especially among young women. Graphic novels and manga have grown tremendously in popularity—the visual format appeals to young people raised on visual media, and the storytelling can be just as sophisticated as traditional novels. Self-help and personal development books are increasingly popular among young adults seeking guidance on careers, relationships, mental health, and life skills. Social media has also influenced reading trends—books that go viral on BookTok (TikTok's book community) or Bookstagram see huge spikes in young readership. Contemporary fiction dealing with relevant issues—mental health, identity, social justice, diverse representation—resonates with socially conscious young readers. Non-fiction about topics like psychology, true crime, or memoirs from relatable figures also attracts young readers. Importantly, many young people prefer shorter, faster-paced books over lengthy literary fiction, reflecting shorter attention spans and competing entertainment options. Digital formats and audiobooks are also increasingly popular, allowing young people to consume books while multitasking.",
       "vocabulary": {
         "title": "Q16 - Youth Reading Preferences",
@@ -1056,7 +1056,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Why is reading important for personal development?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-16-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-16-q17.mp3",
       "sampleAnswer": "Reading is crucial for personal development across cognitive, emotional, social, and practical dimensions. Cognitively, reading expands knowledge and understanding of the world, exposing us to information, ideas, and perspectives we wouldn't encounter in daily life. It improves vocabulary, language skills, and communication abilities, which are fundamental to success in most fields. Reading also enhances critical thinking—analyzing arguments, evaluating evidence, and forming informed opinions. It improves focus and concentration in an age of constant distraction, as sustained reading requires extended attention. Neurologically, reading stimulates the brain, creating new neural pathways and potentially helping maintain cognitive function as we age. Emotionally, reading builds empathy by allowing us to experience life from others' perspectives—fiction particularly helps us understand different emotions, motivations, and experiences. It provides emotional vocabulary to understand and express our own feelings. Reading can also be therapeutic, offering comfort, validation, or escape during difficult times. Socially, well-read individuals often have broader perspectives, better conversation skills, and greater cultural literacy, which facilitates connection with diverse people. Reading about different cultures, histories, and experiences promotes understanding and reduces prejudice. Practically, reading is essential for career success—most professions require reading comprehension, and continuous learning through reading is necessary to stay current in rapidly changing fields. Self-help and educational books provide guidance on specific skills or challenges. Reading also inspires creativity and imagination, exposing us to new ideas and ways of thinking that can spark innovation in our own lives and work. Finally, reading promotes lifelong learning and intellectual curiosity, which are associated with greater life satisfaction and adaptability to change.",
       "vocabulary": {
         "title": "Q17 - Reading Importance",

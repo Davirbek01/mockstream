@@ -6,7 +6,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "IELTS Mock Stream",
     "telegramChannel": "@ieltsmockstream",
     "testIdentifier": "mock_stream_18",
@@ -14,8 +14,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Hobbies & Sports"
   },
   "images": {
-    "img1": "https://i.ibb.co/gM1bMSXS/image.png",
-    "img2": "https://i.ibb.co/G4QH85qq/image.png",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/gM1bMSXS-image.png",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/G4QH85qq-image.png",
     "img1Alt": "Placeholder 1",
     "img2Alt": "Placeholder 2"
   },
@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you have any hobbies?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-18-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-18-q1.mp3",
       "sampleAnswer": "Yes, I have several hobbies that I pursue in my free time. My main hobby is photography—I enjoy capturing landscapes, street scenes, and candid moments. I find it's a creative outlet that also encourages me to explore new places and notice details I might otherwise overlook. I also enjoy reading, particularly fiction and popular science books, which I try to do for at least 30 minutes before bed each night. Cooking is another hobby I've developed over the years—I like experimenting with new recipes and cuisines, especially on weekends when I have more time. Additionally, I've recently taken up hiking, which combines physical exercise with being in nature, something I find both refreshing and meditative. These hobbies provide balance to my work life and give me opportunities to learn new skills, relax, and engage with things I'm genuinely passionate about.",
       "vocabulary": {
         "title": "Q1 - Hobbies",
@@ -101,7 +101,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you have the same hobbies as your family members?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-18-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-18-q2.mp3",
       "sampleAnswer": "There's some overlap, but we also have distinct interests. My father and I both enjoy photography, though he focuses more on wildlife and nature photography while I prefer urban and street photography. We sometimes go on photo walks together, which is a nice way to spend time together while pursuing a shared interest. My mother enjoys gardening, which I appreciate but don't actively participate in—I enjoy the results of her work more than the process itself. My sister is very into fitness and running, which has influenced me to be more active, though I prefer hiking to running. We don't share all the same hobbies, but there's enough common ground that we can appreciate and sometimes participate in each other's interests. I think having both shared and individual hobbies is healthy—it gives us things to bond over while also maintaining our own identities and personal interests.",
       "vocabulary": {
         "title": "Q2 - Family Hobbies",
@@ -167,7 +167,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Did you have any hobbies when you were a child?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-18-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-18-q3.mp3",
       "sampleAnswer": "Yes, I had quite a few hobbies as a child, though they were different from my current interests. I was really into collecting things—stamps, coins, and trading cards. I loved the thrill of finding rare items and organizing my collections. I also spent a lot of time drawing and painting, which was encouraged by my parents and teachers. I wasn't particularly talented, but I enjoyed the creative process. Playing video games was another major hobby, which my parents tried to limit but I was quite passionate about. I also enjoyed building things with LEGO, creating elaborate structures and vehicles. Looking back, many of these childhood hobbies involved creativity, collecting, or building, which reflects my personality even now. Some interests have evolved—my childhood drawing has transformed into adult photography, for example—while others, like video games, I still enjoy occasionally but with less intensity than before.",
       "vocabulary": {
         "title": "Q3 - Childhood Hobbies",
@@ -234,7 +234,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you have a hobby that you've had since childhood?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-18-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-18-q4.mp3",
       "sampleAnswer": "Not exactly the same hobby, but there's definitely continuity. As I mentioned, I enjoyed drawing and visual arts as a child, and that interest has evolved into photography as an adult. While the medium has changed from pencils and paint to cameras and digital editing, the underlying interest in visual composition, capturing moments, and creative expression remains the same. I suppose you could say my love of storytelling through images has been consistent since childhood, just expressed differently. Reading is another interest that's remained constant—I've been an avid reader since I learned to read, though the genres I prefer have matured from children's adventure stories to more complex fiction and non-fiction. So while the specific activities have evolved and become more sophisticated, the core interests and passions have shown remarkable continuity from childhood to adulthood. I think this demonstrates that childhood interests, even if they transform, often reveal something fundamental about our personalities and what brings us joy.",
       "vocabulary": {
         "title": "Q4 - Long-term Hobbies",
@@ -308,7 +308,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Have you ever been part of a sports team?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-18-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-18-q5.mp3",
       "sampleAnswer": "Yes, I was part of my school's basketball team for several years during middle and high school. It was a formative experience that taught me valuable lessons about teamwork, discipline, and handling both success and failure. We practiced several times a week and competed against other schools in our region. I wasn't the star player by any means, but I contributed to the team and learned to appreciate my role. What I valued most wasn't necessarily the athletic aspect, but the camaraderie and sense of belonging that came from being part of a team working toward common goals. We celebrated victories together and supported each other through defeats. The experience taught me that individual talent matters less than how well people work together, communicate, and support one another. It also instilled discipline—showing up for practice even when I didn't feel like it, pushing through physical discomfort, and maintaining commitment to the team. While I'm no longer involved in team sports, those lessons about collaboration, commitment, and resilience have stayed with me and apply to many other areas of life.",
       "vocabulary": {
         "title": "Q5 - Sports Team",
@@ -394,7 +394,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Are team sports popular in your culture?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-18-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-18-q6.mp3",
       "sampleAnswer": "Yes, extremely popular. In my culture, team sports—particularly cricket, football, and field hockey—are almost like religions, with passionate fan bases and significant cultural importance. Cricket especially dominates the sports landscape, with international matches drawing massive television audiences and creating national moments of unity or disappointment depending on results. Children grow up playing these sports in streets, parks, and schools, and professional athletes in these sports are treated like celebrities with enormous influence. The popularity extends beyond just playing or watching—people discuss matches endlessly, follow players' lives, and identify strongly with teams representing their cities or country. This creates a shared cultural experience that transcends social and economic boundaries. Team sports serve social functions beyond entertainment—they're topics of conversation, sources of community pride, and ways for people to bond. Major tournaments or matches can practically shut down cities as everyone watches. While individual sports like tennis or badminton have followings, they don't generate the same collective passion and cultural significance as team sports in my culture.",
       "vocabulary": {
         "title": "Q6 - Team Sports Culture",
@@ -478,7 +478,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the differences between team sports and individual sports?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-18-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-18-q7.mp3",
       "sampleAnswer": "The differences are quite fundamental and affect both the experience of playing and the skills developed. In team sports, success depends on coordination, communication, and cooperation among multiple people, whereas individual sports rely solely on personal performance and self-discipline. Team sports teach collaboration, understanding different roles, and subordinating personal glory for collective success—you learn to pass the ball, support teammates, and accept that sometimes others will get credit. Individual sports develop self-reliance, personal responsibility, and mental toughness since you can't blame others for failures or share the pressure. The training differs too—team sports require coordinated practice sessions and developing chemistry with teammates, while individual sports allow more flexible, self-directed training. Psychologically, team sports can provide social support and shared accountability, which some people find motivating, while others prefer the autonomy and direct correlation between effort and results in individual sports. In terms of pressure, team sports distribute responsibility, which can be comforting or frustrating depending on perspective, whereas individual sports place all pressure on one person, which can be liberating or overwhelming. Both types develop valuable but different skills—team sports emphasize interpersonal abilities, while individual sports build self-sufficiency and internal motivation.",
       "vocabulary": {
         "title": "Q7 - Sports Comparison",
@@ -569,7 +569,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a successful sportsperson you admire.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-18-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-18-q8.mp3",
       "bulletPoints": [
         "who this person is",
         "what this person has achieved",
@@ -908,7 +908,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think Serena Williams has influenced women's sports?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-18-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-18-q9.mp3",
       "sampleAnswer": "Absolutely, her influence has been transformative. She's raised the profile and visibility of women's tennis globally, attracting audiences who might not otherwise watch. More importantly, she's fought for equal pay and equal treatment for female athletes, helping achieve pay parity at major tournaments. Her success as a powerful, athletic Black woman has challenged narrow definitions of what female athletes should look like or how they should behave. She's inspired countless young girls, especially girls of color, to pursue sports. Beyond tennis, she's demonstrated that female athletes can be successful businesswomen, advocates, and cultural influencers, not just competitors. Her impact extends to how female athletes are perceived, compensated, and respected across all sports.",
       "vocabulary": {
         "title": "Q9 - Influence on Women's Sports",
@@ -981,7 +981,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What qualities make someone a successful athlete?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-18-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-18-q10.mp3",
       "sampleAnswer": "Successful athletes combine several key qualities. Natural talent and physical abilities provide the foundation, but they're not sufficient alone. Discipline and work ethic are crucial—the willingness to train consistently, even when motivation is low. Mental toughness—the ability to perform under pressure, bounce back from setbacks, and maintain focus—separates good athletes from great ones. Competitiveness and the drive to win push athletes to continuously improve. Adaptability allows athletes to adjust strategies and evolve their approach. Physical resilience and the ability to recover from injuries are important for longevity. Intelligence—understanding strategy, analyzing opponents, and making smart decisions—matters in most sports. Finally, passion for the sport sustains athletes through grueling training and inevitable disappointments. The best athletes combine all these qualities.",
       "vocabulary": {
         "title": "Q10 - Athlete Qualities",
@@ -1065,7 +1065,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Is it easy to identify children's talents?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-18-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-18-q11.mp3",
       "sampleAnswer": "It's not always easy, and there are several complicating factors. Some talents are obvious early—a child who's significantly taller and more coordinated than peers might show clear athletic potential, or a child with perfect pitch might demonstrate musical talent. However, many talents emerge later or require specific opportunities to be discovered. A child might have talent for a sport they've never been exposed to, or abilities that only become apparent with proper training. Early physical development can be misleading—some children mature earlier and appear more talented but are later surpassed by late bloomers. Additionally, what looks like talent might actually be the result of more practice, better coaching, or greater interest rather than innate ability. Cultural and economic factors also matter—children from wealthier families have more opportunities to try different activities and receive quality coaching, making their talents more likely to be identified. Personality traits like persistence can be mistaken for talent. Some children are naturally competitive or hardworking, which can make them excel even without exceptional natural ability. Conversely, talented children who lack motivation might never develop their potential. So while some talents are obvious, many require careful observation, diverse opportunities, and time to properly identify.",
       "vocabulary": {
         "title": "Q11 - Identifying Talent",
@@ -1168,7 +1168,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Is talent important in sports?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-18-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-18-q12.mp3",
       "sampleAnswer": "Talent is certainly important, but it's not the only factor and perhaps not even the most important for success. Natural talent—physical attributes like height, speed, coordination, or sport-specific abilities—provides advantages and makes certain achievements more attainable. However, sports history is full of examples where less talented but harder-working athletes surpassed more naturally gifted but less dedicated competitors. Work ethic, discipline, mental toughness, and strategic thinking can compensate for talent gaps. Moreover, what we perceive as 'talent' is often actually the result of early exposure, quality coaching, and extensive practice. The '10,000 hour rule' suggests that expertise comes more from deliberate practice than innate ability. In team sports, qualities like leadership, teamwork, and tactical understanding can be as important as individual talent. At the highest levels of competition, most athletes have significant talent, so other factors—mental strength, work ethic, coaching, strategy—become the differentiators. Talent might determine your ceiling, but dedication and work determine whether you reach it.",
       "vocabulary": {
         "title": "Q12 - Talent in Sports",
@@ -1266,7 +1266,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What characteristics do you think an athlete should have?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-18-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-18-q13.mp3",
       "sampleAnswer": "Athletes should possess a combination of physical, mental, and character traits. Physically, they need appropriate fitness, strength, speed, or endurance depending on their sport, plus good coordination and body awareness. However, mental characteristics are equally crucial. Discipline and self-control enable consistent training and healthy lifestyle choices even when motivation wanes. Mental toughness—the ability to perform under pressure, push through pain and fatigue, and bounce back from defeats—is essential. Competitiveness and the drive to win push athletes to improve continuously. Focus and concentration allow athletes to perform optimally and avoid distractions. Adaptability helps athletes adjust to different opponents and challenges. Resilience enables recovery from injuries and setbacks without losing motivation. Intelligence and strategic thinking help athletes analyze situations and make smart decisions. Character traits matter too—integrity ensures fair play, humility allows continued learning despite success, respect for opponents maintains sportsmanship, and passion for the sport sustains commitment through difficulties. Work ethic and dedication separate those who reach their potential from those who don't. Finally, coachability—the willingness to listen, learn, and implement feedback—is crucial for development. The best athletes combine physical gifts with mental strength and strong character.",
       "vocabulary": {
         "title": "Q13 - Athlete Characteristics",
@@ -1383,7 +1383,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Why are there so few top athletes?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-18-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-18-q14.mp3",
       "sampleAnswer": "Several factors explain why top athletes are rare. First, reaching elite levels requires an exceptional combination of natural talent, physical attributes, and abilities that few people possess. The genetic lottery matters—height for basketball, fast-twitch muscles for sprinting, specific body proportions for swimming. Second, becoming elite requires enormous dedication and sacrifice—typically 10,000+ hours of deliberate practice, often starting in childhood. Most people aren't willing or able to make this commitment, which means sacrificing social life, education sometimes, and other pursuits. Third, access to resources matters significantly. Quality coaching, facilities, equipment, and support systems are expensive and not equally available. Athletes from disadvantaged backgrounds face barriers that prevent talent development. Fourth, the path to elite status is precarious—injuries, burnout, or timing can derail promising careers. Fifth, competition is intense—you're competing globally, and only a tiny fraction can reach the absolute top. Sixth, the mental toughness and psychological resilience required to handle pressure, setbacks, and the grind of elite training are rare. Finally, luck and timing play roles—being in the right place, having the right coach, avoiding injuries at crucial moments. The combination of all these factors is exceptionally rare, which is why top athletes are so few.",
       "vocabulary": {
         "title": "Q14 - Rarity of Top Athletes",
@@ -1505,7 +1505,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What kind of sports are popular in your country?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-18-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-18-q15.mp3",
       "sampleAnswer": "In my country, cricket is by far the most popular sport, almost to the point of obsession. International cricket matches, especially against rival nations, attract massive viewership and create national moments of collective excitement or disappointment. Cricket players are treated like celebrities with enormous influence and wealth. Football (soccer) is the second most popular sport, with growing interest particularly among younger generations. The English Premier League has a huge following, and domestic football leagues are developing. Field hockey, which is our national sport historically, still has a dedicated following though it's less commercially popular than cricket. Badminton has become increasingly popular, especially after Indian players achieved success at international levels. Kabaddi, a traditional indigenous sport, has seen a revival with professional leagues making it more mainstream and commercially viable. Tennis has a following, particularly when Indian players perform well in Grand Slams. In recent years, there's growing interest in sports like basketball, volleyball, and even newer sports like MMA and esports among urban youth. However, cricket remains dominant, overshadowing most other sports in terms of viewership, commercial investment, and cultural significance.",
       "vocabulary": {
         "title": "Q15 - Popular Sports",
@@ -1607,7 +1607,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What is the most popular sport in your country?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-18-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-18-q16.mp3",
       "sampleAnswer": "Cricket is unquestionably the most popular sport in my country. It's not just a sport but a cultural phenomenon that unites people across regional, linguistic, and socioeconomic divides. Major cricket matches, especially international tournaments or matches against traditional rivals like Pakistan, practically bring the country to a standstill as millions watch. The Indian Premier League, a domestic Twenty20 cricket league, is one of the richest and most-watched sports leagues globally, attracting international players and massive commercial sponsorship. Cricket players, especially successful ones, achieve celebrity status that rivals or exceeds that of movie stars—they appear in advertisements, have huge social media followings, and wield significant cultural influence. Children across the country play cricket in streets, parks, and playgrounds, dreaming of representing the national team. The sport receives the lion's share of sports funding, media coverage, and commercial investment compared to other sports. This dominance is so complete that other sports struggle for attention and resources. While this creates challenges for developing diverse sporting culture, cricket's popularity has created a shared national passion that transcends many social divisions.",
       "vocabulary": {
         "title": "Q16 - Most Popular Sport",
@@ -1710,7 +1710,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Should students have physical education and do sports at school?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-18-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-18-q17.mp3",
       "sampleAnswer": "Absolutely, physical education and sports should be integral parts of school curricula for multiple important reasons. First, childhood and adolescence are crucial periods for developing physical fitness, motor skills, and healthy habits that can last a lifetime. Regular physical activity combats the growing problem of childhood obesity and associated health issues. Second, PE and sports teach valuable life skills beyond physical fitness—teamwork, leadership, handling success and failure, discipline, goal-setting, and perseverance. These skills transfer to academic and professional contexts. Third, physical activity has proven cognitive benefits—it improves concentration, memory, and academic performance by increasing blood flow to the brain and reducing stress. Students who exercise regularly often perform better academically. Fourth, sports provide opportunities for students who may not excel academically to find success, build confidence, and develop their talents. This is important for self-esteem and engagement with school. Fifth, PE classes teach important knowledge about health, nutrition, and how bodies work, promoting lifelong wellness. Sixth, sports and physical activity provide mental health benefits—reducing anxiety and depression, improving mood, and providing healthy stress relief. Finally, school sports create community, school spirit, and social connections among students. However, it's important that PE programs are inclusive, non-competitive options are available for those who don't enjoy competitive sports, and the focus is on participation and health rather than just elite performance.",
       "vocabulary": {
         "title": "Q17 - PE in Schools",

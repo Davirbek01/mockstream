@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "https://t.me/mock_stream",
     "testIdentifier": "mock_stream",
@@ -15,8 +15,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Chet tilini bilish darajasi"
   },
   "images": {
-    "img1": "https://i.ibb.co/QFW7Y89c/1.jpg",
-    "img2": "https://i.ibb.co/PZHw3fbm/2.jpg",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/QFW7Y89c-1.jpg",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/PZHw3fbm-2.jpg",
     "img1Alt": "Festival event",
     "img2Alt": "Museum visit"
   },
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Tell me about your school",
-      "audioFile": "questions S/audio/cefr-speaking-mock-09-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-09-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>Reflecting on my school days, I can say that they were <span class=\"ml-token adv\">truly</span> transformative. I attended a <span class=\"ml-token colloc\">prestigious institution</span> known for its <span class=\"ml-token colloc\">academic excellence</span> and <span class=\"ml-token colloc\">holistic approach</span> to education. The school was nestled in a serene environment, which was <span class=\"ml-token adv\">perfectly</span> conducive to learning. <span class=\"ml-token idiom\">\"Every cloud has a silver lining,\"</span> and my school life was no different; it had its ups and downs, but the experiences shaped me into who I am today.</p>\n\n<p>One aspect that <span class=\"ml-token phrasal\">stands out</span> is the <span class=\"ml-token colloc\">diverse curriculum</span> that we had. It was <span class=\"ml-token adv\">incredibly</span> comprehensive, covering everything from the arts to the sciences, which allowed us to <span class=\"ml-token phrasal\">explore different fields</span> before deciding on our future paths. The teachers were <span class=\"ml-token adv\">exceptionally</span> supportive, always <span class=\"ml-token phrasal\">going the extra mile</span> to ensure we understood the material, and they encouraged us to <span class=\"ml-token idiom\">think outside the box.</span></p>\n\n<p>Moreover, the school placed a strong emphasis on extracurricular activities, which <span class=\"ml-token phrasal\">played a pivotal role</span> in our personal development. Whether it was joining the debate team or participating in sports, these activities were not just about competition; they were about <span class=\"ml-token colloc\">building character</span> and <span class=\"ml-token colloc\">fostering teamwork</span>. As they say, <span class=\"ml-token proverb\">\"All work and no play makes Jack a dull boy,\"</span> and I <span class=\"ml-token adv\">honestly</span> believe that our school <span class=\"ml-token phrasal\">struck the right balance</span> between academics and leisure.</p>\n\n<p>In conclusion, my school was more than just a place of learning; it was a <span class=\"ml-token colloc\">nurturing environment</span> that <span class=\"ml-token phrasal\">set the stage</span> for my future endeavors. It was there that I <span class=\"ml-token phrasal\">picked up</span> <span class=\"ml-token colloc\">life skills</span> that have been invaluable in my journey, and for that, I am <span class=\"ml-token adv\">immensely</span> grateful.</p>",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What is your favorite season?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-09-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-09-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>My <span class=\"ml-token colloc\">favorite season</span> has to be autumn. <span class=\"ml-token proverb\">\"To every thing there is a season\"</span>, and autumn, for me, is <span class=\"ml-token adv\">undoubtedly</span> the most enchanting. The <span class=\"ml-token colloc\">crisp air</span> and the <span class=\"ml-token colloc\">vibrant foliage</span> create an <span class=\"ml-token colloc\">atmosphere of serenity</span> that is <span class=\"ml-token adv\">difficult</span> to resist. One of the things I <span class=\"ml-token phrasal\">look forward to</span> during this time is the opportunity to <span class=\"ml-token phrasal\">step into</span> the countryside. The landscape is <span class=\"ml-token adv\">incredibly</span> picturesque, almost akin to a <span class=\"ml-token idiom\">postcard come to life</span>.</p>\n\n<p>I <span class=\"ml-token adv\">genuinely</span> enjoy <span class=\"ml-token phrasal\">hanging out</span> at local cafes, savoring a <span class=\"ml-token colloc\">warm cup</span> of coffee while the world outside transforms into a tapestry of reds, oranges, and yellows. <span class=\"ml-token idiom\">Nothing compares</span> to the feeling of being nestled indoors, with a good book and a cozy blanket, as the <span class=\"ml-token colloc\">cool winds</span> <span class=\"ml-token phrasal\">pick up</span> outside. It's a <span class=\"ml-token colloc\">season of reflection</span> and <span class=\"ml-token colloc\">introspection</span>, where I find myself <span class=\"ml-token phrasal\">taking stock</span> of the year and its experiences.</p>\n\n<p>Moreover, autumn is often a time for festivities and gatherings, which adds a layer of warmth and joy, despite the <span class=\"ml-token colloc\">dipping temperatures</span>. From <span class=\"ml-token colloc\">harvest festivals</span> to Halloween, it's a <span class=\"ml-token colloc\">social experience</span> that brings people together in a <span class=\"ml-token colloc\">unique way</span>. <span class=\"ml-token proverb\">\"Autumn carries more gold in its pocket than all the other seasons\"</span>, and I couldn't agree more. This season, with its <span class=\"ml-token colloc\">intricate beauty</span> and <span class=\"ml-token colloc\">tranquil charm</span>, is <span class=\"ml-token adv\">truly</span> my favorite.</p>",
       "vocabulary": {
@@ -108,7 +108,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do you usually do on weekends?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-09-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-09-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>On weekends, I <span class=\"ml-token phrasal\">look forward to</span> engaging in a variety of activities that <span class=\"ml-token idiom\">let me recharge my batteries</span>. To begin with, I <span class=\"ml-token adv\">typically</span> enjoy spending time outdoors, which <span class=\"ml-token colloc\">provides a great opportunity</span> to <span class=\"ml-token phrasal\">catch up with</span> friends and family. For instance, we might <span class=\"ml-token phrasal\">head out</span> to the park for a picnic or a leisurely stroll. This not only allows me to stay active but also to savor the tranquility of nature.</p>\n\n<p>Furthermore, I often dedicate a portion of the weekend to my hobbies, such as reading or painting. Delving into a captivating novel or expressing myself through art is incredibly fulfilling. It’s <span class=\"ml-token idiom\">food for the soul</span> that makes me feel <span class=\"ml-token idiom\">on top of the world</span>.</p>\n\n<p>In addition, I <span class=\"ml-token colloc\">seize the opportunity</span> to <span class=\"ml-token phrasal\">catch up on</span> any chores or errands that might have piled up during the week. While this might not seem thrilling, it ensures that I start the upcoming week <span class=\"ml-token idiom\">with a clean slate</span>.</p>\n\n<p>Ultimately, weekends are a <span class=\"ml-token colloc\">perfect blend</span> of relaxation and productivity. As they say, <span class=\"ml-token proverb\">\"All work and no play makes Jack a dull boy,\"</span> and I <span class=\"ml-token adv\">wholeheartedly</span> believe this <span class=\"ml-token proverb\">\"quote\"</span> embodies the essence of a balanced life.",
       "vocabulary": {
@@ -150,7 +150,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "Look at the photographs. What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-09-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-09-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>\n    <p>In the <span class=\"ml-token colloc\">first image</span>, there's an <span class=\"ml-token idiom\">intellectual haven</span> where one can <span class=\"ml-token phrasal\">dive into</span> the world of knowledge. The person is seated at a <span class=\"ml-token colloc\">large wooden desk</span> in an old library. This setting, with its <span class=\"ml-token colloc\">tall bookshelves</span> and warm, dim lighting, evokes a <span class=\"ml-token colloc\">cozy, focused atmosphere</span>. The <span class=\"ml-token phrasal\">stacks of books</span> around the individual <span class=\"ml-token adv\">clearly</span> suggest they are <span class=\"ml-token colloc\">deeply engaged</span> in study or research. The classic desk lamp adds a <span class=\"ml-token colloc\">touch of ambiance</span>, highlighting the room's <span class=\"ml-token colloc\">antique and scholarly setting</span>. The hues of browns and golds further enhance the <span class=\"ml-token colloc\">timeless appeal</span> of this space.</p>\n    \n    <p>Meanwhile, the <span class=\"ml-token colloc\">second image</span> presents a <span class=\"ml-token colloc\">contrasting scene</span> of <span class=\"ml-token idiom\">serene simplicity</span>. A young person is <span class=\"ml-token phrasal\">sitting cross-legged</span> on a lush, grassy lawn, relishing a sunny day. This likely college campus setting, with its modern building and trees, offers a <span class=\"ml-token colloc\">cheerful and relaxed mood</span>. The bright sunlight not only enhances the vibrant greens of the grass and blues of the sky but also <span class=\"ml-token adv\">beautifully</span> complements the warm tones of autumn leaves. The student's casual attire—a red sweater and blue jeans—suggests a comfortable and <span class=\"ml-token colloc\">concentrated reading</span> session. Honestly, this image <span class=\"ml-token phrasal\">captures the essence</span> of youthful academia and <span class=\"ml-token proverb\">\"the joy of learning.\"</span></p>\n</div>",
       "vocabulary": {
@@ -188,7 +188,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the benefits of studying in a library?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-09-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-09-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>Studying in a library offers <span class=\"ml-token colloc\">numerous advantages</span> that can <span class=\"ml-token phrasal\">boost productivity</span> and facilitate learning. Firstly, libraries provide an environment that is <span class=\"ml-token adv\">exceptionally</span> conducive to focus. The <span class=\"ml-token colloc\">quiet atmosphere</span> allows students to <span class=\"ml-token phrasal\">concentrate fully</span> on their work without the usual distractions found at home. Moreover, libraries are equipped with <span class=\"ml-token colloc\">extensive resources</span> including books, journals, and digital databases that are <span class=\"ml-token adv\">incredibly</span> beneficial for conducting research.</p>\n\n<p><span class=\"ml-token idiom\">On top of that</span>, the library is a place where students can <span class=\"ml-token phrasal\">collaborate effectively</span> with peers. Group study areas are designed for such interactions, enabling students to engage in <span class=\"ml-token colloc\">dynamic discussions</span> and exchange ideas, which can lead to a deeper understanding of the subject matter. Additionally, the library is a space that promotes <span class=\"ml-token colloc\">self-discipline</span>. Being surrounded by other focused individuals naturally encourages one to <span class=\"ml-token idiom\">get down to business</span>.</p>\n\n<p>From a personal perspective, I find that studying in the library helps me to maintain a structured routine. It's a place where I can <span class=\"ml-token phrasal\">set goals</span> and <span class=\"ml-token phrasal\">track progress</span>, something that might not be as easily achieved in a less structured environment. Ultimately, studying in the library not only enhances academic performance but also fosters a sense of community among learners. As the saying goes, <span class=\"ml-token proverb\">\"a problem shared is a problem halved\"</span>, and the library is an ideal setting for such collaborative problem-solving.</p>",
       "vocabulary": {
@@ -226,7 +226,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some people prefer reading books outdoors?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-09-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-09-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>There are several reasons why some people <span class=\"ml-token adv\">absolutely</span> prefer reading books outdoors. One primary reason is the <span class=\"ml-token colloc\">calming atmosphere</span> that nature provides. Being surrounded by the gentle rustle of leaves and the soft chirping of birds can <span class=\"ml-token phrasal\">enhance the experience</span> of immersing oneself in a book. <span class=\"ml-token proverb\">\"A change is as good as a rest\"</span>, and stepping outside <span class=\"ml-token phrasal\">offers a break</span> from the monotony of indoor environments, making the reading experience <span class=\"ml-token adv\">incredibly</span> refreshing.</p>\n\n<p>Moreover, reading outdoors can help one <span class=\"ml-token phrasal\">escape from</span> everyday distractions. At home, it's <span class=\"ml-token adv\">all too easy</span> to get sidetracked by chores or electronic devices. In contrast, a park or a quiet garden provides a sanctuary where one can <span class=\"ml-token idiom\">let their hair down</span> and focus entirely on the narrative. Personally, I find that the <span class=\"ml-token colloc\">natural light</span> outdoors is <span class=\"ml-token adv\">far more</span> pleasing to the eyes than artificial lighting, which can <span class=\"ml-token phrasal\">strain my vision</span> over prolonged periods.</p>\n\n<p>Lastly, there's the social aspect of being outdoors. <span class=\"ml-token proverb\">\"Birds of a feather flock together\"</span>, and outdoor reading spaces often attract like-minded individuals. This creates opportunities to <span class=\"ml-token phrasal\">strike up conversations</span> and share reading experiences, thus enriching the overall enjoyment of literature. In this way, reading outside not only serves as a <span class=\"ml-token colloc\">solitary pursuit</span> but also opens doors to <span class=\"ml-token colloc\">social interactions</span>.</p>\n\n<p>In summary, the appeal of reading outdoors lies in the tranquility, reduced distractions, and potential for social interaction, making it a <span class=\"ml-token adv\">truly</span> enriching experience.</p>",
       "vocabulary": {
@@ -264,7 +264,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Discuss the following points:",
-      "audioFile": "questions S/audio/cefr-speaking-mock-09-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-09-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Can you describe a memory that always brings a smile to your face?",
@@ -311,7 +311,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "National dress should be worn on special occasions",
-      "audioFile": "questions S/audio/cefr-speaking-mock-09-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-09-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

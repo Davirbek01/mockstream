@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "https://t.me/mock_stream",
     "testIdentifier": "mock_stream",
@@ -15,8 +15,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Chet tilini bilish darajasi"
   },
   "images": {
-    "img1": "https://i.ibb.co/WWRwysT0/shopping-in-the-street-market.png",
-    "img2": "https://i.ibb.co/9mgwLqpQ/shopping-in-the-supermarket.png",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WWRwysT0-shopping-in-the-street-market.png",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/9mgwLqpQ-shopping-in-the-supermarket.png",
     "img1Alt": "Festival event",
     "img2Alt": "Museum visit"
   },
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "When do you usually listen to music?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-11-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-11-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<span class=\"ml-token adv\">Honestly</span>, I <span class=\"ml-token phrasal\">listen to</span> music at various times throughout the day, as it <span class=\"ml-token colloc\">plays a significant role</span> in my daily routine. <span class=\"ml-token idiom\">First and foremost</span>, I <span class=\"ml-token colloc\">kick off my day</span> by listening to some soothing tunes during breakfast. It's a <span class=\"ml-token colloc\">wonderful way</span> to set a positive tone for the day ahead. Later, when I'm commuting to work, I <span class=\"ml-token phrasal\">plug in</span> my headphones and <span class=\"ml-token phrasal\">tune into</span> upbeat tracks that <span class=\"ml-token colloc\">energize me</span> and get me into the right mindset.\n\nMoreover, during work breaks, I often <span class=\"ml-token phrasal\">reach for</span> my phone to <span class=\"ml-token phrasal\">catch up</span> on the latest hits. It helps me relax and <span class=\"ml-token idiom\">clear my head</span> before diving back into work. In the evenings, I <span class=\"ml-token colloc\">unwind with</span> some jazz or classical music, which creates a calming ambiance and allows me to <span class=\"ml-token idiom\">let my hair down</span> after a long day.\n\n<span class=\"ml-token proverb\">\"Music is the universal language of mankind\"</span>, and I <span class=\"ml-token adv\">genuinely</span> believe it enhances every aspect of life. It <span class=\"ml-token phrasal\">brings out</span> a range of emotions and can <span class=\"ml-token phrasal\">turn around</span> a bad day in an instant. <span class=\"ml-token adv\">Ultimately</span>, music is <span class=\"ml-token colloc\">an integral part</span> of my life, and I <span class=\"ml-token phrasal\">can't imagine</span> a day without it.",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do you do to stay healthy?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-11-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-11-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>To <span class=\"ml-token colloc\">maintain a healthy lifestyle</span>, I have adopted a <span class=\"ml-token colloc\">balanced approach</span> that incorporates both physical activity and a nutritious diet. <span class=\"ml-token proverb\">\"An apple a day keeps the doctor away,\"</span> and I <span class=\"ml-token adv\">truly</span> believe in the power of wholesome nutrition. Every morning, I begin my day with a <span class=\"ml-token colloc\">hearty breakfast</span>, often including whole grains and fresh fruits, which <span class=\"ml-token phrasal\">kick-starts</span> my metabolism.</p>\n\n<p>In terms of exercise, I've made it a habit to <span class=\"ml-token phrasal\">work out</span> at least five times a week. I engage in a variety of activities ranging from cardio to strength training, ensuring that I don't <span class=\"ml-token idiom\">put all my eggs in one basket</span>. This <span class=\"ml-token colloc\">diverse regimen</span> not only keeps me physically fit but also helps me unwind and <span class=\"ml-token idiom\">let my hair down</span> after a hectic day. For me, hitting the gym is not just about physical health; it's a <span class=\"ml-token colloc\">mental escape</span> as well.</p>\n\n<p>Furthermore, I prioritize getting enough sleep and staying hydrated, which are <span class=\"ml-token colloc\">key components</span> of overall well-being. I always <span class=\"ml-token idiom\">hit the sack</span> around the same time each night to ensure consistency, which <span class=\"ml-token adv\">remarkably</span> enhances my energy levels throughout the day.</p>\n\n<p>In conclusion, by combining a <span class=\"ml-token colloc\">nutritious diet</span>, regular exercise, and sufficient rest, I am able to <span class=\"ml-token colloc\">maintain my health</span> and live a more fulfilling life. After all, <span class=\"ml-token proverb\">\"health is wealth,\"</span> and it's something I'm <span class=\"ml-token adv\">incredibly</span> committed to preserving.</p>",
       "vocabulary": {
@@ -108,7 +108,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Tell me about your school.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-11-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-11-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<p><span class=\"ml-token proverb\">\"Education is the passport to the future\"</span>, and I <span class=\"ml-token colloc\">strongly believe</span> my school exemplified this notion <span class=\"ml-token adv\">perfectly</span>. My secondary school was a place where I <span class=\"ml-token phrasal\">grew up</span> not just academically, but <span class=\"ml-token adv\">also</span> <span class=\"ml-token colloc\">emotionally and socially</span>. It was a rather prominent institution, nestled in the heart of the city, surrounded by lush greenery, which <span class=\"ml-token adv\">always</span> provided a serene backdrop for learning.</p>\n\n<p>The infrastructure was <span class=\"ml-token adv\">incredibly</span> modern, with state-of-the-art science labs and a <span class=\"ml-token colloc\">well-stocked library</span> that I <span class=\"ml-token phrasal\">used to lose myself</span> in for hours. <span class=\"ml-token idiom\">In terms of</span> educational philosophy, the school was <span class=\"ml-token adv\">unwaveringly</span> committed to fostering <span class=\"ml-token colloc\">critical thinking</span> and creativity. Teachers were more like mentors who encouraged us to <span class=\"ml-token phrasal\">explore our potential</span> rather than just focus on rote learning. </p>\n\n<p>I must say, extracurricular activities played a pivotal role in shaping my personality. Whether it was participating in drama club or being a part of the basketball team, these activities helped me <span class=\"ml-token phrasal\">hone my skills</span> and <span class=\"ml-token phrasal\">boost my confidence</span>. <span class=\"ml-token idiom\">All in all</span>, I <span class=\"ml-token adv\">genuinely</span> cherished my time there, and it laid a solid foundation for my future endeavors. Looking back, I can <span class=\"ml-token idiom\">confidently say</span> that my school was not just an institution, but a <span class=\"ml-token colloc\">second home</span> where I <span class=\"ml-token phrasal\">formed lasting friendships</span> and <span class=\"ml-token phrasal\">learned invaluable lessons</span>.</p>",
       "vocabulary": {
@@ -146,7 +146,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-11-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-11-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<span class=\"ml-token colloc\">In the first image</span>, what <span class=\"ml-token colloc\">strikes me</span> immediately is the <span class=\"ml-token colloc\">social experience</span> of a bustling outdoor market. The young woman, with her curly hair and casual attire, seems to be <span class=\"ml-token phrasal\">picking up</span> some fresh produce. Her smile <span class=\"ml-token adv\">genuinely</span> reflects her happiness and engagement in the activity. The market stall is <span class=\"ml-token idiom\">brimming with life</span>, filled with colorful vegetables and fruits, which indicates the <span class=\"ml-token colloc\">abundance of choice</span> available. The vibrant atmosphere, enhanced by the bright orange tarps and the presence of other shoppers, <span class=\"ml-token idiom\">brings the scene to life</span>. This image <span class=\"ml-token adv\">really</span> captures the essence of community interactions and <span class=\"ml-token colloc\">the joy of</span> selecting fresh produce.\n\n<span class=\"ml-token colloc\">On the other hand</span>, the second image <span class=\"ml-token colloc\">presents a</span> cheerful indoor setting at a grocery store, where a family is enjoying a shopping trip together. The young girl, seemingly excited, is <span class=\"ml-token phrasal\">putting items into</span> a cart full of packaged goods. Her interaction with what appears to be her parents—both <span class=\"ml-token adv\">delightedly</span> engaged in the activity—creates a <span class=\"ml-token colloc\">warm, familial atmosphere</span>. Their shared laughter <span class=\"ml-token idiom\">speaks volumes</span> about the bond they share. The shelves, <span class=\"ml-token colloc\">lined with products</span>, highlight the convenience and multitude of options available in a modern supermarket. This scene <span class=\"ml-token idiom\">paints a picture</span> of a <span class=\"ml-token colloc\">fun family outing</span>, reinforcing the joy of everyday activities. \n\nBoth images <span class=\"ml-token colloc\">offer a glimpse into</span> different aspects of shopping, one emphasizing community and the other family, yet both <span class=\"ml-token idiom\">illustrate the simple pleasures</span> in life. \"It's not what we have in life, but who we have in our life that matters,\" and these images <span class=\"ml-token colloc\">beautifully demonstrate</span> this sentiment.",
       "vocabulary": {
@@ -184,7 +184,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What is the advantage of buying products from local farmers over the supermarket?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-11-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-11-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>Purchasing products from local farmers boasts a <span class=\"ml-token colloc\">multitude of benefits</span> over opting for supermarket goods. <span class=\"ml-token adv\">Firstly</span>, the freshness of produce from local markets is <span class=\"ml-token adv\">undeniably</span> superior. <span class=\"ml-token idiom\">When you buy straight from the horse's mouth</span>, you're assured that the fruits and vegetables haven't been sitting in storage for weeks. <span class=\"ml-token adv\">Moreover</span>, supporting local farmers <span class=\"ml-token phrasal\">goes beyond</span> just getting fresh produce; it fosters community spirit and strengthens the local economy. <span class=\"ml-token idiom\">It's a win-win situation</span> where consumers enjoy <span class=\"ml-token colloc\">high-quality produce</span>, and farmers receive fair compensation for their hard work.</p>\n\n<p>Another <span class=\"ml-token colloc\">significant advantage</span> is the environmental impact. Local farming practices are <span class=\"ml-token adv\">often</span> more sustainable, with reduced transportation emissions compared to <span class=\"ml-token colloc\">mass-produced supermarket</span> goods. <span class=\"ml-token adv\">Furthermore</span>, by choosing local, we contribute to preserving agricultural landscapes and biodiversity. <span class=\"ml-token proverb\">\"Think globally, act locally\"</span> couldn't be more relevant here.</p>\n\n<p>Personally, I find it <span class=\"ml-token adv\">incredibly</span> rewarding to <span class=\"ml-token phrasal\">engage with</span> the farmers themselves. Hearing about their cultivation methods and the stories behind the produce creates a <span class=\"ml-token colloc\">rich social experience</span>. This connection <span class=\"ml-token idiom\">adds a new dimension</span> to my food that supermarkets simply can't replicate. In conclusion, the advantages of buying from local farmers are <span class=\"ml-token adv\">evident</span> and multifaceted, ranging from quality and sustainability to community and economy.</p>",
       "vocabulary": {
@@ -226,7 +226,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some people like to do shopping in the supermarket?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-11-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-11-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>There are <span class=\"ml-token adv\">several</span> reasons why people <span class=\"ml-token colloc\">enjoy shopping</span> in supermarkets. Firstly, the <span class=\"ml-token colloc\">sheer convenience</span> of having everything under one roof is <span class=\"ml-token adv\">immensely</span> appealing. Supermarkets <span class=\"ml-token phrasal\">cater to</span> a vast array of needs, from groceries to household items, which <span class=\"ml-token idiom\">saves a ton of time</span> and effort.</p>\n\n<p>Moreover, the prices in supermarkets are <span class=\"ml-token adv\">typically</span> more competitive, allowing customers to get the best value for their money. This is particularly <span class=\"ml-token adv\">important</span> in today's economy, where <span class=\"ml-token colloc\">budget-conscious shoppers</span> look for bargains. In addition, the organized layout and <span class=\"ml-token colloc\">easy accessibility</span> of products provide a <span class=\"ml-token colloc\">pleasant shopping experience</span>.</p>\n\n<p>Another aspect is the social dimension; shopping in a supermarket can be a <span class=\"ml-token colloc\">social experience</span> where people <span class=\"ml-token phrasal\">run into</span> acquaintances or <span class=\"ml-token phrasal\">catch up</span> with friends. <span class=\"ml-token proverb\">\"All work and no play makes Jack a dull boy,\"</span> and shopping can be a way to <span class=\"ml-token idiom\">let one's hair down</span>.</p>\n\n<p>Personally, I find the variety of products and brands available in supermarkets <span class=\"ml-token adv\">incredibly</span> satisfying. Whether it's trying new foods or discovering <span class=\"ml-token colloc\">high-quality goods</span>, the experience is <span class=\"ml-token adv\">undeniably</span> rewarding. So, in essence, supermarkets <span class=\"ml-token phrasal\">offer a reliable mix</span> of convenience, value, and diversity, which is why they remain <span class=\"ml-token adv\">so</span> popular among consumers.</p>",
       "vocabulary": {
@@ -268,7 +268,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Discuss the following points:",
-      "audioFile": "questions S/audio/cefr-speaking-mock-11-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-11-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a special meal that someone prepared for you.",
@@ -311,7 +311,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Students should wear uniforms at school.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-11-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-11-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

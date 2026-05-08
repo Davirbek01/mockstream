@@ -6,7 +6,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "IELTS Mock Stream",
     "telegramChannel": "@ieltsmockstream",
     "testIdentifier": "mock_stream_63",
@@ -14,8 +14,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Shopping, Food & Historical Architecture"
   },
   "images": {
-    "img1": "https://i.ibb.co/gM1bMSXS/image.png",
-    "img2": "https://i.ibb.co/G4QH85qq/image.png",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/gM1bMSXS-image.png",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/G4QH85qq-image.png",
     "img1Alt": "Placeholder 1",
     "img2Alt": "Placeholder 2"
   },
@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you enjoy shopping?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-63-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-63-q1.mp3",
       "sampleAnswer": "I have what I would call a 'utilitarian relationship' with shopping; I don't view it as a 'leisure activity' but rather as a necessary part of 'personal logistics.' I find that the 'sensory overload' of crowded malls can be somewhat 'draining,' so I generally prefer targeted, 'goal-oriented missions' where I know exactly what I need. However, I do enjoy 'niche shopping'—visiting specialized bookstores or local markets where the experience is more about 'discovery and quality' than mass consumption. For me, the 'pleasure of acquisition' is always secondary to the 'utility and durability' of the item itself.",
       "vocabulary": {
         "title": "Q1 - Attitude Toward Shopping",
@@ -81,7 +81,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What's the last thing you bought?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-63-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-63-q2.mp3",
       "sampleAnswer": "The most recent significant purchase I made was a high-quality 'ergonomic office chair,' which I view as a vital 'investment in my long-term health' and professional focus. I spent a considerable amount of time 'researching specifications' and comparing 'structural durability' before making the decision. It was a very 'deliberate acquisition' rather than an 'impulse buy.' Since I spend a large portion of my day 'tethered to a desk,' I felt it was essential to have a tool that supports my 'physiological well-being.' The 'improvement in my posture' and overall comfort has been immediately 'perceptible.'",
       "vocabulary": {
         "title": "Q2 - Recent Purchase",
@@ -127,7 +127,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you prefer shopping in big malls or small stores?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-63-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-63-q3.mp3",
       "sampleAnswer": "I generally prefer small, 'independent boutiques' because they offer a more 'curated selection' and a level of 'personalized service' that massive malls simply cannot replicate. In a small store, there is often a 'human-centric connection' between the shopkeeper and the product, which adds a layer of 'authenticity' to the transaction. Malls, while 'logistically convenient' and climate-controlled, often feel 'sterile and homogenized'—every floor seems to contain the same 'global corporate brands.' I value the 'serendipity' of finding unique, 'locally-sourced' items that tell a story, which is much more likely in a 'specialized small-scale' environment.",
       "vocabulary": {
         "title": "Q3 - Malls vs Small Stores",
@@ -172,7 +172,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What's your favourite food?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-63-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-63-q4.mp3",
       "sampleAnswer": "I have an 'eclectic palate,' but I am consistently drawn to Mediterranean cuisine, primarily for its 'vibrant flavor profiles' and focus on 'unprocessed, seasonal ingredients.' I find the combination of fresh olive oil, aromatic herbs, and lean protein to be both 'nutritionally balanced' and sensorily satisfying. Beyond the physical taste, I appreciate the 'cultural philosophy' behind the food—it's designed to be shared slowly in a 'communal setting,' which emphasizes 'social connection' over mere fuel consumption. It's an 'ancient culinary tradition' that feels perfectly suited to a healthy modern lifestyle.",
       "vocabulary": {
         "title": "Q4 - Favourite Food",
@@ -217,7 +217,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like to cook?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-63-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-63-q5.mp3",
       "sampleAnswer": "I view cooking as a form of 'creative alchemy'—the process of taking raw, disparate elements and 'synthesizing' them into a coherent and nourishing experience. I enjoy the 'tactile nature' of food preparation; it acts as a 'meditative decompression' at the end of a busy day. I'm particularly interested in 'iterative cooking,' where I constantly refine a single recipe over several weeks to understand the 'chemical nuances' of different spices and heat levels. It provides a sense of 'culinary agency'—I know exactly what's in my food and I can 'calibrate' the taste to my exact preferences. It's a 'practical art form' that I find deeply rewarding.",
       "vocabulary": {
         "title": "Q5 - Cooking Habits",
@@ -264,7 +264,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What food is popular in your country?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-63-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-63-q6.mp3",
       "sampleAnswer": "My country has a very 'tradition-heavy' culinary landscape, dominated by slow-cooked stews and complex grain dishes that reflect our 'agrarian heritage.' These meals are often 'labor-intensive' and require a deep understanding of 'spice-blending techniques,' resulting in 'rich, multi-layered textures.' Recently, however, there's been a 'rapid globalization' of our food culture, with a massive 'proliferation' of international fast-food chains and fusion restaurants. We are currently in a phase of 'culinary transition,' where the younger generation is trying to 'reconcile' our historic flavors with modern, 'fast-paced lifestyles.' It's a fascinating 'fusion of old and new' on a single plate.",
       "vocabulary": {
         "title": "Q6 - Popular Food in Country",
@@ -310,7 +310,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is it important to have a healthy diet?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-63-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-63-q7.mp3",
       "sampleAnswer": "I consider a healthy diet to be the 'biological foundation' for every other aspect of human performance and 'psychological well-being.' We are essentially 'carbon-based machines,' and the 'quality of our fuel' directly determines our 'cognitive clarity,' energy levels, and 'immune resilience.' Beyond mere survival, a 'nutrient-dense' diet is a form of 'proactive healthcare'—it's much more efficient to prevent illness through 'nutritional mindfulness' than to treat it later with medicine. I believe that understanding 'nutrition science' should be seen as a 'vital life skill' rather than just a dietary fad. It's an investment in your 'future self' that pays dividends every single day.",
       "vocabulary": {
         "title": "Q7 - Importance of Healthy Diet",
@@ -355,7 +355,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a historical building you have visited.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-63-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-63-q8.mp3",
       "bulletPoints": [
         "where it is",
         "what it looks like",
@@ -412,7 +412,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is it important to preserve historical buildings?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-63-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-63-q9.mp3",
       "sampleAnswer": "I believe that 'heritage preservation' is a fundamental duty of any 'civilized society'; historical buildings are not just 'piles of masonry,' they are the 'physical repositories' of our collective story. They provide a sense of 'social continuity' and 'cultural grounding' in an increasingly 'ephemeral digital world.' Without them, we lose the 'tangible evidence' of our evolution and the 'architectural lessons' of our ancestors. They are 'non-renewable resources'—once they are demolished to make way for 'modern utility,' that specific link to our past is 'permanently severed.' We preserve them to remind ourselves where we came from and to 'inspire' future generations with the 'longevity' of human creation.",
       "vocabulary": {
         "title": "Q9 - Importance of Preservation",
@@ -457,7 +457,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Should older buildings be used for modern purposes?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-63-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-63-q10.mp3",
       "sampleAnswer": "I advocate for a strategy of 'adaptive reuse,' where historical structures are 're-integrated' into modern life rather than being kept as 'static museums.' Converting an old factory into a 'creative hub' or an ancient palace into a library ensures that the building remains 'vibrant and maintained' through daily use. It's a way to 'honor the past' while serving the 'functional needs' of the present. However, this must be done with 'architectural sensitivity' to ensure that the 'original character' and 'structural integrity' of the building are not 'compromised' by the new interventions. It's about finding the 'synergy' between history and modernity.",
       "vocabulary": {
         "title": "Q10 - Adaptive Reuse",
@@ -502,7 +502,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Why do people visit historical buildings?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-63-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-63-q11.mp3",
       "sampleAnswer": "I think the primary driver is a search for 'temporal grounding' and a desire to escape the 'clinical sterility' of modern environments. Visiting a historical site allows for a 'visceral connection' to the past that a textbook or a documentary simply cannot provoke. There's a 'somatic quality' to touching stone that was carved centuries ago—it's a 'physical verification' of our existence across time. Furthermore, people are often drawn to the 'aesthetic richness' and 'hand-crafted detail' of older architecture, which reflects a level of 'artistic dedication' that is often missing from today's 'cost-optimized construction.' It's an act of 'cultural pilgrimage'—seeking out the 'pinnacles' of our shared human narrative to understand our own place within it.",
       "vocabulary": {
         "title": "Q11 - Motivations for Visiting History",
@@ -548,7 +548,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How can architecture define a nation's identity?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-63-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-63-q12.mp3",
       "sampleAnswer": "Architecture is essentially 'culture made visible'; it serves as the 'primary landscape' of a nation's collective soul. The 'structural choices,' materials, and 'monumental scale' of a country's buildings reflect its 'historical triumphs,' religious values, and even its 'philosophical outlook' on the world. For example, the 'monolithic stability' of ancient structures might symbolize 'enduring authority,' while modern, 'transparent glass' skyscrapers could reflect an aspiration toward 'openness and innovation.' When a nation builds, it is 'articulating its narrative' to the rest of the world and to its own citizens. These buildings become 'national icons' that provide a sense of 'shared pride' and 'internal cohesion,' anchoring the national identity in a 'physical reality' that transcends the lifespan of individuals.",
       "vocabulary": {
         "title": "Q12 - Architecture and Identity",
@@ -594,7 +594,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Does modern architecture lack the character of older styles?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-63-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-63-q13.mp3",
       "sampleAnswer": "I think there is a 'perceived deficit of soul' in much of modern architecture, primarily because it's often driven by 'industrial efficiency' and 'standardized minimalism' rather than 'local craftsmanship.' Older styles were deeply 'embedded in their geographic context'—using local stone and responding to specific 'climatic constraints'—which gave them a unique 'sense of place.' Modern architecture, conversely, can feel 'deterritorialized'—the same glass tower could exist in Dubai, London, or Tokyo with no 'discernible difference.' However, I would argue that modernism has its own 'austere beauty' and 'technological elegance.' The lack of 'ornamentation' allows for a focus on 'volume and light,' which is a different, more 'abstract' form of character that we are still 'learning to interpret.'",
       "vocabulary": {
         "title": "Q13 - Modern vs Traditional Character",
@@ -639,7 +639,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What role do buildings play in our everyday well-being?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-63-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-63-q14.mp3",
       "sampleAnswer": "The buildings we inhabit are the 'invisible scaffolding' of our 'psychological health'; they exert a constant, 'subconscious influence' on our mood and 'cognitive performance.' Environments with 'abundant natural light,' high ceilings, and 'biophilic elements'—like integrated greenery—can significantly 'lower cortisol levels' and boost 'creative output.' Conversely, living in 'cramped, windowless' or 'poorly-ventilated' spaces can lead to a sense of 'existential constriction' and chronic stress. Architecture should be seen as a 'public health instrument' rather than just a 'property asset.' By designing for 'human flourishing'—prioritizing 'air quality, acoustics, and communal spaces'—we can fundamentally 'enhance the baseline quality' of urban life for everyone.",
       "vocabulary": {
         "title": "Q14 - Architecture and Well-being",
@@ -684,7 +684,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Should government or private individuals be responsible for historic preservation?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-63-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-63-q15.mp3",
       "sampleAnswer": "I believe a 'synergistic partnership' is required, but the 'ultimate stewardship' must rest with the government. Because historical sites are a 'public cultural good,' the state has a 'moral and legal obligation' to provide the 'protective legislation' and 'financial subsidies' necessary for their survival. Private ownership, while valuable for 'daily maintenance and innovation,' is often driven by 'short-term profit' which can conflict with 'long-term conservation goals.' However, the government should offer 'tax incentives' and 'grants' to encourage private citizens to participate in the 'preservation effort.' It's about 'mutualizing the cost' of our heritage to ensure that 'private interests' do not 'permanently erase' our shared history. Preservation is a 'non-partisan investment' in our future identity.",
       "vocabulary": {
         "title": "Q15 - Responsibility for Preservation",
@@ -729,7 +729,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How will technology change the way we build in the future?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-63-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-63-q16.mp3",
       "sampleAnswer": "I anticipate a move toward 'generative and adaptive' architecture, where buildings are no longer 'static objects' but 'responsive organisms.' With the integration of 'smart materials' and 'real-time sensors,' a future building might 'morph its exterior' to optimize for solar heat or 'reconfigure its internal layout' based on the occupants' immediate needs. Furthermore, the 'automation of construction'—through massive '3D-printing systems'—will likely allow for much more 'organic and complex geometry' at a fraction of the current 'cost and waste.' We will also see the rise of 'circular construction,' where buildings are designed from the start to be 'modular and disassembled,' treating the materials as a 'perpetual bank' rather than trash. We're moving from 'heavy, linear masonry' to 'light, algorithmic ecosystems.'",
       "vocabulary": {
         "title": "Q16 - Future of Construction",
@@ -774,7 +774,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Can architecture solve social problems, like housing shortages or isolation?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-63-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-63-q17.mp3",
       "sampleAnswer": "Architecture is a 'necessary but insufficient' solution; it can provide the 'structural foundation' for social improvement, but it cannot 'mandate' social change. Well-designed 'high-density social housing' that prioritizes 'communal gardens and shared walkways' can certainly 'mitigate isolation' and foster a sense of 'neighborly trust.' Similarly, 'modular and scalable' architecture is essential for addressing 'unprecedented urbanization' and housing crises. However, these physical spaces must be 'complemented' by 'social infrastructure'—like funding for community events and supportive local policies. You can't just 'build your way' out of loneliness, but you can certainly 'build environments' that make 'connection and dignity' much more likely. It's about 'spatial enablement.'",
       "vocabulary": {
         "title": "Q17 - Architecture and Social Issues",

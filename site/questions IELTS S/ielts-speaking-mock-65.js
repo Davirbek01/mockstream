@@ -6,7 +6,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "IELTS Mock Stream",
     "telegramChannel": "@ieltsmockstream",
     "testIdentifier": "mock_stream_65",
@@ -14,8 +14,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Mobility, Meteorology & Quietude"
   },
   "images": {
-    "img1": "https://i.ibb.co/gM1bMSXS/image.png",
-    "img2": "https://i.ibb.co/G4QH85qq/image.png",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/gM1bMSXS-image.png",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/G4QH85qq-image.png",
     "img1Alt": "Placeholder 1",
     "img2Alt": "Placeholder 2"
   },
@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How did you get here today?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-65-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-65-q1.mp3",
       "sampleAnswer": "I arrived today via a 'combination of transit modes,' primarily utilizing the city's 'underground rail network.' I find that during 'peak traffic intervals,' the subterranean system offers the most 'predictable commute,' bypassing the 'gridlock' that often plagues the surface streets. It was a remarkably 'seamless journey,' allowing me several minutes of 'undistracted reflection' before the session began. I consider myself fortunate to reside in an area with such 'robust connectivity,' as it significantly reduces the 'temporal burden' of daily movement. Efficiency and reliability are my 'primary metrics' when choosing a route.",
       "vocabulary": {
         "title": "Q1 - Arrival Mode",
@@ -82,7 +82,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What is your favourite mode of transport?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-65-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-65-q2.mp3",
       "sampleAnswer": "My 'predisposition' is strongly toward 'long-distance rail travel,' which I view as a 'deeply contemplative' way to move through the world. Unlike the 'sanitized anonymity' of air travel, a train offers a 'panoramic engagement' with the changing landscape, providing a 'tangible sense' of geological and cultural transition. There is a specific 'rhythmic cadence' to the movement that I find exceptionally conducive to 'deep work' or creative thought. It strikes a perfect balance between 'mechanized speed' and 'human-scale observation.' Furthermore, it is the most 'ecologically responsible' choice for meaningful travel.",
       "vocabulary": {
         "title": "Q2 - Favorite Transport",
@@ -128,7 +128,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What is the difference between taking a bus and taking a train?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-65-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-65-q3.mp3",
       "sampleAnswer": "The 'fundamental divergence' lies in the 'consistency of passage' and the 'spatial environment.' Trains generally benefit from 'dedicated corridors,' which means they are 'immune to the variables' of urban congestion, whereas buses are subject to the same 'erratic flow' as private vehicles. Architecturally, trains offer more 'internal mobility' and a sense of 'composed stability' that is often missing from the 'stop-start turbulence' of a bus. However, buses provide a much more 'granular accessibility'—they can 'penetrate the residential fabric' of a city where rail infrastructure is logistically impossible. It's a trade-off between 'macro-speed' and 'micro-convenience.'",
       "vocabulary": {
         "title": "Q3 - Bus vs Train",
@@ -174,7 +174,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What's the weather like today?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-65-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-65-q4.mp3",
       "sampleAnswer": "Currently, we are experiencing a period of 'atmospheric volatility,' with 'overcast skies' and a 'perceptible drop' in barometric pressure. The morning began with a 'subtle morning mist' that has since thickened into a 'persistent drizzle,' creating a somewhat 'somber urban aesthetic.' It's the kind of 'muted, temperate' day that encourages 'indoor productivity' rather than outdoor exploration. While some might find it 'damp and discouraging,' I actually appreciate the 'soft diffusion of light' which provides a break from the 'harsh intensity' of recent clear days. It feels like the region is in a state of 'meteorological transition.'",
       "vocabulary": {
         "title": "Q4 - Today's Weather",
@@ -220,7 +220,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What's your favourite weather?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-65-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-65-q5.mp3",
       "sampleAnswer": "I am most 'attuned' to the 'crisp, crystalline clarity' of late autumn—specifically days where there is a 'sharp morning chill' followed by 'unobstructed golden sunlight.' I find this 'thermal contrast' to be incredibly 'invigorating' for both physical activity and mental focus. There is a 'luminous quality' to the air during this season that seems to 'sharpen the visual landscape,' making every detail appear more 'vivid and defined.' This weather feels 'clean and clinical,' stripped of the 'oppressive humidity' of summer or the 'lethargic gloom' of deep winter. For me, it is the 'pinnacle of meteorological comfort.'",
       "vocabulary": {
         "title": "Q5 - Favorite Weather",
@@ -266,7 +266,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Does the weather ever affect the way you feel?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-65-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-65-q6.mp3",
       "sampleAnswer": "Absolutely; I believe humans possess an 'inherent biological sensitivity' to 'seasonal and daily fluctuations' in light and temperature. I've noticed a 'direct correlation' between prolonged periods of 'low-luminosity'—like grey, rainy weeks—and a subtle 'decline in my cognitive energy' and general mood. Conversely, an 'abundance of solar radiation' acts as a 'potent psychological catalyst,' triggering a sense of 'boundless optimism' and proactivity. It's almost as if my 'internal clock' is 'hard-wired' to sync with the 'environmental rhythm' of the outside world. I have to be 'mindful' of these shifts to ensure I maintain a consistent level of 'emotional equilibrium' throughout the year.",
       "vocabulary": {
         "title": "Q6 - Weather and Mood",
@@ -312,7 +312,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Does the weather in your country ever affect transportation?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-65-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-65-q7.mp3",
       "sampleAnswer": "Our infrastructure is particularly 'vulnerable' to extreme 'meteorological anomalies,' such as 'flash flooding' or 'unprecedented snowfall.' When we experience 'dense atmospheric fog,' the 'disruption to aviation' and maritime routes is almost immediate, leading to a 'cascading delay' across the entire transit network. Furthermore, 'prolonged heatwaves' can cause 'thermal expansion' in rail lines, necessitating 'speed restrictions' which cripple the usual 'operational efficiency.' It's a reminder that no matter how 'technologically advanced' we become, we are still ultimately 'subservient' to the 'capricious power' of the natural climate. It necessitates a 'constant state of logistical readiness.'",
       "vocabulary": {
         "title": "Q7 - Weather and Transport Impact",
@@ -357,7 +357,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a quiet place that you like to go to.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-65-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-65-q8.mp3",
       "bulletPoints": [
         "what place it is",
         "how often you go there, when you go there",
@@ -414,7 +414,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is it easy to find a quiet place in your city?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-65-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-65-q9.mp3",
       "sampleAnswer": "I would say it requires a 'deliberate and strategic effort'; quietude has effectively become a 'luxurious commodity' in the modern metropolis. Most 'official' parks are often 'saturated' with loudspeakers, screaming children, or nearby traffic noise. You have to look for the 'gaps in the urban logic'—places like semi-abandoned industrial areas, specialized libraries, or 'interstitial green spaces' that have no 'commercial utility.' Finding 'authentic silence' in an 'over-designed' city is like searching for 'negative space' in a crowded painting—it's there, but you have to 'train your eye' to see it.",
       "vocabulary": {
         "title": "Q9 - Scarcity of Quiet",
@@ -458,7 +458,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like to go to quiet places alone or with others?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-65-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-65-q10.mp3",
       "sampleAnswer": "I value 'solitary quietude' far more than 'communal silence.' When you're with another person, there is always a 'latent social pressure'—a feeling that you should maintain 'shared attention' or that the silence might become 'awkward or heavy.' Being alone in a quiet place allows for a 'total suspension of social performance.' It's only in that 'state of isolation' that I can truly experience 'internal introspection' and allow my 'subconscious' to surface. For me, quiet places are for 'self-unification,' not'interpersonal bonding.'",
       "vocabulary": {
         "title": "Q10 - Solitary vs Shared Silence",
@@ -501,7 +501,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Does noise have an impact on people’s health?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-65-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-65-q11.mp3",
       "sampleAnswer": "I believe 'chronic noise exposure' is a vastly 'underestimated public health crisis'; it is far more than just a 'nuisance.' Prolonged exposure to 'high-decibel environments'—even if they are just background hums—keeps our 'nervous systems' in a constant state of 'hyper-vigilance.' This trigger of our 'fight-or-flight' mechanism leads to 'elevated cortisol levels,' hypertension, and 'severe sleep disruption,' which eventually weakens the 'immune response.' Moreover, the 'cognitive toll' of trying to 'filter out' irrelevant noise causes 'mental fatigue' and significant 'declines in executive function.' Silence is not just a 'preference'; it is a 'biological necessity' for the 'long-term regulation' of the human body and mind.",
       "vocabulary": {
         "title": "Q11 - Health Impacts of Noise",
@@ -546,7 +546,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What's the difference between the noise in cities and the noise in the countryside?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-65-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-65-q12.mp3",
       "sampleAnswer": "The 'fundamental distinction' is between 'mechanized cacophony' and 'organic rhythmic activity.' Urban noise is characterized by its 'aggressive unpredictability' and 'industrial timbre'—sirens, construction, and the 'persistent drone' of climate-controlled buildings. It is a 'disjointed assault' on our 'auditory processing.' Conversely, rural noise—like the 'intermittent bleat' of livestock, the 'shushing of wind' through grain, or 'insect activity'—tends to be 'lower frequency' and more 'cyclical.' We find countryside sounds more 'tolerable' because our 'brains are evolutionarily calibrated' to interpret them as 'signals' rather than 'interference.' City noise is 'information-heavy' and stressful, while nature's noise is 'atmospheric' and often calming.",
       "vocabulary": {
         "title": "Q12 - Urban vs Rural Noise",
@@ -590,7 +590,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think people will be more likely to live in a quiet place in the future?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-65-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-65-q13.mp3",
       "sampleAnswer": "I anticipate a 'mass-migration' toward 'acoustic tranquility' as 'noise-fatigue' becomes a 'primary driver' for relocation decisions. As 'remote-work' becomes 'normalized,' the 'logistical mandate' for living in high-density urban centers is 'evaporating.' People are realizing that they can 'prioritize their psychological well-being' by choosing environments that allow for 'deep focus' and better sleep. I suspect we will see the rise of 'designed quiet zones' and 'rural-suburban hybrids' that offer both 'digital connectivity' and 'physical silence.' Silence is becoming the new 'ultimate luxury,' and the 'market' will inevitably 'shift' to cater to this 'fundamental human craving.'",
       "vocabulary": {
         "title": "Q13 - Future of Living in Quiet",
@@ -635,7 +635,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Is the noise level in cities increasing or decreasing?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-65-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-65-q14.mp3",
       "sampleAnswer": "I believe it is 'exponentially increasing' but its 'character' is shifting from 'industrial' to 'digital and pervasive.' While 'electric vehicles' might eventually reduce 'low-frequency engine hum,' the 'proliferation' of 'unregulated delivery drones,' 'constant construction,' and the 'acoustic saturation' of public spaces with music and advertising is making our cities 'auditorily cluttered.' We are also moving toward '24-hour urban activity,' which eliminates the 'natural nocturnal quietude' that cities once had. We are essentially 'crowding out' the silence. Without 'strict legislative intervention' regarding 'noise-pollution,' I fear our urban environments will become 'toxic acoustic zones' that are 'hostile to human focus.'",
       "vocabulary": {
         "title": "Q14 - Urban Noise Trends",
@@ -680,7 +680,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Should there be laws against noise in residential areas?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-65-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-65-q15.mp3",
       "sampleAnswer": "Absolutely; I view 'acoustic integrity' as a 'fundamental property right' that should be 'vigorously protected' by the state. Without 'stringent noise ordinances,' the 'quality of life' for the majority is 'held hostage' by the 'inconsiderate behavior' of a few. These laws shouldn't just be 'reactive'—responding to complaints—but 'proactive,' requiring 'high-level soundproofing' in new developments as a 'mandatory building standard.' We need to recognize 'noise-pollution' as an 'infringement' on the 'physical and psychological safety' of the citizen. A 'peaceful home' is a 'non-negotiable pillar' of public health, and it is the government's 'obligation' to ensure that 'commercial or individual ego' doesn't 'violate' that sanctity.",
       "vocabulary": {
         "title": "Q15 - Legal Protection from Noise",
@@ -725,7 +725,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Why do some people like loud music while others prefer silence?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-65-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-65-q16.mp3",
       "sampleAnswer": "I suspect it's a 'complex interplay' between 'neural thresholds' and 'psychological needs.' Those who seek out 'high-volume stimulation' often use it as an 'externalized focus' to 'drown out' their own 'internal monologue' or to achieve a sense of 'visceral catharsis.' The 'somatic energy' of loud sound can provide a 'temporal escape' from anxiety. Conversely, those who prefer 'silence' often have a 'higher sensitivity' to 'sensory input'; they find that 'ambient noise' creates 'cognitive distortion' and prevents them from 'accessing their inner landscape.' For them, silence isn't 'empty'—it's the 'canvas' upon which they can 'paint their own thoughts.' It's ultimately a 'spectrum of arousal' preference.",
       "vocabulary": {
         "title": "Q16 - Loudness vs Silence Preference",
@@ -770,7 +770,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Could total silence be stressful for some people?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-65-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-65-q17.mp3",
       "sampleAnswer": "Fascinatingly, yes; for individuals 'habitualized' to 'constant acoustic stimulus,' total silence can trigger a sense of 'existential dread' or 'sensory disorientation.' When the 'external noise' stops, the 'internal volume' of one's own 'unresolved anxieties' or even 'biological micro-sounds'—like the hum of the nervous system—can become 'unbearable.' They experience it as a 'void' rather than a 'refuge.' It's often called 'the horror of the vacuum.' For these people, 'silence is a mirror' that they are not yet 'prepared to look into.' They require a 'layer of white noise' as a 'protective psychological buffer' to feel 'grounded' in reality. It's about 'tolerance for internal stillness.'",
       "vocabulary": {
         "title": "Q17 - The Stress of Total Silence",

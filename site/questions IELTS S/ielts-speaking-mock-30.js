@@ -6,7 +6,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "IELTS Mock Stream",
     "telegramChannel": "@ieltsmockstream",
     "testIdentifier": "mock_stream_30",
@@ -14,8 +14,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Gift & Noise"
   },
   "images": {
-    "img1": "https://i.ibb.co/gM1bMSXS/image.png",
-    "img2": "https://i.ibb.co/G4QH85qq/image.png",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/gM1bMSXS-image.png",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/G4QH85qq-image.png",
     "img1Alt": "Placeholder 1",
     "img2Alt": "Placeholder 2"
   },
@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think there's too much noise in modern society?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-30-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-30-q1.mp3",
       "sampleAnswer": "Yes, I think this is one of the less-discussed but genuinely significant quality-of-life issues in modern urban life. The ambient noise level in cities has increased substantially over the past century—traffic, construction, commercial activity, and the general density of urban living all contribute to a soundscape that is often relentlessly loud. Research in environmental health has established quite clearly that chronic exposure to noise has measurable negative effects on health—elevated stress hormones, disrupted sleep, cardiovascular effects, and impaired concentration are all documented consequences of living in noisy environments. What makes this particularly concerning is that much of this noise is essentially invisible as a problem—people adapt to it and stop consciously noticing it, even as it continues to affect them physiologically. I think noise pollution deserves far more attention as a public health issue than it currently receives, and urban planning should place much greater emphasis on creating quieter, more acoustically comfortable environments.",
       "vocabulary": {
         "title": "Q1 - Too Much Noise in Modern Society",
@@ -89,7 +89,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Are cities becoming noisier?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-30-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-30-q2.mp3",
       "sampleAnswer": "In most parts of the world, yes—and the trend is likely to continue as urbanisation accelerates and cities grow denser. The primary drivers of urban noise are traffic, construction, and commercial activity, all of which tend to increase as cities expand. The growth of delivery vehicles and logistics traffic in particular has added a new layer of noise to urban environments that wasn't present a generation ago. However, there are some countervailing trends worth noting. Electric vehicles are significantly quieter than petrol and diesel vehicles, and as they become more prevalent, they should reduce one of the major sources of urban noise. Some cities have also become more proactive about noise management—implementing low-noise road surfaces, creating quiet zones around hospitals and schools, and regulating construction hours. Urban green spaces—parks, tree-lined streets, green roofs—also play an important role in absorbing and deflecting noise. So while the overall trend is toward noisier cities, there are tools available to manage this if the political will exists to use them.",
       "vocabulary": {
         "title": "Q2 - Are Cities Getting Noisier",
@@ -144,7 +144,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Are there any sounds that you like?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-30-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-30-q3.mp3",
       "sampleAnswer": "Yes, quite a few, and I find the question of what sounds we find pleasant or unpleasant genuinely fascinating—it reveals a lot about our psychology and our relationship with the natural and social world. I'm particularly drawn to natural sounds—rain on a window, the sound of the sea, wind through trees, birdsong in the morning. There's something deeply restorative about these sounds that I think is connected to our evolutionary history as a species that spent most of its existence in natural environments. The sound of rain in particular has a quality that I find almost meditative—it creates a kind of acoustic cocoon that makes indoor spaces feel more intimate and cosy. I also love the ambient sounds of a busy café—the murmur of conversation, the clinking of cups, the background hum of activity—which I find paradoxically conducive to concentration. And music, of course—particularly live music, where the physical presence of sound in a space has a quality that recorded music can't quite replicate.",
       "vocabulary": {
         "title": "Q3 - Sounds You Like",
@@ -198,7 +198,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What types of noise do you come across in your daily life?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-30-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-30-q4.mp3",
       "sampleAnswer": "The soundscape of my daily life is quite varied, and I've become more conscious of it since I started paying attention to how different sounds affect my mood and concentration. The most pervasive noise in my environment is traffic—the constant background hum of vehicles that is present in virtually every urban space. Construction noise is another frequent presence—there always seems to be building work happening somewhere nearby, and the sounds of drilling, hammering, and heavy machinery are particularly intrusive. At home, the sounds of neighbours—conversations, music, footsteps—filter through walls and floors to varying degrees. In my work environment, the sounds of colleagues talking, phones ringing, and the general ambient noise of an open-plan office are constant companions. I also encounter the noise of public spaces—the announcements and crowd noise of transport hubs, the music played in shops and restaurants, the general hubbub of busy streets. I've found that noise-cancelling headphones have become an important tool for managing my acoustic environment and creating pockets of quiet in otherwise noisy spaces.",
       "vocabulary": {
         "title": "Q4 - Types of Noise in Daily Life",
@@ -252,7 +252,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Have you received a gift you didn't like?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-30-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-30-q5.mp3",
       "sampleAnswer": "Yes, and I think most people have, though the social conventions around gift-giving mean that we rarely acknowledge this openly. The most memorable occasion was receiving a gift that was clearly chosen without much thought about my actual interests or personality—it was a generic item that could have been given to anyone, which made it feel impersonal rather than celebratory. The challenge in that situation is navigating the social expectation of expressing gratitude while being honest—I think most people default to a polite performance of appreciation, which is probably the right social choice even if it involves a degree of inauthenticity. What I found more interesting than the gift itself was what it revealed about the relationship—a gift that shows genuine knowledge of the recipient's interests and personality communicates care in a way that a generic gift simply doesn't. I've tried to use experiences like this to become more thoughtful about the gifts I give, paying attention to what people actually enjoy rather than defaulting to safe, generic options.",
       "vocabulary": {
         "title": "Q5 - Receiving a Gift You Didn't Like",
@@ -303,7 +303,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do people in your country send gifts to show their generosity?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-30-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-30-q6.mp3",
       "sampleAnswer": "Yes, gift-giving is an important social practice in my culture, though I think the motivations are more complex than simply demonstrating generosity. Gifts serve multiple social functions simultaneously: they express affection and care, they mark significant occasions and transitions, they maintain and strengthen social bonds, and—yes—they can also signal status and generosity. In some cultural contexts, the value of a gift is explicitly connected to the social relationship and the occasion—giving too little can be seen as disrespectful, while giving too much can create an uncomfortable obligation for the recipient to reciprocate. I think the most meaningful gifts are those where the primary motivation is genuine care for the recipient rather than social performance—where the giver has thought carefully about what would bring the recipient genuine pleasure or utility. The trend toward experience gifts—concert tickets, restaurant vouchers, spa days—reflects a recognition that many people already have the material things they need and value memorable experiences more than additional possessions.",
       "vocabulary": {
         "title": "Q6 - Gifts and Generosity",
@@ -358,7 +358,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How do you feel when you receive a gift?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-30-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-30-q7.mp3",
       "sampleAnswer": "My emotional response to receiving a gift depends quite significantly on the nature of the gift and the context, but there are some consistent elements. The immediate feeling is almost always a kind of warmth—the knowledge that someone has thought about you and made an effort on your behalf is genuinely touching, regardless of what the gift actually is. When a gift is particularly well-chosen—when it shows that the giver has paid attention to your interests, your tastes, or something you've mentioned—there's an additional layer of feeling seen and understood that I find deeply meaningful. I think this is what distinguishes a truly good gift from a merely adequate one: not the monetary value, but the evidence of genuine attention and care. Conversely, when a gift is clearly generic or impersonal, the warmth is more muted—you appreciate the gesture but feel less of that sense of connection. I also feel a degree of social pressure around receiving gifts—the obligation to respond appropriately, to express the right level of gratitude—which can sometimes get in the way of simply enjoying the moment.",
       "vocabulary": {
         "title": "Q7 - Feelings When Receiving a Gift",
@@ -412,7 +412,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe an occasion when you received good service from a company or shop.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-30-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-30-q8.mp3",
       "bulletPoints": [
         "what company or business it was and what this company does",
         "what the service was and who helped you",
@@ -474,7 +474,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think customer service has improved or declined in recent years?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-30-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-30-q9.mp3",
       "sampleAnswer": "I think it's a genuinely mixed picture that depends heavily on the sector and the type of service. In some areas, service has improved dramatically—online retail has made purchasing faster, more convenient, and more transparent than ever before, and the ability to compare prices, read reviews, and track deliveries represents a genuine improvement in the consumer experience. However, in many face-to-face service contexts, I think there's been a noticeable decline—the replacement of knowledgeable staff with self-service checkouts, chatbots, and automated phone systems has made many interactions more frustrating and impersonal. The pressure to reduce costs has led many businesses to cut staffing levels and training budgets, which shows in the quality of service. I think consumers are increasingly aware of this trade-off and are willing to pay a premium for genuinely good human service—which is one reason why high-quality independent businesses can still thrive despite competition from larger, cheaper alternatives.",
       "vocabulary": {
         "title": "Q9 - Customer Service Trends",
@@ -527,7 +527,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How important is it for businesses to provide good customer service?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-30-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-30-q10.mp3",
       "sampleAnswer": "Critically important, and I think the evidence from business research is unambiguous on this point. Customer service is one of the primary drivers of customer loyalty, repeat business, and word-of-mouth recommendation—all of which are essential to long-term business success. Research consistently shows that customers who have a positive service experience are significantly more likely to return and to recommend the business to others, while customers who have a negative experience are not only unlikely to return but are likely to share their negative experience widely, particularly through online reviews. In an era where consumers have more choices than ever and switching costs are low, the quality of service is often the decisive factor in whether a customer chooses one business over another. I also think good service has intrinsic value beyond its commercial benefits—businesses that treat their customers with genuine respect and care contribute to a more positive social environment, while those that treat customers as problems to be managed create frustration and resentment. The businesses that consistently deliver exceptional service tend to be those where the culture of care starts at the top and permeates the entire organisation.",
       "vocabulary": {
         "title": "Q10 - Importance of Good Customer Service",
@@ -581,7 +581,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What are the benefits and drawbacks of consumerism for a country's economy?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-30-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-30-q11.mp3",
       "sampleAnswer": "Consumerism is one of the most consequential and contested features of modern economies, and its effects are genuinely double-edged. On the positive side, consumer spending is the engine of economic growth in most developed economies—it drives demand for goods and services, which in turn drives production, employment, and investment. A culture of consumption supports entire industries and supply chains, creates jobs at every level of the economy, and generates tax revenue that funds public services. Consumer choice also drives innovation—competition for consumer spending pushes companies to develop better, cheaper, and more efficient products. On the negative side, consumerism has significant environmental costs—the production, transportation, and disposal of consumer goods is a major driver of carbon emissions, resource depletion, and waste. There are also social and psychological costs—research suggests that beyond a certain level of material comfort, additional consumption does not increase wellbeing and may actually undermine it by fostering comparison, dissatisfaction, and a focus on material acquisition at the expense of more meaningful sources of fulfilment. The challenge for modern economies is finding ways to maintain economic dynamism while transitioning to more sustainable patterns of production and consumption.",
       "vocabulary": {
         "title": "Q11 - Consumerism: Benefits and Drawbacks",
@@ -636,7 +636,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What are the advantages and disadvantages of shopping at a big shopping centre?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-30-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-30-q12.mp3",
       "sampleAnswer": "Large shopping centres offer a distinctive combination of advantages and disadvantages that explain both their popularity and the criticism they attract. On the positive side, the primary advantage is convenience—having a wide range of shops, services, and often food and entertainment options in a single, easily accessible location saves time and simplifies the shopping experience. Shopping centres are also typically climate-controlled, which makes them comfortable regardless of the weather—an important consideration in countries with extreme climates. They often offer free parking, which makes them accessible to people who drive. The social dimension is also significant—shopping centres function as social spaces where people meet, browse, and spend time together, particularly for younger people. On the negative side, large shopping centres tend to be dominated by chain stores and brands, which reduces variety and can undermine local independent businesses. They're often located on the outskirts of cities, which makes them inaccessible without a car and contributes to urban sprawl. The homogenisation of retail—the same shops appearing in every shopping centre in every city—creates a kind of placelessness that many people find dispiriting. And the environmental footprint of large retail developments—the land use, the car dependency, the energy consumption—is significant.",
       "vocabulary": {
         "title": "Q12 - Shopping Centres: Pros and Cons",
@@ -691,7 +691,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What makes large shopping malls so popular?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-30-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-30-q13.mp3",
       "sampleAnswer": "The popularity of large shopping malls reflects a combination of practical and psychological factors that go beyond simply the availability of shops. At the practical level, the consolidation of retail, food, and entertainment in a single location offers genuine convenience—you can accomplish multiple purposes in a single trip, which is appealing in time-pressured modern life. The controlled environment is another practical draw—shopping malls are safe, clean, and comfortable regardless of external conditions, which makes them particularly appealing in hot, cold, or rainy climates. At a deeper level, I think shopping malls tap into fundamental human desires for social interaction, stimulation, and the pleasure of browsing and discovery. They're designed with considerable sophistication to maximise the time people spend in them—the layout, lighting, temperature, and sensory environment are all carefully calibrated to create a pleasurable experience. For many people, particularly in suburban or car-dependent environments, shopping malls also function as de facto public spaces—places to walk, socialise, and spend time outside the home without the unpredictability of genuinely public urban spaces. This social function is arguably as important as the retail function in explaining their enduring popularity.",
       "vocabulary": {
         "title": "Q13 - Why Shopping Malls Are Popular",
@@ -746,7 +746,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What are the differences between shopping online and in-store?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-30-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-30-q14.mp3",
       "sampleAnswer": "Online and in-store shopping offer fundamentally different experiences that suit different purposes and preferences. Online shopping excels in convenience, price comparison, and range—you can browse millions of products from anywhere at any time, compare prices instantly, read reviews from other customers, and have items delivered to your door, often within a day or two. It's particularly well-suited to purchasing items you already know you want—books, electronics, household goods—where the decision is primarily about price and availability rather than the experience of the product itself. In-store shopping offers things that online retail cannot: the ability to see, touch, and try products before buying; the guidance of knowledgeable staff; the immediate gratification of taking something home immediately; and the social and sensory experience of being in a physical retail environment. It's particularly valuable for purchases where the physical experience of the product matters—clothing, furniture, food—or where you want expert advice. The two modes of shopping are increasingly complementary rather than competitive—many people research online and buy in-store, or vice versa—and the most successful retailers are those who integrate both channels effectively.",
       "vocabulary": {
         "title": "Q14 - Online vs In-Store Shopping",
@@ -799,7 +799,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What do you think are the pros and cons of shopping online?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-30-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-30-q15.mp3",
       "sampleAnswer": "Online shopping has transformed retail in ways that offer genuine benefits but also create real problems. On the positive side, the convenience is unparalleled—the ability to shop at any time, from anywhere, with access to a virtually unlimited range of products at competitive prices, is a genuine improvement in consumer welfare. Price transparency and the ease of comparison shopping have also made consumers more empowered and have driven down prices in many categories. For people with mobility limitations, those in rural areas, or those with demanding schedules, online shopping provides access to goods that would otherwise be difficult or impossible to obtain. On the negative side, the growth of online retail has had devastating effects on many high streets and town centres, contributing to the closure of independent shops and the hollowing out of local retail communities. The environmental impact of the delivery logistics—the packaging waste, the delivery vehicles, the high rate of returns—is also significant. There are also concerns about the dominance of a small number of very large platforms, which raises questions about market power, worker conditions in warehouses, and the tax practices of global e-commerce companies. And the ease of online shopping can encourage impulsive purchasing and overconsumption in ways that are not always in consumers' best interests.",
       "vocabulary": {
         "title": "Q15 - Pros and Cons of Online Shopping",
@@ -856,7 +856,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Are small shops important?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-30-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-30-q16.mp3",
       "sampleAnswer": "Yes, I think they're important in ways that go well beyond their economic contribution, though that contribution is also significant. Small, independent shops are often the primary employers in local communities and contribute substantially to local economies through the taxes they pay and the local supply chains they support. But their importance extends beyond economics. Independent shops give high streets and town centres their distinctive character—they reflect the particular tastes, interests, and culture of the communities they serve in a way that chain stores, by definition, cannot. A high street of independent shops is a living expression of local identity; a high street of chain stores is interchangeable with any other. Small shops also tend to offer a quality of service and expertise that larger retailers struggle to match—the specialist knowledge of an independent bookshop owner, a local butcher, or a specialist wine merchant is genuinely valuable and increasingly rare. There's also a social dimension—small shops often function as community anchors, places where people know each other and where a sense of local belonging is maintained. The decline of small shops in many countries has contributed to a broader erosion of community life that I think deserves to be taken seriously.",
       "vocabulary": {
         "title": "Q16 - Importance of Small Shops",
@@ -910,7 +910,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What are the advantages and disadvantages of shopping in small shops?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-30-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-30-q17.mp3",
       "sampleAnswer": "Small shops offer a distinctive shopping experience with genuine strengths and real limitations. On the positive side, the most significant advantage is the quality of service and expertise—small shop owners and their staff typically have deep knowledge of their products and a genuine passion for what they sell, which translates into advice and recommendations that are far more valuable than anything you'd receive in a large chain or online. The personal relationship that develops over time between a small shop and its regular customers is also valuable—being known, being remembered, and having your preferences anticipated creates a shopping experience that feels genuinely human. Small shops also tend to offer more distinctive, curated selections—you're more likely to discover something unusual or unexpected than in a large retailer that stocks only the most commercially successful products. On the negative side, small shops typically have higher prices than large retailers, reflecting their lower purchasing power and higher operating costs per unit sold. Their range is necessarily more limited, which means they may not have exactly what you're looking for. Their opening hours are often more restricted, and they may not offer the convenience of online ordering and delivery. For routine, price-sensitive purchases, large retailers and online platforms are simply more practical. The ideal is probably to use small shops for the purchases where their strengths—expertise, curation, personal service—are most valuable, and larger retailers for everything else.",
       "vocabulary": {
         "title": "Q17 - Small Shops: Advantages and Disadvantages",

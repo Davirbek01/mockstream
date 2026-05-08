@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "@mock_stream",
     "testIdentifier": "mock_stream",
@@ -15,8 +15,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Chet tilini bilish darajasi"
   },
   "images": {
-    "img1": "https://i.ibb.co/zhvyCBbQ/image.png",
-    "img2": "https://i.ibb.co/mFz3R3X0/image.png",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/zhvyCBbQ-image.png",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/mFz3R3X0-image.png",
     "img1Alt": "Kids playing video games on couch",
     "img2Alt": "Children playing football outdoors"
   },
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Please tell me about your daily routine.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-19-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-19-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>My <span class=\"ml-token colloc\">daily routine</span> is <span class=\"ml-token adv\">fairly</span> structured, which helps me stay productive and organized throughout the day.</div>\n\n<div>I <span class=\"ml-token adv\">typically</span> wake up around 6:30 in the morning. After freshening up, I have a light breakfast and spend some time reading the news or checking my emails. Then I head to work or start my online classes, depending on the day.</div>\n\n<div>In the afternoon, I take a short break for lunch and <span class=\"ml-token adv\">usually</span> go for a brief walk to <span class=\"ml-token phrasal\">clear my head</span>. My evenings are reserved for personal activities – I might study, exercise, or spend time with family. Before bed, I <span class=\"ml-token adv\">often</span> read a book or listen to relaxing music. I try to <span class=\"ml-token phrasal\">wind down</span> by 10 PM to ensure I get enough sleep. As they say, <span class=\"ml-token proverb\">\"A routine is the foundation of success.\"</span></div>",
       "vocabulary": {
@@ -78,7 +78,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Describe your favorite season.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-19-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-19-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>My <span class=\"ml-token colloc\">favorite season</span> is <span class=\"ml-token adv\">undoubtedly</span> spring. There's something <span class=\"ml-token adv\">truly</span> magical about this time of year that <span class=\"ml-token adv\">always</span> lifts my spirits.</div>\n\n<div>What I love most about spring is the sense of <span class=\"ml-token colloc\">renewal and rebirth</span>. After the cold, gray winter months, seeing flowers bloom and trees turn green again is <span class=\"ml-token adv\">incredibly</span> refreshing. The weather is <span class=\"ml-token adv\">pleasantly</span> mild – not too hot, not too cold – perfect for outdoor activities.</div>\n\n<div>I also appreciate the longer days that come with spring. There's more sunlight, which <span class=\"ml-token adv\">positively</span> affects my mood and energy levels. The sound of birds singing in the morning creates such a <span class=\"ml-token colloc\">peaceful atmosphere</span>. As the proverb says, <span class=\"ml-token proverb\">\"Spring brings new beginnings,\"</span> and I find that this season <span class=\"ml-token adv\">genuinely</span> inspires me to start <span class=\"ml-token colloc\">fresh projects</span> and set new goals.</div>",
       "vocabulary": {
@@ -116,7 +116,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What kind of music do you enjoy?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-19-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-19-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I have quite <span class=\"ml-token colloc\">eclectic taste</span> in music, but if I had to choose, I'd say I <span class=\"ml-token adv\">particularly</span> enjoy pop and indie music.</div>\n\n<div>Pop music appeals to me because of its <span class=\"ml-token colloc\">catchy melodies</span> and upbeat rhythms. It's perfect for when I need to boost my energy, whether I'm exercising or doing household chores. The lyrics are <span class=\"ml-token adv\">usually</span> relatable and easy to sing along to.</div>\n\n<div>I also love indie music for its <span class=\"ml-token colloc\">unique sound</span> and thoughtful lyrics. There's something <span class=\"ml-token adv\">genuinely</span> artistic about independent artists who create music from the heart rather than following mainstream trends. I find it <span class=\"ml-token adv\">incredibly</span> relaxing to listen to while studying or reading.</div>\n\n<div>Music is a <span class=\"ml-token colloc\">powerful medium</span> that can <span class=\"ml-token adv\">completely</span> change my mood. As they say, <span class=\"ml-token proverb\">\"Music is the universal language of mankind,\"</span> and I <span class=\"ml-token adv\">wholeheartedly</span> agree.</div>",
       "vocabulary": {
@@ -154,7 +154,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-19-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-19-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>In these two pictures, I can see a <span class=\"ml-token colloc\">clear contrast</span> between two different ways that children spend their free time.</div>\n\n<div>The first image shows two boys sitting on a brown leather couch, playing video games together. They appear to be brothers or close friends, wearing casual plaid shirts. They're holding game controllers and seem <span class=\"ml-token adv\">completely</span> absorbed in what they're playing. One boy is smiling while the other looks <span class=\"ml-token adv\">intensely</span> focused on the screen. The setting is a comfortable living room, suggesting they're at home.</div>\n\n<div>The second picture presents a <span class=\"ml-token adv\">strikingly</span> different scene. A group of young children are playing football outdoors on a grass field. They're wearing colorful sports bibs – some in red and others in white – indicating they're playing a proper match with teams. The children appear energetic and <span class=\"ml-token adv\">actively</span> engaged in the game, running after the ball.</div>\n\n<div>These images <span class=\"ml-token adv\">effectively</span> illustrate two popular <span class=\"ml-token colloc\">leisure activities</span> among young people today – <span class=\"ml-token colloc\">indoor gaming</span> versus <span class=\"ml-token colloc\">outdoor sports</span>. Each activity has its own appeal and offers different benefits to children's development.</div>",
       "vocabulary": {
@@ -192,7 +192,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are some advantages of playing outdoor sports compared to video games?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-19-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-19-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Playing outdoor sports offers several <span class=\"ml-token colloc\">significant advantages</span> over video games, <span class=\"ml-token adv\">particularly</span> for children's development.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, and most <span class=\"ml-token adv\">obviously</span>, outdoor sports provide excellent <span class=\"ml-token colloc\">physical exercise</span>. Running, jumping, and moving around help children develop strong muscles, improve cardiovascular health, and maintain a healthy weight. Video games, being <span class=\"ml-token colloc\">sedentary activities</span>, don't offer these physical benefits.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, outdoor sports teach valuable <span class=\"ml-token colloc\">social skills</span>. Children learn teamwork, communication, and how to win and lose gracefully. They interact face-to-face with peers, building real friendships and learning to resolve conflicts. While some video games can be played with others, the interaction is <span class=\"ml-token adv\">fundamentally</span> different.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, being outdoors exposes children to <span class=\"ml-token colloc\">fresh air</span> and sunlight, which are essential for physical and mental well-being. Studies show that time spent in nature reduces stress and improves mood.</div>\n\n<div><span class=\"ml-token adv\">Finally</span>, outdoor sports help develop important <span class=\"ml-token colloc\">life skills</span> like discipline, perseverance, and handling pressure. These experiences <span class=\"ml-token adv\">often</span> translate into success in other areas of life.</div>",
       "vocabulary": {
@@ -230,7 +230,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some people prefer video games over sports?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-19-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-19-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>There are several reasons why many people, <span class=\"ml-token adv\">particularly</span> younger generations, prefer video games over traditional sports.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, convenience plays a <span class=\"ml-token colloc\">major role</span>. Video games can be played anytime, regardless of weather conditions. You don't need to gather a group of people, find a field, or travel anywhere. You can simply sit at home and start playing <span class=\"ml-token adv\">immediately</span>.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, video games offer <span class=\"ml-token colloc\">immersive experiences</span> that transport players to <span class=\"ml-token colloc\">fantasy worlds</span>. The <span class=\"ml-token colloc\">stunning graphics</span>, compelling storylines, and sense of achievement from completing levels or winning matches can be <span class=\"ml-token adv\">incredibly</span> satisfying and addictive.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, some people may lack confidence in their <span class=\"ml-token colloc\">athletic abilities</span>. Sports require physical skills that not everyone possesses, whereas video games level the playing field – success depends on practice and strategy rather than physical prowess.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, gaming has become a <span class=\"ml-token colloc\">social activity</span> in its own right. Online multiplayer games allow people to connect with friends and even strangers worldwide. For some, this <span class=\"ml-token colloc\">virtual community</span> provides a sense of belonging that they might not find in traditional sports settings.</div>",
       "vocabulary": {
@@ -268,7 +268,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Share a time when your curiosity led you to discover or learn something valuable.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-19-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-19-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Share a time when your curiosity led you to discover or learn something valuable.",
@@ -311,7 +311,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Single-Use Plastics Should Be Completely Banned",
-      "audioFile": "questions S/audio/cefr-speaking-mock-19-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-19-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "@mock_stream",
     "testIdentifier": "mock_stream",
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like spending time at home?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-46-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-46-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, I <span class=\"ml-token adv\">absolutely</span> love spending time at home. After a long day of work or study, there is nothing quite like relaxing in a <span class=\"ml-token colloc\">comfortable environment</span>. Generally, my home is my sanctuary where I can <span class=\"ml-token colloc\">wind down</span> and simply be myself.</div>\n\n<div>I enjoy reading, watching movies, or just chatting with my family members. <span class=\"ml-token adv\">Overall</span>, I use this time to <span class=\"ml-token colloc\">recharge my batteries</span> for the next day, because as they say, <span class=\"ml-token proverb\">\"home is where the heart is.\"</span></div>",
       "vocabulary": {
@@ -65,7 +65,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you prefer tea or coffee?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-46-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-46-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I <span class=\"ml-token adv\">definitely</span> prefer coffee, especially in the mornings. A strong cup of coffee helps me <span class=\"ml-token colloc\">kick-start my day</span> and stay alert during busy hours.</div>\n\n<div><span class=\"ml-token adv\">Although</span> tea is quite soothing and great for the evenings, coffee gives me that much-needed <span class=\"ml-token colloc\">energy boost</span> when I'm feeling lethargic. To me, nothing beats a freshly brewed espresso to <span class=\"ml-token proverb\">\"wake up and smell the coffee.\"</span></div>",
       "vocabulary": {
@@ -102,7 +102,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like learning about nature?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-46-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-46-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, I am <span class=\"ml-token adv\">genuinely</span> fascinated by nature. Learning about different ecosystems and wildlife is <span class=\"ml-token adv\">incredibly</span> engaging and opens my eyes to the world's complexity.</div>\n\n<div>I <span class=\"ml-token adv\">regularly</span> read articles and watch documentaries about the <span class=\"ml-token colloc\">natural world</span> because it reminds me of how <span class=\"ml-token colloc\">interconnected</span> everything is. Understanding our environment is crucial if we want to preserve it for future generations.</div>",
       "vocabulary": {
@@ -139,7 +139,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "Describe these images",
-      "audioFile": "questions S/audio/cefr-speaking-mock-46-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-46-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>In the first image, I can see a family playing with their pet dog indoors, treating it affectionately like a <span class=\"ml-token colloc\">true family member</span>. The scene looks <span class=\"ml-token adv\">incredibly</span> warm and cozy.</div>\n\n<div><span class=\"ml-token adv\">Conversely</span>, in the second image, a person is interacting with a dog outside, seemingly treating it more like a <span class=\"ml-token colloc\">working animal</span> or a traditional guard dog. The <span class=\"ml-token colloc\">contrast between</span> the two pictures perfectly highlights different cultural attitudes toward our relationships with animals.</div>",
       "vocabulary": {
@@ -176,7 +176,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some people like animals as part of their family?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-46-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-46-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Many people consider animals as family members because pets offer <span class=\"ml-token colloc\">unconditional love</span> and constant companionship. <span class=\"ml-token adv\">Undoubtedly</span>, living with an animal provides immense emotional support and can <span class=\"ml-token adv\">significantly</span> alleviate feelings of loneliness.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, caring for a pet fosters a strong sense of responsibility, especially in children, building a <span class=\"ml-token colloc\">deep bond</span> that practically integrates the animal into the household. People talk to their pets, celebrate their birthdays, and grieve their loss.</div>\n\n<div><span class=\"ml-token adv\">Ultimately</span>, the joy and happiness they bring into a home make them irreplaceable. As the old saying goes, <span class=\"ml-token proverb\">\"a dog is a man's best friend,\"</span> and this loyalty naturally earns them a spot in the family structure.</div>",
       "vocabulary": {
@@ -213,7 +213,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some people consider animals simply as animals, rather than as family members?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-46-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-46-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>On the other hand, some people view animals strictly from a <span class=\"ml-token colloc\">utilitarian perspective</span>. In many rural or agricultural settings, animals are kept <span class=\"ml-token adv\">primarily</span> for practical purposes, such as guarding the property, controlling pests, or assisting with farm work.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, cultural backgrounds and upbringing <span class=\"ml-token adv\">heavily</span> influence this mindset. In certain societies, there are clear, <span class=\"ml-token colloc\">firm boundaries</span> maintained between human living spaces and animal habitats for hygiene and safety reasons.</div>\n\n<div><span class=\"ml-token adv\">Therefore</span>, for these individuals, taking care of an animal is more of an <span class=\"ml-token colloc\">economic necessity</span> or a specific duty rather than an emotional attachment. They respect the animals, but firmly believe that humans and beasts occupy entirely different roles.</div>",
       "vocabulary": {
@@ -250,7 +250,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Share a time when you participated a cultural festival or tradition.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-46-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-46-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Share a time when you participated a cultural festival or tradition.",
@@ -293,7 +293,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "People should stay in one job instead of changing their work place frequently.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-46-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-46-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

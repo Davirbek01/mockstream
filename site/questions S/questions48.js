@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "@mock_stream",
     "testIdentifier": "mock_stream",
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Who is your best friend?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-48-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-48-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>My best friend is someone I've known since childhood, and we share an <span class=\"ml-token adv\">incredibly</span> strong bond. We <span class=\"ml-token adv\">effortlessly</span> understand each other, often knowing what the other is thinking without even saying a word.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, we have supported each other through <span class=\"ml-token colloc\">thick and thin</span>. Whether I'm celebrating a success or going through a tough time, they are always a <span class=\"ml-token colloc\">shoulder to cry on</span>. <span class=\"ml-token proverb\">\"A friend in need is a friend indeed,\"</span> and they have proven that time and again.</div>",
       "vocabulary": {
@@ -65,7 +65,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you take vitamins or supplements?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-48-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-48-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, I <span class=\"ml-token adv\">regularly</span> take a daily multivitamin to ensure my body gets all the essential nutrients it needs. <span class=\"ml-token adv\">Sometimes</span>, my diet lacks certain elements, so supplements act as a <span class=\"ml-token colloc\">safety net</span> for my overall health.</div>\n\n<div><span class=\"ml-token adv\">However</span>, I try not to <span class=\"ml-token adv\">solely</span> rely on them. I believe that maintaining a <span class=\"ml-token colloc\">balanced diet</span> full of fresh fruits and vegetables is much more important. After all, <span class=\"ml-token proverb\">\"you are what you eat.\"</span></div>",
       "vocabulary": {
@@ -102,7 +102,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like your neighbours?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-48-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-48-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div><span class=\"ml-token adv\">Generally speaking</span>, I have a very <span class=\"ml-token adv\">amicable</span> relationship with my neighbors. We <span class=\"ml-token adv\">frequently</span> exchange greetings and help each other out with small favors, like collecting mail or keeping an eye on the house while one of us is away.</div>\n\n<div><span class=\"ml-token adv\">Fortunately</span>, they are very quiet and respectful of boundaries, which creates a <span class=\"ml-token colloc\">peaceful living environment</span>. It’s always nice to have people nearby you can rely on, showing that <span class=\"ml-token proverb\">\"good fences make good neighbors\"</span> when respect is mutual.</div>",
       "vocabulary": {
@@ -139,7 +139,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "Describe the pictures.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-48-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-48-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>The first picture depicts a larger group of friends casually hanging out around a table. They are deeply <span class=\"ml-token adv\">engaged in conversation</span>, laughing, and clearly enjoying a very <span class=\"ml-token colloc\">vibrant social gathering</span>. It looks like a fun, lighthearted group dynamic.</div>\n\n<div><span class=\"ml-token adv\">In contrast</span>, the second picture highlights a much more intimate setting with only two friends having coffee. They are leaning in, maintaining direct eye contact, which suggests they are having a <span class=\"ml-token colloc\">deep, meaningul discussion</span> or perhaps sharing personal advice. It feels much calmer and more focused than the first picture.</div>",
       "vocabulary": {
@@ -176,7 +176,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Does having many friends affect a person’s psychology?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-48-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-48-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Having a large circle of friends can have a <span class=\"ml-token adv\">surprisingly</span> complex effect on a person's psychological state. <span class=\"ml-token adv\">On one hand</span>, being part of a large network can provide a strong sense of belonging and <span class=\"ml-token colloc\">social validation</span>, which <span class=\"ml-token adv\">significantly</span> boosts self-esteem and happiness.</div>\n\n<div><span class=\"ml-token adv\">On the other hand</span>, maintaining numerous friendships can sometimes become <span class=\"ml-token adv\">emotionally</span> exhausting. People might feel pressured to keep up appearances and, <span class=\"ml-token adv\">ironically</span>, could still feel lonely if these connections are superficial. As they say, <span class=\"ml-token proverb\">\"quality is better than quantity.\"</span></div>\n\n<div><span class=\"ml-token adv\">Overall</span>, while extroverts might thrive in large groups, the psychological benefit <span class=\"ml-token adv\">ultimately</span> depends on the depth of the relationships rather than just the number of friends.</div>",
       "vocabulary": {
@@ -213,7 +213,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do people prefer having a heart-to-heart talk with one close friend?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-48-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-48-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>I believe people naturally <span class=\"ml-token adv\">gravitate</span> towards one-on-one conversations when discussing sensitive topics because it creates a <span class=\"ml-token colloc\">safe space</span>. <span class=\"ml-token adv\">Psychologically</span>, revealing vulnerabilities requires a high level of trust, which is much easier to establish with a single, close confidant.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, in a one-on-one setting, the listener can provide their <span class=\"ml-token colloc\">undivided attention</span>. There is no fear of judgment from a crowd, and the conversation can flow more <span class=\"ml-token adv\">organically</span>. It's much easier to truly open up to one person.</div>\n\n<div><span class=\"ml-token adv\">Ultimately</span>, having a <span class=\"ml-token proverb\">\"heart-to-heart\"</span> is about seeking deep understanding, empathy, and tailored advice, which large group dynamics simply cannot offer. It allows individuals to <span class=\"ml-token colloc\">bare their souls</span> <span class=\"ml-token adv\">comfortably</span>.</div>",
       "vocabulary": {
@@ -250,7 +250,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Can you describe a time when you felt proud of yourself?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-48-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-48-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Can you describe a time when you felt proud of yourself?",
@@ -293,7 +293,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Fast food restaurants should display calorie counts.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-48-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-48-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

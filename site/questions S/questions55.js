@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "@mock_stream",
     "testIdentifier": "mock_stream",
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Who is your favourite cartoon character?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-55-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-55-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>My <span class=\"ml-token adv\">all-time</span> favourite cartoon character is Tom from the legendary show 'Tom and Jerry.' His <span class=\"ml-token adv\">hilariously</span> futile attempts to catch Jerry never fail to make me laugh, even after all these years. The <span class=\"ml-token colloc\">slapstick humour</span> is timeless.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, I find his character <span class=\"ml-token adv\">surprisingly</span> relatable. Despite constant failure, Tom never gives up, which I think is a great <span class=\"ml-token colloc\">life lesson</span> hidden behind the comedy — the importance of <span class=\"ml-token proverb\">\"never throwing in the towel.\"</span></div>",
       "vocabulary": {
@@ -65,7 +65,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you prefer sweet food or salty food?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-55-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-55-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I am <span class=\"ml-token adv\">unequivocally</span> a savoury person at heart. I <span class=\"ml-token adv\">consistently</span> gravitate towards salty snacks like crisps, roasted nuts, or a perfectly seasoned bowl of pasta rather than sugary desserts.</div>\n\n<div><span class=\"ml-token adv\">That said</span>, I do have an <span class=\"ml-token colloc\">occasional craving</span> for something sweet, <span class=\"ml-token adv\">particularly</span> a rich piece of dark chocolate after a heavy meal. It acts as a wonderful palate cleanser. So while salt is my go-to, I believe in having <span class=\"ml-token proverb\">\"the best of both worlds.\"</span></div>",
       "vocabulary": {
@@ -102,7 +102,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you enjoy celebrating birthdays?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-55-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-55-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div><span class=\"ml-token adv\">Absolutely</span>! I <span class=\"ml-token adv\">thoroughly</span> enjoy birthday celebrations. They offer a <span class=\"ml-token colloc\">wonderful opportunity</span> to gather with loved ones and create lasting memories. The atmosphere of joy and festivity is something I <span class=\"ml-token adv\">genuinely</span> cherish.</div>\n\n<div><span class=\"ml-token adv\">However</span>, as I've gotten older, I've come to appreciate <span class=\"ml-token adv\">more</span> intimate, low-key gatherings over large, extravagant parties. A simple dinner with close friends feels far more meaningful than a <span class=\"ml-token colloc\">lavish celebration</span>. It's about the people, not the <span class=\"ml-token proverb\">\"bells and whistles.\"</span></div>",
       "vocabulary": {
@@ -139,7 +139,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "Describe the images",
-      "audioFile": "questions S/audio/cefr-speaking-mock-55-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-55-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>The first image shows an individual <span class=\"ml-token adv\">attentively</span> examining exhibits inside a museum. The person appears to be deeply engaged with the <span class=\"ml-token colloc\">historical artefacts</span> on display, suggesting a genuine interest in learning about the past and its <span class=\"ml-token colloc\">cultural significance</span>.</div>\n\n<div><span class=\"ml-token adv\">In contrast</span>, the second picture depicts a person comfortably seated at home, watching a documentary on their television screen. This represents a more <span class=\"ml-token colloc\">passive yet accessible</span> way of absorbing knowledge. While both scenes involve gaining information, one is <span class=\"ml-token adv\">physically</span> immersive while the other is <span class=\"ml-token adv\">digitally</span> convenient.</div>",
       "vocabulary": {
@@ -176,7 +176,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How can visiting museums help people understand history or culture better?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-55-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-55-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Visiting museums is an <span class=\"ml-token adv\">incredibly</span> effective way to deepen one's understanding of history and culture. <span class=\"ml-token adv\">Firstly</span>, museums allow people to see <span class=\"ml-token colloc\">authentic artefacts</span> and original documents up close, which creates a <span class=\"ml-token adv\">far</span> more powerful emotional connection than simply reading about events in a textbook.</div>\n\n<div><span class=\"ml-token adv\">Moreover</span>, well-curated exhibitions <span class=\"ml-token adv\">skilfully</span> contextualize historical events through interactive displays, timelines, and guided narratives. This <span class=\"ml-token colloc\">immersive storytelling</span> helps visitors piece together complex historical periods in a way that is both engaging and educational.</div>\n\n<div><span class=\"ml-token adv\">Ultimately</span>, being physically present in a space dedicated to preservation makes history feel <span class=\"ml-token adv\">tangibly</span> real. It transforms abstract dates and facts into a <span class=\"ml-token proverb\">\"living, breathing narrative\"</span> that resonates deeply with visitors.</div>",
       "vocabulary": {
@@ -213,7 +213,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some people prefer watching documentaries?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-55-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-55-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Many people prefer documentaries because of their <span class=\"ml-token colloc\">unparalleled convenience</span>. In today's hectic world, not everyone has the time or resources to travel to museums regularly. A documentary allows them to explore ancient civilizations, distant galaxies, or underwater ecosystems from the <span class=\"ml-token adv\">absolute</span> comfort of their sofa.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, high-quality documentaries often feature <span class=\"ml-token colloc\">breathtaking cinematography</span> and expert commentary that can be even more informative than a museum visit. The narration provides a structured, easy-to-follow storyline that connects all the pieces together <span class=\"ml-token adv\">seamlessly</span>.</div>\n\n<div><span class=\"ml-token adv\">Finally</span>, documentaries are <span class=\"ml-token adv\">virtually</span> free or very affordable through streaming platforms, making knowledge <span class=\"ml-token adv\">democratically</span> accessible to everyone, regardless of their location or financial situation.</div>",
       "vocabulary": {
@@ -250,7 +250,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Can you describe a project or object you created from scratch?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-55-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-55-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Can you describe a project or object you created from scratch?",
@@ -293,7 +293,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Schools should teach life skills.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-55-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-55-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

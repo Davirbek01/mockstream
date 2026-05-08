@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "@mock_stream",
     "testIdentifier": "mock_stream",
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "When did you first use the internet?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-50-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-50-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I first used the internet when I was in primary school, <span class=\"ml-token adv\">probably</span> around the age of eight. Back then, connection speeds were <span class=\"ml-token adv\">agonizingly</span> slow, and we had to rely on a <span class=\"ml-token colloc\">dial-up modem</span> that made a terrible screeching noise.</div>\n\n<div><span class=\"ml-token adv\">Initially</span>, I only used it to play simple flash games or search for basic information for school projects. It is <span class=\"ml-token adv\">truly</span> <span class=\"ml-token colloc\">mind-boggling</span> to see how <span class=\"ml-token adv\">exponentially</span> the digital landscape has evolved since those <span class=\"ml-token proverb\">\"early days.\"</span></div>",
       "vocabulary": {
@@ -65,7 +65,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you pay attention to your diet?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-50-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-50-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div><span class=\"ml-token adv\">Absolutely</span>. I try to be <span class=\"ml-token adv\">highly</span> conscious of my diet by avoiding overly processed foods and reducing my sugar intake. I <span class=\"ml-token adv\">firmly</span> believe that maintaining a <span class=\"ml-token colloc\">balanced diet</span> is essential for long-term health.</div>\n\n<div><span class=\"ml-token adv\">Occasionally</span>, I might indulge in a <span class=\"ml-token colloc\">guilty pleasure</span> like a slice of chocolate cake, but I <span class=\"ml-token adv\">generally</span> stick to wholesome, nutritious meals because I subscribe to the belief that <span class=\"ml-token proverb\">\"you are what you eat.\"</span></div>",
       "vocabulary": {
@@ -102,7 +102,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do many people in your country using bicycles?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-50-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-50-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, cycling has become <span class=\"ml-token adv\">increasingly</span> popular in recent years, <span class=\"ml-token adv\">especially</span> in major cities. Many locals use bicycles for their daily commute because it is an <span class=\"ml-token colloc\">eco-friendly alternative</span> to driving and helps them avoid <span class=\"ml-token colloc\">traffic congestion</span>.</div>\n\n<div><span class=\"ml-token adv\">Moreover</span>, the government has <span class=\"ml-token adv\">actively</span> invested in building dedicated bike lanes, making it much safer. People are realizing that cycling kills two birds with one stone—it improves <span class=\"ml-token colloc\">cardiovascular health</span> while simultaneously protecting the environment.</div>",
       "vocabulary": {
@@ -139,7 +139,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-50-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-50-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>The first picture shows a family huddled together on a sofa, <span class=\"ml-token adv\">joyfully</span> watching a movie. The atmosphere is <span class=\"ml-token adv\">incredibly</span> warm and <span class=\"ml-token colloc\">convivial</span>, highlighting a classic <span class=\"ml-token colloc\">bonding experience</span> where everyone is interacting and sharing laughter.</div>\n\n<div><span class=\"ml-token adv\">In stark contrast</span>, the second picture displays an individual sitting <span class=\"ml-token adv\">quietly</span> by themselves, watching a film on a laptop. This setting <span class=\"ml-token adv\">clearly</span> represents a solitary, <span class=\"ml-token colloc\">introspective activity</span>. While the first image focuses on shared entertainment, the second <span class=\"ml-token adv\">beautifully</span> illustrates the modern desire for personalized, uninterrupted escapism.</div>",
       "vocabulary": {
@@ -176,7 +176,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How can watching movies together strengthen family relationships?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-50-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-50-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Watching movies as a group acts as a <span class=\"ml-token adv\">remarkably</span> powerful catalyst for family bonding. <span class=\"ml-token adv\">Firstly</span>, it provides a <span class=\"ml-token colloc\">shared experience</span>. In today's fast-paced world, sitting down together guarantees dedicated <span class=\"ml-token colloc\">quality time</span> free from the distractions of separate devices.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, it <span class=\"ml-token adv\">naturally</span> sparks meaningful conversations. A thought-provoking film can serve as an <span class=\"ml-token colloc\">excellent icebreaker</span>, allowing parents and children to discuss complex moral dilemmas, emotions, and life lessons <span class=\"ml-token adv\">comfortably</span> in a safe environment.</div>\n\n<div><span class=\"ml-token adv\">Ultimately</span>, creating these cozy traditions builds <span class=\"ml-token colloc\">long-lasting memories</span>. Laughing at a comedy or anticipating a thriller's climax ensures that the family remains emotionally connected, proving that <span class=\"ml-token proverb\">\"the family that plays together, stays together.\"</span></div>",
       "vocabulary": {
@@ -213,7 +213,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some individuals enjoy watching films on their own?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-50-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-50-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Many people <span class=\"ml-token adv\">greatly</span> prefer the solitude of watching films alone because it offers <span class=\"ml-token colloc\">unprecedented control</span> over their entertainment. They can pause the movie <span class=\"ml-token adv\">whenever</span> they want, rewind confusing dialogue, and completely immerse themselves without <span class=\"ml-token colloc\">annoying interruptions</span> from chatter.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, solitary viewing acts as an <span class=\"ml-token adv\">exceptional</span> form of escapism. After a long, stressful day of interacting with others, disappearing into a fictional universe allows them to mentally <span class=\"ml-token colloc\">recharge their batteries</span> <span class=\"ml-token adv\">entirely</span> on their own terms.</div>\n\n<div><span class=\"ml-token adv\">Lastly</span>, movie tastes are <span class=\"ml-token adv\">highly</span> subjective. Watching alone means you don't have to compromise on genre, avoiding the tedious process of finding a film that satisfies everyone in a group. Sometimes, a little <span class=\"ml-token proverb\">\"me-time\"</span> is exactly what the doctor ordered.</div>",
       "vocabulary": {
@@ -250,7 +250,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Can you describe a place where people often meet friends?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-50-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-50-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Can you describe a place where people often meet friends?",
@@ -293,7 +293,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "People should live in big cities rather than small towns.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-50-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-50-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

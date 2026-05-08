@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "https://t.me/mock_stream",
     "testIdentifier": "mock_stream",
@@ -15,8 +15,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Chet tilini bilish darajasi"
   },
   "images": {
-    "img1": "https://i.ibb.co/WNhbRVVc/image.png",
-    "img2": "https://i.ibb.co/9m9q16fr/image.png",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WNhbRVVc-image.png",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/9m9q16fr-image.png",
     "img1Alt": "Festival event",
     "img2Alt": "Museum visit"
   },
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you go to sleep early or stay up late?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-14-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-14-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>To be <span class=\"ml-token adv\">perfectly</span> honest, I tend to <span class=\"ml-token phrasal\">stay up</span> late. The reason is that I'm <span class=\"ml-token adv\">incredibly</span> drawn to the tranquility of the night. There's something about the stillness and silence that <span class=\"ml-token idiom\">helps me unwind</span> from the day's hustle and bustle. It's in these quiet hours that I find I can <span class=\"ml-token phrasal\">catch up</span> on my reading or even dive into a bit of creative writing, which I <span class=\"ml-token colloc\">find truly rewarding</span>.</p>\n\n<p>Of course, there are downsides to this habit. I've noticed that burning the midnight oil can <span class=\"ml-token phrasal\">take a toll</span> on my energy levels the next day. However, I try to strike a balance by ensuring I get enough rest during the weekends. As the saying goes, <span class=\"ml-token proverb\">\"Early to bed and early to rise makes a person healthy, wealthy, and wise,\"</span> yet for me, the night is when I feel most alive.</p>\n\n<p>So, while I understand the <span class=\"ml-token colloc\">importance of a routine</span>, I <span class=\"ml-token adv\">genuinely</span> enjoy the peace that comes with the night. It's a time when I can <span class=\"ml-token phrasal\">reflect on</span> the day's events and plan for the future, <span class=\"ml-token adv\">allowing</span> me to <span class=\"ml-token colloc\">carve out</span> moments for self-improvement and introspection.</p>",
       "vocabulary": {
@@ -70,7 +70,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How do you feel in the morning if you stay up late?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-14-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-14-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>When I <span class=\"ml-token phrasal\">stay up</span> late, I <span class=\"ml-token adv\">honestly</span> feel <span class=\"ml-token colloc\">like a zombie</span> the next morning. My mind is <span class=\"ml-token colloc\">foggy</span>, and I find it <span class=\"ml-token adv\">incredibly</span> challenging to <span class=\"ml-token phrasal\">focus on</span> anything. It's almost as if someone has pressed the pause button on my cognitive abilities. I tend to <span class=\"ml-token phrasal\">run on</span> caffeine, which is <span class=\"ml-token idiom\">a double-edged sword</span> because while it gives me an initial boost, I <span class=\"ml-token phrasal\">come crashing down</span> in the afternoon. <span class=\"ml-token proverb\">\"Early to bed and early to rise, makes a man healthy, wealthy, and wise,\"</span> is something I <span class=\"ml-token adv\">genuinely</span> believe in, but it's a mantra that's <span class=\"ml-token idiom\">easier said than done</span>. On the rare occasions when I do <span class=\"ml-token phrasal\">burn the midnight oil</span>, I <span class=\"ml-token phrasal\">pay the price</span> with a day filled with mental sluggishness and <span class=\"ml-token colloc\">low energy levels</span>.</p>",
       "vocabulary": {
@@ -108,7 +108,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Does your name have any special meaning?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-14-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-14-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>Yes, my name <span class=\"ml-token adv\">actually</span> does have a special meaning. It's derived from ancient languages and it signifies <span class=\"ml-token colloc\">a strong leader</span>. Growing up, I was <span class=\"ml-token adv\">often</span> told stories about how my ancestors carried this name with <span class=\"ml-token colloc\">great pride</span> and responsibility. I've <span class=\"ml-token phrasal\">grown into</span> appreciating its significance more as I've matured. <span class=\"ml-token idiom\">To be honest</span>, there's a certain weight to having a name with such a powerful meaning, and it has <span class=\"ml-token phrasal\">spurred me on</span> to strive for <span class=\"ml-token colloc\">personal excellence</span>. As the saying goes, <span class=\"ml-token proverb\">\"a good name is rather to be chosen than great riches\"</span>, and I <span class=\"ml-token adv\">truly</span> believe in living up to that ideal. </p>",
       "vocabulary": {
@@ -146,7 +146,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-14-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-14-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>Well, in the first picture, I can see a group of young children sitting around a table indoors, playing with <span class=\"ml-token colloc\">colourful toys</span>, most likely modelling clay or playdough. They appear to be in a classroom or a nursery environment, as the furniture is child-sized and the setting looks safe and organised. The children seem focused and cooperative, which suggests they're developing creativity as well as social skills through <span class=\"ml-token colloc\">play-based learning</span>.</p>\n\n<p>Anyway, in the second picture, several children are playing an <span class=\"ml-token adv\">energetic</span> outdoor game on a grassy field, possibly in a park or school playground. They're gathered around a small circular net and <span class=\"ml-token phrasal\">throwing a ball</span> to one another, which indicates a team-based activity. The children look enthusiastic and physically engaged, enjoying the freedom of outdoor play and interaction with their peers.</p>\n\n<p>So, overall, both pictures depict children learning and socialising, but in different ways. The first image emphasises calm, creative indoor activity that supports cognitive development, while the second highlights physical exercise, teamwork, and outdoor fun. <span class=\"ml-token proverb\">\"All work and no play makes Jack a dull boy,\"</span> right? Together, they show a balanced approach to childhood development through both structured indoor play and active outdoor games. Personally, I think it's great to see kids having such a well-rounded experience.</p>",
       "vocabulary": {
@@ -188,7 +188,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the advantages of indoor activities?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-14-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-14-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>There are a myriad of <span class=\"ml-token colloc\">advantages associated</span> with indoor activities, and I <span class=\"ml-token adv\">strongly</span> believe they play a crucial role in our lives. Firstly, they offer a <span class=\"ml-token colloc\">controlled environment</span>, which is <span class=\"ml-token adv\">particularly</span> beneficial during extreme weather conditions. When it's <span class=\"ml-token idiom\">raining cats and dogs</span> outside or scorching hot, being indoors allows individuals to <span class=\"ml-token phrasal\">engage in</span> activities without any interruptions, ensuring comfort and safety.</p>\n\n<p>Moreover, indoor activities often foster a <span class=\"ml-token colloc\">creative atmosphere</span>. Whether it's painting, playing musical instruments, or indulging in board games, such activities can <span class=\"ml-token phrasal\">bring out</span> one's creativity and <span class=\"ml-token phrasal\">hone in on</span> particular skills. Take my personal experience as an example—I <span class=\"ml-token phrasal\">picked up</span> guitar playing during a rainy season and found it to be <span class=\"ml-token adv\">incredibly</span> rewarding. It not only enhanced my musical abilities but also provided a therapeutic escape from daily stresses.</p>\n\n<p>Another key advantage is the potential for <span class=\"ml-token colloc\">social interaction</span>. Indoor activities like team-based games or workshops provide opportunities to <span class=\"ml-token phrasal\">bond with</span> others, fostering a sense of community. As the saying goes, <span class=\"ml-token proverb\">\"a friend in need is a friend indeed,\"</span> and I have witnessed friendships blossom in such settings, where people <span class=\"ml-token phrasal\">come together</span> for a common interest.</p>\n\n<p>In essence, indoor activities offer a perfect mix of safety, creativity, and social engagement. They <span class=\"ml-token idiom\">kill two birds with one stone</span> by enhancing personal skills while promoting social bonds, thus making them an invaluable part of our lifestyle.</p>",
       "vocabulary": {
@@ -226,7 +226,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some children like outdoor activities?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-14-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-14-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<span class=\"ml-token proverb\">\"All work and no play makes Jack a dull boy.\"</span> This <span class=\"ml-token proverb\">\"quote\"</span> perfectly illustrates why children are often drawn to outdoor activities. <span class=\"ml-token adv\">Honestly</span>, these activities provide a <span class=\"ml-token colloc\">natural playground</span> that stimulates their senses and encourages exploration. From a psychological perspective, being outdoors <span class=\"ml-token phrasal\">brings about</span> a sense of freedom and adventure, something that indoor environments might lack.\n\nMoreover, children <span class=\"ml-token phrasal\">tend to gravitate towards</span> activities that allow them to <span class=\"ml-token colloc\">expend energy</span> and engage their <span class=\"ml-token colloc\">physical prowess</span>. Whether it's climbing trees, riding a bicycle, or playing a game of tag, these activities <span class=\"ml-token phrasal\">cater to</span> their intrinsic need for play and movement. This is crucial in their developmental years, as it <span class=\"ml-token phrasal\">helps them develop</span> motor skills and coordination.\n\nFurthermore, outdoor activities often provide a <span class=\"ml-token colloc\">social experience</span> that is invaluable for children. When they <span class=\"ml-token phrasal\">hang out with</span> peers in a park or on a playground, they learn essential social skills like sharing, cooperation, and empathy. This not only enhances their interpersonal abilities but also fosters a sense of belonging and camaraderie.\n\nFrom my personal experience, having grown up in a suburban area, I <span class=\"ml-token phrasal\">revelled in</span> the freedom of playing outside. Afternoon games with friends not only <span class=\"ml-token phrasal\">kept us on our toes</span> but also created memories that I <span class=\"ml-token adv\">fondly</span> cherish. Therefore, it's <span class=\"ml-token adv\">incredibly</span> understandable why children are naturally inclined to enjoy outdoor activities. They offer an unparalleled mix of physical, mental, and social benefits that are essential for a child's overall development.",
       "vocabulary": {
@@ -264,7 +264,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Discuss the following points:",
-      "audioFile": "questions S/audio/cefr-speaking-mock-14-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-14-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a time when you tried to do something but you failed.",
@@ -307,7 +307,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Gardening should be taught at school.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-14-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-14-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "@mock_stream",
     "testIdentifier": "mock_stream",
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What kind of sweets do you like most?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-62-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-62-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>Well, <span class=\"ml-token adv\">to be honest</span>, I <span class=\"ml-token phrasal\">have a sweet tooth</span>, so I like pretty much all kinds of sweets. But if I had to pick just one, I'd say I'm particularly fond of Turkish delight. There's something about the <span class=\"ml-token colloc\">delicate texture</span> and the subtle rosewater flavor that I find incredibly appealing.</p> <p>I also appreciate that it's not overly sweet, <span class=\"ml-token adv\">you know</span>? A lot of modern candies are just packed with sugar, but Turkish delight has a more balanced flavor profile. Plus, it <span class=\"ml-token phrasal\">brings back</span> childhood memories of holidays and special occasions when my family would share it. So, yeah, Turkish delight is definitely my <span class=\"ml-token idiom\">go-to</span> sweet treat.</p>",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you read or write stories or poems?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-62-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-62-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>I wouldn't say I'm a particularly dedicated writer of stories or poems, <span class=\"ml-token adv\">but</span> I do enjoy dabbling in creative writing from time to time. I mostly write short stories, usually in the fantasy or science fiction genres. It's a fun way to <span class=\"ml-token phrasal\">let off steam</span> and explore different ideas. I'm <span class=\"ml-token colloc\">by no means</span> a professional, <span class=\"ml-token adv\">mind you</span>.</p> <p>As for poetry, I <span class=\"ml-token phrasal\">have a go</span> at it occasionally, usually when I'm feeling particularly inspired by something. I find it a very cathartic way to express my emotions. It's not something I <span class=\"ml-token phrasal\">put out there</span> for public consumption, <span class=\"ml-token adv\">though</span>. It's more of a personal outlet for my creativity. <span class=\"ml-token proverb\">Practice makes perfect</span>, so I hope to improve with time.</p>",
       "vocabulary": {
@@ -104,7 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "When do you usually listen to music?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-62-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-62-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<p><span class=\"ml-token adv\">Generally speaking</span>, I listen to music pretty much every day. I often <span class=\"ml-token phrasal\">put on</span> some tunes while I'm working or studying; I find it helps me to focus. <span class=\"ml-token adv\">Also</span>, I frequently listen to music when I'm commuting, whether I'm on the bus or walking to work. It <span class=\"ml-token colloc\">makes the journey</span> more enjoyable.</p> <p>I also enjoy listening to music in the evenings when I'm relaxing at home. It's a great way to <span class=\"ml-token phrasal\">wind down</span> after a long day. <span class=\"ml-token adv\">Of course</span>, I also listen to music when I'm socializing with friends, whether we're at a concert or just hanging out at someone's house. Music is a really integral part of my life. <span class=\"ml-token proverb\">Music is the food of the soul</span>, as they say.</p>",
       "vocabulary": {
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "Describe these images.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-62-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-62-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>Okay, in the first image, we can see a famous band performing on a large stage at a professional concert. The stage is lit up with bright lights, and there's a huge audience in front of them. The band members are clearly very talented and energetic, and the whole atmosphere looks incredibly exciting and lively. It <span class=\"ml-token colloc\">looks like an amazing</span> experience.</p> <p>In contrast, the second image shows a street musician performing on the street for passersby. He's playing a guitar and singing, and there are a few people <span class=\"ml-token phrasal\">stopping by</span> to listen. The atmosphere is much more intimate and relaxed than in the first image. It's a more casual setting, <span class=\"ml-token adv\">you know</span>, but there's still something really special about the musician sharing his talent with the public. <span class=\"ml-token adv\">Ultimately</span>, both images showcase the power and beauty of music in different contexts. <span class=\"ml-token proverb\">Variety is the spice of life</span>, and both scenarios have their own appeal.</p>",
       "vocabulary": {
@@ -180,7 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the advantages of special concerts?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-62-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-62-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>Well, <span class=\"ml-token adv\">broadly speaking</span>, special concerts, especially those featuring well-known artists, offer a unique shared experience. The energy of a large crowd, the amplified sound, and the visual spectacle <span class=\"ml-token phrasal\">add up to</span> something truly memorable. For fans, it's a chance to see their favorite performers <span class=\"ml-token phrasal\">up close and personal</span>, creating a strong sense of connection and excitement. It's <span class=\"ml-token adv\">also</span> a social event, where people can bond over their shared love of music.</p> <p> <span class=\"ml-token adv\">Furthermore</span>, these concerts often provide a significant economic boost to the local area, attracting tourists and generating revenue for businesses. The production quality is usually top-notch, with professional lighting, sound engineering, and stage design. It is <span class=\"ml-token colloc\">a win-win</span> for everyone involved. For the musicians, it's a way to connect with a large fanbase; for the local economy, it is a great boost. <span class=\"ml-token idiom\">It's all good!</span></p>",
       "vocabulary": {
@@ -218,7 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do many people consider street musicians to be more sincere?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-62-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-62-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<p><span class=\"ml-token adv\">Well</span>, the perception of sincerity in street musicians often stems from their direct and unfiltered connection with the audience. They are not hidden behind elaborate stage productions or massive marketing campaigns. What you see is what you get; it's <span class=\"ml-token adv\">essentially</span> a raw and authentic expression of their art. This vulnerability and lack of artifice can resonate deeply with people who are <span class=\"ml-token colloc\">jaded by</span> the commercialism of the mainstream music industry.</p> <p><span class=\"ml-token adv\">Furthermore</span>, street musicians are often seen as representing the <span class=\"ml-token proverb\">underdog</span>, struggling to make a living through their talent. This can evoke a sense of empathy and admiration, leading people to perceive them as more genuine and sincere than artists who have already achieved mainstream success. <span class=\"ml-token idiom\">It's like they're keeping it real.</span> The <span class=\"ml-token colloc\">stripped-down</span> nature of their performances reinforces this idea; it's all about the music, not the spectacle.</p>",
       "vocabulary": {
@@ -256,7 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Can you describe a time when you interacted with artificial intelligence?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-62-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-62-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Can you describe a time when you interacted with artificial intelligence?",
@@ -299,7 +299,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "All TV Shows Should Be Educational",
-      "audioFile": "questions S/audio/cefr-speaking-mock-62-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-62-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

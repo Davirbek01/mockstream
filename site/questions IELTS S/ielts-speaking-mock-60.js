@@ -6,7 +6,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "IELTS Mock Stream",
     "telegramChannel": "@ieltsmockstream",
     "testIdentifier": "mock_stream_60",
@@ -14,8 +14,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Music, Neighbors & Encouragement"
   },
   "images": {
-    "img1": "https://i.ibb.co/gM1bMSXS/image.png",
-    "img2": "https://i.ibb.co/G4QH85qq/image.png",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/gM1bMSXS-image.png",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/G4QH85qq-image.png",
     "img1Alt": "Placeholder 1",
     "img2Alt": "Placeholder 2"
   },
@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like music?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-60-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-60-q1.mp3",
       "sampleAnswer": "I consider music to be an 'indispensable part' of my daily existence; it serves as a 'tonal backdrop' to almost everything I do. I find that it has a profound ability to 'modulate my emotional state,' helping me focus during complex tasks or provide 'psychological relief' after a long day. For me, music isn't just entertainment; it's a 'sensory anchor' that connects me to specific memories and periods of my life. I have a diverse palate, ranging from the 'minimalist precision' of classical piano to the 'raw vitality' of contemporary alternative rock. It's essentially a 'universal language' that resonates with me on a very visceral level.",
       "vocabulary": {
         "title": "Q1 - Love for Music",
@@ -82,7 +82,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What's your favourite type of music?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-60-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-60-q2.mp3",
       "sampleAnswer": "My preference has gradually shifted toward 'instrumental ambient music' which I find exceptionally conducive to 'deep work and contemplation.' I'm particularly drawn to compositions that focus on 'textural depth' and 'harmonic evolution' rather than traditional verse-chorus structures. There's a certain 'atmospheric spaciousness' in this genre that allows my mind to wander without being tethered to specific lyrics. I also maintain a strong appreciation for 'jazz fusion' due to its 'technical complexity' and the element of 'improvisational spontaneity.' Essentially, I value music that challenges my 'auditory perception' while providing a sense of internal calm.",
       "vocabulary": {
         "title": "Q2 - Favorite Genre",
@@ -128,7 +128,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Did you learn music at school?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-60-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-60-q3.mp3",
       "sampleAnswer": "I did have 'introductory music education' during my primary years, though looking back, it was a fairly 'prescriptive and rudimentary' curriculum. We were exposed to 'basic music theory' and were required to learn the recorder, which served as a 'functional entry-point' into reading notation. However, that formal setting lacked the 'creative agency' that I later found through self-taught guitar. While the school provided the 'structural foundation,' my true 'musical literacy' developed much later through 'autonomous exploration' and active listening. I believe that school music should move away from 'rote imitation' and more toward 'personal expression' and digital production.",
       "vocabulary": {
         "title": "Q3 - Music Education",
@@ -175,7 +175,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like your neighbours?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-60-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-60-q4.mp3",
       "sampleAnswer": "I would characterize my relationship with my neighbors as one of 'respectful cordiality' rather than deep intimacy. I find that we've struck an ideal balance of 'civil coexistence'—we are friendly enough to exchange 'pleasantries' and look after each other's property during absences, but we also respect the 'private boundaries' of our individual lives. There's a comforting sense of 'communal security' in knowing the people on your doorstep, even if we don't 'socialize frequently.' I appreciate their 'discreet presence' and the fact that we share a mutual understanding regarding 'noise levels' and shared spaces. It's a 'functional neighborliness' that adds to my overall sense of domestic stability.",
       "vocabulary": {
         "title": "Q4 - Neighborly Relations",
@@ -220,7 +220,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What is your neighbourhood like?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-60-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-60-q5.mp3",
       "sampleAnswer": "My neighborhood is a 'vibrant urban microcosm' that manages to blend historical architecture with modern 'functional amenities.' It has a very 'walkable character,' with a high density of independent cafes, specialized bookstores, and 'green interstitial spaces' like small community parks. One of the most 'distinguishing features' is its 'multi-generational demographic,' which gives the area a sense of 'social continuity' and liveliness at all hours. While it can be quite 'energetic and bustling' during the day, it maintains an 'atmospheric quietude' at night. It's the kind of environment that fosters 'serendipitous encounters' and provides a strong sense of 'local identity.'",
       "vocabulary": {
         "title": "Q5 - Neighbourhood Description",
@@ -266,7 +266,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think your neighbourhood is a good place for children?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-60-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-60-q6.mp3",
       "sampleAnswer": "I believe my neighborhood is an 'exceptionally nurturing environment' for children, primarily due to the high level of 'pedestrian safety' and the abundance of 'educational resources' nearby. We have several 'well-maintained playgrounds' and a local library that serves as a 'hub for early literacy' and social interaction. Furthermore, the 'communal vigilance' of the residents ensures a high degree of security, allowing children a certain amount of 'controlled autonomy' as they grow. The exposure to a 'diverse social fabric' is also a major benefit, as it helps young people develop 'inclusive perspectives' early on. It's an area that prioritizes the 'well-being of the next generation' through its infrastructure and culture.",
       "vocabulary": {
         "title": "Q6 - Neighbourhood for Children",
@@ -311,7 +311,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think it is important to have a good relationship with your neighbours?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-60-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-60-q7.mp3",
       "sampleAnswer": "I view a positive neighborly relationship as a vital source of 'social capital' and a fundamental 'safety net' for any individual. In an increasingly 'atomized world,' these local connections provide a sense of 'shared humanity' and 'practical resilience' during times of crisis, like a power outage or a personal emergency. A good relationship fosters 'mutual trust,' which is the 'invisible infrastructure' that keeps a community functioning smoothly and peacefully. It transforms a 'cluster of houses' into a 'cohesive neighborhood.' Furthermore, the 'psychological benefit' of feeling welcome and recognized on your own street is immense for long-term health and 'subjective well-being.'",
       "vocabulary": {
         "title": "Q7 - Importance of Neighbors",
@@ -356,7 +356,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a time when you encouraged someone to do something that they didn't want to do.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-60-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-60-q8.mp3",
       "bulletPoints": [
         "who this person is",
         "what you encouraged them to do",
@@ -411,7 +411,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is it easy to encourage someone who has given up?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-60-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-60-q9.mp3",
       "sampleAnswer": "I would argue that it's one of the most 'emotionally taxing' and 'delicate tasks' a person can undertake. When someone has truly 'internalized failure,' simple optimism often feels 'dismissive or condescending' to them. It requires a high degree of 'tact' and 'persistent patience' to slowly rebuild their 'evaporated confidence.' You have to move beyond 'cheerleading' and provide 'tangible evidence' of their capability. It's about 'validating' their current pain while simultaneously 're-introducing' the possibility of a different outcome. It's a long-term 'relational investment' rather than a single interaction.",
       "vocabulary": {
         "title": "Q9 - Difficulty of Encouragement",
@@ -456,7 +456,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Can encouragement ever be seen as pressure?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-60-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-60-q10.mp3",
       "sampleAnswer": "There is a very 'tenuous boundary' between encouragement and 'coercive pressure.' If the encouragement is focused on 'fixed outcomes'—like demanding a certain grade—it can easily transform into a 'source of anxiety' and 'resentment.' However, if it's focused on the 'growth process' and the person's 'inherent worth,' it remains supportive. It becomes pressure when the 'encourager' prioritizes their own 'aspirations or ego' over the actual 'autonomy' of the person they are helping. We have to be 'hyper-aware' of our own motivations to ensure our support doesn't become a 'psychological burden.'",
       "vocabulary": {
         "title": "Q10 - Encouragement vs Pressure",
@@ -501,7 +501,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Is the role of a leader important in a group?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-60-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-60-q11.mp3",
       "sampleAnswer": "I believe a leader acts as the 'foundational architect' and the 'emotional regulator' of any group dynamic. Their importance lies in 'synthesizing' diverse individual perspectives into a 'coherent collective vision,' ensuring that the group doesn't dissolve into 'operational chaos.' A true leader isn't just about 'administrative authority'; they are responsible for creating the 'psychological safety' required for members to take risks and innovate. Without effective leadership, a group often lacks 'long-term direction' and the 'cohesive momentum' needed to overcome significant obstacles. They are the 'catalyst for synergy'—making the output of the whole much greater than the sum of its independent parts.",
       "vocabulary": {
         "title": "Q11 - Importance of Leadership",
@@ -546,7 +546,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How can leaders encourage employees?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-60-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-60-q12.mp3",
       "sampleAnswer": "Effective leaders move beyond 'transactional incentives' and focus on 'intrinsic motivation' and 'empowerment.' They encourage employees by providing 'autonomous ownership' over projects, allowing individuals to see the 'tangible impact' of their labor. Furthermore, 'public recognition' of effort—rather than just results—creates a culture of 'valuing the person' over the output. A leader can also act as a 'strategic mentor,' mapping out 'career trajectories' that align with the employee's personal growth goals. By fostering a 'feedback-rich environment' where failure is seen as a 'data-point for learning' rather than a reason for punishment, leaders create the 'psychological resilience' that drives long-term success.",
       "vocabulary": {
         "title": "Q12 - Workplace Encouragement",
@@ -592,7 +592,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "When should parents encourage their children?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-60-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-60-q13.mp3",
       "sampleAnswer": "I think the 'critical windows' for encouragement are when a child is facing 'novel challenges' or experiencing the 'frustration of initial failure.' During these moments, parents should provide the 'emotional scaffolding' to help the child 'reframe the setback' as a necessary part of the 'learning curve.' It's also vital to encourage 'pro-social behaviors' and expressions of curiosity, even if the results are 'unpolished or imperfect.' However, parents should avoid 'empty praise' for tasks that are too easy, as this can actually 'devalue' the effort required for genuine achievement. The goal is to provide 'strategic support' that builds the child's 'internal locus of control' and a sense of 'resilient self-efficacy.'",
       "vocabulary": {
         "title": "Q13 - Parental Encouragement Timing",
@@ -639,7 +639,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think some people are better than others at persuading?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-60-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-60-q14.mp3",
       "sampleAnswer": "I would argue that while some individuals possess a 'natural charismatic disposition,' high-level persuasion is primarily a 'sophisticated interpersonal skill' that can be systematically learned. Those who are 'adept at persuasion' usually have a superior 'emotional intelligence,' allowing them to 'calibrate' their message to the specific 'psychological profile' of their audience. They understand the power of 'narrative framing' and 'empathetic listening'—making the other person feel 'heard and understood' before presenting an alternative view. It's not about 'manipulation,' but about finding the 'points of alignment' between two different perspectives. This 'strategic articulation' is what separates a simple speaker from a truly 'influential communicator.'",
       "vocabulary": {
         "title": "Q14 - Natural vs Learned Persuasion",
@@ -684,7 +684,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What kind of encouragement should parents give?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-60-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-60-q15.mp3",
       "sampleAnswer": "I advocate for a shift from 'outcome-based praise' toward 'process-oriented encouragement' that highlights the 'virtues of persistence, discipline, and creativity.' Instead of just saying 'you are smart' when they get an A, parents should say 'I'm impressed by the 'systematic way' you approached this difficult topic.' This builds a 'growth mindset' where the child values the effort over the 'external validation.' Furthermore, parents should provide 'symbolic encouragement'—genuine interest and 'active participation' in the child's hobbies—which signals that their 'individual passions' are worthy of attention. It's about providing the 'emotional fuel' for the child to pursue their own 'authentic interests' rather than just 'conforming to expectations.'",
       "vocabulary": {
         "title": "Q15 - Types of Parental Support",
@@ -730,7 +730,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Does excessive encouragement lead to performance anxiety?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-60-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-60-q16.mp3",
       "sampleAnswer": "I believe that 'indiscriminate encouragement' can definitely backfire and generate a high level of 'chronic performance anxiety.' If a person is constantly being told they are a 'genius' or that they are 'destined for greatness,' it creates a 'fragile identity' that is terrified of the 'inevitable failure' that occurs in real life. They start to view every task as a 'test of their worth' rather than an opportunity for growth. This 'hyper-expectation' can lead to 'perfectionistic paralysis' where the individual avoids challenges because the 'perceived stakes' are too high. True encouragement must be 'tempered with realism' and the 'normalization of struggle,' otherwise it becomes a 'gilded cage' of expectation.",
       "vocabulary": {
         "title": "Q16 - Risks of Excessive Praise",
@@ -775,7 +775,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How does technology influence the way we encourage or persuade others?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-60-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-60-q17.mp3",
       "sampleAnswer": "Technology has 'decoupled encouragement' from physical presence, moving it into the 'digital sphere' of likes, comments, and 'asynchronous feedback loops.' While this allows for a 'wider reach' of support, it can also lead to a 'thinning of emotional depth'—a digital 'thumbs up' lacks the 'somatic resonance' of a genuine voice. Furthermore, social media has created 'reputation-based persuasion,' where 'algorithms' prioritize the most 'polarized and attention-grabbing' messages rather than the most 'reasoned or empathetic' ones. We risk replacing 'authentic connection' with 'quantified validation.' However, digital tools also allow for the 'collective mobilization' of encouragement for global causes, which is a powerful 'democratizing force' if used with enough 'digital literacy.'",
       "vocabulary": {
         "title": "Q17 - Digital Encouragement",

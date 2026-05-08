@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "@mock_stream",
     "testIdentifier": "mock_stream",
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you usually notice small details in places you visit?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-61-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-61-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>To be honest, I wouldn't say I'm particularly observant of <span class=\"ml-token colloc\">minute details</span> in new places. I tend to focus on the bigger picture, the overall atmosphere and impression a place gives me. <span class=\"ml-token adv\">That being said</span>, if something is particularly striking or out of place, it will definitely <span class=\"ml-token phrasal\">jump out at</span> me. For example, an unusual architectural feature or a particularly vibrant piece of street art.</p> <p><span class=\"ml-token adv\">Generally speaking</span>, I think I'm more attuned to the emotional <span class=\"ml-token colloc\">vibe</span> of a location than the specific physical elements. I might not remember the exact color of the walls, but I'll remember how the place made me feel. It's more about the experience as a whole, rather than the sum of its parts. It's like the <span class=\"ml-token proverb\">forest for the trees</span>, I guess.</p>",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like visiting museums?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-61-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-61-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>I have a somewhat complicated relationship with museums. <span class=\"ml-token adv\">On the one hand</span>, I appreciate the opportunity to engage with art, history, and culture in a tangible way. There's something special about seeing a historical artifact or a famous painting in person, rather than just in a book or online. <span class=\"ml-token adv\">Moreover</span>, museums can be great places to learn and expand your knowledge.</p> <p><span class=\"ml-token adv\">However</span>, I also find that museums can sometimes be <span class=\"ml-token colloc\">overwhelming</span>. The crowds, the noise, and the sheer volume of information can be exhausting. I often find myself <span class=\"ml-token phrasal\">zoning out</span> after a couple of hours. <span class=\"ml-token idiom\">It's a mixed bag</span>, really. I think it really depends on the specific museum and my mood on the day. <span class=\"ml-token adv\">Essentially</span>, I can take it or leave it.</p>",
       "vocabulary": {
@@ -104,7 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you prefer reading books or watching videos to learn something?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-61-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-61-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<p><span class=\"ml-token adv\">Personally</span>, I learn best by reading. While videos can be engaging and visually stimulating, I find that the information doesn't always <span class=\"ml-token phrasal\">sink in</span> as deeply as when I read something. When I read, I can control the pace, <span class=\"ml-token phrasal\">go back over</span> sections I don't understand, and make notes. It's a more active and <span class=\"ml-token colloc\">immersive</span> learning experience for me.</p> <p><span class=\"ml-token adv\">That being said</span>, I recognize that videos have their own advantages. They can be particularly helpful for visual learners, and they can often explain complex concepts in a more accessible way. <span class=\"ml-token adv\">Ultimately</span>, I think it comes down to individual learning styles and the subject matter at hand. <span class=\"ml-token idiom\">Different strokes for different folks</span>, as they say. But if I had to choose one, I'd <span class=\"ml-token colloc\">lean towards</span> reading. <span class=\"ml-token proverb\">Knowledge is power</span>, and reading unlocks it for me.</p>",
       "vocabulary": {
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "Describe these two pictures.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-61-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-61-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>Alright, in the first picture, we see a field where people are <span class=\"ml-token phrasal\">harvesting</span> crops by hand. It looks like a labor-intensive process, and it probably requires a significant amount of manpower to cover even a relatively small area. <span class=\"ml-token adv\">Presumably</span>, this is happening in a region where labor costs are low and access to modern machinery is limited. The workers seem to be working hard under what appear to be difficult conditions.</p> <p>In contrast, the second picture shows a vast field being harvested by large, sophisticated machines. These machines are likely capable of harvesting enormous quantities of crops in a fraction of the time it would take a team of manual laborers. <span class=\"ml-token adv\">Clearly</span>, this represents a more efficient and technologically advanced approach to agriculture. <span class=\"ml-token adv\">Moreover</span>, it reduces the need for manual labor, but it also raises questions about employment and the <span class=\"ml-token colloc\">socioeconomic</span> impact of automation. <span class=\"ml-token idiom\">It's a world apart</span>, showing two very different approaches to farming.</p> <p><span class=\"ml-token adv\">Ultimately</span>, both methods serve the same purpose – to harvest crops and provide food. <span class=\"ml-token adv\">However</span>, they reflect vastly different levels of technological development and economic circumstances. The manual labor approach is likely more sustainable in some ways, while the mechanized approach is more productive. <span class=\"ml-token proverb\">You reap what you sow</span>, regardless of the method.</p>",
       "vocabulary": {
@@ -180,7 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the advantages of using machines in farming?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-61-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-61-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>The advantages of using machines in farming are numerous and <span class=\"ml-token adv\">ultimately</span> contribute to increased efficiency and productivity. Firstly, machines like tractors and combine harvesters can cover vast areas of land much faster than manual labor, enabling farmers to plant and harvest crops in a timely manner, <span class=\"ml-token idiom\">making hay while the sun shines</span>. This is particularly crucial during peak seasons when time is of the essence. </p><p>Secondly, machines reduce the physical strain on farmers and agricultural workers. Tasks that <span class=\"ml-token colloc\">would otherwise</span> require back-breaking labor can be completed with relative ease using machinery. <span class=\"ml-token adv\">Furthermore</span>, the precision offered by modern farming equipment minimizes waste and maximizes yields. <span class=\"ml-token phrasal\">On top of that</span>, machines can be equipped with advanced technologies, such as GPS and sensors, to optimize planting, fertilization, and irrigation, leading to more sustainable and efficient farming practices.</p>",
       "vocabulary": {
@@ -218,7 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some farmers still harvest crops by hand?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-61-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-61-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>Some farmers still harvest crops by hand for a variety of reasons. <span class=\"ml-token adv\">Firstly</span>, in certain regions, the terrain may be unsuitable for large machinery. Steep hillsides or small, terraced fields often necessitate manual harvesting. <span class=\"ml-token adv\">Secondly</span>, some crops are too delicate to be harvested by machines without causing damage. <span class=\"ml-token colloc\">Consider</span>, for example, berries or certain types of vegetables that bruise easily. </p><p><span class=\"ml-token adv\">Furthermore</span>, in some communities, manual harvesting is a traditional practice passed down through generations, <span class=\"ml-token idiom\">a labor of love</span>. It provides employment opportunities in rural areas and supports local economies. <span class=\"ml-token phrasal\">On top of everything</span>, for organic farming practices, manual harvesting is often preferred to avoid the use of machinery that may compact the soil or require the use of non-organic lubricants.</p>",
       "vocabulary": {
@@ -256,7 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a time you did a difficult physical task yourself instead of hiring someone.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-61-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-61-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a time you did a difficult physical task yourself instead of hiring someone.",
@@ -299,7 +299,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Public Libraries Are Important",
-      "audioFile": "questions S/audio/cefr-speaking-mock-61-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-61-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

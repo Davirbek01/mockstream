@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "@mock_stream",
     "testIdentifier": "mock_stream",
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How many hours do you usually sleep?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-63-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-63-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>Well, <span class=\"ml-token adv\">on average</span>, I aim for around seven to eight hours of sleep a night. I've found that <span class=\"ml-token colloc\">hitting that sweet spot</span> really makes a difference in my overall mood and productivity. <span class=\"ml-token adv\">Ideally</span>, I'd love to get nine hours, but <span class=\"ml-token adv\">realistically</span>, life often <span class=\"ml-token phrasal\">gets in the way</span>.</p><p>If I consistently get less than seven hours, I start to feel it pretty quickly – my concentration wavers, and I'm <span class=\"ml-token colloc\">more prone to</span> irritability. I'm a firm believer that sleep is one of the cornerstones of good health, and I really <span class=\"ml-token phrasal\">try to prioritize</span> it, even when things get hectic. Plus, I've noticed that <span class=\"ml-token idiom\">burning the candle at both ends</span> just leads to diminishing returns in the long run.</p>",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you prefer taking photos or appearing in photos?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-63-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-63-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>That's an interesting question! I think I lean towards preferring to take photos rather than being in them. <span class=\"ml-token adv\">To me</span>, photography is a creative outlet. I enjoy capturing moments and seeing the world through a lens. <span class=\"ml-token adv\">Moreover</span>, I find it creatively fulfilling to <span class=\"ml-token phrasal\">frame a shot</span> and play with composition and lighting. It's a way to express myself without necessarily being the subject of attention.</p><p><span class=\"ml-token adv\">Having said that</span>, I don't mind being in photos occasionally, especially if it's with friends and family. But <span class=\"ml-token adv\">generally speaking</span>, I'm more comfortable <span class=\"ml-token phrasal\">behind the camera</span>. I guess I just prefer to be the observer rather than the observed. It also helps that I’m <span class=\"ml-token colloc\">pretty good at</span> taking photos and <span class=\"ml-token adv\">not so much</span> at posing for them! <span class=\"ml-token idiom\">Each to their own</span>, I suppose.</p>",
       "vocabulary": {
@@ -104,7 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like visiting parks?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-63-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-63-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>Absolutely, I do! I'm <span class=\"ml-token colloc\">quite fond of</span> visiting parks. They offer a wonderful escape from the hustle and bustle of city life. <span class=\"ml-token adv\">Firstly</span>, I appreciate the opportunity to connect with nature, even in an urban setting. The greenery, fresh air, and sounds of birds chirping <span class=\"ml-token phrasal\">help me unwind</span> and feel more relaxed. It’s a great way to <span class=\"ml-token phrasal\">clear my head</span>. Parks are <span class=\"ml-token adv\">also</span> great places for exercise. </p><p><span class=\"ml-token adv\">Furthermore</span>, parks often serve as community hubs, where people can gather, socialize, and participate in recreational activities. <span class=\"ml-token adv\">In essence</span>, parks provide a valuable space for both individual reflection and social interaction. I think <span class=\"ml-token proverb\">a change is as good as a rest</span>, and a visit to the park certainly provides that.</p>",
       "vocabulary": {
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What ways of expressing personal thoughts are shown in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-63-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-63-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>The pictures illustrate different ways of expressing personal thoughts. The first image shows someone writing in a diary, which represents a private and introspective form of expression. It's a way to <span class=\"ml-token phrasal\">sort through</span> one's feelings and thoughts in a personal and confidential space. This method allows for unfiltered honesty and self-reflection, without the pressure of external judgment. <span class=\"ml-token adv\">Essentially</span>, it's a conversation with oneself.</p><p>The second image depicts someone posting on social media, which is a public and extroverted form of expression. It involves sharing thoughts and feelings with a wide audience, seeking validation, and engaging in dialogue. This method allows for instant feedback and connection with others who may share similar viewpoints. <span class=\"ml-token adv\">However</span>, it <span class=\"ml-token colloc\">also comes with</span> the risk of criticism and exposure. <span class=\"ml-token adv\">Ultimately</span>, both methods serve the same purpose – to articulate and share one's inner world – but they cater to different personalities and preferences. <span class=\"ml-token idiom\">Different strokes for different folks</span>, I suppose. Both allow you to <span class=\"ml-token phrasal\">get something off your chest</span>.</p>",
       "vocabulary": {
@@ -180,7 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some people prefer keeping their thoughts private?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-63-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-63-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>Well, I think there are several reasons why some individuals <span class=\"ml-token phrasal\">clam up</span> and prefer to keep their thoughts to themselves. <span class=\"ml-token adv\">Firstly</span>, there's the fear of vulnerability. Sharing your innermost thoughts can feel like exposing a part of yourself, and not everyone is comfortable with that level of openness. They might be worried about being judged, misunderstood, or even ridiculed. <span class=\"ml-token adv\">Secondly</span>, some people are naturally more introverted and reflective. They process their thoughts internally and don't feel the need to verbalize them to feel validated.</p> <p><span class=\"ml-token adv\">Furthermore</span>, privacy concerns are increasingly relevant in today's world. With the prevalence of social media and data collection, people are more aware of the potential consequences of sharing their thoughts publicly. They might be concerned about their thoughts being taken out of context, used against them, or simply becoming part of the digital noise. <span class=\"ml-token idiom\">It's a case of once bitten, twice shy</span>. So, it's not always about being secretive, but rather about being discerning about who you share with and why.</p>",
       "vocabulary": {
@@ -218,7 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How has social media changed the way people share their feelings?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-63-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-63-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>Social media has profoundly altered how people share their feelings. <span class=\"ml-token adv\">Initially</span>, it provided a platform for self-expression, allowing individuals to connect with others who shared similar experiences. <span class=\"ml-token adv\">However</span>, this has evolved into a more curated and performative display of emotions.</p> <p>People often present an idealized version of their lives, leading to feelings of inadequacy and comparison among viewers. The pressure to maintain a certain image can also discourage genuine emotional expression. <span class=\"ml-token adv\">Furthermore</span>, the anonymity afforded by online platforms can embolden people to express negativity or engage in cyberbullying, creating a toxic environment that stifles open and honest communication. <span class=\"ml-token idiom\">It's a double-edged sword</span>. <span class=\"ml-token phrasal\">On the one hand</span>, it connects us; <span class=\"ml-token phrasal\">on the other hand</span>, it isolates us.</p>",
       "vocabulary": {
@@ -256,7 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a time you spent a day without using any electronic gadgets (phone, laptop, etc.).",
-      "audioFile": "questions S/audio/cefr-speaking-mock-63-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-63-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a time you spent a day without using any electronic gadgets (phone, laptop, etc.).",
@@ -299,7 +299,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "All People Should Learn to Cook at Home",
-      "audioFile": "questions S/audio/cefr-speaking-mock-63-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-63-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

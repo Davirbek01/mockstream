@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "@mock_stream",
     "testIdentifier": "mock_stream",
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Are you interested in fashion trends?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-43-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-43-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>To be honest, I'm <span class=\"ml-token adv\">moderately</span> interested in fashion trends. I wouldn't call myself a fashion enthusiast, but I do like to <span class=\"ml-token colloc\">keep up with</span> what's popular and make sure I look presentable.</div>\n\n<div><span class=\"ml-token adv\">However</span>, I don't blindly follow every trend — I prefer to stick to styles that <span class=\"ml-token colloc\">suit my personality</span> and body type. I think fashion should be about expressing yourself rather than just copying what's on the runway. As they say, <span class=\"ml-token proverb\">\"style is a way to say who you are without having to speak.\"</span></div>",
       "vocabulary": {
@@ -65,7 +65,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Did you play any sports as a child?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-43-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-43-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, I <span class=\"ml-token adv\">definitely</span> did! As a child, I was <span class=\"ml-token adv\">quite</span> active and loved playing football with my friends in the neighbourhood. We used to play almost every evening after school, and it was one of the highlights of my day.</div>\n\n<div>I also tried my hand at swimming and basketball, although I wasn't <span class=\"ml-token adv\">particularly</span> talented at either. <span class=\"ml-token adv\">Looking back</span>, I think those experiences helped me develop <span class=\"ml-token colloc\">teamwork skills</span> and taught me the value of <span class=\"ml-token colloc\">fair play</span>. As they say, <span class=\"ml-token proverb\">\"it's not whether you win or lose, it's how you play the game.\"</span></div>",
       "vocabulary": {
@@ -102,7 +102,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you prefer texting or calling?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-43-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-43-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I'd say I <span class=\"ml-token adv\">generally</span> prefer texting because it gives me time to think about my response and I can reply at my own <span class=\"ml-token colloc\">convenience</span>. It's also less intrusive — I don't have to worry about interrupting someone's day.</div>\n\n<div><span class=\"ml-token adv\">However</span>, when it comes to more <span class=\"ml-token colloc\">urgent matters</span> or emotional conversations, I think calling is far more effective. You can hear the person's tone of voice and <span class=\"ml-token colloc\">convey emotions</span> much better. So it really <span class=\"ml-token colloc\">depends on the situation</span>, but for everyday communication, texting is my <span class=\"ml-token colloc\">go-to choice</span>.</div>",
       "vocabulary": {
@@ -139,7 +139,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-43-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-43-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>In the first picture, I can see a group of children planting trees <span class=\"ml-token adv\">independently</span>, without any adult supervision. They seem to be working together as a team, taking <span class=\"ml-token colloc\">full responsibility</span> for the task and showing a great deal of initiative.</div>\n\n<div>In the second picture, children are planting trees with adults helping and guiding them. The adults appear to be <span class=\"ml-token adv\">actively</span> involved, showing the children the <span class=\"ml-token colloc\">correct techniques</span> and offering encouragement. The <span class=\"ml-token colloc\">contrast between</span> the two images highlights the difference between <span class=\"ml-token colloc\">independent learning</span> and <span class=\"ml-token colloc\">guided mentorship</span>.</div>",
       "vocabulary": {
@@ -176,7 +176,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do many children nowadays like working independently?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-43-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-43-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>There are several reasons why many children today prefer working independently. <span class=\"ml-token adv\">Firstly</span>, the modern education system increasingly encourages <span class=\"ml-token colloc\">self-directed learning</span>, which helps children develop confidence in their own abilities. When they manage tasks on their own, they feel a strong sense of <span class=\"ml-token colloc\">personal achievement</span>.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, technology has made it much easier for children to access information and learn new skills without needing constant adult guidance. With the internet and educational apps, children can <span class=\"ml-token colloc\">explore topics</span> at their own pace and in their own way.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, working independently allows children to express their <span class=\"ml-token colloc\">creativity freely</span> without worrying about meeting someone else's expectations. It gives them a sense of ownership over their work, which can be <span class=\"ml-token adv\">incredibly</span> motivating. As the proverb goes, <span class=\"ml-token proverb\">\"give a man a fish and you feed him for a day; teach a man to fish and you feed him for a lifetime.\"</span></div>",
       "vocabulary": {
@@ -213,7 +213,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some children think that work done with adults is of higher quality?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-43-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-43-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>There are a number of reasons why some children believe that work done with adults is of <span class=\"ml-token colloc\">higher quality</span>. <span class=\"ml-token adv\">Primarily</span>, adults bring years of experience and knowledge that children simply haven't had the chance to acquire yet. When an adult guides a child through a task, they can point out mistakes, suggest better approaches, and ensure that the <span class=\"ml-token colloc\">final result</span> meets a higher standard.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, children often look up to adults as <span class=\"ml-token colloc\">role models</span> and authority figures, so they naturally trust that adult involvement leads to better outcomes. There's also a psychological element — children may feel more confident about their work when an adult has <span class=\"ml-token colloc\">validated their efforts</span> and provided reassurance.</div>\n\n<div><span class=\"ml-token adv\">Moreover</span>, collaborative work with adults tends to be more structured and organised, as adults bring <span class=\"ml-token colloc\">planning skills</span> and attention to detail that young children are still developing. This structure often results in a more polished and <span class=\"ml-token colloc\">well-executed</span> piece of work.</div>",
       "vocabulary": {
@@ -250,7 +250,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Share a time when nature inspired you.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-43-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-43-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Share a time when nature inspired you.",
@@ -292,7 +292,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Students should use dormitories at their place of study.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-43-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-43-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

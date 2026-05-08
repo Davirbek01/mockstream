@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "@mock_stream",
     "testIdentifier": "mock_stream",
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "When was the last time you went to a theatre?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-52-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-52-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>The last time I visited a theatre was about three months ago to watch a <span class=\"ml-token adv\">highly</span> anticipated classical play. The <span class=\"ml-token colloc\">live performance</span> was <span class=\"ml-token adv\">absolutely</span> captivating, and the atmosphere inside the grand auditorium was electrifying.</div>\n\n<div><span class=\"ml-token adv\">Honestly</span>, there's a unique magic to live theatre that cinema <span class=\"ml-token adv\">simply</span> cannot replicate. Seeing the actors' raw emotions up close truly <span class=\"ml-token colloc\">stole the show</span> and left a lasting impression on me.</div>",
       "vocabulary": {
@@ -65,7 +65,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Are there any hobbies you think are popular in your country?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-52-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-52-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, <span class=\"ml-token adv\">without a doubt</span>. <span class=\"ml-token colloc\">Team sports</span> like football are <span class=\"ml-token adv\">immensely</span> popular in my country, with people of all ages either playing socially or passionately following local leagues.</div>\n\n<div><span class=\"ml-token adv\">Recently</span>, however, more solitary, <span class=\"ml-token colloc\">tech-driven hobbies</span> such as mobile gaming and photography have <span class=\"ml-token adv\">rapidly</span> gained traction among the younger generation. It seems these modern pastimes are really <span class=\"ml-token proverb\">\"taking the country by storm.\"</span></div>",
       "vocabulary": {
@@ -102,7 +102,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like the transport system in your country?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-52-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-52-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div><span class=\"ml-token adv\">Generally</span>, our transport system is <span class=\"ml-token adv\">fairly</span> reliable, especially the metro, which is <span class=\"ml-token colloc\">fast and efficient</span> for navigating the city center during rush hours.</div>\n\n<div><span class=\"ml-token adv\">However</span>, the bus network in the suburbs leaves much to be desired. It can be <span class=\"ml-token adv\">frustratingly</span> infrequent, meaning without a car, getting around can sometimes feel like an <span class=\"ml-token colloc\">uphill battle</span>. There is <span class=\"ml-token adv\">certainly</span> room for improvement.</div>",
       "vocabulary": {
@@ -139,7 +139,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in this pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-52-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-52-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>The first picture shows people wrapped in <span class=\"ml-token adv\">thick</span>, warm clothing, <span class=\"ml-token adv\">enthusiastically</span> engaging in winter sports. They are playing in the snow, surrounded by a frozen, <span class=\"ml-token colloc\">picturesque landscape</span>.</div>\n\n<div><span class=\"ml-token adv\">In contrast</span>, the second image depicts a classic <span class=\"ml-token colloc\">summer getaway</span>. People are relaxing <span class=\"ml-token adv\">leisurely</span> on a sun-drenched beach, wearing swimwear, and soaking up the <span class=\"ml-token colloc\">tropical atmosphere</span>. The two images perfectly contrast the bracing thrill of winter with the lazy <span class=\"ml-token proverb\">\"dog days\"</span> of summer vacations.</div>",
       "vocabulary": {
@@ -176,7 +176,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What advantages are there for people travelling in summer?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-52-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-52-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Traveling during the summer offers <span class=\"ml-token adv\">numerous</span> compelling advantages. <span class=\"ml-token adv\">Foremost</span>, the weather is <span class=\"ml-token adv\">dependably</span> pleasant, which means tourists can pack <span class=\"ml-token adv\">significantly</span> lighter luggage without needing bulky coats and boots. This makes <span class=\"ml-token colloc\">spontaneous exploration</span> much easier.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, summer translates to longer daylight hours. Travelers can <span class=\"ml-token adv\">maximally</span> utilize their days, spending more time outdoors visiting <span class=\"ml-token colloc\">historical sights</span> or simply lounging on the beach until late evening.</div>\n\n<div><span class=\"ml-token adv\">Finally</span>, summer <span class=\"ml-token adv\">naturally</span> coincides with vibrant cultural festivals and <span class=\"ml-token colloc\">bustling nightlife</span>. The general mood of locals and tourists alike is <span class=\"ml-token adv\">undeniably</span> more cheerful, making it the perfect time to <span class=\"ml-token proverb\">\"let your hair down\"</span> and socialize.</div>",
       "vocabulary": {
@@ -213,7 +213,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some people prefer travelling in winter?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-52-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-52-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>There are several reasons why some individuals <span class=\"ml-token adv\">actively</span> seek out winter destinations. <span class=\"ml-token adv\">Primarily</span>, it is the allure of <span class=\"ml-token colloc\">winter sports</span>. Skiing, snowboarding, and ice-skating are exhilarating activities that are <span class=\"ml-token adv\">strictly</span> dependent on snow-covered, <span class=\"ml-token colloc\">mountainous terrains</span>.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, winter travel often allows people to escape the suffocating crowds associated with summer tourism. Visiting iconic European cities during the off-season guarantees a more <span class=\"ml-token adv\">authentic</span> and <span class=\"ml-token colloc\">peaceful experience</span>, not to mention the added benefit of <span class=\"ml-token adv\">significantly</span> cheaper accommodation.</div>\n\n<div><span class=\"ml-token adv\">Lastly</span>, there is a profound <span class=\"ml-token colloc\">cozy aesthetic</span> attached to winter travel. After a freezing day outdoors, sitting by a roaring fireplace with hot chocolate produces an <span class=\"ml-token adv\">unmatched</span> feeling of warmth and comfort.</div>",
       "vocabulary": {
@@ -250,7 +250,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Can you describe a book or movie that impressed you?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-52-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-52-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Can you describe a book or movie that impressed you?",
@@ -293,7 +293,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "People should travel to other countries.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-52-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-52-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

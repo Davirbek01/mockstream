@@ -6,7 +6,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "IELTS Mock Stream",
     "telegramChannel": "@ieltsmockstream",
     "testIdentifier": "mock_stream_44",
@@ -14,8 +14,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Work & Writing"
   },
   "images": {
-    "img1": "https://i.ibb.co/gM1bMSXS/image.png",
-    "img2": "https://i.ibb.co/G4QH85qq/image.png",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/gM1bMSXS-image.png",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/G4QH85qq-image.png",
     "img1Alt": "Placeholder 1",
     "img2Alt": "Placeholder 2"
   },
@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What would you change about your job?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-44-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-44-q1.mp3",
       "sampleAnswer": "If I had the opportunity to modify aspects of my professional life, I would primarily focus on fostering a more flexible and autonomous working environment, as I believe this is crucial for sustained creativity and high-level performance. Specifically, I would incorporate more opportunities for remote work and asynchronous communication, which would allow for deeper periods of focused 'deep work' without the constant interruptions of traditional office life. I'd also like to see a greater emphasis on cross-functional collaboration—breaking down the silos between departments to encourage a more holistic understanding of our projects. While I find my current role genuinely rewarding, I think these structural changes would not only improve my own productivity and job satisfaction but would also make the team more resilient and innovative. Ultimately, I believe the future of work lies in trusting professionals to manage their own time and energy toward clear, meaningful outcomes rather than simply monitoring their physical presence.",
       "vocabulary": {
         "title": "Q1 - Changing Your Job",
@@ -89,7 +89,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What job do you think you will be doing in five years?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-44-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-44-q2.mp3",
       "sampleAnswer": "Predicting the future of any career is challenging given the current pace of technological change, but in five years, I envision myself in a more senior strategic role that combines my technical expertise with broader organisational leadership. I hope to have progressed to a position where I'm not only executing complex projects but also mentoring younger colleagues and helping to define the long-term vision of the company. I'm particularly interested in roles that bridge the gap between technical implementation and human-centric design, as I think this is where the most significant challenges and opportunities will lie. By that point, I expect to have deepened my expertise in specific emerging areas of my field and to be leading multidisciplinary teams to solve complex, large-scale problems. Of course, the specific nature of the role might change as the industry evolves, but my goal is to remain at the forefront of innovation while developing the critical people-management and strategic skills that are essential for high-level leadership.",
       "vocabulary": {
         "title": "Q2 - Career in Five Years",
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What skills and qualifications are required for this job?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-44-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-44-q3.mp3",
       "sampleAnswer": "Success in my current field requires a sophisticated blend of formal academic qualifications and dynamic, 'soft' personal skills that allow for effective collaboration in complex environments. On the formal side, a solid educational foundation—typically a degree in a relevant discipline—is essential to provide the theoretical framework and the rigorous analytical skills needed for technical problem-solving. However, I've found that these qualifications are merely a starting point; the real differentiation comes from high-level cognitive skills like critical thinking, adaptability, and the ability to learn new technologies rapidly. Equally important are communication skills—the ability to articulate complex ideas clearly to diverse audiences and to build strong, trusting relationships with colleagues and clients. Finally, in a fast-paced professional world, resilience and emotional intelligence are indispensable for navigating the pressures and uncertainties of modern work. I think the most successful professionals are those who commit to lifelong learning, constantly updating both their technical toolkit and their interpersonal capabilities.",
       "vocabulary": {
         "title": "Q3 - Skills and Qualifications",
@@ -198,7 +198,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Are there good work opportunities in your home country?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-44-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-44-q4.mp3",
       "sampleAnswer": "The landscape of work opportunities in my country is currently in a state of flux, presenting a complex picture of significant opportunity in some sectors and genuine challenges in others. In the burgeoning technology, renewable energy, and creative sectors, there is a substantial demand for skilled professionals, often accompanied by competitive salaries and innovative working environments—these areas are genuinely thriving and attracting talent from around the world. However, more traditional industries—manufacturing and some public sector roles—are facing structural changes that make them more precarious. I think the key for young professionals in my country is to remain adaptable and to focus on developing high-demand skills that are transferable across different sectors. While the concentration of opportunities in major urban centres remains a challenge for regional development, the growth of remote work is beginning to create a more geographically diverse employment landscape. Generally, I'm cautiously optimistic: for those with the right skills and the willingness to pursue continuous professional development, the opportunities are genuinely excellent.",
       "vocabulary": {
         "title": "Q4 - Work Opportunities in Home Country",
@@ -251,7 +251,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What age do children normally learn to write in your country?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-44-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-44-q5.mp3",
       "sampleAnswer": "In my country, the formal process of learning to write typically begins around the age of five or six when children enter primary school, though there's a growing emphasis on developing the necessary fine motor skills and letter recognition during the earlier preschool years. The curriculum is structured to move from basic letter formation and phonics to the construction of simple sentences and, eventually, to more complex narrative and descriptive writing. It's a fundamental milestone in an individual's educational journey—the moment when they gain the ability to externalise their thoughts and communicate across time and space. I think what's particularly interesting about the contemporary environment is how children are being introduced to digital writing—typing and navigating screens—simultaneously with traditional handwriting. While some worry that this might diminish the quality of their penmanship, I believe it's essential for children to develop a diverse 'literacy toolkit' that prepares them for both physical and digital communication from a very young age.",
       "vocabulary": {
         "title": "Q5 - Children Learning to Write",
@@ -303,7 +303,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Did you write a lot when you were a child?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-44-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-44-q6.mp3",
       "sampleAnswer": "Yes, I was a genuinely prolific writer as a child, and I think it was my primary way of exploring the world and making sense of my own experiences. I have vivid memories of filling notebooks with imaginative stories, detailed observations of nature, and my own particular interpretations of the books I was reading—it was a form of play that allowed me to create entire worlds and characters that existed only in my imagination. My parents and teachers were very supportive of this, which I think was crucial; having an audience that found value in my writing gave me the confidence to experiment and to find my own voice. Looking back, I can see how that early obsession with writing laid the foundation for the analytical and communicative skills I rely on today. Even then, the act of putting pen to paper felt like a powerful way to clarify my thoughts and to capture moments that would otherwise have been forgotten—it was my first experience of the transformative power of the written word.",
       "vocabulary": {
         "title": "Q6 - Writing as a Child",
@@ -355,7 +355,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you prefer writing letters or sending emails?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-44-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-44-q7.mp3",
       "sampleAnswer": "I find myself in a somewhat ambivalent position on this—I value both the efficiency of email and the profound personal connection of a handwritten letter, and I think they serve very different functions in my life. For professional communication and everyday logistics, email is undeniably superior—its speed, searchability, and ease of use are essential for navigating a modern, fast-paced world. However, for genuinely personal communication—expressing gratitude, sharing significant news, or simply maintaining a deep connection with a friend—I find that a handwritten letter carries a degree of intentionality and physical presence that digital communication simply cannot replicate. The act of choosing stationery, the tactile quality of the paper, and the unique character of someone's handwriting make a letter a physical artifact that can be kept and revisited in a way that an email cannot. I think the rarity of letters in the digital age has actually increased their value—receiving a letter now feels like a genuine gift, a sign that someone has taken the time to slow down and think specifically of you.",
       "vocabulary": {
         "title": "Q7 - Letters vs Emails",
@@ -407,7 +407,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe an occasion when you saw a lot of people smiling.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-44-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-44-q8.mp3",
       "bulletPoints": [
         "what occasion it was",
         "where it was",
@@ -466,7 +466,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think a smile can always be trusted?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-44-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-44-q9.mp3",
       "sampleAnswer": "This is a fascinating and somewhat complex question. While we intuitively associate a smile with genuine happiness and warmth, I think the honest answer is that a smile is not an infallible indicator of a person's true internal state. Humans are socially sophisticated animals, and we have developed the ability to use 'polite' or 'social' smiles as a way of smoothing social interactions, even when we don't feel genuinely happy. There's a well-documented physiological difference between a 'Duchenne smile'—which involved the muscles around the eyes and is typically involuntary and genuine—and a social smile, which is more controlled. Furthermore, in some professional and social contexts, there can be a pressure to maintain a smiling exterior—what psychologists call 'emotional labour'—to meet the expectations of others. I think while most people's smiles are genuine, it's also true that a smile can be used to mask discomfort, sadness, or even insincerity. This doesn't mean we should be cynical, but rather that we should be aware that human expression is multifaceted and that true connection often requires more than just a surface-level gesture.",
       "vocabulary": {
         "title": "Q9 - Trusting a Smile",
@@ -515,7 +515,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How important is a sense of humour in a workplace?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-44-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-44-q10.mp3",
       "sampleAnswer": "I believe a healthy sense of humour is absolutely vital for a productive and resilient workplace, as it serves as a powerful tool for building rapport, managing stress, and fostering a creative environment. Shared humour can break down barriers between hierarchy levels and encourage a more collaborative, less defensive atmosphere where people feel safe to express new ideas or to acknowledge mistakes. It acts as a kind of 'social lubricant' that makes the inevitable frictions of professional life more manageable. Furthermore, in high-pressure environments, the ability to find humour in challenging situations can be a significant factor in preventing burnout and maintaining morale. However, I think the key is that the humour must be inclusive and respectful; it should be used to build people up, not to put them down. When used well, humour doesn't diminish the seriousness of the work; instead, it provides the perspective and the psychological safety that allow a team to tackle serious problems with more energy and creativity.",
       "vocabulary": {
         "title": "Q10 - Humour in the Workplace",
@@ -565,7 +565,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think people who like to smile are more friendly?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-44-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-44-q11.mp3",
       "sampleAnswer": "There is certainly a strong correlation in our social perception between smiling and friendliness, and for very good evolutionary reasons—as a species, we use the smile as a primary signal of non-aggression and social openness. Generally speaking, people who smile frequently are perceived as more approachable, more trustworthy, and more genuinely interested in others, which often makes social interactions smoother and more positive. This perception can create a kind of self-fulfilling prophecy, where the friendly response elicited by a smile makes the person actually feel and act more friendly. However, I think it's important to avoid the trap of assuming that a person's internal state is always perfectly mirrored by their facial expression. Some very kind and friendly people may be naturally more reserved or 'serious' in their expression, while someone who smiles a lot might be doing so as a social habit or even to overcompensate for social anxiety. I think while a smile is a wonderful starting point for connection, true friendliness is revealed more through consistent actions, empathy, and the quality of attention we give to others rather than just through a surface-level gesture.",
       "vocabulary": {
         "title": "Q11 - Smiling and Friendliness",
@@ -615,7 +615,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Why do most people smile in photographs?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-44-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-44-q12.mp3",
       "sampleAnswer": "The habit of smiling in photographs is a deeply ingrained cultural norm that has evolved alongside the history of photography itself, and I think it reflects our desire to curate and project a particular version of ourselves to the world. In the earliest days of photography, people rarely smiled because the long exposure times made it difficult to hold a smile, and portraits were seen as serious, formal occasions akin to traditional painting. However, as technology improved and photography became more candid and accessible, the expectation shifted toward capturing moments of happiness and spontaneity. Today, a photograph is often seen as a record of a positive experience, and smiling is the standard way of signaling that 'this is a happy moment'—even if the actual situation was stressful or unremarkable. There's also a social element; we want to be remembered as happy, vibrant, and socially successful individuals. I think social media has intensified this pressure, creating a culture where we feel a constant need to demonstrate our 'best life' through perfectly curated, smiling images. It's an interesting example of how a medium of communication can shape the very ways we express our internal lives.",
       "vocabulary": {
         "title": "Q12 - Smiling in Photographs",
@@ -664,7 +664,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do women smile more than men? Why?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-44-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-44-q13.mp3",
       "sampleAnswer": "This is a subject that has been extensively studied in social psychology, and the research generally suggests that across many cultures, women do tend to smile more frequently than men. I think the reasons for this are primarily social and cultural rather than biological—they reflect different expectations and pressures placed on individuals based on their gender. Historically, in many societies, women have been socialised to be more expressive, more nurturing, and more responsible for 'social harmony'—roles where the smile is a primary tool for building connection and smoothing over conflict. There's often a greater social pressure on women to appear 'pleasant' or 'approachable,' which can lead to more frequent social smiling even when they don't feel genuinely happy. Men, on the other hand, have often been socialised to associate seriousness and emotional restraint with strength and authority. I think as gender roles become more fluid and we move toward a more nuanced understanding of emotional expression, these differences may become less pronounced. Ultimately, I believe the frequency of smiling is more a reflection of the social 'scripts' we've been taught to follow than an inherent difference between genders.",
       "vocabulary": {
         "title": "Q13 - Gender and Smiling",
@@ -714,7 +714,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do people smile more when they are younger or older?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-44-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-44-q14.mp3",
       "sampleAnswer": "I think the frequency and nature of smiling change quite significantly across the lifespan, reflecting different developmental stages and life experiences. Children generally smile and laugh more frequently and more spontaneously—for them, the smile is a direct and uninhibited expression of joy, curiosity, or pure physical pleasure. They are less bound by social conventions and have a greater capacity for being completely absorbed in the present moment. As we move into adulthood and old age, our smiles often become more controlled and socially directed. While older adults may smile less 'often' in terms of sheer numbers, I think many people find that their smiles in later life carry a deeper kind of meaning—they become expressions of genuine gratitude, contentment, or a more nuanced appreciation of life's complexities. There's also research suggesting a 'U-shaped' curve of happiness, where people's reported wellbeing often dips in middle age and then rises again in later life, which might suggest that older adults actually have more to smile about as they gain perspective and focus on what truly matters. I think the most important difference is that while a child's smile is often a reaction to a stimulus, an older adult's smile is more frequently a reflection of a deeper internal state.",
       "vocabulary": {
         "title": "Q14 - Age and Smiling",
@@ -764,7 +764,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Is there a difference between a polite smile and a genuine one in professional contexts?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-44-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-44-q15.mp3",
       "sampleAnswer": "Yes, I think discerning the difference between a polite, social smile and a genuine, spontaneous one is a key part of effective communication and leadership in professional environments. A polite smile is typically more controlled—it uses the muscles around the mouth but often lacks the involvement of the muscles around the eyes, which characterizes a genuine 'Duchenne smile.' In professional life, the polite smile is often used as a tool for 'impression management'—to project a sense of cooperation, interest, or professional focus, even when one might feel indifferent or stressed. While this kind of 'emotional labour' is sometimes necessary to maintain a productive atmosphere, I think the most successful leaders are those who can foster an environment where people feel safe enough to be genuine. A genuine smile, by contrast, is a powerful signal of true connection and shared purpose; when it occurs in a team, it can boost morale and trust far more effectively than any number of forced social gestures. I think the key is to recognize that while the polite smile has its place as a social lubricant, the genuine smile is the foundation of authentic professional relationships.",
       "vocabulary": {
         "title": "Q15 - Polite vs Genuine Smiles",
@@ -811,7 +811,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How has digital communication changed the way we express emotions like happiness?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-44-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-44-q16.mp3",
       "sampleAnswer": "The digital age has fundamentally altered the landscape of emotional expression, introducing a range of new symbolic tools—emojis, GIFs, and likes—that both expand and limit the ways we communicate happiness. These tools allow for a kind of 'compressed' emotional communication that is incredibly efficient for fast-paced digital interactions; we can signal joy or agreement with a single character, effectively spanning time and space. However, I think there is a genuine risk that this convenience comes at a cost of nuance and depth. A smiling face emoji is a useful shorthand, but it lacks the infinite variety of a physical smile, which carries a person's unique character and the specific context of the moment. Furthermore, digital platforms often encourage a high level of performative happiness—what some call 'toxic positivity'—where we feel pressured to only share the most successful and smiling versions of our lives. I think the challenge for the modern world is to ensure that while we embrace the efficiency of digital symbolic expression, we don't lose the capacity for the slower, more vulnerable, and more genuine forms of emotional connection that can only happen in person.",
       "vocabulary": {
         "title": "Q16 - Digital Communication and Emotion",
@@ -859,7 +859,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Can the physical act of smiling influence our psychological state?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-44-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-44-q17.mp3",
       "sampleAnswer": "This is a concept known in psychology as the 'facial feedback hypothesis,' and it suggests that the relationship between our expressions and our emotions is a two-way street—not only do we smile because we feel happy, but the physical act of smiling can actually make us feel happier. The theory is that when we engage the muscles involved in smiling, it triggers a series of physiological responses—the release of neurotransmitters like dopamine and serotonin—that send positive signals to the brain and reduce stress levels. In this sense, a smile can be a powerful tool for emotional self-regulation; consciously choosing to smile during a challenging situation can actually lower our heart rate and improve our resilience. However, I think it's important to be cautious of the idea that this is a 'magic bullet' for unhappiness. Genuine psychological health requires a much deeper engagement with our internal lives than just smiling through difficulties. I think the most useful way to see the impact of smiling is as a supportive tool—something that can help us manage low-level stress and improve our social interactions, while acknowledging that true happiness is a more complex outcome of our circumstances and our mindset.",
       "vocabulary": {
         "title": "Q17 - Physical Smiling and Psychology",

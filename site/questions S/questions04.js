@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "@mock_stream",
     "testIdentifier": "mock_stream",
@@ -15,8 +15,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Chet tilini bilish darajasi"
   },
   "images": {
-    "img1": "https://i.ibb.co/2Ycd6Cr2/reading-books.jpg",
-    "img2": "https://i.ibb.co/Gvy03Q4K/kindle.jpg",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/2Ycd6Cr2-reading-books.jpg",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/Gvy03Q4K-kindle.jpg",
     "img1Alt": "Festival event",
     "img2Alt": "Museum visit"
   },
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "When was the last time you received a gift?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-04-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-04-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<span class=\"ml-token adv\">Honestly</span>, the last time I received a gift was just a couple of weeks ago. It was a particularly special occasion as it was my birthday, and one of my closest friends <span class=\"ml-token phrasal\">dropped by</span> unexpectedly. She handed me a beautifully wrapped package that <span class=\"ml-token colloc\">caught me off guard</span> and filled me with curiosity.\n\nUpon opening it, I discovered a <span class=\"ml-token colloc\">handcrafted journal</span>. Now, this wasn't just any journal; it was <span class=\"ml-token adv\">incredibly</span> personalized, with my initials embossed on the cover and a collection of our shared memories inside. This gift was <span class=\"ml-token adv\">truly</span> thoughtful, as it not only catered to my passion for writing but also encapsulated the essence of our long-standing friendship. \n\nI must say, receiving such a gift <span class=\"ml-token idiom\">warmed the cockles of my heart</span>. It <span class=\"ml-token phrasal\">made me realize</span> how much effort and love she had invested in creating something so meaningful. In today's fast-paced world, where we often <span class=\"ml-token colloc\">rush through</span> our lives, such gestures serve as a gentle reminder to cherish the relationships we <span class=\"ml-token phrasal\">hold dear</span>. As the saying goes, <span class=\"ml-token proverb\">\"It's the thought that counts,\"</span> and this experience was a testament to that.",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Who was your favourite teacher at school?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-04-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-04-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>Reflecting on my school days, my favourite teacher was undoubtedly Mr. Thompson. He taught English literature, and his classes were <span class=\"ml-token adv\">truly</span> transformative. Mr. Thompson had an <span class=\"ml-token idiom\">uncanny ability to bring stories to life</span>, <span class=\"ml-token phrasal\">drawing in</span> even the most disinterested students. What <span class=\"ml-token colloc\">set him apart</span> was his passion for storytelling and <span class=\"ml-token colloc\">encouraging creativity</span>. He would <span class=\"ml-token phrasal\">step into</span> the shoes of literary characters, making every lesson a <span class=\"ml-token colloc\">social experience</span> that was far from conventional.</p>\n\n<p>Mr. Thompson's influence on my love for literature was <span class=\"ml-token adv\">profoundly</span> significant. He would often say, <span class=\"ml-token proverb\">\"The pen is mightier than the sword,\"</span> inspiring us to explore the power of words. His teaching style was <span class=\"ml-token adv\">incredibly</span> engaging; he used a mix of humor and critical thinking exercises which <span class=\"ml-token phrasal\">sparked off</span> a curiosity in me that still thrives today.</p>\n\n<p>Furthermore, he <span class=\"ml-token phrasal\">took time</span> to mentor students outside the classroom, offering guidance and support in both academic and personal matters. I <span class=\"ml-token adv\">genuinely</span> believe that his mentorship was a pivotal factor in my decision to pursue a career in writing. <span class=\"ml-token proverb\">\"A good teacher can inspire hope, ignite the imagination, and instill a love of learning,\"</span> and Mr. Thompson exemplified this to perfection.</p>",
       "vocabulary": {
@@ -104,7 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How is your home decorated?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-04-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-04-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<p><span class=\"ml-token adv\">Honestly</span>, I take <span class=\"ml-token colloc\">great pride</span> in the way my home is decorated. It's a <span class=\"ml-token colloc\">harmonious blend</span> of modern and vintage styles that <span class=\"ml-token idiom\">brings out the best of both worlds</span>. As you step into the living room, you're greeted by a <span class=\"ml-token colloc\">sleek sectional sofa</span> that perfectly complements the <span class=\"ml-token colloc\">minimalist coffee table</span>. I've adorned the walls with <span class=\"ml-token colloc\">abstract art pieces</span> that add a <span class=\"ml-token colloc\">splash of color</span> and intrigue to the space.</p>\n\n<p>Moving into the dining area, I've opted for a <span class=\"ml-token colloc\">rustic wooden table</span> paired with <span class=\"ml-token colloc\">elegant chairs</span>. The <span class=\"ml-token colloc\">ambient lighting</span> from the pendant lamps creates a warm and welcoming atmosphere, which is <span class=\"ml-token adv\">exactly</span> what I aim for when hosting dinners. <span class=\"ml-token proverb\">\"Home is where the heart is,\"</span> and I <span class=\"ml-token idiom\">go the extra mile</span> to ensure that every corner reflects my personality.</p>\n\n<p>In the bedrooms, I have a more <span class=\"ml-token colloc\">serene approach</span>. Soft hues and <span class=\"ml-token colloc\">plush fabrics</span> dominate, creating a <span class=\"ml-token colloc\">calm sanctuary</span>. <span class=\"ml-token adv\">Interestingly</span>, I <span class=\"ml-token phrasal\">came across</span> some of the decor pieces while traveling, which not only serve as <span class=\"ml-token colloc\">lovely reminders</span> of those journeys but also inject a <span class=\"ml-token colloc\">global flair</span> into the overall look.</p>\n\n<p>I <span class=\"ml-token phrasal\">take pleasure in</span> rearranging and updating the decor <span class=\"ml-token adv\">occasionally</span>, as it <span class=\"ml-token idiom\">keeps things fresh</span> and exciting. In essence, my home is a <span class=\"ml-token colloc\">personal haven</span> that reflects who I am and what I love.</p>",
       "vocabulary": {
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-04-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-04-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<span class=\"ml-token idiom\">\"A picture is worth a thousand words,\"</span> and these images <span class=\"ml-token phrasal\">bring to life</span> the essence of relaxation <span class=\"ml-token colloc\">and leisure</span> in two distinct yet harmonious settings.\n\nIn the first image, we see a woman enjoying a peaceful moment outdoors. She is <span class=\"ml-token colloc\">comfortably seated</span> on a wooden chair, with a good book <span class=\"ml-token phrasal\">in her lap</span> and a cup in hand, suggesting she's <span class=\"ml-token idiom\">\"lost in a good book.\"</span> The garden setting, with its greenery and blurred background of houses, creates an environment that is both serene and inviting. Her casual attire—a light blue sweater over a white top and jeans—along with her eyeglasses, contributes to a thoughtful and relaxed appearance. The presence of sunshine <span class=\"ml-token colloc\">bathing the scene</span> <span class=\"ml-token adv\">gently</span> suggests a delightful spring or summer day, making it the perfect time to <span class=\"ml-token idiom\">let her hair down</span> and indulge in some leisure reading.\n\nThe second image offers a <span class=\"ml-token colloc\">different perspective</span> on relaxation, yet it is <span class=\"ml-token adv\">equally</span> inviting. Here, the individual is seated indoors in a cozy living room, deeply engaged with an e-reader. The presence of a white mug in one hand and a lit candle on the table adds to the warm and intimate atmosphere. The casual jeans and bracelets hint at a laid-back, at-home vibe. The sunlight streaming in through the window <span class=\"ml-token colloc\">enhances the warmth</span> of the room, creating a comforting and serene ambiance. This setting <span class=\"ml-token idiom\">invites one to</span> unwind and enjoy a quiet moment with a favorite book or story.\n\n<span class=\"ml-token adv\">Ultimately</span>, both images capture the essence of finding solace in reading, whether <span class=\"ml-token colloc\">it's outdoors</span> amidst nature's embrace or indoors <span class=\"ml-token colloc\">in the comfort</span> of one's home. They <span class=\"ml-token phrasal\">highlight the importance</span> of taking time for oneself, allowing for moments of reflection and relaxation in our <span class=\"ml-token colloc\">busy lives</span>.",
       "vocabulary": {
@@ -180,7 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Which do you think is more enjoyable: reading a paper book or an eBook?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-04-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-04-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>In my opinion, reading a paper book is <span class=\"ml-token adv\">genuinely</span> more enjoyable than reading an eBook. There's something <span class=\"ml-token idiom\">about the tactile sensation</span> of holding a book, turning the pages, and even the <span class=\"ml-token colloc\">distinct smell</span> of paper that eBooks <span class=\"ml-token adv\">simply</span> can't replicate. <span class=\"ml-token proverb\">\"Old habits die hard,\"</span> and I find that many people, myself included, <span class=\"ml-token phrasal\">gravitate towards</span> the traditional format when it comes to enjoying literature. That being said, I <span class=\"ml-token adv\">certainly</span> understand the appeal of eBooks. They're <span class=\"ml-token adv\">incredibly</span> convenient, allowing you to carry an entire library in your pocket, which is <span class=\"ml-token idiom\">a godsend</span> when traveling. However, for the <span class=\"ml-token colloc\">immersive experience</span>, <span class=\"ml-token idiom\">nothing beats</span> sitting in a cozy corner with a good old paper book. <span class=\"ml-token adv\">Honestly</span>, I believe this <span class=\"ml-token phrasal\">adds to</span> the overall enjoyment and <span class=\"ml-token colloc\">makes reading</span> a truly special <span class=\"ml-token colloc\">social experience</span>.</p>",
       "vocabulary": {
@@ -218,7 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think eBooks will replace paper books in the future?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-04-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-04-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>In my opinion, while eBooks have <span class=\"ml-token adv\">undeniably</span> grown in popularity and offer a plethora of advantages, they are <span class=\"ml-token adv\">unlikely</span> to completely replace paper books in the foreseeable future. There is something <span class=\"ml-token idiom\">remarkably special</span> about the tactile experience of holding a paper book, turning its pages, and even enjoying the <span class=\"ml-token colloc\">distinctive scent</span> of the paper. This <span class=\"ml-token idiom\">tactile pleasure</span> is something that digital formats simply cannot <span class=\"ml-token phrasal\">live up to</span>.</p>\n\n<p>Moreover, paper books play a significant role in our cultural and educational systems. Libraries, for instance, have been <span class=\"ml-token colloc\">integral parts</span> of communities worldwide, and the experience of <span class=\"ml-token phrasal\">browsing through</span> a library's physical collection can be <span class=\"ml-token idiom\">a treasure trove of</span> discoveries. For many, visiting a library or a bookstore is as much a <span class=\"ml-token colloc\">social experience</span> as it is an intellectual one.</p>\n\n<p>That being said, eBooks offer <span class=\"ml-token colloc\">unparalleled convenience</span> and <span class=\"ml-token colloc\">extensive accessibility</span>. They allow people to carry thousands of books in a single device, which is <span class=\"ml-token adv\">incredibly</span> convenient for avid readers or those who travel frequently. Their ability to be <span class=\"ml-token phrasal\">easily updated</span> also makes them <span class=\"ml-token colloc\">highly adaptable</span> to contemporary needs.</p>\n\n<p>In conclusion, while the digital format will continue to expand, I believe paper books will <span class=\"ml-token idiom\">stand the test of time</span> due to their <span class=\"ml-token colloc\">aesthetic appeal</span> and <span class=\"ml-token idiom\">emotional connection</span> they provide. After all, as the saying goes, <span class=\"ml-token proverb\">\"Old habits die hard.\"</span></p>",
       "vocabulary": {
@@ -260,7 +260,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Share a time when you overcame a fear or faced something you were afraid of.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-04-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-04-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Share a time when you overcame a fear or faced something you were afraid of.",
@@ -303,7 +303,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Animal testing should be banned worldwide.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-04-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-04-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

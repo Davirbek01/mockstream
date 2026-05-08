@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "@mock_stream",
     "testIdentifier": "mock_stream",
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is it difficult for you to concentrate in a noisy place?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-32-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-32-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, I find it <span class=\"ml-token adv\">quite</span> difficult to concentrate when there's a lot of noise around me. I'm the type of person who needs a <span class=\"ml-token colloc\">peaceful environment</span> to focus properly.</div>\n\n<div><span class=\"ml-token adv\">Usually</span>, when I need to study or work on something important, I prefer to find a quiet spot, like a library or my own room. Background noise, <span class=\"ml-token adv\">especially</span> loud conversations or music, can be <span class=\"ml-token adv\">incredibly</span> distracting for me.</div>\n\n<div><span class=\"ml-token adv\">However</span>, I've noticed that some people can <span class=\"ml-token colloc\">block out distractions</span> much more easily. <span class=\"ml-token adv\">Personally</span>, I sometimes use noise-cancelling headphones to help me <span class=\"ml-token colloc\">stay focused</span>. As they say, <span class=\"ml-token proverb\">\"Silence is golden\"</span>.</div>",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How often do you buy new shoes?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-32-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-32-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>To be honest, I don't buy new shoes very <span class=\"ml-token adv\">frequently</span>. I'd say I purchase a new pair <span class=\"ml-token adv\">roughly</span> once or twice a year.</div>\n\n<div>I'm not really someone who follows fashion trends <span class=\"ml-token adv\">closely</span>, so I tend to buy shoes only when my old ones are <span class=\"ml-token colloc\">worn out</span> or when I need something specific, like formal shoes for an event or new trainers for exercise.</div>\n\n<div><span class=\"ml-token adv\">However</span>, I do believe in investing in <span class=\"ml-token colloc\">good quality</span> footwear because comfortable shoes make a huge difference in daily life. As they say, <span class=\"ml-token proverb\">\"A journey of a thousand miles begins with a single step\"</span> — and it's better if that step is in comfortable shoes!</div>",
       "vocabulary": {
@@ -104,7 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you enjoy looking at the stars at night?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-32-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-32-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div><span class=\"ml-token adv\">Absolutely</span>, I love looking at the stars at night. There's something <span class=\"ml-token adv\">truly</span> magical about gazing up at a <span class=\"ml-token colloc\">clear night sky</span>.</div>\n\n<div><span class=\"ml-token adv\">Unfortunately</span>, living in a city means I don't get to see many stars due to <span class=\"ml-token colloc\">light pollution</span>. But whenever I visit the countryside or go camping, I make sure to spend some time <span class=\"ml-token colloc\">stargazing</span>. It's an <span class=\"ml-token adv\">incredibly</span> peaceful and humbling experience.</div>\n\n<div>Looking at the stars <span class=\"ml-token adv\">always</span> makes me think about how vast the universe is and how small we are in comparison. It puts everyday problems into <span class=\"ml-token colloc\">perspective</span>. As they say, <span class=\"ml-token proverb\">\"We are all in the gutter, but some of us are looking at the stars\"</span>.</div>",
       "vocabulary": {
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-32-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-32-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>These two pictures show different ways of <span class=\"ml-token colloc\">enjoying movies</span>.</div>\n\n<div>In the first picture, I can see a <span class=\"ml-token colloc\">crowded movie theater</span> where people are sitting in the dark, looking up at a large screen. Some of them appear to be eating popcorn, which is a <span class=\"ml-token adv\">classic</span> part of the cinema experience. The atmosphere looks exciting and <span class=\"ml-token colloc\">immersive</span>.</div>\n\n<div>The second picture shows a couple or family relaxing on a cozy sofa at home, wearing comfortable clothes and watching a movie on their TV. This looks like a much more <span class=\"ml-token adv\">laid-back</span> and intimate way to enjoy a film, where they can pause, rewind, and feel <span class=\"ml-token adv\">completely</span> at ease in their own space.</div>",
       "vocabulary": {
@@ -180,7 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the advantages of watching a film in a traditional cinema?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-32-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-32-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>There are <span class=\"ml-token adv\">several</span> notable advantages to watching a film in a traditional cinema, as depicted in the first picture.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, the <span class=\"ml-token colloc\">big screen experience</span> is something you simply cannot replicate at home. The massive screen combined with <span class=\"ml-token colloc\">surround sound</span> creates an incredibly immersive atmosphere that draws you <span class=\"ml-token adv\">completely</span> into the story.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, going to the cinema is a <span class=\"ml-token colloc\">social activity</span>. It's a wonderful way to spend time with friends or family, and sharing the experience of laughing or being moved by a film with a room full of strangers adds something <span class=\"ml-token adv\">truly</span> special.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, the cinema forces you to <span class=\"ml-token colloc\">disconnect from distractions</span> — you put your phone away and give the film your full attention. At home, it's tempting to check messages or pause the movie. As they say, <span class=\"ml-token proverb\">\"Life is like a movie, write your own ending\"</span>.</div>",
       "vocabulary": {
@@ -218,7 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some people prefer to watch movies in the comfort of their own home?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-32-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-32-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Many people <span class=\"ml-token adv\">increasingly</span> prefer watching movies at home, as shown in the second picture, and there are <span class=\"ml-token adv\">several</span> convincing reasons for this.</div>\n\n<div><span class=\"ml-token adv\">Primarily</span>, the <span class=\"ml-token colloc\">comfort factor</span> is unbeatable. At home, you can wear whatever you like, lie on your sofa with a blanket, and eat your own snacks without paying <span class=\"ml-token adv\">ridiculously</span> high cinema prices. It's a much more <span class=\"ml-token colloc\">relaxed experience</span>.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, streaming services like Netflix and Amazon Prime have made it <span class=\"ml-token adv\">incredibly</span> easy to access thousands of films from your living room. You have the <span class=\"ml-token colloc\">freedom to choose</span> what to watch, when to watch it, and you can pause or rewind at any time.</div>\n\n<div><span class=\"ml-token adv\">Moreover</span>, it's <span class=\"ml-token adv\">significantly</span> cheaper than going to the cinema. A family trip to the movies can cost a fortune when you add up tickets, popcorn, and drinks. At home, you can enjoy a <span class=\"ml-token colloc\">movie night</span> for a fraction of the cost. As they say, <span class=\"ml-token proverb\">\"Home is where the heart is\"</span>.</div>",
       "vocabulary": {
@@ -256,7 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "How does taking personal responsibility influence a person's success?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-32-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-32-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "How does taking personal responsibility influence a person's success?",
@@ -299,7 +299,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "All countries should adapt to a 4-day work week.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-32-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-32-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

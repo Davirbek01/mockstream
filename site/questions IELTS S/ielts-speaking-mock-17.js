@@ -6,7 +6,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "IELTS Mock Stream",
     "telegramChannel": "@ieltsmockstream",
     "testIdentifier": "mock_stream_17",
@@ -14,8 +14,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Daily Life & Science"
   },
   "images": {
-    "img1": "https://i.ibb.co/gM1bMSXS/image.png",
-    "img2": "https://i.ibb.co/G4QH85qq/image.png",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/gM1bMSXS-image.png",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/G4QH85qq-image.png",
     "img1Alt": "Placeholder 1",
     "img2Alt": "Placeholder 2"
   },
@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What kind of gifts are popular in your country?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-17-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-17-q1.mp3",
       "sampleAnswer": "Gift-giving customs in my country vary significantly depending on the occasion and relationship, but certain types of gifts are consistently popular. For formal occasions like weddings or business contexts, practical gifts such as household appliances, kitchenware, or home décor items are common—people appreciate things they can actually use. Cash gifts are also very popular, particularly for weddings and celebrations, as they give recipients flexibility to buy what they need. For personal occasions like birthdays, gifts tend to be more thoughtful and personalized—clothing, accessories, books, or items related to the person's hobbies and interests. Food gifts are universally appreciated, especially premium items like imported chocolates, specialty teas, or gourmet food baskets. Technology items like headphones, smart devices, or gadgets are increasingly popular, particularly among younger people. For children, toys, games, and educational materials are standard. There's also a growing trend toward experiential gifts—vouchers for restaurants, spa treatments, or activities—rather than physical items. Handmade or artisanal gifts are valued for their uniqueness and personal touch, though they're less common than mass-produced items.",
       "vocabulary": {
         "title": "Q1 - Popular Gifts",
@@ -100,7 +100,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What's the best gift you have ever received?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-17-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-17-q2.mp3",
       "sampleAnswer": "The best gift I've ever received was a vintage camera from my grandfather when I was about sixteen. What made it so special wasn't its monetary value, but the meaning behind it. My grandfather was an amateur photographer who had used that camera throughout his life to document family moments, travels, and everyday beauty. When he gave it to me, he also gave me boxes of old photographs he'd taken, along with stories about each one. The gift sparked my interest in photography, which has become a lifelong hobby. More importantly, it represented his trust in me to carry on something he valued and his desire to share his passion with me. Every time I use a camera now, even though it's digital rather than that old film camera, I think of him and the conversations we had about composition, light, and seeing the world through a lens. The gift wasn't just an object—it was a connection to my grandfather, a new hobby, and a different way of seeing the world. That's what makes it the best gift I've received.",
       "vocabulary": {
         "title": "Q2 - Best Gift",
@@ -158,7 +158,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do you give others as gifts?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-17-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-17-q3.mp3",
       "sampleAnswer": "I try to give thoughtful, personalized gifts rather than generic items. I usually spend time thinking about the person's interests, needs, and preferences before choosing something. For close friends and family, I often give books if I know their reading tastes, or items related to their hobbies—cooking equipment for someone who loves to cook, art supplies for creative friends, or specialty items related to their interests. I also like giving experiential gifts when appropriate, like concert tickets, restaurant vouchers, or class enrollments for things they've mentioned wanting to try. For people I don't know as well, I tend toward safe but quality options—nice candles, gourmet food items, or practical accessories. I've started giving more handmade or personalized items when I have time—photo albums, custom playlists, or things I've made myself. I avoid giving cash unless it's culturally expected for the occasion, as it feels impersonal to me. I also try to consider sustainability, preferring quality items that will last over cheap, disposable things. The key for me is showing that I've put thought into the gift rather than just buying something generic at the last minute.",
       "vocabulary": {
         "title": "Q3 - Gift Giving",
@@ -224,7 +224,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What gift have you received recently?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-17-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-17-q4.mp3",
       "sampleAnswer": "Most recently, I received a book from a close friend for my birthday last month. It was a novel by an author I'd mentioned wanting to read but hadn't gotten around to buying. What I appreciated was that my friend had clearly been paying attention to our conversations—I'd casually mentioned this author weeks earlier, and they remembered. The book itself is excellent, and I'm currently reading it, but what made the gift meaningful was the thoughtfulness behind it. It showed that my friend listens and cares enough to remember small details about my interests. They also wrote a personal note inside the cover explaining why they thought I'd enjoy it and relating it to conversations we'd had. This kind of personalization makes a simple gift feel special. It's not an expensive or elaborate gift, but it's exactly the kind of present I value—something useful that I'll enjoy, chosen with genuine thought and care, and accompanied by a personal touch that makes it memorable.",
       "vocabulary": {
         "title": "Q4 - Recent Gift",
@@ -289,7 +289,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How do we choose gifts?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-17-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-17-q5.mp3",
       "sampleAnswer": "Choosing gifts effectively requires consideration of several factors. First, think about the recipient's interests, hobbies, and preferences—a good gift reflects that you know and understand the person. Consider their current needs or things they've mentioned wanting but haven't bought for themselves. The occasion matters too—birthday gifts can be more personal and fun, while professional or formal occasions might require more conservative choices. Budget is practical consideration, but thoughtfulness matters more than price—an inexpensive but well-chosen gift often means more than an expensive but generic one. Consider the relationship—gifts for close friends or family can be more personal or humorous, while gifts for acquaintances should be safer and more neutral. Practicality versus sentimentality is another consideration—some people appreciate useful items, while others prefer meaningful or decorative things. Cultural context is important too—some cultures have specific gift-giving etiquette or taboos to be aware of. Presentation matters—even a simple gift feels more special with nice wrapping and a personal note. Finally, timing is key—last-minute gifts often feel rushed and thoughtless, while gifts chosen with time and care show genuine consideration.",
       "vocabulary": {
         "title": "Q5 - Gift Selection",
@@ -357,7 +357,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think you are good at choosing gifts?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-17-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-17-q6.mp3",
       "sampleAnswer": "I'd say I'm reasonably good at choosing gifts, though there's always room for improvement. My strength is that I pay attention to what people say throughout the year—I often make mental notes or even keep a list on my phone when friends or family mention things they like or want. This means I usually have ideas ready when gift-giving occasions arise rather than scrambling at the last minute. I also try to personalize gifts based on what I know about the person rather than buying generic items. However, I sometimes overthink it and worry too much about whether the person will like what I've chosen, which can make the process stressful. I'm also not always great with timing—I sometimes have good ideas but don't execute them early enough, leading to rushed purchases. I think I'm better at choosing gifts for people I know well than for acquaintances or colleagues, where I'm less certain about their preferences. Overall, I put genuine effort into gift selection and usually receive positive responses, but I recognize I could be more organized and confident in my choices.",
       "vocabulary": {
         "title": "Q6 - Gift Skills",
@@ -424,7 +424,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Have you ever sent handmade gifts to others?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-17-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-17-q7.mp3",
       "sampleAnswer": "Yes, I have, though not as often as I'd like. A few years ago, I made a photo album for my parents' anniversary, collecting and organizing family photos from throughout their marriage, with captions and little notes about the memories. It took considerable time and effort, but their reaction made it worthwhile—they were genuinely moved by the personal nature of the gift. I've also made baked goods as gifts, particularly during holidays—homemade cookies, cakes, or preserves packaged nicely. For a friend's birthday once, I created a custom playlist and designed cover art for it, which was a small but personal gesture. The challenge with handmade gifts is that they require time, skill, and planning that I don't always have. There's also the uncertainty about whether the quality will be good enough—store-bought items have a certain polish that's hard to replicate. However, when I do make handmade gifts, I find the process meaningful, and recipients generally appreciate the personal effort even if the result isn't perfect. I'd like to do it more often, as handmade gifts feel more heartfelt and unique than purchased items.",
       "vocabulary": {
         "title": "Q7 - Handmade Gifts",
@@ -494,7 +494,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe an area of science that interests you.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-17-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-17-q8.mp3",
       "bulletPoints": [
         "what science it is",
         "how you got interested in it",
@@ -720,7 +720,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think everyone should learn about neuroscience?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-17-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-17-q9.mp3",
       "sampleAnswer": "I think basic neuroscience literacy would benefit everyone, though not everyone needs deep expertise. Understanding fundamental concepts—how the brain learns, how stress affects us, how sleep impacts cognition, how habits form—has practical applications for daily life. It can help people make better decisions about education, health, and personal development. It also promotes empathy and reduces stigma around mental health by showing that these are biological conditions, not character flaws. However, the depth of knowledge needed varies by person and profession. Teachers, healthcare workers, and parents might benefit from more detailed understanding, while others might just need general awareness. The key is making neuroscience accessible and relevant rather than overly technical.",
       "vocabulary": {
         "title": "Q9 - Universal Neuroscience Education",
@@ -782,7 +782,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How has learning about neuroscience affected your daily life?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-17-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-17-q10.mp3",
       "sampleAnswer": "Learning about neuroscience has influenced several aspects of my daily life. Understanding the importance of sleep for memory consolidation and cognitive function has made me prioritize getting adequate rest rather than sacrificing sleep for productivity. Knowing about neuroplasticity has made me more willing to try learning new skills, recognizing that my brain can change and adapt. Understanding how stress affects the brain has led me to take stress management more seriously—practicing mindfulness, exercise, and other evidence-based techniques. Learning about cognitive biases has made me more aware of my own thinking patterns and more careful about important decisions. Understanding how habits form neurologically has helped me build better habits by focusing on cues, routines, and rewards. Overall, neuroscience knowledge has made me more intentional about behaviors that support brain health and cognitive function.",
       "vocabulary": {
         "title": "Q10 - Personal Impact",
@@ -846,7 +846,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Should scientists explain the research process to the public?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-17-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-17-q11.mp3",
       "sampleAnswer": "Yes, absolutely. Scientists explaining their research process to the public serves several important purposes. First, it builds public trust in science by demystifying how scientific knowledge is generated—when people understand that science involves rigorous methodology, peer review, and self-correction rather than just opinions or guesses, they're more likely to trust scientific findings. Second, it promotes scientific literacy, helping people distinguish between robust scientific evidence and pseudoscience or misinformation. This is increasingly important in an era where false information spreads rapidly online. Third, much scientific research is publicly funded, so taxpayers have a right to understand what their money is supporting and what benefits might result. Fourth, explaining the process—including uncertainties, limitations, and how science evolves—gives people realistic expectations rather than seeing science as providing absolute, unchanging truths. It shows that science is a process of gradually refining understanding rather than a collection of facts. Fifth, transparency about methodology allows for public scrutiny and accountability, which strengthens science. Finally, engaging the public can inspire interest in science, potentially attracting future scientists and creating a more scientifically informed society. However, scientists need support in developing communication skills, as explaining complex research accessibly is a skill that requires training and practice.",
       "vocabulary": {
         "title": "Q11 - Public Science Communication",
@@ -923,7 +923,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Should people continue studying science after finishing school?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-17-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-17-q12.mp3",
       "sampleAnswer": "While formal science education isn't necessary for everyone after school, maintaining some engagement with science throughout life is valuable. Continued science learning—even informally through reading, documentaries, or online resources—keeps people informed about developments that affect their lives, from health and technology to environmental issues and policy decisions. It supports critical thinking and evidence-based decision-making in an increasingly complex world. For those in science-related careers, continued learning is essential to stay current as knowledge advances rapidly. For others, it depends on interest and relevance to their lives. However, I think everyone benefits from basic scientific literacy and occasional engagement with scientific topics, even if not pursuing formal study. The key is making science accessible and relevant to people's lives rather than requiring everyone to pursue advanced degrees. Lifelong learning about science, even casually, helps people navigate a world increasingly shaped by scientific and technological developments. It also maintains the wonder and curiosity about the natural world that many people have as children but sometimes lose as adults.",
       "vocabulary": {
         "title": "Q12 - Lifelong Science Learning",
@@ -1002,7 +1002,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Why do some children not like learning science at school?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-17-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-17-q13.mp3",
       "sampleAnswer": "Several factors contribute to children disliking science at school. First, teaching methods often emphasize memorization of facts rather than hands-on experimentation and discovery, which makes science feel boring and irrelevant rather than exciting and engaging. When science is taught as a collection of facts to memorize for tests rather than a process of inquiry and exploration, it loses its inherent appeal. Second, science is often presented as difficult or only for 'smart' students, which can intimidate children and create anxiety rather than curiosity. Third, the curriculum may not connect scientific concepts to students' everyday lives and interests, making it seem abstract and pointless. Fourth, inadequate resources—lack of laboratory equipment, experiments, or engaging materials—can make science classes dull. Fifth, some teachers may lack enthusiasm or deep understanding of science themselves, which affects how they present it. Sixth, the emphasis on right answers and grades rather than the process of questioning and discovering can make science feel stressful rather than fun. Finally, if children struggle with the math involved in some sciences, they may develop negative associations. To foster interest, science education should emphasize curiosity, experimentation, real-world relevance, and the excitement of discovery rather than just memorization and testing.",
       "vocabulary": {
         "title": "Q13 - Children and Science",
@@ -1085,7 +1085,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think science is important?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-17-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-17-q14.mp3",
       "sampleAnswer": "Science is absolutely essential to modern civilization and human progress. At the most fundamental level, science is our best method for understanding how the world works—from the smallest particles to the largest cosmic structures, from biological processes to physical laws. This understanding isn't just intellectually satisfying; it has practical applications that affect every aspect of our lives. Modern medicine, which has dramatically increased life expectancy and quality of life, is built on scientific research. Technology that we depend on daily—computers, smartphones, internet, transportation—all emerged from scientific discoveries. Science addresses critical challenges facing humanity—climate change, disease, food security, energy needs—providing both understanding of problems and potential solutions. It drives economic development through innovation and new industries. Science also promotes rational, evidence-based thinking that helps societies make better decisions. Beyond practical benefits, science satisfies human curiosity about our place in the universe and how things work. It's not just important—it's fundamental to human flourishing in the modern world. However, science must be coupled with ethics, wisdom, and consideration of social impacts to ensure it serves humanity's best interests.",
       "vocabulary": {
         "title": "Q14 - Science Importance",
@@ -1166,7 +1166,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How does science influence our life?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-17-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-17-q15.mp3",
       "sampleAnswer": "Science influences virtually every aspect of modern life, often in ways we don't consciously recognize. Most obviously, technology we use daily—smartphones, computers, internet, appliances—exists because of scientific discoveries in physics, chemistry, and engineering. Medical science affects our health and longevity through vaccines, treatments, surgical techniques, and understanding of disease and nutrition. Agricultural science influences the food we eat through crop development, pest management, and food safety. Environmental science informs policies about pollution, conservation, and climate change that affect our living conditions. Materials science has created synthetic fabrics, plastics, and advanced materials that are ubiquitous in modern life. Transportation—cars, planes, trains—relies on scientific principles. Even our understanding of ourselves is shaped by sciences like psychology and neuroscience. Science influences how we think, too—the scientific method of evidence-based reasoning affects how educated people approach problems and evaluate claims. Weather forecasting, based on atmospheric science, affects daily decisions. Pharmaceutical science influences mental and physical health through medications. In less visible ways, science shapes policy decisions, economic development, and social progress. It's difficult to identify any area of modern life that isn't significantly influenced by scientific knowledge and its applications.",
       "vocabulary": {
         "title": "Q15 - Science Influence",
@@ -1255,7 +1255,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Should children learn science?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-17-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-17-q16.mp3",
       "sampleAnswer": "Absolutely, children should learn science, and it should be a core part of education. Science education develops critical thinking skills—learning to observe, question, hypothesize, test, and draw conclusions based on evidence. These skills are valuable far beyond science itself, applying to problem-solving in all areas of life. Science also builds foundational knowledge about the natural world that children need to understand their environment and make informed decisions as adults. Early exposure to science can spark curiosity and wonder about how things work, which can lead to lifelong learning and potentially scientific careers. In our increasingly technology-driven world, basic scientific literacy is essential for functioning as an informed citizen—understanding health information, evaluating claims, and participating in decisions about issues like climate change and public health. Science education also teaches that knowledge comes from evidence and testing rather than just authority or tradition, which is an important lesson for developing independent thinking. Moreover, hands-on science activities develop practical skills and can be engaging and fun, making learning enjoyable. However, it's crucial that science is taught well—emphasizing curiosity, experimentation, and real-world relevance rather than just memorization—to foster genuine interest rather than creating anxiety or boredom.",
       "vocabulary": {
         "title": "Q16 - Children's Science Education",
@@ -1343,7 +1343,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Which area of science is the most important in the last one hundred years?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-17-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-17-q17.mp3",
       "sampleAnswer": "This is difficult to answer definitively as different scientific areas have had profound impacts, but I'd argue that medical and biological sciences have been most transformative for human life over the past century. The development of antibiotics, vaccines, and modern medical treatments has dramatically increased life expectancy and reduced suffering on a massive scale. Diseases that were once death sentences—tuberculosis, polio, many cancers—are now treatable or preventable. The discovery of DNA structure and subsequent developments in genetics and molecular biology have revolutionized our understanding of life and enabled personalized medicine and biotechnology. However, physics also deserves consideration—quantum mechanics and relativity reshaped our understanding of reality and enabled technologies like semiconductors, lasers, and nuclear energy that underpin modern civilization. Computer science and information technology, emerging from mathematics and engineering, have transformed how we communicate, work, and access information. Environmental science has become crucial for understanding and addressing climate change and ecological challenges. Each field has been vital in different ways. If forced to choose, I'd say medical sciences have most directly improved human welfare, but physics and computer science have enabled the technological infrastructure of modern life. Really, these fields are interconnected, and progress in one often depends on advances in others.",
       "vocabulary": {
         "title": "Q17 - Most Important Science",

@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "@mock_stream",
     "testIdentifier": "mock_stream",
@@ -15,8 +15,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Chet tilini bilish darajasi"
   },
   "images": {
-    "img1": "https://i.ibb.co/n4r0vC9/image.png",
-    "img2": "https://i.ibb.co/TMPx4sxF/image.png",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/n4r0vC9-image.png",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/TMPx4sxF-image.png",
     "img1Alt": "Live entertainment or concert",
     "img2Alt": "Quiet leisure activity"
   },
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What kind of music do you like to listen to?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-26-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-26-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I <span class=\"ml-token adv\">absolutely</span> love listening to pop and indie music! These genres have a <span class=\"ml-token colloc\">special place</span> in my heart because of their catchy melodies and meaningful lyrics.</div>\n\n<div>Pop music is great for lifting my mood when I'm feeling down, while indie music helps me relax and <span class=\"ml-token phrasal\">unwind</span> after a long day. I find that music is a <span class=\"ml-token colloc\">powerful way</span> to express emotions and connect with others who share similar tastes.</div>\n\n<div>As the saying goes, <span class=\"ml-token proverb\">\"Music is the universal language of mankind.\"</span> I <span class=\"ml-token adv\">genuinely</span> believe that the right song can <span class=\"ml-token colloc\">transform your mood</span> and make any moment more memorable.</div>",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you prefer shopping online or in stores?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-26-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-26-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div><span class=\"ml-token adv\">Honestly</span>, I prefer shopping online most of the time. It's <span class=\"ml-token adv\">incredibly</span> convenient and saves a lot of time and energy.</div>\n\n<div>With online shopping, I can <span class=\"ml-token colloc\">browse through</span> thousands of products from the comfort of my home, compare prices easily, and read reviews from other customers. The items are delivered <span class=\"ml-token adv\">directly</span> to my doorstep, which is a huge advantage.</div>\n\n<div><span class=\"ml-token adv\">However</span>, for certain things like clothes or shoes, I still prefer going to <span class=\"ml-token colloc\">physical stores</span> so I can try them on before buying. As they say, <span class=\"ml-token proverb\">\"The best of both worlds\"</span> – I use both methods depending on what I need to buy!</div>",
       "vocabulary": {
@@ -104,7 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How many hours of sleep do you usually get?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-26-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-26-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>On average, I get about seven hours of sleep per night, although I wish I could get more! During weekdays, I <span class=\"ml-token adv\">typically</span> go to bed around midnight and wake up at seven.</div>\n\n<div>I've noticed that when I get <span class=\"ml-token colloc\">sufficient sleep</span>, I'm much more productive and have better concentration throughout the day. <span class=\"ml-token adv\">Unfortunately</span>, busy schedules and screen time often <span class=\"ml-token phrasal\">cut into</span> my sleep hours.</div>\n\n<div>As the saying goes, <span class=\"ml-token proverb\">\"Early to bed and early to rise makes a man healthy, wealthy, and wise.\"</span> I'm <span class=\"ml-token adv\">definitely</span> trying to improve my <span class=\"ml-token colloc\">sleep habits</span> and establish a better routine!</div>",
       "vocabulary": {
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "Compare these two pictures showing different ways people spend their free time.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-26-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-26-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>These two pictures show <span class=\"ml-token adv\">distinctly</span> different ways of spending leisure time, and each has its own unique appeal.</div>\n\n<div>The first image depicts <span class=\"ml-token colloc\">live entertainment</span> – people enjoying a concert or performance. This type of activity is all about energy, excitement, and <span class=\"ml-token colloc\">shared experiences</span>. The atmosphere is <span class=\"ml-token adv\">typically</span> vibrant and electric, with people coming together to enjoy music and celebrate.</div>\n\n<div>The second picture shows a <span class=\"ml-token colloc\">quieter activity</span> – someone engaged in a more peaceful, solitary pursuit. This represents a calmer approach to leisure, focused on relaxation, reflection, or personal enrichment. It's a <span class=\"ml-token colloc\">more introspective</span> way of spending time.</div>\n\n<div>The contrast is striking. Live entertainment offers <span class=\"ml-token colloc\">social connection</span> and adrenaline, while quiet activities provide peace and mental restoration. As they say, <span class=\"ml-token proverb\">\"Different strokes for different folks.\"</span> Both are valuable – sometimes we need excitement, and other times we need tranquility to <span class=\"ml-token phrasal\">recharge our batteries</span>.</div>",
       "vocabulary": {
@@ -180,7 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some people prefer live entertainment?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-26-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-26-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div><span class=\"ml-token colloc\">Live entertainment</span> has a <span class=\"ml-token adv\">uniquely</span> powerful appeal that recorded or digital experiences simply cannot replicate. There are several reasons why people are drawn to it.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, live events create an <span class=\"ml-token colloc\">electric atmosphere</span> that's impossible to experience at home. Being in a crowd of people who share your passion, all reacting together to the same performance, creates a <span class=\"ml-token colloc\">sense of community</span> and belonging. The energy is contagious!</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, live entertainment is unpredictable and <span class=\"ml-token adv\">genuinely</span> exciting. Every performance is unique – artists might improvise, interact with the audience, or do something unexpected. This spontaneity makes each experience <span class=\"ml-token colloc\">one-of-a-kind</span>.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, attending live events creates <span class=\"ml-token colloc\">lasting memories</span>. People often remember concerts or shows they attended years ago because they were <span class=\"ml-token colloc\">emotionally impactful</span>. As the saying goes, <span class=\"ml-token proverb\">\"Life is about creating memories.\"</span> Live entertainment certainly delivers on that!</div>",
       "vocabulary": {
@@ -218,7 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the benefits of quiet leisure activities?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-26-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-26-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div><span class=\"ml-token colloc\">Quiet leisure activities</span> offer numerous benefits that are <span class=\"ml-token adv\">especially</span> valuable in our fast-paced modern world.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, they provide an opportunity for <span class=\"ml-token colloc\">mental restoration</span>. Activities like reading, meditation, or simply sitting in nature allow our minds to rest and recover from the constant stimulation of daily life. This is <span class=\"ml-token adv\">essential</span> for maintaining good mental health and preventing burnout.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, quiet activities encourage <span class=\"ml-token colloc\">self-reflection</span> and personal growth. When we're not surrounded by noise and distractions, we can think more deeply about our lives, goals, and feelings. This introspection is <span class=\"ml-token adv\">incredibly</span> valuable for self-improvement.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, many quiet activities like reading or learning new skills contribute to our <span class=\"ml-token colloc\">intellectual development</span>. They expand our knowledge and keep our minds sharp. As the saying goes, <span class=\"ml-token proverb\">\"Silence is golden.\"</span> Sometimes the most <span class=\"ml-token colloc\">productive moments</span> come from quiet contemplation rather than constant activity.</div>",
       "vocabulary": {
@@ -256,7 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Childhood Memories",
-      "audioFile": "questions S/audio/cefr-speaking-mock-26-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-26-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a happy memory from your childhood",
@@ -299,7 +299,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Social Media Does More Harm Than Good",
-      "audioFile": "questions S/audio/cefr-speaking-mock-26-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-26-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

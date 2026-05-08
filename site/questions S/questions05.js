@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "@mock_stream",
     "testIdentifier": "mock_stream",
@@ -15,8 +15,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Chet tilini bilish darajasi"
   },
   "images": {
-    "img1": "https://i.ibb.co/KxLDLZyX/eating-out.jpg",
-    "img2": "https://i.ibb.co/jkV55pcj/family-eating-dinner-1024x537.webp",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/KxLDLZyX-eating-out.jpg",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/jkV55pcj-family-eating-dinner-1024x537.webp",
     "img1Alt": "Festival event",
     "img2Alt": "Museum visit"
   },
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like Geography?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-05-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-05-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<p><span class=\"ml-token adv\">Honestly</span>, I have always had a profound <span class=\"ml-token colloc\">fascination with Geography</span>. There's something <span class=\"ml-token adv\">incredibly</span> captivating about understanding the <span class=\"ml-token colloc\">intricate interplay</span> between humans and the environment. In fact, I <span class=\"ml-token phrasal\">picked up</span> this interest during my school years when I had the opportunity to delve into various geographical phenomena. <span class=\"ml-token proverb\">\"The world is a book and those who do not travel read only one page\"</span>; Geography, in a sense, allows us to travel without moving an inch. </p>\n\n<p>Moreover, I find that it plays a crucial role in addressing global challenges such as climate change, urban development, and resource management. These issues are not just theoretical for me; they are problems that <span class=\"ml-token idiom\">hit close to home</span>. I <span class=\"ml-token phrasal\">figured out</span> how vital geographical knowledge is when planning <span class=\"ml-token colloc\">sustainable solutions</span> for our future. </p>\n\n<p>On a personal note, Geography has also enriched my travel experiences. Being aware of the cultural and physical landscapes allows me to <span class=\"ml-token idiom\">let my hair down</span> and immerse myself fully in new environments. To sum up, Geography is not just a subject for me; it's a gateway to understanding the world in a more profound and meaningful way.</p>",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think Geography is useful?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-05-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-05-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>Absolutely, I <span class=\"ml-token adv\">genuinely</span> believe that Geography is an <span class=\"ml-token colloc\">immensely valuable subject</span>. It not only helps us understand the <span class=\"ml-token colloc\">physical landscapes</span> of our planet but also the complex interactions between humans and their environments. One of the <span class=\"ml-token idiom\">key benefits</span> of studying Geography is that it provides insight into issues such as climate change, sustainability, and resource management. For instance, when I <span class=\"ml-token phrasal\">set off</span> on my travels, I <span class=\"ml-token adv\">honestly</span> find it fascinating to apply what I've learned, such as recognizing geographical features and understanding local climates.</p>\n\n<p>Moreover, Geography plays a crucial role in <span class=\"ml-token colloc\">broadening our horizons</span> and fostering a global perspective. It's an <span class=\"ml-token colloc\">interdisciplinary field</span> that integrates elements of history, politics, and cultural studies. This <span class=\"ml-token colloc\">multifaceted approach</span> enriches our understanding of how global systems operate and how they <span class=\"ml-token phrasal\">come together</span> to influence societies. As the saying goes, <span class=\"ml-token proverb\">\"knowledge is power\"</span>, and Geography is <span class=\"ml-token adv\">undoubtedly</span> a powerful tool to navigate the challenges of the modern world. In my opinion, it's not merely useful; it's essential for fostering informed and conscientious global citizens.</p>",
       "vocabulary": {
@@ -104,7 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How often do you send text messages?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-05-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-05-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>Well, I <span class=\"ml-token adv\">frequently</span> send text messages, as it's become an integral part of my daily routine. I <span class=\"ml-token idiom\">let my fingers do the talking</span> almost every hour, whether it’s to <span class=\"ml-token phrasal\">check in</span> with family or to coordinate with colleagues. Texting, I believe, offers a <span class=\"ml-token colloc\">convenient and efficient</span> way to communicate, especially when a phone call might be intrusive. Moreover, I <span class=\"ml-token adv\">especially</span> appreciate how it allows for quick exchanges without the need for formality. Interestingly, while some people might find texting <span class=\"ml-token colloc\">impersonal</span>, I <span class=\"ml-token adv\">actually</span> find it quite personal when you can add a touch of humor with emojis or gifs. In today's fast-paced world, texting is a lifeline to stay connected without having to <span class=\"ml-token phrasal\">carve out</span> time for lengthy calls. As the saying goes, <span class=\"ml-token proverb\">\"A stitch in time saves nine,\"</span> and texting saves me both time and effort.</p>",
       "vocabulary": {
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "Look at the pictures. What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-05-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-05-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>When I <span class=\"ml-token phrasal\">look at</span> these two images, I <span class=\"ml-token adv\">instantly</span> notice the underlying theme of convivial dining experiences, though each offers a <span class=\"ml-token colloc\">distinct atmosphere</span> and setting.</p>\n\n<p>In the first image, we see a <span class=\"ml-token colloc\">lively group</span> of four individuals enjoying a meal in what seems to be a cozy, yet vibrant restaurant. The <span class=\"ml-token colloc\">robust brick walls</span> and the generous sunlight pouring through the large windows <span class=\"ml-token idiom\">set the stage</span> for a <span class=\"ml-token colloc\">warm ambiance</span>. The earthy tones, predominantly browns and greens, contribute to this relaxed environment. <span class=\"ml-token adv\">Clearly</span>, the table is adorned with an <span class=\"ml-token colloc\">appetizing array</span> of dishes, including salads, fries, and bowls of soup or stew, complemented by glasses of wine and beer. The individuals <span class=\"ml-token idiom\">seem to be</span> in high spirits, their expressions exuding joy and camaraderie. Their casual attire <span class=\"ml-token adv\">further</span> signifies that this is a leisurely gathering among friends, allowing them to <span class=\"ml-token idiom\">let their hair down</span> and enjoy each other's company.</p>\n\n<p>Meanwhile, the second image captures a <span class=\"ml-token colloc\">joyful family</span> gathering in a bright and modern home setting. The <span class=\"ml-token colloc\">well-lit kitchen</span> with its open shelves and expansive windows lends a <span class=\"ml-token colloc\">fresh and airy</span> feel to the scene. The soft whites and blues not only create a <span class=\"ml-token colloc\">serene atmosphere</span> but also enhance the warmth shared by the family. This photograph features five people: three adults and two children, all captured in a moment of shared laughter. The table, set with colorful dishes of food such as salad, rice, bread, and chicken, suggests a <span class=\"ml-token colloc\">hearty home-cooked meal</span>. Their casual, vibrant clothing and relaxed seating <span class=\"ml-token phrasal\">bring out</span> the essence of a close-knit family gathering. The emotions displayed on their faces reflect genuine joy and togetherness, <span class=\"ml-token idiom\">painting a picture</span> of familial harmony.</p>\n\n<p>Overall, both images encapsulate the <span class=\"ml-token colloc\">joyful essence</span> of <span class=\"ml-token colloc\">shared meals</span>, though in <span class=\"ml-token colloc\">distinct settings</span>. Whether among friends or family, the act of dining together <span class=\"ml-token proverb\">\"brings people closer\"</span> and creates lasting memories, a <span class=\"ml-token colloc\">universal truth</span> that resonates in both pictures.</p>",
       "vocabulary": {
@@ -180,7 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are some of the advantages of eating in a restaurant?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-05-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-05-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>Eating in a restaurant <span class=\"ml-token adv\">undoubtedly</span> offers a plethora of advantages that can <span class=\"ml-token idiom\">add spice to one's life</span>. Firstly, dining out <span class=\"ml-token phrasal\">gives people the chance</span> to experience a <span class=\"ml-token colloc\">social experience</span>, allowing them to <span class=\"ml-token phrasal\">hang out</span> with friends and family in a <span class=\"ml-token colloc\">more relaxed setting</span> than at home. It's <span class=\"ml-token adv\">incredibly</span> common for people to bond over food, and restaurants provide the perfect backdrop for meaningful conversations. As the saying goes, <span class=\"ml-token proverb\">\"Good food is the foundation of genuine happiness\"</span>.</p>\n\n<p>Furthermore, dining in a restaurant offers the <span class=\"ml-token colloc\">luxury of variety</span>. With an array of cuisines and dishes at one's fingertips, individuals can <span class=\"ml-token phrasal\">step into</span> new culinary worlds without the hassle of cooking. This <span class=\"ml-token adv\">particularly</span> appeals to those who are adventurous with their palate or those who simply don't have the time or expertise to prepare complex dishes at home.</p>\n\n<p>Moreover, eating out can be a <span class=\"ml-token colloc\">wonderful opportunity</span> to celebrate special occasions. Whether it's a birthday, an anniversary, or even a promotion, restaurants often provide the ambiance and service that elevate the celebration. <span class=\"ml-token adv\">Honestly</span>, these establishments are adept at creating memorable experiences that people cherish for years.</p>\n\n<p>From a practical perspective, dining in a restaurant also means that there’s no need to worry about the post-meal cleanup. After a sumptuous meal, <span class=\"ml-token phrasal\">all one needs to do</span> is sit back and relax, leaving the chores to the staff. <span class=\"ml-token proverb\">\"Time and tide wait for no man\"</span>, and <span class=\"ml-token adv\">by eating out</span>, one can <span class=\"ml-token phrasal\">make the most of</span> their time without the mundane task of washing up.</p>",
       "vocabulary": {
@@ -218,7 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some people prefer to eat at home?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-05-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-05-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>There are <span class=\"ml-token adv\">several</span> reasons why people <span class=\"ml-token colloc\">choose to</span> eat at home rather than dining out. First and foremost, eating at home is <span class=\"ml-token adv\">undoubtedly</span> more economical. When you <span class=\"ml-token phrasal\">cook your own</span> meals, you have the freedom to purchase ingredients from local markets, which can <span class=\"ml-token adv\">substantially</span> reduce costs compared to restaurants. Moreover, home-cooked meals offer a <span class=\"ml-token colloc\">health benefit</span> as well. People have complete control over the ingredients and cooking methods, allowing them to avoid preservatives and excessive fats that are often present in restaurant dishes.</p>\n\n<p>Additionally, eating at home can also be a <span class=\"ml-token colloc\">social experience</span> where families and friends gather to enjoy one another's company. This <span class=\"ml-token idiom\">lets you let your hair down</span> and bond with loved ones without the distractions of a bustling restaurant environment. For instance, when I was growing up, our family dinners were occasions for storytelling and laughter, something that could <span class=\"ml-token adv\">hardly</span> be replicated in a public setting.</p>\n\n<p>Lastly, there's a sense of accomplishment and <span class=\"ml-token colloc\">personal satisfaction</span> in preparing a meal yourself. It can <span class=\"ml-token phrasal\">bring out</span> creativity and <span class=\"ml-token colloc\">culinary skills</span>, making it an enriching and <span class=\"ml-token adv\">fulfilling</span> activity. As the <span class=\"ml-token proverb\">\"old saying goes\"</span>, \"the way to a person's heart is through their stomach\", which <span class=\"ml-token adv\">perfectly</span> encapsulates the reward of cooking at home.</p>",
       "vocabulary": {
@@ -256,7 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a new skill you would like to learn",
-      "audioFile": "questions S/audio/cefr-speaking-mock-05-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-05-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a new skill you would like to learn",
@@ -299,7 +299,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Extracurricular activities should be taught at school",
-      "audioFile": "questions S/audio/cefr-speaking-mock-05-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-05-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

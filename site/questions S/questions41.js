@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "@mock_stream",
     "testIdentifier": "mock_stream",
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What is your favourite subject at school?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-41-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-41-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>My favourite subject at school is <span class=\"ml-token adv\">definitely</span> English. I find it <span class=\"ml-token adv\">incredibly</span> fascinating because it opens doors to so many opportunities — from understanding foreign films to communicating with people around the world.</div>\n\n<div>I also enjoy the creative side of it, like writing essays and learning new expressions. I believe having a <span class=\"ml-token colloc\">strong command of</span> English is essential in today's <span class=\"ml-token colloc\">globalised world</span>.</div>",
       "vocabulary": {
@@ -64,7 +64,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like studying English?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-41-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-41-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, I <span class=\"ml-token adv\">genuinely</span> enjoy studying English. It's not just a school subject for me — it's a skill that I use in my <span class=\"ml-token colloc\">everyday life</span>, whether I'm watching YouTube videos, reading articles online, or chatting with friends from other countries.</div>\n\n<div>Of course, some aspects can be challenging, like mastering grammar rules, but I think the <span class=\"ml-token colloc\">sense of achievement</span> you get when you <span class=\"ml-token adv\">successfully</span> express yourself in another language makes it all <span class=\"ml-token colloc\">worth the effort</span>.</div>",
       "vocabulary": {
@@ -100,7 +100,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like mornings or evenings?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-41-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-41-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I'd say I'm more of an evening person, to be honest. In the mornings, I tend to feel a bit sluggish and it takes me a while to <span class=\"ml-token colloc\">get into the swing of things</span>.</div>\n\n<div>Evenings, on the other hand, are when I feel most <span class=\"ml-token adv\">genuinely</span> productive and creative. I enjoy the calm atmosphere after a busy day — it's the perfect time to study, read, or just <span class=\"ml-token colloc\">unwind and relax</span>. As they say, <span class=\"ml-token proverb\">\"different strokes for different folks\"</span>.</div>",
       "vocabulary": {
@@ -136,7 +136,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-41-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-41-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>In the first picture, I can see a child spending quality time with family members. They appear to be <span class=\"ml-token adv\">happily</span> engaged in an activity together, which creates a warm and loving atmosphere.</div>\n\n<div>In the second picture, a child is playing with friends, and they seem to be having a lot of fun. The <span class=\"ml-token colloc\">contrast between</span> the two images highlights how children benefit from both <span class=\"ml-token colloc\">family bonding</span> and <span class=\"ml-token colloc\">peer interaction</span> in different ways.</div>",
       "vocabulary": {
@@ -172,7 +172,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do children need to spend time with their family?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-41-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-41-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>I believe spending time with family is <span class=\"ml-token adv\">absolutely</span> essential for a child's development. First and foremost, family provides a <span class=\"ml-token colloc\">sense of security</span> and emotional support that children need to feel confident and loved.</div>\n\n<div>When children spend time with their parents and siblings, they learn <span class=\"ml-token colloc\">core values</span> such as respect, responsibility, and kindness — lessons that are <span class=\"ml-token adv\">rarely</span> taught as effectively anywhere else. Family time also strengthens <span class=\"ml-token colloc\">emotional bonds</span>, which helps children develop better communication skills and a healthier sense of self.</div>\n\n<div>Moreover, shared activities like cooking, playing games, or simply having dinner together create lasting memories and build trust. As the saying goes, <span class=\"ml-token proverb\">\"charity begins at home\"</span> — the values and habits formed within the family shape who we become as adults.</div>",
       "vocabulary": {
@@ -208,7 +208,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do many children like spending time with friends?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-41-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-41-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>There are several reasons why children are <span class=\"ml-token adv\">naturally</span> drawn to spending time with their friends. The most important one is the sense of <span class=\"ml-token colloc\">belonging and acceptance</span> — children want to feel that they fit in and are valued by their peers.</div>\n\n<div>Friends also offer something that family sometimes can't — a space where children feel free to be themselves without the rules and expectations that come with home life. Playing with friends helps develop <span class=\"ml-token colloc\">social skills</span> like teamwork, negotiation, and conflict resolution, which are <span class=\"ml-token adv\">incredibly</span> important later in life.</div>\n\n<div>Additionally, friendships bring fun and excitement — children <span class=\"ml-token adv\">genuinely</span> enjoy sharing experiences, discovering new games, and building their own little world. As they say, <span class=\"ml-token proverb\">\"no man is an island\"</span> — we all need <span class=\"ml-token colloc\">meaningful connections</span> with others, and for children, friendships are the first step towards that.</div>",
       "vocabulary": {
@@ -244,7 +244,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a mistake you made and what you learned from it.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-41-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-41-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a mistake you made and what you learned from it.",
@@ -285,7 +285,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "The use of Artificial Intelligence should be mandatory in schools.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-41-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-41-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

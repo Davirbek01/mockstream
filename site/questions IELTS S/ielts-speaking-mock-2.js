@@ -6,7 +6,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "IELTS Mock Stream",
     "telegramChannel": "@ieltsmockstream",
     "testIdentifier": "mock_stream_2",
@@ -14,8 +14,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Work, Nature & Environment"
   },
   "images": {
-    "img1": "https://i.ibb.co/gM1bMSXS/image.png",
-    "img2": "https://i.ibb.co/G4QH85qq/image.png",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/gM1bMSXS-image.png",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/G4QH85qq-image.png",
     "img1Alt": "Placeholder 1",
     "img2Alt": "Placeholder 2"
   },
@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you work or are you a student?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-02-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-02-q1.mp3",
       "sampleAnswer": "I'm currently working as a full-time professional in the marketing industry. I've been in this role for about two years now, and it's been a very rewarding experience so far. My daily routine involves coordinating social media campaigns and analyzing market trends.",
       "vocabulary": {
         "title": "Q1 - Occupation",
@@ -76,7 +76,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like your job?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-02-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-02-q2.mp3",
       "sampleAnswer": "Yes, I'm very fond of my job. What I enjoy most is the creative aspect of it—being able to come up with new ideas and seeing them come to life in a project is very satisfying. Additionally, I work with a fantastic team, which makes the work environment very pleasant.",
       "vocabulary": {
         "title": "Q2 - Job Satisfaction",
@@ -116,7 +116,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is there anything you dislike about your job?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-02-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-02-q3.mp3",
       "sampleAnswer": "If I had to mention something, it would be the occasional long hours during peak seasons. Sometimes we have to meet very tight deadlines, which can lead to a bit of stress. However, these periods are usually temporary, and we often have more flexibility during the quieter months.",
       "vocabulary": {
         "title": "Q3 - Job Dislikes",
@@ -156,7 +156,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do you like about your studies?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-02-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-02-q4.mp3",
       "sampleAnswer": "What I find most interesting about my studies is the range of topics we cover. I'm studying Business Administration, and I particularly enjoy learning about organizational behavior and strategic management. It's fascinating to see how theoretically sound concepts can be applied in real-world business scenarios.",
       "vocabulary": {
         "title": "Q4 - Study Likes",
@@ -196,7 +196,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do you dislike about your studies?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-02-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-02-q5.mp3",
       "sampleAnswer": "The aspect I find most challenging is the heavy workload during the exam period. Balancing multiple assignments and studying for several subjects simultaneously can be quite overwhelming at times. I wish there was a more even distribution of work throughout the semester.",
       "vocabulary": {
         "title": "Q5 - Study Challenges",
@@ -236,7 +236,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What was your dream job when you were young?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-02-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-02-q6.mp3",
       "sampleAnswer": "When I was a child, I always dreamed of becoming an astronaut. I was absolutely fascinated by space exploration and used to spend hours reading about planets and stars. The idea of traveling to distant galaxies and seeing Earth from space seemed like the ultimate adventure.",
       "vocabulary": {
         "title": "Q6 - Childhood Dreams",
@@ -276,7 +276,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Have you changed your mind on your dream job?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-02-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-02-q7.mp3",
       "sampleAnswer": "Yes, my career aspirations have certainly evolved as I've grown older. While I still find space fascinating, I realized that my strengths lie more in communication and business rather than science and high-speed pilotry. I'm now very happy with the path I've chosen in marketing, though I still enjoy watching space documentaries.",
       "vocabulary": {
         "title": "Q7 - Career Aspirations",
@@ -315,7 +315,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a place with a lot of trees that you would like to visit (for example, forest, oasis).",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-02-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-02-q8.mp3",
       "bulletPoints": [
         "what park it is and where it is",
         "how you know about it",
@@ -363,7 +363,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Have you ever visited a similar place before?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-02-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-02-q9.mp3",
       "sampleAnswer": "I have visited some state parks in my own country that are quite forested, but nothing on the scale of Sequoia. Those visits were very enjoyable, but I suspect the sheer size of the trees in California would make it a completely different experience.",
       "vocabulary": {
         "title": "Q9 - Follow-up",
@@ -401,7 +401,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think you will visit this place in the near future?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-02-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-02-q10.mp3",
       "sampleAnswer": "I certainly hope so. I'm planning to take a long-haul trip next year, and the West Coast of the US is one of my top priorities. I'm already looking into travel arrangements and hiking permits for the park.",
       "vocabulary": {
         "title": "Q10 - Follow-up",
@@ -439,7 +439,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Why do people like visiting places with trees or forests?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-02-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-02-q11.mp3",
       "sampleAnswer": "I think many people are drawn to forests because they offer a sense of tranquility that is hard to find in urban environments. The natural beauty of the trees, the sound of the wind through the leaves, and the fresh air can be very therapeutic and help people de-stress from their daily lives. Additionally, forests provide a sense of adventure and discovery for those who enjoy hiking and exploring.",
       "vocabulary": {
         "title": "Q11 - Attractiveness of Nature",
@@ -478,7 +478,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Why is it important to have parks in the city?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-02-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-02-q12.mp3",
       "sampleAnswer": "Parks are vital for city dwellers because they act as 'green lungs,' helping to filter the air and reduce pollution. Beyond the environmental benefits, they are essential for public health, as they provide space for exercise and recreation. Having a communal green space also fosters a sense of community and provides a much-needed break from the concrete jungle.",
       "vocabulary": {
         "title": "Q12 - Urban Green Spaces",
@@ -517,7 +517,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What benefits can a park bring to a city?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-02-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-02-q13.mp3",
       "sampleAnswer": "In addition to environmental and health benefits, parks can also have a positive economic impact. They often increase the property value of surrounding areas and attract tourists. Furthermore, they can serve as venues for cultural events and festivals, which enriches the city's social life. Most importantly, they maintain biodiversity within urban areas, providing habitats for various birds and insects.",
       "vocabulary": {
         "title": "Q13 - Benefits of Parks",
@@ -556,7 +556,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Are natural views better than city views?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-02-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-02-q14.mp3",
       "sampleAnswer": "That's a subjective question, but many would argue that natural views have a more calming and restorative effect. While a city skyline can be impressive and symbolize human achievement, a natural landscape often provides a sense of peace and timelessness. However, I believe both have their own unique beauty—it really depends on the individual's mood and perspective.",
       "vocabulary": {
         "title": "Q14 - Views and Landscapes",
@@ -595,7 +595,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do all people need some nature?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-02-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-02-q15.mp3",
       "sampleAnswer": "I believe that, to some extent, we all have an inherent need to connect with nature. Research shows that even small exposures to greenery can significantly improve mental health and reduce stress levels. Humans evolved in natural settings, so it's only natural that we feel more at ease in such environments. While some people are more adapted to city life than others, everyone can benefit from spending time outdoors.",
       "vocabulary": {
         "title": "Q15 - Necessity of Nature",
@@ -634,7 +634,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Are people hard-wired to protect the environment?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-02-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-02-q16.mp3",
       "sampleAnswer": "I think there is a natural instinct to protect our surroundings, as they are essential for our survival. However, this instinct is often overshadowed by immediate economic needs or modern lifestyle choices. While we may be 'hard-wired' to appreciate nature, we often need education and awareness to actively protect it in the complex, modern world we live in.",
       "vocabulary": {
         "title": "Q16 - Environmental Instinct",
@@ -673,7 +673,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think governments are doing enough to preserve natural areas?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-02-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-02-q17.mp3",
       "sampleAnswer": "While many governments have established national parks and environmental regulations, many people feel that more needs to be done. We still see significant levels of deforestation and habitat loss globally. I believe that while some progress is being made, there is a constant tension between economic development and environmental conservation, and the latter often loses out. More robust international cooperation and stricter enforcement of laws are definitely needed.",
       "vocabulary": {
         "title": "Q17 - Government Action",

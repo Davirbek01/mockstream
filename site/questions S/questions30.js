@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "@mock_stream",
     "testIdentifier": "mock_stream",
@@ -15,8 +15,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Chet tilini bilish darajasi"
   },
   "images": {
-    "img1": "https://i.ibb.co/fdYHVsbM/image.png",
-    "img2": "https://i.ibb.co/Zz4BpN8b/image.png",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/fdYHVsbM-image.png",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/Zz4BpN8b-image.png",
     "img1Alt": "Family saying goodbye at car",
     "img2Alt": "Men shopping for shoes in store"
   },
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you live in a house or an apartment?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-30-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-30-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I <span class=\"ml-token adv\">currently</span> live in an apartment in the center of Tashkent. It's a modern three-bedroom flat on the fifth floor of a high-rise building.</div>\n\n<div>I've been living there for about four years now with my family. The apartment is <span class=\"ml-token adv\">quite</span> spacious and has all the modern amenities we need, including <span class=\"ml-token colloc\">central heating</span> and a nice balcony with a city view.</div>\n\n<div>While I do enjoy apartment living for its convenience and security, I sometimes dream of having a house with a garden. As they say, <span class=\"ml-token proverb\">\"Home is where the heart is\"</span>.</div>",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What is your favourite room in your house?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-30-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-30-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>My favourite room is <span class=\"ml-token adv\">definitely</span> the living room. It's the largest room in our apartment and has a <span class=\"ml-token adv\">really</span> cozy atmosphere.</div>\n\n<div>What I love most about it is the large window that lets in <span class=\"ml-token colloc\">natural light</span> throughout the day. We have a comfortable sofa there where I like to read books and watch films with my family.</div>\n\n<div>It's <span class=\"ml-token adv\">also</span> the room where we <span class=\"ml-token colloc\">gather together</span> as a family, have conversations, and host guests. It's <span class=\"ml-token adv\">truly</span> the heart of our home.</div>",
       "vocabulary": {
@@ -104,7 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Which room do you spend the most time in?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-30-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-30-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I <span class=\"ml-token adv\">probably</span> spend the most time in my bedroom, <span class=\"ml-token adv\">especially</span> during evenings and weekends.</div>\n\n<div>Besides sleeping, I use my bedroom as a <span class=\"ml-token colloc\">personal workspace</span>. I have a desk there where I prepare lessons, grade papers, and do online research. It's become my <span class=\"ml-token colloc\">private retreat</span> where I can focus without distractions.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, I enjoy relaxing there by reading or listening to music before bed. It's my <span class=\"ml-token colloc\">sanctuary</span> where I can <span class=\"ml-token colloc\">unwind</span> after a long day. As they say, <span class=\"ml-token proverb\">\"A good night's sleep is worth its weight in gold\"</span>.</div>",
       "vocabulary": {
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-30-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-30-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>These two pictures show different social interactions between people.</div>\n\n<div>In the first picture, I can see what appears to be a family <span class=\"ml-token colloc\">saying goodbye</span> to a young man, <span class=\"ml-token adv\">probably</span> their son. He's dressed in a formal suit with luggage, suggesting he might be leaving for work or a trip. The elderly couple and a woman are waving to him as he stands by a car. It's an <span class=\"ml-token adv\">emotionally</span> touching scene.</div>\n\n<div>The second picture shows two men in a shoe store. One is sitting and examining shoes while the other, who appears to be a shop assistant or friend, is helping him choose. They seem to be <span class=\"ml-token adv\">actively</span> discussing the options available.</div>",
       "vocabulary": {
@@ -180,7 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How do you usually say goodbye to friends or family members?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-30-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-30-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>The way I say goodbye <span class=\"ml-token adv\">really</span> depends on the situation and how long we'll be apart.</div>\n\n<div>For casual, everyday goodbyes – like when my family leaves for work – we <span class=\"ml-token adv\">typically</span> just say \"ko'rishguncha\" which means \"see you later\" and maybe give a quick wave, similar to what we see in the first picture.</div>\n\n<div><span class=\"ml-token adv\">However</span>, for more <span class=\"ml-token colloc\">significant farewells</span>, like when someone is traveling abroad or moving away, we have more <span class=\"ml-token colloc\">elaborate rituals</span>. In Uzbek culture, we often hug, and elders might give blessings. There's <span class=\"ml-token adv\">usually</span> an emotional moment, <span class=\"ml-token adv\">sometimes</span> tears.</div>\n\n<div>I <span class=\"ml-token adv\">personally</span> prefer warm hugs and expressing that I'll miss the person. As they say, <span class=\"ml-token proverb\">\"Parting is such sweet sorrow\"</span>.</div>",
       "vocabulary": {
@@ -218,7 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Have you ever helped anyone to choose anything new to buy?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-30-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-30-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Yes, <span class=\"ml-token adv\">absolutely</span>! I've helped friends and family <span class=\"ml-token colloc\">make purchasing decisions</span> on numerous occasions.</div>\n\n<div>The most memorable time was when I helped my younger brother choose his first laptop for university. He was <span class=\"ml-token adv\">completely</span> overwhelmed by all the options available. I researched different models, compared specifications, and we visited several stores together before making the final decision.</div>\n\n<div>I've <span class=\"ml-token adv\">also</span> helped friends choose clothes and shoes, much like the scene in the second picture. It's <span class=\"ml-token adv\">actually</span> quite enjoyable to <span class=\"ml-token colloc\">offer advice</span> and see their satisfaction when they find something perfect.</div>\n\n<div>I believe <span class=\"ml-token colloc\">getting a second opinion</span> is valuable when making important purchases. As they say, <span class=\"ml-token proverb\">\"Two heads are better than one\"</span>.</div>",
       "vocabulary": {
@@ -256,7 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Talk about health and lifestyle.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-30-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-30-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Do women pay more attention to their health than men?",
@@ -299,7 +299,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Are alternative energy sources effective and justified?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-30-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-30-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

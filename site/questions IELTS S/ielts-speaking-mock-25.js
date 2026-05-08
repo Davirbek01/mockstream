@@ -6,7 +6,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "IELTS Mock Stream",
     "telegramChannel": "@ieltsmockstream",
     "testIdentifier": "mock_stream_25",
@@ -14,8 +14,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Colours & Computers"
   },
   "images": {
-    "img1": "https://i.ibb.co/gM1bMSXS/image.png",
-    "img2": "https://i.ibb.co/G4QH85qq/image.png",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/gM1bMSXS-image.png",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/G4QH85qq-image.png",
     "img1Alt": "Placeholder 1",
     "img2Alt": "Placeholder 2"
   },
@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do colours affect your mood?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-25-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-25-q1.mp3",
       "sampleAnswer": "Yes, quite significantly, and I think this is something most people experience intuitively even if they don't consciously reflect on it. Colour psychology is a well-established field, and research consistently shows that different colours can influence emotional states, energy levels, and even cognitive performance. For me personally, I find that being in spaces with warm, earthy tones—deep greens, terracotta, warm browns—creates a sense of calm and groundedness that I find conducive to focused work. Bright, saturated colours like yellow or orange tend to feel energising and uplifting, which is why I gravitate toward them when I want to feel more alert. Conversely, cold, clinical environments dominated by harsh whites or greys can feel draining and impersonal. I've become quite deliberate about the colours in my immediate environment as a result—choosing warm lighting and natural tones for my study space, for example.",
       "vocabulary": {
         "title": "Q1 - Colours and Mood",
@@ -88,7 +88,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What's the difference between men and women's preference for colours?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-25-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-25-q2.mp3",
       "sampleAnswer": "Research does suggest some consistent patterns in colour preferences between men and women, though I think it's important to acknowledge that these are statistical tendencies rather than universal rules, and that cultural conditioning plays a significant role. Studies have found that women tend to report a broader range of favourite colours and show a stronger preference for softer, more nuanced shades—pastels, muted tones, and colours with names that distinguish subtle variations. Men, on average, tend to prefer bolder, more saturated colours and show a stronger preference for blue in particular. However, many researchers argue that these differences are largely the product of socialisation rather than innate biological differences—the association of pink with girls and blue with boys, for example, is a relatively recent cultural convention that varies across societies. I think individual personality, cultural background, and personal experience are far more powerful determinants of colour preference than gender.",
       "vocabulary": {
         "title": "Q2 - Gender and Colour Preferences",
@@ -138,7 +138,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like to wear dark or bright colours?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-25-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-25-q3.mp3",
       "sampleAnswer": "I tend to gravitate toward darker, more muted tones in my everyday clothing—navy, charcoal, deep green, and various shades of grey. I find these colours versatile and easy to combine, and they tend to project a sense of calm and understated confidence that I prefer to the more attention-seeking quality of very bright colours. That said, I do incorporate brighter colours in smaller ways—a colourful scarf, an accent piece—which I find adds visual interest without overwhelming an outfit. I think my preference for darker colours is partly practical—they're more forgiving in terms of showing marks and tend to work across a wider range of contexts—and partly aesthetic, reflecting a preference for simplicity and restraint in how I present myself. I'm more likely to wear brighter colours in casual, social settings where I want to feel more playful and expressive.",
       "vocabulary": {
         "title": "Q3 - Dark vs Bright Clothing Colours",
@@ -189,7 +189,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do you use a computer to do?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-25-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-25-q4.mp3",
       "sampleAnswer": "I use a computer for a very wide range of tasks that span both work and personal life. Professionally, I use it for writing, research, data analysis, and communication—email, video calls, and collaborative documents. I spend a significant amount of time working in browsers, accessing academic databases, reading articles, and managing various online tools and platforms. For creative work, I use design and editing software. Personally, I use my computer for entertainment—streaming films and music, reading, and occasionally gaming. I also use it for managing finances, planning travel, and staying in touch with people. Increasingly, I find that the boundary between work and personal use has blurred—the same device serves both purposes, which has both advantages in terms of convenience and disadvantages in terms of making it harder to mentally switch off from work.",
       "vocabulary": {
         "title": "Q4 - Computer Uses",
@@ -238,7 +238,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Did you use computers when you were little?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-25-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-25-q5.mp3",
       "sampleAnswer": "Yes, though the experience was quite different from what children have today. I grew up at a time when home computers were becoming more common but were still relatively limited compared to modern devices. My early interactions with computers were primarily through educational games and simple word processing—the kind of basic tasks that seem almost quaint by today's standards. I remember being genuinely fascinated by the technology even then—there was something magical about being able to interact with a machine that responded to your input. I didn't have the constant connectivity that children today take for granted—there was no social media, no streaming, and internet access was slow and expensive. Looking back, I think that limited access may have actually been beneficial in some ways—it meant that computer use was more purposeful and less habitual than it tends to be today.",
       "vocabulary": {
         "title": "Q5 - Childhood Computer Use",
@@ -289,7 +289,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do people often use computers these days?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-25-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-25-q6.mp3",
       "sampleAnswer": "Computers—in the broad sense that includes smartphones and tablets—are now used by the vast majority of people in most parts of the world, and for many people they are essentially constant companions throughout the day. In developed countries, it's difficult to think of a significant area of modern life that doesn't involve some form of computer use: work, education, communication, entertainment, shopping, banking, healthcare, and navigation all rely heavily on digital devices. Even in less developed regions, mobile phones have brought computing capability to populations that previously had no access to it, transforming access to information, financial services, and communication. The question is no longer really whether people use computers but how they use them—the quality and purpose of that use varies enormously, from highly productive and enriching to passive and potentially harmful.",
       "vocabulary": {
         "title": "Q6 - Computer Use Today",
@@ -338,7 +338,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Will people continue to use computers in the future?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-25-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-25-q7.mp3",
       "sampleAnswer": "Absolutely, though the form that computing takes will likely change dramatically. The desktop and laptop computers we use today may become less central as computing becomes more embedded in our environment—through wearable devices, augmented reality interfaces, and smart environments that respond to voice and gesture. Artificial intelligence is already transforming how we interact with computers, moving from explicit commands to more natural, conversational interfaces. However, the underlying reality of human life being mediated by computational systems will almost certainly intensify rather than diminish. If anything, the boundary between human activity and computer use will become increasingly blurred as technology becomes more seamlessly integrated into everyday life. The more interesting question is not whether we'll use computers but how we'll manage the relationship between human agency and increasingly powerful automated systems.",
       "vocabulary": {
         "title": "Q7 - Future of Computers",
@@ -388,7 +388,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a talk you gave to a group of people.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-25-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-25-q8.mp3",
       "bulletPoints": [
         "who you gave the speech to",
         "what the speech was about",
@@ -452,7 +452,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think public speaking is an important skill to develop?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-25-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-25-q9.mp3",
       "sampleAnswer": "Absolutely, and I'd argue it's one of the most valuable skills a person can develop, regardless of their profession. The ability to communicate ideas clearly and persuasively to a group of people is relevant in almost every professional context—from presenting in meetings to teaching, from pitching ideas to leading teams. Beyond the professional sphere, public speaking builds confidence in communication generally, which benefits personal relationships and civic participation. Research consistently shows that public speaking anxiety is one of the most common fears, which means that developing competence in this area gives you a significant advantage over people who avoid it. I also think the process of preparing a speech—organising your thoughts, anticipating questions, distilling complex ideas into clear language—is itself a valuable cognitive exercise that sharpens thinking and communication across all contexts.",
       "vocabulary": {
         "title": "Q9 - Importance of Public Speaking",
@@ -503,7 +503,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How has technology changed the way people give presentations?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-25-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-25-q10.mp3",
       "sampleAnswer": "Technology has transformed presentations in several significant ways. The most obvious is the shift from physical materials—handwritten notes, overhead projectors, printed slides—to digital tools like PowerPoint, Keynote, and more recently, sophisticated platforms that allow for interactive, multimedia-rich presentations. This has raised the visual standard of presentations considerably, though it's also created new problems—the phenomenon of 'death by PowerPoint', where presenters hide behind excessive slides rather than engaging directly with their audience, is a genuine issue. Video conferencing technology has also changed presentations fundamentally—the ability to present to audiences anywhere in the world without travelling has made presentations more accessible but also more challenging in terms of maintaining engagement. More recently, AI tools are beginning to assist with presentation preparation—generating content, suggesting structures, and even providing real-time feedback on delivery. The core challenge, however, remains the same: communicating ideas clearly and compellingly to an audience.",
       "vocabulary": {
         "title": "Q10 - Technology and Presentations",
@@ -553,7 +553,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What benefits does the Internet bring to communication?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-25-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-25-q11.mp3",
       "sampleAnswer": "The Internet has transformed communication in ways that are genuinely revolutionary, and the benefits are substantial. The most fundamental is the elimination of distance as a barrier—people can now communicate instantly with anyone anywhere in the world at essentially no cost, which was unimaginable a generation ago. This has profound implications for personal relationships, enabling families and friends separated by geography to maintain close connections through video calls, messaging, and social media. For professional communication, the Internet has enabled new forms of collaboration—teams can work together across time zones, share documents in real time, and coordinate complex projects without being in the same physical location. The democratisation of communication is another significant benefit—anyone with internet access can now publish ideas, reach a global audience, and participate in public discourse in ways that were previously restricted to those with access to traditional media. The Internet has also accelerated the spread of information, enabling rapid responses to crises, the sharing of scientific knowledge, and the coordination of social movements.",
       "vocabulary": {
         "title": "Q11 - Internet and Communication",
@@ -606,7 +606,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What personal qualities does a good communicator need to have?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-25-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-25-q12.mp3",
       "sampleAnswer": "Effective communication requires a constellation of qualities that work together. Clarity of thought is perhaps the most fundamental—you can only communicate clearly what you understand clearly yourself, which means good communicators invest time in organising and refining their thinking before expressing it. Active listening is equally important and often underrated—the best communicators are genuinely attentive to their audience, adjusting their message in response to feedback, questions, and non-verbal cues. Empathy is closely related—the ability to understand and consider the perspective, knowledge level, and emotional state of the person you're communicating with allows you to tailor your message appropriately. Confidence matters too—people are more persuaded by communicators who speak with conviction and authority, though this must be balanced with intellectual humility and the willingness to acknowledge uncertainty. Adaptability is also crucial—the ability to adjust your communication style to different audiences and contexts, from formal presentations to casual conversations, is a mark of a sophisticated communicator. Finally, authenticity—communicating in a way that feels genuine rather than performed—builds trust and makes messages more compelling.",
       "vocabulary": {
         "title": "Q12 - Qualities of a Good Communicator",
@@ -659,7 +659,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Why do some people find it difficult to speak in public?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-25-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-25-q13.mp3",
       "sampleAnswer": "Public speaking anxiety is extraordinarily common—surveys consistently rank it among the most widespread fears, sometimes above the fear of death. The psychological roots are well understood. At a fundamental level, being observed and evaluated by a group of people triggers the same threat-response mechanisms that evolved to protect us from social rejection, which in ancestral environments could be genuinely dangerous. The fear of negative evaluation—of being judged as incompetent, boring, or foolish—is particularly powerful because it threatens our sense of social standing and self-worth. There's also the performance pressure that comes from knowing that everyone's attention is focused on you simultaneously, which creates a heightened self-consciousness that can interfere with natural, fluent communication. Past negative experiences—a speech that went badly, being laughed at, forgetting what you wanted to say—can create lasting associations that make future public speaking feel threatening. Perfectionism also plays a role: people who hold themselves to very high standards find the possibility of visible failure in front of an audience particularly distressing.",
       "vocabulary": {
         "title": "Q13 - Public Speaking Anxiety",
@@ -710,7 +710,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How important is body language in communication?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-25-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-25-q14.mp3",
       "sampleAnswer": "Body language is extraordinarily important—research suggests that in face-to-face communication, non-verbal signals including posture, facial expressions, eye contact, gestures, and tone of voice convey a substantial portion of the emotional meaning of a message, often more than the words themselves. When there's a mismatch between what someone says and how their body communicates—when words express confidence but posture signals anxiety, for example—people tend to trust the non-verbal signal over the verbal one. This is because non-verbal communication is largely involuntary and therefore perceived as more authentic. In professional contexts, body language significantly affects how people are perceived—confident posture, appropriate eye contact, and open gestures tend to increase perceptions of competence and trustworthiness. Cultural differences in body language are also important to understand—gestures, personal space norms, and eye contact conventions vary considerably across cultures, and misreading these signals can lead to significant misunderstandings. In the age of video communication, some of these non-verbal cues are partially lost, which is one reason why video calls can feel more tiring than face-to-face conversations.",
       "vocabulary": {
         "title": "Q14 - Body Language in Communication",
@@ -762,7 +762,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Has social media changed the way people communicate with each other?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-25-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-25-q15.mp3",
       "sampleAnswer": "Profoundly, and in ways that are both positive and concerning. On the positive side, social media has made it easier to maintain connections with a larger number of people across greater distances—it's now possible to stay in touch with acquaintances, former colleagues, and distant family members in ways that would have required significant effort in the pre-social media era. It has also given people new ways to find and connect with others who share their interests, creating communities around niche topics that might not have been viable in a purely local context. However, the concerns are significant. Social media communication tends to be more performative and less authentic than face-to-face interaction—people curate their online presence carefully, presenting an idealised version of themselves rather than communicating honestly. The brevity and informality of social media communication may be eroding people's capacity for sustained, nuanced dialogue. There's also evidence that social media can increase social comparison and feelings of inadequacy, and that the algorithmic amplification of outrage and conflict is making public discourse more polarised and less civil. The net effect on human communication is genuinely complex and still being understood.",
       "vocabulary": {
         "title": "Q15 - Social Media and Communication",
@@ -814,7 +814,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think written communication is becoming more or less important?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-25-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-25-q16.mp3",
       "sampleAnswer": "I think written communication is, paradoxically, becoming both more prevalent and in some ways less valued simultaneously. On one hand, we write more than ever before—the volume of text produced through emails, messages, social media posts, and digital documents is historically unprecedented. In this sense, written communication has never been more central to daily life. On the other hand, the quality and formality of much written communication has declined—the informality of messaging culture, with its abbreviations, emojis, and tolerance for grammatical errors, represents a significant departure from the standards of formal written communication that were expected in previous generations. There's a growing concern that people's ability to write clearly, precisely, and at length is being eroded by the dominance of short-form, informal digital communication. In professional and academic contexts, however, the ability to write well remains highly valued and increasingly differentiating—as AI tools take over more routine writing tasks, the capacity for genuinely sophisticated written communication becomes more rather than less important.",
       "vocabulary": {
         "title": "Q16 - Importance of Written Communication",
@@ -865,7 +865,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What makes a speech memorable?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-25-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-25-q17.mp3",
       "sampleAnswer": "The most memorable speeches share several qualities that distinguish them from competent but forgettable communication. First, a clear and compelling central idea—the best speeches are organised around a single powerful insight or argument that the audience can carry away with them. Second, emotional resonance—speeches that connect with the audience's feelings, values, and experiences are far more memorable than purely informational presentations. The most celebrated speeches in history—from Martin Luther King's 'I Have a Dream' to Churchill's wartime addresses—work because they speak to something deep in human experience. Third, vivid, concrete language—abstract arguments become memorable when they're illustrated with specific stories, images, and examples that make ideas tangible. Fourth, authenticity—audiences can sense when a speaker genuinely believes what they're saying, and this conviction is itself compelling. Fifth, structure—a speech with a clear beginning, middle, and end, with a satisfying arc, is easier to follow and remember than one that meanders. Finally, delivery matters enormously—pace, pause, tone, and physical presence all contribute to whether a speech lands or falls flat. The combination of all these elements, when they work together, creates the kind of speech that people remember years later.",
       "vocabulary": {
         "title": "Q17 - What Makes a Speech Memorable",

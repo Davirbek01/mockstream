@@ -6,7 +6,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "IELTS Mock Stream",
     "telegramChannel": "@ieltsmockstream",
     "testIdentifier": "mock_stream_24",
@@ -14,8 +14,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Celebrity & Fashion"
   },
   "images": {
-    "img1": "https://i.ibb.co/gM1bMSXS/image.png",
-    "img2": "https://i.ibb.co/G4QH85qq/image.png",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/gM1bMSXS-image.png",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/G4QH85qq-image.png",
     "img1Alt": "Placeholder 1",
     "img2Alt": "Placeholder 2"
   },
@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think we should protect famous people's privacy?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-24-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-24-q1.mp3",
       "sampleAnswer": "Yes, absolutely, and I think this is a question that deserves more serious consideration than it often receives. Celebrities are public figures by choice, and there's a legitimate public interest in their professional work and public conduct. However, being famous does not mean forfeiting all rights to a private life. Areas such as family relationships, medical conditions, and personal beliefs that have no bearing on their public role should be protected. The problem is that the media and public appetite for celebrity gossip often crosses these boundaries, treating famous people as entertainment products rather than human beings with dignity and rights. I think a clearer legal and ethical framework around celebrity privacy would benefit both individuals and society—it would protect people from genuine harm while still allowing appropriate public scrutiny of those in positions of influence.",
       "vocabulary": {
         "title": "Q1 - Celebrity Privacy",
@@ -86,7 +86,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Would you want to be a celebrity in the future?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-24-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-24-q2.mp3",
       "sampleAnswer": "Honestly, no—and the more I think about it, the more certain I am. The aspects of celebrity life that are genuinely appealing—recognition, financial security, the ability to reach and influence a large audience—are attractive in the abstract. But the reality of celebrity, particularly in the social media age, seems deeply uncomfortable. The constant scrutiny, the loss of privacy, the way public opinion can turn against you overnight, the pressure to maintain a carefully curated public image—these seem like significant costs that I wouldn't want to pay. I'm also sceptical of the idea that fame itself brings happiness; research consistently suggests that beyond a certain level of recognition and financial security, additional fame tends to increase anxiety and stress rather than wellbeing. I'd much rather have meaningful work, genuine relationships, and a private life than the kind of visibility that comes with celebrity.",
       "vocabulary": {
         "title": "Q2 - Wanting to Be a Celebrity",
@@ -137,7 +137,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How do celebrities influence their fans in your country?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-24-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-24-q3.mp3",
       "sampleAnswer": "Celebrities in my country exert influence across a remarkably wide range of areas. The most visible is consumer behaviour—when a popular actor or cricketer endorses a product, sales typically increase significantly, which is why brands invest heavily in celebrity partnerships. Fashion and lifestyle choices are also heavily influenced by celebrities, particularly among younger people who look to their favourite stars for cues about what to wear, how to speak, and what values to project. Social media has amplified this influence enormously—celebrities can now communicate directly with millions of followers, bypassing traditional media gatekeepers. This creates both positive and negative possibilities: some celebrities use their platforms to raise awareness about social issues, mental health, or charitable causes, which can be genuinely beneficial. However, the same influence can promote unrealistic beauty standards, materialism, or politically questionable views. The key issue is that this influence is often not recognised as such by fans, particularly younger ones, which makes it more powerful and potentially more problematic.",
       "vocabulary": {
         "title": "Q3 - Celebrity Influence",
@@ -188,7 +188,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is fashion important to you now?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-24-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-24-q4.mp3",
       "sampleAnswer": "I'd say it's moderately important to me, but in a fairly specific way. I'm not someone who follows trends closely or feels compelled to wear the latest styles, but I do care about how I dress in the sense that I want my clothing to reflect my personality and to be appropriate for different contexts. I think of fashion less as following what's currently popular and more as developing a personal style that feels authentic and consistent. I invest in well-made, versatile pieces that I can wear in multiple ways rather than buying lots of cheap, trend-driven items. I also pay attention to how clothing makes me feel—wearing something that fits well and that I feel good in genuinely affects my confidence and mood. So while I wouldn't describe myself as particularly fashion-conscious in the conventional sense, I do think thoughtfully about what I wear and why.",
       "vocabulary": {
         "title": "Q4 - Fashion Importance",
@@ -238,7 +238,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Does fashion change for people as they get older?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-24-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-24-q5.mp3",
       "sampleAnswer": "Yes, quite significantly, and I think this reflects broader changes in priorities, identity, and self-awareness that come with age. Young people often use fashion as a form of self-expression and social signalling—experimenting with different styles, following trends, and using clothing to communicate group membership or individuality. As people get older, they tend to develop a clearer sense of their own identity and what works for them, which often leads to a more consistent, less trend-dependent personal style. Practicality and comfort also tend to become more important with age—people are less willing to sacrifice comfort for the sake of fashion. Financial priorities also shift—older people may invest in fewer, higher-quality pieces rather than buying frequently and cheaply. There's also often a shift away from the need for external validation through appearance, as people become more secure in their sense of self. That said, fashion remains important to many people throughout their lives, just expressed differently.",
       "vocabulary": {
         "title": "Q5 - Fashion and Age",
@@ -288,7 +288,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Have you ever bought clothes online?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-24-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-24-q6.mp3",
       "sampleAnswer": "Yes, quite regularly, though my approach to online clothes shopping has evolved over time. Initially I found it frustrating because sizing is inconsistent across brands and you can't try things on before buying, which led to a lot of returns. Over time I've learned to navigate these challenges—I read reviews carefully, pay close attention to size guides and measurements, and tend to stick to brands whose sizing I know well. The convenience of online shopping is genuinely hard to beat—you can browse a far wider range of options than any physical store offers, compare prices easily, and have items delivered to your door. I particularly appreciate being able to shop at any time without the pressure of a sales environment. That said, I still prefer to buy certain items—shoes and formal clothing especially—in person, because the fit is too important to leave to chance.",
       "vocabulary": {
         "title": "Q6 - Online Clothes Shopping",
@@ -338,7 +338,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Were you interested in fashion when you were a child?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-24-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-24-q7.mp3",
       "sampleAnswer": "Not particularly, no. As a child, my relationship with clothing was largely functional—I wore what was comfortable and appropriate for the activities I was doing, without giving much thought to style or appearance. I remember being far more interested in what I was doing than in what I was wearing. My parents chose most of my clothes, and I was generally happy to go along with their choices as long as I was comfortable. I do recall becoming slightly more aware of fashion in my early teenage years, when peer pressure and the desire to fit in made clothing choices feel more significant. But even then, I was never someone who followed trends closely or felt strongly about brands. Looking back, I think my relatively low interest in fashion as a child has carried through into adulthood—I've always been more interested in substance than appearance.",
       "vocabulary": {
         "title": "Q7 - Childhood Fashion Interest",
@@ -385,7 +385,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a creative person (artist, musician) you admire.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-24-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-24-q8.mp3",
       "bulletPoints": [
         "who this person is",
         "how you know this person",
@@ -450,7 +450,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think creativity can be learned or is it something you're born with?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-24-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-24-q9.mp3",
       "sampleAnswer": "I think the evidence strongly suggests that creativity is primarily a skill that can be developed rather than a fixed innate trait, though natural inclination and temperament do play some role. Research in cognitive science shows that creativity is not a mysterious gift but a set of learnable mental habits—making unexpected connections between ideas, questioning assumptions, tolerating ambiguity, and persisting through failure. These can all be cultivated through practice and the right environment. Many of the world's most celebrated creative figures were not considered particularly gifted as children but developed their creativity through years of dedicated practice, exposure to diverse ideas, and a willingness to experiment and fail. That said, some people do seem to have a natural disposition toward divergent thinking and openness to new experiences, which gives them a head start. But I believe that with the right conditions and effort, most people can develop significantly greater creativity than they currently express.",
       "vocabulary": {
         "title": "Q9 - Is Creativity Innate or Learned?",
@@ -500,7 +500,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think famous creative people have a responsibility to use their influence positively?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-24-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-24-q10.mp3",
       "sampleAnswer": "Yes, I think they do, though I'd frame it carefully. With significant influence comes a degree of moral responsibility—when millions of people look to you for inspiration and guidance, the messages you send, whether intentional or not, carry real weight. Creative figures who use their platforms to promote empathy, social awareness, or important causes can make a genuine difference. However, I'm wary of the idea that artists should be primarily judged as moral agents rather than creative ones—the history of art is full of deeply flawed individuals who produced extraordinary work, and demanding that artists be moral exemplars can lead to a kind of censorship that impoverishes culture. I think the most honest position is that famous creative people should be aware of their influence and act thoughtfully, but that their primary responsibility is to their art—to be honest, to take risks, and to create work that genuinely reflects their vision, even when that's uncomfortable.",
       "vocabulary": {
         "title": "Q10 - Creative People's Responsibility",
@@ -550,7 +550,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think visual media (film, photography) is important in how news is presented?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-24-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-24-q11.mp3",
       "sampleAnswer": "Absolutely, and increasingly so. Visual media has transformed news presentation in fundamental ways. Photographs and video footage can convey the emotional reality of events in ways that written text alone cannot—a single powerful image can shift public opinion, generate empathy, and motivate action in ways that thousands of words might fail to achieve. The iconic photographs from major historical events—the Vietnam War, the refugee crisis, natural disasters—demonstrate the extraordinary power of visual media to make abstract statistics and distant events feel immediate and human. However, this power comes with significant risks. Visual media is highly susceptible to manipulation—images can be taken out of context, edited, or selectively chosen to support a particular narrative. The rise of deepfakes and AI-generated imagery adds a new dimension of concern. There's also the risk that the emphasis on visual impact leads to a preference for dramatic, emotionally charged images over nuanced, complex reporting. The most responsible journalism uses visual media to illuminate rather than to manipulate, and media literacy education is increasingly important to help audiences evaluate what they see critically.",
       "vocabulary": {
         "title": "Q11 - Visual Media and News",
@@ -602,7 +602,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Should every child learn to play a musical instrument?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-24-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-24-q12.mp3",
       "sampleAnswer": "I think every child should have the opportunity to learn a musical instrument, though I'd stop short of saying it should be mandatory for all. The benefits of musical education are well-documented and substantial—learning an instrument develops fine motor skills, mathematical reasoning, concentration, emotional expression, and the ability to work toward long-term goals through sustained practice. It also provides children with a lifelong source of joy and a means of creative expression. However, forcing every child to learn an instrument regardless of interest or aptitude risks creating negative associations with music that could last a lifetime. The most effective approach is to provide rich, high-quality musical education in schools—exposing all children to a range of instruments and musical traditions—while allowing individual children to pursue the instruments and styles that genuinely engage them. The goal should be to cultivate a love of music and the habits of practice and discipline that musical education develops, not to produce competent performers against their will.",
       "vocabulary": {
         "title": "Q12 - Children Learning Instruments",
@@ -652,7 +652,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What are the benefits of children learning a musical instrument?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-24-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-24-q13.mp3",
       "sampleAnswer": "The benefits are wide-ranging and extend well beyond music itself. Cognitively, learning an instrument has been shown to strengthen neural connections, improve working memory, and enhance mathematical and linguistic abilities—research suggests that musical training literally changes the structure of the brain in ways that benefit learning across multiple domains. The discipline required to learn an instrument—regular practice, attention to detail, persistence through difficulty—builds habits of mind that are transferable to academic study and professional life. Emotionally, music provides children with a powerful means of expression and a way of processing and communicating feelings that they might struggle to articulate in words. Socially, playing in ensembles, bands, or orchestras teaches cooperation, listening, and the ability to contribute to something larger than yourself. There's also a wellbeing dimension—playing music has been shown to reduce stress and anxiety, and the sense of achievement that comes from mastering a piece provides a significant boost to self-confidence and self-efficacy. Finally, a child who learns an instrument has access to a lifelong source of pleasure and creative expression.",
       "vocabulary": {
         "title": "Q13 - Benefits of Learning Instruments",
@@ -704,7 +704,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What can schools do to nurture children's creativity?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-24-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-24-q14.mp3",
       "sampleAnswer": "Schools can do a great deal to nurture creativity, though it requires a deliberate commitment that sometimes runs counter to the pressures of standardised testing and curriculum coverage. The most important thing schools can do is create an environment where experimentation and risk-taking are valued and where failure is treated as a learning opportunity rather than something to be avoided. This means praising the process of creative thinking—the questions asked, the approaches tried, the connections made—rather than just the final product. Schools should also ensure that arts, music, drama, and design are treated as core subjects rather than peripheral extras that are cut when budgets are tight, since these disciplines are where creative thinking is most explicitly developed. Project-based learning, where students work on open-ended problems that require creative solutions, is another powerful approach. Teachers who model curiosity, who share their own creative processes, and who give students genuine autonomy over aspects of their learning are also crucial. Finally, reducing excessive standardisation and allowing students time for unstructured exploration can create the mental space that creativity requires.",
       "vocabulary": {
         "title": "Q14 - Schools Nurturing Creativity",
@@ -755,7 +755,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How do artists acquire inspiration?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-24-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-24-q15.mp3",
       "sampleAnswer": "Inspiration is a fascinating and somewhat mysterious aspect of the creative process, and artists acquire it through a remarkably diverse range of sources and methods. Many artists draw inspiration from direct observation of the world—paying close attention to people, places, light, sound, and the details of everyday life that most people overlook. Travel and exposure to unfamiliar cultures, landscapes, and ideas is another common source, as encountering the genuinely new can break habitual ways of seeing and thinking. Personal experience—particularly intense emotions, relationships, loss, and transformation—is a rich source of creative material for many artists. Other artists find inspiration in the work of other artists, in conversation, in dreams, or in the act of making itself—sometimes the work generates its own momentum and direction. Many artists also speak of the importance of creating conditions that allow inspiration to arise: regular practice, solitude, physical activity, or specific rituals that signal to the mind that it's time to create. What's interesting is that inspiration rarely arrives on demand—it tends to come to those who are actively engaged in their craft, who are curious and observant, and who have created the mental and physical space for new ideas to emerge.",
       "vocabulary": {
         "title": "Q15 - How Artists Find Inspiration",
@@ -807,7 +807,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think art (drawing) can make a person more creative?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-24-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-24-q16.mp3",
       "sampleAnswer": "Yes, I think practising drawing and visual art can genuinely enhance creativity, and the reasons are both cognitive and psychological. Drawing requires you to look at the world more carefully and attentively than you normally would—to observe the actual shapes, shadows, and relationships between objects rather than relying on mental shortcuts and symbols. This habit of careful observation, once developed, tends to transfer to other areas of life, making you more attuned to detail and nuance generally. Drawing also trains you to solve visual problems—how to represent three dimensions on a flat surface, how to suggest texture and light—which develops a form of spatial and visual thinking that complements verbal and analytical reasoning. Psychologically, engaging in any creative practice builds confidence in your ability to generate and express ideas, which can lower the inhibitions that often block creative thinking in other domains. There's also evidence that engaging in visual art activates different neural pathways than verbal or analytical tasks, which can generate new associations and connections. So while drawing alone won't make someone creative in every domain, it can meaningfully expand the range and flexibility of creative thinking.",
       "vocabulary": {
         "title": "Q16 - Art and Creativity",
@@ -858,7 +858,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What kind of jobs require creativity?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-24-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-24-q17.mp3",
       "sampleAnswer": "Creativity is required in a far wider range of jobs than people typically recognise—it's not confined to the obvious artistic professions. The most visibly creative jobs are in the arts and media: graphic designers, architects, filmmakers, musicians, writers, photographers, and game developers all rely on creativity as their primary professional tool. But creativity is equally essential in many other fields. Scientists and researchers need creativity to formulate novel hypotheses, design experiments, and interpret results in new ways—scientific breakthroughs are fundamentally creative acts. Entrepreneurs need creativity to identify unmet needs, develop innovative solutions, and build organisations from nothing. Teachers need creativity to find new ways of explaining difficult concepts and engaging students with different learning styles. Even in fields like law, medicine, and engineering, creativity is essential for solving complex, non-routine problems that don't have obvious solutions. In fact, as artificial intelligence becomes increasingly capable of performing routine cognitive tasks, creativity—the ability to generate genuinely novel ideas and approaches—is becoming one of the most valuable and distinctively human professional skills. The jobs that will be most resilient in an AI-driven economy are precisely those that require the kind of creative, contextual, and emotionally intelligent thinking that machines currently struggle to replicate.",
       "vocabulary": {
         "title": "Q17 - Jobs Requiring Creativity",

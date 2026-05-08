@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "@mock_stream",
     "testIdentifier": "mock_stream",
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you usually plan your days in advance or prefer to be spontaneous?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-39-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-39-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I'd say I'm a mix of both, but I <span class=\"ml-token adv\">generally</span> lean towards planning. I like to have a <span class=\"ml-token colloc\">rough outline</span> of what I need to do each day, especially for work and important errands.</div>\n\n<div>That said, I also enjoy leaving some room for <span class=\"ml-token colloc\">spontaneous decisions</span>, like meeting up with a friend or trying a new café. I think having a balance keeps life both <span class=\"ml-token colloc\">organised and exciting</span>.</div>",
       "vocabulary": {
@@ -64,7 +64,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like visiting local markets or bazaars?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-39-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-39-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, I <span class=\"ml-token adv\">absolutely</span> love visiting local markets and bazaars. There's something special about the <span class=\"ml-token colloc\">lively atmosphere</span> — the colours, the smells, and the sounds of people bargaining.</div>\n\n<div>I find it much more enjoyable than shopping in a supermarket because you can <span class=\"ml-token colloc\">interact directly</span> with the sellers and often get fresher produce. It also feels like a more <span class=\"ml-token colloc\">authentic cultural experience</span>, especially when travelling.</div>",
       "vocabulary": {
@@ -100,7 +100,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Are you a good swimmer?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-39-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-39-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I wouldn't say I'm a <span class=\"ml-token adv\">particularly</span> strong swimmer, but I can manage well enough. I learned the basics as a child and I'm comfortable in the water, whether it's a pool or the sea.</div>\n\n<div>I don't swim <span class=\"ml-token adv\">competitively</span> or anything like that, but I enjoy it as a way to <span class=\"ml-token colloc\">cool off</span> during the summer. I'd love to <span class=\"ml-token colloc\">improve my technique</span> someday, perhaps by taking proper lessons.</div>",
       "vocabulary": {
@@ -136,7 +136,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-39-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-39-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>In the first picture, I can see a person unfolding and reading a large, printed paper map while travelling. They seem to be trying to <span class=\"ml-token colloc\">find their way</span> in an unfamiliar place using a traditional method.</div>\n\n<div>In the second picture, someone is looking at a <span class=\"ml-token colloc\">digital GPS map</span> on their smartphone, which represents the modern way of navigating. The <span class=\"ml-token colloc\">contrast is clear</span> — one shows a <span class=\"ml-token colloc\">time-tested approach</span> while the other reflects how technology has <span class=\"ml-token adv\">fundamentally</span> changed the way we get around.</div>",
       "vocabulary": {
@@ -172,7 +172,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the advantages of using digital maps for navigation?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-39-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-39-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Digital maps offer a <span class=\"ml-token colloc\">wide range</span> of advantages over traditional paper maps. The most obvious benefit is <span class=\"ml-token colloc\">real-time navigation</span> — apps like Google Maps can show your exact location, provide <span class=\"ml-token colloc\">turn-by-turn directions</span>, and even suggest the fastest route based on current traffic conditions.</div>\n\n<div>This makes it <span class=\"ml-token adv\">virtually</span> impossible to get lost. Another major advantage is that digital maps are constantly updated, so you always have access to the most <span class=\"ml-token colloc\">accurate information</span> about roads, landmarks, and public transport.</div>\n\n<div>They also offer additional features like finding nearby restaurants, petrol stations, or attractions with just a few taps. For travellers, the ability to <span class=\"ml-token colloc\">download offline maps</span> means you can navigate even without an internet connection. As they say, <span class=\"ml-token proverb\">\"knowledge is power\"</span>, and having all that information at your fingertips is <span class=\"ml-token adv\">incredibly</span> empowering.</div>",
       "vocabulary": {
@@ -208,7 +208,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why might someone still choose to use a printed paper map today?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-39-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-39-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Despite the <span class=\"ml-token colloc\">dominance of digital</span> technology, there are still <span class=\"ml-token colloc\">valid reasons</span> why someone might prefer a printed paper map. First of all, paper maps don't require a battery or internet connection, which makes them <span class=\"ml-token adv\">extremely</span> reliable in remote areas where phone signal might be weak or non-existent.</div>\n\n<div>Some hikers and adventurers <span class=\"ml-token adv\">specifically</span> prefer them for this reason. Secondly, a paper map gives you a much <span class=\"ml-token colloc\">broader overview</span> of an entire region at once, allowing you to see connections between places that a small phone screen simply can't show.</div>\n\n<div>There's also a <span class=\"ml-token colloc\">nostalgic charm</span> to unfolding a large map and planning a journey the old-fashioned way — it feels more like an adventure. Finally, for some older people who didn't grow up with technology, paper maps are simply more <span class=\"ml-token colloc\">familiar and intuitive</span>. As the saying goes, <span class=\"ml-token proverb\">\"if it ain't broke, don't fix it\"</span>.</div>",
       "vocabulary": {
@@ -244,7 +244,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a time you spoke or performed in front of an audience.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-39-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-39-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a time you spoke or performed in front of an audience.",
@@ -285,7 +285,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Young people today have a responsibility to care for the elderly in their family and society.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-39-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-39-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

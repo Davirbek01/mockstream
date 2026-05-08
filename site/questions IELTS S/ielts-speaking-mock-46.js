@@ -6,7 +6,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "IELTS Mock Stream",
     "telegramChannel": "@ieltsmockstream",
     "testIdentifier": "mock_stream_46",
@@ -14,8 +14,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Cycling & Shopping"
   },
   "images": {
-    "img1": "https://i.ibb.co/gM1bMSXS/image.png",
-    "img2": "https://i.ibb.co/G4QH85qq/image.png",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/gM1bMSXS-image.png",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/G4QH85qq-image.png",
     "img1Alt": "Placeholder 1",
     "img2Alt": "Placeholder 2"
   },
@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is cycling dangerous in your country?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-46-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-46-q1.mp3",
       "sampleAnswer": "In many urban areas of my country, cycling is unfortunately perceived as being quite hazardous, primarily due to a historical lack of dedicated cycling infrastructure and a road culture that has long prioritised motorised vehicles. Cyclists often find themselves forced to share narrow, congested roads with heavy traffic, which can be an intimidating and genuinely risky experience, especially during peak hours. However, the situation is gradually improving; there's a growing awareness of the benefits of active travel, and some cities are making significant investments in protected bike lanes and traffic-calming measures to enhance cyclist safety. In more rural or purpose-built areas, of course, the experience is entirely different—it can be incredibly peaceful and safe. I think the key to making cycling less dangerous nationwide is a combination of better physical infrastructure and a shift in social attitudes, where drivers learn to view cyclists as legitimate and vulnerable road users who deserve both space and respect.",
       "vocabulary": {
         "title": "Q1 - Cycling Safety",
@@ -87,7 +87,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Would you ever take a long cycling trip?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-46-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-46-q2.mp3",
       "sampleAnswer": "I find the idea of a long-distance cycling excursion to be genuinely compelling, primarily because of the unique way that cycling allows you to experience the landscape at a human scale. Unlike travelling by car or train, which can feel quite disconnected from your surroundings, a cycling trip requires a physical investment that I think deepens your connection to the geography and the small, often overlooked details of a journey. I'm attracted to the sense of autonomy it provides—the ability to set your own pace, to pause wherever you find something interesting, and to travel relatively light. Of course, such an undertaking would require a significant degree of physical preparation and careful logistics, but I think the mental and physical rewards of successfully completing a multi-day route would be profound. It's a form of 'slow travel' that encourages a level of mindfulness and resilience that is increasingly rare in our fast-paced modern world.",
       "vocabulary": {
         "title": "Q2 - Long Cycling Trip",
@@ -139,7 +139,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "When was the last time you went cycling?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-46-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-46-q3.mp3",
       "sampleAnswer": "The last time I cycled was quite recently, during a weekend visit to a local park that has a well-maintained network of paved trails. It was a crisp, clear morning, and I found the experience to be a wonderful antidote to a particularly demanding week at work. Cycling for just an hour or two allowed me to switch off from my professional concerns and to re-engage with the simple physical sensation of movement and the natural environment. I don't cycle as often as I would like—primarily due to the constraints of my daily schedule and the lack of safe routes in my immediate neighbourhood—but every time I do, I'm reminded of the immediate benefits for both mental clarity and physical wellbeing. It was a relatively short ride, but it provided a much-needed sense of freedom and perspective that lasted throughout the rest of the weekend.",
       "vocabulary": {
         "title": "Q3 - Last Time Cycling",
@@ -187,7 +187,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do you usually shop for?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-46-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-46-q4.mp3",
       "sampleAnswer": "My shopping habits are primarily driven by a combination of daily necessities and a more selective, research-oriented approach to significant purchases. On a regular basis, I'm mainly shopping for fresh, high-quality ingredients for cooking, as I find that the process of selecting produce and preparing meals is a valuable part of my daily routine. However, beyond these essentials, I tend to focus my shopping on items that have a high level of utility and long-term value, such as books, technical gear for my professional work, or well-made clothing. I'm not much of an impulsive shopper; I prefer to spend time researched a product and its alternatives before committing to a purchase. To me, shopping is most rewarding when it's an intentional act—finding an object that is both beautiful and functional, and that I know I will use and appreciate for many years to come.",
       "vocabulary": {
         "title": "Q4 - Usual Shopping",
@@ -237,7 +237,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you often go to malls?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-46-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-46-q5.mp3",
       "sampleAnswer": "I wouldn't say that I'm a frequent visitor to large shopping malls; while I can appreciate their convenience and the sheer variety of brands they house under one roof, I often find the experience to be somewhat overwhelming and sterile. Malls are very effective as climate-controlled, all-in-one destinations, especially in extreme weather, but they can also feel quite disconnected from the local character and energy of a city. I generally prefer shopping in smaller, independent shops or vibrant high-street areas where the atmosphere feels more authentic and the social interactions are more meaningful. That being said, I do visit malls occasionally when I need to perform several different errands in a short space of time or when I'm looking for a specific item from a major retailer that I know will be in stock. In those instances, the efficiency and accessibility of a mall are undeniable advantages.",
       "vocabulary": {
         "title": "Q5 - Visiting Malls",
@@ -287,7 +287,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you shop online a lot?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-46-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-46-q6.mp3",
       "sampleAnswer": "Yes, I've increasingly integrated online shopping into my life, primarily for the unparalleled convenience it offers and the ability to access a global marketplace that would be impossible to replicate in person. For items where the physical experience of the product isn't critical—such as technical components, books, or specific household supplies—I nearly always prefer to buy online. The ability to read detailed reviews from other users and to compare prices across multiple retailers in a matter of minutes has made me a much more informed and efficient consumer. However, I'm also mindful of the drawbacks; the ease of 'one-click' purchasing can sometimes encourage less intentional consumption, and I do miss the tactile feedback and immediate satisfaction of traditional retail for certain types of purchases, like clothing or furniture. I try to maintain a balance, using the digital marketplace for its efficiency while still supporting local shops for items that require a more personal, physical connection.",
       "vocabulary": {
         "title": "Q6 - Online Shopping",
@@ -338,7 +338,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How common are shopping centers in your country?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-46-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-46-q7.mp3",
       "sampleAnswer": "Shopping centers have become incredibly ubiquitous throughout my country over the last few decades, and they now serve as the primary retail hubs for many communities, especially in the growing suburban areas. In almost every major town and city, you'll find at least one or two large, modern complexes that combine retail with entertainment and dining—they've essentially become modern 'town squares' where people gather for social as well as commercial reasons. The rapid expansion of these centers has significantly changed the retail landscape, often at the expense of traditional high streets, which have struggled to compete with the convenience and comfort that a large shopping center provides. I think their commonality reflects a broader social shift toward more consolidated, large-scale consumer environments. While they offer a high level of accessibility and choice, I sometimes worry that their prevalence contributes to a kind of architectural and cultural uniformity, where every major shopping destination begins to look and feel exactly the same.",
       "vocabulary": {
         "title": "Q7 - Commonality of Shopping Centers",
@@ -387,7 +387,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe an app or program in your computer or phone.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-46-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-46-q8.mp3",
       "bulletPoints": [
         "what app or program it is",
         "when and where you found it",
@@ -448,7 +448,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think apps make our lives easier or just more complicated?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-46-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-46-q9.mp3",
       "sampleAnswer": "I think there's a genuine tension here; apps have an extraordinary capacity to simplify individual tasks, but the sheer volume and interconnectedness of them can sometimes create a new kind of complexity. On one level, they provide unparalleled efficiency—the ability to navigate a new city, manage finances, or communicate instantly across the globe is objectively a simplification of life. However, stay on the 'app treadmill'—constantly managing notifications, updating software, and switching between different platforms—can lead to a sense of digital clutter and a kind of mental exhaustion. I think apps make life easier when they are used intentionally as tools to achieve specific goals, but they become a source of complication when they begin to dominate our attention or create unnecessary new layers of admin. The challenge is to maintain the discipline to use only those apps that provide genuine value and to resist the pressure to digitize every aspect of our existence.",
       "vocabulary": {
         "title": "Q9 - Apps: Ease vs Complexity",
@@ -500,7 +500,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is it important for apps to have a good user interface?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-46-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-46-q10.mp3",
       "sampleAnswer": "Absolutely; I believe that a well-designed user interface (UI) is not just an aesthetic luxury but is fundamentally critical to the effectiveness and accessibility of any application. A good UI acts as a bridge between complex code and the human user—it should be intuitive, responsive, and should allow someone to achieve their goals with the minimum amount of cognitive effort or frustration. When an app is poorly designed, with confusing navigation or inconsistent elements, it creates a 'friction' that can discourage people from using it or lead to errors. I also think a high-quality interface reflects a level of respect for the user's time and attention; it shows that the developers have thought carefully about the user's needs and experiences. In an increasingly crowded digital marketplace, a beautiful and functional UI is often the primary reason why one app succeeds while another fails—it's what makes a tool feel like a natural extension of ourselves rather than a barrier.",
       "vocabulary": {
         "title": "Q10 - Importance of UI",
@@ -549,7 +549,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What are the drawbacks of having too many apps?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-46-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-46-q11.mp3",
       "sampleAnswer": "The primary drawback of having an excessive number of apps is the significant increase in digital clutter and the subsequent fragmentation of our attention and data. When you have dozens of different apps for similar or overlapping tasks, it can become genuinely difficult to remember where specific information is stored or which app is the most efficient to use—this leads to a kind of 'decision fatigue' even for minor actions. There's also the constant distraction of notifications; each new app is essentially a system designed to compete for your focus, and the cumulative effect can be a persistent state of interrupted thought. From a more technical perspective, too many apps can degrade device performance, drain battery life, and raise significant privacy concerns, as each app often requires access to different types of personal data. I think the most subtle but profound drawback is the psychological impact of feeling constantly 'on' and connected to multiple digital ecosystems, which can make it very difficult to truly disconnect and find mental stillness.",
       "vocabulary": {
         "title": "Q11 - Drawbacks of Too Many Apps",
@@ -599,7 +599,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Why do some people not like using apps?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-46-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-46-q12.mp3",
       "sampleAnswer": "Resistance to using apps often stems from a combination of concerns about privacy, a desire to maintain more traditional and direct ways of interacting with the world, and sometimes a genuine sense of technological overwhelm. For many people, especially those who value their personal data, the invasive nature of many modern apps—which often track location, contacts, and browsing habits—is a significant deterrent. They may feel that the convenience offered is not worth the cost of their privacy. Others may simply find the 'appified' version of life to be less satisfying or authentic—they might prefer the social interaction of a physical shop or the tactile experience of a paper map or notebook. There's also a significant demographic who may find the constant pace of updates and the shifting interfaces of modern software to be genuinely frustrating and difficult to master. I think it's important to recognize that for some, the decision not to use apps is not a sign of being 'behind' but is an intentional choice to simplify their lives and to resist the total digitization of their daily routines.",
       "vocabulary": {
         "title": "Q12 - Why Some People Dislike Apps",
@@ -650,7 +650,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What are the most and the least popular apps in your country?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-46-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-46-q13.mp3",
       "sampleAnswer": "The popularity of apps in my country largely mirrors global trends, with social media, messaging, and financial services consistently at the top of the rankings. Apps like WhatsApp and Instagram are virtually ubiquitous, serving as the primary infrastructure for both personal communication and social networking—they've become so integrated into the fabric of daily life that not using them can lead to a genuine sense of social isolation. In recent years, we've also seen the rapid rise of 'super-apps' that combine banking, food delivery, and transportation in a single platform, which have become essential for many urban professionals. On the other end of the spectrum, the least popular apps tend to be those that are poorly localized, have difficult user interfaces, or are perceived as being overly invasive without providing enough clear value. Some of the early 'contact tracing' or government-service apps also struggled to gain widespread adoption due to trust issues and technical glitches. I think the landscape is constantly shifting as new technologies emerge and as consumer concerns about privacy and mental wellbeing begin to influence which apps we choose to keep on our devices.",
       "vocabulary": {
         "title": "Q13 - Popular vs Unpopular Apps",
@@ -701,7 +701,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What kind of apps do you have on your phone?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-46-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-46-q14.mp3",
       "sampleAnswer": "My own selection of apps is quite curated and reflects a strong emphasis on productivity, professional development, and information management, alongside a few essential tools for daily logistics. I have a core set of communication apps that are necessary for work and social life, but I try to keep these strictly managed to avoid distraction. Beyond those, I rely heavily on specialized apps for things like language learning, reading long-form articles, and managing my professional tasks—tools that I think of as 'cognitive amplifiers' that help me achieve my goals. I also have several high-quality photography and creative apps that I use for more personal projects. I'm quite disciplined about regularly auditing my phone and deleting any apps that I find I'm no longer using or that are purely designed for 'mindless' scrolling. I think of my phone's app screen as a reflection of my own priorities, and I find that by keeping it minimalist and focused on high-value tools, I can maintain a much healthier and more intentional relationship with technology.",
       "vocabulary": {
         "title": "Q14 - Personal App Selection",
@@ -752,7 +752,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What are the differences between old and young people when using apps?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-46-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-46-q15.mp3",
       "sampleAnswer": "While the 'digital divide' is narrowing, there are still quite profound differences in how different generations approach and use apps, primarily relating to their level of digital fluency and their underlying motivations. For younger generations, often described as 'digital natives,' apps are a completely natural and integrated part of their internal and external lives—they use them with a high degree of intuition and are often very comfortable navigating new interfaces or switching between multiple platforms simultaneously. Their use of apps is often highly social and performative. Older generations, by contrast, may approach apps with a more instrumental or functional mindset—they tend to use them for specific, well-defined tasks like banking, navigation, or staying in touch with family. They may also be more cautious about technical issues and privacy, and they often value stability and clear, consistent design over novelty. I think these differences reflect the different stages of the technological revolution at which people were introduced to digital tools. However, I've also noticed that older people are increasingly becoming significant users of apps that provide genuine utility or help to bridge physical distances, showing that the value of the tool eventually outweighs the generational gap in fluency.",
       "vocabulary": {
         "title": "Q15 - Generational Differences in App Use",
@@ -801,7 +801,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How has the development of apps changed the way we consume media?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-46-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-46-q16.mp3",
       "sampleAnswer": "The emergence of apps has fundamentally disrupted the traditional media landscape, shifting the power from centralized broadcasters and publishers toward a much more fragmented, on-demand, and personalized model of consumption. Previously, we were passive consumers of scheduled content; now, through apps, we have near-instant access to the world's entire archive of music, film, and information, and we can choose exactly when and how we engage with it. This has led to a much higher level of individual choice, but also to a kind of 'attention economy' where media is increasingly consumed in short, highly stimulating bursts. Furthermore, the algorithms that power many media apps have a profound effect on what we see—they create 'filter bubbles' that can reinforce our existing tastes and opinions while limiting our exposure to different perspectives. I think the move toward app-based media consumption has made us more proactive but also potentially more isolated in our own personalized digital chambers. The challenge is to maintain the curiosity to move beyond the recommendations of the algorithm and to seek out a broader, more diverse media diet.",
       "vocabulary": {
         "title": "Q16 - Apps and Media Consumption",
@@ -849,7 +849,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think we will rely even more on apps in the future?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-46-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-46-q17.mp3",
       "sampleAnswer": "I think it's almost certain that the integration of apps into our lives will continue to deepen, though the form they take may evolve from separate icons on a screen to more seamless, invisible layers of our physical and digital environments. As we move toward a more 'ambient' computing world—with the growth of wearable technology, smart homes, and eventually augmented reality—the 'app' as we know it today will likely become the primary interface through which we interact with almost everything. We may find ourselves relying on these systems not just for information and logistics but for augmented cognitive and social functions. However, I think this increasing reliance will also provoke a significant counter-movement—a growing desire for 'digital detox' and the preservation of non-digital human experiences. We're already seeing a move toward more intentional and ethical design in technology. Ultimately, I think the future will be a complex negotiation between the undeniable benefits of app-driven efficiency and the fundamental human need for direct, unmediated connection with the physical world and each other.",
       "vocabulary": {
         "title": "Q17 - Future Reliance on Apps",

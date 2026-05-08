@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "@mock_stream",
     "testIdentifier": "mock_stream",
@@ -15,8 +15,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Chet tilini bilish darajasi"
   },
   "images": {
-    "img1": "https://i.ibb.co/BKt6MQFm/image.png",
-    "img2": "https://i.ibb.co/qMLtTB1f/image.png",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/BKt6MQFm-image.png",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/qMLtTB1f-image.png",
     "img1Alt": "Beautiful clean natural environment",
     "img2Alt": "Polluted industrial area with smoke"
   },
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you enjoy spending time in nature?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-23-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-23-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, I <span class=\"ml-token adv\">absolutely</span> love spending time in nature. There's something <span class=\"ml-token adv\">incredibly</span> refreshing about being surrounded by greenery, breathing <span class=\"ml-token colloc\">fresh air</span>, and escaping the hustle and bustle of city life.</div>\n\n<div>Whenever I get the chance, I enjoy going for walks in parks or hiking in the mountains. I find that being in nature helps me <span class=\"ml-token phrasal\">clear my head</span> and reduce stress. It's like a <span class=\"ml-token colloc\">natural therapy</span> that recharges my batteries.</div>\n\n<div>I <span class=\"ml-token adv\">particularly</span> love the sounds of nature – birds singing, leaves rustling, water flowing. These sounds are so peaceful compared to the noise of traffic and construction. As the saying goes, <span class=\"ml-token proverb\">\"Nature is the best medicine.\"</span> I <span class=\"ml-token adv\">genuinely</span> believe that spending time outdoors is essential for our <span class=\"ml-token colloc\">mental well-being</span>.</div>",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What environmental issues concern you most?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-23-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-23-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>The environmental issue that concerns me most is <span class=\"ml-token adv\">undoubtedly</span> <span class=\"ml-token colloc\">climate change</span>. It's a <span class=\"ml-token colloc\">global crisis</span> that affects every aspect of our lives and threatens the future of our planet.</div>\n\n<div>We're <span class=\"ml-token adv\">already</span> seeing the effects – more extreme weather events, rising sea levels, and species going extinct at alarming rates. What worries me most is that future generations will inherit a planet that's <span class=\"ml-token adv\">significantly</span> worse than what we have today.</div>\n\n<div>I'm also <span class=\"ml-token adv\">deeply</span> concerned about <span class=\"ml-token colloc\">plastic pollution</span>. Our oceans are filled with plastic waste that harms marine life and eventually enters our <span class=\"ml-token colloc\">food chain</span>. It's heartbreaking to see images of animals suffering because of our carelessness. As they say, <span class=\"ml-token proverb\">\"We do not inherit the Earth from our ancestors; we borrow it from our children.\"</span> We need to act now.</div>",
       "vocabulary": {
@@ -104,7 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you try to recycle or reduce waste?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-23-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-23-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, I <span class=\"ml-token adv\">definitely</span> try to recycle and reduce waste as much as possible. I believe that <span class=\"ml-token colloc\">small actions</span> can make a big difference when everyone participates.</div>\n\n<div>At home, I separate my waste into different categories – paper, plastic, glass, and organic waste. I also try to avoid <span class=\"ml-token colloc\">single-use plastics</span> by carrying my own reusable shopping bags and water bottle. It's a small inconvenience that's <span class=\"ml-token adv\">totally</span> worth it.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, I try to <span class=\"ml-token phrasal\">cut down on</span> unnecessary purchases and buy second-hand items when possible. Before throwing anything away, I ask myself if it can be reused or donated. As the saying goes, <span class=\"ml-token proverb\">\"Reduce, reuse, recycle.\"</span> I think everyone should <span class=\"ml-token phrasal\">do their bit</span> for the environment – every little helps!</div>",
       "vocabulary": {
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "Compare these two pictures showing different environments.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-23-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-23-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>These two pictures present a <span class=\"ml-token adv\">stark</span> contrast between two very different environments that exist in our world today.</div>\n\n<div>The first image shows a <span class=\"ml-token colloc\">pristine natural environment</span>. We can see lush greenery, clean air, and a peaceful atmosphere. This type of environment represents what nature looks like when it's <span class=\"ml-token adv\">properly</span> protected and preserved. It's the kind of place where people go to relax, breathe fresh air, and connect with nature. The scene looks <span class=\"ml-token adv\">incredibly</span> calming and inviting.</div>\n\n<div>In contrast, the second image depicts a heavily <span class=\"ml-token colloc\">polluted industrial area</span>. We can see smokestacks releasing emissions into the air, creating a grey, hazy atmosphere. This environment looks <span class=\"ml-token adv\">distinctly</span> unhealthy and unwelcoming. The air quality is <span class=\"ml-token adv\">obviously</span> poor, and it's hard to imagine people living comfortably in such conditions.</div>\n\n<div>These images <span class=\"ml-token adv\">powerfully</span> illustrate the <span class=\"ml-token colloc\">environmental choices</span> we face as a society. One shows what we could preserve, while the other shows the consequences of <span class=\"ml-token colloc\">unchecked industrialization</span>. As they say, <span class=\"ml-token proverb\">\"A picture is worth a thousand words,\"</span> and these two pictures tell a <span class=\"ml-token adv\">very</span> important story about our planet's future.</div>",
       "vocabulary": {
@@ -180,7 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the benefits of spending time in clean, natural places?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-23-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-23-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Spending time in clean, natural environments offers numerous <span class=\"ml-token colloc\">significant benefits</span> for both our physical and mental health.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, being in nature provides us with <span class=\"ml-token colloc\">fresh, clean air</span> to breathe. Unlike polluted cities, natural areas have air that's rich in oxygen and free from harmful pollutants. This is <span class=\"ml-token adv\">particularly</span> beneficial for our respiratory system and overall health.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, nature has proven <span class=\"ml-token colloc\">mental health benefits</span>. Studies show that spending just 20 minutes in a natural setting can <span class=\"ml-token adv\">significantly</span> reduce stress hormones and lower blood pressure. The peaceful surroundings help us <span class=\"ml-token phrasal\">switch off</span> from daily worries and find inner calm.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, natural environments encourage <span class=\"ml-token colloc\">physical activity</span>. Whether it's hiking, swimming, or simply walking, we tend to move more when surrounded by beautiful scenery. This helps combat the <span class=\"ml-token colloc\">sedentary lifestyle</span> that many of us lead.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, connecting with nature fosters a sense of <span class=\"ml-token colloc\">environmental awareness</span>. When we experience the beauty of clean environments, we're more motivated to protect them. As the proverb says, <span class=\"ml-token proverb\">\"In every walk with nature, one receives far more than he seeks.\"</span></div>",
       "vocabulary": {
@@ -218,7 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some cities struggle with pollution problems?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-23-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-23-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Many cities around the world struggle with <span class=\"ml-token colloc\">severe pollution problems</span> due to a combination of factors.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, <span class=\"ml-token colloc\">rapid industrialization</span> is a major cause. As cities develop and factories are built, they often release harmful emissions into the air and water. In many developing countries, <span class=\"ml-token colloc\">environmental regulations</span> are either weak or poorly enforced, allowing industries to pollute freely.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, the sheer number of vehicles on the roads contributes <span class=\"ml-token adv\">significantly</span> to <span class=\"ml-token colloc\">air pollution</span>. As populations grow and more people can afford cars, traffic congestion increases, and so do exhaust emissions. Many cities lack adequate <span class=\"ml-token colloc\">public transportation</span> systems, forcing people to rely on private vehicles.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, <span class=\"ml-token colloc\">poor waste management</span> is a serious issue. In some cities, garbage is not collected regularly or is disposed of improperly. This leads to overflowing landfills and even waste being burned openly, releasing toxic fumes.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, economic priorities often overshadow environmental concerns. Governments may prioritize <span class=\"ml-token colloc\">economic growth</span> over environmental protection, viewing pollution as an acceptable cost of development. As they say, <span class=\"ml-token proverb\">\"You can't have your cake and eat it too\"</span> – but perhaps with better planning, cities can achieve both growth and sustainability.</div>",
       "vocabulary": {
@@ -256,7 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a beautiful natural place you have visited.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-23-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-23-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a beautiful natural place you have visited.",
@@ -299,7 +299,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Governments Should Prioritize Environmental Protection Over Economic Growth",
-      "audioFile": "questions S/audio/cefr-speaking-mock-23-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-23-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

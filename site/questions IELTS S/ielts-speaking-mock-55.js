@@ -6,7 +6,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "IELTS Mock Stream",
     "telegramChannel": "@ieltsmockstream",
     "testIdentifier": "mock_stream_55",
@@ -14,8 +14,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Evenings & Environmental Protection"
   },
   "images": {
-    "img1": "https://i.ibb.co/gM1bMSXS/image.png",
-    "img2": "https://i.ibb.co/G4QH85qq/image.png",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/gM1bMSXS-image.png",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/G4QH85qq-image.png",
     "img1Alt": "Placeholder 1",
     "img2Alt": "Placeholder 2"
   },
@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do you often do in the evenings?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-55-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-55-q1.mp3",
       "sampleAnswer": "My evenings are typically a vital 'decompression phase' designed to counteract the high-intensity cognitive demands of my workday. I usually prioritize 'low-stimulation' activities—such as reading a complex novel or engaging in light reflective journaling—to help my nervous system transition toward a restful state. I've found that consciously avoiding screens during this time is essential for preserving my sleep quality and mental clarity. Occasionally, I'll utilize the evening for a moderate physical activity like yoga, which provides a necessary 'somatic reset' after hours of sedentary desk work. It's essentially a period of 'intentional restoration' rather than just passive idle time.",
       "vocabulary": {
         "title": "Q1 - Evening Activities",
@@ -84,7 +84,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you do the same thing every evening?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-55-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-55-q2.mp3",
       "sampleAnswer": "I strive for a certain level of 'ritualistic consistency' because I believe that a predictable evening routine is the most effective way to manage stress and ensure cognitive longevity. However, I wouldn't describe it as entirely 'fixed' or monotonous; I allow for architectural shifts depending on my energy levels and social obligations. For instance, while the core aim is relaxation, some evenings might involve more 'active restoration' like cooking an elaborate meal from scratch, while others are reserved for complete 'mental stillness.' I think the key is having a 'stable framework' that is flexible enough to accommodate the unpredictable variables of daily life without losing its calming purpose.",
       "vocabulary": {
         "title": "Q2 - Routine Consistency",
@@ -130,7 +130,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you prefer to spend your evenings with family or friends?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-55-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-55-q3.mp3",
       "sampleAnswer": "I believe my preference is highly 'context-dependent' and depends on my current 'emotional bandwidth.' Weeknight evenings are typically reserved for the 'quiet intimacy' and shared history of my family—it's a time for low-pressure connection and the domestic safety of home. Conversely, I find that weekend evenings are better suited for the more 'dynamic social energy' of friends, where the focus is on shared exploration, laughter, and perhaps more intellectually stimulating debate. I think both forms of interaction are essential; one provides the 'emotional anchor' of belonging, while the other provides the 'cultural oxygen' and fresh perspectives that prevent our social lives from becoming too insular.",
       "vocabulary": {
         "title": "Q3 - Company in the Evenings",
@@ -177,7 +177,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you ever work or study in the evenings?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-55-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-55-q4.mp3",
       "sampleAnswer": "While I rigorously attempt to maintain a 'work-life boundary,' the reality of modern, high-intensity professional life often necessitates occasional 'asynchronous work' sessions in the evening. I find that the quietude of the night sometimes provides a unique 'deep-work window' that is entirely free from the constant Slack notifications and Zoom meetings of the daytime. However, I'm quite disciplined about ensuring these sessions are 'time-boxed' and don't bleed into my essential sleep period. I try to reserve evening work for 'creative synthesis'—tasks that require reflection and a broader perspective—rather than administrative 'drudgery.' It's a delicate balancing act between career ambition and the non-negotiable need for psychological recovery.",
       "vocabulary": {
         "title": "Q4 - Evening Work/Study",
@@ -224,7 +224,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What is a popular activity for young people in your country in the evenings?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-55-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-55-q5.mp3",
       "sampleAnswer": "Currently, we're witnessing a significant shift in youth evening culture toward 'experience-based' and 'digitally-integrated' social activities. While traditional gatherings like dinners or cinema visits remain common, there's a massive surge in popularity for niche interests—such as artisanal night markets, immersive gaming lounges, or even organized 'social sports' like night-padel or urban running clubs. I think young people are increasingly seeking 'active socialization' that combines physical activity with high-quality social interaction, moving away from purely passive entertainment. Additionally, the 'cafe-after-dark' culture is exploding, where high-end coffee shops transform into evening gathering spaces for studying or collaborative creative work, reflecting a generation that values 'productive sociality.'",
       "vocabulary": {
         "title": "Q5 - Youth Evening Culture",
@@ -271,7 +271,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you do the same thing in the evenings as you did when you were a child?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-55-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-55-q6.mp3",
       "sampleAnswer": "The content of my evenings is fundamentally and almost 'unrecognizably' different now, primarily due to the transition from 'structured dependence' to 'autonomous responsibility.' As a child, my evenings were defined by external structures—fixed meal times, supervised playtime, and a non-negotiable bedtime ritual. Now, my evenings are a complex 'negotiation' between professional demands, health maintenance, and domestic chores. However, I've recently tried to 're-incorporate' the childhood element of 'pure curiosity'—spending time on a hobby or a book without any productive 'end goal' in mind. I think as adults, we often lose that ability for 'aimless play,' and reconnecting with it in the evening is a powerful way to reclaim our sense of self beyond our professional identities.",
       "vocabulary": {
         "title": "Q6 - Child vs Adult Evenings",
@@ -318,7 +318,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you enjoy the evening more than the morning?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-55-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-55-q7.mp3",
       "sampleAnswer": "I consider myself a 'reformed chronotyp' who has learned to appreciate the unique 'psychological quietude' of the evening much more than the frantic, high-intensity energy of the morning. While the morning is about 'mobilization' and the external world's demands, the evening feels like a period of 'reclamation'—a time where you are allowed to turn inward and process the day's experiences. There's a particular kind of 'mental spaciousness' that occurs as the city slows down and the constant noise of communication begins to subside. For me, the evening provides the necessary 'perspective' that the morning lacks; it's the time for reflection and synthesis that makes the morning's productivity possible. It is the 'conclusion' that gives the rest of the day its meaning.",
       "vocabulary": {
         "title": "Q7 - Morning vs Evening",
@@ -364,7 +364,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a person who encouraged you to protect the nature.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-55-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-55-q8.mp3",
       "bulletPoints": [
         "who this person is",
         "how this person encouraged you",
@@ -421,7 +421,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think individual actions really make a difference?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-55-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-55-q9.mp3",
       "sampleAnswer": "I believe that while large-scale 'corporate and governmental' change is the ultimate goal, individual actions serve as the vital 'cultural foundation' upon which those larger shifts are built. Every individual choice—whether it's reducing waste or opting for sustainable transport—acts as a 'social signal' that shifts the cultural 'overton window' of what is acceptable and expected. Furthermore, individuals are also 'voters and consumers'; our aggregated personal choices are what eventually force systemic change by making 'unsustainable' business models unviable. We can't wait for a perfect top-down solution; we must create the 'bottom-up demand' for a better world through our own daily conduct. It's about being an 'active participant' in the solution rather than a passive contributor to the problem.",
       "vocabulary": {
         "title": "Q9 - Individual vs Systemic Action",
@@ -466,7 +466,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some people find it hard to change their habits for the environment?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-55-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-55-q10.mp3",
       "sampleAnswer": "I think the primary obstacle is 'psychological distance'—the fact that the consequences of our environmental neglect often feel geographically or temporally distant, whereas the 'inconvenience' of changing our habits is immediate and tangible. Humans are evolutionarily 'hard-wired' to prioritize immediate comfort and safety over long-term, abstract risks. Furthermore, there's a certain 'cognitive dissonance' that occurs when we realize our lifestyle is harming the world we depend on; it's often easier for the mind to 'deny' or 'minimize' the problem than to face the difficult task of 'behavioral restructuring.' We also live in a 'convenience-centric' economic system that often makes the sustainable choice the most expensive and time-consuming one, creating a powerful 'structural resistance' to change.",
       "vocabulary": {
         "title": "Q10 - Resistance to Habit Change",
@@ -512,7 +512,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How can parents teach their children to protect nature?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-55-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-55-q11.mp3",
       "sampleAnswer": "I believe that the most effective form of 'environmental pedagogy' for children isn't found in books, but in 'guided exposure' and the 'modeling' of respectful behavior. Parents can foster a deep-seated 'ecological empathy' by consistently bringing children into natural environments and encouraging them to observe the 'micro-details' of life—the cycle of a garden or the behavior of local wildlife. By making 'sustainable living'—like recycling or energy conservation—a normal, unexceptional part of the domestic routine, they normalize the concept of 'stewardship.' Crucially, it's about shifting the narrative from 'nature as a resource' to 'nature as a community' that we are part of. If a child develops an 'emotional bond' with the natural world early on, protecting it becomes a natural instinct rather than a learned chore.",
       "vocabulary": {
         "title": "Q11 - Parental Education on Nature",
@@ -558,7 +558,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Should schools teach children to get close to nature?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-55-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-55-q12.mp3",
       "sampleAnswer": "Absolutely; in an increasingly 'urbanized and screen-dominated' world, schools have a vital responsibility to facilitate 'nature-reconnection' as a core part of their curriculum. I'm a strong advocate for 'outdoor classrooms' and 'experiential learning' that moves science and geography from the textbook into the physical world. Getting 'close to nature' isn't just about environmental awareness; it has profound benefits for 'mental health' and 'attention spans'—the restorative power of green spaces is well-documented in reducing stress and fostering creative thinking. If we want a future generation that is capable of solving complex 'climate challenges,' we must first ensure they have a 'physical literacy' and a personal connection with the natural systems they are being asked to save.",
       "vocabulary": {
         "title": "Q12 - Schools and Nature Connection",
@@ -603,7 +603,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think there should be laws to protect nature?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-55-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-55-q13.mp3",
       "sampleAnswer": "I believe that robust, well-enforced 'environmental legislation' is an absolute necessity, primarily because the 'free market' often fails to account for the 'externalized costs' of pollution and resource depletion. Without the 'legal framework' of laws, corporations and individuals are often incentivized to prioritize short-term profit over long-term ecological stability. Laws provide the 'non-negotiable boundaries' that represent the collective will for a sustainable future; they turn 'moral obligations' into 'legal imperatives.' However, these laws must be 'dynamic' and informed by the latest 'scientific consensus' to be truly effective. While voluntary action is important, the scale and 'urgency' of the current climate crisis demand a structural response that can only be achieved through the 'coercive power' of the state and international treaties.",
       "vocabulary": {
         "title": "Q13 - Environmental Laws",
@@ -649,7 +649,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Is economic growth compatible with environmental protection?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-55-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-55-q14.mp3",
       "sampleAnswer": "This is perhaps the most critical 'existential debate' of our time; while the 'traditional model' of extraction-based growth is clearly unsustainable, I think there is a pathway for 'decoupled growth'—where economic value is created through innovation, efficiency, and 'circular' resource loops, rather than raw consumption. We are seeing a shift toward 'green technologies' and 'service-based' economies that can potentially flourish without increasing their 'environmental footprint.' However, this requires a fundamental 'paradigm shift'—moving away from GDP as the sole metric of success and toward 'whole-system health.' I believe that 'sustainable development' isn't just a buzzword, but an absolute 'technological and social imperative'—we must find a way to thrive within the 'planetary boundaries' or risk total system collapse.",
       "vocabulary": {
         "title": "Q14 - Economy vs Environment",
@@ -695,7 +695,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How can international cooperation solve environmental problems?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-55-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-55-q15.mp3",
       "sampleAnswer": "International cooperation is the only 'viable pathway' to solving environmental crises because nature does not recognize 'political borders'—pollution and climate change are truly 'transnational phenomena' that require a 'coordinated global response.' Treaties such as the Paris Agreement serve as essential 'mechanisms for collective accountability,' allowing nations to set shared targets and facilitate the transfer of 'green technology' to developing regions. Furthermore, global cooperation prevents the 'race to the bottom' where countries lower their environmental standards to gain a competitive economic advantage. It's about 'mutualizing the risk' and pooling resources for 'interdisciplinary research' that no single nation can afford alone. Ultimately, we must move from 'national competition' to 'global collaboration' to preserve our shared biosphere.",
       "vocabulary": {
         "title": "Q15 - International Cooperation",
@@ -741,7 +741,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How does technology both harm and help the environment?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-55-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-55-q16.mp3",
       "sampleAnswer": "Technology exists in a state of 'profound paradox' regarding the environment; it has historically been the 'primary driver' of industrial destruction and resource depletion, yet it is also our most powerful 'tool for restoration' and efficiency. On one hand, 'planned obsolescence' and the 'cryptocurrency energy-drain' are clear examples of technological harm. On the other hand, 'precision agriculture,' satellite-based 'conservation monitoring,' and the 'decarbonization' of our energy grid are all technological triumphs. The key is in the 'intentionality' of the technology's design—whether we use it to 'dominate' nature or to 'integrate' with it more intelligently. We must move toward 'biomimetic' technology that emulates natural systems, ensuring that our innovation is 'regenerative' rather than purely extractive.",
       "vocabulary": {
         "title": "Q16 - Technology and Environment",
@@ -788,7 +788,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Why is 'biodiversity' as important as 'climate change'?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-55-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-55-q17.mp3",
       "sampleAnswer": "I'd argue that 'biodiversity loss' is a 'silent emergency' that is every bit as critical as carbon emissions, because biodiversity is the 'foundational infrastructure' that provides our 'ecosystem services'—from pollination and water purification to soil health. A high-biodiversity system is 'resilient'—it can absorb shocks and adapt to changes—whereas a 'monoculture' or a depleted system is dangerously fragile. When we lose a species, we are essentially 'erasing a page' from the library of biological solutions that have evolved over millions of years. Climate change is the 'pressure,' but biodiversity is the 'resilience' that allows life to survive that pressure. We cannot solve one without the other; they are two sides of the same 'existential coin.'",
       "vocabulary": {
         "title": "Q17 - Importance of Biodiversity",

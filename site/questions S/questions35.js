@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "@mock_stream",
     "testIdentifier": "mock_stream",
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you prefer writing by hand or typing on a keyboard?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-35-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-35-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I <span class=\"ml-token adv\">honestly</span> prefer typing on a keyboard for most tasks. It's much <span class=\"ml-token adv\">faster</span> and more convenient, <span class=\"ml-token adv\">especially</span> when I need to write something long like an essay or a report.</div>\n\n<div><span class=\"ml-token adv\">However</span>, I do enjoy writing by hand when it comes to personal things like greeting cards or journal entries. There's something <span class=\"ml-token adv\">uniquely</span> satisfying about putting pen to paper — it feels more <span class=\"ml-token colloc\">intimate and thoughtful</span>.</div>\n\n<div>I think both methods have their place. Typing is better for <span class=\"ml-token colloc\">productivity and efficiency</span>, while handwriting adds a <span class=\"ml-token colloc\">personal touch</span> that no digital font can replicate. As they say, <span class=\"ml-token proverb\">\"The pen is mightier than the sword\"</span>.</div>",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How much water do you usually drink every day?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-35-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-35-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I try to drink at least <span class=\"ml-token adv\">approximately</span> two litres of water every day, which is about eight glasses. I've made it a <span class=\"ml-token colloc\">conscious habit</span> to stay hydrated throughout the day.</div>\n\n<div>I <span class=\"ml-token adv\">usually</span> start my morning with a large glass of water, and I keep a water bottle on my desk so I can sip <span class=\"ml-token adv\">regularly</span>. During the summer months, I <span class=\"ml-token adv\">naturally</span> drink more because of the heat.</div>\n\n<div>I think many people <span class=\"ml-token adv\">unfortunately</span> don't drink enough water and <span class=\"ml-token colloc\">underestimate its importance</span> for overall health. Staying properly hydrated helps with concentration, energy levels, and even skin health. As they say, <span class=\"ml-token proverb\">\"Water is the driving force of all nature\"</span>.</div>",
       "vocabulary": {
@@ -104,7 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What is your favorite public holiday in your country?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-35-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-35-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>My favourite public holiday is <span class=\"ml-token adv\">definitely</span> Navruz, which we celebrate on the 21st of March every year. It marks the beginning of spring and the <span class=\"ml-token colloc\">New Year</span> in our culture.</div>\n\n<div>What I love most about Navruz is the sense of <span class=\"ml-token colloc\">togetherness and renewal</span> it brings. Families gather to prepare traditional dishes like sumalak, which takes an entire night to cook. The streets are filled with music, dancing, and <span class=\"ml-token adv\">incredibly</span> festive energy.</div>\n\n<div>It's also a time when people <span class=\"ml-token colloc\">forgive past disagreements</span> and start fresh. I think that's a beautiful tradition. As they say, <span class=\"ml-token proverb\">\"Every new beginning comes from some other beginning's end\"</span>.</div>",
       "vocabulary": {
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-35-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-35-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>These two pictures show people living in <span class=\"ml-token adv\">completely</span> different <span class=\"ml-token colloc\">climate conditions</span>.</div>\n\n<div>In the first picture, I can see a person bundled up in heavy winter clothes, walking down a <span class=\"ml-token colloc\">snow-covered street</span>. The weather looks <span class=\"ml-token adv\">extremely</span> cold, and the person is wearing thick layers, a scarf, and probably gloves to protect themselves from the freezing temperatures.</div>\n\n<div>The second picture presents a <span class=\"ml-token adv\">completely</span> opposite scene — a person in light summer clothing, wearing sunglasses and <span class=\"ml-token adv\">clearly</span> enjoying a hot, sunny day. They look relaxed and comfortable in the warm weather. The contrast between these two images <span class=\"ml-token adv\">perfectly</span> illustrates how different life can be depending on the <span class=\"ml-token colloc\">climate you live in</span>.</div>",
       "vocabulary": {
@@ -180,7 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the advantages of living in a place with a cold, snowy climate?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-35-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-35-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Living in a cold, snowy climate, as depicted in the first picture, has <span class=\"ml-token adv\">several</span> notable advantages that many people appreciate.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, cold climates offer stunning <span class=\"ml-token colloc\">natural beauty</span>. There's something <span class=\"ml-token adv\">truly</span> magical about waking up to a world covered in fresh white snow. The changing seasons also bring a wonderful variety to life — from snowy winters to colourful springs.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, cold weather provides opportunities for <span class=\"ml-token colloc\">unique recreational activities</span> like skiing, snowboarding, ice skating, and building snowmen. These are experiences that people in tropical climates simply cannot enjoy.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, research suggests that people in colder regions tend to develop a stronger <span class=\"ml-token colloc\">sense of community</span> — harsh winters encourage people to help each other and spend quality time indoors with family and friends. Cold weather also means fewer insects and certain diseases are less common. As they say, <span class=\"ml-token proverb\">\"There's no such thing as bad weather, only bad clothing\"</span>.</div>",
       "vocabulary": {
@@ -218,7 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some people prefer to live in regions with hot weather all year round?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-35-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-35-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Many people are drawn to living in hot climates year-round, as we can see the person enjoying in the second picture, and there are <span class=\"ml-token adv\">several</span> understandable reasons for this preference.</div>\n\n<div><span class=\"ml-token adv\">Primarily</span>, warm weather allows for a more <span class=\"ml-token colloc\">active outdoor lifestyle</span>. People can go to the beach, swim, jog, and socialise outdoors at any time of year without worrying about snowstorms or icy roads. This <span class=\"ml-token adv\">naturally</span> leads to a more relaxed and enjoyable daily routine.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, living in a warm climate can be <span class=\"ml-token adv\">significantly</span> cheaper in terms of <span class=\"ml-token colloc\">heating costs</span>. In cold regions, energy bills during winter can be enormous, whereas in warm areas, people spend far less on keeping their homes comfortable.</div>\n\n<div><span class=\"ml-token adv\">Moreover</span>, many studies suggest that sunshine has a <span class=\"ml-token colloc\">positive effect on mental health</span>. Sunlight boosts vitamin D levels and helps prevent seasonal depression, which is common in colder, darker climates. People in sunny places <span class=\"ml-token adv\">often</span> report feeling happier and more energetic. As they say, <span class=\"ml-token proverb\">\"Where there is sunshine, there is hope\"</span>.</div>",
       "vocabulary": {
@@ -256,7 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe an event or party that you organized.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-35-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-35-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe an event or party that you organized.",
@@ -299,7 +299,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Advertising targeted directly at children should be banned.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-35-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-35-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

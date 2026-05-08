@@ -6,7 +6,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "IELTS Mock Stream",
     "telegramChannel": "@ieltsmockstream",
     "testIdentifier": "mock_stream_45",
@@ -14,8 +14,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Creativity & Advice"
   },
   "images": {
-    "img1": "https://i.ibb.co/gM1bMSXS/image.png",
-    "img2": "https://i.ibb.co/G4QH85qq/image.png",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/gM1bMSXS-image.png",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/G4QH85qq-image.png",
     "img1Alt": "Placeholder 1",
     "img2Alt": "Placeholder 2"
   },
@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Are you a creative person?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-45-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-45-q1.mp3",
       "sampleAnswer": "I'd like to think of myself as creatively-inclined, though perhaps not in the traditional artistic sense of being a painter or a musician. To me, creativity is fundamentally about problem-solving and the ability to look at a situation from multiple perspectives to find an unconventional but effective solution. In my professional and personal life, I find genuine satisfaction in synthesizing disparate ideas or approaching a challenge in a way that others might not have considered. I'm particularly drawn to the creative aspects of communication—finding the right narrative or the most compelling way to present complex information. While I don't necessarily spend my time producing physical art, I believe that the 'creative spark' is present in how I structure my day, solve technical problems, and engage with the world around me. It's a quality that I actively try to cultivate, as it makes life feel more dynamic and less prescriptive.",
       "vocabulary": {
         "title": "Q1 - Are You a Creative Person",
@@ -85,7 +85,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What did you learn about creativity at school?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-45-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-45-q2.mp3",
       "sampleAnswer": "My experience with creativity in the formal education system was somewhat mixed; while subjects like art and literature provided a structured space for creative expression, I often felt that the emphasis on standardized testing and correct answers could be counterproductive to genuine creative thinking. We learned that creativity was often associated with specific 'creative' subjects, rather than being a skill that could be applied across the entire curriculum. However, I did have some exceptional teachers who encouraged us to challenge assumptions and to explore our own particular interests, which I think was much more valuable than any specific technique we were taught. They showed us that creativity is as much about discipline and persistence as it is about inspiration. Looking back, I think the most important thing I learned—perhaps indirectly—is that creativity flourishes when you have the freedom to make mistakes and the curiosity to keep asking 'what if?'.",
       "vocabulary": {
         "title": "Q2 - Learning Creativity at School",
@@ -135,7 +135,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Does anyone in your family have a good imagination?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-45-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-45-q3.mp3",
       "sampleAnswer": "Yes, several members of my family possess a genuinely vivid imagination, which has made for a very stimulating environment to grow up in. My younger sibling, in particular, has always had an extraordinary ability to weave complex, imaginative narratives from even the most mundane events—it's a form of creative play that I've always found fascinating. My parents also have a very imaginative approach to problem-solving, whether it's in their professional lives or in personal projects around the house—they have a knack for seeing possibilities where others might only see obstacles. I think having these examples of imaginative thinking around me from a young age helped me to value curiosity and to see the world as a place that is fundamentally malleable and full of potential. It's a quality that we all seem to share to some degree, and it's something that we often bond over in our shared stories and projects.",
       "vocabulary": {
         "title": "Q3 - Imagination in the Family",
@@ -184,7 +184,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Are people in your country generally very creative?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-45-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-45-q4.mp3",
       "sampleAnswer": "I think there is a profound depth of creativity in my country, though it's often expressed in ways that are deeply rooted in our specific cultural history and social dynamics. We have a very strong tradition in the visual and performing arts, as well as a burgeoning creative tech sector that is gaining international recognition. But beyond these formal areas, I think you see a genuine 'vernacular creativity' in how people navigate the challenges of daily life—a kind of resourcefulness and ingenuity that is a hallmark of the national character. Whether it's in the vibrant street art of our cities, the innovative ways that people adapt traditional crafts to modern needs, or the lively and often satirical nature of our public discourse, creativity is a very visible presence in our society. I think the key to our creativity is a willingness to combine a respect for tradition with a playful, often irreverent approach to new ideas.",
       "vocabulary": {
         "title": "Q4 - Creativity in Your Country",
@@ -237,7 +237,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think computer games can help develop children's creativity?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-45-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-45-q5.mp3",
       "sampleAnswer": "Yes, I believe that certain types of computer games can be extraordinarily effective tools for fostering children's creativity, provided they move beyond passive consumption and into active creation and problem-solving. Games that focus on 'open-world' exploration or that provide building tools—like Minecraft or various simulation games—allow children to experiment with complex systems, to design their own structures, and to navigate challenges where there is no single right answer. This kind of 'sandbox' play is a digital equivalent of traditional blocks or craft sets, and it encourages the same kind of spatial reasoning, imaginative narrative-building, and iterative problem-solving. Furthermore, many modern games have vibrant communities where children share their creations, which can provide a powerful sense of audience and motivation. Of course, the key is balance and the quality of the game itself; games designed primarily for addictive consumption rather than creative engagement are less likely to have these benefits.",
       "vocabulary": {
         "title": "Q5 - Computer Games and Creativity",
@@ -289,7 +289,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is it more important for children or for adults to be creative?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-45-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-45-q6.mp3",
       "sampleAnswer": "I think it's a mistake to view creativity as more important for one age group over the other; rather, I'd argue that creativity serves different but equally vital functions at different stages of the lifespan. For children, creativity is the primary engine of development—it's how they learn to understand the world, to master new skills, and to develop their own particular identity. It's a fundamental part of the 'serious play' that is essential for cognitive and social growth. For adults, however, creativity is often what allows for professional innovation, emotional resilience, and a continued sense of purpose and engagement with the world. In a rapidly changing professional landscape, the ability to think creatively and to adapt to new challenges is arguably the most valuable 'soft skill' an adult can possess. It also provides a vital outlet for self-expression and stress management. Ultimately, I think a life without creativity is less rich and more brittle at any age, and the challenge is to maintain that child-like curiosity and willingness to experiment throughout our adult lives.",
       "vocabulary": {
         "title": "Q6 - Importance of Creativity: Children vs Adults",
@@ -339,7 +339,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you prefer activities that require creativity or those that follow a clear set of rules?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-45-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-45-q7.mp3",
       "sampleAnswer": "I find that I'm most satisfied when an activity allows for a balance between the two, though if I had to choose, I'm generally drawn to pursuits that require a high degree of creativity and the freedom to find my own path. There's a particular kind of intellectual and emotional reward in finding an original solution to a problem or in creating something that didn't exist before—it makes the activity feel more personal and more meaningful. However, I also recognize the value of activities with clear rules and structures—there's a genuine pleasure in the discipline of mastering a specific technique or in the clarity of a well-defined challenge. These 'rule-bound' activities can often provide the necessary foundation upon which creativity can flourish. I think the most rewarding experiences are often those where you take a structured framework—whether it's a game, a professional project, or an artistic medium—and then use your creativity to push against its boundaries and discover something unexpected.",
       "vocabulary": {
         "title": "Q7 - Creative vs Rule-Bound Activities",
@@ -388,7 +388,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a time when you gave advice to others.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-45-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-45-q8.mp3",
       "bulletPoints": [
         "who you gave advice to",
         "what the situation was",
@@ -449,7 +449,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How did you feel about giving that advice?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-45-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-45-q9.mp3",
       "sampleAnswer": "I felt a genuine sense of responsibility, but also quite a bit of trepidation, because I knew that my advice might lead to a period of financial instability and high stress for my friend if the startup didn't succeed. It's one thing to have a conviction about what someone else should do, but another thing entirely to know that your words might significantly impact their life. I tried to be very honest with him about my own perspective while making it clear that the final decision had to be his. I also felt a deep sense of trust—the fact that he was coming to me for advice on such a major decision was a reflection of our long friendship and his respect for my judgment. When he eventually decided to take the risk and it started to pay off, I felt an immense sense of relief and quiet satisfaction. Seeing him thrive in the new role was a wonderful confirmation that the advice had been right, but it also reminded me that giving advice is a serious act that requires both empathy and a degree of caution.",
       "vocabulary": {
         "title": "Q9 - Feeling about Giving Advice",
@@ -498,7 +498,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you often give advice to others?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-45-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-45-q10.mp3",
       "sampleAnswer": "I wouldn't say that I'm someone who offers unsolicited advice; I tend to be more of a listener until someone specifically asks for my perspective. However, I do find that friends and colleagues often come to me when they're facing complex situations or need help working through a difficult decision. I think this might be because I try to offer a more analytical, long-term perspective rather than just an emotional reaction. I really value the role of a 'sounding board'—someone who can listen intently, ask the right questions, and help the other person reach their own conclusions, rather than just telling them what to do. I find the process of helping someone work through a problem to be genuinely rewarding, but I'm also increasingly aware of the need for humility—I know that I don't always have the full picture of someone else's life, and my 'best' advice is ultimately just one person's opinion.",
       "vocabulary": {
         "title": "Q10 - Giving Advice Often",
@@ -548,7 +548,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What problems can people face if they ask many different people for advice?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-45-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-45-q11.mp3",
       "sampleAnswer": "Asking multiple people for advice can lead to a state of 'paralysis by analysis,' where the sheer volume and diversity of opinions create more confusion than clarity. Each advisor brings their own particular biases, life experiences, and risk tolerances to the table, which means the advice you receive is often contradictory and inconsistent. For example, a risk-averse family member might give very different career advice than an entrepreneurial friend, and trying to reconcile these conflicting perspectives can be genuinely overwhelming. Furthermore, there's a danger that you start looking for consensus rather than the 'right' answer, which can lead to safe, conventional choices that don't actually reflect your own values or goals. It can also lead to a dilution of your own agency—the sense that you're trying to please everyone else rather than making a decision for yourself. I think the key is to be very selective about whose advice you seek—limiting it to a small number of people you genuinely trust and whose judgment is relevant to the specific situation.",
       "vocabulary": {
         "title": "Q11 - Problems with Multiple Advisors",
@@ -599,7 +599,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Why do some people like to ask others for advice on almost everything?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-45-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-45-q12.mp3",
       "sampleAnswer": "This tendency to seek constant external validation often stems from a lack of self-confidence or a fear of being solely responsible for the consequences of one's decisions. For some, making a choice—even a relatively minor one—feels fraught with the possibility of being 'wrong,' and by asking others for advice, they can effectively share the psychological burden of that decision. It provides a kind of safety net—if things go poorly, they can feel that it wasn't 'all their fault' because they were following someone else's suggestion. I also think in our increasingly complex and information-saturated world, some people feel genuinely overwhelmed by the sheer number of choices they have to make and find it easier to outsource those choices to others they perceive as more knowledgeable or decisive. However, I think there's a significant long-term cost to this habit: it prevents the development of your own 'internal compass' and your ability to trust your own judgment. The more you rely on others for advice, the more difficult it becomes to make independent choices, creating a cycle of dependency that can be quite limiting.",
       "vocabulary": {
         "title": "Q12 - Seeking Advice on Everything",
@@ -650,7 +650,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "In general, what kind of person is most suitable for giving advice to others?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-45-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-45-q13.mp3",
       "sampleAnswer": "The most effective advisors are those who possess a rare combination of deep empathy, relevant experience, and the detachment necessary to offer an objective perspective. Empathy is crucial because it allows the advisor to understand the emotional context of the situation and the values of the person seeking advice—it's not enough to know the 'right' answer; you have to understand why it might be difficult for that specific person to reach it. Relevant experience provides the necessary expertise and a realistic understanding of the potential outcomes of different choices. But perhaps the most important quality is the ability to maintain a certain objectivity—to offer advice that is in the best interests of the other person, rather than a reflection of the advisor's own biases or desired outcomes. I also think the best advisors are those who are good at asking probing questions rather than just giving answers—they help the person to reach their own conclusions and to develop their own sense of agency. They're honest, even when the truth is difficult, but their honesty is always motivated by genuine care rather than a desire to be 'right' or to exert control.",
       "vocabulary": {
         "title": "Q13 - Suitable Person for Giving Advice",
@@ -701,7 +701,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Should people prepare before giving advice?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-45-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-45-q14.mp3",
       "sampleAnswer": "Yes, I strongly believe that giving advice is a serious responsibility that deserves a certain degree of preparation—it shouldn't just be an off-the-cuff emotional reaction. Preparation involves several steps: first, making sure you truly understand the situation by listening intently and asking clarifying questions—the biggest mistake most advisors make is jumping to a conclusion before they have the full picture. Second, it involves a process of self-reflection—identifying your own biases or personal stakes in the situation so you can offer a more objective perspective. And third, it may involve actually researching the specific problem or reflecting on similar situations you've encountered to provide more relevant and evidence-based insights. I think the level of preparation should be proportionate to the stakes of the decision—giving advice on a major career change or an important relationship requires much more thought than advice on a minor purchase. Ultimately, preparation is a sign of respect for the person seeking advice and an acknowledgment that your words have the power to influence their path in significant ways.",
       "vocabulary": {
         "title": "Q14 - Preparing Before Giving Advice",
@@ -751,7 +751,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Is it good to ask advice from strangers online?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-45-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-45-q15.mp3",
       "sampleAnswer": "Asking for advice from strangers online is a genuinely modern phenomenon that I think is best seen as a 'high-risk, high-reward' strategy. On the positive side, it can provide access to an extraordinary range of perspectives and experiences that you simply couldn't find in your immediate social circle—for highly specific problems or niche interests, the internet can be an invaluable resource. There's also a kind of liberating honesty in online anonymity; people are often more willing to share their true experiences when they're not worried about their personal relationships. However, the risks are substantial: you have no way of knowing the actual expertise or the motivations of the people giving advice, and the 'echo chamber' effect of online communities can often reinforce extreme or ill-advised opinions. Furthermore, advice given online is often shallow and lacks the deep personal context that is essential for complex decisions. I think online advice is most useful for factual or technical questions, but for deeply personal or strategic life choices, it should only be one small data point among many, and it requires a high degree of critical thinking to filter out the noise.",
       "vocabulary": {
         "title": "Q15 - Advice from Strangers Online",
@@ -802,7 +802,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What are the personalities of people whose job is to give advice to others?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-45-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-45-q16.mp3",
       "sampleAnswer": "People in advisory roles—counsellors, consultants, mentors, or even legal and financial advisors—typically share a specific personality profile characterized by high levels of conscientiousness, analytical rigour, and what I call 'calibrated empathy.' They need to be highly conscientious and detailed-oriented to ensure the accuracy and reliability of their advice. They also need strong analytical skills to break down complex problems and identify the most effective paths forward. But I think the most defining quality is that 'calibrated' empathy—the ability to care deeply about the client's outcome while maintaining enough emotional distance to offer truly objective, and sometimes difficult, advice. If they become too emotionally involved, they lose their ability to be objective; if they are too detached, they risk offering advice that is technically correct but practically or emotionally impossible for the client. I also think successful advisors are exceptionally good communicators—they can distill complex information into clear, actionable insights and can build trust quickly through a combination of professional competence and genuine interpersonal warmth.",
       "vocabulary": {
         "title": "Q16 - Personalities of Professional Advisors",
@@ -854,7 +854,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How has the way people seek advice changed in the digital age?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-45-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-45-q17.mp3",
       "sampleAnswer": "The digital age has fundamentally transformed the 'economy of advice,' moving it from a localized, interpersonal process to something that is global, instantaneous, and increasingly mediated by algorithms. The most obvious change is the democratization of expertise—we no longer rely solely on a small number of traditional gatekeepers, but can access a vast world of information and peer-to-peer advice through search engines, forums, and social media. This has made us much more proactive and research-oriented in our decision-making. However, I think it has also created a new kind of 'choice anxiety'—the sheer volume of conflicting advice available can make it harder, rather than easier, to feel confident in a decision. We've also seen the rise of algorithmic advice—recommendations from streaming services, retailers, and even dating apps—which have subtler and more profound effects on our choices than traditional advice because they occur seamlessly in the background of our daily lives. I think the challenge for the modern individual is to develop the 'digital literacy' necessary to navigate this ocean of advice—to know when to trust the collective wisdom of the internet and when to seek out the deep, personal nuance of a real human connection.",
       "vocabulary": {
         "title": "Q17 - Seeking Advice in the Digital Age",

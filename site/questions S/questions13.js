@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "https://t.me/mock_stream",
     "testIdentifier": "mock_stream",
@@ -15,8 +15,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Chet tilini bilish darajasi"
   },
   "images": {
-    "img1": "https://i.ibb.co/WW4LSpCy/jogging.jpg",
-    "img2": "https://i.ibb.co/QFdvnXnH/Running-on-the-trademill.png",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WW4LSpCy-jogging.jpg",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/QFdvnXnH-Running-on-the-trademill.png",
     "img1Alt": "Festival event",
     "img2Alt": "Museum visit"
   },
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like listening to music?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-13-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-13-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<p><span class=\"ml-token adv\">Absolutely</span>, I <span class=\"ml-token idiom\">can't imagine my life without music</span>. It's <span class=\"ml-token adv\">incredibly</span> therapeutic for me and serves as a <span class=\"ml-token colloc\">great escape</span> from the <span class=\"ml-token colloc\">hustle and bustle</span> of everyday life. I have a <span class=\"ml-token colloc\">diverse taste</span> in music, ranging from classical to rock, and I <span class=\"ml-token phrasal\">pick up</span> different genres depending on my mood. For instance, if I need to <span class=\"ml-token idiom\">get my creative juices flowing</span> while working, I usually listen to some instrumental music. On the other hand, if I'm <span class=\"ml-token phrasal\">hanging out</span> with friends, I'd prefer something <span class=\"ml-token colloc\">upbeat and lively</span>.</p>\n\n<p>Furthermore, music has the power to transcend boundaries and connect people globally. I often find that discussing musical preferences with others can be a <span class=\"ml-token colloc\">social experience</span> in itself, <span class=\"ml-token idiom\">breaking the ice</span> with strangers and making new friends. <span class=\"ml-token proverb\">\"Music is the universal language of mankind\"</span>, as they say, and I <span class=\"ml-token adv\">truly</span> believe in this sentiment.</p>\n\n<p>In addition, I have been exploring the idea of <span class=\"ml-token phrasal\">stepping into</span> music production myself. The prospect of <span class=\"ml-token colloc\">making it my career</span> excites me tremendously. I’ve even attended a few workshops to <span class=\"ml-token phrasal\">figure out</span> the nuances of digital music production. It's <span class=\"ml-token adv\">honestly</span> a <span class=\"ml-token colloc\">fascinating field</span>, and I <span class=\"ml-token adv\">genuinely</span> enjoy every moment I spend learning about it.</p>",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What kind of weather do you don't like?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-13-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-13-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>Weather is an <span class=\"ml-token idiom\">integral part of our daily lives</span>, and while I do appreciate the diversity it offers, there is a <span class=\"ml-token colloc\">particular type</span> that I <span class=\"ml-token adv\">absolutely</span> despise: oppressive heat. Living in a tropical country has <span class=\"ml-token phrasal\">allowed me to</span> experience how <span class=\"ml-token colloc\">stifling temperatures</span> can <span class=\"ml-token phrasal\">take a toll</span> on both my body and mind.</p>\n\n<p><span class=\"ml-token adv\">Honestly</span>, during the sweltering summer months, when the mercury hits the roof, I find it <span class=\"ml-token colloc\">extremely challenging</span> to <span class=\"ml-token phrasal\">carry out</span> my daily tasks. It's like <span class=\"ml-token idiom\">walking through a furnace</span>, and the humidity only <span class=\"ml-token phrasal\">adds to</span> the discomfort. The heat <span class=\"ml-token adv\">often</span> leaves me feeling lethargic and <span class=\"ml-token idiom\">saps my energy</span>, making it impossible to focus on work or even <span class=\"ml-token phrasal\">enjoy being</span> outdoors.</p>\n\n<p>Moreover, such weather can <span class=\"ml-token idiom\">play havoc with</span> my sleep schedule. <span class=\"ml-token idiom\">Tossing and turning</span> all night because of the sticky heat is not ideal, and it <span class=\"ml-token phrasal\">takes a toll</span> on my productivity the next day. It's during these times that I truly <span class=\"ml-token idiom\">look forward to</span> a thunderstorm or a cool breeze, which can be <span class=\"ml-token colloc\">a breath of fresh air</span> in such a stifling environment.</p>\n\n<p>Given a choice, I would <span class=\"ml-token idiom\">much rather</span> endure the chilly winds of winter than <span class=\"ml-token phrasal\">put up with</span> the blistering heat. As the saying goes, <span class=\"ml-token proverb\">\"You can always put more on, but there's a limit to what you can take off\"</span>. This perfectly sums up why oppressive heat is my least favorite type of weather.</p>",
       "vocabulary": {
@@ -104,7 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do you do after work or school?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-13-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-13-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>After a long day at work, I <span class=\"ml-token phrasal\">love to unwind</span> by engaging in activities that <span class=\"ml-token colloc\">rejuvenate my mind</span> and body. <span class=\"ml-token adv\">Honestly</span>, I <span class=\"ml-token phrasal\">tend to</span> gravitate towards <span class=\"ml-token colloc\">physical activities</span> like jogging in the park or attending a yoga class. These are not just a means to stay fit but also a <span class=\"ml-token colloc\">great way</span> to clear my head. As they say, <span class=\"ml-token proverb\">\"a sound mind in a sound body\"</span>.</p>\n\n<p>Moreover, I <span class=\"ml-token adv\">genuinely</span> enjoy <span class=\"ml-token phrasal\">catching up</span> with friends. We often <span class=\"ml-token phrasal\">hang out</span> at a local café, where we can <span class=\"ml-token idiom\">let our hair down</span> and share our day's experiences. These social gatherings are invaluable for maintaining strong relationships and <span class=\"ml-token colloc\">enhancing my social experience</span>.</p>\n\n<p>On occasion, when I feel creatively inspired, I <span class=\"ml-token phrasal\">pick up</span> my guitar and play some tunes. Playing music is something I find <span class=\"ml-token adv\">incredibly</span> therapeutic; it allows me to express my emotions and <span class=\"ml-token colloc\">improve my skills</span>. Furthermore, if there's something interesting happening in town, like a cultural event or an exhibition, I make it a point to attend. I <span class=\"ml-token adv\">truly</span> believe that these activities enrich my life and prevent me from <span class=\"ml-token idiom\">putting all my eggs in one basket</span> by focusing solely on work.</p>",
       "vocabulary": {
@@ -146,7 +146,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-13-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-13-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>In the first image, I can <span class=\"ml-token phrasal\">make out</span> a woman <span class=\"ml-token colloc\">jogging in a park</span>, surrounded by lush greenery and an expansive blue sky. This setting is absolutely <span class=\"ml-token idiom\">a breath of fresh air</span>, <span class=\"ml-token adv\">literally</span> and metaphorically, as it suggests a <span class=\"ml-token colloc\">peaceful environment</span> for exercise. The woman appears <span class=\"ml-token adv\">incredibly</span> focused and determined, exemplifying how outdoor activities can <span class=\"ml-token phrasal\">rejuvenate the spirit</span> and <span class=\"ml-token phrasal\">boost mental health</span>. <span class=\"ml-token proverb\">\"Health is wealth,\"</span> they say, and this particular image <span class=\"ml-token colloc\">captures the essence</span> of maintaining physical well-being in nature's embrace.</p>\n\n<p>Conversely, the second image depicts a person running on a treadmill in a gym setting. The atmosphere is <span class=\"ml-token colloc\">strikingly different</span>, with artificial lighting and an abundance of fitness equipment. This scene highlights the convenience and accessibility of modern <span class=\"ml-token colloc\">fitness facilities</span>, which allow individuals to <span class=\"ml-token phrasal\">work out</span> regardless of weather conditions. It seems <span class=\"ml-token adv\">genuinely</span> efficient for those with <span class=\"ml-token colloc\">hectic schedules</span>, providing a <span class=\"ml-token colloc\">controlled environment</span> for exercise. Personally, I find gyms to be an <span class=\"ml-token idiom\">ideal place to let off steam</span> and stay fit, especially during inclement weather.</p>\n\n<p>Overall, both images portray different yet <span class=\"ml-token colloc\">equally effective</span> ways of staying active. Whether one prefers the tranquil outdoors or the practicality of indoor facilities, the key is to find a routine that <span class=\"ml-token phrasal\">works for you</span> and helps you maintain a <span class=\"ml-token colloc\">healthy lifestyle</span>.</p>",
       "vocabulary": {
@@ -184,7 +184,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are some advantages of doing sport indoors instead of outdoors?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-13-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-13-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>Engaging in sports indoors offers <span class=\"ml-token colloc\">distinct advantages</span> that can <span class=\"ml-token adv\">significantly</span> enhance one's experience and performance. Firstly, indoor sports provide a <span class=\"ml-token colloc\">controlled environment</span>, which means participants are <span class=\"ml-token idiom\">\"not at the mercy of\"</span> adverse weather conditions that can <span class=\"ml-token phrasal\">put off</span> even the most dedicated athletes. For instance, I regularly play badminton indoors, where the consistent lighting and absence of wind allow for a <span class=\"ml-token colloc\">more focused</span> game.</p>\n\n<p>Moreover, indoor facilities often come equipped with specialized equipment and <span class=\"ml-token colloc\">state-of-the-art technology</span> that can <span class=\"ml-token phrasal\">step up</span> one's training regimen. These amenities make it easier to <span class=\"ml-token phrasal\">track progress</span> and <span class=\"ml-token phrasal\">fine-tune</span> techniques, which is <span class=\"ml-token adv\">incredibly</span> beneficial for those <span class=\"ml-token colloc\">serious about</span> <span class=\"ml-token colloc\">making it their career</span>.</p>\n\n<p>Furthermore, indoor sports can foster a <span class=\"ml-token colloc\">vibrant social experience</span>. Facilities usually host a variety of events, from tournaments to casual meet-ups, allowing athletes to <span class=\"ml-token phrasal\">mingle with</span> like-minded individuals. This aspect not only enhances <span class=\"ml-token colloc\">social bonds</span> but also provides a <span class=\"ml-token idiom\">\"breeding ground\"</span> for <span class=\"ml-token colloc\">competitive spirit</span>.</p>\n\n<p>In conclusion, while outdoor sports have their own charm, the advantages of indoor sports, such as a <span class=\"ml-token colloc\">controlled environment</span>, access to advanced facilities, and a more consistent social setting, make them a compelling option for many. As the saying goes, <span class=\"ml-token proverb\">\"forewarned is forearmed,\"</span> and by choosing indoors, athletes can better prepare and <span class=\"ml-token phrasal\">gear up for</span> success.</p>",
       "vocabulary": {
@@ -222,7 +222,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some people still prefer to train with sport in the nature today?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-13-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-13-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>There are <span class=\"ml-token adv\">several</span> compelling reasons why individuals are still drawn to <span class=\"ml-token colloc\">training outdoors</span>, even in an age dominated by gyms and indoor facilities. <span class=\"ml-token proverb\">\"The early bird catches the worm,\"</span> and for many, starting the day with a run or yoga session amidst nature is <span class=\"ml-token adv\">incredibly</span> invigorating. <span class=\"ml-token adv\">Honestly</span>, the <span class=\"ml-token colloc\">fresh air</span> and <span class=\"ml-token colloc\">natural surroundings</span> can provide a <span class=\"ml-token colloc\">sense of tranquility</span> that <span class=\"ml-token colloc\">high-street gyms</span> simply cannot replicate.</p>\n\n<p>Furthermore, training in nature offers a dynamic environment that can <span class=\"ml-token phrasal\">shake up</span> one's routine. Instead of being confined to a <span class=\"ml-token colloc\">treadmill or elliptical</span>, outdoor enthusiasts often <span class=\"ml-token phrasal\">take advantage</span> of varied terrains which challenge different muscle groups and enhance <span class=\"ml-token colloc\">overall fitness</span>. <span class=\"ml-token idiom\">\"Variety is the spice of life,\"</span> they say, and this diversity can make exercising <span class=\"ml-token adv\">much</span> more enjoyable and beneficial.</p>\n\n<p>Moreover, many people find that being in nature allows them to <span class=\"ml-token phrasal\">tune into</span> the rhythm of their own bodies and the world around them. There's something <span class=\"ml-token adv\">genuinely</span> therapeutic about <span class=\"ml-token colloc\">listening to</span> the birds sing or feeling the <span class=\"ml-token colloc\">cool breeze</span> as you break a sweat. Personally, I've always found that <span class=\"ml-token colloc\">exercise in nature</span> helps to clear my mind, providing a much-needed escape from the <span class=\"ml-token colloc\">hustle and bustle</span> of city life.</p>",
       "vocabulary": {
@@ -260,7 +260,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Discuss the following points:",
-      "audioFile": "questions S/audio/cefr-speaking-mock-13-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-13-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a team project that you worked on. <br>",
@@ -307,7 +307,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Online education is better than offline education\n",
-      "audioFile": "questions S/audio/cefr-speaking-mock-13-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-13-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

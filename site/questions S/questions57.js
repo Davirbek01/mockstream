@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "@mock_stream",
     "testIdentifier": "mock_stream",
@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like buying new clothes?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-57-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-57-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>I <span class=\"ml-token adv\">absolutely</span> adore buying new clothes, <span class=\"ml-token adv\">particularly</span> if it's something I've been saving up for. The <span class=\"ml-token colloc\">sheer joy</span> of finding the perfect item, something that <span class=\"ml-token phrasal\">suits me down to the ground</span> and makes me feel fantastic, is a real treat. I wouldn’t say I am a shopaholic <span class=\"ml-token adv\">though</span>; rather, I appreciate investing in pieces that will last and that I genuinely love.</p>\n\n<p><span class=\"ml-token adv\">Moreover</span>, I find the whole process quite therapeutic. <span class=\"ml-token idiom\">Window shopping</span>, browsing through different styles, and <span class=\"ml-token phrasal\">trying things on</span> is a fun way to <span class=\"ml-token colloc\">de-stress</span>. I also enjoy the challenge of <span class=\"ml-token phrasal\">putting together</span> different outfits and expressing my personal style. It's a form of self-expression, and <span class=\"ml-token adv\">frankly</span>, it's <span class=\"ml-token proverb\">a nice way to treat oneself</span>.</p>",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What device do you use the most?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-57-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-57-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<p><span class=\"ml-token adv\">Without a doubt</span>, the device I use the most is my smartphone. It's <span class=\"ml-token colloc\">become indispensable</span> in my daily life. <span class=\"ml-token adv\">Essentially</span>, it's my primary means of communication, information access, and entertainment. I <span class=\"ml-token phrasal\">rely on it</span> for everything from checking emails and social media to navigating unfamiliar areas and managing my schedule.</p>\n\n<p><span class=\"ml-token adv\">Furthermore</span>, I use it for work-related tasks like attending video conferences and collaborating on documents. <span class=\"ml-token idiom\">It's a jack of all trades</span>. <span class=\"ml-token adv\">Frankly speaking</span>, I am constantly surprised by the number of tasks it can handle, and I can't <span class=\"ml-token phrasal\">imagine life without it</span>. <span class=\"ml-token proverb\">Necessity is the mother of invention</span>.</p>",
       "vocabulary": {
@@ -104,7 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What kind of chocolate do you like most?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-57-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-57-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<p><span class=\"ml-token adv\">Honestly</span>, my favourite kind of chocolate is dark chocolate, <span class=\"ml-token adv\">particularly</span> if it has a high cocoa content. I appreciate the <span class=\"ml-token colloc\">intense flavour</span> and the slightly bitter taste. Milk chocolate is <span class=\"ml-token proverb\">not my cup of tea</span>, it’s far too sweet for my liking. I feel that dark chocolate <span class=\"ml-token phrasal\">hits the spot</span> <span class=\"ml-token adv\">especially</span> after a meal.</p>\n\n<p><span class=\"ml-token adv\">Moreover</span>, I've read that dark chocolate is actually good for you in moderation because of the antioxidants it contains. I am not sure if that is true <span class=\"ml-token adv\">though</span>, but it <span class=\"ml-token colloc\">makes me feel</span> less guilty when I indulge in it! <span class=\"ml-token idiom\">It's a guilty pleasure</span>, but one I certainly enjoy. <span class=\"ml-token phrasal\">I'm hooked on it</span>.</p>",
       "vocabulary": {
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "Describe the activities in each photo.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-57-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-57-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>In the first photo, I can see a group of children <span class=\"ml-token phrasal\">playing outside</span> in what appears to be a garden or park. The atmosphere looks vibrant and joyful; they are <span class=\"ml-token colloc\">full of energy</span>. The children seem to be <span class=\"ml-token phrasal\">having a blast</span>, running around and enjoying the fresh air and sunshine. <span class=\"ml-token adv\">Essentially</span>, it's a classic scene of childhood innocence and carefree fun.</p>\n\n<p>In contrast, the second photo depicts a single child <span class=\"ml-token phrasal\">wearing a VR headset</span> and <span class=\"ml-token phrasal\">playing video games</span> indoors. The child is completely immersed in the virtual world, seemingly oblivious to their physical surroundings. <span class=\"ml-token adv\">Undoubtedly</span>, the scene highlights the modern trend of children spending more time engaging with technology and less time in outdoor activities. <span class=\"ml-token idiom\">It's a different world</span>, <span class=\"ml-token proverb\">times are changing</span>.</p>",
       "vocabulary": {
@@ -180,7 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the benefits of playing outside in fresh air?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-57-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-57-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>Playing outside in fresh air offers a plethora of benefits. <span class=\"ml-token adv\">Firstly</span>, it's crucial for physical health. Engaging in activities like running, jumping, or even just walking <span class=\"ml-token phrasal\">boosts</span> cardiovascular health and strengthens muscles. Sunlight exposure is also vital, as it helps our bodies produce Vitamin D, which is essential for bone health and immune function. <span class=\"ml-token idiom\">It's a win-win situation</span>.</p>\n\n<p><span class=\"ml-token adv\">Moreover</span>, outdoor play significantly enhances mental well-being. Being in nature reduces stress levels and improves mood. The fresh air and natural surroundings have a calming effect, helping to alleviate anxiety and promote relaxation. <span class=\"ml-token colloc\">Studies have shown</span> that spending time outdoors can even improve cognitive function and concentration. <span class=\"ml-token phrasal\">On top of that</span>, playing outside encourages social interaction, fostering teamwork and communication skills, especially for children.</p>",
       "vocabulary": {
@@ -218,7 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some people prefer playing video games instead of doing physical activities?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-57-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-57-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>Several factors contribute to people's preference for video games over physical activities. <span class=\"ml-token adv\">Firstly</span>, video games offer immediate gratification and a sense of accomplishment. Players can quickly level up, earn rewards, and achieve goals, which can be highly motivating. This instant feedback loop is often more appealing than the delayed gratification associated with physical activities, which may require sustained effort and patience. <span class=\"ml-token idiom\">It's all about instant results these days</span>.</p>\n\n<p><span class=\"ml-token adv\">Furthermore</span>, video games provide an escape from reality and a chance to immerse oneself in virtual worlds. They offer diverse experiences, from exploring fantastical landscapes to engaging in strategic battles, catering to a wide range of interests. <span class=\"ml-token colloc\">This level of</span> immersion and engagement can be particularly appealing to individuals seeking relaxation or a break from the stresses of daily life. <span class=\"ml-token phrasal\">What's more</span>, video games can be played from the comfort of one's home, eliminating the need for travel or specialized equipment. <span class=\"ml-token proverb\">As the saying goes,</span> 'comfort is king'.</p>",
       "vocabulary": {
@@ -256,7 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a time you had to give a speech or a presentation in front of a large group.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-57-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-57-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a time you had to give a speech or a presentation in front of a large group.",
@@ -299,7 +299,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "People Should Eat Locally Produced Food",
-      "audioFile": "questions S/audio/cefr-speaking-mock-57-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-57-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

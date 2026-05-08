@@ -6,7 +6,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "IELTS Mock Stream",
     "telegramChannel": "@ieltsmockstream",
     "testIdentifier": "mock_stream_15",
@@ -14,8 +14,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Leisure & Digital Life"
   },
   "images": {
-    "img1": "https://i.ibb.co/gM1bMSXS/image.png",
-    "img2": "https://i.ibb.co/G4QH85qq/image.png",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/gM1bMSXS-image.png",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/G4QH85qq-image.png",
     "img1Alt": "Placeholder 1",
     "img2Alt": "Placeholder 2"
   },
@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "When was the last time you had a few days off?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-15-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-15-q1.mp3",
       "sampleAnswer": "The last time I had a few consecutive days off was about three weeks ago during a long weekend. I had taken Friday off to extend the weekend, giving me four days away from work. It was actually quite timely because I'd been feeling burned out from a particularly intense project at work. I used those days to completely disconnect from work emails and responsibilities, which was refreshing. I spent the time doing a mix of activities—some productive tasks I'd been postponing like organizing my apartment and some purely recreational activities like hiking and meeting friends. What made it particularly valuable was that I didn't have any obligations or structured plans, so I could be spontaneous and do whatever felt right each day. It's made me realize I should probably take short breaks more regularly rather than waiting until I'm exhausted.",
       "vocabulary": {
         "title": "Q1 - Recent Break",
@@ -83,7 +83,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do you do when you have days off?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-15-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-15-q2.mp3",
       "sampleAnswer": "My activities on days off vary depending on my mood and energy levels. If I'm feeling energetic, I like to do outdoor activities like hiking, cycling, or exploring new parts of the city. I often use days off to catch up with friends over meals or coffee, since weekday schedules make that difficult. I also dedicate time to hobbies I can't pursue during the work week, like reading, cooking elaborate meals, or working on personal projects. Sometimes I use days off for necessary but time-consuming tasks like medical appointments, home maintenance, or errands that can't be done after work hours. However, I've learned the importance of also doing absolutely nothing—just relaxing, watching movies, or sleeping in without guilt. The key is balancing productivity with genuine rest and enjoyment rather than filling every moment with activities.",
       "vocabulary": {
         "title": "Q2 - Day Off Activities",
@@ -130,7 +130,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What would you like to do if you had a day off tomorrow?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-15-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-15-q3.mp3",
       "sampleAnswer": "If I had tomorrow off unexpectedly, I'd probably start with a leisurely morning—sleeping in without an alarm, making a proper breakfast instead of rushing, and enjoying coffee while reading or just thinking. I'd love to spend some time outdoors, maybe going for a long walk in a nearby park or nature area, especially if the weather is nice. I'd want to see at least one friend for lunch or coffee to have meaningful conversation without time pressure. In the afternoon, I might visit a bookstore or museum, something culturally enriching but low-pressure. I'd also allocate some time for a hobby I've been neglecting, like photography or writing. Ideally, I'd end the day with a home-cooked meal and a good movie or book. The key would be having a loose structure but remaining flexible—no rigid schedule, just following what feels good in the moment.",
       "vocabulary": {
         "title": "Q3 - Ideal Day Off",
@@ -180,7 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you usually spend your days off with your parents or with your friends?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-15-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-15-q4.mp3",
       "sampleAnswer": "It varies, but I'd say I spend days off more frequently with friends than with my parents, primarily because of proximity—my parents live in a different city, so seeing them requires more planning and usually happens during longer breaks or holidays. When I do visit them, those days off are specifically dedicated to family time. With friends, it's more spontaneous and frequent—we can easily meet for meals, activities, or just hanging out. However, the quality of time differs. Days with parents tend to be more relaxed and domestic—family meals, conversations, maybe helping with things around their house. Days with friends are often more activity-focused—going out, trying new restaurants, attending events. I value both types of experiences. I also appreciate having some days off completely alone for personal time and reflection. Ideally, I maintain a balance between social time with different people and solitary time for myself.",
       "vocabulary": {
         "title": "Q4 - Day Off Companions",
@@ -229,7 +229,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What kinds of food do you particularly like?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-15-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-15-q5.mp3",
       "sampleAnswer": "I have quite diverse taste in food, but I'm particularly drawn to Asian cuisines—Japanese, Thai, and Vietnamese food especially. I love the balance of flavors, the freshness of ingredients, and the variety of textures in these cuisines. Japanese food appeals to me because of its emphasis on quality ingredients and subtle flavors, while Thai food satisfies my love for bold, complex flavors with the interplay of sweet, sour, salty, and spicy. I'm also fond of Mediterranean food, particularly Italian and Greek, for the use of fresh vegetables, olive oil, and herbs. Generally, I prefer foods that are flavorful but not overly heavy, with lots of vegetables and fresh ingredients. I'm not particularly fond of overly processed foods or things that are excessively sweet or greasy. I also enjoy trying new and unfamiliar foods from different cultures, as I find food is a wonderful way to experience different traditions and perspectives.",
       "vocabulary": {
         "title": "Q5 - Food Preferences",
@@ -278,7 +278,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What kinds of food are most popular in your country?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-15-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-15-q6.mp3",
       "sampleAnswer": "In my country, there's significant regional variation in popular foods, but some items are universally common. Rice or bread-based dishes form the staple of most meals, depending on the region. Street food is incredibly popular—things like samosas, kebabs, and various fried snacks are widely consumed. Fast food has also become extremely popular, especially among younger people in urban areas—burgers, pizza, and fried chicken are everywhere. Traditional dishes that are popular include various curries, lentil preparations, and flatbreads. There's also been a growing trend toward international cuisines, with Chinese, Italian, and Continental foods becoming mainstream in cities. Interestingly, there's a divide between what's popular in urban versus rural areas, and between different generations. Younger, urban populations tend to embrace diverse and international foods, while traditional regional cuisines remain dominant in smaller towns and among older generations. Overall, the food landscape is becoming increasingly diverse and globalized.",
       "vocabulary": {
         "title": "Q6 - Popular Foods",
@@ -329,7 +329,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What kind of food did you like when you were younger?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-15-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-15-q7.mp3",
       "sampleAnswer": "When I was younger, my food preferences were much simpler and less adventurous than they are now. I was quite picky and preferred familiar, mild-flavored foods. I loved things like pasta with simple tomato sauce, fried rice, chicken nuggets, and pizza—basically typical kid-friendly foods. I had a sweet tooth and was obsessed with desserts, ice cream, and sugary snacks, which I'd choose over proper meals if given the option. I was resistant to trying new foods and particularly averse to vegetables, which my parents constantly struggled to get me to eat. I also disliked anything with strong or complex flavors—spicy food, bitter vegetables, or dishes with unfamiliar textures. Looking back, I realize how limited my palate was. My tastes have evolved significantly as I've grown older and been exposed to different cuisines and cooking styles. Now I enjoy many foods I refused to even try as a child, including vegetables and spicy dishes. It's interesting how taste preferences develop and mature over time.",
       "vocabulary": {
         "title": "Q7 - Childhood Foods",
@@ -381,7 +381,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a time you saw something interesting on social media.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-15-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-15-q8.mp3",
       "bulletPoints": [
         "when it was",
         "where you saw it",
@@ -445,7 +445,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you often watch educational content on social media?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-15-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-15-q9.mp3",
       "sampleAnswer": "I try to, though I'd say it's a mix. I follow several science communicators, wildlife photographers, and educational accounts that regularly post interesting content about nature, science, history, and current events. However, I'm honest enough to admit that I also consume plenty of entertainment content—memes, comedy, and lighter material. What I've learned is that the algorithm shows you more of what you engage with, so I make an effort to like, save, and share educational content when I see it, which helps ensure I see more of it. I find short-form educational content particularly effective on social media—concise, well-produced videos that teach something interesting in just a few minutes.",
       "vocabulary": {
         "title": "Q9 - Educational Content Habits",
@@ -491,7 +491,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think social media is a good source of information?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-15-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-15-q10.mp3",
       "sampleAnswer": "It can be, but it requires critical thinking and careful curation. Social media has the advantage of providing diverse perspectives, real-time information, and access to experts and primary sources you wouldn't normally encounter. However, it's also full of misinformation, biased content, and algorithm-driven echo chambers. I think social media works best as a starting point or supplement to more reliable sources rather than a primary source of information. The key is following credible accounts, fact-checking information before accepting or sharing it, and being aware of your own biases and the platform's algorithmic influence. Used thoughtfully, social media can expose you to fascinating information and perspectives, but it shouldn't be your only source of news or knowledge.",
       "vocabulary": {
         "title": "Q10 - Social Media as Information Source",
@@ -540,7 +540,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What are the advantages and disadvantages of using social media?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-15-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-15-q11.mp3",
       "sampleAnswer": "Social media has significant advantages and disadvantages that affect individuals and society. On the positive side, social media enables unprecedented connectivity—maintaining relationships across distances, reconnecting with old friends, and building communities around shared interests regardless of geography. It democratizes information and voice, allowing anyone to share ideas, creativity, and perspectives that might not have platforms otherwise. It facilitates rapid information sharing, which can be crucial during emergencies or social movements. Social media also provides entertainment, learning opportunities, and access to diverse perspectives and cultures. For businesses and creators, it offers marketing and audience-building tools that were previously unavailable. However, the disadvantages are substantial. Social media can be addictive and time-consuming, negatively impacting productivity and real-world relationships. It often promotes comparison and can harm mental health, particularly among young people, by presenting curated, unrealistic portrayals of life. Misinformation spreads rapidly and widely, influencing opinions and even elections. Privacy concerns are significant, with personal data being collected and monetized. Social media can create echo chambers that reinforce existing beliefs and polarize society. Cyberbullying and harassment are prevalent. The constant connectivity can be overwhelming and prevent genuine rest and disconnection. Overall, social media is a powerful tool that can be beneficial or harmful depending on how it's used and regulated.",
       "vocabulary": {
         "title": "Q11 - Social Media Pros/Cons",
@@ -594,7 +594,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Does social media influence people's lives?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-15-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-15-q12.mp3",
       "sampleAnswer": "Absolutely, social media profoundly influences people's lives in multiple dimensions. It shapes how we communicate, with many relationships now maintained primarily through social platforms rather than in-person interaction or traditional communication methods. It influences our self-perception and identity—people curate online personas that may differ from their authentic selves, and constant exposure to others' highlight reels affects self-esteem and life satisfaction. Social media significantly impacts mental health, with research linking heavy use to increased anxiety, depression, and loneliness, particularly among adolescents. It influences our information consumption and worldview—algorithms determine what news and perspectives we see, potentially creating filter bubbles and affecting our understanding of reality. Social media affects our attention spans and ability to focus, as platforms are designed to be addictive and keep us scrolling. It influences consumer behavior through targeted advertising and influencer marketing. Politically, social media has become a powerful force in shaping public opinion, mobilizing movements, and even influencing elections. It affects how we spend our time—hours that might have been spent on other activities are now consumed by scrolling. For younger generations who've grown up with social media, it fundamentally shapes social dynamics, from how friendships form to how bullying occurs. The influence is so pervasive that it's difficult to overstate—social media has become integrated into nearly every aspect of modern life.",
       "vocabulary": {
         "title": "Q12 - Social Media Influence",
@@ -652,7 +652,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Why do people like using social media?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-15-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-15-q13.mp3",
       "sampleAnswer": "People are drawn to social media for various psychological and social reasons. Fundamentally, humans are social creatures, and social media satisfies our need for connection and belonging—it allows us to maintain relationships, feel part of communities, and stay connected to friends and family. There's also a validation aspect—likes, comments, and shares provide immediate social feedback that triggers dopamine release, creating a reward cycle that can be addictive. Social media satisfies curiosity and the desire to know what others are doing, which is a natural human tendency. It provides entertainment and distraction from boredom or stress—endless scrolling offers easy, low-effort amusement. For many, social media serves as a platform for self-expression and identity construction—people can share their thoughts, creativity, and experiences with an audience. FOMO (fear of missing out) also drives usage—people feel compelled to stay updated on what others are doing and what's happening in the world. Social media offers a sense of control over how we present ourselves, allowing us to curate our image in ways we can't in face-to-face interactions. It's also convenient and accessible—you can connect with people anytime, anywhere, with minimal effort. For younger generations, social media is simply the norm—it's how social interaction happens, so not using it means social exclusion. Additionally, social media can serve practical purposes like networking, learning, organizing events, or staying informed about news and current events.",
       "vocabulary": {
         "title": "Q13 - Social Media Appeal",
@@ -708,7 +708,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What kind of things are popular on social media?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-15-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-15-q14.mp3",
       "sampleAnswer": "Social media content trends vary by platform and demographic, but certain types of content consistently perform well. Visual content dominates—photos and short videos, particularly on platforms like Instagram, TikTok, and YouTube. Entertaining content like memes, comedy sketches, and funny videos are extremely popular because they're easily shareable and provide quick amusement. Relatable content that captures common experiences or feelings tends to go viral because people enjoy sharing things that express what they're thinking or feeling. Inspirational or motivational content—quotes, success stories, transformation narratives—appeals to people's aspirations. Controversial or polarizing content often gains traction because it provokes strong reactions and engagement, though this isn't always positive. Educational content presented in accessible, entertaining formats has become increasingly popular—people enjoy learning interesting facts or skills in bite-sized formats. Behind-the-scenes or authentic content showing real, unfiltered moments has gained popularity as a counter to overly curated content. Trends and challenges that encourage participation are popular because they create a sense of community and shared experience. Celebrity and influencer content attracts attention due to parasocial relationships people develop with public figures. News and current events, particularly when presented in engaging formats, are widely shared. Product reviews, recommendations, and 'haul' videos are popular because people seek guidance on purchases. Finally, cute animal content is perennially popular across all demographics—it's universally appealing and shareable.",
       "vocabulary": {
         "title": "Q14 - Popular Content Types",
@@ -767,7 +767,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Is it easy to find real friends on a social networking website?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-15-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-15-q15.mp3",
       "sampleAnswer": "This is a complex question with no simple answer. Finding genuine friendships through social media is possible but challenging and depends on various factors. Social media can facilitate initial connections based on shared interests, values, or experiences that might not happen in your immediate physical environment—you can connect with people worldwide who share niche interests or backgrounds. Online communities around specific topics can foster genuine relationships. However, several factors make finding real friends difficult. First, online interactions lack the depth and authenticity of face-to-face relationships—you miss body language, tone, and the full context of someone's personality. People often present curated versions of themselves online, making it hard to know who they really are. The ease of online connection paradoxically makes relationships more superficial—you can have hundreds of 'friends' but few genuine connections. Geographic distance can prevent online friendships from developing into real-world relationships. There's also the issue of authenticity and safety—people aren't always who they claim to be online. Additionally, the transient nature of online interactions means relationships can fade easily without the sustained effort required for deep friendship. That said, many people have formed meaningful friendships that began online, particularly when they transition to in-person interaction or maintain consistent, genuine communication. I think social media works best as a tool to supplement or initiate friendships rather than as the primary medium for maintaining them. Real friendship requires vulnerability, shared experiences, and sustained effort that's difficult to achieve purely through social media.",
       "vocabulary": {
         "title": "Q15 - Online Friendships",
@@ -828,7 +828,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How has social media changed the way people communicate?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-15-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-15-q16.mp3",
       "sampleAnswer": "Social media has fundamentally transformed communication in numerous ways, both positive and negative. Most obviously, it's made communication faster and more accessible—you can instantly reach people anywhere in the world at any time, breaking down geographical and temporal barriers. Communication has become more visual, with images, videos, and emojis often replacing or supplementing text. We've shifted from longer-form communication like letters or emails to shorter, more frequent interactions—quick messages, comments, and reactions rather than sustained conversations. Social media has made communication more public and performative—people often communicate not just with individuals but with audiences, which changes the nature and authenticity of what's shared. It's enabled one-to-many communication, where individuals can broadcast messages to large audiences without traditional media gatekeepers. Communication has become more asynchronous—you can respond when convenient rather than in real-time, which has both advantages and drawbacks. The informal, casual nature of social media communication has influenced language itself, with new slang, abbreviations, and communication norms emerging. However, some argue that communication has become more superficial—we have more connections but less depth, more quantity but less quality. Nuance and context are often lost in text-based communication, leading to misunderstandings. The expectation of constant availability and immediate responses has created pressure and anxiety. Face-to-face communication skills may be declining, particularly among younger generations who've grown up communicating primarily through screens. Overall, social media has made communication more democratic, accessible, and frequent, but potentially less deep, nuanced, and authentic than traditional forms.",
       "vocabulary": {
         "title": "Q16 - Communication Changes",
@@ -892,7 +892,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think social media will replace traditional forms of communication in the future?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-15-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-15-q17.mp3",
       "sampleAnswer": "I don't think social media will completely replace traditional communication, but it will continue to transform and coexist with it in evolving ways. Certain forms of traditional communication are already largely obsolete—handwritten letters, for instance, are now rare and primarily nostalgic or ceremonial. Phone calls have declined significantly, especially among younger generations who prefer text-based communication. However, I believe face-to-face communication will always remain essential and valued, even if it becomes proportionally less frequent. Human beings have evolved for in-person interaction, and there are aspects of face-to-face communication—emotional connection, trust-building, nuance, and non-verbal cues—that digital communication simply cannot fully replicate, at least not with current technology. Even as social media dominates casual communication, important conversations—job interviews, serious relationship discussions, conflict resolution, therapy—still largely happen face-to-face or at least voice-to-voice because people recognize the limitations of text-based communication for complex or emotionally significant topics. What's more likely is continued integration and blending of communication forms. We're already seeing this with video calls becoming normalized, augmented and virtual reality creating new communication possibilities, and hybrid communication where relationships are maintained through a mix of online and offline interaction. I think there will also be counter-movements—we're already seeing some people consciously limiting social media use and prioritizing in-person connection in response to digital fatigue and recognition of social media's drawbacks. The future likely involves more sophisticated digital communication tools that better approximate face-to-face interaction, but I don't believe traditional, in-person communication will disappear—it's too fundamental to human nature and social bonding.",
       "vocabulary": {
         "title": "Q17 - Future of Communication",
