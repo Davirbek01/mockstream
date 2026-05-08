@@ -381,7 +381,7 @@ Deno.serve(async (req) => {
   // can still list/get/list_backups for visibility, but writes are gated.
   // Signed-upload URLs are also super-admin only — anyone with one can write
   // a single file to the bucket.
-  const WRITE_ACTIONS = new Set(['create', 'update', 'delete', 'restore', 'gcs_signed_upload_url']);
+  const WRITE_ACTIONS = new Set(['create', 'update', 'delete', 'restore', 'gcs_signed_upload_url', 'generate_speaking_audio']);
   if (WRITE_ACTIONS.has(action) && auth.role !== 'super_admin') {
     return json(403, { error: 'super_admin_required' });
   }
@@ -573,8 +573,8 @@ Deno.serve(async (req) => {
         const filenameOverride = String(body.filename_override || '').trim();
 
         if (!skill)                               return json(400, { error: 'bad_request', detail: 'skill required' });
-        if (!Number.isFinite(mockNumber)     || mockNumber     < 0) return json(400, { error: 'bad_request', detail: 'mock_number must be non-negative integer' });
-        if (!Number.isFinite(questionNumber) || questionNumber < 0) return json(400, { error: 'bad_request', detail: 'question_number must be non-negative integer' });
+        if (!Number.isInteger(mockNumber)     || mockNumber     < 0) return json(400, { error: 'bad_request', detail: 'mock_number must be non-negative integer' });
+        if (!Number.isInteger(questionNumber) || questionNumber < 0) return json(400, { error: 'bad_request', detail: 'question_number must be non-negative integer' });
         if (!text)                                return json(400, { error: 'bad_request', detail: 'text required' });
         if (text.length > 1500)                   return json(400, { error: 'text_too_long', limit: 1500, got: text.length });
         if (!GCS_FOLDERS[skill])                  return json(400, { error: 'unknown_skill', skill });
