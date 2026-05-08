@@ -34,7 +34,7 @@ All edits are in one file but logically grouped:
 4. **JS const region (~line 26306):** `_MMG_TAB_TO_PANE` gets five new entries; new top-level consts `_MMG_TTS_VOICES`, `_MMG_TTS_MODELS`, `_MMG_VOICE_PREVIEW_URL`.
 5. **JS switch (`_mmgFlushStructuredToRaw`, ~line 26350):** five new cases.
 6. **JS switch (`_mmgRenderPane`, ~line 26380):** five new cases.
-7. **JS helper region (after existing `_mmgFieldUploader` and `_mmgFieldSample`):** all the new `_mmg*` helpers (~700 lines added).
+7. **JS helper region (after existing `_mmgUploadBind` and `_mmgFieldSample`):** all the new `_mmg*` helpers (~700 lines added).
 
 ---
 
@@ -654,7 +654,7 @@ In `_mmgRenderPane` (~line 26380), add inside the `switch (tabId) {`:
 
 - [ ] **Step 5: Add no-op stubs so the file parses**
 
-The four functions referenced above (`_mmgRenderSpPart`, `_mmgCollectSpPart`) are defined in Task 10. For now, add temporary no-op stubs at the top of the speaking-helpers region (just after `_mmgFieldUploader` ends, around line 26830). These will be fully implemented in later tasks — adding them now keeps the page loadable without `ReferenceError`s between commits:
+The four functions referenced above (`_mmgRenderSpPart`, `_mmgCollectSpPart`) are defined in Task 10. For now, add temporary no-op stubs at the top of the speaking-helpers region (just after `_mmgUploadBind` ends, around line 26830). These will be fully implemented in later tasks — adding them now keeps the page loadable without `ReferenceError`s between commits:
 
 ```js
 // ═══════════════════════════════════════════════════════════════════════
@@ -1209,7 +1209,7 @@ function _mmgRenderSpPart(md, partKey) {
   // Wire upload buttons for each question's audio row.
   for (var k2 = 0; k2 < questionsInPart.length; k2++) {
     var qi = questionsInPart[k2];
-    _mmgFieldUploader({
+    _mmgUploadBind({
       id:    'spQ' + qi + '_audio',
       skill: _mmgCurrentType()
     });
@@ -1328,8 +1328,8 @@ function _mmgRenderSettings(md) {
   pane.innerHTML = brandingHtml + imagesHtml + voiceHtml + annHtml + bulkHtml;
 
   // Wire image upload buttons.
-  _mmgFieldUploader({ id: 'mmgSetImg1', skill: type });
-  _mmgFieldUploader({ id: 'mmgSetImg2', skill: type });
+  _mmgUploadBind({ id: 'mmgSetImg1', skill: type });
+  _mmgUploadBind({ id: 'mmgSetImg2', skill: type });
 }
 
 // Inline image row with upload button + thumbnail.
