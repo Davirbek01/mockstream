@@ -26876,6 +26876,138 @@
       return 'https://storage.googleapis.com/mockstream-listening-audio/Voice%20previews/'
            + encodeURIComponent(model) + '-' + encodeURIComponent(voice) + '.wav';
     }
+    // Audio row: URL input + 🎙 Generate + 📤 Upload + per-Q voice/model + inline player.
+    // `id` is the unique DOM id prefix; the row writes to `<id>` (text input) and
+    // reads voice/model from `<id>_voice` and `<id>_model` (selects). The 📤 button +
+    // hidden file input + progress div use ids `<id>_upbtn`, `<id>_upfile`, `<id>_upprog`
+    // — exactly the shape `_mmgUploadBind` expects, so the upload wiring is reused
+    // verbatim from the writing editor.
+    function _mmgFieldAudio(label, id, value, opts) {
+      opts = opts || {};
+      var qIndex   = opts.qIndex == null ? -1 : opts.qIndex;
+      var defVoice = opts.defaultVoice || 'Kore';
+      var defModel = opts.defaultModel || 'premium';
+      var voiceOpts = _MMG_TTS_VOICES.map(function(v){
+        return '<option value="' + v.code + '"' + (v.code === defVoice ? ' selected' : '') + '>' + _mmgEsc(v.code) + '</option>';
+      }).join('');
+      var modelOpts = _MMG_TTS_MODELS.map(function(m){
+        return '<option value="' + m.code + '"' + (m.code === defModel ? ' selected' : '') + '>' + _mmgEsc(m.label) + '</option>';
+      }).join('');
+      var safeVal = _mmgEsc(value || '');
+      var initialSrc = value ? safeVal + (value.indexOf('?') === -1 ? '?t=' + Date.now() : '') : '';
+      return '<div class="mmg-field"><label>' + _mmgEsc(label) + '</label>'
+        + '<div class="mmg-audio-row" style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;">'
+        +   '<input type="text" id="' + id + '" value="' + safeVal + '" '
+        +     'placeholder="https://… or empty (TTS fallback)" '
+        +     'oninput="_mmgRebindAudioPlayer(\'' + id + '\')" style="flex:1;min-width:240px;">'
+        +   '<button type="button" class="mmg-icon-btn" title="Generate via Gemini TTS" '
+        +     'onclick="_mmgGenerateAudio(' + qIndex + ', \'' + id + '\')">🎙</button>'
+        +   '<button type="button" class="mmg-icon-btn" id="' + id + '_upbtn" title="Upload MP3/WAV">📤</button>'
+        +   '<input type="file" id="' + id + '_upfile" accept="audio/*" style="display:none;">'
+        +   '<select id="' + id + '_voice" title="Voice override (this regen only)" style="font-size:12px;padding:4px;">' + voiceOpts + '</select>'
+        +   '<select id="' + id + '_model" title="Model override (this regen only)" style="font-size:12px;padding:4px;">' + modelOpts + '</select>'
+        + '</div>'
+        + '<div id="' + id + '_upprog" class="mmg-upload-progress"></div>'
+        + '<audio id="' + id + '_audio" controls preload="none" '
+        +   'style="' + (value ? 'display:block;' : 'display:none;') + 'width:100%;margin-top:6px;" '
+        +   (initialSrc ? 'src="' + initialSrc + '"' : '') + '></audio>'
+        + '</div>';
+    }
+
+    // Re-bind <audio src> when the URL input changes. Called by oninput.
+    window._mmgRebindAudioPlayer = function (id) {
+      var input = document.getElementById(id);
+      var aud   = document.getElementById(id + '_audio');
+      if (!input || !aud) return;
+      var url = (input.value || '').trim();
+      if (!url) { aud.style.display = 'none'; aud.removeAttribute('src'); return; }
+      var sep = url.indexOf('?') === -1 ? '?' : '&';
+      aud.src = url + sep + 't=' + Date.now();
+      aud.style.display = 'block';
+    };
+
+    // Generate audio for question `qIndex` and fill the URL input at `id`.
+    // Reads the current text from mock_data.questions[qIndex].prompt and the
+    // per-Q voice/model overrides from the row's selects (defaulting to mock-level).
+    window._mmgGenerateAudio = async function (qIndex, id) {
+      var md = _mmgGetMockData();
+      if (!md || !md.questions || !md.questions[qIndex]) {
+        alert('Question data not found. Save the prompt first.');
+        return;
+      }
+      var q = md.questions[qIndex];
+      var promptText = (q.prompt || '').trim();
+      if (!promptText) { alert('Question prompt is empty — write the prompt first.'); return; }
+
+      var voiceEl = document.getElementById(id + '_voice');
+      var modelEl = document.getElementById(id + '_model');
+      var voice   = voiceEl ? voiceEl.value : ((md.settings && md.settings.voice) || 'Kore');
+      var model   = modelEl ? modelEl.value : ((md.settings && md.settings.tts_model) || 'premium');
+
+      var skill = _mmgCurrentType(); // 'cefr-speaking' | 'ielts-speaking'
+      var mockNumber = parseInt(document.getElementById('mmgFldNum').value || '0', 10) || 0;
+
+      var btnEl = document.querySelector('.mmg-audio-row [onclick*="_mmgGenerateAudio(' + qIndex + ',"]');
+      if (btnEl) { btnEl.disabled = true; btnEl.textContent = '⏳'; }
+
+      try {
+        var j = await _mmgCall('generate_speaking_audio', {
+          skill: skill, mock_number: mockNumber, question_number: q.number || (qIndex + 1),
+          text: promptText, voice: voice, model: model
+        });
+        if (!j || !j.publicUrl) throw new Error((j && j.error) || 'no publicUrl');
+        var input = document.getElementById(id);
+        if (input) {
+          input.value = j.publicUrl;
+          input.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+        _mmgStatus('🎙 Generated ' + (j.durationSec || '?') + 's audio for Q' + (q.number || (qIndex + 1)), '#15803d');
+      } catch (e) {
+        alert('Audio generation failed: ' + (e.message || e));
+      } finally {
+        if (btnEl) { btnEl.disabled = false; btnEl.textContent = '🎙'; }
+      }
+    };
+
+    // Sequential bulk generation. scope: 'all' or 'part11'/'part12'/'part2'/'part3'.
+    // Stops at the first failure so the user can see which question failed.
+    window._mmgGenerateAllAudios = async function (scope) {
+      var md = _mmgGetMockData(); if (!md || !md.questions) return;
+      var indices = [];
+      for (var i = 0; i < md.questions.length; i++) {
+        if (scope === 'all' || _mmgQuestionPartKey(md.questions[i]) === scope) indices.push(i);
+      }
+      if (!indices.length) { alert('No questions found for scope: ' + scope); return; }
+      if (!confirm('Generate audio for ' + indices.length + ' question(s)? Existing URLs will be overwritten.')) return;
+
+      for (var k = 0; k < indices.length; k++) {
+        var qIndex = indices[k];
+        _mmgStatus('Generating ' + (k + 1) + ' / ' + indices.length + ' (Q' + (md.questions[qIndex].number || (qIndex + 1)) + ')…');
+        var id = 'spQ' + qIndex + '_audio';
+        try {
+          await window._mmgGenerateAudio(qIndex, id);
+        } catch (e) {
+          _mmgStatus('Stopped at Q' + (md.questions[qIndex].number || (qIndex + 1)) + ' — ' + e.message, '#dc2626');
+          return;
+        }
+      }
+      _mmgStatus('✓ All ' + indices.length + ' audios generated.', '#15803d');
+    };
+
+    // Map a question's `part` field to one of the 4 Part tab keys.
+    // CEFR uses Q-numbers (1–3 → part11, 4–6 → part12, 7 → part2, 8 → part3).
+    // IELTS uses the `part` string directly (Part 2 / Part 2 Follow-up both → part2).
+    function _mmgQuestionPartKey(q) {
+      if (!q) return 'part11';
+      var p = String(q.part || '').toLowerCase();
+      if (p.indexOf('part 3') !== -1) return 'part3';
+      if (p.indexOf('part 2') !== -1) return 'part2';
+      // Part 1 — split by question number for CEFR (Q1–3 vs Q4–6).
+      var n = Number(q.number || 0);
+      if (n >= 4 && n <= 6) return 'part12';
+      return 'part11';
+    }
+
     function _mmgRenderSpPart(md, partKey) {
       var pane = document.getElementById('mmgPaneSp' + partKey.charAt(0).toUpperCase() + partKey.slice(1));
       if (pane) pane.innerHTML = '<div class="mmg-empty-hint">Pane stub — implemented in Task 10.</div>';
