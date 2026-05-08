@@ -156,7 +156,8 @@ const GCS_FOLDERS: Record<string, string> = {
   'ielts-speaking':  'IELTS speaking media',
   'cefr-speaking':   'CEFR speaking media',
   'ielts-reading':   'IELTS reading media',
-  'cefr-reading':    'CEFR reading media'
+  'cefr-reading':    'CEFR reading media',
+  'voice-preview':   'Voice previews'
 };
 
 // Allowed MIME types per kind. Browser sends a content type with the file;
@@ -211,6 +212,39 @@ function encodeRfc3986(s: string): string {
 // (per GCS V4 signing spec — slashes are part of the canonical resource).
 function encodeObjectPath(path: string): string {
   return path.split('/').map(encodeRfc3986).join('/');
+}
+
+// Wrap raw 16-bit signed PCM mono bytes in a 44-byte RIFF/WAVE header.
+// Gemini TTS returns 24 kHz mono PCM (mime audio/L16;codecs=pcm;rate=24000).
+// Browsers play WAV natively — wrap once on the server and we never need
+// a client-side decoder.
+function pcmToWav(pcmBytes: Uint8Array, sampleRate: number = 24000): Uint8Array {
+  const numChannels = 1;
+  const bitsPerSample = 16;
+  const byteRate = sampleRate * numChannels * bitsPerSample / 8;
+  const blockAlign = numChannels * bitsPerSample / 8;
+  const dataSize = pcmBytes.length;
+  const fileSize = 36 + dataSize;
+  const buf = new Uint8Array(44 + dataSize);
+  const dv = new DataView(buf.buffer);
+  // "RIFF" chunk descriptor
+  buf.set([0x52,0x49,0x46,0x46], 0);            // "RIFF"
+  dv.setUint32(4, fileSize, true);
+  buf.set([0x57,0x41,0x56,0x45], 8);            // "WAVE"
+  // "fmt " sub-chunk
+  buf.set([0x66,0x6d,0x74,0x20], 12);           // "fmt "
+  dv.setUint32(16, 16, true);                   // PCM fmt chunk size
+  dv.setUint16(20, 1, true);                    // audio format = PCM
+  dv.setUint16(22, numChannels, true);
+  dv.setUint32(24, sampleRate, true);
+  dv.setUint32(28, byteRate, true);
+  dv.setUint16(32, blockAlign, true);
+  dv.setUint16(34, bitsPerSample, true);
+  // "data" sub-chunk
+  buf.set([0x64,0x61,0x74,0x61], 36);           // "data"
+  dv.setUint32(40, dataSize, true);
+  buf.set(pcmBytes, 44);
+  return buf;
 }
 
 interface SignedPutUrlOpts {
