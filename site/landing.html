@@ -25767,6 +25767,29 @@
     .mmg-empty-hint {
       color:#94a3b8; font-size:12px; font-style:italic; padding:8px 0;
     }
+    /* Indeterminate progress bar for the Import modal — Gemini call is atomic
+       server-side, so we can't show real percentage. The slide animation +
+       elapsed-time counter together signal "still alive, still working". */
+    .mmg-progress-bar {
+      height:5px; background:#e2e8f0; border-radius:3px; overflow:hidden;
+      margin-top:8px; position:relative;
+    }
+    .mmg-progress-fill {
+      position:absolute; top:0; left:0;
+      height:100%; width:30%;
+      background:linear-gradient(90deg, transparent, #2563eb 50%, transparent);
+      animation:mmgProgressSlide 1.8s linear infinite;
+    }
+    @keyframes mmgProgressSlide {
+      0%   { transform:translateX(-100%); }
+      100% { transform:translateX(433%); }
+    }
+    .mmg-progress-bar.success .mmg-progress-fill {
+      width:100%; background:#16a34a; animation:none;
+    }
+    .mmg-progress-bar.error .mmg-progress-fill {
+      width:100%; background:#dc2626; animation:none;
+    }
     /* Horizontal sub-tabs inside a Part / Passage pane (Passage / Questions / Answers / …). */
     .mmg-subtabs-bar {
       display:flex; gap:4px; border-bottom:2px solid #e2e8f0;
@@ -26173,6 +26196,21 @@
           </div>
 
           <div id="mmgImportSizeRow" style="margin-top:12px;font-size:12px;color:#64748b;">Total: 0 MB / 20 MB</div>
+
+          <!-- Progress section: hidden until Import is clicked. Shows an
+               indeterminate progress bar + elapsed timer + phase text while
+               the AI is working, then turns green ✓ on success or red ✗ on
+               failure. Real percentage isn't possible (the AI call is atomic
+               server-side) so this is honest "still alive" feedback. -->
+          <div id="mmgImportProgressWrap" style="display:none;margin-top:14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 12px;">
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#0f172a;">
+              <span id="mmgImportPhaseText" style="flex:1;">⏳ Sending payload to Gemini 2.5 Pro…</span>
+              <span id="mmgImportElapsed" style="color:#64748b;font-size:12px;font-variant-numeric:tabular-nums;">0s</span>
+            </div>
+            <div id="mmgImportProgressBar" class="mmg-progress-bar"><div class="mmg-progress-fill"></div></div>
+            <div id="mmgImportPhaseSub" style="margin-top:6px;font-size:11px;color:#64748b;">Keep this tab open. Cancel only closes the modal — the request keeps running on the server.</div>
+          </div>
+
           <div id="mmgImportStatus" style="margin-top:8px;font-size:12px;min-height:16px;"></div>
         </div>
 
@@ -29214,6 +29252,58 @@
       }
     }
 
+    var _mmgImportTimer = null;
+    var _mmgImportStart = 0;
+
+    function _mmgImportProgressStart() {
+      _mmgImportStart = Date.now();
+      var wrap = document.getElementById('mmgImportProgressWrap');
+      var bar  = document.getElementById('mmgImportProgressBar');
+      wrap.style.display = 'block';
+      bar.className = 'mmg-progress-bar';
+      document.getElementById('mmgImportPhaseText').textContent = '⏳ Sending payload to Gemini 2.5 Pro…';
+      document.getElementById('mmgImportElapsed').textContent = '0s';
+      if (_mmgImportTimer) clearInterval(_mmgImportTimer);
+      _mmgImportTimer = setInterval(function () {
+        var elapsed = Math.floor((Date.now() - _mmgImportStart) / 1000);
+        document.getElementById('mmgImportElapsed').textContent = elapsed + 's';
+        var phase;
+        if      (elapsed < 5)   phase = '⏳ Sending payload to Gemini 2.5 Pro…';
+        else if (elapsed < 25)  phase = '🤖 Gemini is reading your file(s)…';
+        else if (elapsed < 60)  phase = '🧠 Gemini is generating the structured JSON… (typical: 30–60s)';
+        else if (elapsed < 90)  phase = '⏰ Still working — large tests can take 60–120s…';
+        else if (elapsed < 130) phase = '⌛ Almost there — patience, please…';
+        else                    phase = '⚠ Taking longer than expected. Function timeout is 150s — may abort soon.';
+        document.getElementById('mmgImportPhaseText').textContent = phase;
+      }, 250);
+    }
+
+    function _mmgImportProgressDone(modelUsed, fallbackReason) {
+      if (_mmgImportTimer) { clearInterval(_mmgImportTimer); _mmgImportTimer = null; }
+      var elapsed = Math.floor((Date.now() - _mmgImportStart) / 1000);
+      var bar = document.getElementById('mmgImportProgressBar');
+      bar.className = 'mmg-progress-bar success';
+      document.getElementById('mmgImportElapsed').textContent = elapsed + 's';
+      var label = (modelUsed === 'gpt-4o')
+        ? '✓ Imported via GPT-4o (Gemini fallback)'
+        : '✓ Imported via Gemini 2.5 Pro';
+      document.getElementById('mmgImportPhaseText').textContent = label;
+      var sub = document.getElementById('mmgImportPhaseSub');
+      sub.textContent = (modelUsed === 'gpt-4o' && fallbackReason)
+        ? 'Gemini fallback reason: ' + String(fallbackReason).slice(0, 200)
+        : 'Done in ' + elapsed + 's. Closing this dialog…';
+    }
+
+    function _mmgImportProgressFailed(msg) {
+      if (_mmgImportTimer) { clearInterval(_mmgImportTimer); _mmgImportTimer = null; }
+      var elapsed = Math.floor((Date.now() - _mmgImportStart) / 1000);
+      var bar = document.getElementById('mmgImportProgressBar');
+      bar.className = 'mmg-progress-bar error';
+      document.getElementById('mmgImportElapsed').textContent = elapsed + 's';
+      document.getElementById('mmgImportPhaseText').textContent = '✗ Failed';
+      document.getElementById('mmgImportPhaseSub').textContent = String(msg).slice(0, 400);
+    }
+
     async function _mmgImportSubmit() {
       var st = window._mmgImportState;
       var status = document.getElementById('mmgImportStatus');
@@ -29238,9 +29328,9 @@
       }
 
       btn.disabled = true;
-      btn.textContent = '⏳ Calling Gemini 2.5 Pro… (~30–60s for full tests)';
-      status.style.color = '#64748b';
-      status.textContent = 'Sending payload — keep this tab open.';
+      btn.textContent = '⏳ Working…';
+      status.textContent = '';
+      _mmgImportProgressStart();
 
       var notes = document.getElementById('mmgImportNotes').value.trim();
       var payload = {
@@ -29272,21 +29362,24 @@
         if (!window._mmgEditing) throw new Error('No active editor — close + reopen.');
         window._mmgEditing.mock_data = j.mock_data;
         document.getElementById('mmgFldData').value = JSON.stringify(j.mock_data, null, 2);
-        // Re-init structured tabs from the new data so the user sees the
-        // imported content immediately.
         _mmgInitTabs();
 
+        _mmgImportProgressDone(j.model_used, j.fallback_reason);
         var modelLabel = (j.model_used === 'gpt-4o')
           ? '✓ Imported via GPT-4o (Gemini fallback)'
           : '✓ Imported via Gemini 2.5 Pro';
-        var fallbackTail = (j.model_used === 'gpt-4o' && j.fallback_reason)
-          ? ' — Gemini said: "' + String(j.fallback_reason).slice(0, 120) + '"'
-          : '';
-        _mmgStatus(modelLabel + fallbackTail + ' — review and Save when ready.', '#16a34a');
-        _mmgImportClose();
+        _mmgStatus(modelLabel + ' — review and Save when ready.', '#16a34a');
+        // Linger briefly so user sees the green checkmark, then close.
+        setTimeout(_mmgImportClose, 1400);
       } catch (e) {
-        status.style.color = '#dc2626';
-        status.textContent = 'Import failed: ' + (e.message || String(e));
+        var em = e && e.message || String(e);
+        _mmgImportProgressFailed(em);
+        // Diagnose Failed-to-fetch / network errors with a hint that's
+        // actually actionable instead of letting the user wonder why.
+        if (/Failed to fetch|NetworkError|net::|520/i.test(em)) {
+          document.getElementById('mmgImportPhaseSub').textContent =
+            'Network error reaching the AI server (Cloudflare 520 / fetch failed). Usually a transient blip — try Import again. If it keeps happening, your file may be hitting an upstream limit.';
+        }
         btn.disabled = false;
         btn.textContent = '✨ Import';
       }
