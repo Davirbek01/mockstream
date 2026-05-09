@@ -151,17 +151,28 @@
           // ── Supabase dynamic mock: load directly without matching dropdown ──
           if (sbMockParam) {
             const sbValue = 'supabase:' + sbMockParam;
+            // Mock number sources, in priority order:
+            //   1. ?num= URL param (added by the picker upgrader on landing)
+            //   2. tail digits of ?test= (e.g. ielts-speaking-mock-ai-09 → 09)
+            // Either way the option label gets "🟢 IELTS Speaking Mock NN"
+            // so downstream code (Telegram caption, PDFs) extracts the
+            // right number from _lastSelectedMock.text.
+            const numParam = urlParams.get('num');
+            const _testTail = (testParam || '').match(/(\d+)$/);
+            const rawNum = numParam || (_testTail ? _testTail[1] : '');
+            const padded = rawNum ? String(parseInt(rawNum, 10) || 0).padStart(2, '0') : '';
+            const dynLabel = padded ? ('🟢 IELTS Speaking Mock ' + padded) : '🟢 Dynamic Mock';
             let opt = selector.querySelector('option[value="' + sbValue + '"]');
             if (!opt) {
               opt = document.createElement('option');
               opt.value = sbValue;
-              opt.textContent = '🟢 Dynamic Mock';
               opt.style.cssText = 'background:white;color:#6366f1;font-weight:600;';
               selector.appendChild(opt);
             }
+            opt.textContent = dynLabel;
             selector.value = sbValue;
-            window._lastSelectedMock = { value: sbValue, index: selector.selectedIndex, text: opt.textContent };
-            console.log('[Auto-Proceed] Selected Supabase mock:', sbValue);
+            window._lastSelectedMock = { value: sbValue, index: selector.selectedIndex, text: dynLabel };
+            console.log('[Auto-Proceed] Selected Supabase mock:', sbValue, 'label:', dynLabel);
             setTimeout(() => { continueBtn.click(); }, 300);
             return;
           }

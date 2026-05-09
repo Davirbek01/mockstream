@@ -12563,9 +12563,11 @@
             testsArr:          cefrSpeakingTests,
             mocksArr:          cefrSpeakingMocks,
             staticFilePattern: (n) => `questions S/questions${n}.js`,
-            // ?sbmock= alone is enough on Speaking Mocks.html (the runner
-            // accepts it standalone — see _extractSpeakingMockNumber).
-            runnerUrl:         (id, _padded) => `Speaking Mocks.html?sbmock=${id}&auto=1`,
+            // `&num=NN` is needed by the runner so the auto-proceed
+            // option label includes the mock number — without it the
+            // Telegram caption / PDF generators read SELECTED_MOCK_NUMBER
+            // and fall back to '01' for every Supabase-backed mock.
+            runnerUrl:         (id, padded) => `Speaking Mocks.html?sbmock=${id}&num=${padded}&auto=1`,
             label:             'CEFR Speaking Mock'
           });
         }

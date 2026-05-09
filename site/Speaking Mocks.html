@@ -152,18 +152,25 @@
           // ── Supabase dynamic mock: load directly without matching dropdown ──
           if (sbMockParam) {
             const sbValue = 'supabase:' + sbMockParam;
-            // Add a temporary option for this dynamic mock
+            // The picker upgrader on landing.html now appends `&num=NN`
+            // alongside `?sbmock=` so the runner has the mock number for
+            // captions / PDFs without an extra round-trip to Supabase.
+            // Older URLs without `num` fall back to the generic label;
+            // those still load correctly, just with "Dynamic Mock" text.
+            const numParam = urlParams.get('num');
+            const padded = numParam ? String(parseInt(numParam, 10) || 0).padStart(2, '0') : '';
+            const dynLabel = padded ? ('🟢 CEFR Speaking Mock ' + padded) : '🟢 Dynamic Mock';
             let opt = selector.querySelector('option[value="' + sbValue + '"]');
             if (!opt) {
               opt = document.createElement('option');
               opt.value = sbValue;
-              opt.textContent = '🟢 Dynamic Mock';
               opt.style.cssText = 'background:white;color:#6366f1;font-weight:600;';
               selector.appendChild(opt);
             }
+            opt.textContent = dynLabel;
             selector.value = sbValue;
-            window._lastSelectedMock = { value: sbValue, index: selector.selectedIndex, text: opt.textContent };
-            console.log('[Auto-Proceed] Selected Supabase mock:', sbValue);
+            window._lastSelectedMock = { value: sbValue, index: selector.selectedIndex, text: dynLabel };
+            console.log('[Auto-Proceed] Selected Supabase mock:', sbValue, 'label:', dynLabel);
             setTimeout(() => { continueBtn.click(); }, 300);
             return;
           }
