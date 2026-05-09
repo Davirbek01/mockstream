@@ -32,7 +32,9 @@
 
     <!-- Module Data Assets (Meta-scripts) -->
     <script src="cefr-mock-config.js"></script>
-    <script src="questions S/questions.js"></script>
+    <!-- Speaking mock 01 used to be inlined here for the dynamic logo loader.
+         After the Phase 3d migration the static .js was deleted; the logo now
+         loads from Supabase via _fmLoadMockFromSupabase below. -->
 
     <style>
         :root {
@@ -4591,28 +4593,15 @@
             document.getElementById('tutorial-overlay').style.display = 'none';
             document.getElementById('app').style.display = 'block';
 
-            // For Speaking module, need to go through photo capture
+            // For Speaking module, pre-load speaking test data from Supabase
+            // (static .js was deleted in the Phase 3d migration).
             if (moduleIndex === 3) {
-                // Pre-load speaking test data
-                const folders = ['questions CEFR L', 'questions CEFR R', 'questions W', 'questions S'];
-                const prefixes = ['cefr-listening-test-', 'cefr-reading-test-', 'writing-questions', 'questions'];
-                let fname = `${prefixes[3]}${state.testIds.speaking}`;
-                if (state.testIds.speaking === '01') fname = 'questions';
-
                 try {
-                    await new Promise((resolve, reject) => {
-                        const script = document.createElement('script');
-                        script.src = `${folders[3]}/${fname}.js`;
-                        script.onload = resolve;
-                        script.onerror = reject;
-                        document.head.appendChild(script);
-                    });
-
-                    if (window.SPEAKING_TEST_DATA) {
-                        state.currentTestData = { ...window.SPEAKING_TEST_DATA };
-                        state.speakingQuestionPrompts = window.SPEAKING_TEST_DATA.questions?.map(q => q.prompt || '') || [];
-                        console.log('[ADMIN] Speaking data loaded');
-                    }
+                    const _admMd = await _fmLoadMockFromSupabase('cefr-speaking', state.testIds.speaking);
+                    window.SPEAKING_TEST_DATA = _admMd;
+                    state.currentTestData = { ..._admMd };
+                    state.speakingQuestionPrompts = (_admMd.questions || []).map(q => q.prompt || '');
+                    console.log('[ADMIN] Speaking data loaded from Supabase');
                 } catch (e) {
                     console.warn('[ADMIN] Could not pre-load speaking data:', e);
                 }
@@ -5348,17 +5337,57 @@
             document.querySelectorAll('.question-card').forEach(c => c.classList.remove('elevated'));
         });
 
-        // Load logo dynamically from first speaking test on page load
+        // ── Supabase mock_data loader ────────────────────────────────────
+        //  Phase 3d migration deleted the static .js files for cefr-writing
+        //  and cefr-speaking. We now fetch them from the mock_tests table
+        //  by (mock_type, mock_number). Listening + reading still ship as
+        //  static .js because their migration is Phase 2 (in progress).
+        const _FM_SB_URL  = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+        const _FM_SB_ANON = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+        async function _fmLoadMockFromSupabase(mockType, mockNumber) {
+            const num = parseInt(mockNumber, 10);
+            if (!isFinite(num)) throw new Error('bad mock_number: ' + mockNumber);
+            const url = _FM_SB_URL + '/rest/v1/mock_tests'
+                + '?mock_type=eq.' + encodeURIComponent(mockType)
+                + '&mock_number=eq.' + num
+                + '&status=eq.published'
+                + '&select=mock_data&limit=1';
+            const r = await fetch(url, {
+                headers: { apikey: _FM_SB_ANON, Authorization: 'Bearer ' + _FM_SB_ANON }
+            });
+            if (!r.ok) throw new Error('supabase ' + r.status);
+            const arr = await r.json();
+            if (!arr || arr.length === 0) {
+                throw new Error('no published ' + mockType + ' #' + num + ' in mock_tests');
+            }
+            return arr[0].mock_data;
+        }
+        async function _fmMaxMockNumber(mockType) {
+            const url = _FM_SB_URL + '/rest/v1/mock_tests'
+                + '?mock_type=eq.' + encodeURIComponent(mockType)
+                + '&status=eq.published'
+                + '&select=mock_number&order=mock_number.desc&limit=1';
+            const r = await fetch(url, {
+                headers: { apikey: _FM_SB_ANON, Authorization: 'Bearer ' + _FM_SB_ANON }
+            });
+            if (!r.ok) return 0;
+            const arr = await r.json();
+            return (arr && arr.length > 0 && arr[0].mock_number) ? arr[0].mock_number : 0;
+        }
+
+        // Load logo dynamically from speaking mock 01's settings on page load.
+        // (Was: <script src="questions S/questions.js">. Now: Supabase fetch.)
         (function loadDynamicLogo() {
-            const script = document.createElement('script');
-            script.src = 'questions S/questions.js';
-            script.onload = () => {
-                if (window.SPEAKING_TEST_DATA && window.SPEAKING_TEST_DATA.settings && window.SPEAKING_TEST_DATA.settings.logoUrl
+            _fmLoadMockFromSupabase('cefr-speaking', 1).then(function (md) {
+                if (md && md.settings && md.settings.logoUrl
                     && !(window.SITE_CONFIG && window.SITE_CONFIG.logoUrl)) {
-                    document.getElementById('gate-logo-img').src = window.SPEAKING_TEST_DATA.settings.logoUrl;
+                    var el = document.getElementById('gate-logo-img');
+                    if (el) el.src = md.settings.logoUrl;
                 }
-            };
-            document.head.appendChild(script);
+            }).catch(function (e) {
+                // Logo is purely decorative — silent failure is fine.
+                console.debug('[Full Mock] dynamic logo skipped:', e && e.message);
+            });
         })();
 
         // Preparation Pause Logic
@@ -5978,36 +6007,36 @@
         }
 
         async function discoverMockCounts(baseCounts) {
-            const configs = [
-                { key: 'listening', folder: 'questions CEFR L', prefix: 'cefr-listening-test-' },
-                { key: 'reading', folder: 'questions CEFR R', prefix: 'cefr-reading-test-' },
-                { key: 'writing', folder: 'questions W', prefix: 'writing-questions' },
-                { key: 'speaking', folder: 'questions S', prefix: 'questions' }
-            ];
-
+            // Listening + reading still load via static .js, so probe the file
+            // tree to find the max mock number for each. Writing + speaking
+            // were migrated to Supabase in Phase 3d — query mock_tests directly.
             const counts = { ...baseCounts };
-            const probes = configs.map(async (cfg) => {
+            const staticConfigs = [
+                { key: 'listening', folder: 'questions CEFR L', prefix: 'cefr-listening-test-' },
+                { key: 'reading',   folder: 'questions CEFR R', prefix: 'cefr-reading-test-' }
+            ];
+            const staticProbes = staticConfigs.map(async (cfg) => {
                 let max = counts[cfg.key];
-                // Limit discovery to avoid infinite loops if something goes wrong
                 const absoluteMax = 999;
                 while (max < absoluteMax) {
                     const nextId = (max + 1).toString().padStart(2, '0');
                     const url = `${cfg.folder}/${cfg.prefix}${nextId}.js`;
                     try {
                         const resp = await fetch(url, { method: 'HEAD' }).catch(() => fetch(url));
-                        if (resp.ok) {
-                            max++;
-                        } else {
-                            break;
-                        }
-                    } catch (e) {
-                        break;
-                    }
+                        if (resp.ok) max++;
+                        else break;
+                    } catch (e) { break; }
                 }
                 counts[cfg.key] = max;
             });
-
-            await Promise.all(probes);
+            const sbProbes = [
+                { key: 'writing',  type: 'cefr-writing'  },
+                { key: 'speaking', type: 'cefr-speaking' }
+            ].map(async (cfg) => {
+                const max = await _fmMaxMockNumber(cfg.type);
+                if (max > counts[cfg.key]) counts[cfg.key] = max;
+            });
+            await Promise.all([...staticProbes, ...sbProbes]);
             return counts;
         }
 
@@ -6102,16 +6131,15 @@
                 const d = document.getElementById(`dot-${i}`);
                 d.className = 'fm-dot' + (i === idx ? ' active' : (i < idx ? ' completed' : ''));
             }
-            const folders = ['questions CEFR L', 'questions CEFR R', 'questions W', 'questions S'];
-            const prefixes = ['cefr-listening-test-', 'cefr-reading-test-', 'writing-questions', 'questions'];
-            let fname = prefixes[idx] + [state.testIds.listening, state.testIds.reading, state.testIds.writing, state.testIds.speaking][idx];
-            if (idx === 3 && state.testIds.speaking === '01') fname = 'questions';
-            // Writing test 01 has no suffix in filename (writing-questions.js not writing-questions01.js)
-            if (idx === 2 && state.testIds.writing === '01') fname = 'writing-questions';
-
-            const s = document.createElement('script');
-            s.src = `${folders[idx]}/${fname}.js`;
-            s.onload = async () => {
+            // Writing + speaking content lives in Supabase mock_tests since
+            // the Phase 3d migration deleted the static .js files. Listening
+            // + reading still load from static .js (their migration is in
+            // progress as a separate phase).
+            //
+            // Both paths converge on the same post-load handler `afterDataLoaded`
+            // — the only thing that changes is HOW the window.* test data
+            // global gets populated.
+            const afterDataLoaded = async () => {
                 // Check globals in order of expectation for the current step
                 if (state.step === 0) state.currentTestData = window.CEFR_LISTENING_TEST;
                 else if (state.step === 1) state.currentTestData = window.CEFR_READING_TEST;
@@ -6209,10 +6237,39 @@
                 var fabC = document.getElementById('mobFabContainer');
                 if (fabC) fabC.style.removeProperty('display');
             };
-            s.onerror = () => {
-                alert("Failed to load test module: " + fname);
-            };
-            document.head.appendChild(s);
+
+            // Writing + speaking: fetch from Supabase mock_tests.
+            if (idx === 2) {
+                try {
+                    window.WRITING_TEST_DATA = await _fmLoadMockFromSupabase('cefr-writing', state.testIds.writing);
+                    await afterDataLoaded();
+                } catch (e) {
+                    console.error('[Full Mock] writing load failed:', e);
+                    alert('Failed to load Writing module — could not fetch CEFR Writing #' + state.testIds.writing + ' from Supabase.\n\n' + (e && e.message || ''));
+                }
+                return;
+            }
+            if (idx === 3) {
+                try {
+                    window.SPEAKING_TEST_DATA = await _fmLoadMockFromSupabase('cefr-speaking', state.testIds.speaking);
+                    await afterDataLoaded();
+                } catch (e) {
+                    console.error('[Full Mock] speaking load failed:', e);
+                    alert('Failed to load Speaking module — could not fetch CEFR Speaking #' + state.testIds.speaking + ' from Supabase.\n\n' + (e && e.message || ''));
+                }
+                return;
+            }
+
+            // Listening + reading: static .js (their Supabase migration is a later phase).
+            const _fmFolders   = ['questions CEFR L', 'questions CEFR R'];
+            const _fmPrefixes  = ['cefr-listening-test-', 'cefr-reading-test-'];
+            const _fmId        = idx === 0 ? state.testIds.listening : state.testIds.reading;
+            const _fmFname     = _fmPrefixes[idx] + _fmId;
+            const _fmScriptEl  = document.createElement('script');
+            _fmScriptEl.src       = _fmFolders[idx] + '/' + _fmFname + '.js';
+            _fmScriptEl.onload    = afterDataLoaded;
+            _fmScriptEl.onerror   = () => alert('Failed to load test module: ' + _fmFname);
+            document.head.appendChild(_fmScriptEl);
         }
 
         /* Move part/task tabs into header on mobile */
