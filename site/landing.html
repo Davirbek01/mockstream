@@ -12485,7 +12485,12 @@
     // route through the Supabase fetch path. Mock 01 keeps its
     // "(Supabase pilot)" label as the original Phase-1 row; mocks 02+
     // get the same display name they had before, just with a 🟢 icon.
-    (async function loadDynamicSpeakingMocks() {
+    //
+    // Exposed as a named function so refresh-on-save can re-run it after
+    // an admin creates/edits a mock — the in-memory picker arrays update
+    // without a page reload. The function is idempotent (matches existing
+    // entries by sbmock=<id> / by name and updates in place).
+    window._mmgRefreshAllPickers = async function loadDynamicSpeakingMocks() {
       const SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       const SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
 
@@ -12586,7 +12591,53 @@
         }
         console.log(`🌐 IELTS Speaking: upgraded ${rows.length} picker entries from Supabase`);
       } catch (e) { console.warn('IELTS speaking dynamic load failed:', e); }
-    })();
+
+      // ── Reading: simpler upgrader (single array per skill, full URLs only) ──
+      // Static reading entries already use full runner URLs (no "supabase:<id>"
+      // marker like speaking does), so we only update file/name in place — or
+      // append a brand-new entry for AI-imported mocks beyond the static range
+      // (e.g., IELTS Reading 51 imported via transcribe-mock).
+      async function upgradeReading(skill, arr, runnerHtml, label) {
+        const rows = await fetchRows(skill);
+        for (const row of rows) {
+          const padded     = String(row.mock_number).padStart(2, '0');
+          const isPilot    = row.mock_number === 1;
+          const displayName = isPilot
+            ? `🧪 ${label} ${padded} (Supabase pilot)`
+            : `${label} ${padded}`;
+          const fileUrl    = `${runnerHtml}?sbmock=${row.id}`;
+          const plainName  = `${label} ${padded}`;
+          const idx = arr.findIndex((t) =>
+            (t.file && t.file.indexOf('sbmock=' + row.id) !== -1) ||
+            t.name === plainName ||
+            t.name === displayName
+          );
+          if (idx !== -1) {
+            arr[idx].file = fileUrl;
+            arr[idx].name = displayName;
+            arr[idx].icon = '🟢';
+          } else {
+            arr.push({ file: fileUrl, name: displayName, icon: '🟢', actionText: 'Take Test' });
+          }
+        }
+        // Re-sort numerically by trailing test number so AI-imported mocks
+        // (which append at the end) end up in the right slot in the picker.
+        arr.sort((a, b) => {
+          const am = (a.name || '').match(/Test\s+(\d+)/);
+          const bm = (b.name || '').match(/Test\s+(\d+)/);
+          return (am ? parseInt(am[1], 10) : 0) - (bm ? parseInt(bm[1], 10) : 0);
+        });
+        console.log(`🌐 ${label}: upgraded/added ${rows.length} reading picker entries from Supabase`);
+      }
+
+      try { await upgradeReading('cefr-reading',  cefrReadingTests,  'CEFR Reading.html',  'CEFR Reading Test'); }
+      catch (e) { console.warn('CEFR reading dynamic load failed:', e); }
+
+      try { await upgradeReading('ielts-reading', ieltsReadingTests, 'IELTS reading.html', 'IELTS Reading Practice Test'); }
+      catch (e) { console.warn('IELTS reading dynamic load failed:', e); }
+    };
+    // Run once at page-load (original behaviour).
+    window._mmgRefreshAllPickers();
 
     const ieltsSpeakingTests = [];
     // Mock 01 was migrated to Supabase mock_tests (id=10). The renderer's
@@ -18667,11 +18718,22 @@
             '<button id="smgCloseBtn" aria-label="Close" class="smg-close">×</button>' +
           '</div>' +
           '<div class="smg-sub">Administrator tools. Click any card to open.</div>' +
+          // Force-refresh row — fans out a "New version available" banner
+          // to every open landing-page tab across all 6 sites within ~3 min.
+          // Useful after adding/editing mocks or toggling center features.
+          '<div style="display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#fffbeb,#fef3c7);border:1px solid #fbbf24;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:12.5px;">' +
+            '<div style="flex:1;color:#78350f;line-height:1.45;">' +
+              '<strong>📢 Force-refresh all open tabs</strong> — fans a "New version available" banner to every open landing page across all 6 sites. Useful after adding mocks or toggling features.' +
+            '</div>' +
+            '<button id="smgForceReloadBtn" type="button" style="background:#d97706;color:#fff;border:0;border-radius:8px;padding:9px 14px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;box-shadow:0 4px 12px rgba(217,119,6,.3);">📢 Force refresh</button>' +
+          '</div>' +
           '<div id="smgGrid" class="smg-grid">' + cards + '</div>' +
         '</div>';
       document.body.appendChild(div);
       div.addEventListener('click', function (e) { if (e.target === div) { div.remove(); _removeSmgBackPill(); } });
       div.querySelector('#smgCloseBtn').onclick = function () { div.remove(); _removeSmgBackPill(); };
+      var _frBtn = div.querySelector('#smgForceReloadBtn');
+      if (_frBtn) _frBtn.onclick = function (e) { e.stopPropagation(); _smgBumpReloadVersion(_frBtn); };
       div.querySelectorAll('.smg-card').forEach(function (btn) {
         btn.addEventListener('click', function () {
           var idx = parseInt(btn.getAttribute('data-idx'), 10);
@@ -25607,6 +25669,11 @@
       box-shadow:0 8px 20px rgba(15,23,42,.08);
     }
     .mmg-card-icon { font-size:34px; line-height:1; }
+    /* CEFR uses an <img> flag instead of an emoji because regional-indicator
+       emojis don't render as flags on Windows Chrome. Sized to match the
+       emoji's visual footprint in the card; shrunk for the breadcrumb. */
+    .mmg-card-icon img.mmg-flag-icon { width:38px; height:auto; vertical-align:middle; border-radius:3px; box-shadow:0 1px 2px rgba(0,0,0,.15); }
+    #mmgBreadcrumb img.mmg-flag-icon { width:18px; height:auto; vertical-align:-3px; border-radius:2px; margin-right:2px; }
     .mmg-card-label { font-weight:700; color:#0f172a; font-size:14px; }
     .mmg-card-meta { font-size:11px; color:#64748b; }
     .mmg-card-soon { opacity:.45; cursor:not-allowed; }
@@ -25718,6 +25785,50 @@
     .mmg-empty-hint {
       color:#94a3b8; font-size:12px; font-style:italic; padding:8px 0;
     }
+    /* Indeterminate progress bar for the Import modal — Gemini call is atomic
+       server-side, so we can't show real percentage. The slide animation +
+       elapsed-time counter together signal "still alive, still working". */
+    .mmg-progress-bar {
+      height:5px; background:#e2e8f0; border-radius:3px; overflow:hidden;
+      margin-top:8px; position:relative;
+    }
+    .mmg-progress-fill {
+      position:absolute; top:0; left:0;
+      height:100%; width:30%;
+      background:linear-gradient(90deg, transparent, #2563eb 50%, transparent);
+      animation:mmgProgressSlide 1.8s linear infinite;
+    }
+    @keyframes mmgProgressSlide {
+      0%   { transform:translateX(-100%); }
+      100% { transform:translateX(433%); }
+    }
+    .mmg-progress-bar.success .mmg-progress-fill {
+      width:100%; background:#16a34a; animation:none;
+    }
+    .mmg-progress-bar.error .mmg-progress-fill {
+      width:100%; background:#dc2626; animation:none;
+    }
+    /* Horizontal sub-tabs inside a Part / Passage pane (Passage / Questions / Answers / …). */
+    .mmg-subtabs-bar {
+      display:flex; gap:4px; border-bottom:2px solid #e2e8f0;
+      margin:14px 0 0; padding:0; flex-wrap:wrap;
+    }
+    .mmg-subtab {
+      padding:8px 14px; background:transparent; border:0;
+      border-bottom:2.5px solid transparent; margin-bottom:-2px;
+      cursor:pointer; font-size:12.5px; font-weight:600; color:#64748b;
+      transition:all .12s ease; white-space:nowrap;
+    }
+    .mmg-subtab:hover { color:#0f172a; background:#f1f5f9; border-radius:6px 6px 0 0; }
+    .mmg-subtab.active {
+      color:#2563eb; border-bottom-color:#2563eb;
+      background:#fff; border-radius:6px 6px 0 0;
+    }
+    .mmg-subtab .mmg-subtab-count {
+      color:#94a3b8; font-weight:500; font-size:11px; margin-left:2px;
+    }
+    .mmg-subtab.active .mmg-subtab-count { color:#60a5fa; }
+    .mmg-subpane { padding-top:14px; }
     .mmg-detect-btn {
       background:#eff6ff; color:#1e40af; border:1px solid #93c5fd; border-radius:6px;
       padding:6px 12px; font-size:12px; font-weight:600; cursor:pointer;
@@ -25993,7 +26104,17 @@
           <button class="mmg-tab mmg-tab-cw mmg-tab-iw" data-tab="samples"  onclick="_mmgSwitchTab('samples')">Samples</button>
           <button class="mmg-tab mmg-tab-cw mmg-tab-iw" data-tab="vocab"    onclick="_mmgSwitchTab('vocab')">Vocabulary</button>
           <button class="mmg-tab mmg-tab-cw mmg-tab-iw mmg-tab-cs mmg-tab-is" data-tab="tokens"   onclick="_mmgSwitchTab('tokens')">Tokens</button>
-          <button class="mmg-tab mmg-tab-raw mmg-tab-cw mmg-tab-iw mmg-tab-cs mmg-tab-is" data-tab="raw" onclick="_mmgSwitchTab('raw')">⚙ Raw JSON</button>
+          <button class="mmg-tab mmg-tab-cr"           data-tab="cr_settings" onclick="_mmgSwitchTab('cr_settings')">Settings</button>
+          <button class="mmg-tab mmg-tab-cr"           data-tab="cr_part1"    onclick="_mmgSwitchTab('cr_part1')">Part 1</button>
+          <button class="mmg-tab mmg-tab-cr"           data-tab="cr_part2"    onclick="_mmgSwitchTab('cr_part2')">Part 2</button>
+          <button class="mmg-tab mmg-tab-cr"           data-tab="cr_part3"    onclick="_mmgSwitchTab('cr_part3')">Part 3</button>
+          <button class="mmg-tab mmg-tab-cr"           data-tab="cr_part4"    onclick="_mmgSwitchTab('cr_part4')">Part 4</button>
+          <button class="mmg-tab mmg-tab-cr"           data-tab="cr_part5"    onclick="_mmgSwitchTab('cr_part5')">Part 5</button>
+          <button class="mmg-tab mmg-tab-ir"           data-tab="ir_settings" onclick="_mmgSwitchTab('ir_settings')">Settings</button>
+          <button class="mmg-tab mmg-tab-ir"           data-tab="ir_p1"       onclick="_mmgSwitchTab('ir_p1')">Passage 1</button>
+          <button class="mmg-tab mmg-tab-ir"           data-tab="ir_p2"       onclick="_mmgSwitchTab('ir_p2')">Passage 2</button>
+          <button class="mmg-tab mmg-tab-ir"           data-tab="ir_p3"       onclick="_mmgSwitchTab('ir_p3')">Passage 3</button>
+          <button class="mmg-tab mmg-tab-raw mmg-tab-cw mmg-tab-iw mmg-tab-cs mmg-tab-is mmg-tab-cr mmg-tab-ir" data-tab="raw" onclick="_mmgSwitchTab('raw')">⚙ Raw JSON</button>
         </div>
         <div class="mmg-edit-panes">
 
@@ -26013,6 +26134,18 @@
         <div id="mmgPaneSpPart12" class="mmg-pane"></div>
         <div id="mmgPaneSpPart2"  class="mmg-pane"></div>
         <div id="mmgPaneSpPart3"  class="mmg-pane"></div>
+
+        <!-- Reading panes: CEFR has 5 parts, IELTS has 3 passages. -->
+        <div id="mmgPaneCrSettings" class="mmg-pane"></div>
+        <div id="mmgPaneCrPart1"    class="mmg-pane"></div>
+        <div id="mmgPaneCrPart2"    class="mmg-pane"></div>
+        <div id="mmgPaneCrPart3"    class="mmg-pane"></div>
+        <div id="mmgPaneCrPart4"    class="mmg-pane"></div>
+        <div id="mmgPaneCrPart5"    class="mmg-pane"></div>
+        <div id="mmgPaneIrSettings" class="mmg-pane"></div>
+        <div id="mmgPaneIrP1"       class="mmg-pane"></div>
+        <div id="mmgPaneIrP2"       class="mmg-pane"></div>
+        <div id="mmgPaneIrP3"       class="mmg-pane"></div>
 
         <!-- Raw JSON pane (the original textarea — kept as authoritative store + power-user fallback). -->
         <div id="mmgPaneRaw" class="mmg-pane mmg-pane-raw active" style="flex-direction:column;">
@@ -26046,6 +26179,68 @@
         <div style="padding:10px 18px;border-top:1px solid #e2e8f0;font-size:11px;color:#64748b;">Click ↶ Restore on any snapshot. Restoring also creates a new backup of the current state, so you can undo the restore.</div>
       </div>
     </div>
+
+    <!-- Import-from-file modal — multimodal AI transcription. Calls the
+         transcribe-mock Edge Function, which tries Gemini 2.5 Pro first
+         and falls back to GPT-4o on refusal / error / non-JSON output. -->
+    <div id="mmgImportModal" style="display:none;position:absolute;inset:0;background:rgba(15,23,42,.55);align-items:center;justify-content:center;padding:20px;z-index:10;">
+      <div style="background:#fff;border-radius:14px;width:100%;max-width:680px;max-height:88vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.4);">
+        <div style="padding:14px 18px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;gap:10px;">
+          <div style="font-size:15px;font-weight:700;flex:1;">✨ Import test from PDF / image</div>
+          <button onclick="_mmgImportClose()" style="background:none;border:0;font-size:20px;cursor:pointer;color:#64748b;">×</button>
+        </div>
+        <div style="flex:1;overflow-y:auto;padding:14px 18px;font-size:13px;">
+          <div style="margin-bottom:14px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+              <strong>Test content (1 or more files)</strong>
+              <span style="flex:1;color:#94a3b8;font-size:11px;font-weight:normal;"> · PDF, PNG, JPG, WebP</span>
+              <button onclick="_mmgImportPickFile('test')" class="mmg-add-btn" type="button">＋ Add file</button>
+            </div>
+            <div id="mmgImportTestFiles"></div>
+          </div>
+
+          <div style="margin-bottom:14px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+              <strong>Answer key (optional)</strong>
+              <span style="flex:1;color:#94a3b8;font-size:11px;font-weight:normal;"> · skip if your test file already includes the key</span>
+              <button onclick="_mmgImportPickFile('answer-key')" class="mmg-add-btn" type="button">＋ Add file</button>
+            </div>
+            <div id="mmgImportKeyFiles"></div>
+          </div>
+
+          <div class="mmg-field" style="margin-top:14px;">
+            <label for="mmgImportNotes">Notes for the AI (optional)</label>
+            <textarea id="mmgImportNotes" placeholder="e.g., 'Part 3 is matching-headings; the headings list is on page 4.'  Leave blank to use defaults." style="width:100%;min-height:60px;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font:13px sans-serif;resize:vertical;"></textarea>
+          </div>
+
+          <div id="mmgImportSizeRow" style="margin-top:12px;font-size:12px;color:#64748b;">Total: 0 MB / 20 MB</div>
+
+          <!-- Progress section: hidden until Import is clicked. Shows an
+               indeterminate progress bar + elapsed timer + phase text while
+               the AI is working, then turns green ✓ on success or red ✗ on
+               failure. Real percentage isn't possible (the AI call is atomic
+               server-side) so this is honest "still alive" feedback. -->
+          <div id="mmgImportProgressWrap" style="display:none;margin-top:14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 12px;">
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#0f172a;">
+              <span id="mmgImportPhaseText" style="flex:1;">⏳ Sending payload to Gemini 2.5 Pro…</span>
+              <span id="mmgImportElapsed" style="color:#64748b;font-size:12px;font-variant-numeric:tabular-nums;">0s</span>
+            </div>
+            <div id="mmgImportProgressBar" class="mmg-progress-bar"><div class="mmg-progress-fill"></div></div>
+            <div id="mmgImportPhaseSub" style="margin-top:6px;font-size:11px;color:#64748b;">Keep this tab open. Cancel only closes the modal — the request keeps running on the server.</div>
+          </div>
+
+          <div id="mmgImportStatus" style="margin-top:8px;font-size:12px;min-height:16px;"></div>
+        </div>
+
+        <div style="padding:12px 18px;border-top:1px solid #e2e8f0;display:flex;gap:8px;align-items:center;">
+          <span style="flex:1;font-size:11px;color:#64748b;">Up to 30 files · 20 MB total · Gemini 2.5 Pro with GPT-4o fallback (~30–60s typical)</span>
+          <button onclick="_mmgImportClose()" type="button" style="background:none;border:1px solid #cbd5e1;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;color:#475569;">Cancel</button>
+          <button id="mmgImportSubmitBtn" onclick="_mmgImportSubmit()" type="button" style="background:#2563eb;color:#fff;border:0;border-radius:8px;padding:7px 16px;font-size:12px;font-weight:700;cursor:pointer;">✨ Import</button>
+        </div>
+      </div>
+      <input type="file" id="mmgImportPickerTest" multiple accept="image/*,application/pdf" style="display:none;">
+      <input type="file" id="mmgImportPickerKey"  multiple accept="image/*,application/pdf" style="display:none;">
+    </div>
   </div>
 
   <script>
@@ -26064,9 +26259,14 @@
     // - skills: pick Speaking / Writing / Reading / Listening
     // - mocks: list of mock_tests rows for the chosen exam+skill combo
     window._mmgNav = { level: 'exams', exam: null, skill: null };
+    // CEFR uses an <img> for the flag because the regional-indicator emoji
+    // 🇪🇺/🇺🇿 doesn't render as a flag on Windows Chrome (shows letters
+    // "EU"/"UZ"). The Uzbek flag is hosted on our own GCS bucket so we don't
+    // depend on third-party CDNs for the admin-panel branding.
+    var _MMG_UZ_FLAG_URL = 'https://storage.googleapis.com/mockstream-listening-audio/LOGOS/flag%20UZB.webp';
     var _MMG_EXAMS = [
       { id: 'ielts', label: 'IELTS', icon: '🌍', color: '#dc2626' },
-      { id: 'cefr',  label: 'CEFR',  icon: '🇪🇺', color: '#2563eb' }
+      { id: 'cefr',  label: 'CEFR',  icon: '<img src="' + _MMG_UZ_FLAG_URL + '" alt="UZ" class="mmg-flag-icon">', color: '#2563eb' }
     ];
     var _MMG_SKILLS = [
       { id: 'speaking',  label: 'Speaking',  icon: '🎤', color: '#7c3aed' },
@@ -26359,7 +26559,9 @@
       'cefr-writing':   { tabClass: 'mmg-tab-cw', defaultTab: 'part1' },
       'ielts-writing':  { tabClass: 'mmg-tab-iw', defaultTab: 'iw_task1' },
       'cefr-speaking':  { tabClass: 'mmg-tab-cs', defaultTab: 'settings' },
-      'ielts-speaking': { tabClass: 'mmg-tab-is', defaultTab: 'settings' }
+      'ielts-speaking': { tabClass: 'mmg-tab-is', defaultTab: 'settings' },
+      'cefr-reading':   { tabClass: 'mmg-tab-cr', defaultTab: 'cr_settings' },
+      'ielts-reading':  { tabClass: 'mmg-tab-ir', defaultTab: 'ir_settings' }
     };
     // Which tab is currently visible. We need this to know which pane to
     // collect-from when the user clicks a different tab.
@@ -26390,14 +26592,18 @@
       settings:'Settings', part1:'Part1', t11:'T11', t12:'T12', t2:'T2',
       iw_task1:'IwTask1', iw_task2:'IwTask2',
       sp_part11:'SpPart11', sp_part12:'SpPart12', sp_part2:'SpPart2', sp_part3:'SpPart3',
+      cr_settings:'CrSettings', cr_part1:'CrPart1', cr_part2:'CrPart2', cr_part3:'CrPart3', cr_part4:'CrPart4', cr_part5:'CrPart5',
+      ir_settings:'IrSettings', ir_p1:'IrP1', ir_p2:'IrP2', ir_p3:'IrP3',
       samples:'Samples',
       vocab:'Vocab', tokens:'Tokens', raw:'Raw'
     };
 
     function _mmgSwitchTab(tabId) {
       // Flush whatever pane is currently visible back to the textarea so
-      // we never lose edits across a tab switch.
-      _mmgFlushStructuredToRaw();
+      // we never lose edits across a tab switch. If flush fails (a scoped
+      // JSON textarea in the reading editor has a parse error), stay on
+      // the current tab so the user can fix the broken JSON.
+      if (!_mmgFlushStructuredToRaw()) return;
       window._mmgActiveTab = tabId;
       // Toggle tab buttons.
       var btns = document.querySelectorAll('.mmg-tab');
@@ -26444,6 +26650,16 @@
           case 'sp_part12': _mmgCollectSpPart(md, 'part12'); break;
           case 'sp_part2':  _mmgCollectSpPart(md, 'part2');  break;
           case 'sp_part3':  _mmgCollectSpPart(md, 'part3');  break;
+          case 'cr_settings': _mmgCollectCrSettings(md); break;
+          case 'cr_part1':  _mmgCollectCrPart(md, 0); break;
+          case 'cr_part2':  _mmgCollectCrPart(md, 1); break;
+          case 'cr_part3':  _mmgCollectCrPart(md, 2); break;
+          case 'cr_part4':  _mmgCollectCrPart(md, 3); break;
+          case 'cr_part5':  _mmgCollectCrPart(md, 4); break;
+          case 'ir_settings': _mmgCollectIrSettings(md); break;
+          case 'ir_p1':     _mmgCollectIrPassage(md, 0); break;
+          case 'ir_p2':     _mmgCollectIrPassage(md, 1); break;
+          case 'ir_p3':     _mmgCollectIrPassage(md, 2); break;
           case 'samples':  _mmgCollectSamples(md); break;
           case 'vocab':    _mmgCollectVocab(md); break;
           case 'tokens':   _mmgCollectTokens(md); break;
@@ -26476,6 +26692,16 @@
         case 'sp_part12': _mmgRenderSpPart(md, 'part12'); break;
         case 'sp_part2':  _mmgRenderSpPart(md, 'part2');  break;
         case 'sp_part3':  _mmgRenderSpPart(md, 'part3');  break;
+        case 'cr_settings': _mmgRenderCrSettings(md); break;
+        case 'cr_part1':  _mmgRenderCrPart(md, 0); break;
+        case 'cr_part2':  _mmgRenderCrPart(md, 1); break;
+        case 'cr_part3':  _mmgRenderCrPart(md, 2); break;
+        case 'cr_part4':  _mmgRenderCrPart(md, 3); break;
+        case 'cr_part5':  _mmgRenderCrPart(md, 4); break;
+        case 'ir_settings': _mmgRenderIrSettings(md); break;
+        case 'ir_p1':     _mmgRenderIrPassage(md, 0); break;
+        case 'ir_p2':     _mmgRenderIrPassage(md, 1); break;
+        case 'ir_p3':     _mmgRenderIrPassage(md, 2); break;
         case 'samples':  _mmgRenderSamples(md); break;
         case 'vocab':    _mmgRenderVocab(md);  break;
         case 'tokens':   _mmgRenderTokens(md); break;
@@ -28223,6 +28449,575 @@
       if (resultEl) { resultEl.textContent = msg; resultEl.style.color = '#047857'; }
     }
 
+    // ═══════════════════════════════════════════════════════════════════════
+    //   Reading editor (CEFR Reading + IELTS Reading) — non-coder friendly.
+    //
+    //   Each Part / Passage tab surfaces real form fields for the concepts
+    //   that exist in the data (passage text, each question's hint / answer /
+    //   explanation / quote). The only remaining JSON area is "Other fields"
+    //   for things that genuinely vary by question type (matching statements,
+    //   MCQ options) — usually empty and labeled "leave alone if you don't
+    //   recognise it".
+    //
+    //   Source-of-truth pattern unchanged: textarea #mmgFldData holds canonical
+    //   mock_data JSON. Structured panes read on activation, flush on switch
+    //   or save. JSON parse failure on flush throws → flush returns false →
+    //   tab switch / save blocked, status shows the error.
+    // ═══════════════════════════════════════════════════════════════════════
+
+    function _mmgRenderCrSettings(md) {
+      var ti = (md.testInfo = md.testInfo || {});
+      var html = ''
+            + '<div style="background:linear-gradient(135deg,#eff6ff,#f0f9ff);border:1px solid #bfdbfe;border-radius:10px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;gap:12px;">'
+            +   '<div style="flex:1;font-size:12.5px;color:#1e3a8a;line-height:1.5;">'
+            +     '<strong>✨ Import from PDF / image</strong> — Upload a CEFR Reading test file (and optional answer key) and AI fills in the structured fields below. Saves manual transcription.'
+            +   '</div>'
+            +   '<button type="button" onclick="_mmgImportOpen()" style="background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(37,99,235,.3);white-space:nowrap;">✨ Import</button>'
+            + '</div>';
+      html += '<div class="mmg-section-title">CEFR Reading — test info</div>';
+      html += _mmgFieldText('Title',            'mmgCrTi_title',          ti.title,          'e.g., "CEFR B1-B2-C1 Reading Test 02".');
+      html += _mmgFieldText('Total questions',  'mmgCrTi_totalQuestions', ti.totalQuestions, 'Number — student-facing total (usually 35).');
+      html += _mmgFieldText('Total time (min)', 'mmgCrTi_totalTime',      ti.totalTime,      'Number of minutes (usually 60).');
+      html += _mmgFieldText('Parts',            'mmgCrTi_parts',          ti.parts,          'How many parts — usually 5.');
+      html += _mmgFieldText('Level',            'mmgCrTi_level',          ti.level,          'e.g., "B1-B2-C1".');
+      document.getElementById('mmgPaneCrSettings').innerHTML = html;
+    }
+    function _mmgCollectCrSettings(md) {
+      md.testInfo = md.testInfo || {};
+      var f = function (id) { var e = document.getElementById(id); return e ? e.value : undefined; };
+      var asNum = function (v) { var n = Number(v); return v === '' || !isFinite(n) ? v : n; };
+      if (f('mmgCrTi_title')          !== undefined) md.testInfo.title          = f('mmgCrTi_title');
+      if (f('mmgCrTi_totalQuestions') !== undefined) md.testInfo.totalQuestions = asNum(f('mmgCrTi_totalQuestions'));
+      if (f('mmgCrTi_totalTime')      !== undefined) md.testInfo.totalTime      = asNum(f('mmgCrTi_totalTime'));
+      if (f('mmgCrTi_parts')          !== undefined) md.testInfo.parts          = asNum(f('mmgCrTi_parts'));
+      if (f('mmgCrTi_level')          !== undefined) md.testInfo.level          = f('mmgCrTi_level');
+    }
+
+    // Keys covered by structured form sections (or hidden + auto-set).
+    // Anything else passes through the "Other" sub-tab JSON unchanged. Note
+    // `type` is intentionally NOT here — we don't surface it as an input but
+    // we want it visible in Other so power users can change it without
+    // diving into Raw. partNumber + title are hidden + auto-set on collect.
+    var _MMG_CR_PART_COVERED = { partNumber:1, title:1, questionRange:1, instruction:1, passage:1, questions:1, answers:1, explanations:1 };
+
+    function _mmgRenderCrPart(md, idx) {
+      var parts = (md.parts = md.parts || []);
+      while (parts.length <= idx) parts.push({});
+      var p = parts[idx] || {};
+      var n = idx + 1;
+      var paneId = 'mmgPaneCrPart' + n;
+      var scope  = 'crP' + n;
+
+      // Auto-fill values we no longer surface as inputs (keeps the saved
+      // mock_data shape stable even for fresh mocks).
+      if (p.partNumber == null)                       p.partNumber = n;
+      if (p.title == null || p.title === '')          p.title      = 'Part ' + n;
+
+      window._mmgCrActiveSub = window._mmgCrActiveSub || {};
+      var activeSub = window._mmgCrActiveSub[idx] || 'passage';
+
+      // ── Basics (always visible above the sub-tabs) ───────────────────
+      var html = '<div class="mmg-section-title">Part ' + n + '</div>';
+      html += _mmgFieldText('Question range',  'mmgCrP' + n + '_qr',    p.questionRange, 'e.g., "1-6". Tells the runner which question numbers this part covers.');
+      html += _mmgFieldArea('Instruction shown to student', 'mmgCrP' + n + '_instr', p.instruction, 'HTML allowed.', 80);
+
+      // ── Sub-tab bar ──────────────────────────────────────────────────
+      var questions    = Array.isArray(p.questions) ? p.questions : [];
+      var answers      = (p.answers && typeof p.answers === 'object' && !Array.isArray(p.answers)) ? p.answers : {};
+      var explanations = (p.explanations && typeof p.explanations === 'object' && !Array.isArray(p.explanations)) ? p.explanations : {};
+      var qCount       = questions.length;
+
+      var sb = function (subId, label, count) {
+        var ac = (subId === activeSub) ? ' active' : '';
+        var cs = (count != null) ? ' <span class="mmg-subtab-count">(' + count + ')</span>' : '';
+        return '<button type="button" class="mmg-subtab' + ac + '" data-sub="' + subId + '" onclick="_mmgSwitchSub(\'' + scope + '\', \'' + subId + '\')">' + label + cs + '</button>';
+      };
+      html += '<div class="mmg-subtabs-bar" data-scope="' + scope + '">'
+            +   sb('passage',      'Passage')
+            +   sb('questions',    'Questions',    qCount)
+            +   sb('answers',      'Answers')
+            +   sb('explanations', 'Explanations')
+            +   sb('other',        'Other')
+            + '</div>';
+
+      var subOpen = function (subId) {
+        var disp = (subId === activeSub) ? 'block' : 'none';
+        return '<div class="mmg-subpane" data-scope="' + scope + '" data-sub="' + subId + '" style="display:' + disp + ';">';
+      };
+
+      // ── Passage sub-pane ─────────────────────────────────────────────
+      var pass = (p.passage && typeof p.passage === 'object') ? p.passage : {};
+      html += subOpen('passage');
+      html += _mmgFieldText('Passage title', 'mmgCrP' + n + '_passT', pass.title, 'Heading shown above the text. Leave blank if there\'s no separate heading.');
+      html += _mmgFieldArea('Passage content', 'mmgCrP' + n + '_passC', pass.content, 'HTML allowed. For fill-in gaps use: <span class="gap" data-gap="N">_____(N)_____</span>', 280);
+      html += '</div>';
+
+      // ── Questions sub-pane ───────────────────────────────────────────
+      html += subOpen('questions');
+      html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">'
+            +   '<span class="mmg-field-help" style="flex:1;color:#64748b;">' + qCount + ' question(s). The hint is shown next to the question number to the student.</span>'
+            +   '<button type="button" class="mmg-add-btn" onclick="_mmgCrAddQuestion(' + idx + ')">＋ Add question</button>'
+            + '</div>';
+      if (qCount === 0) {
+        html += '<div class="mmg-empty-hint">No questions yet. Click <em>＋ Add question</em> to start. Matching-style parts (matching-headings, matching-paragraphs) keep their data in <strong>Other</strong> instead — empty here is fine.</div>';
+      } else {
+        for (var i = 0; i < questions.length; i++) {
+          var q = questions[i] || {};
+          var qid = (q.id == null) ? (i + 1) : q.id;
+          html += '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 14px;margin-bottom:10px;">';
+          html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">'
+                +   '<span style="font-weight:700;color:#0f172a;font-size:13px;flex:1;">Question ' + qid + '</span>'
+                +   '<button type="button" onclick="_mmgCrRemoveQuestion(' + idx + ',' + qid + ')" title="Remove question + its answer + its explanation" '
+                +     'style="background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;border-radius:5px;padding:3px 9px;font-size:11px;font-weight:600;cursor:pointer;">× Remove</button>'
+                + '</div>';
+          html += _mmgFieldText('Hint', 'mmgCrP' + n + '_q' + qid + '_hint', q.hint, '');
+          html += '</div>';
+        }
+      }
+      html += '</div>';
+
+      // ── Answers sub-pane ─────────────────────────────────────────────
+      html += subOpen('answers');
+      html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">Comma-separated for alternative spellings (e.g., "labour, labor").</div>';
+      if (qCount === 0) {
+        html += '<div class="mmg-empty-hint">Add questions first (in the Questions sub-tab) to see input slots here.</div>';
+      } else {
+        html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;">';
+        for (var ai = 0; ai < questions.length; ai++) {
+          var qa   = questions[ai] || {};
+          var qaid = (qa.id == null) ? (ai + 1) : qa.id;
+          var ansArr = Array.isArray(answers[qaid]) ? answers[qaid] : (Array.isArray(answers[String(qaid)]) ? answers[String(qaid)] : []);
+          var ansStr = ansArr.join(', ');
+          html += '<div style="display:flex;align-items:center;gap:6px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:6px 10px;">'
+                +   '<label for="mmgCrP' + n + '_q' + qaid + '_ans" style="font-weight:700;font-size:12px;color:#0f172a;min-width:32px;">Q' + qaid + '</label>'
+                +   '<input type="text" id="mmgCrP' + n + '_q' + qaid + '_ans" value="' + _mmgEsc(ansStr) + '" style="flex:1;padding:5px 8px;border:1px solid #cbd5e1;border-radius:5px;font-size:12px;">'
+                + '</div>';
+        }
+        html += '</div>';
+      }
+      html += '</div>';
+
+      // ── Explanations sub-pane ───────────────────────────────────────
+      html += subOpen('explanations');
+      html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">Why each answer is correct. Both fields are optional but help students learn from review.</div>';
+      if (qCount === 0) {
+        html += '<div class="mmg-empty-hint">Add questions first to see input slots here.</div>';
+      } else {
+        for (var ei = 0; ei < questions.length; ei++) {
+          var qe   = questions[ei] || {};
+          var qeid = (qe.id == null) ? (ei + 1) : qe.id;
+          var expl = (explanations['q' + qeid] && typeof explanations['q' + qeid] === 'object') ? explanations['q' + qeid] : {};
+          html += '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 14px;margin-bottom:10px;">';
+          html += '<div style="font-weight:700;color:#0f172a;font-size:13px;margin-bottom:6px;">Question ' + qeid + '</div>';
+          html += _mmgFieldArea('Explanation — why this is the answer', 'mmgCrP' + n + '_q' + qeid + '_etext', expl.text, '', 60);
+          html += _mmgFieldArea('Supporting quote from the passage',    'mmgCrP' + n + '_q' + qeid + '_equote', expl.quote, '', 50);
+          html += '</div>';
+        }
+      }
+      html += '</div>';
+
+      // ── Other sub-pane ──────────────────────────────────────────────
+      var other = {};
+      for (var k in p) {
+        if (!_MMG_CR_PART_COVERED[k]) other[k] = p[k];
+      }
+      html += subOpen('other');
+      html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">For things that vary by question type — <code>type</code>, matching statements / headings, MCQ options. Most parts have just <code>{ "type": "…" }</code> here. Leave alone if you don\'t recognise it.</div>';
+      html += '<div class="mmg-field"><textarea id="mmgCrP' + n + '_other" spellcheck="false" '
+            + 'style="min-height:240px;font:12px ui-monospace,monospace;width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;resize:vertical;">'
+            + _mmgEsc(JSON.stringify(other, null, 2)) + '</textarea></div>';
+      html += '</div>';
+
+      document.getElementById(paneId).innerHTML = html;
+    }
+
+    function _mmgCollectCrPart(md, idx) {
+      md.parts = md.parts || [];
+      while (md.parts.length <= idx) md.parts.push({});
+      var n = idx + 1;
+      var f = function (id) { var e = document.getElementById(id); return e ? e.value : undefined; };
+
+      // 1) Parse "Other" JSON FIRST so a parse error throws before mutation.
+      var otherStr = f('mmgCrP' + n + '_other');
+      var otherParsed = {};
+      if (otherStr !== undefined && otherStr.trim() !== '') {
+        try { otherParsed = JSON.parse(otherStr); }
+        catch (e) {
+          _mmgStatus('CEFR Reading Part ' + n + ' "Other" — JSON parse error: ' + e.message, '#dc2626');
+          throw e;
+        }
+        if (otherParsed === null || typeof otherParsed !== 'object' || Array.isArray(otherParsed)) {
+          _mmgStatus('CEFR Reading Part ' + n + ' "Other" must be a JSON object {…}.', '#dc2626');
+          throw new Error('other-not-object');
+        }
+      }
+
+      // 2) Capture hidden values BEFORE the reset (no form inputs surface
+      // partNumber / title; we want existing values preserved if present,
+      // otherwise fall back to defaults derived from the part index).
+      var p = md.parts[idx] || (md.parts[idx] = {});
+      var preservedPartNumber = p.partNumber;
+      var preservedTitle      = p.title;
+
+      // 3) Reset the part — drop everything, then layer back on.
+      for (var existingKey in p) delete p[existingKey];
+
+      // Layer A: Other JSON (passthrough — includes `type` and any
+      // type-specific extras like matching statements / MCQ options).
+      for (var ok in otherParsed) p[ok] = otherParsed[ok];
+
+      // Layer B: hidden auto-set fields (preserve previous value, else default).
+      p.partNumber = (preservedPartNumber != null)              ? preservedPartNumber : n;
+      p.title      = (preservedTitle != null && preservedTitle !== '') ? preservedTitle      : 'Part ' + n;
+
+      // Layer C: top form fields.
+      if (f('mmgCrP' + n + '_qr')    !== undefined) p.questionRange = f('mmgCrP' + n + '_qr');
+      if (f('mmgCrP' + n + '_instr') !== undefined) p.instruction   = f('mmgCrP' + n + '_instr');
+
+      // Layer D: passage. Only attach if at least one field has content
+      // (avoids creating an empty {} for parts that have no passage).
+      var passT = f('mmgCrP' + n + '_passT');
+      var passC = f('mmgCrP' + n + '_passC');
+      if (passT !== undefined || passC !== undefined) {
+        var passObj = {};
+        if (passT !== undefined && passT !== '') passObj.title   = passT;
+        if (passC !== undefined && passC !== '') passObj.content = passC;
+        if (Object.keys(passObj).length > 0) p.passage = passObj;
+      }
+
+      // Layer E: questions / answers / explanations — driven by hint fields in DOM.
+      // All sub-panes are in DOM with display:none for the inactive ones, so
+      // their inputs are still discoverable via querySelectorAll.
+      var qHints = document.querySelectorAll('[id^="mmgCrP' + n + '_q"][id$="_hint"]');
+      if (qHints.length > 0) {
+        var newQuestions = [];
+        var newAnswers = {};
+        var newExplanations = {};
+        for (var qi = 0; qi < qHints.length; qi++) {
+          var qF = qHints[qi];
+          var m = qF.id.match(/_q(\d+)_hint$/);
+          if (!m) continue;
+          var qid = parseInt(m[1], 10);
+          var qObj = { id: qid };
+          if (qF.value !== '') qObj.hint = qF.value;
+          newQuestions.push(qObj);
+
+          var aEl = document.getElementById('mmgCrP' + n + '_q' + qid + '_ans');
+          if (aEl) {
+            var arr = (aEl.value || '').split(',').map(function (s) { return s.trim(); }).filter(function (s) { return s.length > 0; });
+            if (arr.length > 0) newAnswers[String(qid)] = arr;
+          }
+
+          var eT = document.getElementById('mmgCrP' + n + '_q' + qid + '_etext');
+          var eQ = document.getElementById('mmgCrP' + n + '_q' + qid + '_equote');
+          if (eT || eQ) {
+            var explObj = {};
+            if (eT && eT.value !== '') explObj.text  = eT.value;
+            if (eQ && eQ.value !== '') explObj.quote = eQ.value;
+            if (Object.keys(explObj).length > 0) newExplanations['q' + qid] = explObj;
+          }
+        }
+        newQuestions.sort(function (a, b) { return (a.id|0) - (b.id|0); });
+        p.questions = newQuestions;
+        p.answers = newAnswers;
+        p.explanations = newExplanations;
+      }
+    }
+
+    // Append a new empty question to a CEFR Reading part. Captures any
+    // in-progress edits first (collect), then pushes a new question with
+    // id = max(existing) + 1, then re-renders. Mirrors _mmgSpAddQuestion.
+    window._mmgCrAddQuestion = function (partIdx) {
+      var md = _mmgGetMockData(); if (!md) return;
+      try { _mmgCollectCrPart(md, partIdx); }
+      catch (e) { return; } // status already shown by collector
+      md.parts = md.parts || [];
+      while (md.parts.length <= partIdx) md.parts.push({});
+      var p = md.parts[partIdx];
+      p.questions = Array.isArray(p.questions) ? p.questions : [];
+      var maxId = 0;
+      for (var i = 0; i < p.questions.length; i++) {
+        var qidExisting = parseInt(p.questions[i] && p.questions[i].id, 10);
+        if (!isNaN(qidExisting) && qidExisting > maxId) maxId = qidExisting;
+      }
+      p.questions.push({ id: maxId + 1, hint: '' });
+      _mmgSetMockData(md);
+      _mmgRenderCrPart(md, partIdx);
+    };
+
+    // Remove a question + its answer + its explanation from a CEFR Reading
+    // part. Confirm dialog because backups are the only undo path.
+    window._mmgCrRemoveQuestion = function (partIdx, qid) {
+      if (!confirm('Remove Question ' + qid + ' and its answer / explanation? You can undo via Backups…')) return;
+      var md = _mmgGetMockData(); if (!md) return;
+      try { _mmgCollectCrPart(md, partIdx); }
+      catch (e) { return; }
+      if (!md.parts || !md.parts[partIdx]) return;
+      var p = md.parts[partIdx];
+      p.questions = (Array.isArray(p.questions) ? p.questions : []).filter(function (q) {
+        return !(q && parseInt(q.id, 10) === qid);
+      });
+      if (p.answers && typeof p.answers === 'object')        delete p.answers[String(qid)];
+      if (p.explanations && typeof p.explanations === 'object') delete p.explanations['q' + qid];
+      _mmgSetMockData(md);
+      _mmgRenderCrPart(md, partIdx);
+    };
+
+    // Generic horizontal sub-tab switcher — used by both CEFR Reading parts
+    // (scope = 'crP1'..'crP5') and IELTS Reading passages (scope = 'irP1'..'irP3').
+    // All sub-panes stay in DOM with display:none for inactive; the collector
+    // can still discover every input via querySelectorAll on a full save.
+    // State is stored per-scope so re-renders (e.g. after "+ Add question")
+    // restore the user's chosen sub-tab instead of resetting to the first.
+    window._mmgSwitchSub = function (scope, subId) {
+      if (scope.indexOf('crP') === 0) {
+        window._mmgCrActiveSub = window._mmgCrActiveSub || {};
+        var ci = parseInt(scope.slice(3), 10) - 1;
+        if (!isNaN(ci)) window._mmgCrActiveSub[ci] = subId;
+      } else if (scope.indexOf('irP') === 0) {
+        window._mmgIrActiveSub = window._mmgIrActiveSub || {};
+        var ii = parseInt(scope.slice(3), 10) - 1;
+        if (!isNaN(ii)) window._mmgIrActiveSub[ii] = subId;
+      }
+      var bar = document.querySelector('.mmg-subtabs-bar[data-scope="' + scope + '"]');
+      if (bar) {
+        var btns = bar.querySelectorAll('.mmg-subtab');
+        for (var i = 0; i < btns.length; i++) {
+          btns[i].classList.toggle('active', btns[i].getAttribute('data-sub') === subId);
+        }
+      }
+      var panes = document.querySelectorAll('.mmg-subpane[data-scope="' + scope + '"]');
+      for (var j = 0; j < panes.length; j++) {
+        panes[j].style.display = panes[j].getAttribute('data-sub') === subId ? 'block' : 'none';
+      }
+    };
+
+    function _mmgRenderIrSettings(md) {
+      var ti = (md.testInfo = md.testInfo || {});
+      var html = ''
+            + '<div style="background:linear-gradient(135deg,#eff6ff,#f0f9ff);border:1px solid #bfdbfe;border-radius:10px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;gap:12px;">'
+            +   '<div style="flex:1;font-size:12.5px;color:#1e3a8a;line-height:1.5;">'
+            +     '<strong>✨ Import from PDF / image</strong> — Upload an IELTS Reading test file (and optional answer key) and AI fills in the structured fields below. Saves manual transcription.'
+            +   '</div>'
+            +   '<button type="button" onclick="_mmgImportOpen()" style="background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(37,99,235,.3);white-space:nowrap;">✨ Import</button>'
+            + '</div>';
+      html += '<div class="mmg-section-title">IELTS Reading — test info</div>';
+      html += _mmgFieldText('Total questions',  'mmgIrTi_totalQuestions', ti.totalQuestions, 'Usually 40.');
+      html += _mmgFieldText('Total time (min)', 'mmgIrTi_totalTime',      ti.totalTime,      'Usually 60.');
+      html += _mmgFieldText('Passages',         'mmgIrTi_passages',       ti.passages,       'Usually 3.');
+      document.getElementById('mmgPaneIrSettings').innerHTML = html;
+    }
+    function _mmgCollectIrSettings(md) {
+      md.testInfo = md.testInfo || {};
+      var f = function (id) { var e = document.getElementById(id); return e ? e.value : undefined; };
+      var asNum = function (v) { var n = Number(v); return v === '' || !isFinite(n) ? v : n; };
+      if (f('mmgIrTi_totalQuestions') !== undefined) md.testInfo.totalQuestions = asNum(f('mmgIrTi_totalQuestions'));
+      if (f('mmgIrTi_totalTime')      !== undefined) md.testInfo.totalTime      = asNum(f('mmgIrTi_totalTime'));
+      if (f('mmgIrTi_passages')       !== undefined) md.testInfo.passages       = asNum(f('mmgIrTi_passages'));
+    }
+
+    // For IELTS, passages have a single big HTML "passage" string (not nested),
+    // so we extract it as its own textarea (no JSON escaping needed for the
+    // user). correctAnswers becomes a question-by-question grid. questionSections
+    // stays as JSON because each section's shape varies (completion / tfng /
+    // matching-headings / etc.) and flattening every type would 5× the code.
+    var _MMG_IR_PASS_COVERED = { id:1, title:1, shortName:1, difficulty:1, questionRange:1, timeRecommended:1, passageHeader:1, passage:1, correctAnswers:1, questionSections:1 };
+
+    function _mmgRenderIrPassage(md, idx) {
+      var passages = (md.passages = md.passages || []);
+      while (passages.length <= idx) passages.push({});
+      var p = passages[idx] || {};
+      var n = idx + 1;
+      var paneId = 'mmgPaneIrP' + n;
+      var scope  = 'irP' + n;
+      var ph = (p.passageHeader && typeof p.passageHeader === 'object') ? p.passageHeader : {};
+
+      window._mmgIrActiveSub = window._mmgIrActiveSub || {};
+      var activeSub = window._mmgIrActiveSub[idx] || 'passage';
+
+      // ── Basics (always visible above the sub-tabs) ───────────────────
+      var html = '<div class="mmg-section-title">Passage ' + n + '</div>';
+      html += _mmgFieldText('id',                         'mmgIrP' + n + '_id',     p.id == null ? n : p.id, 'Numeric passage id (1, 2, 3).');
+      html += _mmgFieldText('Title',                      'mmgIrP' + n + '_title',  p.title,                 'e.g., "The Industrial Revolution in Britain".');
+      html += _mmgFieldText('Short name',                 'mmgIrP' + n + '_short',  p.shortName,             'Brief tag used in nav.');
+      html += _mmgFieldText('Difficulty',                 'mmgIrP' + n + '_diff',   p.difficulty,            'Free text — Easy / Medium / Hard.');
+      html += _mmgFieldText('Question range',             'mmgIrP' + n + '_qr',     p.questionRange,         'e.g., "1-13".');
+      html += _mmgFieldText('Time recommended (min)',     'mmgIrP' + n + '_time',   p.timeRecommended,       'Usually 20.');
+      html += _mmgFieldText('Passage-header title',       'mmgIrP' + n + '_phT',    ph.title,                'e.g., "READING PASSAGE 1".');
+      html += _mmgFieldArea('Passage-header instruction', 'mmgIrP' + n + '_phI',    ph.instruction,          'HTML allowed; describes timing.', 60);
+
+      // Derive question ids from BOTH correctAnswers AND questionSections so a
+      // fresh passage with no answers yet still gets input slots as soon as
+      // questions are added to questionSections.
+      var ca    = (p.correctAnswers && typeof p.correctAnswers === 'object' && !Array.isArray(p.correctAnswers)) ? p.correctAnswers : {};
+      var qsArr = Array.isArray(p.questionSections) ? p.questionSections : [];
+      var qIdSet = {};
+      Object.keys(ca).forEach(function (k) {
+        var mk = k.match(/^q(\d+)$/);
+        if (mk) qIdSet[parseInt(mk[1], 10)] = true;
+      });
+      qsArr.forEach(function (sec) {
+        if (sec && Array.isArray(sec.questions)) {
+          sec.questions.forEach(function (q) {
+            if (q && q.id != null && !isNaN(parseInt(q.id, 10))) qIdSet[parseInt(q.id, 10)] = true;
+          });
+        }
+      });
+      var sortedQIds = Object.keys(qIdSet).map(function (k) { return parseInt(k, 10); }).sort(function (a, b) { return a - b; });
+      var qCount = sortedQIds.length;
+      var sCount = qsArr.length;
+
+      // ── Sub-tab bar ──────────────────────────────────────────────────
+      var sb = function (subId, label, count) {
+        var ac = (subId === activeSub) ? ' active' : '';
+        var cs = (count != null) ? ' <span class="mmg-subtab-count">(' + count + ')</span>' : '';
+        return '<button type="button" class="mmg-subtab' + ac + '" data-sub="' + subId + '" onclick="_mmgSwitchSub(\'' + scope + '\', \'' + subId + '\')">' + label + cs + '</button>';
+      };
+      html += '<div class="mmg-subtabs-bar" data-scope="' + scope + '">'
+            +   sb('passage',  'Passage HTML')
+            +   sb('answers',  'Correct answers',   qCount)
+            +   sb('sections', 'Question sections', sCount)
+            +   sb('other',    'Other')
+            + '</div>';
+
+      var subOpen = function (subId) {
+        var disp = (subId === activeSub) ? 'block' : 'none';
+        return '<div class="mmg-subpane" data-scope="' + scope + '" data-sub="' + subId + '" style="display:' + disp + ';">';
+      };
+
+      // ── Passage HTML sub-pane ────────────────────────────────────────
+      html += subOpen('passage');
+      html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">Just the HTML — paragraph tags etc. No JSON escaping needed.</div>';
+      html += '<div class="mmg-field"><textarea id="mmgIrP' + n + '_passage" spellcheck="false" '
+            + 'style="min-height:380px;font:12.5px ui-monospace,monospace;width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;resize:vertical;line-height:1.55;">'
+            + _mmgEsc(typeof p.passage === 'string' ? p.passage : '') + '</textarea></div>';
+      html += '</div>';
+
+      // ── Correct answers sub-pane ─────────────────────────────────────
+      html += subOpen('answers');
+      html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">Comma-separated for alternatives (e.g., "LABOUR, LABOR").</div>';
+      if (qCount === 0) {
+        html += '<div class="mmg-empty-hint">No questions yet. Add them in the Question sections sub-tab — input slots will appear here after you save.</div>';
+      } else {
+        html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;">';
+        for (var ci = 0; ci < sortedQIds.length; ci++) {
+          var qid = sortedQIds[ci];
+          var arr = Array.isArray(ca['q' + qid]) ? ca['q' + qid] : [];
+          var str = arr.join(', ');
+          html += '<div style="display:flex;align-items:center;gap:6px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:6px 10px;">'
+                +   '<label for="mmgIrP' + n + '_ca_q' + qid + '" style="font-weight:700;font-size:12px;color:#0f172a;min-width:32px;">Q' + qid + '</label>'
+                +   '<input type="text" id="mmgIrP' + n + '_ca_q' + qid + '" value="' + _mmgEsc(str) + '" style="flex:1;padding:5px 8px;border:1px solid #cbd5e1;border-radius:5px;font-size:12px;">'
+                + '</div>';
+        }
+        html += '</div>';
+      }
+      html += '</div>';
+
+      // ── Question sections sub-pane (stays JSON — shapes vary by type) ─
+      html += subOpen('sections');
+      html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">Each section has a <code>type</code> (completion / tfng / matching-headings / etc.) and a list of questions. Different types have different fields, which is why this stays as JSON.</div>';
+      html += '<div class="mmg-field"><textarea id="mmgIrP' + n + '_qs" spellcheck="false" '
+            + 'style="min-height:380px;font:12px ui-monospace,monospace;width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;resize:vertical;">'
+            + _mmgEsc(JSON.stringify(qsArr, null, 2)) + '</textarea></div>';
+      html += '</div>';
+
+      // ── Other sub-pane ───────────────────────────────────────────────
+      var other = {};
+      for (var k in p) {
+        if (!_MMG_IR_PASS_COVERED[k]) other[k] = p[k];
+      }
+      html += subOpen('other');
+      html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">Anything else not covered above. Usually <code>{}</code>.</div>';
+      html += '<div class="mmg-field"><textarea id="mmgIrP' + n + '_other" spellcheck="false" '
+            + 'style="min-height:200px;font:12px ui-monospace,monospace;width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;resize:vertical;">'
+            + _mmgEsc(JSON.stringify(other, null, 2)) + '</textarea></div>';
+      html += '</div>';
+
+      document.getElementById(paneId).innerHTML = html;
+    }
+
+    function _mmgCollectIrPassage(md, idx) {
+      md.passages = md.passages || [];
+      while (md.passages.length <= idx) md.passages.push({});
+      var n = idx + 1;
+      var f = function (id) { var e = document.getElementById(id); return e ? e.value : undefined; };
+      var asNum = function (v) { var n2 = Number(v); return v === '' || !isFinite(n2) ? v : n2; };
+
+      // Helper: parse a JSON-bearing textarea, throwing on parse error or wrong root type.
+      function tryParse(label, fieldId, mustBe /* 'object'|'array' */) {
+        var s = f(fieldId);
+        if (s === undefined || s.trim() === '') {
+          return mustBe === 'array' ? [] : {};
+        }
+        var parsed;
+        try { parsed = JSON.parse(s); }
+        catch (e) {
+          _mmgStatus(label + ' — JSON parse error: ' + e.message, '#dc2626');
+          throw e;
+        }
+        if (mustBe === 'object' && (parsed === null || typeof parsed !== 'object' || Array.isArray(parsed))) {
+          _mmgStatus(label + ' must be a JSON object {…}.', '#dc2626');
+          throw new Error(label + ': not an object');
+        }
+        if (mustBe === 'array' && !Array.isArray(parsed)) {
+          _mmgStatus(label + ' must be a JSON array [..].', '#dc2626');
+          throw new Error(label + ': not an array');
+        }
+        return parsed;
+      }
+
+      // 1) Parse JSON-bearing textareas FIRST so any parse error throws before mutation.
+      var qsParsed    = tryParse('IELTS Passage ' + n + ' "Question sections"', 'mmgIrP' + n + '_qs',    'array');
+      var otherParsed = tryParse('IELTS Passage ' + n + ' "Other fields"',      'mmgIrP' + n + '_other', 'object');
+
+      // 2) Reset and re-apply.
+      var p = md.passages[idx] || (md.passages[idx] = {});
+      for (var existingKey in p) delete p[existingKey];
+
+      // Layer A: Other JSON.
+      for (var ok in otherParsed) p[ok] = otherParsed[ok];
+
+      // Layer B: top fields.
+      if (f('mmgIrP' + n + '_id')    !== undefined) p.id              = asNum(f('mmgIrP' + n + '_id'));
+      if (f('mmgIrP' + n + '_title') !== undefined) p.title           = f('mmgIrP' + n + '_title');
+      if (f('mmgIrP' + n + '_short') !== undefined) p.shortName       = f('mmgIrP' + n + '_short');
+      if (f('mmgIrP' + n + '_diff')  !== undefined) p.difficulty      = f('mmgIrP' + n + '_diff');
+      if (f('mmgIrP' + n + '_qr')    !== undefined) p.questionRange   = f('mmgIrP' + n + '_qr');
+      if (f('mmgIrP' + n + '_time')  !== undefined) p.timeRecommended = asNum(f('mmgIrP' + n + '_time'));
+
+      // Layer C: passageHeader.
+      var phT = f('mmgIrP' + n + '_phT');
+      var phI = f('mmgIrP' + n + '_phI');
+      if (phT !== undefined || phI !== undefined) {
+        var phObj = {};
+        if (phT !== undefined && phT !== '') phObj.title       = phT;
+        if (phI !== undefined && phI !== '') phObj.instruction = phI;
+        if (Object.keys(phObj).length > 0) p.passageHeader = phObj;
+      }
+
+      // Layer D: passage HTML (single string).
+      var passHtml = f('mmgIrP' + n + '_passage');
+      if (passHtml !== undefined) p.passage = passHtml;
+
+      // Layer E: question sections (parsed array).
+      p.questionSections = qsParsed;
+
+      // Layer F: correctAnswers — gathered from individual q-inputs in DOM.
+      var caInputs = document.querySelectorAll('[id^="mmgIrP' + n + '_ca_q"]');
+      if (caInputs.length > 0) {
+        var newCa = {};
+        for (var ci = 0; ci < caInputs.length; ci++) {
+          var inp = caInputs[ci];
+          var m = inp.id.match(/_ca_(q\d+)$/);
+          if (!m) continue;
+          var key = m[1];
+          var arr = (inp.value || '').split(',').map(function (s) { return s.trim(); }).filter(function (s) { return s.length > 0; });
+          if (arr.length > 0) newCa[key] = arr;
+        }
+        if (Object.keys(newCa).length > 0) p.correctAnswers = newCa;
+      }
+    }
+
     // Re-init tabs whenever the user changes the mock type — switching between
     // 'cefr-writing' and any other skill flips the structured editor on/off.
     document.addEventListener('DOMContentLoaded', function() {
@@ -28266,6 +29061,23 @@
       var titleV  = document.getElementById('mmgFldTitle').value.trim();
       var statusV = document.getElementById('mmgFldStatus').value;
       var dataStr = document.getElementById('mmgFldData').value;
+
+      // Pre-save validation — mock_tests has NOT NULL on mock_number + title,
+      // so an empty value would come back as a cryptic 500 from admin-mocks.
+      // Catch it here and tell the user exactly what to fix.
+      if (numV === '' || !isFinite(parseInt(numV, 10))) {
+        _mmgStatus('Mock # is required (must be a number). Fill it in at the top of this dialog, then Save.', '#dc2626');
+        var numEl = document.getElementById('mmgFldNum');
+        try { numEl.focus(); numEl.scrollIntoView({ block:'center', behavior:'smooth' }); } catch(e) {}
+        return;
+      }
+      if (titleV === '') {
+        _mmgStatus('Title is required. Fill it in at the top of this dialog, then Save.', '#dc2626');
+        var titleEl = document.getElementById('mmgFldTitle');
+        try { titleEl.focus(); titleEl.scrollIntoView({ block:'center', behavior:'smooth' }); } catch(e) {}
+        return;
+      }
+
       var dataV;
       try { dataV = JSON.parse(dataStr); } catch (e) { _mmgStatus('JSON parse error: ' + e.message, '#dc2626'); return; }
       _mmgStatus('Saving…');
@@ -28295,6 +29107,10 @@
         }
         _mmgEditClose();
         await _mmgRefresh();
+        // Re-run the picker upgraders so the saved mock appears in
+        // the in-memory pickers without a page reload. Fire-and-forget
+        // — UI is already closed; finishing the fetch is non-blocking.
+        try { await window._mmgRefreshAllPickers(); } catch (e) { console.warn('picker refresh failed:', e); }
       } catch (e) {
         _mmgStatus('Save failed: ' + e.message, '#dc2626');
       }
@@ -28352,6 +29168,480 @@
         _mmgStatus('Restore failed: ' + e.message, '#dc2626');
       }
     }
+    // ═══════════════════════════════════════════════════════════════════════
+    //   Import-from-file (AI transcription) — frontend for transcribe-mock
+    //   Edge Function. Posts a list of base64-encoded files (image / PDF) +
+    //   exam_type + optional notes; receives mock_data back, replaces the
+    //   editor's textarea + structured fields, status badge shows which
+    //   model handled it (Gemini 2.5 Pro or GPT-4o fallback).
+    // ═══════════════════════════════════════════════════════════════════════
+    var _MMG_TRANSCRIBE_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/transcribe-mock';
+    window._mmgImportState = { files: [], examType: '' };
+
+    function _mmgImportOpen() {
+      var m = window._mmgEditing;
+      if (!m || (m.mock_type !== 'cefr-reading' && m.mock_type !== 'ielts-reading')) {
+        alert('Import is currently available for CEFR Reading and IELTS Reading mocks only.');
+        return;
+      }
+      window._mmgImportState = { files: [], examType: m.mock_type };
+      document.getElementById('mmgImportNotes').value = '';
+      document.getElementById('mmgImportStatus').textContent = '';
+      document.getElementById('mmgImportStatus').style.color = '#64748b';
+      var btn = document.getElementById('mmgImportSubmitBtn');
+      btn.disabled = false; btn.textContent = '✨ Import';
+      _mmgImportRender();
+      document.getElementById('mmgImportModal').style.display = 'flex';
+      // Wire pickers (idempotent — only bind once).
+      ['Test', 'Key'].forEach(function (group) {
+        var picker = document.getElementById('mmgImportPicker' + group);
+        if (!picker._mmgBound) {
+          picker._mmgBound = true;
+          picker.addEventListener('change', function () {
+            _mmgImportFilesPicked(group === 'Test' ? 'test' : 'answer-key', picker.files);
+            picker.value = '';
+          });
+        }
+      });
+    }
+    window._mmgImportOpen = _mmgImportOpen;
+
+    window._mmgImportClose = function () {
+      document.getElementById('mmgImportModal').style.display = 'none';
+    };
+
+    window._mmgImportPickFile = function (group) {
+      var pickerId = group === 'test' ? 'mmgImportPickerTest' : 'mmgImportPickerKey';
+      document.getElementById(pickerId).click();
+    };
+
+    function _mmgFileToBase64(file) {
+      return new Promise(function (resolve, reject) {
+        var fr = new FileReader();
+        fr.onload = function () {
+          // result is "data:<mime>;base64,<data>" — strip the prefix
+          var s = String(fr.result || '');
+          var idx = s.indexOf(',');
+          resolve(idx >= 0 ? s.slice(idx + 1) : s);
+        };
+        fr.onerror = function () { reject(fr.error || new Error('read failed')); };
+        fr.readAsDataURL(file);
+      });
+    }
+
+    async function _mmgImportFilesPicked(group, fileList) {
+      var status = document.getElementById('mmgImportStatus');
+      status.style.color = '#64748b';
+      status.textContent = 'Reading file(s)…';
+      try {
+        for (var i = 0; i < fileList.length; i++) {
+          var f = fileList[i];
+          var b64 = await _mmgFileToBase64(f);
+          window._mmgImportState.files.push({
+            name: f.name,
+            mime: f.type || 'application/octet-stream',
+            base64: b64,
+            group: group,
+            size: f.size
+          });
+        }
+        status.textContent = '';
+      } catch (e) {
+        status.style.color = '#dc2626';
+        status.textContent = 'Failed to read file: ' + (e.message || String(e));
+      }
+      _mmgImportRender();
+    }
+
+    window._mmgImportRemoveFile = function (idx) {
+      window._mmgImportState.files.splice(idx, 1);
+      _mmgImportRender();
+    };
+
+    function _mmgImportRender() {
+      var st = window._mmgImportState;
+      function row(f, idxInState) {
+        var sizeKb = (f.size / 1024).toFixed(1);
+        var icon = f.mime.startsWith('image/') ? '🖼️' : '📄';
+        return '<div style="display:flex;align-items:center;gap:6px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:12px;">'
+             +   '<span>' + icon + '</span>'
+             +   '<span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#0f172a;">' + _mmgEsc(f.name) + '</span>'
+             +   '<span style="color:#94a3b8;font-size:11px;">' + sizeKb + ' KB</span>'
+             +   '<button type="button" onclick="_mmgImportRemoveFile(' + idxInState + ')" title="Remove" style="background:none;border:0;color:#dc2626;font-size:14px;cursor:pointer;padding:2px 6px;line-height:1;">×</button>'
+             + '</div>';
+      }
+      var testHtml = '', keyHtml = '';
+      st.files.forEach(function (f, i) {
+        if (f.group === 'test')           testHtml += row(f, i);
+        else if (f.group === 'answer-key') keyHtml += row(f, i);
+      });
+      document.getElementById('mmgImportTestFiles').innerHTML = testHtml
+        || '<div style="color:#94a3b8;font-size:12px;font-style:italic;padding:6px 0;">No files yet — click ＋ Add file</div>';
+      document.getElementById('mmgImportKeyFiles').innerHTML = keyHtml
+        || '<div style="color:#94a3b8;font-size:12px;font-style:italic;padding:6px 0;">No answer-key files</div>';
+      var totalBytes = st.files.reduce(function (s, f) { return s + f.size; }, 0);
+      var totalMb = (totalBytes / 1024 / 1024).toFixed(2);
+      var sizeRow = document.getElementById('mmgImportSizeRow');
+      if (totalBytes > 20 * 1024 * 1024) {
+        sizeRow.style.color = '#dc2626';
+        sizeRow.textContent = 'Total: ' + totalMb + ' MB / 20 MB — over limit, remove some files';
+      } else {
+        sizeRow.style.color = '#64748b';
+        sizeRow.textContent = 'Total: ' + totalMb + ' MB / 20 MB';
+      }
+    }
+
+    var _mmgImportTimer = null;
+    var _mmgImportStart = 0;
+
+    function _mmgImportProgressStart() {
+      _mmgImportStart = Date.now();
+      var wrap = document.getElementById('mmgImportProgressWrap');
+      var bar  = document.getElementById('mmgImportProgressBar');
+      wrap.style.display = 'block';
+      bar.className = 'mmg-progress-bar';
+      document.getElementById('mmgImportPhaseText').textContent = '⏳ Sending payload to Gemini 2.5 Pro…';
+      document.getElementById('mmgImportElapsed').textContent = '0s';
+      if (_mmgImportTimer) clearInterval(_mmgImportTimer);
+      _mmgImportTimer = setInterval(function () {
+        var elapsed = Math.floor((Date.now() - _mmgImportStart) / 1000);
+        document.getElementById('mmgImportElapsed').textContent = elapsed + 's';
+        var phase;
+        if      (elapsed < 5)   phase = '⏳ Sending payload to Gemini 2.5 Pro…';
+        else if (elapsed < 25)  phase = '🤖 Gemini is reading your file(s)…';
+        else if (elapsed < 60)  phase = '🧠 Gemini is generating the structured JSON… (typical: 30–60s)';
+        else if (elapsed < 90)  phase = '⏰ Still working — large tests can take 60–120s…';
+        else if (elapsed < 130) phase = '⌛ Almost there — patience, please…';
+        else                    phase = '⚠ Taking longer than expected. Function timeout is 150s — may abort soon.';
+        document.getElementById('mmgImportPhaseText').textContent = phase;
+      }, 250);
+    }
+
+    function _mmgImportProgressDone(modelUsed, fallbackReason) {
+      if (_mmgImportTimer) { clearInterval(_mmgImportTimer); _mmgImportTimer = null; }
+      var elapsed = Math.floor((Date.now() - _mmgImportStart) / 1000);
+      var bar = document.getElementById('mmgImportProgressBar');
+      bar.className = 'mmg-progress-bar success';
+      document.getElementById('mmgImportElapsed').textContent = elapsed + 's';
+      var label = (modelUsed === 'gpt-4o')
+        ? '✓ Imported via GPT-4o (Gemini fallback)'
+        : '✓ Imported via Gemini 2.5 Pro';
+      document.getElementById('mmgImportPhaseText').textContent = label;
+      var sub = document.getElementById('mmgImportPhaseSub');
+      sub.textContent = (modelUsed === 'gpt-4o' && fallbackReason)
+        ? 'Gemini fallback reason: ' + String(fallbackReason).slice(0, 200)
+        : 'Done in ' + elapsed + 's. Closing this dialog…';
+    }
+
+    function _mmgImportProgressFailed(msg) {
+      if (_mmgImportTimer) { clearInterval(_mmgImportTimer); _mmgImportTimer = null; }
+      var elapsed = Math.floor((Date.now() - _mmgImportStart) / 1000);
+      var bar = document.getElementById('mmgImportProgressBar');
+      bar.className = 'mmg-progress-bar error';
+      document.getElementById('mmgImportElapsed').textContent = elapsed + 's';
+      document.getElementById('mmgImportPhaseText').textContent = '✗ Failed';
+      document.getElementById('mmgImportPhaseSub').textContent = String(msg).slice(0, 400);
+    }
+
+    async function _mmgImportSubmit() {
+      var st = window._mmgImportState;
+      var status = document.getElementById('mmgImportStatus');
+      var btn    = document.getElementById('mmgImportSubmitBtn');
+
+      var testCount = st.files.filter(function (f) { return f.group === 'test'; }).length;
+      if (testCount === 0) {
+        status.style.color = '#dc2626';
+        status.textContent = 'Add at least one test-content file.';
+        return;
+      }
+      var totalBytes = st.files.reduce(function (s, f) { return s + f.size; }, 0);
+      if (totalBytes > 20 * 1024 * 1024) {
+        status.style.color = '#dc2626';
+        status.textContent = 'Total payload exceeds 20 MB. Remove some files.';
+        return;
+      }
+      if (!window._mmgPasscode) {
+        status.style.color = '#dc2626';
+        status.textContent = 'Admin passcode missing — close + reopen the panel and try again.';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = '⏳ Working…';
+      status.textContent = '';
+      _mmgImportProgressStart();
+
+      var notes = document.getElementById('mmgImportNotes').value.trim();
+      var payload = {
+        adminPasscode: window._mmgPasscode,
+        exam_type:     st.examType,
+        notes:         notes,
+        files: st.files.map(function (f) {
+          return { name: f.name, mime: f.mime, base64: f.base64, group: f.group };
+        })
+      };
+
+      try {
+        var r = await fetch(_MMG_TRANSCRIBE_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type':  'application/json',
+            'apikey':        _MMG_ANON,
+            'Authorization': 'Bearer ' + _MMG_ANON
+          },
+          body: JSON.stringify(payload)
+        });
+        var j = await r.json().catch(function () { return { error: 'bad_response' }; });
+        if (!r.ok || j.error) {
+          var detail = j.detail || j.fallback_reason || j.gpt_error || j.gemini_error;
+          var msg = (j.error || ('HTTP ' + r.status)) + (detail ? ' — ' + String(detail).slice(0, 240) : '');
+          throw new Error(msg);
+        }
+
+        if (!window._mmgEditing) throw new Error('No active editor — close + reopen.');
+        window._mmgEditing.mock_data = j.mock_data;
+        document.getElementById('mmgFldData').value = JSON.stringify(j.mock_data, null, 2);
+        _mmgInitTabs();
+
+        // For NEW mocks (no id yet): auto-fill Mock # + Title so the user
+        // doesn't get caught by the not-null DB constraint at Save time.
+        // Existing mocks keep whatever's already in those fields.
+        if (!window._mmgEditing.id) {
+          var titleField = document.getElementById('mmgFldTitle');
+          var numField   = document.getElementById('mmgFldNum');
+          if (titleField && titleField.value.trim() === '') {
+            var aiTitle = j.mock_data && j.mock_data.testInfo && j.mock_data.testInfo.title;
+            titleField.value = aiTitle && String(aiTitle).trim()
+              ? String(aiTitle).trim()
+              : ((st.examType === 'cefr-reading') ? 'CEFR Reading Mock' : 'IELTS Reading Mock');
+          }
+          if (numField && numField.value.trim() === '') {
+            try {
+              var sbUrl = 'https://zknyukkbtbcqgvkgjktb.supabase.co/rest/v1/mock_tests'
+                        + '?mock_type=eq.' + encodeURIComponent(st.examType)
+                        + '&select=mock_number&order=mock_number.desc&limit=1';
+              var rr = await fetch(sbUrl, {
+                headers: { apikey: _MMG_ANON, Authorization: 'Bearer ' + _MMG_ANON }
+              });
+              if (rr.ok) {
+                var arr = await rr.json();
+                var nextN = (arr && arr.length > 0 && arr[0].mock_number != null)
+                  ? Number(arr[0].mock_number) + 1 : 1;
+                numField.value = String(nextN);
+              }
+            } catch (_e) { /* best-effort; user can still type */ }
+          }
+        }
+
+        _mmgImportProgressDone(j.model_used, j.fallback_reason);
+        var modelLabel = (j.model_used === 'gpt-4o')
+          ? '✓ Imported via GPT-4o (Gemini fallback)'
+          : '✓ Imported via Gemini 2.5 Pro';
+        _mmgStatus(modelLabel + ' — review and Save when ready.', '#16a34a');
+        // Linger briefly so user sees the green checkmark, then close.
+        setTimeout(_mmgImportClose, 1400);
+      } catch (e) {
+        var em = e && e.message || String(e);
+        _mmgImportProgressFailed(em);
+        // Diagnose Failed-to-fetch / network errors with a hint that's
+        // actually actionable instead of letting the user wonder why.
+        if (/Failed to fetch|NetworkError|net::|520/i.test(em)) {
+          document.getElementById('mmgImportPhaseSub').textContent =
+            'Network error reaching the AI server (Cloudflare 520 / fetch failed). Usually a transient blip — try Import again. If it keeps happening, your file may be hitting an upstream limit.';
+        }
+        btn.disabled = false;
+        btn.textContent = '✨ Import';
+      }
+    }
+    window._mmgImportSubmit = _mmgImportSubmit;
+
+    // ═══════════════════════════════════════════════════════════════════════
+    //   "New version available" banner + manual force-reload trigger.
+    //
+    //   Two independent triggers, same banner:
+    //     1. Code-deploy detection — polls site/sw.js every ~3 min and
+    //        compares CACHE_NAME to the value captured at page load. When a
+    //        Netlify deploy lands with a bumped version, the banner appears.
+    //     2. Manual admin-fired refresh — admins click "📢 Force refresh" in
+    //        Site Management → admin-mocks bumps a counter in
+    //        site_settings.force_reload_version. The same poller picks up
+    //        the change and shows the banner.
+    //
+    //   Banner is rendered ONLY on landing.html (this file). Runner pages
+    //   (Reading Mocks, Speaking Mocks, etc.) don't include this script, so
+    //   students mid-exam are never disturbed.
+    //
+    //   Click "Refresh" → caches.delete + SW unregister + location.reload(),
+    //   producing fully fresh HTML/JS/data on the next render.
+    // ═══════════════════════════════════════════════════════════════════════
+    (function newVersionBanner() {
+      // Inject the banner DOM + CSS once, hidden by default.
+      var bannerHtml =
+        '<div id="mmgVerBanner" style="position:fixed;top:0;left:0;right:0;z-index:99999;display:none;'
+      +   'background:linear-gradient(135deg,#0ea5e9,#7c3aed);color:#fff;'
+      +   'box-shadow:0 4px 16px rgba(15,23,42,.25);transform:translateY(-100%);'
+      +   'transition:transform .3s ease;font:600 13.5px system-ui,-apple-system,Segoe UI,sans-serif;">'
+      +   '<div style="max-width:1100px;margin:0 auto;padding:11px 16px;display:flex;align-items:center;gap:12px;">'
+      +     '<span>🔔</span>'
+      +     '<span id="mmgVerBannerMsg" style="flex:1;line-height:1.3;">A new version of Mock Stream is available.</span>'
+      +     '<button id="mmgVerRefresh" type="button" style="background:#fff;color:#0ea5e9;border:0;border-radius:7px;padding:7px 14px;font-size:12.5px;font-weight:700;cursor:pointer;">🔄 Refresh</button>'
+      +     '<button id="mmgVerDismiss" type="button" title="Dismiss until next change" style="background:transparent;border:0;color:rgba(255,255,255,.85);font-size:18px;cursor:pointer;padding:2px 6px;line-height:1;">×</button>'
+      +   '</div>'
+      + '</div>';
+      var holder = document.createElement('div');
+      holder.innerHTML = bannerHtml;
+      document.body.insertBefore(holder.firstChild, document.body.firstChild);
+
+      var bannerEl  = document.getElementById('mmgVerBanner');
+      var refreshEl = document.getElementById('mmgVerRefresh');
+      var dismissEl = document.getElementById('mmgVerDismiss');
+
+      function showBanner(msg) {
+        document.getElementById('mmgVerBannerMsg').textContent = msg || 'A new version of Mock Stream is available.';
+        bannerEl.style.display = 'block';
+        // Force reflow so the transition kicks in.
+        void bannerEl.offsetWidth;
+        bannerEl.style.transform = 'translateY(0)';
+      }
+      function hideBanner() {
+        bannerEl.style.transform = 'translateY(-100%)';
+        setTimeout(function () { bannerEl.style.display = 'none'; }, 300);
+      }
+      // Dismiss → hide; the same banner re-appears on the NEXT version change
+      // (we update `seen` to current values so we don't re-fire for the same one).
+      dismissEl.addEventListener('click', function () {
+        seenSwVer  = currentSwVer;
+        seenForceVer = currentForceVer;
+        hideBanner();
+      });
+      // Refresh → drop SW caches, unregister SW, hard reload.
+      refreshEl.addEventListener('click', async function () {
+        refreshEl.disabled = true;
+        refreshEl.textContent = '⏳ Refreshing…';
+        try {
+          if ('caches' in window) {
+            var keys = await caches.keys();
+            await Promise.all(keys.map(function (k) { return caches.delete(k); }));
+          }
+        } catch (e) { console.warn('cache clear failed:', e); }
+        try {
+          if (navigator.serviceWorker) {
+            var regs = await navigator.serviceWorker.getRegistrations();
+            await Promise.all(regs.map(function (r) { return r.unregister(); }));
+          }
+        } catch (e) { console.warn('sw unregister failed:', e); }
+        location.reload();
+      });
+
+      // Capture current values (page-load snapshot). Anything different on
+      // a later poll → show the banner.
+      var seenSwVer = '', seenForceVer = '';
+      var currentSwVer = '', currentForceVer = '';
+
+      async function fetchSwVersion() {
+        try {
+          var r = await fetch('sw.js?t=' + Date.now(), { cache: 'no-cache' });
+          if (!r.ok) return '';
+          var txt = await r.text();
+          var m = txt.match(/CACHE_NAME\s*=\s*['"]([^'"]+)['"]/);
+          return m ? m[1] : '';
+        } catch (e) { return ''; }
+      }
+      async function fetchForceVersion() {
+        try {
+          var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+          var KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+          var r = await fetch(SB + '/rest/v1/site_settings?key=eq.force_reload_version&select=value', {
+            headers: { apikey: KEY, Authorization: 'Bearer ' + KEY },
+            cache: 'no-cache'
+          });
+          if (!r.ok) return '';
+          var arr = await r.json();
+          return (arr && arr[0] && arr[0].value) ? String(arr[0].value) : '';
+        } catch (e) { return ''; }
+      }
+      async function snapshotInitial() {
+        currentSwVer    = await fetchSwVersion();
+        currentForceVer = await fetchForceVersion();
+        seenSwVer    = currentSwVer;
+        seenForceVer = currentForceVer;
+        // console.debug('[ver] initial', { sw: seenSwVer, force: seenForceVer });
+      }
+      async function pollOnce() {
+        var sw = await fetchSwVersion();
+        var fc = await fetchForceVersion();
+        if (sw)  currentSwVer    = sw;
+        if (fc)  currentForceVer = fc;
+        var newCode  = sw && sw !== seenSwVer    && seenSwVer    !== '';
+        var newForce = fc && fc !== seenForceVer && seenForceVer !== '';
+        if (newCode && newForce) showBanner('New version available (code + admin push) — refresh to apply.');
+        else if (newCode)        showBanner('A new code version is available — refresh to apply.');
+        else if (newForce)       showBanner('Admin pushed new content — refresh to see the latest mocks / settings.');
+      }
+      // Page-load snapshot, then 3-min poll. Tab focus also retriggers
+      // an extra check (cheap, helps if user tabs back after ~hours).
+      snapshotInitial().then(function () {
+        setInterval(pollOnce, 180000); // every 3 min
+        document.addEventListener('visibilitychange', function () {
+          if (document.visibilityState === 'visible') pollOnce();
+        });
+      });
+    })();
+
+    // Manual force-reload — bumps site_settings.force_reload_version via
+    // admin-mocks. All landing-page tabs (own + other admins, students)
+    // see the banner within ~3 minutes (or instantly when they tab back).
+    window._smgBumpReloadVersion = async function (btnEl) {
+      function reuseOrPrompt(cb) {
+        if (window._mmgPasscode) return cb(window._mmgPasscode);
+        if (typeof _mmgShowPasscodeModal === 'function') {
+          _mmgShowPasscodeModal(function (pc) { window._mmgPasscode = (pc || '').trim(); cb(window._mmgPasscode); });
+        } else {
+          var pc = prompt('Super-admin passcode:');
+          if (!pc) return;
+          window._mmgPasscode = pc.trim();
+          cb(window._mmgPasscode);
+        }
+      }
+      reuseOrPrompt(async function (passcode) {
+        if (!passcode) return;
+        if (btnEl) { btnEl.disabled = true; btnEl.textContent = '⏳ Sending…'; }
+        try {
+          var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+          var KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+          var r = await fetch(SB + '/functions/v1/admin-mocks', {
+            method: 'POST',
+            headers: {
+              'Content-Type':  'application/json',
+              'apikey':        KEY,
+              'Authorization': 'Bearer ' + KEY
+            },
+            body: JSON.stringify({ action: 'bump_reload_version', adminPasscode: passcode })
+          });
+          var j = await r.json().catch(function () { return { error: 'bad_response' }; });
+          if (!r.ok || j.error) {
+            if (r.status === 401) window._mmgPasscode = '';
+            throw new Error(j.error || ('HTTP ' + r.status));
+          }
+          // Brief inline confirmation on the button itself — no modal alert.
+          // The same admin will also see the slide-down banner via the next
+          // polling cycle (or instantly on the next tab-focus event).
+          if (btnEl) {
+            btnEl.textContent = '✓ Sent (v' + j.version + ')';
+            btnEl.style.background = '#16a34a';
+            setTimeout(function () {
+              btnEl.disabled = false;
+              btnEl.textContent = '📢 Force refresh';
+              btnEl.style.background = '#d97706';
+            }, 2500);
+          }
+        } catch (e) {
+          // Errors still surface as alert — they're rare and need visibility.
+          alert('Failed: ' + (e.message || e));
+          if (btnEl) { btnEl.disabled = false; btnEl.textContent = '📢 Force refresh'; }
+        }
+      });
+    };
   </script>
 
 </body>
