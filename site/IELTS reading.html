@@ -6397,19 +6397,62 @@
                 temp.innerHTML = html;
 
                 var paragraphs = temp.querySelectorAll('p');
-                var isFirstParagraph = true;
 
-                paragraphs.forEach(function (p) {
+                // Detect lettered-paragraph mode: A, B, C, … in sequence at
+                // the start of consecutive <p> elements (allow a leading
+                // sub-caption that has no letter prefix). The Gemini
+                // transcriber emits "<p>A Content...</p>" with a single
+                // space; older mocks used "<p>A\nContent</p>" with a
+                // newline; both should style the leading letter as a bold,
+                // larger sigil so paragraphs visibly map to the question
+                // letters (matching / matching-headings tasks).
+                var letterRe = /^([A-Z])(\s+)\S/;
+                var strongRe = /^<strong>([A-Z])<\/strong>/i;
+                var letterStartIdx = -1;
+                for (var i = 0; i < paragraphs.length; i++) {
+                    var raw = paragraphs[i].innerHTML.trim();
+                    var txt = paragraphs[i].textContent.trim();
+                    if (strongRe.test(raw) || letterRe.test(txt)) {
+                        letterStartIdx = i;
+                        break;
+                    }
+                }
+                var letteredMode = false;
+                if (letterStartIdx >= 0 && paragraphs.length - letterStartIdx >= 2) {
+                    // First detected letter must be 'A' for it to be a
+                    // valid passage-letter run.
+                    var firstHtml = paragraphs[letterStartIdx].innerHTML.trim();
+                    var firstTxt  = paragraphs[letterStartIdx].textContent.trim();
+                    var firstLetter = (strongRe.exec(firstHtml) || letterRe.exec(firstTxt) || [, ''])[1];
+                    if (firstLetter === 'A') {
+                        letteredMode = true;
+                        for (var j = 1; j < paragraphs.length - letterStartIdx; j++) {
+                            var pj = paragraphs[letterStartIdx + j];
+                            var rawJ = pj.innerHTML.trim();
+                            var txtJ = pj.textContent.trim();
+                            var matched = strongRe.exec(rawJ) || letterRe.exec(txtJ);
+                            var expected = String.fromCharCode('A'.charCodeAt(0) + j);
+                            if (!matched || matched[1] !== expected) {
+                                letteredMode = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                var seenSubCaption = false;
+                paragraphs.forEach(function (p, idx) {
                     var text = p.innerHTML.trim();
+                    var textContent = p.textContent.trim();
 
-                    // Check if first paragraph is a sub-caption (short, no paragraph letter, descriptive)
-                    if (isFirstParagraph) {
-                        isFirstParagraph = false;
-                        // Sub-caption: short paragraph without letter prefix, usually italic/descriptive
-                        if (text.length < 200 && !/^[A-Z]\s*\n/.test(text) && !/^[A-Z]\s*</.test(text) && !/^<strong>[A-Z]<\/strong>/.test(text)) {
-                            // Check if it doesn't start with typical content indicators
+                    // Sub-caption styling — only paragraphs BEFORE the
+                    // lettered run (or, if no lettered run, only the very
+                    // first paragraph).
+                    var beforeLetterRun = letteredMode ? (idx < letterStartIdx) : (!seenSubCaption && idx === 0);
+                    if (beforeLetterRun) {
+                        seenSubCaption = true;
+                        if (text.length < 200 && !letterRe.test(textContent) && !strongRe.test(text)) {
                             if (!/^(In \d|The |When |Although |One |It |This |However|While )/i.test(text) || text.length < 150) {
-                                // Looks like a sub-caption - make it italic
                                 p.style.fontStyle = 'italic';
                                 p.style.marginBottom = '20px';
                                 return;
@@ -6417,11 +6460,26 @@
                         }
                     }
 
-                    // Check for paragraph letters at the start (A, B, C, etc.)
-                    // Pattern: starts with single letter followed by newline or whitespace
+                    // Promote the leading letter to a bold sigil when in
+                    // lettered mode. Already-strong-tagged letters get an
+                    // inline-style upgrade so size matches.
+                    if (letteredMode && idx >= letterStartIdx) {
+                        if (strongRe.test(text)) {
+                            p.innerHTML = text.replace(/^<strong>([A-Z])<\/strong>\s*/i,
+                                '<strong style="font-size:1.2em; margin-right:8px;">$1</strong>');
+                        } else {
+                            // Replace leading "X " (letter + whitespace) at
+                            // the very start of innerHTML with a styled
+                            // strong tag. Use a regex anchored to start.
+                            p.innerHTML = p.innerHTML.replace(/^(\s*)([A-Z])(\s+)/,
+                                '$1<strong style="font-size:1.2em; margin-right:8px;">$2</strong>');
+                        }
+                        return;
+                    }
+
+                    // Legacy format: "X\n" (letter + newline). Keep working.
                     var letterMatch = text.match(/^([A-Z])\s*\n/);
                     if (letterMatch) {
-                        // Replace the letter with bold version
                         p.innerHTML = text.replace(/^([A-Z])\s*\n/, '<strong style="font-size: 1.1em;">$1</strong><br>');
                     }
                 });

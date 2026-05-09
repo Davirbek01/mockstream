@@ -197,6 +197,11 @@ function buildPrompt(examType: string, notes: string, shape: string): string {
   - "passageHeader.instruction" must be the timing line, e.g. \`"You should spend about 20 minutes on <strong>Questions 1-13</strong>, which are based on Reading Passage 1 below."\`. If the source omits this line, write the standard one above with the right question range.
   - The actual content title (e.g., "The Industrial Revolution in Britain") goes ONLY in "passages[i].title". Do NOT also put it in "passageHeader.title".
   - The "passage" HTML must contain ONLY the body paragraphs (no <h1>/<h2> with the content title, since the runner renders that separately from passages[i].title).
+
+13. **Lettered paragraphs** — when the source passage labels each paragraph with a capital letter (A, B, C, … — typical for "matching" and "matching-headings" question types), wrap the leading letter in a <strong> tag immediately inside the <p>, followed by ONE space, then the paragraph text. Example:
+\`<p><strong>A</strong> At some time in their lives, nearly all New Zealanders will have to attend an after-hours clinic…</p>\`
+\`<p><strong>B</strong> The irony is, New Zealand started out being ahead of the game…</p>\`
+Do this only when the source actually shows the letter as a paragraph marker (you'll see it visually beside the paragraph in the original). Do NOT invent letters for passages that aren't lettered. Do NOT put the letter inside a separate <p> or as plain text "A ".
 ` : '';
 
   return `You are a faithful exam-content transcriber. The user has uploaded image(s) and / or PDF(s) of a ${examType} reading mock test that they own or have licensed.
