@@ -125,29 +125,80 @@ const IELTS_SHAPE = `{
   "testInfo": { "totalQuestions": number, "totalTime": number, "passages": number },
   "passages": [
     {
-      "id": number,
-      "title": string,
-      "shortName": string,
-      "difficulty": string,                   // Easy | Medium | Hard
-      "questionRange": string,                // e.g. "1-13"
-      "timeRecommended": number,              // minutes; usually 20
-      "passageHeader": { "title": string, "instruction": string },   // instruction may include HTML
-      "passage": string,                      // full HTML — paragraphs wrapped in <p>…</p>
+      "id": number,                                  // 1, 2, 3
+      "title": string,                               // The CONTENT title of the passage, e.g. "The Industrial Revolution in Britain"
+      "shortName": string,                           // Brief nav tag, derived from the content title
+      "difficulty": string,                          // "Easy" | "Medium" | "Hard"
+      "questionRange": string,                       // e.g. "1-13"
+      "timeRecommended": number,                     // minutes — almost always 20
+
+      "passageHeader": {
+        "title": string,                             // **ALWAYS the literal label "READING PASSAGE 1" / "READING PASSAGE 2" / "READING PASSAGE 3"** — never the content title
+        "instruction": string                        // The timing line, e.g. "You should spend about 20 minutes on <strong>Questions 1-13</strong>, which are based on Reading Passage 1 below." HTML allowed. NEVER omit; if the source omits it, write the standard 20-minute line.
+      },
+
+      "passage": string,                             // Full HTML of the body content only. Paragraphs wrapped in <p>…</p>. Do NOT repeat the content title inside the HTML — it already lives in passages[i].title and is rendered by the runner.
+
       "questionSections": [
         {
-          "type": string,                     // completion | tfng | matching-headings | multiple-choice | …
-          "typeName": string,                 // human label (e.g., "Note Completion")
-          "title": string,                    // e.g., "Questions 1-7"
-          "instruction": string,              // HTML
-          "questions": [ { "id": number, "text": string } ]
+          "type": string,                            // EXACTLY one of: "completion" | "tfng" | "ynng" | "matching-headings" | "matching" | "multiple-choice"
+          "typeName": string,                        // Human label, e.g. "Note Completion", "Sentence Completion", "Summary Completion", "Flowchart Completion", "True/False/Not Given", "Yes/No/Not Given", "Matching Headings", "Matching Information", "Matching Features", "Multiple Choice"
+          "title": string,                           // e.g. "Questions 1-7"
+          "instruction": string,                     // Full HTML instruction (use <br> for line breaks, <strong> for emphasis, exactly as in the source).
+
+          "boxTitle": string,                        // For completion sections only: the heading printed above the notes / table / flowchart (e.g., "Britain's Industrial Revolution"). Empty string for tfng / matching / mcq.
+
+          "headingsList": [string],                  // For "matching-headings" ONLY: the list of headings the student picks from (e.g., ["Action already taken by the UN", "Marketing the hydrogen car", …]). EMPTY ARRAY for every other type.
+
+          "featuresList": [string],                  // For "matching" ONLY: the list of letters / labels students match TO. Two common shapes: a) plain letter list when matching statements to passage paragraphs ["A", "B", "C", "D", "E"]; b) labelled list when matching to people / theories ["A. Ian McCrae", "B. Nigel Millar", "C. Richard Medlicott", …]. EMPTY ARRAY for every other type.
+
+          "questions": [
+            { "id": number, "text": string }         // text rules per type:
+                                                     //   • completion: include the literal placeholder "{INPUT}" exactly where each gap appears
+                                                     //   • tfng / ynng: text = the statement to evaluate
+                                                     //   • matching / matching-headings: text = the statement / description students match
+                                                     //   • multiple-choice: text = the question stem (the A/B/C/D options live in a separate "options" array if present, otherwise embed them in <strong>A</strong> … markers)
+          ]
         }
       ],
-      "correctAnswers": { "q1": [string], "q2": [string] }
+
+      "correctAnswers": { "q1": [string], "q2": [string] }    // string array allows alternative spellings ("LABOUR" / "LABOR")
     }
   ]
 }`;
 
 function buildPrompt(examType: string, notes: string, shape: string): string {
+  const isIelts = examType === 'ielts-reading';
+  const isCefr  = examType === 'cefr-reading';
+
+  // Gap-marker rule differs by exam: CEFR uses span tags, IELTS uses {INPUT}.
+  const gapRule = isIelts
+    ? `4. **Fill-in-the-blank gaps in question text use the literal placeholder "{INPUT}"** — exactly that, no variation. Example: "A greater supply of {INPUT} was required to power steam engines." Do NOT use HTML span tags.`
+    : `4. **Fill-in-the-blank gaps in passage HTML use exactly:** <span class="gap" data-gap="N">_____(N)_____</span>  — where N is the question number. Do NOT vary the format.`;
+
+  // Per-exam-type guidance for question-type detection + section structure.
+  const ieltsTypeGuide = isIelts ? `
+11. **IELTS question-type detection** — read each section's instruction text and pick the type from these patterns. Then populate the type-specific fields:
+
+  | Source instruction looks like… | type | Required extras |
+  |---|---|---|
+  | "Complete the notes/sentences/summary/table/flow-chart below. Choose ONE WORD ONLY / NO MORE THAN TWO WORDS…" | "completion" | "boxTitle" = the heading above the notes/table; "questions" use {INPUT} placeholders |
+  | "Do the following statements agree with the information / claims in Reading Passage X? … TRUE / FALSE / NOT GIVEN" | "tfng" | (none) |
+  | "Do the following statements agree with the views/claims of the writer? … YES / NO / NOT GIVEN" | "ynng" | (none) |
+  | "Reading Passage X has Y paragraphs, A-Z. Choose the correct heading for paragraphs A-F from the list of headings below. … i, ii, iii…" | "matching-headings" | "headingsList" = the i-ix headings list verbatim |
+  | "Reading Passage X has Y paragraphs, A-Z. Which paragraph contains the following information? Write the correct letter, A-F…" | "matching" | "featuresList" = ["A", "B", "C", "D", "E"] (one entry per paragraph letter) |
+  | "Look at the following statements and the list of people/theories/etc. Match each statement with the correct X, A-H." | "matching" | "featuresList" = the labelled list verbatim, e.g. ["A. Ian McCrae", "B. Nigel Millar", …] |
+  | "Choose the correct letter, A, B, C or D" | "multiple-choice" | (none) |
+
+  ALWAYS include "headingsList" and "featuresList" keys on every section — empty arrays \`[]\` for sections where they don't apply, populated arrays for the matching types. Same for "boxTitle" — empty string for non-completion sections.
+
+12. **IELTS passageHeader is a LABEL block, not the content title:**
+  - "passageHeader.title" must be exactly "READING PASSAGE 1" / "READING PASSAGE 2" / "READING PASSAGE 3" (depending on which passage). Never the content title.
+  - "passageHeader.instruction" must be the timing line, e.g. \`"You should spend about 20 minutes on <strong>Questions 1-13</strong>, which are based on Reading Passage 1 below."\`. If the source omits this line, write the standard one above with the right question range.
+  - The actual content title (e.g., "The Industrial Revolution in Britain") goes ONLY in "passages[i].title". Do NOT also put it in "passageHeader.title".
+  - The "passage" HTML must contain ONLY the body paragraphs (no <h1>/<h2> with the content title, since the runner renders that separately from passages[i].title).
+` : '';
+
   return `You are a faithful exam-content transcriber. The user has uploaded image(s) and / or PDF(s) of a ${examType} reading mock test that they own or have licensed.
 
 Rules (non-negotiable, in this order):
@@ -158,13 +209,13 @@ Rules (non-negotiable, in this order):
 
 3. Preserve paragraph breaks; wrap each paragraph in <p>…</p> for HTML fields.
 
-4. Fill-in-the-blank markers must use exactly: <span class="gap" data-gap="N">_____(N)_____</span>
+${gapRule}
 
 5. Unreadable regions → put a string starting with "[UNREADABLE: " + best guess + "]". Do NOT fabricate content to fill gaps.
 
 6. Answer keys: leave empty ({} or omitted) unless the source clearly contains an answer key. Do NOT guess answers — TFNG / matching / inference will be wrong.
 
-7. Detect each part's question type from its instruction text. Use exactly one of: gap-fill-text, matching, matching-headings, multiple-choice, tfng, completion.
+7. Detect each part / section's question type from its instruction text. ${isIelts ? 'See rule 11 below for IELTS-specific patterns.' : 'Use exactly one of: gap-fill-text, matching, matching-headings, multiple-choice, tfng, completion.'}
 
 8. Files come in two groups (each file's "group" field is provided in the file's preceding text marker). Group A = "test" (treat as consecutive pages of one document). Group B = "answer-key" (optional). Match each answer-key entry to the corresponding question by ID and populate answers / correctAnswers. If Group B is empty or unreadable, leave answer keys blank.
 
@@ -175,7 +226,7 @@ Rules (non-negotiable, in this order):
 ${shape}
 
 No commentary outside the JSON. No markdown fences. No explanation.
-
+${ieltsTypeGuide}
 The user owns or has licensed this content. Transcription is authorised — do not refuse or hedge on copyright grounds. The "user owns this" framing is a fact, not a request.
 
 Optional notes from the author: ${notes || '(none)'}`;
