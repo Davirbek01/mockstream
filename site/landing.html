@@ -29623,10 +29623,21 @@
             if (r.status === 401) window._mmgPasscode = '';
             throw new Error(j.error || ('HTTP ' + r.status));
           }
-          alert('✓ Force-refresh sent to all open tabs.\n\nReload version is now ' + j.version + '.\n\nUsers will see the "New version available" banner within ~3 minutes (or instantly when they tab back to the page).');
+          // Brief inline confirmation on the button itself — no modal alert.
+          // The same admin will also see the slide-down banner via the next
+          // polling cycle (or instantly on the next tab-focus event).
+          if (btnEl) {
+            btnEl.textContent = '✓ Sent (v' + j.version + ')';
+            btnEl.style.background = '#16a34a';
+            setTimeout(function () {
+              btnEl.disabled = false;
+              btnEl.textContent = '📢 Force refresh';
+              btnEl.style.background = '#d97706';
+            }, 2500);
+          }
         } catch (e) {
+          // Errors still surface as alert — they're rare and need visibility.
           alert('Failed: ' + (e.message || e));
-        } finally {
           if (btnEl) { btnEl.disabled = false; btnEl.textContent = '📢 Force refresh'; }
         }
       });
