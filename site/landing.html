@@ -28282,26 +28282,19 @@
     }
 
     // ═══════════════════════════════════════════════════════════════════════
-    //   Reading editor (CEFR Reading + IELTS Reading).
+    //   Reading editor (CEFR Reading + IELTS Reading) — non-coder friendly.
     //
-    //   CEFR Reading mock_data shape:
-    //     { testInfo: { title, totalQuestions, totalTime, parts, level },
-    //       parts: [ { partNumber, title, type, questionRange, instruction,
-    //                  passage:{title,content}, questions, answers, explanations,
-    //                  ...type-specific fields like statements / matchings }, … ] }
+    //   Each Part / Passage tab surfaces real form fields for the concepts
+    //   that exist in the data (passage text, each question's hint / answer /
+    //   explanation / quote). The only remaining JSON area is "Other fields"
+    //   for things that genuinely vary by question type (matching statements,
+    //   MCQ options) — usually empty and labeled "leave alone if you don't
+    //   recognise it".
     //
-    //   IELTS Reading mock_data shape:
-    //     { testInfo: { totalQuestions, totalTime, passages },
-    //       passages: [ { id, title, shortName, difficulty, questionRange,
-    //                     timeRecommended, passageHeader:{title,instruction},
-    //                     passage:"<HTML>", questionSections:[...],
-    //                     correctAnswers:{...} }, … ] }
-    //
-    //   Per-part / per-passage tabs surface the always-present top fields as
-    //   real form inputs and put everything else into a scoped JSON textarea
-    //   (since question-section shapes vary by type). JSON parse failure on
-    //   flush throws, which propagates to _mmgFlushStructuredToRaw → returns
-    //   false → blocks tab switch / save. User sees the error in mmgStatus.
+    //   Source-of-truth pattern unchanged: textarea #mmgFldData holds canonical
+    //   mock_data JSON. Structured panes read on activation, flush on switch
+    //   or save. JSON parse failure on flush throws → flush returns false →
+    //   tab switch / save blocked, status shows the error.
     // ═══════════════════════════════════════════════════════════════════════
 
     function _mmgRenderCrSettings(md) {
@@ -28325,9 +28318,9 @@
       if (f('mmgCrTi_level')          !== undefined) md.testInfo.level          = f('mmgCrTi_level');
     }
 
-    // Top-level keys shown as form inputs on each Part tab. Everything else in
-    // the part object lives in the scoped JSON textarea.
-    var _MMG_CR_TOP_KEYS = { partNumber:1, title:1, type:1, questionRange:1, instruction:1 };
+    // Keys covered by structured form sections. Anything else passes through
+    // the "Other fields" JSON textarea unchanged.
+    var _MMG_CR_PART_COVERED = { partNumber:1, title:1, type:1, questionRange:1, instruction:1, passage:1, questions:1, answers:1, explanations:1 };
 
     function _mmgRenderCrPart(md, idx) {
       var parts = (md.parts = md.parts || []);
@@ -28336,23 +28329,73 @@
       var n = idx + 1;
       var paneId = 'mmgPaneCrPart' + n;
 
-      var body = {};
-      for (var k in p) { if (!_MMG_CR_TOP_KEYS[k]) body[k] = p[k]; }
-      var bodyStr = JSON.stringify(body, null, 2);
-
-      var html = '<div class="mmg-section-title">Part ' + n + ' — top-level fields</div>';
-      html += _mmgFieldText('Part number',     'mmgCrP' + n + '_num',   p.partNumber == null ? n : p.partNumber, 'Numeric (usually matches part index).');
+      // ── Basics ────────────────────────────────────────────────────────
+      var html = '<div class="mmg-section-title">Part ' + n + ' — basics</div>';
+      html += _mmgFieldText('Part number',     'mmgCrP' + n + '_num',   p.partNumber == null ? n : p.partNumber, 'Numeric — usually matches the part index.');
       html += _mmgFieldText('Title',           'mmgCrP' + n + '_title', p.title,         'e.g., "Part ' + n + '".');
-      html += _mmgFieldText('Type',            'mmgCrP' + n + '_type',  p.type,          'Free text — e.g., "gap-fill-text", "matching", "multiple-choice".');
-      html += _mmgFieldText('Question range',  'mmgCrP' + n + '_qr',    p.questionRange, 'String like "1-6" or "7-14".');
-      html += _mmgFieldArea('Instruction',     'mmgCrP' + n + '_instr', p.instruction,   'Shown to the student above the passage. HTML allowed.', 80);
-      html += '<div class="mmg-section-title" style="margin-top:14px;">Part ' + n + ' body (JSON — passage, questions, answers, explanations, type-specific fields)</div>';
-      html += '<div class="mmg-field"><textarea id="mmgCrP' + n + '_body" spellcheck="false" '
-            + 'style="min-height:340px;font:12px ui-monospace,monospace;width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;resize:vertical;">'
-            + _mmgEsc(bodyStr) + '</textarea>'
-            + '<div class="mmg-field-help">JSON for everything except the top-level fields above. Keep keys (passage / questions / answers / explanations / statements / etc.) as the runner expects.</div></div>';
+      html += _mmgFieldText('Question type',   'mmgCrP' + n + '_type',  p.type,          'Free text — e.g., "gap-fill-text", "matching", "multiple-choice".');
+      html += _mmgFieldText('Question range',  'mmgCrP' + n + '_qr',    p.questionRange, 'e.g., "1-6". Tells the runner which question numbers this part covers.');
+      html += _mmgFieldArea('Instruction shown to student', 'mmgCrP' + n + '_instr', p.instruction, 'HTML allowed.', 80);
+
+      // ── Passage ───────────────────────────────────────────────────────
+      var pass = (p.passage && typeof p.passage === 'object') ? p.passage : {};
+      html += '<div class="mmg-section-title" style="margin-top:18px;">Passage (the text the student reads)</div>';
+      html += _mmgFieldText('Passage title', 'mmgCrP' + n + '_passT', pass.title, 'Heading shown above the text. Leave blank if there\'s no separate heading.');
+      html += _mmgFieldArea('Passage content', 'mmgCrP' + n + '_passC', pass.content, 'HTML allowed. For fill-in gaps use: <span class="gap" data-gap="N">_____(N)_____</span>', 220);
+
+      // ── Questions / answers / explanations ────────────────────────────
+      var questions = Array.isArray(p.questions) ? p.questions : [];
+      var answers = (p.answers && typeof p.answers === 'object' && !Array.isArray(p.answers)) ? p.answers : {};
+      var explanations = (p.explanations && typeof p.explanations === 'object' && !Array.isArray(p.explanations)) ? p.explanations : {};
+
+      // Section header — mirrors the speaking editor's pattern (count + add button).
+      html += '<div class="mmg-section-title" style="display:flex;align-items:center;gap:10px;margin-top:18px;">'
+            +   '<span style="flex:1;">Questions, answers &amp; explanations — ' + questions.length + ' question(s)</span>'
+            +   '<button type="button" class="mmg-add-btn" onclick="_mmgCrAddQuestion(' + idx + ')">＋ Add question</button>'
+            + '</div>';
+      html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">One block per question. For answers with multiple acceptable forms, separate them with commas (e.g., "labour, labor").</div>';
+
+      if (questions.length === 0) {
+        html += '<div class="mmg-empty-hint">No questions in this part yet. Click <em>＋ Add question</em> to start, or use the <strong>Other fields</strong> area below for matching / MCQ types whose questions are stored differently.</div>';
+      } else {
+        for (var i = 0; i < questions.length; i++) {
+          var q = questions[i] || {};
+          var qid = (q.id == null) ? (i + 1) : q.id;
+          var ansArr = Array.isArray(answers[qid]) ? answers[qid] : (Array.isArray(answers[String(qid)]) ? answers[String(qid)] : []);
+          var ansStr = ansArr.join(', ');
+          var explKey = 'q' + qid;
+          var expl = (explanations[explKey] && typeof explanations[explKey] === 'object') ? explanations[explKey] : {};
+
+          html += '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px;margin-bottom:12px;">';
+          html += '<div style="display:flex;align-items:center;gap:8px;font-weight:700;color:#0f172a;font-size:13px;margin-bottom:8px;">'
+                +   '<span style="flex:1;">Question ' + qid + '</span>'
+                +   '<button type="button" onclick="_mmgCrRemoveQuestion(' + idx + ',' + qid + ')" title="Remove this question, its answer and explanation" '
+                +     'style="background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;border-radius:5px;padding:3px 9px;font-size:11px;font-weight:600;cursor:pointer;">× Remove</button>'
+                + '</div>';
+          html += _mmgFieldText('Hint (shown next to the question number)', 'mmgCrP' + n + '_q' + qid + '_hint', q.hint, '');
+          html += _mmgFieldText('Correct answer(s)', 'mmgCrP' + n + '_q' + qid + '_ans', ansStr, 'Comma-separated for alternatives.');
+          html += _mmgFieldArea('Explanation — why this is the answer', 'mmgCrP' + n + '_q' + qid + '_etext', expl.text, '', 60);
+          html += _mmgFieldArea('Supporting quote from the passage', 'mmgCrP' + n + '_q' + qid + '_equote', expl.quote, '', 50);
+          html += '</div>';
+        }
+      }
+
+      // ── Other fields ──────────────────────────────────────────────────
+      var other = {};
+      var hasOther = false;
+      for (var k in p) {
+        if (!_MMG_CR_PART_COVERED[k]) { other[k] = p[k]; hasOther = true; }
+      }
+      html += '<div class="mmg-section-title" style="margin-top:18px;">Other fields'
+            + (hasOther ? '' : ' <span style="color:#64748b;font-weight:normal;font-size:11px;">(usually empty)</span>') + '</div>';
+      html += '<div class="mmg-field"><textarea id="mmgCrP' + n + '_other" spellcheck="false" '
+            + 'style="min-height:120px;font:12px ui-monospace,monospace;width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;resize:vertical;">'
+            + _mmgEsc(JSON.stringify(other, null, 2)) + '</textarea>'
+            + '<div class="mmg-field-help">For things that vary by question type — matching statements, MCQ options. Leave as <code>{}</code> if you don\'t recognise what should go here.</div></div>';
+
       document.getElementById(paneId).innerHTML = html;
     }
+
     function _mmgCollectCrPart(md, idx) {
       md.parts = md.parts || [];
       while (md.parts.length <= idx) md.parts.push({});
@@ -28360,34 +28403,124 @@
       var f = function (id) { var e = document.getElementById(id); return e ? e.value : undefined; };
       var asNum = function (v) { var n2 = Number(v); return v === '' || !isFinite(n2) ? v : n2; };
 
-      // Parse body JSON FIRST so a parse error throws before we mutate the part.
-      var bodyStr = f('mmgCrP' + n + '_body');
-      var bodyParsed = null;
-      if (bodyStr !== undefined) {
-        try { bodyParsed = JSON.parse(bodyStr); }
+      // 1) Parse "Other fields" JSON FIRST so a parse error throws before mutation.
+      var otherStr = f('mmgCrP' + n + '_other');
+      var otherParsed = {};
+      if (otherStr !== undefined && otherStr.trim() !== '') {
+        try { otherParsed = JSON.parse(otherStr); }
         catch (e) {
-          _mmgStatus('CEFR Reading Part ' + n + ' body — JSON parse error: ' + e.message, '#dc2626');
+          _mmgStatus('CEFR Reading Part ' + n + ' "Other fields" — JSON parse error: ' + e.message, '#dc2626');
           throw e;
         }
-        if (bodyParsed === null || typeof bodyParsed !== 'object' || Array.isArray(bodyParsed)) {
-          _mmgStatus('CEFR Reading Part ' + n + ' body must be a JSON object {…}.', '#dc2626');
-          throw new Error('body-not-object');
+        if (otherParsed === null || typeof otherParsed !== 'object' || Array.isArray(otherParsed)) {
+          _mmgStatus('CEFR Reading Part ' + n + ' "Other fields" must be a JSON object {…}.', '#dc2626');
+          throw new Error('other-not-object');
         }
       }
 
+      // 2) Reset the part — drop everything, then layer back on in priority order.
       var p = md.parts[idx] || (md.parts[idx] = {});
-      if (bodyParsed) {
-        // Drop existing non-top keys, then re-apply from parsed body.
-        for (var k in p) { if (!_MMG_CR_TOP_KEYS[k]) delete p[k]; }
-        for (var k2 in bodyParsed) p[k2] = bodyParsed[k2];
-      }
-      // Form fields win over body if user typed top keys into the body too.
+      for (var existingKey in p) delete p[existingKey];
+
+      // Layer A: Other JSON (passthrough for type-specific extras).
+      for (var ok in otherParsed) p[ok] = otherParsed[ok];
+
+      // Layer B: top fields. Form values win over Other if both have a key.
       if (f('mmgCrP' + n + '_num')   !== undefined) p.partNumber    = asNum(f('mmgCrP' + n + '_num'));
       if (f('mmgCrP' + n + '_title') !== undefined) p.title         = f('mmgCrP' + n + '_title');
       if (f('mmgCrP' + n + '_type')  !== undefined) p.type          = f('mmgCrP' + n + '_type');
       if (f('mmgCrP' + n + '_qr')    !== undefined) p.questionRange = f('mmgCrP' + n + '_qr');
       if (f('mmgCrP' + n + '_instr') !== undefined) p.instruction   = f('mmgCrP' + n + '_instr');
+
+      // Layer C: passage. Always present (we always render it).
+      var passT = f('mmgCrP' + n + '_passT');
+      var passC = f('mmgCrP' + n + '_passC');
+      if (passT !== undefined || passC !== undefined) {
+        var passObj = {};
+        if (passT !== undefined && passT !== '') passObj.title   = passT;
+        if (passC !== undefined && passC !== '') passObj.content = passC;
+        // Only attach passage if at least one field has content. Avoids
+        // creating an empty {} for parts that genuinely have no passage.
+        if (Object.keys(passObj).length > 0) p.passage = passObj;
+      }
+
+      // Layer D: questions / answers / explanations — driven by hint fields in DOM.
+      // We re-render after save, so DOM has rows only for currently-rendered questions.
+      // _q-prefixed fields don't collide: questionRange is _qr (no underscore-digit).
+      var qHints = document.querySelectorAll('[id^="mmgCrP' + n + '_q"][id$="_hint"]');
+      if (qHints.length > 0) {
+        var newQuestions = [];
+        var newAnswers = {};
+        var newExplanations = {};
+        for (var qi = 0; qi < qHints.length; qi++) {
+          var qF = qHints[qi];
+          var m = qF.id.match(/_q(\d+)_hint$/);
+          if (!m) continue;
+          var qid = parseInt(m[1], 10);
+          var qObj = { id: qid };
+          if (qF.value !== '') qObj.hint = qF.value;
+          newQuestions.push(qObj);
+
+          var aEl = document.getElementById('mmgCrP' + n + '_q' + qid + '_ans');
+          if (aEl) {
+            var arr = (aEl.value || '').split(',').map(function (s) { return s.trim(); }).filter(function (s) { return s.length > 0; });
+            if (arr.length > 0) newAnswers[String(qid)] = arr;
+          }
+
+          var eT = document.getElementById('mmgCrP' + n + '_q' + qid + '_etext');
+          var eQ = document.getElementById('mmgCrP' + n + '_q' + qid + '_equote');
+          if (eT || eQ) {
+            var explObj = {};
+            if (eT && eT.value !== '') explObj.text  = eT.value;
+            if (eQ && eQ.value !== '') explObj.quote = eQ.value;
+            if (Object.keys(explObj).length > 0) newExplanations['q' + qid] = explObj;
+          }
+        }
+        newQuestions.sort(function (a, b) { return (a.id|0) - (b.id|0); });
+        p.questions = newQuestions;
+        p.answers = newAnswers;
+        p.explanations = newExplanations;
+      }
     }
+
+    // Append a new empty question to a CEFR Reading part. Captures any
+    // in-progress edits first (collect), then pushes a new question with
+    // id = max(existing) + 1, then re-renders. Mirrors _mmgSpAddQuestion.
+    window._mmgCrAddQuestion = function (partIdx) {
+      var md = _mmgGetMockData(); if (!md) return;
+      try { _mmgCollectCrPart(md, partIdx); }
+      catch (e) { return; } // status already shown by collector
+      md.parts = md.parts || [];
+      while (md.parts.length <= partIdx) md.parts.push({});
+      var p = md.parts[partIdx];
+      p.questions = Array.isArray(p.questions) ? p.questions : [];
+      var maxId = 0;
+      for (var i = 0; i < p.questions.length; i++) {
+        var qidExisting = parseInt(p.questions[i] && p.questions[i].id, 10);
+        if (!isNaN(qidExisting) && qidExisting > maxId) maxId = qidExisting;
+      }
+      p.questions.push({ id: maxId + 1, hint: '' });
+      _mmgSetMockData(md);
+      _mmgRenderCrPart(md, partIdx);
+    };
+
+    // Remove a question + its answer + its explanation from a CEFR Reading
+    // part. Confirm dialog because backups are the only undo path.
+    window._mmgCrRemoveQuestion = function (partIdx, qid) {
+      if (!confirm('Remove Question ' + qid + ' and its answer / explanation? You can undo via Backups…')) return;
+      var md = _mmgGetMockData(); if (!md) return;
+      try { _mmgCollectCrPart(md, partIdx); }
+      catch (e) { return; }
+      if (!md.parts || !md.parts[partIdx]) return;
+      var p = md.parts[partIdx];
+      p.questions = (Array.isArray(p.questions) ? p.questions : []).filter(function (q) {
+        return !(q && parseInt(q.id, 10) === qid);
+      });
+      if (p.answers && typeof p.answers === 'object')        delete p.answers[String(qid)];
+      if (p.explanations && typeof p.explanations === 'object') delete p.explanations['q' + qid];
+      _mmgSetMockData(md);
+      _mmgRenderCrPart(md, partIdx);
+    };
 
     function _mmgRenderIrSettings(md) {
       var ti = (md.testInfo = md.testInfo || {});
@@ -28406,7 +28539,12 @@
       if (f('mmgIrTi_passages')       !== undefined) md.testInfo.passages       = asNum(f('mmgIrTi_passages'));
     }
 
-    var _MMG_IR_TOP_KEYS = { id:1, title:1, shortName:1, difficulty:1, questionRange:1, timeRecommended:1, passageHeader:1 };
+    // For IELTS, passages have a single big HTML "passage" string (not nested),
+    // so we extract it as its own textarea (no JSON escaping needed for the
+    // user). correctAnswers becomes a question-by-question grid. questionSections
+    // stays as JSON because each section's shape varies (completion / tfng /
+    // matching-headings / etc.) and flattening every type would 5× the code.
+    var _MMG_IR_PASS_COVERED = { id:1, title:1, shortName:1, difficulty:1, questionRange:1, timeRecommended:1, passageHeader:1, passage:1, correctAnswers:1, questionSections:1 };
 
     function _mmgRenderIrPassage(md, idx) {
       var passages = (md.passages = md.passages || []);
@@ -28414,28 +28552,87 @@
       var p = passages[idx] || {};
       var n = idx + 1;
       var paneId = 'mmgPaneIrP' + n;
-      var ph = p.passageHeader || {};
+      var ph = (p.passageHeader && typeof p.passageHeader === 'object') ? p.passageHeader : {};
 
-      var body = {};
-      for (var k in p) { if (!_MMG_IR_TOP_KEYS[k]) body[k] = p[k]; }
-      var bodyStr = JSON.stringify(body, null, 2);
+      // ── Basics ────────────────────────────────────────────────────────
+      var html = '<div class="mmg-section-title">Passage ' + n + ' — basics</div>';
+      html += _mmgFieldText('id',                         'mmgIrP' + n + '_id',     p.id == null ? n : p.id, 'Numeric passage id (1, 2, 3).');
+      html += _mmgFieldText('Title',                      'mmgIrP' + n + '_title',  p.title,                 'e.g., "The Industrial Revolution in Britain".');
+      html += _mmgFieldText('Short name',                 'mmgIrP' + n + '_short',  p.shortName,             'Brief tag used in nav.');
+      html += _mmgFieldText('Difficulty',                 'mmgIrP' + n + '_diff',   p.difficulty,            'Free text — Easy / Medium / Hard.');
+      html += _mmgFieldText('Question range',             'mmgIrP' + n + '_qr',     p.questionRange,         'e.g., "1-13".');
+      html += _mmgFieldText('Time recommended (min)',     'mmgIrP' + n + '_time',   p.timeRecommended,       'Usually 20.');
+      html += _mmgFieldText('Passage-header title',       'mmgIrP' + n + '_phT',    ph.title,                'e.g., "READING PASSAGE 1".');
+      html += _mmgFieldArea('Passage-header instruction', 'mmgIrP' + n + '_phI',    ph.instruction,          'HTML allowed; describes timing.', 60);
 
-      var html = '<div class="mmg-section-title">Passage ' + n + ' — top-level fields</div>';
-      html += _mmgFieldText('id',                            'mmgIrP' + n + '_id',     p.id == null ? n : p.id, 'Numeric passage id (1, 2, 3).');
-      html += _mmgFieldText('Title',                         'mmgIrP' + n + '_title',  p.title,                 'e.g., "The Industrial Revolution in Britain".');
-      html += _mmgFieldText('Short name',                    'mmgIrP' + n + '_short',  p.shortName,             'Brief tag used in nav.');
-      html += _mmgFieldText('Difficulty',                    'mmgIrP' + n + '_diff',   p.difficulty,            'Free text — Easy / Medium / Hard.');
-      html += _mmgFieldText('Question range',                'mmgIrP' + n + '_qr',     p.questionRange,         'String like "1-13".');
-      html += _mmgFieldText('Time recommended (min)',        'mmgIrP' + n + '_time',   p.timeRecommended,       'Usually 20.');
-      html += _mmgFieldText('Passage header — title',        'mmgIrP' + n + '_phT',    ph.title,                'e.g., "READING PASSAGE 1".');
-      html += _mmgFieldArea('Passage header — instruction',  'mmgIrP' + n + '_phI',    ph.instruction,          'HTML allowed; describes timing.', 60);
-      html += '<div class="mmg-section-title" style="margin-top:14px;">Passage ' + n + ' body (JSON — passage HTML, questionSections, correctAnswers)</div>';
-      html += '<div class="mmg-field"><textarea id="mmgIrP' + n + '_body" spellcheck="false" '
-            + 'style="min-height:340px;font:12px ui-monospace,monospace;width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;resize:vertical;">'
-            + _mmgEsc(bodyStr) + '</textarea>'
-            + '<div class="mmg-field-help">JSON for everything except the top-level fields above.</div></div>';
+      // ── Passage HTML (single string, no JSON escaping needed) ─────────
+      html += '<div class="mmg-section-title" style="margin-top:18px;">Passage HTML (the text the student reads)</div>';
+      html += '<div class="mmg-field"><textarea id="mmgIrP' + n + '_passage" spellcheck="false" '
+            + 'style="min-height:280px;font:12.5px ui-monospace,monospace;width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;resize:vertical;line-height:1.55;">'
+            + _mmgEsc(typeof p.passage === 'string' ? p.passage : '') + '</textarea>'
+            + '<div class="mmg-field-help">Just the HTML — paragraph tags etc. No JSON escaping needed here.</div></div>';
+
+      // ── Correct answers grid ──────────────────────────────────────────
+      // Derive the question id list from BOTH correctAnswers AND questionSections
+      // so a brand-new mock with no answers yet still gets input slots as soon
+      // as the user adds questions to questionSections.
+      var ca = (p.correctAnswers && typeof p.correctAnswers === 'object' && !Array.isArray(p.correctAnswers)) ? p.correctAnswers : {};
+      var qsArr = Array.isArray(p.questionSections) ? p.questionSections : [];
+      var qIdSet = {};
+      Object.keys(ca).forEach(function (k) {
+        var mk = k.match(/^q(\d+)$/);
+        if (mk) qIdSet[parseInt(mk[1], 10)] = true;
+      });
+      qsArr.forEach(function (sec) {
+        if (sec && Array.isArray(sec.questions)) {
+          sec.questions.forEach(function (q) {
+            if (q && q.id != null && !isNaN(parseInt(q.id, 10))) qIdSet[parseInt(q.id, 10)] = true;
+          });
+        }
+      });
+      var sortedQIds = Object.keys(qIdSet).map(function (k) { return parseInt(k, 10); }).sort(function (a, b) { return a - b; });
+
+      html += '<div class="mmg-section-title" style="margin-top:18px;">Correct answers</div>';
+      html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">Comma-separated for alternatives (e.g., "LABOUR, LABOR").</div>';
+      if (sortedQIds.length === 0) {
+        html += '<div style="background:#fff7ed;border:1px solid #fdba74;color:#9a3412;border-radius:8px;padding:10px 14px;font-size:12px;">No questions yet. Add them in <strong>Question sections</strong> below — input slots for each answer will appear here after you save.</div>';
+      } else {
+        html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;">';
+        for (var ci = 0; ci < sortedQIds.length; ci++) {
+          var qid = sortedQIds[ci];
+          var arr = Array.isArray(ca['q' + qid]) ? ca['q' + qid] : [];
+          var str = arr.join(', ');
+          html += '<div style="display:flex;align-items:center;gap:6px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:6px 10px;">';
+          html += '<label for="mmgIrP' + n + '_ca_q' + qid + '" style="font-weight:700;font-size:12px;color:#0f172a;min-width:32px;">Q' + qid + '</label>';
+          html += '<input type="text" id="mmgIrP' + n + '_ca_q' + qid + '" value="' + _mmgEsc(str) + '" style="flex:1;padding:5px 8px;border:1px solid #cbd5e1;border-radius:5px;font-size:12px;">';
+          html += '</div>';
+        }
+        html += '</div>';
+      }
+
+      // ── Question sections (kept as JSON because shapes vary by type) ──
+      html += '<div class="mmg-section-title" style="margin-top:18px;">Question sections</div>';
+      html += '<div class="mmg-field"><textarea id="mmgIrP' + n + '_qs" spellcheck="false" '
+            + 'style="min-height:240px;font:12px ui-monospace,monospace;width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;resize:vertical;">'
+            + _mmgEsc(JSON.stringify(qsArr, null, 2)) + '</textarea>'
+            + '<div class="mmg-field-help">Each section has a <code>type</code> (completion / tfng / matching-headings / etc.) and a list of questions. Different types have different fields, which is why this stays as JSON.</div></div>';
+
+      // ── Other fields ──────────────────────────────────────────────────
+      var other = {};
+      var hasOther = false;
+      for (var k in p) {
+        if (!_MMG_IR_PASS_COVERED[k]) { other[k] = p[k]; hasOther = true; }
+      }
+      html += '<div class="mmg-section-title" style="margin-top:18px;">Other fields'
+            + (hasOther ? '' : ' <span style="color:#64748b;font-weight:normal;font-size:11px;">(usually empty)</span>') + '</div>';
+      html += '<div class="mmg-field"><textarea id="mmgIrP' + n + '_other" spellcheck="false" '
+            + 'style="min-height:80px;font:12px ui-monospace,monospace;width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;resize:vertical;">'
+            + _mmgEsc(JSON.stringify(other, null, 2)) + '</textarea>'
+            + '<div class="mmg-field-help">Anything else not covered above. Usually <code>{}</code>.</div></div>';
+
       document.getElementById(paneId).innerHTML = html;
     }
+
     function _mmgCollectIrPassage(md, idx) {
       md.passages = md.passages || [];
       while (md.passages.length <= idx) md.passages.push({});
@@ -28443,34 +28640,79 @@
       var f = function (id) { var e = document.getElementById(id); return e ? e.value : undefined; };
       var asNum = function (v) { var n2 = Number(v); return v === '' || !isFinite(n2) ? v : n2; };
 
-      var bodyStr = f('mmgIrP' + n + '_body');
-      var bodyParsed = null;
-      if (bodyStr !== undefined) {
-        try { bodyParsed = JSON.parse(bodyStr); }
+      // Helper: parse a JSON-bearing textarea, throwing on parse error or wrong root type.
+      function tryParse(label, fieldId, mustBe /* 'object'|'array' */) {
+        var s = f(fieldId);
+        if (s === undefined || s.trim() === '') {
+          return mustBe === 'array' ? [] : {};
+        }
+        var parsed;
+        try { parsed = JSON.parse(s); }
         catch (e) {
-          _mmgStatus('IELTS Reading Passage ' + n + ' body — JSON parse error: ' + e.message, '#dc2626');
+          _mmgStatus(label + ' — JSON parse error: ' + e.message, '#dc2626');
           throw e;
         }
-        if (bodyParsed === null || typeof bodyParsed !== 'object' || Array.isArray(bodyParsed)) {
-          _mmgStatus('IELTS Reading Passage ' + n + ' body must be a JSON object {…}.', '#dc2626');
-          throw new Error('body-not-object');
+        if (mustBe === 'object' && (parsed === null || typeof parsed !== 'object' || Array.isArray(parsed))) {
+          _mmgStatus(label + ' must be a JSON object {…}.', '#dc2626');
+          throw new Error(label + ': not an object');
         }
+        if (mustBe === 'array' && !Array.isArray(parsed)) {
+          _mmgStatus(label + ' must be a JSON array [..].', '#dc2626');
+          throw new Error(label + ': not an array');
+        }
+        return parsed;
       }
 
+      // 1) Parse JSON-bearing textareas FIRST so any parse error throws before mutation.
+      var qsParsed    = tryParse('IELTS Passage ' + n + ' "Question sections"', 'mmgIrP' + n + '_qs',    'array');
+      var otherParsed = tryParse('IELTS Passage ' + n + ' "Other fields"',      'mmgIrP' + n + '_other', 'object');
+
+      // 2) Reset and re-apply.
       var p = md.passages[idx] || (md.passages[idx] = {});
-      if (bodyParsed) {
-        for (var k in p) { if (!_MMG_IR_TOP_KEYS[k]) delete p[k]; }
-        for (var k2 in bodyParsed) p[k2] = bodyParsed[k2];
-      }
+      for (var existingKey in p) delete p[existingKey];
+
+      // Layer A: Other JSON.
+      for (var ok in otherParsed) p[ok] = otherParsed[ok];
+
+      // Layer B: top fields.
       if (f('mmgIrP' + n + '_id')    !== undefined) p.id              = asNum(f('mmgIrP' + n + '_id'));
       if (f('mmgIrP' + n + '_title') !== undefined) p.title           = f('mmgIrP' + n + '_title');
       if (f('mmgIrP' + n + '_short') !== undefined) p.shortName       = f('mmgIrP' + n + '_short');
       if (f('mmgIrP' + n + '_diff')  !== undefined) p.difficulty      = f('mmgIrP' + n + '_diff');
       if (f('mmgIrP' + n + '_qr')    !== undefined) p.questionRange   = f('mmgIrP' + n + '_qr');
       if (f('mmgIrP' + n + '_time')  !== undefined) p.timeRecommended = asNum(f('mmgIrP' + n + '_time'));
-      p.passageHeader = p.passageHeader || {};
-      if (f('mmgIrP' + n + '_phT')   !== undefined) p.passageHeader.title       = f('mmgIrP' + n + '_phT');
-      if (f('mmgIrP' + n + '_phI')   !== undefined) p.passageHeader.instruction = f('mmgIrP' + n + '_phI');
+
+      // Layer C: passageHeader.
+      var phT = f('mmgIrP' + n + '_phT');
+      var phI = f('mmgIrP' + n + '_phI');
+      if (phT !== undefined || phI !== undefined) {
+        var phObj = {};
+        if (phT !== undefined && phT !== '') phObj.title       = phT;
+        if (phI !== undefined && phI !== '') phObj.instruction = phI;
+        if (Object.keys(phObj).length > 0) p.passageHeader = phObj;
+      }
+
+      // Layer D: passage HTML (single string).
+      var passHtml = f('mmgIrP' + n + '_passage');
+      if (passHtml !== undefined) p.passage = passHtml;
+
+      // Layer E: question sections (parsed array).
+      p.questionSections = qsParsed;
+
+      // Layer F: correctAnswers — gathered from individual q-inputs in DOM.
+      var caInputs = document.querySelectorAll('[id^="mmgIrP' + n + '_ca_q"]');
+      if (caInputs.length > 0) {
+        var newCa = {};
+        for (var ci = 0; ci < caInputs.length; ci++) {
+          var inp = caInputs[ci];
+          var m = inp.id.match(/_ca_(q\d+)$/);
+          if (!m) continue;
+          var key = m[1];
+          var arr = (inp.value || '').split(',').map(function (s) { return s.trim(); }).filter(function (s) { return s.length > 0; });
+          if (arr.length > 0) newCa[key] = arr;
+        }
+        if (Object.keys(newCa).length > 0) p.correctAnswers = newCa;
+      }
     }
 
     // Re-init tabs whenever the user changes the mock type — switching between
