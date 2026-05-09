@@ -12586,6 +12586,50 @@
         }
         console.log(`🌐 IELTS Speaking: upgraded ${rows.length} picker entries from Supabase`);
       } catch (e) { console.warn('IELTS speaking dynamic load failed:', e); }
+
+      // ── Reading: simpler upgrader (single array per skill, full URLs only) ──
+      // Static reading entries already use full runner URLs (no "supabase:<id>"
+      // marker like speaking does), so we only update file/name in place — or
+      // append a brand-new entry for AI-imported mocks beyond the static range
+      // (e.g., IELTS Reading 51 imported via transcribe-mock).
+      async function upgradeReading(skill, arr, runnerHtml, label) {
+        const rows = await fetchRows(skill);
+        for (const row of rows) {
+          const padded     = String(row.mock_number).padStart(2, '0');
+          const isPilot    = row.mock_number === 1;
+          const displayName = isPilot
+            ? `🧪 ${label} ${padded} (Supabase pilot)`
+            : `${label} ${padded}`;
+          const fileUrl    = `${runnerHtml}?sbmock=${row.id}`;
+          const plainName  = `${label} ${padded}`;
+          const idx = arr.findIndex((t) =>
+            (t.file && t.file.indexOf('sbmock=' + row.id) !== -1) ||
+            t.name === plainName ||
+            t.name === displayName
+          );
+          if (idx !== -1) {
+            arr[idx].file = fileUrl;
+            arr[idx].name = displayName;
+            arr[idx].icon = '🟢';
+          } else {
+            arr.push({ file: fileUrl, name: displayName, icon: '🟢', actionText: 'Take Test' });
+          }
+        }
+        // Re-sort numerically by trailing test number so AI-imported mocks
+        // (which append at the end) end up in the right slot in the picker.
+        arr.sort((a, b) => {
+          const am = (a.name || '').match(/Test\s+(\d+)/);
+          const bm = (b.name || '').match(/Test\s+(\d+)/);
+          return (am ? parseInt(am[1], 10) : 0) - (bm ? parseInt(bm[1], 10) : 0);
+        });
+        console.log(`🌐 ${label}: upgraded/added ${rows.length} reading picker entries from Supabase`);
+      }
+
+      try { await upgradeReading('cefr-reading',  cefrReadingTests,  'CEFR Reading.html',  'CEFR Reading Test'); }
+      catch (e) { console.warn('CEFR reading dynamic load failed:', e); }
+
+      try { await upgradeReading('ielts-reading', ieltsReadingTests, 'IELTS reading.html', 'IELTS Reading Practice Test'); }
+      catch (e) { console.warn('IELTS reading dynamic load failed:', e); }
     })();
 
     const ieltsSpeakingTests = [];
