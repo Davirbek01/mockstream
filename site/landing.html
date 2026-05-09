@@ -29043,6 +29043,23 @@
       var titleV  = document.getElementById('mmgFldTitle').value.trim();
       var statusV = document.getElementById('mmgFldStatus').value;
       var dataStr = document.getElementById('mmgFldData').value;
+
+      // Pre-save validation — mock_tests has NOT NULL on mock_number + title,
+      // so an empty value would come back as a cryptic 500 from admin-mocks.
+      // Catch it here and tell the user exactly what to fix.
+      if (numV === '' || !isFinite(parseInt(numV, 10))) {
+        _mmgStatus('Mock # is required (must be a number). Fill it in at the top of this dialog, then Save.', '#dc2626');
+        var numEl = document.getElementById('mmgFldNum');
+        try { numEl.focus(); numEl.scrollIntoView({ block:'center', behavior:'smooth' }); } catch(e) {}
+        return;
+      }
+      if (titleV === '') {
+        _mmgStatus('Title is required. Fill it in at the top of this dialog, then Save.', '#dc2626');
+        var titleEl = document.getElementById('mmgFldTitle');
+        try { titleEl.focus(); titleEl.scrollIntoView({ block:'center', behavior:'smooth' }); } catch(e) {}
+        return;
+      }
+
       var dataV;
       try { dataV = JSON.parse(dataStr); } catch (e) { _mmgStatus('JSON parse error: ' + e.message, '#dc2626'); return; }
       _mmgStatus('Saving…');
@@ -29363,6 +29380,36 @@
         window._mmgEditing.mock_data = j.mock_data;
         document.getElementById('mmgFldData').value = JSON.stringify(j.mock_data, null, 2);
         _mmgInitTabs();
+
+        // For NEW mocks (no id yet): auto-fill Mock # + Title so the user
+        // doesn't get caught by the not-null DB constraint at Save time.
+        // Existing mocks keep whatever's already in those fields.
+        if (!window._mmgEditing.id) {
+          var titleField = document.getElementById('mmgFldTitle');
+          var numField   = document.getElementById('mmgFldNum');
+          if (titleField && titleField.value.trim() === '') {
+            var aiTitle = j.mock_data && j.mock_data.testInfo && j.mock_data.testInfo.title;
+            titleField.value = aiTitle && String(aiTitle).trim()
+              ? String(aiTitle).trim()
+              : ((st.examType === 'cefr-reading') ? 'CEFR Reading Mock' : 'IELTS Reading Mock');
+          }
+          if (numField && numField.value.trim() === '') {
+            try {
+              var sbUrl = 'https://zknyukkbtbcqgvkgjktb.supabase.co/rest/v1/mock_tests'
+                        + '?mock_type=eq.' + encodeURIComponent(st.examType)
+                        + '&select=mock_number&order=mock_number.desc&limit=1';
+              var rr = await fetch(sbUrl, {
+                headers: { apikey: _MMG_ANON, Authorization: 'Bearer ' + _MMG_ANON }
+              });
+              if (rr.ok) {
+                var arr = await rr.json();
+                var nextN = (arr && arr.length > 0 && arr[0].mock_number != null)
+                  ? Number(arr[0].mock_number) + 1 : 1;
+                numField.value = String(nextN);
+              }
+            } catch (_e) { /* best-effort; user can still type */ }
+          }
+        }
 
         _mmgImportProgressDone(j.model_used, j.fallback_reason);
         var modelLabel = (j.model_used === 'gpt-4o')
