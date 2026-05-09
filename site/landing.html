@@ -12485,7 +12485,12 @@
     // route through the Supabase fetch path. Mock 01 keeps its
     // "(Supabase pilot)" label as the original Phase-1 row; mocks 02+
     // get the same display name they had before, just with a 🟢 icon.
-    (async function loadDynamicSpeakingMocks() {
+    //
+    // Exposed as a named function so refresh-on-save can re-run it after
+    // an admin creates/edits a mock — the in-memory picker arrays update
+    // without a page reload. The function is idempotent (matches existing
+    // entries by sbmock=<id> / by name and updates in place).
+    window._mmgRefreshAllPickers = async function loadDynamicSpeakingMocks() {
       const SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       const SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
 
@@ -12630,7 +12635,9 @@
 
       try { await upgradeReading('ielts-reading', ieltsReadingTests, 'IELTS reading.html', 'IELTS Reading Practice Test'); }
       catch (e) { console.warn('IELTS reading dynamic load failed:', e); }
-    })();
+    };
+    // Run once at page-load (original behaviour).
+    window._mmgRefreshAllPickers();
 
     const ieltsSpeakingTests = [];
     // Mock 01 was migrated to Supabase mock_tests (id=10). The renderer's
@@ -18711,11 +18718,22 @@
             '<button id="smgCloseBtn" aria-label="Close" class="smg-close">×</button>' +
           '</div>' +
           '<div class="smg-sub">Administrator tools. Click any card to open.</div>' +
+          // Force-refresh row — fans out a "New version available" banner
+          // to every open landing-page tab across all 6 sites within ~3 min.
+          // Useful after adding/editing mocks or toggling center features.
+          '<div style="display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#fffbeb,#fef3c7);border:1px solid #fbbf24;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:12.5px;">' +
+            '<div style="flex:1;color:#78350f;line-height:1.45;">' +
+              '<strong>📢 Force-refresh all open tabs</strong> — fans a "New version available" banner to every open landing page across all 6 sites. Useful after adding mocks or toggling features.' +
+            '</div>' +
+            '<button id="smgForceReloadBtn" type="button" style="background:#d97706;color:#fff;border:0;border-radius:8px;padding:9px 14px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;box-shadow:0 4px 12px rgba(217,119,6,.3);">📢 Force refresh</button>' +
+          '</div>' +
           '<div id="smgGrid" class="smg-grid">' + cards + '</div>' +
         '</div>';
       document.body.appendChild(div);
       div.addEventListener('click', function (e) { if (e.target === div) { div.remove(); _removeSmgBackPill(); } });
       div.querySelector('#smgCloseBtn').onclick = function () { div.remove(); _removeSmgBackPill(); };
+      var _frBtn = div.querySelector('#smgForceReloadBtn');
+      if (_frBtn) _frBtn.onclick = function (e) { e.stopPropagation(); _smgBumpReloadVersion(_frBtn); };
       div.querySelectorAll('.smg-card').forEach(function (btn) {
         btn.addEventListener('click', function () {
           var idx = parseInt(btn.getAttribute('data-idx'), 10);
@@ -29089,6 +29107,10 @@
         }
         _mmgEditClose();
         await _mmgRefresh();
+        // Re-run the picker upgraders so the saved mock appears in
+        // the in-memory pickers without a page reload. Fire-and-forget
+        // — UI is already closed; finishing the fetch is non-blocking.
+        try { await window._mmgRefreshAllPickers(); } catch (e) { console.warn('picker refresh failed:', e); }
       } catch (e) {
         _mmgStatus('Save failed: ' + e.message, '#dc2626');
       }
@@ -29432,6 +29454,183 @@
       }
     }
     window._mmgImportSubmit = _mmgImportSubmit;
+
+    // ═══════════════════════════════════════════════════════════════════════
+    //   "New version available" banner + manual force-reload trigger.
+    //
+    //   Two independent triggers, same banner:
+    //     1. Code-deploy detection — polls site/sw.js every ~3 min and
+    //        compares CACHE_NAME to the value captured at page load. When a
+    //        Netlify deploy lands with a bumped version, the banner appears.
+    //     2. Manual admin-fired refresh — admins click "📢 Force refresh" in
+    //        Site Management → admin-mocks bumps a counter in
+    //        site_settings.force_reload_version. The same poller picks up
+    //        the change and shows the banner.
+    //
+    //   Banner is rendered ONLY on landing.html (this file). Runner pages
+    //   (Reading Mocks, Speaking Mocks, etc.) don't include this script, so
+    //   students mid-exam are never disturbed.
+    //
+    //   Click "Refresh" → caches.delete + SW unregister + location.reload(),
+    //   producing fully fresh HTML/JS/data on the next render.
+    // ═══════════════════════════════════════════════════════════════════════
+    (function newVersionBanner() {
+      // Inject the banner DOM + CSS once, hidden by default.
+      var bannerHtml =
+        '<div id="mmgVerBanner" style="position:fixed;top:0;left:0;right:0;z-index:99999;display:none;'
+      +   'background:linear-gradient(135deg,#0ea5e9,#7c3aed);color:#fff;'
+      +   'box-shadow:0 4px 16px rgba(15,23,42,.25);transform:translateY(-100%);'
+      +   'transition:transform .3s ease;font:600 13.5px system-ui,-apple-system,Segoe UI,sans-serif;">'
+      +   '<div style="max-width:1100px;margin:0 auto;padding:11px 16px;display:flex;align-items:center;gap:12px;">'
+      +     '<span>🔔</span>'
+      +     '<span id="mmgVerBannerMsg" style="flex:1;line-height:1.3;">A new version of Mock Stream is available.</span>'
+      +     '<button id="mmgVerRefresh" type="button" style="background:#fff;color:#0ea5e9;border:0;border-radius:7px;padding:7px 14px;font-size:12.5px;font-weight:700;cursor:pointer;">🔄 Refresh</button>'
+      +     '<button id="mmgVerDismiss" type="button" title="Dismiss until next change" style="background:transparent;border:0;color:rgba(255,255,255,.85);font-size:18px;cursor:pointer;padding:2px 6px;line-height:1;">×</button>'
+      +   '</div>'
+      + '</div>';
+      var holder = document.createElement('div');
+      holder.innerHTML = bannerHtml;
+      document.body.insertBefore(holder.firstChild, document.body.firstChild);
+
+      var bannerEl  = document.getElementById('mmgVerBanner');
+      var refreshEl = document.getElementById('mmgVerRefresh');
+      var dismissEl = document.getElementById('mmgVerDismiss');
+
+      function showBanner(msg) {
+        document.getElementById('mmgVerBannerMsg').textContent = msg || 'A new version of Mock Stream is available.';
+        bannerEl.style.display = 'block';
+        // Force reflow so the transition kicks in.
+        void bannerEl.offsetWidth;
+        bannerEl.style.transform = 'translateY(0)';
+      }
+      function hideBanner() {
+        bannerEl.style.transform = 'translateY(-100%)';
+        setTimeout(function () { bannerEl.style.display = 'none'; }, 300);
+      }
+      // Dismiss → hide; the same banner re-appears on the NEXT version change
+      // (we update `seen` to current values so we don't re-fire for the same one).
+      dismissEl.addEventListener('click', function () {
+        seenSwVer  = currentSwVer;
+        seenForceVer = currentForceVer;
+        hideBanner();
+      });
+      // Refresh → drop SW caches, unregister SW, hard reload.
+      refreshEl.addEventListener('click', async function () {
+        refreshEl.disabled = true;
+        refreshEl.textContent = '⏳ Refreshing…';
+        try {
+          if ('caches' in window) {
+            var keys = await caches.keys();
+            await Promise.all(keys.map(function (k) { return caches.delete(k); }));
+          }
+        } catch (e) { console.warn('cache clear failed:', e); }
+        try {
+          if (navigator.serviceWorker) {
+            var regs = await navigator.serviceWorker.getRegistrations();
+            await Promise.all(regs.map(function (r) { return r.unregister(); }));
+          }
+        } catch (e) { console.warn('sw unregister failed:', e); }
+        location.reload();
+      });
+
+      // Capture current values (page-load snapshot). Anything different on
+      // a later poll → show the banner.
+      var seenSwVer = '', seenForceVer = '';
+      var currentSwVer = '', currentForceVer = '';
+
+      async function fetchSwVersion() {
+        try {
+          var r = await fetch('sw.js?t=' + Date.now(), { cache: 'no-cache' });
+          if (!r.ok) return '';
+          var txt = await r.text();
+          var m = txt.match(/CACHE_NAME\s*=\s*['"]([^'"]+)['"]/);
+          return m ? m[1] : '';
+        } catch (e) { return ''; }
+      }
+      async function fetchForceVersion() {
+        try {
+          var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+          var KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+          var r = await fetch(SB + '/rest/v1/site_settings?key=eq.force_reload_version&select=value', {
+            headers: { apikey: KEY, Authorization: 'Bearer ' + KEY },
+            cache: 'no-cache'
+          });
+          if (!r.ok) return '';
+          var arr = await r.json();
+          return (arr && arr[0] && arr[0].value) ? String(arr[0].value) : '';
+        } catch (e) { return ''; }
+      }
+      async function snapshotInitial() {
+        currentSwVer    = await fetchSwVersion();
+        currentForceVer = await fetchForceVersion();
+        seenSwVer    = currentSwVer;
+        seenForceVer = currentForceVer;
+        // console.debug('[ver] initial', { sw: seenSwVer, force: seenForceVer });
+      }
+      async function pollOnce() {
+        var sw = await fetchSwVersion();
+        var fc = await fetchForceVersion();
+        if (sw)  currentSwVer    = sw;
+        if (fc)  currentForceVer = fc;
+        var newCode  = sw && sw !== seenSwVer    && seenSwVer    !== '';
+        var newForce = fc && fc !== seenForceVer && seenForceVer !== '';
+        if (newCode && newForce) showBanner('New version available (code + admin push) — refresh to apply.');
+        else if (newCode)        showBanner('A new code version is available — refresh to apply.');
+        else if (newForce)       showBanner('Admin pushed new content — refresh to see the latest mocks / settings.');
+      }
+      // Page-load snapshot, then 3-min poll. Tab focus also retriggers
+      // an extra check (cheap, helps if user tabs back after ~hours).
+      snapshotInitial().then(function () {
+        setInterval(pollOnce, 180000); // every 3 min
+        document.addEventListener('visibilitychange', function () {
+          if (document.visibilityState === 'visible') pollOnce();
+        });
+      });
+    })();
+
+    // Manual force-reload — bumps site_settings.force_reload_version via
+    // admin-mocks. All landing-page tabs (own + other admins, students)
+    // see the banner within ~3 minutes (or instantly when they tab back).
+    window._smgBumpReloadVersion = async function (btnEl) {
+      function reuseOrPrompt(cb) {
+        if (window._mmgPasscode) return cb(window._mmgPasscode);
+        if (typeof _mmgShowPasscodeModal === 'function') {
+          _mmgShowPasscodeModal(function (pc) { window._mmgPasscode = (pc || '').trim(); cb(window._mmgPasscode); });
+        } else {
+          var pc = prompt('Super-admin passcode:');
+          if (!pc) return;
+          window._mmgPasscode = pc.trim();
+          cb(window._mmgPasscode);
+        }
+      }
+      reuseOrPrompt(async function (passcode) {
+        if (!passcode) return;
+        if (btnEl) { btnEl.disabled = true; btnEl.textContent = '⏳ Sending…'; }
+        try {
+          var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+          var KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+          var r = await fetch(SB + '/functions/v1/admin-mocks', {
+            method: 'POST',
+            headers: {
+              'Content-Type':  'application/json',
+              'apikey':        KEY,
+              'Authorization': 'Bearer ' + KEY
+            },
+            body: JSON.stringify({ action: 'bump_reload_version', adminPasscode: passcode })
+          });
+          var j = await r.json().catch(function () { return { error: 'bad_response' }; });
+          if (!r.ok || j.error) {
+            if (r.status === 401) window._mmgPasscode = '';
+            throw new Error(j.error || ('HTTP ' + r.status));
+          }
+          alert('✓ Force-refresh sent to all open tabs.\n\nReload version is now ' + j.version + '.\n\nUsers will see the "New version available" banner within ~3 minutes (or instantly when they tab back to the page).');
+        } catch (e) {
+          alert('Failed: ' + (e.message || e));
+        } finally {
+          if (btnEl) { btnEl.disabled = false; btnEl.textContent = '📢 Force refresh'; }
+        }
+      });
+    };
   </script>
 
 </body>

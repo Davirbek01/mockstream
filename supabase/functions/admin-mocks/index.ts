@@ -435,7 +435,7 @@ Deno.serve(async (req) => {
   // can still list/get/list_backups for visibility, but writes are gated.
   // Signed-upload URLs are also super-admin only — anyone with one can write
   // a single file to the bucket.
-  const WRITE_ACTIONS = new Set(['create', 'update', 'delete', 'restore', 'gcs_signed_upload_url', 'generate_speaking_audio', 'delete_speaking_audio']);
+  const WRITE_ACTIONS = new Set(['create', 'update', 'delete', 'restore', 'gcs_signed_upload_url', 'generate_speaking_audio', 'delete_speaking_audio', 'bump_reload_version']);
   if (WRITE_ACTIONS.has(action) && auth.role !== 'super_admin') {
     return json(403, { error: 'super_admin_required' });
   }
@@ -553,6 +553,31 @@ Deno.serve(async (req) => {
         const { error } = await sb.from('mock_tests').upsert(restored, { onConflict: 'id' });
         if (error) return json(500, { error: error.message });
         return json(200, { id: s.mock_id, restored: true });
+      }
+
+      // ── bump force_reload_version ────────────────────────────────────
+      // Increments the global "new version available" counter that every
+      // open landing-page tab polls every ~3 minutes. Used by admins to
+      // fan out a refresh prompt to all clients across all 6 sites
+      // without pushing a code deploy. Read access is open via RLS
+      // anon_read_whitelist; this write path is admin-only.
+      case 'bump_reload_version': {
+        const { data, error: e1 } = await sb
+          .from('site_settings')
+          .select('value')
+          .eq('key', 'force_reload_version')
+          .maybeSingle();
+        if (e1) return json(500, { error: e1.message });
+        const current = parseInt(((data as { value: string } | null)?.value) || '0', 10);
+        const next = (Number.isFinite(current) ? current : 0) + 1;
+        const { error: e2 } = await sb
+          .from('site_settings')
+          .upsert(
+            { key: 'force_reload_version', value: String(next), updated_at: new Date().toISOString() },
+            { onConflict: 'key' }
+          );
+        if (e2) return json(500, { error: e2.message });
+        return json(200, { version: next });
       }
 
       // ── GCS signed PUT URL — for in-editor media uploads ────────────
