@@ -154,26 +154,41 @@
             // Mock number sources, in priority order:
             //   1. ?num= URL param (added by the picker upgrader on landing)
             //   2. tail digits of ?test= (e.g. ielts-speaking-mock-ai-09 → 09)
-            // Either way the option label gets "🟢 IELTS Speaking Mock NN"
-            // so downstream code (Telegram caption, PDFs) extracts the
-            // right number from _lastSelectedMock.text.
+            //   3. Supabase lookup by id (final fallback for stale-cache
+            //      landings whose URLs lack &num=)
             const numParam = urlParams.get('num');
             const _testTail = (testParam || '').match(/(\d+)$/);
             const rawNum = numParam || (_testTail ? _testTail[1] : '');
-            const padded = rawNum ? String(parseInt(rawNum, 10) || 0).padStart(2, '0') : '';
-            const dynLabel = padded ? ('🟢 IELTS Speaking Mock ' + padded) : '🟢 Dynamic Mock';
-            let opt = selector.querySelector('option[value="' + sbValue + '"]');
-            if (!opt) {
-              opt = document.createElement('option');
-              opt.value = sbValue;
-              opt.style.cssText = 'background:white;color:#6366f1;font-weight:600;';
-              selector.appendChild(opt);
+            const proceedWithLabel = function (padded) {
+              const dynLabel = padded ? ('🟢 IELTS Speaking Mock ' + padded) : '🟢 Dynamic Mock';
+              let opt = selector.querySelector('option[value="' + sbValue + '"]');
+              if (!opt) {
+                opt = document.createElement('option');
+                opt.value = sbValue;
+                opt.style.cssText = 'background:white;color:#6366f1;font-weight:600;';
+                selector.appendChild(opt);
+              }
+              opt.textContent = dynLabel;
+              selector.value = sbValue;
+              window._lastSelectedMock = { value: sbValue, index: selector.selectedIndex, text: dynLabel };
+              console.log('[Auto-Proceed] Selected Supabase mock:', sbValue, 'label:', dynLabel);
+              setTimeout(() => { continueBtn.click(); }, 300);
+            };
+            if (rawNum) {
+              proceedWithLabel(String(parseInt(rawNum, 10) || 0).padStart(2, '0'));
+            } else {
+              const SB_URL_AP = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+              const SB_KEY_AP = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+              fetch(`${SB_URL_AP}/rest/v1/mock_tests?id=eq.${encodeURIComponent(sbMockParam)}&select=mock_number`, {
+                headers: { 'apikey': SB_KEY_AP, 'Authorization': 'Bearer ' + SB_KEY_AP }
+              }).then(r => r.ok ? r.json() : []).then(rows => {
+                const n = rows && rows[0] && rows[0].mock_number;
+                proceedWithLabel(n ? String(parseInt(n, 10) || 0).padStart(2, '0') : '');
+              }).catch(err => {
+                console.warn('[Auto-Proceed] mock_number lookup failed, using generic label', err);
+                proceedWithLabel('');
+              });
             }
-            opt.textContent = dynLabel;
-            selector.value = sbValue;
-            window._lastSelectedMock = { value: sbValue, index: selector.selectedIndex, text: dynLabel };
-            console.log('[Auto-Proceed] Selected Supabase mock:', sbValue, 'label:', dynLabel);
-            setTimeout(() => { continueBtn.click(); }, 300);
             return;
           }
 
