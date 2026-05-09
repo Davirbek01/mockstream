@@ -25607,6 +25607,11 @@
       box-shadow:0 8px 20px rgba(15,23,42,.08);
     }
     .mmg-card-icon { font-size:34px; line-height:1; }
+    /* CEFR uses an <img> flag instead of an emoji because regional-indicator
+       emojis don't render as flags on Windows Chrome. Sized to match the
+       emoji's visual footprint in the card; shrunk for the breadcrumb. */
+    .mmg-card-icon img.mmg-flag-icon { width:38px; height:auto; vertical-align:middle; border-radius:3px; box-shadow:0 1px 2px rgba(0,0,0,.15); }
+    #mmgBreadcrumb img.mmg-flag-icon { width:18px; height:auto; vertical-align:-3px; border-radius:2px; margin-right:2px; }
     .mmg-card-label { font-weight:700; color:#0f172a; font-size:14px; }
     .mmg-card-meta { font-size:11px; color:#64748b; }
     .mmg-card-soon { opacity:.45; cursor:not-allowed; }
@@ -25993,7 +25998,17 @@
           <button class="mmg-tab mmg-tab-cw mmg-tab-iw" data-tab="samples"  onclick="_mmgSwitchTab('samples')">Samples</button>
           <button class="mmg-tab mmg-tab-cw mmg-tab-iw" data-tab="vocab"    onclick="_mmgSwitchTab('vocab')">Vocabulary</button>
           <button class="mmg-tab mmg-tab-cw mmg-tab-iw mmg-tab-cs mmg-tab-is" data-tab="tokens"   onclick="_mmgSwitchTab('tokens')">Tokens</button>
-          <button class="mmg-tab mmg-tab-raw mmg-tab-cw mmg-tab-iw mmg-tab-cs mmg-tab-is" data-tab="raw" onclick="_mmgSwitchTab('raw')">⚙ Raw JSON</button>
+          <button class="mmg-tab mmg-tab-cr"           data-tab="cr_settings" onclick="_mmgSwitchTab('cr_settings')">Settings</button>
+          <button class="mmg-tab mmg-tab-cr"           data-tab="cr_part1"    onclick="_mmgSwitchTab('cr_part1')">Part 1</button>
+          <button class="mmg-tab mmg-tab-cr"           data-tab="cr_part2"    onclick="_mmgSwitchTab('cr_part2')">Part 2</button>
+          <button class="mmg-tab mmg-tab-cr"           data-tab="cr_part3"    onclick="_mmgSwitchTab('cr_part3')">Part 3</button>
+          <button class="mmg-tab mmg-tab-cr"           data-tab="cr_part4"    onclick="_mmgSwitchTab('cr_part4')">Part 4</button>
+          <button class="mmg-tab mmg-tab-cr"           data-tab="cr_part5"    onclick="_mmgSwitchTab('cr_part5')">Part 5</button>
+          <button class="mmg-tab mmg-tab-ir"           data-tab="ir_settings" onclick="_mmgSwitchTab('ir_settings')">Settings</button>
+          <button class="mmg-tab mmg-tab-ir"           data-tab="ir_p1"       onclick="_mmgSwitchTab('ir_p1')">Passage 1</button>
+          <button class="mmg-tab mmg-tab-ir"           data-tab="ir_p2"       onclick="_mmgSwitchTab('ir_p2')">Passage 2</button>
+          <button class="mmg-tab mmg-tab-ir"           data-tab="ir_p3"       onclick="_mmgSwitchTab('ir_p3')">Passage 3</button>
+          <button class="mmg-tab mmg-tab-raw mmg-tab-cw mmg-tab-iw mmg-tab-cs mmg-tab-is mmg-tab-cr mmg-tab-ir" data-tab="raw" onclick="_mmgSwitchTab('raw')">⚙ Raw JSON</button>
         </div>
         <div class="mmg-edit-panes">
 
@@ -26013,6 +26028,18 @@
         <div id="mmgPaneSpPart12" class="mmg-pane"></div>
         <div id="mmgPaneSpPart2"  class="mmg-pane"></div>
         <div id="mmgPaneSpPart3"  class="mmg-pane"></div>
+
+        <!-- Reading panes: CEFR has 5 parts, IELTS has 3 passages. -->
+        <div id="mmgPaneCrSettings" class="mmg-pane"></div>
+        <div id="mmgPaneCrPart1"    class="mmg-pane"></div>
+        <div id="mmgPaneCrPart2"    class="mmg-pane"></div>
+        <div id="mmgPaneCrPart3"    class="mmg-pane"></div>
+        <div id="mmgPaneCrPart4"    class="mmg-pane"></div>
+        <div id="mmgPaneCrPart5"    class="mmg-pane"></div>
+        <div id="mmgPaneIrSettings" class="mmg-pane"></div>
+        <div id="mmgPaneIrP1"       class="mmg-pane"></div>
+        <div id="mmgPaneIrP2"       class="mmg-pane"></div>
+        <div id="mmgPaneIrP3"       class="mmg-pane"></div>
 
         <!-- Raw JSON pane (the original textarea — kept as authoritative store + power-user fallback). -->
         <div id="mmgPaneRaw" class="mmg-pane mmg-pane-raw active" style="flex-direction:column;">
@@ -26064,9 +26091,14 @@
     // - skills: pick Speaking / Writing / Reading / Listening
     // - mocks: list of mock_tests rows for the chosen exam+skill combo
     window._mmgNav = { level: 'exams', exam: null, skill: null };
+    // CEFR uses an <img> for the flag because the regional-indicator emoji
+    // 🇪🇺/🇺🇿 doesn't render as a flag on Windows Chrome (shows letters
+    // "EU"/"UZ"). The Uzbek flag is hosted on our own GCS bucket so we don't
+    // depend on third-party CDNs for the admin-panel branding.
+    var _MMG_UZ_FLAG_URL = 'https://storage.googleapis.com/mockstream-listening-audio/LOGOS/flag%20UZB.webp';
     var _MMG_EXAMS = [
       { id: 'ielts', label: 'IELTS', icon: '🌍', color: '#dc2626' },
-      { id: 'cefr',  label: 'CEFR',  icon: '🇪🇺', color: '#2563eb' }
+      { id: 'cefr',  label: 'CEFR',  icon: '<img src="' + _MMG_UZ_FLAG_URL + '" alt="UZ" class="mmg-flag-icon">', color: '#2563eb' }
     ];
     var _MMG_SKILLS = [
       { id: 'speaking',  label: 'Speaking',  icon: '🎤', color: '#7c3aed' },
@@ -26359,7 +26391,9 @@
       'cefr-writing':   { tabClass: 'mmg-tab-cw', defaultTab: 'part1' },
       'ielts-writing':  { tabClass: 'mmg-tab-iw', defaultTab: 'iw_task1' },
       'cefr-speaking':  { tabClass: 'mmg-tab-cs', defaultTab: 'settings' },
-      'ielts-speaking': { tabClass: 'mmg-tab-is', defaultTab: 'settings' }
+      'ielts-speaking': { tabClass: 'mmg-tab-is', defaultTab: 'settings' },
+      'cefr-reading':   { tabClass: 'mmg-tab-cr', defaultTab: 'cr_settings' },
+      'ielts-reading':  { tabClass: 'mmg-tab-ir', defaultTab: 'ir_settings' }
     };
     // Which tab is currently visible. We need this to know which pane to
     // collect-from when the user clicks a different tab.
@@ -26390,14 +26424,18 @@
       settings:'Settings', part1:'Part1', t11:'T11', t12:'T12', t2:'T2',
       iw_task1:'IwTask1', iw_task2:'IwTask2',
       sp_part11:'SpPart11', sp_part12:'SpPart12', sp_part2:'SpPart2', sp_part3:'SpPart3',
+      cr_settings:'CrSettings', cr_part1:'CrPart1', cr_part2:'CrPart2', cr_part3:'CrPart3', cr_part4:'CrPart4', cr_part5:'CrPart5',
+      ir_settings:'IrSettings', ir_p1:'IrP1', ir_p2:'IrP2', ir_p3:'IrP3',
       samples:'Samples',
       vocab:'Vocab', tokens:'Tokens', raw:'Raw'
     };
 
     function _mmgSwitchTab(tabId) {
       // Flush whatever pane is currently visible back to the textarea so
-      // we never lose edits across a tab switch.
-      _mmgFlushStructuredToRaw();
+      // we never lose edits across a tab switch. If flush fails (a scoped
+      // JSON textarea in the reading editor has a parse error), stay on
+      // the current tab so the user can fix the broken JSON.
+      if (!_mmgFlushStructuredToRaw()) return;
       window._mmgActiveTab = tabId;
       // Toggle tab buttons.
       var btns = document.querySelectorAll('.mmg-tab');
@@ -26444,6 +26482,16 @@
           case 'sp_part12': _mmgCollectSpPart(md, 'part12'); break;
           case 'sp_part2':  _mmgCollectSpPart(md, 'part2');  break;
           case 'sp_part3':  _mmgCollectSpPart(md, 'part3');  break;
+          case 'cr_settings': _mmgCollectCrSettings(md); break;
+          case 'cr_part1':  _mmgCollectCrPart(md, 0); break;
+          case 'cr_part2':  _mmgCollectCrPart(md, 1); break;
+          case 'cr_part3':  _mmgCollectCrPart(md, 2); break;
+          case 'cr_part4':  _mmgCollectCrPart(md, 3); break;
+          case 'cr_part5':  _mmgCollectCrPart(md, 4); break;
+          case 'ir_settings': _mmgCollectIrSettings(md); break;
+          case 'ir_p1':     _mmgCollectIrPassage(md, 0); break;
+          case 'ir_p2':     _mmgCollectIrPassage(md, 1); break;
+          case 'ir_p3':     _mmgCollectIrPassage(md, 2); break;
           case 'samples':  _mmgCollectSamples(md); break;
           case 'vocab':    _mmgCollectVocab(md); break;
           case 'tokens':   _mmgCollectTokens(md); break;
@@ -26476,6 +26524,16 @@
         case 'sp_part12': _mmgRenderSpPart(md, 'part12'); break;
         case 'sp_part2':  _mmgRenderSpPart(md, 'part2');  break;
         case 'sp_part3':  _mmgRenderSpPart(md, 'part3');  break;
+        case 'cr_settings': _mmgRenderCrSettings(md); break;
+        case 'cr_part1':  _mmgRenderCrPart(md, 0); break;
+        case 'cr_part2':  _mmgRenderCrPart(md, 1); break;
+        case 'cr_part3':  _mmgRenderCrPart(md, 2); break;
+        case 'cr_part4':  _mmgRenderCrPart(md, 3); break;
+        case 'cr_part5':  _mmgRenderCrPart(md, 4); break;
+        case 'ir_settings': _mmgRenderIrSettings(md); break;
+        case 'ir_p1':     _mmgRenderIrPassage(md, 0); break;
+        case 'ir_p2':     _mmgRenderIrPassage(md, 1); break;
+        case 'ir_p3':     _mmgRenderIrPassage(md, 2); break;
         case 'samples':  _mmgRenderSamples(md); break;
         case 'vocab':    _mmgRenderVocab(md);  break;
         case 'tokens':   _mmgRenderTokens(md); break;
@@ -28221,6 +28279,198 @@
       var msg = 'Scanned all samples — found ' + total + ' unique tokens, added ' + added + ' new entries (Uz fields blank for you to fill).';
       var resultEl = document.getElementById('mmgTokensDetectResult');
       if (resultEl) { resultEl.textContent = msg; resultEl.style.color = '#047857'; }
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    //   Reading editor (CEFR Reading + IELTS Reading).
+    //
+    //   CEFR Reading mock_data shape:
+    //     { testInfo: { title, totalQuestions, totalTime, parts, level },
+    //       parts: [ { partNumber, title, type, questionRange, instruction,
+    //                  passage:{title,content}, questions, answers, explanations,
+    //                  ...type-specific fields like statements / matchings }, … ] }
+    //
+    //   IELTS Reading mock_data shape:
+    //     { testInfo: { totalQuestions, totalTime, passages },
+    //       passages: [ { id, title, shortName, difficulty, questionRange,
+    //                     timeRecommended, passageHeader:{title,instruction},
+    //                     passage:"<HTML>", questionSections:[...],
+    //                     correctAnswers:{...} }, … ] }
+    //
+    //   Per-part / per-passage tabs surface the always-present top fields as
+    //   real form inputs and put everything else into a scoped JSON textarea
+    //   (since question-section shapes vary by type). JSON parse failure on
+    //   flush throws, which propagates to _mmgFlushStructuredToRaw → returns
+    //   false → blocks tab switch / save. User sees the error in mmgStatus.
+    // ═══════════════════════════════════════════════════════════════════════
+
+    function _mmgRenderCrSettings(md) {
+      var ti = (md.testInfo = md.testInfo || {});
+      var html = '<div class="mmg-section-title">CEFR Reading — test info</div>';
+      html += _mmgFieldText('Title',            'mmgCrTi_title',          ti.title,          'e.g., "CEFR B1-B2-C1 Reading Test 02".');
+      html += _mmgFieldText('Total questions',  'mmgCrTi_totalQuestions', ti.totalQuestions, 'Number — student-facing total (usually 35).');
+      html += _mmgFieldText('Total time (min)', 'mmgCrTi_totalTime',      ti.totalTime,      'Number of minutes (usually 60).');
+      html += _mmgFieldText('Parts',            'mmgCrTi_parts',          ti.parts,          'How many parts — usually 5.');
+      html += _mmgFieldText('Level',            'mmgCrTi_level',          ti.level,          'e.g., "B1-B2-C1".');
+      document.getElementById('mmgPaneCrSettings').innerHTML = html;
+    }
+    function _mmgCollectCrSettings(md) {
+      md.testInfo = md.testInfo || {};
+      var f = function (id) { var e = document.getElementById(id); return e ? e.value : undefined; };
+      var asNum = function (v) { var n = Number(v); return v === '' || !isFinite(n) ? v : n; };
+      if (f('mmgCrTi_title')          !== undefined) md.testInfo.title          = f('mmgCrTi_title');
+      if (f('mmgCrTi_totalQuestions') !== undefined) md.testInfo.totalQuestions = asNum(f('mmgCrTi_totalQuestions'));
+      if (f('mmgCrTi_totalTime')      !== undefined) md.testInfo.totalTime      = asNum(f('mmgCrTi_totalTime'));
+      if (f('mmgCrTi_parts')          !== undefined) md.testInfo.parts          = asNum(f('mmgCrTi_parts'));
+      if (f('mmgCrTi_level')          !== undefined) md.testInfo.level          = f('mmgCrTi_level');
+    }
+
+    // Top-level keys shown as form inputs on each Part tab. Everything else in
+    // the part object lives in the scoped JSON textarea.
+    var _MMG_CR_TOP_KEYS = { partNumber:1, title:1, type:1, questionRange:1, instruction:1 };
+
+    function _mmgRenderCrPart(md, idx) {
+      var parts = (md.parts = md.parts || []);
+      while (parts.length <= idx) parts.push({});
+      var p = parts[idx] || {};
+      var n = idx + 1;
+      var paneId = 'mmgPaneCrPart' + n;
+
+      var body = {};
+      for (var k in p) { if (!_MMG_CR_TOP_KEYS[k]) body[k] = p[k]; }
+      var bodyStr = JSON.stringify(body, null, 2);
+
+      var html = '<div class="mmg-section-title">Part ' + n + ' — top-level fields</div>';
+      html += _mmgFieldText('Part number',     'mmgCrP' + n + '_num',   p.partNumber == null ? n : p.partNumber, 'Numeric (usually matches part index).');
+      html += _mmgFieldText('Title',           'mmgCrP' + n + '_title', p.title,         'e.g., "Part ' + n + '".');
+      html += _mmgFieldText('Type',            'mmgCrP' + n + '_type',  p.type,          'Free text — e.g., "gap-fill-text", "matching", "multiple-choice".');
+      html += _mmgFieldText('Question range',  'mmgCrP' + n + '_qr',    p.questionRange, 'String like "1-6" or "7-14".');
+      html += _mmgFieldArea('Instruction',     'mmgCrP' + n + '_instr', p.instruction,   'Shown to the student above the passage. HTML allowed.', 80);
+      html += '<div class="mmg-section-title" style="margin-top:14px;">Part ' + n + ' body (JSON — passage, questions, answers, explanations, type-specific fields)</div>';
+      html += '<div class="mmg-field"><textarea id="mmgCrP' + n + '_body" spellcheck="false" '
+            + 'style="min-height:340px;font:12px ui-monospace,monospace;width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;resize:vertical;">'
+            + _mmgEsc(bodyStr) + '</textarea>'
+            + '<div class="mmg-field-help">JSON for everything except the top-level fields above. Keep keys (passage / questions / answers / explanations / statements / etc.) as the runner expects.</div></div>';
+      document.getElementById(paneId).innerHTML = html;
+    }
+    function _mmgCollectCrPart(md, idx) {
+      md.parts = md.parts || [];
+      while (md.parts.length <= idx) md.parts.push({});
+      var n = idx + 1;
+      var f = function (id) { var e = document.getElementById(id); return e ? e.value : undefined; };
+      var asNum = function (v) { var n2 = Number(v); return v === '' || !isFinite(n2) ? v : n2; };
+
+      // Parse body JSON FIRST so a parse error throws before we mutate the part.
+      var bodyStr = f('mmgCrP' + n + '_body');
+      var bodyParsed = null;
+      if (bodyStr !== undefined) {
+        try { bodyParsed = JSON.parse(bodyStr); }
+        catch (e) {
+          _mmgStatus('CEFR Reading Part ' + n + ' body — JSON parse error: ' + e.message, '#dc2626');
+          throw e;
+        }
+        if (bodyParsed === null || typeof bodyParsed !== 'object' || Array.isArray(bodyParsed)) {
+          _mmgStatus('CEFR Reading Part ' + n + ' body must be a JSON object {…}.', '#dc2626');
+          throw new Error('body-not-object');
+        }
+      }
+
+      var p = md.parts[idx] || (md.parts[idx] = {});
+      if (bodyParsed) {
+        // Drop existing non-top keys, then re-apply from parsed body.
+        for (var k in p) { if (!_MMG_CR_TOP_KEYS[k]) delete p[k]; }
+        for (var k2 in bodyParsed) p[k2] = bodyParsed[k2];
+      }
+      // Form fields win over body if user typed top keys into the body too.
+      if (f('mmgCrP' + n + '_num')   !== undefined) p.partNumber    = asNum(f('mmgCrP' + n + '_num'));
+      if (f('mmgCrP' + n + '_title') !== undefined) p.title         = f('mmgCrP' + n + '_title');
+      if (f('mmgCrP' + n + '_type')  !== undefined) p.type          = f('mmgCrP' + n + '_type');
+      if (f('mmgCrP' + n + '_qr')    !== undefined) p.questionRange = f('mmgCrP' + n + '_qr');
+      if (f('mmgCrP' + n + '_instr') !== undefined) p.instruction   = f('mmgCrP' + n + '_instr');
+    }
+
+    function _mmgRenderIrSettings(md) {
+      var ti = (md.testInfo = md.testInfo || {});
+      var html = '<div class="mmg-section-title">IELTS Reading — test info</div>';
+      html += _mmgFieldText('Total questions',  'mmgIrTi_totalQuestions', ti.totalQuestions, 'Usually 40.');
+      html += _mmgFieldText('Total time (min)', 'mmgIrTi_totalTime',      ti.totalTime,      'Usually 60.');
+      html += _mmgFieldText('Passages',         'mmgIrTi_passages',       ti.passages,       'Usually 3.');
+      document.getElementById('mmgPaneIrSettings').innerHTML = html;
+    }
+    function _mmgCollectIrSettings(md) {
+      md.testInfo = md.testInfo || {};
+      var f = function (id) { var e = document.getElementById(id); return e ? e.value : undefined; };
+      var asNum = function (v) { var n = Number(v); return v === '' || !isFinite(n) ? v : n; };
+      if (f('mmgIrTi_totalQuestions') !== undefined) md.testInfo.totalQuestions = asNum(f('mmgIrTi_totalQuestions'));
+      if (f('mmgIrTi_totalTime')      !== undefined) md.testInfo.totalTime      = asNum(f('mmgIrTi_totalTime'));
+      if (f('mmgIrTi_passages')       !== undefined) md.testInfo.passages       = asNum(f('mmgIrTi_passages'));
+    }
+
+    var _MMG_IR_TOP_KEYS = { id:1, title:1, shortName:1, difficulty:1, questionRange:1, timeRecommended:1, passageHeader:1 };
+
+    function _mmgRenderIrPassage(md, idx) {
+      var passages = (md.passages = md.passages || []);
+      while (passages.length <= idx) passages.push({});
+      var p = passages[idx] || {};
+      var n = idx + 1;
+      var paneId = 'mmgPaneIrP' + n;
+      var ph = p.passageHeader || {};
+
+      var body = {};
+      for (var k in p) { if (!_MMG_IR_TOP_KEYS[k]) body[k] = p[k]; }
+      var bodyStr = JSON.stringify(body, null, 2);
+
+      var html = '<div class="mmg-section-title">Passage ' + n + ' — top-level fields</div>';
+      html += _mmgFieldText('id',                            'mmgIrP' + n + '_id',     p.id == null ? n : p.id, 'Numeric passage id (1, 2, 3).');
+      html += _mmgFieldText('Title',                         'mmgIrP' + n + '_title',  p.title,                 'e.g., "The Industrial Revolution in Britain".');
+      html += _mmgFieldText('Short name',                    'mmgIrP' + n + '_short',  p.shortName,             'Brief tag used in nav.');
+      html += _mmgFieldText('Difficulty',                    'mmgIrP' + n + '_diff',   p.difficulty,            'Free text — Easy / Medium / Hard.');
+      html += _mmgFieldText('Question range',                'mmgIrP' + n + '_qr',     p.questionRange,         'String like "1-13".');
+      html += _mmgFieldText('Time recommended (min)',        'mmgIrP' + n + '_time',   p.timeRecommended,       'Usually 20.');
+      html += _mmgFieldText('Passage header — title',        'mmgIrP' + n + '_phT',    ph.title,                'e.g., "READING PASSAGE 1".');
+      html += _mmgFieldArea('Passage header — instruction',  'mmgIrP' + n + '_phI',    ph.instruction,          'HTML allowed; describes timing.', 60);
+      html += '<div class="mmg-section-title" style="margin-top:14px;">Passage ' + n + ' body (JSON — passage HTML, questionSections, correctAnswers)</div>';
+      html += '<div class="mmg-field"><textarea id="mmgIrP' + n + '_body" spellcheck="false" '
+            + 'style="min-height:340px;font:12px ui-monospace,monospace;width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;resize:vertical;">'
+            + _mmgEsc(bodyStr) + '</textarea>'
+            + '<div class="mmg-field-help">JSON for everything except the top-level fields above.</div></div>';
+      document.getElementById(paneId).innerHTML = html;
+    }
+    function _mmgCollectIrPassage(md, idx) {
+      md.passages = md.passages || [];
+      while (md.passages.length <= idx) md.passages.push({});
+      var n = idx + 1;
+      var f = function (id) { var e = document.getElementById(id); return e ? e.value : undefined; };
+      var asNum = function (v) { var n2 = Number(v); return v === '' || !isFinite(n2) ? v : n2; };
+
+      var bodyStr = f('mmgIrP' + n + '_body');
+      var bodyParsed = null;
+      if (bodyStr !== undefined) {
+        try { bodyParsed = JSON.parse(bodyStr); }
+        catch (e) {
+          _mmgStatus('IELTS Reading Passage ' + n + ' body — JSON parse error: ' + e.message, '#dc2626');
+          throw e;
+        }
+        if (bodyParsed === null || typeof bodyParsed !== 'object' || Array.isArray(bodyParsed)) {
+          _mmgStatus('IELTS Reading Passage ' + n + ' body must be a JSON object {…}.', '#dc2626');
+          throw new Error('body-not-object');
+        }
+      }
+
+      var p = md.passages[idx] || (md.passages[idx] = {});
+      if (bodyParsed) {
+        for (var k in p) { if (!_MMG_IR_TOP_KEYS[k]) delete p[k]; }
+        for (var k2 in bodyParsed) p[k2] = bodyParsed[k2];
+      }
+      if (f('mmgIrP' + n + '_id')    !== undefined) p.id              = asNum(f('mmgIrP' + n + '_id'));
+      if (f('mmgIrP' + n + '_title') !== undefined) p.title           = f('mmgIrP' + n + '_title');
+      if (f('mmgIrP' + n + '_short') !== undefined) p.shortName       = f('mmgIrP' + n + '_short');
+      if (f('mmgIrP' + n + '_diff')  !== undefined) p.difficulty      = f('mmgIrP' + n + '_diff');
+      if (f('mmgIrP' + n + '_qr')    !== undefined) p.questionRange   = f('mmgIrP' + n + '_qr');
+      if (f('mmgIrP' + n + '_time')  !== undefined) p.timeRecommended = asNum(f('mmgIrP' + n + '_time'));
+      p.passageHeader = p.passageHeader || {};
+      if (f('mmgIrP' + n + '_phT')   !== undefined) p.passageHeader.title       = f('mmgIrP' + n + '_phT');
+      if (f('mmgIrP' + n + '_phI')   !== undefined) p.passageHeader.instruction = f('mmgIrP' + n + '_phI');
     }
 
     // Re-init tabs whenever the user changes the mock type — switching between
