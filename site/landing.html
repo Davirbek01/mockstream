@@ -25723,6 +25723,27 @@
     .mmg-empty-hint {
       color:#94a3b8; font-size:12px; font-style:italic; padding:8px 0;
     }
+    /* Horizontal sub-tabs inside a Part / Passage pane (Passage / Questions / Answers / …). */
+    .mmg-subtabs-bar {
+      display:flex; gap:4px; border-bottom:2px solid #e2e8f0;
+      margin:14px 0 0; padding:0; flex-wrap:wrap;
+    }
+    .mmg-subtab {
+      padding:8px 14px; background:transparent; border:0;
+      border-bottom:2.5px solid transparent; margin-bottom:-2px;
+      cursor:pointer; font-size:12.5px; font-weight:600; color:#64748b;
+      transition:all .12s ease; white-space:nowrap;
+    }
+    .mmg-subtab:hover { color:#0f172a; background:#f1f5f9; border-radius:6px 6px 0 0; }
+    .mmg-subtab.active {
+      color:#2563eb; border-bottom-color:#2563eb;
+      background:#fff; border-radius:6px 6px 0 0;
+    }
+    .mmg-subtab .mmg-subtab-count {
+      color:#94a3b8; font-weight:500; font-size:11px; margin-left:2px;
+    }
+    .mmg-subtab.active .mmg-subtab-count { color:#60a5fa; }
+    .mmg-subpane { padding-top:14px; }
     .mmg-detect-btn {
       background:#eff6ff; color:#1e40af; border:1px solid #93c5fd; border-radius:6px;
       padding:6px 12px; font-size:12px; font-weight:600; cursor:pointer;
@@ -28318,9 +28339,12 @@
       if (f('mmgCrTi_level')          !== undefined) md.testInfo.level          = f('mmgCrTi_level');
     }
 
-    // Keys covered by structured form sections. Anything else passes through
-    // the "Other fields" JSON textarea unchanged.
-    var _MMG_CR_PART_COVERED = { partNumber:1, title:1, type:1, questionRange:1, instruction:1, passage:1, questions:1, answers:1, explanations:1 };
+    // Keys covered by structured form sections (or hidden + auto-set).
+    // Anything else passes through the "Other" sub-tab JSON unchanged. Note
+    // `type` is intentionally NOT here — we don't surface it as an input but
+    // we want it visible in Other so power users can change it without
+    // diving into Raw. partNumber + title are hidden + auto-set on collect.
+    var _MMG_CR_PART_COVERED = { partNumber:1, title:1, questionRange:1, instruction:1, passage:1, questions:1, answers:1, explanations:1 };
 
     function _mmgRenderCrPart(md, idx) {
       var parts = (md.parts = md.parts || []);
@@ -28328,70 +28352,127 @@
       var p = parts[idx] || {};
       var n = idx + 1;
       var paneId = 'mmgPaneCrPart' + n;
+      var scope  = 'crP' + n;
 
-      // ── Basics ────────────────────────────────────────────────────────
-      var html = '<div class="mmg-section-title">Part ' + n + ' — basics</div>';
-      html += _mmgFieldText('Part number',     'mmgCrP' + n + '_num',   p.partNumber == null ? n : p.partNumber, 'Numeric — usually matches the part index.');
-      html += _mmgFieldText('Title',           'mmgCrP' + n + '_title', p.title,         'e.g., "Part ' + n + '".');
-      html += _mmgFieldText('Question type',   'mmgCrP' + n + '_type',  p.type,          'Free text — e.g., "gap-fill-text", "matching", "multiple-choice".');
+      // Auto-fill values we no longer surface as inputs (keeps the saved
+      // mock_data shape stable even for fresh mocks).
+      if (p.partNumber == null)                       p.partNumber = n;
+      if (p.title == null || p.title === '')          p.title      = 'Part ' + n;
+
+      window._mmgCrActiveSub = window._mmgCrActiveSub || {};
+      var activeSub = window._mmgCrActiveSub[idx] || 'passage';
+
+      // ── Basics (always visible above the sub-tabs) ───────────────────
+      var html = '<div class="mmg-section-title">Part ' + n + '</div>';
       html += _mmgFieldText('Question range',  'mmgCrP' + n + '_qr',    p.questionRange, 'e.g., "1-6". Tells the runner which question numbers this part covers.');
       html += _mmgFieldArea('Instruction shown to student', 'mmgCrP' + n + '_instr', p.instruction, 'HTML allowed.', 80);
 
-      // ── Passage ───────────────────────────────────────────────────────
-      var pass = (p.passage && typeof p.passage === 'object') ? p.passage : {};
-      html += '<div class="mmg-section-title" style="margin-top:18px;">Passage (the text the student reads)</div>';
-      html += _mmgFieldText('Passage title', 'mmgCrP' + n + '_passT', pass.title, 'Heading shown above the text. Leave blank if there\'s no separate heading.');
-      html += _mmgFieldArea('Passage content', 'mmgCrP' + n + '_passC', pass.content, 'HTML allowed. For fill-in gaps use: <span class="gap" data-gap="N">_____(N)_____</span>', 220);
-
-      // ── Questions / answers / explanations ────────────────────────────
-      var questions = Array.isArray(p.questions) ? p.questions : [];
-      var answers = (p.answers && typeof p.answers === 'object' && !Array.isArray(p.answers)) ? p.answers : {};
+      // ── Sub-tab bar ──────────────────────────────────────────────────
+      var questions    = Array.isArray(p.questions) ? p.questions : [];
+      var answers      = (p.answers && typeof p.answers === 'object' && !Array.isArray(p.answers)) ? p.answers : {};
       var explanations = (p.explanations && typeof p.explanations === 'object' && !Array.isArray(p.explanations)) ? p.explanations : {};
+      var qCount       = questions.length;
 
-      // Section header — mirrors the speaking editor's pattern (count + add button).
-      html += '<div class="mmg-section-title" style="display:flex;align-items:center;gap:10px;margin-top:18px;">'
-            +   '<span style="flex:1;">Questions, answers &amp; explanations — ' + questions.length + ' question(s)</span>'
+      var sb = function (subId, label, count) {
+        var ac = (subId === activeSub) ? ' active' : '';
+        var cs = (count != null) ? ' <span class="mmg-subtab-count">(' + count + ')</span>' : '';
+        return '<button type="button" class="mmg-subtab' + ac + '" data-sub="' + subId + '" onclick="_mmgSwitchSub(\'' + scope + '\', \'' + subId + '\')">' + label + cs + '</button>';
+      };
+      html += '<div class="mmg-subtabs-bar" data-scope="' + scope + '">'
+            +   sb('passage',      'Passage')
+            +   sb('questions',    'Questions',    qCount)
+            +   sb('answers',      'Answers')
+            +   sb('explanations', 'Explanations')
+            +   sb('other',        'Other')
+            + '</div>';
+
+      var subOpen = function (subId) {
+        var disp = (subId === activeSub) ? 'block' : 'none';
+        return '<div class="mmg-subpane" data-scope="' + scope + '" data-sub="' + subId + '" style="display:' + disp + ';">';
+      };
+
+      // ── Passage sub-pane ─────────────────────────────────────────────
+      var pass = (p.passage && typeof p.passage === 'object') ? p.passage : {};
+      html += subOpen('passage');
+      html += _mmgFieldText('Passage title', 'mmgCrP' + n + '_passT', pass.title, 'Heading shown above the text. Leave blank if there\'s no separate heading.');
+      html += _mmgFieldArea('Passage content', 'mmgCrP' + n + '_passC', pass.content, 'HTML allowed. For fill-in gaps use: <span class="gap" data-gap="N">_____(N)_____</span>', 280);
+      html += '</div>';
+
+      // ── Questions sub-pane ───────────────────────────────────────────
+      html += subOpen('questions');
+      html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">'
+            +   '<span class="mmg-field-help" style="flex:1;color:#64748b;">' + qCount + ' question(s). The hint is shown next to the question number to the student.</span>'
             +   '<button type="button" class="mmg-add-btn" onclick="_mmgCrAddQuestion(' + idx + ')">＋ Add question</button>'
             + '</div>';
-      html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">One block per question. For answers with multiple acceptable forms, separate them with commas (e.g., "labour, labor").</div>';
-
-      if (questions.length === 0) {
-        html += '<div class="mmg-empty-hint">No questions in this part yet. Click <em>＋ Add question</em> to start, or use the <strong>Other fields</strong> area below for matching / MCQ types whose questions are stored differently.</div>';
+      if (qCount === 0) {
+        html += '<div class="mmg-empty-hint">No questions yet. Click <em>＋ Add question</em> to start. Matching-style parts (matching-headings, matching-paragraphs) keep their data in <strong>Other</strong> instead — empty here is fine.</div>';
       } else {
         for (var i = 0; i < questions.length; i++) {
           var q = questions[i] || {};
           var qid = (q.id == null) ? (i + 1) : q.id;
-          var ansArr = Array.isArray(answers[qid]) ? answers[qid] : (Array.isArray(answers[String(qid)]) ? answers[String(qid)] : []);
-          var ansStr = ansArr.join(', ');
-          var explKey = 'q' + qid;
-          var expl = (explanations[explKey] && typeof explanations[explKey] === 'object') ? explanations[explKey] : {};
-
-          html += '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px;margin-bottom:12px;">';
-          html += '<div style="display:flex;align-items:center;gap:8px;font-weight:700;color:#0f172a;font-size:13px;margin-bottom:8px;">'
-                +   '<span style="flex:1;">Question ' + qid + '</span>'
-                +   '<button type="button" onclick="_mmgCrRemoveQuestion(' + idx + ',' + qid + ')" title="Remove this question, its answer and explanation" '
+          html += '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 14px;margin-bottom:10px;">';
+          html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">'
+                +   '<span style="font-weight:700;color:#0f172a;font-size:13px;flex:1;">Question ' + qid + '</span>'
+                +   '<button type="button" onclick="_mmgCrRemoveQuestion(' + idx + ',' + qid + ')" title="Remove question + its answer + its explanation" '
                 +     'style="background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;border-radius:5px;padding:3px 9px;font-size:11px;font-weight:600;cursor:pointer;">× Remove</button>'
                 + '</div>';
-          html += _mmgFieldText('Hint (shown next to the question number)', 'mmgCrP' + n + '_q' + qid + '_hint', q.hint, '');
-          html += _mmgFieldText('Correct answer(s)', 'mmgCrP' + n + '_q' + qid + '_ans', ansStr, 'Comma-separated for alternatives.');
-          html += _mmgFieldArea('Explanation — why this is the answer', 'mmgCrP' + n + '_q' + qid + '_etext', expl.text, '', 60);
-          html += _mmgFieldArea('Supporting quote from the passage', 'mmgCrP' + n + '_q' + qid + '_equote', expl.quote, '', 50);
+          html += _mmgFieldText('Hint', 'mmgCrP' + n + '_q' + qid + '_hint', q.hint, '');
           html += '</div>';
         }
       }
+      html += '</div>';
 
-      // ── Other fields ──────────────────────────────────────────────────
-      var other = {};
-      var hasOther = false;
-      for (var k in p) {
-        if (!_MMG_CR_PART_COVERED[k]) { other[k] = p[k]; hasOther = true; }
+      // ── Answers sub-pane ─────────────────────────────────────────────
+      html += subOpen('answers');
+      html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">Comma-separated for alternative spellings (e.g., "labour, labor").</div>';
+      if (qCount === 0) {
+        html += '<div class="mmg-empty-hint">Add questions first (in the Questions sub-tab) to see input slots here.</div>';
+      } else {
+        html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;">';
+        for (var ai = 0; ai < questions.length; ai++) {
+          var qa   = questions[ai] || {};
+          var qaid = (qa.id == null) ? (ai + 1) : qa.id;
+          var ansArr = Array.isArray(answers[qaid]) ? answers[qaid] : (Array.isArray(answers[String(qaid)]) ? answers[String(qaid)] : []);
+          var ansStr = ansArr.join(', ');
+          html += '<div style="display:flex;align-items:center;gap:6px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:6px 10px;">'
+                +   '<label for="mmgCrP' + n + '_q' + qaid + '_ans" style="font-weight:700;font-size:12px;color:#0f172a;min-width:32px;">Q' + qaid + '</label>'
+                +   '<input type="text" id="mmgCrP' + n + '_q' + qaid + '_ans" value="' + _mmgEsc(ansStr) + '" style="flex:1;padding:5px 8px;border:1px solid #cbd5e1;border-radius:5px;font-size:12px;">'
+                + '</div>';
+        }
+        html += '</div>';
       }
-      html += '<div class="mmg-section-title" style="margin-top:18px;">Other fields'
-            + (hasOther ? '' : ' <span style="color:#64748b;font-weight:normal;font-size:11px;">(usually empty)</span>') + '</div>';
+      html += '</div>';
+
+      // ── Explanations sub-pane ───────────────────────────────────────
+      html += subOpen('explanations');
+      html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">Why each answer is correct. Both fields are optional but help students learn from review.</div>';
+      if (qCount === 0) {
+        html += '<div class="mmg-empty-hint">Add questions first to see input slots here.</div>';
+      } else {
+        for (var ei = 0; ei < questions.length; ei++) {
+          var qe   = questions[ei] || {};
+          var qeid = (qe.id == null) ? (ei + 1) : qe.id;
+          var expl = (explanations['q' + qeid] && typeof explanations['q' + qeid] === 'object') ? explanations['q' + qeid] : {};
+          html += '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 14px;margin-bottom:10px;">';
+          html += '<div style="font-weight:700;color:#0f172a;font-size:13px;margin-bottom:6px;">Question ' + qeid + '</div>';
+          html += _mmgFieldArea('Explanation — why this is the answer', 'mmgCrP' + n + '_q' + qeid + '_etext', expl.text, '', 60);
+          html += _mmgFieldArea('Supporting quote from the passage',    'mmgCrP' + n + '_q' + qeid + '_equote', expl.quote, '', 50);
+          html += '</div>';
+        }
+      }
+      html += '</div>';
+
+      // ── Other sub-pane ──────────────────────────────────────────────
+      var other = {};
+      for (var k in p) {
+        if (!_MMG_CR_PART_COVERED[k]) other[k] = p[k];
+      }
+      html += subOpen('other');
+      html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">For things that vary by question type — <code>type</code>, matching statements / headings, MCQ options. Most parts have just <code>{ "type": "…" }</code> here. Leave alone if you don\'t recognise it.</div>';
       html += '<div class="mmg-field"><textarea id="mmgCrP' + n + '_other" spellcheck="false" '
-            + 'style="min-height:120px;font:12px ui-monospace,monospace;width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;resize:vertical;">'
-            + _mmgEsc(JSON.stringify(other, null, 2)) + '</textarea>'
-            + '<div class="mmg-field-help">For things that vary by question type — matching statements, MCQ options. Leave as <code>{}</code> if you don\'t recognise what should go here.</div></div>';
+            + 'style="min-height:240px;font:12px ui-monospace,monospace;width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;resize:vertical;">'
+            + _mmgEsc(JSON.stringify(other, null, 2)) + '</textarea></div>';
+      html += '</div>';
 
       document.getElementById(paneId).innerHTML = html;
     }
@@ -28401,52 +28482,58 @@
       while (md.parts.length <= idx) md.parts.push({});
       var n = idx + 1;
       var f = function (id) { var e = document.getElementById(id); return e ? e.value : undefined; };
-      var asNum = function (v) { var n2 = Number(v); return v === '' || !isFinite(n2) ? v : n2; };
 
-      // 1) Parse "Other fields" JSON FIRST so a parse error throws before mutation.
+      // 1) Parse "Other" JSON FIRST so a parse error throws before mutation.
       var otherStr = f('mmgCrP' + n + '_other');
       var otherParsed = {};
       if (otherStr !== undefined && otherStr.trim() !== '') {
         try { otherParsed = JSON.parse(otherStr); }
         catch (e) {
-          _mmgStatus('CEFR Reading Part ' + n + ' "Other fields" — JSON parse error: ' + e.message, '#dc2626');
+          _mmgStatus('CEFR Reading Part ' + n + ' "Other" — JSON parse error: ' + e.message, '#dc2626');
           throw e;
         }
         if (otherParsed === null || typeof otherParsed !== 'object' || Array.isArray(otherParsed)) {
-          _mmgStatus('CEFR Reading Part ' + n + ' "Other fields" must be a JSON object {…}.', '#dc2626');
+          _mmgStatus('CEFR Reading Part ' + n + ' "Other" must be a JSON object {…}.', '#dc2626');
           throw new Error('other-not-object');
         }
       }
 
-      // 2) Reset the part — drop everything, then layer back on in priority order.
+      // 2) Capture hidden values BEFORE the reset (no form inputs surface
+      // partNumber / title; we want existing values preserved if present,
+      // otherwise fall back to defaults derived from the part index).
       var p = md.parts[idx] || (md.parts[idx] = {});
+      var preservedPartNumber = p.partNumber;
+      var preservedTitle      = p.title;
+
+      // 3) Reset the part — drop everything, then layer back on.
       for (var existingKey in p) delete p[existingKey];
 
-      // Layer A: Other JSON (passthrough for type-specific extras).
+      // Layer A: Other JSON (passthrough — includes `type` and any
+      // type-specific extras like matching statements / MCQ options).
       for (var ok in otherParsed) p[ok] = otherParsed[ok];
 
-      // Layer B: top fields. Form values win over Other if both have a key.
-      if (f('mmgCrP' + n + '_num')   !== undefined) p.partNumber    = asNum(f('mmgCrP' + n + '_num'));
-      if (f('mmgCrP' + n + '_title') !== undefined) p.title         = f('mmgCrP' + n + '_title');
-      if (f('mmgCrP' + n + '_type')  !== undefined) p.type          = f('mmgCrP' + n + '_type');
+      // Layer B: hidden auto-set fields (preserve previous value, else default).
+      p.partNumber = (preservedPartNumber != null)              ? preservedPartNumber : n;
+      p.title      = (preservedTitle != null && preservedTitle !== '') ? preservedTitle      : 'Part ' + n;
+
+      // Layer C: top form fields.
       if (f('mmgCrP' + n + '_qr')    !== undefined) p.questionRange = f('mmgCrP' + n + '_qr');
       if (f('mmgCrP' + n + '_instr') !== undefined) p.instruction   = f('mmgCrP' + n + '_instr');
 
-      // Layer C: passage. Always present (we always render it).
+      // Layer D: passage. Only attach if at least one field has content
+      // (avoids creating an empty {} for parts that have no passage).
       var passT = f('mmgCrP' + n + '_passT');
       var passC = f('mmgCrP' + n + '_passC');
       if (passT !== undefined || passC !== undefined) {
         var passObj = {};
         if (passT !== undefined && passT !== '') passObj.title   = passT;
         if (passC !== undefined && passC !== '') passObj.content = passC;
-        // Only attach passage if at least one field has content. Avoids
-        // creating an empty {} for parts that genuinely have no passage.
         if (Object.keys(passObj).length > 0) p.passage = passObj;
       }
 
-      // Layer D: questions / answers / explanations — driven by hint fields in DOM.
-      // We re-render after save, so DOM has rows only for currently-rendered questions.
-      // _q-prefixed fields don't collide: questionRange is _qr (no underscore-digit).
+      // Layer E: questions / answers / explanations — driven by hint fields in DOM.
+      // All sub-panes are in DOM with display:none for the inactive ones, so
+      // their inputs are still discoverable via querySelectorAll.
       var qHints = document.querySelectorAll('[id^="mmgCrP' + n + '_q"][id$="_hint"]');
       if (qHints.length > 0) {
         var newQuestions = [];
@@ -28522,6 +28609,35 @@
       _mmgRenderCrPart(md, partIdx);
     };
 
+    // Generic horizontal sub-tab switcher — used by both CEFR Reading parts
+    // (scope = 'crP1'..'crP5') and IELTS Reading passages (scope = 'irP1'..'irP3').
+    // All sub-panes stay in DOM with display:none for inactive; the collector
+    // can still discover every input via querySelectorAll on a full save.
+    // State is stored per-scope so re-renders (e.g. after "+ Add question")
+    // restore the user's chosen sub-tab instead of resetting to the first.
+    window._mmgSwitchSub = function (scope, subId) {
+      if (scope.indexOf('crP') === 0) {
+        window._mmgCrActiveSub = window._mmgCrActiveSub || {};
+        var ci = parseInt(scope.slice(3), 10) - 1;
+        if (!isNaN(ci)) window._mmgCrActiveSub[ci] = subId;
+      } else if (scope.indexOf('irP') === 0) {
+        window._mmgIrActiveSub = window._mmgIrActiveSub || {};
+        var ii = parseInt(scope.slice(3), 10) - 1;
+        if (!isNaN(ii)) window._mmgIrActiveSub[ii] = subId;
+      }
+      var bar = document.querySelector('.mmg-subtabs-bar[data-scope="' + scope + '"]');
+      if (bar) {
+        var btns = bar.querySelectorAll('.mmg-subtab');
+        for (var i = 0; i < btns.length; i++) {
+          btns[i].classList.toggle('active', btns[i].getAttribute('data-sub') === subId);
+        }
+      }
+      var panes = document.querySelectorAll('.mmg-subpane[data-scope="' + scope + '"]');
+      for (var j = 0; j < panes.length; j++) {
+        panes[j].style.display = panes[j].getAttribute('data-sub') === subId ? 'block' : 'none';
+      }
+    };
+
     function _mmgRenderIrSettings(md) {
       var ti = (md.testInfo = md.testInfo || {});
       var html = '<div class="mmg-section-title">IELTS Reading — test info</div>';
@@ -28552,10 +28668,14 @@
       var p = passages[idx] || {};
       var n = idx + 1;
       var paneId = 'mmgPaneIrP' + n;
+      var scope  = 'irP' + n;
       var ph = (p.passageHeader && typeof p.passageHeader === 'object') ? p.passageHeader : {};
 
-      // ── Basics ────────────────────────────────────────────────────────
-      var html = '<div class="mmg-section-title">Passage ' + n + ' — basics</div>';
+      window._mmgIrActiveSub = window._mmgIrActiveSub || {};
+      var activeSub = window._mmgIrActiveSub[idx] || 'passage';
+
+      // ── Basics (always visible above the sub-tabs) ───────────────────
+      var html = '<div class="mmg-section-title">Passage ' + n + '</div>';
       html += _mmgFieldText('id',                         'mmgIrP' + n + '_id',     p.id == null ? n : p.id, 'Numeric passage id (1, 2, 3).');
       html += _mmgFieldText('Title',                      'mmgIrP' + n + '_title',  p.title,                 'e.g., "The Industrial Revolution in Britain".');
       html += _mmgFieldText('Short name',                 'mmgIrP' + n + '_short',  p.shortName,             'Brief tag used in nav.');
@@ -28565,18 +28685,10 @@
       html += _mmgFieldText('Passage-header title',       'mmgIrP' + n + '_phT',    ph.title,                'e.g., "READING PASSAGE 1".');
       html += _mmgFieldArea('Passage-header instruction', 'mmgIrP' + n + '_phI',    ph.instruction,          'HTML allowed; describes timing.', 60);
 
-      // ── Passage HTML (single string, no JSON escaping needed) ─────────
-      html += '<div class="mmg-section-title" style="margin-top:18px;">Passage HTML (the text the student reads)</div>';
-      html += '<div class="mmg-field"><textarea id="mmgIrP' + n + '_passage" spellcheck="false" '
-            + 'style="min-height:280px;font:12.5px ui-monospace,monospace;width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;resize:vertical;line-height:1.55;">'
-            + _mmgEsc(typeof p.passage === 'string' ? p.passage : '') + '</textarea>'
-            + '<div class="mmg-field-help">Just the HTML — paragraph tags etc. No JSON escaping needed here.</div></div>';
-
-      // ── Correct answers grid ──────────────────────────────────────────
-      // Derive the question id list from BOTH correctAnswers AND questionSections
-      // so a brand-new mock with no answers yet still gets input slots as soon
-      // as the user adds questions to questionSections.
-      var ca = (p.correctAnswers && typeof p.correctAnswers === 'object' && !Array.isArray(p.correctAnswers)) ? p.correctAnswers : {};
+      // Derive question ids from BOTH correctAnswers AND questionSections so a
+      // fresh passage with no answers yet still gets input slots as soon as
+      // questions are added to questionSections.
+      var ca    = (p.correctAnswers && typeof p.correctAnswers === 'object' && !Array.isArray(p.correctAnswers)) ? p.correctAnswers : {};
       var qsArr = Array.isArray(p.questionSections) ? p.questionSections : [];
       var qIdSet = {};
       Object.keys(ca).forEach(function (k) {
@@ -28591,44 +28703,74 @@
         }
       });
       var sortedQIds = Object.keys(qIdSet).map(function (k) { return parseInt(k, 10); }).sort(function (a, b) { return a - b; });
+      var qCount = sortedQIds.length;
+      var sCount = qsArr.length;
 
-      html += '<div class="mmg-section-title" style="margin-top:18px;">Correct answers</div>';
+      // ── Sub-tab bar ──────────────────────────────────────────────────
+      var sb = function (subId, label, count) {
+        var ac = (subId === activeSub) ? ' active' : '';
+        var cs = (count != null) ? ' <span class="mmg-subtab-count">(' + count + ')</span>' : '';
+        return '<button type="button" class="mmg-subtab' + ac + '" data-sub="' + subId + '" onclick="_mmgSwitchSub(\'' + scope + '\', \'' + subId + '\')">' + label + cs + '</button>';
+      };
+      html += '<div class="mmg-subtabs-bar" data-scope="' + scope + '">'
+            +   sb('passage',  'Passage HTML')
+            +   sb('answers',  'Correct answers',   qCount)
+            +   sb('sections', 'Question sections', sCount)
+            +   sb('other',    'Other')
+            + '</div>';
+
+      var subOpen = function (subId) {
+        var disp = (subId === activeSub) ? 'block' : 'none';
+        return '<div class="mmg-subpane" data-scope="' + scope + '" data-sub="' + subId + '" style="display:' + disp + ';">';
+      };
+
+      // ── Passage HTML sub-pane ────────────────────────────────────────
+      html += subOpen('passage');
+      html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">Just the HTML — paragraph tags etc. No JSON escaping needed.</div>';
+      html += '<div class="mmg-field"><textarea id="mmgIrP' + n + '_passage" spellcheck="false" '
+            + 'style="min-height:380px;font:12.5px ui-monospace,monospace;width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;resize:vertical;line-height:1.55;">'
+            + _mmgEsc(typeof p.passage === 'string' ? p.passage : '') + '</textarea></div>';
+      html += '</div>';
+
+      // ── Correct answers sub-pane ─────────────────────────────────────
+      html += subOpen('answers');
       html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">Comma-separated for alternatives (e.g., "LABOUR, LABOR").</div>';
-      if (sortedQIds.length === 0) {
-        html += '<div style="background:#fff7ed;border:1px solid #fdba74;color:#9a3412;border-radius:8px;padding:10px 14px;font-size:12px;">No questions yet. Add them in <strong>Question sections</strong> below — input slots for each answer will appear here after you save.</div>';
+      if (qCount === 0) {
+        html += '<div class="mmg-empty-hint">No questions yet. Add them in the Question sections sub-tab — input slots will appear here after you save.</div>';
       } else {
         html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;">';
         for (var ci = 0; ci < sortedQIds.length; ci++) {
           var qid = sortedQIds[ci];
           var arr = Array.isArray(ca['q' + qid]) ? ca['q' + qid] : [];
           var str = arr.join(', ');
-          html += '<div style="display:flex;align-items:center;gap:6px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:6px 10px;">';
-          html += '<label for="mmgIrP' + n + '_ca_q' + qid + '" style="font-weight:700;font-size:12px;color:#0f172a;min-width:32px;">Q' + qid + '</label>';
-          html += '<input type="text" id="mmgIrP' + n + '_ca_q' + qid + '" value="' + _mmgEsc(str) + '" style="flex:1;padding:5px 8px;border:1px solid #cbd5e1;border-radius:5px;font-size:12px;">';
-          html += '</div>';
+          html += '<div style="display:flex;align-items:center;gap:6px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:6px 10px;">'
+                +   '<label for="mmgIrP' + n + '_ca_q' + qid + '" style="font-weight:700;font-size:12px;color:#0f172a;min-width:32px;">Q' + qid + '</label>'
+                +   '<input type="text" id="mmgIrP' + n + '_ca_q' + qid + '" value="' + _mmgEsc(str) + '" style="flex:1;padding:5px 8px;border:1px solid #cbd5e1;border-radius:5px;font-size:12px;">'
+                + '</div>';
         }
         html += '</div>';
       }
+      html += '</div>';
 
-      // ── Question sections (kept as JSON because shapes vary by type) ──
-      html += '<div class="mmg-section-title" style="margin-top:18px;">Question sections</div>';
+      // ── Question sections sub-pane (stays JSON — shapes vary by type) ─
+      html += subOpen('sections');
+      html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">Each section has a <code>type</code> (completion / tfng / matching-headings / etc.) and a list of questions. Different types have different fields, which is why this stays as JSON.</div>';
       html += '<div class="mmg-field"><textarea id="mmgIrP' + n + '_qs" spellcheck="false" '
-            + 'style="min-height:240px;font:12px ui-monospace,monospace;width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;resize:vertical;">'
-            + _mmgEsc(JSON.stringify(qsArr, null, 2)) + '</textarea>'
-            + '<div class="mmg-field-help">Each section has a <code>type</code> (completion / tfng / matching-headings / etc.) and a list of questions. Different types have different fields, which is why this stays as JSON.</div></div>';
+            + 'style="min-height:380px;font:12px ui-monospace,monospace;width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;resize:vertical;">'
+            + _mmgEsc(JSON.stringify(qsArr, null, 2)) + '</textarea></div>';
+      html += '</div>';
 
-      // ── Other fields ──────────────────────────────────────────────────
+      // ── Other sub-pane ───────────────────────────────────────────────
       var other = {};
-      var hasOther = false;
       for (var k in p) {
-        if (!_MMG_IR_PASS_COVERED[k]) { other[k] = p[k]; hasOther = true; }
+        if (!_MMG_IR_PASS_COVERED[k]) other[k] = p[k];
       }
-      html += '<div class="mmg-section-title" style="margin-top:18px;">Other fields'
-            + (hasOther ? '' : ' <span style="color:#64748b;font-weight:normal;font-size:11px;">(usually empty)</span>') + '</div>';
+      html += subOpen('other');
+      html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">Anything else not covered above. Usually <code>{}</code>.</div>';
       html += '<div class="mmg-field"><textarea id="mmgIrP' + n + '_other" spellcheck="false" '
-            + 'style="min-height:80px;font:12px ui-monospace,monospace;width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;resize:vertical;">'
-            + _mmgEsc(JSON.stringify(other, null, 2)) + '</textarea>'
-            + '<div class="mmg-field-help">Anything else not covered above. Usually <code>{}</code>.</div></div>';
+            + 'style="min-height:200px;font:12px ui-monospace,monospace;width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;resize:vertical;">'
+            + _mmgEsc(JSON.stringify(other, null, 2)) + '</textarea></div>';
+      html += '</div>';
 
       document.getElementById(paneId).innerHTML = html;
     }
