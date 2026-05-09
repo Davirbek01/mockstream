@@ -152,19 +152,42 @@
           // ── Supabase dynamic mock: load directly without matching dropdown ──
           if (sbMockParam) {
             const sbValue = 'supabase:' + sbMockParam;
-            // Add a temporary option for this dynamic mock
-            let opt = selector.querySelector('option[value="' + sbValue + '"]');
-            if (!opt) {
-              opt = document.createElement('option');
-              opt.value = sbValue;
-              opt.textContent = '🟢 Dynamic Mock';
-              opt.style.cssText = 'background:white;color:#6366f1;font-weight:600;';
-              selector.appendChild(opt);
+            // Mock number sources, in order:
+            //   1. ?num=NN appended by landing.html's picker upgrader
+            //   2. Supabase lookup by id (fallback — students with stale
+            //      cached landing.html click links without &num=, so the
+            //      Telegram caption used to default to Mock 01).
+            const numParam = urlParams.get('num');
+            const proceedWithLabel = function (padded) {
+              const dynLabel = padded ? ('🟢 CEFR Speaking Mock ' + padded) : '🟢 Dynamic Mock';
+              let opt = selector.querySelector('option[value="' + sbValue + '"]');
+              if (!opt) {
+                opt = document.createElement('option');
+                opt.value = sbValue;
+                opt.style.cssText = 'background:white;color:#6366f1;font-weight:600;';
+                selector.appendChild(opt);
+              }
+              opt.textContent = dynLabel;
+              selector.value = sbValue;
+              window._lastSelectedMock = { value: sbValue, index: selector.selectedIndex, text: dynLabel };
+              console.log('[Auto-Proceed] Selected Supabase mock:', sbValue, 'label:', dynLabel);
+              setTimeout(() => { continueBtn.click(); }, 300);
+            };
+            if (numParam) {
+              proceedWithLabel(String(parseInt(numParam, 10) || 0).padStart(2, '0'));
+            } else {
+              const SB_URL_AP = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+              const SB_KEY_AP = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+              fetch(`${SB_URL_AP}/rest/v1/mock_tests?id=eq.${encodeURIComponent(sbMockParam)}&select=mock_number`, {
+                headers: { 'apikey': SB_KEY_AP, 'Authorization': 'Bearer ' + SB_KEY_AP }
+              }).then(r => r.ok ? r.json() : []).then(rows => {
+                const n = rows && rows[0] && rows[0].mock_number;
+                proceedWithLabel(n ? String(parseInt(n, 10) || 0).padStart(2, '0') : '');
+              }).catch(err => {
+                console.warn('[Auto-Proceed] mock_number lookup failed, using generic label', err);
+                proceedWithLabel('');
+              });
             }
-            selector.value = sbValue;
-            window._lastSelectedMock = { value: sbValue, index: selector.selectedIndex, text: opt.textContent };
-            console.log('[Auto-Proceed] Selected Supabase mock:', sbValue);
-            setTimeout(() => { continueBtn.click(); }, 300);
             return;
           }
 
@@ -10213,10 +10236,30 @@
             return;
           }
 
-          // Extract mock number from filename (selectedValue already defined above)
-          const mockMatch = selectedValue.match(/questions(\d+)?\.js/);
-          const mockNumber = mockMatch ? (mockMatch[1] || '01') : '01';
-          const formattedMockNumber = mockNumber.padStart(2, '0');
+          // Extract mock number — multiple sources because the URL alone
+          // isn't enough after the Supabase migration (URLs like
+          // "Speaking Mocks.html?sbmock=147&auto=1" don't contain the
+          // mock number, only the row id). Try in order:
+          //   1. The picker's display text ("CEFR Speaking Mock 09" → 09)
+          //   2. Legacy file regex (questions15.js → 15) — pre-Supabase
+          //   3. URL ?test= param (test=cefr-speaking-mock-09 → 09)
+          let mockNumber = '01';
+          const _pickedText = (window._lastSelectedMock && window._lastSelectedMock.text)
+            || (selector && selector.options && selector.options[selector.selectedIndex] && selector.options[selector.selectedIndex].text)
+            || '';
+          const _textMatch = _pickedText.match(/Mock\s+(\d+)/i);
+          if (_textMatch) {
+            mockNumber = _textMatch[1];
+          } else {
+            const _fileMatch = selectedValue.match(/questions(\d+)?\.js/);
+            if (_fileMatch && _fileMatch[1]) {
+              mockNumber = _fileMatch[1];
+            } else {
+              const _testMatch = selectedValue.match(/[?&]test=[^&]*?-(\d{1,3})(?=&|$)/);
+              if (_testMatch) mockNumber = _testMatch[1];
+            }
+          }
+          const formattedMockNumber = String(parseInt(mockNumber, 10) || 1).padStart(2, '0');
           window.SELECTED_MOCK_NUMBER = formattedMockNumber;
 
           console.log('Opening candidate details for Mock:', formattedMockNumber);

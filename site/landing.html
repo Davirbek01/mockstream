@@ -12563,9 +12563,11 @@
             testsArr:          cefrSpeakingTests,
             mocksArr:          cefrSpeakingMocks,
             staticFilePattern: (n) => `questions S/questions${n}.js`,
-            // ?sbmock= alone is enough on Speaking Mocks.html (the runner
-            // accepts it standalone — see _extractSpeakingMockNumber).
-            runnerUrl:         (id, _padded) => `Speaking Mocks.html?sbmock=${id}&auto=1`,
+            // `&num=NN` is needed by the runner so the auto-proceed
+            // option label includes the mock number — without it the
+            // Telegram caption / PDF generators read SELECTED_MOCK_NUMBER
+            // and fall back to '01' for every Supabase-backed mock.
+            runnerUrl:         (id, padded) => `Speaking Mocks.html?sbmock=${id}&num=${padded}&auto=1`,
             label:             'CEFR Speaking Mock'
           });
         }
@@ -26313,7 +26315,12 @@
       if (existing) existing.remove();
       var ov = document.createElement('div');
       ov.id = 'mmgPasscodeOverlay';
-      ov.style.cssText = 'position:fixed;inset:0;z-index:10240;background:rgba(15,23,42,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:16px;animation:adminAuthFadeIn .2s ease;';
+      // z-index 10300 sits above Site Management (10250) and Mock Settings
+      // (10200), so the passcode prompt is always visible regardless of
+      // which admin overlay triggered it. Was 10240 before — that hid the
+      // prompt behind Site Management when the Force-refresh button asked
+      // for the passcode.
+      ov.style.cssText = 'position:fixed;inset:0;z-index:10300;background:rgba(15,23,42,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:16px;animation:adminAuthFadeIn .2s ease;';
       ov.innerHTML =
         '<div style="background:#fff;color:#0f172a;border-radius:16px;width:100%;max-width:400px;padding:26px 24px 22px;box-shadow:0 24px 64px rgba(0,0,0,.4);text-align:center;">' +
           '<div style="font-size:38px;line-height:1;margin-bottom:6px;">🧪</div>' +
