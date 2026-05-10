@@ -29243,8 +29243,14 @@
         if (!picker._mmgBound) {
           picker._mmgBound = true;
           picker.addEventListener('change', function () {
-            _mmgImportFilesPicked(group === 'Test' ? 'test' : 'answer-key', picker.files);
+            // Snapshot picker.files into a real array BEFORE clearing the
+            // input value. picker.files is a live FileList — once we set
+            // picker.value='', it's emptied, and any pending async iteration
+            // sees length 0 and silently drops every file after the first.
+            // That's why multi-select used to upload only the first image.
+            var snapshot = Array.from(picker.files || []);
             picker.value = '';
+            _mmgImportFilesPicked(group === 'Test' ? 'test' : 'answer-key', snapshot);
           });
         }
       });
@@ -29280,8 +29286,14 @@
         if (!picker._mmgBound) {
           picker._mmgBound = true;
           picker.addEventListener('change', function () {
-            _mmgImportFilesPicked(group === 'Test' ? 'test' : 'answer-key', picker.files);
+            // Snapshot picker.files into a real array BEFORE clearing the
+            // input value. picker.files is a live FileList — once we set
+            // picker.value='', it's emptied, and any pending async iteration
+            // sees length 0 and silently drops every file after the first.
+            // That's why multi-select used to upload only the first image.
+            var snapshot = Array.from(picker.files || []);
             picker.value = '';
+            _mmgImportFilesPicked(group === 'Test' ? 'test' : 'answer-key', snapshot);
           });
         }
       });

@@ -161,7 +161,7 @@ const IELTS_SHAPE = `{
 
           "questions": [
             { "id": number, "text": string }         // text rules per type:
-                                                     //   • completion: include the literal placeholder "{INPUT}" exactly where each gap appears
+                                                     //   • completion: ONE {INPUT} per question entry — never bundle multiple blanks into one entry. If the source summary has 6 blanks numbered 8–13, you MUST emit 6 separate entries (id 8, 9, 10, 11, 12, 13), each containing exactly ONE {INPUT}. text = the surrounding sentence (or sentence fragment) up to and including its single {INPUT}; you may repeat / split words across entries so each entry reads naturally — the renderer joins them back into the flowing summary.
                                                      //   • tfng / ynng: text = the statement to evaluate
                                                      //   • matching / matching-headings: text = the statement / description students match
                                                      //   • multiple-choice: text = the question stem (the A/B/C/D options live in a separate "options" array if present, otherwise embed them in <strong>A</strong> … markers)
@@ -202,7 +202,7 @@ const IELTS_SINGLE_PASSAGE_SHAPE = `{
       "boxTitle": string,
       "headingsList": [string],
       "featuresList": [string],
-      "questions": [ { "id": number, "text": string } ]
+      "questions": [ { "id": number, "text": string } ]   // For "completion" type, ONE {INPUT} per entry — never bundle multiple blanks; emit one entry per numbered blank.
     }
   ],
 
@@ -244,7 +244,7 @@ function buildPrompt(
 
   | Source instruction looks like… | type | Required extras |
   |---|---|---|
-  | "Complete the notes/sentences/summary/table/flow-chart below. Choose ONE WORD ONLY / NO MORE THAN TWO WORDS…" | "completion" | "boxTitle" = the heading above the notes/table; "questions" use {INPUT} placeholders |
+  | "Complete the notes/sentences/summary/table/flow-chart below. Choose ONE WORD ONLY / NO MORE THAN TWO WORDS…" | "completion" | "boxTitle" = heading above the notes/table; "questions" — ONE entry per numbered blank, exactly ONE {INPUT} per entry. If the source summary has 6 blanks numbered 8–13 inside a flowing paragraph, emit 6 entries (ids 8, 9, 10, 11, 12, 13) — never one big entry with 6 {INPUT} placeholders inside it. The renderer expects 1 input per entry. |
   | "Do the following statements agree with the information / claims in Reading Passage X? … TRUE / FALSE / NOT GIVEN" | "tfng" | (none) |
   | "Do the following statements agree with the views/claims of the writer? … YES / NO / NOT GIVEN" | "ynng" | (none) |
   | "Reading Passage X has Y paragraphs, A-Z. Choose the correct heading for paragraphs A-F from the list of headings below. … i, ii, iii…" | "matching-headings" | "headingsList" = the i-ix headings list verbatim |
