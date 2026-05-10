@@ -3306,8 +3306,60 @@
                 .then(function(r) { if (!r.ok) throw new Error('Supabase ' + r.status); return r.json(); })
                 .then(function(rows) {
                     if (!rows || !rows.length || !rows[0].mock_data) throw new Error('Empty response');
-                    window.IELTS_READING_TEST = rows[0].mock_data;
+                    var loaded = rows[0].mock_data;
+
+                    // ── Partial-mock support ─────────────────────────────────
+                    // An admin can save a mock with only Passage 1 filled (or
+                    // any subset) and add the rest later. Drop empty passage
+                    // entries so the runner only renders tabs / questions for
+                    // content that's actually there. A passage counts as
+                    // "filled" when it has body HTML AND at least one question.
+                    if (loaded && Array.isArray(loaded.passages)) {
+                        var filled = loaded.passages.filter(function (p) {
+                            if (!p) return false;
+                            var hasBody = typeof p.passage === 'string' && p.passage.trim().length > 0;
+                            var hasQs = Array.isArray(p.questionSections) && p.questionSections.some(function (s) {
+                                return s && Array.isArray(s.questions) && s.questions.length > 0;
+                            });
+                            return hasBody && hasQs;
+                        });
+                        loaded.passages = filled;
+                        // Re-derive totalQuestions from the filled set so the
+                        // navigation grid + score denominator both shrink to
+                        // match. Walk question ids inside questionSections
+                        // since questionRange may be missing on AI-imported
+                        // partial mocks.
+                        var nQ = 0;
+                        filled.forEach(function (p) {
+                            (p.questionSections || []).forEach(function (s) {
+                                (s.questions || []).forEach(function (q) {
+                                    if (q && q.id != null) {
+                                        var n = parseInt(q.id, 10);
+                                        if (!isNaN(n) && n > nQ) nQ = n;
+                                    }
+                                });
+                            });
+                        });
+                        if (nQ > 0) {
+                            loaded.testInfo = loaded.testInfo || {};
+                            loaded.testInfo.totalQuestions = nQ;
+                            loaded.testInfo.passages = filled.length;
+                        }
+                    }
+
+                    window.IELTS_READING_TEST = loaded;
                     document.dispatchEvent(new Event('testDataLoaded'));
+
+                    // Hide passage tab buttons that have no content. The
+                    // hide runs after testDataLoaded so any later renderer
+                    // that re-shows tabs won't fight us.
+                    try {
+                        var nFilled = (loaded.passages || []).length;
+                        document.querySelectorAll('.passage-nav-tab, .mobile-passage-tab').forEach(function (el) {
+                            var pn = parseInt(el.getAttribute('data-passage'), 10);
+                            if (!isNaN(pn) && pn > nFilled) el.style.display = 'none';
+                        });
+                    } catch (_e) { /* tabs not in DOM yet — testDataLoaded handlers will redraw */ }
                 })
                 .catch(function(err) {
                     console.error('❌ Supabase load failed:', err);
