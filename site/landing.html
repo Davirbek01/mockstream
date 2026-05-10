@@ -26188,7 +26188,7 @@
     <div id="mmgImportModal" style="display:none;position:absolute;inset:0;background:rgba(15,23,42,.55);align-items:center;justify-content:center;padding:20px;z-index:10;">
       <div style="background:#fff;border-radius:14px;width:100%;max-width:680px;max-height:88vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.4);">
         <div style="padding:14px 18px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;gap:10px;">
-          <div style="font-size:15px;font-weight:700;flex:1;">✨ Import test from PDF / image</div>
+          <div id="mmgImportTitle" style="font-size:15px;font-weight:700;flex:1;">✨ Import test from PDF / image</div>
           <button onclick="_mmgImportClose()" style="background:none;border:0;font-size:20px;cursor:pointer;color:#64748b;">×</button>
         </div>
         <div style="flex:1;overflow-y:auto;padding:14px 18px;font-size:13px;">
@@ -28842,8 +28842,21 @@
       window._mmgIrActiveSub = window._mmgIrActiveSub || {};
       var activeSub = window._mmgIrActiveSub[idx] || 'passage';
 
+      // ── Per-passage AI import banner ─────────────────────────────────
+      // For when each passage comes from a different source PDF/image —
+      // upload + transcribe one passage at a time, fewer screenshots per
+      // call (less risk of token / rate limits), and only this tab gets
+      // overwritten.
+      var html = ''
+            + '<div style="background:linear-gradient(135deg,#fdf4ff,#faf5ff);border:1px solid #e9d5ff;border-radius:10px;padding:10px 12px;margin-bottom:14px;display:flex;align-items:center;gap:12px;">'
+            +   '<div style="flex:1;font-size:12px;color:#581c87;line-height:1.45;">'
+            +     '<strong>✨ Import this passage</strong> — upload only Passage ' + n + '\'s files (and answer key, if separate). Other passages stay untouched.'
+            +   '</div>'
+            +   '<button type="button" onclick="_mmgImportOpenPassage(' + idx + ')" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(124,58,237,.3);white-space:nowrap;">✨ Import passage</button>'
+            + '</div>';
+
       // ── Basics (always visible above the sub-tabs) ───────────────────
-      var html = '<div class="mmg-section-title">Passage ' + n + '</div>';
+      html += '<div class="mmg-section-title">Passage ' + n + '</div>';
       html += _mmgFieldText('id',                         'mmgIrP' + n + '_id',     p.id == null ? n : p.id, 'Numeric passage id (1, 2, 3).');
       html += _mmgFieldText('Title',                      'mmgIrP' + n + '_title',  p.title,                 'e.g., "The Industrial Revolution in Britain".');
       html += _mmgFieldText('Short name',                 'mmgIrP' + n + '_short',  p.shortName,             'Brief tag used in nav.');
@@ -29183,7 +29196,21 @@
     //   model handled it (Gemini 2.5 Pro or GPT-4o fallback).
     // ═══════════════════════════════════════════════════════════════════════
     var _MMG_TRANSCRIBE_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/transcribe-mock';
-    window._mmgImportState = { files: [], examType: '' };
+    window._mmgImportState = { files: [], examType: '', scope: 'full', passageIndex: 0 };
+
+    // Render the modal's title + footer hint based on scope. Single source
+    // of truth — both _mmgImportOpen and _mmgImportOpenPassage call this so
+    // re-opening at a different scope correctly retitles the dialog.
+    function _mmgImportApplyScope() {
+      var st  = window._mmgImportState;
+      var ttl = document.getElementById('mmgImportTitle');
+      if (!ttl) return;
+      if (st.scope === 'passage') {
+        ttl.textContent = '✨ Import Passage ' + (st.passageIndex + 1) + ' from PDF / image';
+      } else {
+        ttl.textContent = '✨ Import test from PDF / image';
+      }
+    }
 
     function _mmgImportOpen() {
       var m = window._mmgEditing;
@@ -29191,7 +29218,8 @@
         alert('Import is currently available for CEFR Reading and IELTS Reading mocks only.');
         return;
       }
-      window._mmgImportState = { files: [], examType: m.mock_type };
+      window._mmgImportState = { files: [], examType: m.mock_type, scope: 'full', passageIndex: 0 };
+      _mmgImportApplyScope();
       document.getElementById('mmgImportNotes').value = '';
       document.getElementById('mmgImportStatus').textContent = '';
       document.getElementById('mmgImportStatus').style.color = '#64748b';
@@ -29212,6 +29240,43 @@
       });
     }
     window._mmgImportOpen = _mmgImportOpen;
+
+    // Per-passage import — same modal as full-test, but sends scope=passage
+    // to the edge function and merges the single returned passage object
+    // into mock_data.passages[idx] without touching the other passages.
+    function _mmgImportOpenPassage(idx) {
+      var m = window._mmgEditing;
+      if (!m || (m.mock_type !== 'cefr-reading' && m.mock_type !== 'ielts-reading')) {
+        alert('Per-passage import is currently available for CEFR Reading and IELTS Reading mocks only.');
+        return;
+      }
+      window._mmgImportState = {
+        files:        [],
+        examType:     m.mock_type,
+        scope:        'passage',
+        passageIndex: idx
+      };
+      _mmgImportApplyScope();
+      document.getElementById('mmgImportNotes').value = '';
+      document.getElementById('mmgImportStatus').textContent = '';
+      document.getElementById('mmgImportStatus').style.color = '#64748b';
+      var btn = document.getElementById('mmgImportSubmitBtn');
+      btn.disabled = false; btn.textContent = '✨ Import passage';
+      _mmgImportRender();
+      document.getElementById('mmgImportModal').style.display = 'flex';
+      // Wire pickers (idempotent — only bind once).
+      ['Test', 'Key'].forEach(function (group) {
+        var picker = document.getElementById('mmgImportPicker' + group);
+        if (!picker._mmgBound) {
+          picker._mmgBound = true;
+          picker.addEventListener('change', function () {
+            _mmgImportFilesPicked(group === 'Test' ? 'test' : 'answer-key', picker.files);
+            picker.value = '';
+          });
+        }
+      });
+    }
+    window._mmgImportOpenPassage = _mmgImportOpenPassage;
 
     window._mmgImportClose = function () {
       document.getElementById('mmgImportModal').style.display = 'none';
@@ -29387,6 +29452,13 @@
           return { name: f.name, mime: f.mime, base64: f.base64, group: f.group };
         })
       };
+      // Per-passage scope: tell the edge function to return just one
+      // passage object (not the full mock_data wrapper). passage_index
+      // is 1-based for the AI's benefit (matches "Reading Passage 1/2/3").
+      if (st.scope === 'passage') {
+        payload.scope         = 'passage';
+        payload.passage_index = st.passageIndex + 1;
+      }
 
       try {
         var r = await fetch(_MMG_TRANSCRIBE_URL, {
@@ -29406,6 +29478,34 @@
         }
 
         if (!window._mmgEditing) throw new Error('No active editor — close + reopen.');
+
+        // Per-passage merge: leave other passages alone, just slot the
+        // returned object into passages[idx]. Force the .id to match the
+        // tab the user imported from so the runner orders them correctly
+        // even if the AI emits a wrong / missing id.
+        if (st.scope === 'passage') {
+          var md = window._mmgEditing.mock_data || {};
+          if (!md.passages || !Array.isArray(md.passages)) md.passages = [];
+          while (md.passages.length <= st.passageIndex) md.passages.push({});
+          var newPassage = (j.mock_data && typeof j.mock_data === 'object' && !Array.isArray(j.mock_data))
+            ? j.mock_data
+            : null;
+          if (!newPassage) throw new Error('Edge function returned an invalid passage object');
+          newPassage.id = st.passageIndex + 1;
+          md.passages[st.passageIndex] = newPassage;
+          window._mmgEditing.mock_data = md;
+          document.getElementById('mmgFldData').value = JSON.stringify(md, null, 2);
+          _mmgInitTabs();
+
+          _mmgImportProgressDone(j.model_used, j.fallback_reason);
+          var modelLabel = (j.model_used === 'gpt-4o')
+            ? '✓ Imported Passage ' + (st.passageIndex + 1) + ' via GPT-4o (Gemini fallback)'
+            : '✓ Imported Passage ' + (st.passageIndex + 1) + ' via Gemini 2.5 Pro';
+          _mmgStatus(modelLabel + ' — review and Save when ready.', '#16a34a');
+          setTimeout(_mmgImportClose, 1400);
+          return;
+        }
+
         window._mmgEditing.mock_data = j.mock_data;
         document.getElementById('mmgFldData').value = JSON.stringify(j.mock_data, null, 2);
         _mmgInitTabs();
