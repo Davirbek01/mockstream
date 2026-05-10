@@ -16,8 +16,15 @@
 //     adminPasscode? : string,           // OR Authorization: Bearer <jwt>
 //     exam_type      : "cefr-reading" | "ielts-reading",
 //     files          : [{ name, mime, base64, group: "test"|"answer-key" }],
-//     notes?         : string            // optional free-text hints to the AI
+//     notes?         : string,           // optional free-text hints to the AI
+//     scope?         : "full" | "passage",   // default "full"
+//     passage_index? : number            // 1-based, REQUIRED when scope === "passage"
 //   }
+//
+// scope === "passage" returns a single passage object (IELTS) or a single
+// part object (CEFR) instead of the full mock_data envelope, so admins can
+// build a mock by importing one passage at a time when the source PDFs
+// differ — fewer pages per call, less risk of hitting token / rate limits.
 //
 // Response:
 //   200 { mock_data, model_used, fallback_reason?, actor }
@@ -167,9 +174,64 @@ const IELTS_SHAPE = `{
   ]
 }`;
 
-function buildPrompt(examType: string, notes: string, shape: string): string {
+// Single-passage shapes — used when scope === 'passage'. Identical to the
+// per-passage / per-part objects nested inside the full shapes above, just
+// without the surrounding wrapper. The model returns one object, not
+// wrapped in an array.
+const IELTS_SINGLE_PASSAGE_SHAPE = `{
+  "id": number,                                  // 1, 2, or 3 — the AI's best guess; the client overrides this anyway
+  "title": string,                               // The CONTENT title of the passage, e.g. "The Industrial Revolution in Britain"
+  "shortName": string,                           // Brief nav tag, derived from the content title
+  "difficulty": string,                          // "Easy" | "Medium" | "Hard"
+  "questionRange": string,                       // e.g. "1-13"
+  "timeRecommended": number,                     // minutes — almost always 20
+
+  "passageHeader": {
+    "title": string,                             // **ALWAYS the literal label "READING PASSAGE 1" / "READING PASSAGE 2" / "READING PASSAGE 3"**
+    "instruction": string                        // Timing line. HTML allowed.
+  },
+
+  "passage": string,                             // Full HTML of the body content only. Paragraphs wrapped in <p>…</p>.
+
+  "questionSections": [
+    {
+      "type": string,                            // EXACTLY one of: "completion" | "tfng" | "ynng" | "matching-headings" | "matching" | "multiple-choice"
+      "typeName": string,
+      "title": string,
+      "instruction": string,
+      "boxTitle": string,
+      "headingsList": [string],
+      "featuresList": [string],
+      "questions": [ { "id": number, "text": string } ]
+    }
+  ],
+
+  "correctAnswers": { "q1": [string], "q2": [string] }
+}`;
+
+const CEFR_SINGLE_PART_SHAPE = `{
+  "partNumber": number,
+  "title": string,
+  "type": string,                    // gap-fill-text | matching | matching-headings | multiple-choice | tfng | completion
+  "questionRange": string,
+  "instruction": string,
+  "passage": { "title": string, "content": string },
+  "questions": [ { "id": number, "hint": string } ],
+  "answers": { "1": [string], "2": [string] },
+  "explanations": { "q1": { "text": string, "quote": string } }
+}`;
+
+function buildPrompt(
+  examType: string,
+  notes: string,
+  shape: string,
+  scope: 'full' | 'passage' = 'full',
+  passageIndex: number = 0
+): string {
   const isIelts = examType === 'ielts-reading';
   const isCefr  = examType === 'cefr-reading';
+  const unit    = isIelts ? 'passage' : 'part';
+  const Unit    = isIelts ? 'Passage' : 'Part';
 
   // Gap-marker rule differs by exam: CEFR uses span tags, IELTS uses {INPUT}.
   const gapRule = isIelts
@@ -197,13 +259,28 @@ function buildPrompt(examType: string, notes: string, shape: string): string {
   - "passageHeader.instruction" must be the timing line, e.g. \`"You should spend about 20 minutes on <strong>Questions 1-13</strong>, which are based on Reading Passage 1 below."\`. If the source omits this line, write the standard one above with the right question range.
   - The actual content title (e.g., "The Industrial Revolution in Britain") goes ONLY in "passages[i].title". Do NOT also put it in "passageHeader.title".
   - The "passage" HTML must contain ONLY the body paragraphs (no <h1>/<h2> with the content title, since the runner renders that separately from passages[i].title).
+
+13. **Lettered paragraphs** — when the source passage labels each paragraph with a capital letter (A, B, C, … — typical for "matching" and "matching-headings" question types), wrap the leading letter in a <strong> tag immediately inside the <p>, followed by ONE space, then the paragraph text. Example:
+\`<p><strong>A</strong> At some time in their lives, nearly all New Zealanders will have to attend an after-hours clinic…</p>\`
+\`<p><strong>B</strong> The irony is, New Zealand started out being ahead of the game…</p>\`
+Do this only when the source actually shows the letter as a paragraph marker (you'll see it visually beside the paragraph in the original). Do NOT invent letters for passages that aren't lettered. Do NOT put the letter inside a separate <p> or as plain text "A ".
 ` : '';
 
-  return `You are a faithful exam-content transcriber. The user has uploaded image(s) and / or PDF(s) of a ${examType} reading mock test that they own or have licensed.
+  // Scope-specific framing. In "passage" mode the user is uploading just
+  // ONE passage (typically because each passage comes from a different
+  // source), so we tell the model to expect that and emit a single
+  // passage object instead of a full mock envelope.
+  const scopeIntro = scope === 'passage'
+    ? `The user has uploaded image(s) and / or PDF(s) for **just ONE ${unit}** of a ${examType} reading mock — specifically ${Unit} ${passageIndex || '?'}. Treat the uploaded files as that single ${unit} only. The accompanying answer-key files (if any) cover ONLY this ${unit}'s questions. Output a single ${unit} object — NOT wrapped in a "${isIelts ? 'passages' : 'parts'}" array, NOT wrapped in any envelope.`
+    : `The user has uploaded image(s) and / or PDF(s) of a ${examType} reading mock test that they own or have licensed.`;
+
+  return `You are a faithful exam-content transcriber. ${scopeIntro}
 
 Rules (non-negotiable, in this order):
 
 1. VERBATIM, 100% identical. Every word, comma, dash, italics, capitalisation must match the source exactly. Do NOT paraphrase, summarise, abridge, fix typos, or normalise spelling. British vs American, hyphenation, em-dashes, italics, bold — preserve all of it.
+
+1a. **COMPLETENESS, non-negotiable.** Transcribe EVERY question and the FULL passage to its final paragraph. If the source has 13 questions, the JSON must contain 13 questions; if the source has multiple question SECTIONS (e.g. TFNG 1-7 + Completion 8-13), every section must appear in "questionSections". If the passage spans several pages, follow it to the very last sentence — do NOT stop early. Do NOT abbreviate the passage with "…" or "[continues]". An incomplete output is a failed output.
 
 2. Paragraph boundaries are NOT page breaks. A paragraph that visually continues from the bottom of one page to the top of the next is ONE paragraph. Detect actual paragraph breaks only by: (a) sentence-ending punctuation followed by (b) a blank line OR a clear indent on the next line. When in doubt, prefer ONE paragraph over two.
 
@@ -221,7 +298,7 @@ ${gapRule}
 
 9. Skip non-content paratext: page numbers, page headers/footers, watermarks (faded overlays), distributor branding (Telegram handles, phone numbers, English-center names, school logos, "©" lines, URLs, "for sample only" stamps), advertisements / promotional inserts. Transcribe only content a student would see on their actual answer paper. When in doubt about a small fragment, prefer to skip.
 
-10. Output JSON matching exactly this shape:
+10. Output JSON matching exactly this shape${scope === 'passage' ? ` (a single ${unit} object — NOT wrapped in any array or envelope)` : ''}:
 
 ${shape}
 
@@ -256,9 +333,17 @@ async function callGemini(prompt: string, files: FileItem[]): Promise<string> {
     contents: [{ role: 'user', parts }],
     generationConfig: {
       temperature: 0.1,
-      responseMimeType: 'application/json'
-      // Intentionally NOT setting maxOutputTokens — user wants quality > budget.
-      // Gemini 2.5 Pro defaults to ~64k output which is ample for full tests.
+      responseMimeType: 'application/json',
+      // Pin to the 2.5 Pro ceiling explicitly. Without this, Gemini was
+      // returning truncated transcriptions (passage cut mid-sentence, only
+      // 5 of 13 questions emitted) — the default budget on 2.5 Pro is
+      // shared with thinking tokens, so silent truncation is real.
+      maxOutputTokens: 65536,
+      // Transcription is mechanical, not a reasoning task. Spend the entire
+      // token budget on actual JSON output, not on thinking. The 2.5 Pro
+      // thinking budget defaults to "dynamic" which can swallow most of
+      // maxOutputTokens before any output is produced.
+      thinkingConfig: { thinkingBudget: 0 }
     },
     safetySettings: [
       { category: 'HARM_CATEGORY_HARASSMENT',       threshold: 'BLOCK_ONLY_HIGH' },
@@ -287,8 +372,12 @@ async function callGemini(prompt: string, files: FileItem[]): Promise<string> {
   const cand = j.candidates?.[0];
   if (!cand) throw new Error('gemini: no candidates returned');
   const fr = cand.finishReason;
-  if (fr && fr !== 'STOP' && fr !== 'MAX_TOKENS') {
-    throw new Error(`gemini finishReason=${fr}`);
+  // STOP = clean finish. Anything else means truncation, refusal, or safety.
+  // MAX_TOKENS used to be allowed, but in practice it produced silently
+  // incomplete transcriptions (passage cut mid-sentence, missing questions),
+  // so treat it as a failure now and let GPT-4o pick up the slack.
+  if (fr && fr !== 'STOP') {
+    throw new Error(`gemini finishReason=${fr} (truncated or blocked)`);
   }
   const text = cand.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
   if (!text.trim()) throw new Error('gemini: empty text response');
@@ -408,8 +497,20 @@ Deno.serve(async (req) => {
   }
 
   const notes = (body.notes || '').toString().slice(0, MAX_NOTES_LEN);
-  const shape  = examType === 'cefr-reading' ? CEFR_SHAPE : IELTS_SHAPE;
-  const prompt = buildPrompt(examType, notes, shape);
+
+  // Scope: 'full' = whole mock_data envelope; 'passage' = a single passage
+  // (IELTS) or part (CEFR) object. Per-passage scope was added so admins
+  // can build a mock from multiple source PDFs (one passage at a time).
+  const rawScope = (body.scope || 'full').toString();
+  const scope: 'full' | 'passage' = rawScope === 'passage' ? 'passage' : 'full';
+  const passageIndex = scope === 'passage'
+    ? Math.max(1, Math.min(9, parseInt(String(body.passage_index || 1), 10) || 1))
+    : 0;
+
+  const shape = scope === 'passage'
+    ? (examType === 'cefr-reading' ? CEFR_SINGLE_PART_SHAPE : IELTS_SINGLE_PASSAGE_SHAPE)
+    : (examType === 'cefr-reading' ? CEFR_SHAPE             : IELTS_SHAPE);
+  const prompt = buildPrompt(examType, notes, shape, scope, passageIndex);
 
   // ── Try Gemini → fall back to GPT-4o ────────────────────────────
   let modelUsed: 'gemini-2.5-pro' | 'gpt-4o' = 'gemini-2.5-pro';
@@ -469,17 +570,41 @@ Deno.serve(async (req) => {
     modelUsed = 'gpt-4o';
   }
 
-  // Sanity check the parsed shape — root should be an object with the
-  // top-level array key for the exam type.
-  const rootKey = examType === 'cefr-reading' ? 'parts' : 'passages';
-  if (!mockData || typeof mockData !== 'object' || Array.isArray(mockData)
-      || !Array.isArray((mockData as Record<string, unknown>)[rootKey])) {
-    return json(502, {
-      error:           'shape_mismatch',
-      detail:          `parsed JSON missing top-level "${rootKey}" array`,
-      model_used:      modelUsed,
-      fallback_reason: fallbackReason
-    });
+  // Sanity check the parsed shape.
+  //   • full:    root is an object containing the top-level "passages" /
+  //              "parts" array.
+  //   • passage: root is a single passage / part object (no envelope).
+  //              For IELTS we look for a "passage" string field; for CEFR
+  //              we look for a nested "passage" object with "content".
+  if (scope === 'passage') {
+    const ok = mockData && typeof mockData === 'object' && !Array.isArray(mockData)
+      && (
+        examType === 'ielts-reading'
+          ? typeof (mockData as Record<string, unknown>).passage === 'string'
+          : (() => {
+              const pp = (mockData as Record<string, unknown>).passage;
+              return pp && typeof pp === 'object' && !Array.isArray(pp);
+            })()
+      );
+    if (!ok) {
+      return json(502, {
+        error:           'shape_mismatch',
+        detail:          'expected a single ' + (examType === 'ielts-reading' ? 'passage' : 'part') + ' object',
+        model_used:      modelUsed,
+        fallback_reason: fallbackReason
+      });
+    }
+  } else {
+    const rootKey = examType === 'cefr-reading' ? 'parts' : 'passages';
+    if (!mockData || typeof mockData !== 'object' || Array.isArray(mockData)
+        || !Array.isArray((mockData as Record<string, unknown>)[rootKey])) {
+      return json(502, {
+        error:           'shape_mismatch',
+        detail:          `parsed JSON missing top-level "${rootKey}" array`,
+        model_used:      modelUsed,
+        fallback_reason: fallbackReason
+      });
+    }
   }
 
   return json(200, {
