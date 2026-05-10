@@ -6844,7 +6844,14 @@
         const dateTag = String(now.getDate()).padStart(2, '0') + '_' + String(now.getMonth() + 1).padStart(2, '0') + '_' + String(now.getFullYear()).slice(-2);
         const monthTag = String(now.getMonth() + 1).padStart(2, '0') + '_' + String(now.getFullYear()).slice(-2);
         const yearTag = String(now.getFullYear());
-        const testIdTag = GLOBAL_TEST_IDENTIFIER.replace(/-/g, '_');
+        // Read SITE_CONFIG at submit time so the caption hashtag matches the
+        // routingId that sendToRoutingBackend will send. The page-load const
+        // can capture the default ('mock_stream') if site-config.js's async
+        // Supabase fetch hasn't resolved yet — and that mismatch was sending
+        // some students' results to the wrong centre's Telegram channel
+        // (#mock_stream caption landing in another centre's listening channel).
+        const _liveTestId = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || GLOBAL_TEST_IDENTIFIER;
+        const testIdTag = _liveTestId.replace(/-/g, '_');
 
         // IELTS Caption Format (matching CEFR style)
         const caption = '👤 #' + candidateName.replace(/ /g, '_') +
