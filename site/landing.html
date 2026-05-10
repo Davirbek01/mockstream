@@ -29495,7 +29495,18 @@
           md.passages[st.passageIndex] = newPassage;
           window._mmgEditing.mock_data = md;
           document.getElementById('mmgFldData').value = JSON.stringify(md, null, 2);
+          // CRITICAL: clear the active-tab marker BEFORE re-initialising
+          // the tab system. _mmgSwitchTab flushes the current tab's form
+          // fields back into mock_data; if those fields are still showing
+          // the pre-import empty state (which they are — we updated only
+          // the textarea, not the rendered DOM), the flush silently wipes
+          // the AI-imported passage. Setting _mmgActiveTab = null makes
+          // the flush a no-op so the imported data survives.
+          window._mmgActiveTab = null;
           _mmgInitTabs();
+          // Jump straight to the freshly-imported passage so the user sees
+          // the populated fields (not the Settings tab they were on).
+          _mmgSwitchTab('ir_p' + (st.passageIndex + 1));
 
           _mmgImportProgressDone(j.model_used, j.fallback_reason);
           var modelLabel = (j.model_used === 'gpt-4o')
@@ -29508,6 +29519,10 @@
 
         window._mmgEditing.mock_data = j.mock_data;
         document.getElementById('mmgFldData').value = JSON.stringify(j.mock_data, null, 2);
+        // Same flush-suppression as the per-passage branch above — without
+        // this, whole-test import can lose the testInfo block whenever the
+        // user happens to be on the Settings tab when they hit Import.
+        window._mmgActiveTab = null;
         _mmgInitTabs();
 
         // For NEW mocks (no id yet): auto-fill Mock # + Title so the user
