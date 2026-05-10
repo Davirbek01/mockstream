@@ -280,6 +280,8 @@ Rules (non-negotiable, in this order):
 
 1. VERBATIM, 100% identical. Every word, comma, dash, italics, capitalisation must match the source exactly. Do NOT paraphrase, summarise, abridge, fix typos, or normalise spelling. British vs American, hyphenation, em-dashes, italics, bold — preserve all of it.
 
+1a. **COMPLETENESS, non-negotiable.** Transcribe EVERY question and the FULL passage to its final paragraph. If the source has 13 questions, the JSON must contain 13 questions; if the source has multiple question SECTIONS (e.g. TFNG 1-7 + Completion 8-13), every section must appear in "questionSections". If the passage spans several pages, follow it to the very last sentence — do NOT stop early. Do NOT abbreviate the passage with "…" or "[continues]". An incomplete output is a failed output.
+
 2. Paragraph boundaries are NOT page breaks. A paragraph that visually continues from the bottom of one page to the top of the next is ONE paragraph. Detect actual paragraph breaks only by: (a) sentence-ending punctuation followed by (b) a blank line OR a clear indent on the next line. When in doubt, prefer ONE paragraph over two.
 
 3. Preserve paragraph breaks; wrap each paragraph in <p>…</p> for HTML fields.
@@ -331,9 +333,17 @@ async function callGemini(prompt: string, files: FileItem[]): Promise<string> {
     contents: [{ role: 'user', parts }],
     generationConfig: {
       temperature: 0.1,
-      responseMimeType: 'application/json'
-      // Intentionally NOT setting maxOutputTokens — user wants quality > budget.
-      // Gemini 2.5 Pro defaults to ~64k output which is ample for full tests.
+      responseMimeType: 'application/json',
+      // Pin to the 2.5 Pro ceiling explicitly. Without this, Gemini was
+      // returning truncated transcriptions (passage cut mid-sentence, only
+      // 5 of 13 questions emitted) — the default budget on 2.5 Pro is
+      // shared with thinking tokens, so silent truncation is real.
+      maxOutputTokens: 65536,
+      // Transcription is mechanical, not a reasoning task. Spend the entire
+      // token budget on actual JSON output, not on thinking. The 2.5 Pro
+      // thinking budget defaults to "dynamic" which can swallow most of
+      // maxOutputTokens before any output is produced.
+      thinkingConfig: { thinkingBudget: 0 }
     },
     safetySettings: [
       { category: 'HARM_CATEGORY_HARASSMENT',       threshold: 'BLOCK_ONLY_HIGH' },
@@ -362,8 +372,12 @@ async function callGemini(prompt: string, files: FileItem[]): Promise<string> {
   const cand = j.candidates?.[0];
   if (!cand) throw new Error('gemini: no candidates returned');
   const fr = cand.finishReason;
-  if (fr && fr !== 'STOP' && fr !== 'MAX_TOKENS') {
-    throw new Error(`gemini finishReason=${fr}`);
+  // STOP = clean finish. Anything else means truncation, refusal, or safety.
+  // MAX_TOKENS used to be allowed, but in practice it produced silently
+  // incomplete transcriptions (passage cut mid-sentence, missing questions),
+  // so treat it as a failure now and let GPT-4o pick up the slack.
+  if (fr && fr !== 'STOP') {
+    throw new Error(`gemini finishReason=${fr} (truncated or blocked)`);
   }
   const text = cand.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
   if (!text.trim()) throw new Error('gemini: empty text response');
