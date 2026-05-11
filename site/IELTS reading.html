@@ -4765,6 +4765,31 @@
                     var mockMatch = testFileParam.match(/(\d+)/);
                     if (mockMatch) mockNum = mockMatch[1].padStart(2, '0');
 
+                    // Done-tracking for the new full-screen picker — writes a small
+                    // record so the picker can show a "★ Done · 78%" chip on cards
+                    // the student has already taken. localStorage = per-device
+                    // (includes the percent); PremiumGate.recordSubmit = per-account
+                    // (cross-device, just marks submitted_at on the existing
+                    // mock_attempts row that recordOpen created at test launch).
+                    try {
+                        var donePct = total > 0 ? Math.round((score / total) * 100) : 0;
+                        localStorage.setItem('mock-ielts-reading-done-' + mockNum, JSON.stringify({
+                            score: score,
+                            total: total,
+                            percent: donePct,
+                            date:  new Date().toISOString()
+                        }));
+                    } catch (e) { /* localStorage full or disabled — non-fatal */ }
+                    try {
+                        if (window.PremiumGate && window.PremiumGate.recordSubmit) {
+                            window.PremiumGate.recordSubmit({
+                                skill:       'reading',
+                                exam_type:   'ielts',
+                                mock_number: Number(mockNum)
+                            });
+                        }
+                    } catch (e) { /* server write non-fatal */ }
+
                     const scaledScore = getScaledReadingScore(score, total);
                     const bandLabel = scaledScore.toFixed(1);
 

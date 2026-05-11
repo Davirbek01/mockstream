@@ -1,6 +1,7 @@
 // IELTS Reading Test 28 - Draft (Passage 1 complete with diagram image references)
 
 window.IELTS_READING_TEST = {
+    "source": "Cambridge 16 Test 3",
     "testInfo": {
         "totalQuestions": 40,
         "totalTime": 60,
