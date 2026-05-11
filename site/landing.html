@@ -30457,16 +30457,39 @@
       var startedAt  = Date.now();
       var tickHandle = null;
       function tick() {
+        var s = document.getElementById('mmgIrP' + n + '_explStatus');
+        if (!s) return;
         var secs = Math.floor((Date.now() - startedAt) / 1000);
-        if (statusEl) statusEl.textContent = '🧠 Gemini is reading the passage and writing explanations… ' + secs + 's';
+        s.textContent = '🧠 Gemini is reading the passage and writing explanations… ' + secs + 's';
       }
-      if (btn)      { btn.disabled = true; btn.textContent = '⏳ Working…'; }
-      if (statusEl) {
-        statusEl.style.color = '#0284c7';
-        statusEl.style.background = 'transparent';
-        statusEl.style.padding = '0';
-        statusEl.style.fontSize = '11.5px';
+      function applyWorkingStyle(el) {
+        if (!el) return;
+        el.style.color = '#0284c7';
+        el.style.background = 'transparent';
+        el.style.border = '0';
+        el.style.padding = '0';
+        el.style.fontSize = '11.5px';
       }
+      function applySuccessStyle(el) {
+        if (!el) return;
+        el.style.color = '#065f46';
+        el.style.background = '#d1fae5';
+        el.style.border = '1px solid #6ee7b7';
+        el.style.padding = '10px 14px';
+        el.style.fontSize = '13px';
+        el.style.fontWeight = '600';
+      }
+      function applyErrorStyle(el) {
+        if (!el) return;
+        el.style.color = '#991b1b';
+        el.style.background = '#fee2e2';
+        el.style.border = '1px solid #fca5a5';
+        el.style.padding = '10px 14px';
+        el.style.fontSize = '13px';
+        el.style.fontWeight = '600';
+      }
+      if (btn) { btn.disabled = true; btn.textContent = '⏳ Working…'; }
+      applyWorkingStyle(statusEl);
       tick();
       tickHandle = setInterval(tick, 250);
 
@@ -30500,36 +30523,64 @@
         if (!passage.explanations || typeof passage.explanations !== 'object') passage.explanations = {};
         Object.keys(explns).forEach(function (k) { passage.explanations[k] = explns[k]; });
 
-        // Sync the raw textarea so a Save afterwards picks up the new data.
+        // Sync the raw textarea + re-render the tab so any per-question UI
+        // showing explanations refreshes. The re-render destroys the old
+        // status div, so we re-fetch the ref before writing the success
+        // banner — that's the bug that made earlier sessions look silent.
         document.getElementById('mmgFldData').value = JSON.stringify(md, null, 2);
         window._mmgActiveTab = null;
         _mmgInitTabs();
         _mmgSwitchTab('ir_p' + n);
+        statusEl = document.getElementById('mmgIrP' + n + '_explStatus');
 
-        var nAdded = Object.keys(explns).length;
+        var nAdded  = Object.keys(explns).length;
         var elapsed = Math.floor((Date.now() - startedAt) / 1000);
+        var dropStr = drops.length ? ' · ' + drops.length + ' quote(s) dropped (paraphrased)' : '';
+
+        // Auto-save to Supabase so the explanations actually land in the row
+        // — earlier flow staged into memory + raw textarea only, and any
+        // session that closed the editor before clicking 💾 Save lost them.
+        // Only auto-save when the mock has an id (i.e. it has been created at
+        // least once); a brand-new unsaved mock needs the user to fill in
+        // Mock # + Title first.
+        var autoSaved = false;
+        if (m && m.id) {
+          applyWorkingStyle(statusEl);
+          if (statusEl) statusEl.textContent = '💾 Saving explanations to Supabase…';
+          try {
+            await _mmgCall('update', {
+              id: m.id,
+              patch: {
+                mock_type:   m.mock_type,
+                mock_number: m.mock_number,
+                title:       m.title,
+                status:      m.status,
+                mock_data:   md
+              }
+            });
+            autoSaved = true;
+            // Invalidate the picker cache so the next picker open sees fresh
+            // metadata (matches what _mmgSave does after a normal save).
+            try { localStorage.removeItem('ms_iret_meta_v2'); } catch (e) {}
+          } catch (saveErr) {
+            // Auto-save failed; the explanations are still in memory + raw
+            // textarea, so the user can still hit 💾 Save manually to retry.
+            console.warn('explanations auto-save failed:', saveErr);
+          }
+        }
+
+        applySuccessStyle(statusEl);
         if (statusEl) {
-          statusEl.style.color = '#065f46';
-          statusEl.style.background = '#d1fae5';
-          statusEl.style.border = '1px solid #6ee7b7';
-          statusEl.style.padding = '10px 14px';
-          statusEl.style.fontSize = '13px';
-          statusEl.style.fontWeight = '600';
-          statusEl.textContent = '✅ Done — ' + nAdded + ' explanations generated in ' + elapsed + 's'
-            + (drops.length ? ' · ' + drops.length + ' quote(s) dropped (paraphrased)' : '')
-            + ' — click 💾 Save to persist.';
+          statusEl.textContent = autoSaved
+            ? '✅ Done & auto-saved — ' + nAdded + ' explanations in ' + elapsed + 's' + dropStr + '.'
+            : '✅ Done — ' + nAdded + ' explanations in ' + elapsed + 's' + dropStr
+              + ' — click 💾 Save to persist (auto-save needs a saved mock first).';
         }
       } catch (e) {
         clearInterval(tickHandle);
-        if (statusEl) {
-          statusEl.style.color = '#991b1b';
-          statusEl.style.background = '#fee2e2';
-          statusEl.style.border = '1px solid #fca5a5';
-          statusEl.style.padding = '10px 14px';
-          statusEl.style.fontSize = '13px';
-          statusEl.style.fontWeight = '600';
-          statusEl.textContent = '✗ ' + (e && e.message || String(e));
-        }
+        statusEl = document.getElementById('mmgIrP' + n + '_explStatus') || statusEl;
+        applyErrorStyle(statusEl);
+        if (statusEl) statusEl.textContent = '✗ Failed: ' + (e && e.message || String(e));
       } finally {
         if (btn) { btn.disabled = false; btn.textContent = '✨ Generate explanations'; }
       }
