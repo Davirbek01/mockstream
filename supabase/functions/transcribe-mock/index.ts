@@ -160,11 +160,11 @@ const IELTS_SHAPE = `{
           "featuresList": [string],                  // For "matching" ONLY: the list of letters / labels students match TO. Two common shapes: a) plain letter list when matching statements to passage paragraphs ["A", "B", "C", "D", "E"]; b) labelled list when matching to people / theories ["A. Ian McCrae", "B. Nigel Millar", "C. Richard Medlicott", …]. EMPTY ARRAY for every other type.
 
           "questions": [
-            { "id": number, "text": string }         // text rules per type:
-                                                     //   • completion: include the literal placeholder "{INPUT}" exactly where each gap appears
+            { "id": number, "text": string, "options"?: [string] }   // text rules per type:
+                                                     //   • completion: ONE {INPUT} per entry, one entry per numbered blank. text = a SHORT FRAGMENT (~10–25 words of surrounding context) centred on its single blank, NOT the whole summary. Example: if the source is "Mehrabian compared the {INPUT1} of communication. Subjects had to identify the {INPUT2} being conveyed", emit { "id":27, "text":"Mehrabian compared the {INPUT} of communication." } and { "id":28, "text":"Subjects had to identify the {INPUT} being conveyed." }. NEVER copy the entire summary into every entry — that produces visible duplicate paragraphs in the runner.
                                                      //   • tfng / ynng: text = the statement to evaluate
                                                      //   • matching / matching-headings: text = the statement / description students match
-                                                     //   • multiple-choice: text = the question stem (the A/B/C/D options live in a separate "options" array if present, otherwise embed them in <strong>A</strong> … markers)
+                                                     //   • multiple-choice: text = the question stem (no A/B/C/D embedded). ALSO REQUIRED — add an "options" array of 4 strings, each being just the choice text WITHOUT the leading letter prefix (the renderer prepends "A. ", "B. " automatically). If you omit "options", students see no answer choices.
           ]
         }
       ],
@@ -202,7 +202,7 @@ const IELTS_SINGLE_PASSAGE_SHAPE = `{
       "boxTitle": string,
       "headingsList": [string],
       "featuresList": [string],
-      "questions": [ { "id": number, "text": string } ]
+      "questions": [ { "id": number, "text": string, "options"?: [string] } ]   // For "completion" type: ONE {INPUT} per entry, text is a SHORT FRAGMENT around its blank (NOT the whole summary). For "multiple-choice": include an "options" array of 4 strings (no letter prefix).
     }
   ],
 
@@ -244,13 +244,14 @@ function buildPrompt(
 
   | Source instruction looks like… | type | Required extras |
   |---|---|---|
-  | "Complete the notes/sentences/summary/table/flow-chart below. Choose ONE WORD ONLY / NO MORE THAN TWO WORDS…" | "completion" | "boxTitle" = the heading above the notes/table; "questions" use {INPUT} placeholders |
+  | "Complete the notes/sentences/summary/table/flow-chart below. Choose ONE WORD ONLY / NO MORE THAN TWO WORDS…" | "completion" | "boxTitle" = heading above the notes/table; "questions" — ONE entry per numbered blank, exactly ONE {INPUT} per entry. Each entry's text is a SHORT FRAGMENT (~10–25 words) around its blank — NEVER a copy of the whole summary. If the source summary has 6 blanks numbered 8–13, emit 6 entries (ids 8, 9, 10, 11, 12, 13) with 6 different fragments, never one entry per blank that all contain the same full summary. |
+  | "Complete the summary below. Drag and drop the correct words A-H into the gaps." (or any drag-drop word-bank variant) | "completion" | Same as above PLUS populate "featuresList" with the labelled word bank verbatim (e.g. ["A. facial expressions", "B. purposes", "C. printed words", "D. effects", "E. word meanings", "F. gender differences", "G. feelings", "H. characteristics"]). |
   | "Do the following statements agree with the information / claims in Reading Passage X? … TRUE / FALSE / NOT GIVEN" | "tfng" | (none) |
   | "Do the following statements agree with the views/claims of the writer? … YES / NO / NOT GIVEN" | "ynng" | (none) |
   | "Reading Passage X has Y paragraphs, A-Z. Choose the correct heading for paragraphs A-F from the list of headings below. … i, ii, iii…" | "matching-headings" | "headingsList" = the i-ix headings list verbatim |
   | "Reading Passage X has Y paragraphs, A-Z. Which paragraph contains the following information? Write the correct letter, A-F…" | "matching" | "featuresList" = ["A", "B", "C", "D", "E"] (one entry per paragraph letter) |
   | "Look at the following statements and the list of people/theories/etc. Match each statement with the correct X, A-H." | "matching" | "featuresList" = the labelled list verbatim, e.g. ["A. Ian McCrae", "B. Nigel Millar", …] |
-  | "Choose the correct letter, A, B, C or D" | "multiple-choice" | (none) |
+  | "Choose the correct letter, A, B, C or D" | "multiple-choice" | each question entry MUST include an "options" array of 4 strings (the A/B/C/D choices verbatim, WITHOUT the leading letter prefix — the renderer prepends "A. ", "B. " automatically). Without "options", students see no answer choices. Example: \`{ "id": 36, "text": "What does the writer say about X?", "options": ["It is the strongest point.", "It will appeal to superstitious people.", "It allows comparison.", "It makes claims more attractive."] }\` |
 
   ALWAYS include "headingsList" and "featuresList" keys on every section — empty arrays \`[]\` for sections where they don't apply, populated arrays for the matching types. Same for "boxTitle" — empty string for non-completion sections.
 
@@ -339,11 +340,10 @@ async function callGemini(prompt: string, files: FileItem[]): Promise<string> {
       // 5 of 13 questions emitted) — the default budget on 2.5 Pro is
       // shared with thinking tokens, so silent truncation is real.
       maxOutputTokens: 65536,
-      // Transcription is mechanical, not a reasoning task. Spend the entire
-      // token budget on actual JSON output, not on thinking. The 2.5 Pro
-      // thinking budget defaults to "dynamic" which can swallow most of
-      // maxOutputTokens before any output is produced.
-      thinkingConfig: { thinkingBudget: 0 }
+      // 2.5 Pro requires thinking mode (Google rejects thinkingBudget: 0 with
+      // "Budget 0 is invalid. This model only works in thinking mode."). -1 =
+      // dynamic budget, which is the model default and lets Gemini pick.
+      thinkingConfig: { thinkingBudget: -1 }
     },
     safetySettings: [
       { category: 'HARM_CATEGORY_HARASSMENT',       threshold: 'BLOCK_ONLY_HIGH' },
@@ -453,6 +453,161 @@ function tryParseModelJson(text: string): unknown | null {
   }
 }
 
+// ── Explanations generator ─────────────────────────────────────────
+// Inputs the already-imported passage (passage HTML + questionSections
+// + correctAnswers) and asks Gemini to produce a per-question
+// { text, quote } object explaining WHY each correct answer is correct.
+// Gemini sees the answer key, so it's JUSTIFYING a known answer — not
+// guessing — which keeps hallucination low.
+//
+// Server-side quote verification: every returned `quote` must appear
+// verbatim (case-insensitive) inside the passage HTML's textContent.
+// Quotes that don't match are dropped (the explanation `text` is kept,
+// but the runner's <mark> highlight won't render for that question).
+// Returns { explanations: {qN:{text,quote}}, droppedQuotes: [qN,…] }.
+
+function _stripHtml(html: string): string {
+  return String(html || '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g,  '&')
+    .replace(/&lt;/g,   '<')
+    .replace(/&gt;/g,   '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g,  "'")
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function _normaliseForQuoteMatch(s: string): string {
+  return s
+    .replace(/[‘’]/g, "'")
+    .replace(/[“”]/g, '"')
+    .replace(/\s+/g, ' ')
+    .toLowerCase()
+    .trim();
+}
+
+type ExplanationItem = { text: string; quote: string };
+type ExplanationsResult = {
+  explanations: Record<string, ExplanationItem>;
+  droppedQuotes: string[];
+};
+
+async function generateExplanations(
+  passage: Record<string, unknown>,
+  examType: string
+): Promise<ExplanationsResult> {
+  // Pull the bits we need out of the passage shape (IELTS or CEFR).
+  const passageHtml: string = examType === 'ielts-reading'
+    ? String(passage.passage || '')
+    : String((passage.passage as Record<string, unknown>)?.content || passage.passage || '');
+  const passagePlain = _stripHtml(passageHtml);
+  if (!passagePlain) throw new Error('passage body is empty');
+
+  // Build a compact (q, text, correct) list from questionSections.
+  const sections = Array.isArray(passage.questionSections) ? passage.questionSections : [];
+  const correctAnswers = (passage.correctAnswers as Record<string, string[] | string> | undefined) || {};
+  const qInputs: Array<{ id: number; text: string; correct: string }> = [];
+  for (const sec of sections) {
+    const qs = (sec as Record<string, unknown>).questions;
+    if (!Array.isArray(qs)) continue;
+    for (const q of qs) {
+      const qo = q as Record<string, unknown>;
+      const id = parseInt(String(qo.id || ''), 10);
+      if (isNaN(id)) continue;
+      const acc = correctAnswers[`q${id}`];
+      const correctStr = Array.isArray(acc) ? acc.join(' / ') : String(acc || '');
+      if (!correctStr) continue;   // skip questions without a known answer
+      qInputs.push({ id, text: String(qo.text || ''), correct: correctStr });
+    }
+  }
+  if (qInputs.length === 0) {
+    return { explanations: {}, droppedQuotes: [] };
+  }
+
+  const prompt = `You are an IELTS reading explanation generator. The student has already been given the correct answers; your job is to JUSTIFY each one with a short explanation and the verbatim source sentence.
+
+PASSAGE (plain text):
+${passagePlain}
+
+QUESTIONS (id · text · correct answer):
+${qInputs.map(q => `Q${q.id} · ${q.text} · ${q.correct}`).join('\n')}
+
+For each question, output ONE entry in this JSON shape:
+{ "q<id>": { "text": "<1-2 sentence reason>", "quote": "<verbatim sentence from the passage that proves it>" } }
+
+Rules:
+1. "text" — one or two sentences IN UZBEK (Latin script — same script the user types Uzbek text in), max ~40 words. Explain WHY the given correct answer is correct (or, for TFNG / YNNG, why it is YES/NO/NOT GIVEN). Do NOT just restate the answer. The audience is Uzbek IELTS students; technical terms like "TRUE", "FALSE", "NOT GIVEN" stay in English (they're the answer labels), but everything else is Uzbek.
+2. "quote" — a sentence (or short phrase, max ~200 chars) copied EXACTLY from the English passage above, preserving original spelling and punctuation. NO paraphrasing. NO ellipsis. NO smart-quote substitution. NO Uzbek translation — the quote stays in the original English. If you cannot find a verbatim sentence that supports the answer, return "quote": "" (empty string) rather than invent one.
+3. NEVER guess. If the answer is "NOT GIVEN", quote MUST be empty (there is no sentence to point to).
+4. Output ONLY the JSON object, no commentary, no markdown fences. Every input question id must appear as a top-level key in the output.`;
+
+  const body = {
+    contents: [{ role: 'user', parts: [{ text: prompt }] }],
+    generationConfig: {
+      temperature: 0.1,
+      responseMimeType: 'application/json',
+      maxOutputTokens: 16384,
+      // 2.5 Pro requires thinking mode; -1 = dynamic budget (model default).
+      thinkingConfig: { thinkingBudget: -1 }
+    },
+    safetySettings: [
+      { category: 'HARM_CATEGORY_HARASSMENT',       threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_HATE_SPEECH',      threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' }
+    ]
+  };
+
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${GEMINI_KEY}`;
+  const r = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  if (!r.ok) {
+    const errTxt = await r.text().catch(() => '');
+    throw new Error(`gemini http ${r.status}: ${errTxt.slice(0, 300)}`);
+  }
+  const j = await r.json();
+  const cand = j.candidates?.[0];
+  if (!cand) throw new Error('gemini returned no candidates');
+  if (cand.finishReason && cand.finishReason !== 'STOP') {
+    throw new Error(`gemini finishReason=${cand.finishReason}`);
+  }
+  const raw = cand.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
+  const parsed = tryParseModelJson(raw);
+  if (!parsed || typeof parsed !== 'object') {
+    throw new Error('gemini returned non-JSON: ' + raw.slice(0, 200));
+  }
+
+  // Server-side quote verification.
+  const passageNorm = _normaliseForQuoteMatch(passagePlain);
+  const out: Record<string, ExplanationItem> = {};
+  const dropped: string[] = [];
+  for (const key of Object.keys(parsed as Record<string, unknown>)) {
+    const item = (parsed as Record<string, unknown>)[key];
+    if (!item || typeof item !== 'object') continue;
+    const it = item as Record<string, unknown>;
+    const text  = String(it.text  || '').trim();
+    const quote = String(it.quote || '').trim();
+    let verifiedQuote = '';
+    if (quote) {
+      const qn = _normaliseForQuoteMatch(quote);
+      // Substring match — quote must appear in passage. Accept short phrases
+      // (>= 12 chars) only, since 1-2 word "quotes" risk false positives.
+      if (qn.length >= 12 && passageNorm.indexOf(qn) !== -1) {
+        verifiedQuote = quote;
+      } else {
+        dropped.push(key);
+      }
+    }
+    out[key] = { text: text, quote: verifiedQuote };
+  }
+  return { explanations: out, droppedQuotes: dropped };
+}
+
 // ── Main handler ───────────────────────────────────────────────────
 
 Deno.serve(async (req) => {
@@ -476,6 +631,31 @@ Deno.serve(async (req) => {
   const examType = (body.exam_type || '').toString();
   if (examType !== 'cefr-reading' && examType !== 'ielts-reading') {
     return json(400, { error: 'bad_exam_type', detail: 'expected "cefr-reading" or "ielts-reading"' });
+  }
+
+  // ── EXPLANATIONS scope: separate flow, no file upload ───────────
+  // Generates { qN: { text, quote } } for an already-imported passage.
+  // Quotes are server-side verified against the passage HTML; any quote
+  // the model paraphrased rather than copied is dropped (text kept).
+  if ((body.scope || '').toString() === 'explanations') {
+    const passage = body.passage as Record<string, unknown> | undefined;
+    if (!passage || typeof passage !== 'object') {
+      return json(400, { error: 'bad_passage', detail: 'scope=explanations requires { passage: {...} }' });
+    }
+    try {
+      const result = await generateExplanations(passage, examType);
+      return json(200, {
+        explanations:   result.explanations,
+        dropped_quotes: result.droppedQuotes,
+        model_used:     'gemini-2.5-pro',
+        actor:          (auth as AuthOk).actor
+      });
+    } catch (e) {
+      return json(502, {
+        error:  'explanations_failed',
+        detail: e instanceof Error ? e.message : String(e)
+      });
+    }
   }
 
   const filesRaw = Array.isArray(body.files) ? body.files : [];

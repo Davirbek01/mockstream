@@ -28,6 +28,9 @@ window.SITE_CONFIG = {
   routingBackendUrl:    'https://u-se-r.alwaysdata.net',
   access:               'default',
   scoreBoost:           1,
+  // Full-screen IELTS Reading picker (replaces the popup categoryModal).
+  // Set to false to revert instantly with no redeploy.
+  useNewIeltsReadingPicker: true,
 };
 
 // ─── Load from localStorage cache (synchronous — instant) ───────────────────

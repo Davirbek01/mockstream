@@ -187,8 +187,38 @@
             font-size: 17px;
         }
 
+        .mcq-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 8px 0 12px;
+        }
         .mcq-option {
+            display: block;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 11px 16px;
+            background: #fff;
+            cursor: pointer;
+            transition: border-color .15s ease, background .15s ease, box-shadow .15s ease;
             font-weight: normal;
+            line-height: 1.4;
+        }
+        .mcq-option:hover {
+            border-color: #94a3b8;
+            background: #f8fafc;
+        }
+        .mcq-option:has(input:checked) {
+            border-color: #10b981;
+            background: #ecfdf5;
+        }
+        .mcq-option:has(input:focus-visible) {
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.18);
+        }
+        .mcq-option input[type="radio"],
+        .mcq-option input[type="checkbox"] {
+            margin-right: 8px;
+            vertical-align: middle;
         }
 
         /* Merged MCQ (Choose TWO) */
@@ -1096,6 +1126,30 @@
         @keyframes rsPopIn {
             from { opacity: 0; transform: translateY(-4px); }
             to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Review-mode passage highlights + Q-pill tags */
+        mark.ir-review-hl {
+            background: linear-gradient(180deg, transparent 55%, #a7f3d0 55%);
+            color: inherit;
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+        sup.ir-review-qpill {
+            display: inline-block;
+            background: #10b981;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 10px;
+            margin-left: 4px;
+            line-height: 1.4;
+            vertical-align: middle;
+            letter-spacing: 0.3px;
+        }
+        .ir-inline-expl-toggle:hover {
+            text-decoration: underline;
         }
 
         /* Modern select dropdown for summary completion */
@@ -3306,8 +3360,72 @@
                 .then(function(r) { if (!r.ok) throw new Error('Supabase ' + r.status); return r.json(); })
                 .then(function(rows) {
                     if (!rows || !rows.length || !rows[0].mock_data) throw new Error('Empty response');
-                    window.IELTS_READING_TEST = rows[0].mock_data;
+                    var loaded = rows[0].mock_data;
+
+                    // ── Partial-mock support ─────────────────────────────────
+                    // An admin can save a mock with only Passage 1 filled (or
+                    // any subset) and add the rest later. Drop empty passage
+                    // entries so the runner only renders tabs / questions for
+                    // content that's actually there. A passage counts as
+                    // "filled" when it has body HTML AND at least one question.
+                    if (loaded && Array.isArray(loaded.passages)) {
+                        var filled = loaded.passages.filter(function (p) {
+                            if (!p) return false;
+                            var hasBody = typeof p.passage === 'string' && p.passage.trim().length > 0;
+                            var hasQs = Array.isArray(p.questionSections) && p.questionSections.some(function (s) {
+                                return s && Array.isArray(s.questions) && s.questions.length > 0;
+                            });
+                            return hasBody && hasQs;
+                        });
+                        loaded.passages = filled;
+                        // Re-derive totalQuestions from the filled set so the
+                        // navigation grid + score denominator both shrink to
+                        // match. Walk question ids inside questionSections
+                        // since questionRange may be missing on AI-imported
+                        // partial mocks.
+                        var nQ = 0;
+                        filled.forEach(function (p) {
+                            (p.questionSections || []).forEach(function (s) {
+                                (s.questions || []).forEach(function (q) {
+                                    if (q && q.id != null) {
+                                        var n = parseInt(q.id, 10);
+                                        if (!isNaN(n) && n > nQ) nQ = n;
+                                    }
+                                });
+                            });
+                        });
+                        if (nQ > 0) {
+                            loaded.testInfo = loaded.testInfo || {};
+                            loaded.testInfo.totalQuestions = nQ;
+                            loaded.testInfo.passages = filled.length;
+                        }
+                    }
+
+                    window.IELTS_READING_TEST = loaded;
                     document.dispatchEvent(new Event('testDataLoaded'));
+
+                    // Hide passage tab buttons that have no content AND
+                    // relabel the visible ones to the actual passage.id —
+                    // so a Passage-3-only mock shows a "Passage 3" tab,
+                    // not "Passage 1". Tabs still call switchPassage with
+                    // their tab-index (1-based slot in the visible row);
+                    // that lines up with test.passages[idx-1] after the
+                    // filter, so click handling stays correct.
+                    try {
+                        var nFilled = (loaded.passages || []).length;
+                        document.querySelectorAll('.passage-nav-tab, .mobile-passage-tab').forEach(function (el) {
+                            var pn = parseInt(el.getAttribute('data-passage'), 10);
+                            if (isNaN(pn)) return;
+                            if (pn > nFilled) {
+                                el.style.display = 'none';
+                            } else {
+                                el.style.display = '';
+                                var pObj = loaded.passages[pn - 1];
+                                var realId = (pObj && pObj.id != null) ? parseInt(pObj.id, 10) : pn;
+                                if (!isNaN(realId)) el.textContent = 'Passage ' + realId;
+                            }
+                        });
+                    } catch (_e) { /* tabs not in DOM yet — testDataLoaded handlers will redraw */ }
                 })
                 .catch(function(err) {
                     console.error('❌ Supabase load failed:', err);
@@ -4647,6 +4765,31 @@
                     var mockMatch = testFileParam.match(/(\d+)/);
                     if (mockMatch) mockNum = mockMatch[1].padStart(2, '0');
 
+                    // Done-tracking for the new full-screen picker — writes a small
+                    // record so the picker can show a "★ Done · 78%" chip on cards
+                    // the student has already taken. localStorage = per-device
+                    // (includes the percent); PremiumGate.recordSubmit = per-account
+                    // (cross-device, just marks submitted_at on the existing
+                    // mock_attempts row that recordOpen created at test launch).
+                    try {
+                        var donePct = total > 0 ? Math.round((score / total) * 100) : 0;
+                        localStorage.setItem('mock-ielts-reading-done-' + mockNum, JSON.stringify({
+                            score: score,
+                            total: total,
+                            percent: donePct,
+                            date:  new Date().toISOString()
+                        }));
+                    } catch (e) { /* localStorage full or disabled — non-fatal */ }
+                    try {
+                        if (window.PremiumGate && window.PremiumGate.recordSubmit) {
+                            window.PremiumGate.recordSubmit({
+                                skill:       'reading',
+                                exam_type:   'ielts',
+                                mock_number: Number(mockNum)
+                            });
+                        }
+                    } catch (e) { /* server write non-fatal */ }
+
                     const scaledScore = getScaledReadingScore(score, total);
                     const bandLabel = scaledScore.toFixed(1);
 
@@ -5274,14 +5417,17 @@
                 // Expose results globally for the explanations panel
                 window._irQuestionResults = questionResults;
 
-                // Populate CEFR-style result overlay
+                // Populate CEFR-style result overlay. Iterate questionResults
+                // keys (the actual graded question ids) instead of 1..total —
+                // partial mocks have non-sequential ids (e.g. Q27-Q40 for a
+                // Passage-3-only mock), so a 1..total loop would miss them.
                 var incorrect = 0, unanswered = 0;
-                for (var qi = 1; qi <= total; qi++) {
-                    var qr = questionResults[qi];
-                    if (!qr) continue;
+                Object.keys(questionResults).forEach(function (k) {
+                    var qr = questionResults[k];
+                    if (!qr) return;
                     if (!qr.userAns) unanswered++;
                     else if (!qr.ok) incorrect++;
-                }
+                });
                 document.getElementById('irFinalScore').textContent = score;
                 document.getElementById('irFinalTotal').textContent = '/ ' + total;
                 document.getElementById('irCorrectCount').textContent = score;
@@ -5300,8 +5446,12 @@
                             if (keys.length > 0) { hasExpl = true; return true; }
                         });
                     }
+                    // The standalone Explanations button is retired — its
+                    // functionality moved into Review Answers. Keep the node
+                    // permanently hidden so any leftover toggle code can't
+                    // bring it back.
                     var btn = document.getElementById('btnShowExpl');
-                    if (btn) btn.style.display = hasExpl ? '' : 'none';
+                    if (btn) btn.style.display = 'none';
                 })();
 
                 // Build passage-by-passage breakdown
@@ -5310,15 +5460,33 @@
                     { name: 'Passage 2', start: 14, end: 26 },
                     { name: 'Passage 3', start: 27, end: 40 }
                 ];
-                // Use dynamic ranges from test data if available
+                // Use dynamic ranges from test data if available.
+                // IMPORTANT: derive start/end from the ACTUAL question.id values
+                // inside questionSections — not a sequential counter starting at 1.
+                // Partial mocks (e.g. Passage 3 only) have question ids 27-40, not
+                // 1-14. The old counter-based code made the dropdown iterate
+                // Q1-Q14 and look up correctAnswers['q1'…'q14'] (none exist),
+                // so every row rendered as 'no key' even though the keys were
+                // saved correctly as q27…q40.
                 if (passages.length > 0) {
                     passageRanges = [];
-                    var qStart = 1;
                     passages.forEach(function(p, idx) {
-                        var qCount = 0;
-                        (p.questionSections || []).forEach(function(sec) { qCount += (sec.questions || []).length; });
-                        passageRanges.push({ name: 'Passage ' + (idx + 1), start: qStart, end: qStart + qCount - 1 });
-                        qStart += qCount;
+                        var qIds = [];
+                        (p.questionSections || []).forEach(function(sec) {
+                            (sec.questions || []).forEach(function(q) {
+                                if (q && q.id != null) {
+                                    var n = parseInt(q.id, 10);
+                                    if (!isNaN(n)) qIds.push(n);
+                                }
+                            });
+                        });
+                        if (qIds.length === 0) return;
+                        qIds.sort(function(a,b){ return a - b; });
+                        passageRanges.push({
+                            name:  'Passage ' + (p && p.id != null ? p.id : (idx + 1)),
+                            start: qIds[0],
+                            end:   qIds[qIds.length - 1]
+                        });
                     });
                 }
 
@@ -5330,13 +5498,31 @@
                     var ansRows = '';
                     for (var qi = pr.start; qi <= pr.end; qi++) {
                         var qr = questionResults[qi];
-                        if (!qr) continue;
-                        pTotal++;
-                        if (qr.ok) pCorrect++;
-                        var rowCls = !qr.userAns ? 'ir-unanswered' : (qr.ok ? 'ir-correct' : 'ir-incorrect');
-                        var userDisp = qr.userAns || '<em style="color:#f59e0b;font-style:italic">(blank)</em>';
-                        var correctDisp = Array.isArray(qr.correct) ? qr.correct.join(', ') : qr.correct;
-                        var eoNote = qr.mergedPair ? ' <em style="font-size:10px;color:#64748b">(either order)</em>' : '';
+                        // ALWAYS render a row, even if the mock has no
+                        // correctAnswers entry for this question (admins can
+                        // publish a mock without an answer key — the
+                        // dropdown should still list every question with
+                        // whatever the student typed). When qr is missing
+                        // we fall back to live values: user answer via
+                        // getAnswer(), correct answer via the global map.
+                        var hasKey = !!qr;
+                        var userAns = qr ? qr.userAns : (getAnswer(qi) || '');
+                        var correctArr = qr ? qr.correct : (correctAnswers['q' + qi] || []);
+                        var ok = qr ? qr.ok : false;
+                        var mergedPair = qr ? qr.mergedPair : false;
+                        if (hasKey) pTotal++;
+                        if (ok) pCorrect++;
+                        var rowCls;
+                        if (!userAns)      rowCls = 'ir-unanswered';
+                        else if (!hasKey)  rowCls = 'ir-unanswered';
+                        else if (ok)       rowCls = 'ir-correct';
+                        else               rowCls = 'ir-incorrect';
+                        var userDisp = userAns || '<em style="color:#f59e0b;font-style:italic">(blank)</em>';
+                        var hasCorrect = correctArr && (Array.isArray(correctArr) ? correctArr.length : String(correctArr).length);
+                        var correctDisp = hasCorrect
+                            ? (Array.isArray(correctArr) ? correctArr.join(', ') : correctArr)
+                            : '<em style="color:#94a3b8;font-style:italic">no key</em>';
+                        var eoNote = mergedPair ? ' <em style="font-size:10px;color:#64748b">(either order)</em>' : '';
                         ansRows += '<div class="ir-ans-row ' + rowCls + '">' +
                             '<div style="font-weight:700;color:#64748b;font-size:11px">Q' + qi + '</div>' +
                             '<div>' + userDisp + '</div>' +
@@ -5750,6 +5936,150 @@
                 document.querySelectorAll('#questionsContainer input, #questionsContainer select').forEach(function(el) {
                     el.disabled = true;
                 });
+
+                // ── Review-mode enhancements ─────────────────────────────
+                // Add passage-side highlights (yellow span + small "Q29" pill
+                // showing which line each answer was deduced from) plus a
+                // collapsible explanation card under each question. Both
+                // depend on passage.explanations[qN] = { text, quote } being
+                // populated — on mocks without that data the review mode
+                // still works, just without the highlight + card.
+                _irApplyReviewModeRendering();
+                _irInstallReviewModeSwitchHook();
+            }
+
+            // Escape user-supplied text for safe insertion into the passage
+            // HTML — needed because we wrap the quote span back into the
+            // existing innerHTML, so a stray < or & would break the parse.
+            function _irHtmlEscape(s) {
+                return String(s || '').replace(/[&<>"']/g, function (c) {
+                    return ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[c];
+                });
+            }
+
+            // Paint <mark> + Q-pill highlights inside the currently-visible
+            // passage. Idempotent — runs once per render, gated by a flag
+            // on the container; switchPassage clears the flag so it re-runs.
+            function _irDrawPassageHighlightsForCurrentPassage() {
+                var test = window.IELTS_READING_TEST;
+                if (!test || !Array.isArray(test.passages)) return;
+                var container = document.getElementById('passageContent');
+                if (!container) return;
+                if (container.dataset.irReviewHl === '1') return;
+
+                var activeTab = document.querySelector('.passage-nav-tab.active');
+                if (!activeTab) return;
+                var visibleIdx = parseInt(activeTab.getAttribute('data-passage'), 10);
+                if (isNaN(visibleIdx)) return;
+                var passage = test.passages[visibleIdx - 1];
+                if (!passage) return;
+                var explns = passage.explanations || {};
+
+                var html = container.innerHTML;
+                // Sort by quote length descending so longer quotes get
+                // wrapped first — avoids a short quote eating a substring
+                // that's actually part of a longer one we wanted to keep
+                // whole. (Won't perfectly prevent overlap, but reduces the
+                // common case.)
+                var entries = Object.keys(explns).map(function (k) {
+                    var qid = parseInt(k.replace(/^q/, ''), 10);
+                    var raw = explns[k];
+                    var quote = raw && typeof raw === 'object' ? (raw.quote || '') : '';
+                    return { qid: qid, quote: String(quote) };
+                }).filter(function (e) {
+                    return !isNaN(e.qid) && e.quote && e.quote.length >= 12;
+                }).sort(function (a, b) { return b.quote.length - a.quote.length; });
+
+                entries.forEach(function (e) {
+                    var esc = _irHtmlEscape(e.quote);
+                    var idx = html.indexOf(esc);
+                    if (idx < 0) return;
+                    // Skip if already inside a <mark> (avoid double-wrap from
+                    // overlapping quotes).
+                    var before = html.substring(0, idx);
+                    var lastOpenMark  = before.lastIndexOf('<mark');
+                    var lastCloseMark = before.lastIndexOf('</mark');
+                    if (lastOpenMark > lastCloseMark) return;
+                    var pill    = '<sup class="ir-review-qpill" data-q="' + e.qid + '">Q' + e.qid + '</sup>';
+                    var wrapped = '<mark class="ir-review-hl" data-q="' + e.qid + '">' + esc + '</mark>' + pill;
+                    html = html.substring(0, idx) + wrapped + html.substring(idx + esc.length);
+                });
+
+                container.innerHTML = html;
+                container.dataset.irReviewHl = '1';
+            }
+
+            // Append a collapsible explanation card under each question
+            // container. The card is hidden by default and toggled by a
+            // small link below the input — clicking the link expands the
+            // blue explanation box.
+            function _irAppendInlineExplanationCards() {
+                var test = window.IELTS_READING_TEST;
+                if (!test || !Array.isArray(test.passages)) return;
+                test.passages.forEach(function (p) {
+                    var explns = p.explanations || {};
+                    Object.keys(explns).forEach(function (key) {
+                        var qid = parseInt(key.replace(/^q/, ''), 10);
+                        if (isNaN(qid)) return;
+                        var container = document.getElementById('q' + qid + '-container');
+                        if (!container || container.querySelector('.ir-inline-expl-toggle')) return;
+
+                        var raw  = explns[key];
+                        var text = raw && typeof raw === 'object' ? (raw.text || '') : '';
+                        if (!text) return;
+
+                        var toggle = document.createElement('div');
+                        toggle.className = 'ir-inline-expl-toggle';
+                        toggle.style.cssText = 'margin-top:6px;font-size:12px;color:#6366f1;cursor:pointer;user-select:none;display:inline-block;';
+                        toggle.textContent = '💡 Click for explanation ▼';
+
+                        var box = document.createElement('div');
+                        box.className = 'ir-inline-expl';
+                        box.style.cssText = 'display:none;margin-top:6px;background:#dbeafe;border-left:4px solid #3b82f6;padding:10px 12px;border-radius:6px;font-size:13px;color:#1e3a8a;line-height:1.5;';
+                        box.innerHTML = '<strong>Q' + qid + ':</strong> ' + _irHtmlEscape(text)
+                                      + '<div style="margin-top:6px;font-size:10.5px;color:#94a3b8;font-style:italic;">✨ AI-generated</div>';
+
+                        toggle.addEventListener('click', function () {
+                            var open = box.style.display !== 'none';
+                            box.style.display = open ? 'none' : 'block';
+                            toggle.textContent = open ? '💡 Click for explanation ▼' : '🔼 Hide explanation';
+                        });
+
+                        container.appendChild(toggle);
+                        container.appendChild(box);
+                    });
+                });
+            }
+
+            function _irApplyReviewModeRendering() {
+                _irDrawPassageHighlightsForCurrentPassage();
+                _irAppendInlineExplanationCards();
+            }
+
+            // Hook switchPassage so highlights + cards re-render when the
+            // student navigates between Passage 1 / 2 / 3 in review mode.
+            // The original loadPassageFromData replaces #passageContent and
+            // #questionsContainer wholesale, so any earlier review markup
+            // gets wiped. Re-apply on the next tick.
+            function _irInstallReviewModeSwitchHook() {
+                if (window.__irReviewSwitchHookInstalled) return;
+                if (typeof window.switchPassage !== 'function') return;
+                window.__irReviewSwitchHookInstalled = true;
+                var _orig = window.switchPassage;
+                window.switchPassage = function () {
+                    var r = _orig.apply(this, arguments);
+                    var c = document.getElementById('passageContent');
+                    if (c) delete c.dataset.irReviewHl;
+                    if (typeof isTestReviewMode !== 'undefined' && isTestReviewMode) {
+                        // Re-mark the inputs too — switchPassage rebuilt them
+                        // from the raw data, so all our disabled / coloured
+                        // styling is gone.
+                        setTimeout(function () {
+                            markReviewAnswers();
+                        }, 50);
+                    }
+                    return r;
+                };
             }
 
             // ===== Rich-select helpers for TFNG / YNNG =====
@@ -5822,13 +6152,25 @@
                     });
                 }
 
-                // Solutions button event
+                // Review Answers button → switch into in-passage review mode.
+                // Closes the results modal, locks all inputs, fills blanks with
+                // the correct answer (yellow-tinted to mark "was blank"), paints
+                // passage-side highlights with Q-pill tags showing which line
+                // each answer was deduced from, and appends a collapsible
+                // explanation card under each question. The standalone
+                // Explanations panel is retired — its functionality now lives
+                // inline next to the actual test content.
                 var solutionsBtn = document.getElementById('btnShowSolutions');
                 if (solutionsBtn) {
                     solutionsBtn.addEventListener('click', function () {
                         reviewAnswers();
                     });
                 }
+                // Hide the now-redundant Explanations button. Keeping the DOM
+                // node (just display:none) so any older code that toggles its
+                // visibility doesn't NPE.
+                var oldExplBtn = document.getElementById('btnShowExpl');
+                if (oldExplBtn) oldExplBtn.style.display = 'none';
 
                 var restoreBtn = document.getElementById('btnRestoreResults');
                 if (restoreBtn) {
@@ -6587,20 +6929,28 @@
                     var type = section.type || '';
 
                     if (type === 'tfng' || type === 'ynng') {
+                        // Render as three radio-button options to match the
+                        // official IELTS paper format (every YES/NO/NOT GIVEN
+                        // and TRUE/FALSE/NOT GIVEN question on Cambridge papers
+                        // is a 3-button block, not a dropdown). The old custom
+                        // rich-select dropdown is replaced; getAnswer() finds
+                        // the chosen value via 'input[name="qN"]:checked'.
                         var options = type === 'tfng' ? ['TRUE', 'FALSE', 'NOT GIVEN'] : ['YES', 'NO', 'NOT GIVEN'];
                         section.questions.forEach(function (q) {
                             html += '<div class="question-container" id="q' + q.id + '-container">';
-                            html += '<p><b>' + q.id + ' </b> ' + q.text + ' ';
-                            html += '<input type="hidden" id="q' + q.id + '" name="q' + q.id + '" value="">';
-                            html += '<span class="tfng-rich-select" data-qid="' + q.id + '">';
-                            html += '<span class="rich-select-trigger" data-q="' + q.id + '" onclick="toggleTfngSelect(\'' + q.id + '\', event)">Select</span>';
-                            html += '<span class="rich-select-menu" id="tfng-menu-' + q.id + '">';
+                            html += '<p><b>' + q.id + ' </b> ' + q.text + '</p>';
+                            html += '<div class="mcq-options">';
                             options.forEach(function (opt) {
-                                html += '<span class="rich-select-option" data-value="' + opt + '" onclick="selectTfngOption(\'' + q.id + '\', \'' + opt + '\', this, event)">' + opt + '</span>';
+                                html += '<label class="mcq-option"><input type="radio" name="q' + q.id + '" value="' + opt + '"> <span>' + opt + '</span></label>';
                             });
-                            html += '</span></span></p></div>';
+                            html += '</div>';
+                            html += '</div>';
                         });
-                    } else if (type === 'mcq') {
+                    } else if (type === 'mcq' || type === 'multiple-choice') {
+                        // 'multiple-choice' is the canonical type emitted by the
+                        // transcribe-mock prompt; 'mcq' is the hand-authored
+                        // shorthand used by older mocks. Both share the same
+                        // render path.
                         // Detect merged groups (consecutive questions with identical options)
                         var qs = section.questions || [];
                         var qi = 0;
@@ -6629,7 +6979,7 @@
                                 html += '<div class="mcq-options">';
                                 q.options.forEach(function(opt, idx) {
                                     var letter = String.fromCharCode(65 + idx);
-                                    html += '<label class="mcq-option"><input type="checkbox" name="merged-' + q.id + '-' + qLast.id + '" value="' + letter + '" onchange="handleMergedMcqR(\'' + qIds.join(',') + '\',this)"> <span>' + letter + '. ' + opt + '</span></label><br>';
+                                    html += '<label class="mcq-option"><input type="checkbox" name="merged-' + q.id + '-' + qLast.id + '" value="' + letter + '" onchange="handleMergedMcqR(\'' + qIds.join(',') + '\',this)"> <span>' + letter + '. ' + opt + '</span></label>';
                                 });
                                 html += '</div>';
                                 // Hidden fields for storing answers (used by getAnswer + saveAnswers)
@@ -6645,7 +6995,7 @@
                                     html += '<div class="mcq-options">';
                                     q.options.forEach(function (opt, idx) {
                                         var letter = String.fromCharCode(65 + idx);
-                                        html += '<label class="mcq-option"><input type="radio" name="q' + q.id + '" value="' + letter + '"> <span>' + letter + '. ' + opt + '</span></label><br>';
+                                        html += '<label class="mcq-option"><input type="radio" name="q' + q.id + '" value="' + letter + '"> <span>' + letter + '. ' + opt + '</span></label>';
                                     });
                                     html += '</div>';
                                 }
@@ -6662,7 +7012,7 @@
                                 html += '<div class="mcq-options mcq-multi-options">';
                                 q.options.forEach(function (opt, idx) {
                                     var letter = String.fromCharCode(65 + idx);
-                                    html += '<label class="mcq-option"><input type="checkbox" name="q' + q.id + '" value="' + letter + '" onchange="handleMultiMcq(' + q.id + ')"> <span>' + letter + '. ' + opt + '</span></label><br>';
+                                    html += '<label class="mcq-option"><input type="checkbox" name="q' + q.id + '" value="' + letter + '" onchange="handleMultiMcq(' + q.id + ')"> <span>' + letter + '. ' + opt + '</span></label>';
                                 });
                                 html += '</div>';
                                 // Hidden field to store combined answer
@@ -6670,7 +7020,13 @@
                             }
                             html += '</div>';
                         });
-                    } else if (type === 'matching-info' || type === 'matching-headings' || type === 'matching-features' || type === 'matching-sentence-endings') {
+                    } else if (type === 'matching' || type === 'matching-info' || type === 'matching-headings' || type === 'matching-features' || type === 'matching-sentence-endings') {
+                        // The bare 'matching' type comes from the AI transcriber
+                        // (it emits "matching" for both info-matching and feature-
+                        // matching — featuresList shape disambiguates). Accepting
+                        // it here means AI-imported mocks render their A-E option
+                        // chips + per-question receiver inputs the same as the
+                        // hand-authored mocks that use the longer subtype names.
                         // Check if this is a summary completion with options box (has boxTitle)
                         var isSummaryWithOptions = section.boxTitle && section.featuresList && section.featuresList.length > 0;
 
@@ -6719,6 +7075,38 @@
                     } else if (type === 'completion' || type === 'short-answer' || type === 'diagram-label') {
                         // Text input questions
                         var skipPrefix = (type === 'diagram-label');
+                        // Drag-drop summary completion variant — featuresList
+                        // present means the source is a labelled word bank
+                        // ("A facial expressions, B purposes, …"). Render the
+                        // chips as draggable items (data-value = the letter
+                        // only, matching what IELTS answer sheets accept),
+                        // and switch the per-question inputs below to
+                        // readonly-slot drop receivers so students can drag
+                        // chips in. The existing dnd handlers wired to
+                        // .option-item[draggable] + .interactive-receiver.
+                        // .readonly-slot apply automatically.
+                        var hasWordBank = Array.isArray(section.featuresList) && section.featuresList.length > 0;
+                        if (hasWordBank) {
+                            html += '<div class="options-container" style="margin-bottom:14px;">';
+                            html += '<strong>Options:</strong>';
+                            section.featuresList.forEach(function (f) {
+                                var raw = String(f || '');
+                                var letter = raw.charAt(0);
+                                // Strip leading "A.", "A ", or just "A" so the
+                                // chip displays "A facial expressions" with
+                                // the letter bold and the rest as label.
+                                var label = raw.replace(/^[A-Z][\.\s]*/, '');
+                                html += '<div class="option-item" draggable="true" data-value="' + letter + '" style="margin:4px; min-width:120px; cursor:pointer;"><strong>' + letter + '</strong> ' + label + '</div>';
+                            });
+                            html += '</div>';
+                        }
+                        // Centralised input-template: drop receiver when a
+                        // word bank is present, plain text input otherwise.
+                        function _completionInputHtml(qid) {
+                            return hasWordBank
+                                ? '<input type="text" readonly autocomplete="off" id="q' + qid + '" name="q' + qid + '" class="compact-input interactive-receiver readonly-slot" placeholder="Tap to fill" onchange="gtb(this)" aria-label="Answer ' + qid + '">'
+                                : '<input type="text" autocomplete="off" id="q' + qid + '" name="q' + qid + '" class="compact-input interactive-receiver" placeholder="" oninput="gtb(this)" aria-label="Answer ' + qid + '">';
+                        }
                         if (section.boxTitle) {
                             if (section.imageGroups && section.imageGroups.length > 0) {
                                 html += '<div style="border:1px solid #bdbdbd; padding:12px; border-radius:6px; background:#fff; margin-top:10px;">';
@@ -6737,7 +7125,7 @@
                                     (group.questionIds || []).forEach(function (qid) {
                                         var q = (section.questions || []).find(function (x) { return Number(x.id) === Number(qid); });
                                         if (!q) return;
-                                        var inputHtml = '<span class="inline-gap-with-number"><span class="gap-number-badge">' + q.id + '</span><input type="text" autocomplete="off" id="q' + q.id + '" name="q' + q.id + '" class="compact-input interactive-receiver" placeholder="" oninput="gtb(this)" aria-label="Answer ' + q.id + '"></span>';
+                                        var inputHtml = '<span class="inline-gap-with-number"><span class="gap-number-badge">' + q.id + '</span>' + _completionInputHtml(q.id) + '</span>';
                                         var text = q.text.replace(new RegExp('\\b' + q.id + '\\s+(?=\\{INPUT\\})'), '');
                                         text = text.replace(/\{INPUT\}|[\._…]{3,}/, inputHtml);
                                         if (text.indexOf('inline-gap-with-number') === -1) {
@@ -6755,7 +7143,7 @@
                             html += '<div style="text-align:center; font-weight:700; margin-bottom:8px;">' + section.boxTitle + '</div>';
                             html += '<ul style="margin:0; padding-left:18px;">';
                             section.questions.forEach(function (q) {
-                                var inputHtml = '<input type="text" autocomplete="off" id="q' + q.id + '" name="q' + q.id + '" class="compact-input interactive-receiver" placeholder="" oninput="gtb(this)" aria-label="Answer ' + q.id + '">';
+                                var inputHtml = _completionInputHtml(q.id);
                                 var hasGapToken = /\{INPUT\}|[\._…]{3,}/.test(q.text);
                                 var inlineGapHtml = '<span class="inline-gap-with-number"><span class="gap-number-badge">' + q.id + '</span>' + inputHtml + '</span>';
                                 // Strip embedded duplicate question number before {INPUT}
@@ -6775,7 +7163,7 @@
                         } else {
                             section.questions.forEach(function (q) {
                                 html += '<div class="question-container" id="q' + q.id + '-container">';
-                                var inputHtml = '<input type="text" autocomplete="off" id="q' + q.id + '" name="q' + q.id + '" class="compact-input interactive-receiver" placeholder="" oninput="gtb(this)" aria-label="Answer ' + q.id + '">';
+                                var inputHtml = _completionInputHtml(q.id);
                                 var hasGapToken = /\{INPUT\}|[\._…]{3,}/.test(q.text);
                                 var inlineGapHtml = '<span class="inline-gap-with-number"><span class="gap-number-badge">' + q.id + '</span>' + inputHtml + '</span>';
                                 // Strip embedded duplicate question number before {INPUT}
@@ -6992,6 +7380,9 @@
                             html +=   '</div>';
                             if (explText)  html += '<p class="ir-expl-text">'  + _irEscHtml(explText)  + '</p>';
                             if (explQuote) html += '<blockquote class="ir-expl-quote">' + _irEscHtml(explQuote) + '</blockquote>';
+                            if (explText || explQuote) {
+                                html += '<div style="font-size:10.5px;color:#94a3b8;margin-top:6px;font-style:italic;">✨ AI-generated — verify against the passage</div>';
+                            }
                             html += '</div>'; // close card-body
                             html += '<div class="ir-pv-toggle-row"><button class="ir-show-passage-btn" id="ir-pvbtn-' + q.id + '" onclick="window._irTogglePassage(' + q.id + ',' + passage.id + ')">📖 Show in passage ▼</button></div>';
                             html += '<div class="ir-pv-wrap" id="ir-pv-' + q.id + '"></div>';
@@ -7154,10 +7545,19 @@
                 // Update bottom question navigation buttons
                 updateQuestionNavButtons(passageNum);
 
-                // Show/hide submit button based on passage
+                // Show/hide submit button when on the LAST filled passage.
+                // Was hardcoded to "passage 3" — that hid the button forever on
+                // partial mocks (1 or 2 passages), leaving students with no
+                // way to submit. After the partial-mock filter, test.passages
+                // contains only the filled set, so its length is the right
+                // upper bound.
                 var submitRight = document.querySelector('.submit-right');
                 if (submitRight) {
-                    submitRight.style.display = (passageNum === 3) ? '' : 'none';
+                    var _testForSubmit = window.IELTS_READING_TEST;
+                    var _lastPassage = (_testForSubmit && Array.isArray(_testForSubmit.passages) && _testForSubmit.passages.length > 0)
+                        ? _testForSubmit.passages.length
+                        : 3;
+                    submitRight.style.display = (passageNum === _lastPassage) ? '' : 'none';
                 }
 
                 // Load the passage content
@@ -7338,10 +7738,19 @@
                       }, 1500);
                     }
 
-                    // Hide submit button initially (only show on Passage 3)
+                    // Hide submit button initially — it's shown by switchPassage
+                    // when the user reaches the LAST filled passage. For partial
+                    // mocks where only ONE passage is filled, the student lands
+                    // on that passage at page-load and never clicks a tab, so
+                    // switchPassage never fires — leaving submit hidden forever.
+                    // In that single-passage case we reveal it immediately.
                     var submitRight = document.querySelector('.submit-right');
                     if (submitRight) {
-                        submitRight.style.display = 'none';
+                        var _initTest = window.IELTS_READING_TEST;
+                        var _initLastP = (_initTest && Array.isArray(_initTest.passages) && _initTest.passages.length > 0)
+                            ? _initTest.passages.length
+                            : 3;
+                        submitRight.style.display = (_initLastP === 1) ? '' : 'none';
                     }
 
                     // Add event listeners to check passage completion when answers change
