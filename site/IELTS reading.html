@@ -3350,14 +3350,26 @@
                     window.IELTS_READING_TEST = loaded;
                     document.dispatchEvent(new Event('testDataLoaded'));
 
-                    // Hide passage tab buttons that have no content. The
-                    // hide runs after testDataLoaded so any later renderer
-                    // that re-shows tabs won't fight us.
+                    // Hide passage tab buttons that have no content AND
+                    // relabel the visible ones to the actual passage.id —
+                    // so a Passage-3-only mock shows a "Passage 3" tab,
+                    // not "Passage 1". Tabs still call switchPassage with
+                    // their tab-index (1-based slot in the visible row);
+                    // that lines up with test.passages[idx-1] after the
+                    // filter, so click handling stays correct.
                     try {
                         var nFilled = (loaded.passages || []).length;
                         document.querySelectorAll('.passage-nav-tab, .mobile-passage-tab').forEach(function (el) {
                             var pn = parseInt(el.getAttribute('data-passage'), 10);
-                            if (!isNaN(pn) && pn > nFilled) el.style.display = 'none';
+                            if (isNaN(pn)) return;
+                            if (pn > nFilled) {
+                                el.style.display = 'none';
+                            } else {
+                                el.style.display = '';
+                                var pObj = loaded.passages[pn - 1];
+                                var realId = (pObj && pObj.id != null) ? parseInt(pObj.id, 10) : pn;
+                                if (!isNaN(realId)) el.textContent = 'Passage ' + realId;
+                            }
                         });
                     } catch (_e) { /* tabs not in DOM yet — testDataLoaded handlers will redraw */ }
                 })
