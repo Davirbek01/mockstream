@@ -5368,14 +5368,17 @@
                 // Expose results globally for the explanations panel
                 window._irQuestionResults = questionResults;
 
-                // Populate CEFR-style result overlay
+                // Populate CEFR-style result overlay. Iterate questionResults
+                // keys (the actual graded question ids) instead of 1..total —
+                // partial mocks have non-sequential ids (e.g. Q27-Q40 for a
+                // Passage-3-only mock), so a 1..total loop would miss them.
                 var incorrect = 0, unanswered = 0;
-                for (var qi = 1; qi <= total; qi++) {
-                    var qr = questionResults[qi];
-                    if (!qr) continue;
+                Object.keys(questionResults).forEach(function (k) {
+                    var qr = questionResults[k];
+                    if (!qr) return;
                     if (!qr.userAns) unanswered++;
                     else if (!qr.ok) incorrect++;
-                }
+                });
                 document.getElementById('irFinalScore').textContent = score;
                 document.getElementById('irFinalTotal').textContent = '/ ' + total;
                 document.getElementById('irCorrectCount').textContent = score;
@@ -5404,15 +5407,33 @@
                     { name: 'Passage 2', start: 14, end: 26 },
                     { name: 'Passage 3', start: 27, end: 40 }
                 ];
-                // Use dynamic ranges from test data if available
+                // Use dynamic ranges from test data if available.
+                // IMPORTANT: derive start/end from the ACTUAL question.id values
+                // inside questionSections — not a sequential counter starting at 1.
+                // Partial mocks (e.g. Passage 3 only) have question ids 27-40, not
+                // 1-14. The old counter-based code made the dropdown iterate
+                // Q1-Q14 and look up correctAnswers['q1'…'q14'] (none exist),
+                // so every row rendered as 'no key' even though the keys were
+                // saved correctly as q27…q40.
                 if (passages.length > 0) {
                     passageRanges = [];
-                    var qStart = 1;
                     passages.forEach(function(p, idx) {
-                        var qCount = 0;
-                        (p.questionSections || []).forEach(function(sec) { qCount += (sec.questions || []).length; });
-                        passageRanges.push({ name: 'Passage ' + (idx + 1), start: qStart, end: qStart + qCount - 1 });
-                        qStart += qCount;
+                        var qIds = [];
+                        (p.questionSections || []).forEach(function(sec) {
+                            (sec.questions || []).forEach(function(q) {
+                                if (q && q.id != null) {
+                                    var n = parseInt(q.id, 10);
+                                    if (!isNaN(n)) qIds.push(n);
+                                }
+                            });
+                        });
+                        if (qIds.length === 0) return;
+                        qIds.sort(function(a,b){ return a - b; });
+                        passageRanges.push({
+                            name:  'Passage ' + (p && p.id != null ? p.id : (idx + 1)),
+                            start: qIds[0],
+                            end:   qIds[qIds.length - 1]
+                        });
                     });
                 }
 
