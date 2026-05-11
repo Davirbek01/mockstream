@@ -28875,7 +28875,7 @@
             +   '</div>'
             +   '<button type="button" id="mmgIrP' + n + '_explBtn" onclick="_mmgGenerateExplanations(' + idx + ')" style="background:linear-gradient(135deg,#06b6d4,#0284c7);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(2,132,199,.3);white-space:nowrap;">✨ Generate explanations</button>'
             + '</div>'
-            + '<div id="mmgIrP' + n + '_explStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;"></div>';
+            + '<div id="mmgIrP' + n + '_explStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;border-radius:8px;padding:0;background:transparent;font-weight:500;"></div>';
 
       // ── Basics (always visible above the sub-tabs) ───────────────────
       html += '<div class="mmg-section-title">Passage ' + n + '</div>';
@@ -29653,7 +29653,12 @@
         if (statusEl) statusEl.textContent = '🧠 Gemini is reading the passage and writing explanations… ' + secs + 's';
       }
       if (btn)      { btn.disabled = true; btn.textContent = '⏳ Working…'; }
-      if (statusEl) statusEl.style.color = '#0284c7';
+      if (statusEl) {
+        statusEl.style.color = '#0284c7';
+        statusEl.style.background = 'transparent';
+        statusEl.style.padding = '0';
+        statusEl.style.fontSize = '11.5px';
+      }
       tick();
       tickHandle = setInterval(tick, 250);
 
@@ -29696,15 +29701,25 @@
         var nAdded = Object.keys(explns).length;
         var elapsed = Math.floor((Date.now() - startedAt) / 1000);
         if (statusEl) {
-          statusEl.style.color = '#16a34a';
-          statusEl.textContent = '✓ ' + nAdded + ' explanations generated in ' + elapsed + 's'
+          statusEl.style.color = '#065f46';
+          statusEl.style.background = '#d1fae5';
+          statusEl.style.border = '1px solid #6ee7b7';
+          statusEl.style.padding = '10px 14px';
+          statusEl.style.fontSize = '13px';
+          statusEl.style.fontWeight = '600';
+          statusEl.textContent = '✅ Done — ' + nAdded + ' explanations generated in ' + elapsed + 's'
             + (drops.length ? ' · ' + drops.length + ' quote(s) dropped (paraphrased)' : '')
-            + ' — click Save to persist.';
+            + ' — click 💾 Save to persist.';
         }
       } catch (e) {
         clearInterval(tickHandle);
         if (statusEl) {
-          statusEl.style.color = '#dc2626';
+          statusEl.style.color = '#991b1b';
+          statusEl.style.background = '#fee2e2';
+          statusEl.style.border = '1px solid #fca5a5';
+          statusEl.style.padding = '10px 14px';
+          statusEl.style.fontSize = '13px';
+          statusEl.style.fontWeight = '600';
           statusEl.textContent = '✗ ' + (e && e.message || String(e));
         }
       } finally {

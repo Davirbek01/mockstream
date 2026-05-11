@@ -340,11 +340,10 @@ async function callGemini(prompt: string, files: FileItem[]): Promise<string> {
       // 5 of 13 questions emitted) — the default budget on 2.5 Pro is
       // shared with thinking tokens, so silent truncation is real.
       maxOutputTokens: 65536,
-      // Transcription is mechanical, not a reasoning task. Spend the entire
-      // token budget on actual JSON output, not on thinking. The 2.5 Pro
-      // thinking budget defaults to "dynamic" which can swallow most of
-      // maxOutputTokens before any output is produced.
-      thinkingConfig: { thinkingBudget: 0 }
+      // 2.5 Pro requires thinking mode (Google rejects thinkingBudget: 0 with
+      // "Budget 0 is invalid. This model only works in thinking mode."). -1 =
+      // dynamic budget, which is the model default and lets Gemini pick.
+      thinkingConfig: { thinkingBudget: -1 }
     },
     safetySettings: [
       { category: 'HARM_CATEGORY_HARASSMENT',       threshold: 'BLOCK_ONLY_HIGH' },
@@ -550,7 +549,8 @@ Rules:
       temperature: 0.1,
       responseMimeType: 'application/json',
       maxOutputTokens: 16384,
-      thinkingConfig: { thinkingBudget: 0 }
+      // 2.5 Pro requires thinking mode; -1 = dynamic budget (model default).
+      thinkingConfig: { thinkingBudget: -1 }
     },
     safetySettings: [
       { category: 'HARM_CATEGORY_HARASSMENT',       threshold: 'BLOCK_ONLY_HIGH' },
