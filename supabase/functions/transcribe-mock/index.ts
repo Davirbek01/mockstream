@@ -160,11 +160,11 @@ const IELTS_SHAPE = `{
           "featuresList": [string],                  // For "matching" ONLY: the list of letters / labels students match TO. Two common shapes: a) plain letter list when matching statements to passage paragraphs ["A", "B", "C", "D", "E"]; b) labelled list when matching to people / theories ["A. Ian McCrae", "B. Nigel Millar", "C. Richard Medlicott", …]. EMPTY ARRAY for every other type.
 
           "questions": [
-            { "id": number, "text": string }         // text rules per type:
-                                                     //   • completion: ONE {INPUT} per question entry — never bundle multiple blanks into one entry. If the source summary has 6 blanks numbered 8–13, you MUST emit 6 separate entries (id 8, 9, 10, 11, 12, 13), each containing exactly ONE {INPUT}. text = the surrounding sentence (or sentence fragment) up to and including its single {INPUT}; you may repeat / split words across entries so each entry reads naturally — the renderer joins them back into the flowing summary.
+            { "id": number, "text": string, "options"?: [string] }   // text rules per type:
+                                                     //   • completion: ONE {INPUT} per entry, one entry per numbered blank. text = a SHORT FRAGMENT (~10–25 words of surrounding context) centred on its single blank, NOT the whole summary. Example: if the source is "Mehrabian compared the {INPUT1} of communication. Subjects had to identify the {INPUT2} being conveyed", emit { "id":27, "text":"Mehrabian compared the {INPUT} of communication." } and { "id":28, "text":"Subjects had to identify the {INPUT} being conveyed." }. NEVER copy the entire summary into every entry — that produces visible duplicate paragraphs in the runner.
                                                      //   • tfng / ynng: text = the statement to evaluate
                                                      //   • matching / matching-headings: text = the statement / description students match
-                                                     //   • multiple-choice: text = the question stem (the A/B/C/D options live in a separate "options" array if present, otherwise embed them in <strong>A</strong> … markers)
+                                                     //   • multiple-choice: text = the question stem (no A/B/C/D embedded). ALSO REQUIRED — add an "options" array of 4 strings, each being just the choice text WITHOUT the leading letter prefix (the renderer prepends "A. ", "B. " automatically). If you omit "options", students see no answer choices.
           ]
         }
       ],
@@ -202,7 +202,7 @@ const IELTS_SINGLE_PASSAGE_SHAPE = `{
       "boxTitle": string,
       "headingsList": [string],
       "featuresList": [string],
-      "questions": [ { "id": number, "text": string } ]   // For "completion" type, ONE {INPUT} per entry — never bundle multiple blanks; emit one entry per numbered blank.
+      "questions": [ { "id": number, "text": string, "options"?: [string] } ]   // For "completion" type: ONE {INPUT} per entry, text is a SHORT FRAGMENT around its blank (NOT the whole summary). For "multiple-choice": include an "options" array of 4 strings (no letter prefix).
     }
   ],
 
@@ -244,13 +244,14 @@ function buildPrompt(
 
   | Source instruction looks like… | type | Required extras |
   |---|---|---|
-  | "Complete the notes/sentences/summary/table/flow-chart below. Choose ONE WORD ONLY / NO MORE THAN TWO WORDS…" | "completion" | "boxTitle" = heading above the notes/table; "questions" — ONE entry per numbered blank, exactly ONE {INPUT} per entry. If the source summary has 6 blanks numbered 8–13 inside a flowing paragraph, emit 6 entries (ids 8, 9, 10, 11, 12, 13) — never one big entry with 6 {INPUT} placeholders inside it. The renderer expects 1 input per entry. |
+  | "Complete the notes/sentences/summary/table/flow-chart below. Choose ONE WORD ONLY / NO MORE THAN TWO WORDS…" | "completion" | "boxTitle" = heading above the notes/table; "questions" — ONE entry per numbered blank, exactly ONE {INPUT} per entry. Each entry's text is a SHORT FRAGMENT (~10–25 words) around its blank — NEVER a copy of the whole summary. If the source summary has 6 blanks numbered 8–13, emit 6 entries (ids 8, 9, 10, 11, 12, 13) with 6 different fragments, never one entry per blank that all contain the same full summary. |
+  | "Complete the summary below. Drag and drop the correct words A-H into the gaps." (or any drag-drop word-bank variant) | "completion" | Same as above PLUS populate "featuresList" with the labelled word bank verbatim (e.g. ["A. facial expressions", "B. purposes", "C. printed words", "D. effects", "E. word meanings", "F. gender differences", "G. feelings", "H. characteristics"]). |
   | "Do the following statements agree with the information / claims in Reading Passage X? … TRUE / FALSE / NOT GIVEN" | "tfng" | (none) |
   | "Do the following statements agree with the views/claims of the writer? … YES / NO / NOT GIVEN" | "ynng" | (none) |
   | "Reading Passage X has Y paragraphs, A-Z. Choose the correct heading for paragraphs A-F from the list of headings below. … i, ii, iii…" | "matching-headings" | "headingsList" = the i-ix headings list verbatim |
   | "Reading Passage X has Y paragraphs, A-Z. Which paragraph contains the following information? Write the correct letter, A-F…" | "matching" | "featuresList" = ["A", "B", "C", "D", "E"] (one entry per paragraph letter) |
   | "Look at the following statements and the list of people/theories/etc. Match each statement with the correct X, A-H." | "matching" | "featuresList" = the labelled list verbatim, e.g. ["A. Ian McCrae", "B. Nigel Millar", …] |
-  | "Choose the correct letter, A, B, C or D" | "multiple-choice" | (none) |
+  | "Choose the correct letter, A, B, C or D" | "multiple-choice" | each question entry MUST include an "options" array of 4 strings (the A/B/C/D choices verbatim, WITHOUT the leading letter prefix — the renderer prepends "A. ", "B. " automatically). Without "options", students see no answer choices. Example: \`{ "id": 36, "text": "What does the writer say about X?", "options": ["It is the strongest point.", "It will appeal to superstitious people.", "It allows comparison.", "It makes claims more attractive."] }\` |
 
   ALWAYS include "headingsList" and "featuresList" keys on every section — empty arrays \`[]\` for sections where they don't apply, populated arrays for the matching types. Same for "boxTitle" — empty string for non-completion sections.
 

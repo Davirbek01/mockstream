@@ -6651,20 +6651,28 @@
                     var type = section.type || '';
 
                     if (type === 'tfng' || type === 'ynng') {
+                        // Render as three radio-button options to match the
+                        // official IELTS paper format (every YES/NO/NOT GIVEN
+                        // and TRUE/FALSE/NOT GIVEN question on Cambridge papers
+                        // is a 3-button block, not a dropdown). The old custom
+                        // rich-select dropdown is replaced; getAnswer() finds
+                        // the chosen value via 'input[name="qN"]:checked'.
                         var options = type === 'tfng' ? ['TRUE', 'FALSE', 'NOT GIVEN'] : ['YES', 'NO', 'NOT GIVEN'];
                         section.questions.forEach(function (q) {
                             html += '<div class="question-container" id="q' + q.id + '-container">';
-                            html += '<p><b>' + q.id + ' </b> ' + q.text + ' ';
-                            html += '<input type="hidden" id="q' + q.id + '" name="q' + q.id + '" value="">';
-                            html += '<span class="tfng-rich-select" data-qid="' + q.id + '">';
-                            html += '<span class="rich-select-trigger" data-q="' + q.id + '" onclick="toggleTfngSelect(\'' + q.id + '\', event)">Select</span>';
-                            html += '<span class="rich-select-menu" id="tfng-menu-' + q.id + '">';
+                            html += '<p><b>' + q.id + ' </b> ' + q.text + '</p>';
+                            html += '<div class="mcq-options">';
                             options.forEach(function (opt) {
-                                html += '<span class="rich-select-option" data-value="' + opt + '" onclick="selectTfngOption(\'' + q.id + '\', \'' + opt + '\', this, event)">' + opt + '</span>';
+                                html += '<label class="mcq-option"><input type="radio" name="q' + q.id + '" value="' + opt + '"> <span>' + opt + '</span></label><br>';
                             });
-                            html += '</span></span></p></div>';
+                            html += '</div>';
+                            html += '</div>';
                         });
-                    } else if (type === 'mcq') {
+                    } else if (type === 'mcq' || type === 'multiple-choice') {
+                        // 'multiple-choice' is the canonical type emitted by the
+                        // transcribe-mock prompt; 'mcq' is the hand-authored
+                        // shorthand used by older mocks. Both share the same
+                        // render path.
                         // Detect merged groups (consecutive questions with identical options)
                         var qs = section.questions || [];
                         var qi = 0;
@@ -6789,6 +6797,19 @@
                     } else if (type === 'completion' || type === 'short-answer' || type === 'diagram-label') {
                         // Text input questions
                         var skipPrefix = (type === 'diagram-label');
+                        // Drag-drop summary completion variant: when the source
+                        // is a labelled word bank ("A facial expressions, B
+                        // purposes, …"), show the chips so students see the
+                        // answer pool. Students can also type the labels
+                        // manually into the text inputs below.
+                        if (Array.isArray(section.featuresList) && section.featuresList.length > 0) {
+                            html += '<div class="options-container" style="margin-bottom:14px;">';
+                            html += '<strong>Options:</strong>';
+                            section.featuresList.forEach(function (f) {
+                                html += '<span class="option-item" style="margin:4px;">' + f + '</span>';
+                            });
+                            html += '</div>';
+                        }
                         if (section.boxTitle) {
                             if (section.imageGroups && section.imageGroups.length > 0) {
                                 html += '<div style="border:1px solid #bdbdbd; padding:12px; border-radius:6px; background:#fff; margin-top:10px;">';
