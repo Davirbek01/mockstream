@@ -6797,18 +6797,37 @@
                     } else if (type === 'completion' || type === 'short-answer' || type === 'diagram-label') {
                         // Text input questions
                         var skipPrefix = (type === 'diagram-label');
-                        // Drag-drop summary completion variant: when the source
-                        // is a labelled word bank ("A facial expressions, B
-                        // purposes, …"), show the chips so students see the
-                        // answer pool. Students can also type the labels
-                        // manually into the text inputs below.
-                        if (Array.isArray(section.featuresList) && section.featuresList.length > 0) {
+                        // Drag-drop summary completion variant — featuresList
+                        // present means the source is a labelled word bank
+                        // ("A facial expressions, B purposes, …"). Render the
+                        // chips as draggable items (data-value = the letter
+                        // only, matching what IELTS answer sheets accept),
+                        // and switch the per-question inputs below to
+                        // readonly-slot drop receivers so students can drag
+                        // chips in. The existing dnd handlers wired to
+                        // .option-item[draggable] + .interactive-receiver.
+                        // .readonly-slot apply automatically.
+                        var hasWordBank = Array.isArray(section.featuresList) && section.featuresList.length > 0;
+                        if (hasWordBank) {
                             html += '<div class="options-container" style="margin-bottom:14px;">';
                             html += '<strong>Options:</strong>';
                             section.featuresList.forEach(function (f) {
-                                html += '<span class="option-item" style="margin:4px;">' + f + '</span>';
+                                var raw = String(f || '');
+                                var letter = raw.charAt(0);
+                                // Strip leading "A.", "A ", or just "A" so the
+                                // chip displays "A facial expressions" with
+                                // the letter bold and the rest as label.
+                                var label = raw.replace(/^[A-Z][\.\s]*/, '');
+                                html += '<div class="option-item" draggable="true" data-value="' + letter + '" style="margin:4px; min-width:120px; cursor:pointer;"><strong>' + letter + '</strong> ' + label + '</div>';
                             });
                             html += '</div>';
+                        }
+                        // Centralised input-template: drop receiver when a
+                        // word bank is present, plain text input otherwise.
+                        function _completionInputHtml(qid) {
+                            return hasWordBank
+                                ? '<input type="text" readonly autocomplete="off" id="q' + qid + '" name="q' + qid + '" class="compact-input interactive-receiver readonly-slot" placeholder="Tap to fill" onchange="gtb(this)" aria-label="Answer ' + qid + '">'
+                                : '<input type="text" autocomplete="off" id="q' + qid + '" name="q' + qid + '" class="compact-input interactive-receiver" placeholder="" oninput="gtb(this)" aria-label="Answer ' + qid + '">';
                         }
                         if (section.boxTitle) {
                             if (section.imageGroups && section.imageGroups.length > 0) {
@@ -6828,7 +6847,7 @@
                                     (group.questionIds || []).forEach(function (qid) {
                                         var q = (section.questions || []).find(function (x) { return Number(x.id) === Number(qid); });
                                         if (!q) return;
-                                        var inputHtml = '<span class="inline-gap-with-number"><span class="gap-number-badge">' + q.id + '</span><input type="text" autocomplete="off" id="q' + q.id + '" name="q' + q.id + '" class="compact-input interactive-receiver" placeholder="" oninput="gtb(this)" aria-label="Answer ' + q.id + '"></span>';
+                                        var inputHtml = '<span class="inline-gap-with-number"><span class="gap-number-badge">' + q.id + '</span>' + _completionInputHtml(q.id) + '</span>';
                                         var text = q.text.replace(new RegExp('\\b' + q.id + '\\s+(?=\\{INPUT\\})'), '');
                                         text = text.replace(/\{INPUT\}|[\._…]{3,}/, inputHtml);
                                         if (text.indexOf('inline-gap-with-number') === -1) {
@@ -6846,7 +6865,7 @@
                             html += '<div style="text-align:center; font-weight:700; margin-bottom:8px;">' + section.boxTitle + '</div>';
                             html += '<ul style="margin:0; padding-left:18px;">';
                             section.questions.forEach(function (q) {
-                                var inputHtml = '<input type="text" autocomplete="off" id="q' + q.id + '" name="q' + q.id + '" class="compact-input interactive-receiver" placeholder="" oninput="gtb(this)" aria-label="Answer ' + q.id + '">';
+                                var inputHtml = _completionInputHtml(q.id);
                                 var hasGapToken = /\{INPUT\}|[\._…]{3,}/.test(q.text);
                                 var inlineGapHtml = '<span class="inline-gap-with-number"><span class="gap-number-badge">' + q.id + '</span>' + inputHtml + '</span>';
                                 // Strip embedded duplicate question number before {INPUT}
@@ -6866,7 +6885,7 @@
                         } else {
                             section.questions.forEach(function (q) {
                                 html += '<div class="question-container" id="q' + q.id + '-container">';
-                                var inputHtml = '<input type="text" autocomplete="off" id="q' + q.id + '" name="q' + q.id + '" class="compact-input interactive-receiver" placeholder="" oninput="gtb(this)" aria-label="Answer ' + q.id + '">';
+                                var inputHtml = _completionInputHtml(q.id);
                                 var hasGapToken = /\{INPUT\}|[\._…]{3,}/.test(q.text);
                                 var inlineGapHtml = '<span class="inline-gap-with-number"><span class="gap-number-badge">' + q.id + '</span>' + inputHtml + '</span>';
                                 // Strip embedded duplicate question number before {INPUT}
