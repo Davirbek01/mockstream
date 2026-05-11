@@ -5424,13 +5424,31 @@
                     var ansRows = '';
                     for (var qi = pr.start; qi <= pr.end; qi++) {
                         var qr = questionResults[qi];
-                        if (!qr) continue;
-                        pTotal++;
-                        if (qr.ok) pCorrect++;
-                        var rowCls = !qr.userAns ? 'ir-unanswered' : (qr.ok ? 'ir-correct' : 'ir-incorrect');
-                        var userDisp = qr.userAns || '<em style="color:#f59e0b;font-style:italic">(blank)</em>';
-                        var correctDisp = Array.isArray(qr.correct) ? qr.correct.join(', ') : qr.correct;
-                        var eoNote = qr.mergedPair ? ' <em style="font-size:10px;color:#64748b">(either order)</em>' : '';
+                        // ALWAYS render a row, even if the mock has no
+                        // correctAnswers entry for this question (admins can
+                        // publish a mock without an answer key — the
+                        // dropdown should still list every question with
+                        // whatever the student typed). When qr is missing
+                        // we fall back to live values: user answer via
+                        // getAnswer(), correct answer via the global map.
+                        var hasKey = !!qr;
+                        var userAns = qr ? qr.userAns : (getAnswer(qi) || '');
+                        var correctArr = qr ? qr.correct : (correctAnswers['q' + qi] || []);
+                        var ok = qr ? qr.ok : false;
+                        var mergedPair = qr ? qr.mergedPair : false;
+                        if (hasKey) pTotal++;
+                        if (ok) pCorrect++;
+                        var rowCls;
+                        if (!userAns)      rowCls = 'ir-unanswered';
+                        else if (!hasKey)  rowCls = 'ir-unanswered';
+                        else if (ok)       rowCls = 'ir-correct';
+                        else               rowCls = 'ir-incorrect';
+                        var userDisp = userAns || '<em style="color:#f59e0b;font-style:italic">(blank)</em>';
+                        var hasCorrect = correctArr && (Array.isArray(correctArr) ? correctArr.length : String(correctArr).length);
+                        var correctDisp = hasCorrect
+                            ? (Array.isArray(correctArr) ? correctArr.join(', ') : correctArr)
+                            : '<em style="color:#94a3b8;font-style:italic">no key</em>';
+                        var eoNote = mergedPair ? ' <em style="font-size:10px;color:#64748b">(either order)</em>' : '';
                         ansRows += '<div class="ir-ans-row ' + rowCls + '">' +
                             '<div style="font-weight:700;color:#64748b;font-size:11px">Q' + qi + '</div>' +
                             '<div>' + userDisp + '</div>' +
