@@ -29956,6 +29956,11 @@
         // the in-memory pickers without a page reload. Fire-and-forget
         // — UI is already closed; finishing the fetch is non-blocking.
         try { await window._mmgRefreshAllPickers(); } catch (e) { console.warn('picker refresh failed:', e); }
+        // Invalidate the new IELTS Reading full-screen picker's metadata
+        // cache so a newly-saved mock (or an existing one with edited
+        // passages/source) is re-fetched on next open instead of showing
+        // stale 24-hour data.
+        try { localStorage.removeItem('ms_iret_meta_v2'); } catch (e) {}
       } catch (e) {
         _mmgStatus('Save failed: ' + e.message, '#dc2626');
       }
