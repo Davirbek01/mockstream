@@ -7171,6 +7171,9 @@
                             html +=   '</div>';
                             if (explText)  html += '<p class="ir-expl-text">'  + _irEscHtml(explText)  + '</p>';
                             if (explQuote) html += '<blockquote class="ir-expl-quote">' + _irEscHtml(explQuote) + '</blockquote>';
+                            if (explText || explQuote) {
+                                html += '<div style="font-size:10.5px;color:#94a3b8;margin-top:6px;font-style:italic;">✨ AI-generated — verify against the passage</div>';
+                            }
                             html += '</div>'; // close card-body
                             html += '<div class="ir-pv-toggle-row"><button class="ir-show-passage-btn" id="ir-pvbtn-' + q.id + '" onclick="window._irTogglePassage(' + q.id + ',' + passage.id + ')">📖 Show in passage ▼</button></div>';
                             html += '<div class="ir-pv-wrap" id="ir-pv-' + q.id + '"></div>';

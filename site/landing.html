@@ -28858,12 +28858,24 @@
       // call (less risk of token / rate limits), and only this tab gets
       // overwritten.
       var html = ''
-            + '<div style="background:linear-gradient(135deg,#fdf4ff,#faf5ff);border:1px solid #e9d5ff;border-radius:10px;padding:10px 12px;margin-bottom:14px;display:flex;align-items:center;gap:12px;">'
+            + '<div style="background:linear-gradient(135deg,#fdf4ff,#faf5ff);border:1px solid #e9d5ff;border-radius:10px;padding:10px 12px;margin-bottom:8px;display:flex;align-items:center;gap:12px;">'
             +   '<div style="flex:1;font-size:12px;color:#581c87;line-height:1.45;">'
             +     '<strong>✨ Import this passage</strong> — upload only Passage ' + n + '\'s files (and answer key, if separate). Other passages stay untouched.'
             +   '</div>'
             +   '<button type="button" onclick="_mmgImportOpenPassage(' + idx + ')" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(124,58,237,.3);white-space:nowrap;">✨ Import passage</button>'
             + '</div>';
+
+      // Explanations generator — separate per-passage button. Sends just
+      // this passage's data (no files) to transcribe-mock with
+      // scope=explanations; server quote-verifies before returning.
+      html += ''
+            + '<div id="mmgIrP' + n + '_explBar" style="background:linear-gradient(135deg,#ecfeff,#e0f2fe);border:1px solid #bae6fd;border-radius:10px;padding:10px 12px;margin-bottom:14px;display:flex;align-items:center;gap:12px;">'
+            +   '<div style="flex:1;font-size:12px;color:#075985;line-height:1.45;">'
+            +     '<strong>✨ Generate explanations</strong> — Gemini reads this passage + its answer key and writes a short reason + verbatim source quote for each question. Quotes are server-verified.'
+            +   '</div>'
+            +   '<button type="button" id="mmgIrP' + n + '_explBtn" onclick="_mmgGenerateExplanations(' + idx + ')" style="background:linear-gradient(135deg,#06b6d4,#0284c7);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(2,132,199,.3);white-space:nowrap;">✨ Generate explanations</button>'
+            + '</div>'
+            + '<div id="mmgIrP' + n + '_explStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;"></div>';
 
       // ── Basics (always visible above the sub-tabs) ───────────────────
       html += '<div class="mmg-section-title">Passage ' + n + '</div>';
@@ -29598,6 +29610,108 @@
       }
     }
     window._mmgImportSubmit = _mmgImportSubmit;
+
+    // ═══════════════════════════════════════════════════════════════════════
+    //   Generate explanations (per IELTS reading passage)
+    //   Sends just the named passage's data (no file uploads) to
+    //   transcribe-mock with scope=explanations. Server-side quote
+    //   verification drops any quote the AI paraphrased rather than copied.
+    //   Result is merged into mock_data.passages[idx].explanations — user
+    //   must click Save to persist.
+    // ═══════════════════════════════════════════════════════════════════════
+    async function _mmgGenerateExplanations(idx) {
+      var m = window._mmgEditing;
+      if (!m || m.mock_type !== 'ielts-reading') {
+        alert('Explanations generator is currently IELTS Reading only.');
+        return;
+      }
+      // Flush whatever the user is editing back into mock_data so the
+      // passage we send to Gemini reflects the latest state, not the last
+      // save. Stops users wondering "why are explanations for old answers?"
+      if (typeof _mmgFlushStructuredToRaw === 'function' && !_mmgFlushStructuredToRaw()) {
+        _mmgStatus('Fix the highlighted field, then click Generate explanations.', '#dc2626');
+        return;
+      }
+      var md = (window._mmgEditing && window._mmgEditing.mock_data) || {};
+      var passage = (md.passages || [])[idx];
+      if (!passage || !passage.passage || !passage.correctAnswers || Object.keys(passage.correctAnswers).length === 0) {
+        alert('This passage needs both the body HTML and at least one correct answer before explanations can be generated.');
+        return;
+      }
+      if (!window._mmgPasscode) {
+        alert('Admin passcode missing — close + reopen the panel and try again.');
+        return;
+      }
+
+      var n          = idx + 1;
+      var btn        = document.getElementById('mmgIrP' + n + '_explBtn');
+      var statusEl   = document.getElementById('mmgIrP' + n + '_explStatus');
+      var startedAt  = Date.now();
+      var tickHandle = null;
+      function tick() {
+        var secs = Math.floor((Date.now() - startedAt) / 1000);
+        if (statusEl) statusEl.textContent = '🧠 Gemini is reading the passage and writing explanations… ' + secs + 's';
+      }
+      if (btn)      { btn.disabled = true; btn.textContent = '⏳ Working…'; }
+      if (statusEl) statusEl.style.color = '#0284c7';
+      tick();
+      tickHandle = setInterval(tick, 250);
+
+      try {
+        var payload = {
+          adminPasscode: window._mmgPasscode,
+          exam_type:     'ielts-reading',
+          scope:         'explanations',
+          passage:       passage
+        };
+        var r = await fetch(_MMG_TRANSCRIBE_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type':  'application/json',
+            'apikey':        _MMG_ANON,
+            'Authorization': 'Bearer ' + _MMG_ANON
+          },
+          body: JSON.stringify(payload)
+        });
+        var j = await r.json().catch(function () { return { error: 'bad_response' }; });
+        clearInterval(tickHandle);
+        if (!r.ok || j.error) {
+          var detail = j.detail || (j.error || ('HTTP ' + r.status));
+          throw new Error(detail);
+        }
+        var explns = j.explanations || {};
+        var drops  = j.dropped_quotes || [];
+
+        // Merge into the passage's existing explanations (don't wipe any
+        // hand-written ones the admin may have already added).
+        if (!passage.explanations || typeof passage.explanations !== 'object') passage.explanations = {};
+        Object.keys(explns).forEach(function (k) { passage.explanations[k] = explns[k]; });
+
+        // Sync the raw textarea so a Save afterwards picks up the new data.
+        document.getElementById('mmgFldData').value = JSON.stringify(md, null, 2);
+        window._mmgActiveTab = null;
+        _mmgInitTabs();
+        _mmgSwitchTab('ir_p' + n);
+
+        var nAdded = Object.keys(explns).length;
+        var elapsed = Math.floor((Date.now() - startedAt) / 1000);
+        if (statusEl) {
+          statusEl.style.color = '#16a34a';
+          statusEl.textContent = '✓ ' + nAdded + ' explanations generated in ' + elapsed + 's'
+            + (drops.length ? ' · ' + drops.length + ' quote(s) dropped (paraphrased)' : '')
+            + ' — click Save to persist.';
+        }
+      } catch (e) {
+        clearInterval(tickHandle);
+        if (statusEl) {
+          statusEl.style.color = '#dc2626';
+          statusEl.textContent = '✗ ' + (e && e.message || String(e));
+        }
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = '✨ Generate explanations'; }
+      }
+    }
+    window._mmgGenerateExplanations = _mmgGenerateExplanations;
 
     // ═══════════════════════════════════════════════════════════════════════
     //   "New version available" banner + manual force-reload trigger.

@@ -454,6 +454,160 @@ function tryParseModelJson(text: string): unknown | null {
   }
 }
 
+// ── Explanations generator ─────────────────────────────────────────
+// Inputs the already-imported passage (passage HTML + questionSections
+// + correctAnswers) and asks Gemini to produce a per-question
+// { text, quote } object explaining WHY each correct answer is correct.
+// Gemini sees the answer key, so it's JUSTIFYING a known answer — not
+// guessing — which keeps hallucination low.
+//
+// Server-side quote verification: every returned `quote` must appear
+// verbatim (case-insensitive) inside the passage HTML's textContent.
+// Quotes that don't match are dropped (the explanation `text` is kept,
+// but the runner's <mark> highlight won't render for that question).
+// Returns { explanations: {qN:{text,quote}}, droppedQuotes: [qN,…] }.
+
+function _stripHtml(html: string): string {
+  return String(html || '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g,  '&')
+    .replace(/&lt;/g,   '<')
+    .replace(/&gt;/g,   '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g,  "'")
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function _normaliseForQuoteMatch(s: string): string {
+  return s
+    .replace(/[‘’]/g, "'")
+    .replace(/[“”]/g, '"')
+    .replace(/\s+/g, ' ')
+    .toLowerCase()
+    .trim();
+}
+
+type ExplanationItem = { text: string; quote: string };
+type ExplanationsResult = {
+  explanations: Record<string, ExplanationItem>;
+  droppedQuotes: string[];
+};
+
+async function generateExplanations(
+  passage: Record<string, unknown>,
+  examType: string
+): Promise<ExplanationsResult> {
+  // Pull the bits we need out of the passage shape (IELTS or CEFR).
+  const passageHtml: string = examType === 'ielts-reading'
+    ? String(passage.passage || '')
+    : String((passage.passage as Record<string, unknown>)?.content || passage.passage || '');
+  const passagePlain = _stripHtml(passageHtml);
+  if (!passagePlain) throw new Error('passage body is empty');
+
+  // Build a compact (q, text, correct) list from questionSections.
+  const sections = Array.isArray(passage.questionSections) ? passage.questionSections : [];
+  const correctAnswers = (passage.correctAnswers as Record<string, string[] | string> | undefined) || {};
+  const qInputs: Array<{ id: number; text: string; correct: string }> = [];
+  for (const sec of sections) {
+    const qs = (sec as Record<string, unknown>).questions;
+    if (!Array.isArray(qs)) continue;
+    for (const q of qs) {
+      const qo = q as Record<string, unknown>;
+      const id = parseInt(String(qo.id || ''), 10);
+      if (isNaN(id)) continue;
+      const acc = correctAnswers[`q${id}`];
+      const correctStr = Array.isArray(acc) ? acc.join(' / ') : String(acc || '');
+      if (!correctStr) continue;   // skip questions without a known answer
+      qInputs.push({ id, text: String(qo.text || ''), correct: correctStr });
+    }
+  }
+  if (qInputs.length === 0) {
+    return { explanations: {}, droppedQuotes: [] };
+  }
+
+  const prompt = `You are an IELTS reading explanation generator. The student has already been given the correct answers; your job is to JUSTIFY each one with a short explanation and the verbatim source sentence.
+
+PASSAGE (plain text):
+${passagePlain}
+
+QUESTIONS (id · text · correct answer):
+${qInputs.map(q => `Q${q.id} · ${q.text} · ${q.correct}`).join('\n')}
+
+For each question, output ONE entry in this JSON shape:
+{ "q<id>": { "text": "<1-2 sentence reason>", "quote": "<verbatim sentence from the passage that proves it>" } }
+
+Rules:
+1. "text" — one or two sentences, plain English, max ~40 words. Explain WHY the given correct answer is correct (or, for TFNG / YNNG, why it is YES/NO/NOT GIVEN). Do NOT just restate the answer.
+2. "quote" — a sentence (or short phrase, max ~200 chars) copied EXACTLY from the passage above, preserving original spelling and punctuation. NO paraphrasing. NO ellipsis. NO smart-quote substitution. If you cannot find a verbatim sentence that supports the answer, return "quote": "" (empty string) rather than invent one.
+3. NEVER guess. If the answer is "NOT GIVEN", quote MUST be empty (there is no sentence to point to).
+4. Output ONLY the JSON object, no commentary, no markdown fences. Every input question id must appear as a top-level key in the output.`;
+
+  const body = {
+    contents: [{ role: 'user', parts: [{ text: prompt }] }],
+    generationConfig: {
+      temperature: 0.1,
+      responseMimeType: 'application/json',
+      maxOutputTokens: 16384,
+      thinkingConfig: { thinkingBudget: 0 }
+    },
+    safetySettings: [
+      { category: 'HARM_CATEGORY_HARASSMENT',       threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_HATE_SPEECH',      threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' }
+    ]
+  };
+
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${GEMINI_KEY}`;
+  const r = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  if (!r.ok) {
+    const errTxt = await r.text().catch(() => '');
+    throw new Error(`gemini http ${r.status}: ${errTxt.slice(0, 300)}`);
+  }
+  const j = await r.json();
+  const cand = j.candidates?.[0];
+  if (!cand) throw new Error('gemini returned no candidates');
+  if (cand.finishReason && cand.finishReason !== 'STOP') {
+    throw new Error(`gemini finishReason=${cand.finishReason}`);
+  }
+  const raw = cand.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
+  const parsed = tryParseModelJson(raw);
+  if (!parsed || typeof parsed !== 'object') {
+    throw new Error('gemini returned non-JSON: ' + raw.slice(0, 200));
+  }
+
+  // Server-side quote verification.
+  const passageNorm = _normaliseForQuoteMatch(passagePlain);
+  const out: Record<string, ExplanationItem> = {};
+  const dropped: string[] = [];
+  for (const key of Object.keys(parsed as Record<string, unknown>)) {
+    const item = (parsed as Record<string, unknown>)[key];
+    if (!item || typeof item !== 'object') continue;
+    const it = item as Record<string, unknown>;
+    const text  = String(it.text  || '').trim();
+    const quote = String(it.quote || '').trim();
+    let verifiedQuote = '';
+    if (quote) {
+      const qn = _normaliseForQuoteMatch(quote);
+      // Substring match — quote must appear in passage. Accept short phrases
+      // (>= 12 chars) only, since 1-2 word "quotes" risk false positives.
+      if (qn.length >= 12 && passageNorm.indexOf(qn) !== -1) {
+        verifiedQuote = quote;
+      } else {
+        dropped.push(key);
+      }
+    }
+    out[key] = { text: text, quote: verifiedQuote };
+  }
+  return { explanations: out, droppedQuotes: dropped };
+}
+
 // ── Main handler ───────────────────────────────────────────────────
 
 Deno.serve(async (req) => {
@@ -477,6 +631,31 @@ Deno.serve(async (req) => {
   const examType = (body.exam_type || '').toString();
   if (examType !== 'cefr-reading' && examType !== 'ielts-reading') {
     return json(400, { error: 'bad_exam_type', detail: 'expected "cefr-reading" or "ielts-reading"' });
+  }
+
+  // ── EXPLANATIONS scope: separate flow, no file upload ───────────
+  // Generates { qN: { text, quote } } for an already-imported passage.
+  // Quotes are server-side verified against the passage HTML; any quote
+  // the model paraphrased rather than copied is dropped (text kept).
+  if ((body.scope || '').toString() === 'explanations') {
+    const passage = body.passage as Record<string, unknown> | undefined;
+    if (!passage || typeof passage !== 'object') {
+      return json(400, { error: 'bad_passage', detail: 'scope=explanations requires { passage: {...} }' });
+    }
+    try {
+      const result = await generateExplanations(passage, examType);
+      return json(200, {
+        explanations:   result.explanations,
+        dropped_quotes: result.droppedQuotes,
+        model_used:     'gemini-2.5-pro',
+        actor:          (auth as AuthOk).actor
+      });
+    } catch (e) {
+      return json(502, {
+        error:  'explanations_failed',
+        detail: e instanceof Error ? e.message : String(e)
+      });
+    }
   }
 
   const filesRaw = Array.isArray(body.files) ? body.files : [];
