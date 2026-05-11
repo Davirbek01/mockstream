@@ -5397,8 +5397,12 @@
                             if (keys.length > 0) { hasExpl = true; return true; }
                         });
                     }
+                    // The standalone Explanations button is retired — its
+                    // functionality moved into Review Answers. Keep the node
+                    // permanently hidden so any leftover toggle code can't
+                    // bring it back.
                     var btn = document.getElementById('btnShowExpl');
-                    if (btn) btn.style.display = hasExpl ? '' : 'none';
+                    if (btn) btn.style.display = 'none';
                 })();
 
                 // Build passage-by-passage breakdown
@@ -5955,13 +5959,32 @@
                     });
                 }
 
-                // Solutions button event
+                // Review Answers button → open the rich Explanations panel.
+                // Previously this triggered the "in-passage review mode" (locked
+                // inputs + marked answers in the live test view), and a separate
+                // 💡 Explanations button opened the rich card panel. The two were
+                // doing similar jobs and forcing students to choose. Merged into
+                // one button: Review Answers now opens the panel with per-question
+                // card, source quote, and inline "Show in passage" highlight.
+                // The Explanations button is hidden below.
                 var solutionsBtn = document.getElementById('btnShowSolutions');
                 if (solutionsBtn) {
                     solutionsBtn.addEventListener('click', function () {
-                        reviewAnswers();
+                        if (typeof window.showIrExplPanel === 'function') {
+                            window.showIrExplPanel();
+                        } else {
+                            // Defensive fallback — if the panel renderer didn't
+                            // load for some reason, fall back to the old in-
+                            // passage review mode so students aren't stuck.
+                            reviewAnswers();
+                        }
                     });
                 }
+                // Hide the now-redundant Explanations button. Keeping the DOM
+                // node (just display:none) so any older code that toggles its
+                // visibility doesn't NPE.
+                var oldExplBtn = document.getElementById('btnShowExpl');
+                if (oldExplBtn) oldExplBtn.style.display = 'none';
 
                 var restoreBtn = document.getElementById('btnRestoreResults');
                 if (restoreBtn) {
