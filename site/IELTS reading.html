@@ -6722,7 +6722,13 @@
                             }
                             html += '</div>';
                         });
-                    } else if (type === 'matching-info' || type === 'matching-headings' || type === 'matching-features' || type === 'matching-sentence-endings') {
+                    } else if (type === 'matching' || type === 'matching-info' || type === 'matching-headings' || type === 'matching-features' || type === 'matching-sentence-endings') {
+                        // The bare 'matching' type comes from the AI transcriber
+                        // (it emits "matching" for both info-matching and feature-
+                        // matching — featuresList shape disambiguates). Accepting
+                        // it here means AI-imported mocks render their A-E option
+                        // chips + per-question receiver inputs the same as the
+                        // hand-authored mocks that use the longer subtype names.
                         // Check if this is a summary completion with options box (has boxTitle)
                         var isSummaryWithOptions = section.boxTitle && section.featuresList && section.featuresList.length > 0;
 
@@ -7399,10 +7405,19 @@
                       }, 1500);
                     }
 
-                    // Hide submit button initially (only show on Passage 3)
+                    // Hide submit button initially — it's shown by switchPassage
+                    // when the user reaches the LAST filled passage. For partial
+                    // mocks where only ONE passage is filled, the student lands
+                    // on that passage at page-load and never clicks a tab, so
+                    // switchPassage never fires — leaving submit hidden forever.
+                    // In that single-passage case we reveal it immediately.
                     var submitRight = document.querySelector('.submit-right');
                     if (submitRight) {
-                        submitRight.style.display = 'none';
+                        var _initTest = window.IELTS_READING_TEST;
+                        var _initLastP = (_initTest && Array.isArray(_initTest.passages) && _initTest.passages.length > 0)
+                            ? _initTest.passages.length
+                            : 3;
+                        submitRight.style.display = (_initLastP === 1) ? '' : 'none';
                     }
 
                     // Add event listeners to check passage completion when answers change
