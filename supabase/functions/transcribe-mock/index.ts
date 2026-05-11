@@ -539,8 +539,8 @@ For each question, output ONE entry in this JSON shape:
 { "q<id>": { "text": "<1-2 sentence reason>", "quote": "<verbatim sentence from the passage that proves it>" } }
 
 Rules:
-1. "text" — one or two sentences, plain English, max ~40 words. Explain WHY the given correct answer is correct (or, for TFNG / YNNG, why it is YES/NO/NOT GIVEN). Do NOT just restate the answer.
-2. "quote" — a sentence (or short phrase, max ~200 chars) copied EXACTLY from the passage above, preserving original spelling and punctuation. NO paraphrasing. NO ellipsis. NO smart-quote substitution. If you cannot find a verbatim sentence that supports the answer, return "quote": "" (empty string) rather than invent one.
+1. "text" — one or two sentences IN UZBEK (Latin script — same script the user types Uzbek text in), max ~40 words. Explain WHY the given correct answer is correct (or, for TFNG / YNNG, why it is YES/NO/NOT GIVEN). Do NOT just restate the answer. The audience is Uzbek IELTS students; technical terms like "TRUE", "FALSE", "NOT GIVEN" stay in English (they're the answer labels), but everything else is Uzbek.
+2. "quote" — a sentence (or short phrase, max ~200 chars) copied EXACTLY from the English passage above, preserving original spelling and punctuation. NO paraphrasing. NO ellipsis. NO smart-quote substitution. NO Uzbek translation — the quote stays in the original English. If you cannot find a verbatim sentence that supports the answer, return "quote": "" (empty string) rather than invent one.
 3. NEVER guess. If the answer is "NOT GIVEN", quote MUST be empty (there is no sentence to point to).
 4. Output ONLY the JSON object, no commentary, no markdown fences. Every input question id must appear as a top-level key in the output.`;
 

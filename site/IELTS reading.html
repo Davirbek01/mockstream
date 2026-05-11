@@ -1128,6 +1128,30 @@
             to   { opacity: 1; transform: translateY(0); }
         }
 
+        /* Review-mode passage highlights + Q-pill tags */
+        mark.ir-review-hl {
+            background: linear-gradient(180deg, transparent 55%, #fde68a 55%);
+            color: inherit;
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+        sup.ir-review-qpill {
+            display: inline-block;
+            background: #10b981;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 10px;
+            margin-left: 4px;
+            line-height: 1.4;
+            vertical-align: middle;
+            letter-spacing: 0.3px;
+        }
+        .ir-inline-expl-toggle:hover {
+            text-decoration: underline;
+        }
+
         /* Modern select dropdown for summary completion */
         .compact-select,
         .matching-select {
@@ -5887,6 +5911,150 @@
                 document.querySelectorAll('#questionsContainer input, #questionsContainer select').forEach(function(el) {
                     el.disabled = true;
                 });
+
+                // ── Review-mode enhancements ─────────────────────────────
+                // Add passage-side highlights (yellow span + small "Q29" pill
+                // showing which line each answer was deduced from) plus a
+                // collapsible explanation card under each question. Both
+                // depend on passage.explanations[qN] = { text, quote } being
+                // populated — on mocks without that data the review mode
+                // still works, just without the highlight + card.
+                _irApplyReviewModeRendering();
+                _irInstallReviewModeSwitchHook();
+            }
+
+            // Escape user-supplied text for safe insertion into the passage
+            // HTML — needed because we wrap the quote span back into the
+            // existing innerHTML, so a stray < or & would break the parse.
+            function _irHtmlEscape(s) {
+                return String(s || '').replace(/[&<>"']/g, function (c) {
+                    return ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[c];
+                });
+            }
+
+            // Paint <mark> + Q-pill highlights inside the currently-visible
+            // passage. Idempotent — runs once per render, gated by a flag
+            // on the container; switchPassage clears the flag so it re-runs.
+            function _irDrawPassageHighlightsForCurrentPassage() {
+                var test = window.IELTS_READING_TEST;
+                if (!test || !Array.isArray(test.passages)) return;
+                var container = document.getElementById('passageContent');
+                if (!container) return;
+                if (container.dataset.irReviewHl === '1') return;
+
+                var activeTab = document.querySelector('.passage-nav-tab.active');
+                if (!activeTab) return;
+                var visibleIdx = parseInt(activeTab.getAttribute('data-passage'), 10);
+                if (isNaN(visibleIdx)) return;
+                var passage = test.passages[visibleIdx - 1];
+                if (!passage) return;
+                var explns = passage.explanations || {};
+
+                var html = container.innerHTML;
+                // Sort by quote length descending so longer quotes get
+                // wrapped first — avoids a short quote eating a substring
+                // that's actually part of a longer one we wanted to keep
+                // whole. (Won't perfectly prevent overlap, but reduces the
+                // common case.)
+                var entries = Object.keys(explns).map(function (k) {
+                    var qid = parseInt(k.replace(/^q/, ''), 10);
+                    var raw = explns[k];
+                    var quote = raw && typeof raw === 'object' ? (raw.quote || '') : '';
+                    return { qid: qid, quote: String(quote) };
+                }).filter(function (e) {
+                    return !isNaN(e.qid) && e.quote && e.quote.length >= 12;
+                }).sort(function (a, b) { return b.quote.length - a.quote.length; });
+
+                entries.forEach(function (e) {
+                    var esc = _irHtmlEscape(e.quote);
+                    var idx = html.indexOf(esc);
+                    if (idx < 0) return;
+                    // Skip if already inside a <mark> (avoid double-wrap from
+                    // overlapping quotes).
+                    var before = html.substring(0, idx);
+                    var lastOpenMark  = before.lastIndexOf('<mark');
+                    var lastCloseMark = before.lastIndexOf('</mark');
+                    if (lastOpenMark > lastCloseMark) return;
+                    var pill    = '<sup class="ir-review-qpill" data-q="' + e.qid + '">Q' + e.qid + '</sup>';
+                    var wrapped = '<mark class="ir-review-hl" data-q="' + e.qid + '">' + esc + '</mark>' + pill;
+                    html = html.substring(0, idx) + wrapped + html.substring(idx + esc.length);
+                });
+
+                container.innerHTML = html;
+                container.dataset.irReviewHl = '1';
+            }
+
+            // Append a collapsible explanation card under each question
+            // container. The card is hidden by default and toggled by a
+            // small link below the input — clicking the link expands the
+            // blue explanation box.
+            function _irAppendInlineExplanationCards() {
+                var test = window.IELTS_READING_TEST;
+                if (!test || !Array.isArray(test.passages)) return;
+                test.passages.forEach(function (p) {
+                    var explns = p.explanations || {};
+                    Object.keys(explns).forEach(function (key) {
+                        var qid = parseInt(key.replace(/^q/, ''), 10);
+                        if (isNaN(qid)) return;
+                        var container = document.getElementById('q' + qid + '-container');
+                        if (!container || container.querySelector('.ir-inline-expl-toggle')) return;
+
+                        var raw  = explns[key];
+                        var text = raw && typeof raw === 'object' ? (raw.text || '') : '';
+                        if (!text) return;
+
+                        var toggle = document.createElement('div');
+                        toggle.className = 'ir-inline-expl-toggle';
+                        toggle.style.cssText = 'margin-top:6px;font-size:12px;color:#6366f1;cursor:pointer;user-select:none;display:inline-block;';
+                        toggle.textContent = '💡 Click for explanation ▼';
+
+                        var box = document.createElement('div');
+                        box.className = 'ir-inline-expl';
+                        box.style.cssText = 'display:none;margin-top:6px;background:#dbeafe;border-left:4px solid #3b82f6;padding:10px 12px;border-radius:6px;font-size:13px;color:#1e3a8a;line-height:1.5;';
+                        box.innerHTML = '<strong>Q' + qid + ':</strong> ' + _irHtmlEscape(text)
+                                      + '<div style="margin-top:6px;font-size:10.5px;color:#94a3b8;font-style:italic;">✨ AI-generated</div>';
+
+                        toggle.addEventListener('click', function () {
+                            var open = box.style.display !== 'none';
+                            box.style.display = open ? 'none' : 'block';
+                            toggle.textContent = open ? '💡 Click for explanation ▼' : '🔼 Hide explanation';
+                        });
+
+                        container.appendChild(toggle);
+                        container.appendChild(box);
+                    });
+                });
+            }
+
+            function _irApplyReviewModeRendering() {
+                _irDrawPassageHighlightsForCurrentPassage();
+                _irAppendInlineExplanationCards();
+            }
+
+            // Hook switchPassage so highlights + cards re-render when the
+            // student navigates between Passage 1 / 2 / 3 in review mode.
+            // The original loadPassageFromData replaces #passageContent and
+            // #questionsContainer wholesale, so any earlier review markup
+            // gets wiped. Re-apply on the next tick.
+            function _irInstallReviewModeSwitchHook() {
+                if (window.__irReviewSwitchHookInstalled) return;
+                if (typeof window.switchPassage !== 'function') return;
+                window.__irReviewSwitchHookInstalled = true;
+                var _orig = window.switchPassage;
+                window.switchPassage = function () {
+                    var r = _orig.apply(this, arguments);
+                    var c = document.getElementById('passageContent');
+                    if (c) delete c.dataset.irReviewHl;
+                    if (typeof isTestReviewMode !== 'undefined' && isTestReviewMode) {
+                        // Re-mark the inputs too — switchPassage rebuilt them
+                        // from the raw data, so all our disabled / coloured
+                        // styling is gone.
+                        setTimeout(function () {
+                            markReviewAnswers();
+                        }, 50);
+                    }
+                    return r;
+                };
             }
 
             // ===== Rich-select helpers for TFNG / YNNG =====
@@ -5959,25 +6127,18 @@
                     });
                 }
 
-                // Review Answers button → open the rich Explanations panel.
-                // Previously this triggered the "in-passage review mode" (locked
-                // inputs + marked answers in the live test view), and a separate
-                // 💡 Explanations button opened the rich card panel. The two were
-                // doing similar jobs and forcing students to choose. Merged into
-                // one button: Review Answers now opens the panel with per-question
-                // card, source quote, and inline "Show in passage" highlight.
-                // The Explanations button is hidden below.
+                // Review Answers button → switch into in-passage review mode.
+                // Closes the results modal, locks all inputs, fills blanks with
+                // the correct answer (yellow-tinted to mark "was blank"), paints
+                // passage-side highlights with Q-pill tags showing which line
+                // each answer was deduced from, and appends a collapsible
+                // explanation card under each question. The standalone
+                // Explanations panel is retired — its functionality now lives
+                // inline next to the actual test content.
                 var solutionsBtn = document.getElementById('btnShowSolutions');
                 if (solutionsBtn) {
                     solutionsBtn.addEventListener('click', function () {
-                        if (typeof window.showIrExplPanel === 'function') {
-                            window.showIrExplPanel();
-                        } else {
-                            // Defensive fallback — if the panel renderer didn't
-                            // load for some reason, fall back to the old in-
-                            // passage review mode so students aren't stuck.
-                            reviewAnswers();
-                        }
+                        reviewAnswers();
                     });
                 }
                 // Hide the now-redundant Explanations button. Keeping the DOM
