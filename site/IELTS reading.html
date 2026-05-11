@@ -7206,10 +7206,19 @@
                 // Update bottom question navigation buttons
                 updateQuestionNavButtons(passageNum);
 
-                // Show/hide submit button based on passage
+                // Show/hide submit button when on the LAST filled passage.
+                // Was hardcoded to "passage 3" — that hid the button forever on
+                // partial mocks (1 or 2 passages), leaving students with no
+                // way to submit. After the partial-mock filter, test.passages
+                // contains only the filled set, so its length is the right
+                // upper bound.
                 var submitRight = document.querySelector('.submit-right');
                 if (submitRight) {
-                    submitRight.style.display = (passageNum === 3) ? '' : 'none';
+                    var _testForSubmit = window.IELTS_READING_TEST;
+                    var _lastPassage = (_testForSubmit && Array.isArray(_testForSubmit.passages) && _testForSubmit.passages.length > 0)
+                        ? _testForSubmit.passages.length
+                        : 3;
+                    submitRight.style.display = (passageNum === _lastPassage) ? '' : 'none';
                 }
 
                 // Load the passage content
