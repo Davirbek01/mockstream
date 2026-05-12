@@ -35,13 +35,34 @@ window.IELTS_READING_TEST = {
                         "D other mnemonics"
                     ],
                     "questions": [
-                        { "id": 1, "text": "an expression of romantic interest" },
-                        { "id": 2, "text": "a basic form of calendar" },
-                        { "id": 3, "text": "the writing of correspondence" },
-                        { "id": 4, "text": "music" },
-                        { "id": 5, "text": "images of aspects of nature" },
-                        { "id": 6, "text": "the recording of family relationships" },
-                        { "id": 7, "text": "a group of trained workers" }
+                        {
+                            "id": 1,
+                            "text": "an expression of romantic interest"
+                        },
+                        {
+                            "id": 2,
+                            "text": "a basic form of calendar"
+                        },
+                        {
+                            "id": 3,
+                            "text": "the writing of correspondence"
+                        },
+                        {
+                            "id": 4,
+                            "text": "music"
+                        },
+                        {
+                            "id": 5,
+                            "text": "images of aspects of nature"
+                        },
+                        {
+                            "id": 6,
+                            "text": "the recording of family relationships"
+                        },
+                        {
+                            "id": 7,
+                            "text": "a group of trained workers"
+                        }
                     ]
                 },
                 {
@@ -52,34 +73,127 @@ window.IELTS_READING_TEST = {
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
-                        { "id": 8, "text": "Native American pictography is now studied by experts from other disciplines." },
-                        { "id": 9, "text": "Ashanti pictography can be easily understood by outsiders." },
-                        { "id": 10, "text": "Incan quipu were used as a tool in buying and selling." },
-                        { "id": 11, "text": "Incan quipu were more complex than knot records from other areas." },
-                        { "id": 12, "text": "Yoruba pebbles were useful for messages that needed to be kept." },
-                        { "id": 13, "text": "Experts disagree on when and how 'complete writing' began." }
+                        {
+                            "id": 8,
+                            "text": "Native American pictography is now studied by experts from other disciplines."
+                        },
+                        {
+                            "id": 9,
+                            "text": "Ashanti pictography can be easily understood by outsiders."
+                        },
+                        {
+                            "id": 10,
+                            "text": "Incan quipu were used as a tool in buying and selling."
+                        },
+                        {
+                            "id": 11,
+                            "text": "Incan quipu were more complex than knot records from other areas."
+                        },
+                        {
+                            "id": 12,
+                            "text": "Yoruba pebbles were useful for messages that needed to be kept."
+                        },
+                        {
+                            "id": 13,
+                            "text": "Experts disagree on when and how 'complete writing' began."
+                        }
                     ]
                 }
             ],
             "correctAnswers": {
-                "q1": ["D"],
-                "q2": ["C"],
-                "q3": ["A"],
-                "q4": ["D"],
-                "q5": ["A"],
-                "q6": ["C"],
-                "q7": ["B"],
-                "q8": ["NOT GIVEN"],
-                "q9": ["FALSE"],
-                "q10": ["TRUE"],
-                "q11": ["TRUE"],
-                "q12": ["FALSE"],
-                "q13": ["TRUE"]
+                "q1": [
+                    "D"
+                ],
+                "q2": [
+                    "C"
+                ],
+                "q3": [
+                    "A"
+                ],
+                "q4": [
+                    "D"
+                ],
+                "q5": [
+                    "A"
+                ],
+                "q6": [
+                    "C"
+                ],
+                "q7": [
+                    "B"
+                ],
+                "q8": [
+                    "NOT GIVEN"
+                ],
+                "q9": [
+                    "FALSE"
+                ],
+                "q10": [
+                    "TRUE"
+                ],
+                "q11": [
+                    "TRUE"
+                ],
+                "q12": [
+                    "FALSE"
+                ],
+                "q13": [
+                    "TRUE"
+                ]
             },
             "explanations": {
-                "q10": "The passage says Inca quipu recorded trade transactions and tax payments.",
-                "q11": "It states Inca quipu were more complicated than similar records from other regions.",
-                "q12": "The passage says Yoruba pebbles could not provide a durable record."
+                "q1": {
+                    "text": "The passage describes Yoruba people using pebbles (an indexical/mnemonic system) for courtship — leaving six pebbles to express interest — so the correct answer is D (other mnemonics).",
+                    "quote": "To arrange a courtship, for example, a Yoruba man leaves six pebbles for a woman to find"
+                },
+                "q2": {
+                    "text": "The passage describes notch records with marks on artifacts corresponding to lunar cycles — a basic form of calendar, so the correct answer is C (notch records).",
+                    "quote": "The marks on some of these artifacts seem to correspond with lunar cycles."
+                },
+                "q3": {
+                    "text": "The passage states Cheyenne tribes sent pictographic letters to each other — writing of correspondence, so the correct answer is A (pictographic records).",
+                    "quote": "tribes such as the Cheyenne even sent pictographic letters to each other"
+                },
+                "q4": {
+                    "text": "The passage states string figures (other mnemonics) have been used to encode songs and chants — music, so the correct answer is D (other mnemonics).",
+                    "quote": "They have been used to encode histories, songs, chants and more"
+                },
+                "q5": {
+                    "text": "The passage describes rock-art pictography depicting plants, animals, the sun, stars — images of nature, so the correct answer is A (pictographic records).",
+                    "quote": "Rock art, for example, constitutes a collection of universal representations: human-like figures, plants, animals, the sun, stars, and many geometric designs."
+                },
+                "q6": {
+                    "text": "The passage describes Maori genealogical boards with notches each representing an ancestor — recording family relationships, so the correct answer is C (notch records).",
+                    "quote": "the genealogical boards of the pre-European Maori of New Zealand bore notches, each one representing the name of an ancestor."
+                },
+                "q7": {
+                    "text": "The passage describes a special class of clerks taught to read quipu — trained workers for knot records, so the correct answer is B (knot records).",
+                    "quote": "A special class of clerks who had been taught to read quipu oversaw and managed this highly complicated and efficient system."
+                },
+                "q8": {
+                    "text": "The passage states Native American pictography has attracted attention but doesn't specify whether experts from other disciplines study it — so the answer is NOT GIVEN.",
+                    "quote": ""
+                },
+                "q9": {
+                    "text": "The passage states Ashanti pictography only prompts the minds of those who have already learnt the proverbs — outsiders wouldn't understand it, so the answer is FALSE.",
+                    "quote": "This ‘sentence writing’, however, only prompts the minds of those who have already learnt the proverbs, and so is not an effective means of general communication."
+                },
+                "q10": {
+                    "text": "The passage states the Incas used quipu to record their empire's trade transactions — buying and selling, so the answer is TRUE.",
+                    "quote": "They used several different types of knots to record their empire's trade transactions and the payment of taxes."
+                },
+                "q11": {
+                    "text": "The passage states other quipu were 'not as complicated as those of the Inca' — Incan quipu were more complex, so the answer is TRUE.",
+                    "quote": "Although not as complicated as those of the Inca, similar prehistoric quipu can be found from Alaska to Chile."
+                },
+                "q12": {
+                    "text": "The passage states Yoruba pebbles could not provide a durable record — useless for keeping messages, so the answer is FALSE.",
+                    "quote": "However, these pebbles could not provide a durable record."
+                },
+                "q13": {
+                    "text": "The passage states 'there is a great deal of controversy about the exact circumstances of the invention of complete writing' — experts disagree, so the answer is TRUE.",
+                    "quote": "There is a great deal of controversy about the exact circumstances of the invention of complete writing."
+                }
             }
         },
         {
@@ -103,15 +217,42 @@ window.IELTS_READING_TEST = {
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
-                        { "id": 14, "text": "Agriculture in the UK is experiencing difficulties." },
-                        { "id": 15, "text": "The economic benefits of agroforestry are still doubtful." },
-                        { "id": 16, "text": "Shade from trees is a major disadvantage in agroforestry." },
-                        { "id": 17, "text": "Production from crops grown in agroforestry is generally higher than was predicted." },
-                        { "id": 18, "text": "Agroforestry has been taken up in areas where animals need more food." },
-                        { "id": 19, "text": "Agroforestry is used more in Northern Ireland than the rest of the UK because financial help is given to farmers." },
-                        { "id": 20, "text": "Agroforestry is widespread in New Zealand because of the climate." },
-                        { "id": 21, "text": "Agroforestry is unlikely to become popular in the UK in the immediate future." },
-                        { "id": 22, "text": "Agroforestry is suitable only for large farms." }
+                        {
+                            "id": 14,
+                            "text": "Agriculture in the UK is experiencing difficulties."
+                        },
+                        {
+                            "id": 15,
+                            "text": "The economic benefits of agroforestry are still doubtful."
+                        },
+                        {
+                            "id": 16,
+                            "text": "Shade from trees is a major disadvantage in agroforestry."
+                        },
+                        {
+                            "id": 17,
+                            "text": "Production from crops grown in agroforestry is generally higher than was predicted."
+                        },
+                        {
+                            "id": 18,
+                            "text": "Agroforestry has been taken up in areas where animals need more food."
+                        },
+                        {
+                            "id": 19,
+                            "text": "Agroforestry is used more in Northern Ireland than the rest of the UK because financial help is given to farmers."
+                        },
+                        {
+                            "id": 20,
+                            "text": "Agroforestry is widespread in New Zealand because of the climate."
+                        },
+                        {
+                            "id": 21,
+                            "text": "Agroforestry is unlikely to become popular in the UK in the immediate future."
+                        },
+                        {
+                            "id": 22,
+                            "text": "Agroforestry is suitable only for large farms."
+                        }
                     ]
                 },
                 {
@@ -120,34 +261,125 @@ window.IELTS_READING_TEST = {
                     "title": "Questions 23-26",
                     "instruction": "Look at the following statements (Questions 23-26) and the list of people below.<br><br>Match each statement with the correct person, <strong>A, B or C</strong>.<br><br>Write the correct letter, <strong>A, B or C</strong>, in boxes 23-26 on your answer sheet.<br><br><strong>NB</strong> You may use any letter more than once.<br><br><strong>A</strong> Jim McAdam<br><strong>B</strong> Bill Acroyd<br><strong>C</strong> Martin Crawford",
                     "headingsList": [],
-                    "featuresList": ["A", "B", "C"],
+                    "featuresList": [
+                        "A",
+                        "B",
+                        "C"
+                    ],
                     "questions": [
-                        { "id": 23, "text": "In some areas the demand for certain products can boost the income from tree growing." },
-                        { "id": 24, "text": "Certain types of trees ought to be grown in the UK." },
-                        { "id": 25, "text": "Preserving the environment is more important than getting immediate profits from farming." },
-                        { "id": 26, "text": "Agroforestry is the perfect answer to many farmers' problems." }
+                        {
+                            "id": 23,
+                            "text": "In some areas the demand for certain products can boost the income from tree growing."
+                        },
+                        {
+                            "id": 24,
+                            "text": "Certain types of trees ought to be grown in the UK."
+                        },
+                        {
+                            "id": 25,
+                            "text": "Preserving the environment is more important than getting immediate profits from farming."
+                        },
+                        {
+                            "id": 26,
+                            "text": "Agroforestry is the perfect answer to many farmers' problems."
+                        }
                     ]
                 }
             ],
             "correctAnswers": {
-                "q14": ["TRUE"],
-                "q15": ["FALSE"],
-                "q16": ["FALSE"],
-                "q17": ["TRUE"],
-                "q18": ["NOT GIVEN"],
-                "q19": ["TRUE"],
-                "q20": ["NOT GIVEN"],
-                "q21": ["TRUE"],
-                "q22": ["FALSE"],
-                "q23": ["A"],
-                "q24": ["C"],
-                "q25": ["B"],
-                "q26": ["A"]
+                "q14": [
+                    "TRUE"
+                ],
+                "q15": [
+                    "FALSE"
+                ],
+                "q16": [
+                    "FALSE"
+                ],
+                "q17": [
+                    "TRUE"
+                ],
+                "q18": [
+                    "NOT GIVEN"
+                ],
+                "q19": [
+                    "TRUE"
+                ],
+                "q20": [
+                    "NOT GIVEN"
+                ],
+                "q21": [
+                    "TRUE"
+                ],
+                "q22": [
+                    "FALSE"
+                ],
+                "q23": [
+                    "A"
+                ],
+                "q24": [
+                    "C"
+                ],
+                "q25": [
+                    "B"
+                ],
+                "q26": [
+                    "A"
+                ]
             },
             "explanations": {
-                "q15": "The passage says economic viability has exceeded expectations.",
-                "q19": "Take-up is lower elsewhere because grants are unavailable outside Northern Ireland.",
-                "q24": "Crawford says hardwoods could and should be produced at home."
+                "q14": {
+                    "text": "The passage refers to 'the ills of British agriculture' that agroforestry might cure — UK agriculture has difficulties, so the answer is TRUE.",
+                    "quote": "an unlikely cure for the ills of British agriculture"
+                },
+                "q15": {
+                    "text": "The passage states trials have 'exceeded expectations' — economic benefits are no longer doubtful, so the answer is FALSE.",
+                    "quote": "the results of long-term trials by the British government and independent scientists around the country have exceeded expectations."
+                },
+                "q16": {
+                    "text": "The passage states predictions that shade would cut output have proved unfounded; yields have substantially increased — shade is NOT a major disadvantage, so the answer is FALSE.",
+                    "quote": "Predictions that the shade cast by the trees would dramatically cut output have proved unfounded; indeed, in many cases, yields have substantially increased."
+                },
+                "q17": {
+                    "text": "The passage states yields have substantially increased rather than declined as predicted — higher than predicted, so the answer is TRUE.",
+                    "quote": "indeed, in many cases, yields have substantially increased."
+                },
+                "q18": {
+                    "text": "The passage discusses why farmers adopt agroforestry but never says it's done because animals need more food — so the answer is NOT GIVEN.",
+                    "quote": ""
+                },
+                "q19": {
+                    "text": "The passage states grants are available in Northern Ireland but unavailable elsewhere, leading to lower take-up outside NI — financial help boosts NI uptake, so the answer is TRUE.",
+                    "quote": "However, take-up in other parts of the country is much lower because, unlike Northern Ireland, grants to cover the relatively high set-up costs are unavailable."
+                },
+                "q20": {
+                    "text": "The passage mentions New Zealand's 40-year agroforestry tradition but never attributes it to climate — so the answer is NOT GIVEN.",
+                    "quote": ""
+                },
+                "q21": {
+                    "text": "The passage describes lack of enthusiasm and farmers' attitudes against trees, with change being 'desperately needed' — unlikely to become popular soon, so the answer is TRUE.",
+                    "quote": "the lack of enthusiasm for these systems has more to do with attitudes than practicalities."
+                },
+                "q22": {
+                    "text": "The passage states even a typical-garden-sized plot can sustain up to 90 productive species via forest gardening — agroforestry suits small plots too, so the answer is FALSE.",
+                    "quote": "a plot no bigger than a typical garden can sustain up to 90 productive species"
+                },
+                "q23": {
+                    "text": "McAdam describes how hurling sticks can boost the price of ash three-fold because players keep smashing them — demand for certain products boosting income, so the correct answer is A.",
+                    "quote": "you can increase that three-fold if you use it to make hurling sticks - as the players keep on smashing them, there is a big demand."
+                },
+                "q24": {
+                    "text": "Crawford states hardwoods like chestnut, black locust and alder 'could and should be produced at home' in the UK — certain trees ought to be grown locally, so the correct answer is C.",
+                    "quote": "alder (frequently used in furniture) could and should be produced at home."
+                },
+                "q25": {
+                    "text": "Acroyd states 'the important thing was to do something long-term to improve the environment and the landscape' — environment prioritised over immediate profits, so the correct answer is B.",
+                    "quote": "The important thing was to do something long-term to improve the environment and the landscape."
+                },
+                "q26": {
+                    "text": "McAdam states 'agroforestry fits the bill' for farmers desperately looking for flexible land use with environmental benefits — the perfect answer, so the correct answer is A.",
+                    "quote": "Farmers are desperately looking for more flexible land-use methods and also for systems with environmental benefits, and agroforestry fits the bill."
+                }
             }
         },
         {
@@ -169,13 +401,37 @@ window.IELTS_READING_TEST = {
                     "title": "Questions 27-31",
                     "instruction": "Reading Passage 3 has eight paragraphs, <strong>A-H</strong>.<br><br>Which paragraph contains the following information?<br><br>Write the correct letter, <strong>A-H</strong>, in boxes 27-31 on your answer sheet.",
                     "headingsList": [],
-                    "featuresList": ["A", "B", "C", "D", "E", "F", "G", "H"],
+                    "featuresList": [
+                        "A",
+                        "B",
+                        "C",
+                        "D",
+                        "E",
+                        "F",
+                        "G",
+                        "H"
+                    ],
                     "questions": [
-                        { "id": 27, "text": "the fact that there may be too much information to cope with" },
-                        { "id": 28, "text": "the relevance of generating repeat business" },
-                        { "id": 29, "text": "an example of personalised marketing" },
-                        { "id": 30, "text": "an illustration of a situation where commissioning new information research might not be advisable" },
-                        { "id": 31, "text": "how the greater wealth of customers enables them to select from a broader range of products" }
+                        {
+                            "id": 27,
+                            "text": "the fact that there may be too much information to cope with"
+                        },
+                        {
+                            "id": 28,
+                            "text": "the relevance of generating repeat business"
+                        },
+                        {
+                            "id": 29,
+                            "text": "an example of personalised marketing"
+                        },
+                        {
+                            "id": 30,
+                            "text": "an illustration of a situation where commissioning new information research might not be advisable"
+                        },
+                        {
+                            "id": 31,
+                            "text": "how the greater wealth of customers enables them to select from a broader range of products"
+                        }
                     ]
                 },
                 {
@@ -186,11 +442,26 @@ window.IELTS_READING_TEST = {
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
-                        { "id": 32, "text": "The majority of marketing statistics are gathered by government agencies." },
-                        { "id": 33, "text": "The move from an industrial to an information-based economy has happened more quickly in New Zealand than in Australia." },
-                        { "id": 34, "text": "Employees sometimes hide information that gives a poor impression of them." },
-                        { "id": 35, "text": "Managers frequently fail to make good use of the information they receive." },
-                        { "id": 36, "text": "Marketing information has to be used to be valuable." }
+                        {
+                            "id": 32,
+                            "text": "The majority of marketing statistics are gathered by government agencies."
+                        },
+                        {
+                            "id": 33,
+                            "text": "The move from an industrial to an information-based economy has happened more quickly in New Zealand than in Australia."
+                        },
+                        {
+                            "id": 34,
+                            "text": "Employees sometimes hide information that gives a poor impression of them."
+                        },
+                        {
+                            "id": 35,
+                            "text": "Managers frequently fail to make good use of the information they receive."
+                        },
+                        {
+                            "id": 36,
+                            "text": "Marketing information has to be used to be valuable."
+                        }
                     ]
                 },
                 {
@@ -201,33 +472,126 @@ window.IELTS_READING_TEST = {
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
-                        { "id": 37, "text": "MIS begins and ends with {INPUT}" },
-                        { "id": 38, "text": "Find out their {INPUT}" },
-                        { "id": 39, "text": "Information developed through {INPUT}, marketing intelligence activities and research process" },
-                        { "id": 40, "text": "Processed by the {INPUT}" }
+                        {
+                            "id": 37,
+                            "text": "MIS begins and ends with {INPUT}"
+                        },
+                        {
+                            "id": 38,
+                            "text": "Find out their {INPUT}"
+                        },
+                        {
+                            "id": 39,
+                            "text": "Information developed through {INPUT}, marketing intelligence activities and research process"
+                        },
+                        {
+                            "id": 40,
+                            "text": "Processed by the {INPUT}"
+                        }
                     ]
                 }
             ],
             "correctAnswers": {
-                "q27": ["F"],
-                "q28": ["A"],
-                "q29": ["B"],
-                "q30": ["H"],
-                "q31": ["D"],
-                "q32": ["NO"],
-                "q33": ["NOT GIVEN"],
-                "q34": ["YES"],
-                "q35": ["YES"],
-                "q36": ["YES"],
-                "q37": ["MARKETING MANAGERS"],
-                "q38": ["NEEDS"],
-                "q39": ["INTERNAL RECORDS"],
-                "q40": ["ANALYSIS UNIT"]
+                "q27": [
+                    "F"
+                ],
+                "q28": [
+                    "A"
+                ],
+                "q29": [
+                    "B"
+                ],
+                "q30": [
+                    "H"
+                ],
+                "q31": [
+                    "D"
+                ],
+                "q32": [
+                    "NO"
+                ],
+                "q33": [
+                    "NOT GIVEN"
+                ],
+                "q34": [
+                    "YES"
+                ],
+                "q35": [
+                    "YES"
+                ],
+                "q36": [
+                    "YES"
+                ],
+                "q37": [
+                    "MARKETING MANAGERS"
+                ],
+                "q38": [
+                    "NEEDS"
+                ],
+                "q39": [
+                    "INTERNAL RECORDS"
+                ],
+                "q40": [
+                    "ANALYSIS UNIT"
+                ]
             },
             "explanations": {
-                "q27": "Paragraph F describes managers being overwhelmed by data ('drowning in it').",
-                "q30": "Paragraph H gives the example where extra information cost exceeds added return.",
-                "q36": "Final sentence: information is valueless by itself; value comes from its use."
+                "q27": {
+                    "text": "Paragraph F states 'Running out of information is not a problem, but drowning in it is' — too much information to cope with, so the correct answer is F.",
+                    "quote": "Running out of information is not a problem, but drowning in it is."
+                },
+                "q28": {
+                    "text": "Paragraph A states customers must see value in returning continually rather than a single transaction — relevance of repeat business, so the correct answer is A.",
+                    "quote": "customers must gain and retain their perceptions of value from the brands they buy over a long time frame, rather than from a single transaction."
+                },
+                "q29": {
+                    "text": "Paragraph B describes Channel [V] sending personalised text and email alerts about viewers' favourite artists — personalised marketing, so the correct answer is B.",
+                    "quote": "Channel [V], encourages its viewers to sign up for text messages and email alerts that tell them when their favourite artists and songs are about to be broadcast."
+                },
+                "q30": {
+                    "text": "Paragraph H gives an example where spending 30,000 on extra info to gain only 25,000 more profit would be foolish — info research not advisable, so the correct answer is H.",
+                    "quote": "it would be foolish to spend 30,000 for additional information that would increase the profit to only 525,000."
+                },
+                "q31": {
+                    "text": "Paragraph D states 'as household incomes increase, choice widens and buyers become better at discriminating' — wealth enabling broader selection, so the correct answer is D.",
+                    "quote": "As household incomes increase, choice widens and buyers become better at discriminating"
+                },
+                "q32": {
+                    "text": "The passage states 'most' marketing information is gathered by marketing organisations, with only 'some' by government — majority is NOT government, so the answer is NO.",
+                    "quote": "While some of the information used is gathered by government bodies such as the Australian Bureau of Statistics and Statistics New Zealand, most of it is purposefully gathered by marketing organisations for client companies."
+                },
+                "q33": {
+                    "text": "The passage groups Australia, NZ and Singapore as developed countries moving toward info-based economies but never compares the speed in NZ vs Australia — so the answer is NOT GIVEN.",
+                    "quote": ""
+                },
+                "q34": {
+                    "text": "The passage states subordinates may withhold information that reflects badly on their performance — employees hiding such info, so the answer is YES.",
+                    "quote": "subordinates may withhold information they believe will reflect badly on their performance"
+                },
+                "q35": {
+                    "text": "The passage states marketing organisations often 'do not use it well' despite greater capacity to provide information — managers fail to use it well, so the answer is YES.",
+                    "quote": "Although marketing organisations have greater capacity to provide managers with information, they often do not use it well."
+                },
+                "q36": {
+                    "text": "The passage states 'By itself information is valueless - its value comes from its use' — marketing info has to be used to be valuable, so the answer is YES.",
+                    "quote": "By itself information is valueless - its value comes from its use."
+                },
+                "q37": {
+                    "text": "The passage directly states 'The MIS begins and ends with marketing managers' — so the answer is 'marketing managers'.",
+                    "quote": "The MIS begins and ends with marketing managers."
+                },
+                "q38": {
+                    "text": "The passage states the MIS first interacts with managers to assess their information needs — so the answer is 'needs'.",
+                    "quote": "First, it interacts with these managers to assess the information needs they have."
+                },
+                "q39": {
+                    "text": "The passage states information is developed from internal records, marketing intelligence activities and the research process — so the answer is 'internal records'.",
+                    "quote": "it develops the needed information from internal records, marketing intelligence activities and the research process."
+                },
+                "q40": {
+                    "text": "The passage states 'the analysis unit processes the data to make it more useful' — so the answer is 'analysis unit'.",
+                    "quote": "The analysis unit processes the data to make it more useful"
+                }
             }
         }
     ]
