@@ -2435,7 +2435,15 @@
       transition: all .15s;
       box-shadow: 0 1px 2px rgba(0,0,0,.03);
       user-select: none;
+      -webkit-user-select: none;
+      /* Ensure HTML5 drag actually starts in WebKit-based browsers — without
+         these the chip can fall through to a text-selection drag instead. */
+      -webkit-user-drag: element;
+      -khtml-user-drag: element;
     }
+    /* Inner spans must NOT intercept the mousedown that starts the drag —
+         they need to pass the gesture up to the chip itself. */
+    .mh-heading-chip > * { pointer-events: none; }
     .mh-heading-chip:hover { border-color: #14b8a6; box-shadow: 0 4px 10px rgba(20,184,166,.15); transform: translateY(-1px); }
     .mh-heading-chip:active { cursor: grabbing; }
     .mh-heading-chip.mh-chip-dragging { opacity: .4; }
@@ -2505,76 +2513,91 @@
       border-radius: 999px;
       letter-spacing: 0.3px;
     }
-    /* Thin assignment pill — empty vs filled state. Borderless, mono-ish
-       letter prefix, light background so it doesn't compete with the
-       paragraph text. */
+    /* Thin assignment pill — empty vs filled state. The legacy
+       `.rich-select-trigger` rule sets `display:block; width:100%;
+       padding:12px 42px 12px 16px; ::after caret` and is more-specific
+       than `.mh-slot` alone, so we need !important on the size + display
+       overrides + explicit ::after suppression. inline-flex + auto width
+       makes the pill hug its content like a chip instead of stretching
+       to the full paragraph card width. */
     .mh-slot {
-      display: flex;
+      display: inline-flex !important;
       align-items: center;
-      min-height: 32px;
-      padding: 4px 10px;
+      min-height: 26px;
+      max-width: 100%;
+      width: auto !important;
+      padding: 3px 10px !important;
       background: #f8fafc;
-      border: 1.5px dashed #cbd5e1;
-      border-radius: 8px;
-      font-size: 13px;
+      border: 1.5px dashed #cbd5e1 !important;
+      border-radius: 999px !important;
+      font-size: 12.5px !important;
+      font-weight: 600 !important;
+      line-height: 1.3 !important;
       color: #64748b;
       cursor: pointer;
       transition: all .15s;
+      box-shadow: none !important;
     }
-    .mh-slot:hover { border-color: #14b8a6; background: #f0fdfa; }
+    .mh-slot::after { content: none !important; display: none !important; }
+    .mh-slot:hover { border-color: #14b8a6 !important; background: #f0fdfa !important; }
     .mh-slot:focus-visible { outline: 2px solid #14b8a6; outline-offset: 2px; }
     .mh-slot.mh-slot-over {
-      border-color: #14b8a6;
-      background: #ccfbf1;
-      box-shadow: inset 0 0 0 2px #14b8a6;
+      border-color: #14b8a6 !important;
+      background: #ccfbf1 !important;
+      box-shadow: inset 0 0 0 2px #14b8a6 !important;
     }
     .mh-slot.mh-slot-filled-state {
-      border-style: solid;
-      border-color: #14b8a6;
-      background: linear-gradient(135deg, #ccfbf1, #d1fae5);
-      color: #134e4a;
+      border-style: solid !important;
+      border-color: #14b8a6 !important;
+      background: linear-gradient(135deg, #ccfbf1, #d1fae5) !important;
+      color: #134e4a !important;
     }
+    /* `[hidden]` is `display: none` by default, but my own
+       `.mh-slot-filled { display: flex }` rule beats it on specificity.
+       Force-hide here so the empty + filled states don't show together. */
+    .mh-slot-empty[hidden], .mh-slot-filled[hidden] { display: none !important; }
     .mh-slot-empty {
       font-style: italic;
-      font-weight: 500;
       letter-spacing: 0.2px;
+      white-space: nowrap;
     }
     .mh-slot-filled {
       display: flex;
       align-items: center;
-      gap: 10px;
-      width: 100%;
+      gap: 7px;
     }
     .mh-slot-letter {
       flex-shrink: 0;
-      width: 22px; height: 22px;
+      width: 18px; height: 18px;
       background: #10b981; color: #fff;
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-size: 11px; font-weight: 800;
+      font-size: 10.5px; font-weight: 800;
       font-family: ui-monospace, 'SF Mono', Menlo, monospace;
     }
     .mh-slot-text {
-      flex: 1; min-width: 0;
+      min-width: 0;
       font-weight: 600;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      max-width: 280px;
     }
     .mh-slot-clear {
       flex-shrink: 0;
-      width: 22px; height: 22px;
+      width: 18px; height: 18px;
       background: transparent;
-      border: 1px solid transparent;
+      border: 0;
+      padding: 0;
       border-radius: 50%;
       color: #134e4a;
-      font-size: 16px;
+      font-size: 14px;
       line-height: 1;
       font-weight: 700;
       cursor: pointer;
       transition: all .15s;
     }
-    .mh-slot-clear:hover { background: rgba(20,184,166,.15); border-color: #14b8a6; }
+    .mh-slot-clear:hover { background: rgba(20,184,166,.18); }
     .mh-para-body {
       font-size: 14.5px;
       line-height: 1.65;
@@ -3480,7 +3503,7 @@
     function generateMatchingHeadings(part) {
       const lastLetter = part.headings[part.headings.length - 1].letter;
       const headingsListHtml = part.headings.map(h => `
-        <div class="mh-heading-chip rich-select-option"
+        <div class="mh-heading-chip"
              draggable="true"
              data-letter="${h.letter}"
              tabindex="0">
