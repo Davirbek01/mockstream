@@ -27,15 +27,44 @@ window.IELTS_READING_TEST = {
                     "title": "Questions 1-7",
                     "instruction": "Reading Passage 1 has seven paragraphs, <strong>A-G</strong>.<br><br>Which paragraph contains the following information?<br><br>Write the correct letter, <strong>A-G</strong>, in boxes 1-7 on your answer sheet.",
                     "headingsList": [],
-                    "featuresList": ["A", "B", "C", "D", "E", "F", "G"],
+                    "featuresList": [
+                        "A",
+                        "B",
+                        "C",
+                        "D",
+                        "E",
+                        "F",
+                        "G"
+                    ],
                     "questions": [
-                        { "id": 1, "text": "a list of common peak traffic periods" },
-                        { "id": 2, "text": "a comparison between the movement of traffic and other types of movement that occur in the natural world" },
-                        { "id": 3, "text": "an advantage of places where there is a lot of traffic" },
-                        { "id": 4, "text": "a historical overview of methods used to understand how traffic moves" },
-                        { "id": 5, "text": "an example of a short-lived solution to a traffic problem" },
-                        { "id": 6, "text": "a reason why smooth-flowing traffic is more unstable than slow-moving traffic" },
-                        { "id": 7, "text": "a reason why traffic jams last longer than might be expected" }
+                        {
+                            "id": 1,
+                            "text": "a list of common peak traffic periods"
+                        },
+                        {
+                            "id": 2,
+                            "text": "a comparison between the movement of traffic and other types of movement that occur in the natural world"
+                        },
+                        {
+                            "id": 3,
+                            "text": "an advantage of places where there is a lot of traffic"
+                        },
+                        {
+                            "id": 4,
+                            "text": "a historical overview of methods used to understand how traffic moves"
+                        },
+                        {
+                            "id": 5,
+                            "text": "an example of a short-lived solution to a traffic problem"
+                        },
+                        {
+                            "id": 6,
+                            "text": "a reason why smooth-flowing traffic is more unstable than slow-moving traffic"
+                        },
+                        {
+                            "id": 7,
+                            "text": "a reason why traffic jams last longer than might be expected"
+                        }
                     ]
                 },
                 {
@@ -46,11 +75,26 @@ window.IELTS_READING_TEST = {
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
-                        { "id": 8, "text": "Computer models of traffic problems were first developed in the 1980s and 90s." },
-                        { "id": 9, "text": "Traffic has increased because people take more holidays than they used to." },
-                        { "id": 10, "text": "Small changes in driver behaviour can cause big changes in traffic flow." },
-                        { "id": 11, "text": "Traffic that is moving well is unlikely to have any problems." },
-                        { "id": 12, "text": "Most Americans would rather drive in New Mexico than New York." }
+                        {
+                            "id": 8,
+                            "text": "Computer models of traffic problems were first developed in the 1980s and 90s."
+                        },
+                        {
+                            "id": 9,
+                            "text": "Traffic has increased because people take more holidays than they used to."
+                        },
+                        {
+                            "id": 10,
+                            "text": "Small changes in driver behaviour can cause big changes in traffic flow."
+                        },
+                        {
+                            "id": 11,
+                            "text": "Traffic that is moving well is unlikely to have any problems."
+                        },
+                        {
+                            "id": 12,
+                            "text": "Most Americans would rather drive in New Mexico than New York."
+                        }
                     ]
                 },
                 {
@@ -75,24 +119,99 @@ window.IELTS_READING_TEST = {
                 }
             ],
             "correctAnswers": {
-                "q1": ["B"],
-                "q2": ["D"],
-                "q3": ["G"],
-                "q4": ["A"],
-                "q5": ["F"],
-                "q6": ["C"],
-                "q7": ["E"],
-                "q8": ["FALSE"],
-                "q9": ["NOT GIVEN"],
-                "q10": ["TRUE"],
-                "q11": ["FALSE"],
-                "q12": ["NOT GIVEN"],
-                "q13": ["D"]
+                "q1": [
+                    "B"
+                ],
+                "q2": [
+                    "D"
+                ],
+                "q3": [
+                    "G"
+                ],
+                "q4": [
+                    "A"
+                ],
+                "q5": [
+                    "F"
+                ],
+                "q6": [
+                    "C"
+                ],
+                "q7": [
+                    "E"
+                ],
+                "q8": [
+                    "FALSE"
+                ],
+                "q9": [
+                    "NOT GIVEN"
+                ],
+                "q10": [
+                    "TRUE"
+                ],
+                "q11": [
+                    "FALSE"
+                ],
+                "q12": [
+                    "NOT GIVEN"
+                ],
+                "q13": [
+                    "D"
+                ]
             },
             "explanations": {
-                "q8": "The first simulations were in the 1950s, not the 1980s/90s.",
-                "q10": "The passage says imperceptible changes can produce large effects.",
-                "q11": "It says traffic can become unstable even when flowing efficiently."
+                "q1": {
+                    "text": "Paragraph B lists peak traffic periods — rush hour, weekend exodus, holiday getaway — so the correct answer is B.",
+                    "quote": "Most traffic is tied to predetermined patterns: the rush hour, the weekend exodus, the holiday getaway."
+                },
+                "q2": {
+                    "text": "Paragraph D compares traffic with grains of sand and water flowing down a river — natural-world movements sharing the same mathematics, so the correct answer is D.",
+                    "quote": "even grains of sand falling down a glass tube can form traffic jams"
+                },
+                "q3": {
+                    "text": "Paragraph G argues congested cities can be more convenient — five movie theatres in 10 min walk in NYC vs 20 min drive in Santa Fe — an advantage of high-traffic places, so the correct answer is G.",
+                    "quote": "Congested cities can be more convenient than uncongested cities."
+                },
+                "q4": {
+                    "text": "Paragraph A gives a historical overview — 1930s traffic-flow theory, 1950s computer simulations, then new models in the 1980s and 90s — methods over time, so the correct answer is A.",
+                    "quote": "Traffic-flow theory had its beginnings in the 1930s, the first computer simulations of traffic were designed in the 1950s"
+                },
+                "q5": {
+                    "text": "Paragraph F describes adding a new lane — works for a while but congestion soon builds up as people change behaviour — a short-lived solution, so the correct answer is F.",
+                    "quote": "transportation planners add a new lane, and traffic flows more freely. For a while everybody is happy"
+                },
+                "q6": {
+                    "text": "Paragraph C states traffic is most sensitive to disturbances when flowing most efficiently — top-speed streams are unpredictable while gridlocked systems are predictable, so the correct answer is C.",
+                    "quote": "computer simulations suggest that traffic is most sensitive to disturbances when it is flowing most efficiently."
+                },
+                "q7": {
+                    "text": "Paragraph E explains drivers take an extra second to get going from a jam, so only 1,200 leave per hour while 1,800 join — sloppy acceleration extends the jam, so the correct answer is E.",
+                    "quote": "people are sloppy about getting their cars back up to speed."
+                },
+                "q8": {
+                    "text": "The passage states the first computer simulations of traffic were designed in the 1950s, not the 1980s-90s — so the answer is FALSE.",
+                    "quote": "the first computer simulations of traffic were designed in the 1950s"
+                },
+                "q9": {
+                    "text": "The passage mentions holiday getaways as a traffic pattern but never says people take more holidays than before — so the answer is NOT GIVEN.",
+                    "quote": ""
+                },
+                "q10": {
+                    "text": "The passage states small variations in driver behaviour (acceleration, lane changes) can cause radically different traffic patterns — so the answer is TRUE.",
+                    "quote": "Radically different traffic patterns can result."
+                },
+                "q11": {
+                    "text": "The passage states traffic is MOST sensitive to disturbances when flowing most efficiently — well-moving traffic is the most problem-prone, so the answer is FALSE.",
+                    "quote": "traffic is most sensitive to disturbances when it is flowing most efficiently."
+                },
+                "q12": {
+                    "text": "The passage compares New York's congestion with Santa Fe's lower congestion as examples, but never states what most Americans prefer — so the answer is NOT GIVEN.",
+                    "quote": ""
+                },
+                "q13": {
+                    "text": "The article explores multiple causes of traffic jams and concludes that 'in trying to solve the problem of congestion we are actually on a fool's mission' — explaining why they're unavoidable, so the correct answer is D.",
+                    "quote": "perhaps in trying to solve the problem of congestion we are actually on a fool's mission."
+                }
             }
         },
         {
@@ -114,15 +233,45 @@ window.IELTS_READING_TEST = {
                     "title": "Questions 14-20",
                     "instruction": "Reading Passage 2 has eight paragraphs, <strong>A-H</strong>.<br><br>Which paragraph contains the following information?<br><br>Write the correct letter, <strong>A-H</strong>, in boxes 14-20 on your answer sheet.<br><br><strong>NB</strong> You may use any letter more than once.",
                     "headingsList": [],
-                    "featuresList": ["A", "B", "C", "D", "E", "F", "G", "H"],
+                    "featuresList": [
+                        "A",
+                        "B",
+                        "C",
+                        "D",
+                        "E",
+                        "F",
+                        "G",
+                        "H"
+                    ],
                     "questions": [
-                        { "id": 14, "text": "an explanation of why elephants have such good memories" },
-                        { "id": 15, "text": "a mention of the possible consequence of elephant extinction on scientific knowledge" },
-                        { "id": 16, "text": "a comparison of human and elephant abilities to interact with others" },
-                        { "id": 17, "text": "a detail about when elephants most frequently move between different areas" },
-                        { "id": 18, "text": "reference to the biggest cause of the decrease in the world's elephant population" },
-                        { "id": 19, "text": "a mention of the fact that climate affects the time when elephants group together" },
-                        { "id": 20, "text": "reference to how some elephants can use items in their environment to feed themselves" }
+                        {
+                            "id": 14,
+                            "text": "an explanation of why elephants have such good memories"
+                        },
+                        {
+                            "id": 15,
+                            "text": "a mention of the possible consequence of elephant extinction on scientific knowledge"
+                        },
+                        {
+                            "id": 16,
+                            "text": "a comparison of human and elephant abilities to interact with others"
+                        },
+                        {
+                            "id": 17,
+                            "text": "a detail about when elephants most frequently move between different areas"
+                        },
+                        {
+                            "id": 18,
+                            "text": "reference to the biggest cause of the decrease in the world's elephant population"
+                        },
+                        {
+                            "id": 19,
+                            "text": "a mention of the fact that climate affects the time when elephants group together"
+                        },
+                        {
+                            "id": 20,
+                            "text": "reference to how some elephants can use items in their environment to feed themselves"
+                        }
                     ]
                 },
                 {
@@ -197,37 +346,148 @@ window.IELTS_READING_TEST = {
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
-                        { "id": 25, "text": "Even though most of an elephant's skin is too thick for a bee to sting through, elephants fear bees greatly. This is because the insects sting elephants in their eyes or on their {INPUT}, which are easily hurt." },
-                        { "id": 26, "text": "Farmers in Africa use bee fences to stop elephants from coming on to their property and damaging {INPUT}." },
-                        { "id": 27, "text": "These bee fences are simple constructions of regularly spaced {INPUT}, from which hives are hung." },
-                        { "id": 28, "text": "The elephants are so scared of bees that even using some beehives which are {INPUT} will frighten elephants away." },
-                        { "id": 29, "text": "The honey collected from these beehives can also provide additional {INPUT} for farmers." }
+                        {
+                            "id": 25,
+                            "text": "Even though most of an elephant's skin is too thick for a bee to sting through, elephants fear bees greatly. This is because the insects sting elephants in their eyes or on their {INPUT}, which are easily hurt."
+                        },
+                        {
+                            "id": 26,
+                            "text": "Farmers in Africa use bee fences to stop elephants from coming on to their property and damaging {INPUT}."
+                        },
+                        {
+                            "id": 27,
+                            "text": "These bee fences are simple constructions of regularly spaced {INPUT}, from which hives are hung."
+                        },
+                        {
+                            "id": 28,
+                            "text": "The elephants are so scared of bees that even using some beehives which are {INPUT} will frighten elephants away."
+                        },
+                        {
+                            "id": 29,
+                            "text": "The honey collected from these beehives can also provide additional {INPUT} for farmers."
+                        }
                     ]
                 }
             ],
             "correctAnswers": {
-                "q14": ["D"],
-                "q15": ["B"],
-                "q16": ["C"],
-                "q17": ["F"],
-                "q18": ["A"],
-                "q19": ["C"],
-                "q20": ["E"],
-                "q21": ["D", "E"],
-                "q22": ["D", "E"],
-                "q23": ["B", "D"],
-                "q24": ["B", "D"],
-                "q25": ["TRUNKS"],
-                "q26": ["CROPS"],
-                "q27": ["POLES"],
-                "q28": ["FAKE"],
-                "q29": ["INCOME"]
+                "q14": [
+                    "D"
+                ],
+                "q15": [
+                    "B"
+                ],
+                "q16": [
+                    "C"
+                ],
+                "q17": [
+                    "F"
+                ],
+                "q18": [
+                    "A"
+                ],
+                "q19": [
+                    "C"
+                ],
+                "q20": [
+                    "E"
+                ],
+                "q21": [
+                    "D",
+                    "E"
+                ],
+                "q22": [
+                    "D",
+                    "E"
+                ],
+                "q23": [
+                    "B",
+                    "D"
+                ],
+                "q24": [
+                    "B",
+                    "D"
+                ],
+                "q25": [
+                    "TRUNKS"
+                ],
+                "q26": [
+                    "CROPS"
+                ],
+                "q27": [
+                    "POLES"
+                ],
+                "q28": [
+                    "FAKE"
+                ],
+                "q29": [
+                    "INCOME"
+                ]
             },
             "explanations": {
-                "q14": "Paragraph D links strong memory to large hippocampuses.",
-                "q18": "Paragraph A says poaching for ivory is responsible for most decline.",
-                "q25": "Bees attack eyes and tips of trunks.",
-                "q29": "Farmers earn extra income from honey."
+                "q14": {
+                    "text": "Paragraph D explains elephants have hippocampuses about 40% larger relative to brain size than humans — the structure involved in long-term recall — explaining excellent memory, so the correct answer is D.",
+                    "quote": "they have big hippocampuses. These structures, one in each hemisphere of the brain, are involved in the formation of long-term recall."
+                },
+                "q15": {
+                    "text": "Paragraph B states that losing elephants would reduce biologists' ability to understand how intelligence has evolved in animals — a consequence of extinction on science, so the correct answer is B.",
+                    "quote": "Losing even one example of how intelligence develops would reduce the ability of biologists to understand the process of how intelligence has evolved in animals."
+                },
+                "q16": {
+                    "text": "Paragraph C compares elephants' 100-200 social acquaintances with humans' Dunbar's number of about 150 — comparing the social-interaction capacity of both species, so the correct answer is C.",
+                    "quote": "A figure of between 100 and 200 acquaintances is similar to the number of people a human being can maintain meaningful social relationships with - a value known as Dunbar's number."
+                },
+                "q17": {
+                    "text": "Paragraph F states elephants travel between places 'often... at night' — detail on when they move, so the correct answer is F.",
+                    "quote": "Elephants have places where they prefer to live and, when travelling between these, which they often do at night"
+                },
+                "q18": {
+                    "text": "Paragraph A states poaching for ivory is responsible for most of the decline in elephant numbers — the biggest cause, so the correct answer is A.",
+                    "quote": "They are often shot by poachers for their ivory and this is responsible for most of the decline in elephant numbers."
+                },
+                "q19": {
+                    "text": "Paragraph C states clans gather in the dry season when resources are limited — climate affecting elephant grouping time, so the correct answer is C.",
+                    "quote": "Clans gather in the dry season, when the resources capable of supporting elephants are limited."
+                },
+                "q20": {
+                    "text": "Paragraph E states that Asian elephants can manipulate nearby objects like branches as tools to reach food — using environmental items to feed themselves, so the correct answer is E.",
+                    "quote": "they are able to manipulate nearby objects, such as branches, as tools to get food which is out of reach."
+                },
+                "q21": {
+                    "text": "Paragraph B states elephants 'can identify themselves in a mirror' — recognising their own reflection, so the correct answer is D.",
+                    "quote": "They can, in fact, identify themselves in a mirror, something that is extremely rare in the animal kingdom."
+                },
+                "q22": {
+                    "text": "Paragraph B states elephants display a sense of humour and steal caps in playful teasing — capacity for playful behaviour, so the correct answer is E.",
+                    "quote": "Another example of superior intellect is the elephants' ability to have fun and display a sense of humour."
+                },
+                "q23": {
+                    "text": "Paragraph F states buildings and fences are appearing on land elephants traditionally crossed, blocking their corridors — man-made structures preventing free movement, so the correct answer is D.",
+                    "quote": "Buildings and fences are appearing on land which elephants have traditionally crossed as they travel from one place to another."
+                },
+                "q24": {
+                    "text": "Paragraph F states some herders have begun to settle down (rather than moving herds) — a change in grazing practice, so the correct answer is B.",
+                    "quote": "some herders have begun to settle down."
+                },
+                "q25": {
+                    "text": "The passage states bees attack the eyes and tips of trunks — elephants' most sensitive parts — so the answer is 'trunks'.",
+                    "quote": "groups of bees tend to attack the eyes and the tips of the trunks"
+                },
+                "q26": {
+                    "text": "The passage states fences are designed to keep elephants away from farmers' crops — so the answer is 'crops'.",
+                    "quote": "The sort of fence most African farmers can afford is too weak to keep an elephant away from their crops"
+                },
+                "q27": {
+                    "text": "The passage states the bee fence consists of pairs of poles placed at three-metre intervals — so the answer is 'poles'.",
+                    "quote": "The fence consists of pairs of poles placed at three-metre intervals, between which beehives are hung."
+                },
+                "q28": {
+                    "text": "The passage states half the hives can be fake and the fence still keeps the elephants out — so the answer is 'fake'.",
+                    "quote": "half the hives can be fake, and the fence still keeps the elephants out."
+                },
+                "q29": {
+                    "text": "The passage states farmers earn extra income from the honey the bees produce — so the answer is 'income'.",
+                    "quote": "the farmers earn extra income from the honey the bees produce."
+                }
             }
         },
         {
@@ -311,12 +571,30 @@ window.IELTS_READING_TEST = {
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
-                        { "id": 35, "text": "Restricting the further development of super-intelligent computers is an idea that should be considered." },
-                        { "id": 36, "text": "There is almost complete agreement among AI experts about the potential of AI to outperform humans." },
-                        { "id": 37, "text": "Too little research has been done on how to give machines human values." },
-                        { "id": 38, "text": "It is reasonable to think that a super-intelligent machine could have the same characteristics as a human." },
-                        { "id": 39, "text": "Scientists should focus on constructing machines that process numbers and data in completely new ways." },
-                        { "id": 40, "text": "In the future, humans are unlikely to be able to comprehend the cognitive processes of AI." }
+                        {
+                            "id": 35,
+                            "text": "Restricting the further development of super-intelligent computers is an idea that should be considered."
+                        },
+                        {
+                            "id": 36,
+                            "text": "There is almost complete agreement among AI experts about the potential of AI to outperform humans."
+                        },
+                        {
+                            "id": 37,
+                            "text": "Too little research has been done on how to give machines human values."
+                        },
+                        {
+                            "id": 38,
+                            "text": "It is reasonable to think that a super-intelligent machine could have the same characteristics as a human."
+                        },
+                        {
+                            "id": 39,
+                            "text": "Scientists should focus on constructing machines that process numbers and data in completely new ways."
+                        },
+                        {
+                            "id": 40,
+                            "text": "In the future, humans are unlikely to be able to comprehend the cognitive processes of AI."
+                        }
                     ]
                 },
                 {
@@ -338,37 +616,144 @@ window.IELTS_READING_TEST = {
                         "I scientific solution"
                     ],
                     "questions": [
-                        { "id": 41, "text": "As artificial intelligence becomes more sophisticated, its {INPUT} are likely to change." },
-                        { "id": 42, "text": "When it reaches the point at which limitless {INPUT} is possible, it may start to challenge humans for resources." },
-                        { "id": 43, "text": "Humans may face a major turning point in their {INPUT} and have very little idea about the potential AI has, and so underestimate the risks." },
-                        { "id": 44, "text": "A useful comparison can be made with {INPUT}." },
-                        { "id": 45, "text": "When the internet was first launched, nobody thought this would become a {INPUT}." }
+                        {
+                            "id": 41,
+                            "text": "As artificial intelligence becomes more sophisticated, its {INPUT} are likely to change."
+                        },
+                        {
+                            "id": 42,
+                            "text": "When it reaches the point at which limitless {INPUT} is possible, it may start to challenge humans for resources."
+                        },
+                        {
+                            "id": 43,
+                            "text": "Humans may face a major turning point in their {INPUT} and have very little idea about the potential AI has, and so underestimate the risks."
+                        },
+                        {
+                            "id": 44,
+                            "text": "A useful comparison can be made with {INPUT}."
+                        },
+                        {
+                            "id": 45,
+                            "text": "When the internet was first launched, nobody thought this would become a {INPUT}."
+                        }
                     ]
                 }
             ],
             "correctAnswers": {
-                "q30": ["A"],
-                "q31": ["C"],
-                "q32": ["B"],
-                "q33": ["D"],
-                "q34": ["D"],
-                "q35": ["NO"],
-                "q36": ["YES"],
-                "q37": ["NOT GIVEN"],
-                "q38": ["NO"],
-                "q39": ["NOT GIVEN"],
-                "q40": ["YES"],
-                "q41": ["E"],
-                "q42": ["G"],
-                "q43": ["C"],
-                "q44": ["A"],
-                "q45": ["H"]
+                "q30": [
+                    "A"
+                ],
+                "q31": [
+                    "C"
+                ],
+                "q32": [
+                    "B"
+                ],
+                "q33": [
+                    "D"
+                ],
+                "q34": [
+                    "D"
+                ],
+                "q35": [
+                    "NO"
+                ],
+                "q36": [
+                    "YES"
+                ],
+                "q37": [
+                    "NOT GIVEN"
+                ],
+                "q38": [
+                    "NO"
+                ],
+                "q39": [
+                    "NOT GIVEN"
+                ],
+                "q40": [
+                    "YES"
+                ],
+                "q41": [
+                    "E"
+                ],
+                "q42": [
+                    "G"
+                ],
+                "q43": [
+                    "C"
+                ],
+                "q44": [
+                    "A"
+                ],
+                "q45": [
+                    "H"
+                ]
             },
             "explanations": {
-                "q30": "The writer says enthusiasm may be too soon because key capabilities are still missing.",
-                "q31": "The writer says Kurzweil underestimates software-level challenges.",
-                "q34": "Barrat argues resource acquisition may be inherent in intelligent goal-driven systems.",
-                "q40": "The passage cites thinking in dimensions humans cannot conceive of."
+                "q30": {
+                    "text": "The passage states 'it may be too soon to express such enthusiasm' because we lack machines with common sense or natural language — the excitement is based on premature assumptions, so the correct answer is A.",
+                    "quote": "it may be too soon to express such enthusiasm: we still haven't produced machines with common sense, natural language processing, or the ability to create other machines."
+                },
+                "q31": {
+                    "text": "The passage states the writer predicts AI will take at least 40 years because 'the challenges in building AI, especially at the software level, are much greater than Kurzweil admits' — Kurzweil underestimated the difficulties, so the correct answer is C.",
+                    "quote": "the challenges in building AI, especially at the software level, are much greater than Kurzweil admits."
+                },
+                "q32": {
+                    "text": "The writer states that in a century, computers will program themselves and reason 'in ways that we can only imagine' — capabilities almost impossible to predict, so the correct answer is B.",
+                    "quote": "computers will eventually be able to program themselves and reason in ways that we can only imagine."
+                },
+                "q33": {
+                    "text": "The passage states 'Most people dismiss such fears' about AI conflict and worry about asteroids and global warming instead — suggesting the public doesn't see AI conflict as serious, so the correct answer is D.",
+                    "quote": "Most people dismiss such fears, believing them to be the result of the over-influence of science-fiction movies."
+                },
+                "q34": {
+                    "text": "The passage states Barrat argues 'the drive for self-preservation and resource acquisition may be inherent in all goal-driven systems' — AI tending to seek control of resources, so the correct answer is D.",
+                    "quote": "the drive for self-preservation and resource acquisition may be inherent in all goal-driven systems with a certain degree of intelligence."
+                },
+                "q35": {
+                    "text": "The passage argues that restrictive laws would just push development underground or to other countries — the writer rejects restriction as impractical, so the answer is NO.",
+                    "quote": "passing laws forbidding such things will guarantee that someone else develops the technology in secret or in another country."
+                },
+                "q36": {
+                    "text": "The passage states 'virtually everyone in the AI field believes' machines will overtake humans — near-complete agreement among experts, so the answer is YES.",
+                    "quote": "If machines eventually overtake us, as virtually everyone in the AI field believes they will"
+                },
+                "q37": {
+                    "text": "The passage discusses the question of how to instil values in machines but never claims that too little research has been done on this — so the answer is NOT GIVEN.",
+                    "quote": ""
+                },
+                "q38": {
+                    "text": "The passage states 'the replication of the full range of human attributes seems unlikely' — the writer doesn't consider it reasonable to expect human-like characteristics, so the answer is NO.",
+                    "quote": "the replication of the full range of human attributes seems unlikely"
+                },
+                "q39": {
+                    "text": "The passage states it's technically easier to build machines focused solely on numbers and data, but never recommends that scientists SHOULD focus on this — so the answer is NOT GIVEN.",
+                    "quote": ""
+                },
+                "q40": {
+                    "text": "The passage states AI's 'thinking will occur in dimensions humans cannot conceive of' — supporting the view that we won't comprehend its cognitive processes, so the answer is YES.",
+                    "quote": "how we can understand AI when its ‘thinking’ will occur in dimensions humans cannot conceive of."
+                },
+                "q41": {
+                    "text": "The passage states that machines' objectives may alter as they get smarter — objectives = goals, so the correct answer is E.",
+                    "quote": "It is important to realize that the machines’ objectives may well alter as they get smarter."
+                },
+                "q42": {
+                    "text": "The passage states once computers can reprogram themselves and 'constantly develop themselves' — that's self-improvement, so the correct answer is G.",
+                    "quote": "Once computers can effectively reprogram themselves, and therefore constantly develop themselves"
+                },
+                "q43": {
+                    "text": "The passage states Danny Hillis believes we are close to one of the greatest transitions in the history of biological evolution — so the correct answer is C.",
+                    "quote": "we are close to one of the greatest transitions in the history of biological evolution"
+                },
+                "q44": {
+                    "text": "The passage gives the example of huge data being collected about us via the internet and fed to algorithms — that's data collection, so the correct answer is A.",
+                    "quote": "a huge amount of data is being collected about us and being fed to algorithms to make predictions about our behaviour"
+                },
+                "q45": {
+                    "text": "The passage states this internet-data subject 'now sparks a great deal of argument and is a cause for concern' — a controversial issue, so the correct answer is H.",
+                    "quote": "this subject now sparks a great deal of argument and is a cause for concern"
+                }
             }
         }
     ]
