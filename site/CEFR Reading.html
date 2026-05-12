@@ -2617,6 +2617,13 @@
     .mh-mobile-divider { display: none; }
 
     @media (max-width: 1023px) {
+      /* Hide the Part 3 instruction block on mobile — the matching-
+         headings split-view needs the full viewport height. Students
+         read the instructions on the desktop / once via the part picker
+         anyway, and they're identical across mocks. */
+      .part-container[data-part-type="matching-headings"] .part-header {
+        display: none;
+      }
       /* Mobile: vertical two-pane split — headings TOP (scrollable),
          passage BOTTOM (scrollable), with a draggable horizontal bar
          between them. The whole .mh-split-container becomes a flex
@@ -2625,8 +2632,8 @@
       .mh-split-container {
         flex-direction: column;
         gap: 0;
-        height: calc(100vh - 200px);   /* leaves room for the header + part nav */
-        min-height: 480px;
+        height: calc(100vh - 150px);   /* part-header is hidden so we recover those pixels */
+        min-height: 500px;
       }
       .mh-headings-pane {
         position: relative;             /* not sticky any more — height drives */
@@ -2666,32 +2673,54 @@
         margin: 0;
       }
 
-      /* The draggable bar itself */
+      /* The draggable bar itself — generous touch target with a high-
+         contrast grip + chevron hint so students realise it's draggable.
+         24px tall + 12px hit-padding above/below via the ::before for a
+         total ~36px touch zone. */
       .mh-mobile-divider {
         display: flex;
         align-items: center;
         justify-content: center;
-        flex: 0 0 18px;
-        height: 18px;
-        background: linear-gradient(180deg, #f0fdfa, #ecfeff);
-        border-left: 1.5px solid #99f6e4;
-        border-right: 1.5px solid #99f6e4;
+        flex: 0 0 26px;
+        height: 26px;
+        background: linear-gradient(180deg, #ccfbf1, #a7f3d0);
+        border-left: 1.5px solid #14b8a6;
+        border-right: 1.5px solid #14b8a6;
         cursor: ns-resize;
         touch-action: none;
         z-index: 5;
         position: relative;
+        gap: 8px;
       }
       .mh-mobile-divider::before {
+        /* Invisible vertical padding so the touch target is bigger than
+           the visible bar — helps coarse-input pointers. */
         content: '';
-        position: absolute; inset: 0;
-        background: transparent;
+        position: absolute;
+        left: 0; right: 0;
+        top: -12px; bottom: -12px;
+        z-index: -1;
+      }
+      .mh-mobile-divider::after {
+        content: '↕ drag to resize';
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+        color: #0f766e;
+        opacity: .8;
+        pointer-events: none;
       }
       .mh-mobile-divider-grip {
         display: block;
-        width: 56px; height: 4px;
-        background: #14b8a6;
+        width: 72px; height: 5px;
+        background: #0f766e;
         border-radius: 999px;
-        opacity: .65;
+        opacity: .85;
+        box-shadow: 0 1px 0 rgba(255,255,255,.6);
       }
       .mh-mobile-divider:hover .mh-mobile-divider-grip,
       .mh-mobile-divider:active .mh-mobile-divider-grip { opacity: 1; }
@@ -3347,10 +3376,14 @@
       
       TEST_DATA.parts.forEach((part, partIndex) => {
         const partDiv = document.createElement('div');
-        // Add full-width-split class for reading-comprehension type parts
-        partDiv.className = part.type === 'reading-comprehension' 
-          ? 'part-container full-width-split' 
+        // Add full-width-split class for reading-comprehension type parts.
+        // Also mirror the type on a data attribute so mobile CSS can hide
+        // the part-header for matching-headings (its split-view needs every
+        // pixel of vertical room on a phone).
+        partDiv.className = part.type === 'reading-comprehension'
+          ? 'part-container full-width-split'
           : 'part-container';
+        partDiv.dataset.partType = part.type;
         partDiv.id = `part-${partIndex}`;
         
         // For reading-comprehension, part-header goes inside the split pane
