@@ -29,14 +29,38 @@ window.IELTS_READING_TEST = {
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
-                        { "id": 1, "text": "Liquorice sweets were developed from a substance used for its medicinal properties." },
-                        { "id": 2, "text": "Liquorice sweets made with sugar proved more popular with the public than those containing honey." },
-                        { "id": 3, "text": "The modern style of liquorice snack was first developed by the confectionery industry in the mid-nineteenth century." },
-                        { "id": 4, "text": "Sales of liquorice are currently increasing faster than those of other non-chocolate confectionery products." },
-                        { "id": 5, "text": "The texture of liquorice depends on the quality of the sugar used." },
-                        { "id": 6, "text": "The addition of corn syrup helps maintain the freshness of the liquorice over time." },
-                        { "id": 7, "text": "The use of wheat flour enables different shapes of liquorice to be created." },
-                        { "id": 8, "text": "Aniseed oil is added to liquorice extract in order to improve its flavour." }
+                        {
+                            "id": 1,
+                            "text": "Liquorice sweets were developed from a substance used for its medicinal properties."
+                        },
+                        {
+                            "id": 2,
+                            "text": "Liquorice sweets made with sugar proved more popular with the public than those containing honey."
+                        },
+                        {
+                            "id": 3,
+                            "text": "The modern style of liquorice snack was first developed by the confectionery industry in the mid-nineteenth century."
+                        },
+                        {
+                            "id": 4,
+                            "text": "Sales of liquorice are currently increasing faster than those of other non-chocolate confectionery products."
+                        },
+                        {
+                            "id": 5,
+                            "text": "The texture of liquorice depends on the quality of the sugar used."
+                        },
+                        {
+                            "id": 6,
+                            "text": "The addition of corn syrup helps maintain the freshness of the liquorice over time."
+                        },
+                        {
+                            "id": 7,
+                            "text": "The use of wheat flour enables different shapes of liquorice to be created."
+                        },
+                        {
+                            "id": 8,
+                            "text": "Aniseed oil is added to liquorice extract in order to improve its flavour."
+                        }
                     ]
                 },
                 {
@@ -47,39 +71,156 @@ window.IELTS_READING_TEST = {
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
-                        { "id": 9, "text": "Ingredients placed in {INPUT}" },
-                        { "id": 10, "text": "Mixers prevent slurry from {INPUT}" },
-                        { "id": 11, "text": "After {INPUT} checks, mixture moves to cooking stage" },
-                        { "id": 12, "text": "Cooking process removes {INPUT}" },
-                        { "id": 13, "text": "Slow movement lets product cool and {INPUT}" },
-                        { "id": 14, "text": "Product is coated in a {INPUT} to improve appearance" },
-                        { "id": 15, "text": "Put in wrapper which is then {INPUT}" },
-                        { "id": 16, "text": "A {INPUT} is printed onto each wrapper" }
+                        {
+                            "id": 9,
+                            "text": "Ingredients placed in {INPUT}"
+                        },
+                        {
+                            "id": 10,
+                            "text": "Mixers prevent slurry from {INPUT}"
+                        },
+                        {
+                            "id": 11,
+                            "text": "After {INPUT} checks, mixture moves to cooking stage"
+                        },
+                        {
+                            "id": 12,
+                            "text": "Cooking process removes {INPUT}"
+                        },
+                        {
+                            "id": 13,
+                            "text": "Slow movement lets product cool and {INPUT}"
+                        },
+                        {
+                            "id": 14,
+                            "text": "Product is coated in a {INPUT} to improve appearance"
+                        },
+                        {
+                            "id": 15,
+                            "text": "Put in wrapper which is then {INPUT}"
+                        },
+                        {
+                            "id": 16,
+                            "text": "A {INPUT} is printed onto each wrapper"
+                        }
                     ]
                 }
             ],
             "correctAnswers": {
-                "q1": ["TRUE"],
-                "q2": ["NOT GIVEN"],
-                "q3": ["FALSE"],
-                "q4": ["NOT GIVEN"],
-                "q5": ["FALSE"],
-                "q6": ["TRUE"],
-                "q7": ["TRUE"],
-                "q8": ["FALSE"],
-                "q9": ["TANKS"],
-                "q10": ["BURNING"],
-                "q11": ["QUALITY"],
-                "q12": ["MOISTURE"],
-                "q13": ["HARDEN"],
-                "q14": ["GLAZE"],
-                "q15": ["SEALED"],
-                "q16": ["CODE"]
+                "q1": [
+                    "TRUE"
+                ],
+                "q2": [
+                    "NOT GIVEN"
+                ],
+                "q3": [
+                    "FALSE"
+                ],
+                "q4": [
+                    "NOT GIVEN"
+                ],
+                "q5": [
+                    "FALSE"
+                ],
+                "q6": [
+                    "TRUE"
+                ],
+                "q7": [
+                    "TRUE"
+                ],
+                "q8": [
+                    "FALSE"
+                ],
+                "q9": [
+                    "TANKS"
+                ],
+                "q10": [
+                    "BURNING"
+                ],
+                "q11": [
+                    "QUALITY"
+                ],
+                "q12": [
+                    "MOISTURE"
+                ],
+                "q13": [
+                    "HARDEN"
+                ],
+                "q14": [
+                    "GLAZE"
+                ],
+                "q15": [
+                    "SEALED"
+                ],
+                "q16": [
+                    "CODE"
+                ]
             },
             "explanations": {
-                "q1": "Liquorice root extract was used medicinally, then combined with honey for sweets.",
-                "q5": "The passage says sugar grade is not critical to consistency.",
-                "q6": "Corn syrup prolongs shelf life by limiting microbial growth."
+                "q1": {
+                    "text": "The passage states liquorice root was used to treat coughs and sore throats, then merchants combined it with honey to make the first sweets — developed from a medicinal substance, so the answer is TRUE.",
+                    "quote": "liquorice root extract was widely used to treat ailments such as coughs and sore throats."
+                },
+                "q2": {
+                    "text": "The passage states sugar replaced honey once sugar became more available, but never compares the popularity of the two versions — so the answer is NOT GIVEN.",
+                    "quote": ""
+                },
+                "q3": {
+                    "text": "The passage states modern liquorice originated in Holland in the early 17th century — long before the mid-19th century when the industry merely standardised it, so the answer is FALSE.",
+                    "quote": "The kind of liquorice we eat today is understood to have originated in Holland at the start of the seventeenth century."
+                },
+                "q4": {
+                    "text": "The passage states liquorice accounts for a significant portion of the non-chocolate confectionery market, but never compares its growth rate to other products — so the answer is NOT GIVEN.",
+                    "quote": ""
+                },
+                "q5": {
+                    "text": "The passage states the grade of sugar is NOT critical to liquorice consistency — texture doesn't depend on sugar quality, so the answer is FALSE.",
+                    "quote": "Since the grade of the sugar is not critical to the consistency of the liquorice, a less refined type can be used"
+                },
+                "q6": {
+                    "text": "The passage states corn syrup prolongs the product's shelf life by limiting microbe growth — helps maintain freshness, so the answer is TRUE.",
+                    "quote": "prolongs the product's shelf life by limiting the growth of microbes."
+                },
+                "q7": {
+                    "text": "The passage states wheat flour's properties allow the liquorice to be moulded into straws, shoelaces, twists and ribbons — different shapes possible, so the answer is TRUE.",
+                    "quote": "These properties allow the liquorice mixture to be moulded in various ways, creating, for example, straws, shoelaces, twists and ribbons."
+                },
+                "q8": {
+                    "text": "The passage states aniseed oil is used to dilute liquorice extract because the extract is expensive — for cost reasons, not flavour, so the answer is FALSE.",
+                    "quote": "liquid liquorice extract is used, although since this is quite expensive, it is often diluted with aniseed oils."
+                },
+                "q9": {
+                    "text": "The passage states ingredients are poured into stainless steel tanks — so the answer is 'tanks'.",
+                    "quote": "pouring the ingredients into stainless steel tanks"
+                },
+                "q10": {
+                    "text": "The passage states mixers sweep the sides of the tanks to stop the mixture burning — so the answer is 'burning'.",
+                    "quote": "mixers which sweep the sides of the tanks to stop the mixture burning as it is warmed."
+                },
+                "q11": {
+                    "text": "The passage states the slurry must pass quality tests before being pumped to the cooker — so the answer is 'quality'.",
+                    "quote": "Once the slurry has passed quality tests, it can be pumped to the cooker."
+                },
+                "q12": {
+                    "text": "The passage states the main objective of cooking is to reduce the moisture content of the slurry — so the answer is 'moisture'.",
+                    "quote": "The main objective of the cooking stage is to reduce the moisture content of the slurry."
+                },
+                "q13": {
+                    "text": "The passage states slow travel allows the liquorice to cool and harden — so the answer is 'harden'.",
+                    "quote": "It is important that it travels slowly enough to cool to an appropriate temperature, thus allowing the product to harden."
+                },
+                "q14": {
+                    "text": "The passage states pieces may be coated with a special glaze for an attractive shine — so the answer is 'glaze'.",
+                    "quote": "they may be coated with a special glaze, giving the product an attractive shine."
+                },
+                "q15": {
+                    "text": "The passage states the plastic wrapper is sealed at both ends — so the answer is 'sealed'.",
+                    "quote": "a plastic wrapper is placed around them, which is sealed at both ends."
+                },
+                "q16": {
+                    "text": "The passage states the stamping machine puts a code on the package — so the answer is 'code'.",
+                    "quote": "The package is moved to a stamping machine, which puts a code on it"
+                }
             }
         },
         {
@@ -101,14 +242,42 @@ window.IELTS_READING_TEST = {
                     "title": "Questions 17-22",
                     "instruction": "Reading Passage 2 has nine paragraphs, <strong>A-I</strong>.<br><br>Which paragraph contains the following information?<br><br>Write the correct letter, <strong>A-I</strong>, in boxes 17-22 on your answer sheet.",
                     "headingsList": [],
-                    "featuresList": ["A", "B", "C", "D", "E", "F", "G", "H", "I"],
+                    "featuresList": [
+                        "A",
+                        "B",
+                        "C",
+                        "D",
+                        "E",
+                        "F",
+                        "G",
+                        "H",
+                        "I"
+                    ],
                     "questions": [
-                        { "id": 17, "text": "examples of equipment used in the study of icebergs" },
-                        { "id": 18, "text": "a description of the volume of water inside one iceberg" },
-                        { "id": 19, "text": "a reference to causes of instability in icebergs" },
-                        { "id": 20, "text": "an explanation as to the origins of the contents of the water around icebergs" },
-                        { "id": 21, "text": "a definition of the term 'iceberg'" },
-                        { "id": 22, "text": "a reference to the temperature of the water surrounding an iceberg" }
+                        {
+                            "id": 17,
+                            "text": "examples of equipment used in the study of icebergs"
+                        },
+                        {
+                            "id": 18,
+                            "text": "a description of the volume of water inside one iceberg"
+                        },
+                        {
+                            "id": 19,
+                            "text": "a reference to causes of instability in icebergs"
+                        },
+                        {
+                            "id": 20,
+                            "text": "an explanation as to the origins of the contents of the water around icebergs"
+                        },
+                        {
+                            "id": 21,
+                            "text": "a definition of the term 'iceberg'"
+                        },
+                        {
+                            "id": 22,
+                            "text": "a reference to the temperature of the water surrounding an iceberg"
+                        }
                     ]
                 },
                 {
@@ -183,37 +352,152 @@ window.IELTS_READING_TEST = {
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
-                        { "id": 27, "text": "Greg Stone and his team noted above-normal levels of marine life, such as krill and {INPUT} in the immediate vicinity of the ice." },
-                        { "id": 28, "text": "Under many icebergs, young fish appeared to have created {INPUT} to live in." },
-                        { "id": 29, "text": "These may help fish avoid {INPUT}." },
-                        { "id": 30, "text": "Under one iceberg, they found invertebrates deep in a {INPUT} in the ice." },
-                        { "id": 31, "text": "The iceberg had become stuck on the seabed rather than being moved by ocean {INPUT}." },
-                        { "id": 32, "text": "Such movement can cause an iceberg's {INPUT} to collide with and damage the seabed." }
+                        {
+                            "id": 27,
+                            "text": "Greg Stone and his team noted above-normal levels of marine life, such as krill and {INPUT} in the immediate vicinity of the ice."
+                        },
+                        {
+                            "id": 28,
+                            "text": "Under many icebergs, young fish appeared to have created {INPUT} to live in."
+                        },
+                        {
+                            "id": 29,
+                            "text": "These may help fish avoid {INPUT}."
+                        },
+                        {
+                            "id": 30,
+                            "text": "Under one iceberg, they found invertebrates deep in a {INPUT} in the ice."
+                        },
+                        {
+                            "id": 31,
+                            "text": "The iceberg had become stuck on the seabed rather than being moved by ocean {INPUT}."
+                        },
+                        {
+                            "id": 32,
+                            "text": "Such movement can cause an iceberg's {INPUT} to collide with and damage the seabed."
+                        }
                     ]
                 }
             ],
             "correctAnswers": {
-                "q17": ["C"],
-                "q18": ["E"],
-                "q19": ["I"],
-                "q20": ["D"],
-                "q21": ["A"],
-                "q22": ["F"],
-                "q23": ["A", "D"],
-                "q24": ["A", "D"],
-                "q25": ["C", "D"],
-                "q26": ["C", "D"],
-                "q27": ["JELLYFISH"],
-                "q28": ["BURROWS"],
-                "q29": ["PREDATORS"],
-                "q30": ["CAVE"],
-                "q31": ["CURRENTS"],
-                "q32": ["KEEL"]
+                "q17": [
+                    "C"
+                ],
+                "q18": [
+                    "E"
+                ],
+                "q19": [
+                    "I"
+                ],
+                "q20": [
+                    "D"
+                ],
+                "q21": [
+                    "A"
+                ],
+                "q22": [
+                    "F"
+                ],
+                "q23": [
+                    "A",
+                    "D"
+                ],
+                "q24": [
+                    "A",
+                    "D"
+                ],
+                "q25": [
+                    "C",
+                    "D"
+                ],
+                "q26": [
+                    "C",
+                    "D"
+                ],
+                "q27": [
+                    "JELLYFISH"
+                ],
+                "q28": [
+                    "BURROWS"
+                ],
+                "q29": [
+                    "PREDATORS"
+                ],
+                "q30": [
+                    "CAVE"
+                ],
+                "q31": [
+                    "CURRENTS"
+                ],
+                "q32": [
+                    "KEEL"
+                ]
             },
             "explanations": {
-                "q17": "Paragraph C lists oceanographic instruments, nets, and cameras attached to ROVs.",
-                "q18": "Paragraph E states B-15 contained enough fresh water to supply the US for five years.",
-                "q20": "Paragraph D explains minerals and debris came from glacial scraping millions of years ago."
+                "q17": {
+                    "text": "Paragraph C describes Smith's team deploying oceanographic instruments, fishing nets and video cameras — examples of study equipment, so the correct answer is C.",
+                    "quote": "deployed a series of oceanographic instruments, fishing nets, and video cameras attached to remotely operated vehicles"
+                },
+                "q18": {
+                    "text": "Paragraph E states B-15 contained enough fresh water to supply the entire US for five years — describing iceberg water volume, so the correct answer is E.",
+                    "quote": "containing enough fresh water to supply the entire US for five years"
+                },
+                "q19": {
+                    "text": "Paragraph I states the pressures from continuous melting and re-freezing of water ultimately lead to icebergs' destruction — causes of instability, so the correct answer is I.",
+                    "quote": "The pressures caused by the continuous melting and re-freezing of water throughout these mountainous structures ultimately lead to their destruction."
+                },
+                "q20": {
+                    "text": "Paragraph D explains the dust, rocks and terrestrial materials in the water were incorporated into the ice millions of years ago when it was part of glaciers — origin of contents, so the correct answer is D.",
+                    "quote": "These were all incorporated into the ice millions of years ago when it was part of glaciers"
+                },
+                "q21": {
+                    "text": "Paragraph A defines an iceberg as pieces of ice larger than five metres across — a definition, so the correct answer is A.",
+                    "quote": "The word iceberg refers to pieces of ice larger than five metres across."
+                },
+                "q22": {
+                    "text": "Paragraph F states the water where Stone's team dived was several degrees below freezing — temperature of surrounding water, so the correct answer is F.",
+                    "quote": "the water of Antarctica where his team undertook dives was several degrees below freezing."
+                },
+                "q23": {
+                    "text": "The passage states Smith likened icebergs to river estuaries supplying surrounding regions with nutrients as they enter the ocean — comparing iceberg melting to rivers joining the sea, so the correct answer is A.",
+                    "quote": "These icebergs can be compared to river estuaries that supply surrounding coastal regions with nutrients as they enter the ocean"
+                },
+                "q24": {
+                    "text": "The passage states Smith established that materials from iceberg ice act as ocean fertilizer for plankton, on which the food chain depends — connections between iceberg contents and surrounding life, so the correct answer is D.",
+                    "quote": "these materials act as ocean fertilizer to nourish microscopic marine organisms such as plankton, upon which the entire ocean food chain ultimately depends."
+                },
+                "q25": {
+                    "text": "The passage states Stone's expedition to B-15 (the largest iceberg ever) failed because the berg had broken up and shifting pack ice made it impossible to reach — so the correct answer is C.",
+                    "quote": "the shifting pack ice made it impossible for them to reach it."
+                },
+                "q26": {
+                    "text": "The passage states Stone identifies Antarctica's twenty-four-hour summer sunshine as further fuelling the iceberg ecosystem — day length boosting ecological importance, so the correct answer is D.",
+                    "quote": "fueled further by the Antarctica's twenty-four-hour summer sunshine."
+                },
+                "q27": {
+                    "text": "The passage states Stone's team recorded higher concentrations of jellyfish and krill near icebergs — so the answer is 'jellyfish'.",
+                    "quote": "they recorded higher concentrations of jellyfish and krill within a mile or so around the icebergs."
+                },
+                "q28": {
+                    "text": "The passage states juvenile ice fish lived in burrows in the ice — so the answer is 'burrows'.",
+                    "quote": "they also frequently saw juvenile ice fish living in burrows in the ice"
+                },
+                "q29": {
+                    "text": "The passage states researchers were uncertain whether the fish excavated burrows to hide from predators — so the answer is 'predators'.",
+                    "quote": "they were uncertain whether the fish excavated themselves to hide from predators"
+                },
+                "q30": {
+                    "text": "The passage states the team swam 300 metres into a cave inside an iceberg and found a garden of invertebrates — so the answer is 'cave'.",
+                    "quote": "they swam 300 meters into a cave inside another iceberg that had been grounded for several years"
+                },
+                "q31": {
+                    "text": "The passage states most icebergs are pushed around by wind and currents — so the answer is 'currents'.",
+                    "quote": "most Antarctic icebergs get pushed around continuously by the wind and currents."
+                },
+                "q32": {
+                    "text": "The passage states the iceberg's keel rubs along the seafloor disturbing the benthic ecosystem — so the answer is 'keel'.",
+                    "quote": "their keel rubbing along the seafloor, disturbing the benthic ecosystem."
+                }
             }
         },
         {
@@ -308,11 +592,26 @@ window.IELTS_READING_TEST = {
                         "J property to rent"
                     ],
                     "questions": [
-                        { "id": 38, "text": "Firstly, the reduction in {INPUT} was caused by changes in the housing market and is one of a number of" },
-                        { "id": 39, "text": "{INPUT} for youth homelessness." },
-                        { "id": 40, "text": "There may also be {INPUT} for developments, such as the increased demand for single-person accommodation." },
-                        { "id": 41, "text": "Thirdly, some young people may find it difficult to get state benefits, and do not have jobs. These are {INPUT} for homelessness." },
-                        { "id": 42, "text": "Lastly, factors such as crime and mental illness are examples of {INPUT}." }
+                        {
+                            "id": 38,
+                            "text": "Firstly, the reduction in {INPUT} was caused by changes in the housing market and is one of a number of"
+                        },
+                        {
+                            "id": 39,
+                            "text": "{INPUT} for youth homelessness."
+                        },
+                        {
+                            "id": 40,
+                            "text": "There may also be {INPUT} for developments, such as the increased demand for single-person accommodation."
+                        },
+                        {
+                            "id": 41,
+                            "text": "Thirdly, some young people may find it difficult to get state benefits, and do not have jobs. These are {INPUT} for homelessness."
+                        },
+                        {
+                            "id": 42,
+                            "text": "Lastly, factors such as crime and mental illness are examples of {INPUT}."
+                        }
                     ]
                 },
                 {
@@ -323,35 +622,126 @@ window.IELTS_READING_TEST = {
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
-                        { "id": 43, "text": "The 'political' model is unpopular among academics." },
-                        { "id": 44, "text": "The 'political' model may lead to young homeless people being regarded as having hardly any control over their lives." },
-                        { "id": 45, "text": "The disadvantages of the 'individual culpability' model far outweigh the advantages." },
-                        { "id": 46, "text": "The 'child' model is an accurate representation of the situation of many young homeless people." }
+                        {
+                            "id": 43,
+                            "text": "The 'political' model is unpopular among academics."
+                        },
+                        {
+                            "id": 44,
+                            "text": "The 'political' model may lead to young homeless people being regarded as having hardly any control over their lives."
+                        },
+                        {
+                            "id": 45,
+                            "text": "The disadvantages of the 'individual culpability' model far outweigh the advantages."
+                        },
+                        {
+                            "id": 46,
+                            "text": "The 'child' model is an accurate representation of the situation of many young homeless people."
+                        }
                     ]
                 }
             ],
             "correctAnswers": {
-                "q33": ["A"],
-                "q34": ["C"],
-                "q35": ["B"],
-                "q36": ["B"],
-                "q37": ["D"],
-                "q38": ["J"],
-                "q39": ["H"],
-                "q40": ["A"],
-                "q41": ["F"],
-                "q42": ["G"],
-                "q43": ["NO"],
-                "q44": ["YES"],
-                "q45": ["YES"],
-                "q46": ["NO"]
+                "q33": [
+                    "A"
+                ],
+                "q34": [
+                    "C"
+                ],
+                "q35": [
+                    "B"
+                ],
+                "q36": [
+                    "B"
+                ],
+                "q37": [
+                    "D"
+                ],
+                "q38": [
+                    "J"
+                ],
+                "q39": [
+                    "H"
+                ],
+                "q40": [
+                    "A"
+                ],
+                "q41": [
+                    "F"
+                ],
+                "q42": [
+                    "G"
+                ],
+                "q43": [
+                    "NO"
+                ],
+                "q44": [
+                    "YES"
+                ],
+                "q45": [
+                    "YES"
+                ],
+                "q46": [
+                    "NO"
+                ]
             },
             "explanations": {
-                "q33": "The programme shocked the public and placed youth homelessness on the public agenda.",
-                "q34": "The passage states regional comparisons are difficult due to different economic structures.",
-                "q37": "The criteria show official definitions exclude many homeless people, distorting statistics.",
-                "q44": "The political model is criticized for treating youths as powerless victims.",
-                "q46": "The writer says evidence suggests many homeless youngsters show resilience and maturity, contradicting the child model."
+                "q33": {
+                    "text": "The passage states the programme shocked the public and put youth homelessness firmly on the public agenda — raised awareness on a wide scale, so the correct answer is A.",
+                    "quote": "shocked the public by showing the risks faced by a runaway child in London, and placed the problem of youth homelessness firmly on the public agenda"
+                },
+                "q34": {
+                    "text": "The passage states proportions affected vary by region as do underlying economic structures, making comparison difficult — so the correct answer is C.",
+                    "quote": "The proportions of young people affected vary from region to region, as do the underlying economic structures, making comparison difficult."
+                },
+                "q35": {
+                    "text": "The passage states policy makers' reaction depends largely on the perceived number affected — without good statistics, response may be inappropriate, so the correct answer is B.",
+                    "quote": "The reaction of policy makers to a social problem also depends largely on the number of people it is thought to affect."
+                },
+                "q36": {
+                    "text": "The passage states young people staying temporarily with friends may not contact homelessness agencies, so their problem goes unrecorded — reluctance or failure of the homeless to identify themselves, so the correct answer is B.",
+                    "quote": "Young people who are staying temporarily with friends, for example, may not contact homelessness agencies, so their housing problem goes unrecorded."
+                },
+                "q37": {
+                    "text": "The passage states 'Official statistics therefore exclude large numbers of homeless people' because of the strict British criteria — figures are misleading, so the correct answer is D.",
+                    "quote": "Official statistics therefore exclude large numbers of homeless people."
+                },
+                "q38": {
+                    "text": "The passage states there has been a substantial decline in rented housing — reduction in property to rent, so the correct answer is J.",
+                    "quote": "there has been a substantial decline in rented housing in recent years."
+                },
+                "q39": {
+                    "text": "The passage states 'structural explanations account for youth homelessness by reference to societal structures' — these are structural explanations, so the correct answer is H.",
+                    "quote": "Structural explanations account for youth homelessness by reference to societal structures"
+                },
+                "q40": {
+                    "text": "The passage states demographic changes such as more single-person households compound the difficulties — demographic explanations, so the correct answer is A.",
+                    "quote": "These various difficulties have been further compounded by a number of demographic changes, such as the expanding number of single-person households."
+                },
+                "q41": {
+                    "text": "The passage states unemployment and low pay are integral to homelessness, alongside restricted benefits — these are economic explanations, so the correct answer is F.",
+                    "quote": "Both unemployment and low pay are frequently viewed as being integral to homelessness"
+                },
+                "q42": {
+                    "text": "The passage states youth homelessness is often explained in personal terms — mental illness, crime, drug abuse — these are personal explanations, so the correct answer is G.",
+                    "quote": "the problem of youth homelessness is often explained in more personal terms, which relate it to the individual behaviours of homeless people."
+                },
+                "q43": {
+                    "text": "The passage states the political model 'is a view widely adopted in academic circles' — popular, not unpopular, so the answer is NO.",
+                    "quote": "This is a view widely adopted in academic circles"
+                },
+                "q44": {
+                    "text": "The passage states the approach 'tends to treat young homeless people as powerless victims' — having hardly any control, so the answer is YES.",
+                    "quote": "this approach tends to treat young homeless people as powerless victims"
+                },
+                "q45": {
+                    "text": "The passage gives the individual culpability model only 'some' credibility advantage but emphasises that it 'carries punitive implications' from blame-allocation — disadvantages outweigh advantages, so the answer is YES.",
+                    "quote": "However, because such an approach allocates blame to an individual, it also carries punitive implications."
+                },
+                "q46": {
+                    "text": "The passage states there is evidence many homeless youngsters show 'considerable resilience and maturity' — contradicting the child model's claim of immaturity, so the answer is NO.",
+                    "quote": "there is evidence to suggest that many homeless youngsters show considerable resilience and maturity in learning to cope with and survive homelessness."
+                }
             }
         }
     ]
