@@ -29,14 +29,38 @@ window.IELTS_READING_TEST = {
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
-                        { "id": 1, "text": "The areas where Humboldt squid can be found have rapidly increased over recent years." },
-                        { "id": 2, "text": "Some scientists believe that climate change has had a negative impact on the Humboldt squid population." },
-                        { "id": 3, "text": "Marine biologists have found it easier to learn about the habits of the squid populations which live closer to land." },
-                        { "id": 4, "text": "Researchers predicted that a Humboldt squid tagged in Monterey Bay would take 17 days to reach the coast of Mexico." },
-                        { "id": 5, "text": "The Humboldt squid has one of the highest rates of success compared with other squid when hunting for food." },
-                        { "id": 6, "text": "There is evidence that Humboldt squid eat others of their own species." },
-                        { "id": 7, "text": "The growth of Humboldt squid populations has had a minimal effect on South American hake stocks." },
-                        { "id": 8, "text": "Scientists are often unable to use the data which they have collected about South American hake populations." }
+                        {
+                            "id": 1,
+                            "text": "The areas where Humboldt squid can be found have rapidly increased over recent years."
+                        },
+                        {
+                            "id": 2,
+                            "text": "Some scientists believe that climate change has had a negative impact on the Humboldt squid population."
+                        },
+                        {
+                            "id": 3,
+                            "text": "Marine biologists have found it easier to learn about the habits of the squid populations which live closer to land."
+                        },
+                        {
+                            "id": 4,
+                            "text": "Researchers predicted that a Humboldt squid tagged in Monterey Bay would take 17 days to reach the coast of Mexico."
+                        },
+                        {
+                            "id": 5,
+                            "text": "The Humboldt squid has one of the highest rates of success compared with other squid when hunting for food."
+                        },
+                        {
+                            "id": 6,
+                            "text": "There is evidence that Humboldt squid eat others of their own species."
+                        },
+                        {
+                            "id": 7,
+                            "text": "The growth of Humboldt squid populations has had a minimal effect on South American hake stocks."
+                        },
+                        {
+                            "id": 8,
+                            "text": "Scientists are often unable to use the data which they have collected about South American hake populations."
+                        }
                     ]
                 },
                 {
@@ -47,40 +71,157 @@ window.IELTS_READING_TEST = {
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
-                        { "id": 9, "text": "Man-made dead zones are often present where {INPUT} meet the ocean" },
-                        { "id": 10, "text": "Agricultural waste causes {INPUT} to grow" },
-                        { "id": 11, "text": "Naturally occurring dead zones are formed by {INPUT} feeding on organic material at lower depths" },
-                        { "id": 12, "text": "Pacific dead zones are expanding due to global warming and alterations in the movement of {INPUT} and water" },
-                        { "id": 13, "text": "Near California, dead zones are now occurring nearer to the {INPUT}" },
-                        { "id": 14, "text": "Humboldts can survive in areas with oxygen levels as low as {INPUT}" },
-                        { "id": 15, "text": "Humboldts benefit from a lack of {INPUT} from other predators" },
-                        { "id": 16, "text": "Humboldts find plenty of food, e.g. in the form of {INPUT} in dead zones" }
+                        {
+                            "id": 9,
+                            "text": "Man-made dead zones are often present where {INPUT} meet the ocean"
+                        },
+                        {
+                            "id": 10,
+                            "text": "Agricultural waste causes {INPUT} to grow"
+                        },
+                        {
+                            "id": 11,
+                            "text": "Naturally occurring dead zones are formed by {INPUT} feeding on organic material at lower depths"
+                        },
+                        {
+                            "id": 12,
+                            "text": "Pacific dead zones are expanding due to global warming and alterations in the movement of {INPUT} and water"
+                        },
+                        {
+                            "id": 13,
+                            "text": "Near California, dead zones are now occurring nearer to the {INPUT}"
+                        },
+                        {
+                            "id": 14,
+                            "text": "Humboldts can survive in areas with oxygen levels as low as {INPUT}"
+                        },
+                        {
+                            "id": 15,
+                            "text": "Humboldts benefit from a lack of {INPUT} from other predators"
+                        },
+                        {
+                            "id": 16,
+                            "text": "Humboldts find plenty of food, e.g. in the form of {INPUT} in dead zones"
+                        }
                     ]
                 }
             ],
             "correctAnswers": {
-                "q1": ["TRUE"],
-                "q2": ["FALSE"],
-                "q3": ["NOT GIVEN"],
-                "q4": ["FALSE"],
-                "q5": ["NOT GIVEN"],
-                "q6": ["TRUE"],
-                "q7": ["FALSE"],
-                "q8": ["TRUE"],
-                "q9": ["RIVERS"],
-                "q10": ["ALGAE"],
-                "q11": ["BACTERIA"],
-                "q12": ["WIND"],
-                "q13": ["SURFACE"],
-                "q14": ["10 PERCENT", "10%"],
-                "q15": ["COMPETITION"],
-                "q16": ["KRILL"]
+                "q1": [
+                    "TRUE"
+                ],
+                "q2": [
+                    "FALSE"
+                ],
+                "q3": [
+                    "NOT GIVEN"
+                ],
+                "q4": [
+                    "FALSE"
+                ],
+                "q5": [
+                    "NOT GIVEN"
+                ],
+                "q6": [
+                    "TRUE"
+                ],
+                "q7": [
+                    "FALSE"
+                ],
+                "q8": [
+                    "TRUE"
+                ],
+                "q9": [
+                    "RIVERS"
+                ],
+                "q10": [
+                    "ALGAE"
+                ],
+                "q11": [
+                    "BACTERIA"
+                ],
+                "q12": [
+                    "WIND"
+                ],
+                "q13": [
+                    "SURFACE"
+                ],
+                "q14": [
+                    "10 PERCENT",
+                    "10%"
+                ],
+                "q15": [
+                    "COMPETITION"
+                ],
+                "q16": [
+                    "KRILL"
+                ]
             },
             "explanations": {
-                "q1": "The passage says Humboldt range has been steadily expanding, now as far north as Alaska.",
-                "q2": "Researchers attribute recent success to environmental changes, not decline.",
-                "q6": "Researchers found 'even Humboldt remains' in stomach contents.",
-                "q8": "The passage says data gathering is frequently unusable due to similar sound signatures."
+                "q1": {
+                    "text": "The passage states the squid is now found as far north as Alaska, having steadily expanded its range — so the answer is TRUE.",
+                    "quote": "the squid is now found as far north as Alaska."
+                },
+                "q2": {
+                    "text": "The passage states researchers attribute the squid's success to climate, currents and oxygen-level changes — climate change is helping, not hurting them, so the answer is FALSE.",
+                    "quote": "Many researchers attribute the squid's recent success to the changes in climate, currents and oxygen-levels"
+                },
+                "q3": {
+                    "text": "The passage mentions coastal squid sightings but says 'little is known' about their lives, without comparing the difficulty of studying coastal vs deep populations — so the answer is NOT GIVEN.",
+                    "quote": ""
+                },
+                "q4": {
+                    "text": "The passage describes the 17-day Monterey-to-Mexico journey as 'something of a surprise' — it was NOT predicted, so the answer is FALSE.",
+                    "quote": "their findings have come as something of a surprise."
+                },
+                "q5": {
+                    "text": "The passage describes Humboldt squid as formidable predators with an endless appetite, but never compares their hunting success rate to other squid species — so the answer is NOT GIVEN.",
+                    "quote": ""
+                },
+                "q6": {
+                    "text": "The passage states researchers found Humboldt remains inside Humboldt stomachs — they eat their own species, so the answer is TRUE.",
+                    "quote": "researchers have found a range of prey in their stomachs, from tiny krill to 40cm-long hake and even Humboldt remains."
+                },
+                "q7": {
+                    "text": "The passage states there is evidence of a 'huge impact' on hake populations off South America — far from minimal, so the answer is FALSE.",
+                    "quote": "there is evidence that squid expansion has had a huge impact on hake populations."
+                },
+                "q8": {
+                    "text": "The passage states researchers' hake data is frequently unusable because Humboldts share a similar sound signature — so the answer is TRUE.",
+                    "quote": "the information that researchers are gathering is frequently unusable."
+                },
+                "q9": {
+                    "text": "The passage states man-made dead zones are typically found at the mouths of rivers — so the answer is 'rivers'.",
+                    "quote": "The first is typically found at the mouths of rivers, where the rapid spread of algae occurs as a result of pollution from farm waste."
+                },
+                "q10": {
+                    "text": "The passage states the rapid spread of algae occurs as a result of pollution from farm waste — so the answer is 'algae'.",
+                    "quote": "the rapid spread of algae occurs as a result of pollution from farm waste."
+                },
+                "q11": {
+                    "text": "The passage states organic matter filters down and is consumed by anaerobic bacteria — so the answer is 'bacteria'.",
+                    "quote": "organic matter filters down and is consumed by anaerobic bacteria in the ocean."
+                },
+                "q12": {
+                    "text": "The passage states changes in climate, wind patterns and currents are expanding dead zones — wind and water (currents), so the answer is 'wind'.",
+                    "quote": "Changes in climate, wind patterns and currents in the Pacific might all be playing a role in expanding these dead zones"
+                },
+                "q13": {
+                    "text": "The passage states low-oxygen areas have been getting closer to the surface in California waters — so the answer is 'surface'.",
+                    "quote": "low-oxygen areas have been getting closer to the surface in these waters."
+                },
+                "q14": {
+                    "text": "The passage states Humboldts can stay in zones holding as little as 10 percent of standard surface oxygen levels — so the answer is '10 percent'.",
+                    "quote": "in zones holding as little as 10 percent of standard surface oxygen levels."
+                },
+                "q15": {
+                    "text": "The passage states Humboldts have no competition when feeding in low-oxygen zones — so the answer is 'competition'.",
+                    "quote": "the Humboldt squid have no competition when feeding on small animals such as krill"
+                },
+                "q16": {
+                    "text": "The passage states krill can be found in large numbers deep in low-oxygen water and Humboldts feed on them — so the answer is 'krill'.",
+                    "quote": "feeding on small animals such as krill, which can be found in large numbers deep down in low-oxygen water."
+                }
             }
         },
         {
@@ -102,13 +243,37 @@ window.IELTS_READING_TEST = {
                     "title": "Questions 17-21",
                     "instruction": "Reading Passage 2 has eight paragraphs, <strong>A-H</strong>.<br><br>Which paragraph contains the following information?<br><br>Write the correct letter, <strong>A-H</strong>, in boxes 17-21 on your answer sheet.",
                     "headingsList": [],
-                    "featuresList": ["A", "B", "C", "D", "E", "F", "G", "H"],
+                    "featuresList": [
+                        "A",
+                        "B",
+                        "C",
+                        "D",
+                        "E",
+                        "F",
+                        "G",
+                        "H"
+                    ],
                     "questions": [
-                        { "id": 17, "text": "a description of a teaching aid used in the 18th century" },
-                        { "id": 18, "text": "reference to a promotion arising from the misfortune of a close family member" },
-                        { "id": 19, "text": "how a handicap may have resulted in a girl being given the opportunity to study" },
-                        { "id": 20, "text": "mention of a restriction placed on where a woman could teach" },
-                        { "id": 21, "text": "reference to an important academic text" }
+                        {
+                            "id": 17,
+                            "text": "a description of a teaching aid used in the 18th century"
+                        },
+                        {
+                            "id": 18,
+                            "text": "reference to a promotion arising from the misfortune of a close family member"
+                        },
+                        {
+                            "id": 19,
+                            "text": "how a handicap may have resulted in a girl being given the opportunity to study"
+                        },
+                        {
+                            "id": 20,
+                            "text": "mention of a restriction placed on where a woman could teach"
+                        },
+                        {
+                            "id": 21,
+                            "text": "reference to an important academic text"
+                        }
                     ]
                 },
                 {
@@ -119,10 +284,22 @@ window.IELTS_READING_TEST = {
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
-                        { "id": 22, "text": "The most notable institutions which opened their doors to women was the University of Bologna. Although it was originally intended to teach the subject of {INPUT}, many of its most famous women students worked in the field of" },
-                        { "id": 23, "text": "{INPUT}." },
-                        { "id": 24, "text": "Laura Bassi was the first woman teacher at the University of Bologna, and as well as teaching her students she also at times addressed people outside the university on the subject of {INPUT}." },
-                        { "id": 25, "text": "Of all her studies, Bassi gave least importance to the subject of {INPUT}." }
+                        {
+                            "id": 22,
+                            "text": "The most notable institutions which opened their doors to women was the University of Bologna. Although it was originally intended to teach the subject of {INPUT}, many of its most famous women students worked in the field of"
+                        },
+                        {
+                            "id": 23,
+                            "text": "{INPUT}."
+                        },
+                        {
+                            "id": 24,
+                            "text": "Laura Bassi was the first woman teacher at the University of Bologna, and as well as teaching her students she also at times addressed people outside the university on the subject of {INPUT}."
+                        },
+                        {
+                            "id": 25,
+                            "text": "Of all her studies, Bassi gave least importance to the subject of {INPUT}."
+                        }
                     ]
                 },
                 {
@@ -131,34 +308,126 @@ window.IELTS_READING_TEST = {
                     "title": "Questions 26-29",
                     "instruction": "Look at the following statements (Questions 26-29) and the list of women scholars below.<br><br>Match each statement with the correct woman scholar, <strong>A, B, C or D</strong>.<br><br>Write the correct letter, <strong>A, B, C or D</strong>, in boxes 26-29 on your answer sheet.<br><br><strong>A</strong> Laura Bassi<br><strong>B</strong> Anna Morandi<br><strong>C</strong> Maria Gaetana Agnesi<br><strong>D</strong> Maria Dalle Donne",
                     "headingsList": [],
-                    "featuresList": ["A", "B", "C", "D"],
+                    "featuresList": [
+                        "A",
+                        "B",
+                        "C",
+                        "D"
+                    ],
                     "questions": [
-                        { "id": 26, "text": "She offered tuition to those who could not afford the normal fee." },
-                        { "id": 27, "text": "Her example helped others to obtain a right she did not have herself." },
-                        { "id": 28, "text": "She devoted a long period of her life to charitable work." },
-                        { "id": 29, "text": "She was put in charge of creating teaching materials." }
+                        {
+                            "id": 26,
+                            "text": "She offered tuition to those who could not afford the normal fee."
+                        },
+                        {
+                            "id": 27,
+                            "text": "Her example helped others to obtain a right she did not have herself."
+                        },
+                        {
+                            "id": 28,
+                            "text": "She devoted a long period of her life to charitable work."
+                        },
+                        {
+                            "id": 29,
+                            "text": "She was put in charge of creating teaching materials."
+                        }
                     ]
                 }
             ],
             "correctAnswers": {
-                "q17": ["D"],
-                "q18": ["E"],
-                "q19": ["G"],
-                "q20": ["C"],
-                "q21": ["F"],
-                "q22": ["LAW"],
-                "q23": ["SCIENCE"],
-                "q24": ["PHYSICS"],
-                "q25": ["LITERATURE"],
-                "q26": ["D"],
-                "q27": ["A"],
-                "q28": ["C"],
-                "q29": ["B"]
+                "q17": [
+                    "D"
+                ],
+                "q18": [
+                    "E"
+                ],
+                "q19": [
+                    "G"
+                ],
+                "q20": [
+                    "C"
+                ],
+                "q21": [
+                    "F"
+                ],
+                "q22": [
+                    "LAW"
+                ],
+                "q23": [
+                    "SCIENCE"
+                ],
+                "q24": [
+                    "PHYSICS"
+                ],
+                "q25": [
+                    "LITERATURE"
+                ],
+                "q26": [
+                    "D"
+                ],
+                "q27": [
+                    "A"
+                ],
+                "q28": [
+                    "C"
+                ],
+                "q29": [
+                    "B"
+                ]
             },
             "explanations": {
-                "q17": "Paragraph D describes wax models used to familiarize students with human anatomy.",
-                "q20": "Paragraph C explains Bassi had to lecture at home, not at the university.",
-                "q21": "Paragraph F references Agnesi's major text, Instituzioni Analitiche."
+                "q17": {
+                    "text": "Paragraph D describes Ercole Lelli's wax reconstructions of the human skeleton and muscles being used to familiarise students — a teaching aid, so the correct answer is D.",
+                    "quote": "These models were used to familiarize students with the human body."
+                },
+                "q18": {
+                    "text": "Paragraph E describes Morandi's husband falling ill then dying, leading to her being charged with his lectures and later elected to a professorship — promotion arising from family misfortune, so the correct answer is E.",
+                    "quote": "When her husband fell ill and could no longer teach, Morandi was officially charged with delivering his lectures."
+                },
+                "q19": {
+                    "text": "Paragraph G states Dalle Donne's physical deformity may have led her family to think she'd never marry and be more inclined to educate her — a handicap creating study opportunity, so the correct answer is G.",
+                    "quote": "Dalle Donne was born with a physical deformity; this may have led her family to think she would never marry."
+                },
+                "q20": {
+                    "text": "Paragraph C states Bassi was 'obliged to conduct her lectures, and her experiments in her home' because the university would not let her lecture there — a restriction on where she could teach, so the correct answer is C.",
+                    "quote": "Bassi was therefore obliged to conduct her lectures, and her experiments in her home."
+                },
+                "q21": {
+                    "text": "Paragraph F describes Maria Gaetana Agnesi's book Instituzioni Analitiche, which synthesised branches of mathematics — an important academic text, so the correct answer is F.",
+                    "quote": "compiled the book that made her famous - Instituzioni Analitiche (Analytical Institutions), which for the first time provided a synthesis of many different branches of mathematics."
+                },
+                "q22": {
+                    "text": "The passage states the University of Bologna was founded in 1088 as a law school — so the answer is 'law'.",
+                    "quote": "The University of Bologna was founded in 1088 as a law school"
+                },
+                "q23": {
+                    "text": "The passage states most of these women flourished in various areas of science — so the answer is 'science'.",
+                    "quote": "Most of these women, as the following short biographies demonstrate, flourished in various areas of science."
+                },
+                "q24": {
+                    "text": "The passage states Bassi for over thirty years offered an annual public lecture on experimental physics — talking to the public on physics, so the answer is 'physics'.",
+                    "quote": "for over thirty offered an annual public lecture on experimental physics."
+                },
+                "q25": {
+                    "text": "The passage states Bassi continued literature studies but considered only science as truly valuable — literature mattered least to her, so the answer is 'literature'.",
+                    "quote": "She also continued her own studies in literature as well as science, but considered only science as truly valuable"
+                },
+                "q26": {
+                    "text": "The passage states Maria Dalle Donne accepted girls into her program without regard for their ability to pay — tuition for those who couldn't afford the fee, so the correct answer is D.",
+                    "quote": "accepted girls into her program without regard for their ability to pay"
+                },
+                "q27": {
+                    "text": "The passage states Bassi's achievements made it easier for women to obtain professorships with full privileges, which she herself was denied — so the correct answer is A.",
+                    "quote": "Bassi's scholarship and life-long achievement in both research and teaching made it easier for other women to obtain university appointments."
+                },
+                "q28": {
+                    "text": "The passage states Agnesi abandoned mathematics in 1752 to care for the elderly, the poor and the sick until her death in 1799 — long period of charitable work, so the correct answer is C.",
+                    "quote": "Agnesi abandoned mathematics and the academy to care for the elderly, the poor and the sick until her death in 1799."
+                },
+                "q29": {
+                    "text": "The passage states Morandi was named the anatomy department's chief model maker — in charge of creating teaching materials, so the correct answer is B.",
+                    "quote": "nine years later, was also named the anatomy department's chief model maker."
+                }
             }
         },
         {
@@ -255,12 +524,30 @@ window.IELTS_READING_TEST = {
                         "K attractive"
                     ],
                     "questions": [
-                        { "id": 35, "text": "Some linguists claim that it would be {INPUT} to refer to MLE as Urban British English." },
-                        { "id": 36, "text": "This is because many of its basic words are {INPUT} to young people around the rest of the UK." },
-                        { "id": 37, "text": "MLE can be defined as a social dialect used by young people for {INPUT} communication with each other." },
-                        { "id": 38, "text": "African-Caribbean dialects are a major influence on MLE, but it is also {INPUT} to detect the influence of Cockney." },
-                        { "id": 39, "text": "There are also several other influences, but some of these are less {INPUT}." },
-                        { "id": 40, "text": "Many of MLE's grammatical forms would be considered {INPUT} by users of standard English." }
+                        {
+                            "id": 35,
+                            "text": "Some linguists claim that it would be {INPUT} to refer to MLE as Urban British English."
+                        },
+                        {
+                            "id": 36,
+                            "text": "This is because many of its basic words are {INPUT} to young people around the rest of the UK."
+                        },
+                        {
+                            "id": 37,
+                            "text": "MLE can be defined as a social dialect used by young people for {INPUT} communication with each other."
+                        },
+                        {
+                            "id": 38,
+                            "text": "African-Caribbean dialects are a major influence on MLE, but it is also {INPUT} to detect the influence of Cockney."
+                        },
+                        {
+                            "id": 39,
+                            "text": "There are also several other influences, but some of these are less {INPUT}."
+                        },
+                        {
+                            "id": 40,
+                            "text": "Many of MLE's grammatical forms would be considered {INPUT} by users of standard English."
+                        }
                     ]
                 },
                 {
@@ -271,39 +558,155 @@ window.IELTS_READING_TEST = {
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
-                        { "id": 41, "text": "The effect of MLE on the ways people speak is likely to be short-lived." },
-                        { "id": 42, "text": "It is mainly the older generation who are worried about the effects of MLE on youth culture." },
-                        { "id": 43, "text": "MLE is unique in the way it has influenced the speech of urban teenagers." },
-                        { "id": 44, "text": "English has undergone greater linguistic change than other world languages." },
-                        { "id": 45, "text": "English vocabulary has benefited from the influences of other languages." },
-                        { "id": 46, "text": "MLE is a welcome development of the English language." }
+                        {
+                            "id": 41,
+                            "text": "The effect of MLE on the ways people speak is likely to be short-lived."
+                        },
+                        {
+                            "id": 42,
+                            "text": "It is mainly the older generation who are worried about the effects of MLE on youth culture."
+                        },
+                        {
+                            "id": 43,
+                            "text": "MLE is unique in the way it has influenced the speech of urban teenagers."
+                        },
+                        {
+                            "id": 44,
+                            "text": "English has undergone greater linguistic change than other world languages."
+                        },
+                        {
+                            "id": 45,
+                            "text": "English vocabulary has benefited from the influences of other languages."
+                        },
+                        {
+                            "id": 46,
+                            "text": "MLE is a welcome development of the English language."
+                        }
                     ]
                 }
             ],
             "correctAnswers": {
-                "q30": ["B"],
-                "q31": ["C"],
-                "q32": ["D"],
-                "q33": ["A"],
-                "q34": ["B"],
-                "q35": ["I"],
-                "q36": ["E"],
-                "q37": ["C"],
-                "q38": ["H"],
-                "q39": ["G"],
-                "q40": ["F"],
-                "q41": ["NO"],
-                "q42": ["NOT GIVEN"],
-                "q43": ["NO"],
-                "q44": ["NOT GIVEN"],
-                "q45": ["YES"],
-                "q46": ["YES"]
+                "q30": [
+                    "B"
+                ],
+                "q31": [
+                    "C"
+                ],
+                "q32": [
+                    "D"
+                ],
+                "q33": [
+                    "A"
+                ],
+                "q34": [
+                    "B"
+                ],
+                "q35": [
+                    "I"
+                ],
+                "q36": [
+                    "E"
+                ],
+                "q37": [
+                    "C"
+                ],
+                "q38": [
+                    "H"
+                ],
+                "q39": [
+                    "G"
+                ],
+                "q40": [
+                    "F"
+                ],
+                "q41": [
+                    "NO"
+                ],
+                "q42": [
+                    "NOT GIVEN"
+                ],
+                "q43": [
+                    "NO"
+                ],
+                "q44": [
+                    "NOT GIVEN"
+                ],
+                "q45": [
+                    "YES"
+                ],
+                "q46": [
+                    "YES"
+                ]
             },
             "explanations": {
-                "q30": "The paragraph says music influence is widely accepted but language impact is less well known.",
-                "q31": "The use of 'man' as pronoun became established unusually quickly.",
-                "q34": "The example shows rapid context-switching, so concerns are overstated.",
-                "q45": "The writer says many English words are derived from other European languages and English is richer for that."
+                "q30": {
+                    "text": "The passage states what is 'less well known' is their impact on the way young British people speak — lack of awareness about language impact, so the correct answer is B.",
+                    "quote": "what is less well known is the impact they have had on the way young British people now speak."
+                },
+                "q31": {
+                    "text": "The passage states new pronouns usually take many years to become established but 'man' has done so quickly — interesting because of rapid spread, so the correct answer is C.",
+                    "quote": "it takes many years for them to become established unlike the way ‘man’ has become."
+                },
+                "q32": {
+                    "text": "The passage states MLE is a socially inclusive variety spoken by young people from all ethnic groups including indigenous Cockney families — a unifying function, so the correct answer is D.",
+                    "quote": "it is a socially inclusive variety of English spoken by young people from all ethnic groups living in the multilingual inner city area"
+                },
+                "q33": {
+                    "text": "The passage states Caribbean English entered mainstream British culture through ska and reggae — musical genres introduced it to the wider UK, so the correct answer is A.",
+                    "quote": "Caribbean English entered mainstream British culture in the 1960s and 1970s through styles of music such as ska and reggae"
+                },
+                "q34": {
+                    "text": "The passage uses this example to show young people adapt quickly to context — defusing concerns about inappropriate MLE use, so the correct answer is B.",
+                    "quote": "You just have to watch a teenager get a phone call from their grandma to see how quickly young people can adapt to varying contexts."
+                },
+                "q35": {
+                    "text": "The passage states some linguists argue 'it may be better to refer to it as Urban British English' — more appropriate, so the correct answer is I.",
+                    "quote": "may be better to refer to it as Urban British English"
+                },
+                "q36": {
+                    "text": "The passage states young people far from London are often able to understand core MLE terms — familiar to them, so the correct answer is E.",
+                    "quote": "even young people far away from London are often able to understand some of the core terms"
+                },
+                "q37": {
+                    "text": "The passage describes MLE as a colloquial spoken style of UK English used among younger speakers — informal communication, so the correct answer is C.",
+                    "quote": "a colloquial spoken style of UK English used initially among younger speakers"
+                },
+                "q38": {
+                    "text": "The passage describes 'very obvious elements of Cockney' in MLE — easy to detect Cockney influence, so the correct answer is H.",
+                    "quote": "very obvious elements of Cockney, the traditional local London dialect."
+                },
+                "q39": {
+                    "text": "The passage states there are South Asian, Turkish and Polish influences 'to varying extents' on MLE — some less significant than others, so the correct answer is G.",
+                    "quote": "there are South Asian, Turkish and Polish influences, to varying extents, on MLE's vocabulary and intonation."
+                },
+                "q40": {
+                    "text": "The passage states MLE's structure and grammar deviate from traditionally taught standard English — would be considered incorrect by standard users, so the correct answer is F.",
+                    "quote": "Its structure and grammar may deviate from traditionally taught forms of standard English."
+                },
+                "q41": {
+                    "text": "The passage states MLE has the potential to change English forever — long-lasting not short-lived, so the answer is NO.",
+                    "quote": "MLE has the potential to change English forever, even outside of youth culture."
+                },
+                "q42": {
+                    "text": "The passage mentions some commentators and 'some people are unhappy' but never says these are mainly older people — so the answer is NOT GIVEN.",
+                    "quote": ""
+                },
+                "q43": {
+                    "text": "The passage states similar trends are happening in global urban environments, citing Turken-Deutsch in Berlin — MLE is not unique, so the answer is NO.",
+                    "quote": "There are similar trends taking place in all kinds of global urban environments, such as ‘Turken-Deutsch’"
+                },
+                "q44": {
+                    "text": "The passage discusses how all languages evolve but never compares the rate of change in English to other world languages — so the answer is NOT GIVEN.",
+                    "quote": ""
+                },
+                "q45": {
+                    "text": "The passage states 'English is the richer' for words derived from other European tongues — benefit from other-language influence, so the answer is YES.",
+                    "quote": "Many English words are derived from other European tongues and English is the richer for that."
+                },
+                "q46": {
+                    "text": "The passage describes MLE as 'a valuable continuation' of English's evolution and necessary for relevance — the writer welcomes it, so the answer is YES.",
+                    "quote": "MLE is a valuable continuation of this process."
+                }
             }
         }
     ]
