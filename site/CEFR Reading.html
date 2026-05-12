@@ -2613,40 +2613,93 @@
     .mh-slot.incorrect, .mh-slot.review-incorrect {
       border-color: var(--danger); background: #fee2e2; color: #991b1b;
     }
+    /* Mobile divider — invisible on desktop, drag-handle on mobile. */
+    .mh-mobile-divider { display: none; }
+
     @media (max-width: 1023px) {
-      /* Mobile: stack panes; right pane becomes a sticky horizontal chip
-         strip pinned to the top of the part. Drag-and-drop is dropped in
-         favour of tap-chip-then-tap-paragraph. */
-      .mh-split-container { flex-direction: column; gap: 12px; }
+      /* Mobile: vertical two-pane split — headings TOP (scrollable),
+         passage BOTTOM (scrollable), with a draggable horizontal bar
+         between them. The whole .mh-split-container becomes a flex
+         column with constrained height so the two panes scroll
+         independently inside the viewport. */
+      .mh-split-container {
+        flex-direction: column;
+        gap: 0;
+        height: calc(100vh - 200px);   /* leaves room for the header + part nav */
+        min-height: 480px;
+      }
       .mh-headings-pane {
-        position: sticky;
-        top: 56px;
-        flex: 0 0 auto;
+        position: relative;             /* not sticky any more — height drives */
+        top: 0;
+        flex: 0 0 38%;                  /* default ~38% of split height */
         max-height: none;
-        z-index: 30;
+        min-height: 120px;
+        z-index: auto;
         padding: 10px 12px;
-        background: rgba(240, 253, 250, 0.95);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
+        background: linear-gradient(135deg, #f0fdfa 0%, #ecfeff 100%);
+        border-radius: 14px 14px 0 0;
+        border-bottom: 0;
+        backdrop-filter: none;
       }
       .mh-headings-list {
-        flex-direction: row;
+        flex-direction: column;
         flex-wrap: nowrap;
-        overflow-x: auto;
-        overflow-y: hidden;
-        padding-bottom: 4px;
+        overflow-y: auto;
+        overflow-x: hidden;
         gap: 8px;
-        scroll-snap-type: x mandatory;
+        padding-right: 4px;
+        scroll-snap-type: none;
       }
       .mh-heading-chip {
-        flex: 0 0 200px;
-        scroll-snap-align: start;
-        cursor: pointer;  /* no drag on mobile */
+        flex: 0 0 auto;                 /* natural height */
+        cursor: pointer;
       }
+      .mh-passage-pane {
+        flex: 1 1 auto;
+        min-height: 100px;
+        overflow-y: auto;
+        background: #fff;
+        border: 1.5px solid #e2e8f0;
+        border-top: 0;
+        border-radius: 0 0 14px 14px;
+        padding: 14px;
+        margin: 0;
+      }
+
+      /* The draggable bar itself */
+      .mh-mobile-divider {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 18px;
+        height: 18px;
+        background: linear-gradient(180deg, #f0fdfa, #ecfeff);
+        border-left: 1.5px solid #99f6e4;
+        border-right: 1.5px solid #99f6e4;
+        cursor: ns-resize;
+        touch-action: none;
+        z-index: 5;
+        position: relative;
+      }
+      .mh-mobile-divider::before {
+        content: '';
+        position: absolute; inset: 0;
+        background: transparent;
+      }
+      .mh-mobile-divider-grip {
+        display: block;
+        width: 56px; height: 4px;
+        background: #14b8a6;
+        border-radius: 999px;
+        opacity: .65;
+      }
+      .mh-mobile-divider:hover .mh-mobile-divider-grip,
+      .mh-mobile-divider:active .mh-mobile-divider-grip { opacity: 1; }
       .mh-headings-hint { font-size: 11px; }
     }
     @media (max-width: 600px) {
-      .mh-heading-chip { flex-basis: 175px; padding: 8px 10px; font-size: 12px; }
+      .mh-split-container { height: calc(100vh - 180px); min-height: 420px; }
+      .mh-heading-chip { padding: 9px 11px; font-size: 12.5px; }
       .mh-heading-letter { width: 22px; height: 22px; font-size: 11px; }
       .mh-para-card { padding: 12px 14px; }
       .mh-para-body { font-size: 14px; }
@@ -3504,9 +3557,9 @@
       const lastLetter = part.headings[part.headings.length - 1].letter;
       const headingsListHtml = part.headings.map(h => `
         <div class="mh-heading-chip"
-             draggable="true"
              data-letter="${h.letter}"
-             tabindex="0">
+             tabindex="0"
+             role="button">
           <span class="mh-heading-letter">${h.letter}</span>
           <span class="mh-heading-text">${h.text}</span>
           <span class="mh-heading-check" aria-hidden="true">✓</span>
@@ -3546,9 +3599,12 @@
         <div class="mh-split-container" data-part="matching-headings">
           <aside class="mh-headings-pane" aria-label="List of headings">
             <div class="mh-headings-title">📋 List of Headings (A-${lastLetter})</div>
-            <div class="mh-headings-hint">Drag a heading onto a paragraph (or tap → tap on mobile).</div>
+            <div class="mh-headings-hint">Drag a heading onto a paragraph — or tap one, then tap the slot.</div>
             <div class="mh-headings-list" id="mhHeadingsList">${headingsListHtml}</div>
           </aside>
+          <div class="mh-mobile-divider" role="separator" aria-orientation="horizontal" aria-label="Resize headings pane" tabindex="0">
+            <span class="mh-mobile-divider-grip"></span>
+          </div>
           <main class="mh-passage-pane">
             <div class="passage-card matching-headings-container" data-part-type="matching-headings">
               <h3>${part.passage.title}</h3>
@@ -3577,56 +3633,112 @@
         chips.forEach(c => c.classList.remove('mh-chip-selected'));
       }
 
-      // ── DESKTOP: native HTML5 drag-and-drop ─────────────────────────
+      // ── Custom pointer-events drag (mouse + touch + pen) ───────────
+      // HTML5 drag-and-drop was unreliable in Chrome desktop — events
+      // would silently fail. Pointer-based drag works on every input
+      // type, with a fully visible floating ghost element that the user
+      // can see drag with the cursor.
       chips.forEach(chip => {
-        chip.addEventListener('dragstart', e => {
-          if (chip.classList.contains('mh-chip-used')) {
-            // Allow drag of used chips too so users can reassign by drop.
-          }
-          chip.classList.add('mh-chip-dragging');
-          e.dataTransfer.effectAllowed = 'move';
-          e.dataTransfer.setData('text/plain', chip.dataset.letter);
-        });
-        chip.addEventListener('dragend', () => {
-          chip.classList.remove('mh-chip-dragging');
-          split.querySelectorAll('.mh-slot-over').forEach(s => s.classList.remove('mh-slot-over'));
+        chip.addEventListener('pointerdown', e => {
+          // Only react to primary mouse / touch / pen — and not on the
+          // inline clear button or any future actionable child.
+          if (e.pointerType === 'mouse' && e.button !== 0) return;
+          if (e.target.closest('.mh-slot-clear')) return;
+
+          const startX = e.clientX;
+          const startY = e.clientY;
+          let dragging = false;
+          let ghost = null;
+          let overSlot = null;
+
+          // Don't capture pointer immediately — we want clicks (no movement
+          // = tap-to-select) to still work normally. We only switch to drag
+          // mode once movement exceeds the threshold.
+          const onMove = (mv) => {
+            const dx = mv.clientX - startX;
+            const dy = mv.clientY - startY;
+            if (!dragging && (dx * dx + dy * dy) < 36) return; // 6px²
+
+            if (!dragging) {
+              dragging = true;
+              chip.classList.add('mh-chip-dragging');
+              clearTapSelected();
+              // Build a floating clone the cursor will drag around.
+              ghost = chip.cloneNode(true);
+              ghost.classList.add('mh-chip-ghost');
+              ghost.style.cssText = 'position:fixed;pointer-events:none;z-index:99999;'
+                + 'left:0;top:0;width:' + chip.offsetWidth + 'px;'
+                + 'transform:translate3d(0,0,0);opacity:.92;'
+                + 'box-shadow:0 8px 20px rgba(20,184,166,.35);'
+                + 'border-color:#14b8a6;background:#fff;';
+              document.body.appendChild(ghost);
+              try { chip.setPointerCapture(mv.pointerId); } catch (_) {}
+            }
+            // Move ghost
+            ghost.style.left = (mv.clientX - chip.offsetWidth / 2) + 'px';
+            ghost.style.top  = (mv.clientY - chip.offsetHeight / 2) + 'px';
+            // Find slot under cursor (hide ghost temporarily for hit-testing).
+            ghost.style.display = 'none';
+            const elUnder = document.elementFromPoint(mv.clientX, mv.clientY);
+            ghost.style.display = '';
+            const slot = elUnder ? elUnder.closest('.mh-slot') : null;
+            if (slot !== overSlot) {
+              if (overSlot) overSlot.classList.remove('mh-slot-over');
+              if (slot) slot.classList.add('mh-slot-over');
+              overSlot = slot;
+            }
+            mv.preventDefault();
+          };
+
+          const onUp = (up) => {
+            document.removeEventListener('pointermove', onMove);
+            document.removeEventListener('pointerup', onUp);
+            document.removeEventListener('pointercancel', onUp);
+            if (dragging) {
+              chip.classList.remove('mh-chip-dragging');
+              if (ghost) ghost.remove();
+              if (overSlot) {
+                overSlot.classList.remove('mh-slot-over');
+                _mhAssign(overSlot.dataset.qid, chip.dataset.letter);
+              }
+              try { chip.releasePointerCapture(up.pointerId); } catch (_) {}
+            } else {
+              // No drag movement — treat as tap to select / unselect.
+              if (tapSelectedLetter === chip.dataset.letter) {
+                clearTapSelected();
+              } else {
+                clearTapSelected();
+                tapSelectedLetter = chip.dataset.letter;
+                chip.classList.add('mh-chip-selected');
+              }
+            }
+          };
+
+          document.addEventListener('pointermove', onMove);
+          document.addEventListener('pointerup', onUp);
+          document.addEventListener('pointercancel', onUp);
         });
 
-        // Tap-to-select (mobile + keyboard).
-        const tapHandler = e => {
-          if (e && e.type === 'click') {
-            // If the tap originated from drag end on the same chip, skip.
-            if (chip.classList.contains('mh-chip-dragging')) return;
-          }
-          if (tapSelectedLetter === chip.dataset.letter) {
-            clearTapSelected();
-          } else {
-            clearTapSelected();
-            tapSelectedLetter = chip.dataset.letter;
-            chip.classList.add('mh-chip-selected');
-          }
-        };
-        chip.addEventListener('click', tapHandler);
+        // Keyboard a11y: Enter/Space toggles tap-select on the chip.
         chip.addEventListener('keydown', e => {
-          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tapHandler(e); }
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            if (tapSelectedLetter === chip.dataset.letter) {
+              clearTapSelected();
+            } else {
+              clearTapSelected();
+              tapSelectedLetter = chip.dataset.letter;
+              chip.classList.add('mh-chip-selected');
+            }
+          }
         });
       });
 
+      // Slots: tap-to-assign once a chip is selected, and keyboard handler.
       slots.forEach(slot => {
-        slot.addEventListener('dragover', e => { e.preventDefault(); slot.classList.add('mh-slot-over'); });
-        slot.addEventListener('dragleave', () => slot.classList.remove('mh-slot-over'));
-        slot.addEventListener('drop', e => {
-          e.preventDefault();
-          slot.classList.remove('mh-slot-over');
-          const letter = e.dataTransfer.getData('text/plain');
-          if (!letter) return;
-          _mhAssign(slot.dataset.qid, letter);
-        });
-
-        // Tap-to-assign — only fires when a chip is tap-selected.
         slot.addEventListener('click', e => {
-          // If user clicked the inline clear (×), that handler runs first
-          // and stops propagation — this branch won't see it.
+          // The inline clear (×) handler stops propagation, so this branch
+          // is only hit on a true slot tap.
           if (!tapSelectedLetter) return;
           _mhAssign(slot.dataset.qid, tapSelectedLetter);
           clearTapSelected();
@@ -3638,6 +3750,46 @@
             clearTapSelected();
           }
         });
+      });
+
+      // Mobile divider drag — resize the top (headings) vs bottom (passage)
+      // panes. Only wired when the divider element exists (mobile only;
+      // CSS keeps it hidden on desktop).
+      _mhWireMobileDivider(split);
+    }
+
+    // Mobile-only: divider between headings (top) and passage (bottom).
+    // Drag the bar to resize the top pane's height. Persists nothing —
+    // each visit starts at the CSS default. CSS hides the divider above
+    // 1023px so this becomes a no-op on desktop.
+    function _mhWireMobileDivider(split) {
+      const divider = split.querySelector('.mh-mobile-divider');
+      const top = split.querySelector('.mh-headings-pane');
+      if (!divider || !top) return;
+      divider.addEventListener('pointerdown', e => {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        const startY = e.clientY;
+        const startH = top.getBoundingClientRect().height;
+        const splitRect = split.getBoundingClientRect();
+        divider.setPointerCapture(e.pointerId);
+        const onMove = (mv) => {
+          const dy = mv.clientY - startY;
+          // Clamp between 100px and (splitHeight - 100px) so the bottom
+          // pane stays usable.
+          const newH = Math.max(120, Math.min(splitRect.height - 160, startH + dy));
+          top.style.height = newH + 'px';
+          top.style.maxHeight = newH + 'px';
+          top.style.flex = '0 0 ' + newH + 'px';
+        };
+        const onUp = (up) => {
+          divider.removeEventListener('pointermove', onMove);
+          divider.removeEventListener('pointerup', onUp);
+          divider.removeEventListener('pointercancel', onUp);
+          try { divider.releasePointerCapture(up.pointerId); } catch (_) {}
+        };
+        divider.addEventListener('pointermove', onMove);
+        divider.addEventListener('pointerup', onUp);
+        divider.addEventListener('pointercancel', onUp);
       });
     }
 
