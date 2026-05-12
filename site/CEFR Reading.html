@@ -2375,6 +2375,260 @@
         .cr-pv-para { font-size: 13px; }
     }
 
+    /* ── Part 3 split-view (matching-headings) ─────────────────────────
+       Two-pane layout: passage with numbered paragraph cards on the left,
+       always-visible draggable headings list on the right. Replaces the
+       old vertical stack of per-paragraph dropdowns. On mobile (<1024px)
+       the right pane collapses to a sticky horizontal chip strip pinned
+       to the top of the part. */
+    .mh-split-container {
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+      margin: 16px 0;
+    }
+    .mh-headings-pane {
+      flex: 0 0 320px;
+      position: sticky;
+      top: 80px;
+      max-height: calc(100vh - 110px);
+      overflow: hidden;
+      background: linear-gradient(135deg, #f0fdfa 0%, #ecfeff 100%);
+      border: 1.5px solid #99f6e4;
+      border-radius: 14px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .mh-headings-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #0f766e;
+      letter-spacing: 0.2px;
+    }
+    .mh-headings-hint {
+      font-size: 11.5px;
+      color: #475569;
+      line-height: 1.4;
+    }
+    .mh-headings-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow-y: auto;
+      padding-right: 4px;
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+    .mh-heading-chip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: #fff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      cursor: grab;
+      font-size: 13px;
+      line-height: 1.4;
+      transition: all .15s;
+      box-shadow: 0 1px 2px rgba(0,0,0,.03);
+      user-select: none;
+    }
+    .mh-heading-chip:hover { border-color: #14b8a6; box-shadow: 0 4px 10px rgba(20,184,166,.15); transform: translateY(-1px); }
+    .mh-heading-chip:active { cursor: grabbing; }
+    .mh-heading-chip.mh-chip-dragging { opacity: .4; }
+    .mh-heading-chip.mh-chip-selected {
+      border-color: #14b8a6;
+      background: linear-gradient(135deg, #ccfbf1, #a7f3d0);
+      box-shadow: 0 0 0 3px rgba(20,184,166,.2);
+    }
+    .mh-heading-chip.mh-chip-used {
+      opacity: .42;
+      filter: grayscale(0.4);
+    }
+    .mh-heading-chip.mh-chip-used .mh-heading-check { color: #10b981; }
+    .mh-heading-letter {
+      flex-shrink: 0;
+      width: 26px; height: 26px;
+      background: #10b981; color: #fff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12.5px;
+      font-weight: 800;
+    }
+    .mh-heading-text {
+      flex: 1; min-width: 0;
+      color: #1e293b;
+      word-break: break-word;
+    }
+    .mh-heading-check {
+      flex-shrink: 0;
+      color: transparent;
+      font-size: 14px;
+      font-weight: 800;
+    }
+    .mh-passage-pane {
+      flex: 1 1 auto;
+      min-width: 0;
+      display: flex; flex-direction: column;
+      gap: 12px;
+    }
+    .mh-passage-pane > .passage-card { margin-bottom: 0; }
+    .mh-para-card {
+      background: #fff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 14px 16px;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .mh-para-head {
+      display: flex; flex-direction: column;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .mh-para-num {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      color: #0f766e;
+      font-size: 14px;
+    }
+    .mh-para-qbadge {
+      background: #14b8a6;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      letter-spacing: 0.3px;
+    }
+    /* Thin assignment pill — empty vs filled state. Borderless, mono-ish
+       letter prefix, light background so it doesn't compete with the
+       paragraph text. */
+    .mh-slot {
+      display: flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 4px 10px;
+      background: #f8fafc;
+      border: 1.5px dashed #cbd5e1;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #64748b;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .mh-slot:hover { border-color: #14b8a6; background: #f0fdfa; }
+    .mh-slot:focus-visible { outline: 2px solid #14b8a6; outline-offset: 2px; }
+    .mh-slot.mh-slot-over {
+      border-color: #14b8a6;
+      background: #ccfbf1;
+      box-shadow: inset 0 0 0 2px #14b8a6;
+    }
+    .mh-slot.mh-slot-filled-state {
+      border-style: solid;
+      border-color: #14b8a6;
+      background: linear-gradient(135deg, #ccfbf1, #d1fae5);
+      color: #134e4a;
+    }
+    .mh-slot-empty {
+      font-style: italic;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+    }
+    .mh-slot-filled {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+    .mh-slot-letter {
+      flex-shrink: 0;
+      width: 22px; height: 22px;
+      background: #10b981; color: #fff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 800;
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    }
+    .mh-slot-text {
+      flex: 1; min-width: 0;
+      font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .mh-slot-clear {
+      flex-shrink: 0;
+      width: 22px; height: 22px;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 50%;
+      color: #134e4a;
+      font-size: 16px;
+      line-height: 1;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .mh-slot-clear:hover { background: rgba(20,184,166,.15); border-color: #14b8a6; }
+    .mh-para-body {
+      font-size: 14.5px;
+      line-height: 1.65;
+      color: #334155;
+      margin-top: 4px;
+    }
+    /* When the runner is in review-mode + an answer was correct/incorrect,
+       markAnswer() adds .correct / .incorrect to the slot — these override
+       the assigned styling so feedback is visually unambiguous. */
+    .mh-slot.correct, .mh-slot.review-correct {
+      border-color: var(--success); background: #dcfce7; color: #166534;
+    }
+    .mh-slot.incorrect, .mh-slot.review-incorrect {
+      border-color: var(--danger); background: #fee2e2; color: #991b1b;
+    }
+    @media (max-width: 1023px) {
+      /* Mobile: stack panes; right pane becomes a sticky horizontal chip
+         strip pinned to the top of the part. Drag-and-drop is dropped in
+         favour of tap-chip-then-tap-paragraph. */
+      .mh-split-container { flex-direction: column; gap: 12px; }
+      .mh-headings-pane {
+        position: sticky;
+        top: 56px;
+        flex: 0 0 auto;
+        max-height: none;
+        z-index: 30;
+        padding: 10px 12px;
+        background: rgba(240, 253, 250, 0.95);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+      .mh-headings-list {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding-bottom: 4px;
+        gap: 8px;
+        scroll-snap-type: x mandatory;
+      }
+      .mh-heading-chip {
+        flex: 0 0 200px;
+        scroll-snap-align: start;
+        cursor: pointer;  /* no drag on mobile */
+      }
+      .mh-headings-hint { font-size: 11px; }
+    }
+    @media (max-width: 600px) {
+      .mh-heading-chip { flex-basis: 175px; padding: 8px 10px; font-size: 12px; }
+      .mh-heading-letter { width: 22px; height: 22px; font-size: 11px; }
+      .mh-para-card { padding: 12px 14px; }
+      .mh-para-body { font-size: 14px; }
+    }
+
     /* ── In-test review-mode overlays ──────────────────────────────────
        After Review Answers is clicked we re-enter the test view and
        (a) attach an expandable explanation block next to each question
@@ -3053,6 +3307,11 @@
 
       // Add event listeners
       addEventListeners();
+
+      // Wire the matching-headings split-view drag-and-drop + tap-to-assign
+      // for every Part 3 container that just got rendered. Idempotent via
+      // the `data-mh-wired` flag on .mh-split-container.
+      document.querySelectorAll('.part-container').forEach(_mhWireSplitView);
     }
 
     // ===== PART TYPE GENERATORS =====
@@ -3209,58 +3468,211 @@
       updateMatchingOptions();
     }
 
+    // Part 3 — matching-headings. Split-view: passage with numbered
+    // paragraph cards on the left, draggable headings list on the right.
+    // On mobile the right pane collapses to a sticky horizontal-scroll
+    // chip row pinned to the top, and assignment falls back to tap-select
+    // + tap-paragraph. The thin pill on each paragraph (.mh-slot) keeps
+    // the legacy `.rich-select-trigger` + `data-question` attribute so
+    // markAnswer() + the inline-review Q-pill injector both keep working
+    // unchanged. selectRichOption is reused on success so the existing
+    // updateHeadingOptions / used-elsewhere hints still apply.
     function generateMatchingHeadings(part) {
-      let html = '';
-      
-      // Collapsible headings list
-      html += `
-        <div class="collapsible-statements" id="headingsCollapse">
-          <div class="collapsible-header" onclick="toggleStatements(this)">
-            <h4>📋 List of Headings (A-${part.headings[part.headings.length-1].letter})</h4>
-            <span class="collapsible-icon">▼</span>
-          </div>
-          <div class="collapsible-content">
-            <div class="statements-inner">
-              ${part.headings.map(h => `
-                <div class="statement-item">
-                  <span class="letter">${h.letter})</span>
-                  <span>${h.text}</span>
-                </div>
-              `).join('')}
+      const lastLetter = part.headings[part.headings.length - 1].letter;
+      const headingsListHtml = part.headings.map(h => `
+        <div class="mh-heading-chip rich-select-option"
+             draggable="true"
+             data-letter="${h.letter}"
+             tabindex="0">
+          <span class="mh-heading-letter">${h.letter}</span>
+          <span class="mh-heading-text">${h.text}</span>
+          <span class="mh-heading-check" aria-hidden="true">✓</span>
+        </div>
+      `).join('');
+
+      const paragraphsHtml = part.passage.paragraphs.map(para => `
+        <div class="mh-para-card" data-part-type="matching-headings" data-paragraph="${para.number}" data-paragraph-number="${para.number}">
+          <div class="mh-para-head">
+            <span class="mh-para-num">Paragraph ${para.number}<span class="mh-para-qbadge">Q${para.questionId}</span></span>
+            <div class="mh-slot rich-select-trigger heading-select"
+                 id="rs-trigger-${para.questionId}"
+                 data-question="${para.questionId}"
+                 data-qid="${para.questionId}"
+                 tabindex="0"
+                 role="button"
+                 aria-label="Heading slot for paragraph ${para.number}">
+              <span class="mh-slot-empty">↳ Drop a heading here</span>
+              <span class="mh-slot-filled" hidden>
+                <span class="mh-slot-letter"></span>
+                <span class="mh-slot-text"></span>
+                <button type="button"
+                        class="mh-slot-clear"
+                        aria-label="Clear heading"
+                        onclick="_mhClear(${para.questionId}, event)">×</button>
+              </span>
             </div>
           </div>
+          <div class="para-content mh-para-body">${para.content}</div>
         </div>
-      `;
+      `).join('');
 
-      // Passage with paragraphs
-      html += `
-        <div class="passage-card matching-headings-container" data-part-type="matching-headings">
-          <h3>${part.passage.title}</h3>
-        </div>
-      `;
-
-      part.passage.paragraphs.forEach(para => {
-        html += `
-          <div class="paragraph-card" data-part-type="matching-headings">
-            <div class="para-header">
-              <span class="para-number">Paragraph ${para.number} <span>Q${para.questionId}</span></span>
-              <div class="rich-select-container" id="rs-container-${para.questionId}">
-                <div class="rich-select-trigger heading-select" id="rs-trigger-${para.questionId}" data-question="${para.questionId}"
-                     onclick="toggleRichSelect('${para.questionId}', event)">-- Select Heading --</div>
-                <div class="rich-select-menu" id="rs-menu-${para.questionId}">
-                  ${part.headings.map(h =>
-                    `<div class="rich-select-option" data-letter="${h.letter}"
-                         onclick="selectRichOption('${para.questionId}','${h.letter}',this,event)">${h.letter}) ${h.text}</div>`
-                  ).join('')}
-                </div>
-              </div>
+      // Note: outer wrapper gets .mh-split-container which CSS flips between
+      // flex-row (desktop) and flex-column (mobile). The legacy collapsible
+      // headings markup is gone — the right pane is always visible.
+      return `
+        <div class="mh-split-container" data-part="matching-headings">
+          <aside class="mh-headings-pane" aria-label="List of headings">
+            <div class="mh-headings-title">📋 List of Headings (A-${lastLetter})</div>
+            <div class="mh-headings-hint">Drag a heading onto a paragraph (or tap → tap on mobile).</div>
+            <div class="mh-headings-list" id="mhHeadingsList">${headingsListHtml}</div>
+          </aside>
+          <main class="mh-passage-pane">
+            <div class="passage-card matching-headings-container" data-part-type="matching-headings">
+              <h3>${part.passage.title}</h3>
             </div>
-            <div class="para-content">${para.content}</div>
-          </div>
-        `;
+            ${paragraphsHtml}
+          </main>
+        </div>
+      `;
+    }
+
+    // Drag-and-drop + tap-to-assign wiring. Runs once on first render, then
+    // again on each part switch (idempotent: bails out if the part is not
+    // matching-headings or the listeners are already in place).
+    function _mhWireSplitView(container) {
+      if (!container) return;
+      const split = container.querySelector('.mh-split-container');
+      if (!split || split.dataset.mhWired === '1') return;
+      split.dataset.mhWired = '1';
+
+      const chips = split.querySelectorAll('.mh-heading-chip');
+      const slots = split.querySelectorAll('.mh-slot');
+
+      let tapSelectedLetter = null;
+      function clearTapSelected() {
+        tapSelectedLetter = null;
+        chips.forEach(c => c.classList.remove('mh-chip-selected'));
+      }
+
+      // ── DESKTOP: native HTML5 drag-and-drop ─────────────────────────
+      chips.forEach(chip => {
+        chip.addEventListener('dragstart', e => {
+          if (chip.classList.contains('mh-chip-used')) {
+            // Allow drag of used chips too so users can reassign by drop.
+          }
+          chip.classList.add('mh-chip-dragging');
+          e.dataTransfer.effectAllowed = 'move';
+          e.dataTransfer.setData('text/plain', chip.dataset.letter);
+        });
+        chip.addEventListener('dragend', () => {
+          chip.classList.remove('mh-chip-dragging');
+          split.querySelectorAll('.mh-slot-over').forEach(s => s.classList.remove('mh-slot-over'));
+        });
+
+        // Tap-to-select (mobile + keyboard).
+        const tapHandler = e => {
+          if (e && e.type === 'click') {
+            // If the tap originated from drag end on the same chip, skip.
+            if (chip.classList.contains('mh-chip-dragging')) return;
+          }
+          if (tapSelectedLetter === chip.dataset.letter) {
+            clearTapSelected();
+          } else {
+            clearTapSelected();
+            tapSelectedLetter = chip.dataset.letter;
+            chip.classList.add('mh-chip-selected');
+          }
+        };
+        chip.addEventListener('click', tapHandler);
+        chip.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tapHandler(e); }
+        });
       });
 
-      return html;
+      slots.forEach(slot => {
+        slot.addEventListener('dragover', e => { e.preventDefault(); slot.classList.add('mh-slot-over'); });
+        slot.addEventListener('dragleave', () => slot.classList.remove('mh-slot-over'));
+        slot.addEventListener('drop', e => {
+          e.preventDefault();
+          slot.classList.remove('mh-slot-over');
+          const letter = e.dataTransfer.getData('text/plain');
+          if (!letter) return;
+          _mhAssign(slot.dataset.qid, letter);
+        });
+
+        // Tap-to-assign — only fires when a chip is tap-selected.
+        slot.addEventListener('click', e => {
+          // If user clicked the inline clear (×), that handler runs first
+          // and stops propagation — this branch won't see it.
+          if (!tapSelectedLetter) return;
+          _mhAssign(slot.dataset.qid, tapSelectedLetter);
+          clearTapSelected();
+        });
+        slot.addEventListener('keydown', e => {
+          if ((e.key === 'Enter' || e.key === ' ') && tapSelectedLetter) {
+            e.preventDefault();
+            _mhAssign(slot.dataset.qid, tapSelectedLetter);
+            clearTapSelected();
+          }
+        });
+      });
+    }
+
+    // Apply the assignment: stamps the letter + heading text into the slot,
+    // updates userAnswers, refreshes the chip "used" state, and forwards to
+    // selectRichOption for the legacy used-elsewhere hint pipeline.
+    function _mhAssign(qid, letter) {
+      const slot = document.querySelector('.mh-slot[data-qid="' + qid + '"]');
+      if (!slot) return;
+      const split = slot.closest('.mh-split-container');
+      const chip = split ? split.querySelector('.mh-heading-chip[data-letter="' + letter + '"]') : null;
+      if (!chip) return;
+
+      // Visual update
+      slot.classList.add('mh-slot-filled-state');
+      slot.setAttribute('data-value', letter);
+      slot.querySelector('.mh-slot-empty').hidden = true;
+      const filledEl = slot.querySelector('.mh-slot-filled');
+      filledEl.hidden = false;
+      filledEl.querySelector('.mh-slot-letter').textContent = letter;
+      filledEl.querySelector('.mh-slot-text').textContent = chip.querySelector('.mh-heading-text').textContent;
+
+      // Persist
+      userAnswers[qid] = letter;
+
+      // Refresh chip "used" state across all slots
+      _mhRefreshChipUsed(split);
+
+      // Keep legacy hint pipeline happy (used-elsewhere indicators on the
+      // hidden rich-select menus that the answers panel still walks).
+      if (typeof updateHeadingOptions === 'function') updateHeadingOptions();
+    }
+
+    // Clear an assignment — re-enables the heading chip on the right.
+    function _mhClear(qid, event) {
+      if (event) { event.stopPropagation(); event.preventDefault(); }
+      const slot = document.querySelector('.mh-slot[data-qid="' + qid + '"]');
+      if (!slot) return;
+      slot.classList.remove('mh-slot-filled-state');
+      slot.removeAttribute('data-value');
+      slot.querySelector('.mh-slot-empty').hidden = false;
+      slot.querySelector('.mh-slot-filled').hidden = true;
+      delete userAnswers[qid];
+      const split = slot.closest('.mh-split-container');
+      _mhRefreshChipUsed(split);
+      if (typeof updateHeadingOptions === 'function') updateHeadingOptions();
+    }
+    window._mhClear = _mhClear;
+
+    // Mark heading chips that have already been assigned to a paragraph so
+    // students can see, at a glance, which letters are still in play.
+    function _mhRefreshChipUsed(split) {
+      if (!split) return;
+      const used = new Set();
+      split.querySelectorAll('.mh-slot[data-value]').forEach(s => used.add(s.getAttribute('data-value')));
+      split.querySelectorAll('.mh-heading-chip').forEach(c => {
+        c.classList.toggle('mh-chip-used', used.has(c.dataset.letter));
+      });
     }
 
     // Update heading dropdown options to show which are already selected
@@ -4406,21 +4818,57 @@
         }
       }
 
-      // Mark rich-select triggers
+      // Mark rich-select triggers (and the new .mh-slot pills, which
+      // still carry .rich-select-trigger for backwards compat).
       const trigger = document.querySelector(`.rich-select-trigger[data-question="${qId}"]`);
       if (trigger) {
         trigger.classList.add('locked');
+        const isMhSlot = trigger.classList.contains('mh-slot');
         if (isUnanswered) {
-          trigger.textContent = correctAnswer;
-          trigger.classList.add('unanswered-filled');
+          if (isMhSlot) {
+            // Pour the correct heading letter into the pill via the slot's
+            // own DOM structure instead of nuking innerHTML — keeps the
+            // letter chip + heading text visible after submit.
+            var emptyEl = trigger.querySelector('.mh-slot-empty');
+            var filledEl = trigger.querySelector('.mh-slot-filled');
+            if (emptyEl) emptyEl.hidden = true;
+            if (filledEl) {
+              filledEl.hidden = false;
+              var letEl = filledEl.querySelector('.mh-slot-letter');
+              var txtEl = filledEl.querySelector('.mh-slot-text');
+              if (letEl) letEl.textContent = correctAnswer;
+              // Try to look up the heading text from the right-pane chip
+              var chip = document.querySelector('.mh-heading-chip[data-letter="' + correctAnswer + '"]');
+              if (txtEl) txtEl.textContent = chip
+                ? (chip.querySelector('.mh-heading-text')?.textContent || '')
+                : correctAnswer;
+              var clr = filledEl.querySelector('.mh-slot-clear');
+              if (clr) clr.style.display = 'none';
+            }
+            trigger.classList.add('unanswered-filled');
+            trigger.setAttribute('data-value', correctAnswer);
+          } else {
+            trigger.textContent = correctAnswer;
+            trigger.classList.add('unanswered-filled');
+          }
         } else {
           trigger.classList.add(isCorrect ? 'correct' : 'incorrect');
           if (!isCorrect) {
             trigger.title = `Correct: ${correctAnswer}`;
-            const badge = document.createElement('span');
-            badge.className = 'correct-answer-badge';
-            badge.textContent = correctAnswer;
-            trigger.parentNode.insertBefore(badge, trigger.nextSibling);
+            if (isMhSlot) {
+              // Hang the correct-letter badge below the slot inline so it
+              // doesn't overflow the right-edge of the paragraph card.
+              var badgeMh = document.createElement('div');
+              badgeMh.className = 'correct-answer-badge';
+              badgeMh.style.cssText = 'margin-top:6px;font-size:11.5px;color:#065f46;';
+              badgeMh.textContent = '✓ Correct: ' + correctAnswer;
+              trigger.parentNode.insertBefore(badgeMh, trigger.nextSibling);
+            } else {
+              const badge = document.createElement('span');
+              badge.className = 'correct-answer-badge';
+              badge.textContent = correctAnswer;
+              trigger.parentNode.insertBefore(badge, trigger.nextSibling);
+            }
           }
         }
       }
@@ -4516,7 +4964,7 @@
           // Walk up to a block-level container to inject below. Stop at the
           // first parent that contains the question's text/options, so the
           // drop-down doesn't end up inside an inline <span>.
-          var host = anchor.closest('.mcq-question, .tfni-question, .gap-question, .question-row, .question, .question-card, li, .text-content, .para-content');
+          var host = anchor.closest('.mcq-question, .tfni-question, .gap-question, .question-row, .question, .question-card, .mh-para-card, li, .text-content, .para-content');
           if (!host) host = anchor.parentElement;
           if (!host) return;
           // Skip if already injected for this question
