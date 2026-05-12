@@ -1025,42 +1025,53 @@
       color: var(--primary);
     }
 
+    /* Vertical radio-card layout — matches .mcq-options exactly so the
+       student gets a consistent answer-selection UX whether the section
+       is MCQ or TFNI. */
     .tfni-options {
       display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      gap: 10px;
     }
 
     .tfni-option {
-      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: white;
       border: 2px solid var(--border);
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
       font-weight: 600;
       transition: all 0.2s;
-      background: white;
     }
 
     .tfni-option:hover {
       border-color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .tfni-option input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+      flex-shrink: 0;
     }
 
     .tfni-option.selected {
-      background: var(--primary);
       border-color: var(--primary);
-      color: white;
+      background: var(--primary-light);
     }
 
     .tfni-option.correct {
-      background: var(--success);
       border-color: var(--success);
-      color: white;
+      background: #dcfce7;
     }
 
     .tfni-option.incorrect {
-      background: var(--danger);
       border-color: var(--danger);
-      color: white;
+      background: #fee2e2;
     }
 
     /* Summary with gaps */
@@ -3314,13 +3325,21 @@
             `;
           });
         } else if (section.type === 'tfni') {
+          // TFNI options render as vertically-stacked radio cards (same
+          // shape as MCQ) so the UX matches IELTS Reading. Each option is
+          // a <label> wrapping a hidden-checked <input type="radio"> plus
+          // the option text. data-question / data-value attrs stay on the
+          // label so markAnswer + the inline-review injector keep working.
           section.questions.forEach(q => {
             questionsHtml += `
               <div class="tfni-question">
                 <div class="question-text"><strong>${q.id}.</strong> ${q.text}</div>
                 <div class="tfni-options">
                   ${section.options.map(opt => `
-                    <button class="tfni-option" data-question="${q.id}" data-value="${opt}">${opt}</button>
+                    <label class="tfni-option" data-question="${q.id}" data-value="${opt}">
+                      <input type="radio" name="q${q.id}" value="${opt}" data-question="${q.id}">
+                      <span>${opt}</span>
+                    </label>
                   `).join('')}
                 </div>
               </div>
@@ -3384,19 +3403,24 @@
         });
       });
 
-      // TFNI buttons
+      // TFNI radio labels — same shape as MCQ now (each option is a
+      // <label> wrapping a radio input). Click flips the `.selected`
+      // class for visual state AND ticks the native radio for keyboard /
+      // a11y semantics.
       document.querySelectorAll('.tfni-option').forEach(btn => {
         btn.addEventListener('click', (e) => {
           const qId = btn.dataset.question;
           const value = btn.dataset.value;
-          
+
           // Remove selected from siblings
           btn.closest('.tfni-options').querySelectorAll('.tfni-option').forEach(opt => {
             opt.classList.remove('selected');
           });
-          
-          // Select this one
+
+          // Select this one + tick the radio
           btn.classList.add('selected');
+          var radio = btn.querySelector('input[type="radio"]');
+          if (radio) radio.checked = true;
           userAnswers[qId] = value;
         });
       });
