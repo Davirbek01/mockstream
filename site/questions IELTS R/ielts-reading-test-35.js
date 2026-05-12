@@ -29,10 +29,22 @@ window.IELTS_READING_TEST = {
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
-                        { "id": 1, "text": "The majority of mistakes in the workplace happen in the afternoon." },
-                        { "id": 2, "text": "A short nap of five minutes is enough to reduce errors at work." },
-                        { "id": 3, "text": "People who work long hours are more likely to have sleeping problems." },
-                        { "id": 4, "text": "Doing nothing is acceptable in Australian culture." }
+                        {
+                            "id": 1,
+                            "text": "The majority of mistakes in the workplace happen in the afternoon."
+                        },
+                        {
+                            "id": 2,
+                            "text": "A short nap of five minutes is enough to reduce errors at work."
+                        },
+                        {
+                            "id": 3,
+                            "text": "People who work long hours are more likely to have sleeping problems."
+                        },
+                        {
+                            "id": 4,
+                            "text": "Doing nothing is acceptable in Australian culture."
+                        }
                     ]
                 },
                 {
@@ -44,12 +56,30 @@ window.IELTS_READING_TEST = {
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
-                        { "id": 5, "text": "CushoBed: blends features of a giant {INPUT} and a sofa" },
-                        { "id": 6, "text": "TechnoSnooze: an ultra modern lounger with a {INPUT} at the top" },
-                        { "id": 7, "text": "TechnoSnooze: lessens stress on the {INPUT}" },
-                        { "id": 8, "text": "TechnoSnooze: allows you to sleep for a maximum of {INPUT}" },
-                        { "id": 9, "text": "Used by Harry Baker: {INPUT}" },
-                        { "id": 10, "text": "Harry Baker's room includes subtle lighting and background {INPUT}" }
+                        {
+                            "id": 5,
+                            "text": "CushoBed: blends features of a giant {INPUT} and a sofa"
+                        },
+                        {
+                            "id": 6,
+                            "text": "TechnoSnooze: an ultra modern lounger with a {INPUT} at the top"
+                        },
+                        {
+                            "id": 7,
+                            "text": "TechnoSnooze: lessens stress on the {INPUT}"
+                        },
+                        {
+                            "id": 8,
+                            "text": "TechnoSnooze: allows you to sleep for a maximum of {INPUT}"
+                        },
+                        {
+                            "id": 9,
+                            "text": "Used by Harry Baker: {INPUT}"
+                        },
+                        {
+                            "id": 10,
+                            "text": "Harry Baker's room includes subtle lighting and background {INPUT}"
+                        }
                     ]
                 },
                 {
@@ -60,31 +90,115 @@ window.IELTS_READING_TEST = {
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
-                        { "id": 11, "text": "To what does Harry Baker compare napping? {INPUT}" },
-                        { "id": 12, "text": "Apart from their superiors, who do workers need consent from if they are to feel comfortable taking a nap at work? {INPUT}" },
-                        { "id": 13, "text": "What do managers need to understand before they can support their staff in 'sleeping on the job'? {INPUT}" }
+                        {
+                            "id": 11,
+                            "text": "To what does Harry Baker compare napping? {INPUT}"
+                        },
+                        {
+                            "id": 12,
+                            "text": "Apart from their superiors, who do workers need consent from if they are to feel comfortable taking a nap at work? {INPUT}"
+                        },
+                        {
+                            "id": 13,
+                            "text": "What do managers need to understand before they can support their staff in 'sleeping on the job'? {INPUT}"
+                        }
                     ]
                 }
             ],
             "correctAnswers": {
-                "q1": ["TRUE"],
-                "q2": ["FALSE"],
-                "q3": ["NOT GIVEN"],
-                "q4": ["FALSE"],
-                "q5": ["CUSHION"],
-                "q6": ["ROUNDED HOOD"],
-                "q7": ["LOWER BACK"],
-                "q8": ["20 MINUTES"],
-                "q9": ["MEDITATION ROOM"],
-                "q10": ["MUSIC"],
-                "q11": ["A TRAFFIC SIGNAL"],
-                "q12": ["CO-WORKERS"],
-                "q13": ["POSITIVE OUTCOMES"]
+                "q1": [
+                    "TRUE"
+                ],
+                "q2": [
+                    "FALSE"
+                ],
+                "q3": [
+                    "NOT GIVEN"
+                ],
+                "q4": [
+                    "FALSE"
+                ],
+                "q5": [
+                    "CUSHION"
+                ],
+                "q6": [
+                    "ROUNDED HOOD"
+                ],
+                "q7": [
+                    "LOWER BACK"
+                ],
+                "q8": [
+                    "20 MINUTES"
+                ],
+                "q9": [
+                    "MEDITATION ROOM"
+                ],
+                "q10": [
+                    "MUSIC"
+                ],
+                "q11": [
+                    "A TRAFFIC SIGNAL"
+                ],
+                "q12": [
+                    "CO-WORKERS"
+                ],
+                "q13": [
+                    "POSITIVE OUTCOMES"
+                ]
             },
             "explanations": {
-                "q1": "The passage states workplace accidents and errors peak in the same period as the afternoon drop in alertness.",
-                "q2": "The passage says a 5-minute nap delivered very few benefits.",
-                "q4": "Australian workplace culture is described as treating lying down as unacceptable."
+                "q1": {
+                    "text": "The passage states workplace accidents and errors peak between two and five pm, when circadian rhythms cause a drop in alertness — confirming the afternoon timing, so the answer is TRUE.",
+                    "quote": "Workplace accidents and errors peak at the same time that our circadian rhythms (sleep-wake cycle) cause a drop in alertness"
+                },
+                "q2": {
+                    "text": "The passage states the 5-minute nap delivered very few benefits — five minutes is not enough to reduce errors, so the answer is FALSE.",
+                    "quote": "The 5-minute nap delivered very few benefits"
+                },
+                "q3": {
+                    "text": "The passage mentions Australians work long hours and reports sleeping problems by age group, but never links long working hours to sleeping problems — so the answer is NOT GIVEN.",
+                    "quote": ""
+                },
+                "q4": {
+                    "text": "The passage states Australian culture considers 'doing anything at all... better than doing nothing' — directly contradicting that doing nothing is acceptable, so the answer is FALSE.",
+                    "quote": "in Australia, a culture where doing anything at all is considered better than doing nothing"
+                },
+                "q5": {
+                    "text": "The passage describes the CushoBed as a combination of a very large cushion and a couch — so the answer is 'cushion'.",
+                    "quote": "This combination of a very large cushion and a couch provides Wordplay's staff with a comfortable place to curl up for a short sleep."
+                },
+                "q6": {
+                    "text": "The passage states the TechnoSnooze has a rounded hood that lowers over the head — so the answer is 'rounded hood'.",
+                    "quote": "the TechnoSnooze has a rounded hood that lowers over the head"
+                },
+                "q7": {
+                    "text": "The passage states the TechnoSnooze reduces pressure on the lower back — so the answer is 'lower back'.",
+                    "quote": "This promotes blood circulation and reduces pressure on the lower back."
+                },
+                "q8": {
+                    "text": "The passage states the TechnoSnooze pod vibrates gently to wake the user after 20 minutes — so the answer is '20 minutes'.",
+                    "quote": "After 20 minutes, the pod vibrates gently to wake you."
+                },
+                "q9": {
+                    "text": "The passage states Harry Baker uses his media company's meditation room — so the answer is 'meditation room'.",
+                    "quote": "He makes good use of his media company's meditation room"
+                },
+                "q10": {
+                    "text": "The passage states Harry Baker's meditation room includes quiet music, candles and incense — so the answer is 'music'.",
+                    "quote": "his media company's meditation room, which includes quiet music, candles and incense."
+                },
+                "q11": {
+                    "text": "Harry Baker compares napping to a traffic signal that slows down the brain — so the answer is 'a traffic signal'.",
+                    "quote": "It's like a traffic signal that slows down your brain."
+                },
+                "q12": {
+                    "text": "The passage states employees need strong workplace support from both bosses and co-workers — apart from superiors, the answer is 'co-workers'.",
+                    "quote": "employees need strong workplace support from their bosses and co-workers to feel they have permission for a mini-sleep"
+                },
+                "q13": {
+                    "text": "The passage states managers need good briefing about 'the positive outcomes' before they can support staff napping — so the answer is 'positive outcomes'.",
+                    "quote": "you need to ensure good briefing of the managers so they are clear about the positive outcomes"
+                }
             }
         },
         {
@@ -106,15 +220,45 @@ window.IELTS_READING_TEST = {
                     "title": "Questions 14-20",
                     "instruction": "Reading Passage 2 has eight paragraphs, <strong>A-H</strong>.<br><br>Which paragraph contains the following information?<br><br>Write the correct letter, <strong>A-H</strong>, in boxes 14-20 on your answer sheet.",
                     "headingsList": [],
-                    "featuresList": ["A", "B", "C", "D", "E", "F", "G", "H"],
+                    "featuresList": [
+                        "A",
+                        "B",
+                        "C",
+                        "D",
+                        "E",
+                        "F",
+                        "G",
+                        "H"
+                    ],
                     "questions": [
-                        { "id": 14, "text": "a suggestion that people have moved numerous species across the globe throughout history" },
-                        { "id": 15, "text": "an example of how an ecosystem can be damaged very rapidly" },
-                        { "id": 16, "text": "a description of what can be done to restrict the spread of invasive species" },
-                        { "id": 17, "text": "a reference to a lack of research on the effects of some invasive species" },
-                        { "id": 18, "text": "a mention of a current lack of public awareness of the problem of invasive species" },
-                        { "id": 19, "text": "that an introduced species may benefit a specific ecosystem" },
-                        { "id": 20, "text": "a mention of the fact that the definition of the term 'invasive species' is frequently misunderstood" }
+                        {
+                            "id": 14,
+                            "text": "a suggestion that people have moved numerous species across the globe throughout history"
+                        },
+                        {
+                            "id": 15,
+                            "text": "an example of how an ecosystem can be damaged very rapidly"
+                        },
+                        {
+                            "id": 16,
+                            "text": "a description of what can be done to restrict the spread of invasive species"
+                        },
+                        {
+                            "id": 17,
+                            "text": "a reference to a lack of research on the effects of some invasive species"
+                        },
+                        {
+                            "id": 18,
+                            "text": "a mention of a current lack of public awareness of the problem of invasive species"
+                        },
+                        {
+                            "id": 19,
+                            "text": "that an introduced species may benefit a specific ecosystem"
+                        },
+                        {
+                            "id": 20,
+                            "text": "a mention of the fact that the definition of the term 'invasive species' is frequently misunderstood"
+                        }
                     ]
                 },
                 {
@@ -189,37 +333,148 @@ window.IELTS_READING_TEST = {
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
-                        { "id": 25, "text": "Kudzu has reduced the {INPUT} of certain areas in the south east of the USA." },
-                        { "id": 26, "text": "Some introduced species present a low level of threat if they remain within a small area and do not disturb the {INPUT} of the surrounding ecosystem." },
-                        { "id": 27, "text": "Bringing grey squirrels to the UK caused a serious {INPUT} in its native squirrel species." },
-                        { "id": 28, "text": "An invasive species of jellyfish was brought to the Black Sea by a {INPUT} which had come from America." },
-                        { "id": 29, "text": "The effect of invasive jellyfish in the Black Sea was greater than that of {INPUT} from factories." }
+                        {
+                            "id": 25,
+                            "text": "Kudzu has reduced the {INPUT} of certain areas in the south east of the USA."
+                        },
+                        {
+                            "id": 26,
+                            "text": "Some introduced species present a low level of threat if they remain within a small area and do not disturb the {INPUT} of the surrounding ecosystem."
+                        },
+                        {
+                            "id": 27,
+                            "text": "Bringing grey squirrels to the UK caused a serious {INPUT} in its native squirrel species."
+                        },
+                        {
+                            "id": 28,
+                            "text": "An invasive species of jellyfish was brought to the Black Sea by a {INPUT} which had come from America."
+                        },
+                        {
+                            "id": 29,
+                            "text": "The effect of invasive jellyfish in the Black Sea was greater than that of {INPUT} from factories."
+                        }
                     ]
                 }
             ],
             "correctAnswers": {
-                "q14": ["C"],
-                "q15": ["E"],
-                "q16": ["H"],
-                "q17": ["F"],
-                "q18": ["G"],
-                "q19": ["D"],
-                "q20": ["A"],
-                "q21": ["D", "E"],
-                "q22": ["D", "E"],
-                "q23": ["B", "D"],
-                "q24": ["B", "D"],
-                "q25": ["BIODIVERSITY"],
-                "q26": ["EQUILIBRIUM"],
-                "q27": ["DECLINE"],
-                "q28": ["SHIP"],
-                "q29": ["WASTE"]
+                "q14": [
+                    "C"
+                ],
+                "q15": [
+                    "E"
+                ],
+                "q16": [
+                    "H"
+                ],
+                "q17": [
+                    "F"
+                ],
+                "q18": [
+                    "G"
+                ],
+                "q19": [
+                    "D"
+                ],
+                "q20": [
+                    "A"
+                ],
+                "q21": [
+                    "D",
+                    "E"
+                ],
+                "q22": [
+                    "D",
+                    "E"
+                ],
+                "q23": [
+                    "B",
+                    "D"
+                ],
+                "q24": [
+                    "B",
+                    "D"
+                ],
+                "q25": [
+                    "BIODIVERSITY"
+                ],
+                "q26": [
+                    "EQUILIBRIUM"
+                ],
+                "q27": [
+                    "DECLINE"
+                ],
+                "q28": [
+                    "SHIP"
+                ],
+                "q29": [
+                    "WASTE"
+                ]
             },
             "explanations": {
-                "q14": "Paragraph C says humans have always transferred species between regions.",
-                "q15": "Paragraph E describes major damage in only six years in the Black Sea.",
-                "q16": "Paragraph H gives practical prevention measures.",
-                "q18": "Paragraph G says public understanding is very limited."
+                "q14": {
+                    "text": "Paragraph C states humans have always transferred a variety of species from one region to another — moving species throughout history, so the correct answer is C.",
+                    "quote": "Humans have always transferred a variety of species from one region to another"
+                },
+                "q15": {
+                    "text": "Paragraph E describes the Black Sea jellyfish transforming the entire marine ecosystem in just six years — rapid damage, so the correct answer is E.",
+                    "quote": "when the invading jellyfish underwent a population explosion in the space of just six years, the entire marine ecosystem was transformed"
+                },
+                "q16": {
+                    "text": "Paragraph H describes practical actions individuals can take — planting natives, identifying invaders, cleaning outdoor equipment — restricting invasive species spread, so the correct answer is H.",
+                    "quote": "One way is for people to plant native plants in their gardens rather than species from abroad."
+                },
+                "q17": {
+                    "text": "Paragraph F states the impact of water hyacinth on native aquatic plants is largely unstudied, as is the case for most invaded ecosystems — lack of research, so the correct answer is F.",
+                    "quote": "The impact of the water hyacinth on native aquatic plants is largely unstudied"
+                },
+                "q18": {
+                    "text": "Paragraph G states ordinary people outside the scientific community have very limited understanding of the threat — lack of public awareness, so the correct answer is G.",
+                    "quote": "ordinary people outside the scientific community have a very limited understanding of the threat posed by invasive species"
+                },
+                "q19": {
+                    "text": "Paragraph D states some scientists have argued that introducing certain species enhances the diversity of life in a specific area — benefiting the ecosystem, so the correct answer is D.",
+                    "quote": "Some scientists have even argued that in these cases introduction enhances the diversity of animal and plant life in that specific area."
+                },
+                "q20": {
+                    "text": "Paragraph A states 'contrary to popular belief' an invasive species doesn't necessarily originate in another country — the definition is commonly misunderstood, so the correct answer is A.",
+                    "quote": "Contrary to popular belief, a plant or animal classified as an invasive species does not necessarily originate in another country."
+                },
+                "q21": {
+                    "text": "Paragraph C states pets like snakes and turtles are intentionally set free into the wild — deliberate release of non-natives, so the correct answer is D.",
+                    "quote": "Other invasive species include pets such as snakes or turtles which are intentionally set free into the wild."
+                },
+                "q22": {
+                    "text": "Paragraph C states climate change has enabled some invasive plant species to colonise new areas — geographical range expanding due to global warming, so the correct answer is E.",
+                    "quote": "climate change has enabled some invasive plant species to colonise new areas."
+                },
+                "q23": {
+                    "text": "Paragraph F states water hyacinth was imported to a horticultural exhibition in New Orleans in 1884 — late 19th century, so the correct answer is B.",
+                    "quote": "they imported it to a horticultural exhibition in New Orleans in 1884."
+                },
+                "q24": {
+                    "text": "Paragraph F states water hyacinth damages boat engines and blocks cooling pipes for power plants, occasionally causing blackouts — practical problems, so the correct answer is D.",
+                    "quote": "damaging boat engines and even blocking cooling pipes for power plants, occasionally leading to massive blackouts."
+                },
+                "q25": {
+                    "text": "The passage states invasive species like kudzu threaten biodiversity by replacing diverse habitats with monocultures — so the answer is 'biodiversity'.",
+                    "quote": "Above all, invasive species threaten biodiversity in many habitats."
+                },
+                "q26": {
+                    "text": "The passage states some invaders can maintain themselves without upsetting the ecological equilibrium of the area — so the answer is 'equilibrium'.",
+                    "quote": "can maintain themselves in a limited range of habitats without upsetting the ecological equilibrium of the area."
+                },
+                "q27": {
+                    "text": "The passage states the grey squirrel introduction led directly to the dramatic decline of the native red squirrel — so the answer is 'decline'.",
+                    "quote": "leading directly to the dramatic decline in the population of the native red squirrel."
+                },
+                "q28": {
+                    "text": "The passage states the comb jellyfish was released from a ship into the Black Sea — so the answer is 'ship'.",
+                    "quote": "this species was released from a ship into the Black Sea in Eastern Europe in 1982"
+                },
+                "q29": {
+                    "text": "The passage states the Black Sea has exceptionally high industrial waste but the jellyfish had a more serious impact than the polluted water — so the answer is 'waste'.",
+                    "quote": "The Black Sea has levels of industrial waste which are to international standards exceptionally high."
+                }
             }
         },
         {
@@ -303,12 +558,30 @@ window.IELTS_READING_TEST = {
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
-                        { "id": 35, "text": "Using analogies is common practice among individuals working in a range of professions." },
-                        { "id": 36, "text": "Politicians tend to avoid using historical analogies when discussing the measures they are proposing." },
-                        { "id": 37, "text": "Analogies are a useful way of ensuring that people will understand the point being made." },
-                        { "id": 38, "text": "Historians disagree about which historical periods have most in common with the present day." },
-                        { "id": 39, "text": "In public debates, people refer too frequently to the events of the 1930s and 1970s." },
-                        { "id": 40, "text": "People who engage in public debates are reluctant to make use of historians as a source of new analogies." }
+                        {
+                            "id": 35,
+                            "text": "Using analogies is common practice among individuals working in a range of professions."
+                        },
+                        {
+                            "id": 36,
+                            "text": "Politicians tend to avoid using historical analogies when discussing the measures they are proposing."
+                        },
+                        {
+                            "id": 37,
+                            "text": "Analogies are a useful way of ensuring that people will understand the point being made."
+                        },
+                        {
+                            "id": 38,
+                            "text": "Historians disagree about which historical periods have most in common with the present day."
+                        },
+                        {
+                            "id": 39,
+                            "text": "In public debates, people refer too frequently to the events of the 1930s and 1970s."
+                        },
+                        {
+                            "id": 40,
+                            "text": "People who engage in public debates are reluctant to make use of historians as a source of new analogies."
+                        }
                     ]
                 },
                 {
@@ -331,38 +604,155 @@ window.IELTS_READING_TEST = {
                         "J behaviour"
                     ],
                     "questions": [
-                        { "id": 41, "text": "We cannot always get precise {INPUT} from history on what action should be taken to deal with current problems." },
-                        { "id": 42, "text": "However, there will always be some {INPUT} between the present and the past which we can learn from." },
-                        { "id": 43, "text": "One important lesson from history is that trying to bring about a comprehensive {INPUT} is usually a mistake." },
-                        { "id": 44, "text": "Unfortunately, some historians don't have {INPUT} in their skills and as a result can sometimes appear to doubt the {INPUT} of their subject to contemporary society." },
-                        { "id": 45, "text": "Unfortunately, some historians don't have confidence in their skills and as a result can sometimes appear to doubt the {INPUT} of their subject to contemporary society." },
-                        { "id": 46, "text": "The insights that history provides regarding people's {INPUT} are always valuable and cannot necessarily be obtained from studying other subjects." }
+                        {
+                            "id": 41,
+                            "text": "We cannot always get precise {INPUT} from history on what action should be taken to deal with current problems."
+                        },
+                        {
+                            "id": 42,
+                            "text": "However, there will always be some {INPUT} between the present and the past which we can learn from."
+                        },
+                        {
+                            "id": 43,
+                            "text": "One important lesson from history is that trying to bring about a comprehensive {INPUT} is usually a mistake."
+                        },
+                        {
+                            "id": 44,
+                            "text": "Unfortunately, some historians don't have {INPUT} in their skills and as a result can sometimes appear to doubt the {INPUT} of their subject to contemporary society."
+                        },
+                        {
+                            "id": 45,
+                            "text": "Unfortunately, some historians don't have confidence in their skills and as a result can sometimes appear to doubt the {INPUT} of their subject to contemporary society."
+                        },
+                        {
+                            "id": 46,
+                            "text": "The insights that history provides regarding people's {INPUT} are always valuable and cannot necessarily be obtained from studying other subjects."
+                        }
                     ]
                 }
             ],
             "correctAnswers": {
-                "q30": ["C"],
-                "q31": ["D"],
-                "q32": ["A"],
-                "q33": ["D"],
-                "q34": ["B"],
-                "q35": ["YES"],
-                "q36": ["NO"],
-                "q37": ["NO"],
-                "q38": ["NOT GIVEN"],
-                "q39": ["YES"],
-                "q40": ["NOT GIVEN"],
-                "q41": ["F"],
-                "q42": ["D"],
-                "q43": ["H"],
-                "q44": ["B"],
-                "q45": ["E"],
-                "q46": ["J"]
+                "q30": [
+                    "C"
+                ],
+                "q31": [
+                    "D"
+                ],
+                "q32": [
+                    "A"
+                ],
+                "q33": [
+                    "D"
+                ],
+                "q34": [
+                    "B"
+                ],
+                "q35": [
+                    "YES"
+                ],
+                "q36": [
+                    "NO"
+                ],
+                "q37": [
+                    "NO"
+                ],
+                "q38": [
+                    "NOT GIVEN"
+                ],
+                "q39": [
+                    "YES"
+                ],
+                "q40": [
+                    "NOT GIVEN"
+                ],
+                "q41": [
+                    "F"
+                ],
+                "q42": [
+                    "D"
+                ],
+                "q43": [
+                    "H"
+                ],
+                "q44": [
+                    "B"
+                ],
+                "q45": [
+                    "E"
+                ],
+                "q46": [
+                    "J"
+                ]
             },
             "explanations": {
-                "q30": "The woodsman analogy emphasizes historians' ability to identify likely outcomes.",
-                "q34": "Historians can assess likely success of proposed policy actions.",
-                "q39": "The passage says references are depressingly narrow, often to the 1930s and 1970s."
+                "q30": {
+                    "text": "The opening comparison emphasises that historians, like trained woodsmen, can see how a situation might turn out and advise on future challenges — predictive skill, so the correct answer is C.",
+                    "quote": "historians are often equipped to see how a situation might turn out."
+                },
+                "q31": {
+                    "text": "The passage states Thucydides saw his work as 'revealing the basic causes of military conflict in every period and place' — underlying reasons for all armed conflict, so the correct answer is D.",
+                    "quote": "a document revealing the basic causes of military conflict in every period and place"
+                },
+                "q32": {
+                    "text": "The passage states people generally look back at past experience and use it to determine future actions — making decisions based on the past, so the correct answer is A.",
+                    "quote": "people generally look back and review their past experience and use this to help them determine their future actions."
+                },
+                "q33": {
+                    "text": "The passage states attempting to compare two events runs 'the risk of oversimplification' — making complex situations sound too straightforward, so the correct answer is D.",
+                    "quote": "attempting to compare two events or situations runs the risk of oversimplification."
+                },
+                "q34": {
+                    "text": "The passage states historians can make helpful observations about how likely a proposed course of action is to succeed — evaluating practicality, so the correct answer is B.",
+                    "quote": "they can make helpful observations about how likely it is that a proposed course of action will succeed."
+                },
+                "q35": {
+                    "text": "The passage states it is conventional for 'people in all walks of life, not only professional historians' to use historical analogies — common across professions, so the answer is YES.",
+                    "quote": "It is conventional for people in all walks of life, not only professional historians, to link an historical event to present circumstances"
+                },
+                "q36": {
+                    "text": "The passage states people in government 'often' use historical analogies to justify their policies — politicians embrace rather than avoid them, so the answer is NO.",
+                    "quote": "People in government often use historical analogies in order to justify their policies."
+                },
+                "q37": {
+                    "text": "The passage states analogies are valuable but 'all too easy to misuse... or for analogies to be misleading' — they don't reliably ensure understanding, so the answer is NO.",
+                    "quote": "Using analogies is a valuable way of making a point, yet it is all too easy to misuse them or for analogies to be misleading."
+                },
+                "q38": {
+                    "text": "The passage notes the limited range of historical periods used in public debate but never says historians disagree about which periods are most relevant — so the answer is NOT GIVEN.",
+                    "quote": ""
+                },
+                "q39": {
+                    "text": "The passage states the range of analogies is 'depressingly small' with almost everything tied to the 1930s or 1970s — too-frequent reliance on those eras, so the answer is YES.",
+                    "quote": "the range of analogies utilised in public debate is depressingly small - almost any event of significance is related to either the international crises of the 1930s or the economic problems of the 1970s."
+                },
+                "q40": {
+                    "text": "The passage urges historians to supply better analogies for public debate but never says debaters are reluctant to consult historians — so the answer is NOT GIVEN.",
+                    "quote": ""
+                },
+                "q41": {
+                    "text": "The passage states history does not provide consistently reliable rules for action — precise guidance is missing, so the correct answer is F.",
+                    "quote": "history does not provide rules for action that are consistently reliable"
+                },
+                "q42": {
+                    "text": "The passage states the present must have some similarities to the past, so the future must too — resemblance, so the correct answer is D.",
+                    "quote": "the present, while never repeating the past exactly, must inevitably have some similarities to it."
+                },
+                "q43": {
+                    "text": "The passage states radical plans to completely change the status quo rarely work as intended — comprehensive transformation is risky, so the correct answer is H.",
+                    "quote": "radical plans to completely change the status quo rarely work as intended"
+                },
+                "q44": {
+                    "text": "The passage states historians should 'have faith in their ability' but currently many don't — lacking confidence, so the correct answer is B.",
+                    "quote": "if they make a claim to expertise in cause and effect, they should have faith in their ability to see patterns and future trends."
+                },
+                "q45": {
+                    "text": "The passage states history graduates worry their degree might prove 'useless' — doubting the relevance of history to today, so the correct answer is E.",
+                    "quote": "history graduates worry that their history degree might prove ‘useless’."
+                },
+                "q46": {
+                    "text": "The passage states history offers deep insights into the human condition of enduring value — about human behaviour, so the correct answer is J.",
+                    "quote": "history so stimulating is that it offers deep insights into the human condition which are of enduring value"
+                }
             }
         }
     ]
