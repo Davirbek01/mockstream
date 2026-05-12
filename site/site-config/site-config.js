@@ -31,6 +31,9 @@ window.SITE_CONFIG = {
   // Full-screen IELTS Reading picker (replaces the popup categoryModal).
   // Set to false to revert instantly with no redeploy.
   useNewIeltsReadingPicker: true,
+  // Full-screen CEFR Reading picker (same flow as IELTS, 5-part cards).
+  // Set to false to revert to the popup categoryModal without redeploy.
+  useNewCefrReadingPicker: true,
 };
 
 // ─── Load from localStorage cache (synchronous — instant) ───────────────────
