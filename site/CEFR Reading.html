@@ -2626,17 +2626,18 @@
       }
       /* Mobile: vertical two-pane split — headings TOP (scrollable),
          passage BOTTOM (scrollable), with a draggable horizontal bar
-         between them. The whole .mh-split-container becomes a flex
-         column with constrained height so the two panes scroll
-         independently inside the viewport. */
+         between them. Use 100dvh (dynamic viewport height) so we
+         actually fill the screen — `vh` includes the mobile address bar
+         in its calculation and leaves a dead strip at the bottom on
+         Chrome / Safari mobile. */
       .mh-split-container {
         flex-direction: column;
         gap: 0;
-        height: calc(100vh - 150px);   /* part-header is hidden so we recover those pixels */
-        min-height: 500px;
+        height: calc(100dvh - 100px);
+        min-height: 540px;
       }
       .mh-headings-pane {
-        position: relative;             /* not sticky any more — height drives */
+        position: relative;             /* not sticky — internal scroll handles it */
         top: 0;
         flex: 0 0 38%;                  /* default ~38% of split height */
         max-height: none;
@@ -2647,15 +2648,23 @@
         border-radius: 14px 14px 0 0;
         border-bottom: 0;
         backdrop-filter: none;
+        /* Single scroll region — title + hint + chip list all flow
+           together so the heading "List of Headings (A-H)" scrolls
+           out of view as the user scrolls down through the chips. */
+        overflow-y: auto;
+        overflow-x: hidden;
+        display: block;
       }
+      .mh-headings-title { margin-bottom: 4px; }
+      .mh-headings-hint { margin-bottom: 8px; }
       .mh-headings-list {
         flex-direction: column;
         flex-wrap: nowrap;
-        overflow-y: auto;
-        overflow-x: hidden;
+        overflow: visible;              /* parent owns the scroll now */
         gap: 8px;
-        padding-right: 4px;
+        padding-right: 0;
         scroll-snap-type: none;
+        flex: none;
       }
       .mh-heading-chip {
         flex: 0 0 auto;                 /* natural height */
@@ -2673,61 +2682,45 @@
         margin: 0;
       }
 
-      /* The draggable bar itself — generous touch target with a high-
-         contrast grip + chevron hint so students realise it's draggable.
-         24px tall + 12px hit-padding above/below via the ::before for a
-         total ~36px touch zone. */
+      /* The draggable bar itself — minimal handle, no copy. Generous
+         touch target via invisible ::before padding so coarse pointers
+         land easily. Just shows a horizontal grip pill to hint "drag me". */
       .mh-mobile-divider {
         display: flex;
         align-items: center;
         justify-content: center;
-        flex: 0 0 26px;
-        height: 26px;
+        flex: 0 0 22px;
+        height: 22px;
         background: linear-gradient(180deg, #ccfbf1, #a7f3d0);
-        border-left: 1.5px solid #14b8a6;
-        border-right: 1.5px solid #14b8a6;
+        border-top: 1px solid #99f6e4;
+        border-bottom: 1px solid #99f6e4;
         cursor: ns-resize;
         touch-action: none;
         z-index: 5;
         position: relative;
-        gap: 8px;
       }
       .mh-mobile-divider::before {
-        /* Invisible vertical padding so the touch target is bigger than
-           the visible bar — helps coarse-input pointers. */
+        /* Invisible vertical padding for a fatter touch zone (~46px). */
         content: '';
         position: absolute;
         left: 0; right: 0;
         top: -12px; bottom: -12px;
         z-index: -1;
       }
-      .mh-mobile-divider::after {
-        content: '↕ drag to resize';
-        position: absolute;
-        right: 14px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 10.5px;
-        font-weight: 700;
-        letter-spacing: 0.3px;
-        color: #0f766e;
-        opacity: .8;
-        pointer-events: none;
-      }
       .mh-mobile-divider-grip {
         display: block;
-        width: 72px; height: 5px;
+        width: 56px; height: 4px;
         background: #0f766e;
         border-radius: 999px;
-        opacity: .85;
-        box-shadow: 0 1px 0 rgba(255,255,255,.6);
+        opacity: .8;
+        box-shadow: 0 1px 0 rgba(255,255,255,.55);
       }
       .mh-mobile-divider:hover .mh-mobile-divider-grip,
       .mh-mobile-divider:active .mh-mobile-divider-grip { opacity: 1; }
       .mh-headings-hint { font-size: 11px; }
     }
     @media (max-width: 600px) {
-      .mh-split-container { height: calc(100vh - 180px); min-height: 420px; }
+      .mh-split-container { height: calc(100dvh - 90px); min-height: 480px; }
       .mh-heading-chip { padding: 9px 11px; font-size: 12.5px; }
       .mh-heading-letter { width: 22px; height: 22px; font-size: 11px; }
       .mh-para-card { padding: 12px 14px; }
