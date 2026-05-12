@@ -13161,57 +13161,62 @@
       { file: 'CEFR Reading.html?test=cefr-reading-test-40', name: 'CEFR Reading Test 40', icon: '📖', actionText: 'Take Test' },
     ];
 
+    // Mocks 02-50 migrated to Supabase mock_tests (ids 294-342). URLs now
+    // point directly at ?sbmock=<id> so the runner loads from Supabase.
+    // _mmgRefreshAllPickers() still runs at page-load and on editor save to
+    // discover newly-added mocks (51, 52, ...) and to keep title/icon in
+    // sync, but for these 49 mocks it's a no-op (entries already match).
     const ieltsReadingTests = [
-      { file: 'IELTS reading.html?sbmock=4', name: '🧪 IELTS Reading Practice Test 01 (Supabase pilot)', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-02.js', name: 'IELTS Reading Practice Test 02', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-03.js', name: 'IELTS Reading Practice Test 03', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-04.js', name: 'IELTS Reading Practice Test 04', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-05.js', name: 'IELTS Reading Practice Test 05', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-06.js', name: 'IELTS Reading Practice Test 06', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-07.js', name: 'IELTS Reading Practice Test 07', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-08.js', name: 'IELTS Reading Practice Test 08', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-09.js', name: 'IELTS Reading Practice Test 09', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-10.js', name: 'IELTS Reading Practice Test 10', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-11.js', name: 'IELTS Reading Practice Test 11', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-12.js', name: 'IELTS Reading Practice Test 12', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-13.js', name: 'IELTS Reading Practice Test 13', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-14.js', name: 'IELTS Reading Practice Test 14', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-15.js', name: 'IELTS Reading Practice Test 15', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-16.js', name: 'IELTS Reading Practice Test 16', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-17.js', name: 'IELTS Reading Practice Test 17', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-18.js', name: 'IELTS Reading Practice Test 18', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-19.js', name: 'IELTS Reading Practice Test 19', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-20.js', name: 'IELTS Reading Practice Test 20', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-21.js', name: 'IELTS Reading Practice Test 21', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-22.js', name: 'IELTS Reading Practice Test 22', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-23.js', name: 'IELTS Reading Practice Test 23', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-24.js', name: 'IELTS Reading Practice Test 24', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-25.js', name: 'IELTS Reading Practice Test 25', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-26.js', name: 'IELTS Reading Practice Test 26', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-27.js', name: 'IELTS Reading Practice Test 27', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-28.js', name: 'IELTS Reading Practice Test 28', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-29.js', name: 'IELTS Reading Practice Test 29', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-30.js', name: 'IELTS Reading Practice Test 30', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-31.js', name: 'IELTS Reading Practice Test 31', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-32.js', name: 'IELTS Reading Practice Test 32', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-33.js', name: 'IELTS Reading Practice Test 33', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-34.js', name: 'IELTS Reading Practice Test 34', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-35.js', name: 'IELTS Reading Practice Test 35', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-36.js', name: 'IELTS Reading Practice Test 36', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-37.js', name: 'IELTS Reading Practice Test 37', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-38.js', name: 'IELTS Reading Practice Test 38', icon: '📖', actionText: 'Take Test' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-39.js', name: 'IELTS Reading Practice Test 39', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-40.js', name: 'IELTS Reading Practice Test 40', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-41.js', name: 'IELTS Reading Practice Test 41', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-42.js', name: 'IELTS Reading Practice Test 42', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-43.js', name: 'IELTS Reading Practice Test 43', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-44.js', name: 'IELTS Reading Practice Test 44', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-45.js', name: 'IELTS Reading Practice Test 45', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-46.js', name: 'IELTS Reading Practice Test 46', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-47.js', name: 'IELTS Reading Practice Test 47', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-48.js', name: 'IELTS Reading Practice Test 48', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-49.js', name: 'IELTS Reading Practice Test 49', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
-      { file: 'IELTS reading.html?test=ielts-reading-test-50.js', name: 'IELTS Reading Practice Test 50', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?sbmock=4',   name: '🧪 IELTS Reading Practice Test 01 (Supabase pilot)', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=294', name: 'IELTS Reading Practice Test 02', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=295', name: 'IELTS Reading Practice Test 03', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=296', name: 'IELTS Reading Practice Test 04', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=297', name: 'IELTS Reading Practice Test 05', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=298', name: 'IELTS Reading Practice Test 06', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=299', name: 'IELTS Reading Practice Test 07', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=300', name: 'IELTS Reading Practice Test 08', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=301', name: 'IELTS Reading Practice Test 09', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=302', name: 'IELTS Reading Practice Test 10', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=303', name: 'IELTS Reading Practice Test 11', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=304', name: 'IELTS Reading Practice Test 12', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=305', name: 'IELTS Reading Practice Test 13', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=306', name: 'IELTS Reading Practice Test 14', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=307', name: 'IELTS Reading Practice Test 15', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=308', name: 'IELTS Reading Practice Test 16', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=309', name: 'IELTS Reading Practice Test 17', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=310', name: 'IELTS Reading Practice Test 18', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=311', name: 'IELTS Reading Practice Test 19', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=312', name: 'IELTS Reading Practice Test 20', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=313', name: 'IELTS Reading Practice Test 21', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=314', name: 'IELTS Reading Practice Test 22', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=315', name: 'IELTS Reading Practice Test 23', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=316', name: 'IELTS Reading Practice Test 24', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=317', name: 'IELTS Reading Practice Test 25', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=318', name: 'IELTS Reading Practice Test 26', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=319', name: 'IELTS Reading Practice Test 27', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=320', name: 'IELTS Reading Practice Test 28', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=321', name: 'IELTS Reading Practice Test 29', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=322', name: 'IELTS Reading Practice Test 30', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=323', name: 'IELTS Reading Practice Test 31', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=324', name: 'IELTS Reading Practice Test 32', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=325', name: 'IELTS Reading Practice Test 33', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=326', name: 'IELTS Reading Practice Test 34', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=327', name: 'IELTS Reading Practice Test 35', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=328', name: 'IELTS Reading Practice Test 36', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=329', name: 'IELTS Reading Practice Test 37', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=330', name: 'IELTS Reading Practice Test 38', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=331', name: 'IELTS Reading Practice Test 39', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?sbmock=332', name: 'IELTS Reading Practice Test 40', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?sbmock=333', name: 'IELTS Reading Practice Test 41', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?sbmock=334', name: 'IELTS Reading Practice Test 42', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?sbmock=335', name: 'IELTS Reading Practice Test 43', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?sbmock=336', name: 'IELTS Reading Practice Test 44', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?sbmock=337', name: 'IELTS Reading Practice Test 45', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?sbmock=338', name: 'IELTS Reading Practice Test 46', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?sbmock=339', name: 'IELTS Reading Practice Test 47', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?sbmock=340', name: 'IELTS Reading Practice Test 48', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?sbmock=341', name: 'IELTS Reading Practice Test 49', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?sbmock=342', name: 'IELTS Reading Practice Test 50', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
     ];
 
     // ===== DYNAMIC ARTICLES MENU =====
@@ -14107,7 +14112,7 @@
     //   3. iretRender() swaps skeletons for real cards.
     //   4. Done-tracking comes from localStorage keys written by IELTS reading.html
     //      on Submit.
-    const _IRET_CACHE_KEY = 'ms_iret_meta_v2';
+    const _IRET_CACHE_KEY = 'ms_iret_meta_v3';
     const _IRET_CACHE_TTL = 24 * 60 * 60 * 1000;
     const _IRET_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
     const _IRET_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
@@ -29956,6 +29961,11 @@
         // the in-memory pickers without a page reload. Fire-and-forget
         // — UI is already closed; finishing the fetch is non-blocking.
         try { await window._mmgRefreshAllPickers(); } catch (e) { console.warn('picker refresh failed:', e); }
+        // Invalidate the new IELTS Reading full-screen picker's metadata
+        // cache so a newly-saved mock (or an existing one with edited
+        // passages/source) is re-fetched on next open instead of showing
+        // stale 24-hour data.
+        try { localStorage.removeItem('ms_iret_meta_v2'); } catch (e) {}
       } catch (e) {
         _mmgStatus('Save failed: ' + e.message, '#dc2626');
       }
@@ -30452,16 +30462,39 @@
       var startedAt  = Date.now();
       var tickHandle = null;
       function tick() {
+        var s = document.getElementById('mmgIrP' + n + '_explStatus');
+        if (!s) return;
         var secs = Math.floor((Date.now() - startedAt) / 1000);
-        if (statusEl) statusEl.textContent = '🧠 Gemini is reading the passage and writing explanations… ' + secs + 's';
+        s.textContent = '🧠 Gemini is reading the passage and writing explanations… ' + secs + 's';
       }
-      if (btn)      { btn.disabled = true; btn.textContent = '⏳ Working…'; }
-      if (statusEl) {
-        statusEl.style.color = '#0284c7';
-        statusEl.style.background = 'transparent';
-        statusEl.style.padding = '0';
-        statusEl.style.fontSize = '11.5px';
+      function applyWorkingStyle(el) {
+        if (!el) return;
+        el.style.color = '#0284c7';
+        el.style.background = 'transparent';
+        el.style.border = '0';
+        el.style.padding = '0';
+        el.style.fontSize = '11.5px';
       }
+      function applySuccessStyle(el) {
+        if (!el) return;
+        el.style.color = '#065f46';
+        el.style.background = '#d1fae5';
+        el.style.border = '1px solid #6ee7b7';
+        el.style.padding = '10px 14px';
+        el.style.fontSize = '13px';
+        el.style.fontWeight = '600';
+      }
+      function applyErrorStyle(el) {
+        if (!el) return;
+        el.style.color = '#991b1b';
+        el.style.background = '#fee2e2';
+        el.style.border = '1px solid #fca5a5';
+        el.style.padding = '10px 14px';
+        el.style.fontSize = '13px';
+        el.style.fontWeight = '600';
+      }
+      if (btn) { btn.disabled = true; btn.textContent = '⏳ Working…'; }
+      applyWorkingStyle(statusEl);
       tick();
       tickHandle = setInterval(tick, 250);
 
@@ -30495,36 +30528,64 @@
         if (!passage.explanations || typeof passage.explanations !== 'object') passage.explanations = {};
         Object.keys(explns).forEach(function (k) { passage.explanations[k] = explns[k]; });
 
-        // Sync the raw textarea so a Save afterwards picks up the new data.
+        // Sync the raw textarea + re-render the tab so any per-question UI
+        // showing explanations refreshes. The re-render destroys the old
+        // status div, so we re-fetch the ref before writing the success
+        // banner — that's the bug that made earlier sessions look silent.
         document.getElementById('mmgFldData').value = JSON.stringify(md, null, 2);
         window._mmgActiveTab = null;
         _mmgInitTabs();
         _mmgSwitchTab('ir_p' + n);
+        statusEl = document.getElementById('mmgIrP' + n + '_explStatus');
 
-        var nAdded = Object.keys(explns).length;
+        var nAdded  = Object.keys(explns).length;
         var elapsed = Math.floor((Date.now() - startedAt) / 1000);
+        var dropStr = drops.length ? ' · ' + drops.length + ' quote(s) dropped (paraphrased)' : '';
+
+        // Auto-save to Supabase so the explanations actually land in the row
+        // — earlier flow staged into memory + raw textarea only, and any
+        // session that closed the editor before clicking 💾 Save lost them.
+        // Only auto-save when the mock has an id (i.e. it has been created at
+        // least once); a brand-new unsaved mock needs the user to fill in
+        // Mock # + Title first.
+        var autoSaved = false;
+        if (m && m.id) {
+          applyWorkingStyle(statusEl);
+          if (statusEl) statusEl.textContent = '💾 Saving explanations to Supabase…';
+          try {
+            await _mmgCall('update', {
+              id: m.id,
+              patch: {
+                mock_type:   m.mock_type,
+                mock_number: m.mock_number,
+                title:       m.title,
+                status:      m.status,
+                mock_data:   md
+              }
+            });
+            autoSaved = true;
+            // Invalidate the picker cache so the next picker open sees fresh
+            // metadata (matches what _mmgSave does after a normal save).
+            try { localStorage.removeItem('ms_iret_meta_v2'); } catch (e) {}
+          } catch (saveErr) {
+            // Auto-save failed; the explanations are still in memory + raw
+            // textarea, so the user can still hit 💾 Save manually to retry.
+            console.warn('explanations auto-save failed:', saveErr);
+          }
+        }
+
+        applySuccessStyle(statusEl);
         if (statusEl) {
-          statusEl.style.color = '#065f46';
-          statusEl.style.background = '#d1fae5';
-          statusEl.style.border = '1px solid #6ee7b7';
-          statusEl.style.padding = '10px 14px';
-          statusEl.style.fontSize = '13px';
-          statusEl.style.fontWeight = '600';
-          statusEl.textContent = '✅ Done — ' + nAdded + ' explanations generated in ' + elapsed + 's'
-            + (drops.length ? ' · ' + drops.length + ' quote(s) dropped (paraphrased)' : '')
-            + ' — click 💾 Save to persist.';
+          statusEl.textContent = autoSaved
+            ? '✅ Done & auto-saved — ' + nAdded + ' explanations in ' + elapsed + 's' + dropStr + '.'
+            : '✅ Done — ' + nAdded + ' explanations in ' + elapsed + 's' + dropStr
+              + ' — click 💾 Save to persist (auto-save needs a saved mock first).';
         }
       } catch (e) {
         clearInterval(tickHandle);
-        if (statusEl) {
-          statusEl.style.color = '#991b1b';
-          statusEl.style.background = '#fee2e2';
-          statusEl.style.border = '1px solid #fca5a5';
-          statusEl.style.padding = '10px 14px';
-          statusEl.style.fontSize = '13px';
-          statusEl.style.fontWeight = '600';
-          statusEl.textContent = '✗ ' + (e && e.message || String(e));
-        }
+        statusEl = document.getElementById('mmgIrP' + n + '_explStatus') || statusEl;
+        applyErrorStyle(statusEl);
+        if (statusEl) statusEl.textContent = '✗ Failed: ' + (e && e.message || String(e));
       } finally {
         if (btn) { btn.disabled = false; btn.textContent = '✨ Generate explanations'; }
       }
