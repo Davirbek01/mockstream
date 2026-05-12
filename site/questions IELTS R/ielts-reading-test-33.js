@@ -29,12 +29,30 @@ window.IELTS_READING_TEST = {
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
-                        { "id": 1, "text": "Counting methods before the abacus were limited to small quantities." },
-                        { "id": 2, "text": "Development of trade helped spread the use of the abacus to Europe." },
-                        { "id": 3, "text": "For 4,500 years, the abacus was constantly being improved." },
-                        { "id": 4, "text": "The abacus can carry out some calculation tasks better than other tasks." },
-                        { "id": 5, "text": "A complex knowledge of arithmetic was essential when using Napier's bones." },
-                        { "id": 6, "text": "Napier's bones were automated counting devices." }
+                        {
+                            "id": 1,
+                            "text": "Counting methods before the abacus were limited to small quantities."
+                        },
+                        {
+                            "id": 2,
+                            "text": "Development of trade helped spread the use of the abacus to Europe."
+                        },
+                        {
+                            "id": 3,
+                            "text": "For 4,500 years, the abacus was constantly being improved."
+                        },
+                        {
+                            "id": 4,
+                            "text": "The abacus can carry out some calculation tasks better than other tasks."
+                        },
+                        {
+                            "id": 5,
+                            "text": "A complex knowledge of arithmetic was essential when using Napier's bones."
+                        },
+                        {
+                            "id": 6,
+                            "text": "Napier's bones were automated counting devices."
+                        }
                     ]
                 },
                 {
@@ -46,50 +64,164 @@ window.IELTS_READING_TEST = {
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
-                        { "id": 7, "text": "Pascal Calculator: {INPUT} was not needed to carry out calculations" },
-                        { "id": 8, "text": "Pascal Calculator: high price was due to manufacturing {INPUT}" },
-                        { "id": 9, "text": "Arithmometer: the first of several devices with improved {INPUT}" },
-                        { "id": 10, "text": "Arithmometer: its {INPUT} was impractical" },
-                        { "id": 11, "text": "Curta: people's {INPUT} about previous devices led to its invention" },
-                        { "id": 12, "text": "Curta: his design initially focused on the {INPUT} of the device" },
-                        { "id": 13, "text": "Curta: because it was so small, it was {INPUT}" },
-                        { "id": 14, "text": "Curta: the device received {INPUT} from a royal" },
-                        { "id": 15, "text": "Curta: it was operated by moving a {INPUT}" },
-                        { "id": 16, "text": "Curta calculators can be found today in {INPUT}" }
+                        {
+                            "id": 7,
+                            "text": "Pascal Calculator: {INPUT} was not needed to carry out calculations"
+                        },
+                        {
+                            "id": 8,
+                            "text": "Pascal Calculator: high price was due to manufacturing {INPUT}"
+                        },
+                        {
+                            "id": 9,
+                            "text": "Arithmometer: the first of several devices with improved {INPUT}"
+                        },
+                        {
+                            "id": 10,
+                            "text": "Arithmometer: its {INPUT} was impractical"
+                        },
+                        {
+                            "id": 11,
+                            "text": "Curta: people's {INPUT} about previous devices led to its invention"
+                        },
+                        {
+                            "id": 12,
+                            "text": "Curta: his design initially focused on the {INPUT} of the device"
+                        },
+                        {
+                            "id": 13,
+                            "text": "Curta: because it was so small, it was {INPUT}"
+                        },
+                        {
+                            "id": 14,
+                            "text": "Curta: the device received {INPUT} from a royal"
+                        },
+                        {
+                            "id": 15,
+                            "text": "Curta: it was operated by moving a {INPUT}"
+                        },
+                        {
+                            "id": 16,
+                            "text": "Curta calculators can be found today in {INPUT}"
+                        }
                     ]
                 }
             ],
             "correctAnswers": {
-                "q1": ["TRUE"],
-                "q2": ["NOT GIVEN"],
-                "q3": ["NOT GIVEN"],
-                "q4": ["TRUE"],
-                "q5": ["FALSE"],
-                "q6": ["FALSE"],
-                "q7": ["INTELLIGENCE"],
-                "q8": ["TECHNIQUES"],
-                "q9": ["ACCURACY"],
-                "q10": ["SIZE"],
-                "q11": ["COMPLAINTS"],
-                "q12": ["OUTSIDE"],
-                "q13": ["PORTABLE"],
-                "q14": ["BACKING"],
-                "q15": ["CRANK"],
-                "q16": ["COLLECTIONS"]
+                "q1": [
+                    "TRUE"
+                ],
+                "q2": [
+                    "NOT GIVEN"
+                ],
+                "q3": [
+                    "NOT GIVEN"
+                ],
+                "q4": [
+                    "TRUE"
+                ],
+                "q5": [
+                    "FALSE"
+                ],
+                "q6": [
+                    "FALSE"
+                ],
+                "q7": [
+                    "INTELLIGENCE"
+                ],
+                "q8": [
+                    "TECHNIQUES"
+                ],
+                "q9": [
+                    "ACCURACY"
+                ],
+                "q10": [
+                    "SIZE"
+                ],
+                "q11": [
+                    "COMPLAINTS"
+                ],
+                "q12": [
+                    "OUTSIDE"
+                ],
+                "q13": [
+                    "PORTABLE"
+                ],
+                "q14": [
+                    "BACKING"
+                ],
+                "q15": [
+                    "CRANK"
+                ],
+                "q16": [
+                    "COLLECTIONS"
+                ]
             },
             "explanations": {
-                "q1": "Early methods (fingers/stones) were useful only for minimal amounts.",
-                "q4": "The passage says the abacus is less efficient at multiply/divide than add/subtract.",
-                "q7": "Pascal calculator performed operations 'without relying on intelligence'.",
-                "q8": "High cost came from expensive production techniques.",
-                "q9": "Arithmometer machines handled large numbers with greater accuracy.",
-                "q10": "Its biggest disadvantage was its size.",
-                "q11": "Herzstark repeatedly heard customer complaints.",
-                "q12": "He focused first on designing the outside.",
-                "q13": "The calculator was made portable.",
-                "q14": "The Prince of Liechtenstein provided financial backing.",
-                "q15": "Operation was done with a turn of the crank.",
-                "q16": "People buy Curta units for their collections."
+                "q1": {
+                    "text": "The passage states early counting methods (fingers, stones) were 'insufficient, only useful for minimal amounts' — limited to small quantities, so the answer is TRUE.",
+                    "quote": "these methods were insufficient, only useful for minimal amounts"
+                },
+                "q2": {
+                    "text": "The passage states the abacus spread from Sumeria to Europe and Asia, but never says HOW or WHY it spread — trade is not mentioned as the mechanism, so the answer is NOT GIVEN.",
+                    "quote": ""
+                },
+                "q3": {
+                    "text": "The passage mentions the abacus being 'refined with the use of string and beads' early on, but doesn't say it was constantly improved over 4,500 years — so the answer is NOT GIVEN.",
+                    "quote": ""
+                },
+                "q4": {
+                    "text": "The passage states the abacus is 'unable to multiply and divide as efficiently as it adds and subtracts' — better at some tasks than others, so the answer is TRUE.",
+                    "quote": "it is unable to multiply and divide as efficiently as it adds and subtracts."
+                },
+                "q5": {
+                    "text": "The passage states the average person can use Napier's bones after a few hours of study — complex arithmetic knowledge wasn't required, so the answer is FALSE.",
+                    "quote": "With a few hours of study, the average person can use a set to solve large multiplication and division problems."
+                },
+                "q6": {
+                    "text": "The passage states Napier's bones were manually operated and a human operator still had to perform sums mentally — they were not automated, so the answer is FALSE.",
+                    "quote": "these manually operated devices were not calculators; although the simplification of the sums had been achieved, a human operator still had to perform them mentally."
+                },
+                "q7": {
+                    "text": "The passage states the Pascal calculator 'performed all four arithmetic operations without relying on intelligence' — so the answer is 'intelligence'.",
+                    "quote": "it eventually performed all four arithmetic operations without relying on intelligence."
+                },
+                "q8": {
+                    "text": "The passage states the Pascal calculator's high price was due to the techniques for producing the interior parts being expensive — so the answer is 'techniques'.",
+                    "quote": "the techniques for producing the interior parts were expensive to implement."
+                },
+                "q9": {
+                    "text": "The passage states the Arithmometer led to faster calculating machines that could handle large numbers with greater accuracy — so the answer is 'accuracy'.",
+                    "quote": "the rapid rise of faster calculating machines that could add, subtract, multiply and divide large numbers with greater accuracy."
+                },
+                "q10": {
+                    "text": "The passage states the Arithmometer's biggest disadvantage was its size — filled a desktop and weighed 15kg+ — so the answer is 'size'.",
+                    "quote": "its biggest disadvantage was its size; it often filled a desktop and weighed 15 kilograms or more."
+                },
+                "q11": {
+                    "text": "The passage states Herzstark heard the same complaints from his customers about the mechanical calculators being large and heavy — so the answer is 'complaints'.",
+                    "quote": "he heard the same complaints from his customers."
+                },
+                "q12": {
+                    "text": "The passage states Herzstark decided to forget the inside and concentrate first on designing the outside of his tiny calculator — so the answer is 'outside'.",
+                    "quote": "His answer was to forget about the inside of his tiny calculator and concentrate first on designing the outside."
+                },
+                "q13": {
+                    "text": "The passage states Herzstark began work on a calculator that was portable so it could be transported easily — so the answer is 'portable'.",
+                    "quote": "began work on a calculator that was portable so it could be transported easily."
+                },
+                "q14": {
+                    "text": "The passage states Herzstark was able to convince the Prince of Liechtenstein to provide financial backing — so the answer is 'backing'.",
+                    "quote": "able to convince the Prince of Liechtenstein to provide financial backing for his Curta calculator."
+                },
+                "q15": {
+                    "text": "The passage states the Curta allowed all four arithmetic operations and long division with a mere turn of the crank — so the answer is 'crank'.",
+                    "quote": "allowing the operator to add, subtract, multiply and perform long division with a mere turn of the crank."
+                },
+                "q16": {
+                    "text": "The passage states people buy Curta calculators to add to their collections — so the answer is 'collections'.",
+                    "quote": "people buy them to add to their collections."
+                }
             }
         },
         {
@@ -111,14 +243,39 @@ window.IELTS_READING_TEST = {
                     "title": "Questions 17-22",
                     "instruction": "Reading Passage 2 has six paragraphs, <strong>A-F</strong>.<br><br>Which paragraph contains the following information?<br><br>Write the correct letter, <strong>A-F</strong>, in boxes 17-22 on your answer sheet.<br><br><strong>NB</strong> You may use any letter more than once.",
                     "headingsList": [],
-                    "featuresList": ["A", "B", "C", "D", "E", "F"],
+                    "featuresList": [
+                        "A",
+                        "B",
+                        "C",
+                        "D",
+                        "E",
+                        "F"
+                    ],
                     "questions": [
-                        { "id": 17, "text": "a reference to how a plant can adapt after living through dry periods" },
-                        { "id": 18, "text": "an example of a plant that is commonly used for research" },
-                        { "id": 19, "text": "an account of when researchers first used the word 'memory' in relation to plants" },
-                        { "id": 20, "text": "a possible disadvantage of a plant having memory" },
-                        { "id": 21, "text": "a description of what normally happens to a particular plant in reaction to sudden movement" },
-                        { "id": 22, "text": "a discussion of an outcome that was unexpected by the researcher" }
+                        {
+                            "id": 17,
+                            "text": "a reference to how a plant can adapt after living through dry periods"
+                        },
+                        {
+                            "id": 18,
+                            "text": "an example of a plant that is commonly used for research"
+                        },
+                        {
+                            "id": 19,
+                            "text": "an account of when researchers first used the word 'memory' in relation to plants"
+                        },
+                        {
+                            "id": 20,
+                            "text": "a possible disadvantage of a plant having memory"
+                        },
+                        {
+                            "id": 21,
+                            "text": "a description of what normally happens to a particular plant in reaction to sudden movement"
+                        },
+                        {
+                            "id": 22,
+                            "text": "a discussion of an outcome that was unexpected by the researcher"
+                        }
                     ]
                 },
                 {
@@ -136,11 +293,26 @@ window.IELTS_READING_TEST = {
                         "E Peter Crisp"
                     ],
                     "questions": [
-                        { "id": 23, "text": "Crops react to artificially lowered temperatures by growing at a different time of year." },
-                        { "id": 24, "text": "Plant memory is probably not very common in nature." },
-                        { "id": 25, "text": "A plant remembered which part of itself had been harmed and so focused on another part." },
-                        { "id": 26, "text": "If a plant is frequently subjected to a stimulus, it will learn that it is not dangerous." },
-                        { "id": 27, "text": "The temperature affects nutrient levels in a plant." }
+                        {
+                            "id": 23,
+                            "text": "Crops react to artificially lowered temperatures by growing at a different time of year."
+                        },
+                        {
+                            "id": 24,
+                            "text": "Plant memory is probably not very common in nature."
+                        },
+                        {
+                            "id": 25,
+                            "text": "A plant remembered which part of itself had been harmed and so focused on another part."
+                        },
+                        {
+                            "id": 26,
+                            "text": "If a plant is frequently subjected to a stimulus, it will learn that it is not dangerous."
+                        },
+                        {
+                            "id": 27,
+                            "text": "The temperature affects nutrient levels in a plant."
+                        }
                     ]
                 },
                 {
@@ -151,44 +323,144 @@ window.IELTS_READING_TEST = {
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
-                        { "id": 28, "text": "In Gagliano's research, plants were treated like {INPUT}." },
-                        { "id": 29, "text": "When the mimosa plant was dropped, its initial reaction was to change its {INPUT} by closing its leaves." },
-                        { "id": 30, "text": "After repeated dropping, this reaction stopped. However, the plant still reacted if given a gentle {INPUT}." },
-                        { "id": 31, "text": "A {INPUT} after the original experiment the plants still did not react when dropped." },
-                        { "id": 32, "text": "This research was compared to studies in which {INPUT} were tested and their memories lasted for up to one day." }
+                        {
+                            "id": 28,
+                            "text": "In Gagliano's research, plants were treated like {INPUT}."
+                        },
+                        {
+                            "id": 29,
+                            "text": "When the mimosa plant was dropped, its initial reaction was to change its {INPUT} by closing its leaves."
+                        },
+                        {
+                            "id": 30,
+                            "text": "After repeated dropping, this reaction stopped. However, the plant still reacted if given a gentle {INPUT}."
+                        },
+                        {
+                            "id": 31,
+                            "text": "A {INPUT} after the original experiment the plants still did not react when dropped."
+                        },
+                        {
+                            "id": 32,
+                            "text": "This research was compared to studies in which {INPUT} were tested and their memories lasted for up to one day."
+                        }
                     ]
                 }
             ],
             "correctAnswers": {
-                "q17": ["D"],
-                "q18": ["E"],
-                "q19": ["D"],
-                "q20": ["F"],
-                "q21": ["A"],
-                "q22": ["B"],
-                "q23": ["B"],
-                "q24": ["E"],
-                "q25": ["C"],
-                "q26": ["A"],
-                "q27": ["D"],
-                "q28": ["ANIMALS"],
-                "q29": ["SHAPE"],
-                "q30": ["SHAKE"],
-                "q31": ["MONTH"],
-                "q32": ["BEES"]
+                "q17": [
+                    "D"
+                ],
+                "q18": [
+                    "E"
+                ],
+                "q19": [
+                    "D"
+                ],
+                "q20": [
+                    "F"
+                ],
+                "q21": [
+                    "A"
+                ],
+                "q22": [
+                    "B"
+                ],
+                "q23": [
+                    "B"
+                ],
+                "q24": [
+                    "E"
+                ],
+                "q25": [
+                    "C"
+                ],
+                "q26": [
+                    "A"
+                ],
+                "q27": [
+                    "D"
+                ],
+                "q28": [
+                    "ANIMALS"
+                ],
+                "q29": [
+                    "SHAPE"
+                ],
+                "q30": [
+                    "SHAKE"
+                ],
+                "q31": [
+                    "MONTH"
+                ],
+                "q32": [
+                    "BEES"
+                ]
             },
             "explanations": {
-                "q21": "Paragraph A explains Mimosa pudica closes leaves in response to motion/touch.",
-                "q22": "Paragraph B states Gagliano did not predict retention after three days.",
-                "q23": "Lysenko chilled seeds to shift winter grains into spring behavior.",
-                "q24": "Crisp argues memory can be limited/context-dependent in nature.",
-                "q25": "Jaffe's team described directional growth after localized damage.",
-                "q26": "Gagliano's repeated harmless dropping led to habituation.",
-                "q28": "Gagliano tested plants in the same way she would animals.",
-                "q29": "The passage says mimosa changed shape by folding leaves.",
-                "q30": "A light shake still triggered leaf closing.",
-                "q31": "The response remained absent even one month later.",
-                "q32": "The comparison mentions studies of bees with 24-hour memory."
+                "q17": {
+                    "text": "Paragraph D describes Mordecai Jaffe's research showing a plant recalled a history of damage and dedicated its energy to growing elsewhere — a plant adapting based on past stress experience, so the correct answer is D.",
+                    "quote": "a plant recalled a history of damage to a leaf on one side of its stem, and therefore dedicated its energy to growing in the other direction."
+                },
+                "q18": {
+                    "text": "Paragraph E describes how Amasino's vernalization research focused on crop timing and development — crops being plants commonly used for research, so the correct answer is E.",
+                    "quote": "Their work helped explain why certain memory-like responses are central to crop timing and development"
+                },
+                "q19": {
+                    "text": "Paragraph D states 'It was not until the 1980s that scientists started talking explicitly about plant memory' — the first explicit use of memory in relation to plants, so the correct answer is D.",
+                    "quote": "It was not until the 1980s that scientists started talking explicitly about plant memory."
+                },
+                "q20": {
+                    "text": "Paragraph F states retaining long-term memory can carry a cost — an organism may be locked into a response that is no longer optimal — clearly a disadvantage, so the correct answer is F.",
+                    "quote": "retaining long-term memory can carry a cost: if conditions change quickly, an organism can be locked into a response that is no longer optimal."
+                },
+                "q21": {
+                    "text": "Paragraph A describes how Mimosa pudica reacts to sudden movement by folding its leaves closed — a normal plant reaction to motion, so the correct answer is A.",
+                    "quote": "the plant Mimosa pudica , which has an unusual protective response to unfamiliar motion or touch: its leaves fold closed"
+                },
+                "q22": {
+                    "text": "Paragraph B states 'Gagliano had not predicted that the plants would retain the training three days later' — an unexpected outcome, so the correct answer is B.",
+                    "quote": "Gagliano had not predicted that the plants would retain the training three days later."
+                },
+                "q23": {
+                    "text": "The passage states Trofim Lysenko discovered that chilling seeds could turn winter varieties of grains into spring varieties — crops growing at different times due to cold treatment, so the correct answer is B.",
+                    "quote": "by chilling seeds he could turn winter varieties of grains into spring varieties."
+                },
+                "q24": {
+                    "text": "Peter Crisp argued that memory-like mechanisms may not be universally expressed in all environments — not very common everywhere in nature, so the correct answer is E.",
+                    "quote": "memory-like mechanisms are real, they may not be universally expressed in all environments."
+                },
+                "q25": {
+                    "text": "The passage states Mordecai Jaffe found a plant that recalled damage to a leaf and dedicated its energy to growing in the other direction — so the correct answer is C.",
+                    "quote": "a plant recalled a history of damage to a leaf on one side of its stem, and therefore dedicated its energy to growing in the other direction."
+                },
+                "q26": {
+                    "text": "The passage describes Monica Gagliano's mimosa experiment where plants stopped folding their leaves after being repeatedly dropped — learning the stimulus isn't dangerous, so the correct answer is A.",
+                    "quote": "It was as if they had learned that being dropped was nothing to be worried about."
+                },
+                "q27": {
+                    "text": "The passage states Richard Amasino's work showed how temperature history can influence nutrient and growth pathways — so the correct answer is D.",
+                    "quote": "showed how temperature history can influence nutrient and growth pathways."
+                },
+                "q28": {
+                    "text": "The passage states Gagliano decided to test her new plant subjects the same way she would animals — so the answer is 'animals'.",
+                    "quote": "Gagliano decided to test her new subjects the same way she would animals."
+                },
+                "q29": {
+                    "text": "The passage states that when mimosa folds its leaves, it 'takes on a different shape' — so the answer is 'shape'.",
+                    "quote": "its leaves fold closed and so it takes on a different shape."
+                },
+                "q30": {
+                    "text": "The passage states that even after habituation to dropping, plants still shut their leaves when prompted with a light shake — so the answer is 'shake'.",
+                    "quote": "when she prompted them with a light shake, they still shut their leaves tight."
+                },
+                "q31": {
+                    "text": "The passage states the experiment was repeated one month later with the same results — leaves stayed open, so the answer is 'month'.",
+                    "quote": "The experiment was repeated six days later and one month later with the same results"
+                },
+                "q32": {
+                    "text": "The passage states that in studies of bees, a memory that remains for 24 hours is considered long-term — so the answer is 'bees'.",
+                    "quote": "in studies of bees, for example, a memory that remains for 24 hours is considered long-term."
+                }
             }
         },
         {
@@ -210,14 +482,39 @@ window.IELTS_READING_TEST = {
                     "title": "Questions 33-38",
                     "instruction": "Reading Passage 3 has six paragraphs, <strong>A-F</strong>.<br><br>Which paragraph contains the following information?<br><br>Write the correct letter, <strong>A-F</strong>, in boxes 33-38 on your answer sheet.",
                     "headingsList": [],
-                    "featuresList": ["A", "B", "C", "D", "E", "F"],
+                    "featuresList": [
+                        "A",
+                        "B",
+                        "C",
+                        "D",
+                        "E",
+                        "F"
+                    ],
                     "questions": [
-                        { "id": 33, "text": "a discussion of some of the linguistic features of proto-language" },
-                        { "id": 34, "text": "a theory that two types of language differ in both form and origin" },
-                        { "id": 35, "text": "a reference to case studies that show that apes have an ability to learn connected words that make sense" },
-                        { "id": 36, "text": "an explanation of how language enables people to speculate" },
-                        { "id": 37, "text": "a description of the features of language that enable people to communicate clearly" },
-                        { "id": 38, "text": "an example of the ability of animals to plan and produce desired outcomes through their use of 'language'" }
+                        {
+                            "id": 33,
+                            "text": "a discussion of some of the linguistic features of proto-language"
+                        },
+                        {
+                            "id": 34,
+                            "text": "a theory that two types of language differ in both form and origin"
+                        },
+                        {
+                            "id": 35,
+                            "text": "a reference to case studies that show that apes have an ability to learn connected words that make sense"
+                        },
+                        {
+                            "id": 36,
+                            "text": "an explanation of how language enables people to speculate"
+                        },
+                        {
+                            "id": 37,
+                            "text": "a description of the features of language that enable people to communicate clearly"
+                        },
+                        {
+                            "id": 38,
+                            "text": "an example of the ability of animals to plan and produce desired outcomes through their use of 'language'"
+                        }
                     ]
                 },
                 {
@@ -234,11 +531,26 @@ window.IELTS_READING_TEST = {
                         "D neither proto-language nor full language"
                     ],
                     "questions": [
-                        { "id": 39, "text": "It contains a range of grammar-based words." },
-                        { "id": 40, "text": "It can be learned by both humans and apes." },
-                        { "id": 41, "text": "It can be easily taught to a wide range of different animal species." },
-                        { "id": 42, "text": "It can be used to express abstract concepts." },
-                        { "id": 43, "text": "It contains words that allow events and objects to be identified." }
+                        {
+                            "id": 39,
+                            "text": "It contains a range of grammar-based words."
+                        },
+                        {
+                            "id": 40,
+                            "text": "It can be learned by both humans and apes."
+                        },
+                        {
+                            "id": 41,
+                            "text": "It can be easily taught to a wide range of different animal species."
+                        },
+                        {
+                            "id": 42,
+                            "text": "It can be used to express abstract concepts."
+                        },
+                        {
+                            "id": 43,
+                            "text": "It contains words that allow events and objects to be identified."
+                        }
                     ]
                 },
                 {
@@ -249,38 +561,122 @@ window.IELTS_READING_TEST = {
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
-                        { "id": 44, "text": "Monkeys have been seen to manipulate other monkeys by making a misleading {INPUT}." },
-                        { "id": 45, "text": "Words used to describe such things as quantities, times and locations are often termed {INPUT}." },
-                        { "id": 46, "text": "Proto-language is believed by Bickerton to be the initial form of language that develops in {INPUT} when they learn to communicate." }
+                        {
+                            "id": 44,
+                            "text": "Monkeys have been seen to manipulate other monkeys by making a misleading {INPUT}."
+                        },
+                        {
+                            "id": 45,
+                            "text": "Words used to describe such things as quantities, times and locations are often termed {INPUT}."
+                        },
+                        {
+                            "id": 46,
+                            "text": "Proto-language is believed by Bickerton to be the initial form of language that develops in {INPUT} when they learn to communicate."
+                        }
                     ]
                 }
             ],
             "correctAnswers": {
-                "q33": ["C"],
-                "q34": ["D"],
-                "q35": ["E"],
-                "q36": ["F"],
-                "q37": ["B"],
-                "q38": ["A"],
-                "q39": ["B"],
-                "q40": ["A"],
-                "q41": ["D"],
-                "q42": ["B"],
-                "q43": ["C"],
-                "q44": ["ALARM CALL"],
-                "q45": ["GRAMMATICAL ITEMS"],
-                "q46": ["CHILDREN"]
+                "q33": [
+                    "C"
+                ],
+                "q34": [
+                    "D"
+                ],
+                "q35": [
+                    "E"
+                ],
+                "q36": [
+                    "F"
+                ],
+                "q37": [
+                    "B"
+                ],
+                "q38": [
+                    "A"
+                ],
+                "q39": [
+                    "B"
+                ],
+                "q40": [
+                    "A"
+                ],
+                "q41": [
+                    "D"
+                ],
+                "q42": [
+                    "B"
+                ],
+                "q43": [
+                    "C"
+                ],
+                "q44": [
+                    "ALARM CALL"
+                ],
+                "q45": [
+                    "GRAMMATICAL ITEMS"
+                ],
+                "q46": [
+                    "CHILDREN"
+                ]
             },
             "explanations": {
-                "q33": "Paragraph C defines proto-language features (single tense, reduced grammar).",
-                "q34": "Paragraph D says the two systems differ by expression and genesis.",
-                "q35": "Paragraph E cites Washoe, Koko, and Kanzi case studies.",
-                "q36": "Paragraph F explains internal representation allowing thought about non-current events.",
-                "q37": "Paragraph B describes grammatical items and disambiguation.",
-                "q38": "Paragraph A gives the monkey false alarm call example.",
-                "q44": "Monkeys can distract others by giving an alarm call.",
-                "q45": "Relational/temporal/directional words are called grammatical items.",
-                "q46": "Bickerton says proto-language is first learned by children."
+                "q33": {
+                    "text": "Paragraph C discusses proto-language features — only the present tense, grammatical items absent or rudimentary — clearly linguistic features of proto-language, so the correct answer is C.",
+                    "quote": "There is only one tense, the present tense. Moreover, grammatical items are rudimentary or often completely absent."
+                },
+                "q34": {
+                    "text": "Paragraph D states Bickerton's theory that proto-language and full language are separated by both their modes of expression (form) and their genesis (origin) — so the correct answer is D.",
+                    "quote": "Bickerton argues that proto-language and full language are two systems separated not only by their modes of expression but also by their genesis."
+                },
+                "q35": {
+                    "text": "Paragraph E references case studies of chimpanzee Washoe, gorilla Koko and pygmy chimp Kanzi showing apes can combine symbols into meaningful multi-word utterances — so the correct answer is E.",
+                    "quote": "apes exposed to appropriate language opportunities learn to combine symbols into multi-word utterances and participate in meaningful dialogues."
+                },
+                "q36": {
+                    "text": "Paragraph F states that mental representation 'permits us to think about circumstances or events that are not occurring and may never occur' — i.e. to speculate, so the correct answer is F.",
+                    "quote": "This permits us to think about circumstances or events that are not occurring and may never occur."
+                },
+                "q37": {
+                    "text": "Paragraph B describes how grammatical items allow us to express complex thoughts in a single sentence without confusing listeners — features enabling clear communication, so the correct answer is B.",
+                    "quote": "It is the grammatical items that allow us to express complex thoughts in a single sentence without confusing our listeners; they eliminate ambiguities"
+                },
+                "q38": {
+                    "text": "Paragraph A describes how monkeys give false alarm calls to distract others from food — planning to produce a desired outcome through 'language', so the correct answer is A.",
+                    "quote": "Monkeys have been observed to give an alarm call, indicating that a predator is near when it is not, in order to distract other monkeys from a favorite food source."
+                },
+                "q39": {
+                    "text": "The passage states that full language includes grammatical items — relational, numerical, referential, temporal, directional words — so the correct answer is B (full language).",
+                    "quote": "true or full language includes a number of words that are primarily relational, numerical, referential, temporal, directional, and so on - which linguists call grammatical items."
+                },
+                "q40": {
+                    "text": "The passage states that proto-language is the form we share with a few talented and trained apes — learnable by both humans and apes, so the correct answer is A (proto-language).",
+                    "quote": "It is the form of language that we share with a few talented and trained apes."
+                },
+                "q41": {
+                    "text": "The passage describes some apes learning proto-language with effort, but never claims either type can be easily taught to a wide range of species — so the correct answer is D (neither).",
+                    "quote": ""
+                },
+                "q42": {
+                    "text": "The passage states animals using only proto-language 'cannot discuss... abstract or hypothetical ideas' — only full language enables abstract thought, so the correct answer is B (full language).",
+                    "quote": "non-human animals apparently cannot discuss the distant past, the remote future, or abstract or hypothetical ideas."
+                },
+                "q43": {
+                    "text": "The passage states that lexical items refer to concrete objects, attributes and real actions, and that 'at least some animals' (proto-language users) use them too — both types contain such words, so the correct answer is C.",
+                    "quote": "those words that refer to concrete objects, perceptible attributes, and real actions - what linguists call lexical items. At least some animals use lexical items in their language."
+                },
+                "q44": {
+                    "text": "The passage states monkeys give a false alarm call to distract other monkeys from a favoured food source — so the answer is 'alarm call'.",
+                    "quote": "Monkeys have been observed to give an alarm call, indicating that a predator is near when it is not"
+                },
+                "q45": {
+                    "text": "The passage states that words referring to quantities (numerical), times (temporal) and locations (directional) are called grammatical items — so the answer is 'grammatical items'.",
+                    "quote": "a number of words that are primarily relational, numerical, referential, temporal, directional, and so on - which linguists call grammatical items."
+                },
+                "q46": {
+                    "text": "The passage states Bickerton believes proto-language is 'the first means of verbal communication that we learn as children' — so the answer is 'children'.",
+                    "quote": "He believes it is the first means of verbal communication that we learn as children"
+                }
             }
         }
     ]
