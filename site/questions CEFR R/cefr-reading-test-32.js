@@ -77,28 +77,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "The word 'vote' fits grammatically and logically in the sentence, as it discusses the potential participation of a large portion of the global population in elections.",
-                    "quote": "An estimated two billion people - almost half the global population - could _____(1)_____ at some time this year."
+                    "text": "The passage states that 2024 will be the biggest year for voting. It then says two billion people could participate, so the missing word describes the action they will take. That's why the correct answer is 'Vote'.",
+                    "quote": "The year 2024 will be the biggest ever year for voting."
                 },
                 "q2": {
-                    "text": "The word 'people' fits grammatically and logically in the sentence, as the future of countries is directly related to its people. The context of elections and their impact on nations supports this.",
-                    "quote": "The results of these polls will bring big changes for the future of many _____."
+                    "text": "The passage mentions that almost half the global population will be voting in elections. The results of these polls will naturally affect the future of these individuals. That's why the correct answer is 'People'.",
+                    "quote": ""
                 },
                 "q3": {
-                    "text": "The word \"year\" fits grammatically and contextually in the gap. The sentence discusses the focus on US events throughout the year.",
-                    "quote": "For much of the _____(3)_____ , eyes will be focused on events in the US."
+                    "text": "The passage is about the events of 2024. The sentence describes a period of time during which people will watch the US election, which happens in November. That's why the correct answer is 'Year'.",
+                    "quote": "The year 2024 will be the biggest ever year for voting."
                 },
                 "q4": {
-                    "text": "The sentence discusses the fairness of the process, and the subsequent sentences discuss voting and potential disinformation, indicating that 'elections' is the most suitable word to fill the gap.",
-                    "quote": "Journalists are worried about how free and fair many _____(4)_____ will be."
+                    "text": "The entire passage is about the numerous national elections happening in 2024. The phrase 'free and fair' is a standard way to describe the integrity of these political contests. That's why the correct answer is 'Elections'.",
+                    "quote": "National elections will take place in around 64 countries, as well as in the European Union."
                 },
                 "q5": {
-                    "text": "The sentence directly states that artificial intelligence will be used to spread disinformation via fake \"news\" articles, making \"news\" the correct fit for the gap. The context is about the spread of disinformation and its potential impact on democracy.",
-                    "quote": "Bloomberg said bad actors will use artificial intelligence to change the way people vote via fake news articles."
+                    "text": "The passage discusses the threat of 'fake news' destroying democracy. The sentence explains how this might happen, through the use of artificial intelligence to create fake articles. That's why the correct answer is 'News'.",
+                    "quote": "It asked: \"Will 2024 be the year fake news destroys democracy?\""
                 },
                 "q6": {
-                    "text": "The sentence directly contains the gap and the word 'disinformation' fits perfectly. The surrounding context discusses fake news and its impact on elections, making 'disinformation' a logical fit.",
-                    "quote": "It added that disinformation has already begun to spread, and that this \"gets harder to spot as fake with every passing month\"."
+                    "text": "The previous sentence warns of a coming 'storm of disinformation'. The gapped sentence continues this thought, stating that this specific problem has already started to spread. That's why the correct answer is 'Disinformation'.",
+                    "quote": "It said there will be \"a storm of disinformation\"."
                 }
             }
         },
@@ -259,36 +259,36 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q7": {
-                    "text": "The text explicitly mentions 'rejuvenation and self-care,' which directly aligns with the desire to relax and relieve stress.",
-                    "quote": "Indulge in a tranquil oasis dedicated to rejuvenation and self-care."
+                    "text": "The text describes a place for \"rejuvenation and self-care\" where you can \"unwind and restore your mind, body, and soul.\" This is a perfect place to relax and relieve stress. That's why the correct answer is C.",
+                    "quote": "Unwind and restore your mind, body, and soul in our haven of bliss."
                 },
                 "q8": {
-                    "text": "The phrase 'romantic haven for two' directly implies a retreat designed for couples, which aligns with the statement about a newly married couple seeking a getaway.",
+                    "text": "The resort is described as a \"romantic haven for two\" and is \"adults-only,\" making it ideal for a couple, such as newlyweds. It offers private villas and candlelit dinners to help you \"rediscover love.\" That's why the correct answer is F.",
                     "quote": "Escape the hustle and bustle of everyday life and immerse yourself in a romantic haven for two."
                 },
                 "q9": {
-                    "text": "The phrase 'epitome of luxury' and 'world-class spa' directly implies an expensive and high-quality rest, matching the statement's desire for an 'expensive and qualified rest'.",
-                    "quote": "Experience the epitome of luxury with opulent accommodations, Michelin-starred dining, and a world-class spa."
+                    "text": "The text describes the resort as \"five-star\" and the \"epitome of luxury,\" with \"lavish accommodations\" and \"Michelin-starred dining.\" These features indicate a high-quality and likely expensive stay. That's why the correct answer is H.",
+                    "quote": "Experience the epitome of luxury at our opulent resort."
                 },
                 "q10": {
-                    "text": "The statement mentions a librarian wanting to see places from books, and the text describes a historic resort where one can experience cultural heritage, aligning with the librarian's interest in historical settings.",
+                    "text": "This resort is located in a \"restored mansion or castle\" and allows you to \"step back in time.\" This is perfect for someone who loves history and wants to see places they might read about in books. That's why the correct answer is I.",
                     "quote": "Step back in time and experience the rich cultural heritage of our historic resort."
                 },
                 "q11": {
-                    "text": "The phrase \"family-friendly resort\" and the promise of creating \"lifelong memories with your loved ones\" directly supports the idea of a fun-filled family getaway.",
+                    "text": "The resort is described as \"family-friendly\" with activities for all ages, including \"kids' clubs\" and \"thrilling water parks.\" This is clearly designed for a fun trip with your loved ones. That's why the correct answer is B.",
                     "quote": "Create lifelong memories with your loved ones at our family-friendly resort."
                 },
                 "q12": {
-                    "text": "This quote directly supports statement G because it mentions exploring nature (spot wildlife) and doing outdoor activities (hiking trails, reconnect with the outdoors).",
-                    "quote": "Explore hiking trails, spot wildlife, and reconnect with the outdoors."
+                    "text": "This eco-lodge is located in a \"pristine natural reserve\" where you can \"explore hiking trails\" and \"spot exotic wildlife.\" This directly matches the desire to explore nature and do outdoor activities. That's why the correct answer is G.",
+                    "quote": "Explore hiking trails, spot exotic wildlife, and bask in the serenity of untouched landscapes."
                 },
                 "q13": {
-                    "text": "The phrase 'winter wonderland' indicates an escape from summer, and 'hit the slopes' implies extreme sports like skiing and snowboarding.",
+                    "text": "The resort is an \"alpine ski resort\" set in a \"winter wonderland,\" perfect for escaping summer. It offers \"world-class skiing and snowboarding,\" which are fun and active sports to do with friends. That's why the correct answer is J.",
                     "quote": "Hit the slopes and embrace the winter wonderland at our alpine ski resort."
                 },
                 "q14": {
-                    "text": "The phrase describes a tropical island setting, which directly aligns with the desire for a tropical retreat.",
-                    "quote": "Escape to a secluded paradise among palm-fringed beaches and crystal-clear waters."
+                    "text": "The resort is described as an \"exotic island\" paradise with \"palm-fringed beaches and crystal-clear waters.\" These are all characteristics of a tropical location, making it a perfect tropical retreat. That's why the correct answer is A.",
+                    "quote": "Escape to a secluded paradise nestled among palm-fringed beaches and crystal-clear waters."
                 }
             }
         },
@@ -419,28 +419,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q15": {
-                    "text": "The paragraph describes a classroom being used for grain storage instead of teaching, which is unexpected given the school's shortage of classrooms. This unusual use of space directly supports the heading 'Surprising use of school premises'.",
+                    "text": "The paragraph describes how a classroom is being used as a storeroom for grain, which is an unusual or surprising use for school property, especially when classrooms are in short supply. That's why the correct answer is B.",
                     "quote": "Given this shortage, it might seem odd that one classroom has been emptied and turned into a storeroom for sacks of grain."
                 },
                 "q16": {
-                    "text": "The paragraph describes the severe hunger in Msekeni, Malawi, making it a suitable location to study nutrition's impact, rather than for typical research reasons. This aligns with the idea that the location was chosen for reasons other than the usual ones.",
-                    "quote": "Hunger blights most aspects of Malawian life, so this is as good a place as any to investigate how nutrition affects development."
+                    "text": "This paragraph explains that Malawi's food shortages are not caused by the typical reasons one might expect, such as war or infertile land. This makes the situation unusual, so the correct answer is H.",
+                    "quote": "No war lays waste Malawi, nor is the land unusually eroded or infertile, but Malawians still have trouble finding enough to eat."
                 },
                 "q17": {
-                    "text": "This sentence describes the roles of different groups in providing and preparing the food. It explains the logistics of how the food program functions.",
-                    "quote": "Donors such as the World Food Programme provide food, and local volunteers do the cooking."
+                    "text": "This section details the logistics of the food program, explaining who provides the food (donors) and who prepares it (local volunteers). This describes how the program is run, so the correct answer is F.",
+                    "quote": ""
                 },
                 "q18": {
-                    "text": "This sentence directly illustrates how the food program impacted school attendance by causing enrollment to double. The paragraph further explains how families changed their behavior regarding sending children to school due to the availability of food.",
-                    "quote": "When the feeding programme was introduced, enrolment at Msekeni doubled."
+                    "text": "The paragraph states that when the feeding program started, school enrolment doubled as families who previously kept children home to work sent them to school for the free meal. This shows the program's effect on attendance, so the correct answer is G.",
+                    "quote": "When the school's feeding programme was introduced, enrolment at Msekeni doubled."
                 },
                 "q19": {
-                    "text": "The paragraph describes an unexpected improvement in academic performance despite an influx of students from poorer backgrounds. This directly supports the heading 'Surprising academics outcome' because it highlights a counter-intuitive result.",
-                    "quote": "You might expect standards to drop with many extra students from poorer homes, but pass rates at Msekeni improved dramatically."
+                    "text": "This paragraph explains that despite a large influx of poor students and no new teachers, academic results unexpectedly improved significantly, which is a surprising outcome. That's why the correct answer is D.",
+                    "quote": "But they have not. Pass rates at Msekeni improved dramatically, from 30% to 85%."
                 },
                 "q20": {
-                    "text": "The paragraph discusses nutrition and its effects on a worldwide level, thus providing a 'global perspective' on the issue of hunger and nutrition.",
-                    "quote": "On a global scale, people are eating better than ever before."
+                    "text": "The paragraph shifts focus from Malawi to the entire world, discussing worldwide trends in nutrition and citing the World Health Organisation. This provides a global perspective, so the correct answer is C.",
+                    "quote": "On a global scale, the good news is that people are eating better than ever before."
                 }
             }
         },
@@ -621,40 +621,40 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q21": {
-                    "text": "The passage states that the discovery of agriculture provided the ability to sustain nutrition, creating the first imbalance between birth and death rates, thus supporting option D.",
-                    "quote": "The discovery of agriculture by our ancestors was one factor that provided them with the ability to sustain their nutrition without hunting."
+                    "text": "The passage says the discovery of agriculture allowed ancestors to sustain themselves without hunting. It then explicitly states this event created the first imbalance between birth and death rates. That's why the correct answer is D.",
+                    "quote": "This created the first imbalance between the two rates."
                 },
                 "q22": {
-                    "text": "The passage states that medical science \"made many discoveries thanks to which they were able to defeat a whole range of diseases,\" which directly supports option C.",
+                    "text": "The passage directly answers this question by stating that medical science was responsible for making many discoveries. These discoveries were successful in defeating a wide variety of diseases. That's why the correct answer is C.",
                     "quote": "Medical science made many discoveries thanks to which they were able to defeat a whole range of diseases."
                 },
                 "q23": {
-                    "text": "The passage states that families in poverty had large families to compensate for the high infant mortality rate, directly supporting option B.",
+                    "text": "The passage explains that people facing poverty would have large families. The specific reason given for this was to compensate for, or \"make up for,\" the high rate of infant deaths. That's why the correct answer is B.",
                     "quote": "The rest faced poverty and would give birth to large families to make up for the high infant mortality rate."
                 },
                 "q24": {
-                    "text": "The passage states that people moving to developed countries leads to those places becoming overcrowded, which directly affects the density of population in those areas.",
-                    "quote": "Many people prefer to move to developed countries where best facilities are available in terms of medical, education, security and employment."
+                    "text": "The text discusses immigration, where people move to different countries. It concludes that this movement doesn't change the overall world population but directly \"affects the density of population.\" That's why the correct answer is A.",
+                    "quote": "Though the overall population remains the same, it just affects the density of population making that place simply overcrowded."
                 },
                 "q25": {
-                    "text": "The passage states that agriculture provided ancestors with the ability to sustain their nutrition without hunting, directly supporting the statement.",
+                    "text": "The passage states that agriculture gave our ancestors the \"ability to sustain their nutrition without hunting.\" This directly confirms the statement is correct. That's why the correct answer is True.",
                     "quote": "The discovery of agriculture by our ancestors was one factor that provided them with the ability to sustain their nutrition without hunting."
                 },
                 "q26": {
-                    "text": "The passage states that technological advancement is the biggest reason for the imbalance between birth and death rates, not human progress in general. Therefore, the statement is false.",
+                    "text": "The passage states that technological advancement is the biggest reason the balance between birth and death rates has been \"permanently disturbed,\" not stabilized. Therefore, the statement is incorrect. That's why the correct answer is False.",
                     "quote": "Technological advancement was perhaps the biggest reason why the balance has been permanently disturbed."
                 },
                 "q27": {
-                    "text": "The passage mentions that people in poverty would give birth to large families to compensate for high infant mortality rates, but it doesn't provide information about whether people have more children now compared to thousands of years ago. Therefore, the answer is No Information.",
+                    "text": "The passage mentions that poor families had large families in the past to make up for high mortality. It does not provide a direct comparison of overall family sizes throughout history versus today. That's why the correct answer is No Information.",
                     "quote": ""
                 },
                 "q28": {
-                    "text": "The passage discusses immigration to developed countries due to better facilities, leading to overcrowding, but it doesn't mention any specific fears of people leaving UK, USA, or Australia due to overcrowding. Therefore, there is no information to confirm or deny the statement.",
+                    "text": "The text states that people move to countries like the US and UK, which can lead to overcrowding. It does not mention that the existing residents of these countries are afraid of having to leave. That's why the correct answer is No Information.",
                     "quote": ""
                 },
                 "q29": {
-                    "text": "The passage states that better medical facilities came about during the industrial revolution. This technological advancement, along with increased food production, tipped the balance and became the starting point of overpopulation, implying that medical advancements and overpopulation became issues simultaneously.",
-                    "quote": "Following this came the industrial revolution and better medical facilities."
+                    "text": "The text explains that vaccines cured deadly illnesses. It then states that combining this lower mortality with more food \"tipped the balance and became the starting point of overpopulation.\" That's why the correct answer is True.",
+                    "quote": "Combining the increase in food supply with fewer means of mortality tipped the balance and became the starting point of overpopulation."
                 }
             }
         },
@@ -785,27 +785,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q30": {
-                    "text": "The passage states that 'human hunting drove this megafaunal menagerie to extinction,' indicating that hunting, a form of human-made pressure, caused the extinction.",
-                    "quote": "New findings offer support to one controversial hypothesis: that human hunting drove this megafaunal menagerie to extinction."
+                    "text": "The first theory discussed is the 'overkill model,' which proposes that humans hunted the large mammals to extinction. That's why the correct answer is 'Hunting'.",
+                    "quote": "Now new findings offer support to one of these controversial hypotheses: that human hunting drove this megafaunal menagerie to extinction."
                 },
                 "q31": {
-                    "text": "The passage states that people may have introduced \"hyper lethal disease\", which supports the answer of \"disease\" as a deadly factor from humans.",
-                    "quote": "He suggests people may instead have introduced hyper lethal disease, perhaps through dogs or hitchhiking vermin."
+                    "text": "The passage explains MacPhee's theory that humans indirectly caused the extinction by introducing a 'hyper lethal disease' to the animals. That's why the correct answer is 'Disease'.",
+                    "quote": "Rather he suggests that people may have introduced hyper lethal disease, perhaps through their dogs or hitchhiking vermin, which then spread wildly among the immunologically naive species of the New World."
                 },
                 "q32": {
-                    "text": "The question asks for what is required more of, and the passage states that despite decades of scientific investigation, the exact cause of the mammoths' demise remains a mystery, implying that more evidence is needed to solve it.",
-                    "quote": "Yet despite decades of scientific investigation, the exact cause remains a mystery."
+                    "text": "The passage explicitly states that MacPhee's hypothesis about a hyperdisease lacks physical, observable proof, which is known as empirical evidence. That's why the correct answer is 'Empirical'.",
+                    "quote": ""
                 },
                 "q33": {
-                    "text": "The passage states that proponents of the third explanation blame \"climate instability\" for the extinction of some species, which directly supports the answer 'instability' to fill the gap.",
-                    "quote": "Its proponents blame climate instability and water loss in the Pleistocene epoch."
+                    "text": "The third theory presented blames the extinction on major changes in the climate, which the passage refers to as 'climatic instability.' That's why the correct answer is 'Instability'.",
+                    "quote": ""
                 },
                 "q34": {
-                    "text": "While Russell W. Graham is not explicitly mentioned in the passage, the third explanation presented aligns with option C, stating that climate instability and water loss are the main reasons for extinction, thus supporting the idea of climate shift as the primary cause.",
-                    "quote": "A third explanation does not involve human beings directly. Its proponents blame climate instability and water loss in the Pleistocene epoch."
+                    "text": "The passage presents Russell W. Graham as the proponent of the third theory, which blames the extinction on climatic instability and resulting habitat loss. That's why the correct answer is C.",
+                    "quote": ""
                 },
                 "q35": {
-                    "text": "The passage acknowledges that the cause of the mammoths' extinction is still a mystery, implying that there are different views and no single accepted explanation. This supports option D.",
+                    "text": "The author presents three different scientific theories (hunting, disease, and climate change) about the extinction, indicating the cause is still debated. That's why the correct answer is D.",
                     "quote": "Yet despite decades of scientific investigation, the exact cause remains a mystery."
                 }
             }

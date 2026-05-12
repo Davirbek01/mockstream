@@ -66,28 +66,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "The sentence states that Sofia Nielsen wrote a message with the \"ink\", indicating that ink was used to write the message.",
-                    "quote": "She wrote a message with the ink, put it in a green bottle and threw the bottle into the North Sea."
+                    "text": "The end of the passage explains that water got inside the bottle and damaged the ink. This tells us what the message was written with. That's why the correct answer is 'ink'.",
+                    "quote": "They couldn't read the rest of the _____(6)_____ because some water got inside and damaged the ink."
                 },
                 "q2": {
-                    "text": "The sentence says that Sofia threw the bottle into the \"North\" Sea, specifying the location where the bottle was thrown.",
-                    "quote": "She wrote a message with the ink, put it in a green bottle and threw the bottle into the North Sea."
+                    "text": "The first sentence states that Sofia Nielsen was walking beside the North Sea. This is the sea where she threw the bottle. That's why the correct answer is 'North'.",
+                    "quote": "More than 110 years ago a young woman named Sofia Nielsen was walking on the seaside of the North Sea."
                 },
                 "q3": {
-                    "text": "The sentence mentions that she didn't know the \"bottle\" would survive so long, referring to the bottle containing the message.",
-                    "quote": "What she didn't know is that bottle would survive so long."
+                    "text": "Sofia put a message in a bottle and threw it into the sea. The story is about this object being found many years later, which means it survived. That's why the correct answer is 'bottle' or 'it'.",
+                    "quote": "Last week, a Danish fisherman found Nielsen's bottle when he was on his everyday fishing trip."
                 },
                 "q4": {
-                    "text": "The historians in the \"museum\" discovered the message, indicating the location where the historical artifact was examined.",
-                    "quote": "The historians in the museum discovered that it's the historic message in the bottle in the world!"
+                    "text": "The fisherman took the bottle to a museum. The next sentence mentions the historians who were working in that specific place. That's why the correct answer is 'museum'.",
+                    "quote": "He carried it to a museum. The historians in the _____(4)_____ discovered that it's the historic message in the bottle in the world!"
                 },
                 "q5": {
-                    "text": "The historians \"found\" Nielsen's grandson, meaning they located him after discovering the bottle.",
-                    "quote": "They also found Nielsen's grandson, Malthe who is now 72 years old."
+                    "text": "After the historians discovered the bottle was historic, they located a living relative of Sofia Nielsen. The verb that best describes this action is 'found'. That's why the correct answer is 'found'.",
+                    "quote": "They also _____(5)_____ Nielsen's grandson, Malthe who is now 72 years old."
                 },
                 "q6": {
-                    "text": "The sentence refers to reading the rest of the \"letter\", which was inside the bottle, but it was damaged.",
-                    "quote": "They couldn't read the rest of the letter because some water got inside and damaged the ink."
+                    "text": "The passage clearly states that the bottle contained a letter. The water damage made it difficult to read this specific item. That's why the correct answer is 'letter'.",
+                    "quote": "Well, there was a letter inside."
                 }
             }
         },
@@ -248,36 +248,36 @@ window.CEFR_READING_TEST = {
             ],
             "explanations": {
                 "q7": {
-                    "text": "Affordable Moving offers \"Storage\" and \"affordable rate\", suggesting an inexpensive service to move and store furniture.",
-                    "quote": "Affordable Moving... Storage... Professional moving at an affordable rate."
+                    "text": "This service offers moving and storage at a low price, which is ideal for someone needing to move and store apartment furniture inexpensively. That's why the correct answer is E.",
+                    "quote": "Professional moving at an affordable rate."
                 },
                 "q8": {
-                    "text": "U Drive One Way Truck Rental allows you to \"Move yourself and save\" and rent a truck \"one way\", fitting the description of renting a truck to move household goods to another city.",
-                    "quote": "Move yourself and save... U Drive One Way Truck Rental"
+                    "text": "This company rents trucks for people who want to transport their own belongings to save money. This is a good option for someone moving to another city for a new job. That's why the correct answer is J.",
+                    "quote": "Move yourself and save."
                 },
                 "q9": {
-                    "text": "Professional Relocation Services offers \"WORLD WIDE MOVING\" and \"Special service for cars\", indicating they can move household goods and a car internationally.",
-                    "quote": "WORLD WIDE MOVING... Special service for cars."
+                    "text": "This company offers international moving for entire households and also has a special service for cars. They ship to the UK, which is where England is located. That's why the correct answer is B.",
+                    "quote": "Special service for cars."
                 },
                 "q10": {
-                    "text": "Al's Junk and Moving Express offers to \"Get rid of that junk!\", which corresponds to removing old unnecessary things.",
+                    "text": "This service is for small local jobs, including cleaning up and removing unwanted items. The advertisement specifically mentions getting rid of junk. That's why the correct answer is G.",
                     "quote": "Get rid of that junk!"
                 },
                 "q11": {
-                    "text": "GET MOVING offers \"Car and Truck Rental. Move yourself and save\" and \"2 and 4-hour specialists\", suggesting a truck rental for a few hours that you load and drive yourself.",
-                    "quote": "Car and Truck Rental. Move yourself and save. 2 and 4-hour specialists."
+                    "text": "This company rents trucks for short periods, as they are \"2 and 4-hour specialists.\" It is a \"move yourself\" service, meaning you load and drive the truck yourself. That's why the correct answer is F.",
+                    "quote": "2 and 4-hour specialists."
                 },
                 "q12": {
-                    "text": "Blue Star offers \"TAXI TRUCKS, REMOVALS, STORAGE... Piano?\" and mentions \"Awkward locations? No problem\", indicating they can deliver a piano to a second-floor apartment.",
-                    "quote": "TAXI TRUCKS, REMOVALS, STORAGE... Piano?... Awkward locations? No problem"
+                    "text": "This moving service explicitly states they can handle large, difficult items like a piano. They are also specialists in dealing with \"awkward locations,\" such as a second-floor apartment. That's why the correct answer is A.",
+                    "quote": "Billiard table? Piano? Freezer? Large pieces of furniture? Awkward locations? No problem – our drivers and assistants are specialists."
                 },
                 "q13": {
-                    "text": "Vanline Moving offers \"Customized moving plans by the experts\", suggesting experienced advice on how to move.",
+                    "text": "This company provides \"experts\" who create \"customized moving plans\" to ensure a smooth move. This means they offer experienced advice and planning for your specific situation. That's why the correct answer is H.",
                     "quote": "Customized moving plans by the experts will make your move smooth."
                 },
                 "q14": {
-                    "text": "AIR MOVING uses \"Helicopter and small planes\" and mentions \"Move to the locations out of reach for cars\", indicating they can move things to an island from the mainland.",
-                    "quote": "Helicopter and small planes. Move to the locations out of reach for cars."
+                    "text": "This service uses helicopters and small planes to move items to places that cars cannot get to. An island is a perfect example of such a location. That's why the correct answer is C.",
+                    "quote": "Move to the locations out of reach for cars."
                 }
             }
         },
@@ -408,28 +408,28 @@ window.CEFR_READING_TEST = {
             ],
             "explanations": {
                 "q15": {
-                    "text": "Paragraph I discusses where flamingos live, mentioning different regions and countries where they can be found.",
-                    "quote": "Flamingos are very social and often live in large groups, called colonies throughout the world. They are found in both the Eastern and Western hemispheres."
+                    "text": "This paragraph lists the various geographical locations where flamingos live, such as continents, countries, and islands. This information is about their habitat and distribution, which is why the correct answer is B.",
+                    "quote": "They are found in both the Eastern and Western hemispheres."
                 },
                 "q16": {
-                    "text": "Paragraph II explains how flamingos obtain their food by fishing in shallow water and mud, describing their feeding habits.",
-                    "quote": "Flamingos fish while walking in shallow water and mud."
+                    "text": "The paragraph describes the specific technique flamingos use to catch their food, including plunging their heads into the water and using their beaks like a shovel. This explains their feeding method, so the correct answer is D.",
+                    "quote": "When a flamingo notices its potential dinner (for example, shrimp, snails, and plantlike water organisms), it plunges its head into the water, twists its head ups down, and scoops the fish up using its upper beak like a shovel."
                 },
                 "q17": {
-                    "text": "Paragraph III describes how flamingos build nests, lay eggs, and raise their young, detailing their breeding process.",
-                    "quote": "Flamingos build nests that look like mounds of mud along waterways. The parents take turns sitting on the egg to keep it warm and after about 30 days the egg hatches."
+                    "text": "This section details the flamingo reproductive process, from building nests and incubating eggs to raising the young chicks after they hatch. This is all about their breeding habits, which is why the correct answer is G.",
+                    "quote": "The parents take turns sitting on the egg to keep it warm and after about 30 days the egg hatches."
                 },
                 "q18": {
-                    "text": "Paragraph IV discusses the scientific uncertainty surrounding why flamingos stand on one leg, presenting different theories.",
+                    "text": "The paragraph explicitly states that scientists are uncertain about why flamingos stand on one leg and lists several unproven theories. This lack of a definitive answer shows how the birds confuse scientists, so the correct answer is C.",
                     "quote": "Scientists aren't 100% sure why flamingos stand on one leg, but they have some theories."
                 },
                 "q19": {
-                    "text": "Paragraph V describes how flamingos were viewed and treated in ancient cultures, including their worship and use for remedies.",
-                    "quote": "Ancient Egyptians believed that flamingos were the living representation of the god Ra."
+                    "text": "This paragraph describes how different ancient cultures interacted with flamingos, from worshipping them as gods to killing them for their fat or tongues. This explains how people treated them in the past, so the correct answer is F.",
+                    "quote": "However, Andean miners killed flamingos for their fat, which is believed to be a remedy for tuberculosis, and in Ancient Rome their tongues were considered a delicacy."
                 },
                 "q20": {
-                    "text": "Paragraph VI explains how people collect images of flamingos in the form of ornaments and collectibles.",
-                    "quote": "Many people have plastic flamingos in their yards as ornaments."
+                    "text": "The paragraph discusses the modern popularity of flamingo-themed items, such as yard ornaments, magnets, and jewelry. This describes the trend of collecting items with their image, which is why the correct answer is A.",
+                    "quote": "In many parts of the world flamingos are popular collectibles, appearing in the form of magnets, water globes, and jewelry."
                 }
             }
         },
@@ -607,39 +607,39 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q21": {
-                    "text": "The phrase \"first line of defense\" implies that the software and firewall offer a level of protection against online threats.",
-                    "quote": "\"Think of these as your first line of defense,\" says Amanda."
+                    "text": "The passage advises installing software and a firewall to protect your computer. These protective measures are then referred to as the \"first line of defense,\" directly linking the phrase to offering protection. That's why the correct answer is B.",
+                    "quote": "Her first piece of advice is to install software and a firewall to protect your computer from viruses, hackers and criminals who want to steal your data or financial information."
                 },
                 "q22": {
-                    "text": "The text states that Katy kept a regular backup of her data, so the fire wasn't as serious for her business as it could have been.",
-                    "quote": "\"Luckily I keep a regular back-up of my data so it wasn't a catastrophe.\""
+                    "text": "The fire could have ruined Katy's business, but because she had a data backup, the situation \"wasn't a catastrophe.\" This means the damage was much less severe than it could have been. That's why the correct answer is C.",
+                    "quote": "Luckily I keep a regular back-up of my data so it wasn't a catastrophe."
                 },
                 "q23": {
-                    "text": "The web awareness survey indicates that people are more relaxed about their personal safety online.",
+                    "text": "The passage cites a survey finding that people are \"more lax\" about their personal safety online. The word \"lax\" means not being careful or strict, which is very similar to being relaxed or careless. That's why the correct answer is A.",
                     "quote": "Whilst most of us are aware of the need to protect our computers, it seems we're more lax when it comes to looking out for ourselves, at least according to a recent web awareness survey."
                 },
                 "q24": {
-                    "text": "The writer is surprised that people don't consider the consequences of sharing their information online, as demonstrated by Khaled's experience.",
+                    "text": "After describing Khaled's situation, the writer expresses surprise that educated people share personal details \"without considering the consequences.\" This shows astonishment at people not thinking about the results of their online actions. That's why the correct answer is B.",
                     "quote": "Yet, it's astonishing how many highly educated people do this without considering the consequences that anyone in the world could use the information to make (unwanted) contact."
                 },
                 "q25": {
-                    "text": "The text discusses various dangers of the internet, implying that its spread can negatively affect people's safety in many ways.",
+                    "text": "The passage details numerous online dangers, including viruses, hackers, financial scams, and unwanted personal contact. These examples show that the internet can negatively affect people's safety in various ways. That's why the correct answer is True.",
                     "quote": "But in an era where the internet is part of our everyday lives for work, fun, study, shopping, even managing finances it's not always easy to spot the dangers."
                 },
                 "q26": {
-                    "text": "The text mentions that hackers steal data or financial information, but it doesn't specify their main aim or whether they sell the information to third parties.",
-                    "quote": "install software and a firewall to protect your computer from viruses, hackers and criminals who want to steal your data or financial information."
+                    "text": "The text states that hackers want to \"steal your data or financial information,\" but it does not mention what they do with it afterwards. There is no information about them selling it to third parties. That's why the correct answer is No Information.",
+                    "quote": "Her first piece of advice is to install software and a firewall to protect your computer from viruses, hackers and criminals who want to steal your data or financial information."
                 },
                 "q27": {
-                    "text": "The text states that Katy kept a regular backup of her data, implying that she was able to restore materials related to her business after the fire.",
-                    "quote": "\"Luckily I keep a regular back-up of my data so it wasn't a catastrophe.\""
+                    "text": "This statement is false because Katy had protected her business materials. She says she kept a \"regular back-up\" of her data, which prevented the fire from being a catastrophe and allowed her to recover. That's why the correct answer is False.",
+                    "quote": "Luckily I keep a regular back-up of my data so it wasn't a catastrophe."
                 },
                 "q28": {
-                    "text": "The text states that Simpson was taken in by an online contact and ended up wasting money, indicating that he did not find a new job with their help.",
-                    "quote": "\"I joined a free online networking group in the hope of making some professional contacts to help me find a new job. After a month; one of my online contacts invited me to take out a subscription to a club that promised access to a network of job recruiters. It turned out to be a waste of money!\""
+                    "text": "This statement is false. Chris Simpson's online contact tricked him into paying for a useless subscription, which he describes as \"a waste of money.\" He did not find a job through this person. That's why the correct answer is False.",
+                    "quote": "It turned out to be a waste of money! I ended up a laughing stock with my mates – they couldn't believe that someone in my job could get taken in so easily."
                 },
                 "q29": {
-                    "text": "The author advises being cautious about sharing personal information online, suggesting the need to avoid sharing accurate details to stay safe.",
+                    "text": "The author suggests being \"cautious about the amount of personal information you share.\" Specific advice includes using a pseudonym and being vague about personal details to protect your identity online. That's why the correct answer is True.",
                     "quote": "When networking and joining online communities it's better to be cautious about the amount of personal information you share."
                 }
             }
@@ -756,27 +756,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q30": {
-                    "text": "The passage states that people deceive to save their own \"skins\", meaning to protect themselves.",
-                    "quote": "often deceive for exactly the same reasons: to save their own skins or to get something they can't get by other means."
+                    "text": "The passage states that humans often lie for the same reasons as animals in nature, which is to protect themselves. This is expressed by the idiom 'to save their own skins.' That's why the correct answer is 'skins'.",
+                    "quote": "So it may come as no surprise to learn that human beings – who, according to psychologist Gerald Johnson of the University of South California, or lied to about 200 times a day, roughly one untruth every 5 minutes – often deceive for exactly the same reasons: to save their own skins or to get something they can't get by other means."
                 },
                 "q31": {
-                    "text": "The passage mentions that nature provides more than enough \"clues\" to trap liars, referring to observable signs of deception.",
+                    "text": "The passage explains that nature provides ways to identify liars. It explicitly states that there are 'more than enough clues' to observe if you know what to look for. That's why the correct answer is 'clues'.",
                     "quote": "Luckily, nature provides more than enough clues to trap dissemblers in their own tangled webs – if you know where to look."
                 },
                 "q32": {
-                    "text": "The passage indicates that \"stress\" is an emotional state that liars experience due to the conflict between truth and falsehood.",
+                    "text": "The passage identifies a key emotional state to watch for when trying to detect a lie. This state is the internal conflict a liar feels, which is defined as stress. That's why the correct answer is 'stress'.",
                     "quote": "The emotional state to watch out for is stress, the conflict most liars feel between the truth and what they actually say and do."
                 },
                 "q33": {
-                    "text": "The passage mentions that the \"lights\" in the television studio being too hot is one reason polygraph tests are inadmissible in court, as it can affect skin conductivity.",
+                    "text": "The passage explains why polygraph tests are inadmissible in court by giving an example. A person's nervousness could be caused by hot studio lights, not just by lying. That's why the correct answer is 'lights'.",
                     "quote": "On the other hand, it might also mean that the lights in the television studio are too hot – which is one reason polygraph tests are inadmissible in court."
                 },
                 "q34": {
-                    "text": "The passage explains that polygraph tests are inadmissible because there may be many causes of certain body behavior, such as nervousness.",
+                    "text": "The passage states that lie detectors only measure physical signs of emotion, like nervousness, not lies themselves. These physical signs can have other causes besides deception, such as hot lights. That's why the correct answer is D.",
                     "quote": "Even high-tech lie detectors don't detect lies as such, they merely detect the physical cues of emotions, which may or may not correspond to what the person being tested is saying."
                 },
                 "q35": {
-                    "text": "The author mentions paralyzed patients to show the relation between true emotions and body behavior, as genuine emotions travel different pathways in the brain.",
+                    "text": "The author uses the patient to show that genuine emotions and fake emotions travel along different brain pathways, resulting in different physical expressions. This demonstrates the link between true feelings and physical reactions. That's why the correct answer is B.",
                     "quote": "Neurological studies even suggest that genuine emotions travel different pathways through the brain than insincere ones."
                 }
             }

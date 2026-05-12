@@ -64,27 +64,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "The sentence discusses the future replacement of petrol cars by electric vehicles, and 'cars' fits logically as the noun being modified by 'electric'.",
-                    "quote": "In the future, electric _____(1)_____ will replace petrol cars."
+                    "text": "The passage is about electric cars replacing petrol cars. The sentence directly compares the two types of vehicles, making 'cars' the logical noun to complete the phrase. That's why the correct answer is 'cars'.",
+                    "quote": ""
                 },
                 "q2": {
-                    "text": "The adjective needed describes the type of car that has a battery, and the passage focuses on \"electric cars\", making \"electric\" the correct fit.",
-                    "quote": "A big problem for _____(2)_____ cars is charging the battery."
+                    "text": "The sentence discusses the problem of charging a battery. The passage has already established that it is electric cars that use batteries that need charging, not petrol cars. That's why the correct answer is 'electric'.",
+                    "quote": "Some batteries in today's electric cars can take up to 12 hours to charge fully."
                 },
                 "q3": {
-                    "text": "The word \"charge\" fits grammatically and contextually in the sentence. The surrounding text discusses the problem of charging electric car batteries, making \"charge\" the most logical verb to complete the sentence.",
+                    "text": "The passage is contrasting the long time it takes to power up current batteries with a new, faster method. The verb used for this action throughout the text is 'charge'. That's why the correct answer is 'charge'.",
                     "quote": "Some batteries in today's electric cars can take up to 12 hours to charge fully."
                 },
                 "q4": {
-                    "text": "The sentence discusses \"lithium-ion\" technology developed by StoreDot, and the context refers to power sources for electric vehicles, making \"batteries\" the correct noun to fit the gap and meaning.",
-                    "quote": "The new lithium-ion _____(4)_____ were developed by the Israeli company StoreDot."
+                    "text": "The text just introduced a new 'lithium-ion battery'. This sentence continues that topic, using the plural form to refer to the new technology in general. That's why the correct answer is 'batteries'.",
+                    "quote": ""
                 },
                 "q5": {
-                    "text": "The sentence compares the travel distance of electric cars to another type of car. The passage contrasts electric cars with petrol cars, making \"petrol\" the logical choice to complete the comparison.",
-                    "quote": "They would mean electric cars would be able to travel as far as petrol cars."
+                    "text": "The passage consistently compares electric cars to cars that use traditional fuel. This sentence compares their travel distance, so the missing word must describe the other type of car. That's why the correct answer is 'petrol'.",
+                    "quote": ""
                 },
                 "q6": {
-                    "text": "\"Spokesperson\" fits the context as it refers to a representative of StoreDot who is making a statement, aligning with the question's definition.",
+                    "text": "The sentence introduces a quote from someone at the company StoreDot. A previous sentence uses the word 'spokesperson' to describe the person giving a quote from the same company. That's why the correct answer is 'spokesperson'.",
                     "quote": "A StoreDot spokesperson said: \"You're either afraid that you're going to get stuck on the highway, or that you're going to need to sit in a charging station for two hours.\""
                 }
             }
@@ -225,36 +225,36 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q7": {
-                    "text": "The phrase \"remote work options\" indicates that employees have the possibility of working from a location other than the company's physical office, meaning they don't have to go there to work.",
-                    "quote": "remote work options"
+                    "text": "The job advertisement states that 'remote work options' are available, which means employees are not required to be physically present at the office to do their job. That's why the correct answer is J.",
+                    "quote": "Facilities: Competitive salary, remote work options, stock options, and free professional development courses."
                 },
                 "q8": {
-                    "text": "Text 8 mentions 'health insurance' as a benefit, which is related to dental insurance, but it does not mention anything about giving a car to employees. Therefore, Text 8 does not match Statement H.",
-                    "quote": "Benefits: Paid time off, health insurance, and ongoing training."
+                    "text": "The provided text for the Landscape Architect position does not mention a company car as a benefit. Therefore, there is no information in the text to support answer H.",
+                    "quote": ""
                 },
                 "q9": {
-                    "text": "The phrase \"Flexible hours\" directly implies that employees have some control over their work schedule, meaning they can choose their work time.",
-                    "quote": "Flexible hours"
+                    "text": "The job posting for the Marketing Manager lists 'Flexible hours' as one of the perks, which means you have some choice over your work schedule. That's why the correct answer is C.",
+                    "quote": "Perks: Flexible hours, gym membership, commuter benefits, and wellness programs."
                 },
                 "q10": {
-                    "text": "The phrase 'exciting construction projects' implies opportunities for learning and growth while working, as each project can present new challenges and experiences, thus supporting the idea of working and learning simultaneously.",
-                    "quote": "We're hiring Project Managers for exciting construction projects!"
+                    "text": "The advertisement for Project Managers does not mention any opportunities for training or professional development. Therefore, there is no information in the text to support answer F.",
+                    "quote": ""
                 },
                 "q11": {
-                    "text": "The text mentions an \"annual reward: a ticket to go to somewhere exotic,\" which directly implies that employees can go somewhere nice each year as a reward for their work.",
-                    "quote": "annual reward: a ticket to go to somewhere exotic."
+                    "text": "The job includes an 'annual reward: a ticket to go to somewhere exotic,' which means you can take a trip to a nice place once a year. That's why the correct answer is A.",
+                    "quote": "Perks: Competitive salary, 401(k) matching, travel opportunities, and professional growth support and an annual reward: a ticket to go to somewhere exotic."
                 },
                 "q12": {
-                    "text": "The text states that a Bachelor's degree is required, but it also requires 3+ years of teaching experience, meaning they cannot accept someone with a diploma and no prior experience. Therefore, Text 12 does NOT match statement D.",
-                    "quote": "Requirements: Bachelor's degree in Education or Science with 3+ years of teaching experience."
+                    "text": "The text states the opposite of the answer, requiring '3+ years of teaching experience' for the role. Therefore, there is no information in the text to support answer D.",
+                    "quote": ""
                 },
                 "q13": {
-                    "text": "The phrase 'collaboration with industry leaders' implies that you would have the opportunity to meet and work with famous or influential people in the field, which supports statement B.",
-                    "quote": "collaboration with industry leaders"
+                    "text": "The benefits include 'collaboration with industry leaders,' which means you will get to work with important and well-known people in the field. That's why the correct answer is B.",
+                    "quote": "Benefits: Free access to our studio and collaboration with industry leaders."
                 },
                 "q14": {
-                    "text": "The text mentions \"dental insurance\" as a benefit, which directly supports the statement that you can get insurance for your teeth there.",
-                    "quote": "health and dental insurance"
+                    "text": "The job benefits for the Environmental Consultant include 'health and dental insurance.' Dental insurance is specifically for taking care of your teeth. That's why the correct answer is I.",
+                    "quote": "Benefits: Hybrid work model, health and dental insurance, and company-sponsored certifications."
                 }
             }
         },
@@ -369,27 +369,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q15": {
-                    "text": "This sentence describes the primary occupations of the island's inhabitants, which directly relates to their local life and economy. The paragraph introduces the island and its people, focusing on their daily activities and welcoming nature.",
+                    "text": "This paragraph describes the main occupations of the people living on the islands, which are sheep farming and fishing. This gives a picture of the local life, so the correct answer is D.",
                     "quote": "The people of the Falkland Islands mostly work in sheep farming and fishing."
                 },
                 "q16": {
-                    "text": "The paragraph introduces 'Camp' as a local name for areas outside Stanley, where farms and settlements are located. This implies that people living outside Stanley are referred to as living in 'Camp,' thus relating to the inhabitants.",
+                    "text": "This paragraph introduces the special local name 'Camp' for the area outside the capital where many people live. This is the only part of the text that discusses a unique local name. That's why the correct answer is A.",
                     "quote": "Everything outside Stanley, known locally as Camp, is home to numerous farms and settlements spread across the islands."
                 },
                 "q17": {
-                    "text": "This sentence explicitly states that the Reclus Hut, an outdoor exhibition site, was brought back to the Falkland Islands after being in Antarctica, directly supporting the heading 'A returned house'.",
-                    "quote": "Outdoor exhibition sites include the Reclus Hut, originally made in Stanley, then shipped to Antarctica and set up there in 1956. Forty years later the famous house was brought back."
+                    "text": "The paragraph describes the Reclus Hut, an exhibit which was sent to Antarctica and then brought back to the islands forty years later. This directly matches the heading about a returned house. That's why the correct answer is B.",
+                    "quote": "Forty years later the famous house was brought back."
                 },
                 "q18": {
-                    "text": "This sentence directly describes the schools available on the islands, which is a key component of the education system. The paragraph goes on to describe other aspects of schooling, further solidifying the connection to the 'Education system' heading.",
-                    "quote": "For them, there is a primary and a secondary school in Stanley and three small settlement schools on large farms."
+                    "text": "This paragraph explains how children on the islands are educated, mentioning schools, teachers, and compulsory schooling ages. This is a description of the local education system. That's why the correct answer is F.",
+                    "quote": "Schooling is free and compulsory for children between five and sixteen years of age."
                 },
                 "q19": {
-                    "text": "This sentence directly states that the government is utilizing \"cheap wind power,\" which aligns perfectly with the heading \"A cheap electricity.\" The rest of the paragraph elaborates on alternative energy sources, reinforcing the focus on electricity generation.",
+                    "text": "The paragraph states that the government is using wind power because it is an inexpensive source of energy. This directly relates to the idea of cheap electricity mentioned in the heading. That's why the correct answer is E.",
                     "quote": "The Falkland Islands government is taking advantage of cheap wind power."
                 },
                 "q20": {
-                    "text": "This sentence directly indicates foreign countries (Argentina and the United Kingdom) were involved in a war concerning the Falkland Islands, thus relating to 'Foreign involvement'.",
+                    "text": "This paragraph describes the 1982 war over the islands, which was fought between two other countries: Argentina and the United Kingdom. This conflict is a clear example of foreign involvement. That's why the correct answer is G.",
                     "quote": "The Falklands War was fought in 1982 between Argentina and the United Kingdom."
                 }
             }
@@ -546,40 +546,40 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q21": {
-                    "text": "The quote directly states that fish and chips are not as popular with young people now, which supports option C.",
+                    "text": "A teenager named Lizzie is quoted in the passage saying that young people consider fish and chips old-fashioned and prefer other fast food options. That's why the correct answer is C.",
                     "quote": "\"Fish and chips are not so popular with young people these days,\" says Lizzie, a teenager."
                 },
                 "q22": {
-                    "text": "The passage states that fish'n'chips were wrapped in newspaper, not magazines. Therefore, option B is incorrect.",
-                    "quote": "Wrapped in newspaper, it would keep warm even on the coldest days of the year."
+                    "text": "The passage states the food was wrapped in newspaper to keep it cheap. While the text does not mention magazines, this is the only option that describes a wrapping material. That's why the correct answer is B.",
+                    "quote": "Besides, serving fish'n'chips in newspaper helped to keep prices low."
                 },
                 "q23": {
-                    "text": "The passage states that thousands of chip shops have closed in the last twenty-five years, which directly supports option D as the correct answer.",
+                    "text": "The passage explicitly states that due to declining popularity, a very large number of fish and chip shops have gone out of business in recent decades. That's why the correct answer is D.",
                     "quote": "Thousands of chip shops have closed in the last twenty-five years."
                 },
                 "q24": {
-                    "text": "The quote directly states the author's belief that fish'n'chip shops are likely to disappear, supporting the idea that they will vanish from daily lives in the near future.",
-                    "quote": "Yet nothing, perhaps, can save the classic fish'n'chip shop from disappearance."
+                    "text": "The author concludes that due to fish shortages, cheap chip shops will disappear, and the dish will only survive as an expensive specialty, thus vanishing from everyday life. That's why the correct answer is B.",
+                    "quote": "Soon cheap fish'n'chip shops will be gone completely."
                 },
                 "q25": {
-                    "text": "The passage describes the history and decline of fish and chips but does not specify what kind of fish was traditionally used. Therefore, there is no information to confirm or deny the statement.",
+                    "text": "The passage refers to \"fresh sea fish\" and \"some types of fish\" but never specifies the color of the meat or the particular species used. That's why the correct answer is 'No Information'.",
                     "quote": ""
                 },
                 "q26": {
-                    "text": "The passage states that sea fish was cheaper than meat, directly contradicting the question's claim that fish was more expensive.",
+                    "text": "The passage explains that after railways were built, sea fish became a popular protein source precisely because it was less expensive than meat. That's why the correct answer is 'False'.",
                     "quote": "Cheaper than meat, sea fish became a popular source of protein."
                 },
                 "q27": {
-                    "text": "Lizzie states that fish and chips are not popular with young people and that they prefer Burger King or Chinese take-away, which supports the statement that young people prefer burgers to fish'n'chips.",
-                    "quote": "\"Fish and chips are not so popular with young people these days,\" says Lizzie, a teenager. \"Most of the time, if young people want to eat out, they'll go to a Burger King or a Chinese take-away."
+                    "text": "The teenager Lizzie is quoted directly, stating that when young people eat out, they are more likely to choose places like Burger King instead of a chip shop. That's why the correct answer is 'True'.",
+                    "quote": "Most of the time, if young people want to eat out, they'll go to a Burger King or a Chinese take-away."
                 },
                 "q28": {
-                    "text": "The passage discusses the change in packaging from newspaper to cardboard boxes due to hygiene rules, but it doesn't mention whether this change has affected the popularity of fish'n'chips. Therefore, there is no information to support or refute the statement.",
+                    "text": "The text mentions that packaging changed from newspaper to cardboard boxes, but it does not say whether this change had any effect on the dish's popularity. That's why the correct answer is 'No Information'.",
                     "quote": ""
                 },
                 "q29": {
-                    "text": "The passage states that fish and chips may only be available in expensive restaurants in the future, implying fewer places to try them.",
-                    "quote": "In the years to come, they may become the only place where you can try this traditional English dish."
+                    "text": "The author predicts that due to the increasing scarcity and cost of fish, the number of traditional shops selling fish and chips will continue to fall. That's why the correct answer is 'True'.",
+                    "quote": "The traditional fish'n'chip shops will certainly continue to reduce in number."
                 }
             }
         },
@@ -689,27 +689,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q30": {
-                    "text": "The question asks for the number associated with the interval of yawns, and the passage states that yawns come in bouts with an interval of about 68 seconds.",
+                    "text": "The passage states that researcher Robert Provine found yawns occur in series, or bouts. The time between each yawn in a bout is approximately 68 seconds. That's why the correct answer is '68'.",
                     "quote": "He found the basic yawn lasts about six seconds and they come in bouts with an interval of about 68 seconds."
                 },
                 "q31": {
-                    "text": "The word \"distinction\" in the passage refers to a difference between genders in the context of yawning behavior, specifically covering the mouth.",
+                    "text": "The passage notes that while men and women yawn equally often, men are less likely to cover their mouths. The author suggests this behavioral difference indicates a complex 'distinction' between genders. That's why the correct answer is 'distinction'.",
                     "quote": "Men and women yawn or half-yawn equally often, but men are significantly less likely to cover their mouths which may indicate complex distinction in genders."
                 },
                 "q32": {
-                    "text": "The question asks for a body movement related to yawning. The passage states that yawning and stretching share properties and may be performed together, thus 'stretch' or 'stretching' fits the criteria.",
+                    "text": "The passage frequently discusses the strong connection between yawning and another body movement, stretching. It states they share properties and can be performed together as part of a motor complex. That's why the correct answer is 'stretch' or 'stretching'.",
                     "quote": "Yawning and stretching also share properties and may be performed together as parts of a global motor complex."
                 },
                 "q33": {
-                    "text": "The question asks for a body part, and the provided sentence states that yawning is coordinated within the hypothalamus of the brain, making 'brain' the correct answer.",
+                    "text": "The passage explores the physical origins of yawning, stating that some researchers believe the act is coordinated within the hypothalamus. The hypothalamus is a part of the brain. That's why the correct answer is 'brain'.",
                     "quote": "Some researchers say it's coordinated within the hypothalamus of the brain, the area that also controls breathing."
                 },
                 "q34": {
-                    "text": "The passage states that humans yawn even before they are born, which directly supports option B as the correct answer.",
-                    "quote": "Humans do it even before they are born, opening wide in the womb."
+                    "text": "The passage describes research that used ultrasound to observe fetuses. This research found a link between yawning and stretching that occurs before birth, during the first prenatal trimester. That's why the correct answer is B.",
+                    "quote": ""
                 },
                 "q35": {
-                    "text": "The passage states that patients with \"locked-in\" syndrome, who are almost totally deprived of the ability to move voluntarily, can yawn normally, which supports the conclusion that even people who cannot move voluntarily can yawn.",
+                    "text": "Towards the end, the passage presents surprising findings from clinical neurology. It specifically mentions that patients with \"locked-in\" syndrome, who cannot move on their own, can still yawn normally. That's why the correct answer is A.",
                     "quote": "Some patients with \"locked-in\" syndrome, who are almost totally deprived of the ability to move voluntarily, can yawn normally."
                 }
             }

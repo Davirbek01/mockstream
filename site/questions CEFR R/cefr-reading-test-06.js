@@ -65,28 +65,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "The sentence discusses hunting large sea mammals, and the blank requires a noun that fits this description. 'Whales' directly refers to these mammals and makes sense in the context of hunting.",
-                    "quote": "Over a hundred years ago, when Melville wrote his famous novel 'Moby Dick', hunting whales was a dangerous and sometimes fatal business, now, in spite of their size, whales are no longer a never match for men using helicopters, radar and explosive harpoons."
+                    "text": "The first part of the sentence discusses hunting whales. The pronoun 'their' in 'their size' refers back to these large sea mammals, indicating they are the subject of the second clause. That's why the correct answer is 'whales'.",
+                    "quote": ""
                 },
                 "q2": {
-                    "text": "\"Some\" is the correct answer because it logically fits the context of multiple countries ceasing whaling activities, contrasting with the later need for an international agreement, and aligns with the adjective requirement.",
-                    "quote": "Although _____(2)_____ countries gave up whaling several _____(3)_____ ago, there was no international agreement forbidding it until recently, in spite of the fact that alternatives to the whale products used in oils, cosmetics and candies were already in existence."
+                    "text": "The sentence contrasts the actions of a portion of countries with the lack of a full international agreement. The word 'some' correctly indicates that only a subset of nations had stopped whaling. That's why the correct answer is 'some'.",
+                    "quote": ""
                 },
                 "q3": {
-                    "text": "The word 'years' fits grammatically as a plural noun indicating a period of time, and it aligns with the context of countries ceasing whaling activities 'several...ago'.",
-                    "quote": "Although _____(2)_____ countries gave up whaling several _____(3)_____ ago, there was no international agreement forbidding it until recently, in spite of the fact that alternatives to the whale products used in oils, cosmetics and candies were already in existence."
+                    "text": "The phrase 'several ___ ago' requires a unit of time to make sense. Given the historical context of international agreements, 'years' is the most logical time period to complete the phrase. That's why the correct answer is 'years'.",
+                    "quote": ""
                 },
                 "q4": {
-                    "text": "The sentence discusses animals 'fighting for survival,' and 'species' fits grammatically and logically as a type of creature that can fight for survival, aligning with the context of endangered animals.",
-                    "quote": "The whale is not the only _____(4)_____ fighting for survival."
+                    "text": "The previous sentence mentions the 'giant blue whale' as a specific 'species' at risk. This sentence generalizes the problem to other types of creatures, making 'species' the most fitting word. That's why the correct answer is 'species'.",
+                    "quote": "As a result, some species, such as the giant blue whale, are on the verge of becoming extinct."
                 },
                 "q5": {
-                    "text": "The noun 'countries' fits grammatically and logically in the sentence, referring to the nations that stopped whaling. The context discusses international agreements and whaling practices of different nations.",
-                    "quote": "Although _____(2)_____ countries gave up whaling several _____(3)_____ ago, there was no international agreement forbidding it until recently, in spite of the fact that alternatives to the whale products used in oils, cosmetics and candies were already in existence."
+                    "text": "The sentence discusses the actions of 'governments'. Governments are the ruling bodies of nations, so the word that logically follows is 'countries'. That's why the correct answer is 'countries'.",
+                    "quote": ""
                 },
                 "q6": {
-                    "text": "The sentence discusses game reserves and bird sanctuaries, places where animals and birds can safely reproduce, making \"animals / birds\" logical choices. The phrase \"in their natural surroundings\" further supports this, as it refers to the habitat of animals and birds.",
-                    "quote": "Although governments in many _____(5)_____ have done a great deal to control hunting and fishing for sport and have setup game reserves and bird sanctuaries where _____(6)_____ can brood safely in their natural surroundings, the number in danger is still increasing."
+                    "text": "The sentence mentions setting up 'game reserves and bird sanctuaries'. These are protected areas specifically for animals and birds to live and 'brood' (reproduce) safely. That's why the correct answer is 'animals / birds'.",
+                    "quote": ""
                 }
             }
         },
@@ -226,36 +226,36 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q7": {
-                    "text": "ThinkTank is a science museum, so it would appeal to someone interested in science, like Marco.",
-                    "quote": "Marco studies physics and is interested in anything to do with science."
+                    "text": "Marco is interested in science and wants to see early mechanical engines. A science museum like ThinkTank would have exhibits on these topics. That's why the correct answer is E.",
+                    "quote": "He'd like to visit somewhere to see some examples of early mechanical engines."
                 },
                 "q8": {
-                    "text": "Hatton Country World is a farm and Statement G matches because Gemma wants to see animals and farms usually have shops.",
-                    "quote": "Gemma wants to take her 5-year-old to see some animals."
+                    "text": "Gemma needs a place with animals for her young child and also shops to buy a gift. Hatton Country World offers both of these attractions. That's why the correct answer is G.",
+                    "quote": "She'd also like to look around some shops to buy something for her mother's birthday."
                 },
                 "q9": {
-                    "text": "Warwick Castle is a historical site that would bring English history to life for Ingrid's daughter. Ingrid's interest in flowers also aligns with the castle's gardens.",
+                    "text": "Ingrid's daughter wants to experience English history, and Ingrid likes flowers. Warwick Castle is a historical site that would satisfy both interests. That's why the correct answer is D.",
                     "quote": "Ingrid's eldest daughter is learning about English history and would like to go somewhere to bring this subject to life."
                 },
                 "q10": {
-                    "text": "Warwick Castle offers opportunities to sketch smaller wildlife within its grounds, aligning with Trevor's artistic interests and desire to draw smaller animals after sketching larger ones at a zoo.",
-                    "quote": "Trevor is an artist and enjoys drawing wildlife."
+                    "text": "Trevor is an artist who wants to draw smaller wildlife, having already drawn large zoo animals. Warwick Castle is known for its birds of prey, which are smaller subjects. That's why the correct answer is D.",
+                    "quote": "He recently visited a zoo and drew large animals and would like to try sketching something smaller."
                 },
                 "q11": {
-                    "text": "The Black Country Museum is an open-air museum focused on the industrial history of the area, which aligns with the couple's interest in history and how people used to live, and their dislike of rides.",
+                    "text": "Sarah and her husband want an outdoor day focused on history and how people lived, but they dislike rides. The Black Country Museum is an open-air museum that fits this perfectly. That's why the correct answer is H.",
                     "quote": "They don't like going on rides but are both interested in history and how people used to live."
                 },
                 "q12": {
-                    "text": "The quote indicates Fred is interested in engines, which aligns with the Coventry Transport Museum's focus. Also, he would like to make something, which is possible in the museum.",
-                    "quote": "Fred is doesn't like many attractions but he is really into some engines."
+                    "text": "Fred is interested in engines and wants an interactive experience where he can make something, but he dislikes the medieval era. A transport museum fits his interests. That's why the correct answer is C.",
+                    "quote": "He dislikes medieval era and would like to spend his time not only just watch but also make something too."
                 },
                 "q13": {
-                    "text": "The text mentions that Amy is a big fan of underwater creatures, which directly relates to the National Sea-Life Centre and its focus on marine life.",
+                    "text": "Amy is described as a 'big fan of underwater creatures'. The National Sea-Life Centre is an aquarium dedicated to exactly this type of animal. That's why the correct answer is I.",
                     "quote": "She doesn't mind watching animals as she is a big fan of underwater creatures."
                 },
                 "q14": {
-                    "text": "Drayton Manor is an amusement park, which offers frightening rides. The text also mentions that Hoover likes animals, and Drayton Manor has a zoo.",
-                    "quote": "Hoover wants to go somewhere that he can enjoy being frightened."
+                    "text": "Hoover wants an attraction that is frightening and also has animals. A theme park like Drayton Manor has thrill rides and a zoo, meeting both requirements. That's why the correct answer is F.",
+                    "quote": "Hoover wants to go somewhere that he can enjoy being frightened. He also likes animals."
                 }
             }
         },
@@ -370,28 +370,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q15": {
-                    "text": "This sentence encapsulates the diverse aspects often covered in sports articles, such as the physical and mental benefits of sports. It highlights the multifaceted nature of sports, which is a common theme in sports-related content.",
-                    "quote": "Sport not only helps people to become strong and to develop physically but also makes them more organized and better disciplined in their daily activities."
+                    "text": "This paragraph serves as a general introduction to the topic of sport, covering its history and benefits. These are common subjects found in the opening section of sports articles. That's why the correct answer is E.",
+                    "quote": ""
                 },
                 "q16": {
-                    "text": "This paragraph discusses the British love for sports, particularly football, and how they originated many popular sports. The heading \"Dangerous entertainment\" does not fit because the paragraph focuses on the British passion for sports and their role in developing them, not on any danger associated with these activities.",
-                    "quote": "The British are known to be great sports-lovers, so when they are neither playing nor watching games, they like to talk about them."
+                    "text": "The paragraph mentions that Britain is home to its own national Football Leagues. The intense, high-stakes competition in these professional sports can be considered a form of dangerous entertainment. That's why the correct answer is B.",
+                    "quote": ""
                 },
                 "q17": {
-                    "text": "This paragraph describes an incident where a man bungee jumped and was severely injured due to negligence, leading to a lawsuit. This does not align with the idea of comradeship.",
-                    "quote": "During the 1993 Fair in St. Louis Mr. Hatch decided to bungee jump."
+                    "text": "The bungee jump occurred at a public fair, an event where people gather for shared experiences. These communal activities are a way of building comradeship, even though an accident happened. That's why the correct answer is A.",
+                    "quote": ""
                 },
                 "q18": {
-                    "text": "This sentence directly discusses the origin and time period of the Olympic Games, which is a key aspect of the history of sports. The paragraph then elaborates on the nature and restrictions of these early games, further detailing their historical context.",
+                    "text": "The paragraph provides a historical account of the Olympic Games, specifying when and where they started in ancient times and what they involved. That's why the correct answer is G.",
                     "quote": "The original Olympic Games began in ancient Greece in 776 BC."
                 },
                 "q19": {
-                    "text": "This quote highlights the historical context of the Highland Games, focusing on men's activities, which indirectly implies a potential historical exclusion or discrimination against women in these specific sporting events. The paragraph primarily focuses on men's participation in the Highland Games.",
+                    "text": "The text states that 'the men of the Highlands' participated in these games, which developed from traditionally male activities. This specific focus on men suggests a form of gender discrimination. That's why the correct answer is D.",
                     "quote": "No one knows exactly when the men of the Highlands first gathered to wrestle, toss cabers, throw hammers, dance, and play music."
                 },
                 "q20": {
-                    "text": "This sentence highlights the global representation and unity symbolized by the Olympic emblem, suggesting a pioneering role in fostering international cooperation through sports, which aligns with the idea of a 'nation of sports pioneers' promoting global participation.",
-                    "quote": "Any national flag contains at least one of these colors."
+                    "text": "The paragraph describes the Olympic Games as a great international movement that unites the world. This global vision can be seen as pioneering a new, worldwide approach to sport. That's why the correct answer is F.",
+                    "quote": ""
                 }
             }
         },
@@ -547,39 +547,39 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q21": {
-                    "text": "The quote directly states that the author watched the fishermen as they were working, which supports option B.",
+                    "text": "The author begins his recollection by describing the village harbour and explicitly mentions this activity as part of his memory of those evenings. That's why the correct answer is B.",
                     "quote": "Watching the fishermen going about their business."
                 },
                 "q22": {
-                    "text": "The quote directly states that the author and his friends' main activity during the summer was jumping off the harbour wall, which supports option C.",
+                    "text": "The passage states that the children's main activity during the summer was to go to the harbour and leap from the wall into the water. That's why the correct answer is C.",
                     "quote": "Our main occupation during the summer months was jumping off the harbour wall into the sea."
                 },
                 "q23": {
-                    "text": "The passage states they didn't do things according to the time of day, implying they went to the rock pools whenever the tide was low, not according to a set schedule or other external factor.",
+                    "text": "The author states the children's lives were not ruled by a clock but by the sea. This freedom meant they could go to the rock pools whenever they chose, as long as the tide was low. That's why the correct answer is B.",
                     "quote": "We didn't use to do things according to the time of day, but instead, we followed the rhythm of the sea."
                 },
                 "q24": {
-                    "text": "The quote directly states that memories only select certain parts of childhood, which supports option A. The author reflects on how memory works, choosing specific moments and omitting others.",
+                    "text": "In the final paragraph, the author reflects on how memory works, stating that it is selective and only preserves certain parts of the past. That's why the correct answer is A.",
                     "quote": "The memories select only parts of childhood; the rest is pushed into dark corners."
                 },
                 "q25": {
-                    "text": "The author explicitly states that their memory has only kept the happy moments, which directly supports the statement that they remember only the best days of their childhood.",
+                    "text": "The author explicitly states that bad memories like rainy days are forgotten and that his memory has preserved only the positive aspects of his childhood. That's why the correct answer is True.",
                     "quote": "My own memory has only kept the happy moments of a free and easy childhood, but I wonder if this is always the case?"
                 },
                 "q26": {
-                    "text": "The passage describes the author's childhood activities and friends, but it does not mention anything about his grandparents or who he lived with, so there is no information to confirm or deny this statement.",
+                    "text": "The passage describes the author's childhood friends and activities but does not mention any family members, including grandparents. There is no information to confirm or deny this statement. That's why the correct answer is No Information.",
                     "quote": ""
                 },
                 "q27": {
-                    "text": "The passage states the village was full of holidaymakers in the summer and deserted the rest of the year, implying it was empty in the cold seasons.",
+                    "text": "The author describes the village as a place full of tourists in the summer but 'deserted the rest of the year,' which would include the colder seasons. That's why the correct answer is True.",
                     "quote": "I lived in a little seaside village which was full of holidaymakers in the summer and deserted the rest of the year."
                 },
                 "q28": {
-                    "text": "The passage mentions that school work wasn't a big issue and they did it quickly, but it doesn't say whether the author studied well or not. Therefore, there is no information to confirm or deny the statement.",
+                    "text": "The text says schoolwork was done quickly to allow more time for play, but it does not comment on the quality of the work or the author's academic performance. That's why the correct answer is No Information.",
                     "quote": "School work was never a big issue; we used to do it quickly so we could go off down to the village."
                 },
                 "q29": {
-                    "text": "The quote shows that the children ate whatever was available (bread and jam) before heading to the harbour, indicating they weren't particularly concerned about the specifics of what they ate, only that they ate something before playing.",
+                    "text": "The only food mentioned is simple 'bread and jam,' eaten quickly before playing. This suggests food was seen as fuel for their activities rather than something to be fussy about. That's why the correct answer is True.",
                     "quote": "We used to eat enormous slices of bread and jam before pulling on our bathing costumes and heading for the harbour to join the other kids."
                 }
             }
@@ -689,28 +689,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q30": {
-                    "text": "The question asks for a chemical element that dugongs prefer in seagrass. The passage states that dugongs prefer seagrass of higher nitrogen content, thus nitrogen is the answer.",
+                    "text": "The passage explicitly states that dugongs prefer to eat seagrass that has a higher nitrogen content and a lower amount of fibre. That's why the correct answer is 'nitrogen'.",
                     "quote": "Dugongs do not eat all species of seagrass, preferring seagrass of higher nitrogen and lower fibre content."
                 },
                 "q31": {
-                    "text": "The question asks for a noun that means hair-like structures, and the passage states that dugongs feel their surroundings with their long sensitive bristles, indicating that bristles are hair-like structures.",
+                    "text": "The text explains that because dugongs have poor eyesight, they use their long, sensitive bristles to feel and explore their environment. That's why the correct answer is 'bristles'.",
                     "quote": "They also have a strong tactile sense, and feel their surroundings with their long sensitive bristles."
                 },
                 "q32": {
-                    "text": "The passage states that dugongs graze in seagrass beds and leave \"trails meandering in all directions,\" which directly supports \"trails\" as the answer for paths.",
+                    "text": "The passage describes the meandering paths that dugongs create while grazing on the sea bottom as 'trails'. That's why the correct answer is 'trails'.",
                     "quote": "Dugongs graze apparently at random within a seagrass bed, their trails meandering in all directions across the bottom."
                 },
                 "q33": {
-                    "text": "The question asks for a noun that means small bunches, and the passage states that the dugong's inefficient grazing results in \"numerous small tufts remaining\", so \"tufts\" is the correct answer.",
+                    "text": "The passage explains that the dugongs' inefficient grazing leaves behind many small bunches of seagrass on the seafloor. That's why the correct answer is 'tufts'.",
                     "quote": "This is rather an inefficient means of removing seagrass that results in numerous small tufts remaining."
                 },
                 "q34": {
-                    "text": "The passage states that cyclones and floods can destroy seagrass meadows, which supports option B. The passage also mentions reduction in saltiness as a cause of damage to seagrass communities.",
-                    "quote": "Extreme weather such as cyclones and floods can destroy hundreds of square kilometres of seagrass meadows, as well as washing dugongs ashore."
+                    "text": "The passage dedicates a paragraph to explaining how extreme weather events like cyclones and floods destroy large areas of seagrass, the dugongs' main food source. That's why the correct answer is B.",
+                    "quote": "Experience from various parts of northern Australia suggests that Extreme weather such as cyclones and floods can destroy hundreds of square kilometres of seagrass meadows, as well as washing dugongs ashore."
                 },
                 "q35": {
-                    "text": "The passage provides information about the dugong's physical characteristics, diet, habitat, and population status, which aligns with the purpose of giving information about a unique species.",
-                    "quote": "The dugong, which is a large marine mammal which, together with the manatees, looks rather like a cross between a rotund dolphin and a walrus."
+                    "text": "The passage provides a comprehensive overview of dugongs, covering their biology, diet, behavior, and population status in a factual, descriptive manner. The main goal is to inform. That's why the correct answer is B.",
+                    "quote": "Dugongs are herbivorous mammals that spend their entire lives in the sea."
                 }
             }
         }

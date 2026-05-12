@@ -74,28 +74,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "The passage discusses the effects of a media device that became widely available in the 1950s, and the subsequent sentences focus on the impact of watching 'it,' clearly referring to television.",
-                    "quote": "The effects of _____(1)_____ have been much debated since it became widely available in the 1950s."
+                    "text": "The passage discusses the effects of a media device that became popular in the 1950s. The text repeatedly uses the abbreviation 'TV' and the verb 'watching,' confirming the subject. That's why the correct answer is 'television'.",
+                    "quote": "By the time they are 18, they will have spent more time watching TV than any other single activity apart from sleeping."
                 },
                 "q2": {
-                    "text": "The blank requires a noun that refers to humans, as indicated by the instructions. 'People' fits this requirement and makes sense in the context of TV's effects.",
-                    "quote": "There is little doubt that watching it has significant effects on _____(2)_____ ."
+                    "text": "The sentence introduces the general idea that watching TV affects viewers. The following sentences then specify which groups, like children, are most influenced, implying a broader group was mentioned first. That's why the correct answer is 'people'.",
+                    "quote": ""
                 },
                 "q3": {
-                    "text": "The question asks for a noun referring to \"young ones,\" and the subsequent sentences discuss the viewing habits and potential effects on \"children,\" making it the most fitting answer in context.",
-                    "quote": "Those who are most influenced by TV are _____(3)_____ ."
+                    "text": "The passage states that a certain group is most influenced by TV. The very next sentence gives an example of this group, mentioning how much time they spend watching television. That's why the correct answer is 'children'.",
+                    "quote": "For example, in the United States, children watch between three and four hours per day."
                 },
                 "q4": {
-                    "text": "The passage discusses the effects of TV, particularly on children, and mentions that children who watch TV are more likely to behave aggressively, indicating that the missing word relates to aggressive behavior. The word \"violence\" fits this context.",
-                    "quote": "A concern that is often raised is the question of _____(4)_____ on TV."
+                    "text": "The passage raises a concern about TV content. The next sentence explains this concern by linking TV watching to aggressive behavior, which is a direct consequence of viewing violent content. That's why the correct answer is 'violence'.",
+                    "quote": "Researches have established that children who watch TV are more likely to behave aggressively."
                 },
                 "q5": {
-                    "text": "The question asks for a noun that means 'mothers and fathers'. The sentence discusses limiting the effects of TV on children, and 'parents' logically fits as those who can influence a child's behavior.",
-                    "quote": "Their _____(5)_____ can help limit the effects of what they see, however."
+                    "text": "The sentence discusses who can limit the negative effects of TV on children. In this context, the most logical answer is the adults responsible for the children, as suggested by the hint 'mothers and fathers'. That's why the correct answer is 'parents'.",
+                    "quote": ""
                 },
                 "q6": {
-                    "text": "The sentence discusses educational content that helps children learn, and \"programs\" fits logically as a type of TV show that can provide education. The context of learning and vocabulary development supports this choice.",
-                    "quote": "Many educational _____(6)_____ help children learn about the world, widen their vocabulary, and develop numeracy."
+                    "text": "The sentence describes the positive, educational content available on TV. The specific term for individual shows or series on television that can teach children is 'programs', as indicated by the hint 'TV shows'. That's why the correct answer is 'programs'.",
+                    "quote": ""
                 }
             }
         },
@@ -235,35 +235,35 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q7": {
-                    "text": "The text explicitly states that Chuck enjoys thought-provoking dramas, which aligns perfectly with the description of 'Fate's Design' as a thought-provoking drama series.",
+                    "text": "Chuck enjoys thought-provoking dramas. \"Fate's Design\" is described as a \"thought-provoking drama series,\" which directly matches his preference for deep storytelling. That's why the correct answer is C.",
                     "quote": "Chuck is a young working professional who enjoys thought-provoking dramas during their downtime."
                 },
                 "q8": {
-                    "text": "Text 8 describes Henry as a history buff with a fascination for World War II documentaries, which directly aligns with Statement E's description of a documentary series about World War II.",
+                    "text": "Henry is a history buff interested in World War II documentaries. \"War Echoes\" is a documentary series specifically about World War II, making it the perfect choice for him. That's why the correct answer is E.",
                     "quote": "Henry is a history buff with a fascination for World War II documentaries and stories."
                 },
                 "q9": {
-                    "text": "Text 9 describes a parent seeking a fun, educational cartoon for young children, which aligns perfectly with Statement D's description of \"Adventures of Smarty and Friends\" as a fun and educational cartoon for young children.",
+                    "text": "Fred is looking for a fun and educational cartoon for his young children. \"Adventures of Smarty and Friends\" is described as exactly that, making it the ideal option. That's why the correct answer is D.",
                     "quote": "Fred is a busy parent looking for a fun, educational cartoon for their young children to enjoy."
                 },
                 "q10": {
-                    "text": "The text describes Joe's interest in mystery and crime dramas with thrilling plot twists, which aligns perfectly with Statement F's description of a thrilling mystery series with unexpected plot twists.",
+                    "text": "Joe is a fan of mystery and crime dramas with thrilling plot twists. \"Shadow's Pursuit\" is a thrilling mystery series about solving crimes that features unexpected plot twists. That's why the correct answer is F.",
                     "quote": "Joe is a fan of mystery and crime dramas, always seeking the next thrilling plot twist."
                 },
                 "q11": {
-                    "text": "The text describes Maria's interest in food and travel shows to learn recipes and cooking techniques, which aligns with the description of 'Culinary Frontiers' where a chef travels and learns cooking techniques.",
+                    "text": "Maria is an aspiring chef who likes learning through food and travel shows. \"Culinary Frontiers\" features a chef traveling the world to learn cooking techniques, which fits her interests perfectly. That's why the correct answer is J.",
                     "quote": "Maria is an aspiring chef who loves learning new recipes and cooking techniques through food and travel shows."
                 },
                 "q12": {
-                    "text": "The text describes Laila as a college student who enjoys sitcoms to relax, which aligns with Statement H's description of a sitcom about college life that's perfect for unwinding.",
+                    "text": "Laila is a college student who watches sitcoms to unwind. \"Life on Campus\" is a sitcom about college students and is described as \"perfect for unwinding after a long day.\" That's why the correct answer is H.",
                     "quote": "Laila is a college student who loves binge-watching sitcoms to unwind after a long day of studying."
                 },
                 "q13": {
-                    "text": "The text explicitly states Tony is a sci-fi enthusiast looking for mind-bending series, which aligns perfectly with the description of 'Paradox Chronicles' as a captivating sci-fi series that explores alternate realities and the nature of existence.",
+                    "text": "Tony is a sci-fi enthusiast looking for a mind-bending series. \"Paradox Chronicles\" is described as a captivating sci-fi series that explores complex concepts like time travel and alternate realities. That's why the correct answer is A.",
                     "quote": "Tony is a sci-fi enthusiast who's always on the lookout for the next mind-bending series."
                 },
                 "q14": {
-                    "text": "The text describes someone who loves nature and enjoys stunning visuals and stories about it, which aligns perfectly with a documentary series that immerses viewers in the beauty of nature.",
+                    "text": "Sawyer is a nature lover who enjoys stunning visuals of the natural world. \"Wonders of the Wild\" is a documentary series that allows viewers to immerse themselves in the beauty of nature. That's why the correct answer is I.",
                     "quote": "Sawyer is a nature lover who enjoys immersing themselves in stunning visuals and captivating stories about the natural world."
                 }
             }
@@ -379,27 +379,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q15": {
-                    "text": "This sentence demonstrates the global reach and importance of English, indicating its status as a world language due to its official presence in numerous countries.",
+                    "text": "This paragraph describes the global reach of English, noting its use in over 80 countries and its dominance in international fields. This information supports the idea of it being a world language, so the correct answer is G.",
                     "quote": "It is the official or semi-official language in over 60 countries and is prominent in over 20 more."
                 },
                 "q16": {
-                    "text": "This sentence directly addresses the origins and initial development of the English language, indicating the start of its history. Therefore, \"How it all began\" accurately reflects the paragraph's content.",
+                    "text": "The text explains the historical origins of the English language, from the Germanic tribes in the 5th century to later influences. This summary of its origins matches the heading, so the correct answer is A.",
                     "quote": "English developed from the languages of Germanic tribes (Angles, Saxons, and Jutes) who settled in Britain from the 5th century."
                 },
                 "q17": {
-                    "text": "The paragraph discusses how English has taken words from many other languages. This makes \"Greedy borrower\" a fitting heading because it highlights English's tendency to adopt words from other languages.",
+                    "text": "This paragraph focuses on how English has adopted a large number of words from other languages, with 80% of its vocabulary being foreign. This makes 'Greedy borrower' a fitting description, so the correct answer is B.",
                     "quote": "One notable feature of English is the large number of words it has borrowed from other languages."
                 },
                 "q18": {
-                    "text": "This sentence directly addresses the similarities and differences between different forms of English. The heading \"Different or alike?\" encapsulates this comparison.",
+                    "text": "The paragraph discusses how varieties of English are both similar and different, giving examples of spelling and vocabulary. This directly addresses the question in the heading, which is why the correct answer is C.",
                     "quote": "Although British English and American English are generally similar, there are differences in spelling (colour/color), vocabulary (lift/elevator), and pronunciation."
                 },
                 "q19": {
-                    "text": "The paragraph discusses the widespread use of English and the large number of people learning it, directly supporting the idea that it's a universal language used for communication worldwide.",
+                    "text": "The text states that English is the 'global language of communication' and is learned by more people than any other language. This supports the idea of it being a universal language, so the correct answer is D.",
                     "quote": "English has become the global language of communication."
                 },
                 "q20": {
-                    "text": "This sentence directly describes methods used to learn English, aligning perfectly with the heading 'A way of learning languages'. The paragraph focuses on how people can effectively learn the language.",
+                    "text": "This section lists several effective methods for language learners to improve their skills, such as watching films and reading books. It describes ways of learning, which is why the correct answer is E.",
                     "quote": "Many language learners find that watching English films, listening to English songs, and reading English books are effective ways to improve their skills."
                 }
             }
@@ -556,39 +556,39 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q21": {
-                    "text": "The passage states that Nostradamus initially trained as a physician, which is another word for doctor. Therefore, option D is the correct answer.",
+                    "text": "The text says Nostradamus first trained as a physician, which is another term for a doctor, before he became interested in prophecies. That's why the correct answer is D.",
                     "quote": "Nostradamus initially trained as a physician and gained a reputation for treating plague victims."
                 },
                 "q22": {
-                    "text": "The passage states that Nostradamus's prophecies were written in quatrains, which are defined as four-line verses, directly supporting option C.",
+                    "text": "The passage describes the structure of his prophecies as \"quatrains,\" which it then explicitly defines as four-line verses. That's why the correct answer is C.",
                     "quote": "His prophecies were written in quatrains - four-line verses - and grouped into sets of 100 called \"centuries.\""
                 },
                 "q23": {
-                    "text": "The quote directly states that critics believe Nostradamus's writings are so ambiguous they can be fitted to almost any event, which supports the answer that his predictions can fit many different events.",
+                    "text": "The passage explains the critics' viewpoint, stating that the prophecies are so vague they can be made to match almost any event after it happens. That's why the correct answer is C.",
                     "quote": "Critics argue that his writings are so ambiguous that they can be fitted to almost any event after it has happened."
                 },
                 "q24": {
-                    "text": "The passage states that Nostradamus's books \"continue to attract interest, especially during times of crisis\", which directly supports option B as the correct answer.",
+                    "text": "The passage notes that his books attract more interest during specific periods, particularly \"during times of crisis,\" which are uncertain times. That's why the correct answer is B.",
                     "quote": "Despite this, his books have rarely been out of print and continue to attract interest, especially during times of crisis or at the turn of centuries."
                 },
                 "q25": {
-                    "text": "The passage states Nostradamus was born in December 1503. Since the 16th century began in 1501, this confirms he was born in the 16th century.",
+                    "text": "The text states he was born in 1503. The 16th century includes all years from 1501 to 1600, so this statement is correct. That's why the correct answer is 'True'.",
                     "quote": "Michel de Nostredame, better known as Nostradamus, was born in Saint-Remy-de-Provence, France, in December 1503."
                 },
                 "q26": {
-                    "text": "The passage states that Nostradamus' prophecies were written in a mixture of languages including French, Greek, and Latin, meaning they were not written entirely in French.",
+                    "text": "The passage states that the prophecies were written in a mix of languages, including French, Greek, and Latin, not just French. That's why the correct answer is 'False'.",
                     "quote": "The prophecies are deliberately vague and written in a mixture of languages including French, Greek, and Latin."
                 },
                 "q27": {
-                    "text": "The passage states that scientific analysis has found no evidence to support Nostradamus's accuracy, meaning that scientific studies do not support his predictions. Therefore, the statement that scientific studies support the accuracy of his predictions is false, and the answer is 'No Information'.",
+                    "text": "The passage says analysis found no evidence his success was better than chance. It does not mention any studies that *do* support him, so we cannot confirm the statement from the text. That's why the correct answer is 'No Information'.",
                     "quote": "Scientific analysis has found no evidence that his success rate is any better than chance."
                 },
                 "q28": {
-                    "text": "The passage states that his books have \"rarely been out of print\", meaning they are still being published, which contradicts the statement that they are not being published today. Therefore, the answer is False.",
-                    "quote": "Despite this, his books have rarely been out of print and continue to attract interest, especially during times of crisis or at the turn of centuries."
+                    "text": "The passage says his books have 'rarely been out of print', which implies they might be unavailable now. It doesn't explicitly state they are currently being published. That's why the correct answer is 'False'.",
+                    "quote": ""
                 },
                 "q29": {
-                    "text": "The passage states that, according to legend, Nostradamus predicted his own death, which directly supports the answer 'True'.",
+                    "text": "The text shares a legend in which Nostradamus told his secretary he would not be alive the next morning, directly predicting his own death. That's why the correct answer is 'True'.",
                     "quote": "According to legend, he predicted his own death, telling his secretary the night before: \"You will not find me alive at sunrise.\""
                 }
             }
@@ -698,27 +698,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q30": {
-                    "text": "The passage states that \"The disease was spread by insects\", which directly supports the answer \"insects\" as small creatures that spread the disease.",
+                    "text": "The passage explicitly states that the disease was transmitted by small creatures that bred in stagnant water, which is found in marshes. That's why the correct answer is 'insects'.",
                     "quote": "The disease was spread by insects that bred in stagnant water, and it affected millions of Italians over the centuries."
                 },
                 "q31": {
-                    "text": "The passage states that people believed malaria was caused by \"unclean air,\" which is a synonym for dirty air, thus making \"unclean\" the correct adjective.",
-                    "quote": "The name \"malaria\" itself comes from Italian, meaning \"bad air\" - people originally believed the disease was caused by the unclean air from swamps rather than by insects."
+                    "text": "The text explains that people originally thought the disease came from the 'bad air' from swamps. The word 'unclean' is a synonym for 'bad' in this context. That's why the correct answer is 'unclean'.",
+                    "quote": ""
                 },
                 "q32": {
-                    "text": "The passage states that the disease seemed to run in families, leading some to believe it was hereditary, which directly supports the answer.",
+                    "text": "The passage directly states that because the disease often affected multiple people in the same family, some people believed it was passed down genetically. That's why the correct answer is 'hereditary'.",
                     "quote": "The disease seemed to run in families, leading some to believe it was hereditary."
                 },
                 "q33": {
-                    "text": "The question asks for a noun meaning how long one lives, and the passage states that conquering malaria led to improvements in 'life expectancy,' directly answering the question.",
+                    "text": "The passage lists the positive results of conquering malaria, explicitly mentioning that the average length of a person's life improved significantly. That's why the correct answer is 'expectancy'.",
                     "quote": "The conquest of malaria in Italy led to significant improvements in health and life expectancy."
                 },
                 "q34": {
-                    "text": "The passage mentions draining marshes, distributing medicine, and using insecticides as part of the anti-malaria campaign, but it does not mention vaccinating the population. Therefore, vaccinating the population is the correct answer.",
+                    "text": "The passage lists the methods used in the campaign: draining marshes, distributing medicine, and using insecticides. Vaccinating the population is not mentioned as part of the effort. That's why the correct answer is A.",
                     "quote": "This involved draining marshes, distributing quinine (an anti-malarial drug), and using insecticides."
                 },
                 "q35": {
-                    "text": "The passage states that the transformation resulting from malaria eradication contributed to Italy's economic development, directly supporting option D.",
+                    "text": "The passage concludes by stating that making areas habitable and productive after eliminating malaria directly contributed to the country's economic progress. That's why the correct answer is D.",
                     "quote": "This transformation contributed to Italy's economic development in the latter half of the 20th century."
                 }
             }

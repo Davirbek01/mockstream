@@ -65,28 +65,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "The sentence introduces 'language models' as a type of program, and the passage discusses AI and computers, making 'computer' the most logical fit to describe the programs' nature.",
-                    "quote": "New _____(1)_____ programs called language models have gotten very good at mimicking people."
+                    "text": "The passage is about artificial intelligence and language models, which are types of computer programs. The text also contrasts talking to a person with talking to a computer. That's why the correct answer is 'computer'.",
+                    "quote": "It can be really hard to tell if you’re talking to a person or a computer."
                 },
                 "q2": {
-                    "text": "The sentence discusses measuring something 'directly' and contrasts it with measuring 'intelligent behavior.' The passage is about testing 'intelligence,' making it the logical fit.",
-                    "quote": "Instead of measuring _____(2)_____ directly, what if you measured intelligent behavior?"
+                    "text": "The passage discusses Alan Turing's ideas about artificial intelligence. He suggested a new test that measures intelligent behavior instead of trying to measure the concept of intelligence itself. That's why the correct answer is 'intelligence'.",
+                    "quote": "He had an idea for a different way to test intelligence."
                 },
                 "q3": {
-                    "text": "The sentence directly states that language models are 'mimicking person language,' making 'person' the correct fit for the gap. The context discusses AI's ability to imitate human-like communication.",
-                    "quote": "Recently, computer programs called language models have gotten much better at mimicking person language."
+                    "text": "The first sentence of the passage states that language models are designed to copy how people communicate. The goal is for them to seem human, so they mimic the language used by a person. That's why the correct answer is 'person'.",
+                    "quote": "New _____(1)_____ programs called language models have gotten very good at mimicking people."
                 },
                 "q4": {
-                    "text": "The sentence describes what \"AI\" does, and the word \"programs\" fits logically as AI needs programs to analyze data. The following verb \"analyze\" requires a plural noun, making \"programs\" the correct fit.",
-                    "quote": "These AI _____(4)_____ analyze millions of sentences from books and websites to learn hidden patterns in language."
+                    "text": "The sentence before this one introduces 'computer programs called language models.' The phrase 'These AI' in the gapped sentence refers back to those specific programs, explaining what they do. That's why the correct answer is 'programs'.",
+                    "quote": "Recently, computer programs called language models have gotten much better at mimicking _____(3)_____ language."
                 },
                 "q5": {
-                    "text": "The sentence discusses how people use \"AI-generated\" content to cheat, and the following sentence mentions \"AI-generated text\", indicating that \"text\" is the type of content being referred to.",
-                    "quote": "People have used AI-generated _____(5)_____ to cheat on tests."
+                    "text": "The sentence immediately before this one introduces the topic of 'problems with AI-generated text.' The gapped sentence then provides a specific example of such a problem: cheating on tests. That's why the correct answer is 'text'.",
+                    "quote": "But there are also problems with AI-generated text."
                 },
                 "q6": {
-                    "text": "The sentence describes how scammers use AI to deceive others, and \"people\" is the logical object of the verb \"trick,\" indicating who is being deceived. The context discusses the negative consequences of AI, such as tricking individuals with fake information.",
-                    "quote": "And scammers can use AI to generate fake information so they can trick people ."
+                    "text": "The sentence describes how scammers use AI to create fake information. The purpose of a scam is to deceive other humans in order to get something from them. That's why the correct answer is 'people'.",
+                    "quote": "And scammers can use AI to generate fake information so they can trick _____(6)_____ ."
                 }
             }
         },
@@ -247,36 +247,36 @@ window.CEFR_READING_TEST = {
             ],
             "explanations": {
                 "q7": {
-                    "text": "The phrase \"golf and leisure facilities\" directly supports the statement that the place has golf and a fitness center, as a fitness center is a leisure facility.",
-                    "quote": "Spectacular scenery with sporting, golf and leisure facilities."
+                    "text": "The advertisement lists both \"golf\" and a \"Life Fitness Gym\" as available facilities, which directly matches the description of a place with a golf and fitness centre. That's why the correct answer is J.",
+                    "quote": "Spectacular scenery with sporting, golf and leisure facilities. State of the art “Life Fitness” Gym, Health and Beauty suite with Sauna."
                 },
                 "q8": {
-                    "text": "The text explicitly mentions a hotel situated between lakes, fulfilling the desire to visit a lakeside hotel. The phrase \"SPECIAL TELEGRAPH SUMMER BREAKS AVAILABLE\" indicates that summer is a suitable time to visit.",
-                    "quote": "Award winning hotel situated in magnificent scenery between Lakes and Dales."
+                    "text": "The hotel is located \"between Lakes and Dales\" and offers \"SPECIAL TELEGRAPH SUMMER BREAKS\". This makes it a perfect choice for someone wanting a lakeside holiday in the summer. That's why the correct answer is B.",
+                    "quote": ""
                 },
                 "q9": {
-                    "text": "The mention of an 'award winning team of chefs' indicates that the place offers nice foods. The phrase 'break of a lifetime' suggests a unique holiday experience.",
+                    "text": "The hotel has an \"Award winning team of chefs,\" which indicates nice food. Its location in the Welsh countryside and the promise of a \"break of a lifetime\" suggest it is a unique place. That's why the correct answer is D.",
                     "quote": "Award winning team of chefs."
                 },
                 "q10": {
-                    "text": "The phrase \"overlooking sandy cove\" indicates the hotel is near a beach. The mention of \"exceptional leisure facilities\" suggests relaxing facilities.",
-                    "quote": "Overlooking sandy cove and surrounded by N.T. Coastline."
+                    "text": "The hotel is described as \"Overlooking sandy cove,\" which is a type of beach. It also offers \"Exceptional leisure facilities\" for relaxation. That's why the correct answer is I.",
+                    "quote": ""
                 },
                 "q11": {
-                    "text": "The phrase \"near picturesque fishing port\" indicates the hotel is located near docks, as fishing ports are areas with docks for fishing boats.",
-                    "quote": "Steeped in history, nestling on the water’s edge - near picturesque fishing port."
+                    "text": "The text states the hotel is located \"near picturesque fishing port.\" A port is a harbour area with docks for boats, matching the description. That's why the correct answer is F.",
+                    "quote": "nestling on the water’s edge - near picturesque fishing port."
                 },
                 "q12": {
-                    "text": "The phrase \"renowned personal service\" directly indicates that the hotel offers a high level of individualized attention, fulfilling the desire for personal service.",
-                    "quote": "renowned personal service"
+                    "text": "The advertisement for this hotel explicitly mentions its \"renowned personal service,\" which is exactly what the statement describes. That's why the correct answer is A.",
+                    "quote": "All amenities, excellent leisure facilities and renowned personal service."
                 },
                 "q13": {
-                    "text": "The text explicitly states that the hotel is ideal for exploring the Norfolk coast and countryside, which implies suitability for exploration and visiting natural areas.",
+                    "text": "The description says the hotel is \"Ideal to explore Norfolk coast and countryside.\" The coast includes beaches, and the word \"explore\" matches the statement perfectly. That's why the correct answer is E.",
                     "quote": "Ideal to explore Norfolk coast and countryside."
                 },
                 "q14": {
-                    "text": "Statement G refers to visiting in autumn, and the text mentions availability in August and September, which are autumn months. The phrase \"Family run for 30 successful years\" implies reliability.",
-                    "quote": "AUGUST AND SEPTEMBER AVAILABILITY."
+                    "text": "The hotel has been \"Family run for 30 successful years,\" which suggests it is reliable. It also has availability in September, which is an autumn month. That's why the correct answer is G.",
+                    "quote": "Family run for 30 successful years."
                 }
             }
         },
@@ -407,28 +407,28 @@ window.CEFR_READING_TEST = {
             ],
             "explanations": {
                 "q15": {
-                    "text": "This sentence introduces the various places and activities available in Jakarta, directly relating to the city's attractions for tourists. The paragraph then elaborates on specific landmarks and museums, further supporting the heading.",
+                    "text": "This paragraph lists several places for tourists to visit in Jakarta, including museums and the famous National Monument. These are all examples of tourist attractions, which is why the correct answer is C.",
                     "quote": "Today Jakarta has much to offer, ranging from museums, art and antique markets, first class shopping to accommodations and a wide variety of cultural activities."
                 },
                 "q16": {
-                    "text": "The paragraph describes surfing big waves and diving with marine scavengers, which are activities that require a sense of adventure and physical endurance, thus fitting the heading 'Activities for the adventurous and hardy'.",
+                    "text": "The paragraph describes activities like surfing on big waves and night diving. These are physically demanding and exciting pastimes for adventurous people, so the correct answer is E.",
                     "quote": "Facing the open sea, the western coastline of Sumatra and the waters surrounding Nias Island have big waves that make them one of the best surfer’s beaches in Indonesia."
                 },
                 "q17": {
-                    "text": "This sentence directly describes services that cater to the body and promote mental wellness, aligning perfectly with the idea of caring for the body, mind, and soul. The paragraph focuses on spa treatments and their holistic benefits.",
-                    "quote": "Various establishments offer professional pampering service with floral baths, body scrubs, aromatic oils, massages and meditation; rituals and treatments that use spices and aromatic herbs to promote physical and mental wellness."
+                    "text": "This paragraph focuses on spa services like massages and meditation that promote well-being. It explicitly mentions promoting 'physical and mental wellness,' connecting the body and mind, which is why the correct answer is G.",
+                    "quote": "Indonesians believe that when treating the body you cure the mind."
                 },
                 "q18": {
-                    "text": "This sentence directly supports the heading \"A taste of everything\" because it describes the diverse culinary experiences available in Jakarta, representing various Indonesian cultures. The paragraph emphasizes the wide range of food options, implying a comprehensive and varied culinary landscape.",
-                    "quote": "The taste of Indonesia’s many cultures can be found in almost any corner of the city: hot and spicy food from West Sumatra, sweet tastes of Dental Java, the tangy fish dishes of North Sulawesi."
+                    "text": "The text describes the huge variety of food available in Jakarta, from French and American to different regional Indonesian cuisines. This wide range of options matches the heading, so the correct answer is A.",
+                    "quote": "Like French gourmet dining, exotic Asian cuisine, American fast food, stylish cafes, restaurants all compete to find a way into your heart through your stomach."
                 },
                 "q19": {
-                    "text": "This sentence directly states that despite modernization, native people continue to preserve their ancient cultures and rituals. This aligns perfectly with the idea that 'ancient traditions live on'.",
+                    "text": "This paragraph explains how native tribes continue to practice their old traditions and rituals despite modern influences. This idea of preserving the past is why the correct answer is D.",
                     "quote": "In the face of constant exposure to modernization and foreign influences, the native people still faithfully cling to their culture and rituals."
                 },
                 "q20": {
-                    "text": "This sentence directly implies extensive shopping opportunities for all types of shoppers, which aligns perfectly with the idea of shopping until one is exhausted, as suggested by the heading \"Shop till you drop\".",
-                    "quote": "Whether you are a serious spender or half hearted shopper, there is sure to be something for everybody in Jakarta."
+                    "text": "The paragraph details the extensive shopping opportunities in Jakarta, from local handicrafts to luxury brands in modern shopping centers. This focus on shopping makes it clear that the correct answer is B.",
+                    "quote": "Catering to diverse tastes and pockets, the wide variety of things you can buy in Jakarta is mind boggling from the best of local handicrafts to haute couture labels."
                 }
             }
         },
@@ -606,39 +606,39 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q21": {
-                    "text": "The provided quote describes a series of actions (relaxing, bathing, setting an alarm for sufficient sleep) that together constitute a set of complex measures aimed at ensuring healthy sleep, which aligns with option B.",
-                    "quote": "Relax, take a bath, maybe sip some herbal tea. Then move into the bedroom. Set your alarm clock for a time no less than eight hours in the future, fluff up your pillows and lay your head down for a peaceful night of restorative shut-eye."
+                    "text": "The first paragraph lists several actions to prepare for sleep, like turning off electronics and taking a bath. These represent a comprehensive set of measures for a healthy night's rest, which is why the correct answer is B.",
+                    "quote": "Shut off the TV, log off the Internet and unplug the phone. Relax, take a bath, maybe sip some herbal tea."
                 },
                 "q22": {
-                    "text": "The passage states that employers tend to frown on naps, which means bosses are against them. Therefore, option C is the correct answer.",
+                    "text": "The passage explicitly states that while naps are a good idea, employers 'tend to frown on them'. This means that bosses generally disapprove of or are against employees napping during work, so that's why the correct answer is C.",
                     "quote": "Well, naps would be nice, but at the moment, employers tend to frown on them."
                 },
                 "q23": {
-                    "text": "The passage states that night workers have difficulty going to the dentist because they are typically only open during 9-to-5 hours, which supports the idea that they can hardly consult doctors when needed.",
-                    "quote": "Biologists say night workers have a hard time not paying attention to the 9-to-5 day because of noises or family obligations or that’s the only time they can go to the dentist."
+                    "text": "The text explains that night workers find it hard to do things during the '9-to-5 day', giving the example that it's the only time they can see a dentist. This illustrates the difficulty of consulting doctors, so that's why the correct answer is B.",
+                    "quote": "There are not too many dentists open at midnight."
                 },
                 "q24": {
-                    "text": "The quote directly states that the purpose of the lighting systems is to keep workers alert, which aligns with option A. The other options are not the primary aim of the lighting system according to the passage.",
+                    "text": "The passage directly states that the purpose of these lighting systems is to 'keep workers alert around the clock'. This matches the goal of helping people feel alert while working at night, which is why the correct answer is A.",
                     "quote": "One of the companies makes specially designed shift-work lighting systems intended to keep workers alert around the clock."
                 },
                 "q25": {
-                    "text": "The passage states that rats died after being kept from sleeping for two and a half weeks, but it also clarifies that 'People are not likely to drop dead in the same way,' indicating that people are not likely to die after two weeks of sleep deprivation.",
-                    "quote": "In a famous experiment conducted at the University of Chicago in 1988, rats kept from sleeping died after two and a half weeks."
+                    "text": "The passage mentions an experiment where rats died from sleep deprivation, but it immediately clarifies that humans are not expected to die in the same way. This contradicts the statement, which is why the correct answer is False.",
+                    "quote": ""
                 },
                 "q26": {
-                    "text": "The passage states that people are working longer hours and spending more time on entertainment, which directly supports the claim that these factors are contributing to less sleep.",
+                    "text": "The text says Americans are 'working longer days' and 'playing longer, too' because of expanded entertainment options. These factors are explicitly linked to people getting less sleep, so that's why the correct answer is True.",
                     "quote": "They are working longer days — and, increasingly, nights — and they are playing longer, too, as TV and the Internet expand the range of round-the-clock entertainment options."
                 },
                 "q27": {
-                    "text": "The passage states Americans are sleeping less than they did at the turn of the century, but it doesn't specify whether they went to sleep or awakened earlier. Therefore, there is no information to confirm or deny the statement.",
+                    "text": "The passage states people sleep for a shorter duration now, but it doesn't mention the specific times they went to bed or woke up. Without this detail, we cannot confirm the statement, which is why the correct answer is No Information.",
                     "quote": ""
                 },
                 "q28": {
-                    "text": "The passage states that sleep experts are irritated by the fact that much sleep deprivation is voluntary, meaning people are choosing to sleep less, which supports the statement.",
+                    "text": "The passage clearly states that 'much sleep deprivation is voluntary' and that getting little sleep is considered a 'macho attitude'. This shows that people are choosing to sleep less, so that's why the correct answer is True.",
                     "quote": "What irritates sleep experts most is the fact that much sleep deprivation is voluntary."
                 },
                 "q29": {
-                    "text": "The passage states that NASA astronauts are ALREADY using the shiftwork light systems, not planning to use them in the future. Therefore, the statement is false.",
+                    "text": "The text says this special lighting 'has been the province of NASA astronauts', indicating it is already in use by them. It is not a future plan for NASA, which is why the correct answer is False.",
                     "quote": "So far, such special lighting has been the province of NASA astronauts and nuclear power plant workers."
                 }
             }
@@ -754,28 +754,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q30": {
-                    "text": "The quote indicates that Clothkits sells fabric, as Mawer is proud that her fabric is printed in England. This supports the answer that Clothkits specialised in selling fabric.",
-                    "quote": "The ethos of Clothkits remains the same, and Mawer is proud that her fabric is printed either in London or the north of England, and that packaging is kept to an absolute minimum."
+                    "text": "The passage states that the company's unique idea was to print a pattern directly onto the material that customers would then use to sew their clothes. This material is fabric. That's why the correct answer is 'fabric'.",
+                    "quote": "Clothkits was created by the designer Anne Kennedy, who came up with the ingenious idea of printing a pattern straight on to coloured fabric so that a paper pattern was not needed."
                 },
                 "q31": {
-                    "text": "The passage states that the initial Clothkits design was a dress in a \"geometric stripe\", directly supporting \"geometric\" as the answer.",
+                    "text": "The passage describes the company's first design as a dress with a specific type of pattern. This pattern was a stripe made of geometric shapes. That's why the correct answer is 'geometric'.",
                     "quote": "Its initial design was a dress in a geometric stripe in orange, pink, turquoise and purple."
                 },
                 "q32": {
-                    "text": "The word \"newspaper\" appears directly in the text, and the article in question is the Observer, thus supporting the answer.",
+                    "text": "The text explains that the company received a huge number of orders after its first design was featured in a publication called the Observer, which is a newspaper. That's why the correct answer is 'newspaper'.",
                     "quote": "It cost 25 shillings (£1.25), and after it was featured in the Observer newspaper, Kennedy received more than £2,000 worth of orders."
                 },
                 "q33": {
-                    "text": "The sentence states that sew-your-own kits were supplemented by knitwear, meaning that the company also sold knitwear.",
+                    "text": "The passage states that while the main part of the business was sew-your-own kits, the company sold another type of clothing to complement this. This other product was knitwear. That's why the correct answer is 'knitwear'.",
                     "quote": "Sew-your-own kits formed the core of the business, supplemented by knitwear."
                 },
                 "q34": {
-                    "text": "This sentence directly states that Clothkits embodied the spirit of the late 1960s and 1970s, meaning its designs represented the attitudes of the time.",
+                    "text": "The passage explicitly states that the brand captured the feeling and style of the late 1960s and 1970s. This means its designs reflected the culture and attitudes of that period. That's why the correct answer is A.",
                     "quote": "Clothkits has always embodied the spirit of the late 1960s and 1970s."
                 },
                 "q35": {
-                    "text": "The passage states that Freeman's, a large corporate company, had an ethos that did not align with the alternative and artistic nature of Clothkits, indicating that Freeman's was an unsuitable partner, which led to Clothkits becoming dormant.",
-                    "quote": "but its ethos are big, corporate company did not sit well alongside the alternative and artistic of Clothkits."
+                    "text": "The text explains that Freeman's, a large corporate company, had a very different set of values ('ethos') from the artistic style of Clothkits. This clash made them a poor match. That's why the correct answer is C.",
+                    "quote": ""
                 }
             }
         }

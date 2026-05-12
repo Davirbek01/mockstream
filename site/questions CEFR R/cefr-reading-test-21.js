@@ -86,40 +86,40 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "The word \"police\" fits logically before \"constable\" to describe the type of officer, and the sentence describes familiar figures associated with Scotland Yard, confirming that a \"police constable\" is a standard image.",
-                    "quote": "To most people, its name immediately brings to mind the picture of a detective — cool, efficient, ready to track down any criminal, or a helmeted police constable — that familiar figure of the London scene and trusty helper of every traveller from overseas."
+                    "text": "The passage introduces Scotland Yard as the headquarters of the Metropolitan Police. A constable is a rank within this police force, making 'police' the correct word to describe them. That's why the correct answer is 'police'.",
+                    "quote": "Scotland Yard is the headquarters of the Metropolitan Police in London."
                 },
                 "q2": {
-                    "text": "The sentence explicitly states \"the ancient City of London,\" making \"London\" the correct answer. The context describes the geographical area under Scotland Yard's jurisdiction, noting an exception for the City of London, which has its own police force.",
-                    "quote": "Scotland Yard is situated on the Thames Embankment close to the Houses of Parliament and the familiar clock tower of Big Ben, and its jurisdiction extends over 740 square miles with the exception of the ancient City of London, which possesses its own separate police force."
+                    "text": "The passage states that Scotland Yard is the police force for London. It then mentions an exception to its jurisdiction, which is the historically separate 'City of London'. That's why the correct answer is 'London'.",
+                    "quote": "Scotland Yard is the headquarters of the Metropolitan Police in London."
                 },
                 "q3": {
-                    "text": "The sentence describes the rapid response of the police after receiving a 'call' for assistance, making 'call' the correct word to fit the context of emergency response times.",
-                    "quote": "Almost instantly a message is also sent by teleprinter to the police station concerned so that within seconds of a call for assistance being received, a police _____(4)_____ is on its way to the scene."
+                    "text": "The text describes the '999 system' for emergencies. The process begins 'On receipt of a call', which is a request for assistance from the police. That's why the correct answer is 'call'.",
+                    "quote": "On receipt of a call the 999 Room operator ascertains by electronic device the position of the nearest available police car, which is contacted by radio."
                 },
                 "q4": {
-                    "text": "The sentence describes the rapid response of the police after receiving a call for assistance; the phrase \"police car is on its way to the scene\" indicates that 'car' is the missing word, fitting the context of emergency response.",
-                    "quote": "Almost instantly a message is also sent by teleprinter to the police station concerned so that within seconds of a _____(3)_____ for assistance being received, a police _____(4)_____ is on its way to the scene."
+                    "text": "The passage explains that after a 999 call, an operator finds the 'nearest available police car' and contacts it by radio to send it to the scene of the emergency. That's why the correct answer is 'car'.",
+                    "quote": "On receipt of a call the 999 Room operator ascertains by electronic device the position of the nearest available police car, which is contacted by radio."
                 },
                 "q5": {
-                    "text": "The passage begins by stating that Scotland Yard is the headquarters of the Metropolitan Police in London, establishing the context. Therefore, 'Metropolitan' is the correct answer as it directly relates to the police force being discussed.",
-                    "quote": "An old-established section of the _____(5)_____ police is the Mounted Branch, with its strength of about 200 horses stabled at strategic points."
+                    "text": "The first sentence identifies the police force being discussed as the 'Metropolitan Police'. The Mounted Branch is described as a section within this larger organization. That's why the correct answer is 'Metropolitan'.",
+                    "quote": "Scotland Yard is the headquarters of the Metropolitan Police in London."
                 },
                 "q6": {
-                    "text": "The sentence directly contains the gap and the word 'horses' fits grammatically and contextually. The phrase 'accustomed to military bands' further clarifies that 'horses' is the correct answer, as it describes their suitability for ceremonial occasions.",
-                    "quote": "These horses are particularly suited to ceremonial occasions, for they are accustomed to military bands."
+                    "text": "The sentence immediately before the gap introduces the Mounted Branch, specifying its 'strength of about 200 horses'. The word 'These' in the next sentence refers back to these animals. That's why the correct answer is 'horses'.",
+                    "quote": "An old-established section of the _____(5)_____ police is the Mounted Branch, with its strength of about 200 horses stabled at strategic points."
                 },
                 "q7": {
-                    "text": "The word 'branch' fits logically into the sentence, as it refers to a specific division or department within Scotland Yard, which is further supported by the subsequent mention of the Police Dogs' experimental beginnings.",
-                    "quote": "An interesting branch of Scotland Yard is the _____ of Police Dogs, first used as an experiment in 1939."
+                    "text": "The passage introduces this section of Scotland Yard by calling it an 'interesting branch'. This parallels the earlier mention of the 'Mounted Branch', indicating it is a specific division. That's why the correct answer is 'branch'.",
+                    "quote": "An interesting branch of Scotland Yard is the _____(7)_____ of Police Dogs, first used as an experiment in 1939."
                 },
                 "q8": {
-                    "text": "The sentence directly states that 'these' are an important part of the Force, and the context of the paragraph discusses the use of police dogs, making 'dogs' the correct fit.",
-                    "quote": "Now these dogs are an important part of the Force."
+                    "text": "The sentence just before the one with the gap introduces the 'branch of Police Dogs'. The word 'these' in the following sentence clearly refers back to the dogs that make up this unit. That's why the correct answer is 'dogs'.",
+                    "quote": "An interesting branch of Scotland Yard is the _____(7)_____ of Police Dogs, first used as an experiment in 1939."
                 },
                 "q9": {
-                    "text": "The sentence explicitly states that the River Police, or Thames Division, \"deals with all _____s occurring within its river boundaries.\" The context of police work and river boundaries strongly suggests that the missing word is \"crime\".",
-                    "quote": "There is also the River Police, or Thames Division, which deals with all crime s occurring within its river boundaries."
+                    "text": "The passage describes Scotland Yard's role in 'crime detection'. The River Police is a division of this force, so its job is to deal with crimes that occur on the river. That's why the correct answer is 'crime'.",
+                    "quote": "One of the most successful developments in Scotland Yard’s crime detection and emergency service has been the “999 system”."
                 }
             }
         },
@@ -237,24 +237,24 @@ window.CEFR_READING_TEST = {
             ],
             "explanations": {
                 "q10": {
-                    "text": "The Museum of Crafts presents the culture, history, and lives of ordinary people through demonstration and exhibition of trades and crafts, which aligns with Cristina's interest in seeing people making things. The museum shop also offers souvenirs, fulfilling her desire to buy some to take home.",
-                    "quote": "Cristina would like to visit a museum and see people making things."
+                    "text": "Cristina wants to see people making things and buy souvenirs. This museum offers demonstrations of trades and crafts, and has a shop for gifts. That's why the correct answer is B.",
+                    "quote": ""
                 },
                 "q11": {
-                    "text": "Text 11 mentions John's interest in old masters from Holland and their paintings, which aligns with Statement E's description of an exhibition of Dutch Painting in the Age of Rembrandt. The fact that the exhibition is open seven days a week also accommodates John's Sunday-only availability.",
-                    "quote": "John is studying Art History and is particularly interested in the old masters from Holland and their paintings."
+                    "text": "John needs a museum with Dutch paintings that is open on Sundays. This museum has an exhibition of 17th-century Dutch art and is open seven days a week. That's why the correct answer is E.",
+                    "quote": ""
                 },
                 "q12": {
-                    "text": "The text explicitly states Alan wants to see scientific discoveries and modern inventions, which aligns perfectly with the Museum of Technology's focus on technology and innovation, including things like hydrogen cars and 3D printing.",
-                    "quote": "Alan is a teacher and wants to spend a day looking at scientific discoveries and modern inventions."
+                    "text": "Alan wants to see modern inventions with his daughter. This museum focuses on technology and specifically states that it has child-friendly options available. That's why the correct answer is D.",
+                    "quote": ""
                 },
                 "q13": {
-                    "text": "Statement G mentions the history of Dutch pottery and a collection of \"Gouda plateel\", which are ceramics from the past. The statement also mentions a café, fulfilling Sandra's desire to have lunch there.",
-                    "quote": "Sandra would like to visit a museum, which has exhibitions of ceramics from the past."
+                    "text": "Sandra is looking for a museum with historical ceramics and a place to eat lunch. This location exhibits Dutch pottery and has a café. That's why the correct answer is G.",
+                    "quote": ""
                 },
                 "q14": {
-                    "text": "The text mentions a visit to a museum combined with a walk in the open air, which aligns with the Open Air Museum being spread across 54 acres of land. The text also mentions attending a practical demonstration, which aligns with the museum offering presentations.",
-                    "quote": "Stephen is a student and wants to combine a visit to a museum with a walk in the open air."
+                    "text": "Stephen wants an outdoor museum experience combined with a practical demonstration. This museum is set in the open air and offers daily presentations. That's why the correct answer is A.",
+                    "quote": ""
                 }
             }
         },
@@ -366,31 +366,31 @@ window.CEFR_READING_TEST = {
             ],
             "explanations": {
                 "q15": {
-                    "text": "This sentence directly lists several health problems (muscular fatigue, discomfort/pain, eye strain) that can arise from working at a VDU, thus aligning with the heading 'What are the common health problems?'",
+                    "text": "This paragraph lists the physical issues that can arise from working with a VDU, such as fatigue, pain, and eye strain. These are all examples of work-related health problems, which is why the correct answer is vi.",
                     "quote": "Sensible work practices are an important factor in the prevention of muscular fatigue; discomfort or pain in the arms, neck, hands or back; or eye strain which can be associated with constant or regular work at a keyboard and visual display unit (VDU)."
                 },
                 "q16": {
-                    "text": "This sentence highlights the employer's responsibilities in creating a safe and healthy work environment. The paragraph also mentions the operators' role in recognizing health problems and participating in their management, thus outlining the roles of both management and workers.",
+                    "text": "This section outlines the responsibilities of both the employer (management) and the operators (workers) in preventing health issues. It details what each party should do, which is why the correct answer is viii.",
                     "quote": "It is vital that the employer pays attention to the physical setting such as workplace design, the office environment, and placement of monitors as well as the organisation of the work and individual work habits."
                 },
                 "q17": {
-                    "text": "This sentence directly describes the features of a chair that contribute to comfort and adjustability, which are key elements of what makes a seat 'good' for a typist. The paragraph goes on to describe other desirable features of a chair.",
+                    "text": "This paragraph describes the ideal features of a chair for a typist, including an adjustable height and backrest, a curved edge, and cloth covering. This details what makes a good seat, so the correct answer is v.",
                     "quote": "The typist must be comfortably accommodated in a chair that is adjustable for height with a back rest that is also easily adjustable both for angle and height."
                 },
                 "q18": {
-                    "text": "This sentence directly addresses the placement of documents (paper file or manuscript) in relation to the screen, which aligns perfectly with the heading 'Where should I place the documents?' The paragraph provides guidance on positioning documents for optimal viewing.",
+                    "text": "This section advises on the best placement for paper files or manuscripts, stating they should be at the same distance from the eyes as the screen. This answers the question about document placement, so the correct answer is x.",
                     "quote": "When the keyboard operator is working from a paper file or manuscript, it should be at the same distance from the eyes as the screen."
                 },
                 "q19": {
-                    "text": "This sentence directly addresses the duration of work before a break is needed, aligning perfectly with the heading's focus on work-break intervals. It provides a specific timeframe for continuous work and the subsequent break duration.",
+                    "text": "This paragraph gives specific advice on work duration and breaks, recommending short pauses while keying and a ten-minute break after sixty minutes of work. This answers the question about work duration, so the correct answer is ii.",
                     "quote": "After you have been keying for sixty minutes, you should have a ten minute change of activity."
                 },
                 "q20": {
-                    "text": "This section discusses the optimal positioning of a VDU to minimize reflections and suggests solutions like blinds and curtains to manage glare, directly addressing how to avoid reflection problems.",
-                    "quote": "Generally, the best position for a VDU is at right angles to the window. If this is not possible then glare from the window can be controlled by blinds, curtains or movable screens."
+                    "text": "This section focuses on avoiding glare, which is a reflection problem, from windows and overhead lights. It suggests solutions like positioning the VDU and using blinds, which is why the correct answer is i.",
+                    "quote": "If this is not possible then glare from the window can be controlled by blinds, curtains or movable screens."
                 },
                 "q21": {
-                    "text": "This sentence directly addresses what actions to take if problems or symptoms arise from work practices or conditions. It advises reporting issues and seeking medical help, aligning perfectly with the question of 'What if I experience any problems?'",
+                    "text": "This paragraph explains what to do if you experience aches or pain, which are problems. It advises reporting symptoms to a supervisor and seeking medical help, which is why the correct answer is iii.",
                     "quote": "Symptoms should be reported to your supervisor early on so that the cause of the trouble can be corrected and the operator should seek medical attention."
                 }
             },
@@ -607,39 +607,39 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q22": {
-                    "text": "The passage states that even a common cold can produce a smell, which directly supports the statement that you can have a specific smell due to a simple cold.",
+                    "text": "The passage explicitly states that even a common illness like a cold can produce a distinct odour due to the bacteria-filled mucus it creates. That's why the correct answer is True.",
                     "quote": "Even the humble cold can give off an odour, thanks to the thick bacteria-ridden mucus that ends up in the back of the throat."
                 },
                 "q23": {
-                    "text": "The passage states that the human sense of smell is 10,000 times *more* sensitive than taste, meaning taste is 10,000 times *less* sensitive than smell. This confirms the statement is true.",
+                    "text": "The text makes a direct comparison between the human senses of smell and taste. It states that smell is 10,000 times more sensitive than taste. That's why the correct answer is True.",
                     "quote": "And the human sense of smell is 10,000 times more sensitive than the sense of taste."
                 },
                 "q24": {
-                    "text": "The passage discusses dogs' ability to detect diseases but makes no mention of cats, so there is no information about whether cats can sniff out different diseases.",
+                    "text": "The passage discusses the smelling abilities of dogs in detail, but it never mentions cats at all. Therefore, there is no information in the text to confirm or deny the statement. That's why the correct answer is Not Given.",
                     "quote": ""
                 },
                 "q25": {
-                    "text": "The passage states that scientists believe different cancers could produce different smells, although some might be very similar, which contradicts the statement that doctors believe different cancers have the same specific smell.",
-                    "quote": "Dogs can’t tell us what their noses are detecting, but scientists believe that different cancers could produce different smells, although some might also be very similar."
+                    "text": "The passage states that scientists believe different cancers produce different smells. While some may be similar, the core idea presented is that the smells are distinct, not the same. That's why the correct answer is False.",
+                    "quote": ""
                 },
                 "q26": {
-                    "text": "The passage states there are fewer than 20 dogs trained to detect cancer, therefore the statement that there are more than 20 is false.",
+                    "text": "The passage gives a specific number for trained cancer-detecting dogs in the UK. It says there are 'fewer than 20,' which directly contradicts the statement 'more than 20'. That's why the correct answer is False.",
                     "quote": "However, there are fewer than 20 dogs in the UK trained to detect cancer at present."
                 },
                 "q27": {
-                    "text": "The passage states that some studies suggest dogs can be 93% accurate, while others have produced mixed results, indicating that different studies have shown different results.",
-                    "quote": "Some studies suggest dogs can be 93% accurate."
+                    "text": "The text mentions several studies with varying conclusions. It states some found high accuracy, others found early detection, and 'more studies have produced mixed results'. That's why the correct answer is D.",
+                    "quote": "And yet more studies have produced mixed results."
                 },
                 "q28": {
-                    "text": "The passage states that researchers collect human urine samples to test the dogs' ability to detect the smell of prostate cancer, indicating that urine samples are given to the dogs.",
+                    "text": "The passage describes a specific hospital study where researchers are testing dogs' abilities. It clearly states that the team has begun to 'collect human urine samples' for the dogs to smell. That's why the correct answer is A.",
                     "quote": "At Milton Keynes University Hospital, a small team has recently begun to collect human urine samples to test dogs’ ability to detect the smell of prostate cancer."
                 },
                 "q29": {
-                    "text": "The passage states that lab tests based on what dogs smell can inform the development of 'electronic noses' to detect molecules, implying they are a gadget to diagnose diseases.",
-                    "quote": "Lab tests to understand what these highly-trained dogs are smelling could then inform the development of ‘electronic noses’ to detect the same molecules."
+                    "text": "The text explains that an 'electronic nose' would be a machine developed to smell and test samples for diseases, potentially for a doctor's office. This describes a diagnostic gadget. That's why the correct answer is B.",
+                    "quote": ""
                 },
                 "q30": {
-                    "text": "The passage focuses on the potential of using smell to detect diseases, highlighting the benefits and future possibilities, which aligns with option C. The quote directly supports this by emphasizing the wide-ranging potential of using smell for disease testing.",
+                    "text": "The article's central theme is the medical potential of detecting diseases through smell, covering humans, dogs, and future technology. It emphasizes the broad importance of this diagnostic method. That's why the correct answer is C.",
                     "quote": "The potential for using smell to test for a wide range of diseases is huge, Ms Fletcher says."
                 }
             }
@@ -705,24 +705,24 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q31": {
-                    "text": "The question asks what is unknown for someone, and the quote states that most local residents don't know what's underneath the surface of Monte Testaccio, directly supporting the answer.",
+                    "text": "The passage states that the people living in the area are not aware of what the hill is actually made of. That's why the correct answer is 'most local residents'.",
                     "quote": "Most local residents don’t know what’s underneath the grass, dust, and scattering of trees."
                 },
                 "q32": {
-                    "text": "The question asks for what ancient Rome's _____ was, and the passage states that Monte Testaccio was in ancient Rome's commercial district.",
+                    "text": "The text explicitly identifies the location of Monte Testaccio within ancient Rome as the area for business and trade. That's why the correct answer is 'commercial district'.",
                     "quote": "Monte Testaccio stands near the Tiber River in what was ancient Rome’s commercial district."
                 },
                 "q33": {
-                    "text": "The question asks what the whole mountain is made of, and this sentence states that the mountain is made of amphoras.",
-                    "quote": "I, for one, find it hard to believe that the whole mountain is made of amphoras without any soil or rubble."
+                    "text": "The narrator finds it hard to believe the mountain is made only of pottery, but Professor Remesal confirms it is. That's why the correct answer is 'amphoras'.",
+                    "quote": "Seeing the incredulous look on my face as I peer down into a 10-foot-deep trench, Remesal says, “Yes, it’s really only amphoras.”"
                 },
                 "q34": {
-                    "text": "The phrase \"each year's two-week field season\" appears directly in the passage, confirming that \"field season\" is the missing phrase.",
-                    "quote": "During each year’s two-week field season, they wash and sort thousands of amphoras handles, bodies, shoulders, necks, and tops, counting and cataloguing, and always looking for stamped names, painted names, and numbers that tell each amphora’s story."
+                    "text": "The passage describes the specific two-week period each year when the archaeological team works at the site sorting pottery. That's why the correct answer is 'field season'.",
+                    "quote": ""
                 },
                 "q35": {
-                    "text": "The question asks who started working at Monte Testaccio, and the passage states that \"scholars worked at Monte Testaccio beginning in the late 19th century.\"",
-                    "quote": "Although scholars worked at Monte Testaccio beginning in the late 19th century, it’s only within the past 30 years that they have embraced the role amphoras can play in understanding the nature of the Roman imperial economy."
+                    "text": "The passage mentions that academic experts began studying the site in the late 1800s, even though modern understanding has evolved more recently. That's why the correct answer is 'scholars'.",
+                    "quote": ""
                 }
             }
         }

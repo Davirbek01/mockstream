@@ -79,36 +79,36 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "The passage introduces the topic as 'Eight firefighters have been called in to help find an escaped hamster.'",
+                    "text": "The first sentence introduces the story about an \"escaped hamster.\" The sentence with the gap describes the effort to locate this missing creature. That's why the correct answer is 'hamster'.",
                     "quote": "Eight firefighters have been called in to help find an escaped hamster."
                 },
                 "q2": {
-                    "text": "The sentence states that the hamster 'ran down a hole in the kitchen floor' and then 'refused to come out of the hole'.",
-                    "quote": "But, the hamster still refused to come out of the hole."
+                    "text": "The passage states the hamster \"ran down a hole in the kitchen floor.\" The sentence with the gap explains that the pet refused to come out of this location. That's why the correct answer is 'hole'.",
+                    "quote": "The fire crews spent five hours trying to recover the pet after it ran down a hole in the kitchen floor."
                 },
                 "q3": {
-                    "text": "The firefighters are searching for the hamster, whose name is Fudgie.",
-                    "quote": "In the search for Fudgie, the firefighters took the family cooker and gas pipes apart."
+                    "text": "The passage clearly states that the missing hamster's name is Fudgie. The entire rescue operation described is the \"search for\" this specific pet. That's why the correct answer is 'Fudgie'.",
+                    "quote": "Two crews used a chocolate-covered camera and a vacuum cleaner to try and locate the missing _____(1)_____ , called Fudgie, at the home of a six-year-old girl in Dunbar, Scotland."
                 },
                 "q4": {
-                    "text": "The firefighters are the ones who are trying to locate the hamster using various methods, including cameras.",
-                    "quote": "In the end, the firefighters put another camera down the hole and left it under the floorboards"
+                    "text": "The passage explains that firefighters were called to help and describes their actions, such as taking things apart and using a camera. They are the ones who would use another camera. That's why the correct answer is 'firefighters'.",
+                    "quote": "In the search for _____(3)_____ , the firefighters took the family cooker and gas pipes apart."
                 },
                 "q5": {
-                    "text": "The girl is the owner of the hamster, and the sentence refers to her and her parents.",
-                    "quote": "Besides, the girl and her parents regularly dropped food through the hole for the hamster."
+                    "text": "The story is about a hamster belonging to a six-year-old girl. The sentence describes the family's efforts to feed the hamster, so it logically refers to the girl and her parents. That's why the correct answer is 'girl'.",
+                    "quote": "It was the girl's father who first found Fudgie and locked the runaway hamster."
                 },
                 "q6": {
-                    "text": "The girl and her parents are dropping food through the hole to try and lure the hamster out.",
-                    "quote": "Besides, the girl and her parents regularly dropped food through the hole for the hamster."
+                    "text": "The hamster escaped by going through a hole in the floor. To feed it while it was under the floorboards, the family had to drop food through that same opening. That's why the correct answer is 'hole'.",
+                    "quote": ""
                 },
                 "q7": {
-                    "text": "The food is being dropped for the hamster, Fudgie, who is hiding in the hole.",
-                    "quote": "Besides, the girl and her parents regularly dropped food through the hole for the hamster."
+                    "text": "The family was dropping food for their missing pet. The entire story is about the search for the escaped hamster, which is the animal they were trying to feed. That's why the correct answer is 'hamster'.",
+                    "quote": "Besides, the _____(5)_____ and her parents regularly dropped food through the _____(6)_____ for the _____(7)_____ ."
                 },
                 "q8": {
-                    "text": "The passage describes the hamster's return after being lost for eight days.",
-                    "quote": "Her parents added that they too felt extremely happy when Fudgie had finally returned."
+                    "text": "The family was extremely happy because their pet was finally back after being missing. The passage states that after eight days, the hamster \"returned to her cage safe and sound.\" That's why the correct answer is 'returned'.",
+                    "quote": "At last, after eight days the hamster returned to her cage safe and sound."
                 }
             }
         },
@@ -226,24 +226,24 @@ window.CEFR_READING_TEST = {
             ],
             "explanations": {
                 "q9": {
-                    "text": "Option E, Wild Design, is a two-week summer course situated on the wild coast of South Wales. It teaches all kinds of art, including photography and painting, and the wild sea, beautiful flowers and great wildlife will definitely give you lots of creative ideas.",
-                    "quote": "Wild Design is a two-week summer course situated on the wild coast of South Wales. We teach all kinds of art, including photography and painting, and the wild sea, beautiful flowers and great wildlife will definitely give you lots of creative ideas."
+                    "text": "Harriet wants a summer course to learn new painting tips and paint attractive scenery. This is a two-week summer course that teaches painting and is located on the wild coast, which offers beautiful scenery. That's why the correct answer is E.",
+                    "quote": ""
                 },
                 "q10": {
-                    "text": "Option B, Practice makes Perfect, is designed for people who use computers regularly as part of their career, but who feel they are unable to make the most of the technology. It teaches about new software for storing documents and photographs and keeping records.",
-                    "quote": "This course is designed for people who use computers regularly as part of their career, but who feel they are unable to make the most of the technology. Learn about new software for storing documents and photographs and keeping records."
+                    "text": "Belinda needs to improve her computer skills for her job, specifically how to store information. This course is designed for people who use computers for their career and teaches about software for storing documents. That's why the correct answer is B.",
+                    "quote": ""
                 },
                 "q11": {
-                    "text": "Option F, Explore your Imagination, teaches how to use the latest technology and software to change photographs to a professional standard and how to make your own computer designs using the computer programmes used by professionals.",
-                    "quote": "Join this evening class and learn how to use the latest technology and software to change photographs to a professional standard. You will also learn how to make your own computer designs using the computer programmes used by professionals."
+                    "text": "Jenny wants to learn how to change photographs and create art with computer programs for a design career. This evening class, which fits around a school day, teaches how to change photos and make computer designs. That's why the correct answer is F.",
+                    "quote": ""
                 },
                 "q12": {
-                    "text": "Option C, Armchair Explorer, is a series of daytime lectures by people who have lived and worked in wild places. Each of the six talks will focus on a different continent. Lecturers will show photographs of the animals and plants, and explain why they are only found in one area.",
-                    "quote": "This is a series of daytime lectures by people who have lived and worked in wild places. Each of the six talks will focus on a different continent. Lecturers will show photographs of the animals and plants, and explain why they are only found in one area."
+                    "text": "George cannot travel but wants to learn about wildlife and scenery from around the world. The 'Armchair Explorer' lectures allow him to learn about animals and plants on different continents without leaving his seat. That's why the correct answer is C.",
+                    "quote": ""
                 },
                 "q13": {
-                    "text": "Option A, Form and Colour, is a year-long course perfect for people who want to learn about how to use a camera and who want to take it up as a profession. Students will learn how to use light and shade, colour and different shapes.",
-                    "quote": "This is year-long course is perfect for people who want to learn about how to use a camera and who want to take it up as a profession. Students will learn how to use light and shade, colour and different shapes."
+                    "text": "Chris wants a full-time course to start a new career in photography, including using computers to change his work. This course is for people who want photography as a profession and teaches how to use computer technology. That's why the correct answer is A.",
+                    "quote": ""
                 }
             }
         },
@@ -357,36 +357,36 @@ window.CEFR_READING_TEST = {
             ],
             "explanations": {
                 "q14": {
-                    "text": "Paragraph C discusses the case of Lisa Arcand, who won $1 million in 2004.",
-                    "quote": "Take for example the case of Lisa Arcand from Massachusetts. She won $1 million in 2004"
-                },
-                "q15": {
-                    "text": "Paragraph B mentions that winning the lottery would make you happy but only for a short period of time.",
-                    "quote": "Piecing together this information, winning the lottery would make you happy but only for a short period of time."
-                },
-                "q16": {
-                    "text": "Paragraph E describes a study by Paul Piff at UC Berkeley Campus.",
-                    "quote": "A study conducted by social-psychologist Paul Piff at the UC Berkeley Campus in California, proves that gaining wealth can actually change our behaviour drastically."
-                },
-                "q17": {
-                    "text": "Paragraph A introduces the concept of hedonic adaptation.",
+                    "text": "This paragraph introduces and defines the concept of \"hedonic adaptation,\" explaining it as our tendency to get used to happiness and return to a default emotional state. That's why the correct answer is 3.",
                     "quote": "This is partially due to a phenomenon called hedonic adaptation or the hedonic treadmill."
                 },
+                "q15": {
+                    "text": "This paragraph explains that the happiness from winning the lottery is short-lived and that it doesn't guarantee long-term happiness, with some winners even becoming unhappy. That's why the correct answer is 2.",
+                    "quote": "Therefore, winning the lottery doesn't guarantee happiness, in fact, lottery winners even reported being unhappy after they have won the prize."
+                },
+                "q16": {
+                    "text": "This paragraph gives examples of lottery winners who lost their money due to \"poor financial decisions,\" highlighting that large sums of money can be difficult to manage. That's why the correct answer is 5.",
+                    "quote": "One of the reasons why this is so is because large sums of money can be a lot to manage."
+                },
+                "q17": {
+                    "text": "This paragraph describes how winning the lottery can be an \"isolating experience\" that leads to paranoia and anxiety, causing winners to cut ties with others. That's why the correct answer is 1.",
+                    "quote": "Unwanted attention and unwanted requests for money from peers can make us paranoid and anxious."
+                },
                 "q18": {
-                    "text": "Paragraph F is the concluding paragraph.",
-                    "quote": "Winning the lottery will make you happy but thanks to hedonic adaptation, it won't last."
+                    "text": "This paragraph explains that gaining wealth can lead to greed and other negative behavioral shifts, citing a study where advantaged players \"displayed dramatic change in behaviour.\" That's why the correct answer is 8.",
+                    "quote": "A study conducted by social-psychologist Paul Piff at the UC Berkeley Campus in California, proves that gaining wealth can actually change our behaviour drastically."
                 },
                 "q19": {
-                    "text": "Paragraph D discusses how winning the lottery can be an isolating experience.",
-                    "quote": "Aside from difficulty in managing finances, winning the lottery can be an isolating experience."
+                    "text": "This paragraph gives advice on how to use lottery winnings to achieve happiness, suggesting that one should invest in experiences rather than just material goods. That's why the correct answer is 6.",
+                    "quote": "Think carefully before you start spending."
                 },
                 "q20": {
-                    "text": "Paragraph E mentions that some lottery winners become greedier.",
-                    "quote": "While the constant fear of losing everything can haunt lottery winners, some even become greedier than they were before winning."
+                    "text": "This paragraph argues that experiences like travelling or learning a new skill provide more lasting happiness than material possessions because we adapt to things more quickly. That's why the correct answer is 7.",
+                    "quote": "Therefore, investing in experiences makes us happier than investing in things."
                 },
                 "q21": {
-                    "text": "Paragraph C provides examples of lottery winners who made poor financial decisions.",
-                    "quote": "Janite Lee, Willie Hurt, and Lou Eisenberg, are just some of the many names that have won the lottery but went from rags to riches and back to rags because of poor financial decisions."
+                    "text": "This paragraph explains that donating to charity provides more happiness to the giver than spending money on oneself, as proven by a university study. That's why the correct answer is 4.",
+                    "quote": "Believe it or not, giving others provides more happiness than spending it on yourself."
                 }
             },
             "passage": {
@@ -607,40 +607,40 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q22": {
-                    "text": "Iannucci stated that 'It's more important than ever that we have more strong, popular channels... that act as beacons, drawing audiences to the best content'.",
+                    "text": "The passage directly quotes Iannucci stating that it is \"more important than ever that we have more strong, popular channels\". This confirms the statement is true. That's why the correct answer is True.",
                     "quote": "\"It's more important than ever that we have more strong, popular channels... that act as beacons, drawing audiences to the best content,\" he said."
                 },
                 "q23": {
-                    "text": "The passage states that 'Speaking earlier, Culture Secretary John Whittingdale rejected suggestions that he wanted to dismantle the BBC'.",
+                    "text": "The passage clearly states that John Whittingdale \"rejected suggestions\" that he wanted to dismantle the BBC, meaning he denied having this intention. That's why the correct answer is False.",
                     "quote": "Speaking earlier, Culture Secretary John Whittingdale rejected suggestions that he wanted to dismantle the BBC."
                 },
                 "q24": {
-                    "text": "The passage mentions that Iannucci delivered the 40th annual MacTaggart Lecture, not the 30th.",
+                    "text": "The passage states that Iannucci delivered the 40th annual lecture. It does not provide any information about the 30th lecture. That's why the correct answer is Not Given.",
                     "quote": "He delivered the 40th annual MacTaggart Lecture, which has previously been given by Oscar winner Kevin Spacey, former BBC director general Greg Dyke, Jeremy Paxman and Rupert Murdoch."
                 },
                 "q25": {
-                    "text": "Iannucci said that 'The best US shows are modelling themselves on what used to make British TV so world-beating'.",
-                    "quote": "\"The best US shows are modelling themselves on what used to make British TV so world-beating,\" he said."
+                    "text": "Iannucci states that the success of American TV shows happened because they were \"emulating British television\" and copying what made it great. That's why the correct answer is True.",
+                    "quote": "He continued his praise for British programming by saying the global success of American TV shows had come about because they were emulating British television."
                 },
                 "q26": {
-                    "text": "The passage states that 'In July, the government issued a green paper setting out issues that will be explored during negotiations over the future of the BBC'. This means the negotiations were planned, not necessarily completed.",
+                    "text": "The passage states that in July a paper was issued outlining issues for future negotiations. It does not say the negotiations actually took place in July. That's why the correct answer is False.",
                     "quote": "In July, the government issued a green paper setting out issues that will be explored during negotiations over the future of the BBC, including the broadcaster's size, its funding and governance."
                 },
                 "q27": {
-                    "text": "Iannucci praised British shows, the corporation, and British programming. He did not explicitly praise US shows, but rather stated that they were emulating British television.",
+                    "text": "The text explicitly states Iannucci praised British programming and the corporation (BBC). He only mentions US shows to say they copy British TV, not to praise them directly. That's why the correct answer is A.",
                     "quote": "He continued his praise for British programming by saying the global success of American TV shows had come about because they were emulating British television."
                 },
                 "q28": {
-                    "text": "The passage states that Mr. Whittingdale 'invited two more people to advise on the charter renewal, namely former Channel 4 boss Dawn Airey and journalism professor Stewart Purvis'. Adding these two to the original panel of five makes a total of seven.",
-                    "quote": "Primarily Mr Whittingdale wanted to appoint a panel of five people, but finally he invited two more people to advise on the charter renewal, namely former Channel 4 boss Dawn Airey and journalism professor Stewart Purvis, a former editor-in-chief of ITN."
+                    "text": "The passage explains that Mr. Whittingdale first wanted a panel of five people, but then \"invited two more people\" to advise. This brings the total number to seven. That's why the correct answer is C.",
+                    "quote": ""
                 },
                 "q29": {
-                    "text": "The passage mentions that Dawn Airey and Stewart Purvis were invited to the discussion. While John Whittingdale is the one who invited them, Armando Iannucci bemoaned the lack of 'creatives' involved in the discussions, implying he was not invited.",
-                    "quote": "Primarily Mr Whittingdale wanted to appoint a panel of five people, but finally he invited two more people to advise on the charter renewal, namely former Channel 4 boss Dawn Airey and journalism professor Stewart Purvis, a former editor-in-chief of ITN. Iannucci bemoaned the lack of \"creatives\" involved in the discussions."
+                    "text": "The passage names Dawn Airey and Stewart Purvis as advisors. Iannucci is quoted complaining about the lack of \"creatives\" on the panel, indicating he was not a member. That's why the correct answer is A.",
+                    "quote": "But when I see the panel of experts who've been asked by the culture secretary to take a root and branch look at the BBC, I don't see anyone who is a part of that cast and crew list."
                 },
                 "q30": {
-                    "text": "Iannucci stated that he didn't see 'a single person who's made a classic and enduring television show' on the panel.",
-                    "quote": "\"But when I see the panel of experts who've been asked by the culture secretary to take a root and branch look at the BBC, I don't see anyone who is a part of that cast and crew list. I see executives, media owners, industry gurus, all talented people - but not a single person who's made a classic and enduring television show.\""
+                    "text": "Iannucci directly criticizes the panel's composition, stating that he sees executives and media owners, but \"not a single person who's made a classic and enduring television show.\" That's why the correct answer is B.",
+                    "quote": "I see executives, media owners, industry gurus, all talented people - but not a single person who's made a classic and enduring television show."
                 }
             }
         },
@@ -705,23 +705,23 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q31": {
-                    "text": "The passage suggests 'pushing ourselves more commercially abroad' as a way to ease the strain on the license fee.",
+                    "text": "The passage directly quotes Iannucci suggesting one way to ease the strain on the licence fee is 'by pushing ourselves more commercially abroad'. This phrase perfectly fills the gap. That's why the correct answer is 'commercially abroad'.",
                     "quote": "Iannucci suggested one way of easing the strain on the licence fee was \"by pushing ourselves more commercially abroad\"."
                 },
                 "q32": {
-                    "text": "The passage mentions using 'proper international subscription channels' to capitalize financially overseas.",
-                    "quote": "\"And use the reputation of British television across all networks, to capitalise financially oversees. Be more aggressive in selling our shows, through advertising, through proper international subscription channels, freeing up BBC Worldwide to be fully commercial, whatever it takes."
+                    "text": "The text lists ways to be more aggressive in selling shows, including 'through proper international subscription channels'. This phrase completes the summary sentence perfectly. That's why the correct answer is 'subscription channels'.",
+                    "quote": "Be more aggressive in selling our shows, through advertising, through proper international subscription channels, freeing up BBC Worldwide to be fully commercial, whatever it takes."
                 },
                 "q33": {
-                    "text": "The passage encourages not being 'icky and modest' about making money.",
-                    "quote": "\"Frankly, don't be icky and modest about making money, let's monetise the bezeesus Mary and Joseph out of our programmes abroad so that money can come back, take some pressure off the licence fee at home and be invested in even more ambitious quality shows, that can only add to our value."
+                    "text": "Iannucci is quoted advising producers, 'don't be icky and modest about making money'. The word 'icky' is used directly before 'and modest' in the text, fitting the gap in the summary. That's why the correct answer is 'icky'.",
+                    "quote": "Frankly, don't be icky and modest about making money, let's monetise the bezeesus Mary and Joseph out of our programmes abroad so that money can come back, take some pressure off the licence fee at home and be invested in even more ambitious quality shows, that can only add to our value."
                 },
                 "q34": {
-                    "text": "The passage suggests investing in 'even more ambitious quality shows'.",
-                    "quote": "\"Frankly, don't be icky and modest about making money, let's monetise the bezeesus Mary and Joseph out of our programmes abroad so that money can come back, take some pressure off the licence fee at home and be invested in even more ambitious quality shows, that can only add to our value."
+                    "text": "The passage explains that money earned abroad can be 'invested in even more ambitious quality shows'. The phrase 'more ambitious' directly completes the summary's description of the shows. That's why the correct answer is 'more ambitious'.",
+                    "quote": "Frankly, don't be icky and modest about making money, let's monetise the bezeesus Mary and Joseph out of our programmes abroad so that money can come back, take some pressure off the licence fee at home and be invested in even more ambitious quality shows, that can only add to our value."
                 },
                 "q35": {
-                    "text": "Mr. Whittingdale denied any 'speculation' that the Conservative Party had always wanted to change the BBC.",
+                    "text": "The passage states that Mr. Whittingdale called 'any speculation' that his party wanted to change the BBC 'absolute nonsense'. This means he denied the speculation. That's why the correct answer is 'speculation'.",
                     "quote": "Mr Whittingdale said any speculation that the Conservative Party had always wanted to change the BBC due to issues such as its editorial line was \"absolute nonsense\"."
                 }
             }

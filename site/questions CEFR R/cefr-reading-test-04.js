@@ -64,28 +64,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "\"Started\" fits the gap because the sentence describes Tamara beginning her university studies, and \"started\" is synonymous with \"began attending\" in this context.",
-                    "quote": "When Tamara was twenty years old, she _____(1)_____ university in Long Island."
+                    "text": "The passage says Tamara learned about her sister after she began attending university. The verb 'started' means to begin, which fits the context of her beginning her studies. That's why the correct answer is 'started'.",
+                    "quote": "She never knew she had a twin sister until she started university!"
                 },
                 "q2": {
-                    "text": "The question asks for a noun that describes a 'way of living'. The sentence states she enjoyed her [answer] life 'as a student', indicating that 'university' is the correct answer because it describes her life as a student.",
-                    "quote": "She enjoyed her _____(2)_____ life as a student."
+                    "text": "The passage states that Tamara started university and was a student. The phrase describes her life during this period, which is her 'university life'. That's why the correct answer is 'university'.",
+                    "quote": ""
                 },
                 "q3": {
-                    "text": "\"Happened\" is the correct answer because the sentence describes an event occurring repeatedly to Tamara, and \"happened\" fits the context of something occurring or taking place. The phrase \"again and again\" indicates a repeated occurrence.",
-                    "quote": "This _____(3)_____ to Tamara again and again."
+                    "text": "The sentence describes the repeated event of people mistaking her for someone else. The verb 'happened' means 'occurred', which fits this context perfectly. That's why the correct answer is 'happened'.",
+                    "quote": "Something very strange happened to Tamara."
                 },
                 "q4": {
-                    "text": "\"Look\" is the correct answer because the sentence describes the woman's observation that Tamara and Adriana have a similar appearance; \"look like\" means to have a similar appearance.",
-                    "quote": "The woman replied, \"You _____(4)_____ like my friend Adriana."
+                    "text": "The woman explains that Tamara has the same face and hair as her friend Adriana. The phrase 'look like' means to have a similar physical appearance. That's why the correct answer is 'look'.",
+                    "quote": "You have the same face and the same hair."
                 },
                 "q5": {
-                    "text": "The question asks if Adriana is a family member of Tamara. The passage reveals that Adriana is Tamara's twin, making 'sister' the correct answer as it fits the context of family relations.",
-                    "quote": "Is Adriana your _____(5)_____ ?"
+                    "text": "The woman asks about the relationship between Tamara and Adriana because they look identical. The end of the story confirms they are related in this way. That's why the correct answer is 'sister'.",
+                    "quote": ""
                 },
                 "q6": {
-                    "text": "The question asks for an adjective that describes an identical sibling, and the passage reveals that Adriana is Tamara's twin sister, making \"twin\" the correct adjective to fill the gap.",
-                    "quote": "Finally, she knew that Adriana is her _____(6)_____ sister."
+                    "text": "The story is about Tamara discovering she has an identical sibling she never knew about. The final sentence reveals their exact relationship. That's why the correct answer is 'twin'.",
+                    "quote": ""
                 }
             }
         },
@@ -225,35 +225,35 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q7": {
-                    "text": "The text explicitly states that on Thursdays, pizzas are cheaper for students, which are special customers. This directly supports statement F.",
+                    "text": "The text advertises a special price for pizzas on Thursdays, but only for students. This means a specific food is cheaper for a special group of customers on a certain day. That's why the correct answer is F.",
                     "quote": "Student Thursdays! Pizzas only $4.75!"
                 },
                 "q8": {
-                    "text": "The phrase \"Dishes from all over the world\" directly indicates that the restaurant offers international cuisines, which aligns perfectly with statement B.",
+                    "text": "The restaurant advertises that it serves \"Dishes from all over the world.\" This means you can eat food from many different countries, which are international cuisines. That's why the correct answer is B.",
                     "quote": "Dishes from all over the world"
                 },
                 "q9": {
-                    "text": "The phrase \"Every break time\" implies that the shop sells food when lessons are over, as break time is the period between lessons.",
+                    "text": "The shop is open \"Every break time.\" This is the time between lessons when students are free to buy snacks and drinks. That's why the correct answer is I.",
                     "quote": "Every break time"
                 },
                 "q10": {
-                    "text": "This phrase directly indicates that the restaurant offers meals specifically designed for children, meaning you can order food prepared just for kids.",
-                    "quote": "**Special meals for children**"
+                    "text": "The restaurant's advertisement clearly states that they offer \"Special meals for children.\" This means they have food specifically prepared for kids. That's why the correct answer is J.",
+                    "quote": "Special meals for children"
                 },
                 "q11": {
-                    "text": "Text 11 mentions \"Pizzas!\", and it is \"closed Mondays\", implying pizzas are available every other day.",
-                    "quote": "Burgers! Chips! Pizzas!"
+                    "text": "This place sells pizzas, but the text also states that it is \"closed Mondays.\" This means you can buy pizza there on any other day of the week. That's why the correct answer is D.",
+                    "quote": "closed Mondays"
                 },
                 "q12": {
-                    "text": "The text explicitly states \"NO SMOKING\", which directly implies that smoking is not allowed in the cafe.",
-                    "quote": "NO SMOKING"
+                    "text": "The advertisement for this establishment includes the rule \"NO SMOKING.\" This means smoking is not permitted inside the cafe. That's why the correct answer is E.",
+                    "quote": ""
                 },
                 "q13": {
-                    "text": "The text mentions 'Cake, cold drinks, coffee', which are snacks, and 'ВЈ1 for 30 minutes on computer', indicating computer rental, thus matching statement C.",
-                    "quote": "Cake, cold drinks, coffee ВЈ1 for 30 minutes on computer"
+                    "text": "This place offers computer use for a fee and also sells \"Cake, cold drinks, coffee,\" which are snacks. Therefore, you can both use a computer and buy snacks here. That's why the correct answer is C.",
+                    "quote": ""
                 },
                 "q14": {
-                    "text": "The text states that they make 100 different sandwiches, which clearly indicates a good selection of sandwiches is offered.",
+                    "text": "The shop's advertisement proudly states, \"We make 100 different sandwiches!\" This large number means they have a very good selection to choose from. That's why the correct answer is G.",
                     "quote": "We make 100 different sandwiches!"
                 }
             }
@@ -369,27 +369,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q15": {
-                    "text": "This sentence explicitly states that modern Western theatre originates from ancient Greek drama, thus establishing the 'origin' of theatre as the main topic. The rest of the paragraph elaborates on this origin by detailing specific elements taken from Greek theatre.",
+                    "text": "This paragraph explains that modern theatre has its roots in ancient Greek drama, from which it inherited many key elements. This directly addresses the topic of where theatre began, so the correct answer is C.",
                     "quote": "Modern Western theatre comes in large measure from ancient Greek drama, from which it takes technical terminology, classification into genres, and many of its themes, stock characters, and plot elements."
                 },
                 "q16": {
-                    "text": "This sentence demonstrates the expansion of theatre into many different forms, showing a wider variety of theatrical performances. The paragraph details the diverse range of theatrical forms that emerged during the Roman era.",
+                    "text": "This paragraph describes how Roman theatre grew and became more diverse, including many new types of performances. This expansion represents a move to a wider variety of theatrical forms, which is why the correct answer is G.",
                     "quote": "The theatre of ancient Rome was a thriving and diverse art form, ranging from festival performances of street theatre, nude dancing, and acrobatics, to the staging of broadly appealing situation comedies, to the high-style, verbally elaborate tragedies."
                 },
                 "q17": {
-                    "text": "This sentence directly introduces the idea that theatre existed in multiple forms during this period. The paragraph then goes on to describe the evolution and broadening of theatrical forms, supporting the idea of 'varieties'.",
+                    "text": "The paragraph details the \"many different forms\" theatre took on over several centuries, such as commedia dell'arte and melodrama, and also mentions modern types like musicals and operas. This focus on different types makes E the correct answer.",
                     "quote": "Theatre took on many different forms in the West between the 15th and 19th centuries, including commedia dell'arte and melodrama."
                 },
                 "q18": {
-                    "text": "The heading \"Ladies enter\" directly reflects the introduction of women to the British stage during the eighteenth century, a significant development in theatre history. This sentence explicitly states that women began performing on stage at this time.",
+                    "text": "This paragraph is entirely about the introduction of female actors to the British stage in the 18th century, a revolutionary change at the time. Therefore, the most fitting heading is B.",
                     "quote": "The eighteenth century in Britain introduced women to the stage, which would have been extremely inappropriate before."
                 },
                 "q19": {
-                    "text": "This sentence directly links the state of theatre to a specific political event (Cromwell's Interregnum), demonstrating the influence of politics on theatre.",
+                    "text": "The paragraph describes how theatre was stopped by a political event, Cromwell's Interregnum, and later revived when King Charles II returned to power. This shows the direct influence of politics on theatre, so the correct answer is A.",
                     "quote": "Theatre took a big pause during 1642 and 1660 in England because of Cromwell's Interregnum."
                 },
                 "q20": {
-                    "text": "This sentence emphasizes the importance of stagecraft, indicating that it is essential for bringing artistic ideas to life, thus making it \"not the least important.\"",
+                    "text": "This paragraph defines stagecraft as the technical side of theatre and emphasizes its importance, stating that it is \"equally crucial\" to the artistic side. This highlights its significance, which is why the correct answer is D.",
                     "quote": "Considered a technical rather than an artistic field, it is equally crucial for the practical implementation of a designer's artistic idea."
                 }
             }
@@ -546,39 +546,39 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q21": {
-                    "text": "The passage states that snakes can be distinguished from legless lizards (a type of reptile) by their lack of eyelids and external ears, indicating that reptiles have these features while snakes do not.",
+                    "text": "The passage explicitly states that snakes are distinguished from legless lizards by their lack of eyelids and external ears, which are outer ears. That's why the correct answer is C.",
                     "quote": "Snakes are elongated, legless, carnivorous reptiles that can be distinguished from legless lizards by their lack of eyelids and external ears."
                 },
                 "q22": {
-                    "text": "The quote directly states that snakes' paired organs appear one in front of the other instead of side by side, which supports option A that their double organs stay one behind the other.",
+                    "text": "To fit inside their narrow bodies, the text explains that snakes' organs that come in pairs are positioned one in front of the other, not side by side. That's why the correct answer is A.",
                     "quote": "To accommodate their narrow bodies, snakes' paired organs (such as kidneys) appear one in front of the other instead of side by side, and most have only one functional lung."
                 },
                 "q23": {
-                    "text": "The word \"fossil\" indicates that Titanoboa cerrejonensis is an extinct species, meaning it lived in the past. The passage states it was a fossil species.",
+                    "text": "The passage refers to this snake as a 'fossil species'. Fossils are the remains of organisms from the distant past, meaning this snake is extinct. That's why the correct answer is A.",
                     "quote": "The fossil species Titanoboa cerrejonensis was 12.8 meters (42 ft) long."
                 },
                 "q24": {
-                    "text": "The passage states that king snakes have developed immunity to certain venoms, which directly supports option B.",
+                    "text": "The text lists kingsnakes as an example of a snake that preys on venomous snakes and has developed an immunity to their venom. That's why the correct answer is B.",
                     "quote": "It is worthwhile noting that certain birds, mammals, and other snakes (such as king snakes) that prey on venomous snakes have developed resistance and even immunity to certain venoms."
                 },
                 "q25": {
-                    "text": "The passage states that snakes are not found in Antarctica and lists other exceptions, such as Ireland and Iceland, meaning they are not found everywhere in the world, so the statement is false.",
-                    "quote": "Living snakes are found on every continent except Antarctica, and on most smaller land masses, exceptions include some large islands, such as Ireland, Iceland, Greenland, the Hawaiian archipelago, and the islands of New Zealand, and many small islands of the Atlantic and central Pacific oceans."
+                    "text": "The passage states that snakes are found on every continent 'except Antarctica' and lists several large islands where they do not live, such as Ireland and Iceland. Therefore, the statement is false.",
+                    "quote": ""
                 },
                 "q26": {
-                    "text": "The passage states that the *fossil* species Titanoboa cerrejonensis was 12.8 meters long, not any *living* snakes, so the statement is false.",
+                    "text": "The passage states the 12.8-meter-long snake was a 'fossil species', meaning it is extinct. The longest living snake mentioned is the reticulated python at 6.95 meters. Therefore, the statement is false.",
                     "quote": "The fossil species Titanoboa cerrejonensis was 12.8 meters (42 ft) long."
                 },
                 "q27": {
-                    "text": "The passage states that most species are nonvenomous, implying that they kill prey by other means. This supports the statement that not all species use venomous bites to kill their prey.",
-                    "quote": "Most species are nonvenomous and those that have venom use it primarily to kill and subdue prey rather than for self-defense."
+                    "text": "The passage mentions that most snake species are nonvenomous. It then explains that these snakes kill prey by swallowing them alive or by constriction, not with venom. Therefore, the statement is true.",
+                    "quote": "Nonvenomous snakes either swallow prey alive or kill by constriction."
                 },
                 "q28": {
-                    "text": "The passage states that juvenile pythons \"might\" eat lizards or mice, but it doesn't say that they *only* eat these animals. Therefore, there is no information to confirm that they exclusively feed on mice and lizards.",
+                    "text": "The text says juvenile pythons 'might start out feeding on lizards or mice'. This is given as an example and does not mean they eat 'only' these animals. That's why the correct answer is No Information.",
                     "quote": "Juvenile pythons might start out feeding on lizards or mice and graduate to small deer or antelope as an adult, for example."
                 },
                 "q29": {
-                    "text": "The passage states snakes become inactive after eating, but it doesn't say they don't eat other prey while digesting. Therefore, there is no information to confirm or deny this.",
+                    "text": "The passage says snakes become 'inactive' while digesting. However, it does not state whether or not they are able to eat again during this time. That's why the correct answer is No Information.",
                     "quote": "After eating, snakes become inactive while the process of digestion takes place."
                 }
             }
@@ -688,28 +688,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q30": {
-                    "text": "The passage discusses the negative impacts of the tech industry's rapid growth in San Francisco, linking it to the proposed 'tech tax' and the city's transformation. This connects the noun 'industry' to the concept of rapid growth.",
-                    "quote": "It became famous as the home of technology with its Silicon Valley, and the relationship the city has with this industry is the cause of all the pain, because of a proposal to levy a 'tech tax' on the companies that have fueled the city's transformation into a place that is increasingly uninhabitable for people on low or medium incomes."
+                    "text": "The passage identifies the city's relationship with the technology industry as the primary cause of its current problems, making life difficult for many residents. That's why the correct answer is 'industry'.",
+                    "quote": ""
                 },
                 "q31": {
-                    "text": "The question asks for an adjective meaning 'without homes,' and the passage uses 'homeless' to describe the population that lacks housing, indicating that 'homeless' means 'without homes'.",
-                    "quote": "The estimated $120 m in annual revenue would be used to fund affordable housing and services for the city's large homeless population - 57.4% of homes there are worth more than $1 m, but hundreds of people sleep in tents on the street every night."
+                    "text": "The text explicitly states that the money raised from the proposed tax would be used to fund services for the city's large homeless population. That's why the correct answer is 'homeless'.",
+                    "quote": ""
                 },
                 "q32": {
-                    "text": "The passage states that the rapid tech boom \"threatens\" the city's ability to thrive, which directly corresponds to the question's definition of \"puts at risk.\"",
-                    "quote": "The rapid tech boom in the city threatens its ability to thrive and prosper because every week brings new outrages, whether it's the tenant in North Beach who, it emerged this week, received a notice informing him that his rent was increasing from $1,800 a month to $8,000, or the kindergarten teacher whose building was bought by two tech workers and, it was revealed this month, is now facing eviction for nuisance violations that include using appliances."
+                    "text": "The passage uses this exact verb to describe how the rapid growth of the tech sector is endangering the city's future prosperity and well-being. That's why the correct answer is 'threatens'.",
+                    "quote": ""
                 },
                 "q33": {
-                    "text": "The passage uses the word \"incentives\" to describe the benefits offered to tech companies, which directly supports the answer.",
+                    "text": "The passage uses this exact noun to refer to the special benefits, such as tax breaks, that the city offered to encourage tech companies to stay. That's why the correct answer is 'incentives'.",
                     "quote": "The companies that took advantage of San Francisco's tech-friendly incentives were, back then, just getting started."
                 },
                 "q34": {
-                    "text": "The passage states the revenue from the tax would fund affordable housing, directly supporting option A. The other options are not mentioned in the context of the plan's objectives.",
-                    "quote": "The estimated $120 m in annual revenue would be used to fund affordable housing and services for the city's large homeless population - 57.4% of homes there are worth more than $1 m, but hundreds of people sleep in tents on the street every night."
+                    "text": "The passage clearly states that the money from the proposed tax would be used to fund affordable housing and services for the homeless population. That's why the correct answer is A.",
+                    "quote": ""
                 },
                 "q35": {
-                    "text": "The passage states the city replaced the payroll tax with a gross receipts tax, which was popular with tech companies that had large workforces but little revenue, directly supporting option A.",
-                    "quote": "The city responded, first by offering a payroll tax break to companies like Twitter that located in its rundown Central Market neighborhood, and then by phasing out the payroll tax altogether and replacing it with a gross receipts tax-a popular change for tech companies that often have large workforces before they have any revenue."
+                    "text": "The passage explains the gross receipts tax was popular with new tech companies because they often had large workforces but had not yet generated any revenue. That's why the correct answer is A.",
+                    "quote": ""
                 }
             }
         }

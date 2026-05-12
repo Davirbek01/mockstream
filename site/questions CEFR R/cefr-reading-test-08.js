@@ -64,27 +64,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "The sentence introduces the topic of buying toys and directly refers to \"children\" as the recipients of these toys, making it the correct noun to fit the context of the passage.",
+                    "text": "The first sentence introduces the topic of buying toys for children. This sentence continues that idea by describing the preferences of these young people. That's why the correct answer is 'Children'.",
                     "quote": "Buying toys for children can be somewhat confusing and frustrating for parents as well as for gift givers."
                 },
                 "q2": {
-                    "text": "The sentence discusses matching something to a child's age to help with the dilemma of buying toys, and the surrounding context refers to 'toys' and 'playthings', indicating that 'toys' is the missing word.",
-                    "quote": "Matching _____(2)_____ carefully to a child's age, however, can help this dilemma."
+                    "text": "The passage discusses the difficulty of buying toys. This sentence offers a solution to the 'dilemma' by suggesting you match the playthings to a child's age. That's why the correct answer is 'toys'.",
+                    "quote": "Buying toys for children can be somewhat confusing and frustrating for parents as well as for gift givers."
                 },
                 "q3": {
-                    "text": "The sentence discusses matching something to a child's age, and the question asks for a noun related to 'time of life'. Therefore, 'age' fits both grammatically and contextually.",
-                    "quote": "Matching _____(2)_____ carefully to a child's age, however, can help this dilemma."
+                    "text": "The previous sentence introduces the idea of matching toys to a child's age. This sentence expands on that by explaining that children can be put into different groups based on this factor. That's why the correct answer is 'age'.",
+                    "quote": ""
                 },
                 "q4": {
-                    "text": "The word \"like\" fits grammatically and maintains the sentence's meaning, indicating a preference for toys that stimulate the senses. The examples of toys provided (colourful mobiles, squeaky rubber toys) support this preference.",
-                    "quote": "Before they can sit up, they _____(4)_____ toys that appeal to the senses, such as colourful mobiles, squeaky rubber toys or big chewable beads."
+                    "text": "The passage is describing the 'toy-preference' groups for different ages. This sentence explains what kind of toys very young infants enjoy or have a preference for. That's why the correct answer is 'like'.",
+                    "quote": ""
                 },
                 "q5": {
-                    "text": "The sentence discusses what babies like to play with after they are able to sit up, and \"can\" correctly fills the gap to indicate ability. The phrase \"are able to\" is a paraphrase of \"can\" in this context.",
-                    "quote": "After they can sit up, babies like \"graspable\" things like blocks, nesting and stacking toys, and cloth picture books."
+                    "text": "This sentence describes the second stage of an infant's development, contrasting with the previous stage ('Before they can sit up'). The verb must express the new ability the baby has acquired. That's why the correct answer is 'can'.",
+                    "quote": ""
                 },
                 "q6": {
-                    "text": "The sentence directly states \"Children from eighteen months to three years вЂ“ toddlers like toys that move...\", thus 'toddlers' fits the gap. The question also specifies 'young children' which is synonymous with toddlers in this context.",
+                    "text": "The previous sentence identifies the group of children from eighteen months to three years as 'toddlers'. This sentence continues the description of this specific age group's preferences. That's why the correct answer is 'Toddlers'.",
                     "quote": "Children from eighteen months to three years вЂ“ toddlers like toys that move (as they are learning to do)."
                 }
             }
@@ -225,36 +225,36 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q7": {
-                    "text": "The text states Rebecca wants a history museum that is kid-friendly and open on weekends or after working hours, which aligns with Statement G's description of a family-friendly history museum open only on weekends.",
-                    "quote": "Rebecca and her children wants to visit a history museum. Rebecca expects the museum to be kids friendly. She works weekdays so she prefers to a museum that can or stays open after working days."
+                    "text": "Rebecca needs a kid-friendly history museum that is open on weekends, as she works on weekdays. Fun History is perfect for families and is only open on weekends. That's why the correct answer is G.",
+                    "quote": "Rebecca expects the museum to be kids friendly. She works weekdays so she prefers to a museum that can or stays open after working days."
                 },
                 "q8": {
-                    "text": "Text 8 mentions that John and Mark are art enthusiasts, and they can visit on Wednesday, which aligns with Statement H as it is an art museum open from Tuesday to Friday evening and is affordable for college students.",
-                    "quote": "John and Mark are classmates and they are both art enthusiasts."
+                    "text": "John and Mark are art enthusiasts looking for an affordable museum open on a Wednesday. The Michaelangelo museum is for art lovers, offers affordable tickets, and is open on Wednesday evenings. That's why the correct answer is H.",
+                    "quote": "John and Mark are classmates and they are both art enthusiasts. They can be busy for weekdays usually but they can have time for Wednesday. They are aiming for something cheaper."
                 },
                 "q9": {
-                    "text": "Alisher is interested in American history, and the Revolution Museum focuses on the American Revolution. Alisher is unavailable from Thursday to Saturday, and the museum is open on the weekend.",
+                    "text": "Alisher is a history buff who specifically loves American history. The Revolution Museum focuses on the American Revolution, which is a key part of American history, and is open when he is free. That's why the correct answer is J.",
                     "quote": "He really loves American history and he would like to visit some American History Museum and gain more knowledge about it."
                 },
                 "q10": {
-                    "text": "Text 10 states Jack wants to experience space exploration, which aligns with Statement D's description of the Neil Armstrong Museum offering an \"out-of-this-world experience\" and information about space travel and rocket design.",
-                    "quote": "He really wants to see a place where he can experience space exploration."
+                    "text": "Jack is a rocket enthusiast who wants to learn about space exploration and is free on Wednesday evening. The Neil Armstrong Museum is about space and rockets and is open on Wednesdays. That's why the correct answer is D.",
+                    "quote": "He really wants to see a place where he can experience space exploration. He works every day but can find time on Wednesday evening."
                 },
                 "q11": {
-                    "text": "Text 11 mentions a love for sharks and turtles, and wanting to see sea reptiles and amphibians, which aligns with Statement F's focus on marine life, fish, frogs, iguanas, and sea turtles.",
-                    "quote": "As a matter of fact, he really loves sharks and turtles."
+                    "text": "Jamshid loves nature, especially sea turtles, reptiles, and amphibians, and is free on Mondays and Tuesdays. The Way of Water museum focuses on marine life, has sea turtles, and is open on weekdays. That's why the correct answer is F.",
+                    "quote": "He wants to see evolution and history of sea reptiles and amphibians. They don't work on Monday and Tuesday."
                 },
                 "q12": {
-                    "text": "Text 12 mentions an interest in history, including that of Asia, which aligns with the Tamerlane Museum's artifacts and collections from that region.",
-                    "quote": "They are interested in the history of America as well as Africa and Asia."
+                    "text": "Aziza and Rustam are interested in the history of Asia and prefer a cultural museum. The Tamerlane Museum has historical artifacts from a period in Asian history and is open on their free days. That's why the correct answer is E.",
+                    "quote": "They are interested in the history of America as well as Africa and Asia. They really do not mind wars but prefer to visit some cultural museum."
                 },
                 "q13": {
-                    "text": "The statement C is about a museum that is perfect for animal lovers who want to learn about nearly extinct species, which directly aligns with George's interest in animals and endangered species.",
-                    "quote": "George is an animal lover and he is interested in endangered species."
+                    "text": "George is an animal lover who specifically wants to see endangered sea animals. The Nature at its Best museum focuses on nearly extinct species and has a special underwater section. That's why the correct answer is C.",
+                    "quote": "George is an animal lover and he is interested in endangered species. He doesn't mind visiting any day but he expects the museum to have endangered sea animals."
                 },
                 "q14": {
-                    "text": "Rosie wants to visit a museum about nature history and Statement B is about nature. Also, Rosie can only visit in the evenings and Statement B is open every day except weekend evenings.",
-                    "quote": "She wants to visit a museum about nature history."
+                    "text": "Rosie is a schoolgirl who wants a kid-friendly nature museum she can visit in the evenings. The Story of Nature museum is for children, is about nature, and is open on weekday evenings. That's why the correct answer is B.",
+                    "quote": "She wants to go somewhere which is kid friendly. She can only visit after school which is evenings."
                 }
             }
         },
@@ -369,27 +369,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q15": {
-                    "text": "The paragraph describes a 'walking school bus,' which is a group of people walking, implying no driving is needed. Therefore, 'The bus you don't need to drive' accurately reflects the paragraph's content.",
+                    "text": "The paragraph describes a \"walking school bus,\" which is a group of people walking, not a vehicle. It's a type of \"bus\" that you don't drive, that's why the correct answer is C.",
                     "quote": "A walking school bus is a group of children walking to school with one or more adults."
                 },
                 "q16": {
-                    "text": "This sentence explicitly states that the double-decker bus is an emblem, or symbol, of London. The comparison to other famous London landmarks further reinforces this idea.",
+                    "text": "The paragraph states that the double-decker bus is a well-known symbol, or emblem, of London, the capital city, much like other famous landmarks. That's why the correct answer is B.",
                     "quote": "The double-decker bus has become an emblem of London, just as recognizable as Big Ben or Tower Bridge."
                 },
                 "q17": {
-                    "text": "The paragraph discusses why school buses are yellow, highlighting that yellow is attention-grabbing and easier to notice, thus making them both bright and safe.",
+                    "text": "This paragraph explains that school buses are yellow because it is a bright, attention-grabbing color that is easy to see, which makes them safer. That's why the correct answer is A.",
                     "quote": "Yellow is an attention-grabbing colour."
                 },
                 "q18": {
-                    "text": "The paragraph explains the origin and evolution of the word 'bus' from the Latin word 'omnibus', detailing how it came to be used as a nickname for the vehicle. This directly relates to the story behind the name 'bus'.",
+                    "text": "The paragraph tells the history of the word \"bus,\" explaining how it originated from the Latin word \"omnibus\" and was first used in France. That's why the correct answer is E.",
                     "quote": "Few people know that the word bus is a short form of the Latin word omnibus."
                 },
                 "q19": {
-                    "text": "The paragraph describes hop-on hop-off buses in Moscow, which are a popular and convenient way for tourists to explore a city. This makes \"A perfect way to see the capital\" a fitting heading.",
-                    "quote": "Moscow, like other touristic cities, has double-decker buses вЂ” so called hop-on вЂ” hop-off buses."
+                    "text": "The paragraph describes a hop-on-hop-off bus service in Moscow, a capital city, which allows tourists to explore the sights at their own pace. That's why the correct answer is H.",
+                    "quote": "You can get on and off the bus as many times as you like."
                 },
                 "q20": {
-                    "text": "The responsibility for the safety of a large number of passengers implies that bus drivers must be skilled and attentive to ensure their well-being. This goes beyond simply driving the vehicle.",
+                    "text": "This paragraph lists the many duties of a bus driver, including ensuring the safety of up to 100 passengers, which requires great skill and attention. That's why the correct answer is F.",
                     "quote": "Bus drivers are responsible for the safety of their passengers, which can sometimes be as many as 100 people!"
                 }
             }
@@ -530,40 +530,40 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q21": {
-                    "text": "The passage states that Hatfield worked for a company that sold sewing machines, which directly supports option A. The other options are things he did later.",
+                    "text": "The passage states that before becoming a famous rainmaker, Hatfield's job was working for a sewing machine company in Kansas, which he found boring. That's why the correct answer is A.",
                     "quote": "Hatfield lived in Kansas and worked for a company that sold sewing machines."
                 },
                 "q22": {
-                    "text": "The quote directly states that some scientists took Hatfield's work seriously, which supports option C, that some scientists believed in his idea.",
+                    "text": "The text describes two different scientific opinions. While some meteorologists thought his success was a coincidence, others were intrigued and wanted to see his method in action. That's why the correct answer is C.",
                     "quote": "On the other hand, there were scientists who took it quite seriously and wanted to watch the phenomenon in reality."
                 },
                 "q23": {
-                    "text": "The passage states that Hatfield was blamed and not paid, and that he \"escaped punishment because he had no written agreement with officials to start the experiment\", which supports option C.",
-                    "quote": "Local officials blamed Hatfield for the loss and refused to pay him the money."
+                    "text": "The rain caused so much damage that officials refused to pay him. He was taken to court but avoided punishment because he had no written contract with the city. That's why the correct answer is C.",
+                    "quote": "Luckily, he escaped punishment because he had no written agreement with officials to start the experiment."
                 },
                 "q24": {
-                    "text": "The quote directly states that Hatfield and his brother built a tower and dispersed chemicals, supporting option B. Option A is incorrect because the chemicals were dispersed from the tower, not the mountain itself. Option C is incorrect because the passage refers to Hatfield as a 'wizard' in quotes, implying it's not literal wizardry.",
+                    "text": "The passage describes Hatfield's method twice. In both instances, he and his brother would first build a tower and then release his special chemicals into the air from it. That's why the correct answer is B.",
                     "quote": "Hatfield and his brother built a tower on the top of a mountain and dispersed some chemicals into the air."
                 },
                 "q25": {
-                    "text": "The passage states Hatfield worked for a sewing machine company, which is unrelated to chemistry. Therefore, his work had nothing to do with chemistry, making the statement true.",
+                    "text": "The passage states that Hatfield's job was selling sewing machines. This is completely unrelated to chemistry, which is mentioned separately as his personal interest. That's why the correct answer is 'True'.",
                     "quote": "Hatfield lived in Kansas and worked for a company that sold sewing machines."
                 },
                 "q26": {
-                    "text": "The passage states that chemistry was Hatfield's great interest, but it does not say whether he studied it at college. Therefore, the answer is No Information.",
-                    "quote": "Chemistry had always been Hatfield's great interest."
+                    "text": "The text says chemistry was Hatfield's 'great interest' and that he worked on a formula, but it gives no details about his formal education or if he ever went to college. That's why the correct answer is 'No Information'.",
+                    "quote": ""
                 },
                 "q27": {
-                    "text": "The passage states that farmers decided to try Hatfield's services, but it does not mention whether they paid him more than the agreed sum. Therefore, the answer is No Information.",
+                    "text": "The passage mentions the advertised price was fifty dollars and that the farmers were happy with the rain. However, it does not state the final amount they actually paid him. That's why the correct answer is 'No Information'.",
                     "quote": ""
                 },
                 "q28": {
-                    "text": "The passage does not mention whether Hatfield had to show his secret formula to the Los Angeles authorities, so the answer is No Information.",
-                    "quote": ""
+                    "text": "The passage states that Hatfield was always careful to keep his formula a secret. There is no mention of him ever being asked to show it to the Los Angeles authorities. That's why the correct answer is 'No Information'.",
+                    "quote": "He travelled a lot, initiating rain in different regions but he was careful to keep his magic formula a secret."
                 },
                 "q29": {
-                    "text": "The passage states that Hatfield failed to initiate rain in the Klondike, proving the statement that he never failed is false.",
-                    "quote": "For example, in 1906 he was asked to initiate rain in the gold fields of the Klondike. No matter how hard he tried, the sky stayed cloudless."
+                    "text": "The passage gives a clear example of a time his experiment did not work. When he tried to make it rain in the Klondike gold fields, the sky remained cloudless. That's why the correct answer is 'False'.",
+                    "quote": "No matter how hard he tried, the sky stayed cloudless."
                 }
             }
         },
@@ -672,28 +672,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q30": {
-                    "text": "The passage states that graphite was discovered when lightning struck a local tree, thus 'tree' is the plant referred to in the question.",
+                    "text": "The passage states that graphite was discovered in Borrowdale, England, after lightning struck a tree. The black substance was found at the root of this tree. That's why the correct answer is 'tree'.",
                     "quote": "Graphite, the main material for producing a pencil, was discovered in 1564 in Borrowdale in England when lightning struck a local tree during a thunder."
                 },
                 "q31": {
-                    "text": "The passage states that graphite was used by locals to mark their sheep. Therefore, sheep is the correct answer as it is a noun referring to animals.",
+                    "text": "According to the text, one of the first uses for the newly discovered graphite was by local people to mark their animals for identification and counting. That's why the correct answer is 'sheep'.",
                     "quote": "It was soon put to use by locals in marking their sheep for signs of ownership and calculation."
                 },
                 "q32": {
-                    "text": "The word \"government\" in the quote refers to an authority that took over and guarded the graphite mines, which directly supports the answer.",
+                    "text": "The passage explains that once people realized how valuable graphite was, the authorities took control of the mines and protected them to secure the resource. That's why the correct answer is 'government'.",
                     "quote": "When the value of graphite was realised, the mines were taken over by the government and guarded."
                 },
                 "q33": {
-                    "text": "The passage states that astronauts in Russia used grease pencils, which directly answers the question about a type of pencil.",
+                    "text": "The passage contrasts the pencils used by American and Russian astronauts in space. It explicitly mentions that the Russians used a specific type that did not break. That's why the correct answer is 'grease'.",
                     "quote": "It is widely known that astronauts in Russia used grease pencils, which don't have breakage problems."
                 },
                 "q34": {
-                    "text": "The passage states that the amount of clay added to graphite determines the hardness of the pencil, not the graphite itself, making option D false.",
-                    "quote": "This mixture is important because the amount of clay content added to the graphite depends on intended pencil hardness, and the amount of time spent on grinding the mixture determines the quality of the lead."
+                    "text": "This statement is false because the passage explains that pencil hardness is determined by the amount of clay mixed with the graphite, not the graphite itself. That's why the correct answer is D.",
+                    "quote": "The more clay you put in, the higher hardness the core has."
                 },
                 "q35": {
-                    "text": "The quote directly states that pencils are becoming more popular in many countries, supporting the conclusion that using pencils is becoming more common.",
-                    "quote": "With the mass production of pencils, they are getting drastically more popular in many countries with each passing decade."
+                    "text": "The final paragraph concludes that despite digitalization, the use of pencils is not declining. It states their application is so widespread that they are seen everywhere. That's why the correct answer is C.",
+                    "quote": "The application of pencils has by now become so widespread that they can be seen everywhere, such as classrooms, meeting rooms and art rooms, etc."
                 }
             }
         }

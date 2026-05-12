@@ -65,28 +65,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "The word 'exam' fits perfectly in the gap to form a coherent sentence about the difficulty of the exam questions. The subsequent sentences discuss the exam's content and difficulty, confirming 'exam' as the correct fit.",
-                    "quote": "Students from the University of Sheffield have signed a petition to say the (1) _____(1)_____ questions were ‘impossible’ to answer."
+                    "text": "The passage is about a difficult economics exam that students took. The students complained that the questions on this test were impossible to answer. That's why the correct answer is 'exam'.",
+                    "quote": "Final-year students at a university in England are angry after they took an economics exam."
                 },
                 "q2": {
-                    "text": "The word \"students\" fits grammatically and logically into the sentence. The surrounding context describes the complaints and concerns of the students regarding the economics exam.",
-                    "quote": "The students say the exam contained questions on topics that were not in their course."
+                    "text": "The previous sentence mentions that 100 students complained and signed a petition. This sentence continues to explain what those people said in their complaint. That's why the correct answer is 'students'.",
+                    "quote": "Nearly all of the 100 students who took the exam complained and signed the online petition."
                 },
                 "q3": {
-                    "text": "The word \"questions\" fits grammatically and logically into the sentence. The surrounding context discusses the content of the exam, specifically the nature of the questions asked.",
-                    "quote": "They also say the questions included a lot of difficult maths that they had not been taught."
+                    "text": "The students are complaining about the content of the exam. They say the exam had questions on topics they didn't study and also that these items included difficult maths. That's why the correct answer is 'questions'.",
+                    "quote": "He said not all the questions needed maths."
                 },
                 "q4": {
-                    "text": "The word 'maths' fits grammatically and logically in the sentence. The surrounding context discusses the difficulty of the exam's mathematical content, making 'simple maths' a reasonable expectation set by a lecturer.",
-                    "quote": "One student said a lecturer told them they would only need ‘simple’ (4) _____(4)_____ ."
+                    "text": "The students complained that the exam contained 'a lot of difficult maths'. This sentence contrasts that by saying a lecturer promised they would only need the simple version of it. That's why the correct answer is 'maths'.",
+                    "quote": ""
                 },
                 "q5": {
-                    "text": "The word \"said\" fits grammatically and logically in the sentence, as Professor Dickerson is providing information about the exam. The surrounding context discusses his statements about the exam's fairness and content.",
-                    "quote": "Professor Dickerson also said all the exam questions were on topics the students had studied."
+                    "text": "This paragraph reports what Professor Dickerson told the BBC. The sentences use reporting verbs like 'told' and 'said' to introduce his statements, and this sentence continues that pattern. That's why the correct answer is 'said'.",
+                    "quote": "He said the level of maths in the exams was the same as the level taught to students on the course."
                 },
                 "q6": {
-                    "text": "The word \"course\" fits grammatically and contextually in the sentence. The sentence discusses the topics covered in the exam, stating they were taught in the 'course' and had further reading provided.",
-                    "quote": "He said: “All questions were based on topics taught in the course and for which further reading was provided.”"
+                    "text": "Professor Dickerson is responding to the students' complaint that the exam had topics that were not part of their studies. He confirms the questions were based on material taught to them. That's why the correct answer is 'course'.",
+                    "quote": ""
                 }
             }
         },
@@ -247,35 +247,35 @@ window.CEFR_READING_TEST = {
             ],
             "explanations": {
                 "q7": {
-                    "text": "The phrase \"city of love\" directly relates to the idea of a romantic city, making it a good match for someone who wants to visit a romantic city.",
-                    "quote": "Discover Paris, the city of love"
+                    "text": "The advertisement describes Paris as \"the city of love,\" which is a perfect destination for someone looking for a romantic city experience. That's why the correct answer is E.",
+                    "quote": "Discover Paris, the city of love, for only $999!"
                 },
                 "q8": {
-                    "text": "Machu Picchu offers historical significance, mountainous terrain, and cultural experiences in Cusco, fulfilling the desire to experience 'everything' in a journey.",
-                    "quote": "Explore the wonders of Machu Picchu for $1,499."
+                    "text": "This tour offers a guided trek in the mountains, meals, and a chance to experience Peru's ancient history, matching the desire for a varied journey. That's why the correct answer is G.",
+                    "quote": "Package includes a 7-day guided trek, meals, and a night in Cusco."
                 },
                 "q9": {
-                    "text": "The Masai Mara Reserve in Kenya is known for its abundant wildlife and natural landscapes. Seeing the \"Big Five\" directly implies experiencing nature in its true form.",
+                    "text": "The safari offers a chance to see the \"Big Five\" animals in a nature reserve, which is a prime example of experiencing nature in its true form. That's why the correct answer is A.",
                     "quote": "Witness the Big Five in Kenya’s Masai Mara Reserve."
                 },
                 "q10": {
-                    "text": "The phrase \"Escape to paradise\" directly supports the idea of wanting to escape to an island, as mentioned in statement B. The Maldives is also an island location, and the tour is for 7 nights (a week).",
-                    "quote": "Escape to paradise."
+                    "text": "The advertisement is for a \"7 nights\" trip to the Maldives, an island nation. This perfectly matches the desire to escape to an island for a week. That's why the correct answer is B.",
+                    "quote": "7 nights in the Maldives starting at $2,499 per person."
                 },
                 "q11": {
-                    "text": "The Aurora Borealis, also known as the Northern Lights, is a natural light display in the sky, making this tour a way to seek natural beauty. The Blue Lagoon visit also offers a natural beauty experience.",
+                    "text": "The main goal of this tour is to see the Aurora Borealis, which is a spectacular natural light display. This is a clear example of seeking natural beauty. That's why the correct answer is J.",
                     "quote": "Chase the Aurora Borealis in Iceland for $1,199."
                 },
                 "q12": {
-                    "text": "The phrase \"Rome's ancient beauty\" directly implies that the location is rich in ancient history, making it a place where one can learn a lot about it.",
+                    "text": "The tour invites you to experience \"Rome’s ancient beauty\" and includes tickets to the Colosseum, a key site of ancient history. This is ideal for learning about the past. That's why the correct answer is D.",
                     "quote": "Immerse yourself in Rome’s ancient beauty for just $1,099."
                 },
                 "q13": {
-                    "text": "The phrase 'sunset cruise' directly implies a boat trip in the evening, and the package is for 5 nights in Bali, which is an island escapade.",
+                    "text": "The package is for \"5 nights\" in Bali, an island destination. It explicitly includes a \"sunset cruise,\" which is a boat trip that takes place in the evening. That's why the correct answer is H.",
                     "quote": "Package includes resort stays, guided temple tours, and a sunset cruise."
                 },
                 "q14": {
-                    "text": "The phrase \"Conquer Mount Everest Base Camp\" directly implies an adventurous journey focused on conquering a peak, aligning perfectly with the statement.",
+                    "text": "The advertisement directly invites you to \"Conquer Mount Everest Base Camp.\" This matches the desire to conquer a peak during an adventurous trip. That's why the correct answer is F.",
                     "quote": "Conquer Mount Everest Base Camp for $2,999."
                 }
             }
@@ -407,27 +407,27 @@ window.CEFR_READING_TEST = {
             ],
             "explanations": {
                 "q15": {
-                    "text": "This sentence directly describes the transition from steam-powered trains to those using diesel or electricity. This aligns perfectly with the heading 'From steam to electricity'.",
+                    "text": "This paragraph describes the history of train power, starting with steam engines and mentioning how they were later replaced by diesel or electric trains. That's why the correct answer is G.",
                     "quote": "In the 20th century, steam engines were gradually replaced with trains fueled by diesel or electricity."
                 },
                 "q16": {
-                    "text": "The paragraph discusses specific long-distance passenger trains, highlighting their unique characteristics and fame, thus fitting the \"Long and special\" heading.",
+                    "text": "This paragraph describes famous passenger trains, focusing on their unique qualities like being the world's longest or offering luxurious, romantic service. That's why the correct answer is D.",
                     "quote": "Some long-distance passenger trains have become famous."
                 },
                 "q17": {
-                    "text": "This sentence directly states the function of many trains as transporting goods, which aligns perfectly with the heading \"Goods delivery.\" The paragraph then elaborates on this function with examples and details.",
+                    "text": "This paragraph is about freight trains, which are used for moving products and materials rather than people. This is also known as goods delivery. That's why the correct answer is E.",
                     "quote": "Many trains are freight trains, transporting goods from one location to another."
                 },
                 "q18": {
-                    "text": "This sentence directly states that overnight trains can be used instead of airplanes. The rest of the paragraph then describes the experience of traveling on an overnight train.",
+                    "text": "The paragraph opens by directly stating that overnight trains are a good substitute for flying, presenting them as another choice for long-distance travel. That's why the correct answer is C.",
                     "quote": "In many countries, overnight trains are a good option to air travel."
                 },
                 "q19": {
-                    "text": "This sentence directly connects trains (a part of real life and technology) with literature (a form of art). The paragraph then provides examples of trains in famous works of literature, further solidifying the link between art and life.",
+                    "text": "This paragraph discusses the role of trains in art, specifically literature, citing famous books where trains are a key element. That's why the correct answer is A.",
                     "quote": "Authors have been using trains in literature for as long as trains have been running."
                 },
                 "q20": {
-                    "text": "The phrase \"User and nature friendly\" fits because the paragraph discusses high-speed rail's benefits for both users (passenger comfort) and nature (energy efficiency, reduced car usage). The quoted sentence explicitly mentions the environmental benefits.",
+                    "text": "The paragraph describes high-speed trains as comfortable for passengers (user friendly) and better for the environment because they are energy efficient (nature friendly). That's why the correct answer is F.",
                     "quote": "High speed rail also can help the environment because it is more energy efficient and reduces cars on the roads."
                 }
             }
@@ -606,39 +606,39 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q21": {
-                    "text": "The passage states that oases are spots in the desert that have a supply of water, which directly supports option B.",
+                    "text": "The passage defines oases as spots in the desert with a water supply that comes from deep wells under the sand. This matches the description in option B, which is why it's the correct answer.",
                     "quote": "These are spots in the desert that have a supply of water."
                 },
                 "q22": {
-                    "text": "The passage states that some desert plants get their water from deep in the ground using long roots, which directly supports option A.",
+                    "text": "The passage explains that while few plants grow in the desert, some survive by getting water from deep in the ground with their long roots. That's why the correct answer is A.",
                     "quote": "Some get their water from deep in the ground with long roots."
                 },
                 "q23": {
-                    "text": "The passage states that desert areas are expanding due to overgrazing, deforestation, and mining, directly supporting option D as the correct answer.",
-                    "quote": "Many desert areas are getting bigger.\nPeople try to use the land for grazing.\nThey can graze it too often and make the land bare.\nThey chop down the trees and hen rain doesn’t come droughts occur.\nThe wind blows the soil away.\nThere is nothing to hold the soil in place.\nMining can add to the creation of desert land."
+                    "text": "The passage lists several reasons why deserts are expanding, including mining, overgrazing by farmers, and people chopping down trees. Since all these points are mentioned, that's why the correct answer is D.",
+                    "quote": "Mining can add to the creation of desert land."
                 },
                 "q24": {
-                    "text": "The passage states that \"Nomads are farmers who wander from place to place in the desert,\" which directly supports the answer that nomads travel from place to place in the desert.",
+                    "text": "The passage provides a clear definition of nomads, stating that they are farmers who wander from one place to another within the desert. That's why the correct answer is C.",
                     "quote": "Nomads are farmers who wander from place to place in the desert."
                 },
                 "q25": {
-                    "text": "The passage states that very hot deserts can be very cold at night, which directly supports the statement that deserts may be hot during the day and cool at night.",
+                    "text": "The passage explicitly states that even very hot deserts can become very cold when night falls. This confirms the statement is accurate, so the correct answer is True.",
                     "quote": "Also, very hot deserts can be very cold at night."
                 },
                 "q26": {
-                    "text": "The passage states that smaller animals dig burrows to stay in during the hot part of the day, and that the kangaroo rat does this as well. Therefore, the statement that kangaroo rats dig burrows in the heat of the day is true, not false.",
+                    "text": "The passage says that smaller animals, including the kangaroo rat, 'stay in' burrows during the hot part of the day. It does not say they are actively digging at this time. That's why the correct answer is False.",
                     "quote": "The smaller ones dig burrows to stay in during the hot part of the day."
                 },
                 "q27": {
-                    "text": "The passage discusses how people live in the desert and ways they have adapted to the climate, but it does not mention whether they plan to migrate to milder climates.",
+                    "text": "The passage describes how some people live in deserts, but it does not mention any plans or desires they might have to move to different climates. That's why the correct answer is No Information.",
                     "quote": ""
                 },
                 "q28": {
-                    "text": "The passage states that people use the land for grazing, and overgrazing can make the land bare, which contributes to desertification, thus the statement is true.",
-                    "quote": "Many desert areas are getting bigger. People try to use the land for grazing. They can graze it too often and make the land bare."
+                    "text": "The passage explains that when people graze animals too often, the land becomes bare and the soil blows away. This process contributes to the creation of desert land. That's why the correct answer is True.",
+                    "quote": "They can graze it too often and make the land bare."
                 },
                 "q29": {
-                    "text": "The passage states that governments are trying to save the land, which directly contradicts the question's claim that they aren't. Therefore, the answer is False.",
+                    "text": "The passage directly contradicts this statement by saying that governments are actively taking steps to save the land from becoming desert. That's why the correct answer is False.",
                     "quote": "Governments in many countries are trying to save the land."
                 }
             }
@@ -754,27 +754,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q30": {
-                    "text": "The question asks what is essential, and the passage states that salt is an \"essential element.\"",
+                    "text": "The passage explicitly calls salt an \"essential element\" and states that without it, life would be impossible for humans. This matches the summary's meaning. That's why the correct answer is 'element'.",
                     "quote": "But is salt is also an essential element."
                 },
                 "q31": {
-                    "text": "The passage states that salt is used in 14,000 commercial applications, which directly supports \"applications\" as the answer to \"business _____\".",
-                    "quote": "And while we are all familiar with its many uses in cooking, we may not be aware that this element is used in some 14,000 commercial applications."
+                    "text": "The text states that salt is used in 14,000 commercial applications, including making paper and soap. \"Commercial\" is another word for \"business\". That's why the correct answer is 'applications'.",
+                    "quote": ""
                 },
                 "q32": {
-                    "text": "The question asks what salt can raise, and the passage states that the Chinese emperor Hsia Yu levied one of the first known taxes on salt, meaning salt raised taxes.",
+                    "text": "The passage gives several historical examples of rulers raising money by taxing salt, such as the Chinese emperor Hsia Yu and Charles of Anjou in France. That's why the correct answer is 'taxes'.",
                     "quote": "In 2200 BC, the Chinese emperor Hsia Yu levied one of the first known taxes."
                 },
                 "q33": {
-                    "text": "The passage states that in Buddhist tradition, salt repels \"evil spirits\", directly supporting the answer.",
-                    "quote": "In Buddhist tradition, salt repels evil spirits, which is why it is customary to throw it over your shoulder before entering your house after a funeral: it scares off any evil spirits that may be clinging to your back."
+                    "text": "The passage explains that in Buddhist tradition, salt is believed to repel evil spirits. It is also used in Shinto rituals to drive off malevolent spirits. That's why the correct answer is 'spirits'.",
+                    "quote": ""
                 },
                 "q34": {
-                    "text": "The passage states that salt is used in approximately 14,000 commercial applications, directly supporting option D.",
-                    "quote": "And while we are all familiar with its many uses in cooking, we may not be aware that this element is used in some 14,000 commercial applications."
+                    "text": "The passage directly states that salt has around 14,000 commercial uses, ranging from manufacturing pulp and paper to producing soaps and detergents. That's why the correct answer is D.",
+                    "quote": ""
                 },
                 "q35": {
-                    "text": "The quote directly states Bloch's belief that the first war could have been fought over salt, supporting option C. The passage provides this as a historical perspective on the value and potential conflict surrounding salt.",
+                    "text": "The passage introduces researcher M.R. Bloch's theory that the very first war might have been fought over a city's valuable salt supplies. That's why the correct answer is C.",
                     "quote": "Bloch also believed that the first war – likely fought near the ancient city of Assault on the Jordan River – could have been fought over the city’s precious supplies of the mineral."
                 }
             }

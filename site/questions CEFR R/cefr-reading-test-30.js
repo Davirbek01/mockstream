@@ -83,28 +83,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "\"Material\" fits the gap because the sentence discusses the various applications and advancements related to glass, establishing it as a versatile and adaptable substance, which aligns with the subsequent examples of glass fibre optics, glass ceramics, and glass beads.",
-                    "quote": "The uses of this adaptable _____(1)_____ have been broadened dramatically by new technologies: glass fibre optics — more than eight million miles — carrying telephone and television signals across nations, glass ceramics serving as the nose cones of missiles and as crowns for teeth; tiny glass beads taking radiation doses inside the body to specific organs, even a new type of glass fashioned of nuclear waste in order to dispose of that unwanted material."
+                    "text": "The passage first introduces glass as a \"manufactured material.\" The sentence with the gap then refers to the many uses of this adaptable substance, making 'material' the logical word to complete the phrase. That's why the correct answer is 'Material'.",
+                    "quote": "As one of the most widely used of manufactured materials, and certainly the most versatile, it can be as imposing as a telescope mirror the width of a tennis court or as small and simple as a marble rolling across dirt."
                 },
                 "q2": {
-                    "text": "The sentence contrasts the material used for pulses with copper wire, and the passage discusses fibre optics extensively, making \"fibre\" the logical choice. The context of optical computers and light pulses further supports this.",
-                    "quote": "And the pulses would travel over glass _____ s, not copper wire."
+                    "text": "The text describes future optical computers that use light pulses. It contrasts the new medium, \"glass _____s,\" with the old one, \"copper wire.\" The passage previously mentioned \"glass fibre optics\" for carrying signals. That's why the correct answer is 'fibre'.",
+                    "quote": ""
                 },
                 "q3": {
-                    "text": "The sentence discusses the capabilities of optical computers, stating they can function faster and hold more than current computers. Therefore, 'information' fits logically as something computers store.",
-                    "quote": "These machines could function hundreds of times faster than today's electronic computers and hold vastly more _____(3)_____ ."
+                    "text": "The passage is listing the advantages of future optical computers. It states they could \"store programs and process information,\" so it logically follows that these powerful new machines would be able to hold vastly more 'information'.",
+                    "quote": ""
                 },
                 "q4": {
-                    "text": "The sentence indicates that glass has expanded its reach or scope beyond technology and commerce. 'Horizon' fits this context, suggesting that glass has broadened its possibilities and applications.",
-                    "quote": "But it is not only in technology and commerce that glass has widened its horizon s."
+                    "text": "The passage transitions from discussing technology to art. The idiom \"widened its horizons\" means to expand into new areas of activity, which perfectly describes glass being used for more than just commerce. That's why the correct answer is 'horizon'.",
+                    "quote": ""
                 },
                 "q5": {
-                    "text": "The sentence directly states that men and women are 'blowing glass', which fits the context of creating glass art, as discussed in the surrounding sentences.",
-                    "quote": "Nearly everywhere, it seems, men and women are blowing glass and creating works of art."
+                    "text": "This part of the text is about the booming industry of glass as art. A traditional and well-known technique for creating art with this material is by blowing it into shapes. Therefore, the artists are blowing 'glass'.",
+                    "quote": ""
                 },
                 "q6": {
-                    "text": "The sentence directly states that the glass is made to change 'colours' instantly, fitting perfectly into the gap. The surrounding context discusses the potential for glass to change color, confirming this answer.",
-                    "quote": "Think of how the tall buildings in New York could perform a symphony of colours as the glass in them is made to change colours instantly."
+                    "text": "The sentence describes a vision of buildings performing a \"symphony of colours.\" This effect would be created by the glass in the buildings changing its appearance instantly. Therefore, the glass is made to change 'colours'.",
+                    "quote": ""
                 }
             }
         },
@@ -280,36 +280,36 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q7": {
-                    "text": "Text 7 states a preference to visit caves without a guide, which aligns with Statement C's description of caves suitable for experienced people wishing to visit caves by themselves.",
-                    "quote": "Marek and his family often visit caves, so would prefer not to have a guide."
+                    "text": "Marek's family wants caves with no guide, interesting rocks, and a place to swim. Maribu Caves are for visiting by yourself, have rocks that look like strange objects, and a natural pool for diving. That's why the correct answer is C.",
+                    "quote": ""
                 },
                 "q8": {
-                    "text": "Text 8 mentions wanting a tour of caves with original cave paintings, and Statement H describes caves with \"pictures on the rock walls done by people living here centuries ago\" that haven't changed since discovery, aligning with the text's criteria. The text also mentions that they like caves with water flowing through them, and Statement H mentions that the caves have waterfalls.",
-                    "quote": "Jane and her family want a tour of caves that look just as they did when they were discovered, with original cave paintings."
+                    "text": "Jane's family wants a tour of unchanged caves with original paintings and water. Canran's Den has guides, waterfalls, and ancient paintings, and the caves \"haven't changed at all.\" That's why the correct answer is H.",
+                    "quote": ""
                 },
                 "q9": {
-                    "text": "Text 9 states they want someone to explain the cave's history, which aligns with Statement D's mention of guides knowing everything about the caves' history. Text 9 also mentions not wanting anywhere cold inside, which aligns with Statement D's mention of it being warmer inside when the temperature drops outside.",
-                    "quote": "They'd like to have someone show them the caves and explain their history."
+                    "text": "Mario's family needs a large, warm cave for a winter visit with a guide. Trussack Cavern is huge, is \"warmer inside\" when it's cold outside, and has guides who explain the caves' history. That's why the correct answer is D.",
+                    "quote": ""
                 },
                 "q10": {
-                    "text": "This matches \"Dragon's Nook\" because it mentions taking a camera for wall paintings, implying photography is allowed. The text also states that their parents would like to attend a music performance inside the caves, which is offered at Dragon's Nook.",
-                    "quote": "Twins Henry and Karina are keen on photography and want to take good pictures inside and outside the caves they visit."
+                    "text": "The family wants a place for photography and a music concert. Dragon's Nook is surrounded by beautiful scenery, has wall paintings to photograph inside, and is large enough to hold concerts. That's why the correct answer is F.",
+                    "quote": ""
                 },
                 "q11": {
-                    "text": "Text 11 mentions wanting caves that go a long way underground, which aligns with Mara Hollow's description of being able to walk for hundreds of metres. The text also mentions wanting to see an exhibition about how the caves were discovered, which matches Mara Hollow's 'great display of the caves' history'",
-                    "quote": "Justine and her family are experienced at visiting caves, and want to find some that go a long way underground."
+                    "text": "Justine's experienced family wants long caves and an exhibition on their discovery. Mara Hollow is for experienced people, as there's no guide, and it has a display about the first people to enter. That's why the correct answer is B.",
+                    "quote": ""
                 },
                 "q12": {
-                    "text": "Text 12 mentions a central location with views of the city centre, and hoping to see several musicals, which aligns with Statement K's description of a flat in the centre with views and proximity to theatres, and a preference against pets (cats).",
-                    "quote": "Fernando and Manuela would like to be in a central location where they can enjoy views of the city centre."
+                    "text": "They want a central flat with city views, near theatres. Flat K is in the centre, has a balcony with views of famous buildings, and is a short walk from several popular London theatres. That's why the correct answer is K.",
+                    "quote": ""
                 },
                 "q13": {
-                    "text": "This matches Statement I because it mentions a house away from the city centre with easy access to historical houses by road, fulfilling Ben and Lynne's desire to drive to places outside London and learn about how people used to live.",
-                    "quote": "Ben and Lynne want a house where they can drive to places outside London and learn about how people used to live."
+                    "text": "They want a house with road access to historical places and a pool, and they don't mind pets. House I offers easy road access to historical houses, has a leisure centre and pool nearby, and has a dog. That's why the correct answer is I.",
+                    "quote": ""
                 },
                 "q14": {
-                    "text": "Text 14 mentions wanting to see both the countryside and central London, which aligns with Statement L's cottage location near a forest and lake, with regular trains to the city center.",
-                    "quote": "They are an active family who want to see both the countryside and central London."
+                    "text": "This active family without a car wants to see both the countryside and central London. The cottage is in the country opposite a forest, and you can take one of the regular trains to the city centre. That's why the correct answer is L.",
+                    "quote": ""
                 }
             }
         },
@@ -445,27 +445,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q15": {
-                    "text": "This sentence directly addresses the origin of the 'blackhouse,' an ancient building type, making heading D the most appropriate choice. The paragraph then goes on to discuss different theories and aspects of the name's origin.",
+                    "text": "This paragraph introduces the Neolithic longhouse and then discusses the debated origin and meaning of the name 'blackhouse', an ancient type of building. That's why the correct answer is D.",
                     "quote": "The origin of the name blackhouse is of some debate."
                 },
                 "q16": {
-                    "text": "This sentence describes the materials and construction of the walls, roof, and floor, which are all elements of the building's inner structure. The paragraph continues to describe the internal layout and features like the hearth and lack of chimney, further detailing the inner structure.",
+                    "text": "The paragraph describes the materials used for the walls, roof, and floor, as well as the internal layout for people and animals. This details the building's structure. That's why the correct answer is E.",
                     "quote": "The buildings were generally built with double-wall dry-stone walls packed with earth and wooden rafters covered with a thatch of turf with cereal straw or reed."
                 },
                 "q17": {
-                    "text": "The paragraph introduces the difficulty in defining a village, implying that there are questions that need to be answered about what constitutes a village versus other types of settlements. This directly supports the heading \"Questions arise to be answered.\"",
-                    "quote": "It is estimated that there are over ten thousand villages in Britain, yet defining the term 'village' isn't as simple as it may at first sound."
+                    "text": "This paragraph states that defining a 'village' is complex and then poses two direct questions about the distinctions between hamlets, villages, and towns. That's why the correct answer is A.",
+                    "quote": "When does a hamlet become a village? And when does a village become a town?"
                 },
                 "q18": {
-                    "text": "This sentence introduces the definition and origin of the term 'village', which is then elaborated upon in the rest of the paragraph. Therefore, the heading 'Terms of the village explained' accurately reflects the paragraph's content.",
+                    "text": "This section explains the term 'village' by providing its Latin origin and giving a modern definition based on its size and the inclusion of public buildings. That's why the correct answer is G.",
                     "quote": "Strictly speaking the term 'village' comes from the Latin 'villaticus', which roughly translates as 'a group of houses outside a villa farmstead'."
                 },
                 "q19": {
-                    "text": "The paragraph defines a specific type of village, a hamlet, by describing its characteristics and differentiating it from a village. This aligns with the idea of defining a village type.",
+                    "text": "The paragraph provides a specific definition for a 'hamlet,' which is a type of small settlement or village, and explains its key characteristics and size. That's why the correct answer is H.",
                     "quote": "A hamlet is a smaller grouping of buildings that don't necessarily have any public or service buildings to support it."
                 },
                 "q20": {
-                    "text": "This sentence directly addresses the challenge of distinguishing between a village and a town, which is the core topic of the heading. The paragraph then elaborates on legal definitions and examples that further explore this difference.",
+                    "text": "This paragraph directly addresses the difficulty in distinguishing a village from a town, mentioning the historical legal definition that separates the two. That's why the correct answer is I.",
                     "quote": "The point at which a village becomes a town is difficult to determine and is probably best defined by those who live there."
                 }
             }
@@ -664,39 +664,39 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q21": {
-                    "text": "The quote directly states that Field and Wroe claim the site provides \"unequivocal evidence of a long overlap of humans and megafauna\", meaning they lived in the area at the same time.",
-                    "quote": "Drs Judith Field and Stephen Wroe of the University of Sydney, who excavated the site, claim that it provides unequivocal evidence of a long overlap of humans and megafauna, and conclude that aridity leading up to the last Ice Age brought about their eventual demise."
+                    "text": "The passage explicitly states that Field and Wroe believe the site provides clear proof of a long period where humans and megafauna lived together. That's why the correct answer is True.",
+                    "quote": ""
                 },
                 "q22": {
-                    "text": "The passage discusses the extinction of megafauna and the debate surrounding its cause, focusing on whether humans or climate change were responsible. It does not mention whether Field and Wroe believe smaller megafauna species survived the last Ice Age, so the answer is Not Given.",
+                    "text": "The passage mentions Field and Wroe's theory on the cause of the megafauna's demise, but it does not mention their views on whether smaller species survived the Ice Age. That's why the correct answer is Not Given.",
                     "quote": ""
                 },
                 "q23": {
-                    "text": "The passage states that there is no disputing the association of bones and stones at that depth, implying that the location of items at that depth is reliable, which contradicts the statement.",
-                    "quote": "There is no disputing the close association of bones and stones at Cuddie Springs, as both are found 1 to 1.7 metres below the modern surface."
+                    "text": "The writers explicitly state that the dating methods used for the layers were accurate, even though they later question the interpretation of the findings. That's why the correct answer is False.",
+                    "quote": ""
                 },
                 "q24": {
-                    "text": "The passage states that some stones have surface features and residues that indicate their use, meaning their function can be determined, thus the statement is true.",
+                    "text": "The passage describes stone tools with features and residues, such as blood and hair, that clearly indicated they were used for processing plants and butchering animals. That's why the correct answer is True.",
                     "quote": "Intriguingly, some of the stone show surface features indicating their use for processing plants, and a few even have well-preserved blood and hair residues suggesting they were used in butchering animals."
                 },
                 "q25": {
-                    "text": "The writers conclude that the inconsistencies in the data suggest the sediments have been moved, leading to a mix of old charcoal in younger layers, which supports option A.",
+                    "text": "After listing several inconsistencies in the dating of different materials, the writers conclude that the evidence points to the sediment layers having been moved and mixed up. That's why the correct answer is A.",
                     "quote": "These points suggest strongly that the sediments have been moved about and some of the old charcoal has been re-deposited in younger layers."
                 },
                 "q26": {
-                    "text": "The quote directly states that flood events could have mixed old bones with fresh deposits, indicating a disturbance of the archaeological evidence at the site. This supports option B.",
+                    "text": "The writers propose that floods could have transported debris and mixed old bones with new deposits, which would have disturbed the archaeological layers at the site. That's why the correct answer is B.",
                     "quote": "Flood events more likely explain the accumulation of megafauna remains, and could have mixed old bones with fresh deposits."
                 },
                 "q27": {
-                    "text": "The passage states that the writers speculate the graziers in 1876 lined the well with stones collected from 'further afield,' meaning they brought stones from another area, which supports option D.",
-                    "quote": "Given the expense of well-digging, we speculate that the graziers made sure it was protected from the damage caused by cattle hooves by lining the surface with small stones collected from further afield, including prehistoric quarries."
+                    "text": "The writers suggest that European graziers built a well and protected it by covering the surface with stones that they had gathered from other places. That's why the correct answer is D.",
+                    "quote": ""
                 },
                 "q28": {
-                    "text": "The quote directly supports option B, as it states that a very small number of killings per year could have led to the extinction of the megafauna, specifically the Diprotodon.",
+                    "text": "The writers present a model showing that even a small number of people killing just one young animal annually could lead to the species' extinction over time. That's why the correct answer is B.",
                     "quote": "Using a mathematical model, it was found that a group of 10 people killing only one juvenile Diprotodon each year would be sufficient to bring about the extinction of that species within 1,000 years."
                 },
                 "q29": {
-                    "text": "The writers criticize Field and Wroe because their analysis of the data from Cuddie Springs revealed inconsistencies, suggesting that their conclusions about the long overlap of humans and megafauna were based on flawed data.",
+                    "text": "The writers' main argument is that Field and Wroe's conclusions are questionable because the data from the site contains several contradictions, which the writers detail in their analysis. That's why the correct answer is D.",
                     "quote": "However, our analysis revealed a number of inconsistencies."
                 }
             }
@@ -808,27 +808,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q30": {
-                    "text": "The question asks what one of the groups received, and the passage states that \"one received candy\", which directly answers the question.",
-                    "quote": "Showing how easy it is to give people an intellectual boost, Isen divided doctors making a tricky diagnosis into three groups: one received candy, one read humanistic statements about medicine, one was a control group."
+                    "text": "The passage describes an experiment where doctors were divided into three groups to test their thinking. The text explicitly states that one of these groups was given candy. That's why the correct answer is 'Candy'.",
+                    "quote": "Isen divided doctors making a tricky diagnosis into three groups: one received candy, one read humanistic statements about medicine, one was a control group."
                 },
                 "q31": {
-                    "text": "The question in the passage directly questions the purpose of 'defining levels', which supports 'definition' as the answer. The question is about the significance of this defining.",
+                    "text": "The passage states that critics of the new science question its purpose. They specifically ask about the point of defining levels of happiness, which they consider too vague. That's why the correct answer is 'Definition'.",
                     "quote": "What is the point of defining levels of haziness and classifying the virtues?"
                 },
                 "q32": {
-                    "text": "The passage directly states that \"we have a catastrophic brain\" because our brains evolved during a difficult time.",
-                    "quote": "Professor Seligman says: \"Because our brain evolved during a time of ice, flood and famine, we have a catastrophic brain."
+                    "text": "Professor Seligman explains that our brains evolved during a dangerous era of hardship. He states that this evolutionary history resulted in humans having 'a catastrophic brain' focused on potential dangers. That's why the correct answer is 'a catastrophic brain'.",
+                    "quote": "Because our brain evolved during a time of ice, flood and famine, we have a catastrophic brain."
                 },
                 "q33": {
-                    "text": "The question asks for examples of positive images, and the passage states that 'landscapes or dolphins playing' are examples of images that activate part of the frontal lobe of the brain.",
+                    "text": "The passage describes a study where scientists showed people pleasant and unpleasant images. The text gives 'landscapes or dolphins playing' as specific examples of the pleasant pictures used in the experiment. That's why the correct answer is 'landscapes or dolphins playing'.",
                     "quote": "When subjects see landscapes or dolphins playing, part of the frontal lobe of the brain becomes active."
                 },
                 "q34": {
-                    "text": "The question asks where the response comes from when shown unpleasant images. The passage states that \"the response comes from more primitive parts of the brain\" when subjects are shown unpleasant images.",
+                    "text": "The passage explains that when people view unpleasant images, the reaction originates from a different area than when viewing pleasant ones. The text specifies this response comes from 'more primitive parts of the brain.' That's why the correct answer is 'primitive parts'.",
                     "quote": "But when they are shown unpleasant images — a bird covered in oil, or a dead soldier with part of his face missing — the response comes from more primitive parts of the brain."
                 },
                 "q35": {
-                    "text": "The quote directly states that our brains are designed to crave happiness but not achieve lasting happiness, which supports the idea that the inner mechanism of human brains does not assist us in achieving durable happiness.",
+                    "text": "The final paragraph summarizes the biological findings about happiness. It explicitly states that due to a 'trick of nature,' our brains are built to desire things but not to find lasting happiness. That's why the correct answer is D.",
                     "quote": "At the same time, by a trick of nature, our brains are designed to crave but never really achieve lasting happiness."
                 }
             }

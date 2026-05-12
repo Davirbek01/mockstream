@@ -77,28 +77,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "The sentence directly states that \"All the _____ together act like a big book of instructions,\" and the passage discusses how genes act as instructions, making \"genes\" the correct fit.",
-                    "quote": "All the (1) _____(1)_____ together act like a big book of instructions."
+                    "text": "The previous sentence introduces genes as the topic. This sentence continues that thought, explaining that all the genes together act like instructions. That's why the correct answer is 'Genes'.",
+                    "quote": "Their genes play a huge role in shaping their behavior."
                 },
                 "q2": {
-                    "text": "The sentence directly states that each version of a gene comes from a parent, making \"each\" the correct answer. The context is about the origin of gene variants.",
-                    "quote": "There are different versions of the same gene; each version comes from (2) _____(2)_____ parent."
+                    "text": "The sentence describes how different versions of a gene are inherited. The phrase 'each version' implies a one-to-one relationship, with one version coming from every parent. That's why the correct answer is 'each'.",
+                    "quote": ""
                 },
                 "q3": {
-                    "text": "\"Affect\" is the correct answer because the sentence discusses how gene variants influence memory and responses to the environment, and \"affect\" means to have an influence on something.",
-                    "quote": "They can also (3) _____(3)_____ memory and how the animals respond to their surroundings."
+                    "text": "The passage is listing what gene variants can do, like changing eye color. The gapped sentence adds another item to this list, requiring a verb that means 'to influence'. That's why the correct answer is 'affect'.",
+                    "quote": "These variants can affect things like the color of the eyes or the texture of the hair."
                 },
                 "q4": {
-                    "text": "The sentence directly precedes the phrase \"different environment,\" and the analogy compares gene variants to music apps, where internet connection determines app preference, making \"internet\" the correct fit.",
-                    "quote": "Where there is poor (4) _____(4)_____ connection (different environment), you prefer the other (5) _____(5)_____ ."
+                    "text": "The passage uses an analogy of two music apps. It states that a good 'internet connection' is needed for one app, so a poor connection must also be an 'internet' connection. That's why the correct answer is 'internet'.",
+                    "quote": "If you have a good internet connection (environment), it is better to use the first app."
                 },
                 "q5": {
-                    "text": "The sentence directly precedes the answer with \"the other\", indicating a comparison. The passage uses the analogy of music apps, making \"app\" the logical completion of the comparison.",
-                    "quote": "Where there is poor (4) _____(4)_____ connection (different environment), you prefer the other (5) _____(5)_____ ."
+                    "text": "The analogy in the passage is about choosing between two music apps. If you don't use the first app in a certain situation, you would logically choose the other one. That's why the correct answer is 'app'.",
+                    "quote": "Imagine these variants like having two apps on your phone for doing the same task, like for listening to music."
                 },
                 "q6": {
-                    "text": "The sentence directly states that the rat moms' care influences how 'their babies' act later in life, making 'babies' the correct word to fill the gap. The context emphasizes the impact of maternal care on the offspring's future behavior.",
-                    "quote": "For instance, when rat moms take care of their babies, it can change how their babies act when they grow up and become moms themselves."
+                    "text": "The sentence explains how a mother rat's care influences her offspring. The pronoun 'their' refers back to the 'babies' mentioned at the start of the sentence. That's why the correct answer is 'babies'.",
+                    "quote": ""
                 }
             }
         },
@@ -259,36 +259,36 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q7": {
-                    "text": "The text explicitly states that the house is '5 mins to underground,' indicating close proximity to the underground, which directly supports the statement about wanting something closer to the underground.",
+                    "text": "The advertisement states that the house is only a five-minute walk from the nearest underground station, making it very convenient for public transport. That's why the correct answer is E.",
                     "quote": "5 mins to underground."
                 },
                 "q8": {
-                    "text": "The advertisement explicitly states that ownership at Desert Springs resort includes membership, directly supporting statement B.",
-                    "quote": "WHERE OWNERSHIP MEANS MEMBERSHIP."
+                    "text": "The advertisement's slogan clearly states that buying a property at this resort automatically grants you membership, which is a key feature of the offer. That's why the correct answer is B.",
+                    "quote": "SPAIN'S ONLY DESERT GOLF RESORT - WHERE OWNERSHIP MEANS MEMBERSHIP."
                 },
                 "q9": {
-                    "text": "The text describes 'Assisted Living' with included care, catering, and housekeeping, indicating a fully serviced living arrangement, which aligns with the concept of a retirement home.",
-                    "quote": "Assisted Living offers more than just a new home! Enjoy a lifestyle suitable to both your current and future needs. Care, Catering and Housekeeping services incl."
+                    "text": "This property is described as 'Assisted Living' and includes services like care, catering, and housekeeping, which are typical of a fully serviced retirement home. That's why the correct answer is G.",
+                    "quote": "Care, Catering and Housekeeping services incl."
                 },
                 "q10": {
-                    "text": "The text explicitly mentions \"luxury villas\" and their location on the \"Almanzora coast,\" directly supporting the desire to live in a villa near the coast.",
+                    "text": "The advertisement is for 'luxury villas' and specifies their location as being 'on the Almanzora coast'. This is a perfect match for someone wanting a villa by the sea. That's why the correct answer is F.",
                     "quote": "Playa marques luxury villas on the Almanzora coast of south east Spain."
                 },
                 "q11": {
-                    "text": "The phrase 'riverside development' indicates the houses are near a river, and 'tranquil woodland setting' indicates they are near a forest, directly supporting statement J.",
+                    "text": "The ad states that the new homes are available in two different locations: a 'riverside development' and a 'woodland setting'. This means they are near both a river and a forest. That's why the correct answer is J.",
                     "quote": "These stunning new homes are available at our riverside development, Belvedere Creek, in the heart of Faversham, Kent or the tranquil woodland setting of Beauport Park."
                 },
                 "q12": {
-                    "text": "The text explicitly states that the apartments are located in an \"historic county mill\", indicating a historical site. Therefore, you can buy an apartment in a historical site.",
+                    "text": "The advertisement describes the apartments as being located in a 'historic country mill'. This means the building itself is a historical site, matching the description. That's why the correct answer is H.",
                     "quote": "Superb apartments in an historic county mill!"
                 },
                 "q13": {
-                    "text": "The phrase \"individually designed homes\" directly supports the statement that the houses are designed uniquely, indicating a special and distinct design for each home.",
+                    "text": "The advertisement is for homes in the 'Eastern region' and explicitly states that they are 'individually designed'. This means each home is unique. That's why the correct answer is I.",
                     "quote": "Our individually designed homes are available from just £171,950."
                 },
                 "q14": {
-                    "text": "The text directly asks if it's time to escape to Lincolnshire, which is described as having beautiful countryside, thus matching the desire to escape to a beautiful countryside.",
-                    "quote": "Isn't it time you escaped to Lincolnshire"
+                    "text": "The ad highlights the 'beautiful countryside' of Lincolnshire and directly asks the reader if it's time to 'escape' there. This matches the desire to move to the country. That's why the correct answer is D.",
+                    "quote": "Wide open spaces, beautiful countryside and charming villages"
                 }
             }
         },
@@ -419,27 +419,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q15": {
-                    "text": "This sentence highlights the threat to buildings and crops, while the last sentence of the paragraph mentions the benefit of dune habitats for specialized plants and animals, thus matching the heading.",
+                    "text": "This paragraph describes how sand dunes are a problem for human habitats and agriculture, but also notes that they provide important niches for rare species, thus covering both threat and benefit. That's why the correct answer is A.",
                     "quote": "Sand dunes threaten buildings and crops in Africa, the Middle East, and China."
                 },
                 "q16": {
-                    "text": "The paragraph discusses the various components that make up sand, including minerals like quartz, iron compounds, gypsum, and silicate. This aligns perfectly with a heading focused on explaining the composition of sand.",
+                    "text": "This paragraph details the various minerals and compounds that sand is made of, such as quartz and iron, and explains how these components determine the sand's color and properties. That's why the correct answer is E.",
                     "quote": "Sand is usually composed of hard minerals such as quartz that cannot be broken down into silt or clay."
                 },
                 "q17": {
-                    "text": "This sentence explicitly states that crescentic dunes are the most common type, directly supporting the heading 'the most common sand type'.",
+                    "text": "The paragraph opens by explicitly stating that the crescentic dune is the most frequently occurring type on Earth, and then continues to describe its features and movement. That's why the correct answer is C.",
                     "quote": "The most common dune form on Earth and on Mars is crescentic."
                 },
                 "q18": {
-                    "text": "This sentence introduces star dunes and linear dunes, which are different from the crescentic dunes discussed in the previous paragraph, thus fitting the heading 'other types of sand dunes'.",
+                    "text": "This paragraph introduces and describes several other forms of sand dunes, such as star dunes and linear dunes, detailing their unique shapes and the wind conditions that form them. That's why the correct answer is G.",
                     "quote": "Radially symmetrical, star dunes are pyramidal sand mounds with slipfaces on there or more arms that radiate from the high center of the mound."
                 },
                 "q19": {
-                    "text": "This sentence directly introduces the process of dune formation, explaining how the accumulation of sand leads to the creation of ripples and dunes. The rest of the paragraph elaborates on the conditions and factors that contribute to this formation.",
+                    "text": "This section explains the physical process of how dunes are created, detailing how wind piles sand up until it collapses under its own weight to a stable angle, called the angle of repose. That's why the correct answer is H.",
                     "quote": "Once sand begins to pile up, ripples and dunes can form."
                 },
                 "q20": {
-                    "text": "This sentence directly describes the cyclical process of sand movement driven by the wind, which causes the dune to migrate forward. This aligns perfectly with the idea of a cycle that moves sand forward with the wind.",
+                    "text": "This paragraph describes the mechanism of dune migration as a repeating cycle where sand moves up the windward side and slips down the other, causing the dune to move forward. That's why the correct answer is B.",
                     "quote": "The repeating cycle of sand inching up the windward side to the dune crest, then slipping down the dune’s slip face allows the dune to inch forward, migrating in the direction the wind blows."
                 }
             }
@@ -621,40 +621,40 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q21": {
-                    "text": "The quote indicates that Chloe felt overwhelmed by her experience in Japan because she was only nineteen, meaning she wasn't old enough to fully appreciate it. This supports option D.",
+                    "text": "Chloe says the work in Japan was demanding and that the experience was \"too much to take in at nineteen.\" This suggests she felt she was too young to handle it all. That's why the correct answer is D.",
                     "quote": "It was very demanding work and, though I met loads of nice people, it was too much to take in at nineteen."
                 },
                 "q22": {
-                    "text": "This quote directly supports option B, as it shows Chloe had always dreamed of being a singer since she was a child, indicating her ambitions.",
+                    "text": "The passage describes Chloe as a \"typical kid, singing with a hairbrush in front of the mirror, dreaming of being a star one day.\" This shows she had a long-standing desire to be a singer. That's why the correct answer is B.",
                     "quote": "‘I’d been the typical kid, singing with a hairbrush in front of the mirror, dreaming of being a star one day,’ she laughs."
                 },
                 "q23": {
-                    "text": "The quote directly states that Chloe fell while climbing a ladder, resulting in cracked ribs, which led to her hospital stay in Sweden. This confirms option C.",
-                    "quote": "‘I fell as I climbed up the ladder and cracked three ribs."
+                    "text": "The text explains that in Sweden, people have high beds. Chloe states that she was injured when she fell from the ladder while climbing up to her bed. That's why the correct answer is C.",
+                    "quote": "I fell as I climbed up the ladder and cracked three ribs."
                 },
                 "q24": {
-                    "text": "The quote directly supports option B because Chloe states that she continued the vintage fairs due to the positive feedback (compliments) she received, indicating she responded to customer feedback.",
+                    "text": "Chloe says the first fair was meant to be a one-off event, but she decided to continue because she \"had so many compliments.\" This shows she was influenced by positive customer reactions. That's why the correct answer is B.",
                     "quote": "‘When I had the idea of the first fair, it was only meant to be a one-off, but we had so many compliments, I decided to go ahead with more,’ says Chloe."
                 },
                 "q25": {
-                    "text": "The passage states that Chloe was making contacts in the music business while she was modelling, which directly supports the statement that she was in the music business when she was modelling.",
+                    "text": "The passage explicitly states that while Chloe was working as a model, she was also starting to build connections within the music industry. That's why the correct answer is True.",
                     "quote": "Alongside the modelling, Chloe was also beginning to make contacts in the music business."
                 },
                 "q26": {
-                    "text": "The quote directly states that she felt very homesick when she first went to Japan, which means she missed her home very much. Therefore, the answer is True.",
+                    "text": "When talking about her work trip to Japan, Chloe recalls that she \"felt very homesick at first.\" This directly confirms that she missed being at home. That's why the correct answer is True.",
                     "quote": "‘I went to Japan to work for a short period, but felt very homesick at first,’ she recalls."
                 },
                 "q27": {
-                    "text": "The passage mentions Chloe's love for vintage clothes and the vintage fairs she organizes, but it doesn't mention whether she bought jackets while in Sweden. Therefore, there is no information to confirm or deny this statement.",
+                    "text": "The passage describes Chloe's accident and her idea for vintage fairs while in Sweden, but it does not mention her buying jackets or any other clothing there. That's why the correct answer is No Information.",
                     "quote": ""
                 },
                 "q28": {
-                    "text": "The passage mentions Chloe singing with multiple bands, including one in Sweden and one in London, but it doesn't specify whether she traveled extensively with any of them. Therefore, there is no information to confirm or deny that she traveled a lot with her music band.",
+                    "text": "The text says Chloe sings in bands based in London and Sweden, but it doesn't give any details about her travelling with them for tours or concerts. That's why the correct answer is No Information.",
                     "quote": ""
                 },
                 "q29": {
-                    "text": "The passage states that Chloe had the idea for vintage fairs while recovering from injuries, indicating that she did not always want to stage them.",
-                    "quote": "It was while recovering from her injuries that Chloe hit upon the idea of staging what she calls vintage fairs."
+                    "text": "The passage says Chloe \"hit upon the idea\" of vintage fairs while recovering from an injury, and that the first one was meant to be a \"one-off.\" This shows it was a new idea, not a long-held ambition. That's why the correct answer is False.",
+                    "quote": ""
                 }
             }
         },
@@ -778,27 +778,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q30": {
-                    "text": "The passage states that the 'Henry' program supports parents in setting boundaries for their children, which directly answers the question.",
-                    "quote": "‘Henry’ (Health, Exercise, Nutrition for the Really Young) supports parents in setting boundaries for their children and taking a positive stance on issues from healthy eating to bedtimes."
+                    "text": "The passage states that the 'Henry' programme supports parents in establishing rules for their children on issues like healthy eating and bedtimes. That's why the correct answer is 'Boundaries'.",
+                    "quote": "'Henry' (Health, Exercise, Nutrition for the Really Young) supports parents in setting boundaries for their children and taking a positive stance on issues from healthy eating to bedtimes."
                 },
                 "q31": {
-                    "text": "The question asks what the Henry programme helps people become as parents, and the passage states that the programme encourages authoritative parenting, thus supporting the answer.",
-                    "quote": "The programme encourages authoritative rather than authoritarian parenting, she said."
+                    "text": "The text contrasts different parenting styles and explicitly states that the 'Henry' programme promotes a specific approach where parents are in charge but also responsive. That's why the correct answer is 'Authoritative'.",
+                    "quote": "But ‘Henry’ encourages a third approach known as authoritative parenting, where parents make it clear they are in charge, but also respond to their children."
                 },
                 "q32": {
-                    "text": "The question asks about a parenting style that gives freedom of choice, and the passage states that \"Permissive parenting is asking children what they want to do,\" directly linking permissive parenting with freedom of choice.",
+                    "text": "The passage defines the parenting style where children are simply asked what they want to do, which implies a high degree of freedom. That's why the correct answer is 'Permissive'.",
                     "quote": "Permissive parenting is asking children what they want to do."
                 },
                 "q33": {
-                    "text": "The passage states that instead of telling children to go to bed, they are asked where they want to read their story beforehand, implying that a story should be enjoyed before bed.",
+                    "text": "The text provides an example of authoritative parenting related to bedtime, where a child is given a choice about where to enjoy their bedtime reading. That's why the correct answer is 'Story'.",
                     "quote": "Instead of being told to go to bed, they are asked where they want to read their story beforehand."
                 },
                 "q34": {
-                    "text": "The passage states that the biggest decline in obesity in Leeds is in the reception class, which is about the age of four, meaning the youngest children show the highest levels of weight loss.",
+                    "text": "The passage analyzes the NCMP data from Leeds and specifies that the most significant reduction in obesity was seen in the youngest children measured. That's why the correct answer is D.",
                     "quote": "The biggest decline in obesity in Leeds is 6.4% in the reception class, at about the age of four."
                 },
                 "q35": {
-                    "text": "This sentence directly introduces the Henry program and its positive impact on childhood obesity rates in Leeds, which aligns with the idea of examining the program's achievements.",
+                    "text": "The entire article is about the drop in childhood obesity in Leeds and the central role the 'Henry' programme is thought to have played in this success. That's why the correct answer is A.",
                     "quote": "Leeds has become the first city in the UK to report a drop in childhood obesity after introducing a programme called ‘Henry’ to help parents set boundaries for their children and put them off sweets and junk food."
                 }
             }

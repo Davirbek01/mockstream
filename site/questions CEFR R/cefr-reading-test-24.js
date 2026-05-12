@@ -1,4 +1,4 @@
-﻿window.CEFR_READING_TEST = {
+window.CEFR_READING_TEST = {
     "testInfo": {
         "title": "CEFR B1-B2-C1 Reading Test 24",
         "totalQuestions": 35,
@@ -71,28 +71,28 @@
             },
             "explanations": {
                 "q1": {
-                    "text": "The sentence directly states that 'These _____(1)_____ were used for wagons,' and the previous sentence mentions 'wagon ways,' indicating that these 'roads' or 'wagon ways' were used for the wagons.",
-                    "quote": "These _____(1)_____ were used for wagons pulled by horses."
+                    "text": "The passage introduces 'roads in Germany' with wooden rails, which were then called 'wagon ways.' The word 'These' in the next sentence refers back to these specific pathways. That's why the correct answer is 'Roads'.",
+                    "quote": "In 1550, some roads in Germany had wooden rails."
                 },
                 "q2": {
-                    "text": "The sentence directly states that the rails were made of iron, filling the gap perfectly. The surrounding context discusses the evolution of rails from wooden to metal.",
-                    "quote": "The rails were made of iron."
+                    "text": "The passage states that in 1776, 'metal rails were made.' The sentence with the blank then specifies what kind of metal was used to make them, which was iron. That's why the correct answer is 'Rails'.",
+                    "quote": "In 1776, metal rails were made."
                 },
                 "q3": {
-                    "text": "The sentence directly states that 'these' helped the wagons move faster, and the previous sentence mentions William Jesse making 'wheels' with a groove, so 'wheels' logically fills the gap.",
-                    "quote": "These _____(3)_____ helped the wagons move faster on the iron rails."
+                    "text": "The text explains that William Jesse 'made wheels with a groove.' The following sentence uses the word 'These' to refer back to what he created, explaining how they helped the wagons. That's why the correct answer is 'Wheels'.",
+                    "quote": "He made wheels with a groove, or cutout edge."
                 },
                 "q4": {
-                    "text": "The sentence directly contains the gap. The previous sentence mentions wagons being pulled by horses on wooden rails, indicating that horses were still used to pull the wagons at this stage.",
-                    "quote": "The wagons were still pulled by _____(4)_____ ."
+                    "text": "The passage first mentions that wagons were 'pulled by horses.' The word 'still' in the sentence with the blank indicates that even with new rails and wheels, the power source had not changed yet. That's why the correct answer is 'Horses'.",
+                    "quote": "These _____(1)_____ were used for wagons pulled by horses."
                 },
                 "q5": {
-                    "text": "The sentence describes Richard Trevithick's action regarding the steam engine, and \"made\" fits the context of creating or inventing something, aligning with his desire to move things without animals.",
-                    "quote": "He _____(5)_____ the first steam engine."
+                    "text": "The text introduces Richard Trevithick and his goal to move things without animals. The sentence with the blank describes his key invention, the steam engine, implying he created it. That's why the correct answer is 'Made'.",
+                    "quote": "A man named Richard Trevithick wanted to move people and things from place to place without using animals."
                 },
                 "q6": {
-                    "text": "The sentence directly states that he obtained the \"first\" charter railroad, indicating he was the initial recipient. This aligns with his role as the 'father of the American railroad' and his pioneering work with steam trains.",
-                    "quote": "He got the first charter railroad."
+                    "text": "The passage gives John Stevens the title 'father of the American railroad.' This suggests he was the originator, which supports the idea that he received the initial charter for a railroad. That's why the correct answer is 'First'.",
+                    "quote": "He is called the \"father of the American railroad.\""
                 }
             }
         },
@@ -253,35 +253,35 @@
             ],
             "explanations": {
                 "q7": {
-                    "text": "The text describes a popular house with a pleasant walk away from the crowds, suggesting a balance between popularity and peace. The presence of a souvenir shop indicates the possibility of taking something home.",
-                    "quote": "The house attracts thousands of visitors, but this is a pleasant walk (for the fit) away from the crowds, through parkland, woods and up onto the hills."
+                    "text": "The place is popular, attracting thousands, but the walk is peaceful and 'away from the crowds'. The souvenir shop allows you to buy something to take home. That's why the correct answer is D.",
+                    "quote": ""
                 },
                 "q8": {
-                    "text": "This quote indicates walking outside the city. The text also mentions an adventure playground and farmyard, which are ways to entertain children during the day.",
-                    "quote": "Take a really enjoyable walk in the countryside surrounding the park."
+                    "text": "This walk is in the countryside, which is outside the city. It also offers an adventure playground and a farmyard, which the text says are 'great for young children'. That's why the correct answer is E.",
+                    "quote": ""
                 },
                 "q9": {
-                    "text": "This quote directly supports statement I because it mentions a walk that takes an hour or two, visiting old cottages, and enjoying scenery in the country gardens and hills.",
+                    "text": "The text suggests this walk takes 'an hour or two,' which is less than two hours. During the walk, you can see 'lovely old cottages' and enjoy 'superb views'. That's why the correct answer is I.",
                     "quote": "A leisurely way to spend an hour or two is by visiting the busy village of Hope with its lovely old cottages, traditional pubs and country gardens."
                 },
                 "q10": {
-                    "text": "The phrase indicates walking in nature. The sentence \"Private tours can be arranged\" indicates that tours are available.",
-                    "quote": "This is an easy walk through a little-known valley beside clear streams with woodland flowers, birds and animals."
+                    "text": "This walk takes you through a valley with streams, flowers, and animals, which is a walk in nature. The text also explicitly states that private tours are available. That's why the correct answer is H.",
+                    "quote": "Private tours can be arranged."
                 },
                 "q11": {
-                    "text": "This quote directly supports statement A because it mentions activities for children, implying that the walk is suitable for families with children who want outdoor activities.",
+                    "text": "This is a short, two-hour walk. It is suitable for children because they can participate in outdoor activities like sailing and windsurfing on the lake with instructors. That's why the correct answer is A.",
                     "quote": "Children can go sailing and windsurfing on the lake with trained instructors."
                 },
                 "q12": {
-                    "text": "The phrase 'very fit walkers only' indicates a challenging walk, and 'Fantastic views of farmland in the valleys below' suggests panoramic scenery from a high vantage point.",
-                    "quote": "This walk is definitely for very fit walkers only - the tracks get very slippery after rain."
+                    "text": "This walk is described as challenging, as it is 'for very fit walkers only'. It also offers 'fantastic views' from the hilltops, looking down on the valleys below. That's why the correct answer is C.",
+                    "quote": ""
                 },
                 "q13": {
-                    "text": "This quote directly supports statement J because it mentions the need for walking experience, the presence of wild views, and the option to eat food in the village after the walk.",
+                    "text": "This walk requires experience ('you need to be used to walking') and takes you through the 'wildest scenery'. Afterwards, you can eat at the pub in the village. That's why the correct answer is J.",
                     "quote": "You need to be used to walking to successfully complete this seven-hour walk through the wildest scenery in the area."
                 },
                 "q14": {
-                    "text": "This quote directly supports the match because it mentions visiting ancient ruins, fulfilling the 'ancient sightseeing' aspect of the statement. The text also mentions family picnics, implying that it is a place where you can spend time with your children in the open air.",
+                    "text": "This walk is good for families, as it's a popular spot for picnics. It also features ancient sights, including 800-year-old woodland and ruins that are two thousand years old. That's why the correct answer is G.",
                     "quote": "Guided walks start from the nearby village (10 am Sundays) and visit 800-year-old woodland and ruins dating back two thousand years."
                 }
             }
@@ -378,28 +378,28 @@
             ],
             "explanations": {
                 "q15": {
-                    "text": "The paragraph introduces the destructive power of hurricanes and then poses the question of whether they can be controlled, which directly relates to whether they are unbeatable. The heading \"Are hurricanes unbeatable?\" encapsulates this central question.",
+                    "text": "The paragraph describes the immense power of hurricanes and concludes by asking if we can ever manage these \"formidable forces of nature,\" directly questioning if they are unbeatable. That's why the correct answer is E.",
                     "quote": "But can we ever find a way to control these formidable forces of nature?"
                 },
                 "q16": {
-                    "text": "This sentence indicates a return to or a re-examination of ideas from the past. The paragraph then elaborates on how these earlier ideas about chaos theory are now informing current research on hurricane control.",
+                    "text": "The author states that the current research is based on an \"intuition\" from 30 years ago, showing that the work is a re-examination of a much older idea. That's why the correct answer is F.",
                     "quote": "Our current studies are inspired by my past intuition when I was learning about chaos theory 30 years ago."
                 },
                 "q17": {
-                    "text": "This sentence directly describes a laboratory exercise (simulation experiments on computers) that aimed to adjust, or re-route, a hurricane, thus matching the heading. The rest of the paragraph details how this simulation was conducted.",
+                    "text": "This section details the method of a \"simulation experiment on computers,\" which is a form of laboratory exercise, to see if a hurricane could be adjusted or re-routed. That's why the correct answer is C.",
                     "quote": "To find out whether the sensitivity of the atmospheric system could be exploited to adjust hurricanes, our research team ran simulation experiments on computers for Hurricane Iniki that occurred in 1992."
                 },
                 "q18": {
-                    "text": "This quote directly supports the heading because it describes how a simulated alteration of the hurricane's path resulted in Kauai being spared, implying that lives and property could have been saved if this alteration had occurred in reality.",
-                    "quote": "the later one veered off the track to the west during the first six hours of the simulation and then travelled due north, leaving Kauai untouched."
+                    "text": "The paragraph explains that the simulated hurricane changed course and missed the island of Kauai, demonstrating a way that the population could have been kept safe from the storm. That's why the correct answer is G.",
+                    "quote": ""
                 },
                 "q19": {
-                    "text": "This sentence describes potential applications of advanced, not-yet-existing technologies (solar power stations beaming microwaves) to control hurricanes, which aligns with the idea of utilizing future technologies in exciting ways.",
-                    "quote": "Future earth-orbiting solar power stations, equipped with large mirrors to focus the sun's rays and panels of photovoltaic cells to gather and send energy to the Earth, might be adapted to beam microwaves to be absorbed by water vapour molecules around the storm."
+                    "text": "This section describes how \"future earth-orbiting solar power stations\" could be used in a new way to control storms, which is a clear example of utilizing future technology. That's why the correct answer is D.",
+                    "quote": ""
                 },
                 "q20": {
-                    "text": "The paragraph discusses methods like cloud seeding and rain-inducing elements, which are considered low-tech interventions to control hurricanes. These methods contrast with high-tech solutions, suggesting a range of simpler approaches.",
-                    "quote": "Intervention could include cloud seeding and other rain-inducing elements to deprive a hurricane of the water it needs to grow and multiply from its eyewall, which is the essential characteristic of a severe tropical storm."
+                    "text": "The paragraph mentions several methods of intervention, such as \"cloud seeding and other rain-inducing elements,\" which are established, less complex techniques compared to the futuristic ones discussed earlier. That's why the correct answer is H.",
+                    "quote": ""
                 }
             },
             "passage": {
@@ -615,39 +615,39 @@
             },
             "explanations": {
                 "q21": {
-                    "text": "The passage states that smell is undervalued, implying we don't fully realize its importance until perhaps we lose or damage that sense, making option C the most logical answer.",
-                    "quote": "In spite of its importance to our emotional and sensory lives, smell is probably the most undervalued sense in many cultures."
+                    "text": "The passage emphasizes how undervalued the sense of smell is. This implies we often take it for granted and would only become truly aware of its importance if our ability to use it was gone. That's why the correct answer is C.",
+                    "quote": ""
                 },
                 "q22": {
-                    "text": "The quote directly supports option A because it states that people don't consciously think about using smell to identify family members, but the experiment shows that smells register even when not consciously considered, meaning we use smell without realizing it.",
-                    "quote": "Most of the subjects would probably never have given much thought to odour as a cue for identifying family members before being involved in the test, but as the experiment revealed, even when not consciously considered, smells register."
+                    "text": "The passage notes that subjects probably never thought about using smell to identify people before the test, showing that smells register even when we are not consciously aware of it. That's why the correct answer is A.",
+                    "quote": ""
                 },
                 "q23": {
-                    "text": "Paragraph C presents a common belief about the human sense of smell being feeble, then proceeds to argue against it, thus rejecting the belief.",
-                    "quote": "The reason often given for the low regard in which smell is held is that, in comparison with its importance among animals, the human sense of smell is feeble and undeveloped."
+                    "text": "The writer presents the common belief that the human sense of smell is 'feeble', then immediately argues against it by stating our olfactory powers are 'remarkably acute'. That's why the correct answer is C.",
+                    "quote": "While it is true that the olfactory powers of humans are nothing like as fine as those possessed by certain animals, they are still remarkably acute."
                 },
                 "q24": {
-                    "text": "The quote indicates that researchers are still trying to understand fundamental aspects of smell, such as whether it's one sense or two, and how to measure it objectively, implying that smell is yet to be fully defined.",
+                    "text": "The writer states that 'many fundamental questions have yet to be answered' and researchers still need to decide basic things, like if smell is one sense or two. This shows it is not yet fully defined. That's why the correct answer is D.",
                     "quote": "Researchers still need to decide whether smell is one sense or two, and how smells can be measured objectively given the nonphysical components."
                 },
                 "q25": {
-                    "text": "This quote shows that scents are associated with individual experiences and memories, meaning the same scent can evoke different emotions in different people, making the statement false.",
-                    "quote": "A scent associated with a good experience can bring a rush of joy, while a foul odour or one associated with a bad memory may make us grimace with disgust."
+                    "text": "The passage states that the perception of smell depends on the 'experiences and emotions associated with them,' which are unique to each individual. Therefore, emotional responses to a scent will vary. That's why the correct answer is False.",
+                    "quote": "The perception of smell, therefore, consists not only of the sensations of the odours themselves, but of the experiences and emotions associated with them."
                 },
                 "q26": {
-                    "text": "The passage states that people can distinguish clothing worn by their partners from others by smell alone, directly contradicting the statement that it is always difficult to identify someone by their outfits.",
-                    "quote": "In one well-known test, women and men were able to distinguish by smell alone clothing worn by their marriage partners from similar clothing worn by other people."
+                    "text": "The experiment in the passage demonstrated that people were able to successfully use smell to distinguish clothing worn by their partners from clothing worn by others. That's why the correct answer is False.",
+                    "quote": ""
                 },
                 "q27": {
-                    "text": "The passage states that smell is undervalued in \"many cultures,\" implying that not all cultures share the same attitude towards it. Therefore, the statement is true.",
-                    "quote": "In spite of its importance to our emotional and sensory lives, smell is probably the most undervalued sense in many cultures."
+                    "text": "The passage claims that smell is 'the most undervalued sense in many cultures.' The phrase 'in many cultures' implies that this attitude is not the same everywhere in the world. That's why the correct answer is True.",
+                    "quote": ""
                 },
                 "q28": {
-                    "text": "The passage discusses how men and women can identify their spouses by smell, but it does not provide any information about the ability of children to identify their mothers by smell. Therefore, we cannot confirm or deny the statement.",
+                    "text": "The text describes an experiment where adults identified their partners by smell, but it includes no information at all about children identifying their mothers. No comparison can be made. That's why the correct answer is No Information.",
                     "quote": ""
                 },
                 "q29": {
-                    "text": "The passage discusses ongoing research and unanswered questions about smell, indicating continued interest rather than a loss of interest. Therefore, there is no information to support the statement.",
+                    "text": "The passage states that interest in the psychology of smell is increasing. However, it does not provide information about researchers' interest levels in all other complex questions about smell. That's why the correct answer is No Information.",
                     "quote": ""
                 }
             }
@@ -767,27 +767,27 @@
             },
             "explanations": {
                 "q30": {
-                    "text": "The passage states that the amphitheatre of Arles became a fortress after the fifth century, which directly supports the answer 'Fortress'.",
-                    "quote": "Built by the Romans in 90 AD, it became a fortress with four towers after the fifth century"
+                    "text": "The passage states that after being built by the Romans, the amphitheatre of Arles 'became a fortress with four towers after the fifth century'. This was its first transformation. That's why the correct answer is 'Fortress'.",
+                    "quote": "Built by the Romans in 90 AD, it became a fortress with four towers after the fifth century, and was then transformed into a village containing more than 200 houses."
                 },
                 "q31": {
-                    "text": "The passage states that the amphitheatre of Arles was converted back into an arena for the staging of bullfights, which directly answers what spectators could watch.",
+                    "text": "The text explains that the amphitheatre of Arles underwent a final conversion in the 19th century, when it was turned back into an arena for 'the staging of bullfights'. That's why the correct answer is 'Bullfights'.",
                     "quote": "During the 19th century, it was converted back into an arena for the staging of bullfights."
                 },
                 "q32": {
-                    "text": "The passage states that the arena of Verona is considered one of the world's prime sites for opera, which directly answers the question about a venue where opera is performed.",
+                    "text": "The passage provides the arena of Verona as another example of a repurposed stadium, noting that it is 'currently considered one of the world's prime sites for opera'. That's why the correct answer is 'Opera'.",
                     "quote": "Another example is the imposing arena of Verona in northern Italy, currently considered one of the world's prime sites for opera."
                 },
                 "q33": {
-                    "text": "The passage states that the arena in Fucca was used as \"a salt depot\", which directly supports the answer 'salt' as something that was stored there.",
+                    "text": "The text describes how the amphitheatre in Fucca was used for many purposes, including as a 'salt depot', which is a place for storing salt. That's why the correct answer is 'salt'.",
                     "quote": "The site evolved in a similar way to Arles and was progressively filled with buildings from the Middle Ages until the 19th century, variously used as houses, a salt depot and a prison."
                 },
                 "q34": {
-                    "text": "The passage states that stadiums were central to city life well before cathedrals and railway stations dominated skylines, meaning the cathedrals and railway stations gained their reputation for high buildings after the stadiums.",
-                    "quote": "vast stadiums where the public could watch sporting events were at the centre of western city life as far back as the ancient Greek and Roman Empires, well before the construction of the great medieval cathedrals and the grand 19th- and 20th-century railway stations which dominated urban skylines in later eras."
+                    "text": "The text states that stadiums were central to city life 'well before' the great cathedrals and railway stations, which dominated skylines in 'later eras'. This means they gained prominence after stadiums. That's why the correct answer is C.",
+                    "quote": ""
                 },
                 "q35": {
-                    "text": "The quote indicates that the Piazza dell'Anfiteatro was filled with buildings from the Middle Ages until the 19th century, meaning it was influenced by constructions erected before 1800, which supports option C.",
+                    "text": "The passage states the site was 'progressively filled with buildings from the Middle Ages until the 19th century', meaning constructions from before 1800 shaped its evolution. That's why the correct answer is C.",
                     "quote": "The site evolved in a similar way to Arles and was progressively filled with buildings from the Middle Ages until the 19th century, variously used as houses, a salt depot and a prison."
                 }
             }

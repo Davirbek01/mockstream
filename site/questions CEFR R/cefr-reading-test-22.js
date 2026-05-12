@@ -79,36 +79,36 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "The sentence directly states they are trying to locate the missing '_____(1)_____', and the passage identifies the missing animal as a hamster named Fudgie, making 'hamster' the correct answer.",
-                    "quote": "Two crews used a chocolate-covered camera and a vacuum cleaner to try and locate the missing _____(1)_____ , called Fudgie, at the home of a six-year-old girl in Dunbar, Scotland."
+                    "text": "The first sentence states that firefighters were called to find an \"escaped hamster.\" The missing animal they are trying to locate is this pet. That's why the correct answer is 'hamster'.",
+                    "quote": "Eight firefighters have been called in to help find an escaped hamster."
                 },
                 "q2": {
-                    "text": "The sentence directly states that the hamster refused to come out of the 'hole,' which is the missing word. The context of searching under the floorboards reinforces that the hamster was hiding in a hole.",
-                    "quote": "But, the hamster still refused to come out of the hole."
+                    "text": "The passage says the hamster \"ran down a hole in the kitchen floor.\" The next sentence explains it refused to come out of that location. That's why the correct answer is 'hole'.",
+                    "quote": "The fire crews spent five hours trying to recover the pet after it ran down a hole in the kitchen floor."
                 },
                 "q3": {
-                    "text": "The sentence describes the firefighters' actions 'in the search for' the missing hamster, and since the hamster's name is Fudgie, it logically fits the gap. The subsequent actions of taking apart the cooker and gas pipes confirm they were looking for something specific, which is Fudgie.",
-                    "quote": "In the search for _____(3)_____ , the firefighters took the family cooker and gas pipes apart."
+                    "text": "The text introduces the missing hamster and gives its name. The entire rescue effort described is the search for this specific pet. That's why the correct answer is 'Fudgie'.",
+                    "quote": "Two crews used a chocolate-covered camera and a vacuum cleaner to try and locate the missing _____(1)_____ , called Fudgie, at the home of a six-year-old girl in Dunbar, Scotland."
                 },
                 "q4": {
-                    "text": "The sentence directly states that \"the firefighters put another camera down the hole,\" making \"firefighters\" the correct word to fill the gap. The context of the passage describes the efforts of the fire crews to locate the missing hamster.",
-                    "quote": "In the end, the firefighters put another camera down the hole and left it under the floorboards, connected to the screen of the family home computer, to see if Fudgie appeared."
+                    "text": "The passage clearly states that firefighters were called to help and were the ones using equipment like cameras to try and find the hamster. That's why the correct answer is 'firefighters'.",
+                    "quote": "In the search for _____(3)_____ , the firefighters took the family cooker and gas pipes apart."
                 },
                 "q5": {
-                    "text": "The sentence discusses the actions of \"her parents\" alongside another person, and the passage refers to a \"six-year-old girl\" whose hamster escaped, making \"girl\" the correct answer. The context of family members providing food further supports this.",
-                    "quote": "Besides, the _____ and her parents regularly dropped food through the _____ for the _____ ."
+                    "text": "The story is set at the home of a six-year-old girl who owns the hamster. The phrase \"her parents\" refers to the parents of this girl. That's why the correct answer is 'girl'.",
+                    "quote": ""
                 },
                 "q6": {
-                    "text": "The sentence directly states that food was dropped through the \"hole,\" making it the correct answer. The context of searching for a hamster that went down a hole in the floor further supports this.",
-                    "quote": "Besides, the firefighters and her parents regularly dropped food through the hole for the hamster ."
+                    "text": "The hamster disappeared by going through a hole in the floor. To get food to the hamster while it was under the floorboards, the family had to drop it through that same opening. That's why the correct answer is 'hole'.",
+                    "quote": ""
                 },
                 "q7": {
-                    "text": "The sentence directly states that food was dropped through the hole 'for the hamster,' indicating that 'hamster' is the intended recipient of the food and thus the correct answer to fill the gap.",
-                    "quote": "Besides, the girl and her parents regularly dropped food through the hole for the hamster ."
+                    "text": "The family was dropping food for their missing pet. The pet that was hiding under the floor and needed food was the hamster. That's why the correct answer is 'hamster'.",
+                    "quote": "Eight firefighters have been called in to help find an escaped hamster."
                 },
                 "q8": {
-                    "text": "The word \"returned\" fits grammatically and logically in the sentence. The passage describes the search for the escaped hamster, and the parents' happiness implies the hamster's eventual return.",
-                    "quote": "Her parents added that they too felt extremely happy when Fudgie had finally returned."
+                    "text": "The passage describes how the hamster eventually came back on its own. The parents were happy when Fudgie finally came out from her hiding place. That's why the correct answer is 'returned'.",
+                    "quote": "At last, after eight days the hamster returned to her cage safe and sound."
                 }
             }
         },
@@ -258,32 +258,32 @@ window.CEFR_READING_TEST = {
             ],
             "explanations": {
                 "q9": {
-                    "text": "Text 9 explicitly states interest in classical instruments and playing music, which aligns with Statement D's offer to learn about instruments like violins, flutes, and trumpets, and to create music with an orchestra.",
-                    "quote": "You’d like to find out more about classical instruments, and actually play some music."
+                    "text": "This option lets you learn about classical instruments like violins and flutes, meet real musicians, and record yourself making music. This perfectly matches your interests, so the correct answer is D.",
+                    "quote": ""
                 },
                 "q10": {
-                    "text": "Text 10 describes a desire to learn songs and understand how singers create unique sounds, which aligns with Statement G's offer of learning instruments, practicing songs, and understanding band techniques.",
-                    "quote": "You want to learn to play some of your favourite band’s songs, and to know how your favourite singers create their own special sound."
+                    "text": "Here you can learn to play songs on different instruments and watch video clips of band members explaining the techniques that create their individual sound. That's why the correct answer is G.",
+                    "quote": ""
                 },
                 "q11": {
-                    "text": "Text 11 describes a desire for spectacular concerts and the atmosphere of a big musical event, which aligns with Statement F's description of experiencing the excitement of a massive rock stadium and amazing performances.",
-                    "quote": "You love watching spectacular concerts with fantastic dancers, and want to feel some of the atmosphere of a big musical event."
+                    "text": "This venue lets you watch 3D videos of famous stars performing and experience the exciting atmosphere of a huge rock stadium concert. This matches what you're looking for, so the correct answer is F.",
+                    "quote": ""
                 },
                 "q12": {
-                    "text": "Text 12 is interested in the backgrounds and stories behind songs, which aligns with Statement A's focus on musical history, the journey to fame, and the processes involved in writing famous songs.",
-                    "quote": "You like exploring the personal backgrounds of your favourite bands, and also the stories behind their well-known songs."
+                    "text": "This place focuses on musical history, letting you learn about musicians' backgrounds, how famous songs were written, and even get tips on performing at concerts. That's why the correct answer is A.",
+                    "quote": ""
                 },
                 "q13": {
-                    "text": "Text 13 describes someone who enjoys pop music and wants to learn dance styles, which aligns with Rhythm-Studio's offering to learn rhythms and sounds from the past to now, including Soul and Disco. The text also mentions wanting to bring something home, which matches Rhythm-Studio's offer to take away a video recording.",
-                    "quote": "You like listening to all sorts of pop music, and want a fun way to learn various dance styles."
+                    "text": "At this studio, you can learn various dance styles to pop music. You also get to take home a video recording of your own performance to show your friends. That's why the correct answer is B.",
+                    "quote": ""
                 },
                 "q14": {
-                    "text": "Text 14 explicitly states the desire for a show that is 'a bit frightening,' which aligns with Statement C's description of 'music creat[ing] quite a scary atmosphere' in the drama.",
-                    "quote": "You want to go to a show that’s a bit frightening."
+                    "text": "This is a drama set in the 16th century with a scary atmosphere and historically accurate costumes. It meets all of your requirements for the show you want to see, so the correct answer is C.",
+                    "quote": ""
                 },
                 "q15": {
-                    "text": "Text 15 explicitly states the desire for a show with dancing and songs by well-known musicians, which aligns with Statement J's description of a show that includes ballet (dancing) and the popular group Marcellous' best work (songs by well-known musicians).",
-                    "quote": "You want a show with dancing, as well as songs by well-known musicians."
+                    "text": "This show is about a popular group and features their music, which was created using styles from three different continents. The show also includes ballet dancing. That's why the correct answer is J.",
+                    "quote": ""
                 }
             }
         },
@@ -379,27 +379,27 @@ window.CEFR_READING_TEST = {
             ],
             "explanations": {
                 "q16": {
-                    "text": "This sentence directly mentions Westminster as the location of Parliament. The paragraph then goes on to describe Parliament's role and history.",
+                    "text": "This paragraph introduces Parliament by stating its location, the Palace of Westminster. It then describes the origins of the two houses of Parliament, which are both located there. That's why the correct answer is IV.",
                     "quote": "Parliament is housed in the Palace of Westminster, once a home of the monarchy."
                 },
                 "q17": {
-                    "text": "This sentence introduces the role and significance of the monarch, which is synonymous with \"The Crown,\" as the head of state and a symbol of national unity. The paragraph then elaborates on the monarch's powers and historical context.",
+                    "text": "This paragraph details the role and history of the British monarchy. It explains the monarch's position as head of state and the rules of succession. 'The Crown' is another name for the monarchy, so that's why the correct answer is VIII.",
                     "quote": "The reigning monarch is not only head of state but symbol of the unity of the nation."
                 },
                 "q18": {
-                    "text": "This sentence introduces the main topic of the paragraph, which is the House of Commons, the lower chamber of Parliament. The rest of the paragraph provides details about its members and functions.",
+                    "text": "This paragraph describes the composition and function of Parliament's \"lower chamber,\" the House of Commons. It details the number of members, where they come from, and how they work. That's why the correct answer is I.",
                     "quote": "The dynamic power of Parliament lies in its lower chamber."
                 },
                 "q19": {
-                    "text": "This sentence introduces the core idea of the paragraph: the complex and seemingly paradoxical nature of Britain's governance. It highlights the intricate relationship between the people, the Crown, and Parliament, which is central to understanding the system of government.",
-                    "quote": "The constitutional situation is an apparently contradictory one."
+                    "text": "This paragraph explains the complex and seemingly contradictory power structure in Britain, involving the people, the Crown, and Parliament. This overview describes the fundamental nature of the political system. That's why the correct answer is V.",
+                    "quote": "Yet even the Queen is not sovereign in any substantial sense since she receives her authority from Parliament, and is subject to its direction in almost all matters."
                 },
                 "q20": {
-                    "text": "This sentence explicitly mentions Whitehall as the location of Downing Street, the hub of Her Majesty's Government. Therefore, the heading \"Whitehall\" accurately reflects the paragraph's focus.",
+                    "text": "This paragraph explains how the government is formed after an election. It specifically identifies the government's central location, Downing Street, as being in Whitehall, linking the place to the function. That's why the correct answer is VII.",
                     "quote": "Her Majesty’s Government governs in the name of the Queen, and its hub, Downing Street, lies in Whitehall, a short walk from Parliament."
                 },
                 "q21": {
-                    "text": "This sentence describes the formal start of each parliamentary session, outlining a specific process or procedure. The paragraph details the steps involved in this opening, making \"Parliamentary Procedure\" a fitting heading.",
+                    "text": "This paragraph describes the specific ceremony that begins each parliamentary session: the \"State Opening of Parliament.\" It outlines the steps of this formal event, which is a key parliamentary procedure. That's why the correct answer is II.",
                     "quote": "Each parliamentary session begins with the “State Opening of Parliament”, a ceremonial occasion in which the Queen proceeds from Buckingham Palace to the Palace of Westminster where she delivers the Queen’s Speech from her throne in the House of Lords."
                 }
             },
@@ -604,35 +604,35 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q22": {
-                    "text": "This quote directly supports option D, as it states Cialdini's belief that persuasion can be approached scientifically, allowing even those without natural talent to be more persuasive.",
+                    "text": "The passage introduces Cialdini's work as 'the science of persuasion' and notes his claim that applying science can make people more persuasive, showing his goal is to prove the scientific basis of influence. That's why the correct answer is D.",
                     "quote": "Cialdini’s claim is that by applying a little science, even those of us who aren’t should be able to get our own way more often."
                 },
                 "q23": {
-                    "text": "The quote shows that Cialdini researched influence by enrolling in sales-training programs, indicating he interacted with salespeople to learn about persuasion techniques, which supports option C.",
-                    "quote": "he began to research influence in the real world, enrolling in sales-training programmes: “I learnt how to sell automobiles from a lot, how to sell insurance from an office, how to sell encyclopedias door to door.”"
+                    "text": "The text states that Cialdini found lab experiments insufficient, so he researched in the 'real world' by enrolling in sales-training programs to learn directly from salespeople. That's why the correct answer is C.",
+                    "quote": ""
                 },
                 "q24": {
-                    "text": "The quote directly states that guests were more likely to reuse towels when the message highlighted the behavior of other guests, compared to the original environmental message, supporting the idea that customers cooperate more when the message requires than simply act environmentally.",
+                    "text": "The experiment showed that guests were 26% more likely to reuse towels when told other guests did so, compared to when they were given a message about the environment. This shows social proof was more compelling. That's why the correct answer is C.",
                     "quote": "Guests given this message were 26% more likely to reuse their towels than those given the old message."
                 },
                 "q25": {
-                    "text": "The passage states that \"The secret, it seems, is in how you give the chocolate,\" which directly supports the idea that the presentation method affects diner's tips, as different methods of giving chocolate resulted in different tip amounts.",
+                    "text": "The experiment demonstrated that tips increased by different amounts depending on how the chocolates were given, proving that the method of presentation was a key factor in the diners' response. That's why the correct answer is A.",
                     "quote": "The secret, it seems, is in how you give the chocolate."
                 },
                 "q26": {
-                    "text": "The quote shows that Cialdini was personally influenced by salespeople and fundraisers, which demonstrates his experience with \"principles of influence\" in real life.",
-                    "quote": "All my life I’ve been an easy mark for the blandishment of salespeople and fundraisers and I’d always wondered why they could get me to buy things I didn’t want and give to causes I hadn’t heard of,” says Cialdini on the phone from London, where his is plugging his latest book."
+                    "text": "Cialdini states that he had always been an 'easy mark' for salespeople and fundraisers, which was a direct personal experience with the principles of influence that motivated his research. That's why the correct answer is True.",
+                    "quote": ""
                 },
                 "q27": {
-                    "text": "The passage discusses principles of persuasion and their effectiveness in different scenarios, but it does not explicitly state whether these principles vary across different countries. Therefore, the answer is Not Given.",
+                    "text": "The passage compares the outcomes of reciprocity in the US and New Zealand (tips vs. return visits) but never states that the principles themselves are different types in different countries. That's why the correct answer is Not Given.",
                     "quote": ""
                 },
                 "q28": {
-                    "text": "The passage indicates that in New Zealand, diners would ask for more chocolate rather than give a tip, directly contradicting the statement that people tend to give tips after being served chocolate.",
-                    "quote": "If you did that in New Zealand, as diners were leaving they’d say ‘can we have some more?’"
+                    "text": "The passage explicitly contrasts the two countries, stating that in New Zealand, such a gesture would result in a 'huge smile and thanks,' not an instant tip as it would in America. That's why the correct answer is False.",
+                    "quote": "In America, it would translate into an instant tip. In New Zealand, it translates into a huge smile and thanks to you."
                 },
                 "q29": {
-                    "text": "The passage discusses reciprocity in New Zealand restaurants, but it doesn't mention anything about the elder generation specifically. Therefore, there is no information to confirm or deny the statement.",
+                    "text": "The passage discusses how New Zealanders in general respond to the principle of reciprocity, but it makes no mention of any specific age group, such as the 'elder generation'. That's why the correct answer is Not Given.",
                     "quote": ""
                 }
             }
@@ -706,27 +706,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q30": {
-                    "text": "The passage states that the vast majority of Anglo-Saxon buildings were made of wood, which directly supports the answer 'wood' for what they were constructed from.",
+                    "text": "The passage explains that very few Anglo-Saxon buildings still exist because the primary material they used was not durable. That's why the correct answer is 'wood'.",
                     "quote": "And although the Anglo-Saxons had a sophisticated building style of their own, little survives to bear witness to their achievements as the vast majority of Anglo-Saxon buildings were made of wood."
                 },
                 "q31": {
-                    "text": "The passage states that owners of manor houses achieved respect and maintained status through their hospitality, which directly supports the answer 'hospitality'.",
+                    "text": "According to the text, the owners of medieval manor houses gained respect not from the size of their homes, but from their welcoming behaviour. That's why the correct answer is 'hospitality'.",
                     "quote": "The rambling manor houses of the later Middle Ages, however, were primarily homes, their owners achieving respect and maintaining status by their hospitality and good lordship rather than the grandeur of their buildings."
                 },
                 "q32": {
-                    "text": "The passage states that buildings, specifically in domestic architecture, were used to \"display status and wealth,\" which directly supports the answer.",
+                    "text": "The passage states that the purpose of 16th-century domestic architecture changed. Buildings became a way for owners to show off their social position and riches. That's why the correct answer is 'status and wealth'.",
                     "quote": "In domestic architecture, in particular, buildings were used to display status and wealth."
                 },
                 "q33": {
-                    "text": "The passage states that the use of large expanses of glass was a statement of wealth because it was an expensive commodity, directly supporting the answer.",
+                    "text": "The text explains that using large amounts of glass was a direct sign of wealth. This was because glass itself was a very costly material to produce and buy. That's why the correct answer is 'expensive commodity'.",
                     "quote": "The rooms themselves tended to be bigger and lighter—as an expensive commodity, the use of great expanses of glass was in itself a statement of wealth."
                 },
                 "q34": {
-                    "text": "The passage mentions Indigo Jones's 'confident handling of classical detail', indicating that he worked in a classical style of architecture, which is the answer to the question.",
-                    "quote": "With the exception of Indigo Jones (1573-1652), whose confident handling of classical detail and proportion set him apart from all other architects of the period, most early 17th century buildings tended to take the innocent exuberance of late Tudor work one step further."
+                    "text": "The passage singles out Inigo Jones as being different from other architects of his time. His unique skill was his expert use of details from the classical style. That's why the correct answer is 'classical'.",
+                    "quote": ""
                 },
                 "q35": {
-                    "text": "The passage states that Morris's influence grew from the production of furniture and textiles, which directly answers what he designed.",
+                    "text": "The text describes William Morris's movement against industrialisation. It specifies that his influence started with the items he created, which were handcrafted. That's why the correct answer is 'furniture and textiles'.",
                     "quote": "Morris’s influence grew from the production of furniture and textiles, until by the 1880s a generation of principled young architects was following his call for good, honest construction."
                 }
             }

@@ -85,32 +85,32 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "The sentence describes what \"committing oneself to help another person\" entails. This action is a key characteristic of friendship, making \"friendship\" the most logical and contextually appropriate answer.",
-                    "quote": "A _____(1)_____ involves committing oneself to help another person whenever a need arises."
+                    "text": "The paragraph's topic is friendship, which is introduced in the first sentence. The gapped sentence continues to define this concept, so the missing word must be 'Friendship'.",
+                    "quote": "A strong friendship takes a significant amount of time to develop."
                 },
                 "q2": {
-                    "text": "The pronoun \"I\" fits grammatically and logically into the sentence, indicating the narrator's action of spending time with the guy. The surrounding sentences describe the narrator's experience, making \"I\" the appropriate subject.",
-                    "quote": "I met this guy a couple summers ago who I ended up spending almost all of my free time with."
+                    "text": "The narrator is telling a personal story from their point of view. They are the one who 'ended up spending' time with the guy, so the missing subject pronoun is 'I'.",
+                    "quote": "I met this guy a couple summers ago who _____(2)_____ ended up spending almost all of my free time with."
                 },
                 "q3": {
-                    "text": "The sentence directly precedes the description of the narrator feeling alone after the boyfriend's departure, indicating that the boyfriend had to 'leave'. The context of joining the air force and going overseas further supports 'leave' as the correct word.",
-                    "quote": "After three months had past, the time came when he had to _____(3)_____ ."
+                    "text": "The passage states the boyfriend had joined the air force and 'would leave for overseas' in October. The gapped sentence describes this moment arriving after three months. That's why the correct answer is 'leave'.",
+                    "quote": "He had told me the day we met that he had joined the air force and would leave for overseas that coming October."
                 },
                 "q4": {
-                    "text": "The passage describes the narrator spending time with a boyfriend, and the pronoun \"he\" later refers to this person, indicating the missing word is \"guy\".",
-                    "quote": "I had spent so much time with this _____(4)_____ and so little time with them, that they did not feel sorry for me when he left."
+                    "text": "The narrator is referring to the person she was dating, whom she introduced at the beginning of the story as 'this guy'. She spent all her time with him instead of her friends. That's why the correct answer is 'guy'.",
+                    "quote": "I met this guy a couple summers ago who _____(2)_____ ended up spending almost all of my free time with."
                 },
                 "q5": {
-                    "text": "The pronoun \"I\" fits grammatically and logically into the sentence. The narrator is reflecting on how she prioritized her boyfriend over her friends, making herself the only constant in her life.",
-                    "quote": "For so long I had become the only constant in my life, and I had taken them for granted over something could not guarantee would even last."
+                    "text": "The narrator is reflecting on her friends, whom she had neglected. The following clause says 'I had taken them for granted,' where 'them' refers to her friends. That's why the correct answer is 'They'.",
+                    "quote": ""
                 },
                 "q6": {
-                    "text": "The sentence directly states what happens 'When a relationship falls apart,' making 'relationship' the only logical fit. The surrounding context discusses romantic relationships and their impact on friendships, further solidifying this choice.",
-                    "quote": "When a relationship falls apart, a friend will always do everything in their power to make everything less painful."
+                    "text": "The narrator's story is about the pain caused when her romantic connection with her boyfriend changed. This sentence generalizes that experience, explaining a friend's role when a romantic 'relationship' fails.",
+                    "quote": "When my boyfriend came back, our relationship changed."
                 },
                 "q7": {
-                    "text": "The passage discusses the importance of friendship and how the author learned to value their friends. The surrounding sentences emphasize the support and reliability that friends provide, making \"friends\" the most logical fit.",
-                    "quote": "As for me, I try to keep my _____(7)_____ as close as I can."
+                    "text": "The passage's main lesson is about valuing friendship. The following sentence uses the pronoun 'they' to refer to the people who will support her, which contextually means her friends. That's why the correct answer is 'friends'.",
+                    "quote": "I know they will always support me in whatever I do, and to them, I am eternally grateful for a second chance."
                 }
             }
         },
@@ -200,24 +200,24 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q8": {
-                    "text": "The text describes a board book about American puppies playing and dancing, which directly aligns with the statement's description of the book's content.",
-                    "quote": "This fabulous board book follows five American puppies (including a rather cheeky Yorkie) as they play and dance the day away."
+                    "text": "This book is about puppies, which are animals, and is described as a fun, rhythmical story that is a joy to read. This makes it a perfect gift for a four-year-old granddaughter. That's why the correct answer is D.",
+                    "quote": ""
                 },
                 "q9": {
-                    "text": "The statement directly describes the plot and characters of the book, matching the description of Evelyn Blanchet as a French woman in England who captivates young men.",
-                    "quote": "The charming Evelyn Blanchet was a French woman who came to England in the eighteenth century and won the hearts of young men wherever she appeared."
+                    "text": "This book is a romance novel that features 'elegant evening dresses' and 'beautiful rooms' and 'palaces.' This perfectly matches Susan's interest in fashionable clothes and magnificent houses. That's why the correct answer is A.",
+                    "quote": ""
                 },
                 "q10": {
-                    "text": "The text explicitly states that it is a free guide with practical tips and advice for traveling to the United Kingdom, which directly corresponds to the description in statement F.",
-                    "quote": "A free guide (French edition) with practical tips and advice to help you get the most out of your trip to the United Kingdom."
+                    "text": "This is a guide to England with a French edition, which is ideal for Andre from Paris. It provides detailed information on sightseeing, which he can do between his business meetings. That's why the correct answer is F.",
+                    "quote": ""
                 },
                 "q11": {
-                    "text": "The quote directly describes a dystopian future where a large portion of the population has died, aligning with the description of Statement C.",
-                    "quote": "In the dark future of Jupiter XI, more than 90 percent of the world's population died."
+                    "text": "The story is set in the future on Jupiter XI, which is science fiction. It also promises 'many different twists or unexpected turns,' matching Tia's desire for a surprise ending. That's why the correct answer is C.",
+                    "quote": ""
                 },
                 "q12": {
-                    "text": "This quote directly states that the book is a leading guidebook, which aligns with Statement G's description of the \"Silver Guide\" series as known for its comprehensive coverage and being a leading guidebook.",
-                    "quote": "The book is widely considered to be one of the leading guidebooks for novice and experienced anglers."
+                    "text": "This book is about nature and is specifically a guidebook for 'anglers,' which is another word for people who fish. This is a perfect match for Robin's interests. That's why the correct answer is G.",
+                    "quote": ""
                 }
             },
             "statementsFirst": true,
@@ -360,23 +360,23 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q13": {
-                    "text": "This sentence directly describes a mobile phone with limited functions, focusing on calls and texts, which aligns with the idea of a simple cell phone. The paragraph then elaborates on the phone's purpose and intended use, further supporting the heading.",
+                    "text": "This paragraph describes a mobile phone with very basic features, designed only for calls and texts. This focus on simplicity matches the heading about a simple cell phone. That's why the correct answer is IV.",
                     "quote": "The first was a mobile phone launched by Swiss company Punkt and designed by Jasper Morrison that allows users to make calls and texts only (well, it has an alarm clock and an address book too)."
                 },
                 "q14": {
-                    "text": "This sentence directly introduces specific brands and designers as examples of customizable furniture, aligning perfectly with the heading 'Examples of customization'. The paragraph then elaborates on these examples.",
-                    "quote": "Two examples were Scandi-brand Hem that combined good design by the likes of Luca Nichetto, Form Us With Love and Sylvain Willenz with affordable price points."
+                    "text": "The paragraph opens by stating that 'Customizable online furniture' was a major trend at the festival. It then provides examples to support this theme of customization. That's why the correct answer is I.",
+                    "quote": "Customizable online furniture was also very much in vogue at this year's festival."
                 },
                 "q15": {
-                    "text": "The paragraph discusses 'The Souvenir Project,' which features unique and unconventional souvenirs from Ireland. The description of the rainbow plate further emphasizes the unusual and memorable nature of these keepsakes.",
-                    "quote": "The Souvenir Project was a series of nine non-cliché souvenirs made in Ireland and included a rainbow plate by Nicholas Mosse Pottery that featured rows of animals, flowers and watering cans and commemorated the legalization of same-sex marriage in Ireland in May 2015."
+                    "text": "This paragraph details 'The Souvenir Project,' which featured a series of 'non-cliché souvenirs.' These unique items, designed to be different from typical mementos, are best described as unusual keepsakes. That's why the correct answer is II.",
+                    "quote": ""
                 },
                 "q16": {
-                    "text": "The paragraph focuses on Jesmonite, a 'wonder' material, and other unusual materials like Propolis, highlighting their unique properties and applications, thus making 'Unbelievable material' a fitting heading.",
-                    "quote": "If there was one material that could be said to define the festival it might just be Jesmonite, the wonder man-made building composite."
+                    "text": "The text describes 'wonder' materials like Jesmonite and, more surprisingly, Propolis. Propolis is a resin made by bees that is said to behave like glass, which is an unbelievable quality. That's why the correct answer is V.",
+                    "quote": ""
                 },
                 "q17": {
-                    "text": "The paragraph highlights the emergence of a 'new conceptual approach to design,' exemplified by the work of Yuue. This directly aligns with the idea of 'A new approach' as the central theme.",
+                    "text": "This paragraph highlights a showcase of Chinese design, specifically mentioning designers who represent 'a new conceptual approach to design.' This directly corresponds to the idea of a new approach. That's why the correct answer is III.",
                     "quote": "Young design duo Yuue's offerings were the most representative of a new conceptual approach to design that seems to be emerging."
                 }
             }
@@ -574,47 +574,47 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q18": {
-                    "text": "The quote shows that Matthias Classen has a definite opinion about the existence of monsters, stating that 'they don't really exist,' which contradicts the question's claim that he is unsure.",
-                    "quote": "\"They don't really exist, but they play a huge role in our mindscapes, in our dreams, stories, nightmares, myths and so on,\" says Matthias Classen, assistant professor of literature and media at Aarhus University in Denmark, who studies monsters in literature."
+                    "text": "Matthias Classen explicitly states that monsters \"don't really exist,\" showing he is certain about their non-existence, not unsure. That's why the correct answer is False.",
+                    "quote": ""
                 },
                 "q19": {
-                    "text": "The passage states that the Kraken is 'most likely based on a real creature', meaning it is not imaginary. Therefore, the statement that it is based on an imaginary animal is false.",
+                    "text": "The passage states that the Kraken legend is very likely based on a real animal, the giant squid, not an imaginary one. That's why the correct answer is False.",
                     "quote": "Most likely the Kraken is based on a real creature – the giant squid."
                 },
                 "q20": {
-                    "text": "The passage states that previous attempts to film the squid failed because the bright lights and noisy thrusters on submersibles had frightened them away, which directly supports the statement that the creature was scared.",
+                    "text": "The text explains that previous attempts to film the giant squid were unsuccessful because the bright lights and loud noises from the submersibles frightened them. That's why the correct answer is True.",
                     "quote": "They realised previous attempts to film squid had failed because the bright lights and noisy thrusters on submersibles had frightened them away."
                 },
                 "q21": {
-                    "text": "The passage states the giant squid died at the surface after being caught, indicating it was not alive when brought to the museum. Therefore, the statement is false.",
+                    "text": "The passage says the squid was caught in a fishing net and \"died at the surface\" before its body was sent to the museum. It was not brought there alive. That's why the correct answer is False.",
                     "quote": "In 2004 it was caught in a fishing net off the Falkland Islands and died at the surface."
                 },
                 "q22": {
-                    "text": "The passage mentions that 'Archie' is an affectionate short version of the squid's Latin name, but it doesn't say whether Jon Ablett likes Archie or not. Therefore, the answer is Not Given.",
-                    "quote": "It is called Archie, an affectionate short version of its Latin name Architeuthis dux."
+                    "text": "The text mentions Jon Ablett as the curator who preserved the squid, but it does not provide any information about his personal feelings for the specimen. That's why the correct answer is Not Given.",
+                    "quote": ""
                 },
                 "q23": {
-                    "text": "Classen states that monsters play a huge role in our minds, dreams, and nightmares, implying that imaginary monsters can indeed scare people. The passage also describes the Kraken and giant squid, real-world creatures that have inspired fear.",
-                    "quote": "\"They don't really exist, but they play a huge role in our mindscapes, in our dreams, stories, nightmares, myths and so on,\" says Matthias Classen, assistant professor of literature and media at Aarhus University in Denmark, who studies monsters in literature."
+                    "text": "Classen says monsters feature in our \"nightmares,\" which are scary. The passage then discusses the real, fearsome-looking squid that inspired these myths. That's why the correct answer is True.",
+                    "quote": ""
                 },
                 "q24": {
-                    "text": "The passage discusses the Kraken as a legendary sea monster and its possible basis in the giant squid, but it does not mention Werner Herzog or suggest that the Kraken is essential to the ocean. Therefore, the answer is Not Given.",
+                    "text": "The name Werner Herzog is never mentioned in the passage, so there is no information about his opinions on the Kraken or the ocean. That's why the correct answer is Not Given.",
                     "quote": ""
                 },
                 "q25": {
-                    "text": "The passage states that Jules Verne wrote the novel Twenty Thousand Leagues Under the Sea, which features a giant squid, thus making Jules Verne the correct answer.",
+                    "text": "The passage explicitly names Jules Verne as the author of the famous 1870 novel \"Twenty Thousand Leagues Under the Sea,\" which featured a giant squid. That's why the correct answer is D.",
                     "quote": "The giant squid continued to dominate stories of sea monsters with the famous 1870 novel, Twenty Thousand Leagues Under the Sea, by Jules Verne."
                 },
                 "q26": {
-                    "text": "The passage explicitly mentions that the mollusc has serrated suckers, a beak, and two tentacles. Therefore, the correct answer is smooth suckers, as the text does not mention them.",
-                    "quote": "It has eight lashing arms and two slashing tentacles growing straight out of its head and it's got serrated suckers that can latch on to the slimiest of prey and it's got a parrot beak that can rip flesh."
+                    "text": "The text describes the giant squid as having \"serrated suckers,\" which means they are jagged and rough, not smooth. The other body parts are all mentioned. That's why the correct answer is D.",
+                    "quote": ""
                 },
                 "q27": {
-                    "text": "The quote indicates that the Kraken was a 'terrifying legend,' which directly supports the answer that the bookish Kraken is scary. The other options are not directly supported by the text.",
+                    "text": "The passage describes the legend of the Kraken as \"terrifying\" and tells of how it would drag sailors to their deaths, making it a scary creature. That's why the correct answer is B.",
                     "quote": "This terrifying legend occupied the mind and pen of the poet Alfred Lord Tennyson too."
                 },
                 "q28": {
-                    "text": "The passage states that a giant squid is preserved in the Natural History Museum in London, which supports the answer that we can see a giant squid at the museum.",
+                    "text": "The passage states that a preserved giant squid, named Archie, is on display in a huge glass case at the Natural History Museum in London. That's why the correct answer is A.",
                     "quote": "Another giant squid lies peacefully in the Natural History Museum in London, in the Spirit Room, where it is preserved in a huge glass case."
                 }
             }
@@ -748,31 +748,31 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q29": {
-                    "text": "The passage states that a $1,000 investment in Amazon in 1997 would result in nearly $250,000 now, which directly supports option A.",
+                    "text": "The passage explicitly states that a $1,000 investment in Amazon's 1997 IPO would have grown to nearly $250,000 by the time the article was written. That's why the correct answer is A.",
                     "quote": "If you invested $1,000 in Amazon at its I.P.O. in 1997, you would now have nearly $250,000."
                 },
                 "q30": {
-                    "text": "The passage states that \"hundreds of tech companies went public annually\" during the late 1990s and 2000s, indicating this period had the highest number of companies going public.",
-                    "quote": "but far fewer than during the boom of the late 1990s and 2000, when hundreds of tech companies went public annually, according to statistics maintained by Jay Ritter, a professor of finance at the University of Florida."
+                    "text": "The text states that the number of tech companies going public annually was far higher during the economic boom of the late 1990s and 2000 than in other periods. That's why the correct answer is B.",
+                    "quote": ""
                 },
                 "q31": {
-                    "text": "The passage states that \"luminaries of the tech industry have always expressed skepticism\", which directly supports the answer.",
+                    "text": "The passage mentions that important figures in the tech industry, referred to as 'luminaries', have always expressed skepticism towards the finance industry. That's why the correct answer is 'Luminaries'.",
                     "quote": "Though luminaries of the tech industry have always expressed skepticism and even hostility toward the finance industry, tech's dirty secret was that it looked to Wall Street and the ritual of a public offering for affirmation — not to mention wealth."
                 },
                 "q32": {
-                    "text": "The question asks about what the new aversion to initial offerings has, and the passage states that it has a downside, which directly answers the question.",
+                    "text": "The text directly introduces a negative consequence of the new trend of avoiding initial offerings, stating that there is a 'downside' to this aversion. That's why the correct answer is 'Downside'.",
                     "quote": "But there is also a downside to the new aversion to initial offerings."
                 },
                 "q33": {
-                    "text": "The passage states that 'there are now novel mechanisms — such as selling shares on a secondary market,' directly indicating that selling shares on a secondary market is considered a novel mechanism.",
-                    "quote": "Initial public offerings were also ways to compensate employees and founders who owned lots of stock, but there are now novel mechanisms — such as selling shares on a secondary market — for insiders to cash in on some of their shares in private companies."
+                    "text": "The passage describes new methods for company insiders to sell their shares, such as on a secondary market, and refers to these as 'novel mechanisms'. That's why the correct answer is 'Novel'.",
+                    "quote": ""
                 },
                 "q34": {
-                    "text": "The quote directly states that employee compensation is \"going to be an issue,\" which supports the answer that workers' compensation might be an issue.",
+                    "text": "A quote from an expert in the article suggests that if companies continue to delay IPOs, the way they compensate their employees is going to become a problem, or an 'issue'. That's why the correct answer is 'Issue'.",
                     "quote": "\"We probably need to fundamentally rethink how do private companies compensate employees, because that's going to be an issue,\" said Mr. Kupor, of Andreessen Horowitz."
                 },
                 "q35": {
-                    "text": "The passage states that if private investors are correct, the public investors who missed out on the next big thing will be the ones \"wearing the frown,\" which directly supports the answer.",
+                    "text": "The passage concludes that if private investors succeed with the new model, public investors will be the ones who are unhappy, or 'wearing the frown', because they missed the opportunity. That's why the correct answer is 'Frown'.",
                     "quote": "But if they're right, it will be you and me wearing the frown — the public investors who missed out on the next big thing."
                 }
             }

@@ -65,28 +65,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "The sentence directly states that 'a trillion is a huge number,' making 'trillion' the correct word to fill the gap. The surrounding context discusses trillions in relation to wealth, reinforcing this connection.",
-                    "quote": "A trillion is a huge number and an unbelievable amount of money."
+                    "text": "The passage introduces the idea of a 'trillionaire' and then defines the number. The sentence after the gap explains that 'it' is a one followed by 12 zeros, which is a trillion. That's why the correct answer is 'trillion'.",
+                    "quote": "It is a one, followed by 12 zeros."
                 },
                 "q2": {
-                    "text": "The sentence directly discusses the 'wealth gap' between two groups. The passage contrasts the wealthy with the 'poor', making 'rich' the logical counterpart and correct answer.",
-                    "quote": "The charity said the wealth gap between the _____(2)_____ and poor is growing."
+                    "text": "The passage discusses the 'wealth gap,' which is the economic difference between groups. The sentence contrasts the missing word with 'poor,' and the text compares billionaires with people becoming poorer. That's why the correct answer is 'rich'.",
+                    "quote": ""
                 },
                 "q3": {
-                    "text": "This sentence describes how the wealth gap has widened due to the pandemic, but it does not contain the answer to the question.",
-                    "quote": "It said the gap has been \"supercharged\" since the coronavirus pandemic."
+                    "text": "The sentence contrasts the time it will take to create a trillionaire ('a decade') with the time needed to fight poverty. A unit of time is required for this comparison. That's why the correct answer is 'years'.",
+                    "quote": ""
                 },
                 "q4": {
-                    "text": "The sentence discusses the wealth increase of the 'five richest people', and the context of the passage is about global wealth inequality, making 'world' the logical fit to describe whose richest people are being discussed.",
-                    "quote": "As an example, it said the world's five richest people have seen their wealth increase by 114 per cent since 2020."
+                    "text": "The report is about global wealth, discussing the planet's richest man and worldwide poverty. The context makes it clear the five richest people mentioned are the richest in the entire world. That's why the correct answer is 'world'.",
+                    "quote": ""
                 },
                 "q5": {
-                    "text": "The sentence directly states that the top five billionaires have 'doubled their wealth,' making 'wealth' the correct word to fill the gap. The context of the passage discusses the increasing wealth of the richest people.",
-                    "quote": "The top five billionaires have doubled their wealth ."
+                    "text": "The preceding sentence states that the richest people saw their 'wealth increase by 114 per cent'. An increase of 114% is approximately double, so this sentence is restating that fact. That's why the correct answer is 'wealth'.",
+                    "quote": ""
                 },
                 "q6": {
-                    "text": "The sentence directly states that 'almost five billion people have become poorer,' making 'people' the only word that logically fits the gap and maintains the sentence's meaning within the context of wealth inequality.",
-                    "quote": "On the other hand, almost five billion people have become poorer."
+                    "text": "The sentence contrasts the five richest billionaires with a large group that has become poorer. The subject of the sentence needs to be a noun that can experience poverty. That's why the correct answer is 'people'.",
+                    "quote": ""
                 }
             }
         },
@@ -247,35 +247,35 @@ window.CEFR_READING_TEST = {
             ],
             "explanations": {
                 "q7": {
-                    "text": "The text explicitly states that the presence of young children and a dog can make the environment noisy, which would be unsuitable for someone who prefers silence.",
+                    "text": "The text mentions the family has two young children and a dog, which can make the house noisy. This means the property may not be suitable for people who prefer quiet. That's why the correct answer is D.",
                     "quote": "We have two young children and a dog so it can get a little noisy at times!"
                 },
                 "q8": {
-                    "text": "The text explicitly states \"Excellent road and rail links,\" indicating the best transport options are available. The proximity to the station further supports this.",
+                    "text": "The description highlights the property's \"Excellent road and rail links\" and its proximity to the station. This indicates it has the best transportation options among the choices. That's why the correct answer is B.",
                     "quote": "Excellent road and rail links with the station just a short five-minute walk away."
                 },
                 "q9": {
-                    "text": "The phrase \"three-bedroom family home\" indicates that the property is suitable for a family, and with three bedrooms, it can accommodate a family with at least two children.",
+                    "text": "The property is described as a \"three-bedroom family home\". This size is very suitable for a family that has at least two children. That's why the correct answer is J.",
                     "quote": "A modern three-bedroom family home with a large garden."
                 },
                 "q10": {
-                    "text": "The text mentions a short walk to the university, which implies that the property is close to a place of study, thus supporting statement A.",
+                    "text": "The advertisement states that the house is a \"short walk to the university\". A university is a place of study, so the property is close to the study place. That's why the correct answer is A.",
                     "quote": "A regular bus and train service into the city centre and a short walk to the university."
                 },
                 "q11": {
-                    "text": "The text explicitly states the flat is perfect for an older person, which is synonymous with a retired person. Therefore, the property is suitable for retired people.",
+                    "text": "The text explicitly says the flat is \"perfect for the older person\". A retired person is an older person, making this an ideal place for them to live. That's why the correct answer is C.",
                     "quote": "This ground floor, one-bedroom flat is perfect for the older person."
                 },
                 "q12": {
-                    "text": "The text specifies a 'one-year minimum stay,' implying that staying for less than a year is not allowed, but it doesn't restrict stays longer than one year. Therefore, the statement 'You can’t stay there for more than twelve months' is incorrect.",
+                    "text": "The rental agreement has a \"One-year minimum stay\". This indicates a fixed rental period of at least twelve months is required. That's why the correct answer is I.",
                     "quote": "One-year minimum stay."
                 },
                 "q13": {
-                    "text": "The text explicitly states the flat is 'perfect for a professional person,' implying it is suitable for single, hard-working individuals who are often associated with professional careers.",
+                    "text": "The flat is described as being \"perfect for a professional person\". This makes it suitable for a single, hard-working individual. That's why the correct answer is H.",
                     "quote": "A second floor, one-bedroom flat perfect for a professional person."
                 },
                 "q14": {
-                    "text": "The text explicitly states that a car is necessary due to the lack of public transport, meaning someone choosing this house may need to acquire a private car.",
+                    "text": "The text clearly states that \"A car is necessary\". This is because there is no public transport available, so you would need a private car to get around. That's why the correct answer is F.",
                     "quote": "A car is necessary as there are no transport links into the local town."
                 }
             }
@@ -407,27 +407,27 @@ window.CEFR_READING_TEST = {
             ],
             "explanations": {
                 "q15": {
-                    "text": "The artwork had a strong negative impact on Ferrando, leaving him 'angry,' which indicates a disturbing experience. This experience then motivated him to develop entrepreneurial ideas.",
+                    "text": "This paragraph describes how a piece of art showing plastic waste in the ocean 'profoundly affected' Ferrando and left him feeling angry. This emotional reaction is a type of disturbing experience. That's why the correct answer is F.",
                     "quote": "The artwork, designed to raise public awareness, left Ferrando angry – and fuelled with entrepreneurial ideas."
                 },
                 "q16": {
-                    "text": "This quote highlights two inventions by Ferrando: a foldable bicycle helmet and a glass water bottle. The description of the water bottle also provides physical details about its design.",
-                    "quote": "Ferrando runs a Spanish-based design company, Closca, that produces an ingenious foldable bicycle helmet. But he has now also designed a stylish glass water bottle with a stretchy silicone strap and magnetic closure mechanism that means it can be attached to almost anything, from a bike to a bag to a pushchair handle."
+                    "text": "The paragraph introduces two of Ferrando's products: a 'foldable bicycle helmet' and a 'stylish glass water bottle'. It then gives physical details about the bottle, such as its silicone strap and magnetic closure. That's why the correct answer is D.",
+                    "quote": "But he has now also designed a stylish glass water bottle with a stretchy silicone strap and magnetic closure mechanism that means it can be attached to almost anything, from a bike to a bag to a pushchair handle."
                 },
                 "q17": {
-                    "text": "This sentence directly states the purpose of Ferrando's product, which is to address the problems of plastic waste and the cost of bottled water, thus explaining why it is needed. The rest of the paragraph provides further justification for the product's necessity by highlighting the scale of the bottled water industry and its environmental impact.",
+                    "text": "This section explains the purpose of the bottle is to reduce plastic waste, citing statistics about how many bottles go unrecycled and the future environmental impact. These facts establish why the product is needed. That's why the correct answer is B.",
                     "quote": "The intention is to persuade people to stop buying water in plastic bottles, thus saving consumers money and reducing the plastic waste piling up in our oceans."
                 },
                 "q18": {
-                    "text": "This sentence directly explains how water transitioned from a free resource to a bottled commodity. The paragraph as a whole reflects on the historical context that led to the bottling of water.",
+                    "text": "This paragraph looks back to the 'closing decades of the 20th century' to explain the culture of 'conspicuous consumption'. It states this culture is the reason water became a commercial product sold in bottles. That's why the correct answer is H.",
                     "quote": "Hence the fact that water became a consumer item, sold in plastic bottles, instead of just emerging, for free, from a tap."
                 },
                 "q19": {
-                    "text": "This sentence highlights the shift in preferences between generations, where millennials favor reusable bottles over plastic ones, contrasting with older generations' views on status and fashion. The paragraph further emphasizes this contrast by mentioning the differing opinions on the coolness of Thermos bottles between teenagers and those over 40.",
-                    "quote": "Plastic water bottles have become so common that they do not command status; instead, what many millennials – young people born in the late 20th century – prefer to post on social media are ‘real’ (refillable) bottles or even the once widespread Thermos bottles."
+                    "text": "The paragraph contrasts the views of young people, who think reusable bottles are 'cool', with those of people 'over the age of 40', who might find them 'oddly out-of-date'. This highlights different generational attitudes. That's why the correct answer is E.",
+                    "quote": ""
                 },
                 "q20": {
-                    "text": "This sentence directly describes the limited options available to entrepreneurs in the past when seeking funding. It highlights the constraints and difficulties faced by innovators before the emergence of more diverse funding avenues.",
+                    "text": "This paragraph describes how 'a few decades ago', entrepreneurs had very few options for funding an invention, listing only bank loans, family, or credit cards. This illustrates a past time of limited opportunities. That's why the correct answer is A.",
                     "quote": "If an entrepreneur had wanted to fund a smart invention a few decades ago, he or she would have had to either raise a bank loan, borrow money from a family member or use a credit card."
                 }
             }
@@ -606,40 +606,40 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q21": {
-                    "text": "The passage states that placebos work because the patient has faith in their power to heal, meaning people believe in their effect. Therefore, option D is the correct answer.",
+                    "text": "The passage opens by defining placebos as treatments that work because the patient has faith in them. This belief is the key to their effectiveness, not any direct physical effect; that's why the correct answer is D.",
                     "quote": "Placebos are treatments that have no direct effect on the body, yet still, work because the patient has faith in their power to heal."
                 },
                 "q22": {
-                    "text": "The passage states that most research on placebos has focused on pain control. The passage then mentions that attention has turned to endorphins, which are related to pain control, thus A is the correct answer.",
-                    "quote": "Most of the scant research done so far has focused on the control of pain because it’s one of the commonest complaints and lends itself to experimental study."
+                    "text": "The passage states that most research on placebos has concentrated on pain control. Within this area, studies have specifically examined the role of endorphins, which are natural pain-controlling neurochemicals; that's why the correct answer is A.",
+                    "quote": "Here, attention has turned to the endorphins, natural counterparts of morphine that are known to help control pain."
                 },
                 "q23": {
-                    "text": "The passage states that the placebo effect \"is a powerful part of all medical care,\" which directly supports the answer that it is a big part of medical care, despite being neglected.",
+                    "text": "The text explicitly states that the placebo effect is a significant component of all medical treatment, both conventional and alternative, even if it is frequently overlooked or misunderstood; that's why the correct answer is C.",
                     "quote": "In fact, the placebo effect is a powerful part of all medical care, orthodox or otherwise, though its role is often neglected or misunderstood."
                 },
                 "q24": {
-                    "text": "The passage states that endorphins are \"known to help control pain,\" which directly supports the answer that they can help to overcome pain.",
-                    "quote": "Here, attention has turned to the endorphins, morphine-like neurochemicals known to help control pain."
+                    "text": "The passage describes endorphins as natural neurochemicals that are similar to morphine. It explicitly mentions that they are known to assist in managing or controlling pain; that's why the correct answer is A.",
+                    "quote": "Here, attention has turned to the endorphins, natural counterparts of morphine that are known to help control pain."
                 },
                 "q25": {
-                    "text": "The passage states that most research has focused on pain, but this does not mean the placebo effect *only* works for controlling pain, just that it's the most studied area.",
+                    "text": "The passage states that research has focused on pain because it is a common and easily studied complaint. This does not mean placebos only work for pain, just that it's the most researched area; that's why the correct answer is 'False'.",
                     "quote": "Most of the scant research done so far has focused on the control of pain because it’s one of the commonest complaints and lends itself to experimental study."
                 },
                 "q26": {
-                    "text": "The passage explicitly mentions that attention has turned to endorphins, morphine-like neurochemicals known to help control pain, suggesting their role in the placebo effect.",
-                    "quote": "Here, attention has turned to the endorphins, morphine-like neurochemicals known to help control pain."
+                    "text": "The passage describes how research attention has turned to endorphins. It then presents a study as \"direct proof\" that the placebo effect for pain relief is at least partially caused by these neurochemicals; that's why the correct answer is 'True'.",
+                    "quote": "Here was direct proof that placebo analgesia is mediated, at least in part, by these natural opiates."
                 },
                 "q27": {
-                    "text": "The passage states that Benedetti's experiment showed that naloxone, a drug that blocks the effects of endorphins, eliminated the pain relief from a placebo, thus proving that the placebo effect for pain relief can be eliminated by naloxone.",
-                    "quote": "Benedetti induced pain in human volunteers by inflating a blood-pressure cuff on the forearm."
+                    "text": "The passage describes an experiment where a placebo relieved pain. However, when the drug naloxone, which blocks endorphins, was added to the placebo, the pain relief effect was eliminated; that's why the correct answer is 'True'.",
+                    "quote": "But when he added naloxone to the saline the pain relief disappeared."
                 },
                 "q28": {
-                    "text": "The passage explicitly states that 'no one knows how belief triggers endorphin release,' indicating that scientists do not fully understand this process. Therefore, the statement is not supported by the text.",
+                    "text": "The passage explicitly states that \"no one knows how belief triggers endorphin release.\" This directly shows that scientists do not fully understand the process, making the statement false, not unsupported by information; that's why the correct answer is 'False'.",
                     "quote": "Still, no one knows how belief triggers endorphin release, or why most people can’t achieve placebo pain relief simply by willing it."
                 },
                 "q29": {
-                    "text": "The passage states that color, branding, and delivery can influence the effectiveness of placebos, and this sentence provides an example of color influencing effectiveness.",
-                    "quote": "A London rheumatologist found, for example, that red dummy capsules made more effective painkillers than blue, green or yellow ones."
+                    "text": "The final paragraph provides several examples showing that external factors matter. It mentions that pill color, brand names, and the doctor's manner can all change how well a placebo works; that's why the correct answer is 'True'.",
+                    "quote": "Even branding can make a difference: if Aspro or Tylenol is what you like to take for a headache, their chemically identical generic equivalents may be less effective."
                 }
             }
         },
@@ -754,27 +754,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q30": {
-                    "text": "The passage states that spring snow would melt and swell the Colorado River, indicating that spring is the season being referred to.",
+                    "text": "The passage states that snow from Wyoming would melt during the spring, causing the Colorado river to swell and flood. That's why the correct answer is 'spring'.",
                     "quote": "Spring Snow from as far away as Wyoming would melt and swell the Colorado river to a flow that averaged around 1,500 cubic metres (50,000 cubic feet) a second."
                 },
                 "q31": {
-                    "text": "The quote directly states that floods \"infused the river with sediment\", meaning the floods gather sediment together.",
+                    "text": "The passage explains that the natural floods were crucial because they infused the river with sediment, which helped build beaches and sandbars. That's why the correct answer is 'sediment'.",
                     "quote": "These floods infused the river with sediment, carved its beaches and built its sandbars."
                 },
                 "q32": {
-                    "text": "The provided sentence directly states that the chub depended on poor visibility to hide from predators, thus 'visibility' fills the gap.",
+                    "text": "The passage states that the humpback chub was adapted to the poor visibility of the muddy water, which it used as a natural defense to hide from predators. That's why the correct answer is 'visibility'.",
                     "quote": "The chub were well adapted to the poor visibility created by the chick, red water which gave the river its name and depended on it to hide from predators."
                 },
                 "q33": {
-                    "text": "The passage states that in 2004, 'the volume of sand available behind the dam was too low', which directly supports 'sand' as the answer to 'volume of _____'.",
+                    "text": "The passage explains that the 2004 artificial flood failed to rebuild sandbanks because the volume of sand available behind the dam was too low. That's why the correct answer is 'sand'.",
                     "quote": "This problem was avoided in 2004, but unfortunately, on that occasion, the volume of sand available behind the dam was too low to rebuild the sandbanks."
                 },
                 "q34": {
-                    "text": "The passage states that in 1996, \"to start with, all seemed well,\" indicating initial success before problems arose, which supports option D.",
-                    "quote": "In 1996 the flood was allowed to go on too long. To start with, all seemed well."
+                    "text": "The passage describes the 1996 flood, stating that at the beginning, it seemed to be working well as it built up sandbanks and added sediment. That's why the correct answer is D.",
+                    "quote": "To start with, all seemed well."
                 },
                 "q35": {
-                    "text": "The passage states that common carp are 'aliens' that have moved into the Colorado River, implying they are not native. The other species listed (humpback chub, roundtail chub, and razorback sucker) are mentioned in the passage as species that have vanished or whose populations have crashed, indicating they were originally present.",
+                    "text": "The passage lists several species that are not native, calling them 'aliens' that moved in after the dam was built. The common carp is included in this list. That's why the correct answer is B.",
                     "quote": "Meanwhile, aliens including fathead minnows, channel catfish and common carp, which would have been hard, put to survive in the savage waters of the undammed canyon, have moved in."
                 }
             }

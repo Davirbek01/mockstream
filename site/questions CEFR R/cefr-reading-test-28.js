@@ -77,28 +77,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "The word \"stop\" fits logically into the sentence, indicating America's attempt to prevent the Soviet Union from taking over noncommunist countries, aligning with the Cold War context.",
-                    "quote": "The Cold War continued as America tried to _____(1)_____ the Soviet Union's continuous effort to take over noncommunist countries."
+                    "text": "The passage opens by stating America's goal was to 'stop the spread of communism'. The next sentence continues this idea, describing America's actions against the Soviet Union. That's why the correct answer is 'Stop'.",
+                    "quote": "After World War II, America did what it could to stop the spread of communism across the globe."
                 },
                 "q2": {
-                    "text": "The sentence directly states the war was a result of fear of Soviet occupation and the spread of something; the previous sentence mentions America's efforts to stop the spread of communism, making \"communism\" the logical fit.",
-                    "quote": "The Vietnam War was, in part, a result of America's fear of Soviet occupation and the spread of _____(2)_____ ."
+                    "text": "The passage states America's primary goal was to stop communism from spreading. The war was a result of the fear of Soviet power and the expansion of this specific ideology. That's why the correct answer is 'communism'.",
+                    "quote": "After World War II, America did what it could to stop the spread of communism across the globe."
                 },
                 "q3": {
-                    "text": "The word \"necessary\" fits the gap because President Johnson was authorized to take action to halt military aggression, implying that whatever actions were 'necessary' were approved. The surrounding context discusses stopping attacks and military aggression, indicating a need for decisive action.",
-                    "quote": "President Johnson was given the green light to do what was needed to stop military aggression by North Vietnamese troops."
+                    "text": "The text says President Johnson asked Congress for permission 'to take whatever measures were necessary to stop attacks'. This directly supports the idea that he was allowed to do what was needed. That's why the correct answer is 'necessary'.",
+                    "quote": "In 1964, President Johnson asked Congress to agree to take whatever measures were necessary to stop attacks against the United States' forces."
                 },
                 "q4": {
-                    "text": "The sentence directly states the number of American soldiers present in a location, and the passage context discusses the Vietnam War, making 'Vietnam' the logical location where the soldiers were stationed.",
-                    "quote": "By 1968, there were more than 500,000 American soldiers in _____(4)_____ ."
+                    "text": "The entire passage is about the Vietnam War and America's role in it. The sentence discusses the large number of American soldiers involved in this specific conflict. That's why the correct answer is 'Vietnam'.",
+                    "quote": "The country had mixed emotions about America's involvement with Vietnam."
                 },
                 "q5": {
-                    "text": "The sentence directly states that \"Others\" desired the removal of Americans from Vietnam. This contrasts with the previous sentence, which describes those who supported U.S. involvement, indicating a division of opinion and making \"Others\" the logical subject.",
-                    "quote": "Others wanted Americans removed from Vietnam as soon as possible."
+                    "text": "The passage describes the country's 'mixed emotions'. It presents one side of the argument starting with 'Some felt...', and then introduces the opposing viewpoint with the word 'Others'. That's why the correct answer is 'Others'.",
+                    "quote": "The country had mixed emotions about America's involvement with Vietnam."
                 },
                 "q6": {
-                    "text": "The word \"quickly\" fits grammatically and maintains the sentence's meaning, indicating a desire for a swift withdrawal of American troops from Vietnam. The surrounding sentences discuss differing opinions on the war, with some wanting to protect South Vietnam and others wanting immediate removal.",
-                    "quote": "Others wanted Americans removed from Vietnam as quickly as possible."
+                    "text": "This part of the sentence describes how the group opposing the war wanted the soldiers removed. The common phrase 'as quickly as possible' fits the context of wanting the conflict to end. That's why the correct answer is 'quickly'.",
+                    "quote": "They believed if one country fell to communism, then others would quickly follow."
                 }
             }
         },
@@ -259,36 +259,36 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q7": {
-                    "text": "The Russell Hotel is ideal for Stephen because it is near the airport, a top-quality hotel, and offers outdoor exercise.",
-                    "quote": "The Russell Hotel is close to the airport, and has quiet, comfortable rooms."
+                    "text": "The hotel is near the airport and has excellent business facilities for the meeting. It also offers a golf course and walks by a lake for outdoor exercise. That's why the correct answer is A.",
+                    "quote": ""
                 },
                 "q8": {
-                    "text": "This quote confirms the hotel is in the city center and well-placed for sightseeing, matching Karl and Monika's desire to see the main sights. The text also mentions excellent local food and that they are not worried about cost.",
-                    "quote": "The Cumberland Hotel is well placed for sightseeing on a busy city street, in a district which is full of interesting shops."
+                    "text": "This hotel is in a good location for sightseeing and serves excellent food that is typical of the area. The text also mentions that the rooms are expensive. That's why the correct answer is B.",
+                    "quote": ""
                 },
                 "q9": {
-                    "text": "The Aviemore Hotel is a modern hotel in the city center near cinemas, and it is reasonably priced, which aligns with James and Denise's preferences.",
+                    "text": "This hotel is newly-built, reasonably priced, and located in the city's cinema district, which is perfect for James and Denise. The basic food is not an issue since they plan to eat out. That's why the correct answer is C.",
                     "quote": "The newly-built Aviemore Hotel is small but in the centre of the city's cinema, restaurant and nightclub district."
                 },
                 "q10": {
-                    "text": "The phrase \"peaceful and inexpensive\" directly addresses David and Katrina's desire for a reasonably priced hotel. The mention of \"opportunities nearby for sailing and diving, and a lot of interesting routes to explore on foot\" aligns with their interest in country walks and watersports.",
-                    "quote": "It is peaceful and inexpensive, although the accommodation is basic."
+                    "text": "This hotel is inexpensive, which suits their limited budget. It is also in the countryside and offers watersports like sailing and diving, as well as walking routes. That's why the correct answer is E.",
+                    "quote": "There are opportunities nearby for sailing and diving, and a lot of interesting routes to explore on foot."
                 },
                 "q11": {
-                    "text": "This quote shows how people used to live, aligning with Cristina's desire to see this with her daughter. The text also mentions a good café (lunch), a shop with souvenirs (presents), and a car park, matching the other elements of Statement D.",
-                    "quote": "The rooms in Scotwood Manor are furnished as they were 100 years ago."
+                    "text": "Scotwood Manor shows how people lived 100 years ago. It has a café for lunch, a shop for buying souvenirs, and a car park for their car. That's why the correct answer is D.",
+                    "quote": "There are activity sheets for children and a shop with books, souvenirs and cards, as well as a good café and car park."
                 },
                 "q12": {
-                    "text": "This quote directly supports Statement F because it describes people making things, which is what Joanna wants to see. The text also mentions a café and that the museum is on a bus route, fulfilling Joanna's other requirements.",
+                    "text": "At this museum, you can see people making things like tools and pots. It has an excellent café for lunch and is on a bus route, which is perfect for someone without a car. That's why the correct answer is F.",
                     "quote": "You can see people working at their trades to produce tools, pots and even boats using traditional skills."
                 },
                 "q13": {
-                    "text": "This quote directly supports Statement H because it mentions that the museum has exhibitions of work by local artists, which aligns with Carl's interest in seeing paintings by local artists. The text also mentions a café, fulfilling Carl's desire for a snack, and that the museum is near the bus station, matching his mode of transport.",
+                    "text": "This museum is near the bus station, making it accessible by public transport. It features exhibitions by local artists, which suits Carl's hobby, and has a café for a snack. That's why the correct answer is H.",
                     "quote": "In a separate room there are works by some well-known artists as well as changing exhibitions of work by local artists."
                 },
                 "q14": {
-                    "text": "This quote directly addresses Duncan's interest in learning about the work and leisure activities of local people in the past, and the text also mentions that the museum is near the main bus station, aligning with his mode of transport.",
-                    "quote": "Charberth Museum is near the main bus station and has a rich collection of objects, 19th-century paintings and photographs showing life in the town over the centuries – the jobs people did and how they entertained themselves."
+                    "text": "This museum is near the bus station and shows exactly what Duncan is interested in: the jobs people did and how they entertained themselves. He can also buy a book about the exhibition. That's why the correct answer is I.",
+                    "quote": ""
                 }
             }
         },
@@ -419,27 +419,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q15": {
-                    "text": "This paragraph primarily introduces the classification of Yoruba towns, not the residences of rulers, making the provided answer incorrect. The paragraph focuses on the distinction between 'ilu' and 'aba' based on permanence and purpose.",
-                    "quote": "The Yoruba people of Nigeria classify their towns in two ways."
+                    "text": "The paragraph describes the large size and features of the palaces where rulers lived, such as the one in Oyo which covered 17 acres. This is why the correct answer is H.",
+                    "quote": "The palaces were often very large."
                 },
                 "q16": {
-                    "text": "This sentence directly refers to the historical fortifications and visible foundations, indicating a focus on the town's historical underpinnings. The paragraph then goes on to describe historical sources of revenue.",
+                    "text": "The paragraph describes historical features of the towns, including 19th-century fortified walls and the collection of tolls. These details relate to the town's origins, so the correct answer is F.",
                     "quote": "In the 19th century most towns were heavily fortified and the foundations of these walls are sometimes visible."
                 },
                 "q17": {
-                    "text": "This paragraph describes the characteristics and changes to palaces, which are a type of settlement within Yoruba towns. The description focuses on their size, structure, and how they were affected by colonization.",
-                    "quote": "The palaces were often very large."
+                    "text": "The paragraph explains the two main classifications for Yoruba towns: permanent \"ilu\" and temporary \"aba\". This directly discusses different kinds of settlements, so the correct answer is E.",
+                    "quote": "The Yoruba people of Nigeria classify their towns in two ways."
                 },
                 "q18": {
-                    "text": "This sentence directly introduces the topic of how the town is divided, which aligns perfectly with the heading \"Urban division.\"",
+                    "text": "The paragraph explains how towns are organized into sections, which are then subdivided into compounds called \"ile\". This describes the layout of the town, so the correct answer is C.",
                     "quote": "The town is divided into different sections."
                 },
                 "q19": {
-                    "text": "This sentence introduces the different shapes and layouts of houses, which directly relates to architectural styles. The paragraph then goes on to describe building materials and variations in housing based on wealth and age, further supporting the idea of architectural home styles.",
+                    "text": "The paragraph describes the shape, layout, and building materials of houses, such as hardened mud or concrete blocks. This focuses on how homes are built, so the correct answer is D.",
                     "quote": "Houses are rectangular and either have a courtyard in the center or the rooms come off a central corridor."
                 },
                 "q20": {
-                    "text": "This paragraph describes the allocation of rooms within a house based on age, status, and gender, which are all aspects of domestic arrangements.",
+                    "text": "The paragraph explains how rooms are assigned to different family members based on their status, age, and gender. This describes the living setup inside the home, so the correct answer is G.",
                     "quote": "The builder or the most senior man gets a room either near the entrance or, in a two storied house, next to the balcony."
                 }
             }
@@ -621,39 +621,39 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q21": {
-                    "text": "The quote directly states that physical education in the UK receives less time compared to other European countries, which aligns with Professor Armstrong's concern about the amount of PE lessons in various countries.",
-                    "quote": "Physical education is under pressure in the UK – most schools devote little more than 100 minutes a week to it in curriculum time, which is less than many other European countries."
+                    "text": "Paragraph C compares PE time in the UK to other European countries. Professor Armstrong is quoted expressing concern about the significant drop in time dedicated to PE in UK schools. That's why the correct answer is C.",
+                    "quote": ""
                 },
                 "q22": {
-                    "text": "The quote directly supports option B, as Armstrong states that the heart needs exercise to maintain its strength, implying we should do more activity to exercise the heart.",
+                    "text": "In paragraph B, Professor Armstrong's research findings on children's health are discussed. He is directly quoted stating that the heart is a muscle that requires exercise to maintain its strength. That's why the correct answer is B.",
                     "quote": "Armstrong adds, \"Heart is a muscle and need exercise, or it loses its strength.\""
                 },
                 "q23": {
-                    "text": "The quote directly states that Fit Kids trains parents, indicating that the aim is to guide parents on how to organize activities for children, which aligns with option C.",
+                    "text": "The passage explains that the Fit Kids program is designed to teach parents how to lead fitness activities for their children, making the fun a disguise for a serious exercise plan. That's why the correct answer is C.",
                     "quote": "Fit Kids trains parents to run fitness classes for children."
                 },
                 "q24": {
-                    "text": "The quote directly supports option A, as Lifshitz suggests incorporating more movement into daily life, which means creating opportunities to exercise the body. The examples given are all ways to increase physical activity.",
-                    "quote": "\"Incorporate more movement in your family's life: park farther away from the stores at the mall, take stairs instead of the elevator, and walk to nearby friends' houses instead of driving.\""
+                    "text": "At the end of the passage, Dr. Lifshitz suggests incorporating more movement into daily life by parking farther away or taking the stairs. These are ways to create more exercise opportunities. That's why the correct answer is A.",
+                    "quote": "Incorporate more movement in your family's life: park farther away from the stores at the mall, take stairs instead of the elevator, and walk to nearby friends' houses instead of driving."
                 },
                 "q25": {
-                    "text": "This quote from Neil Armstrong directly states that inactive children will have problems in the future, thus supporting the 'True' answer.",
+                    "text": "This statement is true. In the first paragraph, Professor Armstrong explicitly warns that children who continue to be inactive will face significant problems as they get older. That's why the correct answer is True.",
                     "quote": "\"If children continue to be this inactive, they'll be storing up big problems for the future.\""
                 },
                 "q26": {
-                    "text": "The passage states that 10% of girls were overweight, not 40% suffer from obesity, therefore the statement is false.",
+                    "text": "This statement is false. The passage states that Professor Armstrong's survey found 10 percent of girls were overweight. The higher percentages mentioned in the paragraph refer to cholesterol levels, not obesity. That's why the correct answer is False.",
                     "quote": "It also found that 13 per cent of boys and 10 percent of girls were overweight."
                 },
                 "q27": {
-                    "text": "The passage states that many children never acquire the necessary skills to thrive in team games, which directly supports the statement that the majority of children never have enough essential skills for team games.",
+                    "text": "This statement is true. Paragraph D explains that because there is less commitment to sport in the school curriculum, many children do not learn the skills they need to do well in team sports. That's why the correct answer is True.",
                     "quote": "This means that many children never acquire the necessary skills to thrive in team games."
                 },
                 "q28": {
-                    "text": "The passage discusses children's fitness, exercise habits, and health risks associated with inactivity, but it does not mention whether thin children complain about their health or eyesight. Therefore, there is no information to support or refute the statement.",
+                    "text": "The passage does not contain any information about thin children or any specific health complaints they might have, including about their eyesight. The text focuses on issues related to inactivity. That's why the correct answer is No Information.",
                     "quote": ""
                 },
                 "q29": {
-                    "text": "The passage discusses the benefits of exercise for heart health and does not mention any potential harm from cycling or any other regular exercise. Therefore, there is no information to support the statement.",
+                    "text": "The passage does not mention cycling or suggest that any regular exercise could be harmful to the heart. In fact, it consistently promotes cardiovascular activity for good health. That's why the correct answer is No Information.",
                     "quote": ""
                 }
             }
@@ -781,28 +781,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q30": {
-                    "text": "The passage states that in many 'industrialised countries', the majority of mothers are in the workforce. This directly supports the answer that the majority of parents are from 'industrialised' states.",
+                    "text": "The passage explicitly states that in many 'industrialised countries,' the majority of mothers with young children are employed. This directly corresponds to the summary's statement about parents in these states. That's why the correct answer is 'Industrialised'.",
                     "quote": "In many industrialised countries, the majority of mothers of preschool children are in the workforce, though not always through choice."
                 },
                 "q31": {
-                    "text": "The passage states that \"parents are perplexed about what approach to take to child rearing,\" which directly supports the answer that parents are perplexed and cannot decide.",
+                    "text": "The text directly states that it's not surprising parents are 'perplexed' about which approach to child-rearing to use. This word means confused or puzzled, matching the summary's context. That's why the correct answer is 'Perplexed'.",
                     "quote": "It's little wonder that parents are perplexed about what approach to take to child rearing."
                 },
                 "q32": {
-                    "text": "The passage states that social problems \"seem to have infiltrated even the most economically privileged sectors of the population,\" which directly supports the answer 'infiltrated' as the word to fill the gap.",
+                    "text": "The passage describes how social problems affecting young people have spread to and become a part of even the wealthiest sectors of society. The word used for this is 'infiltrated'. That's why the correct answer is 'Infiltrated'.",
                     "quote": "These problems seem to have infiltrated even the most economically privileged sectors of the population, affecting young people who, on the face of things, have been granted the best of life's chances."
                 },
                 "q33": {
-                    "text": "The phrase \"fundamental goal of parenting\" directly supports the answer, as it refers to the primary or essential aim of parenting.",
+                    "text": "The text states that the core or primary objective of parenting has remained constant over the years, despite changing fashions in child care. The word used to describe this core objective is 'fundamental'. That's why the correct answer is 'Fundamental'.",
                     "quote": "While the fundamental goal of parenting – to instil character and moral development – has stood firm amid the various passing fashions in child care over the years, the approach to accomplishing this has varied considerably."
                 },
                 "q34": {
-                    "text": "The quote directly states that the 'fundamental goal of parenting' has remained constant, supporting option A. The rest of the paragraph discusses the changing approaches to parenting, but not the core objective.",
+                    "text": "The author states that while the methods of parenting have changed, the 'fundamental goal' of instilling character and morals has 'stood firm' over the years. This means the core objective has been constant. That's why the correct answer is A.",
                     "quote": "While the fundamental goal of parenting – to instil character and moral development – has stood firm amid the various passing fashions in child care over the years, the approach to accomplishing this has varied considerably."
                 },
                 "q35": {
-                    "text": "The quote directly states that there is no agreement on how to raise children effectively, which supports the idea that experts disagree on the best approach to child-rearing.",
-                    "quote": "But agreement on what parents can and should do to shield children from underachievement and demoralisation eludes those who seek it on the shelves of libraries or bookstores."
+                    "text": "The paragraph contrasts two opposing expert views: the 'get tough' approach versus the 'child-power' approach where parents wait for cues. This shows that experts disagree on the best methods for child-rearing. That's why the correct answer is A.",
+                    "quote": "Other authors, however, attribute many of today's social problems to the excessive pressure put on children by parents."
                 }
             }
         }

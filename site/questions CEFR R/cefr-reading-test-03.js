@@ -71,28 +71,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "The sentence directly contains the gap, and the surrounding context of 'teens and families' seeking options within 'giant store-filled buildings' suggests entertainment as a fitting choice.",
-                    "quote": "These giant store-filled buildings are one of America's greatest _____(1)_____ options for teens and families."
+                    "text": "The passage describes mall activities like playing games and hanging out with friends. It later explicitly calls the mall a source of \"entertainment,\" confirming this is its purpose. That's why the correct answer is 'ENTERTAINMENT'.",
+                    "quote": "In those days, malls provided the perfect source of _____(4)_____ and entertainment for entire _____(5)_____ ."
                 },
                 "q2": {
-                    "text": "The sentence directly states that the Mall of America is the largest, so 'mall' is the correct word to fill the gap. The passage is about malls in the USA.",
-                    "quote": "Mall of America in Minnesota is the largest _____(2)_____ ."
+                    "text": "The text's topic is malls, stating there are 1,100 in the US. The sentence then gives \"Mall of America\" as a specific, superlative example of one of these buildings. That's why the correct answer is 'MALL'.",
+                    "quote": "There are about 1,100 malls in the US."
                 },
                 "q3": {
-                    "text": "The sentence describes activities teens typically engage in, such as shopping, playing video games, and hanging out with friends, making 'teens' the most logical fit. The passage discusses the mall's popularity with teens and families.",
-                    "quote": "During those decades, _____ would go to the mall and spend hours shopping, playing video games at the arcade, or just hanging out with friends."
+                    "text": "The first paragraph identifies malls as a top option for \"teens and families.\" The activities described, like playing video games and hanging out, are particularly characteristic of teenagers. That's why the correct answer is 'TEENS'.",
+                    "quote": "These giant store-filled buildings are one of America's greatest _____(1)_____ options for teens and families."
                 },
                 "q4": {
-                    "text": "The sentence directly states that malls were a source of \"_____ and entertainment.\" The passage discusses shopping as a primary activity at malls, making \"shopping\" the correct fit.",
-                    "quote": "In those days, malls provided the perfect source of _____ and entertainment for entire _____ ."
+                    "text": "The passage describes malls as \"store-filled buildings\" and states that people would \"spend hours shopping\" there. This establishes shopping as a primary activity alongside entertainment. That's why the correct answer is 'SHOPPING'.",
+                    "quote": "During those decades, _____(3)_____ would go to the mall and spend hours shopping, playing video games at the arcade, or just hanging out with friends."
                 },
                 "q5": {
-                    "text": "The sentence directly states that malls provided entertainment for entire \"families\", making \"families\" the correct word to fill the gap. The context emphasizes the mall's role as a source of entertainment for a group of people.",
-                    "quote": "In those days, malls provided the perfect source of entertainment and entertainment for entire _____(5)_____ ."
+                    "text": "The opening paragraph clearly states that malls are a great option for \"teens and families.\" This sentence reinforces that idea, specifying who the entertainment was for. That's why the correct answer is 'FAMILIES'.",
+                    "quote": "These giant store-filled buildings are one of America's greatest _____(1)_____ options for teens and families."
                 },
                 "q6": {
-                    "text": "The sentence directly states that \"in upcoming decades malls will be replaced...\", making \"decades\" the only word that fits grammatically and contextually. The passage discusses a shift in shopping habits over time, making \"decades\" a logical timeframe.",
-                    "quote": "But some experts believe in upcoming decades malls will be replaced by online shopping."
+                    "text": "The passage refers to the mall's peak popularity in the 80s and 90s as \"those decades.\" When predicting the future, it uses a parallel unit of time to discuss the next period. That's why the correct answer is 'DECADES'.",
+                    "quote": "During those decades, _____(3)_____ would go to the mall and spend hours shopping, playing video games at the arcade, or just hanging out with friends."
                 }
             }
         },
@@ -188,7 +188,74 @@ window.CEFR_READING_TEST = {
                 "13": "J",
                 "14": "B"
             },
-            "explanations": {}
+            "explanations": {
+                "q7": {
+                    "text": "The hotel has facilities for large meetings, such as 5 meeting rooms for up to 500 people, and a ballroom for big dinners. This makes it suitable for the request. That's why the correct answer is H.",
+                    "quote": "We have 5 meeting rooms capable of hosting up to 500 delegates, plus our magnificent ballroom perfect for gala dinners and corporate events."
+                },
+                "q8": {
+                    "text": "The job advertisement clearly states that references from past employers are required to apply. A reference is a type of feedback letter from a previous job. That's why the correct answer is G.",
+                    "quote": "References from previous employers essential."
+                },
+                "q9": {
+                    "text": "The advertisement is specifically for a 'husband and wife team' and offers a 'live-in position with private apartment'. This is a perfect match for a couple looking for a job together. That's why the correct answer is E.",
+                    "quote": "Husband and wife team required to manage our remote highland retreat. Live-in position with private apartment."
+                },
+                "q10": {
+                    "text": "This retreat is a farmhouse B&B in the countryside, surrounded by hills and villages. It is also conveniently located only 90 minutes from London. That's why the correct answer is A.",
+                    "quote": "Escape to our charming farmhouse B&B, just 90 minutes from central London."
+                },
+                "q11": {
+                    "text": "The Westminster Culinary Academy is located in London and offers 'professional catering courses for all levels,' from basic to advanced diplomas. This is a place for catering training. That's why the correct answer is C.",
+                    "quote": "Westminster Culinary Academy Professional catering courses for all levels."
+                },
+                "q12": {
+                    "text": "The inn invites guests to try its large collection of over 200 different single malt whiskies, which are a special type of alcoholic drink from Scotland. That's why the correct answer is F.",
+                    "quote": "Sample our collection of over 200 single malt whiskies from distilleries across Scotland."
+                },
+                "q13": {
+                    "text": "This school offers courses for beginners to 'learn to sail' and handle small boats like dinghies and small yachts. This is exactly what the friend wants to do. That's why the correct answer is J.",
+                    "quote": "Master dinghy sailing and small yacht handling."
+                },
+                "q14": {
+                    "text": "The inn is looking for an experienced cook and offers a 'live-in position,' which means accommodation is provided. An inn is a small establishment similar to a small hotel. That's why the correct answer is B.",
+                    "quote": "Historic village pub seeking experienced cook. Live-in position available with private room above the pub."
+                }
+            },
+            "questions": [
+                {
+                    "id": 7,
+                    "textNumber": 7
+                },
+                {
+                    "id": 8,
+                    "textNumber": 8
+                },
+                {
+                    "id": 9,
+                    "textNumber": 9
+                },
+                {
+                    "id": 10,
+                    "textNumber": 10
+                },
+                {
+                    "id": 11,
+                    "textNumber": 11
+                },
+                {
+                    "id": 12,
+                    "textNumber": 12
+                },
+                {
+                    "id": 13,
+                    "textNumber": 13
+                },
+                {
+                    "id": 14,
+                    "textNumber": 14
+                }
+            ]
         },
         {
             "partNumber": 3,
@@ -273,7 +340,58 @@ window.CEFR_READING_TEST = {
                 "19": "B",
                 "20": "F"
             },
-            "explanations": {}
+            "explanations": {
+                "q15": {
+                    "text": "This paragraph introduces water by defining its dual nature, its prevalence on Earth, and its importance to humanity. This general description explains what water is in the context of the passage, so the correct answer is C.",
+                    "quote": "Water is the giver and, at the same time, the taker of life."
+                },
+                "q16": {
+                    "text": "The paragraph describes the complex, two-sided connection humans have with water, noting both its life-sustaining benefits and its destructive potential. This directly addresses our 'ambiguous relationship' with it, so the correct answer is G.",
+                    "quote": ""
+                },
+                "q17": {
+                    "text": "This paragraph argues that major environmental shifts have happened throughout history, citing past examples of floods, droughts, and changing landscapes. It states these changes are not new, which is why the correct answer is A.",
+                    "quote": ""
+                },
+                "q18": {
+                    "text": "The paragraph suggests that hearing about disasters in other parts of the world might provide a strange sense of comfort to people experiencing similar events. This idea is why the correct answer is E.",
+                    "quote": "Perhaps these events make us feel better as we face the destruction of our own property by floods and other natural disasters."
+                },
+                "q19": {
+                    "text": "This paragraph gives specific examples of recent damage in Europe caused by both the sea pounding the coastlines and overflowing rivers wrecking communities. This directly illustrates the heading, so the correct answer is B.",
+                    "quote": ""
+                },
+                "q20": {
+                    "text": "The paragraph outlines various methods for dealing with flooding, from expensive, short-term options like building defenses to cheaper, long-term solutions like planting trees. This focus on solutions is why the correct answer is F.",
+                    "quote": "Building stronger and more sophisticated river defenses against flooding is the expensive short-term answer. There are simpler ways."
+                }
+            },
+            "questions": [
+                {
+                    "id": 15,
+                    "paragraphNumber": "I"
+                },
+                {
+                    "id": 16,
+                    "paragraphNumber": "II"
+                },
+                {
+                    "id": 17,
+                    "paragraphNumber": "III"
+                },
+                {
+                    "id": 18,
+                    "paragraphNumber": "IV"
+                },
+                {
+                    "id": 19,
+                    "paragraphNumber": "V"
+                },
+                {
+                    "id": 20,
+                    "paragraphNumber": "VI"
+                }
+            ]
         },
         {
             "partNumber": 4,
@@ -427,39 +545,39 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q21": {
-                    "text": "The quote describes the prizes awarded at the beginning of the ceremony to people like the best designer and special-effects man, who are secondary members of the shooting crews, supporting option D.",
-                    "quote": "At first a series of guest stars had awarded the prizes: to the best designer, to the best special-effects man, for the best technical invention for motion pictures during the year, and to all the other people, so unknown outside the industry, but so significant within it."
+                    "text": "The passage states that early awards went to designers and special-effects people, who are described as 'unknown outside the industry'. These are secondary crew members, which is why the correct answer is D.",
+                    "quote": ""
                 },
                 "q22": {
-                    "text": "The passage states that the announcement was for the Best Supporting Actress of the year, and both Joan Weyland and Myra Caldwell were leading contestants, implying they were nominated.",
+                    "text": "The narrator explains that Myra and Joan were the two main contenders for the Oscar for Best Supporting Actress. This is why they were at the ceremony, so the correct answer is B.",
                     "quote": "Now in a few minutes, they were going to announce who had won the Oscar for the Best Supporting Actress of the year."
                 },
                 "q23": {
-                    "text": "The narrator explicitly states that Joan and Myra would be delighted to harm each other, indicating a strong rivalry between them. This directly supports the answer that their relationship is characterized by rivalry.",
+                    "text": "The text states the two contestants 'would be delighted to boil each other in oil,' which is a strong metaphor for intense competition and dislike. This describes a rivalry, so the correct answer is B.",
                     "quote": "Furthermore, it was no secret that the two leading contestants would be delighted to boil each other in oil win, lose, or draw."
                 },
                 "q24": {
-                    "text": "The narrator states that there was no doubt Tanya Braden could act, which directly supports the idea that she played her part convincingly. The narrator's opinion is based on her acting ability, not her beauty, fame, or partnership with a star.",
-                    "quote": "I had never seen the picture of the actress, and the picture hadn't made much money, but there was no doubt she could act!"
+                    "text": "The narrator notes that Tanya Braden 'made you believe' her role as the star's mother, indicating her performance was very believable and convincing. That's why the correct answer is A.",
+                    "quote": "She played the star's mother and she made you believe it."
                 },
                 "q25": {
-                    "text": "The quote indicates that the prizes were initially awarded to people \"unknown outside the industry,\" implying that not everyone could easily recognize the winners, thus making the statement false.",
-                    "quote": "At first a series of guest stars had awarded the prizes: to the best designer, to the best special-effects man, for the best technical invention for motion pictures during the year, and to all the other people, so unknown outside the industry, but so significant within it."
+                    "text": "The passage states the third nominee 'was not given much chance,' but she ended up winning. This surprise outcome shows that the winner was not easily recognized beforehand, so the statement is False.",
+                    "quote": "The only other actress nominated was not given much chance."
                 },
                 "q26": {
-                    "text": "The passage mentions Myra's role in \"The Devil Loses\" and that she \"had been called the greatest find in the history of pictures,\" but it doesn't specify whether it was her first role. Therefore, there is no information to confirm or deny this statement.",
-                    "quote": ""
+                    "text": "The text calls Myra 'the greatest find in the history of pictures,' which implies she was a new talent. However, it never explicitly says this was her first role, so there is No Information.",
+                    "quote": "Myra had played the sensational supporting role in The Devil Loses and had been called the greatest find in the history of pictures."
                 },
                 "q27": {
-                    "text": "The passage states that Tanya Braden, the \"only other actress nominated\", \"was not given much chance\", meaning she was not expected to win. Therefore, the statement is true.",
+                    "text": "The passage explicitly states that the third nominee, who was Tanya Braden, was not expected to win. This means the statement is True.",
                     "quote": "The only other actress nominated was not given much chance."
                 },
                 "q28": {
-                    "text": "The passage states that \"the picture hadn't made much money,\" indicating that Whirlwind was not successful in terms of generating budget. Therefore, the statement is false.",
-                    "quote": "I had never seen the picture of the actress, and the picture hadn't made much money, but there was no doubt she could act!"
+                    "text": "The narrator explicitly states that Tanya Braden's film 'hadn't made much money.' This directly contradicts the idea that it was a financial success, so the statement is False.",
+                    "quote": ""
                 },
                 "q29": {
-                    "text": "The author states he is unsure about the sequence of events, meaning he could not remember exactly what happened. This indicates the statement is false.",
+                    "text": "The narrator explicitly states, 'I'm not too sure about the sequence of events that followed,' and that he doesn't remember the applause. This shows he could not recall events exactly, so the statement is False.",
                     "quote": "Well, I'm not too sure about the sequence of events that followed."
                 }
             }
@@ -573,27 +691,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q30": {
-                    "text": "The passage states that hasty earthquakes are more likely to \"crinkle highways\", which is synonymous with damaging main roads, thus supporting the answer 'crinkle'.",
+                    "text": "The passage lists the types of damage caused by fast earthquakes, stating they are more likely to \"topple buildings, snap bridges, and crinkle highways.\" That's why the correct answer is 'crinkle'.",
                     "quote": "These hasty earthquakes cause much more damage on the ground and are more likely to topple buildings, snap bridges, and crinkle highways than regular upheavals."
                 },
                 "q31": {
-                    "text": "The passage states that the Madagascar quake \"provid[ed] the long-awaited opportunity,\" directly supporting the answer that Madagascar was a good opportunity.",
+                    "text": "The passage explains that the rare, superfast earthquake in Madagascar provided the \"long-awaited opportunity\" for Kapur to finally study the phenomenon. That's why the correct answer is 'opportunity'.",
                     "quote": "That quake unzipped over 500 kilometers of fault, providing the long-awaited opportunity."
                 },
                 "q32": {
-                    "text": "The quote states that new buildings should be located on bedrock rather than soft sediments, implying that soft sediments are not a suitable location.",
+                    "text": "A seismologist is quoted suggesting that to be safer, new buildings should be located on bedrock \"rather than soft sediments.\" This implies sediments are not a suitable location. That's why the correct answer is 'sediments'.",
                     "quote": "\"New buildings can be built on balls and located on bedrock rather than soft sediments,\" she added."
                 },
                 "q33": {
-                    "text": "The passage states that communities can be better prepared if faults are better categorized, which means that categorizing faults would be beneficial for communities.",
+                    "text": "The passage concludes with Kapur's belief that if faults are better categorized by speed, \"communities can be better prepared\" for future earthquakes. That's why the correct answer is 'communities'.",
                     "quote": "She believes that communities can be better prepared if faults are better categorized."
                 },
                 "q34": {
-                    "text": "The quote indicates that several major cities in California were built on fault lines, which puts them in danger. This directly supports option B.",
+                    "text": "The passage opens by stating that several of California's major coastal cities \"were built upon a dangerous section of fault line,\" which is the direct reason they are in danger. That's why the correct answer is B.",
                     "quote": "Several along the coast were built upon a dangerous section of fault line known for ferocity and speed."
                 },
                 "q35": {
-                    "text": "The quote directly states that the earthquake started slowly and then accelerated to a super shear-wave speed, which supports option C. The seismic activity changed speed and became a superfast earthquake.",
+                    "text": "The text quotes Kapur's description of the Madagascar earthquake, explaining that it \"started slowly, but then accelerated\" to superfast speeds. This shows it changed speed. That's why the correct answer is C.",
                     "quote": "\"The quake started slowly, but then accelerated to speeds of a super shear-wave speed, traveling for more than 100 kilometers at a speed of nearly 6 kilometers per second,\" Kapur said."
                 }
             }

@@ -72,32 +72,32 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "The word 'discovered' fits the gap because the sentence discusses the Europeans finding Australia. The passage states that Australia was the last great landmass to be found by Europeans.",
+                    "text": "The first sentence introduces the idea of Europeans discovering Australia. The second sentence continues this thought, referring to the continent they eventually found. That's why the correct answer is 'discovered'.",
                     "quote": "Australia was the last great landmass to be discovered by the Europeans."
                 },
                 "q2": {
-                    "text": "The word 'continent' fits the gap because the sentence describes Australia as an island. The passage introduces Australia as a continent.",
-                    "quote": "Australia is an island continent"
+                    "text": "The passage refers to Australia as a 'continent' in the first paragraph. The phrase 'island continent' is a common and fitting description for Australia, combining these two geographical facts. That's why the correct answer is 'continent'.",
+                    "quote": ""
                 },
                 "q3": {
-                    "text": "The word 'years' fits the gap because the sentence discusses changes over a long period. The passage mentions changes wrought over millions of years.",
-                    "quote": "result of gradual changes wrought over millions of years."
+                    "text": "The sentence describes changes over a long period. The next sentence provides a specific example of this timescale, mentioning '100 million years', which confirms the unit of time. That's why the correct answer is 'years'.",
+                    "quote": ""
                 },
                 "q4": {
-                    "text": "The word 'Australia' fits the gap because the sentence discusses the stability of the landmass. The passage refers to Australia as one of the most stable land masses.",
-                    "quote": "Australia is one of the most stable land masses"
+                    "text": "The entire passage is about Australia. This sentence contrasts a small area of seismic activity with the overall stability of the larger landmass, which is the continent itself. That's why the correct answer is 'Australia'.",
+                    "quote": ""
                 },
                 "q5": {
-                    "text": "The word 'range' fits the gap because the sentence describes the landscape west of a geographical feature. The passage mentions the Great Dividing Range.",
-                    "quote": "West of the range of the country becomes increasingly flat and dry."
+                    "text": "The preceding sentence introduces the 'Great Dividing Range'. This sentence logically continues by describing the landscape to the west of that specific geographical feature. That's why the correct answer is 'range'.",
+                    "quote": "From the east coast a narrow, fertile strip merges into the greatly eroded Great Dividing Range, that is almost continent long."
                 },
                 "q6": {
-                    "text": "The word 'mountains' fits the gap because the sentence describes the beauty of a geographical feature. The passage mentions mountains whose beauty reminds of the MacDonald Ranges.",
-                    "quote": "some mountains whose beauty reminds of the MacDonald Ranges."
+                    "text": "The sentence compares the beauty of some features to the 'MacDonald Ranges'. A 'range' is a series of mountains, so this is the logical word to describe the features being compared. That's why the correct answer is 'mountains'.",
+                    "quote": ""
                 },
                 "q7": {
-                    "text": "The word 'area' fits the gap because the sentence discusses the productivity of a region. The passage refers to the Top End not becoming seriously productive area.",
-                    "quote": "becoming seriously productive area."
+                    "text": "The sentence explains a limitation of the 'Top End'. The passage has just defined the 'Top End' as a 'tropical area', so this word fits the context perfectly to complete the thought. That's why the correct answer is 'area'.",
+                    "quote": "The extreme north of Australia, the Top End, is a tropical area within the monsoon belt."
                 }
             }
         },
@@ -215,24 +215,24 @@ window.CEFR_READING_TEST = {
             ],
             "explanations": {
                 "q8": {
-                    "text": "Course C matches Martina because she is an accomplished photographer who wants to improve her skills outdoors on weekends. Course C is a photo challenge led by a professional photographer that takes place on Saturdays in the countryside.",
-                    "quote": "By learning with 3D Studio, we will take you to the best places and venues in the countryside. The course takes place on Saturdays, 3.30-6.00 p.m."
+                    "text": "Martina needs an outdoor photography course on a weekend. This course takes place in the countryside on Saturdays, which is a perfect fit for her. That's why the correct answer is C.",
+                    "quote": ""
                 },
                 "q9": {
-                    "text": "Course D matches Manuel because he wants to learn about famous painters from the past and improve his painting skills during the day. Course D teaches classical methods of oil painting used by Italian and Flemish masters during daytime classes.",
-                    "quote": "During this workshop, students will be taught the classical methods of oil painting used by Italian and Flemish masters of the late 16th and early 17th centuries. Classes are on Monday and Wednesday from 9-11 a.m."
+                    "text": "Manuel wants a daytime painting course about historical masters. This workshop teaches the classical methods of past masters and holds classes in the morning. That's why the correct answer is D.",
+                    "quote": ""
                 },
                 "q10": {
-                    "text": "Course G matches Maria because she wants to study computer studies part-time to boost her confidence and develop her work skills. Course G is a computing and IT course that offers part-time options to develop work skills.",
-                    "quote": "Our Adult courses give you the chance to boost your confidence and develop your work skills. This course will prepare you for progression to further study in computing and software development. Full-time and part-time courses are available."
+                    "text": "Maria is looking for a part-time computer course. The Open University offers both full-time and part-time courses in Computing and IT, which matches her request. That's why the correct answer is G.",
+                    "quote": ""
                 },
                 "q11": {
-                    "text": "Course F matches Claudia because she wants to learn basic drawing concepts, especially portraits, on weekends without needing a qualification. Course F teaches essential drawing skills including life drawing and portraiture on a weekend course.",
-                    "quote": "This is an informative, intensive, and fun weekend course, which teaches essential drawing skills. Through various drawing approaches including life drawing, portraiture, and still life, you will learn to understand texture, line, measurement, and composition."
+                    "text": "Claudia wants a weekend drawing course that includes portraits. The Art Academy offers a weekend course that specifically teaches portraiture among other skills. That's why the correct answer is F.",
+                    "quote": ""
                 },
                 "q12": {
-                    "text": "Course H matches Sally because she wants an activity that gives her contact with other people and likes performing. Course H is a musical theatre course that offers a chance to meet new friends in a family-like environment.",
-                    "quote": "This course aims to provide participants with the opportunity to train to the highest standards for a professional career in Dance and Musical Theatre. We offer a chance to meet new friends in a family-like environment."
+                    "text": "Sally wants a social activity where she can perform. The theatre school offers training for musical theatre and a chance to meet new people. That's why the correct answer is H.",
+                    "quote": ""
                 }
             }
         },
@@ -363,27 +363,27 @@ window.CEFR_READING_TEST = {
             ],
             "explanations": {
                 "q13": {
-                    "text": "Heading II, \"Thing that students have to go through\", matches paragraph A because it describes the accommodation crisis forcing students to sleep rough or give up studying. The paragraph outlines the severe difficulties students are facing.",
+                    "text": "This paragraph lists the severe difficulties students are facing, such as sleeping on the streets or sharing beds with strangers. These are the 'things that students have to go through', which is why the correct answer is II.",
                     "quote": "The college and university accommodation crisis in Ireland has become 'so chronic' that students are being forced to sleep rough, share a bed with strangers – or give up on studying altogether."
                 },
                 "q14": {
-                    "text": "Heading III, \"Commutes have become common in Ireland nowadays\", matches paragraph B because it discusses how commutes are now normal for students due to the accommodation crisis. The paragraph explains that commutes once considered ridiculous are now commonplace.",
-                    "quote": "\"Commutes – which would once have been considered ridiculous – are now normal, whether that's by bus, train or car and those who drive often end up sleeping in their car if they've an early start the next morning.\""
+                    "text": "The paragraph explicitly states that long commutes, which were once considered 'ridiculous', are now seen as 'normal' for students. This directly matches the heading, which is why the correct answer is III.",
+                    "quote": ""
                 },
                 "q15": {
-                    "text": "Heading IV, \"Danger of the overflow\", matches paragraph C because it expresses worry over the increasing number of students and the lack of properties to accommodate them. The paragraph highlights the potential overflow of students without sufficient housing.",
-                    "quote": "Worry is increasing over the problems facing Ireland's 200,000 students as the number increases over the next 15 years. With 165,000 full-time students in Ireland – and that figure expected to increase to around 200,000 within the next 15 years – fears remain that there aren't enough properties to accommodate current numbers."
+                    "text": "This section discusses the 'fears' that there are not enough properties for the growing number of students. This situation of too many people for the available space is the 'danger of the overflow', which is why the correct answer is IV.",
+                    "quote": "With 165,000 full-time students in Ireland – and that figure expected to increase to around 200,000 within the next 15 years – fears remain that there aren't enough properties to accommodate current numbers."
                 },
                 "q16": {
-                    "text": "Heading VIII, \"Eyeless choice\", matches paragraph D because it describes students being forced to pay for accommodation they haven't seen in advance. The paragraph emphasizes the blind choice students have to make due to the housing shortage.",
-                    "quote": "Those who have been lucky enough to find a place to live have had to do so 'blind' by paying for accommodation, months in advance, they haven't even seen just so they will have a roof over their head over the coming year."
+                    "text": "The paragraph describes how students have to pay for accommodation 'blind', meaning without having seen it. An 'eyeless choice' is another way of saying a blind choice, which is why the correct answer is VIII.",
+                    "quote": ""
                 },
                 "q17": {
-                    "text": "Heading V, \"Cause of the problems\", matches paragraph E because it identifies the 'Google effect' as the reason for the accommodation crisis. The paragraph explains how the influx of international professionals is contributing to the problem.",
-                    "quote": "According to the Irish Independent, it's the 'Google effect' which is to blame. As Google and other blue-chip companies open offices in and around Dublin's docklands area, which are 'on the doorstep of the city', international professionals have been flocking to the area"
+                    "text": "This paragraph identifies what is 'to blame' for the housing crisis, pointing to the 'Google effect'. This directly explains the reason for the situation, which is why the correct answer is V.",
+                    "quote": "According to the Irish Independent, it's the 'Google effect' which is to blame."
                 },
                 "q18": {
-                    "text": "Heading VI, \"Pricing data\", matches paragraph F because it provides specific details about the high rental costs in the area. The paragraph gives examples of the expensive rent for apartments.",
+                    "text": "This paragraph is filled with specific numbers and figures related to the cost of rent for different types of apartments. This information is a clear example of 'pricing data', which is why the correct answer is VI.",
                     "quote": "Rent in the area soared by 15 per cent last year and a two-bedroom apartment overlooking the Grand Canal costs €2,100 (£1,500) per month to rent."
                 }
             }
@@ -626,44 +626,44 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q19": {
-                    "text": "The Vitamin Shoppe has the most part-time openings with 1,946 positions. This is more than any other company listed.",
+                    "text": "The passage lists the number of part-time openings for each company. The Vitamin Shoppe has 1,946 openings, which is the highest number among all the options. That's why the correct answer is C.",
                     "quote": "The Vitamin Shoppe: 1,946 part-time openings."
                 },
                 "q20": {
-                    "text": "The Vitamin Shoppe and Advantage Sales & Marketing both operate in the USA and Canada. The Vitamin Shoppe operates stores in Canada under the name \"VitaPath\", and Advantage Sales & Marketing has offices in both countries.",
-                    "quote": "They also operate stores in Canada under the name \"VitaPath\"... Owning more than 65 offices in the US and Canada"
+                    "text": "The text states The Vitamin Shoppe operates in Canada and Advantage Sales & Marketing has offices in both the US and Canada, confirming they both operate in both countries. That's why the correct answer is A.",
+                    "quote": "Owning more than 65 offices in the US and Canada, ASM does merchandising for 1,200 clients -- including Johnson & Johnson, Mars, Unilever, Energizer."
                 },
                 "q21": {
-                    "text": "The review for Universal Protection Service states that it is a better company than any other the reviewer has worked for in security. This indicates a positive experience within the security industry.",
+                    "text": "The employee review for Universal Protection Service explicitly states that it is a \"Better company than any other I have worked for in security.\" This shows it's the best the reviewer has experienced. That's why the correct answer is C.",
                     "quote": "Better company than any other I have worked for in security."
                 },
                 "q22": {
-                    "text": "Chipotle was founded in 1993. The passage explicitly states the year of its founding.",
+                    "text": "The description for Chipotle directly mentions the year it was established. The text says it was founded in 1993 and has grown significantly since then. That's why the correct answer is D.",
                     "quote": "Since having been founded in 1993, the chain has since exploded and now counts some 37,000 employees."
                 },
                 "q23": {
-                    "text": "PSA Healthcare's main office is located in Atlanta, Ga. The passage mentions the company's headquarters.",
+                    "text": "The passage provides the headquarters location for PSA Healthcare. It clearly states that the company's main office is located in Atlanta, Georgia. That's why the correct answer is B.",
                     "quote": "The company is headquartered in Atlanta, Ga."
                 },
                 "q24": {
-                    "text": "VitaPath is the other name for The Vitamin Shoppe, used for its stores in Canada. The passage clearly identifies the connection between the two names.",
+                    "text": "The description for The Vitamin Shoppe explains that this is the name the company uses for its stores when operating in Canada. That's why the correct answer is C.",
                     "quote": "They also operate stores in Canada under the name \"VitaPath\"."
                 },
                 "q25": {
-                    "text": "The Vitamin Shoppe review does not mention a comfortable timetable. While it mentions good benefits and customer service policies, it doesn't discuss scheduling.",
-                    "quote": "Good growth opportunities and stores opening all over the US all year 'round. Company based out of NJ, so more progressive policies on employment and benefits. Good vacation, health, and dental benefits. Payment is above average. Good policies on customer service interaction as well. Focus on Customer service vs. pushing products."
+                    "text": "The reviews for Chipotle, Advantage Sales & Marketing, and PSA Healthcare all mention a flexible schedule. The Vitamin Shoppe's review does not mention the timetable at all. That's why the correct answer is C.",
+                    "quote": ""
                 },
                 "q26": {
-                    "text": "The Vitamin Shoppe review mentions that the payment is above average. This supports the statement that the company has an above-average salary.",
+                    "text": "The employee review for The Vitamin Shoppe directly confirms this statement. The reviewer explicitly says that the pay is better than the average. That's why the correct answer is True.",
                     "quote": "Payment is above average."
                 },
                 "q27": {
-                    "text": "The Chipotle review says that the job pays the bills and makes the reviewer laugh. This indicates that working there is both fun and earns enough money.",
+                    "text": "The employee review for Chipotle states, \"It pays my bills and makes me laugh.\" This confirms that the job provides enough money and is also enjoyable. That's why the correct answer is True.",
                     "quote": "It pays my bills and makes me laugh."
                 },
                 "q28": {
-                    "text": "Advantage Sales & Marketing owns 65 offices in the US and Canada, not all over the world. The passage specifies the location of the offices.",
-                    "quote": "Owning more than 65 offices in the US and Canada"
+                    "text": "The passage specifies that the company's offices are located in the US and Canada, not all over the world. This contradicts the statement. That's why the correct answer is False.",
+                    "quote": ""
                 }
             }
         },
@@ -862,31 +862,31 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q29": {
-                    "text": "If an employee receives a 'final written warning', this means he will lose his job if his work does not get better. The text states that a final written warning informs the employee that they will be dismissed unless there are improvements.",
+                    "text": "The passage states that a final written warning is the last step before dismissal, informing the employee they will be dismissed if their performance doesn't improve. That's why the correct answer is 'final written warning'.",
                     "quote": "The last step is called a final written warning which will inform you that you will be dismissed unless there are improvements in performance."
                 },
                 "q30": {
-                    "text": "If an employee does not accept the reasons for his dismissal, a 'formal appeal hearing' can be arranged. The text mentions that the employee is given the opportunity to appear at a formal appeal hearing.",
+                    "text": "The text explains that when an employee disagrees with the reasons for their dismissal, they are given the chance to present their case at a special meeting. That's why the correct answer is 'formal appeal hearing'.",
                     "quote": "If the employee denies the charges, he is given the opportunity to appear at a formal appeal hearing in front of a different manager."
                 },
                 "q31": {
-                    "text": "'Summary dismissal' is when an employee is asked to leave work straight away because he has done something really bad. The text describes summary dismissal as occurring when an employee's behavior was illegal, dangerous, or severely wrong.",
+                    "text": "The passage describes summary dismissal as a procedure for when an employee's behavior is very serious, allowing the employer to dismiss them immediately. That's why the correct answer is B.",
                     "quote": "If the employer can prove that the employee's behaviour was illegal, dangerous or severely wrong, the employee can be dismissed immediately: a procedure known as summary dismissal."
                 },
                 "q32": {
-                    "text": "'Constructive dismissal' is when an employee is pressured to leave his job unless he accepts conditions that are very different from those agreed to in the beginning. The text explains that in constructive dismissal, the employee is forced into resigning by an employer who tries to make significant changes to the original contract.",
+                    "text": "Constructive dismissal is when an employer forces an employee to resign by making significant, unwanted changes to their original contract, such as changing work hours. That's why the correct answer is E.",
                     "quote": "In this case the employee is forced into resigning by an employer who tries to make significant changes to the original contract."
                 },
                 "q33": {
-                    "text": "'Wrongful dismissal' is when an employer gets rid of an employee without keeping to conditions in the contract. The text defines wrongful dismissal as involving a breach of contract by the employer.",
+                    "text": "The passage explains that a wrongful dismissal occurs when the employer breaks the terms of the employment contract, for example by not following the correct procedures. That's why the correct answer is D.",
                     "quote": "One of these types is wrongful dismissal and involves a breach of contract by the employer."
                 },
                 "q34": {
-                    "text": "'Unfair dismissal' is when the reason for an employee's dismissal is not considered good enough. The text states that unfair dismissal is when an employee is sacked without good cause.",
+                    "text": "The text directly defines unfair dismissal as a situation where an employee is fired without a valid or sufficient reason for doing so. That's why the correct answer is C.",
                     "quote": "Another type, unfair dismissal, is when an employee is sacked without good cause."
                 },
                 "q35": {
-                    "text": "'Fair dismissal' is when the reasons for an employee's dismissal are acceptable by law and the terms of the employment contract. The text describes a fair dismissal as legally and contractually strong.",
+                    "text": "The passage defines a fair dismissal as one that is legally sound, follows the contract, and uses all the correct procedures required by the employer. That's why the correct answer is A.",
                     "quote": "A fair dismissal is legally and contractually strong and it means all the necessary procedures have been correctly followed."
                 }
             }

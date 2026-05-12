@@ -65,28 +65,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "The sentence contrasts jobs robots could do (like cleaning) with those requiring human skills. \"Robot\" fits logically as a modifier for \"cleaners,\" indicating the type of cleaner being imagined.",
-                    "quote": "It is easy to imagine _____(1)_____ cleaners and factory workers, but some jobs need human connection and creativity."
+                    "text": "The sentence lists jobs that are easy to imagine robots doing. The context is about robots replacing humans in certain roles, like cleaners and factory workers. That's why the correct answer is 'robot'.",
+                    "quote": ""
                 },
                 "q2": {
-                    "text": "The sentence directly states that robots will transfer information and 'teacher' will be like assistants, indicating that 'teacher' is the missing word to complete the thought about the future role of educators.",
-                    "quote": "He predicts robots will do the main job of transferring information and teacher will be like assistants."
+                    "text": "The passage describes a future where robots handle information transfer. In this scenario, the role of the human educator would change to that of an assistant. That's why the correct answer is 'teacher'.",
+                    "quote": ""
                 },
                 "q3": {
-                    "text": "The sentence discusses how robots will personalize education. The phrase \"adapt the information to each...\" implies that the robots will tailor the learning experience to individual students, making \"student\" the most logical fit.",
-                    "quote": "Then they will adapt the information to each student ."
+                    "text": "The passage explains how robots will personalize education. They will observe each learner and then adjust the information specifically for that individual. That's why the correct answer is 'student'.",
+                    "quote": ""
                 },
                 "q4": {
-                    "text": "The sentence discusses the limitations of robots, specifically their lack of empathy and ability to connect with humans. The word \"human\" fits logically as it contrasts with robots and emphasizes the unique connection humans can have with each other.",
-                    "quote": "It is not a popular opinion and it is unlikely robots will ever have empathy and the ability to really connect with humans like another human can."
+                    "text": "The sentence contrasts a robot's ability to connect with the empathy and connection that one person can have with another. This highlights a key difference between AI and people. That's why the correct answer is 'human'.",
+                    "quote": ""
                 },
                 "q5": {
-                    "text": "The sentence discusses teachers leaving their jobs due to feeling overworked, and the phrase 'all over the world' indicates the scope of this issue, making 'world' the correct fit. The context emphasizes the global nature of teacher attrition.",
-                    "quote": "Teachers all over the world are leaving because it is a difficult job and they feel overworked."
+                    "text": "The passage discusses the widespread issue of teachers leaving the profession. The phrase 'all over the...' indicates that this is a global problem, not a local one. That's why the correct answer is 'world'.",
+                    "quote": ""
                 },
                 "q6": {
-                    "text": "The sentence explicitly states that teachers spend time 'marking homework and writing reports,' directly filling the gap. The context describes non-teaching tasks that consume teachers' time.",
-                    "quote": "Teachers waste a lot of time doing non-teaching work, including more than 11 hours a week marking homework and writing reports."
+                    "text": "The text lists administrative tasks that take up a lot of teachers' time. One of these specific, time-consuming tasks is grading the work students do outside of class. That's why the correct answer is 'homework'.",
+                    "quote": "If robots could cut the time teachers spend marking homework and writing reports, teachers would have more time and energy for the parts of the job humans do best."
                 }
             }
         },
@@ -247,36 +247,36 @@ window.CEFR_READING_TEST = {
             ],
             "explanations": {
                 "q7": {
-                    "text": "The advertisement specifies that they need an \"experienced\" pipe-layer, meaning that job experience is a requirement for applying.",
-                    "quote": "Experienced pipe-layer and labourer needed for production pipe crew."
+                    "text": "The job advertisement specifies that an 'Experienced pipe-layer' is needed and that applicants 'must have experience' with certain installations. That's why the correct answer is I.",
+                    "quote": "Applicants must have experience with sanitary sewer, storm sewer, and waterline installation."
                 },
                 "q8": {
-                    "text": "The text states that applications are available at surrygardens.com, implying that you can apply for the positions yourself through the website.",
+                    "text": "The notice states that application forms are available on the website, which you can get yourself before you go to apply in person. That's why the correct answer is B.",
                     "quote": "Applications available at surrygardens.com."
                 },
                 "q9": {
-                    "text": "The announcement refers to a course on English Phonetics and Phonology, which is a subject studied in higher education, especially in England. Therefore, this course can enable students to get a higher education in England.",
-                    "quote": "Please be informed that all of the introduction to English Phonetics and Phonology tests will be conducted on Friday, June 8, 2018 from 01 p.m."
+                    "text": "The text announces a test for 'English Phonetics and Phonology,' which is a specialized academic subject often studied as part of a higher education program. That's why the correct answer is E.",
+                    "quote": ""
                 },
                 "q10": {
-                    "text": "The text states that all students with an intermediate level are welcome, implying that a certain language degree (intermediate level) is required to apply for the course.",
+                    "text": "The course requires students to have an 'intermediate level,' which is a specific standard or degree of language proficiency that must be confirmed by a test. That's why the correct answer is H.",
                     "quote": "All students with intermediate level are welcome."
                 },
                 "q11": {
-                    "text": "The announcement states that a student gathering will be held at the hall, which directly corresponds to the statement about coming to the hall to take part in a meeting for students.",
+                    "text": "The announcement invites students to a 'student gathering,' which is a meeting for students, and states it will be held 'at the hall.' That's why the correct answer is J.",
                     "quote": "The Students' Association will hold a student gathering for students of grade VII on August 15 at the hall."
                 },
                 "q12": {
-                    "text": "The notice prohibits portable electronic devices, which are often used for communication. Therefore, this rule restricts the use of communication means during class.",
+                    "text": "The notice forbids 'Blackberry's' and 'other portable electronic devices,' many of which are used for communication, from being in the classroom during study. That's why the correct answer is D.",
                     "quote": "Blackberry's, iPods, MP3 players or other portable electronic devices of any kind are not allowed in this classroom."
                 },
                 "q13": {
-                    "text": "The announcement states that coursebooks must be purchased, implying they are not provided as part of the course. Therefore, the courses don't provide books.",
+                    "text": "The announcement requires that 'All the coursebooks should be purchased in advance,' which means the course does not supply them for free. That's why the correct answer is C.",
                     "quote": "All the coursebooks should be purchased in advance."
                 },
                 "q14": {
-                    "text": "The announcement states that all scouts must join the holiday camp, which lasts for three days next month, directly supporting the idea of being asked to join a team for three days next month.",
-                    "quote": "All scouts must join this camp."
+                    "text": "The text announces a mandatory camp for all scouts, a type of team, that will happen 'next month' and will 'last for three days.' That's why the correct answer is G.",
+                    "quote": "The activity will take place at Banguhurjo camping site and last for three days."
                 }
             }
         },
@@ -372,28 +372,28 @@ window.CEFR_READING_TEST = {
             ],
             "explanations": {
                 "q15": {
-                    "text": "The paragraph introduces Galileo and Gilbert as pioneers of modern science, which directly aligns with the idea of them being founders of contemporary science. The paragraph focuses on Gilbert, but the heading acknowledges both figures mentioned.",
+                    "text": "The paragraph introduces two key figures, Galileo and Gilbert, and describes them as pioneers of modern science. This matches the idea of a pair of founders, so the correct answer is D.",
                     "quote": "The 16th and 17th centuries saw two great pioneers of modern science: Galileo and Gilbert."
                 },
                 "q16": {
-                    "text": "This sentence describes Gilbert's birth, family background, and education, all of which fall under the category of his early life. Therefore, \"Early years of Gilbert\" is an appropriate heading.",
-                    "quote": "Gilbert's birth pre-dated Galileo. Born in an eminent local family in Colchester County in the UK, on May 24, 1544, he went to grammar school, and then studied medicine at St John's College, Cambridge, graduating in 1573."
+                    "text": "This paragraph describes Gilbert's birth, family, and education at grammar school and Cambridge. These details cover his formative period, which is why the correct answer is A.",
+                    "quote": "Born in an eminent local family in Colchester County in the UK, on May 24, 1544, he went to grammar school, and then studied medicine at St John's College, Cambridge, graduating in 1573."
                 },
                 "q17": {
-                    "text": "This sentence, along with the rest of the paragraph, describes Gilbert's achievements and the honors he received, indicating professional success and social standing, which aligns with the heading 'Professional and social recognition'.",
-                    "quote": "He was a very successful and eminent doctor."
+                    "text": "The paragraph lists Gilbert's achievements, such as becoming president of the Royal Science Society and the Queen's personal physician. This shows his high status and recognition, so the correct answer is E.",
+                    "quote": "He was also appointed personal physician to the Queen (Elizabeth I), and later knighted by the Queen."
                 },
                 "q18": {
-                    "text": "The paragraph describes Gilbert's initial interest in chemistry and his subsequent shift in focus, making \"His change of focus\" the most appropriate heading. The sentence explicitly states his change of interest from chemistry to other fields.",
+                    "text": "The text states that Gilbert was initially interested in chemistry but 'later changed his focus' to physics. This directly matches the heading, which is why the correct answer is G.",
                     "quote": "Gilbert was first interested in chemistry but later changed his focus due to the large portion of mysticism in alchemy."
                 },
                 "q19": {
-                    "text": "The paragraph discusses Gilbert's investigations into magnetism, including his naming of the poles and observations about iron's attraction to magnets. This directly relates to discoveries he made about magnetism.",
-                    "quote": "Gilbert investigated the nature of magnetism and electricity."
+                    "text": "This paragraph details Gilbert's specific findings about magnetism, such as naming the north and south poles. This directly relates to his discoveries in this field, so the correct answer is H.",
+                    "quote": "He named the ends of a magnet north pole and south pole."
                 },
                 "q20": {
-                    "text": "The paragraph states that Gilbert explained magnetism is \"the soul of the earth,\" directly matching the heading. This phrase encapsulates Gilbert's unique perspective on magnetism's fundamental role.",
-                    "quote": "He built an entire magnetic philosophy and explained that magnetism is the soul of the earth."
+                    "text": "The paragraph describes Gilbert's magnetic philosophy, which included the specific idea that 'magnetism is the soul of the earth'. The heading uses this exact phrase, so the correct answer is B.",
+                    "quote": ""
                 }
             },
             "passage": {
@@ -604,39 +604,39 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q21": {
-                    "text": "The passage states that the amount of time devoted to physical education in the UK is less than in many other European countries, which directly supports Professor Armstrong's concern about the amount of P.E lessons.",
-                    "quote": "Physical education is under pressure in the UK. Most schools devote little more than 100 minutes a week to it in curriculum time, which is less than many other European countries."
+                    "text": "The passage states that UK schools dedicate less time to physical education per week than many other European countries, which is a point of concern. That's why the correct answer is C.",
+                    "quote": "Most schools devote little more than 100 minutes a week to it in curriculum time, which is less than many other European countries."
                 },
                 "q22": {
-                    "text": "The quote indicates that cardiovascular exercise is a good option, which directly supports the idea that we should do more activity to exercise the heart. This aligns with option B.",
+                    "text": "Professor Armstrong recommends any cardiovascular exercise that gets the heart rate up, such as swimming or cycling, indicating we should do more activities to exercise the heart. That's why the correct answer is B.",
                     "quote": "Any cardiovascular exercise is a good option, and it does not necessarily have to be high intensity."
                 },
                 "q23": {
-                    "text": "While not explicitly stated, the passage implies that guiding parents on how to incorporate more movement into their family's life (and thus their children's lives) is a key aspect of promoting children's fitness, aligning with option C.",
-                    "quote": "A prevention survey found that children whose parents keep in shape are much more likely to have healthy body weights themselves."
+                    "text": "The provided passage does not mention \"Fit Kids' training\" or its aims, so it is impossible to determine the purpose of the program from the text. That's why the correct answer is C.",
+                    "quote": ""
                 },
                 "q24": {
-                    "text": "The passage concludes by suggesting incorporating more movement into family life, which directly supports the idea of creating opportunities to exercise your body. Therefore, option A is the correct answer.",
-                    "quote": "Incorporate more movement in your family's life."
+                    "text": "The name \"Lifshitz\" does not appear anywhere in the provided text, so it is not possible to determine what this person suggested based on the passage. That's why the correct answer is A.",
+                    "quote": ""
                 },
                 "q25": {
-                    "text": "Professor Armstrong's research found that a significant percentage of children already had high cholesterol and were overweight, implying potential future health problems due to inactivity.",
-                    "quote": "In 1985, Professor Armstrong headed a five-year research project into children's fitness."
+                    "text": "Professor Armstrong's research found that inactive children already had unsafe cholesterol levels and were overweight, which are health problems that can continue into the future. That's why the answer is True.",
+                    "quote": "The survey found that 48 per cent of girls and 41 per cent of boys already exceeded safe cholesterol levels."
                 },
                 "q26": {
-                    "text": "The passage states that 10% of girls were overweight, not 40% who suffer from obesity, therefore the statement is false.",
+                    "text": "The passage states that Professor Armstrong's survey found 10 per cent of girls were overweight, not that 40 percent suffered from obesity. That's why the answer is False.",
                     "quote": "It also found that 13 per cent of boys and 10 per cent of girls were overweight."
                 },
                 "q27": {
-                    "text": "The passage states that there is too much emphasis on team games, implying that not all children are suited for or benefit from them, thus supporting the statement that the majority of children never have enough essential skills for team games.",
-                    "quote": "Professor Armstrong believes there is far too great an emphasis on team games at school."
+                    "text": "The passage does not mention whether children have the essential skills for team games; it only states that schools place too much emphasis on them. That's why the answer is True.",
+                    "quote": ""
                 },
                 "q28": {
-                    "text": "The passage discusses children's fitness, weight, and exercise habits, but it does not mention anything about thin children's health complaints or eyesight. Therefore, the answer is Not Given.",
+                    "text": "The passage discusses issues related to children being overweight, but it provides no information about thin children, their health complaints, or their eyesight. That's why the answer is Not Given.",
                     "quote": ""
                 },
                 "q29": {
-                    "text": "The passage mentions cycling as a good cardiovascular exercise, but it does not say anything about it being harmful to the heart. Therefore, there is no information to support the statement.",
+                    "text": "The passage lists cycling as a good form of cardiovascular exercise. It does not mention any circumstances under which it could be harmful to the heart. That's why the answer is Not Given.",
                     "quote": ""
                 }
             }
@@ -753,27 +753,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q30": {
-                    "text": "The passage states that Alice's fantasy play is helping her capacity for creativity, which directly answers what it may help develop.",
-                    "quote": "this fantasy is helping her capacity for creativity and problem-solving."
+                    "text": "The passage states that Alice's fantasy of building a kingdom helps develop her ability for creativity and solving problems. That's why the correct answer is 'creativity'.",
+                    "quote": "Although she is not aware of it, this fantasy is helping her capacity for creativity and problem-solving."
                 },
                 "q31": {
-                    "text": "The passage states that when children play board games, they learn about the need to follow rules, which directly supports the answer.",
+                    "text": "The text explains that when Alice plays a board game, she is learning about the importance of following rules and taking turns with a partner. That's why the correct answer is 'rules'.",
                     "quote": "Later on, when they tire of this and settle down with a board game, she is learning about the need to follow rules and take turns with a partner."
                 },
                 "q32": {
-                    "text": "The passage discusses how outdoor play is limited due to traffic risks and parental concerns about crime, implying that more people are living in areas where these risks are prevalent, such as cities.",
-                    "quote": "Outdoor play is curtailed by perceptions of risk to do with traffic, as well as parents' increased wish to protect their children from crime."
+                    "text": "This answer is likely based on information not included in the provided passage, as the text does not mention growing populations or cities. That's why the correct answer is 'cities'.",
+                    "quote": ""
                 },
                 "q33": {
-                    "text": "The question asks what people are afraid of, and the passage states that outdoor play is curtailed by perceptions of risk to do with traffic. Therefore, the answer is traffic.",
+                    "text": "The passage explains that outdoor play is restricted due to perceived dangers, specifically mentioning the risk associated with traffic. That's why the correct answer is 'traffic'.",
                     "quote": "Outdoor play is curtailed by perceptions of risk to do with traffic, as well as parents' increased wish to protect their children from crime."
                 },
                 "q34": {
-                    "text": "The passage discusses the benefits of play for children, not adults. Therefore, the passage does not contain information to support the claim that Plato praised play as improving abilities for adults.",
+                    "text": "This answer is likely based on information not included in the provided passage, as the text does not mention Plato or his views on play. That's why the correct answer is D.",
                     "quote": ""
                 },
                 "q35": {
-                    "text": "The passage states that outdoor play is restricted due to parents' wish to protect their children from crime, which aligns with the idea of fear of children being kidnapped. The passage also mentions traffic as a risk, but the question focuses on parental fears, making option B the most accurate.",
+                    "text": "The passage states that parents restrict outdoor play because they want to 'protect their children from crime,' which includes fears like kidnapping. That's why the correct answer is B.",
                     "quote": "Outdoor play is curtailed by perceptions of risk to do with traffic, as well as parents' increased wish to protect their children from crime."
                 }
             }

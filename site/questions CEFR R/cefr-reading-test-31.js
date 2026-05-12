@@ -77,28 +77,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "The sentence directly states that countries don't want 'the _____ to become too warm,' and the passage is about the Earth's temperature increasing, making 'Earth' the correct fit. The subsequent sentence discusses limiting how much 'the _____' increases, further solidifying 'Earth' as the subject.",
-                    "quote": "Many countries do not want the Earth to become too warm."
+                    "text": "The passage begins by stating that the Earth's temperature is rising. It logically follows that countries do not want the Earth to become too warm. That's why the correct answer is 'Earth'.",
+                    "quote": "The Earth's temperature is increasing."
                 },
                 "q2": {
-                    "text": "The sentence discusses countries trying to prevent something from becoming 'too warm,' and the passage's initial statement is that 'The Earth's temperature is increasing,' making 'temperature' the logical fit.",
-                    "quote": "Many countries do not want the _____(1)_____ to become too warm."
+                    "text": "The passage states that the Earth's temperature is increasing. To prevent the Earth from getting too warm, countries have set a goal to limit this increase. That's why the correct answer is 'temperature'.",
+                    "quote": "The Earth's temperature is increasing."
                 },
                 "q3": {
-                    "text": "The passage states that the aviation industry produces carbon dioxide, and this sentence directly refers to that gas, so 'greenhouse' is the correct descriptor as carbon dioxide is a greenhouse gas.",
-                    "quote": "This is a _____(3)_____ gas."
+                    "text": "The text explains that burning fossil fuels releases greenhouse gases. Since airplanes produce carbon dioxide by burning these fuels, carbon dioxide is a type of greenhouse gas. That's why the correct answer is 'greenhouse'.",
+                    "quote": "Burning fossil fuels releases greenhouse gases."
                 },
                 "q4": {
-                    "text": "The sentence directly states that emissions released by something will increase, and the surrounding context discusses the aviation industry and airplanes' contribution to greenhouse gas emissions. Therefore, 'airplanes' logically fits the blank.",
-                    "quote": "Scientists predict that the total greenhouse gas emissions released by _____(4)_____ will increase."
+                    "text": "The passage discusses emissions from the aviation industry. It then explains that these emissions will increase because more people are traveling by air, which is done on airplanes. That's why the correct answer is 'airplanes'.",
+                    "quote": "That's because more people are traveling by air."
                 },
                 "q5": {
-                    "text": "\"Another\" fits grammatically and logically in the sentence, as the passage is discussing multiple options for reducing greenhouse gas emissions in the aviation industry, and this is presented as a subsequent possibility after flying less and making more efficient airplanes.",
+                    "text": "The text lists several ways for the aviation industry to reduce emissions. It starts with \"One way,\" then \"Another one,\" so the next item in the list logically begins with \"Another.\" That's why the correct answer is 'Another'.",
                     "quote": "Another one is to make more efficient airplanes."
                 },
                 "q6": {
-                    "text": "The sentence directly states that planes could use a 'fuel' that doesn't produce greenhouse gases, making 'fuel' the correct fit for the gap. The surrounding context discusses alternative energy sources for airplanes.",
-                    "quote": "Instead of fossil fuels, planes could use a fuel that does not produce greenhouse gases when used."
+                    "text": "The sentence presents an alternative to fossil fuels. Since fossil fuels are a type of fuel, the alternative being discussed is also a type of fuel. That's why the correct answer is 'fuel'.",
+                    "quote": "The last option is to switch the fuel used by airplanes."
                 }
             }
         },
@@ -259,35 +259,35 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q7": {
-                    "text": "The text explicitly states that the school is for girls, indicating it is suitable for one gender only. This directly supports statement B.",
+                    "text": "The text specifies that this is a school 'for girls', which means it is only suitable for one gender. That's why the correct answer is B.",
                     "quote": "Independent Boarding School and Day School for girls aged 11-18 years."
                 },
                 "q8": {
-                    "text": "The text explicitly mentions \"Language courses abroad\", indicating the opportunity to study languages in a foreign country, which aligns with the statement's desire to study languages out of the country.",
-                    "quote": "Language courses abroad for business or pleasure, all ages including French for juniors in Montpellier."
+                    "text": "The advertisement is for language courses 'in Europe' and 'abroad', which means you would be studying in a different country. That's why the correct answer is F.",
+                    "quote": ""
                 },
                 "q9": {
-                    "text": "The phrase \"taught in small groups\" directly supports the statement that the school has no big classes. The phrase \"focused environment\" supports the statement that it helps them to keep focus.",
-                    "quote": "students come because they want to be taught in small groups, receive more individual attention, and study in a mature, supportive and focused environment."
+                    "text": "The text states that students are taught in 'small groups' to help them study in a 'focused environment', which means the classes are not large. That's why the correct answer is D.",
+                    "quote": ""
                 },
                 "q10": {
-                    "text": "The text explicitly mentions 'Language courses abroad,' indicating opportunities to study languages in another country, which aligns with wanting to know more about such courses.",
-                    "quote": "Language courses abroad: holidays, revision courses, gap year and more programmes."
+                    "text": "The advertisement invites you to 'call or email for a free brochure' to get more information about their language courses. That's why the correct answer is H.",
+                    "quote": "Call or email for a free brochure."
                 },
                 "q11": {
-                    "text": "The phrase \"11+ a popular entry point\" directly indicates that many children join the school after the age of 11, supporting statement C.",
+                    "text": "The text says that '11+ a popular entry point', meaning that many children join the school at the age of 11. That's why the correct answer is C.",
                     "quote": "11+ a popular entry point."
                 },
                 "q12": {
-                    "text": "The phrase 'beautiful Peak District setting' indicates a nice district, and 'excellent sport, music, drama, art' shows a good variety of subjects.",
-                    "quote": "Happy family atmosphere, outstanding academic record, beautiful Peak District setting, excellent sport, music, drama, art."
+                    "text": "The school is located in the 'beautiful Peak District setting' and offers a variety of subjects including 'sport, music, drama, art'. That's why the correct answer is E.",
+                    "quote": ""
                 },
                 "q13": {
-                    "text": "This quote directly addresses the development of a child's talents, aligning with the statement about a daughter wanting to master her talent. The text suggests the school can help nurture and improve existing skills.",
-                    "quote": "with dedicated professional staff and superb facilities, the schools are confident they can develop your child's talents."
+                    "text": "The text states that the school is confident it can 'develop your child's talents', which is ideal for a student who wants to master a skill. That's why the correct answer is A.",
+                    "quote": ""
                 },
                 "q14": {
-                    "text": "The text explicitly states that sports scholarships are available, meaning the school provides financial aid (pays) for excelling in a particular skill (sports).",
+                    "text": "The school offers 'sports scholarships', which is a form of payment or financial aid given to students for a particular skill. That's why the correct answer is I.",
                     "quote": "Sports scholarships available."
                 }
             }
@@ -419,28 +419,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q15": {
-                    "text": "This sentence indicates that rice has cultural significance beyond just being a food source. The paragraph then provides examples of these traditions.",
+                    "text": "The paragraph discusses how rice is used in cultural traditions and ceremonies, such as weddings and temple offerings. This shows its importance goes beyond simple nutrition, which is why the correct answer is E.",
                     "quote": "Over the centuries, rice has become a part of the traditions of many cultures."
                 },
                 "q16": {
-                    "text": "The paragraph describes the straightforward steps for cooking rice, indicating its simplicity. Therefore, \"Simple to prepare\" accurately reflects the paragraph's content.",
+                    "text": "This paragraph gives a straightforward, step-by-step guide on how to cook rice. The instructions show that the process is not complicated, which is why the correct answer is B.",
                     "quote": "The basic recipe for cooking rice is easy."
                 },
                 "q17": {
-                    "text": "This sentence directly states that in Chinese, the word for rice and food are the same, making \"Synonymous to food\" the most fitting heading. It highlights the close relationship between rice and the concept of food in a specific culture.",
+                    "text": "The paragraph states that rice is the main food for over half the world's population and points out that in Chinese, the word for 'rice' is the same as 'food'. This is why the correct answer is G.",
                     "quote": "In Chinese, the word for rice is the same as the word for food."
                 },
                 "q18": {
-                    "text": "The paragraph discusses the health benefits of rice, such as being low in sodium, cholesterol, and fat, and rich in vitamins and minerals. This supports the idea that rice is \"Good for everyone\" due to its nutritional value.",
+                    "text": "This paragraph details the nutritional benefits of rice, mentioning it has no sodium or cholesterol and contains important vitamins and minerals. This makes it a healthy option, which is why the correct answer is D.",
                     "quote": "Many people consider rice to be one of the healthiest possible food choices."
                 },
                 "q19": {
-                    "text": "The paragraph describes rice cultivation starting in a specific location (China) and then spreading worldwide, which directly supports the idea of something going from local to global.",
-                    "quote": "It was first grown in China, and then introduced to India. Over the centuries the practice of growing rice has spread globally."
+                    "text": "The paragraph describes the history of rice, explaining that it was first grown in one place, China, and then its cultivation spread around the world over time. This is why the correct answer is C.",
+                    "quote": "Over the centuries the practice of growing rice has spread globally."
                 },
                 "q20": {
-                    "text": "This sentence directly supports the heading because it highlights the versatility of rice, indicating its use in numerous dishes. The paragraph then provides examples of this adaptability across different cuisines.",
-                    "quote": "One of the amazing things about rice is how adaptable it is."
+                    "text": "This paragraph highlights how adaptable rice is, giving examples of its use in a wide variety of meals across different cultures, from regional dishes to sushi. This is why the correct answer is A.",
+                    "quote": ""
                 }
             }
         },
@@ -621,39 +621,39 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q21": {
-                    "text": "The passage states that climate breakdown will 'hit global economic growth,' meaning it will negatively affect economies. This directly supports option C.",
+                    "text": "The passage states that physical shocks resulting from climate change are expected to reduce global economic growth by a third, which is a significant negative effect. That's why the correct answer is C.",
                     "quote": "The physical shocks caused by climate breakdown will hit global economic growth by a third, according to a risk assessment by a network of central banks."
                 },
                 "q22": {
-                    "text": "The passage states that the floods in Valencia were 'devastating', caused business losses of over €10bn, and killed more than 200 people, indicating a severe humanitarian and economic disaster.",
+                    "text": "The passage mentions that the floods in Valencia resulted in over 200 deaths and business losses exceeding €10 billion, indicating both a severe humanitarian and economic impact. That's why the correct answer is C.",
                     "quote": "The report was published as the business losses alone from the devastating floods in Valencia, which killed more than 200 people, were calculated at well over €10bn."
                 },
                 "q23": {
-                    "text": "Sandy Trust is one of the experts mentioned in the passage who believes the analysis underestimates the impact of climate breakdown on economic growth, which supports option B.",
-                    "quote": "Despite the increase in risk to global economies, some experts say the analysis is a huge underestimate of the impact climate breakdown will wreak on economic growth."
+                    "text": "Sandy Trust argues that the report is a \"huge underestimate\" because it fails to include several critical factors, implying the real negative consequences of climate change will be much worse. That's why the correct answer is B.",
+                    "quote": "Sandy Trust, an actuary who works on sustainability and the climate crisis, said the small print in the report revealed they had failed to take in to account the impact of climate tipping points, sea temperature rises, migration and conflict as a result of global heating, human health impacts or biodiversity loss."
                 },
                 "q24": {
-                    "text": "The quote indicates that global heating, along with other factors like migration and conflict, which are consequences of global heating, leads to impacts not accounted for in the report, implying major economic changes as the report assesses economic risks.",
-                    "quote": "Trust said the small print in the report revealed they had failed to take in to account the impact of climate tipping points, sea temperature rises, migration and conflict as a result of global heating, human health impacts or biodiversity loss."
+                    "text": "The passage is focused on the economic consequences of global heating, stating that shocks from climate breakdown will reduce global economic growth by a third. That's why the correct answer is D.",
+                    "quote": "The physical shocks caused by climate breakdown will hit global economic growth by a third, according to a risk assessment by a network of central banks."
                 },
                 "q25": {
-                    "text": "The passage states that the Network for Greening the Financial System is a \"membership body of global banks and financial organisations,\" which means it is comprised of these entities, thus the statement is true.",
+                    "text": "The passage describes the NGFS as a \"membership body of global banks and financial organisations,\" indicating its central role and close relationship with these institutions. That's why the correct answer is True.",
                     "quote": "The Network for Greening the Financial System, a membership body of global banks and financial organisations, said in a report this week that the huge increase in the risk from physical shocks to the economy marked a considerable change in the overall severity of the damage caused."
                 },
                 "q26": {
-                    "text": "The passage states that the NGFS foresees more than 30% losses due to the climate crisis, not that climate change reduces by 30%. Therefore, the statement is false.",
+                    "text": "The passage states the NGFS predicts \"more than 30% losses due to climate crisis,\" not a 30% reduction in climate change itself. The percentage refers to economic losses. That's why the correct answer is False.",
                     "quote": "Its update on climate risks using the new methodology foresees more than 30% losses due to climate crisis by 2100 from a 3C rise in global average surface temperatures."
                 },
                 "q27": {
-                    "text": "The quote directly states that the economic effects of climate change could be more severe than previously thought if certain tipping points are reached, supporting the 'True' answer.",
+                    "text": "The text explicitly warns that the economic effects could be \"even more severe\" than currently predicted if certain critical \"tipping points are reached.\" That's why the correct answer is True.",
                     "quote": "It cannot be excluded that the economic effects of climate change might turn out to be even more severe than visualised under the NGFS scenarios, for instance, if certain tipping points are reached."
                 },
                 "q28": {
-                    "text": "The passage states that the Network for Greening the Financial System (a group of global banks and financial organizations) issued a report, implying they have issued reports before. Therefore, the statement that they had never predicted effects of climate change is false.",
-                    "quote": "The Network for Greening the Financial System, a membership body of global banks and financial organisations, said in a report this week that the huge increase in the risk from physical shocks to the economy marked a considerable change in the overall severity of the damage caused."
+                    "text": "The passage states that the estimated damage from climate change has increased from a previous figure of about 6% to 33%, which shows a prior prediction existed. That's why the correct answer is False.",
+                    "quote": "Trust said this was a massive one-third hit from physical damage on GDP and had increased more than five times from about 6% to 33%."
                 },
                 "q29": {
-                    "text": "The passage states that the new climate modelling was a result of shocks from flooding, droughts, and temperature rises, which are all major ecological disasters. Therefore, the statement is true.",
+                    "text": "The text directly states that the new climate modelling was the result of assessing shocks from ecological disasters like flooding, droughts, and extreme weather. That's why the correct answer is True.",
                     "quote": "The rise in the estimated hit to the world's economies as a result of the shocks from flooding, droughts, temperature rises, and mitigating and adapting to extreme weather was the result of new climate modelling published this year."
                 }
             }
@@ -778,27 +778,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q30": {
-                    "text": "The passage states that lapis lazuli was \"more precious than gold\", meaning that gold was not as valuable as the pigment.",
+                    "text": "The passage directly compares the value of lapis lazuli to gold, stating that the blue stone was considered 'more precious'. This means gold was less valuable, so that's why the correct answer is 'Gold'.",
                     "quote": "Results showed the blue specks were lazurite, the blue portion of lapis lazuli stone, a substance more precious than gold in Medieval Europe."
                 },
                 "q31": {
-                    "text": "The passage states that preparing the pigment from lapis lazuli required \"great skill\", which directly supports the answer.",
+                    "text": "The passage explains that after sourcing the stone from Afghanistan, turning it into a pigment was a difficult process. It states that this preparation 'took great skill', so that's why the correct answer is 'skill'.",
                     "quote": "Afghanistan was the only source of the stone at the time, and preparing the pigment took great skill."
                 },
                 "q32": {
-                    "text": "The passage states that the woman likely used her lips to \"make a fine point on the end of her brush\", which directly supports the answer 'point'.",
+                    "text": "The passage suggests the woman was an artist. It describes how she might have gotten the pigment on her teeth by using her lips 'to make a fine point on the end of her brush', so that's why the correct answer is 'point'.",
                     "quote": "The most likely explanation is that this woman was an artist who repeatedly used her lips to make a fine point on the end of her brush in order to paint intricate details on manuscripts."
                 },
                 "q33": {
-                    "text": "The passage states that women were involved in the production of books, and the preceding sentences describe how the woman likely painted intricate details on manuscripts.",
-                    "quote": "This finding suggests that women were more involved in the production of books throughout the Middle Ages than tends to be thought."
-                },
-                "q34": {
-                    "text": "The passage suggests B78 was an artist painting intricate details, implying a job requiring fine motor skills rather than physical labor, thus supporting option B.",
+                    "text": "The passage explains that the woman was likely an artist who painted detailed work. The text specifies she was painting these details on 'manuscripts', which were medieval books, so that's why the correct answer is 'manuscripts'.",
                     "quote": "The most likely explanation is that this woman was an artist who repeatedly used her lips to make a fine point on the end of her brush in order to paint intricate details on manuscripts."
                 },
+                "q34": {
+                    "text": "The passage does not directly state this. However, it suggests she was an artist working on manuscripts, a skilled profession that was not physically demanding compared to other forms of labour at the time. That's why the correct answer is B.",
+                    "quote": ""
+                },
                 "q35": {
-                    "text": "The quote directly addresses the problem of artists being 'invisible' in historical records because they rarely signed their work, which supports the idea that there is a lack of evidence for their contribution to books.",
+                    "text": "The final paragraph states that artists from this period are 'largely invisible' in historical records. This is because they did not often sign their work, creating a lack of evidence for their contributions, so that's why the correct answer is D.",
                     "quote": "Additionally, artists are largely invisible in both historical and archaeological records, as they rarely signed their work before the 15th century."
                 }
             }

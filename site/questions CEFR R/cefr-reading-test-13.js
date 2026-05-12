@@ -65,28 +65,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "The sentence contrasts \"obvious\" factors with \"less...factors\", indicating that the missing word should be the opposite of 'less', which is 'obvious'. The passage goes on to explain that these less obvious factors can be even more important.",
+                    "text": "The passage first mentions factors that are 'obvious,' like medical care. It then contrasts these with other factors that are 'less' so, creating a direct comparison. That's why the correct answer is 'obvious'.",
                     "quote": "Some of these are obvious, like the medical care they receive."
                 },
                 "q2": {
-                    "text": "The sentence introduces and defines 'social determinants of health,' making 'social' the correct word to fill the gap. The passage goes on to provide examples of these determinants.",
-                    "quote": "Social determinants of health are the non-medical factors that impact our well-being."
+                    "text": "The passage defines a category of non-medical factors that affect health. A later sentence explicitly uses the full term for these factors, confirming the missing word. That's why the correct answer is 'social'.",
+                    "quote": "Research shows that social determinants of health have a big effect on our health."
                 },
                 "q3": {
-                    "text": "The sentence directly states that social determinants of health contribute to \"health inequities.\" The surrounding context discusses the impact of social factors on well-being and disparities in health outcomes, making \"health\" the most logical and fitting word.",
-                    "quote": "They also contribute to health inequities."
+                    "text": "The entire paragraph discusses how social factors impact health. The sentence just before this gap states they have a 'big effect on our health,' so it logically follows they contribute to inequities in health. That's why the correct answer is 'health'.",
+                    "quote": "Research shows that social determinants of health have a big effect on our health."
                 },
                 "q4": {
-                    "text": "The sentence directly compares people with \"_____(4)_____ education\" to those with \"less education,\" indicating that the missing word contrasts with 'less'. The passage also states that 'getting more education leads to better employment, higher income, and access to healthcare', implying that 'more' is the correct answer.",
-                    "quote": "So, people with _____(4)_____ education tend to have higher life expectancies than people with less education."
+                    "text": "The text explains that increased education leads to better jobs and healthcare, which improve health. This directly supports the conclusion that people with 'more' education live longer than those with less. That's why the correct answer is 'more'.",
+                    "quote": "For example, getting more education leads to better employment, higher income, and access to healthcare."
                 },
                 "q5": {
-                    "text": "The sentence directly states that \"more education is associated with longer lives,\" making \"education\" the correct fit for the gap. The surrounding context discusses the link between education and health outcomes.",
-                    "quote": "We knew from other studies that more education is associated with longer lives."
+                    "text": "The previous sentence establishes a clear link between having 'more education' and living longer. This sentence restates that known connection before introducing the new study. That's why the correct answer is 'education'.",
+                    "quote": ""
                 },
                 "q6": {
-                    "text": "The sentence directly states \"a lower mortality risk means a higher chance of a long life,\" making \"risk\" the only logical and grammatically correct answer. The surrounding context discusses mortality and its relationship to life expectancy.",
-                    "quote": "Of course, everyone still dies, but a lower mortality risk means a higher chance of a long life."
+                    "text": "The sentence just before this one asks how education can lower a person's 'risk of death.' This sentence rephrases that same idea, using 'mortality' as another word for death. That's why the correct answer is 'risk'.",
+                    "quote": "In other words, how does education lower a person’s risk of death?"
                 }
             }
         },
@@ -247,36 +247,36 @@ window.CEFR_READING_TEST = {
             ],
             "explanations": {
                 "q7": {
-                    "text": "The phrase \"Save up to 60%\" directly indicates a discount being offered, which aligns with the statement that the reader is looking for a discount.",
-                    "quote": "Save up to 60%."
+                    "text": "The advertisement offers \"Massive Savings\" and a chance to \"Save up to 60%\", which means you can get a discount on the furniture. That's why the correct answer is I.",
+                    "quote": "Massive Savings on Quality Teak Garden Furniture. Save up to 60%."
                 },
                 "q8": {
-                    "text": "The advertisement directly asks if the reader needs extra room, which aligns perfectly with statement E.",
-                    "quote": "NEED AN EXTRA ROOM?"
+                    "text": "The advertisement asks if you \"NEED AN EXTRA ROOM?\" and describes beds that \"FOLD AWAY\". This creates more usable space in a room. That's why the correct answer is E.",
+                    "quote": ""
                 },
                 "q9": {
-                    "text": "The text explicitly mentions furniture made from \"solid cherry,\" directly fulfilling the desire for something made from cherry wood.",
+                    "text": "The advertisement describes the dining room furniture as being made from \"solid cherry\". This directly matches the desire for something made from cherry wood. That's why the correct answer is A.",
                     "quote": "Chippendale style dining room furniture in solid cherry."
                 },
                 "q10": {
-                    "text": "The text explicitly mentions 'Wine Storage Cabinets,' indicating a product designed for storing wine, which aligns with the desire to store high-quality drinks.",
+                    "text": "The product advertised is a \"Wine Storage Cabinet\". Wine is a type of high-quality drink that needs to be stored carefully. That's why the correct answer is F.",
                     "quote": "Wine Storage Cabinets."
                 },
                 "q11": {
-                    "text": "The text describes a product that can be enjoyed by oneself or with family, implying relaxation and enjoyment, and Jacuzzis are used for cleaning and relaxation.",
+                    "text": "A Jacuzzi is a type of hot tub used for relaxing and bathing, which gets you clean. The ad says the \"whole family\" can enjoy it. That's why the correct answer is B.",
                     "quote": "Alone or with the whole family, everyone will enjoy the Jacuzzi experience."
                 },
                 "q12": {
-                    "text": "Cutlery is used to set the table for eating, so this text matches the statement about setting the table.",
+                    "text": "The advertisement is for \"Cutlery\", which includes items like knives, forks, and spoons. These are the items you use to set a table for a meal. That's why the correct answer is H.",
                     "quote": "Finest British Stainless Steel Cutlery at Exceptional Value."
                 },
                 "q13": {
-                    "text": "The text explicitly mentions 'Custom Installation Dealers,' indicating that these dealers will set up entertainment systems for customers.",
+                    "text": "The website helps you find \"Custom Installation Dealers\" for home entertainment systems like \"Hi-Fi\" and \"Home Cinema\". This means they will set up the equipment for you. That's why the correct answer is C.",
                     "quote": "Looking for the best Hi-Fi, Home Cinema or Custom Installation Dealers?"
                 },
                 "q14": {
-                    "text": "This phrase indicates that the company offers bookcases in various sizes, whether large or small, and that they are specifically for books.",
-                    "quote": "Made to measure or free standing bookcases"
+                    "text": "The company makes \"bookcases\" specifically for storing books. They can be \"Made to measure or free standing,\" meaning you can get them in different sizes. That's why the correct answer is J.",
+                    "quote": ""
                 }
             }
         },
@@ -407,27 +407,27 @@ window.CEFR_READING_TEST = {
             ],
             "explanations": {
                 "q15": {
-                    "text": "This sentence directly states that rivers are crucial for human existence, which aligns with the idea that they 'sustain life'. The paragraph then provides examples of how rivers support life through water, irrigation, transportation, and ecosystems.",
+                    "text": "The paragraph describes how rivers provide essential resources like fresh water for drinking and farming, and are the foundation for cities and ecosystems. This shows how they support life, so the correct answer is D.",
                     "quote": "Rivers have been essential to human life since the beginning of civilization."
                 },
                 "q16": {
-                    "text": "This sentence directly states the Nile's fundamental importance to ancient Egyptian civilization, acting as its lifeline. The paragraph then elaborates on how the Nile provided essential resources and influenced their culture.",
+                    "text": "This paragraph explains that the Nile River was the \"backbone\" of ancient Egypt, providing everything the civilization needed to survive and thrive, from water and food to transportation. That's why the correct answer is H.",
                     "quote": "It was the backbone of one of the greatest civilizations in history: ancient Egypt."
                 },
                 "q17": {
-                    "text": "This sentence directly states that the annual flooding results in rich agricultural soil, which is farmland. Therefore, the heading 'Flooding creates farmland' accurately summarizes the main idea of the paragraph.",
+                    "text": "The paragraph explains how the yearly flooding of the Nile deposits fertile silt on the land, creating rich soil that Egyptian farmers have used for agriculture for thousands of years. That's why the correct answer is C.",
                     "quote": "The annual flooding of the river creates rich agricultural soil, ideal for growing wheat and flax and other crops."
                 },
                 "q18": {
-                    "text": "This sentence directly connects the Mississippi River to famous literary works, indicating its role as a source of literary inspiration. The mention of Mark Twain's novels immediately establishes this link.",
+                    "text": "The paragraph begins by stating that people's first thought of the Mississippi River is often of Mark Twain's famous books, showing its role in inspiring well-known literature. That's why the correct answer is B.",
                     "quote": "When people think of the Mississippi River, their first thought is usually of Mark Twain and the adventures of Tom Sawyer and Huck Finn."
                 },
                 "q19": {
-                    "text": "This sentence directly indicates environmental damage (pollution) caused by heavy traffic and industry, which are consequences of economic growth and development along the Yangtze River. Therefore, the heading 'Growth brings environmental damage' accurately reflects the paragraph's content.",
+                    "text": "The paragraph describes the Yangtze's importance for China's economy, but it ends by stating that the heavy traffic and industry have caused it to become very polluted. That's why the correct answer is F.",
                     "quote": "Sadly, because of the heavy traffic on the river and industry along its, banks the Yangtze is very polluted."
                 },
                 "q20": {
-                    "text": "This sentence directly states that the Amazon Rainforest, which the Amazon River flows through, is home to a vast amount of the world's biodiversity, thus supporting the heading 'Home to extraordinary nature'.",
+                    "text": "This paragraph highlights the unique natural environment of the Amazon, noting that it flows through rainforests and supports an incredible amount of biodiversity, including over a third of all species. That's why the correct answer is E.",
                     "quote": "The Amazon Rainforest is the home of more than one-third of all animal and plant species in the world."
                 }
             }
@@ -606,39 +606,39 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q21": {
-                    "text": "The passage states the wall painting was created in the 7th century, meaning it was made centuries ago. The other options are incorrect based on the information provided in the passage.",
+                    "text": "The passage states the wall painting was created in the 7th century, which was many centuries in the past. That's why the correct answer is A.",
                     "quote": "A monumental six-metre-long wall painting created in the 7th century, and 8th-century ivory figures carved for one of the world’s oldest surviving chess sets, are among treasures set to be seen in Britain for the first time."
                 },
                 "q22": {
-                    "text": "The quote explains that the exhibition explores connections between cultures and continents, which implies connections of people and states in the ancient past, making option D the correct answer.",
-                    "quote": "Silk Roads, a groundbreaking exhibition spanning AD500 to 1000, will go beyond the popular image of trade between east and west, with camel caravans and merchants selling silks and spices in bazaars, to explore connections between cultures and continents, centuries before the development of today’s globalised world."
+                    "text": "The text explains the exhibition will explore the links between different cultures and continents in the ancient world. That's why the correct answer is D.",
+                    "quote": "It will show that, rather than a single trade route, there were overlapping networks linking communities across Asia, Africa and Europe."
                 },
                 "q23": {
-                    "text": "The quote shows that the curators wanted to go beyond the popular image of trade and explore connections between cultures and continents, centuries before the development of today’s globalised world, which confirms that they want to go beyond one trade network.",
-                    "quote": "But we wanted to go beyond that and tell a richer story of the networks in multiple directions, not just east-west but north-south and elsewhere, and also the movement of objects, peoples and ideas."
+                    "text": "Luk notes that while traders are often seen as 'small-scale merchants', the wall painting shows they 'prospered', challenging this view and suggesting they were more significant. That's why the correct answer is C.",
+                    "quote": "She said Silk Road traders are sometimes depicted as “peddlers or small-scale merchants”. “But here is an image from their homeland that shows them having prospered from their trade.”"
                 },
                 "q24": {
-                    "text": "The quote describes a gilded container that likely held chrism, an oil used in Christian rituals, indicating it was used for religious purposes, which supports option D.",
-                    "quote": "Exhibits will also include a gilded container that probably held chrism, a blended oil used in Christian rituals such as baptism, which was often scented with balsam, a valuable plant resin from the eastern Mediterranean or Arabia."
+                    "text": "The passage mentions a container that held chrism, an oil used in Christian rituals like baptism. This means the object was used for religious purposes. That's why the correct answer is D.",
+                    "quote": ""
                 },
                 "q25": {
-                    "text": "The exhibition spans from AD500 to 1000, which is 500 years, not 1500 years. Therefore, the statement is false.",
-                    "quote": "Silk Roads, a groundbreaking exhibition spanning AD500 to 1000, will go beyond the popular image of trade between east and west, with camel caravans and merchants selling silks and spices in bazaars, to explore connections between cultures and continents, centuries before the development of today’s globalised world."
+                    "text": "The text clearly states the exhibition covers the period from AD500 to 1000. This is a timeframe of 500 years, not 1500 years. That's why the correct answer is False.",
+                    "quote": ""
                 },
                 "q26": {
-                    "text": "The passage explicitly states that the six-meter wall painting is from the \"Hall of the Ambassadors\" in Samarkand, confirming the statement as true.",
+                    "text": "The passage explicitly identifies the origin of the six-metre wall painting, stating that it comes from this specific location. That's why the correct answer is True.",
                     "quote": "The six-metre wall painting, a vibrant depiction of a procession of people riding camels, horses and an elephant, is from the “Hall of the Ambassadors” in Samarkand."
                 },
                 "q27": {
-                    "text": "The passage states that the Sogdians \"were great traders,\" which directly supports the claim that they were skilled merchants.",
-                    "quote": "Dating from the 660s and part of a series excavated in the 1960s, it is an unparalleled example of art created by the region’s ancient Sogdians, who were great traders."
+                    "text": "When describing the ancient Sogdians who created the wall painting, the text directly refers to them as 'great traders'. That's why the correct answer is True.",
+                    "quote": ""
                 },
                 "q28": {
-                    "text": "The passage states that the ivory carvings represent part of an army, which means they are made like soldiers.",
-                    "quote": "The figures represent part of an army."
+                    "text": "The text describes the ivory chess pieces as representing 'part of an army' and lists figures such as 'foot soldiers' and 'horse riders'. That's why the correct answer is True.",
+                    "quote": "The figures represent part of an army. There are foot soldiers, horse riders, people riding chariots, an elephant rider."
                 },
                 "q29": {
-                    "text": "The passage mentions that people from the Korean peninsula came to Samarkand to trade, but it does not say that the Sogdians traveled to Korea, Suffolk or Egypt. Therefore, there is no information to support the statement.",
+                    "text": "The text says people from Korea came to Samarkand and mentions items found in Suffolk and Egypt, but it never states that the Sogdians themselves traveled to all these places. That's why the correct answer is No Information.",
                     "quote": ""
                 }
             }
@@ -754,27 +754,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q30": {
-                    "text": "The passage states that the emoji chosen by Oxford Dictionaries will \"appear to be dated in a few years,\" which directly supports the answer 'dated'.",
+                    "text": "The passage explicitly states that the 'face with tears of joy' emoji will likely \"appear to be dated in a few years.\" This directly fills the gap in the summary. That's why the correct answer is 'dated'.",
                     "quote": "There’s a good chance, then, that the emoji chosen by Oxford Dictionaries - the ‘face with tears of joy’ - will also appear to be dated in a few years."
                 },
                 "q31": {
-                    "text": "The phrase \"history of human communication, and to predict its future\" directly supports the answer \"history\" as it refers to both the past and the future of communication.",
+                    "text": "The text describes the emoji as a lens through which to view both the past and future of human communication. The missing word is explicitly stated in the source sentence. That's why the correct answer is 'history'.",
                     "quote": "The little yellow circle with dots for eyes acts as a surprisingly good lens through which to view the history of human communication, and to predict its future."
                 },
                 "q32": {
-                    "text": "The passage states that language is adapted by different groups as an expression of identity, which directly supports 'identity' as the missing word relating to groups.",
+                    "text": "The passage explains that language is used by different groups as an \"expression of identity\" to reflect their sense of self. This directly links the idea of groups to identity. That's why the correct answer is 'identity'.",
                     "quote": "As an expression of identity, language is adapted by different groups and different generations to reflect their own sense of self."
                 },
                 "q33": {
-                    "text": "The passage states that language needs to constantly assimilate fresh concepts, which directly supports the answer 'concepts' as something new to be included in language.",
+                    "text": "The passage states that one reason language changes is its need to \"assimilate fresh concepts as these evolve.\" This matches the summary's idea of including new things. That's why the correct answer is 'concepts'.",
                     "quote": "It also needs to constantly assimilate fresh concepts as these evolve."
                 },
                 "q34": {
-                    "text": "The quote directly states that 'Words of the Year' fade from people's consciousness quickly after their time, which supports the answer that they are soon forgotten by the public.",
+                    "text": "The passage states that once the time for a 'Word of the Year' has passed, it tends to \"fade from people’s consciousness almost as quickly as they arose.\" This means they are quickly forgotten. That's why the correct answer is B.",
                     "quote": "And often, once that time has passed, they fade from people’s consciousness almost as quickly as they arose."
                 },
                 "q35": {
-                    "text": "This sentence directly supports option D, as it states that understanding emojis can help us understand our relationship with technology, society, and ourselves, which aligns with the idea of emojis telling us something about the world we live in.",
+                    "text": "The final sentence states that understanding emojis helps us \"understand our relationship with technology, society and ourselves.\" This captures the main theme of what emojis reveal about our world. That's why the correct answer is D.",
                     "quote": "Understanding why they’ve become so popular, and how they work, can not only explain something about the nature of language; it can also help us to understand our relationship with technology, society and ourselves."
                 }
             }

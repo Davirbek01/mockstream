@@ -64,28 +64,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "The sentence refers to a 'musical' entity from Liverpool, and 'group' fits the context of a musical ensemble, aligning with the mention of 'The Beatles' later in the sentence.",
-                    "quote": "The Fab Four, the famous Liverpool musical _____(1)_____ commonly known as The Beatles, reached the peak of their popularity in the 1960s."
+                    "text": "The passage repeatedly uses this word to describe the band, such as when McCartney was allowed to join them. This shows it is the correct term for the musical band; that's why the correct answer is 'group'.",
+                    "quote": "McCartney was a brilliant guitarist, so they let him join the group at once."
                 },
                 "q2": {
-                    "text": "The sentence discusses the composition of The Beatles, stating that Lennon, Harrison, McCartney, and Starr were the core, while \"the other members\" changed, indicating that 'members' refers to the people in the band.",
-                    "quote": "Lennon, Harrison, McCartney and Starr were the core members of The Beatles while the other _____(2)_____ constantly changed."
+                    "text": "The sentence contrasts the main, or \"core members,\" with the other people in the band who changed often. This makes 'members' the logical word to describe all the people in the group; that's why the correct answer is 'members'.",
+                    "quote": ""
                 },
                 "q3": {
-                    "text": "The word 'left' fits the context because the sentence describes members who 'joined' the band but then 'left', indicating they departed from the group. The conjunction 'but' signals a contrast, making 'left' the appropriate word to show the opposite action of joining.",
-                    "quote": "Many guitarists and drummers joined but finally _____(3)_____ the group."
+                    "text": "The sentence creates a contrast between the musicians who \"joined\" and what they did \"finally.\" The opposite of joining is leaving, which fits the context of them not staying permanently; that's why the correct answer is 'left'.",
+                    "quote": ""
                 },
                 "q4": {
-                    "text": "The sentence describes The Beatles' rise to fame, and \"popular\" fits the context of them reaching their peak in the 1960s, aligning with the \"well-known\" definition.",
-                    "quote": "The Fab Four, the famous Liverpool musical _____(1)_____ commonly known as The Beatles, reached the peak of their popularity in the 1960s."
+                    "text": "The passage explains that a customer could not buy the single because there were no copies available. This high demand shows that the song was very well-known and liked; that's why the correct answer is 'popular'.",
+                    "quote": "A customer once asked for it in a music shop, but there were no copies left."
                 },
                 "q5": {
-                    "text": "The word \"shop\" fits the gap because the sentence refers to Epstein as the owner of a business, and the phrase \"next to his shop\" provides a direct context clue indicating the type of business is a shop.",
-                    "quote": "When Epstein, the _____(5)_____ owner, finally got the disc, he was surprised to hear a good quality _____(6)_____ by the group that played in the club next to his shop."
+                    "text": "The text first mentions a customer in a \"music shop\" and then introduces Epstein as the owner who got the record. This directly connects Epstein to the ownership of that place; that's why the correct answer is 'shop'.",
+                    "quote": "A customer once asked for it in a music shop, but there were no copies left."
                 },
                 "q6": {
-                    "text": "The sentence discusses Epstein hearing a 'disc' of 'good quality', and the context of a musical group playing in a club implies that the disc contains music. Therefore, 'music' fits the context of the sentence.",
-                    "quote": "When Epstein, the _____ owner, finally got the disc, he was surprised to hear a good quality _____ by the group that played in the club next to his shop."
+                    "text": "Epstein listened to the disc, which was the single \"My Bonnie.\" A disc contains a recording of a song or performance, and the passage states the band composed their own songs; that's why the correct answer is 'music'.",
+                    "quote": "They also played foreign music and composed their own songs."
                 }
             }
         },
@@ -225,36 +225,36 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q7": {
-                    "text": "The text describes Sarah's need for trendy summer clothes, which aligns with Summer Breeze's offering of a summer collection with colorful sundresses and cute shorts.",
-                    "quote": "Sarah is a fashion-forward college student who is looking for trendy summer clothes."
+                    "text": "Sarah wants trendy summer clothes and shops at 7pm. Summer Breeze sells summer items like sundresses and is open until 8pm, which fits her needs and schedule perfectly. That's why the correct answer is D.",
+                    "quote": ""
                 },
                 "q8": {
-                    "text": "Statement I is the best match because it is the only statement that sells suits, which is what John is looking for.",
-                    "quote": "John is a businessman who needs a new suit for an upcoming conference."
+                    "text": "John is a businessman who needs a new suit and shops after 5pm. Tailor Made specializes in premium suits and is open until 6pm, making it the ideal choice for him. That's why the correct answer is I.",
+                    "quote": ""
                 },
                 "q9": {
-                    "text": "Text 9 explicitly states Maria needs a store with clothes for both boys and girls, which aligns with Kids' Kingdom catering to all children's clothing needs, from babies to older kids.",
-                    "quote": "She needs a store that offers a range of sizes and styles for both boys and girls."
+                    "text": "Maria needs to buy clothes for her children. Kids' Kingdom is the only store that specifically caters to children's clothing needs, offering a variety of items for different ages. That's why the correct answer is F.",
+                    "quote": ""
                 },
                 "q10": {
-                    "text": "Text 10 states Tom needs comfortable and durable activewear, which is exactly what Fit Nation offers with their collection of high-quality activewear.",
-                    "quote": "He needs a store that offers comfortable and durable activewear."
+                    "text": "Tom is a fitness enthusiast looking for workout clothes. Fit Nation sells high-quality activewear and is open on Thursday afternoons, matching both his needs and his schedule. That's why the correct answer is J.",
+                    "quote": ""
                 },
                 "q11": {
-                    "text": "The text explicitly states Emily needs a store with a wide range of options and personalized service, which aligns perfectly with Bridal Bliss's description of offering an extensive collection of designer gowns and expert staff to help find the perfect dress.",
-                    "quote": "She needs a store that offers a wide range of options and personalized service."
+                    "text": "Emily is a bride-to-be who needs a wedding dress and personalized service. Bridal Bliss specializes in wedding dresses and has expert staff, and it is open on Wednesday afternoon. That's why the correct answer is H.",
+                    "quote": ""
                 },
                 "q12": {
-                    "text": "Text 12 states Jake needs a store with a variety of options from different bands, which directly aligns with Statement C's offering of a wide range of merchandise from favorite bands.",
-                    "quote": "He needs a store that offers a variety of options from different bands."
+                    "text": "Jake is a music enthusiast who wants to buy merchandise from different bands. Rock Shop is a store for music lovers that offers a wide range of band merchandise. That's why the correct answer is C.",
+                    "quote": ""
                 },
                 "q13": {
-                    "text": "The text states Tina needs a store with \"one-of-a-kind items,\" which aligns with Chic Boutique's claim of offering \"unique and trendy clothing items that you won't find anywhere else.\" Also, Tina can't go shopping on Sunday, and Chic Boutique is open Monday to Saturday.",
-                    "quote": "She needs a store that offers one-of-a-kind items."
+                    "text": "Tina is a fashion blogger who wants unique, one-of-a-kind items. Chic Boutique offers exactly that and is closed on Sunday, which fits her shopping restriction. That's why the correct answer is B.",
+                    "quote": ""
                 },
                 "q14": {
-                    "text": "The text explicitly states Mike is a sports fan looking for a jersey, which aligns perfectly with Sports Central's offerings of sports merchandise like jerseys.",
-                    "quote": "Mike is a sports fan who wants to buy a jersey of his favourite team."
+                    "text": "Mike is a sports fan who wants to buy a team jersey. Sports Central is a store for sports fans that offers a wide selection of merchandise, including jerseys, from various teams. That's why the correct answer is G.",
+                    "quote": ""
                 }
             }
         },
@@ -369,28 +369,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q15": {
-                    "text": "This sentence directly supports the heading \"Choosing a Course of Action\" because it emphasizes the importance of making a decision, which is the initial step in selecting a path towards success.",
+                    "text": "This paragraph explains that the first step towards success is making a decision to move forward and achieve something. This is the same as choosing a course of action, so the correct answer is D.",
                     "quote": "One of the first steps in the process of becoming successful is to make the decision to achieve something."
                 },
                 "q16": {
-                    "text": "This sentence directly discusses the importance of determining aims to achieve success, which is synonymous with setting goals. The paragraph emphasizes the need for clarity in vision and purpose as a prerequisite to defining these aims.",
+                    "text": "The paragraph states that after you understand what you want, the next step is to decide on the specific aims you want to achieve. This process is known as setting goals; that's why the correct answer is H.",
                     "quote": "Once you acquire clarity of vision and purpose, the next vital step of becoming successful is determining aims you want to achieve."
                 },
                 "q17": {
-                    "text": "The paragraph discusses the importance of concentration amidst distractions and offers advice on how to maintain focus, directly relating to the idea of 'Staying Focused' on one's goals.",
-                    "quote": "How can you concentrate on your goals?"
+                    "text": "This paragraph discusses the need for 'unwavering concentration' and avoiding distractions to accomplish your tasks. This is the definition of staying focused, which is why the correct answer is E.",
+                    "quote": "You should be able to accomplish what you set out to do with unwavering concentration."
                 },
                 "q18": {
-                    "text": "The paragraph discusses deferring, delegating, and deleting activities to stay focused on goals, which aligns with the \"3D's\" concept in the heading.",
+                    "text": "The text advises managing activities by deciding whether to 'defer', 'delegate', or 'delete' them. These three actions, all starting with 'D', are the '3D's' mentioned in the heading, so the correct answer is A.",
                     "quote": "If a certain activity can be put away for a later time, defer it. If that activity can be done by somebody else, delegate it. And if it does not really need to be done at all, it can be deleted."
                 },
                 "q19": {
-                    "text": "This sentence directly reflects the idea of commitment, as it emphasizes the necessity of hard work and dedicated effort to achieve success. 'Having Commitment' encapsulates this willingness to dedicate oneself to the pursuit of a goal.",
-                    "quote": "The point is that in order to become successful, you must be ready to work hard and to put all your effort into achieving your purpose."
+                    "text": "This paragraph explains that success requires hard work, effort, and dedication to achieve your purpose. These qualities are all aspects of commitment, which is why the correct answer is G.",
+                    "quote": "Success takes a lot of dedication."
                 },
                 "q20": {
-                    "text": "This sentence directly addresses the issue of lacking self-belief and how it hinders success. The paragraph emphasizes overcoming this hurdle, aligning with the idea of 'Having Self-Belief'.",
-                    "quote": "People often think they are not good enough or not smart enough, which can actually prevent them from finding the success they seek."
+                    "text": "The paragraph identifies a 'lack of confidence' as a major hurdle and states that believing you can do something is crucial for success. This is the definition of self-belief; that's why the correct answer is B.",
+                    "quote": "Lack of confidence is one of the biggest hurdles that many people need to get over in order to become successful."
                 }
             }
         },
@@ -546,39 +546,39 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q21": {
-                    "text": "The passage states that Baden-Powell's military field manual became popular with a younger audience *after* it was written for soldiers, implying he didn't initially write books for a younger audience.",
-                    "quote": "Soon after, his military field manual, Aids to Scouting, written for British soldiers in 1899, became popular with a younger audience."
+                    "text": "Baden-Powell's first manual, \"Aids to Scouting,\" was written for soldiers. He only decided to write for a younger audience after seeing they enjoyed his military book. That's why the correct answer is C.",
+                    "quote": "Hearing this, Baden-Powell decided to write a non-military field manual for teenagers that would also emphasize the importance of morality and good deeds."
                 },
                 "q22": {
-                    "text": "The passage states that \"Scouting for Boys\" was published on January 24, 1908, which directly answers the question.",
+                    "text": "The first sentence of the passage explicitly states the year the Boy Scout movement started, which was marked by the publication of this handbook. That's why the correct answer is C.",
                     "quote": "On January 24, 1908, the Boy Scout movement started in England with the publication of Robert Baden-Powell's handbook Scouting for Boys."
                 },
                 "q23": {
-                    "text": "The passage states that a group of girls calling themselves Girl Scouts showed up at the first national Boy Scout meeting in September 1909. A year later, in 1910, Baden-Powell organized the Girl Guides as a separate organization, making D the correct answer.",
-                    "quote": "In September 1909, the first national Boy Scout meeting was held at the Crystal Palace in London.\nTen thousand Scouts showed up, including a group of uniformed girls who called themselves the Girl Scouts."
+                    "text": "The passage states that after a group of girls appeared at a 1909 meeting, Baden-Powell officially created their organization a year later. That's why the correct answer is D.",
+                    "quote": "A year later, Baden-Powell organized the Girl Guides as a separate organization."
                 },
                 "q24": {
-                    "text": "The passage states that the founder of the Scout organization died in 1941, which directly supports option B.",
+                    "text": "The passage provides the year of Robert Baden-Powell's death near the end of the text, directly stating the information given in the answer. That's why the correct answer is B.",
                     "quote": "The founder of the Scout organization died in 1941."
                 },
                 "q25": {
-                    "text": "The passage discusses Baden-Powell's role in popularizing and formalizing the Boy Scout movement, but it does not provide any information about the origin of the word \"scout\" itself. Therefore, we cannot determine if he invented the word.",
+                    "text": "The passage discusses the creation of the Boy Scout movement, but it does not provide any information about the origin of the word \"scout\" itself. That's why the correct answer is No Information.",
                     "quote": ""
                 },
                 "q26": {
-                    "text": "The passage states the first Boy Scout meeting was a \"great success\", directly contradicting the statement that it was a failure.",
+                    "text": "The passage describes the first experimental camp on Brownsea Island and explicitly concludes that the event was very successful. That's why the correct answer is False.",
                     "quote": "The first Boy Scout meeting was a great success."
                 },
                 "q27": {
-                    "text": "The passage mentions that the Boy Scouts gave a promise to live by certain rules, but it does not provide any information about the Girl Scouts' rules, or whether they were different from the Boy Scouts' rules. Therefore, the answer is No Information.",
+                    "text": "The text mentions that the Boy Scouts had rules and that the Girl Guides was a separate organization, but it never compares their specific rules. That's why the correct answer is No Information.",
                     "quote": ""
                 },
                 "q28": {
-                    "text": "The passage states that William Boyce was inspired by a British Boy Scout's good deed, which led him to organize youth organizations in the U.S., implying he founded the Boy Scouts organization because of the scout's behavior.",
+                    "text": "The passage explains that William Boyce was so moved by a Scout's good deed in London that it motivated him to create similar youth groups in the United States. That's why the correct answer is True.",
                     "quote": "This anonymous gesture inspired Boyce to organize several regional U.S. youth organizations."
                 },
                 "q29": {
-                    "text": "The passage states that Robert Baden-Powell was given the title Chief Scout of the World in 1920, not after his death in 1941, therefore the statement is false.",
+                    "text": "The text states that Robert Baden-Powell received his title in 1920. A later sentence mentions he died in 1941, meaning he was alive when he received the title. That's why the correct answer is False.",
                     "quote": "In 1920 the first international Boy Scout Jamboree was held in London, and Robert Baden-Powell got the title Chief Scout of the World."
                 }
             }
@@ -677,27 +677,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q30": {
-                    "text": "The question asks what workers break off of the seeds, and the passage states that they break off the covering of the seeds.",
+                    "text": "The passage describes how chocolate is made. It states that workers remove the outer layer of the seeds, leaving only the inner part called nibs. That's why the correct answer is 'covering'.",
                     "quote": "Then they break off the covering of the seeds so that only the inside fruit, or nibs, remain."
                 },
                 "q31": {
-                    "text": "The passage states that chocolate liquor is separated into cocoa solids and cocoa butter, indicating that cocoa is a component derived from the processing of cacao seeds.",
+                    "text": "The text explains that crushed nibs become 'chocolate liquor'. This liquor is then separated into 'cocoa solids' and 'cocoa butter', which are the main components. That's why the correct answer is 'cocoa'.",
                     "quote": "This gets separated into cocoa solids and fat called cocoa butter."
                 },
                 "q32": {
-                    "text": "The question asks what people think of today, and the passage states that most people think of chocolate as something sweet to eat or drink.",
-                    "quote": "Most people today think of chocolate as something sweet to eat or drink that can be easily found in stores around the world."
+                    "text": "The passage states that 'cocoa fat' is added to the mixture. This fat is a key component derived from the chocolate liquor to make the final product. That's why the correct answer is 'chocolate'.",
+                    "quote": "Chocolate makers have their own special recipes in which they combine chocolate liquor with exact amounts of sugar, milk and cocoa fat."
                 },
                 "q33": {
-                    "text": "The passage states that the chocolate mixture is shaped into a \"mold form\", which directly supports the answer \"mold\".",
+                    "text": "In the description of the final steps of chocolate making, the passage states that the mixture is given its final shape in a specific container. That's why the correct answer is 'mold'.",
                     "quote": "The mixture then goes through two more processes before it is shaped into a mold form."
                 },
                 "q34": {
-                    "text": "This sentence directly states that cacao trees produce pods, which are the fruits used to make chocolate, thus answering what part of the cacao tree is used.",
-                    "quote": "After about five years, cacao trees start producing large fruits called pods, which grow near the trunk of the tree."
+                    "text": "Chapter 4 describes the cacao tree and its fruit. It specifies that the part of the tree harvested for chocolate production are the seeds found inside the pods. That's why the correct answer is B.",
+                    "quote": "The seeds inside the pods are harvested to make chocolate."
                 },
                 "q35": {
-                    "text": "The passage states that the covering of the cacao seeds is broken off during the chocolate production process, indicating that some parts of the seed are removed, which supports option D.",
+                    "text": "Chapter 5 explains the chocolate production process. It mentions that the outer layer of the cacao seed is removed, and only the inner part is used. That's why the correct answer is D.",
                     "quote": "Then they break off the covering of the seeds so that only the inside fruit, or nibs, remain."
                 }
             }

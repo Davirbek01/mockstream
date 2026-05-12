@@ -77,28 +77,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "The sentence describes the action of the water hyacinth plants in rivers and lakes. The word \"grow\" fits grammatically and logically, indicating the plants' proliferation.",
-                    "quote": "Millions and millions of these plants _____(1)_____ in rivers and lakes."
+                    "text": "The passage describes how the water hyacinth spreads rapidly in tropical countries. The text explicitly states that the plants just continue to multiply. That's why the correct answer is 'grow'.",
+                    "quote": "The water hyacinth grows in tropical countries."
                 },
                 "q2": {
-                    "text": "The sentence directly contains the gap. The passage describes the negative impacts of the water hyacinth, including stopping water movement, making 'plants' the logical subject performing this action.",
-                    "quote": "The _____(2)_____ stop the water from moving."
+                    "text": "The passage explains that millions of water hyacinths fill rivers and lakes, becoming very thick. This mass of vegetation is what blocks the flow of water. That's why the correct answer is 'plants'.",
+                    "quote": "Sometimes the plants become so thick that people can walk on them."
                 },
                 "q3": {
-                    "text": "The passage introduces the water hyacinth in the first sentence, and the rest of the passage discusses its negative impacts and potential uses. Therefore, 'water' is the only logical choice to describe the type of hyacinths being discussed.",
-                    "quote": "Now scientists think that _____(3)_____ hyacinths can be useful."
+                    "text": "The entire passage is about a specific type of plant called the water hyacinth. The text introduces this plant by its full name in the very first sentence. That's why the correct answer is 'water'.",
+                    "quote": "The water hyacinth grows in tropical countries."
                 },
                 "q4": {
-                    "text": "The question directly precedes examples of how farmers can utilize the water hyacinth, such as using it as fertilizer and animal feed, indicating that 'farmers' is the intended subject.",
-                    "quote": "What can _____(4)_____ use them for?"
+                    "text": "The text gives several examples of how water hyacinths can be used. These examples, such as making fertilizer and animal feed, are all activities done by farmers. That's why the correct answer is 'farmers'.",
+                    "quote": "They can also make feed for their farm animals."
                 },
                 "q5": {
-                    "text": "The sentence directly states that \"_____(5)_____ gas comes from plants,\" and the previous sentence mentions \"methane gas for energy,\" establishing that methane is the gas derived from plants.",
-                    "quote": "(We burn gas from petroleum for energy. _____(5)_____ gas comes from plants.)"
+                    "text": "The passage suggests that it might be possible to produce energy from water hyacinths. It specifically names the type of gas that can be made from the plants. That's why the correct answer is 'methane'.",
+                    "quote": "Maybe it will be possible to make methane gas for energy."
                 },
                 "q6": {
-                    "text": "The sentence directly contains the gap. The passage contrasts methane gas from plants with \"gas from petroleum\", indicating petroleum is the expensive thing tropical countries won't have to buy if they use water hyacinths for energy.",
-                    "quote": "Then poor tropical countries will not have to buy so much expensive _____ ."
+                    "text": "The text contrasts methane gas, which can be made from plants, with the gas currently used for energy. It explicitly states that this other gas comes from petroleum. That's why the correct answer is 'petroleum'.",
+                    "quote": "We burn gas from petroleum for energy."
                 }
             }
         },
@@ -269,36 +269,36 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q7": {
-                    "text": "Text 7 mentions Jake's interest in the sea and Maureen's interest in the lives of women, which aligns with Statement F's description of a fishing center and an exhibition about the position of wives and mothers in fishing towns.",
-                    "quote": "Jake loves anything to do with the sea, while Maureen's interested in social history and the lives of women."
+                    "text": "This location suits both people. It covers Jake's interest in the sea with its focus on fishermen, and Maureen's interest in women's lives with an exhibition on wives and mothers in fishing towns. That's why the correct answer is F.",
+                    "quote": ""
                 },
                 "q8": {
-                    "text": "Text 8 describes a teacher wanting a museum where students can touch things and do activities, which aligns with Statement C's description of handling objects and using computer programs.",
-                    "quote": "She wants to take her class to a museum where they will be allowed to touch things and have activities to do during their visit."
+                    "text": "Melanie wants a museum where her students can touch things and do activities. Hillcrest Museum allows visitors to handle ancient objects and use computer programs, making it an interactive experience for a school class. That's why the correct answer is C.",
+                    "quote": ""
                 },
                 "q9": {
-                    "text": "Text 9 mentions Roger wanting to attend a talk at the museum, which aligns with Statement H's description of knowledgeable staff giving daily lectures.",
-                    "quote": "He would like to attend a talk while he is at the museum."
+                    "text": "Roger is interested in urban transport from the last century and wants to hear a talk. The Horsepower Museum has an exhibition of old trams and buses, and its staff gives daily lectures on the collection. That's why the correct answer is H.",
+                    "quote": ""
                 },
                 "q10": {
-                    "text": "Text 10 describes Kazuko's interest in seeing where writers lived to better understand their books, which aligns with Statement D, describing Shandy Hall, where Laurence Sterne wrote Tristram Shandy.",
-                    "quote": "Kazuko studies English literature and thinks that seeing where writers lived will help her understand their books better."
+                    "text": "Kazuko wants to see where a writer lived and view pictures related to their books. Shandy Hall was the home of writer Laurence Sterne and contains the original drawings that were included in his works. That's why the correct answer is D.",
+                    "quote": ""
                 },
                 "q11": {
-                    "text": "The Castle Museum focuses on how the valley of the River Dean has changed over millions of years, which directly addresses Nick's need for information about rivers and hills over time.",
-                    "quote": "He needs information for some schoolwork he is doing about what happens to rivers and hills over time."
+                    "text": "Nick needs information about how the countryside, specifically rivers and hills, changes over time. The Castle Museum is in a river valley and explains how the valley has changed over millions of years. That's why the correct answer is B.",
+                    "quote": ""
                 },
                 "q12": {
-                    "text": "The text mentions Ingrid's daughter learning about English history and wanting to bring it to life, which aligns with Warwick Castle's historical exhibitions and experiences. The text also mentions Ingrid's interest in flowers, which aligns with the castle's gardens.",
-                    "quote": "Ingrid's eldest daughter is learning about English history and would like to go somewhere to bring this subject to life."
+                    "text": "This location suits both Ingrid and her daughter. The medieval castle brings English history to life for her daughter, and the extensive gardens will appeal to Ingrid's interest in flowers. That's why the correct answer is I.",
+                    "quote": ""
                 },
                 "q13": {
-                    "text": "Trevor wants to sketch something smaller than large zoo animals, and the butterfly farm offers smaller creatures like butterflies and insects for him to draw.",
-                    "quote": "Trevor is an artist and enjoys drawing wildlife."
+                    "text": "Trevor is an artist who wants to draw small wildlife after recently drawing large animals. The butterfly farm is full of small creatures like butterflies and insects, which would be perfect for him to sketch. That's why the correct answer is J.",
+                    "quote": ""
                 },
                 "q14": {
-                    "text": "The text mentions Sarah and her husband wanting to spend the day outdoors and being interested in history and how people used to live, which aligns with the description of Black Country Museum as an open-air museum where visitors can discover an old-fashioned village.",
-                    "quote": "Sarah and her husband would like to spend the day outdoors."
+                    "text": "Sarah and her husband want an outdoor historical experience without theme park rides. The Black Country Museum is an open-air museum where they can explore an old-fashioned village with original shops and houses. That's why the correct answer is K.",
+                    "quote": ""
                 }
             }
         },
@@ -439,27 +439,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q15": {
-                    "text": "The paragraph starts by stating people have more free time, but then questions why it doesn't feel like it. This directly addresses the difficulty in experiencing or perceiving this free time, thus fitting the heading 'Why it's so hard'.",
-                    "quote": "Then why doesn't it feel that way?"
+                    "text": "The paragraph explains why we don't feel relaxed despite having free time: our brains are constantly processing information from screens and we don't 'switch off'. This describes why relaxing is hard, so the correct answer is C.",
+                    "quote": "Images and information are constantly flashing into our brains, so it's no wonder we don't feel as if we have really switched off."
                 },
                 "q16": {
-                    "text": "The paragraph emphasizes the importance of protecting free time from intrusions of daily life. This aligns perfectly with the idea of 'guarding' one's time to ensure it remains truly free and refreshing.",
+                    "text": "This paragraph advises readers to protect their free time from chores and work messages so that the lines between leisure and responsibility don't 'blur'. This is a direct instruction to guard your time, so the correct answer is A.",
                     "quote": "Don't let anything else encroach on your free time."
                 },
                 "q17": {
-                    "text": "The paragraph suggests switching from passive consumption to active creation, which aligns with the idea of getting creative. It encourages activities like building, writing, or making films.",
-                    "quote": "Take on the role of producer for a change."
+                    "text": "The text suggests moving from being a passive 'consumer' (watching TV) to an active 'producer'. The examples given, like building a model or writing a blog, are all creative activities, which is why the correct answer is E.",
+                    "quote": "Build a model, write a blog or make an animation film."
                 },
                 "q18": {
-                    "text": "This sentence directly supports the heading \"Do what you want\" because it emphasizes choosing activities based on personal enjoyment rather than external pressures or expectations. It encourages readers to prioritize their own desires and preferences during their free time.",
+                    "text": "This section warns against choosing activities based on 'outside pressures' like impressing friends. It states that free time is for personal enjoyment, meaning you should do what you want, so the correct answer is I.",
                     "quote": "It is about doing an activity for enjoyment's sake, so don't let outside pressures influence your choice."
                 },
                 "q19": {
-                    "text": "The paragraph describes using free time to help others in the community, such as visiting the elderly or volunteering, which directly relates to making a positive difference in people's lives.",
+                    "text": "The paragraph suggests that a wise use of time is to help others by volunteering in the community, with the elderly, or for a wildlife organization. These actions all make a difference, so the correct answer is B.",
                     "quote": "You'll really know you're using your time wisely if what you're doing helps other people."
                 },
                 "q20": {
-                    "text": "This sentence directly states that joining groups, clubs, or classes can lead to a completely new life path, which aligns perfectly with the idea of changing one's life. The paragraph encourages self-improvement and exploration of new possibilities.",
+                    "text": "This paragraph discusses using free time for self-improvement, such as getting fit or learning a skill. It explicitly states these activities can put you on a 'completely new life path', so the correct answer is G.",
                     "quote": "There are plenty of groups, clubs and classes you can join that will set you on a completely new life path."
                 }
             }
@@ -641,39 +641,39 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q21": {
-                    "text": "The quote directly states that scientists want to understand El Nino to anticipate disruptions in seasonal patterns and help societies plan accordingly, which aligns with option B.",
-                    "quote": "So they want anticipate these occasional lapses in the march of the seasons and help societies plan accordingly, scientists are seeking to understand these competing rhythms: the strongest of which is the alternation between the \"normal climate\" and a different but still recurrent set of climatic conditions in the Pacific region called El Nino."
+                    "text": "Scientists want to understand El Nino because it disrupts normal patterns for wildlife and humans. By anticipating these events, they can help societies create plans to deal with the effects. That's why the correct answer is B.",
+                    "quote": ""
                 },
                 "q22": {
-                    "text": "The passage states that changes in prey availability due to climate factors like temperature and sea ice directly affect seabird populations, making them useful indicators of climate change impacts.",
+                    "text": "Seabirds are useful for observation because their populations are directly impacted by climate-driven changes. Factors like sea temperature and ice affect their prey's availability, which in turn affects the seabirds. That's why the correct answer is A.",
                     "quote": "As prey availability changes in response to climatically driven factors such as surface sea temperature and extent of sea ice, so will populations of seabirds be affected."
                 },
                 "q23": {
-                    "text": "The passage states that declines in birth rate and fewer breeding females are associated with the declines in Steller sea lions, supporting option C. Although the passage mentions harbor seals declined by about 85%, it was between 1976 and 1988, not from the mid of 20th century.",
+                    "text": "The passage details the effects of population declines on Steller sea lions in the Gulf of Alaska. These effects included a lower birth rate and a reduction in the number of breeding females. That's why the correct answer is C.",
                     "quote": "Associated with the declines in Steller sea lions are declines in birth rate, fewer breeding females, fewer pups, decreased adult body condition, decreased juvenile survival, and a change in population age structure."
                 },
                 "q24": {
-                    "text": "The quote directly states that during monsoon seasons with low-index conditions, drought is often observed in Australia, Indonesia, India, and parts of Africa, which supports option D.",
+                    "text": "The passage directly states Walker's observation that monsoon seasons with certain conditions frequently result in drought in specific places, including Australia, Indonesia, India, and parts of Africa. That's why the correct answer is D.",
                     "quote": "Walker noticed that monsoon seasons with low-index conditions are often marked by drought in Australia, Indonesia, India, and parts of Africa."
                 },
                 "q25": {
-                    "text": "The passage states that seabirds are valued as indicators of healthy marine ecosystems, which directly supports the idea that they are precious indicators of changes in the oceanic environment.",
-                    "quote": "Seabirds are valued as indicators of healthy marine ecosystems and provide a \"vicarious use value\" or existence value—people appreciate and value seabirds simply because they are there and enjoy them through venues such as pictures, nature programs, and written accounts without ever directly observing seabirds in their native environment."
+                    "text": "This is true. The passage explicitly states that the extensive knowledge base about seabirds makes them a valuable resource to use as \"indicator species for measurement of change in the marine environment.\" That's why the correct answer is True.",
+                    "quote": "Furthermore, the rich knowledge base about seabirds makes them a valuable resource as indicator species for measurement of change in the marine environment."
                 },
                 "q26": {
-                    "text": "The passage states that Fulmars are surface feeders while Murres dive for their food, indicating they feed in different ways based on prey location.",
+                    "text": "This is true. The passage clearly distinguishes between the feeding methods of different seabirds, stating that Fulmars are surface feeders while Murres are divers that go underwater for their food. That's why the correct answer is True.",
                     "quote": "Fulmars, storm-petrels and kittiwakes are surface feeders, picking their prey from the surface or just below the surface; murres, auklets, and puffins dive for their food."
                 },
                 "q27": {
-                    "text": "The passage states that declines in Steller sea lions are associated with declines in birth rate, fewer pups, decreased adult body condition, decreased juvenile survival, and a change in population age structure, indicating that the whole population is affected, not just birth rate and pup numbers. Therefore, the statement is false.",
-                    "quote": "Associated with the declines in Steller sea lions are declines in birth rate, fewer breeding females, fewer pups, decreased adult body condition, decreased juvenile survival, and a change in population age structure."
+                    "text": "This is false. The passage explicitly states that the overall Steller sea lion populations declined dramatically, first by 36% and then by an additional 59% in the following period. That's why the correct answer is False.",
+                    "quote": "Steller sea lion populations declined by 36% in the Gulf of Alaska between 1977 and 1985, and by another 59% between 1985 and."
                 },
                 "q28": {
-                    "text": "The passage states that Walker's colleague criticized him, indicating disagreement rather than support for the idea that wind patterns would be helpful in understanding climate links. Therefore, the statement is false.",
-                    "quote": "One of his British colleagues chided him in print for suggesting that climatic conditions over such widely separated regions of the globe could be linked."
+                    "text": "This is false. The passage states that it was Walker, in his own reply to a skeptical colleague, who predicted that knowledge of wind patterns would be required for an explanation. That's why the correct answer is False.",
+                    "quote": "In his reply Walker predicted, correctly, that an explanation would be forthcoming, but that it would require a knowledge of wind patterns above ground level, which were not routinely being observed at that time."
                 },
                 "q29": {
-                    "text": "The quote directly states that a lack of preexisting data and monitoring makes it difficult for ornithologists and ecologists to understand the effects of El Nino, supporting the statement that it is difficult to investigate due to lack of available statistics and inspections.",
+                    "text": "This is true. The passage directly states that a \"lack of preexisting data, and of monitoring afterwards\" makes it difficult for ornithologists and ecologists to fully understand the effects of El Nino. That's why the correct answer is True.",
                     "quote": "Even when ornithologists and ecologists are at hand to take advantage of an incoming El Nino, lack of preexisting data, and of monitoring afterwards, makes it difficult 134 F.M. Jaksic & J.M. Farina to understand responses of birds to the successive El Nino, La Nina, and \"normal\" years."
                 }
             }
@@ -762,27 +762,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q30": {
-                    "text": "The passage states that heirloom vegetables are prized by a food movement that emphasizes preserving the flavor, indicating that people want fruit and vegetables to be standard in their flavor.",
-                    "quote": "Heirloom vegetables have become fashionable in the United States and Europe over the past decade, prized by a food movement that emphasizes eating locally and preserving the flavor and uniqueness of heirloom varieties."
-                },
-                "q31": {
-                    "text": "The passage states that heirloom varieties have been 'squeezed out of supermarkets,' indicating that people are less likely to find these plants in supermarkets.",
+                    "text": "The passage contrasts heirloom vegetables, prized for taste, with supermarket varieties. It states modern produce is bred for a uniform look and easy shipping, specifically 'not to enhance flavor.' That's why the correct answer is 'flavor'.",
                     "quote": "Found mostly in farmers' markets and boutique groceries, heirloom varieties have been squeezed out of supermarkets in favor of modern single-variety fruits and vegetables bred to ship well and have a uniform appearance, not to enhance flavor."
                 },
+                "q31": {
+                    "text": "The passage contrasts the public's awareness of endangered rainforests with the lack of awareness about food diversity. It says people know about the 'loss of flora and fauna in our rainforests.' That's why the correct answer is 'rainforests'.",
+                    "quote": "We've been hearing for some time about the loss of flora and fauna in our rainforests."
+                },
                 "q32": {
-                    "text": "The passage states that \"fewer than a hundred remain\" of the 7,000 apple varieties grown in the 1800s, which directly supports the answer 'apples'.",
+                    "text": "The passage gives a specific example of variety loss in the United States. It mentions that of the thousands of types of a particular fruit grown in the 1800s, fewer than one hundred still exist today. That's why the correct answer is 'apples'.",
                     "quote": "Of the 7,000 different apple varieties that were grown in the 1800s, fewer than a hundred remain."
                 },
                 "q33": {
-                    "text": "The answer is '50 percent' because the passage states that experts estimate that we have lost more than 50 percent of the world's food varieties over the past century.",
+                    "text": "To illustrate the scale of food variety extinction, the passage provides an expert estimate. It states that more than half of the world's food varieties have been lost over the last one hundred years. That's why the correct answer is '50 percent'.",
                     "quote": "Experts estimate that in total we have lost more than 50 percent of the world's food varieties over the past century."
                 },
                 "q34": {
-                    "text": "The passage states that a threat to food supplies, specifically the Ug99 fungus, could lead to a situation where one billion dollars' worth of crops would be at risk, which could lead to a famine.",
-                    "quote": "If it reached the USA, an estimated one billion dollars' worth of crops would be at risk."
+                    "text": "The text describes a fungus threatening the world's wheat and quotes an expert on the potential outcome. It warns that this could leave a billion people without food, leading to a major humanitarian crisis. That's why the correct answer is 'famine'.",
+                    "quote": "A famine with significant humanitarian consequences could follow, according to Rick Ward of Cornell University."
                 },
                 "q35": {
-                    "text": "The passage states that the world population is expected to reach nine billion by 2045, implying that increased food production is needed to sustain this growing population.",
+                    "text": "The passage explains why food production needs to increase in the future. It directly links the need to double food production with the projected growth of the world's population to nine billion people by 2045. That's why the correct answer is 'population'.",
                     "quote": "The population of the world is expected to reach nine billion by 2045."
                 }
             }

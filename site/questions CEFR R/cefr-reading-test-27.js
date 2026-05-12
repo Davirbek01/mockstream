@@ -95,36 +95,36 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "The sentence discusses making \"old or sick cells act young again,\" implying these cells belong to a body. The subsequent context focuses on cells and organs, further supporting \"body\" as the correct fit.",
-                    "quote": "What if we could make our _____(1)_____ 's old or sick cells act young again?"
+                    "text": "The sentence introduces the idea of rejuvenating old or sick cells. These cells belong to a person or animal, so the word 'body' is the most logical choice to complete the phrase. That's why the correct answer is 'Body'.",
+                    "quote": "The cells may then be able to produce many different types of _____(4)_____ in the body – and maybe even regenerate an organ."
                 },
                 "q2": {
-                    "text": "The sentence directly states 'the _____ that cause leprosy', and the passage later mentions 'infecting cells with leprosy bacteria', indicating that bacteria cause leprosy.",
-                    "quote": "Surprisingly, the _____(2)_____ that cause leprosy may show us how."
-                },
-                "q3": {
-                    "text": "The sentence directly contains the gap to be filled. The surrounding context discusses 'reprogramming' cells, suggesting a return to a less developed, or 'immature' state.",
+                    "text": "The passage later clarifies what causes the disease leprosy. It states that scientists infected cells with 'leprosy bacteria,' directly identifying the infectious agent. That's why the correct answer is 'bacteria'.",
                     "quote": "Previously, we discovered that infecting cells with leprosy bacteria in a laboratory dish “reprogrammed” the cells back to an _____(3)_____ state."
                 },
+                "q3": {
+                    "text": "The passage explains that the infection 'reprograms' adult cells. The text later clarifies this by stating the reprogrammed cells 'resemble immature' cells, meaning they were returned to a less developed state. That's why the correct answer is 'immature'.",
+                    "quote": "Our results show that leprosy infection “reprograms” adult liver cells to make them resemble immature _____(8)_____ cells."
+                },
                 "q4": {
-                    "text": "The sentence directly contains the gap. The surrounding context discusses cell reprogramming and regeneration, indicating that the cells can produce different types of 'cells'.",
+                    "text": "The passage explains that reprogrammed cells can create new things to regenerate organs. Since the basic building blocks of organs are cells, it makes sense that the reprogrammed cells can produce different types of cells. That's why the correct answer is 'cells'.",
                     "quote": "The cells may then be able to produce many different types of _____(4)_____ in the body – and maybe even regenerate an organ."
                 },
                 "q5": {
-                    "text": "The sentence explicitly states that nine-banded 'armadillos' were infected, directly filling the gap. The surrounding context discusses animal testing with leprosy bacteria.",
-                    "quote": "To test this in an actual animal, we infected nine-banded armadillos with leprosy bacteria."
+                    "text": "The text describes an experiment conducted on a specific animal. The next sentence clarifies the animal's identity by comparing the infected subjects to 'uninfected armadillos.' That's why the correct answer is 'armadillos'.",
+                    "quote": "We compared their livers to the livers of uninfected armadillos."
                 },
                 "q6": {
-                    "text": "The sentence explicitly states that the armadillos were infected with \"leprosy bacteria\", making \"leprosy\" the correct answer to fill the gap.",
-                    "quote": "To test this in an actual animal, we infected nine-banded armadillos with leprosy bacteria."
+                    "text": "The passage focuses on the effects of a specific disease. The following sentence confirms the type of infection by stating that the livers of 'armadillos infected with leprosy' were studied. That's why the correct answer is 'leprosy'.",
+                    "quote": "The livers of armadillos infected with leprosy were larger than those of uninfected armadillos."
                 },
                 "q7": {
-                    "text": "The sentence directly states that \"these larger livers were healthy\", making \"livers\" the correct word to fill the gap. The context of comparing infected and uninfected armadillos' livers further supports this.",
-                    "quote": "Importantly, these larger livers were healthy, with no signs of damage."
+                    "text": "The previous sentences specifically discuss the livers of the armadillos, noting that the infected ones had larger ones. This sentence continues the description of those specific organs. That's why the correct answer is 'livers'.",
+                    "quote": "The livers of armadillos infected with leprosy were larger than those of uninfected armadillos."
                 },
                 "q8": {
-                    "text": "The sentence directly states that the leprosy infection makes adult liver cells resemble immature \"liver\" cells. The context of liver regeneration and comparison between infected and uninfected armadillo livers makes \"liver\" the only logical answer.",
-                    "quote": "Our results show that leprosy infection “reprograms” adult liver cells to make them resemble immature liver cells."
+                    "text": "The analysis was performed specifically on 'liver cells' from the armadillos. The results show these adult cells were reprogrammed to be like their younger versions, which would be immature liver cells. That's why the correct answer is 'liver'.",
+                    "quote": "We performed genetic analyses on the liver cells to determine which genes were active."
                 }
             }
         },
@@ -246,32 +246,32 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q9": {
-                    "text": "The app Impel can be used for running and cycling, therefore it can be used for more than one sport. This directly supports the statement that the app can be used for more than one sport.",
-                    "quote": "If you’re ever not sure where to run or cycle you can find user-created routes on the app, or share your own."
+                    "text": "The description for Impel mentions that you can find routes for both running and cycling, showing it is for more than one sport. That's why the correct answer is C.",
+                    "quote": ""
                 },
                 "q10": {
-                    "text": "The statement says you have to pay to get route suggestions, and the text says that route suggestions are a feature of the paid 'pro' version of the app, implying you don't get them in the free version.",
-                    "quote": "Although you naturally get more features if you pay for the ‘pro’ version, the free release gets you GPS tracking, a nicely designed map view, your training history, music, and cheering."
+                    "text": "The description for Fast Track states that the paid 'pro' version adds 'possible routes,' meaning you must pay for the app to suggest places to go. That's why the correct answer is D.",
+                    "quote": ""
                 },
                 "q11": {
-                    "text": "The phrase \"nicely designed map view\" indicates that the app has well-presented visuals, which directly supports the statement that the app has well-presented visuals.",
-                    "quote": "Although you naturally get more features if you pay for the ‘pro’ version, the free release gets you GPS tracking, a nicely designed map view, your training history, music, and cheering."
+                    "text": "The description for Fast Track mentions that the free version includes a 'nicely designed map view,' which refers to its well-presented visuals. That's why the correct answer is D.",
+                    "quote": ""
                 },
                 "q12": {
-                    "text": "The quote indicates that all features of the Pacer app are now free, meaning users do not have to pay for any features, which directly supports Text 12.",
-                    "quote": "Although they were previously split into ‘pro’ and ‘free’ versions, Pacer’s developer now generously includes all the features in one free app."
+                    "text": "The description for Pacer says the developer 'now generously includes all the features in one free app,' meaning everything is available without payment. That's why the correct answer is A.",
+                    "quote": ""
                 },
                 "q13": {
-                    "text": "The statement says you can pay to download true stories, and the quote confirms that the app has in-app purchases including stories of sporting heroes.",
-                    "quote": "Or if you fancy something different, the app also has In-App Purchases, including tales of past sporting heroes you can listen to while you run."
+                    "text": "The description for Beat2 mentions that it offers 'In-App Purchases, including tales of past sporting heroes,' which are true stories you can pay to listen to. That's why the correct answer is B.",
+                    "quote": ""
                 },
                 "q14": {
-                    "text": "The statement says you can get ideas about where to go from other people on the app. The quote confirms this by stating you can find user-created routes on the app.",
-                    "quote": "If you’re ever not sure where to run or cycle you can find user-created routes on the app, or share your own."
+                    "text": "The description for Impel says you can find 'user-created routes,' which are ideas for where to go that have been shared by other people using the app. That's why the correct answer is C.",
+                    "quote": ""
                 },
                 "q15": {
-                    "text": "Text 15 states the app gives details of energy used, and Statement A mentions the app allows you to examine details of calories burned, which is a measure of energy used.",
-                    "quote": "That means you can spend no money, yet use your smartphone’s GPS capabilities to track your jogging routes, and examine details of your pace and calories burned."
+                    "text": "The description for Pacer states that you can use the app to 'examine details of your pace and calories burned,' which is a measure of energy used. That's why the correct answer is A.",
+                    "quote": ""
                 }
             }
         },
@@ -386,24 +386,24 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q16": {
-                    "text": "This sentence directly explains how humans could benefit from finding alien civilizations by learning how they overcame threats like nuclear war and pollution. This aligns perfectly with the heading 'How finding alien civilization can help humans'.",
+                    "text": "This paragraph explains that we could learn lessons from older civilizations on how to handle threats like nuclear war and pollution, which would help ensure our own long-term survival. That's why the correct answer is vi.",
                     "quote": "We might also gain some lessons on how to tackle the threats like nuclear war or global pollution and the threat that we have not encountered as of now, from the experience of older civilization."
                 },
                 "q17": {
-                    "text": "This sentence directly introduces the topic of the paragraph: the established guidelines or 'ground rules' that SETI scientists follow when considering the possibility of extraterrestrial life. The rest of the paragraph then elaborates on these specific rules.",
+                    "text": "The paragraph explicitly states the two main principles that guide most SETI scientists in their work, such as ignoring UFOs and looking for life forms that are similar to our own. That's why the correct answer is vii.",
                     "quote": "Most SETI scientists have two ground rules, in the discussion of whether we are alone in the universe."
                 },
                 "q18": {
-                    "text": "This sentence directly states the central idea of the paragraph: that our understanding of other life forms is limited. The rest of the paragraph provides examples of these limitations.",
+                    "text": "This paragraph highlights the gaps in our knowledge, stating that we have a limited understanding of other life forms and lack key information, such as how many stars have planets suitable for life. That's why the correct answer is i.",
                     "quote": "Though we are making these sorts of assumptions, we have a limited understanding about other life forms."
                 },
                 "q19": {
-                    "text": "This sentence directly describes a large-scale project initiated to search for extraterrestrial life, aligning perfectly with the heading 'Project for searching for the aliens' signals'. The paragraph then goes on to describe the specifics of this project.",
+                    "text": "This paragraph describes a specific, large-scale search effort funded by the US Congress and run by NASA, which is designed to be a thorough search for extra-terrestrial life using special hardware. That's why the correct answer is iv.",
                     "quote": "Since 1992, the scale of searches has increased tremendously, as the US Congress voted NASA $10 million per year for ten years to perform a thorough search for extra-terrestrial life."
                 },
                 "q20": {
-                    "text": "This sentence introduces the main topic of the paragraph, which is the discussion and debate surrounding the appropriate response upon detecting a signal from an alien civilization, implying the use of telescopes to detect such signals. The paragraph then discusses the ethical considerations and the time scales involved in responding, further emphasizing the context of signal detection through telescopes.",
-                    "quote": "There is a substantial amount of debate happening based on how we must react if we detect a signal from an alien civilization."
+                    "text": "This paragraph explains that the world's largest radio telescopes are a key part of the search project, used to conduct a targeted search for signals from the nearest 1000 stars. That's why the correct answer is v.",
+                    "quote": "First part is a targeted search by the means of world’s largest radio telescopes."
                 }
             }
         },
@@ -517,31 +517,31 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q21": {
-                    "text": "The passage asks rhetorically where there is a film sympathetic to science, implying that films about science do exist, but they are not sympathetic. Therefore, the statement that the film industry does not make films about science is false.",
+                    "text": "The author asks where a film sympathetic to science can be found, which implies that films about science do exist, but they are generally not positive. Therefore, the statement is false. That's why the correct answer is B.",
                     "quote": "And where is there a film sympathetic to science?"
                 },
                 "q22": {
-                    "text": "This sentence directly contradicts the statement that scientists do not work in unison when deciding what needs to be researched, indicating that science is a collective activity.",
+                    "text": "The passage describes science as a \"collective activity\" where no single person controls the process. This means scientists do work together, making the statement false. That's why the correct answer is B.",
                     "quote": "The individual scientist cannot decide, for science, like genetics, is a collective activity with no single individual controlling the process of discovery."
                 },
                 "q23": {
-                    "text": "The passage states that creating designer babies is currently too risky, implying that the technology is not yet readily available or safe for parents to pursue cloning for their children. Therefore, it cannot be confirmed that parents currently want to have cloned children.",
-                    "quote": "Anxieties about creating designer babies are at present premature as it is too risky"
+                    "text": "The passage discusses the ethics of cloning and a couple's right to control reproduction, but it does not mention whether parents currently want cloned children. That's why the correct answer is C.",
+                    "quote": ""
                 },
                 "q24": {
-                    "text": "The passage explicitly states that technology predates science and developed independently, thus confirming the statement as true.",
+                    "text": "The text explicitly states that technology existed long before science and developed without its help, giving examples like agriculture and metalworking. That's why the correct answer is A.",
                     "quote": "Technology is much older than anything one could regard as science and unaided by any science."
                 },
                 "q25": {
-                    "text": "This sentence directly states that many people, including national leaders, express horror regarding cloning, indicating that they consider it undesirable.",
+                    "text": "The author mentions a \"chorus of horror\" from many people, including national leaders, regarding the idea of cloning. This shows it is widely seen as undesirable. That's why the correct answer is A.",
                     "quote": "Many others, national leaders included, have joined in a chorus of horror."
                 },
                 "q26": {
-                    "text": "The passage explicitly states that the distinction between science and technology is fundamental, directly supporting the statement that they must be seen as separate entities.",
+                    "text": "The author states that the difference between science (knowledge) and technology (application) is \"fundamental,\" meaning it is essential to view them separately. That's why the correct answer is A.",
                     "quote": "The distinction between science and technology, between knowledge and understanding on the one hand and the application of that knowledge to making something, or using it in some practical way, is fundamental."
                 },
                 "q27": {
-                    "text": "The passage states that science tells us 'how the world is,' which aligns with option C, 'what the world is really like.'",
+                    "text": "The passage makes the general statement that science's role is to explain the world as it is. The other options are specific examples or related ideas, but this is the core definition given. That's why the correct answer is C.",
                     "quote": "Science merely tells us how the world is."
                 }
             }
@@ -650,35 +650,35 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q28": {
-                    "text": "The passage states that a project manager's main task is to complete a project on time and within budget, which directly supports 'budget' as the missing word.",
+                    "text": "The passage's first sentence states that a project manager's main task is to complete a project on time and within its financial limits. That's why the correct answer is 'budget'.",
                     "quote": "A project manager’s main task is to bring a particular project to completion, both on time and within budget."
                 },
                 "q29": {
-                    "text": "The passage states that maintaining control is critical to avoid problems of 'scope creep', directly answering what needs to be prevented.",
+                    "text": "The text explains that putting things in writing at the start is critical to avoid 'scope creep', which it defines as the client repeatedly asking for more. That's why the correct answer is 'scope creep'.",
                     "quote": "This is critical to avoid problems of ‘scope creep’, which is when the company paying for the project asks for ‘just one more little thing’ repeatedly, until the project becomes unmanageable."
                 },
                 "q30": {
-                    "text": "The question asks what should match the duties, and the passage states that the team's \"skills\" should align with their \"roles\", which are the duties.",
+                    "text": "When selecting a team, the passage advises making sure that the team members' abilities are a good match for the roles they are given. That's why the correct answer is 'skills'.",
                     "quote": "Gather your human resources, and make sure that their skills align with their roles."
                 },
                 "q31": {
-                    "text": "The passage states that \"Clear communication is critical,\" which directly supports the answer 'Communication' as something to promote for project success.",
+                    "text": "The text stresses the need for team members to ask questions and for everyone to understand the project's limits, stating this is essential. That's why the correct answer is 'communication'.",
                     "quote": "Clear communication is critical."
                 },
                 "q32": {
-                    "text": "The passage states that 'interim milestones' are needed to measure success and stay on track, which directly supports the answer that milestones should be set.",
+                    "text": "To measure a project's success and see if it is staying on track, the passage states that you will need to set interim goals. That's why the correct answer is 'milestones'.",
                     "quote": "You will need interim milestones, especially for a long-term project, so that you can determine if you are staying on track or straying from the project’s goals."
                 },
                 "q33": {
-                    "text": "The question asks what needs to be checked to see if it is running to schedule. The quote states that interim milestones are needed to determine if you are staying on track, meaning the project is running to schedule.",
+                    "text": "The text explains that milestones are used to determine if you are 'staying on track' with the project's goals, which means checking if the project is on schedule. That's why the correct answer is 'project'.",
                     "quote": "You will need interim milestones, especially for a long-term project, so that you can determine if you are staying on track or straying from the project’s goals."
                 },
                 "q34": {
-                    "text": "The passage states that you should 'put contingency plans in place for certain occurrences,' meaning that these plans are prepared and can be activated when needed.",
+                    "text": "The passage advises that after defining likely risks, you should create backup plans for certain events, which can be activated if needed. That's why the correct answer is 'contingency plans'.",
                     "quote": "Hopefully you have defined the more likely risks up front during the protect preparation, so you should now put contingency plans in place for certain occurrences."
                 },
                 "q35": {
-                    "text": "The passage states that after a project is completed, it's important to write a report, which directly supports the answer 'report' as something that outlines strengths and weaknesses of the project.",
+                    "text": "After a project is finished, the text says it is important to write a document to analyze what went right (strengths) and wrong (weaknesses). That's why the correct answer is 'report'.",
                     "quote": "Once a project has been completed, it’s important to write a report, even if it is only for internal purposes."
                 }
             }

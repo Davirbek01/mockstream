@@ -80,28 +80,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "The sentence contrasts the celebration with a person's birthday, indicating that the missing word is 'birthday' itself. The phrase 'birthday of a railway' provides a direct contrast.",
-                    "quote": "Not the _____(1)_____ of a person, however, but the birthday of a railway."
+                    "text": "The passage first mentions celebrating a birthday, then clarifies it is not a person's birthday but a railway's. The word 'birthday' is used to create this comparison. That's why the correct answer is 'Birthday'.",
+                    "quote": "Here in Britain, we have been celebrating a birthday."
                 },
                 "q2": {
-                    "text": "The sentence directly states that 'The new _____ was controversial', and the passage is about the opening of the first underground railway. Therefore, 'railway' fits logically and grammatically.",
-                    "quote": "The new _____(2)_____ was controversial and unpopular with many people."
+                    "text": "The text introduces the world's first underground railway. The following sentence describes the public's negative reaction to this new project. That's why the correct answer is 'Railway'.",
+                    "quote": "One hundred and fifty years ago, in January 1863, the first underground railway in the world carried its first passengers."
                 },
                 "q3": {
-                    "text": "The word \"dug\" fits grammatically and contextually. The sentence describes the process of building the railway, and digging a trench would be a necessary step.",
-                    "quote": "They _____(3)_____ a deep trench and put the railway track at the bottom."
+                    "text": "The passage describes the construction process where men 'dug up the streets'. The verb needed to describe the action of making a trench is the past tense 'dug'. That's why the correct answer is 'Dug'.",
+                    "quote": "The men building the railway dug up the streets and knocked down houses and other buildings."
                 },
                 "q4": {
-                    "text": "The word 'trenches' fits grammatically and contextually. The passage contrasts the earlier method of digging 'trenches' with the later method of boring 'holes' deep under the city.",
-                    "quote": "Instead of digging huge _____(4)_____ s in the streets, they bored holes deep under the city."
+                    "text": "The passage contrasts the original construction method with a newer one. The original method involved digging a 'deep trench' for the railway track. That's why the correct answer is 'Trench'.",
+                    "quote": "They _____(3)_____ a deep trench and put the railway track at the bottom."
                 },
                 "q5": {
-                    "text": "The passage contrasts the older lines with the newer 'Tube' lines, explaining that steam engines were impossible on the 'deep' Tube lines because they used electric trains instead, indicating the depth necessitated electric power.",
-                    "quote": "It was of course impossible to use steam engines on the _____(5)_____ Tube lines; they had electric trains instead."
+                    "text": "The passage explains that the newer underground lines, called 'tubes', were built by boring holes 'deep under the city'. This describes their location. That's why the correct answer is 'Deep'.",
+                    "quote": "Instead of digging huge _____(4)_____ s in the streets, they bored holes deep under the city."
                 },
                 "q6": {
-                    "text": "The sentence directly defines \"to mind\" as \"be careful,\" and the blank refers to an announcement telling passengers to be careful, making \"announcement\" the correct fit. The phrase \"mind the gap\" is explained as a warning.",
-                    "quote": "To “mind” something means to be careful – the _____(6)_____ means “be careful."
+                    "text": "The passage states that you hear an 'announcement telling passengers to “mind the gap”'. It then explains this phrase means to be careful. That's why the correct answer is 'Announcement'.",
+                    "quote": ""
                 }
             }
         },
@@ -277,36 +277,36 @@ window.CEFR_READING_TEST = {
             ],
             "explanations": {
                 "q7": {
-                    "text": "Ali's experience caring for animals and desire to share his knowledge directly aligns with Green Time's need for youth volunteers to offer tips and advice at their meetings.",
-                    "quote": "He has experience caring for animals and would like to share this knowledge with other young people."
+                    "text": "Ali has experience with animals and wants to share his knowledge with other young people. Green Time is looking for youth volunteers with experience to offer tips and advice at their meetings. That's why the correct answer is D.",
+                    "quote": ""
                 },
                 "q8": {
-                    "text": "Text 8 describes someone living in a harbour town concerned about pollution, which aligns with Statement G's beach project focused on collecting plastic and addressing waste in coastal areas.",
-                    "quote": "Sam lives in a harbour town and is worried about the amount of pollution in his area."
+                    "text": "Sam is worried about pollution in his harbour town and wants to help local wildlife. Nature First runs a beach project in a coastal area to collect plastic and teaches how waste harms sea life. That's why the correct answer is G.",
+                    "quote": ""
                 },
                 "q9": {
-                    "text": "Hannah wants to organize an event to reduce waste, which aligns with Statement F's description of planning an event to showcase creative projects made from recycled materials and share waste reduction tips.",
-                    "quote": "She wants to help organise a social event to make more people in her town start reducing the amount of rubbish they throw away."
+                    "text": "Hannah wants to make things from recycled materials on a weekend. Genius! meets on Saturday mornings to make art out of rubbish and lets members help plan an annual event to show off their work. That's why the correct answer is F.",
+                    "quote": ""
                 },
                 "q10": {
-                    "text": "This quote directly aligns with Statement E's focus on making people aware of actions to save and protect species, which is facilitated through online meetings and information sharing.",
-                    "quote": "She wants to share information to let people know which animals are in danger and ways to help them."
+                    "text": "Fatema has good computer skills and wants to join an online club to share information about protecting animals. Listen Up! is an online club where members post articles about wildlife issues to raise awareness. That's why the correct answer is E.",
+                    "quote": ""
                 },
                 "q11": {
-                    "text": "This quote matches statement H because Joe wants to meet people interested in the environment, and Band Together is a club in the city where he can meet such people.",
-                    "quote": "Joe lives in a city and wants to meet other people who are interested in the environment."
+                    "text": "Joe lives in a city and wants to learn about growing food and the effects of pollution. Band Together is a city club with a small farm where you can see crops and discuss topics like how vehicles affect nature. That's why the correct answer is H.",
+                    "quote": ""
                 },
                 "q12": {
-                    "text": "The statement mentions a \"good salary\", implying Billy can earn a lot of money, and that the job is active and outdoors, as Billy desires.",
-                    "quote": "He wants to earn as much money as possible so that he can buy a new bike."
+                    "text": "Billy wants a well-paid, active outdoor job and is happy to work hard. The farm assistant position involves working outdoors for long periods picking fruit and offers a good salary. That's why the correct answer is J.",
+                    "quote": ""
                 },
                 "q13": {
-                    "text": "Yasmin wants to work during the week, and the kitchen assistant job requires work Tuesday to Saturday. Also, Yasmin doesn't want to work with customers, and the kitchen assistant job involves preparing and cleaning, not serving customers.",
-                    "quote": "She hopes to work during the week as she wants to spend Sundays with her family."
+                    "text": "Yasmin loves food, is shy, and wants to work during the week but not on Sundays. The kitchen assistant job involves preparing food, is not customer-facing, and has hours from Tuesday to Saturday. That's why the correct answer is K.",
+                    "quote": ""
                 },
                 "q14": {
-                    "text": "Text 14 mentions an interest in art and wanting lunch near the sea, which aligns with Statement L's description of an art gallery with a teashop serving lunches near the sea. The phrase 'don't want to cycle very far and they can't start early in the morning' also aligns with 'Less than an hour's ride along the coast road, shows paintings and photographs by local artists in attractive rooms on the cliffs. Open 2pm–5pm'.",
-                    "quote": "They’re interested in art and would like to have lunch somewhere near the sea."
+                    "text": "Zoe and Bea want a short cycle ride, a late start, art, and lunch near the sea. The Seaview Gallery is less than an hour's ride, opens at 2pm, shows art, and has a teashop for lunch. That's why the correct answer is L.",
+                    "quote": ""
                 }
             }
         },
@@ -437,27 +437,27 @@ window.CEFR_READING_TEST = {
             ],
             "explanations": {
                 "q15": {
-                    "text": "This sentence explicitly lists the materials used to create the hooks, directly aligning with the heading 'A list of raw materials used to construct hooks.' The paragraph goes on to describe other plant-based materials used as well.",
-                    "quote": "fishermen made their hooks and fishing gear out of wood, bone, stone and shells."
+                    "text": "This paragraph lists the natural materials the Maori used to make their fishing equipment, such as wood, bone, stone, and shells for hooks, and various plants for lines and nets. That's why the correct answer is F.",
+                    "quote": "Meanwhile, fish was the settlers’ main food source at the time, so fishermen made their hooks and fishing gear out of wood, bone, stone and shells."
                 },
                 "q16": {
-                    "text": "This sentence directly states that a study was conducted to understand the function of the Maori fish hooks. This aligns perfectly with the idea of an investigation into how the hooks functioned effectively.",
+                    "text": "This paragraph describes a museum study that investigated how the Maori fish hook worked. The study demonstrated that the hook's unique design functioned by spinning and catching the fish's jaw. That's why the correct answer is D.",
                     "quote": "The Museum of New Zealand Te Papa Tongarewa did their own recent study on Maori fish hooks two hundred and thirty years later, and were able to demonstrate that the unique hook design was a matter of function."
                 },
                 "q17": {
-                    "text": "This sentence directly discusses the use of a specific hook style (composite hook) for catching larger fish species. The paragraph also details the materials used and construction methods for different hook sizes, aligning with the heading's focus on styles, materials, and their employment for catching larger fish.",
+                    "text": "The paragraph explains how different materials like strong wood and bone were used to make larger hooks. It also specifies that a special 'composite hook' was employed to catch bigger fish like sharks. That's why the correct answer is G.",
                     "quote": "When they wanted to catch larger species like sharks, groper and ling, they used composite hook."
                 },
                 "q18": {
-                    "text": "This sentence directly describes the Maori people's adoption of new materials, which is a form of technology, and implies adaptation. The paragraph then goes on to describe how they used these new materials to make fish hooks.",
+                    "text": "This section explains that the Maori people quickly adopted new materials like metal from European arrivals. They adapted this new technology to continue making their fish hooks, incorporating it into their craft. That's why the correct answer is H.",
                     "quote": "Maori adopted new materials quickly once they became available with European explorers, sealers and whalers who began to arrive towards the end of the 1700s."
                 },
                 "q19": {
-                    "text": "This sentence directly describes how the influx of mass-produced European metal hooks led to the decline and eventual abandonment of traditional Maori hook designs, illustrating the dominance of modern technology.",
-                    "quote": "In the end, though, it was only a matter of time before the amount of mass-produced metal European hooks finally overwhelmed the area, highlighting the difficulty of making hooks from nails, horseshoes and other metal objects, and finally the use of the traditional designs fell out of favor."
+                    "text": "This paragraph describes how mass-produced European metal hooks eventually 'overwhelmed the area'. This influx of modern technology ultimately caused the traditional Maori hook designs to fall out of favor and common use. That's why the correct answer is E.",
+                    "quote": ""
                 },
                 "q20": {
-                    "text": "This sentence directly provides a list of characteristics that distinguish fake Maori hooks from authentic ones. It gives instructions on how to identify counterfeit hooks.",
+                    "text": "This paragraph details the rise of fake Maori artifacts and provides a clear list of features to identify them. These clues include cheap construction, poor lashings, and a lack of functional parts. That's why the correct answer is A.",
                     "quote": "Fake hooks can be spotted by their cheap construction, inconsistent materials, rudimentary lashings, odd or over-elaborate decorative carvings, and finally, by the lack of in-turned points or angled grooves used to actually attach the fishing line."
                 }
             }
@@ -656,39 +656,39 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q21": {
-                    "text": "The passage states that the olfactory system is targeted by scents to entice customers to stay longer in a retail outlet, which directly supports option B.",
+                    "text": "The passage states that vanilla and citrus perfumes are used in retail outlets with the specific aim of 'enticing US to linger', or stay longer. That's why the correct answer is B.",
                     "quote": "More surreptitiously, our olfactory system is targeted by variations of vanilla and citrus perfumes aimed at enticing US to linger in a retail outlet."
                 },
                 "q22": {
-                    "text": "The passage states that people are 'swayed by advertising' to buy bottled water, which directly supports the idea that consumers buy it because of marketing.",
+                    "text": "The author presents bottled water as an example of how people are 'swayed by advertising' to purchase something that is otherwise available for free. That's why the correct answer is A.",
                     "quote": "In the case of bottled water, we are swayed by advertising into paying for something that we can obtain for free."
                 },
                 "q23": {
-                    "text": "The quote directly supports option C because it describes how a rat's food preference is influenced by what another rat of the same species eats, which is the definition of socially transmitted food preference.",
+                    "text": "The passage describes an experiment where one rat's food preference is influenced by another rat it was with, not necessarily a dominant one. This demonstrates influence from another member of the same species. That's why the correct answer is C.",
                     "quote": "However, if we put that rat with another rat that spent its day eating just one type, when faced with a choice, our rat will now show a preference for the same type as the other rat was eating."
                 },
                 "q24": {
-                    "text": "The quote states that learning by observation helps us \"deal with many everyday problems\", which directly supports the idea that it helps people overcome challenges. Therefore, option A is the correct answer.",
-                    "quote": "Learning by observation can be an extraordinarily valuable brain feature, this is how we learn to communicate and perform motor skills as well as deal with many everyday problems."
+                    "text": "The text gives an example of a newcomer 'struggling' to use a subway system who learns how to do it by watching others, thus overcoming a problem. That's why the correct answer is A.",
+                    "quote": "For example, a newcomer struggling to purchase tickets and navigate the subway system in a foreign city may step back to learn from the people nearby."
                 },
                 "q25": {
-                    "text": "The passage states that TV advertisements feature \"attractive, successful looking individuals,\" which aligns with option B, people who have a desirable image. This exploits the human tendency to imitate those who appear popular and appealing.",
-                    "quote": "Anybody who has watched TV knows advertisements are disproportionately populated with attractive, successful looking individuals."
+                    "text": "The passage explains that we are more likely to imitate people who are 'popular and appealing'. Advertisements exploit this by featuring 'attractive, successful looking individuals'. That's why the correct answer is B.",
+                    "quote": "If we are going to imitate someone, we are more inclined to imitate those who appear to be popular and appealing."
                 },
                 "q26": {
-                    "text": "The passage states the campaign associated diamonds with 'love', not 'luxury', therefore the statement is false.",
-                    "quote": "This was achieved by exploiting the associative nature of the brain: associating neurons! Activated by the concept of ‘love’ with neurons that encoded the concept of “diamonds."
+                    "text": "The passage explicitly states that the campaign's objective was to promote diamonds as the symbol of 'everlasting love', not luxury. Therefore, the statement is false. That's why the correct answer is False.",
+                    "quote": "Rather than pushing a brand, the objective was to promote diamonds as the symbol of everlasting love."
                 },
                 "q27": {
-                    "text": "The passage discusses visual, auditory, and olfactory marketing, but it does not compare people's awareness of visual versus auditory marketing. Therefore, there is no information to support the statement.",
+                    "text": "The text mentions both visual and auditory marketing techniques, but it never compares them or suggests that people are more conscious of one than the other. That's why the correct answer is Not Given.",
                     "quote": ""
                 },
                 "q28": {
-                    "text": "The passage discusses the effectiveness and manipulative nature of advertising, but it does not explicitly state whether the diamond campaign had a positive influence on society. Therefore, the answer is Not Given.",
+                    "text": "The passage describes the diamond campaign as effective and culturally significant, but it makes no judgment about whether its influence on society was positive or negative. That's why the correct answer is Not Given.",
                     "quote": ""
                 },
                 "q29": {
-                    "text": "The quote directly states that while not all researchers agree, some studies suggest animals imitate dominant members, indicating uncertainty about the extent of this behavior.",
+                    "text": "The text states that 'not all researchers are convinced by the findings' regarding animals imitating dominant members, which directly indicates there is still uncertainty. Therefore, the statement is true. That's why the correct answer is True.",
                     "quote": "Although not all researchers are convinced by the findings, a number of studies indicate that some animals also imitate dominant members of their group."
                 }
             }
@@ -813,27 +813,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q30": {
-                    "text": "The passage states that older typists used 'cunning little strategies' to be more efficient, which directly supports the idea that they used more time-saving techniques than younger typists.",
+                    "text": "The passage states that older typists achieved the same speed as younger ones by using clever strategies to be more efficient, like making fewer finger movements. That's why the correct answer is C.",
                     "quote": "The older typists, it turned out, achieved their speed with cunning little strategies that made them more efficient than their younger counterparts."
                 },
                 "q31": {
-                    "text": "This quote directly supports option D, as it states that the brain (specifically the dendrites) shrinks when the mind is idle (low mental activity) and expands when stimulated (high mental activity).",
-                    "quote": "The dendrites shrink when the mind is idle."
+                    "text": "The text explains that a rat's brain shrinks when it is isolated but shows significant differences (implying growth) when placed in a stimulating environment with toys. That's why the correct answer is D.",
+                    "quote": "For example, ‘when a rat is kept in isolation, the animal’s brain shrinks, but if we put that rat with other rats in a large cage and give them an assortment of toys, we can show, after four days, significant differences in its brain,’ says Diamond."
                 },
                 "q32": {
-                    "text": "The passage states that memory exists in more than one form, and then defines one form as \"semantic memory\", which is the answer to the question.",
+                    "text": "The passage identifies two forms of memory. The first is described as knowledge or facts, which psychologists call semantic memory. That's why the correct answer is 'Semantic'.",
                     "quote": "Memory exists in more than one form, what we call knowledge – facts – is what psychologists such as Harry Bahrick of Ohio Wesleyan University call semantic memory."
                 },
                 "q33": {
-                    "text": "The question asks for the type of memory that contrasts with knowledge, and the provided quote directly defines episodic memory as events, conversations, and occurrences, contrasting it with semantic memory (knowledge).",
+                    "text": "After defining semantic memory, the passage introduces the second type, which consists of events, conversations, and occurrences in time and space. This is called episodic memory. That's why the correct answer is 'Episodic'.",
                     "quote": "Events, conversations and occurrences in time and space, on the other hand, make up episodic memory."
                 },
                 "q34": {
-                    "text": "The question asks for knowledge of what subject was tested, and the quote directly states that algebra was the school subject tested in the study.",
+                    "text": "The passage describes a study by psychologist Harry Bahrick that tested the long-term memory of high school graduates on a specific school subject. That subject was algebra. That's why the correct answer is 'Algebra'.",
                     "quote": "Probing the longevity of knowledge, Bahrick tested 1,000 high school graduates to see how well they remembered the school subject algebra."
                 },
                 "q35": {
-                    "text": "The passage directly states that the ability to manage memory is a mental function known as metamemory, which directly answers the question.",
+                    "text": "The text discusses the ability to manage one's own memory, which it describes as a specific mental function. This function is explicitly named metamemory. That's why the correct answer is 'Metamemory'.",
                     "quote": "Perhaps even more important than the ability to remember is the ability to manage memory – a mental function known as metamemory."
                 }
             }

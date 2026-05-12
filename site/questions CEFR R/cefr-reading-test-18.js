@@ -65,28 +65,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "The passage begins by stating that London is known for its green spaces and that tourists can relax in a quiet park. Therefore, it's logical to assume the park is located in London.",
-                    "quote": "London has a well-deserved reputation as one of the greenest cities in Europe...relax in a lovely, quiet park."
+                    "text": "The entire passage is about the green spaces within London. The first sentence establishes the city as the main topic, describing it as one of Europe's greenest cities. That's why the correct answer is 'London'.",
+                    "quote": "London has a well-deserved reputation as one of the greenest cities in Europe, with a huge number of open spaces across the center of the city."
                 },
                 "q2": {
-                    "text": "The sentence describes the Royal Parks as being 'preserved' as a certain type of space. 'Open' fits best because it contrasts with the city growing around them.",
-                    "quote": "preserved as _____ space while the city has grown up around them."
+                    "text": "The passage describes how former royal hunting estates were preserved as the city grew around them. The first sentence introduces these areas as 'open spaces', which fits the context perfectly. That's why the correct answer is 'open'.",
+                    "quote": "London has a well-deserved reputation as one of the greenest cities in Europe, with a huge number of open spaces across the center of the city."
                 },
                 "q3": {
-                    "text": "The sentence lists activities one can do in the Royal Parks, including sunbathing. 'Relax' complements sunbathing and fits the context of enjoying the parks.",
-                    "quote": "They are ideal places to _____ and sunbathe in summer..."
+                    "text": "The passage lists activities for visitors. An earlier sentence states that tired tourists can 'relax' in the parks, which is a similar leisure activity to sunbathing in the summer. That's why the correct answer is 'relax'.",
+                    "quote": "Tourists who are tired of the noise, crowds and excitement of sightseeing can always relax in a lovely, quiet _____(1)_____ park."
                 },
                 "q4": {
-                    "text": "The passage mentions that the Royal Parks provide green routes for cyclists, and these routes are located in London.",
-                    "quote": "The Royal Parks provide fantastic green routes in _____ that take cyclists away from traffic..."
+                    "text": "The passage is about parks in London. The sentence mentions cycling routes through 'the capital', which in this context is London, the city where the Royal Parks are located. That's why the correct answer is 'London'.",
+                    "quote": "The Royal Parks provide fantastic green routes in _____(4)_____ that take cyclists away from traffic and through some of the most attractive areas of the capital."
                 },
                 "q5": {
-                    "text": "The passage discusses the Royal Parks and mentions that picnics are a popular activity within these parks.",
-                    "quote": "Picnics in the _____ are also a popular activity especially during the busy summer months."
+                    "text": "The paragraph describes popular activities that take place in the Royal Parks, such as cycling. Picnics are another common activity people enjoy in these green spaces. That's why the correct answer is 'parks'.",
+                    "quote": "The Royal Parks are for everyone to enjoy."
                 },
                 "q6": {
-                    "text": "The paragraph discusses rules and regulations within the Royal Parks, specifically mentioning that dogs are welcome but with certain restrictions.",
-                    "quote": "_____ are welcome in all the Royal Parks, although there are some places where they are not allowed..."
+                    "text": "The sentences immediately following the gap discuss rules for a specific animal, mentioning their effect on birds and deer. This context makes it clear the subject is dogs. That's why the correct answer is 'Dogs'.",
+                    "quote": "Ground nesting birds are particularly sensitive to disturbance by dogs and people."
                 }
             }
         },
@@ -236,32 +236,32 @@ window.CEFR_READING_TEST = {
             ],
             "explanations": {
                 "q7": {
-                    "text": "Person 7 is studying sea creatures that are disappearing, and option F (Marine Life) discusses protecting oceans and helping shark populations, which aligns with the person's interest.",
-                    "quote": "Keen to protect our oceans? Come and see the work we're doing – there are presentations about it every hour. For example, we try to help shark numbers worldwide remain at healthy levels."
+                    "text": "You want to learn about disappearing sea creatures and those on nearby beaches. Marine Life has presentations on protecting the oceans and displays of tiny creatures from local rock pools. That's why the correct answer is F.",
+                    "quote": ""
                 },
                 "q8": {
-                    "text": "The person is interested in seeing the most beautiful fish, and option D (Waterlife) mentions seeing clown fish with bright yellow and white stripes.",
-                    "quote": "We've got some of the rarest fish in the world, and the most beautiful. See the clown fish with its bright yellow and white stripes!"
+                    "text": "You need to see colourful fish for an art project, get photos, and swim. Waterlife has beautiful fish, sells professional pictures, and has a warm pool for your family to use afterwards. That's why the correct answer is D.",
+                    "quote": ""
                 },
                 "q9": {
-                    "text": "The person wants to see small sea life, and option H (Waterlife) mentions seeing shrimps and starfish at a rock pool display.",
-                    "quote": "See some of the smallest sea life such as shrimps and starfish at our rock pool display - and even pick them up!"
+                    "text": "You are looking for a place where you can handle tiny sea animals and also see a feeding session. At Waterlife, you can pick up creatures like shrimps and starfish and also watch the penguins and seals eat. That's why the correct answer is H.",
+                    "quote": ""
                 },
                 "q10": {
-                    "text": "The person is interested in photography, and option E (Brightworld) offers talks on using your camera for great shots of fish.",
-                    "quote": "There are also short talks on using your camera for great shots of fish, and painting sessions, too."
+                    "text": "You're interested in cold-climate animals, art, and photography. Brightworld has penguins, offers painting sessions, and provides talks on how to photograph fish, matching all your interests. That's why the correct answer is E.",
+                    "quote": ""
                 },
                 "q11": {
-                    "text": "The person wants to go into the water with sea creatures, and option B (Rockwater) allows you to go into the water in a tank with staff.",
-                    "quote": "You can even go into the water in one, accompanied by staff – ask at the desk!"
+                    "text": "You want to swim with fish and learn about deep-sea creatures. Rockwater allows you to get in the water with the animals and has fish that are normally found at the bottom of the ocean. That's why the correct answer is B.",
+                    "quote": ""
                 },
                 "q12": {
-                    "text": "The person wants to go swimming, and option A (Amrith) states that swimming is safe.",
-                    "quote": "Swimming is safe but surfing is not permitted."
+                    "text": "You need a spacious place with a view, a café, and an easy walk. Amrith is a large beach that doesn't get crowded, has pleasant views, and includes a café and parking, avoiding a difficult walk. That's why the correct answer is A.",
+                    "quote": ""
                 },
                 "q13": {
-                    "text": "The person wants to go swimming, and option I (Marple) states that swimming is good and the shallow pools are safe for children.",
-                    "quote": "Swimming is good and the many pools of shallow water are safe for children."
+                    "text": "You need a place with safe water for children and sailing lessons. Marple has shallow pools that are safe for children and a watersports centre next to the beach that offers sailing lessons. That's why the correct answer is I.",
+                    "quote": ""
                 }
             }
         },
@@ -357,28 +357,28 @@ window.CEFR_READING_TEST = {
             ],
             "explanations": {
                 "q14": {
-                    "text": "Paragraph A describes the Scottish Highlands with its wildlife and Loch Ness, highlighting its natural beauty and wonders.",
-                    "quote": "The mountains of Scotland (we call them the Highlands) are a wild and beautiful part of Europe...Some say that not only fish swim in the deep water of Loch Ness."
+                    "text": "This paragraph describes the Scottish Highlands as a \"wild and beautiful\" place with eagles, deer, and fish in clean rivers. This imagery of unspoiled nature makes it a land of wonders, so the correct answer is II.",
+                    "quote": "The mountains of Scotland (we call them the Highlands) are a wild and beautiful part of Europe."
                 },
                 "q15": {
-                    "text": "Paragraph B describes Tresco as a quiet island with flowers, birds, and beaches, making it perfect for a quiet holiday.",
+                    "text": "The paragraph describes Tresco as an island with \"no cars, crowds or noise,\" only natural beauty like flowers and beaches. This lack of disturbance makes it an ideal location for a peaceful vacation, so the correct answer is I.",
                     "quote": "Tresco is a beautiful island with no cars, crowds or noise — just flowers, birds, long sandy beaches and the Tresco Abbey Garden."
                 },
                 "q16": {
-                    "text": "Paragraph C describes a camel and wildlife safari in Kenya, offering activities like camel riding and exploring the bush, making it perfect for an active holiday.",
+                    "text": "The paragraph describes a safari where tourists can actively \"explore the bush,\" \"travel on a camel back,\" and \"sleep out under the stars.\" These activities suggest an adventurous and active trip, so the correct answer is V.",
                     "quote": "Tourists will have a chance to explore the bush near Samburu, to travel on a camel back or to sleep out under the stars."
                 },
                 "q17": {
-                    "text": "Paragraph D discusses the difficulties of arrival in a new place, highlighting the challenges travelers face at the beginning of a trip.",
-                    "quote": "Arrival can be the hardest part of a trip. It is late, you are road-weary, and everything is new and strange."
+                    "text": "The paragraph explicitly states that arriving in a new place can be the \"hardest part of a trip\" because you are tired and everything is unfamiliar. This describes a challenging beginning, so the correct answer is VI.",
+                    "quote": "Arrival can be the hardest part of a trip."
                 },
                 "q18": {
-                    "text": "Paragraph E argues that zoos are harmful to animals because they are kept in artificial environments and isolated from their natural habitats.",
-                    "quote": "Most animals are put in a totally artificial environment, isolated from everything they would meet in their natural habitat. Many will agree that this isolation is harmful to the most of zoo inhabitants, it can even amount to cruelty."
+                    "text": "The paragraph argues that zoos place animals in \"totally artificial\" and isolated environments, which is described as \"harmful\" and can even be considered \"cruelty.\" This highlights negative conditions for animals, so the correct answer is III.",
+                    "quote": "Many will agree that this isolation is harmful to the most of zoo inhabitants, it can even amount to cruelty."
                 },
                 "q19": {
-                    "text": "Paragraph F describes a new London Zoo project aimed at improving animal accommodation and conservation efforts, suggesting new perspectives on zoo management.",
-                    "quote": "A new London Zoo Project is a ten year project to secure the future for the Zoo and for many endangered animals...to more fully engage and inform people about conservation issues, to redesign certain aspects of Zoo layout."
+                    "text": "The paragraph describes a \"new London Zoo Project\" with a new plan to secure the zoo's future. It aims to provide better animal accommodation and engage people differently, representing a fresh outlook, so the correct answer is VII.",
+                    "quote": "A new London Zoo Project is a ten year project to secure the future for the Zoo and for many endangered animals."
                 }
             },
             "passage": {
@@ -600,36 +600,36 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q20": {
-                    "text": "The passage states that the 2006 discovery, along with others, provided evidence that the lynx survived in Britain longer than previously thought.",
-                    "quote": "Until this discovery, the lynx...was presumed to have died out in Britain at least 6,000 years ago...But the 2006 find...is compelling evidence that the lynx...were in fact one and the same animal. If this is so, it would bring forward the tassel-eared cat's estimated extinction date by roughly 5,000 years."
+                    "text": "The passage states that the discovery of a lynx bone from around 598 AD would push its extinction date forward by 5,000 years, meaning it survived much longer than previously believed. That's why the correct answer is D.",
+                    "quote": "If this is so, it would bring forward the tassel-eared cat's estimated extinction date by roughly 5,000 years."
                 },
                 "q21": {
-                    "text": "The third paragraph explains that ecosystems with large predators behave differently and that these predators can create niches for other species, thus increasing biodiversity.",
-                    "quote": "One of the most striking findings of modern ecology is that ecosystems without large predators behave in completely different ways from those that retain them...The killers turn out to be bringers of life."
+                    "text": "The author explains that large predators create opportunities, or 'niches', for hundreds of other species to survive where they otherwise might not. This increases the variety of life, or biodiversity. That's why the correct answer is A.",
+                    "quote": "Some of them drive dynamic processes that resonate through the whole food chain, creating niches for hundreds of species that might otherwise struggle to survive."
                 },
                 "q22": {
-                    "text": "The writer suggests that British conservation has tried to preserve nature in a static state, like a 'jar of pickles,' which implies a misguided approach.",
+                    "text": "The writer criticises the traditional British approach to conservation by comparing it to preserving something in a jar, which ignores the dynamic nature of ecosystems. This implies the approach was misguided. That's why the correct answer is C.",
                     "quote": "It has tried to preserve the living world as if it were a jar of pickles, letting nothing in and nothing out, keeping nature in a state of arrested development."
                 },
                 "q23": {
-                    "text": "The passage states that protecting large areas of the sea would boost catches in surrounding seas, indicating practical benefits for the fishing industry.",
-                    "quote": "This policy would also greatly boost catches in the surrounding seas; the fishing industry's insistence on scouring every inch..."
+                    "text": "The passage states that protecting parts of the sea would lead to a significant increase in the number of fish caught in surrounding areas, which would be a direct benefit to the fishing industry. That's why the correct answer is A.",
+                    "quote": ""
                 },
                 "q24": {
-                    "text": "The passage does not explicitly state that rewilding is based on sounder scientific principles, more achievable, or has more articulate supporters. However, it does imply that its positive message is more appealing.",
-                    "quote": "The lynx is now becoming the totemic animal of a movement that is transforming British environmentalism: rewilding."
+                    "text": "The author contrasts rewilding's 'inspiring vision' with the typically negative framing of other green campaigns, suggesting its positive message is a key reason for its popularity. That's why the correct answer is C.",
+                    "quote": ""
                 },
                 "q25": {
-                    "text": "The passage does not explicitly state that Britain could become the first European country to reintroduce the lynx.",
-                    "quote": "N/A"
+                    "text": "The passage explicitly lists several other European countries, including France and Germany, where the lynx has already been reintroduced. Therefore, Britain cannot be the first. That's why the correct answer is False.",
+                    "quote": ""
                 },
                 "q26": {
-                    "text": "The passage does not provide information about the growth in the European lynx population since 1970 or whether it exceeded conservationists' expectations.",
-                    "quote": "N/A"
+                    "text": "The text states that the lynx population has tripled, but it does not mention what conservationists' original expectations were. Without this information, the statement cannot be verified. That's why the correct answer is Not Given.",
+                    "quote": "The European population has tripled since 1970 to roughly 10,000."
                 },
                 "q27": {
-                    "text": "The passage does not provide information about changes in agricultural practices extending the habitat of the lynx in Europe.",
-                    "quote": "N/A"
+                    "text": "The passage directly links the spread of the lynx in Europe to the fact that 'farming has left the hills'. This change in agriculture has allowed the animal's habitat to expand. That's why the correct answer is True.",
+                    "quote": ""
                 }
             }
         },
@@ -777,36 +777,36 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q28": {
-                    "text": "The first sentence of the passage directly states that science plays an increasingly significant role in people's lives, making faithful communication important.",
+                    "text": "The passage opens by stating that because science is increasingly significant in our lives, it is more important than ever to communicate it faithfully. That's why the correct answer is A.",
                     "quote": "Science plays an increasingly significant role in people's lives, making the faithful communication of scientific developments more important than ever."
                 },
                 "q29": {
-                    "text": "The second paragraph states that the biggest challenges arise because scientists themselves often only partly understand the full implications of developments.",
+                    "text": "The author states the biggest challenges arise because scientists themselves often only partly grasp the full meaning of a new development in evolving research areas. That's why the correct answer is C.",
                     "quote": "But many of the biggest challenges for science reporting arise because in areas of evolving research, scientists themselves often only partly understand the full implications of any particular advance or development."
                 },
                 "q30": {
-                    "text": "The third paragraph uses the example of 'theory of relativity' to illustrate how ambiguous word choices can mislead the public due to the specific meanings scientists assign to them.",
-                    "quote": "Ambiguous word choices are the source of some misunderstandings. Scientists often employ colloquial terminology, which they then assign a specific meaning that is impossible to fathom without proper training. The term \"relativity,\" for example, is intrinsically misleading."
+                    "text": "The paragraph introduces 'relativity' as an example of an 'intrinsically misleading' term that causes public misunderstanding, demonstrating how poor phrasing can be a problem. That's why the correct answer is B.",
+                    "quote": "Ambiguous word choices are the source of some misunderstandings."
                 },
                 "q31": {
-                    "text": "The third paragraph explicitly states that ambiguous word choices are the source of some misunderstandings in science communication.",
+                    "text": "The passage directly identifies the cause of some misunderstandings in science communication in the first sentence of the third paragraph. That's why the correct answer is 'word choices'.",
                     "quote": "Ambiguous word choices are the source of some misunderstandings."
                 },
                 "q32": {
-                    "text": "The third paragraph explains that scientists often use colloquial terminology, which they then assign a specific meaning.",
+                    "text": "The text explains that scientists use everyday language, or 'colloquial terminology', and assign it a specific meaning that can be hard to understand without training. That's why the correct answer is 'colloquial terminology'.",
                     "quote": "Scientists often employ colloquial terminology, which they then assign a specific meaning that is impossible to fathom without proper training."
                 },
                 "q33": {
-                    "text": "The third paragraph discusses how measurements depend on the observer's coordinates and reference frame.",
+                    "text": "When explaining relativity, the passage states that measurements depend on the person or entity making them, which the text refers to as an 'observer'. That's why the correct answer is 'observer'.",
                     "quote": "Yet although the measurements any observer makes depend on his coordinates and reference frame, the physical phenomena he measures have an invariant description that transcends that observer's particular coordinates."
                 },
                 "q34": {
-                    "text": "The third paragraph mentions that Einstein's theory of relativity is about finding an invariant description of physical phenomena.",
+                    "text": "The passage clarifies that Einstein's theory is about finding a constant way to describe physical events, which it calls an 'invariant description'. That's why the correct answer is 'invariant description'.",
                     "quote": "Einstein's theory of relativity is really about finding an invariant description of physical phenomena."
                 },
                 "q35": {
-                    "text": "The fourth paragraph introduces the concept of 'the uncertainty principle'.",
-                    "quote": "\"The uncertainty principle\" is another frequently abused term."
+                    "text": "The passage uses Einstein's work as an example of how long it can take to finalize a scientific theory, specifically mentioning his 'theory of general relativity'. That's why the correct answer is 'general'.",
+                    "quote": "Even Einstein took the better part of a decade to develop the correct version of his theory of general relativity."
                 }
             }
         }

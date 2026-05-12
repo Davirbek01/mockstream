@@ -64,28 +64,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "The question specifies a \"secret agent\", and the sentence discusses someone being \"caught by an enemy\", indicating the missing word is \"spy\".",
-                    "quote": "Therefore, it is only on the rare occasion of a _____(1)_____ being caught by an enemy _____(2)_____ that the public becomes aware of what goes on behind the political scenes."
+                    "text": "The passage's first sentence introduces the topic of international espionage. The sentence with the gap describes the rare occasion when one of these secret agents is captured by another nation. That's why the correct answer is 'spy'.",
+                    "quote": "Although most countries employ spies, few will ever admit that they do."
                 },
                 "q2": {
-                    "text": "The sentence discusses exchanging spies between nations, and the phrase \"one of the country's own master-spies\" indicates that \"country\" is the missing noun referring to a nation.",
-                    "quote": "Even the exchange of a captured _____(3)_____ spy for one of the country's own master-spies who had been caught by an enemy country is done as secretly as possible."
+                    "text": "The passage discusses spies being caught by an opposing nation. The following sentence clarifies this relationship by explicitly mentioning an 'enemy country' capturing one of the spies involved in an exchange. That's why the correct answer is 'country'.",
+                    "quote": ""
                 },
                 "q3": {
-                    "text": "The question asks for an adjective that describes the opposing side, and the word 'enemy' directly precedes the gap in the original sentence, indicating that the missing word is related to someone captured by the enemy.",
-                    "quote": "Therefore, it is only on the rare occasion of a _____(1)_____ being caught by an enemy _____(2)_____ that the public becomes aware of what goes on behind the political scenes."
+                    "text": "The sentence describes a secret exchange of captured agents between two opposing sides. The text uses the phrase 'enemy country' to describe the opposition, so the captured agent would be an 'enemy' spy. That's why the correct answer is 'enemy'.",
+                    "quote": ""
                 },
                 "q4": {
-                    "text": "The question asks for a noun that is a structure over water, and the sentence mentions a motorboat stopping 'below the bridge,' indicating that the men were standing on the bridge itself.",
-                    "quote": "They stood on the _____(4)_____ for fifteen minutes waiting and watching until they saw a motorboat draw up and stop below the bridge."
+                    "text": "The passage states that the three men got out of a car that had stopped on a 'lonely bridge'. The sentence with the gap describes them standing and waiting in that same location. That's why the correct answer is 'bridge'.",
+                    "quote": "Early one cold December morning last year, three men dressed in heavy black overcoats got out of a small blue car that had stopped on a lonely bridge in Northern Germany."
                 },
                 "q5": {
-                    "text": "\"Men\" fits the gap because the question specifies a noun referring to people, and the context describes individuals stepping out of a boat and looking up at the bridge.",
-                    "quote": "Seeing three _____(5)_____ stepped out of the boat and glanced up at the bridge, they quickly made their way down to the riverbank and the _____(6)_____ ."
+                    "text": "The first group consisted of three men. The sentence with the gap describes a second group of three people arriving. The following sentence confirms the total number was 'six men', indicating the second group were also men. That's why the correct answer is 'men'.",
+                    "quote": "No words were spoken when the six men met."
                 },
                 "q6": {
-                    "text": "The question asks for a noun that is a watercraft, and the word 'boat' fits both the grammatical structure of the sentence and the context of a river exchange.",
-                    "quote": "Seeing three _____(5)_____ stepped out of the boat and glanced up at the bridge, they quickly made their way down to the riverbank and the _____(6)_____ ."
+                    "text": "The men on the bridge saw a 'motorboat' stop below them. The sentence with the gap describes them going down to the riverbank to meet the people from this watercraft. That's why the correct answer is 'boat'.",
+                    "quote": ""
                 }
             }
         },
@@ -225,35 +225,35 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q7": {
-                    "text": "Statement J is looking for graduates who want to gain experience, which aligns with John having just finished college and wanting to test himself in a promotional job.",
+                    "text": "John is a recent college graduate looking for a part-time marketing job. The 'Marketing 101' ad is for graduates and offers part-time positions, making it a perfect match. That's why the correct answer is J.",
                     "quote": "John has just finished college."
                 },
                 "q8": {
-                    "text": "Statement A is looking for people who want to work part-time with a flexible work schedule, which matches the needs of Julia and Mark who can't work full-time because they have three kids.",
+                    "text": "Julia and Mark have a family and need part-time work. The 'Family Advertisement' is specifically for stay-at-home people who need a flexible, part-time schedule. That's why the correct answer is A.",
                     "quote": "They have three kids and they can't work full time."
                 },
                 "q9": {
-                    "text": "Statement E is looking for recent immigrants and Yusuf is a recent immigrant. Also, Yusuf would love to work in support or service, which is offered in Statement E.",
+                    "text": "Yusuf is a recent immigrant to the USA who wants a job in customer service. The 'Call to Aid' ad is specifically for recent immigrants and offers positions in customer service. That's why the correct answer is E.",
                     "quote": "Yusuf has recently come to the USA."
                 },
                 "q10": {
-                    "text": "The statement is looking for retirees and Mark is retired. The statement also mentions consultants, which is what Mark wants to work as.",
+                    "text": "Mark is retired and wants to work as an advisor, which is another word for a consultant. The 'UP' advertisement is aimed at retirees who want to work as consultants. That's why the correct answer is I.",
                     "quote": "Mark is retired."
                 },
                 "q11": {
-                    "text": "Farukh is good at teaching, and Statement D is looking for tutors, which is a teaching role. This indicates a match between Farukh's skills and the job requirements.",
+                    "text": "Farukh is good at teaching, and the 'Mentor Academy' is looking for people to work as tutors. Tutoring is a form of teaching, making this the best fit for his skills. That's why the correct answer is D.",
                     "quote": "He is good at teaching."
                 },
                 "q12": {
-                    "text": "Text 12 describes Murod as a creative professional seeking work in advertising, which aligns perfectly with Statement H's offer for creative professionals in advertising.",
+                    "text": "Murod is a creative professional who wants a job in advertising. The 'Vector Ads' company is specifically looking for creative professionals for a career in advertising. That's why the correct answer is H.",
                     "quote": "Murod is a creative professional who wants to work in advertising."
                 },
                 "q13": {
-                    "text": "Text 13 states Brad wants to work in real estate, which aligns with Statement C's advertisement for a real estate company.",
+                    "text": "Brad wants a job in the real estate business but has no experience. The 'IT'S A REAL ESTATE!' ad offers training programs, which is perfect for an inexperienced person like him. That's why the correct answer is C.",
                     "quote": "Brad would love to work in a real estate business."
                 },
                 "q14": {
-                    "text": "Statement G is looking for experienced professionals, which matches Joseph's profile. He also wants to work in management, which aligns with the leadership role mentioned in the statement.",
+                    "text": "Joseph is an experienced professional looking for a management position. The 'FCI Golden Management' ad is for experienced professionals who want a leadership role, which is the same as management. That's why the correct answer is G.",
                     "quote": "Joseph is an experienced professional."
                 }
             }
@@ -369,28 +369,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q15": {
-                    "text": "This sentence directly states that Europe is the origin of mass media, making \"Origin of Mass Media\" the most fitting heading for the paragraph.",
+                    "text": "This paragraph traces the history of mass media, from the first printed book in Europe to the introduction of radio, television, and the internet. This historical overview explains its origins, so the correct answer is B.",
                     "quote": "Europe can boast to be the primary source of mass media."
                 },
                 "q16": {
-                    "text": "The paragraph discusses how mass media enhances knowledge, provides news, and increases social awareness, all of which are positive outcomes. Therefore, \"Positive Effects\" accurately summarizes the paragraph's content.",
+                    "text": "The paragraph lists the benefits of mass media, such as increasing awareness, enhancing general knowledge, and informing people about social issues. These are all beneficial impacts, which is why the correct answer is D.",
                     "quote": "Mass media increase an overall awareness of the masses."
                 },
                 "q17": {
-                    "text": "This sentence directly introduces the negative consequences attributed to mass media, such as eating disorders and unhealthy lifestyles. The rest of the paragraph then elaborates on these adverse effects, justifying the heading 'Negative Effects'.",
+                    "text": "This section focuses on the harmful impacts of mass media, linking it to eating disorders, unhealthy lifestyles, and health problems like obesity. These are all negative consequences, so the correct answer is C.",
                     "quote": "Some experts believe that it is mass media to be blamed for eating disorders in the youths as well as for the unhealthy lifestyle that has recently emerged."
                 },
                 "q18": {
-                    "text": "The paragraph discusses how media planning has changed from simply selecting media to employing new strategies that involve deeper analysis and unconventional advertising streams. This shift in approach aligns with the idea of 'New Strategies' in media planning.",
-                    "quote": "Media planning now involves not only selecting a media for advertising but also deep analyses into the outreach of the ads."
+                    "text": "The paragraph contrasts traditional media planning with modern methods, which involve deep analysis and unconventional advertising streams. This focus on new approaches and changes makes A the correct answer.",
+                    "quote": "Today, the concept of media planning has undergone a change."
                 },
                 "q19": {
-                    "text": "This sentence directly discusses how media planners are compensated, which is a payment structure different from the norm. Therefore, \"Payments in Media\" accurately reflects the paragraph's focus.",
+                    "text": "This paragraph explains how media planners are compensated, stating they do not get a commission but instead receive percentage cuts from advertising budgets. This directly discusses payment, so the correct answer is H.",
                     "quote": "Media planners do not get a commission as most other people in the advertising industry do."
                 },
                 "q20": {
-                    "text": "This sentence directly addresses the idea of 'Media Bias' by highlighting how the media can distort information and prioritize certain issues over others, indicating a lack of objectivity. The paragraph goes on to discuss prejudiced opinions in reporting, further solidifying the theme of bias.",
-                    "quote": "But in recent years, the media have been sensationalizing lots of news or events and giving unnecessary importance to certain issues."
+                    "text": "The paragraph describes how media can no longer be relied upon for accurate information, as it sometimes sensationalizes news or reports with a prejudiced opinion. This describes a lack of objectivity, so the correct answer is E.",
+                    "quote": "There have been lots of situations wherein a journalist has reported a particular incident with a prejudiced opinion."
                 }
             }
         },
@@ -546,40 +546,40 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q21": {
-                    "text": "The quote directly states that teachers and librarians may not be encouraging students to read books that are challenging enough, implying that teenagers are reading books that are too easy. This supports option C.",
+                    "text": "The passage opens by stating that teachers are often criticized for not pushing students towards books that are challenging enough, implying the ones they read are too easy. That's why the correct answer is C.",
                     "quote": "It is often suggested that teachers and librarians aren't pushing secondary school readers towards titles that challenge them enough, and so the organisers of World Book Day have announced a list which might provide some inspiration for anyone who's stuck for ideas."
                 },
                 "q22": {
-                    "text": "This quote directly states that when a book is made into a film, it often gains more readers due to the film's success, which supports option B.",
+                    "text": "The text explicitly says that when a book is adapted for the 'big screen', it frequently gains additional readers because of the movie's popularity. That's why the correct answer is B.",
                     "quote": "All but one of the books have already been made into films, demonstrating that when a book makes it to the big screen, it often then acquires more readers thanks to the film's success."
                 },
                 "q23": {
-                    "text": "The writer states that A Street Cat Named Bob is the \"least predictable member of the list,\" which implies surprise at its inclusion.",
-                    "quote": "It's also certainly for me the least predictable member of the list"
+                    "text": "The writer describes this book as the 'least predictable member of the list', which is a clear indication that they were surprised to see it included. That's why the correct answer is A.",
+                    "quote": "It's also certainly for me the least predictable member of the list, but its extended stay on the bestseller list earned it вЂ“ and its author вЂ“ a devoted following."
                 },
                 "q24": {
-                    "text": "The writer acknowledges that the Harry Potter books are more pre-teen, but then justifies their inclusion by stating that the stories become more complex and darker as Harry gets older, making the later books more suitable for teenagers.",
-                    "quote": "For me, the books are rather more pre-teen than the rest of the books on the list, which are aimed at a more mature readership."
+                    "text": "The writer notes that while the series starts off for younger readers, the stories become 'more complex and darker' as Harry gets older, making them suitable for teenagers. That's why the correct answer is B.",
+                    "quote": "But Harry Potter is a special case: as Harry gets older in each successive book in the series, the stories do become more complex and darker."
                 },
                 "q25": {
-                    "text": "The passage states that 10,000 people voted for the list of books, not that 10,000 books are popular in the UK. Therefore, the statement is false.",
-                    "quote": "This list of popular books for young adults, voted for by 10,000 people across the UK, features a top 10 to 'shape and inspire' teenagers, and handle some of the challenges of adolescence."
+                    "text": "The passage states that 10,000 people voted for the books on the list; it does not say there are 10,000 popular books. The number refers to the voters. That's why the correct answer is False.",
+                    "quote": ""
                 },
                 "q26": {
-                    "text": "The quote directly states that as Harry grows up in the books, the stories become darker, which supports the answer 'True'.",
-                    "quote": "as Harry gets older in each successive book in the series, the stories do become more complex and darker."
+                    "text": "The text directly supports this statement, explaining that as the main character ages throughout the series, the stories themselves become darker and more complex. That's why the correct answer is True.",
+                    "quote": "But Harry Potter is a special case: as Harry gets older in each successive book in the series, the stories do become more complex and darker."
                 },
                 "q27": {
-                    "text": "The passage mentions the author would have preferred Lord of the Rings to be replaced with Lord of the Flies, but does not compare Lord of the Flies to Harry Potter. Therefore, there is no information to suggest Lord of the Flies is better than Harry Potter.",
+                    "text": "The writer says they would have swapped 'The Lord of the Rings' for 'Lord of the Flies', but they never make a direct comparison between 'Lord of the Flies' and 'Harry Potter'. That's why the correct answer is No Information.",
                     "quote": ""
                 },
                 "q28": {
-                    "text": "The passage states that the *film* adaptation of 1984 was mediocre, but implies that the book itself was good because the film does not compare favorably with the book. Therefore, the statement that the book was mediocre is false.",
-                    "quote": "Of course, this isn't always the case, as with George Orwell's 1984, where the rather mediocre film does not compare so favourably with the book's ability to conjure up a dark vision of life in a police state."
+                    "text": "The passage states that the film adaptation of '1984' was 'rather mediocre', not the book itself. It contrasts the film's quality with the book's power. That's why the correct answer is False.",
+                    "quote": ""
                 },
                 "q29": {
-                    "text": "The passage states that books adapted into films often acquire more readers due to the film's success, which supports the statement that film adaptations can get more attention from viewers.",
-                    "quote": "All but one of the books have already been made into films, demonstrating that when a book makes it to the big screen, it often then acquires more readers thanks to the film's success."
+                    "text": "The text says that when a book becomes a film, it 'acquires more readers thanks to the film's success', which means the film adaptation brings it more attention. That's why the correct answer is True.",
+                    "quote": ""
                 }
             }
         },
@@ -688,27 +688,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q30": {
-                    "text": "The passage states that yawning may have developed as a way of \"bonding members of a group into a more unit one\", which directly supports \"bonding\" as the noun connecting members of a group.",
+                    "text": "Paragraph F discusses a theory that contagious yawning developed as a social mechanism. It explicitly states that yawning may have been a way of 'bonding members of a group'. That's why the correct answer is 'bonding'.",
                     "quote": "There also have been studies that suggest yawning, especially psychological \"contagious\" yawning, may have developed as a way of keeping a group of animals alert and bonding members of a group into a more unit one."
                 },
                 "q31": {
-                    "text": "The passage states that contagious yawning could be a signal to stay alert when \"danger comes\", which directly supports the answer 'danger' as a synonym for 'threat'.",
+                    "text": "The passage explains that a contagious yawn serves as a signal to remind others in a group to stay alert. This alertness is specifically needed for when a threat is near. That's why the correct answer is 'danger'.",
                     "quote": "Therefore, a contagious yawn could be an instinctual reaction to a signal from one member of the herd reminding the others to stay alert when danger comes."
                 },
                 "q32": {
-                    "text": "The passage states that yawning is practically saying \"Hey, I need some rest, you stay awake\", which directly links yawning to the need for rest, which is a form of relaxation.",
+                    "text": "The passage describes a yawning animal as being 'drowsy or bored'. It states that the yawn is like a message to the group, directly quoting what the animal is saying. That's why the correct answer is 'rest'.",
                     "quote": "If an animal is drowsy or bored, it may not be as alert as it should to be prepared to spring into action and its yawning is practically saying, \"Hey, I need some rest, you stay awake\"."
                 },
                 "q33": {
-                    "text": "The word \"evolution\" directly matches the question's definition of \"development over time,\" and the sentence explains that yawning's origin is linked to the evolution of early humans.",
+                    "text": "The end of Paragraph F summarizes the theory about yawning as a social tool. It connects this behavior directly to the long-term development of our species. That's why the correct answer is 'evolution'.",
                     "quote": "So the theory suggests evidence that yawning comes from the evolution of early humans to be ready to physically exert themselves at any given moment."
                 },
                 "q34": {
-                    "text": "This quote directly supports the idea that yawning is related to occupations, as it compares the yawning behavior of psychology students (who focus on others) and engineering students (who focus on objects and science). The difference in yawning frequency between the two groups suggests a link between occupation and contagious yawning.",
-                    "quote": "The psychology studentsвЂ”whose future profession requires them to focus on othersвЂ”yawned contagiously an average of 5.5 times in the waiting room and scored 28 out of 40 on the emotional test."
+                    "text": "Paragraph D describes a study comparing psychology students and engineering students. The results linked their different rates of contagious yawning to their future professions, or occupations. That's why the correct answer is B.",
+                    "quote": "In their study, researchers selected 40 psychology students and 40 engineering students."
                 },
                 "q35": {
-                    "text": "This sentence directly supports option C, as it demonstrates a correlation between the way people breathe (through the nose versus the mouth) and their likelihood of yawning contagiously.",
+                    "text": "The study from the University of Albany, described in Paragraph B, tested different conditions. It found that participants who breathed through their nose were less likely to yawn contagiously. That's why the correct answer is C.",
                     "quote": "The researchers found that those who breathed through the nose rather than the mouth were less likely to yawn when watching a video of other people yawning."
                 }
             }

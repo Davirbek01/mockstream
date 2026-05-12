@@ -65,27 +65,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "The passage describes the origin of the tradition and later calls the event \"the first Thanksgiving.\" This implies the people who started it were the first to do so. That's why the correct answer is 'first'.",
-                    "quote": ""
+                    "text": "The passage describes the origin of the Thanksgiving tradition. The text later refers to this event as the \"first Thanksgiving,\" so the people who started it were the first to do so. That's why the correct answer is 'first'.",
+                    "quote": "This was the first Thanksgiving that people _____(3)_____ ."
                 },
                 "q2": {
-                    "text": "The sentence says the pilgrims invited the Native Americans for something \"to eat.\" The modern celebration is described as a \"large turkey dinner,\" which strongly suggests the original meal was also a dinner. That's why the correct answer is 'dinner'.",
+                    "text": "The sentence says the pilgrims invited the Native Americans for something \"to eat.\" The passage later describes the modern celebration as a \"large turkey dinner,\" confirming the meal is a dinner. That's why the correct answer is 'dinner'.",
                     "quote": ""
                 },
                 "q3": {
-                    "text": "The first sentence of the passage states that Thanksgiving is a holiday that is \"celebrated.\" This verb logically fits the sentence describing what people did during the very first Thanksgiving. That's why the correct answer is 'celebrated'.",
+                    "text": "The first sentence of the passage states that \"Thanksgiving is celebrated.\" The sentence with the gap is describing the very first Thanksgiving, so it is logical that this is what people did. That's why the correct answer is 'celebrated'.",
                     "quote": "Thanksgiving is celebrated in the USA on the 4th Thursday of November."
                 },
                 "q4": {
-                    "text": "The entire passage is about the holiday of Thanksgiving. This sentence describes the modern status of the holiday, so the subject must be the holiday itself. That's why the correct answer is 'thanksgiving'.",
-                    "quote": ""
+                    "text": "The entire passage is about the holiday of Thanksgiving. This sentence describes its modern status as the \"country's largest secular holiday,\" so the subject of the sentence must be the holiday itself. That's why the correct answer is 'thanksgiving'.",
+                    "quote": "Nowadays, _____(4)_____ is the country's largest secular holiday and represents a time when friends and family get together for a large turkey dinner."
                 },
                 "q5": {
-                    "text": "The text mentions that the modern meal is a \"large turkey dinner.\" The sentence with the gap lists side dishes that go with a \"huge roast,\" which refers to the main course, the turkey. That's why the correct answer is 'turkey'.",
+                    "text": "The previous sentence mentions that the modern meal is a \"large turkey dinner.\" This sentence lists the side dishes that are served with the main course, which is the roast meat. That's why the correct answer is 'turkey'.",
                     "quote": ""
                 },
                 "q6": {
-                    "text": "The sentence just before the gap states that people watch an \"American football game\" in the afternoon. The sentence with the gap then gives the schedule for this activity. That's why the correct answer is 'game'.",
+                    "text": "The sentence right before this one states that people watch an \"American football game\" in the afternoon. This sentence then explains the schedule for this activity, with one in the afternoon and one in the evening. That's why the correct answer is 'game'.",
                     "quote": "In the afternoon, people watch an American football game."
                 }
             }
@@ -239,31 +239,31 @@ window.CEFR_READING_TEST = {
             ],
             "explanations": {
                 "q7": {
-                    "text": "The hotel advertises both golf facilities and a \"Life Fitness\" Gym, which is a fitness center. That's why the correct answer is F.",
+                    "text": "The advertisement mentions both \"golf\" and a \"Gym\", which is a fitness center. This directly corresponds to the description in the option. That's why the correct answer is F.",
                     "quote": "Spectacular scenery with sporting, golf and leisure facilities. State of the art \"Life Fitness\" Gym, Health and Beauty suite with Sauna."
                 },
                 "q8": {
-                    "text": "The advertisement clearly states that the hotel is located near a \"picturesque fishing port.\" That's why the correct answer is D.",
+                    "text": "The description says the hotel is located \"near picturesque fishing port,\" which means it is situated close to a port. That's why the correct answer is D.",
                     "quote": ""
                 },
                 "q9": {
-                    "text": "The hotel's name is \"THE FAT LAMB COUNTRY INN.\" A lamb is a young sheep, and the description \"informal, warm and comfortable\" suggests a friendly place. That's why the correct answer is A.",
+                    "text": "The hotel is called \"THE FAT LAMB COUNTRY INN.\" A lamb is a young sheep. The description also mentions it is \"Informal, warm and comfortable,\" which implies a friendly atmosphere. That's why the correct answer is A.",
                     "quote": ""
                 },
                 "q10": {
-                    "text": "The hotel is described as a \"promenade beach hotel,\" meaning it's on the seafront, and it is also known for its \"renowned personal service.\" That's why the correct answer is J.",
+                    "text": "The hotel is described as a \"promenade beach hotel,\" meaning it's on the seafront. The text also highlights its \"renowned personal service.\" That's why the correct answer is J.",
                     "quote": ""
                 },
                 "q11": {
-                    "text": "The advertisement states that the hotel is \"overlooking the estuary.\" An estuary is the wide part of a river where it meets the sea. That's why the correct answer is C.",
+                    "text": "The advertisement states that the hotel is \"overlooking the estuary.\" An estuary is the part of a river that meets the sea, so it overlooks the river. That's why the correct answer is C.",
                     "quote": "Traditional privately owned friendly hotel overlooking the estuary."
                 },
                 "q12": {
-                    "text": "The advertisement clearly says the hotel is \"Family run.\" Hope Cove is a coastal location, which implies it has sea views. That's why the correct answer is G.",
+                    "text": "The advertisement clearly states that the hotel is \"Family run.\" Hope Cove is a coastal location, suggesting it has sea views. That's why the correct answer is G.",
                     "quote": "Family run for 30 successful years."
                 },
                 "q13": {
-                    "text": "The advertisement highlights a \"SPECIAL OFFER\" for short breaks and also explicitly mentions that there is \"FREE car parking\" available for guests. That's why the correct answer is I.",
+                    "text": "The advertisement explicitly mentions a \"SPECIAL OFFER\" for short breaks and also highlights that there is \"FREE car parking\" available for guests. That's why the correct answer is I.",
                     "quote": ""
                 },
                 "q14": {
@@ -399,28 +399,28 @@ window.CEFR_READING_TEST = {
             ],
             "explanations": {
                 "q15": {
-                    "text": "The race organizer explains the meaning of the flags, which is a basic piece of information about sailing races. This explanation provides a fundamental understanding of race signals.",
+                    "text": "The race organizer explains the meaning of the two flags used to signal a delay. This provides some basic information about how sailing races are conducted, which is why the correct answer is F.",
                     "quote": "He said the red-and white-striped one meant that there was been a delay, while the red, white and blue one meant it would be for three hours."
                 },
                 "q16": {
-                    "text": "This sentence directly states that the sailors are used to the weather dictating their activities, implying they are accustomed to waiting. The rest of the paragraph describes how they pass the time while waiting.",
-                    "quote": "No one looks disappointed, probably because they are accustomed to being ruled by the weather"
+                    "text": "The paragraph states that the competitors are not disappointed by the delay because they are used to having their plans determined by the weather. That's why the correct answer is G.",
+                    "quote": ""
                 },
                 "q17": {
-                    "text": "This sentence explicitly states that Paul's father sailed in the Olympics and Nicky was introduced to sailing by her father, demonstrating how sailing can be a family tradition.",
+                    "text": "The paragraph gives examples of how the young sailors got into the sport through their families. Paul's dad was an Olympian and Nicky's dad introduced her to sailing, which is why the correct answer is B.",
                     "quote": "Paul's dad sailed in the Olympics and Nicky started sailing because her dad dragged her along."
                 },
                 "q18": {
-                    "text": "This quote highlights the challenges and sacrifices Nicky faces in her training, demonstrating how overcoming these problems is a key part of her sailing journey. It shows that she has to overcome the problem of missing out on social events to achieve her goals.",
+                    "text": "This paragraph describes the hard work the sailors put into their training, such as practicing in winter and learning wind strategy, to overcome the difficulties of the sport. That's why the correct answer is A.",
                     "quote": "She trains in winter and says it is hard, 'especially when all your friends are out partying'."
                 },
                 "q19": {
-                    "text": "This quote directly reveals Paul's ambition to win, and the paragraph generally discusses the competitive spirit of the sailors, indicating their strong desire to succeed. This aligns with the idea that their ambitions are clearly visible.",
+                    "text": "The paragraph highlights the sailors' strong desire to win. Paul states directly that winning is the best part of the sport, which is a clear expression of his ambition. That's why the correct answer is D.",
                     "quote": "Paul doesn't hesitate to say the best thing about sailing is winning."
                 },
                 "q20": {
-                    "text": "The sailors express their future ambitions, which extend beyond just sailing, implying they have other goals and aspirations, or 'talents,' they wish to pursue. The paragraph focuses on their dreams for the future, not their current sailing abilities.",
-                    "quote": "So what are their plans? 'I want to be world champion,' says Nicky without hesitation. Paul agrees: 'I want to go to the Olympics like my dad.' Elliot and Eddie share similar dreams."
+                    "text": "This paragraph is about the sailors' future plans and ambitions, such as becoming a world champion or going to the Olympics. That's why the correct answer is H.",
+                    "quote": "'I want to be world champion,' says Nicky without hesitation."
                 }
             }
         },
@@ -598,39 +598,39 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q21": {
-                    "text": "The article discusses how personality links to health but hasn't affected healthcare delivery, suggesting it's aimed at health workers outside psychology to encourage them to consider personality in their practice.",
-                    "quote": "However, until now, the relationship has not affected the way health care is delivered."
+                    "text": "The article repeatedly addresses 'health workers,' discussing their current practices and suggesting how they could incorporate psychology, distinguishing them from 'psychology researchers.' This shows the intended audience is health professionals. That's why the correct answer is D.",
+                    "quote": "Even so, if health workers applied an understanding of personality to the services they provide, they could influence the extent to which patients act on advice and follow their treatment."
                 },
                 "q22": {
-                    "text": "The passage states that some health workers doubt the direct link between health and personality, feel it's their duty to treat all patients the same, and believe the impact of personality will be minimal. It does not mention a lack of training in psychology as a reason.",
-                    "quote": "Some health workers doubt whether there is a direct link between health and personality or whether it's just a coincidence."
+                    "text": "The passage lists reasons like professional duty, doubting the link's existence, and believing it has minimal impact. However, it never mentions a lack of psychological training as a reason. That's why the correct answer is C.",
+                    "quote": "Some feel it is their professional duty to treat all patients in the same way."
                 },
                 "q23": {
-                    "text": "The passage states that the relationship between neuroticism and health is 'less clear,' indicating there is no consistent or definitive link. This supports the conclusion that there is no consistent link between a patient's level of neurosis and their health.",
-                    "quote": "However, in other cases, the relationship is less clear. Neurotic"
+                    "text": "The text states that different studies on neurotic behaviour have produced conflicting results, with some finding it harmful, some protective, and others finding no link at all. This shows there is no consistent connection. That's why the correct answer is B.",
+                    "quote": ""
                 },
                 "q24": {
-                    "text": "The passage states that high sensation-seeking individuals respond to drama, energy, and emotion, and that health promotions can be designed to incorporate those factors to encourage them to follow health advice. Therefore, it can be inferred that the SENTAR campaign, which targeted this group, used drama and energy in its design.",
-                    "quote": "Thus, to encourage those people to follow health advice, health promotions can be designed to incorporate those factors."
+                    "text": "The text explains that high sensation-seeking individuals respond to 'drama, energy and emotion' and then presents the SENTAR campaign as a successful example of a promotion designed for this group. That's why the correct answer is A.",
+                    "quote": ""
                 },
                 "q25": {
-                    "text": "The passage states that the link between health and personality has not affected how healthcare is delivered, directly contradicting the statement that it has always been taken into account.",
-                    "quote": "There is increasing evidence that health is linked to personality. However, until now, the relationship has not affected the way health care is delivered."
+                    "text": "The passage explicitly states that until the present time, the relationship between personality and health has not had an effect on the delivery of health care. That's why the correct answer is 'False'.",
+                    "quote": "However, until now, the relationship has not affected the way health care is delivered."
                 },
                 "q26": {
-                    "text": "The quote indicates that some health workers believe in treating all patients the same, implying they find it inefficient or unnecessary to tailor treatment based on individual personalities, thus supporting the statement.",
-                    "quote": "Some feel it is their professional duty to treat all patients in the same way."
+                    "text": "The text mentions that some health workers believe tailoring services to personality types would have a 'minimal impact' and is therefore 'not worth the effort,' which means it is inefficient. That's why the correct answer is 'True'.",
+                    "quote": ""
                 },
                 "q27": {
-                    "text": "The passage states that some health workers believe delivering health services according to behavior has varying effects, from increasing the risk of death to having no link to health at all, indicating controversial opinions.",
-                    "quote": "Some feel it is their professional duty to treat all patients in the same way."
+                    "text": "The passage shows that research findings on neurotic behaviour are contradictory: some studies link it to a higher risk of death, others to protection from illness, and some find no link. That's why the correct answer is 'True'.",
+                    "quote": ""
                 },
                 "q28": {
-                    "text": "The passage states that the SENTAR campaign successfully reduced drug use among teenagers, but it does not mention whether they *predicted* this outcome beforehand. Therefore, there is no information to confirm or deny the statement.",
-                    "quote": "By creating a suitable television advert, they successfully engaged these youths and reduced their recreational drug use."
+                    "text": "The text states what the campaign 'aimed' to do and that it was 'successful,' but it does not mention any specific predictions that were made before it began. That's why the correct answer is 'No Information'.",
+                    "quote": ""
                 },
                 "q29": {
-                    "text": "The passage states that health information is available in various forms to be accessible for different users, including the blind, elderly, and people with reading difficulties, implying that understanding health information is made easier for disabled people, not difficult.",
+                    "text": "The passage states that information is provided in different formats to be 'suitable and accessible' for users like the blind, but it does not explicitly say that they find it difficult to understand. That's why the correct answer is 'False'.",
                     "quote": "Already, health information is usually available in various forms-printed, digital, audio, and so on - to be suitable and accessible for different users, such as the blind, the elderly, and people with reading difficulties."
                 }
             }
@@ -746,27 +746,27 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q30": {
-                    "text": "The question asks where the waste is generated, and the passage states that \"Healthy cells create plenty of junk\", indicating that waste is generated in healthy cells.",
-                    "quote": "Healthy cells create plenty of junk that keep the system busy."
+                    "text": "The passage explains that the body's waste disposal system is kept busy by collecting the waste, or junk, that is produced by healthy cells. That's why the correct answer is 'healthy'.",
+                    "quote": "What keeps the system busy, is the process of collecting the waste of healthy cells."
                 },
                 "q31": {
-                    "text": "The passage states that the waste-removal process is lengthy with many steps, making an error likely. This directly supports the answer that it is not surprising to observe an error.",
+                    "text": "The text describes the waste removal process as being lengthy and having many steps. Because of this complexity, it states that a mistake is likely to happen. That's why the correct answer is 'error'.",
                     "quote": "This can be a lengthy process and with so many steps, that an error is likely to occur."
                 },
                 "q32": {
-                    "text": "The passage states that Laub's results showed the cells were transformed to a waste acid, which directly supports the answer 'acid'.",
+                    "text": "In Janice Laub's experiment, she observed the effect of plutons on mouse nerve cells. The passage states that her results showed the cells had been changed into a waste acid. That's why the correct answer is 'acid'.",
                     "quote": "Her results clearly showed how the cells had been transformed to a waste acid."
                 },
                 "q33": {
-                    "text": "The question asks what other animal, besides the mouse, was used in the experiment. The passage states that living pelicans were used in a separate experiment, thus supporting the answer.",
+                    "text": "The passage first describes an experiment using mouse nerve cells. It then explicitly mentions that a different experiment was conducted using living pelicans to confirm the results. That's why the correct answer is 'pelicans'.",
                     "quote": "Living pelicans were used in a separate experiment, and similar results were proven."
                 },
                 "q34": {
-                    "text": "The passage states that the process of collecting waste keeps the system busy, which supports the idea that keeping the body busy is important, thus making option D the correct answer.",
+                    "text": "The passage explains the normal function of waste disposal by stating that collecting waste is 'what keeps the system busy.' The new theory is based on the failure of this system. That's why the correct answer is D.",
                     "quote": "What keeps the system busy, is the process of collecting the waste of healthy cells."
                 },
                 "q35": {
-                    "text": "The quote states that the process has many steps, making an error likely. This implies the process is difficult, leading to errors.",
+                    "text": "The passage explains that the waste removal process is lengthy and involves 'so many steps.' A process with numerous steps is complex and difficult, increasing the likelihood of a mistake. That's why the correct answer is B.",
                     "quote": "This can be a lengthy process and with so many steps, that an error is likely to occur."
                 }
             }
