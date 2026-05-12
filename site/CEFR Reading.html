@@ -2363,6 +2363,115 @@
         .cr-pv-scroll { max-height: 260px; }
         .cr-pv-para { font-size: 13px; }
     }
+
+    /* ── In-test review-mode overlays ──────────────────────────────────
+       After Review Answers is clicked we re-enter the test view and
+       (a) attach an expandable explanation block next to each question
+           and (b) for Parts 2-5 mark up the passage / text / paragraph
+           that the question's correct answer comes from with a Q-pill
+           badge + <mark> highlight. The Explanations button is gone — all
+           of this is triggered exclusively by Review Answers. */
+    .cr-inline-expl {
+      margin: 8px 0 14px;
+      padding: 0;
+      background: linear-gradient(135deg, #f0fdfa 0%, #ecfeff 100%);
+      border: 1px solid #99f6e4;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .cr-inline-expl summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 9px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #0f766e;
+      user-select: none;
+      transition: background-color .15s;
+    }
+    .cr-inline-expl summary::-webkit-details-marker { display: none; }
+    .cr-inline-expl summary::before {
+      content: '▶';
+      display: inline-block;
+      margin-right: 8px;
+      font-size: 10px;
+      transition: transform .15s;
+      color: #14b8a6;
+    }
+    .cr-inline-expl[open] summary::before { transform: rotate(90deg); }
+    .cr-inline-expl summary:hover { background-color: rgba(20,184,166,.08); }
+    .cr-inline-expl-body {
+      padding: 0 14px 12px;
+    }
+    .cr-inline-expl-text {
+      margin: 0 0 8px;
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: #1f2937;
+    }
+    .cr-inline-expl-quote {
+      margin: 0;
+      padding: 8px 12px;
+      border-left: 3px solid #10b981;
+      background: rgba(255,255,255,.7);
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: #374151;
+      font-style: italic;
+      border-radius: 0 6px 6px 0;
+    }
+
+    /* Q-pill badge placed inline next to highlighted text in the passage.
+       Mirrors the IELTS Q-pill — green chip with a number. */
+    .cr-q-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 22px;
+      height: 22px;
+      padding: 0 7px;
+      margin: 0 4px;
+      background: #10b981;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      border-radius: 999px;
+      vertical-align: middle;
+      box-shadow: 0 2px 4px rgba(16,185,129,.25);
+      cursor: help;
+    }
+    .cr-q-pill::before {
+      content: 'Q';
+      margin-right: 1px;
+      opacity: 0.9;
+    }
+
+    /* Quote mark inside the passage — soft mint background. Matches the
+       IELTS review highlight, distinguishable from the existing manual
+       highlight-yellow / highlight-green classes. */
+    mark.cr-q-mark {
+      background: #a7f3d0;
+      color: inherit;
+      padding: 1px 2px;
+      border-radius: 3px;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+    }
+
+    /* When a text block (Part 2) or paragraph (Part 3) has been tagged
+       with one or more Q-pills, give the whole block a subtle outline so
+       it's easy to scan from the answer's drop-down back to the passage. */
+    .cr-q-anchor {
+      position: relative;
+      padding-left: 6px;
+      border-left: 2px solid transparent;
+      transition: border-color .15s, background-color .15s;
+    }
+    .cr-q-anchor[data-marked="1"] {
+      border-left-color: #10b981;
+      background-color: rgba(16,185,129,.04);
+    }
   </style>
 </head>
 <body>
@@ -3680,18 +3789,14 @@
         });
       })();
 
-      // Show explanations button if pre-generated explanations exist
+      // The standalone "💡 Explanations" button is intentionally always
+      // hidden now — Review Answers handles both jobs (return to test view
+      // AND show explanations as inline drop-downs near each question, with
+      // passage-side Q-pill highlights for Parts 2-5). The old crExplPanel
+      // function still exists as a fallback that nobody triggers.
       (function() {
-        var hasExpl = false;
-        if (TEST_DATA && TEST_DATA.parts) {
-          TEST_DATA.parts.some(function(p) {
-            if (window._practicePart && p.partNumber !== window._practicePart) return false;
-            var keys = Object.keys(p.explanations || {});
-            if (keys.length > 0) { hasExpl = true; return true; }
-          });
-        }
         var btn = document.getElementById('btnShowExpl');
-        if (btn) btn.style.display = hasExpl ? '' : 'none';
+        if (btn) btn.style.display = 'none';
       })();
 
       // Auto-submit results to backend (with processing spinner for regular entries)
@@ -4329,9 +4434,316 @@
       // Minimize results modal to pill instead of closing
       minimizeResultModal();
       document.body.classList.add('review-mode');
-      
+
+      // Inject inline explanation drop-downs + passage-side Q-pill highlights
+      // for every part with explanations data. Idempotent — guarded by a class
+      // on the body so re-clicking Review Answers doesn't double-inject.
+      if (!document.body.classList.contains('review-injected')) {
+        try { _crInjectInlineReview(); }
+        catch (e) { console.warn('inline review injection failed:', e); }
+        document.body.classList.add('review-injected');
+      }
+
       // Navigate to first part
       showPart(0);
+    }
+
+    // ── Inline-review injection (drop-downs + passage marks) ──────────
+    // Walks every part once after submission. For each question that has an
+    // explanation, inserts a <details> drop-down right after its answer
+    // input/control, and (for Parts 2-5) tags the relevant passage / text /
+    // paragraph element with a Q-pill badge and a <mark> on the verbatim
+    // quote. Part 1 (gap-fill-text) gets drop-downs only — no in-passage
+    // highlights since the gap IS the question.
+    function _crInjectInlineReview() {
+      var parts = (TEST_DATA && TEST_DATA.parts) || [];
+      var partContainers = document.querySelectorAll('.part-container');
+      parts.forEach(function (part, partIdx) {
+        var container = partContainers[partIdx];
+        if (!container) return;
+        var explanations = part.explanations || {};
+        if (!explanations || Object.keys(explanations).length === 0) return;
+
+        // Gather every question id from both top-level questions and
+        // nested questionSections (reading-comprehension parts).
+        var allQs = [];
+        if (Array.isArray(part.questions)) allQs = allQs.concat(part.questions);
+        if (Array.isArray(part.questionSections)) {
+          part.questionSections.forEach(function (sec) {
+            if (Array.isArray(sec.questions)) allQs = allQs.concat(sec.questions);
+          });
+        }
+
+        // ── 1. Per-question drop-downs ────────────────────────────────
+        allQs.forEach(function (q) {
+          var qid = q.id;
+          var expl = explanations['q' + qid] || explanations[String(qid)] || null;
+          if (!expl || typeof expl !== 'object') return;
+          var text  = String(expl.text  || '').trim();
+          var quote = String(expl.quote || '').trim();
+          if (!text && !quote) return;
+
+          // Find any element rendered for this question. data-question is
+          // already used by markAnswer for text inputs, MCQ options, TFNI
+          // options and rich-select triggers, so it's a reliable hook.
+          var anchor = container.querySelector('[data-question="' + qid + '"]');
+          if (!anchor) return;
+
+          // Walk up to a block-level container to inject below. Stop at the
+          // first parent that contains the question's text/options, so the
+          // drop-down doesn't end up inside an inline <span>.
+          var host = anchor.closest('.mcq-question, .tfni-question, .gap-question, .question-row, .question, .question-card, li, .text-content, .para-content');
+          if (!host) host = anchor.parentElement;
+          if (!host) return;
+          // Skip if already injected for this question
+          if (host.parentNode && host.parentNode.querySelector('.cr-inline-expl[data-qid="' + qid + '"]')) return;
+
+          var d = document.createElement('details');
+          d.className = 'cr-inline-expl';
+          d.setAttribute('data-qid', String(qid));
+          var body = document.createElement('div');
+          body.className = 'cr-inline-expl-body';
+          var summary = document.createElement('summary');
+          summary.textContent = '💡 Click for explanation — Q' + qid;
+          d.appendChild(summary);
+          if (text) {
+            var pEl = document.createElement('p');
+            pEl.className = 'cr-inline-expl-text';
+            pEl.textContent = text;
+            body.appendChild(pEl);
+          }
+          if (quote) {
+            var bq = document.createElement('blockquote');
+            bq.className = 'cr-inline-expl-quote';
+            bq.textContent = '"' + quote + '"';
+            body.appendChild(bq);
+          }
+          d.appendChild(body);
+          host.parentNode.insertBefore(d, host.nextSibling);
+        });
+
+        // ── 2. Passage-side Q-pill highlights ─────────────────────────
+        // Part 1 (gap-fill-text) deliberately skipped per spec — the gaps
+        // ARE the questions and re-marking them would just visual noise.
+        var pType = part.type || '';
+        if (pType === 'matching') {
+          _crAttachQPillsToMatchingTexts(container, part, explanations);
+        } else if (pType === 'matching-headings') {
+          _crAttachQPillsToHeadingsParas(container, part, explanations);
+        } else if (pType === 'reading-comprehension') {
+          _crHighlightQuotesInPassage(container, part, explanations);
+        }
+      });
+    }
+
+    // For matching (Part 2): each question's textNumber points at one of
+    // the texts[]. Find the rendered text-block element by data-text-number
+    // (or fall back to a numeric label) and append a Q-pill above it. We
+    // do NOT modify the text body itself — picking the right phrase to
+    // mark across 8 unrelated short blurbs is unreliable.
+    function _crAttachQPillsToMatchingTexts(container, part, explanations) {
+      if (!Array.isArray(part.questions)) return;
+      part.questions.forEach(function (q) {
+        if (q.textNumber == null) return;
+        var expl = explanations['q' + q.id];
+        if (!expl) return;
+        var block = container.querySelector('[data-text-number="' + q.textNumber + '"]')
+          || container.querySelector('[data-number="' + q.textNumber + '"]')
+          || container.querySelector('.text-' + q.textNumber);
+        if (!block) return;
+        block.classList.add('cr-q-anchor');
+        block.setAttribute('data-marked', '1');
+        if (!block.querySelector('.cr-q-pill[data-qid="' + q.id + '"]')) {
+          var pill = document.createElement('span');
+          pill.className = 'cr-q-pill';
+          pill.setAttribute('data-qid', String(q.id));
+          pill.textContent = String(q.id);
+          pill.title = 'Question ' + q.id + ' — matches this text';
+          // Drop the pill at the very start so it doesn't disrupt the
+          // ad / blurb's existing visual layout.
+          block.insertBefore(pill, block.firstChild);
+        }
+      });
+    }
+
+    // For matching-headings (Part 3): each question's paragraphNumber
+    // points at one of passage.paragraphs[]. Find the rendered paragraph
+    // block and tag with a Q-pill (same approach as Part 2).
+    function _crAttachQPillsToHeadingsParas(container, part, explanations) {
+      if (!Array.isArray(part.questions)) return;
+      part.questions.forEach(function (q) {
+        if (q.paragraphNumber == null) return;
+        var expl = explanations['q' + q.id];
+        if (!expl) return;
+        var pn = String(q.paragraphNumber);
+        var block = container.querySelector('[data-paragraph-number="' + pn + '"]')
+          || container.querySelector('[data-paragraph="' + pn + '"]')
+          || container.querySelector('.para-' + pn);
+        if (!block) return;
+        block.classList.add('cr-q-anchor');
+        block.setAttribute('data-marked', '1');
+        if (!block.querySelector('.cr-q-pill[data-qid="' + q.id + '"]')) {
+          var pill = document.createElement('span');
+          pill.className = 'cr-q-pill';
+          pill.setAttribute('data-qid', String(q.id));
+          pill.textContent = String(q.id);
+          pill.title = 'Question ' + q.id + ' — refers to this paragraph';
+          block.insertBefore(pill, block.firstChild);
+        }
+      });
+    }
+
+    // For reading-comprehension (Parts 4-5): the passage is a single long
+    // HTML block. Walk every paragraph and try to substring-match each
+    // question's quote (after stripping smart quotes / collapsing whitespace).
+    // First quote that matches a paragraph wins; we wrap the substring in
+    // <mark class="cr-q-mark"> and append a Q-pill at the end of the mark.
+    function _crHighlightQuotesInPassage(container, part, explanations) {
+      var passageEl = container.querySelector('.passage-content, .text-content, .passage-card .para-content');
+      if (!passageEl) {
+        // Fallback — search the part-container for the longest text block
+        var candidates = container.querySelectorAll('div, section');
+        var best = null, bestLen = 0;
+        candidates.forEach(function (el) {
+          var t = (el.textContent || '').length;
+          if (t > bestLen) { best = el; bestLen = t; }
+        });
+        passageEl = best;
+      }
+      if (!passageEl) return;
+      var paras = passageEl.querySelectorAll('p');
+      if (paras.length === 0) paras = [passageEl];
+
+      // Gather questions from both top-level (unusual for RC) and sections.
+      var allQs = [];
+      if (Array.isArray(part.questions)) allQs = allQs.concat(part.questions);
+      if (Array.isArray(part.questionSections)) {
+        part.questionSections.forEach(function (sec) {
+          if (Array.isArray(sec.questions)) allQs = allQs.concat(sec.questions);
+        });
+      }
+
+      function norm(s) {
+        return String(s || '')
+          .replace(/[‘’]/g, "'")
+          .replace(/[“”]/g, '"')
+          .replace(/\s+/g, ' ')
+          .toLowerCase()
+          .trim();
+      }
+
+      allQs.forEach(function (q) {
+        var expl = explanations['q' + q.id];
+        if (!expl || !expl.quote) return;
+        var quote = String(expl.quote).trim();
+        if (quote.length < 12) return; // too short to safely substring-match
+        var normQuote = norm(quote).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        if (!normQuote) return;
+
+        // Find the first paragraph whose textContent (normalised) contains
+        // the quote. Walk paragraphs in order so earlier questions get
+        // matched first (and we keep the natural reading order).
+        for (var i = 0; i < paras.length; i++) {
+          var pEl = paras[i];
+          var plain = (pEl.textContent || '');
+          var normPlain = norm(plain);
+          var m = normPlain.match(new RegExp(normQuote));
+          if (!m) continue;
+          // Found it. Now we need to find the matching substring in the
+          // original (un-normalised) text so the highlight lines up with
+          // the real characters. Walk the paragraph's children and replace
+          // the matched range with <mark>...<Q-pill></mark>.
+          _crWrapMatchInElement(pEl, quote, q.id);
+          break;
+        }
+      });
+    }
+
+    // Wraps the first verbatim (smart-quote-tolerant, whitespace-collapsing)
+    // occurrence of `quote` inside `root` with a <mark class="cr-q-mark">
+    // and trailing Q-pill. Works on a flat textNode of root's first text-
+    // bearing descendant for simplicity — most passage paragraphs are plain
+    // text within <p>, so this is fine. If the paragraph contains rich
+    // inline markup we just append the pill at the end without marking.
+    function _crWrapMatchInElement(root, quote, qid) {
+      // Bail if we've already marked this paragraph for this question
+      if (root.querySelector('.cr-q-pill[data-qid="' + qid + '"]')) return;
+      var fullText = root.textContent || '';
+      var normFull = fullText.replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/\s+/g, ' ').toLowerCase();
+      var normQuote = quote.replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/\s+/g, ' ').toLowerCase();
+      var idx = normFull.indexOf(normQuote);
+      // If the paragraph has nested inline markup, just stamp a pill at the
+      // end. The drop-down's quote still points the user to the right spot.
+      var hasNestedNontext = false;
+      for (var i = 0; i < root.childNodes.length; i++) {
+        if (root.childNodes[i].nodeType !== 3) { hasNestedNontext = true; break; }
+      }
+      if (idx < 0 || hasNestedNontext) {
+        root.classList.add('cr-q-anchor');
+        root.setAttribute('data-marked', '1');
+        var pill = document.createElement('span');
+        pill.className = 'cr-q-pill';
+        pill.setAttribute('data-qid', String(qid));
+        pill.textContent = String(qid);
+        pill.title = 'Question ' + qid;
+        root.appendChild(pill);
+        return;
+      }
+
+      // Map normalised idx back to the original-text position. Walk the
+      // original text and count "normalised" chars (skipping multi-spaces)
+      // until we hit idx, then again for idx + normQuote.length.
+      function mapOrigPos(targetNormIdx) {
+        var ni = 0, oi = 0, lastWasSpace = false;
+        while (oi < fullText.length && ni < targetNormIdx) {
+          var c = fullText.charAt(oi);
+          var nc = c;
+          if (c === '‘' || c === '’') nc = "'";
+          else if (c === '“' || c === '”') nc = '"';
+          else nc = c.toLowerCase();
+          if (/\s/.test(nc)) {
+            if (!lastWasSpace) ni++;
+            lastWasSpace = true;
+          } else {
+            ni++;
+            lastWasSpace = false;
+          }
+          oi++;
+        }
+        return oi;
+      }
+
+      var startOrig = mapOrigPos(idx);
+      var endOrig   = mapOrigPos(idx + normQuote.length);
+      if (endOrig <= startOrig) {
+        // Couldn't map cleanly — just add a pill, no <mark>
+        var pillF = document.createElement('span');
+        pillF.className = 'cr-q-pill';
+        pillF.setAttribute('data-qid', String(qid));
+        pillF.textContent = String(qid);
+        pillF.title = 'Question ' + qid;
+        root.appendChild(pillF);
+        return;
+      }
+
+      var before = fullText.slice(0, startOrig);
+      var mid    = fullText.slice(startOrig, endOrig);
+      var after  = fullText.slice(endOrig);
+
+      // Replace the paragraph's children with: textBefore + <mark>mid<Q-pill></mark> + textAfter
+      root.textContent = ''; // clear
+      if (before) root.appendChild(document.createTextNode(before));
+      var markEl = document.createElement('mark');
+      markEl.className = 'cr-q-mark';
+      markEl.textContent = mid;
+      var pillEl = document.createElement('span');
+      pillEl.className = 'cr-q-pill';
+      pillEl.setAttribute('data-qid', String(qid));
+      pillEl.textContent = String(qid);
+      pillEl.title = 'Question ' + qid;
+      markEl.appendChild(pillEl);
+      root.appendChild(markEl);
+      if (after) root.appendChild(document.createTextNode(after));
     }
 
     function minimizeResultModal() {
