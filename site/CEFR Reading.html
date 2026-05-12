@@ -2616,6 +2616,18 @@
     /* Mobile divider — invisible on desktop, drag-handle on mobile. */
     .mh-mobile-divider { display: none; }
 
+    /* Part 2 dual-DOM toggle. PC ≥1024px shows the new split view (with
+       draggable statement chips + drop slots on each text). Mobile keeps
+       the legacy collapsible statements + per-text dropdown layout. Both
+       views carry the same data-question attrs so markAnswer marks both
+       and answers stay consistent if the viewport ever flips. */
+    .m2-pc-view { display: block; }
+    .m2-mobile-view { display: none; }
+    @media (max-width: 1023px) {
+      .m2-pc-view { display: none; }
+      .m2-mobile-view { display: block; }
+    }
+
     @media (max-width: 1023px) {
       /* Hide the Part 3 instruction block on mobile — the matching-
          headings split-view needs the full viewport height. Students
@@ -3436,13 +3448,80 @@
     }
 
     function generateMatching(part) {
-      let html = '';
+      const lastLetter = part.statements[part.statements.length - 1].letter;
 
-      // Collapsible statements list
-      html += `
+      // ── PC view (≥1024px): split-view with statement chips on the LEFT
+      // and text cards (with drop slots) on the RIGHT. Reuses the .mh-*
+      // CSS + drag wiring from Part 3 so the UX is identical between
+      // matching and matching-headings.
+      const pcStatementsHtml = part.statements.map(s => `
+        <div class="mh-heading-chip"
+             data-letter="${s.letter}"
+             tabindex="0"
+             role="button">
+          <span class="mh-heading-letter">${s.letter}</span>
+          <span class="mh-heading-text">${s.text}</span>
+          <span class="mh-heading-check" aria-hidden="true">✓</span>
+        </div>
+      `).join('');
+
+      // Each text card on the right gets its own .mh-slot drop target
+      // (carries .rich-select-trigger + data-question for backwards
+      // compat with markAnswer). IDs are namespaced `m2-slot-${n}` to
+      // avoid collision with the legacy mobile dropdown's
+      // `rs-trigger-${n}` id below.
+      const pcTextsHtml = part.texts.map(text => {
+        const num = text.number || text.id;
+        return `
+          <div class="mh-para-card" data-part-type="matching" data-text-number="${num}">
+            <div class="mh-para-head">
+              <span class="mh-para-num">Text ${num}<span class="mh-para-qbadge">Q${num}</span></span>
+              <div class="mh-slot rich-select-trigger matching-select"
+                   id="m2-slot-${num}"
+                   data-question="${num}"
+                   data-qid="${num}"
+                   tabindex="0"
+                   role="button"
+                   aria-label="Statement slot for text ${num}">
+                <span class="mh-slot-empty">↳ Drop a statement here</span>
+                <span class="mh-slot-filled" hidden>
+                  <span class="mh-slot-letter"></span>
+                  <span class="mh-slot-text"></span>
+                  <button type="button"
+                          class="mh-slot-clear"
+                          aria-label="Clear statement"
+                          onclick="_mhClear(${num}, event)">×</button>
+                </span>
+              </div>
+            </div>
+            <div class="para-content mh-para-body">${text.content}</div>
+          </div>
+        `;
+      }).join('');
+
+      const pcView = `
+        <div class="m2-pc-view">
+          <div class="mh-split-container" data-part="matching">
+            <aside class="mh-headings-pane" aria-label="List of statements">
+              <div class="mh-headings-title">📋 Statements (A-${lastLetter})</div>
+              <div class="mh-headings-hint">Drag a statement onto a text — or tap one, then tap the slot.</div>
+              <div class="mh-headings-list">${pcStatementsHtml}</div>
+            </aside>
+            <main class="mh-passage-pane">
+              ${pcTextsHtml}
+            </main>
+          </div>
+        </div>
+      `;
+
+      // ── Mobile view (<1024px): keep the legacy collapsible statements
+      // + text cards with dropdown, untouched per user request — that
+      // layout already works well at phone width.
+      let mobileView = `<div class="m2-mobile-view">`;
+      mobileView += `
         <div class="collapsible-statements" id="statementsCollapse">
           <div class="collapsible-header" onclick="toggleStatements(this)">
-            <h4>📋 Statements (A-${part.statements[part.statements.length-1].letter})</h4>
+            <h4>📋 Statements (A-${lastLetter})</h4>
             <span class="collapsible-icon">▼</span>
           </div>
           <div class="collapsible-content">
@@ -3457,14 +3536,11 @@
           </div>
         </div>
       `;
-
-      // Text cards with dropdowns
-      html += `<div class="questions-card matching-questions" data-part-type="matching">
+      mobileView += `<div class="questions-card matching-questions" data-part-type="matching">
         <h4>Match each text with a statement:</h4>`;
-      
       part.texts.forEach(text => {
         const num = text.number || text.id;
-        html += `
+        mobileView += `
           <div class="text-card">
             <div class="text-header">
               <span class="text-number">${num}</span>
@@ -3484,9 +3560,9 @@
           </div>
         `;
       });
+      mobileView += '</div></div>';
 
-      html += '</div>';
-      return html;
+      return pcView + mobileView;
     }
 
     // Toggle collapsible statements
@@ -3530,6 +3606,29 @@
       optEl.classList.add('selected');
       // Record answer
       userAnswers[qId] = letter;
+      // Cross-sync to the PC mh-slot for Part 2 — when the user is on
+      // mobile and picks via this dropdown, mirror the assignment into
+      // the (hidden) PC pill so resizing back to desktop shows the same
+      // answer. No-op for Part 3 since it has no legacy dropdown.
+      try {
+        var mhSlot = document.querySelector('.mh-slot[data-qid="' + qId + '"]');
+        if (mhSlot) {
+          var split = mhSlot.closest('.mh-split-container');
+          var chip = split ? split.querySelector('.mh-heading-chip[data-letter="' + letter + '"]') : null;
+          mhSlot.classList.add('mh-slot-filled-state');
+          mhSlot.setAttribute('data-value', letter);
+          var emptyEl = mhSlot.querySelector('.mh-slot-empty');
+          if (emptyEl) emptyEl.hidden = true;
+          var filledEl = mhSlot.querySelector('.mh-slot-filled');
+          if (filledEl) {
+            filledEl.hidden = false;
+            filledEl.querySelector('.mh-slot-letter').textContent = letter;
+            filledEl.querySelector('.mh-slot-text').textContent =
+              chip ? chip.querySelector('.mh-heading-text').textContent : letter;
+          }
+          if (typeof _mhRefreshChipUsed === 'function') _mhRefreshChipUsed(split);
+        }
+      } catch (e) {}
       // Update used hints
       updateMatchingOptions();
       updateHeadingOptions();
@@ -3844,8 +3943,28 @@
       // Refresh chip "used" state across all slots
       _mhRefreshChipUsed(split);
 
+      // Cross-sync to Part 2's mobile dropdown — if there's a legacy
+      // .rich-select-trigger for the same qid that is NOT the mh-slot,
+      // update its visible text + data-value so when the viewport resizes
+      // to mobile, the answer is still shown there.
+      try {
+        const legacy = document.getElementById('rs-trigger-' + qid);
+        if (legacy && !legacy.classList.contains('mh-slot')) {
+          const headingText = chip.querySelector('.mh-heading-text').textContent;
+          legacy.textContent = letter + ') ' + headingText;
+          legacy.setAttribute('data-value', letter);
+          const menu = document.getElementById('rs-menu-' + qid);
+          if (menu) {
+            menu.querySelectorAll('.rich-select-option').forEach(o => {
+              o.classList.toggle('selected', o.getAttribute('data-letter') === letter);
+            });
+          }
+        }
+      } catch (e) {}
+
       // Keep legacy hint pipeline happy (used-elsewhere indicators on the
       // hidden rich-select menus that the answers panel still walks).
+      if (typeof updateMatchingOptions === 'function') updateMatchingOptions();
       if (typeof updateHeadingOptions === 'function') updateHeadingOptions();
     }
 
@@ -3861,6 +3980,17 @@
       delete userAnswers[qid];
       const split = slot.closest('.mh-split-container');
       _mhRefreshChipUsed(split);
+      // Mirror clear to the legacy mobile dropdown if it exists (Part 2).
+      try {
+        const legacy = document.getElementById('rs-trigger-' + qid);
+        if (legacy && !legacy.classList.contains('mh-slot')) {
+          legacy.textContent = '-- Select Statement --';
+          legacy.removeAttribute('data-value');
+          const menu = document.getElementById('rs-menu-' + qid);
+          if (menu) menu.querySelectorAll('.rich-select-option').forEach(o => o.classList.remove('selected'));
+        }
+      } catch (e) {}
+      if (typeof updateMatchingOptions === 'function') updateMatchingOptions();
       if (typeof updateHeadingOptions === 'function') updateHeadingOptions();
     }
     window._mhClear = _mhClear;
@@ -5020,9 +5150,13 @@
       }
 
       // Mark rich-select triggers (and the new .mh-slot pills, which
-      // still carry .rich-select-trigger for backwards compat).
-      const trigger = document.querySelector(`.rich-select-trigger[data-question="${qId}"]`);
-      if (trigger) {
+      // still carry .rich-select-trigger for backwards compat). Part 2
+      // renders BOTH a legacy mobile dropdown AND a PC mh-slot pill for
+      // the same question id, so we need to mark every matching element
+      // (querySelectorAll, not querySelector) — CSS hides whichever
+      // doesn't apply to the current viewport.
+      const triggers = document.querySelectorAll(`.rich-select-trigger[data-question="${qId}"]`);
+      triggers.forEach((trigger) => {
         trigger.classList.add('locked');
         const isMhSlot = trigger.classList.contains('mh-slot');
         if (isUnanswered) {
@@ -5072,7 +5206,7 @@
             }
           }
         }
-      }
+      });
 
       // Mark MCQ options
       const mcqOptions = document.querySelectorAll(`.mcq-option[data-question="${qId}"]`);
