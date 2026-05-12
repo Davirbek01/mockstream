@@ -559,34 +559,136 @@ async function generateExplanations(
 ): Promise<ExplanationsResult> {
   const isCefr = examType === 'cefr-reading';
 
-  // Pull the bits we need out of the passage shape (IELTS or CEFR).
-  const passageHtml: string = isCefr
-    ? String((passage.passage as Record<string, unknown>)?.content || passage.passage || '')
-    : String(passage.passage || '');
-  const passagePlain = _stripHtml(passageHtml);
-  if (!passagePlain) throw new Error('passage body is empty');
-
-  // Build a compact (q, text, correct) list. The two exam types store
-  // questions and answers differently — IELTS nests questions under
-  // questionSections[].questions and keys correctAnswers by "qN"; CEFR
-  // keeps questions flat in `questions[]` and keys `answers` by stringified
-  // number ("1", "2", …).
+  // CEFR Reading has four distinct part types and each stores its
+  // "passage" + questions differently. An earlier version of this code
+  // assumed passage.content for every type — that throws on matching
+  // (no passage), silently returns 0 explanations on reading-comprehension
+  // (questions live in questionSections, not the top-level questions[]),
+  // and only ever worked for gap-fill-text. Build per-type.
+  //   • gap-fill-text         → passage.content + questions[].hint
+  //   • matching              → texts[] (numbered short blurbs);
+  //                             questions[].textNumber → text id;
+  //                             correct answer = statement letter A-J
+  //   • matching-headings     → passage.paragraphs[] (numbered I, II…);
+  //                             questions[].paragraphNumber → paragraph;
+  //                             correct answer = heading letter
+  //   • reading-comprehension → passage.content + questionSections[]
+  //                             holding MCQ (inline options), TFNI
+  //                             (section-level options array), or
+  //                             gap-fill (uses summaryText)
+  let passagePlain = '';
   const qInputs: Array<{ id: number; text: string; correct: string }> = [];
+
   if (isCefr) {
-    const questions      = Array.isArray(passage.questions) ? passage.questions : [];
-    const answers        = (passage.answers as Record<string, string[] | string> | undefined) || {};
-    for (const q of questions) {
-      const qo = q as Record<string, unknown>;
-      const id = parseInt(String(qo.id || ''), 10);
-      if (isNaN(id)) continue;
+    const partType = String((passage as Record<string, unknown>).type || '');
+    const answers  = ((passage as Record<string, unknown>).answers as Record<string, string[] | string> | undefined) || {};
+    const getCorrect = (id: number) => {
       const acc = answers[String(id)] ?? answers[`q${id}`];
-      const correctStr = Array.isArray(acc) ? acc.join(' / ') : String(acc || '');
-      if (!correctStr) continue;
-      // For CEFR the per-question prompt is in `hint` (a short context
-      // clue), not `text`. Fall back to `text` for forward-compatibility.
-      qInputs.push({ id, text: String(qo.hint || qo.text || ''), correct: correctStr });
+      return Array.isArray(acc) ? acc.join(' / ') : String(acc || '');
+    };
+
+    if (partType === 'matching') {
+      const texts = Array.isArray((passage as Record<string, unknown>).texts)
+        ? (passage as Record<string, unknown>).texts as Array<Record<string, unknown>> : [];
+      // Label each text with its number so the model can route quotes correctly.
+      passagePlain = texts.map((t) => {
+        const num = t.number;
+        const content = _stripHtml(String(t.content || ''));
+        return `[Text ${num}]: ${content}`;
+      }).join('\n\n');
+
+      const questions = Array.isArray((passage as Record<string, unknown>).questions)
+        ? (passage as Record<string, unknown>).questions as Array<Record<string, unknown>> : [];
+      for (const q of questions) {
+        const id = parseInt(String(q.id || ''), 10);
+        if (isNaN(id)) continue;
+        const correctStr = getCorrect(id);
+        if (!correctStr) continue;
+        const textNumber = q.textNumber;
+        const matchedText = texts.find((t) => t.number === textNumber);
+        const textContent = matchedText ? _stripHtml(String(matchedText.content || '')) : '';
+        const preview = textContent.length > 250 ? textContent.slice(0, 250) + '…' : textContent;
+        qInputs.push({
+          id,
+          text: `Text ${textNumber}: ${preview}`,
+          correct: correctStr
+        });
+      }
+    } else if (partType === 'matching-headings') {
+      const passageObj = ((passage as Record<string, unknown>).passage as Record<string, unknown>) || {};
+      const paragraphs = Array.isArray(passageObj.paragraphs)
+        ? passageObj.paragraphs as Array<Record<string, unknown>> : [];
+      passagePlain = paragraphs.map((p) => {
+        const num = p.number || '';
+        const content = _stripHtml(String(p.content || ''));
+        return `[Paragraph ${num}]: ${content}`;
+      }).join('\n\n');
+
+      const questions = Array.isArray((passage as Record<string, unknown>).questions)
+        ? (passage as Record<string, unknown>).questions as Array<Record<string, unknown>> : [];
+      for (const q of questions) {
+        const id = parseInt(String(q.id || ''), 10);
+        if (isNaN(id)) continue;
+        const correctStr = getCorrect(id);
+        if (!correctStr) continue;
+        const paragraphNumber = q.paragraphNumber;
+        const matchedPara = paragraphs.find((p) => p.number === paragraphNumber);
+        const paraContent = matchedPara ? _stripHtml(String(matchedPara.content || '')) : '';
+        const preview = paraContent.length > 350 ? paraContent.slice(0, 350) + '…' : paraContent;
+        qInputs.push({
+          id,
+          text: `Paragraph ${paragraphNumber}: ${preview}`,
+          correct: correctStr
+        });
+      }
+    } else if (partType === 'reading-comprehension') {
+      const passageObj = ((passage as Record<string, unknown>).passage as Record<string, unknown>) || {};
+      passagePlain = _stripHtml(String(passageObj.content || ''));
+      const sections = Array.isArray((passage as Record<string, unknown>).questionSections)
+        ? (passage as Record<string, unknown>).questionSections as Array<Record<string, unknown>> : [];
+      for (const sec of sections) {
+        const secType = String(sec.type || '');
+        const secOptions = Array.isArray(sec.options) ? sec.options as Array<unknown> : null;
+        const summaryText = _stripHtml(String(sec.summaryText || ''));
+        const questions = Array.isArray(sec.questions) ? sec.questions as Array<Record<string, unknown>> : [];
+        for (const q of questions) {
+          const id = parseInt(String(q.id || ''), 10);
+          if (isNaN(id)) continue;
+          const correctStr = getCorrect(id);
+          if (!correctStr) continue;
+          let qText: string;
+          if (secType === 'mcq') {
+            // Include the lettered options inline so the model can name the right one.
+            const opts = Array.isArray(q.options) ? q.options as Array<Record<string, unknown>> : [];
+            const optStr = opts.map((o) => `${o.letter}: ${o.text}`).join(' | ');
+            qText = String(q.text || '') + (optStr ? ' [Options: ' + optStr + ']' : '');
+          } else if (secType === 'tfni') {
+            qText = String(q.text || '') + (secOptions ? ' [Pick one: ' + secOptions.join(' / ') + ']' : '');
+          } else if (secType === 'gap-fill') {
+            qText = `Gap fill — hint: "${String(q.hint || '')}" — summary context: ${summaryText.slice(0, 250)}`;
+          } else {
+            qText = String(q.text || q.hint || '');
+          }
+          qInputs.push({ id, text: qText, correct: correctStr });
+        }
+      }
+    } else {
+      // gap-fill-text or unknown — passage.content + flat questions[].hint
+      const passageObj = ((passage as Record<string, unknown>).passage as Record<string, unknown>) || {};
+      passagePlain = _stripHtml(String(passageObj.content || passage.passage || ''));
+      const questions = Array.isArray((passage as Record<string, unknown>).questions)
+        ? (passage as Record<string, unknown>).questions as Array<Record<string, unknown>> : [];
+      for (const q of questions) {
+        const id = parseInt(String(q.id || ''), 10);
+        if (isNaN(id)) continue;
+        const correctStr = getCorrect(id);
+        if (!correctStr) continue;
+        qInputs.push({ id, text: String(q.hint || q.text || ''), correct: correctStr });
+      }
     }
   } else {
+    // IELTS — passage is a string, questions live in questionSections[].
+    passagePlain = _stripHtml(String(passage.passage || ''));
     const sections        = Array.isArray(passage.questionSections) ? passage.questionSections : [];
     const correctAnswers  = (passage.correctAnswers as Record<string, string[] | string> | undefined) || {};
     for (const sec of sections) {
@@ -603,6 +705,8 @@ async function generateExplanations(
       }
     }
   }
+
+  if (!passagePlain) throw new Error('passage body is empty');
   if (qInputs.length === 0) {
     return { explanations: {}, droppedQuotes: [] };
   }

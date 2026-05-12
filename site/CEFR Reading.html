@@ -1025,42 +1025,53 @@
       color: var(--primary);
     }
 
+    /* Vertical radio-card layout — matches .mcq-options exactly so the
+       student gets a consistent answer-selection UX whether the section
+       is MCQ or TFNI. */
     .tfni-options {
       display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      gap: 10px;
     }
 
     .tfni-option {
-      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: white;
       border: 2px solid var(--border);
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
       font-weight: 600;
       transition: all 0.2s;
-      background: white;
     }
 
     .tfni-option:hover {
       border-color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .tfni-option input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+      flex-shrink: 0;
     }
 
     .tfni-option.selected {
-      background: var(--primary);
       border-color: var(--primary);
-      color: white;
+      background: var(--primary-light);
     }
 
     .tfni-option.correct {
-      background: var(--success);
       border-color: var(--success);
-      color: white;
+      background: #dcfce7;
     }
 
     .tfni-option.incorrect {
-      background: var(--danger);
       border-color: var(--danger);
-      color: white;
+      background: #fee2e2;
     }
 
     /* Summary with gaps */
@@ -2363,6 +2374,479 @@
         .cr-pv-scroll { max-height: 260px; }
         .cr-pv-para { font-size: 13px; }
     }
+
+    /* ── Part 3 split-view (matching-headings) ─────────────────────────
+       Two-pane layout: passage with numbered paragraph cards on the left,
+       always-visible draggable headings list on the right. Replaces the
+       old vertical stack of per-paragraph dropdowns. On mobile (<1024px)
+       the right pane collapses to a sticky horizontal chip strip pinned
+       to the top of the part. */
+    .mh-split-container {
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+      margin: 16px 0;
+    }
+    .mh-headings-pane {
+      flex: 0 0 320px;
+      position: sticky;
+      top: 80px;
+      max-height: calc(100vh - 110px);
+      overflow: hidden;
+      background: linear-gradient(135deg, #f0fdfa 0%, #ecfeff 100%);
+      border: 1.5px solid #99f6e4;
+      border-radius: 14px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .mh-headings-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #0f766e;
+      letter-spacing: 0.2px;
+    }
+    .mh-headings-hint {
+      font-size: 11.5px;
+      color: #475569;
+      line-height: 1.4;
+    }
+    .mh-headings-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow-y: auto;
+      padding-right: 4px;
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+    .mh-heading-chip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: #fff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      cursor: grab;
+      font-size: 13px;
+      line-height: 1.4;
+      transition: all .15s;
+      box-shadow: 0 1px 2px rgba(0,0,0,.03);
+      user-select: none;
+      -webkit-user-select: none;
+      /* Ensure HTML5 drag actually starts in WebKit-based browsers — without
+         these the chip can fall through to a text-selection drag instead. */
+      -webkit-user-drag: element;
+      -khtml-user-drag: element;
+    }
+    /* Inner spans must NOT intercept the mousedown that starts the drag —
+         they need to pass the gesture up to the chip itself. */
+    .mh-heading-chip > * { pointer-events: none; }
+    .mh-heading-chip:hover { border-color: #14b8a6; box-shadow: 0 4px 10px rgba(20,184,166,.15); transform: translateY(-1px); }
+    .mh-heading-chip:active { cursor: grabbing; }
+    .mh-heading-chip.mh-chip-dragging { opacity: .4; }
+    .mh-heading-chip.mh-chip-selected {
+      border-color: #14b8a6;
+      background: linear-gradient(135deg, #ccfbf1, #a7f3d0);
+      box-shadow: 0 0 0 3px rgba(20,184,166,.2);
+    }
+    .mh-heading-chip.mh-chip-used {
+      opacity: .42;
+      filter: grayscale(0.4);
+    }
+    .mh-heading-chip.mh-chip-used .mh-heading-check { color: #10b981; }
+    .mh-heading-letter {
+      flex-shrink: 0;
+      width: 26px; height: 26px;
+      background: #10b981; color: #fff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12.5px;
+      font-weight: 800;
+    }
+    .mh-heading-text {
+      flex: 1; min-width: 0;
+      color: #1e293b;
+      word-break: break-word;
+    }
+    .mh-heading-check {
+      flex-shrink: 0;
+      color: transparent;
+      font-size: 14px;
+      font-weight: 800;
+    }
+    .mh-passage-pane {
+      flex: 1 1 auto;
+      min-width: 0;
+      display: flex; flex-direction: column;
+      gap: 12px;
+    }
+    .mh-passage-pane > .passage-card { margin-bottom: 0; }
+    .mh-para-card {
+      background: #fff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 14px 16px;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .mh-para-head {
+      display: flex; flex-direction: column;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .mh-para-num {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      color: #0f766e;
+      font-size: 14px;
+    }
+    .mh-para-qbadge {
+      background: #14b8a6;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      letter-spacing: 0.3px;
+    }
+    /* Thin assignment pill — empty vs filled state. The legacy
+       `.rich-select-trigger` rule sets `display:block; width:100%;
+       padding:12px 42px 12px 16px; ::after caret` and is more-specific
+       than `.mh-slot` alone, so we need !important on the size + display
+       overrides + explicit ::after suppression. inline-flex + auto width
+       makes the pill hug its content like a chip instead of stretching
+       to the full paragraph card width. */
+    .mh-slot {
+      display: inline-flex !important;
+      align-items: center;
+      min-height: 26px;
+      max-width: 100%;
+      width: auto !important;
+      padding: 3px 10px !important;
+      background: #f8fafc;
+      border: 1.5px dashed #cbd5e1 !important;
+      border-radius: 999px !important;
+      font-size: 12.5px !important;
+      font-weight: 600 !important;
+      line-height: 1.3 !important;
+      color: #64748b;
+      cursor: pointer;
+      transition: all .15s;
+      box-shadow: none !important;
+    }
+    .mh-slot::after { content: none !important; display: none !important; }
+    .mh-slot:hover { border-color: #14b8a6 !important; background: #f0fdfa !important; }
+    .mh-slot:focus-visible { outline: 2px solid #14b8a6; outline-offset: 2px; }
+    .mh-slot.mh-slot-over {
+      border-color: #14b8a6 !important;
+      background: #ccfbf1 !important;
+      box-shadow: inset 0 0 0 2px #14b8a6 !important;
+    }
+    .mh-slot.mh-slot-filled-state {
+      border-style: solid !important;
+      border-color: #14b8a6 !important;
+      background: linear-gradient(135deg, #ccfbf1, #d1fae5) !important;
+      color: #134e4a !important;
+    }
+    /* `[hidden]` is `display: none` by default, but my own
+       `.mh-slot-filled { display: flex }` rule beats it on specificity.
+       Force-hide here so the empty + filled states don't show together. */
+    .mh-slot-empty[hidden], .mh-slot-filled[hidden] { display: none !important; }
+    .mh-slot-empty {
+      font-style: italic;
+      letter-spacing: 0.2px;
+      white-space: nowrap;
+    }
+    .mh-slot-filled {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .mh-slot-letter {
+      flex-shrink: 0;
+      width: 18px; height: 18px;
+      background: #10b981; color: #fff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10.5px; font-weight: 800;
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    }
+    .mh-slot-text {
+      min-width: 0;
+      font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 280px;
+    }
+    .mh-slot-clear {
+      flex-shrink: 0;
+      width: 18px; height: 18px;
+      background: transparent;
+      border: 0;
+      padding: 0;
+      border-radius: 50%;
+      color: #134e4a;
+      font-size: 14px;
+      line-height: 1;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .mh-slot-clear:hover { background: rgba(20,184,166,.18); }
+    .mh-para-body {
+      font-size: 14.5px;
+      line-height: 1.65;
+      color: #334155;
+      margin-top: 4px;
+    }
+    /* When the runner is in review-mode + an answer was correct/incorrect,
+       markAnswer() adds .correct / .incorrect to the slot — these override
+       the assigned styling so feedback is visually unambiguous. */
+    .mh-slot.correct, .mh-slot.review-correct {
+      border-color: var(--success); background: #dcfce7; color: #166534;
+    }
+    .mh-slot.incorrect, .mh-slot.review-incorrect {
+      border-color: var(--danger); background: #fee2e2; color: #991b1b;
+    }
+    /* Mobile divider — invisible on desktop, drag-handle on mobile. */
+    .mh-mobile-divider { display: none; }
+
+    /* Part 2 dual-DOM toggle. PC ≥1024px shows the new split view (with
+       draggable statement chips + drop slots on each text). Mobile keeps
+       the legacy collapsible statements + per-text dropdown layout. Both
+       views carry the same data-question attrs so markAnswer marks both
+       and answers stay consistent if the viewport ever flips. */
+    .m2-pc-view { display: block; }
+    .m2-mobile-view { display: none; }
+    @media (max-width: 1023px) {
+      .m2-pc-view { display: none; }
+      .m2-mobile-view { display: block; }
+    }
+
+    @media (max-width: 1023px) {
+      /* Hide the Part 3 instruction block on mobile — the matching-
+         headings split-view needs the full viewport height. Students
+         read the instructions on the desktop / once via the part picker
+         anyway, and they're identical across mocks. */
+      .part-container[data-part-type="matching-headings"] .part-header {
+        display: none;
+      }
+      /* Mobile: vertical two-pane split — headings TOP (scrollable),
+         passage BOTTOM (scrollable), with a draggable horizontal bar
+         between them. Use 100dvh (dynamic viewport height) so we
+         actually fill the screen — `vh` includes the mobile address bar
+         in its calculation and leaves a dead strip at the bottom on
+         Chrome / Safari mobile. */
+      .mh-split-container {
+        flex-direction: column;
+        gap: 0;
+        height: calc(100dvh - 100px);
+        min-height: 540px;
+      }
+      .mh-headings-pane {
+        position: relative;             /* not sticky — internal scroll handles it */
+        top: 0;
+        flex: 0 0 38%;                  /* default ~38% of split height */
+        max-height: none;
+        min-height: 120px;
+        z-index: auto;
+        padding: 10px 12px;
+        background: linear-gradient(135deg, #f0fdfa 0%, #ecfeff 100%);
+        border-radius: 14px 14px 0 0;
+        border-bottom: 0;
+        backdrop-filter: none;
+        /* Single scroll region — title + hint + chip list all flow
+           together so the heading "List of Headings (A-H)" scrolls
+           out of view as the user scrolls down through the chips. */
+        overflow-y: auto;
+        overflow-x: hidden;
+        display: block;
+      }
+      .mh-headings-title { margin-bottom: 4px; }
+      .mh-headings-hint { margin-bottom: 8px; }
+      .mh-headings-list {
+        flex-direction: column;
+        flex-wrap: nowrap;
+        overflow: visible;              /* parent owns the scroll now */
+        gap: 8px;
+        padding-right: 0;
+        scroll-snap-type: none;
+        flex: none;
+      }
+      .mh-heading-chip {
+        flex: 0 0 auto;                 /* natural height */
+        cursor: pointer;
+      }
+      .mh-passage-pane {
+        flex: 1 1 auto;
+        min-height: 100px;
+        overflow-y: auto;
+        background: #fff;
+        border: 1.5px solid #e2e8f0;
+        border-top: 0;
+        border-radius: 0 0 14px 14px;
+        padding: 14px;
+        margin: 0;
+      }
+
+      /* The draggable bar itself — minimal handle, no copy. Generous
+         touch target via invisible ::before padding so coarse pointers
+         land easily. Just shows a horizontal grip pill to hint "drag me". */
+      .mh-mobile-divider {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 22px;
+        height: 22px;
+        background: linear-gradient(180deg, #ccfbf1, #a7f3d0);
+        border-top: 1px solid #99f6e4;
+        border-bottom: 1px solid #99f6e4;
+        cursor: ns-resize;
+        touch-action: none;
+        z-index: 5;
+        position: relative;
+      }
+      .mh-mobile-divider::before {
+        /* Invisible vertical padding for a fatter touch zone (~46px). */
+        content: '';
+        position: absolute;
+        left: 0; right: 0;
+        top: -12px; bottom: -12px;
+        z-index: -1;
+      }
+      .mh-mobile-divider-grip {
+        display: block;
+        width: 56px; height: 4px;
+        background: #0f766e;
+        border-radius: 999px;
+        opacity: .8;
+        box-shadow: 0 1px 0 rgba(255,255,255,.55);
+      }
+      .mh-mobile-divider:hover .mh-mobile-divider-grip,
+      .mh-mobile-divider:active .mh-mobile-divider-grip { opacity: 1; }
+      .mh-headings-hint { font-size: 11px; }
+    }
+    @media (max-width: 600px) {
+      .mh-split-container { height: calc(100dvh - 90px); min-height: 480px; }
+      .mh-heading-chip { padding: 9px 11px; font-size: 12.5px; }
+      .mh-heading-letter { width: 22px; height: 22px; font-size: 11px; }
+      .mh-para-card { padding: 12px 14px; }
+      .mh-para-body { font-size: 14px; }
+    }
+
+    /* ── In-test review-mode overlays ──────────────────────────────────
+       After Review Answers is clicked we re-enter the test view and
+       (a) attach an expandable explanation block next to each question
+           and (b) for Parts 2-5 mark up the passage / text / paragraph
+           that the question's correct answer comes from with a Q-pill
+           badge + <mark> highlight. The Explanations button is gone — all
+           of this is triggered exclusively by Review Answers. */
+    .cr-inline-expl {
+      margin: 8px 0 14px;
+      padding: 0;
+      background: linear-gradient(135deg, #f0fdfa 0%, #ecfeff 100%);
+      border: 1px solid #99f6e4;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .cr-inline-expl summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 9px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #0f766e;
+      user-select: none;
+      transition: background-color .15s;
+    }
+    .cr-inline-expl summary::-webkit-details-marker { display: none; }
+    .cr-inline-expl summary::before {
+      content: '▶';
+      display: inline-block;
+      margin-right: 8px;
+      font-size: 10px;
+      transition: transform .15s;
+      color: #14b8a6;
+    }
+    .cr-inline-expl[open] summary::before { transform: rotate(90deg); }
+    .cr-inline-expl summary:hover { background-color: rgba(20,184,166,.08); }
+    .cr-inline-expl-body {
+      padding: 0 14px 12px;
+    }
+    .cr-inline-expl-text {
+      margin: 0 0 8px;
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: #1f2937;
+    }
+    .cr-inline-expl-quote {
+      margin: 0;
+      padding: 8px 12px;
+      border-left: 3px solid #10b981;
+      background: rgba(255,255,255,.7);
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: #374151;
+      font-style: italic;
+      border-radius: 0 6px 6px 0;
+    }
+
+    /* Q-pill badge placed inline next to highlighted text in the passage.
+       Mirrors the IELTS Q-pill — green chip with a number. */
+    .cr-q-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 22px;
+      height: 22px;
+      padding: 0 7px;
+      margin: 0 4px;
+      background: #10b981;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      border-radius: 999px;
+      vertical-align: middle;
+      box-shadow: 0 2px 4px rgba(16,185,129,.25);
+      cursor: help;
+    }
+    .cr-q-pill::before {
+      content: 'Q';
+      margin-right: 1px;
+      opacity: 0.9;
+    }
+
+    /* Quote mark inside the passage — soft mint background. Matches the
+       IELTS review highlight, distinguishable from the existing manual
+       highlight-yellow / highlight-green classes. */
+    mark.cr-q-mark {
+      background: #a7f3d0;
+      color: inherit;
+      padding: 1px 2px;
+      border-radius: 3px;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+    }
+
+    /* When a text block (Part 2) or paragraph (Part 3) has been tagged
+       with one or more Q-pills, give the whole block a subtle outline so
+       it's easy to scan from the answer's drop-down back to the passage. */
+    .cr-q-anchor {
+      position: relative;
+      padding-left: 6px;
+      border-left: 2px solid transparent;
+      transition: border-color .15s, background-color .15s;
+    }
+    .cr-q-anchor[data-marked="1"] {
+      border-left-color: #10b981;
+      background-color: rgba(16,185,129,.04);
+    }
   </style>
 </head>
 <body>
@@ -2897,10 +3381,14 @@
       
       TEST_DATA.parts.forEach((part, partIndex) => {
         const partDiv = document.createElement('div');
-        // Add full-width-split class for reading-comprehension type parts
-        partDiv.className = part.type === 'reading-comprehension' 
-          ? 'part-container full-width-split' 
+        // Add full-width-split class for reading-comprehension type parts.
+        // Also mirror the type on a data attribute so mobile CSS can hide
+        // the part-header for matching-headings (its split-view needs every
+        // pixel of vertical room on a phone).
+        partDiv.className = part.type === 'reading-comprehension'
+          ? 'part-container full-width-split'
           : 'part-container';
+        partDiv.dataset.partType = part.type;
         partDiv.id = `part-${partIndex}`;
         
         // For reading-comprehension, part-header goes inside the split pane
@@ -2933,6 +3421,11 @@
 
       // Add event listeners
       addEventListeners();
+
+      // Wire the matching-headings split-view drag-and-drop + tap-to-assign
+      // for every Part 3 container that just got rendered. Idempotent via
+      // the `data-mh-wired` flag on .mh-split-container.
+      document.querySelectorAll('.part-container').forEach(_mhWireSplitView);
     }
 
     // ===== PART TYPE GENERATORS =====
@@ -2955,13 +3448,80 @@
     }
 
     function generateMatching(part) {
-      let html = '';
+      const lastLetter = part.statements[part.statements.length - 1].letter;
 
-      // Collapsible statements list
-      html += `
+      // ── PC view (≥1024px): split-view with statement chips on the LEFT
+      // and text cards (with drop slots) on the RIGHT. Reuses the .mh-*
+      // CSS + drag wiring from Part 3 so the UX is identical between
+      // matching and matching-headings.
+      const pcStatementsHtml = part.statements.map(s => `
+        <div class="mh-heading-chip"
+             data-letter="${s.letter}"
+             tabindex="0"
+             role="button">
+          <span class="mh-heading-letter">${s.letter}</span>
+          <span class="mh-heading-text">${s.text}</span>
+          <span class="mh-heading-check" aria-hidden="true">✓</span>
+        </div>
+      `).join('');
+
+      // Each text card on the right gets its own .mh-slot drop target
+      // (carries .rich-select-trigger + data-question for backwards
+      // compat with markAnswer). IDs are namespaced `m2-slot-${n}` to
+      // avoid collision with the legacy mobile dropdown's
+      // `rs-trigger-${n}` id below.
+      const pcTextsHtml = part.texts.map(text => {
+        const num = text.number || text.id;
+        return `
+          <div class="mh-para-card" data-part-type="matching" data-text-number="${num}">
+            <div class="mh-para-head">
+              <span class="mh-para-num">Text ${num}<span class="mh-para-qbadge">Q${num}</span></span>
+              <div class="mh-slot rich-select-trigger matching-select"
+                   id="m2-slot-${num}"
+                   data-question="${num}"
+                   data-qid="${num}"
+                   tabindex="0"
+                   role="button"
+                   aria-label="Statement slot for text ${num}">
+                <span class="mh-slot-empty">↳ Drop a statement here</span>
+                <span class="mh-slot-filled" hidden>
+                  <span class="mh-slot-letter"></span>
+                  <span class="mh-slot-text"></span>
+                  <button type="button"
+                          class="mh-slot-clear"
+                          aria-label="Clear statement"
+                          onclick="_mhClear(${num}, event)">×</button>
+                </span>
+              </div>
+            </div>
+            <div class="para-content mh-para-body">${text.content}</div>
+          </div>
+        `;
+      }).join('');
+
+      const pcView = `
+        <div class="m2-pc-view">
+          <div class="mh-split-container" data-part="matching">
+            <aside class="mh-headings-pane" aria-label="List of statements">
+              <div class="mh-headings-title">📋 Statements (A-${lastLetter})</div>
+              <div class="mh-headings-hint">Drag a statement onto a text — or tap one, then tap the slot.</div>
+              <div class="mh-headings-list">${pcStatementsHtml}</div>
+            </aside>
+            <main class="mh-passage-pane">
+              ${pcTextsHtml}
+            </main>
+          </div>
+        </div>
+      `;
+
+      // ── Mobile view (<1024px): keep the legacy collapsible statements
+      // + text cards with dropdown, untouched per user request — that
+      // layout already works well at phone width.
+      let mobileView = `<div class="m2-mobile-view">`;
+      mobileView += `
         <div class="collapsible-statements" id="statementsCollapse">
           <div class="collapsible-header" onclick="toggleStatements(this)">
-            <h4>📋 Statements (A-${part.statements[part.statements.length-1].letter})</h4>
+            <h4>📋 Statements (A-${lastLetter})</h4>
             <span class="collapsible-icon">▼</span>
           </div>
           <div class="collapsible-content">
@@ -2976,14 +3536,11 @@
           </div>
         </div>
       `;
-
-      // Text cards with dropdowns
-      html += `<div class="questions-card matching-questions" data-part-type="matching">
+      mobileView += `<div class="questions-card matching-questions" data-part-type="matching">
         <h4>Match each text with a statement:</h4>`;
-      
       part.texts.forEach(text => {
         const num = text.number || text.id;
-        html += `
+        mobileView += `
           <div class="text-card">
             <div class="text-header">
               <span class="text-number">${num}</span>
@@ -3003,9 +3560,9 @@
           </div>
         `;
       });
+      mobileView += '</div></div>';
 
-      html += '</div>';
-      return html;
+      return pcView + mobileView;
     }
 
     // Toggle collapsible statements
@@ -3049,6 +3606,29 @@
       optEl.classList.add('selected');
       // Record answer
       userAnswers[qId] = letter;
+      // Cross-sync to the PC mh-slot for Part 2 — when the user is on
+      // mobile and picks via this dropdown, mirror the assignment into
+      // the (hidden) PC pill so resizing back to desktop shows the same
+      // answer. No-op for Part 3 since it has no legacy dropdown.
+      try {
+        var mhSlot = document.querySelector('.mh-slot[data-qid="' + qId + '"]');
+        if (mhSlot) {
+          var split = mhSlot.closest('.mh-split-container');
+          var chip = split ? split.querySelector('.mh-heading-chip[data-letter="' + letter + '"]') : null;
+          mhSlot.classList.add('mh-slot-filled-state');
+          mhSlot.setAttribute('data-value', letter);
+          var emptyEl = mhSlot.querySelector('.mh-slot-empty');
+          if (emptyEl) emptyEl.hidden = true;
+          var filledEl = mhSlot.querySelector('.mh-slot-filled');
+          if (filledEl) {
+            filledEl.hidden = false;
+            filledEl.querySelector('.mh-slot-letter').textContent = letter;
+            filledEl.querySelector('.mh-slot-text').textContent =
+              chip ? chip.querySelector('.mh-heading-text').textContent : letter;
+          }
+          if (typeof _mhRefreshChipUsed === 'function') _mhRefreshChipUsed(split);
+        }
+      } catch (e) {}
       // Update used hints
       updateMatchingOptions();
       updateHeadingOptions();
@@ -3089,58 +3669,341 @@
       updateMatchingOptions();
     }
 
+    // Part 3 — matching-headings. Split-view: passage with numbered
+    // paragraph cards on the left, draggable headings list on the right.
+    // On mobile the right pane collapses to a sticky horizontal-scroll
+    // chip row pinned to the top, and assignment falls back to tap-select
+    // + tap-paragraph. The thin pill on each paragraph (.mh-slot) keeps
+    // the legacy `.rich-select-trigger` + `data-question` attribute so
+    // markAnswer() + the inline-review Q-pill injector both keep working
+    // unchanged. selectRichOption is reused on success so the existing
+    // updateHeadingOptions / used-elsewhere hints still apply.
     function generateMatchingHeadings(part) {
-      let html = '';
-      
-      // Collapsible headings list
-      html += `
-        <div class="collapsible-statements" id="headingsCollapse">
-          <div class="collapsible-header" onclick="toggleStatements(this)">
-            <h4>📋 List of Headings (A-${part.headings[part.headings.length-1].letter})</h4>
-            <span class="collapsible-icon">▼</span>
-          </div>
-          <div class="collapsible-content">
-            <div class="statements-inner">
-              ${part.headings.map(h => `
-                <div class="statement-item">
-                  <span class="letter">${h.letter})</span>
-                  <span>${h.text}</span>
-                </div>
-              `).join('')}
+      const lastLetter = part.headings[part.headings.length - 1].letter;
+      const headingsListHtml = part.headings.map(h => `
+        <div class="mh-heading-chip"
+             data-letter="${h.letter}"
+             tabindex="0"
+             role="button">
+          <span class="mh-heading-letter">${h.letter}</span>
+          <span class="mh-heading-text">${h.text}</span>
+          <span class="mh-heading-check" aria-hidden="true">✓</span>
+        </div>
+      `).join('');
+
+      const paragraphsHtml = part.passage.paragraphs.map(para => `
+        <div class="mh-para-card" data-part-type="matching-headings" data-paragraph="${para.number}" data-paragraph-number="${para.number}">
+          <div class="mh-para-head">
+            <span class="mh-para-num">Paragraph ${para.number}<span class="mh-para-qbadge">Q${para.questionId}</span></span>
+            <div class="mh-slot rich-select-trigger heading-select"
+                 id="rs-trigger-${para.questionId}"
+                 data-question="${para.questionId}"
+                 data-qid="${para.questionId}"
+                 tabindex="0"
+                 role="button"
+                 aria-label="Heading slot for paragraph ${para.number}">
+              <span class="mh-slot-empty">↳ Drop a heading here</span>
+              <span class="mh-slot-filled" hidden>
+                <span class="mh-slot-letter"></span>
+                <span class="mh-slot-text"></span>
+                <button type="button"
+                        class="mh-slot-clear"
+                        aria-label="Clear heading"
+                        onclick="_mhClear(${para.questionId}, event)">×</button>
+              </span>
             </div>
           </div>
+          <div class="para-content mh-para-body">${para.content}</div>
         </div>
-      `;
+      `).join('');
 
-      // Passage with paragraphs
-      html += `
-        <div class="passage-card matching-headings-container" data-part-type="matching-headings">
-          <h3>${part.passage.title}</h3>
-        </div>
-      `;
-
-      part.passage.paragraphs.forEach(para => {
-        html += `
-          <div class="paragraph-card" data-part-type="matching-headings">
-            <div class="para-header">
-              <span class="para-number">Paragraph ${para.number} <span>Q${para.questionId}</span></span>
-              <div class="rich-select-container" id="rs-container-${para.questionId}">
-                <div class="rich-select-trigger heading-select" id="rs-trigger-${para.questionId}" data-question="${para.questionId}"
-                     onclick="toggleRichSelect('${para.questionId}', event)">-- Select Heading --</div>
-                <div class="rich-select-menu" id="rs-menu-${para.questionId}">
-                  ${part.headings.map(h =>
-                    `<div class="rich-select-option" data-letter="${h.letter}"
-                         onclick="selectRichOption('${para.questionId}','${h.letter}',this,event)">${h.letter}) ${h.text}</div>`
-                  ).join('')}
-                </div>
-              </div>
-            </div>
-            <div class="para-content">${para.content}</div>
+      // Note: outer wrapper gets .mh-split-container which CSS flips between
+      // flex-row (desktop) and flex-column (mobile). The legacy collapsible
+      // headings markup is gone — the right pane is always visible.
+      return `
+        <div class="mh-split-container" data-part="matching-headings">
+          <aside class="mh-headings-pane" aria-label="List of headings">
+            <div class="mh-headings-title">📋 List of Headings (A-${lastLetter})</div>
+            <div class="mh-headings-hint">Drag a heading onto a paragraph — or tap one, then tap the slot.</div>
+            <div class="mh-headings-list" id="mhHeadingsList">${headingsListHtml}</div>
+          </aside>
+          <div class="mh-mobile-divider" role="separator" aria-orientation="horizontal" aria-label="Resize headings pane" tabindex="0">
+            <span class="mh-mobile-divider-grip"></span>
           </div>
-        `;
+          <main class="mh-passage-pane">
+            <div class="passage-card matching-headings-container" data-part-type="matching-headings">
+              <h3>${part.passage.title}</h3>
+            </div>
+            ${paragraphsHtml}
+          </main>
+        </div>
+      `;
+    }
+
+    // Drag-and-drop + tap-to-assign wiring. Runs once on first render, then
+    // again on each part switch (idempotent: bails out if the part is not
+    // matching-headings or the listeners are already in place).
+    function _mhWireSplitView(container) {
+      if (!container) return;
+      const split = container.querySelector('.mh-split-container');
+      if (!split || split.dataset.mhWired === '1') return;
+      split.dataset.mhWired = '1';
+
+      const chips = split.querySelectorAll('.mh-heading-chip');
+      const slots = split.querySelectorAll('.mh-slot');
+
+      let tapSelectedLetter = null;
+      function clearTapSelected() {
+        tapSelectedLetter = null;
+        chips.forEach(c => c.classList.remove('mh-chip-selected'));
+      }
+
+      // ── Custom pointer-events drag (mouse + touch + pen) ───────────
+      // HTML5 drag-and-drop was unreliable in Chrome desktop — events
+      // would silently fail. Pointer-based drag works on every input
+      // type, with a fully visible floating ghost element that the user
+      // can see drag with the cursor.
+      chips.forEach(chip => {
+        chip.addEventListener('pointerdown', e => {
+          // Only react to primary mouse / touch / pen — and not on the
+          // inline clear button or any future actionable child.
+          if (e.pointerType === 'mouse' && e.button !== 0) return;
+          if (e.target.closest('.mh-slot-clear')) return;
+
+          const startX = e.clientX;
+          const startY = e.clientY;
+          let dragging = false;
+          let ghost = null;
+          let overSlot = null;
+
+          // Don't capture pointer immediately — we want clicks (no movement
+          // = tap-to-select) to still work normally. We only switch to drag
+          // mode once movement exceeds the threshold.
+          const onMove = (mv) => {
+            const dx = mv.clientX - startX;
+            const dy = mv.clientY - startY;
+            if (!dragging && (dx * dx + dy * dy) < 36) return; // 6px²
+
+            if (!dragging) {
+              dragging = true;
+              chip.classList.add('mh-chip-dragging');
+              clearTapSelected();
+              // Build a floating clone the cursor will drag around.
+              ghost = chip.cloneNode(true);
+              ghost.classList.add('mh-chip-ghost');
+              ghost.style.cssText = 'position:fixed;pointer-events:none;z-index:99999;'
+                + 'left:0;top:0;width:' + chip.offsetWidth + 'px;'
+                + 'transform:translate3d(0,0,0);opacity:.92;'
+                + 'box-shadow:0 8px 20px rgba(20,184,166,.35);'
+                + 'border-color:#14b8a6;background:#fff;';
+              document.body.appendChild(ghost);
+              try { chip.setPointerCapture(mv.pointerId); } catch (_) {}
+            }
+            // Move ghost
+            ghost.style.left = (mv.clientX - chip.offsetWidth / 2) + 'px';
+            ghost.style.top  = (mv.clientY - chip.offsetHeight / 2) + 'px';
+            // Find slot under cursor (hide ghost temporarily for hit-testing).
+            ghost.style.display = 'none';
+            const elUnder = document.elementFromPoint(mv.clientX, mv.clientY);
+            ghost.style.display = '';
+            const slot = elUnder ? elUnder.closest('.mh-slot') : null;
+            if (slot !== overSlot) {
+              if (overSlot) overSlot.classList.remove('mh-slot-over');
+              if (slot) slot.classList.add('mh-slot-over');
+              overSlot = slot;
+            }
+            mv.preventDefault();
+          };
+
+          const onUp = (up) => {
+            document.removeEventListener('pointermove', onMove);
+            document.removeEventListener('pointerup', onUp);
+            document.removeEventListener('pointercancel', onUp);
+            if (dragging) {
+              chip.classList.remove('mh-chip-dragging');
+              if (ghost) ghost.remove();
+              if (overSlot) {
+                overSlot.classList.remove('mh-slot-over');
+                _mhAssign(overSlot.dataset.qid, chip.dataset.letter);
+              }
+              try { chip.releasePointerCapture(up.pointerId); } catch (_) {}
+            } else {
+              // No drag movement — treat as tap to select / unselect.
+              if (tapSelectedLetter === chip.dataset.letter) {
+                clearTapSelected();
+              } else {
+                clearTapSelected();
+                tapSelectedLetter = chip.dataset.letter;
+                chip.classList.add('mh-chip-selected');
+              }
+            }
+          };
+
+          document.addEventListener('pointermove', onMove);
+          document.addEventListener('pointerup', onUp);
+          document.addEventListener('pointercancel', onUp);
+        });
+
+        // Keyboard a11y: Enter/Space toggles tap-select on the chip.
+        chip.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            if (tapSelectedLetter === chip.dataset.letter) {
+              clearTapSelected();
+            } else {
+              clearTapSelected();
+              tapSelectedLetter = chip.dataset.letter;
+              chip.classList.add('mh-chip-selected');
+            }
+          }
+        });
       });
 
-      return html;
+      // Slots: tap-to-assign once a chip is selected, and keyboard handler.
+      slots.forEach(slot => {
+        slot.addEventListener('click', e => {
+          // The inline clear (×) handler stops propagation, so this branch
+          // is only hit on a true slot tap.
+          if (!tapSelectedLetter) return;
+          _mhAssign(slot.dataset.qid, tapSelectedLetter);
+          clearTapSelected();
+        });
+        slot.addEventListener('keydown', e => {
+          if ((e.key === 'Enter' || e.key === ' ') && tapSelectedLetter) {
+            e.preventDefault();
+            _mhAssign(slot.dataset.qid, tapSelectedLetter);
+            clearTapSelected();
+          }
+        });
+      });
+
+      // Mobile divider drag — resize the top (headings) vs bottom (passage)
+      // panes. Only wired when the divider element exists (mobile only;
+      // CSS keeps it hidden on desktop).
+      _mhWireMobileDivider(split);
+    }
+
+    // Mobile-only: divider between headings (top) and passage (bottom).
+    // Drag the bar to resize the top pane's height. Persists nothing —
+    // each visit starts at the CSS default. CSS hides the divider above
+    // 1023px so this becomes a no-op on desktop.
+    function _mhWireMobileDivider(split) {
+      const divider = split.querySelector('.mh-mobile-divider');
+      const top = split.querySelector('.mh-headings-pane');
+      if (!divider || !top) return;
+      divider.addEventListener('pointerdown', e => {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        const startY = e.clientY;
+        const startH = top.getBoundingClientRect().height;
+        const splitRect = split.getBoundingClientRect();
+        divider.setPointerCapture(e.pointerId);
+        const onMove = (mv) => {
+          const dy = mv.clientY - startY;
+          // Clamp between 100px and (splitHeight - 100px) so the bottom
+          // pane stays usable.
+          const newH = Math.max(120, Math.min(splitRect.height - 160, startH + dy));
+          top.style.height = newH + 'px';
+          top.style.maxHeight = newH + 'px';
+          top.style.flex = '0 0 ' + newH + 'px';
+        };
+        const onUp = (up) => {
+          divider.removeEventListener('pointermove', onMove);
+          divider.removeEventListener('pointerup', onUp);
+          divider.removeEventListener('pointercancel', onUp);
+          try { divider.releasePointerCapture(up.pointerId); } catch (_) {}
+        };
+        divider.addEventListener('pointermove', onMove);
+        divider.addEventListener('pointerup', onUp);
+        divider.addEventListener('pointercancel', onUp);
+      });
+    }
+
+    // Apply the assignment: stamps the letter + heading text into the slot,
+    // updates userAnswers, refreshes the chip "used" state, and forwards to
+    // selectRichOption for the legacy used-elsewhere hint pipeline.
+    function _mhAssign(qid, letter) {
+      const slot = document.querySelector('.mh-slot[data-qid="' + qid + '"]');
+      if (!slot) return;
+      const split = slot.closest('.mh-split-container');
+      const chip = split ? split.querySelector('.mh-heading-chip[data-letter="' + letter + '"]') : null;
+      if (!chip) return;
+
+      // Visual update
+      slot.classList.add('mh-slot-filled-state');
+      slot.setAttribute('data-value', letter);
+      slot.querySelector('.mh-slot-empty').hidden = true;
+      const filledEl = slot.querySelector('.mh-slot-filled');
+      filledEl.hidden = false;
+      filledEl.querySelector('.mh-slot-letter').textContent = letter;
+      filledEl.querySelector('.mh-slot-text').textContent = chip.querySelector('.mh-heading-text').textContent;
+
+      // Persist
+      userAnswers[qid] = letter;
+
+      // Refresh chip "used" state across all slots
+      _mhRefreshChipUsed(split);
+
+      // Cross-sync to Part 2's mobile dropdown — if there's a legacy
+      // .rich-select-trigger for the same qid that is NOT the mh-slot,
+      // update its visible text + data-value so when the viewport resizes
+      // to mobile, the answer is still shown there.
+      try {
+        const legacy = document.getElementById('rs-trigger-' + qid);
+        if (legacy && !legacy.classList.contains('mh-slot')) {
+          const headingText = chip.querySelector('.mh-heading-text').textContent;
+          legacy.textContent = letter + ') ' + headingText;
+          legacy.setAttribute('data-value', letter);
+          const menu = document.getElementById('rs-menu-' + qid);
+          if (menu) {
+            menu.querySelectorAll('.rich-select-option').forEach(o => {
+              o.classList.toggle('selected', o.getAttribute('data-letter') === letter);
+            });
+          }
+        }
+      } catch (e) {}
+
+      // Keep legacy hint pipeline happy (used-elsewhere indicators on the
+      // hidden rich-select menus that the answers panel still walks).
+      if (typeof updateMatchingOptions === 'function') updateMatchingOptions();
+      if (typeof updateHeadingOptions === 'function') updateHeadingOptions();
+    }
+
+    // Clear an assignment — re-enables the heading chip on the right.
+    function _mhClear(qid, event) {
+      if (event) { event.stopPropagation(); event.preventDefault(); }
+      const slot = document.querySelector('.mh-slot[data-qid="' + qid + '"]');
+      if (!slot) return;
+      slot.classList.remove('mh-slot-filled-state');
+      slot.removeAttribute('data-value');
+      slot.querySelector('.mh-slot-empty').hidden = false;
+      slot.querySelector('.mh-slot-filled').hidden = true;
+      delete userAnswers[qid];
+      const split = slot.closest('.mh-split-container');
+      _mhRefreshChipUsed(split);
+      // Mirror clear to the legacy mobile dropdown if it exists (Part 2).
+      try {
+        const legacy = document.getElementById('rs-trigger-' + qid);
+        if (legacy && !legacy.classList.contains('mh-slot')) {
+          legacy.textContent = '-- Select Statement --';
+          legacy.removeAttribute('data-value');
+          const menu = document.getElementById('rs-menu-' + qid);
+          if (menu) menu.querySelectorAll('.rich-select-option').forEach(o => o.classList.remove('selected'));
+        }
+      } catch (e) {}
+      if (typeof updateMatchingOptions === 'function') updateMatchingOptions();
+      if (typeof updateHeadingOptions === 'function') updateHeadingOptions();
+    }
+    window._mhClear = _mhClear;
+
+    // Mark heading chips that have already been assigned to a paragraph so
+    // students can see, at a glance, which letters are still in play.
+    function _mhRefreshChipUsed(split) {
+      if (!split) return;
+      const used = new Set();
+      split.querySelectorAll('.mh-slot[data-value]').forEach(s => used.add(s.getAttribute('data-value')));
+      split.querySelectorAll('.mh-heading-chip').forEach(c => {
+        c.classList.toggle('mh-chip-used', used.has(c.dataset.letter));
+      });
     }
 
     // Update heading dropdown options to show which are already selected
@@ -3205,13 +4068,21 @@
             `;
           });
         } else if (section.type === 'tfni') {
+          // TFNI options render as vertically-stacked radio cards (same
+          // shape as MCQ) so the UX matches IELTS Reading. Each option is
+          // a <label> wrapping a hidden-checked <input type="radio"> plus
+          // the option text. data-question / data-value attrs stay on the
+          // label so markAnswer + the inline-review injector keep working.
           section.questions.forEach(q => {
             questionsHtml += `
               <div class="tfni-question">
                 <div class="question-text"><strong>${q.id}.</strong> ${q.text}</div>
                 <div class="tfni-options">
                   ${section.options.map(opt => `
-                    <button class="tfni-option" data-question="${q.id}" data-value="${opt}">${opt}</button>
+                    <label class="tfni-option" data-question="${q.id}" data-value="${opt}">
+                      <input type="radio" name="q${q.id}" value="${opt}" data-question="${q.id}">
+                      <span>${opt}</span>
+                    </label>
                   `).join('')}
                 </div>
               </div>
@@ -3275,19 +4146,24 @@
         });
       });
 
-      // TFNI buttons
+      // TFNI radio labels — same shape as MCQ now (each option is a
+      // <label> wrapping a radio input). Click flips the `.selected`
+      // class for visual state AND ticks the native radio for keyboard /
+      // a11y semantics.
       document.querySelectorAll('.tfni-option').forEach(btn => {
         btn.addEventListener('click', (e) => {
           const qId = btn.dataset.question;
           const value = btn.dataset.value;
-          
+
           // Remove selected from siblings
           btn.closest('.tfni-options').querySelectorAll('.tfni-option').forEach(opt => {
             opt.classList.remove('selected');
           });
-          
-          // Select this one
+
+          // Select this one + tick the radio
           btn.classList.add('selected');
+          var radio = btn.querySelector('input[type="radio"]');
+          if (radio) radio.checked = true;
           userAnswers[qId] = value;
         });
       });
@@ -3680,18 +4556,14 @@
         });
       })();
 
-      // Show explanations button if pre-generated explanations exist
+      // The standalone "💡 Explanations" button is intentionally always
+      // hidden now — Review Answers handles both jobs (return to test view
+      // AND show explanations as inline drop-downs near each question, with
+      // passage-side Q-pill highlights for Parts 2-5). The old crExplPanel
+      // function still exists as a fallback that nobody triggers.
       (function() {
-        var hasExpl = false;
-        if (TEST_DATA && TEST_DATA.parts) {
-          TEST_DATA.parts.some(function(p) {
-            if (window._practicePart && p.partNumber !== window._practicePart) return false;
-            var keys = Object.keys(p.explanations || {});
-            if (keys.length > 0) { hasExpl = true; return true; }
-          });
-        }
         var btn = document.getElementById('btnShowExpl');
-        if (btn) btn.style.display = hasExpl ? '' : 'none';
+        if (btn) btn.style.display = 'none';
       })();
 
       // Auto-submit results to backend (with processing spinner for regular entries)
@@ -4277,24 +5149,64 @@
         }
       }
 
-      // Mark rich-select triggers
-      const trigger = document.querySelector(`.rich-select-trigger[data-question="${qId}"]`);
-      if (trigger) {
+      // Mark rich-select triggers (and the new .mh-slot pills, which
+      // still carry .rich-select-trigger for backwards compat). Part 2
+      // renders BOTH a legacy mobile dropdown AND a PC mh-slot pill for
+      // the same question id, so we need to mark every matching element
+      // (querySelectorAll, not querySelector) — CSS hides whichever
+      // doesn't apply to the current viewport.
+      const triggers = document.querySelectorAll(`.rich-select-trigger[data-question="${qId}"]`);
+      triggers.forEach((trigger) => {
         trigger.classList.add('locked');
+        const isMhSlot = trigger.classList.contains('mh-slot');
         if (isUnanswered) {
-          trigger.textContent = correctAnswer;
-          trigger.classList.add('unanswered-filled');
+          if (isMhSlot) {
+            // Pour the correct heading letter into the pill via the slot's
+            // own DOM structure instead of nuking innerHTML — keeps the
+            // letter chip + heading text visible after submit.
+            var emptyEl = trigger.querySelector('.mh-slot-empty');
+            var filledEl = trigger.querySelector('.mh-slot-filled');
+            if (emptyEl) emptyEl.hidden = true;
+            if (filledEl) {
+              filledEl.hidden = false;
+              var letEl = filledEl.querySelector('.mh-slot-letter');
+              var txtEl = filledEl.querySelector('.mh-slot-text');
+              if (letEl) letEl.textContent = correctAnswer;
+              // Try to look up the heading text from the right-pane chip
+              var chip = document.querySelector('.mh-heading-chip[data-letter="' + correctAnswer + '"]');
+              if (txtEl) txtEl.textContent = chip
+                ? (chip.querySelector('.mh-heading-text')?.textContent || '')
+                : correctAnswer;
+              var clr = filledEl.querySelector('.mh-slot-clear');
+              if (clr) clr.style.display = 'none';
+            }
+            trigger.classList.add('unanswered-filled');
+            trigger.setAttribute('data-value', correctAnswer);
+          } else {
+            trigger.textContent = correctAnswer;
+            trigger.classList.add('unanswered-filled');
+          }
         } else {
           trigger.classList.add(isCorrect ? 'correct' : 'incorrect');
           if (!isCorrect) {
             trigger.title = `Correct: ${correctAnswer}`;
-            const badge = document.createElement('span');
-            badge.className = 'correct-answer-badge';
-            badge.textContent = correctAnswer;
-            trigger.parentNode.insertBefore(badge, trigger.nextSibling);
+            if (isMhSlot) {
+              // Hang the correct-letter badge below the slot inline so it
+              // doesn't overflow the right-edge of the paragraph card.
+              var badgeMh = document.createElement('div');
+              badgeMh.className = 'correct-answer-badge';
+              badgeMh.style.cssText = 'margin-top:6px;font-size:11.5px;color:#065f46;';
+              badgeMh.textContent = '✓ Correct: ' + correctAnswer;
+              trigger.parentNode.insertBefore(badgeMh, trigger.nextSibling);
+            } else {
+              const badge = document.createElement('span');
+              badge.className = 'correct-answer-badge';
+              badge.textContent = correctAnswer;
+              trigger.parentNode.insertBefore(badge, trigger.nextSibling);
+            }
           }
         }
-      }
+      });
 
       // Mark MCQ options
       const mcqOptions = document.querySelectorAll(`.mcq-option[data-question="${qId}"]`);
@@ -4329,9 +5241,316 @@
       // Minimize results modal to pill instead of closing
       minimizeResultModal();
       document.body.classList.add('review-mode');
-      
+
+      // Inject inline explanation drop-downs + passage-side Q-pill highlights
+      // for every part with explanations data. Idempotent — guarded by a class
+      // on the body so re-clicking Review Answers doesn't double-inject.
+      if (!document.body.classList.contains('review-injected')) {
+        try { _crInjectInlineReview(); }
+        catch (e) { console.warn('inline review injection failed:', e); }
+        document.body.classList.add('review-injected');
+      }
+
       // Navigate to first part
       showPart(0);
+    }
+
+    // ── Inline-review injection (drop-downs + passage marks) ──────────
+    // Walks every part once after submission. For each question that has an
+    // explanation, inserts a <details> drop-down right after its answer
+    // input/control, and (for Parts 2-5) tags the relevant passage / text /
+    // paragraph element with a Q-pill badge and a <mark> on the verbatim
+    // quote. Part 1 (gap-fill-text) gets drop-downs only — no in-passage
+    // highlights since the gap IS the question.
+    function _crInjectInlineReview() {
+      var parts = (TEST_DATA && TEST_DATA.parts) || [];
+      var partContainers = document.querySelectorAll('.part-container');
+      parts.forEach(function (part, partIdx) {
+        var container = partContainers[partIdx];
+        if (!container) return;
+        var explanations = part.explanations || {};
+        if (!explanations || Object.keys(explanations).length === 0) return;
+
+        // Gather every question id from both top-level questions and
+        // nested questionSections (reading-comprehension parts).
+        var allQs = [];
+        if (Array.isArray(part.questions)) allQs = allQs.concat(part.questions);
+        if (Array.isArray(part.questionSections)) {
+          part.questionSections.forEach(function (sec) {
+            if (Array.isArray(sec.questions)) allQs = allQs.concat(sec.questions);
+          });
+        }
+
+        // ── 1. Per-question drop-downs ────────────────────────────────
+        allQs.forEach(function (q) {
+          var qid = q.id;
+          var expl = explanations['q' + qid] || explanations[String(qid)] || null;
+          if (!expl || typeof expl !== 'object') return;
+          var text  = String(expl.text  || '').trim();
+          var quote = String(expl.quote || '').trim();
+          if (!text && !quote) return;
+
+          // Find any element rendered for this question. data-question is
+          // already used by markAnswer for text inputs, MCQ options, TFNI
+          // options and rich-select triggers, so it's a reliable hook.
+          var anchor = container.querySelector('[data-question="' + qid + '"]');
+          if (!anchor) return;
+
+          // Walk up to a block-level container to inject below. Stop at the
+          // first parent that contains the question's text/options, so the
+          // drop-down doesn't end up inside an inline <span>.
+          var host = anchor.closest('.mcq-question, .tfni-question, .gap-question, .question-row, .question, .question-card, .mh-para-card, li, .text-content, .para-content');
+          if (!host) host = anchor.parentElement;
+          if (!host) return;
+          // Skip if already injected for this question
+          if (host.parentNode && host.parentNode.querySelector('.cr-inline-expl[data-qid="' + qid + '"]')) return;
+
+          var d = document.createElement('details');
+          d.className = 'cr-inline-expl';
+          d.setAttribute('data-qid', String(qid));
+          var body = document.createElement('div');
+          body.className = 'cr-inline-expl-body';
+          var summary = document.createElement('summary');
+          summary.textContent = '💡 Click for explanation — Q' + qid;
+          d.appendChild(summary);
+          if (text) {
+            var pEl = document.createElement('p');
+            pEl.className = 'cr-inline-expl-text';
+            pEl.textContent = text;
+            body.appendChild(pEl);
+          }
+          if (quote) {
+            var bq = document.createElement('blockquote');
+            bq.className = 'cr-inline-expl-quote';
+            bq.textContent = '"' + quote + '"';
+            body.appendChild(bq);
+          }
+          d.appendChild(body);
+          host.parentNode.insertBefore(d, host.nextSibling);
+        });
+
+        // ── 2. Passage-side Q-pill highlights ─────────────────────────
+        // Part 1 (gap-fill-text) deliberately skipped per spec — the gaps
+        // ARE the questions and re-marking them would just visual noise.
+        var pType = part.type || '';
+        if (pType === 'matching') {
+          _crAttachQPillsToMatchingTexts(container, part, explanations);
+        } else if (pType === 'matching-headings') {
+          _crAttachQPillsToHeadingsParas(container, part, explanations);
+        } else if (pType === 'reading-comprehension') {
+          _crHighlightQuotesInPassage(container, part, explanations);
+        }
+      });
+    }
+
+    // For matching (Part 2): each question's textNumber points at one of
+    // the texts[]. Find the rendered text-block element by data-text-number
+    // (or fall back to a numeric label) and append a Q-pill above it. We
+    // do NOT modify the text body itself — picking the right phrase to
+    // mark across 8 unrelated short blurbs is unreliable.
+    function _crAttachQPillsToMatchingTexts(container, part, explanations) {
+      if (!Array.isArray(part.questions)) return;
+      part.questions.forEach(function (q) {
+        if (q.textNumber == null) return;
+        var expl = explanations['q' + q.id];
+        if (!expl) return;
+        var block = container.querySelector('[data-text-number="' + q.textNumber + '"]')
+          || container.querySelector('[data-number="' + q.textNumber + '"]')
+          || container.querySelector('.text-' + q.textNumber);
+        if (!block) return;
+        block.classList.add('cr-q-anchor');
+        block.setAttribute('data-marked', '1');
+        if (!block.querySelector('.cr-q-pill[data-qid="' + q.id + '"]')) {
+          var pill = document.createElement('span');
+          pill.className = 'cr-q-pill';
+          pill.setAttribute('data-qid', String(q.id));
+          pill.textContent = String(q.id);
+          pill.title = 'Question ' + q.id + ' — matches this text';
+          // Drop the pill at the very start so it doesn't disrupt the
+          // ad / blurb's existing visual layout.
+          block.insertBefore(pill, block.firstChild);
+        }
+      });
+    }
+
+    // For matching-headings (Part 3): each question's paragraphNumber
+    // points at one of passage.paragraphs[]. Find the rendered paragraph
+    // block and tag with a Q-pill (same approach as Part 2).
+    function _crAttachQPillsToHeadingsParas(container, part, explanations) {
+      if (!Array.isArray(part.questions)) return;
+      part.questions.forEach(function (q) {
+        if (q.paragraphNumber == null) return;
+        var expl = explanations['q' + q.id];
+        if (!expl) return;
+        var pn = String(q.paragraphNumber);
+        var block = container.querySelector('[data-paragraph-number="' + pn + '"]')
+          || container.querySelector('[data-paragraph="' + pn + '"]')
+          || container.querySelector('.para-' + pn);
+        if (!block) return;
+        block.classList.add('cr-q-anchor');
+        block.setAttribute('data-marked', '1');
+        if (!block.querySelector('.cr-q-pill[data-qid="' + q.id + '"]')) {
+          var pill = document.createElement('span');
+          pill.className = 'cr-q-pill';
+          pill.setAttribute('data-qid', String(q.id));
+          pill.textContent = String(q.id);
+          pill.title = 'Question ' + q.id + ' — refers to this paragraph';
+          block.insertBefore(pill, block.firstChild);
+        }
+      });
+    }
+
+    // For reading-comprehension (Parts 4-5): the passage is a single long
+    // HTML block. Walk every paragraph and try to substring-match each
+    // question's quote (after stripping smart quotes / collapsing whitespace).
+    // First quote that matches a paragraph wins; we wrap the substring in
+    // <mark class="cr-q-mark"> and append a Q-pill at the end of the mark.
+    function _crHighlightQuotesInPassage(container, part, explanations) {
+      var passageEl = container.querySelector('.passage-content, .text-content, .passage-card .para-content');
+      if (!passageEl) {
+        // Fallback — search the part-container for the longest text block
+        var candidates = container.querySelectorAll('div, section');
+        var best = null, bestLen = 0;
+        candidates.forEach(function (el) {
+          var t = (el.textContent || '').length;
+          if (t > bestLen) { best = el; bestLen = t; }
+        });
+        passageEl = best;
+      }
+      if (!passageEl) return;
+      var paras = passageEl.querySelectorAll('p');
+      if (paras.length === 0) paras = [passageEl];
+
+      // Gather questions from both top-level (unusual for RC) and sections.
+      var allQs = [];
+      if (Array.isArray(part.questions)) allQs = allQs.concat(part.questions);
+      if (Array.isArray(part.questionSections)) {
+        part.questionSections.forEach(function (sec) {
+          if (Array.isArray(sec.questions)) allQs = allQs.concat(sec.questions);
+        });
+      }
+
+      function norm(s) {
+        return String(s || '')
+          .replace(/[‘’]/g, "'")
+          .replace(/[“”]/g, '"')
+          .replace(/\s+/g, ' ')
+          .toLowerCase()
+          .trim();
+      }
+
+      allQs.forEach(function (q) {
+        var expl = explanations['q' + q.id];
+        if (!expl || !expl.quote) return;
+        var quote = String(expl.quote).trim();
+        if (quote.length < 12) return; // too short to safely substring-match
+        var normQuote = norm(quote).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        if (!normQuote) return;
+
+        // Find the first paragraph whose textContent (normalised) contains
+        // the quote. Walk paragraphs in order so earlier questions get
+        // matched first (and we keep the natural reading order).
+        for (var i = 0; i < paras.length; i++) {
+          var pEl = paras[i];
+          var plain = (pEl.textContent || '');
+          var normPlain = norm(plain);
+          var m = normPlain.match(new RegExp(normQuote));
+          if (!m) continue;
+          // Found it. Now we need to find the matching substring in the
+          // original (un-normalised) text so the highlight lines up with
+          // the real characters. Walk the paragraph's children and replace
+          // the matched range with <mark>...<Q-pill></mark>.
+          _crWrapMatchInElement(pEl, quote, q.id);
+          break;
+        }
+      });
+    }
+
+    // Wraps the first verbatim (smart-quote-tolerant, whitespace-collapsing)
+    // occurrence of `quote` inside `root` with a <mark class="cr-q-mark">
+    // and trailing Q-pill. Works on a flat textNode of root's first text-
+    // bearing descendant for simplicity — most passage paragraphs are plain
+    // text within <p>, so this is fine. If the paragraph contains rich
+    // inline markup we just append the pill at the end without marking.
+    function _crWrapMatchInElement(root, quote, qid) {
+      // Bail if we've already marked this paragraph for this question
+      if (root.querySelector('.cr-q-pill[data-qid="' + qid + '"]')) return;
+      var fullText = root.textContent || '';
+      var normFull = fullText.replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/\s+/g, ' ').toLowerCase();
+      var normQuote = quote.replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/\s+/g, ' ').toLowerCase();
+      var idx = normFull.indexOf(normQuote);
+      // If the paragraph has nested inline markup, just stamp a pill at the
+      // end. The drop-down's quote still points the user to the right spot.
+      var hasNestedNontext = false;
+      for (var i = 0; i < root.childNodes.length; i++) {
+        if (root.childNodes[i].nodeType !== 3) { hasNestedNontext = true; break; }
+      }
+      if (idx < 0 || hasNestedNontext) {
+        root.classList.add('cr-q-anchor');
+        root.setAttribute('data-marked', '1');
+        var pill = document.createElement('span');
+        pill.className = 'cr-q-pill';
+        pill.setAttribute('data-qid', String(qid));
+        pill.textContent = String(qid);
+        pill.title = 'Question ' + qid;
+        root.appendChild(pill);
+        return;
+      }
+
+      // Map normalised idx back to the original-text position. Walk the
+      // original text and count "normalised" chars (skipping multi-spaces)
+      // until we hit idx, then again for idx + normQuote.length.
+      function mapOrigPos(targetNormIdx) {
+        var ni = 0, oi = 0, lastWasSpace = false;
+        while (oi < fullText.length && ni < targetNormIdx) {
+          var c = fullText.charAt(oi);
+          var nc = c;
+          if (c === '‘' || c === '’') nc = "'";
+          else if (c === '“' || c === '”') nc = '"';
+          else nc = c.toLowerCase();
+          if (/\s/.test(nc)) {
+            if (!lastWasSpace) ni++;
+            lastWasSpace = true;
+          } else {
+            ni++;
+            lastWasSpace = false;
+          }
+          oi++;
+        }
+        return oi;
+      }
+
+      var startOrig = mapOrigPos(idx);
+      var endOrig   = mapOrigPos(idx + normQuote.length);
+      if (endOrig <= startOrig) {
+        // Couldn't map cleanly — just add a pill, no <mark>
+        var pillF = document.createElement('span');
+        pillF.className = 'cr-q-pill';
+        pillF.setAttribute('data-qid', String(qid));
+        pillF.textContent = String(qid);
+        pillF.title = 'Question ' + qid;
+        root.appendChild(pillF);
+        return;
+      }
+
+      var before = fullText.slice(0, startOrig);
+      var mid    = fullText.slice(startOrig, endOrig);
+      var after  = fullText.slice(endOrig);
+
+      // Replace the paragraph's children with: textBefore + <mark>mid<Q-pill></mark> + textAfter
+      root.textContent = ''; // clear
+      if (before) root.appendChild(document.createTextNode(before));
+      var markEl = document.createElement('mark');
+      markEl.className = 'cr-q-mark';
+      markEl.textContent = mid;
+      var pillEl = document.createElement('span');
+      pillEl.className = 'cr-q-pill';
+      pillEl.setAttribute('data-qid', String(qid));
+      pillEl.textContent = String(qid);
+      pillEl.title = 'Question ' + qid;
+      markEl.appendChild(pillEl);
+      root.appendChild(markEl);
+      if (after) root.appendChild(document.createTextNode(after));
     }
 
     function minimizeResultModal() {

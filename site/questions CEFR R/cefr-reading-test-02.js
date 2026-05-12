@@ -65,28 +65,28 @@ window.CEFR_READING_TEST = {
             },
             "explanations": {
                 "q1": {
-                    "text": "The word \"first\" fits logically because the sentence refers to the initial group of people arriving from England, establishing the origin of the Thanksgiving tradition.",
-                    "quote": "The tradition comes from the _____(1)_____ people to arrive from England to North America."
+                    "text": "The passage describes the origin of the tradition and later calls the event \"the first Thanksgiving.\" This implies the people who started it were the first to do so. That's why the correct answer is 'first'.",
+                    "quote": ""
                 },
                 "q2": {
-                    "text": "The word 'dinner' fits the gap because the sentence describes the pilgrims inviting the Native Americans to eat after the harvest, and 'dinner' is a meal.",
-                    "quote": "The Native Americans taught them to grow food and hunt, and the pilgrims invited the Native Americans for a _____(2)_____ to eat after the harvest."
+                    "text": "The sentence says the pilgrims invited the Native Americans for something \"to eat.\" The modern celebration is described as a \"large turkey dinner,\" which strongly suggests the original meal was also a dinner. That's why the correct answer is 'dinner'.",
+                    "quote": ""
                 },
                 "q3": {
-                    "text": "The word 'celebrated' fits grammatically and logically into the sentence. The surrounding context describes the origins of Thanksgiving, implying that this event was the first time people 'celebrated' the holiday.",
-                    "quote": "This was the first Thanksgiving that people _____(3)_____ ."
+                    "text": "The first sentence of the passage states that Thanksgiving is a holiday that is \"celebrated.\" This verb logically fits the sentence describing what people did during the very first Thanksgiving. That's why the correct answer is 'celebrated'.",
+                    "quote": "Thanksgiving is celebrated in the USA on the 4th Thursday of November."
                 },
                 "q4": {
-                    "text": "The word \"thanksgiving\" fits grammatically and logically into the sentence. The rest of the sentence describes Thanksgiving as a holiday, confirming that it is the correct answer.",
-                    "quote": "Nowadays, thanksgiving is the country's largest secular holiday and represents a time when friends and family get together for a large turkey dinner."
+                    "text": "The entire passage is about the holiday of Thanksgiving. This sentence describes the modern status of the holiday, so the subject must be the holiday itself. That's why the correct answer is 'thanksgiving'.",
+                    "quote": ""
                 },
                 "q5": {
-                    "text": "The sentence lists traditional Thanksgiving foods, and 'turkey' is the most common main dish associated with Thanksgiving, making it the logical choice to complete the list.",
-                    "quote": "Traditionally people make stuffing, mashed potatoes, cranberry sauce, sweet potatoes, and pumpkin pie to go with the huge roast _____(5)_____ ."
+                    "text": "The text mentions that the modern meal is a \"large turkey dinner.\" The sentence with the gap lists side dishes that go with a \"huge roast,\" which refers to the main course, the turkey. That's why the correct answer is 'turkey'.",
+                    "quote": ""
                 },
                 "q6": {
-                    "text": "The word 'game' fits the gap because the passage mentions that people watch an American football game in the afternoon, and the sentence structure indicates that something happens both in the afternoon and evening.",
-                    "quote": "There is usually one _____ in the afternoon and one in the evening."
+                    "text": "The sentence just before the gap states that people watch an \"American football game\" in the afternoon. The sentence with the gap then gives the schedule for this activity. That's why the correct answer is 'game'.",
+                    "quote": "In the afternoon, people watch an American football game."
                 }
             }
         },
@@ -239,36 +239,36 @@ window.CEFR_READING_TEST = {
             ],
             "explanations": {
                 "q7": {
-                    "text": "The text mentions a \"Life Fitness\" Gym, indicating a fitness center. It also explicitly states \"golf and leisure facilities,\" confirming it is a golf hotel.",
-                    "quote": "State of the art \"Life Fitness\" Gym, Health and Beauty suite with Sauna."
+                    "text": "The hotel advertises both golf facilities and a \"Life Fitness\" Gym, which is a fitness center. That's why the correct answer is F.",
+                    "quote": "Spectacular scenery with sporting, golf and leisure facilities. State of the art \"Life Fitness\" Gym, Health and Beauty suite with Sauna."
                 },
                 "q8": {
-                    "text": "The text explicitly states the hotel is \"near picturesque fishing port,\" indicating its proximity to a port. This directly supports statement D.",
-                    "quote": "near picturesque fishing port."
+                    "text": "The advertisement clearly states that the hotel is located near a \"picturesque fishing port.\" That's why the correct answer is D.",
+                    "quote": ""
                 },
                 "q9": {
-                    "text": "The phrase \"Informal, warm and comfortable\" suggests a friendly and welcoming atmosphere, aligning with the idea of a friendly hotel, perhaps humorously implying a rural setting with sheep.",
-                    "quote": "Informal, warm and comfortable."
+                    "text": "The hotel's name is \"THE FAT LAMB COUNTRY INN.\" A lamb is a young sheep, and the description \"informal, warm and comfortable\" suggests a friendly place. That's why the correct answer is A.",
+                    "quote": ""
                 },
                 "q10": {
-                    "text": "The phrase \"promenade beach hotel\" indicates a seafront location, and \"renowned personal service\" directly supports the idea of good personal service.",
-                    "quote": "Charming, well-run promenade beach hotel."
+                    "text": "The hotel is described as a \"promenade beach hotel,\" meaning it's on the seafront, and it is also known for its \"renowned personal service.\" That's why the correct answer is J.",
+                    "quote": ""
                 },
                 "q11": {
-                    "text": "The phrase \"overlooking the estuary\" directly indicates that the hotel has a view of a river, which supports statement C. An estuary is where a river meets the sea.",
+                    "text": "The advertisement states that the hotel is \"overlooking the estuary.\" An estuary is the wide part of a river where it meets the sea. That's why the correct answer is C.",
                     "quote": "Traditional privately owned friendly hotel overlooking the estuary."
                 },
                 "q12": {
-                    "text": "The phrase \"Family run for 30 successful years\" indicates that the hotel is family-owned and run. While the text doesn't explicitly mention sea views, Hope Cove is a coastal location, implying good sea views.",
+                    "text": "The advertisement clearly says the hotel is \"Family run.\" Hope Cove is a coastal location, which implies it has sea views. That's why the correct answer is G.",
                     "quote": "Family run for 30 successful years."
                 },
                 "q13": {
-                    "text": "The text explicitly mentions a \"SPECIAL OFFER SHORT BREAKS\" and \"FREE car parking\", directly corresponding to the statement about a special offer and free car parking.",
-                    "quote": "SPECIAL OFFER SHORT BREAKS вЂ“ 2 NIGHTS 82 DBB ETC***** and silver award for quality."
+                    "text": "The advertisement highlights a \"SPECIAL OFFER\" for short breaks and also explicitly mentions that there is \"FREE car parking\" available for guests. That's why the correct answer is I.",
+                    "quote": ""
                 },
                 "q14": {
-                    "text": "The text explicitly states that the hotel is \"surrounded by National Trust Coastline,\" directly indicating that the National Trust owns the surrounding land.",
-                    "quote": "surrounded by National Trust Coastline."
+                    "text": "The text states that the hotel is \"surrounded by National Trust Coastline,\" which means the land around it is owned by the National Trust. That's why the correct answer is B.",
+                    "quote": "Overlooking sandy cove and surrounded by National Trust Coastline."
                 }
             }
         },
