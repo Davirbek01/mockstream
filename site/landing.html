@@ -8247,6 +8247,376 @@
     }
   </style>
 
+  <!-- Full-screen CEFR Reading picker (replaces categoryModal for cefr-reading when SITE_CONFIG.useNewCefrReadingPicker is on) -->
+  <div id="cretPicker" class="cret-overlay" aria-hidden="true">
+    <header class="cret-header">
+      <button class="cret-back" type="button" onclick="cretClose()" title="Back to landing">←</button>
+      <div class="cret-title">
+        <span class="cret-title-emoji">📚</span>
+        <span class="cret-title-text">CEFR Reading</span>
+        <span class="cret-count" id="cretCount">0</span>
+      </div>
+      <div class="cret-header-tools">
+        <input type="search" class="cret-search" id="cretSearch" placeholder="🔍 Search mock #, source, part…" autocomplete="off" spellcheck="false">
+        <select class="cret-sort" id="cretJump" title="Jump to mock #">
+          <option value="">Jump to #…</option>
+          <!-- Number options injected by _cretBuildJumpOptions() once cards render -->
+        </select>
+      </div>
+    </header>
+
+    <div class="cret-filter-row">
+      <button type="button" class="cret-chip cret-chip-active" data-filter="all">All</button>
+      <button type="button" class="cret-chip" data-filter="ready">✓ Ready only</button>
+      <button type="button" class="cret-chip" data-filter="soon">⏳ Coming soon</button>
+      <button type="button" class="cret-chip" data-filter="done">★ Done before</button>
+      <select class="cret-source-filter" id="cretSourceFilter" title="Filter by source">
+        <option value="">📚 All sources</option>
+        <!-- Source options injected by _cretBuildSourceOptions() once cards render -->
+      </select>
+    </div>
+
+    <main class="cret-grid" id="cretGrid">
+      <!-- Skeleton cards injected on open, replaced with real cards once data loads -->
+    </main>
+
+    <div class="cret-empty" id="cretEmpty" style="display:none;">
+      <div class="cret-empty-icon">🔍</div>
+      <p class="cret-empty-msg">No mocks match your filters.</p>
+      <button type="button" class="cret-empty-clear" onclick="cretClearFilters()">Clear filters</button>
+    </div>
+  </div>
+
+  <style>
+    /* ===== Full-screen CEFR Reading picker (teal/emerald palette to visually
+       distinguish from the IELTS picker's amber theme) ===== */
+    .cret-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100003;
+      background: linear-gradient(135deg, #f0fdfa 0%, #d1fae5 100%);
+      overflow-y: auto;
+      flex-direction: column;
+    }
+    .cret-overlay.cret-open { display: flex; }
+    .cret-header {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 24px;
+      background: rgba(240, 253, 250, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #99f6e4;
+    }
+    .cret-back {
+      flex-shrink: 0;
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      border: none;
+      background: #fff;
+      color: #0f766e;
+      font-size: 20px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(15,118,110,.15);
+      transition: all .15s;
+    }
+    .cret-back:hover { background: #0f766e; color: #fff; transform: translateX(-2px); }
+    .cret-title {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 18px; font-weight: 700; color: #134e4a;
+      flex-shrink: 0;
+    }
+    .cret-title-emoji { font-size: 22px; }
+    .cret-count {
+      background: linear-gradient(135deg,#10b981,#059669);
+      color: #fff; font-size: 12px; font-weight: 700;
+      padding: 3px 10px; border-radius: 999px;
+      min-width: 28px; text-align: center;
+    }
+    .cret-header-tools {
+      flex: 1;
+      display: flex; gap: 10px; justify-content: flex-end;
+    }
+    .cret-search {
+      flex: 1; max-width: 360px;
+      padding: 9px 14px;
+      border: 1.5px solid #99f6e4;
+      border-radius: 10px;
+      font-size: 13.5px;
+      background: #fff;
+      outline: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .cret-search:focus { border-color: #10b981; box-shadow: 0 0 0 3px rgba(16,185,129,.15); }
+    .cret-sort {
+      padding: 9px 12px;
+      border: 1.5px solid #99f6e4;
+      border-radius: 10px;
+      font-size: 13px;
+      background: #fff;
+      cursor: pointer;
+      outline: none;
+    }
+    .cret-filter-row {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      padding: 14px 24px 0;
+    }
+    .cret-chip {
+      padding: 7px 14px;
+      border: 1.5px solid #99f6e4;
+      border-radius: 999px;
+      background: #fff;
+      color: #0f766e;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .cret-chip:hover { border-color: #10b981; }
+    .cret-chip-active {
+      background: linear-gradient(135deg,#10b981,#059669);
+      color: #fff;
+      border-color: #059669;
+    }
+    .cret-source-filter {
+      padding: 7px 12px;
+      border: 1.5px solid #99f6e4;
+      border-radius: 999px;
+      background: #fff;
+      color: #0f766e;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+      margin-left: auto;
+    }
+    .cret-source-filter:hover { border-color: #10b981; }
+    .cret-source-filter:focus { box-shadow: 0 0 0 3px rgba(16,185,129,.15); }
+    @media (max-width: 600px) {
+      .cret-source-filter { margin-left: 0; width: 100%; }
+    }
+    .cret-grid {
+      display: grid;
+      /* minmax(0, 1fr) is CRITICAL — plain `1fr` expands to fit the widest
+         content in each column, so a card with a long part title (e.g.
+         "California's Earthquake Threat") pushes that column wider than
+         the others, breaking the 3-equal-columns layout. minmax(0, 1fr)
+         locks the column floor to 0 so the title's nowrap+ellipsis can
+         actually clip instead of inflating the track. */
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      padding: 18px 24px 40px;
+      flex: 1;
+    }
+    @media (max-width: 1279px) { .cret-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 1023px) { .cret-grid { grid-template-columns: minmax(0, 1fr); padding: 14px 16px 30px; } }
+    .cret-card {
+      background: #fff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 14px;
+      /* Tighter padding/gap than IELTS to absorb the extra height that comes
+         from rendering 5 part rows instead of 3 — keeps the card at roughly
+         IELTS-card density on mobile and desktop. */
+      padding: 16px;
+      display: flex; flex-direction: column; gap: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.04);
+      transition: transform .15s, box-shadow .15s, border-color .15s;
+    }
+    .cret-card:hover:not(.cret-card-disabled) {
+      transform: translateY(-2px) scale(1.005);
+      box-shadow: 0 8px 24px rgba(16,185,129,.12);
+      border-color: #99f6e4;
+    }
+    .cret-card-disabled { opacity: .6; }
+    .cret-card-head {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    }
+    .cret-mocknum {
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+      font-size: 12.5px;
+      font-weight: 800;
+      letter-spacing: .3px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(16,185,129,.3);
+      font-variant-numeric: tabular-nums;
+    }
+    .cret-status {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .cret-card-jumped {
+      animation: cret-jump-pulse 1.2s ease-out;
+    }
+    @keyframes cret-jump-pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(16,185,129,.5); border-color: #10b981; }
+      100% { box-shadow: 0 0 0 12px rgba(16,185,129,0); border-color: #e2e8f0; }
+    }
+    .cret-dots { display: flex; gap: 4px; }
+    .cret-dot {
+      width: 9px; height: 9px; border-radius: 50%;
+      background: #e2e8f0;
+    }
+    .cret-dot-ready { background: #10b981; }
+    .cret-dot-soon { background: #fbbf24; }
+    .cret-status-label {
+      font-size: 10.5px; font-weight: 700;
+      letter-spacing: .5px;
+      color: #64748b;
+    }
+    .cret-source {
+      font-size: 11px; font-weight: 600;
+      color: #475569;
+      background: #f1f5f9;
+      padding: 4px 10px;
+      border-radius: 999px;
+      letter-spacing: .2px;
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 50%;
+    }
+    .cret-mock-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1e293b;
+      margin: 0;
+      line-height: 1.3;
+      /* Clamp title to a single line — otherwise the longest title in a row
+         (e.g. "(Supabase pilot)") wraps to 2 lines and CSS Grid stretches
+         every neighbouring card to match, leaving dead space under their
+         Part-5 rows. Single-line titles keep every card in the row the same
+         height. The full title is still readable via the native tooltip
+         (title="…") set in the cell head. */
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cret-parts {
+      list-style: none; padding: 0; margin: 0;
+      display: flex; flex-direction: column; gap: 5px;
+    }
+    .cret-part {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; color: #334155;
+    }
+    .cret-part-num {
+      flex-shrink: 0;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      color: #64748b;
+      font-size: 10.5px;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cret-part-title {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .cret-part-badge {
+      flex-shrink: 0;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: .2px;
+    }
+    .cret-badge-ready { background: #d1fae5; color: #065f46; }
+    .cret-badge-soon  { background: #fef3c7; color: #92400e; }
+    .cret-card-foot {
+      margin-top: auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    }
+    .cret-done {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #6d28d9;
+      background: #ede9fe;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+    .cret-take {
+      margin-left: auto;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(16,185,129,.3);
+      transition: all .15s;
+    }
+    .cret-take:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(16,185,129,.4); }
+    .cret-coming-soon {
+      margin-left: auto;
+      font-size: 12px;
+      font-weight: 700;
+      color: #92400e;
+      background: #fef3c7;
+      padding: 7px 14px;
+      border-radius: 10px;
+    }
+    .cret-card-skeleton {
+      background: #fff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px;
+      /* Match the IELTS skeleton min-height so the grid doesn't flash a
+         radically different size when cards replace skeletons. */
+      min-height: 260px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cret-card-skeleton::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(240,253,250,.6), transparent);
+      animation: cret-shimmer 1.4s infinite;
+    }
+    @keyframes cret-shimmer { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+    .cret-skel-line {
+      height: 12px; border-radius: 4px;
+      background: #f1f5f9;
+      margin-bottom: 10px;
+    }
+    .cret-skel-line.tall { height: 18px; }
+    .cret-skel-line.short { width: 40%; }
+    .cret-empty {
+      text-align: center; padding: 60px 20px;
+      color: #64748b;
+    }
+    .cret-empty-icon { font-size: 48px; opacity: .5; margin-bottom: 14px; }
+    .cret-empty-msg { font-size: 15px; margin-bottom: 18px; }
+    .cret-empty-clear {
+      padding: 10px 22px;
+      border: 1.5px solid #99f6e4;
+      border-radius: 10px;
+      background: #fff;
+      color: #0f766e;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .cret-empty-clear:hover { border-color: #10b981; background: #f0fdfa; }
+    @media (max-width: 600px) {
+      .cret-header { flex-wrap: wrap; padding: 10px 14px; }
+      .cret-header-tools { width: 100%; }
+      .cret-search { max-width: none; }
+      .cret-source { max-width: 40%; }
+    }
+  </style>
+
   <!-- Universal Level Picker Modal (flashcards, grammar, vocab) -->
   <div class="fc-level-picker-overlay" id="fcLevelPickerOverlay" onclick="if(event.target===this)closeLevelPicker()">
     <div class="fc-level-picker-card">
@@ -13834,6 +14204,14 @@
         iretOpen();
         return;
       }
+      // Same idea for CEFR Reading — full-screen picker with 5-part cards.
+      // Flag default true; flip in site-config to revert to the popup.
+      if (category === 'cefr-reading'
+          && window.SITE_CONFIG
+          && window.SITE_CONFIG.useNewCefrReadingPicker !== false) {
+        cretOpen();
+        return;
+      }
       const modal = document.getElementById('categoryModal');
       const iconEl = document.getElementById('categoryModalIcon');
       const titleEl = document.getElementById('categoryModalTitle');
@@ -14530,6 +14908,447 @@
     window.iretClose = iretClose;
     window.iretClearFilters = iretClearFilters;
 
+    // ===== FULL-SCREEN CEFR READING PICKER =====
+    // Same flow as the IELTS picker (iretOpen / iretRender) but for CEFR mocks.
+    // Differences from IELTS: 5 parts (not 3), each part type is fixed
+    // (gap-fill-text → matching → matching-headings → reading-comprehension ×2),
+    // and the per-row label falls back to "Part N — <type>" when the admin
+    // hasn't filled in a passage.title. Cache key is parallel + independent.
+    const _CRET_CACHE_KEY = 'ms_cret_meta_v1';
+    const _CRET_CACHE_TTL = 24 * 60 * 60 * 1000;
+    const _CRET_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    const _CRET_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    const _cretMockMeta = {};
+
+    // Pull the first few words of plain text out of an HTML string for use
+    // as a derived part-row title. Matching (Part 2) parts have no single
+    // passage.title because they're a bunch of unrelated short texts; the
+    // best we can do for the picker is preview the FIRST text. Same fallback
+    // for matching-headings parts that happen to ship without a passage.title.
+    function _cretPreview(html, maxChars) {
+      const stripped = String(html || '').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
+      if (!stripped) return '';
+      if (stripped.length <= maxChars) return stripped;
+      const cut = stripped.slice(0, maxChars);
+      const lastSpace = cut.lastIndexOf(' ');
+      return (lastSpace > maxChars / 2 ? cut.slice(0, lastSpace) : cut) + '…';
+    }
+    let _cretServerDone = {};
+    let _cretFilter = 'all';
+    let _cretSourceFilter = '';
+
+    function _cretEsc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    function _cretBuildMetaFromMockData(md) {
+      const parts = (md && Array.isArray(md.parts) ? md.parts : []).map((p, i) => {
+        const passageObj = (p && p.passage && typeof p.passage === 'object') ? p.passage : null;
+        const partType = p && p.type;
+
+        // CEFR Reading parts store their "content" in different shapes per
+        // type — a single `passage.content` check would falsely mark
+        // matching / matching-headings parts as "Soon" even when complete.
+        //   • gap-fill-text          → passage.content (HTML string)
+        //   • matching               → no passage key; content lives in texts[]
+        //   • matching-headings      → passage.paragraphs[] (each paragraph has its own content)
+        //   • reading-comprehension  → passage.content (HTML string)
+        let hasContent;
+        if (partType === 'matching') {
+          hasContent = Array.isArray(p.texts) && p.texts.length > 0;
+        } else if (partType === 'matching-headings') {
+          hasContent = !!(passageObj && Array.isArray(passageObj.paragraphs) && passageObj.paragraphs.length > 0);
+        } else {
+          // gap-fill-text, reading-comprehension, or anything new — fall
+          // back to the canonical content string (also accepts a plain
+          // string passage for forward compatibility).
+          const html = passageObj
+            ? String(passageObj.content || '')
+            : (typeof (p && p.passage) === 'string' ? p.passage : '');
+          hasContent = !!(html && String(html).trim());
+        }
+        const hasAnswers = !!(p && p.answers && Object.keys(p.answers).length > 0);
+        const ready = !!(hasContent && hasAnswers);
+
+        // Title resolution (in priority order, never falls back to a
+        // generic "Part N — Type" placeholder):
+        //   1. passage.title — set for gap-fill-text, matching-headings,
+        //      and reading-comprehension parts that the admin / Gemini
+        //      filled in.
+        //   2. topicTitle — short topic name (e.g. "Hotels", "Job ads")
+        //      that the Gemini transcriber generates for matching parts,
+        //      where there's no natural single passage title.
+        //   3. Derived preview — strip the first text's / paragraph's HTML
+        //      and take the first ~36 chars. Last resort for legacy data.
+        //   4. Em-dash placeholder — only when there's truly nothing to
+        //      derive from (a part with no content at all).
+        const passageTitle = passageObj && passageObj.title ? String(passageObj.title).trim() : '';
+        const topicTitle = (p && typeof p.topicTitle === 'string') ? p.topicTitle.trim() : '';
+        let title = passageTitle || topicTitle;
+        if (!title) {
+          if (partType === 'matching' && Array.isArray(p.texts) && p.texts.length > 0) {
+            title = _cretPreview(p.texts[0].content, 36);
+          } else if (partType === 'matching-headings' && passageObj && Array.isArray(passageObj.paragraphs) && passageObj.paragraphs.length > 0) {
+            title = _cretPreview(passageObj.paragraphs[0].content, 36);
+          }
+        }
+        if (!title) title = '—';
+        return { title, ready };
+      });
+      // Pad to exactly 5 rows — a standard CEFR Reading test has 5 parts in
+      // a fixed order and the card layout reserves five slots.
+      while (parts.length < 5) parts.push({ title: '—', ready: false });
+      return { source: (md && md.source) || '', parts: parts.slice(0, 5) };
+    }
+
+    async function _cretLoadStaticMockMeta(filename) {
+      try {
+        const resp = await fetch('questions CEFR R/' + filename);
+        if (!resp.ok) return null;
+        const code = await resp.text();
+        // Sandbox-eval: each file is `window.CEFR_READING_TEST = {...}`.
+        const sandbox = { CEFR_READING_TEST: null };
+        try {
+          new Function('window', code + '\n;return window;')(sandbox);
+        } catch (e) {
+          return null;
+        }
+        return sandbox.CEFR_READING_TEST
+          ? _cretBuildMetaFromMockData(sandbox.CEFR_READING_TEST)
+          : null;
+      } catch (e) { return null; }
+    }
+
+    async function _cretLoadSupabaseMockMeta(id) {
+      try {
+        const r = await fetch(
+          _CRET_SB_URL + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(id) + '&select=mock_data',
+          { headers: { apikey: _CRET_SB_KEY, Authorization: 'Bearer ' + _CRET_SB_KEY } }
+        );
+        if (!r.ok) return null;
+        const rows = await r.json();
+        if (!rows || !rows.length) return null;
+        return _cretBuildMetaFromMockData(rows[0].mock_data || {});
+      } catch (e) { return null; }
+    }
+
+    function _cretParseFileSpec(fileSpec) {
+      const sbMatch = String(fileSpec || '').match(/sbmock=([^&]+)/);
+      if (sbMatch) return { kind: 'sb', id: sbMatch[1] };
+      const stMatch = String(fileSpec || '').match(/test=([^&]+)/);
+      if (stMatch) return { kind: 'static', filename: stMatch[1] + '.js' };
+      return { kind: 'unknown' };
+    }
+
+    async function _cretLoadAllMockMeta() {
+      try {
+        const cached = JSON.parse(localStorage.getItem(_CRET_CACHE_KEY) || 'null');
+        if (cached && cached.ts && (Date.now() - cached.ts) < _CRET_CACHE_TTL && cached.data) {
+          Object.assign(_cretMockMeta, cached.data);
+          return;
+        }
+      } catch (e) {}
+      const items = (typeof cefrReadingTests !== 'undefined' && Array.isArray(cefrReadingTests))
+        ? cefrReadingTests : [];
+      await Promise.all(items.map(async (t, idx) => {
+        const key = String(idx + 1).padStart(2, '0');
+        const spec = _cretParseFileSpec(t && t.file);
+        let meta = null;
+        if (spec.kind === 'static') meta = await _cretLoadStaticMockMeta(spec.filename);
+        else if (spec.kind === 'sb') meta = await _cretLoadSupabaseMockMeta(spec.id);
+        if (meta) _cretMockMeta[key] = meta;
+      }));
+      try {
+        localStorage.setItem(_CRET_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: _cretMockMeta }));
+      } catch (e) {}
+    }
+
+    function _cretGetDoneInfo(mockNum) {
+      try {
+        const raw = localStorage.getItem('mock-cefr-reading-done-' + mockNum);
+        if (raw) return JSON.parse(raw);
+      } catch (e) {}
+      if (_cretServerDone[mockNum]) return { fromServer: true };
+      return null;
+    }
+
+    async function _cretFetchServerDone() {
+      try {
+        if (!window.PremiumGate || !window.PremiumGate._normName) return {};
+        const candidateName = (typeof sessionStorage !== 'undefined'
+          ? (sessionStorage.getItem('CANDIDATE_NAME') || '')
+          : '');
+        const name = window.PremiumGate._normName(candidateName);
+        if (!name) return {};
+        const url = _CRET_SB_URL + '/rest/v1/mock_attempts'
+          + '?candidate_name=eq.' + encodeURIComponent(name)
+          + '&skill=eq.reading'
+          + '&exam_type=eq.cefr'
+          + '&submitted_at=not.is.null'
+          + '&select=mock_number';
+        const r = await fetch(url, {
+          headers: { apikey: _CRET_SB_KEY, Authorization: 'Bearer ' + _CRET_SB_KEY }
+        });
+        if (!r.ok) return {};
+        const rows = await r.json();
+        const out = {};
+        (rows || []).forEach(row => {
+          const key = String(row.mock_number).padStart(2, '0');
+          out[key] = true;
+        });
+        return out;
+      } catch (e) { return {}; }
+    }
+
+    function _cretSkeletonHtml() {
+      return '<div class="cret-card-skeleton">'
+        + '<div class="cret-skel-line short"></div>'
+        + '<div class="cret-skel-line tall"></div>'
+        + '<div class="cret-skel-line"></div>'
+        + '<div class="cret-skel-line"></div>'
+        + '<div class="cret-skel-line"></div>'
+        + '<div class="cret-skel-line"></div>'
+        + '<div class="cret-skel-line"></div>'
+        + '</div>';
+    }
+
+    function _cretCardHtml(mockNum, item, meta, doneInfo) {
+      const parts = meta.parts;
+      const readyCount = parts.filter(p => p.ready).length;
+      const total = parts.length;
+      const noneReady = readyCount === 0;
+
+      const dots = parts.map(p =>
+        '<span class="cret-dot ' + (p.ready ? 'cret-dot-ready' : 'cret-dot-soon') + '"></span>'
+      ).join('');
+
+      const sourceHtml = meta.source
+        ? '<div class="cret-source" title="' + _cretEsc(meta.source) + '">' + _cretEsc(meta.source) + '</div>'
+        : '';
+
+      const partRows = parts.map((p, i) =>
+        '<li class="cret-part">'
+          + '<span class="cret-part-num">' + (i + 1) + '</span>'
+          + '<span class="cret-part-title">' + _cretEsc(p.title) + '</span>'
+          + '<span class="cret-part-badge ' + (p.ready ? 'cret-badge-ready' : 'cret-badge-soon') + '">'
+          +   (p.ready ? '✓ Ready' : '⏳ Soon')
+          + '</span>'
+        + '</li>'
+      ).join('');
+
+      const doneHtml = doneInfo
+        ? (typeof doneInfo.percent === 'number'
+            ? '<span class="cret-done">★ Done · ' + doneInfo.percent + '%</span>'
+            : '<span class="cret-done">★ Done</span>')
+        : '';
+
+      const actionHtml = noneReady
+        ? '<span class="cret-coming-soon">Coming soon</span>'
+        : '<button type="button" class="cret-take" data-mock="' + mockNum + '">Take Test →</button>';
+
+      // Strip the "🧪 " emoji prefix from the Supabase pilot label so titles
+      // sit visually consistent.
+      const cleanTitle = String(item.name || '').replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]+\s*/u, '');
+
+      return '<article class="cret-card ' + (noneReady ? 'cret-card-disabled' : '') + '"'
+        + ' id="cret-card-' + mockNum + '"'
+        + ' data-mock="' + mockNum + '"'
+        + ' data-file="' + _cretEsc(item.file) + '"'
+        + ' data-ready-count="' + readyCount + '"'
+        + ' data-total="' + total + '"'
+        + ' data-source="' + _cretEsc(String(meta.source || '').toLowerCase()) + '"'
+        + ' data-done="' + (doneHtml ? '1' : '0') + '"'
+        + ' data-title="' + _cretEsc(cleanTitle.toLowerCase()) + '"'
+        + ' data-parts="' + _cretEsc(parts.map(p => p.title).join(' ').toLowerCase()) + '">'
+          + '<div class="cret-card-head">'
+            + '<div class="cret-mocknum">#' + mockNum + '</div>'
+            + '<div class="cret-status">'
+              + '<span class="cret-dots">' + dots + '</span>'
+              + '<span class="cret-status-label">' + readyCount + '/' + total + ' READY</span>'
+            + '</div>'
+            + sourceHtml
+          + '</div>'
+          + '<h3 class="cret-mock-title" title="' + _cretEsc(cleanTitle) + '">' + _cretEsc(cleanTitle) + '</h3>'
+          + '<ul class="cret-parts">' + partRows + '</ul>'
+          + '<div class="cret-card-foot">' + doneHtml + actionHtml + '</div>'
+        + '</article>';
+    }
+
+    function _cretRenderSkeletons() {
+      const grid = document.getElementById('cretGrid');
+      const count = (typeof cefrReadingTests !== 'undefined' && Array.isArray(cefrReadingTests))
+        ? cefrReadingTests.length : 12;
+      grid.innerHTML = Array.from({ length: count }, _cretSkeletonHtml).join('');
+      document.getElementById('cretCount').textContent = count;
+    }
+
+    function _cretRender() {
+      const grid = document.getElementById('cretGrid');
+      const items = (typeof cefrReadingTests !== 'undefined' && Array.isArray(cefrReadingTests))
+        ? cefrReadingTests : [];
+      const cards = items.map((t, idx) => {
+        const mockNum = String(idx + 1).padStart(2, '0');
+        const meta = _cretMockMeta[mockNum] || { source: '', parts: [
+          { title: '—', ready: false }, { title: '—', ready: false },
+          { title: '—', ready: false }, { title: '—', ready: false },
+          { title: '—', ready: false }
+        ] };
+        return _cretCardHtml(mockNum, t, meta, _cretGetDoneInfo(mockNum));
+      });
+      grid.innerHTML = cards.join('');
+      _cretBuildJumpOptions();
+      _cretBuildSourceOptions();
+      _cretApplyFiltersAndSort();
+    }
+
+    function _cretApplyFiltersAndSort() {
+      const search = (document.getElementById('cretSearch').value || '').toLowerCase().trim();
+      const sourceFilter = _cretSourceFilter.toLowerCase();
+      let visible = 0;
+      document.querySelectorAll('#cretGrid .cret-card').forEach(c => {
+        const ready = parseInt(c.dataset.readyCount, 10) || 0;
+        const total = parseInt(c.dataset.total, 10) || 0;
+        const done = c.dataset.done === '1';
+        const source = c.dataset.source || '';
+        let pass = true;
+        if (_cretFilter === 'ready') pass = (ready === total && total > 0);
+        else if (_cretFilter === 'soon') pass = (ready < total);
+        else if (_cretFilter === 'done') pass = done;
+        if (pass && sourceFilter) pass = source.startsWith(sourceFilter);
+        if (pass && search) {
+          pass = (c.dataset.title || '').includes(search)
+            || (c.dataset.source || '').includes(search)
+            || (c.dataset.parts || '').includes(search)
+            || (c.dataset.mock || '').includes(search);
+        }
+        c.style.display = pass ? '' : 'none';
+        if (pass) visible++;
+      });
+      document.getElementById('cretEmpty').style.display = visible === 0 ? '' : 'none';
+    }
+
+    function _cretBuildSourceOptions() {
+      const sel = document.getElementById('cretSourceFilter');
+      if (!sel) return;
+      const groups = new Set();
+      Object.values(_cretMockMeta).forEach(m => {
+        if (!m || !m.source) return;
+        const stripped = String(m.source).replace(/\s+Test\s+\d+\s*$/i, '').trim();
+        if (stripped) groups.add(stripped);
+      });
+      const sorted = Array.from(groups).sort();
+      let opts = '<option value="">📚 All sources</option>';
+      sorted.forEach(g => {
+        const selAttr = (g === _cretSourceFilter) ? ' selected' : '';
+        opts += '<option value="' + _cretEsc(g) + '"' + selAttr + '>' + _cretEsc(g) + '</option>';
+      });
+      sel.innerHTML = opts;
+    }
+
+    function _cretBuildJumpOptions() {
+      const sel = document.getElementById('cretJump');
+      if (!sel) return;
+      const cards = document.querySelectorAll('#cretGrid .cret-card');
+      let opts = '<option value="">Jump to #…</option>';
+      cards.forEach(c => {
+        const n = c.dataset.mock;
+        if (!n) return;
+        opts += '<option value="' + n + '">#' + n + '</option>';
+      });
+      sel.innerHTML = opts;
+    }
+
+    function _cretJumpToMock(mockNum) {
+      if (!mockNum) return;
+      const card = document.getElementById('cret-card-' + mockNum);
+      if (!card) return;
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.classList.remove('cret-card-jumped');
+      void card.offsetWidth;
+      card.classList.add('cret-card-jumped');
+    }
+
+    async function cretOpen() {
+      const overlay = document.getElementById('cretPicker');
+      overlay.classList.add('cret-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      _cretRenderSkeletons();
+      const [, serverDone] = await Promise.all([
+        _cretLoadAllMockMeta(),
+        _cretFetchServerDone()
+      ]);
+      _cretServerDone = serverDone || {};
+      _cretRender();
+    }
+
+    function cretClose() {
+      const overlay = document.getElementById('cretPicker');
+      overlay.classList.remove('cret-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    function cretClearFilters() {
+      _cretFilter = 'all';
+      _cretSourceFilter = '';
+      document.querySelectorAll('.cret-chip').forEach(c =>
+        c.classList.toggle('cret-chip-active', c.dataset.filter === 'all')
+      );
+      document.getElementById('cretSearch').value = '';
+      const srcSel = document.getElementById('cretSourceFilter');
+      if (srcSel) srcSel.value = '';
+      _cretApplyFiltersAndSort();
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const overlay = document.getElementById('cretPicker');
+      if (!overlay) return;
+      document.querySelectorAll('.cret-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          _cretFilter = chip.dataset.filter;
+          document.querySelectorAll('.cret-chip').forEach(c =>
+            c.classList.toggle('cret-chip-active', c === chip)
+          );
+          _cretApplyFiltersAndSort();
+        });
+      });
+      const search = document.getElementById('cretSearch');
+      const jump   = document.getElementById('cretJump');
+      const srcSel = document.getElementById('cretSourceFilter');
+      if (search) search.addEventListener('input', _cretApplyFiltersAndSort);
+      if (jump) jump.addEventListener('change', function () {
+        _cretJumpToMock(this.value);
+        setTimeout(() => { this.value = ''; }, 400);
+      });
+      if (srcSel) srcSel.addEventListener('change', function () {
+        _cretSourceFilter = this.value || '';
+        _cretApplyFiltersAndSort();
+      });
+      document.getElementById('cretGrid').addEventListener('click', function (e) {
+        const btn = e.target.closest('.cret-take');
+        if (!btn) return;
+        const card = btn.closest('.cret-card');
+        if (!card) return;
+        const file = card.dataset.file;
+        if (!file) return;
+        if (typeof handleReadingMockClick === 'function') {
+          handleReadingMockClick(file, 'cefr-reading');
+        } else {
+          cretClose();
+          loadMock(file, 'reading');
+        }
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && overlay.classList.contains('cret-open')) cretClose();
+      });
+    });
+
+    window.cretOpen = cretOpen;
+    window.cretClose = cretClose;
+    window.cretClearFilters = cretClearFilters;
+
     // ===== UNIVERSAL LEVEL PICKER (flashcards, grammar, vocab) =====
     let _pendingLevelPick = null; // { type: 'flashcards'|'grammar'|'vocabulary', data: {...} }
 
@@ -14832,10 +15651,11 @@
       if (isLoadingMock) return;
       isLoadingMock = true;
       currentLoadingType = type || 'writing';
-      // Tear down the IELTS Reading picker if it was the launch point — the
-      // runner iframe sits at z-index 9999, the picker at 100003, so we'd
-      // otherwise see the picker draped over the test.
+      // Tear down the IELTS / CEFR Reading pickers if either was the launch
+      // point — runner iframe sits at z-index 9999, pickers at 100003, so
+      // we'd otherwise see the picker draped over the test.
       try { if (window.iretClose) window.iretClose(); } catch (e) {}
+      try { if (window.cretClose) window.cretClose(); } catch (e) {}
 
       // Configure loading screen based on type
       if (currentLoadingType === 'speaking') {
@@ -29292,7 +30112,22 @@
             +   '</div>'
             +   '<button type="button" onclick="_mmgImportOpen()" style="background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(37,99,235,.3);white-space:nowrap;">✨ Import</button>'
             + '</div>';
+
+      // Bulk-generate explanations — runs Gemini for every part that has
+      // both passage content + at least one answer, sequentially (one part
+      // at a time avoids hitting Gemini's per-request limits + lets the
+      // user see incremental progress). Per-part button still works.
+      html += ''
+            + '<div id="mmgCrAllExplBar" style="background:linear-gradient(135deg,#ecfeff,#e0f2fe);border:1px solid #bae6fd;border-radius:10px;padding:10px 12px;margin-bottom:14px;display:flex;align-items:center;gap:12px;">'
+            +   '<div style="flex:1;font-size:12px;color:#075985;line-height:1.45;">'
+            +     '<strong>✨ Generate explanations — all parts</strong> — Walks through Parts 1–5 and asks Gemini to write reasoning + verbatim quotes for every question with a known answer. Quotes are server-verified.'
+            +   '</div>'
+            +   '<button type="button" id="mmgCrAllExplBtn" onclick="_mmgGenerateExplanationsAllCr()" style="background:linear-gradient(135deg,#06b6d4,#0284c7);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(2,132,199,.3);white-space:nowrap;">✨ Generate all</button>'
+            + '</div>'
+            + '<div id="mmgCrAllExplStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;border-radius:8px;padding:0;background:transparent;font-weight:500;"></div>';
+
       html += '<div class="mmg-section-title">CEFR Reading — test info</div>';
+      html += _mmgFieldText('Source',           'mmgCrTi_source',         md.source,         'e.g. Cambridge 16, Multi-level Mock 3, Official 2024. Optional — shown as a chip on the picker card.');
       html += _mmgFieldText('Title',            'mmgCrTi_title',          ti.title,          'e.g., "CEFR B1-B2-C1 Reading Test 02".');
       html += _mmgFieldText('Total questions',  'mmgCrTi_totalQuestions', ti.totalQuestions, 'Number — student-facing total (usually 35).');
       html += _mmgFieldText('Total time (min)', 'mmgCrTi_totalTime',      ti.totalTime,      'Number of minutes (usually 60).');
@@ -29304,6 +30139,12 @@
       md.testInfo = md.testInfo || {};
       var f = function (id) { var e = document.getElementById(id); return e ? e.value : undefined; };
       var asNum = function (v) { var n = Number(v); return v === '' || !isFinite(n) ? v : n; };
+      var src = f('mmgCrTi_source');
+      if (src !== undefined) {
+        var trimmed = String(src).trim();
+        if (trimmed) md.source = trimmed;
+        else delete md.source;
+      }
       if (f('mmgCrTi_title')          !== undefined) md.testInfo.title          = f('mmgCrTi_title');
       if (f('mmgCrTi_totalQuestions') !== undefined) md.testInfo.totalQuestions = asNum(f('mmgCrTi_totalQuestions'));
       if (f('mmgCrTi_totalTime')      !== undefined) md.testInfo.totalTime      = asNum(f('mmgCrTi_totalTime'));
@@ -29334,8 +30175,35 @@
       window._mmgCrActiveSub = window._mmgCrActiveSub || {};
       var activeSub = window._mmgCrActiveSub[idx] || 'passage';
 
+      // ── Per-Part AI import banner ────────────────────────────────────
+      // For when each part comes from a different source PDF/image —
+      // upload + transcribe one part at a time, fewer screenshots per
+      // call (less risk of token / rate limits), and only this tab gets
+      // overwritten.
+      var html = ''
+            + '<div style="background:linear-gradient(135deg,#fdf4ff,#faf5ff);border:1px solid #e9d5ff;border-radius:10px;padding:10px 12px;margin-bottom:8px;display:flex;align-items:center;gap:12px;">'
+            +   '<div style="flex:1;font-size:12px;color:#581c87;line-height:1.45;">'
+            +     '<strong>✨ Import this part</strong> — upload only Part ' + n + '\'s files (and answer key, if separate). Other parts stay untouched.'
+            +   '</div>'
+            +   '<button type="button" onclick="_mmgImportOpenPassage(' + idx + ')" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(124,58,237,.3);white-space:nowrap;">✨ Import part</button>'
+            + '</div>';
+
+      // ── Per-Part Generate Explanations banner ────────────────────────
+      // Sends just this part's data (no files) to transcribe-mock with
+      // scope=explanations; server quote-verifies each quote before
+      // returning. Status div survives the post-success tab re-render
+      // because _mmgGenerateExplanations re-fetches it from DOM.
+      html += ''
+            + '<div id="mmgCrP' + n + '_explBar" style="background:linear-gradient(135deg,#ecfeff,#e0f2fe);border:1px solid #bae6fd;border-radius:10px;padding:10px 12px;margin-bottom:14px;display:flex;align-items:center;gap:12px;">'
+            +   '<div style="flex:1;font-size:12px;color:#075985;line-height:1.45;">'
+            +     '<strong>✨ Generate explanations</strong> — Gemini reads this part + its answer key and writes a short reason + verbatim source quote for each question. Quotes are server-verified.'
+            +   '</div>'
+            +   '<button type="button" id="mmgCrP' + n + '_explBtn" onclick="_mmgGenerateExplanations(' + idx + ')" style="background:linear-gradient(135deg,#06b6d4,#0284c7);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(2,132,199,.3);white-space:nowrap;">✨ Generate explanations</button>'
+            + '</div>'
+            + '<div id="mmgCrP' + n + '_explStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;border-radius:8px;padding:0;background:transparent;font-weight:500;"></div>';
+
       // ── Basics (always visible above the sub-tabs) ───────────────────
-      var html = '<div class="mmg-section-title">Part ' + n + '</div>';
+      html += '<div class="mmg-section-title">Part ' + n + '</div>';
       html += _mmgFieldText('Question range',  'mmgCrP' + n + '_qr',    p.questionRange, 'e.g., "1-6". Tells the runner which question numbers this part covers.');
       html += _mmgFieldArea('Instruction shown to student', 'mmgCrP' + n + '_instr', p.instruction, 'HTML allowed.', 80);
 
@@ -29961,11 +30829,12 @@
         // the in-memory pickers without a page reload. Fire-and-forget
         // — UI is already closed; finishing the fetch is non-blocking.
         try { await window._mmgRefreshAllPickers(); } catch (e) { console.warn('picker refresh failed:', e); }
-        // Invalidate the new IELTS Reading full-screen picker's metadata
-        // cache so a newly-saved mock (or an existing one with edited
-        // passages/source) is re-fetched on next open instead of showing
-        // stale 24-hour data.
-        try { localStorage.removeItem('ms_iret_meta_v2'); } catch (e) {}
+        // Invalidate the full-screen picker metadata caches so a newly-saved
+        // mock (or an existing one with edited passages / source) is
+        // re-fetched on next open instead of showing stale 24-hour data.
+        // Bumping a picker cache key requires updating both lines below.
+        try { localStorage.removeItem('ms_iret_meta_v3'); } catch (e) {}
+        try { localStorage.removeItem('ms_cret_meta_v1'); } catch (e) {}
       } catch (e) {
         _mmgStatus('Save failed: ' + e.message, '#dc2626');
       }
@@ -30040,8 +30909,11 @@
       var st  = window._mmgImportState;
       var ttl = document.getElementById('mmgImportTitle');
       if (!ttl) return;
+      // IELTS speaks in passages; CEFR speaks in parts. The data stays
+      // 1-based for the user's benefit in both cases.
+      var unit = (st.examType === 'cefr-reading') ? 'Part' : 'Passage';
       if (st.scope === 'passage') {
-        ttl.textContent = '✨ Import Passage ' + (st.passageIndex + 1) + ' from PDF / image';
+        ttl.textContent = '✨ Import ' + unit + ' ' + (st.passageIndex + 1) + ' from PDF / image';
       } else {
         ttl.textContent = '✨ Import test from PDF / image';
       }
@@ -30102,7 +30974,9 @@
       document.getElementById('mmgImportStatus').textContent = '';
       document.getElementById('mmgImportStatus').style.color = '#64748b';
       var btn = document.getElementById('mmgImportSubmitBtn');
-      btn.disabled = false; btn.textContent = '✨ Import passage';
+      // Match the button label to the exam's unit (Part vs Passage).
+      var unitLabel = (m.mock_type === 'cefr-reading') ? 'part' : 'passage';
+      btn.disabled = false; btn.textContent = '✨ Import ' + unitLabel;
       _mmgImportRender();
       document.getElementById('mmgImportModal').style.display = 'flex';
       // Wire pickers (idempotent — only bind once).
@@ -30326,20 +31200,33 @@
 
         if (!window._mmgEditing) throw new Error('No active editor — close + reopen.');
 
-        // Per-passage merge: leave other passages alone, just slot the
-        // returned object into passages[idx]. Force the .id to match the
-        // tab the user imported from so the runner orders them correctly
-        // even if the AI emits a wrong / missing id.
+        // Per-passage merge: leave the other passages/parts alone, just slot
+        // the returned object into the right array index. IELTS calls these
+        // "passages" with id=N; CEFR calls them "parts" with partNumber=N.
+        // Force the id/partNumber to match the tab the user imported from so
+        // the runner orders them correctly even if the AI emits a wrong /
+        // missing one.
         if (st.scope === 'passage') {
           var md = window._mmgEditing.mock_data || {};
-          if (!md.passages || !Array.isArray(md.passages)) md.passages = [];
-          while (md.passages.length <= st.passageIndex) md.passages.push({});
-          var newPassage = (j.mock_data && typeof j.mock_data === 'object' && !Array.isArray(j.mock_data))
+          var newObj = (j.mock_data && typeof j.mock_data === 'object' && !Array.isArray(j.mock_data))
             ? j.mock_data
             : null;
-          if (!newPassage) throw new Error('Edge function returned an invalid passage object');
-          newPassage.id = st.passageIndex + 1;
-          md.passages[st.passageIndex] = newPassage;
+          if (!newObj) throw new Error('Edge function returned an invalid passage object');
+
+          var isCefrImport = (st.examType === 'cefr-reading');
+          var rootKey = isCefrImport ? 'parts' : 'passages';
+          var unitLabel = isCefrImport ? 'Part' : 'Passage';
+          var tabName   = isCefrImport ? ('cr_part' + (st.passageIndex + 1)) : ('ir_p' + (st.passageIndex + 1));
+
+          if (!md[rootKey] || !Array.isArray(md[rootKey])) md[rootKey] = [];
+          while (md[rootKey].length <= st.passageIndex) md[rootKey].push({});
+          if (isCefrImport) {
+            newObj.partNumber = st.passageIndex + 1;
+            if (!newObj.title) newObj.title = 'Part ' + (st.passageIndex + 1);
+          } else {
+            newObj.id = st.passageIndex + 1;
+          }
+          md[rootKey][st.passageIndex] = newObj;
           window._mmgEditing.mock_data = md;
           document.getElementById('mmgFldData').value = JSON.stringify(md, null, 2);
           // CRITICAL: clear the active-tab marker BEFORE re-initialising
@@ -30351,14 +31238,14 @@
           // the flush a no-op so the imported data survives.
           window._mmgActiveTab = null;
           _mmgInitTabs();
-          // Jump straight to the freshly-imported passage so the user sees
-          // the populated fields (not the Settings tab they were on).
-          _mmgSwitchTab('ir_p' + (st.passageIndex + 1));
+          // Jump straight to the freshly-imported part/passage so the user
+          // sees the populated fields (not the Settings tab they were on).
+          _mmgSwitchTab(tabName);
 
           _mmgImportProgressDone(j.model_used, j.fallback_reason);
           var modelLabel = (j.model_used === 'gpt-4o')
-            ? '✓ Imported Passage ' + (st.passageIndex + 1) + ' via GPT-4o (Gemini fallback)'
-            : '✓ Imported Passage ' + (st.passageIndex + 1) + ' via Gemini 2.5 Pro';
+            ? '✓ Imported ' + unitLabel + ' ' + (st.passageIndex + 1) + ' via GPT-4o (Gemini fallback)'
+            : '✓ Imported ' + unitLabel + ' ' + (st.passageIndex + 1) + ' via Gemini 2.5 Pro';
           _mmgStatus(modelLabel + ' — review and Save when ready.', '#16a34a');
           setTimeout(_mmgImportClose, 1400);
           return;
@@ -30434,10 +31321,13 @@
     // ═══════════════════════════════════════════════════════════════════════
     async function _mmgGenerateExplanations(idx) {
       var m = window._mmgEditing;
-      if (!m || m.mock_type !== 'ielts-reading') {
-        alert('Explanations generator is currently IELTS Reading only.');
+      if (!m || (m.mock_type !== 'ielts-reading' && m.mock_type !== 'cefr-reading')) {
+        alert('Explanations generator is only available for IELTS Reading and CEFR Reading.');
         return;
       }
+      var isIelts = m.mock_type === 'ielts-reading';
+      var passageWord = isIelts ? 'passage' : 'part';
+
       // Flush whatever the user is editing back into mock_data so the
       // passage we send to Gemini reflects the latest state, not the last
       // save. Stops users wondering "why are explanations for old answers?"
@@ -30446,26 +31336,42 @@
         return;
       }
       var md = (window._mmgEditing && window._mmgEditing.mock_data) || {};
-      var passage = (md.passages || [])[idx];
-      if (!passage || !passage.passage || !passage.correctAnswers || Object.keys(passage.correctAnswers).length === 0) {
-        alert('This passage needs both the body HTML and at least one correct answer before explanations can be generated.');
-        return;
+
+      // IELTS keeps passages in md.passages with `correctAnswers`; CEFR
+      // keeps parts in md.parts with `answers` and a nested `passage.content`.
+      var passage;
+      if (isIelts) {
+        passage = (md.passages || [])[idx];
+        if (!passage || !passage.passage || !passage.correctAnswers || Object.keys(passage.correctAnswers).length === 0) {
+          alert('This passage needs both the body HTML and at least one correct answer before explanations can be generated.');
+          return;
+        }
+      } else {
+        passage = (md.parts || [])[idx];
+        var crContent = passage && passage.passage && (typeof passage.passage === 'object') && passage.passage.content;
+        var crAnswers = passage && passage.answers && typeof passage.answers === 'object' ? passage.answers : null;
+        if (!passage || !crContent || !crAnswers || Object.keys(crAnswers).length === 0) {
+          alert('This part needs both the passage content and at least one answer before explanations can be generated.');
+          return;
+        }
       }
       if (!window._mmgPasscode) {
         alert('Admin passcode missing — close + reopen the panel and try again.');
         return;
       }
 
-      var n          = idx + 1;
-      var btn        = document.getElementById('mmgIrP' + n + '_explBtn');
-      var statusEl   = document.getElementById('mmgIrP' + n + '_explStatus');
-      var startedAt  = Date.now();
-      var tickHandle = null;
+      var n           = idx + 1;
+      var idPrefix    = isIelts ? 'mmgIrP' : 'mmgCrP';
+      var targetTab   = isIelts ? ('ir_p' + n) : ('cr_part' + n);
+      var btn         = document.getElementById(idPrefix + n + '_explBtn');
+      var statusEl    = document.getElementById(idPrefix + n + '_explStatus');
+      var startedAt   = Date.now();
+      var tickHandle  = null;
       function tick() {
-        var s = document.getElementById('mmgIrP' + n + '_explStatus');
+        var s = document.getElementById(idPrefix + n + '_explStatus');
         if (!s) return;
         var secs = Math.floor((Date.now() - startedAt) / 1000);
-        s.textContent = '🧠 Gemini is reading the passage and writing explanations… ' + secs + 's';
+        s.textContent = '🧠 Gemini is reading the ' + passageWord + ' and writing explanations… ' + secs + 's';
       }
       function applyWorkingStyle(el) {
         if (!el) return;
@@ -30501,7 +31407,7 @@
       try {
         var payload = {
           adminPasscode: window._mmgPasscode,
-          exam_type:     'ielts-reading',
+          exam_type:     m.mock_type,
           scope:         'explanations',
           passage:       passage
         };
@@ -30523,8 +31429,8 @@
         var explns = j.explanations || {};
         var drops  = j.dropped_quotes || [];
 
-        // Merge into the passage's existing explanations (don't wipe any
-        // hand-written ones the admin may have already added).
+        // Merge into the existing explanations (don't wipe any hand-written
+        // ones the admin may have already added).
         if (!passage.explanations || typeof passage.explanations !== 'object') passage.explanations = {};
         Object.keys(explns).forEach(function (k) { passage.explanations[k] = explns[k]; });
 
@@ -30535,8 +31441,8 @@
         document.getElementById('mmgFldData').value = JSON.stringify(md, null, 2);
         window._mmgActiveTab = null;
         _mmgInitTabs();
-        _mmgSwitchTab('ir_p' + n);
-        statusEl = document.getElementById('mmgIrP' + n + '_explStatus');
+        _mmgSwitchTab(targetTab);
+        statusEl = document.getElementById(idPrefix + n + '_explStatus');
 
         var nAdded  = Object.keys(explns).length;
         var elapsed = Math.floor((Date.now() - startedAt) / 1000);
@@ -30564,9 +31470,11 @@
               }
             });
             autoSaved = true;
-            // Invalidate the picker cache so the next picker open sees fresh
+            // Invalidate picker caches so the next picker open sees fresh
             // metadata (matches what _mmgSave does after a normal save).
-            try { localStorage.removeItem('ms_iret_meta_v2'); } catch (e) {}
+            // Bumping the IELTS picker key needs a matching update here.
+            try { localStorage.removeItem('ms_iret_meta_v3'); } catch (e) {}
+            try { localStorage.removeItem('ms_cret_meta_v1'); } catch (e) {}
           } catch (saveErr) {
             // Auto-save failed; the explanations are still in memory + raw
             // textarea, so the user can still hit 💾 Save manually to retry.
@@ -30581,16 +31489,110 @@
             : '✅ Done — ' + nAdded + ' explanations in ' + elapsed + 's' + dropStr
               + ' — click 💾 Save to persist (auto-save needs a saved mock first).';
         }
+        // Resolve the caller (bulk runner uses this) with a per-part summary.
+        return { ok: true, added: nAdded, dropped: drops.length, autoSaved: autoSaved };
       } catch (e) {
         clearInterval(tickHandle);
-        statusEl = document.getElementById('mmgIrP' + n + '_explStatus') || statusEl;
+        statusEl = document.getElementById(idPrefix + n + '_explStatus') || statusEl;
         applyErrorStyle(statusEl);
-        if (statusEl) statusEl.textContent = '✗ Failed: ' + (e && e.message || String(e));
+        var msg = (e && e.message) || String(e);
+        if (statusEl) statusEl.textContent = '✗ Failed: ' + msg;
+        return { ok: false, error: msg };
       } finally {
         if (btn) { btn.disabled = false; btn.textContent = '✨ Generate explanations'; }
       }
     }
     window._mmgGenerateExplanations = _mmgGenerateExplanations;
+
+    // ── Bulk: generate explanations for every eligible CEFR Reading part.
+    // Walks parts 0..N-1, skipping any that lack passage content or
+    // answers. Runs sequentially (one call per part) so the user sees
+    // progress and we don't slam Gemini. After all parts are done, also
+    // invalidates the CEFR picker cache.
+    async function _mmgGenerateExplanationsAllCr() {
+      var m = window._mmgEditing;
+      if (!m || m.mock_type !== 'cefr-reading') {
+        alert('Bulk explanations is CEFR Reading only.');
+        return;
+      }
+      if (typeof _mmgFlushStructuredToRaw === 'function' && !_mmgFlushStructuredToRaw()) {
+        _mmgStatus('Fix the highlighted field, then click Generate all.', '#dc2626');
+        return;
+      }
+      var md = (m && m.mock_data) || {};
+      var parts = Array.isArray(md.parts) ? md.parts : [];
+      if (parts.length === 0) { alert('No parts to process.'); return; }
+
+      var btn     = document.getElementById('mmgCrAllExplBtn');
+      var statusEl = document.getElementById('mmgCrAllExplStatus');
+      function setStatus(text, style /* 'working'|'success'|'error' */) {
+        var el = document.getElementById('mmgCrAllExplStatus');
+        if (!el) return;
+        if (style === 'success') {
+          el.style.color = '#065f46'; el.style.background = '#d1fae5';
+          el.style.border = '1px solid #6ee7b7'; el.style.padding = '10px 14px';
+          el.style.fontSize = '13px'; el.style.fontWeight = '600';
+        } else if (style === 'error') {
+          el.style.color = '#991b1b'; el.style.background = '#fee2e2';
+          el.style.border = '1px solid #fca5a5'; el.style.padding = '10px 14px';
+          el.style.fontSize = '13px'; el.style.fontWeight = '600';
+        } else {
+          el.style.color = '#0284c7'; el.style.background = 'transparent';
+          el.style.border = '0'; el.style.padding = '0';
+          el.style.fontSize = '11.5px'; el.style.fontWeight = '500';
+        }
+        el.textContent = text;
+      }
+
+      // Figure out which parts are eligible (have content + answers).
+      var eligible = [];
+      for (var i = 0; i < parts.length; i++) {
+        var p = parts[i] || {};
+        var hasContent = p.passage && typeof p.passage === 'object' && p.passage.content;
+        var hasAnswers = p.answers && typeof p.answers === 'object' && Object.keys(p.answers).length > 0;
+        if (hasContent && hasAnswers) eligible.push(i);
+      }
+      if (eligible.length === 0) {
+        setStatus('No parts have both passage content and answers — nothing to generate.', 'error');
+        return;
+      }
+
+      if (btn) { btn.disabled = true; btn.textContent = '⏳ Working…'; }
+
+      var totalAdded = 0, totalDropped = 0, failures = [];
+      var overallStart = Date.now();
+      try {
+        for (var k = 0; k < eligible.length; k++) {
+          var pi = eligible[k];
+          setStatus('🧠 Part ' + (pi + 1) + ' — ' + (k + 1) + '/' + eligible.length + '…', 'working');
+          // Switch to that part's tab so its status banner is visible.
+          window._mmgActiveTab = null;
+          _mmgInitTabs();
+          _mmgSwitchTab('cr_part' + (pi + 1));
+          var res = await _mmgGenerateExplanations(pi);
+          if (res && res.ok) {
+            totalAdded   += (res.added   || 0);
+            totalDropped += (res.dropped || 0);
+          } else {
+            failures.push({ part: pi + 1, error: (res && res.error) || 'unknown' });
+          }
+        }
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = '✨ Generate all'; }
+      }
+
+      var elapsed = Math.floor((Date.now() - overallStart) / 1000);
+      var summary = '✅ Done — ' + totalAdded + ' explanations across ' + (eligible.length - failures.length) + '/' + eligible.length + ' parts in ' + elapsed + 's';
+      if (totalDropped) summary += ' · ' + totalDropped + ' quote(s) dropped (paraphrased)';
+      if (failures.length) {
+        summary = '⚠ Partial — ' + summary + ' · failed: ' + failures.map(function (f) { return 'Part ' + f.part + ' (' + f.error + ')'; }).join('; ');
+        setStatus(summary, 'error');
+      } else {
+        setStatus(summary, 'success');
+      }
+      try { localStorage.removeItem('ms_cret_meta_v1'); } catch (e) {}
+    }
+    window._mmgGenerateExplanationsAllCr = _mmgGenerateExplanationsAllCr;
 
     // ═══════════════════════════════════════════════════════════════════════
     //   "New version available" banner + manual force-reload trigger.

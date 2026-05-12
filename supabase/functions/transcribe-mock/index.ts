@@ -117,13 +117,29 @@ const CEFR_SHAPE = `{
     {
       "partNumber": number,
       "title": string,
-      "type": string,                    // gap-fill-text | matching | matching-headings | multiple-choice | tfng | completion
+      "type": string,                    // EXACTLY one of: "gap-fill-text" | "matching" | "matching-headings" | "reading-comprehension"
       "questionRange": string,           // e.g. "1-6"
       "instruction": string,             // HTML allowed
-      "passage": { "title": string, "content": string },   // content is HTML with <p>…</p> + <span class="gap" data-gap="N">_____(N)_____</span>
-      "questions": [ { "id": number, "hint": string } ],
-      "answers": { "1": [string], "2": [string] },         // string array allows alternative spellings
-      "explanations": { "q1": { "text": string, "quote": string } }
+      "passage": { "title": string, "content": string },   // HTML wrapped in <p>…</p>. For gap-fill-text, content carries <span class="gap" data-gap="N">_____(N)_____</span> markers (one per blank, N matches question id).
+      "questions": [ { "id": number, "hint": string } ],   // For "matching" use { "id": number, "textNumber": number }; for "matching-headings" use { "id": number, "paragraphNumber": string (Roman numeral or "1","2",…) }; for "reading-comprehension" the top-level questions array is usually EMPTY — questions live inside questionSections.
+      "answers": { "1": [string], "2": [string] },         // string array allows alternative spellings. Always includes EVERY question id from this part, regardless of which section/structure it came from.
+      "explanations": { "q1": { "text": string, "quote": string } },
+
+      // Type-specific extras — include only when the "type" matches:
+      "topicTitle":        string,       // matching ONLY: a SHORT (2-4 word) theme name for the set of texts, used by the picker as a row label since matching parts have no single passage.title. e.g. "Hotels", "Job ads", "Restaurant ads", "Course brochures". Derive it from the common subject of texts[].
+      "statements":        [ { "letter": "A", "text": string } ],   // matching ONLY: the labelled options the student picks from
+      "texts":             [ { "number": number, "content": string } ],   // matching ONLY: short ads/blurbs being matched (numbered 7-14 etc.)
+      "extraStatements":   [string],     // matching ONLY: letters from statements[] that don't match any text (distractors)
+      "statementsFirst":   boolean,      // matching ONLY: UI layout hint — true if statements are shown above texts
+
+      "headings":          [ { "letter": "A", "text": string } ],   // matching-headings ONLY
+      "extraHeadings":     [string],     // matching-headings ONLY: distractor heading letters
+
+      "questionSections":  [             // reading-comprehension ONLY: nested sections. Each section is one of three shapes:
+        // mcq:        { "type": "mcq",     "title": "Questions 21-24: Multiple Choice", "instruction": "<HTML>", "questions": [ { "id": number, "text": string, "options": [ { "letter": "A", "text": string } ] } ] }
+        // tfni:       { "type": "tfni",    "title": "Questions 25-29: True/False/No Information", "instruction": "<HTML>", "options": ["True","False","No Information"], "questions": [ { "id": number, "text": string } ] }
+        // gap-fill:   { "type": "gap-fill","title": "Questions 30-33: Gap Filling Section", "instruction": "<HTML>", "summaryText": "<HTML with <span class=\\"gap-input\\" data-gap=\\"N\\">_____(N)_____</span> markers>", "questions": [ { "id": number, "hint": string } ] }
+      ]
     }
   ]
 }`;
@@ -212,13 +228,29 @@ const IELTS_SINGLE_PASSAGE_SHAPE = `{
 const CEFR_SINGLE_PART_SHAPE = `{
   "partNumber": number,
   "title": string,
-  "type": string,                    // gap-fill-text | matching | matching-headings | multiple-choice | tfng | completion
+  "type": string,                    // EXACTLY one of: "gap-fill-text" | "matching" | "matching-headings" | "reading-comprehension"
   "questionRange": string,
   "instruction": string,
-  "passage": { "title": string, "content": string },
-  "questions": [ { "id": number, "hint": string } ],
+  "passage": { "title": string, "content": string },   // HTML wrapped in <p>…</p>. For gap-fill-text, content carries <span class="gap" data-gap="N">_____(N)_____</span> markers.
+  "questions": [ { "id": number, "hint": string } ],   // matching: { id, textNumber }; matching-headings: { id, paragraphNumber }; reading-comprehension: usually EMPTY (questions live inside questionSections).
   "answers": { "1": [string], "2": [string] },
-  "explanations": { "q1": { "text": string, "quote": string } }
+  "explanations": { "q1": { "text": string, "quote": string } },
+
+  // Type-specific extras — include only when "type" matches:
+  "topicTitle":        string,       // matching ONLY: short 2-4 word theme name (e.g. "Hotels", "Job ads") — picker row label
+  "statements":        [ { "letter": "A", "text": string } ],   // matching ONLY
+  "texts":             [ { "number": number, "content": string } ],   // matching ONLY
+  "extraStatements":   [string],     // matching ONLY: distractor letters
+  "statementsFirst":   boolean,      // matching ONLY
+
+  "headings":          [ { "letter": "A", "text": string } ],   // matching-headings ONLY
+  "extraHeadings":     [string],     // matching-headings ONLY
+
+  "questionSections":  [             // reading-comprehension ONLY: array of sections, each one of three shapes:
+    // mcq:      { "type": "mcq",     "title": "Questions 21-24: Multiple Choice", "instruction": "<HTML>", "questions": [ { "id": number, "text": string, "options": [ { "letter": "A", "text": string } ] } ] }
+    // tfni:     { "type": "tfni",    "title": "Questions 25-29: True/False/No Information", "instruction": "<HTML>", "options": ["True","False","No Information"], "questions": [ { "id": number, "text": string } ] }
+    // gap-fill: { "type": "gap-fill","title": "Questions 30-33: Gap Filling Section", "instruction": "<HTML>", "summaryText": "<HTML with <span class=\\"gap-input\\" data-gap=\\"N\\">_____(N)_____</span> markers>", "questions": [ { "id": number, "hint": string } ] }
+  ]
 }`;
 
 function buildPrompt(
@@ -267,6 +299,33 @@ function buildPrompt(
 Do this only when the source actually shows the letter as a paragraph marker (you'll see it visually beside the paragraph in the original). Do NOT invent letters for passages that aren't lettered. Do NOT put the letter inside a separate <p> or as plain text "A ".
 ` : '';
 
+  // CEFR-specific type guide. A real CEFR B1-B2-C1 Reading test ALWAYS has
+  // these 5 parts in this order; the model should set "type" accordingly
+  // and emit the type-specific extras documented in the shape above.
+  const cefrTypeGuide = isCefr ? `
+11. **CEFR Reading question-type detection** — a standard CEFR B1-B2-C1 Reading test has 5 parts in a fixed order. Set each part's "type" exactly as shown, populate the type-specific fields, and put EVERY question id in the part's top-level "answers". Use this table:
+
+  | Part # | Source instruction looks like… | type | Required extras |
+  |---|---|---|---|
+  | 1 (typically Qs 1-6 or 1-7) | "Read the text. Fill in each gap with ONE word. You must use a word which is somewhere in the rest of the text." | "gap-fill-text" | Passage HTML carries the gap markers: \`<span class="gap" data-gap="N">_____(N)_____</span>\` — one per blank, where N matches the question id. "questions": [{ "id": N, "hint": "…SHORT FRAGMENT (~5-10 words) around the blank with the gap shown as _____…" }]. "answers": { "1": ["word"], "2": ["word"] }. NO statements, headings, or sections. |
+  | 2 (typically Qs 7-14) | "Read the texts 7-14 and the statements A-J. Decide which text matches with the situation described in the statements. Each statement can be used ONCE only. There are TWO extra statements which you do not need to use." | "matching" | Top-level **statements**: [{ "letter": "A", "text": "…" }, { "letter": "B", "text": "…" }, …] — the labelled options. **texts**: [{ "number": 7, "content": "…" }, { "number": 8, "content": "…" }, …] — the short ad/blurb texts being matched. **extraStatements**: ["E", "H"] — the letters from statements[] that don't match any text (the "TWO extra" the instruction names). **statementsFirst**: true (UI hint — almost always true here). "questions": [{ "id": 7, "textNumber": 7 }, …]. "answers": { "7": ["F"], "8": ["D"], … }. **REQUIRED**: also emit a top-level **topicTitle** — a short 2-4 word theme name shared by the texts (e.g. "Hotels", "Job ads", "Restaurant ads", "Course brochures", "Volunteer opportunities", "Travel destinations"). Pick whatever genre best describes the group of texts. Used by the picker as a row label since matching parts have no natural single passage.title. |
+  | 3 (typically Qs 15-20 or 15-21) | "Read the text. Choose the correct heading for each paragraph from the list of headings A-J. There are extra headings which you do not need to use." | "matching-headings" | Top-level **headings**: [{ "letter": "A", "text": "…" }, …]. **extraHeadings**: ["C", "E"] — distractor heading letters. "questions": [{ "id": 15, "paragraphNumber": "I" }, { "id": 16, "paragraphNumber": "II" }, …] — use Roman numerals or numbers EXACTLY as the source labels them. "answers": { "15": ["F"], … }. Passage HTML should preserve paragraph markers (e.g. \`<p><strong>I</strong> First paragraph text…</p>\`). **REQUIRED**: passage.title MUST be set (e.g. "Rock the Boat", "FALKLAND ISLANDS", "Buses") — the picker uses it as a row label. If the source doesn't print an explicit title, infer a short 2-4 word topic from the paragraphs. |
+  | 4 (typically Qs 21-29) | A single longer passage followed by MULTIPLE question sections (MCQ + True/False/No Information). | "reading-comprehension" | Use **questionSections**: an array of section objects. See section types below. Top-level "questions" stays empty; top-level "answers" collects ALL ids from every section: { "21": ["A"], "22": ["B"], …, "25": ["True"], "26": ["No Information"], … }. |
+  | 5 (typically Qs 30-35) | A single passage followed by MULTIPLE question sections — usually Gap Filling Section + MCQ. | "reading-comprehension" | Same shape as Part 4. |
+
+  **Section shapes for reading-comprehension parts** (questionSections array, in source order):
+
+  • **section type "mcq"** — \`{ "type": "mcq", "title": "Questions 21-24: Multiple Choice", "instruction": "<HTML — usually 'Choose the correct option A, B, C or D'>", "questions": [ { "id": 21, "text": "<the question stem>", "options": [ { "letter": "A", "text": "psychologists" }, { "letter": "B", "text": "patients at a clinic" }, { "letter": "C", "text": "…" }, { "letter": "D", "text": "…" } ] } ] }\`. Options live INLINE on each question (NOT on the section).
+
+  • **section type "tfni"** — True / False / No Information. \`{ "type": "tfni", "title": "Questions 25-29: True/False/No Information", "instruction": "<HTML>", "options": ["True", "False", "No Information"], "questions": [ { "id": 25, "text": "<the statement to evaluate>" } ] }\`. The 3-way \`options\` array lives on the SECTION (not per question). The "answers" entry for these uses the FULL string: { "25": ["True"] }, { "26": ["No Information"] }, etc.
+
+  • **section type "gap-fill"** (inside reading-comprehension Part 5) — \`{ "type": "gap-fill", "title": "Questions 30-33: Gap Filling Section", "instruction": "<HTML>", "summaryText": "<HTML paragraphs with gap markers>", "questions": [ { "id": 30, "hint": "…fragment with _____…" } ] }\`. Gap markers inside summaryText use the **gap-input** class (NOT "gap"): \`<span class="gap-input" data-gap="30">_____(30)_____</span>\`. The summaryText is a SEPARATE block from the main passage.content.
+
+12. **Single-word vs lettered answers** — for "gap-fill-text" and the "gap-fill" section, answers are usually single words: { "1": ["dinner"] }. For "matching" / "matching-headings" / "mcq", answers are single uppercase letters: { "7": ["F"] }. For "tfni", answers are the literal strings "True", "False", or "No Information" with that capitalisation. Always wrap the answer in an array (even a single value) so alternative spellings can be added later.
+
+13. **Empty answers are fine** — if the source doesn't include an answer key, leave "answers" as \`{}\` (do NOT guess). The admin can add answers manually in the editor.
+` : '';
+
   // Scope-specific framing. In "passage" mode the user is uploading just
   // ONE passage (typically because each passage comes from a different
   // source), so we tell the model to expect that and emit a single
@@ -293,7 +352,7 @@ ${gapRule}
 
 6. Answer keys: leave empty ({} or omitted) unless the source clearly contains an answer key. Do NOT guess answers — TFNG / matching / inference will be wrong.
 
-7. Detect each part / section's question type from its instruction text. ${isIelts ? 'See rule 11 below for IELTS-specific patterns.' : 'Use exactly one of: gap-fill-text, matching, matching-headings, multiple-choice, tfng, completion.'}
+7. Detect each part / section's question type from its instruction text. ${isIelts ? 'See rule 11 below for IELTS-specific patterns.' : 'See rule 11 below for the CEFR per-part table (a standard test has exactly 5 parts in a fixed order — gap-fill-text, matching, matching-headings, reading-comprehension, reading-comprehension).'}
 
 8. Files come in two groups (each file's "group" field is provided in the file's preceding text marker). Group A = "test" (treat as consecutive pages of one document). Group B = "answer-key" (optional). Match each answer-key entry to the corresponding question by ID and populate answers / correctAnswers. If Group B is empty or unreadable, leave answer keys blank.
 
@@ -304,7 +363,7 @@ ${gapRule}
 ${shape}
 
 No commentary outside the JSON. No markdown fences. No explanation.
-${ieltsTypeGuide}
+${ieltsTypeGuide}${cefrTypeGuide}
 The user owns or has licensed this content. Transcription is authorised — do not refuse or hedge on copyright grounds. The "user owns this" framing is a fact, not a request.
 
 Optional notes from the author: ${notes || '(none)'}`;
@@ -498,49 +557,106 @@ async function generateExplanations(
   passage: Record<string, unknown>,
   examType: string
 ): Promise<ExplanationsResult> {
+  const isCefr = examType === 'cefr-reading';
+
   // Pull the bits we need out of the passage shape (IELTS or CEFR).
-  const passageHtml: string = examType === 'ielts-reading'
-    ? String(passage.passage || '')
-    : String((passage.passage as Record<string, unknown>)?.content || passage.passage || '');
+  const passageHtml: string = isCefr
+    ? String((passage.passage as Record<string, unknown>)?.content || passage.passage || '')
+    : String(passage.passage || '');
   const passagePlain = _stripHtml(passageHtml);
   if (!passagePlain) throw new Error('passage body is empty');
 
-  // Build a compact (q, text, correct) list from questionSections.
-  const sections = Array.isArray(passage.questionSections) ? passage.questionSections : [];
-  const correctAnswers = (passage.correctAnswers as Record<string, string[] | string> | undefined) || {};
+  // Build a compact (q, text, correct) list. The two exam types store
+  // questions and answers differently — IELTS nests questions under
+  // questionSections[].questions and keys correctAnswers by "qN"; CEFR
+  // keeps questions flat in `questions[]` and keys `answers` by stringified
+  // number ("1", "2", …).
   const qInputs: Array<{ id: number; text: string; correct: string }> = [];
-  for (const sec of sections) {
-    const qs = (sec as Record<string, unknown>).questions;
-    if (!Array.isArray(qs)) continue;
-    for (const q of qs) {
+  if (isCefr) {
+    const questions      = Array.isArray(passage.questions) ? passage.questions : [];
+    const answers        = (passage.answers as Record<string, string[] | string> | undefined) || {};
+    for (const q of questions) {
       const qo = q as Record<string, unknown>;
       const id = parseInt(String(qo.id || ''), 10);
       if (isNaN(id)) continue;
-      const acc = correctAnswers[`q${id}`];
+      const acc = answers[String(id)] ?? answers[`q${id}`];
       const correctStr = Array.isArray(acc) ? acc.join(' / ') : String(acc || '');
-      if (!correctStr) continue;   // skip questions without a known answer
-      qInputs.push({ id, text: String(qo.text || ''), correct: correctStr });
+      if (!correctStr) continue;
+      // For CEFR the per-question prompt is in `hint` (a short context
+      // clue), not `text`. Fall back to `text` for forward-compatibility.
+      qInputs.push({ id, text: String(qo.hint || qo.text || ''), correct: correctStr });
+    }
+  } else {
+    const sections        = Array.isArray(passage.questionSections) ? passage.questionSections : [];
+    const correctAnswers  = (passage.correctAnswers as Record<string, string[] | string> | undefined) || {};
+    for (const sec of sections) {
+      const qs = (sec as Record<string, unknown>).questions;
+      if (!Array.isArray(qs)) continue;
+      for (const q of qs) {
+        const qo = q as Record<string, unknown>;
+        const id = parseInt(String(qo.id || ''), 10);
+        if (isNaN(id)) continue;
+        const acc = correctAnswers[`q${id}`];
+        const correctStr = Array.isArray(acc) ? acc.join(' / ') : String(acc || '');
+        if (!correctStr) continue;
+        qInputs.push({ id, text: String(qo.text || ''), correct: correctStr });
+      }
     }
   }
   if (qInputs.length === 0) {
     return { explanations: {}, droppedQuotes: [] };
   }
 
-  const prompt = `You are an IELTS reading explanation generator. The student has already been given the correct answers; your job is to JUSTIFY each one with a short explanation and the verbatim source sentence.
+  // CEFR matching / multiple-choice parts carry their answer options in
+  // sibling fields (statements / headings / options). Include them inline
+  // so the model can write a meaningful explanation for letter-coded
+  // answers like "B" or "C".
+  let extras = '';
+  if (isCefr) {
+    const partType = String(passage.type || '');
+    const statements = Array.isArray(passage.statements) ? passage.statements : null;
+    const headings   = Array.isArray(passage.headings)   ? passage.headings   : null;
+    if (statements && statements.length) {
+      extras += '\n\nSTATEMENTS / OPTIONS (matched by letter):\n' +
+        statements.map((s) => {
+          const so = s as Record<string, unknown>;
+          return `${so.letter ?? ''}: ${so.text ?? ''}`;
+        }).join('\n');
+    }
+    if (headings && headings.length) {
+      extras += '\n\nHEADINGS (matched by number/letter):\n' +
+        headings.map((h) => {
+          const ho = h as Record<string, unknown>;
+          return `${ho.id ?? ho.letter ?? ho.number ?? ''}: ${ho.text ?? ''}`;
+        }).join('\n');
+    }
+    if (partType) extras = `\n\nPART TYPE: ${partType}` + extras;
+  }
+
+  const examLabel = isCefr ? 'CEFR' : 'IELTS';
+  const callOutHint = isCefr
+    ? `   • Gap-fill / word-formation: "…that's why the correct answer is 'celebrated'."
+   • Matching / multiple-choice: "…that's why the correct answer is B."`
+    : `   • Multiple-choice / matching / completion: "…that's why the correct answer is D." (or "…the correct answer is 'grain'." for word-bank items)
+   • TFNG / YNNG: "…that's why the answer is FALSE." (or TRUE / NOT GIVEN / YES / NO)`;
+
+  const prompt = `You are a ${examLabel} reading explanation generator. The student has already been given the correct answers; your job is to JUSTIFY each one with a short explanation and the verbatim source sentence.
 
 PASSAGE (plain text):
-${passagePlain}
+${passagePlain}${extras}
 
-QUESTIONS (id · text · correct answer):
+QUESTIONS (id · ${isCefr ? 'hint' : 'text'} · correct answer):
 ${qInputs.map(q => `Q${q.id} · ${q.text} · ${q.correct}`).join('\n')}
 
 For each question, output ONE entry in this JSON shape:
 { "q<id>": { "text": "<1-2 sentence reason>", "quote": "<verbatim sentence from the passage that proves it>" } }
 
 Rules:
-1. "text" — one or two sentences IN UZBEK (Latin script — same script the user types Uzbek text in), max ~40 words. Explain WHY the given correct answer is correct (or, for TFNG / YNNG, why it is YES/NO/NOT GIVEN). Do NOT just restate the answer. The audience is Uzbek IELTS students; technical terms like "TRUE", "FALSE", "NOT GIVEN" stay in English (they're the answer labels), but everything else is Uzbek.
-2. "quote" — a sentence (or short phrase, max ~200 chars) copied EXACTLY from the English passage above, preserving original spelling and punctuation. NO paraphrasing. NO ellipsis. NO smart-quote substitution. NO Uzbek translation — the quote stays in the original English. If you cannot find a verbatim sentence that supports the answer, return "quote": "" (empty string) rather than invent one.
-3. NEVER guess. If the answer is "NOT GIVEN", quote MUST be empty (there is no sentence to point to).
+1. "text" — one or two sentences IN PLAIN ENGLISH, max ~45 words. Explain WHY the given correct answer is correct${isCefr ? '' : ' (or, for TFNG / YNNG, why it is YES / NO / NOT GIVEN)'}. Always end with an explicit answer call-out so the student knows which option you settled on, in one of these formats:
+${callOutHint}
+   Do NOT just restate the answer with no reasoning — the call-out comes after the WHY.
+2. "quote" — a sentence (or short phrase, max ~200 chars) copied EXACTLY from the English passage above, preserving original spelling and punctuation. NO paraphrasing. NO ellipsis. NO smart-quote substitution. If you cannot find a verbatim sentence that supports the answer, return "quote": "" (empty string) rather than invent one.
+3. NEVER guess.${isCefr ? '' : ' If the answer is "NOT GIVEN", quote MUST be empty (there is no sentence to point to) and the text should explain that the passage neither confirms nor denies the statement.'}
 4. Output ONLY the JSON object, no commentary, no markdown fences. Every input question id must appear as a top-level key in the output.`;
 
   const body = {
