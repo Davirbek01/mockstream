@@ -231,7 +231,7 @@ const CEFR_SINGLE_PART_SHAPE = `{
   "type": string,                    // EXACTLY one of: "gap-fill-text" | "matching" | "matching-headings" | "reading-comprehension"
   "questionRange": string,
   "instruction": string,
-  "passage": { "title": string, "content": string },   // HTML wrapped in <p>…</p>. For gap-fill-text, content carries <span class="gap" data-gap="N">_____(N)_____</span> markers.
+  "passage": { "title": string, "content": string },   // HTML wrapped in <p>…</p>. For gap-fill-text, content carries <span class="gap" data-gap="N">_____(N)_____</span> markers. **EXCEPTION**: for "matching-headings" parts, use { "title": string, "paragraphs": [{ "number": "A"|"I", "content": "…", "questionId": 15 }, …] } — a structured paragraphs[] array, NOT a content HTML string. See rule 11 below.
   "questions": [ { "id": number, "hint": string } ],   // matching: { id, textNumber }; matching-headings: { id, paragraphNumber }; reading-comprehension: usually EMPTY (questions live inside questionSections).
   "answers": { "1": [string], "2": [string] },
   "explanations": { "q1": { "text": string, "quote": string } },
@@ -309,7 +309,7 @@ Do this only when the source actually shows the letter as a paragraph marker (yo
   |---|---|---|---|
   | 1 (typically Qs 1-6 or 1-7) | "Read the text. Fill in each gap with ONE word. You must use a word which is somewhere in the rest of the text." | "gap-fill-text" | Passage HTML carries the gap markers: \`<span class="gap" data-gap="N">_____(N)_____</span>\` — one per blank, where N matches the question id. "questions": [{ "id": N, "hint": "…SHORT FRAGMENT (~5-10 words) around the blank with the gap shown as _____…" }]. "answers": { "1": ["word"], "2": ["word"] }. NO statements, headings, or sections. |
   | 2 (typically Qs 7-14) | "Read the texts 7-14 and the statements A-J. Decide which text matches with the situation described in the statements. Each statement can be used ONCE only. There are TWO extra statements which you do not need to use." | "matching" | Top-level **statements**: [{ "letter": "A", "text": "…" }, { "letter": "B", "text": "…" }, …] — the labelled options. **texts**: [{ "number": 7, "content": "…" }, { "number": 8, "content": "…" }, …] — the short ad/blurb texts being matched. **extraStatements**: ["E", "H"] — the letters from statements[] that don't match any text (the "TWO extra" the instruction names). **statementsFirst**: true (UI hint — almost always true here). "questions": [{ "id": 7, "textNumber": 7 }, …]. "answers": { "7": ["F"], "8": ["D"], … }. **REQUIRED**: also emit a top-level **topicTitle** — a short 2-4 word theme name shared by the texts (e.g. "Hotels", "Job ads", "Restaurant ads", "Course brochures", "Volunteer opportunities", "Travel destinations"). Pick whatever genre best describes the group of texts. Used by the picker as a row label since matching parts have no natural single passage.title. |
-  | 3 (typically Qs 15-20 or 15-21) | "Read the text. Choose the correct heading for each paragraph from the list of headings A-J. There are extra headings which you do not need to use." | "matching-headings" | Top-level **headings**: [{ "letter": "A", "text": "…" }, …]. **extraHeadings**: ["C", "E"] — distractor heading letters. "questions": [{ "id": 15, "paragraphNumber": "I" }, { "id": 16, "paragraphNumber": "II" }, …] — use Roman numerals or numbers EXACTLY as the source labels them. "answers": { "15": ["F"], … }. Passage HTML should preserve paragraph markers (e.g. \`<p><strong>I</strong> First paragraph text…</p>\`). **REQUIRED**: passage.title MUST be set (e.g. "Rock the Boat", "FALKLAND ISLANDS", "Buses") — the picker uses it as a row label. If the source doesn't print an explicit title, infer a short 2-4 word topic from the paragraphs. |
+  | 3 (typically Qs 15-20 or 15-21) | "Read the text. Choose the correct heading for each paragraph from the list of headings A-J. There are extra headings which you do not need to use." | "matching-headings" | Top-level **headings**: [{ "letter": "A", "text": "…" }, …]. **extraHeadings**: ["C", "E"] — distractor heading letters. "questions": [{ "id": 15, "paragraphNumber": "I" }, { "id": 16, "paragraphNumber": "II" }, …] — use Roman numerals or numbers EXACTLY as the source labels them. "answers": { "15": ["F"], … }. **REQUIRED shape**: passage MUST be \`{ "title": string, "paragraphs": [{ "number": "A"|"I", "content": "…", "questionId": 15 }, …] }\` — a **structured array of paragraph objects**, NOT a single HTML string in passage.content. Each paragraph object carries: \`number\` (the source label exactly as printed: "A"/"B" if letters, "I"/"II" if Romans), \`content\` (the paragraph body text, plain or with inline HTML but WITHOUT the leading label), and \`questionId\` (the question id this paragraph maps to — e.g. paragraph A → 15, paragraph B → 16). Do NOT emit \`passage.content\` for this type — the runner reads \`passage.paragraphs[]\` directly and crashes if it's missing. passage.title MUST also be set (e.g. "Rock the Boat", "FALKLAND ISLANDS", "Buses") — the picker uses it as a row label. If the source doesn't print an explicit title, infer a short 2-4 word topic from the paragraphs. |
   | 4 (typically Qs 21-29) | A single longer passage followed by MULTIPLE question sections (MCQ + True/False/No Information). | "reading-comprehension" | Use **questionSections**: an array of section objects. See section types below. Top-level "questions" stays empty; top-level "answers" collects ALL ids from every section: { "21": ["A"], "22": ["B"], …, "25": ["True"], "26": ["No Information"], … }. |
   | 5 (typically Qs 30-35) | A single passage followed by MULTIPLE question sections — usually Gap Filling Section + MCQ. | "reading-comprehension" | Same shape as Part 4. |
 
@@ -549,9 +549,82 @@ function _normaliseForQuoteMatch(s: string): string {
 
 type ExplanationItem = { text: string; quote: string };
 type ExplanationsResult = {
-  explanations: Record<string, ExplanationItem>;
-  droppedQuotes: string[];
+  explanations:   Record<string, ExplanationItem>;
+  droppedQuotes:  string[];
+  modelUsed:      'gemini-2.5-pro' | 'gpt-4o';
+  fallbackReason: string | null;
 };
+
+// ── Text-only model calls for the explanations endpoint ──────────────
+// Mirrors the Gemini → GPT-4o fallback used in the import path, but
+// without file uploads (explanations are pure text-in/text-out).
+
+async function _explanationsViaGemini(prompt: string): Promise<string> {
+  if (!GEMINI_KEY) throw new Error('GEMINI_API_KEY not set in secrets');
+  const body = {
+    contents: [{ role: 'user', parts: [{ text: prompt }] }],
+    generationConfig: {
+      temperature: 0.1,
+      responseMimeType: 'application/json',
+      maxOutputTokens: 16384,
+      thinkingConfig: { thinkingBudget: -1 }
+    },
+    safetySettings: [
+      { category: 'HARM_CATEGORY_HARASSMENT',        threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_HATE_SPEECH',       threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' }
+    ]
+  };
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${GEMINI_KEY}`;
+  const r = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  if (!r.ok) {
+    const errTxt = await r.text().catch(() => '');
+    throw new Error(`gemini http ${r.status}: ${errTxt.slice(0, 300)}`);
+  }
+  const j = await r.json();
+  const cand = j.candidates?.[0];
+  if (!cand) throw new Error('gemini returned no candidates');
+  if (cand.finishReason && cand.finishReason !== 'STOP') {
+    throw new Error(`gemini finishReason=${cand.finishReason}`);
+  }
+  const raw = cand.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
+  if (!raw.trim()) throw new Error('gemini returned empty content');
+  return raw;
+}
+
+async function _explanationsViaGPT4o(prompt: string): Promise<string> {
+  if (!OPENAI_KEY) throw new Error('OPENAI_API_KEY not set in secrets');
+  const body = {
+    model: 'gpt-4o',
+    messages: [
+      { role: 'system', content: 'You output ONLY a JSON object as specified in the user instructions. No prose, no markdown.' },
+      { role: 'user',   content: prompt }
+    ],
+    response_format: { type: 'json_object' },
+    temperature: 0.1
+  };
+  const r = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type':  'application/json',
+      'Authorization': `Bearer ${OPENAI_KEY}`
+    },
+    body: JSON.stringify(body)
+  });
+  if (!r.ok) {
+    const errTxt = await r.text().catch(() => '');
+    throw new Error(`gpt-4o http ${r.status}: ${errTxt.slice(0, 300)}`);
+  }
+  const j = await r.json();
+  const text = j.choices?.[0]?.message?.content || '';
+  if (!text.trim()) throw new Error('gpt-4o returned empty content');
+  return text;
+}
 
 async function generateExplanations(
   passage: Record<string, unknown>,
@@ -590,12 +663,28 @@ async function generateExplanations(
     if (partType === 'matching') {
       const texts = Array.isArray((passage as Record<string, unknown>).texts)
         ? (passage as Record<string, unknown>).texts as Array<Record<string, unknown>> : [];
-      // Label each text with its number so the model can route quotes correctly.
-      passagePlain = texts.map((t) => {
+      const statements = Array.isArray((passage as Record<string, unknown>).statements)
+        ? (passage as Record<string, unknown>).statements as Array<Record<string, unknown>> : [];
+      // For matching parts, the supporting evidence almost always lives
+      // in the LETTERED statements[] (long ad/blurb descriptions —
+      // SEA PATH, CUTTERS WAY, etc.), NOT in the numbered texts[]
+      // (short people-preference statements that already appear in
+      // the question stem). Include BOTH sides in passagePlain so
+      // server-side quote verification can match a Gemini-quoted
+      // sentence from either source. Without statements here, the
+      // verifier sees only the numbered texts and rejects ~100% of
+      // quotes as paraphrased.
+      const statementsBlock = statements.map((s) => {
+        const letter = s.letter;
+        const content = _stripHtml(String(s.text || ''));
+        return `[Statement ${letter}]: ${content}`;
+      }).join('\n\n');
+      const textsBlock = texts.map((t) => {
         const num = t.number;
         const content = _stripHtml(String(t.content || ''));
         return `[Text ${num}]: ${content}`;
       }).join('\n\n');
+      passagePlain = [statementsBlock, textsBlock].filter(Boolean).join('\n\n');
 
       // Build the per-question prompt list. Prefer the explicit questions[]
       // array, but if it's missing (some legacy mocks like CEFR 03 have an
@@ -625,8 +714,50 @@ async function generateExplanations(
       }
     } else if (partType === 'matching-headings') {
       const passageObj = ((passage as Record<string, unknown>).passage as Record<string, unknown>) || {};
-      const paragraphs = Array.isArray(passageObj.paragraphs)
+      let paragraphs = Array.isArray(passageObj.paragraphs)
         ? passageObj.paragraphs as Array<Record<string, unknown>> : [];
+      // Fallback for Gemini-per-part-imported mocks where the passage
+      // ships as a single passage.content HTML string instead of a
+      // structured paragraphs[] array. Parse the <p>…</p> blocks and
+      // their leading paragraph labels (A, B / I, II / etc.) into the
+      // legacy shape so the rest of this function works unchanged.
+      if (paragraphs.length === 0 && typeof passageObj.content === 'string' && passageObj.content) {
+        const html = String(passageObj.content);
+        const qList = Array.isArray((passage as Record<string, unknown>).questions)
+          ? (passage as Record<string, unknown>).questions as Array<Record<string, unknown>> : [];
+        const qMap: Record<string, unknown> = {};
+        for (const q of qList) {
+          const pn = q.paragraphNumber;
+          if (pn != null) qMap[String(pn).toUpperCase()] = q.id;
+        }
+        const parsed: Array<Record<string, unknown>> = [];
+        const re = /<p[^>]*>([\s\S]*?)<\/p>/gi;
+        let m: RegExpExecArray | null;
+        while ((m = re.exec(html)) !== null) {
+          const inner = m[1].trim();
+          const lm = inner.match(/^<strong>\s*([A-Z]+|[ivxlcdm]+)\s*<\/strong>\s*\.?\s*([\s\S]*)$/i)
+                  || inner.match(/^([A-Z]+|[ivxlcdm]+)\s*\.\s+([\s\S]*)$/)
+                  || inner.match(/^([A-Z]+|[ivxlcdm]+)\s+([\s\S]+)$/);
+          if (lm) {
+            const label = lm[1].toUpperCase();
+            parsed.push({ number: label, content: lm[2].trim(), questionId: qMap[label] });
+          }
+        }
+        // Positional fallback when Gemini's questions[] lacks paragraphNumber.
+        // See runner-side _cefrParseHeadingsHtml for rationale.
+        if (parsed.some((p) => p.questionId == null)) {
+          const sortedIds = qList
+            .map((q) => q.id)
+            .filter((id): id is number => typeof id === 'number')
+            .sort((a, b) => a - b);
+          parsed.forEach((p, i) => {
+            if (p.questionId == null && sortedIds[i] != null) {
+              p.questionId = sortedIds[i];
+            }
+          });
+        }
+        if (parsed.length > 0) paragraphs = parsed;
+      }
       passagePlain = paragraphs.map((p) => {
         const num = p.number || '';
         const content = _stripHtml(String(p.content || ''));
@@ -781,43 +912,29 @@ ${callOutHint}
 3. NEVER guess.${isCefr ? '' : ' If the answer is "NOT GIVEN", quote MUST be empty (there is no sentence to point to) and the text should explain that the passage neither confirms nor denies the statement.'}
 4. Output ONLY the JSON object, no commentary, no markdown fences. Every input question id must appear as a top-level key in the output.`;
 
-  const body = {
-    contents: [{ role: 'user', parts: [{ text: prompt }] }],
-    generationConfig: {
-      temperature: 0.1,
-      responseMimeType: 'application/json',
-      maxOutputTokens: 16384,
-      // 2.5 Pro requires thinking mode; -1 = dynamic budget (model default).
-      thinkingConfig: { thinkingBudget: -1 }
-    },
-    safetySettings: [
-      { category: 'HARM_CATEGORY_HARASSMENT',       threshold: 'BLOCK_ONLY_HIGH' },
-      { category: 'HARM_CATEGORY_HATE_SPEECH',      threshold: 'BLOCK_ONLY_HIGH' },
-      { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
-      { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' }
-    ]
-  };
-
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${GEMINI_KEY}`;
-  const r = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
-  });
-  if (!r.ok) {
-    const errTxt = await r.text().catch(() => '');
-    throw new Error(`gemini http ${r.status}: ${errTxt.slice(0, 300)}`);
+  // Try Gemini → GPT-4o fallback. Mirrors the import-path fallback so
+  // a project-quota suspension on the Gemini side (PERMISSION_DENIED,
+  // 429, etc.) doesn't block authoring — admins keep generating
+  // explanations via GPT-4o until the Gemini flag is lifted.
+  let raw = '';
+  let modelUsed: 'gemini-2.5-pro' | 'gpt-4o' = 'gemini-2.5-pro';
+  let fallbackReason: string | null = null;
+  try {
+    raw = await _explanationsViaGemini(prompt);
+  } catch (geminiErr) {
+    fallbackReason = geminiErr instanceof Error ? geminiErr.message : String(geminiErr);
+    console.warn('[explanations] gemini failed, falling back to gpt-4o:', fallbackReason);
+    try {
+      raw = await _explanationsViaGPT4o(prompt);
+      modelUsed = 'gpt-4o';
+    } catch (gptErr) {
+      const gptMsg = gptErr instanceof Error ? gptErr.message : String(gptErr);
+      throw new Error(`both models failed. gemini: ${fallbackReason}; gpt-4o: ${gptMsg}`);
+    }
   }
-  const j = await r.json();
-  const cand = j.candidates?.[0];
-  if (!cand) throw new Error('gemini returned no candidates');
-  if (cand.finishReason && cand.finishReason !== 'STOP') {
-    throw new Error(`gemini finishReason=${cand.finishReason}`);
-  }
-  const raw = cand.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
   const parsed = tryParseModelJson(raw);
   if (!parsed || typeof parsed !== 'object') {
-    throw new Error('gemini returned non-JSON: ' + raw.slice(0, 200));
+    throw new Error(`${modelUsed} returned non-JSON: ` + raw.slice(0, 200));
   }
 
   // Server-side quote verification.
@@ -843,7 +960,7 @@ ${callOutHint}
     }
     out[key] = { text: text, quote: verifiedQuote };
   }
-  return { explanations: out, droppedQuotes: dropped };
+  return { explanations: out, droppedQuotes: dropped, modelUsed, fallbackReason };
 }
 
 // ── Main handler ───────────────────────────────────────────────────
@@ -883,10 +1000,11 @@ Deno.serve(async (req) => {
     try {
       const result = await generateExplanations(passage, examType);
       return json(200, {
-        explanations:   result.explanations,
-        dropped_quotes: result.droppedQuotes,
-        model_used:     'gemini-2.5-pro',
-        actor:          (auth as AuthOk).actor
+        explanations:    result.explanations,
+        dropped_quotes:  result.droppedQuotes,
+        model_used:      result.modelUsed,
+        fallback_reason: result.fallbackReason || undefined,
+        actor:           (auth as AuthOk).actor
       });
     } catch (e) {
       return json(502, {
@@ -1000,7 +1118,17 @@ Deno.serve(async (req) => {
         examType === 'ielts-reading'
           ? typeof (mockData as Record<string, unknown>).passage === 'string'
           : (() => {
-              const pp = (mockData as Record<string, unknown>).passage;
+              // CEFR per-part shape varies by question type:
+              //   • matching                   → texts[] + statements[] (NO passage)
+              //   • gap-fill-text              → passage.content + gap markers
+              //   • matching-headings          → passage.paragraphs[] + headings[]
+              //   • reading-comprehension      → passage.content + questionSections[]
+              const md   = mockData as Record<string, unknown>;
+              const type = String(md.type || '');
+              if (type === 'matching') {
+                return Array.isArray(md.texts) && Array.isArray(md.statements);
+              }
+              const pp = md.passage;
               return pp && typeof pp === 'object' && !Array.isArray(pp);
             })()
       );

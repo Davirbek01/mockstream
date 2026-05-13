@@ -9294,7 +9294,7 @@
 
   <!-- IELTS Reading Passage Picker Modal -->
   <div id="ieltsReadingPassagePickerModal"
-    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:10004;align-items:center;justify-content:center;padding:20px;"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:100006;align-items:center;justify-content:center;padding:20px;"
     onclick="closeIeltsReadingPassagePicker()">
     <div
       style="background:var(--card);border:2px solid #7c3aed;border-radius:24px;padding:32px 28px;max-width:380px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
@@ -9361,7 +9361,7 @@
 
   <!-- CEFR Reading Part Picker Modal -->
   <div id="cefrReadingPartPickerModal"
-    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:10004;align-items:center;justify-content:center;padding:20px;"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:100006;align-items:center;justify-content:center;padding:20px;"
     onclick="closeCefrReadingPartPicker()">
     <div
       style="background:var(--card);border:2px solid #7c3aed;border-radius:24px;padding:32px 28px;max-width:380px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
@@ -13369,6 +13369,36 @@
 
       try { await upgradeReading('ielts-reading', ieltsReadingTests, 'IELTS reading.html', 'IELTS Reading Practice Test'); }
       catch (e) { console.warn('IELTS reading dynamic load failed:', e); }
+
+      // If either full-screen picker is currently open, re-render so
+      // entries pushed by the upgrader after the user opened the
+      // picker (e.g. a freshly-saved AI-imported mock) appear without
+      // requiring close + reopen. The pickers read their source array
+      // on open and don't observe array mutations afterwards — without
+      // this hook, late arrivals are invisible until the next reload.
+      try {
+        const cefrOverlay = document.getElementById('cretPicker');
+        if (cefrOverlay && cefrOverlay.classList.contains('cret-open')
+            && typeof _cretRender === 'function') {
+          _cretRender();
+          const cefrCountEl = document.getElementById('cretCount');
+          if (cefrCountEl && Array.isArray(cefrReadingTests)) {
+            cefrCountEl.textContent = cefrReadingTests.length;
+          }
+        }
+      } catch (e) { console.warn('CEFR picker re-render failed:', e); }
+
+      try {
+        const ieltsOverlay = document.getElementById('iretPicker');
+        if (ieltsOverlay && ieltsOverlay.classList.contains('iret-open')
+            && typeof _iretRender === 'function') {
+          _iretRender();
+          const ieltsCountEl = document.getElementById('iretCount');
+          if (ieltsCountEl && Array.isArray(ieltsReadingTests)) {
+            ieltsCountEl.textContent = ieltsReadingTests.length;
+          }
+        }
+      } catch (e) { console.warn('IELTS picker re-render failed:', e); }
     };
     // Run once at page-load (original behaviour).
     window._mmgRefreshAllPickers();
@@ -14919,7 +14949,7 @@
     // (gap-fill-text → matching → matching-headings → reading-comprehension ×2),
     // and the per-row label falls back to "Part N — <type>" when the admin
     // hasn't filled in a passage.title. Cache key is parallel + independent.
-    const _CRET_CACHE_KEY = 'ms_cret_meta_v2';
+    const _CRET_CACHE_KEY = 'ms_cret_meta_v3';
     const _CRET_CACHE_TTL = 24 * 60 * 60 * 1000;
     const _CRET_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
     const _CRET_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
@@ -14963,7 +14993,16 @@
         if (partType === 'matching') {
           hasContent = Array.isArray(p.texts) && p.texts.length > 0;
         } else if (partType === 'matching-headings') {
-          hasContent = !!(passageObj && Array.isArray(passageObj.paragraphs) && passageObj.paragraphs.length > 0);
+          // Accept either the structured paragraphs[] (mocks 01-40,
+          // bulk-migrated from static .js) OR the passage.content HTML
+          // shape that the Gemini per-part importer emits. Either has
+          // enough signal for "Ready". Without the second branch the
+          // picker stamps Gemini-imported parts as "Soon" even when
+          // they're complete.
+          hasContent = !!(passageObj && (
+            (Array.isArray(passageObj.paragraphs) && passageObj.paragraphs.length > 0)
+            || (typeof passageObj.content === 'string' && passageObj.content.trim().length > 0)
+          ));
         } else {
           // gap-fill-text, reading-comprehension, or anything new — fall
           // back to the canonical content string (also accepts a plain
@@ -15694,6 +15733,18 @@
       writingModal.classList.remove('show');
       speakingModal.classList.remove('show');
       if (fullMockModal) fullMockModal.classList.remove('show');
+      // Tear down the CEFR/IELTS reading mode + part/passage picker modals
+      // too — they sit at z-index 10004 (above the runner iframe at 9999),
+      // so any race that left them display:flex would drape them over the
+      // freshly-loaded runner. Easiest fix: zero them out unconditionally
+      // on every loadMock.
+      ['cefrReadingModeModal',
+       'cefrReadingPartPickerModal',
+       'ieltsReadingModeModal',
+       'ieltsReadingPassagePickerModal'].forEach(function (id) {
+        var m = document.getElementById(id);
+        if (m) m.style.display = 'none';
+      });
       loadingOverlay.classList.add('show');
 
       // Reset and start progress animation
@@ -27801,7 +27852,7 @@
           <button id="mmgBtnDelete" onclick="_mmgDelete()" style="background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;">Delete</button>
           <span style="flex:1;"></span>
           <button onclick="_mmgEditClose()" style="background:none;border:1px solid #cbd5e1;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;color:#475569;">Cancel</button>
-          <button onclick="_mmgSave()" style="background:#2563eb;color:#fff;border:0;border-radius:8px;padding:7px 16px;font-size:12px;font-weight:700;cursor:pointer;">💾 Save</button>
+          <button id="mmgBtnSave" onclick="_mmgSave()" style="background:#2563eb;color:#fff;border:0;border-radius:8px;padding:7px 16px;font-size:12px;font-weight:700;cursor:pointer;transition:background .15s,opacity .15s;">💾 Save</button>
         </div>
       </div>
     </div>
@@ -28181,6 +28232,26 @@
       // either show the tab bar with structured panes or fall through to the
       // raw-JSON-only legacy view.
       _mmgInitTabs();
+      // Keep window._mmgEditing.mock_type in sync with the Type dropdown.
+      // Without this, a "New mock" picked up the default mt ('ielts-reading')
+      // and never updated when the user changed the dropdown to CEFR Reading.
+      // The import-part flow then routed to the IELTS backend with IELTS
+      // shape, while the eventual Save wrote mock_type='cefr-reading' from
+      // the dropdown — leaving a row whose mock_type and mock_data shape
+      // disagreed (see Mock 42 fallout). Bind once via a sentinel.
+      var typeSel = document.getElementById('mmgFldType');
+      if (typeSel && !typeSel._mmgBound) {
+        typeSel._mmgBound = true;
+        typeSel.addEventListener('change', function () {
+          if (window._mmgEditing) {
+            window._mmgEditing.mock_type = typeSel.value;
+            // Re-init structured tabs so the editor renders the right
+            // per-type panes immediately (CEFR Reading vs IELTS Reading
+            // show different field sets).
+            try { _mmgInitTabs(); } catch (e) {}
+          }
+        });
+      }
       document.getElementById('mmgEditModal').style.display = 'flex';
     }
     function _mmgEditClose() { document.getElementById('mmgEditModal').style.display = 'none'; }
@@ -30240,7 +30311,38 @@
       var pass = (p.passage && typeof p.passage === 'object') ? p.passage : {};
       html += subOpen('passage');
       html += _mmgFieldText('Passage title', 'mmgCrP' + n + '_passT', pass.title, 'Heading shown above the text. Leave blank if there\'s no separate heading.');
-      html += _mmgFieldArea('Passage content', 'mmgCrP' + n + '_passC', pass.content, 'HTML allowed. For fill-in gaps use: <span class="gap" data-gap="N">_____(N)_____</span>', 280);
+      // For matching-headings parts the body lives in passage.paragraphs[]
+      // (structured array), not in passage.content. The textarea is wired to
+      // .content, which leaves the box empty even though the runner has the
+      // data. Render a read-only synthesised preview instead so the author
+      // can see what the import captured. Edits aren't round-tripped here —
+      // the collector explicitly skips writing this back as passage.content
+      // (see _mmgCollectCrPart), so paragraphs[] stays the single source of
+      // truth. To change the text, use Raw JSON or re-import.
+      var _crIsMH      = (p.type === 'matching-headings');
+      var _crHasParas  = _crIsMH && Array.isArray(pass.paragraphs) && pass.paragraphs.length > 0;
+      var _crShowPreview = _crHasParas && (!pass.content || String(pass.content).trim() === '');
+      if (_crShowPreview) {
+        var _crPreview = pass.paragraphs.map(function (para) {
+          var num = (para && para.number != null) ? String(para.number) + '. ' : '';
+          var c   = (para && para.content != null) ? String(para.content)     : '';
+          return num + c;
+        }).join('\n\n');
+        html += '<div class="mmg-field">'
+              +   '<label for="mmgCrP' + n + '_passC">Passage content</label>'
+              +   '<textarea id="mmgCrP' + n + '_passC" readonly data-mh-preview="1" '
+              +     'style="min-height:280px;background:#f8fafc;color:#334155;cursor:not-allowed;font:13px ui-monospace,monospace;">'
+              +     _mmgEsc(_crPreview)
+              +   '</textarea>'
+              +   '<div class="mmg-field-help" style="color:#64748b;">'
+              +     '<strong>Read-only preview.</strong> matching-headings stores the body as a structured '
+              +     '<code>paragraphs[]</code> array (each paragraph has its own number + content + questionId), '
+              +     'not as one HTML string. Use <em>Raw JSON</em> or re-import this part to change it.'
+              +   '</div>'
+              + '</div>';
+      } else {
+        html += _mmgFieldArea('Passage content', 'mmgCrP' + n + '_passC', pass.content, 'HTML allowed. For fill-in gaps use: <span class="gap" data-gap="N">_____(N)_____</span>', 280);
+      }
       html += '</div>';
 
       // ── Questions sub-pane ───────────────────────────────────────────
@@ -30350,6 +30452,35 @@
       var preservedPartNumber = p.partNumber;
       var preservedTitle      = p.title;
 
+      // Preserve passage sub-fields that have no form input — most importantly
+      // matching-headings' `passage.paragraphs[]` array. Without this snapshot
+      // the rebuild below would resurrect passage from just title+content
+      // form fields, silently destroying the structured paragraph data the
+      // runner needs.
+      var preservedPassageExtras = {};
+      if (p.passage && typeof p.passage === 'object' && !Array.isArray(p.passage)) {
+        for (var ppk in p.passage) {
+          if (ppk !== 'title' && ppk !== 'content') preservedPassageExtras[ppk] = p.passage[ppk];
+        }
+      }
+
+      // Same for per-question extras (paragraphNumber for matching-headings,
+      // textNumber for matching, etc.) — these are read by the runner but
+      // the questions sub-pane only edits id + hint.
+      var preservedQuestionExtras = {};
+      if (Array.isArray(p.questions)) {
+        p.questions.forEach(function (oldQ) {
+          if (!oldQ || oldQ.id == null) return;
+          var extras = null;
+          for (var oqk in oldQ) {
+            if (oqk === 'id' || oqk === 'hint') continue;
+            if (!extras) extras = {};
+            extras[oqk] = oldQ[oqk];
+          }
+          if (extras) preservedQuestionExtras[oldQ.id] = extras;
+        });
+      }
+
       // 3) Reset the part — drop everything, then layer back on.
       for (var existingKey in p) delete p[existingKey];
 
@@ -30369,10 +30500,19 @@
       // (avoids creating an empty {} for parts that have no passage).
       var passT = f('mmgCrP' + n + '_passT');
       var passC = f('mmgCrP' + n + '_passC');
-      if (passT !== undefined || passC !== undefined) {
+      var hasPassageExtras = false;
+      for (var _ppek in preservedPassageExtras) { hasPassageExtras = true; break; }
+      // If the textarea is showing the read-only matching-headings preview
+      // (synthesised from preservedPassageExtras.paragraphs), do NOT write
+      // its value back as passage.content — that would create two competing
+      // body sources and bloat saved JSON with the synthesised text.
+      var passCEl = document.getElementById('mmgCrP' + n + '_passC');
+      var passCIsPreview = !!(passCEl && passCEl.getAttribute('data-mh-preview') === '1');
+      if (passT !== undefined || passC !== undefined || hasPassageExtras) {
         var passObj = {};
         if (passT !== undefined && passT !== '') passObj.title   = passT;
-        if (passC !== undefined && passC !== '') passObj.content = passC;
+        if (!passCIsPreview && passC !== undefined && passC !== '') passObj.content = passC;
+        for (var ppek in preservedPassageExtras) passObj[ppek] = preservedPassageExtras[ppek];
         if (Object.keys(passObj).length > 0) p.passage = passObj;
       }
 
@@ -30391,6 +30531,11 @@
           var qid = parseInt(m[1], 10);
           var qObj = { id: qid };
           if (qF.value !== '') qObj.hint = qF.value;
+          // Re-attach extras snapshotted before the wipe (paragraphNumber for
+          // matching-headings, textNumber for matching, etc.).
+          if (preservedQuestionExtras[qid]) {
+            for (var qek in preservedQuestionExtras[qid]) qObj[qek] = preservedQuestionExtras[qid][qek];
+          }
           newQuestions.push(qObj);
 
           var aEl = document.getElementById('mmgCrP' + n + '_q' + qid + '_ans');
@@ -30803,6 +30948,20 @@
 
       var dataV;
       try { dataV = JSON.parse(dataStr); } catch (e) { _mmgStatus('JSON parse error: ' + e.message, '#dc2626'); return; }
+
+      // Lock + animate the Save button while in flight so users get
+      // visible feedback (admin-mocks PATCH for matching parts can take
+      // 1-2 s and the status pill alone wasn't obvious — users were
+      // double-clicking Save thinking it didn't fire).
+      var saveBtn = document.getElementById('mmgBtnSave');
+      var prevLabel = saveBtn ? saveBtn.innerHTML : null;
+      if (saveBtn) {
+        saveBtn.disabled        = true;
+        saveBtn.innerHTML       = '⏳ Saving…';
+        saveBtn.style.opacity   = '0.7';
+        saveBtn.style.cursor    = 'wait';
+      }
+
       _mmgStatus('Saving…');
       try {
         if (m.id) {
@@ -30828,6 +30987,15 @@
           window._mmgEditing.id = j.id;
           _mmgStatus('✓ Created mock id=' + j.id, '#16a34a');
         }
+        // Flash a confirmation on the button itself for a beat before
+        // the dialog closes — this is the visual signal users were
+        // missing when they kept re-clicking Save.
+        if (saveBtn) {
+          saveBtn.innerHTML       = '✓ Saved';
+          saveBtn.style.background = '#16a34a';
+          saveBtn.style.opacity    = '1';
+        }
+        await new Promise(function (r) { setTimeout(r, 350); });
         _mmgEditClose();
         await _mmgRefresh();
         // Re-run the picker upgraders so the saved mock appears in
@@ -30839,9 +31007,19 @@
         // re-fetched on next open instead of showing stale 24-hour data.
         // Bumping a picker cache key requires updating both lines below.
         try { localStorage.removeItem('ms_iret_meta_v3'); } catch (e) {}
-        try { localStorage.removeItem('ms_cret_meta_v2'); } catch (e) {}
+        try { localStorage.removeItem('ms_cret_meta_v3'); } catch (e) {}
       } catch (e) {
         _mmgStatus('Save failed: ' + e.message, '#dc2626');
+      } finally {
+        // Restore the button (will be invisible on success since dialog
+        // closes, but matters on failure so the user can retry).
+        if (saveBtn) {
+          saveBtn.disabled        = false;
+          saveBtn.innerHTML       = prevLabel;
+          saveBtn.style.background = '#2563eb';
+          saveBtn.style.opacity    = '1';
+          saveBtn.style.cursor     = 'pointer';
+        }
       }
     }
 
@@ -30964,13 +31142,21 @@
     // into mock_data.passages[idx] without touching the other passages.
     function _mmgImportOpenPassage(idx) {
       var m = window._mmgEditing;
-      if (!m || (m.mock_type !== 'cefr-reading' && m.mock_type !== 'ielts-reading')) {
+      // Belt-and-suspenders: read the live dropdown value as the
+      // source of truth. _mmgEditing.mock_type SHOULD already be in
+      // sync (the dropdown change handler in _mmgEditOpen keeps it
+      // updated), but if the user clicked Import faster than the
+      // change event fired, the dropdown still wins.
+      var typeSel = document.getElementById('mmgFldType');
+      var currentType = (typeSel && typeSel.value) || (m && m.mock_type);
+      if (m) m.mock_type = currentType;
+      if (!m || (currentType !== 'cefr-reading' && currentType !== 'ielts-reading')) {
         alert('Per-passage import is currently available for CEFR Reading and IELTS Reading mocks only.');
         return;
       }
       window._mmgImportState = {
         files:        [],
-        examType:     m.mock_type,
+        examType:     currentType,
         scope:        'passage',
         passageIndex: idx
       };
@@ -31353,10 +31539,30 @@
         }
       } else {
         passage = (md.parts || [])[idx];
-        var crContent = passage && passage.passage && (typeof passage.passage === 'object') && passage.passage.content;
+        // CEFR per-part content varies by question type — matching has no
+        // passage object at all (its content lives in texts[]), and
+        // matching-headings holds paragraphs in passage.paragraphs[]. So
+        // dispatch on type before deciding whether content is present.
+        var crType = passage && String(passage.type || '');
+        var hasContent = false;
+        if (crType === 'matching') {
+          hasContent = !!(passage && Array.isArray(passage.texts) && passage.texts.length > 0);
+        } else if (crType === 'matching-headings') {
+          // Accept either shape (see _cretBuildMetaFromMockData for context):
+          // structured passage.paragraphs[] OR passage.content HTML string.
+          var crP = passage && passage.passage;
+          hasContent = !!(crP && typeof crP === 'object' && (
+            (Array.isArray(crP.paragraphs) && crP.paragraphs.length > 0)
+            || (typeof crP.content === 'string' && crP.content.trim().length > 0)
+          ));
+        } else {
+          // gap-fill-text or reading-comprehension → passage.content
+          hasContent = !!(passage && passage.passage
+            && typeof passage.passage === 'object' && passage.passage.content);
+        }
         var crAnswers = passage && passage.answers && typeof passage.answers === 'object' ? passage.answers : null;
-        if (!passage || !crContent || !crAnswers || Object.keys(crAnswers).length === 0) {
-          alert('This part needs both the passage content and at least one answer before explanations can be generated.');
+        if (!passage || !hasContent || !crAnswers || Object.keys(crAnswers).length === 0) {
+          alert('This part needs both its content (passage / texts / paragraphs depending on type) and at least one answer before explanations can be generated.');
           return;
         }
       }
@@ -31433,6 +31639,10 @@
         }
         var explns = j.explanations || {};
         var drops  = j.dropped_quotes || [];
+        // When Gemini is denied / rate-limited, the edge function falls back
+        // to GPT-4o. Flag that in the banner so the author knows which
+        // model wrote the explanations (and that Gemini is still down).
+        var modelTag = (j.model_used === 'gpt-4o') ? ' · via GPT-4o (Gemini fallback)' : '';
 
         // Merge into the existing explanations (don't wipe any hand-written
         // ones the admin may have already added).
@@ -31479,7 +31689,7 @@
             // metadata (matches what _mmgSave does after a normal save).
             // Bumping the IELTS picker key needs a matching update here.
             try { localStorage.removeItem('ms_iret_meta_v3'); } catch (e) {}
-            try { localStorage.removeItem('ms_cret_meta_v2'); } catch (e) {}
+            try { localStorage.removeItem('ms_cret_meta_v3'); } catch (e) {}
           } catch (saveErr) {
             // Auto-save failed; the explanations are still in memory + raw
             // textarea, so the user can still hit 💾 Save manually to retry.
@@ -31490,8 +31700,8 @@
         applySuccessStyle(statusEl);
         if (statusEl) {
           statusEl.textContent = autoSaved
-            ? '✅ Done & auto-saved — ' + nAdded + ' explanations in ' + elapsed + 's' + dropStr + '.'
-            : '✅ Done — ' + nAdded + ' explanations in ' + elapsed + 's' + dropStr
+            ? '✅ Done & auto-saved — ' + nAdded + ' explanations in ' + elapsed + 's' + dropStr + modelTag + '.'
+            : '✅ Done — ' + nAdded + ' explanations in ' + elapsed + 's' + dropStr + modelTag
               + ' — click 💾 Save to persist (auto-save needs a saved mock first).';
         }
         // Resolve the caller (bulk runner uses this) with a per-part summary.
@@ -31595,7 +31805,7 @@
       } else {
         setStatus(summary, 'success');
       }
-      try { localStorage.removeItem('ms_cret_meta_v2'); } catch (e) {}
+      try { localStorage.removeItem('ms_cret_meta_v3'); } catch (e) {}
     }
     window._mmgGenerateExplanationsAllCr = _mmgGenerateExplanationsAllCr;
 

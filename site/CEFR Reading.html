@@ -3179,6 +3179,77 @@
     const mockNum = testFile.match(/(\d+)/) ? testFile.match(/(\d+)/)[1] : '1';
     document.getElementById('mockNumber').textContent = mockNum.padStart(2, '0');
 
+    // ── Matching-headings shape normalizer ──────────────────────────
+    // Mocks authored via the Gemini per-part importer ship passages as
+    // a single HTML string in passage.content (e.g. "<p>A. People...</p>
+    // <p>B. However...</p>"). Mocks 01-40 (migrated from static .js)
+    // ship the same passages as a structured passage.paragraphs[] array
+    // with { number, content, questionId } per paragraph. The runner
+    // and picker both expect the structured array — without it, the
+    // matching-headings renderer crashes on `passage.paragraphs.map`.
+    // Normalise once at data-load so the rest of the code only sees
+    // one shape.
+    function _cefrParseHeadingsHtml(html, questions) {
+      if (!html || typeof html !== 'string') return [];
+      var qMap = {};
+      (questions || []).forEach(function(q) {
+        if (q && q.paragraphNumber != null) {
+          qMap[String(q.paragraphNumber).toUpperCase()] = q.id;
+        }
+      });
+      var out = [];
+      var re = /<p[^>]*>([\s\S]*?)<\/p>/gi;
+      var m;
+      while ((m = re.exec(html)) !== null) {
+        var inner = m[1].trim();
+        // Strip leading label: <strong>A</strong>, "A.", "A ", "I.", "I "
+        var lm = inner.match(/^<strong>\s*([A-Z]+|[ivxlcdm]+)\s*<\/strong>\s*\.?\s*([\s\S]*)$/i)
+              || inner.match(/^([A-Z]+|[ivxlcdm]+)\s*\.\s+([\s\S]*)$/)
+              || inner.match(/^([A-Z]+|[ivxlcdm]+)\s+([\s\S]+)$/);
+        if (lm) {
+          var label = lm[1].toUpperCase();
+          out.push({
+            number:     label,
+            content:    lm[2].trim(),
+            questionId: qMap[label]
+          });
+        }
+      }
+      // Positional fallback: when Gemini emits questions: [{id}] without
+      // the matching paragraphNumber field (observed on Mock 41 Part 3),
+      // qMap stays empty and every questionId is undefined — the runner
+      // then renders "Qundefined" badges. Zip parsed paragraphs in source
+      // order against question ids sorted ascending: paragraph A → first
+      // id, B → second, etc. Safe because the source layout guarantees
+      // paragraphs and question rows appear in matching order.
+      if (out.some(function(p) { return p.questionId == null; })) {
+        var sortedIds = (questions || [])
+          .map(function(q) { return q && q.id; })
+          .filter(function(id) { return typeof id === 'number'; })
+          .sort(function(a, b) { return a - b; });
+        out.forEach(function(p, i) {
+          if (p.questionId == null && sortedIds[i] != null) {
+            p.questionId = sortedIds[i];
+          }
+        });
+      }
+      return out;
+    }
+    function _cefrNormalizeMatchingHeadings(md) {
+      if (!md || !Array.isArray(md.parts)) return md;
+      md.parts.forEach(function(part) {
+        if (!part || part.type !== 'matching-headings') return;
+        var p = part.passage;
+        if (!p || typeof p !== 'object') return;
+        if (Array.isArray(p.paragraphs) && p.paragraphs.length > 0) return;
+        if (typeof p.content === 'string' && p.content.trim()) {
+          var paras = _cefrParseHeadingsHtml(p.content, part.questions || []);
+          if (paras.length > 0) p.paragraphs = paras;
+        }
+      });
+      return md;
+    }
+
     // ===== LOAD TEST =====
     function loadTest() {
       // ── Supabase dynamic mock ──
@@ -3187,14 +3258,23 @@
         console.log('🌐 Loading CEFR Reading from Supabase, id=' + sbMockId);
         var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
         var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
-        fetch(SB_URL + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(sbMockId) + '&select=mock_data', {
+        // Pull mock_number alongside mock_data so the header badge shows
+        // the real mock # (43, 44 …) instead of the static-mock-fallback
+        // "01" — sbmock= carries the DB row id, not the mock number.
+        fetch(SB_URL + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(sbMockId) + '&select=mock_data,mock_number', {
           headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
         })
         .then(function(r) { if (!r.ok) throw new Error('Supabase ' + r.status); return r.json(); })
         .then(function(rows) {
           if (!rows || !rows.length || !rows[0].mock_data) throw new Error('Empty response');
-          window.CEFR_READING_TEST = rows[0].mock_data;
+          window.CEFR_READING_TEST = _cefrNormalizeMatchingHeadings(rows[0].mock_data);
           TEST_DATA = window.CEFR_READING_TEST;
+          var sbMockNum = rows[0].mock_number;
+          if (sbMockNum != null) {
+            window._currentMockNumber = sbMockNum;
+            var badge = document.getElementById('mockNumber');
+            if (badge) badge.textContent = String(sbMockNum).padStart(2, '0');
+          }
           initTest();
         })
         .catch(function(err) { console.error('❌ Supabase load failed:', err); showError('Failed to load test from Supabase'); });
@@ -3205,6 +3285,7 @@
       script.src = 'questions CEFR R/' + testFile + '.js';
       script.onload = () => {
         if (window.CEFR_READING_TEST) {
+          window.CEFR_READING_TEST = _cefrNormalizeMatchingHeadings(window.CEFR_READING_TEST);
           TEST_DATA = window.CEFR_READING_TEST;
           initTest();
         } else {
@@ -3268,8 +3349,12 @@
         // Generate all parts
         generateParts();
         
-        // Show first part (or practice part)
-        showPart(window._practicePart ? (window._practicePart - 1) : 0);
+        // Show first part (or practice part). For partially-imported mocks,
+        // skip skeleton entries and land on the first populated part.
+        const _initIdx = window._practicePart
+          ? (window._practicePart - 1)
+          : (_populatedPartIndices()[0] || 0);
+        showPart(_initIdx);
         
         // Practice mode: hide part nav, show only practised part, always show submit
         if (window._practicePart) {
@@ -3334,13 +3419,27 @@
       }
     }
 
+    // List of parts that have actually been imported. Skeleton entries
+    // (created by the editor to keep array indices stable while only some
+    // parts are filled) have no `type` field — those get filtered out of
+    // navigation so users don't see hollow Part 1 / Part 2 tabs.
+    function _populatedPartIndices() {
+      return (TEST_DATA && Array.isArray(TEST_DATA.parts))
+        ? TEST_DATA.parts.map((p, i) => (p && p.type) ? i : -1).filter(i => i >= 0)
+        : [];
+    }
+
     // ===== GENERATE PART NAVIGATION =====
     function generatePartNav() {
-      // PC part buttons in header
+      // PC part buttons in header — only render a tab for each POPULATED
+      // part. data-part still carries the original parts[] index so
+      // showPart() / .part-container[id=part-N] keep working unchanged.
+      const visible = _populatedPartIndices().map(i => ({ part: TEST_DATA.parts[i], index: i }));
+
       const nav = document.getElementById('partNav');
-      nav.innerHTML = TEST_DATA.parts.map((part, index) => `
+      nav.innerHTML = visible.map(({ part, index }) => `
         <button class="part-btn ${index === currentPart ? 'active' : ''}" data-part="${index}">
-          Part ${part.partNumber}
+          Part ${part.partNumber || (index + 1)}
         </button>
       `).join('');
       nav.querySelectorAll('.part-btn').forEach(btn => {
@@ -3350,8 +3449,8 @@
       // Mobile part dots (original logic)
       const mobileDots = document.getElementById('mobilePartNav');
       if (mobileDots) {
-        mobileDots.innerHTML = TEST_DATA.parts.map((part, index) => 
-          '<div class="mobile-part-dot' + (index === currentPart ? ' active' : '') + '" data-part="' + index + '">' + part.partNumber + '</div>'
+        mobileDots.innerHTML = visible.map(({ part, index }) =>
+          '<div class="mobile-part-dot' + (index === currentPart ? ' active' : '') + '" data-part="' + index + '">' + (part.partNumber || (index + 1)) + '</div>'
         ).join('');
         mobileDots.querySelectorAll('.mobile-part-dot').forEach(dot => {
           dot.addEventListener('click', () => showPart(parseInt(dot.dataset.part)));
@@ -3361,9 +3460,9 @@
       // Mobile FAB menu tabs (new logic)
       const fabTabs = document.getElementById('mobilePartTabs');
       if (fabTabs) {
-        fabTabs.innerHTML = TEST_DATA.parts.map((part, index) => `
+        fabTabs.innerHTML = visible.map(({ part, index }) => `
           <div class="part-tab ${index === currentPart ? 'active' : ''}" data-part="${index}">
-            Part ${part.partNumber}
+            Part ${part.partNumber || (index + 1)}
           </div>
         `).join('') + '<div class="fab-back-btn" id="fabBackBtn" onclick="window._fabBack()">↩ Back</div>';
         fabTabs.querySelectorAll('.part-tab').forEach(tab => {
@@ -3391,11 +3490,18 @@
         partDiv.dataset.partType = part.type;
         partDiv.id = `part-${partIndex}`;
         
+        // Build header text with fallbacks. Partially-imported mocks have
+        // skeleton parts where title / questionRange / instruction are still
+        // undefined — render "Part N" without the colon-suffix and skip the
+        // instruction line rather than printing "undefined".
+        const _hdrTitle = part.title || ('Part ' + (part.partNumber || (partIndex + 1)));
+        const _hdrQR    = part.questionRange ? (': Questions ' + part.questionRange) : '';
+        const _hdrInstr = part.instruction ? `<p class="instruction">${part.instruction}</p>` : '';
         // For reading-comprehension, part-header goes inside the split pane
         let html = part.type === 'reading-comprehension' ? '' : `
           <div class="part-header">
-            <h2>${part.title}: Questions ${part.questionRange}</h2>
-            <p class="instruction">${part.instruction}</p>
+            <h2>${_hdrTitle}${_hdrQR}</h2>
+            ${_hdrInstr}
           </div>
         `;
 
@@ -4028,11 +4134,16 @@
     }
 
     function generateReadingComprehension(part, partIndex) {
-      // Part header embedded at top of passage pane
+      // Part header embedded at top of passage pane. Same fallbacks as
+      // generateParts() so partially-imported reading-comprehension parts
+      // don't render literal "undefined" strings.
+      const _hdrTitle = part.title || ('Part ' + (part.partNumber || (partIndex + 1)));
+      const _hdrQR    = part.questionRange ? (': Questions ' + part.questionRange) : '';
+      const _hdrInstr = part.instruction ? `<p class="instruction">${part.instruction}</p>` : '';
       const partHeaderHtml = `
         <div class="part-header">
-          <h2>${part.title}: Questions ${part.questionRange}</h2>
-          <p class="instruction">${part.instruction}</p>
+          <h2>${_hdrTitle}${_hdrQR}</h2>
+          ${_hdrInstr}
         </div>
       `;
 
@@ -4168,9 +4279,18 @@
         });
       });
 
-      // Navigation buttons
-      document.getElementById('btnPrev').addEventListener('click', () => showPart(currentPart - 1));
-      document.getElementById('btnNext').addEventListener('click', () => showPart(currentPart + 1));
+      // Navigation buttons — jump between POPULATED parts only so skeleton
+      // entries (Part N with no imported content yet) are skipped.
+      document.getElementById('btnPrev').addEventListener('click', () => {
+        const populated = _populatedPartIndices();
+        const pos       = populated.indexOf(currentPart);
+        if (pos > 0) showPart(populated[pos - 1]);
+      });
+      document.getElementById('btnNext').addEventListener('click', () => {
+        const populated = _populatedPartIndices();
+        const pos       = populated.indexOf(currentPart);
+        if (pos >= 0 && pos < populated.length - 1) showPart(populated[pos + 1]);
+      });
       document.getElementById('btnSubmit').addEventListener('click', () => {
         document.getElementById('confirmModal').classList.add('active');
       });
@@ -4269,44 +4389,51 @@
       if (index < 0 || index >= TEST_DATA.parts.length) return;
       // In practice mode, lock to the practised part
       if (window._practicePart && index !== (window._practicePart - 1)) return;
-      
+
       currentPart = index;
-      
-      // Update part containers
-      document.querySelectorAll('.part-container').forEach((p, i) => {
-        p.classList.toggle('active', i === index);
-      });
-      
-      // Update nav buttons
-      document.querySelectorAll('.part-btn').forEach((btn, i) => {
-        btn.classList.toggle('active', i === index);
+
+      // Update part containers (compare by part-N id — NodeList position
+      // doesn't necessarily equal parts[] index since some entries may be
+      // skeletons that still render an empty container).
+      document.querySelectorAll('.part-container').forEach((p) => {
+        p.classList.toggle('active', p.id === ('part-' + index));
       });
 
-      // Update mobile dots
-      document.querySelectorAll('.mobile-part-dot').forEach((dot, i) => {
-        dot.classList.toggle('active', i === index);
+      // Tab nav elements only exist for POPULATED parts (see
+      // generatePartNav), so we can't compare by NodeList position — that
+      // would only match when every parts[] entry has a tab. Compare
+      // against data-part instead.
+      document.querySelectorAll('.part-btn').forEach((btn) => {
+        btn.classList.toggle('active', parseInt(btn.dataset.part) === index);
+      });
+      document.querySelectorAll('.mobile-part-dot').forEach((dot) => {
+        dot.classList.toggle('active', parseInt(dot.dataset.part) === index);
+      });
+      document.querySelectorAll('.part-tab').forEach((tab) => {
+        tab.classList.toggle('active', parseInt(tab.dataset.part) === index);
       });
 
-      // Update FAB part tabs
-      document.querySelectorAll('.part-tab').forEach((tab, i) => {
-        tab.classList.toggle('active', i === index);
-      });
-      
-      // Update footer buttons
-      document.getElementById('btnPrev').disabled = index === 0;
-      document.getElementById('btnNext').style.display = index === TEST_DATA.parts.length - 1 ? 'none' : 'flex';
-      document.getElementById('btnSubmit').style.display = index === TEST_DATA.parts.length - 1 ? 'flex' : 'none';
+      // Footer buttons: Prev/Next/Submit pivot on the user's position
+      // within the POPULATED parts list, so they never lead the user into
+      // a hollow skeleton.
+      const populated = _populatedPartIndices();
+      const pos       = populated.indexOf(index);
+      const isFirst   = pos <= 0;
+      const isLast    = pos < 0 || pos === populated.length - 1;
+      document.getElementById('btnPrev').disabled       = isFirst;
+      document.getElementById('btnNext').style.display  = isLast ? 'none' : 'flex';
+      document.getElementById('btnSubmit').style.display = isLast ? 'flex' : 'none';
 
-      // Toggle floating submit on last part (both PC and mobile)
+      // Toggle floating submit on last populated part (both PC and mobile)
       const floatingSubmit = document.getElementById('mobileFloatingSubmit');
       if (floatingSubmit) {
-        if (index === TEST_DATA.parts.length - 1) {
+        if (isLast) {
           floatingSubmit.classList.add('visible');
         } else {
           floatingSubmit.classList.remove('visible');
         }
       }
-      
+
       // Scroll to top
       window.scrollTo(0, 0);
     }
@@ -4404,10 +4531,15 @@
       let incorrect = 0;
       let unanswered = 0;
 
-      // In practice mode, only score the practised part
+      // In practice mode, only score the practised part. Otherwise score
+      // every POPULATED part — skeleton entries (no answers object) come
+      // from partial mocks where only some parts have been imported and
+      // would crash Object.entries below.
       var _scoreParts = window._practicePart
         ? [TEST_DATA.parts[window._practicePart - 1]]
-        : TEST_DATA.parts;
+        : TEST_DATA.parts.filter(function (p) {
+            return p && p.answers && typeof p.answers === 'object' && !Array.isArray(p.answers);
+          });
 
       // Check answers
       _scoreParts.forEach(part => {
@@ -4601,7 +4733,11 @@
         const candidateName = sessionStorage.getItem('cefrReadingCandidateName') || 'Unknown';
         
         const testIdentifier = TEST_DATA?.testInfo?.title || 'CEFR Reading Test';
-        const mockNum = testFile.match(/(\d+)/) ? testFile.match(/(\d+)/)[1].padStart(2, '0') : '01';
+        // Prefer the mock_number the Supabase loader stashed on window —
+        // testFile regex fallback always yields "01" for ?sbmock= URLs.
+        const mockNum = (window._currentMockNumber != null)
+          ? String(window._currentMockNumber).padStart(2, '0')
+          : (testFile.match(/(\d+)/) ? testFile.match(/(\d+)/)[1].padStart(2, '0') : '01');
         const total = correct + incorrect + unanswered;
         const percentage = Math.round((correct / total) * 100);
 
@@ -4626,8 +4762,14 @@
         }
         const cefrResult = getCEFRLevel(correct);
 
-        // Build part results
-        var _reportParts = window._practicePart ? [TEST_DATA.parts[window._practicePart - 1]] : TEST_DATA.parts;
+        // Build part results — only count POPULATED parts; partial mocks
+        // have skeleton entries without answers and would render as
+        // "undefined: 0/0" in the Telegram report.
+        var _reportParts = window._practicePart
+          ? [TEST_DATA.parts[window._practicePart - 1]]
+          : TEST_DATA.parts.filter(function (p) {
+              return p && p.answers && typeof p.answers === 'object' && !Array.isArray(p.answers);
+            });
         function generatePartResults() {
           var html = '';
           _reportParts.forEach(function(part) {
@@ -5251,8 +5393,8 @@
         document.body.classList.add('review-injected');
       }
 
-      // Navigate to first part
-      showPart(0);
+      // Navigate to first populated part (skip skeleton entries).
+      showPart(_populatedPartIndices()[0] || 0);
     }
 
     // ── Inline-review injection (drop-downs + passage marks) ──────────
