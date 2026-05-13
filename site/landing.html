@@ -9422,6 +9422,17 @@
       <h3 style="font-size:20px;color:var(--brand);margin-bottom:4px;">Access Code Required</h3>
       <p id="readingAccessMockLabel" style="font-size:13px;color:var(--muted);margin-bottom:18px;">Mock 01 requires an
         access code</p>
+      <!-- Name field: hidden by default; shown only when the welcome page
+           hasn't already captured CANDIDATE_FULL_NAME (e.g. deep-link entry
+           via /take/cefr-reading-45). Welcome-page users skip this field
+           entirely so the modal stays one-step. -->
+      <div id="readingAccessNameWrap" style="display:none;margin-bottom:10px;text-align:left;">
+        <input type="text" id="readingAccessNameInput" placeholder="Your full name" autocomplete="name"
+          spellcheck="false"
+          style="width:100%;padding:12px 16px;border:2px solid var(--ring);border-radius:10px;font-size:15px;font-weight:600;box-sizing:border-box;background:var(--bg);color:var(--ink);transition:border-color 0.2s;"
+          onfocus="this.style.borderColor='var(--brand)';this.style.boxShadow='0 0 0 3px rgba(16,185,129,0.15)'"
+          onblur="this.style.borderColor='var(--ring)';this.style.boxShadow='none'">
+      </div>
       <input type="text" id="readingAccessCodeInput" placeholder="Enter your access code" autocomplete="off"
         autocorrect="off" spellcheck="false" inputmode="numeric" pattern="[0-9]*"
         style="width:100%;padding:12px 16px;border:2px solid var(--ring);border-radius:10px;font-size:15px;font-weight:600;box-sizing:border-box;background:var(--bg);color:var(--ink);letter-spacing:2px;transition:border-color 0.2s;"
@@ -10914,8 +10925,23 @@
       input.value = '';
       btn.textContent = 'Verify & Start';
       btn.disabled = false;
+
+      // Show the name field only when the welcome page didn't already
+      // capture CANDIDATE_FULL_NAME — typically a deep-link entry. Users
+      // who came through the regular welcome flow keep the existing
+      // single-field modal.
+      const nameWrap  = document.getElementById('readingAccessNameWrap');
+      const nameInput = document.getElementById('readingAccessNameInput');
+      const existingName = (sessionStorage.getItem('CANDIDATE_FULL_NAME') || '').trim();
+      const needName = nameWrap && nameInput && !existingName;
+      if (nameWrap)  nameWrap.style.display = needName ? '' : 'none';
+      if (nameInput) {
+        nameInput.value = existingName;
+        if (needName) nameInput.onkeypress = function (e) { if (e.key === 'Enter') document.getElementById('readingAccessCodeInput').focus(); };
+      }
+
       modal.style.display = 'flex';
-      setTimeout(() => input.focus(), 100);
+      setTimeout(() => (needName ? nameInput : input).focus(), 100);
       input.onkeypress = function (e) { if (e.key === 'Enter') verifyReadingAccessCode(); };
     }
 
@@ -10931,6 +10957,17 @@
       const error = document.getElementById('readingAccessCodeError');
       const btn = document.getElementById('readingAccessCodeSubmitBtn');
       const inputValue = input.value.trim();
+
+      // If the name field is visible (deep-link entry), require + persist
+      // the name before validating the code. Welcome-path users already
+      // have CANDIDATE_FULL_NAME set; the wrap stays display:none for them.
+      const nameWrap  = document.getElementById('readingAccessNameWrap');
+      const nameInput = document.getElementById('readingAccessNameInput');
+      if (nameWrap && nameWrap.style.display !== 'none' && nameInput) {
+        const nameVal = (nameInput.value || '').trim();
+        if (!nameVal) { error.style.color = '#dc2626'; error.textContent = '❌ Please enter your full name'; return; }
+        sessionStorage.setItem('CANDIDATE_FULL_NAME', nameVal);
+      }
 
       if (!inputValue) { error.style.color = '#dc2626'; error.textContent = '❌ Please enter your access code'; return; }
 
@@ -10974,6 +11011,84 @@
         btn.disabled = false;
       }
     }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // DEEP-LINK: /take/cefr-reading-45 → open the access-code modal for
+    // that specific mock without making the student navigate welcome →
+    // skill picker → scroll-to-find-mock. The Netlify rewrite (see
+    // site/_redirects) maps /take/* → /landing.html?take=:splat, so by
+    // the time this code runs the URL search has ?take=cefr-reading-45.
+    // We look up the mock_id from Supabase, build the runner URL the
+    // existing handleReadingMockClick expects, strip the ?take= so a
+    // reload returns the user to a clean landing, and then call into
+    // the existing flow (handles premium / center-access / code-modal
+    // / mock-already-taken-alert — all of it).
+    // ═══════════════════════════════════════════════════════════════════════
+    async function _processDeepLinkTake() {
+      try {
+        var params    = new URLSearchParams(window.location.search);
+        var takeParam = params.get('take');
+        if (!takeParam) return;
+        // Expected slug: cefr-reading-45 / ielts-reading-23 (case-insensitive)
+        var m = takeParam.match(/^(cefr|ielts)-(reading)-(\d+)$/i);
+        if (!m) {
+          console.warn('[deep-link] Unrecognised slug:', takeParam);
+          return;
+        }
+        var exam     = m[1].toLowerCase();
+        var skill    = m[2].toLowerCase();
+        var mockNum  = parseInt(m[3], 10);
+        var mockType = exam + '-' + skill;            // "cefr-reading"
+        var category = mockType;                       // handleReadingMockClick expects this
+
+        // Strip ?take= so a reload doesn't re-trigger the deep link.
+        // Reload now lands on the regular landing page; back-from-runner too.
+        try { history.replaceState(null, '', '/landing.html'); } catch (_e) {}
+
+        var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+        var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+        var lookupUrl = SB_URL + '/rest/v1/mock_tests'
+          + '?mock_type=eq.' + encodeURIComponent(mockType)
+          + '&mock_number=eq.' + encodeURIComponent(String(mockNum))
+          + '&status=eq.published'
+          + '&select=id&limit=1';
+        var resp = await fetch(lookupUrl, {
+          headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY }
+        });
+        if (!resp.ok) {
+          console.warn('[deep-link] Supabase lookup failed:', resp.status);
+          alert('Could not load that mock — please open the regular mock list and pick it manually.');
+          return;
+        }
+        var rows = await resp.json();
+        if (!rows || !rows.length) {
+          alert((exam.toUpperCase() + ' ' + skill[0].toUpperCase() + skill.slice(1)) + ' Mock ' + mockNum + ' is not available right now.');
+          return;
+        }
+        var sbMockId   = rows[0].id;
+        var runnerFile = (exam === 'cefr') ? 'CEFR Reading.html' : 'IELTS reading.html';
+        // Carry &mock=N so _extractReadingMockNumber returns the real
+        // mock # (mode modal title, results payload, etc.) instead of
+        // the row id from sbmock=.
+        var pageUrl = runnerFile + '?sbmock=' + encodeURIComponent(sbMockId) + '&mock=' + encodeURIComponent(mockNum);
+
+        if (typeof handleReadingMockClick !== 'function') {
+          console.warn('[deep-link] handleReadingMockClick not loaded yet — falling back to loadMock');
+          if (typeof loadMock === 'function') loadMock(pageUrl, 'reading');
+          return;
+        }
+        handleReadingMockClick(pageUrl, category);
+      } catch (err) {
+        console.warn('[deep-link] failed:', err);
+      }
+    }
+    (function () {
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () { setTimeout(_processDeepLinkTake, 50); });
+      } else {
+        setTimeout(_processDeepLinkTake, 50);
+      }
+    })();
 
     // ===== LISTENING ACCESS CODE VALIDATION (from landing page) =====
     window.landingListeningMockRequiresPromocode = function (mockNumber) {

@@ -1,0 +1,8 @@
+# Netlify rewrites — keep URL clean while routing to the entry HTML.
+# 200 = internal rewrite (URL bar unchanged); a 301/302 would visibly redirect.
+
+# Deep-link "take" URLs: /take/cefr-reading-45  →  /landing.html?take=cefr-reading-45
+# Shared in Telegram channels so followers land directly on the access-code
+# modal for that specific mock instead of navigating through the welcome
+# page + skill picker + scroll-to-mock flow.
+/take/* /landing.html?take=:splat 200
