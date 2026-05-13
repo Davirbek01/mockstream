@@ -30299,7 +30299,38 @@
       var pass = (p.passage && typeof p.passage === 'object') ? p.passage : {};
       html += subOpen('passage');
       html += _mmgFieldText('Passage title', 'mmgCrP' + n + '_passT', pass.title, 'Heading shown above the text. Leave blank if there\'s no separate heading.');
-      html += _mmgFieldArea('Passage content', 'mmgCrP' + n + '_passC', pass.content, 'HTML allowed. For fill-in gaps use: <span class="gap" data-gap="N">_____(N)_____</span>', 280);
+      // For matching-headings parts the body lives in passage.paragraphs[]
+      // (structured array), not in passage.content. The textarea is wired to
+      // .content, which leaves the box empty even though the runner has the
+      // data. Render a read-only synthesised preview instead so the author
+      // can see what the import captured. Edits aren't round-tripped here —
+      // the collector explicitly skips writing this back as passage.content
+      // (see _mmgCollectCrPart), so paragraphs[] stays the single source of
+      // truth. To change the text, use Raw JSON or re-import.
+      var _crIsMH      = (p.type === 'matching-headings');
+      var _crHasParas  = _crIsMH && Array.isArray(pass.paragraphs) && pass.paragraphs.length > 0;
+      var _crShowPreview = _crHasParas && (!pass.content || String(pass.content).trim() === '');
+      if (_crShowPreview) {
+        var _crPreview = pass.paragraphs.map(function (para) {
+          var num = (para && para.number != null) ? String(para.number) + '. ' : '';
+          var c   = (para && para.content != null) ? String(para.content)     : '';
+          return num + c;
+        }).join('\n\n');
+        html += '<div class="mmg-field">'
+              +   '<label for="mmgCrP' + n + '_passC">Passage content</label>'
+              +   '<textarea id="mmgCrP' + n + '_passC" readonly data-mh-preview="1" '
+              +     'style="min-height:280px;background:#f8fafc;color:#334155;cursor:not-allowed;font:13px ui-monospace,monospace;">'
+              +     _mmgEsc(_crPreview)
+              +   '</textarea>'
+              +   '<div class="mmg-field-help" style="color:#64748b;">'
+              +     '<strong>Read-only preview.</strong> matching-headings stores the body as a structured '
+              +     '<code>paragraphs[]</code> array (each paragraph has its own number + content + questionId), '
+              +     'not as one HTML string. Use <em>Raw JSON</em> or re-import this part to change it.'
+              +   '</div>'
+              + '</div>';
+      } else {
+        html += _mmgFieldArea('Passage content', 'mmgCrP' + n + '_passC', pass.content, 'HTML allowed. For fill-in gaps use: <span class="gap" data-gap="N">_____(N)_____</span>', 280);
+      }
       html += '</div>';
 
       // ── Questions sub-pane ───────────────────────────────────────────
@@ -30459,10 +30490,16 @@
       var passC = f('mmgCrP' + n + '_passC');
       var hasPassageExtras = false;
       for (var _ppek in preservedPassageExtras) { hasPassageExtras = true; break; }
+      // If the textarea is showing the read-only matching-headings preview
+      // (synthesised from preservedPassageExtras.paragraphs), do NOT write
+      // its value back as passage.content — that would create two competing
+      // body sources and bloat saved JSON with the synthesised text.
+      var passCEl = document.getElementById('mmgCrP' + n + '_passC');
+      var passCIsPreview = !!(passCEl && passCEl.getAttribute('data-mh-preview') === '1');
       if (passT !== undefined || passC !== undefined || hasPassageExtras) {
         var passObj = {};
         if (passT !== undefined && passT !== '') passObj.title   = passT;
-        if (passC !== undefined && passC !== '') passObj.content = passC;
+        if (!passCIsPreview && passC !== undefined && passC !== '') passObj.content = passC;
         for (var ppek in preservedPassageExtras) passObj[ppek] = preservedPassageExtras[ppek];
         if (Object.keys(passObj).length > 0) p.passage = passObj;
       }
