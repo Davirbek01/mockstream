@@ -4531,10 +4531,15 @@
       let incorrect = 0;
       let unanswered = 0;
 
-      // In practice mode, only score the practised part
+      // In practice mode, only score the practised part. Otherwise score
+      // every POPULATED part — skeleton entries (no answers object) come
+      // from partial mocks where only some parts have been imported and
+      // would crash Object.entries below.
       var _scoreParts = window._practicePart
         ? [TEST_DATA.parts[window._practicePart - 1]]
-        : TEST_DATA.parts;
+        : TEST_DATA.parts.filter(function (p) {
+            return p && p.answers && typeof p.answers === 'object' && !Array.isArray(p.answers);
+          });
 
       // Check answers
       _scoreParts.forEach(part => {
@@ -4757,8 +4762,14 @@
         }
         const cefrResult = getCEFRLevel(correct);
 
-        // Build part results
-        var _reportParts = window._practicePart ? [TEST_DATA.parts[window._practicePart - 1]] : TEST_DATA.parts;
+        // Build part results — only count POPULATED parts; partial mocks
+        // have skeleton entries without answers and would render as
+        // "undefined: 0/0" in the Telegram report.
+        var _reportParts = window._practicePart
+          ? [TEST_DATA.parts[window._practicePart - 1]]
+          : TEST_DATA.parts.filter(function (p) {
+              return p && p.answers && typeof p.answers === 'object' && !Array.isArray(p.answers);
+            });
         function generatePartResults() {
           var html = '';
           _reportParts.forEach(function(part) {
