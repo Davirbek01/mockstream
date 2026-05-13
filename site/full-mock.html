@@ -5338,10 +5338,9 @@
         });
 
         // ── Supabase mock_data loader ────────────────────────────────────
-        //  Phase 3d migration deleted the static .js files for cefr-writing
-        //  and cefr-speaking. We now fetch them from the mock_tests table
-        //  by (mock_type, mock_number). Listening + reading still ship as
-        //  static .js because their migration is Phase 2 (in progress).
+        //  cefr-writing, cefr-speaking, and cefr-reading are loaded from the
+        //  mock_tests table by (mock_type, mock_number). Listening still
+        //  ships as static .js (its Supabase migration is a later phase).
         const _FM_SB_URL  = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
         const _FM_SB_ANON = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
         async function _fmLoadMockFromSupabase(mockType, mockNumber) {
@@ -6007,13 +6006,12 @@
         }
 
         async function discoverMockCounts(baseCounts) {
-            // Listening + reading still load via static .js, so probe the file
-            // tree to find the max mock number for each. Writing + speaking
-            // were migrated to Supabase in Phase 3d — query mock_tests directly.
+            // Listening still loads via static .js (its migration is a later
+            // phase). Reading, writing and speaking are in Supabase — query
+            // mock_tests directly for their max mock_number.
             const counts = { ...baseCounts };
             const staticConfigs = [
-                { key: 'listening', folder: 'questions CEFR L', prefix: 'cefr-listening-test-' },
-                { key: 'reading',   folder: 'questions CEFR R', prefix: 'cefr-reading-test-' }
+                { key: 'listening', folder: 'questions CEFR L', prefix: 'cefr-listening-test-' }
             ];
             const staticProbes = staticConfigs.map(async (cfg) => {
                 let max = counts[cfg.key];
@@ -6030,6 +6028,7 @@
                 counts[cfg.key] = max;
             });
             const sbProbes = [
+                { key: 'reading',  type: 'cefr-reading'  },
                 { key: 'writing',  type: 'cefr-writing'  },
                 { key: 'speaking', type: 'cefr-speaking' }
             ].map(async (cfg) => {
@@ -6238,7 +6237,17 @@
                 if (fabC) fabC.style.removeProperty('display');
             };
 
-            // Writing + speaking: fetch from Supabase mock_tests.
+            // Reading + writing + speaking: fetch from Supabase mock_tests.
+            if (idx === 1) {
+                try {
+                    window.CEFR_READING_TEST = await _fmLoadMockFromSupabase('cefr-reading', state.testIds.reading);
+                    await afterDataLoaded();
+                } catch (e) {
+                    console.error('[Full Mock] reading load failed:', e);
+                    alert('Failed to load Reading module — could not fetch CEFR Reading #' + state.testIds.reading + ' from Supabase.\n\n' + (e && e.message || ''));
+                }
+                return;
+            }
             if (idx === 2) {
                 try {
                     window.WRITING_TEST_DATA = await _fmLoadMockFromSupabase('cefr-writing', state.testIds.writing);
@@ -6260,13 +6269,10 @@
                 return;
             }
 
-            // Listening + reading: static .js (their Supabase migration is a later phase).
-            const _fmFolders   = ['questions CEFR L', 'questions CEFR R'];
-            const _fmPrefixes  = ['cefr-listening-test-', 'cefr-reading-test-'];
-            const _fmId        = idx === 0 ? state.testIds.listening : state.testIds.reading;
-            const _fmFname     = _fmPrefixes[idx] + _fmId;
+            // Listening: still static .js (its Supabase migration is a later phase).
+            const _fmFname     = 'cefr-listening-test-' + state.testIds.listening;
             const _fmScriptEl  = document.createElement('script');
-            _fmScriptEl.src       = _fmFolders[idx] + '/' + _fmFname + '.js';
+            _fmScriptEl.src       = 'questions CEFR L/' + _fmFname + '.js';
             _fmScriptEl.onload    = afterDataLoaded;
             _fmScriptEl.onerror   = () => alert('Failed to load test module: ' + _fmFname);
             document.head.appendChild(_fmScriptEl);

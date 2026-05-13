@@ -597,8 +597,17 @@ async function generateExplanations(
         return `[Text ${num}]: ${content}`;
       }).join('\n\n');
 
-      const questions = Array.isArray((passage as Record<string, unknown>).questions)
+      // Build the per-question prompt list. Prefer the explicit questions[]
+      // array, but if it's missing (some legacy mocks like CEFR 03 have an
+      // empty questions array even though answers[] and texts[] are
+      // populated), fall back to synthesising one entry per text where the
+      // question id equals the text number — this matches every well-formed
+      // CEFR matching part we've inspected.
+      let questions = Array.isArray((passage as Record<string, unknown>).questions)
         ? (passage as Record<string, unknown>).questions as Array<Record<string, unknown>> : [];
+      if (questions.length === 0 && texts.length > 0) {
+        questions = texts.map((t) => ({ id: t.number, textNumber: t.number }));
+      }
       for (const q of questions) {
         const id = parseInt(String(q.id || ''), 10);
         if (isNaN(id)) continue;
@@ -624,8 +633,17 @@ async function generateExplanations(
         return `[Paragraph ${num}]: ${content}`;
       }).join('\n\n');
 
-      const questions = Array.isArray((passage as Record<string, unknown>).questions)
+      // Same fallback story as matching — if questions[] is empty, derive
+      // one entry per paragraph from its embedded questionId field (well-
+      // formed paragraphs carry it).
+      let questions = Array.isArray((passage as Record<string, unknown>).questions)
         ? (passage as Record<string, unknown>).questions as Array<Record<string, unknown>> : [];
+      if (questions.length === 0 && paragraphs.length > 0) {
+        questions = paragraphs.map((p) => ({
+          id: p.questionId,
+          paragraphNumber: p.number
+        }));
+      }
       for (const q of questions) {
         const id = parseInt(String(q.id || ''), 10);
         if (isNaN(id)) continue;
