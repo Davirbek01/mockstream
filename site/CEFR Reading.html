@@ -4543,6 +4543,10 @@
 
       // Check answers
       _scoreParts.forEach(part => {
+        // Practice-mode shortcut bypasses the populated-parts filter above,
+        // so a partial mock whose practice target has no answers still
+        // reaches this loop. Skip silently rather than crashing the submit.
+        if (!part || !part.answers || typeof part.answers !== 'object') return;
         for (const [qId, correctAnswerRaw] of Object.entries(part.answers)) {
           const userAnswer = userAnswers[qId] || '';
           
