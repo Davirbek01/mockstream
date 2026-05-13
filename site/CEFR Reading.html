@@ -3179,6 +3179,59 @@
     const mockNum = testFile.match(/(\d+)/) ? testFile.match(/(\d+)/)[1] : '1';
     document.getElementById('mockNumber').textContent = mockNum.padStart(2, '0');
 
+    // ── Matching-headings shape normalizer ──────────────────────────
+    // Mocks authored via the Gemini per-part importer ship passages as
+    // a single HTML string in passage.content (e.g. "<p>A. People...</p>
+    // <p>B. However...</p>"). Mocks 01-40 (migrated from static .js)
+    // ship the same passages as a structured passage.paragraphs[] array
+    // with { number, content, questionId } per paragraph. The runner
+    // and picker both expect the structured array — without it, the
+    // matching-headings renderer crashes on `passage.paragraphs.map`.
+    // Normalise once at data-load so the rest of the code only sees
+    // one shape.
+    function _cefrParseHeadingsHtml(html, questions) {
+      if (!html || typeof html !== 'string') return [];
+      var qMap = {};
+      (questions || []).forEach(function(q) {
+        if (q && q.paragraphNumber != null) {
+          qMap[String(q.paragraphNumber).toUpperCase()] = q.id;
+        }
+      });
+      var out = [];
+      var re = /<p[^>]*>([\s\S]*?)<\/p>/gi;
+      var m;
+      while ((m = re.exec(html)) !== null) {
+        var inner = m[1].trim();
+        // Strip leading label: <strong>A</strong>, "A.", "A ", "I.", "I "
+        var lm = inner.match(/^<strong>\s*([A-Z]+|[ivxlcdm]+)\s*<\/strong>\s*\.?\s*([\s\S]*)$/i)
+              || inner.match(/^([A-Z]+|[ivxlcdm]+)\s*\.\s+([\s\S]*)$/)
+              || inner.match(/^([A-Z]+|[ivxlcdm]+)\s+([\s\S]+)$/);
+        if (lm) {
+          var label = lm[1].toUpperCase();
+          out.push({
+            number:     label,
+            content:    lm[2].trim(),
+            questionId: qMap[label]
+          });
+        }
+      }
+      return out;
+    }
+    function _cefrNormalizeMatchingHeadings(md) {
+      if (!md || !Array.isArray(md.parts)) return md;
+      md.parts.forEach(function(part) {
+        if (!part || part.type !== 'matching-headings') return;
+        var p = part.passage;
+        if (!p || typeof p !== 'object') return;
+        if (Array.isArray(p.paragraphs) && p.paragraphs.length > 0) return;
+        if (typeof p.content === 'string' && p.content.trim()) {
+          var paras = _cefrParseHeadingsHtml(p.content, part.questions || []);
+          if (paras.length > 0) p.paragraphs = paras;
+        }
+      });
+      return md;
+    }
+
     // ===== LOAD TEST =====
     function loadTest() {
       // ── Supabase dynamic mock ──
@@ -3193,7 +3246,7 @@
         .then(function(r) { if (!r.ok) throw new Error('Supabase ' + r.status); return r.json(); })
         .then(function(rows) {
           if (!rows || !rows.length || !rows[0].mock_data) throw new Error('Empty response');
-          window.CEFR_READING_TEST = rows[0].mock_data;
+          window.CEFR_READING_TEST = _cefrNormalizeMatchingHeadings(rows[0].mock_data);
           TEST_DATA = window.CEFR_READING_TEST;
           initTest();
         })
@@ -3205,6 +3258,7 @@
       script.src = 'questions CEFR R/' + testFile + '.js';
       script.onload = () => {
         if (window.CEFR_READING_TEST) {
+          window.CEFR_READING_TEST = _cefrNormalizeMatchingHeadings(window.CEFR_READING_TEST);
           TEST_DATA = window.CEFR_READING_TEST;
           initTest();
         } else {

@@ -14963,7 +14963,16 @@
         if (partType === 'matching') {
           hasContent = Array.isArray(p.texts) && p.texts.length > 0;
         } else if (partType === 'matching-headings') {
-          hasContent = !!(passageObj && Array.isArray(passageObj.paragraphs) && passageObj.paragraphs.length > 0);
+          // Accept either the structured paragraphs[] (mocks 01-40,
+          // bulk-migrated from static .js) OR the passage.content HTML
+          // shape that the Gemini per-part importer emits. Either has
+          // enough signal for "Ready". Without the second branch the
+          // picker stamps Gemini-imported parts as "Soon" even when
+          // they're complete.
+          hasContent = !!(passageObj && (
+            (Array.isArray(passageObj.paragraphs) && passageObj.paragraphs.length > 0)
+            || (typeof passageObj.content === 'string' && passageObj.content.trim().length > 0)
+          ));
         } else {
           // gap-fill-text, reading-comprehension, or anything new — fall
           // back to the canonical content string (also accepts a plain
@@ -31395,9 +31404,13 @@
         if (crType === 'matching') {
           hasContent = !!(passage && Array.isArray(passage.texts) && passage.texts.length > 0);
         } else if (crType === 'matching-headings') {
+          // Accept either shape (see _cretBuildMetaFromMockData for context):
+          // structured passage.paragraphs[] OR passage.content HTML string.
           var crP = passage && passage.passage;
-          hasContent = !!(crP && typeof crP === 'object'
-            && Array.isArray(crP.paragraphs) && crP.paragraphs.length > 0);
+          hasContent = !!(crP && typeof crP === 'object' && (
+            (Array.isArray(crP.paragraphs) && crP.paragraphs.length > 0)
+            || (typeof crP.content === 'string' && crP.content.trim().length > 0)
+          ));
         } else {
           // gap-fill-text or reading-comprehension → passage.content
           hasContent = !!(passage && passage.passage
