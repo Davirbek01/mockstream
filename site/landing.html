@@ -13369,6 +13369,36 @@
 
       try { await upgradeReading('ielts-reading', ieltsReadingTests, 'IELTS reading.html', 'IELTS Reading Practice Test'); }
       catch (e) { console.warn('IELTS reading dynamic load failed:', e); }
+
+      // If either full-screen picker is currently open, re-render so
+      // entries pushed by the upgrader after the user opened the
+      // picker (e.g. a freshly-saved AI-imported mock) appear without
+      // requiring close + reopen. The pickers read their source array
+      // on open and don't observe array mutations afterwards — without
+      // this hook, late arrivals are invisible until the next reload.
+      try {
+        const cefrOverlay = document.getElementById('cretPicker');
+        if (cefrOverlay && cefrOverlay.classList.contains('cret-open')
+            && typeof _cretRender === 'function') {
+          _cretRender();
+          const cefrCountEl = document.getElementById('cretCount');
+          if (cefrCountEl && Array.isArray(cefrReadingTests)) {
+            cefrCountEl.textContent = cefrReadingTests.length;
+          }
+        }
+      } catch (e) { console.warn('CEFR picker re-render failed:', e); }
+
+      try {
+        const ieltsOverlay = document.getElementById('iretPicker');
+        if (ieltsOverlay && ieltsOverlay.classList.contains('iret-open')
+            && typeof _iretRender === 'function') {
+          _iretRender();
+          const ieltsCountEl = document.getElementById('iretCount');
+          if (ieltsCountEl && Array.isArray(ieltsReadingTests)) {
+            ieltsCountEl.textContent = ieltsReadingTests.length;
+          }
+        }
+      } catch (e) { console.warn('IELTS picker re-render failed:', e); }
     };
     // Run once at page-load (original behaviour).
     window._mmgRefreshAllPickers();
@@ -14919,7 +14949,7 @@
     // (gap-fill-text → matching → matching-headings → reading-comprehension ×2),
     // and the per-row label falls back to "Part N — <type>" when the admin
     // hasn't filled in a passage.title. Cache key is parallel + independent.
-    const _CRET_CACHE_KEY = 'ms_cret_meta_v2';
+    const _CRET_CACHE_KEY = 'ms_cret_meta_v3';
     const _CRET_CACHE_TTL = 24 * 60 * 60 * 1000;
     const _CRET_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
     const _CRET_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
@@ -30871,7 +30901,7 @@
         // re-fetched on next open instead of showing stale 24-hour data.
         // Bumping a picker cache key requires updating both lines below.
         try { localStorage.removeItem('ms_iret_meta_v3'); } catch (e) {}
-        try { localStorage.removeItem('ms_cret_meta_v2'); } catch (e) {}
+        try { localStorage.removeItem('ms_cret_meta_v3'); } catch (e) {}
       } catch (e) {
         _mmgStatus('Save failed: ' + e.message, '#dc2626');
       } finally {
@@ -31541,7 +31571,7 @@
             // metadata (matches what _mmgSave does after a normal save).
             // Bumping the IELTS picker key needs a matching update here.
             try { localStorage.removeItem('ms_iret_meta_v3'); } catch (e) {}
-            try { localStorage.removeItem('ms_cret_meta_v2'); } catch (e) {}
+            try { localStorage.removeItem('ms_cret_meta_v3'); } catch (e) {}
           } catch (saveErr) {
             // Auto-save failed; the explanations are still in memory + raw
             // textarea, so the user can still hit 💾 Save manually to retry.
@@ -31657,7 +31687,7 @@
       } else {
         setStatus(summary, 'success');
       }
-      try { localStorage.removeItem('ms_cret_meta_v2'); } catch (e) {}
+      try { localStorage.removeItem('ms_cret_meta_v3'); } catch (e) {}
     }
     window._mmgGenerateExplanationsAllCr = _mmgGenerateExplanationsAllCr;
 
