@@ -10807,6 +10807,13 @@
     }
 
     function _extractReadingMockNumber(pageUrl) {
+      // Prefer an explicit ?mock= / &mock= query param — pickers append
+      // it for Supabase mocks so the mode modal title reads the real
+      // mock number (e.g. "Mock 02") instead of the DB row id from
+      // ?sbmock= (e.g. "Mock 294"). Falls back to the trailing-number
+      // regex for legacy ?test=cefr-reading-test-NN.js URLs.
+      const mp = pageUrl.match(/[?&]mock=(\d+)/);
+      if (mp) return mp[1].padStart(2, '0');
       const m = pageUrl.match(/(\d+)(?:\.js)?(?=&|$)/);
       return m ? m[1].padStart(2, '0') : null;
     }
@@ -14926,11 +14933,18 @@
         if (!card) return;
         const file = card.dataset.file;
         if (!file) return;
+        // Append &mock=N (the real mock_number) so the mode modal title
+        // doesn't fall back to the ?sbmock= row id. Same fix as the
+        // CEFR Reading picker.
+        const mockN = card.dataset.mock;
+        const fileWithMock = mockN
+          ? file + (file.indexOf('?') >= 0 ? '&' : '?') + 'mock=' + encodeURIComponent(mockN)
+          : file;
         if (typeof handleReadingMockClick === 'function') {
-          handleReadingMockClick(file, 'ielts-reading');
+          handleReadingMockClick(fileWithMock, 'ielts-reading');
         } else {
           iretClose();
-          loadMock(file, 'reading');
+          loadMock(fileWithMock, 'reading');
         }
       });
       // Escape closes
@@ -15377,11 +15391,19 @@
         if (!card) return;
         const file = card.dataset.file;
         if (!file) return;
+        // Append the real mock_number as &mock=N so the mode modal title
+        // (and any other consumer that runs _extractReadingMockNumber on
+        // this URL before the runner fetches Supabase) sees the right
+        // number instead of the row id from ?sbmock=.
+        const mockN = card.dataset.mock;
+        const fileWithMock = mockN
+          ? file + (file.indexOf('?') >= 0 ? '&' : '?') + 'mock=' + encodeURIComponent(mockN)
+          : file;
         if (typeof handleReadingMockClick === 'function') {
-          handleReadingMockClick(file, 'cefr-reading');
+          handleReadingMockClick(fileWithMock, 'cefr-reading');
         } else {
           cretClose();
-          loadMock(file, 'reading');
+          loadMock(fileWithMock, 'reading');
         }
       });
       document.addEventListener('keydown', function (e) {
