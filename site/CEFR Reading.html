@@ -3408,11 +3408,13 @@
 
     // ===== GENERATE PART NAVIGATION =====
     function generatePartNav() {
-      // PC part buttons in header
+      // PC part buttons in header. Fall back to index+1 when partNumber is
+      // missing (partially-imported mocks where some parts are still empty
+      // skeletons) — otherwise the tab reads "Part undefined".
       const nav = document.getElementById('partNav');
       nav.innerHTML = TEST_DATA.parts.map((part, index) => `
         <button class="part-btn ${index === currentPart ? 'active' : ''}" data-part="${index}">
-          Part ${part.partNumber}
+          Part ${part.partNumber || (index + 1)}
         </button>
       `).join('');
       nav.querySelectorAll('.part-btn').forEach(btn => {
@@ -3422,8 +3424,8 @@
       // Mobile part dots (original logic)
       const mobileDots = document.getElementById('mobilePartNav');
       if (mobileDots) {
-        mobileDots.innerHTML = TEST_DATA.parts.map((part, index) => 
-          '<div class="mobile-part-dot' + (index === currentPart ? ' active' : '') + '" data-part="' + index + '">' + part.partNumber + '</div>'
+        mobileDots.innerHTML = TEST_DATA.parts.map((part, index) =>
+          '<div class="mobile-part-dot' + (index === currentPart ? ' active' : '') + '" data-part="' + index + '">' + (part.partNumber || (index + 1)) + '</div>'
         ).join('');
         mobileDots.querySelectorAll('.mobile-part-dot').forEach(dot => {
           dot.addEventListener('click', () => showPart(parseInt(dot.dataset.part)));
@@ -3435,7 +3437,7 @@
       if (fabTabs) {
         fabTabs.innerHTML = TEST_DATA.parts.map((part, index) => `
           <div class="part-tab ${index === currentPart ? 'active' : ''}" data-part="${index}">
-            Part ${part.partNumber}
+            Part ${part.partNumber || (index + 1)}
           </div>
         `).join('') + '<div class="fab-back-btn" id="fabBackBtn" onclick="window._fabBack()">↩ Back</div>';
         fabTabs.querySelectorAll('.part-tab').forEach(tab => {
@@ -3463,11 +3465,18 @@
         partDiv.dataset.partType = part.type;
         partDiv.id = `part-${partIndex}`;
         
+        // Build header text with fallbacks. Partially-imported mocks have
+        // skeleton parts where title / questionRange / instruction are still
+        // undefined — render "Part N" without the colon-suffix and skip the
+        // instruction line rather than printing "undefined".
+        const _hdrTitle = part.title || ('Part ' + (part.partNumber || (partIndex + 1)));
+        const _hdrQR    = part.questionRange ? (': Questions ' + part.questionRange) : '';
+        const _hdrInstr = part.instruction ? `<p class="instruction">${part.instruction}</p>` : '';
         // For reading-comprehension, part-header goes inside the split pane
         let html = part.type === 'reading-comprehension' ? '' : `
           <div class="part-header">
-            <h2>${part.title}: Questions ${part.questionRange}</h2>
-            <p class="instruction">${part.instruction}</p>
+            <h2>${_hdrTitle}${_hdrQR}</h2>
+            ${_hdrInstr}
           </div>
         `;
 
@@ -4100,11 +4109,16 @@
     }
 
     function generateReadingComprehension(part, partIndex) {
-      // Part header embedded at top of passage pane
+      // Part header embedded at top of passage pane. Same fallbacks as
+      // generateParts() so partially-imported reading-comprehension parts
+      // don't render literal "undefined" strings.
+      const _hdrTitle = part.title || ('Part ' + (part.partNumber || (partIndex + 1)));
+      const _hdrQR    = part.questionRange ? (': Questions ' + part.questionRange) : '';
+      const _hdrInstr = part.instruction ? `<p class="instruction">${part.instruction}</p>` : '';
       const partHeaderHtml = `
         <div class="part-header">
-          <h2>${part.title}: Questions ${part.questionRange}</h2>
-          <p class="instruction">${part.instruction}</p>
+          <h2>${_hdrTitle}${_hdrQR}</h2>
+          ${_hdrInstr}
         </div>
       `;
 
