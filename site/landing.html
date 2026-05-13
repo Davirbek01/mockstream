@@ -15733,6 +15733,18 @@
       writingModal.classList.remove('show');
       speakingModal.classList.remove('show');
       if (fullMockModal) fullMockModal.classList.remove('show');
+      // Tear down the CEFR/IELTS reading mode + part/passage picker modals
+      // too — they sit at z-index 10004 (above the runner iframe at 9999),
+      // so any race that left them display:flex would drape them over the
+      // freshly-loaded runner. Easiest fix: zero them out unconditionally
+      // on every loadMock.
+      ['cefrReadingModeModal',
+       'cefrReadingPartPickerModal',
+       'ieltsReadingModeModal',
+       'ieltsReadingPassagePickerModal'].forEach(function (id) {
+        var m = document.getElementById(id);
+        if (m) m.style.display = 'none';
+      });
       loadingOverlay.classList.add('show');
 
       // Reset and start progress animation
