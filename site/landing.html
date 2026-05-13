@@ -30345,6 +30345,22 @@
       }
       html += '</div>';
 
+      // For reading-comprehension parts the real questions/answers/
+      // explanations live INSIDE questionSections in the Other tab — the
+      // top-level questions[] is empty by design. Without context, the
+      // Questions/Answers/Explanations tabs all look like "no data" even
+      // when the part is fully populated. Pre-compute a friendly summary
+      // so each sub-tab shows what's actually saved instead of an empty
+      // "Add questions first" hint.
+      var _crIsRC      = (p.type === 'reading-comprehension');
+      var _crSections  = Array.isArray(p.questionSections) ? p.questionSections : [];
+      var _crSecQCount = 0;
+      var _crSecAnsCount = Object.keys(answers || {}).length;
+      var _crSecExpCount = Object.keys(explanations || {}).length;
+      _crSections.forEach(function (s) {
+        if (s && Array.isArray(s.questions)) _crSecQCount += s.questions.length;
+      });
+
       // ── Questions sub-pane ───────────────────────────────────────────
       html += subOpen('questions');
       html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">'
@@ -30352,7 +30368,14 @@
             +   '<button type="button" class="mmg-add-btn" onclick="_mmgCrAddQuestion(' + idx + ')">＋ Add question</button>'
             + '</div>';
       if (qCount === 0) {
-        html += '<div class="mmg-empty-hint">No questions yet. Click <em>＋ Add question</em> to start. Matching-style parts (matching-headings, matching-paragraphs) keep their data in <strong>Other</strong> instead — empty here is fine.</div>';
+        if (_crIsRC && _crSecQCount > 0) {
+          html += '<div class="mmg-empty-hint" style="background:#ecfeff;border-color:#bae6fd;color:#075985;">'
+                +   '<strong>📦 ' + _crSecQCount + ' question(s) live inside <code>questionSections</code></strong> (TFNI / MCQ / gap-fill blocks).<br>'
+                +   'Reading-comprehension parts route their questions through the <strong>Other</strong> tab — this top-level list stays empty by design. Edit via Raw JSON or re-import if you need to change them.'
+                + '</div>';
+        } else {
+          html += '<div class="mmg-empty-hint">No questions yet. Click <em>＋ Add question</em> to start. Matching-style parts (matching-headings, matching-paragraphs) keep their data in <strong>Other</strong> instead — empty here is fine.</div>';
+        }
       } else {
         for (var i = 0; i < questions.length; i++) {
           var q = questions[i] || {};
@@ -30373,7 +30396,19 @@
       html += subOpen('answers');
       html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">Comma-separated for alternative spellings (e.g., "labour, labor").</div>';
       if (qCount === 0) {
-        html += '<div class="mmg-empty-hint">Add questions first (in the Questions sub-tab) to see input slots here.</div>';
+        if (_crIsRC && _crSecAnsCount > 0) {
+          html += '<div class="mmg-empty-hint" style="background:#ecfeff;border-color:#bae6fd;color:#075985;">'
+                +   '<strong>✅ ' + _crSecAnsCount + ' answer(s) saved</strong> in this part — keyed by the questionSections IDs.<br>'
+                +   'No input slots render here because this tab mirrors the top-level <code>questions[]</code> list, which reading-comprehension parts intentionally leave empty. The data is intact; edit via Raw JSON if needed.'
+                + '</div>';
+        } else if (_crIsRC && _crSecQCount > 0) {
+          html += '<div class="mmg-empty-hint" style="background:#fef3c7;border-color:#fcd34d;color:#92400e;">'
+                +   '<strong>⚠ No answers saved yet</strong> for the ' + _crSecQCount + ' questions in <code>questionSections</code>. '
+                +   'Re-import this part with the answer-key file attached, or paste an <code>answers</code> block via Raw JSON.'
+                + '</div>';
+        } else {
+          html += '<div class="mmg-empty-hint">Add questions first (in the Questions sub-tab) to see input slots here.</div>';
+        }
       } else {
         html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;">';
         for (var ai = 0; ai < questions.length; ai++) {
@@ -30394,7 +30429,18 @@
       html += subOpen('explanations');
       html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">Why each answer is correct. Both fields are optional but help students learn from review.</div>';
       if (qCount === 0) {
-        html += '<div class="mmg-empty-hint">Add questions first to see input slots here.</div>';
+        if (_crIsRC && _crSecExpCount > 0) {
+          html += '<div class="mmg-empty-hint" style="background:#ecfeff;border-color:#bae6fd;color:#075985;">'
+                +   '<strong>✅ ' + _crSecExpCount + ' explanation(s) saved</strong> — keyed by the questionSections IDs.<br>'
+                +   'Like Answers, this tab only mirrors top-level <code>questions[]</code>, which is empty for reading-comprehension by design. Generate Explanations and Raw JSON both work as expected.'
+                + '</div>';
+        } else if (_crIsRC && _crSecQCount > 0) {
+          html += '<div class="mmg-empty-hint" style="background:#fef3c7;border-color:#fcd34d;color:#92400e;">'
+                +   '<strong>No explanations yet.</strong> Make sure answers are saved first, then click <em>✨ Generate explanations</em>.'
+                + '</div>';
+        } else {
+          html += '<div class="mmg-empty-hint">Add questions first to see input slots here.</div>';
+        }
       } else {
         for (var ei = 0; ei < questions.length; ei++) {
           var qe   = questions[ei] || {};
