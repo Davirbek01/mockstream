@@ -27801,7 +27801,7 @@
           <button id="mmgBtnDelete" onclick="_mmgDelete()" style="background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;">Delete</button>
           <span style="flex:1;"></span>
           <button onclick="_mmgEditClose()" style="background:none;border:1px solid #cbd5e1;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;color:#475569;">Cancel</button>
-          <button onclick="_mmgSave()" style="background:#2563eb;color:#fff;border:0;border-radius:8px;padding:7px 16px;font-size:12px;font-weight:700;cursor:pointer;">💾 Save</button>
+          <button id="mmgBtnSave" onclick="_mmgSave()" style="background:#2563eb;color:#fff;border:0;border-radius:8px;padding:7px 16px;font-size:12px;font-weight:700;cursor:pointer;transition:background .15s,opacity .15s;">💾 Save</button>
         </div>
       </div>
     </div>
@@ -30803,6 +30803,20 @@
 
       var dataV;
       try { dataV = JSON.parse(dataStr); } catch (e) { _mmgStatus('JSON parse error: ' + e.message, '#dc2626'); return; }
+
+      // Lock + animate the Save button while in flight so users get
+      // visible feedback (admin-mocks PATCH for matching parts can take
+      // 1-2 s and the status pill alone wasn't obvious — users were
+      // double-clicking Save thinking it didn't fire).
+      var saveBtn = document.getElementById('mmgBtnSave');
+      var prevLabel = saveBtn ? saveBtn.innerHTML : null;
+      if (saveBtn) {
+        saveBtn.disabled        = true;
+        saveBtn.innerHTML       = '⏳ Saving…';
+        saveBtn.style.opacity   = '0.7';
+        saveBtn.style.cursor    = 'wait';
+      }
+
       _mmgStatus('Saving…');
       try {
         if (m.id) {
@@ -30828,6 +30842,15 @@
           window._mmgEditing.id = j.id;
           _mmgStatus('✓ Created mock id=' + j.id, '#16a34a');
         }
+        // Flash a confirmation on the button itself for a beat before
+        // the dialog closes — this is the visual signal users were
+        // missing when they kept re-clicking Save.
+        if (saveBtn) {
+          saveBtn.innerHTML       = '✓ Saved';
+          saveBtn.style.background = '#16a34a';
+          saveBtn.style.opacity    = '1';
+        }
+        await new Promise(function (r) { setTimeout(r, 350); });
         _mmgEditClose();
         await _mmgRefresh();
         // Re-run the picker upgraders so the saved mock appears in
@@ -30842,6 +30865,16 @@
         try { localStorage.removeItem('ms_cret_meta_v2'); } catch (e) {}
       } catch (e) {
         _mmgStatus('Save failed: ' + e.message, '#dc2626');
+      } finally {
+        // Restore the button (will be invisible on success since dialog
+        // closes, but matters on failure so the user can retry).
+        if (saveBtn) {
+          saveBtn.disabled        = false;
+          saveBtn.innerHTML       = prevLabel;
+          saveBtn.style.background = '#2563eb';
+          saveBtn.style.opacity    = '1';
+          saveBtn.style.cursor     = 'pointer';
+        }
       }
     }
 
@@ -31353,10 +31386,26 @@
         }
       } else {
         passage = (md.parts || [])[idx];
-        var crContent = passage && passage.passage && (typeof passage.passage === 'object') && passage.passage.content;
+        // CEFR per-part content varies by question type — matching has no
+        // passage object at all (its content lives in texts[]), and
+        // matching-headings holds paragraphs in passage.paragraphs[]. So
+        // dispatch on type before deciding whether content is present.
+        var crType = passage && String(passage.type || '');
+        var hasContent = false;
+        if (crType === 'matching') {
+          hasContent = !!(passage && Array.isArray(passage.texts) && passage.texts.length > 0);
+        } else if (crType === 'matching-headings') {
+          var crP = passage && passage.passage;
+          hasContent = !!(crP && typeof crP === 'object'
+            && Array.isArray(crP.paragraphs) && crP.paragraphs.length > 0);
+        } else {
+          // gap-fill-text or reading-comprehension → passage.content
+          hasContent = !!(passage && passage.passage
+            && typeof passage.passage === 'object' && passage.passage.content);
+        }
         var crAnswers = passage && passage.answers && typeof passage.answers === 'object' ? passage.answers : null;
-        if (!passage || !crContent || !crAnswers || Object.keys(crAnswers).length === 0) {
-          alert('This part needs both the passage content and at least one answer before explanations can be generated.');
+        if (!passage || !hasContent || !crAnswers || Object.keys(crAnswers).length === 0) {
+          alert('This part needs both its content (passage / texts / paragraphs depending on type) and at least one answer before explanations can be generated.');
           return;
         }
       }

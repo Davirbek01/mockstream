@@ -1000,7 +1000,17 @@ Deno.serve(async (req) => {
         examType === 'ielts-reading'
           ? typeof (mockData as Record<string, unknown>).passage === 'string'
           : (() => {
-              const pp = (mockData as Record<string, unknown>).passage;
+              // CEFR per-part shape varies by question type:
+              //   • matching                   → texts[] + statements[] (NO passage)
+              //   • gap-fill-text              → passage.content + gap markers
+              //   • matching-headings          → passage.paragraphs[] + headings[]
+              //   • reading-comprehension      → passage.content + questionSections[]
+              const md   = mockData as Record<string, unknown>;
+              const type = String(md.type || '');
+              if (type === 'matching') {
+                return Array.isArray(md.texts) && Array.isArray(md.statements);
+              }
+              const pp = md.passage;
               return pp && typeof pp === 'object' && !Array.isArray(pp);
             })()
       );
