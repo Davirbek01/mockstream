@@ -15007,11 +15007,46 @@
       card.classList.add('iret-card-jumped');
     }
 
+    // ───────── Back-button plumbing shared by both reading pickers ─────────
+    // When a fullscreen picker is open, the browser/TMA back button should
+    // close the picker (return to landing) instead of leaving the site or
+    // collapsing the mini app. We pushState an entry on open so popstate
+    // fires for the back gesture, and we mirror the same close path via
+    // Telegram WebApp's BackButton API for in-app mobile gestures.
+    let _pickerFromPopstate = false;
+
+    function _pickerTmaBackHandler() {
+      var cret = document.getElementById('cretPicker');
+      if (cret && cret.classList.contains('cret-open')) { cretClose(); return; }
+      var iret = document.getElementById('iretPicker');
+      if (iret && iret.classList.contains('iret-open')) { iretClose(); return; }
+    }
+    function _pickerShowTmaBack() {
+      try {
+        var tg = window.Telegram && window.Telegram.WebApp;
+        if (tg && tg.BackButton && typeof tg.BackButton.show === 'function') {
+          tg.BackButton.onClick(_pickerTmaBackHandler);
+          tg.BackButton.show();
+        }
+      } catch (_e) {}
+    }
+    function _pickerHideTmaBack() {
+      try {
+        var tg = window.Telegram && window.Telegram.WebApp;
+        if (tg && tg.BackButton) {
+          try { tg.BackButton.offClick(_pickerTmaBackHandler); } catch (_e) {}
+          if (typeof tg.BackButton.hide === 'function') tg.BackButton.hide();
+        }
+      } catch (_e) {}
+    }
+
     async function iretOpen() {
       const overlay = document.getElementById('iretPicker');
       overlay.classList.add('iret-open');
       overlay.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
+      try { history.pushState({ picker: 'iret' }, ''); } catch (_e) {}
+      _pickerShowTmaBack();
       _iretRenderSkeletons();
       // Parallelise metadata load (50 static JS files) and server-done fetch
       // (one Supabase query). They're independent.
@@ -15028,6 +15063,19 @@
       overlay.classList.remove('iret-open');
       overlay.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
+      _pickerHideTmaBack();
+      // Sync history: if close came from a manual UI action (X / Escape /
+      // card click → modal verified → runner), pop the entry we pushed on
+      // open so a future back press takes the student to the prior page,
+      // not to a now-empty picker state. If close came from popstate (the
+      // user already pressed back), skip — history is already correct.
+      if (!_pickerFromPopstate) {
+        try {
+          if (history.state && history.state.picker === 'iret') {
+            history.back();
+          }
+        } catch (_e) {}
+      }
     }
 
     function iretClearFilters() {
@@ -15487,6 +15535,8 @@
       overlay.classList.add('cret-open');
       overlay.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
+      try { history.pushState({ picker: 'cret' }, ''); } catch (_e) {}
+      _pickerShowTmaBack();
       _cretRenderSkeletons();
       const [, serverDone] = await Promise.all([
         _cretLoadAllMockMeta(),
@@ -15501,6 +15551,14 @@
       overlay.classList.remove('cret-open');
       overlay.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
+      _pickerHideTmaBack();
+      if (!_pickerFromPopstate) {
+        try {
+          if (history.state && history.state.picker === 'cret') {
+            history.back();
+          }
+        } catch (_e) {}
+      }
     }
 
     function cretClearFilters() {
@@ -19495,12 +19553,30 @@
     };
     window.returnToLanding = returnToLanding;
 
-    // Popstate: handle browser back/forward when the URL leaves /take/...
-    // Picker clicks pushState a /take/<slug> entry; the back button pops
-    // it, dropping the URL back to /landing.html or whatever was prior.
-    // Close any open access-code modal so the UI matches the URL.
+    // Popstate: handle browser back/forward + TMA back gestures.
+    //  • If a fullscreen picker is open → close it (return to landing).
+    //    Picker open also pushState'd, so the back action pops that
+    //    history entry and lands here.
+    //  • If URL just left /take/... → close any open access-code modal
+    //    so the UI matches the address bar (modal layered above picker).
     window.addEventListener('popstate', function () {
       try {
+        // 1) Close any open fullscreen picker (CEFR or IELTS Reading).
+        //    The _pickerFromPopstate flag tells cretClose / iretClose to
+        //    skip their own history.back() — history already moved.
+        var cret = document.getElementById('cretPicker');
+        if (cret && cret.classList.contains('cret-open')) {
+          _pickerFromPopstate = true;
+          cretClose();
+          _pickerFromPopstate = false;
+        }
+        var iret = document.getElementById('iretPicker');
+        if (iret && iret.classList.contains('iret-open')) {
+          _pickerFromPopstate = true;
+          iretClose();
+          _pickerFromPopstate = false;
+        }
+        // 2) Close access-code modal if URL left /take/...
         if (!/^\/take\//i.test(window.location.pathname)) {
           if (typeof closeReadingAccessCodeModal === 'function') {
             closeReadingAccessCodeModal();
