@@ -670,6 +670,19 @@ async function generateExplanations(
             parsed.push({ number: label, content: lm[2].trim(), questionId: qMap[label] });
           }
         }
+        // Positional fallback when Gemini's questions[] lacks paragraphNumber.
+        // See runner-side _cefrParseHeadingsHtml for rationale.
+        if (parsed.some((p) => p.questionId == null)) {
+          const sortedIds = qList
+            .map((q) => q.id)
+            .filter((id): id is number => typeof id === 'number')
+            .sort((a, b) => a - b);
+          parsed.forEach((p, i) => {
+            if (p.questionId == null && sortedIds[i] != null) {
+              p.questionId = sortedIds[i];
+            }
+          });
+        }
         if (parsed.length > 0) paragraphs = parsed;
       }
       passagePlain = paragraphs.map((p) => {

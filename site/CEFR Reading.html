@@ -3215,6 +3215,24 @@
           });
         }
       }
+      // Positional fallback: when Gemini emits questions: [{id}] without
+      // the matching paragraphNumber field (observed on Mock 41 Part 3),
+      // qMap stays empty and every questionId is undefined — the runner
+      // then renders "Qundefined" badges. Zip parsed paragraphs in source
+      // order against question ids sorted ascending: paragraph A → first
+      // id, B → second, etc. Safe because the source layout guarantees
+      // paragraphs and question rows appear in matching order.
+      if (out.some(function(p) { return p.questionId == null; })) {
+        var sortedIds = (questions || [])
+          .map(function(q) { return q && q.id; })
+          .filter(function(id) { return typeof id === 'number'; })
+          .sort(function(a, b) { return a - b; });
+        out.forEach(function(p, i) {
+          if (p.questionId == null && sortedIds[i] != null) {
+            p.questionId = sortedIds[i];
+          }
+        });
+      }
       return out;
     }
     function _cefrNormalizeMatchingHeadings(md) {
