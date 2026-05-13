@@ -1272,10 +1272,24 @@
       { name: 'Part 5', questions: 7, time: 12 }
     ];
 
+    // Mock 01 was the original pilot at id=5; mocks 02-40 were bulk-migrated
+    // to ids 343-381 (Phase C). All 40 mocks resolve to ?sbmock=<id> URLs
+    // so the runner reads from Supabase, not the old static .js files.
+    const _crmSbIds = {
+      1: 5,    2: 343,  3: 344,  4: 345,  5: 346,  6: 347,  7: 348,  8: 349,
+      9: 350, 10: 351, 11: 352, 12: 353, 13: 354, 14: 355, 15: 356, 16: 357,
+     17: 358, 18: 359, 19: 360, 20: 361, 21: 362, 22: 363, 23: 364, 24: 365,
+     25: 366, 26: 367, 27: 368, 28: 369, 29: 370, 30: 371, 31: 372, 32: 373,
+     33: 374, 34: 375, 35: 376, 36: 377, 37: 378, 38: 379, 39: 380, 40: 381
+    };
+
     grid.innerHTML = tests.filter(function(t){ return t.available; }).map(function(test, index) {
       var mockNum = test.id.match(/(\d+)/);
       var num = mockNum ? mockNum[1] : String(index + 1);
-      var fullUrl = 'CEFR Reading.html?test=' + test.id;
+      var sbId = _crmSbIds[parseInt(num, 10)];
+      var fullUrl = sbId
+        ? 'CEFR Reading.html?sbmock=' + sbId
+        : 'CEFR Reading.html?test=' + test.id;
       var desc = test.description || '';
 
       // Build practice part buttons
