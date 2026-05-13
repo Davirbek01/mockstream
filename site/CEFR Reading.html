@@ -5195,7 +5195,11 @@
               if (matchesAnswer(ua, ca)) pc++;
             }
           }
-          partLines += '\n📝 ' + part.title + ': ' + pc + '/' + pt;
+          // Use "Part N" instead of passage.title — the caption is a
+          // quick stat readout, not a content summary, and admins
+          // prefer the part number for scanning across mocks.
+          var _partLabel = 'Part ' + (part.partNumber || (idx + 1));
+          partLines += '\n📝 ' + _partLabel + ': ' + pc + '/' + pt;
         });
 
         // Timing
