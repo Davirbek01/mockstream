@@ -5893,6 +5893,31 @@
             startModule();
         }
 
+        // ── Supabase mock_data loader ────────────────────────────────────
+        //  ielts-reading, ielts-writing, and ielts-speaking are loaded from
+        //  the mock_tests table by (mock_type, mock_number). Listening still
+        //  ships as static .js (its Supabase migration is a later phase).
+        const _IFM_SB_URL  = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+        const _IFM_SB_ANON = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+        async function _ifmLoadMockFromSupabase(mockType, mockNumber) {
+            const num = parseInt(mockNumber, 10);
+            if (!isFinite(num)) throw new Error('bad mock_number: ' + mockNumber);
+            const url = _IFM_SB_URL + '/rest/v1/mock_tests'
+                + '?mock_type=eq.' + encodeURIComponent(mockType)
+                + '&mock_number=eq.' + num
+                + '&status=eq.published'
+                + '&select=mock_data&limit=1';
+            const r = await fetch(url, {
+                headers: { apikey: _IFM_SB_ANON, Authorization: 'Bearer ' + _IFM_SB_ANON }
+            });
+            if (!r.ok) throw new Error('supabase ' + r.status);
+            const arr = await r.json();
+            if (!arr || arr.length === 0) {
+                throw new Error('no published ' + mockType + ' #' + num + ' in mock_tests');
+            }
+            return arr[0].mock_data;
+        }
+
         // ===== MODULE LOADING =====
         async function startModule() {
             if (!state.examStartTime) state.examStartTime = new Date();
@@ -5917,23 +5942,16 @@
                 d.className = 'fm-dot' + (i === idx ? ' active' : (i < idx ? ' completed' : ''));
             }
 
-            // Load test data script
-            const folders = ['questions IELTS L', 'questions IELTS R', 'questions IELTS W', 'questions IELTS S'];
-            const prefixes = ['ielts-listening-test-', 'ielts-reading-test-', 'ielts-mock-', 'ielts-speaking-mock-'];
             const testId = [state.testIds.listening, state.testIds.reading, state.testIds.writing, state.testIds.speaking][idx];
-            // Speaking files use format: ielts-speaking-mock-1.js (not 01)
-            const fname = idx === 3 ? prefixes[idx] + parseInt(testId) : prefixes[idx] + testId;
 
-            const s = document.createElement('script');
-            s.src = `${folders[idx]}/${fname}.js`;
-            s.onload = async () => {
+            async function afterDataLoaded() {
                 if (idx === 0) state.currentTestData = window.IELTS_LISTENING_TEST;
                 else if (idx === 1) state.currentTestData = window.IELTS_READING_TEST;
                 else if (idx === 2) state.currentTestData = window.IELTS_WRITING_TEST_DATA;
                 else if (idx === 3) state.currentTestData = window.SPEAKING_TEST_DATA;
 
                 if (!state.currentTestData) {
-                    console.error('Module data not found:', fname);
+                    console.error('Module data not found for idx ' + idx + ', testId=' + testId);
                     alert('Error loading test data. Please refresh.');
                     return;
                 }
@@ -5974,7 +5992,29 @@
                 // Show FAB now that test is actually running
                 var fabC = document.getElementById('mobFabContainer');
                 if (fabC) fabC.style.removeProperty('display');
-            };
+            }
+
+            // Reading + writing + speaking: fetch from Supabase mock_tests.
+            const sbTypes = { 1: 'ielts-reading', 2: 'ielts-writing', 3: 'ielts-speaking' };
+            const sbGlobals = { 1: 'IELTS_READING_TEST', 2: 'IELTS_WRITING_TEST_DATA', 3: 'SPEAKING_TEST_DATA' };
+            if (idx === 1 || idx === 2 || idx === 3) {
+                try {
+                    const md = await _ifmLoadMockFromSupabase(sbTypes[idx], testId);
+                    window[sbGlobals[idx]] = md;
+                    await afterDataLoaded();
+                } catch (e) {
+                    console.error('[IELTS Full Mock] ' + sbTypes[idx] + ' load failed:', e);
+                    alert('Failed to load ' + state.modules[idx] + ' module — could not fetch '
+                        + sbTypes[idx] + ' #' + testId + ' from Supabase.\n\n' + (e && e.message || ''));
+                }
+                return;
+            }
+
+            // Listening: still loads from static .js (its migration is a later phase).
+            const fname = 'ielts-listening-test-' + testId;
+            const s = document.createElement('script');
+            s.src = 'questions IELTS L/' + fname + '.js';
+            s.onload = afterDataLoaded;
             s.onerror = () => alert('Failed to load: ' + fname);
             document.head.appendChild(s);
         }
