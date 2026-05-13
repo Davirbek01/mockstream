@@ -11055,9 +11055,13 @@
         var mockType = exam + '-' + skill;            // "cefr-reading"
         var category = mockType;                       // handleReadingMockClick expects this
 
-        // Strip ?take= so a reload doesn't re-trigger the deep link.
-        // Reload now lands on the regular landing page; back-from-runner too.
-        try { history.replaceState(null, '', '/landing.html'); } catch (_e) {}
+        // Option A: the URL bar reflects the current view. Don't strip
+        // the /take/<slug> path — it stays visible so the student can
+        // copy/share at any point. returnToLanding() does the inverse
+        // replaceState when they leave the mock, and the popstate
+        // listener closes any open access-code modal on browser back.
+        // (Direct entries already have /take/<slug> in the URL bar from
+        // the Netlife 200 rewrite, so no pushState is needed here.)
 
         var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
         var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
@@ -15069,6 +15073,13 @@
         const fileWithMock = mockN
           ? file + (file.indexOf('?') >= 0 ? '&' : '?') + 'mock=' + encodeURIComponent(mockN)
           : file;
+        // Reflect the chosen mock in the URL bar (shareable deep-link
+        // shape). pushState adds a history entry so the browser back
+        // button takes the student back to the landing page; the
+        // popstate listener below cleans up any open access-code modal.
+        if (mockN) {
+          try { history.pushState(null, '', '/take/ielts-reading-' + encodeURIComponent(mockN)); } catch (_e) {}
+        }
         if (typeof handleReadingMockClick === 'function') {
           handleReadingMockClick(fileWithMock, 'ielts-reading');
         } else {
@@ -15528,6 +15539,13 @@
         const fileWithMock = mockN
           ? file + (file.indexOf('?') >= 0 ? '&' : '?') + 'mock=' + encodeURIComponent(mockN)
           : file;
+        // Reflect the chosen mock in the URL bar (shareable deep-link
+        // shape). pushState adds a history entry so the browser back
+        // button takes the student back to the landing page; the
+        // popstate listener below cleans up any open access-code modal.
+        if (mockN) {
+          try { history.pushState(null, '', '/take/cefr-reading-' + encodeURIComponent(mockN)); } catch (_e) {}
+        }
         if (typeof handleReadingMockClick === 'function') {
           handleReadingMockClick(fileWithMock, 'cefr-reading');
         } else {
@@ -19435,9 +19453,33 @@
     const originalReturnToLanding = returnToLanding;
     returnToLanding = function (openModal) {
       currentView = 'landing';
+      // Option A URL housekeeping: if we're leaving a /take/<slug> view
+      // (either runner close, or "Leave Anyway" from the test-in-progress
+      // guard), put the URL bar back at /landing.html so the student
+      // sees a clean address. replaceState (not pushState) — the take
+      // URL isn't worth a forward-history entry.
+      try {
+        if (/^\/take\//i.test(window.location.pathname)) {
+          history.replaceState(null, '', '/landing.html');
+        }
+      } catch (_e) {}
       originalReturnToLanding(openModal);
     };
     window.returnToLanding = returnToLanding;
+
+    // Popstate: handle browser back/forward when the URL leaves /take/...
+    // Picker clicks pushState a /take/<slug> entry; the back button pops
+    // it, dropping the URL back to /landing.html or whatever was prior.
+    // Close any open access-code modal so the UI matches the URL.
+    window.addEventListener('popstate', function () {
+      try {
+        if (!/^\/take\//i.test(window.location.pathname)) {
+          if (typeof closeReadingAccessCodeModal === 'function') {
+            closeReadingAccessCodeModal();
+          }
+        }
+      } catch (_e) {}
+    });
 
     // Keyboard shortcuts for navigation
     document.addEventListener('keydown', (e) => {
