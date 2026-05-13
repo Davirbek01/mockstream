@@ -30409,6 +30409,35 @@
       var preservedPartNumber = p.partNumber;
       var preservedTitle      = p.title;
 
+      // Preserve passage sub-fields that have no form input — most importantly
+      // matching-headings' `passage.paragraphs[]` array. Without this snapshot
+      // the rebuild below would resurrect passage from just title+content
+      // form fields, silently destroying the structured paragraph data the
+      // runner needs.
+      var preservedPassageExtras = {};
+      if (p.passage && typeof p.passage === 'object' && !Array.isArray(p.passage)) {
+        for (var ppk in p.passage) {
+          if (ppk !== 'title' && ppk !== 'content') preservedPassageExtras[ppk] = p.passage[ppk];
+        }
+      }
+
+      // Same for per-question extras (paragraphNumber for matching-headings,
+      // textNumber for matching, etc.) — these are read by the runner but
+      // the questions sub-pane only edits id + hint.
+      var preservedQuestionExtras = {};
+      if (Array.isArray(p.questions)) {
+        p.questions.forEach(function (oldQ) {
+          if (!oldQ || oldQ.id == null) return;
+          var extras = null;
+          for (var oqk in oldQ) {
+            if (oqk === 'id' || oqk === 'hint') continue;
+            if (!extras) extras = {};
+            extras[oqk] = oldQ[oqk];
+          }
+          if (extras) preservedQuestionExtras[oldQ.id] = extras;
+        });
+      }
+
       // 3) Reset the part — drop everything, then layer back on.
       for (var existingKey in p) delete p[existingKey];
 
@@ -30428,10 +30457,13 @@
       // (avoids creating an empty {} for parts that have no passage).
       var passT = f('mmgCrP' + n + '_passT');
       var passC = f('mmgCrP' + n + '_passC');
-      if (passT !== undefined || passC !== undefined) {
+      var hasPassageExtras = false;
+      for (var _ppek in preservedPassageExtras) { hasPassageExtras = true; break; }
+      if (passT !== undefined || passC !== undefined || hasPassageExtras) {
         var passObj = {};
         if (passT !== undefined && passT !== '') passObj.title   = passT;
         if (passC !== undefined && passC !== '') passObj.content = passC;
+        for (var ppek in preservedPassageExtras) passObj[ppek] = preservedPassageExtras[ppek];
         if (Object.keys(passObj).length > 0) p.passage = passObj;
       }
 
@@ -30450,6 +30482,11 @@
           var qid = parseInt(m[1], 10);
           var qObj = { id: qid };
           if (qF.value !== '') qObj.hint = qF.value;
+          // Re-attach extras snapshotted before the wipe (paragraphNumber for
+          // matching-headings, textNumber for matching, etc.).
+          if (preservedQuestionExtras[qid]) {
+            for (var qek in preservedQuestionExtras[qid]) qObj[qek] = preservedQuestionExtras[qid][qek];
+          }
           newQuestions.push(qObj);
 
           var aEl = document.getElementById('mmgCrP' + n + '_q' + qid + '_ans');
