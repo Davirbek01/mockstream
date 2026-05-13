@@ -3354,13 +3354,21 @@
                 console.log('🌐 Loading IELTS Reading from Supabase, id=' + sbMockId);
                 var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
                 var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
-                fetch(SB_URL + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(sbMockId) + '&select=mock_data', {
+                // Pull mock_number alongside mock_data so the Telegram /
+                // Supabase result row reports the real mock # — sbmock=
+                // carries the DB row id, not the mock number, and
+                // sendResultsToBackend's testFile-regex fallback would
+                // otherwise stamp every Supabase mock as "Mock 01".
+                fetch(SB_URL + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(sbMockId) + '&select=mock_data,mock_number', {
                     headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
                 })
                 .then(function(r) { if (!r.ok) throw new Error('Supabase ' + r.status); return r.json(); })
                 .then(function(rows) {
                     if (!rows || !rows.length || !rows[0].mock_data) throw new Error('Empty response');
                     var loaded = rows[0].mock_data;
+                    if (rows[0].mock_number != null) {
+                        window._currentMockNumber = rows[0].mock_number;
+                    }
 
                     // ── Partial-mock support ─────────────────────────────────
                     // An admin can save a mock with only Passage 1 filled (or
@@ -4761,9 +4769,16 @@
                     const testIdentifier = (window.IELTS_READING_TEST && window.IELTS_READING_TEST.title) || 'IELTS Reading Test';
                     const testFileParam = (new URLSearchParams(window.location.search)).get('test') || 'ielts-reading-test-01.js';
 
+                    // Prefer the mock_number the Supabase loader stashed on
+                    // window — testFile regex always yields "01" for ?sbmock=
+                    // URLs since they carry the DB row id, not the mock #.
                     let mockNum = '01';
-                    var mockMatch = testFileParam.match(/(\d+)/);
-                    if (mockMatch) mockNum = mockMatch[1].padStart(2, '0');
+                    if (window._currentMockNumber != null) {
+                        mockNum = String(window._currentMockNumber).padStart(2, '0');
+                    } else {
+                        var mockMatch = testFileParam.match(/(\d+)/);
+                        if (mockMatch) mockNum = mockMatch[1].padStart(2, '0');
+                    }
 
                     // Done-tracking for the new full-screen picker — writes a small
                     // record so the picker can show a "★ Done · 78%" chip on cards
