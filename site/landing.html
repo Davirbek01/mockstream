@@ -2,6 +2,11 @@
 <html data-theme="light" lang="en">
 
 <head>
+  <!-- Resolve relative asset paths from site root regardless of current URL.
+       Without this, deep-link URLs like /take/cefr-reading-44 cause every
+       <script src="auth.js"> etc. to fetch /take/auth.js (which Netlify
+       SPA-fallbacks to landing.html), breaking the whole page. -->
+  <base href="/">
   <script src="./ai-proxy-interceptor.js"></script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -9414,7 +9419,7 @@
   <!-- Reading Access Code Modal -->
   <div id="readingAccessCodeModal"
     style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);z-index:100004;align-items:center;justify-content:center;padding:20px;"
-    onclick="closeReadingAccessCodeModal()">
+    onclick="cancelReadingAccessCodeModal()">
     <div
       style="background:var(--card);border:2px solid var(--brand);border-radius:20px;padding:28px;max-width:380px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:slideUp 0.3s ease;"
       onclick="event.stopPropagation()">
@@ -9422,6 +9427,17 @@
       <h3 style="font-size:20px;color:var(--brand);margin-bottom:4px;">Access Code Required</h3>
       <p id="readingAccessMockLabel" style="font-size:13px;color:var(--muted);margin-bottom:18px;">Mock 01 requires an
         access code</p>
+      <!-- Name field: hidden by default; shown only when the welcome page
+           hasn't already captured CANDIDATE_FULL_NAME (e.g. deep-link entry
+           via /take/cefr-reading-45). Welcome-page users skip this field
+           entirely so the modal stays one-step. -->
+      <div id="readingAccessNameWrap" style="display:none;margin-bottom:10px;text-align:left;">
+        <input type="text" id="readingAccessNameInput" placeholder="Your full name" autocomplete="name"
+          spellcheck="false"
+          style="width:100%;padding:12px 16px;border:2px solid var(--ring);border-radius:10px;font-size:15px;font-weight:600;box-sizing:border-box;background:var(--bg);color:var(--ink);transition:border-color 0.2s;"
+          onfocus="this.style.borderColor='var(--brand)';this.style.boxShadow='0 0 0 3px rgba(16,185,129,0.15)'"
+          onblur="this.style.borderColor='var(--ring)';this.style.boxShadow='none'">
+      </div>
       <input type="text" id="readingAccessCodeInput" placeholder="Enter your access code" autocomplete="off"
         autocorrect="off" spellcheck="false" inputmode="numeric" pattern="[0-9]*"
         style="width:100%;padding:12px 16px;border:2px solid var(--ring);border-radius:10px;font-size:15px;font-weight:600;box-sizing:border-box;background:var(--bg);color:var(--ink);letter-spacing:2px;transition:border-color 0.2s;"
@@ -9431,7 +9447,7 @@
       <div id="readingAccessCodeError"
         style="font-size:13px;margin-top:10px;margin-bottom:14px;min-height:20px;font-weight:600;"></div>
       <div style="display:flex;gap:10px;">
-        <button onclick="closeReadingAccessCodeModal()"
+        <button onclick="cancelReadingAccessCodeModal()"
           style="flex:1;padding:11px;background:var(--bg);color:var(--muted);border:2px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;">Cancel</button>
         <button id="readingAccessCodeSubmitBtn" onclick="verifyReadingAccessCode()"
           style="flex:2;padding:11px;background:linear-gradient(135deg,var(--brand) 0%,#059669 100%);color:white;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;">Verify
@@ -10914,8 +10930,23 @@
       input.value = '';
       btn.textContent = 'Verify & Start';
       btn.disabled = false;
+
+      // Show the name field only when the welcome page didn't already
+      // capture CANDIDATE_FULL_NAME — typically a deep-link entry. Users
+      // who came through the regular welcome flow keep the existing
+      // single-field modal.
+      const nameWrap  = document.getElementById('readingAccessNameWrap');
+      const nameInput = document.getElementById('readingAccessNameInput');
+      const existingName = (sessionStorage.getItem('CANDIDATE_FULL_NAME') || '').trim();
+      const needName = nameWrap && nameInput && !existingName;
+      if (nameWrap)  nameWrap.style.display = needName ? '' : 'none';
+      if (nameInput) {
+        nameInput.value = existingName;
+        if (needName) nameInput.onkeypress = function (e) { if (e.key === 'Enter') document.getElementById('readingAccessCodeInput').focus(); };
+      }
+
       modal.style.display = 'flex';
-      setTimeout(() => input.focus(), 100);
+      setTimeout(() => (needName ? nameInput : input).focus(), 100);
       input.onkeypress = function (e) { if (e.key === 'Enter') verifyReadingAccessCode(); };
     }
 
@@ -10925,12 +10956,38 @@
       _pendingReadingMock = null;
     }
 
+    // Cancel-only wrapper: closes the modal AND strips a /take/<slug> URL
+    // back to /landing.html. Wired to the Cancel button + backdrop click
+    // so a student who backs out doesn't leave a misleading take URL in
+    // the address bar. The success path (verifyReadingAccessCode) calls
+    // closeReadingAccessCodeModal directly so the /take/<slug> URL is
+    // preserved through the runner load.
+    window.cancelReadingAccessCodeModal = function () {
+      closeReadingAccessCodeModal();
+      try {
+        if (/^\/take\//i.test(window.location.pathname)) {
+          history.replaceState(null, '', '/landing.html');
+        }
+      } catch (_e) {}
+    };
+
     async function verifyReadingAccessCode() {
       if (!_pendingReadingMock) return;
       const input = document.getElementById('readingAccessCodeInput');
       const error = document.getElementById('readingAccessCodeError');
       const btn = document.getElementById('readingAccessCodeSubmitBtn');
       const inputValue = input.value.trim();
+
+      // If the name field is visible (deep-link entry), require + persist
+      // the name before validating the code. Welcome-path users already
+      // have CANDIDATE_FULL_NAME set; the wrap stays display:none for them.
+      const nameWrap  = document.getElementById('readingAccessNameWrap');
+      const nameInput = document.getElementById('readingAccessNameInput');
+      if (nameWrap && nameWrap.style.display !== 'none' && nameInput) {
+        const nameVal = (nameInput.value || '').trim();
+        if (!nameVal) { error.style.color = '#dc2626'; error.textContent = '❌ Please enter your full name'; return; }
+        sessionStorage.setItem('CANDIDATE_FULL_NAME', nameVal);
+      }
 
       if (!inputValue) { error.style.color = '#dc2626'; error.textContent = '❌ Please enter your access code'; return; }
 
@@ -10974,6 +11031,97 @@
         btn.disabled = false;
       }
     }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // DEEP-LINK: /take/cefr-reading-45 → open the access-code modal for
+    // that specific mock without making the student navigate welcome →
+    // skill picker → scroll-to-find-mock. The Netlify rewrite (see
+    // site/_redirects) maps /take/* → /landing.html?take=:splat on the
+    // server, BUT a 200 rewrite leaves the URL bar at /take/...; the
+    // browser's location.search stays empty. So we derive the slug from
+    // location.pathname (the visible URL) and fall back to ?take= only
+    // for direct /landing.html?take=... entries.
+    // We look up the mock_id from Supabase, build the runner URL the
+    // existing handleReadingMockClick expects, strip the URL so a
+    // reload returns the user to a clean landing, and then call into
+    // the existing flow (handles premium / center-access / code-modal
+    // / mock-already-taken-alert — all of it).
+    // ═══════════════════════════════════════════════════════════════════════
+    async function _processDeepLinkTake() {
+      try {
+        var takeParam = null;
+        var pathMatch = window.location.pathname.match(/^\/take\/([^\/?#]+)/i);
+        if (pathMatch) {
+          takeParam = decodeURIComponent(pathMatch[1]);
+        } else {
+          var params = new URLSearchParams(window.location.search);
+          takeParam  = params.get('take');
+        }
+        if (!takeParam) return;
+        // Expected slug: cefr-reading-45 / ielts-reading-23 (case-insensitive)
+        var m = takeParam.match(/^(cefr|ielts)-(reading)-(\d+)$/i);
+        if (!m) {
+          console.warn('[deep-link] Unrecognised slug:', takeParam);
+          return;
+        }
+        var exam     = m[1].toLowerCase();
+        var skill    = m[2].toLowerCase();
+        var mockNum  = parseInt(m[3], 10);
+        var mockType = exam + '-' + skill;            // "cefr-reading"
+        var category = mockType;                       // handleReadingMockClick expects this
+
+        // Option A: the URL bar reflects the current view. Don't strip
+        // the /take/<slug> path — it stays visible so the student can
+        // copy/share at any point. returnToLanding() does the inverse
+        // replaceState when they leave the mock, and the popstate
+        // listener closes any open access-code modal on browser back.
+        // (Direct entries already have /take/<slug> in the URL bar from
+        // the Netlife 200 rewrite, so no pushState is needed here.)
+
+        var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+        var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+        var lookupUrl = SB_URL + '/rest/v1/mock_tests'
+          + '?mock_type=eq.' + encodeURIComponent(mockType)
+          + '&mock_number=eq.' + encodeURIComponent(String(mockNum))
+          + '&status=eq.published'
+          + '&select=id&limit=1';
+        var resp = await fetch(lookupUrl, {
+          headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY }
+        });
+        if (!resp.ok) {
+          console.warn('[deep-link] Supabase lookup failed:', resp.status);
+          alert('Could not load that mock — please open the regular mock list and pick it manually.');
+          return;
+        }
+        var rows = await resp.json();
+        if (!rows || !rows.length) {
+          alert((exam.toUpperCase() + ' ' + skill[0].toUpperCase() + skill.slice(1)) + ' Mock ' + mockNum + ' is not available right now.');
+          return;
+        }
+        var sbMockId   = rows[0].id;
+        var runnerFile = (exam === 'cefr') ? 'CEFR Reading.html' : 'IELTS reading.html';
+        // Carry &mock=N so _extractReadingMockNumber returns the real
+        // mock # (mode modal title, results payload, etc.) instead of
+        // the row id from sbmock=.
+        var pageUrl = runnerFile + '?sbmock=' + encodeURIComponent(sbMockId) + '&mock=' + encodeURIComponent(mockNum);
+
+        if (typeof handleReadingMockClick !== 'function') {
+          console.warn('[deep-link] handleReadingMockClick not loaded yet — falling back to loadMock');
+          if (typeof loadMock === 'function') loadMock(pageUrl, 'reading');
+          return;
+        }
+        handleReadingMockClick(pageUrl, category);
+      } catch (err) {
+        console.warn('[deep-link] failed:', err);
+      }
+    }
+    (function () {
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () { setTimeout(_processDeepLinkTake, 50); });
+      } else {
+        setTimeout(_processDeepLinkTake, 50);
+      }
+    })();
 
     // ===== LISTENING ACCESS CODE VALIDATION (from landing page) =====
     window.landingListeningMockRequiresPromocode = function (mockNumber) {
@@ -14859,11 +15007,46 @@
       card.classList.add('iret-card-jumped');
     }
 
+    // ───────── Back-button plumbing shared by both reading pickers ─────────
+    // When a fullscreen picker is open, the browser/TMA back button should
+    // close the picker (return to landing) instead of leaving the site or
+    // collapsing the mini app. We pushState an entry on open so popstate
+    // fires for the back gesture, and we mirror the same close path via
+    // Telegram WebApp's BackButton API for in-app mobile gestures.
+    let _pickerFromPopstate = false;
+
+    function _pickerTmaBackHandler() {
+      var cret = document.getElementById('cretPicker');
+      if (cret && cret.classList.contains('cret-open')) { cretClose(); return; }
+      var iret = document.getElementById('iretPicker');
+      if (iret && iret.classList.contains('iret-open')) { iretClose(); return; }
+    }
+    function _pickerShowTmaBack() {
+      try {
+        var tg = window.Telegram && window.Telegram.WebApp;
+        if (tg && tg.BackButton && typeof tg.BackButton.show === 'function') {
+          tg.BackButton.onClick(_pickerTmaBackHandler);
+          tg.BackButton.show();
+        }
+      } catch (_e) {}
+    }
+    function _pickerHideTmaBack() {
+      try {
+        var tg = window.Telegram && window.Telegram.WebApp;
+        if (tg && tg.BackButton) {
+          try { tg.BackButton.offClick(_pickerTmaBackHandler); } catch (_e) {}
+          if (typeof tg.BackButton.hide === 'function') tg.BackButton.hide();
+        }
+      } catch (_e) {}
+    }
+
     async function iretOpen() {
       const overlay = document.getElementById('iretPicker');
       overlay.classList.add('iret-open');
       overlay.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
+      try { history.pushState({ picker: 'iret' }, ''); } catch (_e) {}
+      _pickerShowTmaBack();
       _iretRenderSkeletons();
       // Parallelise metadata load (50 static JS files) and server-done fetch
       // (one Supabase query). They're independent.
@@ -14880,6 +15063,19 @@
       overlay.classList.remove('iret-open');
       overlay.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
+      _pickerHideTmaBack();
+      // Sync history: if close came from a manual UI action (X / Escape /
+      // card click → modal verified → runner), pop the entry we pushed on
+      // open so a future back press takes the student to the prior page,
+      // not to a now-empty picker state. If close came from popstate (the
+      // user already pressed back), skip — history is already correct.
+      if (!_pickerFromPopstate) {
+        try {
+          if (history.state && history.state.picker === 'iret') {
+            history.back();
+          }
+        } catch (_e) {}
+      }
     }
 
     function iretClearFilters() {
@@ -14940,6 +15136,13 @@
         const fileWithMock = mockN
           ? file + (file.indexOf('?') >= 0 ? '&' : '?') + 'mock=' + encodeURIComponent(mockN)
           : file;
+        // Reflect the chosen mock in the URL bar (shareable deep-link
+        // shape). pushState adds a history entry so the browser back
+        // button takes the student back to the landing page; the
+        // popstate listener below cleans up any open access-code modal.
+        if (mockN) {
+          try { history.pushState(null, '', '/take/ielts-reading-' + encodeURIComponent(mockN)); } catch (_e) {}
+        }
         if (typeof handleReadingMockClick === 'function') {
           handleReadingMockClick(fileWithMock, 'ielts-reading');
         } else {
@@ -15332,6 +15535,8 @@
       overlay.classList.add('cret-open');
       overlay.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
+      try { history.pushState({ picker: 'cret' }, ''); } catch (_e) {}
+      _pickerShowTmaBack();
       _cretRenderSkeletons();
       const [, serverDone] = await Promise.all([
         _cretLoadAllMockMeta(),
@@ -15346,6 +15551,14 @@
       overlay.classList.remove('cret-open');
       overlay.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
+      _pickerHideTmaBack();
+      if (!_pickerFromPopstate) {
+        try {
+          if (history.state && history.state.picker === 'cret') {
+            history.back();
+          }
+        } catch (_e) {}
+      }
     }
 
     function cretClearFilters() {
@@ -15399,6 +15612,13 @@
         const fileWithMock = mockN
           ? file + (file.indexOf('?') >= 0 ? '&' : '?') + 'mock=' + encodeURIComponent(mockN)
           : file;
+        // Reflect the chosen mock in the URL bar (shareable deep-link
+        // shape). pushState adds a history entry so the browser back
+        // button takes the student back to the landing page; the
+        // popstate listener below cleans up any open access-code modal.
+        if (mockN) {
+          try { history.pushState(null, '', '/take/cefr-reading-' + encodeURIComponent(mockN)); } catch (_e) {}
+        }
         if (typeof handleReadingMockClick === 'function') {
           handleReadingMockClick(fileWithMock, 'cefr-reading');
         } else {
@@ -19299,6 +19519,19 @@
     const originalLoadMock = loadMock;
     loadMock = function (page, type) {
       currentView = 'mock';
+      // Defensive URL cleanup: if a stale /take/<slug> URL is lingering
+      // from a prior reading-mock interaction and the new mock isn't a
+      // reading mock, strip it so the address bar doesn't lie about
+      // which skill the student is currently in. Reading mocks keep
+      // their /take/<slug> URL — picker click pushState'd it, deep-link
+      // entry has it natively. (When pushState is later added to
+      // listening/writing/speaking pickers, those will overwrite the
+      // URL before loadMock fires, making this strip a no-op for them.)
+      try {
+        if (type !== 'reading' && /^\/take\//i.test(window.location.pathname)) {
+          history.replaceState(null, '', '/landing.html');
+        }
+      } catch (_e) {}
       originalLoadMock(page, type);
     };
 
@@ -19306,9 +19539,51 @@
     const originalReturnToLanding = returnToLanding;
     returnToLanding = function (openModal) {
       currentView = 'landing';
+      // Option A URL housekeeping: if we're leaving a /take/<slug> view
+      // (either runner close, or "Leave Anyway" from the test-in-progress
+      // guard), put the URL bar back at /landing.html so the student
+      // sees a clean address. replaceState (not pushState) — the take
+      // URL isn't worth a forward-history entry.
+      try {
+        if (/^\/take\//i.test(window.location.pathname)) {
+          history.replaceState(null, '', '/landing.html');
+        }
+      } catch (_e) {}
       originalReturnToLanding(openModal);
     };
     window.returnToLanding = returnToLanding;
+
+    // Popstate: handle browser back/forward + TMA back gestures.
+    //  • If a fullscreen picker is open → close it (return to landing).
+    //    Picker open also pushState'd, so the back action pops that
+    //    history entry and lands here.
+    //  • If URL just left /take/... → close any open access-code modal
+    //    so the UI matches the address bar (modal layered above picker).
+    window.addEventListener('popstate', function () {
+      try {
+        // 1) Close any open fullscreen picker (CEFR or IELTS Reading).
+        //    The _pickerFromPopstate flag tells cretClose / iretClose to
+        //    skip their own history.back() — history already moved.
+        var cret = document.getElementById('cretPicker');
+        if (cret && cret.classList.contains('cret-open')) {
+          _pickerFromPopstate = true;
+          cretClose();
+          _pickerFromPopstate = false;
+        }
+        var iret = document.getElementById('iretPicker');
+        if (iret && iret.classList.contains('iret-open')) {
+          _pickerFromPopstate = true;
+          iretClose();
+          _pickerFromPopstate = false;
+        }
+        // 2) Close access-code modal if URL left /take/...
+        if (!/^\/take\//i.test(window.location.pathname)) {
+          if (typeof closeReadingAccessCodeModal === 'function') {
+            closeReadingAccessCodeModal();
+          }
+        }
+      } catch (_e) {}
+    });
 
     // Keyboard shortcuts for navigation
     document.addEventListener('keydown', (e) => {
