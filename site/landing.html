@@ -9419,7 +9419,7 @@
   <!-- Reading Access Code Modal -->
   <div id="readingAccessCodeModal"
     style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);z-index:100004;align-items:center;justify-content:center;padding:20px;"
-    onclick="closeReadingAccessCodeModal()">
+    onclick="cancelReadingAccessCodeModal()">
     <div
       style="background:var(--card);border:2px solid var(--brand);border-radius:20px;padding:28px;max-width:380px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:slideUp 0.3s ease;"
       onclick="event.stopPropagation()">
@@ -9447,7 +9447,7 @@
       <div id="readingAccessCodeError"
         style="font-size:13px;margin-top:10px;margin-bottom:14px;min-height:20px;font-weight:600;"></div>
       <div style="display:flex;gap:10px;">
-        <button onclick="closeReadingAccessCodeModal()"
+        <button onclick="cancelReadingAccessCodeModal()"
           style="flex:1;padding:11px;background:var(--bg);color:var(--muted);border:2px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;">Cancel</button>
         <button id="readingAccessCodeSubmitBtn" onclick="verifyReadingAccessCode()"
           style="flex:2;padding:11px;background:linear-gradient(135deg,var(--brand) 0%,#059669 100%);color:white;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;">Verify
@@ -10955,6 +10955,21 @@
       if (modal) modal.style.display = 'none';
       _pendingReadingMock = null;
     }
+
+    // Cancel-only wrapper: closes the modal AND strips a /take/<slug> URL
+    // back to /landing.html. Wired to the Cancel button + backdrop click
+    // so a student who backs out doesn't leave a misleading take URL in
+    // the address bar. The success path (verifyReadingAccessCode) calls
+    // closeReadingAccessCodeModal directly so the /take/<slug> URL is
+    // preserved through the runner load.
+    window.cancelReadingAccessCodeModal = function () {
+      closeReadingAccessCodeModal();
+      try {
+        if (/^\/take\//i.test(window.location.pathname)) {
+          history.replaceState(null, '', '/landing.html');
+        }
+      } catch (_e) {}
+    };
 
     async function verifyReadingAccessCode() {
       if (!_pendingReadingMock) return;
@@ -19446,6 +19461,19 @@
     const originalLoadMock = loadMock;
     loadMock = function (page, type) {
       currentView = 'mock';
+      // Defensive URL cleanup: if a stale /take/<slug> URL is lingering
+      // from a prior reading-mock interaction and the new mock isn't a
+      // reading mock, strip it so the address bar doesn't lie about
+      // which skill the student is currently in. Reading mocks keep
+      // their /take/<slug> URL — picker click pushState'd it, deep-link
+      // entry has it natively. (When pushState is later added to
+      // listening/writing/speaking pickers, those will overwrite the
+      // URL before loadMock fires, making this strip a no-op for them.)
+      try {
+        if (type !== 'reading' && /^\/take\//i.test(window.location.pathname)) {
+          history.replaceState(null, '', '/landing.html');
+        }
+      } catch (_e) {}
       originalLoadMock(page, type);
     };
 
