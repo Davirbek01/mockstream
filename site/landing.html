@@ -31627,6 +31627,10 @@
         }
         var explns = j.explanations || {};
         var drops  = j.dropped_quotes || [];
+        // When Gemini is denied / rate-limited, the edge function falls back
+        // to GPT-4o. Flag that in the banner so the author knows which
+        // model wrote the explanations (and that Gemini is still down).
+        var modelTag = (j.model_used === 'gpt-4o') ? ' · via GPT-4o (Gemini fallback)' : '';
 
         // Merge into the existing explanations (don't wipe any hand-written
         // ones the admin may have already added).
@@ -31684,8 +31688,8 @@
         applySuccessStyle(statusEl);
         if (statusEl) {
           statusEl.textContent = autoSaved
-            ? '✅ Done & auto-saved — ' + nAdded + ' explanations in ' + elapsed + 's' + dropStr + '.'
-            : '✅ Done — ' + nAdded + ' explanations in ' + elapsed + 's' + dropStr
+            ? '✅ Done & auto-saved — ' + nAdded + ' explanations in ' + elapsed + 's' + dropStr + modelTag + '.'
+            : '✅ Done — ' + nAdded + ' explanations in ' + elapsed + 's' + dropStr + modelTag
               + ' — click 💾 Save to persist (auto-save needs a saved mock first).';
         }
         // Resolve the caller (bulk runner uses this) with a per-part summary.

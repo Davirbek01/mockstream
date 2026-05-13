@@ -549,9 +549,82 @@ function _normaliseForQuoteMatch(s: string): string {
 
 type ExplanationItem = { text: string; quote: string };
 type ExplanationsResult = {
-  explanations: Record<string, ExplanationItem>;
-  droppedQuotes: string[];
+  explanations:   Record<string, ExplanationItem>;
+  droppedQuotes:  string[];
+  modelUsed:      'gemini-2.5-pro' | 'gpt-4o';
+  fallbackReason: string | null;
 };
+
+// ── Text-only model calls for the explanations endpoint ──────────────
+// Mirrors the Gemini → GPT-4o fallback used in the import path, but
+// without file uploads (explanations are pure text-in/text-out).
+
+async function _explanationsViaGemini(prompt: string): Promise<string> {
+  if (!GEMINI_KEY) throw new Error('GEMINI_API_KEY not set in secrets');
+  const body = {
+    contents: [{ role: 'user', parts: [{ text: prompt }] }],
+    generationConfig: {
+      temperature: 0.1,
+      responseMimeType: 'application/json',
+      maxOutputTokens: 16384,
+      thinkingConfig: { thinkingBudget: -1 }
+    },
+    safetySettings: [
+      { category: 'HARM_CATEGORY_HARASSMENT',        threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_HATE_SPEECH',       threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' }
+    ]
+  };
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${GEMINI_KEY}`;
+  const r = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  if (!r.ok) {
+    const errTxt = await r.text().catch(() => '');
+    throw new Error(`gemini http ${r.status}: ${errTxt.slice(0, 300)}`);
+  }
+  const j = await r.json();
+  const cand = j.candidates?.[0];
+  if (!cand) throw new Error('gemini returned no candidates');
+  if (cand.finishReason && cand.finishReason !== 'STOP') {
+    throw new Error(`gemini finishReason=${cand.finishReason}`);
+  }
+  const raw = cand.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
+  if (!raw.trim()) throw new Error('gemini returned empty content');
+  return raw;
+}
+
+async function _explanationsViaGPT4o(prompt: string): Promise<string> {
+  if (!OPENAI_KEY) throw new Error('OPENAI_API_KEY not set in secrets');
+  const body = {
+    model: 'gpt-4o',
+    messages: [
+      { role: 'system', content: 'You output ONLY a JSON object as specified in the user instructions. No prose, no markdown.' },
+      { role: 'user',   content: prompt }
+    ],
+    response_format: { type: 'json_object' },
+    temperature: 0.1
+  };
+  const r = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type':  'application/json',
+      'Authorization': `Bearer ${OPENAI_KEY}`
+    },
+    body: JSON.stringify(body)
+  });
+  if (!r.ok) {
+    const errTxt = await r.text().catch(() => '');
+    throw new Error(`gpt-4o http ${r.status}: ${errTxt.slice(0, 300)}`);
+  }
+  const j = await r.json();
+  const text = j.choices?.[0]?.message?.content || '';
+  if (!text.trim()) throw new Error('gpt-4o returned empty content');
+  return text;
+}
 
 async function generateExplanations(
   passage: Record<string, unknown>,
@@ -839,43 +912,29 @@ ${callOutHint}
 3. NEVER guess.${isCefr ? '' : ' If the answer is "NOT GIVEN", quote MUST be empty (there is no sentence to point to) and the text should explain that the passage neither confirms nor denies the statement.'}
 4. Output ONLY the JSON object, no commentary, no markdown fences. Every input question id must appear as a top-level key in the output.`;
 
-  const body = {
-    contents: [{ role: 'user', parts: [{ text: prompt }] }],
-    generationConfig: {
-      temperature: 0.1,
-      responseMimeType: 'application/json',
-      maxOutputTokens: 16384,
-      // 2.5 Pro requires thinking mode; -1 = dynamic budget (model default).
-      thinkingConfig: { thinkingBudget: -1 }
-    },
-    safetySettings: [
-      { category: 'HARM_CATEGORY_HARASSMENT',       threshold: 'BLOCK_ONLY_HIGH' },
-      { category: 'HARM_CATEGORY_HATE_SPEECH',      threshold: 'BLOCK_ONLY_HIGH' },
-      { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
-      { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' }
-    ]
-  };
-
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${GEMINI_KEY}`;
-  const r = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
-  });
-  if (!r.ok) {
-    const errTxt = await r.text().catch(() => '');
-    throw new Error(`gemini http ${r.status}: ${errTxt.slice(0, 300)}`);
+  // Try Gemini → GPT-4o fallback. Mirrors the import-path fallback so
+  // a project-quota suspension on the Gemini side (PERMISSION_DENIED,
+  // 429, etc.) doesn't block authoring — admins keep generating
+  // explanations via GPT-4o until the Gemini flag is lifted.
+  let raw = '';
+  let modelUsed: 'gemini-2.5-pro' | 'gpt-4o' = 'gemini-2.5-pro';
+  let fallbackReason: string | null = null;
+  try {
+    raw = await _explanationsViaGemini(prompt);
+  } catch (geminiErr) {
+    fallbackReason = geminiErr instanceof Error ? geminiErr.message : String(geminiErr);
+    console.warn('[explanations] gemini failed, falling back to gpt-4o:', fallbackReason);
+    try {
+      raw = await _explanationsViaGPT4o(prompt);
+      modelUsed = 'gpt-4o';
+    } catch (gptErr) {
+      const gptMsg = gptErr instanceof Error ? gptErr.message : String(gptErr);
+      throw new Error(`both models failed. gemini: ${fallbackReason}; gpt-4o: ${gptMsg}`);
+    }
   }
-  const j = await r.json();
-  const cand = j.candidates?.[0];
-  if (!cand) throw new Error('gemini returned no candidates');
-  if (cand.finishReason && cand.finishReason !== 'STOP') {
-    throw new Error(`gemini finishReason=${cand.finishReason}`);
-  }
-  const raw = cand.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
   const parsed = tryParseModelJson(raw);
   if (!parsed || typeof parsed !== 'object') {
-    throw new Error('gemini returned non-JSON: ' + raw.slice(0, 200));
+    throw new Error(`${modelUsed} returned non-JSON: ` + raw.slice(0, 200));
   }
 
   // Server-side quote verification.
@@ -901,7 +960,7 @@ ${callOutHint}
     }
     out[key] = { text: text, quote: verifiedQuote };
   }
-  return { explanations: out, droppedQuotes: dropped };
+  return { explanations: out, droppedQuotes: dropped, modelUsed, fallbackReason };
 }
 
 // ── Main handler ───────────────────────────────────────────────────
@@ -941,10 +1000,11 @@ Deno.serve(async (req) => {
     try {
       const result = await generateExplanations(passage, examType);
       return json(200, {
-        explanations:   result.explanations,
-        dropped_quotes: result.droppedQuotes,
-        model_used:     'gemini-2.5-pro',
-        actor:          (auth as AuthOk).actor
+        explanations:    result.explanations,
+        dropped_quotes:  result.droppedQuotes,
+        model_used:      result.modelUsed,
+        fallback_reason: result.fallbackReason || undefined,
+        actor:           (auth as AuthOk).actor
       });
     } catch (e) {
       return json(502, {
