@@ -2,6 +2,11 @@
 <html data-theme="light" lang="en">
 
 <head>
+  <!-- Resolve relative asset paths from site root regardless of current URL.
+       Without this, deep-link URLs like /take/cefr-reading-44 cause every
+       <script src="auth.js"> etc. to fetch /take/auth.js (which Netlify
+       SPA-fallbacks to landing.html), breaking the whole page. -->
+  <base href="/">
   <script src="./ai-proxy-interceptor.js"></script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -11016,18 +11021,27 @@
     // DEEP-LINK: /take/cefr-reading-45 → open the access-code modal for
     // that specific mock without making the student navigate welcome →
     // skill picker → scroll-to-find-mock. The Netlify rewrite (see
-    // site/_redirects) maps /take/* → /landing.html?take=:splat, so by
-    // the time this code runs the URL search has ?take=cefr-reading-45.
+    // site/_redirects) maps /take/* → /landing.html?take=:splat on the
+    // server, BUT a 200 rewrite leaves the URL bar at /take/...; the
+    // browser's location.search stays empty. So we derive the slug from
+    // location.pathname (the visible URL) and fall back to ?take= only
+    // for direct /landing.html?take=... entries.
     // We look up the mock_id from Supabase, build the runner URL the
-    // existing handleReadingMockClick expects, strip the ?take= so a
+    // existing handleReadingMockClick expects, strip the URL so a
     // reload returns the user to a clean landing, and then call into
     // the existing flow (handles premium / center-access / code-modal
     // / mock-already-taken-alert — all of it).
     // ═══════════════════════════════════════════════════════════════════════
     async function _processDeepLinkTake() {
       try {
-        var params    = new URLSearchParams(window.location.search);
-        var takeParam = params.get('take');
+        var takeParam = null;
+        var pathMatch = window.location.pathname.match(/^\/take\/([^\/?#]+)/i);
+        if (pathMatch) {
+          takeParam = decodeURIComponent(pathMatch[1]);
+        } else {
+          var params = new URLSearchParams(window.location.search);
+          takeParam  = params.get('take');
+        }
         if (!takeParam) return;
         // Expected slug: cefr-reading-45 / ielts-reading-23 (case-insensitive)
         var m = takeParam.match(/^(cefr|ielts)-(reading)-(\d+)$/i);
