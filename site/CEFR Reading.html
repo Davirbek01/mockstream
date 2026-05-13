@@ -3340,8 +3340,12 @@
         // Generate all parts
         generateParts();
         
-        // Show first part (or practice part)
-        showPart(window._practicePart ? (window._practicePart - 1) : 0);
+        // Show first part (or practice part). For partially-imported mocks,
+        // skip skeleton entries and land on the first populated part.
+        const _initIdx = window._practicePart
+          ? (window._practicePart - 1)
+          : (_populatedPartIndices()[0] || 0);
+        showPart(_initIdx);
         
         // Practice mode: hide part nav, show only practised part, always show submit
         if (window._practicePart) {
@@ -3406,13 +3410,25 @@
       }
     }
 
+    // List of parts that have actually been imported. Skeleton entries
+    // (created by the editor to keep array indices stable while only some
+    // parts are filled) have no `type` field — those get filtered out of
+    // navigation so users don't see hollow Part 1 / Part 2 tabs.
+    function _populatedPartIndices() {
+      return (TEST_DATA && Array.isArray(TEST_DATA.parts))
+        ? TEST_DATA.parts.map((p, i) => (p && p.type) ? i : -1).filter(i => i >= 0)
+        : [];
+    }
+
     // ===== GENERATE PART NAVIGATION =====
     function generatePartNav() {
-      // PC part buttons in header. Fall back to index+1 when partNumber is
-      // missing (partially-imported mocks where some parts are still empty
-      // skeletons) — otherwise the tab reads "Part undefined".
+      // PC part buttons in header — only render a tab for each POPULATED
+      // part. data-part still carries the original parts[] index so
+      // showPart() / .part-container[id=part-N] keep working unchanged.
+      const visible = _populatedPartIndices().map(i => ({ part: TEST_DATA.parts[i], index: i }));
+
       const nav = document.getElementById('partNav');
-      nav.innerHTML = TEST_DATA.parts.map((part, index) => `
+      nav.innerHTML = visible.map(({ part, index }) => `
         <button class="part-btn ${index === currentPart ? 'active' : ''}" data-part="${index}">
           Part ${part.partNumber || (index + 1)}
         </button>
@@ -3424,7 +3440,7 @@
       // Mobile part dots (original logic)
       const mobileDots = document.getElementById('mobilePartNav');
       if (mobileDots) {
-        mobileDots.innerHTML = TEST_DATA.parts.map((part, index) =>
+        mobileDots.innerHTML = visible.map(({ part, index }) =>
           '<div class="mobile-part-dot' + (index === currentPart ? ' active' : '') + '" data-part="' + index + '">' + (part.partNumber || (index + 1)) + '</div>'
         ).join('');
         mobileDots.querySelectorAll('.mobile-part-dot').forEach(dot => {
@@ -3435,7 +3451,7 @@
       // Mobile FAB menu tabs (new logic)
       const fabTabs = document.getElementById('mobilePartTabs');
       if (fabTabs) {
-        fabTabs.innerHTML = TEST_DATA.parts.map((part, index) => `
+        fabTabs.innerHTML = visible.map(({ part, index }) => `
           <div class="part-tab ${index === currentPart ? 'active' : ''}" data-part="${index}">
             Part ${part.partNumber || (index + 1)}
           </div>
@@ -4254,9 +4270,18 @@
         });
       });
 
-      // Navigation buttons
-      document.getElementById('btnPrev').addEventListener('click', () => showPart(currentPart - 1));
-      document.getElementById('btnNext').addEventListener('click', () => showPart(currentPart + 1));
+      // Navigation buttons — jump between POPULATED parts only so skeleton
+      // entries (Part N with no imported content yet) are skipped.
+      document.getElementById('btnPrev').addEventListener('click', () => {
+        const populated = _populatedPartIndices();
+        const pos       = populated.indexOf(currentPart);
+        if (pos > 0) showPart(populated[pos - 1]);
+      });
+      document.getElementById('btnNext').addEventListener('click', () => {
+        const populated = _populatedPartIndices();
+        const pos       = populated.indexOf(currentPart);
+        if (pos >= 0 && pos < populated.length - 1) showPart(populated[pos + 1]);
+      });
       document.getElementById('btnSubmit').addEventListener('click', () => {
         document.getElementById('confirmModal').classList.add('active');
       });
@@ -4355,44 +4380,51 @@
       if (index < 0 || index >= TEST_DATA.parts.length) return;
       // In practice mode, lock to the practised part
       if (window._practicePart && index !== (window._practicePart - 1)) return;
-      
+
       currentPart = index;
-      
-      // Update part containers
-      document.querySelectorAll('.part-container').forEach((p, i) => {
-        p.classList.toggle('active', i === index);
-      });
-      
-      // Update nav buttons
-      document.querySelectorAll('.part-btn').forEach((btn, i) => {
-        btn.classList.toggle('active', i === index);
+
+      // Update part containers (compare by part-N id — NodeList position
+      // doesn't necessarily equal parts[] index since some entries may be
+      // skeletons that still render an empty container).
+      document.querySelectorAll('.part-container').forEach((p) => {
+        p.classList.toggle('active', p.id === ('part-' + index));
       });
 
-      // Update mobile dots
-      document.querySelectorAll('.mobile-part-dot').forEach((dot, i) => {
-        dot.classList.toggle('active', i === index);
+      // Tab nav elements only exist for POPULATED parts (see
+      // generatePartNav), so we can't compare by NodeList position — that
+      // would only match when every parts[] entry has a tab. Compare
+      // against data-part instead.
+      document.querySelectorAll('.part-btn').forEach((btn) => {
+        btn.classList.toggle('active', parseInt(btn.dataset.part) === index);
+      });
+      document.querySelectorAll('.mobile-part-dot').forEach((dot) => {
+        dot.classList.toggle('active', parseInt(dot.dataset.part) === index);
+      });
+      document.querySelectorAll('.part-tab').forEach((tab) => {
+        tab.classList.toggle('active', parseInt(tab.dataset.part) === index);
       });
 
-      // Update FAB part tabs
-      document.querySelectorAll('.part-tab').forEach((tab, i) => {
-        tab.classList.toggle('active', i === index);
-      });
-      
-      // Update footer buttons
-      document.getElementById('btnPrev').disabled = index === 0;
-      document.getElementById('btnNext').style.display = index === TEST_DATA.parts.length - 1 ? 'none' : 'flex';
-      document.getElementById('btnSubmit').style.display = index === TEST_DATA.parts.length - 1 ? 'flex' : 'none';
+      // Footer buttons: Prev/Next/Submit pivot on the user's position
+      // within the POPULATED parts list, so they never lead the user into
+      // a hollow skeleton.
+      const populated = _populatedPartIndices();
+      const pos       = populated.indexOf(index);
+      const isFirst   = pos <= 0;
+      const isLast    = pos < 0 || pos === populated.length - 1;
+      document.getElementById('btnPrev').disabled       = isFirst;
+      document.getElementById('btnNext').style.display  = isLast ? 'none' : 'flex';
+      document.getElementById('btnSubmit').style.display = isLast ? 'flex' : 'none';
 
-      // Toggle floating submit on last part (both PC and mobile)
+      // Toggle floating submit on last populated part (both PC and mobile)
       const floatingSubmit = document.getElementById('mobileFloatingSubmit');
       if (floatingSubmit) {
-        if (index === TEST_DATA.parts.length - 1) {
+        if (isLast) {
           floatingSubmit.classList.add('visible');
         } else {
           floatingSubmit.classList.remove('visible');
         }
       }
-      
+
       // Scroll to top
       window.scrollTo(0, 0);
     }
@@ -5337,8 +5369,8 @@
         document.body.classList.add('review-injected');
       }
 
-      // Navigate to first part
-      showPart(0);
+      // Navigate to first populated part (skip skeleton entries).
+      showPart(_populatedPartIndices()[0] || 0);
     }
 
     // ── Inline-review injection (drop-downs + passage marks) ──────────
