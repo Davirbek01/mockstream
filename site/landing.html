@@ -30481,6 +30481,17 @@
         });
       }
 
+      // Snapshot the whole questions / answers / explanations triplet too.
+      // For reading-comprehension parts the top-level questions[] is empty
+      // (real questions live inside questionSections in the Other tab), so
+      // Layer E below won't fire — without these snapshots, Gemini's
+      // imported answers would be silently wiped on first Save.
+      var preservedQuestionsArr = Array.isArray(p.questions) ? p.questions.slice() : null;
+      var preservedAnswers      = (p.answers && typeof p.answers === 'object' && !Array.isArray(p.answers))
+        ? Object.assign({}, p.answers) : null;
+      var preservedExplanations = (p.explanations && typeof p.explanations === 'object' && !Array.isArray(p.explanations))
+        ? Object.assign({}, p.explanations) : null;
+
       // 3) Reset the part — drop everything, then layer back on.
       for (var existingKey in p) delete p[existingKey];
 
@@ -30557,6 +30568,15 @@
         p.questions = newQuestions;
         p.answers = newAnswers;
         p.explanations = newExplanations;
+      } else {
+        // No qHints in the DOM = the part has no top-level questions UI
+        // (reading-comprehension parts route their questions through
+        // questionSections in the Other tab). Re-attach whatever the part
+        // had before the wipe so Gemini-imported answers + explanations
+        // survive Save.
+        if (preservedQuestionsArr) p.questions     = preservedQuestionsArr;
+        if (preservedAnswers)      p.answers       = preservedAnswers;
+        if (preservedExplanations) p.explanations  = preservedExplanations;
       }
     }
 
