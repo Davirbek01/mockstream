@@ -28220,6 +28220,26 @@
       // either show the tab bar with structured panes or fall through to the
       // raw-JSON-only legacy view.
       _mmgInitTabs();
+      // Keep window._mmgEditing.mock_type in sync with the Type dropdown.
+      // Without this, a "New mock" picked up the default mt ('ielts-reading')
+      // and never updated when the user changed the dropdown to CEFR Reading.
+      // The import-part flow then routed to the IELTS backend with IELTS
+      // shape, while the eventual Save wrote mock_type='cefr-reading' from
+      // the dropdown — leaving a row whose mock_type and mock_data shape
+      // disagreed (see Mock 42 fallout). Bind once via a sentinel.
+      var typeSel = document.getElementById('mmgFldType');
+      if (typeSel && !typeSel._mmgBound) {
+        typeSel._mmgBound = true;
+        typeSel.addEventListener('change', function () {
+          if (window._mmgEditing) {
+            window._mmgEditing.mock_type = typeSel.value;
+            // Re-init structured tabs so the editor renders the right
+            // per-type panes immediately (CEFR Reading vs IELTS Reading
+            // show different field sets).
+            try { _mmgInitTabs(); } catch (e) {}
+          }
+        });
+      }
       document.getElementById('mmgEditModal').style.display = 'flex';
     }
     function _mmgEditClose() { document.getElementById('mmgEditModal').style.display = 'none'; }
@@ -31036,13 +31056,21 @@
     // into mock_data.passages[idx] without touching the other passages.
     function _mmgImportOpenPassage(idx) {
       var m = window._mmgEditing;
-      if (!m || (m.mock_type !== 'cefr-reading' && m.mock_type !== 'ielts-reading')) {
+      // Belt-and-suspenders: read the live dropdown value as the
+      // source of truth. _mmgEditing.mock_type SHOULD already be in
+      // sync (the dropdown change handler in _mmgEditOpen keeps it
+      // updated), but if the user clicked Import faster than the
+      // change event fired, the dropdown still wins.
+      var typeSel = document.getElementById('mmgFldType');
+      var currentType = (typeSel && typeSel.value) || (m && m.mock_type);
+      if (m) m.mock_type = currentType;
+      if (!m || (currentType !== 'cefr-reading' && currentType !== 'ielts-reading')) {
         alert('Per-passage import is currently available for CEFR Reading and IELTS Reading mocks only.');
         return;
       }
       window._mmgImportState = {
         files:        [],
-        examType:     m.mock_type,
+        examType:     currentType,
         scope:        'passage',
         passageIndex: idx
       };
