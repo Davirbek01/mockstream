@@ -11491,11 +11491,12 @@
         var sbMockId = (rows && rows.length) ? rows[0].id : null;
 
         // CEFR Speaking is fully Supabase-backed (the picker's upgrader
-        // rewrites every entry to ?sbmock=<id>). The picker uses loadMock
-        // directly — no landing-level access-code modal, gating happens
-        // inside the runner — so mirror that exact behavior here. ?num=NN
-        // forces _extractSpeakingMockNumber to return the real mock # rather
-        // than the Supabase row id (matches the upgrader's URL shape).
+        // rewrites every entry to ?sbmock=<id>). The speaking picker
+        // (openSpeakingCategoryModal) wires clicks to handleSpeakingMockClick,
+        // which is what shows the access-code modal and then routes through
+        // _launchSpeakingMock (mode chooser → loadMock). Mirror that flow.
+        // ?num=NN forces _extractSpeakingMockNumber to return the real mock #
+        // rather than the Supabase row id (matches the upgrader's URL shape).
         if (skill === 'speaking') {
           if (!sbMockId) {
             alert('CEFR Speaking Mock ' + mockNum + ' is not available right now.');
@@ -11504,11 +11505,12 @@
           var pageUrlSpk = 'Speaking Mocks.html?sbmock=' + encodeURIComponent(sbMockId)
                          + '&num=' + encodeURIComponent(String(mockNum).padStart(2, '0'))
                          + '&auto=1&action=practice';
-          if (typeof loadMock !== 'function') {
-            console.warn('[deep-link] loadMock not loaded');
+          if (typeof handleSpeakingMockClick !== 'function') {
+            console.warn('[deep-link] handleSpeakingMockClick not loaded — falling back to loadMock');
+            if (typeof loadMock === 'function') loadMock(pageUrlSpk, 'speaking');
             return;
           }
-          loadMock(pageUrlSpk, 'speaking');
+          handleSpeakingMockClick(pageUrlSpk, category);
           return;
         }
 
@@ -20492,17 +20494,19 @@
     const originalLoadMock = loadMock;
     loadMock = function (page, type) {
       currentView = 'mock';
-      // Defensive URL cleanup: if a stale /take/<slug> URL is lingering
-      // from a prior reading/listening interaction and the new mock is
-      // NEITHER reading NOR listening (i.e. a skill whose picker doesn't
-      // pushState a /take/ URL yet — writing / speaking / flashcards /
-      // articles / tests), strip the URL so the address bar doesn't lie
-      // about which skill the student is currently in. Reading + listening
-      // mocks keep their /take/<slug> URL because their pickers pushed it.
+      // Defensive URL cleanup: strip /take/<slug> only when the slug's
+      // skill does NOT match the mock being loaded. This preserves the
+      // URL for any deep-link arrival (/take/cefr-speaking-N → opens
+      // speaking, URL stays) while still clearing stale URLs left over
+      // from a previous reading/listening interaction when the student
+      // launches a different skill from the picker afterwards.
       try {
-        if (type !== 'reading' && type !== 'listening'
-            && /^\/take\//i.test(window.location.pathname)) {
-          history.replaceState(null, '', '/landing.html');
+        if (/^\/take\//i.test(window.location.pathname)) {
+          var _slugMatch = window.location.pathname.match(/^\/take\/[^\/?#]*?-(reading|listening|speaking)-\d+/i);
+          var _slugSkill = _slugMatch ? _slugMatch[1].toLowerCase() : null;
+          if (_slugSkill !== type) {
+            history.replaceState(null, '', '/landing.html');
+          }
         }
       } catch (_e) {}
       // Close any open fullscreen picker BEFORE the iframe loads —
