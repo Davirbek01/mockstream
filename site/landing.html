@@ -32260,9 +32260,11 @@
       var st  = window._mmgImportState;
       var ttl = document.getElementById('mmgImportTitle');
       if (!ttl) return;
-      // IELTS speaks in passages; CEFR speaks in parts. The data stays
-      // 1-based for the user's benefit in both cases.
-      var unit = (st.examType === 'cefr-reading') ? 'Part' : 'Passage';
+      // IELTS speaks in passages; CEFR speaks in parts; IELTS Listening
+      // calls them sections. Data stays 1-based for the user.
+      var unit = (st.examType === 'cefr-reading') ? 'Part'
+               : (st.examType === 'ielts-listening') ? 'Section'
+               : 'Passage';
       if (st.scope === 'passage') {
         ttl.textContent = '✨ Import ' + unit + ' ' + (st.passageIndex + 1) + ' from PDF / image';
       } else {
@@ -32272,8 +32274,8 @@
 
     function _mmgImportOpen() {
       var m = window._mmgEditing;
-      if (!m || (m.mock_type !== 'cefr-reading' && m.mock_type !== 'ielts-reading')) {
-        alert('Import is currently available for CEFR Reading and IELTS Reading mocks only.');
+      if (!m || (m.mock_type !== 'cefr-reading' && m.mock_type !== 'ielts-reading' && m.mock_type !== 'ielts-listening')) {
+        alert('Import is currently available for CEFR Reading, IELTS Reading, and IELTS Listening mocks.');
         return;
       }
       window._mmgImportState = { files: [], examType: m.mock_type, scope: 'full', passageIndex: 0 };
@@ -32318,8 +32320,8 @@
       var typeSel = document.getElementById('mmgFldType');
       var currentType = (typeSel && typeSel.value) || (m && m.mock_type);
       if (m) m.mock_type = currentType;
-      if (!m || (currentType !== 'cefr-reading' && currentType !== 'ielts-reading')) {
-        alert('Per-passage import is currently available for CEFR Reading and IELTS Reading mocks only.');
+      if (!m || (currentType !== 'cefr-reading' && currentType !== 'ielts-reading' && currentType !== 'ielts-listening')) {
+        alert('Per-section import is currently available for CEFR Reading, IELTS Reading, and IELTS Listening mocks.');
         return;
       }
       window._mmgImportState = {
@@ -32572,16 +32574,25 @@
             : null;
           if (!newObj) throw new Error('Edge function returned an invalid passage object');
 
-          var isCefrImport = (st.examType === 'cefr-reading');
-          var rootKey = isCefrImport ? 'parts' : 'passages';
-          var unitLabel = isCefrImport ? 'Part' : 'Passage';
-          var tabName   = isCefrImport ? ('cr_part' + (st.passageIndex + 1)) : ('ir_p' + (st.passageIndex + 1));
+          var isCefrImport      = (st.examType === 'cefr-reading');
+          var isListeningImport = (st.examType === 'ielts-listening');
+          // IELTS Listening stores sections in `parts[]` (like CEFR), keyed
+          // by partNumber — NOT in `passages[]` (IELTS Reading's shape).
+          var rootKey   = (isCefrImport || isListeningImport) ? 'parts' : 'passages';
+          var unitLabel = isCefrImport ? 'Part'
+                        : isListeningImport ? 'Section'
+                        : 'Passage';
+          var tabName   = isCefrImport      ? ('cr_part' + (st.passageIndex + 1))
+                        : isListeningImport ? ('il_part' + (st.passageIndex + 1))
+                        : ('ir_p' + (st.passageIndex + 1));
 
           if (!md[rootKey] || !Array.isArray(md[rootKey])) md[rootKey] = [];
           while (md[rootKey].length <= st.passageIndex) md[rootKey].push({});
-          if (isCefrImport) {
+          if (isCefrImport || isListeningImport) {
             newObj.partNumber = st.passageIndex + 1;
-            if (!newObj.title) newObj.title = 'Part ' + (st.passageIndex + 1);
+            if (!newObj.title) {
+              newObj.title = (isListeningImport ? 'Section ' : 'Part ') + (st.passageIndex + 1);
+            }
           } else {
             newObj.id = st.passageIndex + 1;
           }
@@ -32628,7 +32639,9 @@
             var aiTitle = j.mock_data && j.mock_data.testInfo && j.mock_data.testInfo.title;
             titleField.value = aiTitle && String(aiTitle).trim()
               ? String(aiTitle).trim()
-              : ((st.examType === 'cefr-reading') ? 'CEFR Reading Mock' : 'IELTS Reading Mock');
+              : ((st.examType === 'cefr-reading')   ? 'CEFR Reading Mock'
+              :  (st.examType === 'ielts-listening') ? 'IELTS Listening Mock'
+              :  'IELTS Reading Mock');
           }
           if (numField && numField.value.trim() === '') {
             try {

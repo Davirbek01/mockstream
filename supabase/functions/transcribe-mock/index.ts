@@ -225,6 +225,26 @@ const IELTS_SINGLE_PASSAGE_SHAPE = `{
   "correctAnswers": { "q1": [string], "q2": [string] }
 }`;
 
+const IELTS_LISTENING_SINGLE_PART_SHAPE = `{
+  "partNumber": number,                          // 1, 2, 3, or 4 — client overrides this
+  "title": string,                               // "Section 1" / "Section 2" / "Section 3" / "Section 4"
+  "type": "mixed",                               // always "mixed" — structural variety lives in subParts[]
+  "questionRange": string,                       // e.g. "1-10"
+  "instruction": string,                         // plain-text section instruction (no HTML)
+  "subParts": [ /* one or more sub-part objects — see rule 11 below for the 12 supported shapes */ ],
+  "answers": { "1": [string] }                   // per-question — array allows alternative spellings
+}`;
+
+const IELTS_LISTENING_SHAPE = `{
+  "testInfo": {
+    "id":              string,                   // e.g. "ielts-listening-test-02"
+    "title":           string,
+    "totalTime":       40,
+    "totalQuestions":  40
+  },
+  "parts": [ /* 4 single-section objects, partNumber 1..4 — see single-section shape and rule 11 */ ]
+}`;
+
 const CEFR_SINGLE_PART_SHAPE = `{
   "partNumber": number,
   "title": string,
@@ -260,14 +280,16 @@ function buildPrompt(
   scope: 'full' | 'passage' = 'full',
   passageIndex: number = 0
 ): string {
-  const isIelts = examType === 'ielts-reading';
-  const isCefr  = examType === 'cefr-reading';
-  const unit    = isIelts ? 'passage' : 'part';
-  const Unit    = isIelts ? 'Passage' : 'Part';
+  const isIelts          = examType === 'ielts-reading';
+  const isCefr           = examType === 'cefr-reading';
+  const isIeltsListening = examType === 'ielts-listening';
+  const unit = isIelts ? 'passage' : isIeltsListening ? 'section' : 'part';
+  const Unit = isIelts ? 'Passage' : isIeltsListening ? 'Section' : 'Part';
 
-  // Gap-marker rule differs by exam: CEFR uses span tags, IELTS uses {INPUT}.
-  const gapRule = isIelts
-    ? `4. **Fill-in-the-blank gaps in question text use the literal placeholder "{INPUT}"** — exactly that, no variation. Example: "A greater supply of {INPUT} was required to power steam engines." Do NOT use HTML span tags.`
+  // Gap-marker rule. CEFR Reading uses <span class="gap"> tags; IELTS
+  // Reading + Listening both use "{INPUT}" placeholders.
+  const gapRule = (isIelts || isIeltsListening)
+    ? `4. **Fill-in-the-blank gaps in question text use the literal placeholder "{INPUT}"** — exactly that, no variation. Example: "Address: {INPUT} Street." Do NOT use HTML span tags. ${isIeltsListening ? 'For "gap-fill-form" / "table-completion" sub-parts, the gap is described via the gapId field on the row/item — the surrounding "text" / "prefix" / "suffix" supplies the context. No {INPUT} marker is needed there; only in "sentence-completion" item text.' : ''}`
     : `4. **Fill-in-the-blank gaps in passage HTML use exactly:** <span class="gap" data-gap="N">_____(N)_____</span>  — where N is the question number. Do NOT vary the format.`;
 
   // Per-exam-type guidance for question-type detection + section structure.
@@ -297,6 +319,75 @@ function buildPrompt(
 \`<p><strong>A</strong> At some time in their lives, nearly all New Zealanders will have to attend an after-hours clinic…</p>\`
 \`<p><strong>B</strong> The irony is, New Zealand started out being ahead of the game…</p>\`
 Do this only when the source actually shows the letter as a paragraph marker (you'll see it visually beside the paragraph in the original). Do NOT invent letters for passages that aren't lettered. Do NOT put the letter inside a separate <p> or as plain text "A ".
+` : '';
+
+  // IELTS-Listening-specific type guide. The structural variety in
+  // listening lives in subParts[] inside each section; the section
+  // itself is always type="mixed". One section can contain multiple
+  // sub-parts (e.g., Section 1 is typically gap-fill-form for Q1-6 and
+  // table-completion for Q7-10). Read the section instructions + visible
+  // structure and emit ONE subPart per visibly-distinct block.
+  const ieltsListeningTypeGuide = isIeltsListening ? `
+11. **IELTS Listening sub-part type detection.** A section may contain ONE or MORE sub-parts. Each sub-part is exactly ONE of the 12 shapes below. Pick the one matching each visible block; emit them in source order inside subParts[]. Every question id in this section must be covered by exactly ONE sub-part.
+
+  • **gap-fill-form** — Section 1 most common (forms / notes / records). \`{ "type": "gap-fill-form", "instruction": string, "formTitle": string, "formContent": [
+        { "type": "text",     "text": "<literal context line, no blank>" }
+      | { "type": "item-gap", "text": "<context label before the blank, e.g. 'Address: '>", "gapId": number, "gapSuffix"?: "<context after the blank, e.g. ' Street'>" }
+    ] }\` — emit ONE item-gap per numbered blank; "text" / "gapSuffix" should be the SHORT label text adjacent to the blank, NOT a long summary.
+
+  • **table-completion** — Section 1 / 2. \`{ "type": "table-completion", "instruction": string, "tableTitle": string,
+       "headers": [string],
+       "rows": [
+         [ "<literal cell>" | { "type": "gap", "prefix": "<context before blank>", "gapId": number, "suffix"?: "<context after blank>" } ]
+       ] }\` — one row per table row; each cell is either a literal string OR a gap object (when the cell contains a numbered blank).
+
+  • **mcq-extracts** — single-answer A/B/C MCQ (Section 2/3 typical). \`{ "type": "mcq-extracts", "instruction": string,
+       "extracts": [
+         { "title"?: string,    // optional sub-heading (e.g. "Working as a lifeboat volunteer")
+           "questions": [
+             { "id": number, "text": "<question stem>", "options": [ { "letter": "A", "text": string }, { "letter": "B", ... }, { "letter": "C", ... } ] }
+           ] }
+       ] }\` — group questions into "extracts" only if the source visibly groups them under a sub-heading; otherwise use one extract.
+
+  • **mcq-multi** — "Choose TWO letters, A-E" (Section 2/3). \`{ "type": "mcq-multi", "instruction": string, "stem": string,
+       "options": [ { "letter": "A", "text": string }, ... ],
+       "questions": [ { "id": number }, { "id": number } ] }\` — emit TWO question entries (one per blank) that share the same options.
+
+  • **matching** — match items to a letter pool (Section 3 typical, also Section 2 sometimes). \`{ "type": "matching", "instruction": string, "boxTitle": string,
+       "options": [ { "letter": "A", "text": string }, ... ],   // letter pool — includes distractors
+       "questions": [ { "id": number, "text": "<the thing being matched>" } ] }\`.
+
+  • **sentence-completion** — "Complete the sentences. Write NO MORE THAN TWO WORDS…" (Section 4 typical). \`{ "type": "sentence-completion", "instruction": string,
+       "items": [ { "id": number, "text": "Sentence with a {INPUT} marker where the blank is." } ] }\` — exactly ONE {INPUT} per item.
+
+  • **summary-completion** — long paragraph with multiple inline blanks (Section 4 sometimes). \`{ "type": "summary-completion", "instruction": string,
+       "summaryText": "<HTML paragraph with markers <span class=\\"gap-input\\" data-gap=\\"N\\">_____(N)_____</span>>",
+       "questions": [ { "id": number, "hint"?: string } ] }\`.
+
+  • **flowchart-completion** — labelled flow chart with blanks (Section 3/4 less common). \`{ "type": "flowchart-completion", "instruction": string, "boxTitle"?: string,
+       "options"?: [ { "letter": "A", "text": string } ],   // present only when the flow chart uses a word bank A-H
+       "steps": [
+         { "label": "<box label / step title>", "items": [ "<literal line>" | { "type": "gap", "gapId": number, "prefix"?: string, "suffix"?: string } ] }
+       ] }\`.
+
+  • **map-labelling** — "Label the map below. Write the correct letter…" (Section 2 sometimes). \`{ "type": "map-labelling", "instruction": string,
+       "mapImage"?: string,         // ALWAYS leave empty here — admin uploads via the editor; the editor populates parts[1].mapImage separately
+       "options": [ { "letter": "A", "text": "<feature description>" } ],   // labels A-H typically
+       "questions": [ { "id": number, "text": "<thing being placed on the map, e.g. 'Cafe'>" } ] }\` — note: do NOT include a mapImage URL here; the editor manages map uploads separately.
+
+  • **diagram-labelling** — "Label the diagram below." (Section 4 sometimes). \`{ "type": "diagram-labelling", "instruction": string,
+       "items": [ { "id": number, "text": "<label or pointer text containing {INPUT}>" } ] }\`.
+
+  • **short-answer** — "Answer the questions below. Write NO MORE THAN THREE WORDS…" (any section). \`{ "type": "short-answer", "instruction": string,
+       "items": [ { "id": number, "text": "<the question itself, e.g. 'How long is the course?'>" } ] }\`.
+
+  • **classification** — "Classify the following as A / B / C" (Section 3 sometimes). \`{ "type": "classification", "instruction": string,
+       "categories": [ { "letter": "A", "text": "<category label>" } ],
+       "questions": [ { "id": number, "text": "<the item being classified>" } ] }\`.
+
+12. **IELTS Listening — fields NOT to emit on import**. Leave \`audioFile\`, \`transcript\`, \`audioStartSec\`, \`audioLayout\`, and (for Section 2) \`mapImage\` OUT of the JSON — the admin sets those via separate upload + transcribe flows. Emit only the structural content listed above.
+
+13. **Always emit a flat \`answers\` dict** keyed by question id (as a string), regardless of which sub-part the question lives in. Example: \`{ "1": ["Mathieson"], "2": ["beginners"], "11": ["B"], "17": ["A"], "23": ["F"] }\`. Arrays wrap every answer so alternative spellings can be added later. For multi-answer questions (mcq-multi), each id holds ONE of the chosen letters: \`{ "16": ["B"], "17": ["D"] }\` — the runner treats the pair as interchangeable.
 ` : '';
 
   // CEFR-specific type guide. A real CEFR B1-B2-C1 Reading test ALWAYS has
@@ -330,9 +421,10 @@ Do this only when the source actually shows the letter as a paragraph marker (yo
   // ONE passage (typically because each passage comes from a different
   // source), so we tell the model to expect that and emit a single
   // passage object instead of a full mock envelope.
+  const examLabel = isIeltsListening ? 'IELTS Listening' : (isIelts ? 'IELTS Reading' : 'CEFR Reading');
   const scopeIntro = scope === 'passage'
-    ? `The user has uploaded image(s) and / or PDF(s) for **just ONE ${unit}** of a ${examType} reading mock — specifically ${Unit} ${passageIndex || '?'}. Treat the uploaded files as that single ${unit} only. The accompanying answer-key files (if any) cover ONLY this ${unit}'s questions. Output a single ${unit} object — NOT wrapped in a "${isIelts ? 'passages' : 'parts'}" array, NOT wrapped in any envelope.`
-    : `The user has uploaded image(s) and / or PDF(s) of a ${examType} reading mock test that they own or have licensed.`;
+    ? `The user has uploaded image(s) and / or PDF(s) for **just ONE ${unit}** of an ${examLabel} mock — specifically ${Unit} ${passageIndex || '?'}. Treat the uploaded files as that single ${unit} only. The accompanying answer-key files (if any) cover ONLY this ${unit}'s questions. Output a single ${unit} object — NOT wrapped in any envelope or array.`
+    : `The user has uploaded image(s) and / or PDF(s) of an ${examLabel} mock test that they own or have licensed.`;
 
   return `You are a faithful exam-content transcriber. ${scopeIntro}
 
@@ -352,7 +444,7 @@ ${gapRule}
 
 6. Answer keys: leave empty ({} or omitted) unless the source clearly contains an answer key. Do NOT guess answers — TFNG / matching / inference will be wrong.
 
-7. Detect each part / section's question type from its instruction text. ${isIelts ? 'See rule 11 below for IELTS-specific patterns.' : 'See rule 11 below for the CEFR per-part table (a standard test has exactly 5 parts in a fixed order — gap-fill-text, matching, matching-headings, reading-comprehension, reading-comprehension).'}
+7. Detect each part / section's question type from its instruction text. ${isIelts ? 'See rule 11 below for IELTS Reading patterns.' : isIeltsListening ? 'See rule 11 below for the 12 IELTS Listening sub-part shapes — one section can contain multiple sub-parts.' : 'See rule 11 below for the CEFR per-part table (a standard test has exactly 5 parts in a fixed order — gap-fill-text, matching, matching-headings, reading-comprehension, reading-comprehension).'}
 
 8. Files come in two groups (each file's "group" field is provided in the file's preceding text marker). Group A = "test" (treat as consecutive pages of one document). Group B = "answer-key" (optional). Match each answer-key entry to the corresponding question by ID and populate answers / correctAnswers. If Group B is empty or unreadable, leave answer keys blank.
 
@@ -363,7 +455,7 @@ ${gapRule}
 ${shape}
 
 No commentary outside the JSON. No markdown fences. No explanation.
-${ieltsTypeGuide}${cefrTypeGuide}
+${ieltsTypeGuide}${cefrTypeGuide}${ieltsListeningTypeGuide}
 The user owns or has licensed this content. Transcription is authorised — do not refuse or hedge on copyright grounds. The "user owns this" framing is a fact, not a request.
 
 Optional notes from the author: ${notes || '(none)'}`;
@@ -1061,21 +1153,8 @@ Deno.serve(async (req) => {
     return json(400, { error: 'bad_exam_type', detail: 'expected "cefr-reading", "ielts-reading", or "ielts-listening"' });
   }
 
-  // IELTS Listening: explanations flow is supported below; bulk + per-section
-  // PDF/image import will land in a follow-up commit once the listening
-  // sub-part prompt templates are ready (each listening section can mix
-  // gap-fill-form / table-completion / mcq-extracts / matching / sentence-
-  // completion in one go, so the prompt needs more sub-part scaffolding
-  // than the reading equivalents). Until then, return a clear 501 with a
-  // workaround note so the admin knows the editor's Other-tab JSON paste
-  // is the path forward for those flows.
-  if (examType === 'ielts-listening'
-      && (body.scope || '').toString() !== 'explanations') {
-    return json(501, {
-      error: 'not_implemented',
-      detail: 'IELTS Listening bulk / per-section PDF import is coming in the next commit. For now, paste a structured section JSON into the editor\'s Other sub-tab, or upload + transcribe audio via the Audio & Transcript sub-tab.'
-    });
-  }
+  // IELTS Listening import is now fully wired (see buildPrompt's
+  // ieltsListeningTypeGuide rule 11). Single shared code path with reading.
 
   // ── EXPLANATIONS scope: separate flow, no file upload ───────────
   // Generates { qN: { text, quote } } for an already-imported passage.
@@ -1133,8 +1212,12 @@ Deno.serve(async (req) => {
     : 0;
 
   const shape = scope === 'passage'
-    ? (examType === 'cefr-reading' ? CEFR_SINGLE_PART_SHAPE : IELTS_SINGLE_PASSAGE_SHAPE)
-    : (examType === 'cefr-reading' ? CEFR_SHAPE             : IELTS_SHAPE);
+    ? (examType === 'cefr-reading'    ? CEFR_SINGLE_PART_SHAPE
+    :  examType === 'ielts-listening' ? IELTS_LISTENING_SINGLE_PART_SHAPE
+    :  IELTS_SINGLE_PASSAGE_SHAPE)
+    : (examType === 'cefr-reading'    ? CEFR_SHAPE
+    :  examType === 'ielts-listening' ? IELTS_LISTENING_SHAPE
+    :  IELTS_SHAPE);
   const prompt = buildPrompt(examType, notes, shape, scope, passageIndex);
 
   // ── Try Gemini → fall back to GPT-4o ────────────────────────────
@@ -1206,6 +1289,8 @@ Deno.serve(async (req) => {
       && (
         examType === 'ielts-reading'
           ? typeof (mockData as Record<string, unknown>).passage === 'string'
+          : examType === 'ielts-listening'
+            ? Array.isArray((mockData as Record<string, unknown>).subParts)
           : (() => {
               // CEFR per-part shape varies by question type:
               //   • matching                   → texts[] + statements[] (NO passage)
@@ -1224,13 +1309,15 @@ Deno.serve(async (req) => {
     if (!ok) {
       return json(502, {
         error:           'shape_mismatch',
-        detail:          'expected a single ' + (examType === 'ielts-reading' ? 'passage' : 'part') + ' object',
+        detail:          'expected a single ' + (examType === 'ielts-reading' ? 'passage' : examType === 'ielts-listening' ? 'section' : 'part') + ' object',
         model_used:      modelUsed,
         fallback_reason: fallbackReason
       });
     }
   } else {
-    const rootKey = examType === 'cefr-reading' ? 'parts' : 'passages';
+    // IELTS Listening uses `parts[]` (like CEFR Reading) — sections are
+    // indexed 1..4 via partNumber. Only IELTS Reading uses `passages[]`.
+    const rootKey = (examType === 'cefr-reading' || examType === 'ielts-listening') ? 'parts' : 'passages';
     if (!mockData || typeof mockData !== 'object' || Array.isArray(mockData)
         || !Array.isArray((mockData as Record<string, unknown>)[rootKey])) {
       return json(502, {
