@@ -15542,7 +15542,7 @@
     //   3. iletRender() swaps skeletons for real cards.
     //   4. Done-tracking comes from localStorage keys written by IELTS Listening.html
     //      on Submit.
-    const _ilet_CACHE_KEY = 'ms_ilet_meta_v4';
+    const _ilet_CACHE_KEY = 'ms_ilet_meta_v5';
     const _ilet_CACHE_TTL = 24 * 60 * 60 * 1000;
     const _ilet_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
     const _ilet_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
@@ -15564,16 +15564,30 @@
 
     function _iletBuildMetaFromMockData(md) {
       const sections = (md && Array.isArray(md.parts) ? md.parts : []).map(p => {
-        // Listening: a section is "ready" once it has subParts content AND an
-        // answer key. Audio + transcript are uploaded separately and don't
-        // gate readiness for the picker (so an admin can publish before
-        // audio is in place; the runner falls back gracefully).
-        const subPartsList = Array.isArray(p.subParts) ? p.subParts : [];
-        const hasStructure = subPartsList.length > 0;
+        // Listening readiness check covers both shapes the static + Supabase
+        // files use:
+        //   • Modern (multi-type sections): structural content nested under
+        //     subParts[] — gap-fill-form / mcq-extracts / matching / etc.
+        //   • Legacy (single-type sections): structural content flattened to
+        //     the part level — type + formContent[] / questions[] / extracts[]
+        //     / items[] / rows[] live directly on the part, no subParts[]
+        //     wrapper. ~half of the static IELTS Listening files use this
+        //     shape for Section 4 (one-type sentence-completion).
+        // Audio + transcript are uploaded separately and don't gate readiness
+        // (admin can publish before uploading audio; runner falls back).
         const hasAnswers = p.answers && typeof p.answers === 'object' && Object.keys(p.answers).length > 0;
+        const hasContent = !!(
+          (Array.isArray(p.subParts)    && p.subParts.length > 0)    ||
+          (Array.isArray(p.questions)   && p.questions.length > 0)   ||
+          (Array.isArray(p.formContent) && p.formContent.length > 0) ||
+          (Array.isArray(p.extracts)    && p.extracts.length > 0)    ||
+          (Array.isArray(p.rows)        && p.rows.length > 0)        ||
+          (Array.isArray(p.items)       && p.items.length > 0)       ||
+          p.summaryText
+        );
         return {
           title: p.title || ('Section ' + (p.partNumber || '?')),
-          ready: !!(hasStructure && hasAnswers)
+          ready: !!(hasAnswers && hasContent)
         };
       });
       while (sections.length < 4) sections.push({ title: '—', ready: false });
