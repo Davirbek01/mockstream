@@ -8394,7 +8394,20 @@
     .ilet-source-filter:hover { border-color: #f97316; }
     .ilet-source-filter:focus { box-shadow: 0 0 0 3px rgba(249,115,22,.15); }
     @media (max-width: 600px) {
-      .ilet-source-filter { margin-left: 0; width: 100%; }
+      /* Tighten the filter row so all 4 chips fit on one line + the
+         source dropdown sits compactly next to them rather than on a
+         separate full-width row. Smaller chip padding + font + a tiny
+         wrap gap lets the row stay 1-2 lines tall instead of 3. */
+      .ilet-filter-row { padding: 10px 14px 0; gap: 6px; }
+      .ilet-chip { padding: 5px 10px; font-size: 11.5px; }
+      .ilet-source-filter {
+        margin-left: 0;
+        width: auto;
+        max-width: 100%;
+        padding: 5px 10px;
+        font-size: 11.5px;
+        flex: 1 1 140px;
+      }
     }
     .ilet-grid {
       display: grid;
@@ -8596,10 +8609,15 @@
     }
     .ilet-empty-clear:hover { border-color: #f97316; background: #fff7ed; }
     @media (max-width: 600px) {
-      .ilet-header { flex-wrap: wrap; padding: 10px 14px; }
-      .ilet-header-tools { width: 100%; }
-      .ilet-search { max-width: none; }
-      .ilet-source { max-width: 65%; font-size: 10px; padding: 3px 8px; }
+      .ilet-header { flex-wrap: wrap; padding: 10px 14px; gap: 8px; }
+      .ilet-header-tools { width: 100%; gap: 6px; }
+      .ilet-search { max-width: none; padding: 7px 10px; font-size: 13px; }
+      .ilet-sort { padding: 7px 10px; font-size: 12px; }
+      .ilet-source { max-width: 140px; font-size: 9.5px; padding: 3px 7px; }
+      .ilet-title-text { font-size: 16px; }
+      .ilet-count { font-size: 12px; padding: 2px 7px; }
+      .ilet-card { padding: 14px; min-height: 220px; gap: 10px; }
+      .ilet-mock-title { font-size: 15px; }
     }
     @media (max-width: 600px) {
       .iret-header { flex-wrap: wrap; padding: 10px 14px; }
@@ -9977,7 +9995,7 @@
 
   <!-- Listening Access Code Modal -->
   <div id="listeningAccessCodeModal"
-    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);z-index:10002;align-items:center;justify-content:center;padding:20px;"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);z-index:100004;align-items:center;justify-content:center;padding:20px;"
     onclick="cancelListeningAccessCodeModal()">
     <div
       style="background:var(--card);border:2px solid var(--brand);border-radius:20px;padding:28px;max-width:380px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:slideUp 0.3s ease;"
@@ -15468,15 +15486,17 @@
       overlay.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
       _pickerHideTmaBack();
-      // Sync history: if close came from a manual UI action (X / Escape /
-      // card click → modal verified → runner), pop the entry we pushed on
-      // open so a future back press takes the student to the prior page,
-      // not to a now-empty picker state. If close came from popstate (the
-      // user already pressed back), skip — history is already correct.
+      // History + URL sync (see iletClose for the full reasoning). After
+      // a card click pushed /take/<slug> on top of our picker state, the
+      // picker close needs to BOTH pop the picker state AND strip the
+      // /take/ URL so the visible landing view matches the address bar.
       if (!_pickerFromPopstate) {
         try {
           if (history.state && history.state.picker === 'iret') {
             history.back();
+          }
+          if (/^\/take\//i.test(window.location.pathname)) {
+            history.replaceState(null, '', '/landing.html');
           }
         } catch (_e) {}
       }
@@ -15945,15 +15965,23 @@
       overlay.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
       _pickerHideTmaBack();
-      // Sync history: if close came from a manual UI action (X / Escape /
-      // card click → modal verified → runner), pop the entry we pushed on
-      // open so a future back press takes the student to the prior page,
-      // not to a now-empty picker state. If close came from popstate (the
-      // user already pressed back), skip — history is already correct.
+      // History + URL sync. Two cases that both end up "back on landing":
+      //   • Topmost state is our own pushState({picker:'ilet'}) — pop it
+      //     with history.back() so the back stack stays tidy.
+      //   • Topmost state was added by a card click (pushState'd a
+      //     /take/<slug> URL on top of ours). In that case history.back
+      //     would only undo the card-click step, leaving the picker
+      //     state still beneath; AND the URL would still read /take/...
+      //     until the next back. Belt-and-braces: also replaceState to
+      //     /landing.html whenever the URL is currently a take URL, so
+      //     the address bar matches the now-visible landing view.
       if (!_pickerFromPopstate) {
         try {
           if (history.state && history.state.picker === 'ilet') {
             history.back();
+          }
+          if (/^\/take\//i.test(window.location.pathname)) {
+            history.replaceState(null, '', '/landing.html');
           }
         } catch (_e) {}
       }
@@ -16433,10 +16461,14 @@
       overlay.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
       _pickerHideTmaBack();
+      // History + URL sync (see iletClose for the full reasoning).
       if (!_pickerFromPopstate) {
         try {
           if (history.state && history.state.picker === 'cret') {
             history.back();
+          }
+          if (/^\/take\//i.test(window.location.pathname)) {
+            history.replaceState(null, '', '/landing.html');
           }
         } catch (_e) {}
       }
