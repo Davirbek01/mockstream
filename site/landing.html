@@ -32539,6 +32539,123 @@
       }
     };
 
+    // Deterministic gapId renumberer for the Other JSON. Walks subParts
+    // in order and assigns gapId 1, 2, 3, … to every entry that has a
+    // gapId field. Also updates table-completion row cells (rows[][].gapId).
+    // No AI — instant, no network call, can't go wrong.
+    window._mmgIlRenumberGapIds = function (n) {
+      var ta = document.getElementById('mmgIlP' + n + '_other');
+      var st = document.getElementById('mmgIlP' + n + '_otherStatus');
+      if (!ta || !st) return;
+      var raw = ta.value || '';
+      var obj;
+      try { obj = JSON.parse(raw); }
+      catch (e) { st.textContent = '✗ Fix JSON first (' + e.message + ')'; st.style.color = '#dc2626'; return; }
+
+      var counter = 0;
+      function walk(node) {
+        if (Array.isArray(node)) { node.forEach(walk); return; }
+        if (node && typeof node === 'object') {
+          if (Object.prototype.hasOwnProperty.call(node, 'gapId')) {
+            node.gapId = ++counter;
+          }
+          for (var k in node) if (Object.prototype.hasOwnProperty.call(node, k)) walk(node[k]);
+        }
+      }
+      walk(obj);
+      ta.value = JSON.stringify(obj, null, 2);
+      st.textContent = '↻ Renumbered ' + counter + ' gapId' + (counter === 1 ? '' : 's') + ' (1..' + counter + ')';
+      st.style.color = '#0891b2';
+    };
+
+    // Gemini-patch handler for the Other JSON. Sends current JSON +
+    // user instruction to the patch-listening-json Edge Function;
+    // opens a preview modal showing Gemini\'s patched JSON; admin
+    // accepts to overwrite the textarea or discards to keep current.
+    window._mmgIlPatchOther = async function (n) {
+      var ta = document.getElementById('mmgIlP' + n + '_other');
+      var instrEl = document.getElementById('mmgIlP' + n + '_patchInstr');
+      var btn = document.getElementById('mmgIlP' + n + '_patchBtn');
+      var st = document.getElementById('mmgIlP' + n + '_otherStatus');
+      if (!ta || !instrEl || !btn) return;
+      var instruction = (instrEl.value || '').trim();
+      if (!instruction) { st.textContent = '✗ Type what you want Gemini to change first'; st.style.color = '#dc2626'; return; }
+      var currentJson = ta.value || '';
+      if (currentJson.trim() === '') { st.textContent = '✗ Textarea is empty — nothing to patch'; st.style.color = '#dc2626'; return; }
+
+      btn.disabled = true; var prevLabel = btn.innerHTML; btn.innerHTML = '⏳ Working…';
+      st.textContent = 'Asking Gemini to apply: "' + instruction.slice(0, 80) + (instruction.length > 80 ? '…' : '') + '"';
+      st.style.color = '#64748b';
+
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      try {
+        var resp = await fetch(SB_URL + '/functions/v1/patch-listening-json', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY },
+          body: JSON.stringify({ currentJson: currentJson, instruction: instruction })
+        });
+        var data = await resp.json();
+        if (!resp.ok || !data.ok) {
+          st.textContent = '✗ ' + (data.error || ('HTTP ' + resp.status));
+          st.style.color = '#dc2626';
+          return;
+        }
+        _mmgIlShowPatchPreview(n, ta, data.patchedFormatted, data.notes);
+      } catch (e) {
+        st.textContent = '✗ Network error: ' + e.message;
+        st.style.color = '#dc2626';
+      } finally {
+        btn.disabled = false; btn.innerHTML = prevLabel;
+      }
+    };
+
+    // Preview modal — shows the patched JSON read-only with Accept /
+    // Discard buttons. On Accept, copies into the textarea and clears
+    // the instruction input. On Discard, closes without touching
+    // anything. Inline-styled to avoid touching the rest of the
+    // editor's CSS.
+    function _mmgIlShowPatchPreview(n, targetTa, patchedText, notes) {
+      var st = document.getElementById('mmgIlP' + n + '_otherStatus');
+      var existing = document.getElementById('mmgIlPatchPreview');
+      if (existing) existing.remove();
+      var modal = document.createElement('div');
+      modal.id = 'mmgIlPatchPreview';
+      modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(3px);z-index:100010;display:flex;align-items:center;justify-content:center;padding:24px;';
+      var notesBanner = notes
+        ? '<div style="background:#fef3c7;border:1px solid #f59e0b;color:#92400e;border-radius:8px;padding:8px 12px;font-size:12px;margin-bottom:10px;"><strong>Note from Gemini:</strong> ' + (notes.replace(/[<>]/g, '')) + '</div>'
+        : '';
+      modal.innerHTML =
+          '<div style="background:#fff;border-radius:14px;padding:18px;max-width:760px;width:100%;max-height:80vh;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 60px rgba(0,0,0,0.3);">'
+        +   '<div style="display:flex;align-items:center;gap:8px;">'
+        +     '<div style="font-size:16px;font-weight:700;color:#0f172a;">✨ Preview — Gemini\'s patched JSON</div>'
+        +     '<span style="flex:1;"></span>'
+        +     '<button type="button" id="mmgIlPatchDiscard" style="background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;border-radius:6px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;">✗ Discard</button>'
+        +     '<button type="button" id="mmgIlPatchAccept"  style="background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;border:0;border-radius:6px;padding:5px 14px;font-size:12px;font-weight:700;cursor:pointer;">✓ Apply to editor</button>'
+        +   '</div>'
+        +   notesBanner
+        +   '<div style="font-size:11px;color:#64748b;">Review the patched JSON below. Apply only if it looks right; otherwise Discard and refine your instruction.</div>'
+        +   '<textarea readonly spellcheck="false" data-gramm="false" '
+        +     'style="flex:1;min-height:380px;font:12px ui-monospace,monospace;border:1px solid #cbd5e1;border-radius:8px;padding:10px;resize:vertical;background:#f8fafc;">'
+        +     String(patchedText).replace(/[<>&]/g, function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;'}[c];})
+        +   '</textarea>'
+        + '</div>';
+      document.body.appendChild(modal);
+      document.getElementById('mmgIlPatchAccept').onclick = function () {
+        targetTa.value = patchedText;
+        modal.remove();
+        if (st) { st.textContent = '✓ Gemini patch applied. Click Save when ready.'; st.style.color = '#16a34a'; }
+        // Clear the instruction so a follow-up "Apply" doesn\'t re-fire
+        // the same prompt by accident.
+        var instrEl = document.getElementById('mmgIlP' + n + '_patchInstr');
+        if (instrEl) instrEl.value = '';
+      };
+      document.getElementById('mmgIlPatchDiscard').onclick = function () {
+        modal.remove();
+        if (st) { st.textContent = '✗ Patch discarded. Editor unchanged.'; st.style.color = '#64748b'; }
+      };
+    }
+
     // Show/hide merged + per-section blocks when the layout radio changes.
     window._mmgIlOnLayoutChange = function () {
       var sel = document.querySelector('input[name="mmgIlTi_layout"]:checked');
@@ -32769,15 +32886,30 @@
       }
       html += subOpen('other');
       html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">Listening-specific structured fields: <code>type</code>, <code>subParts[]</code> (gap-fill-form, table-completion, mcq-extracts, …), <code>answerHighlights</code> (transcript line numbers). Edit only if you know the shape — Gemini import populates these for you.</div>';
-      // Format / Validate button — runs JSON.parse on the textarea content
-      // and reports OK or the parse error position inline. Saves the round
-      // trip of "edit → Save → error → scroll → fix → Save".
-      html += '<div style="margin-bottom:6px;display:flex;gap:8px;align-items:center;">'
+      // Tools row 1: Format/Validate + Renumber gapIds (deterministic — no AI).
+      html += '<div style="margin-bottom:6px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">'
             +   '<button type="button" onclick="_mmgIlValidateOther(' + n + ')" '
             +     'style="background:#fef3c7;border:1px solid #f59e0b;color:#92400e;border-radius:6px;padding:4px 10px;font-size:11.5px;font-weight:600;cursor:pointer;">'
             +     '↔ Format / Validate'
             +   '</button>'
+            +   '<button type="button" onclick="_mmgIlRenumberGapIds(' + n + ')" '
+            +     'title="Walks subParts in order and renumbers every gapId field to 1, 2, 3, … No AI."'
+            +     ' style="background:#ecfeff;border:1px solid #0891b2;color:#155e75;border-radius:6px;padding:4px 10px;font-size:11.5px;font-weight:600;cursor:pointer;">'
+            +     '↻ Renumber gapIds'
+            +   '</button>'
             +   '<span id="mmgIlP' + n + '_otherStatus" style="font-size:11.5px;color:#64748b;"></span>'
+            + '</div>';
+      // Tools row 2: Gemini-patch. Admin describes a surgical change in
+      // English; the patch-listening-json Edge Function returns Gemini\'s
+      // rewritten JSON and a preview modal lets them Accept or Discard.
+      html += '<div style="margin-bottom:6px;display:flex;gap:6px;align-items:stretch;flex-wrap:nowrap;">'
+            +   '<input type="text" id="mmgIlP' + n + '_patchInstr" '
+            +     'placeholder="Ask Gemini to change something — e.g. \'Add Q10: &quot;The registered license number is:&quot; with gapId 10\'" '
+            +     'style="flex:1;padding:5px 10px;border:1px solid #cbd5e1;border-radius:6px;font-size:12px;">'
+            +   '<button type="button" onclick="_mmgIlPatchOther(' + n + ')" id="mmgIlP' + n + '_patchBtn" '
+            +     'style="background:linear-gradient(135deg,#a855f7,#7c3aed);border:0;color:#fff;border-radius:6px;padding:5px 12px;font-size:11.5px;font-weight:700;cursor:pointer;white-space:nowrap;">'
+            +     '✨ Apply with Gemini'
+            +   '</button>'
             + '</div>';
       // data-gramm + data-enable-grammarly="false" disables the Grammarly
       // browser extension on this textarea — Grammarly silently converts
