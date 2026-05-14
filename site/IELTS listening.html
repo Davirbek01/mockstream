@@ -4983,8 +4983,14 @@
     }
 
     function generatePartNav() {
+      // Tab labels are kept terse ("Part 1" / "Part 2" / …) to leave
+      // room in the header for the audio player + timer — matches the
+      // CEFR Listening style. The full content topic
+      // (e.g. "Finding a rental property") still appears in the big
+      // section heading below the header, and is available as the
+      // button's tooltip on hover, so context isn't lost.
       const btnHtml = TEST_DATA.parts.map((part, i) =>
-        '<button class="part-btn" data-part="' + i + '">' + part.title + '</button>'
+        '<button class="part-btn" data-part="' + i + '" title="' + (part.title || '').replace(/"/g, '&quot;') + '">Part ' + (part.partNumber || (i + 1)) + '</button>'
       ).join('');
 
       // Populate PC part nav (desktop header)
