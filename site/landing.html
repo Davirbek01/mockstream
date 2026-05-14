@@ -7940,6 +7940,46 @@
     </div>
   </div>
 
+  <!-- IELTS Listening fullscreen picker — clone of iretPicker, listening data shape. -->
+  <div id="iletPicker" class="ilet-overlay" aria-hidden="true">
+    <header class="ilet-header">
+      <button class="ilet-back" type="button" onclick="iletClose()" title="Back to landing">←</button>
+      <div class="ilet-title">
+        <span class="ilet-title-emoji">🎧</span>
+        <span class="ilet-title-text">IELTS Listening</span>
+        <span class="ilet-count" id="iletCount">0</span>
+      </div>
+      <div class="ilet-header-tools">
+        <input type="search" class="ilet-search" id="iletSearch" placeholder="🔍 Search mock #, source, section…" autocomplete="off" spellcheck="false">
+        <select class="ilet-sort" id="iletJump" title="Jump to mock #">
+          <option value="">Jump to #…</option>
+          <!-- Number options injected by _iletBuildJumpOptions() once cards render -->
+        </select>
+      </div>
+    </header>
+
+    <div class="ilet-filter-row">
+      <button type="button" class="ilet-chip ilet-chip-active" data-filter="all">All</button>
+      <button type="button" class="ilet-chip" data-filter="ready">✓ Ready only</button>
+      <button type="button" class="ilet-chip" data-filter="soon">⏳ Coming soon</button>
+      <button type="button" class="ilet-chip" data-filter="done">★ Done before</button>
+      <select class="ilet-source-filter" id="iletSourceFilter" title="Filter by source">
+        <option value="">📚 All sources</option>
+        <!-- Source options injected by _iletBuildSourceOptions() once cards render -->
+      </select>
+    </div>
+
+    <main class="ilet-grid" id="iletGrid">
+      <!-- Skeleton cards injected on open, replaced with real cards once data loads -->
+    </main>
+
+    <div class="ilet-empty" id="iletEmpty" style="display:none;">
+      <div class="ilet-empty-icon">🔍</div>
+      <p class="ilet-empty-msg">No mocks match your filters.</p>
+      <button type="button" class="ilet-empty-clear" onclick="iletClearFilters()">Clear filters</button>
+    </div>
+  </div>
+
   <style>
     /* ===== Full-screen IELTS Reading picker ===== */
     .iret-overlay {
@@ -8244,6 +8284,310 @@
       cursor: pointer;
     }
     .iret-empty-clear:hover { border-color: #f97316; background: #fff7ed; }
+
+    /* IELTS Listening picker — same styling as iret, scoped to .ilet-* */
+    .ilet-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100003;
+      background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%);
+      overflow-y: auto;
+      flex-direction: column;
+    }
+    .ilet-overlay.ilet-open { display: flex; }
+    .ilet-header {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 24px;
+      background: rgba(255, 247, 237, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #fed7aa;
+    }
+    .ilet-back {
+      flex-shrink: 0;
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      border: none;
+      background: #fff;
+      color: #c2410c;
+      font-size: 20px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(194,65,12,.15);
+      transition: all .15s;
+    }
+    .ilet-back:hover { background: #c2410c; color: #fff; transform: translateX(-2px); }
+    .ilet-title {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 18px; font-weight: 700; color: #7c2d12;
+      flex-shrink: 0;
+    }
+    .ilet-title-emoji { font-size: 22px; }
+    .ilet-count {
+      background: linear-gradient(135deg,#f97316,#ea580c);
+      color: #fff; font-size: 12px; font-weight: 700;
+      padding: 3px 10px; border-radius: 999px;
+      min-width: 28px; text-align: center;
+    }
+    .ilet-header-tools {
+      flex: 1;
+      display: flex; gap: 10px; justify-content: flex-end;
+    }
+    .ilet-search {
+      flex: 1; max-width: 360px;
+      padding: 9px 14px;
+      border: 1.5px solid #fed7aa;
+      border-radius: 10px;
+      font-size: 13.5px;
+      background: #fff;
+      outline: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .ilet-search:focus { border-color: #f97316; box-shadow: 0 0 0 3px rgba(249,115,22,.15); }
+    .ilet-sort {
+      padding: 9px 12px;
+      border: 1.5px solid #fed7aa;
+      border-radius: 10px;
+      font-size: 13px;
+      background: #fff;
+      cursor: pointer;
+      outline: none;
+    }
+    .ilet-filter-row {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      padding: 14px 24px 0;
+    }
+    .ilet-chip {
+      padding: 7px 14px;
+      border: 1.5px solid #fed7aa;
+      border-radius: 999px;
+      background: #fff;
+      color: #9a3412;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .ilet-chip:hover { border-color: #f97316; }
+    .ilet-chip-active {
+      background: linear-gradient(135deg,#f97316,#ea580c);
+      color: #fff;
+      border-color: #ea580c;
+    }
+    .ilet-source-filter {
+      padding: 7px 12px;
+      border: 1.5px solid #fed7aa;
+      border-radius: 999px;
+      background: #fff;
+      color: #9a3412;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+      margin-left: auto; /* push to the right end of the filter row */
+    }
+    .ilet-source-filter:hover { border-color: #f97316; }
+    .ilet-source-filter:focus { box-shadow: 0 0 0 3px rgba(249,115,22,.15); }
+    @media (max-width: 600px) {
+      .ilet-source-filter { margin-left: 0; width: 100%; }
+    }
+    .ilet-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      padding: 18px 24px 40px;
+      flex: 1;
+    }
+    @media (max-width: 1279px) { .ilet-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 1023px) { .ilet-grid { grid-template-columns: 1fr; padding: 14px 16px 30px; } }
+    .ilet-card {
+      background: #fff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px;
+      display: flex; flex-direction: column; gap: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.04);
+      transition: transform .15s, box-shadow .15s, border-color .15s;
+      min-height: 260px;
+    }
+    .ilet-card:hover:not(.ilet-card-disabled) {
+      transform: translateY(-2px) scale(1.005);
+      box-shadow: 0 8px 24px rgba(249,115,22,.12);
+      border-color: #fed7aa;
+    }
+    .ilet-card-disabled { opacity: .6; }
+    .ilet-card-head {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    }
+    .ilet-mocknum {
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: #fff;
+      font-size: 12.5px;
+      font-weight: 800;
+      letter-spacing: .3px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(249,115,22,.3);
+      font-variant-numeric: tabular-nums;
+    }
+    .ilet-status {
+      display: flex; align-items: center; gap: 8px;
+    }
+    /* Brief amber pulse when a card is jumped-to via the dropdown. */
+    .ilet-card-jumped {
+      animation: ilet-jump-pulse 1.2s ease-out;
+    }
+    @keyframes ilet-jump-pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(249,115,22,.5); border-color: #f97316; }
+      100% { box-shadow: 0 0 0 12px rgba(249,115,22,0); border-color: #e2e8f0; }
+    }
+    .ilet-dots { display: flex; gap: 4px; }
+    .ilet-dot {
+      width: 9px; height: 9px; border-radius: 50%;
+      background: #e2e8f0;
+    }
+    .ilet-dot-ready { background: #10b981; }
+    .ilet-dot-soon { background: #fbbf24; }
+    .ilet-status-label {
+      font-size: 10.5px; font-weight: 700;
+      letter-spacing: .5px;
+      color: #64748b;
+    }
+    .ilet-source {
+      font-size: 11px; font-weight: 600;
+      color: #475569;
+      background: #f1f5f9;
+      padding: 4px 10px;
+      border-radius: 999px;
+      letter-spacing: .2px;
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 50%;
+    }
+    .ilet-mock-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1e293b;
+      margin: 0;
+      line-height: 1.3;
+    }
+    .ilet-sections {
+      list-style: none; padding: 0; margin: 0;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .ilet-section {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; color: #334155;
+    }
+    .ilet-section-num {
+      flex-shrink: 0;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      color: #64748b;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ilet-section-title {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .ilet-section-badge {
+      flex-shrink: 0;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: .2px;
+    }
+    .ilet-badge-ready { background: #d1fae5; color: #065f46; }
+    .ilet-badge-soon  { background: #fef3c7; color: #92400e; }
+    .ilet-card-foot {
+      margin-top: auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    }
+    .ilet-done {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #6d28d9;
+      background: #ede9fe;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+    .ilet-take {
+      margin-left: auto;
+      padding: 9px 18px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(16,185,129,.3);
+      transition: all .15s;
+    }
+    .ilet-take:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(16,185,129,.4); }
+    .ilet-coming-soon {
+      margin-left: auto;
+      font-size: 12px;
+      font-weight: 700;
+      color: #92400e;
+      background: #fef3c7;
+      padding: 7px 14px;
+      border-radius: 10px;
+    }
+    /* Skeleton card */
+    .ilet-card-skeleton {
+      background: #fff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px;
+      min-height: 260px;
+      position: relative;
+      overflow: hidden;
+    }
+    .ilet-card-skeleton::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,247,237,.6), transparent);
+      animation: ilet-shimmer 1.4s infinite;
+    }
+    @keyframes ilet-shimmer { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+    .ilet-skel-line {
+      height: 12px; border-radius: 4px;
+      background: #f1f5f9;
+      margin-bottom: 10px;
+    }
+    .ilet-skel-line.tall { height: 18px; }
+    .ilet-skel-line.short { width: 40%; }
+    .ilet-empty {
+      text-align: center; padding: 60px 20px;
+      color: #64748b;
+    }
+    .ilet-empty-icon { font-size: 48px; opacity: .5; margin-bottom: 14px; }
+    .ilet-empty-msg { font-size: 15px; margin-bottom: 18px; }
+    .ilet-empty-clear {
+      padding: 10px 22px;
+      border: 1.5px solid #fed7aa;
+      border-radius: 10px;
+      background: #fff;
+      color: #9a3412;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .ilet-empty-clear:hover { border-color: #f97316; background: #fff7ed; }
     @media (max-width: 600px) {
       .iret-header { flex-wrap: wrap; padding: 10px 14px; }
       .iret-header-tools { width: 100%; }
@@ -11058,8 +11402,8 @@
           takeParam  = params.get('take');
         }
         if (!takeParam) return;
-        // Expected slug: cefr-reading-45 / ielts-reading-23 (case-insensitive)
-        var m = takeParam.match(/^(cefr|ielts)-(reading)-(\d+)$/i);
+        // Expected slug: cefr-reading-45 / ielts-reading-23 / ielts-listening-12 (case-insensitive)
+        var m = takeParam.match(/^(cefr|ielts)-(reading|listening)-(\d+)$/i);
         if (!m) {
           console.warn('[deep-link] Unrecognised slug:', takeParam);
           return;
@@ -11067,8 +11411,8 @@
         var exam     = m[1].toLowerCase();
         var skill    = m[2].toLowerCase();
         var mockNum  = parseInt(m[3], 10);
-        var mockType = exam + '-' + skill;            // "cefr-reading"
-        var category = mockType;                       // handleReadingMockClick expects this
+        var mockType = exam + '-' + skill;            // "cefr-reading" / "ielts-listening" / etc.
+        var category = mockType;                       // handle*MockClick functions expect this
 
         // Option A: the URL bar reflects the current view. Don't strip
         // the /take/<slug> path — it stays visible so the student can
@@ -11099,18 +11443,33 @@
           return;
         }
         var sbMockId   = rows[0].id;
-        var runnerFile = (exam === 'cefr') ? 'CEFR Reading.html' : 'IELTS reading.html';
-        // Carry &mock=N so _extractReadingMockNumber returns the real
-        // mock # (mode modal title, results payload, etc.) instead of
-        // the row id from sbmock=.
+        // Runner file per (exam, skill). Reading + Listening have separate runners.
+        var runnerFile;
+        if (skill === 'reading') {
+          runnerFile = (exam === 'cefr') ? 'CEFR Reading.html' : 'IELTS reading.html';
+        } else { // skill === 'listening'
+          runnerFile = (exam === 'cefr') ? 'CEFR Listening.html' : 'IELTS listening.html';
+        }
+        // Carry &mock=N so _extract*MockNumber returns the real mock # (mode
+        // modal title, results payload, etc.) instead of the row id.
         var pageUrl = runnerFile + '?sbmock=' + encodeURIComponent(sbMockId) + '&mock=' + encodeURIComponent(mockNum);
 
-        if (typeof handleReadingMockClick !== 'function') {
-          console.warn('[deep-link] handleReadingMockClick not loaded yet — falling back to loadMock');
-          if (typeof loadMock === 'function') loadMock(pageUrl, 'reading');
-          return;
+        // Route through the right access-code-modal handler.
+        if (skill === 'reading') {
+          if (typeof handleReadingMockClick !== 'function') {
+            console.warn('[deep-link] handleReadingMockClick not loaded — falling back to loadMock');
+            if (typeof loadMock === 'function') loadMock(pageUrl, 'reading');
+            return;
+          }
+          handleReadingMockClick(pageUrl, category);
+        } else {
+          if (typeof handleListeningMockClick !== 'function') {
+            console.warn('[deep-link] handleListeningMockClick not loaded — falling back to loadMock');
+            if (typeof loadMock === 'function') loadMock(pageUrl, 'listening');
+            return;
+          }
+          handleListeningMockClick(pageUrl, category);
         }
-        handleReadingMockClick(pageUrl, category);
       } catch (err) {
         console.warn('[deep-link] failed:', err);
       }
@@ -14402,6 +14761,14 @@
         cretOpen();
         return;
       }
+      // Same for IELTS Listening — full-screen picker with 4-section cards.
+      // Flag default true; flip in site-config to revert to the popup.
+      if (category === 'ielts-listening'
+          && window.SITE_CONFIG
+          && window.SITE_CONFIG.useNewIeltsListeningPicker !== false) {
+        iletOpen();
+        return;
+      }
       const modal = document.getElementById('categoryModal');
       const iconEl = document.getElementById('categoryModalIcon');
       const titleEl = document.getElementById('categoryModalTitle');
@@ -15020,6 +15387,8 @@
       if (cret && cret.classList.contains('cret-open')) { cretClose(); return; }
       var iret = document.getElementById('iretPicker');
       if (iret && iret.classList.contains('iret-open')) { iretClose(); return; }
+      var ilet = document.getElementById('iletPicker');
+      if (ilet && ilet.classList.contains('ilet-open')) { iletClose(); return; }
     }
     function _pickerShowTmaBack() {
       try {
@@ -15159,6 +15528,478 @@
     window.iretOpen = iretOpen;
     window.iretClose = iretClose;
     window.iretClearFilters = iretClearFilters;
+
+    // ===== FULL-SCREEN IELTS Listening PICKER =====
+    // Replaces the popup categoryModal for ielts-listening when the feature flag
+    // is on. Renders one card per mock with source chip, status pill, 4 section
+    // rows + Ready/Soon badges, and a Done-before chip from localStorage.
+    //
+    // Data flow:
+    //   1. iletOpen() shows the overlay + skeleton cards immediately.
+    //   2. _iletLoadAllMockMeta() walks ieltsListeningTests, sandbox-evals each
+    //      static JS file or REST-fetches each Supabase mock to get
+    //      { source, sections: [{title, ready}] }. Cached in localStorage 24h.
+    //   3. iletRender() swaps skeletons for real cards.
+    //   4. Done-tracking comes from localStorage keys written by IELTS Listening.html
+    //      on Submit.
+    const _ilet_CACHE_KEY = 'ms_ilet_meta_v4';
+    const _ilet_CACHE_TTL = 24 * 60 * 60 * 1000;
+    const _ilet_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    const _ilet_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    const _iletMockMeta = {};
+    // Server-side done map: { '02': true, '07': true, ... } — keyed by
+    // zero-padded mock number. Populated on picker open from mock_attempts
+    // rows where submitted_at IS NOT NULL for the logged-in candidate.
+    // Stays empty for guests, who get localStorage-only tracking.
+    let _iletServerDone = {};
+    let _iletFilter = 'all';
+    // Source-filter state. '' = all sources. Otherwise the book label (e.g.
+    // "Cambridge 18") — cards match if their source string starts with this.
+    let _iletSourceFilter = '';
+
+    function _iletEsc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    function _iletBuildMetaFromMockData(md) {
+      const sections = (md && Array.isArray(md.parts) ? md.parts : []).map(p => {
+        // Listening: a section is "ready" once it has subParts content AND an
+        // answer key. Audio + transcript are uploaded separately and don't
+        // gate readiness for the picker (so an admin can publish before
+        // audio is in place; the runner falls back gracefully).
+        const subPartsList = Array.isArray(p.subParts) ? p.subParts : [];
+        const hasStructure = subPartsList.length > 0;
+        const hasAnswers = p.answers && typeof p.answers === 'object' && Object.keys(p.answers).length > 0;
+        return {
+          title: p.title || ('Section ' + (p.partNumber || '?')),
+          ready: !!(hasStructure && hasAnswers)
+        };
+      });
+      while (sections.length < 4) sections.push({ title: '—', ready: false });
+      return { source: (md && md.source) || '', sections: sections.slice(0, 4) };
+    }
+
+    async function _iletLoadStaticMockMeta(filename) {
+      try {
+        // Static listening files live as `questions IELTS L/<slug>.js` — the
+        // ieltsListeningTests entries store the slug only (no .js suffix),
+        // so append it here. (iret doesn't hit this because all IELTS Reading
+        // mocks are on Supabase now and route through the sbmock= branch.)
+        const fname = /\.js$/i.test(filename) ? filename : (filename + '.js');
+        const resp = await fetch('questions IELTS L/' + fname);
+        if (!resp.ok) return null;
+        const code = await resp.text();
+        // Sandbox-eval: each file is `window.IELTS_LISTENING_TEST = {...}`. We
+        // pass a fresh local `window` so the real global isn't polluted and
+        // parallel loads don't race.
+        const sandbox = { IELTS_LISTENING_TEST: null };
+        try {
+          new Function('window', code + '\n;return window;')(sandbox);
+        } catch (e) {
+          return null;
+        }
+        return sandbox.IELTS_LISTENING_TEST
+          ? _iletBuildMetaFromMockData(sandbox.IELTS_LISTENING_TEST)
+          : null;
+      } catch (e) { return null; }
+    }
+
+    async function _iletLoadSupabaseMockMeta(id) {
+      try {
+        const r = await fetch(
+          _ilet_SB_URL + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(id) + '&select=mock_data',
+          { headers: { apikey: _ilet_SB_KEY, Authorization: 'Bearer ' + _ilet_SB_KEY } }
+        );
+        if (!r.ok) return null;
+        const rows = await r.json();
+        if (!rows || !rows.length) return null;
+        return _iletBuildMetaFromMockData(rows[0].mock_data || {});
+      } catch (e) { return null; }
+    }
+
+    function _iletParseFileSpec(fileSpec) {
+      const sbMatch = String(fileSpec || '').match(/sbmock=([^&]+)/);
+      if (sbMatch) return { kind: 'sb', id: sbMatch[1] };
+      const stMatch = String(fileSpec || '').match(/test=([^&]+)/);
+      if (stMatch) return { kind: 'static', filename: stMatch[1] };
+      return { kind: 'unknown' };
+    }
+
+    async function _iletLoadAllMockMeta() {
+      // Cache hit?
+      try {
+        const cached = JSON.parse(localStorage.getItem(_ilet_CACHE_KEY) || 'null');
+        if (cached && cached.ts && (Date.now() - cached.ts) < _ilet_CACHE_TTL && cached.data) {
+          Object.assign(_iletMockMeta, cached.data);
+          return;
+        }
+      } catch (e) {}
+      // Parallel load.
+      const items = (typeof ieltsListeningTests !== 'undefined' && Array.isArray(ieltsListeningTests))
+        ? ieltsListeningTests : [];
+      await Promise.all(items.map(async (t, idx) => {
+        const key = String(idx + 1).padStart(2, '0');
+        const spec = _iletParseFileSpec(t && t.file);
+        let meta = null;
+        if (spec.kind === 'static') meta = await _iletLoadStaticMockMeta(spec.filename);
+        else if (spec.kind === 'sb') meta = await _iletLoadSupabaseMockMeta(spec.id);
+        if (meta) _iletMockMeta[key] = meta;
+      }));
+      try {
+        localStorage.setItem(_ilet_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: _iletMockMeta }));
+      } catch (e) {}
+    }
+
+    function _iletGetDoneInfo(mockNum) {
+      // localStorage first — has percent/score/date for the current device.
+      try {
+        const raw = localStorage.getItem('mock-ielts-listening-done-' + mockNum);
+        if (raw) return JSON.parse(raw);
+      } catch (e) {}
+      // Cross-device fallback for logged-in students. Only marks done — no
+      // percent (server doesn't store the score, just submitted_at).
+      if (_iletServerDone[mockNum]) return { fromServer: true };
+      return null;
+    }
+
+    // Server-side done lookup for logged-in candidates. Hits mock_attempts
+    // directly with submitted_at filter so we don't count opened-but-bailed
+    // attempts. Falls back to {} for guests / network errors — picker then
+    // relies on localStorage only, which is the right per-device behaviour.
+    async function _iletFetchServerDone() {
+      try {
+        if (!window.PremiumGate || !window.PremiumGate._normName) return {};
+        const candidateName = (typeof sessionStorage !== 'undefined'
+          ? (sessionStorage.getItem('CANDIDATE_NAME') || '')
+          : '');
+        const name = window.PremiumGate._normName(candidateName);
+        if (!name) return {}; // guest — fall through to localStorage only
+        const url = _ilet_SB_URL + '/rest/v1/mock_attempts'
+          + '?candidate_name=eq.' + encodeURIComponent(name)
+          + '&skill=eq.listening'
+          + '&exam_type=eq.ielts'
+          + '&submitted_at=not.is.null'
+          + '&select=mock_number';
+        const r = await fetch(url, {
+          headers: { apikey: _ilet_SB_KEY, Authorization: 'Bearer ' + _ilet_SB_KEY }
+        });
+        if (!r.ok) return {};
+        const rows = await r.json();
+        const out = {};
+        (rows || []).forEach(row => {
+          const key = String(row.mock_number).padStart(2, '0');
+          out[key] = true;
+        });
+        return out;
+      } catch (e) { return {}; }
+    }
+
+    function _iletSkeletonHtml() {
+      return '<div class="ilet-card-skeleton">'
+        + '<div class="ilet-skel-line short"></div>'
+        + '<div class="ilet-skel-line tall"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '</div>';
+    }
+
+    function _iletCardHtml(mockNum, item, meta, doneInfo) {
+      const sections = meta.sections;
+      const readyCount = sections.filter(p => p.ready).length;
+      const total = sections.length;
+      const noneReady = readyCount === 0;
+
+      const dots = sections.map(p =>
+        '<span class="ilet-dot ' + (p.ready ? 'ilet-dot-ready' : 'ilet-dot-soon') + '"></span>'
+      ).join('');
+
+      const sourceHtml = meta.source
+        ? '<div class="ilet-source" title="' + _iletEsc(meta.source) + '">' + _iletEsc(meta.source) + '</div>'
+        : '';
+
+      const sectionRows = sections.map((p, i) =>
+        '<li class="ilet-section">'
+          + '<span class="ilet-section-num">' + (i + 1) + '</span>'
+          + '<span class="ilet-section-title">' + _iletEsc(p.title) + '</span>'
+          + '<span class="ilet-section-badge ' + (p.ready ? 'ilet-badge-ready' : 'ilet-badge-soon') + '">'
+          +   (p.ready ? '✓ Ready' : '⏳ Soon')
+          + '</span>'
+        + '</li>'
+      ).join('');
+
+      // Done chip:
+      //   • localStorage hit (current device, completed) → "★ Done · 78%"
+      //   • server hit only (cross-device, no score)     → "★ Done"
+      //   • neither                                       → no chip
+      const doneHtml = doneInfo
+        ? (typeof doneInfo.percent === 'number'
+            ? '<span class="ilet-done">★ Done · ' + doneInfo.percent + '%</span>'
+            : '<span class="ilet-done">★ Done</span>')
+        : '';
+
+      const actionHtml = noneReady
+        ? '<span class="ilet-coming-soon">Coming soon</span>'
+        : '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Take Test →</button>';
+
+      // Strip the "🧪 " emoji prefix from the Supabase pilot label so titles
+      // sit visually consistent.
+      const cleanTitle = String(item.name || '').replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]+\s*/u, '');
+
+      return '<article class="ilet-card ' + (noneReady ? 'ilet-card-disabled' : '') + '"'
+        + ' id="ilet-card-' + mockNum + '"'
+        + ' data-mock="' + mockNum + '"'
+        + ' data-file="' + _iletEsc(item.file) + '"'
+        + ' data-ready-count="' + readyCount + '"'
+        + ' data-total="' + total + '"'
+        + ' data-source="' + _iletEsc(String(meta.source || '').toLowerCase()) + '"'
+        + ' data-done="' + (doneHtml ? '1' : '0') + '"'
+        + ' data-title="' + _iletEsc(cleanTitle.toLowerCase()) + '"'
+        + ' data-sections="' + _iletEsc(sections.map(p => p.title).join(' ').toLowerCase()) + '">'
+          + '<div class="ilet-card-head">'
+            + '<div class="ilet-mocknum">#' + mockNum + '</div>'
+            + '<div class="ilet-status">'
+              + '<span class="ilet-dots">' + dots + '</span>'
+              + '<span class="ilet-status-label">' + readyCount + '/' + total + ' READY</span>'
+            + '</div>'
+            + sourceHtml
+          + '</div>'
+          + '<h3 class="ilet-mock-title">' + _iletEsc(cleanTitle) + '</h3>'
+          + '<ul class="ilet-sections">' + sectionRows + '</ul>'
+          + '<div class="ilet-card-foot">' + doneHtml + actionHtml + '</div>'
+        + '</article>';
+    }
+
+    function _iletRenderSkeletons() {
+      const grid = document.getElementById('iletGrid');
+      const count = (typeof ieltsListeningTests !== 'undefined' && Array.isArray(ieltsListeningTests))
+        ? ieltsListeningTests.length : 12;
+      grid.innerHTML = Array.from({ length: count }, _iletSkeletonHtml).join('');
+      document.getElementById('iletCount').textContent = count;
+    }
+
+    function _iletRender() {
+      const grid = document.getElementById('iletGrid');
+      const items = (typeof ieltsListeningTests !== 'undefined' && Array.isArray(ieltsListeningTests))
+        ? ieltsListeningTests : [];
+      const cards = items.map((t, idx) => {
+        const mockNum = String(idx + 1).padStart(2, '0');
+        const meta = _iletMockMeta[mockNum] || { source: '', sections: [
+          { title: '—', ready: false }, { title: '—', ready: false }, { title: '—', ready: false }
+        ] };
+        return _iletCardHtml(mockNum, t, meta, _iletGetDoneInfo(mockNum));
+      });
+      grid.innerHTML = cards.join('');
+      _iletBuildJumpOptions();
+      _iletBuildSourceOptions();
+      _iletApplyFiltersAndSort();
+    }
+
+    function _iletApplyFiltersAndSort() {
+      const search = (document.getElementById('iletSearch').value || '').toLowerCase().trim();
+      const sourceFilter = _iletSourceFilter.toLowerCase();
+      let visible = 0;
+      document.querySelectorAll('#iletGrid .ilet-card').forEach(c => {
+        const ready = parseInt(c.dataset.readyCount, 10) || 0;
+        const total = parseInt(c.dataset.total, 10) || 0;
+        const done = c.dataset.done === '1';
+        const source = c.dataset.source || '';
+        let pass = true;
+        if (_iletFilter === 'ready') pass = (ready === total && total > 0);
+        else if (_iletFilter === 'soon') pass = (ready < total);
+        else if (_iletFilter === 'done') pass = done;
+        // Source filter matches by prefix so picking "Cambridge 18" returns
+        // every test within that book ("Cambridge 18 Test 1", "…Test 2", …).
+        if (pass && sourceFilter) pass = source.startsWith(sourceFilter);
+        if (pass && search) {
+          pass = (c.dataset.title || '').includes(search)
+            || (c.dataset.source || '').includes(search)
+            || (c.dataset.sections || '').includes(search)
+            || (c.dataset.mock || '').includes(search);
+        }
+        c.style.display = pass ? '' : 'none';
+        if (pass) visible++;
+      });
+      document.getElementById('iletEmpty').style.display = visible === 0 ? '' : 'none';
+      // Cards stay in Mock # ascending order — sort dropdown removed in favour
+      // of the explicit "Jump to #…" picker, which is what students actually
+      // need for navigating a 50-mock list.
+    }
+
+    // Derive unique source-group labels (e.g. "Cambridge 16") from the loaded
+    // metadata so the dropdown only ever lists sources that actually exist.
+    // Strips the "Test N" suffix so each book appears once, no matter how
+    // many tests within it are present.
+    function _iletBuildSourceOptions() {
+      const sel = document.getElementById('iletSourceFilter');
+      if (!sel) return;
+      const groups = new Set();
+      Object.values(_iletMockMeta).forEach(m => {
+        if (!m || !m.source) return;
+        // "Cambridge 18 Test 3" → "Cambridge 18". Anything without a "Test N"
+        // suffix is kept as-is (e.g. plain "Actual 3" or "Mini IELTS 4").
+        const stripped = String(m.source).replace(/\s+Test\s+\d+\s*$/i, '').trim();
+        if (stripped) groups.add(stripped);
+      });
+      const sorted = Array.from(groups).sort();
+      let opts = '<option value="">📚 All sources</option>';
+      sorted.forEach(g => {
+        const sel = (g === _iletSourceFilter) ? ' selected' : '';
+        opts += '<option value="' + _iletEsc(g) + '"' + sel + '>' + _iletEsc(g) + '</option>';
+      });
+      sel.innerHTML = opts;
+    }
+
+    function _iletBuildJumpOptions() {
+      const sel = document.getElementById('iletJump');
+      if (!sel) return;
+      // Keep placeholder + rebuild numbered options from the current cards.
+      const cards = document.querySelectorAll('#iletGrid .ilet-card');
+      let opts = '<option value="">Jump to #…</option>';
+      cards.forEach(c => {
+        const n = c.dataset.mock;
+        if (!n) return;
+        opts += '<option value="' + n + '">#' + n + '</option>';
+      });
+      sel.innerHTML = opts;
+    }
+
+    function _iletJumpToMock(mockNum) {
+      if (!mockNum) return;
+      const card = document.getElementById('ilet-card-' + mockNum);
+      if (!card) return;
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.classList.remove('ilet-card-jumped');
+      // Force reflow so the animation re-triggers if the same card is picked twice.
+      void card.offsetWidth;
+      card.classList.add('ilet-card-jumped');
+    }
+
+    // Back-button plumbing (_pickerFromPopstate / _pickerShowTmaBack /
+    // _pickerHideTmaBack / _pickerTmaBackHandler) lives in the IELTS Reading
+    // picker block above and is shared by all three pickers.
+
+
+    async function iletOpen() {
+      const overlay = document.getElementById('iletPicker');
+      overlay.classList.add('ilet-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      try { history.pushState({ picker: 'ilet' }, ''); } catch (_e) {}
+      _pickerShowTmaBack();
+      _iletRenderSkeletons();
+      // Parallelise metadata load (50 static JS files) and server-done fetch
+      // (one Supabase query). They're independent.
+      const [, serverDone] = await Promise.all([
+        _iletLoadAllMockMeta(),
+        _iletFetchServerDone()
+      ]);
+      _iletServerDone = serverDone || {};
+      _iletRender();
+    }
+
+    function iletClose() {
+      const overlay = document.getElementById('iletPicker');
+      overlay.classList.remove('ilet-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      _pickerHideTmaBack();
+      // Sync history: if close came from a manual UI action (X / Escape /
+      // card click → modal verified → runner), pop the entry we pushed on
+      // open so a future back press takes the student to the prior page,
+      // not to a now-empty picker state. If close came from popstate (the
+      // user already pressed back), skip — history is already correct.
+      if (!_pickerFromPopstate) {
+        try {
+          if (history.state && history.state.picker === 'ilet') {
+            history.back();
+          }
+        } catch (_e) {}
+      }
+    }
+
+    function iletClearFilters() {
+      _iletFilter = 'all';
+      _iletSourceFilter = '';
+      document.querySelectorAll('.ilet-chip').forEach(c =>
+        c.classList.toggle('ilet-chip-active', c.dataset.filter === 'all')
+      );
+      document.getElementById('iletSearch').value = '';
+      const srcSel = document.getElementById('iletSourceFilter');
+      if (srcSel) srcSel.value = '';
+      _iletApplyFiltersAndSort();
+    }
+
+    // Wire up event handlers (one-time, on first DOMContentLoaded).
+    document.addEventListener('DOMContentLoaded', function () {
+      const overlay = document.getElementById('iletPicker');
+      if (!overlay) return;
+      // Filter chips
+      document.querySelectorAll('.ilet-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          _iletFilter = chip.dataset.filter;
+          document.querySelectorAll('.ilet-chip').forEach(c =>
+            c.classList.toggle('ilet-chip-active', c === chip)
+          );
+          _iletApplyFiltersAndSort();
+        });
+      });
+      // Search + jump-to-number + source filter
+      const search = document.getElementById('iletSearch');
+      const jump   = document.getElementById('iletJump');
+      const srcSel = document.getElementById('iletSourceFilter');
+      if (search) search.addEventListener('input', _iletApplyFiltersAndSort);
+      if (jump) jump.addEventListener('change', function () {
+        _iletJumpToMock(this.value);
+        // Reset to placeholder so the same number can be re-picked.
+        setTimeout(() => { this.value = ''; }, 400);
+      });
+      if (srcSel) srcSel.addEventListener('change', function () {
+        _iletSourceFilter = this.value || '';
+        _iletApplyFiltersAndSort();
+      });
+      // Card click — keep the picker open. handleListeningMockClick raises the
+      // access-code modal at z-index 100004 (above the picker at 100003), so
+      // students see the lock prompt without losing their place. The runner
+      // iframe takes over the viewport only after the code is verified.
+      document.getElementById('iletGrid').addEventListener('click', function (e) {
+        const btn = e.target.closest('.ilet-take');
+        if (!btn) return;
+        const card = btn.closest('.ilet-card');
+        if (!card) return;
+        const file = card.dataset.file;
+        if (!file) return;
+        // Append &mock=N (the real mock_number) so the mode modal title
+        // doesn't fall back to the ?sbmock= row id. Same fix as the
+        // CEFR Reading picker.
+        const mockN = card.dataset.mock;
+        const fileWithMock = mockN
+          ? file + (file.indexOf('?') >= 0 ? '&' : '?') + 'mock=' + encodeURIComponent(mockN)
+          : file;
+        // Reflect the chosen mock in the URL bar (shareable deep-link
+        // shape). pushState adds a history entry so the browser back
+        // button takes the student back to the landing page; the
+        // popstate listener below cleans up any open access-code modal.
+        if (mockN) {
+          try { history.pushState(null, '', '/take/ielts-listening-' + encodeURIComponent(mockN)); } catch (_e) {}
+        }
+        if (typeof handleListeningMockClick === 'function') {
+          handleListeningMockClick(fileWithMock, 'ielts-listening');
+        } else {
+          iletClose();
+          loadMock(fileWithMock, 'listening');
+        }
+      });
+      // Escape closes
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && overlay.classList.contains('ilet-open')) iletClose();
+      });
+    });
+
+    window.iletOpen = iletOpen;
+    window.iletClose = iletClose;
+    window.iletClearFilters = iletClearFilters;
 
     // ===== FULL-SCREEN CEFR READING PICKER =====
     // Same flow as the IELTS picker (iretOpen / iretRender) but for CEFR mocks.
@@ -19574,6 +20415,12 @@
         if (iret && iret.classList.contains('iret-open')) {
           _pickerFromPopstate = true;
           iretClose();
+          _pickerFromPopstate = false;
+        }
+        var ilet = document.getElementById('iletPicker');
+        if (ilet && ilet.classList.contains('ilet-open')) {
+          _pickerFromPopstate = true;
+          iletClose();
           _pickerFromPopstate = false;
         }
         // 2) Close access-code modal if URL left /take/...
