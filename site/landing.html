@@ -29138,7 +29138,13 @@
         <div style="padding:14px 18px;border-top:1px solid #e2e8f0;display:flex;gap:8px;align-items:center;">
           <button id="mmgBtnBackups" onclick="_mmgBackupsOpen()" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;">🕒 Backups…</button>
           <button id="mmgBtnDelete" onclick="_mmgDelete()" style="background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;">Delete</button>
-          <span style="flex:1;"></span>
+          <!-- Save-status pill — mirror of the outer #mmgStatus, but placed
+               INSIDE the edit modal so the admin actually sees "Saving…",
+               "✓ Saved", or error messages. The outer status pill sits in
+               the list pane and gets hidden by the edit modal's full-cover
+               overlay; without this inline mirror, every save abort or
+               in-flight call was invisible (Mock 51 bug, 2026-05-14). -->
+          <span id="mmgEditStatus" style="flex:1;font-size:12px;color:#64748b;text-align:right;padding-right:6px;min-height:18px;"></span>
           <button onclick="_mmgEditClose()" style="background:none;border:1px solid #cbd5e1;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;color:#475569;">Cancel</button>
           <button id="mmgBtnSave" onclick="_mmgSave()" style="background:#2563eb;color:#fff;border:0;border-radius:8px;padding:7px 16px;font-size:12px;font-weight:700;cursor:pointer;transition:background .15s,opacity .15s;">💾 Save</button>
         </div>
@@ -29354,10 +29360,13 @@
     }
 
     function _mmgStatus(msg, color) {
-      var el = document.getElementById('mmgStatus');
-      if (!el) return;
-      el.style.color = color || '#64748b';
-      el.textContent = msg || '';
+      var c = color || '#64748b';
+      var outer = document.getElementById('mmgStatus');
+      if (outer) { outer.style.color = c; outer.textContent = msg || ''; }
+      // Mirror into the edit-modal-internal status pill so admins see
+      // feedback while the edit modal is covering the outer pill.
+      var inner = document.getElementById('mmgEditStatus');
+      if (inner) { inner.style.color = c; inner.textContent = msg || ''; }
     }
 
     async function _mmgRefresh() {
