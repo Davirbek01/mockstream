@@ -6098,6 +6098,26 @@
         });
       })();
 
+      // ── Disabled state: no transcripts authored yet for this mock ──
+      // Newly-imported mocks (e.g. Mock 51 before Gemini's transcribe step)
+      // have empty `transcript` / `answerHighlights` on every part. The popup
+      // would just show empty tabs, so badge the button "Coming Soon" and
+      // block the click instead — matches the picker's "⏳ Soon" semantics.
+      // Runs after the premium-gate block so the empty-content message wins
+      // over the lock badge when both apply.
+      (function () {
+        var btn = document.getElementById('btnTranscripts');
+        if (!btn || !TEST_DATA || !Array.isArray(TEST_DATA.parts)) return;
+        var anyTranscript = TEST_DATA.parts.some(function (p) {
+          return p && typeof p.transcript === 'string' && p.transcript.trim().length > 0;
+        });
+        if (anyTranscript) return;
+        btn.style.cssText += 'background:#cbd5e1 !important;color:#64748b !important;cursor:not-allowed !important;box-shadow:none !important;pointer-events:none;opacity:0.85;';
+        btn.innerHTML = '⏳ Transcripts &amp; Answer Lines — Coming Soon';
+        btn.onclick = function (e) { e.preventDefault(); e.stopPropagation(); };
+        btn.removeAttribute('onclick');
+      })();
+
       // Auto-submit results to backend (with processing spinner for regular entries)
       if (_regListening && !isFullMock && window._showProcessing) window._showProcessing();
       sendResultsToBackend(scaledScore).finally(function() {
