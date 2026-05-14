@@ -4724,6 +4724,27 @@
     const mockNum = testFile.match(/(\d+)/) ? testFile.match(/(\d+)/)[1] : '1';
     document.getElementById('mockNumber').textContent = '№' + mockNum;
 
+    // Drop parts that the iletPicker would mark "⏳ Soon" (admin authored
+    // some sections but not all). Mirrors _iletBuildMetaFromMockData's
+    // readiness rule (answers dict has ≥5 entries) so a student who saw
+    // "1/4 READY" in the picker enters a runner that renders exactly that
+    // one section — no empty Part 2/3/4 tabs to click into.
+    function _filterReadyParts(testData) {
+      if (!testData || !Array.isArray(testData.parts)) return testData;
+      var ready = testData.parts.filter(function (p) {
+        if (!p) return false;
+        var ansCount = (p.answers && typeof p.answers === 'object')
+          ? Object.keys(p.answers).length : 0;
+        return ansCount >= 5;
+      });
+      // Defensive: if the readiness check accidentally rejects everything
+      // (e.g. unusual data shape), keep all parts so the student doesn't
+      // see a blank runner. The picker's noneReady gate already blocks
+      // the "Take Test" button when 0 parts are ready.
+      if (ready.length > 0) testData.parts = ready;
+      return testData;
+    }
+
     // Load test
     function loadTest() {
       // ── Supabase dynamic mock ──
@@ -4738,7 +4759,7 @@
         .then(function(r) { if (!r.ok) throw new Error('Supabase ' + r.status); return r.json(); })
         .then(function(rows) {
           if (!rows || !rows.length || !rows[0].mock_data) throw new Error('Empty response');
-          window.IELTS_LISTENING_TEST = rows[0].mock_data;
+          window.IELTS_LISTENING_TEST = _filterReadyParts(rows[0].mock_data);
           TEST_DATA = window.IELTS_LISTENING_TEST;
           window.TEST_DATA = TEST_DATA;
           var isPdfDownload = urlParams.get('download') === 'pdf';
@@ -4753,6 +4774,7 @@
       script.src = 'questions IELTS L/' + testFile + '.js';
       script.onload = () => {
         if (window.IELTS_LISTENING_TEST) {
+          window.IELTS_LISTENING_TEST = _filterReadyParts(window.IELTS_LISTENING_TEST);
           TEST_DATA = window.IELTS_LISTENING_TEST;
           window.TEST_DATA = TEST_DATA; // Make globally accessible for audio player
 
