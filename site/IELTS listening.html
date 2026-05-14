@@ -271,6 +271,12 @@
       border: none;
       display: flex;
       gap: 6px;
+      /* Reset the mobile base style's overflow-x: auto — on PC the part
+         nav lives inside the fixed-height header next to the mock badge,
+         so a 1–4 short button row never overflows and the scrollbar
+         gutter that some browsers reserve here was leaking a thin band
+         along the header's bottom edge. */
+      overflow-x: visible;
     }
 
     .pc-part-nav .part-btn {
@@ -4721,8 +4727,34 @@
 
     const _logoEl = document.getElementById('logoImg');
     if (_logoEl) _logoEl.src = GLOBAL_LOGO_URL;
-    const mockNum = testFile.match(/(\d+)/) ? testFile.match(/(\d+)/)[1] : '1';
-    document.getElementById('mockNumber').textContent = '№' + mockNum;
+    // Prefer the explicit ?mock=NN URL param (set by the iletPicker and
+    // by the /take/ielts-listening-NN deep-link route) over digit-scraping
+    // testFile — for Supabase mocks testFile defaults to
+    // "ielts-listening-test-01" and the badge would otherwise read №01
+    // regardless of which mock the student actually opened.
+    const mockNum = urlParams.get('mock') || (testFile.match(/(\d+)/) ? testFile.match(/(\d+)/)[1] : '1');
+    document.getElementById('mockNumber').textContent = '№' + String(mockNum).padStart(2, '0');
+
+    // Drop parts that the iletPicker would mark "⏳ Soon" (admin authored
+    // some sections but not all). Mirrors _iletBuildMetaFromMockData's
+    // readiness rule (answers dict has ≥5 entries) so a student who saw
+    // "1/4 READY" in the picker enters a runner that renders exactly that
+    // one section — no empty Part 2/3/4 tabs to click into.
+    function _filterReadyParts(testData) {
+      if (!testData || !Array.isArray(testData.parts)) return testData;
+      var ready = testData.parts.filter(function (p) {
+        if (!p) return false;
+        var ansCount = (p.answers && typeof p.answers === 'object')
+          ? Object.keys(p.answers).length : 0;
+        return ansCount >= 5;
+      });
+      // Defensive: if the readiness check accidentally rejects everything
+      // (e.g. unusual data shape), keep all parts so the student doesn't
+      // see a blank runner. The picker's noneReady gate already blocks
+      // the "Take Test" button when 0 parts are ready.
+      if (ready.length > 0) testData.parts = ready;
+      return testData;
+    }
 
     // Load test
     function loadTest() {
@@ -4738,7 +4770,7 @@
         .then(function(r) { if (!r.ok) throw new Error('Supabase ' + r.status); return r.json(); })
         .then(function(rows) {
           if (!rows || !rows.length || !rows[0].mock_data) throw new Error('Empty response');
-          window.IELTS_LISTENING_TEST = rows[0].mock_data;
+          window.IELTS_LISTENING_TEST = _filterReadyParts(rows[0].mock_data);
           TEST_DATA = window.IELTS_LISTENING_TEST;
           window.TEST_DATA = TEST_DATA;
           var isPdfDownload = urlParams.get('download') === 'pdf';
@@ -4753,6 +4785,7 @@
       script.src = 'questions IELTS L/' + testFile + '.js';
       script.onload = () => {
         if (window.IELTS_LISTENING_TEST) {
+          window.IELTS_LISTENING_TEST = _filterReadyParts(window.IELTS_LISTENING_TEST);
           TEST_DATA = window.IELTS_LISTENING_TEST;
           window.TEST_DATA = TEST_DATA; // Make globally accessible for audio player
 
@@ -4918,7 +4951,11 @@
         var _ptMap = { 1: 10, 2: 10, 3: 10, 4: 10 };
         timeRemaining = (_ptMap[window._practicePart] || 10) * 60;
       } else {
-        timeRemaining = TEST_DATA.testInfo.totalTime * 60;
+        // Defensive: testInfo.totalTime may have been saved as "" or null
+        // by an older editor build, which would produce NaN/0 here and
+        // auto-submit the test on the first tick. Coerce + fall back to 40.
+        var _ttRaw = Number(TEST_DATA.testInfo && TEST_DATA.testInfo.totalTime);
+        timeRemaining = (isFinite(_ttRaw) && _ttRaw > 0 ? _ttRaw : 40) * 60;
       }
       window.__testStartTime = new Date();
       generatePartNav();
@@ -4983,8 +5020,14 @@
     }
 
     function generatePartNav() {
+      // Tab labels are kept terse ("Part 1" / "Part 2" / …) to leave
+      // room in the header for the audio player + timer — matches the
+      // CEFR Listening style. The full content topic
+      // (e.g. "Finding a rental property") still appears in the big
+      // section heading below the header, and is available as the
+      // button's tooltip on hover, so context isn't lost.
       const btnHtml = TEST_DATA.parts.map((part, i) =>
-        '<button class="part-btn" data-part="' + i + '">' + part.title + '</button>'
+        '<button class="part-btn" data-part="' + i + '" title="' + (part.title || '').replace(/"/g, '&quot;') + '">Part ' + (part.partNumber || (i + 1)) + '</button>'
       ).join('');
 
       // Populate PC part nav (desktop header)
@@ -6055,6 +6098,26 @@
         });
       })();
 
+      // ── Disabled state: no transcripts authored yet for this mock ──
+      // Newly-imported mocks (e.g. Mock 51 before Gemini's transcribe step)
+      // have empty `transcript` / `answerHighlights` on every part. The popup
+      // would just show empty tabs, so badge the button "Coming Soon" and
+      // block the click instead — matches the picker's "⏳ Soon" semantics.
+      // Runs after the premium-gate block so the empty-content message wins
+      // over the lock badge when both apply.
+      (function () {
+        var btn = document.getElementById('btnTranscripts');
+        if (!btn || !TEST_DATA || !Array.isArray(TEST_DATA.parts)) return;
+        var anyTranscript = TEST_DATA.parts.some(function (p) {
+          return p && typeof p.transcript === 'string' && p.transcript.trim().length > 0;
+        });
+        if (anyTranscript) return;
+        btn.style.cssText += 'background:#cbd5e1 !important;color:#64748b !important;cursor:not-allowed !important;box-shadow:none !important;pointer-events:none;opacity:0.85;';
+        btn.innerHTML = '⏳ Transcripts &amp; Answer Lines — Coming Soon';
+        btn.onclick = function (e) { e.preventDefault(); e.stopPropagation(); };
+        btn.removeAttribute('onclick');
+      })();
+
       // Auto-submit results to backend (with processing spinner for regular entries)
       if (_regListening && !isFullMock && window._showProcessing) window._showProcessing();
       sendResultsToBackend(scaledScore).finally(function() {
@@ -6436,7 +6499,10 @@
         const candidateName = sessionStorage.getItem('CANDIDATE_NAME') || 'Unknown';
 
         const testIdentifier = TEST_DATA?.testInfo?.title || 'IELTS Listening Test';
-        const mockNum = testFile.match(/(\d+)/) ? testFile.match(/(\d+)/)[1].padStart(2, '0') : '01';
+        // ?mock=NN wins over digit-scraping testFile — same reason as the
+        // header badge above. Otherwise a Supabase mock submitted via the
+        // picker would be tagged Mock 01 in the results payload.
+        const mockNum = (urlParams.get('mock') || (testFile.match(/(\d+)/) ? testFile.match(/(\d+)/)[1] : '01')).toString().padStart(2, '0');
         // In practice mode, scope to practised part only
         var _reportParts = window._practicePart ? [TEST_DATA.parts[window._practicePart - 1]] : TEST_DATA.parts;
         var total = 0;

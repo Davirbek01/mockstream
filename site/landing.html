@@ -7940,6 +7940,46 @@
     </div>
   </div>
 
+  <!-- IELTS Listening fullscreen picker — clone of iretPicker, listening data shape. -->
+  <div id="iletPicker" class="ilet-overlay" aria-hidden="true">
+    <header class="ilet-header">
+      <button class="ilet-back" type="button" onclick="iletClose()" title="Back to landing">←</button>
+      <div class="ilet-title">
+        <span class="ilet-title-emoji">🎧</span>
+        <span class="ilet-title-text">IELTS Listening</span>
+        <span class="ilet-count" id="iletCount">0</span>
+      </div>
+      <div class="ilet-header-tools">
+        <input type="search" class="ilet-search" id="iletSearch" placeholder="🔍 Search mock #, source, section…" autocomplete="off" spellcheck="false">
+        <select class="ilet-sort" id="iletJump" title="Jump to mock #">
+          <option value="">Jump to #…</option>
+          <!-- Number options injected by _iletBuildJumpOptions() once cards render -->
+        </select>
+      </div>
+    </header>
+
+    <div class="ilet-filter-row">
+      <button type="button" class="ilet-chip ilet-chip-active" data-filter="all">All</button>
+      <button type="button" class="ilet-chip" data-filter="ready">✓ Ready only</button>
+      <button type="button" class="ilet-chip" data-filter="soon">⏳ Coming soon</button>
+      <button type="button" class="ilet-chip" data-filter="done">★ Done before</button>
+      <select class="ilet-source-filter" id="iletSourceFilter" title="Filter by source">
+        <option value="">📚 All sources</option>
+        <!-- Source options injected by _iletBuildSourceOptions() once cards render -->
+      </select>
+    </div>
+
+    <main class="ilet-grid" id="iletGrid">
+      <!-- Skeleton cards injected on open, replaced with real cards once data loads -->
+    </main>
+
+    <div class="ilet-empty" id="iletEmpty" style="display:none;">
+      <div class="ilet-empty-icon">🔍</div>
+      <p class="ilet-empty-msg">No mocks match your filters.</p>
+      <button type="button" class="ilet-empty-clear" onclick="iletClearFilters()">Clear filters</button>
+    </div>
+  </div>
+
   <style>
     /* ===== Full-screen IELTS Reading picker ===== */
     .iret-overlay {
@@ -8244,6 +8284,357 @@
       cursor: pointer;
     }
     .iret-empty-clear:hover { border-color: #f97316; background: #fff7ed; }
+
+    /* IELTS Listening picker — same styling as iret, scoped to .ilet-* */
+    .ilet-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100003;
+      background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%);
+      overflow-y: auto;
+      flex-direction: column;
+    }
+    .ilet-overlay.ilet-open { display: flex; }
+    .ilet-header {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 24px;
+      background: rgba(255, 247, 237, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #fed7aa;
+    }
+    .ilet-back {
+      flex-shrink: 0;
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      border: none;
+      background: #fff;
+      color: #c2410c;
+      font-size: 20px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(194,65,12,.15);
+      transition: all .15s;
+    }
+    .ilet-back:hover { background: #c2410c; color: #fff; transform: translateX(-2px); }
+    .ilet-title {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 18px; font-weight: 700; color: #7c2d12;
+      flex-shrink: 0;
+    }
+    .ilet-title-emoji { font-size: 22px; }
+    .ilet-count {
+      background: linear-gradient(135deg,#f97316,#ea580c);
+      color: #fff; font-size: 12px; font-weight: 700;
+      padding: 3px 10px; border-radius: 999px;
+      min-width: 28px; text-align: center;
+    }
+    .ilet-header-tools {
+      flex: 1;
+      display: flex; gap: 10px; justify-content: flex-end;
+    }
+    .ilet-search {
+      flex: 1; max-width: 360px;
+      padding: 9px 14px;
+      border: 1.5px solid #fed7aa;
+      border-radius: 10px;
+      font-size: 13.5px;
+      background: #fff;
+      outline: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .ilet-search:focus { border-color: #f97316; box-shadow: 0 0 0 3px rgba(249,115,22,.15); }
+    .ilet-sort {
+      padding: 9px 12px;
+      border: 1.5px solid #fed7aa;
+      border-radius: 10px;
+      font-size: 13px;
+      background: #fff;
+      cursor: pointer;
+      outline: none;
+    }
+    .ilet-filter-row {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      padding: 14px 24px 0;
+    }
+    .ilet-chip {
+      padding: 7px 14px;
+      border: 1.5px solid #fed7aa;
+      border-radius: 999px;
+      background: #fff;
+      color: #9a3412;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .ilet-chip:hover { border-color: #f97316; }
+    .ilet-chip-active {
+      background: linear-gradient(135deg,#f97316,#ea580c);
+      color: #fff;
+      border-color: #ea580c;
+    }
+    .ilet-source-filter {
+      padding: 7px 12px;
+      border: 1.5px solid #fed7aa;
+      border-radius: 999px;
+      background: #fff;
+      color: #9a3412;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+      margin-left: auto; /* push to the right end of the filter row */
+    }
+    .ilet-source-filter:hover { border-color: #f97316; }
+    .ilet-source-filter:focus { box-shadow: 0 0 0 3px rgba(249,115,22,.15); }
+    @media (max-width: 600px) {
+      /* Tighten the filter row so all 4 chips fit on one line + the
+         source dropdown sits compactly next to them rather than on a
+         separate full-width row. Smaller chip padding + font + a tiny
+         wrap gap lets the row stay 1-2 lines tall instead of 3. */
+      .ilet-filter-row { padding: 10px 14px 0; gap: 6px; }
+      .ilet-chip { padding: 5px 10px; font-size: 11.5px; }
+      .ilet-source-filter {
+        margin-left: 0;
+        width: auto;
+        max-width: 100%;
+        padding: 5px 10px;
+        font-size: 11.5px;
+        flex: 1 1 140px;
+      }
+    }
+    .ilet-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      padding: 18px 24px 40px;
+      flex: 1;
+    }
+    @media (max-width: 1279px) { .ilet-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 1023px) { .ilet-grid { grid-template-columns: 1fr; padding: 14px 16px 30px; } }
+    .ilet-card {
+      background: #fff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px;
+      display: flex; flex-direction: column; gap: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.04);
+      transition: transform .15s, box-shadow .15s, border-color .15s;
+      min-height: 260px;
+      min-width: 0;       /* lets the card shrink below its intrinsic content width in the grid */
+      overflow: hidden;   /* belt-and-braces — any rogue long string stays inside the rounded corners */
+    }
+    /* Section rows inside the card: long titles must wrap, not push the card wider. */
+    .ilet-sections { min-width: 0; }
+    .ilet-section {
+      display: flex; align-items: center; gap: 8px;
+      min-width: 0;
+    }
+    .ilet-section-title {
+      min-width: 0;
+      flex: 1 1 auto;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .ilet-section-badge { flex-shrink: 0; }
+    .ilet-card:hover:not(.ilet-card-disabled) {
+      transform: translateY(-2px) scale(1.005);
+      box-shadow: 0 8px 24px rgba(249,115,22,.12);
+      border-color: #fed7aa;
+    }
+    .ilet-card-disabled { opacity: .6; }
+    .ilet-card-head {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      min-width: 0; /* lets flex children shrink properly so the source chip respects ellipsis */
+    }
+    .ilet-mocknum {
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: #fff;
+      font-size: 12.5px;
+      font-weight: 800;
+      letter-spacing: .3px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(249,115,22,.3);
+      font-variant-numeric: tabular-nums;
+    }
+    .ilet-status {
+      display: flex; align-items: center; gap: 8px;
+    }
+    /* Brief amber pulse when a card is jumped-to via the dropdown. */
+    .ilet-card-jumped {
+      animation: ilet-jump-pulse 1.2s ease-out;
+    }
+    @keyframes ilet-jump-pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(249,115,22,.5); border-color: #f97316; }
+      100% { box-shadow: 0 0 0 12px rgba(249,115,22,0); border-color: #e2e8f0; }
+    }
+    .ilet-dots { display: flex; gap: 4px; }
+    .ilet-dot {
+      width: 9px; height: 9px; border-radius: 50%;
+      background: #e2e8f0;
+    }
+    .ilet-dot-ready { background: #10b981; }
+    .ilet-dot-soon { background: #fbbf24; }
+    .ilet-status-label {
+      font-size: 10.5px; font-weight: 700;
+      letter-spacing: .5px;
+      color: #64748b;
+    }
+    .ilet-source {
+      font-size: 10px; font-weight: 600;
+      color: #475569;
+      background: #f1f5f9;
+      padding: 4px 8px;
+      border-radius: 999px;
+      letter-spacing: .15px;
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 180px;
+      min-width: 0;
+      flex-shrink: 1;
+    }
+    /* Move the source chip onto its own row inside the card head when
+       the chip + mock-num + status dots can't all fit comfortably side
+       by side. CSS Grid handles this without JS. */
+    .ilet-card-head { flex-wrap: wrap; row-gap: 6px; }
+    .ilet-mock-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1e293b;
+      margin: 0;
+      line-height: 1.3;
+    }
+    .ilet-sections {
+      list-style: none; padding: 0; margin: 0;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .ilet-section {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; color: #334155;
+    }
+    .ilet-section-num {
+      flex-shrink: 0;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      color: #64748b;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ilet-section-title {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .ilet-section-badge {
+      flex-shrink: 0;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: .2px;
+    }
+    .ilet-badge-ready { background: #d1fae5; color: #065f46; }
+    .ilet-badge-soon  { background: #fef3c7; color: #92400e; }
+    .ilet-card-foot {
+      margin-top: auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    }
+    .ilet-done {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #6d28d9;
+      background: #ede9fe;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+    .ilet-take {
+      margin-left: auto;
+      padding: 9px 18px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(16,185,129,.3);
+      transition: all .15s;
+    }
+    .ilet-take:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(16,185,129,.4); }
+    .ilet-coming-soon {
+      margin-left: auto;
+      font-size: 12px;
+      font-weight: 700;
+      color: #92400e;
+      background: #fef3c7;
+      padding: 7px 14px;
+      border-radius: 10px;
+    }
+    /* Skeleton card */
+    .ilet-card-skeleton {
+      background: #fff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px;
+      min-height: 260px;
+      position: relative;
+      overflow: hidden;
+    }
+    .ilet-card-skeleton::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,247,237,.6), transparent);
+      animation: ilet-shimmer 1.4s infinite;
+    }
+    @keyframes ilet-shimmer { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+    .ilet-skel-line {
+      height: 12px; border-radius: 4px;
+      background: #f1f5f9;
+      margin-bottom: 10px;
+    }
+    .ilet-skel-line.tall { height: 18px; }
+    .ilet-skel-line.short { width: 40%; }
+    .ilet-empty {
+      text-align: center; padding: 60px 20px;
+      color: #64748b;
+    }
+    .ilet-empty-icon { font-size: 48px; opacity: .5; margin-bottom: 14px; }
+    .ilet-empty-msg { font-size: 15px; margin-bottom: 18px; }
+    .ilet-empty-clear {
+      padding: 10px 22px;
+      border: 1.5px solid #fed7aa;
+      border-radius: 10px;
+      background: #fff;
+      color: #9a3412;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .ilet-empty-clear:hover { border-color: #f97316; background: #fff7ed; }
+    @media (max-width: 600px) {
+      .ilet-header { flex-wrap: wrap; padding: 10px 14px; gap: 8px; }
+      .ilet-header-tools { width: 100%; gap: 6px; }
+      .ilet-search { max-width: none; padding: 7px 10px; font-size: 13px; }
+      .ilet-sort { padding: 7px 10px; font-size: 12px; }
+      .ilet-source { max-width: 140px; font-size: 9.5px; padding: 3px 7px; }
+      .ilet-title-text { font-size: 16px; }
+      .ilet-count { font-size: 12px; padding: 2px 7px; }
+      .ilet-card { padding: 14px; min-height: 220px; gap: 10px; }
+      .ilet-mock-title { font-size: 15px; }
+    }
     @media (max-width: 600px) {
       .iret-header { flex-wrap: wrap; padding: 10px 14px; }
       .iret-header-tools { width: 100%; }
@@ -9458,7 +9849,7 @@
 
   <!-- CEFR Listening Mode Modal -->
   <div id="cefrListeningModeModal"
-    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:10003;align-items:center;justify-content:center;padding:20px;"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:100005;align-items:center;justify-content:center;padding:20px;"
     onclick="closeCefrListeningModeModal()">
     <div
       style="background:var(--card);border:2px solid var(--brand);border-radius:24px;padding:32px 28px;max-width:480px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
@@ -9546,7 +9937,7 @@
 
   <!-- IELTS Listening Mode Modal -->
   <div id="ieltsListeningModeModal"
-    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:10003;align-items:center;justify-content:center;padding:20px;"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:100005;align-items:center;justify-content:center;padding:20px;"
     onclick="closeIeltsListeningModeModal()">
     <div
       style="background:var(--card);border:2px solid var(--brand);border-radius:24px;padding:32px 28px;max-width:480px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
@@ -9574,54 +9965,70 @@
   </div>
 
   <!-- IELTS Listening Part Picker Modal -->
+  <!-- z-index 100006 so it stacks ABOVE iletPicker (100003), the access-
+       code modal (100004) and the mode modal (100005). When the deep-link
+       flow opens this picker on top of the iletPicker it would otherwise
+       render hidden behind it. -->
   <div id="ieltsListeningPartPickerModal"
-    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:10004;align-items:center;justify-content:center;padding:20px;"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:100006;align-items:center;justify-content:center;padding:16px;"
     onclick="closeIeltsListeningPartPicker()">
     <div
-      style="background:var(--card);border:2px solid #7c3aed;border-radius:24px;padding:32px 28px;max-width:380px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
+      style="background:var(--card);border:2px solid #7c3aed;border-radius:20px;padding:18px 18px 14px;max-width:340px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
       onclick="event.stopPropagation()">
-      <div style="font-size:36px;margin-bottom:6px;">🎯</div>
-      <h3 style="font-size:20px;color:#7c3aed;margin-bottom:4px;">Select a Part</h3>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:20px;">Choose which part you'd like to practice</p>
-      <div style="display:flex;flex-direction:column;gap:10px;">
+      <div style="font-size:24px;margin-bottom:2px;line-height:1;">🎯</div>
+      <h3 style="font-size:17px;color:#7c3aed;margin:0 0 2px;">Select a Part</h3>
+      <p style="font-size:12px;color:var(--muted);margin:0 0 12px;">Choose a part to practice</p>
+      <div style="display:flex;flex-direction:column;gap:6px;">
         <button onclick="_pickIeltsListeningPart(1)"
-          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          style="padding:8px 12px;background:var(--bg);border:1.5px solid var(--ring);border-radius:10px;font-size:14px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.15s;display:flex;align-items:center;gap:10px;"
           onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
           onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
-          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">1</span>
-          <div><div>Part 1</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">10 questions • ~10 min</div></div>
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:13px;font-weight:800;flex-shrink:0;">1</span>
+          <div style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.15;">
+            <span>Part 1</span>
+            <span style="font-size:11px;font-weight:400;color:var(--muted);">10 questions · ~10 min</span>
+          </div>
         </button>
         <button onclick="_pickIeltsListeningPart(2)"
-          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          style="padding:8px 12px;background:var(--bg);border:1.5px solid var(--ring);border-radius:10px;font-size:14px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.15s;display:flex;align-items:center;gap:10px;"
           onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
           onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
-          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">2</span>
-          <div><div>Part 2</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">10 questions • ~10 min</div></div>
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:13px;font-weight:800;flex-shrink:0;">2</span>
+          <div style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.15;">
+            <span>Part 2</span>
+            <span style="font-size:11px;font-weight:400;color:var(--muted);">10 questions · ~10 min</span>
+          </div>
         </button>
         <button onclick="_pickIeltsListeningPart(3)"
-          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          style="padding:8px 12px;background:var(--bg);border:1.5px solid var(--ring);border-radius:10px;font-size:14px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.15s;display:flex;align-items:center;gap:10px;"
           onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
           onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
-          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">3</span>
-          <div><div>Part 3</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">10 questions • ~10 min</div></div>
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:13px;font-weight:800;flex-shrink:0;">3</span>
+          <div style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.15;">
+            <span>Part 3</span>
+            <span style="font-size:11px;font-weight:400;color:var(--muted);">10 questions · ~10 min</span>
+          </div>
         </button>
         <button onclick="_pickIeltsListeningPart(4)"
-          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          style="padding:8px 12px;background:var(--bg);border:1.5px solid var(--ring);border-radius:10px;font-size:14px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.15s;display:flex;align-items:center;gap:10px;"
           onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
           onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
-          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">4</span>
-          <div><div>Part 4</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">10 questions • ~10 min</div></div>
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:13px;font-weight:800;flex-shrink:0;">4</span>
+          <div style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.15;">
+            <span>Part 4</span>
+            <span style="font-size:11px;font-weight:400;color:var(--muted);">10 questions · ~10 min</span>
+          </div>
         </button>
       </div>
       <button onclick="closeIeltsListeningPartPicker()"
-        style="margin-top:18px;padding:8px 24px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;">Back</button>
+        style="margin-top:12px;padding:6px 20px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;">Back</button>
     </div>
   </div>
 
   <!-- Listening Access Code Modal -->
   <div id="listeningAccessCodeModal"
-    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);z-index:10002;align-items:center;justify-content:center;padding:20px;"
-    onclick="closeListeningAccessCodeModal()">
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);z-index:100004;align-items:center;justify-content:center;padding:20px;"
+    onclick="cancelListeningAccessCodeModal()">
     <div
       style="background:var(--card);border:2px solid var(--brand);border-radius:20px;padding:28px;max-width:380px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:slideUp 0.3s ease;"
       onclick="event.stopPropagation()">
@@ -9638,7 +10045,7 @@
       <div id="listeningAccessCodeError"
         style="font-size:13px;margin-top:10px;margin-bottom:14px;min-height:20px;font-weight:600;"></div>
       <div style="display:flex;gap:10px;">
-        <button onclick="closeListeningAccessCodeModal()"
+        <button onclick="cancelListeningAccessCodeModal()"
           style="flex:1;padding:11px;background:var(--bg);color:var(--muted);border:2px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;">Cancel</button>
         <button id="listeningAccessCodeSubmitBtn" onclick="verifyListeningAccessCode()"
           style="flex:2;padding:11px;background:linear-gradient(135deg,var(--brand) 0%,#059669 100%);color:white;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;">Verify
@@ -11058,8 +11465,11 @@
           takeParam  = params.get('take');
         }
         if (!takeParam) return;
-        // Expected slug: cefr-reading-45 / ielts-reading-23 (case-insensitive)
-        var m = takeParam.match(/^(cefr|ielts)-(reading)-(\d+)$/i);
+        // Expected slug: cefr-reading-45 / ielts-reading-23 / ielts-listening-12
+        // / cefr-speaking-15 (case-insensitive). IELTS speaking is not yet wired
+        // for deep links — match it separately when that flow is added.
+        var m = takeParam.match(/^(cefr|ielts)-(reading|listening)-(\d+)$/i)
+             || takeParam.match(/^(cefr)-(speaking)-(\d+)$/i);
         if (!m) {
           console.warn('[deep-link] Unrecognised slug:', takeParam);
           return;
@@ -11067,8 +11477,8 @@
         var exam     = m[1].toLowerCase();
         var skill    = m[2].toLowerCase();
         var mockNum  = parseInt(m[3], 10);
-        var mockType = exam + '-' + skill;            // "cefr-reading"
-        var category = mockType;                       // handleReadingMockClick expects this
+        var mockType = exam + '-' + skill;            // "cefr-reading" / "ielts-listening" / etc.
+        var category = mockType;                       // handle*MockClick functions expect this
 
         // Option A: the URL bar reflects the current view. Don't strip
         // the /take/<slug> path — it stays visible so the student can
@@ -11094,23 +11504,63 @@
           return;
         }
         var rows = await resp.json();
-        if (!rows || !rows.length) {
+        var sbMockId = (rows && rows.length) ? rows[0].id : null;
+
+        // CEFR Speaking is fully Supabase-backed (the picker's upgrader
+        // rewrites every entry to ?sbmock=<id>). The speaking picker
+        // (openSpeakingCategoryModal) wires clicks to handleSpeakingMockClick,
+        // which is what shows the access-code modal and then routes through
+        // _launchSpeakingMock (mode chooser → loadMock). Mirror that flow.
+        // ?num=NN forces _extractSpeakingMockNumber to return the real mock #
+        // rather than the Supabase row id (matches the upgrader's URL shape).
+        if (skill === 'speaking') {
+          if (!sbMockId) {
+            alert('CEFR Speaking Mock ' + mockNum + ' is not available right now.');
+            return;
+          }
+          var pageUrlSpk = 'Speaking Mocks.html?sbmock=' + encodeURIComponent(sbMockId)
+                         + '&num=' + encodeURIComponent(String(mockNum).padStart(2, '0'))
+                         + '&auto=1&action=practice';
+          if (typeof handleSpeakingMockClick !== 'function') {
+            console.warn('[deep-link] handleSpeakingMockClick not loaded — falling back to loadMock');
+            if (typeof loadMock === 'function') loadMock(pageUrlSpk, 'speaking');
+            return;
+          }
+          handleSpeakingMockClick(pageUrlSpk, category);
+          return;
+        }
+
+        if (!sbMockId) {
           alert((exam.toUpperCase() + ' ' + skill[0].toUpperCase() + skill.slice(1)) + ' Mock ' + mockNum + ' is not available right now.');
           return;
         }
-        var sbMockId   = rows[0].id;
-        var runnerFile = (exam === 'cefr') ? 'CEFR Reading.html' : 'IELTS reading.html';
-        // Carry &mock=N so _extractReadingMockNumber returns the real
-        // mock # (mode modal title, results payload, etc.) instead of
-        // the row id from sbmock=.
+        // Runner file per (exam, skill). Reading + Listening have separate runners.
+        var runnerFile;
+        if (skill === 'reading') {
+          runnerFile = (exam === 'cefr') ? 'CEFR Reading.html' : 'IELTS reading.html';
+        } else { // skill === 'listening'
+          runnerFile = (exam === 'cefr') ? 'CEFR Listening.html' : 'IELTS listening.html';
+        }
+        // Carry &mock=N so _extract*MockNumber returns the real mock # (mode
+        // modal title, results payload, etc.) instead of the row id.
         var pageUrl = runnerFile + '?sbmock=' + encodeURIComponent(sbMockId) + '&mock=' + encodeURIComponent(mockNum);
 
-        if (typeof handleReadingMockClick !== 'function') {
-          console.warn('[deep-link] handleReadingMockClick not loaded yet — falling back to loadMock');
-          if (typeof loadMock === 'function') loadMock(pageUrl, 'reading');
-          return;
+        // Route through the right access-code-modal handler.
+        if (skill === 'reading') {
+          if (typeof handleReadingMockClick !== 'function') {
+            console.warn('[deep-link] handleReadingMockClick not loaded — falling back to loadMock');
+            if (typeof loadMock === 'function') loadMock(pageUrl, 'reading');
+            return;
+          }
+          handleReadingMockClick(pageUrl, category);
+        } else {
+          if (typeof handleListeningMockClick !== 'function') {
+            console.warn('[deep-link] handleListeningMockClick not loaded — falling back to loadMock');
+            if (typeof loadMock === 'function') loadMock(pageUrl, 'listening');
+            return;
+          }
+          handleListeningMockClick(pageUrl, category);
         }
-        handleReadingMockClick(pageUrl, category);
       } catch (err) {
         console.warn('[deep-link] failed:', err);
       }
@@ -11207,7 +11657,16 @@
     let _pendingListeningMock = null;
 
     function _extractListeningMockNumber(pageUrl) {
-      const m = pageUrl.match(/(\d+)(?=&|$)/);
+      // Prefer an explicit ?mock= / &mock= query param — pickers append
+      // it for Supabase mocks so the mode modal title reads the real
+      // mock number (e.g. "Mock 02") instead of the DB row id from
+      // ?sbmock= (e.g. "Mock 438"). Falls back to the trailing-number
+      // regex for legacy ?test=ielts-listening-test-NN URLs (no longer
+      // produced by the picker, but a Telegram-deep-linked bookmark
+      // could still use this format).
+      const mp = pageUrl.match(/[?&]mock=(\d+)/);
+      if (mp) return mp[1].padStart(2, '0');
+      const m = pageUrl.match(/(\d+)(?:\.js)?(?=&|$)/);
       return m ? m[1].padStart(2, '0') : null;
     }
 
@@ -11312,7 +11771,70 @@
 
     function _ieltsListeningModePartBased() {
       document.getElementById('ieltsListeningModeModal').style.display = 'none';
-      document.getElementById('ieltsListeningPartPickerModal').style.display = 'flex';
+      var modal = document.getElementById('ieltsListeningPartPickerModal');
+      var allBtns = modal.querySelectorAll('button[onclick^="_pickIeltsListeningPart"]');
+      // Default everything visible — covers the fail-open path below.
+      allBtns.forEach(function (b) { b.style.display = ''; });
+
+      // Mirror iletPicker readiness: hide Part N buttons for sections the
+      // picker marks "⏳ Soon" so a 1/4-ready mock (e.g. Mock 51) doesn't
+      // offer empty Part 2/3/4 practice. We read the picker's in-memory
+      // meta cache (_iletMockMeta) if it's populated; if not (deep-link
+      // path where the picker hasn't been opened this session), we fetch
+      // the single mock's data inline and apply the same answer-count
+      // rule. Failing closed would mean offering all 4 parts on a quirky
+      // cache state — the picker already gates Take Test on noneReady, so
+      // a temporarily-permissive picker here is the safer fall-back.
+      function _applyReady(readyArr) {
+        if (!Array.isArray(readyArr)) return;
+        allBtns.forEach(function (btn) {
+          var m = btn.getAttribute('onclick').match(/_pickIeltsListeningPart\((\d+)\)/);
+          if (!m) return;
+          var partIdx = parseInt(m[1], 10) - 1;
+          btn.style.display = readyArr[partIdx] ? '' : 'none';
+        });
+      }
+      function _showAndScroll() {
+        modal.style.display = 'flex';
+      }
+
+      try {
+        var url   = _pendingIeltsListeningUrl || '';
+        var numM  = url.match(/[?&](?:num|mock)=(\d+)/);
+        var mn    = numM ? String(parseInt(numM[1], 10)).padStart(2, '0') : null;
+        var sbM   = url.match(/[?&]sbmock=([^&]+)/);
+        var sbId  = sbM ? sbM[1] : null;
+        var cached = (mn && typeof _iletMockMeta !== 'undefined') ? _iletMockMeta[mn] : null;
+        if (cached && Array.isArray(cached.sections)) {
+          _applyReady(cached.sections.map(function (s) { return !!(s && s.ready); }));
+          _showAndScroll();
+          return;
+        }
+        if (sbId) {
+          // Show the modal optimistically (all parts visible) and hide
+          // not-ready ones once the fetch resolves. Network is typically
+          // <200ms on a hot cache, so the flicker is barely noticeable.
+          _showAndScroll();
+          var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+          var KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+          fetch(SB + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(sbId) + '&select=mock_data', {
+            headers: { apikey: KEY, Authorization: 'Bearer ' + KEY }
+          }).then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (rows) {
+              if (!rows || !rows.length) return;
+              var parts = (rows[0].mock_data && Array.isArray(rows[0].mock_data.parts)) ? rows[0].mock_data.parts : [];
+              var ready = parts.map(function (p) {
+                var n = (p && p.answers && typeof p.answers === 'object') ? Object.keys(p.answers).length : 0;
+                return n >= 5;
+              });
+              while (ready.length < 4) ready.push(false);
+              _applyReady(ready);
+            })
+            .catch(function () {});
+          return;
+        }
+      } catch (e) {}
+      _showAndScroll();
     }
 
     function closeIeltsListeningPartPicker() {
@@ -11407,6 +11929,19 @@
       if (modal) modal.style.display = 'none';
       _pendingListeningMock = null;
     }
+
+    // Cancel-only wrapper: closes the modal AND strips a /take/<slug> URL
+    // back to /landing.html. Wired to the Cancel button + backdrop click
+    // so a student who backs out doesn't leave a misleading take URL in
+    // the address bar. Mirror of cancelReadingAccessCodeModal.
+    window.cancelListeningAccessCodeModal = function () {
+      closeListeningAccessCodeModal();
+      try {
+        if (/^\/take\//i.test(window.location.pathname)) {
+          history.replaceState(null, '', '/landing.html');
+        }
+      } catch (_e) {}
+    };
 
     async function verifyListeningAccessCode() {
       if (!_pendingListeningMock) return;
@@ -13525,6 +14060,12 @@
       try { await upgradeReading('ielts-reading', ieltsReadingTests, 'IELTS reading.html', 'IELTS Reading Practice Test'); }
       catch (e) { console.warn('IELTS reading dynamic load failed:', e); }
 
+      // IELTS Listening — same flow. Picks up admin-created mocks beyond
+      // the static array (mocks 02-50 were migrated 2026-05-14; anything
+      // 51+ is admin-only and only lives in Supabase).
+      try { await upgradeReading('ielts-listening', ieltsListeningTests, 'IELTS listening.html', 'IELTS Listening Practice Test'); }
+      catch (e) { console.warn('IELTS listening dynamic load failed:', e); }
+
       // If either full-screen picker is currently open, re-render so
       // entries pushed by the upgrader after the user opened the
       // picker (e.g. a freshly-saved AI-imported mock) appear without
@@ -13554,6 +14095,18 @@
           }
         }
       } catch (e) { console.warn('IELTS picker re-render failed:', e); }
+
+      try {
+        const ieltsListenOverlay = document.getElementById('iletPicker');
+        if (ieltsListenOverlay && ieltsListenOverlay.classList.contains('ilet-open')
+            && typeof _iletRender === 'function') {
+          _iletRender();
+          const ieltsListenCountEl = document.getElementById('iletCount');
+          if (ieltsListenCountEl && Array.isArray(ieltsListeningTests)) {
+            ieltsListenCountEl.textContent = ieltsListeningTests.length;
+          }
+        }
+      } catch (e) { console.warn('IELTS listening picker re-render failed:', e); }
     };
     // Run once at page-load (original behaviour).
     window._mmgRefreshAllPickers();
@@ -13620,55 +14173,55 @@
 
     const ieltsListeningTests = [
       { file: 'IELTS listening.html?sbmock=7', name: '🧪 IELTS Listening Practice Test 01 (Supabase pilot)', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-02', name: 'IELTS Listening Practice Test 02', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-03', name: 'IELTS Listening Practice Test 03', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-04', name: 'IELTS Listening Practice Test 04', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-05', name: 'IELTS Listening Practice Test 05', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-06', name: 'IELTS Listening Practice Test 06', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-07', name: 'IELTS Listening Practice Test 07', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-08', name: 'IELTS Listening Practice Test 08', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-09', name: 'IELTS Listening Practice Test 09', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-10', name: 'IELTS Listening Practice Test 10', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-11', name: 'IELTS Listening Practice Test 11', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-12', name: 'IELTS Listening Practice Test 12', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-13', name: 'IELTS Listening Practice Test 13', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-14', name: 'IELTS Listening Practice Test 14', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-15', name: 'IELTS Listening Practice Test 15', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-16', name: 'IELTS Listening Practice Test 16', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-17', name: 'IELTS Listening Practice Test 17', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-18', name: 'IELTS Listening Practice Test 18', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-19', name: 'IELTS Listening Practice Test 19', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-20', name: 'IELTS Listening Practice Test 20', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-21', name: 'IELTS Listening Practice Test 21', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-22', name: 'IELTS Listening Practice Test 22', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-23', name: 'IELTS Listening Practice Test 23', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-24', name: 'IELTS Listening Practice Test 24', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-25', name: 'IELTS Listening Practice Test 25', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-26', name: 'IELTS Listening Practice Test 26', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-27', name: 'IELTS Listening Practice Test 27', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-28', name: 'IELTS Listening Practice Test 28', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-29', name: 'IELTS Listening Practice Test 29', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-30', name: 'IELTS Listening Practice Test 30', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-31', name: 'IELTS Listening Practice Test 31', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-32', name: 'IELTS Listening Practice Test 32', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-33', name: 'IELTS Listening Practice Test 33', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-34', name: 'IELTS Listening Practice Test 34', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-35', name: 'IELTS Listening Practice Test 35', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-36', name: 'IELTS Listening Practice Test 36', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-37', name: 'IELTS Listening Practice Test 37', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-38', name: 'IELTS Listening Practice Test 38', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-39', name: 'IELTS Listening Practice Test 39', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-40', name: 'IELTS Listening Practice Test 40', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-41', name: 'IELTS Listening Practice Test 41', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-42', name: 'IELTS Listening Practice Test 42', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-43', name: 'IELTS Listening Practice Test 43', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-44', name: 'IELTS Listening Practice Test 44', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-45', name: 'IELTS Listening Practice Test 45', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-46', name: 'IELTS Listening Practice Test 46', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-47', name: 'IELTS Listening Practice Test 47', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-48', name: 'IELTS Listening Practice Test 48', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-49', name: 'IELTS Listening Practice Test 49', icon: '🎧', actionText: 'Take Test' },
-      { file: 'IELTS listening.html?test=ielts-listening-test-50', name: 'IELTS Listening Practice Test 50', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=390', name: 'IELTS Listening Practice Test 02', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=391', name: 'IELTS Listening Practice Test 03', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=392', name: 'IELTS Listening Practice Test 04', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=393', name: 'IELTS Listening Practice Test 05', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=394', name: 'IELTS Listening Practice Test 06', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=395', name: 'IELTS Listening Practice Test 07', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=396', name: 'IELTS Listening Practice Test 08', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=397', name: 'IELTS Listening Practice Test 09', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=398', name: 'IELTS Listening Practice Test 10', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=399', name: 'IELTS Listening Practice Test 11', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=400', name: 'IELTS Listening Practice Test 12', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=401', name: 'IELTS Listening Practice Test 13', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=402', name: 'IELTS Listening Practice Test 14', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=403', name: 'IELTS Listening Practice Test 15', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=404', name: 'IELTS Listening Practice Test 16', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=405', name: 'IELTS Listening Practice Test 17', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=406', name: 'IELTS Listening Practice Test 18', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=407', name: 'IELTS Listening Practice Test 19', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=408', name: 'IELTS Listening Practice Test 20', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=409', name: 'IELTS Listening Practice Test 21', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=410', name: 'IELTS Listening Practice Test 22', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=411', name: 'IELTS Listening Practice Test 23', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=412', name: 'IELTS Listening Practice Test 24', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=413', name: 'IELTS Listening Practice Test 25', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=414', name: 'IELTS Listening Practice Test 26', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=415', name: 'IELTS Listening Practice Test 27', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=416', name: 'IELTS Listening Practice Test 28', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=417', name: 'IELTS Listening Practice Test 29', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=418', name: 'IELTS Listening Practice Test 30', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=419', name: 'IELTS Listening Practice Test 31', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=420', name: 'IELTS Listening Practice Test 32', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=421', name: 'IELTS Listening Practice Test 33', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=422', name: 'IELTS Listening Practice Test 34', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=423', name: 'IELTS Listening Practice Test 35', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=424', name: 'IELTS Listening Practice Test 36', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=425', name: 'IELTS Listening Practice Test 37', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=426', name: 'IELTS Listening Practice Test 38', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=427', name: 'IELTS Listening Practice Test 39', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=428', name: 'IELTS Listening Practice Test 40', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=429', name: 'IELTS Listening Practice Test 41', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=430', name: 'IELTS Listening Practice Test 42', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=431', name: 'IELTS Listening Practice Test 43', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=432', name: 'IELTS Listening Practice Test 44', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=433', name: 'IELTS Listening Practice Test 45', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=434', name: 'IELTS Listening Practice Test 46', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=435', name: 'IELTS Listening Practice Test 47', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=436', name: 'IELTS Listening Practice Test 48', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=437', name: 'IELTS Listening Practice Test 49', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=438', name: 'IELTS Listening Practice Test 50', icon: '🎧', actionText: 'Take Test' },
     ];
 
     // ===== READING TESTS =====
@@ -14402,6 +14955,14 @@
         cretOpen();
         return;
       }
+      // Same for IELTS Listening — full-screen picker with 4-section cards.
+      // Flag default true; flip in site-config to revert to the popup.
+      if (category === 'ielts-listening'
+          && window.SITE_CONFIG
+          && window.SITE_CONFIG.useNewIeltsListeningPicker !== false) {
+        iletOpen();
+        return;
+      }
       const modal = document.getElementById('categoryModal');
       const iconEl = document.getElementById('categoryModalIcon');
       const titleEl = document.getElementById('categoryModalTitle');
@@ -15020,6 +15581,8 @@
       if (cret && cret.classList.contains('cret-open')) { cretClose(); return; }
       var iret = document.getElementById('iretPicker');
       if (iret && iret.classList.contains('iret-open')) { iretClose(); return; }
+      var ilet = document.getElementById('iletPicker');
+      if (ilet && ilet.classList.contains('ilet-open')) { iletClose(); return; }
     }
     function _pickerShowTmaBack() {
       try {
@@ -15064,15 +15627,17 @@
       overlay.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
       _pickerHideTmaBack();
-      // Sync history: if close came from a manual UI action (X / Escape /
-      // card click → modal verified → runner), pop the entry we pushed on
-      // open so a future back press takes the student to the prior page,
-      // not to a now-empty picker state. If close came from popstate (the
-      // user already pressed back), skip — history is already correct.
+      // History + URL sync (see iletClose for the full reasoning). After
+      // a card click pushed /take/<slug> on top of our picker state, the
+      // picker close needs to BOTH pop the picker state AND strip the
+      // /take/ URL so the visible landing view matches the address bar.
       if (!_pickerFromPopstate) {
         try {
           if (history.state && history.state.picker === 'iret') {
             history.back();
+          }
+          if (/^\/take\//i.test(window.location.pathname)) {
+            history.replaceState(null, '', '/landing.html');
           }
         } catch (_e) {}
       }
@@ -15159,6 +15724,491 @@
     window.iretOpen = iretOpen;
     window.iretClose = iretClose;
     window.iretClearFilters = iretClearFilters;
+
+    // ===== FULL-SCREEN IELTS Listening PICKER =====
+    // Replaces the popup categoryModal for ielts-listening when the feature flag
+    // is on. Renders one card per mock with source chip, status pill, 4 section
+    // rows + Ready/Soon badges, and a Done-before chip from localStorage.
+    //
+    // Data flow:
+    //   1. iletOpen() shows the overlay + skeleton cards immediately.
+    //   2. _iletLoadAllMockMeta() walks ieltsListeningTests, sandbox-evals each
+    //      static JS file or REST-fetches each Supabase mock to get
+    //      { source, sections: [{title, ready}] }. Cached in localStorage 24h.
+    //   3. iletRender() swaps skeletons for real cards.
+    //   4. Done-tracking comes from localStorage keys written by IELTS Listening.html
+    //      on Submit.
+    const _ilet_CACHE_KEY = 'ms_ilet_meta_v8';
+    const _ilet_CACHE_TTL = 24 * 60 * 60 * 1000;
+    const _ilet_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    const _ilet_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    const _iletMockMeta = {};
+    // Server-side done map: { '02': true, '07': true, ... } — keyed by
+    // zero-padded mock number. Populated on picker open from mock_attempts
+    // rows where submitted_at IS NOT NULL for the logged-in candidate.
+    // Stays empty for guests, who get localStorage-only tracking.
+    let _iletServerDone = {};
+    let _iletFilter = 'all';
+    // Source-filter state. '' = all sources. Otherwise the book label (e.g.
+    // "Cambridge 18") — cards match if their source string starts with this.
+    let _iletSourceFilter = '';
+
+    function _iletEsc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    function _iletBuildMetaFromMockData(md) {
+      const sections = (md && Array.isArray(md.parts) ? md.parts : []).map(p => {
+        // Listening readiness check. The static / Supabase files use at
+        // least 4 different shapes for sub-part content (subParts[] /
+        // questions[] / formContent[] / formContent-as-string-HTML /
+        // extracts[] / etc.), and checking each one was missing variants.
+        // Pragmatic signal: a section is "ready" when its `answers` dict
+        // is substantially filled. IELTS Listening sections always have
+        // ~10 questions, so ≥5 answers is a reliable "authored" gate that
+        // doesn't depend on which content shape the section happens to
+        // use. Audio + transcript are uploaded separately and don't gate
+        // readiness (admin can publish before audio; runner falls back).
+        const ansCount = (p.answers && typeof p.answers === 'object')
+          ? Object.keys(p.answers).length : 0;
+        return {
+          title: p.title || ('Section ' + (p.partNumber || '?')),
+          ready: ansCount >= 5
+        };
+      });
+      while (sections.length < 4) sections.push({ title: '—', ready: false });
+      return { source: (md && md.source) || '', sections: sections.slice(0, 4) };
+    }
+
+    async function _iletLoadStaticMockMeta(filename) {
+      try {
+        // Static listening files live as `questions IELTS L/<slug>.js` — the
+        // ieltsListeningTests entries store the slug only (no .js suffix),
+        // so append it here. (iret doesn't hit this because all IELTS Reading
+        // mocks are on Supabase now and route through the sbmock= branch.)
+        const fname = /\.js$/i.test(filename) ? filename : (filename + '.js');
+        const resp = await fetch('questions IELTS L/' + fname);
+        if (!resp.ok) return null;
+        const code = await resp.text();
+        // Sandbox-eval: each file is `window.IELTS_LISTENING_TEST = {...}`. We
+        // pass a fresh local `window` so the real global isn't polluted and
+        // parallel loads don't race.
+        const sandbox = { IELTS_LISTENING_TEST: null };
+        try {
+          new Function('window', code + '\n;return window;')(sandbox);
+        } catch (e) {
+          return null;
+        }
+        return sandbox.IELTS_LISTENING_TEST
+          ? _iletBuildMetaFromMockData(sandbox.IELTS_LISTENING_TEST)
+          : null;
+      } catch (e) { return null; }
+    }
+
+    async function _iletLoadSupabaseMockMeta(id) {
+      try {
+        const r = await fetch(
+          _ilet_SB_URL + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(id) + '&select=mock_data',
+          { headers: { apikey: _ilet_SB_KEY, Authorization: 'Bearer ' + _ilet_SB_KEY } }
+        );
+        if (!r.ok) return null;
+        const rows = await r.json();
+        if (!rows || !rows.length) return null;
+        return _iletBuildMetaFromMockData(rows[0].mock_data || {});
+      } catch (e) { return null; }
+    }
+
+    function _iletParseFileSpec(fileSpec) {
+      const sbMatch = String(fileSpec || '').match(/sbmock=([^&]+)/);
+      if (sbMatch) return { kind: 'sb', id: sbMatch[1] };
+      const stMatch = String(fileSpec || '').match(/test=([^&]+)/);
+      if (stMatch) return { kind: 'static', filename: stMatch[1] };
+      return { kind: 'unknown' };
+    }
+
+    async function _iletLoadAllMockMeta() {
+      // Cache hit?
+      try {
+        const cached = JSON.parse(localStorage.getItem(_ilet_CACHE_KEY) || 'null');
+        if (cached && cached.ts && (Date.now() - cached.ts) < _ilet_CACHE_TTL && cached.data) {
+          Object.assign(_iletMockMeta, cached.data);
+          return;
+        }
+      } catch (e) {}
+      // Parallel load.
+      const items = (typeof ieltsListeningTests !== 'undefined' && Array.isArray(ieltsListeningTests))
+        ? ieltsListeningTests : [];
+      await Promise.all(items.map(async (t, idx) => {
+        const key = String(idx + 1).padStart(2, '0');
+        const spec = _iletParseFileSpec(t && t.file);
+        let meta = null;
+        if (spec.kind === 'static') meta = await _iletLoadStaticMockMeta(spec.filename);
+        else if (spec.kind === 'sb') meta = await _iletLoadSupabaseMockMeta(spec.id);
+        if (meta) _iletMockMeta[key] = meta;
+      }));
+      try {
+        localStorage.setItem(_ilet_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: _iletMockMeta }));
+      } catch (e) {}
+    }
+
+    function _iletGetDoneInfo(mockNum) {
+      // localStorage first — has percent/score/date for the current device.
+      try {
+        const raw = localStorage.getItem('mock-ielts-listening-done-' + mockNum);
+        if (raw) return JSON.parse(raw);
+      } catch (e) {}
+      // Cross-device fallback for logged-in students. Only marks done — no
+      // percent (server doesn't store the score, just submitted_at).
+      if (_iletServerDone[mockNum]) return { fromServer: true };
+      return null;
+    }
+
+    // Server-side done lookup for logged-in candidates. Hits mock_attempts
+    // directly with submitted_at filter so we don't count opened-but-bailed
+    // attempts. Falls back to {} for guests / network errors — picker then
+    // relies on localStorage only, which is the right per-device behaviour.
+    async function _iletFetchServerDone() {
+      try {
+        if (!window.PremiumGate || !window.PremiumGate._normName) return {};
+        const candidateName = (typeof sessionStorage !== 'undefined'
+          ? (sessionStorage.getItem('CANDIDATE_NAME') || '')
+          : '');
+        const name = window.PremiumGate._normName(candidateName);
+        if (!name) return {}; // guest — fall through to localStorage only
+        const url = _ilet_SB_URL + '/rest/v1/mock_attempts'
+          + '?candidate_name=eq.' + encodeURIComponent(name)
+          + '&skill=eq.listening'
+          + '&exam_type=eq.ielts'
+          + '&submitted_at=not.is.null'
+          + '&select=mock_number';
+        const r = await fetch(url, {
+          headers: { apikey: _ilet_SB_KEY, Authorization: 'Bearer ' + _ilet_SB_KEY }
+        });
+        if (!r.ok) return {};
+        const rows = await r.json();
+        const out = {};
+        (rows || []).forEach(row => {
+          const key = String(row.mock_number).padStart(2, '0');
+          out[key] = true;
+        });
+        return out;
+      } catch (e) { return {}; }
+    }
+
+    function _iletSkeletonHtml() {
+      return '<div class="ilet-card-skeleton">'
+        + '<div class="ilet-skel-line short"></div>'
+        + '<div class="ilet-skel-line tall"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '</div>';
+    }
+
+    function _iletCardHtml(mockNum, item, meta, doneInfo) {
+      const sections = meta.sections;
+      const readyCount = sections.filter(p => p.ready).length;
+      const total = sections.length;
+      const noneReady = readyCount === 0;
+
+      const dots = sections.map(p =>
+        '<span class="ilet-dot ' + (p.ready ? 'ilet-dot-ready' : 'ilet-dot-soon') + '"></span>'
+      ).join('');
+
+      const sourceHtml = meta.source
+        ? '<div class="ilet-source" title="' + _iletEsc(meta.source) + '">' + _iletEsc(meta.source) + '</div>'
+        : '';
+
+      const sectionRows = sections.map((p, i) =>
+        '<li class="ilet-section">'
+          + '<span class="ilet-section-num">' + (i + 1) + '</span>'
+          + '<span class="ilet-section-title">' + _iletEsc(p.title) + '</span>'
+          + '<span class="ilet-section-badge ' + (p.ready ? 'ilet-badge-ready' : 'ilet-badge-soon') + '">'
+          +   (p.ready ? '✓ Ready' : '⏳ Soon')
+          + '</span>'
+        + '</li>'
+      ).join('');
+
+      // Done chip:
+      //   • localStorage hit (current device, completed) → "★ Done · 78%"
+      //   • server hit only (cross-device, no score)     → "★ Done"
+      //   • neither                                       → no chip
+      const doneHtml = doneInfo
+        ? (typeof doneInfo.percent === 'number'
+            ? '<span class="ilet-done">★ Done · ' + doneInfo.percent + '%</span>'
+            : '<span class="ilet-done">★ Done</span>')
+        : '';
+
+      const actionHtml = noneReady
+        ? '<span class="ilet-coming-soon">Coming soon</span>'
+        : '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Take Test →</button>';
+
+      // Strip the "🧪 " emoji prefix from the Supabase pilot label so titles
+      // sit visually consistent.
+      const cleanTitle = String(item.name || '').replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]+\s*/u, '');
+
+      return '<article class="ilet-card ' + (noneReady ? 'ilet-card-disabled' : '') + '"'
+        + ' id="ilet-card-' + mockNum + '"'
+        + ' data-mock="' + mockNum + '"'
+        + ' data-file="' + _iletEsc(item.file) + '"'
+        + ' data-ready-count="' + readyCount + '"'
+        + ' data-total="' + total + '"'
+        + ' data-source="' + _iletEsc(String(meta.source || '').toLowerCase()) + '"'
+        + ' data-done="' + (doneHtml ? '1' : '0') + '"'
+        + ' data-title="' + _iletEsc(cleanTitle.toLowerCase()) + '"'
+        + ' data-sections="' + _iletEsc(sections.map(p => p.title).join(' ').toLowerCase()) + '">'
+          + '<div class="ilet-card-head">'
+            + '<div class="ilet-mocknum">#' + mockNum + '</div>'
+            + '<div class="ilet-status">'
+              + '<span class="ilet-dots">' + dots + '</span>'
+              + '<span class="ilet-status-label">' + readyCount + '/' + total + ' READY</span>'
+            + '</div>'
+            + sourceHtml
+          + '</div>'
+          + '<h3 class="ilet-mock-title">' + _iletEsc(cleanTitle) + '</h3>'
+          + '<ul class="ilet-sections">' + sectionRows + '</ul>'
+          + '<div class="ilet-card-foot">' + doneHtml + actionHtml + '</div>'
+        + '</article>';
+    }
+
+    function _iletRenderSkeletons() {
+      const grid = document.getElementById('iletGrid');
+      const count = (typeof ieltsListeningTests !== 'undefined' && Array.isArray(ieltsListeningTests))
+        ? ieltsListeningTests.length : 12;
+      grid.innerHTML = Array.from({ length: count }, _iletSkeletonHtml).join('');
+      document.getElementById('iletCount').textContent = count;
+    }
+
+    function _iletRender() {
+      const grid = document.getElementById('iletGrid');
+      const items = (typeof ieltsListeningTests !== 'undefined' && Array.isArray(ieltsListeningTests))
+        ? ieltsListeningTests : [];
+      const cards = items.map((t, idx) => {
+        const mockNum = String(idx + 1).padStart(2, '0');
+        const meta = _iletMockMeta[mockNum] || { source: '', sections: [
+          { title: '—', ready: false }, { title: '—', ready: false }, { title: '—', ready: false }
+        ] };
+        return _iletCardHtml(mockNum, t, meta, _iletGetDoneInfo(mockNum));
+      });
+      grid.innerHTML = cards.join('');
+      _iletBuildJumpOptions();
+      _iletBuildSourceOptions();
+      _iletApplyFiltersAndSort();
+    }
+
+    function _iletApplyFiltersAndSort() {
+      const search = (document.getElementById('iletSearch').value || '').toLowerCase().trim();
+      const sourceFilter = _iletSourceFilter.toLowerCase();
+      let visible = 0;
+      document.querySelectorAll('#iletGrid .ilet-card').forEach(c => {
+        const ready = parseInt(c.dataset.readyCount, 10) || 0;
+        const total = parseInt(c.dataset.total, 10) || 0;
+        const done = c.dataset.done === '1';
+        const source = c.dataset.source || '';
+        let pass = true;
+        if (_iletFilter === 'ready') pass = (ready === total && total > 0);
+        else if (_iletFilter === 'soon') pass = (ready < total);
+        else if (_iletFilter === 'done') pass = done;
+        // Source filter matches by prefix so picking "Cambridge 18" returns
+        // every test within that book ("Cambridge 18 Test 1", "…Test 2", …).
+        if (pass && sourceFilter) pass = source.startsWith(sourceFilter);
+        if (pass && search) {
+          pass = (c.dataset.title || '').includes(search)
+            || (c.dataset.source || '').includes(search)
+            || (c.dataset.sections || '').includes(search)
+            || (c.dataset.mock || '').includes(search);
+        }
+        c.style.display = pass ? '' : 'none';
+        if (pass) visible++;
+      });
+      document.getElementById('iletEmpty').style.display = visible === 0 ? '' : 'none';
+      // Cards stay in Mock # ascending order — sort dropdown removed in favour
+      // of the explicit "Jump to #…" picker, which is what students actually
+      // need for navigating a 50-mock list.
+    }
+
+    // Derive unique source-group labels (e.g. "Cambridge 16") from the loaded
+    // metadata so the dropdown only ever lists sources that actually exist.
+    // Strips the "Test N" suffix so each book appears once, no matter how
+    // many tests within it are present.
+    function _iletBuildSourceOptions() {
+      const sel = document.getElementById('iletSourceFilter');
+      if (!sel) return;
+      const groups = new Set();
+      Object.values(_iletMockMeta).forEach(m => {
+        if (!m || !m.source) return;
+        // "Cambridge 18 Test 3" → "Cambridge 18". Anything without a "Test N"
+        // suffix is kept as-is (e.g. plain "Actual 3" or "Mini IELTS 4").
+        const stripped = String(m.source).replace(/\s+Test\s+\d+\s*$/i, '').trim();
+        if (stripped) groups.add(stripped);
+      });
+      const sorted = Array.from(groups).sort();
+      let opts = '<option value="">📚 All sources</option>';
+      sorted.forEach(g => {
+        const sel = (g === _iletSourceFilter) ? ' selected' : '';
+        opts += '<option value="' + _iletEsc(g) + '"' + sel + '>' + _iletEsc(g) + '</option>';
+      });
+      sel.innerHTML = opts;
+    }
+
+    function _iletBuildJumpOptions() {
+      const sel = document.getElementById('iletJump');
+      if (!sel) return;
+      // Keep placeholder + rebuild numbered options from the current cards.
+      const cards = document.querySelectorAll('#iletGrid .ilet-card');
+      let opts = '<option value="">Jump to #…</option>';
+      cards.forEach(c => {
+        const n = c.dataset.mock;
+        if (!n) return;
+        opts += '<option value="' + n + '">#' + n + '</option>';
+      });
+      sel.innerHTML = opts;
+    }
+
+    function _iletJumpToMock(mockNum) {
+      if (!mockNum) return;
+      const card = document.getElementById('ilet-card-' + mockNum);
+      if (!card) return;
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.classList.remove('ilet-card-jumped');
+      // Force reflow so the animation re-triggers if the same card is picked twice.
+      void card.offsetWidth;
+      card.classList.add('ilet-card-jumped');
+    }
+
+    // Back-button plumbing (_pickerFromPopstate / _pickerShowTmaBack /
+    // _pickerHideTmaBack / _pickerTmaBackHandler) lives in the IELTS Reading
+    // picker block above and is shared by all three pickers.
+
+
+    async function iletOpen() {
+      const overlay = document.getElementById('iletPicker');
+      overlay.classList.add('ilet-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      try { history.pushState({ picker: 'ilet' }, ''); } catch (_e) {}
+      _pickerShowTmaBack();
+      _iletRenderSkeletons();
+      // Parallelise metadata load (50 static JS files) and server-done fetch
+      // (one Supabase query). They're independent.
+      const [, serverDone] = await Promise.all([
+        _iletLoadAllMockMeta(),
+        _iletFetchServerDone()
+      ]);
+      _iletServerDone = serverDone || {};
+      _iletRender();
+    }
+
+    function iletClose() {
+      const overlay = document.getElementById('iletPicker');
+      overlay.classList.remove('ilet-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      _pickerHideTmaBack();
+      // History + URL sync. Two cases that both end up "back on landing":
+      //   • Topmost state is our own pushState({picker:'ilet'}) — pop it
+      //     with history.back() so the back stack stays tidy.
+      //   • Topmost state was added by a card click (pushState'd a
+      //     /take/<slug> URL on top of ours). In that case history.back
+      //     would only undo the card-click step, leaving the picker
+      //     state still beneath; AND the URL would still read /take/...
+      //     until the next back. Belt-and-braces: also replaceState to
+      //     /landing.html whenever the URL is currently a take URL, so
+      //     the address bar matches the now-visible landing view.
+      if (!_pickerFromPopstate) {
+        try {
+          if (history.state && history.state.picker === 'ilet') {
+            history.back();
+          }
+          if (/^\/take\//i.test(window.location.pathname)) {
+            history.replaceState(null, '', '/landing.html');
+          }
+        } catch (_e) {}
+      }
+    }
+
+    function iletClearFilters() {
+      _iletFilter = 'all';
+      _iletSourceFilter = '';
+      document.querySelectorAll('.ilet-chip').forEach(c =>
+        c.classList.toggle('ilet-chip-active', c.dataset.filter === 'all')
+      );
+      document.getElementById('iletSearch').value = '';
+      const srcSel = document.getElementById('iletSourceFilter');
+      if (srcSel) srcSel.value = '';
+      _iletApplyFiltersAndSort();
+    }
+
+    // Wire up event handlers (one-time, on first DOMContentLoaded).
+    document.addEventListener('DOMContentLoaded', function () {
+      const overlay = document.getElementById('iletPicker');
+      if (!overlay) return;
+      // Filter chips
+      document.querySelectorAll('.ilet-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          _iletFilter = chip.dataset.filter;
+          document.querySelectorAll('.ilet-chip').forEach(c =>
+            c.classList.toggle('ilet-chip-active', c === chip)
+          );
+          _iletApplyFiltersAndSort();
+        });
+      });
+      // Search + jump-to-number + source filter
+      const search = document.getElementById('iletSearch');
+      const jump   = document.getElementById('iletJump');
+      const srcSel = document.getElementById('iletSourceFilter');
+      if (search) search.addEventListener('input', _iletApplyFiltersAndSort);
+      if (jump) jump.addEventListener('change', function () {
+        _iletJumpToMock(this.value);
+        // Reset to placeholder so the same number can be re-picked.
+        setTimeout(() => { this.value = ''; }, 400);
+      });
+      if (srcSel) srcSel.addEventListener('change', function () {
+        _iletSourceFilter = this.value || '';
+        _iletApplyFiltersAndSort();
+      });
+      // Card click — keep the picker open. handleListeningMockClick raises the
+      // access-code modal at z-index 100004 (above the picker at 100003), so
+      // students see the lock prompt without losing their place. The runner
+      // iframe takes over the viewport only after the code is verified.
+      document.getElementById('iletGrid').addEventListener('click', function (e) {
+        const btn = e.target.closest('.ilet-take');
+        if (!btn) return;
+        const card = btn.closest('.ilet-card');
+        if (!card) return;
+        const file = card.dataset.file;
+        if (!file) return;
+        // Append &mock=N (the real mock_number) so the mode modal title
+        // doesn't fall back to the ?sbmock= row id. Same fix as the
+        // CEFR Reading picker.
+        const mockN = card.dataset.mock;
+        const fileWithMock = mockN
+          ? file + (file.indexOf('?') >= 0 ? '&' : '?') + 'mock=' + encodeURIComponent(mockN)
+          : file;
+        // Reflect the chosen mock in the URL bar (shareable deep-link
+        // shape). pushState adds a history entry so the browser back
+        // button takes the student back to the landing page; the
+        // popstate listener below cleans up any open access-code modal.
+        if (mockN) {
+          try { history.pushState(null, '', '/take/ielts-listening-' + encodeURIComponent(mockN)); } catch (_e) {}
+        }
+        if (typeof handleListeningMockClick === 'function') {
+          handleListeningMockClick(fileWithMock, 'ielts-listening');
+        } else {
+          iletClose();
+          loadMock(fileWithMock, 'listening');
+        }
+      });
+      // Escape closes
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && overlay.classList.contains('ilet-open')) iletClose();
+      });
+    });
+
+    window.iletOpen = iletOpen;
+    window.iletClose = iletClose;
+    window.iletClearFilters = iletClearFilters;
 
     // ===== FULL-SCREEN CEFR READING PICKER =====
     // Same flow as the IELTS picker (iretOpen / iretRender) but for CEFR mocks.
@@ -15552,10 +16602,14 @@
       overlay.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
       _pickerHideTmaBack();
+      // History + URL sync (see iletClose for the full reasoning).
       if (!_pickerFromPopstate) {
         try {
           if (history.state && history.state.picker === 'cret') {
             history.back();
+          }
+          if (/^\/take\//i.test(window.location.pathname)) {
+            history.replaceState(null, '', '/landing.html');
           }
         } catch (_e) {}
       }
@@ -19519,18 +20573,43 @@
     const originalLoadMock = loadMock;
     loadMock = function (page, type) {
       currentView = 'mock';
-      // Defensive URL cleanup: if a stale /take/<slug> URL is lingering
-      // from a prior reading-mock interaction and the new mock isn't a
-      // reading mock, strip it so the address bar doesn't lie about
-      // which skill the student is currently in. Reading mocks keep
-      // their /take/<slug> URL — picker click pushState'd it, deep-link
-      // entry has it natively. (When pushState is later added to
-      // listening/writing/speaking pickers, those will overwrite the
-      // URL before loadMock fires, making this strip a no-op for them.)
+      // Defensive URL cleanup: strip /take/<slug> only when the slug's
+      // skill does NOT match the mock being loaded. This preserves the
+      // URL for any deep-link arrival (/take/cefr-speaking-N → opens
+      // speaking, URL stays) while still clearing stale URLs left over
+      // from a previous reading/listening interaction when the student
+      // launches a different skill from the picker afterwards.
       try {
-        if (type !== 'reading' && /^\/take\//i.test(window.location.pathname)) {
-          history.replaceState(null, '', '/landing.html');
+        if (/^\/take\//i.test(window.location.pathname)) {
+          var _slugMatch = window.location.pathname.match(/^\/take\/[^\/?#]*?-(reading|listening|speaking)-\d+/i);
+          var _slugSkill = _slugMatch ? _slugMatch[1].toLowerCase() : null;
+          if (_slugSkill !== type) {
+            history.replaceState(null, '', '/landing.html');
+          }
         }
+      } catch (_e) {}
+      // Close any open fullscreen picker BEFORE the iframe loads —
+      // the picker overlays at z-index 100003 while the iframe is 9999,
+      // so leaving the picker open hides the runner behind it and the
+      // student hears audio with no visible test. We do a LIGHTWEIGHT
+      // hide here (just toggle the open class), NOT the public
+      // close function — those strip the /take/<slug> URL, but the
+      // student is now ON that take URL by entering the runner, so
+      // we want it preserved in the address bar.
+      try {
+        ['cretPicker', 'iretPicker', 'iletPicker'].forEach(function (id) {
+          var ov = document.getElementById(id);
+          if (!ov) return;
+          var openClass = id.replace('Picker', '-open');
+          if (ov.classList.contains(openClass)) {
+            ov.classList.remove(openClass);
+            ov.setAttribute('aria-hidden', 'true');
+          }
+        });
+        document.body.style.overflow = '';
+        // Hide the TMA back button if any picker had it on; the runner
+        // iframe has its own back/exit UI.
+        if (typeof _pickerHideTmaBack === 'function') _pickerHideTmaBack();
       } catch (_e) {}
       originalLoadMock(page, type);
     };
@@ -19576,10 +20655,19 @@
           iretClose();
           _pickerFromPopstate = false;
         }
-        // 2) Close access-code modal if URL left /take/...
+        var ilet = document.getElementById('iletPicker');
+        if (ilet && ilet.classList.contains('ilet-open')) {
+          _pickerFromPopstate = true;
+          iletClose();
+          _pickerFromPopstate = false;
+        }
+        // 2) Close access-code modals if URL left /take/...
         if (!/^\/take\//i.test(window.location.pathname)) {
           if (typeof closeReadingAccessCodeModal === 'function') {
             closeReadingAccessCodeModal();
+          }
+          if (typeof closeListeningAccessCodeModal === 'function') {
+            closeListeningAccessCodeModal();
           }
         }
       } catch (_e) {}
@@ -28100,7 +29188,12 @@
           <button class="mmg-tab mmg-tab-ir"           data-tab="ir_p1"       onclick="_mmgSwitchTab('ir_p1')">Passage 1</button>
           <button class="mmg-tab mmg-tab-ir"           data-tab="ir_p2"       onclick="_mmgSwitchTab('ir_p2')">Passage 2</button>
           <button class="mmg-tab mmg-tab-ir"           data-tab="ir_p3"       onclick="_mmgSwitchTab('ir_p3')">Passage 3</button>
-          <button class="mmg-tab mmg-tab-raw mmg-tab-cw mmg-tab-iw mmg-tab-cs mmg-tab-is mmg-tab-cr mmg-tab-ir" data-tab="raw" onclick="_mmgSwitchTab('raw')">⚙ Raw JSON</button>
+          <button class="mmg-tab mmg-tab-il"           data-tab="il_settings" onclick="_mmgSwitchTab('il_settings')">Settings</button>
+          <button class="mmg-tab mmg-tab-il"           data-tab="il_part1"    onclick="_mmgSwitchTab('il_part1')">Section 1</button>
+          <button class="mmg-tab mmg-tab-il"           data-tab="il_part2"    onclick="_mmgSwitchTab('il_part2')">Section 2</button>
+          <button class="mmg-tab mmg-tab-il"           data-tab="il_part3"    onclick="_mmgSwitchTab('il_part3')">Section 3</button>
+          <button class="mmg-tab mmg-tab-il"           data-tab="il_part4"    onclick="_mmgSwitchTab('il_part4')">Section 4</button>
+          <button class="mmg-tab mmg-tab-raw mmg-tab-cw mmg-tab-iw mmg-tab-cs mmg-tab-is mmg-tab-cr mmg-tab-ir mmg-tab-il" data-tab="raw" onclick="_mmgSwitchTab('raw')">⚙ Raw JSON</button>
         </div>
         <div class="mmg-edit-panes">
 
@@ -28133,6 +29226,13 @@
         <div id="mmgPaneIrP2"       class="mmg-pane"></div>
         <div id="mmgPaneIrP3"       class="mmg-pane"></div>
 
+        <!-- Listening panes: IELTS has 4 sections (CEFR Listening editor TBD). -->
+        <div id="mmgPaneIlSettings" class="mmg-pane"></div>
+        <div id="mmgPaneIlPart1"    class="mmg-pane"></div>
+        <div id="mmgPaneIlPart2"    class="mmg-pane"></div>
+        <div id="mmgPaneIlPart3"    class="mmg-pane"></div>
+        <div id="mmgPaneIlPart4"    class="mmg-pane"></div>
+
         <!-- Raw JSON pane (the original textarea — kept as authoritative store + power-user fallback). -->
         <div id="mmgPaneRaw" class="mmg-pane mmg-pane-raw active" style="flex-direction:column;">
           <div style="padding:8px 18px;font-size:11px;color:#64748b;display:flex;align-items:center;gap:8px;">
@@ -28140,14 +29240,20 @@
             <button onclick="_mmgValidate()" style="background:#fef3c7;color:#92400e;border:1px solid #f59e0b;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:600;cursor:pointer;">⚙ Validate</button>
             <button onclick="_mmgPretty()" title="Pretty-print" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:600;cursor:pointer;">↔ Pretty</button>
           </div>
-          <textarea id="mmgFldData" spellcheck="false" style="flex:1;margin:0 18px 8px;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font:12px ui-monospace,monospace;resize:none;min-height:280px;"></textarea>
+          <textarea id="mmgFldData" spellcheck="false" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" autocorrect="off" autocapitalize="off" style="flex:1;margin:0 18px 8px;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font:12px ui-monospace,monospace;resize:none;min-height:280px;"></textarea>
         </div>
         </div><!-- /mmg-edit-panes -->
         </div><!-- /mmg-edit-main -->
         <div style="padding:14px 18px;border-top:1px solid #e2e8f0;display:flex;gap:8px;align-items:center;">
           <button id="mmgBtnBackups" onclick="_mmgBackupsOpen()" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;">🕒 Backups…</button>
           <button id="mmgBtnDelete" onclick="_mmgDelete()" style="background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;">Delete</button>
-          <span style="flex:1;"></span>
+          <!-- Save-status pill — mirror of the outer #mmgStatus, but placed
+               INSIDE the edit modal so the admin actually sees "Saving…",
+               "✓ Saved", or error messages. The outer status pill sits in
+               the list pane and gets hidden by the edit modal's full-cover
+               overlay; without this inline mirror, every save abort or
+               in-flight call was invisible (Mock 51 bug, 2026-05-14). -->
+          <span id="mmgEditStatus" style="flex:1;font-size:12px;color:#64748b;text-align:right;padding-right:6px;min-height:18px;"></span>
           <button onclick="_mmgEditClose()" style="background:none;border:1px solid #cbd5e1;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;color:#475569;">Cancel</button>
           <button id="mmgBtnSave" onclick="_mmgSave()" style="background:#2563eb;color:#fff;border:0;border-radius:8px;padding:7px 16px;font-size:12px;font-weight:700;cursor:pointer;transition:background .15s,opacity .15s;">💾 Save</button>
         </div>
@@ -28363,10 +29469,13 @@
     }
 
     function _mmgStatus(msg, color) {
-      var el = document.getElementById('mmgStatus');
-      if (!el) return;
-      el.style.color = color || '#64748b';
-      el.textContent = msg || '';
+      var c = color || '#64748b';
+      var outer = document.getElementById('mmgStatus');
+      if (outer) { outer.style.color = c; outer.textContent = msg || ''; }
+      // Mirror into the edit-modal-internal status pill so admins see
+      // feedback while the edit modal is covering the outer pill.
+      var inner = document.getElementById('mmgEditStatus');
+      if (inner) { inner.style.color = c; inner.textContent = msg || ''; }
     }
 
     async function _mmgRefresh() {
@@ -28572,7 +29681,8 @@
       'cefr-speaking':  { tabClass: 'mmg-tab-cs', defaultTab: 'settings' },
       'ielts-speaking': { tabClass: 'mmg-tab-is', defaultTab: 'settings' },
       'cefr-reading':   { tabClass: 'mmg-tab-cr', defaultTab: 'cr_settings' },
-      'ielts-reading':  { tabClass: 'mmg-tab-ir', defaultTab: 'ir_settings' }
+      'ielts-reading':  { tabClass: 'mmg-tab-ir', defaultTab: 'ir_settings' },
+      'ielts-listening':{ tabClass: 'mmg-tab-il', defaultTab: 'il_settings' }
     };
     // Which tab is currently visible. We need this to know which pane to
     // collect-from when the user clicks a different tab.
@@ -28605,6 +29715,7 @@
       sp_part11:'SpPart11', sp_part12:'SpPart12', sp_part2:'SpPart2', sp_part3:'SpPart3',
       cr_settings:'CrSettings', cr_part1:'CrPart1', cr_part2:'CrPart2', cr_part3:'CrPart3', cr_part4:'CrPart4', cr_part5:'CrPart5',
       ir_settings:'IrSettings', ir_p1:'IrP1', ir_p2:'IrP2', ir_p3:'IrP3',
+      il_settings:'IlSettings', il_part1:'IlPart1', il_part2:'IlPart2', il_part3:'IlPart3', il_part4:'IlPart4',
       samples:'Samples',
       vocab:'Vocab', tokens:'Tokens', raw:'Raw'
     };
@@ -28671,6 +29782,11 @@
           case 'ir_p1':     _mmgCollectIrPassage(md, 0); break;
           case 'ir_p2':     _mmgCollectIrPassage(md, 1); break;
           case 'ir_p3':     _mmgCollectIrPassage(md, 2); break;
+          case 'il_settings': _mmgCollectIlSettings(md); break;
+          case 'il_part1':  _mmgCollectIlPart(md, 0); break;
+          case 'il_part2':  _mmgCollectIlPart(md, 1); break;
+          case 'il_part3':  _mmgCollectIlPart(md, 2); break;
+          case 'il_part4':  _mmgCollectIlPart(md, 3); break;
           case 'samples':  _mmgCollectSamples(md); break;
           case 'vocab':    _mmgCollectVocab(md); break;
           case 'tokens':   _mmgCollectTokens(md); break;
@@ -28713,6 +29829,11 @@
         case 'ir_p1':     _mmgRenderIrPassage(md, 0); break;
         case 'ir_p2':     _mmgRenderIrPassage(md, 1); break;
         case 'ir_p3':     _mmgRenderIrPassage(md, 2); break;
+        case 'il_settings': _mmgRenderIlSettings(md); break;
+        case 'il_part1':  _mmgRenderIlPart(md, 0); break;
+        case 'il_part2':  _mmgRenderIlPart(md, 1); break;
+        case 'il_part3':  _mmgRenderIlPart(md, 2); break;
+        case 'il_part4':  _mmgRenderIlPart(md, 3); break;
         case 'samples':  _mmgRenderSamples(md); break;
         case 'vocab':    _mmgRenderVocab(md);  break;
         case 'tokens':   _mmgRenderTokens(md); break;
@@ -30760,6 +31881,8 @@
       html += subOpen('other');
       html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">For things that vary by question type — <code>type</code>, matching statements / headings, MCQ options. Most parts have just <code>{ "type": "…" }</code> here. Leave alone if you don\'t recognise it.</div>';
       html += '<div class="mmg-field"><textarea id="mmgCrP' + n + '_other" spellcheck="false" '
+            + 'data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" '
+            + 'autocorrect="off" autocapitalize="off" '
             + 'style="min-height:240px;font:12px ui-monospace,monospace;width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;resize:vertical;">'
             + _mmgEsc(JSON.stringify(other, null, 2)) + '</textarea></div>';
       html += '</div>';
@@ -31249,6 +32372,991 @@
       }
     }
 
+    // ═════════════════════════════════════════════════════════════════════════
+    // IELTS LISTENING — structured editor (4 sections per mock).
+    // Mirrors the CEFR Reading collect/render pattern, with two adaptations
+    // for listening:
+    //   1) Top of each section: "Audio file URL" + "Transcript" inputs
+    //      (replacing reading's Passage tab — listening's content is audio,
+    //       paired with a typed transcript used by review mode + by
+    //       Generate Explanations as the quote source).
+    //   2) Top-level `questions[]` is empty by design — IELTS Listening
+    //      questions live inside `subParts[]` (gap-fill-form, table-
+    //      completion, mcq-extracts, …). The Answers + Explanations sub-tabs
+    //      render slots derived from `questionRange` (e.g. "1-10" → Q1…Q10),
+    //      reading from / writing to the flat `answers` + `explanations`
+    //      dicts. `subParts[]`, `answerHighlights`, and `type` pass through
+    //      the Other tab JSON unchanged (admin populates them via Gemini
+    //      import or hand-edits Raw JSON).
+    // ═════════════════════════════════════════════════════════════════════════
+
+    // ── Time format helpers ────────────────────────────────────────────
+    // Admin types "13:00", "0:13:00", or "780" — all valid; stored as
+    // seconds. Format helper produces "MM:SS" or "HH:MM:SS" for display.
+    function _ilParseTime(str) {
+      if (str == null) return null;
+      var s = String(str).trim();
+      if (s === '') return null;
+      if (/^\d+$/.test(s)) return parseInt(s, 10);
+      var m = s.match(/^(\d+):(\d+)$/);
+      if (m) return parseInt(m[1], 10) * 60 + parseInt(m[2], 10);
+      var h = s.match(/^(\d+):(\d+):(\d+)$/);
+      if (h) return parseInt(h[1], 10) * 3600 + parseInt(h[2], 10) * 60 + parseInt(h[3], 10);
+      var n = Number(s);
+      return isFinite(n) ? n : null;
+    }
+    function _ilFormatTime(sec) {
+      if (sec == null || !isFinite(sec)) return '—';
+      var n = Math.max(0, Math.floor(Number(sec)));
+      var h = Math.floor(n / 3600);
+      var m = Math.floor((n % 3600) / 60);
+      var s = n % 60;
+      var pad = function (v) { return String(v).padStart(2, '0'); };
+      return h > 0 ? h + ':' + pad(m) + ':' + pad(s) : pad(m) + ':' + pad(s);
+    }
+    // Live-update the humanised time display next to a start-time input.
+    window._mmgIlUpdateTimeHint = function (inputId) {
+      var inp  = document.getElementById(inputId);
+      var hint = document.getElementById(inputId + '_hint');
+      if (!inp || !hint) return;
+      var sec = _ilParseTime(inp.value);
+      hint.textContent = (sec == null) ? '' : '= ' + _ilFormatTime(sec) + ' (' + sec + 's)';
+    };
+
+    function _mmgRenderIlSettings(md) {
+      var ti = (md.testInfo = md.testInfo || {});
+      var layout = md.audioLayout || 'per-section';
+      var parts  = Array.isArray(md.parts) ? md.parts : [];
+      var html = '';
+
+      // Import banner — bulk PDF/image/doc paste → Gemini → fills all 4 sections.
+      html += ''
+            + '<div style="background:linear-gradient(135deg,#eff6ff,#f0f9ff);border:1px solid #bfdbfe;border-radius:10px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;gap:12px;">'
+            +   '<div style="flex:1;font-size:12.5px;color:#1e3a8a;line-height:1.5;">'
+            +     '<strong>✨ Import from PDF / images / doc</strong> — Upload IELTS Listening test file (and optional answer key) and Gemini fills all 4 sections at once.'
+            +   '</div>'
+            +   '<button type="button" onclick="_mmgImportOpen()" style="background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(37,99,235,.3);white-space:nowrap;">✨ Import</button>'
+            + '</div>';
+
+      // Bulk-generate explanations for all 4 sections.
+      html += ''
+            + '<div id="mmgIlAllExplBar" style="background:linear-gradient(135deg,#ecfeff,#e0f2fe);border:1px solid #bae6fd;border-radius:10px;padding:10px 12px;margin-bottom:14px;display:flex;align-items:center;gap:12px;">'
+            +   '<div style="flex:1;font-size:12px;color:#075985;line-height:1.45;">'
+            +     '<strong>✨ Generate explanations — all sections</strong> — Walks Sections 1–4 and sends Gemini each section\'s transcript + answer key. Quotes are server-verified.'
+            +   '</div>'
+            +   '<button type="button" id="mmgIlAllExplBtn" onclick="_mmgGenerateExplanationsAllIl()" style="background:linear-gradient(135deg,#06b6d4,#0284c7);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(2,132,199,.3);white-space:nowrap;">✨ Generate all</button>'
+            + '</div>'
+            + '<div id="mmgIlAllExplStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;border-radius:8px;padding:0;background:transparent;font-weight:500;"></div>';
+
+      // ── Audio source: layout toggle + per-mode UI ─────────────────────
+      // All audio orchestration (URLs, uploads, start-times) lives in
+      // Settings. Section tabs only show a read-only summary + the
+      // Transcribe button; they're focused on content (transcript,
+      // sub-parts, answers).
+      html += '<div class="mmg-section-title">Audio source</div>';
+      html += '<div style="display:flex;gap:14px;margin-bottom:12px;flex-wrap:wrap;">'
+            +   '<label style="display:flex;align-items:center;gap:6px;font-size:12.5px;color:#0f172a;cursor:pointer;">'
+            +     '<input type="radio" name="mmgIlTi_layout" value="per-section" ' + (layout === 'per-section' ? 'checked' : '') + ' onchange="_mmgIlOnLayoutChange()"> '
+            +     '<strong>Per-section files</strong> — 4 separate uploads.'
+            +   '</label>'
+            +   '<label style="display:flex;align-items:center;gap:6px;font-size:12.5px;color:#0f172a;cursor:pointer;">'
+            +     '<input type="radio" name="mmgIlTi_layout" value="merged" ' + (layout === 'merged' ? 'checked' : '') + ' onchange="_mmgIlOnLayoutChange()"> '
+            +     '<strong>Single merged file</strong> — one audio, manual start-times.'
+            +   '</label>'
+            + '</div>';
+
+      // Merged uploader + 4 start-time inputs (visible when layout='merged').
+      html += '<div id="mmgIlTi_mergedWrap" style="' + (layout === 'merged' ? '' : 'display:none;') + 'margin-bottom:18px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 14px;">'
+            +   _mmgFieldText('Merged audio URL', 'mmgIlTi_audio', md.audioFile, 'Paste the GCS URL, or click Upload to push a local file.')
+            +   '<div style="margin-top:-6px;display:flex;gap:8px;margin-bottom:10px;">'
+            +     '<button type="button" onclick="_mmgIlUploadMergedAudio()" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:6px;padding:5px 10px;font-size:11.5px;font-weight:600;cursor:pointer;">📁 Upload merged audio</button>'
+            +     '<span id="mmgIlTi_audioStatus" style="font-size:11.5px;color:#64748b;align-self:center;"></span>'
+            +   '</div>'
+            +   '<div style="font-size:11.5px;color:#475569;margin:6px 0 8px;line-height:1.5;">'
+            +     '<strong>Section start times.</strong> Type <code>MM:SS</code> (e.g. <code>13:00</code>), <code>HH:MM:SS</code>, or raw seconds (e.g. <code>780</code>). System accepts all three. '
+            +     'Typical IELTS layout: Section 1 starts at 0:00, Section 2 ~13:00, Section 3 ~26:00, Section 4 ~38:00.'
+            +   '</div>';
+      for (var si = 0; si < 4; si++) {
+        var sn = si + 1;
+        var sp = parts[si] || {};
+        var curRaw = (sp.audioStartSec != null) ? _ilFormatTime(sp.audioStartSec) : '';
+        html += '<div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;">'
+              +   '<label for="mmgIlTi_p' + sn + '_start" style="font-weight:700;font-size:12px;color:#0f172a;min-width:90px;">Section ' + sn + ' start</label>'
+              +   '<input type="text" id="mmgIlTi_p' + sn + '_start" value="' + _mmgEsc(curRaw) + '" placeholder="e.g. ' + (si === 0 ? '0:00' : (si === 1 ? '13:00' : (si === 2 ? '26:00' : '38:00'))) + '" '
+              +   'oninput="_mmgIlUpdateTimeHint(\'mmgIlTi_p' + sn + '_start\');_mmgIlRefreshEndHints()" '
+              +   'style="flex:1;padding:5px 10px;border:1px solid #cbd5e1;border-radius:5px;font-size:13px;font-family:ui-monospace,monospace;">'
+              +   '<span id="mmgIlTi_p' + sn + '_start_hint" style="font-size:11px;color:#64748b;min-width:140px;">' + (sp.audioStartSec != null ? '= ' + _ilFormatTime(sp.audioStartSec) + ' (' + sp.audioStartSec + 's)' : '') + '</span>'
+              +   '<span id="mmgIlTi_p' + sn + '_end_hint"   style="font-size:11px;color:#94a3b8;min-width:130px;"></span>'
+              + '</div>';
+      }
+      html += '</div>';
+
+      // Per-section uploader cluster (visible when layout='per-section').
+      html += '<div id="mmgIlTi_perWrap" style="' + (layout === 'per-section' ? '' : 'display:none;') + 'margin-bottom:18px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 14px;">'
+            +   '<div style="font-size:11.5px;color:#475569;margin-bottom:10px;line-height:1.5;">'
+            +     '<strong>Per-section audio files.</strong> Upload one MP3 per section, or paste an existing GCS URL. URLs sync automatically with each Section tab.'
+            +   '</div>';
+      for (var pi = 0; pi < 4; pi++) {
+        var pn = pi + 1;
+        var pp = parts[pi] || {};
+        html += '<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">'
+              +   '<label for="mmgIlTi_p' + pn + '_audio" style="font-weight:700;font-size:12px;color:#0f172a;min-width:90px;">Section ' + pn + '</label>'
+              +   '<input type="text" id="mmgIlTi_p' + pn + '_audio" value="' + _mmgEsc(pp.audioFile || '') + '" placeholder="GCS URL or paste here" '
+              +   'style="flex:1;padding:5px 10px;border:1px solid #cbd5e1;border-radius:5px;font-size:12px;font-family:ui-monospace,monospace;">'
+              +   '<button type="button" onclick="_mmgIlUploadSectionAudioFromSettings(' + pi + ')" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:6px;padding:5px 10px;font-size:11.5px;font-weight:600;cursor:pointer;white-space:nowrap;">📁 Upload</button>'
+              +   '<span id="mmgIlTi_p' + pn + '_audioStatus" style="font-size:11.5px;color:#64748b;min-width:80px;"></span>'
+              + '</div>';
+      }
+      html += '</div>';
+
+      // Standard test-info fields.
+      html += '<div class="mmg-section-title">IELTS Listening — test info</div>';
+      html += _mmgFieldText('Source',           'mmgIlTi_source',         md.source,         'e.g. Cambridge IELTS 18. Optional — shown as a chip on the picker card.');
+      html += _mmgFieldText('Title',            'mmgIlTi_title',          ti.title,          'e.g., "IELTS Listening Practice Test 02".');
+      html += _mmgFieldText('Total questions',  'mmgIlTi_totalQuestions', ti.totalQuestions, 'Usually 40 (10 per section × 4 sections).');
+      html += _mmgFieldText('Total time (min)', 'mmgIlTi_totalTime',      ti.totalTime,      'Usually 40 (audio ~30 min + 10 min answer transfer).');
+      html += _mmgFieldText('Sections',         'mmgIlTi_sections',       (ti.sections != null ? ti.sections : ti.parts), 'Usually 4.');
+      document.getElementById('mmgPaneIlSettings').innerHTML = html;
+      // Compute initial "(ends at X)" hints based on the values in the boxes.
+      if (layout === 'merged') _mmgIlRefreshEndHints();
+    }
+    // Recompute "ends at X:XX" hint per section — derived from the NEXT
+    // section's start time. Section 4's end stays blank (it's whatever
+    // the audio file's runtime is, which we don't know without probing).
+    window._mmgIlRefreshEndHints = function () {
+      var times = [0, 0, 0, 0].map(function (_, i) {
+        var el = document.getElementById('mmgIlTi_p' + (i + 1) + '_start');
+        return el ? _ilParseTime(el.value) : null;
+      });
+      for (var i = 0; i < 4; i++) {
+        var endEl = document.getElementById('mmgIlTi_p' + (i + 1) + '_end_hint');
+        if (!endEl) continue;
+        var next = times[i + 1];
+        endEl.textContent = (next != null && next > 0)
+          ? '(ends at ' + _ilFormatTime(next) + ')'
+          : '';
+      }
+    };
+
+    function _mmgCollectIlSettings(md) {
+      md.testInfo = md.testInfo || {};
+      var f = function (id) { var e = document.getElementById(id); return e ? e.value : undefined; };
+      var asNum = function (v) { var n = Number(v); return v === '' || !isFinite(n) ? v : n; };
+      var src = f('mmgIlTi_source');
+      if (src !== undefined) {
+        var trimmed = String(src).trim();
+        if (trimmed) md.source = trimmed;
+        else delete md.source;
+      }
+      // Audio layout + merged audio URL (only relevant when layout === 'merged').
+      var layoutEl = document.querySelector('input[name="mmgIlTi_layout"]:checked');
+      if (layoutEl) md.audioLayout = layoutEl.value;
+      var mergedAudio = f('mmgIlTi_audio');
+      if (md.audioLayout === 'merged') {
+        if (mergedAudio !== undefined && mergedAudio !== '') md.audioFile = mergedAudio;
+        else delete md.audioFile;
+      } else {
+        delete md.audioFile;
+      }
+
+      // Per-section audio writes (per-section mode) + per-section start
+      // times (merged mode). Both write into md.parts[idx].audioFile /
+      // audioStartSec — Section tabs read the same field from mock_data
+      // when rendered.
+      md.parts = md.parts || [];
+      while (md.parts.length < 4) md.parts.push({});
+      for (var i = 0; i < 4; i++) {
+        var p = md.parts[i] = md.parts[i] || {};
+        // Backfill identity fields if missing (so a freshly-created mock
+        // saved entirely from Settings still has 4 well-formed sections).
+        if (p.partNumber == null) p.partNumber = i + 1;
+        if (!p.title)             p.title      = 'Section ' + (i + 1);
+
+        if (md.audioLayout === 'per-section') {
+          var url = f('mmgIlTi_p' + (i + 1) + '_audio');
+          if (url !== undefined && url !== '') p.audioFile = url;
+          else delete p.audioFile;
+          delete p.audioStartSec;
+        } else if (md.audioLayout === 'merged') {
+          var startStr = f('mmgIlTi_p' + (i + 1) + '_start');
+          var startSec = _ilParseTime(startStr);
+          if (startSec != null) p.audioStartSec = startSec;
+          else delete p.audioStartSec;
+          // Per-section URL is implicit in merged mode (md.audioFile + start time).
+          delete p.audioFile;
+        }
+      }
+
+      if (f('mmgIlTi_title')          !== undefined) md.testInfo.title          = f('mmgIlTi_title');
+      // Numeric test-info fields. If left blank, write the canonical IELTS
+      // Listening defaults (40 / 40 / 4) instead of an empty string — an
+      // empty string in totalTime caused the runner timer to evaluate as 0
+      // and auto-submit the test on first tick (Mock 51 bug, 2026-05-14).
+      var asNumOrDefault = function (raw, fallback) {
+        if (raw == null) return fallback;
+        var s = String(raw).trim();
+        if (s === '') return fallback;
+        var n = Number(s);
+        return isFinite(n) ? n : fallback;
+      };
+      var rawQs = f('mmgIlTi_totalQuestions');
+      var rawTm = f('mmgIlTi_totalTime');
+      var rawSc = f('mmgIlTi_sections');
+      if (rawQs !== undefined) md.testInfo.totalQuestions = asNumOrDefault(rawQs, 40);
+      if (rawTm !== undefined) md.testInfo.totalTime      = asNumOrDefault(rawTm, 40);
+      if (rawSc !== undefined) md.testInfo.sections       = asNumOrDefault(rawSc, 4);
+    }
+    // Validate + pretty-print the "Other" JSON textarea for a listening
+    // section. On success: rewrites the textarea with the formatted JSON
+    // and shows "✓ Valid JSON · N keys". On parse error: shows the exact
+    // error message + position, and selects the offending character in
+    // the textarea so the admin can see what's wrong without scrolling.
+    window._mmgIlValidateOther = function (n) {
+      var ta = document.getElementById('mmgIlP' + n + '_other');
+      var st = document.getElementById('mmgIlP' + n + '_otherStatus');
+      if (!ta || !st) return;
+      var raw = ta.value || '';
+      if (raw.trim() === '') {
+        st.textContent = '(empty — that\'s fine, will save as {})'; st.style.color = '#64748b';
+        return;
+      }
+      try {
+        var obj = JSON.parse(raw);
+        if (obj === null || typeof obj !== 'object' || Array.isArray(obj)) {
+          st.textContent = '✗ JSON must be an object { … } at the top level';
+          st.style.color = '#dc2626';
+          return;
+        }
+        // Pretty-print with 2-space indent.
+        ta.value = JSON.stringify(obj, null, 2);
+        var keys = Object.keys(obj);
+        st.textContent = '✓ Valid JSON · ' + keys.length + ' top-level key' + (keys.length === 1 ? '' : 's') + ' (' + keys.join(', ').slice(0, 80) + (keys.join(', ').length > 80 ? '…' : '') + ')';
+        st.style.color = '#16a34a';
+      } catch (e) {
+        var msg = String(e.message || e);
+        st.textContent = '✗ ' + msg;
+        st.style.color = '#dc2626';
+        // Try to jump to the failing position so the admin sees the spot.
+        var posMatch = msg.match(/position\s+(\d+)/);
+        if (posMatch) {
+          var pos = parseInt(posMatch[1], 10);
+          try {
+            ta.focus();
+            ta.setSelectionRange(Math.max(0, pos - 1), Math.min(raw.length, pos + 1));
+          } catch (_e) {}
+        }
+      }
+    };
+
+    // Deterministic gapId renumberer for the Other JSON. Walks subParts
+    // in order and assigns gapId 1, 2, 3, … to every entry that has a
+    // gapId field. Also updates table-completion row cells (rows[][].gapId).
+    // No AI — instant, no network call, can't go wrong.
+    window._mmgIlRenumberGapIds = function (n) {
+      var ta = document.getElementById('mmgIlP' + n + '_other');
+      var st = document.getElementById('mmgIlP' + n + '_otherStatus');
+      if (!ta || !st) return;
+      var raw = ta.value || '';
+      var obj;
+      try { obj = JSON.parse(raw); }
+      catch (e) { st.textContent = '✗ Fix JSON first (' + e.message + ')'; st.style.color = '#dc2626'; return; }
+
+      var counter = 0;
+      function walk(node) {
+        if (Array.isArray(node)) { node.forEach(walk); return; }
+        if (node && typeof node === 'object') {
+          if (Object.prototype.hasOwnProperty.call(node, 'gapId')) {
+            node.gapId = ++counter;
+          }
+          for (var k in node) if (Object.prototype.hasOwnProperty.call(node, k)) walk(node[k]);
+        }
+      }
+      walk(obj);
+      ta.value = JSON.stringify(obj, null, 2);
+      st.textContent = '↻ Renumbered ' + counter + ' gapId' + (counter === 1 ? '' : 's') + ' (1..' + counter + ')';
+      st.style.color = '#0891b2';
+    };
+
+    // Gemini-patch handler for the Other JSON. Sends current JSON +
+    // user instruction to the patch-listening-json Edge Function;
+    // opens a preview modal showing Gemini\'s patched JSON; admin
+    // accepts to overwrite the textarea or discards to keep current.
+    window._mmgIlPatchOther = async function (n) {
+      var ta = document.getElementById('mmgIlP' + n + '_other');
+      var instrEl = document.getElementById('mmgIlP' + n + '_patchInstr');
+      var btn = document.getElementById('mmgIlP' + n + '_patchBtn');
+      var st = document.getElementById('mmgIlP' + n + '_otherStatus');
+      if (!ta || !instrEl || !btn) return;
+      var instruction = (instrEl.value || '').trim();
+      if (!instruction) { st.textContent = '✗ Type what you want Gemini to change first'; st.style.color = '#dc2626'; return; }
+      var currentJson = ta.value || '';
+      if (currentJson.trim() === '') { st.textContent = '✗ Textarea is empty — nothing to patch'; st.style.color = '#dc2626'; return; }
+
+      btn.disabled = true; var prevLabel = btn.innerHTML; btn.innerHTML = '⏳ Working…';
+      st.textContent = 'Asking Gemini to apply: "' + instruction.slice(0, 80) + (instruction.length > 80 ? '…' : '') + '"';
+      st.style.color = '#64748b';
+
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      try {
+        var resp = await fetch(SB_URL + '/functions/v1/patch-listening-json', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY },
+          body: JSON.stringify({ currentJson: currentJson, instruction: instruction })
+        });
+        var data = await resp.json();
+        if (!resp.ok || !data.ok) {
+          st.textContent = '✗ ' + (data.error || ('HTTP ' + resp.status));
+          st.style.color = '#dc2626';
+          return;
+        }
+        _mmgIlShowPatchPreview(n, ta, data.patchedFormatted, data.notes);
+      } catch (e) {
+        st.textContent = '✗ Network error: ' + e.message;
+        st.style.color = '#dc2626';
+      } finally {
+        btn.disabled = false; btn.innerHTML = prevLabel;
+      }
+    };
+
+    // Preview modal — shows the patched JSON read-only with Accept /
+    // Discard buttons. On Accept, copies into the textarea and clears
+    // the instruction input. On Discard, closes without touching
+    // anything. Inline-styled to avoid touching the rest of the
+    // editor's CSS.
+    function _mmgIlShowPatchPreview(n, targetTa, patchedText, notes) {
+      var st = document.getElementById('mmgIlP' + n + '_otherStatus');
+      var existing = document.getElementById('mmgIlPatchPreview');
+      if (existing) existing.remove();
+      var modal = document.createElement('div');
+      modal.id = 'mmgIlPatchPreview';
+      modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(3px);z-index:100010;display:flex;align-items:center;justify-content:center;padding:24px;';
+      var notesBanner = notes
+        ? '<div style="background:#fef3c7;border:1px solid #f59e0b;color:#92400e;border-radius:8px;padding:8px 12px;font-size:12px;margin-bottom:10px;"><strong>Note from Gemini:</strong> ' + (notes.replace(/[<>]/g, '')) + '</div>'
+        : '';
+      modal.innerHTML =
+          '<div style="background:#fff;border-radius:14px;padding:18px;max-width:760px;width:100%;max-height:80vh;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 60px rgba(0,0,0,0.3);">'
+        +   '<div style="display:flex;align-items:center;gap:8px;">'
+        +     '<div style="font-size:16px;font-weight:700;color:#0f172a;">✨ Preview — Gemini\'s patched JSON</div>'
+        +     '<span style="flex:1;"></span>'
+        +     '<button type="button" id="mmgIlPatchDiscard" style="background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;border-radius:6px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;">✗ Discard</button>'
+        +     '<button type="button" id="mmgIlPatchAccept"  style="background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;border:0;border-radius:6px;padding:5px 14px;font-size:12px;font-weight:700;cursor:pointer;">✓ Apply to editor</button>'
+        +   '</div>'
+        +   notesBanner
+        +   '<div style="font-size:11px;color:#64748b;">Review the patched JSON below. Apply only if it looks right; otherwise Discard and refine your instruction.</div>'
+        +   '<textarea readonly spellcheck="false" data-gramm="false" '
+        +     'style="flex:1;min-height:380px;font:12px ui-monospace,monospace;border:1px solid #cbd5e1;border-radius:8px;padding:10px;resize:vertical;background:#f8fafc;">'
+        +     String(patchedText).replace(/[<>&]/g, function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;'}[c];})
+        +   '</textarea>'
+        + '</div>';
+      document.body.appendChild(modal);
+      document.getElementById('mmgIlPatchAccept').onclick = function () {
+        targetTa.value = patchedText;
+        modal.remove();
+        if (st) { st.textContent = '✓ Gemini patch applied. Click Save when ready.'; st.style.color = '#16a34a'; }
+        // Clear the instruction so a follow-up "Apply" doesn\'t re-fire
+        // the same prompt by accident.
+        var instrEl = document.getElementById('mmgIlP' + n + '_patchInstr');
+        if (instrEl) instrEl.value = '';
+      };
+      document.getElementById('mmgIlPatchDiscard').onclick = function () {
+        modal.remove();
+        if (st) { st.textContent = '✗ Patch discarded. Editor unchanged.'; st.style.color = '#64748b'; }
+      };
+    }
+
+    // Show/hide merged + per-section blocks when the layout radio changes.
+    window._mmgIlOnLayoutChange = function () {
+      var sel = document.querySelector('input[name="mmgIlTi_layout"]:checked');
+      var merged = document.getElementById('mmgIlTi_mergedWrap');
+      var per    = document.getElementById('mmgIlTi_perWrap');
+      var isMerged = sel && sel.value === 'merged';
+      if (merged) merged.style.display = isMerged ? '' : 'none';
+      if (per)    per.style.display    = isMerged ? 'none' : '';
+    };
+
+    // Settings-side per-section upload: writes back into md.parts[idx].audioFile
+    // and re-renders Settings so the URL field updates with the new URL.
+    window._mmgIlUploadSectionAudioFromSettings = function (idx) {
+      var n = idx + 1;
+      _mmgIlPickAndUpload({
+        accept: 'audio/*',
+        statusEl: document.getElementById('mmgIlTi_p' + n + '_audioStatus'),
+        urlInputId: 'mmgIlTi_p' + n + '_audio',
+        kind: 'audio',
+        subdir: 'section-' + n
+      });
+    };
+
+    // Keys covered by structured form sections. Everything else (type,
+    // subParts[], answerHighlights, …) passes through the Other tab JSON.
+    var _MMG_IL_PART_COVERED = { partNumber:1, title:1, questionRange:1, instruction:1, audioFile:1, audioStartSec:1, transcript:1, mapImage:1, answers:1, explanations:1 };
+
+    function _mmgRenderIlPart(md, idx) {
+      var parts = (md.parts = md.parts || []);
+      while (parts.length <= idx) parts.push({});
+      var p = parts[idx] || {};
+      var n = idx + 1;
+      var paneId = 'mmgPaneIlPart' + n;
+      var scope  = 'ilP' + n;
+
+      if (p.partNumber == null)              p.partNumber = n;
+      if (p.title == null || p.title === '') p.title      = 'Section ' + n;
+
+      window._mmgIlActiveSub = window._mmgIlActiveSub || {};
+      var activeSub = window._mmgIlActiveSub[idx] || 'audio';
+
+      var html = '';
+
+      // Per-section Gemini import banner — same shared modal as reading
+      // (_mmgImportOpenPassage routes by mock_type; the listening branch
+      // is wired in the next commit and uses the same PDF/image upload).
+      html += ''
+            + '<div style="background:linear-gradient(135deg,#fdf4ff,#faf5ff);border:1px solid #e9d5ff;border-radius:10px;padding:10px 12px;margin-bottom:8px;display:flex;align-items:center;gap:12px;">'
+            +   '<div style="flex:1;font-size:12px;color:#581c87;line-height:1.45;">'
+            +     '<strong>✨ Import this section</strong> — upload Section ' + n + '\'s test pages (PDF or screenshots) + the answer key; Gemini structures it into subParts + answers. Other sections stay untouched.'
+            +   '</div>'
+            +   '<button type="button" onclick="_mmgImportOpenPassage(' + idx + ')" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(124,58,237,.3);white-space:nowrap;">✨ Import section</button>'
+            + '</div>';
+
+      // Per-section Generate Explanations banner.
+      html += ''
+            + '<div id="mmgIlP' + n + '_explBar" style="background:linear-gradient(135deg,#ecfeff,#e0f2fe);border:1px solid #bae6fd;border-radius:10px;padding:10px 12px;margin-bottom:14px;display:flex;align-items:center;gap:12px;">'
+            +   '<div style="flex:1;font-size:12px;color:#075985;line-height:1.45;">'
+            +     '<strong>✨ Generate explanations</strong> — Gemini reads this section\'s transcript + answer key and writes a short reason + verbatim transcript quote for each question.'
+            +   '</div>'
+            +   '<button type="button" id="mmgIlP' + n + '_explBtn" onclick="_mmgGenerateExplanations(' + idx + ')" style="background:linear-gradient(135deg,#06b6d4,#0284c7);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(2,132,199,.3);white-space:nowrap;">✨ Generate explanations</button>'
+            + '</div>'
+            + '<div id="mmgIlP' + n + '_explStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;border-radius:8px;padding:0;background:transparent;font-weight:500;"></div>';
+
+      // Basics.
+      html += '<div class="mmg-section-title">Section ' + n + '</div>';
+      html += _mmgFieldText('Question range', 'mmgIlP' + n + '_qr',    p.questionRange, 'e.g., "1-10". Drives the Answers / Explanations slot count below.');
+      html += _mmgFieldArea('Instruction shown to student', 'mmgIlP' + n + '_instr', p.instruction, 'Plain text. For mixed-type sections, list each sub-instruction on its own line.', 60);
+
+      // Derive sub-question count from subParts[] for the Questions sub-tab summary.
+      var answers      = (p.answers && typeof p.answers === 'object' && !Array.isArray(p.answers)) ? p.answers : {};
+      var explanations = (p.explanations && typeof p.explanations === 'object' && !Array.isArray(p.explanations)) ? p.explanations : {};
+      var subParts     = Array.isArray(p.subParts) ? p.subParts : [];
+      var subQCount = 0;
+      subParts.forEach(function (sp) {
+        if (!sp) return;
+        if (Array.isArray(sp.questions)) { subQCount += sp.questions.length; return; }
+        if (Array.isArray(sp.extracts)) {
+          sp.extracts.forEach(function (ex) { if (ex && Array.isArray(ex.questions)) subQCount += ex.questions.length; });
+          return;
+        }
+        if (Array.isArray(sp.formContent)) {
+          sp.formContent.forEach(function (it) { if (it && it.type === 'item-gap' && it.gapId != null) subQCount++; });
+          return;
+        }
+        if (Array.isArray(sp.rows)) {
+          sp.rows.forEach(function (row) {
+            if (Array.isArray(row)) row.forEach(function (c) { if (c && typeof c === 'object' && c.type === 'gap' && c.gapId != null) subQCount++; });
+          });
+        }
+      });
+      var ansCount = Object.keys(answers).length;
+      var expCount = Object.keys(explanations).length;
+
+      // Sub-tab bar.
+      var sb = function (subId, label, count) {
+        var ac = (subId === activeSub) ? ' active' : '';
+        var cs = (count != null) ? ' <span class="mmg-subtab-count">(' + count + ')</span>' : '';
+        return '<button type="button" class="mmg-subtab' + ac + '" data-sub="' + subId + '" onclick="_mmgSwitchSub(\'' + scope + '\', \'' + subId + '\')">' + label + cs + '</button>';
+      };
+      html += '<div class="mmg-subtabs-bar" data-scope="' + scope + '">'
+            +   sb('audio',        'Audio & Transcript')
+            +   sb('questions',    'Questions',    subQCount)
+            +   sb('answers',      'Answers',      ansCount)
+            +   sb('explanations', 'Explanations', expCount)
+            +   sb('other',        'Other')
+            + '</div>';
+
+      var subOpen = function (subId) {
+        var disp = (subId === activeSub) ? 'block' : 'none';
+        return '<div class="mmg-subpane" data-scope="' + scope + '" data-sub="' + subId + '" style="display:' + disp + ';">';
+      };
+
+      // ── Audio & Transcript sub-pane ────────────────────────────────────
+      // Audio orchestration (URLs, uploads, start-times) lives in the
+      // Settings tab — Section tabs are read-only for that and focus on
+      // content (transcript, sub-parts, answers). We show a small
+      // summary so the admin can confirm what's wired up, plus the
+      // Transcribe button (which reads the resolved URL from mock_data).
+      // Section 2 additionally surfaces a Map image input — that one IS
+      // section-specific content, so it stays here.
+      var ilLayout = md.audioLayout || 'per-section';
+      html += subOpen('audio');
+      var summaryUrl, summaryNote;
+      if (ilLayout === 'merged') {
+        summaryUrl = md.audioFile;
+        summaryNote = (p.audioStartSec != null)
+          ? 'Merged audio · starts at <strong>' + _ilFormatTime(p.audioStartSec) + '</strong> (' + p.audioStartSec + 's)'
+          : 'Merged audio · <em style="color:#dc2626;">start time not set in Settings</em>';
+      } else {
+        summaryUrl = p.audioFile;
+        summaryNote = summaryUrl ? 'Per-section audio file' : '<em style="color:#dc2626;">No audio uploaded for Section ' + n + ' — upload from Settings tab</em>';
+      }
+      var summaryUrlBlock = summaryUrl
+        ? '<code style="font-size:11px;word-break:break-all;color:#0f172a;">' + _mmgEsc(summaryUrl) + '</code>'
+        : '<em style="color:#64748b;">(not set)</em>';
+      html += '<div style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:12px;color:#475569;line-height:1.55;">'
+            +   '<div style="margin-bottom:4px;">' + summaryNote + '</div>'
+            +   summaryUrlBlock
+            +   '<div style="margin-top:8px;display:flex;gap:8px;align-items:center;">'
+            +     '<button type="button" onclick="_mmgIlTranscribe(' + idx + ')" style="background:#fef3c7;border:1px solid #fcd34d;border-radius:6px;padding:5px 10px;font-size:11.5px;font-weight:600;cursor:pointer;">🎤 Transcribe with Gemini</button>'
+            +     '<span style="font-size:11px;color:#64748b;">→ fills the Transcript field below</span>'
+            +     '<span id="mmgIlP' + n + '_audioStatus" style="font-size:11.5px;color:#64748b;margin-left:auto;"></span>'
+            +   '</div>'
+            + '</div>';
+
+      // Section 2 — optional map image (per-section content, kept here).
+      if (n === 2) {
+        html += _mmgFieldText('Map / diagram image URL (optional)', 'mmgIlP' + n + '_map', p.mapImage, 'For Section 2 tasks that show a map or floor plan. Leave blank if not applicable.');
+        html += '<div style="margin:-6px 0 14px;display:flex;gap:8px;align-items:center;">'
+              +   '<button type="button" onclick="_mmgIlUploadMap(' + idx + ')" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:6px;padding:5px 10px;font-size:11.5px;font-weight:600;cursor:pointer;">🖼 Upload image</button>'
+              +   '<span id="mmgIlP' + n + '_mapStatus" style="font-size:11.5px;color:#64748b;"></span>'
+              + '</div>';
+      }
+      html += _mmgFieldArea('Transcript', 'mmgIlP' + n + '_trans', p.transcript, 'Full transcript of the audio. Used by Generate Explanations (quote source) and shown in review mode.', 280);
+      html += '</div>';
+
+      // Derive answer / explanation slot IDs from questionRange (preferred)
+      // or from existing answer keys (fallback when the range isn't set).
+      var slotIds = [];
+      if (p.questionRange) {
+        var rm = String(p.questionRange).match(/^(\d+)\s*-\s*(\d+)$/);
+        if (rm) {
+          var lo = parseInt(rm[1], 10), hi = parseInt(rm[2], 10);
+          for (var qq = lo; qq <= hi; qq++) slotIds.push(qq);
+        }
+      }
+      if (slotIds.length === 0) {
+        Object.keys(answers).forEach(function (k) {
+          var num = parseInt(k, 10);
+          if (!isNaN(num) && slotIds.indexOf(num) < 0) slotIds.push(num);
+        });
+        slotIds.sort(function (a, b) { return a - b; });
+      }
+
+      // ── Questions sub-pane ─────────────────────────────────────────────
+      html += subOpen('questions');
+      if (subQCount > 0) {
+        html += '<div class="mmg-empty-hint" style="background:#ecfeff;border-color:#bae6fd;color:#075985;">'
+              +   '<strong>📦 ' + subQCount + ' question(s) live inside <code>subParts[]</code></strong> (gap-fill-form, table-completion, mcq-extracts, etc.).<br>'
+              +   'Listening questions are structured per sub-part type — edit via <strong>Raw JSON</strong> or re-import this section. The Answers + Explanations sub-tabs give you a flat per-question editor for answer text + explanation text.'
+              + '</div>';
+      } else {
+        html += '<div class="mmg-empty-hint">No questions yet. Click <em>✨ Import section</em> at the top to populate from a transcript + answer key paste, or hand-edit <strong>Other</strong> → <code>subParts[]</code>.</div>';
+      }
+      html += '</div>';
+
+      // ── Answers sub-pane ────────────────────────────────────────────────
+      html += subOpen('answers');
+      html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">Comma-separated for alternative spellings or values (e.g., "11, eleven, 11.00").</div>';
+      if (slotIds.length === 0) {
+        html += '<div class="mmg-empty-hint">Set the Question range above (e.g. "1-10") to render answer slots, or import this section.</div>';
+      } else {
+        html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;">';
+        slotIds.forEach(function (qid) {
+          var ansArr = Array.isArray(answers[qid]) ? answers[qid] : (Array.isArray(answers[String(qid)]) ? answers[String(qid)] : []);
+          var ansStr = ansArr.join(', ');
+          html += '<div style="display:flex;align-items:center;gap:6px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:6px 10px;">'
+                +   '<label for="mmgIlP' + n + '_q' + qid + '_ans" style="font-weight:700;font-size:12px;color:#0f172a;min-width:32px;">Q' + qid + '</label>'
+                +   '<input type="text" id="mmgIlP' + n + '_q' + qid + '_ans" value="' + _mmgEsc(ansStr) + '" style="flex:1;padding:5px 8px;border:1px solid #cbd5e1;border-radius:5px;font-size:12px;">'
+                + '</div>';
+        });
+        html += '</div>';
+      }
+      html += '</div>';
+
+      // ── Explanations sub-pane ──────────────────────────────────────────
+      html += subOpen('explanations');
+      html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">Why each answer is correct. Quote is pulled from the transcript and shown in review mode.</div>';
+      if (slotIds.length === 0) {
+        html += '<div class="mmg-empty-hint">Set the Question range above to render explanation slots, or import this section.</div>';
+      } else {
+        slotIds.forEach(function (qid) {
+          var expl = (explanations['q' + qid] && typeof explanations['q' + qid] === 'object') ? explanations['q' + qid] : {};
+          html += '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 14px;margin-bottom:10px;">';
+          html += '<div style="font-weight:700;color:#0f172a;font-size:13px;margin-bottom:6px;">Question ' + qid + '</div>';
+          html += _mmgFieldArea('Explanation — why this is the answer', 'mmgIlP' + n + '_q' + qid + '_etext', expl.text, '', 60);
+          html += _mmgFieldArea('Supporting quote from the transcript',  'mmgIlP' + n + '_q' + qid + '_equote', expl.quote, '', 50);
+          html += '</div>';
+        });
+      }
+      html += '</div>';
+
+      // ── Other sub-pane ─────────────────────────────────────────────────
+      var other = {};
+      for (var k in p) {
+        if (!_MMG_IL_PART_COVERED[k]) other[k] = p[k];
+      }
+      html += subOpen('other');
+      html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">Listening-specific structured fields: <code>type</code>, <code>subParts[]</code> (gap-fill-form, table-completion, mcq-extracts, …), <code>answerHighlights</code> (transcript line numbers). Edit only if you know the shape — Gemini import populates these for you.</div>';
+      // Tools row 1: Format/Validate + Renumber gapIds (deterministic — no AI).
+      html += '<div style="margin-bottom:6px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">'
+            +   '<button type="button" onclick="_mmgIlValidateOther(' + n + ')" '
+            +     'style="background:#fef3c7;border:1px solid #f59e0b;color:#92400e;border-radius:6px;padding:4px 10px;font-size:11.5px;font-weight:600;cursor:pointer;">'
+            +     '↔ Format / Validate'
+            +   '</button>'
+            +   '<button type="button" onclick="_mmgIlRenumberGapIds(' + n + ')" '
+            +     'title="Walks subParts in order and renumbers every gapId field to 1, 2, 3, … No AI."'
+            +     ' style="background:#ecfeff;border:1px solid #0891b2;color:#155e75;border-radius:6px;padding:4px 10px;font-size:11.5px;font-weight:600;cursor:pointer;">'
+            +     '↻ Renumber gapIds'
+            +   '</button>'
+            +   '<span id="mmgIlP' + n + '_otherStatus" style="font-size:11.5px;color:#64748b;"></span>'
+            + '</div>';
+      // Tools row 2: Gemini-patch. Admin describes a surgical change in
+      // English; the patch-listening-json Edge Function returns Gemini\'s
+      // rewritten JSON and a preview modal lets them Accept or Discard.
+      html += '<div style="margin-bottom:6px;display:flex;gap:6px;align-items:stretch;flex-wrap:nowrap;">'
+            +   '<input type="text" id="mmgIlP' + n + '_patchInstr" '
+            +     'placeholder="Ask Gemini to change something — e.g. \'Add Q10: &quot;The registered license number is:&quot; with gapId 10\'" '
+            +     'style="flex:1;padding:5px 10px;border:1px solid #cbd5e1;border-radius:6px;font-size:12px;">'
+            +   '<button type="button" onclick="_mmgIlPatchOther(' + n + ')" id="mmgIlP' + n + '_patchBtn" '
+            +     'style="background:linear-gradient(135deg,#a855f7,#7c3aed);border:0;color:#fff;border-radius:6px;padding:5px 12px;font-size:11.5px;font-weight:700;cursor:pointer;white-space:nowrap;">'
+            +     '✨ Apply with Gemini'
+            +   '</button>'
+            + '</div>';
+      // data-gramm + data-enable-grammarly="false" disables the Grammarly
+      // browser extension on this textarea — Grammarly silently converts
+      // straight quotes to curly quotes ("…" → " … "), which breaks JSON.parse
+      // on Save. autocorrect/autocapitalize off as belt+braces for mobile.
+      html += '<div class="mmg-field"><textarea id="mmgIlP' + n + '_other" spellcheck="false" '
+            + 'data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" '
+            + 'autocorrect="off" autocapitalize="off" '
+            + 'style="min-height:280px;font:12px ui-monospace,monospace;width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;resize:vertical;">'
+            + _mmgEsc(JSON.stringify(other, null, 2)) + '</textarea></div>';
+      html += '</div>';
+
+      document.getElementById(paneId).innerHTML = html;
+    }
+
+    function _mmgCollectIlPart(md, idx) {
+      md.parts = md.parts || [];
+      while (md.parts.length <= idx) md.parts.push({});
+      var n = idx + 1;
+      var f = function (id) { var e = document.getElementById(id); return e ? e.value : undefined; };
+
+      // 1) Parse Other JSON first — abort on parse error so we don't partial-write.
+      var otherStr = f('mmgIlP' + n + '_other');
+      var otherParsed = {};
+      if (otherStr !== undefined && otherStr.trim() !== '') {
+        try { otherParsed = JSON.parse(otherStr); }
+        catch (e) {
+          _mmgStatus('IELTS Listening Section ' + n + ' "Other" — JSON parse error: ' + e.message, '#dc2626');
+          throw e;
+        }
+        if (otherParsed === null || typeof otherParsed !== 'object' || Array.isArray(otherParsed)) {
+          _mmgStatus('IELTS Listening Section ' + n + ' "Other" must be a JSON object {…}.', '#dc2626');
+          throw new Error('other-not-object');
+        }
+      }
+
+      // 2) Snapshot hidden + preserved values BEFORE the reset. The narrower-
+      //    question-range case: if the admin temporarily set "1-5" while the
+      //    saved data covers "1-10", we don't want to wipe Q6-Q10 answers.
+      //    Also preserve audioFile / audioStartSec — these are owned by the
+      //    Settings tab now; Section-tab saves must not destroy them.
+      var p = md.parts[idx] || (md.parts[idx] = {});
+      var preservedPartNumber = p.partNumber;
+      var preservedTitle      = p.title;
+      var _preservedIlAudio = { file: (p.audioFile != null ? p.audioFile : null), startSec: (p.audioStartSec != null ? p.audioStartSec : null) };
+      var preservedAnswers      = (p.answers && typeof p.answers === 'object' && !Array.isArray(p.answers))
+        ? Object.assign({}, p.answers) : null;
+      var preservedExplanations = (p.explanations && typeof p.explanations === 'object' && !Array.isArray(p.explanations))
+        ? Object.assign({}, p.explanations) : null;
+
+      // 3) Reset, then layer back on.
+      for (var existingKey in p) delete p[existingKey];
+
+      // Layer A: Other JSON — includes type, subParts[], answerHighlights, …
+      for (var ok in otherParsed) p[ok] = otherParsed[ok];
+
+      // Layer B: hidden auto-set fields.
+      p.partNumber = (preservedPartNumber != null)              ? preservedPartNumber : n;
+      p.title      = (preservedTitle != null && preservedTitle !== '') ? preservedTitle      : 'Section ' + n;
+
+      // Layer C: top form fields.
+      if (f('mmgIlP' + n + '_qr')    !== undefined) p.questionRange = f('mmgIlP' + n + '_qr');
+      if (f('mmgIlP' + n + '_instr') !== undefined) p.instruction   = f('mmgIlP' + n + '_instr');
+
+      // Layer D: transcript + (Section 2) map image. audioFile +
+      // audioStartSec are NOT touched here — they're owned by Settings.
+      // Restore from snapshot so a Save from the Section tab doesn't
+      // drop them.
+      var preservedAudio  = (typeof p === 'object') ? p.audioFile : undefined;     // already wiped at this point
+      // We snapshotted before the wipe in earlier blocks; here just re-source from md.parts[idx] backup.
+      // (See _mmgCollectIlPart's snapshot block — additions below.)
+      var mapImg = f('mmgIlP' + n + '_map');
+      var trans  = f('mmgIlP' + n + '_trans');
+      if (mapImg !== undefined && mapImg !== '') p.mapImage   = mapImg;
+      if (trans  !== undefined && trans  !== '') p.transcript = trans;
+      if (_preservedIlAudio.file != null)        p.audioFile      = _preservedIlAudio.file;
+      if (_preservedIlAudio.startSec != null)    p.audioStartSec  = _preservedIlAudio.startSec;
+
+      // Layer E: answers — read DOM slots; merge with snapshot so Qs outside
+      // the current questionRange aren't silently dropped.
+      var ansInputs = document.querySelectorAll('[id^="mmgIlP' + n + '_q"][id$="_ans"]');
+      if (ansInputs.length > 0) {
+        var newAnswers = preservedAnswers ? Object.assign({}, preservedAnswers) : {};
+        for (var ai = 0; ai < ansInputs.length; ai++) {
+          var aEl = ansInputs[ai];
+          var am = aEl.id.match(/_q(\d+)_ans$/);
+          if (!am) continue;
+          var aid = am[1];
+          var arr = (aEl.value || '').split(',').map(function (s) { return s.trim(); }).filter(function (s) { return s.length > 0; });
+          if (arr.length > 0) newAnswers[aid] = arr;
+          else delete newAnswers[aid];
+        }
+        p.answers = newAnswers;
+      } else if (preservedAnswers) {
+        p.answers = preservedAnswers;
+      }
+
+      // Layer F: explanations — same merge strategy.
+      var expEntries = document.querySelectorAll('[id^="mmgIlP' + n + '_q"][id$="_etext"]');
+      if (expEntries.length > 0) {
+        var newExplanations = preservedExplanations ? Object.assign({}, preservedExplanations) : {};
+        for (var ei = 0; ei < expEntries.length; ei++) {
+          var eEl = expEntries[ei];
+          var em = eEl.id.match(/_q(\d+)_etext$/);
+          if (!em) continue;
+          var eid = em[1];
+          var eQ = document.getElementById('mmgIlP' + n + '_q' + eid + '_equote');
+          var explObj = {};
+          if (eEl.value !== '') explObj.text  = eEl.value;
+          if (eQ && eQ.value !== '') explObj.quote = eQ.value;
+          if (Object.keys(explObj).length > 0) newExplanations['q' + eid] = explObj;
+          else delete newExplanations['q' + eid];
+        }
+        p.explanations = newExplanations;
+      } else if (preservedExplanations) {
+        p.explanations = preservedExplanations;
+      }
+    }
+
+    // ── IELTS Listening: GCS upload + Gemini transcribe helpers ───────────
+    // Audio + map-image uploads go through transcribe-mock with
+    // action='sign-upload': the Edge Function (holding the GCP service-
+    // account key in its env) mints a V4 signed PUT URL; the browser
+    // PUTs file bytes directly to GCS, then writes the resulting GCS URL
+    // back into the editor field. No service-account credentials touch
+    // the browser. Transcribe wires action='transcribe-audio' and Gemini
+    // multimodal returns the text.
+
+    async function _mmgIlSignAndUpload(opts) {
+      // opts: { file, statusEl, urlInputId, kind, subdir }
+      var setStatus = function (msg, color) {
+        if (opts.statusEl) {
+          opts.statusEl.textContent = msg;
+          opts.statusEl.style.color = color || '#64748b';
+        }
+      };
+      // Build path: ielts-listening/mock-<num>/<subdir>-<timestamp>.<ext>
+      var mockNumEl = document.getElementById('mmgFldNumber');
+      var mockNum = (mockNumEl && mockNumEl.value) ? mockNumEl.value : 'new';
+      var origName = opts.file.name || '';
+      var ext = (origName.indexOf('.') >= 0 ? origName.split('.').pop() : (opts.kind === 'image' ? 'png' : 'mp3')).toLowerCase();
+      var ts = Date.now();
+      var path = 'ielts-listening/mock-' + mockNum + '/' + opts.subdir + '-' + ts + '.' + ext;
+
+      setStatus('Requesting signed URL…');
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var contentType = opts.file.type || (opts.kind === 'image' ? 'image/jpeg' : 'audio/mpeg');
+      var signResp;
+      try {
+        signResp = await fetch(SB_URL + '/functions/v1/gcs-listening-helpers', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY },
+          body: JSON.stringify({
+            action: 'sign-upload',
+            bucket: 'mockstream-listening-audio',
+            filename: path,
+            contentType: contentType,
+            adminPasscode: (sessionStorage.getItem('siteMgmtAdminCode') || '')
+          })
+        });
+      } catch (e) {
+        setStatus('Network error: ' + e.message, '#dc2626');
+        return null;
+      }
+      if (!signResp.ok) {
+        var errTxt = '';
+        try { errTxt = await signResp.text(); } catch (_e) {}
+        setStatus('Sign failed (' + signResp.status + '): ' + errTxt.slice(0, 100), '#dc2626');
+        return null;
+      }
+      var signed;
+      try { signed = await signResp.json(); }
+      catch (e) { setStatus('Invalid sign response.', '#dc2626'); return null; }
+      if (!signed || !signed.uploadUrl || !signed.finalUrl) {
+        setStatus('Sign response missing URLs.', '#dc2626');
+        return null;
+      }
+
+      setStatus('Uploading ' + Math.round((opts.file.size || 0) / 1024) + ' kB…');
+      var putResp;
+      try {
+        putResp = await fetch(signed.uploadUrl, {
+          method: 'PUT',
+          headers: { 'Content-Type': contentType },
+          body: opts.file
+        });
+      } catch (e) {
+        setStatus('Upload network error: ' + e.message, '#dc2626');
+        return null;
+      }
+      if (!putResp.ok) {
+        setStatus('Upload failed (' + putResp.status + ').', '#dc2626');
+        return null;
+      }
+      setStatus('✅ Uploaded.', '#16a34a');
+
+      if (opts.urlInputId) {
+        var inp = document.getElementById(opts.urlInputId);
+        if (inp) inp.value = signed.finalUrl;
+      }
+      return signed.finalUrl;
+    }
+
+    function _mmgIlPickAndUpload(opts) {
+      var inp = document.createElement('input');
+      inp.type = 'file';
+      inp.accept = opts.accept;
+      inp.style.display = 'none';
+      inp.onchange = function () {
+        var f = inp.files && inp.files[0];
+        if (!f) return;
+        _mmgIlSignAndUpload({
+          file: f,
+          statusEl: opts.statusEl,
+          urlInputId: opts.urlInputId,
+          kind: opts.kind,
+          subdir: opts.subdir
+        });
+      };
+      document.body.appendChild(inp);
+      inp.click();
+      setTimeout(function () { try { document.body.removeChild(inp); } catch (_e) {} }, 60000);
+    }
+
+    window._mmgIlUploadAudio = function (idx) {
+      var n = idx + 1;
+      _mmgIlPickAndUpload({
+        accept: 'audio/*',
+        statusEl: document.getElementById('mmgIlP' + n + '_audioStatus'),
+        urlInputId: 'mmgIlP' + n + '_audio',
+        kind: 'audio',
+        subdir: 'section-' + n
+      });
+    };
+    window._mmgIlUploadMap = function (idx) {
+      var n = idx + 1;
+      _mmgIlPickAndUpload({
+        accept: 'image/*',
+        statusEl: document.getElementById('mmgIlP' + n + '_mapStatus'),
+        urlInputId: 'mmgIlP' + n + '_map',
+        kind: 'image',
+        subdir: 'section-' + n + '-map'
+      });
+    };
+    window._mmgIlUploadMergedAudio = function () {
+      _mmgIlPickAndUpload({
+        accept: 'audio/*',
+        statusEl: document.getElementById('mmgIlTi_audioStatus'),
+        urlInputId: 'mmgIlTi_audio',
+        kind: 'audio',
+        subdir: 'merged'
+      });
+    };
+
+    // Transcribe button — sends current audio URL + (optional) start-sec
+    // to transcribe-mock with action='transcribe-audio'; backend fetches
+    // the audio from GCS and calls Gemini multimodal.
+    window._mmgIlTranscribe = async function (idx) {
+      var n = idx + 1;
+      var statusEl = document.getElementById('mmgIlP' + n + '_audioStatus');
+      var setStatus = function (msg, color) {
+        if (statusEl) { statusEl.textContent = msg; statusEl.style.color = color || '#64748b'; }
+      };
+      var md = _mmgGetMockData();
+      if (!md) { setStatus('Invalid mock_data JSON.', '#dc2626'); return; }
+      var layout = md.audioLayout || 'per-section';
+      var audioUrl, startSec = 0, endSec = null;
+      if (layout === 'merged') {
+        audioUrl = md.audioFile;
+        var startEl = document.getElementById('mmgIlP' + n + '_startSec');
+        startSec = startEl ? Number(startEl.value || 0) : 0;
+        // End is the next section's start (so Gemini transcribes only this section's slice).
+        var nextEl = document.getElementById('mmgIlP' + (n + 1) + '_startSec');
+        if (nextEl && nextEl.value) endSec = Number(nextEl.value);
+        if (!audioUrl) { setStatus('Merged audio URL not set in Settings.', '#dc2626'); return; }
+      } else {
+        var urlEl = document.getElementById('mmgIlP' + n + '_audio');
+        audioUrl = urlEl ? urlEl.value : '';
+        if (!audioUrl) { setStatus('Audio URL is empty.', '#dc2626'); return; }
+      }
+      setStatus('Asking Gemini to transcribe…');
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      try {
+        var resp = await fetch(SB_URL + '/functions/v1/gcs-listening-helpers', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY },
+          body: JSON.stringify({
+            action: 'transcribe-audio',
+            audioUrl: audioUrl,
+            startSec: startSec,
+            endSec: endSec,
+            adminPasscode: (sessionStorage.getItem('siteMgmtAdminCode') || '')
+          })
+        });
+        if (!resp.ok) {
+          var errTxt = '';
+          try { errTxt = await resp.text(); } catch (_e) {}
+          setStatus('Transcribe failed (' + resp.status + '): ' + errTxt.slice(0, 100), '#dc2626');
+          return;
+        }
+        var data = await resp.json();
+        if (!data || !data.transcript) {
+          setStatus('No transcript returned.', '#dc2626');
+          return;
+        }
+        var transEl = document.getElementById('mmgIlP' + n + '_trans');
+        if (transEl) transEl.value = data.transcript;
+        setStatus('✅ Transcribed (' + data.transcript.length + ' chars).', '#16a34a');
+      } catch (e) {
+        setStatus('Network error: ' + e.message, '#dc2626');
+      }
+    };
+
+    // Bulk Generate Explanations across all 4 sections. Sequential to
+    // avoid rate-limits; status div under the button shows progress.
+    window._mmgGenerateExplanationsAllIl = async function () {
+      var statusEl = document.getElementById('mmgIlAllExplStatus');
+      var btn = document.getElementById('mmgIlAllExplBtn');
+      var setStatus = function (msg, color) {
+        if (statusEl) { statusEl.textContent = msg; statusEl.style.color = color || '#64748b'; }
+      };
+      if (btn) btn.disabled = true;
+      for (var i = 0; i < 4; i++) {
+        setStatus('Section ' + (i + 1) + '/4 — generating…');
+        try {
+          await _mmgGenerateExplanations(i);
+        } catch (e) {
+          setStatus('Section ' + (i + 1) + ' failed: ' + (e && e.message || e), '#dc2626');
+          if (btn) btn.disabled = false;
+          return;
+        }
+      }
+      setStatus('✅ All 4 sections done.', '#16a34a');
+      if (btn) btn.disabled = false;
+    };
+
     // Re-init tabs whenever the user changes the mock type — switching between
     // 'cefr-writing' and any other skill flips the structured editor on/off.
     document.addEventListener('DOMContentLoaded', function() {
@@ -31282,9 +33390,18 @@
       var m = window._mmgEditing;
       // If we're on a structured tab, flush its edits to the textarea first
       // so the raw JSON is the latest. Returns false if a tab failed to
-      // collect (e.g. invalid number) — abort save in that case.
+      // collect — DON'T overwrite the specific error. The collector that
+      // threw has already set the precise reason ("IELTS Listening Section 1
+      // 'Other' — JSON parse error: Unexpected token…" or similar) into the
+      // status pill. Replacing it with the generic "Could not save — fix the
+      // highlighted field first" hides the actionable detail. We only fall
+      // back to the generic message if the status pill is still empty (rare —
+      // it means a collector threw without calling _mmgStatus first).
       if (!_mmgFlushStructuredToRaw()) {
-        _mmgStatus('Could not save — fix the highlighted field first.', '#dc2626');
+        var pill = document.getElementById('mmgEditStatus') || document.getElementById('mmgStatus');
+        if (!pill || !pill.textContent || !pill.textContent.trim()) {
+          _mmgStatus('Could not save — fix the highlighted field first.', '#dc2626');
+        }
         return;
       }
       var typeV   = document.getElementById('mmgFldType').value;
@@ -31455,9 +33572,11 @@
       var st  = window._mmgImportState;
       var ttl = document.getElementById('mmgImportTitle');
       if (!ttl) return;
-      // IELTS speaks in passages; CEFR speaks in parts. The data stays
-      // 1-based for the user's benefit in both cases.
-      var unit = (st.examType === 'cefr-reading') ? 'Part' : 'Passage';
+      // IELTS speaks in passages; CEFR speaks in parts; IELTS Listening
+      // calls them sections. Data stays 1-based for the user.
+      var unit = (st.examType === 'cefr-reading') ? 'Part'
+               : (st.examType === 'ielts-listening') ? 'Section'
+               : 'Passage';
       if (st.scope === 'passage') {
         ttl.textContent = '✨ Import ' + unit + ' ' + (st.passageIndex + 1) + ' from PDF / image';
       } else {
@@ -31467,8 +33586,8 @@
 
     function _mmgImportOpen() {
       var m = window._mmgEditing;
-      if (!m || (m.mock_type !== 'cefr-reading' && m.mock_type !== 'ielts-reading')) {
-        alert('Import is currently available for CEFR Reading and IELTS Reading mocks only.');
+      if (!m || (m.mock_type !== 'cefr-reading' && m.mock_type !== 'ielts-reading' && m.mock_type !== 'ielts-listening')) {
+        alert('Import is currently available for CEFR Reading, IELTS Reading, and IELTS Listening mocks.');
         return;
       }
       window._mmgImportState = { files: [], examType: m.mock_type, scope: 'full', passageIndex: 0 };
@@ -31513,8 +33632,8 @@
       var typeSel = document.getElementById('mmgFldType');
       var currentType = (typeSel && typeSel.value) || (m && m.mock_type);
       if (m) m.mock_type = currentType;
-      if (!m || (currentType !== 'cefr-reading' && currentType !== 'ielts-reading')) {
-        alert('Per-passage import is currently available for CEFR Reading and IELTS Reading mocks only.');
+      if (!m || (currentType !== 'cefr-reading' && currentType !== 'ielts-reading' && currentType !== 'ielts-listening')) {
+        alert('Per-section import is currently available for CEFR Reading, IELTS Reading, and IELTS Listening mocks.');
         return;
       }
       window._mmgImportState = {
@@ -31767,16 +33886,41 @@
             : null;
           if (!newObj) throw new Error('Edge function returned an invalid passage object');
 
-          var isCefrImport = (st.examType === 'cefr-reading');
-          var rootKey = isCefrImport ? 'parts' : 'passages';
-          var unitLabel = isCefrImport ? 'Part' : 'Passage';
-          var tabName   = isCefrImport ? ('cr_part' + (st.passageIndex + 1)) : ('ir_p' + (st.passageIndex + 1));
+          var isCefrImport      = (st.examType === 'cefr-reading');
+          var isListeningImport = (st.examType === 'ielts-listening');
+          // IELTS Listening stores sections in `parts[]` (like CEFR), keyed
+          // by partNumber — NOT in `passages[]` (IELTS Reading's shape).
+          var rootKey   = (isCefrImport || isListeningImport) ? 'parts' : 'passages';
+          var unitLabel = isCefrImport ? 'Part'
+                        : isListeningImport ? 'Section'
+                        : 'Passage';
+          var tabName   = isCefrImport      ? ('cr_part' + (st.passageIndex + 1))
+                        : isListeningImport ? ('il_part' + (st.passageIndex + 1))
+                        : ('ir_p' + (st.passageIndex + 1));
 
           if (!md[rootKey] || !Array.isArray(md[rootKey])) md[rootKey] = [];
           while (md[rootKey].length <= st.passageIndex) md[rootKey].push({});
-          if (isCefrImport) {
+
+          // ── Preserve admin-managed fields across import ──────────────
+          // The import returns just the STRUCTURAL content (subParts,
+          // answers, instruction, questionRange). Audio / transcript /
+          // map image are uploaded separately via the Settings tab and
+          // must survive a re-import or first-time-import. Without
+          // this preservation, an admin who uploads audio and then
+          // clicks Import would silently lose their upload.
+          if (isListeningImport) {
+            var prev = md[rootKey][st.passageIndex] || {};
+            if (prev.audioFile     != null) newObj.audioFile     = prev.audioFile;
+            if (prev.audioStartSec != null) newObj.audioStartSec = prev.audioStartSec;
+            if (prev.mapImage      != null) newObj.mapImage      = prev.mapImage;
+            if (prev.transcript)            newObj.transcript    = prev.transcript;
+          }
+
+          if (isCefrImport || isListeningImport) {
             newObj.partNumber = st.passageIndex + 1;
-            if (!newObj.title) newObj.title = 'Part ' + (st.passageIndex + 1);
+            if (!newObj.title) {
+              newObj.title = (isListeningImport ? 'Section ' : 'Part ') + (st.passageIndex + 1);
+            }
           } else {
             newObj.id = st.passageIndex + 1;
           }
@@ -31805,6 +33949,32 @@
           return;
         }
 
+        // ── Preserve admin-managed audio fields across bulk import ─────
+        // Same reason as the per-passage branch above — bulk import
+        // returns only structural content (subParts / answers /
+        // instruction / questionRange), so audioLayout, top-level
+        // audioFile (merged mode), and per-section audioFile /
+        // audioStartSec / mapImage / transcript all need to be carried
+        // over from the existing mock_data. Listening only — reading
+        // mocks don't have these fields.
+        if (st.examType === 'ielts-listening') {
+          var prevMd  = window._mmgEditing.mock_data || {};
+          var newMd   = j.mock_data || {};
+          if (prevMd.audioLayout != null) newMd.audioLayout = prevMd.audioLayout;
+          if (prevMd.audioFile   != null) newMd.audioFile   = prevMd.audioFile;
+          var prevParts = Array.isArray(prevMd.parts) ? prevMd.parts : [];
+          var newParts  = Array.isArray(newMd.parts)  ? newMd.parts  : [];
+          for (var pi = 0; pi < Math.max(newParts.length, prevParts.length); pi++) {
+            if (!newParts[pi]) newParts[pi] = {};
+            var oldP = prevParts[pi] || {};
+            if (oldP.audioFile     != null) newParts[pi].audioFile     = oldP.audioFile;
+            if (oldP.audioStartSec != null) newParts[pi].audioStartSec = oldP.audioStartSec;
+            if (oldP.mapImage      != null) newParts[pi].mapImage      = oldP.mapImage;
+            if (oldP.transcript)            newParts[pi].transcript    = oldP.transcript;
+          }
+          newMd.parts = newParts;
+          j.mock_data = newMd;
+        }
         window._mmgEditing.mock_data = j.mock_data;
         document.getElementById('mmgFldData').value = JSON.stringify(j.mock_data, null, 2);
         // Same flush-suppression as the per-passage branch above — without
@@ -31823,7 +33993,9 @@
             var aiTitle = j.mock_data && j.mock_data.testInfo && j.mock_data.testInfo.title;
             titleField.value = aiTitle && String(aiTitle).trim()
               ? String(aiTitle).trim()
-              : ((st.examType === 'cefr-reading') ? 'CEFR Reading Mock' : 'IELTS Reading Mock');
+              : ((st.examType === 'cefr-reading')   ? 'CEFR Reading Mock'
+              :  (st.examType === 'ielts-listening') ? 'IELTS Listening Mock'
+              :  'IELTS Reading Mock');
           }
           if (numField && numField.value.trim() === '') {
             try {
