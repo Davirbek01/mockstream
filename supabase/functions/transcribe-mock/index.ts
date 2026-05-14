@@ -227,7 +227,7 @@ const IELTS_SINGLE_PASSAGE_SHAPE = `{
 
 const IELTS_LISTENING_SINGLE_PART_SHAPE = `{
   "partNumber": number,                          // 1, 2, 3, or 4 — client overrides this
-  "title": string,                               // "Section 1" / "Section 2" / "Section 3" / "Section 4"
+  "title": string,                               // SHORT CONTENT TOPIC (3-6 words), e.g. "Guitar group enrolment" / "Lifeboat volunteer interview" / "Tardigrades zoology lecture". Do NOT output just "Section 1" — describe what this section is ACTUALLY about. The picker shows this as the section row label next to the section number.
   "type": "mixed",                               // always "mixed" — structural variety lives in subParts[]
   "questionRange": string,                       // e.g. "1-10"
   "instruction": string,                         // plain-text section instruction (no HTML)
@@ -238,11 +238,12 @@ const IELTS_LISTENING_SINGLE_PART_SHAPE = `{
 const IELTS_LISTENING_SHAPE = `{
   "testInfo": {
     "id":              string,                   // e.g. "ielts-listening-test-02"
-    "title":           string,
+    "title":           string,                   // Human-readable test title. If the source files show an attribution (e.g. "Cambridge IELTS 18 Test 3"), use that. Otherwise output a generic "IELTS Listening Practice Test NN".
     "totalTime":       40,
     "totalQuestions":  40
   },
-  "parts": [ /* 4 single-section objects, partNumber 1..4 — see single-section shape and rule 11 */ ]
+  "source":            string,                   // OPTIONAL top-level source attribution from the cover page / header / footer / distributor caption (e.g. "Cambridge IELTS 18 Test 3", "The Official Cambridge Guide to IELTS Test 5"). Picker displays this as a chip on the card. OMIT the field entirely if no clear attribution is visible — do NOT guess.
+  "parts": [ /* 4 single-section objects, partNumber 1..4 — see single-section shape. Each MUST have a CONTENT-TOPIC title, NOT just "Section N". */ ]
 }`;
 
 const CEFR_SINGLE_PART_SHAPE = `{
