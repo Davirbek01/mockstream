@@ -13953,6 +13953,12 @@
       try { await upgradeReading('ielts-reading', ieltsReadingTests, 'IELTS reading.html', 'IELTS Reading Practice Test'); }
       catch (e) { console.warn('IELTS reading dynamic load failed:', e); }
 
+      // IELTS Listening — same flow. Picks up admin-created mocks beyond
+      // the static array (mocks 02-50 were migrated 2026-05-14; anything
+      // 51+ is admin-only and only lives in Supabase).
+      try { await upgradeReading('ielts-listening', ieltsListeningTests, 'IELTS listening.html', 'IELTS Listening Practice Test'); }
+      catch (e) { console.warn('IELTS listening dynamic load failed:', e); }
+
       // If either full-screen picker is currently open, re-render so
       // entries pushed by the upgrader after the user opened the
       // picker (e.g. a freshly-saved AI-imported mock) appear without
@@ -13982,6 +13988,18 @@
           }
         }
       } catch (e) { console.warn('IELTS picker re-render failed:', e); }
+
+      try {
+        const ieltsListenOverlay = document.getElementById('iletPicker');
+        if (ieltsListenOverlay && ieltsListenOverlay.classList.contains('ilet-open')
+            && typeof _iletRender === 'function') {
+          _iletRender();
+          const ieltsListenCountEl = document.getElementById('iletCount');
+          if (ieltsListenCountEl && Array.isArray(ieltsListeningTests)) {
+            ieltsListenCountEl.textContent = ieltsListeningTests.length;
+          }
+        }
+      } catch (e) { console.warn('IELTS listening picker re-render failed:', e); }
     };
     // Run once at page-load (original behaviour).
     window._mmgRefreshAllPickers();
