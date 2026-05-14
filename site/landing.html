@@ -32588,6 +32588,22 @@
 
           if (!md[rootKey] || !Array.isArray(md[rootKey])) md[rootKey] = [];
           while (md[rootKey].length <= st.passageIndex) md[rootKey].push({});
+
+          // ── Preserve admin-managed fields across import ──────────────
+          // The import returns just the STRUCTURAL content (subParts,
+          // answers, instruction, questionRange). Audio / transcript /
+          // map image are uploaded separately via the Settings tab and
+          // must survive a re-import or first-time-import. Without
+          // this preservation, an admin who uploads audio and then
+          // clicks Import would silently lose their upload.
+          if (isListeningImport) {
+            var prev = md[rootKey][st.passageIndex] || {};
+            if (prev.audioFile     != null) newObj.audioFile     = prev.audioFile;
+            if (prev.audioStartSec != null) newObj.audioStartSec = prev.audioStartSec;
+            if (prev.mapImage      != null) newObj.mapImage      = prev.mapImage;
+            if (prev.transcript)            newObj.transcript    = prev.transcript;
+          }
+
           if (isCefrImport || isListeningImport) {
             newObj.partNumber = st.passageIndex + 1;
             if (!newObj.title) {
@@ -32621,6 +32637,32 @@
           return;
         }
 
+        // ── Preserve admin-managed audio fields across bulk import ─────
+        // Same reason as the per-passage branch above — bulk import
+        // returns only structural content (subParts / answers /
+        // instruction / questionRange), so audioLayout, top-level
+        // audioFile (merged mode), and per-section audioFile /
+        // audioStartSec / mapImage / transcript all need to be carried
+        // over from the existing mock_data. Listening only — reading
+        // mocks don't have these fields.
+        if (st.examType === 'ielts-listening') {
+          var prevMd  = window._mmgEditing.mock_data || {};
+          var newMd   = j.mock_data || {};
+          if (prevMd.audioLayout != null) newMd.audioLayout = prevMd.audioLayout;
+          if (prevMd.audioFile   != null) newMd.audioFile   = prevMd.audioFile;
+          var prevParts = Array.isArray(prevMd.parts) ? prevMd.parts : [];
+          var newParts  = Array.isArray(newMd.parts)  ? newMd.parts  : [];
+          for (var pi = 0; pi < Math.max(newParts.length, prevParts.length); pi++) {
+            if (!newParts[pi]) newParts[pi] = {};
+            var oldP = prevParts[pi] || {};
+            if (oldP.audioFile     != null) newParts[pi].audioFile     = oldP.audioFile;
+            if (oldP.audioStartSec != null) newParts[pi].audioStartSec = oldP.audioStartSec;
+            if (oldP.mapImage      != null) newParts[pi].mapImage      = oldP.mapImage;
+            if (oldP.transcript)            newParts[pi].transcript    = oldP.transcript;
+          }
+          newMd.parts = newParts;
+          j.mock_data = newMd;
+        }
         window._mmgEditing.mock_data = j.mock_data;
         document.getElementById('mmgFldData').value = JSON.stringify(j.mock_data, null, 2);
         // Same flush-suppression as the per-passage branch above — without
