@@ -32468,9 +32468,23 @@
       }
 
       if (f('mmgIlTi_title')          !== undefined) md.testInfo.title          = f('mmgIlTi_title');
-      if (f('mmgIlTi_totalQuestions') !== undefined) md.testInfo.totalQuestions = asNum(f('mmgIlTi_totalQuestions'));
-      if (f('mmgIlTi_totalTime')      !== undefined) md.testInfo.totalTime      = asNum(f('mmgIlTi_totalTime'));
-      if (f('mmgIlTi_sections')       !== undefined) md.testInfo.sections       = asNum(f('mmgIlTi_sections'));
+      // Numeric test-info fields. If left blank, write the canonical IELTS
+      // Listening defaults (40 / 40 / 4) instead of an empty string — an
+      // empty string in totalTime caused the runner timer to evaluate as 0
+      // and auto-submit the test on first tick (Mock 51 bug, 2026-05-14).
+      var asNumOrDefault = function (raw, fallback) {
+        if (raw == null) return fallback;
+        var s = String(raw).trim();
+        if (s === '') return fallback;
+        var n = Number(s);
+        return isFinite(n) ? n : fallback;
+      };
+      var rawQs = f('mmgIlTi_totalQuestions');
+      var rawTm = f('mmgIlTi_totalTime');
+      var rawSc = f('mmgIlTi_sections');
+      if (rawQs !== undefined) md.testInfo.totalQuestions = asNumOrDefault(rawQs, 40);
+      if (rawTm !== undefined) md.testInfo.totalTime      = asNumOrDefault(rawTm, 40);
+      if (rawSc !== undefined) md.testInfo.sections       = asNumOrDefault(rawSc, 4);
     }
     // Show/hide merged + per-section blocks when the layout radio changes.
     window._mmgIlOnLayoutChange = function () {

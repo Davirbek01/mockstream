@@ -4918,7 +4918,11 @@
         var _ptMap = { 1: 10, 2: 10, 3: 10, 4: 10 };
         timeRemaining = (_ptMap[window._practicePart] || 10) * 60;
       } else {
-        timeRemaining = TEST_DATA.testInfo.totalTime * 60;
+        // Defensive: testInfo.totalTime may have been saved as "" or null
+        // by an older editor build, which would produce NaN/0 here and
+        // auto-submit the test on the first tick. Coerce + fall back to 40.
+        var _ttRaw = Number(TEST_DATA.testInfo && TEST_DATA.testInfo.totalTime);
+        timeRemaining = (isFinite(_ttRaw) && _ttRaw > 0 ? _ttRaw : 40) * 60;
       }
       window.__testStartTime = new Date();
       generatePartNav();
