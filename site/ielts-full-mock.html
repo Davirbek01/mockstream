@@ -5994,29 +5994,18 @@
                 if (fabC) fabC.style.removeProperty('display');
             }
 
-            // Reading + writing + speaking: fetch from Supabase mock_tests.
-            const sbTypes = { 1: 'ielts-reading', 2: 'ielts-writing', 3: 'ielts-speaking' };
-            const sbGlobals = { 1: 'IELTS_READING_TEST', 2: 'IELTS_WRITING_TEST_DATA', 3: 'SPEAKING_TEST_DATA' };
-            if (idx === 1 || idx === 2 || idx === 3) {
-                try {
-                    const md = await _ifmLoadMockFromSupabase(sbTypes[idx], testId);
-                    window[sbGlobals[idx]] = md;
-                    await afterDataLoaded();
-                } catch (e) {
-                    console.error('[IELTS Full Mock] ' + sbTypes[idx] + ' load failed:', e);
-                    alert('Failed to load ' + state.modules[idx] + ' module — could not fetch '
-                        + sbTypes[idx] + ' #' + testId + ' from Supabase.\n\n' + (e && e.message || ''));
-                }
-                return;
+            // All 4 skills fetch from Supabase mock_tests (listening migrated 2026-05-14).
+            const sbTypes   = { 0: 'ielts-listening', 1: 'ielts-reading', 2: 'ielts-writing', 3: 'ielts-speaking' };
+            const sbGlobals = { 0: 'IELTS_LISTENING_TEST', 1: 'IELTS_READING_TEST', 2: 'IELTS_WRITING_TEST_DATA', 3: 'SPEAKING_TEST_DATA' };
+            try {
+                const md = await _ifmLoadMockFromSupabase(sbTypes[idx], testId);
+                window[sbGlobals[idx]] = md;
+                await afterDataLoaded();
+            } catch (e) {
+                console.error('[IELTS Full Mock] ' + sbTypes[idx] + ' load failed:', e);
+                alert('Failed to load ' + state.modules[idx] + ' module — could not fetch '
+                    + sbTypes[idx] + ' #' + testId + ' from Supabase.\n\n' + (e && e.message || ''));
             }
-
-            // Listening: still loads from static .js (its migration is a later phase).
-            const fname = 'ielts-listening-test-' + testId;
-            const s = document.createElement('script');
-            s.src = 'questions IELTS L/' + fname + '.js';
-            s.onload = afterDataLoaded;
-            s.onerror = () => alert('Failed to load: ' + fname);
-            document.head.appendChild(s);
         }
 
         // Preload all listening audio files
