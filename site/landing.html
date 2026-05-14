@@ -20461,6 +20461,29 @@
           history.replaceState(null, '', '/landing.html');
         }
       } catch (_e) {}
+      // Close any open fullscreen picker BEFORE the iframe loads —
+      // the picker overlays at z-index 100003 while the iframe is 9999,
+      // so leaving the picker open hides the runner behind it and the
+      // student hears audio with no visible test. We do a LIGHTWEIGHT
+      // hide here (just toggle the open class), NOT the public
+      // close function — those strip the /take/<slug> URL, but the
+      // student is now ON that take URL by entering the runner, so
+      // we want it preserved in the address bar.
+      try {
+        ['cretPicker', 'iretPicker', 'iletPicker'].forEach(function (id) {
+          var ov = document.getElementById(id);
+          if (!ov) return;
+          var openClass = id.replace('Picker', '-open');
+          if (ov.classList.contains(openClass)) {
+            ov.classList.remove(openClass);
+            ov.setAttribute('aria-hidden', 'true');
+          }
+        });
+        document.body.style.overflow = '';
+        // Hide the TMA back button if any picker had it on; the runner
+        // iframe has its own back/exit UI.
+        if (typeof _pickerHideTmaBack === 'function') _pickerHideTmaBack();
+      } catch (_e) {}
       originalLoadMock(page, type);
     };
 
