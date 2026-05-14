@@ -28100,7 +28100,12 @@
           <button class="mmg-tab mmg-tab-ir"           data-tab="ir_p1"       onclick="_mmgSwitchTab('ir_p1')">Passage 1</button>
           <button class="mmg-tab mmg-tab-ir"           data-tab="ir_p2"       onclick="_mmgSwitchTab('ir_p2')">Passage 2</button>
           <button class="mmg-tab mmg-tab-ir"           data-tab="ir_p3"       onclick="_mmgSwitchTab('ir_p3')">Passage 3</button>
-          <button class="mmg-tab mmg-tab-raw mmg-tab-cw mmg-tab-iw mmg-tab-cs mmg-tab-is mmg-tab-cr mmg-tab-ir" data-tab="raw" onclick="_mmgSwitchTab('raw')">⚙ Raw JSON</button>
+          <button class="mmg-tab mmg-tab-il"           data-tab="il_settings" onclick="_mmgSwitchTab('il_settings')">Settings</button>
+          <button class="mmg-tab mmg-tab-il"           data-tab="il_part1"    onclick="_mmgSwitchTab('il_part1')">Section 1</button>
+          <button class="mmg-tab mmg-tab-il"           data-tab="il_part2"    onclick="_mmgSwitchTab('il_part2')">Section 2</button>
+          <button class="mmg-tab mmg-tab-il"           data-tab="il_part3"    onclick="_mmgSwitchTab('il_part3')">Section 3</button>
+          <button class="mmg-tab mmg-tab-il"           data-tab="il_part4"    onclick="_mmgSwitchTab('il_part4')">Section 4</button>
+          <button class="mmg-tab mmg-tab-raw mmg-tab-cw mmg-tab-iw mmg-tab-cs mmg-tab-is mmg-tab-cr mmg-tab-ir mmg-tab-il" data-tab="raw" onclick="_mmgSwitchTab('raw')">⚙ Raw JSON</button>
         </div>
         <div class="mmg-edit-panes">
 
@@ -28132,6 +28137,13 @@
         <div id="mmgPaneIrP1"       class="mmg-pane"></div>
         <div id="mmgPaneIrP2"       class="mmg-pane"></div>
         <div id="mmgPaneIrP3"       class="mmg-pane"></div>
+
+        <!-- Listening panes: IELTS has 4 sections (CEFR Listening editor TBD). -->
+        <div id="mmgPaneIlSettings" class="mmg-pane"></div>
+        <div id="mmgPaneIlPart1"    class="mmg-pane"></div>
+        <div id="mmgPaneIlPart2"    class="mmg-pane"></div>
+        <div id="mmgPaneIlPart3"    class="mmg-pane"></div>
+        <div id="mmgPaneIlPart4"    class="mmg-pane"></div>
 
         <!-- Raw JSON pane (the original textarea — kept as authoritative store + power-user fallback). -->
         <div id="mmgPaneRaw" class="mmg-pane mmg-pane-raw active" style="flex-direction:column;">
@@ -28572,7 +28584,8 @@
       'cefr-speaking':  { tabClass: 'mmg-tab-cs', defaultTab: 'settings' },
       'ielts-speaking': { tabClass: 'mmg-tab-is', defaultTab: 'settings' },
       'cefr-reading':   { tabClass: 'mmg-tab-cr', defaultTab: 'cr_settings' },
-      'ielts-reading':  { tabClass: 'mmg-tab-ir', defaultTab: 'ir_settings' }
+      'ielts-reading':  { tabClass: 'mmg-tab-ir', defaultTab: 'ir_settings' },
+      'ielts-listening':{ tabClass: 'mmg-tab-il', defaultTab: 'il_settings' }
     };
     // Which tab is currently visible. We need this to know which pane to
     // collect-from when the user clicks a different tab.
@@ -28605,6 +28618,7 @@
       sp_part11:'SpPart11', sp_part12:'SpPart12', sp_part2:'SpPart2', sp_part3:'SpPart3',
       cr_settings:'CrSettings', cr_part1:'CrPart1', cr_part2:'CrPart2', cr_part3:'CrPart3', cr_part4:'CrPart4', cr_part5:'CrPart5',
       ir_settings:'IrSettings', ir_p1:'IrP1', ir_p2:'IrP2', ir_p3:'IrP3',
+      il_settings:'IlSettings', il_part1:'IlPart1', il_part2:'IlPart2', il_part3:'IlPart3', il_part4:'IlPart4',
       samples:'Samples',
       vocab:'Vocab', tokens:'Tokens', raw:'Raw'
     };
@@ -28671,6 +28685,11 @@
           case 'ir_p1':     _mmgCollectIrPassage(md, 0); break;
           case 'ir_p2':     _mmgCollectIrPassage(md, 1); break;
           case 'ir_p3':     _mmgCollectIrPassage(md, 2); break;
+          case 'il_settings': _mmgCollectIlSettings(md); break;
+          case 'il_part1':  _mmgCollectIlPart(md, 0); break;
+          case 'il_part2':  _mmgCollectIlPart(md, 1); break;
+          case 'il_part3':  _mmgCollectIlPart(md, 2); break;
+          case 'il_part4':  _mmgCollectIlPart(md, 3); break;
           case 'samples':  _mmgCollectSamples(md); break;
           case 'vocab':    _mmgCollectVocab(md); break;
           case 'tokens':   _mmgCollectTokens(md); break;
@@ -28713,6 +28732,11 @@
         case 'ir_p1':     _mmgRenderIrPassage(md, 0); break;
         case 'ir_p2':     _mmgRenderIrPassage(md, 1); break;
         case 'ir_p3':     _mmgRenderIrPassage(md, 2); break;
+        case 'il_settings': _mmgRenderIlSettings(md); break;
+        case 'il_part1':  _mmgRenderIlPart(md, 0); break;
+        case 'il_part2':  _mmgRenderIlPart(md, 1); break;
+        case 'il_part3':  _mmgRenderIlPart(md, 2); break;
+        case 'il_part4':  _mmgRenderIlPart(md, 3); break;
         case 'samples':  _mmgRenderSamples(md); break;
         case 'vocab':    _mmgRenderVocab(md);  break;
         case 'tokens':   _mmgRenderTokens(md); break;
@@ -31248,6 +31272,656 @@
         if (Object.keys(newCa).length > 0) p.correctAnswers = newCa;
       }
     }
+
+    // ═════════════════════════════════════════════════════════════════════════
+    // IELTS LISTENING — structured editor (4 sections per mock).
+    // Mirrors the CEFR Reading collect/render pattern, with two adaptations
+    // for listening:
+    //   1) Top of each section: "Audio file URL" + "Transcript" inputs
+    //      (replacing reading's Passage tab — listening's content is audio,
+    //       paired with a typed transcript used by review mode + by
+    //       Generate Explanations as the quote source).
+    //   2) Top-level `questions[]` is empty by design — IELTS Listening
+    //      questions live inside `subParts[]` (gap-fill-form, table-
+    //      completion, mcq-extracts, …). The Answers + Explanations sub-tabs
+    //      render slots derived from `questionRange` (e.g. "1-10" → Q1…Q10),
+    //      reading from / writing to the flat `answers` + `explanations`
+    //      dicts. `subParts[]`, `answerHighlights`, and `type` pass through
+    //      the Other tab JSON unchanged (admin populates them via Gemini
+    //      import or hand-edits Raw JSON).
+    // ═════════════════════════════════════════════════════════════════════════
+
+    function _mmgRenderIlSettings(md) {
+      var ti = (md.testInfo = md.testInfo || {});
+      var layout = md.audioLayout || 'per-section';
+      var html = '';
+
+      // Import banner — bulk PDF/image/doc paste → Gemini → fills all 4 sections.
+      html += ''
+            + '<div style="background:linear-gradient(135deg,#eff6ff,#f0f9ff);border:1px solid #bfdbfe;border-radius:10px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;gap:12px;">'
+            +   '<div style="flex:1;font-size:12.5px;color:#1e3a8a;line-height:1.5;">'
+            +     '<strong>✨ Import from PDF / images / doc</strong> — Upload IELTS Listening test file (and optional answer key) and Gemini fills all 4 sections at once.'
+            +   '</div>'
+            +   '<button type="button" onclick="_mmgImportOpen()" style="background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(37,99,235,.3);white-space:nowrap;">✨ Import</button>'
+            + '</div>';
+
+      // Bulk-generate explanations for all 4 sections.
+      html += ''
+            + '<div id="mmgIlAllExplBar" style="background:linear-gradient(135deg,#ecfeff,#e0f2fe);border:1px solid #bae6fd;border-radius:10px;padding:10px 12px;margin-bottom:14px;display:flex;align-items:center;gap:12px;">'
+            +   '<div style="flex:1;font-size:12px;color:#075985;line-height:1.45;">'
+            +     '<strong>✨ Generate explanations — all sections</strong> — Walks Sections 1–4 and sends Gemini each section\'s transcript + answer key. Quotes are server-verified.'
+            +   '</div>'
+            +   '<button type="button" id="mmgIlAllExplBtn" onclick="_mmgGenerateExplanationsAllIl()" style="background:linear-gradient(135deg,#06b6d4,#0284c7);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(2,132,199,.3);white-space:nowrap;">✨ Generate all</button>'
+            + '</div>'
+            + '<div id="mmgIlAllExplStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;border-radius:8px;padding:0;background:transparent;font-weight:500;"></div>';
+
+      // ── Audio layout toggle ────────────────────────────────────────────
+      // Some IELTS tests are distributed as one long merged MP3 (with all
+      // 4 sections back-to-back), others as 4 separate files. Admin picks
+      // the source shape here; per-section tabs adapt their audio UI to
+      // match.
+      html += '<div class="mmg-section-title">Audio source</div>';
+      html += '<div style="display:flex;gap:14px;margin-bottom:12px;">'
+            +   '<label style="display:flex;align-items:center;gap:6px;font-size:12.5px;color:#0f172a;cursor:pointer;">'
+            +     '<input type="radio" name="mmgIlTi_layout" value="per-section" ' + (layout === 'per-section' ? 'checked' : '') + ' onchange="_mmgIlOnLayoutChange()"> '
+            +     '<strong>Per-section files</strong> — 4 separate audio uploads, one per section.'
+            +   '</label>'
+            +   '<label style="display:flex;align-items:center;gap:6px;font-size:12.5px;color:#0f172a;cursor:pointer;">'
+            +     '<input type="radio" name="mmgIlTi_layout" value="merged" ' + (layout === 'merged' ? 'checked' : '') + ' onchange="_mmgIlOnLayoutChange()"> '
+            +     '<strong>Single merged file</strong> — one audio, manual start-seconds per section.'
+            +   '</label>'
+            + '</div>';
+      // Merged-audio uploader (visible only when layout === 'merged').
+      html += '<div id="mmgIlTi_mergedWrap" style="' + (layout === 'merged' ? '' : 'display:none;') + 'margin-bottom:14px;">'
+            +   _mmgFieldText('Merged audio URL', 'mmgIlTi_audio', md.audioFile, 'Paste the GCS URL, or click Upload to push a local file.')
+            +   '<div style="margin-top:-6px;display:flex;gap:8px;">'
+            +     '<button type="button" onclick="_mmgIlUploadMergedAudio()" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:6px;padding:5px 10px;font-size:11.5px;font-weight:600;cursor:pointer;">📁 Upload merged audio</button>'
+            +     '<span id="mmgIlTi_audioStatus" style="font-size:11.5px;color:#64748b;align-self:center;"></span>'
+            +   '</div>'
+            + '</div>';
+
+      // Standard test-info fields.
+      html += '<div class="mmg-section-title">IELTS Listening — test info</div>';
+      html += _mmgFieldText('Source',           'mmgIlTi_source',         md.source,         'e.g. Cambridge IELTS 18. Optional — shown as a chip on the picker card.');
+      html += _mmgFieldText('Title',            'mmgIlTi_title',          ti.title,          'e.g., "IELTS Listening Practice Test 02".');
+      html += _mmgFieldText('Total questions',  'mmgIlTi_totalQuestions', ti.totalQuestions, 'Usually 40 (10 per section × 4 sections).');
+      html += _mmgFieldText('Total time (min)', 'mmgIlTi_totalTime',      ti.totalTime,      'Usually 40 (audio ~30 min + 10 min answer transfer).');
+      html += _mmgFieldText('Sections',         'mmgIlTi_sections',       (ti.sections != null ? ti.sections : ti.parts), 'Usually 4.');
+      document.getElementById('mmgPaneIlSettings').innerHTML = html;
+    }
+    function _mmgCollectIlSettings(md) {
+      md.testInfo = md.testInfo || {};
+      var f = function (id) { var e = document.getElementById(id); return e ? e.value : undefined; };
+      var asNum = function (v) { var n = Number(v); return v === '' || !isFinite(n) ? v : n; };
+      var src = f('mmgIlTi_source');
+      if (src !== undefined) {
+        var trimmed = String(src).trim();
+        if (trimmed) md.source = trimmed;
+        else delete md.source;
+      }
+      // Audio layout + merged audio URL (only relevant when layout === 'merged').
+      var layoutEl = document.querySelector('input[name="mmgIlTi_layout"]:checked');
+      if (layoutEl) {
+        md.audioLayout = layoutEl.value;
+      }
+      var mergedAudio = f('mmgIlTi_audio');
+      if (md.audioLayout === 'merged') {
+        if (mergedAudio !== undefined && mergedAudio !== '') md.audioFile = mergedAudio;
+        else delete md.audioFile;
+      } else {
+        // Per-section mode: no top-level audioFile (each section carries its own).
+        delete md.audioFile;
+      }
+      if (f('mmgIlTi_title')          !== undefined) md.testInfo.title          = f('mmgIlTi_title');
+      if (f('mmgIlTi_totalQuestions') !== undefined) md.testInfo.totalQuestions = asNum(f('mmgIlTi_totalQuestions'));
+      if (f('mmgIlTi_totalTime')      !== undefined) md.testInfo.totalTime      = asNum(f('mmgIlTi_totalTime'));
+      if (f('mmgIlTi_sections')       !== undefined) md.testInfo.sections       = asNum(f('mmgIlTi_sections'));
+    }
+    // Show/hide the merged-audio uploader when the layout radio changes.
+    window._mmgIlOnLayoutChange = function () {
+      var sel = document.querySelector('input[name="mmgIlTi_layout"]:checked');
+      var wrap = document.getElementById('mmgIlTi_mergedWrap');
+      if (wrap) wrap.style.display = (sel && sel.value === 'merged') ? '' : 'none';
+    };
+
+    // Keys covered by structured form sections. Everything else (type,
+    // subParts[], answerHighlights, …) passes through the Other tab JSON.
+    var _MMG_IL_PART_COVERED = { partNumber:1, title:1, questionRange:1, instruction:1, audioFile:1, audioStartSec:1, transcript:1, mapImage:1, answers:1, explanations:1 };
+
+    function _mmgRenderIlPart(md, idx) {
+      var parts = (md.parts = md.parts || []);
+      while (parts.length <= idx) parts.push({});
+      var p = parts[idx] || {};
+      var n = idx + 1;
+      var paneId = 'mmgPaneIlPart' + n;
+      var scope  = 'ilP' + n;
+
+      if (p.partNumber == null)              p.partNumber = n;
+      if (p.title == null || p.title === '') p.title      = 'Section ' + n;
+
+      window._mmgIlActiveSub = window._mmgIlActiveSub || {};
+      var activeSub = window._mmgIlActiveSub[idx] || 'audio';
+
+      var html = '';
+
+      // Per-section Gemini import banner — same shared modal as reading
+      // (_mmgImportOpenPassage routes by mock_type; the listening branch
+      // is wired in the next commit and uses the same PDF/image upload).
+      html += ''
+            + '<div style="background:linear-gradient(135deg,#fdf4ff,#faf5ff);border:1px solid #e9d5ff;border-radius:10px;padding:10px 12px;margin-bottom:8px;display:flex;align-items:center;gap:12px;">'
+            +   '<div style="flex:1;font-size:12px;color:#581c87;line-height:1.45;">'
+            +     '<strong>✨ Import this section</strong> — upload Section ' + n + '\'s test pages (PDF or screenshots) + the answer key; Gemini structures it into subParts + answers. Other sections stay untouched.'
+            +   '</div>'
+            +   '<button type="button" onclick="_mmgImportOpenPassage(' + idx + ')" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(124,58,237,.3);white-space:nowrap;">✨ Import section</button>'
+            + '</div>';
+
+      // Per-section Generate Explanations banner.
+      html += ''
+            + '<div id="mmgIlP' + n + '_explBar" style="background:linear-gradient(135deg,#ecfeff,#e0f2fe);border:1px solid #bae6fd;border-radius:10px;padding:10px 12px;margin-bottom:14px;display:flex;align-items:center;gap:12px;">'
+            +   '<div style="flex:1;font-size:12px;color:#075985;line-height:1.45;">'
+            +     '<strong>✨ Generate explanations</strong> — Gemini reads this section\'s transcript + answer key and writes a short reason + verbatim transcript quote for each question.'
+            +   '</div>'
+            +   '<button type="button" id="mmgIlP' + n + '_explBtn" onclick="_mmgGenerateExplanations(' + idx + ')" style="background:linear-gradient(135deg,#06b6d4,#0284c7);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(2,132,199,.3);white-space:nowrap;">✨ Generate explanations</button>'
+            + '</div>'
+            + '<div id="mmgIlP' + n + '_explStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;border-radius:8px;padding:0;background:transparent;font-weight:500;"></div>';
+
+      // Basics.
+      html += '<div class="mmg-section-title">Section ' + n + '</div>';
+      html += _mmgFieldText('Question range', 'mmgIlP' + n + '_qr',    p.questionRange, 'e.g., "1-10". Drives the Answers / Explanations slot count below.');
+      html += _mmgFieldArea('Instruction shown to student', 'mmgIlP' + n + '_instr', p.instruction, 'Plain text. For mixed-type sections, list each sub-instruction on its own line.', 60);
+
+      // Derive sub-question count from subParts[] for the Questions sub-tab summary.
+      var answers      = (p.answers && typeof p.answers === 'object' && !Array.isArray(p.answers)) ? p.answers : {};
+      var explanations = (p.explanations && typeof p.explanations === 'object' && !Array.isArray(p.explanations)) ? p.explanations : {};
+      var subParts     = Array.isArray(p.subParts) ? p.subParts : [];
+      var subQCount = 0;
+      subParts.forEach(function (sp) {
+        if (!sp) return;
+        if (Array.isArray(sp.questions)) { subQCount += sp.questions.length; return; }
+        if (Array.isArray(sp.extracts)) {
+          sp.extracts.forEach(function (ex) { if (ex && Array.isArray(ex.questions)) subQCount += ex.questions.length; });
+          return;
+        }
+        if (Array.isArray(sp.formContent)) {
+          sp.formContent.forEach(function (it) { if (it && it.type === 'item-gap' && it.gapId != null) subQCount++; });
+          return;
+        }
+        if (Array.isArray(sp.rows)) {
+          sp.rows.forEach(function (row) {
+            if (Array.isArray(row)) row.forEach(function (c) { if (c && typeof c === 'object' && c.type === 'gap' && c.gapId != null) subQCount++; });
+          });
+        }
+      });
+      var ansCount = Object.keys(answers).length;
+      var expCount = Object.keys(explanations).length;
+
+      // Sub-tab bar.
+      var sb = function (subId, label, count) {
+        var ac = (subId === activeSub) ? ' active' : '';
+        var cs = (count != null) ? ' <span class="mmg-subtab-count">(' + count + ')</span>' : '';
+        return '<button type="button" class="mmg-subtab' + ac + '" data-sub="' + subId + '" onclick="_mmgSwitchSub(\'' + scope + '\', \'' + subId + '\')">' + label + cs + '</button>';
+      };
+      html += '<div class="mmg-subtabs-bar" data-scope="' + scope + '">'
+            +   sb('audio',        'Audio & Transcript')
+            +   sb('questions',    'Questions',    subQCount)
+            +   sb('answers',      'Answers',      ansCount)
+            +   sb('explanations', 'Explanations', expCount)
+            +   sb('other',        'Other')
+            + '</div>';
+
+      var subOpen = function (subId) {
+        var disp = (subId === activeSub) ? 'block' : 'none';
+        return '<div class="mmg-subpane" data-scope="' + scope + '" data-sub="' + subId + '" style="display:' + disp + ';">';
+      };
+
+      // ── Audio & Transcript sub-pane ────────────────────────────────────
+      // Two audio modes (controlled in Settings):
+      //   • per-section: each section has its own audioFile URL. Upload
+      //     button pushes a local file to GCS via signed URL and
+      //     auto-fills the field. Transcribe button calls Gemini.
+      //   • merged: the test ships as one MP3 (set in Settings). Here we
+      //     just need the section's start time in seconds; the runner
+      //     uses md.audioFile + audioStartSec to seek.
+      // Section 2 additionally surfaces an optional Map image input —
+      // some IELTS Section 2 tasks reference a venue map/diagram.
+      var ilLayout = md.audioLayout || 'per-section';
+      html += subOpen('audio');
+      if (ilLayout === 'merged') {
+        var mergedSrcDisplay = md.audioFile ? '<code style="font-size:11px;word-break:break-all;">' + _mmgEsc(md.audioFile) + '</code>' : '<em style="color:#dc2626;">(merged audio URL not set — go to Settings and upload it)</em>';
+        html += '<div style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:12px;color:#475569;line-height:1.5;">'
+              +   '<strong>Merged-audio mode.</strong> All 4 sections play from one file (set in Settings).<br>'
+              +   'Source: ' + mergedSrcDisplay
+              + '</div>';
+        html += _mmgFieldText('Start time (seconds)', 'mmgIlP' + n + '_startSec', p.audioStartSec, 'When this section starts in the merged audio. Whole seconds (e.g., 0 for Section 1, 420 for Section 2…).');
+      } else {
+        html += _mmgFieldText('Audio file URL', 'mmgIlP' + n + '_audio', p.audioFile, 'Paste a GCS URL or click Upload to push a local file. Example: https://storage.googleapis.com/mockstream-listening-audio/…');
+        html += '<div style="margin:-6px 0 14px;display:flex;gap:8px;align-items:center;">'
+              +   '<button type="button" onclick="_mmgIlUploadAudio(' + idx + ')" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:6px;padding:5px 10px;font-size:11.5px;font-weight:600;cursor:pointer;">📁 Upload audio</button>'
+              +   '<button type="button" onclick="_mmgIlTranscribe(' + idx + ')" style="background:#fef3c7;border:1px solid #fcd34d;border-radius:6px;padding:5px 10px;font-size:11.5px;font-weight:600;cursor:pointer;">🎤 Transcribe with Gemini</button>'
+              +   '<span id="mmgIlP' + n + '_audioStatus" style="font-size:11.5px;color:#64748b;"></span>'
+              + '</div>';
+      }
+      // Section 2 — optional map image (some Section 2 tasks reference a map/diagram).
+      if (n === 2) {
+        html += _mmgFieldText('Map / diagram image URL (optional)', 'mmgIlP' + n + '_map', p.mapImage, 'For Section 2 tasks that show a map or floor plan. Leave blank if not applicable.');
+        html += '<div style="margin:-6px 0 14px;display:flex;gap:8px;align-items:center;">'
+              +   '<button type="button" onclick="_mmgIlUploadMap(' + idx + ')" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:6px;padding:5px 10px;font-size:11.5px;font-weight:600;cursor:pointer;">🖼 Upload image</button>'
+              +   '<span id="mmgIlP' + n + '_mapStatus" style="font-size:11.5px;color:#64748b;"></span>'
+              + '</div>';
+      }
+      // Transcript — always present. For merged mode, surface the Transcribe
+      // button here next to the textarea (it operates on the merged audio
+      // + this section's start time once the backend wires that path).
+      if (ilLayout === 'merged') {
+        html += '<div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;">'
+              +   '<button type="button" onclick="_mmgIlTranscribe(' + idx + ')" style="background:#fef3c7;border:1px solid #fcd34d;border-radius:6px;padding:5px 10px;font-size:11.5px;font-weight:600;cursor:pointer;">🎤 Transcribe with Gemini</button>'
+              +   '<span id="mmgIlP' + n + '_audioStatus" style="font-size:11.5px;color:#64748b;"></span>'
+              + '</div>';
+      }
+      html += _mmgFieldArea('Transcript', 'mmgIlP' + n + '_trans', p.transcript, 'Full transcript of the audio. Used by Generate Explanations (quote source) and shown in review mode.', 280);
+      html += '</div>';
+
+      // Derive answer / explanation slot IDs from questionRange (preferred)
+      // or from existing answer keys (fallback when the range isn't set).
+      var slotIds = [];
+      if (p.questionRange) {
+        var rm = String(p.questionRange).match(/^(\d+)\s*-\s*(\d+)$/);
+        if (rm) {
+          var lo = parseInt(rm[1], 10), hi = parseInt(rm[2], 10);
+          for (var qq = lo; qq <= hi; qq++) slotIds.push(qq);
+        }
+      }
+      if (slotIds.length === 0) {
+        Object.keys(answers).forEach(function (k) {
+          var num = parseInt(k, 10);
+          if (!isNaN(num) && slotIds.indexOf(num) < 0) slotIds.push(num);
+        });
+        slotIds.sort(function (a, b) { return a - b; });
+      }
+
+      // ── Questions sub-pane ─────────────────────────────────────────────
+      html += subOpen('questions');
+      if (subQCount > 0) {
+        html += '<div class="mmg-empty-hint" style="background:#ecfeff;border-color:#bae6fd;color:#075985;">'
+              +   '<strong>📦 ' + subQCount + ' question(s) live inside <code>subParts[]</code></strong> (gap-fill-form, table-completion, mcq-extracts, etc.).<br>'
+              +   'Listening questions are structured per sub-part type — edit via <strong>Raw JSON</strong> or re-import this section. The Answers + Explanations sub-tabs give you a flat per-question editor for answer text + explanation text.'
+              + '</div>';
+      } else {
+        html += '<div class="mmg-empty-hint">No questions yet. Click <em>✨ Import section</em> at the top to populate from a transcript + answer key paste, or hand-edit <strong>Other</strong> → <code>subParts[]</code>.</div>';
+      }
+      html += '</div>';
+
+      // ── Answers sub-pane ────────────────────────────────────────────────
+      html += subOpen('answers');
+      html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">Comma-separated for alternative spellings or values (e.g., "11, eleven, 11.00").</div>';
+      if (slotIds.length === 0) {
+        html += '<div class="mmg-empty-hint">Set the Question range above (e.g. "1-10") to render answer slots, or import this section.</div>';
+      } else {
+        html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;">';
+        slotIds.forEach(function (qid) {
+          var ansArr = Array.isArray(answers[qid]) ? answers[qid] : (Array.isArray(answers[String(qid)]) ? answers[String(qid)] : []);
+          var ansStr = ansArr.join(', ');
+          html += '<div style="display:flex;align-items:center;gap:6px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:6px 10px;">'
+                +   '<label for="mmgIlP' + n + '_q' + qid + '_ans" style="font-weight:700;font-size:12px;color:#0f172a;min-width:32px;">Q' + qid + '</label>'
+                +   '<input type="text" id="mmgIlP' + n + '_q' + qid + '_ans" value="' + _mmgEsc(ansStr) + '" style="flex:1;padding:5px 8px;border:1px solid #cbd5e1;border-radius:5px;font-size:12px;">'
+                + '</div>';
+        });
+        html += '</div>';
+      }
+      html += '</div>';
+
+      // ── Explanations sub-pane ──────────────────────────────────────────
+      html += subOpen('explanations');
+      html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">Why each answer is correct. Quote is pulled from the transcript and shown in review mode.</div>';
+      if (slotIds.length === 0) {
+        html += '<div class="mmg-empty-hint">Set the Question range above to render explanation slots, or import this section.</div>';
+      } else {
+        slotIds.forEach(function (qid) {
+          var expl = (explanations['q' + qid] && typeof explanations['q' + qid] === 'object') ? explanations['q' + qid] : {};
+          html += '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 14px;margin-bottom:10px;">';
+          html += '<div style="font-weight:700;color:#0f172a;font-size:13px;margin-bottom:6px;">Question ' + qid + '</div>';
+          html += _mmgFieldArea('Explanation — why this is the answer', 'mmgIlP' + n + '_q' + qid + '_etext', expl.text, '', 60);
+          html += _mmgFieldArea('Supporting quote from the transcript',  'mmgIlP' + n + '_q' + qid + '_equote', expl.quote, '', 50);
+          html += '</div>';
+        });
+      }
+      html += '</div>';
+
+      // ── Other sub-pane ─────────────────────────────────────────────────
+      var other = {};
+      for (var k in p) {
+        if (!_MMG_IL_PART_COVERED[k]) other[k] = p[k];
+      }
+      html += subOpen('other');
+      html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">Listening-specific structured fields: <code>type</code>, <code>subParts[]</code> (gap-fill-form, table-completion, mcq-extracts, …), <code>answerHighlights</code> (transcript line numbers). Edit only if you know the shape — Gemini import populates these for you.</div>';
+      html += '<div class="mmg-field"><textarea id="mmgIlP' + n + '_other" spellcheck="false" '
+            + 'style="min-height:280px;font:12px ui-monospace,monospace;width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;resize:vertical;">'
+            + _mmgEsc(JSON.stringify(other, null, 2)) + '</textarea></div>';
+      html += '</div>';
+
+      document.getElementById(paneId).innerHTML = html;
+    }
+
+    function _mmgCollectIlPart(md, idx) {
+      md.parts = md.parts || [];
+      while (md.parts.length <= idx) md.parts.push({});
+      var n = idx + 1;
+      var f = function (id) { var e = document.getElementById(id); return e ? e.value : undefined; };
+
+      // 1) Parse Other JSON first — abort on parse error so we don't partial-write.
+      var otherStr = f('mmgIlP' + n + '_other');
+      var otherParsed = {};
+      if (otherStr !== undefined && otherStr.trim() !== '') {
+        try { otherParsed = JSON.parse(otherStr); }
+        catch (e) {
+          _mmgStatus('IELTS Listening Section ' + n + ' "Other" — JSON parse error: ' + e.message, '#dc2626');
+          throw e;
+        }
+        if (otherParsed === null || typeof otherParsed !== 'object' || Array.isArray(otherParsed)) {
+          _mmgStatus('IELTS Listening Section ' + n + ' "Other" must be a JSON object {…}.', '#dc2626');
+          throw new Error('other-not-object');
+        }
+      }
+
+      // 2) Snapshot hidden + preserved values BEFORE the reset. The narrower-
+      //    question-range case: if the admin temporarily set "1-5" while the
+      //    saved data covers "1-10", we don't want to wipe Q6-Q10 answers.
+      var p = md.parts[idx] || (md.parts[idx] = {});
+      var preservedPartNumber = p.partNumber;
+      var preservedTitle      = p.title;
+      var preservedAnswers      = (p.answers && typeof p.answers === 'object' && !Array.isArray(p.answers))
+        ? Object.assign({}, p.answers) : null;
+      var preservedExplanations = (p.explanations && typeof p.explanations === 'object' && !Array.isArray(p.explanations))
+        ? Object.assign({}, p.explanations) : null;
+
+      // 3) Reset, then layer back on.
+      for (var existingKey in p) delete p[existingKey];
+
+      // Layer A: Other JSON — includes type, subParts[], answerHighlights, …
+      for (var ok in otherParsed) p[ok] = otherParsed[ok];
+
+      // Layer B: hidden auto-set fields.
+      p.partNumber = (preservedPartNumber != null)              ? preservedPartNumber : n;
+      p.title      = (preservedTitle != null && preservedTitle !== '') ? preservedTitle      : 'Section ' + n;
+
+      // Layer C: top form fields.
+      if (f('mmgIlP' + n + '_qr')    !== undefined) p.questionRange = f('mmgIlP' + n + '_qr');
+      if (f('mmgIlP' + n + '_instr') !== undefined) p.instruction   = f('mmgIlP' + n + '_instr');
+
+      // Layer D: audio + transcript + (Section 2) map image. Per-section
+      // mode stores audioFile per-part; merged mode stores audioStartSec
+      // and the URL lives at md.audioFile (top-level, set in Settings).
+      var audio    = f('mmgIlP' + n + '_audio');     // per-section URL
+      var startSec = f('mmgIlP' + n + '_startSec');  // merged start-time
+      var mapImg   = f('mmgIlP' + n + '_map');       // Section 2 only
+      var trans    = f('mmgIlP' + n + '_trans');
+      if (audio    !== undefined && audio    !== '') p.audioFile     = audio;
+      if (startSec !== undefined && startSec !== '') {
+        var sNum = Number(startSec);
+        p.audioStartSec = isFinite(sNum) ? sNum : startSec;
+      }
+      if (mapImg !== undefined && mapImg !== '')     p.mapImage      = mapImg;
+      if (trans  !== undefined && trans  !== '')     p.transcript    = trans;
+
+      // Layer E: answers — read DOM slots; merge with snapshot so Qs outside
+      // the current questionRange aren't silently dropped.
+      var ansInputs = document.querySelectorAll('[id^="mmgIlP' + n + '_q"][id$="_ans"]');
+      if (ansInputs.length > 0) {
+        var newAnswers = preservedAnswers ? Object.assign({}, preservedAnswers) : {};
+        for (var ai = 0; ai < ansInputs.length; ai++) {
+          var aEl = ansInputs[ai];
+          var am = aEl.id.match(/_q(\d+)_ans$/);
+          if (!am) continue;
+          var aid = am[1];
+          var arr = (aEl.value || '').split(',').map(function (s) { return s.trim(); }).filter(function (s) { return s.length > 0; });
+          if (arr.length > 0) newAnswers[aid] = arr;
+          else delete newAnswers[aid];
+        }
+        p.answers = newAnswers;
+      } else if (preservedAnswers) {
+        p.answers = preservedAnswers;
+      }
+
+      // Layer F: explanations — same merge strategy.
+      var expEntries = document.querySelectorAll('[id^="mmgIlP' + n + '_q"][id$="_etext"]');
+      if (expEntries.length > 0) {
+        var newExplanations = preservedExplanations ? Object.assign({}, preservedExplanations) : {};
+        for (var ei = 0; ei < expEntries.length; ei++) {
+          var eEl = expEntries[ei];
+          var em = eEl.id.match(/_q(\d+)_etext$/);
+          if (!em) continue;
+          var eid = em[1];
+          var eQ = document.getElementById('mmgIlP' + n + '_q' + eid + '_equote');
+          var explObj = {};
+          if (eEl.value !== '') explObj.text  = eEl.value;
+          if (eQ && eQ.value !== '') explObj.quote = eQ.value;
+          if (Object.keys(explObj).length > 0) newExplanations['q' + eid] = explObj;
+          else delete newExplanations['q' + eid];
+        }
+        p.explanations = newExplanations;
+      } else if (preservedExplanations) {
+        p.explanations = preservedExplanations;
+      }
+    }
+
+    // ── IELTS Listening: GCS upload + Gemini transcribe helpers ───────────
+    // Audio + map-image uploads go through transcribe-mock with
+    // action='sign-upload': the Edge Function (holding the GCP service-
+    // account key in its env) mints a V4 signed PUT URL; the browser
+    // PUTs file bytes directly to GCS, then writes the resulting GCS URL
+    // back into the editor field. No service-account credentials touch
+    // the browser. Transcribe wires action='transcribe-audio' and Gemini
+    // multimodal returns the text.
+
+    async function _mmgIlSignAndUpload(opts) {
+      // opts: { file, statusEl, urlInputId, kind, subdir }
+      var setStatus = function (msg, color) {
+        if (opts.statusEl) {
+          opts.statusEl.textContent = msg;
+          opts.statusEl.style.color = color || '#64748b';
+        }
+      };
+      // Build path: ielts-listening/mock-<num>/<subdir>-<timestamp>.<ext>
+      var mockNumEl = document.getElementById('mmgFldNumber');
+      var mockNum = (mockNumEl && mockNumEl.value) ? mockNumEl.value : 'new';
+      var origName = opts.file.name || '';
+      var ext = (origName.indexOf('.') >= 0 ? origName.split('.').pop() : (opts.kind === 'image' ? 'png' : 'mp3')).toLowerCase();
+      var ts = Date.now();
+      var path = 'ielts-listening/mock-' + mockNum + '/' + opts.subdir + '-' + ts + '.' + ext;
+
+      setStatus('Requesting signed URL…');
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var contentType = opts.file.type || (opts.kind === 'image' ? 'image/jpeg' : 'audio/mpeg');
+      var signResp;
+      try {
+        signResp = await fetch(SB_URL + '/functions/v1/gcs-listening-helpers', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY },
+          body: JSON.stringify({
+            action: 'sign-upload',
+            bucket: 'mockstream-listening-audio',
+            filename: path,
+            contentType: contentType,
+            adminPasscode: (sessionStorage.getItem('siteMgmtAdminCode') || '')
+          })
+        });
+      } catch (e) {
+        setStatus('Network error: ' + e.message, '#dc2626');
+        return null;
+      }
+      if (!signResp.ok) {
+        var errTxt = '';
+        try { errTxt = await signResp.text(); } catch (_e) {}
+        setStatus('Sign failed (' + signResp.status + '): ' + errTxt.slice(0, 100), '#dc2626');
+        return null;
+      }
+      var signed;
+      try { signed = await signResp.json(); }
+      catch (e) { setStatus('Invalid sign response.', '#dc2626'); return null; }
+      if (!signed || !signed.uploadUrl || !signed.finalUrl) {
+        setStatus('Sign response missing URLs.', '#dc2626');
+        return null;
+      }
+
+      setStatus('Uploading ' + Math.round((opts.file.size || 0) / 1024) + ' kB…');
+      var putResp;
+      try {
+        putResp = await fetch(signed.uploadUrl, {
+          method: 'PUT',
+          headers: { 'Content-Type': contentType },
+          body: opts.file
+        });
+      } catch (e) {
+        setStatus('Upload network error: ' + e.message, '#dc2626');
+        return null;
+      }
+      if (!putResp.ok) {
+        setStatus('Upload failed (' + putResp.status + ').', '#dc2626');
+        return null;
+      }
+      setStatus('✅ Uploaded.', '#16a34a');
+
+      if (opts.urlInputId) {
+        var inp = document.getElementById(opts.urlInputId);
+        if (inp) inp.value = signed.finalUrl;
+      }
+      return signed.finalUrl;
+    }
+
+    function _mmgIlPickAndUpload(opts) {
+      var inp = document.createElement('input');
+      inp.type = 'file';
+      inp.accept = opts.accept;
+      inp.style.display = 'none';
+      inp.onchange = function () {
+        var f = inp.files && inp.files[0];
+        if (!f) return;
+        _mmgIlSignAndUpload({
+          file: f,
+          statusEl: opts.statusEl,
+          urlInputId: opts.urlInputId,
+          kind: opts.kind,
+          subdir: opts.subdir
+        });
+      };
+      document.body.appendChild(inp);
+      inp.click();
+      setTimeout(function () { try { document.body.removeChild(inp); } catch (_e) {} }, 60000);
+    }
+
+    window._mmgIlUploadAudio = function (idx) {
+      var n = idx + 1;
+      _mmgIlPickAndUpload({
+        accept: 'audio/*',
+        statusEl: document.getElementById('mmgIlP' + n + '_audioStatus'),
+        urlInputId: 'mmgIlP' + n + '_audio',
+        kind: 'audio',
+        subdir: 'section-' + n
+      });
+    };
+    window._mmgIlUploadMap = function (idx) {
+      var n = idx + 1;
+      _mmgIlPickAndUpload({
+        accept: 'image/*',
+        statusEl: document.getElementById('mmgIlP' + n + '_mapStatus'),
+        urlInputId: 'mmgIlP' + n + '_map',
+        kind: 'image',
+        subdir: 'section-' + n + '-map'
+      });
+    };
+    window._mmgIlUploadMergedAudio = function () {
+      _mmgIlPickAndUpload({
+        accept: 'audio/*',
+        statusEl: document.getElementById('mmgIlTi_audioStatus'),
+        urlInputId: 'mmgIlTi_audio',
+        kind: 'audio',
+        subdir: 'merged'
+      });
+    };
+
+    // Transcribe button — sends current audio URL + (optional) start-sec
+    // to transcribe-mock with action='transcribe-audio'; backend fetches
+    // the audio from GCS and calls Gemini multimodal.
+    window._mmgIlTranscribe = async function (idx) {
+      var n = idx + 1;
+      var statusEl = document.getElementById('mmgIlP' + n + '_audioStatus');
+      var setStatus = function (msg, color) {
+        if (statusEl) { statusEl.textContent = msg; statusEl.style.color = color || '#64748b'; }
+      };
+      var md = _mmgGetMockData();
+      if (!md) { setStatus('Invalid mock_data JSON.', '#dc2626'); return; }
+      var layout = md.audioLayout || 'per-section';
+      var audioUrl, startSec = 0, endSec = null;
+      if (layout === 'merged') {
+        audioUrl = md.audioFile;
+        var startEl = document.getElementById('mmgIlP' + n + '_startSec');
+        startSec = startEl ? Number(startEl.value || 0) : 0;
+        // End is the next section's start (so Gemini transcribes only this section's slice).
+        var nextEl = document.getElementById('mmgIlP' + (n + 1) + '_startSec');
+        if (nextEl && nextEl.value) endSec = Number(nextEl.value);
+        if (!audioUrl) { setStatus('Merged audio URL not set in Settings.', '#dc2626'); return; }
+      } else {
+        var urlEl = document.getElementById('mmgIlP' + n + '_audio');
+        audioUrl = urlEl ? urlEl.value : '';
+        if (!audioUrl) { setStatus('Audio URL is empty.', '#dc2626'); return; }
+      }
+      setStatus('Asking Gemini to transcribe…');
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      try {
+        var resp = await fetch(SB_URL + '/functions/v1/gcs-listening-helpers', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY },
+          body: JSON.stringify({
+            action: 'transcribe-audio',
+            audioUrl: audioUrl,
+            startSec: startSec,
+            endSec: endSec,
+            adminPasscode: (sessionStorage.getItem('siteMgmtAdminCode') || '')
+          })
+        });
+        if (!resp.ok) {
+          var errTxt = '';
+          try { errTxt = await resp.text(); } catch (_e) {}
+          setStatus('Transcribe failed (' + resp.status + '): ' + errTxt.slice(0, 100), '#dc2626');
+          return;
+        }
+        var data = await resp.json();
+        if (!data || !data.transcript) {
+          setStatus('No transcript returned.', '#dc2626');
+          return;
+        }
+        var transEl = document.getElementById('mmgIlP' + n + '_trans');
+        if (transEl) transEl.value = data.transcript;
+        setStatus('✅ Transcribed (' + data.transcript.length + ' chars).', '#16a34a');
+      } catch (e) {
+        setStatus('Network error: ' + e.message, '#dc2626');
+      }
+    };
+
+    // Bulk Generate Explanations across all 4 sections. Sequential to
+    // avoid rate-limits; status div under the button shows progress.
+    window._mmgGenerateExplanationsAllIl = async function () {
+      var statusEl = document.getElementById('mmgIlAllExplStatus');
+      var btn = document.getElementById('mmgIlAllExplBtn');
+      var setStatus = function (msg, color) {
+        if (statusEl) { statusEl.textContent = msg; statusEl.style.color = color || '#64748b'; }
+      };
+      if (btn) btn.disabled = true;
+      for (var i = 0; i < 4; i++) {
+        setStatus('Section ' + (i + 1) + '/4 — generating…');
+        try {
+          await _mmgGenerateExplanations(i);
+        } catch (e) {
+          setStatus('Section ' + (i + 1) + ' failed: ' + (e && e.message || e), '#dc2626');
+          if (btn) btn.disabled = false;
+          return;
+        }
+      }
+      setStatus('✅ All 4 sections done.', '#16a34a');
+      if (btn) btn.disabled = false;
+    };
 
     // Re-init tabs whenever the user changes the mock type — switching between
     // 'cefr-writing' and any other skill flips the structured editor on/off.

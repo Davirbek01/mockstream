@@ -630,7 +630,8 @@ async function generateExplanations(
   passage: Record<string, unknown>,
   examType: string
 ): Promise<ExplanationsResult> {
-  const isCefr = examType === 'cefr-reading';
+  const isCefr      = examType === 'cefr-reading';
+  const isListening = examType === 'ielts-listening';
 
   // CEFR Reading has four distinct part types and each stores its
   // "passage" + questions differently. An earlier version of this code
@@ -652,7 +653,79 @@ async function generateExplanations(
   let passagePlain = '';
   const qInputs: Array<{ id: number; text: string; correct: string }> = [];
 
-  if (isCefr) {
+  if (isListening) {
+    // IELTS Listening — `transcript` is the source for quotes (the audio
+    // text). Questions live INSIDE subParts[] (gap-fill-form, table-
+    // completion, mcq-extracts, matching, sentence-completion, …), not
+    // in top-level questions[]. We walk every common sub-part shape to
+    // gather question text per id, then iterate the flat `answers` dict
+    // for the correct answer. Quote verification runs against transcript.
+    passagePlain = String(passage.transcript || '');
+    const answers = (passage.answers as Record<string, string[] | string> | undefined) || {};
+    const subParts = Array.isArray(passage.subParts)
+      ? passage.subParts as Array<Record<string, unknown>> : [];
+    const textByQid: Record<string, string> = {};
+
+    for (const sp of subParts) {
+      if (!sp || typeof sp !== 'object') continue;
+
+      // mcq-extracts → extracts[].questions[].text
+      if (Array.isArray(sp.extracts)) {
+        for (const ex of sp.extracts as Array<Record<string, unknown>>) {
+          if (Array.isArray(ex?.questions)) {
+            for (const q of ex.questions as Array<Record<string, unknown>>) {
+              if (q?.id != null) textByQid[String(q.id)] = String(q.text || '');
+            }
+          }
+        }
+      }
+      // mcq-multi, matching, etc. — top-level questions[].text / .id
+      if (Array.isArray(sp.questions)) {
+        for (const q of sp.questions as Array<Record<string, unknown>>) {
+          if (q?.id != null) textByQid[String(q.id)] = String(q.text || q.hint || '');
+        }
+      }
+      // sentence-completion → items[].id / .text
+      if (Array.isArray(sp.items)) {
+        for (const it of sp.items as Array<Record<string, unknown>>) {
+          if (it?.id != null) textByQid[String(it.id)] = String(it.text || '');
+        }
+      }
+      // gap-fill-form → formContent[].item-gap with gapId; build a label.
+      if (Array.isArray(sp.formContent)) {
+        for (const it of sp.formContent as Array<Record<string, unknown>>) {
+          if (it?.type === 'item-gap' && it.gapId != null) {
+            const before = String(it.text || '').trim();
+            const after  = String(it.gapSuffix || '').trim();
+            textByQid[String(it.gapId)] = `${before} {INPUT}${after ? ' ' + after : ''}`.trim();
+          }
+        }
+      }
+      // table-completion → rows[][] with gap cells.
+      if (Array.isArray(sp.rows)) {
+        for (const row of sp.rows as Array<unknown>) {
+          if (!Array.isArray(row)) continue;
+          for (const cell of row) {
+            const c = cell as Record<string, unknown>;
+            if (c && typeof c === 'object' && c.type === 'gap' && c.gapId != null) {
+              const before = String(c.prefix || '').trim();
+              const after  = String(c.suffix || '').trim();
+              textByQid[String(c.gapId)] = `${before} {INPUT}${after ? ' ' + after : ''}`.trim();
+            }
+          }
+        }
+      }
+    }
+
+    for (const qid of Object.keys(answers).sort((a, b) => parseInt(a, 10) - parseInt(b, 10))) {
+      const id = parseInt(qid, 10);
+      if (isNaN(id)) continue;
+      const acc = answers[qid];
+      const correctStr = Array.isArray(acc) ? acc.join(' / ') : String(acc || '');
+      if (!correctStr) continue;
+      qInputs.push({ id, text: textByQid[qid] || '', correct: correctStr });
+    }
+  } else if (isCefr) {
     const partType = String((passage as Record<string, unknown>).type || '');
     const answers  = ((passage as Record<string, unknown>).answers as Record<string, string[] | string> | undefined) || {};
     const getCorrect = (id: number) => {
@@ -984,8 +1057,24 @@ Deno.serve(async (req) => {
 
   // ── Validate inputs ──────────────────────────────────────────────
   const examType = (body.exam_type || '').toString();
-  if (examType !== 'cefr-reading' && examType !== 'ielts-reading') {
-    return json(400, { error: 'bad_exam_type', detail: 'expected "cefr-reading" or "ielts-reading"' });
+  if (examType !== 'cefr-reading' && examType !== 'ielts-reading' && examType !== 'ielts-listening') {
+    return json(400, { error: 'bad_exam_type', detail: 'expected "cefr-reading", "ielts-reading", or "ielts-listening"' });
+  }
+
+  // IELTS Listening: explanations flow is supported below; bulk + per-section
+  // PDF/image import will land in a follow-up commit once the listening
+  // sub-part prompt templates are ready (each listening section can mix
+  // gap-fill-form / table-completion / mcq-extracts / matching / sentence-
+  // completion in one go, so the prompt needs more sub-part scaffolding
+  // than the reading equivalents). Until then, return a clear 501 with a
+  // workaround note so the admin knows the editor's Other-tab JSON paste
+  // is the path forward for those flows.
+  if (examType === 'ielts-listening'
+      && (body.scope || '').toString() !== 'explanations') {
+    return json(501, {
+      error: 'not_implemented',
+      detail: 'IELTS Listening bulk / per-section PDF import is coming in the next commit. For now, paste a structured section JSON into the editor\'s Other sub-tab, or upload + transcribe audio via the Audio & Transcript sub-tab.'
+    });
   }
 
   // ── EXPLANATIONS scope: separate flow, no file upload ───────────
