@@ -8461,20 +8461,24 @@
       color: #64748b;
     }
     .ilet-source {
-      font-size: 11px; font-weight: 600;
+      font-size: 10px; font-weight: 600;
       color: #475569;
       background: #f1f5f9;
-      padding: 4px 10px;
+      padding: 4px 8px;
       border-radius: 999px;
-      letter-spacing: .2px;
+      letter-spacing: .15px;
       font-family: ui-monospace, 'SF Mono', Menlo, monospace;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 100%;
+      max-width: 180px;
       min-width: 0;
       flex-shrink: 1;
     }
+    /* Move the source chip onto its own row inside the card head when
+       the chip + mock-num + status dots can't all fit comfortably side
+       by side. CSS Grid handles this without JS. */
+    .ilet-card-head { flex-wrap: wrap; row-gap: 6px; }
     .ilet-mock-title {
       font-size: 16px;
       font-weight: 700;
@@ -9974,7 +9978,7 @@
   <!-- Listening Access Code Modal -->
   <div id="listeningAccessCodeModal"
     style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);z-index:10002;align-items:center;justify-content:center;padding:20px;"
-    onclick="closeListeningAccessCodeModal()">
+    onclick="cancelListeningAccessCodeModal()">
     <div
       style="background:var(--card);border:2px solid var(--brand);border-radius:20px;padding:28px;max-width:380px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:slideUp 0.3s ease;"
       onclick="event.stopPropagation()">
@@ -9991,7 +9995,7 @@
       <div id="listeningAccessCodeError"
         style="font-size:13px;margin-top:10px;margin-bottom:14px;min-height:20px;font-weight:600;"></div>
       <div style="display:flex;gap:10px;">
-        <button onclick="closeListeningAccessCodeModal()"
+        <button onclick="cancelListeningAccessCodeModal()"
           style="flex:1;padding:11px;background:var(--bg);color:var(--muted);border:2px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;">Cancel</button>
         <button id="listeningAccessCodeSubmitBtn" onclick="verifyListeningAccessCode()"
           style="flex:2;padding:11px;background:linear-gradient(135deg,var(--brand) 0%,#059669 100%);color:white;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;">Verify
@@ -11784,6 +11788,19 @@
       if (modal) modal.style.display = 'none';
       _pendingListeningMock = null;
     }
+
+    // Cancel-only wrapper: closes the modal AND strips a /take/<slug> URL
+    // back to /landing.html. Wired to the Cancel button + backdrop click
+    // so a student who backs out doesn't leave a misleading take URL in
+    // the address bar. Mirror of cancelReadingAccessCodeModal.
+    window.cancelListeningAccessCodeModal = function () {
+      closeListeningAccessCodeModal();
+      try {
+        if (/^\/take\//i.test(window.location.pathname)) {
+          history.replaceState(null, '', '/landing.html');
+        }
+      } catch (_e) {}
+    };
 
     async function verifyListeningAccessCode() {
       if (!_pendingListeningMock) return;
@@ -20384,15 +20401,15 @@
     loadMock = function (page, type) {
       currentView = 'mock';
       // Defensive URL cleanup: if a stale /take/<slug> URL is lingering
-      // from a prior reading-mock interaction and the new mock isn't a
-      // reading mock, strip it so the address bar doesn't lie about
-      // which skill the student is currently in. Reading mocks keep
-      // their /take/<slug> URL — picker click pushState'd it, deep-link
-      // entry has it natively. (When pushState is later added to
-      // listening/writing/speaking pickers, those will overwrite the
-      // URL before loadMock fires, making this strip a no-op for them.)
+      // from a prior reading/listening interaction and the new mock is
+      // NEITHER reading NOR listening (i.e. a skill whose picker doesn't
+      // pushState a /take/ URL yet — writing / speaking / flashcards /
+      // articles / tests), strip the URL so the address bar doesn't lie
+      // about which skill the student is currently in. Reading + listening
+      // mocks keep their /take/<slug> URL because their pickers pushed it.
       try {
-        if (type !== 'reading' && /^\/take\//i.test(window.location.pathname)) {
+        if (type !== 'reading' && type !== 'listening'
+            && /^\/take\//i.test(window.location.pathname)) {
           history.replaceState(null, '', '/landing.html');
         }
       } catch (_e) {}
@@ -20446,10 +20463,13 @@
           iletClose();
           _pickerFromPopstate = false;
         }
-        // 2) Close access-code modal if URL left /take/...
+        // 2) Close access-code modals if URL left /take/...
         if (!/^\/take\//i.test(window.location.pathname)) {
           if (typeof closeReadingAccessCodeModal === 'function') {
             closeReadingAccessCodeModal();
+          }
+          if (typeof closeListeningAccessCodeModal === 'function') {
+            closeListeningAccessCodeModal();
           }
         }
       } catch (_e) {}
