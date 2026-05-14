@@ -32497,6 +32497,48 @@
       if (rawTm !== undefined) md.testInfo.totalTime      = asNumOrDefault(rawTm, 40);
       if (rawSc !== undefined) md.testInfo.sections       = asNumOrDefault(rawSc, 4);
     }
+    // Validate + pretty-print the "Other" JSON textarea for a listening
+    // section. On success: rewrites the textarea with the formatted JSON
+    // and shows "✓ Valid JSON · N keys". On parse error: shows the exact
+    // error message + position, and selects the offending character in
+    // the textarea so the admin can see what's wrong without scrolling.
+    window._mmgIlValidateOther = function (n) {
+      var ta = document.getElementById('mmgIlP' + n + '_other');
+      var st = document.getElementById('mmgIlP' + n + '_otherStatus');
+      if (!ta || !st) return;
+      var raw = ta.value || '';
+      if (raw.trim() === '') {
+        st.textContent = '(empty — that\'s fine, will save as {})'; st.style.color = '#64748b';
+        return;
+      }
+      try {
+        var obj = JSON.parse(raw);
+        if (obj === null || typeof obj !== 'object' || Array.isArray(obj)) {
+          st.textContent = '✗ JSON must be an object { … } at the top level';
+          st.style.color = '#dc2626';
+          return;
+        }
+        // Pretty-print with 2-space indent.
+        ta.value = JSON.stringify(obj, null, 2);
+        var keys = Object.keys(obj);
+        st.textContent = '✓ Valid JSON · ' + keys.length + ' top-level key' + (keys.length === 1 ? '' : 's') + ' (' + keys.join(', ').slice(0, 80) + (keys.join(', ').length > 80 ? '…' : '') + ')';
+        st.style.color = '#16a34a';
+      } catch (e) {
+        var msg = String(e.message || e);
+        st.textContent = '✗ ' + msg;
+        st.style.color = '#dc2626';
+        // Try to jump to the failing position so the admin sees the spot.
+        var posMatch = msg.match(/position\s+(\d+)/);
+        if (posMatch) {
+          var pos = parseInt(posMatch[1], 10);
+          try {
+            ta.focus();
+            ta.setSelectionRange(Math.max(0, pos - 1), Math.min(raw.length, pos + 1));
+          } catch (_e) {}
+        }
+      }
+    };
+
     // Show/hide merged + per-section blocks when the layout radio changes.
     window._mmgIlOnLayoutChange = function () {
       var sel = document.querySelector('input[name="mmgIlTi_layout"]:checked');
@@ -32727,6 +32769,16 @@
       }
       html += subOpen('other');
       html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">Listening-specific structured fields: <code>type</code>, <code>subParts[]</code> (gap-fill-form, table-completion, mcq-extracts, …), <code>answerHighlights</code> (transcript line numbers). Edit only if you know the shape — Gemini import populates these for you.</div>';
+      // Format / Validate button — runs JSON.parse on the textarea content
+      // and reports OK or the parse error position inline. Saves the round
+      // trip of "edit → Save → error → scroll → fix → Save".
+      html += '<div style="margin-bottom:6px;display:flex;gap:8px;align-items:center;">'
+            +   '<button type="button" onclick="_mmgIlValidateOther(' + n + ')" '
+            +     'style="background:#fef3c7;border:1px solid #f59e0b;color:#92400e;border-radius:6px;padding:4px 10px;font-size:11.5px;font-weight:600;cursor:pointer;">'
+            +     '↔ Format / Validate'
+            +   '</button>'
+            +   '<span id="mmgIlP' + n + '_otherStatus" style="font-size:11.5px;color:#64748b;"></span>'
+            + '</div>';
       // data-gramm + data-enable-grammarly="false" disables the Grammarly
       // browser extension on this textarea — Grammarly silently converts
       // straight quotes to curly quotes ("…" → " … "), which breaks JSON.parse
