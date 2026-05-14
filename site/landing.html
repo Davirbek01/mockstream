@@ -11449,8 +11449,11 @@
           takeParam  = params.get('take');
         }
         if (!takeParam) return;
-        // Expected slug: cefr-reading-45 / ielts-reading-23 / ielts-listening-12 (case-insensitive)
-        var m = takeParam.match(/^(cefr|ielts)-(reading|listening)-(\d+)$/i);
+        // Expected slug: cefr-reading-45 / ielts-reading-23 / ielts-listening-12
+        // / cefr-speaking-15 (case-insensitive). IELTS speaking is not yet wired
+        // for deep links — match it separately when that flow is added.
+        var m = takeParam.match(/^(cefr|ielts)-(reading|listening)-(\d+)$/i)
+             || takeParam.match(/^(cefr)-(speaking)-(\d+)$/i);
         if (!m) {
           console.warn('[deep-link] Unrecognised slug:', takeParam);
           return;
@@ -11485,11 +11488,34 @@
           return;
         }
         var rows = await resp.json();
-        if (!rows || !rows.length) {
+        var sbMockId = (rows && rows.length) ? rows[0].id : null;
+
+        // CEFR Speaking is fully Supabase-backed (the picker's upgrader
+        // rewrites every entry to ?sbmock=<id>). The picker uses loadMock
+        // directly — no landing-level access-code modal, gating happens
+        // inside the runner — so mirror that exact behavior here. ?num=NN
+        // forces _extractSpeakingMockNumber to return the real mock # rather
+        // than the Supabase row id (matches the upgrader's URL shape).
+        if (skill === 'speaking') {
+          if (!sbMockId) {
+            alert('CEFR Speaking Mock ' + mockNum + ' is not available right now.');
+            return;
+          }
+          var pageUrlSpk = 'Speaking Mocks.html?sbmock=' + encodeURIComponent(sbMockId)
+                         + '&num=' + encodeURIComponent(String(mockNum).padStart(2, '0'))
+                         + '&auto=1&action=practice';
+          if (typeof loadMock !== 'function') {
+            console.warn('[deep-link] loadMock not loaded');
+            return;
+          }
+          loadMock(pageUrlSpk, 'speaking');
+          return;
+        }
+
+        if (!sbMockId) {
           alert((exam.toUpperCase() + ' ' + skill[0].toUpperCase() + skill.slice(1)) + ' Mock ' + mockNum + ' is not available right now.');
           return;
         }
-        var sbMockId   = rows[0].id;
         // Runner file per (exam, skill). Reading + Listening have separate runners.
         var runnerFile;
         if (skill === 'reading') {
