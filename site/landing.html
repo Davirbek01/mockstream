@@ -29131,7 +29131,7 @@
             <button onclick="_mmgValidate()" style="background:#fef3c7;color:#92400e;border:1px solid #f59e0b;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:600;cursor:pointer;">⚙ Validate</button>
             <button onclick="_mmgPretty()" title="Pretty-print" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:600;cursor:pointer;">↔ Pretty</button>
           </div>
-          <textarea id="mmgFldData" spellcheck="false" style="flex:1;margin:0 18px 8px;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font:12px ui-monospace,monospace;resize:none;min-height:280px;"></textarea>
+          <textarea id="mmgFldData" spellcheck="false" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" autocorrect="off" autocapitalize="off" style="flex:1;margin:0 18px 8px;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font:12px ui-monospace,monospace;resize:none;min-height:280px;"></textarea>
         </div>
         </div><!-- /mmg-edit-panes -->
         </div><!-- /mmg-edit-main -->
@@ -31772,6 +31772,8 @@
       html += subOpen('other');
       html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">For things that vary by question type — <code>type</code>, matching statements / headings, MCQ options. Most parts have just <code>{ "type": "…" }</code> here. Leave alone if you don\'t recognise it.</div>';
       html += '<div class="mmg-field"><textarea id="mmgCrP' + n + '_other" spellcheck="false" '
+            + 'data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" '
+            + 'autocorrect="off" autocapitalize="off" '
             + 'style="min-height:240px;font:12px ui-monospace,monospace;width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;resize:vertical;">'
             + _mmgEsc(JSON.stringify(other, null, 2)) + '</textarea></div>';
       html += '</div>';
@@ -32725,7 +32727,13 @@
       }
       html += subOpen('other');
       html += '<div class="mmg-field-help" style="margin-bottom:10px;color:#64748b;">Listening-specific structured fields: <code>type</code>, <code>subParts[]</code> (gap-fill-form, table-completion, mcq-extracts, …), <code>answerHighlights</code> (transcript line numbers). Edit only if you know the shape — Gemini import populates these for you.</div>';
+      // data-gramm + data-enable-grammarly="false" disables the Grammarly
+      // browser extension on this textarea — Grammarly silently converts
+      // straight quotes to curly quotes ("…" → " … "), which breaks JSON.parse
+      // on Save. autocorrect/autocapitalize off as belt+braces for mobile.
       html += '<div class="mmg-field"><textarea id="mmgIlP' + n + '_other" spellcheck="false" '
+            + 'data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" '
+            + 'autocorrect="off" autocapitalize="off" '
             + 'style="min-height:280px;font:12px ui-monospace,monospace;width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;resize:vertical;">'
             + _mmgEsc(JSON.stringify(other, null, 2)) + '</textarea></div>';
       html += '</div>';
@@ -33089,9 +33097,18 @@
       var m = window._mmgEditing;
       // If we're on a structured tab, flush its edits to the textarea first
       // so the raw JSON is the latest. Returns false if a tab failed to
-      // collect (e.g. invalid number) — abort save in that case.
+      // collect — DON'T overwrite the specific error. The collector that
+      // threw has already set the precise reason ("IELTS Listening Section 1
+      // 'Other' — JSON parse error: Unexpected token…" or similar) into the
+      // status pill. Replacing it with the generic "Could not save — fix the
+      // highlighted field first" hides the actionable detail. We only fall
+      // back to the generic message if the status pill is still empty (rare —
+      // it means a collector threw without calling _mmgStatus first).
       if (!_mmgFlushStructuredToRaw()) {
-        _mmgStatus('Could not save — fix the highlighted field first.', '#dc2626');
+        var pill = document.getElementById('mmgEditStatus') || document.getElementById('mmgStatus');
+        if (!pill || !pill.textContent || !pill.textContent.trim()) {
+          _mmgStatus('Could not save — fix the highlighted field first.', '#dc2626');
+        }
         return;
       }
       var typeV   = document.getElementById('mmgFldType').value;
