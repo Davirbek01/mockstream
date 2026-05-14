@@ -271,6 +271,12 @@
       border: none;
       display: flex;
       gap: 6px;
+      /* Reset the mobile base style's overflow-x: auto — on PC the part
+         nav lives inside the fixed-height header next to the mock badge,
+         so a 1–4 short button row never overflows and the scrollbar
+         gutter that some browsers reserve here was leaking a thin band
+         along the header's bottom edge. */
+      overflow-x: visible;
     }
 
     .pc-part-nav .part-btn {
@@ -4721,8 +4727,13 @@
 
     const _logoEl = document.getElementById('logoImg');
     if (_logoEl) _logoEl.src = GLOBAL_LOGO_URL;
-    const mockNum = testFile.match(/(\d+)/) ? testFile.match(/(\d+)/)[1] : '1';
-    document.getElementById('mockNumber').textContent = '№' + mockNum;
+    // Prefer the explicit ?mock=NN URL param (set by the iletPicker and
+    // by the /take/ielts-listening-NN deep-link route) over digit-scraping
+    // testFile — for Supabase mocks testFile defaults to
+    // "ielts-listening-test-01" and the badge would otherwise read №01
+    // regardless of which mock the student actually opened.
+    const mockNum = urlParams.get('mock') || (testFile.match(/(\d+)/) ? testFile.match(/(\d+)/)[1] : '1');
+    document.getElementById('mockNumber').textContent = '№' + String(mockNum).padStart(2, '0');
 
     // Drop parts that the iletPicker would mark "⏳ Soon" (admin authored
     // some sections but not all). Mirrors _iletBuildMetaFromMockData's
@@ -6468,7 +6479,10 @@
         const candidateName = sessionStorage.getItem('CANDIDATE_NAME') || 'Unknown';
 
         const testIdentifier = TEST_DATA?.testInfo?.title || 'IELTS Listening Test';
-        const mockNum = testFile.match(/(\d+)/) ? testFile.match(/(\d+)/)[1].padStart(2, '0') : '01';
+        // ?mock=NN wins over digit-scraping testFile — same reason as the
+        // header badge above. Otherwise a Supabase mock submitted via the
+        // picker would be tagged Mock 01 in the results payload.
+        const mockNum = (urlParams.get('mock') || (testFile.match(/(\d+)/) ? testFile.match(/(\d+)/)[1] : '01')).toString().padStart(2, '0');
         // In practice mode, scope to practised part only
         var _reportParts = window._practicePart ? [TEST_DATA.parts[window._practicePart - 1]] : TEST_DATA.parts;
         var total = 0;
