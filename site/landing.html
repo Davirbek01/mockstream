@@ -9965,8 +9965,12 @@
   </div>
 
   <!-- IELTS Listening Part Picker Modal -->
+  <!-- z-index 100006 so it stacks ABOVE iletPicker (100003), the access-
+       code modal (100004) and the mode modal (100005). When the deep-link
+       flow opens this picker on top of the iletPicker it would otherwise
+       render hidden behind it. -->
   <div id="ieltsListeningPartPickerModal"
-    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:10004;align-items:center;justify-content:center;padding:20px;"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:100006;align-items:center;justify-content:center;padding:20px;"
     onclick="closeIeltsListeningPartPicker()">
     <div
       style="background:var(--card);border:2px solid #7c3aed;border-radius:24px;padding:32px 28px;max-width:380px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
@@ -11755,7 +11759,70 @@
 
     function _ieltsListeningModePartBased() {
       document.getElementById('ieltsListeningModeModal').style.display = 'none';
-      document.getElementById('ieltsListeningPartPickerModal').style.display = 'flex';
+      var modal = document.getElementById('ieltsListeningPartPickerModal');
+      var allBtns = modal.querySelectorAll('button[onclick^="_pickIeltsListeningPart"]');
+      // Default everything visible — covers the fail-open path below.
+      allBtns.forEach(function (b) { b.style.display = ''; });
+
+      // Mirror iletPicker readiness: hide Part N buttons for sections the
+      // picker marks "⏳ Soon" so a 1/4-ready mock (e.g. Mock 51) doesn't
+      // offer empty Part 2/3/4 practice. We read the picker's in-memory
+      // meta cache (_iletMockMeta) if it's populated; if not (deep-link
+      // path where the picker hasn't been opened this session), we fetch
+      // the single mock's data inline and apply the same answer-count
+      // rule. Failing closed would mean offering all 4 parts on a quirky
+      // cache state — the picker already gates Take Test on noneReady, so
+      // a temporarily-permissive picker here is the safer fall-back.
+      function _applyReady(readyArr) {
+        if (!Array.isArray(readyArr)) return;
+        allBtns.forEach(function (btn) {
+          var m = btn.getAttribute('onclick').match(/_pickIeltsListeningPart\((\d+)\)/);
+          if (!m) return;
+          var partIdx = parseInt(m[1], 10) - 1;
+          btn.style.display = readyArr[partIdx] ? '' : 'none';
+        });
+      }
+      function _showAndScroll() {
+        modal.style.display = 'flex';
+      }
+
+      try {
+        var url   = _pendingIeltsListeningUrl || '';
+        var numM  = url.match(/[?&](?:num|mock)=(\d+)/);
+        var mn    = numM ? String(parseInt(numM[1], 10)).padStart(2, '0') : null;
+        var sbM   = url.match(/[?&]sbmock=([^&]+)/);
+        var sbId  = sbM ? sbM[1] : null;
+        var cached = (mn && typeof _iletMockMeta !== 'undefined') ? _iletMockMeta[mn] : null;
+        if (cached && Array.isArray(cached.sections)) {
+          _applyReady(cached.sections.map(function (s) { return !!(s && s.ready); }));
+          _showAndScroll();
+          return;
+        }
+        if (sbId) {
+          // Show the modal optimistically (all parts visible) and hide
+          // not-ready ones once the fetch resolves. Network is typically
+          // <200ms on a hot cache, so the flicker is barely noticeable.
+          _showAndScroll();
+          var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+          var KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+          fetch(SB + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(sbId) + '&select=mock_data', {
+            headers: { apikey: KEY, Authorization: 'Bearer ' + KEY }
+          }).then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (rows) {
+              if (!rows || !rows.length) return;
+              var parts = (rows[0].mock_data && Array.isArray(rows[0].mock_data.parts)) ? rows[0].mock_data.parts : [];
+              var ready = parts.map(function (p) {
+                var n = (p && p.answers && typeof p.answers === 'object') ? Object.keys(p.answers).length : 0;
+                return n >= 5;
+              });
+              while (ready.length < 4) ready.push(false);
+              _applyReady(ready);
+            })
+            .catch(function () {});
+          return;
+        }
+      } catch (e) {}
+      _showAndScroll();
     }
 
     function closeIeltsListeningPartPicker() {
