@@ -31291,9 +31291,43 @@
     //      import or hand-edits Raw JSON).
     // ═════════════════════════════════════════════════════════════════════════
 
+    // ── Time format helpers ────────────────────────────────────────────
+    // Admin types "13:00", "0:13:00", or "780" — all valid; stored as
+    // seconds. Format helper produces "MM:SS" or "HH:MM:SS" for display.
+    function _ilParseTime(str) {
+      if (str == null) return null;
+      var s = String(str).trim();
+      if (s === '') return null;
+      if (/^\d+$/.test(s)) return parseInt(s, 10);
+      var m = s.match(/^(\d+):(\d+)$/);
+      if (m) return parseInt(m[1], 10) * 60 + parseInt(m[2], 10);
+      var h = s.match(/^(\d+):(\d+):(\d+)$/);
+      if (h) return parseInt(h[1], 10) * 3600 + parseInt(h[2], 10) * 60 + parseInt(h[3], 10);
+      var n = Number(s);
+      return isFinite(n) ? n : null;
+    }
+    function _ilFormatTime(sec) {
+      if (sec == null || !isFinite(sec)) return '—';
+      var n = Math.max(0, Math.floor(Number(sec)));
+      var h = Math.floor(n / 3600);
+      var m = Math.floor((n % 3600) / 60);
+      var s = n % 60;
+      var pad = function (v) { return String(v).padStart(2, '0'); };
+      return h > 0 ? h + ':' + pad(m) + ':' + pad(s) : pad(m) + ':' + pad(s);
+    }
+    // Live-update the humanised time display next to a start-time input.
+    window._mmgIlUpdateTimeHint = function (inputId) {
+      var inp  = document.getElementById(inputId);
+      var hint = document.getElementById(inputId + '_hint');
+      if (!inp || !hint) return;
+      var sec = _ilParseTime(inp.value);
+      hint.textContent = (sec == null) ? '' : '= ' + _ilFormatTime(sec) + ' (' + sec + 's)';
+    };
+
     function _mmgRenderIlSettings(md) {
       var ti = (md.testInfo = md.testInfo || {});
       var layout = md.audioLayout || 'per-section';
+      var parts  = Array.isArray(md.parts) ? md.parts : [];
       var html = '';
 
       // Import banner — bulk PDF/image/doc paste → Gemini → fills all 4 sections.
@@ -31315,30 +31349,66 @@
             + '</div>'
             + '<div id="mmgIlAllExplStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;border-radius:8px;padding:0;background:transparent;font-weight:500;"></div>';
 
-      // ── Audio layout toggle ────────────────────────────────────────────
-      // Some IELTS tests are distributed as one long merged MP3 (with all
-      // 4 sections back-to-back), others as 4 separate files. Admin picks
-      // the source shape here; per-section tabs adapt their audio UI to
-      // match.
+      // ── Audio source: layout toggle + per-mode UI ─────────────────────
+      // All audio orchestration (URLs, uploads, start-times) lives in
+      // Settings. Section tabs only show a read-only summary + the
+      // Transcribe button; they're focused on content (transcript,
+      // sub-parts, answers).
       html += '<div class="mmg-section-title">Audio source</div>';
-      html += '<div style="display:flex;gap:14px;margin-bottom:12px;">'
+      html += '<div style="display:flex;gap:14px;margin-bottom:12px;flex-wrap:wrap;">'
             +   '<label style="display:flex;align-items:center;gap:6px;font-size:12.5px;color:#0f172a;cursor:pointer;">'
             +     '<input type="radio" name="mmgIlTi_layout" value="per-section" ' + (layout === 'per-section' ? 'checked' : '') + ' onchange="_mmgIlOnLayoutChange()"> '
-            +     '<strong>Per-section files</strong> — 4 separate audio uploads, one per section.'
+            +     '<strong>Per-section files</strong> — 4 separate uploads.'
             +   '</label>'
             +   '<label style="display:flex;align-items:center;gap:6px;font-size:12.5px;color:#0f172a;cursor:pointer;">'
             +     '<input type="radio" name="mmgIlTi_layout" value="merged" ' + (layout === 'merged' ? 'checked' : '') + ' onchange="_mmgIlOnLayoutChange()"> '
-            +     '<strong>Single merged file</strong> — one audio, manual start-seconds per section.'
+            +     '<strong>Single merged file</strong> — one audio, manual start-times.'
             +   '</label>'
             + '</div>';
-      // Merged-audio uploader (visible only when layout === 'merged').
-      html += '<div id="mmgIlTi_mergedWrap" style="' + (layout === 'merged' ? '' : 'display:none;') + 'margin-bottom:14px;">'
+
+      // Merged uploader + 4 start-time inputs (visible when layout='merged').
+      html += '<div id="mmgIlTi_mergedWrap" style="' + (layout === 'merged' ? '' : 'display:none;') + 'margin-bottom:18px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 14px;">'
             +   _mmgFieldText('Merged audio URL', 'mmgIlTi_audio', md.audioFile, 'Paste the GCS URL, or click Upload to push a local file.')
-            +   '<div style="margin-top:-6px;display:flex;gap:8px;">'
+            +   '<div style="margin-top:-6px;display:flex;gap:8px;margin-bottom:10px;">'
             +     '<button type="button" onclick="_mmgIlUploadMergedAudio()" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:6px;padding:5px 10px;font-size:11.5px;font-weight:600;cursor:pointer;">📁 Upload merged audio</button>'
             +     '<span id="mmgIlTi_audioStatus" style="font-size:11.5px;color:#64748b;align-self:center;"></span>'
             +   '</div>'
-            + '</div>';
+            +   '<div style="font-size:11.5px;color:#475569;margin:6px 0 8px;line-height:1.5;">'
+            +     '<strong>Section start times.</strong> Type <code>MM:SS</code> (e.g. <code>13:00</code>), <code>HH:MM:SS</code>, or raw seconds (e.g. <code>780</code>). System accepts all three. '
+            +     'Typical IELTS layout: Section 1 starts at 0:00, Section 2 ~13:00, Section 3 ~26:00, Section 4 ~38:00.'
+            +   '</div>';
+      for (var si = 0; si < 4; si++) {
+        var sn = si + 1;
+        var sp = parts[si] || {};
+        var curRaw = (sp.audioStartSec != null) ? _ilFormatTime(sp.audioStartSec) : '';
+        html += '<div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;">'
+              +   '<label for="mmgIlTi_p' + sn + '_start" style="font-weight:700;font-size:12px;color:#0f172a;min-width:90px;">Section ' + sn + ' start</label>'
+              +   '<input type="text" id="mmgIlTi_p' + sn + '_start" value="' + _mmgEsc(curRaw) + '" placeholder="e.g. ' + (si === 0 ? '0:00' : (si === 1 ? '13:00' : (si === 2 ? '26:00' : '38:00'))) + '" '
+              +   'oninput="_mmgIlUpdateTimeHint(\'mmgIlTi_p' + sn + '_start\');_mmgIlRefreshEndHints()" '
+              +   'style="flex:1;padding:5px 10px;border:1px solid #cbd5e1;border-radius:5px;font-size:13px;font-family:ui-monospace,monospace;">'
+              +   '<span id="mmgIlTi_p' + sn + '_start_hint" style="font-size:11px;color:#64748b;min-width:140px;">' + (sp.audioStartSec != null ? '= ' + _ilFormatTime(sp.audioStartSec) + ' (' + sp.audioStartSec + 's)' : '') + '</span>'
+              +   '<span id="mmgIlTi_p' + sn + '_end_hint"   style="font-size:11px;color:#94a3b8;min-width:130px;"></span>'
+              + '</div>';
+      }
+      html += '</div>';
+
+      // Per-section uploader cluster (visible when layout='per-section').
+      html += '<div id="mmgIlTi_perWrap" style="' + (layout === 'per-section' ? '' : 'display:none;') + 'margin-bottom:18px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 14px;">'
+            +   '<div style="font-size:11.5px;color:#475569;margin-bottom:10px;line-height:1.5;">'
+            +     '<strong>Per-section audio files.</strong> Upload one MP3 per section, or paste an existing GCS URL. URLs sync automatically with each Section tab.'
+            +   '</div>';
+      for (var pi = 0; pi < 4; pi++) {
+        var pn = pi + 1;
+        var pp = parts[pi] || {};
+        html += '<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">'
+              +   '<label for="mmgIlTi_p' + pn + '_audio" style="font-weight:700;font-size:12px;color:#0f172a;min-width:90px;">Section ' + pn + '</label>'
+              +   '<input type="text" id="mmgIlTi_p' + pn + '_audio" value="' + _mmgEsc(pp.audioFile || '') + '" placeholder="GCS URL or paste here" '
+              +   'style="flex:1;padding:5px 10px;border:1px solid #cbd5e1;border-radius:5px;font-size:12px;font-family:ui-monospace,monospace;">'
+              +   '<button type="button" onclick="_mmgIlUploadSectionAudioFromSettings(' + pi + ')" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:6px;padding:5px 10px;font-size:11.5px;font-weight:600;cursor:pointer;white-space:nowrap;">📁 Upload</button>'
+              +   '<span id="mmgIlTi_p' + pn + '_audioStatus" style="font-size:11.5px;color:#64748b;min-width:80px;"></span>'
+              + '</div>';
+      }
+      html += '</div>';
 
       // Standard test-info fields.
       html += '<div class="mmg-section-title">IELTS Listening — test info</div>';
@@ -31348,7 +31418,27 @@
       html += _mmgFieldText('Total time (min)', 'mmgIlTi_totalTime',      ti.totalTime,      'Usually 40 (audio ~30 min + 10 min answer transfer).');
       html += _mmgFieldText('Sections',         'mmgIlTi_sections',       (ti.sections != null ? ti.sections : ti.parts), 'Usually 4.');
       document.getElementById('mmgPaneIlSettings').innerHTML = html;
+      // Compute initial "(ends at X)" hints based on the values in the boxes.
+      if (layout === 'merged') _mmgIlRefreshEndHints();
     }
+    // Recompute "ends at X:XX" hint per section — derived from the NEXT
+    // section's start time. Section 4's end stays blank (it's whatever
+    // the audio file's runtime is, which we don't know without probing).
+    window._mmgIlRefreshEndHints = function () {
+      var times = [0, 0, 0, 0].map(function (_, i) {
+        var el = document.getElementById('mmgIlTi_p' + (i + 1) + '_start');
+        return el ? _ilParseTime(el.value) : null;
+      });
+      for (var i = 0; i < 4; i++) {
+        var endEl = document.getElementById('mmgIlTi_p' + (i + 1) + '_end_hint');
+        if (!endEl) continue;
+        var next = times[i + 1];
+        endEl.textContent = (next != null && next > 0)
+          ? '(ends at ' + _ilFormatTime(next) + ')'
+          : '';
+      }
+    };
+
     function _mmgCollectIlSettings(md) {
       md.testInfo = md.testInfo || {};
       var f = function (id) { var e = document.getElementById(id); return e ? e.value : undefined; };
@@ -31361,27 +31451,69 @@
       }
       // Audio layout + merged audio URL (only relevant when layout === 'merged').
       var layoutEl = document.querySelector('input[name="mmgIlTi_layout"]:checked');
-      if (layoutEl) {
-        md.audioLayout = layoutEl.value;
-      }
+      if (layoutEl) md.audioLayout = layoutEl.value;
       var mergedAudio = f('mmgIlTi_audio');
       if (md.audioLayout === 'merged') {
         if (mergedAudio !== undefined && mergedAudio !== '') md.audioFile = mergedAudio;
         else delete md.audioFile;
       } else {
-        // Per-section mode: no top-level audioFile (each section carries its own).
         delete md.audioFile;
       }
+
+      // Per-section audio writes (per-section mode) + per-section start
+      // times (merged mode). Both write into md.parts[idx].audioFile /
+      // audioStartSec — Section tabs read the same field from mock_data
+      // when rendered.
+      md.parts = md.parts || [];
+      while (md.parts.length < 4) md.parts.push({});
+      for (var i = 0; i < 4; i++) {
+        var p = md.parts[i] = md.parts[i] || {};
+        // Backfill identity fields if missing (so a freshly-created mock
+        // saved entirely from Settings still has 4 well-formed sections).
+        if (p.partNumber == null) p.partNumber = i + 1;
+        if (!p.title)             p.title      = 'Section ' + (i + 1);
+
+        if (md.audioLayout === 'per-section') {
+          var url = f('mmgIlTi_p' + (i + 1) + '_audio');
+          if (url !== undefined && url !== '') p.audioFile = url;
+          else delete p.audioFile;
+          delete p.audioStartSec;
+        } else if (md.audioLayout === 'merged') {
+          var startStr = f('mmgIlTi_p' + (i + 1) + '_start');
+          var startSec = _ilParseTime(startStr);
+          if (startSec != null) p.audioStartSec = startSec;
+          else delete p.audioStartSec;
+          // Per-section URL is implicit in merged mode (md.audioFile + start time).
+          delete p.audioFile;
+        }
+      }
+
       if (f('mmgIlTi_title')          !== undefined) md.testInfo.title          = f('mmgIlTi_title');
       if (f('mmgIlTi_totalQuestions') !== undefined) md.testInfo.totalQuestions = asNum(f('mmgIlTi_totalQuestions'));
       if (f('mmgIlTi_totalTime')      !== undefined) md.testInfo.totalTime      = asNum(f('mmgIlTi_totalTime'));
       if (f('mmgIlTi_sections')       !== undefined) md.testInfo.sections       = asNum(f('mmgIlTi_sections'));
     }
-    // Show/hide the merged-audio uploader when the layout radio changes.
+    // Show/hide merged + per-section blocks when the layout radio changes.
     window._mmgIlOnLayoutChange = function () {
       var sel = document.querySelector('input[name="mmgIlTi_layout"]:checked');
-      var wrap = document.getElementById('mmgIlTi_mergedWrap');
-      if (wrap) wrap.style.display = (sel && sel.value === 'merged') ? '' : 'none';
+      var merged = document.getElementById('mmgIlTi_mergedWrap');
+      var per    = document.getElementById('mmgIlTi_perWrap');
+      var isMerged = sel && sel.value === 'merged';
+      if (merged) merged.style.display = isMerged ? '' : 'none';
+      if (per)    per.style.display    = isMerged ? 'none' : '';
+    };
+
+    // Settings-side per-section upload: writes back into md.parts[idx].audioFile
+    // and re-renders Settings so the URL field updates with the new URL.
+    window._mmgIlUploadSectionAudioFromSettings = function (idx) {
+      var n = idx + 1;
+      _mmgIlPickAndUpload({
+        accept: 'audio/*',
+        statusEl: document.getElementById('mmgIlTi_p' + n + '_audioStatus'),
+        urlInputId: 'mmgIlTi_p' + n + '_audio',
+        kind: 'audio',
+        subdir: 'section-' + n
+      });
     };
 
     // Keys covered by structured form sections. Everything else (type,
@@ -31475,47 +31607,44 @@
       };
 
       // ── Audio & Transcript sub-pane ────────────────────────────────────
-      // Two audio modes (controlled in Settings):
-      //   • per-section: each section has its own audioFile URL. Upload
-      //     button pushes a local file to GCS via signed URL and
-      //     auto-fills the field. Transcribe button calls Gemini.
-      //   • merged: the test ships as one MP3 (set in Settings). Here we
-      //     just need the section's start time in seconds; the runner
-      //     uses md.audioFile + audioStartSec to seek.
-      // Section 2 additionally surfaces an optional Map image input —
-      // some IELTS Section 2 tasks reference a venue map/diagram.
+      // Audio orchestration (URLs, uploads, start-times) lives in the
+      // Settings tab — Section tabs are read-only for that and focus on
+      // content (transcript, sub-parts, answers). We show a small
+      // summary so the admin can confirm what's wired up, plus the
+      // Transcribe button (which reads the resolved URL from mock_data).
+      // Section 2 additionally surfaces a Map image input — that one IS
+      // section-specific content, so it stays here.
       var ilLayout = md.audioLayout || 'per-section';
       html += subOpen('audio');
+      var summaryUrl, summaryNote;
       if (ilLayout === 'merged') {
-        var mergedSrcDisplay = md.audioFile ? '<code style="font-size:11px;word-break:break-all;">' + _mmgEsc(md.audioFile) + '</code>' : '<em style="color:#dc2626;">(merged audio URL not set — go to Settings and upload it)</em>';
-        html += '<div style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:12px;color:#475569;line-height:1.5;">'
-              +   '<strong>Merged-audio mode.</strong> All 4 sections play from one file (set in Settings).<br>'
-              +   'Source: ' + mergedSrcDisplay
-              + '</div>';
-        html += _mmgFieldText('Start time (seconds)', 'mmgIlP' + n + '_startSec', p.audioStartSec, 'When this section starts in the merged audio. Whole seconds (e.g., 0 for Section 1, 420 for Section 2…).');
+        summaryUrl = md.audioFile;
+        summaryNote = (p.audioStartSec != null)
+          ? 'Merged audio · starts at <strong>' + _ilFormatTime(p.audioStartSec) + '</strong> (' + p.audioStartSec + 's)'
+          : 'Merged audio · <em style="color:#dc2626;">start time not set in Settings</em>';
       } else {
-        html += _mmgFieldText('Audio file URL', 'mmgIlP' + n + '_audio', p.audioFile, 'Paste a GCS URL or click Upload to push a local file. Example: https://storage.googleapis.com/mockstream-listening-audio/…');
-        html += '<div style="margin:-6px 0 14px;display:flex;gap:8px;align-items:center;">'
-              +   '<button type="button" onclick="_mmgIlUploadAudio(' + idx + ')" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:6px;padding:5px 10px;font-size:11.5px;font-weight:600;cursor:pointer;">📁 Upload audio</button>'
-              +   '<button type="button" onclick="_mmgIlTranscribe(' + idx + ')" style="background:#fef3c7;border:1px solid #fcd34d;border-radius:6px;padding:5px 10px;font-size:11.5px;font-weight:600;cursor:pointer;">🎤 Transcribe with Gemini</button>'
-              +   '<span id="mmgIlP' + n + '_audioStatus" style="font-size:11.5px;color:#64748b;"></span>'
-              + '</div>';
+        summaryUrl = p.audioFile;
+        summaryNote = summaryUrl ? 'Per-section audio file' : '<em style="color:#dc2626;">No audio uploaded for Section ' + n + ' — upload from Settings tab</em>';
       }
-      // Section 2 — optional map image (some Section 2 tasks reference a map/diagram).
+      var summaryUrlBlock = summaryUrl
+        ? '<code style="font-size:11px;word-break:break-all;color:#0f172a;">' + _mmgEsc(summaryUrl) + '</code>'
+        : '<em style="color:#64748b;">(not set)</em>';
+      html += '<div style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:12px;color:#475569;line-height:1.55;">'
+            +   '<div style="margin-bottom:4px;">' + summaryNote + '</div>'
+            +   summaryUrlBlock
+            +   '<div style="margin-top:8px;display:flex;gap:8px;align-items:center;">'
+            +     '<button type="button" onclick="_mmgIlTranscribe(' + idx + ')" style="background:#fef3c7;border:1px solid #fcd34d;border-radius:6px;padding:5px 10px;font-size:11.5px;font-weight:600;cursor:pointer;">🎤 Transcribe with Gemini</button>'
+            +     '<span style="font-size:11px;color:#64748b;">→ fills the Transcript field below</span>'
+            +     '<span id="mmgIlP' + n + '_audioStatus" style="font-size:11.5px;color:#64748b;margin-left:auto;"></span>'
+            +   '</div>'
+            + '</div>';
+
+      // Section 2 — optional map image (per-section content, kept here).
       if (n === 2) {
         html += _mmgFieldText('Map / diagram image URL (optional)', 'mmgIlP' + n + '_map', p.mapImage, 'For Section 2 tasks that show a map or floor plan. Leave blank if not applicable.');
         html += '<div style="margin:-6px 0 14px;display:flex;gap:8px;align-items:center;">'
               +   '<button type="button" onclick="_mmgIlUploadMap(' + idx + ')" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:6px;padding:5px 10px;font-size:11.5px;font-weight:600;cursor:pointer;">🖼 Upload image</button>'
               +   '<span id="mmgIlP' + n + '_mapStatus" style="font-size:11.5px;color:#64748b;"></span>'
-              + '</div>';
-      }
-      // Transcript — always present. For merged mode, surface the Transcribe
-      // button here next to the textarea (it operates on the merged audio
-      // + this section's start time once the backend wires that path).
-      if (ilLayout === 'merged') {
-        html += '<div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;">'
-              +   '<button type="button" onclick="_mmgIlTranscribe(' + idx + ')" style="background:#fef3c7;border:1px solid #fcd34d;border-radius:6px;padding:5px 10px;font-size:11.5px;font-weight:600;cursor:pointer;">🎤 Transcribe with Gemini</button>'
-              +   '<span id="mmgIlP' + n + '_audioStatus" style="font-size:11.5px;color:#64748b;"></span>'
               + '</div>';
       }
       html += _mmgFieldArea('Transcript', 'mmgIlP' + n + '_trans', p.transcript, 'Full transcript of the audio. Used by Generate Explanations (quote source) and shown in review mode.', 280);
@@ -31626,9 +31755,12 @@
       // 2) Snapshot hidden + preserved values BEFORE the reset. The narrower-
       //    question-range case: if the admin temporarily set "1-5" while the
       //    saved data covers "1-10", we don't want to wipe Q6-Q10 answers.
+      //    Also preserve audioFile / audioStartSec — these are owned by the
+      //    Settings tab now; Section-tab saves must not destroy them.
       var p = md.parts[idx] || (md.parts[idx] = {});
       var preservedPartNumber = p.partNumber;
       var preservedTitle      = p.title;
+      var _preservedIlAudio = { file: (p.audioFile != null ? p.audioFile : null), startSec: (p.audioStartSec != null ? p.audioStartSec : null) };
       var preservedAnswers      = (p.answers && typeof p.answers === 'object' && !Array.isArray(p.answers))
         ? Object.assign({}, p.answers) : null;
       var preservedExplanations = (p.explanations && typeof p.explanations === 'object' && !Array.isArray(p.explanations))
@@ -31648,20 +31780,19 @@
       if (f('mmgIlP' + n + '_qr')    !== undefined) p.questionRange = f('mmgIlP' + n + '_qr');
       if (f('mmgIlP' + n + '_instr') !== undefined) p.instruction   = f('mmgIlP' + n + '_instr');
 
-      // Layer D: audio + transcript + (Section 2) map image. Per-section
-      // mode stores audioFile per-part; merged mode stores audioStartSec
-      // and the URL lives at md.audioFile (top-level, set in Settings).
-      var audio    = f('mmgIlP' + n + '_audio');     // per-section URL
-      var startSec = f('mmgIlP' + n + '_startSec');  // merged start-time
-      var mapImg   = f('mmgIlP' + n + '_map');       // Section 2 only
-      var trans    = f('mmgIlP' + n + '_trans');
-      if (audio    !== undefined && audio    !== '') p.audioFile     = audio;
-      if (startSec !== undefined && startSec !== '') {
-        var sNum = Number(startSec);
-        p.audioStartSec = isFinite(sNum) ? sNum : startSec;
-      }
-      if (mapImg !== undefined && mapImg !== '')     p.mapImage      = mapImg;
-      if (trans  !== undefined && trans  !== '')     p.transcript    = trans;
+      // Layer D: transcript + (Section 2) map image. audioFile +
+      // audioStartSec are NOT touched here — they're owned by Settings.
+      // Restore from snapshot so a Save from the Section tab doesn't
+      // drop them.
+      var preservedAudio  = (typeof p === 'object') ? p.audioFile : undefined;     // already wiped at this point
+      // We snapshotted before the wipe in earlier blocks; here just re-source from md.parts[idx] backup.
+      // (See _mmgCollectIlPart's snapshot block — additions below.)
+      var mapImg = f('mmgIlP' + n + '_map');
+      var trans  = f('mmgIlP' + n + '_trans');
+      if (mapImg !== undefined && mapImg !== '') p.mapImage   = mapImg;
+      if (trans  !== undefined && trans  !== '') p.transcript = trans;
+      if (_preservedIlAudio.file != null)        p.audioFile      = _preservedIlAudio.file;
+      if (_preservedIlAudio.startSec != null)    p.audioStartSec  = _preservedIlAudio.startSec;
 
       // Layer E: answers — read DOM slots; merge with snapshot so Qs outside
       // the current questionRange aren't silently dropped.
