@@ -15503,19 +15503,26 @@
     }
 
     async function _iretLoadAllMockMeta() {
-      // Cache hit?
+      // Cache warm-start (positional keys '01', '02', …). Cache is per-domain
+      // and may be stale for the *newest* mocks an admin just added on
+      // another site visit — fall through and fetch any item whose key
+      // isn't already in cached.data so freshly-added Supabase rows light
+      // up immediately instead of waiting 24h for the TTL to expire.
+      let cachedData = {};
       try {
         const cached = JSON.parse(localStorage.getItem(_IRET_CACHE_KEY) || 'null');
         if (cached && cached.ts && (Date.now() - cached.ts) < _IRET_CACHE_TTL && cached.data) {
-          Object.assign(_iretMockMeta, cached.data);
-          return;
+          cachedData = cached.data;
+          Object.assign(_iretMockMeta, cachedData);
         }
       } catch (e) {}
-      // Parallel load.
       const items = (typeof ieltsReadingTests !== 'undefined' && Array.isArray(ieltsReadingTests))
         ? ieltsReadingTests : [];
-      await Promise.all(items.map(async (t, idx) => {
-        const key = String(idx + 1).padStart(2, '0');
+      const missing = items
+        .map((t, idx) => ({ t, key: String(idx + 1).padStart(2, '0') }))
+        .filter(({ key }) => !cachedData[key]);
+      if (missing.length === 0) return;
+      await Promise.all(missing.map(async ({ t, key }) => {
         const spec = _iretParseFileSpec(t && t.file);
         let meta = null;
         if (spec.kind === 'static') meta = await _iretLoadStaticMockMeta(spec.filename);
@@ -16012,19 +16019,24 @@
     }
 
     async function _iletLoadAllMockMeta() {
-      // Cache hit?
+      // Cache warm-start (positional keys '01', '02', …). Fall through and
+      // fetch any item whose key isn't in cached.data so admin-added mocks
+      // (e.g. 51/52) light up immediately on clones with a 24h-old cache.
+      let cachedData = {};
       try {
         const cached = JSON.parse(localStorage.getItem(_ilet_CACHE_KEY) || 'null');
         if (cached && cached.ts && (Date.now() - cached.ts) < _ilet_CACHE_TTL && cached.data) {
-          Object.assign(_iletMockMeta, cached.data);
-          return;
+          cachedData = cached.data;
+          Object.assign(_iletMockMeta, cachedData);
         }
       } catch (e) {}
-      // Parallel load.
       const items = (typeof ieltsListeningTests !== 'undefined' && Array.isArray(ieltsListeningTests))
         ? ieltsListeningTests : [];
-      await Promise.all(items.map(async (t, idx) => {
-        const key = String(idx + 1).padStart(2, '0');
+      const missing = items
+        .map((t, idx) => ({ t, key: String(idx + 1).padStart(2, '0') }))
+        .filter(({ key }) => !cachedData[key]);
+      if (missing.length === 0) return;
+      await Promise.all(missing.map(async ({ t, key }) => {
         const spec = _iletParseFileSpec(t && t.file);
         let meta = null;
         if (spec.kind === 'static') meta = await _iletLoadStaticMockMeta(spec.filename);
@@ -16548,17 +16560,23 @@
     }
 
     async function _cletLoadAllMockMeta() {
+      // Cache warm-start; fetch any items missing from cached.data so
+      // admin-added Supabase rows show up without waiting for the 24h TTL.
+      let cachedData = {};
       try {
         const cached = JSON.parse(localStorage.getItem(_clet_CACHE_KEY) || 'null');
         if (cached && cached.ts && (Date.now() - cached.ts) < _clet_CACHE_TTL && cached.data) {
-          Object.assign(_cletMockMeta, cached.data);
-          return;
+          cachedData = cached.data;
+          Object.assign(_cletMockMeta, cachedData);
         }
       } catch (e) {}
       const items = (typeof cefrListeningTests !== 'undefined' && Array.isArray(cefrListeningTests))
         ? cefrListeningTests : [];
-      await Promise.all(items.map(async (t, idx) => {
-        const key = String(idx + 1).padStart(2, '0');
+      const missing = items
+        .map((t, idx) => ({ t, key: String(idx + 1).padStart(2, '0') }))
+        .filter(({ key }) => !cachedData[key]);
+      if (missing.length === 0) return;
+      await Promise.all(missing.map(async ({ t, key }) => {
         const spec = _cletParseFileSpec(t && t.file);
         let meta = null;
         if (spec.kind === 'static') meta = await _cletLoadStaticMockMeta(spec.filename);
@@ -16998,17 +17016,23 @@
     }
 
     async function _cretLoadAllMockMeta() {
+      // Cache warm-start; fetch any items missing from cached.data so
+      // admin-added Supabase rows show up without waiting for the 24h TTL.
+      let cachedData = {};
       try {
         const cached = JSON.parse(localStorage.getItem(_CRET_CACHE_KEY) || 'null');
         if (cached && cached.ts && (Date.now() - cached.ts) < _CRET_CACHE_TTL && cached.data) {
-          Object.assign(_cretMockMeta, cached.data);
-          return;
+          cachedData = cached.data;
+          Object.assign(_cretMockMeta, cachedData);
         }
       } catch (e) {}
       const items = (typeof cefrReadingTests !== 'undefined' && Array.isArray(cefrReadingTests))
         ? cefrReadingTests : [];
-      await Promise.all(items.map(async (t, idx) => {
-        const key = String(idx + 1).padStart(2, '0');
+      const missing = items
+        .map((t, idx) => ({ t, key: String(idx + 1).padStart(2, '0') }))
+        .filter(({ key }) => !cachedData[key]);
+      if (missing.length === 0) return;
+      await Promise.all(missing.map(async ({ t, key }) => {
         const spec = _cretParseFileSpec(t && t.file);
         let meta = null;
         if (spec.kind === 'static') meta = await _cretLoadStaticMockMeta(spec.filename);
