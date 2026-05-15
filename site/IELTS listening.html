@@ -5089,6 +5089,8 @@
         return renderFormGapFill(data);
       } else if (data.type === 'matching-speakers') {
         return renderMatchingSpeakers(data);
+      } else if (data.type === 'matching') {
+        return renderMatching(data);
       } else if (data.type === 'map-labeling') {
         return renderMapLabeling(data);
       } else if (data.type === 'mcq-extracts') {
@@ -5217,6 +5219,37 @@
         html += '<span class="dnd-q-text">' + s.label + '</span>';
         html += '<span class="dnd-drop-zone" data-q="' + s.id + '">tap to fill</span>';
         html += '<input type="hidden" class="gap-input dnd-hidden-input" data-q="' + s.id + '" id="q' + s.id + '">';
+        html += '</div>';
+      });
+      html += '</div></div>';
+      return html;
+    }
+
+    // Generic IELTS Listening "matching" sub-part — items on the left
+    // (questions[].text) mapped to letter options on the right
+    // (options[].letter / options[].text). Gemini emits this shape for
+    // prompts like "What's the responsibility of each temporary staff
+    // member? Choose FIVE answers from the box…" — distinct from the
+    // speaker-attribution variant which uses speakers[].label. Reuses the
+    // same drag-and-drop CSS as renderMatchingSpeakers; the answer
+    // collector at line 6235 already handles 'matching'.
+    function renderMatching(part) {
+      let html = '<div class="dnd-matching-container">';
+      html += '<div class="dnd-options-box">';
+      if (part.boxTitle) {
+        html += '<div style="font-weight:700;color:#0369a1;margin-bottom:8px;font-size:14px;">' + part.boxTitle + '</div>';
+      }
+      (part.options || []).forEach(o => {
+        html += '<div class="dnd-option-item" data-letter="' + o.letter + '" draggable="true"><strong>' + o.letter + '</strong> ' + o.text + '</div>';
+      });
+      html += '</div>';
+      html += '<div class="dnd-questions-list">';
+      (part.questions || []).forEach(q => {
+        html += '<div class="dnd-question-row">';
+        html += '<span class="dnd-q-num">' + q.id + '</span>';
+        html += '<span class="dnd-q-text">' + (q.text || q.label || '') + '</span>';
+        html += '<span class="dnd-drop-zone" data-q="' + q.id + '">tap to fill</span>';
+        html += '<input type="hidden" class="gap-input dnd-hidden-input" data-q="' + q.id + '" id="q' + q.id + '">';
         html += '</div>';
       });
       html += '</div></div>';
