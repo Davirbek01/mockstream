@@ -932,10 +932,24 @@
       { name: 'Part 6', questions: 6, time: 7 }
     ];
 
+    // CEFR Listening mocks now live in Supabase. Map test.id → sbmock row id:
+    //   mock 01 → id 6 (Phase-1 pilot), mocks 02..32 → id (440 + N) from the
+    //   bulk migration. Pass &mock=NN too so the runner's mode-modal title
+    //   reads "Mock NN" rather than the DB row id.
+    function _cefrListeningSbmockId(num) {
+      var n = parseInt(num, 10);
+      if (!isFinite(n) || n < 1) return null;
+      if (n === 1) return 6;
+      if (n >= 2 && n <= 32) return 440 + n;
+      return null;
+    }
     grid.innerHTML = tests.filter(function(t){ return t.available; }).map(function(test, index) {
       var mockNum = test.id.match(/(\d+)/);
       var num = mockNum ? mockNum[1] : String(index + 1);
-      var fullUrl = 'CEFR Listening.html?test=' + test.id;
+      var sbId = _cefrListeningSbmockId(num);
+      var fullUrl = sbId
+        ? ('CEFR Listening.html?sbmock=' + sbId + '&mock=' + num)
+        : ('CEFR Listening.html?test=' + test.id);  // fallback for any new entry not yet in the static map
       var desc = test.description || '';
 
       // Build practice part buttons

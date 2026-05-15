@@ -5652,21 +5652,9 @@
                 progressBar.style.width = '5%';
                 progressText.textContent = '5%';
 
-                const testFile = `questions CEFR L/cefr-listening-test-${listeningTestId}.js`;
-
-                // Create a temporary script to load the test data
-                await new Promise((resolve, reject) => {
-                    const script = document.createElement('script');
-                    script.src = testFile;
-                    script.onload = resolve;
-                    script.onerror = reject;
-                    document.head.appendChild(script);
-                });
-
-                // Wait a moment for the script to execute
-                await new Promise(r => setTimeout(r, 100));
-
-                const testData = window.CEFR_LISTENING_TEST;
+                // CEFR Listening now lives in Supabase — fetch mock_data directly.
+                const testData = await _fmLoadMockFromSupabase('cefr-listening', listeningTestId);
+                window.CEFR_LISTENING_TEST = testData;
                 if (!testData || !testData.parts) {
                     throw new Error('Test data not found');
                 }
@@ -6006,36 +5994,20 @@
         }
 
         async function discoverMockCounts(baseCounts) {
-            // Listening still loads via static .js (its migration is a later
-            // phase). Reading, writing and speaking are in Supabase — query
-            // mock_tests directly for their max mock_number.
+            // All four skills are in Supabase — query mock_tests directly for
+            // each one's max published mock_number. (CEFR Listening was the
+            // last static-file skill; migrated alongside its new picker.)
             const counts = { ...baseCounts };
-            const staticConfigs = [
-                { key: 'listening', folder: 'questions CEFR L', prefix: 'cefr-listening-test-' }
-            ];
-            const staticProbes = staticConfigs.map(async (cfg) => {
-                let max = counts[cfg.key];
-                const absoluteMax = 999;
-                while (max < absoluteMax) {
-                    const nextId = (max + 1).toString().padStart(2, '0');
-                    const url = `${cfg.folder}/${cfg.prefix}${nextId}.js`;
-                    try {
-                        const resp = await fetch(url, { method: 'HEAD' }).catch(() => fetch(url));
-                        if (resp.ok) max++;
-                        else break;
-                    } catch (e) { break; }
-                }
-                counts[cfg.key] = max;
-            });
             const sbProbes = [
-                { key: 'reading',  type: 'cefr-reading'  },
-                { key: 'writing',  type: 'cefr-writing'  },
-                { key: 'speaking', type: 'cefr-speaking' }
+                { key: 'reading',   type: 'cefr-reading'   },
+                { key: 'writing',   type: 'cefr-writing'   },
+                { key: 'speaking',  type: 'cefr-speaking'  },
+                { key: 'listening', type: 'cefr-listening' }
             ].map(async (cfg) => {
                 const max = await _fmMaxMockNumber(cfg.type);
                 if (max > counts[cfg.key]) counts[cfg.key] = max;
             });
-            await Promise.all([...staticProbes, ...sbProbes]);
+            await Promise.all(sbProbes);
             return counts;
         }
 
@@ -6269,13 +6241,14 @@
                 return;
             }
 
-            // Listening: still static .js (its Supabase migration is a later phase).
-            const _fmFname     = 'cefr-listening-test-' + state.testIds.listening;
-            const _fmScriptEl  = document.createElement('script');
-            _fmScriptEl.src       = 'questions CEFR L/' + _fmFname + '.js';
-            _fmScriptEl.onload    = afterDataLoaded;
-            _fmScriptEl.onerror   = () => alert('Failed to load test module: ' + _fmFname);
-            document.head.appendChild(_fmScriptEl);
+            // Listening: now Supabase (same as the other three skills).
+            try {
+                window.CEFR_LISTENING_TEST = await _fmLoadMockFromSupabase('cefr-listening', state.testIds.listening);
+                await afterDataLoaded();
+            } catch (e) {
+                console.error('[Full Mock] listening load failed:', e);
+                alert('Failed to load Listening module — could not fetch CEFR Listening #' + state.testIds.listening + ' from Supabase.\n\n' + (e && e.message || ''));
+            }
         }
 
         /* Move part/task tabs into header on mobile */
