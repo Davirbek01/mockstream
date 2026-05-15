@@ -34065,8 +34065,19 @@
       }
       if (f('mmgClTi_title')          !== undefined) md.testInfo.title          = f('mmgClTi_title');
       if (f('mmgClTi_totalQuestions') !== undefined) md.testInfo.totalQuestions = asNum(f('mmgClTi_totalQuestions'));
-      if (f('mmgClTi_totalTime')      !== undefined) md.testInfo.totalTime      = asNum(f('mmgClTi_totalTime'));
-      if (f('mmgClTi_parts')          !== undefined) md.testInfo.parts          = asNum(f('mmgClTi_parts'));
+      // Coerce blanks to sensible CEFR Listening defaults so a "new mock"
+      // saved without filling these fields doesn't store empty strings
+      // that crash downstream (e.g. timer treating '' as 0 → insta-finish).
+      var ttRaw = f('mmgClTi_totalTime');
+      if (ttRaw !== undefined) {
+        var ttN = Number(ttRaw);
+        md.testInfo.totalTime = (ttRaw === '' || !isFinite(ttN) || ttN <= 0) ? 40 : ttN;
+      }
+      var ptRaw = f('mmgClTi_parts');
+      if (ptRaw !== undefined) {
+        var ptN = Number(ptRaw);
+        md.testInfo.parts = (ptRaw === '' || !isFinite(ptN) || ptN <= 0) ? 6 : ptN;
+      }
       if (f('mmgClTi_level')          !== undefined) md.testInfo.level          = f('mmgClTi_level');
 
       // Audio layout (per-part vs merged) + merged URL (when merged).
@@ -34802,6 +34813,10 @@
         var nGen = Object.keys(explanations).length;
         var nDropped = Array.isArray(j.dropped_quotes) ? j.dropped_quotes.length : 0;
         var modelTag = (j.model_used === 'gpt-4o') ? ' via GPT-4o (Gemini fallback)' : ' via Gemini 2.5 Pro';
+        // setStatus's captured `statusEl` was detached by _mmgRenderClPart
+        // — re-fetch the fresh element so the success message actually
+        // shows. Without this the admin sees nothing after a 60s wait.
+        statusEl = document.getElementById('mmgClP' + n + '_explStatus');
         setStatus('✅ Generated ' + nGen + ' explanation(s) in ' + elapsed + 's' + modelTag + (nDropped ? ' · ' + nDropped + ' quote(s) dropped (couldn\'t verify in transcript)' : '') + '. Save when ready.', '#16a34a');
       } catch (e) {
         stop();

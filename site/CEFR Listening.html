@@ -4528,7 +4528,13 @@
         var practiceTimeLookup = { 1: 7, 2: 7, 3: 6, 4: 6, 5: 7, 6: 7 };
         timeRemaining = (practiceTimeLookup[window._practicePart] || 10) * 60;
       } else {
-        timeRemaining = TEST_DATA.testInfo.totalTime * 60;
+        // Defensive: testInfo.totalTime can be missing / blank / NaN
+        // when an admin saved a mock without filling the Settings field
+        // (or imported one where Gemini emitted no testInfo). Falling
+        // back to the standard CEFR 40 min so the timer doesn't fire at
+        // 0 seconds and submit an empty test.
+        var _tt = (TEST_DATA.testInfo && Number(TEST_DATA.testInfo.totalTime));
+        timeRemaining = ((isFinite(_tt) && _tt > 0) ? _tt : 40) * 60;
       }
       generatePartNav();
       generateParts();
