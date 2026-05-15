@@ -16328,9 +16328,12 @@
     }
 
     function _cletBuildMetaFromMockData(md) {
-      // Section is "ready" when its answers dict has ≥5 keys — same rule
-      // as IELTS. CEFR parts have 5-8 questions each, so 5 is a sensible
-      // threshold. Pads to 6 sections so the picker always renders 6 rows.
+      // Section is "ready" when its answers dict has ≥4 keys. IELTS
+      // sections always have ~10 Qs so 5 was the right gate there; CEFR
+      // Part 3 (matching-speakers) routinely has only 4 speakers, so 5
+      // was too strict and mis-marked complete static mocks as Soon.
+      // 4 is the minimum CEFR question count across any part type.
+      // Pads to 6 sections so the picker always renders 6 rows.
       //
       // Title resolution priority — surface a descriptive topic when
       // available so cards read like the IELTS picker\'s ("The Pre-school
@@ -16367,7 +16370,7 @@
           ? Object.keys(p.answers).length : 0;
         return {
           title: _cletPartTitle(p),
-          ready: ansCount >= 5
+          ready: ansCount >= 4
         };
       });
       while (sections.length < 6) sections.push({ title: '—', ready: false });
