@@ -33902,25 +33902,85 @@
     function _mmgRenderClSettings(md) {
       md.testInfo = md.testInfo || {};
       var ti = md.testInfo;
+      var parts = md.parts = md.parts || [];
+      while (parts.length < 6) parts.push({});
+      var layout = md.audioLayout || 'per-part';
       var html = '';
-      // Bulk import banner — wires to the same import flow as IELTS
-      // Listening; backend prompt for CEFR Listening lives in
-      // transcribe-mock (TBD: add a cefr-listening branch).
+
+      // Import banner (purple).
       html += ''
             + '<div id="mmgClImportBar" style="background:linear-gradient(135deg,#fdf4ff,#fae8ff);border:1px solid #f0abfc;border-radius:10px;padding:10px 12px;margin-bottom:14px;display:flex;align-items:center;gap:12px;">'
             +   '<div style="flex:1;font-size:12px;color:#86198f;line-height:1.45;">'
-            +     '<strong>✨ Import from PDF / images / doc</strong> — Upload CEFR Listening test pages (+ optional answer key) and Gemini fills all 6 parts at once. <em>(Backend wiring in progress — works against the existing transcribe-mock for now.)</em>'
+            +     '<strong>✨ Import from PDF / images / doc</strong> — Upload CEFR Listening test pages (+ optional answer key) and Gemini fills all 6 parts at once.'
             +   '</div>'
             +   '<button type="button" id="mmgClImportBtn" onclick="_mmgImportOpen(\'cefr-listening\',\'full\')" style="background:linear-gradient(135deg,#a855f7,#7e22ce);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(126,34,206,.3);white-space:nowrap;">✨ Import</button>'
             + '</div>';
 
-      // Per-part audio URLs — CEFR Listening uses one MP3 per part
-      // (no merged-file option in the legacy shape).
-      var parts = md.parts = md.parts || [];
-      while (parts.length < 6) parts.push({});
-      html += '<div class="mmg-section-title">Per-part audio files</div>';
-      html += '<div style="font-size:11.5px;color:#475569;margin-bottom:10px;line-height:1.5;">One MP3 per part. Paste a GCS URL or click Upload.</div>';
-      html += '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 14px;margin-bottom:16px;">';
+      // Bulk Generate explanations banner (cyan, matches IELTS).
+      html += ''
+            + '<div id="mmgClAllExplBar" style="background:linear-gradient(135deg,#ecfeff,#e0f2fe);border:1px solid #bae6fd;border-radius:10px;padding:10px 12px;margin-bottom:14px;display:flex;align-items:center;gap:12px;">'
+            +   '<div style="flex:1;font-size:12px;color:#075985;line-height:1.45;">'
+            +     '<strong>✨ Generate explanations — all parts</strong> — Walks Parts 1–6 and sends Gemini each part\'s transcript + answer key. Quotes are server-verified.'
+            +   '</div>'
+            +   '<button type="button" id="mmgClAllExplBtn" onclick="_mmgGenerateExplanationsAllCl()" style="background:linear-gradient(135deg,#06b6d4,#0284c7);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(2,132,199,.3);white-space:nowrap;">✨ Generate all</button>'
+            + '</div>'
+            + '<div id="mmgClAllExplStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;border-radius:8px;padding:0;background:transparent;font-weight:500;"></div>';
+
+      // Audio source — Per-part vs Merged. Default Per-part (the
+      // historical CEFR Listening shape; all 32 migrated mocks use this).
+      html += '<div class="mmg-section-title">Audio source</div>';
+      html += '<div style="display:flex;gap:14px;margin-bottom:12px;flex-wrap:wrap;">'
+            +   '<label style="display:flex;align-items:center;gap:6px;font-size:12.5px;color:#0f172a;cursor:pointer;">'
+            +     '<input type="radio" name="mmgClTi_layout" value="per-part" ' + (layout === 'per-part' ? 'checked' : '') + ' onchange="_mmgClOnLayoutChange()"> '
+            +     '<strong>Per-part files</strong> — 6 separate uploads.'
+            +   '</label>'
+            +   '<label style="display:flex;align-items:center;gap:6px;font-size:12.5px;color:#0f172a;cursor:pointer;">'
+            +     '<input type="radio" name="mmgClTi_layout" value="merged" ' + (layout === 'merged' ? 'checked' : '') + ' onchange="_mmgClOnLayoutChange()"> '
+            +     '<strong>Single merged file</strong> — one audio, manual start-times.'
+            +   '</label>'
+            + '</div>';
+
+      // Merged uploader + 6 start-time inputs (visible when layout='merged').
+      html += '<div id="mmgClTi_mergedWrap" style="' + (layout === 'merged' ? '' : 'display:none;') + 'margin-bottom:18px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 14px;">'
+            +   _mmgFieldText('Merged audio URL', 'mmgClTi_audio', md.audioFile, 'Paste the GCS URL, or click Upload to push a local file.')
+            +   '<div style="margin-top:-6px;display:flex;gap:8px;margin-bottom:10px;">'
+            +     '<button type="button" onclick="_mmgClUploadMergedAudio()" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:6px;padding:5px 10px;font-size:11.5px;font-weight:600;cursor:pointer;">📁 Upload merged audio</button>'
+            +     '<span id="mmgClTi_audioStatus" style="font-size:11.5px;color:#64748b;align-self:center;"></span>'
+            +   '</div>'
+            +   '<div style="font-size:11.5px;color:#475569;margin:6px 0 8px;line-height:1.5;">'
+            +     '<strong>Part start times.</strong> Type <code>MM:SS</code> (e.g. <code>5:30</code>), <code>HH:MM:SS</code>, or raw seconds. '
+            +     'Typical CEFR Listening layout: Part 1 starts at 0:00, Part 2 ~4-6 min, Part 3 ~8-10 min, Part 4 ~14-16 min, Part 5 ~20-22 min, Part 6 ~28-30 min.'
+            +   '</div>'
+            +   '<div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap;">'
+            +     '<button type="button" id="mmgClDetectStartsBtn" onclick="_mmgClDetectPartStarts()" style="background:linear-gradient(135deg,#06b6d4,#0284c7);color:#fff;border:0;border-radius:6px;padding:6px 12px;font-size:11.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(2,132,199,.25);">✨ Auto-detect from audio</button>'
+            +     '<span style="font-size:11px;color:#64748b;">Listens to the merged audio and fills the 6 boxes below.</span>'
+            +     '<span id="mmgClDetectStartsStatus" style="font-size:11.5px;color:#64748b;margin-left:auto;"></span>'
+            +   '</div>';
+      for (var si = 0; si < 6; si++) {
+        var sn = si + 1;
+        var sp = parts[si] || {};
+        var curRaw = (sp.audioStartSec != null) ? _ilFormatTime(sp.audioStartSec) : '';
+        var placeholder = ['0:00', '5:30', '9:30', '15:30', '21:00', '29:00'][si];
+        html += '<div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;">'
+              +   '<label for="mmgClTi_p' + sn + '_start" style="font-weight:700;font-size:12px;color:#0f172a;min-width:90px;">Part ' + sn + ' start</label>'
+              +   '<input type="text" id="mmgClTi_p' + sn + '_start" value="' + _mmgEsc(curRaw) + '" placeholder="e.g. ' + placeholder + '" '
+              +   'oninput="_mmgIlUpdateTimeHint(\'mmgClTi_p' + sn + '_start\');_mmgClRefreshEndHints()" '
+              +   'style="flex:1;padding:5px 10px;border:1px solid #cbd5e1;border-radius:5px;font-size:13px;font-family:ui-monospace,monospace;">'
+              +   '<button type="button" id="mmgClTi_p' + sn + '_preview" onclick="_mmgClPreviewPart(' + sn + ')" title="Play this part start in the merged audio" '
+              +   'style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:5px;padding:5px 10px;font-size:13px;font-weight:600;cursor:pointer;line-height:1;">▶</button>'
+              +   '<span id="mmgClTi_p' + sn + '_start_hint" style="font-size:11px;color:#64748b;min-width:140px;">' + (sp.audioStartSec != null ? '= ' + _ilFormatTime(sp.audioStartSec) + ' (' + sp.audioStartSec + 's)' : '') + '</span>'
+              +   '<span id="mmgClTi_p' + sn + '_end_hint"   style="font-size:11px;color:#94a3b8;min-width:130px;"></span>'
+              + '</div>';
+      }
+      html += '<audio id="mmgClTi_previewAudio" preload="none" style="display:none;"></audio>'
+            + '<div id="mmgClTi_previewStatus" style="font-size:11px;color:#64748b;margin-top:4px;min-height:14px;"></div>';
+      html += '</div>';
+
+      // Per-part uploader cluster (visible when layout='per-part').
+      html += '<div id="mmgClTi_perWrap" style="' + (layout === 'per-part' ? '' : 'display:none;') + 'margin-bottom:16px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 14px;">'
+            +   '<div style="font-size:11.5px;color:#475569;margin-bottom:10px;line-height:1.5;">'
+            +     '<strong>Per-part audio files.</strong> Upload one MP3 per part, or paste an existing GCS URL. URLs sync automatically with each Part tab.'
+            +   '</div>';
       for (var pi = 0; pi < 6; pi++) {
         var pn = pi + 1;
         var pp = parts[pi] || {};
@@ -33944,7 +34004,35 @@
       html += _mmgFieldText('Level',           'mmgClTi_level',          ti.level,           'e.g. "B1-B2-C1".');
 
       document.getElementById('mmgPaneClSettings').innerHTML = html;
+      if (layout === 'merged') _mmgClRefreshEndHints();
     }
+
+    // Toggle Per-part vs Merged sub-panes inside Settings.
+    window._mmgClOnLayoutChange = function () {
+      var el = document.querySelector('input[name="mmgClTi_layout"]:checked');
+      var v  = el ? el.value : 'per-part';
+      var perWrap    = document.getElementById('mmgClTi_perWrap');
+      var mergedWrap = document.getElementById('mmgClTi_mergedWrap');
+      if (perWrap)    perWrap.style.display    = (v === 'per-part') ? '' : 'none';
+      if (mergedWrap) mergedWrap.style.display = (v === 'merged')    ? '' : 'none';
+      if (v === 'merged') _mmgClRefreshEndHints();
+    };
+
+    // Recompute "ends at X:XX" hints for the 6 merged-mode start inputs.
+    window._mmgClRefreshEndHints = function () {
+      var times = [0, 0, 0, 0, 0, 0].map(function (_, i) {
+        var el = document.getElementById('mmgClTi_p' + (i + 1) + '_start');
+        return el ? _ilParseTime(el.value) : null;
+      });
+      for (var i = 0; i < 6; i++) {
+        var endEl = document.getElementById('mmgClTi_p' + (i + 1) + '_end_hint');
+        if (!endEl) continue;
+        var next = times[i + 1];
+        endEl.textContent = (next != null && next > 0)
+          ? '(ends at ' + _ilFormatTime(next) + ')'
+          : '';
+      }
+    };
 
     function _mmgCollectClSettings(md) {
       md.testInfo = md.testInfo || {};
@@ -33962,14 +34050,37 @@
       if (f('mmgClTi_totalTime')      !== undefined) md.testInfo.totalTime      = asNum(f('mmgClTi_totalTime'));
       if (f('mmgClTi_parts')          !== undefined) md.testInfo.parts          = asNum(f('mmgClTi_parts'));
       if (f('mmgClTi_level')          !== undefined) md.testInfo.level          = f('mmgClTi_level');
-      // Per-part audio URLs.
+
+      // Audio layout (per-part vs merged) + merged URL (when merged).
+      var layoutEl = document.querySelector('input[name="mmgClTi_layout"]:checked');
+      if (layoutEl) md.audioLayout = layoutEl.value;
+      var mergedAudio = f('mmgClTi_audio');
+      if (md.audioLayout === 'merged') {
+        if (mergedAudio !== undefined && mergedAudio.trim() !== '') md.audioFile = mergedAudio.trim();
+        else delete md.audioFile;
+      } else {
+        delete md.audioFile;
+      }
+
+      // Per-part fields: in per-part mode flush audioFile from the
+      // per-part input + clear audioStartSec; in merged mode flush
+      // audioStartSec from the per-part start input + clear audioFile.
       for (var pi = 0; pi < 6; pi++) {
         var p = md.parts[pi] = md.parts[pi] || {};
         if (p.partNumber == null) p.partNumber = pi + 1;
         if (!p.title)             p.title      = 'Part ' + (pi + 1);
-        var url = f('mmgClTi_p' + (pi + 1) + '_audio');
-        if (url !== undefined && url.trim() !== '') p.audioFile = url.trim();
-        else delete p.audioFile;
+        if (md.audioLayout === 'merged') {
+          var startStr = f('mmgClTi_p' + (pi + 1) + '_start');
+          var startSec = _ilParseTime(startStr);
+          if (startSec != null) p.audioStartSec = startSec;
+          else delete p.audioStartSec;
+          delete p.audioFile;
+        } else {
+          var url = f('mmgClTi_p' + (pi + 1) + '_audio');
+          if (url !== undefined && url.trim() !== '') p.audioFile = url.trim();
+          else delete p.audioFile;
+          delete p.audioStartSec;
+        }
       }
     }
 
@@ -34674,6 +34785,189 @@
           btn.disabled = false; btn.style.opacity = ''; btn.style.cursor = '';
           btn.innerHTML = prev || '✨ Generate explanations';
         }
+      }
+    };
+
+    // Merged-audio upload (Settings tab, merged mode).
+    window._mmgClUploadMergedAudio = function () {
+      _mmgIlPickAndUpload({
+        accept: 'audio/*',
+        statusEl: document.getElementById('mmgClTi_audioStatus'),
+        urlInputId: 'mmgClTi_audio',
+        kind: 'audio',
+        subdir: 'cefr-merged'
+      });
+    };
+
+    // ▶ Preview a single part's start in the merged audio. Single shared
+    // <audio> element handles all 6 buttons. Click again to pause; clicking
+    // a different part seeks + restarts.
+    var _mmgClPreviewActive = null;
+    window._mmgClPreviewPart = function (sn) {
+      var audio    = document.getElementById('mmgClTi_previewAudio');
+      var statusEl = document.getElementById('mmgClTi_previewStatus');
+      var urlEl    = document.getElementById('mmgClTi_audio');
+      var startEl  = document.getElementById('mmgClTi_p' + sn + '_start');
+      function setStatus(msg, color) { if (statusEl) { statusEl.textContent = msg; statusEl.style.color = color || '#64748b'; } }
+      function setBtnIcon(n, icon) {
+        var b = document.getElementById('mmgClTi_p' + n + '_preview');
+        if (b) b.textContent = icon;
+      }
+      function resetAll() { for (var i = 1; i <= 6; i++) setBtnIcon(i, '▶'); }
+      if (!audio) { setStatus('Audio element missing — re-open the dialog.', '#dc2626'); return; }
+      var src = urlEl ? String(urlEl.value || '').trim() : '';
+      if (!src) { setStatus('Merged audio URL is empty — upload first.', '#dc2626'); return; }
+      var startSec = startEl ? _ilParseTime(startEl.value) : null;
+      if (startSec == null || startSec < 0) { setStatus('Part ' + sn + ' start time is empty / invalid.', '#dc2626'); return; }
+      if (_mmgClPreviewActive === sn && !audio.paused) {
+        audio.pause();
+        setBtnIcon(sn, '▶');
+        _mmgClPreviewActive = null;
+        setStatus('Paused.');
+        return;
+      }
+      if (audio.src !== src) { audio.src = src; audio.load(); }
+      function seekAndPlay() {
+        try { audio.currentTime = startSec; } catch (_e) {}
+        var pr = audio.play();
+        if (pr && typeof pr.catch === 'function') {
+          pr.catch(function (e) { setStatus('Play failed: ' + e.message, '#dc2626'); resetAll(); _mmgClPreviewActive = null; });
+        }
+        resetAll();
+        setBtnIcon(sn, '⏸');
+        _mmgClPreviewActive = sn;
+        var spelled = ['One','Two','Three','Four','Five','Six'][sn - 1];
+        setStatus('▶ Part ' + sn + ' from ' + _ilFormatTime(startSec) + ' — listen for the "Part ' + spelled + '" cue.');
+      }
+      audio.onended = function () { setBtnIcon(sn, '▶'); _mmgClPreviewActive = null; setStatus('Finished.'); };
+      if (isFinite(audio.duration) && audio.duration > 0) {
+        seekAndPlay();
+      } else {
+        setStatus('Loading audio…');
+        var onMeta = function () { audio.removeEventListener('loadedmetadata', onMeta); seekAndPlay(); };
+        audio.addEventListener('loadedmetadata', onMeta);
+        audio.addEventListener('error', function () { setStatus('Audio failed to load. Check the URL.', '#dc2626'); }, { once: true });
+      }
+    };
+
+    // Auto-detect 6 part start times via gcs-listening-helpers
+    // detect-section-starts (examType=cefr-listening uses the CEFR prompt).
+    window._mmgClDetectPartStarts = async function () {
+      var btn = document.getElementById('mmgClDetectStartsBtn');
+      var statusEl = document.getElementById('mmgClDetectStartsStatus');
+      var setStatus = function (msg, color) {
+        if (statusEl) { statusEl.textContent = msg; statusEl.style.color = color || '#64748b'; }
+      };
+      var urlEl = document.getElementById('mmgClTi_audio');
+      var audioUrl = urlEl ? String(urlEl.value || '').trim() : '';
+      if (!audioUrl) {
+        var md0 = _mmgGetMockData();
+        if (md0 && md0.audioFile) audioUrl = String(md0.audioFile).trim();
+      }
+      if (!audioUrl) { setStatus('✗ Merged audio URL is empty — upload first.', '#dc2626'); return; }
+
+      var prevLabel = btn ? btn.innerHTML : null;
+      if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; btn.style.cursor = 'wait'; btn.innerHTML = '⏳ Listening…'; }
+      var t0 = Date.now();
+      var tick = null;
+      var stop = function () { if (tick) { clearInterval(tick); tick = null; } };
+      var paint = function () {
+        var sec = Math.round((Date.now() - t0) / 1000);
+        var sp = ['⠋','⠙','⠹','⠸','⠼','⠴','⠦','⠧','⠇','⠏'][Math.floor((Date.now() / 80)) % 10];
+        setStatus(sp + ' Gemini listening for part cues… ' + sec + 's (typical 30–90s)', '#0369a1');
+      };
+      paint(); tick = setInterval(paint, 100);
+      try {
+        var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+        var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+        var resp = await fetch(SB_URL + '/functions/v1/gcs-listening-helpers', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY },
+          body: JSON.stringify({
+            action: 'detect-section-starts',
+            examType: 'cefr-listening',
+            audioUrl: audioUrl,
+            adminPasscode: (sessionStorage.getItem('siteMgmtAdminCode') || '')
+          })
+        });
+        if (!resp.ok) {
+          var errTxt = ''; try { errTxt = await resp.text(); } catch (_e) {}
+          stop();
+          setStatus('✗ Detect failed (' + resp.status + '): ' + errTxt.slice(0, 120), '#dc2626');
+          return;
+        }
+        var data = await resp.json();
+        stop();
+        var sections = data && data.sections;
+        if (!sections || typeof sections !== 'object') { setStatus('✗ No timestamps returned.', '#dc2626'); return; }
+        var filled = 0;
+        for (var i = 0; i < 6; i++) {
+          var key = 'section' + (i + 1);
+          var val = sections[key];
+          if (val == null && Array.isArray(sections)) val = sections[i];
+          if (typeof val !== 'number' || !isFinite(val) || val < 0) continue;
+          var el = document.getElementById('mmgClTi_p' + (i + 1) + '_start');
+          if (!el) continue;
+          el.value = _ilFormatTime(Math.round(val));
+          if (typeof _mmgIlUpdateTimeHint === 'function') _mmgIlUpdateTimeHint('mmgClTi_p' + (i + 1) + '_start');
+          filled++;
+        }
+        _mmgClRefreshEndHints();
+        var elapsedSec = Math.round((Date.now() - t0) / 1000);
+        setStatus('✅ Filled ' + filled + '/6 in ' + elapsedSec + 's. Review and Save.', '#16a34a');
+      } catch (e) {
+        stop();
+        setStatus('✗ Network error: ' + e.message, '#dc2626');
+      } finally {
+        stop();
+        if (btn) {
+          btn.disabled = false; btn.style.opacity = '1'; btn.style.cursor = 'pointer';
+          if (prevLabel) btn.innerHTML = prevLabel;
+        }
+      }
+    };
+
+    // Bulk-generate explanations for all 6 CEFR Listening parts. Same
+    // shape as _mmgGenerateExplanationsAllIl: iterates parts and calls
+    // _mmgClGenerateExplanations for each, with a running summary.
+    window._mmgGenerateExplanationsAllCl = async function () {
+      var btn = document.getElementById('mmgClAllExplBtn');
+      var statusEl = document.getElementById('mmgClAllExplStatus');
+      var setStatus = function (msg, color) {
+        if (statusEl) { statusEl.textContent = msg; statusEl.style.color = color || '#64748b'; }
+      };
+      var md = _mmgGetMockData();
+      if (!md || !Array.isArray(md.parts) || md.parts.length === 0) {
+        setStatus('No parts loaded — import or paste mock_data first.', '#dc2626');
+        return;
+      }
+      var prev = btn ? btn.innerHTML : null;
+      if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; btn.style.cursor = 'wait'; btn.innerHTML = '⏳ Generating…'; }
+      var t0 = Date.now();
+      var done = 0, failed = 0;
+      for (var i = 0; i < Math.min(6, md.parts.length); i++) {
+        var p = md.parts[i] || {};
+        if (!p.transcript || !p.answers || Object.keys(p.answers || {}).length === 0) {
+          failed++;
+          setStatus('Part ' + (i + 1) + ': skipped (missing transcript or answers). ' + done + '/' + (i + 1) + ' done.', '#dc2626');
+          continue;
+        }
+        setStatus('Generating Part ' + (i + 1) + '… ' + done + '/' + (i + 1) + ' done so far.', '#0369a1');
+        try {
+          // Reuse the single-part generator. It already updates
+          // mock_data, the textarea, and re-renders the part pane.
+          await window._mmgClGenerateExplanations(i);
+          done++;
+        } catch (e) {
+          failed++;
+          setStatus('Part ' + (i + 1) + ' failed: ' + ((e && e.message) || e) + '. ' + done + '/' + (i + 1) + ' done.', '#dc2626');
+        }
+      }
+      var elapsed = Math.round((Date.now() - t0) / 1000);
+      setStatus('✅ Done in ' + elapsed + 's — generated ' + done + ' part(s)' + (failed ? ' · ' + failed + ' failed/skipped' : '') + '. Save when ready.', done > 0 ? '#16a34a' : '#dc2626');
+      if (btn) {
+        btn.disabled = false; btn.style.opacity = ''; btn.style.cursor = '';
+        btn.innerHTML = prev || '✨ Generate all';
       }
     };
 

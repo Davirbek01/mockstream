@@ -7143,27 +7143,52 @@
           hiddenAudio.play().catch(() => { });
         }
 
-        if (!hasPerPartAudio) checkPerPartAudio();
-        if (!hasPerPartAudio) return;
+        // Detect merged-audio mode. In merged mode there's a single
+        // top-level audioFile and each part has audioStartSec; the player
+        // seeks into the right offset instead of swapping src files. This
+        // mirrors IELTS Listening's merged layout.
+        const mergedAudio = (window.TEST_DATA.audioLayout === 'merged' && window.TEST_DATA.audioFile)
+          ? window.TEST_DATA.audioFile
+          : null;
+
+        if (!mergedAudio) {
+          if (!hasPerPartAudio) checkPerPartAudio();
+          if (!hasPerPartAudio) return;
+        }
 
         if (currentLoadedPart === partIndex && soundingPartIndex === partIndex && !audio.paused) return;
 
         const part = window.TEST_DATA.parts[partIndex];
-        if (!part || !part.audioFile) return;
+        if (!part) return;
+        if (!mergedAudio && !part.audioFile) return;
 
         currentLoadedPart = partIndex;
         window.updateNavIndicators();
-
-        const partNum = part.partNumber || (partIndex + 1);
-        const audioUrl = (window.preloadedAudios && window.preloadedAudios[partNum]) || part.audioFile;
 
         // Reset UI Sync
         currentTimeEls.forEach(el => el.textContent = '00:00');
         progressFills.forEach(el => el.style.width = '0%');
         durationEls.forEach(el => el.textContent = '00:00');
 
-        audio.src = audioUrl;
-        audio.currentTime = 0;
+        if (mergedAudio) {
+          // Merged: only swap src on first load; subsequent part changes
+          // just seek. Track the part window so the timeupdate handler
+          // can auto-pause at the next part boundary.
+          const startSec = Number(part.audioStartSec || 0);
+          const nextPart = window.TEST_DATA.parts[partIndex + 1];
+          const endSec   = (nextPart && nextPart.audioStartSec != null)
+            ? Number(nextPart.audioStartSec)
+            : Infinity;
+          window._clMergedRange = { startSec: startSec, endSec: endSec, partIndex: partIndex };
+          if (audio.src !== mergedAudio) audio.src = mergedAudio;
+          try { audio.currentTime = startSec; } catch (_e) {}
+        } else {
+          window._clMergedRange = null;
+          const partNum = part.partNumber || (partIndex + 1);
+          const audioUrl = (window.preloadedAudios && window.preloadedAudios[partNum]) || part.audioFile;
+          audio.src = audioUrl;
+          audio.currentTime = 0;
+        }
 
         if (loadingWrapper) loadingWrapper.classList.add('hidden');
         if (playerControls) playerControls.classList.add('ready');
@@ -7223,7 +7248,24 @@
       });
 
       audio.addEventListener('timeupdate', () => {
-        if (audio.duration) {
+        // Merged-audio mode: show elapsed time WITHIN the current part
+        // (subtract startSec) and auto-pause at the next part's startSec
+        // so each part feels self-contained even though the file is shared.
+        const r = window._clMergedRange;
+        if (r && isFinite(r.endSec) && audio.currentTime >= r.endSec) {
+          audio.pause();
+          try { audio.currentTime = r.endSec; } catch (_e) {}
+        }
+        if (r) {
+          const partDur = isFinite(r.endSec) ? Math.max(0, r.endSec - r.startSec) : Math.max(0, (audio.duration || 0) - r.startSec);
+          const elapsed = Math.max(0, audio.currentTime - r.startSec);
+          if (partDur > 0) {
+            const pct = Math.min(100, (elapsed / partDur) * 100);
+            progressFills.forEach(el => el.style.width = pct + '%');
+          }
+          currentTimeEls.forEach(el => el.textContent = formatTime(elapsed));
+          durationEls.forEach(el => el.textContent = formatTime(partDur));
+        } else if (audio.duration) {
           const percent = (audio.currentTime / audio.duration) * 100;
           progressFills.forEach(el => el.style.width = percent + '%');
           const timeStr = formatTime(audio.currentTime);
@@ -7241,9 +7283,15 @@
 
       progressBars.forEach(bar => {
         bar.addEventListener('click', function (e) {
-          if (audio.duration) {
-            const rect = this.getBoundingClientRect();
-            const percent = (e.clientX - rect.left) / rect.width;
+          if (!audio.duration) return;
+          const rect = this.getBoundingClientRect();
+          const percent = (e.clientX - rect.left) / rect.width;
+          const r = window._clMergedRange;
+          if (r) {
+            // Merged: map click percentage to within the part window.
+            const partDur = isFinite(r.endSec) ? Math.max(0, r.endSec - r.startSec) : Math.max(0, audio.duration - r.startSec);
+            audio.currentTime = r.startSec + (percent * partDur);
+          } else {
             audio.currentTime = percent * audio.duration;
           }
         });
