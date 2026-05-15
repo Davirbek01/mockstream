@@ -262,7 +262,7 @@ const CEFR_LISTENING_SINGLE_PART_SHAPE = `{
   "partNumber": number,                          // 1, 2, 3, 4, 5, or 6 — client overrides this
   "title": string,                               // SHORT CONTENT TOPIC (3-6 words), e.g. "Sports Festival" / "Community Area Map" / "Roman tablets". For Part 1 (mcq-reply) the source rarely has a unifying topic so emit a generic "Short replies (A/B/C)". For Part 3 (matching-speakers) emit the topic of what the speakers are talking about (e.g. "Hotels with children"). For Part 5 (mcq-extracts) emit "MCQ extracts" unless the extracts share a clear theme. Do NOT just output "Part N".
   "type": string,                                // EXACTLY one of: "mcq-reply" | "gap-fill-form" | "matching-speakers" | "map-labeling" | "mcq-extracts" | "sentence-completion" — chosen by part number (see rule 11)
-  "questionRange": string,                       // e.g. "1-8" (Part 1) / "9-14" (Part 2) / "15-19" (Part 3) / "20-24" (Part 4) / "25-30" (Part 5) / "31-36" (Part 6)
+  "questionRange": string,                       // e.g. "1-8" — REFLECTS THE ACTUAL question span in the source. Hand-made mocks often deviate from the official ranges; emit whatever range the source actually shows (e.g. "1-7" if Part 1 only has 7 questions, "9-15" if Part 2 has 7). Do NOT pad to the official length.
   "instruction": string,                         // plain-text part instruction (no HTML)
   "answers": { "1": [string] },                  // per-question; arrays wrap every answer so alt spellings can be added later
 
@@ -311,12 +311,12 @@ const CEFR_LISTENING_SHAPE = `{
   "testInfo": {
     "title":           string,                   // Human-readable title (e.g. "CEFR Listening Mock Test 12"). If the source shows a number, use it; otherwise a generic title is fine.
     "totalTime":       40,
-    "totalQuestions":  36,
+    "totalQuestions":  number,                   // SUM of questions across all parts as actually transcribed. Usually 36 in official mocks; hand-made mocks may have 30-40+. Compute from the source, do NOT default.
     "parts":           6,
     "level":           "B1-B2-C1"
   },
   "source":            string,                   // OPTIONAL top-level source attribution. OMIT entirely if no clear attribution is visible — do NOT guess.
-  "parts": [ /* 6 single-part objects, partNumber 1..6 — see single-part shape. Each part's "type" is FIXED by its position: 1=mcq-reply, 2=gap-fill-form, 3=matching-speakers, 4=map-labeling, 5=mcq-extracts, 6=sentence-completion. */ ]
+  "parts": [ /* 6 single-part objects, partNumber 1..6 — see single-part shape. Each part's "type" is FIXED by its position: 1=mcq-reply, 2=gap-fill-form, 3=matching-speakers, 4=map-labeling, 5=mcq-extracts, 6=sentence-completion. Question COUNTS within each part are NOT fixed — emit however many the source shows. */ ]
 }`;
 
 const CEFR_SINGLE_PART_SHAPE = `{
@@ -505,22 +505,24 @@ Do this only when the source actually shows the letter as a paragraph marker (yo
   // 2=gap-fill-form, etc.). The model should set the type accordingly
   // and emit only the type-specific extras documented in the shape.
   const cefrListeningTypeGuide = isCefrListening ? `
-11. **CEFR Listening part-type detection** — a standard CEFR B1-B2-C1 Listening test has 6 parts in a fixed order. Set each part's "type" exactly as shown, populate only the type-specific fields, and put EVERY question id in the part's top-level "answers".
+11. **CEFR Listening part-type detection** — a standard CEFR B1-B2-C1 Listening test has 6 parts in a fixed order, and each part's TYPE is fixed by position. Question COUNTS per part are NOT fixed: official mocks use 8/6/5/5/6/6 (total 36) but hand-made mocks may deviate (Part 1 with 7 or 10 questions, Part 3 with 4 or 6 speakers, etc.). Extract however many questions the source actually shows; never pad or truncate to the official count.
 
-  | Part # | Question range | type | Source instruction looks like… | Required extras |
+  Set each part's "type" exactly as shown, populate only the type-specific fields, and put EVERY question id in the part's top-level "answers".
+
+  | Part # | Typical range | type | Source instruction looks like… | Required extras |
   |---|---|---|---|---|
-  | 1 | Q1-8   | "mcq-reply"           | "You will hear some sentences. You will hear each sentence twice. Choose the correct reply to each sentence (A, B, or C)." | "questions": [{ "id": N, "options": [{ "letter": "A", "text": "..." }, { "letter": "B", "text": "..." }, { "letter": "C", "text": "..." }] }] — 8 entries, A/B/C only. NO sentence stem; the audio plays the prompt sentence, and the printed options ARE the candidate replies. "answers" keys are single letters. |
-  | 2 | Q9-14  | "gap-fill-form"       | "You will hear someone giving a talk. For each question, fill in the missing information in the numbered space. Write ONE WORD and/or A NUMBER for each answer." | "formTitle": short topic (e.g. "Sports Festival"). "formContent": ordered list — emit ONE entry per visible form line. Three entry types: \`{ "type": "heading", "text": "..." }\` for section headings, \`{ "type": "item", "text": "..." }\` for literal lines with no blank, \`{ "type": "item-gap", "text": "<context BEFORE blank>", "gapId": N, "gapAfter": true, "gapSuffix"?: "<context AFTER blank>" }\` for lines with a numbered blank. Also emit a flat top-level "questions" array: [{ "id": N, "hint": "<short hint with ____ where the gap is>" }] — one per gapId. "answers" keys are single words / numbers (wrap each in an array; include capitalised + lowercase variants when the source allows: \`{ "9": ["13th", "thirteenth", "13"] }\`). |
-  | 3 | Q15-19 | "matching-speakers"   | "You will hear five different people talking about [topic]. For questions 15-19, choose from the list (A-F/G) what each speaker says. Use the letters only once. There is ONE/TWO EXTRA letter(s) which you do not need to use." | "speakers": [{ "id": 15, "label": "Speaker 1" }, …, { "id": 19, "label": "Speaker 5" }] — 5 entries. "options": [{ "letter": "A", "text": "..." }, ...] — full A-F (or A-G) pool. "extraOptions": ["F"] (or ["F","G"]) — the letters that don't match. "answers" keys are single letters. NO "questions" array. The "title" for this part should describe what the speakers discuss (e.g. "Hotels with children"). |
-  | 4 | Q20-24 | "map-labeling"        | "You will hear someone giving a talk. Label the places on the map. There is/are N extra option(s) which you do not need to use." | "mapTitle": e.g. "Community Area Map". "mapImage": "" (ALWAYS empty here — admin uploads the map image separately via the editor). "mapLabels": ["A", "B", ..., "I"] — full pool of letters on the map (typically A-I or A-H). "extraLabels": ["B","D","G","I"] — letters not assigned to any place (typically 4 extras when there are 9 labels for 5 questions). "questions": [{ "id": 20, "place": "<thing being placed on the map, e.g. 'New car park'>" }] — 5 entries. "answers" keys are single letters. |
-  | 5 | Q25-30 | "mcq-extracts"        | "You will hear three extracts. Choose the correct answer (A, B or C) for each question. There are TWO questions for each extract." | "extracts": [ { "extractNumber": 1, "title": "Extract One", "questions": [{ "id": 25, "text": "<question stem>", "options": [{ "letter": "A", "text": "..." }, { "letter": "B", "text": "..." }, { "letter": "C", "text": "..." }] }] }, … ] — 3 extracts × 2 questions each. "answers" keys are single letters. |
-  | 6 | Q31-36 | "sentence-completion" | "You will hear someone giving a talk. For each question, fill in the missing information in the numbered space. Write ONE WORD and/or A NUMBER for each answer." | "passageTitle": short topic (e.g. "Roman tablets"). "passageContent": HTML string with inline gap markers <span class="gap-input" data-gap="N">_____(N)_____</span> — one per blank, where N matches the question id. Use <br><br> between sentences (NOT <p> tags). "questions": [{ "id": N, "hint": "<short context fragment with ____ where the blank is, e.g. 'At the site of an old ____'>" }] — 6 entries. "answers" keys are single words / numbers (wrap each in an array; include capitalised + lowercase variants: \`{ "31": ["fort", "Fort"] }\`). |
+  | 1 | Q1-8 (varies)   | "mcq-reply"           | "You will hear some sentences. You will hear each sentence twice. Choose the correct reply to each sentence (A, B, or C)." | "questions": [{ "id": N, "options": [{ "letter": "A", "text": "..." }, { "letter": "B", "text": "..." }, { "letter": "C", "text": "..." }] }] — one entry per question shown in the source (count is whatever the source has, not always 8). Always A/B/C. NO sentence stem; the audio plays the prompt sentence, and the printed options ARE the candidate replies. "answers" keys are single letters. |
+  | 2 | Q9-14 (varies)  | "gap-fill-form"       | "You will hear someone giving a talk. For each question, fill in the missing information in the numbered space. Write ONE WORD and/or A NUMBER for each answer." | "formTitle": short topic (e.g. "Sports Festival"). "formContent": ordered list — emit ONE entry per visible form line. Three entry types: \`{ "type": "heading", "text": "..." }\` for section headings, \`{ "type": "item", "text": "..." }\` for literal lines with no blank, \`{ "type": "item-gap", "text": "<context BEFORE blank>", "gapId": N, "gapAfter": true, "gapSuffix"?: "<context AFTER blank>" }\` for lines with a numbered blank. Also emit a flat top-level "questions" array: [{ "id": N, "hint": "<short hint with ____ where the gap is>" }] — one per gapId (count = however many gaps the source shows, often 6 but can be 5 or 7+). "answers" keys are single words / numbers (wrap each in an array; include capitalised + lowercase variants when the source allows: \`{ "9": ["13th", "thirteenth", "13"] }\`). |
+  | 3 | Q15-19 (varies) | "matching-speakers"   | "You will hear N different people talking about [topic]. For questions X-Y, choose from the list (A-F/G/H) what each speaker says. Use the letters only once. There is/are EXTRA letter(s) which you do not need to use." | "speakers": [{ "id": <first-id>, "label": "Speaker 1" }, …] — one entry per speaker in the source (typically 5, sometimes 4 or 6). "options": [{ "letter": "A", "text": "..." }, ...] — full pool of letter options as shown (A-F, A-G, or A-H). "extraOptions": [letters that don't match any speaker]. "answers" keys are single letters. NO "questions" array. The "title" for this part should describe what the speakers discuss (e.g. "Hotels with children"). |
+  | 4 | Q20-24 (varies) | "map-labeling"        | "You will hear someone giving a talk. Label the places on the map. There is/are N extra option(s) which you do not need to use." | "mapTitle": e.g. "Community Area Map". "mapImage": "" (ALWAYS empty here — admin uploads the map image separately via the editor). "mapLabels": full pool of letters on the map as shown (A-I, A-H, A-J, etc.). "extraLabels": letters not assigned to any place. "questions": [{ "id": N, "place": "<thing being placed on the map, e.g. 'New car park'>" }] — one entry per labelled place shown in the source (typically 5, can be 4 or 6). "answers" keys are single letters. |
+  | 5 | Q25-30 (varies) | "mcq-extracts"        | "You will hear three extracts. Choose the correct answer (A, B or C) for each question. There are N questions for each extract." | "extracts": [ { "extractNumber": 1, "title": "Extract One", "questions": [{ "id": N, "text": "<question stem>", "options": [{ "letter": "A", "text": "..." }, { "letter": "B", "text": "..." }, { "letter": "C", "text": "..." }] }] }, … ] — emit as many extracts as the source shows (usually 3) with as many questions each as the source has (usually 2, sometimes 1 or 3). "answers" keys are single letters. |
+  | 6 | Q31-36 (varies) | "sentence-completion" | "You will hear someone giving a talk. For each question, fill in the missing information in the numbered space. Write ONE WORD and/or A NUMBER for each answer." | "passageTitle": short topic (e.g. "Roman tablets"). "passageContent": HTML string with inline gap markers <span class="gap-input" data-gap="N">_____(N)_____</span> — one per blank shown in the source (count varies, typically 6). Use <br><br> between sentences (NOT <p> tags). "questions": [{ "id": N, "hint": "<short context fragment with ____ where the blank is, e.g. 'At the site of an old ____'>" }] — one per gap. "answers" keys are single words / numbers (wrap each in an array; include capitalised + lowercase variants: \`{ "31": ["fort", "Fort"] }\`). |
 
 12. **Fields NOT to emit on import.** Leave \`audioFile\`, \`transcript\`, \`answerHighlights\`, and (for Part 4) \`mapImage\` OUT of the JSON — the admin sets those via separate upload + transcribe flows. Emit only the structural content listed above.
 
 13. **Answer arrays MUST wrap every value.** Always emit \`"<id>": [ ... ]\` — even when there's one value. For Parts 2 + 6 (word/number answers), include alternative spellings + the capitalised + lowercase form (e.g. \`{ "9": ["13th", "thirteenth", "13"], "10": ["park", "Park"] }\`). For Parts 1, 3, 4, 5 (letter answers), arrays still wrap: \`{ "1": ["C"], "15": ["D"] }\`. If the source doesn't include an answer key, leave "answers" as \`{}\` — do NOT guess.
 
-14. **Part-by-part question-id continuity.** Question ids run consecutively from 1 in Part 1 through 36 in Part 6. Never restart numbering inside a part. Always emit a \`questionRange\` matching the part's id span (e.g. "1-8", "9-14", "15-19", "20-24", "25-30", "31-36").
+14. **Part-by-part question-id continuity.** Question ids run consecutively from 1 in Part 1 onward. Never restart numbering inside a part. Always emit a \`questionRange\` matching the part's id span ACTUALLY found in the source — e.g. if Part 1 has 7 questions emit "1-7", and Part 2 then starts at 8. The id of the FIRST question in any part should be exactly (previous part's last id) + 1. If the source has its own numbered ids (Q1-Q40 visible on the page), follow those numbers verbatim — don't renumber.
 ` : '';
 
   // Scope-specific framing. In "passage" mode the user is uploading just
@@ -1418,18 +1420,17 @@ Deno.serve(async (req) => {
     let modelUsed: 'gemini-2.5-pro' | 'gpt-4o' = 'gemini-2.5-pro';
     let fallbackReason: string | null = null;
 
-    // CEFR Listening part → question id ranges (1-8, 9-14, 15-19, 20-24, 25-30, 31-36).
-    const PART_RANGES: Array<[number, number]> = [
-      [1, 8], [9, 14], [15, 19], [20, 24], [25, 30], [31, 36]
-    ];
-
     async function importOnePart(i: number): Promise<any> {
       const idx1 = i + 1;
-      const [qStart, qEnd] = PART_RANGES[i];
       const basePrompt = buildPrompt(examType, notes, CEFR_LISTENING_SINGLE_PART_SHAPE, 'passage', idx1);
+      // Note: we deliberately do NOT pre-compute a "questions X-Y" range
+      // here. Hand-made mocks routinely have Part N with a non-standard
+      // count (e.g. Part 1 with 7 questions instead of 8). The model
+      // identifies the Part boundary from the source's own headings and
+      // emits whatever question span it sees there.
       const partPrompt = basePrompt.replace(
         /The user has uploaded image\(s\) and \/ or PDF\(s\) for \*\*just ONE part\*\* of an CEFR Listening mock — specifically Part \d+\. Treat the uploaded files as that single part only\. The accompanying answer-key files \(if any\) cover ONLY this part's questions\./,
-        `The user has uploaded image(s) and / or PDF(s) covering ALL SIX parts of a CEFR Listening mock. For THIS call, extract ONLY **Part ${idx1}** (questions ${qStart}–${qEnd}). Ignore the other five parts entirely — do not include their questions or answers. The answer-key files contain ALL 36 answers; from them, populate the "answers" dict with ONLY the ${qStart}–${qEnd} entries that correspond to Part ${idx1}.`
+        `The user has uploaded image(s) and / or PDF(s) covering ALL SIX parts of a CEFR Listening mock. For THIS call, extract ONLY **Part ${idx1}**. Identify the Part ${idx1} boundary from the source's own headings / numbering (look for "Part ${idx1}" / "PART ${idx1}" / "Part ${['One','Two','Three','Four','Five','Six'][i]}" or the matching question-range heading). Emit whatever question count the source actually shows for Part ${idx1} — do NOT pad or truncate to the official 8/6/5/5/6/6 count. Ignore the other five parts entirely. The answer-key files contain answers for ALL parts; populate the "answers" dict with ONLY the entries that fall within Part ${idx1}'s question id range as you identified it from the source.`
       );
       let partRaw = '';
       let partFallback: string | null = null;
@@ -1481,16 +1482,38 @@ Deno.serve(async (req) => {
       delete (p as Record<string, unknown>).testInfo;
       delete (p as Record<string, unknown>).source;
     }
+    // Compute totalQuestions from the actual extracted parts so hand-made
+    // mocks with non-official counts report the right number.
+    function _clCountPartQuestions(p: any): number {
+      if (!p || typeof p !== 'object') return 0;
+      if (Array.isArray(p.answers)) return p.answers.length;
+      if (p.answers && typeof p.answers === 'object') return Object.keys(p.answers).length;
+      if (Array.isArray(p.questions)) return p.questions.length;
+      if (Array.isArray(p.speakers))  return p.speakers.length;
+      if (Array.isArray(p.extracts)) {
+        let c = 0;
+        for (const ex of p.extracts) {
+          if (ex && Array.isArray(ex.questions)) c += ex.questions.length;
+        }
+        return c;
+      }
+      return 0;
+    }
+    const sumQs = parts.reduce((acc: number, p: any) => acc + _clCountPartQuestions(p), 0);
     const assembled: Record<string, unknown> = {
       testInfo: testInfo || {
         title: 'CEFR Listening Practice Test',
         totalTime: 40,
-        totalQuestions: 36,
+        totalQuestions: sumQs || 36,
         parts: 6,
         level: 'B1-B2-C1'
       },
       parts,
     };
+    // If Gemini DID provide testInfo but with a wrong totalQuestions, fix it.
+    if (testInfo && typeof (assembled.testInfo as any).totalQuestions !== 'number' && sumQs > 0) {
+      (assembled.testInfo as any).totalQuestions = sumQs;
+    }
     if (source) assembled.source = source;
 
     return json(200, {
