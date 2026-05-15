@@ -5464,10 +5464,13 @@
         }
       });
 
-      // Toggle floating submit on last part (both PC and mobile) — but not after submission
+      // Toggle floating submit. On desktop the bottom .nav-buttons row
+      // is display:none (global rule), so the floating-fixed button is
+      // the ONLY visible Submit affordance — show it for practice mode
+      // from the start, and on the last part in full-mock mode.
       const floatingSubmit = document.getElementById('mobileFloatingSubmit');
       if (floatingSubmit) {
-        if (index === TEST_DATA.parts.length - 1 && !hasSubmitted) {
+        if ((_isPractice || index === TEST_DATA.parts.length - 1) && !hasSubmitted) {
           floatingSubmit.classList.add('visible');
         } else {
           floatingSubmit.classList.remove('visible');
