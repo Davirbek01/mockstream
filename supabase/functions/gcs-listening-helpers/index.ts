@@ -7,6 +7,7 @@
 //   transcribe-audio — fetches audio from a GCS URL, calls Gemini multimodal
 
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { encodeBase64 } from "jsr:@std/encoding/base64";
 
 const ALLOWED_BUCKET = "mockstream-listening-audio";
 const SIGNED_URL_EXPIRES_SEC = 15 * 60;
@@ -126,6 +127,166 @@ async function generateV4SignedPutUrl(opts: {
   return { uploadUrl, finalUrl };
 }
 
+// Auto-detect section start times in a merged IELTS Listening audio.
+// Uses Gemini's File API (/upload/v1beta/files) rather than inline
+// base64 — merged listening audio is typically ~30 min / 20-40 MB,
+// well past the ~18 MB inline cap that transcribe-audio runs into.
+// File API uploads stream the bytes through the function (memory
+// roughly equal to the audio size) and Gemini hosts the file for ~48 h.
+async function detectSectionStartsWithGemini(opts: {
+  audioUrl: string;
+  geminiKey: string;
+}): Promise<Record<string, number>> {
+  // 1. Fetch audio bytes from GCS.
+  const audioResp = await fetch(opts.audioUrl);
+  if (!audioResp.ok) throw new Error(`audio fetch failed (${audioResp.status})`);
+  const audioBytes = new Uint8Array(await audioResp.arrayBuffer());
+  const mime = audioResp.headers.get("content-type") || "audio/mpeg";
+  const sizeMB = audioBytes.byteLength / (1024 * 1024);
+  if (sizeMB > 200) {
+    throw new Error(`audio too large (${sizeMB.toFixed(1)} MB) — Gemini File API limit is 2 GB but we cap at 200 MB for sanity.`);
+  }
+
+  // 2. Resumable upload to Gemini's File API.
+  //    Step A: POST to start; get the X-Goog-Upload-URL in the response header.
+  const startResp = await fetch(
+    `https://generativelanguage.googleapis.com/upload/v1beta/files?key=${opts.geminiKey}`,
+    {
+      method: "POST",
+      headers: {
+        "X-Goog-Upload-Protocol": "resumable",
+        "X-Goog-Upload-Command":  "start",
+        "X-Goog-Upload-Header-Content-Length": String(audioBytes.byteLength),
+        "X-Goog-Upload-Header-Content-Type":   mime,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ file: { displayName: "ielts-listening-merged" } }),
+    },
+  );
+  if (!startResp.ok) {
+    const t = await startResp.text();
+    throw new Error(`File API start failed (${startResp.status}): ${t.slice(0, 200)}`);
+  }
+  const uploadUrl = startResp.headers.get("X-Goog-Upload-URL")
+                 || startResp.headers.get("x-goog-upload-url");
+  if (!uploadUrl) throw new Error("File API didn't return X-Goog-Upload-URL");
+
+  //    Step B: upload + finalize in one call.
+  const upResp = await fetch(uploadUrl, {
+    method: "POST",
+    headers: {
+      "Content-Length":        String(audioBytes.byteLength),
+      "X-Goog-Upload-Offset":  "0",
+      "X-Goog-Upload-Command": "upload, finalize",
+    },
+    body: audioBytes,
+  });
+  if (!upResp.ok) {
+    const t = await upResp.text();
+    throw new Error(`File API upload failed (${upResp.status}): ${t.slice(0, 200)}`);
+  }
+  const upJson = await upResp.json();
+  const fileUri = upJson?.file?.uri;
+  const fileName = upJson?.file?.name;  // e.g. "files/abc123"
+  if (!fileUri || !fileName) throw new Error("File API didn't return file.uri / file.name");
+
+  // 3. Poll until the file's state is ACTIVE. The File API returns
+  //    PROCESSING immediately on upload completion; referencing the file
+  //    in generateContent while it's still PROCESSING comes back as an
+  //    empty-text response ("Gemini returned no text"). Audio files
+  //    typically transition to ACTIVE in ~5-15s.
+  const POLL_TIMEOUT_MS = 60_000;
+  const POLL_INTERVAL_MS = 2_000;
+  const pollStart = Date.now();
+  let fileState = String(upJson?.file?.state || "PROCESSING").toUpperCase();
+  while (fileState !== "ACTIVE") {
+    if (Date.now() - pollStart > POLL_TIMEOUT_MS) {
+      throw new Error(`File API never reached ACTIVE state (last: ${fileState})`);
+    }
+    if (fileState === "FAILED") {
+      throw new Error("File API processing FAILED");
+    }
+    await new Promise((r) => setTimeout(r, POLL_INTERVAL_MS));
+    const statResp = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/${fileName}?key=${opts.geminiKey}`,
+    );
+    if (!statResp.ok) {
+      const t = await statResp.text();
+      throw new Error(`File API stat failed (${statResp.status}): ${t.slice(0, 200)}`);
+    }
+    const sj = await statResp.json();
+    fileState = String(sj?.state || sj?.file?.state || "PROCESSING").toUpperCase();
+  }
+
+  // 4. Call generateContent referencing the uploaded file.
+  const prompt =
+    `You are listening to a merged IELTS Listening test audio that contains all four sections back-to-back. ` +
+    `Each section begins with the narrator saying "Section One" / "Section Two" / "Section Three" / "Section Four" (sometimes preceded by a short instructional preamble). ` +
+    `Find the timestamp (in whole seconds from the start of the file) at which the narrator BEGINS the announcement for each section. ` +
+    `Section 1 typically starts at or near 0. ` +
+    `Output ONLY a JSON object — no markdown, no preamble — with exactly these four integer keys: ` +
+    `{"section1": <seconds>, "section2": <seconds>, "section3": <seconds>, "section4": <seconds>}.`;
+
+  const genResp = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${opts.geminiKey}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [{
+          parts: [
+            { text: prompt },
+            { fileData: { mimeType: mime, fileUri } },
+          ],
+        }],
+        generationConfig: {
+          temperature: 0.1,
+          // 2.5 Pro shares output budget with thinking tokens, so a 512
+          // ceiling leaves nothing for the actual JSON when thinking is
+          // dynamic. 4096 gives plenty of headroom for a tiny 4-key
+          // object.
+          maxOutputTokens: 4096,
+          responseMimeType: "application/json",
+          thinkingConfig: { thinkingBudget: -1 },
+        },
+      }),
+    },
+  );
+  if (!genResp.ok) {
+    const t = await genResp.text();
+    throw new Error(`Gemini generate failed (${genResp.status}): ${t.slice(0, 300)}`);
+  }
+  const gj = await genResp.json();
+  const cand = gj?.candidates?.[0];
+  const fr = cand?.finishReason;
+  const raw = cand?.content?.parts?.map((p: { text?: string }) => p?.text || "").join("") || "";
+  if (!raw) {
+    throw new Error(`Gemini returned no text (finishReason=${fr || "unknown"}, fileState=ACTIVE — model may have timed out on a long audio)`);
+  }
+  const cleaned = String(raw)
+    .replace(/^```(?:json)?\s*\n?/i, "")
+    .replace(/\n?```\s*$/i, "")
+    .trim();
+  let parsed: any;
+  try { parsed = JSON.parse(cleaned); }
+  catch (e) { throw new Error(`Gemini output is not JSON: ${(e as Error).message} — raw: ${cleaned.slice(0, 200)}`); }
+  if (!parsed || typeof parsed !== "object") {
+    throw new Error("Gemini output is not a JSON object");
+  }
+  const out: Record<string, number> = {};
+  for (let i = 1; i <= 4; i++) {
+    const key = `section${i}`;
+    const v = parsed[key];
+    if (typeof v === "number" && isFinite(v) && v >= 0) {
+      out[key] = Math.round(v);
+    }
+  }
+  if (Object.keys(out).length === 0) {
+    throw new Error("Gemini returned no usable section timestamps");
+  }
+  return out;
+}
+
 async function transcribeWithGemini(opts: {
   audioUrl: string;
   startSec?: number;
@@ -139,10 +300,13 @@ async function transcribeWithGemini(opts: {
   if (sizeMB > 18) {
     throw new Error(`audio too large (${sizeMB.toFixed(1)} MB) — Gemini inline limit is 20 MB total. Split into per-section files for now.`);
   }
-  let bin = "";
-  for (let i = 0; i < audioBytes.length; i++) bin += String.fromCharCode(audioBytes[i]);
-  const base64 = btoa(bin);
   const mime = audioResp.headers.get("content-type") || "audio/mpeg";
+  // Single-pass, native base64 encoder from @std/encoding. The previous
+  // char-by-char concat scaled O(n²) in V8 and built a 7-10 MB transient
+  // binary string before btoa — when a hot Edge Function instance from a
+  // back-to-back call hadn\'t GC\'d yet, that tipped the worker over the
+  // memory cap and surfaced as 546 WORKER_RESOURCE_LIMIT.
+  const base64 = encodeBase64(audioBytes);
 
   const timeNote = (opts.startSec || opts.endSec)
     ? `Transcribe only the segment from ${opts.startSec || 0}s to ${opts.endSec ? opts.endSec + "s" : "the end"} of the audio. Ignore everything outside that range. `
@@ -235,6 +399,21 @@ Deno.serve(async (req: Request) => {
       return json({ uploadUrl, finalUrl, foundVarName: found.name });
     } catch (e) {
       return json({ error: "sign failed: " + (e as Error).message }, { status: 500 });
+    }
+  }
+
+  if (action === "detect-section-starts") {
+    const audioUrl = String(body.audioUrl || "");
+    if (!/^https:\/\/storage\.googleapis\.com\//.test(audioUrl)) {
+      return json({ error: "audioUrl must be a storage.googleapis.com URL" }, { status: 400 });
+    }
+    const geminiKey = Deno.env.get("GEMINI_API_KEY");
+    if (!geminiKey) return json({ error: "GEMINI_API_KEY not set" }, { status: 500 });
+    try {
+      const sections = await detectSectionStartsWithGemini({ audioUrl, geminiKey });
+      return json({ sections });
+    } catch (e) {
+      return json({ error: (e as Error).message }, { status: 500 });
     }
   }
 

@@ -32475,6 +32475,11 @@
             +   '<div style="font-size:11.5px;color:#475569;margin:6px 0 8px;line-height:1.5;">'
             +     '<strong>Section start times.</strong> Type <code>MM:SS</code> (e.g. <code>13:00</code>), <code>HH:MM:SS</code>, or raw seconds (e.g. <code>780</code>). System accepts all three. '
             +     'Typical IELTS layout: Section 1 starts at 0:00, Section 2 ~13:00, Section 3 ~26:00, Section 4 ~38:00.'
+            +   '</div>'
+            +   '<div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap;">'
+            +     '<button type="button" id="mmgIlDetectStartsBtn" onclick="_mmgIlDetectSectionStarts()" style="background:linear-gradient(135deg,#06b6d4,#0284c7);color:#fff;border:0;border-radius:6px;padding:6px 12px;font-size:11.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(2,132,199,.25);">✨ Auto-detect from audio</button>'
+            +     '<span style="font-size:11px;color:#64748b;">Listens to the merged audio and fills the 4 boxes below.</span>'
+            +     '<span id="mmgIlDetectStartsStatus" style="font-size:11.5px;color:#64748b;margin-left:auto;"></span>'
             +   '</div>';
       for (var si = 0; si < 4; si++) {
         var sn = si + 1;
@@ -32485,10 +32490,16 @@
               +   '<input type="text" id="mmgIlTi_p' + sn + '_start" value="' + _mmgEsc(curRaw) + '" placeholder="e.g. ' + (si === 0 ? '0:00' : (si === 1 ? '13:00' : (si === 2 ? '26:00' : '38:00'))) + '" '
               +   'oninput="_mmgIlUpdateTimeHint(\'mmgIlTi_p' + sn + '_start\');_mmgIlRefreshEndHints()" '
               +   'style="flex:1;padding:5px 10px;border:1px solid #cbd5e1;border-radius:5px;font-size:13px;font-family:ui-monospace,monospace;">'
+              +   '<button type="button" id="mmgIlTi_p' + sn + '_preview" onclick="_mmgIlPreviewSection(' + sn + ')" title="Play this section start in the merged audio" '
+              +   'style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:5px;padding:5px 10px;font-size:13px;font-weight:600;cursor:pointer;line-height:1;">▶</button>'
               +   '<span id="mmgIlTi_p' + sn + '_start_hint" style="font-size:11px;color:#64748b;min-width:140px;">' + (sp.audioStartSec != null ? '= ' + _ilFormatTime(sp.audioStartSec) + ' (' + sp.audioStartSec + 's)' : '') + '</span>'
               +   '<span id="mmgIlTi_p' + sn + '_end_hint"   style="font-size:11px;color:#94a3b8;min-width:130px;"></span>'
               + '</div>';
       }
+      // Shared invisible <audio> element + a tiny status line. One audio
+      // for all 4 preview buttons — seekable, no duplicate downloads.
+      html += '<audio id="mmgIlTi_previewAudio" preload="none" style="display:none;"></audio>'
+            + '<div id="mmgIlTi_previewStatus" style="font-size:11px;color:#64748b;margin-top:4px;min-height:14px;"></div>';
       html += '</div>';
 
       // Per-section uploader cluster (visible when layout='per-section').
@@ -32773,6 +32784,25 @@
       var isMerged = sel && sel.value === 'merged';
       if (merged) merged.style.display = isMerged ? '' : 'none';
       if (per)    per.style.display    = isMerged ? 'none' : '';
+
+      // First-time default-fill for merged mode: Cambridge IELTS Listening
+      // tests almost always lay out as 0:00 / 13:00 / 26:00 / 38:00. Pre-
+      // populate empty inputs so the admin only has to hit Save when the
+      // standard layout matches (and can still overwrite or auto-detect
+      // for non-standard tests).
+      if (isMerged) {
+        var DEFAULTS = ['0:00', '13:00', '26:00', '38:00'];
+        for (var i = 0; i < 4; i++) {
+          var el = document.getElementById('mmgIlTi_p' + (i + 1) + '_start');
+          if (el && !el.value.trim()) {
+            el.value = DEFAULTS[i];
+            if (typeof _mmgIlUpdateTimeHint === 'function') {
+              _mmgIlUpdateTimeHint('mmgIlTi_p' + (i + 1) + '_start');
+            }
+          }
+        }
+        if (typeof _mmgIlRefreshEndHints === 'function') _mmgIlRefreshEndHints();
+      }
     };
 
     // Settings-side per-section upload: writes back into md.parts[idx].audioFile
@@ -33274,6 +33304,172 @@
       });
     };
 
+    // ▶ Preview button beside each section start input. Plays the merged
+    // audio starting at that section's timestamp so the admin can verify
+    // Gemini\'s auto-detect output (or a manual entry) lands on the
+    // correct narrator cue before saving. Single shared <audio> element
+    // — no duplicate downloads. Click again to pause; clicking a
+    // different section seeks + restarts.
+    var _mmgIlPreviewActive = null;
+    window._mmgIlPreviewSection = function (sn) {
+      var audio  = document.getElementById('mmgIlTi_previewAudio');
+      var statusEl = document.getElementById('mmgIlTi_previewStatus');
+      var urlEl  = document.getElementById('mmgIlTi_audio');
+      var startEl = document.getElementById('mmgIlTi_p' + sn + '_start');
+      var btn    = document.getElementById('mmgIlTi_p' + sn + '_preview');
+      function setStatus(msg, color) { if (statusEl) { statusEl.textContent = msg; statusEl.style.color = color || '#64748b'; } }
+      function setBtnIcon(n, icon) {
+        var b = document.getElementById('mmgIlTi_p' + n + '_preview');
+        if (b) b.textContent = icon;
+      }
+      function resetAllBtns() { for (var i = 1; i <= 4; i++) setBtnIcon(i, '▶'); }
+      if (!audio) { setStatus('Audio element missing — re-open the dialog.', '#dc2626'); return; }
+
+      var src = urlEl ? String(urlEl.value || '').trim() : '';
+      if (!src) { setStatus('Merged audio URL is empty — upload first.', '#dc2626'); return; }
+      var startSec = startEl ? _ilParseTime(startEl.value) : null;
+      if (startSec == null || startSec < 0) { setStatus('Section ' + sn + ' start time is empty / invalid.', '#dc2626'); return; }
+
+      // If THIS section is already playing → pause.
+      if (_mmgIlPreviewActive === sn && !audio.paused) {
+        audio.pause();
+        setBtnIcon(sn, '▶');
+        _mmgIlPreviewActive = null;
+        setStatus('Paused.');
+        return;
+      }
+      // Load src on first use (or if it changed).
+      if (audio.src !== src) {
+        audio.src = src;
+        audio.load();
+      }
+      // Seek + play. Some browsers can\'t seek until metadata loads; wait
+      // for `loadedmetadata` if duration is still NaN.
+      function seekAndPlay() {
+        try { audio.currentTime = startSec; } catch (_e) {}
+        var pr = audio.play();
+        if (pr && typeof pr.catch === 'function') {
+          pr.catch(function (e) { setStatus('Play failed: ' + e.message, '#dc2626'); resetAllBtns(); _mmgIlPreviewActive = null; });
+        }
+        resetAllBtns();
+        setBtnIcon(sn, '⏸');
+        _mmgIlPreviewActive = sn;
+        setStatus('▶ Section ' + sn + ' from ' + _ilFormatTime(startSec) + ' — listen for the "Section ' + ['One','Two','Three','Four'][sn-1] + '" cue.');
+      }
+      audio.onended = function () { setBtnIcon(sn, '▶'); _mmgIlPreviewActive = null; setStatus('Finished.'); };
+      audio.onpause = function () {
+        // If pause came from elsewhere (e.g. browser autopause), reset icon.
+        if (_mmgIlPreviewActive === sn && audio.paused && !audio.ended) {
+          // Don\'t reset icon here — the explicit pause path handles that.
+        }
+      };
+      if (isFinite(audio.duration) && audio.duration > 0) {
+        seekAndPlay();
+      } else {
+        setStatus('Loading audio…');
+        var onMeta = function () { audio.removeEventListener('loadedmetadata', onMeta); seekAndPlay(); };
+        audio.addEventListener('loadedmetadata', onMeta);
+        audio.addEventListener('error', function () { setStatus('Audio failed to load. Check the URL.', '#dc2626'); }, { once: true });
+      }
+    };
+
+    // Auto-detect section start times in a merged IELTS Listening audio
+    // file. Sends the GCS URL to gcs-listening-helpers /
+    // detect-section-starts, which uploads the audio to Gemini\'s File
+    // API (handles ~30-min / 20-40 MB files past the inline 18 MB cap)
+    // and asks Gemini to timestamp the "Section One/Two/Three/Four"
+    // narrator cues. Fills the 4 start-time inputs with whole seconds
+    // (admin can still overwrite or tweak).
+    window._mmgIlDetectSectionStarts = async function () {
+      var btn = document.getElementById('mmgIlDetectStartsBtn');
+      var statusEl = document.getElementById('mmgIlDetectStartsStatus');
+      var setStatus = function (msg, color) {
+        if (statusEl) { statusEl.textContent = msg; statusEl.style.color = color || '#64748b'; }
+      };
+      var urlEl = document.getElementById('mmgIlTi_audio');
+      var audioUrl = urlEl ? String(urlEl.value || '').trim() : '';
+      if (!audioUrl) {
+        var md0 = _mmgGetMockData();
+        if (md0 && md0.audioFile) audioUrl = String(md0.audioFile).trim();
+      }
+      if (!audioUrl) { setStatus('✗ Merged audio URL is empty — upload first.', '#dc2626'); return; }
+
+      var prevLabel = btn ? btn.innerHTML : null;
+      if (btn) {
+        btn.disabled = true;
+        btn.style.opacity = '0.6';
+        btn.style.cursor = 'wait';
+        btn.innerHTML = '⏳ Listening…';
+      }
+
+      var t0 = Date.now();
+      var tickHandle = null;
+      var stopTicker = function () { if (tickHandle) { clearInterval(tickHandle); tickHandle = null; } };
+      var spinFrames = ['⠋','⠙','⠹','⠸','⠼','⠴','⠦','⠧','⠇','⠏'];
+      var renderTick = function () {
+        var sec = Math.round((Date.now() - t0) / 1000);
+        var spin = spinFrames[Math.floor((Date.now() / 80)) % spinFrames.length];
+        setStatus(spin + ' Gemini listening for section cues… ' + sec + 's (typical 30–90s)', '#0369a1');
+      };
+      renderTick();
+      tickHandle = setInterval(renderTick, 100);
+
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      try {
+        var resp = await fetch(SB_URL + '/functions/v1/gcs-listening-helpers', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY },
+          body: JSON.stringify({
+            action: 'detect-section-starts',
+            audioUrl: audioUrl,
+            adminPasscode: (sessionStorage.getItem('siteMgmtAdminCode') || '')
+          })
+        });
+        if (!resp.ok) {
+          var errTxt = '';
+          try { errTxt = await resp.text(); } catch (_e) {}
+          stopTicker();
+          setStatus('✗ Detect failed (' + resp.status + '): ' + errTxt.slice(0, 120), '#dc2626');
+          return;
+        }
+        var data = await resp.json();
+        stopTicker();
+        var sections = data && data.sections;
+        if (!sections || typeof sections !== 'object') {
+          setStatus('✗ No timestamps returned.', '#dc2626');
+          return;
+        }
+        // Fill the 4 inputs. Accept either {section1: 0, ...} or array [0,...].
+        var filled = 0;
+        for (var i = 0; i < 4; i++) {
+          var key = 'section' + (i + 1);
+          var val = sections[key];
+          if (val == null && Array.isArray(sections)) val = sections[i];
+          if (typeof val !== 'number' || !isFinite(val) || val < 0) continue;
+          var el = document.getElementById('mmgIlTi_p' + (i + 1) + '_start');
+          if (!el) continue;
+          el.value = _ilFormatTime(Math.round(val));
+          if (typeof _mmgIlUpdateTimeHint === 'function') _mmgIlUpdateTimeHint('mmgIlTi_p' + (i + 1) + '_start');
+          filled++;
+        }
+        if (typeof _mmgIlRefreshEndHints === 'function') _mmgIlRefreshEndHints();
+        var elapsedSec = Math.round((Date.now() - t0) / 1000);
+        setStatus('✅ Filled ' + filled + '/4 in ' + elapsedSec + 's. Review and Save.', '#16a34a');
+      } catch (e) {
+        stopTicker();
+        setStatus('✗ Network error: ' + e.message, '#dc2626');
+      } finally {
+        stopTicker();
+        if (btn) {
+          btn.disabled = false;
+          btn.style.opacity = '1';
+          btn.style.cursor = 'pointer';
+          if (prevLabel) btn.innerHTML = prevLabel;
+        }
+      }
+    };
+
     // Transcribe button — sends current audio URL + (optional) start-sec
     // to transcribe-mock with action='transcribe-audio'; backend fetches
     // the audio from GCS and calls Gemini multimodal.
@@ -33286,21 +33482,62 @@
       var md = _mmgGetMockData();
       if (!md) { setStatus('Invalid mock_data JSON.', '#dc2626'); return; }
       var layout = md.audioLayout || 'per-section';
+      var part = (md.parts && md.parts[idx]) || {};
       var audioUrl, startSec = 0, endSec = null;
+      // Audio orchestration lives on the Settings tab — the Section tab
+      // only DISPLAYS the URL (as a read-only <code> block). Always read
+      // the resolved URL from mock_data, with a Settings-tab DOM fallback
+      // for the case where an admin uploads + clicks Transcribe without
+      // first switching tabs to flush. Reading from a non-existent
+      // mmgIlP<N>_audio <input> was the previous bug.
+      function _ilDomVal(id) {
+        var el = document.getElementById(id);
+        var v  = el ? String(el.value || '').trim() : '';
+        return v || null;
+      }
       if (layout === 'merged') {
-        audioUrl = md.audioFile;
-        var startEl = document.getElementById('mmgIlP' + n + '_startSec');
-        startSec = startEl ? Number(startEl.value || 0) : 0;
-        // End is the next section's start (so Gemini transcribes only this section's slice).
-        var nextEl = document.getElementById('mmgIlP' + (n + 1) + '_startSec');
-        if (nextEl && nextEl.value) endSec = Number(nextEl.value);
+        audioUrl = md.audioFile || _ilDomVal('mmgIlTi_audio');
+        startSec = (part.audioStartSec != null)
+          ? Number(part.audioStartSec)
+          : _ilParseTime(_ilDomVal('mmgIlTi_p' + n + '_start')) || 0;
+        var nextPart = (md.parts && md.parts[idx + 1]) || null;
+        var nextStart = nextPart && nextPart.audioStartSec != null
+          ? Number(nextPart.audioStartSec)
+          : _ilParseTime(_ilDomVal('mmgIlTi_p' + (n + 1) + '_start'));
+        if (nextStart != null) endSec = nextStart;
         if (!audioUrl) { setStatus('Merged audio URL not set in Settings.', '#dc2626'); return; }
       } else {
-        var urlEl = document.getElementById('mmgIlP' + n + '_audio');
-        audioUrl = urlEl ? urlEl.value : '';
+        audioUrl = part.audioFile || _ilDomVal('mmgIlTi_p' + n + '_audio');
         if (!audioUrl) { setStatus('Audio URL is empty.', '#dc2626'); return; }
       }
-      setStatus('Asking Gemini to transcribe…');
+      // Find the Transcribe button to lock it while the request is in
+      // flight (Gemini transcription on a 6-7min IELTS section runs
+      // ~30s–2min, easy to double-click otherwise).
+      var btnEl = document.querySelector('button[onclick="_mmgIlTranscribe(' + idx + ')"]');
+      var prevLabel = btnEl ? btnEl.innerHTML : null;
+      if (btnEl) {
+        btnEl.disabled = true;
+        btnEl.style.opacity = '0.6';
+        btnEl.style.cursor  = 'wait';
+        btnEl.innerHTML = '⏳ Transcribing…';
+      }
+
+      // Live elapsed-time counter — Gemini transcription has no
+      // intermediate progress signal, so a spinning seconds counter is
+      // the cheapest "yes, it's still working" indicator that doesn\'t
+      // require server-side streaming.
+      var t0 = Date.now();
+      var tickHandle = null;
+      var stopTicker = function () { if (tickHandle) { clearInterval(tickHandle); tickHandle = null; } };
+      var renderTick = function () {
+        var sec = Math.round((Date.now() - t0) / 1000);
+        var spinFrames = ['⠋','⠙','⠹','⠸','⠼','⠴','⠦','⠧','⠇','⠏'];
+        var spin = spinFrames[Math.floor((Date.now() / 80)) % spinFrames.length];
+        setStatus(spin + ' Gemini transcribing… ' + sec + 's (typical 30s–2min)', '#0369a1');
+      };
+      renderTick();
+      tickHandle = setInterval(renderTick, 100);
+
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
       try {
@@ -33318,19 +33555,31 @@
         if (!resp.ok) {
           var errTxt = '';
           try { errTxt = await resp.text(); } catch (_e) {}
-          setStatus('Transcribe failed (' + resp.status + '): ' + errTxt.slice(0, 100), '#dc2626');
+          stopTicker();
+          setStatus('✗ Transcribe failed (' + resp.status + '): ' + errTxt.slice(0, 100), '#dc2626');
           return;
         }
         var data = await resp.json();
+        stopTicker();
         if (!data || !data.transcript) {
-          setStatus('No transcript returned.', '#dc2626');
+          setStatus('✗ No transcript returned.', '#dc2626');
           return;
         }
         var transEl = document.getElementById('mmgIlP' + n + '_trans');
         if (transEl) transEl.value = data.transcript;
-        setStatus('✅ Transcribed (' + data.transcript.length + ' chars).', '#16a34a');
+        var elapsedSec = Math.round((Date.now() - t0) / 1000);
+        setStatus('✅ Transcribed in ' + elapsedSec + 's (' + data.transcript.length + ' chars). Save when ready.', '#16a34a');
       } catch (e) {
-        setStatus('Network error: ' + e.message, '#dc2626');
+        stopTicker();
+        setStatus('✗ Network error: ' + e.message, '#dc2626');
+      } finally {
+        stopTicker();
+        if (btnEl) {
+          btnEl.disabled = false;
+          btnEl.style.opacity = '1';
+          btnEl.style.cursor  = 'pointer';
+          if (prevLabel) btnEl.innerHTML = prevLabel;
+        }
       }
     };
 
@@ -33485,9 +33734,10 @@
         // Invalidate the full-screen picker metadata caches so a newly-saved
         // mock (or an existing one with edited passages / source) is
         // re-fetched on next open instead of showing stale 24-hour data.
-        // Bumping a picker cache key requires updating both lines below.
+        // Bumping a picker cache key requires updating the matching line below.
         try { localStorage.removeItem('ms_iret_meta_v3'); } catch (e) {}
         try { localStorage.removeItem('ms_cret_meta_v3'); } catch (e) {}
+        try { localStorage.removeItem('ms_ilet_meta_v8'); } catch (e) {}
       } catch (e) {
         _mmgStatus('Save failed: ' + e.message, '#dc2626');
       } finally {
@@ -33910,8 +34160,24 @@
           // clicks Import would silently lose their upload.
           if (isListeningImport) {
             var prev = md[rootKey][st.passageIndex] || {};
-            if (prev.audioFile     != null) newObj.audioFile     = prev.audioFile;
+            // Settings-tab DOM fallback: an admin who uploaded audio for
+            // this section but hasn\'t hit Save yet has the URL only in
+            // the per-section <input> — _mmgCollectIlSettings hasn\'t
+            // flushed it into mock_data because they didn\'t switch tabs.
+            // Read the input directly so the import handler doesn\'t lose
+            // an unflushed upload.
+            var _ilN = st.passageIndex + 1;
+            function _ilDomVal(id) {
+              var el = document.getElementById(id);
+              var v  = el ? String(el.value || '').trim() : '';
+              return v || null;
+            }
+            var domAudio = _ilDomVal('mmgIlTi_p' + _ilN + '_audio');
+            var domStart = _ilDomVal('mmgIlTi_p' + _ilN + '_start');
+            var preservedAudio = (prev.audioFile != null) ? prev.audioFile : domAudio;
+            if (preservedAudio != null) newObj.audioFile = preservedAudio;
             if (prev.audioStartSec != null) newObj.audioStartSec = prev.audioStartSec;
+            else if (domStart != null)      newObj.audioStartSec = _ilParseTime(domStart);
             if (prev.mapImage      != null) newObj.mapImage      = prev.mapImage;
             if (prev.transcript)            newObj.transcript    = prev.transcript;
           }
@@ -33960,15 +34226,36 @@
         if (st.examType === 'ielts-listening') {
           var prevMd  = window._mmgEditing.mock_data || {};
           var newMd   = j.mock_data || {};
-          if (prevMd.audioLayout != null) newMd.audioLayout = prevMd.audioLayout;
-          if (prevMd.audioFile   != null) newMd.audioFile   = prevMd.audioFile;
+          // Settings-tab DOM fallback for the bulk-import case: same
+          // defect as the per-passage branch — Settings inputs may hold
+          // an unflushed audio URL the admin hasn\'t Saved yet. Read
+          // each section\'s input directly so the import doesn\'t wipe
+          // it on the way out.
+          var _ilDomVal2 = function (id) {
+            var el = document.getElementById(id);
+            var v  = el ? String(el.value || '').trim() : '';
+            return v || null;
+          };
+          var domLayoutEl = document.querySelector('input[name="mmgIlTi_layout"]:checked');
+          var domLayout   = domLayoutEl ? domLayoutEl.value : null;
+          var domMerged   = _ilDomVal2('mmgIlTi_audio');
+
+          if (prevMd.audioLayout != null)        newMd.audioLayout = prevMd.audioLayout;
+          else if (domLayout)                    newMd.audioLayout = domLayout;
+          if (prevMd.audioFile   != null)        newMd.audioFile   = prevMd.audioFile;
+          else if (newMd.audioLayout === 'merged' && domMerged) newMd.audioFile = domMerged;
+
           var prevParts = Array.isArray(prevMd.parts) ? prevMd.parts : [];
           var newParts  = Array.isArray(newMd.parts)  ? newMd.parts  : [];
-          for (var pi = 0; pi < Math.max(newParts.length, prevParts.length); pi++) {
+          for (var pi = 0; pi < Math.max(newParts.length, prevParts.length, 4); pi++) {
             if (!newParts[pi]) newParts[pi] = {};
             var oldP = prevParts[pi] || {};
+            var domA = _ilDomVal2('mmgIlTi_p' + (pi + 1) + '_audio');
+            var domS = _ilDomVal2('mmgIlTi_p' + (pi + 1) + '_start');
             if (oldP.audioFile     != null) newParts[pi].audioFile     = oldP.audioFile;
+            else if (domA)                  newParts[pi].audioFile     = domA;
             if (oldP.audioStartSec != null) newParts[pi].audioStartSec = oldP.audioStartSec;
+            else if (domS)                  newParts[pi].audioStartSec = _ilParseTime(domS);
             if (oldP.mapImage      != null) newParts[pi].mapImage      = oldP.mapImage;
             if (oldP.transcript)            newParts[pi].transcript    = oldP.transcript;
           }
@@ -34047,12 +34334,13 @@
     // ═══════════════════════════════════════════════════════════════════════
     async function _mmgGenerateExplanations(idx) {
       var m = window._mmgEditing;
-      if (!m || (m.mock_type !== 'ielts-reading' && m.mock_type !== 'cefr-reading')) {
-        alert('Explanations generator is only available for IELTS Reading and CEFR Reading.');
+      if (!m || (m.mock_type !== 'ielts-reading' && m.mock_type !== 'cefr-reading' && m.mock_type !== 'ielts-listening')) {
+        alert('Explanations generator is only available for IELTS Reading, CEFR Reading, and IELTS Listening.');
         return;
       }
-      var isIelts = m.mock_type === 'ielts-reading';
-      var passageWord = isIelts ? 'passage' : 'part';
+      var isIelts     = m.mock_type === 'ielts-reading';
+      var isListening = m.mock_type === 'ielts-listening';
+      var passageWord = isListening ? 'section' : (isIelts ? 'passage' : 'part');
 
       // Flush whatever the user is editing back into mock_data so the
       // passage we send to Gemini reflects the latest state, not the last
@@ -34063,10 +34351,21 @@
       }
       var md = (window._mmgEditing && window._mmgEditing.mock_data) || {};
 
-      // IELTS keeps passages in md.passages with `correctAnswers`; CEFR
-      // keeps parts in md.parts with `answers` and a nested `passage.content`.
+      // IELTS Reading keeps passages in md.passages with `correctAnswers`;
+      // CEFR Reading keeps parts in md.parts with `answers` and a nested
+      // `passage.content`; IELTS Listening keeps sections in md.parts with
+      // `answers` and a top-level `transcript` string (filled by Transcribe
+      // with Gemini).
       var passage;
-      if (isIelts) {
+      if (isListening) {
+        passage = (md.parts || [])[idx];
+        var ilTrans = passage && typeof passage.transcript === 'string' ? passage.transcript.trim() : '';
+        var ilAns   = passage && passage.answers && typeof passage.answers === 'object' ? passage.answers : null;
+        if (!passage || !ilTrans || !ilAns || Object.keys(ilAns).length === 0) {
+          alert('This section needs both a transcript (run Transcribe with Gemini first) and at least one answer before explanations can be generated.');
+          return;
+        }
+      } else if (isIelts) {
         passage = (md.passages || [])[idx];
         if (!passage || !passage.passage || !passage.correctAnswers || Object.keys(passage.correctAnswers).length === 0) {
           alert('This passage needs both the body HTML and at least one correct answer before explanations can be generated.');
@@ -34107,8 +34406,8 @@
       }
 
       var n           = idx + 1;
-      var idPrefix    = isIelts ? 'mmgIrP' : 'mmgCrP';
-      var targetTab   = isIelts ? ('ir_p' + n) : ('cr_part' + n);
+      var idPrefix    = isListening ? 'mmgIlP' : (isIelts ? 'mmgIrP' : 'mmgCrP');
+      var targetTab   = isListening ? ('il_part' + n) : (isIelts ? ('ir_p' + n) : ('cr_part' + n));
       var btn         = document.getElementById(idPrefix + n + '_explBtn');
       var statusEl    = document.getElementById(idPrefix + n + '_explStatus');
       var startedAt   = Date.now();
@@ -34222,9 +34521,10 @@
             autoSaved = true;
             // Invalidate picker caches so the next picker open sees fresh
             // metadata (matches what _mmgSave does after a normal save).
-            // Bumping the IELTS picker key needs a matching update here.
+            // Bumping a picker key requires a matching line here.
             try { localStorage.removeItem('ms_iret_meta_v3'); } catch (e) {}
             try { localStorage.removeItem('ms_cret_meta_v3'); } catch (e) {}
+            try { localStorage.removeItem('ms_ilet_meta_v8'); } catch (e) {}
           } catch (saveErr) {
             // Auto-save failed; the explanations are still in memory + raw
             // textarea, so the user can still hit 💾 Save manually to retry.

@@ -1212,6 +1212,96 @@ Deno.serve(async (req) => {
     ? Math.max(1, Math.min(9, parseInt(String(body.passage_index || 1), 10) || 1))
     : 0;
 
+  // ── IELTS Listening bulk special-case: 4 PARALLEL per-section runs ──
+  // The old single-shot bulk prompt asked Gemini to emit all 4 sections +
+  // answers in one go. In practice the model frequently dropped the
+  // top-level `part.answers` dict for one or more sections (Mock 52
+  // shipped with answers_count=0 across all 4 parts, so the picker
+  // greyed it out as "0/4 Ready"). The reliability gap is prompt
+  // breadth — narrowing to one section at a time with the per-section
+  // shape consistently populates answers.
+  //
+  // Calls fire in PARALLEL (Promise.all) so total wall time ≈ max
+  // single-call duration (~60s) rather than 4× that. Sequential blew
+  // past Supabase's 150 s Edge Function timeout (504 at 153 s).
+  if (examType === 'ielts-listening' && scope === 'full') {
+    let modelUsed: 'gemini-2.5-pro' | 'gpt-4o' = 'gemini-2.5-pro';
+    let fallbackReason: string | null = null;
+
+    async function importOneSection(i: number): Promise<any> {
+      const idx1 = i + 1;
+      const basePrompt = buildPrompt(examType, notes, IELTS_LISTENING_SINGLE_PART_SHAPE, 'passage', idx1);
+      const sectionPrompt = basePrompt.replace(
+        /The user has uploaded image\(s\) and \/ or PDF\(s\) for \*\*just ONE section\*\* of an IELTS Listening mock — specifically Section \d+\. Treat the uploaded files as that single section only\. The accompanying answer-key files \(if any\) cover ONLY this section's questions\./,
+        `The user has uploaded image(s) and / or PDF(s) covering ALL FOUR sections of an IELTS Listening mock. For THIS call, extract ONLY **Section ${idx1}** (questions ${i*10+1}–${(i+1)*10}). Ignore the other three sections entirely — do not include their questions, subParts, or answers. The answer-key files contain ALL 40 answers; from them, populate the "answers" dict with ONLY the ${i*10+1}–${(i+1)*10} entries that correspond to Section ${idx1}.`
+      );
+      let sectionRaw = '';
+      let sectionFallback: string | null = null;
+      try {
+        sectionRaw = await callGemini(sectionPrompt, files);
+      } catch (e) {
+        sectionFallback = (e instanceof Error ? e.message : String(e));
+        console.warn(`[transcribe-mock] section ${idx1} gemini failed:`, sectionFallback);
+      }
+      let parsed: any = sectionRaw ? tryParseModelJson(sectionRaw) : null;
+      if (parsed === null) {
+        const allImages = files.every((f) => f.mime.startsWith('image/'));
+        if (allImages) {
+          try {
+            const gptRaw = await callGPT4o(sectionPrompt, files);
+            parsed = tryParseModelJson(gptRaw);
+            if (parsed) modelUsed = 'gpt-4o';
+          } catch (gptErr) {
+            const gptMsg = gptErr instanceof Error ? gptErr.message : String(gptErr);
+            throw new Error(`section ${idx1}: ${gptMsg}`);
+          }
+        }
+      }
+      if (!parsed || typeof parsed !== 'object') {
+        throw new Error(`section ${idx1}: ${sectionFallback || 'no usable JSON'}`);
+      }
+      (parsed as Record<string, unknown>).partNumber = idx1;
+      if (sectionFallback && !fallbackReason) fallbackReason = sectionFallback;
+      return parsed;
+    }
+
+    let sections: any[];
+    try {
+      sections = await Promise.all([0, 1, 2, 3].map(importOneSection));
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      return json(502, { error: 'section_failed', detail: msg, fallback_reason: fallbackReason });
+    }
+
+    // Assemble the full mock envelope. testInfo + source are inferred
+    // from whichever section had them populated (Gemini sometimes copies
+    // these into every section, sometimes none).
+    let testInfo: any = null;
+    let source: string | undefined;
+    for (const s of sections) {
+      const ti = (s && (s as Record<string, unknown>).testInfo) as any;
+      if (ti && typeof ti === 'object' && !testInfo) testInfo = ti;
+      const src = (s && (s as Record<string, unknown>).source) as any;
+      if (typeof src === 'string' && src.trim() && !source) source = src.trim();
+      // Strip per-section envelope leftovers so each part stays clean.
+      delete (s as Record<string, unknown>).testInfo;
+      delete (s as Record<string, unknown>).source;
+    }
+    const assembled: Record<string, unknown> = {
+      testInfo: testInfo || { title: 'IELTS Listening Practice Test', totalTime: 40, totalQuestions: 40 },
+      parts: sections,
+    };
+    if (source) assembled.source = source;
+
+    return json(200, {
+      mock_data:        assembled,
+      model_used:       modelUsed,
+      fallback_reason:  fallbackReason || undefined,
+      actor:            (auth as AuthOk).actor,
+    });
+  }
+  // ── End IELTS Listening bulk special-case ──
+
   const shape = scope === 'passage'
     ? (examType === 'cefr-reading'    ? CEFR_SINGLE_PART_SHAPE
     :  examType === 'ielts-listening' ? IELTS_LISTENING_SINGLE_PART_SHAPE

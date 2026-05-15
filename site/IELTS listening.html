@@ -4775,6 +4775,12 @@
           window.TEST_DATA = TEST_DATA;
           var isPdfDownload = urlParams.get('download') === 'pdf';
           var hasPerPartAudio = TEST_DATA.parts.some(function(p) { return p.audioFile && p.audioFile.trim() !== ''; });
+          var hasMergedAudio  = TEST_DATA.audioLayout === 'merged' && TEST_DATA.audioFile && String(TEST_DATA.audioFile).trim() !== '';
+          // Merged mode skips preloading (single file, browser streams).
+          // Mark the preload gate satisfied so initAudioLoading\'s polling
+          // loop doesn\'t block for 30s waiting on preloadAllAudio that
+          // will never run.
+          if (hasMergedAudio && !hasPerPartAudio) window.audioPreloadComplete = true;
           if (hasPerPartAudio && !isPdfDownload) { preloadAllAudio(); } else { initTest(); }
         })
         .catch(function(err) { console.error('❌ Supabase load failed:', err); showError('Failed to load test from Supabase'); });
@@ -4963,12 +4969,20 @@
 
       if (window._practicePart) {
         var partIdx = window._practicePart - 1;
-        // Hide nav
-        var pcNav = document.getElementById('pcPartNav');
-        var mobNav = document.getElementById('mobilePartNav');
-        if (pcNav) pcNav.style.display = 'none';
-        if (mobNav) mobNav.style.display = 'none';
-        document.querySelectorAll('.mobile-part-dot').forEach(function (d) { d.style.display = 'none'; });
+        // In practice mode the student is locked to a single section, but
+        // hiding the entire nav left no visible "Part N" context in the
+        // header. Keep the nav containers visible and just hide the
+        // *other* part buttons / dots so the practised one stays as a
+        // read-only badge. (CSS makes the active button non-clickable
+        // implicitly because there's only one left.)
+        document.querySelectorAll('#partNavPC .part-btn').forEach(function (b) {
+          if (parseInt(b.dataset.part, 10) !== partIdx) b.style.display = 'none';
+          else { b.classList.add('active'); b.style.cursor = 'default'; }
+        });
+        document.querySelectorAll('.mobile-part-dot').forEach(function (d) {
+          if (parseInt(d.dataset.part, 10) !== partIdx) d.style.display = 'none';
+          else { d.classList.add('active'); d.style.cursor = 'default'; }
+        });
 
         // Hide non-practice parts
         document.querySelectorAll('.part-section').forEach(function (s, i) {
@@ -5069,9 +5083,14 @@
       if (data.type === 'mcq-reply' || data.type === 'mcq') {
         return data.questions.map(q => renderMCQ(q)).join('');
       } else if (data.type === 'mcq-multi') {
-        var qIds = (data.questionIds || []).join(',');
-        var idLabel = (data.questionIds || []).join(' & ');
-        var numMerged = data.questionIds ? data.questionIds.length : 2;
+        // Accept either questionIds:[17,18] (legacy) or questions:[{id:17},{id:18}]
+        // (current Gemini emit shape — Mock 52 Part 2 hit this).
+        var qidArr = Array.isArray(data.questionIds) && data.questionIds.length
+          ? data.questionIds
+          : (Array.isArray(data.questions) ? data.questions.map(function (q) { return q && q.id; }).filter(function (n) { return n != null; }) : []);
+        var qIds = qidArr.join(',');
+        var idLabel = qidArr.join(' & ');
+        var numMerged = qidArr.length || 2;
         var html = '<div class="question-card merged-mcq" data-qids="' + qIds + '">';
         html += '<span class="merged-mcq-label">Q' + idLabel + '</span>';
         html += '<div class="merged-mcq-hint">Select exactly ' + numMerged + ' answers (accepted in any order)</div>';
@@ -5089,6 +5108,8 @@
         return renderFormGapFill(data);
       } else if (data.type === 'matching-speakers') {
         return renderMatchingSpeakers(data);
+      } else if (data.type === 'matching') {
+        return renderMatching(data);
       } else if (data.type === 'map-labeling') {
         return renderMapLabeling(data);
       } else if (data.type === 'mcq-extracts') {
@@ -5099,8 +5120,61 @@
         return renderTableCompletion(data);
       } else if (data.type === 'flowchart') {
         return renderFlowchart(data);
+      } else if (data.type === 'flowchart-completion') {
+        return renderFlowchartCompletion(data);
+      } else if (data.type === 'summary-completion') {
+        return renderSummaryCompletion(data);
       }
       return '';
+    }
+
+    // flowchart-completion — vertical stepped flow with one fill-in
+    // input per step. Distinct from "flowchart" (which uses a draggable
+    // letter pool). Gemini emits steps[].items[] where each item is a
+    // gap {gapId, prefix, suffix} bracketing a single blank.
+    function renderFlowchartCompletion(part) {
+      var html = '<div class="flowchart-container">';
+      if (part.boxTitle) {
+        html += '<div class="form-title" style="margin-bottom:14px;text-align:center;font-weight:700;color:var(--primary);">' + part.boxTitle + '</div>';
+      }
+      var steps = Array.isArray(part.steps) ? part.steps : [];
+      steps.forEach(function (step, idx) {
+        html += '<div class="flow-step">';
+        var items = Array.isArray(step.items) ? step.items : [];
+        items.forEach(function (it) {
+          if (it && it.type === 'gap' && it.gapId != null) {
+            var prefix = (it.prefix || '').toString();
+            var suffix = (it.suffix || '').toString();
+            html += (prefix ? prefix + ' ' : '')
+                  + '<span class="gap-label">(' + it.gapId + ')</span> '
+                  + '<input type="text" autocomplete="off" class="gap-input" data-q="' + it.gapId + '">'
+                  + (suffix ? ' ' + suffix : '');
+          } else if (it && typeof it.text === 'string') {
+            html += it.text;
+          }
+        });
+        html += '</div>';
+        if (idx < steps.length - 1) html += '<div class="flow-arrow">↓</div>';
+      });
+      html += '</div>';
+      return html;
+    }
+
+    // summary-completion — prose summary with inline gap spans the way
+    // CEFR reading uses for gap-fill-text. We swap each
+    // <span class="gap-input" data-gap="N">…</span> for a real text
+    // input that the runner's gather/score logic picks up via data-q.
+    function renderSummaryCompletion(part) {
+      var raw = String(part.summaryText || '');
+      // Tolerant of either data-gap or data-q on the existing span.
+      var html = raw.replace(
+        /<span\s+class=["']gap-input["']\s+data-(?:gap|q)=["'](\d+)["'][^>]*>[\s\S]*?<\/span>/gi,
+        function (_m, qid) {
+          return '<span class="gap-label">(' + qid + ')</span> '
+               + '<input type="text" autocomplete="off" class="gap-input" data-q="' + qid + '">';
+        }
+      );
+      return '<div class="form-container"><div class="form-html">' + html + '</div></div>';
     }
 
     function renderFlowchart(part) {
@@ -5223,6 +5297,37 @@
       return html;
     }
 
+    // Generic IELTS Listening "matching" sub-part — items on the left
+    // (questions[].text) mapped to letter options on the right
+    // (options[].letter / options[].text). Gemini emits this shape for
+    // prompts like "What's the responsibility of each temporary staff
+    // member? Choose FIVE answers from the box…" — distinct from the
+    // speaker-attribution variant which uses speakers[].label. Reuses the
+    // same drag-and-drop CSS as renderMatchingSpeakers; the answer
+    // collector at line 6235 already handles 'matching'.
+    function renderMatching(part) {
+      let html = '<div class="dnd-matching-container">';
+      html += '<div class="dnd-options-box">';
+      if (part.boxTitle) {
+        html += '<div style="font-weight:700;color:#0369a1;margin-bottom:8px;font-size:14px;">' + part.boxTitle + '</div>';
+      }
+      (part.options || []).forEach(o => {
+        html += '<div class="dnd-option-item" data-letter="' + o.letter + '" draggable="true"><strong>' + o.letter + '</strong> ' + o.text + '</div>';
+      });
+      html += '</div>';
+      html += '<div class="dnd-questions-list">';
+      (part.questions || []).forEach(q => {
+        html += '<div class="dnd-question-row">';
+        html += '<span class="dnd-q-num">' + q.id + '</span>';
+        html += '<span class="dnd-q-text">' + (q.text || q.label || '') + '</span>';
+        html += '<span class="dnd-drop-zone" data-q="' + q.id + '">tap to fill</span>';
+        html += '<input type="hidden" class="gap-input dnd-hidden-input" data-q="' + q.id + '" id="q' + q.id + '">';
+        html += '</div>';
+      });
+      html += '</div></div>';
+      return html;
+    }
+
     function renderMapLabeling(part) {
       // For subparts in mixed sections, use mapTitle as title if title is missing
       const displayTitle = part.title || part.mapTitle || 'Map Labeling';
@@ -5290,7 +5395,13 @@
     function renderExtracts(part) {
       let html = '';
       part.extracts.forEach(ext => {
-        html += '<div class="extract-box"><div class="extract-header">' + ext.title + '</div><div class="extract-questions">';
+        // Gemini omits ext.title for single-extract sections (e.g. Mock 51
+        // Section 3 — one continuous conversation, no per-block heading
+        // in the source PDF). Suppress the header div entirely in that
+        // case so the runner doesn\'t render the literal "undefined".
+        html += '<div class="extract-box">';
+        if (ext.title) html += '<div class="extract-header">' + ext.title + '</div>';
+        html += '<div class="extract-questions">';
         var qs = ext.questions || [];
         var qi = 0;
         while (qi < qs.length) {
@@ -5384,9 +5495,14 @@
       var _btnPrev = document.getElementById('btnPrev');
       var _btnNext = document.getElementById('btnNext');
       var _btnSubmit = document.getElementById('btnSubmit');
-      if (_btnPrev) _btnPrev.style.display = index === 0 ? 'none' : 'flex';
-      if (_btnNext) _btnNext.style.display = index === TEST_DATA.parts.length - 1 ? 'none' : 'flex';
-      if (_btnSubmit) _btnSubmit.style.display = index === TEST_DATA.parts.length - 1 ? 'flex' : 'none';
+      // In practice mode the student is locked to a single section, so
+      // hide Prev/Next and keep Submit visible from the start. Otherwise
+      // last-part rule applies: Next on every part except the last,
+      // Submit only on the last.
+      var _isPractice = !!window._practicePart;
+      if (_btnPrev)   _btnPrev.style.display   = (_isPractice || index === 0) ? 'none' : 'flex';
+      if (_btnNext)   _btnNext.style.display   = (_isPractice || index === TEST_DATA.parts.length - 1) ? 'none' : 'flex';
+      if (_btnSubmit) _btnSubmit.style.display = (_isPractice || index === TEST_DATA.parts.length - 1) ? 'flex' : 'none';
       // When manually switching parts, load audio but don't auto-play
       if (window.loadPartAudio) {
         window.loadPartAudio(index, false);
@@ -5412,10 +5528,13 @@
         }
       });
 
-      // Toggle floating submit on last part (both PC and mobile) — but not after submission
+      // Toggle floating submit. On desktop the bottom .nav-buttons row
+      // is display:none (global rule), so the floating-fixed button is
+      // the ONLY visible Submit affordance — show it for practice mode
+      // from the start, and on the last part in full-mock mode.
       const floatingSubmit = document.getElementById('mobileFloatingSubmit');
       if (floatingSubmit) {
-        if (index === TEST_DATA.parts.length - 1 && !hasSubmitted) {
+        if ((_isPractice || index === TEST_DATA.parts.length - 1) && !hasSubmitted) {
           floatingSubmit.classList.add('visible');
         } else {
           floatingSubmit.classList.remove('visible');
@@ -6275,8 +6394,13 @@
         var part = parts[pi];
         if (!part.transcript) continue;
 
-        tabsHtml += '<button class="transcript-tab' + (pi === 0 ? ' active' : '') + '" onclick="switchTranscriptTab(' + pi + ')" data-tab="' + pi + '">' +
-          part.title + '</button>';
+        // Tabs use the short "Part N" label (matches the runner header
+         // style). The full section title is still in the section heading
+         // inside the body, plus tooltip-style on hover.
+        var _tabLabel = 'Part ' + (part.partNumber || (pi + 1));
+        var _tabTitle = String(part.title || '').replace(/"/g, '&quot;');
+        tabsHtml += '<button class="transcript-tab' + (pi === 0 ? ' active' : '') + '" onclick="switchTranscriptTab(' + pi + ')" data-tab="' + pi + '" title="' + _tabTitle + '">' +
+          _tabLabel + '</button>';
 
         var rawLines = part.transcript.split('\n');
         var linesLower = rawLines.map(function (ln) { return String(ln || '').toLowerCase(); });
@@ -7236,8 +7360,105 @@
         });
       });
 
+      // Append inline explanation cards under each question (mirrors
+      // IELTS Reading's review UX). Each card is collapsed by default
+      // behind a "💡 Click for explanation ▼" toggle and reveals the
+      // Gemini-generated reason text. Quotes themselves stay in the
+      // Transcripts & Answer Lines popup. No-ops when a section\'s
+      // explanations dict is empty (admin hasn\'t run Generate yet).
+      _ilAppendInlineExplanationCards(_reviewParts);
+
       showPart(window._practicePart ? window._practicePart - 1 : 0);
       console.log('[Review] Review mode activated. Navigate sections to see marked answers.');
+    }
+
+    function _ilAppendInlineExplanationCards(reviewParts) {
+      function esc(s) {
+        return String(s || '').replace(/[&<>"']/g, function (c) {
+          return ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[c];
+        });
+      }
+      (reviewParts || []).forEach(function (part) {
+        var explns = (part && part.explanations) || {};
+        // Build a sorted list of the section\'s real question ids from
+        // part.answers — needed to remap explanation keys that Gemini
+        // emitted as 0-based indices (e.g. Mock 51 Section 4 has
+        // explanations keyed "0".."9" instead of "q31".."q40"; the
+        // server doesn\'t coerce these because the verification loop
+        // passes keys through verbatim from the model\'s JSON).
+        var ansQids = [];
+        if (part && part.answers && typeof part.answers === 'object') {
+          Object.keys(part.answers).forEach(function (k) {
+            var n = parseInt(String(k).replace(/^q/, ''), 10);
+            if (!isNaN(n) && ansQids.indexOf(n) === -1) ansQids.push(n);
+          });
+          ansQids.sort(function (a, b) { return a - b; });
+        }
+        function resolveQid(key) {
+          var s = String(key);
+          if (/^q/i.test(s)) {
+            var n1 = parseInt(s.replace(/^q/i, ''), 10);
+            return isNaN(n1) ? null : n1;
+          }
+          var n = parseInt(s, 10);
+          if (isNaN(n)) return null;
+          // Already a real question id?
+          if (ansQids.indexOf(n) !== -1) return n;
+          // 0-based index into the section\'s answer keys?
+          if (n >= 0 && n < ansQids.length) return ansQids[n];
+          return null;
+        }
+        Object.keys(explns).forEach(function (key) {
+          var qid = resolveQid(key);
+          if (qid == null) return;
+          var raw  = explns[key];
+          var text = raw && typeof raw === 'object' ? (raw.text || '') : (typeof raw === 'string' ? raw : '');
+          if (!text) return;
+
+          // Listening doesn\'t have one canonical container per question
+          // — each sub-part renders a different shape (gap-fill input,
+          // mcq option list, dnd drop zone, table cell, …). Pick any
+          // element keyed by this qid, then climb to the most specific
+          // wrapper that's still a self-contained row.
+          var any = document.querySelector('[data-q="' + qid + '"]')
+                 || document.getElementById('q' + qid);
+          if (!any) return;
+          var wrap = any.closest(
+            '.question-card, .dnd-question-row, .form-row, .form-line, ' +
+            '.form-item, .map-question-item, .gap-fill-row, ' +
+            '.table-completion-row, tr, .extract-questions > div'
+          );
+          if (!wrap) wrap = any.parentNode;
+          if (!wrap) return;
+          // Skip if THIS exact qid already has a toggle attached to wrap
+          // (prevents duplicate inserts when explns has both "q31" and "0"
+          // keys for the same question — first wins).
+          if (wrap.nextElementSibling
+              && wrap.nextElementSibling.classList.contains('il-inline-expl-toggle')
+              && wrap.nextElementSibling.dataset.qid === String(qid)) return;
+
+          var toggle = document.createElement('div');
+          toggle.className = 'il-inline-expl-toggle';
+          toggle.dataset.qid = String(qid);
+          toggle.style.cssText = 'margin-top:6px;font-size:12px;color:#6366f1;cursor:pointer;user-select:none;display:inline-block;';
+          toggle.textContent = '💡 Click for explanation ▼';
+
+          var box = document.createElement('div');
+          box.className = 'il-inline-expl';
+          box.style.cssText = 'display:none;margin-top:6px;background:#dbeafe;border-left:4px solid #3b82f6;padding:10px 12px;border-radius:6px;font-size:13px;color:#1e3a8a;line-height:1.5;';
+          box.innerHTML = '<strong>Q' + qid + ':</strong> ' + esc(text)
+                        + '<div style="margin-top:6px;font-size:10.5px;color:#94a3b8;font-style:italic;">✨ AI-generated</div>';
+
+          toggle.addEventListener('click', function () {
+            var open = box.style.display !== 'none';
+            box.style.display = open ? 'none' : 'block';
+            toggle.textContent = open ? '💡 Click for explanation ▼' : '💡 Hide explanation ▲';
+          });
+
+          wrap.insertAdjacentElement('afterend', toggle);
+          toggle.insertAdjacentElement('afterend', box);
+        });
+      });
     }
 
     // Event listeners
@@ -8236,13 +8457,22 @@
       let currentLoadedPart = 0;
       let soundingPartIndex = 0;
       let hasPerPartAudio = false;
+      let hasMergedAudio  = false;
+      let mergedAudioLoaded = false;
 
       // Check if test has per-part audio files (non-empty audioFile URLs)
+      // OR a single merged file (audioLayout === 'merged' + top-level
+      // audioFile). Merged mode shares one src across all parts and
+      // seeks to parts[i].audioStartSec on navigation.
       function checkPerPartAudio() {
         if (window.TEST_DATA && window.TEST_DATA.parts && window.TEST_DATA.parts.length > 0) {
           hasPerPartAudio = window.TEST_DATA.parts.some(p => p.audioFile && p.audioFile.trim() !== '');
         }
-        return hasPerPartAudio;
+        if (window.TEST_DATA && window.TEST_DATA.audioLayout === 'merged'
+            && window.TEST_DATA.audioFile && String(window.TEST_DATA.audioFile).trim() !== '') {
+          hasMergedAudio = true;
+        }
+        return hasPerPartAudio || hasMergedAudio;
       }
 
       // Update nav indicators to show which part is currently playing audio
@@ -8265,9 +8495,64 @@
         if (typeof autoPlay === 'undefined') autoPlay = true;
 
         // Re-check in case it wasn't set initially
-        if (!hasPerPartAudio) checkPerPartAudio();
-        if (!hasPerPartAudio) return;
+        if (!hasPerPartAudio && !hasMergedAudio) checkPerPartAudio();
+        if (!hasPerPartAudio && !hasMergedAudio) return;
 
+        const part = window.TEST_DATA.parts[partIndex];
+        if (!part) return;
+
+        // ── Merged-mode branch (runs BEFORE the per-part handoff) ──
+        // Single audio file shared across all 4 sections. The handoff-
+        // to-hiddenAudio pattern below is for per-part mode (continue
+        // playing section N\'s file in background while loading section
+        // N+1\'s file silently) — in merged mode the same file would
+        // play in BOTH elements at different positions, audible as
+        // overlap. Always pause hiddenAudio here, seek main, resume if
+        // it was playing.
+        if (hasMergedAudio) {
+          const mergedSrc = String(window.TEST_DATA.audioFile || '').trim();
+          if (!mergedSrc) return;
+          if (hiddenAudio) hiddenAudio.pause();
+          currentLoadedPart = partIndex;
+          soundingPartIndex = partIndex;
+          window.updateNavIndicators();
+          const startSec = (typeof part.audioStartSec === 'number' && isFinite(part.audioStartSec) && part.audioStartSec >= 0)
+            ? part.audioStartSec : 0;
+          const wasPlaying = !audio.paused;
+          const seekAndMaybePlay = function () {
+            try { audio.currentTime = startSec; } catch (_e) {}
+            if (autoPlay || wasPlaying) {
+              audio.play().catch(function () {
+                document.addEventListener('click', function once() {
+                  audio.play(); document.removeEventListener('click', once);
+                }, { once: true });
+              });
+            }
+          };
+          if (!mergedAudioLoaded || audio.src !== mergedSrc) {
+            audio.src = mergedSrc;
+            mergedAudioLoaded = true;
+            // Wait for metadata before seeking the first time — browsers
+            // can't set currentTime past 0 until duration is known.
+            if (isFinite(audio.duration) && audio.duration > 0) {
+              seekAndMaybePlay();
+            } else {
+              audio.addEventListener('loadedmetadata', seekAndMaybePlay, { once: true });
+              audio.load();
+            }
+          } else {
+            // Pause briefly before seeking so the old position doesn\'t
+            // leak audibly while the new position loads.
+            try { audio.pause(); } catch (_e) {}
+            seekAndMaybePlay();
+          }
+          loadingWrapper.classList.add('hidden');
+          playerControls.classList.add('ready');
+          isAudioReady = true;
+          return;
+        }
+
+        // ── Per-part branch: unchanged handoff for background playback ──
         if (autoPlay) {
           // Stop background audio, we're playing a new part
           if (hiddenAudio) hiddenAudio.pause();
@@ -8286,8 +8571,8 @@
         // Skip if already loaded for same part AND it's the sounding part AND playing
         if (currentLoadedPart === partIndex && soundingPartIndex === partIndex && !audio.paused) return;
 
-        const part = window.TEST_DATA.parts[partIndex];
-        if (!part || !part.audioFile || part.audioFile.trim() === '') return;
+        // ── Per-part branch ──
+        if (!part.audioFile || part.audioFile.trim() === '') return;
 
         currentLoadedPart = partIndex;
         window.updateNavIndicators();
@@ -8365,6 +8650,35 @@
         // Check if we have per-part audio (non-empty URLs)
         if (checkPerPartAudio()) {
           const firstPart = window.TEST_DATA.parts[0];
+          // ── Merged audio: shared file, sections distinguished by audioStartSec.
+          // Load the single src, seek to Section 1\'s start, then fall into
+          // the same ready-popup / auto-play path the per-part branch uses.
+          if (hasMergedAudio && window.TEST_DATA.audioFile) {
+            const mergedSrc = String(window.TEST_DATA.audioFile).trim();
+            currentLoadedPart = 0;
+            soundingPartIndex = 0;
+            const startSec = (firstPart && typeof firstPart.audioStartSec === 'number'
+                              && isFinite(firstPart.audioStartSec) && firstPart.audioStartSec >= 0)
+              ? firstPart.audioStartSec : 0;
+
+            audio.src = mergedSrc;
+            mergedAudioLoaded = true;
+
+            const onReady = function () {
+              try { audio.currentTime = startSec; } catch (_e) {}
+              loadingWrapper.classList.add('hidden');
+              playerControls.classList.add('ready');
+              isAudioReady = true;
+              showReadyPopup();
+            };
+            if (isFinite(audio.duration) && audio.duration > 0) {
+              onReady();
+            } else {
+              audio.addEventListener('loadedmetadata', onReady, { once: true });
+              audio.load();
+            }
+            return;
+          }
           if (firstPart && firstPart.audioFile && firstPart.audioFile.trim() !== '') {
             hasPerPartAudio = true;
             currentLoadedPart = 0;
