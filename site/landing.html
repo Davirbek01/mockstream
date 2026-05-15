@@ -9960,8 +9960,12 @@
   </div>
 
   <!-- CEFR Listening Part Picker Modal -->
+  <!-- z-index 100006 so it stacks ABOVE cletPicker (100003), the access-
+       code modal (100004) and the mode modal (100005). Mirrors the
+       IELTS Listening part picker fix — otherwise this modal renders
+       hidden behind the cletPicker overlay. -->
   <div id="cefrListeningPartPickerModal"
-    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:10004;align-items:center;justify-content:center;padding:20px;"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:100006;align-items:center;justify-content:center;padding:20px;"
     onclick="closeCefrListeningPartPicker()">
     <div
       style="background:var(--card);border:2px solid #7c3aed;border-radius:24px;padding:32px 28px;max-width:380px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
@@ -17545,11 +17549,13 @@
       if (isLoadingMock) return;
       isLoadingMock = true;
       currentLoadingType = type || 'writing';
-      // Tear down the IELTS / CEFR Reading pickers if either was the launch
-      // point — runner iframe sits at z-index 9999, pickers at 100003, so
-      // we'd otherwise see the picker draped over the test.
+      // Tear down the IELTS / CEFR Reading + Listening pickers if any was
+      // the launch point — runner iframe sits at z-index 9999, pickers at
+      // 100003, so we'd otherwise see the picker draped over the test.
       try { if (window.iretClose) window.iretClose(); } catch (e) {}
       try { if (window.cretClose) window.cretClose(); } catch (e) {}
+      try { if (window.iletClose) window.iletClose(); } catch (e) {}
+      try { if (window.cletClose) window.cletClose(); } catch (e) {}
 
       // Configure loading screen based on type
       if (currentLoadingType === 'speaking') {
