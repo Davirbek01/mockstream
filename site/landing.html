@@ -34138,12 +34138,13 @@
     // ═══════════════════════════════════════════════════════════════════════
     async function _mmgGenerateExplanations(idx) {
       var m = window._mmgEditing;
-      if (!m || (m.mock_type !== 'ielts-reading' && m.mock_type !== 'cefr-reading')) {
-        alert('Explanations generator is only available for IELTS Reading and CEFR Reading.');
+      if (!m || (m.mock_type !== 'ielts-reading' && m.mock_type !== 'cefr-reading' && m.mock_type !== 'ielts-listening')) {
+        alert('Explanations generator is only available for IELTS Reading, CEFR Reading, and IELTS Listening.');
         return;
       }
-      var isIelts = m.mock_type === 'ielts-reading';
-      var passageWord = isIelts ? 'passage' : 'part';
+      var isIelts     = m.mock_type === 'ielts-reading';
+      var isListening = m.mock_type === 'ielts-listening';
+      var passageWord = isListening ? 'section' : (isIelts ? 'passage' : 'part');
 
       // Flush whatever the user is editing back into mock_data so the
       // passage we send to Gemini reflects the latest state, not the last
@@ -34154,10 +34155,21 @@
       }
       var md = (window._mmgEditing && window._mmgEditing.mock_data) || {};
 
-      // IELTS keeps passages in md.passages with `correctAnswers`; CEFR
-      // keeps parts in md.parts with `answers` and a nested `passage.content`.
+      // IELTS Reading keeps passages in md.passages with `correctAnswers`;
+      // CEFR Reading keeps parts in md.parts with `answers` and a nested
+      // `passage.content`; IELTS Listening keeps sections in md.parts with
+      // `answers` and a top-level `transcript` string (filled by Transcribe
+      // with Gemini).
       var passage;
-      if (isIelts) {
+      if (isListening) {
+        passage = (md.parts || [])[idx];
+        var ilTrans = passage && typeof passage.transcript === 'string' ? passage.transcript.trim() : '';
+        var ilAns   = passage && passage.answers && typeof passage.answers === 'object' ? passage.answers : null;
+        if (!passage || !ilTrans || !ilAns || Object.keys(ilAns).length === 0) {
+          alert('This section needs both a transcript (run Transcribe with Gemini first) and at least one answer before explanations can be generated.');
+          return;
+        }
+      } else if (isIelts) {
         passage = (md.passages || [])[idx];
         if (!passage || !passage.passage || !passage.correctAnswers || Object.keys(passage.correctAnswers).length === 0) {
           alert('This passage needs both the body HTML and at least one correct answer before explanations can be generated.');
@@ -34198,8 +34210,8 @@
       }
 
       var n           = idx + 1;
-      var idPrefix    = isIelts ? 'mmgIrP' : 'mmgCrP';
-      var targetTab   = isIelts ? ('ir_p' + n) : ('cr_part' + n);
+      var idPrefix    = isListening ? 'mmgIlP' : (isIelts ? 'mmgIrP' : 'mmgCrP');
+      var targetTab   = isListening ? ('il_part' + n) : (isIelts ? ('ir_p' + n) : ('cr_part' + n));
       var btn         = document.getElementById(idPrefix + n + '_explBtn');
       var statusEl    = document.getElementById(idPrefix + n + '_explStatus');
       var startedAt   = Date.now();
@@ -34313,9 +34325,10 @@
             autoSaved = true;
             // Invalidate picker caches so the next picker open sees fresh
             // metadata (matches what _mmgSave does after a normal save).
-            // Bumping the IELTS picker key needs a matching update here.
+            // Bumping a picker key requires a matching line here.
             try { localStorage.removeItem('ms_iret_meta_v3'); } catch (e) {}
             try { localStorage.removeItem('ms_cret_meta_v3'); } catch (e) {}
+            try { localStorage.removeItem('ms_ilet_meta_v8'); } catch (e) {}
           } catch (saveErr) {
             // Auto-save failed; the explanations are still in memory + raw
             // textarea, so the user can still hit 💾 Save manually to retry.
