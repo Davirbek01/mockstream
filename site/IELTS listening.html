@@ -4777,6 +4777,10 @@
           var hasPerPartAudio = TEST_DATA.parts.some(function(p) { return p.audioFile && p.audioFile.trim() !== ''; });
           var hasMergedAudio  = TEST_DATA.audioLayout === 'merged' && TEST_DATA.audioFile && String(TEST_DATA.audioFile).trim() !== '';
           // Merged mode skips preloading (single file, browser streams).
+          // Mark the preload gate satisfied so initAudioLoading\'s polling
+          // loop doesn\'t block for 30s waiting on preloadAllAudio that
+          // will never run.
+          if (hasMergedAudio && !hasPerPartAudio) window.audioPreloadComplete = true;
           if (hasPerPartAudio && !isPdfDownload) { preloadAllAudio(); } else { initTest(); }
         })
         .catch(function(err) { console.error('❌ Supabase load failed:', err); showError('Failed to load test from Supabase'); });
@@ -8646,6 +8650,35 @@
         // Check if we have per-part audio (non-empty URLs)
         if (checkPerPartAudio()) {
           const firstPart = window.TEST_DATA.parts[0];
+          // ── Merged audio: shared file, sections distinguished by audioStartSec.
+          // Load the single src, seek to Section 1\'s start, then fall into
+          // the same ready-popup / auto-play path the per-part branch uses.
+          if (hasMergedAudio && window.TEST_DATA.audioFile) {
+            const mergedSrc = String(window.TEST_DATA.audioFile).trim();
+            currentLoadedPart = 0;
+            soundingPartIndex = 0;
+            const startSec = (firstPart && typeof firstPart.audioStartSec === 'number'
+                              && isFinite(firstPart.audioStartSec) && firstPart.audioStartSec >= 0)
+              ? firstPart.audioStartSec : 0;
+
+            audio.src = mergedSrc;
+            mergedAudioLoaded = true;
+
+            const onReady = function () {
+              try { audio.currentTime = startSec; } catch (_e) {}
+              loadingWrapper.classList.add('hidden');
+              playerControls.classList.add('ready');
+              isAudioReady = true;
+              showReadyPopup();
+            };
+            if (isFinite(audio.duration) && audio.duration > 0) {
+              onReady();
+            } else {
+              audio.addEventListener('loadedmetadata', onReady, { once: true });
+              audio.load();
+            }
+            return;
+          }
           if (firstPart && firstPart.audioFile && firstPart.audioFile.trim() !== '') {
             hasPerPartAudio = true;
             currentLoadedPart = 0;
