@@ -4523,6 +4523,30 @@
         if (e && e.message === 'PG_RETAKE_BLOCKED') return;
         throw e;
       }
+      // Filter out parts that have no content yet — admin can publish a
+      // partial mock with only Part 1 ready, and the runner shouldn't
+      // expose empty Part 2-6 tabs to students. A part is "playable" when
+      // it has at least one answer key entry (matches the picker's
+      // readiness signal). The original full array is preserved as
+      // TEST_DATA._allParts so anything that needs the canonical 6
+      // slots can still reference it; everything in the runner UI from
+      // here on uses the filtered set via TEST_DATA.parts.
+      try {
+        var _allParts = Array.isArray(TEST_DATA.parts) ? TEST_DATA.parts : [];
+        var _readyParts = _allParts.filter(function (p) {
+          return p && p.answers && typeof p.answers === 'object'
+              && Object.keys(p.answers).length > 0;
+        });
+        if (_readyParts.length === 0) {
+          // No ready parts at all — fall through with the original array
+          // so the loading / error UI surfaces something useful instead
+          // of an empty test.
+          _readyParts = _allParts;
+        }
+        TEST_DATA._allParts = _allParts;
+        TEST_DATA.parts = _readyParts;
+      } catch (_e) {}
+
       // Set timer (practice mode uses shorter time)
       if (window._practicePart) {
         var practiceTimeLookup = { 1: 7, 2: 7, 3: 6, 4: 6, 5: 7, 6: 7 };
@@ -4613,7 +4637,11 @@
       TEST_DATA.parts.forEach((part, index) => {
         const btn = document.createElement('button');
         btn.className = 'part-btn' + (index === 0 ? ' active' : '');
-        btn.innerHTML = 'Part ' + (index + 1) + ' <span class="status" id="status-p' + index + '"></span>';
+        // Use the canonical part.partNumber (from the source data) for the
+        // label so admins filling Parts 1+3+5 see "Part 1 / Part 3 /
+        // Part 5" tabs rather than the filtered index sequence.
+        const partLabel = (part && part.partNumber != null) ? part.partNumber : (index + 1);
+        btn.innerHTML = 'Part ' + partLabel + ' <span class="status" id="status-p' + index + '"></span>';
         btn.addEventListener('click', () => showPart(index));
 
         // Clone for mobile
@@ -4639,7 +4667,9 @@
       const totalParts = TEST_DATA.parts.length;
       let html = '';
       for (let i = 0; i < totalParts; i++) {
-        html += '<div class="mobile-part-dot" data-part="' + i + '">' + (i + 1) + '</div>';
+        const _dotLabel = (TEST_DATA.parts[i] && TEST_DATA.parts[i].partNumber != null)
+          ? TEST_DATA.parts[i].partNumber : (i + 1);
+        html += '<div class="mobile-part-dot" data-part="' + i + '">' + _dotLabel + '</div>';
       }
       mobileNavDotsContainer.innerHTML = html;
 
