@@ -33485,9 +33485,10 @@
         // Invalidate the full-screen picker metadata caches so a newly-saved
         // mock (or an existing one with edited passages / source) is
         // re-fetched on next open instead of showing stale 24-hour data.
-        // Bumping a picker cache key requires updating both lines below.
+        // Bumping a picker cache key requires updating the matching line below.
         try { localStorage.removeItem('ms_iret_meta_v3'); } catch (e) {}
         try { localStorage.removeItem('ms_cret_meta_v3'); } catch (e) {}
+        try { localStorage.removeItem('ms_ilet_meta_v8'); } catch (e) {}
       } catch (e) {
         _mmgStatus('Save failed: ' + e.message, '#dc2626');
       } finally {
