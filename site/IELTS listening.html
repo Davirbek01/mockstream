@@ -5323,7 +5323,13 @@
     function renderExtracts(part) {
       let html = '';
       part.extracts.forEach(ext => {
-        html += '<div class="extract-box"><div class="extract-header">' + ext.title + '</div><div class="extract-questions">';
+        // Gemini omits ext.title for single-extract sections (e.g. Mock 51
+        // Section 3 — one continuous conversation, no per-block heading
+        // in the source PDF). Suppress the header div entirely in that
+        // case so the runner doesn\'t render the literal "undefined".
+        html += '<div class="extract-box">';
+        if (ext.title) html += '<div class="extract-header">' + ext.title + '</div>';
+        html += '<div class="extract-questions">';
         var qs = ext.questions || [];
         var qi = 0;
         while (qi < qs.length) {
