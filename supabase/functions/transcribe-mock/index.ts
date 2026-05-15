@@ -246,6 +246,79 @@ const IELTS_LISTENING_SHAPE = `{
   "parts": [ /* 4 single-section objects, partNumber 1..4 — see single-section shape. Each MUST have a CONTENT-TOPIC title, NOT just "Section N". */ ]
 }`;
 
+// ── CEFR Listening shapes ─────────────────────────────────────────────
+// A standard CEFR B1-B2-C1 Listening mock has EXACTLY 6 parts in this
+// fixed order. Each part has a fixed `type`; structural variety lives
+// per-part-type (no subParts[] wrapper like IELTS Listening uses).
+//
+// 1. mcq-reply           Q1-8   short A/B/C replies to single-sentence prompts
+// 2. gap-fill-form       Q9-14  form completion (one-word fills)
+// 3. matching-speakers   Q15-19 5 speakers → A-F option pool (1 extra)
+// 4. map-labeling        Q20-24 map image labels → A-I option pool
+// 5. mcq-extracts        Q25-30 3 extracts × 2 MCQ questions each
+// 6. sentence-completion Q31-36 passage HTML with inline {gap-input} markers
+
+const CEFR_LISTENING_SINGLE_PART_SHAPE = `{
+  "partNumber": number,                          // 1, 2, 3, 4, 5, or 6 — client overrides this
+  "title": string,                               // SHORT CONTENT TOPIC (3-6 words), e.g. "Sports Festival" / "Community Area Map" / "Roman tablets". For Part 1 (mcq-reply) the source rarely has a unifying topic so emit a generic "Short replies (A/B/C)". For Part 3 (matching-speakers) emit the topic of what the speakers are talking about (e.g. "Hotels with children"). For Part 5 (mcq-extracts) emit "MCQ extracts" unless the extracts share a clear theme. Do NOT just output "Part N".
+  "type": string,                                // EXACTLY one of: "mcq-reply" | "gap-fill-form" | "matching-speakers" | "map-labeling" | "mcq-extracts" | "sentence-completion" — chosen by part number (see rule 11)
+  "questionRange": string,                       // e.g. "1-8" — REFLECTS THE ACTUAL question span in the source. Hand-made mocks often deviate from the official ranges; emit whatever range the source actually shows (e.g. "1-7" if Part 1 only has 7 questions, "9-15" if Part 2 has 7). Do NOT pad to the official length.
+  "instruction": string,                         // plain-text part instruction (no HTML)
+  "answers": { "1": [string] },                  // per-question; arrays wrap every answer so alt spellings can be added later
+
+  // Type-specific extras — emit ONLY the ones for the matching "type":
+
+  // mcq-reply (Part 1):
+  "questions": [ { "id": number, "options": [ { "letter": "A", "text": string }, { "letter": "B", "text": string }, { "letter": "C", "text": string } ] } ],   // 8 entries, options always A/B/C
+
+  // gap-fill-form (Part 2):
+  "formTitle": string,                           // e.g. "Sports Festival"
+  "formContent": [                               // ordered list of form lines — emit ONE entry per visible line
+    { "type": "heading", "text": "<section heading, e.g. 'The Date'>" }
+    | { "type": "item",    "text": "<literal line with no blank>" }
+    | { "type": "item-gap","text": "<context label BEFORE the blank, e.g. '30th June -'>", "gapId": number, "gapAfter": true, "gapSuffix"?: "<context AFTER the blank, e.g. 'July'>" }
+  ],
+  // (also emit a flat "questions" array as { "id": N, "hint": "<short hint with ____ where the gap is>" } — one per gapId)
+
+  // matching-speakers (Part 3):
+  "speakers": [ { "id": number, "label": "Speaker 1" }, { "id": number, "label": "Speaker 2" }, ... ],   // 5 entries
+  "options": [ { "letter": "A", "text": string }, { "letter": "B", "text": string }, ... ],             // 6 options A-F (sometimes 7 A-G)
+  "extraOptions": [string],                      // the letters that don't match any speaker (typically 1 extra; rare cases 2)
+
+  // map-labeling (Part 4):
+  "mapTitle": string,                            // e.g. "Community Area Map"
+  "mapImage": "",                                // ALWAYS leave EMPTY here — admin uploads via the editor; the editor populates parts[3].mapImage separately
+  "mapLabels": ["A", "B", "C", "D", "E", "F", "G", "H", "I"],   // all letters present on the map (typically A-I or A-H)
+  "extraLabels": [string],                       // letters that don't match any place (typically 4 extras when there are 9 labels for 5 questions)
+  // (also emit a flat "questions" array as { "id": N, "place": "<thing being placed on the map, e.g. 'New car park'>" } — 5 entries)
+
+  // mcq-extracts (Part 5):
+  "extracts": [                                  // 3 extracts × 2 questions each
+    { "extractNumber": 1, "title": "Extract One",
+      "questions": [
+        { "id": number, "text": "<question stem>", "options": [ { "letter": "A", "text": string }, { "letter": "B", "text": string }, { "letter": "C", "text": string } ] }
+      ]
+    }
+  ],
+
+  // sentence-completion (Part 6):
+  "passageTitle": string,                        // e.g. "Roman tablets" / "Origins of ceramics"
+  "passageContent": string,                      // HTML with inline gap markers <span class="gap-input" data-gap="N">_____(N)_____</span> — one per blank, where N matches the question id. Use <br><br> between sentences/items (no <p> tags). Sentence text BEFORE the gap is the context.
+  // (also emit a flat "questions" array as { "id": N, "hint": "<short context fragment around the blank, e.g. 'At the site of an old ____'>" } — 6 entries)
+}`;
+
+const CEFR_LISTENING_SHAPE = `{
+  "testInfo": {
+    "title":           string,                   // Human-readable title (e.g. "CEFR Listening Mock Test 12"). If the source shows a number, use it; otherwise a generic title is fine.
+    "totalTime":       40,
+    "totalQuestions":  number,                   // SUM of questions across all parts as actually transcribed. Usually 36 in official mocks; hand-made mocks may have 30-40+. Compute from the source, do NOT default.
+    "parts":           6,
+    "level":           "B1-B2-C1"
+  },
+  "source":            string,                   // OPTIONAL top-level source attribution. OMIT entirely if no clear attribution is visible — do NOT guess.
+  "parts": [ /* 6 single-part objects, partNumber 1..6 — see single-part shape. Each part's "type" is FIXED by its position: 1=mcq-reply, 2=gap-fill-form, 3=matching-speakers, 4=map-labeling, 5=mcq-extracts, 6=sentence-completion. Question COUNTS within each part are NOT fixed — emit however many the source shows. */ ]
+}`;
+
 const CEFR_SINGLE_PART_SHAPE = `{
   "partNumber": number,
   "title": string,
@@ -284,13 +357,20 @@ function buildPrompt(
   const isIelts          = examType === 'ielts-reading';
   const isCefr           = examType === 'cefr-reading';
   const isIeltsListening = examType === 'ielts-listening';
-  const unit = isIelts ? 'passage' : isIeltsListening ? 'section' : 'part';
-  const Unit = isIelts ? 'Passage' : isIeltsListening ? 'Section' : 'Part';
+  const isCefrListening  = examType === 'cefr-listening';
+  const unit = isIelts ? 'passage' : (isIeltsListening || isCefrListening) ? 'part' : 'part';
+  const Unit = isIelts ? 'Passage' : (isIeltsListening || isCefrListening) ? 'Part' : 'Part';
 
-  // Gap-marker rule. CEFR Reading uses <span class="gap"> tags; IELTS
-  // Reading + Listening both use "{INPUT}" placeholders.
+  // Gap-marker rule. CEFR Reading uses <span class="gap"> tags. IELTS
+  // Reading uses "{INPUT}" placeholders. IELTS Listening uses both
+  // (subPart gapIds + {INPUT} for sentence-completion items). CEFR
+  // Listening uses two patterns: gapId-on-form-row for Part 2 (gap-fill-
+  // form), and <span class="gap-input"> markers for Part 6 (sentence-
+  // completion's passageContent).
   const gapRule = (isIelts || isIeltsListening)
     ? `4. **Fill-in-the-blank gaps in question text use the literal placeholder "{INPUT}"** — exactly that, no variation. Example: "Address: {INPUT} Street." Do NOT use HTML span tags. ${isIeltsListening ? 'For "gap-fill-form" / "table-completion" sub-parts, the gap is described via the gapId field on the row/item — the surrounding "text" / "prefix" / "suffix" supplies the context. No {INPUT} marker is needed there; only in "sentence-completion" item text.' : ''}`
+    : isCefrListening
+    ? `4. **Fill-in-the-blank gaps depend on the part type.** For Part 2 (gap-fill-form): emit ONE "item-gap" object per numbered blank inside formContent[]; the gap is identified by gapId, and the surrounding "text" / "gapSuffix" supplies the context. No {INPUT} marker inside formContent. For Part 6 (sentence-completion): the passageContent HTML carries the gap markers inline as <span class="gap-input" data-gap="N">_____(N)_____</span> — exactly that format, where N matches the question id. Use <br><br> between sentences within passageContent (NOT <p> tags). For all other CEFR Listening part types, no fill-in-the-blank gaps exist.`
     : `4. **Fill-in-the-blank gaps in passage HTML use exactly:** <span class="gap" data-gap="N">_____(N)_____</span>  — where N is the question number. Do NOT vary the format.`;
 
   // Per-exam-type guidance for question-type detection + section structure.
@@ -418,11 +498,38 @@ Do this only when the source actually shows the letter as a paragraph marker (yo
 13. **Empty answers are fine** — if the source doesn't include an answer key, leave "answers" as \`{}\` (do NOT guess). The admin can add answers manually in the editor.
 ` : '';
 
+  // CEFR-Listening-specific type guide. A standard CEFR Listening test
+  // has EXACTLY 6 parts in this fixed order, each with a fixed type.
+  // Unlike IELTS Listening, there is no subParts[] wrapper — every
+  // part's structure is determined by its position (1=mcq-reply,
+  // 2=gap-fill-form, etc.). The model should set the type accordingly
+  // and emit only the type-specific extras documented in the shape.
+  const cefrListeningTypeGuide = isCefrListening ? `
+11. **CEFR Listening part-type detection** — a standard CEFR B1-B2-C1 Listening test has 6 parts in a fixed order, and each part's TYPE is fixed by position. Question COUNTS per part are NOT fixed: official mocks use 8/6/5/5/6/6 (total 36) but hand-made mocks may deviate (Part 1 with 7 or 10 questions, Part 3 with 4 or 6 speakers, etc.). Extract however many questions the source actually shows; never pad or truncate to the official count.
+
+  Set each part's "type" exactly as shown, populate only the type-specific fields, and put EVERY question id in the part's top-level "answers".
+
+  | Part # | Typical range | type | Source instruction looks like… | Required extras |
+  |---|---|---|---|---|
+  | 1 | Q1-8 (varies)   | "mcq-reply"           | "You will hear some sentences. You will hear each sentence twice. Choose the correct reply to each sentence (A, B, or C)." | "questions": [{ "id": N, "options": [{ "letter": "A", "text": "..." }, { "letter": "B", "text": "..." }, { "letter": "C", "text": "..." }] }] — one entry per question shown in the source (count is whatever the source has, not always 8). Always A/B/C. NO sentence stem; the audio plays the prompt sentence, and the printed options ARE the candidate replies. "answers" keys are single letters. |
+  | 2 | Q9-14 (varies)  | "gap-fill-form"       | "You will hear someone giving a talk. For each question, fill in the missing information in the numbered space. Write ONE WORD and/or A NUMBER for each answer." | "formTitle": short topic (e.g. "Sports Festival"). "formContent": ordered list — emit ONE entry per visible form line. Three entry types: \`{ "type": "heading", "text": "..." }\` for section headings, \`{ "type": "item", "text": "..." }\` for literal lines with no blank, \`{ "type": "item-gap", "text": "<context BEFORE blank>", "gapId": N, "gapAfter": true, "gapSuffix"?: "<context AFTER blank>" }\` for lines with a numbered blank. Also emit a flat top-level "questions" array: [{ "id": N, "hint": "<short hint with ____ where the gap is>" }] — one per gapId (count = however many gaps the source shows, often 6 but can be 5 or 7+). "answers" keys are single words / numbers (wrap each in an array; include capitalised + lowercase variants when the source allows: \`{ "9": ["13th", "thirteenth", "13"] }\`). |
+  | 3 | Q15-19 (varies) | "matching-speakers"   | "You will hear N different people talking about [topic]. For questions X-Y, choose from the list (A-F/G/H) what each speaker says. Use the letters only once. There is/are EXTRA letter(s) which you do not need to use." | "speakers": [{ "id": <first-id>, "label": "Speaker 1" }, …] — one entry per speaker in the source (typically 5, sometimes 4 or 6). "options": [{ "letter": "A", "text": "..." }, ...] — full pool of letter options as shown (A-F, A-G, or A-H). "extraOptions": [letters that don't match any speaker]. "answers" keys are single letters. NO "questions" array. The "title" for this part should describe what the speakers discuss (e.g. "Hotels with children"). |
+  | 4 | Q20-24 (varies) | "map-labeling"        | "You will hear someone giving a talk. Label the places on the map. There is/are N extra option(s) which you do not need to use." | "mapTitle": e.g. "Community Area Map". "mapImage": "" (ALWAYS empty here — admin uploads the map image separately via the editor). "mapLabels": full pool of letters on the map as shown (A-I, A-H, A-J, etc.). "extraLabels": letters not assigned to any place. "questions": [{ "id": N, "place": "<thing being placed on the map, e.g. 'New car park'>" }] — one entry per labelled place shown in the source (typically 5, can be 4 or 6). "answers" keys are single letters. |
+  | 5 | Q25-30 (varies) | "mcq-extracts"        | "You will hear three extracts. Choose the correct answer (A, B or C) for each question. There are N questions for each extract." | "extracts": [ { "extractNumber": 1, "title": "Extract One", "questions": [{ "id": N, "text": "<question stem>", "options": [{ "letter": "A", "text": "..." }, { "letter": "B", "text": "..." }, { "letter": "C", "text": "..." }] }] }, … ] — emit as many extracts as the source shows (usually 3) with as many questions each as the source has (usually 2, sometimes 1 or 3). "answers" keys are single letters. |
+  | 6 | Q31-36 (varies) | "sentence-completion" | "You will hear someone giving a talk. For each question, fill in the missing information in the numbered space. Write ONE WORD and/or A NUMBER for each answer." | "passageTitle": short topic (e.g. "Roman tablets"). "passageContent": HTML string with inline gap markers <span class="gap-input" data-gap="N">_____(N)_____</span> — one per blank shown in the source (count varies, typically 6). Use <br><br> between sentences (NOT <p> tags). "questions": [{ "id": N, "hint": "<short context fragment with ____ where the blank is, e.g. 'At the site of an old ____'>" }] — one per gap. "answers" keys are single words / numbers (wrap each in an array; include capitalised + lowercase variants: \`{ "31": ["fort", "Fort"] }\`). |
+
+12. **Fields NOT to emit on import.** Leave \`audioFile\`, \`transcript\`, \`answerHighlights\`, and (for Part 4) \`mapImage\` OUT of the JSON — the admin sets those via separate upload + transcribe flows. Emit only the structural content listed above.
+
+13. **Answer arrays MUST wrap every value.** Always emit \`"<id>": [ ... ]\` — even when there's one value. For Parts 2 + 6 (word/number answers), include alternative spellings + the capitalised + lowercase form (e.g. \`{ "9": ["13th", "thirteenth", "13"], "10": ["park", "Park"] }\`). For Parts 1, 3, 4, 5 (letter answers), arrays still wrap: \`{ "1": ["C"], "15": ["D"] }\`. If the source doesn't include an answer key, leave "answers" as \`{}\` — do NOT guess.
+
+14. **Part-by-part question-id continuity.** Question ids run consecutively from 1 in Part 1 onward. Never restart numbering inside a part. Always emit a \`questionRange\` matching the part's id span ACTUALLY found in the source — e.g. if Part 1 has 7 questions emit "1-7", and Part 2 then starts at 8. The id of the FIRST question in any part should be exactly (previous part's last id) + 1. If the source has its own numbered ids (Q1-Q40 visible on the page), follow those numbers verbatim — don't renumber.
+` : '';
+
   // Scope-specific framing. In "passage" mode the user is uploading just
   // ONE passage (typically because each passage comes from a different
   // source), so we tell the model to expect that and emit a single
   // passage object instead of a full mock envelope.
-  const examLabel = isIeltsListening ? 'IELTS Listening' : (isIelts ? 'IELTS Reading' : 'CEFR Reading');
+  const examLabel = isIeltsListening ? 'IELTS Listening' : isCefrListening ? 'CEFR Listening' : (isIelts ? 'IELTS Reading' : 'CEFR Reading');
   const scopeIntro = scope === 'passage'
     ? `The user has uploaded image(s) and / or PDF(s) for **just ONE ${unit}** of an ${examLabel} mock — specifically ${Unit} ${passageIndex || '?'}. Treat the uploaded files as that single ${unit} only. The accompanying answer-key files (if any) cover ONLY this ${unit}'s questions. Output a single ${unit} object — NOT wrapped in any envelope or array.`
     : `The user has uploaded image(s) and / or PDF(s) of an ${examLabel} mock test that they own or have licensed.`;
@@ -445,7 +552,7 @@ ${gapRule}
 
 6. Answer keys: leave empty ({} or omitted) unless the source clearly contains an answer key. Do NOT guess answers — TFNG / matching / inference will be wrong.
 
-7. Detect each part / section's question type from its instruction text. ${isIelts ? 'See rule 11 below for IELTS Reading patterns.' : isIeltsListening ? 'See rule 11 below for the 12 IELTS Listening sub-part shapes — one section can contain multiple sub-parts.' : 'See rule 11 below for the CEFR per-part table (a standard test has exactly 5 parts in a fixed order — gap-fill-text, matching, matching-headings, reading-comprehension, reading-comprehension).'}
+7. Detect each part / section's question type from its instruction text. ${isIelts ? 'See rule 11 below for IELTS Reading patterns.' : isIeltsListening ? 'See rule 11 below for the 12 IELTS Listening sub-part shapes — one section can contain multiple sub-parts.' : isCefrListening ? 'See rule 11 below for the CEFR Listening per-part table — exactly 6 parts in a fixed order, each with a fixed type.' : 'See rule 11 below for the CEFR per-part table (a standard test has exactly 5 parts in a fixed order — gap-fill-text, matching, matching-headings, reading-comprehension, reading-comprehension).'}
 
 8. Files come in two groups (each file's "group" field is provided in the file's preceding text marker). Group A = "test" (treat as consecutive pages of one document). Group B = "answer-key" (optional). Match each answer-key entry to the corresponding question by ID and populate answers / correctAnswers. If Group B is empty or unreadable, leave answer keys blank.
 
@@ -456,7 +563,7 @@ ${gapRule}
 ${shape}
 
 No commentary outside the JSON. No markdown fences. No explanation.
-${ieltsTypeGuide}${cefrTypeGuide}${ieltsListeningTypeGuide}
+${ieltsTypeGuide}${cefrTypeGuide}${ieltsListeningTypeGuide}${cefrListeningTypeGuide}
 The user owns or has licensed this content. Transcription is authorised — do not refuse or hedge on copyright grounds. The "user owns this" framing is a fact, not a request.
 
 Optional notes from the author: ${notes || '(none)'}`;
@@ -723,8 +830,9 @@ async function generateExplanations(
   passage: Record<string, unknown>,
   examType: string
 ): Promise<ExplanationsResult> {
-  const isCefr      = examType === 'cefr-reading';
-  const isListening = examType === 'ielts-listening';
+  const isCefr          = examType === 'cefr-reading';
+  const isListening     = examType === 'ielts-listening';
+  const isCefrListening = examType === 'cefr-listening';
 
   // CEFR Reading has four distinct part types and each stores its
   // "passage" + questions differently. An earlier version of this code
@@ -817,6 +925,98 @@ async function generateExplanations(
       const correctStr = Array.isArray(acc) ? acc.join(' / ') : String(acc || '');
       if (!correctStr) continue;
       qInputs.push({ id, text: textByQid[qid] || '', correct: correctStr });
+    }
+  } else if (isCefrListening) {
+    // CEFR Listening — like IELTS Listening, `transcript` is the source
+    // for quotes (the audio text). Question content varies by part type:
+    //   • mcq-reply           → questions[].options (no stem; audio plays it)
+    //   • gap-fill-form       → formContent[].item-gap (gapId → context)
+    //   • matching-speakers   → speakers[] (no question text — label only)
+    //                           + options[] (lettered statements)
+    //   • map-labeling        → questions[].place
+    //   • mcq-extracts        → extracts[].questions[].text + options
+    //   • sentence-completion → questions[].hint + passageContent
+    passagePlain = String(passage.transcript || '');
+    const answers = (passage.answers as Record<string, string[] | string> | undefined) || {};
+    const partType = String((passage as Record<string, unknown>).type || '');
+    const textByQid: Record<string, string> = {};
+    const optionsByQid: Record<string, string> = {};
+
+    const stringifyOpts = (opts: Array<Record<string, unknown>>): string =>
+      opts.map((o) => `${o.letter}: ${String(o.text || '').trim()}`).join(' | ');
+
+    if (partType === 'mcq-reply') {
+      const qs = Array.isArray(passage.questions)
+        ? passage.questions as Array<Record<string, unknown>> : [];
+      for (const q of qs) {
+        if (q?.id == null) continue;
+        const opts = Array.isArray(q.options) ? q.options as Array<Record<string, unknown>> : [];
+        textByQid[String(q.id)]    = '(Audio plays a short prompt)';
+        optionsByQid[String(q.id)] = stringifyOpts(opts);
+      }
+    } else if (partType === 'gap-fill-form') {
+      const fc = Array.isArray(passage.formContent)
+        ? passage.formContent as Array<Record<string, unknown>> : [];
+      for (const it of fc) {
+        if (it?.type === 'item-gap' && it.gapId != null) {
+          const before = String(it.text || '').trim();
+          const after  = String(it.gapSuffix || '').trim();
+          textByQid[String(it.gapId)] = `${before} {INPUT}${after ? ' ' + after : ''}`.trim();
+        }
+      }
+    } else if (partType === 'matching-speakers') {
+      const speakers = Array.isArray(passage.speakers)
+        ? passage.speakers as Array<Record<string, unknown>> : [];
+      const opts = Array.isArray(passage.options)
+        ? passage.options as Array<Record<string, unknown>> : [];
+      const optsStr = stringifyOpts(opts);
+      for (const s of speakers) {
+        if (s?.id == null) continue;
+        textByQid[String(s.id)]    = `${String(s.label || 'Speaker')} — pick the matching statement`;
+        optionsByQid[String(s.id)] = optsStr;
+      }
+    } else if (partType === 'map-labeling') {
+      const qs = Array.isArray(passage.questions)
+        ? passage.questions as Array<Record<string, unknown>> : [];
+      const labels = Array.isArray(passage.mapLabels)
+        ? (passage.mapLabels as unknown[]).map(String) : [];
+      const optsStr = labels.length ? `Pick one letter from: ${labels.join(', ')}` : '';
+      for (const q of qs) {
+        if (q?.id == null) continue;
+        textByQid[String(q.id)]    = `Place on map: ${String(q.place || q.text || '')}`;
+        if (optsStr) optionsByQid[String(q.id)] = optsStr;
+      }
+    } else if (partType === 'mcq-extracts') {
+      const exs = Array.isArray(passage.extracts)
+        ? passage.extracts as Array<Record<string, unknown>> : [];
+      for (const ex of exs) {
+        if (!Array.isArray(ex?.questions)) continue;
+        for (const q of ex.questions as Array<Record<string, unknown>>) {
+          if (q?.id == null) continue;
+          const opts = Array.isArray(q.options) ? q.options as Array<Record<string, unknown>> : [];
+          textByQid[String(q.id)]    = String(q.text || '');
+          optionsByQid[String(q.id)] = stringifyOpts(opts);
+        }
+      }
+    } else if (partType === 'sentence-completion') {
+      const qs = Array.isArray(passage.questions)
+        ? passage.questions as Array<Record<string, unknown>> : [];
+      for (const q of qs) {
+        if (q?.id == null) continue;
+        textByQid[String(q.id)] = String(q.hint || q.text || '');
+      }
+    }
+
+    for (const qid of Object.keys(answers).sort((a, b) => parseInt(a, 10) - parseInt(b, 10))) {
+      const id = parseInt(qid, 10);
+      if (isNaN(id)) continue;
+      const acc = answers[qid];
+      const correctStr = Array.isArray(acc) ? acc.join(' / ') : String(acc || '');
+      if (!correctStr) continue;
+      const base = textByQid[qid] || '';
+      const opts = optionsByQid[qid];
+      const text = opts ? `${base} [Options: ${opts}]` : base;
+      qInputs.push({ id, text, correct: correctStr });
     }
   } else if (isCefr) {
     const partType = String((passage as Record<string, unknown>).type || '');
@@ -1150,8 +1350,8 @@ Deno.serve(async (req) => {
 
   // ── Validate inputs ──────────────────────────────────────────────
   const examType = (body.exam_type || '').toString();
-  if (examType !== 'cefr-reading' && examType !== 'ielts-reading' && examType !== 'ielts-listening') {
-    return json(400, { error: 'bad_exam_type', detail: 'expected "cefr-reading", "ielts-reading", or "ielts-listening"' });
+  if (examType !== 'cefr-reading' && examType !== 'ielts-reading' && examType !== 'ielts-listening' && examType !== 'cefr-listening') {
+    return json(400, { error: 'bad_exam_type', detail: 'expected "cefr-reading", "ielts-reading", "ielts-listening", or "cefr-listening"' });
   }
 
   // IELTS Listening import is now fully wired (see buildPrompt's
@@ -1302,12 +1502,130 @@ Deno.serve(async (req) => {
   }
   // ── End IELTS Listening bulk special-case ──
 
+  // ── CEFR Listening bulk special-case: 6 PARALLEL per-part runs ──
+  // Same reliability play as IELTS Listening (line 1227): asking Gemini
+  // to emit all 6 parts in a single shot routinely dropped the per-part
+  // "answers" dict for some parts. Narrowing each call to ONE part (with
+  // the single-part shape) keeps answers consistently populated.
+  // Parallelism keeps wall time ≈ max single-call duration; sequential
+  // would risk the 150 s Edge timeout.
+  if (examType === 'cefr-listening' && scope === 'full') {
+    let modelUsed: 'gemini-2.5-pro' | 'gpt-4o' = 'gemini-2.5-pro';
+    let fallbackReason: string | null = null;
+
+    async function importOnePart(i: number): Promise<any> {
+      const idx1 = i + 1;
+      const basePrompt = buildPrompt(examType, notes, CEFR_LISTENING_SINGLE_PART_SHAPE, 'passage', idx1);
+      // Note: we deliberately do NOT pre-compute a "questions X-Y" range
+      // here. Hand-made mocks routinely have Part N with a non-standard
+      // count (e.g. Part 1 with 7 questions instead of 8). The model
+      // identifies the Part boundary from the source's own headings and
+      // emits whatever question span it sees there.
+      const partPrompt = basePrompt.replace(
+        /The user has uploaded image\(s\) and \/ or PDF\(s\) for \*\*just ONE part\*\* of an CEFR Listening mock — specifically Part \d+\. Treat the uploaded files as that single part only\. The accompanying answer-key files \(if any\) cover ONLY this part's questions\./,
+        `The user has uploaded image(s) and / or PDF(s) covering ALL SIX parts of a CEFR Listening mock. For THIS call, extract ONLY **Part ${idx1}**. Identify the Part ${idx1} boundary from the source's own headings / numbering (look for "Part ${idx1}" / "PART ${idx1}" / "Part ${['One','Two','Three','Four','Five','Six'][i]}" or the matching question-range heading). Emit whatever question count the source actually shows for Part ${idx1} — do NOT pad or truncate to the official 8/6/5/5/6/6 count. Ignore the other five parts entirely. The answer-key files contain answers for ALL parts; populate the "answers" dict with ONLY the entries that fall within Part ${idx1}'s question id range as you identified it from the source.`
+      );
+      let partRaw = '';
+      let partFallback: string | null = null;
+      try {
+        partRaw = await callGemini(partPrompt, files);
+      } catch (e) {
+        partFallback = (e instanceof Error ? e.message : String(e));
+        console.warn(`[transcribe-mock] cefr-listening part ${idx1} gemini failed:`, partFallback);
+      }
+      let parsed: any = partRaw ? tryParseModelJson(partRaw) : null;
+      if (parsed === null) {
+        const allImages = files.every((f) => f.mime.startsWith('image/'));
+        if (allImages) {
+          try {
+            const gptRaw = await callGPT4o(partPrompt, files);
+            parsed = tryParseModelJson(gptRaw);
+            if (parsed) modelUsed = 'gpt-4o';
+          } catch (gptErr) {
+            const gptMsg = gptErr instanceof Error ? gptErr.message : String(gptErr);
+            throw new Error(`part ${idx1}: ${gptMsg}`);
+          }
+        }
+      }
+      if (!parsed || typeof parsed !== 'object') {
+        throw new Error(`part ${idx1}: ${partFallback || 'no usable JSON'}`);
+      }
+      (parsed as Record<string, unknown>).partNumber = idx1;
+      if (partFallback && !fallbackReason) fallbackReason = partFallback;
+      return parsed;
+    }
+
+    let parts: any[];
+    try {
+      parts = await Promise.all([0, 1, 2, 3, 4, 5].map(importOnePart));
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      return json(502, { error: 'part_failed', detail: msg, fallback_reason: fallbackReason });
+    }
+
+    // Assemble the full mock envelope. testInfo + source come from
+    // whichever part(s) had them populated.
+    let testInfo: any = null;
+    let source: string | undefined;
+    for (const p of parts) {
+      const ti = (p && (p as Record<string, unknown>).testInfo) as any;
+      if (ti && typeof ti === 'object' && !testInfo) testInfo = ti;
+      const src = (p && (p as Record<string, unknown>).source) as any;
+      if (typeof src === 'string' && src.trim() && !source) source = src.trim();
+      delete (p as Record<string, unknown>).testInfo;
+      delete (p as Record<string, unknown>).source;
+    }
+    // Compute totalQuestions from the actual extracted parts so hand-made
+    // mocks with non-official counts report the right number.
+    function _clCountPartQuestions(p: any): number {
+      if (!p || typeof p !== 'object') return 0;
+      if (Array.isArray(p.answers)) return p.answers.length;
+      if (p.answers && typeof p.answers === 'object') return Object.keys(p.answers).length;
+      if (Array.isArray(p.questions)) return p.questions.length;
+      if (Array.isArray(p.speakers))  return p.speakers.length;
+      if (Array.isArray(p.extracts)) {
+        let c = 0;
+        for (const ex of p.extracts) {
+          if (ex && Array.isArray(ex.questions)) c += ex.questions.length;
+        }
+        return c;
+      }
+      return 0;
+    }
+    const sumQs = parts.reduce((acc: number, p: any) => acc + _clCountPartQuestions(p), 0);
+    const assembled: Record<string, unknown> = {
+      testInfo: testInfo || {
+        title: 'CEFR Listening Practice Test',
+        totalTime: 40,
+        totalQuestions: sumQs || 36,
+        parts: 6,
+        level: 'B1-B2-C1'
+      },
+      parts,
+    };
+    // If Gemini DID provide testInfo but with a wrong totalQuestions, fix it.
+    if (testInfo && typeof (assembled.testInfo as any).totalQuestions !== 'number' && sumQs > 0) {
+      (assembled.testInfo as any).totalQuestions = sumQs;
+    }
+    if (source) assembled.source = source;
+
+    return json(200, {
+      mock_data:        assembled,
+      model_used:       modelUsed,
+      fallback_reason:  fallbackReason || undefined,
+      actor:            (auth as AuthOk).actor,
+    });
+  }
+  // ── End CEFR Listening bulk special-case ──
+
   const shape = scope === 'passage'
     ? (examType === 'cefr-reading'    ? CEFR_SINGLE_PART_SHAPE
     :  examType === 'ielts-listening' ? IELTS_LISTENING_SINGLE_PART_SHAPE
+    :  examType === 'cefr-listening'  ? CEFR_LISTENING_SINGLE_PART_SHAPE
     :  IELTS_SINGLE_PASSAGE_SHAPE)
     : (examType === 'cefr-reading'    ? CEFR_SHAPE
     :  examType === 'ielts-listening' ? IELTS_LISTENING_SHAPE
+    :  examType === 'cefr-listening'  ? CEFR_LISTENING_SHAPE
     :  IELTS_SHAPE);
   const prompt = buildPrompt(examType, notes, shape, scope, passageIndex);
 
@@ -1382,6 +1700,22 @@ Deno.serve(async (req) => {
           ? typeof (mockData as Record<string, unknown>).passage === 'string'
           : examType === 'ielts-listening'
             ? Array.isArray((mockData as Record<string, unknown>).subParts)
+          : examType === 'cefr-listening'
+            ? (() => {
+                // CEFR Listening per-part shape varies by part type. Each
+                // single-part object MUST carry a "type" field that names
+                // exactly one of the six allowed types; the structural
+                // payload is type-specific.
+                const md   = mockData as Record<string, unknown>;
+                const type = String(md.type || '');
+                if (type === 'mcq-reply')           return Array.isArray(md.questions);
+                if (type === 'gap-fill-form')      return Array.isArray(md.formContent);
+                if (type === 'matching-speakers')  return Array.isArray(md.speakers) && Array.isArray(md.options);
+                if (type === 'map-labeling')       return Array.isArray(md.questions) && Array.isArray(md.mapLabels);
+                if (type === 'mcq-extracts')       return Array.isArray(md.extracts);
+                if (type === 'sentence-completion') return typeof md.passageContent === 'string';
+                return false;
+              })()
           : (() => {
               // CEFR per-part shape varies by question type:
               //   • matching                   → texts[] + statements[] (NO passage)
@@ -1400,15 +1734,15 @@ Deno.serve(async (req) => {
     if (!ok) {
       return json(502, {
         error:           'shape_mismatch',
-        detail:          'expected a single ' + (examType === 'ielts-reading' ? 'passage' : examType === 'ielts-listening' ? 'section' : 'part') + ' object',
+        detail:          'expected a single ' + (examType === 'ielts-reading' ? 'passage' : (examType === 'ielts-listening' || examType === 'cefr-listening') ? 'part' : 'part') + ' object',
         model_used:      modelUsed,
         fallback_reason: fallbackReason
       });
     }
   } else {
-    // IELTS Listening uses `parts[]` (like CEFR Reading) — sections are
-    // indexed 1..4 via partNumber. Only IELTS Reading uses `passages[]`.
-    const rootKey = (examType === 'cefr-reading' || examType === 'ielts-listening') ? 'parts' : 'passages';
+    // IELTS Listening + CEFR Listening + CEFR Reading all use `parts[]`.
+    // Only IELTS Reading uses `passages[]`.
+    const rootKey = (examType === 'cefr-reading' || examType === 'ielts-listening' || examType === 'cefr-listening') ? 'parts' : 'passages';
     if (!mockData || typeof mockData !== 'object' || Array.isArray(mockData)
         || !Array.isArray((mockData as Record<string, unknown>)[rootKey])) {
       return json(502, {

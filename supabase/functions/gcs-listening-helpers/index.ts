@@ -136,6 +136,11 @@ async function generateV4SignedPutUrl(opts: {
 async function detectSectionStartsWithGemini(opts: {
   audioUrl: string;
   geminiKey: string;
+  // examType controls prompt + section count + output key prefix.
+  // 'ielts-listening' (default): 4 sections, "Section One/Two/Three/Four" cues, keys section1..4.
+  // 'cefr-listening': 6 parts, "Part One/Two/.../Six" cues + numbered question announcements
+  //                   ("Now we'll move on to Part 3", etc.), keys section1..6 (caller maps to parts).
+  examType?: string;
 }): Promise<Record<string, number>> {
   // 1. Fetch audio bytes from GCS.
   const audioResp = await fetch(opts.audioUrl);
@@ -218,14 +223,27 @@ async function detectSectionStartsWithGemini(opts: {
     fileState = String(sj?.state || sj?.file?.state || "PROCESSING").toUpperCase();
   }
 
-  // 4. Call generateContent referencing the uploaded file.
-  const prompt =
-    `You are listening to a merged IELTS Listening test audio that contains all four sections back-to-back. ` +
-    `Each section begins with the narrator saying "Section One" / "Section Two" / "Section Three" / "Section Four" (sometimes preceded by a short instructional preamble). ` +
-    `Find the timestamp (in whole seconds from the start of the file) at which the narrator BEGINS the announcement for each section. ` +
-    `Section 1 typically starts at or near 0. ` +
-    `Output ONLY a JSON object — no markdown, no preamble — with exactly these four integer keys: ` +
-    `{"section1": <seconds>, "section2": <seconds>, "section3": <seconds>, "section4": <seconds>}.`;
+  // 4. Call generateContent referencing the uploaded file. Prompt varies
+  //    by exam type — IELTS has 4 sections with "Section One/Two/…" cues,
+  //    CEFR Listening has 6 parts with "Part One/Two/…" or numbered
+  //    "Part 1/2/…" cues plus question-range announcements between parts.
+  const isCefrListening = opts.examType === 'cefr-listening';
+  const prompt = isCefrListening
+    ? `You are listening to a merged CEFR Listening test audio that contains all SIX parts back-to-back. ` +
+      `Each part begins with a narrator cue. Look for any of these cue patterns: ` +
+      `"Part One"/"Part Two"/.../"Part Six"; "Part 1"/"Part 2"/.../"Part 6"; ` +
+      `or numbered question announcements like "Now you will hear Part 2" / "Look at questions 9 to 14" / "For questions 15 to 19" / etc. ` +
+      `(CEFR Listening uses Q1-8 in Part 1, Q9-14 in Part 2, Q15-19 in Part 3, Q20-24 in Part 4, Q25-30 in Part 5, Q31-36 in Part 6.) ` +
+      `Find the timestamp (in whole seconds from the start of the file) at which the narrator BEGINS each part's announcement / instructions. ` +
+      `Part 1 typically starts at or near 0. ` +
+      `Output ONLY a JSON object — no markdown, no preamble — with exactly these six integer keys: ` +
+      `{"section1": <seconds>, "section2": <seconds>, "section3": <seconds>, "section4": <seconds>, "section5": <seconds>, "section6": <seconds>}.`
+    : `You are listening to a merged IELTS Listening test audio that contains all four sections back-to-back. ` +
+      `Each section begins with the narrator saying "Section One" / "Section Two" / "Section Three" / "Section Four" (sometimes preceded by a short instructional preamble). ` +
+      `Find the timestamp (in whole seconds from the start of the file) at which the narrator BEGINS the announcement for each section. ` +
+      `Section 1 typically starts at or near 0. ` +
+      `Output ONLY a JSON object — no markdown, no preamble — with exactly these four integer keys: ` +
+      `{"section1": <seconds>, "section2": <seconds>, "section3": <seconds>, "section4": <seconds>}.`;
 
   const genResp = await fetch(
     `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${opts.geminiKey}`,
@@ -410,7 +428,8 @@ Deno.serve(async (req: Request) => {
     const geminiKey = Deno.env.get("GEMINI_API_KEY");
     if (!geminiKey) return json({ error: "GEMINI_API_KEY not set" }, { status: 500 });
     try {
-      const sections = await detectSectionStartsWithGemini({ audioUrl, geminiKey });
+      const examType = String(body.examType || "ielts-listening");
+      const sections = await detectSectionStartsWithGemini({ audioUrl, geminiKey, examType });
       return json({ sections });
     } catch (e) {
       return json({ error: (e as Error).message }, { status: 500 });
