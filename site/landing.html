@@ -14236,6 +14236,12 @@
       try { await upgradeReading('ielts-listening', ieltsListeningTests, 'IELTS listening.html', 'IELTS Listening Practice Test'); }
       catch (e) { console.warn('IELTS listening dynamic load failed:', e); }
 
+      // CEFR Listening — same flow. Picks up admin-created mocks beyond
+      // the static array (mocks 02-32 were migrated 2026-05-15; anything
+      // 33+ is admin-only and only lives in Supabase).
+      try { await upgradeReading('cefr-listening', cefrListeningTests, 'CEFR Listening.html', 'CEFR Listening Test'); }
+      catch (e) { console.warn('CEFR listening dynamic load failed:', e); }
+
       // If either full-screen picker is currently open, re-render so
       // entries pushed by the upgrader after the user opened the
       // picker (e.g. a freshly-saved AI-imported mock) appear without
@@ -14277,6 +14283,18 @@
           }
         }
       } catch (e) { console.warn('IELTS listening picker re-render failed:', e); }
+
+      try {
+        const cefrListenOverlay = document.getElementById('cletPicker');
+        if (cefrListenOverlay && cefrListenOverlay.classList.contains('ilet-open')
+            && typeof _cletRender === 'function') {
+          _cletRender();
+          const cefrListenCountEl = document.getElementById('cletCount');
+          if (cefrListenCountEl && Array.isArray(cefrListeningTests)) {
+            cefrListenCountEl.textContent = cefrListeningTests.length;
+          }
+        }
+      } catch (e) { console.warn('CEFR listening picker re-render failed:', e); }
     };
     // Run once at page-load (original behaviour).
     window._mmgRefreshAllPickers();
@@ -16416,7 +16434,7 @@
     // Visual styling: reuses the same .ilet-* classes (no CSS duplication).
     // JS handlers scoped by container ID + .clet-chip class.
     // ════════════════════════════════════════════════════════════════════
-    const _clet_CACHE_KEY = 'ms_clet_meta_v3';
+    const _clet_CACHE_KEY = 'ms_clet_meta_v4';
     const _clet_CACHE_TTL = 24 * 60 * 60 * 1000;
     const _clet_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
     const _clet_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
@@ -34718,7 +34736,15 @@
       var setStatus = function (msg, color) {
         if (statusEl) { statusEl.textContent = msg; statusEl.style.color = color || '#64748b'; }
       };
-      var md = _mmgGetMockData();
+      // Flush DOM → mock_data so a freshly-transcribed transcript (still
+      // only in the textarea) and any in-flight answer edits get into the
+      // part before we ship it to Gemini. Without this the admin sees
+      // "No transcript yet" right after clicking Transcribe.
+      if (typeof _mmgFlushStructuredToRaw === 'function' && !_mmgFlushStructuredToRaw()) {
+        setStatus('Fix the highlighted field, then click Generate explanations.', '#dc2626');
+        return;
+      }
+      var md = (window._mmgEditing && window._mmgEditing.mock_data) || _mmgGetMockData();
       if (!md) { setStatus('Invalid mock_data JSON.', '#dc2626'); return; }
       var p = (md.parts && md.parts[idx]) || {};
       if (!p.transcript || !String(p.transcript).trim()) {
@@ -34936,7 +34962,13 @@
       var setStatus = function (msg, color) {
         if (statusEl) { statusEl.textContent = msg; statusEl.style.color = color || '#64748b'; }
       };
-      var md = _mmgGetMockData();
+      // Same DOM-flush as the per-part generator — must happen BEFORE
+      // reading mock_data so unsaved transcripts / answers count.
+      if (typeof _mmgFlushStructuredToRaw === 'function' && !_mmgFlushStructuredToRaw()) {
+        setStatus('Fix the highlighted field, then click Generate all.', '#dc2626');
+        return;
+      }
+      var md = (window._mmgEditing && window._mmgEditing.mock_data) || _mmgGetMockData();
       if (!md || !Array.isArray(md.parts) || md.parts.length === 0) {
         setStatus('No parts loaded — import or paste mock_data first.', '#dc2626');
         return;
@@ -35541,7 +35573,7 @@
         try { localStorage.removeItem('ms_iret_meta_v3'); } catch (e) {}
         try { localStorage.removeItem('ms_cret_meta_v3'); } catch (e) {}
         try { localStorage.removeItem('ms_ilet_meta_v8'); } catch (e) {}
-        try { localStorage.removeItem('ms_clet_meta_v3'); } catch (e) {}
+        try { localStorage.removeItem('ms_clet_meta_v4'); } catch (e) {}
       } catch (e) {
         _mmgStatus('Save failed: ' + e.message, '#dc2626');
       } finally {
@@ -36490,7 +36522,7 @@
         setStatus(summary, 'success');
       }
       try { localStorage.removeItem('ms_cret_meta_v3'); } catch (e) {}
-      try { localStorage.removeItem('ms_clet_meta_v3'); } catch (e) {}
+      try { localStorage.removeItem('ms_clet_meta_v4'); } catch (e) {}
     }
     window._mmgGenerateExplanationsAllCr = _mmgGenerateExplanationsAllCr;
 

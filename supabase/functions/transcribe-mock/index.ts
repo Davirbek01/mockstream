@@ -830,8 +830,9 @@ async function generateExplanations(
   passage: Record<string, unknown>,
   examType: string
 ): Promise<ExplanationsResult> {
-  const isCefr      = examType === 'cefr-reading';
-  const isListening = examType === 'ielts-listening';
+  const isCefr          = examType === 'cefr-reading';
+  const isListening     = examType === 'ielts-listening';
+  const isCefrListening = examType === 'cefr-listening';
 
   // CEFR Reading has four distinct part types and each stores its
   // "passage" + questions differently. An earlier version of this code
@@ -924,6 +925,98 @@ async function generateExplanations(
       const correctStr = Array.isArray(acc) ? acc.join(' / ') : String(acc || '');
       if (!correctStr) continue;
       qInputs.push({ id, text: textByQid[qid] || '', correct: correctStr });
+    }
+  } else if (isCefrListening) {
+    // CEFR Listening — like IELTS Listening, `transcript` is the source
+    // for quotes (the audio text). Question content varies by part type:
+    //   • mcq-reply           → questions[].options (no stem; audio plays it)
+    //   • gap-fill-form       → formContent[].item-gap (gapId → context)
+    //   • matching-speakers   → speakers[] (no question text — label only)
+    //                           + options[] (lettered statements)
+    //   • map-labeling        → questions[].place
+    //   • mcq-extracts        → extracts[].questions[].text + options
+    //   • sentence-completion → questions[].hint + passageContent
+    passagePlain = String(passage.transcript || '');
+    const answers = (passage.answers as Record<string, string[] | string> | undefined) || {};
+    const partType = String((passage as Record<string, unknown>).type || '');
+    const textByQid: Record<string, string> = {};
+    const optionsByQid: Record<string, string> = {};
+
+    const stringifyOpts = (opts: Array<Record<string, unknown>>): string =>
+      opts.map((o) => `${o.letter}: ${String(o.text || '').trim()}`).join(' | ');
+
+    if (partType === 'mcq-reply') {
+      const qs = Array.isArray(passage.questions)
+        ? passage.questions as Array<Record<string, unknown>> : [];
+      for (const q of qs) {
+        if (q?.id == null) continue;
+        const opts = Array.isArray(q.options) ? q.options as Array<Record<string, unknown>> : [];
+        textByQid[String(q.id)]    = '(Audio plays a short prompt)';
+        optionsByQid[String(q.id)] = stringifyOpts(opts);
+      }
+    } else if (partType === 'gap-fill-form') {
+      const fc = Array.isArray(passage.formContent)
+        ? passage.formContent as Array<Record<string, unknown>> : [];
+      for (const it of fc) {
+        if (it?.type === 'item-gap' && it.gapId != null) {
+          const before = String(it.text || '').trim();
+          const after  = String(it.gapSuffix || '').trim();
+          textByQid[String(it.gapId)] = `${before} {INPUT}${after ? ' ' + after : ''}`.trim();
+        }
+      }
+    } else if (partType === 'matching-speakers') {
+      const speakers = Array.isArray(passage.speakers)
+        ? passage.speakers as Array<Record<string, unknown>> : [];
+      const opts = Array.isArray(passage.options)
+        ? passage.options as Array<Record<string, unknown>> : [];
+      const optsStr = stringifyOpts(opts);
+      for (const s of speakers) {
+        if (s?.id == null) continue;
+        textByQid[String(s.id)]    = `${String(s.label || 'Speaker')} — pick the matching statement`;
+        optionsByQid[String(s.id)] = optsStr;
+      }
+    } else if (partType === 'map-labeling') {
+      const qs = Array.isArray(passage.questions)
+        ? passage.questions as Array<Record<string, unknown>> : [];
+      const labels = Array.isArray(passage.mapLabels)
+        ? (passage.mapLabels as unknown[]).map(String) : [];
+      const optsStr = labels.length ? `Pick one letter from: ${labels.join(', ')}` : '';
+      for (const q of qs) {
+        if (q?.id == null) continue;
+        textByQid[String(q.id)]    = `Place on map: ${String(q.place || q.text || '')}`;
+        if (optsStr) optionsByQid[String(q.id)] = optsStr;
+      }
+    } else if (partType === 'mcq-extracts') {
+      const exs = Array.isArray(passage.extracts)
+        ? passage.extracts as Array<Record<string, unknown>> : [];
+      for (const ex of exs) {
+        if (!Array.isArray(ex?.questions)) continue;
+        for (const q of ex.questions as Array<Record<string, unknown>>) {
+          if (q?.id == null) continue;
+          const opts = Array.isArray(q.options) ? q.options as Array<Record<string, unknown>> : [];
+          textByQid[String(q.id)]    = String(q.text || '');
+          optionsByQid[String(q.id)] = stringifyOpts(opts);
+        }
+      }
+    } else if (partType === 'sentence-completion') {
+      const qs = Array.isArray(passage.questions)
+        ? passage.questions as Array<Record<string, unknown>> : [];
+      for (const q of qs) {
+        if (q?.id == null) continue;
+        textByQid[String(q.id)] = String(q.hint || q.text || '');
+      }
+    }
+
+    for (const qid of Object.keys(answers).sort((a, b) => parseInt(a, 10) - parseInt(b, 10))) {
+      const id = parseInt(qid, 10);
+      if (isNaN(id)) continue;
+      const acc = answers[qid];
+      const correctStr = Array.isArray(acc) ? acc.join(' / ') : String(acc || '');
+      if (!correctStr) continue;
+      const base = textByQid[qid] || '';
+      const opts = optionsByQid[qid];
+      const text = opts ? `${base} [Options: ${opts}]` : base;
+      qInputs.push({ id, text, correct: correctStr });
     }
   } else if (isCefr) {
     const partType = String((passage as Record<string, unknown>).type || '');
