@@ -7316,9 +7316,37 @@
       }
       (reviewParts || []).forEach(function (part) {
         var explns = (part && part.explanations) || {};
+        // Build a sorted list of the section\'s real question ids from
+        // part.answers — needed to remap explanation keys that Gemini
+        // emitted as 0-based indices (e.g. Mock 51 Section 4 has
+        // explanations keyed "0".."9" instead of "q31".."q40"; the
+        // server doesn\'t coerce these because the verification loop
+        // passes keys through verbatim from the model\'s JSON).
+        var ansQids = [];
+        if (part && part.answers && typeof part.answers === 'object') {
+          Object.keys(part.answers).forEach(function (k) {
+            var n = parseInt(String(k).replace(/^q/, ''), 10);
+            if (!isNaN(n) && ansQids.indexOf(n) === -1) ansQids.push(n);
+          });
+          ansQids.sort(function (a, b) { return a - b; });
+        }
+        function resolveQid(key) {
+          var s = String(key);
+          if (/^q/i.test(s)) {
+            var n1 = parseInt(s.replace(/^q/i, ''), 10);
+            return isNaN(n1) ? null : n1;
+          }
+          var n = parseInt(s, 10);
+          if (isNaN(n)) return null;
+          // Already a real question id?
+          if (ansQids.indexOf(n) !== -1) return n;
+          // 0-based index into the section\'s answer keys?
+          if (n >= 0 && n < ansQids.length) return ansQids[n];
+          return null;
+        }
         Object.keys(explns).forEach(function (key) {
-          var qid = parseInt(String(key).replace(/^q/, ''), 10);
-          if (isNaN(qid)) return;
+          var qid = resolveQid(key);
+          if (qid == null) return;
           var raw  = explns[key];
           var text = raw && typeof raw === 'object' ? (raw.text || '') : (typeof raw === 'string' ? raw : '');
           if (!text) return;
@@ -7333,14 +7361,21 @@
           if (!any) return;
           var wrap = any.closest(
             '.question-card, .dnd-question-row, .form-row, .form-line, ' +
-            '.map-question-item, .gap-fill-row, .table-completion-row, tr, ' +
-            '.extract-questions > div'
+            '.form-item, .map-question-item, .gap-fill-row, ' +
+            '.table-completion-row, tr, .extract-questions > div'
           );
           if (!wrap) wrap = any.parentNode;
-          if (!wrap || wrap.querySelector(':scope > .il-inline-expl-toggle')) return;
+          if (!wrap) return;
+          // Skip if THIS exact qid already has a toggle attached to wrap
+          // (prevents duplicate inserts when explns has both "q31" and "0"
+          // keys for the same question — first wins).
+          if (wrap.nextElementSibling
+              && wrap.nextElementSibling.classList.contains('il-inline-expl-toggle')
+              && wrap.nextElementSibling.dataset.qid === String(qid)) return;
 
           var toggle = document.createElement('div');
           toggle.className = 'il-inline-expl-toggle';
+          toggle.dataset.qid = String(qid);
           toggle.style.cssText = 'margin-top:6px;font-size:12px;color:#6366f1;cursor:pointer;user-select:none;display:inline-block;';
           toggle.textContent = '💡 Click for explanation ▼';
 
