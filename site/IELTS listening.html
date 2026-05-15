@@ -6314,8 +6314,13 @@
         var part = parts[pi];
         if (!part.transcript) continue;
 
-        tabsHtml += '<button class="transcript-tab' + (pi === 0 ? ' active' : '') + '" onclick="switchTranscriptTab(' + pi + ')" data-tab="' + pi + '">' +
-          part.title + '</button>';
+        // Tabs use the short "Part N" label (matches the runner header
+         // style). The full section title is still in the section heading
+         // inside the body, plus tooltip-style on hover.
+        var _tabLabel = 'Part ' + (part.partNumber || (pi + 1));
+        var _tabTitle = String(part.title || '').replace(/"/g, '&quot;');
+        tabsHtml += '<button class="transcript-tab' + (pi === 0 ? ' active' : '') + '" onclick="switchTranscriptTab(' + pi + ')" data-tab="' + pi + '" title="' + _tabTitle + '">' +
+          _tabLabel + '</button>';
 
         var rawLines = part.transcript.split('\n');
         var linesLower = rawLines.map(function (ln) { return String(ln || '').toLowerCase(); });
