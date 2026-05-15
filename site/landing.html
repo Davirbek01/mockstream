@@ -33911,8 +33911,24 @@
           // clicks Import would silently lose their upload.
           if (isListeningImport) {
             var prev = md[rootKey][st.passageIndex] || {};
-            if (prev.audioFile     != null) newObj.audioFile     = prev.audioFile;
+            // Settings-tab DOM fallback: an admin who uploaded audio for
+            // this section but hasn\'t hit Save yet has the URL only in
+            // the per-section <input> — _mmgCollectIlSettings hasn\'t
+            // flushed it into mock_data because they didn\'t switch tabs.
+            // Read the input directly so the import handler doesn\'t lose
+            // an unflushed upload.
+            var _ilN = st.passageIndex + 1;
+            function _ilDomVal(id) {
+              var el = document.getElementById(id);
+              var v  = el ? String(el.value || '').trim() : '';
+              return v || null;
+            }
+            var domAudio = _ilDomVal('mmgIlTi_p' + _ilN + '_audio');
+            var domStart = _ilDomVal('mmgIlTi_p' + _ilN + '_start');
+            var preservedAudio = (prev.audioFile != null) ? prev.audioFile : domAudio;
+            if (preservedAudio != null) newObj.audioFile = preservedAudio;
             if (prev.audioStartSec != null) newObj.audioStartSec = prev.audioStartSec;
+            else if (domStart != null)      newObj.audioStartSec = _ilParseTime(domStart);
             if (prev.mapImage      != null) newObj.mapImage      = prev.mapImage;
             if (prev.transcript)            newObj.transcript    = prev.transcript;
           }
@@ -33961,15 +33977,36 @@
         if (st.examType === 'ielts-listening') {
           var prevMd  = window._mmgEditing.mock_data || {};
           var newMd   = j.mock_data || {};
-          if (prevMd.audioLayout != null) newMd.audioLayout = prevMd.audioLayout;
-          if (prevMd.audioFile   != null) newMd.audioFile   = prevMd.audioFile;
+          // Settings-tab DOM fallback for the bulk-import case: same
+          // defect as the per-passage branch — Settings inputs may hold
+          // an unflushed audio URL the admin hasn\'t Saved yet. Read
+          // each section\'s input directly so the import doesn\'t wipe
+          // it on the way out.
+          var _ilDomVal2 = function (id) {
+            var el = document.getElementById(id);
+            var v  = el ? String(el.value || '').trim() : '';
+            return v || null;
+          };
+          var domLayoutEl = document.querySelector('input[name="mmgIlTi_layout"]:checked');
+          var domLayout   = domLayoutEl ? domLayoutEl.value : null;
+          var domMerged   = _ilDomVal2('mmgIlTi_audio');
+
+          if (prevMd.audioLayout != null)        newMd.audioLayout = prevMd.audioLayout;
+          else if (domLayout)                    newMd.audioLayout = domLayout;
+          if (prevMd.audioFile   != null)        newMd.audioFile   = prevMd.audioFile;
+          else if (newMd.audioLayout === 'merged' && domMerged) newMd.audioFile = domMerged;
+
           var prevParts = Array.isArray(prevMd.parts) ? prevMd.parts : [];
           var newParts  = Array.isArray(newMd.parts)  ? newMd.parts  : [];
-          for (var pi = 0; pi < Math.max(newParts.length, prevParts.length); pi++) {
+          for (var pi = 0; pi < Math.max(newParts.length, prevParts.length, 4); pi++) {
             if (!newParts[pi]) newParts[pi] = {};
             var oldP = prevParts[pi] || {};
+            var domA = _ilDomVal2('mmgIlTi_p' + (pi + 1) + '_audio');
+            var domS = _ilDomVal2('mmgIlTi_p' + (pi + 1) + '_start');
             if (oldP.audioFile     != null) newParts[pi].audioFile     = oldP.audioFile;
+            else if (domA)                  newParts[pi].audioFile     = domA;
             if (oldP.audioStartSec != null) newParts[pi].audioStartSec = oldP.audioStartSec;
+            else if (domS)                  newParts[pi].audioStartSec = _ilParseTime(domS);
             if (oldP.mapImage      != null) newParts[pi].mapImage      = oldP.mapImage;
             if (oldP.transcript)            newParts[pi].transcript    = oldP.transcript;
           }
