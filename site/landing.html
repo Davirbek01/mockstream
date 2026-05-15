@@ -34002,6 +34002,21 @@
             +   '<button type="button" onclick="_mmgImportOpen(\'cefr-listening\',\'passage\',' + n + ')" style="background:linear-gradient(135deg,#a855f7,#7e22ce);color:#fff;border:0;border-radius:6px;padding:6px 12px;font-size:11.5px;font-weight:700;cursor:pointer;">✨ Import Part ' + n + '</button>'
             + '</div>';
 
+      // Transcribe banner — uses the per-part audioFile (from the Settings
+      // tab) and asks Gemini multimodal for a verbatim transcript. The
+      // transcript is shown in a textarea below; admin reviews + Saves.
+      var existingTrans = (p.transcript || '').toString();
+      html += '<div style="background:linear-gradient(135deg,#fff7ed,#fef3c7);border:1px solid #fcd34d;border-radius:10px;padding:10px 12px;margin-bottom:14px;">'
+            +   '<div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">'
+            +     '<div style="flex:1;font-size:12px;color:#92400e;line-height:1.45;">'
+            +       '<strong>🎤 Transcribe Part ' + n + '\'s audio</strong> — Gemini reads the GCS audio URL from the Settings tab and emits a verbatim transcript. Used by the Speaker-matching answer highlighting + the runner\'s post-test transcript reveal.'
+            +     '</div>'
+            +     '<button type="button" onclick="_mmgClTranscribe(' + idx + ')" id="mmgClP' + n + '_transBtn" style="background:#fef3c7;border:1px solid #fcd34d;border-radius:6px;padding:5px 10px;font-size:11.5px;font-weight:600;cursor:pointer;white-space:nowrap;">🎤 Transcribe with Gemini</button>'
+            +   '</div>'
+            +   '<span id="mmgClP' + n + '_transStatus" style="font-size:11.5px;color:#64748b;"></span>'
+            +   '<textarea id="mmgClP' + n + '_trans" placeholder="(Transcript will appear here after Gemini runs — or paste manually.)" spellcheck="false" data-gramm="false" style="width:100%;min-height:140px;margin-top:8px;padding:8px;border:1px solid #cbd5e1;border-radius:6px;font:12px ui-monospace,monospace;resize:vertical;">' + _mmgEsc(existingTrans) + '</textarea>'
+            + '</div>';
+
       // Raw JSON textarea for this part.
       html += '<div class="mmg-section-title">Part ' + n + ' JSON</div>';
       html += '<div style="font-size:11.5px;color:#475569;margin-bottom:6px;">Edit the full part object. Must be valid JSON with at minimum <code>partNumber</code> + <code>type</code>.</div>';
@@ -34022,21 +34037,35 @@
       var ta = document.getElementById('mmgClP' + n + '_json');
       if (!ta) return;
       var raw = (ta.value || '').trim();
-      if (raw === '') return;
       var parsed;
-      try { parsed = JSON.parse(raw); }
-      catch (e) {
-        _mmgStatus('CEFR Listening Part ' + n + ' JSON parse error: ' + e.message, '#dc2626');
-        throw e;
-      }
-      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
-        _mmgStatus('CEFR Listening Part ' + n + ' must be a JSON object {…}.', '#dc2626');
-        throw new Error('cl-part-not-object');
+      if (raw === '') {
+        // No JSON edit this session — keep the existing part object, just
+        // flush any transcript textarea change into it.
+        parsed = md.parts[idx] || {};
+      } else {
+        try { parsed = JSON.parse(raw); }
+        catch (e) {
+          _mmgStatus('CEFR Listening Part ' + n + ' JSON parse error: ' + e.message, '#dc2626');
+          throw e;
+        }
+        if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+          _mmgStatus('CEFR Listening Part ' + n + ' must be a JSON object {…}.', '#dc2626');
+          throw new Error('cl-part-not-object');
+        }
       }
       // Force the partNumber to match the tab index — admin typos shouldn\'t
       // misorder parts in the runner.
       parsed.partNumber = n;
       if (!parsed.title) parsed.title = 'Part ' + n;
+      // Flush the transcript textarea (separate field below the JSON) so an
+      // admin editing JUST the transcript without touching the raw JSON
+      // still gets their transcript saved.
+      var transEl = document.getElementById('mmgClP' + n + '_trans');
+      if (transEl) {
+        var t = String(transEl.value || '').trim();
+        if (t) parsed.transcript = t;
+        else delete parsed.transcript;
+      }
       md.parts[idx] = parsed;
     }
 
@@ -34071,6 +34100,93 @@
         kind: 'audio',
         subdir: 'cefr-part-' + n
       });
+    };
+
+    // CEFR Listening — Gemini transcribe per part. Each CEFR Listening
+    // part has its own audio file (no merged-audio option), so the
+    // call is simpler than IELTS: just pass the audioFile URL with no
+    // start/end slicing. Reads the URL from mock_data.parts[idx].audioFile
+    // first, falls back to the Settings-tab input for an unflushed upload.
+    window._mmgClTranscribe = async function (idx) {
+      var n = idx + 1;
+      var statusEl = document.getElementById('mmgClP' + n + '_transStatus');
+      var setStatus = function (msg, color) {
+        if (statusEl) { statusEl.textContent = msg; statusEl.style.color = color || '#64748b'; }
+      };
+      var md = _mmgGetMockData();
+      if (!md) { setStatus('Invalid mock_data JSON.', '#dc2626'); return; }
+      var part = (md.parts && md.parts[idx]) || {};
+      function _clDomVal(id) {
+        var el = document.getElementById(id);
+        var v  = el ? String(el.value || '').trim() : '';
+        return v || null;
+      }
+      var audioUrl = part.audioFile || _clDomVal('mmgClTi_p' + n + '_audio');
+      if (!audioUrl) { setStatus('Audio URL is empty — upload via the Settings tab first.', '#dc2626'); return; }
+
+      var btnEl = document.getElementById('mmgClP' + n + '_transBtn');
+      var prevLabel = btnEl ? btnEl.innerHTML : null;
+      if (btnEl) {
+        btnEl.disabled = true;
+        btnEl.style.opacity = '0.6';
+        btnEl.style.cursor  = 'wait';
+        btnEl.innerHTML = '⏳ Transcribing…';
+      }
+
+      var t0 = Date.now();
+      var tickHandle = null;
+      var stopTicker = function () { if (tickHandle) { clearInterval(tickHandle); tickHandle = null; } };
+      var renderTick = function () {
+        var sec = Math.round((Date.now() - t0) / 1000);
+        var spinFrames = ['⠋','⠙','⠹','⠸','⠼','⠴','⠦','⠧','⠇','⠏'];
+        var spin = spinFrames[Math.floor((Date.now() / 80)) % spinFrames.length];
+        setStatus(spin + ' Gemini transcribing… ' + sec + 's (typical 20s–90s per part)', '#0369a1');
+      };
+      renderTick();
+      tickHandle = setInterval(renderTick, 100);
+
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      try {
+        var resp = await fetch(SB_URL + '/functions/v1/gcs-listening-helpers', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY },
+          body: JSON.stringify({
+            action: 'transcribe-audio',
+            audioUrl: audioUrl,
+            startSec: 0,
+            endSec: null,
+            adminPasscode: (sessionStorage.getItem('siteMgmtAdminCode') || '')
+          })
+        });
+        if (!resp.ok) {
+          var errTxt = '';
+          try { errTxt = await resp.text(); } catch (_e) {}
+          stopTicker();
+          setStatus('✗ Transcribe failed (' + resp.status + '): ' + errTxt.slice(0, 100), '#dc2626');
+          return;
+        }
+        var data = await resp.json();
+        stopTicker();
+        if (!data || !data.transcript) {
+          setStatus('✗ No transcript returned.', '#dc2626');
+          return;
+        }
+        var transEl = document.getElementById('mmgClP' + n + '_trans');
+        if (transEl) transEl.value = data.transcript;
+        var elapsedSec = Math.round((Date.now() - t0) / 1000);
+        setStatus('✅ Transcribed in ' + elapsedSec + 's (' + data.transcript.length + ' chars). Save when ready.', '#16a34a');
+      } catch (e) {
+        stopTicker();
+        setStatus('✗ ' + ((e && e.message) || String(e)), '#dc2626');
+      } finally {
+        if (btnEl) {
+          btnEl.disabled = false;
+          btnEl.style.opacity = '';
+          btnEl.style.cursor  = '';
+          btnEl.innerHTML     = prevLabel || '🎤 Transcribe with Gemini';
+        }
+      }
     };
 
     // ── IELTS Listening: GCS upload + Gemini transcribe helpers ───────────
@@ -34787,8 +34903,8 @@
       var typeSel = document.getElementById('mmgFldType');
       var currentType = (typeSel && typeSel.value) || (m && m.mock_type);
       if (m) m.mock_type = currentType;
-      if (!m || (currentType !== 'cefr-reading' && currentType !== 'ielts-reading' && currentType !== 'ielts-listening')) {
-        alert('Per-section import is currently available for CEFR Reading, IELTS Reading, and IELTS Listening mocks.');
+      if (!m || (currentType !== 'cefr-reading' && currentType !== 'ielts-reading' && currentType !== 'ielts-listening' && currentType !== 'cefr-listening')) {
+        alert('Per-section import is currently available for CEFR Reading, IELTS Reading, IELTS Listening, and CEFR Listening mocks.');
         return;
       }
       window._mmgImportState = {
@@ -34803,7 +34919,7 @@
       document.getElementById('mmgImportStatus').style.color = '#64748b';
       var btn = document.getElementById('mmgImportSubmitBtn');
       // Match the button label to the exam's unit (Part vs Passage).
-      var unitLabel = (m.mock_type === 'cefr-reading') ? 'part' : 'passage';
+      var unitLabel = (m.mock_type === 'cefr-reading' || m.mock_type === 'cefr-listening') ? 'part' : 'passage';
       btn.disabled = false; btn.textContent = '✨ Import ' + unitLabel;
       _mmgImportRender();
       document.getElementById('mmgImportModal').style.display = 'flex';
@@ -35041,16 +35157,20 @@
             : null;
           if (!newObj) throw new Error('Edge function returned an invalid passage object');
 
-          var isCefrImport      = (st.examType === 'cefr-reading');
-          var isListeningImport = (st.examType === 'ielts-listening');
-          // IELTS Listening stores sections in `parts[]` (like CEFR), keyed
-          // by partNumber — NOT in `passages[]` (IELTS Reading's shape).
-          var rootKey   = (isCefrImport || isListeningImport) ? 'parts' : 'passages';
-          var unitLabel = isCefrImport ? 'Part'
-                        : isListeningImport ? 'Section'
+          var isCefrImport         = (st.examType === 'cefr-reading');
+          var isListeningImport    = (st.examType === 'ielts-listening');
+          var isCefrListeningImport = (st.examType === 'cefr-listening');
+          // IELTS Listening + CEFR Listening + CEFR Reading all store
+          // their sections in `parts[]` keyed by partNumber. Only IELTS
+          // Reading uses `passages[]`.
+          var rootKey   = (isCefrImport || isListeningImport || isCefrListeningImport) ? 'parts' : 'passages';
+          var unitLabel = isCefrImport            ? 'Part'
+                        : isListeningImport      ? 'Section'
+                        : isCefrListeningImport  ? 'Part'
                         : 'Passage';
-          var tabName   = isCefrImport      ? ('cr_part' + (st.passageIndex + 1))
-                        : isListeningImport ? ('il_part' + (st.passageIndex + 1))
+          var tabName   = isCefrImport            ? ('cr_part' + (st.passageIndex + 1))
+                        : isListeningImport      ? ('il_part' + (st.passageIndex + 1))
+                        : isCefrListeningImport  ? ('cl_part' + (st.passageIndex + 1))
                         : ('ir_p' + (st.passageIndex + 1));
 
           if (!md[rootKey] || !Array.isArray(md[rootKey])) md[rootKey] = [];
@@ -35085,9 +35205,25 @@
             else if (domStart != null)      newObj.audioStartSec = _ilParseTime(domStart);
             if (prev.mapImage      != null) newObj.mapImage      = prev.mapImage;
             if (prev.transcript)            newObj.transcript    = prev.transcript;
+          } else if (isCefrListeningImport) {
+            // Same idea, CEFR Listening shape: per-part audioFile +
+            // (Part 4) mapImage + transcript. No merged-audio / start-time
+            // (CEFR Listening uses one MP3 per part).
+            var prevCl  = md[rootKey][st.passageIndex] || {};
+            var _clN    = st.passageIndex + 1;
+            var _clDomVal = function (id) {
+              var el = document.getElementById(id);
+              var v  = el ? String(el.value || '').trim() : '';
+              return v || null;
+            };
+            var domClAudio = _clDomVal('mmgClTi_p' + _clN + '_audio');
+            var preservedClAudio = (prevCl.audioFile != null) ? prevCl.audioFile : domClAudio;
+            if (preservedClAudio != null) newObj.audioFile = preservedClAudio;
+            if (prevCl.mapImage  != null) newObj.mapImage  = prevCl.mapImage;
+            if (prevCl.transcript)        newObj.transcript = prevCl.transcript;
           }
 
-          if (isCefrImport || isListeningImport) {
+          if (isCefrImport || isListeningImport || isCefrListeningImport) {
             newObj.partNumber = st.passageIndex + 1;
             if (!newObj.title) {
               newObj.title = (isListeningImport ? 'Section ' : 'Part ') + (st.passageIndex + 1);
@@ -35166,6 +35302,30 @@
           }
           newMd.parts = newParts;
           j.mock_data = newMd;
+        } else if (st.examType === 'cefr-listening') {
+          // CEFR Listening bulk-import: preserve per-part audioFile,
+          // mapImage (Part 4), and transcript across import. CEFR
+          // Listening has 6 parts and no merged audio.
+          var prevCl  = window._mmgEditing.mock_data || {};
+          var newCl   = j.mock_data || {};
+          var _clDomVal2 = function (id) {
+            var el = document.getElementById(id);
+            var v  = el ? String(el.value || '').trim() : '';
+            return v || null;
+          };
+          var prevClParts = Array.isArray(prevCl.parts) ? prevCl.parts : [];
+          var newClParts  = Array.isArray(newCl.parts)  ? newCl.parts  : [];
+          for (var pci = 0; pci < Math.max(newClParts.length, prevClParts.length, 6); pci++) {
+            if (!newClParts[pci]) newClParts[pci] = {};
+            var oldCl = prevClParts[pci] || {};
+            var domClA = _clDomVal2('mmgClTi_p' + (pci + 1) + '_audio');
+            if (oldCl.audioFile != null) newClParts[pci].audioFile = oldCl.audioFile;
+            else if (domClA)             newClParts[pci].audioFile = domClA;
+            if (oldCl.mapImage  != null) newClParts[pci].mapImage  = oldCl.mapImage;
+            if (oldCl.transcript)        newClParts[pci].transcript = oldCl.transcript;
+          }
+          newCl.parts = newClParts;
+          j.mock_data = newCl;
         }
         window._mmgEditing.mock_data = j.mock_data;
         document.getElementById('mmgFldData').value = JSON.stringify(j.mock_data, null, 2);
@@ -35185,8 +35345,9 @@
             var aiTitle = j.mock_data && j.mock_data.testInfo && j.mock_data.testInfo.title;
             titleField.value = aiTitle && String(aiTitle).trim()
               ? String(aiTitle).trim()
-              : ((st.examType === 'cefr-reading')   ? 'CEFR Reading Mock'
+              : ((st.examType === 'cefr-reading')    ? 'CEFR Reading Mock'
               :  (st.examType === 'ielts-listening') ? 'IELTS Listening Mock'
+              :  (st.examType === 'cefr-listening')  ? 'CEFR Listening Mock'
               :  'IELTS Reading Mock');
           }
           if (numField && numField.value.trim() === '') {
