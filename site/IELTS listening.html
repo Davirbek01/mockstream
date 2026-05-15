@@ -8494,6 +8494,61 @@
         if (!hasPerPartAudio && !hasMergedAudio) checkPerPartAudio();
         if (!hasPerPartAudio && !hasMergedAudio) return;
 
+        const part = window.TEST_DATA.parts[partIndex];
+        if (!part) return;
+
+        // ── Merged-mode branch (runs BEFORE the per-part handoff) ──
+        // Single audio file shared across all 4 sections. The handoff-
+        // to-hiddenAudio pattern below is for per-part mode (continue
+        // playing section N\'s file in background while loading section
+        // N+1\'s file silently) — in merged mode the same file would
+        // play in BOTH elements at different positions, audible as
+        // overlap. Always pause hiddenAudio here, seek main, resume if
+        // it was playing.
+        if (hasMergedAudio) {
+          const mergedSrc = String(window.TEST_DATA.audioFile || '').trim();
+          if (!mergedSrc) return;
+          if (hiddenAudio) hiddenAudio.pause();
+          currentLoadedPart = partIndex;
+          soundingPartIndex = partIndex;
+          window.updateNavIndicators();
+          const startSec = (typeof part.audioStartSec === 'number' && isFinite(part.audioStartSec) && part.audioStartSec >= 0)
+            ? part.audioStartSec : 0;
+          const wasPlaying = !audio.paused;
+          const seekAndMaybePlay = function () {
+            try { audio.currentTime = startSec; } catch (_e) {}
+            if (autoPlay || wasPlaying) {
+              audio.play().catch(function () {
+                document.addEventListener('click', function once() {
+                  audio.play(); document.removeEventListener('click', once);
+                }, { once: true });
+              });
+            }
+          };
+          if (!mergedAudioLoaded || audio.src !== mergedSrc) {
+            audio.src = mergedSrc;
+            mergedAudioLoaded = true;
+            // Wait for metadata before seeking the first time — browsers
+            // can't set currentTime past 0 until duration is known.
+            if (isFinite(audio.duration) && audio.duration > 0) {
+              seekAndMaybePlay();
+            } else {
+              audio.addEventListener('loadedmetadata', seekAndMaybePlay, { once: true });
+              audio.load();
+            }
+          } else {
+            // Pause briefly before seeking so the old position doesn\'t
+            // leak audibly while the new position loads.
+            try { audio.pause(); } catch (_e) {}
+            seekAndMaybePlay();
+          }
+          loadingWrapper.classList.add('hidden');
+          playerControls.classList.add('ready');
+          isAudioReady = true;
+          return;
+        }
+
+        // ── Per-part branch: unchanged handoff for background playback ──
         if (autoPlay) {
           // Stop background audio, we're playing a new part
           if (hiddenAudio) hiddenAudio.pause();
@@ -8511,60 +8566,6 @@
 
         // Skip if already loaded for same part AND it's the sounding part AND playing
         if (currentLoadedPart === partIndex && soundingPartIndex === partIndex && !audio.paused) return;
-
-        const part = window.TEST_DATA.parts[partIndex];
-        if (!part) return;
-
-        // ── Merged-mode branch ──
-        // Single audio file shared across all 4 sections. Seek to the
-        // part's audioStartSec (set during editor Settings → Single
-        // merged file). Source is set once and re-used; navigation just
-        // seeks.
-        if (hasMergedAudio) {
-          const mergedSrc = String(window.TEST_DATA.audioFile || '').trim();
-          if (!mergedSrc) return;
-          currentLoadedPart = partIndex;
-          window.updateNavIndicators();
-          const startSec = (typeof part.audioStartSec === 'number' && isFinite(part.audioStartSec) && part.audioStartSec >= 0)
-            ? part.audioStartSec : 0;
-          if (!mergedAudioLoaded || audio.src !== mergedSrc) {
-            audio.src = mergedSrc;
-            mergedAudioLoaded = true;
-            // Wait for metadata before seeking the first time — browsers
-            // can't set currentTime past 0 until duration is known.
-            const seekWhenReady = function () {
-              try { audio.currentTime = startSec; } catch (_e) {}
-              if (autoPlay) {
-                audio.play().catch(function () {
-                  document.addEventListener('click', function once() {
-                    audio.play(); document.removeEventListener('click', once);
-                  }, { once: true });
-                });
-              }
-            };
-            if (isFinite(audio.duration) && audio.duration > 0) {
-              seekWhenReady();
-            } else {
-              audio.addEventListener('loadedmetadata', seekWhenReady, { once: true });
-              audio.load();
-            }
-          } else {
-            try { audio.currentTime = startSec; } catch (_e) {}
-            if (autoPlay) {
-              audio.play().catch(function () {
-                document.addEventListener('click', function once() {
-                  audio.play(); document.removeEventListener('click', once);
-                }, { once: true });
-              });
-            }
-          }
-          loadingWrapper.classList.add('hidden');
-          playerControls.classList.add('ready');
-          isAudioReady = true;
-          allCurrentTimeEls.forEach(el => el.textContent = '00:00');
-          allProgressFills.forEach(el => el.style.width = '0%');
-          return;
-        }
 
         // ── Per-part branch ──
         if (!part.audioFile || part.audioFile.trim() === '') return;
