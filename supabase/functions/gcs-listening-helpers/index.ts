@@ -7,6 +7,7 @@
 //   transcribe-audio — fetches audio from a GCS URL, calls Gemini multimodal
 
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { encodeBase64 } from "jsr:@std/encoding/base64";
 
 const ALLOWED_BUCKET = "mockstream-listening-audio";
 const SIGNED_URL_EXPIRES_SEC = 15 * 60;
@@ -139,10 +140,13 @@ async function transcribeWithGemini(opts: {
   if (sizeMB > 18) {
     throw new Error(`audio too large (${sizeMB.toFixed(1)} MB) — Gemini inline limit is 20 MB total. Split into per-section files for now.`);
   }
-  let bin = "";
-  for (let i = 0; i < audioBytes.length; i++) bin += String.fromCharCode(audioBytes[i]);
-  const base64 = btoa(bin);
   const mime = audioResp.headers.get("content-type") || "audio/mpeg";
+  // Single-pass, native base64 encoder from @std/encoding. The previous
+  // char-by-char concat scaled O(n²) in V8 and built a 7-10 MB transient
+  // binary string before btoa — when a hot Edge Function instance from a
+  // back-to-back call hadn\'t GC\'d yet, that tipped the worker over the
+  // memory cap and surfaced as 546 WORKER_RESOURCE_LIMIT.
+  const base64 = encodeBase64(audioBytes);
 
   const timeNote = (opts.startSec || opts.endSec)
     ? `Transcribe only the segment from ${opts.startSec || 0}s to ${opts.endSec ? opts.endSec + "s" : "the end"} of the audio. Ignore everything outside that range. `
