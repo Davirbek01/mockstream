@@ -16313,7 +16313,7 @@
     // Visual styling: reuses the same .ilet-* classes (no CSS duplication).
     // JS handlers scoped by container ID + .clet-chip class.
     // ════════════════════════════════════════════════════════════════════
-    const _clet_CACHE_KEY = 'ms_clet_meta_v1';
+    const _clet_CACHE_KEY = 'ms_clet_meta_v2';
     const _clet_CACHE_TTL = 24 * 60 * 60 * 1000;
     const _clet_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
     const _clet_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
@@ -16341,6 +16341,40 @@
       //   1. part.title if it\'s NOT just "Part N" (Gemini-imported mocks)
       //   2. type-specific topic field (formTitle / mapTitle / first extract)
       //   3. type-derived label as last resort
+      // Best-effort topic extraction from the narrator intro line in a
+      // transcript. Looks for "...talking about X", "...interested in X",
+      // "...lecture on X", "...about X" near the start of the transcript.
+      // Returns null if no clean phrase is found. Used as a last-resort
+      // fallback for parts whose static shape carries no topic field
+      // (sentence-completion / matching-speakers).
+      function _cletExtractTranscriptTopic(transcript) {
+        if (!transcript || typeof transcript !== 'string') return null;
+        // First 500 chars is enough for any narrator intro line.
+        const head = transcript.slice(0, 500);
+        const patterns = [
+          /\btalking\s+about\s+([^.\n]{3,60})/i,
+          /\bbe\s+talking\s+about\s+([^.\n]{3,60})/i,
+          /\binterested\s+in\s+(?:taking\s+up\s+)?([^.\n]{3,60})/i,
+          /\blecture\s+(?:on|about)\s+([^.\n]{3,60})/i,
+          /\b(?:program|programme)\s+(?:on|about)\s+([^.\n]{3,60})/i,
+          /\b(?:hear|listen\s+to)\s+(?:a|an|the|some)\s+([a-z][^.\n]{3,60})/i
+        ];
+        for (const re of patterns) {
+          const m = head.match(re);
+          if (!m) continue;
+          let phrase = m[1].trim()
+            .replace(/^(the|a|an|some|her|his|their)\s+/i, '')
+            .replace(/\s+/g, ' ')
+            .replace(/[,;:]\s.*$/, '');
+          // Strip trailing fillers
+          phrase = phrase.replace(/\s+(?:and|but|so|because|which)\s.*$/i, '');
+          if (phrase.length > 50) phrase = phrase.slice(0, 50).replace(/\s+\S*$/, '') + '…';
+          // Capitalize first letter for picker display
+          if (phrase) return phrase.charAt(0).toUpperCase() + phrase.slice(1);
+        }
+        return null;
+      }
+
       function _cletPartTitle(p) {
         if (!p) return '—';
         const raw = String(p.title || '').trim();
@@ -16352,6 +16386,15 @@
           // / "Extract Two") — skip those in favour of the type label.
           const ex0 = String(p.extracts[0].title).trim();
           if (ex0 && !/^extract\s+(one|two|three|four|\d+)$/i.test(ex0)) return ex0;
+        }
+        // For sentence-completion / matching-speakers (Parts 6 / 3), the
+        // static shape carries no topic field — try to lift one from the
+        // transcript\'s narrator intro. Gives "Skydiving" / "Animal
+        // senses" / "After-school clubs" type labels instead of bare
+        // "Sentence completion".
+        if ((p.type === 'sentence-completion' || p.type === 'matching-speakers') && p.transcript) {
+          const fromTranscript = _cletExtractTranscriptTopic(p.transcript);
+          if (fromTranscript) return fromTranscript;
         }
         // Type-derived fallback — gives the row a useful description
         // even on un-titled static parts.
