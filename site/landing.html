@@ -21308,6 +21308,15 @@
           iletClose();
           _pickerFromPopstate = false;
         }
+        // cletPicker shares the .ilet-open class with iletPicker (same CSS
+        // family) — check container id explicitly so both can be open in
+        // separate tabs without one closing the other on back.
+        var clet = document.getElementById('cletPicker');
+        if (clet && clet.classList.contains('ilet-open')) {
+          _pickerFromPopstate = true;
+          cletClose();
+          _pickerFromPopstate = false;
+        }
         // 2) Close access-code modals if URL left /take/...
         if (!/^\/take\//i.test(window.location.pathname)) {
           if (typeof closeReadingAccessCodeModal === 'function') {
