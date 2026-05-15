@@ -7280,8 +7280,70 @@
         });
       });
 
+      // Append inline explanation cards under each question (mirrors
+      // IELTS Reading's review UX). Each card is collapsed by default
+      // behind a "💡 Click for explanation ▼" toggle and reveals the
+      // Gemini-generated reason text. Quotes themselves stay in the
+      // Transcripts & Answer Lines popup. No-ops when a section\'s
+      // explanations dict is empty (admin hasn\'t run Generate yet).
+      _ilAppendInlineExplanationCards(_reviewParts);
+
       showPart(window._practicePart ? window._practicePart - 1 : 0);
       console.log('[Review] Review mode activated. Navigate sections to see marked answers.');
+    }
+
+    function _ilAppendInlineExplanationCards(reviewParts) {
+      function esc(s) {
+        return String(s || '').replace(/[&<>"']/g, function (c) {
+          return ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[c];
+        });
+      }
+      (reviewParts || []).forEach(function (part) {
+        var explns = (part && part.explanations) || {};
+        Object.keys(explns).forEach(function (key) {
+          var qid = parseInt(String(key).replace(/^q/, ''), 10);
+          if (isNaN(qid)) return;
+          var raw  = explns[key];
+          var text = raw && typeof raw === 'object' ? (raw.text || '') : (typeof raw === 'string' ? raw : '');
+          if (!text) return;
+
+          // Listening doesn\'t have one canonical container per question
+          // — each sub-part renders a different shape (gap-fill input,
+          // mcq option list, dnd drop zone, table cell, …). Pick any
+          // element keyed by this qid, then climb to the most specific
+          // wrapper that's still a self-contained row.
+          var any = document.querySelector('[data-q="' + qid + '"]')
+                 || document.getElementById('q' + qid);
+          if (!any) return;
+          var wrap = any.closest(
+            '.question-card, .dnd-question-row, .form-row, .form-line, ' +
+            '.map-question-item, .gap-fill-row, .table-completion-row, tr, ' +
+            '.extract-questions > div'
+          );
+          if (!wrap) wrap = any.parentNode;
+          if (!wrap || wrap.querySelector(':scope > .il-inline-expl-toggle')) return;
+
+          var toggle = document.createElement('div');
+          toggle.className = 'il-inline-expl-toggle';
+          toggle.style.cssText = 'margin-top:6px;font-size:12px;color:#6366f1;cursor:pointer;user-select:none;display:inline-block;';
+          toggle.textContent = '💡 Click for explanation ▼';
+
+          var box = document.createElement('div');
+          box.className = 'il-inline-expl';
+          box.style.cssText = 'display:none;margin-top:6px;background:#dbeafe;border-left:4px solid #3b82f6;padding:10px 12px;border-radius:6px;font-size:13px;color:#1e3a8a;line-height:1.5;';
+          box.innerHTML = '<strong>Q' + qid + ':</strong> ' + esc(text)
+                        + '<div style="margin-top:6px;font-size:10.5px;color:#94a3b8;font-style:italic;">✨ AI-generated</div>';
+
+          toggle.addEventListener('click', function () {
+            var open = box.style.display !== 'none';
+            box.style.display = open ? 'none' : 'block';
+            toggle.textContent = open ? '💡 Click for explanation ▼' : '💡 Hide explanation ▲';
+          });
+
+          wrap.insertAdjacentElement('afterend', toggle);
+          toggle.insertAdjacentElement('afterend', box);
+        });
+      });
     }
 
     // Event listeners
