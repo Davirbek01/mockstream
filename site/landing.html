@@ -32475,6 +32475,11 @@
             +   '<div style="font-size:11.5px;color:#475569;margin:6px 0 8px;line-height:1.5;">'
             +     '<strong>Section start times.</strong> Type <code>MM:SS</code> (e.g. <code>13:00</code>), <code>HH:MM:SS</code>, or raw seconds (e.g. <code>780</code>). System accepts all three. '
             +     'Typical IELTS layout: Section 1 starts at 0:00, Section 2 ~13:00, Section 3 ~26:00, Section 4 ~38:00.'
+            +   '</div>'
+            +   '<div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap;">'
+            +     '<button type="button" id="mmgIlDetectStartsBtn" onclick="_mmgIlDetectSectionStarts()" style="background:linear-gradient(135deg,#06b6d4,#0284c7);color:#fff;border:0;border-radius:6px;padding:6px 12px;font-size:11.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(2,132,199,.25);">✨ Auto-detect from audio</button>'
+            +     '<span style="font-size:11px;color:#64748b;">Listens to the merged audio and fills the 4 boxes below.</span>'
+            +     '<span id="mmgIlDetectStartsStatus" style="font-size:11.5px;color:#64748b;margin-left:auto;"></span>'
             +   '</div>';
       for (var si = 0; si < 4; si++) {
         var sn = si + 1;
@@ -32773,6 +32778,25 @@
       var isMerged = sel && sel.value === 'merged';
       if (merged) merged.style.display = isMerged ? '' : 'none';
       if (per)    per.style.display    = isMerged ? 'none' : '';
+
+      // First-time default-fill for merged mode: Cambridge IELTS Listening
+      // tests almost always lay out as 0:00 / 13:00 / 26:00 / 38:00. Pre-
+      // populate empty inputs so the admin only has to hit Save when the
+      // standard layout matches (and can still overwrite or auto-detect
+      // for non-standard tests).
+      if (isMerged) {
+        var DEFAULTS = ['0:00', '13:00', '26:00', '38:00'];
+        for (var i = 0; i < 4; i++) {
+          var el = document.getElementById('mmgIlTi_p' + (i + 1) + '_start');
+          if (el && !el.value.trim()) {
+            el.value = DEFAULTS[i];
+            if (typeof _mmgIlUpdateTimeHint === 'function') {
+              _mmgIlUpdateTimeHint('mmgIlTi_p' + (i + 1) + '_start');
+            }
+          }
+        }
+        if (typeof _mmgIlRefreshEndHints === 'function') _mmgIlRefreshEndHints();
+      }
     };
 
     // Settings-side per-section upload: writes back into md.parts[idx].audioFile
@@ -33272,6 +33296,103 @@
         kind: 'audio',
         subdir: 'merged'
       });
+    };
+
+    // Auto-detect section start times in a merged IELTS Listening audio
+    // file. Sends the GCS URL to gcs-listening-helpers /
+    // detect-section-starts, which uploads the audio to Gemini\'s File
+    // API (handles ~30-min / 20-40 MB files past the inline 18 MB cap)
+    // and asks Gemini to timestamp the "Section One/Two/Three/Four"
+    // narrator cues. Fills the 4 start-time inputs with whole seconds
+    // (admin can still overwrite or tweak).
+    window._mmgIlDetectSectionStarts = async function () {
+      var btn = document.getElementById('mmgIlDetectStartsBtn');
+      var statusEl = document.getElementById('mmgIlDetectStartsStatus');
+      var setStatus = function (msg, color) {
+        if (statusEl) { statusEl.textContent = msg; statusEl.style.color = color || '#64748b'; }
+      };
+      var urlEl = document.getElementById('mmgIlTi_audio');
+      var audioUrl = urlEl ? String(urlEl.value || '').trim() : '';
+      if (!audioUrl) {
+        var md0 = _mmgGetMockData();
+        if (md0 && md0.audioFile) audioUrl = String(md0.audioFile).trim();
+      }
+      if (!audioUrl) { setStatus('✗ Merged audio URL is empty — upload first.', '#dc2626'); return; }
+
+      var prevLabel = btn ? btn.innerHTML : null;
+      if (btn) {
+        btn.disabled = true;
+        btn.style.opacity = '0.6';
+        btn.style.cursor = 'wait';
+        btn.innerHTML = '⏳ Listening…';
+      }
+
+      var t0 = Date.now();
+      var tickHandle = null;
+      var stopTicker = function () { if (tickHandle) { clearInterval(tickHandle); tickHandle = null; } };
+      var spinFrames = ['⠋','⠙','⠹','⠸','⠼','⠴','⠦','⠧','⠇','⠏'];
+      var renderTick = function () {
+        var sec = Math.round((Date.now() - t0) / 1000);
+        var spin = spinFrames[Math.floor((Date.now() / 80)) % spinFrames.length];
+        setStatus(spin + ' Gemini listening for section cues… ' + sec + 's (typical 30–90s)', '#0369a1');
+      };
+      renderTick();
+      tickHandle = setInterval(renderTick, 100);
+
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      try {
+        var resp = await fetch(SB_URL + '/functions/v1/gcs-listening-helpers', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY },
+          body: JSON.stringify({
+            action: 'detect-section-starts',
+            audioUrl: audioUrl,
+            adminPasscode: (sessionStorage.getItem('siteMgmtAdminCode') || '')
+          })
+        });
+        if (!resp.ok) {
+          var errTxt = '';
+          try { errTxt = await resp.text(); } catch (_e) {}
+          stopTicker();
+          setStatus('✗ Detect failed (' + resp.status + '): ' + errTxt.slice(0, 120), '#dc2626');
+          return;
+        }
+        var data = await resp.json();
+        stopTicker();
+        var sections = data && data.sections;
+        if (!sections || typeof sections !== 'object') {
+          setStatus('✗ No timestamps returned.', '#dc2626');
+          return;
+        }
+        // Fill the 4 inputs. Accept either {section1: 0, ...} or array [0,...].
+        var filled = 0;
+        for (var i = 0; i < 4; i++) {
+          var key = 'section' + (i + 1);
+          var val = sections[key];
+          if (val == null && Array.isArray(sections)) val = sections[i];
+          if (typeof val !== 'number' || !isFinite(val) || val < 0) continue;
+          var el = document.getElementById('mmgIlTi_p' + (i + 1) + '_start');
+          if (!el) continue;
+          el.value = _ilFormatTime(Math.round(val));
+          if (typeof _mmgIlUpdateTimeHint === 'function') _mmgIlUpdateTimeHint('mmgIlTi_p' + (i + 1) + '_start');
+          filled++;
+        }
+        if (typeof _mmgIlRefreshEndHints === 'function') _mmgIlRefreshEndHints();
+        var elapsedSec = Math.round((Date.now() - t0) / 1000);
+        setStatus('✅ Filled ' + filled + '/4 in ' + elapsedSec + 's. Review and Save.', '#16a34a');
+      } catch (e) {
+        stopTicker();
+        setStatus('✗ Network error: ' + e.message, '#dc2626');
+      } finally {
+        stopTicker();
+        if (btn) {
+          btn.disabled = false;
+          btn.style.opacity = '1';
+          btn.style.cursor = 'pointer';
+          if (prevLabel) btn.innerHTML = prevLabel;
+        }
+      }
     };
 
     // Transcribe button — sends current audio URL + (optional) start-sec
