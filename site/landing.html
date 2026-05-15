@@ -33314,7 +33314,34 @@
         audioUrl = part.audioFile || _ilDomVal('mmgIlTi_p' + n + '_audio');
         if (!audioUrl) { setStatus('Audio URL is empty.', '#dc2626'); return; }
       }
-      setStatus('Asking Gemini to transcribe…');
+      // Find the Transcribe button to lock it while the request is in
+      // flight (Gemini transcription on a 6-7min IELTS section runs
+      // ~30s–2min, easy to double-click otherwise).
+      var btnEl = document.querySelector('button[onclick="_mmgIlTranscribe(' + idx + ')"]');
+      var prevLabel = btnEl ? btnEl.innerHTML : null;
+      if (btnEl) {
+        btnEl.disabled = true;
+        btnEl.style.opacity = '0.6';
+        btnEl.style.cursor  = 'wait';
+        btnEl.innerHTML = '⏳ Transcribing…';
+      }
+
+      // Live elapsed-time counter — Gemini transcription has no
+      // intermediate progress signal, so a spinning seconds counter is
+      // the cheapest "yes, it's still working" indicator that doesn\'t
+      // require server-side streaming.
+      var t0 = Date.now();
+      var tickHandle = null;
+      var stopTicker = function () { if (tickHandle) { clearInterval(tickHandle); tickHandle = null; } };
+      var renderTick = function () {
+        var sec = Math.round((Date.now() - t0) / 1000);
+        var spinFrames = ['⠋','⠙','⠹','⠸','⠼','⠴','⠦','⠧','⠇','⠏'];
+        var spin = spinFrames[Math.floor((Date.now() / 80)) % spinFrames.length];
+        setStatus(spin + ' Gemini transcribing… ' + sec + 's (typical 30s–2min)', '#0369a1');
+      };
+      renderTick();
+      tickHandle = setInterval(renderTick, 100);
+
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
       try {
@@ -33332,19 +33359,31 @@
         if (!resp.ok) {
           var errTxt = '';
           try { errTxt = await resp.text(); } catch (_e) {}
-          setStatus('Transcribe failed (' + resp.status + '): ' + errTxt.slice(0, 100), '#dc2626');
+          stopTicker();
+          setStatus('✗ Transcribe failed (' + resp.status + '): ' + errTxt.slice(0, 100), '#dc2626');
           return;
         }
         var data = await resp.json();
+        stopTicker();
         if (!data || !data.transcript) {
-          setStatus('No transcript returned.', '#dc2626');
+          setStatus('✗ No transcript returned.', '#dc2626');
           return;
         }
         var transEl = document.getElementById('mmgIlP' + n + '_trans');
         if (transEl) transEl.value = data.transcript;
-        setStatus('✅ Transcribed (' + data.transcript.length + ' chars).', '#16a34a');
+        var elapsedSec = Math.round((Date.now() - t0) / 1000);
+        setStatus('✅ Transcribed in ' + elapsedSec + 's (' + data.transcript.length + ' chars). Save when ready.', '#16a34a');
       } catch (e) {
-        setStatus('Network error: ' + e.message, '#dc2626');
+        stopTicker();
+        setStatus('✗ Network error: ' + e.message, '#dc2626');
+      } finally {
+        stopTicker();
+        if (btnEl) {
+          btnEl.disabled = false;
+          btnEl.style.opacity = '1';
+          btnEl.style.cursor  = 'pointer';
+          if (prevLabel) btnEl.innerHTML = prevLabel;
+        }
       }
     };
 
