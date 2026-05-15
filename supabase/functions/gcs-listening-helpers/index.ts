@@ -187,9 +187,38 @@ async function detectSectionStartsWithGemini(opts: {
   }
   const upJson = await upResp.json();
   const fileUri = upJson?.file?.uri;
-  if (!fileUri) throw new Error("File API didn't return file.uri");
+  const fileName = upJson?.file?.name;  // e.g. "files/abc123"
+  if (!fileUri || !fileName) throw new Error("File API didn't return file.uri / file.name");
 
-  // 3. Call generateContent referencing the uploaded file.
+  // 3. Poll until the file's state is ACTIVE. The File API returns
+  //    PROCESSING immediately on upload completion; referencing the file
+  //    in generateContent while it's still PROCESSING comes back as an
+  //    empty-text response ("Gemini returned no text"). Audio files
+  //    typically transition to ACTIVE in ~5-15s.
+  const POLL_TIMEOUT_MS = 60_000;
+  const POLL_INTERVAL_MS = 2_000;
+  const pollStart = Date.now();
+  let fileState = String(upJson?.file?.state || "PROCESSING").toUpperCase();
+  while (fileState !== "ACTIVE") {
+    if (Date.now() - pollStart > POLL_TIMEOUT_MS) {
+      throw new Error(`File API never reached ACTIVE state (last: ${fileState})`);
+    }
+    if (fileState === "FAILED") {
+      throw new Error("File API processing FAILED");
+    }
+    await new Promise((r) => setTimeout(r, POLL_INTERVAL_MS));
+    const statResp = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/${fileName}?key=${opts.geminiKey}`,
+    );
+    if (!statResp.ok) {
+      const t = await statResp.text();
+      throw new Error(`File API stat failed (${statResp.status}): ${t.slice(0, 200)}`);
+    }
+    const sj = await statResp.json();
+    fileState = String(sj?.state || sj?.file?.state || "PROCESSING").toUpperCase();
+  }
+
+  // 4. Call generateContent referencing the uploaded file.
   const prompt =
     `You are listening to a merged IELTS Listening test audio that contains all four sections back-to-back. ` +
     `Each section begins with the narrator saying "Section One" / "Section Two" / "Section Three" / "Section Four" (sometimes preceded by a short instructional preamble). ` +
@@ -212,8 +241,13 @@ async function detectSectionStartsWithGemini(opts: {
         }],
         generationConfig: {
           temperature: 0.1,
-          maxOutputTokens: 512,
+          // 2.5 Pro shares output budget with thinking tokens, so a 512
+          // ceiling leaves nothing for the actual JSON when thinking is
+          // dynamic. 4096 gives plenty of headroom for a tiny 4-key
+          // object.
+          maxOutputTokens: 4096,
           responseMimeType: "application/json",
+          thinkingConfig: { thinkingBudget: -1 },
         },
       }),
     },
@@ -223,8 +257,12 @@ async function detectSectionStartsWithGemini(opts: {
     throw new Error(`Gemini generate failed (${genResp.status}): ${t.slice(0, 300)}`);
   }
   const gj = await genResp.json();
-  const raw = gj?.candidates?.[0]?.content?.parts?.[0]?.text;
-  if (!raw) throw new Error("Gemini returned no text");
+  const cand = gj?.candidates?.[0];
+  const fr = cand?.finishReason;
+  const raw = cand?.content?.parts?.map((p: { text?: string }) => p?.text || "").join("") || "";
+  if (!raw) {
+    throw new Error(`Gemini returned no text (finishReason=${fr || "unknown"}, fileState=ACTIVE — model may have timed out on a long audio)`);
+  }
   const cleaned = String(raw)
     .replace(/^```(?:json)?\s*\n?/i, "")
     .replace(/\n?```\s*$/i, "")

@@ -1212,32 +1212,29 @@ Deno.serve(async (req) => {
     ? Math.max(1, Math.min(9, parseInt(String(body.passage_index || 1), 10) || 1))
     : 0;
 
-  // ── IELTS Listening bulk special-case: 4 sequential per-section runs ──
+  // ── IELTS Listening bulk special-case: 4 PARALLEL per-section runs ──
   // The old single-shot bulk prompt asked Gemini to emit all 4 sections +
   // answers in one go. In practice the model frequently dropped the
   // top-level `part.answers` dict for one or more sections (Mock 52
   // shipped with answers_count=0 across all 4 parts, so the picker
-  // greyed it out as "0/4 Ready"). The reliability gap is the prompt
+  // greyed it out as "0/4 Ready"). The reliability gap is prompt
   // breadth — narrowing to one section at a time with the per-section
-  // shape consistently populates answers. Trade off: 4× latency + 4×
-  // Gemini cost (~$0.02-0.04 per mock), still cheap.
+  // shape consistently populates answers.
+  //
+  // Calls fire in PARALLEL (Promise.all) so total wall time ≈ max
+  // single-call duration (~60s) rather than 4× that. Sequential blew
+  // past Supabase's 150 s Edge Function timeout (504 at 153 s).
   if (examType === 'ielts-listening' && scope === 'full') {
     let modelUsed: 'gemini-2.5-pro' | 'gpt-4o' = 'gemini-2.5-pro';
     let fallbackReason: string | null = null;
-    const sections: any[] = [];
-    for (let i = 0; i < 4; i++) {
+
+    async function importOneSection(i: number): Promise<any> {
       const idx1 = i + 1;
-      // Per-section prompt, but rewrite the scopeIntro to acknowledge
-      // that ALL 4 sections live in the uploaded files. Without this
-      // patch, the per-section prompt tells Gemini "user uploaded just
-      // ONE section" — which would make it confused when it sees the
-      // other 3 sections' pages.
       const basePrompt = buildPrompt(examType, notes, IELTS_LISTENING_SINGLE_PART_SHAPE, 'passage', idx1);
       const sectionPrompt = basePrompt.replace(
         /The user has uploaded image\(s\) and \/ or PDF\(s\) for \*\*just ONE section\*\* of an IELTS Listening mock — specifically Section \d+\. Treat the uploaded files as that single section only\. The accompanying answer-key files \(if any\) cover ONLY this section's questions\./,
         `The user has uploaded image(s) and / or PDF(s) covering ALL FOUR sections of an IELTS Listening mock. For THIS call, extract ONLY **Section ${idx1}** (questions ${i*10+1}–${(i+1)*10}). Ignore the other three sections entirely — do not include their questions, subParts, or answers. The answer-key files contain ALL 40 answers; from them, populate the "answers" dict with ONLY the ${i*10+1}–${(i+1)*10} entries that correspond to Section ${idx1}.`
       );
-
       let sectionRaw = '';
       let sectionFallback: string | null = null;
       try {
@@ -1248,8 +1245,6 @@ Deno.serve(async (req) => {
       }
       let parsed: any = sectionRaw ? tryParseModelJson(sectionRaw) : null;
       if (parsed === null) {
-        // Per-section GPT-4o fallback. Images only — bulk PDF input is
-        // tolerated by Gemini but not GPT-4o, so reject upfront.
         const allImages = files.every((f) => f.mime.startsWith('image/'));
         if (allImages) {
           try {
@@ -1258,19 +1253,24 @@ Deno.serve(async (req) => {
             if (parsed) modelUsed = 'gpt-4o';
           } catch (gptErr) {
             const gptMsg = gptErr instanceof Error ? gptErr.message : String(gptErr);
-            return json(502, { error: 'section_failed_all_models', section: idx1, gemini_error: sectionFallback, gpt_error: gptMsg });
+            throw new Error(`section ${idx1}: ${gptMsg}`);
           }
         }
       }
       if (!parsed || typeof parsed !== 'object') {
-        return json(502, { error: 'section_failed', section: idx1, detail: sectionFallback || 'no usable JSON' });
+        throw new Error(`section ${idx1}: ${sectionFallback || 'no usable JSON'}`);
       }
-      // Force the section's identity fields to match the loop index — the
-      // client merges by index, not by partNumber, but we set both for
-      // consistency.
       (parsed as Record<string, unknown>).partNumber = idx1;
-      sections.push(parsed);
       if (sectionFallback && !fallbackReason) fallbackReason = sectionFallback;
+      return parsed;
+    }
+
+    let sections: any[];
+    try {
+      sections = await Promise.all([0, 1, 2, 3].map(importOneSection));
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      return json(502, { error: 'section_failed', detail: msg, fallback_reason: fallbackReason });
     }
 
     // Assemble the full mock envelope. testInfo + source are inferred
