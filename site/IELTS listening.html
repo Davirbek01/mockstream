@@ -4775,6 +4775,8 @@
           window.TEST_DATA = TEST_DATA;
           var isPdfDownload = urlParams.get('download') === 'pdf';
           var hasPerPartAudio = TEST_DATA.parts.some(function(p) { return p.audioFile && p.audioFile.trim() !== ''; });
+          var hasMergedAudio  = TEST_DATA.audioLayout === 'merged' && TEST_DATA.audioFile && String(TEST_DATA.audioFile).trim() !== '';
+          // Merged mode skips preloading (single file, browser streams).
           if (hasPerPartAudio && !isPdfDownload) { preloadAllAudio(); } else { initTest(); }
         })
         .catch(function(err) { console.error('❌ Supabase load failed:', err); showError('Failed to load test from Supabase'); });
@@ -5077,9 +5079,14 @@
       if (data.type === 'mcq-reply' || data.type === 'mcq') {
         return data.questions.map(q => renderMCQ(q)).join('');
       } else if (data.type === 'mcq-multi') {
-        var qIds = (data.questionIds || []).join(',');
-        var idLabel = (data.questionIds || []).join(' & ');
-        var numMerged = data.questionIds ? data.questionIds.length : 2;
+        // Accept either questionIds:[17,18] (legacy) or questions:[{id:17},{id:18}]
+        // (current Gemini emit shape — Mock 52 Part 2 hit this).
+        var qidArr = Array.isArray(data.questionIds) && data.questionIds.length
+          ? data.questionIds
+          : (Array.isArray(data.questions) ? data.questions.map(function (q) { return q && q.id; }).filter(function (n) { return n != null; }) : []);
+        var qIds = qidArr.join(',');
+        var idLabel = qidArr.join(' & ');
+        var numMerged = qidArr.length || 2;
         var html = '<div class="question-card merged-mcq" data-qids="' + qIds + '">';
         html += '<span class="merged-mcq-label">Q' + idLabel + '</span>';
         html += '<div class="merged-mcq-hint">Select exactly ' + numMerged + ' answers (accepted in any order)</div>';
@@ -5109,8 +5116,61 @@
         return renderTableCompletion(data);
       } else if (data.type === 'flowchart') {
         return renderFlowchart(data);
+      } else if (data.type === 'flowchart-completion') {
+        return renderFlowchartCompletion(data);
+      } else if (data.type === 'summary-completion') {
+        return renderSummaryCompletion(data);
       }
       return '';
+    }
+
+    // flowchart-completion — vertical stepped flow with one fill-in
+    // input per step. Distinct from "flowchart" (which uses a draggable
+    // letter pool). Gemini emits steps[].items[] where each item is a
+    // gap {gapId, prefix, suffix} bracketing a single blank.
+    function renderFlowchartCompletion(part) {
+      var html = '<div class="flowchart-container">';
+      if (part.boxTitle) {
+        html += '<div class="form-title" style="margin-bottom:14px;text-align:center;font-weight:700;color:var(--primary);">' + part.boxTitle + '</div>';
+      }
+      var steps = Array.isArray(part.steps) ? part.steps : [];
+      steps.forEach(function (step, idx) {
+        html += '<div class="flow-step">';
+        var items = Array.isArray(step.items) ? step.items : [];
+        items.forEach(function (it) {
+          if (it && it.type === 'gap' && it.gapId != null) {
+            var prefix = (it.prefix || '').toString();
+            var suffix = (it.suffix || '').toString();
+            html += (prefix ? prefix + ' ' : '')
+                  + '<span class="gap-label">(' + it.gapId + ')</span> '
+                  + '<input type="text" autocomplete="off" class="gap-input" data-q="' + it.gapId + '">'
+                  + (suffix ? ' ' + suffix : '');
+          } else if (it && typeof it.text === 'string') {
+            html += it.text;
+          }
+        });
+        html += '</div>';
+        if (idx < steps.length - 1) html += '<div class="flow-arrow">↓</div>';
+      });
+      html += '</div>';
+      return html;
+    }
+
+    // summary-completion — prose summary with inline gap spans the way
+    // CEFR reading uses for gap-fill-text. We swap each
+    // <span class="gap-input" data-gap="N">…</span> for a real text
+    // input that the runner's gather/score logic picks up via data-q.
+    function renderSummaryCompletion(part) {
+      var raw = String(part.summaryText || '');
+      // Tolerant of either data-gap or data-q on the existing span.
+      var html = raw.replace(
+        /<span\s+class=["']gap-input["']\s+data-(?:gap|q)=["'](\d+)["'][^>]*>[\s\S]*?<\/span>/gi,
+        function (_m, qid) {
+          return '<span class="gap-label">(' + qid + ')</span> '
+               + '<input type="text" autocomplete="off" class="gap-input" data-q="' + qid + '">';
+        }
+      );
+      return '<div class="form-container"><div class="form-html">' + html + '</div></div>';
     }
 
     function renderFlowchart(part) {
@@ -8393,13 +8453,22 @@
       let currentLoadedPart = 0;
       let soundingPartIndex = 0;
       let hasPerPartAudio = false;
+      let hasMergedAudio  = false;
+      let mergedAudioLoaded = false;
 
       // Check if test has per-part audio files (non-empty audioFile URLs)
+      // OR a single merged file (audioLayout === 'merged' + top-level
+      // audioFile). Merged mode shares one src across all parts and
+      // seeks to parts[i].audioStartSec on navigation.
       function checkPerPartAudio() {
         if (window.TEST_DATA && window.TEST_DATA.parts && window.TEST_DATA.parts.length > 0) {
           hasPerPartAudio = window.TEST_DATA.parts.some(p => p.audioFile && p.audioFile.trim() !== '');
         }
-        return hasPerPartAudio;
+        if (window.TEST_DATA && window.TEST_DATA.audioLayout === 'merged'
+            && window.TEST_DATA.audioFile && String(window.TEST_DATA.audioFile).trim() !== '') {
+          hasMergedAudio = true;
+        }
+        return hasPerPartAudio || hasMergedAudio;
       }
 
       // Update nav indicators to show which part is currently playing audio
@@ -8422,8 +8491,8 @@
         if (typeof autoPlay === 'undefined') autoPlay = true;
 
         // Re-check in case it wasn't set initially
-        if (!hasPerPartAudio) checkPerPartAudio();
-        if (!hasPerPartAudio) return;
+        if (!hasPerPartAudio && !hasMergedAudio) checkPerPartAudio();
+        if (!hasPerPartAudio && !hasMergedAudio) return;
 
         if (autoPlay) {
           // Stop background audio, we're playing a new part
@@ -8444,7 +8513,61 @@
         if (currentLoadedPart === partIndex && soundingPartIndex === partIndex && !audio.paused) return;
 
         const part = window.TEST_DATA.parts[partIndex];
-        if (!part || !part.audioFile || part.audioFile.trim() === '') return;
+        if (!part) return;
+
+        // ── Merged-mode branch ──
+        // Single audio file shared across all 4 sections. Seek to the
+        // part's audioStartSec (set during editor Settings → Single
+        // merged file). Source is set once and re-used; navigation just
+        // seeks.
+        if (hasMergedAudio) {
+          const mergedSrc = String(window.TEST_DATA.audioFile || '').trim();
+          if (!mergedSrc) return;
+          currentLoadedPart = partIndex;
+          window.updateNavIndicators();
+          const startSec = (typeof part.audioStartSec === 'number' && isFinite(part.audioStartSec) && part.audioStartSec >= 0)
+            ? part.audioStartSec : 0;
+          if (!mergedAudioLoaded || audio.src !== mergedSrc) {
+            audio.src = mergedSrc;
+            mergedAudioLoaded = true;
+            // Wait for metadata before seeking the first time — browsers
+            // can't set currentTime past 0 until duration is known.
+            const seekWhenReady = function () {
+              try { audio.currentTime = startSec; } catch (_e) {}
+              if (autoPlay) {
+                audio.play().catch(function () {
+                  document.addEventListener('click', function once() {
+                    audio.play(); document.removeEventListener('click', once);
+                  }, { once: true });
+                });
+              }
+            };
+            if (isFinite(audio.duration) && audio.duration > 0) {
+              seekWhenReady();
+            } else {
+              audio.addEventListener('loadedmetadata', seekWhenReady, { once: true });
+              audio.load();
+            }
+          } else {
+            try { audio.currentTime = startSec; } catch (_e) {}
+            if (autoPlay) {
+              audio.play().catch(function () {
+                document.addEventListener('click', function once() {
+                  audio.play(); document.removeEventListener('click', once);
+                }, { once: true });
+              });
+            }
+          }
+          loadingWrapper.classList.add('hidden');
+          playerControls.classList.add('ready');
+          isAudioReady = true;
+          allCurrentTimeEls.forEach(el => el.textContent = '00:00');
+          allProgressFills.forEach(el => el.style.width = '0%');
+          return;
+        }
+
+        // ── Per-part branch ──
+        if (!part.audioFile || part.audioFile.trim() === '') return;
 
         currentLoadedPart = partIndex;
         window.updateNavIndicators();
