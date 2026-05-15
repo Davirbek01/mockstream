@@ -4963,12 +4963,20 @@
 
       if (window._practicePart) {
         var partIdx = window._practicePart - 1;
-        // Hide nav
-        var pcNav = document.getElementById('pcPartNav');
-        var mobNav = document.getElementById('mobilePartNav');
-        if (pcNav) pcNav.style.display = 'none';
-        if (mobNav) mobNav.style.display = 'none';
-        document.querySelectorAll('.mobile-part-dot').forEach(function (d) { d.style.display = 'none'; });
+        // In practice mode the student is locked to a single section, but
+        // hiding the entire nav left no visible "Part N" context in the
+        // header. Keep the nav containers visible and just hide the
+        // *other* part buttons / dots so the practised one stays as a
+        // read-only badge. (CSS makes the active button non-clickable
+        // implicitly because there's only one left.)
+        document.querySelectorAll('#partNavPC .part-btn').forEach(function (b) {
+          if (parseInt(b.dataset.part, 10) !== partIdx) b.style.display = 'none';
+          else { b.classList.add('active'); b.style.cursor = 'default'; }
+        });
+        document.querySelectorAll('.mobile-part-dot').forEach(function (d) {
+          if (parseInt(d.dataset.part, 10) !== partIdx) d.style.display = 'none';
+          else { d.classList.add('active'); d.style.cursor = 'default'; }
+        });
 
         // Hide non-practice parts
         document.querySelectorAll('.part-section').forEach(function (s, i) {
@@ -5423,9 +5431,14 @@
       var _btnPrev = document.getElementById('btnPrev');
       var _btnNext = document.getElementById('btnNext');
       var _btnSubmit = document.getElementById('btnSubmit');
-      if (_btnPrev) _btnPrev.style.display = index === 0 ? 'none' : 'flex';
-      if (_btnNext) _btnNext.style.display = index === TEST_DATA.parts.length - 1 ? 'none' : 'flex';
-      if (_btnSubmit) _btnSubmit.style.display = index === TEST_DATA.parts.length - 1 ? 'flex' : 'none';
+      // In practice mode the student is locked to a single section, so
+      // hide Prev/Next and keep Submit visible from the start. Otherwise
+      // last-part rule applies: Next on every part except the last,
+      // Submit only on the last.
+      var _isPractice = !!window._practicePart;
+      if (_btnPrev)   _btnPrev.style.display   = (_isPractice || index === 0) ? 'none' : 'flex';
+      if (_btnNext)   _btnNext.style.display   = (_isPractice || index === TEST_DATA.parts.length - 1) ? 'none' : 'flex';
+      if (_btnSubmit) _btnSubmit.style.display = (_isPractice || index === TEST_DATA.parts.length - 1) ? 'flex' : 'none';
       // When manually switching parts, load audio but don't auto-play
       if (window.loadPartAudio) {
         window.loadPartAudio(index, false);
