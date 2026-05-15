@@ -9965,60 +9965,78 @@
        IELTS Listening part picker fix — otherwise this modal renders
        hidden behind the cletPicker overlay. -->
   <div id="cefrListeningPartPickerModal"
-    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:100006;align-items:center;justify-content:center;padding:20px;"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:100006;align-items:center;justify-content:center;padding:16px;"
     onclick="closeCefrListeningPartPicker()">
     <div
-      style="background:var(--card);border:2px solid #7c3aed;border-radius:24px;padding:32px 28px;max-width:380px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
+      style="background:var(--card);border:2px solid #7c3aed;border-radius:20px;padding:18px 18px 14px;max-width:340px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
       onclick="event.stopPropagation()">
-      <div style="font-size:36px;margin-bottom:6px;">🎯</div>
-      <h3 style="font-size:20px;color:#7c3aed;margin-bottom:4px;">Select a Part</h3>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:20px;">Choose which part you'd like to practice</p>
-      <div style="display:flex;flex-direction:column;gap:10px;">
+      <div style="font-size:24px;margin-bottom:2px;line-height:1;">🎯</div>
+      <h3 style="font-size:17px;color:#7c3aed;margin:0 0 2px;">Select a Part</h3>
+      <p style="font-size:12px;color:var(--muted);margin:0 0 12px;">Choose a part to practice</p>
+      <div style="display:flex;flex-direction:column;gap:6px;">
         <button onclick="_pickCefrListeningPart(1)"
-          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          style="padding:8px 12px;background:var(--bg);border:1.5px solid var(--ring);border-radius:10px;font-size:14px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.15s;display:flex;align-items:center;gap:10px;"
           onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
           onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
-          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">1</span>
-          <div><div>Part 1</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">8 questions • ~7 min</div></div>
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:13px;font-weight:800;flex-shrink:0;">1</span>
+          <div style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.15;">
+            <span>Part 1</span>
+            <span style="font-size:11px;font-weight:400;color:var(--muted);">8 questions · ~7 min</span>
+          </div>
         </button>
         <button onclick="_pickCefrListeningPart(2)"
-          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          style="padding:8px 12px;background:var(--bg);border:1.5px solid var(--ring);border-radius:10px;font-size:14px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.15s;display:flex;align-items:center;gap:10px;"
           onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
           onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
-          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">2</span>
-          <div><div>Part 2</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">6 questions • ~7 min</div></div>
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:13px;font-weight:800;flex-shrink:0;">2</span>
+          <div style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.15;">
+            <span>Part 2</span>
+            <span style="font-size:11px;font-weight:400;color:var(--muted);">6 questions · ~7 min</span>
+          </div>
         </button>
         <button onclick="_pickCefrListeningPart(3)"
-          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          style="padding:8px 12px;background:var(--bg);border:1.5px solid var(--ring);border-radius:10px;font-size:14px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.15s;display:flex;align-items:center;gap:10px;"
           onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
           onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
-          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">3</span>
-          <div><div>Part 3</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">5 questions • ~6 min</div></div>
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:13px;font-weight:800;flex-shrink:0;">3</span>
+          <div style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.15;">
+            <span>Part 3</span>
+            <span style="font-size:11px;font-weight:400;color:var(--muted);">5 questions · ~6 min</span>
+          </div>
         </button>
         <button onclick="_pickCefrListeningPart(4)"
-          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          style="padding:8px 12px;background:var(--bg);border:1.5px solid var(--ring);border-radius:10px;font-size:14px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.15s;display:flex;align-items:center;gap:10px;"
           onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
           onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
-          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">4</span>
-          <div><div>Part 4</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">5 questions • ~6 min</div></div>
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:13px;font-weight:800;flex-shrink:0;">4</span>
+          <div style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.15;">
+            <span>Part 4</span>
+            <span style="font-size:11px;font-weight:400;color:var(--muted);">5 questions · ~6 min</span>
+          </div>
         </button>
         <button onclick="_pickCefrListeningPart(5)"
-          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          style="padding:8px 12px;background:var(--bg);border:1.5px solid var(--ring);border-radius:10px;font-size:14px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.15s;display:flex;align-items:center;gap:10px;"
           onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
           onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
-          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">5</span>
-          <div><div>Part 5</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">6 questions • ~7 min</div></div>
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:13px;font-weight:800;flex-shrink:0;">5</span>
+          <div style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.15;">
+            <span>Part 5</span>
+            <span style="font-size:11px;font-weight:400;color:var(--muted);">6 questions · ~7 min</span>
+          </div>
         </button>
         <button onclick="_pickCefrListeningPart(6)"
-          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          style="padding:8px 12px;background:var(--bg);border:1.5px solid var(--ring);border-radius:10px;font-size:14px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.15s;display:flex;align-items:center;gap:10px;"
           onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
           onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
-          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">6</span>
-          <div><div>Part 6</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">6 questions • ~7 min</div></div>
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:13px;font-weight:800;flex-shrink:0;">6</span>
+          <div style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.15;">
+            <span>Part 6</span>
+            <span style="font-size:11px;font-weight:400;color:var(--muted);">6 questions · ~7 min</span>
+          </div>
         </button>
       </div>
       <button onclick="closeCefrListeningPartPicker()"
-        style="margin-top:18px;padding:8px 24px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;">Back</button>
+        style="margin-top:12px;padding:6px 20px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;">Back</button>
     </div>
   </div>
 
@@ -11824,7 +11842,69 @@
 
     function _cefrListeningModePartBased() {
       document.getElementById('cefrListeningModeModal').style.display = 'none';
-      document.getElementById('cefrListeningPartPickerModal').style.display = 'flex';
+      var modal = document.getElementById('cefrListeningPartPickerModal');
+      var allBtns = modal.querySelectorAll('button[onclick^="_pickCefrListeningPart"]');
+      // Default everything visible — covers the fall-open path below.
+      allBtns.forEach(function (b) { b.style.display = ''; });
+
+      // Mirror cletPicker readiness: hide Part N buttons for sections the
+      // picker marks "⏳ Soon" so a partially-authored mock doesn't offer
+      // empty Part N practice. Read the picker's in-memory meta cache
+      // (_cletMockMeta) if populated; if not (deep-link path where the
+      // picker hasn't been opened this session) fetch the single mock's
+      // data inline. CEFR threshold is ≥4 answers (Part 3 matching-speakers
+      // routinely has only 4 speakers, so the IELTS ≥5 rule is too strict).
+      // Falls open on any cache/fetch failure rather than risk locking
+      // everything out.
+      function _applyReady(readyArr) {
+        if (!Array.isArray(readyArr)) return;
+        allBtns.forEach(function (btn) {
+          var m = btn.getAttribute('onclick').match(/_pickCefrListeningPart\((\d+)\)/);
+          if (!m) return;
+          var partIdx = parseInt(m[1], 10) - 1;
+          btn.style.display = readyArr[partIdx] ? '' : 'none';
+        });
+      }
+      function _showAndScroll() { modal.style.display = 'flex'; }
+
+      try {
+        var url   = _pendingCefrListeningUrl || '';
+        var numM  = url.match(/[?&](?:num|mock)=(\d+)/);
+        var mn    = numM ? String(parseInt(numM[1], 10)).padStart(2, '0') : null;
+        var testM = url.match(/[?&]test=cefr-listening-test-(\d+)/);
+        if (!mn && testM) mn = String(parseInt(testM[1], 10)).padStart(2, '0');
+        var sbM   = url.match(/[?&]sbmock=([^&]+)/);
+        var sbId  = sbM ? sbM[1] : null;
+        var cached = (mn && typeof _cletMockMeta !== 'undefined') ? _cletMockMeta[mn] : null;
+        if (cached && Array.isArray(cached.sections)) {
+          _applyReady(cached.sections.map(function (s) { return !!(s && s.ready); }));
+          _showAndScroll();
+          return;
+        }
+        if (sbId) {
+          // Show the modal optimistically (all parts visible) and hide
+          // not-ready ones once the fetch resolves.
+          _showAndScroll();
+          var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+          var KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+          fetch(SB + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(sbId) + '&select=mock_data', {
+            headers: { apikey: KEY, Authorization: 'Bearer ' + KEY }
+          }).then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (rows) {
+              if (!rows || !rows.length) return;
+              var parts = (rows[0].mock_data && Array.isArray(rows[0].mock_data.parts)) ? rows[0].mock_data.parts : [];
+              var ready = parts.map(function (p) {
+                var n = (p && p.answers && typeof p.answers === 'object') ? Object.keys(p.answers).length : 0;
+                return n >= 4;
+              });
+              while (ready.length < 6) ready.push(false);
+              _applyReady(ready);
+            })
+            .catch(function () {});
+          return;
+        }
+      } catch (e) {}
+      _showAndScroll();
     }
 
     function closeCefrListeningPartPicker() {
