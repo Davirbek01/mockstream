@@ -32490,10 +32490,16 @@
               +   '<input type="text" id="mmgIlTi_p' + sn + '_start" value="' + _mmgEsc(curRaw) + '" placeholder="e.g. ' + (si === 0 ? '0:00' : (si === 1 ? '13:00' : (si === 2 ? '26:00' : '38:00'))) + '" '
               +   'oninput="_mmgIlUpdateTimeHint(\'mmgIlTi_p' + sn + '_start\');_mmgIlRefreshEndHints()" '
               +   'style="flex:1;padding:5px 10px;border:1px solid #cbd5e1;border-radius:5px;font-size:13px;font-family:ui-monospace,monospace;">'
+              +   '<button type="button" id="mmgIlTi_p' + sn + '_preview" onclick="_mmgIlPreviewSection(' + sn + ')" title="Play this section start in the merged audio" '
+              +   'style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:5px;padding:5px 10px;font-size:13px;font-weight:600;cursor:pointer;line-height:1;">▶</button>'
               +   '<span id="mmgIlTi_p' + sn + '_start_hint" style="font-size:11px;color:#64748b;min-width:140px;">' + (sp.audioStartSec != null ? '= ' + _ilFormatTime(sp.audioStartSec) + ' (' + sp.audioStartSec + 's)' : '') + '</span>'
               +   '<span id="mmgIlTi_p' + sn + '_end_hint"   style="font-size:11px;color:#94a3b8;min-width:130px;"></span>'
               + '</div>';
       }
+      // Shared invisible <audio> element + a tiny status line. One audio
+      // for all 4 preview buttons — seekable, no duplicate downloads.
+      html += '<audio id="mmgIlTi_previewAudio" preload="none" style="display:none;"></audio>'
+            + '<div id="mmgIlTi_previewStatus" style="font-size:11px;color:#64748b;margin-top:4px;min-height:14px;"></div>';
       html += '</div>';
 
       // Per-section uploader cluster (visible when layout='per-section').
@@ -33296,6 +33302,75 @@
         kind: 'audio',
         subdir: 'merged'
       });
+    };
+
+    // ▶ Preview button beside each section start input. Plays the merged
+    // audio starting at that section's timestamp so the admin can verify
+    // Gemini\'s auto-detect output (or a manual entry) lands on the
+    // correct narrator cue before saving. Single shared <audio> element
+    // — no duplicate downloads. Click again to pause; clicking a
+    // different section seeks + restarts.
+    var _mmgIlPreviewActive = null;
+    window._mmgIlPreviewSection = function (sn) {
+      var audio  = document.getElementById('mmgIlTi_previewAudio');
+      var statusEl = document.getElementById('mmgIlTi_previewStatus');
+      var urlEl  = document.getElementById('mmgIlTi_audio');
+      var startEl = document.getElementById('mmgIlTi_p' + sn + '_start');
+      var btn    = document.getElementById('mmgIlTi_p' + sn + '_preview');
+      function setStatus(msg, color) { if (statusEl) { statusEl.textContent = msg; statusEl.style.color = color || '#64748b'; } }
+      function setBtnIcon(n, icon) {
+        var b = document.getElementById('mmgIlTi_p' + n + '_preview');
+        if (b) b.textContent = icon;
+      }
+      function resetAllBtns() { for (var i = 1; i <= 4; i++) setBtnIcon(i, '▶'); }
+      if (!audio) { setStatus('Audio element missing — re-open the dialog.', '#dc2626'); return; }
+
+      var src = urlEl ? String(urlEl.value || '').trim() : '';
+      if (!src) { setStatus('Merged audio URL is empty — upload first.', '#dc2626'); return; }
+      var startSec = startEl ? _ilParseTime(startEl.value) : null;
+      if (startSec == null || startSec < 0) { setStatus('Section ' + sn + ' start time is empty / invalid.', '#dc2626'); return; }
+
+      // If THIS section is already playing → pause.
+      if (_mmgIlPreviewActive === sn && !audio.paused) {
+        audio.pause();
+        setBtnIcon(sn, '▶');
+        _mmgIlPreviewActive = null;
+        setStatus('Paused.');
+        return;
+      }
+      // Load src on first use (or if it changed).
+      if (audio.src !== src) {
+        audio.src = src;
+        audio.load();
+      }
+      // Seek + play. Some browsers can\'t seek until metadata loads; wait
+      // for `loadedmetadata` if duration is still NaN.
+      function seekAndPlay() {
+        try { audio.currentTime = startSec; } catch (_e) {}
+        var pr = audio.play();
+        if (pr && typeof pr.catch === 'function') {
+          pr.catch(function (e) { setStatus('Play failed: ' + e.message, '#dc2626'); resetAllBtns(); _mmgIlPreviewActive = null; });
+        }
+        resetAllBtns();
+        setBtnIcon(sn, '⏸');
+        _mmgIlPreviewActive = sn;
+        setStatus('▶ Section ' + sn + ' from ' + _ilFormatTime(startSec) + ' — listen for the "Section ' + ['One','Two','Three','Four'][sn-1] + '" cue.');
+      }
+      audio.onended = function () { setBtnIcon(sn, '▶'); _mmgIlPreviewActive = null; setStatus('Finished.'); };
+      audio.onpause = function () {
+        // If pause came from elsewhere (e.g. browser autopause), reset icon.
+        if (_mmgIlPreviewActive === sn && audio.paused && !audio.ended) {
+          // Don\'t reset icon here — the explicit pause path handles that.
+        }
+      };
+      if (isFinite(audio.duration) && audio.duration > 0) {
+        seekAndPlay();
+      } else {
+        setStatus('Loading audio…');
+        var onMeta = function () { audio.removeEventListener('loadedmetadata', onMeta); seekAndPlay(); };
+        audio.addEventListener('loadedmetadata', onMeta);
+        audio.addEventListener('error', function () { setStatus('Audio failed to load. Check the URL.', '#dc2626'); }, { once: true });
+      }
     };
 
     // Auto-detect section start times in a merged IELTS Listening audio
