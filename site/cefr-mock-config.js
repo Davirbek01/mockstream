@@ -3,16 +3,13 @@
 // The selection menu will automatically show all available mocks
 
 window.CEFR_MOCK_CONFIG = {
-    // Number of available STATIC tests for each module
-    // Dynamic mocks from Supabase (mock_tests table) are loaded automatically
-    listening: 32,   // cefr-listening-test-01.js to cefr-listening-test-32.js
-    reading: 40,    // cefr-reading-test-01.js to cefr-reading-test-40.js
-    writing: 99,    // cefr-mock-01.js to cefr-mock-99.js
-    speaking: 65,   // questions01.js to questions65.js (+ Supabase dynamic mocks)
-
-    // File naming patterns (for reference)
-    // Listening: questions CEFR L/cefr-listening-test-{XX}.js
-    // Reading:   questions CEFR R/cefr-reading-test-{XX}.js
-    // Writing:   questions W/cefr-mock-{XX}.js
-    // Speaking:  questions S/questions{XX}.js
+    // Baseline mock counts per module. All four skills are now on Supabase;
+    // these values are floors only — discoverMockCounts() in full-mock.html
+    // queries mock_tests.max(mock_number) and tops these up if admin has
+    // added more rows. Bump these when (a) the floor needs lifting or
+    // (b) a Supabase-less fallback is desired.
+    listening: 32,
+    reading: 40,
+    writing: 99,
+    speaking: 65,
 };

@@ -14306,39 +14306,43 @@
 
     // ===== LISTENING TESTS =====
 
+    // All 32 mocks now sourced from Supabase mock_tests (mock_type=cefr-listening).
+    // ID mapping: mock 01 → id 6 (phase-1 pilot), mocks 02..32 → id (440 + N)
+    // from the May-2026 bulk migration. Admin edits via the Mock Settings panel
+    // upsert these rows directly — no more source-tree edits for content changes.
     const cefrListeningTests = [
-      { file: 'CEFR Listening.html?sbmock=6', name: '🧪 CEFR Listening Test 01 (Supabase pilot)', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-02', name: 'CEFR Listening Test 02', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-03', name: 'CEFR Listening Test 03', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-04', name: 'CEFR Listening Test 04', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-05', name: 'CEFR Listening Test 05', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-06', name: 'CEFR Listening Test 06', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-07', name: 'CEFR Listening Test 07', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-08', name: 'CEFR Listening Test 08', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-09', name: 'CEFR Listening Test 09', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-10', name: 'CEFR Listening Test 10', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-11', name: 'CEFR Listening Test 11', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-12', name: 'CEFR Listening Test 12', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-13', name: 'CEFR Listening Test 13', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-14', name: 'CEFR Listening Test 14', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-15', name: 'CEFR Listening Test 15', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-16', name: 'CEFR Listening Test 16', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-17', name: 'CEFR Listening Test 17', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-18', name: 'CEFR Listening Test 18', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-19', name: 'CEFR Listening Test 19', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-20', name: 'CEFR Listening Test 20', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-21', name: 'CEFR Listening Test 21', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-22', name: 'CEFR Listening Test 22', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-23', name: 'CEFR Listening Test 23', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-24', name: 'CEFR Listening Test 24', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-25', name: 'CEFR Listening Test 25', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-26', name: 'CEFR Listening Test 26', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-27', name: 'CEFR Listening Test 27', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-28', name: 'CEFR Listening Test 28', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-29', name: 'CEFR Listening Test 29', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-30', name: 'CEFR Listening Test 30', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-31', name: 'CEFR Listening Test 31', icon: '🎧', actionText: 'Take Test' },
-      { file: 'CEFR Listening.html?test=cefr-listening-test-32', name: 'CEFR Listening Test 32', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=6',   name: 'CEFR Listening Test 01', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=442', name: 'CEFR Listening Test 02', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=443', name: 'CEFR Listening Test 03', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=444', name: 'CEFR Listening Test 04', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=445', name: 'CEFR Listening Test 05', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=446', name: 'CEFR Listening Test 06', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=447', name: 'CEFR Listening Test 07', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=448', name: 'CEFR Listening Test 08', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=449', name: 'CEFR Listening Test 09', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=450', name: 'CEFR Listening Test 10', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=451', name: 'CEFR Listening Test 11', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=452', name: 'CEFR Listening Test 12', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=453', name: 'CEFR Listening Test 13', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=454', name: 'CEFR Listening Test 14', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=455', name: 'CEFR Listening Test 15', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=456', name: 'CEFR Listening Test 16', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=457', name: 'CEFR Listening Test 17', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=458', name: 'CEFR Listening Test 18', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=459', name: 'CEFR Listening Test 19', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=460', name: 'CEFR Listening Test 20', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=461', name: 'CEFR Listening Test 21', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=462', name: 'CEFR Listening Test 22', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=463', name: 'CEFR Listening Test 23', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=464', name: 'CEFR Listening Test 24', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=465', name: 'CEFR Listening Test 25', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=466', name: 'CEFR Listening Test 26', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=467', name: 'CEFR Listening Test 27', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=468', name: 'CEFR Listening Test 28', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=469', name: 'CEFR Listening Test 29', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=470', name: 'CEFR Listening Test 30', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=471', name: 'CEFR Listening Test 31', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=472', name: 'CEFR Listening Test 32', icon: '🎧', actionText: 'Take Test' },
     ];
 
     const ieltsListeningTests = [
@@ -16400,7 +16404,7 @@
     // Visual styling: reuses the same .ilet-* classes (no CSS duplication).
     // JS handlers scoped by container ID + .clet-chip class.
     // ════════════════════════════════════════════════════════════════════
-    const _clet_CACHE_KEY = 'ms_clet_meta_v2';
+    const _clet_CACHE_KEY = 'ms_clet_meta_v3';
     const _clet_CACHE_TTL = 24 * 60 * 60 * 1000;
     const _clet_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
     const _clet_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
