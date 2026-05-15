@@ -7980,6 +7980,45 @@
     </div>
   </div>
 
+  <!-- ===== Full-screen CEFR Listening picker (cletPicker) ===== -->
+  <!-- Cloned from iletPicker — same .ilet-* CSS for visual parity, new
+       IDs and a .clet-chip class so the JS handlers don\'t collide. CEFR
+       mocks have 6 sections (vs 4 for IELTS). -->
+  <div id="cletPicker" class="ilet-overlay" aria-hidden="true">
+    <header class="ilet-header">
+      <button class="ilet-back" type="button" onclick="cletClose()" title="Back to landing">←</button>
+      <div class="ilet-title">
+        <span class="ilet-title-emoji">🎧</span>
+        <span class="ilet-title-text">CEFR Listening</span>
+        <span class="ilet-count" id="cletCount">0</span>
+      </div>
+      <div class="ilet-header-tools">
+        <input type="search" class="ilet-search" id="cletSearch" placeholder="🔍 Search mock #, source, section…" autocomplete="off" spellcheck="false">
+        <select class="ilet-sort" id="cletJump" title="Jump to mock #">
+          <option value="">Jump to #…</option>
+        </select>
+      </div>
+    </header>
+
+    <div class="ilet-filter-row">
+      <button type="button" class="ilet-chip ilet-chip-active clet-chip" data-filter="all">All</button>
+      <button type="button" class="ilet-chip clet-chip" data-filter="ready">✓ Ready only</button>
+      <button type="button" class="ilet-chip clet-chip" data-filter="soon">⏳ Coming soon</button>
+      <button type="button" class="ilet-chip clet-chip" data-filter="done">★ Done before</button>
+      <select class="ilet-source-filter" id="cletSourceFilter" title="Filter by source">
+        <option value="">📚 All sources</option>
+      </select>
+    </div>
+
+    <main class="ilet-grid" id="cletGrid"></main>
+
+    <div class="ilet-empty" id="cletEmpty" style="display:none;">
+      <div class="ilet-empty-icon">🔍</div>
+      <p class="ilet-empty-msg">No mocks match your filters.</p>
+      <button type="button" class="ilet-empty-clear" onclick="cletClearFilters()">Clear filters</button>
+    </div>
+  </div>
+
   <style>
     /* ===== Full-screen IELTS Reading picker ===== */
     .iret-overlay {
@@ -8296,6 +8335,50 @@
       flex-direction: column;
     }
     .ilet-overlay.ilet-open { display: flex; }
+    /* ===== CEFR Listening picker (cletPicker) green-tone overrides =====
+       cletPicker reuses the .ilet-* class set for layout, but the color
+       palette should match cretPicker (CEFR Reading) so the two CEFR
+       pickers feel like a family. These selectors are scoped to
+       #cletPicker so iletPicker keeps its peach/orange tone. */
+    #cletPicker.ilet-overlay {
+      background: linear-gradient(135deg, #f0fdfa 0%, #d1fae5 100%);
+    }
+    #cletPicker .ilet-header {
+      background: rgba(240, 253, 250, 0.95);
+      border-bottom-color: #99f6e4;
+    }
+    #cletPicker .ilet-back {
+      color: #0f766e;
+      box-shadow: 0 1px 3px rgba(15,118,110,.15);
+    }
+    #cletPicker .ilet-back:hover { background: #0f766e; color: #fff; }
+    #cletPicker .ilet-title { color: #134e4a; }
+    #cletPicker .ilet-count {
+      background: linear-gradient(135deg,#10b981,#059669);
+      color: #fff;
+    }
+    #cletPicker .ilet-card {
+      border-color: #99f6e4;
+    }
+    #cletPicker .ilet-card:hover:not(.ilet-card-disabled) {
+      border-color: #0f766e;
+      box-shadow: 0 8px 20px rgba(15,118,110,.18);
+    }
+    #cletPicker .ilet-mocknum {
+      background: linear-gradient(135deg,#10b981,#059669);
+    }
+    #cletPicker .ilet-take {
+      background: linear-gradient(135deg,#10b981,#059669);
+    }
+    #cletPicker .ilet-take:hover {
+      background: linear-gradient(135deg,#059669,#047857);
+    }
+    #cletPicker .ilet-chip-active {
+      background: #0f766e;
+      color: #fff;
+      border-color: #0f766e;
+    }
+    #cletPicker .ilet-mock-title { color: #134e4a; }
     .ilet-header {
       position: sticky;
       top: 0;
@@ -14963,6 +15046,16 @@
         iletOpen();
         return;
       }
+      // CEFR Listening — full-screen picker with 6-section cards (cletPicker).
+      // Flag default true; flip useNewCefrListeningPicker=false in site-config
+      // to revert to the popup if needed.
+      if (category === 'cefr-listening'
+          && window.SITE_CONFIG
+          && window.SITE_CONFIG.useNewCefrListeningPicker !== false
+          && typeof cletOpen === 'function') {
+        cletOpen();
+        return;
+      }
       const modal = document.getElementById('categoryModal');
       const iconEl = document.getElementById('categoryModalIcon');
       const titleEl = document.getElementById('categoryModalTitle');
@@ -16208,6 +16301,421 @@
 
     window.iletOpen = iletOpen;
     window.iletClose = iletClose;
+
+    // ════════════════════════════════════════════════════════════════════
+    // CEFR Listening picker (cletPicker)
+    // Mirrors iletPicker. CEFR mocks differ in three ways:
+    //   • 6 sections per mock (vs IELTS\'s 4)
+    //   • Single-type-per-part shape (no subParts[] wrapper) — readiness
+    //     still checks part.answers ≥ 5
+    //   • Static files at `questions CEFR L/cefr-listening-test-NN.js`,
+    //     globals expose window.CEFR_LISTENING_TEST
+    // Visual styling: reuses the same .ilet-* classes (no CSS duplication).
+    // JS handlers scoped by container ID + .clet-chip class.
+    // ════════════════════════════════════════════════════════════════════
+    const _clet_CACHE_KEY = 'ms_clet_meta_v1';
+    const _clet_CACHE_TTL = 24 * 60 * 60 * 1000;
+    const _clet_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    const _clet_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    const _cletMockMeta = {};
+    let _cletServerDone = {};
+    let _cletFilter = 'all';
+    let _cletSourceFilter = '';
+
+    function _cletEsc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    function _cletBuildMetaFromMockData(md) {
+      // Section is "ready" when its answers dict has ≥5 keys — same rule
+      // as IELTS. CEFR parts have 5-8 questions each, so 5 is a sensible
+      // threshold. Pads to 6 sections so the picker always renders 6 rows.
+      //
+      // Title resolution priority — surface a descriptive topic when
+      // available so cards read like the IELTS picker\'s ("The Pre-school
+      // Family Centre" instead of "Part 2"):
+      //   1. part.title if it\'s NOT just "Part N" (Gemini-imported mocks)
+      //   2. type-specific topic field (formTitle / mapTitle / first extract)
+      //   3. type-derived label as last resort
+      function _cletPartTitle(p) {
+        if (!p) return '—';
+        const raw = String(p.title || '').trim();
+        if (raw && !/^part\s*\d+$/i.test(raw)) return raw;
+        if (p.formTitle && String(p.formTitle).trim()) return String(p.formTitle).trim();
+        if (p.mapTitle && String(p.mapTitle).trim()) return String(p.mapTitle).trim();
+        if (Array.isArray(p.extracts) && p.extracts[0] && p.extracts[0].title) {
+          // Static CEFR files commonly use generic numbering ("Extract One"
+          // / "Extract Two") — skip those in favour of the type label.
+          const ex0 = String(p.extracts[0].title).trim();
+          if (ex0 && !/^extract\s+(one|two|three|four|\d+)$/i.test(ex0)) return ex0;
+        }
+        // Type-derived fallback — gives the row a useful description
+        // even on un-titled static parts.
+        const typeLabels = {
+          'mcq-reply':           'Short replies (A/B/C)',
+          'mcq-extracts':        'MCQ extracts',
+          'gap-fill-form':       'Form completion',
+          'matching-speakers':   'Speaker matching',
+          'map-labeling':        'Map labelling',
+          'sentence-completion': 'Sentence completion'
+        };
+        return typeLabels[p.type] || raw || ('Part ' + (p.partNumber || '?'));
+      }
+      const sections = (md && Array.isArray(md.parts) ? md.parts : []).map(p => {
+        const ansCount = (p.answers && typeof p.answers === 'object')
+          ? Object.keys(p.answers).length : 0;
+        return {
+          title: _cletPartTitle(p),
+          ready: ansCount >= 5
+        };
+      });
+      while (sections.length < 6) sections.push({ title: '—', ready: false });
+      return { source: (md && md.source) || '', sections: sections.slice(0, 6) };
+    }
+
+    async function _cletLoadStaticMockMeta(filename) {
+      try {
+        const fname = /\.js$/i.test(filename) ? filename : (filename + '.js');
+        const resp = await fetch('questions CEFR L/' + fname);
+        if (!resp.ok) return null;
+        const code = await resp.text();
+        const sandbox = { CEFR_LISTENING_TEST: null };
+        try { new Function('window', code + '\n;return window;')(sandbox); }
+        catch (e) { return null; }
+        return sandbox.CEFR_LISTENING_TEST
+          ? _cletBuildMetaFromMockData(sandbox.CEFR_LISTENING_TEST)
+          : null;
+      } catch (e) { return null; }
+    }
+
+    async function _cletLoadSupabaseMockMeta(id) {
+      try {
+        const r = await fetch(
+          _clet_SB_URL + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(id) + '&select=mock_data',
+          { headers: { apikey: _clet_SB_KEY, Authorization: 'Bearer ' + _clet_SB_KEY } }
+        );
+        if (!r.ok) return null;
+        const rows = await r.json();
+        if (!rows || !rows.length) return null;
+        return _cletBuildMetaFromMockData(rows[0].mock_data || {});
+      } catch (e) { return null; }
+    }
+
+    function _cletParseFileSpec(fileSpec) {
+      const sbMatch = String(fileSpec || '').match(/sbmock=([^&]+)/);
+      if (sbMatch) return { kind: 'sb', id: sbMatch[1] };
+      const stMatch = String(fileSpec || '').match(/test=([^&]+)/);
+      if (stMatch) return { kind: 'static', filename: stMatch[1] };
+      return { kind: 'unknown' };
+    }
+
+    async function _cletLoadAllMockMeta() {
+      try {
+        const cached = JSON.parse(localStorage.getItem(_clet_CACHE_KEY) || 'null');
+        if (cached && cached.ts && (Date.now() - cached.ts) < _clet_CACHE_TTL && cached.data) {
+          Object.assign(_cletMockMeta, cached.data);
+          return;
+        }
+      } catch (e) {}
+      const items = (typeof cefrListeningTests !== 'undefined' && Array.isArray(cefrListeningTests))
+        ? cefrListeningTests : [];
+      await Promise.all(items.map(async (t, idx) => {
+        const key = String(idx + 1).padStart(2, '0');
+        const spec = _cletParseFileSpec(t && t.file);
+        let meta = null;
+        if (spec.kind === 'static') meta = await _cletLoadStaticMockMeta(spec.filename);
+        else if (spec.kind === 'sb') meta = await _cletLoadSupabaseMockMeta(spec.id);
+        if (meta) _cletMockMeta[key] = meta;
+      }));
+      try {
+        localStorage.setItem(_clet_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: _cletMockMeta }));
+      } catch (e) {}
+    }
+
+    function _cletGetDoneInfo(mockNum) {
+      try {
+        const raw = localStorage.getItem('mock-cefr-listening-done-' + mockNum);
+        if (raw) return JSON.parse(raw);
+      } catch (e) {}
+      if (_cletServerDone[mockNum]) return { fromServer: true };
+      return null;
+    }
+
+    async function _cletFetchServerDone() {
+      try {
+        if (!window.PremiumGate || !window.PremiumGate._normName) return {};
+        const candidateName = (typeof sessionStorage !== 'undefined'
+          ? (sessionStorage.getItem('CANDIDATE_NAME') || '') : '');
+        const name = window.PremiumGate._normName(candidateName);
+        if (!name) return {};
+        const url = _clet_SB_URL + '/rest/v1/mock_attempts'
+          + '?candidate_name=eq.' + encodeURIComponent(name)
+          + '&skill=eq.listening'
+          + '&exam_type=eq.cefr'
+          + '&submitted_at=not.is.null'
+          + '&select=mock_number';
+        const r = await fetch(url, { headers: { apikey: _clet_SB_KEY, Authorization: 'Bearer ' + _clet_SB_KEY } });
+        if (!r.ok) return {};
+        const rows = await r.json();
+        const out = {};
+        (rows || []).forEach(row => { out[String(row.mock_number).padStart(2, '0')] = true; });
+        return out;
+      } catch (e) { return {}; }
+    }
+
+    function _cletSkeletonHtml() {
+      return '<div class="ilet-card-skeleton">'
+        + '<div class="ilet-skel-line short"></div>'
+        + '<div class="ilet-skel-line tall"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '</div>';
+    }
+
+    function _cletCardHtml(mockNum, item, meta, doneInfo) {
+      const sections = meta.sections;
+      const readyCount = sections.filter(p => p.ready).length;
+      const total = sections.length;
+      const noneReady = readyCount === 0;
+      const dots = sections.map(p =>
+        '<span class="ilet-dot ' + (p.ready ? 'ilet-dot-ready' : 'ilet-dot-soon') + '"></span>'
+      ).join('');
+      const sourceHtml = meta.source
+        ? '<div class="ilet-source" title="' + _cletEsc(meta.source) + '">' + _cletEsc(meta.source) + '</div>'
+        : '';
+      const sectionRows = sections.map((p, i) =>
+        '<li class="ilet-section">'
+          + '<span class="ilet-section-num">' + (i + 1) + '</span>'
+          + '<span class="ilet-section-title">' + _cletEsc(p.title) + '</span>'
+          + '<span class="ilet-section-badge ' + (p.ready ? 'ilet-badge-ready' : 'ilet-badge-soon') + '">'
+          +   (p.ready ? '✓ Ready' : '⏳ Soon')
+          + '</span>'
+        + '</li>'
+      ).join('');
+      const doneHtml = doneInfo
+        ? (typeof doneInfo.percent === 'number'
+            ? '<span class="ilet-done">★ Done · ' + doneInfo.percent + '%</span>'
+            : '<span class="ilet-done">★ Done</span>')
+        : '';
+      const actionHtml = noneReady
+        ? '<span class="ilet-coming-soon">Coming soon</span>'
+        : '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Take Test →</button>';
+      const cleanTitle = String(item.name || '').replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]+\s*/u, '');
+      return '<article class="ilet-card ' + (noneReady ? 'ilet-card-disabled' : '') + '"'
+        + ' id="clet-card-' + mockNum + '"'
+        + ' data-mock="' + mockNum + '"'
+        + ' data-file="' + _cletEsc(item.file) + '"'
+        + ' data-ready-count="' + readyCount + '"'
+        + ' data-total="' + total + '"'
+        + ' data-source="' + _cletEsc(String(meta.source || '').toLowerCase()) + '"'
+        + ' data-done="' + (doneHtml ? '1' : '0') + '"'
+        + ' data-title="' + _cletEsc(cleanTitle.toLowerCase()) + '"'
+        + ' data-sections="' + _cletEsc(sections.map(p => p.title).join(' ').toLowerCase()) + '">'
+          + '<div class="ilet-card-head">'
+            + '<div class="ilet-mocknum">#' + mockNum + '</div>'
+            + '<div class="ilet-status">'
+              + '<span class="ilet-dots">' + dots + '</span>'
+              + '<span class="ilet-status-label">' + readyCount + '/' + total + ' READY</span>'
+            + '</div>'
+            + sourceHtml
+          + '</div>'
+          + '<h3 class="ilet-mock-title">' + _cletEsc(cleanTitle) + '</h3>'
+          + '<ul class="ilet-sections">' + sectionRows + '</ul>'
+          + '<div class="ilet-card-foot">' + doneHtml + actionHtml + '</div>'
+        + '</article>';
+    }
+
+    function _cletRenderSkeletons() {
+      const grid = document.getElementById('cletGrid');
+      const count = (typeof cefrListeningTests !== 'undefined' && Array.isArray(cefrListeningTests))
+        ? cefrListeningTests.length : 12;
+      grid.innerHTML = Array.from({ length: count }, _cletSkeletonHtml).join('');
+      document.getElementById('cletCount').textContent = count;
+    }
+
+    function _cletRender() {
+      const grid = document.getElementById('cletGrid');
+      const items = (typeof cefrListeningTests !== 'undefined' && Array.isArray(cefrListeningTests))
+        ? cefrListeningTests : [];
+      const cards = items.map((t, idx) => {
+        const mockNum = String(idx + 1).padStart(2, '0');
+        const meta = _cletMockMeta[mockNum] || { source: '', sections: [
+          { title: '—', ready: false }, { title: '—', ready: false }, { title: '—', ready: false },
+          { title: '—', ready: false }, { title: '—', ready: false }, { title: '—', ready: false }
+        ] };
+        return _cletCardHtml(mockNum, t, meta, _cletGetDoneInfo(mockNum));
+      });
+      grid.innerHTML = cards.join('');
+      _cletBuildJumpOptions();
+      _cletBuildSourceOptions();
+      _cletApplyFiltersAndSort();
+    }
+
+    function _cletApplyFiltersAndSort() {
+      const search = (document.getElementById('cletSearch').value || '').toLowerCase().trim();
+      const sourceFilter = _cletSourceFilter.toLowerCase();
+      let visible = 0;
+      document.querySelectorAll('#cletGrid .ilet-card').forEach(c => {
+        const ready = parseInt(c.dataset.readyCount, 10) || 0;
+        const total = parseInt(c.dataset.total, 10) || 0;
+        const done = c.dataset.done === '1';
+        const source = c.dataset.source || '';
+        let pass = true;
+        if (_cletFilter === 'ready') pass = (ready === total && total > 0);
+        else if (_cletFilter === 'soon') pass = (ready < total);
+        else if (_cletFilter === 'done') pass = done;
+        if (pass && sourceFilter) pass = source.startsWith(sourceFilter);
+        if (pass && search) {
+          pass = (c.dataset.title || '').includes(search)
+            || (c.dataset.source || '').includes(search)
+            || (c.dataset.sections || '').includes(search)
+            || (c.dataset.mock || '').includes(search);
+        }
+        c.style.display = pass ? '' : 'none';
+        if (pass) visible++;
+      });
+      document.getElementById('cletEmpty').style.display = visible === 0 ? '' : 'none';
+    }
+
+    function _cletBuildSourceOptions() {
+      const sel = document.getElementById('cletSourceFilter');
+      if (!sel) return;
+      const groups = new Set();
+      Object.values(_cletMockMeta).forEach(m => {
+        if (!m || !m.source) return;
+        const stripped = String(m.source).replace(/\s+Test\s+\d+\s*$/i, '').trim();
+        if (stripped) groups.add(stripped);
+      });
+      const sorted = Array.from(groups).sort();
+      let opts = '<option value="">📚 All sources</option>';
+      sorted.forEach(g => {
+        const selAttr = (g === _cletSourceFilter) ? ' selected' : '';
+        opts += '<option value="' + _cletEsc(g) + '"' + selAttr + '>' + _cletEsc(g) + '</option>';
+      });
+      sel.innerHTML = opts;
+    }
+
+    function _cletBuildJumpOptions() {
+      const sel = document.getElementById('cletJump');
+      if (!sel) return;
+      const cards = document.querySelectorAll('#cletGrid .ilet-card');
+      let opts = '<option value="">Jump to #…</option>';
+      cards.forEach(c => {
+        const n = c.dataset.mock;
+        if (!n) return;
+        opts += '<option value="' + n + '">#' + n + '</option>';
+      });
+      sel.innerHTML = opts;
+    }
+
+    function _cletJumpToMock(mockNum) {
+      if (!mockNum) return;
+      const card = document.getElementById('clet-card-' + mockNum);
+      if (!card) return;
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.classList.remove('ilet-card-jumped');
+      void card.offsetWidth;
+      card.classList.add('ilet-card-jumped');
+    }
+
+    async function cletOpen() {
+      const overlay = document.getElementById('cletPicker');
+      overlay.classList.add('ilet-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      try { history.pushState({ picker: 'clet' }, ''); } catch (_e) {}
+      if (typeof _pickerShowTmaBack === 'function') _pickerShowTmaBack();
+      _cletRenderSkeletons();
+      const [, serverDone] = await Promise.all([
+        _cletLoadAllMockMeta(),
+        _cletFetchServerDone()
+      ]);
+      _cletServerDone = serverDone || {};
+      _cletRender();
+    }
+
+    function cletClose() {
+      const overlay = document.getElementById('cletPicker');
+      overlay.classList.remove('ilet-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (typeof _pickerHideTmaBack === 'function') _pickerHideTmaBack();
+      if (!_pickerFromPopstate) {
+        try {
+          if (history.state && history.state.picker === 'clet') history.back();
+          if (/^\/take\//i.test(window.location.pathname)) {
+            history.replaceState(null, '', '/landing.html');
+          }
+        } catch (_e) {}
+      }
+    }
+
+    function cletClearFilters() {
+      _cletFilter = 'all';
+      _cletSourceFilter = '';
+      document.querySelectorAll('#cletPicker .clet-chip').forEach(c =>
+        c.classList.toggle('ilet-chip-active', c.dataset.filter === 'all')
+      );
+      document.getElementById('cletSearch').value = '';
+      const srcSel = document.getElementById('cletSourceFilter');
+      if (srcSel) srcSel.value = '';
+      _cletApplyFiltersAndSort();
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const overlay = document.getElementById('cletPicker');
+      if (!overlay) return;
+      document.querySelectorAll('#cletPicker .clet-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          _cletFilter = chip.dataset.filter;
+          document.querySelectorAll('#cletPicker .clet-chip').forEach(c =>
+            c.classList.toggle('ilet-chip-active', c === chip)
+          );
+          _cletApplyFiltersAndSort();
+        });
+      });
+      const search = document.getElementById('cletSearch');
+      const jump   = document.getElementById('cletJump');
+      const srcSel = document.getElementById('cletSourceFilter');
+      if (search) search.addEventListener('input', _cletApplyFiltersAndSort);
+      if (jump) jump.addEventListener('change', function () {
+        _cletJumpToMock(this.value);
+        setTimeout(() => { this.value = ''; }, 400);
+      });
+      if (srcSel) srcSel.addEventListener('change', function () {
+        _cletSourceFilter = this.value || '';
+        _cletApplyFiltersAndSort();
+      });
+      document.getElementById('cletGrid').addEventListener('click', function (e) {
+        const btn = e.target.closest('.ilet-take');
+        if (!btn) return;
+        const card = btn.closest('.ilet-card');
+        if (!card) return;
+        const file = card.dataset.file;
+        if (!file) return;
+        const mockN = card.dataset.mock;
+        const fileWithMock = mockN
+          ? file + (file.indexOf('?') >= 0 ? '&' : '?') + 'mock=' + encodeURIComponent(mockN)
+          : file;
+        if (mockN) {
+          try { history.pushState(null, '', '/take/cefr-listening-' + encodeURIComponent(mockN)); } catch (_e) {}
+        }
+        if (typeof handleListeningMockClick === 'function') {
+          handleListeningMockClick(fileWithMock, 'cefr-listening');
+        } else {
+          cletClose();
+          loadMock(fileWithMock, 'listening');
+        }
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && overlay.classList.contains('ilet-open')) cletClose();
+      });
+    });
+
+    window.cletOpen = cletOpen;
+    window.cletClose = cletClose;
     window.iletClearFilters = iletClearFilters;
 
     // ===== FULL-SCREEN CEFR READING PICKER =====
@@ -29140,6 +29648,7 @@
             <select id="mmgFldType" style="width:100%;padding:6px 8px;border:1px solid #cbd5e1;border-radius:6px;margin-top:4px;">
               <option value="ielts-reading">IELTS Reading</option>
               <option value="ielts-listening">IELTS Listening</option>
+              <option value="cefr-listening">CEFR Listening</option>
               <option value="ielts-writing">IELTS Writing</option>
               <option value="ielts-speaking">IELTS Speaking</option>
               <option value="cefr-reading">CEFR Reading</option>
@@ -29193,7 +29702,14 @@
           <button class="mmg-tab mmg-tab-il"           data-tab="il_part2"    onclick="_mmgSwitchTab('il_part2')">Section 2</button>
           <button class="mmg-tab mmg-tab-il"           data-tab="il_part3"    onclick="_mmgSwitchTab('il_part3')">Section 3</button>
           <button class="mmg-tab mmg-tab-il"           data-tab="il_part4"    onclick="_mmgSwitchTab('il_part4')">Section 4</button>
-          <button class="mmg-tab mmg-tab-raw mmg-tab-cw mmg-tab-iw mmg-tab-cs mmg-tab-is mmg-tab-cr mmg-tab-ir mmg-tab-il" data-tab="raw" onclick="_mmgSwitchTab('raw')">⚙ Raw JSON</button>
+          <button class="mmg-tab mmg-tab-cl"           data-tab="cl_settings" onclick="_mmgSwitchTab('cl_settings')">Settings</button>
+          <button class="mmg-tab mmg-tab-cl"           data-tab="cl_part1"    onclick="_mmgSwitchTab('cl_part1')">Part 1</button>
+          <button class="mmg-tab mmg-tab-cl"           data-tab="cl_part2"    onclick="_mmgSwitchTab('cl_part2')">Part 2</button>
+          <button class="mmg-tab mmg-tab-cl"           data-tab="cl_part3"    onclick="_mmgSwitchTab('cl_part3')">Part 3</button>
+          <button class="mmg-tab mmg-tab-cl"           data-tab="cl_part4"    onclick="_mmgSwitchTab('cl_part4')">Part 4</button>
+          <button class="mmg-tab mmg-tab-cl"           data-tab="cl_part5"    onclick="_mmgSwitchTab('cl_part5')">Part 5</button>
+          <button class="mmg-tab mmg-tab-cl"           data-tab="cl_part6"    onclick="_mmgSwitchTab('cl_part6')">Part 6</button>
+          <button class="mmg-tab mmg-tab-raw mmg-tab-cw mmg-tab-iw mmg-tab-cs mmg-tab-is mmg-tab-cr mmg-tab-ir mmg-tab-il mmg-tab-cl" data-tab="raw" onclick="_mmgSwitchTab('raw')">⚙ Raw JSON</button>
         </div>
         <div class="mmg-edit-panes">
 
@@ -29226,12 +29742,19 @@
         <div id="mmgPaneIrP2"       class="mmg-pane"></div>
         <div id="mmgPaneIrP3"       class="mmg-pane"></div>
 
-        <!-- Listening panes: IELTS has 4 sections (CEFR Listening editor TBD). -->
+        <!-- Listening panes: IELTS has 4 sections; CEFR has 6 parts. -->
         <div id="mmgPaneIlSettings" class="mmg-pane"></div>
         <div id="mmgPaneIlPart1"    class="mmg-pane"></div>
         <div id="mmgPaneIlPart2"    class="mmg-pane"></div>
         <div id="mmgPaneIlPart3"    class="mmg-pane"></div>
         <div id="mmgPaneIlPart4"    class="mmg-pane"></div>
+        <div id="mmgPaneClSettings" class="mmg-pane"></div>
+        <div id="mmgPaneClPart1"    class="mmg-pane"></div>
+        <div id="mmgPaneClPart2"    class="mmg-pane"></div>
+        <div id="mmgPaneClPart3"    class="mmg-pane"></div>
+        <div id="mmgPaneClPart4"    class="mmg-pane"></div>
+        <div id="mmgPaneClPart5"    class="mmg-pane"></div>
+        <div id="mmgPaneClPart6"    class="mmg-pane"></div>
 
         <!-- Raw JSON pane (the original textarea — kept as authoritative store + power-user fallback). -->
         <div id="mmgPaneRaw" class="mmg-pane mmg-pane-raw active" style="flex-direction:column;">
@@ -29682,7 +30205,8 @@
       'ielts-speaking': { tabClass: 'mmg-tab-is', defaultTab: 'settings' },
       'cefr-reading':   { tabClass: 'mmg-tab-cr', defaultTab: 'cr_settings' },
       'ielts-reading':  { tabClass: 'mmg-tab-ir', defaultTab: 'ir_settings' },
-      'ielts-listening':{ tabClass: 'mmg-tab-il', defaultTab: 'il_settings' }
+      'ielts-listening':{ tabClass: 'mmg-tab-il', defaultTab: 'il_settings' },
+      'cefr-listening': { tabClass: 'mmg-tab-cl', defaultTab: 'cl_settings' }
     };
     // Which tab is currently visible. We need this to know which pane to
     // collect-from when the user clicks a different tab.
@@ -29716,6 +30240,7 @@
       cr_settings:'CrSettings', cr_part1:'CrPart1', cr_part2:'CrPart2', cr_part3:'CrPart3', cr_part4:'CrPart4', cr_part5:'CrPart5',
       ir_settings:'IrSettings', ir_p1:'IrP1', ir_p2:'IrP2', ir_p3:'IrP3',
       il_settings:'IlSettings', il_part1:'IlPart1', il_part2:'IlPart2', il_part3:'IlPart3', il_part4:'IlPart4',
+      cl_settings:'ClSettings', cl_part1:'ClPart1', cl_part2:'ClPart2', cl_part3:'ClPart3', cl_part4:'ClPart4', cl_part5:'ClPart5', cl_part6:'ClPart6',
       samples:'Samples',
       vocab:'Vocab', tokens:'Tokens', raw:'Raw'
     };
@@ -29787,6 +30312,13 @@
           case 'il_part2':  _mmgCollectIlPart(md, 1); break;
           case 'il_part3':  _mmgCollectIlPart(md, 2); break;
           case 'il_part4':  _mmgCollectIlPart(md, 3); break;
+          case 'cl_settings': _mmgCollectClSettings(md); break;
+          case 'cl_part1':  _mmgCollectClPart(md, 0); break;
+          case 'cl_part2':  _mmgCollectClPart(md, 1); break;
+          case 'cl_part3':  _mmgCollectClPart(md, 2); break;
+          case 'cl_part4':  _mmgCollectClPart(md, 3); break;
+          case 'cl_part5':  _mmgCollectClPart(md, 4); break;
+          case 'cl_part6':  _mmgCollectClPart(md, 5); break;
           case 'samples':  _mmgCollectSamples(md); break;
           case 'vocab':    _mmgCollectVocab(md); break;
           case 'tokens':   _mmgCollectTokens(md); break;
@@ -29834,6 +30366,13 @@
         case 'il_part2':  _mmgRenderIlPart(md, 1); break;
         case 'il_part3':  _mmgRenderIlPart(md, 2); break;
         case 'il_part4':  _mmgRenderIlPart(md, 3); break;
+        case 'cl_settings': _mmgRenderClSettings(md); break;
+        case 'cl_part1':  _mmgRenderClPart(md, 0); break;
+        case 'cl_part2':  _mmgRenderClPart(md, 1); break;
+        case 'cl_part3':  _mmgRenderClPart(md, 2); break;
+        case 'cl_part4':  _mmgRenderClPart(md, 3); break;
+        case 'cl_part5':  _mmgRenderClPart(md, 4); break;
+        case 'cl_part6':  _mmgRenderClPart(md, 5); break;
         case 'samples':  _mmgRenderSamples(md); break;
         case 'vocab':    _mmgRenderVocab(md);  break;
         case 'tokens':   _mmgRenderTokens(md); break;
@@ -33168,6 +33707,200 @@
       }
     }
 
+    // ════════════════════════════════════════════════════════════════════
+    // CEFR Listening editor (cl_* tabs) — minimum viable
+    // ════════════════════════════════════════════════════════════════════
+    // Six parts, single-type-per-part shape (no subParts[] wrapper). Each
+    // part is its own typed object (mcq-reply / gap-fill-form / matching-
+    // speakers / map-labeling / mcq-extracts / sentence-completion). The
+    // Settings tab handles testInfo + per-section audio URLs; each part
+    // tab shows a per-part raw JSON textarea for now. A fully-structured
+    // editor mirroring the 6 question types is a follow-up session — this
+    // pass establishes the scaffold so admins can create/edit CEFR
+    // Listening mocks today via raw JSON without leaving the modal.
+
+    function _mmgRenderClSettings(md) {
+      md.testInfo = md.testInfo || {};
+      var ti = md.testInfo;
+      var html = '';
+      // Bulk import banner — wires to the same import flow as IELTS
+      // Listening; backend prompt for CEFR Listening lives in
+      // transcribe-mock (TBD: add a cefr-listening branch).
+      html += ''
+            + '<div id="mmgClImportBar" style="background:linear-gradient(135deg,#fdf4ff,#fae8ff);border:1px solid #f0abfc;border-radius:10px;padding:10px 12px;margin-bottom:14px;display:flex;align-items:center;gap:12px;">'
+            +   '<div style="flex:1;font-size:12px;color:#86198f;line-height:1.45;">'
+            +     '<strong>✨ Import from PDF / images / doc</strong> — Upload CEFR Listening test pages (+ optional answer key) and Gemini fills all 6 parts at once. <em>(Backend wiring in progress — works against the existing transcribe-mock for now.)</em>'
+            +   '</div>'
+            +   '<button type="button" id="mmgClImportBtn" onclick="_mmgImportOpen(\'cefr-listening\',\'full\')" style="background:linear-gradient(135deg,#a855f7,#7e22ce);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(126,34,206,.3);white-space:nowrap;">✨ Import</button>'
+            + '</div>';
+
+      // Per-part audio URLs — CEFR Listening uses one MP3 per part
+      // (no merged-file option in the legacy shape).
+      var parts = md.parts = md.parts || [];
+      while (parts.length < 6) parts.push({});
+      html += '<div class="mmg-section-title">Per-part audio files</div>';
+      html += '<div style="font-size:11.5px;color:#475569;margin-bottom:10px;line-height:1.5;">One MP3 per part. Paste a GCS URL or click Upload.</div>';
+      html += '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 14px;margin-bottom:16px;">';
+      for (var pi = 0; pi < 6; pi++) {
+        var pn = pi + 1;
+        var pp = parts[pi] || {};
+        html += '<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">'
+              +   '<label for="mmgClTi_p' + pn + '_audio" style="font-weight:700;font-size:12px;color:#0f172a;min-width:60px;">Part ' + pn + '</label>'
+              +   '<input type="text" id="mmgClTi_p' + pn + '_audio" value="' + _mmgEsc(pp.audioFile || '') + '" placeholder="GCS URL or paste here" '
+              +   'style="flex:1;padding:5px 10px;border:1px solid #cbd5e1;border-radius:5px;font-size:12px;font-family:ui-monospace,monospace;">'
+              +   '<button type="button" onclick="_mmgClUploadPartAudio(' + pi + ')" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:6px;padding:5px 10px;font-size:11.5px;font-weight:600;cursor:pointer;white-space:nowrap;">📁 Upload</button>'
+              +   '<span id="mmgClTi_p' + pn + '_audioStatus" style="font-size:11.5px;color:#64748b;min-width:80px;"></span>'
+              + '</div>';
+      }
+      html += '</div>';
+
+      // Standard test-info fields.
+      html += '<div class="mmg-section-title">CEFR Listening — test info</div>';
+      html += _mmgFieldText('Source',          'mmgClTi_source',         md.source,          'Optional — shown as a chip on the picker card.');
+      html += _mmgFieldText('Title',           'mmgClTi_title',          ti.title,           'e.g. "CEFR Listening Mock Test 02".');
+      html += _mmgFieldText('Total questions', 'mmgClTi_totalQuestions', ti.totalQuestions,  'Usually 35.');
+      html += _mmgFieldText('Total time (min)','mmgClTi_totalTime',      ti.totalTime,       'Usually 40.');
+      html += _mmgFieldText('Parts',           'mmgClTi_parts',          ti.parts,           'Usually 6.');
+      html += _mmgFieldText('Level',           'mmgClTi_level',          ti.level,           'e.g. "B1-B2-C1".');
+
+      document.getElementById('mmgPaneClSettings').innerHTML = html;
+    }
+
+    function _mmgCollectClSettings(md) {
+      md.testInfo = md.testInfo || {};
+      md.parts = md.parts || [];
+      while (md.parts.length < 6) md.parts.push({});
+      var f = function (id) { var e = document.getElementById(id); return e ? e.value : undefined; };
+      var asNum = function (v) { var n = Number(v); return v === '' || !isFinite(n) ? v : n; };
+      var src = f('mmgClTi_source');
+      if (src !== undefined) {
+        var t = String(src).trim();
+        if (t) md.source = t; else delete md.source;
+      }
+      if (f('mmgClTi_title')          !== undefined) md.testInfo.title          = f('mmgClTi_title');
+      if (f('mmgClTi_totalQuestions') !== undefined) md.testInfo.totalQuestions = asNum(f('mmgClTi_totalQuestions'));
+      if (f('mmgClTi_totalTime')      !== undefined) md.testInfo.totalTime      = asNum(f('mmgClTi_totalTime'));
+      if (f('mmgClTi_parts')          !== undefined) md.testInfo.parts          = asNum(f('mmgClTi_parts'));
+      if (f('mmgClTi_level')          !== undefined) md.testInfo.level          = f('mmgClTi_level');
+      // Per-part audio URLs.
+      for (var pi = 0; pi < 6; pi++) {
+        var p = md.parts[pi] = md.parts[pi] || {};
+        if (p.partNumber == null) p.partNumber = pi + 1;
+        if (!p.title)             p.title      = 'Part ' + (pi + 1);
+        var url = f('mmgClTi_p' + (pi + 1) + '_audio');
+        if (url !== undefined && url.trim() !== '') p.audioFile = url.trim();
+        else delete p.audioFile;
+      }
+    }
+
+    // CEFR Listening per-part editor — minimum viable raw-JSON-per-part
+    // view. Admin sees the full part JSON in a single textarea and edits
+    // freely. Validates parse on Save. Structured per-type editors (one
+    // per of the 6 question types) are a follow-up session.
+    function _mmgRenderClPart(md, idx) {
+      var parts = (md.parts = md.parts || []);
+      while (parts.length <= idx) parts.push({});
+      var p = parts[idx] || {};
+      var n = idx + 1;
+      // Backfill identity fields so a freshly-created part has a sensible shape.
+      if (p.partNumber == null) p.partNumber = n;
+      if (!p.title)             p.title      = 'Part ' + n;
+
+      var ansCount = (p.answers && typeof p.answers === 'object') ? Object.keys(p.answers).length : 0;
+      var typeStr = p.type || '(not set)';
+      var prettyJson = '';
+      try { prettyJson = JSON.stringify(p, null, 2); } catch (_e) { prettyJson = '{}'; }
+
+      var html = ''
+        + '<div style="background:linear-gradient(135deg,#f0fdfa,#ecfdf5);border:1px solid #99f6e4;border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:12.5px;color:#134e4a;line-height:1.55;">'
+        +   '<strong>Part ' + n + '</strong> · type: <code>' + _mmgEsc(typeStr) + '</code> · '
+        +   ansCount + ' answer key' + (ansCount === 1 ? '' : 's') + '.'
+        +   '<div style="margin-top:6px;font-size:11px;color:#0f766e;">'
+        +     'Per-part structured editor coming soon. For now, paste/edit the full part JSON below. The Raw JSON tab keeps the canonical full mock_data; this textarea writes back into <code>parts[' + idx + ']</code> on Save.'
+        +   '</div>'
+        + '</div>';
+
+      // Per-section import button (Gemini will extract just this part
+      // from uploaded PDFs/images). Wires through the existing _mmgImportOpen
+      // pipeline with scope=passage and the right passage_index.
+      html += '<div style="background:linear-gradient(135deg,#fdf4ff,#fae8ff);border:1px solid #f0abfc;border-radius:10px;padding:10px 12px;margin-bottom:14px;display:flex;align-items:center;gap:12px;">'
+            +   '<div style="flex:1;font-size:12px;color:#86198f;line-height:1.45;">'
+            +     '<strong>✨ Import this part</strong> — upload Part ' + n + '\'s test page(s) + answer key; Gemini structures just this part.'
+            +   '</div>'
+            +   '<button type="button" onclick="_mmgImportOpen(\'cefr-listening\',\'passage\',' + n + ')" style="background:linear-gradient(135deg,#a855f7,#7e22ce);color:#fff;border:0;border-radius:6px;padding:6px 12px;font-size:11.5px;font-weight:700;cursor:pointer;">✨ Import Part ' + n + '</button>'
+            + '</div>';
+
+      // Raw JSON textarea for this part.
+      html += '<div class="mmg-section-title">Part ' + n + ' JSON</div>';
+      html += '<div style="font-size:11.5px;color:#475569;margin-bottom:6px;">Edit the full part object. Must be valid JSON with at minimum <code>partNumber</code> + <code>type</code>.</div>';
+      html += '<div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;">'
+            +   '<button type="button" onclick="_mmgClFormatPart(' + n + ')" style="background:#fef3c7;color:#92400e;border:1px solid #fcd34d;border-radius:6px;padding:5px 10px;font-size:11.5px;font-weight:600;cursor:pointer;">↔ Format / Validate</button>'
+            +   '<span id="mmgClP' + n + '_jsonStatus" style="font-size:11.5px;color:#64748b;"></span>'
+            + '</div>';
+      html += '<textarea id="mmgClP' + n + '_json" spellcheck="false" data-gramm="false" '
+            + 'style="width:100%;min-height:380px;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font:12px ui-monospace,monospace;resize:vertical;">' + _mmgEsc(prettyJson) + '</textarea>';
+
+      document.getElementById('mmgPaneClPart' + n).innerHTML = html;
+    }
+
+    function _mmgCollectClPart(md, idx) {
+      md.parts = md.parts || [];
+      while (md.parts.length <= idx) md.parts.push({});
+      var n = idx + 1;
+      var ta = document.getElementById('mmgClP' + n + '_json');
+      if (!ta) return;
+      var raw = (ta.value || '').trim();
+      if (raw === '') return;
+      var parsed;
+      try { parsed = JSON.parse(raw); }
+      catch (e) {
+        _mmgStatus('CEFR Listening Part ' + n + ' JSON parse error: ' + e.message, '#dc2626');
+        throw e;
+      }
+      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+        _mmgStatus('CEFR Listening Part ' + n + ' must be a JSON object {…}.', '#dc2626');
+        throw new Error('cl-part-not-object');
+      }
+      // Force the partNumber to match the tab index — admin typos shouldn\'t
+      // misorder parts in the runner.
+      parsed.partNumber = n;
+      if (!parsed.title) parsed.title = 'Part ' + n;
+      md.parts[idx] = parsed;
+    }
+
+    // Format + validate the Part N JSON textarea. Pretty-prints on success
+    // so the admin can see the structure cleanly.
+    window._mmgClFormatPart = function (n) {
+      var ta = document.getElementById('mmgClP' + n + '_json');
+      var st = document.getElementById('mmgClP' + n + '_jsonStatus');
+      if (!ta) return;
+      try {
+        var v = JSON.parse(ta.value || '{}');
+        ta.value = JSON.stringify(v, null, 2);
+        if (st) { st.textContent = '✓ Valid JSON'; st.style.color = '#16a34a'; }
+      } catch (e) {
+        if (st) { st.textContent = '✗ ' + e.message; st.style.color = '#dc2626'; }
+      }
+    };
+
+    // Per-part audio upload for CEFR Listening — clones the IELTS
+    // Listening helper, but writes to the cl_settings inputs.
+    window._mmgClUploadPartAudio = function (idx) {
+      var n = idx + 1;
+      if (typeof _mmgIlPickAndUpload !== 'function') {
+        var s = document.getElementById('mmgClTi_p' + n + '_audioStatus');
+        if (s) { s.textContent = 'Upload helper missing'; s.style.color = '#dc2626'; }
+        return;
+      }
+      _mmgIlPickAndUpload({
+        accept: 'audio/*',
+        statusEl: document.getElementById('mmgClTi_p' + n + '_audioStatus'),
+        urlInputId: 'mmgClTi_p' + n + '_audio',
+        kind: 'audio',
+        subdir: 'cefr-part-' + n
+      });
+    };
+
     // ── IELTS Listening: GCS upload + Gemini transcribe helpers ───────────
     // Audio + map-image uploads go through transcribe-mock with
     // action='sign-upload': the Edge Function (holding the GCP service-
@@ -33836,8 +34569,8 @@
 
     function _mmgImportOpen() {
       var m = window._mmgEditing;
-      if (!m || (m.mock_type !== 'cefr-reading' && m.mock_type !== 'ielts-reading' && m.mock_type !== 'ielts-listening')) {
-        alert('Import is currently available for CEFR Reading, IELTS Reading, and IELTS Listening mocks.');
+      if (!m || (m.mock_type !== 'cefr-reading' && m.mock_type !== 'ielts-reading' && m.mock_type !== 'ielts-listening' && m.mock_type !== 'cefr-listening')) {
+        alert('Import is currently available for CEFR Reading, IELTS Reading, IELTS Listening, and CEFR Listening mocks.');
         return;
       }
       window._mmgImportState = { files: [], examType: m.mock_type, scope: 'full', passageIndex: 0 };
