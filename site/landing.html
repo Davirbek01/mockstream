@@ -33286,18 +33286,32 @@
       var md = _mmgGetMockData();
       if (!md) { setStatus('Invalid mock_data JSON.', '#dc2626'); return; }
       var layout = md.audioLayout || 'per-section';
+      var part = (md.parts && md.parts[idx]) || {};
       var audioUrl, startSec = 0, endSec = null;
+      // Audio orchestration lives on the Settings tab — the Section tab
+      // only DISPLAYS the URL (as a read-only <code> block). Always read
+      // the resolved URL from mock_data, with a Settings-tab DOM fallback
+      // for the case where an admin uploads + clicks Transcribe without
+      // first switching tabs to flush. Reading from a non-existent
+      // mmgIlP<N>_audio <input> was the previous bug.
+      function _ilDomVal(id) {
+        var el = document.getElementById(id);
+        var v  = el ? String(el.value || '').trim() : '';
+        return v || null;
+      }
       if (layout === 'merged') {
-        audioUrl = md.audioFile;
-        var startEl = document.getElementById('mmgIlP' + n + '_startSec');
-        startSec = startEl ? Number(startEl.value || 0) : 0;
-        // End is the next section's start (so Gemini transcribes only this section's slice).
-        var nextEl = document.getElementById('mmgIlP' + (n + 1) + '_startSec');
-        if (nextEl && nextEl.value) endSec = Number(nextEl.value);
+        audioUrl = md.audioFile || _ilDomVal('mmgIlTi_audio');
+        startSec = (part.audioStartSec != null)
+          ? Number(part.audioStartSec)
+          : _ilParseTime(_ilDomVal('mmgIlTi_p' + n + '_start')) || 0;
+        var nextPart = (md.parts && md.parts[idx + 1]) || null;
+        var nextStart = nextPart && nextPart.audioStartSec != null
+          ? Number(nextPart.audioStartSec)
+          : _ilParseTime(_ilDomVal('mmgIlTi_p' + (n + 1) + '_start'));
+        if (nextStart != null) endSec = nextStart;
         if (!audioUrl) { setStatus('Merged audio URL not set in Settings.', '#dc2626'); return; }
       } else {
-        var urlEl = document.getElementById('mmgIlP' + n + '_audio');
-        audioUrl = urlEl ? urlEl.value : '';
+        audioUrl = part.audioFile || _ilDomVal('mmgIlTi_p' + n + '_audio');
         if (!audioUrl) { setStatus('Audio URL is empty.', '#dc2626'); return; }
       }
       setStatus('Asking Gemini to transcribe…');
