@@ -17093,6 +17093,11 @@
       map:             'Map',
       process_diagram: 'Process diagram'
     };
+    const _IWET_DATA_LABEL = {
+      'over-time':      'Over time',
+      'static':         'Static',
+      'not-applicable': 'N/A'
+    };
     const _IWET_ESSAY_LABEL = {
       'opinion':                'Opinion',
       'balanced':               'Discussion',
@@ -17238,9 +17243,21 @@
         : '';
       const taskRows = tasks.map((p, i) => {
         const isT1 = (i === 0);
-        const sub = isT1
-          ? ((_IWET_CHART_LABEL[p.chartType] || (p.chartType || '—')) + ' · ' + p.wordGoal + ' words')
-          : ((_IWET_ESSAY_LABEL[p.essayType] || (p.essayType || '—')) + ' · ' + p.wordGoal + ' words');
+        // Build the sub-row parts. T1: chart type + data nature (when
+        // tagged) + word goal. T2: essay type + word goal. Skip data
+        // nature if unset / "not-applicable" (already implied by the
+        // chart being a map or process diagram).
+        let sub;
+        if (isT1) {
+          const segs = [];
+          segs.push(_IWET_CHART_LABEL[p.chartType] || (p.chartType || '—'));
+          const natLabel = _IWET_DATA_LABEL[p.dataNature];
+          if (natLabel && p.dataNature !== 'not-applicable') segs.push(natLabel);
+          segs.push(p.wordGoal + ' words');
+          sub = segs.join(' · ');
+        } else {
+          sub = (_IWET_ESSAY_LABEL[p.essayType] || (p.essayType || '—')) + ' · ' + p.wordGoal + ' words';
+        }
         const titleHtml = p.title
           ? '<strong>' + _iwetEsc(p.title) + '</strong><span class="iwet-task-sub">' + _iwetEsc(sub) + '</span>'
           : '<strong style="color:#94a3b8;">(no topic title yet)</strong><span class="iwet-task-sub">' + _iwetEsc(sub) + '</span>';
@@ -17486,7 +17503,15 @@
           try { history.pushState(null, '', '/take/ielts-writing-' + encodeURIComponent(mockN)); } catch (_e) {}
         }
         iwetClose();
-        if (typeof loadMock === 'function') loadMock(file, 'writing');
+        // Route through the writing click handler so access-code gates +
+        // the Full Test / Task Practice mode picker (ieltsWritingModeModal)
+        // both fire. Falls back to plain loadMock when the handler isn't
+        // available (defensive — should never happen in production).
+        if (typeof handleWritingMockClick === 'function') {
+          handleWritingMockClick(file, 'ielts-writing');
+        } else if (typeof loadMock === 'function') {
+          loadMock(file, 'writing');
+        }
       });
       document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' && overlay.classList.contains('ilet-open')) iwetClose();
