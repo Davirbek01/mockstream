@@ -7588,24 +7588,40 @@
           ? window.TEST_DATA.audioFile
           : null;
         if (mergedAudio) {
-          // Merged: single audio file, seek to first part's startSec.
-          const firstPart = window.TEST_DATA.parts[0] || {};
-          const startSec  = Number(firstPart.audioStartSec || 0);
-          const nextPart  = window.TEST_DATA.parts[1];
-          const endSec    = (nextPart && nextPart.audioStartSec != null)
+          // Merged: single audio file, seek to the CURRENT part's startSec
+          // (currentPart is set to 0 on fresh start, or to the resumed part
+          // by session recovery's showPart() before this fires). Wait for
+          // loadedmetadata BEFORE showing the ready popup so by countdown=0
+          // the audio is loaded and play() doesn't silently fail — mirrors
+          // IELTS Listening's merged-audio init exactly.
+          const partIdx  = (typeof currentPart === 'number' && currentPart >= 0)
+            ? currentPart : 0;
+          const partObj  = window.TEST_DATA.parts[partIdx] || window.TEST_DATA.parts[0] || {};
+          const startSec = (typeof partObj.audioStartSec === 'number'
+                           && isFinite(partObj.audioStartSec) && partObj.audioStartSec >= 0)
+            ? partObj.audioStartSec : 0;
+          const nextPart = window.TEST_DATA.parts[partIdx + 1];
+          const endSec   = (nextPart && nextPart.audioStartSec != null)
             ? Number(nextPart.audioStartSec) : Infinity;
-          window._clMergedRange = { startSec: startSec, endSec: endSec, partIndex: 0 };
+          window._clMergedRange = { startSec: startSec, endSec: endSec, partIndex: partIdx };
+          currentLoadedPart  = partIdx;
+          soundingPartIndex  = partIdx;
           audio.src = mergedAudio;
-          currentLoadedPart = 0;
-          audio.addEventListener('loadedmetadata', function _seekOnce() {
+
+          const onReady = function () {
             try { audio.currentTime = startSec; } catch (_e) {}
-            audio.removeEventListener('loadedmetadata', _seekOnce);
-          });
-          if (loadingWrapper) loadingWrapper.classList.add('hidden');
-          if (playerControls) playerControls.classList.add('ready');
-          isAudioReady = true;
-          window.updateNavIndicators();
-          showReadyPopup();
+            if (loadingWrapper) loadingWrapper.classList.add('hidden');
+            if (playerControls) playerControls.classList.add('ready');
+            isAudioReady = true;
+            window.updateNavIndicators();
+            showReadyPopup();
+          };
+          if (isFinite(audio.duration) && audio.duration > 0) {
+            onReady();
+          } else {
+            audio.addEventListener('loadedmetadata', onReady, { once: true });
+            audio.load();
+          }
           return;
         }
         if (checkPerPartAudio()) {
@@ -7629,13 +7645,29 @@
         if (!popup) return;
         popup.style.display = 'flex';
         let countdown = 5;
+        if (countdownEl) countdownEl.textContent = countdown;
+        // audio.play() returns a Promise; if autoplay is blocked (user
+        // gesture went stale during the 5s wait) it rejects silently.
+        // Catch and wait for the next click so the student can still
+        // start by tapping anywhere — same pattern loadPartAudio uses.
+        function safePlay() {
+          var p = audio.play();
+          if (p && typeof p.catch === 'function') {
+            p.catch(function () {
+              document.addEventListener('click', function once() {
+                document.removeEventListener('click', once);
+                audio.play().catch(function () {});
+              }, { once: true });
+            });
+          }
+        }
         const countdownInterval = setInterval(() => {
           countdown--;
           if (countdownEl) countdownEl.textContent = countdown;
           if (countdown <= 0) {
             clearInterval(countdownInterval);
             popup.style.display = 'none';
-            audio.play();
+            safePlay();
           }
         }, 1000);
         [startBtn, waitBtn].forEach(btn => {
@@ -7643,7 +7675,7 @@
             clearInterval(countdownInterval);
             popup.style.display = 'none';
             if (btn === startBtn) {
-              audio.play();
+              safePlay();
             }
           });
         });
