@@ -17177,6 +17177,26 @@
       };
     }
 
+    // Strip embedded YYYY-MM[-DD] dates out of a source string and
+    // rewrite them as "Mon YYYY" so existing data like
+    //   "Actual exam 2021-09-30"   →   "Actual exam Sep 2021"
+    //   "Cambridge 18 Test 3"      →   "Cambridge 18 Test 3" (unchanged)
+    // Source should ideally be attribution-only (date lives in
+    // examDate), but this rewrite handles legacy values without
+    // requiring a SQL migration.
+    function _iwetCleanSourceLabel(raw) {
+      if (!raw) return '';
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      return String(raw)
+        .replace(/(\d{4})-(\d{1,2})(?:-\d{1,2})?/g, function (_m, y, mo) {
+          const idx = parseInt(mo, 10) - 1;
+          if (idx < 0 || idx > 11) return _m;
+          return months[idx] + ' ' + y;
+        })
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
     // Format an ISO date (YYYY-MM-DD) as a short "Mar 2024" / "2024"
     // chip for the picker card. Falls open on invalid input.
     function _iwetFormatExamDate(iso) {
@@ -17281,8 +17301,9 @@
       const dots = tasks.map(p =>
         '<span class="ilet-dot ' + (p.ready ? 'ilet-dot-ready' : 'ilet-dot-soon') + '"></span>'
       ).join('');
-      const sourceHtml = meta.source
-        ? '<div class="ilet-source" title="' + _iwetEsc(meta.source) + '">' + _iwetEsc(meta.source) + '</div>'
+      const sourceLabel = _iwetCleanSourceLabel(meta.source);
+      const sourceHtml = sourceLabel
+        ? '<div class="ilet-source" title="' + _iwetEsc(meta.source) + '">' + _iwetEsc(sourceLabel) + '</div>'
         : '';
       const dateLabel = _iwetFormatExamDate(meta.examDate);
       const dateHtml  = dateLabel
@@ -17348,7 +17369,7 @@
         + ' data-file="' + _iwetEsc(item.file) + '"'
         + ' data-ready-count="' + readyCount + '"'
         + ' data-total="' + total + '"'
-        + ' data-source="' + _iwetEsc(String(meta.source || '').toLowerCase()) + '"'
+        + ' data-source="' + _iwetEsc(_iwetCleanSourceLabel(meta.source).toLowerCase()) + '"'
         + ' data-done="' + (doneHtml ? '1' : '0') + '"'
         + ' data-title="' + _iwetEsc(cleanTitle.toLowerCase()) + '"'
         + ' data-topics="' + _iwetEsc(topicBlob) + '"'
@@ -17431,10 +17452,17 @@
     function _iwetBuildSourceOptions() {
       const sel = document.getElementById('iwetSourceFilter');
       if (!sel) return;
+      // Group by the cleaned (date-rewritten) label so legacy entries
+      // like "Actual exam 2021-09-30" and "Actual exam 2021-09" share
+      // one row. The filter still matches against the cleaned label
+      // (see _iwetApplyFiltersAndSort + card data-source attr below).
       const groups = new Set();
       Object.values(_iwetMockMeta).forEach(m => {
         if (!m || !m.source) return;
-        const stripped = String(m.source).replace(/\s+Test\s+\d+\s*$/i, '').trim();
+        const label = _iwetCleanSourceLabel(m.source);
+        // Drop the trailing "Test N" so a "Cambridge IELTS 18 Test 3"
+        // and "Cambridge IELTS 18 Test 4" share one filter row.
+        const stripped = label.replace(/\s+Test\s+\d+\s*$/i, '').trim();
         if (stripped) groups.add(stripped);
       });
       const sorted = Array.from(groups).sort();
