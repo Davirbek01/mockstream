@@ -8049,10 +8049,14 @@
       const mobileTimer = document.getElementById('mobileTimer');
       if (timerDisplay && mobileTimer) mobileTimer.textContent = timerDisplay.textContent;
 
-      // Sync Part Tabs
+      // Sync Part Tabs. In practice mode we only emit the practised part
+      // so the mobile Toolkit FAB doesn't expose jump targets to parts
+      // that aren't part of the session (PC nav already does the same).
       const mobilePartTabs = document.getElementById('mobilePartTabs');
       if (mobilePartTabs && window.TEST_DATA) {
+        const practiceIdx = window._practicePart ? (window._practicePart - 1) : null;
         mobilePartTabs.innerHTML = window.TEST_DATA.parts.map((part, i) => {
+          if (practiceIdx !== null && i !== practiceIdx) return '';
           const isActive = i === currentPart;
           return `<div class="part-tab ${isActive ? 'active' : ''}" onclick="showPart(${i}); toggleMobileMenu();">Part ${i + 1}</div>`;
         }).join('') + '<div class="cl-fab-back-btn" id="clFabBackBtn" onclick="window._clFabBack()">↩ Back</div>';
