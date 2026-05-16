@@ -8048,6 +8048,9 @@
       <select class="ilet-source-filter" id="iwetSourceFilter" title="Filter by source">
         <option value="">📚 All sources</option>
       </select>
+      <select class="ilet-source-filter iwet-secondary-filter" id="iwetYearFilter" title="Filter by exam year">
+        <option value="">📅 Any year</option>
+      </select>
       <select class="ilet-source-filter iwet-secondary-filter" id="iwetChartTypeFilter" title="Task 1 chart type">
         <option value="">📈 Any T1 chart</option>
         <option value="line_graph">Line graph</option>
@@ -17116,6 +17119,7 @@
     let   _iwetServerDone = {};
     let   _iwetFilter        = 'all';
     let   _iwetSourceFilter  = '';
+    let   _iwetYearFilter    = '';
     let   _iwetChartFilter   = '';
     let   _iwetDataFilter    = '';
     let   _iwetEssayFilter   = '';
@@ -17370,6 +17374,7 @@
         + ' data-ready-count="' + readyCount + '"'
         + ' data-total="' + total + '"'
         + ' data-source="' + _iwetEsc(_iwetCleanSourceLabel(meta.source).toLowerCase()) + '"'
+        + ' data-year="' + _iwetEsc(meta.examDate ? String(meta.examDate).slice(0, 4) : '') + '"'
         + ' data-done="' + (doneHtml ? '1' : '0') + '"'
         + ' data-title="' + _iwetEsc(cleanTitle.toLowerCase()) + '"'
         + ' data-topics="' + _iwetEsc(topicBlob) + '"'
@@ -17417,6 +17422,7 @@
       grid.innerHTML = cards.join('');
       _iwetBuildJumpOptions();
       _iwetBuildSourceOptions();
+      _iwetBuildYearOptions();
       _iwetApplyFiltersAndSort();
     }
 
@@ -17434,6 +17440,7 @@
         else if (_iwetFilter === 'soon')  pass = (ready < total);
         else if (_iwetFilter === 'done')  pass = done;
         if (pass && sourceFilter)        pass = source.startsWith(sourceFilter);
+        if (pass && _iwetYearFilter)     pass = (c.dataset.year   === _iwetYearFilter);
         if (pass && _iwetChartFilter)    pass = (c.dataset.t1Chart === _iwetChartFilter);
         if (pass && _iwetDataFilter)     pass = (c.dataset.t1Data  === _iwetDataFilter);
         if (pass && _iwetEssayFilter)    pass = (c.dataset.t2Essay === _iwetEssayFilter);
@@ -17470,6 +17477,26 @@
       sorted.forEach(g => {
         const selAttr = (g === _iwetSourceFilter) ? ' selected' : '';
         opts += '<option value="' + _iwetEsc(g) + '"' + selAttr + '>' + _iwetEsc(g) + '</option>';
+      });
+      sel.innerHTML = opts;
+    }
+
+    function _iwetBuildYearOptions() {
+      const sel = document.getElementById('iwetYearFilter');
+      if (!sel) return;
+      // Unique YYYY values across all loaded mocks. Most-recent first
+      // so this year's exams sit at the top of the dropdown.
+      const years = new Set();
+      Object.values(_iwetMockMeta).forEach(m => {
+        if (!m || !m.examDate) return;
+        const y = String(m.examDate).slice(0, 4);
+        if (/^\d{4}$/.test(y)) years.add(y);
+      });
+      const sorted = Array.from(years).sort((a, b) => b.localeCompare(a));
+      let opts = '<option value="">📅 Any year</option>';
+      sorted.forEach(y => {
+        const selAttr = (y === _iwetYearFilter) ? ' selected' : '';
+        opts += '<option value="' + y + '"' + selAttr + '>' + y + '</option>';
       });
       sel.innerHTML = opts;
     }
@@ -17538,6 +17565,7 @@
     function iwetClearFilters() {
       _iwetFilter       = 'all';
       _iwetSourceFilter = '';
+      _iwetYearFilter   = '';
       _iwetChartFilter  = '';
       _iwetDataFilter   = '';
       _iwetEssayFilter  = '';
@@ -17545,7 +17573,7 @@
         c.classList.toggle('ilet-chip-active', c.dataset.filter === 'all')
       );
       document.getElementById('iwetSearch').value = '';
-      ['iwetSourceFilter','iwetChartTypeFilter','iwetDataNatureFilter','iwetEssayTypeFilter'].forEach(id => {
+      ['iwetSourceFilter','iwetYearFilter','iwetChartTypeFilter','iwetDataNatureFilter','iwetEssayTypeFilter'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.value = '';
       });
@@ -17576,6 +17604,8 @@
         setTimeout(() => { this.value = ''; }, 400);
       });
       if (srcSel) srcSel.addEventListener('change', function () { _iwetSourceFilter = this.value || ''; _iwetApplyFiltersAndSort(); });
+      const yrSel  = document.getElementById('iwetYearFilter');
+      if (yrSel)  yrSel.addEventListener('change',  function () { _iwetYearFilter    = this.value || ''; _iwetApplyFiltersAndSort(); });
       if (chSel)  chSel.addEventListener('change', function () { _iwetChartFilter   = this.value || ''; _iwetApplyFiltersAndSort(); });
       if (dnSel)  dnSel.addEventListener('change', function () { _iwetDataFilter    = this.value || ''; _iwetApplyFiltersAndSort(); });
       if (etSel)  etSel.addEventListener('change', function () { _iwetEssayFilter   = this.value || ''; _iwetApplyFiltersAndSort(); });
