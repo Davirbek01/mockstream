@@ -4629,16 +4629,19 @@
       generateParts();
       showPart(window._practicePart ? (window._practicePart - 1) : 0);
 
-      // Practice mode: hide part nav, show only practised part, always show submit
+      // Practice mode: keep the part nav visible but show ONLY the practised
+      // part's button so the student still sees "Part N" in the header
+      // (same affordance as full-mock mode); other parts are hidden because
+      // they aren't navigable in practice mode.
       if (window._practicePart) {
         var partIdx = window._practicePart - 1;
-        // Hide PC part nav
-        var pcNav = document.getElementById('partNav');
-        if (pcNav) pcNav.style.display = 'none';
-        // Hide mobile part nav
-        var mobNav = document.getElementById('partNavMobile');
-        if (mobNav) mobNav.style.display = 'none';
-        // Hide mobile part dots
+        // Hide all part-btn elements EXCEPT the practised one (covers both
+        // the PC #partNav and the mobile #partNavMobile rows in one sweep).
+        document.querySelectorAll('.part-btn').forEach(function (btn, i) {
+          var modIdx = i % TEST_DATA.parts.length;
+          btn.style.display = modIdx === partIdx ? '' : 'none';
+        });
+        // Hide mobile part dots — they imply navigation, which isn't allowed here.
         document.querySelectorAll('.mobile-part-dot').forEach(function(d){ d.style.display = 'none'; });
         // Hide non-practice part sections
         document.querySelectorAll('.part-section').forEach(function(s, i){
