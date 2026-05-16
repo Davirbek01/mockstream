@@ -30051,7 +30051,7 @@
           </div>
 
           <div id="mmgImportStatus" style="margin-top:8px;font-size:12px;min-height:16px;"></div>
-          <div style="margin-top:4px;font-size:11px;color:#64748b;">💡 Tip: hit each section's <strong>📋 Paste</strong> button to add the current clipboard image to that section — or press <kbd style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:3px;padding:1px 6px;font-family:ui-monospace,monospace;font-size:10.5px;">Ctrl + V</kbd> anywhere in this dialog to add to Test content. Paste again to stack more screenshots; click ✕ next to a file to drop it.</div>
+          <div style="margin-top:4px;font-size:11px;color:#64748b;">💡 Tip: click <strong>📋 Paste</strong> next to a section to open a sticky paste dialog — Alt-Tab to your source, take a screenshot (Win + Shift + S), come back, <kbd style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:3px;padding:1px 6px;font-family:ui-monospace,monospace;font-size:10.5px;">Ctrl + V</kbd>, repeat. Click Done to add the whole batch. Or just press Ctrl + V anywhere here for a quick one-shot to Test content.</div>
         </div>
 
         <div style="padding:12px 18px;border-top:1px solid #e2e8f0;display:flex;gap:8px;align-items:center;">
@@ -30062,6 +30062,39 @@
       </div>
       <input type="file" id="mmgImportPickerTest" multiple accept="image/*,application/pdf" style="display:none;">
       <input type="file" id="mmgImportPickerKey"  multiple accept="image/*,application/pdf" style="display:none;">
+
+      <!-- Persistent paste-collect dialog. Opens when admin clicks 📋 Paste.
+           Stays open across multiple screenshots — admin Alt-Tabs to the
+           PDF / source, takes a fresh shot (Win+Shift+S), Alt-Tabs back,
+           Ctrl+V to stack it. Click Done to commit the whole batch to
+           the parent import modal's chosen section. -->
+      <div id="mmgPasteCollectModal" style="display:none;position:absolute;inset:0;background:rgba(15,23,42,.55);align-items:center;justify-content:center;padding:20px;z-index:20;">
+        <div style="background:#fff;border-radius:14px;width:100%;max-width:560px;max-height:88vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.4);">
+          <div style="padding:14px 18px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;gap:10px;">
+            <div style="font-size:15px;font-weight:700;flex:1;">📋 Paste screenshots — <span id="mmgPasteCollectGroupLabel">Test content</span></div>
+            <button onclick="_mmgPasteCollectClose()" style="background:none;border:0;font-size:20px;cursor:pointer;color:#64748b;">×</button>
+          </div>
+          <div style="flex:1;overflow-y:auto;padding:14px 18px;font-size:13px;">
+            <div id="mmgPasteCollectDropZone" tabindex="0" style="background:linear-gradient(135deg,#eff6ff,#f0f9ff);border:2px dashed #93c5fd;border-radius:10px;padding:18px;text-align:center;color:#1e40af;font-size:13px;line-height:1.55;outline:none;cursor:text;">
+              <div style="font-size:30px;margin-bottom:6px;">📋</div>
+              <strong>Press <kbd style="background:#fff;border:1px solid #93c5fd;border-radius:3px;padding:1px 6px;font-family:ui-monospace,monospace;font-size:11px;">Ctrl + V</kbd> to paste a screenshot.</strong>
+              <div style="margin-top:6px;font-size:11.5px;color:#475569;">This window stays open. Take another screenshot (Win + Shift + S), come back, paste again. Stack as many as you need.</div>
+            </div>
+
+            <div id="mmgPasteCollectList" style="margin-top:14px;display:none;">
+              <div style="font-weight:700;font-size:12.5px;color:#0f172a;margin-bottom:6px;"><span id="mmgPasteCollectCount">0</span> screenshot(s) ready to add</div>
+              <div id="mmgPasteCollectItems"></div>
+            </div>
+
+            <div id="mmgPasteCollectStatus" style="margin-top:8px;font-size:12px;min-height:16px;color:#64748b;"></div>
+          </div>
+          <div style="padding:12px 18px;border-top:1px solid #e2e8f0;display:flex;gap:8px;align-items:center;">
+            <span style="flex:1;font-size:11px;color:#64748b;">Click <strong>Done</strong> when you've pasted everything you need.</span>
+            <button onclick="_mmgPasteCollectClose()" type="button" style="background:none;border:1px solid #cbd5e1;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;color:#475569;">Cancel</button>
+            <button id="mmgPasteCollectDoneBtn" onclick="_mmgPasteCollectDone()" type="button" style="background:#2563eb;color:#fff;border:0;border-radius:8px;padding:7px 16px;font-size:12px;font-weight:700;cursor:pointer;">✓ Done</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -35770,6 +35803,12 @@
       document.addEventListener('paste', function (e) {
         var modal = document.getElementById('mmgImportModal');
         if (!modal || modal.style.display === 'none' || !window._mmgImportState) return;
+        // Skip if the persistent paste-collect sub-modal is open — it has
+        // its own paste handler that batches multiple screenshots under
+        // a user-chosen group, and we don't want the global Test-content
+        // fallback to also fire (would double-add).
+        var collect = document.getElementById('mmgPasteCollectModal');
+        if (collect && collect.style.display !== 'none') return;
         // Skip if focus is in the notes textarea so admin can still paste
         // text hints into "Notes for the AI" without it being treated as a
         // file upload.
@@ -35869,60 +35908,123 @@
       document.getElementById(pickerId).click();
     };
 
-    // Explicit "📋 Paste" button — reads the clipboard via the modern
-    // Async Clipboard API and routes the resulting image / PDF into the
-    // named group (test / answer-key). Compared to the doc-level Ctrl+V
-    // listener, this lets the admin paste into the ANSWER KEY section
-    // too without needing to swap groups. Requires HTTPS (yes), a user
-    // gesture (the button click counts), and a one-time permission grant.
-    window._mmgImportPasteFromClipboard = async function (group) {
-      var status = document.getElementById('mmgImportStatus');
-      function setStatus(msg, color) {
-        if (status) {
-          status.textContent = msg;
-          status.style.color = color || '#64748b';
-        }
-      }
-      if (!window._mmgImportState) return;
-      if (!navigator.clipboard || typeof navigator.clipboard.read !== 'function') {
-        setStatus('Async clipboard not supported in this browser — press Ctrl+V instead.', '#dc2626');
-        return;
-      }
-      try {
-        var items = await navigator.clipboard.read();
-        var files = [];
-        for (var i = 0; i < items.length; i++) {
-          var item = items[i];
-          var types = item.types || [];
-          var pickedType = null;
-          for (var j = 0; j < types.length; j++) {
-            if (types[j].indexOf('image/') === 0 || types[j] === 'application/pdf') {
-              pickedType = types[j]; break;
-            }
-          }
-          if (!pickedType) continue;
-          var blob = await item.getType(pickedType);
-          var stamp = new Date().toISOString().replace(/[:.]/g, '-');
-          var ext = pickedType.split('/')[1] || 'png';
-          var file = new File([blob], 'pasted-' + stamp + '.' + ext, { type: pickedType });
-          files.push(file);
-        }
-        if (files.length === 0) {
-          setStatus('No image / PDF on the clipboard. Copy a screenshot first, then click 📋 Paste.', '#dc2626');
-          return;
-        }
-        var label = (group === 'test') ? 'Test content' : 'Answer key';
-        setStatus('📋 Pasted ' + files.length + ' file' + (files.length === 1 ? '' : 's') + ' into ' + label + '…', '#0369a1');
-        _mmgImportFilesPicked(group, files);
-      } catch (e) {
-        var msg = (e && e.message) || String(e);
-        if (/permission/i.test(msg)) {
-          setStatus('Clipboard permission denied — allow it in the browser address-bar prompt, then click 📋 Paste again.', '#dc2626');
-        } else {
-          setStatus('Paste failed: ' + msg, '#dc2626');
-        }
-      }
+    // 📋 Paste button → opens a persistent paste-collect sub-modal.
+    // Admin can stack multiple screenshots across multiple Alt-Tabs
+    // (take a shot, Alt-Tab back, Ctrl+V, repeat) without the dialog
+    // closing or refocusing. On Done, the whole batch is committed to
+    // the chosen group in the parent import modal.
+    window._mmgImportPasteFromClipboard = function (group) {
+      _mmgPasteCollectOpen(group);
     };
+
+    // ── Persistent paste-collect sub-modal ──────────────────────────
+    window._mmgPasteCollectFiles = [];      // accumulated File objects
+    window._mmgPasteCollectGroup = 'test';  // 'test' | 'answer-key'
+
+    function _mmgPasteCollectOpen(group) {
+      window._mmgPasteCollectGroup = (group === 'answer-key') ? 'answer-key' : 'test';
+      window._mmgPasteCollectFiles = [];
+      var modal = document.getElementById('mmgPasteCollectModal');
+      var labelEl = document.getElementById('mmgPasteCollectGroupLabel');
+      if (labelEl) labelEl.textContent = (window._mmgPasteCollectGroup === 'test') ? 'Test content' : 'Answer key';
+      _mmgPasteCollectRender();
+      modal.style.display = 'flex';
+      // Focus the drop-zone so Ctrl+V works without an explicit click.
+      var dz = document.getElementById('mmgPasteCollectDropZone');
+      if (dz) setTimeout(function () { dz.focus(); }, 50);
+      _mmgPasteCollectBindOnce();
+    }
+
+    window._mmgPasteCollectClose = function () {
+      document.getElementById('mmgPasteCollectModal').style.display = 'none';
+      window._mmgPasteCollectFiles = [];
+    };
+
+    window._mmgPasteCollectDone = function () {
+      var files = (window._mmgPasteCollectFiles || []).slice();
+      var group = window._mmgPasteCollectGroup || 'test';
+      document.getElementById('mmgPasteCollectModal').style.display = 'none';
+      window._mmgPasteCollectFiles = [];
+      if (files.length === 0) return;   // nothing to commit
+      var status = document.getElementById('mmgImportStatus');
+      if (status) {
+        status.style.color = '#0369a1';
+        status.textContent = '📋 Pasted ' + files.length + ' file' + (files.length === 1 ? '' : 's')
+                           + ' into ' + (group === 'test' ? 'Test content' : 'Answer key') + '…';
+      }
+      _mmgImportFilesPicked(group, files);
+    };
+
+    window._mmgPasteCollectRemove = function (idx) {
+      if (!Array.isArray(window._mmgPasteCollectFiles)) return;
+      window._mmgPasteCollectFiles.splice(idx, 1);
+      _mmgPasteCollectRender();
+    };
+
+    function _mmgPasteCollectRender() {
+      var files = window._mmgPasteCollectFiles || [];
+      var listWrap = document.getElementById('mmgPasteCollectList');
+      var itemsEl = document.getElementById('mmgPasteCollectItems');
+      var countEl = document.getElementById('mmgPasteCollectCount');
+      var doneBtn = document.getElementById('mmgPasteCollectDoneBtn');
+      if (files.length === 0) {
+        listWrap.style.display = 'none';
+        if (doneBtn) doneBtn.textContent = '✓ Done';
+      } else {
+        listWrap.style.display = 'block';
+        if (countEl) countEl.textContent = String(files.length);
+        if (doneBtn) doneBtn.textContent = '✓ Done — add ' + files.length + ' file' + (files.length === 1 ? '' : 's');
+        var rows = files.map(function (f, i) {
+          var size = (f.size / 1024).toFixed(1) + ' KB';
+          return '<div style="display:flex;align-items:center;gap:8px;padding:6px 8px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;margin-bottom:5px;font-size:12px;">'
+               +   '<span>📷</span>'
+               +   '<span style="flex:1;color:#0f172a;word-break:break-all;">' + _mmgEsc(f.name || ('image-' + i + '.png')) + '</span>'
+               +   '<span style="color:#64748b;font-size:11px;">' + size + '</span>'
+               +   '<button type="button" onclick="_mmgPasteCollectRemove(' + i + ')" style="background:#fee2e2;border:1px solid #fecaca;color:#dc2626;border-radius:4px;padding:2px 6px;font-size:11px;cursor:pointer;">✕</button>'
+               + '</div>';
+        });
+        itemsEl.innerHTML = rows.join('');
+      }
+    }
+
+    function _mmgPasteCollectBindOnce() {
+      if (window._mmgPasteCollectBound) return;
+      window._mmgPasteCollectBound = true;
+      var dz = document.getElementById('mmgPasteCollectDropZone');
+      if (!dz) return;
+      // Paste handler — fires when modal is the focus container.
+      document.addEventListener('paste', function (e) {
+        var modal = document.getElementById('mmgPasteCollectModal');
+        if (!modal || modal.style.display === 'none') return;
+        var cd = e.clipboardData;
+        if (!cd) return;
+        var added = [];
+        var items = cd.items || [];
+        for (var i = 0; i < items.length; i++) {
+          var it = items[i];
+          if (it.kind !== 'file') continue;
+          var f = it.getAsFile();
+          if (!f) continue;
+          if (!f.name || f.name === 'image.png') {
+            try {
+              var ext = (f.type && f.type.split('/')[1]) || 'png';
+              var stamp = new Date().toISOString().replace(/[:.]/g, '-');
+              f = new File([f], 'pasted-' + stamp + '.' + ext, { type: f.type });
+            } catch (_e) {}
+          }
+          added.push(f);
+        }
+        if (added.length === 0) return;
+        e.preventDefault();
+        window._mmgPasteCollectFiles = (window._mmgPasteCollectFiles || []).concat(added);
+        _mmgPasteCollectRender();
+        var status = document.getElementById('mmgPasteCollectStatus');
+        if (status) {
+          status.style.color = '#16a34a';
+          status.textContent = '✓ Added ' + added.length + ' screenshot — paste again to add more, or click Done.';
+        }
+      }, true);
+    }
 
     function _mmgFileToBase64(file) {
       return new Promise(function (resolve, reject) {
