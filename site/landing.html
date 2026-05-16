@@ -30954,8 +30954,22 @@
       var paneId = key === 'task1' ? 'mmgPaneIwTask1' : 'mmgPaneIwTask2';
       var p = 'mmgIw_' + key + '_';
 
-      var html = '<div class="mmg-section-title">' + _mmgEsc(label) + '</div>'
-              + (sectionHelp ? '<div class="mmg-field-help">' + _mmgEsc(sectionHelp) + '</div>' : '');
+      var html = '';
+
+      // Per-task Gemini import banner (purple, matches the reading +
+      // listening editors). Routes through _mmgImportOpenPassage with
+      // passageIndex 0=task1, 1=task2 — see _mmgImportSubmit's
+      // isIeltsWritingImport branch for the per-task merge logic.
+      var _iwTaskIdx = (key === 'task1') ? 0 : 1;
+      html += '<div style="background:linear-gradient(135deg,#fdf4ff,#faf5ff);border:1px solid #e9d5ff;border-radius:10px;padding:10px 12px;margin-bottom:14px;display:flex;align-items:center;gap:12px;">'
+            +   '<div style="flex:1;font-size:12px;color:#581c87;line-height:1.45;">'
+            +     '<strong>✨ Import this task</strong> — upload ' + _mmgEsc(label) + '\'s screenshot (prompt' + (key === 'task1' ? ' + chart' : '') + '); Gemini fills title, prompt, ' + (key === 'task1' ? 'chart type, data nature' : 'essay type') + ', word goal, and time. You can still edit anything before Save.'
+            +   '</div>'
+            +   '<button type="button" onclick="_mmgImportOpenPassage(' + _iwTaskIdx + ')" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(124,58,237,.3);white-space:nowrap;">✨ Import task</button>'
+            + '</div>';
+
+      html += '<div class="mmg-section-title">' + _mmgEsc(label) + '</div>'
+            + (sectionHelp ? '<div class="mmg-field-help">' + _mmgEsc(sectionHelp) + '</div>' : '');
 
       // Short topic title — surfaces as the per-task row label in the
        // fullscreen picker (iwetPicker), so make it descriptive of the
@@ -36047,8 +36061,8 @@
       var typeSel = document.getElementById('mmgFldType');
       var currentType = (typeSel && typeSel.value) || (m && m.mock_type);
       if (m) m.mock_type = currentType;
-      if (!m || (currentType !== 'cefr-reading' && currentType !== 'ielts-reading' && currentType !== 'ielts-listening' && currentType !== 'cefr-listening')) {
-        alert('Per-section import is currently available for CEFR Reading, IELTS Reading, IELTS Listening, and CEFR Listening mocks.');
+      if (!m || (currentType !== 'cefr-reading' && currentType !== 'ielts-reading' && currentType !== 'ielts-listening' && currentType !== 'cefr-listening' && currentType !== 'ielts-writing')) {
+        alert('Per-section import is currently available for CEFR Reading, IELTS Reading, IELTS Listening, CEFR Listening, and IELTS Writing mocks.');
         return;
       }
       window._mmgImportState = {
@@ -36062,8 +36076,10 @@
       document.getElementById('mmgImportStatus').textContent = '';
       document.getElementById('mmgImportStatus').style.color = '#64748b';
       var btn = document.getElementById('mmgImportSubmitBtn');
-      // Match the button label to the exam's unit (Part vs Passage).
-      var unitLabel = (m.mock_type === 'cefr-reading' || m.mock_type === 'cefr-listening') ? 'part' : 'passage';
+      // Match the button label to the exam's unit (Part / Passage / Task).
+      var unitLabel = (m.mock_type === 'cefr-reading' || m.mock_type === 'cefr-listening') ? 'part'
+                    : (m.mock_type === 'ielts-writing') ? 'task'
+                    : 'passage';
       btn.disabled = false; btn.textContent = '✨ Import ' + unitLabel;
       _mmgImportRender();
       document.getElementById('mmgImportModal').style.display = 'flex';
@@ -36423,6 +36439,41 @@
           var isCefrImport         = (st.examType === 'cefr-reading');
           var isListeningImport    = (st.examType === 'ielts-listening');
           var isCefrListeningImport = (st.examType === 'cefr-listening');
+          var isIeltsWritingImport  = (st.examType === 'ielts-writing');
+
+          // IELTS Writing per-task import — different storage shape:
+          // tasks live as mock_data.tasks.{task1,task2}, NOT in a parts[]
+          // array. Slot the returned single-task object in, preserving
+          // the chart image URL + every sample field the admin curated.
+          if (isIeltsWritingImport) {
+            var taskKey = (st.passageIndex === 0) ? 'task1' : 'task2';
+            md.tasks = md.tasks || {};
+            var prevTask = md.tasks[taskKey] || {};
+            // Preserve chart image URL (admin uploads separately, same as
+            // CEFR Listening map image).
+            if (prevTask.chartImageUrl != null) newObj.chartImageUrl = prevTask.chartImageUrl;
+            // Preserve curated samples (main + Band 5-9 + Uzbek Band 5-9).
+            var _iwSampleFields = ['sampleAnswer',
+              'sampleBand5','sampleBand6','sampleBand7','sampleBand8','sampleBand9',
+              'uzSampleBand5','uzSampleBand6','uzSampleBand7','uzSampleBand8','uzSampleBand9'];
+            for (var sfi = 0; sfi < _iwSampleFields.length; sfi++) {
+              var sf = _iwSampleFields[sfi];
+              if (prevTask[sf] != null) newObj[sf] = prevTask[sf];
+            }
+            md.tasks[taskKey] = newObj;
+            window._mmgEditing.mock_data = md;
+            document.getElementById('mmgFldData').value = JSON.stringify(md, null, 2);
+            window._mmgActiveTab = null;
+            _mmgInitTabs();
+            _mmgSwitchTab(taskKey === 'task1' ? 'iw_task1' : 'iw_task2');
+            _mmgImportProgressDone(j.model_used, j.fallback_reason);
+            var iwLabel = (j.model_used === 'gpt-4o')
+              ? '✓ Imported Task ' + (st.passageIndex + 1) + ' via GPT-4o (Gemini fallback)'
+              : '✓ Imported Task ' + (st.passageIndex + 1) + ' via Gemini 2.5 Pro';
+            _mmgStatus(iwLabel + ' — review and Save when ready.', '#16a34a');
+            setTimeout(_mmgImportClose, 1400);
+            return;
+          }
           // IELTS Listening + CEFR Listening + CEFR Reading all store
           // their sections in `parts[]` keyed by partNumber. Only IELTS
           // Reading uses `passages[]`.

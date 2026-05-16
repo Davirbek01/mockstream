@@ -308,6 +308,28 @@ const CEFR_LISTENING_SINGLE_PART_SHAPE = `{
   // (also emit a flat "questions" array as { "id": N, "hint": "<short context fragment around the blank, e.g. 'At the site of an old ____'>" } — 6 entries)
 }`;
 
+// ── IELTS Writing single-task shape ───────────────────────────────────
+// Per-task import only — admins prefer uploading one task's screenshot
+// at a time. Returns a flat object that the client slots into
+// mock_data.tasks.task1 or mock_data.tasks.task2 based on passage_index.
+// chartImageUrl is intentionally always empty — admin uploads chart
+// images via the editor (same as Part 4 map images for CEFR Listening).
+const IELTS_WRITING_SINGLE_TASK_SHAPE = `{
+  "title": string,                                  // SHORT TOPIC TITLE (3-6 words), e.g. "Online shopping growth" (Task 1) / "Working from home" (Task 2). Used as the picker row label. Do NOT output "Task 1" / "Task 2".
+  "prompt": string,                                 // Verbatim task instruction text from the source (e.g. "The graph below shows the percentage of households…"). Plain text — no HTML.
+  "instruction": string,                            // The sub-instruction shown below the prompt — usually the standard IELTS rubric ("Summarise the information…" for Task 1, "Give reasons for your answer…" for Task 2). Copy verbatim if visible in the source; otherwise emit the matching default below.
+  "wordGoal": number,                               // Task 1 = 150, Task 2 = 250. Override only if the source explicitly states a different word count.
+  "timeMinutes": number,                            // Task 1 = 20, Task 2 = 40. Override only if the source explicitly states a different time.
+
+  // Task 1 ONLY (passage_index = 1) — emit these:
+  "chartImageUrl": "",                              // ALWAYS empty — admin uploads the chart image separately via the editor's 📁 Upload button.
+  "chartType": string,                              // EXACTLY one of: "line_graph" | "bar_chart" | "pie_chart" | "table" | "map" | "process_diagram". Pick the visualisation that best matches the chart in the source.
+  "dataNature": string,                             // EXACTLY one of: "over-time" | "static" | "not-applicable". Use "over-time" when the chart's x-axis is years/months/decades/days (line graph, multi-year bar chart). Use "static" for single-time snapshots (single-year pie, comparison table, snapshot bar). Use "not-applicable" for maps and process diagrams.
+
+  // Task 2 ONLY (passage_index = 2) — emit these instead:
+  "essayType": string                               // EXACTLY one of: "opinion" | "balanced" | "problem-solution" | "advantage-disadvantage" | "two-part". Pattern-match on the prompt's question form: "To what extent do you agree or disagree" → opinion; "Discuss both views" → balanced; "What are the problems / what can be done" → problem-solution; "Do the advantages outweigh the disadvantages" → advantage-disadvantage; two distinct questions → two-part.
+}`;
+
 const CEFR_LISTENING_SHAPE = `{
   "testInfo": {
     "title":           string,                   // Human-readable title (e.g. "CEFR Listening Mock Test 12"). If the source shows a number, use it; otherwise a generic title is fine.
@@ -359,8 +381,9 @@ function buildPrompt(
   const isCefr           = examType === 'cefr-reading';
   const isIeltsListening = examType === 'ielts-listening';
   const isCefrListening  = examType === 'cefr-listening';
-  const unit = isIelts ? 'passage' : (isIeltsListening || isCefrListening) ? 'part' : 'part';
-  const Unit = isIelts ? 'Passage' : (isIeltsListening || isCefrListening) ? 'Part' : 'Part';
+  const isIeltsWriting   = examType === 'ielts-writing';
+  const unit = isIelts ? 'passage' : isIeltsWriting ? 'task' : (isIeltsListening || isCefrListening) ? 'part' : 'part';
+  const Unit = isIelts ? 'Passage' : isIeltsWriting ? 'Task' : (isIeltsListening || isCefrListening) ? 'Part' : 'Part';
 
   // Gap-marker rule. CEFR Reading uses <span class="gap"> tags. IELTS
   // Reading uses "{INPUT}" placeholders. IELTS Listening uses both
@@ -368,7 +391,11 @@ function buildPrompt(
   // Listening uses two patterns: gapId-on-form-row for Part 2 (gap-fill-
   // form), and <span class="gap-input"> markers for Part 6 (sentence-
   // completion's passageContent).
-  const gapRule = (isIelts || isIeltsListening)
+  // IELTS Writing has no gap markers — it's open-response writing tasks.
+  // Short-circuit the gap rule so it doesn't appear in the writing prompt.
+  const gapRule = isIeltsWriting
+    ? `4. **No fill-in-the-blank markers** — IELTS Writing tasks are open-response. Just transcribe the task prompt verbatim.`
+    : (isIelts || isIeltsListening)
     ? `4. **Fill-in-the-blank gaps in question text use the literal placeholder "{INPUT}"** — exactly that, no variation. Example: "Address: {INPUT} Street." Do NOT use HTML span tags. ${isIeltsListening ? 'For "gap-fill-form" / "table-completion" sub-parts, the gap is described via the gapId field on the row/item — the surrounding "text" / "prefix" / "suffix" supplies the context. No {INPUT} marker is needed there; only in "sentence-completion" item text.' : ''}`
     : isCefrListening
     ? `4. **Fill-in-the-blank gaps depend on the part type.** For Part 2 (gap-fill-form): emit ONE "item-gap" object per numbered blank inside formContent[]; the gap is identified by gapId, and the surrounding "text" / "gapSuffix" supplies the context. No {INPUT} marker inside formContent. For Part 6 (sentence-completion): the passageContent HTML carries the gap markers inline as <span class="gap-input" data-gap="N">_____(N)_____</span> — exactly that format, where N matches the question id. Use <br><br> between sentences within passageContent (NOT <p> tags). For all other CEFR Listening part types, no fill-in-the-blank gaps exist.`
@@ -527,11 +554,51 @@ Do this only when the source actually shows the letter as a paragraph marker (yo
 14. **Part-by-part question-id continuity.** Question ids run consecutively from 1 in Part 1 onward. Never restart numbering inside a part. Always emit a \`questionRange\` matching the part's id span ACTUALLY found in the source — e.g. if Part 1 has 7 questions emit "1-7", and Part 2 then starts at 8. The id of the FIRST question in any part should be exactly (previous part's last id) + 1. If the source has its own numbered ids (Q1-Q40 visible on the page), follow those numbers verbatim — don't renumber.
 ` : '';
 
+  // IELTS Writing per-task type guide. The source for each call is ONE
+  // screenshot of a single task — Task 1 (chart description) or Task 2
+  // (essay prompt). passage_index tells us which task we're extracting.
+  // Output is the single-task object documented in the shape.
+  const ieltsWritingTypeGuide = isIeltsWriting ? `
+11. **IELTS Writing per-task extraction.** This call is for **Task ${passageIndex || '?'} only**. Treat the uploaded screenshot(s) as that single task's pages. Emit the flat single-task object documented in the shape, with the fields appropriate to whichever task this is:
+
+  • **Task 1 (passage_index = 1, chart description, 150 words / 20 min):**
+    - "title": Short topic phrase (3-6 words) derived from the chart caption or subject. e.g. "Online shopping growth", "Coffee consumption trends", "Population by age". Do NOT output "Task 1" — that's redundant.
+    - "prompt": Verbatim task instruction text — e.g. *"The graph below shows the percentage of households in owned and rented accommodation in England and Wales between 1918 and 2011."*
+    - "instruction": If the source shows a sub-instruction, copy it verbatim. Otherwise emit the standard rubric: *"Summarise the information by selecting and reporting the main features, and make comparisons where relevant. Write at least 150 words."*
+    - "chartType": Pick the BEST match from the closed list \`line_graph | bar_chart | pie_chart | table | map | process_diagram\` based on what the source's image shows. Examples: a graph with year axis = line_graph; a row of bars over years = bar_chart; multiple circular sector charts = pie_chart; a numeric grid = table; a labelled top-down view of a place = map; a flowchart with arrows showing stages = process_diagram.
+    - "dataNature": Pick from \`over-time | static | not-applicable\`. "over-time" when the x-axis shows years/months/decades/days or two snapshots being compared across time. "static" for a single-point-in-time view (e.g. *"in 2020"*, a single-year pie, an item-comparison table). "not-applicable" for maps and process diagrams — they have no time dimension.
+    - "wordGoal": 150. "timeMinutes": 20.
+    - "chartImageUrl": ALWAYS "" — admin uploads the chart separately.
+    - Do NOT emit "essayType".
+
+  • **Task 2 (passage_index = 2, essay, 250 words / 40 min):**
+    - "title": Short topic phrase (3-6 words) from the essay subject. e.g. "Working from home", "Renewable energy", "University education". Do NOT output "Task 2".
+    - "prompt": Verbatim essay prompt including any introductory framing and the final question(s).
+    - "instruction": If the source shows a sub-instruction, copy verbatim. Otherwise emit the standard rubric: *"Give reasons for your answer and include any relevant examples from your own knowledge or experience. Write at least 250 words."*
+    - "essayType": Pattern-match the prompt's question form:
+      - \`opinion\` — "To what extent do you agree or disagree?", "Do you think…", "Is this a positive or negative development?"
+      - \`balanced\` — "Discuss both views and give your opinion." (paired views are presented and the writer takes a side after weighing both)
+      - \`problem-solution\` — "What are the problems caused by X? What can be done to solve them?" (or "causes / effects" variants pointing toward fixes)
+      - \`advantage-disadvantage\` — "Do the advantages outweigh the disadvantages?", "Discuss the advantages and disadvantages."
+      - \`two-part\` — Two distinct numbered or sentence-form questions in the prompt (e.g. "Why has this happened? What can be done about it?" where the two questions are different topics, not a problem→solution chain).
+      Pick exactly ONE — if the prompt is ambiguous between two patterns, pick the closer match and trust the admin to override.
+    - "wordGoal": 250. "timeMinutes": 40.
+    - Do NOT emit "chartType", "dataNature", or "chartImageUrl".
+
+12. **What NOT to emit:** "chartImageUrl" beyond the empty string (admin uploads separately), "sampleAnswer" / "sampleBand5-9" / "uzSampleBand5-9" (admin curates samples in a separate editor tab — never auto-generate them here).
+
+13. **Answer key behaviour:** IELTS Writing tasks have no machine-checkable answer key. If admin uploaded an "answer key" file with a model essay, IGNORE IT for this extraction — model answers are handled in the Samples editor tab separately. Stick to extracting the task prompt structure.
+` : '';
+
   // Scope-specific framing. In "passage" mode the user is uploading just
   // ONE passage (typically because each passage comes from a different
   // source), so we tell the model to expect that and emit a single
   // passage object instead of a full mock envelope.
-  const examLabel = isIeltsListening ? 'IELTS Listening' : isCefrListening ? 'CEFR Listening' : (isIelts ? 'IELTS Reading' : 'CEFR Reading');
+  const examLabel = isIeltsListening ? 'IELTS Listening'
+                  : isCefrListening  ? 'CEFR Listening'
+                  : isIeltsWriting   ? 'IELTS Writing'
+                  : isIelts          ? 'IELTS Reading'
+                  : 'CEFR Reading';
   const scopeIntro = scope === 'passage'
     ? `The user has uploaded image(s) and / or PDF(s) for **just ONE ${unit}** of an ${examLabel} mock — specifically ${Unit} ${passageIndex || '?'}. Treat the uploaded files as that single ${unit} only. The accompanying answer-key files (if any) cover ONLY this ${unit}'s questions. Output a single ${unit} object — NOT wrapped in any envelope or array.`
     : `The user has uploaded image(s) and / or PDF(s) of an ${examLabel} mock test that they own or have licensed.`;
@@ -554,7 +621,7 @@ ${gapRule}
 
 6. Answer keys: leave empty ({} or omitted) unless the source clearly contains an answer key. Do NOT guess answers — TFNG / matching / inference will be wrong.
 
-7. Detect each part / section's question type from its instruction text. ${isIelts ? 'See rule 11 below for IELTS Reading patterns.' : isIeltsListening ? 'See rule 11 below for the 12 IELTS Listening sub-part shapes — one section can contain multiple sub-parts.' : isCefrListening ? 'See rule 11 below for the CEFR Listening per-part table — exactly 6 parts in a fixed order, each with a fixed type.' : 'See rule 11 below for the CEFR per-part table (a standard test has exactly 5 parts in a fixed order — gap-fill-text, matching, matching-headings, reading-comprehension, reading-comprehension).'}
+7. Detect each part / section's question type from its instruction text. ${isIelts ? 'See rule 11 below for IELTS Reading patterns.' : isIeltsListening ? 'See rule 11 below for the 12 IELTS Listening sub-part shapes — one section can contain multiple sub-parts.' : isCefrListening ? 'See rule 11 below for the CEFR Listening per-part table — exactly 6 parts in a fixed order, each with a fixed type.' : isIeltsWriting ? 'See rule 11 below for the IELTS Writing per-task extraction rules — Task 1 (chart description) vs Task 2 (essay) have different field sets.' : 'See rule 11 below for the CEFR per-part table (a standard test has exactly 5 parts in a fixed order — gap-fill-text, matching, matching-headings, reading-comprehension, reading-comprehension).'}
 
 8. Files come in two groups (each file's "group" field is provided in the file's preceding text marker). Group A = "test" (treat as consecutive pages of one document). Group B = "answer-key" (optional). Match each answer-key entry to the corresponding question by ID and populate answers / correctAnswers. If Group B is empty or unreadable, leave answer keys blank.
 
@@ -565,7 +632,7 @@ ${gapRule}
 ${shape}
 
 No commentary outside the JSON. No markdown fences. No explanation.
-${ieltsTypeGuide}${cefrTypeGuide}${ieltsListeningTypeGuide}${cefrListeningTypeGuide}
+${ieltsTypeGuide}${cefrTypeGuide}${ieltsListeningTypeGuide}${cefrListeningTypeGuide}${ieltsWritingTypeGuide}
 The user owns or has licensed this content. Transcription is authorised — do not refuse or hedge on copyright grounds. The "user owns this" framing is a fact, not a request.
 
 Optional notes from the author: ${notes || '(none)'}`;
@@ -1352,8 +1419,14 @@ Deno.serve(async (req) => {
 
   // ── Validate inputs ──────────────────────────────────────────────
   const examType = (body.exam_type || '').toString();
-  if (examType !== 'cefr-reading' && examType !== 'ielts-reading' && examType !== 'ielts-listening' && examType !== 'cefr-listening') {
-    return json(400, { error: 'bad_exam_type', detail: 'expected "cefr-reading", "ielts-reading", "ielts-listening", or "cefr-listening"' });
+  if (examType !== 'cefr-reading' && examType !== 'ielts-reading' && examType !== 'ielts-listening' && examType !== 'cefr-listening' && examType !== 'ielts-writing') {
+    return json(400, { error: 'bad_exam_type', detail: 'expected "cefr-reading", "ielts-reading", "ielts-listening", "cefr-listening", or "ielts-writing"' });
+  }
+  // IELTS Writing supports per-task import only — full-mock auto-import
+  // doesn't make sense for two free-response tasks. Reject any full-scope
+  // call with a hint so the admin doesn't waste a Gemini round-trip.
+  if (examType === 'ielts-writing' && (body.scope || 'full').toString() !== 'passage') {
+    return json(400, { error: 'bad_scope', detail: 'IELTS Writing import is per-task only — set scope: "passage" with passage_index 1 (Task 1) or 2 (Task 2).' });
   }
 
   // IELTS Listening import is now fully wired (see buildPrompt's
@@ -1624,6 +1697,7 @@ Deno.serve(async (req) => {
     ? (examType === 'cefr-reading'    ? CEFR_SINGLE_PART_SHAPE
     :  examType === 'ielts-listening' ? IELTS_LISTENING_SINGLE_PART_SHAPE
     :  examType === 'cefr-listening'  ? CEFR_LISTENING_SINGLE_PART_SHAPE
+    :  examType === 'ielts-writing'   ? IELTS_WRITING_SINGLE_TASK_SHAPE
     :  IELTS_SINGLE_PASSAGE_SHAPE)
     : (examType === 'cefr-reading'    ? CEFR_SHAPE
     :  examType === 'ielts-listening' ? IELTS_LISTENING_SHAPE
@@ -1718,6 +1792,15 @@ Deno.serve(async (req) => {
                 if (type === 'sentence-completion') return typeof md.passageContent === 'string';
                 return false;
               })()
+          : examType === 'ielts-writing'
+            ? (() => {
+                // IELTS Writing per-task shape: just a flat object with
+                // "prompt" (required). chartType / essayType / dataNature
+                // are optional per the schema — admin can fix any missing
+                // field manually.
+                const md = mockData as Record<string, unknown>;
+                return typeof md.prompt === 'string' && md.prompt.length > 0;
+              })()
           : (() => {
               // CEFR per-part shape varies by question type:
               //   • matching                   → texts[] + statements[] (NO passage)
@@ -1736,7 +1819,7 @@ Deno.serve(async (req) => {
     if (!ok) {
       return json(502, {
         error:           'shape_mismatch',
-        detail:          'expected a single ' + (examType === 'ielts-reading' ? 'passage' : (examType === 'ielts-listening' || examType === 'cefr-listening') ? 'part' : 'part') + ' object',
+        detail:          'expected a single ' + (examType === 'ielts-reading' ? 'passage' : (examType === 'ielts-listening' || examType === 'cefr-listening') ? 'part' : examType === 'ielts-writing' ? 'task' : 'part') + ' object',
         model_used:      modelUsed,
         fallback_reason: fallbackReason
       });
