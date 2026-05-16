@@ -32323,7 +32323,11 @@
       if (document.getElementById('mmgIwEnhanceModal')) return;
       var modal = document.createElement('div');
       modal.id = 'mmgIwEnhanceModal';
-      modal.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(15,23,42,.7);z-index:9999;align-items:center;justify-content:center;padding:24px;';
+      // z-index must beat #mmgOverlay (10220) — the mock-management
+      // overlay sits at 10220 with its own opaque white background, so
+      // a 9999 modal renders behind it and is invisible even though
+      // the JS fires correctly.
+      modal.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(15,23,42,.7);z-index:11000;align-items:center;justify-content:center;padding:24px;';
       modal.innerHTML =
         '<div style="background:#fff;border-radius:14px;max-width:1100px;width:100%;max-height:90vh;overflow:auto;padding:22px 24px;box-shadow:0 24px 60px rgba(0,0,0,.4);">'
         + '<div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;">'
