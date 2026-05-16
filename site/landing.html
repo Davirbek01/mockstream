@@ -8549,6 +8549,33 @@
       background: #f3e8ff;
       border: 1px solid #d8b4fe;
     }
+    /* Share button — small 🔗 icon sitting next to the Take Test
+       button. Hover deepens the orange tone; success state ("✓ Copied!")
+       swaps the icon for a 1.5s confirmation. */
+    #iwetPicker .iwet-share {
+      background: transparent;
+      border: 1px solid #fed7aa;
+      color: #c2410c;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+      transition: background 120ms ease, border-color 120ms ease;
+      margin-right: 8px;
+      white-space: nowrap;
+    }
+    #iwetPicker .iwet-share:hover {
+      background: #fff7ed;
+      border-color: #c2410c;
+    }
+    #iwetPicker .iwet-share.iwet-share-copied {
+      background: #dcfce7;
+      border-color: #86efac;
+      color: #15803d;
+      font-size: 11px;
+      font-weight: 700;
+    }
     /* Exam-date chip — small + muted so the source chip remains the
        primary attribution. Sits next to the source on the card head. */
     #iwetPicker .iwet-exam-date {
@@ -17446,9 +17473,17 @@
             ? '<span class="ilet-done">★ Done · ' + doneInfo.percent + '%</span>'
             : '<span class="ilet-done">★ Done</span>')
         : '';
+      // Share button — only on ready mocks (no point sharing a coming-
+      // soon link). Click is handled by the grid's delegated listener
+      // below; the button's own button.click is captured before the
+      // whole-card URL-preview path so a share tap doesn't also rewrite
+      // the address bar.
+      const shareBtnHtml = noneReady
+        ? ''
+        : '<button type="button" class="iwet-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
       const actionHtml = noneReady
         ? '<span class="ilet-coming-soon">Coming soon</span>'
-        : '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Take Test →</button>';
+        : (shareBtnHtml + '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Take Test →</button>');
       const cleanTitle = String(item.name || '').replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]+\s*/u, '');
       // Pull filter values from the meta for data-* attrs.
       const t1Chart = tasks[0] ? (tasks[0].chartType  || '') : '';
@@ -17612,6 +17647,61 @@
       card.classList.add('ilet-card-jumped');
     }
 
+    // Share a mock via the OS share sheet / Telegram share / clipboard,
+    // depending on what the current environment supports. Tries in order:
+    //   1. Telegram Mini App   → openTelegramLink to share to contact / group
+    //   2. navigator.share     → mobile OS share sheet (Telegram, WhatsApp, …)
+    //   3. clipboard.writeText → desktop / older browsers (with toast)
+    //   4. window.prompt       → last-resort manual copy
+    async function _iwetShareMock(mockN, btnEl) {
+      if (!mockN) return;
+      const url = window.location.origin + '/take/ielts-writing-' + encodeURIComponent(mockN);
+      const title = 'IELTS Writing Mock ' + mockN;
+      const shareText = title + ' · ' + url;
+
+      // 1. Inside Telegram Mini App: use Telegram's native share link.
+      try {
+        const tg = window.Telegram && window.Telegram.WebApp;
+        if (tg && typeof tg.openTelegramLink === 'function') {
+          const tgUrl = 'https://t.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(title);
+          tg.openTelegramLink(tgUrl);
+          return;
+        }
+      } catch (_e) {}
+
+      // 2. Native Web Share API (mobile + modern desktop).
+      if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
+        try {
+          await navigator.share({ title: title, text: shareText, url: url });
+          return;
+        } catch (e) {
+          // User cancelled the share sheet — silently abort.
+          if (e && e.name === 'AbortError') return;
+          // Other errors fall through to clipboard.
+        }
+      }
+
+      // 3. Clipboard fallback with a short success state on the button.
+      try {
+        await navigator.clipboard.writeText(url);
+        if (btnEl) {
+          const origText = btnEl.textContent;
+          btnEl.textContent = '✓ Copied!';
+          btnEl.classList.add('iwet-share-copied');
+          btnEl.disabled = true;
+          setTimeout(function () {
+            btnEl.textContent = origText;
+            btnEl.classList.remove('iwet-share-copied');
+            btnEl.disabled = false;
+          }, 1500);
+        }
+        return;
+      } catch (_e) {}
+
+      // 4. Last resort.
+      try { window.prompt('Copy this link:', url); } catch (_e) {}
+    }
+
     async function iwetOpen() {
       const overlay = document.getElementById('iwetPicker');
       overlay.classList.add('ilet-open');
@@ -17708,6 +17798,16 @@
         if (!card) return;
         if (card.classList.contains('ilet-card-disabled')) return;
         const mockN = card.dataset.mock;
+
+        // Share button — intercept BEFORE the whole-card URL preview
+        // path so tapping share doesn't also rewrite the address bar.
+        const shareBtn = e.target.closest('.iwet-share');
+        if (shareBtn) {
+          e.stopPropagation();
+          _iwetShareMock(mockN, shareBtn);
+          return;
+        }
+
         const isTakeBtn = !!e.target.closest('.ilet-take');
 
         if (!isTakeBtn) {
