@@ -38209,7 +38209,13 @@
         // the runner orders them correctly even if the AI emits a wrong /
         // missing one.
         if (st.scope === 'passage') {
-          var md = window._mmgEditing.mock_data || {};
+          // Source of truth is the raw-JSON textarea, NOT _mmgEditing.mock_data —
+          // the latter is the snapshot from when the editor opened and never gets
+          // re-synced. Flushing first guarantees that any unsaved chart upload /
+          // sample edits from the active tab make it into md before the import
+          // merges the new task object, so chartImageUrl + samples survive.
+          if (typeof _mmgFlushStructuredToRaw === 'function') _mmgFlushStructuredToRaw();
+          var md = _mmgGetMockData() || {};
           var newObj = (j.mock_data && typeof j.mock_data === 'object' && !Array.isArray(j.mock_data))
             ? j.mock_data
             : null;
