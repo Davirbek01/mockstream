@@ -8517,17 +8517,34 @@
       opacity: 0.85;
       font-weight: 500;
     }
-    /* Data-nature highlight (T1 only) — separate striking colour so
-       students can scan over-time vs static at a glance without
-       reading the chart type itself. */
-    #iwetPicker .iwet-task-data {
+    /* Tag pills on the per-task sub-row. Same shape across all three
+       picker filter dimensions; colour distinguishes them so students
+       can scan a card at a glance (blue = chart, green = data, purple
+       = essay). */
+    #iwetPicker .iwet-pill {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 1px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.6;
+      opacity: 1;
+      margin-right: 2px;
+    }
+    #iwetPicker .iwet-pill-chart {
+      color: #1e40af;
+      background: #dbeafe;
+      border: 1px solid #93c5fd;
+    }
+    #iwetPicker .iwet-pill-data {
       color: #15803d;
       background: #dcfce7;
       border: 1px solid #86efac;
-      border-radius: 999px;
-      padding: 1px 8px;
-      font-weight: 700;
-      opacity: 1;
+    }
+    #iwetPicker .iwet-pill-essay {
+      color: #6b21a8;
+      background: #f3e8ff;
+      border: 1px solid #d8b4fe;
     }
     .ilet-header {
       position: sticky;
@@ -17259,16 +17276,24 @@
         // tagged) + word goal. T2: essay type + word goal. Skip data
         // nature if unset / "not-applicable" (already implied by the
         // chart being a map or process diagram).
+        // Pill-ify each tag so students scan tag dimensions at a
+        // glance: chart-type = blue, data-nature = green, essay-type
+        // = purple. Word goal dropped — it's implied by task number
+        // (T1 always 150, T2 always 250 unless explicitly overridden).
         let sub;
         if (isT1) {
-          const chartSeg = _IWET_CHART_LABEL[p.chartType] || (p.chartType || '—');
+          const chartSeg = '<span class="iwet-pill iwet-pill-chart">'
+            + _iwetEsc(_IWET_CHART_LABEL[p.chartType] || (p.chartType || '—'))
+            + '</span>';
           const natLabel = _IWET_DATA_LABEL[p.dataNature];
           const natSeg = (natLabel && p.dataNature !== 'not-applicable')
-            ? ' · <span class="iwet-task-data">' + _iwetEsc(natLabel) + '</span>'
+            ? ' <span class="iwet-pill iwet-pill-data">' + _iwetEsc(natLabel) + '</span>'
             : '';
-          sub = _iwetEsc(chartSeg) + natSeg + ' · ' + p.wordGoal + ' words';
+          sub = chartSeg + natSeg;
         } else {
-          sub = _iwetEsc(_IWET_ESSAY_LABEL[p.essayType] || (p.essayType || '—')) + ' · ' + p.wordGoal + ' words';
+          sub = '<span class="iwet-pill iwet-pill-essay">'
+            + _iwetEsc(_IWET_ESSAY_LABEL[p.essayType] || (p.essayType || '—'))
+            + '</span>';
         }
         // sub is built from pre-escaped pieces (chart/essay labels and
         // data-nature) plus a small literal HTML span for the green
