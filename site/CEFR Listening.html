@@ -1816,6 +1816,14 @@
       font-size: 17px;
     }
 
+    .extract-intro {
+      padding: 14px 20px 0;
+      font-style: italic;
+      color: #475569;
+      line-height: 1.55;
+      font-size: 15px;
+    }
+
     .extract-questions {
       padding: 20px;
     }
@@ -4779,8 +4787,17 @@
       return html;
     }
 
+    // Gemini-imported mcq-extracts often glue the question number into
+    // the stem ("24 The man says…"), which then renders as "Question 24:
+    // 24 The man says…". Strip the leading id so the visible stem is clean.
+    function _stripLeadingQId(text, id) {
+      if (!text || id == null) return text || '';
+      return String(text).replace(new RegExp('^\\s*' + id + '\\b[\\s.:\\)\\-]+'), '');
+    }
+
     function renderMCQ(q) {
-      return '<div class="question-card"><div class="question-number">Question ' + q.id + (q.text ? ': ' + q.text : '') + '</div><div class="options-list">' +
+      var stem = _stripLeadingQId(q.text, q.id);
+      return '<div class="question-card"><div class="question-number">Question ' + q.id + (stem ? ': ' + stem : '') + '</div><div class="options-list">' +
         q.options.map(opt => '<label class="option-item" data-q="' + q.id + '" data-val="' + opt.letter + '"><input type="radio" name="q' + q.id + '" value="' + opt.letter + '"><span class="option-letter">' + opt.letter + '</span><span class="option-text">' + opt.text + '</span></label>').join('') +
         '</div></div>';
     }
@@ -4897,11 +4914,42 @@
       }
     }
 
+    // Extract context paragraph: prefer the explicit ext.intro field
+    // (clean Gemini import); otherwise, if the first question's text
+    // looks like "<context>. <id> <stem>", split off the context as the
+    // extract's intro and leave just the stem on the question.
+    function _resolveExtractIntro(ext) {
+      if (ext && typeof ext.intro === 'string' && ext.intro.trim()) {
+        return { intro: ext.intro.trim(), firstStem: null };
+      }
+      var first = (ext && ext.questions && ext.questions[0]) || null;
+      if (!first || !first.text || first.id == null) return { intro: '', firstStem: null };
+      var re = new RegExp('^(.+?)\\b' + first.id + '\\b[\\s.:\\)\\-]+(.+)$', 's');
+      var m = String(first.text).match(re);
+      if (!m) return { intro: '', firstStem: null };
+      var intro = (m[1] || '').trim();
+      var stem  = (m[2] || '').trim();
+      if (!intro || !stem) return { intro: '', firstStem: null };
+      return { intro: intro, firstStem: stem };
+    }
+
     function renderExtracts(part) {
       let html = '';
       part.extracts.forEach(ext => {
-        html += '<div class="extract-box"><div class="extract-header">' + ext.title + '</div><div class="extract-questions">';
+        var resolved = _resolveExtractIntro(ext);
+        html += '<div class="extract-box"><div class="extract-header">' + ext.title + '</div>';
+        if (resolved.intro) {
+          html += '<div class="extract-intro">' + resolved.intro + '</div>';
+        }
+        html += '<div class="extract-questions">';
         var qs = ext.questions || [];
+        // If we pulled the intro out of the first question's text, render
+        // the first question with just the stem (renderMCQ also strips
+        // any leading "<id> " from subsequent questions).
+        if (resolved.firstStem && qs.length) {
+          qs = qs.slice();
+          qs[0] = Object.assign({}, qs[0], { text: resolved.firstStem });
+        }
         var qi = 0;
         while (qi < qs.length) {
           var q = qs[qi];
