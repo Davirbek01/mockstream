@@ -305,6 +305,78 @@ async function detectSectionStartsWithGemini(opts: {
   return out;
 }
 
+// Upload audio bytes to Gemini's File API and wait for ACTIVE state.
+// Returns the file URI + mime for use in generateContent. Shared between
+// detect-section-starts and transcribe-audio (when the audio exceeds the
+// ~18 MB inline cap). Files are stored on Gemini's side for ~48 h.
+async function uploadAudioToFileApi(opts: {
+  audioBytes: Uint8Array;
+  mime: string;
+  geminiKey: string;
+  displayName?: string;
+}): Promise<{ fileUri: string; mime: string }> {
+  const startResp = await fetch(
+    `https://generativelanguage.googleapis.com/upload/v1beta/files?key=${opts.geminiKey}`,
+    {
+      method: "POST",
+      headers: {
+        "X-Goog-Upload-Protocol": "resumable",
+        "X-Goog-Upload-Command":  "start",
+        "X-Goog-Upload-Header-Content-Length": String(opts.audioBytes.byteLength),
+        "X-Goog-Upload-Header-Content-Type":   opts.mime,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ file: { displayName: opts.displayName || "listening-audio" } }),
+    },
+  );
+  if (!startResp.ok) {
+    const t = await startResp.text();
+    throw new Error(`File API start failed (${startResp.status}): ${t.slice(0, 200)}`);
+  }
+  const uploadUrl = startResp.headers.get("X-Goog-Upload-URL")
+                 || startResp.headers.get("x-goog-upload-url");
+  if (!uploadUrl) throw new Error("File API didn't return X-Goog-Upload-URL");
+  const upResp = await fetch(uploadUrl, {
+    method: "POST",
+    headers: {
+      "Content-Length":        String(opts.audioBytes.byteLength),
+      "X-Goog-Upload-Offset":  "0",
+      "X-Goog-Upload-Command": "upload, finalize",
+    },
+    body: opts.audioBytes,
+  });
+  if (!upResp.ok) {
+    const t = await upResp.text();
+    throw new Error(`File API upload failed (${upResp.status}): ${t.slice(0, 200)}`);
+  }
+  const upJson = await upResp.json();
+  const fileUri  = upJson?.file?.uri;
+  const fileName = upJson?.file?.name;
+  if (!fileUri || !fileName) throw new Error("File API didn't return file.uri / file.name");
+  // Poll until ACTIVE.
+  const POLL_TIMEOUT_MS = 60_000;
+  const POLL_INTERVAL_MS = 2_000;
+  const pollStart = Date.now();
+  let fileState = String(upJson?.file?.state || "PROCESSING").toUpperCase();
+  while (fileState !== "ACTIVE") {
+    if (Date.now() - pollStart > POLL_TIMEOUT_MS) {
+      throw new Error(`File API never reached ACTIVE state (last: ${fileState})`);
+    }
+    if (fileState === "FAILED") throw new Error("File API processing FAILED");
+    await new Promise((r) => setTimeout(r, POLL_INTERVAL_MS));
+    const statResp = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/${fileName}?key=${opts.geminiKey}`,
+    );
+    if (!statResp.ok) {
+      const t = await statResp.text();
+      throw new Error(`File API stat failed (${statResp.status}): ${t.slice(0, 200)}`);
+    }
+    const sj = await statResp.json();
+    fileState = String(sj?.state || sj?.file?.state || "PROCESSING").toUpperCase();
+  }
+  return { fileUri, mime: opts.mime };
+}
+
 async function transcribeWithGemini(opts: {
   audioUrl: string;
   startSec?: number;
@@ -315,32 +387,44 @@ async function transcribeWithGemini(opts: {
   if (!audioResp.ok) throw new Error(`audio fetch failed (${audioResp.status})`);
   const audioBytes = new Uint8Array(await audioResp.arrayBuffer());
   const sizeMB = audioBytes.byteLength / (1024 * 1024);
-  if (sizeMB > 18) {
-    throw new Error(`audio too large (${sizeMB.toFixed(1)} MB) — Gemini inline limit is 20 MB total. Split into per-section files for now.`);
-  }
   const mime = audioResp.headers.get("content-type") || "audio/mpeg";
-  // Single-pass, native base64 encoder from @std/encoding. The previous
-  // char-by-char concat scaled O(n²) in V8 and built a 7-10 MB transient
-  // binary string before btoa — when a hot Edge Function instance from a
-  // back-to-back call hadn\'t GC\'d yet, that tipped the worker over the
-  // memory cap and surfaced as 546 WORKER_RESOURCE_LIMIT.
-  const base64 = encodeBase64(audioBytes);
+  if (sizeMB > 200) {
+    throw new Error(`audio too large (${sizeMB.toFixed(1)} MB) — capped at 200 MB.`);
+  }
 
   const timeNote = (opts.startSec || opts.endSec)
-    ? `Transcribe only the segment from ${opts.startSec || 0}s to ${opts.endSec ? opts.endSec + "s" : "the end"} of the audio. Ignore everything outside that range. `
+    ? `Transcribe ONLY the segment from ${opts.startSec || 0}s to ${opts.endSec ? opts.endSec + "s" : "the end"} of the audio. Ignore everything outside that range. `
     : "";
   const prompt =
-    `You are transcribing an IELTS Listening test audio. ${timeNote}` +
+    `You are transcribing a listening-exam audio. ${timeNote}` +
     `Produce a verbatim transcript with speaker labels (Speaker 1, Speaker 2, Narrator, etc.). ` +
     `Preserve speech disfluencies only when they are diegetic to the test. ` +
     `Output plain text — no markdown, no JSON, no preamble.`;
+
+  // Inline path stays at ≤18 MB to leave headroom for prompt + base64
+  // overhead (Gemini's hard limit is 20 MB total). Bigger files take the
+  // File API path — uploads once, then generateContent references by URI
+  // so we sidestep the inline cap entirely.
+  let audioPart: Record<string, unknown>;
+  if (sizeMB <= 18) {
+    const base64 = encodeBase64(audioBytes);
+    audioPart = { inlineData: { mimeType: mime, data: base64 } };
+  } else {
+    const { fileUri } = await uploadAudioToFileApi({
+      audioBytes,
+      mime,
+      geminiKey: opts.geminiKey,
+      displayName: "listening-audio-transcribe",
+    });
+    audioPart = { fileData: { mimeType: mime, fileUri } };
+  }
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${opts.geminiKey}`;
   const body = {
     contents: [{
       parts: [
         { text: prompt },
-        { inlineData: { mimeType: mime, data: base64 } },
+        audioPart,
       ],
     }],
     generationConfig: { temperature: 0.1, maxOutputTokens: 8192 },

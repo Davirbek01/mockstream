@@ -295,8 +295,9 @@ const CEFR_LISTENING_SINGLE_PART_SHAPE = `{
   // mcq-extracts (Part 5):
   "extracts": [                                  // 3 extracts × 2 questions each
     { "extractNumber": 1, "title": "Extract One",
+      "intro": "<context lead-in for the whole extract, e.g. 'You overhear a man telling a friend about a trip to the theatre.' — OMIT or set to '' if the source does not show one>",
       "questions": [
-        { "id": number, "text": "<question stem>", "options": [ { "letter": "A", "text": string }, { "letter": "B", "text": string }, { "letter": "C", "text": string } ] }
+        { "id": number, "text": "<just the question stem — DO NOT prefix with the question number; DO NOT include the extract intro/context here>", "options": [ { "letter": "A", "text": string }, { "letter": "B", "text": string }, { "letter": "C", "text": string } ] }
       ]
     }
   ],
@@ -425,8 +426,9 @@ Do this only when the source actually shows the letter as a paragraph marker (yo
   • **mcq-extracts** — single-answer A/B/C MCQ (Section 2/3 typical). \`{ "type": "mcq-extracts", "instruction": string,
        "extracts": [
          { "title"?: string,    // optional sub-heading (e.g. "Working as a lifeboat volunteer")
+           "intro"?: string,    // optional context lead-in shown ABOVE the questions (e.g. "You overhear a man telling a friend about a trip to the theatre."). Put the extract's context paragraph here — NEVER inside the first question's text.
            "questions": [
-             { "id": number, "text": "<question stem>", "options": [ { "letter": "A", "text": string }, { "letter": "B", ... }, { "letter": "C", ... } ] }
+             { "id": number, "text": "<just the question stem — DO NOT prefix with the question number, DO NOT include the extract's intro/context>", "options": [ { "letter": "A", "text": string }, { "letter": "B", ... }, { "letter": "C", ... } ] }
            ] }
        ] }\` — group questions into "extracts" only if the source visibly groups them under a sub-heading; otherwise use one extract.
 

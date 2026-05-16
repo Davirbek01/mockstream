@@ -1356,7 +1356,12 @@
       display: flex;
       flex-direction: row;
       gap: 0;
-      height: 550px;
+      /* Adapt to viewport so PC fullscreen / tall windows don't leave a
+         huge empty band below the 550px box. Min 450px keeps it readable
+         on small windows; cap at 800px so the layout doesn't get
+         absurdly tall on very large monitors. Mobile keeps its own
+         calc(100vh - 56px) override in the @media block below. */
+      height: clamp(450px, calc(100vh - 200px), 800px);
       border: 2px solid var(--border);
       border-radius: 16px;
       overflow: hidden;
@@ -1441,7 +1446,10 @@
     }
 
     .map-image {
+      width: 100%;
       max-width: 100%;
+      height: auto;
+      display: block;
       border-radius: 12px;
       border: 2px solid var(--border);
     }
@@ -1814,6 +1822,14 @@
       padding: 14px 20px;
       font-weight: 700;
       font-size: 17px;
+    }
+
+    .extract-intro {
+      padding: 14px 20px 0;
+      font-style: italic;
+      color: #475569;
+      line-height: 1.55;
+      font-size: 15px;
     }
 
     .extract-questions {
@@ -2891,7 +2907,8 @@
     /* Drawing Canvas for Map */
     .map-canvas-wrapper {
       position: relative;
-      display: inline-block;
+      display: block;
+      width: 100%;
     }
 
     .map-drawing-canvas {
@@ -4409,6 +4426,12 @@
           window.TEST_DATA = TEST_DATA;
           var isPdfDownload = urlParams.get('download') === 'pdf';
           var hasPerPartAudio = TEST_DATA.parts.some(function(p) { return p.audioFile && p.audioFile.trim() !== ''; });
+          var hasMergedAudio  = TEST_DATA.audioLayout === 'merged' && TEST_DATA.audioFile && String(TEST_DATA.audioFile).trim() !== '';
+          // Merged mode skips per-part preloading (single file, browser
+          // streams). Mark the preload gate satisfied so initAudioLoading's
+          // 200ms polling loop unblocks immediately instead of waiting up
+          // to 30s on the global safety timeout. Mirrors IELTS Listening.
+          if (hasMergedAudio && !hasPerPartAudio) window.audioPreloadComplete = true;
           if (hasPerPartAudio && !isPdfDownload) { preloadAllAudio(); } else { initTest(); }
         })
         .catch(function(err) { console.error('❌ Supabase load failed:', err); showError('Failed to load test from Supabase'); });
@@ -4425,6 +4448,9 @@
           // Skip audio preloading when only downloading PDF
           const isPdfDownload = urlParams.get('download') === 'pdf';
           const hasPerPartAudio = TEST_DATA.parts.some(p => p.audioFile && p.audioFile.trim() !== '');
+          const hasMergedAudio  = TEST_DATA.audioLayout === 'merged' && TEST_DATA.audioFile && String(TEST_DATA.audioFile).trim() !== '';
+          // See merged-mode comment in the Supabase branch above.
+          if (hasMergedAudio && !hasPerPartAudio) window.audioPreloadComplete = true;
           if (hasPerPartAudio && !isPdfDownload) {
             preloadAllAudio();
           } else {
@@ -4621,16 +4647,19 @@
       generateParts();
       showPart(window._practicePart ? (window._practicePart - 1) : 0);
 
-      // Practice mode: hide part nav, show only practised part, always show submit
+      // Practice mode: keep the part nav visible but show ONLY the practised
+      // part's button so the student still sees "Part N" in the header
+      // (same affordance as full-mock mode); other parts are hidden because
+      // they aren't navigable in practice mode.
       if (window._practicePart) {
         var partIdx = window._practicePart - 1;
-        // Hide PC part nav
-        var pcNav = document.getElementById('partNav');
-        if (pcNav) pcNav.style.display = 'none';
-        // Hide mobile part nav
-        var mobNav = document.getElementById('partNavMobile');
-        if (mobNav) mobNav.style.display = 'none';
-        // Hide mobile part dots
+        // Hide all part-btn elements EXCEPT the practised one (covers both
+        // the PC #partNav and the mobile #partNavMobile rows in one sweep).
+        document.querySelectorAll('.part-btn').forEach(function (btn, i) {
+          var modIdx = i % TEST_DATA.parts.length;
+          btn.style.display = modIdx === partIdx ? '' : 'none';
+        });
+        // Hide mobile part dots — they imply navigation, which isn't allowed here.
         document.querySelectorAll('.mobile-part-dot').forEach(function(d){ d.style.display = 'none'; });
         // Hide non-practice part sections
         document.querySelectorAll('.part-section').forEach(function(s, i){
@@ -4779,8 +4808,17 @@
       return html;
     }
 
+    // Gemini-imported mcq-extracts often glue the question number into
+    // the stem ("24 The man says…"), which then renders as "Question 24:
+    // 24 The man says…". Strip the leading id so the visible stem is clean.
+    function _stripLeadingQId(text, id) {
+      if (!text || id == null) return text || '';
+      return String(text).replace(new RegExp('^\\s*' + id + '\\b[\\s.:\\)\\-]+'), '');
+    }
+
     function renderMCQ(q) {
-      return '<div class="question-card"><div class="question-number">Question ' + q.id + (q.text ? ': ' + q.text : '') + '</div><div class="options-list">' +
+      var stem = _stripLeadingQId(q.text, q.id);
+      return '<div class="question-card"><div class="question-number">Question ' + q.id + (stem ? ': ' + stem : '') + '</div><div class="options-list">' +
         q.options.map(opt => '<label class="option-item" data-q="' + q.id + '" data-val="' + opt.letter + '"><input type="radio" name="q' + q.id + '" value="' + opt.letter + '"><span class="option-letter">' + opt.letter + '</span><span class="option-text">' + opt.text + '</span></label>').join('') +
         '</div></div>';
     }
@@ -4897,11 +4935,42 @@
       }
     }
 
+    // Extract context paragraph: prefer the explicit ext.intro field
+    // (clean Gemini import); otherwise, if the first question's text
+    // looks like "<context>. <id> <stem>", split off the context as the
+    // extract's intro and leave just the stem on the question.
+    function _resolveExtractIntro(ext) {
+      if (ext && typeof ext.intro === 'string' && ext.intro.trim()) {
+        return { intro: ext.intro.trim(), firstStem: null };
+      }
+      var first = (ext && ext.questions && ext.questions[0]) || null;
+      if (!first || !first.text || first.id == null) return { intro: '', firstStem: null };
+      var re = new RegExp('^(.+?)\\b' + first.id + '\\b[\\s.:\\)\\-]+(.+)$', 's');
+      var m = String(first.text).match(re);
+      if (!m) return { intro: '', firstStem: null };
+      var intro = (m[1] || '').trim();
+      var stem  = (m[2] || '').trim();
+      if (!intro || !stem) return { intro: '', firstStem: null };
+      return { intro: intro, firstStem: stem };
+    }
+
     function renderExtracts(part) {
       let html = '';
       part.extracts.forEach(ext => {
-        html += '<div class="extract-box"><div class="extract-header">' + ext.title + '</div><div class="extract-questions">';
+        var resolved = _resolveExtractIntro(ext);
+        html += '<div class="extract-box"><div class="extract-header">' + ext.title + '</div>';
+        if (resolved.intro) {
+          html += '<div class="extract-intro">' + resolved.intro + '</div>';
+        }
+        html += '<div class="extract-questions">';
         var qs = ext.questions || [];
+        // If we pulled the intro out of the first question's text, render
+        // the first question with just the stem (renderMCQ also strips
+        // any leading "<id> " from subsequent questions).
+        if (resolved.firstStem && qs.length) {
+          qs = qs.slice();
+          qs[0] = Object.assign({}, qs[0], { text: resolved.firstStem });
+        }
         var qi = 0;
         while (qi < qs.length) {
           var q = qs[qi];
@@ -4972,10 +5041,24 @@
     }
 
     function renderSentenceCompletion(part) {
-      // Replace span placeholders with actual input fields
-      let content = part.passageContent.replace(/<span class="gap-input" data-gap="(\d+)">[^<]*<\/span>/g,
-        '<input type="text" autocomplete="off" class="gap-input sentence-gap" data-q="$1" placeholder="($1)">');
-      return '<div class="passage-container"><div class="passage-title">' + part.passageTitle + '</div><div class="passage-text">' + content + '</div></div>';
+      // Replace span placeholders with actual input fields.
+      var withInputs = String(part.passageContent || '').replace(
+        /<span class="gap-input" data-gap="(\d+)">[^<]*<\/span>/g,
+        '<input type="text" autocomplete="off" class="gap-input sentence-gap" data-q="$1" placeholder="($1)">'
+      );
+      // Wrap each sentence (Gemini emits <br><br> between sentences per the
+      // schema) in its own .gap-fill-row div so the post-submit explanation
+      // toggle climbs to that row instead of the entire passage — keeping
+      // each "💡 Click for explanation" right below its own sentence,
+      // matching the inline placement other parts already have.
+      var pieces = withInputs.split(/<br\s*\/?>\s*<br\s*\/?>/i);
+      if (pieces.length === 1) pieces = withInputs.split(/<br\s*\/?>/i);
+      var bodyHtml = pieces.map(function (p) {
+        var trimmed = p.trim();
+        if (!trimmed) return '';
+        return '<div class="gap-fill-row" style="margin-bottom:18px;">' + trimmed + '</div>';
+      }).join('');
+      return '<div class="passage-container"><div class="passage-title">' + part.passageTitle + '</div><div class="passage-text">' + bodyHtml + '</div></div>';
     }
 
     function showPart(index) {
@@ -7342,6 +7425,14 @@
           window._clMergedRange = { startSec: startSec, endSec: endSec, partIndex: partIndex };
           if (audio.src !== mergedAudio) audio.src = mergedAudio;
           try { audio.currentTime = startSec; } catch (_e) {}
+          // Per-part audio mode pauses the visible player automatically
+          // when audio.src changes to a new URL. In merged mode the src
+          // is the same file, so a non-autoPlay part-switch would leave
+          // both the visible player (now at the new part) AND the hand-
+          // off hiddenAudio (still on the old part) playing at once.
+          // Pause the visible player explicitly so only the background
+          // hand-off continues, matching per-part-mode behavior.
+          if (!autoPlay) { try { audio.pause(); } catch (_e) {} }
         } else {
           window._clMergedRange = null;
           const partNum = part.partNumber || (partIndex + 1);
@@ -7502,6 +7593,46 @@
           setTimeout(initAudioLoading, 200);
           return;
         }
+        const mergedAudio = (window.TEST_DATA.audioLayout === 'merged' && window.TEST_DATA.audioFile)
+          ? window.TEST_DATA.audioFile
+          : null;
+        if (mergedAudio) {
+          // Merged: single audio file, seek to the CURRENT part's startSec
+          // (currentPart is set to 0 on fresh start, or to the resumed part
+          // by session recovery's showPart() before this fires). Wait for
+          // loadedmetadata BEFORE showing the ready popup so by countdown=0
+          // the audio is loaded and play() doesn't silently fail — mirrors
+          // IELTS Listening's merged-audio init exactly.
+          const partIdx  = (typeof currentPart === 'number' && currentPart >= 0)
+            ? currentPart : 0;
+          const partObj  = window.TEST_DATA.parts[partIdx] || window.TEST_DATA.parts[0] || {};
+          const startSec = (typeof partObj.audioStartSec === 'number'
+                           && isFinite(partObj.audioStartSec) && partObj.audioStartSec >= 0)
+            ? partObj.audioStartSec : 0;
+          const nextPart = window.TEST_DATA.parts[partIdx + 1];
+          const endSec   = (nextPart && nextPart.audioStartSec != null)
+            ? Number(nextPart.audioStartSec) : Infinity;
+          window._clMergedRange = { startSec: startSec, endSec: endSec, partIndex: partIdx };
+          currentLoadedPart  = partIdx;
+          soundingPartIndex  = partIdx;
+          audio.src = mergedAudio;
+
+          const onReady = function () {
+            try { audio.currentTime = startSec; } catch (_e) {}
+            if (loadingWrapper) loadingWrapper.classList.add('hidden');
+            if (playerControls) playerControls.classList.add('ready');
+            isAudioReady = true;
+            window.updateNavIndicators();
+            showReadyPopup();
+          };
+          if (isFinite(audio.duration) && audio.duration > 0) {
+            onReady();
+          } else {
+            audio.addEventListener('loadedmetadata', onReady, { once: true });
+            audio.load();
+          }
+          return;
+        }
         if (checkPerPartAudio()) {
           const firstPart = window.TEST_DATA.parts[0];
           const partNum = firstPart.partNumber || 1;
@@ -7523,13 +7654,29 @@
         if (!popup) return;
         popup.style.display = 'flex';
         let countdown = 5;
+        if (countdownEl) countdownEl.textContent = countdown;
+        // audio.play() returns a Promise; if autoplay is blocked (user
+        // gesture went stale during the 5s wait) it rejects silently.
+        // Catch and wait for the next click so the student can still
+        // start by tapping anywhere — same pattern loadPartAudio uses.
+        function safePlay() {
+          var p = audio.play();
+          if (p && typeof p.catch === 'function') {
+            p.catch(function () {
+              document.addEventListener('click', function once() {
+                document.removeEventListener('click', once);
+                audio.play().catch(function () {});
+              }, { once: true });
+            });
+          }
+        }
         const countdownInterval = setInterval(() => {
           countdown--;
           if (countdownEl) countdownEl.textContent = countdown;
           if (countdown <= 0) {
             clearInterval(countdownInterval);
             popup.style.display = 'none';
-            audio.play();
+            safePlay();
           }
         }, 1000);
         [startBtn, waitBtn].forEach(btn => {
@@ -7537,7 +7684,7 @@
             clearInterval(countdownInterval);
             popup.style.display = 'none';
             if (btn === startBtn) {
-              audio.play();
+              safePlay();
             }
           });
         });
@@ -7998,10 +8145,14 @@
       const mobileTimer = document.getElementById('mobileTimer');
       if (timerDisplay && mobileTimer) mobileTimer.textContent = timerDisplay.textContent;
 
-      // Sync Part Tabs
+      // Sync Part Tabs. In practice mode we only emit the practised part
+      // so the mobile Toolkit FAB doesn't expose jump targets to parts
+      // that aren't part of the session (PC nav already does the same).
       const mobilePartTabs = document.getElementById('mobilePartTabs');
       if (mobilePartTabs && window.TEST_DATA) {
+        const practiceIdx = window._practicePart ? (window._practicePart - 1) : null;
         mobilePartTabs.innerHTML = window.TEST_DATA.parts.map((part, i) => {
+          if (practiceIdx !== null && i !== practiceIdx) return '';
           const isActive = i === currentPart;
           return `<div class="part-tab ${isActive ? 'active' : ''}" onclick="showPart(${i}); toggleMobileMenu();">Part ${i + 1}</div>`;
         }).join('') + '<div class="cl-fab-back-btn" id="clFabBackBtn" onclick="window._clFabBack()">↩ Back</div>';
