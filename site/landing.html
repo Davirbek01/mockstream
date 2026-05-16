@@ -17208,17 +17208,33 @@
         .trim();
     }
 
-    // Format an ISO date (YYYY-MM-DD) as a short "Mar 2024" / "2024"
-    // chip for the picker card. Falls open on invalid input.
+    // Format an ISO date for the picker card's date chip.
+    //   YYYY-MM-DD   →  "25 Apr 2023"  (full day-level precision)
+    //   YYYY-MM      →  "Apr 2023"     (month-level only)
+    //   YYYY         →  "2023"
+    // Falls open on invalid input. The chip shows whatever precision
+    // Gemini / admin saved — no truncation. Source label cleaner is
+    // separate (only used for dropdown grouping where day-precision
+    // would over-fragment the groups).
     function _iwetFormatExamDate(iso) {
       if (!iso || typeof iso !== 'string') return '';
-      var m = iso.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-      if (!m) return iso;
-      var year = m[1];
-      var monthIdx = parseInt(m[2], 10) - 1;
       var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-      if (monthIdx < 0 || monthIdx > 11) return year;
-      return months[monthIdx] + ' ' + year;
+      var full = iso.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+      if (full) {
+        var monthIdx = parseInt(full[2], 10) - 1;
+        if (monthIdx < 0 || monthIdx > 11) return full[1];
+        var day = parseInt(full[3], 10);
+        return day + ' ' + months[monthIdx] + ' ' + full[1];
+      }
+      var ym = iso.match(/^(\d{4})-(\d{1,2})$/);
+      if (ym) {
+        var monthIdx2 = parseInt(ym[2], 10) - 1;
+        if (monthIdx2 < 0 || monthIdx2 > 11) return ym[1];
+        return months[monthIdx2] + ' ' + ym[1];
+      }
+      var yOnly = iso.match(/^(\d{4})$/);
+      if (yOnly) return yOnly[1];
+      return iso;
     }
 
     async function _iwetLoadSupabaseMockMeta(id) {
