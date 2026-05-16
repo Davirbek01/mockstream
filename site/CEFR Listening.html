@@ -1295,13 +1295,60 @@
       display: none;
     }
 
-    /* Map instructions toggle - hidden on desktop */
+    /* Map instructions toggle — shown on desktop too so the long
+       instruction paragraph collapses into a single row, saving the
+       vertical space the map needs. */
     .map-instructions-toggle {
-      display: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(135deg, #f0fdfa 0%, #ecfdf5 100%);
+      padding: 10px 16px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      border: 1px solid #99f6e4;
     }
-
+    .map-instructions-toggle .toggle-title {
+      font-weight: 600;
+      font-size: 14px;
+      color: #0d9488;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .map-instructions-toggle .toggle-arrow {
+      font-size: 12px;
+      color: #0d9488;
+      transition: transform 0.2s;
+    }
+    .map-instructions-toggle.expanded .toggle-arrow {
+      transform: rotate(180deg);
+    }
     .map-instructions-content {
       display: none;
+      padding: 12px 16px;
+      background: white;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: #64748b;
+      line-height: 1.5;
+      font-style: italic;
+      border: 1px solid #e2e8f0;
+    }
+    .map-instructions-content.show {
+      display: block;
+    }
+    /* For map-labeling, the toggle (with title + dropdown arrow) replaces
+       the regular part-header so the big italic instruction doesn't eat
+       the vertical space the map needs. Matches the mobile layout.
+       !important is needed because renderPart slaps an inline
+       `style="display:flex"` on .part-header when the map part is the
+       last one in the test (e.g. a 4-part work-in-progress mock), and
+       inline styles otherwise win. */
+    .part-section:has(.map-instructions-toggle) .part-header {
+      display: none !important;
     }
 
     /* Map styles - Split View */

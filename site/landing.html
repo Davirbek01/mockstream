@@ -16594,7 +16594,18 @@
         ? cefrListeningTests : [];
       const missing = items
         .map((t, idx) => ({ t, key: String(idx + 1).padStart(2, '0') }))
-        .filter(({ key }) => !cachedData[key]);
+        .filter(({ key }) => {
+          // Always (re)fetch entries we don't have yet.
+          const cm = cachedData[key];
+          if (!cm) return true;
+          // In-progress mocks (not all 6 parts ready) change as the admin
+          // adds parts — refetch them every load so students see the
+          // newly-ready parts without waiting for the 24h TTL. Fully-
+          // ready mocks rarely change, so honour the cache for those.
+          const sections = cm.sections || [];
+          const readyCount = sections.filter(p => p.ready).length;
+          return readyCount < sections.length;
+        });
       if (missing.length === 0) return;
       await Promise.all(missing.map(async ({ t, key }) => {
         const spec = _cletParseFileSpec(t && t.file);
@@ -34769,22 +34780,51 @@
       }
     };
 
+    // Persist a freshly-uploaded map URL into mock_data right away so it
+    // survives a pane swap before Save. _mmgFlushStructuredToRaw only
+    // collects the *active* tab, so if the admin uploads on Part 4 and
+    // then clicks another tab before Save, the Part-4 input has already
+    // been destroyed and the URL is lost. Writing straight into the raw
+    // JSON textarea sidesteps the race.
+    function _mmgClPersistMapImage(idx, url) {
+      if (!url) return;
+      var md = _mmgGetMockData();
+      if (!md) return;
+      md.parts = md.parts || [];
+      while (md.parts.length <= idx) md.parts.push({});
+      md.parts[idx].mapImage = url;
+      _mmgSetMockData(md);
+    }
+
     // CEFR Listening — upload map image for Part 4 (map-labeling). Reuses
-    // the shared IELTS uploader which handles signed-URL + GCS PUT.
+    // the shared IELTS signer (signed-URL + GCS PUT) but awaits the URL
+    // so we can persist it into mock_data immediately.
     window._mmgClUploadMapImage = function (idx) {
       var n = idx + 1;
-      if (typeof _mmgIlPickAndUpload !== 'function') {
+      if (typeof _mmgIlSignAndUpload !== 'function') {
         var s = document.getElementById('mmgClP' + n + '_mapImageStatus');
         if (s) { s.textContent = 'Upload helper missing'; s.style.color = '#dc2626'; }
         return;
       }
-      _mmgIlPickAndUpload({
-        accept: 'image/*',
-        statusEl: document.getElementById('mmgClP' + n + '_mapImageStatus'),
-        urlInputId: 'mmgClP' + n + '_mapImage',
-        kind: 'image',
-        subdir: 'cefr-part-' + n + '-map'
-      });
+      var inp = document.createElement('input');
+      inp.type = 'file';
+      inp.accept = 'image/*';
+      inp.style.display = 'none';
+      inp.onchange = async function () {
+        var f = inp.files && inp.files[0];
+        if (!f) return;
+        var url = await _mmgIlSignAndUpload({
+          file: f,
+          statusEl: document.getElementById('mmgClP' + n + '_mapImageStatus'),
+          urlInputId: 'mmgClP' + n + '_mapImage',
+          kind: 'image',
+          subdir: 'cefr-part-' + n + '-map'
+        });
+        if (url) _mmgClPersistMapImage(idx, url);
+      };
+      document.body.appendChild(inp);
+      inp.click();
+      setTimeout(function () { try { document.body.removeChild(inp); } catch (_e) {} }, 60000);
     };
 
     // 📋 Paste — read the clipboard for an image and push it straight
@@ -34822,13 +34862,14 @@
         if (!file) {
           setStatus('No image on clipboard — copy a screenshot first', '#dc2626'); return;
         }
-        _mmgIlSignAndUpload({
+        var url = await _mmgIlSignAndUpload({
           file: file,
           statusEl: statusEl,
           urlInputId: 'mmgClP' + n + '_mapImage',
           kind: 'image',
           subdir: 'cefr-part-' + n + '-map'
         });
+        if (url) _mmgClPersistMapImage(idx, url);
       } catch (e) {
         var msg = (e && e.message) || String(e);
         if (/permission/i.test(msg)) {
