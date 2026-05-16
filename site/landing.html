@@ -31382,6 +31382,22 @@
         html += _mmgFieldText(f.label, 'mmgSet_' + f.k, s[f.k], f.help);
       }
 
+      // IELTS Writing — Auto-tag button. Sends Gemini the existing
+      // prompts + chart image (if any) and fills the picker filter
+      // fields (chartType, dataNature, essayType, short titles). Does
+      // NOT touch the prompts, instructions, sample answers, or chart
+      // upload. Admin can edit anything after.
+      if (type === 'ielts-writing') {
+        html += '<div class="mmg-section-title" style="margin-top:20px;">✨ Auto-tag this mock</div>';
+        html += '<div style="background:linear-gradient(135deg,#fdf4ff,#faf5ff);border:1px solid #e9d5ff;border-radius:10px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">'
+              +   '<div style="flex:1;min-width:240px;font-size:12px;color:#581c87;line-height:1.5;">'
+              +     'Sends Gemini the existing Task 1 + Task 2 prompts (and the Task 1 chart image, if uploaded) and fills the picker filter tags: <strong>chart type, data nature, essay type, short topic titles</strong>. Existing prompts and samples are not touched — review and edit anything after.'
+              +   '</div>'
+              +   '<button type="button" id="mmgIwAutoTagBtn" onclick="_mmgIwAutoTag()" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(124,58,237,.3);white-space:nowrap;">✨ Auto-tag with Gemini</button>'
+              + '</div>';
+        html += '<div id="mmgIwAutoTagStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;font-weight:500;"></div>';
+      }
+
       // Speaking-only extras: images, voice picker, IELTS announcements, bulk-audio button.
       if (type === 'cefr-speaking' || type === 'ielts-speaking') {
         var images = (md.images = md.images || {});
@@ -31698,6 +31714,129 @@
         + 'style="max-width:100%;max-height:280px;border-radius:6px;" '
         + 'onerror="this.outerHTML=\'<span style=&quot;color:#dc2626;font-size:12px;&quot;>⚠ image failed to load — check URL</span>\'">';
     }
+
+    // ── IELTS Writing — Settings-tab "Auto-tag this mock" handler ──────
+    // Reads task1.prompt, task1.chartImageUrl, task2.prompt from the
+    // current mock_data; optionally fetches the chart image bytes as
+    // base64 from GCS; POSTs scope=tags to transcribe-mock; merges the
+    // returned tag fields back into mock_data (chartType, dataNature,
+    // essayType, short titles) WITHOUT overwriting prompts / samples /
+    // chart URLs. Admin reviews + edits + saves.
+    function _mmgArrayBufferToBase64(buffer) {
+      const bytes = new Uint8Array(buffer);
+      let binary = '';
+      const chunkSize = 0x8000;
+      for (let i = 0; i < bytes.length; i += chunkSize) {
+        binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunkSize));
+      }
+      return btoa(binary);
+    }
+    window._mmgIwAutoTag = async function () {
+      var statusEl = document.getElementById('mmgIwAutoTagStatus');
+      var btnEl    = document.getElementById('mmgIwAutoTagBtn');
+      function setStatus(msg, color) {
+        if (statusEl) { statusEl.textContent = msg; statusEl.style.color = color || '#64748b'; }
+      }
+      // Flush any pending field edits into mock_data first so we don't
+      // read a stale prompt that the admin just typed but hasn't tabbed
+      // away from yet.
+      if (typeof _mmgFlushStructuredToRaw === 'function' && !_mmgFlushStructuredToRaw()) {
+        setStatus('Fix the highlighted field, then click Auto-tag.', '#dc2626');
+        return;
+      }
+      var md = _mmgGetMockData();
+      if (!md) { setStatus('Invalid mock_data JSON.', '#dc2626'); return; }
+      var t = (md.tasks && typeof md.tasks === 'object') ? md.tasks : {};
+      var t1 = (t.task1 && typeof t.task1 === 'object') ? t.task1 : {};
+      var t2 = (t.task2 && typeof t.task2 === 'object') ? t.task2 : {};
+      var t1Prompt = String(t1.prompt || '').trim();
+      var t2Prompt = String(t2.prompt || '').trim();
+      if (!t1Prompt && !t2Prompt) {
+        setStatus('Both prompts empty — fill at least one via "Import this task" or type manually first.', '#dc2626');
+        return;
+      }
+      if (!window._mmgPasscode) {
+        setStatus('Admin passcode missing — close + reopen the panel and try again.', '#dc2626');
+        return;
+      }
+      if (btnEl) { btnEl.disabled = true; btnEl.style.opacity = '0.6'; btnEl.style.cursor = 'wait'; var _prev = btnEl.innerHTML; btnEl.innerHTML = '⏳ Tagging…'; btnEl.__prev = _prev; }
+      setStatus('Calling Gemini…');
+
+      // Optionally fetch the chart image so Gemini can use it as a
+      // visual tie-breaker. Best-effort: if the fetch fails (CORS,
+      // network blip, image deleted), we just send prompts alone.
+      var files = [];
+      if (t1.chartImageUrl && String(t1.chartImageUrl).trim()) {
+        try {
+          var resp = await fetch(String(t1.chartImageUrl).trim());
+          if (resp.ok) {
+            var ab = await resp.arrayBuffer();
+            var mime = resp.headers.get('content-type') || 'image/png';
+            files.push({
+              name: 'task1-chart',
+              mime: mime,
+              base64: _mmgArrayBufferToBase64(ab),
+              group: 'chart-image'
+            });
+          }
+        } catch (_e) { /* swallow — send prompts alone */ }
+      }
+
+      try {
+        var r = await fetch(_MMG_TRANSCRIBE_URL, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': _MMG_ANON, 'Authorization': 'Bearer ' + _MMG_ANON },
+          body: JSON.stringify({
+            adminPasscode: window._mmgPasscode,
+            exam_type:     'ielts-writing',
+            scope:         'tags',
+            task1_prompt:  t1Prompt,
+            task2_prompt:  t2Prompt,
+            files:         files
+          })
+        });
+        var j = await r.json().catch(function () { return { error: 'bad_response' }; });
+        if (!r.ok || j.error) {
+          var detail = j.detail || j.fallback_reason || j.gpt_error || j.gemini_error;
+          throw new Error((j.error || ('HTTP ' + r.status)) + (detail ? ' — ' + String(detail).slice(0, 200) : ''));
+        }
+        var tags = j.tags || {};
+        var tt1  = tags.task1 || {};
+        var tt2  = tags.task2 || {};
+
+        // Apply each tag if Gemini returned one. Overwrites existing
+        // tag values (admin clicked the button = explicit re-tag intent)
+        // but never touches prompt / instruction / wordGoal / timeMinutes
+        // / chartImageUrl / sample fields.
+        var applied = [];
+        md.tasks = md.tasks || {};
+        md.tasks.task1 = md.tasks.task1 || {};
+        md.tasks.task2 = md.tasks.task2 || {};
+        if (tt1.title)      { md.tasks.task1.title      = tt1.title;      applied.push('T1 title'); }
+        if (tt1.chartType)  { md.tasks.task1.chartType  = tt1.chartType;  applied.push('T1 chart'); }
+        if (tt1.dataNature) { md.tasks.task1.dataNature = tt1.dataNature; applied.push('T1 data'); }
+        if (tt2.title)      { md.tasks.task2.title      = tt2.title;      applied.push('T2 title'); }
+        if (tt2.essayType)  { md.tasks.task2.essayType  = tt2.essayType;  applied.push('T2 essay'); }
+
+        _mmgSetMockData(md);
+        // Re-render whatever pane is currently shown so the admin sees
+        // the new values immediately (Settings tab itself isn't affected,
+        // but if they switch to Task 1 / Task 2 the dropdowns will be
+        // populated).
+        if (typeof _mmgInitTabs === 'function') { window._mmgActiveTab = null; _mmgInitTabs(); _mmgSwitchTab('settings'); }
+
+        var modelLabel = (j.model_used === 'gpt-4o') ? 'via GPT-4o (Gemini fallback)' : 'via Gemini 2.5 Pro';
+        if (applied.length === 0) {
+          setStatus('✓ Done ' + modelLabel + ' — but Gemini couldn\'t infer any tags from this prompt. Try editing the prompt or upload the chart image.', '#d97706');
+        } else {
+          setStatus('✓ Tagged (' + applied.join(', ') + ') ' + modelLabel + ' — review on Task 1 / Task 2 tabs, then Save.', '#16a34a');
+        }
+      } catch (e) {
+        setStatus('✗ ' + (e.message || String(e)), '#dc2626');
+      } finally {
+        if (btnEl) { btnEl.disabled = false; btnEl.style.opacity = ''; btnEl.style.cursor = ''; if (btnEl.__prev != null) btnEl.innerHTML = btnEl.__prev; }
+      }
+    };
 
     // ─────────────────────────────────────────────────────────────────────
     //  Reusable media upload widget

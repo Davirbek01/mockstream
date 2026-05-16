@@ -895,6 +895,164 @@ async function _explanationsViaGPT4o(prompt: string): Promise<string> {
   return text;
 }
 
+// ── IELTS Writing auto-tag (scope=tags) ────────────────────────────
+// One-shot: given the existing task prompts and an optional Task 1
+// chart image, emit the picker-filter tags for both tasks. Used by
+// the editor's Settings-tab "✨ Auto-tag this mock" button.
+//   • task1.title          — short topic phrase (3-6 words)
+//   • task1.chartType      — line_graph | bar_chart | pie_chart | table | map | process_diagram
+//   • task1.dataNature     — over-time | static | not-applicable
+//   • task2.title          — short topic phrase (3-6 words)
+//   • task2.essayType      — opinion | balanced | problem-solution | advantage-disadvantage | two-part
+type TagsResult = {
+  tags: {
+    task1: { title?: string; chartType?: string; dataNature?: string };
+    task2: { title?: string; essayType?: string };
+  };
+  modelUsed:      'gemini-2.5-pro' | 'gpt-4o';
+  fallbackReason: string | null;
+};
+
+async function generateIeltsWritingTags(opts: {
+  task1Prompt: string;
+  task2Prompt: string;
+  chartFile:   FileItem | null;
+  geminiKey:   string;
+}): Promise<TagsResult> {
+  const t1 = opts.task1Prompt.trim();
+  const t2 = opts.task2Prompt.trim();
+
+  const promptText =
+`You are tagging an IELTS Writing mock for a fullscreen mock picker. The admin has already typed the task prompts below; your job is to infer the picker filter tags. DO NOT rewrite the prompts — only emit the tag fields. Output ONE JSON object, no commentary, no markdown.
+
+Output shape (omit any tag you genuinely cannot infer — leave it as null):
+{
+  "task1": {
+    "title":      "<3-6 word short topic phrase derived from the chart subject, e.g. 'Online shopping growth'. NEVER 'Task 1'>" | null,
+    "chartType":  "line_graph" | "bar_chart" | "pie_chart" | "table" | "map" | "process_diagram" | null,
+    "dataNature": "over-time" | "static" | "not-applicable" | null
+  },
+  "task2": {
+    "title":     "<3-6 word short topic phrase derived from the essay subject, e.g. 'Working from home'. NEVER 'Task 2'>" | null,
+    "essayType": "opinion" | "balanced" | "problem-solution" | "advantage-disadvantage" | "two-part" | null
+  }
+}
+
+Detection rules:
+• chartType: read the prompt wording. "The graph below" / "line graph" → line_graph; "bar chart" → bar_chart; "pie chart" → pie_chart; "the table" → table; "the map" / "the maps" / "the changes that have taken place" with two-time-period plans → map; "the diagram" / "process" / "stages of" → process_diagram. If a T1 chart image is attached, use it as the visual tie-breaker.
+• dataNature: "over-time" when years/decades/months appear in the prompt (X-axis is time) OR the chart visibly tracks a metric across a time span. "static" for single-time-point comparisons (one year, one pie, one comparison table). "not-applicable" for map and process_diagram chart types — they don't have a time dimension.
+• essayType (Task 2): pattern-match the question form:
+  - "To what extent do you agree or disagree" / "Do you think…" / "Is this a positive or negative development" → opinion
+  - "Discuss both views and give your opinion" → balanced
+  - "What are the problems…?" + "What can be done…?" or "causes / solutions" pointing at fixes → problem-solution
+  - "Do the advantages outweigh the disadvantages" / "advantages and disadvantages" → advantage-disadvantage
+  - Two distinct numbered or sentence-form questions on different topics → two-part
+
+Task 1 prompt:
+${t1 || '(empty — task 1 not yet written; leave all task1 tags null)'}
+
+Task 2 prompt:
+${t2 || '(empty — task 2 not yet written; leave all task2 tags null)'}`;
+
+  // Build the multimodal call. If we have a chart image, ship it inline
+  // so Gemini can disambiguate chart types whose prompt wording is
+  // ambiguous ("the chart below shows…").
+  const parts: Array<{ text: string } | { inlineData: { mimeType: string; data: string } }> = [
+    { text: promptText }
+  ];
+  if (opts.chartFile && opts.chartFile.base64) {
+    parts.push({ text: '\n[Task 1 chart image follows — use it as visual tie-breaker for chartType + dataNature]' });
+    parts.push({ inlineData: { mimeType: opts.chartFile.mime, data: opts.chartFile.base64 } });
+  }
+
+  const body = {
+    contents: [{ role: 'user', parts }],
+    generationConfig: {
+      temperature: 0.1,
+      responseMimeType: 'application/json',
+      maxOutputTokens: 1024,
+      thinkingConfig: { thinkingBudget: -1 }
+    },
+    safetySettings: [
+      { category: 'HARM_CATEGORY_HARASSMENT',        threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_HATE_SPEECH',       threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' }
+    ]
+  };
+
+  let modelUsed: 'gemini-2.5-pro' | 'gpt-4o' = 'gemini-2.5-pro';
+  let fallbackReason: string | null = null;
+  let raw = '';
+  try {
+    const r = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${opts.geminiKey}`,
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
+    );
+    if (!r.ok) throw new Error(`gemini http ${r.status}: ${(await r.text()).slice(0, 200)}`);
+    const j = await r.json();
+    const cand = j?.candidates?.[0];
+    if (cand?.finishReason && cand.finishReason !== 'STOP') throw new Error(`gemini finishReason=${cand.finishReason}`);
+    raw = cand?.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
+    if (!raw.trim()) throw new Error('gemini returned empty text');
+  } catch (e) {
+    fallbackReason = e instanceof Error ? e.message : String(e);
+    // GPT-4o fallback. Only available when there's no PDF; tags-only flow has no PDFs.
+    try {
+      const r2 = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${OPENAI_KEY}` },
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          messages: [
+            { role: 'system', content: 'You output ONLY the JSON object the user describes — no prose, no markdown.' },
+            { role: 'user',   content: promptText }
+          ],
+          response_format: { type: 'json_object' },
+          temperature: 0.1
+        })
+      });
+      if (!r2.ok) throw new Error(`gpt-4o http ${r2.status}: ${(await r2.text()).slice(0, 200)}`);
+      const j2 = await r2.json();
+      raw = j2?.choices?.[0]?.message?.content || '';
+      modelUsed = 'gpt-4o';
+    } catch (gptErr) {
+      throw new Error(`both models failed. gemini: ${fallbackReason}; gpt-4o: ${gptErr instanceof Error ? gptErr.message : String(gptErr)}`);
+    }
+  }
+
+  let parsed: any;
+  try { parsed = JSON.parse(raw.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '')); }
+  catch (e) { throw new Error(`tag JSON parse failed: ${(e as Error).message} — raw: ${raw.slice(0, 200)}`); }
+
+  // Sanity-check the values against the closed enums; anything outside
+  // the enum collapses to null so the client doesn't pollute mock_data
+  // with a model-invented label.
+  const CHART_SET = new Set(['line_graph','bar_chart','pie_chart','table','map','process_diagram']);
+  const NATURE_SET = new Set(['over-time','static','not-applicable']);
+  const ESSAY_SET = new Set(['opinion','balanced','problem-solution','advantage-disadvantage','two-part']);
+  const pick = (v: unknown, set: Set<string>) => typeof v === 'string' && set.has(v) ? v : null;
+  const pickStr = (v: unknown) => typeof v === 'string' && v.trim() ? v.trim() : null;
+
+  const t1Out = parsed?.task1 || {};
+  const t2Out = parsed?.task2 || {};
+  return {
+    tags: {
+      task1: {
+        title:      pickStr(t1Out.title)      || undefined,
+        chartType:  pick(t1Out.chartType,  CHART_SET)  || undefined,
+        dataNature: pick(t1Out.dataNature, NATURE_SET) || undefined
+      },
+      task2: {
+        title:     pickStr(t2Out.title)     || undefined,
+        essayType: pick(t2Out.essayType, ESSAY_SET) || undefined
+      }
+    },
+    modelUsed,
+    fallbackReason
+  };
+}
+
 async function generateExplanations(
   passage: Record<string, unknown>,
   examType: string
@@ -1431,6 +1589,42 @@ Deno.serve(async (req) => {
 
   // IELTS Listening import is now fully wired (see buildPrompt's
   // ieltsListeningTypeGuide rule 11). Single shared code path with reading.
+
+  // ── TAGS scope (IELTS Writing only): one-click auto-tag flow ─────
+  // Sends Gemini the existing task1/task2 prompts (plus an optional
+  // T1 chart image) and asks for just the picker-filter fields back:
+  //   task1.title / chartType / dataNature
+  //   task2.title / essayType
+  // The handler does NOT touch prompts, instructions, word goals,
+  // chart images, or sample answers — admin runs this on a mock that
+  // already has prompts filled in and just wants the tags inferred.
+  if ((body.scope || '').toString() === 'tags' && examType === 'ielts-writing') {
+    const t1Prompt = String(body.task1_prompt || '').trim();
+    const t2Prompt = String(body.task2_prompt || '').trim();
+    if (!t1Prompt && !t2Prompt) {
+      return json(400, { error: 'no_prompts', detail: 'scope=tags requires at least one of task1_prompt / task2_prompt to be non-empty.' });
+    }
+    const chartFiles = (Array.isArray(body.files) ? body.files : []) as FileItem[];
+    try {
+      const result = await generateIeltsWritingTags({
+        task1Prompt: t1Prompt,
+        task2Prompt: t2Prompt,
+        chartFile:   chartFiles.find(f => f && f.mime && f.mime.startsWith('image/')) || null,
+        geminiKey:   GEMINI_KEY
+      });
+      return json(200, {
+        tags:           result.tags,
+        model_used:     result.modelUsed,
+        fallback_reason: result.fallbackReason || undefined,
+        actor:           (auth as AuthOk).actor
+      });
+    } catch (e) {
+      return json(502, {
+        error:  'tags_failed',
+        detail: e instanceof Error ? e.message : String(e)
+      });
+    }
+  }
 
   // ── EXPLANATIONS scope: separate flow, no file upload ───────────
   // Generates { qN: { text, quote } } for an already-imported passage.
