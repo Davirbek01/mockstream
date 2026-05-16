@@ -1162,6 +1162,159 @@ ${t2 || '(empty — task 2 not yet written; leave all task2 tags null)'}`;
   };
 }
 
+// ── IELTS Writing chart enhance (scope=enhance-chart) ──────────────
+// Returns a cleaned-up chart image in one of two modes:
+//
+//   • 'visual'    — Gemini 2.5 Flash Image takes the raw screenshot
+//                   and returns a polished version (same data,
+//                   sharper text, white background, no watermark).
+//   • 'rerender'  — Two-pass: Gemini 2.5 Pro reads the chart and
+//                   emits a structured spec (type, axes, series);
+//                   Gemini 2.5 Flash Image then draws a fresh chart
+//                   from that spec in Cambridge-IELTS style.
+//
+// Both modes return base64 PNG. 'rerender' additionally returns the
+// extracted spec so the frontend can show it for debugging.
+async function enhanceIeltsChart(opts: {
+  imageBase64: string;
+  mimeType:    string;
+  mode:        'visual' | 'rerender';
+  chartTypeHint?: string;
+  geminiKey:   string;
+}): Promise<{ imageBase64: string; mimeType: string; spec?: unknown; modelChain: string }> {
+  const { imageBase64, mimeType, mode, chartTypeHint, geminiKey } = opts;
+
+  if (mode === 'visual') {
+    // Direct image-in image-out via gemini-2.5-flash-image. The model
+    // takes the original screenshot and the text prompt as parts; we
+    // ask for an IMAGE-only response back.
+    const prompt = `You are cleaning up an IELTS Writing Task 1 chart screenshot for student use.
+Produce a polished version of THIS EXACT chart with these requirements:
+1. Preserve every data value, label, legend entry, title, and axis exactly as in the original.
+2. Background: pure white (#FFFFFF). Remove any tint, watermark, or page background.
+3. Sharpen all text and numerals to crisp typography (Arial / sans-serif).
+4. Use clean black axis lines and a tidy legend.
+5. ${chartTypeHint ? `The chart is a ${chartTypeHint.replace('_', ' ')}.` : 'Keep the chart type identical to the source.'}
+6. Output ONE image only. No extra text, no annotations beyond what is on the original chart.`;
+    const parts = [
+      { text: prompt },
+      { inlineData: { mimeType, data: imageBase64 } }
+    ];
+    const r = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent?key=${geminiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ role: 'user', parts }],
+          generationConfig: { responseModalities: ['IMAGE'] }
+        })
+      }
+    );
+    if (!r.ok) throw new Error(`flash-image http ${r.status}: ${(await r.text()).slice(0, 200)}`);
+    const j = await r.json();
+    const respParts = j?.candidates?.[0]?.content?.parts || [];
+    for (const p of respParts) {
+      if (p.inlineData?.data) {
+        return {
+          imageBase64: p.inlineData.data,
+          mimeType:    p.inlineData.mimeType || 'image/png',
+          modelChain:  'gemini-2.5-flash-image'
+        };
+      }
+    }
+    throw new Error('flash-image returned no inlineData');
+  }
+
+  // ── 'rerender' mode: two-pass ──────────────────────────────────────
+  // Pass 1 — Gemini 2.5 Pro reads the chart and emits a structured spec.
+  const specPrompt = `You are analysing an IELTS Writing Task 1 chart. Read the image carefully and emit JSON describing the data shown. Output ONLY the JSON object — no prose, no markdown fence.
+
+Shape:
+{
+  "chartType": "line_graph" | "bar_chart" | "pie_chart" | "table" | "map" | "process_diagram",
+  "title":     string,
+  "xAxis":     { "label": string, "values": string[] }     // ordered tick labels (years, categories, ...)
+  "yAxis":     { "label": string, "unit": string },        // e.g. "Percentage of population", "%"
+  "series":    [ { "name": string, "values": number[] } ], // one entry per line / bar group; values aligned to xAxis.values
+  "legend":    string[],                                   // names of each series, in display order
+  "notes":     string                                      // anything else worth preserving (source line, range, etc.)
+}
+
+Be faithful to the numbers visible in the image. If the value is ambiguous, pick the closest readable value rather than guessing wildly. For pie_chart use a single series whose values are percentages. For map / process_diagram the structured shape doesn't fit; instead return { "chartType": "...", "title": "...", "notes": "Not re-renderable — use visual mode." } and leave series empty.`;
+  const specParts = [
+    { text: specPrompt },
+    { inlineData: { mimeType, data: imageBase64 } }
+  ];
+  const r1 = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${geminiKey}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ role: 'user', parts: specParts }],
+        generationConfig: {
+          temperature:        0.1,
+          responseMimeType:   'application/json',
+          maxOutputTokens:    2048,
+          thinkingConfig:     { thinkingBudget: -1 }
+        }
+      })
+    }
+  );
+  if (!r1.ok) throw new Error(`pro-spec http ${r1.status}: ${(await r1.text()).slice(0, 200)}`);
+  const j1   = await r1.json();
+  const raw1 = j1?.candidates?.[0]?.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
+  let spec: any;
+  try { spec = JSON.parse(raw1.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '')); }
+  catch (e) { throw new Error(`spec JSON parse failed: ${(e as Error).message} — raw: ${raw1.slice(0, 200)}`); }
+
+  // Pass 2 — Gemini 2.5 Flash Image draws a brand-new clean chart from
+  // the spec in Cambridge-IELTS style.
+  const drawPrompt = `Draw a clean Cambridge-IELTS-style ${String(spec?.chartType || 'chart').replace('_', ' ')} from this exact data.
+
+Title: ${spec?.title || '(no title)'}
+X axis (${spec?.xAxis?.label || 'category'}): ${(spec?.xAxis?.values || []).join(', ')}
+Y axis (${spec?.yAxis?.label || 'value'}, unit ${spec?.yAxis?.unit || ''}):
+${(spec?.series || []).map((s: any) => `  • ${s.name}: ${(s.values || []).join(', ')}`).join('\n')}
+Legend order: ${(spec?.legend || []).join(', ')}
+${spec?.notes ? 'Notes: ' + spec.notes : ''}
+
+Visual style requirements:
+- Pure white background (#FFFFFF). No watermark, no extra annotation.
+- Clean black axes, tick marks, and gridlines (light grey, 0.5px).
+- Typography: Arial / sans-serif, crisp at small sizes.
+- Bar / line colours: Cambridge Press palette (#1f77b4 navy, #d62728 red, #2ca02c green, #ff7f0e orange, #9467bd purple).
+- Title centred at the top, axis labels in a smaller weight.
+- Legend below or to the right, no border around the legend box.
+- Output ONE image only. Do not add explanatory text.`;
+  const r2 = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent?key=${geminiKey}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ role: 'user', parts: [{ text: drawPrompt }] }],
+        generationConfig: { responseModalities: ['IMAGE'] }
+      })
+    }
+  );
+  if (!r2.ok) throw new Error(`flash-image-render http ${r2.status}: ${(await r2.text()).slice(0, 200)}`);
+  const j2 = await r2.json();
+  const respParts2 = j2?.candidates?.[0]?.content?.parts || [];
+  for (const p of respParts2) {
+    if (p.inlineData?.data) {
+      return {
+        imageBase64: p.inlineData.data,
+        mimeType:    p.inlineData.mimeType || 'image/png',
+        spec,
+        modelChain:  'gemini-2.5-pro → gemini-2.5-flash-image'
+      };
+    }
+  }
+  throw new Error('flash-image-render returned no inlineData');
+}
+
 async function generateExplanations(
   passage: Record<string, unknown>,
   examType: string
@@ -1696,8 +1849,8 @@ Deno.serve(async (req) => {
   // two free-response tasks — reject any other scope.
   if (examType === 'ielts-writing') {
     const _iwScope = (body.scope || 'full').toString();
-    if (_iwScope !== 'passage' && _iwScope !== 'tags' && _iwScope !== 'find-source') {
-      return json(400, { error: 'bad_scope', detail: 'IELTS Writing supports scope: "passage" / "tags" / "find-source". Got "' + _iwScope + '".' });
+    if (_iwScope !== 'passage' && _iwScope !== 'tags' && _iwScope !== 'find-source' && _iwScope !== 'enhance-chart') {
+      return json(400, { error: 'bad_scope', detail: 'IELTS Writing supports scope: "passage" / "tags" / "find-source" / "enhance-chart". Got "' + _iwScope + '".' });
     }
   }
 
@@ -1732,6 +1885,47 @@ Deno.serve(async (req) => {
       return json(502, {
         error:  'find_source_failed',
         detail: e instanceof Error ? e.message : String(e)
+      });
+    }
+  }
+
+  // ── ENHANCE-CHART scope (IELTS Writing only) ───────────────────────
+  // Cleans up a Task 1 chart screenshot. mode='visual' polishes the
+  // pixels via Flash Image; mode='rerender' extracts a chart spec
+  // with Pro then redraws via Flash Image. Both return base64 PNG so
+  // the client can either preview directly or upload back to GCS.
+  if ((body.scope || '').toString() === 'enhance-chart' && examType === 'ielts-writing') {
+    const enhanceMode = (body.mode || 'visual').toString();
+    if (enhanceMode !== 'visual' && enhanceMode !== 'rerender') {
+      return json(400, { error: 'bad_mode', detail: 'scope=enhance-chart requires mode: "visual" | "rerender". Got "' + enhanceMode + '".' });
+    }
+    const incomingFiles = (Array.isArray(body.files) ? body.files : []) as FileItem[];
+    const img = incomingFiles[0];
+    if (!img || !img.base64 || !img.mime) {
+      return json(400, { error: 'no_chart', detail: 'scope=enhance-chart requires files[0] = { base64, mime, name } for the chart image to enhance.' });
+    }
+    const chartTypeHint = body.chart_type_hint ? String(body.chart_type_hint) : undefined;
+    try {
+      const result = await enhanceIeltsChart({
+        imageBase64:   img.base64,
+        mimeType:      img.mime,
+        mode:          enhanceMode as 'visual' | 'rerender',
+        chartTypeHint,
+        geminiKey:     GEMINI_KEY
+      });
+      return json(200, {
+        imageBase64: result.imageBase64,
+        mimeType:    result.mimeType,
+        spec:        result.spec,
+        modelChain:  result.modelChain,
+        mode:        enhanceMode,
+        actor:       (auth as AuthOk).actor
+      });
+    } catch (e) {
+      return json(502, {
+        error:  'enhance_chart_failed',
+        detail: e instanceof Error ? e.message : String(e),
+        mode:   enhanceMode
       });
     }
   }

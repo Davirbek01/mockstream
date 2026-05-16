@@ -31873,6 +31873,16 @@
               +     '<span style="color:#94a3b8;font-size:12px;">no image url yet</span>'
               +   '</div>'
               + '</div>';
+        // ✨ Enhance-with-AI launcher. Twin-preview modal renders option A
+        // (Gemini 2.5 Flash Image visual cleanup) and option B (Pro spec
+        // extraction → Flash Image re-render) side by side; admin picks
+        // the cleaner one and we PUT it to GCS to replace chartImageUrl.
+        html += '<div class="mmg-field"><label>Enhance the chart</label>'
+              +   '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">'
+              +     '<button type="button" id="mmgIwSetEnhanceBtn" onclick="_mmgIwOpenEnhance()" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(124,58,237,.3);white-space:nowrap;">✨ Enhance with AI</button>'
+              +     '<span style="font-size:11.5px;color:#64748b;flex:1;min-width:200px;">Two Gemini variants side-by-side: visual cleanup vs. re-render from data. Pick the cleaner one to replace the chart.</span>'
+              +   '</div>'
+              + '</div>';
       }
 
       if (keys.length) {
@@ -32299,6 +32309,167 @@
     // returned tag fields back into mock_data (chartType, dataNature,
     // essayType, short titles) WITHOUT overwriting prompts / samples /
     // chart URLs. Admin reviews + edits + saves.
+
+    // ═══ Chart Enhance modal — twin-preview UI ════════════════════════
+    // Two Gemini variants side-by-side:
+    //   A (visual)    — gemini-2.5-flash-image polishes the original
+    //                   screenshot pixels (same data, cleaner output).
+    //   B (rerender)  — gemini-2.5-pro extracts a chart spec, then
+    //                   gemini-2.5-flash-image draws a brand-new chart
+    //                   from that spec in Cambridge-IELTS style.
+    // Each card uploads to GCS on click and replaces chartImageUrl.
+    function _mmgIwEnsureEnhanceModal() {
+      if (document.getElementById('mmgIwEnhanceModal')) return;
+      var modal = document.createElement('div');
+      modal.id = 'mmgIwEnhanceModal';
+      modal.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(15,23,42,.7);z-index:9999;align-items:center;justify-content:center;padding:24px;';
+      modal.innerHTML =
+        '<div style="background:#fff;border-radius:14px;max-width:1100px;width:100%;max-height:90vh;overflow:auto;padding:22px 24px;box-shadow:0 24px 60px rgba(0,0,0,.4);">'
+        + '<div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;">'
+        +   '<h3 style="margin:0;font-size:18px;color:#1e1b4b;flex:1;">✨ Enhance chart with AI</h3>'
+        +   '<button type="button" onclick="_mmgIwCloseEnhance()" style="background:transparent;border:0;font-size:22px;color:#64748b;cursor:pointer;line-height:1;">×</button>'
+        + '</div>'
+        + '<div style="font-size:12.5px;color:#475569;margin-bottom:16px;">Compare two Gemini variants and pick the cleaner one. The chosen image replaces the chart URL in GCS — original is overwritten.</div>'
+        + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch;">'
+        +   _mmgIwEnhanceCardHtml('visual',   'A — Visual cleanup',           'Gemini 2.5 Flash Image polishes the same chart: pure-white background, sharper text, no watermarks. Best when the data is detailed and you trust the original layout.')
+        +   _mmgIwEnhanceCardHtml('rerender', 'B — Re-render from data',      'Gemini 2.5 Pro reads the chart and emits a spec; Flash Image redraws it from that spec in Cambridge-IELTS style. Cleaner lines & typography, but small data values may shift slightly.')
+        + '</div>'
+        + '<div style="margin-top:14px;display:flex;gap:10px;justify-content:flex-end;">'
+        +   '<button type="button" onclick="_mmgIwCloseEnhance()" style="background:#f1f5f9;border:1px solid #cbd5e1;color:#334155;border-radius:8px;padding:8px 16px;font-size:12.5px;font-weight:600;cursor:pointer;">Keep original</button>'
+        + '</div>'
+        + '</div>';
+      document.body.appendChild(modal);
+    }
+    function _mmgIwEnhanceCardHtml(mode, title, blurb) {
+      var border = mode === 'visual' ? '#a7f3d0' : '#fcd34d';
+      var bg     = mode === 'visual' ? '#ecfdf5' : '#fffbeb';
+      return '<div style="border:2px solid ' + border + ';background:' + bg + ';border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;min-height:360px;">'
+        + '<div style="font-size:14px;font-weight:700;color:#0f172a;margin-bottom:4px;">' + title + '</div>'
+        + '<div style="font-size:11.5px;color:#475569;line-height:1.45;margin-bottom:10px;">' + blurb + '</div>'
+        + '<div id="mmgIwEnh_' + mode + '_view" style="flex:1;background:#fff;border:1px dashed #cbd5e1;border-radius:8px;padding:10px;display:flex;align-items:center;justify-content:center;min-height:240px;color:#94a3b8;font-size:12px;">queued…</div>'
+        + '<div id="mmgIwEnh_' + mode + '_status" style="font-size:11px;color:#64748b;margin:8px 0;min-height:14px;"></div>'
+        + '<button type="button" id="mmgIwEnh_' + mode + '_use" onclick="_mmgIwUseEnhanced(\'' + mode + '\')" disabled style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:9px 14px;font-size:12.5px;font-weight:700;cursor:not-allowed;opacity:.5;">Use this version</button>'
+        + '</div>';
+    }
+    window._mmgIwEnhanceResults = { visual: null, rerender: null };
+    window._mmgIwOpenEnhance = async function () {
+      if (typeof _mmgFlushStructuredToRaw === 'function' && !_mmgFlushStructuredToRaw()) {
+        alert('Fix the highlighted field first, then click Enhance.');
+        return;
+      }
+      var md = _mmgGetMockData();
+      var t1 = md && md.tasks && md.tasks.task1;
+      var url = t1 && t1.chartImageUrl;
+      if (!url || !String(url).trim()) {
+        alert('Upload a chart image first, then click Enhance.');
+        return;
+      }
+      _mmgIwEnsureEnhanceModal();
+      var modal = document.getElementById('mmgIwEnhanceModal');
+      modal.style.display = 'flex';
+      // Reset card state
+      ['visual','rerender'].forEach(function (m) {
+        document.getElementById('mmgIwEnh_' + m + '_view').innerHTML   = '<div style="color:#94a3b8;font-size:12px;">Asking Gemini…</div>';
+        document.getElementById('mmgIwEnh_' + m + '_status').textContent = '';
+        var btn = document.getElementById('mmgIwEnh_' + m + '_use');
+        btn.disabled = true; btn.style.cursor = 'not-allowed'; btn.style.opacity = .5;
+        window._mmgIwEnhanceResults[m] = null;
+      });
+      // Fetch chart bytes + base64 once, then fire both modes in parallel.
+      var b64, mime;
+      try {
+        var resp = await fetch(url);
+        if (!resp.ok) throw new Error('chart fetch ' + resp.status);
+        mime = resp.headers.get('content-type') || 'image/png';
+        var buf = await resp.arrayBuffer();
+        b64 = _mmgArrayBufferToBase64(buf);
+      } catch (e) {
+        ['visual','rerender'].forEach(function (m) {
+          document.getElementById('mmgIwEnh_' + m + '_view').innerHTML =
+            '<div style="color:#dc2626;font-size:12px;">Failed to fetch chart: ' + _mmgEsc(e.message || String(e)) + '</div>';
+        });
+        return;
+      }
+      var chartTypeHint = (t1 && t1.chartType) || null;
+      var fileName = (url.split('/').pop() || 'chart.png').split('?')[0];
+      ['visual','rerender'].forEach(function (m) { _mmgIwRunEnhance(m, b64, mime, fileName, chartTypeHint); });
+    };
+    async function _mmgIwRunEnhance(mode, b64, mime, fileName, chartTypeHint) {
+      var viewEl   = document.getElementById('mmgIwEnh_' + mode + '_view');
+      var statusEl = document.getElementById('mmgIwEnh_' + mode + '_status');
+      var btnEl    = document.getElementById('mmgIwEnh_' + mode + '_use');
+      var label    = mode === 'visual' ? 'Flash Image cleanup' : 'Pro → Flash Image re-render';
+      statusEl.textContent = 'Calling Gemini (' + label + ')…';
+      var start = Date.now();
+      try {
+        var r = await fetch(_MMG_TRANSCRIBE_URL, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': _MMG_ANON, 'Authorization': 'Bearer ' + _MMG_ANON },
+          body: JSON.stringify({
+            adminPasscode:   window._mmgPasscode,
+            exam_type:       'ielts-writing',
+            scope:           'enhance-chart',
+            mode:            mode,
+            chart_type_hint: chartTypeHint,
+            files:           [{ base64: b64, mime: mime, name: fileName }]
+          })
+        });
+        var j = await r.json().catch(function () { return { error: 'bad_response' }; });
+        if (!r.ok || j.error) {
+          var detail = j.detail || '';
+          throw new Error((j.error || ('HTTP ' + r.status)) + (detail ? ' — ' + String(detail).slice(0, 200) : ''));
+        }
+        if (!j.imageBase64) throw new Error('no image returned');
+        var dataUri = 'data:' + (j.mimeType || 'image/png') + ';base64,' + j.imageBase64;
+        window._mmgIwEnhanceResults[mode] = { dataUri: dataUri, mimeType: j.mimeType || 'image/png' };
+        viewEl.innerHTML = '<img src="' + dataUri + '" alt="' + mode + ' preview" style="max-width:100%;max-height:280px;border-radius:6px;">';
+        statusEl.textContent = '✓ Ready · ' + Math.round((Date.now() - start) / 1000) + 's · ' + (j.modelChain || label);
+        btnEl.disabled = false; btnEl.style.cursor = 'pointer'; btnEl.style.opacity = 1;
+      } catch (e) {
+        viewEl.innerHTML = '<div style="color:#dc2626;font-size:12px;padding:8px;">Failed: ' + _mmgEsc(e.message || String(e)) + '</div>';
+        statusEl.textContent = '';
+      }
+    }
+    window._mmgIwUseEnhanced = async function (mode) {
+      var res = window._mmgIwEnhanceResults[mode];
+      if (!res || !res.dataUri) return;
+      var btn = document.getElementById('mmgIwEnh_' + mode + '_use');
+      var statusEl = document.getElementById('mmgIwEnh_' + mode + '_status');
+      btn.disabled = true; btn.style.opacity = .5; btn.textContent = 'Uploading…';
+      try {
+        // Convert data URI → Blob → File for the GCS signed-upload flow.
+        var blob = await (await fetch(res.dataUri)).blob();
+        var ext  = (res.mimeType.split('/')[1] || 'png').toLowerCase();
+        var fileName = 'chart-enhanced-' + mode + '-' + Date.now() + '.' + ext;
+        var sig = await _mmgCall('gcs_signed_upload_url', {
+          skill:       'ielts-writing',
+          filename:    fileName,
+          contentType: res.mimeType
+        });
+        if (!sig || !sig.uploadUrl) throw new Error(sig && sig.error || 'no upload url');
+        var put = await fetch(sig.uploadUrl, {
+          method:  'PUT',
+          headers: { 'Content-Type': res.mimeType },
+          body:    blob
+        });
+        if (!put.ok) throw new Error('GCS PUT failed: ' + put.status);
+        // Update the chart URL field + force preview refresh, then close.
+        var urlEl = document.getElementById('mmgIwSet_chartImageUrl');
+        if (urlEl) {
+          urlEl.value = sig.publicUrl;
+          urlEl.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+        _mmgIwCloseEnhance();
+      } catch (e) {
+        statusEl.textContent = '⚠ Upload failed: ' + (e.message || e);
+        btn.disabled = false; btn.style.opacity = 1; btn.textContent = 'Use this version';
+      }
+    };
+    window._mmgIwCloseEnhance = function () {
+      var modal = document.getElementById('mmgIwEnhanceModal');
+      if (modal) modal.style.display = 'none';
+    };
+
     function _mmgArrayBufferToBase64(buffer) {
       const bytes = new Uint8Array(buffer);
       let binary = '';
