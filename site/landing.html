@@ -8576,6 +8576,42 @@
       font-size: 11px;
       font-weight: 700;
     }
+    /* Share buttons for the other 4 pickers — same shape as
+       #iwetPicker .iwet-share but green to match each picker's
+       Take Test button theme. */
+    .iret-share,
+    #iletPicker .ilet-share,
+    #cletPicker .clet-share,
+    .cret-share {
+      background: transparent;
+      border: 1px solid #a7f3d0;
+      color: #047857;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+      transition: background 120ms ease, border-color 120ms ease;
+      margin-right: 8px;
+      white-space: nowrap;
+    }
+    .iret-share:hover,
+    #iletPicker .ilet-share:hover,
+    #cletPicker .clet-share:hover,
+    .cret-share:hover {
+      background: #ecfdf5;
+      border-color: #059669;
+    }
+    .iret-share.iret-share-copied,
+    #iletPicker .ilet-share.ilet-share-copied,
+    #cletPicker .clet-share.clet-share-copied,
+    .cret-share.cret-share-copied {
+      background: #dcfce7;
+      border-color: #86efac;
+      color: #15803d;
+      font-size: 11px;
+      font-weight: 700;
+    }
     /* Exam-date chip — small + muted so the source chip remains the
        primary attribution. Sits next to the source on the card head. */
     #iwetPicker .iwet-exam-date {
@@ -15871,9 +15907,12 @@
             : '<span class="iret-done">★ Done</span>')
         : '';
 
+      const shareBtnHtml = noneReady
+        ? ''
+        : '<button type="button" class="iret-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
       const actionHtml = noneReady
         ? '<span class="iret-coming-soon">Coming soon</span>'
-        : '<button type="button" class="iret-take" data-mock="' + mockNum + '">Take Test →</button>';
+        : (shareBtnHtml + '<button type="button" class="iret-take" data-mock="' + mockNum + '">Take Test →</button>');
 
       // Strip the "🧪 " emoji prefix from the Supabase pilot label so titles
       // sit visually consistent.
@@ -16146,6 +16185,12 @@
         if (!card) return;
         if (card.classList.contains('iret-card-disabled')) return;
         const mockN = card.dataset.mock;
+        const shareBtn = e.target.closest('.iret-share');
+        if (shareBtn) {
+          e.stopPropagation();
+          _pickerShareMock('ielts-reading', 'IELTS Reading Mock', mockN, shareBtn, 'iret-share-copied');
+          return;
+        }
         const isTakeBtn = !!e.target.closest('.iret-take');
 
         if (!isTakeBtn) {
@@ -16400,9 +16445,12 @@
             : '<span class="ilet-done">★ Done</span>')
         : '';
 
+      const shareBtnHtml = noneReady
+        ? ''
+        : '<button type="button" class="ilet-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
       const actionHtml = noneReady
         ? '<span class="ilet-coming-soon">Coming soon</span>'
-        : '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Take Test →</button>';
+        : (shareBtnHtml + '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Take Test →</button>');
 
       // Strip the "🧪 " emoji prefix from the Supabase pilot label so titles
       // sit visually consistent.
@@ -16649,6 +16697,14 @@
         if (!card) return;
         if (card.classList.contains('ilet-card-disabled')) return;
         const mockN = card.dataset.mock;
+        // Share button uses .ilet-share inside #iletPicker, distinct
+        // from #cletPicker which uses .clet-share to avoid theme bleed.
+        const shareBtn = e.target.closest('.ilet-share');
+        if (shareBtn && shareBtn.closest('#iletPicker')) {
+          e.stopPropagation();
+          _pickerShareMock('ielts-listening', 'IELTS Listening Mock', mockN, shareBtn, 'ilet-share-copied');
+          return;
+        }
         const isTakeBtn = !!e.target.closest('.ilet-take');
 
         if (!isTakeBtn) {
@@ -16942,9 +16998,12 @@
             ? '<span class="ilet-done">★ Done · ' + doneInfo.percent + '%</span>'
             : '<span class="ilet-done">★ Done</span>')
         : '';
+      const shareBtnHtml = noneReady
+        ? ''
+        : '<button type="button" class="clet-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
       const actionHtml = noneReady
         ? '<span class="ilet-coming-soon">Coming soon</span>'
-        : '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Take Test →</button>';
+        : (shareBtnHtml + '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Take Test →</button>');
       const cleanTitle = String(item.name || '').replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]+\s*/u, '');
       return '<article class="ilet-card ' + (noneReady ? 'ilet-card-disabled' : '') + '"'
         + ' id="clet-card-' + mockNum + '"'
@@ -17153,6 +17212,12 @@
         if (!card) return;
         if (card.classList.contains('ilet-card-disabled')) return;
         const mockN = card.dataset.mock;
+        const shareBtn = e.target.closest('.clet-share');
+        if (shareBtn) {
+          e.stopPropagation();
+          _pickerShareMock('cefr-listening', 'CEFR Listening Mock', mockN, shareBtn, 'clet-share-copied');
+          return;
+        }
         const isTakeBtn = !!e.target.closest('.ilet-take');
 
         if (!isTakeBtn) {
@@ -17648,18 +17713,19 @@
     }
 
     // Share a mock via the OS share sheet / Telegram share / clipboard,
-    // depending on what the current environment supports. Tries in order:
+    // depending on what the current environment supports. Shared across
+    // all five fullscreen pickers — caller passes its own slug base
+    // ("ielts-writing", "cefr-listening", etc.) and a human title.
+    // Falls back in this order:
     //   1. Telegram Mini App   → openTelegramLink to share to contact / group
-    //   2. navigator.share     → mobile OS share sheet (Telegram, WhatsApp, …)
-    //   3. clipboard.writeText → desktop / older browsers (with toast)
+    //   2. navigator.share     → mobile OS share sheet
+    //   3. clipboard.writeText → desktop / older browsers (button flashes "✓ Copied!")
     //   4. window.prompt       → last-resort manual copy
-    async function _iwetShareMock(mockN, btnEl) {
+    async function _pickerShareMock(slugBase, titleBase, mockN, btnEl, copiedClass) {
       if (!mockN) return;
-      const url = window.location.origin + '/take/ielts-writing-' + encodeURIComponent(mockN);
-      const title = 'IELTS Writing Mock ' + mockN;
+      const url = window.location.origin + '/take/' + slugBase + '-' + encodeURIComponent(mockN);
+      const title = titleBase + ' ' + mockN;
       const shareText = title + ' · ' + url;
-
-      // 1. Inside Telegram Mini App: use Telegram's native share link.
       try {
         const tg = window.Telegram && window.Telegram.WebApp;
         if (tg && typeof tg.openTelegramLink === 'function') {
@@ -17668,38 +17734,34 @@
           return;
         }
       } catch (_e) {}
-
-      // 2. Native Web Share API (mobile + modern desktop).
       if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
         try {
           await navigator.share({ title: title, text: shareText, url: url });
           return;
         } catch (e) {
-          // User cancelled the share sheet — silently abort.
           if (e && e.name === 'AbortError') return;
-          // Other errors fall through to clipboard.
         }
       }
-
-      // 3. Clipboard fallback with a short success state on the button.
       try {
         await navigator.clipboard.writeText(url);
         if (btnEl) {
           const origText = btnEl.textContent;
           btnEl.textContent = '✓ Copied!';
-          btnEl.classList.add('iwet-share-copied');
+          if (copiedClass) btnEl.classList.add(copiedClass);
           btnEl.disabled = true;
           setTimeout(function () {
             btnEl.textContent = origText;
-            btnEl.classList.remove('iwet-share-copied');
+            if (copiedClass) btnEl.classList.remove(copiedClass);
             btnEl.disabled = false;
           }, 1500);
         }
         return;
       } catch (_e) {}
-
-      // 4. Last resort.
       try { window.prompt('Copy this link:', url); } catch (_e) {}
+    }
+    // Backward-compat thin wrapper used by the iwetPicker click handler.
+    async function _iwetShareMock(mockN, btnEl) {
+      return _pickerShareMock('ielts-writing', 'IELTS Writing Mock', mockN, btnEl, 'iwet-share-copied');
     }
 
     async function iwetOpen() {
@@ -18096,9 +18158,12 @@
             : '<span class="cret-done">★ Done</span>')
         : '';
 
+      const shareBtnHtml = noneReady
+        ? ''
+        : '<button type="button" class="cret-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
       const actionHtml = noneReady
         ? '<span class="cret-coming-soon">Coming soon</span>'
-        : '<button type="button" class="cret-take" data-mock="' + mockNum + '">Take Test →</button>';
+        : (shareBtnHtml + '<button type="button" class="cret-take" data-mock="' + mockNum + '">Take Test →</button>');
 
       // Strip the "🧪 " emoji prefix from the Supabase pilot label so titles
       // sit visually consistent.
@@ -18308,6 +18373,12 @@
         if (!card) return;
         if (card.classList.contains('cret-card-disabled')) return;
         const mockN = card.dataset.mock;
+        const shareBtn = e.target.closest('.cret-share');
+        if (shareBtn) {
+          e.stopPropagation();
+          _pickerShareMock('cefr-reading', 'CEFR Reading Mock', mockN, shareBtn, 'cret-share-copied');
+          return;
+        }
         const isTakeBtn = !!e.target.closest('.cret-take');
 
         if (!isTakeBtn) {
