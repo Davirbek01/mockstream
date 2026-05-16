@@ -14224,23 +14224,19 @@
         console.log(`🌐 ${label}: upgraded/added ${rows.length} reading picker entries from Supabase`);
       }
 
-      try { await upgradeReading('cefr-reading',  cefrReadingTests,  'CEFR Reading.html',  'CEFR Reading Test'); }
-      catch (e) { console.warn('CEFR reading dynamic load failed:', e); }
-
-      try { await upgradeReading('ielts-reading', ieltsReadingTests, 'IELTS reading.html', 'IELTS Reading Practice Test'); }
-      catch (e) { console.warn('IELTS reading dynamic load failed:', e); }
-
-      // IELTS Listening — same flow. Picks up admin-created mocks beyond
-      // the static array (mocks 02-50 were migrated 2026-05-14; anything
-      // 51+ is admin-only and only lives in Supabase).
-      try { await upgradeReading('ielts-listening', ieltsListeningTests, 'IELTS listening.html', 'IELTS Listening Practice Test'); }
-      catch (e) { console.warn('IELTS listening dynamic load failed:', e); }
-
-      // CEFR Listening — same flow. Picks up admin-created mocks beyond
-      // the static array (mocks 02-32 were migrated 2026-05-15; anything
-      // 33+ is admin-only and only lives in Supabase).
-      try { await upgradeReading('cefr-listening', cefrListeningTests, 'CEFR Listening.html', 'CEFR Listening Test'); }
-      catch (e) { console.warn('CEFR listening dynamic load failed:', e); }
+      // Run the four upgrades in PARALLEL (Promise.allSettled) instead
+      // of awaiting them sequentially. The old sequential chain meant
+      // CEFR Listening (last in line) waited 3 prior fetches before its
+      // own Supabase call started — on slow mobile networks this gave
+      // students a ~3s window to tap the picker before Mock 33+ were
+      // appended. Parallel = max-of, not sum-of, so the race shrinks
+      // to whichever individual fetch is slowest.
+      await Promise.allSettled([
+        upgradeReading('cefr-reading',    cefrReadingTests,    'CEFR Reading.html',    'CEFR Reading Test').catch(function (e) { console.warn('CEFR reading dynamic load failed:', e); }),
+        upgradeReading('ielts-reading',   ieltsReadingTests,   'IELTS reading.html',   'IELTS Reading Practice Test').catch(function (e) { console.warn('IELTS reading dynamic load failed:', e); }),
+        upgradeReading('ielts-listening', ieltsListeningTests, 'IELTS listening.html', 'IELTS Listening Practice Test').catch(function (e) { console.warn('IELTS listening dynamic load failed:', e); }),
+        upgradeReading('cefr-listening',  cefrListeningTests,  'CEFR Listening.html',  'CEFR Listening Test').catch(function (e) { console.warn('CEFR listening dynamic load failed:', e); }),
+      ]);
 
       // If either full-screen picker is currently open, re-render so
       // entries pushed by the upgrader after the user opened the
@@ -14296,8 +14292,12 @@
         }
       } catch (e) { console.warn('CEFR listening picker re-render failed:', e); }
     };
-    // Run once at page-load (original behaviour).
-    window._mmgRefreshAllPickers();
+    // Run once at page-load and stash the promise so picker open
+    // handlers (cletOpen / iletOpen / iretOpen / cretOpen) can await
+    // freshness before rendering. Without this, a user who opens a
+    // picker faster than the upgrade fetches finish sees the static
+    // array only (missing admin-created mocks).
+    window._mmgRefreshAllPickersPromise = window._mmgRefreshAllPickers();
 
     const ieltsSpeakingTests = [];
     // Mock 01 was migrated to Supabase mock_tests (id=10). The renderer's
@@ -15820,6 +15820,7 @@
       try { history.pushState({ picker: 'iret' }, ''); } catch (_e) {}
       _pickerShowTmaBack();
       _iretRenderSkeletons();
+      try { if (window._mmgRefreshAllPickersPromise) await window._mmgRefreshAllPickersPromise; } catch (_e) {}
       // Parallelise metadata load (50 static JS files) and server-done fetch
       // (one Supabase query). They're independent.
       const [, serverDone] = await Promise.all([
@@ -16304,6 +16305,7 @@
       try { history.pushState({ picker: 'ilet' }, ''); } catch (_e) {}
       _pickerShowTmaBack();
       _iletRenderSkeletons();
+      try { if (window._mmgRefreshAllPickersPromise) await window._mmgRefreshAllPickersPromise; } catch (_e) {}
       // Parallelise metadata load (50 static JS files) and server-done fetch
       // (one Supabase query). They're independent.
       const [, serverDone] = await Promise.all([
@@ -16801,6 +16803,17 @@
       try { history.pushState({ picker: 'clet' }, ''); } catch (_e) {}
       if (typeof _pickerShowTmaBack === 'function') _pickerShowTmaBack();
       _cletRenderSkeletons();
+      // Wait for the Supabase upgrade pass to append admin-created mocks
+      // (33+) to cefrListeningTests before fetching meta. On slow mobile
+      // networks the page-load upgrade can still be in flight when the
+      // user taps the picker; without this await the picker rendered
+      // with only the 32 static entries. Defensive: if the promise hasn't
+      // been initialised (shouldn't happen but belt-and-braces), skip.
+      try {
+        if (window._mmgRefreshAllPickersPromise) {
+          await window._mmgRefreshAllPickersPromise;
+        }
+      } catch (_e) { /* fail open — render whatever we have */ }
       const [, serverDone] = await Promise.all([
         _cletLoadAllMockMeta(),
         _cletFetchServerDone()
@@ -17275,6 +17288,7 @@
       try { history.pushState({ picker: 'cret' }, ''); } catch (_e) {}
       _pickerShowTmaBack();
       _cretRenderSkeletons();
+      try { if (window._mmgRefreshAllPickersPromise) await window._mmgRefreshAllPickersPromise; } catch (_e) {}
       const [, serverDone] = await Promise.all([
         _cretLoadAllMockMeta(),
         _cretFetchServerDone()
