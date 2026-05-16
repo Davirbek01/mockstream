@@ -16042,7 +16042,11 @@
       _iretRender();
     }
 
-    function iretClose() {
+    function iretClose(opts) {
+      // opts.keepUrl=true → caller is forward-navigating to /take/<slug>
+      // and the URL bar must stay there. Default: rewind the picker
+      // history entry + reset /take/ → /landing.html.
+      const keepUrl = !!(opts && opts.keepUrl);
       const overlay = document.getElementById('iretPicker');
       overlay.classList.remove('iret-open');
       overlay.setAttribute('aria-hidden', 'true');
@@ -16052,7 +16056,7 @@
       // a card click pushed /take/<slug> on top of our picker state, the
       // picker close needs to BOTH pop the picker state AND strip the
       // /take/ URL so the visible landing view matches the address bar.
-      if (!_pickerFromPopstate) {
+      if (!_pickerFromPopstate && !keepUrl) {
         try {
           if (history.state && history.state.picker === 'iret') {
             history.back();
@@ -16104,35 +16108,38 @@
         _iretSourceFilter = this.value || '';
         _iretApplyFiltersAndSort();
       });
-      // Card click — keep the picker open. handleReadingMockClick raises the
-      // access-code modal at z-index 100004 (above the picker at 100003), so
-      // students see the lock prompt without losing their place. The runner
-      // iframe takes over the viewport only after the code is verified.
+      // Card click split: whole-card tap previews the /take/<slug> URL
+      // (replaceState only — no nav); Take Test button pushes a history
+      // entry and routes through handleReadingMockClick with
+      // iretClose({keepUrl:true}) so the address bar stays at /take/
+      // while the mode modal / runner takes over.
       document.getElementById('iretGrid').addEventListener('click', function (e) {
-        const btn = e.target.closest('.iret-take');
-        if (!btn) return;
-        const card = btn.closest('.iret-card');
+        if (e.target.closest('input, select, textarea, a, [contenteditable]')) return;
+        const card = e.target.closest('.iret-card');
         if (!card) return;
+        if (card.classList.contains('iret-card-disabled')) return;
+        const mockN = card.dataset.mock;
+        const isTakeBtn = !!e.target.closest('.iret-take');
+
+        if (!isTakeBtn) {
+          if (mockN) {
+            try { history.replaceState(null, '', '/take/ielts-reading-' + encodeURIComponent(mockN)); } catch (_e) {}
+          }
+          return;
+        }
+
         const file = card.dataset.file;
         if (!file) return;
-        // Append &mock=N (the real mock_number) so the mode modal title
-        // doesn't fall back to the ?sbmock= row id. Same fix as the
-        // CEFR Reading picker.
-        const mockN = card.dataset.mock;
         const fileWithMock = mockN
           ? file + (file.indexOf('?') >= 0 ? '&' : '?') + 'mock=' + encodeURIComponent(mockN)
           : file;
-        // Reflect the chosen mock in the URL bar (shareable deep-link
-        // shape). pushState adds a history entry so the browser back
-        // button takes the student back to the landing page; the
-        // popstate listener below cleans up any open access-code modal.
         if (mockN) {
           try { history.pushState(null, '', '/take/ielts-reading-' + encodeURIComponent(mockN)); } catch (_e) {}
         }
         if (typeof handleReadingMockClick === 'function') {
           handleReadingMockClick(fileWithMock, 'ielts-reading');
         } else {
-          iretClose();
+          iretClose({ keepUrl: true });
           loadMock(fileWithMock, 'reading');
         }
       });
@@ -17056,13 +17063,16 @@
       _cletRender();
     }
 
-    function cletClose() {
+    function cletClose(opts) {
+      // opts.keepUrl=true → forward-navigating to /take/<slug>; leave
+      // the URL alone. Default: rewind picker state + reset URL.
+      const keepUrl = !!(opts && opts.keepUrl);
       const overlay = document.getElementById('cletPicker');
       overlay.classList.remove('ilet-open');
       overlay.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
       if (typeof _pickerHideTmaBack === 'function') _pickerHideTmaBack();
-      if (!_pickerFromPopstate) {
+      if (!_pickerFromPopstate && !keepUrl) {
         try {
           if (history.state && history.state.picker === 'clet') history.back();
           if (/^\/take\//i.test(window.location.pathname)) {
@@ -17108,14 +17118,25 @@
         _cletSourceFilter = this.value || '';
         _cletApplyFiltersAndSort();
       });
+      // Whole-card tap = URL preview; Take Test = navigate. See iwetPicker
+      // (b6afe9c) for the full rationale.
       document.getElementById('cletGrid').addEventListener('click', function (e) {
-        const btn = e.target.closest('.ilet-take');
-        if (!btn) return;
-        const card = btn.closest('.ilet-card');
+        if (e.target.closest('input, select, textarea, a, [contenteditable]')) return;
+        const card = e.target.closest('.ilet-card');
         if (!card) return;
+        if (card.classList.contains('ilet-card-disabled')) return;
+        const mockN = card.dataset.mock;
+        const isTakeBtn = !!e.target.closest('.ilet-take');
+
+        if (!isTakeBtn) {
+          if (mockN) {
+            try { history.replaceState(null, '', '/take/cefr-listening-' + encodeURIComponent(mockN)); } catch (_e) {}
+          }
+          return;
+        }
+
         const file = card.dataset.file;
         if (!file) return;
-        const mockN = card.dataset.mock;
         const fileWithMock = mockN
           ? file + (file.indexOf('?') >= 0 ? '&' : '?') + 'mock=' + encodeURIComponent(mockN)
           : file;
@@ -17125,7 +17146,7 @@
         if (typeof handleListeningMockClick === 'function') {
           handleListeningMockClick(fileWithMock, 'cefr-listening');
         } else {
-          cletClose();
+          cletClose({ keepUrl: true });
           loadMock(fileWithMock, 'listening');
         }
       });
@@ -18118,14 +18139,17 @@
       _cretRender();
     }
 
-    function cretClose() {
+    function cretClose(opts) {
+      // opts.keepUrl=true → forward-navigating to /take/<slug>; leave
+      // URL alone. Default: rewind picker state + reset URL.
+      const keepUrl = !!(opts && opts.keepUrl);
       const overlay = document.getElementById('cretPicker');
       overlay.classList.remove('cret-open');
       overlay.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
       _pickerHideTmaBack();
       // History + URL sync (see iletClose for the full reasoning).
-      if (!_pickerFromPopstate) {
+      if (!_pickerFromPopstate && !keepUrl) {
         try {
           if (history.state && history.state.picker === 'cret') {
             history.back();
@@ -18173,32 +18197,38 @@
         _cretSourceFilter = this.value || '';
         _cretApplyFiltersAndSort();
       });
+      // Card click split: whole-card tap previews the /take/<slug> URL
+      // (replaceState only — no nav); Take Test button pushes a history
+      // entry and routes through handleReadingMockClick with
+      // cretClose({keepUrl:true}) so the address bar stays at /take/
+      // while the mode modal / runner takes over.
       document.getElementById('cretGrid').addEventListener('click', function (e) {
-        const btn = e.target.closest('.cret-take');
-        if (!btn) return;
-        const card = btn.closest('.cret-card');
+        if (e.target.closest('input, select, textarea, a, [contenteditable]')) return;
+        const card = e.target.closest('.cret-card');
         if (!card) return;
+        if (card.classList.contains('cret-card-disabled')) return;
+        const mockN = card.dataset.mock;
+        const isTakeBtn = !!e.target.closest('.cret-take');
+
+        if (!isTakeBtn) {
+          if (mockN) {
+            try { history.replaceState(null, '', '/take/cefr-reading-' + encodeURIComponent(mockN)); } catch (_e) {}
+          }
+          return;
+        }
+
         const file = card.dataset.file;
         if (!file) return;
-        // Append the real mock_number as &mock=N so the mode modal title
-        // (and any other consumer that runs _extractReadingMockNumber on
-        // this URL before the runner fetches Supabase) sees the right
-        // number instead of the row id from ?sbmock=.
-        const mockN = card.dataset.mock;
         const fileWithMock = mockN
           ? file + (file.indexOf('?') >= 0 ? '&' : '?') + 'mock=' + encodeURIComponent(mockN)
           : file;
-        // Reflect the chosen mock in the URL bar (shareable deep-link
-        // shape). pushState adds a history entry so the browser back
-        // button takes the student back to the landing page; the
-        // popstate listener below cleans up any open access-code modal.
         if (mockN) {
           try { history.pushState(null, '', '/take/cefr-reading-' + encodeURIComponent(mockN)); } catch (_e) {}
         }
         if (typeof handleReadingMockClick === 'function') {
           handleReadingMockClick(fileWithMock, 'cefr-reading');
         } else {
-          cretClose();
+          cretClose({ keepUrl: true });
           loadMock(fileWithMock, 'reading');
         }
       });
