@@ -1236,20 +1236,34 @@ Produce a polished version of THIS EXACT chart with these requirements:
 
   // ── 'rerender' mode: two-pass ──────────────────────────────────────
   // Pass 1 — Gemini 2.5 Pro reads the chart and emits a structured spec.
-  const specPrompt = `You are analysing an IELTS Writing Task 1 chart. Read the image carefully and emit JSON describing the data shown. Output ONLY the JSON object — no prose, no markdown fence.
+  // The spec is ALWAYS panel-based — even single-chart screenshots get
+  // wrapped in panels[0], and multi-panel composites (2x2 pies, side-
+  // by-side bars, etc.) populate panels[] in reading order. Without this,
+  // Pro silently collapsed 4 pies into a single series, Flash Image got
+  // told to draw "one pie" and returned NO_IMAGE.
+  const specPrompt = `You are analysing an IELTS Writing Task 1 chart. Read the image carefully and emit JSON describing every chart panel visible. Output ONLY the JSON object — no prose, no markdown fence.
 
 Shape:
 {
-  "chartType": "line_graph" | "bar_chart" | "pie_chart" | "table" | "map" | "process_diagram",
-  "title":     string,
-  "xAxis":     { "label": string, "values": string[] }     // ordered tick labels (years, categories, ...)
-  "yAxis":     { "label": string, "unit": string },        // e.g. "Percentage of population", "%"
-  "series":    [ { "name": string, "values": number[] } ], // one entry per line / bar group; values aligned to xAxis.values
-  "legend":    string[],                                   // names of each series, in display order
-  "notes":     string                                      // anything else worth preserving (source line, range, etc.)
+  "title":   string,                                    // overall caption / question above the panels (or below)
+  "layout":  "single" | "grid_1x2" | "grid_2x1" | "grid_2x2" | "row" | "column",
+  "panels":  [                                          // ONE entry per visible chart, in reading order (left→right, top→bottom)
+    {
+      "label":     string,                              // sub-caption above this panel (e.g. "Full-time students"), or "" for single-panel charts
+      "chartType": "line_graph" | "bar_chart" | "pie_chart" | "table",
+      "xAxis":     { "label": string, "values": string[] },   // omit / leave empty for pie/table
+      "yAxis":     { "label": string, "unit": string },       // omit / leave empty for pie/table
+      "legend":    string[],                             // names of each slice/series in display order
+      "values":    number[] | number[][],                // pie: one array aligned to legend. bar/line: 2D array, one row per series, columns aligned to xAxis.values. table: 2D matrix.
+      "colors":    string[]                              // optional hex colours per legend entry, e.g. ["#fbbf24","#3b82f6","#22c55e"]
+    }
+  ],
+  "notes":   string                                     // anything else worth preserving (source line, axis range, footer text…)
 }
 
-Be faithful to the numbers visible in the image. If the value is ambiguous, pick the closest readable value rather than guessing wildly. For pie_chart use a single series whose values are percentages. For map / process_diagram the structured shape doesn't fit; instead return { "chartType": "...", "title": "...", "notes": "Not re-renderable — use visual mode." } and leave series empty.`;
+CRITICAL: If the screenshot contains more than one chart side-by-side or in a grid (very common with IELTS pies — "full-time students" vs "part-time students" vs different years), emit one entry in panels[] per chart, NOT a single merged chart. Set layout to the closest grid shape.
+
+Be faithful to the numbers visible in the image. If a value is ambiguous, pick the closest readable value rather than guessing wildly. Pie values are percentages; they should sum to ~100 per panel. For map / process_diagram the structured shape doesn't fit — return { "title":"...", "layout":"single", "panels":[], "notes":"Not re-renderable — use visual mode." }.`;
   const specParts = [
     { text: specPrompt },
     { inlineData: { mimeType, data: imageBase64 } }
@@ -1289,24 +1303,74 @@ Be faithful to the numbers visible in the image. If the value is ambiguous, pick
   catch (e) { throw new Error(`spec JSON parse failed: ${(e as Error).message} — raw: ${raw1.slice(0, 200)}`); }
 
   // Pass 2 — Gemini 2.5 Flash Image draws a brand-new clean chart from
-  // the spec in Cambridge-IELTS style.
-  const drawPrompt = `Draw a clean Cambridge-IELTS-style ${String(spec?.chartType || 'chart').replace('_', ' ')} from this exact data.
+  // the spec in Cambridge-IELTS style. The prompt makes the panel layout
+  // explicit so Flash Image renders a composite (e.g. 2x2 pies) rather
+  // than collapsing to a single chart and returning NO_IMAGE.
+  const panels: any[] = Array.isArray(spec?.panels) ? spec.panels : [];
+  if (!panels.length) {
+    throw new Error('pro-spec returned no panels (chart not re-renderable; try visual mode instead)');
+  }
+  const layout = String(spec?.layout || 'single');
+  const layoutDesc: Record<string, string> = {
+    single:   'a single panel',
+    row:      'a horizontal row of panels (one row, side-by-side)',
+    column:   'a vertical column of panels (one column, stacked)',
+    grid_1x2: 'a 1×2 grid (one row, two panels side-by-side)',
+    grid_2x1: 'a 2×1 grid (two rows, one panel each)',
+    grid_2x2: 'a 2×2 grid (two rows, two columns — top-left, top-right, bottom-left, bottom-right)'
+  };
+  const layoutText = layoutDesc[layout] || (panels.length > 1 ? 'a grid of ' + panels.length + ' panels' : 'a single panel');
 
-Title: ${spec?.title || '(no title)'}
-X axis (${spec?.xAxis?.label || 'category'}): ${(spec?.xAxis?.values || []).join(', ')}
-Y axis (${spec?.yAxis?.label || 'value'}, unit ${spec?.yAxis?.unit || ''}):
-${(spec?.series || []).map((s: any) => `  • ${s.name}: ${(s.values || []).join(', ')}`).join('\n')}
-Legend order: ${(spec?.legend || []).join(', ')}
-${spec?.notes ? 'Notes: ' + spec.notes : ''}
+  function panelBlock(p: any, idx: number): string {
+    const label    = p.label ? String(p.label) : `Panel ${idx + 1}`;
+    const chartT   = String(p.chartType || 'chart').replace('_', ' ');
+    const legend   = Array.isArray(p.legend) ? p.legend : [];
+    const xVals    = Array.isArray(p?.xAxis?.values) ? p.xAxis.values : [];
+    const isPieish = chartT === 'pie chart' || chartT === 'table';
+    let body = `  Title above panel: "${label}"\n  Chart type: ${chartT}\n  Legend: ${legend.join(', ') || '(none)'}\n`;
+    if (!isPieish && xVals.length) {
+      body += `  X axis (${p?.xAxis?.label || 'category'}): ${xVals.join(', ')}\n  Y axis (${p?.yAxis?.label || 'value'}${p?.yAxis?.unit ? ', unit ' + p.yAxis.unit : ''})\n`;
+    }
+    // values can be 1D (pie) or 2D (bar/line/table)
+    const vals = p.values;
+    if (Array.isArray(vals) && vals.length) {
+      if (Array.isArray(vals[0])) {
+        body += '  Data rows (each row = one series, columns aligned to legend / x-axis):\n';
+        vals.forEach((row: any, i: number) => {
+          body += `    • ${legend[i] || ('Row ' + (i + 1))}: ${Array.isArray(row) ? row.join(', ') : row}\n`;
+        });
+      } else {
+        body += `  Values (aligned to legend, sum ≈ 100 for pie): ${vals.join(', ')}\n`;
+      }
+    }
+    if (Array.isArray(p.colors) && p.colors.length) {
+      body += `  Colours (per legend entry): ${p.colors.join(', ')}\n`;
+    }
+    return body;
+  }
+  const panelsText = panels.map(panelBlock).join('\n');
+  const overallTitle = spec?.title ? String(spec.title) : '';
 
-Visual style requirements:
+  const drawPrompt = `Draw ONE clean Cambridge-IELTS-style composite image showing ${layoutText} (${panels.length} chart${panels.length === 1 ? '' : 's'} total) from this exact data.
+
+${overallTitle ? 'Overall caption above the panels: "' + overallTitle + '"\n\n' : ''}Panels (in reading order):
+
+${panelsText}
+${spec?.notes ? 'Notes: ' + spec.notes + '\n' : ''}
+Layout requirements:
+- Render ALL ${panels.length} panel${panels.length === 1 ? '' : 's'} in the SAME output image, arranged as ${layoutText}.
+- Each panel keeps its own sub-title above it (the panel's label).
+- The overall caption ${overallTitle ? '(see above)' : '(if any)'} appears centred between the rows OR above the whole grid — not duplicated inside each panel.
+- Equal panel sizes; consistent fonts and palette across all panels.
+
+Visual style:
 - Pure white background (#FFFFFF). No watermark, no extra annotation.
-- Clean black axes, tick marks, and gridlines (light grey, 0.5px).
-- Typography: Arial / sans-serif, crisp at small sizes.
-- Bar / line colours: Cambridge Press palette (#1f77b4 navy, #d62728 red, #2ca02c green, #ff7f0e orange, #9467bd purple).
-- Title centred at the top, axis labels in a smaller weight.
-- Legend below or to the right, no border around the legend box.
-- Output ONE image only. Do not add explanatory text.`;
+- Clean black axes, tick marks, light-grey gridlines (0.5px) — for bar / line / table panels.
+- Pie slices labelled with their percentage value inside the slice, in white text where the slice is dark.
+- Typography: Arial / sans-serif, crisp at small sizes. Sub-titles bold.
+- Bar / line colours: Cambridge Press palette (#1f77b4 navy, #d62728 red, #2ca02c green, #ff7f0e orange, #9467bd purple) unless the spec supplies colours.
+- Legend shared across panels if all panels share the same legend; otherwise one legend per panel.
+- Output ONE composite image only. Do not add explanatory text outside the chart area.`;
   const r2 = await fetch(
     `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent?key=${geminiKey}`,
     {
