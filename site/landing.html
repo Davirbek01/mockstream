@@ -31851,8 +31851,9 @@
           value: t1Chart.chartImageUrl,
           skill: 'ielts-writing',
           accept: 'image/png,image/jpeg,image/webp,image/gif',
+          allowPaste: true,
           label: 'Chart image URL',
-          help: 'Click 📁 Upload to add a new chart from your computer (uploads to GCS, URL fills automatically). Or paste a public URL manually.'
+          help: 'Take a screenshot (Win + Shift + S / ⌘ + Shift + 5), then click 📋 Paste — image uploads straight to GCS. Or click 📁 Upload to pick a file from disk, or paste a public URL into the input.'
         });
         var _setChartType = t1Chart.chartType || 'line_graph';
         var _setTypeOpts = '';
@@ -32736,9 +32737,17 @@
       var btnId    = opts.id + '_upbtn';
       var fileId   = opts.id + '_upfile';
       var progId   = opts.id + '_upprog';
+      var pasteId  = opts.id + '_pastebtn';
+      // Paste opt-in via opts.allowPaste — only shown for image fields
+      // where pasting a screenshot makes sense (chart uploads). Audio /
+      // PDF uploads skip this since the clipboard never holds those.
+      var pasteBtn = opts.allowPaste
+        ? '<button type="button" class="mmg-upload-btn" id="' + pasteId + '" title="Paste an image from the clipboard">📋 Paste</button>'
+        : '';
       return '<div class="mmg-field"><label for="' + opts.id + '">' + _mmgEsc(label) + '</label>'
         + '<div class="mmg-upload-row">'
         +   '<input type="text" id="' + opts.id + '" value="' + safeVal + '">'
+        +   pasteBtn
         +   '<button type="button" class="mmg-upload-btn" id="' + btnId + '">📁 Upload</button>'
         +   '<input type="file" id="' + fileId + '" accept="' + _mmgEsc(accept) + '" style="display:none;">'
         + '</div>'
@@ -32746,57 +32755,94 @@
         + (opts.help ? '<div class="mmg-field-help">' + _mmgEsc(opts.help) + '</div>' : '')
         + '</div>';
     }
-    function _mmgUploadBind(opts) {
+    // Shared upload pipeline: signed URL → GCS PUT → fill input → fire
+    // onUploaded callback. Used by both the file picker and the
+    // clipboard-paste path so they share status + size cap.
+    async function _mmgUploadFileToGcs(file, opts) {
       var inputEl = document.getElementById(opts.id);
+      var progEl  = document.getElementById(opts.id + '_upprog');
+      if (file.size > 25 * 1024 * 1024) {
+        _mmgUploadStatus(progEl, 'error', '⚠ File too large (' + Math.round(file.size/1024/1024) + ' MB) — max is 25 MB.');
+        return;
+      }
+      _mmgUploadStatus(progEl, 'active', 'Requesting upload URL…', 10);
+      var sig = await _mmgCall('gcs_signed_upload_url', {
+        skill:       opts.skill,
+        filename:    file.name,
+        contentType: file.type || 'application/octet-stream'
+      });
+      if (!sig || !sig.uploadUrl) throw new Error(sig && sig.error || 'no upload url');
+      _mmgUploadStatus(progEl, 'active', 'Uploading ' + _mmgPrettyBytes(file.size) + '…', 30);
+      var put = await fetch(sig.uploadUrl, {
+        method: 'PUT',
+        headers: { 'Content-Type': file.type || 'application/octet-stream' },
+        body: file
+      });
+      if (!put.ok) {
+        var body = await put.text().catch(function () { return ''; });
+        throw new Error('GCS PUT failed: ' + put.status + ' ' + body.slice(0, 200));
+      }
+      if (inputEl) {
+        inputEl.value = sig.publicUrl;
+        inputEl.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+      _mmgUploadStatus(progEl, 'success', '✓ Uploaded — URL filled in. Click Save to persist.', 100);
+      if (typeof opts.onUploaded === 'function') opts.onUploaded(sig.publicUrl);
+      setTimeout(function () { progEl && progEl.classList.remove('active'); }, 4000);
+    }
+    function _mmgUploadBind(opts) {
       var btnEl   = document.getElementById(opts.id + '_upbtn');
       var fileEl  = document.getElementById(opts.id + '_upfile');
       var progEl  = document.getElementById(opts.id + '_upprog');
+      var pasteEl = document.getElementById(opts.id + '_pastebtn');
       if (!btnEl || !fileEl) return;
-      btnEl.addEventListener('click', function() { fileEl.click(); });
-      fileEl.addEventListener('change', async function() {
+      btnEl.addEventListener('click', function () { fileEl.click(); });
+      fileEl.addEventListener('change', async function () {
         var file = fileEl.files && fileEl.files[0];
         if (!file) return;
-        // 25 MB hard cap (matches MAX_UPLOAD_MB in admin-mocks).
-        if (file.size > 25 * 1024 * 1024) {
-          _mmgUploadStatus(progEl, 'error', '⚠ File too large (' + Math.round(file.size/1024/1024) + ' MB) — max is 25 MB.');
-          fileEl.value = '';
-          return;
-        }
         btnEl.disabled = true;
-        try {
-          // Step 1 — ask admin-mocks for a signed URL.
-          _mmgUploadStatus(progEl, 'active', 'Requesting upload URL…', 10);
-          var sig = await _mmgCall('gcs_signed_upload_url', {
-            skill: opts.skill,
-            filename: file.name,
-            contentType: file.type || 'application/octet-stream'
-          });
-          if (!sig || !sig.uploadUrl) throw new Error(sig && sig.error || 'no upload url');
-          // Step 2 — PUT the file directly to GCS.
-          _mmgUploadStatus(progEl, 'active', 'Uploading ' + _mmgPrettyBytes(file.size) + '…', 30);
-          var put = await fetch(sig.uploadUrl, {
-            method: 'PUT',
-            headers: { 'Content-Type': file.type || 'application/octet-stream' },
-            body: file
-          });
-          if (!put.ok) {
-            var body = await put.text().catch(function(){ return ''; });
-            throw new Error('GCS PUT failed: ' + put.status + ' ' + body.slice(0, 200));
-          }
-          // Step 3 — fill the URL input + fire optional callback.
-          inputEl.value = sig.publicUrl;
-          inputEl.dispatchEvent(new Event('input', { bubbles: true }));
-          _mmgUploadStatus(progEl, 'success', '✓ Uploaded — URL filled in. Click Save to persist.', 100);
-          if (typeof opts.onUploaded === 'function') opts.onUploaded(sig.publicUrl);
-          // Auto-clear the success badge after a moment.
-          setTimeout(function() { progEl.classList.remove('active'); }, 4000);
-        } catch (e) {
-          _mmgUploadStatus(progEl, 'error', '⚠ Upload failed: ' + (e.message || e));
-        } finally {
-          btnEl.disabled = false;
-          fileEl.value = '';
-        }
+        try { await _mmgUploadFileToGcs(file, opts); }
+        catch (e) { _mmgUploadStatus(progEl, 'error', '⚠ Upload failed: ' + (e.message || e)); }
+        finally { btnEl.disabled = false; fileEl.value = ''; }
       });
+      // Paste-from-clipboard handler — present only when the field was
+      // rendered with allowPaste: true. Reads navigator.clipboard.read()
+      // directly so a single click uploads whatever screenshot is on the
+      // clipboard. No Ctrl+V needed.
+      if (pasteEl) {
+        pasteEl.addEventListener('click', async function () {
+          pasteEl.disabled = true;
+          try {
+            if (!navigator.clipboard || typeof navigator.clipboard.read !== 'function') {
+              _mmgUploadStatus(progEl, 'error', '⚠ This browser blocks clipboard read — use 📁 Upload instead.');
+              return;
+            }
+            var items = await navigator.clipboard.read();
+            var picked = null;
+            outer: for (var i = 0; i < items.length; i++) {
+              for (var j = 0; j < items[i].types.length; j++) {
+                var t = items[i].types[j];
+                if (/^image\//.test(t)) {
+                  var blob = await items[i].getType(t);
+                  var ext = (t.split('/')[1] || 'png');
+                  var stamp = new Date().toISOString().replace(/[:.]/g, '-');
+                  picked = new File([blob], 'pasted-' + stamp + '.' + ext, { type: t });
+                  break outer;
+                }
+              }
+            }
+            if (!picked) {
+              _mmgUploadStatus(progEl, 'error', '⚠ No image on clipboard — take a screenshot first (Win+Shift+S / ⌘+Shift+5).');
+              return;
+            }
+            await _mmgUploadFileToGcs(picked, opts);
+          } catch (e) {
+            _mmgUploadStatus(progEl, 'error', '⚠ Paste failed: ' + (e.message || e));
+          } finally {
+            pasteEl.disabled = false;
+          }
+        });
+      }
     }
     function _mmgUploadStatus(progEl, kind, msg, pct) {
       if (!progEl) return;
