@@ -5023,10 +5023,24 @@
     }
 
     function renderSentenceCompletion(part) {
-      // Replace span placeholders with actual input fields
-      let content = part.passageContent.replace(/<span class="gap-input" data-gap="(\d+)">[^<]*<\/span>/g,
-        '<input type="text" autocomplete="off" class="gap-input sentence-gap" data-q="$1" placeholder="($1)">');
-      return '<div class="passage-container"><div class="passage-title">' + part.passageTitle + '</div><div class="passage-text">' + content + '</div></div>';
+      // Replace span placeholders with actual input fields.
+      var withInputs = String(part.passageContent || '').replace(
+        /<span class="gap-input" data-gap="(\d+)">[^<]*<\/span>/g,
+        '<input type="text" autocomplete="off" class="gap-input sentence-gap" data-q="$1" placeholder="($1)">'
+      );
+      // Wrap each sentence (Gemini emits <br><br> between sentences per the
+      // schema) in its own .gap-fill-row div so the post-submit explanation
+      // toggle climbs to that row instead of the entire passage — keeping
+      // each "💡 Click for explanation" right below its own sentence,
+      // matching the inline placement other parts already have.
+      var pieces = withInputs.split(/<br\s*\/?>\s*<br\s*\/?>/i);
+      if (pieces.length === 1) pieces = withInputs.split(/<br\s*\/?>/i);
+      var bodyHtml = pieces.map(function (p) {
+        var trimmed = p.trim();
+        if (!trimmed) return '';
+        return '<div class="gap-fill-row" style="margin-bottom:18px;">' + trimmed + '</div>';
+      }).join('');
+      return '<div class="passage-container"><div class="passage-title">' + part.passageTitle + '</div><div class="passage-text">' + bodyHtml + '</div></div>';
     }
 
     function showPart(index) {
