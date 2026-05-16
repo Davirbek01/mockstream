@@ -7407,6 +7407,14 @@
           window._clMergedRange = { startSec: startSec, endSec: endSec, partIndex: partIndex };
           if (audio.src !== mergedAudio) audio.src = mergedAudio;
           try { audio.currentTime = startSec; } catch (_e) {}
+          // Per-part audio mode pauses the visible player automatically
+          // when audio.src changes to a new URL. In merged mode the src
+          // is the same file, so a non-autoPlay part-switch would leave
+          // both the visible player (now at the new part) AND the hand-
+          // off hiddenAudio (still on the old part) playing at once.
+          // Pause the visible player explicitly so only the background
+          // hand-off continues, matching per-part-mode behavior.
+          if (!autoPlay) { try { audio.pause(); } catch (_e) {} }
         } else {
           window._clMergedRange = null;
           const partNum = part.partNumber || (partIndex + 1);
@@ -7565,6 +7573,30 @@
       function initAudioLoading() {
         if (!window.TEST_DATA || !window.audioPreloadComplete) {
           setTimeout(initAudioLoading, 200);
+          return;
+        }
+        const mergedAudio = (window.TEST_DATA.audioLayout === 'merged' && window.TEST_DATA.audioFile)
+          ? window.TEST_DATA.audioFile
+          : null;
+        if (mergedAudio) {
+          // Merged: single audio file, seek to first part's startSec.
+          const firstPart = window.TEST_DATA.parts[0] || {};
+          const startSec  = Number(firstPart.audioStartSec || 0);
+          const nextPart  = window.TEST_DATA.parts[1];
+          const endSec    = (nextPart && nextPart.audioStartSec != null)
+            ? Number(nextPart.audioStartSec) : Infinity;
+          window._clMergedRange = { startSec: startSec, endSec: endSec, partIndex: 0 };
+          audio.src = mergedAudio;
+          currentLoadedPart = 0;
+          audio.addEventListener('loadedmetadata', function _seekOnce() {
+            try { audio.currentTime = startSec; } catch (_e) {}
+            audio.removeEventListener('loadedmetadata', _seekOnce);
+          });
+          if (loadingWrapper) loadingWrapper.classList.add('hidden');
+          if (playerControls) playerControls.classList.add('ready');
+          isAudioReady = true;
+          window.updateNavIndicators();
+          showReadyPopup();
           return;
         }
         if (checkPerPartAudio()) {
