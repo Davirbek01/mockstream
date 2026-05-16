@@ -30910,6 +30910,36 @@
     //   - sample fields are sampleAnswer / sampleBand5..9 / uzSampleBand5..9
     //   - markup uses <mark>…</mark>
     var _MMG_IW_CHART_TYPES = ['line_graph','bar_chart','pie_chart','table','map','process_diagram'];
+    // Task 1 data nature — informs whether the chart shows change over time
+    // (line graph, multi-year bar chart, etc.) or a static snapshot
+    // (single-year pie, comparison table, map, process diagram). Maps and
+    // process diagrams are "not applicable" by convention. Picker filters
+    // on this so students can practise the type that suits them.
+    var _MMG_IW_DATA_NATURES = [
+      { value: '',               label: '— unset —' },
+      { value: 'over-time',      label: 'Over time (line, multi-year bar…)' },
+      { value: 'static',         label: 'Static (single-year, pie, table…)' },
+      { value: 'not-applicable', label: 'Not applicable (map / process diagram)' }
+    ];
+    // Task 2 essay type — pattern-matched on the prompt's question form.
+    // Picker filters on this; Gemini auto-detects on import.
+    var _MMG_IW_ESSAY_TYPES = [
+      { value: '',                         label: '— unset —' },
+      { value: 'opinion',                  label: 'Opinion ("To what extent do you agree or disagree?")' },
+      { value: 'balanced',                 label: 'Discuss / Balanced ("Discuss both views and give your opinion")' },
+      { value: 'problem-solution',         label: 'Problem-solution ("What are the problems / solutions?")' },
+      { value: 'advantage-disadvantage',   label: 'Advantage-disadvantage ("Do the advantages outweigh the disadvantages?")' },
+      { value: 'two-part',                 label: 'Two-part question (two distinct questions in the prompt)' }
+    ];
+    function _mmgIwSelectHtml(id, options, currentValue) {
+      var opts = '';
+      var sel = String(currentValue == null ? '' : currentValue);
+      for (var i = 0; i < options.length; i++) {
+        var o = options[i];
+        opts += '<option value="' + _mmgEsc(o.value) + '"' + (o.value === sel ? ' selected' : '') + '>' + _mmgEsc(o.label) + '</option>';
+      }
+      return '<select id="' + id + '" style="border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;width:100%;max-width:540px;">' + opts + '</select>';
+    }
     // Standard IELTS rubric — pre-filled into the Instruction field on new
     // mocks so the user doesn't retype boilerplate. Fully editable; per-task-
     // type variants ("Discuss both views…", "What are the causes…") can be
@@ -30927,7 +30957,11 @@
       var html = '<div class="mmg-section-title">' + _mmgEsc(label) + '</div>'
               + (sectionHelp ? '<div class="mmg-field-help">' + _mmgEsc(sectionHelp) + '</div>' : '');
 
-      html += _mmgFieldText('Title', p + 'title', task.title || label, 'Display label.');
+      // Short topic title — surfaces as the per-task row label in the
+       // fullscreen picker (iwetPicker), so make it descriptive of the
+       // chart / prompt subject rather than a generic "Task 1".
+      html += _mmgFieldText('Short topic title', p + 'title', task.title || '',
+        'Short topic phrase shown on the picker card (e.g. "Online shopping growth" for Task 1, "Working from home" for Task 2). Helps students scan and helps admins keep mocks distinct.');
       // Word goal + time on one row would be nicer; for now simple stacked fields.
       html += _mmgFieldText('Word goal', p + 'wordGoal',
         task.wordGoal != null ? String(task.wordGoal) : String(defaultWords),
@@ -30967,11 +31001,26 @@
               +   '<select id="' + p + 'chartType" style="border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;">' + typeOpts + '</select>'
               +   '<div class="mmg-field-help">Used for AI feedback context — pick the visualisation that best matches the chart image.</div>'
               + '</div>';
+        // Data nature — picker filter dimension. "Not applicable" for
+        // map / process_diagram by convention.
+        html += '<div class="mmg-field"><label for="' + p + 'dataNature">Data nature</label>'
+              +   _mmgIwSelectHtml(p + 'dataNature', _MMG_IW_DATA_NATURES, task.dataNature)
+              +   '<div class="mmg-field-help">Does the chart show change over time, a static snapshot, or is it not applicable (map / process diagram)? Gemini auto-detects this on import.</div>'
+              + '</div>';
         // Live thumbnail preview of the chart URL.
         html += '<div class="mmg-field"><label>Image preview</label>'
               +   '<div id="' + p + 'chartPreview" style="border:1px dashed #cbd5e1;border-radius:8px;padding:8px;background:#fffbeb;display:flex;align-items:center;justify-content:center;min-height:60px;">'
               +     '<span style="color:#94a3b8;font-size:12px;">no image url yet</span>'
               +   '</div>'
+              + '</div>';
+      }
+
+      // Task 2 only: essay type dropdown. Picker filter dimension.
+      if (key === 'task2') {
+        html += '<div class="mmg-section-title">Essay type</div>';
+        html += '<div class="mmg-field"><label for="' + p + 'essayType">Essay type</label>'
+              +   _mmgIwSelectHtml(p + 'essayType', _MMG_IW_ESSAY_TYPES, task.essayType)
+              +   '<div class="mmg-field-help">Pattern of the prompt. Gemini auto-detects this on import — adjust if needed.</div>'
               + '</div>';
       }
 
@@ -31018,8 +31067,21 @@
       if (key === 'task1') {
         var urlEl = document.getElementById(p + 'chartImageUrl');
         var typeEl = document.getElementById(p + 'chartType');
+        var natEl  = document.getElementById(p + 'dataNature');
         if (urlEl)  task.chartImageUrl = urlEl.value;
         if (typeEl) task.chartType     = typeEl.value;
+        if (natEl) {
+          var nv = (natEl.value || '').trim();
+          if (nv) task.dataNature = nv; else delete task.dataNature;
+        }
+      }
+      // Task 2 essay type.
+      if (key === 'task2') {
+        var essayEl = document.getElementById(p + 'essayType');
+        if (essayEl) {
+          var ev = (essayEl.value || '').trim();
+          if (ev) task.essayType = ev; else delete task.essayType;
+        }
       }
     }
     function _mmgUpdateChartPreview(p) {
