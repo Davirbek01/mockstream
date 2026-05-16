@@ -6297,7 +6297,107 @@
         });
       });
 
+      // Inline explanation cards under each answered question — same
+      // UX as IELTS Listening: collapsed "💡 Click for explanation ▼"
+      // toggle revealing the Gemini-generated reason. Quote stays in
+      // the editor / Transcripts popup. No-op when explanations dict
+      // is empty (admin hasn't run Generate yet).
+      _clAppendInlineExplanationCards(_reviewParts);
+
       showPart(window._practicePart ? window._practicePart - 1 : 0);
+    }
+
+    function _clAppendInlineExplanationCards(reviewParts) {
+      function esc(s) {
+        return String(s || '').replace(/[&<>"']/g, function (c) {
+          return ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[c];
+        });
+      }
+      (reviewParts || []).forEach(function (part) {
+        var explns = (part && part.explanations) || {};
+        // Resolve key → qid. Admin-saved data uses "qN" keys; the
+        // backend's generator emits "qN" too, but if Gemini ever
+        // emitted bare integer indices we map them to the part's
+        // sorted answer-id list (same defensive remap as IELTS).
+        var ansQids = [];
+        if (part && part.answers && typeof part.answers === 'object') {
+          Object.keys(part.answers).forEach(function (k) {
+            var n = parseInt(String(k).replace(/^q/, ''), 10);
+            if (!isNaN(n) && ansQids.indexOf(n) === -1) ansQids.push(n);
+          });
+          ansQids.sort(function (a, b) { return a - b; });
+        }
+        function resolveQid(key) {
+          var s = String(key);
+          if (/^q/i.test(s)) {
+            var n1 = parseInt(s.replace(/^q/i, ''), 10);
+            return isNaN(n1) ? null : n1;
+          }
+          var n = parseInt(s, 10);
+          if (isNaN(n)) return null;
+          if (ansQids.indexOf(n) !== -1) return n;
+          if (n >= 0 && n < ansQids.length) return ansQids[n];
+          return null;
+        }
+        Object.keys(explns).forEach(function (key) {
+          var qid = resolveQid(key);
+          if (qid == null) return;
+          var raw  = explns[key];
+          var text = raw && typeof raw === 'object' ? (raw.text || '') : (typeof raw === 'string' ? raw : '');
+          if (!text) return;
+          // Find any DOM element keyed by this qid. CEFR Listening's
+          // question containers vary per part type — Parts 1+5 use
+          // `.option-item[data-q]`, Part 2+6 use `.gap-input[data-q]`,
+          // Part 3 uses `.rich-select-trigger[data-q]`, Part 4 uses
+          // `.map-letter-options[data-for]`, etc.
+          var any = document.querySelector('[data-q="' + qid + '"]')
+                 || document.querySelector('[data-for="' + qid + '"]')
+                 || document.getElementById('q' + qid);
+          if (!any) return;
+          // Climb to the nearest question-row wrapper so the toggle
+          // sits below the entire question, not in the middle of options.
+          var wrap = any.closest(
+            '.question-card, .question-item, .map-question-item, ' +
+            '.form-row, .form-line, .form-item, .extract-question, ' +
+            '.gap-fill-row, .speaker-row, tr, li'
+          );
+          if (!wrap) {
+            // Fall back to climbing past .option-item children — for MCQ
+            // parts the natural wrapper is whatever holds ALL of A/B/C.
+            wrap = any.closest('.options-list, .extract-questions > div')
+                || any.parentNode && any.parentNode.parentNode
+                || any.parentNode;
+          }
+          if (!wrap) return;
+          // Skip if a toggle is already there for this qid (rerender safety).
+          if (wrap.nextElementSibling
+              && wrap.nextElementSibling.classList.contains('cl-inline-expl-toggle')
+              && wrap.nextElementSibling.dataset.qid === String(qid)) return;
+
+          var toggle = document.createElement('div');
+          toggle.className = 'cl-inline-expl-toggle';
+          toggle.dataset.qid = String(qid);
+          toggle.style.cssText = 'margin-top:6px;font-size:12px;color:#6366f1;cursor:pointer;user-select:none;display:inline-block;';
+          toggle.textContent = '💡 Click for explanation ▼';
+
+          var box = document.createElement('div');
+          box.className = 'cl-inline-expl';
+          box.style.cssText = 'display:none;margin-top:6px;background:#dbeafe;border-left:4px solid #3b82f6;padding:10px 12px;border-radius:6px;font-size:13px;color:#1e3a8a;line-height:1.5;';
+          var quote = raw && typeof raw === 'object' && raw.quote ? String(raw.quote) : '';
+          box.innerHTML = '<strong>Q' + qid + ':</strong> ' + esc(text)
+                        + (quote ? '<div style="margin-top:8px;padding:8px 10px;background:#eff6ff;border-radius:4px;font-style:italic;color:#1d4ed8;">"' + esc(quote) + '"</div>' : '')
+                        + '<div style="margin-top:6px;font-size:10.5px;color:#94a3b8;font-style:italic;">✨ AI-generated</div>';
+
+          toggle.addEventListener('click', function () {
+            var open = box.style.display !== 'none';
+            box.style.display = open ? 'none' : 'block';
+            toggle.textContent = open ? '💡 Click for explanation ▼' : '💡 Hide explanation ▲';
+          });
+
+          wrap.insertAdjacentElement('afterend', toggle);
+          toggle.insertAdjacentElement('afterend', box);
+        });
+      });
     }
 
     // Event listeners
