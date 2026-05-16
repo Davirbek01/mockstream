@@ -8546,6 +8546,18 @@
       background: #f3e8ff;
       border: 1px solid #d8b4fe;
     }
+    /* Exam-date chip — small + muted so the source chip remains the
+       primary attribution. Sits next to the source on the card head. */
+    #iwetPicker .iwet-exam-date {
+      font-size: 11px;
+      color: #7c2d12;
+      background: #ffedd5;
+      border: 1px solid #fdba74;
+      border-radius: 999px;
+      padding: 1px 8px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
     .ilet-header {
       position: sticky;
       top: 0;
@@ -17145,7 +17157,8 @@
       const t1Ready = !!(t1.prompt && String(t1.prompt).trim() && t1.chartImageUrl && String(t1.chartImageUrl).trim());
       const t2Ready = !!(t2.prompt && String(t2.prompt).trim());
       return {
-        source: (md && md.source) || '',
+        source:   (md && md.source) || '',
+        examDate: (md && md.examDate) || '',
         tasks: [
           {
             title:      String(t1.title || '').trim(),
@@ -17162,6 +17175,19 @@
           }
         ]
       };
+    }
+
+    // Format an ISO date (YYYY-MM-DD) as a short "Mar 2024" / "2024"
+    // chip for the picker card. Falls open on invalid input.
+    function _iwetFormatExamDate(iso) {
+      if (!iso || typeof iso !== 'string') return '';
+      var m = iso.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      if (!m) return iso;
+      var year = m[1];
+      var monthIdx = parseInt(m[2], 10) - 1;
+      var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      if (monthIdx < 0 || monthIdx > 11) return year;
+      return months[monthIdx] + ' ' + year;
     }
 
     async function _iwetLoadSupabaseMockMeta(id) {
@@ -17270,6 +17296,10 @@
       const sourceHtml = meta.source
         ? '<div class="ilet-source" title="' + _iwetEsc(meta.source) + '">' + _iwetEsc(meta.source) + '</div>'
         : '';
+      const dateLabel = _iwetFormatExamDate(meta.examDate);
+      const dateHtml  = dateLabel
+        ? '<div class="iwet-exam-date" title="Exam date ' + _iwetEsc(meta.examDate) + '">📅 ' + _iwetEsc(dateLabel) + '</div>'
+        : '';
       const taskRows = tasks.map((p, i) => {
         const isT1 = (i === 0);
         // Build the sub-row parts. T1: chart type + data nature (when
@@ -17344,6 +17374,7 @@
               + '<span class="ilet-status-label">' + readyCount + '/' + total + ' READY</span>'
             + '</div>'
             + sourceHtml
+            + dateHtml
           + '</div>'
           + '<h3 class="ilet-mock-title">' + _iwetEsc(cleanTitle) + '</h3>'
           + '<ul class="ilet-sections">' + taskRows + '</ul>'
@@ -31448,6 +31479,33 @@
         html += _mmgFieldText(f.label, 'mmgSet_' + f.k, s[f.k], f.help);
       }
 
+      // IELTS Writing — Source + exam date metadata. Both live at
+       // mock_data top level (NOT inside md.settings). Source is a free-
+       // text attribution ("Cambridge IELTS 18 Test 3", "Actual Test
+       // 2024-03", etc.). examDate is when the test was used in a real
+       // IELTS exam (YYYY-MM-DD). For brand-new mocks (no id yet) we
+       // pre-fill examDate with today's date so the admin doesn't have
+       // to type it when adding fresh mocks.
+       if (type === 'ielts-writing') {
+        // md.examDate / md.source are top-level. Pre-fill examDate for
+        // a brand-new editor session if it's not already set.
+        if (!md.examDate && !(window._mmgEditing && window._mmgEditing.id)) {
+          var _now = new Date();
+          md.examDate = _now.getFullYear() + '-'
+            + String(_now.getMonth() + 1).padStart(2, '0') + '-'
+            + String(_now.getDate()).padStart(2, '0');
+        }
+        html += '<div class="mmg-section-title" style="margin-top:20px;">Source &amp; exam date</div>';
+        html += '<div class="mmg-field"><label for="mmgIw_source">Source <span style="color:#94a3b8;font-weight:400;">(optional)</span></label>'
+              +   '<input type="text" id="mmgIw_source" value="' + _mmgEsc(md.source || '') + '" placeholder="e.g. Cambridge IELTS 18 Test 3 / Actual Test 2024-03 / IDP recent" style="border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;width:100%;">'
+              +   '<div class="mmg-field-help">Free-text attribution shown on the picker card. Leave blank for unknown.</div>'
+              + '</div>';
+        html += '<div class="mmg-field"><label for="mmgIw_examDate">Exam date</label>'
+              +   '<input type="date" id="mmgIw_examDate" value="' + _mmgEsc(md.examDate || '') + '" style="border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;max-width:240px;">'
+              +   '<div class="mmg-field-help">When this test appeared in a real IELTS exam (YYYY-MM-DD). Auto-set to today for new mocks; override with the actual exam date when known.</div>'
+              + '</div>';
+      }
+
       // IELTS Writing — Auto-tag button. Sends Gemini the existing
       // prompts + chart image (if any) and fills the picker filter
       // fields (chartType, dataNature, essayType, short titles). Does
@@ -31499,6 +31557,22 @@
       for (var i = 0; i < keys.length; i++) {
         var el = document.getElementById('mmgSet_' + keys[i].k);
         if (el) md.settings[keys[i].k] = el.value;
+      }
+
+      // IELTS Writing top-level metadata (source + examDate). NOT under
+      // md.settings — these live at the mock_data root so the picker
+      // can read them via the same path the source filter already uses.
+      if (type === 'ielts-writing') {
+        var sourceEl = document.getElementById('mmgIw_source');
+        var dateEl   = document.getElementById('mmgIw_examDate');
+        if (sourceEl) {
+          var sv = (sourceEl.value || '').trim();
+          if (sv) md.source = sv; else delete md.source;
+        }
+        if (dateEl) {
+          var dv = (dateEl.value || '').trim();
+          if (dv) md.examDate = dv; else delete md.examDate;
+        }
       }
 
       if (type === 'cefr-speaking' || type === 'ielts-speaking') {
