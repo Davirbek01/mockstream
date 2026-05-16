@@ -17188,22 +17188,32 @@
       };
     }
 
-    // Strip embedded YYYY-MM[-DD] dates out of a source string and
-    // rewrite them as "Mon YYYY" so existing data like
-    //   "Actual exam 2021-09-30"   →   "Actual exam Sep 2021"
-    //   "Cambridge 18 Test 3"      →   "Cambridge 18 Test 3" (unchanged)
-    // Source should ideally be attribution-only (date lives in
-    // examDate), but this rewrite handles legacy values without
-    // requiring a SQL migration.
+    // Strip embedded dates out of a source string entirely (date lives
+    // in examDate / the date chip / the year filter — repeating it
+    // inside the source attribution is noise). Handles:
+    //   "Actual exam 2021-09-30"   →   "Actual exam"
+    //   "Actual exam Sep 2021"     →   "Actual exam"
+    //   "BC Actual Test 2024-03"   →   "BC Actual Test"
+    //   "Recent IELTS Test 2024-Q1"→   "Recent IELTS Test"
+    //   "Cambridge IELTS 18 Test 3"→   "Cambridge IELTS 18 Test 3" (unchanged)
+    //   "IELTS Fever"              →   "IELTS Fever" (unchanged)
+    // Cambridge book numbers (1-19) are NOT touched because the year
+    // strip only targets 19XX / 20XX 4-digit numbers.
     function _iwetCleanSourceLabel(raw) {
       if (!raw) return '';
-      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const monthName = '(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*';
       return String(raw)
-        .replace(/(\d{4})-(\d{1,2})(?:-\d{1,2})?/g, function (_m, y, mo) {
-          const idx = parseInt(mo, 10) - 1;
-          if (idx < 0 || idx > 11) return _m;
-          return months[idx] + ' ' + y;
-        })
+        // Strip ISO YYYY-MM-DD / YYYY-MM / YYYY-Q1..Q4
+        .replace(/\b\d{4}-(?:Q[1-4]|\d{1,2}(?:-\d{1,2})?)\b/gi, '')
+        // Strip "Mon YYYY" / "September 2021"
+        .replace(new RegExp('\\b' + monthName + '\\s+(?:19|20)\\d{2}\\b', 'gi'), '')
+        // Strip standalone 4-digit year — only 19XX / 20XX so Cambridge
+        // book numbers like 18 stay intact.
+        .replace(/\b(?:19|20)\d{2}\b/g, '')
+        // Trim trailing / leading separators left behind by the strips.
+        .replace(/[\s,;:\-]+$/g, '')
+        .replace(/^[\s,;:\-]+/g, '')
+        // Collapse interior whitespace.
         .replace(/\s+/g, ' ')
         .trim();
     }
