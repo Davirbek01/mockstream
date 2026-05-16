@@ -1245,25 +1245,30 @@ Produce a polished version of THIS EXACT chart with these requirements:
 
 Shape:
 {
-  "title":   string,                                    // overall caption / question above the panels (or below)
+  "title":   string,                                    // overall caption / question above the panels (or between rows). Use "" if there's none.
   "layout":  "single" | "grid_1x2" | "grid_2x1" | "grid_2x2" | "row" | "column",
   "panels":  [                                          // ONE entry per visible chart, in reading order (left→right, top→bottom)
     {
-      "label":     string,                              // sub-caption above this panel (e.g. "Full-time students"), or "" for single-panel charts
+      "label":     string,                              // EXACT sub-caption above the panel (e.g. "Full-time students"). USE "" (empty string) if the panel has NO sub-caption — do NOT invent labels like "Panel 1".
       "chartType": "line_graph" | "bar_chart" | "pie_chart" | "table",
       "xAxis":     { "label": string, "values": string[] },   // omit / leave empty for pie/table
       "yAxis":     { "label": string, "unit": string },       // omit / leave empty for pie/table
-      "legend":    string[],                             // names of each slice/series in display order
-      "values":    number[] | number[][],                // pie: one array aligned to legend. bar/line: 2D array, one row per series, columns aligned to xAxis.values. table: 2D matrix.
-      "colors":    string[]                              // optional hex colours per legend entry, e.g. ["#fbbf24","#3b82f6","#22c55e"]
+      "legend":    string[],                             // human-readable category names ("Quite happy", "Not at all", "1995"…). NEVER put hex codes (#a1b2c3, 22cc55e) or rgb() values here — those go in "colors".
+      "values":    number[] | number[][],                // pie: ONE array aligned to legend. Pie values are percentages and MUST sum to 100 (±2 for rounding). bar/line: 2D array, one row per series, columns aligned to xAxis.values. table: 2D matrix.
+      "colors":    string[]                              // optional hex colours per legend entry, e.g. ["#fbbf24","#3b82f6","#22c55e"]. Must be prefixed with #.
     }
   ],
   "notes":   string                                     // anything else worth preserving (source line, axis range, footer text…)
 }
 
-CRITICAL: If the screenshot contains more than one chart side-by-side or in a grid (very common with IELTS pies — "full-time students" vs "part-time students" vs different years), emit one entry in panels[] per chart, NOT a single merged chart. Set layout to the closest grid shape.
-
-Be faithful to the numbers visible in the image. If a value is ambiguous, pick the closest readable value rather than guessing wildly. Pie values are percentages; they should sum to ~100 per panel. For map / process_diagram the structured shape doesn't fit — return { "title":"...", "layout":"single", "panels":[], "notes":"Not re-renderable — use visual mode." }.`;
+CRITICAL CONSTRAINTS:
+1. Multi-panel charts: if the screenshot contains more than one chart side-by-side or in a grid (very common with IELTS pies — "full-time students" vs "part-time students", "1995" vs "2005", etc.), emit ONE entry in panels[] per chart, NOT a single merged chart. Set layout to the closest grid shape.
+2. Unique legend entries: each panel's legend[] must have NO duplicates. If you see the same category twice, deduplicate it.
+3. Pie sum rule: pie values are percentages. They MUST sum to 100 (±2 for rounding). If the values you can read don't sum to ~100, recheck the image — DO NOT submit pies where a slice exceeds 100% (no "111%" slices).
+4. No hex in legend: legend strings are HUMAN-READABLE category names ("Quite happy", "1995", "Asia"). Hex / rgb / oklch colour values belong in "colors", never "legend".
+5. Faithfulness over guessing: if a value is hard to read, prefer the closest visible value or omit that panel entirely. Do NOT invent percentages to make a sum work — round known sectors and let the remainder fall on the largest slice.
+6. Labels: panel.label must come VERBATIM from the image. If a panel has no visible sub-caption, set label="" — never invent "Panel 1" / "Chart 1".
+7. Maps / process diagrams: the structured shape doesn't fit — return { "title":"...", "layout":"single", "panels":[], "notes":"Not re-renderable — use visual mode." }.`;
   const specParts = [
     { text: specPrompt },
     { inlineData: { mimeType, data: imageBase64 } }
@@ -1302,6 +1307,58 @@ Be faithful to the numbers visible in the image. If a value is ambiguous, pick t
   try { spec = JSON.parse(raw1.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '')); }
   catch (e) { throw new Error(`spec JSON parse failed: ${(e as Error).message} — raw: ${raw1.slice(0, 200)}`); }
 
+  // ── Sanitise the spec before handing to Flash Image ─────────────
+  // Pro routinely leaks hex codes into legend strings, duplicates a
+  // category in pie legends, and emits pie sums that bust 100. Each of
+  // these wrecks the draw prompt; clean before passing along.
+  const isHexish = (s: string) =>
+    /^#?[0-9a-fA-F]{3,8}$/.test(String(s).trim()) ||                  // #abc / abcdef / 22cc55e
+    /^rgba?\s*\(/i.test(String(s)) || /^oklch\b/i.test(String(s));    // rgb()/oklch
+  const panelsIn = Array.isArray(spec?.panels) ? spec.panels : [];
+  spec.panels = panelsIn.map((p: any) => {
+    p = p && typeof p === 'object' ? p : {};
+    // Legend: dedupe + strip hex-y entries
+    const seen = new Set<string>();
+    const legendOut: string[] = [];
+    const keepIdx: number[] = [];
+    (Array.isArray(p.legend) ? p.legend : []).forEach((l: unknown, i: number) => {
+      const s = String(l == null ? '' : l).trim();
+      if (!s) return;
+      if (isHexish(s)) return;                                        // colour value leaked into legend — drop
+      const k = s.toLowerCase();
+      if (seen.has(k)) return;
+      seen.add(k);
+      legendOut.push(s);
+      keepIdx.push(i);
+    });
+    p.legend = legendOut;
+    // Re-align values to the surviving legend indices (only for 1D pie values)
+    if (Array.isArray(p.values) && p.values.length && !Array.isArray(p.values[0])) {
+      const filtered = keepIdx.map(i => p.values[i]).filter((v: unknown) => v != null);
+      p.values = filtered;
+      // Pie-sum normalisation — if the values clearly don't sum to ~100,
+      // rescale so the proportions are preserved but the prompt doesn't
+      // tell Flash Image to draw 111% slices.
+      if (String(p.chartType).includes('pie') && filtered.length) {
+        const nums = filtered.map((v: unknown) => Number(v) || 0);
+        const sum  = nums.reduce((a: number, b: number) => a + b, 0);
+        if (sum > 0 && (sum < 95 || sum > 105)) {
+          p.values = nums.map((v: number) => Math.round((v / sum) * 100));
+        }
+      }
+    }
+    // Colours: keep only legitimate hex (with or without #), prefix any missing #.
+    if (Array.isArray(p.colors)) {
+      p.colors = p.colors
+        .map((c: unknown) => String(c == null ? '' : c).trim())
+        .filter((c: string) => /^#?[0-9a-fA-F]{3,8}$/.test(c))
+        .map((c: string) => c.startsWith('#') ? c : '#' + c);
+    }
+    // Label: trim; empty strings stay empty (do NOT synthesise "Panel N")
+    p.label = p.label ? String(p.label).trim() : '';
+    return p;
+  });
+
   // Pass 2 — Gemini 2.5 Flash Image draws a brand-new clean chart from
   // the spec in Cambridge-IELTS style. The prompt makes the panel layout
   // explicit so Flash Image renders a composite (e.g. 2x2 pies) rather
@@ -1322,12 +1379,15 @@ Be faithful to the numbers visible in the image. If a value is ambiguous, pick t
   const layoutText = layoutDesc[layout] || (panels.length > 1 ? 'a grid of ' + panels.length + ' panels' : 'a single panel');
 
   function panelBlock(p: any, idx: number): string {
-    const label    = p.label ? String(p.label) : `Panel ${idx + 1}`;
+    const label    = p.label ? String(p.label) : '';        // empty → no sub-title for this panel
     const chartT   = String(p.chartType || 'chart').replace('_', ' ');
     const legend   = Array.isArray(p.legend) ? p.legend : [];
     const xVals    = Array.isArray(p?.xAxis?.values) ? p.xAxis.values : [];
     const isPieish = chartT === 'pie chart' || chartT === 'table';
-    let body = `  Title above panel: "${label}"\n  Chart type: ${chartT}\n  Legend: ${legend.join(', ') || '(none)'}\n`;
+    let body = label
+      ? `  Sub-title above this panel: "${label}"\n`
+      : `  Sub-title above this panel: (none — do NOT add a generic label like "Panel ${idx + 1}", leave the area blank)\n`;
+    body += `  Chart type: ${chartT}\n  Legend (in display order, exactly ${legend.length} item${legend.length === 1 ? '' : 's'}): ${legend.join(', ') || '(none)'}\n`;
     if (!isPieish && xVals.length) {
       body += `  X axis (${p?.xAxis?.label || 'category'}): ${xVals.join(', ')}\n  Y axis (${p?.yAxis?.label || 'value'}${p?.yAxis?.unit ? ', unit ' + p.yAxis.unit : ''})\n`;
     }
@@ -1339,37 +1399,49 @@ Be faithful to the numbers visible in the image. If a value is ambiguous, pick t
         vals.forEach((row: any, i: number) => {
           body += `    • ${legend[i] || ('Row ' + (i + 1))}: ${Array.isArray(row) ? row.join(', ') : row}\n`;
         });
+      } else if (chartT === 'pie chart') {
+        const nums = vals.map((v: any) => Number(v) || 0);
+        const sum  = nums.reduce((a: number, b: number) => a + b, 0);
+        const pairs = legend.map((l: string, i: number) => `${l} = ${nums[i] ?? 0}%`).join(', ');
+        body += `  Pie slices (must sum to 100): ${pairs} (sum ${sum})\n`;
       } else {
-        body += `  Values (aligned to legend, sum ≈ 100 for pie): ${vals.join(', ')}\n`;
+        body += `  Values: ${vals.join(', ')}\n`;
       }
     }
     if (Array.isArray(p.colors) && p.colors.length) {
-      body += `  Colours (per legend entry): ${p.colors.join(', ')}\n`;
+      body += `  Colours (per legend entry, same order): ${p.colors.join(', ')}\n`;
     }
     return body;
   }
   const panelsText = panels.map(panelBlock).join('\n');
   const overallTitle = spec?.title ? String(spec.title) : '';
 
-  const drawPrompt = `Draw ONE clean Cambridge-IELTS-style composite image showing ${layoutText} (${panels.length} chart${panels.length === 1 ? '' : 's'} total) from this exact data.
+  const drawPrompt = `Draw ONE clean Cambridge-IELTS-style composite image showing ${layoutText} (${panels.length} chart${panels.length === 1 ? '' : 's'} total) from this exact data. Render EXACTLY what is given — do not invent any labels, slices, or legend entries.
 
-${overallTitle ? 'Overall caption above the panels: "' + overallTitle + '"\n\n' : ''}Panels (in reading order):
+${overallTitle ? 'Overall caption (centred between the rows OR above the whole grid): "' + overallTitle + '"\n\n' : ''}Panels (in reading order):
 
 ${panelsText}
 ${spec?.notes ? 'Notes: ' + spec.notes + '\n' : ''}
+ACCURACY REQUIREMENTS (these override style):
+- Use the EXACT legend, slice values, and sub-titles given above. Do not add or remove categories. Do not relabel slices.
+- Pie slices: the percentage written inside each slice MUST match the value given in the panel block. Slices must sum to 100. No "111%" labels.
+- Sub-title above a panel: if the panel block says "(none)" leave that space blank — do not write "Panel 1" / "Chart 1" / etc.
+- Legend entries are HUMAN-READABLE words from the panel block. Never write a hex code (#a1b2c3, 22cc55e) or rgb() inside the legend or anywhere on the chart.
+- No duplicate legend entries on any panel.
+
 Layout requirements:
 - Render ALL ${panels.length} panel${panels.length === 1 ? '' : 's'} in the SAME output image, arranged as ${layoutText}.
-- Each panel keeps its own sub-title above it (the panel's label).
-- The overall caption ${overallTitle ? '(see above)' : '(if any)'} appears centred between the rows OR above the whole grid — not duplicated inside each panel.
-- Equal panel sizes; consistent fonts and palette across all panels.
+- Equal panel sizes; consistent fonts and palette across panels.
+- Each panel shows its own sub-title above it (only if non-empty).
+- The overall caption appears once — centred between the rows OR above the grid, NEVER duplicated inside each panel.
 
 Visual style:
 - Pure white background (#FFFFFF). No watermark, no extra annotation.
 - Clean black axes, tick marks, light-grey gridlines (0.5px) — for bar / line / table panels.
-- Pie slices labelled with their percentage value inside the slice, in white text where the slice is dark.
+- Pie slices labelled with their percentage value inside the slice, in dark text on light slices and white text on dark slices.
 - Typography: Arial / sans-serif, crisp at small sizes. Sub-titles bold.
 - Bar / line colours: Cambridge Press palette (#1f77b4 navy, #d62728 red, #2ca02c green, #ff7f0e orange, #9467bd purple) unless the spec supplies colours.
-- Legend shared across panels if all panels share the same legend; otherwise one legend per panel.
+- Legend appears ONCE if all panels share the same legend (preferred). Per-panel legend only if panels differ.
 - Output ONE composite image only. Do not add explanatory text outside the chart area.`;
   const r2 = await fetch(
     `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent?key=${geminiKey}`,
