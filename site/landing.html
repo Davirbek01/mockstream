@@ -31760,7 +31760,22 @@
         return;
       }
       if (btnEl) { btnEl.disabled = true; btnEl.style.opacity = '0.6'; btnEl.style.cursor = 'wait'; var _prev = btnEl.innerHTML; btnEl.innerHTML = '⏳ Tagging…'; btnEl.__prev = _prev; }
-      setStatus('Calling Gemini…');
+
+      // Ticking spinner — Gemini has no intermediate progress signal,
+      // so a spinning braille frame + elapsed-seconds counter is the
+      // cheapest "yes, it's still working" indicator. Mirrors the
+      // listening transcribe path.
+      var _iwTagT0 = Date.now();
+      var _iwTagTick = null;
+      var _iwTagFrames = ['⠋','⠙','⠹','⠸','⠼','⠴','⠦','⠧','⠇','⠏'];
+      function _iwTagRenderTick() {
+        var sec = Math.round((Date.now() - _iwTagT0) / 1000);
+        var spin = _iwTagFrames[Math.floor((Date.now() / 80)) % _iwTagFrames.length];
+        setStatus(spin + ' Gemini analysing prompts + chart… ' + sec + 's (typical 10–30s)', '#0369a1');
+      }
+      _iwTagRenderTick();
+      _iwTagTick = setInterval(_iwTagRenderTick, 100);
+      function _iwTagStopTick() { if (_iwTagTick) { clearInterval(_iwTagTick); _iwTagTick = null; } }
 
       // Optionally fetch the chart image so Gemini can use it as a
       // visual tie-breaker. Best-effort: if the fetch fails (CORS,
@@ -31825,15 +31840,29 @@
         // populated).
         if (typeof _mmgInitTabs === 'function') { window._mmgActiveTab = null; _mmgInitTabs(); _mmgSwitchTab('settings'); }
 
+        // Bust the iwetPicker cache so the next picker open re-fetches
+        // this mock's tags. Without this the picker's 24h localStorage
+        // cache keeps showing the pre-tag snapshot even after admin
+        // saves the mock — student sees "Line graph" when the editor
+        // has "Table". Wipe both the in-memory + persisted copy; full
+        // refetch on next picker open is cheap (~30 parallel calls).
+        try { localStorage.removeItem('ms_iwet_meta_v1'); } catch (_e) {}
+        if (typeof _iwetMockMeta === 'object' && _iwetMockMeta) {
+          Object.keys(_iwetMockMeta).forEach(function (k) { delete _iwetMockMeta[k]; });
+        }
+
+        _iwTagStopTick();
         var modelLabel = (j.model_used === 'gpt-4o') ? 'via GPT-4o (Gemini fallback)' : 'via Gemini 2.5 Pro';
         if (applied.length === 0) {
           setStatus('✓ Done ' + modelLabel + ' — but Gemini couldn\'t infer any tags from this prompt. Try editing the prompt or upload the chart image.', '#d97706');
         } else {
-          setStatus('✓ Tagged (' + applied.join(', ') + ') ' + modelLabel + ' — review on Task 1 / Task 2 tabs, then Save.', '#16a34a');
+          setStatus('✓ Tagged (' + applied.join(', ') + ') ' + modelLabel + ' — review on Task 1 / Task 2 tabs, then click Save to publish the new tags.', '#16a34a');
         }
       } catch (e) {
+        _iwTagStopTick();
         setStatus('✗ ' + (e.message || String(e)), '#dc2626');
       } finally {
+        _iwTagStopTick();
         if (btnEl) { btnEl.disabled = false; btnEl.style.opacity = ''; btnEl.style.cursor = ''; if (btnEl.__prev != null) btnEl.innerHTML = btnEl.__prev; }
       }
     };
