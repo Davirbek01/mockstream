@@ -1580,11 +1580,15 @@ Deno.serve(async (req) => {
   if (examType !== 'cefr-reading' && examType !== 'ielts-reading' && examType !== 'ielts-listening' && examType !== 'cefr-listening' && examType !== 'ielts-writing') {
     return json(400, { error: 'bad_exam_type', detail: 'expected "cefr-reading", "ielts-reading", "ielts-listening", "cefr-listening", or "ielts-writing"' });
   }
-  // IELTS Writing supports per-task import only — full-mock auto-import
-  // doesn't make sense for two free-response tasks. Reject any full-scope
-  // call with a hint so the admin doesn't waste a Gemini round-trip.
-  if (examType === 'ielts-writing' && (body.scope || 'full').toString() !== 'passage') {
-    return json(400, { error: 'bad_scope', detail: 'IELTS Writing import is per-task only — set scope: "passage" with passage_index 1 (Task 1) or 2 (Task 2).' });
+  // IELTS Writing supports per-task import only (scope=passage) for full
+  // structural extraction, plus scope=tags for the Settings-tab
+  // auto-tag button. Full-mock auto-import doesn't make sense for two
+  // free-response tasks — reject any other scope.
+  if (examType === 'ielts-writing') {
+    const _iwScope = (body.scope || 'full').toString();
+    if (_iwScope !== 'passage' && _iwScope !== 'tags') {
+      return json(400, { error: 'bad_scope', detail: 'IELTS Writing supports scope: "passage" (per-task import) or "tags" (Settings-tab auto-tag). Got "' + _iwScope + '".' });
+    }
   }
 
   // IELTS Listening import is now fully wired (see buildPrompt's
