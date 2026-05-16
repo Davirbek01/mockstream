@@ -1171,6 +1171,7 @@
     .rich-select-menu {
       position: absolute;
       top: calc(100% + 8px);
+      bottom: auto;
       left: 0;
       right: 0;
       background: white;
@@ -1184,6 +1185,15 @@
       -webkit-overflow-scrolling: touch;
       overscroll-behavior: contain;
       animation: rsPopIn 0.2s ease-out;
+    }
+    /* Open upward when the trigger sits too close to the viewport bottom
+       (e.g. Speaker 4 in Part 3). Inverted shadow + reversed transform
+       origin keep the pop-in animation feeling natural. */
+    .rich-select-menu.rich-select-menu-up {
+      top: auto;
+      bottom: calc(100% + 8px);
+      box-shadow: 0 -15px 40px rgba(0,0,0,0.2);
+      transform-origin: bottom center;
     }
     @keyframes rsPopIn { from { transform: scale(0.96); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     .rich-select-option {
@@ -5059,42 +5069,9 @@
     }
 
     function updateMapUsedLetters() {
-      // Count how many times each letter is selected
-      const letterCounts = {};
-      const usedLetters = new Set();
-
-      document.querySelectorAll('.map-selected-letter').forEach(el => {
-        const letter = el.textContent;
-        if (letter !== '—') {
-          usedLetters.add(letter);
-          letterCounts[letter] = (letterCounts[letter] || 0) + 1;
-        }
-      });
-
-      // Update all letter buttons
-      document.querySelectorAll('.map-letter-btn').forEach(btn => {
-        const letter = btn.dataset.letter;
-        const isSelected = btn.classList.contains('selected');
-        if (usedLetters.has(letter) && !isSelected) {
-          btn.classList.add('used');
-        } else {
-          btn.classList.remove('used');
-        }
-      });
-
-      // Mark duplicate question items with warning
-      document.querySelectorAll('.map-question-item').forEach(item => {
-        const qId = item.dataset.q;
-        const selectedLetter = document.querySelector('.map-selected-letter[data-q="' + qId + '"]');
-        if (selectedLetter) {
-          const letter = selectedLetter.textContent;
-          if (letter !== '—' && letterCounts[letter] > 1) {
-            item.classList.add('duplicate-warning');
-          } else {
-            item.classList.remove('duplicate-warning');
-          }
-        }
-      });
+      // No-op during the live test — same exam-realism principle as
+      // updateChosenOptions above. Function kept so existing call sites
+      // (handleMapLetterClick, restore) don't break.
     }
 
     // Event delegation for map letter buttons
@@ -5104,16 +5081,34 @@
       }
     });
 
-    // Rich select toggle
+    // Rich select toggle. When opening from a trigger near the viewport
+    // bottom (e.g. Speaker 4 in Part 3), there isn't enough room below
+    // for the full 6-option menu — options C, D, E, F got hidden under
+    // the fold and the user had no scroll handle to reach them. Detect
+    // available space below the trigger and flip the menu above when
+    // it'd overflow. CSS does the layout; we just toggle a class.
     function toggleRichSelect(qId, event) {
       if (event) event.stopPropagation();
       var menu = document.getElementById('rs-menu-' + qId);
       var trigger = document.getElementById('rs-trigger-' + qId);
       var isOpen = menu.style.display === 'block';
-      document.querySelectorAll('.rich-select-menu').forEach(function(m){ m.style.display = 'none'; });
+      document.querySelectorAll('.rich-select-menu').forEach(function(m){
+        m.style.display = 'none';
+        m.classList.remove('rich-select-menu-up');
+      });
       document.querySelectorAll('.rich-select-trigger').forEach(function(t){ t.classList.remove('open'); });
       document.querySelectorAll('.speaker-item').forEach(function(c){ c.classList.remove('elevated'); });
       if (!isOpen) {
+        // Measure first so the flip decision is correct.
+        var rect = trigger.getBoundingClientRect();
+        var spaceBelow = window.innerHeight - rect.bottom;
+        var spaceAbove = rect.top;
+        // Need ~280px to comfortably show 6 options. If not enough below
+        // BUT enough above, flip the menu up.
+        var NEEDED = 280;
+        if (spaceBelow < NEEDED && spaceAbove > spaceBelow) {
+          menu.classList.add('rich-select-menu-up');
+        }
         menu.style.display = 'block';
         trigger.classList.add('open');
         var card = trigger.closest('.speaker-item');
@@ -5145,61 +5140,19 @@
       document.querySelectorAll('.speaker-item').forEach(function(c){ c.classList.remove('elevated'); });
     });
 
-    // Track chosen options in matching questions
-    function updateChosenOptions() {
-      var container = document.querySelector('.matching-container');
-      if (!container) return;
-
-      var triggers = container.querySelectorAll('.rich-select-trigger.speaker-select');
-      var letterCounts = {};
-      var chosenLetters = new Set();
-
-      triggers.forEach(function(t) {
-        var v = t.getAttribute('data-value');
-        if (v) {
-          chosenLetters.add(v);
-          letterCounts[v] = (letterCounts[v] || 0) + 1;
-        }
-      });
-
-      // Duplicate warnings + option-used hints
-      triggers.forEach(function(t) {
-        var speakerItem = t.closest('.speaker-item');
-        var myVal = t.getAttribute('data-value');
-        if (myVal && letterCounts[myVal] > 1) {
-          speakerItem.classList.add('duplicate-warning');
-          t.classList.add('duplicate');
-        } else {
-          speakerItem.classList.remove('duplicate-warning');
-          t.classList.remove('duplicate');
-        }
-        var menu = document.getElementById('rs-menu-' + t.getAttribute('data-q'));
-        if (!menu) return;
-        menu.querySelectorAll('.rich-select-option').forEach(function(opt) {
-          var letter = opt.getAttribute('data-letter');
-          var isUsedElsewhere = chosenLetters.has(letter) && myVal !== letter;
-          opt.classList.toggle('option-used', isUsedElsewhere);
-        });
-      });
-
-      // Update options box visual
-      var optionsBox = container.querySelector('.options-box');
-      if (optionsBox) {
-        optionsBox.querySelectorAll('.option-box-item').forEach(function(item) {
-          var letter = item.dataset.optionLetter;
-          item.classList.toggle('chosen', chosenLetters.has(letter));
-        });
-      }
-
-      // Update mobile options preview chips
-      var mobilePreview = container.querySelector('.mobile-options-preview');
-      if (mobilePreview) {
-        mobilePreview.querySelectorAll('.mobile-option-chip').forEach(function(chip) {
-          var letter = chip.dataset.optionLetter;
-          chip.classList.toggle('chosen', chosenLetters.has(letter));
-        });
-      }
-    }
+    // Track chosen options in matching questions — intentionally a NO-OP
+    // during the live test. The previous implementation added three layers
+    // of visual feedback while the student was still answering:
+    //   • orange "already-used" highlight on dropdown options
+    //   • ✓ tick next to chosen options in the right-hand options panel
+    //     (and on mobile chips)
+    //   • red duplicate-warning border when the same letter was picked
+    //     for two speakers
+    // These nudges don't exist on the real paper-based CEFR Listening
+    // answer sheet — students get accustomed to them in practice and
+    // then feel cheated in the real exam. Function kept so existing
+    // call sites (selectSpeakerOption + map-letter handlers) don't break.
+    function updateChosenOptions() { /* no-op — exam realism */ }
 
     function matchesAnswer(userAns, correctArr) {
       if (!userAns) return false;
