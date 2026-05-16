@@ -30049,6 +30049,7 @@
           </div>
 
           <div id="mmgImportStatus" style="margin-top:8px;font-size:12px;min-height:16px;"></div>
+          <div style="margin-top:4px;font-size:11px;color:#64748b;">💡 Tip: paste a screenshot directly with <kbd style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:3px;padding:1px 6px;font-family:ui-monospace,monospace;font-size:10.5px;">Ctrl + V</kbd> — pasted images go straight to Test content.</div>
         </div>
 
         <div style="padding:12px 18px;border-top:1px solid #e2e8f0;display:flex;gap:8px;align-items:center;">
@@ -35749,8 +35750,59 @@
           });
         }
       });
+      // Wire Ctrl+V paste-to-upload (idempotent). When the import modal
+      // is open and the user pastes, treat any image / PDF on the
+      // clipboard as a test-content upload. Faster than File-picker
+      // → navigate to Downloads → click for a fresh screenshot.
+      _mmgImportBindPaste();
     }
     window._mmgImportOpen = _mmgImportOpen;
+
+    // Capture-phase paste listener on the document — only acts while the
+    // import modal is open. Default group is 'test' (commonest path);
+    // admins who want to paste an answer-key page can still drag/upload
+    // via the Key picker.
+    function _mmgImportBindPaste() {
+      if (window._mmgImportPasteBound) return;
+      window._mmgImportPasteBound = true;
+      document.addEventListener('paste', function (e) {
+        var modal = document.getElementById('mmgImportModal');
+        if (!modal || modal.style.display === 'none' || !window._mmgImportState) return;
+        // Skip if focus is in the notes textarea so admin can still paste
+        // text hints into "Notes for the AI" without it being treated as a
+        // file upload.
+        var ae = document.activeElement;
+        if (ae && ae.id === 'mmgImportNotes') return;
+        var cd = e.clipboardData;
+        if (!cd) return;
+        var files = [];
+        var items = cd.items || [];
+        for (var i = 0; i < items.length; i++) {
+          var it = items[i];
+          if (it.kind !== 'file') continue;
+          var f = it.getAsFile();
+          if (!f) continue;
+          // Browsers paste screenshots with no .name — give it one so the
+          // server-side filename column has something to show.
+          if (!f.name || f.name === 'image.png') {
+            try {
+              var ext = (f.type && f.type.split('/')[1]) || 'png';
+              var stamp = new Date().toISOString().replace(/[:.]/g, '-');
+              f = new File([f], 'pasted-' + stamp + '.' + ext, { type: f.type });
+            } catch (_e) {}
+          }
+          files.push(f);
+        }
+        if (files.length === 0) return;
+        e.preventDefault();
+        var status = document.getElementById('mmgImportStatus');
+        if (status) {
+          status.style.color = '#0369a1';
+          status.textContent = '📋 Pasted ' + files.length + ' image' + (files.length === 1 ? '' : 's') + '…';
+        }
+        _mmgImportFilesPicked('test', files);
+      }, true);
+    }
 
     // Per-passage import — same modal as full-test, but sends scope=passage
     // to the edge function and merges the single returned passage object
@@ -35802,6 +35854,7 @@
           });
         }
       });
+      _mmgImportBindPaste();
     }
     window._mmgImportOpenPassage = _mmgImportOpenPassage;
 
