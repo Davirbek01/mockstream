@@ -31555,12 +31555,50 @@
             + String(_now.getDate()).padStart(2, '0');
         }
         html += '<div class="mmg-section-title" style="margin-top:20px;">Source &amp; exam date</div>';
+        // Build the reliable-source datalist. Cambridge IELTS 1–19 × Test
+        // 1–4 + the major series + actual-test templates. The input is
+        // still free-typing (datalist is just a suggestion list, not a
+        // validation restriction) so admin can paste any custom string.
+        var _iwSourceOpts = [];
+        for (var _cb = 19; _cb >= 1; _cb--) {
+          for (var _ct = 1; _ct <= 4; _ct++) {
+            _iwSourceOpts.push('Cambridge IELTS ' + _cb + ' Test ' + _ct);
+          }
+        }
+        // Cambridge Practice Tests Plus
+        for (var _cpt = 1; _cpt <= 5; _cpt++) _iwSourceOpts.push('Cambridge IELTS Practice Tests Plus ' + _cpt);
+        // IELTS Trainer (2 books × multiple tests)
+        for (var _tr = 1; _tr <= 6; _tr++) _iwSourceOpts.push('IELTS Trainer Test ' + _tr);
+        for (var _tr2 = 1; _tr2 <= 6; _tr2++) _iwSourceOpts.push('IELTS Trainer 2 Test ' + _tr2);
+        // Recent Actual Tests volumes (Tien Thanh-style compilations)
+        for (var _vol = 1; _vol <= 8; _vol++) _iwSourceOpts.push('IELTS Recent Actual Tests Vol ' + _vol);
+        // Named individual books
+        _iwSourceOpts.push('Official Cambridge Guide to IELTS');
+        _iwSourceOpts.push('Mindset for IELTS');
+        _iwSourceOpts.push('Complete IELTS');
+        _iwSourceOpts.push('Focus on IELTS');
+        _iwSourceOpts.push('Action Plan for IELTS');
+        _iwSourceOpts.push('Road to IELTS (British Council)');
+        // Recent-exam templates — admin types the year/month after picking.
+        var _nowYr = new Date().getFullYear();
+        for (var _ry = _nowYr; _ry >= _nowYr - 2; _ry--) {
+          _iwSourceOpts.push('BC Actual Test ' + _ry + '-');
+          _iwSourceOpts.push('IDP Actual Test ' + _ry + '-');
+          for (var _q = 1; _q <= 4; _q++) _iwSourceOpts.push('Recent IELTS Test ' + _ry + '-Q' + _q);
+        }
+        var _iwDatalist = '<datalist id="mmgIwSourceSuggestions">';
+        for (var _i = 0; _i < _iwSourceOpts.length; _i++) {
+          _iwDatalist += '<option value="' + _mmgEsc(_iwSourceOpts[_i]) + '"></option>';
+        }
+        _iwDatalist += '</datalist>';
+
         html += '<div class="mmg-field"><label for="mmgIw_source">Source <span style="color:#94a3b8;font-weight:400;">(optional)</span></label>'
               +   '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">'
-              +     '<input type="text" id="mmgIw_source" value="' + _mmgEsc(md.source || '') + '" placeholder="e.g. Cambridge IELTS 18 Test 3 / Actual Test 2024-03 / IDP recent" style="flex:1;min-width:240px;border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;">'
+              +     '<input type="text" id="mmgIw_source" list="mmgIwSourceSuggestions" value="' + _mmgEsc(md.source || '') + '" placeholder="Start typing or click ▾ — Cambridge IELTS N Test N, BC Actual Test YYYY-MM, …" autocomplete="off" style="flex:1;min-width:240px;border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;">'
+              +     _iwDatalist
               +     '<button type="button" id="mmgIwFindSrcBtn" onclick="_mmgIwFindSource()" title="Ask Gemini (with Google search) to attribute these prompts" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(124,58,237,.3);white-space:nowrap;">🔎 Find online</button>'
               +   '</div>'
-              +   '<div class="mmg-field-help">Free-text attribution shown on the picker card. Click 🔎 Find online to have Gemini search the web for the most likely source. <strong>Reliable formats:</strong> "Cambridge IELTS 18 Test 3", "Cambridge IELTS Practice Tests Plus 3", "IELTS Recent Actual Tests Vol 7", "BC Actual Test 2024-03", "IDP Recent Test 2024-Q1", "IELTS Trainer 2 Test 4", "Official Cambridge Guide to IELTS Test 6".</div>'
+              +   '<div class="mmg-field-help">Pick a suggestion or type freely — both work. Click 🔎 Find online to have Gemini search the web for the most likely source. <strong>Common formats in the dropdown:</strong> Cambridge IELTS N Test N, Cambridge IELTS Practice Tests Plus N, IELTS Trainer (1/2) Test N, IELTS Recent Actual Tests Vol N, BC / IDP Actual Test YYYY-MM, Recent IELTS Test YYYY-Q1.</div>'
               +   '<div id="mmgIwFindSrcStatus" style="font-size:11.5px;color:#64748b;margin-top:4px;min-height:14px;font-weight:500;"></div>'
               + '</div>';
         html += '<div class="mmg-field"><label for="mmgIw_examDate">Exam date</label>'
