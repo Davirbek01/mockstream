@@ -31836,6 +31836,43 @@
           'Drop the prompt screenshot <em>and</em> the chart image. Gemini fills title, prompt, chart type, data nature, word goal, and time.');
         html += iwBar(1, 'Task 2 — paste / upload',
           'Drop the essay-prompt screenshot. Gemini fills title, prompt, essay type, word goal, and time.');
+
+        // Chart / diagram for Task 1 — surfaced here on the Settings tab
+        // so admins can manage the chart image alongside the import bars.
+        // Data still lives at md.tasks.task1.chartImageUrl / chartType /
+        // dataNature; the DOM prefix mmgIwSet_ keeps it distinct from
+        // the legacy mmgIw_task1_ inputs that no longer render anywhere.
+        var t1 = (md.tasks = md.tasks || {});
+        t1.task1 = t1.task1 || {};
+        var t1Chart = t1.task1;
+        html += '<div class="mmg-section-title" style="margin-top:20px;">Task 1 — chart / diagram</div>';
+        html += _mmgUploadFieldHtml({
+          id: 'mmgIwSet_chartImageUrl',
+          value: t1Chart.chartImageUrl,
+          skill: 'ielts-writing',
+          accept: 'image/png,image/jpeg,image/webp,image/gif',
+          label: 'Chart image URL',
+          help: 'Click 📁 Upload to add a new chart from your computer (uploads to GCS, URL fills automatically). Or paste a public URL manually.'
+        });
+        var _setChartType = t1Chart.chartType || 'line_graph';
+        var _setTypeOpts = '';
+        for (var _ci = 0; _ci < _MMG_IW_CHART_TYPES.length; _ci++) {
+          var _cv = _MMG_IW_CHART_TYPES[_ci];
+          _setTypeOpts += '<option value="' + _cv + '"' + (_cv === _setChartType ? ' selected' : '') + '>' + _cv.replace('_',' ') + '</option>';
+        }
+        html += '<div class="mmg-field"><label for="mmgIwSet_chartType">Chart type</label>'
+              +   '<select id="mmgIwSet_chartType" style="border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;">' + _setTypeOpts + '</select>'
+              +   '<div class="mmg-field-help">Used for AI feedback context — pick the visualisation that best matches the chart image.</div>'
+              + '</div>';
+        html += '<div class="mmg-field"><label for="mmgIwSet_dataNature">Data nature</label>'
+              +   _mmgIwSelectHtml('mmgIwSet_dataNature', _MMG_IW_DATA_NATURES, t1Chart.dataNature)
+              +   '<div class="mmg-field-help">Does the chart show change over time, a static snapshot, or is it not applicable (map / process diagram)? Gemini auto-detects this on import.</div>'
+              + '</div>';
+        html += '<div class="mmg-field"><label>Image preview</label>'
+              +   '<div id="mmgIwSet_chartPreview" style="border:1px dashed #cbd5e1;border-radius:8px;padding:8px;background:#fffbeb;display:flex;align-items:center;justify-content:center;min-height:60px;">'
+              +     '<span style="color:#94a3b8;font-size:12px;">no image url yet</span>'
+              +   '</div>'
+              + '</div>';
       }
 
       if (keys.length) {
@@ -31958,6 +31995,21 @@
         _mmgUploadBind({ id: 'mmgSetImg1', skill: type });
         _mmgUploadBind({ id: 'mmgSetImg2', skill: type });
       }
+
+      // IELTS Writing — wire the Task 1 chart upload/preview now that
+      // the chart UI lives on the Settings tab. _mmgUpdateChartPreview
+      // takes the field-ID prefix; passing 'mmgIwSet_' renders the
+      // preview into the matching #mmgIwSet_chartPreview slot.
+      if (type === 'ielts-writing') {
+        _mmgUpdateChartPreview('mmgIwSet_');
+        var _setUrlEl = document.getElementById('mmgIwSet_chartImageUrl');
+        if (_setUrlEl) _setUrlEl.addEventListener('input', function () { _mmgUpdateChartPreview('mmgIwSet_'); });
+        _mmgUploadBind({
+          id: 'mmgIwSet_chartImageUrl',
+          skill: 'ielts-writing',
+          onUploaded: function () { _mmgUpdateChartPreview('mmgIwSet_'); }
+        });
+      }
     }
     function _mmgCollectSettings(md) {
       md.settings = md.settings || {};
@@ -31981,6 +32033,20 @@
         if (dateEl) {
           var dv = (dateEl.value || '').trim();
           if (dv) md.examDate = dv; else delete md.examDate;
+        }
+        // Task 1 chart fields — moved from the Task 1 tab. Saved into
+        // md.tasks.task1.* same as before so the runner / picker
+        // continue to read from the same path.
+        md.tasks = md.tasks || {};
+        md.tasks.task1 = md.tasks.task1 || {};
+        var setUrlEl  = document.getElementById('mmgIwSet_chartImageUrl');
+        var setTypeEl = document.getElementById('mmgIwSet_chartType');
+        var setNatEl  = document.getElementById('mmgIwSet_dataNature');
+        if (setUrlEl)  md.tasks.task1.chartImageUrl = setUrlEl.value;
+        if (setTypeEl) md.tasks.task1.chartType     = setTypeEl.value;
+        if (setNatEl) {
+          var nv = (setNatEl.value || '').trim();
+          if (nv) md.tasks.task1.dataNature = nv; else delete md.tasks.task1.dataNature;
         }
       }
 
@@ -32148,40 +32214,12 @@
       html += _mmgFieldArea('Instruction', p + 'instruction', instrValue,
         'Sub-instruction shown below the prompt. Pre-filled with the standard IELTS rubric for this task — edit to match the prompt type (e.g., "Discuss both views…" for discussion essays).', 70);
 
-      // Task 1 only: chart image.
+      // Task 1 chart / chart-type / data-nature now live on the Settings
+      // tab (see _mmgRenderSettings) — admins manage them alongside the
+      // import bars + source/date metadata. Underlying data still saved
+      // at md.tasks.task1.chartImageUrl / chartType / dataNature.
       if (key === 'task1') {
-        html += '<div class="mmg-section-title">Chart / diagram</div>';
-        html += _mmgUploadFieldHtml({
-          id: p + 'chartImageUrl',
-          value: task.chartImageUrl,
-          skill: 'ielts-writing',
-          accept: 'image/png,image/jpeg,image/webp,image/gif',
-          label: 'Chart image URL',
-          help: 'Click 📁 Upload to add a new chart from your computer (uploads to GCS, URL fills automatically). Or paste a public URL manually.'
-        });
-        // Chart-type dropdown.
-        var chartType = task.chartType || 'line_graph';
-        var typeOpts = '';
-        for (var i = 0; i < _MMG_IW_CHART_TYPES.length; i++) {
-          var v = _MMG_IW_CHART_TYPES[i];
-          typeOpts += '<option value="' + v + '"' + (v === chartType ? ' selected' : '') + '>' + v.replace('_',' ') + '</option>';
-        }
-        html += '<div class="mmg-field"><label for="' + p + 'chartType">Chart type</label>'
-              +   '<select id="' + p + 'chartType" style="border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;">' + typeOpts + '</select>'
-              +   '<div class="mmg-field-help">Used for AI feedback context — pick the visualisation that best matches the chart image.</div>'
-              + '</div>';
-        // Data nature — picker filter dimension. "Not applicable" for
-        // map / process_diagram by convention.
-        html += '<div class="mmg-field"><label for="' + p + 'dataNature">Data nature</label>'
-              +   _mmgIwSelectHtml(p + 'dataNature', _MMG_IW_DATA_NATURES, task.dataNature)
-              +   '<div class="mmg-field-help">Does the chart show change over time, a static snapshot, or is it not applicable (map / process diagram)? Gemini auto-detects this on import.</div>'
-              + '</div>';
-        // Live thumbnail preview of the chart URL.
-        html += '<div class="mmg-field"><label>Image preview</label>'
-              +   '<div id="' + p + 'chartPreview" style="border:1px dashed #cbd5e1;border-radius:8px;padding:8px;background:#fffbeb;display:flex;align-items:center;justify-content:center;min-height:60px;">'
-              +     '<span style="color:#94a3b8;font-size:12px;">no image url yet</span>'
-              +   '</div>'
-              + '</div>';
+        html += '<div class="mmg-field-help" style="margin-top:8px;padding:8px 10px;background:#fdf4ff;border:1px dashed #d8b4fe;border-radius:6px;color:#6b21a8;">📊 <strong>Chart image, chart type, and data nature</strong> live in the <strong>Settings</strong> tab.</div>';
       }
 
       // Task 2 only: essay type dropdown. Picker filter dimension.
@@ -32199,18 +32237,8 @@
       html += '<div class="mmg-field-help" style="margin-top:8px;padding:8px 10px;background:#f0f9ff;border:1px dashed #93c5fd;border-radius:6px;color:#1e40af;">💡 Sample answers (main + Band 5–9 + Uzbek) live in the <strong>Samples</strong> tab. Optional — leave empty if you don\'t need them for this mock.</div>';
 
       document.getElementById(paneId).innerHTML = html;
-      if (key === 'task1') {
-        _mmgUpdateChartPreview(p);
-        // Refresh thumbnail on URL input.
-        var urlEl = document.getElementById(p + 'chartImageUrl');
-        if (urlEl) urlEl.addEventListener('input', function() { _mmgUpdateChartPreview(p); });
-        // Wire the 📁 Upload button on the chart URL field.
-        _mmgUploadBind({
-          id: p + 'chartImageUrl',
-          skill: 'ielts-writing',
-          onUploaded: function() { _mmgUpdateChartPreview(p); }
-        });
-      }
+      // Chart image + chart-type + data-nature live on the Settings tab
+      // now; no per-task chart wiring needed here.
     }
     function _mmgCollectIwTask(md, key) {
       md.tasks = md.tasks || {};
