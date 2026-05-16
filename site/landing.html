@@ -30013,6 +30013,7 @@
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
               <strong>Test content (1 or more files)</strong>
               <span style="flex:1;color:#94a3b8;font-size:11px;font-weight:normal;"> · PDF, PNG, JPG, WebP</span>
+              <button onclick="_mmgImportPasteFromClipboard('test')" class="mmg-add-btn" type="button" title="Paste image from clipboard">📋 Paste</button>
               <button onclick="_mmgImportPickFile('test')" class="mmg-add-btn" type="button">＋ Add file</button>
             </div>
             <div id="mmgImportTestFiles"></div>
@@ -30022,6 +30023,7 @@
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
               <strong>Answer key (optional)</strong>
               <span style="flex:1;color:#94a3b8;font-size:11px;font-weight:normal;"> · skip if your test file already includes the key</span>
+              <button onclick="_mmgImportPasteFromClipboard('answer-key')" class="mmg-add-btn" type="button" title="Paste image from clipboard">📋 Paste</button>
               <button onclick="_mmgImportPickFile('answer-key')" class="mmg-add-btn" type="button">＋ Add file</button>
             </div>
             <div id="mmgImportKeyFiles"></div>
@@ -30049,7 +30051,7 @@
           </div>
 
           <div id="mmgImportStatus" style="margin-top:8px;font-size:12px;min-height:16px;"></div>
-          <div style="margin-top:4px;font-size:11px;color:#64748b;">💡 Tip: paste a screenshot directly with <kbd style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:3px;padding:1px 6px;font-family:ui-monospace,monospace;font-size:10.5px;">Ctrl + V</kbd> — pasted images go straight to Test content.</div>
+          <div style="margin-top:4px;font-size:11px;color:#64748b;">💡 Tip: hit each section's <strong>📋 Paste</strong> button to add the current clipboard image to that section — or press <kbd style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:3px;padding:1px 6px;font-family:ui-monospace,monospace;font-size:10.5px;">Ctrl + V</kbd> anywhere in this dialog to add to Test content. Paste again to stack more screenshots; click ✕ next to a file to drop it.</div>
         </div>
 
         <div style="padding:12px 18px;border-top:1px solid #e2e8f0;display:flex;gap:8px;align-items:center;">
@@ -35865,6 +35867,61 @@
     window._mmgImportPickFile = function (group) {
       var pickerId = group === 'test' ? 'mmgImportPickerTest' : 'mmgImportPickerKey';
       document.getElementById(pickerId).click();
+    };
+
+    // Explicit "📋 Paste" button — reads the clipboard via the modern
+    // Async Clipboard API and routes the resulting image / PDF into the
+    // named group (test / answer-key). Compared to the doc-level Ctrl+V
+    // listener, this lets the admin paste into the ANSWER KEY section
+    // too without needing to swap groups. Requires HTTPS (yes), a user
+    // gesture (the button click counts), and a one-time permission grant.
+    window._mmgImportPasteFromClipboard = async function (group) {
+      var status = document.getElementById('mmgImportStatus');
+      function setStatus(msg, color) {
+        if (status) {
+          status.textContent = msg;
+          status.style.color = color || '#64748b';
+        }
+      }
+      if (!window._mmgImportState) return;
+      if (!navigator.clipboard || typeof navigator.clipboard.read !== 'function') {
+        setStatus('Async clipboard not supported in this browser — press Ctrl+V instead.', '#dc2626');
+        return;
+      }
+      try {
+        var items = await navigator.clipboard.read();
+        var files = [];
+        for (var i = 0; i < items.length; i++) {
+          var item = items[i];
+          var types = item.types || [];
+          var pickedType = null;
+          for (var j = 0; j < types.length; j++) {
+            if (types[j].indexOf('image/') === 0 || types[j] === 'application/pdf') {
+              pickedType = types[j]; break;
+            }
+          }
+          if (!pickedType) continue;
+          var blob = await item.getType(pickedType);
+          var stamp = new Date().toISOString().replace(/[:.]/g, '-');
+          var ext = pickedType.split('/')[1] || 'png';
+          var file = new File([blob], 'pasted-' + stamp + '.' + ext, { type: pickedType });
+          files.push(file);
+        }
+        if (files.length === 0) {
+          setStatus('No image / PDF on the clipboard. Copy a screenshot first, then click 📋 Paste.', '#dc2626');
+          return;
+        }
+        var label = (group === 'test') ? 'Test content' : 'Answer key';
+        setStatus('📋 Pasted ' + files.length + ' file' + (files.length === 1 ? '' : 's') + ' into ' + label + '…', '#0369a1');
+        _mmgImportFilesPicked(group, files);
+      } catch (e) {
+        var msg = (e && e.message) || String(e);
+        if (/permission/i.test(msg)) {
+          setStatus('Clipboard permission denied — allow it in the browser address-bar prompt, then click 📋 Paste again.', '#dc2626');
+        } else {
+          setStatus('Paste failed: ' + msg, '#dc2626');
+        }
+      }
     };
 
     function _mmgFileToBase64(file) {
