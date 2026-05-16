@@ -17887,8 +17887,24 @@
         // Take Test button — pushState (committed navigation) + tell
         // iwetClose to leave the URL alone so the runner page keeps
         // /take/<slug> visible.
-        const file = card.dataset.file;
+        // Partial-ready handling: if only one task is Ready, append
+        // ?task=t1 / ?task=t2 so the runner launches in single-task
+        // mode (it already supports this — see Writing IELTS Mock.html
+        // line ~77 _singleTaskId handling). Skips the missing task
+        // entirely instead of letting the runner silently fall back to
+        // a default chart from another mock.
+        let file = card.dataset.file;
         if (!file) return;
+        const meta = _iwetMockMeta[mockN];
+        if (meta && Array.isArray(meta.tasks)) {
+          const t1Ready = !!(meta.tasks[0] && meta.tasks[0].ready);
+          const t2Ready = !!(meta.tasks[1] && meta.tasks[1].ready);
+          if (t1Ready && !t2Ready) {
+            file += (file.indexOf('?') === -1 ? '?' : '&') + 'task=t1';
+          } else if (!t1Ready && t2Ready) {
+            file += (file.indexOf('?') === -1 ? '?' : '&') + 'task=t2';
+          }
+        }
         if (mockN) {
           try { history.pushState(null, '', '/take/ielts-writing-' + encodeURIComponent(mockN)); } catch (_e) {}
         }
