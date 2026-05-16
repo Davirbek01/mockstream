@@ -16594,7 +16594,18 @@
         ? cefrListeningTests : [];
       const missing = items
         .map((t, idx) => ({ t, key: String(idx + 1).padStart(2, '0') }))
-        .filter(({ key }) => !cachedData[key]);
+        .filter(({ key }) => {
+          // Always (re)fetch entries we don't have yet.
+          const cm = cachedData[key];
+          if (!cm) return true;
+          // In-progress mocks (not all 6 parts ready) change as the admin
+          // adds parts — refetch them every load so students see the
+          // newly-ready parts without waiting for the 24h TTL. Fully-
+          // ready mocks rarely change, so honour the cache for those.
+          const sections = cm.sections || [];
+          const readyCount = sections.filter(p => p.ready).length;
+          return readyCount < sections.length;
+        });
       if (missing.length === 0) return;
       await Promise.all(missing.map(async ({ t, key }) => {
         const spec = _cletParseFileSpec(t && t.file);
