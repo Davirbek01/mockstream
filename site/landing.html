@@ -8517,6 +8517,18 @@
       opacity: 0.85;
       font-weight: 500;
     }
+    /* Data-nature highlight (T1 only) — separate striking colour so
+       students can scan over-time vs static at a glance without
+       reading the chart type itself. */
+    #iwetPicker .iwet-task-data {
+      color: #15803d;
+      background: #dcfce7;
+      border: 1px solid #86efac;
+      border-radius: 999px;
+      padding: 1px 8px;
+      font-weight: 700;
+      opacity: 1;
+    }
     .ilet-header {
       position: sticky;
       top: 0;
@@ -17249,18 +17261,22 @@
         // chart being a map or process diagram).
         let sub;
         if (isT1) {
-          const segs = [];
-          segs.push(_IWET_CHART_LABEL[p.chartType] || (p.chartType || '—'));
+          const chartSeg = _IWET_CHART_LABEL[p.chartType] || (p.chartType || '—');
           const natLabel = _IWET_DATA_LABEL[p.dataNature];
-          if (natLabel && p.dataNature !== 'not-applicable') segs.push(natLabel);
-          segs.push(p.wordGoal + ' words');
-          sub = segs.join(' · ');
+          const natSeg = (natLabel && p.dataNature !== 'not-applicable')
+            ? ' · <span class="iwet-task-data">' + _iwetEsc(natLabel) + '</span>'
+            : '';
+          sub = _iwetEsc(chartSeg) + natSeg + ' · ' + p.wordGoal + ' words';
         } else {
-          sub = (_IWET_ESSAY_LABEL[p.essayType] || (p.essayType || '—')) + ' · ' + p.wordGoal + ' words';
+          sub = _iwetEsc(_IWET_ESSAY_LABEL[p.essayType] || (p.essayType || '—')) + ' · ' + p.wordGoal + ' words';
         }
+        // sub is built from pre-escaped pieces (chart/essay labels and
+        // data-nature) plus a small literal HTML span for the green
+        // data-nature highlight, so it MUST NOT pass through _iwetEsc
+        // here or the <span> would render as literal text.
         const titleHtml = p.title
-          ? '<strong>' + _iwetEsc(p.title) + '</strong><span class="iwet-task-sub">' + _iwetEsc(sub) + '</span>'
-          : '<strong style="color:#94a3b8;">(no topic title yet)</strong><span class="iwet-task-sub">' + _iwetEsc(sub) + '</span>';
+          ? '<strong>' + _iwetEsc(p.title) + '</strong><span class="iwet-task-sub">' + sub + '</span>'
+          : '<strong style="color:#94a3b8;">(no topic title yet)</strong><span class="iwet-task-sub">' + sub + '</span>';
         return '<li class="ilet-section">'
           + '<span class="ilet-section-num">T' + (i + 1) + '</span>'
           + '<span class="ilet-section-title">' + titleHtml + '</span>'
