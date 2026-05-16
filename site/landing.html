@@ -8471,6 +8471,10 @@
     }
     #iwetPicker .ilet-card {
       border-color: #fed7aa;
+      cursor: pointer;
+    }
+    #iwetPicker .ilet-card.ilet-card-disabled {
+      cursor: default;
     }
     #iwetPicker .ilet-card:hover:not(.ilet-card-disabled) {
       border-color: #c2410c;
@@ -11756,10 +11760,12 @@
         }
         if (!takeParam) return;
         // Expected slug: cefr-reading-45 / ielts-reading-23 / ielts-listening-12
-        // / cefr-speaking-15 (case-insensitive). IELTS speaking is not yet wired
-        // for deep links — match it separately when that flow is added.
+        // / cefr-speaking-15 / ielts-writing-7 (case-insensitive). IELTS
+        // speaking is not yet wired for deep links — match it separately
+        // when that flow is added.
         var m = takeParam.match(/^(cefr|ielts)-(reading|listening)-(\d+)$/i)
-             || takeParam.match(/^(cefr)-(speaking)-(\d+)$/i);
+             || takeParam.match(/^(cefr)-(speaking)-(\d+)$/i)
+             || takeParam.match(/^(ielts)-(writing)-(\d+)$/i);
         if (!m) {
           console.warn('[deep-link] Unrecognised slug:', takeParam);
           return;
@@ -11824,6 +11830,26 @@
           alert((exam.toUpperCase() + ' ' + skill[0].toUpperCase() + skill.slice(1)) + ' Mock ' + mockNum + ' is not available right now.');
           return;
         }
+
+        // IELTS Writing — different runner + auto-proceed gate quirk.
+        // The runner page bails to landing without ?test=, so we pass
+        // BOTH ?test=ielts-writing-mock-NN AND ?sbmock=<id>. Same URL
+        // shape ieltsWritingMocks entries use after the dynamic upgrade.
+        if (skill === 'writing') {
+          var padded = String(mockNum).padStart(2, '0');
+          var pageUrlW = 'Writing IELTS Mock.html'
+            + '?test=ielts-writing-mock-' + padded
+            + '&sbmock=' + encodeURIComponent(sbMockId)
+            + '&auto=1';
+          if (typeof handleWritingMockClick !== 'function') {
+            console.warn('[deep-link] handleWritingMockClick not loaded — falling back to loadMock');
+            if (typeof loadMock === 'function') loadMock(pageUrlW, 'writing');
+            return;
+          }
+          handleWritingMockClick(pageUrlW, category);
+          return;
+        }
+
         // Runner file per (exam, skill). Reading + Listening have separate runners.
         var runnerFile;
         if (skill === 'reading') {
@@ -17643,14 +17669,22 @@
       if (dnSel)  dnSel.addEventListener('change', function () { _iwetDataFilter    = this.value || ''; _iwetApplyFiltersAndSort(); });
       if (etSel)  etSel.addEventListener('change', function () { _iwetEssayFilter   = this.value || ''; _iwetApplyFiltersAndSort(); });
       document.getElementById('iwetGrid').addEventListener('click', function (e) {
-        const btn = e.target.closest('.ilet-take');
-        if (!btn) return;
-        const card = btn.closest('.ilet-card');
+        // Whole card is clickable — ignore taps that originate from
+        // interactive children (search, dropdowns, etc.) just in case
+        // we ever add controls inside the card.
+        if (e.target.closest('input, select, textarea, a, [contenteditable]')) return;
+        const card = e.target.closest('.ilet-card');
         if (!card) return;
+        // Disabled (none ready) cards shouldn't navigate — they show
+        // "Coming soon" instead of "Take Test".
+        if (card.classList.contains('ilet-card-disabled')) return;
         const file = card.dataset.file;
         if (!file) return;
         const mockN = card.dataset.mock;
         if (mockN) {
+          // Shareable deep-link path. mock-stream.com/take/ielts-writing-01
+          // hits the Netlify 200 rewrite, _processDeepLinkTake reads the
+          // slug, looks up sbmock, and opens the mock.
           try { history.pushState(null, '', '/take/ielts-writing-' + encodeURIComponent(mockN)); } catch (_e) {}
         }
         iwetClose();
