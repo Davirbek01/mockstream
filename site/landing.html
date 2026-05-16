@@ -34769,7 +34769,14 @@
         setStatus('Fix the highlighted field, then click Generate explanations.', '#dc2626');
         return;
       }
-      var md = (window._mmgEditing && window._mmgEditing.mock_data) || _mmgGetMockData();
+      // After flush, the raw-JSON textarea is the source of truth — read
+      // from there, NOT from window._mmgEditing.mock_data which the flush
+      // doesn't touch and which therefore still holds the pre-transcribe
+      // state. (Reading _mmgEditing first was the cause of "No transcript
+      // yet" right after clicking Transcribe — the flush wrote the new
+      // transcript into the textarea, but the stale _mmgEditing copy
+      // looked empty here.)
+      var md = _mmgGetMockData();
       if (!md) { setStatus('Invalid mock_data JSON.', '#dc2626'); return; }
       var p = (md.parts && md.parts[idx]) || {};
       if (!p.transcript || !String(p.transcript).trim()) {
@@ -34997,7 +35004,18 @@
         setStatus('Fix the highlighted field, then click Generate all.', '#dc2626');
         return;
       }
-      var md = (window._mmgEditing && window._mmgEditing.mock_data) || _mmgGetMockData();
+      // The flush above only collects the CURRENTLY-ACTIVE tab. The bulk
+      // generator needs every part's transcript flushed, so iterate all
+      // 6 part collectors here too (no-op for parts whose DOM textareas
+      // never rendered). Read fresh md from the textarea afterwards.
+      var _mdTemp = _mmgGetMockData();
+      if (_mdTemp) {
+        for (var _i = 0; _i < 6; _i++) {
+          try { _mmgCollectClPart(_mdTemp, _i); } catch (_e) {}
+        }
+        _mmgSetMockData(_mdTemp);
+      }
+      var md = _mmgGetMockData();
       if (!md || !Array.isArray(md.parts) || md.parts.length === 0) {
         setStatus('No parts loaded — import or paste mock_data first.', '#dc2626');
         return;
