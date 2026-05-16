@@ -8471,10 +8471,6 @@
     }
     #iwetPicker .ilet-card {
       border-color: #fed7aa;
-      cursor: pointer;
-    }
-    #iwetPicker .ilet-card.ilet-card-disabled {
-      cursor: default;
     }
     #iwetPicker .ilet-card:hover:not(.ilet-card-disabled) {
       border-color: #c2410c;
@@ -17605,13 +17601,18 @@
       _iwetRender();
     }
 
-    function iwetClose() {
+    function iwetClose(opts) {
+      // opts.keepUrl=true → caller is navigating away to a /take/<slug>
+      // URL and wants the URL bar to stay there. Default: roll back the
+      // picker-open history entry + reset /take/ → /landing.html so the
+      // student doesn't land on a stale deep-link URL after closing.
+      const keepUrl = !!(opts && opts.keepUrl);
       const overlay = document.getElementById('iwetPicker');
       overlay.classList.remove('ilet-open');
       overlay.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
       if (typeof _pickerHideTmaBack === 'function') _pickerHideTmaBack();
-      if (!_pickerFromPopstate) {
+      if (!_pickerFromPopstate && !keepUrl) {
         try {
           if (history.state && history.state.picker === 'iwet') history.back();
           if (/^\/take\//i.test(window.location.pathname)) {
@@ -17669,29 +17670,34 @@
       if (dnSel)  dnSel.addEventListener('change', function () { _iwetDataFilter    = this.value || ''; _iwetApplyFiltersAndSort(); });
       if (etSel)  etSel.addEventListener('change', function () { _iwetEssayFilter   = this.value || ''; _iwetApplyFiltersAndSort(); });
       document.getElementById('iwetGrid').addEventListener('click', function (e) {
-        // Whole card is clickable — ignore taps that originate from
-        // interactive children (search, dropdowns, etc.) just in case
-        // we ever add controls inside the card.
         if (e.target.closest('input, select, textarea, a, [contenteditable]')) return;
         const card = e.target.closest('.ilet-card');
         if (!card) return;
-        // Disabled (none ready) cards shouldn't navigate — they show
-        // "Coming soon" instead of "Take Test".
         if (card.classList.contains('ilet-card-disabled')) return;
+        const mockN = card.dataset.mock;
+        const isTakeBtn = !!e.target.closest('.ilet-take');
+
+        if (!isTakeBtn) {
+          // Whole-card tap — preview the shareable deep-link URL in the
+          // bar without committing to navigation. replaceState (not
+          // pushState) so back-arrow still returns to the landing page,
+          // and tapping a second card just rewrites the URL instead of
+          // stacking history entries.
+          if (mockN) {
+            try { history.replaceState(null, '', '/take/ielts-writing-' + encodeURIComponent(mockN)); } catch (_e) {}
+          }
+          return;
+        }
+
+        // Take Test button — pushState (committed navigation) + tell
+        // iwetClose to leave the URL alone so the runner page keeps
+        // /take/<slug> visible.
         const file = card.dataset.file;
         if (!file) return;
-        const mockN = card.dataset.mock;
         if (mockN) {
-          // Shareable deep-link path. mock-stream.com/take/ielts-writing-01
-          // hits the Netlify 200 rewrite, _processDeepLinkTake reads the
-          // slug, looks up sbmock, and opens the mock.
           try { history.pushState(null, '', '/take/ielts-writing-' + encodeURIComponent(mockN)); } catch (_e) {}
         }
-        iwetClose();
-        // Route through the writing click handler so access-code gates +
-        // the Full Test / Task Practice mode picker (ieltsWritingModeModal)
-        // both fire. Falls back to plain loadMock when the handler isn't
-        // available (defensive — should never happen in production).
+        iwetClose({ keepUrl: true });
         if (typeof handleWritingMockClick === 'function') {
           handleWritingMockClick(file, 'ielts-writing');
         } else if (typeof loadMock === 'function') {
