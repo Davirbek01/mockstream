@@ -16527,7 +16527,12 @@
       _iletRender();
     }
 
-    function iletClose() {
+    function iletClose(opts) {
+      // opts.keepUrl=true → caller is forward-navigating to a /take/<slug>
+      // URL and wants the URL bar to stay there. Default: rewind the
+      // picker-open history entry + reset /take/ → /landing.html so the
+      // student doesn't land on a stale deep-link URL after closing.
+      const keepUrl = !!(opts && opts.keepUrl);
       const overlay = document.getElementById('iletPicker');
       overlay.classList.remove('ilet-open');
       overlay.setAttribute('aria-hidden', 'true');
@@ -16543,7 +16548,7 @@
       //     until the next back. Belt-and-braces: also replaceState to
       //     /landing.html whenever the URL is currently a take URL, so
       //     the address bar matches the now-visible landing view.
-      if (!_pickerFromPopstate) {
+      if (!_pickerFromPopstate && !keepUrl) {
         try {
           if (history.state && history.state.picker === 'ilet') {
             history.back();
@@ -16595,35 +16600,42 @@
         _iletSourceFilter = this.value || '';
         _iletApplyFiltersAndSort();
       });
-      // Card click — keep the picker open. handleListeningMockClick raises the
-      // access-code modal at z-index 100004 (above the picker at 100003), so
-      // students see the lock prompt without losing their place. The runner
-      // iframe takes over the viewport only after the code is verified.
+      // Card click — split on Take Test button vs whole-card tap:
+      //   • Whole-card tap → preview the /take/<slug> deep-link URL in
+      //     the address bar via replaceState only (no history entry, no
+      //     navigation). Tapping a different card just rewrites the URL.
+      //   • Take Test button → pushState + iletClose({keepUrl:true}) +
+      //     handleListeningMockClick (mode modal flow as before). The
+      //     keepUrl flag prevents iletClose from rolling back the URL
+      //     while the mode modal / runner takes over.
+      // Skip when the tap originates inside a form control (defensive).
       document.getElementById('iletGrid').addEventListener('click', function (e) {
-        const btn = e.target.closest('.ilet-take');
-        if (!btn) return;
-        const card = btn.closest('.ilet-card');
+        if (e.target.closest('input, select, textarea, a, [contenteditable]')) return;
+        const card = e.target.closest('.ilet-card');
         if (!card) return;
+        if (card.classList.contains('ilet-card-disabled')) return;
+        const mockN = card.dataset.mock;
+        const isTakeBtn = !!e.target.closest('.ilet-take');
+
+        if (!isTakeBtn) {
+          if (mockN) {
+            try { history.replaceState(null, '', '/take/ielts-listening-' + encodeURIComponent(mockN)); } catch (_e) {}
+          }
+          return;
+        }
+
         const file = card.dataset.file;
         if (!file) return;
-        // Append &mock=N (the real mock_number) so the mode modal title
-        // doesn't fall back to the ?sbmock= row id. Same fix as the
-        // CEFR Reading picker.
-        const mockN = card.dataset.mock;
         const fileWithMock = mockN
           ? file + (file.indexOf('?') >= 0 ? '&' : '?') + 'mock=' + encodeURIComponent(mockN)
           : file;
-        // Reflect the chosen mock in the URL bar (shareable deep-link
-        // shape). pushState adds a history entry so the browser back
-        // button takes the student back to the landing page; the
-        // popstate listener below cleans up any open access-code modal.
         if (mockN) {
           try { history.pushState(null, '', '/take/ielts-listening-' + encodeURIComponent(mockN)); } catch (_e) {}
         }
         if (typeof handleListeningMockClick === 'function') {
           handleListeningMockClick(fileWithMock, 'ielts-listening');
         } else {
-          iletClose();
+          iletClose({ keepUrl: true });
           loadMock(fileWithMock, 'listening');
         }
       });
