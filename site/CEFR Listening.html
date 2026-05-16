@@ -1342,9 +1342,13 @@
     }
     /* For map-labeling, the toggle (with title + dropdown arrow) replaces
        the regular part-header so the big italic instruction doesn't eat
-       the vertical space the map needs. Matches the mobile layout. */
+       the vertical space the map needs. Matches the mobile layout.
+       !important is needed because renderPart slaps an inline
+       `style="display:flex"` on .part-header when the map part is the
+       last one in the test (e.g. a 4-part work-in-progress mock), and
+       inline styles otherwise win. */
     .part-section:has(.map-instructions-toggle) .part-header {
-      display: none;
+      display: none !important;
     }
 
     /* Map styles - Split View */
