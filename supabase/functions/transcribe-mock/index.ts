@@ -1264,15 +1264,26 @@ Be faithful to the numbers visible in the image. If the value is ambiguous, pick
         generationConfig: {
           temperature:        0.1,
           responseMimeType:   'application/json',
-          maxOutputTokens:    2048,
-          thinkingConfig:     { thinkingBudget: -1 }
+          // Pro on a vision task wants headroom — bump to 8192 so chart
+          // specs with 10+ data points fit. Cap thinking at 1024 so the
+          // budget can't be consumed before output starts (the symptom
+          // was an empty `raw` and a JSON parse error).
+          maxOutputTokens:    8192,
+          thinkingConfig:     { thinkingBudget: 1024 }
         }
       })
     }
   );
   if (!r1.ok) throw new Error(`pro-spec http ${r1.status}: ${(await r1.text()).slice(0, 200)}`);
-  const j1   = await r1.json();
-  const raw1 = j1?.candidates?.[0]?.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
+  const j1     = await r1.json();
+  const cand1  = j1?.candidates?.[0];
+  const raw1   = cand1?.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
+  if (!raw1.trim()) {
+    const finish    = cand1?.finishReason || 'NO_CANDIDATE';
+    const safetyHit = (cand1?.safetyRatings || []).find((s: { blocked?: boolean }) => s.blocked);
+    const safetyTxt = safetyHit ? ` · safety blocked: ${(safetyHit as { category?: string }).category}` : '';
+    throw new Error(`pro-spec returned empty text (finish=${finish}${safetyTxt})`);
+  }
   let spec: any;
   try { spec = JSON.parse(raw1.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '')); }
   catch (e) { throw new Error(`spec JSON parse failed: ${(e as Error).message} — raw: ${raw1.slice(0, 200)}`); }
