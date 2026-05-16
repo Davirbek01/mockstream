@@ -17210,29 +17210,20 @@
     }
 
     async function _iwetLoadAllMockMeta() {
-      // Cache warm-start; refetch in-progress mocks (where not all tasks
-      // are ready) on every load so admin edits propagate without the
-      // 24h TTL lag — mirrors the fix we applied to cletPicker.
-      let cachedData = {};
-      try {
-        const cached = JSON.parse(localStorage.getItem(_iwet_CACHE_KEY) || 'null');
-        if (cached && cached.ts && (Date.now() - cached.ts) < _iwet_CACHE_TTL && cached.data) {
-          cachedData = cached.data;
-          Object.assign(_iwetMockMeta, cachedData);
-        }
-      } catch (e) {}
+      // No localStorage cache — IELTS Writing only has ~30 mocks, so 30
+      // parallel Supabase fetches on each fresh picker open is cheap
+      // (~1s) and that guarantees admin edits show up on mobile
+      // immediately instead of waiting 24h for a TTL to expire. In-
+      // memory _iwetMockMeta still preserves picker meta across opens
+      // within the same session, so back-and-forth navigation is
+      // instant. Defensively wipe any old localStorage cache from
+      // prior versions so it doesn't shadow fresh data.
+      try { localStorage.removeItem(_iwet_CACHE_KEY); } catch (e) {}
       const items = (typeof ieltsWritingMocks !== 'undefined' && Array.isArray(ieltsWritingMocks))
         ? ieltsWritingMocks : [];
       const missing = items
         .map((t, idx) => ({ t, key: String(idx + 1).padStart(2, '0') }))
-        .filter(({ key }) => {
-          const cm = cachedData[key];
-          if (!cm) return true;
-          // In-progress mocks change as admins fill them — refetch.
-          const tasks = cm.tasks || [];
-          const readyCount = tasks.filter(p => p.ready).length;
-          return readyCount < tasks.length;
-        });
+        .filter(({ key }) => !_iwetMockMeta[key]);
       if (missing.length === 0) return;
       await Promise.all(missing.map(async ({ t, key }) => {
         const spec = _iwetParseFileSpec(t && t.file);
@@ -17240,9 +17231,6 @@
         const meta = await _iwetLoadSupabaseMockMeta(spec.id);
         if (meta) _iwetMockMeta[key] = meta;
       }));
-      try {
-        localStorage.setItem(_iwet_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: _iwetMockMeta }));
-      } catch (e) {}
     }
 
     function _iwetGetDoneInfo(mockNum) {
@@ -31497,12 +31485,16 @@
         }
         html += '<div class="mmg-section-title" style="margin-top:20px;">Source &amp; exam date</div>';
         html += '<div class="mmg-field"><label for="mmgIw_source">Source <span style="color:#94a3b8;font-weight:400;">(optional)</span></label>'
-              +   '<input type="text" id="mmgIw_source" value="' + _mmgEsc(md.source || '') + '" placeholder="e.g. Cambridge IELTS 18 Test 3 / Actual Test 2024-03 / IDP recent" style="border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;width:100%;">'
-              +   '<div class="mmg-field-help">Free-text attribution shown on the picker card. Leave blank for unknown.</div>'
+              +   '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">'
+              +     '<input type="text" id="mmgIw_source" value="' + _mmgEsc(md.source || '') + '" placeholder="e.g. Cambridge IELTS 18 Test 3 / Actual Test 2024-03 / IDP recent" style="flex:1;min-width:240px;border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;">'
+              +     '<button type="button" id="mmgIwFindSrcBtn" onclick="_mmgIwFindSource()" title="Ask Gemini (with Google search) to attribute these prompts" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(124,58,237,.3);white-space:nowrap;">🔎 Find online</button>'
+              +   '</div>'
+              +   '<div class="mmg-field-help">Free-text attribution shown on the picker card. Click 🔎 Find online to have Gemini search the web for the most likely Cambridge book / Actual Test / reported exam date.</div>'
+              +   '<div id="mmgIwFindSrcStatus" style="font-size:11.5px;color:#64748b;margin-top:4px;min-height:14px;font-weight:500;"></div>'
               + '</div>';
         html += '<div class="mmg-field"><label for="mmgIw_examDate">Exam date</label>'
               +   '<input type="date" id="mmgIw_examDate" value="' + _mmgEsc(md.examDate || '') + '" style="border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;max-width:240px;">'
-              +   '<div class="mmg-field-help">When this test appeared in a real IELTS exam (YYYY-MM-DD). Auto-set to today for new mocks; override with the actual exam date when known.</div>'
+              +   '<div class="mmg-field-help">When this test appeared in a real IELTS exam (YYYY-MM-DD). Auto-set to today for new mocks; override with the actual exam date when known. 🔎 Find online also fills this if the source attributes a specific exam day.</div>'
               + '</div>';
       }
 
@@ -32004,6 +31996,106 @@
       } finally {
         _iwTagStopTick();
         if (btnEl) { btnEl.disabled = false; btnEl.style.opacity = ''; btnEl.style.cursor = ''; if (btnEl.__prev != null) btnEl.innerHTML = btnEl.__prev; }
+      }
+    };
+
+    // ── IELTS Writing — Settings-tab "🔎 Find online" handler ──────────
+    // Sends the current Task 1 + Task 2 prompts to transcribe-mock with
+    // scope=find-source. The server calls Gemini 2.5 Pro with Google
+    // Search grounding to attribute the prompts to a Cambridge book /
+    // Actual Tests volume / reported exam date, then fills md.source
+    // (and md.examDate when the source carries a real-exam attribution)
+    // without touching anything else.
+    window._mmgIwFindSource = async function () {
+      var statusEl = document.getElementById('mmgIwFindSrcStatus');
+      var btnEl    = document.getElementById('mmgIwFindSrcBtn');
+      var srcEl    = document.getElementById('mmgIw_source');
+      var dateEl   = document.getElementById('mmgIw_examDate');
+      function setStatus(msg, color) {
+        if (statusEl) { statusEl.textContent = msg; statusEl.style.color = color || '#64748b'; }
+      }
+      if (typeof _mmgFlushStructuredToRaw === 'function' && !_mmgFlushStructuredToRaw()) {
+        setStatus('Fix the highlighted field, then click Find online.', '#dc2626');
+        return;
+      }
+      var md = _mmgGetMockData();
+      if (!md) { setStatus('Invalid mock_data JSON.', '#dc2626'); return; }
+      var t = (md.tasks && typeof md.tasks === 'object') ? md.tasks : {};
+      var t1 = (t.task1 && typeof t.task1 === 'object') ? t.task1 : {};
+      var t2 = (t.task2 && typeof t.task2 === 'object') ? t.task2 : {};
+      var t1Prompt = String(t1.prompt || '').trim();
+      var t2Prompt = String(t2.prompt || '').trim();
+      if (!t1Prompt && !t2Prompt) {
+        setStatus('Both prompts empty — fill them first.', '#dc2626');
+        return;
+      }
+      if (!window._mmgPasscode) {
+        setStatus('Admin passcode missing — close + reopen the panel and try again.', '#dc2626');
+        return;
+      }
+
+      var _findT0 = Date.now();
+      var _findTick = null;
+      var _findFrames = ['⠋','⠙','⠹','⠸','⠼','⠴','⠦','⠧','⠇','⠏'];
+      function _findRenderTick() {
+        var sec = Math.round((Date.now() - _findT0) / 1000);
+        var spin = _findFrames[Math.floor((Date.now() / 80)) % _findFrames.length];
+        setStatus(spin + ' Gemini searching Google for prompt attribution… ' + sec + 's (typical 8–25s)', '#0369a1');
+      }
+      function _findStopTick() { if (_findTick) { clearInterval(_findTick); _findTick = null; } }
+      _findRenderTick();
+      _findTick = setInterval(_findRenderTick, 100);
+
+      var _prevLabel = btnEl ? btnEl.innerHTML : null;
+      if (btnEl) { btnEl.disabled = true; btnEl.style.opacity = '0.6'; btnEl.style.cursor = 'wait'; btnEl.innerHTML = '⏳'; }
+
+      try {
+        var r = await fetch(_MMG_TRANSCRIBE_URL, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': _MMG_ANON, 'Authorization': 'Bearer ' + _MMG_ANON },
+          body: JSON.stringify({
+            adminPasscode: window._mmgPasscode,
+            exam_type:     'ielts-writing',
+            scope:         'find-source',
+            task1_prompt:  t1Prompt,
+            task2_prompt:  t2Prompt
+          })
+        });
+        var j = await r.json().catch(function () { return { error: 'bad_response' }; });
+        if (!r.ok || j.error) {
+          var detail = j.detail || j.fallback_reason;
+          throw new Error((j.error || ('HTTP ' + r.status)) + (detail ? ' — ' + String(detail).slice(0, 200) : ''));
+        }
+        _findStopTick();
+        var newSrc  = j.source   || null;
+        var newDate = j.examDate || null;
+        var conf    = j.confidence || 'low';
+        var notes   = j.notes || '';
+        if (!newSrc && !newDate) {
+          setStatus('No reliable attribution found — try editing the prompt manually. ' + (notes ? '(' + notes + ')' : ''), '#d97706');
+        } else {
+          if (newSrc && srcEl) { srcEl.value = newSrc; }
+          if (newDate && dateEl) { dateEl.value = newDate; }
+          // Flush back into mock_data so the picker picks it up after Save.
+          if (typeof _mmgCollectSettings === 'function') _mmgCollectSettings(md);
+          _mmgSetMockData(md);
+          // Bust the iwetPicker cache so the card refreshes after Save.
+          try { localStorage.removeItem('ms_iwet_meta_v1'); } catch (_e) {}
+          if (typeof _iwetMockMeta === 'object' && _iwetMockMeta) {
+            Object.keys(_iwetMockMeta).forEach(function (k) { delete _iwetMockMeta[k]; });
+          }
+          var confColor = conf === 'high' ? '#16a34a' : conf === 'medium' ? '#0369a1' : '#d97706';
+          var bits = [];
+          if (newSrc)  bits.push('source: "' + newSrc + '"');
+          if (newDate) bits.push('date: ' + newDate);
+          setStatus('✓ Found (' + conf + ' confidence) — ' + bits.join(', ') + (notes ? '. ' + notes : '') + ' — review then click Save.', confColor);
+        }
+      } catch (e) {
+        _findStopTick();
+        setStatus('✗ ' + (e.message || String(e)), '#dc2626');
+      } finally {
+        _findStopTick();
+        if (btnEl) { btnEl.disabled = false; btnEl.style.opacity = ''; btnEl.style.cursor = ''; if (_prevLabel != null) btnEl.innerHTML = _prevLabel; }
       }
     };
 

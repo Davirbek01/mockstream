@@ -895,6 +895,113 @@ async function _explanationsViaGPT4o(prompt: string): Promise<string> {
   return text;
 }
 
+// ── IELTS Writing source lookup (scope=find-source) ───────────────
+// Uses Gemini 2.5 Pro with Google Search grounding to attribute a
+// prompt pair to a Cambridge IELTS book / Actual Tests volume /
+// reported real-exam date. JSON output is parsed from text (the
+// responseMimeType=application/json fails when tools are enabled,
+// so we strip ```json fences and parse manually). Returns null +
+// low confidence when nothing reliable is found — never guess.
+type FindSourceResult = {
+  source:     string | null;
+  examDate:   string | null;   // YYYY-MM-DD or null
+  confidence: 'high' | 'medium' | 'low';
+  notes:      string;
+};
+
+async function findIeltsWritingSource(opts: {
+  task1Prompt: string;
+  task2Prompt: string;
+  geminiKey:   string;
+}): Promise<FindSourceResult> {
+  if (!opts.geminiKey) throw new Error('GEMINI_API_KEY not set in secrets');
+  const t1 = opts.task1Prompt.trim();
+  const t2 = opts.task2Prompt.trim();
+
+  const prompt =
+`You are looking up the original source of an IELTS Academic Writing test.
+
+Task 1 prompt:
+"${t1 || '(empty)'}"
+
+Task 2 prompt:
+"${t2 || '(empty)'}"
+
+Use Google Search to find:
+1. The most likely source / book where these prompts appear (e.g. "Cambridge IELTS 18 Test 3", "IELTS Recent Actual Test Vol 7", "Actual exam YYYY-MM-DD" if reported as a real exam paper).
+2. The date the test was used in a real IELTS exam if any source attributes it as an actual exam day.
+
+Output ONLY a JSON object — no commentary, no markdown fences:
+{
+  "source":     "<best attribution string, or null if nothing reliable>",
+  "examDate":   "<YYYY-MM-DD if a real-exam date is reported, or null>",
+  "confidence": "high" | "medium" | "low",
+  "notes":      "<one short sentence justifying the call>"
+}
+
+Rules:
+- If the two prompts don't appear together in any indexed source, set source=null and confidence=low. Do NOT guess a Cambridge book number just because the prompts look "Cambridge-style".
+- Prefer the most specific attribution available: Cambridge book + test number > "Cambridge IELTS practice" > "Actual exam YYYY-MM-DD" > "Recent IELTS test" > null.
+- examDate should be set only when the source explicitly attributes the prompts to a specific real-exam day; otherwise null.
+- Keep "notes" under 25 words.`;
+
+  // Gemini 2.5 Pro with google_search grounding. Note we cannot use
+  // responseMimeType: 'application/json' here — that flag is rejected
+  // when tools are enabled, so we parse the JSON out of the text body.
+  const body = {
+    contents: [{ role: 'user', parts: [{ text: prompt }] }],
+    tools: [{ google_search: {} }],
+    generationConfig: {
+      temperature: 0.1,
+      maxOutputTokens: 1024,
+      thinkingConfig: { thinkingBudget: -1 }
+    }
+  };
+
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${opts.geminiKey}`;
+  const r = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  if (!r.ok) {
+    const t = await r.text();
+    throw new Error(`gemini http ${r.status}: ${t.slice(0, 300)}`);
+  }
+  const j = await r.json();
+  const cand = j?.candidates?.[0];
+  if (cand?.finishReason && cand.finishReason !== 'STOP') {
+    throw new Error(`gemini finishReason=${cand.finishReason}`);
+  }
+  const raw = cand?.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
+  if (!raw.trim()) throw new Error('gemini returned empty text');
+
+  // Strip optional code fences + leading prose before/after the JSON.
+  let cleaned = raw.trim()
+    .replace(/^```(?:json)?\s*/i, '')
+    .replace(/\s*```\s*$/, '');
+  // Find the first '{' and matching '}' to be defensive against the
+  // model emitting a sentence before the JSON.
+  const firstBrace = cleaned.indexOf('{');
+  const lastBrace  = cleaned.lastIndexOf('}');
+  if (firstBrace >= 0 && lastBrace > firstBrace) {
+    cleaned = cleaned.slice(firstBrace, lastBrace + 1);
+  }
+  let parsed: any;
+  try { parsed = JSON.parse(cleaned); }
+  catch (e) { throw new Error(`find-source JSON parse failed: ${(e as Error).message} — raw: ${raw.slice(0, 200)}`); }
+
+  // Sanity-check + normalise.
+  const sourceVal = (typeof parsed.source === 'string' && parsed.source.trim()) ? parsed.source.trim() : null;
+  let dateVal: string | null = null;
+  if (typeof parsed.examDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(parsed.examDate.trim())) {
+    dateVal = parsed.examDate.trim();
+  }
+  const conf = ['high','medium','low'].includes(parsed.confidence) ? parsed.confidence : 'low';
+  const notes = typeof parsed.notes === 'string' ? parsed.notes.slice(0, 200) : '';
+  return { source: sourceVal, examDate: dateVal, confidence: conf, notes };
+}
+
 // ── IELTS Writing auto-tag (scope=tags) ────────────────────────────
 // One-shot: given the existing task prompts and an optional Task 1
 // chart image, emit the picker-filter tags for both tasks. Used by
@@ -1580,19 +1687,52 @@ Deno.serve(async (req) => {
   if (examType !== 'cefr-reading' && examType !== 'ielts-reading' && examType !== 'ielts-listening' && examType !== 'cefr-listening' && examType !== 'ielts-writing') {
     return json(400, { error: 'bad_exam_type', detail: 'expected "cefr-reading", "ielts-reading", "ielts-listening", "cefr-listening", or "ielts-writing"' });
   }
-  // IELTS Writing supports per-task import only (scope=passage) for full
-  // structural extraction, plus scope=tags for the Settings-tab
-  // auto-tag button. Full-mock auto-import doesn't make sense for two
-  // free-response tasks — reject any other scope.
+  // IELTS Writing supports per-task import (scope=passage) for full
+  // structural extraction, scope=tags for the Settings-tab auto-tag
+  // button, and scope=find-source for the Gemini-grounded source
+  // attribution lookup. Full-mock auto-import doesn't make sense for
+  // two free-response tasks — reject any other scope.
   if (examType === 'ielts-writing') {
     const _iwScope = (body.scope || 'full').toString();
-    if (_iwScope !== 'passage' && _iwScope !== 'tags') {
-      return json(400, { error: 'bad_scope', detail: 'IELTS Writing supports scope: "passage" (per-task import) or "tags" (Settings-tab auto-tag). Got "' + _iwScope + '".' });
+    if (_iwScope !== 'passage' && _iwScope !== 'tags' && _iwScope !== 'find-source') {
+      return json(400, { error: 'bad_scope', detail: 'IELTS Writing supports scope: "passage" / "tags" / "find-source". Got "' + _iwScope + '".' });
     }
   }
 
   // IELTS Listening import is now fully wired (see buildPrompt's
   // ieltsListeningTypeGuide rule 11). Single shared code path with reading.
+
+  // ── FIND-SOURCE scope (IELTS Writing only): Gemini-grounded
+  //    lookup. Uses Google Search to find the most likely
+  //    source/attribution + real-exam date for a given pair of
+  //    Task 1 + Task 2 prompts. Returns null + low confidence when
+  //    the prompts don't appear together in any indexed source.
+  if ((body.scope || '').toString() === 'find-source' && examType === 'ielts-writing') {
+    const t1Prompt = String(body.task1_prompt || '').trim();
+    const t2Prompt = String(body.task2_prompt || '').trim();
+    if (!t1Prompt && !t2Prompt) {
+      return json(400, { error: 'no_prompts', detail: 'scope=find-source requires at least one of task1_prompt / task2_prompt.' });
+    }
+    try {
+      const result = await findIeltsWritingSource({
+        task1Prompt: t1Prompt,
+        task2Prompt: t2Prompt,
+        geminiKey:   GEMINI_KEY
+      });
+      return json(200, {
+        source:     result.source,
+        examDate:   result.examDate,
+        confidence: result.confidence,
+        notes:      result.notes,
+        actor:      (auth as AuthOk).actor
+      });
+    } catch (e) {
+      return json(502, {
+        error:  'find_source_failed',
+        detail: e instanceof Error ? e.message : String(e)
+      });
+    }
+  }
 
   // ── TAGS scope (IELTS Writing only): one-click auto-tag flow ─────
   // Sends Gemini the existing task1/task2 prompts (plus an optional
