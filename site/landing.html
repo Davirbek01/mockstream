@@ -31055,7 +31055,7 @@
             <div id="mmgImportTestFiles"></div>
           </div>
 
-          <div style="margin-bottom:14px;">
+          <div id="mmgImportKeySection" style="margin-bottom:14px;">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
               <strong>Answer key (optional)</strong>
               <span style="flex:1;color:#94a3b8;font-size:11px;font-weight:normal;"> · skip if your test file already includes the key</span>
@@ -31087,7 +31087,7 @@
           </div>
 
           <div id="mmgImportStatus" style="margin-top:8px;font-size:12px;min-height:16px;"></div>
-          <div style="margin-top:4px;font-size:11px;color:#64748b;">💡 Tip: click <strong>📋 Paste</strong> next to a section to open a sticky paste dialog — Alt-Tab to your source, take a screenshot (Win + Shift + S), come back, <kbd style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:3px;padding:1px 6px;font-family:ui-monospace,monospace;font-size:10.5px;">Ctrl + V</kbd>, repeat. Click Done to add the whole batch. Or just press Ctrl + V anywhere here for a quick one-shot to Test content.</div>
+          <div style="margin-top:4px;font-size:11px;color:#64748b;">💡 Tip: take a screenshot first (Win + Shift + S on Windows, ⌘ + Shift + 5 on Mac), then click <strong>📋 Paste</strong> — the image drops straight in. If clipboard access is blocked, a paste dialog opens where you can <kbd style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:3px;padding:1px 6px;font-family:ui-monospace,monospace;font-size:10.5px;">Ctrl + V</kbd> any number of screenshots in one session.</div>
         </div>
 
         <div style="padding:12px 18px;border-top:1px solid #e2e8f0;display:flex;gap:8px;align-items:center;">
@@ -37551,15 +37551,22 @@
       var ttl = document.getElementById('mmgImportTitle');
       if (!ttl) return;
       // IELTS speaks in passages; CEFR speaks in parts; IELTS Listening
-      // calls them sections. Data stays 1-based for the user.
-      var unit = (st.examType === 'cefr-reading') ? 'Part'
+      // calls them sections; IELTS Writing calls them tasks. Data stays
+      // 1-based for the user.
+      var unit = (st.examType === 'cefr-reading' || st.examType === 'cefr-listening') ? 'Part'
                : (st.examType === 'ielts-listening') ? 'Section'
+               : (st.examType === 'ielts-writing') ? 'Task'
                : 'Passage';
       if (st.scope === 'passage') {
         ttl.textContent = '✨ Import ' + unit + ' ' + (st.passageIndex + 1) + ' from PDF / image';
       } else {
         ttl.textContent = '✨ Import test from PDF / image';
       }
+      // IELTS Writing has no answer key (Task 1 + 2 are free-response).
+      // Hide the Answer key section + the "skip if your test file…"
+      // tagline so admins don't think they need to provide one.
+      var keyHeader = document.getElementById('mmgImportKeySection');
+      if (keyHeader) keyHeader.style.display = (st.examType === 'ielts-writing') ? 'none' : '';
     }
 
     function _mmgImportOpen() {
@@ -37724,7 +37731,58 @@
     // (take a shot, Alt-Tab back, Ctrl+V, repeat) without the dialog
     // closing or refocusing. On Done, the whole batch is committed to
     // the chosen group in the parent import modal.
-    window._mmgImportPasteFromClipboard = function (group) {
+    window._mmgImportPasteFromClipboard = async function (group) {
+      // Modern path: read the clipboard directly so a single click pastes
+      // whatever image is on the clipboard (admin took a screenshot with
+      // Win+Shift+S, came back here, hit Paste — done).
+      //   • Needs HTTPS + a recent Chromium / Edge / Safari.
+      //   • The browser prompts for clipboard-read permission the first
+      //     time on a given origin.
+      // Fallback: the old sticky-dialog path is still useful when the
+      // direct read fails (Firefox, permission denied, no image on
+      // clipboard) — it lets the admin paste via Ctrl+V across many
+      // screenshots in a single session.
+      var status = document.getElementById('mmgImportStatus');
+      if (navigator.clipboard && typeof navigator.clipboard.read === 'function') {
+        try {
+          var items = await navigator.clipboard.read();
+          var files = [];
+          for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            for (var j = 0; j < item.types.length; j++) {
+              var t = item.types[j];
+              if (!/^image\//.test(t)) continue;
+              try {
+                var blob = await item.getType(t);
+                var stamp = new Date().toISOString().replace(/[:.]/g, '-');
+                var ext   = (t.split('/')[1] || 'png');
+                files.push(new File([blob], 'pasted-' + stamp + '.' + ext, { type: t }));
+              } catch (_e) { /* keep trying other types */ }
+            }
+          }
+          if (files.length > 0) {
+            _mmgImportFilesPicked(group, files);
+            if (status) {
+              status.style.color = '#0369a1';
+              status.textContent = '📋 Pasted ' + files.length + ' file from clipboard';
+            }
+            return;
+          }
+          // No image on the clipboard — surface a hint then open the
+          // sticky dialog as a fallback so admin can still take a fresh
+          // screenshot + Ctrl+V into it.
+          if (status) {
+            status.style.color = '#b45309';
+            status.textContent = 'No image on clipboard — take a screenshot (Win+Shift+S) then click Paste again, or use the dialog that just opened.';
+          }
+        } catch (e) {
+          // Permission denied / SecurityError / browser doesn't support it.
+          if (status) {
+            status.style.color = '#b45309';
+            status.textContent = 'Clipboard read blocked — using the paste dialog (Ctrl+V to drop screenshots).';
+          }
+        }
+      }
       _mmgPasteCollectOpen(group);
     };
 
@@ -38303,6 +38361,12 @@
         if (/Failed to fetch|NetworkError|net::|520/i.test(em)) {
           document.getElementById('mmgImportPhaseSub').textContent =
             'Network error reaching the AI server (Cloudflare 520 / fetch failed). Usually a transient blip — try Import again. If it keeps happening, your file may be hitting an upstream limit.';
+        } else if (/HTTP 401|unauthorized/i.test(em)) {
+          // Passcode session lost / expired. Clear it so the next admin
+          // action will prompt for the passcode again, and tell the user.
+          window._mmgPasscode = '';
+          document.getElementById('mmgImportPhaseSub').textContent =
+            'Admin session expired (HTTP 401). Close this dialog, refresh, and re-enter the admin passcode — then try Import again.';
         }
         btn.disabled = false;
         btn.textContent = '✨ Import';
