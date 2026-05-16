@@ -1294,6 +1294,143 @@
       display: none;
     }
 
+    /* ─── matching-speakers — desktop DnD ──────────────────────── */
+    .matching-dnd-mode {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 24px;
+      margin-top: 8px;
+    }
+    .dnd-speakers-col { display: flex; flex-direction: column; gap: 10px; }
+    .dnd-speaker-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #ffffff;
+      border: 2px solid var(--border, #e2e8f0);
+      border-radius: 12px;
+      padding: 12px 14px;
+      transition: border-color .15s, background .15s;
+    }
+    .dnd-speaker-row .speaker-label {
+      font-weight: 700;
+      color: var(--text, #1e293b);
+      min-width: 130px;
+      font-size: 15px;
+    }
+    .dnd-slot {
+      flex: 1;
+      min-height: 44px;
+      border: 2px dashed #cbd5e1;
+      border-radius: 10px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f8fafc;
+      cursor: default;
+      transition: border-color .12s, background .12s, transform .08s;
+    }
+    .dnd-slot.dnd-over {
+      border-color: var(--primary, #0d9488);
+      background: #ecfdf5;
+      transform: scale(1.01);
+    }
+    .dnd-slot[data-value] {
+      border-style: solid;
+      border-color: var(--primary, #0d9488);
+      background: #ffffff;
+    }
+    .dnd-slot-placeholder { color: #94a3b8; font-style: italic; font-size: 13px; }
+    .dnd-slot-filled { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .dnd-slot-letter {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--primary, #0d9488), var(--primary-dark, #0f766e));
+      color: #fff;
+      font-weight: 800;
+      font-size: 13px;
+    }
+    .dnd-slot-text { color: var(--text, #1e293b); font-weight: 600; font-size: 14px; }
+    .dnd-clear-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid #cbd5e1;
+      background: #f1f5f9;
+      color: #64748b;
+      font-size: 16px;
+      line-height: 1;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+    .dnd-clear-btn.visible { display: inline-flex; }
+    .dnd-clear-btn:hover { background: #fee2e2; color: #dc2626; border-color: #fca5a5; }
+
+    .dnd-options-col {
+      background: #f8fafc;
+      border: 1px solid var(--border, #e2e8f0);
+      border-radius: 14px;
+      padding: 14px;
+      align-self: start;
+      position: sticky;
+      top: 90px;
+    }
+    .dnd-options-title {
+      font-weight: 700;
+      color: var(--primary, #0d9488);
+      margin-bottom: 12px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+    .dnd-chip {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      cursor: grab;
+      user-select: none;
+      transition: transform .08s, border-color .12s, box-shadow .12s;
+    }
+    .dnd-chip:hover { border-color: var(--primary, #0d9488); box-shadow: 0 4px 12px rgba(13,148,136,.12); transform: translateY(-1px); }
+    .dnd-chip:active { cursor: grabbing; }
+    .dnd-chip.dnd-dragging { opacity: .4; transform: scale(0.97); }
+    .dnd-chip-letter {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--primary, #0d9488), var(--primary-dark, #0f766e));
+      color: #fff;
+      font-weight: 800;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+    .dnd-chip-text { color: var(--text, #1e293b); font-size: 13.5px; line-height: 1.4; }
+
+    /* Mobile / narrow viewport: stack the columns and surface DnD options
+       in a scrollable strip. Should rarely fire — coarse pointer skips
+       this branch entirely — but covers the case where a desktop user
+       resizes very narrow. */
+    @media (max-width: 768px) {
+      .matching-dnd-mode { grid-template-columns: 1fr; }
+      .dnd-options-col { position: static; }
+    }
+
     /* Map styles - Split View */
     .map-split-wrapper {
       display: flex;
@@ -4619,6 +4756,19 @@
           if (rd.userAnswers) {
             userAnswers = rd.userAnswers;
             SessionRecovery.restoreAnswers(rd.userAnswers);
+            // The generic restoreAnswers walks [data-q][data-val] etc. —
+            // DnD slots for matching-speakers have neither (the slot
+            // carries data-q but no data-val), so populate them explicitly
+            // with the corresponding chip's label.
+            Object.keys(rd.userAnswers).forEach(function (qid) {
+              var slot = document.querySelector('.dnd-slot[data-q="' + qid + '"]');
+              if (!slot) return;
+              var letter = String(rd.userAnswers[qid] || '');
+              if (!letter) return;
+              var chip = document.querySelector('.dnd-chip[data-letter="' + letter + '"]');
+              var text = chip ? (chip.getAttribute('data-text') || '') : '';
+              if (window._clDndFillSlot) window._clDndFillSlot(parseInt(qid, 10), letter, text);
+            });
           }
           window._srResumeData = null;
         }
@@ -4746,8 +4896,114 @@
       return html + '</div>';
     }
 
+    // Touch devices can't drag reliably (drop-target precision is painful
+    // on a finger-sized hitbox), so matching-speakers splits by input
+    // mode: desktop gets drag-and-drop into a slot, mobile keeps the tap-
+    // to-pick dropdown. Both modes write the same shape downstream — a
+    // .rich-select-trigger.speaker-select[data-q][data-value] — so
+    // collectAnswers, review-mode, and explanation appenders need no
+    // per-mode branches.
+    function _clIsCoarsePointer() {
+      try {
+        if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) return true;
+      } catch (_e) {}
+      return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+    }
+
     function renderMatchingSpeakers(part) {
-      // Mobile options preview (collapsible on mobile)
+      return _clIsCoarsePointer()
+        ? renderMatchingSpeakersTap(part)
+        : renderMatchingSpeakersDnd(part);
+    }
+
+    function renderMatchingSpeakersDnd(part) {
+      // Desktop — drag option chips onto speaker slots.
+      let html = '<div class="matching-container matching-dnd-mode" data-part-type="matching">';
+      html += '<div class="dnd-speakers-col">';
+      part.speakers.forEach(s => {
+        html += '<div class="speaker-item dnd-speaker-row" data-q="' + s.id + '">'
+              +   '<span class="speaker-label">' + s.id + '. ' + s.label + '</span>'
+              +   '<div class="rich-select-trigger speaker-select dnd-slot" id="rs-trigger-' + s.id + '" '
+              +        'data-q="' + s.id + '" '
+              +        'ondragover="_clDndAllow(event, this)" '
+              +        'ondragleave="_clDndLeave(event, this)" '
+              +        'ondrop="_clDndDrop(event, ' + s.id + ')">'
+              +     '<span class="dnd-slot-placeholder">Drag an option here…</span>'
+              +   '</div>'
+              +   '<button type="button" class="dnd-clear-btn" onclick="_clDndClear(' + s.id + ')" title="Clear" aria-label="Clear">×</button>'
+              + '</div>';
+      });
+      html += '</div>';
+      html += '<div class="dnd-options-col"><div class="dnd-options-title">Options — drag onto a speaker</div>';
+      part.options.forEach(o => {
+        var safeText = String(o.text || '').replace(/"/g, '&quot;');
+        html += '<div class="dnd-chip" draggable="true" data-letter="' + o.letter + '" data-text="' + safeText + '" '
+              +      'ondragstart="_clDndStart(event, \'' + o.letter + '\')" '
+              +      'ondragend="_clDndEnd(event)">'
+              +   '<span class="dnd-chip-letter">' + o.letter + '</span>'
+              +   '<span class="dnd-chip-text">' + o.text + '</span>'
+              + '</div>';
+      });
+      html += '</div></div>';
+      return html;
+    }
+
+    // Drag-and-drop handlers shared across all dnd-slot instances.
+    window._clDndStart = function (e, letter) {
+      if (e.dataTransfer) {
+        try { e.dataTransfer.setData('text/plain', letter); } catch (_e) {}
+        e.dataTransfer.effectAllowed = 'copy';
+      }
+      var el = e.currentTarget || e.target;
+      if (el && el.classList) el.classList.add('dnd-dragging');
+    };
+    window._clDndEnd = function (e) {
+      var el = e.currentTarget || e.target;
+      if (el && el.classList) el.classList.remove('dnd-dragging');
+    };
+    window._clDndAllow = function (e, slot) {
+      e.preventDefault();
+      if (e.dataTransfer) e.dataTransfer.dropEffect = 'copy';
+      if (slot && slot.classList) slot.classList.add('dnd-over');
+    };
+    window._clDndLeave = function (e, slot) {
+      if (slot && slot.classList) slot.classList.remove('dnd-over');
+    };
+    window._clDndDrop = function (e, qid) {
+      e.preventDefault();
+      var slot = document.getElementById('rs-trigger-' + qid);
+      if (!slot) return;
+      slot.classList.remove('dnd-over');
+      var letter = '';
+      try { letter = (e.dataTransfer && e.dataTransfer.getData('text/plain')) || ''; } catch (_e) {}
+      if (!letter) return;
+      var chip = document.querySelector('.dnd-chip[data-letter="' + letter + '"]');
+      var text = chip ? (chip.getAttribute('data-text') || '') : '';
+      window._clDndFillSlot(qid, letter, text);
+    };
+    window._clDndClear = function (qid) {
+      var slot = document.getElementById('rs-trigger-' + qid);
+      if (!slot) return;
+      slot.removeAttribute('data-value');
+      slot.innerHTML = '<span class="dnd-slot-placeholder">Drag an option here…</span>';
+      var clearBtn = slot.parentNode && slot.parentNode.querySelector('.dnd-clear-btn');
+      if (clearBtn) clearBtn.classList.remove('visible');
+    };
+    // Used by drop handler AND session-recovery restore so a resumed
+    // test pre-fills slots correctly.
+    window._clDndFillSlot = function (qid, letter, text) {
+      var slot = document.getElementById('rs-trigger-' + qid);
+      if (!slot) return;
+      slot.setAttribute('data-value', letter);
+      slot.innerHTML = '<span class="dnd-slot-filled"><span class="dnd-slot-letter">' + letter + '</span>'
+                     + (text ? ' <span class="dnd-slot-text">' + text + '</span>' : '')
+                     + '</span>';
+      var clearBtn = slot.parentNode && slot.parentNode.querySelector('.dnd-clear-btn');
+      if (clearBtn) clearBtn.classList.add('visible');
+    };
+
+    function renderMatchingSpeakersTap(part) {
+      // Mobile / touch — tap-to-pick dropdowns (original UI).
       let html = '<div class="matching-container" data-part-type="matching">';
       html += '<div class="mobile-options-preview">';
       html += '<div class="mobile-options-toggle" onclick="toggleOptionsPreview(this)">';
@@ -5059,42 +5315,13 @@
     }
 
     function updateMapUsedLetters() {
-      // Count how many times each letter is selected
-      const letterCounts = {};
-      const usedLetters = new Set();
-
-      document.querySelectorAll('.map-selected-letter').forEach(el => {
-        const letter = el.textContent;
-        if (letter !== '—') {
-          usedLetters.add(letter);
-          letterCounts[letter] = (letterCounts[letter] || 0) + 1;
-        }
-      });
-
-      // Update all letter buttons
-      document.querySelectorAll('.map-letter-btn').forEach(btn => {
-        const letter = btn.dataset.letter;
-        const isSelected = btn.classList.contains('selected');
-        if (usedLetters.has(letter) && !isSelected) {
-          btn.classList.add('used');
-        } else {
-          btn.classList.remove('used');
-        }
-      });
-
-      // Mark duplicate question items with warning
-      document.querySelectorAll('.map-question-item').forEach(item => {
-        const qId = item.dataset.q;
-        const selectedLetter = document.querySelector('.map-selected-letter[data-q="' + qId + '"]');
-        if (selectedLetter) {
-          const letter = selectedLetter.textContent;
-          if (letter !== '—' && letterCounts[letter] > 1) {
-            item.classList.add('duplicate-warning');
-          } else {
-            item.classList.remove('duplicate-warning');
-          }
-        }
-      });
+      // No-op during the live test — same exam-realism principle as
+      // updateChosenOptions above. The previous version dimmed letter
+      // buttons that were already used on other places and added a red
+      // duplicate-warning ring when the same letter was picked twice;
+      // the real paper-based CEFR Listening exam offers no such hints,
+      // so neither should we. Function kept so existing call sites
+      // (handleMapLetterClick, restore) don't break.
     }
 
     // Event delegation for map letter buttons
@@ -5145,61 +5372,19 @@
       document.querySelectorAll('.speaker-item').forEach(function(c){ c.classList.remove('elevated'); });
     });
 
-    // Track chosen options in matching questions
-    function updateChosenOptions() {
-      var container = document.querySelector('.matching-container');
-      if (!container) return;
-
-      var triggers = container.querySelectorAll('.rich-select-trigger.speaker-select');
-      var letterCounts = {};
-      var chosenLetters = new Set();
-
-      triggers.forEach(function(t) {
-        var v = t.getAttribute('data-value');
-        if (v) {
-          chosenLetters.add(v);
-          letterCounts[v] = (letterCounts[v] || 0) + 1;
-        }
-      });
-
-      // Duplicate warnings + option-used hints
-      triggers.forEach(function(t) {
-        var speakerItem = t.closest('.speaker-item');
-        var myVal = t.getAttribute('data-value');
-        if (myVal && letterCounts[myVal] > 1) {
-          speakerItem.classList.add('duplicate-warning');
-          t.classList.add('duplicate');
-        } else {
-          speakerItem.classList.remove('duplicate-warning');
-          t.classList.remove('duplicate');
-        }
-        var menu = document.getElementById('rs-menu-' + t.getAttribute('data-q'));
-        if (!menu) return;
-        menu.querySelectorAll('.rich-select-option').forEach(function(opt) {
-          var letter = opt.getAttribute('data-letter');
-          var isUsedElsewhere = chosenLetters.has(letter) && myVal !== letter;
-          opt.classList.toggle('option-used', isUsedElsewhere);
-        });
-      });
-
-      // Update options box visual
-      var optionsBox = container.querySelector('.options-box');
-      if (optionsBox) {
-        optionsBox.querySelectorAll('.option-box-item').forEach(function(item) {
-          var letter = item.dataset.optionLetter;
-          item.classList.toggle('chosen', chosenLetters.has(letter));
-        });
-      }
-
-      // Update mobile options preview chips
-      var mobilePreview = container.querySelector('.mobile-options-preview');
-      if (mobilePreview) {
-        mobilePreview.querySelectorAll('.mobile-option-chip').forEach(function(chip) {
-          var letter = chip.dataset.optionLetter;
-          chip.classList.toggle('chosen', chosenLetters.has(letter));
-        });
-      }
-    }
+    // Track chosen options in matching questions — intentionally a NO-OP
+    // during the live test. The previous implementation added three layers
+    // of visual feedback while the student was still answering:
+    //   • orange "already-used" highlight on dropdown options
+    //   • ✓ tick next to chosen options in the right-hand options panel
+    //     (and on mobile chips)
+    //   • red duplicate-warning border when the same letter was picked
+    //     for two speakers
+    // These nudges don't exist on the real paper-based CEFR Listening
+    // answer sheet — students get accustomed to them in practice and
+    // then feel cheated in the real exam. Function kept so existing
+    // call sites (selectSpeakerOption + map-letter handlers) don't break.
+    function updateChosenOptions() { /* no-op — exam realism */ }
 
     function matchesAnswer(userAns, correctArr) {
       if (!userAns) return false;
