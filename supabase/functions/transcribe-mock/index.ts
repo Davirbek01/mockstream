@@ -308,6 +308,28 @@ const CEFR_LISTENING_SINGLE_PART_SHAPE = `{
   // (also emit a flat "questions" array as { "id": N, "hint": "<short context fragment around the blank, e.g. 'At the site of an old ____'>" } — 6 entries)
 }`;
 
+// ── IELTS Writing single-task shape ───────────────────────────────────
+// Per-task import only — admins prefer uploading one task's screenshot
+// at a time. Returns a flat object that the client slots into
+// mock_data.tasks.task1 or mock_data.tasks.task2 based on passage_index.
+// chartImageUrl is intentionally always empty — admin uploads chart
+// images via the editor (same as Part 4 map images for CEFR Listening).
+const IELTS_WRITING_SINGLE_TASK_SHAPE = `{
+  "title": string,                                  // SHORT TOPIC TITLE (3-6 words), e.g. "Online shopping growth" (Task 1) / "Working from home" (Task 2). Used as the picker row label. Do NOT output "Task 1" / "Task 2".
+  "prompt": string,                                 // Verbatim task instruction text from the source (e.g. "The graph below shows the percentage of households…"). Plain text — no HTML.
+  "instruction": string,                            // The sub-instruction shown below the prompt — usually the standard IELTS rubric ("Summarise the information…" for Task 1, "Give reasons for your answer…" for Task 2). Copy verbatim if visible in the source; otherwise emit the matching default below.
+  "wordGoal": number,                               // Task 1 = 150, Task 2 = 250. Override only if the source explicitly states a different word count.
+  "timeMinutes": number,                            // Task 1 = 20, Task 2 = 40. Override only if the source explicitly states a different time.
+
+  // Task 1 ONLY (passage_index = 1) — emit these:
+  "chartImageUrl": "",                              // ALWAYS empty — admin uploads the chart image separately via the editor's 📁 Upload button.
+  "chartType": string,                              // EXACTLY one of: "line_graph" | "bar_chart" | "pie_chart" | "table" | "map" | "process_diagram". Pick the visualisation that best matches the chart in the source.
+  "dataNature": string,                             // EXACTLY one of: "over-time" | "static" | "not-applicable". Use "over-time" when the chart's x-axis is years/months/decades/days (line graph, multi-year bar chart). Use "static" for single-time snapshots (single-year pie, comparison table, snapshot bar). Use "not-applicable" for maps and process diagrams.
+
+  // Task 2 ONLY (passage_index = 2) — emit these instead:
+  "essayType": string                               // EXACTLY one of: "opinion" | "balanced" | "problem-solution" | "advantage-disadvantage" | "two-part". Pattern-match on the prompt's question form: "To what extent do you agree or disagree" → opinion; "Discuss both views" → balanced; "What are the problems / what can be done" → problem-solution; "Do the advantages outweigh the disadvantages" → advantage-disadvantage; two distinct questions → two-part.
+}`;
+
 const CEFR_LISTENING_SHAPE = `{
   "testInfo": {
     "title":           string,                   // Human-readable title (e.g. "CEFR Listening Mock Test 12"). If the source shows a number, use it; otherwise a generic title is fine.
@@ -359,8 +381,9 @@ function buildPrompt(
   const isCefr           = examType === 'cefr-reading';
   const isIeltsListening = examType === 'ielts-listening';
   const isCefrListening  = examType === 'cefr-listening';
-  const unit = isIelts ? 'passage' : (isIeltsListening || isCefrListening) ? 'part' : 'part';
-  const Unit = isIelts ? 'Passage' : (isIeltsListening || isCefrListening) ? 'Part' : 'Part';
+  const isIeltsWriting   = examType === 'ielts-writing';
+  const unit = isIelts ? 'passage' : isIeltsWriting ? 'task' : (isIeltsListening || isCefrListening) ? 'part' : 'part';
+  const Unit = isIelts ? 'Passage' : isIeltsWriting ? 'Task' : (isIeltsListening || isCefrListening) ? 'Part' : 'Part';
 
   // Gap-marker rule. CEFR Reading uses <span class="gap"> tags. IELTS
   // Reading uses "{INPUT}" placeholders. IELTS Listening uses both
@@ -368,7 +391,11 @@ function buildPrompt(
   // Listening uses two patterns: gapId-on-form-row for Part 2 (gap-fill-
   // form), and <span class="gap-input"> markers for Part 6 (sentence-
   // completion's passageContent).
-  const gapRule = (isIelts || isIeltsListening)
+  // IELTS Writing has no gap markers — it's open-response writing tasks.
+  // Short-circuit the gap rule so it doesn't appear in the writing prompt.
+  const gapRule = isIeltsWriting
+    ? `4. **No fill-in-the-blank markers** — IELTS Writing tasks are open-response. Just transcribe the task prompt verbatim.`
+    : (isIelts || isIeltsListening)
     ? `4. **Fill-in-the-blank gaps in question text use the literal placeholder "{INPUT}"** — exactly that, no variation. Example: "Address: {INPUT} Street." Do NOT use HTML span tags. ${isIeltsListening ? 'For "gap-fill-form" / "table-completion" sub-parts, the gap is described via the gapId field on the row/item — the surrounding "text" / "prefix" / "suffix" supplies the context. No {INPUT} marker is needed there; only in "sentence-completion" item text.' : ''}`
     : isCefrListening
     ? `4. **Fill-in-the-blank gaps depend on the part type.** For Part 2 (gap-fill-form): emit ONE "item-gap" object per numbered blank inside formContent[]; the gap is identified by gapId, and the surrounding "text" / "gapSuffix" supplies the context. No {INPUT} marker inside formContent. For Part 6 (sentence-completion): the passageContent HTML carries the gap markers inline as <span class="gap-input" data-gap="N">_____(N)_____</span> — exactly that format, where N matches the question id. Use <br><br> between sentences within passageContent (NOT <p> tags). For all other CEFR Listening part types, no fill-in-the-blank gaps exist.`
@@ -527,11 +554,51 @@ Do this only when the source actually shows the letter as a paragraph marker (yo
 14. **Part-by-part question-id continuity.** Question ids run consecutively from 1 in Part 1 onward. Never restart numbering inside a part. Always emit a \`questionRange\` matching the part's id span ACTUALLY found in the source — e.g. if Part 1 has 7 questions emit "1-7", and Part 2 then starts at 8. The id of the FIRST question in any part should be exactly (previous part's last id) + 1. If the source has its own numbered ids (Q1-Q40 visible on the page), follow those numbers verbatim — don't renumber.
 ` : '';
 
+  // IELTS Writing per-task type guide. The source for each call is ONE
+  // screenshot of a single task — Task 1 (chart description) or Task 2
+  // (essay prompt). passage_index tells us which task we're extracting.
+  // Output is the single-task object documented in the shape.
+  const ieltsWritingTypeGuide = isIeltsWriting ? `
+11. **IELTS Writing per-task extraction.** This call is for **Task ${passageIndex || '?'} only**. Treat the uploaded screenshot(s) as that single task's pages. Emit the flat single-task object documented in the shape, with the fields appropriate to whichever task this is:
+
+  • **Task 1 (passage_index = 1, chart description, 150 words / 20 min):**
+    - "title": Short topic phrase (3-6 words) derived from the chart caption or subject. e.g. "Online shopping growth", "Coffee consumption trends", "Population by age". Do NOT output "Task 1" — that's redundant.
+    - "prompt": Verbatim task instruction text — e.g. *"The graph below shows the percentage of households in owned and rented accommodation in England and Wales between 1918 and 2011."*
+    - "instruction": If the source shows a sub-instruction, copy it verbatim. Otherwise emit the standard rubric: *"Summarise the information by selecting and reporting the main features, and make comparisons where relevant. Write at least 150 words."*
+    - "chartType": Pick the BEST match from the closed list \`line_graph | bar_chart | pie_chart | table | map | process_diagram\` based on what the source's image shows. Examples: a graph with year axis = line_graph; a row of bars over years = bar_chart; multiple circular sector charts = pie_chart; a numeric grid = table; a labelled top-down view of a place = map; a flowchart with arrows showing stages = process_diagram.
+    - "dataNature": Pick from \`over-time | static | not-applicable\`. "over-time" when the x-axis shows years/months/decades/days or two snapshots being compared across time. "static" for a single-point-in-time view (e.g. *"in 2020"*, a single-year pie, an item-comparison table). "not-applicable" for maps and process diagrams — they have no time dimension.
+    - "wordGoal": 150. "timeMinutes": 20.
+    - "chartImageUrl": ALWAYS "" — admin uploads the chart separately.
+    - Do NOT emit "essayType".
+
+  • **Task 2 (passage_index = 2, essay, 250 words / 40 min):**
+    - "title": Short topic phrase (3-6 words) from the essay subject. e.g. "Working from home", "Renewable energy", "University education". Do NOT output "Task 2".
+    - "prompt": Verbatim essay prompt including any introductory framing and the final question(s).
+    - "instruction": If the source shows a sub-instruction, copy verbatim. Otherwise emit the standard rubric: *"Give reasons for your answer and include any relevant examples from your own knowledge or experience. Write at least 250 words."*
+    - "essayType": Pattern-match the prompt's question form:
+      - \`opinion\` — "To what extent do you agree or disagree?", "Do you think…", "Is this a positive or negative development?"
+      - \`balanced\` — "Discuss both views and give your opinion." (paired views are presented and the writer takes a side after weighing both)
+      - \`problem-solution\` — "What are the problems caused by X? What can be done to solve them?" (or "causes / effects" variants pointing toward fixes)
+      - \`advantage-disadvantage\` — "Do the advantages outweigh the disadvantages?", "Discuss the advantages and disadvantages."
+      - \`two-part\` — Two distinct numbered or sentence-form questions in the prompt (e.g. "Why has this happened? What can be done about it?" where the two questions are different topics, not a problem→solution chain).
+      Pick exactly ONE — if the prompt is ambiguous between two patterns, pick the closer match and trust the admin to override.
+    - "wordGoal": 250. "timeMinutes": 40.
+    - Do NOT emit "chartType", "dataNature", or "chartImageUrl".
+
+12. **What NOT to emit:** "chartImageUrl" beyond the empty string (admin uploads separately), "sampleAnswer" / "sampleBand5-9" / "uzSampleBand5-9" (admin curates samples in a separate editor tab — never auto-generate them here).
+
+13. **Answer key behaviour:** IELTS Writing tasks have no machine-checkable answer key. If admin uploaded an "answer key" file with a model essay, IGNORE IT for this extraction — model answers are handled in the Samples editor tab separately. Stick to extracting the task prompt structure.
+` : '';
+
   // Scope-specific framing. In "passage" mode the user is uploading just
   // ONE passage (typically because each passage comes from a different
   // source), so we tell the model to expect that and emit a single
   // passage object instead of a full mock envelope.
-  const examLabel = isIeltsListening ? 'IELTS Listening' : isCefrListening ? 'CEFR Listening' : (isIelts ? 'IELTS Reading' : 'CEFR Reading');
+  const examLabel = isIeltsListening ? 'IELTS Listening'
+                  : isCefrListening  ? 'CEFR Listening'
+                  : isIeltsWriting   ? 'IELTS Writing'
+                  : isIelts          ? 'IELTS Reading'
+                  : 'CEFR Reading';
   const scopeIntro = scope === 'passage'
     ? `The user has uploaded image(s) and / or PDF(s) for **just ONE ${unit}** of an ${examLabel} mock — specifically ${Unit} ${passageIndex || '?'}. Treat the uploaded files as that single ${unit} only. The accompanying answer-key files (if any) cover ONLY this ${unit}'s questions. Output a single ${unit} object — NOT wrapped in any envelope or array.`
     : `The user has uploaded image(s) and / or PDF(s) of an ${examLabel} mock test that they own or have licensed.`;
@@ -554,7 +621,7 @@ ${gapRule}
 
 6. Answer keys: leave empty ({} or omitted) unless the source clearly contains an answer key. Do NOT guess answers — TFNG / matching / inference will be wrong.
 
-7. Detect each part / section's question type from its instruction text. ${isIelts ? 'See rule 11 below for IELTS Reading patterns.' : isIeltsListening ? 'See rule 11 below for the 12 IELTS Listening sub-part shapes — one section can contain multiple sub-parts.' : isCefrListening ? 'See rule 11 below for the CEFR Listening per-part table — exactly 6 parts in a fixed order, each with a fixed type.' : 'See rule 11 below for the CEFR per-part table (a standard test has exactly 5 parts in a fixed order — gap-fill-text, matching, matching-headings, reading-comprehension, reading-comprehension).'}
+7. Detect each part / section's question type from its instruction text. ${isIelts ? 'See rule 11 below for IELTS Reading patterns.' : isIeltsListening ? 'See rule 11 below for the 12 IELTS Listening sub-part shapes — one section can contain multiple sub-parts.' : isCefrListening ? 'See rule 11 below for the CEFR Listening per-part table — exactly 6 parts in a fixed order, each with a fixed type.' : isIeltsWriting ? 'See rule 11 below for the IELTS Writing per-task extraction rules — Task 1 (chart description) vs Task 2 (essay) have different field sets.' : 'See rule 11 below for the CEFR per-part table (a standard test has exactly 5 parts in a fixed order — gap-fill-text, matching, matching-headings, reading-comprehension, reading-comprehension).'}
 
 8. Files come in two groups (each file's "group" field is provided in the file's preceding text marker). Group A = "test" (treat as consecutive pages of one document). Group B = "answer-key" (optional). Match each answer-key entry to the corresponding question by ID and populate answers / correctAnswers. If Group B is empty or unreadable, leave answer keys blank.
 
@@ -565,7 +632,7 @@ ${gapRule}
 ${shape}
 
 No commentary outside the JSON. No markdown fences. No explanation.
-${ieltsTypeGuide}${cefrTypeGuide}${ieltsListeningTypeGuide}${cefrListeningTypeGuide}
+${ieltsTypeGuide}${cefrTypeGuide}${ieltsListeningTypeGuide}${cefrListeningTypeGuide}${ieltsWritingTypeGuide}
 The user owns or has licensed this content. Transcription is authorised — do not refuse or hedge on copyright grounds. The "user owns this" framing is a fact, not a request.
 
 Optional notes from the author: ${notes || '(none)'}`;
@@ -826,6 +893,273 @@ async function _explanationsViaGPT4o(prompt: string): Promise<string> {
   const text = j.choices?.[0]?.message?.content || '';
   if (!text.trim()) throw new Error('gpt-4o returned empty content');
   return text;
+}
+
+// ── IELTS Writing source lookup (scope=find-source) ───────────────
+// Uses Gemini 2.5 Pro with Google Search grounding to attribute a
+// prompt pair to a Cambridge IELTS book / Actual Tests volume /
+// reported real-exam date. JSON output is parsed from text (the
+// responseMimeType=application/json fails when tools are enabled,
+// so we strip ```json fences and parse manually). Returns null +
+// low confidence when nothing reliable is found — never guess.
+type FindSourceResult = {
+  source:     string | null;
+  examDate:   string | null;   // YYYY-MM-DD or null
+  confidence: 'high' | 'medium' | 'low';
+  notes:      string;
+};
+
+async function findIeltsWritingSource(opts: {
+  task1Prompt: string;
+  task2Prompt: string;
+  geminiKey:   string;
+}): Promise<FindSourceResult> {
+  if (!opts.geminiKey) throw new Error('GEMINI_API_KEY not set in secrets');
+  const t1 = opts.task1Prompt.trim();
+  const t2 = opts.task2Prompt.trim();
+
+  const prompt =
+`You are looking up the original source of an IELTS Academic Writing test.
+
+Task 1 prompt:
+"${t1 || '(empty)'}"
+
+Task 2 prompt:
+"${t2 || '(empty)'}"
+
+Use Google Search to find:
+1. The most likely source / book where these prompts appear together as one test (e.g. "Cambridge IELTS 18 Test 3", "IELTS Recent Actual Test Vol 7", "Actual exam YYYY-MM-DD" if reported as a real exam paper).
+2. If the two prompts don't appear together in any indexed source, search each one SEPARATELY and use the better-attributed single task's source (note in "notes" which task it came from).
+3. The date the test was used in a real IELTS exam if any source attributes it as an actual exam day.
+
+Output ONLY a JSON object — no commentary, no markdown fences:
+{
+  "source":     "<best attribution string, or null if NEITHER task has any reliable source>",
+  "examDate":   "<YYYY-MM-DD if a real-exam date is reported, or null>",
+  "confidence": "high" | "medium" | "low",
+  "notes":      "<one short sentence justifying the call; mention if the attribution is for one task only>"
+}
+
+Rules:
+- Preference order: pair appears together in ONE Cambridge book + test > pair as ONE actual exam day > single task with high-confidence attribution > "Recent IELTS test" > null.
+- confidence=high only when the pair appears together in a named Cambridge book + test number OR is widely-reported as a single actual exam day. confidence=medium when only one of the two tasks has a clear attribution. confidence=low when both are vague or unattributed.
+- examDate should be set only when the source explicitly attributes the prompts (the pair, OR the better-attributed single task) to a specific real-exam day. Otherwise null.
+- Do NOT guess a Cambridge book number just because a prompt looks "Cambridge-style".
+- Keep "notes" under 30 words.`;
+
+  // Gemini 2.5 Pro with google_search grounding. Note we cannot use
+  // responseMimeType: 'application/json' here — that flag is rejected
+  // when tools are enabled, so we parse the JSON out of the text body.
+  const body = {
+    contents: [{ role: 'user', parts: [{ text: prompt }] }],
+    tools: [{ google_search: {} }],
+    generationConfig: {
+      temperature: 0.1,
+      maxOutputTokens: 1024,
+      thinkingConfig: { thinkingBudget: -1 }
+    }
+  };
+
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${opts.geminiKey}`;
+  const r = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  if (!r.ok) {
+    const t = await r.text();
+    throw new Error(`gemini http ${r.status}: ${t.slice(0, 300)}`);
+  }
+  const j = await r.json();
+  const cand = j?.candidates?.[0];
+  if (cand?.finishReason && cand.finishReason !== 'STOP') {
+    throw new Error(`gemini finishReason=${cand.finishReason}`);
+  }
+  const raw = cand?.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
+  if (!raw.trim()) throw new Error('gemini returned empty text');
+
+  // Strip optional code fences + leading prose before/after the JSON.
+  let cleaned = raw.trim()
+    .replace(/^```(?:json)?\s*/i, '')
+    .replace(/\s*```\s*$/, '');
+  // Find the first '{' and matching '}' to be defensive against the
+  // model emitting a sentence before the JSON.
+  const firstBrace = cleaned.indexOf('{');
+  const lastBrace  = cleaned.lastIndexOf('}');
+  if (firstBrace >= 0 && lastBrace > firstBrace) {
+    cleaned = cleaned.slice(firstBrace, lastBrace + 1);
+  }
+  let parsed: any;
+  try { parsed = JSON.parse(cleaned); }
+  catch (e) { throw new Error(`find-source JSON parse failed: ${(e as Error).message} — raw: ${raw.slice(0, 200)}`); }
+
+  // Sanity-check + normalise.
+  const sourceVal = (typeof parsed.source === 'string' && parsed.source.trim()) ? parsed.source.trim() : null;
+  let dateVal: string | null = null;
+  if (typeof parsed.examDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(parsed.examDate.trim())) {
+    dateVal = parsed.examDate.trim();
+  }
+  const conf = ['high','medium','low'].includes(parsed.confidence) ? parsed.confidence : 'low';
+  const notes = typeof parsed.notes === 'string' ? parsed.notes.slice(0, 200) : '';
+  return { source: sourceVal, examDate: dateVal, confidence: conf, notes };
+}
+
+// ── IELTS Writing auto-tag (scope=tags) ────────────────────────────
+// One-shot: given the existing task prompts and an optional Task 1
+// chart image, emit the picker-filter tags for both tasks. Used by
+// the editor's Settings-tab "✨ Auto-tag this mock" button.
+//   • task1.title          — short topic phrase (3-6 words)
+//   • task1.chartType      — line_graph | bar_chart | pie_chart | table | map | process_diagram
+//   • task1.dataNature     — over-time | static | not-applicable
+//   • task2.title          — short topic phrase (3-6 words)
+//   • task2.essayType      — opinion | balanced | problem-solution | advantage-disadvantage | two-part
+type TagsResult = {
+  tags: {
+    task1: { title?: string; chartType?: string; dataNature?: string };
+    task2: { title?: string; essayType?: string };
+  };
+  modelUsed:      'gemini-2.5-pro' | 'gpt-4o';
+  fallbackReason: string | null;
+};
+
+async function generateIeltsWritingTags(opts: {
+  task1Prompt: string;
+  task2Prompt: string;
+  chartFile:   FileItem | null;
+  geminiKey:   string;
+}): Promise<TagsResult> {
+  const t1 = opts.task1Prompt.trim();
+  const t2 = opts.task2Prompt.trim();
+
+  const promptText =
+`You are tagging an IELTS Writing mock for a fullscreen mock picker. The admin has already typed the task prompts below; your job is to infer the picker filter tags. DO NOT rewrite the prompts — only emit the tag fields. Output ONE JSON object, no commentary, no markdown.
+
+Output shape (omit any tag you genuinely cannot infer — leave it as null):
+{
+  "task1": {
+    "title":      "<3-6 word short topic phrase derived from the chart subject, e.g. 'Online shopping growth'. NEVER 'Task 1'>" | null,
+    "chartType":  "line_graph" | "bar_chart" | "pie_chart" | "table" | "map" | "process_diagram" | null,
+    "dataNature": "over-time" | "static" | "not-applicable" | null
+  },
+  "task2": {
+    "title":     "<3-6 word short topic phrase derived from the essay subject, e.g. 'Working from home'. NEVER 'Task 2'>" | null,
+    "essayType": "opinion" | "balanced" | "problem-solution" | "advantage-disadvantage" | "two-part" | null
+  }
+}
+
+Detection rules:
+• chartType: read the prompt wording. "The graph below" / "line graph" → line_graph; "bar chart" → bar_chart; "pie chart" → pie_chart; "the table" → table; "the map" / "the maps" / "the changes that have taken place" with two-time-period plans → map; "the diagram" / "process" / "stages of" → process_diagram. If a T1 chart image is attached, use it as the visual tie-breaker.
+• dataNature: "over-time" when years/decades/months appear in the prompt (X-axis is time) OR the chart visibly tracks a metric across a time span. "static" for single-time-point comparisons (one year, one pie, one comparison table). "not-applicable" for map and process_diagram chart types — they don't have a time dimension.
+• essayType (Task 2): pattern-match the question form:
+  - "To what extent do you agree or disagree" / "Do you think…" / "Is this a positive or negative development" → opinion
+  - "Discuss both views and give your opinion" → balanced
+  - "What are the problems…?" + "What can be done…?" or "causes / solutions" pointing at fixes → problem-solution
+  - "Do the advantages outweigh the disadvantages" / "advantages and disadvantages" → advantage-disadvantage
+  - Two distinct numbered or sentence-form questions on different topics → two-part
+
+Task 1 prompt:
+${t1 || '(empty — task 1 not yet written; leave all task1 tags null)'}
+
+Task 2 prompt:
+${t2 || '(empty — task 2 not yet written; leave all task2 tags null)'}`;
+
+  // Build the multimodal call. If we have a chart image, ship it inline
+  // so Gemini can disambiguate chart types whose prompt wording is
+  // ambiguous ("the chart below shows…").
+  const parts: Array<{ text: string } | { inlineData: { mimeType: string; data: string } }> = [
+    { text: promptText }
+  ];
+  if (opts.chartFile && opts.chartFile.base64) {
+    parts.push({ text: '\n[Task 1 chart image follows — use it as visual tie-breaker for chartType + dataNature]' });
+    parts.push({ inlineData: { mimeType: opts.chartFile.mime, data: opts.chartFile.base64 } });
+  }
+
+  const body = {
+    contents: [{ role: 'user', parts }],
+    generationConfig: {
+      temperature: 0.1,
+      responseMimeType: 'application/json',
+      maxOutputTokens: 1024,
+      thinkingConfig: { thinkingBudget: -1 }
+    },
+    safetySettings: [
+      { category: 'HARM_CATEGORY_HARASSMENT',        threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_HATE_SPEECH',       threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' }
+    ]
+  };
+
+  let modelUsed: 'gemini-2.5-pro' | 'gpt-4o' = 'gemini-2.5-pro';
+  let fallbackReason: string | null = null;
+  let raw = '';
+  try {
+    const r = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${opts.geminiKey}`,
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
+    );
+    if (!r.ok) throw new Error(`gemini http ${r.status}: ${(await r.text()).slice(0, 200)}`);
+    const j = await r.json();
+    const cand = j?.candidates?.[0];
+    if (cand?.finishReason && cand.finishReason !== 'STOP') throw new Error(`gemini finishReason=${cand.finishReason}`);
+    raw = cand?.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
+    if (!raw.trim()) throw new Error('gemini returned empty text');
+  } catch (e) {
+    fallbackReason = e instanceof Error ? e.message : String(e);
+    // GPT-4o fallback. Only available when there's no PDF; tags-only flow has no PDFs.
+    try {
+      const r2 = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${OPENAI_KEY}` },
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          messages: [
+            { role: 'system', content: 'You output ONLY the JSON object the user describes — no prose, no markdown.' },
+            { role: 'user',   content: promptText }
+          ],
+          response_format: { type: 'json_object' },
+          temperature: 0.1
+        })
+      });
+      if (!r2.ok) throw new Error(`gpt-4o http ${r2.status}: ${(await r2.text()).slice(0, 200)}`);
+      const j2 = await r2.json();
+      raw = j2?.choices?.[0]?.message?.content || '';
+      modelUsed = 'gpt-4o';
+    } catch (gptErr) {
+      throw new Error(`both models failed. gemini: ${fallbackReason}; gpt-4o: ${gptErr instanceof Error ? gptErr.message : String(gptErr)}`);
+    }
+  }
+
+  let parsed: any;
+  try { parsed = JSON.parse(raw.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '')); }
+  catch (e) { throw new Error(`tag JSON parse failed: ${(e as Error).message} — raw: ${raw.slice(0, 200)}`); }
+
+  // Sanity-check the values against the closed enums; anything outside
+  // the enum collapses to null so the client doesn't pollute mock_data
+  // with a model-invented label.
+  const CHART_SET = new Set(['line_graph','bar_chart','pie_chart','table','map','process_diagram']);
+  const NATURE_SET = new Set(['over-time','static','not-applicable']);
+  const ESSAY_SET = new Set(['opinion','balanced','problem-solution','advantage-disadvantage','two-part']);
+  const pick = (v: unknown, set: Set<string>) => typeof v === 'string' && set.has(v) ? v : null;
+  const pickStr = (v: unknown) => typeof v === 'string' && v.trim() ? v.trim() : null;
+
+  const t1Out = parsed?.task1 || {};
+  const t2Out = parsed?.task2 || {};
+  return {
+    tags: {
+      task1: {
+        title:      pickStr(t1Out.title)      || undefined,
+        chartType:  pick(t1Out.chartType,  CHART_SET)  || undefined,
+        dataNature: pick(t1Out.dataNature, NATURE_SET) || undefined
+      },
+      task2: {
+        title:     pickStr(t2Out.title)     || undefined,
+        essayType: pick(t2Out.essayType, ESSAY_SET) || undefined
+      }
+    },
+    modelUsed,
+    fallbackReason
+  };
 }
 
 async function generateExplanations(
@@ -1352,12 +1686,91 @@ Deno.serve(async (req) => {
 
   // ── Validate inputs ──────────────────────────────────────────────
   const examType = (body.exam_type || '').toString();
-  if (examType !== 'cefr-reading' && examType !== 'ielts-reading' && examType !== 'ielts-listening' && examType !== 'cefr-listening') {
-    return json(400, { error: 'bad_exam_type', detail: 'expected "cefr-reading", "ielts-reading", "ielts-listening", or "cefr-listening"' });
+  if (examType !== 'cefr-reading' && examType !== 'ielts-reading' && examType !== 'ielts-listening' && examType !== 'cefr-listening' && examType !== 'ielts-writing') {
+    return json(400, { error: 'bad_exam_type', detail: 'expected "cefr-reading", "ielts-reading", "ielts-listening", "cefr-listening", or "ielts-writing"' });
+  }
+  // IELTS Writing supports per-task import (scope=passage) for full
+  // structural extraction, scope=tags for the Settings-tab auto-tag
+  // button, and scope=find-source for the Gemini-grounded source
+  // attribution lookup. Full-mock auto-import doesn't make sense for
+  // two free-response tasks — reject any other scope.
+  if (examType === 'ielts-writing') {
+    const _iwScope = (body.scope || 'full').toString();
+    if (_iwScope !== 'passage' && _iwScope !== 'tags' && _iwScope !== 'find-source') {
+      return json(400, { error: 'bad_scope', detail: 'IELTS Writing supports scope: "passage" / "tags" / "find-source". Got "' + _iwScope + '".' });
+    }
   }
 
   // IELTS Listening import is now fully wired (see buildPrompt's
   // ieltsListeningTypeGuide rule 11). Single shared code path with reading.
+
+  // ── FIND-SOURCE scope (IELTS Writing only): Gemini-grounded
+  //    lookup. Uses Google Search to find the most likely
+  //    source/attribution + real-exam date for a given pair of
+  //    Task 1 + Task 2 prompts. Returns null + low confidence when
+  //    the prompts don't appear together in any indexed source.
+  if ((body.scope || '').toString() === 'find-source' && examType === 'ielts-writing') {
+    const t1Prompt = String(body.task1_prompt || '').trim();
+    const t2Prompt = String(body.task2_prompt || '').trim();
+    if (!t1Prompt && !t2Prompt) {
+      return json(400, { error: 'no_prompts', detail: 'scope=find-source requires at least one of task1_prompt / task2_prompt.' });
+    }
+    try {
+      const result = await findIeltsWritingSource({
+        task1Prompt: t1Prompt,
+        task2Prompt: t2Prompt,
+        geminiKey:   GEMINI_KEY
+      });
+      return json(200, {
+        source:     result.source,
+        examDate:   result.examDate,
+        confidence: result.confidence,
+        notes:      result.notes,
+        actor:      (auth as AuthOk).actor
+      });
+    } catch (e) {
+      return json(502, {
+        error:  'find_source_failed',
+        detail: e instanceof Error ? e.message : String(e)
+      });
+    }
+  }
+
+  // ── TAGS scope (IELTS Writing only): one-click auto-tag flow ─────
+  // Sends Gemini the existing task1/task2 prompts (plus an optional
+  // T1 chart image) and asks for just the picker-filter fields back:
+  //   task1.title / chartType / dataNature
+  //   task2.title / essayType
+  // The handler does NOT touch prompts, instructions, word goals,
+  // chart images, or sample answers — admin runs this on a mock that
+  // already has prompts filled in and just wants the tags inferred.
+  if ((body.scope || '').toString() === 'tags' && examType === 'ielts-writing') {
+    const t1Prompt = String(body.task1_prompt || '').trim();
+    const t2Prompt = String(body.task2_prompt || '').trim();
+    if (!t1Prompt && !t2Prompt) {
+      return json(400, { error: 'no_prompts', detail: 'scope=tags requires at least one of task1_prompt / task2_prompt to be non-empty.' });
+    }
+    const chartFiles = (Array.isArray(body.files) ? body.files : []) as FileItem[];
+    try {
+      const result = await generateIeltsWritingTags({
+        task1Prompt: t1Prompt,
+        task2Prompt: t2Prompt,
+        chartFile:   chartFiles.find(f => f && f.mime && f.mime.startsWith('image/')) || null,
+        geminiKey:   GEMINI_KEY
+      });
+      return json(200, {
+        tags:           result.tags,
+        model_used:     result.modelUsed,
+        fallback_reason: result.fallbackReason || undefined,
+        actor:           (auth as AuthOk).actor
+      });
+    } catch (e) {
+      return json(502, {
+        error:  'tags_failed',
+        detail: e instanceof Error ? e.message : String(e)
+      });
+    }
+  }
 
   // ── EXPLANATIONS scope: separate flow, no file upload ───────────
   // Generates { qN: { text, quote } } for an already-imported passage.
@@ -1624,6 +2037,7 @@ Deno.serve(async (req) => {
     ? (examType === 'cefr-reading'    ? CEFR_SINGLE_PART_SHAPE
     :  examType === 'ielts-listening' ? IELTS_LISTENING_SINGLE_PART_SHAPE
     :  examType === 'cefr-listening'  ? CEFR_LISTENING_SINGLE_PART_SHAPE
+    :  examType === 'ielts-writing'   ? IELTS_WRITING_SINGLE_TASK_SHAPE
     :  IELTS_SINGLE_PASSAGE_SHAPE)
     : (examType === 'cefr-reading'    ? CEFR_SHAPE
     :  examType === 'ielts-listening' ? IELTS_LISTENING_SHAPE
@@ -1718,6 +2132,15 @@ Deno.serve(async (req) => {
                 if (type === 'sentence-completion') return typeof md.passageContent === 'string';
                 return false;
               })()
+          : examType === 'ielts-writing'
+            ? (() => {
+                // IELTS Writing per-task shape: just a flat object with
+                // "prompt" (required). chartType / essayType / dataNature
+                // are optional per the schema — admin can fix any missing
+                // field manually.
+                const md = mockData as Record<string, unknown>;
+                return typeof md.prompt === 'string' && md.prompt.length > 0;
+              })()
           : (() => {
               // CEFR per-part shape varies by question type:
               //   • matching                   → texts[] + statements[] (NO passage)
@@ -1736,7 +2159,7 @@ Deno.serve(async (req) => {
     if (!ok) {
       return json(502, {
         error:           'shape_mismatch',
-        detail:          'expected a single ' + (examType === 'ielts-reading' ? 'passage' : (examType === 'ielts-listening' || examType === 'cefr-listening') ? 'part' : 'part') + ' object',
+        detail:          'expected a single ' + (examType === 'ielts-reading' ? 'passage' : (examType === 'ielts-listening' || examType === 'cefr-listening') ? 'part' : examType === 'ielts-writing' ? 'task' : 'part') + ' object',
         model_used:      modelUsed,
         fallback_reason: fallbackReason
       });

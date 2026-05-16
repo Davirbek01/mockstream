@@ -8019,6 +8019,72 @@
     </div>
   </div>
 
+  <!-- ===== Full-screen IELTS Writing picker (iwetPicker) ===== -->
+  <!-- Mirrors cletPicker layout but with 2 tasks per card instead of 6
+       sections. Three extra task-specific filter dropdowns: chart type
+       (Task 1), data nature (Task 1), essay type (Task 2). Orange tone
+       to match the IELTS Writing brand. -->
+  <div id="iwetPicker" class="ilet-overlay" aria-hidden="true">
+    <header class="ilet-header">
+      <button class="ilet-back" type="button" onclick="iwetClose()" title="Back to landing">←</button>
+      <div class="ilet-title">
+        <span class="ilet-title-emoji">✍️</span>
+        <span class="ilet-title-text">IELTS Writing</span>
+        <span class="ilet-count" id="iwetCount">0</span>
+      </div>
+      <div class="ilet-header-tools">
+        <input type="search" class="ilet-search" id="iwetSearch" placeholder="🔍 Search mock #, topic, source…" autocomplete="off" spellcheck="false">
+        <select class="ilet-sort" id="iwetJump" title="Jump to mock #">
+          <option value="">Jump to #…</option>
+        </select>
+      </div>
+    </header>
+
+    <div class="ilet-filter-row iwet-filter-row">
+      <button type="button" class="ilet-chip ilet-chip-active iwet-chip" data-filter="all">All</button>
+      <button type="button" class="ilet-chip iwet-chip" data-filter="ready">✓ Ready only</button>
+      <button type="button" class="ilet-chip iwet-chip" data-filter="soon">⏳ Coming soon</button>
+      <button type="button" class="ilet-chip iwet-chip" data-filter="done">★ Done before</button>
+      <select class="ilet-source-filter" id="iwetSourceFilter" title="Filter by source">
+        <option value="">📚 All sources</option>
+      </select>
+      <select class="ilet-source-filter iwet-secondary-filter" id="iwetYearFilter" title="Filter by exam year">
+        <option value="">📅 Any year</option>
+      </select>
+      <select class="ilet-source-filter iwet-secondary-filter" id="iwetChartTypeFilter" title="Task 1 chart type">
+        <option value="">📈 Any T1 chart</option>
+        <option value="line_graph">Line graph</option>
+        <option value="bar_chart">Bar chart</option>
+        <option value="pie_chart">Pie chart</option>
+        <option value="table">Table</option>
+        <option value="map">Map</option>
+        <option value="process_diagram">Process diagram</option>
+      </select>
+      <select class="ilet-source-filter iwet-secondary-filter" id="iwetDataNatureFilter" title="Task 1 data nature">
+        <option value="">⏱ Any T1 data</option>
+        <option value="over-time">Over time</option>
+        <option value="static">Static</option>
+        <option value="not-applicable">N/A (map/process)</option>
+      </select>
+      <select class="ilet-source-filter iwet-secondary-filter" id="iwetEssayTypeFilter" title="Task 2 essay type">
+        <option value="">📝 Any T2 essay</option>
+        <option value="opinion">Opinion</option>
+        <option value="balanced">Balanced / Discuss</option>
+        <option value="problem-solution">Problem-solution</option>
+        <option value="advantage-disadvantage">Adv-disadv</option>
+        <option value="two-part">Two-part</option>
+      </select>
+    </div>
+
+    <main class="ilet-grid" id="iwetGrid"></main>
+
+    <div class="ilet-empty" id="iwetEmpty" style="display:none;">
+      <div class="ilet-empty-icon">🔍</div>
+      <p class="ilet-empty-msg">No mocks match your filters.</p>
+      <button type="button" class="ilet-empty-clear" onclick="iwetClearFilters()">Clear filters</button>
+    </div>
+  </div>
+
   <style>
     /* ===== Full-screen IELTS Reading picker ===== */
     .iret-overlay {
@@ -8379,6 +8445,185 @@
       border-color: #0f766e;
     }
     #cletPicker .ilet-mock-title { color: #134e4a; }
+
+    /* ===== IELTS Writing picker (iwetPicker) orange-tone overrides =====
+       Mirrors cletPicker structure but uses an orange/amber palette to
+       match the IELTS Writing brand colour students already see on the
+       home screen. The .iwet-* helpers below cover the new
+       per-task layout (T1/T2 sub-rows) and the three task-specific
+       filter dropdowns (chart / data / essay). */
+    #iwetPicker.ilet-overlay {
+      background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%);
+    }
+    #iwetPicker .ilet-header {
+      background: rgba(255, 247, 237, 0.95);
+      border-bottom-color: #fdba74;
+    }
+    #iwetPicker .ilet-back {
+      color: #c2410c;
+      box-shadow: 0 1px 3px rgba(194,65,12,.15);
+    }
+    #iwetPicker .ilet-back:hover { background: #c2410c; color: #fff; }
+    #iwetPicker .ilet-title { color: #7c2d12; }
+    #iwetPicker .ilet-count {
+      background: linear-gradient(135deg,#fb923c,#ea580c);
+      color: #fff;
+    }
+    #iwetPicker .ilet-card {
+      border-color: #fed7aa;
+    }
+    #iwetPicker .ilet-card:hover:not(.ilet-card-disabled) {
+      border-color: #c2410c;
+      box-shadow: 0 8px 20px rgba(194,65,12,.18);
+    }
+    #iwetPicker .ilet-mocknum {
+      background: linear-gradient(135deg,#fb923c,#ea580c);
+    }
+    #iwetPicker .ilet-take {
+      background: linear-gradient(135deg,#fb923c,#ea580c);
+    }
+    #iwetPicker .ilet-take:hover {
+      background: linear-gradient(135deg,#ea580c,#c2410c);
+    }
+    #iwetPicker .ilet-chip-active {
+      background: #c2410c;
+      color: #fff;
+      border-color: #c2410c;
+    }
+    #iwetPicker .ilet-mock-title { color: #7c2d12; }
+    /* Filter row stretches across multiple lines on narrow screens. */
+    #iwetPicker .iwet-filter-row {
+      flex-wrap: wrap;
+      gap: 8px;
+      row-gap: 8px;
+    }
+    #iwetPicker .iwet-secondary-filter {
+      min-width: 0;
+    }
+    /* Per-task sub-row: small italic line under the topic title showing
+       chart type / word goal / essay type. Same .ilet-section list
+       layout, but the .iwet-task-sub span sits inline beneath. */
+    #iwetPicker .ilet-section { align-items: flex-start; }
+    #iwetPicker .ilet-section-num {
+      background: linear-gradient(135deg,#fdba74,#fb923c);
+      color: #fff;
+      font-weight: 700;
+    }
+    #iwetPicker .ilet-section-title {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    #iwetPicker .iwet-task-sub {
+      font-size: 11px;
+      color: #92400e;
+      opacity: 0.85;
+      font-weight: 500;
+    }
+    /* Tag pills on the per-task sub-row. Same shape across all three
+       picker filter dimensions; colour distinguishes them so students
+       can scan a card at a glance (blue = chart, green = data, purple
+       = essay). */
+    #iwetPicker .iwet-pill {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 1px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.6;
+      opacity: 1;
+      margin-right: 2px;
+    }
+    #iwetPicker .iwet-pill-chart {
+      color: #1e40af;
+      background: #dbeafe;
+      border: 1px solid #93c5fd;
+    }
+    #iwetPicker .iwet-pill-data {
+      color: #15803d;
+      background: #dcfce7;
+      border: 1px solid #86efac;
+    }
+    #iwetPicker .iwet-pill-essay {
+      color: #6b21a8;
+      background: #f3e8ff;
+      border: 1px solid #d8b4fe;
+    }
+    /* Share button — small 🔗 icon sitting next to the Take Test
+       button. Hover deepens the orange tone; success state ("✓ Copied!")
+       swaps the icon for a 1.5s confirmation. */
+    #iwetPicker .iwet-share {
+      background: transparent;
+      border: 1px solid #fed7aa;
+      color: #c2410c;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+      transition: background 120ms ease, border-color 120ms ease;
+      margin-right: 8px;
+      white-space: nowrap;
+    }
+    #iwetPicker .iwet-share:hover {
+      background: #fff7ed;
+      border-color: #c2410c;
+    }
+    #iwetPicker .iwet-share.iwet-share-copied {
+      background: #dcfce7;
+      border-color: #86efac;
+      color: #15803d;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    /* Share buttons for the other 4 pickers — same shape as
+       #iwetPicker .iwet-share but green to match each picker's
+       Take Test button theme. */
+    .iret-share,
+    #iletPicker .ilet-share,
+    #cletPicker .clet-share,
+    .cret-share {
+      background: transparent;
+      border: 1px solid #a7f3d0;
+      color: #047857;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+      transition: background 120ms ease, border-color 120ms ease;
+      margin-right: 8px;
+      white-space: nowrap;
+    }
+    .iret-share:hover,
+    #iletPicker .ilet-share:hover,
+    #cletPicker .clet-share:hover,
+    .cret-share:hover {
+      background: #ecfdf5;
+      border-color: #059669;
+    }
+    .iret-share.iret-share-copied,
+    #iletPicker .ilet-share.ilet-share-copied,
+    #cletPicker .clet-share.clet-share-copied,
+    .cret-share.cret-share-copied {
+      background: #dcfce7;
+      border-color: #86efac;
+      color: #15803d;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    /* Exam-date chip — small + muted so the source chip remains the
+       primary attribution. Sits next to the source on the card head. */
+    #iwetPicker .iwet-exam-date {
+      font-size: 11px;
+      color: #7c2d12;
+      background: #ffedd5;
+      border: 1px solid #fdba74;
+      border-radius: 999px;
+      padding: 1px 8px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
     .ilet-header {
       position: sticky;
       top: 0;
@@ -11574,10 +11819,12 @@
         }
         if (!takeParam) return;
         // Expected slug: cefr-reading-45 / ielts-reading-23 / ielts-listening-12
-        // / cefr-speaking-15 (case-insensitive). IELTS speaking is not yet wired
-        // for deep links — match it separately when that flow is added.
+        // / cefr-speaking-15 / ielts-writing-7 (case-insensitive). IELTS
+        // speaking is not yet wired for deep links — match it separately
+        // when that flow is added.
         var m = takeParam.match(/^(cefr|ielts)-(reading|listening)-(\d+)$/i)
-             || takeParam.match(/^(cefr)-(speaking)-(\d+)$/i);
+             || takeParam.match(/^(cefr)-(speaking)-(\d+)$/i)
+             || takeParam.match(/^(ielts)-(writing)-(\d+)$/i);
         if (!m) {
           console.warn('[deep-link] Unrecognised slug:', takeParam);
           return;
@@ -11642,6 +11889,26 @@
           alert((exam.toUpperCase() + ' ' + skill[0].toUpperCase() + skill.slice(1)) + ' Mock ' + mockNum + ' is not available right now.');
           return;
         }
+
+        // IELTS Writing — different runner + auto-proceed gate quirk.
+        // The runner page bails to landing without ?test=, so we pass
+        // BOTH ?test=ielts-writing-mock-NN AND ?sbmock=<id>. Same URL
+        // shape ieltsWritingMocks entries use after the dynamic upgrade.
+        if (skill === 'writing') {
+          var padded = String(mockNum).padStart(2, '0');
+          var pageUrlW = 'Writing IELTS Mock.html'
+            + '?test=ielts-writing-mock-' + padded
+            + '&sbmock=' + encodeURIComponent(sbMockId)
+            + '&auto=1';
+          if (typeof handleWritingMockClick !== 'function') {
+            console.warn('[deep-link] handleWritingMockClick not loaded — falling back to loadMock');
+            if (typeof loadMock === 'function') loadMock(pageUrlW, 'writing');
+            return;
+          }
+          handleWritingMockClick(pageUrlW, category);
+          return;
+        }
+
         // Runner file per (exam, skill). Reading + Listening have separate runners.
         var runnerFile;
         if (skill === 'reading') {
@@ -15640,9 +15907,12 @@
             : '<span class="iret-done">★ Done</span>')
         : '';
 
+      const shareBtnHtml = noneReady
+        ? ''
+        : '<button type="button" class="iret-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
       const actionHtml = noneReady
         ? '<span class="iret-coming-soon">Coming soon</span>'
-        : '<button type="button" class="iret-take" data-mock="' + mockNum + '">Take Test →</button>';
+        : (shareBtnHtml + '<button type="button" class="iret-take" data-mock="' + mockNum + '">Take Test →</button>');
 
       // Strip the "🧪 " emoji prefix from the Supabase pilot label so titles
       // sit visually consistent.
@@ -15792,6 +16062,13 @@
       if (iret && iret.classList.contains('iret-open')) { iretClose(); return; }
       var ilet = document.getElementById('iletPicker');
       if (ilet && ilet.classList.contains('ilet-open')) { iletClose(); return; }
+      // cletPicker + iwetPicker share the .ilet-open class — disambiguate
+      // by container ID so the TMA back gesture closes whichever picker
+      // the student actually has open.
+      var clet = document.getElementById('cletPicker');
+      if (clet && clet.classList.contains('ilet-open')) { cletClose(); return; }
+      var iwet = document.getElementById('iwetPicker');
+      if (iwet && iwet.classList.contains('ilet-open')) { iwetClose(); return; }
     }
     function _pickerShowTmaBack() {
       try {
@@ -15831,7 +16108,11 @@
       _iretRender();
     }
 
-    function iretClose() {
+    function iretClose(opts) {
+      // opts.keepUrl=true → caller is forward-navigating to /take/<slug>
+      // and the URL bar must stay there. Default: rewind the picker
+      // history entry + reset /take/ → /landing.html.
+      const keepUrl = !!(opts && opts.keepUrl);
       const overlay = document.getElementById('iretPicker');
       overlay.classList.remove('iret-open');
       overlay.setAttribute('aria-hidden', 'true');
@@ -15841,7 +16122,7 @@
       // a card click pushed /take/<slug> on top of our picker state, the
       // picker close needs to BOTH pop the picker state AND strip the
       // /take/ URL so the visible landing view matches the address bar.
-      if (!_pickerFromPopstate) {
+      if (!_pickerFromPopstate && !keepUrl) {
         try {
           if (history.state && history.state.picker === 'iret') {
             history.back();
@@ -15893,35 +16174,44 @@
         _iretSourceFilter = this.value || '';
         _iretApplyFiltersAndSort();
       });
-      // Card click — keep the picker open. handleReadingMockClick raises the
-      // access-code modal at z-index 100004 (above the picker at 100003), so
-      // students see the lock prompt without losing their place. The runner
-      // iframe takes over the viewport only after the code is verified.
+      // Card click split: whole-card tap previews the /take/<slug> URL
+      // (replaceState only — no nav); Take Test button pushes a history
+      // entry and routes through handleReadingMockClick with
+      // iretClose({keepUrl:true}) so the address bar stays at /take/
+      // while the mode modal / runner takes over.
       document.getElementById('iretGrid').addEventListener('click', function (e) {
-        const btn = e.target.closest('.iret-take');
-        if (!btn) return;
-        const card = btn.closest('.iret-card');
+        if (e.target.closest('input, select, textarea, a, [contenteditable]')) return;
+        const card = e.target.closest('.iret-card');
         if (!card) return;
+        if (card.classList.contains('iret-card-disabled')) return;
+        const mockN = card.dataset.mock;
+        const shareBtn = e.target.closest('.iret-share');
+        if (shareBtn) {
+          e.stopPropagation();
+          _pickerShareMock('ielts-reading', 'IELTS Reading Mock', mockN, shareBtn, 'iret-share-copied');
+          return;
+        }
+        const isTakeBtn = !!e.target.closest('.iret-take');
+
+        if (!isTakeBtn) {
+          if (mockN) {
+            try { history.replaceState(null, '', '/take/ielts-reading-' + encodeURIComponent(mockN)); } catch (_e) {}
+          }
+          return;
+        }
+
         const file = card.dataset.file;
         if (!file) return;
-        // Append &mock=N (the real mock_number) so the mode modal title
-        // doesn't fall back to the ?sbmock= row id. Same fix as the
-        // CEFR Reading picker.
-        const mockN = card.dataset.mock;
         const fileWithMock = mockN
           ? file + (file.indexOf('?') >= 0 ? '&' : '?') + 'mock=' + encodeURIComponent(mockN)
           : file;
-        // Reflect the chosen mock in the URL bar (shareable deep-link
-        // shape). pushState adds a history entry so the browser back
-        // button takes the student back to the landing page; the
-        // popstate listener below cleans up any open access-code modal.
         if (mockN) {
           try { history.pushState(null, '', '/take/ielts-reading-' + encodeURIComponent(mockN)); } catch (_e) {}
         }
         if (typeof handleReadingMockClick === 'function') {
           handleReadingMockClick(fileWithMock, 'ielts-reading');
         } else {
-          iretClose();
+          iretClose({ keepUrl: true });
           loadMock(fileWithMock, 'reading');
         }
       });
@@ -16155,9 +16445,12 @@
             : '<span class="ilet-done">★ Done</span>')
         : '';
 
+      const shareBtnHtml = noneReady
+        ? ''
+        : '<button type="button" class="ilet-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
       const actionHtml = noneReady
         ? '<span class="ilet-coming-soon">Coming soon</span>'
-        : '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Take Test →</button>';
+        : (shareBtnHtml + '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Take Test →</button>');
 
       // Strip the "🧪 " emoji prefix from the Supabase pilot label so titles
       // sit visually consistent.
@@ -16316,7 +16609,12 @@
       _iletRender();
     }
 
-    function iletClose() {
+    function iletClose(opts) {
+      // opts.keepUrl=true → caller is forward-navigating to a /take/<slug>
+      // URL and wants the URL bar to stay there. Default: rewind the
+      // picker-open history entry + reset /take/ → /landing.html so the
+      // student doesn't land on a stale deep-link URL after closing.
+      const keepUrl = !!(opts && opts.keepUrl);
       const overlay = document.getElementById('iletPicker');
       overlay.classList.remove('ilet-open');
       overlay.setAttribute('aria-hidden', 'true');
@@ -16332,7 +16630,7 @@
       //     until the next back. Belt-and-braces: also replaceState to
       //     /landing.html whenever the URL is currently a take URL, so
       //     the address bar matches the now-visible landing view.
-      if (!_pickerFromPopstate) {
+      if (!_pickerFromPopstate && !keepUrl) {
         try {
           if (history.state && history.state.picker === 'ilet') {
             history.back();
@@ -16384,35 +16682,50 @@
         _iletSourceFilter = this.value || '';
         _iletApplyFiltersAndSort();
       });
-      // Card click — keep the picker open. handleListeningMockClick raises the
-      // access-code modal at z-index 100004 (above the picker at 100003), so
-      // students see the lock prompt without losing their place. The runner
-      // iframe takes over the viewport only after the code is verified.
+      // Card click — split on Take Test button vs whole-card tap:
+      //   • Whole-card tap → preview the /take/<slug> deep-link URL in
+      //     the address bar via replaceState only (no history entry, no
+      //     navigation). Tapping a different card just rewrites the URL.
+      //   • Take Test button → pushState + iletClose({keepUrl:true}) +
+      //     handleListeningMockClick (mode modal flow as before). The
+      //     keepUrl flag prevents iletClose from rolling back the URL
+      //     while the mode modal / runner takes over.
+      // Skip when the tap originates inside a form control (defensive).
       document.getElementById('iletGrid').addEventListener('click', function (e) {
-        const btn = e.target.closest('.ilet-take');
-        if (!btn) return;
-        const card = btn.closest('.ilet-card');
+        if (e.target.closest('input, select, textarea, a, [contenteditable]')) return;
+        const card = e.target.closest('.ilet-card');
         if (!card) return;
+        if (card.classList.contains('ilet-card-disabled')) return;
+        const mockN = card.dataset.mock;
+        // Share button uses .ilet-share inside #iletPicker, distinct
+        // from #cletPicker which uses .clet-share to avoid theme bleed.
+        const shareBtn = e.target.closest('.ilet-share');
+        if (shareBtn && shareBtn.closest('#iletPicker')) {
+          e.stopPropagation();
+          _pickerShareMock('ielts-listening', 'IELTS Listening Mock', mockN, shareBtn, 'ilet-share-copied');
+          return;
+        }
+        const isTakeBtn = !!e.target.closest('.ilet-take');
+
+        if (!isTakeBtn) {
+          if (mockN) {
+            try { history.replaceState(null, '', '/take/ielts-listening-' + encodeURIComponent(mockN)); } catch (_e) {}
+          }
+          return;
+        }
+
         const file = card.dataset.file;
         if (!file) return;
-        // Append &mock=N (the real mock_number) so the mode modal title
-        // doesn't fall back to the ?sbmock= row id. Same fix as the
-        // CEFR Reading picker.
-        const mockN = card.dataset.mock;
         const fileWithMock = mockN
           ? file + (file.indexOf('?') >= 0 ? '&' : '?') + 'mock=' + encodeURIComponent(mockN)
           : file;
-        // Reflect the chosen mock in the URL bar (shareable deep-link
-        // shape). pushState adds a history entry so the browser back
-        // button takes the student back to the landing page; the
-        // popstate listener below cleans up any open access-code modal.
         if (mockN) {
           try { history.pushState(null, '', '/take/ielts-listening-' + encodeURIComponent(mockN)); } catch (_e) {}
         }
         if (typeof handleListeningMockClick === 'function') {
           handleListeningMockClick(fileWithMock, 'ielts-listening');
         } else {
-          iletClose();
+          iletClose({ keepUrl: true });
           loadMock(fileWithMock, 'listening');
         }
       });
@@ -16685,9 +16998,12 @@
             ? '<span class="ilet-done">★ Done · ' + doneInfo.percent + '%</span>'
             : '<span class="ilet-done">★ Done</span>')
         : '';
+      const shareBtnHtml = noneReady
+        ? ''
+        : '<button type="button" class="clet-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
       const actionHtml = noneReady
         ? '<span class="ilet-coming-soon">Coming soon</span>'
-        : '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Take Test →</button>';
+        : (shareBtnHtml + '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Take Test →</button>');
       const cleanTitle = String(item.name || '').replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]+\s*/u, '');
       return '<article class="ilet-card ' + (noneReady ? 'ilet-card-disabled' : '') + '"'
         + ' id="clet-card-' + mockNum + '"'
@@ -16833,13 +17149,16 @@
       _cletRender();
     }
 
-    function cletClose() {
+    function cletClose(opts) {
+      // opts.keepUrl=true → forward-navigating to /take/<slug>; leave
+      // the URL alone. Default: rewind picker state + reset URL.
+      const keepUrl = !!(opts && opts.keepUrl);
       const overlay = document.getElementById('cletPicker');
       overlay.classList.remove('ilet-open');
       overlay.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
       if (typeof _pickerHideTmaBack === 'function') _pickerHideTmaBack();
-      if (!_pickerFromPopstate) {
+      if (!_pickerFromPopstate && !keepUrl) {
         try {
           if (history.state && history.state.picker === 'clet') history.back();
           if (/^\/take\//i.test(window.location.pathname)) {
@@ -16885,14 +17204,31 @@
         _cletSourceFilter = this.value || '';
         _cletApplyFiltersAndSort();
       });
+      // Whole-card tap = URL preview; Take Test = navigate. See iwetPicker
+      // (b6afe9c) for the full rationale.
       document.getElementById('cletGrid').addEventListener('click', function (e) {
-        const btn = e.target.closest('.ilet-take');
-        if (!btn) return;
-        const card = btn.closest('.ilet-card');
+        if (e.target.closest('input, select, textarea, a, [contenteditable]')) return;
+        const card = e.target.closest('.ilet-card');
         if (!card) return;
+        if (card.classList.contains('ilet-card-disabled')) return;
+        const mockN = card.dataset.mock;
+        const shareBtn = e.target.closest('.clet-share');
+        if (shareBtn) {
+          e.stopPropagation();
+          _pickerShareMock('cefr-listening', 'CEFR Listening Mock', mockN, shareBtn, 'clet-share-copied');
+          return;
+        }
+        const isTakeBtn = !!e.target.closest('.ilet-take');
+
+        if (!isTakeBtn) {
+          if (mockN) {
+            try { history.replaceState(null, '', '/take/cefr-listening-' + encodeURIComponent(mockN)); } catch (_e) {}
+          }
+          return;
+        }
+
         const file = card.dataset.file;
         if (!file) return;
-        const mockN = card.dataset.mock;
         const fileWithMock = mockN
           ? file + (file.indexOf('?') >= 0 ? '&' : '?') + 'mock=' + encodeURIComponent(mockN)
           : file;
@@ -16902,7 +17238,7 @@
         if (typeof handleListeningMockClick === 'function') {
           handleListeningMockClick(fileWithMock, 'cefr-listening');
         } else {
-          cletClose();
+          cletClose({ keepUrl: true });
           loadMock(fileWithMock, 'listening');
         }
       });
@@ -16914,6 +17250,663 @@
     window.cletOpen = cletOpen;
     window.cletClose = cletClose;
     window.iletClearFilters = iletClearFilters;
+
+    // ════════════════════════════════════════════════════════════════════
+    // FULL-SCREEN IELTS WRITING PICKER (iwetPicker)
+    // ────────────────────────────────────────────────────────────────────
+    // Mirrors cletPicker (CEFR Listening) but with IELTS-Writing-specific
+    // shape (2 tasks per mock, not 6 sections). Three extra filter
+    // dropdowns: T1 chart type, T1 data nature, T2 essay type.
+    //
+    // Readiness gate:
+    //   • Task 1 ready  ⇢  task1.prompt + task1.chartImageUrl both set
+    //   • Task 2 ready  ⇢  task2.prompt set
+    // Maps and process diagrams in T1 still need an image; their
+    // "data nature" is just "not-applicable" but the chart upload is the
+    // student's reference material so it's still required for Ready.
+    // ════════════════════════════════════════════════════════════════════
+    const _iwet_CACHE_KEY = 'ms_iwet_meta_v1';
+    const _iwet_CACHE_TTL = 24 * 60 * 60 * 1000;
+    const _iwet_SB_URL    = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    const _iwet_SB_KEY    = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    const _iwetMockMeta   = {};
+    let   _iwetServerDone = {};
+    let   _iwetFilter        = 'all';
+    let   _iwetSourceFilter  = '';
+    let   _iwetYearFilter    = '';
+    let   _iwetChartFilter   = '';
+    let   _iwetDataFilter    = '';
+    let   _iwetEssayFilter   = '';
+
+    function _iwetEsc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    // Pretty labels for the per-task sub-row + filters.
+    const _IWET_CHART_LABEL = {
+      line_graph:      'Line graph',
+      bar_chart:       'Bar chart',
+      pie_chart:       'Pie chart',
+      table:           'Table',
+      map:             'Map',
+      process_diagram: 'Process diagram'
+    };
+    const _IWET_DATA_LABEL = {
+      'over-time':      'Over time',
+      'static':         'Static',
+      'not-applicable': 'N/A'
+    };
+    const _IWET_ESSAY_LABEL = {
+      'opinion':                'Opinion',
+      'balanced':               'Discussion',
+      'problem-solution':       'Problem-solution',
+      'advantage-disadvantage': 'Advantage-disadvantage',
+      'two-part':               'Two-part question'
+    };
+
+    function _iwetBuildMetaFromMockData(md) {
+      // IELTS Writing stores its tasks at md.tasks.{task1,task2} rather
+      // than in a parts[] array. Pull both and emit a uniform 2-entry
+      // array for the card renderer.
+      const t = (md && md.tasks && typeof md.tasks === 'object') ? md.tasks : {};
+      const t1 = (t.task1 && typeof t.task1 === 'object') ? t.task1 : {};
+      const t2 = (t.task2 && typeof t.task2 === 'object') ? t.task2 : {};
+      const t1Ready = !!(t1.prompt && String(t1.prompt).trim() && t1.chartImageUrl && String(t1.chartImageUrl).trim());
+      const t2Ready = !!(t2.prompt && String(t2.prompt).trim());
+      return {
+        source:   (md && md.source) || '',
+        examDate: (md && md.examDate) || '',
+        tasks: [
+          {
+            title:      String(t1.title || '').trim(),
+            ready:      t1Ready,
+            wordGoal:   typeof t1.wordGoal === 'number' ? t1.wordGoal : 150,
+            chartType:  t1.chartType  || '',
+            dataNature: t1.dataNature || ''
+          },
+          {
+            title:     String(t2.title || '').trim(),
+            ready:     t2Ready,
+            wordGoal:  typeof t2.wordGoal === 'number' ? t2.wordGoal : 250,
+            essayType: t2.essayType || ''
+          }
+        ]
+      };
+    }
+
+    // Strip embedded dates out of a source string entirely (date lives
+    // in examDate / the date chip / the year filter — repeating it
+    // inside the source attribution is noise). Handles:
+    //   "Actual exam 2021-09-30"   →   "Actual exam"
+    //   "Actual exam Sep 2021"     →   "Actual exam"
+    //   "BC Actual Test 2024-03"   →   "BC Actual Test"
+    //   "Recent IELTS Test 2024-Q1"→   "Recent IELTS Test"
+    //   "Cambridge IELTS 18 Test 3"→   "Cambridge IELTS 18 Test 3" (unchanged)
+    //   "IELTS Fever"              →   "IELTS Fever" (unchanged)
+    // Cambridge book numbers (1-19) are NOT touched because the year
+    // strip only targets 19XX / 20XX 4-digit numbers.
+    function _iwetCleanSourceLabel(raw) {
+      if (!raw) return '';
+      const monthName = '(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*';
+      return String(raw)
+        // Strip ISO YYYY-MM-DD / YYYY-MM / YYYY-Q1..Q4
+        .replace(/\b\d{4}-(?:Q[1-4]|\d{1,2}(?:-\d{1,2})?)\b/gi, '')
+        // Strip "Mon YYYY" / "September 2021"
+        .replace(new RegExp('\\b' + monthName + '\\s+(?:19|20)\\d{2}\\b', 'gi'), '')
+        // Strip standalone 4-digit year — only 19XX / 20XX so Cambridge
+        // book numbers like 18 stay intact.
+        .replace(/\b(?:19|20)\d{2}\b/g, '')
+        // Trim trailing / leading separators left behind by the strips.
+        .replace(/[\s,;:\-]+$/g, '')
+        .replace(/^[\s,;:\-]+/g, '')
+        // Collapse interior whitespace.
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    // Format an ISO date for the picker card's date chip.
+    //   YYYY-MM-DD   →  "25 Apr 2023"  (full day-level precision)
+    //   YYYY-MM      →  "Apr 2023"     (month-level only)
+    //   YYYY         →  "2023"
+    // Falls open on invalid input. The chip shows whatever precision
+    // Gemini / admin saved — no truncation. Source label cleaner is
+    // separate (only used for dropdown grouping where day-precision
+    // would over-fragment the groups).
+    function _iwetFormatExamDate(iso) {
+      if (!iso || typeof iso !== 'string') return '';
+      var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      var full = iso.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+      if (full) {
+        var monthIdx = parseInt(full[2], 10) - 1;
+        if (monthIdx < 0 || monthIdx > 11) return full[1];
+        var day = parseInt(full[3], 10);
+        return day + ' ' + months[monthIdx] + ' ' + full[1];
+      }
+      var ym = iso.match(/^(\d{4})-(\d{1,2})$/);
+      if (ym) {
+        var monthIdx2 = parseInt(ym[2], 10) - 1;
+        if (monthIdx2 < 0 || monthIdx2 > 11) return ym[1];
+        return months[monthIdx2] + ' ' + ym[1];
+      }
+      var yOnly = iso.match(/^(\d{4})$/);
+      if (yOnly) return yOnly[1];
+      return iso;
+    }
+
+    async function _iwetLoadSupabaseMockMeta(id) {
+      try {
+        const r = await fetch(
+          _iwet_SB_URL + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(id) + '&select=mock_data',
+          { headers: { apikey: _iwet_SB_KEY, Authorization: 'Bearer ' + _iwet_SB_KEY } }
+        );
+        if (!r.ok) return null;
+        const rows = await r.json();
+        if (!rows || !rows.length) return null;
+        return _iwetBuildMetaFromMockData(rows[0].mock_data || {});
+      } catch (e) { return null; }
+    }
+
+    function _iwetParseFileSpec(fileSpec) {
+      const sbMatch = String(fileSpec || '').match(/sbmock=([^&]+)/);
+      if (sbMatch) return { kind: 'sb', id: sbMatch[1] };
+      return { kind: 'unknown' };
+    }
+
+    async function _iwetLoadAllMockMeta() {
+      // No localStorage cache — IELTS Writing only has ~30 mocks, so 30
+      // parallel Supabase fetches on each fresh picker open is cheap
+      // (~1s) and that guarantees admin edits show up on mobile
+      // immediately instead of waiting 24h for a TTL to expire. In-
+      // memory _iwetMockMeta still preserves picker meta across opens
+      // within the same session, so back-and-forth navigation is
+      // instant. Defensively wipe any old localStorage cache from
+      // prior versions so it doesn't shadow fresh data.
+      try { localStorage.removeItem(_iwet_CACHE_KEY); } catch (e) {}
+      const items = (typeof ieltsWritingMocks !== 'undefined' && Array.isArray(ieltsWritingMocks))
+        ? ieltsWritingMocks : [];
+      const missing = items
+        .map((t, idx) => ({ t, key: String(idx + 1).padStart(2, '0') }))
+        .filter(({ key }) => !_iwetMockMeta[key]);
+      if (missing.length === 0) return;
+      await Promise.all(missing.map(async ({ t, key }) => {
+        const spec = _iwetParseFileSpec(t && t.file);
+        if (spec.kind !== 'sb') return;
+        const meta = await _iwetLoadSupabaseMockMeta(spec.id);
+        if (meta) _iwetMockMeta[key] = meta;
+      }));
+    }
+
+    function _iwetGetDoneInfo(mockNum) {
+      try {
+        const raw = localStorage.getItem('mock-ielts-writing-done-' + mockNum);
+        if (raw) return JSON.parse(raw);
+      } catch (e) {}
+      if (_iwetServerDone[mockNum]) return { fromServer: true };
+      return null;
+    }
+
+    async function _iwetFetchServerDone() {
+      try {
+        if (!window.PremiumGate || !window.PremiumGate._normName) return {};
+        const candidateName = (typeof sessionStorage !== 'undefined'
+          ? (sessionStorage.getItem('CANDIDATE_NAME') || '') : '');
+        const name = window.PremiumGate._normName(candidateName);
+        if (!name) return {};
+        const url = _iwet_SB_URL + '/rest/v1/mock_attempts'
+          + '?candidate_name=eq.' + encodeURIComponent(name)
+          + '&skill=eq.writing'
+          + '&exam_type=eq.ielts'
+          + '&submitted_at=not.is.null'
+          + '&select=mock_number';
+        const r = await fetch(url, { headers: { apikey: _iwet_SB_KEY, Authorization: 'Bearer ' + _iwet_SB_KEY } });
+        if (!r.ok) return {};
+        const rows = await r.json();
+        const out = {};
+        (rows || []).forEach(row => { out[String(row.mock_number).padStart(2, '0')] = true; });
+        return out;
+      } catch (e) { return {}; }
+    }
+
+    function _iwetSkeletonHtml() {
+      return '<div class="ilet-card-skeleton">'
+        + '<div class="ilet-skel-line short"></div>'
+        + '<div class="ilet-skel-line tall"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '</div>';
+    }
+
+    function _iwetCardHtml(mockNum, item, meta, doneInfo) {
+      const tasks = meta.tasks;
+      const readyCount = tasks.filter(p => p.ready).length;
+      const total = tasks.length;
+      const noneReady = readyCount === 0;
+      const dots = tasks.map(p =>
+        '<span class="ilet-dot ' + (p.ready ? 'ilet-dot-ready' : 'ilet-dot-soon') + '"></span>'
+      ).join('');
+      const sourceLabel = _iwetCleanSourceLabel(meta.source);
+      const sourceHtml = sourceLabel
+        ? '<div class="ilet-source" title="' + _iwetEsc(meta.source) + '">' + _iwetEsc(sourceLabel) + '</div>'
+        : '';
+      const dateLabel = _iwetFormatExamDate(meta.examDate);
+      const dateHtml  = dateLabel
+        ? '<div class="iwet-exam-date" title="Exam date ' + _iwetEsc(meta.examDate) + '">📅 ' + _iwetEsc(dateLabel) + '</div>'
+        : '';
+      const taskRows = tasks.map((p, i) => {
+        const isT1 = (i === 0);
+        // Build the sub-row parts. T1: chart type + data nature (when
+        // tagged) + word goal. T2: essay type + word goal. Skip data
+        // nature if unset / "not-applicable" (already implied by the
+        // chart being a map or process diagram).
+        // Pill-ify each tag so students scan tag dimensions at a
+        // glance: chart-type = blue, data-nature = green, essay-type
+        // = purple. Word goal dropped — it's implied by task number
+        // (T1 always 150, T2 always 250 unless explicitly overridden).
+        let sub;
+        if (isT1) {
+          const chartSeg = '<span class="iwet-pill iwet-pill-chart">'
+            + _iwetEsc(_IWET_CHART_LABEL[p.chartType] || (p.chartType || '—'))
+            + '</span>';
+          const natLabel = _IWET_DATA_LABEL[p.dataNature];
+          const natSeg = (natLabel && p.dataNature !== 'not-applicable')
+            ? ' <span class="iwet-pill iwet-pill-data">' + _iwetEsc(natLabel) + '</span>'
+            : '';
+          sub = chartSeg + natSeg;
+        } else {
+          sub = '<span class="iwet-pill iwet-pill-essay">'
+            + _iwetEsc(_IWET_ESSAY_LABEL[p.essayType] || (p.essayType || '—'))
+            + '</span>';
+        }
+        // sub is built from pre-escaped pieces (chart/essay labels and
+        // data-nature) plus a small literal HTML span for the green
+        // data-nature highlight, so it MUST NOT pass through _iwetEsc
+        // here or the <span> would render as literal text.
+        const titleHtml = p.title
+          ? '<strong>' + _iwetEsc(p.title) + '</strong><span class="iwet-task-sub">' + sub + '</span>'
+          : '<strong style="color:#94a3b8;">(no topic title yet)</strong><span class="iwet-task-sub">' + sub + '</span>';
+        return '<li class="ilet-section">'
+          + '<span class="ilet-section-num">T' + (i + 1) + '</span>'
+          + '<span class="ilet-section-title">' + titleHtml + '</span>'
+          + '<span class="ilet-section-badge ' + (p.ready ? 'ilet-badge-ready' : 'ilet-badge-soon') + '">'
+          +   (p.ready ? '✓ Ready' : '⏳ Soon')
+          + '</span>'
+          + '</li>';
+      }).join('');
+      const doneHtml = doneInfo
+        ? (typeof doneInfo.percent === 'number'
+            ? '<span class="ilet-done">★ Done · ' + doneInfo.percent + '%</span>'
+            : '<span class="ilet-done">★ Done</span>')
+        : '';
+      // Share button — only on ready mocks (no point sharing a coming-
+      // soon link). Click is handled by the grid's delegated listener
+      // below; the button's own button.click is captured before the
+      // whole-card URL-preview path so a share tap doesn't also rewrite
+      // the address bar.
+      const shareBtnHtml = noneReady
+        ? ''
+        : '<button type="button" class="iwet-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
+      const actionHtml = noneReady
+        ? '<span class="ilet-coming-soon">Coming soon</span>'
+        : (shareBtnHtml + '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Take Test →</button>');
+      const cleanTitle = String(item.name || '').replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]+\s*/u, '');
+      // Pull filter values from the meta for data-* attrs.
+      const t1Chart = tasks[0] ? (tasks[0].chartType  || '') : '';
+      const t1Data  = tasks[0] ? (tasks[0].dataNature || '') : '';
+      const t2Essay = tasks[1] ? (tasks[1].essayType  || '') : '';
+      const topicBlob = tasks.map(p => (p.title || '')).join(' ').toLowerCase();
+      return '<article class="ilet-card ' + (noneReady ? 'ilet-card-disabled' : '') + '"'
+        + ' id="iwet-card-' + mockNum + '"'
+        + ' data-mock="' + mockNum + '"'
+        + ' data-file="' + _iwetEsc(item.file) + '"'
+        + ' data-ready-count="' + readyCount + '"'
+        + ' data-total="' + total + '"'
+        + ' data-source="' + _iwetEsc(_iwetCleanSourceLabel(meta.source).toLowerCase()) + '"'
+        + ' data-year="' + _iwetEsc(meta.examDate ? String(meta.examDate).slice(0, 4) : '') + '"'
+        + ' data-done="' + (doneHtml ? '1' : '0') + '"'
+        + ' data-title="' + _iwetEsc(cleanTitle.toLowerCase()) + '"'
+        + ' data-topics="' + _iwetEsc(topicBlob) + '"'
+        + ' data-t1-chart="' + _iwetEsc(t1Chart) + '"'
+        + ' data-t1-data="'  + _iwetEsc(t1Data)  + '"'
+        + ' data-t2-essay="' + _iwetEsc(t2Essay) + '">'
+          + '<div class="ilet-card-head">'
+            + '<div class="ilet-mocknum">#' + mockNum + '</div>'
+            + '<div class="ilet-status">'
+              + '<span class="ilet-dots">' + dots + '</span>'
+              + '<span class="ilet-status-label">' + readyCount + '/' + total + ' READY</span>'
+            + '</div>'
+            + sourceHtml
+            + dateHtml
+          + '</div>'
+          + '<h3 class="ilet-mock-title">' + _iwetEsc(cleanTitle) + '</h3>'
+          + '<ul class="ilet-sections">' + taskRows + '</ul>'
+          + '<div class="ilet-card-foot">' + doneHtml + actionHtml + '</div>'
+        + '</article>';
+    }
+
+    function _iwetRenderSkeletons() {
+      const grid = document.getElementById('iwetGrid');
+      const count = (typeof ieltsWritingMocks !== 'undefined' && Array.isArray(ieltsWritingMocks))
+        ? ieltsWritingMocks.length : 12;
+      grid.innerHTML = Array.from({ length: count }, _iwetSkeletonHtml).join('');
+      document.getElementById('iwetCount').textContent = count;
+    }
+
+    function _iwetRender() {
+      const grid = document.getElementById('iwetGrid');
+      const items = (typeof ieltsWritingMocks !== 'undefined' && Array.isArray(ieltsWritingMocks))
+        ? ieltsWritingMocks : [];
+      const cards = items.map((t, idx) => {
+        const mockNum = String(idx + 1).padStart(2, '0');
+        const meta = _iwetMockMeta[mockNum] || {
+          source: '',
+          tasks: [
+            { title: '', ready: false, wordGoal: 150, chartType: '', dataNature: '' },
+            { title: '', ready: false, wordGoal: 250, essayType: '' }
+          ]
+        };
+        return _iwetCardHtml(mockNum, t, meta, _iwetGetDoneInfo(mockNum));
+      });
+      grid.innerHTML = cards.join('');
+      _iwetBuildJumpOptions();
+      _iwetBuildSourceOptions();
+      _iwetBuildYearOptions();
+      _iwetApplyFiltersAndSort();
+    }
+
+    function _iwetApplyFiltersAndSort() {
+      const search = (document.getElementById('iwetSearch').value || '').toLowerCase().trim();
+      const sourceFilter = _iwetSourceFilter.toLowerCase();
+      let visible = 0;
+      document.querySelectorAll('#iwetGrid .ilet-card').forEach(c => {
+        const ready = parseInt(c.dataset.readyCount, 10) || 0;
+        const total = parseInt(c.dataset.total, 10) || 0;
+        const done  = c.dataset.done === '1';
+        const source = c.dataset.source || '';
+        let pass = true;
+        if (_iwetFilter === 'ready') pass = (ready === total && total > 0);
+        else if (_iwetFilter === 'soon')  pass = (ready < total);
+        else if (_iwetFilter === 'done')  pass = done;
+        if (pass && sourceFilter)        pass = source.startsWith(sourceFilter);
+        if (pass && _iwetYearFilter)     pass = (c.dataset.year   === _iwetYearFilter);
+        if (pass && _iwetChartFilter)    pass = (c.dataset.t1Chart === _iwetChartFilter);
+        if (pass && _iwetDataFilter)     pass = (c.dataset.t1Data  === _iwetDataFilter);
+        if (pass && _iwetEssayFilter)    pass = (c.dataset.t2Essay === _iwetEssayFilter);
+        if (pass && search) {
+          pass = (c.dataset.title  || '').includes(search)
+              || (c.dataset.source || '').includes(search)
+              || (c.dataset.topics || '').includes(search)
+              || (c.dataset.mock   || '').includes(search);
+        }
+        c.style.display = pass ? '' : 'none';
+        if (pass) visible++;
+      });
+      document.getElementById('iwetEmpty').style.display = visible === 0 ? '' : 'none';
+    }
+
+    function _iwetBuildSourceOptions() {
+      const sel = document.getElementById('iwetSourceFilter');
+      if (!sel) return;
+      // Group by the cleaned (date-rewritten) label so legacy entries
+      // like "Actual exam 2021-09-30" and "Actual exam 2021-09" share
+      // one row. The filter still matches against the cleaned label
+      // (see _iwetApplyFiltersAndSort + card data-source attr below).
+      const groups = new Set();
+      Object.values(_iwetMockMeta).forEach(m => {
+        if (!m || !m.source) return;
+        const label = _iwetCleanSourceLabel(m.source);
+        // Drop the trailing "Test N" so a "Cambridge IELTS 18 Test 3"
+        // and "Cambridge IELTS 18 Test 4" share one filter row.
+        const stripped = label.replace(/\s+Test\s+\d+\s*$/i, '').trim();
+        if (stripped) groups.add(stripped);
+      });
+      const sorted = Array.from(groups).sort();
+      let opts = '<option value="">📚 All sources</option>';
+      sorted.forEach(g => {
+        const selAttr = (g === _iwetSourceFilter) ? ' selected' : '';
+        opts += '<option value="' + _iwetEsc(g) + '"' + selAttr + '>' + _iwetEsc(g) + '</option>';
+      });
+      sel.innerHTML = opts;
+    }
+
+    function _iwetBuildYearOptions() {
+      const sel = document.getElementById('iwetYearFilter');
+      if (!sel) return;
+      // Unique YYYY values across all loaded mocks. Most-recent first
+      // so this year's exams sit at the top of the dropdown.
+      const years = new Set();
+      Object.values(_iwetMockMeta).forEach(m => {
+        if (!m || !m.examDate) return;
+        const y = String(m.examDate).slice(0, 4);
+        if (/^\d{4}$/.test(y)) years.add(y);
+      });
+      const sorted = Array.from(years).sort((a, b) => b.localeCompare(a));
+      let opts = '<option value="">📅 Any year</option>';
+      sorted.forEach(y => {
+        const selAttr = (y === _iwetYearFilter) ? ' selected' : '';
+        opts += '<option value="' + y + '"' + selAttr + '>' + y + '</option>';
+      });
+      sel.innerHTML = opts;
+    }
+
+    function _iwetBuildJumpOptions() {
+      const sel = document.getElementById('iwetJump');
+      if (!sel) return;
+      const cards = document.querySelectorAll('#iwetGrid .ilet-card');
+      let opts = '<option value="">Jump to #…</option>';
+      cards.forEach(c => {
+        const n = c.dataset.mock;
+        if (!n) return;
+        opts += '<option value="' + n + '">#' + n + '</option>';
+      });
+      sel.innerHTML = opts;
+    }
+
+    function _iwetJumpToMock(mockNum) {
+      if (!mockNum) return;
+      const card = document.getElementById('iwet-card-' + mockNum);
+      if (!card) return;
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.classList.remove('ilet-card-jumped');
+      void card.offsetWidth;
+      card.classList.add('ilet-card-jumped');
+    }
+
+    // Share a mock via the OS share sheet / Telegram share / clipboard,
+    // depending on what the current environment supports. Shared across
+    // all five fullscreen pickers — caller passes its own slug base
+    // ("ielts-writing", "cefr-listening", etc.) and a human title.
+    // Falls back in this order:
+    //   1. Telegram Mini App   → openTelegramLink to share to contact / group
+    //   2. navigator.share     → mobile OS share sheet
+    //   3. clipboard.writeText → desktop / older browsers (button flashes "✓ Copied!")
+    //   4. window.prompt       → last-resort manual copy
+    async function _pickerShareMock(slugBase, titleBase, mockN, btnEl, copiedClass) {
+      if (!mockN) return;
+      const url = window.location.origin + '/take/' + slugBase + '-' + encodeURIComponent(mockN);
+      const title = titleBase + ' ' + mockN;
+      const shareText = title + ' · ' + url;
+      try {
+        const tg = window.Telegram && window.Telegram.WebApp;
+        if (tg && typeof tg.openTelegramLink === 'function') {
+          const tgUrl = 'https://t.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(title);
+          tg.openTelegramLink(tgUrl);
+          return;
+        }
+      } catch (_e) {}
+      if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
+        try {
+          await navigator.share({ title: title, text: shareText, url: url });
+          return;
+        } catch (e) {
+          if (e && e.name === 'AbortError') return;
+        }
+      }
+      try {
+        await navigator.clipboard.writeText(url);
+        if (btnEl) {
+          const origText = btnEl.textContent;
+          btnEl.textContent = '✓ Copied!';
+          if (copiedClass) btnEl.classList.add(copiedClass);
+          btnEl.disabled = true;
+          setTimeout(function () {
+            btnEl.textContent = origText;
+            if (copiedClass) btnEl.classList.remove(copiedClass);
+            btnEl.disabled = false;
+          }, 1500);
+        }
+        return;
+      } catch (_e) {}
+      try { window.prompt('Copy this link:', url); } catch (_e) {}
+    }
+    // Backward-compat thin wrapper used by the iwetPicker click handler.
+    async function _iwetShareMock(mockN, btnEl) {
+      return _pickerShareMock('ielts-writing', 'IELTS Writing Mock', mockN, btnEl, 'iwet-share-copied');
+    }
+
+    async function iwetOpen() {
+      const overlay = document.getElementById('iwetPicker');
+      overlay.classList.add('ilet-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      try { history.pushState({ picker: 'iwet' }, ''); } catch (_e) {}
+      if (typeof _pickerShowTmaBack === 'function') _pickerShowTmaBack();
+      _iwetRenderSkeletons();
+      // Wait for the page-load Supabase upgrade pass so admin-added mocks
+      // appear in the picker on first open (same defensive await
+      // cletPicker uses).
+      try {
+        if (window._mmgRefreshAllPickersPromise) await window._mmgRefreshAllPickersPromise;
+      } catch (_e) {}
+      const [, serverDone] = await Promise.all([
+        _iwetLoadAllMockMeta(),
+        _iwetFetchServerDone()
+      ]);
+      _iwetServerDone = serverDone || {};
+      _iwetRender();
+    }
+
+    function iwetClose(opts) {
+      // opts.keepUrl=true → caller is navigating away to a /take/<slug>
+      // URL and wants the URL bar to stay there. Default: roll back the
+      // picker-open history entry + reset /take/ → /landing.html so the
+      // student doesn't land on a stale deep-link URL after closing.
+      const keepUrl = !!(opts && opts.keepUrl);
+      const overlay = document.getElementById('iwetPicker');
+      overlay.classList.remove('ilet-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (typeof _pickerHideTmaBack === 'function') _pickerHideTmaBack();
+      if (!_pickerFromPopstate && !keepUrl) {
+        try {
+          if (history.state && history.state.picker === 'iwet') history.back();
+          if (/^\/take\//i.test(window.location.pathname)) {
+            history.replaceState(null, '', '/landing.html');
+          }
+        } catch (_e) {}
+      }
+    }
+
+    function iwetClearFilters() {
+      _iwetFilter       = 'all';
+      _iwetSourceFilter = '';
+      _iwetYearFilter   = '';
+      _iwetChartFilter  = '';
+      _iwetDataFilter   = '';
+      _iwetEssayFilter  = '';
+      document.querySelectorAll('#iwetPicker .iwet-chip').forEach(c =>
+        c.classList.toggle('ilet-chip-active', c.dataset.filter === 'all')
+      );
+      document.getElementById('iwetSearch').value = '';
+      ['iwetSourceFilter','iwetYearFilter','iwetChartTypeFilter','iwetDataNatureFilter','iwetEssayTypeFilter'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+      _iwetApplyFiltersAndSort();
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const overlay = document.getElementById('iwetPicker');
+      if (!overlay) return;
+      document.querySelectorAll('#iwetPicker .iwet-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          _iwetFilter = chip.dataset.filter;
+          document.querySelectorAll('#iwetPicker .iwet-chip').forEach(c =>
+            c.classList.toggle('ilet-chip-active', c === chip)
+          );
+          _iwetApplyFiltersAndSort();
+        });
+      });
+      const search = document.getElementById('iwetSearch');
+      const jump   = document.getElementById('iwetJump');
+      const srcSel = document.getElementById('iwetSourceFilter');
+      const chSel  = document.getElementById('iwetChartTypeFilter');
+      const dnSel  = document.getElementById('iwetDataNatureFilter');
+      const etSel  = document.getElementById('iwetEssayTypeFilter');
+      if (search) search.addEventListener('input', _iwetApplyFiltersAndSort);
+      if (jump) jump.addEventListener('change', function () {
+        _iwetJumpToMock(this.value);
+        setTimeout(() => { this.value = ''; }, 400);
+      });
+      if (srcSel) srcSel.addEventListener('change', function () { _iwetSourceFilter = this.value || ''; _iwetApplyFiltersAndSort(); });
+      const yrSel  = document.getElementById('iwetYearFilter');
+      if (yrSel)  yrSel.addEventListener('change',  function () { _iwetYearFilter    = this.value || ''; _iwetApplyFiltersAndSort(); });
+      if (chSel)  chSel.addEventListener('change', function () { _iwetChartFilter   = this.value || ''; _iwetApplyFiltersAndSort(); });
+      if (dnSel)  dnSel.addEventListener('change', function () { _iwetDataFilter    = this.value || ''; _iwetApplyFiltersAndSort(); });
+      if (etSel)  etSel.addEventListener('change', function () { _iwetEssayFilter   = this.value || ''; _iwetApplyFiltersAndSort(); });
+      document.getElementById('iwetGrid').addEventListener('click', function (e) {
+        if (e.target.closest('input, select, textarea, a, [contenteditable]')) return;
+        const card = e.target.closest('.ilet-card');
+        if (!card) return;
+        if (card.classList.contains('ilet-card-disabled')) return;
+        const mockN = card.dataset.mock;
+
+        // Share button — intercept BEFORE the whole-card URL preview
+        // path so tapping share doesn't also rewrite the address bar.
+        const shareBtn = e.target.closest('.iwet-share');
+        if (shareBtn) {
+          e.stopPropagation();
+          _iwetShareMock(mockN, shareBtn);
+          return;
+        }
+
+        const isTakeBtn = !!e.target.closest('.ilet-take');
+
+        if (!isTakeBtn) {
+          // Whole-card tap — preview the shareable deep-link URL in the
+          // bar without committing to navigation. replaceState (not
+          // pushState) so back-arrow still returns to the landing page,
+          // and tapping a second card just rewrites the URL instead of
+          // stacking history entries.
+          if (mockN) {
+            try { history.replaceState(null, '', '/take/ielts-writing-' + encodeURIComponent(mockN)); } catch (_e) {}
+          }
+          return;
+        }
+
+        // Take Test button — pushState (committed navigation) + tell
+        // iwetClose to leave the URL alone so the runner page keeps
+        // /take/<slug> visible.
+        const file = card.dataset.file;
+        if (!file) return;
+        if (mockN) {
+          try { history.pushState(null, '', '/take/ielts-writing-' + encodeURIComponent(mockN)); } catch (_e) {}
+        }
+        iwetClose({ keepUrl: true });
+        if (typeof handleWritingMockClick === 'function') {
+          handleWritingMockClick(file, 'ielts-writing');
+        } else if (typeof loadMock === 'function') {
+          loadMock(file, 'writing');
+        }
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && overlay.classList.contains('ilet-open')) iwetClose();
+      });
+    });
+
+    window.iwetOpen = iwetOpen;
+    window.iwetClose = iwetClose;
+    window.iwetClearFilters = iwetClearFilters;
 
     // ===== FULL-SCREEN CEFR READING PICKER =====
     // Same flow as the IELTS picker (iretOpen / iretRender) but for CEFR mocks.
@@ -17165,9 +18158,12 @@
             : '<span class="cret-done">★ Done</span>')
         : '';
 
+      const shareBtnHtml = noneReady
+        ? ''
+        : '<button type="button" class="cret-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
       const actionHtml = noneReady
         ? '<span class="cret-coming-soon">Coming soon</span>'
-        : '<button type="button" class="cret-take" data-mock="' + mockNum + '">Take Test →</button>';
+        : (shareBtnHtml + '<button type="button" class="cret-take" data-mock="' + mockNum + '">Take Test →</button>');
 
       // Strip the "🧪 " emoji prefix from the Supabase pilot label so titles
       // sit visually consistent.
@@ -17308,14 +18304,17 @@
       _cretRender();
     }
 
-    function cretClose() {
+    function cretClose(opts) {
+      // opts.keepUrl=true → forward-navigating to /take/<slug>; leave
+      // URL alone. Default: rewind picker state + reset URL.
+      const keepUrl = !!(opts && opts.keepUrl);
       const overlay = document.getElementById('cretPicker');
       overlay.classList.remove('cret-open');
       overlay.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
       _pickerHideTmaBack();
       // History + URL sync (see iletClose for the full reasoning).
-      if (!_pickerFromPopstate) {
+      if (!_pickerFromPopstate && !keepUrl) {
         try {
           if (history.state && history.state.picker === 'cret') {
             history.back();
@@ -17363,32 +18362,44 @@
         _cretSourceFilter = this.value || '';
         _cretApplyFiltersAndSort();
       });
+      // Card click split: whole-card tap previews the /take/<slug> URL
+      // (replaceState only — no nav); Take Test button pushes a history
+      // entry and routes through handleReadingMockClick with
+      // cretClose({keepUrl:true}) so the address bar stays at /take/
+      // while the mode modal / runner takes over.
       document.getElementById('cretGrid').addEventListener('click', function (e) {
-        const btn = e.target.closest('.cret-take');
-        if (!btn) return;
-        const card = btn.closest('.cret-card');
+        if (e.target.closest('input, select, textarea, a, [contenteditable]')) return;
+        const card = e.target.closest('.cret-card');
         if (!card) return;
+        if (card.classList.contains('cret-card-disabled')) return;
+        const mockN = card.dataset.mock;
+        const shareBtn = e.target.closest('.cret-share');
+        if (shareBtn) {
+          e.stopPropagation();
+          _pickerShareMock('cefr-reading', 'CEFR Reading Mock', mockN, shareBtn, 'cret-share-copied');
+          return;
+        }
+        const isTakeBtn = !!e.target.closest('.cret-take');
+
+        if (!isTakeBtn) {
+          if (mockN) {
+            try { history.replaceState(null, '', '/take/cefr-reading-' + encodeURIComponent(mockN)); } catch (_e) {}
+          }
+          return;
+        }
+
         const file = card.dataset.file;
         if (!file) return;
-        // Append the real mock_number as &mock=N so the mode modal title
-        // (and any other consumer that runs _extractReadingMockNumber on
-        // this URL before the runner fetches Supabase) sees the right
-        // number instead of the row id from ?sbmock=.
-        const mockN = card.dataset.mock;
         const fileWithMock = mockN
           ? file + (file.indexOf('?') >= 0 ? '&' : '?') + 'mock=' + encodeURIComponent(mockN)
           : file;
-        // Reflect the chosen mock in the URL bar (shareable deep-link
-        // shape). pushState adds a history entry so the browser back
-        // button takes the student back to the landing page; the
-        // popstate listener below cleans up any open access-code modal.
         if (mockN) {
           try { history.pushState(null, '', '/take/cefr-reading-' + encodeURIComponent(mockN)); } catch (_e) {}
         }
         if (typeof handleReadingMockClick === 'function') {
           handleReadingMockClick(fileWithMock, 'cefr-reading');
         } else {
-          cretClose();
+          cretClose({ keepUrl: true });
           loadMock(fileWithMock, 'reading');
         }
       });
@@ -18309,6 +19320,14 @@
 
     // ========== WRITING MOCKS CATEGORY MODAL ==========
     function openWritingCategoryModal(category) {
+      // IELTS Writing got its own fullscreen picker (iwetPicker) as part
+      // of Phase 3+ — route there instead of the legacy grid modal.
+      // CEFR Writing keeps the old modal for now until it gets the same
+      // treatment.
+      if (category === 'ielts-writing' && typeof iwetOpen === 'function') {
+        iwetOpen();
+        return;
+      }
       _categoryModalParent = showWritingOptions; // Back → Writing format modal
 
       const modal = document.getElementById('categoryModal');
@@ -21375,13 +22394,19 @@
           iletClose();
           _pickerFromPopstate = false;
         }
-        // cletPicker shares the .ilet-open class with iletPicker (same CSS
-        // family) — check container id explicitly so both can be open in
-        // separate tabs without one closing the other on back.
+        // cletPicker + iwetPicker share the .ilet-open class with
+        // iletPicker (same CSS family) — check container id explicitly
+        // so each picker's back gesture closes the right overlay.
         var clet = document.getElementById('cletPicker');
         if (clet && clet.classList.contains('ilet-open')) {
           _pickerFromPopstate = true;
           cletClose();
+          _pickerFromPopstate = false;
+        }
+        var iwet = document.getElementById('iwetPicker');
+        if (iwet && iwet.classList.contains('ilet-open')) {
+          _pickerFromPopstate = true;
+          iwetClose();
           _pickerFromPopstate = false;
         }
         // 2) Close access-code modals if URL left /take/...
@@ -30792,6 +31817,91 @@
         html += _mmgFieldText(f.label, 'mmgSet_' + f.k, s[f.k], f.help);
       }
 
+      // IELTS Writing — Source + exam date metadata. Both live at
+       // mock_data top level (NOT inside md.settings). Source is a free-
+       // text attribution ("Cambridge IELTS 18 Test 3", "Actual Test
+       // 2024-03", etc.). examDate is when the test was used in a real
+       // IELTS exam (YYYY-MM-DD). For brand-new mocks (no id yet) we
+       // pre-fill examDate with today's date so the admin doesn't have
+       // to type it when adding fresh mocks.
+       if (type === 'ielts-writing') {
+        // md.examDate / md.source are top-level. Pre-fill examDate for
+        // a brand-new editor session if it's not already set.
+        if (!md.examDate && !(window._mmgEditing && window._mmgEditing.id)) {
+          var _now = new Date();
+          md.examDate = _now.getFullYear() + '-'
+            + String(_now.getMonth() + 1).padStart(2, '0') + '-'
+            + String(_now.getDate()).padStart(2, '0');
+        }
+        html += '<div class="mmg-section-title" style="margin-top:20px;">Source &amp; exam date</div>';
+        // Build the reliable-source datalist. Cambridge IELTS 1–19 × Test
+        // 1–4 + the major series + actual-test templates. The input is
+        // still free-typing (datalist is just a suggestion list, not a
+        // validation restriction) so admin can paste any custom string.
+        var _iwSourceOpts = [];
+        for (var _cb = 19; _cb >= 1; _cb--) {
+          for (var _ct = 1; _ct <= 4; _ct++) {
+            _iwSourceOpts.push('Cambridge IELTS ' + _cb + ' Test ' + _ct);
+          }
+        }
+        // Cambridge Practice Tests Plus
+        for (var _cpt = 1; _cpt <= 5; _cpt++) _iwSourceOpts.push('Cambridge IELTS Practice Tests Plus ' + _cpt);
+        // IELTS Trainer (2 books × multiple tests)
+        for (var _tr = 1; _tr <= 6; _tr++) _iwSourceOpts.push('IELTS Trainer Test ' + _tr);
+        for (var _tr2 = 1; _tr2 <= 6; _tr2++) _iwSourceOpts.push('IELTS Trainer 2 Test ' + _tr2);
+        // Recent Actual Tests volumes (Tien Thanh-style compilations)
+        for (var _vol = 1; _vol <= 8; _vol++) _iwSourceOpts.push('IELTS Recent Actual Tests Vol ' + _vol);
+        // Named individual books
+        _iwSourceOpts.push('Official Cambridge Guide to IELTS');
+        _iwSourceOpts.push('Mindset for IELTS');
+        _iwSourceOpts.push('Complete IELTS');
+        _iwSourceOpts.push('Focus on IELTS');
+        _iwSourceOpts.push('Action Plan for IELTS');
+        _iwSourceOpts.push('Road to IELTS (British Council)');
+        // Recent-exam templates — admin types the year/month after picking.
+        var _nowYr = new Date().getFullYear();
+        for (var _ry = _nowYr; _ry >= _nowYr - 2; _ry--) {
+          _iwSourceOpts.push('BC Actual Test ' + _ry + '-');
+          _iwSourceOpts.push('IDP Actual Test ' + _ry + '-');
+          for (var _q = 1; _q <= 4; _q++) _iwSourceOpts.push('Recent IELTS Test ' + _ry + '-Q' + _q);
+        }
+        var _iwDatalist = '<datalist id="mmgIwSourceSuggestions">';
+        for (var _i = 0; _i < _iwSourceOpts.length; _i++) {
+          _iwDatalist += '<option value="' + _mmgEsc(_iwSourceOpts[_i]) + '"></option>';
+        }
+        _iwDatalist += '</datalist>';
+
+        html += '<div class="mmg-field"><label for="mmgIw_source">Source <span style="color:#94a3b8;font-weight:400;">(optional)</span></label>'
+              +   '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">'
+              +     '<input type="text" id="mmgIw_source" list="mmgIwSourceSuggestions" value="' + _mmgEsc(md.source || '') + '" placeholder="Start typing or click ▾ — Cambridge IELTS N Test N, BC Actual Test YYYY-MM, …" autocomplete="off" style="flex:1;min-width:240px;border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;">'
+              +     _iwDatalist
+              +     '<button type="button" id="mmgIwFindSrcBtn" onclick="_mmgIwFindSource()" title="Ask Gemini (with Google search) to attribute these prompts" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(124,58,237,.3);white-space:nowrap;">🔎 Find online</button>'
+              +   '</div>'
+              +   '<div class="mmg-field-help">Pick a suggestion or type freely — both work. Click 🔎 Find online to have Gemini search the web for the most likely source. <strong>Common formats in the dropdown:</strong> Cambridge IELTS N Test N, Cambridge IELTS Practice Tests Plus N, IELTS Trainer (1/2) Test N, IELTS Recent Actual Tests Vol N, BC / IDP Actual Test YYYY-MM, Recent IELTS Test YYYY-Q1.</div>'
+              +   '<div id="mmgIwFindSrcStatus" style="font-size:11.5px;color:#64748b;margin-top:4px;min-height:14px;font-weight:500;"></div>'
+              + '</div>';
+        html += '<div class="mmg-field"><label for="mmgIw_examDate">Exam date</label>'
+              +   '<input type="date" id="mmgIw_examDate" value="' + _mmgEsc(md.examDate || '') + '" style="border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;max-width:240px;">'
+              +   '<div class="mmg-field-help">When this test appeared in a real IELTS exam (YYYY-MM-DD). Auto-set to today for new mocks; override with the actual exam date when known. 🔎 Find online also fills this if the source attributes a specific exam day.</div>'
+              + '</div>';
+      }
+
+      // IELTS Writing — Auto-tag button. Sends Gemini the existing
+      // prompts + chart image (if any) and fills the picker filter
+      // fields (chartType, dataNature, essayType, short titles). Does
+      // NOT touch the prompts, instructions, sample answers, or chart
+      // upload. Admin can edit anything after.
+      if (type === 'ielts-writing') {
+        html += '<div class="mmg-section-title" style="margin-top:20px;">✨ Auto-tag this mock</div>';
+        html += '<div style="background:linear-gradient(135deg,#fdf4ff,#faf5ff);border:1px solid #e9d5ff;border-radius:10px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">'
+              +   '<div style="flex:1;min-width:240px;font-size:12px;color:#581c87;line-height:1.5;">'
+              +     'Sends Gemini the existing Task 1 + Task 2 prompts (and the Task 1 chart image, if uploaded) and fills the picker filter tags: <strong>chart type, data nature, essay type, short topic titles</strong>. Existing prompts and samples are not touched — review and edit anything after.'
+              +   '</div>'
+              +   '<button type="button" id="mmgIwAutoTagBtn" onclick="_mmgIwAutoTag()" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(124,58,237,.3);white-space:nowrap;">✨ Auto-tag with Gemini</button>'
+              + '</div>';
+        html += '<div id="mmgIwAutoTagStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;font-weight:500;"></div>';
+      }
+
       // Speaking-only extras: images, voice picker, IELTS announcements, bulk-audio button.
       if (type === 'cefr-speaking' || type === 'ielts-speaking') {
         var images = (md.images = md.images || {});
@@ -30827,6 +31937,22 @@
       for (var i = 0; i < keys.length; i++) {
         var el = document.getElementById('mmgSet_' + keys[i].k);
         if (el) md.settings[keys[i].k] = el.value;
+      }
+
+      // IELTS Writing top-level metadata (source + examDate). NOT under
+      // md.settings — these live at the mock_data root so the picker
+      // can read them via the same path the source filter already uses.
+      if (type === 'ielts-writing') {
+        var sourceEl = document.getElementById('mmgIw_source');
+        var dateEl   = document.getElementById('mmgIw_examDate');
+        if (sourceEl) {
+          var sv = (sourceEl.value || '').trim();
+          if (sv) md.source = sv; else delete md.source;
+        }
+        if (dateEl) {
+          var dv = (dateEl.value || '').trim();
+          if (dv) md.examDate = dv; else delete md.examDate;
+        }
       }
 
       if (type === 'cefr-speaking' || type === 'ielts-speaking') {
@@ -30910,6 +32036,36 @@
     //   - sample fields are sampleAnswer / sampleBand5..9 / uzSampleBand5..9
     //   - markup uses <mark>…</mark>
     var _MMG_IW_CHART_TYPES = ['line_graph','bar_chart','pie_chart','table','map','process_diagram'];
+    // Task 1 data nature — informs whether the chart shows change over time
+    // (line graph, multi-year bar chart, etc.) or a static snapshot
+    // (single-year pie, comparison table, map, process diagram). Maps and
+    // process diagrams are "not applicable" by convention. Picker filters
+    // on this so students can practise the type that suits them.
+    var _MMG_IW_DATA_NATURES = [
+      { value: '',               label: '— unset —' },
+      { value: 'over-time',      label: 'Over time (line, multi-year bar…)' },
+      { value: 'static',         label: 'Static (single-year, pie, table…)' },
+      { value: 'not-applicable', label: 'Not applicable (map / process diagram)' }
+    ];
+    // Task 2 essay type — pattern-matched on the prompt's question form.
+    // Picker filters on this; Gemini auto-detects on import.
+    var _MMG_IW_ESSAY_TYPES = [
+      { value: '',                         label: '— unset —' },
+      { value: 'opinion',                  label: 'Opinion ("To what extent do you agree or disagree?")' },
+      { value: 'balanced',                 label: 'Discuss / Balanced ("Discuss both views and give your opinion")' },
+      { value: 'problem-solution',         label: 'Problem-solution ("What are the problems / solutions?")' },
+      { value: 'advantage-disadvantage',   label: 'Advantage-disadvantage ("Do the advantages outweigh the disadvantages?")' },
+      { value: 'two-part',                 label: 'Two-part question (two distinct questions in the prompt)' }
+    ];
+    function _mmgIwSelectHtml(id, options, currentValue) {
+      var opts = '';
+      var sel = String(currentValue == null ? '' : currentValue);
+      for (var i = 0; i < options.length; i++) {
+        var o = options[i];
+        opts += '<option value="' + _mmgEsc(o.value) + '"' + (o.value === sel ? ' selected' : '') + '>' + _mmgEsc(o.label) + '</option>';
+      }
+      return '<select id="' + id + '" style="border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;width:100%;max-width:540px;">' + opts + '</select>';
+    }
     // Standard IELTS rubric — pre-filled into the Instruction field on new
     // mocks so the user doesn't retype boilerplate. Fully editable; per-task-
     // type variants ("Discuss both views…", "What are the causes…") can be
@@ -30924,10 +32080,28 @@
       var paneId = key === 'task1' ? 'mmgPaneIwTask1' : 'mmgPaneIwTask2';
       var p = 'mmgIw_' + key + '_';
 
-      var html = '<div class="mmg-section-title">' + _mmgEsc(label) + '</div>'
-              + (sectionHelp ? '<div class="mmg-field-help">' + _mmgEsc(sectionHelp) + '</div>' : '');
+      var html = '';
 
-      html += _mmgFieldText('Title', p + 'title', task.title || label, 'Display label.');
+      // Per-task Gemini import banner (purple, matches the reading +
+      // listening editors). Routes through _mmgImportOpenPassage with
+      // passageIndex 0=task1, 1=task2 — see _mmgImportSubmit's
+      // isIeltsWritingImport branch for the per-task merge logic.
+      var _iwTaskIdx = (key === 'task1') ? 0 : 1;
+      html += '<div style="background:linear-gradient(135deg,#fdf4ff,#faf5ff);border:1px solid #e9d5ff;border-radius:10px;padding:10px 12px;margin-bottom:14px;display:flex;align-items:center;gap:12px;">'
+            +   '<div style="flex:1;font-size:12px;color:#581c87;line-height:1.45;">'
+            +     '<strong>✨ Import this task</strong> — upload ' + _mmgEsc(label) + '\'s screenshot (prompt' + (key === 'task1' ? ' + chart' : '') + '); Gemini fills title, prompt, ' + (key === 'task1' ? 'chart type, data nature' : 'essay type') + ', word goal, and time. You can still edit anything before Save.'
+            +   '</div>'
+            +   '<button type="button" onclick="_mmgImportOpenPassage(' + _iwTaskIdx + ')" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(124,58,237,.3);white-space:nowrap;">✨ Import task</button>'
+            + '</div>';
+
+      html += '<div class="mmg-section-title">' + _mmgEsc(label) + '</div>'
+            + (sectionHelp ? '<div class="mmg-field-help">' + _mmgEsc(sectionHelp) + '</div>' : '');
+
+      // Short topic title — surfaces as the per-task row label in the
+       // fullscreen picker (iwetPicker), so make it descriptive of the
+       // chart / prompt subject rather than a generic "Task 1".
+      html += _mmgFieldText('Short topic title', p + 'title', task.title || '',
+        'Short topic phrase shown on the picker card (e.g. "Online shopping growth" for Task 1, "Working from home" for Task 2). Helps students scan and helps admins keep mocks distinct.');
       // Word goal + time on one row would be nicer; for now simple stacked fields.
       html += _mmgFieldText('Word goal', p + 'wordGoal',
         task.wordGoal != null ? String(task.wordGoal) : String(defaultWords),
@@ -30967,11 +32141,26 @@
               +   '<select id="' + p + 'chartType" style="border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;">' + typeOpts + '</select>'
               +   '<div class="mmg-field-help">Used for AI feedback context — pick the visualisation that best matches the chart image.</div>'
               + '</div>';
+        // Data nature — picker filter dimension. "Not applicable" for
+        // map / process_diagram by convention.
+        html += '<div class="mmg-field"><label for="' + p + 'dataNature">Data nature</label>'
+              +   _mmgIwSelectHtml(p + 'dataNature', _MMG_IW_DATA_NATURES, task.dataNature)
+              +   '<div class="mmg-field-help">Does the chart show change over time, a static snapshot, or is it not applicable (map / process diagram)? Gemini auto-detects this on import.</div>'
+              + '</div>';
         // Live thumbnail preview of the chart URL.
         html += '<div class="mmg-field"><label>Image preview</label>'
               +   '<div id="' + p + 'chartPreview" style="border:1px dashed #cbd5e1;border-radius:8px;padding:8px;background:#fffbeb;display:flex;align-items:center;justify-content:center;min-height:60px;">'
               +     '<span style="color:#94a3b8;font-size:12px;">no image url yet</span>'
               +   '</div>'
+              + '</div>';
+      }
+
+      // Task 2 only: essay type dropdown. Picker filter dimension.
+      if (key === 'task2') {
+        html += '<div class="mmg-section-title">Essay type</div>';
+        html += '<div class="mmg-field"><label for="' + p + 'essayType">Essay type</label>'
+              +   _mmgIwSelectHtml(p + 'essayType', _MMG_IW_ESSAY_TYPES, task.essayType)
+              +   '<div class="mmg-field-help">Pattern of the prompt. Gemini auto-detects this on import — adjust if needed.</div>'
               + '</div>';
       }
 
@@ -31018,8 +32207,21 @@
       if (key === 'task1') {
         var urlEl = document.getElementById(p + 'chartImageUrl');
         var typeEl = document.getElementById(p + 'chartType');
+        var natEl  = document.getElementById(p + 'dataNature');
         if (urlEl)  task.chartImageUrl = urlEl.value;
         if (typeEl) task.chartType     = typeEl.value;
+        if (natEl) {
+          var nv = (natEl.value || '').trim();
+          if (nv) task.dataNature = nv; else delete task.dataNature;
+        }
+      }
+      // Task 2 essay type.
+      if (key === 'task2') {
+        var essayEl = document.getElementById(p + 'essayType');
+        if (essayEl) {
+          var ev = (essayEl.value || '').trim();
+          if (ev) task.essayType = ev; else delete task.essayType;
+        }
       }
     }
     function _mmgUpdateChartPreview(p) {
@@ -31032,6 +32234,258 @@
         + 'style="max-width:100%;max-height:280px;border-radius:6px;" '
         + 'onerror="this.outerHTML=\'<span style=&quot;color:#dc2626;font-size:12px;&quot;>⚠ image failed to load — check URL</span>\'">';
     }
+
+    // ── IELTS Writing — Settings-tab "Auto-tag this mock" handler ──────
+    // Reads task1.prompt, task1.chartImageUrl, task2.prompt from the
+    // current mock_data; optionally fetches the chart image bytes as
+    // base64 from GCS; POSTs scope=tags to transcribe-mock; merges the
+    // returned tag fields back into mock_data (chartType, dataNature,
+    // essayType, short titles) WITHOUT overwriting prompts / samples /
+    // chart URLs. Admin reviews + edits + saves.
+    function _mmgArrayBufferToBase64(buffer) {
+      const bytes = new Uint8Array(buffer);
+      let binary = '';
+      const chunkSize = 0x8000;
+      for (let i = 0; i < bytes.length; i += chunkSize) {
+        binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunkSize));
+      }
+      return btoa(binary);
+    }
+    window._mmgIwAutoTag = async function () {
+      var statusEl = document.getElementById('mmgIwAutoTagStatus');
+      var btnEl    = document.getElementById('mmgIwAutoTagBtn');
+      function setStatus(msg, color) {
+        if (statusEl) { statusEl.textContent = msg; statusEl.style.color = color || '#64748b'; }
+      }
+      // Flush any pending field edits into mock_data first so we don't
+      // read a stale prompt that the admin just typed but hasn't tabbed
+      // away from yet.
+      if (typeof _mmgFlushStructuredToRaw === 'function' && !_mmgFlushStructuredToRaw()) {
+        setStatus('Fix the highlighted field, then click Auto-tag.', '#dc2626');
+        return;
+      }
+      var md = _mmgGetMockData();
+      if (!md) { setStatus('Invalid mock_data JSON.', '#dc2626'); return; }
+      var t = (md.tasks && typeof md.tasks === 'object') ? md.tasks : {};
+      var t1 = (t.task1 && typeof t.task1 === 'object') ? t.task1 : {};
+      var t2 = (t.task2 && typeof t.task2 === 'object') ? t.task2 : {};
+      var t1Prompt = String(t1.prompt || '').trim();
+      var t2Prompt = String(t2.prompt || '').trim();
+      if (!t1Prompt && !t2Prompt) {
+        setStatus('Both prompts empty — fill at least one via "Import this task" or type manually first.', '#dc2626');
+        return;
+      }
+      if (!window._mmgPasscode) {
+        setStatus('Admin passcode missing — close + reopen the panel and try again.', '#dc2626');
+        return;
+      }
+      if (btnEl) { btnEl.disabled = true; btnEl.style.opacity = '0.6'; btnEl.style.cursor = 'wait'; var _prev = btnEl.innerHTML; btnEl.innerHTML = '⏳ Tagging…'; btnEl.__prev = _prev; }
+
+      // Ticking spinner — Gemini has no intermediate progress signal,
+      // so a spinning braille frame + elapsed-seconds counter is the
+      // cheapest "yes, it's still working" indicator. Mirrors the
+      // listening transcribe path.
+      var _iwTagT0 = Date.now();
+      var _iwTagTick = null;
+      var _iwTagFrames = ['⠋','⠙','⠹','⠸','⠼','⠴','⠦','⠧','⠇','⠏'];
+      function _iwTagRenderTick() {
+        var sec = Math.round((Date.now() - _iwTagT0) / 1000);
+        var spin = _iwTagFrames[Math.floor((Date.now() / 80)) % _iwTagFrames.length];
+        setStatus(spin + ' Gemini analysing prompts + chart… ' + sec + 's (typical 10–30s)', '#0369a1');
+      }
+      _iwTagRenderTick();
+      _iwTagTick = setInterval(_iwTagRenderTick, 100);
+      function _iwTagStopTick() { if (_iwTagTick) { clearInterval(_iwTagTick); _iwTagTick = null; } }
+
+      // Optionally fetch the chart image so Gemini can use it as a
+      // visual tie-breaker. Best-effort: if the fetch fails (CORS,
+      // network blip, image deleted), we just send prompts alone.
+      var files = [];
+      if (t1.chartImageUrl && String(t1.chartImageUrl).trim()) {
+        try {
+          var resp = await fetch(String(t1.chartImageUrl).trim());
+          if (resp.ok) {
+            var ab = await resp.arrayBuffer();
+            var mime = resp.headers.get('content-type') || 'image/png';
+            files.push({
+              name: 'task1-chart',
+              mime: mime,
+              base64: _mmgArrayBufferToBase64(ab),
+              group: 'chart-image'
+            });
+          }
+        } catch (_e) { /* swallow — send prompts alone */ }
+      }
+
+      try {
+        var r = await fetch(_MMG_TRANSCRIBE_URL, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': _MMG_ANON, 'Authorization': 'Bearer ' + _MMG_ANON },
+          body: JSON.stringify({
+            adminPasscode: window._mmgPasscode,
+            exam_type:     'ielts-writing',
+            scope:         'tags',
+            task1_prompt:  t1Prompt,
+            task2_prompt:  t2Prompt,
+            files:         files
+          })
+        });
+        var j = await r.json().catch(function () { return { error: 'bad_response' }; });
+        if (!r.ok || j.error) {
+          var detail = j.detail || j.fallback_reason || j.gpt_error || j.gemini_error;
+          throw new Error((j.error || ('HTTP ' + r.status)) + (detail ? ' — ' + String(detail).slice(0, 200) : ''));
+        }
+        var tags = j.tags || {};
+        var tt1  = tags.task1 || {};
+        var tt2  = tags.task2 || {};
+
+        // Apply each tag if Gemini returned one. Overwrites existing
+        // tag values (admin clicked the button = explicit re-tag intent)
+        // but never touches prompt / instruction / wordGoal / timeMinutes
+        // / chartImageUrl / sample fields.
+        var applied = [];
+        md.tasks = md.tasks || {};
+        md.tasks.task1 = md.tasks.task1 || {};
+        md.tasks.task2 = md.tasks.task2 || {};
+        if (tt1.title)      { md.tasks.task1.title      = tt1.title;      applied.push('T1 title'); }
+        if (tt1.chartType)  { md.tasks.task1.chartType  = tt1.chartType;  applied.push('T1 chart'); }
+        if (tt1.dataNature) { md.tasks.task1.dataNature = tt1.dataNature; applied.push('T1 data'); }
+        if (tt2.title)      { md.tasks.task2.title      = tt2.title;      applied.push('T2 title'); }
+        if (tt2.essayType)  { md.tasks.task2.essayType  = tt2.essayType;  applied.push('T2 essay'); }
+
+        _mmgSetMockData(md);
+        // Re-render whatever pane is currently shown so the admin sees
+        // the new values immediately (Settings tab itself isn't affected,
+        // but if they switch to Task 1 / Task 2 the dropdowns will be
+        // populated).
+        if (typeof _mmgInitTabs === 'function') { window._mmgActiveTab = null; _mmgInitTabs(); _mmgSwitchTab('settings'); }
+
+        // Bust the iwetPicker cache so the next picker open re-fetches
+        // this mock's tags. Without this the picker's 24h localStorage
+        // cache keeps showing the pre-tag snapshot even after admin
+        // saves the mock — student sees "Line graph" when the editor
+        // has "Table". Wipe both the in-memory + persisted copy; full
+        // refetch on next picker open is cheap (~30 parallel calls).
+        try { localStorage.removeItem('ms_iwet_meta_v1'); } catch (_e) {}
+        if (typeof _iwetMockMeta === 'object' && _iwetMockMeta) {
+          Object.keys(_iwetMockMeta).forEach(function (k) { delete _iwetMockMeta[k]; });
+        }
+
+        _iwTagStopTick();
+        var modelLabel = (j.model_used === 'gpt-4o') ? 'via GPT-4o (Gemini fallback)' : 'via Gemini 2.5 Pro';
+        if (applied.length === 0) {
+          setStatus('✓ Done ' + modelLabel + ' — but Gemini couldn\'t infer any tags from this prompt. Try editing the prompt or upload the chart image.', '#d97706');
+        } else {
+          setStatus('✓ Tagged (' + applied.join(', ') + ') ' + modelLabel + ' — review on Task 1 / Task 2 tabs, then click Save to publish the new tags.', '#16a34a');
+        }
+      } catch (e) {
+        _iwTagStopTick();
+        setStatus('✗ ' + (e.message || String(e)), '#dc2626');
+      } finally {
+        _iwTagStopTick();
+        if (btnEl) { btnEl.disabled = false; btnEl.style.opacity = ''; btnEl.style.cursor = ''; if (btnEl.__prev != null) btnEl.innerHTML = btnEl.__prev; }
+      }
+    };
+
+    // ── IELTS Writing — Settings-tab "🔎 Find online" handler ──────────
+    // Sends the current Task 1 + Task 2 prompts to transcribe-mock with
+    // scope=find-source. The server calls Gemini 2.5 Pro with Google
+    // Search grounding to attribute the prompts to a Cambridge book /
+    // Actual Tests volume / reported exam date, then fills md.source
+    // (and md.examDate when the source carries a real-exam attribution)
+    // without touching anything else.
+    window._mmgIwFindSource = async function () {
+      var statusEl = document.getElementById('mmgIwFindSrcStatus');
+      var btnEl    = document.getElementById('mmgIwFindSrcBtn');
+      var srcEl    = document.getElementById('mmgIw_source');
+      var dateEl   = document.getElementById('mmgIw_examDate');
+      function setStatus(msg, color) {
+        if (statusEl) { statusEl.textContent = msg; statusEl.style.color = color || '#64748b'; }
+      }
+      if (typeof _mmgFlushStructuredToRaw === 'function' && !_mmgFlushStructuredToRaw()) {
+        setStatus('Fix the highlighted field, then click Find online.', '#dc2626');
+        return;
+      }
+      var md = _mmgGetMockData();
+      if (!md) { setStatus('Invalid mock_data JSON.', '#dc2626'); return; }
+      var t = (md.tasks && typeof md.tasks === 'object') ? md.tasks : {};
+      var t1 = (t.task1 && typeof t.task1 === 'object') ? t.task1 : {};
+      var t2 = (t.task2 && typeof t.task2 === 'object') ? t.task2 : {};
+      var t1Prompt = String(t1.prompt || '').trim();
+      var t2Prompt = String(t2.prompt || '').trim();
+      if (!t1Prompt && !t2Prompt) {
+        setStatus('Both prompts empty — fill them first.', '#dc2626');
+        return;
+      }
+      if (!window._mmgPasscode) {
+        setStatus('Admin passcode missing — close + reopen the panel and try again.', '#dc2626');
+        return;
+      }
+
+      var _findT0 = Date.now();
+      var _findTick = null;
+      var _findFrames = ['⠋','⠙','⠹','⠸','⠼','⠴','⠦','⠧','⠇','⠏'];
+      function _findRenderTick() {
+        var sec = Math.round((Date.now() - _findT0) / 1000);
+        var spin = _findFrames[Math.floor((Date.now() / 80)) % _findFrames.length];
+        setStatus(spin + ' Gemini searching Google for prompt attribution… ' + sec + 's (typical 8–25s)', '#0369a1');
+      }
+      function _findStopTick() { if (_findTick) { clearInterval(_findTick); _findTick = null; } }
+      _findRenderTick();
+      _findTick = setInterval(_findRenderTick, 100);
+
+      var _prevLabel = btnEl ? btnEl.innerHTML : null;
+      if (btnEl) { btnEl.disabled = true; btnEl.style.opacity = '0.6'; btnEl.style.cursor = 'wait'; btnEl.innerHTML = '⏳'; }
+
+      try {
+        var r = await fetch(_MMG_TRANSCRIBE_URL, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': _MMG_ANON, 'Authorization': 'Bearer ' + _MMG_ANON },
+          body: JSON.stringify({
+            adminPasscode: window._mmgPasscode,
+            exam_type:     'ielts-writing',
+            scope:         'find-source',
+            task1_prompt:  t1Prompt,
+            task2_prompt:  t2Prompt
+          })
+        });
+        var j = await r.json().catch(function () { return { error: 'bad_response' }; });
+        if (!r.ok || j.error) {
+          var detail = j.detail || j.fallback_reason;
+          throw new Error((j.error || ('HTTP ' + r.status)) + (detail ? ' — ' + String(detail).slice(0, 200) : ''));
+        }
+        _findStopTick();
+        var newSrc  = j.source   || null;
+        var newDate = j.examDate || null;
+        var conf    = j.confidence || 'low';
+        var notes   = j.notes || '';
+        if (!newSrc && !newDate) {
+          setStatus('No reliable attribution found — try editing the prompt manually. ' + (notes ? '(' + notes + ')' : ''), '#d97706');
+        } else {
+          if (newSrc && srcEl) { srcEl.value = newSrc; }
+          if (newDate && dateEl) { dateEl.value = newDate; }
+          // Flush back into mock_data so the picker picks it up after Save.
+          if (typeof _mmgCollectSettings === 'function') _mmgCollectSettings(md);
+          _mmgSetMockData(md);
+          // Bust the iwetPicker cache so the card refreshes after Save.
+          try { localStorage.removeItem('ms_iwet_meta_v1'); } catch (_e) {}
+          if (typeof _iwetMockMeta === 'object' && _iwetMockMeta) {
+            Object.keys(_iwetMockMeta).forEach(function (k) { delete _iwetMockMeta[k]; });
+          }
+          var confColor = conf === 'high' ? '#16a34a' : conf === 'medium' ? '#0369a1' : '#d97706';
+          var bits = [];
+          if (newSrc)  bits.push('source: "' + newSrc + '"');
+          if (newDate) bits.push('date: ' + newDate);
+          setStatus('✓ Found (' + conf + ' confidence) — ' + bits.join(', ') + (notes ? '. ' + notes : '') + ' — review then click Save.', confColor);
+        }
+      } catch (e) {
+        _findStopTick();
+        setStatus('✗ ' + (e.message || String(e)), '#dc2626');
+      } finally {
+        _findStopTick();
+        if (btnEl) { btnEl.disabled = false; btnEl.style.opacity = ''; btnEl.style.cursor = ''; if (_prevLabel != null) btnEl.innerHTML = _prevLabel; }
+      }
+    };
 
     // ─────────────────────────────────────────────────────────────────────
     //  Reusable media upload widget
@@ -35985,8 +37439,8 @@
       var typeSel = document.getElementById('mmgFldType');
       var currentType = (typeSel && typeSel.value) || (m && m.mock_type);
       if (m) m.mock_type = currentType;
-      if (!m || (currentType !== 'cefr-reading' && currentType !== 'ielts-reading' && currentType !== 'ielts-listening' && currentType !== 'cefr-listening')) {
-        alert('Per-section import is currently available for CEFR Reading, IELTS Reading, IELTS Listening, and CEFR Listening mocks.');
+      if (!m || (currentType !== 'cefr-reading' && currentType !== 'ielts-reading' && currentType !== 'ielts-listening' && currentType !== 'cefr-listening' && currentType !== 'ielts-writing')) {
+        alert('Per-section import is currently available for CEFR Reading, IELTS Reading, IELTS Listening, CEFR Listening, and IELTS Writing mocks.');
         return;
       }
       window._mmgImportState = {
@@ -36000,8 +37454,10 @@
       document.getElementById('mmgImportStatus').textContent = '';
       document.getElementById('mmgImportStatus').style.color = '#64748b';
       var btn = document.getElementById('mmgImportSubmitBtn');
-      // Match the button label to the exam's unit (Part vs Passage).
-      var unitLabel = (m.mock_type === 'cefr-reading' || m.mock_type === 'cefr-listening') ? 'part' : 'passage';
+      // Match the button label to the exam's unit (Part / Passage / Task).
+      var unitLabel = (m.mock_type === 'cefr-reading' || m.mock_type === 'cefr-listening') ? 'part'
+                    : (m.mock_type === 'ielts-writing') ? 'task'
+                    : 'passage';
       btn.disabled = false; btn.textContent = '✨ Import ' + unitLabel;
       _mmgImportRender();
       document.getElementById('mmgImportModal').style.display = 'flex';
@@ -36361,6 +37817,41 @@
           var isCefrImport         = (st.examType === 'cefr-reading');
           var isListeningImport    = (st.examType === 'ielts-listening');
           var isCefrListeningImport = (st.examType === 'cefr-listening');
+          var isIeltsWritingImport  = (st.examType === 'ielts-writing');
+
+          // IELTS Writing per-task import — different storage shape:
+          // tasks live as mock_data.tasks.{task1,task2}, NOT in a parts[]
+          // array. Slot the returned single-task object in, preserving
+          // the chart image URL + every sample field the admin curated.
+          if (isIeltsWritingImport) {
+            var taskKey = (st.passageIndex === 0) ? 'task1' : 'task2';
+            md.tasks = md.tasks || {};
+            var prevTask = md.tasks[taskKey] || {};
+            // Preserve chart image URL (admin uploads separately, same as
+            // CEFR Listening map image).
+            if (prevTask.chartImageUrl != null) newObj.chartImageUrl = prevTask.chartImageUrl;
+            // Preserve curated samples (main + Band 5-9 + Uzbek Band 5-9).
+            var _iwSampleFields = ['sampleAnswer',
+              'sampleBand5','sampleBand6','sampleBand7','sampleBand8','sampleBand9',
+              'uzSampleBand5','uzSampleBand6','uzSampleBand7','uzSampleBand8','uzSampleBand9'];
+            for (var sfi = 0; sfi < _iwSampleFields.length; sfi++) {
+              var sf = _iwSampleFields[sfi];
+              if (prevTask[sf] != null) newObj[sf] = prevTask[sf];
+            }
+            md.tasks[taskKey] = newObj;
+            window._mmgEditing.mock_data = md;
+            document.getElementById('mmgFldData').value = JSON.stringify(md, null, 2);
+            window._mmgActiveTab = null;
+            _mmgInitTabs();
+            _mmgSwitchTab(taskKey === 'task1' ? 'iw_task1' : 'iw_task2');
+            _mmgImportProgressDone(j.model_used, j.fallback_reason);
+            var iwLabel = (j.model_used === 'gpt-4o')
+              ? '✓ Imported Task ' + (st.passageIndex + 1) + ' via GPT-4o (Gemini fallback)'
+              : '✓ Imported Task ' + (st.passageIndex + 1) + ' via Gemini 2.5 Pro';
+            _mmgStatus(iwLabel + ' — review and Save when ready.', '#16a34a');
+            setTimeout(_mmgImportClose, 1400);
+            return;
+          }
           // IELTS Listening + CEFR Listening + CEFR Reading all store
           // their sections in `parts[]` keyed by partNumber. Only IELTS
           // Reading uses `passages[]`.
