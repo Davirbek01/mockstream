@@ -4988,13 +4988,26 @@
       // Audio only changes when the current part's audio finishes
     }
 
+    // Practice mode counts UP (stopwatch — no time pressure, students see
+    // how long they took). Full mode counts DOWN from totalTime and
+    // auto-submits at zero (mirrors the real exam). The label in the
+    // header flips to "Elapsed" in practice mode.
+    var elapsedSec = 0;
     function startTimer() {
       window.__testStartTime = new Date();
+      var isPractice = !!window._practicePart;
+      if (isPractice) {
+        var lbl = document.querySelector('.timer-label');
+        if (lbl) lbl.textContent = 'Elapsed';
+      }
       updateTimerDisplay();
-      timerInterval = setInterval(() => {
-        timeRemaining--;
+      timerInterval = setInterval(function () {
+        elapsedSec++;
+        if (!isPractice) {
+          timeRemaining--;
+        }
         updateTimerDisplay();
-        if (timeRemaining <= 0) {
+        if (!isPractice && timeRemaining <= 0) {
           clearInterval(timerInterval);
           submitTest();
         }
@@ -5002,11 +5015,22 @@
     }
 
     function updateTimerDisplay() {
-      const m = Math.floor(timeRemaining / 60);
-      const s = timeRemaining % 60;
-      document.getElementById('timerDisplay').textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
-      if (timeRemaining < 300) document.getElementById('timerDisplay').style.color = '#fbbf24';
-      if (timeRemaining < 60) document.getElementById('timerDisplay').style.color = '#ef4444';
+      var isPractice = !!window._practicePart;
+      var secs = isPractice ? elapsedSec : timeRemaining;
+      const m = Math.floor(secs / 60);
+      const s = secs % 60;
+      var el = document.getElementById('timerDisplay');
+      if (!el) return;
+      el.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+      // Color-warning only makes sense when counting DOWN; in practice
+      // mode keep the default colour so elapsed time isn't framed as
+      // urgent.
+      if (isPractice) {
+        el.style.color = '';
+      } else {
+        if (timeRemaining < 300) el.style.color = '#fbbf24';
+        if (timeRemaining < 60)  el.style.color = '#ef4444';
+      }
     }
 
     function collectAnswers() {
