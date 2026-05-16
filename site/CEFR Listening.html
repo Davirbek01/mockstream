@@ -4426,6 +4426,12 @@
           window.TEST_DATA = TEST_DATA;
           var isPdfDownload = urlParams.get('download') === 'pdf';
           var hasPerPartAudio = TEST_DATA.parts.some(function(p) { return p.audioFile && p.audioFile.trim() !== ''; });
+          var hasMergedAudio  = TEST_DATA.audioLayout === 'merged' && TEST_DATA.audioFile && String(TEST_DATA.audioFile).trim() !== '';
+          // Merged mode skips per-part preloading (single file, browser
+          // streams). Mark the preload gate satisfied so initAudioLoading's
+          // 200ms polling loop unblocks immediately instead of waiting up
+          // to 30s on the global safety timeout. Mirrors IELTS Listening.
+          if (hasMergedAudio && !hasPerPartAudio) window.audioPreloadComplete = true;
           if (hasPerPartAudio && !isPdfDownload) { preloadAllAudio(); } else { initTest(); }
         })
         .catch(function(err) { console.error('❌ Supabase load failed:', err); showError('Failed to load test from Supabase'); });
@@ -4442,6 +4448,9 @@
           // Skip audio preloading when only downloading PDF
           const isPdfDownload = urlParams.get('download') === 'pdf';
           const hasPerPartAudio = TEST_DATA.parts.some(p => p.audioFile && p.audioFile.trim() !== '');
+          const hasMergedAudio  = TEST_DATA.audioLayout === 'merged' && TEST_DATA.audioFile && String(TEST_DATA.audioFile).trim() !== '';
+          // See merged-mode comment in the Supabase branch above.
+          if (hasMergedAudio && !hasPerPartAudio) window.audioPreloadComplete = true;
           if (hasPerPartAudio && !isPdfDownload) {
             preloadAllAudio();
           } else {
