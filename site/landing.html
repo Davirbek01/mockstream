@@ -15974,6 +15974,13 @@
       if (iret && iret.classList.contains('iret-open')) { iretClose(); return; }
       var ilet = document.getElementById('iletPicker');
       if (ilet && ilet.classList.contains('ilet-open')) { iletClose(); return; }
+      // cletPicker + iwetPicker share the .ilet-open class — disambiguate
+      // by container ID so the TMA back gesture closes whichever picker
+      // the student actually has open.
+      var clet = document.getElementById('cletPicker');
+      if (clet && clet.classList.contains('ilet-open')) { cletClose(); return; }
+      var iwet = document.getElementById('iwetPicker');
+      if (iwet && iwet.classList.contains('ilet-open')) { iwetClose(); return; }
     }
     function _pickerShowTmaBack() {
       try {
@@ -22108,13 +22115,19 @@
           iletClose();
           _pickerFromPopstate = false;
         }
-        // cletPicker shares the .ilet-open class with iletPicker (same CSS
-        // family) — check container id explicitly so both can be open in
-        // separate tabs without one closing the other on back.
+        // cletPicker + iwetPicker share the .ilet-open class with
+        // iletPicker (same CSS family) — check container id explicitly
+        // so each picker's back gesture closes the right overlay.
         var clet = document.getElementById('cletPicker');
         if (clet && clet.classList.contains('ilet-open')) {
           _pickerFromPopstate = true;
           cletClose();
+          _pickerFromPopstate = false;
+        }
+        var iwet = document.getElementById('iwetPicker');
+        if (iwet && iwet.classList.contains('ilet-open')) {
+          _pickerFromPopstate = true;
+          iwetClose();
           _pickerFromPopstate = false;
         }
         // 2) Close access-code modals if URL left /take/...
