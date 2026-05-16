@@ -1213,7 +1213,8 @@ Produce a polished version of THIS EXACT chart with these requirements:
     );
     if (!r.ok) throw new Error(`flash-image http ${r.status}: ${(await r.text()).slice(0, 200)}`);
     const j = await r.json();
-    const respParts = j?.candidates?.[0]?.content?.parts || [];
+    const cand = j?.candidates?.[0];
+    const respParts = cand?.content?.parts || [];
     for (const p of respParts) {
       if (p.inlineData?.data) {
         return {
@@ -1223,7 +1224,14 @@ Produce a polished version of THIS EXACT chart with these requirements:
         };
       }
     }
-    throw new Error('flash-image returned no inlineData');
+    // No image — capture Gemini's text response + finishReason so the
+    // admin can see WHY it refused (safety filter, can't reproduce
+    // copyrighted material, etc.) instead of an opaque error.
+    const textOut    = respParts.map((p: { text?: string }) => p?.text || '').join('').trim();
+    const finish     = cand?.finishReason || 'NO_CANDIDATE';
+    const safetyHit  = (cand?.safetyRatings || []).find((s: { blocked?: boolean }) => s.blocked);
+    const safetyTxt  = safetyHit ? ` · safety blocked: ${(safetyHit as { category?: string }).category}` : '';
+    throw new Error(`flash-image returned no image (finish=${finish}${safetyTxt})${textOut ? ' · response: ' + textOut.slice(0, 200) : ''}`);
   }
 
   // ── 'rerender' mode: two-pass ──────────────────────────────────────
@@ -1301,7 +1309,8 @@ Visual style requirements:
   );
   if (!r2.ok) throw new Error(`flash-image-render http ${r2.status}: ${(await r2.text()).slice(0, 200)}`);
   const j2 = await r2.json();
-  const respParts2 = j2?.candidates?.[0]?.content?.parts || [];
+  const cand2     = j2?.candidates?.[0];
+  const respParts2 = cand2?.content?.parts || [];
   for (const p of respParts2) {
     if (p.inlineData?.data) {
       return {
@@ -1312,7 +1321,9 @@ Visual style requirements:
       };
     }
   }
-  throw new Error('flash-image-render returned no inlineData');
+  const textOut2 = respParts2.map((p: { text?: string }) => p?.text || '').join('').trim();
+  const finish2  = cand2?.finishReason || 'NO_CANDIDATE';
+  throw new Error(`flash-image-render returned no image (finish=${finish2})${textOut2 ? ' · response: ' + textOut2.slice(0, 200) : ''}`);
 }
 
 async function generateExplanations(
