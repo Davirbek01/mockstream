@@ -4282,27 +4282,14 @@
 
     // ===== PLACEHOLDER - SCRIPT WILL BE ADDED IN NEXT BATCH =====
     const urlParams = new URLSearchParams(window.location.search);
+    const testFile = urlParams.get('test') || 'cefr-listening-test-01';
+
     // Practice part mode: ?part=1..6
     var _partParam = urlParams.get('part');
     if (_partParam) {
       var _ptNum = parseInt(_partParam, 10);
       if (_ptNum >= 1 && _ptNum <= 6) { window._practicePart = _ptNum; }
     }
-    // Compose a UNIQUE testFile identifier so SessionRecovery doesn't
-    // share saved answers across different Supabase mocks. Previously
-    // the fallback was the literal string 'cefr-listening-test-01' for
-    // ALL ?sbmock= URLs — so a session saved while taking Mock 32 Part 2
-    // would auto-resume into Mock 33 Part 2 with the same answers
-    // pre-filled. Now keyed by sbmock id (preferred) / mock number /
-    // legacy ?test= slug, plus -pN for Practice mode so each part has
-    // its own session bucket.
-    const _sbId    = urlParams.get('sbmock');
-    const _mockNum = urlParams.get('mock');
-    const testFile = (urlParams.get('test')
-                    || (_sbId    ? 'cefr-listening-sb'   + _sbId
-                    :  _mockNum  ? 'cefr-listening-mock' + _mockNum
-                    :  'cefr-listening-test-01'))
-                    + (window._practicePart ? ('-p' + window._practicePart) : '');
 
     let TEST_DATA = null;
     let currentPart = 0;
