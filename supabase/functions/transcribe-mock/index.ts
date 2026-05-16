@@ -928,22 +928,24 @@ Task 2 prompt:
 "${t2 || '(empty)'}"
 
 Use Google Search to find:
-1. The most likely source / book where these prompts appear (e.g. "Cambridge IELTS 18 Test 3", "IELTS Recent Actual Test Vol 7", "Actual exam YYYY-MM-DD" if reported as a real exam paper).
-2. The date the test was used in a real IELTS exam if any source attributes it as an actual exam day.
+1. The most likely source / book where these prompts appear together as one test (e.g. "Cambridge IELTS 18 Test 3", "IELTS Recent Actual Test Vol 7", "Actual exam YYYY-MM-DD" if reported as a real exam paper).
+2. If the two prompts don't appear together in any indexed source, search each one SEPARATELY and use the better-attributed single task's source (note in "notes" which task it came from).
+3. The date the test was used in a real IELTS exam if any source attributes it as an actual exam day.
 
 Output ONLY a JSON object — no commentary, no markdown fences:
 {
-  "source":     "<best attribution string, or null if nothing reliable>",
+  "source":     "<best attribution string, or null if NEITHER task has any reliable source>",
   "examDate":   "<YYYY-MM-DD if a real-exam date is reported, or null>",
   "confidence": "high" | "medium" | "low",
-  "notes":      "<one short sentence justifying the call>"
+  "notes":      "<one short sentence justifying the call; mention if the attribution is for one task only>"
 }
 
 Rules:
-- If the two prompts don't appear together in any indexed source, set source=null and confidence=low. Do NOT guess a Cambridge book number just because the prompts look "Cambridge-style".
-- Prefer the most specific attribution available: Cambridge book + test number > "Cambridge IELTS practice" > "Actual exam YYYY-MM-DD" > "Recent IELTS test" > null.
-- examDate should be set only when the source explicitly attributes the prompts to a specific real-exam day; otherwise null.
-- Keep "notes" under 25 words.`;
+- Preference order: pair appears together in ONE Cambridge book + test > pair as ONE actual exam day > single task with high-confidence attribution > "Recent IELTS test" > null.
+- confidence=high only when the pair appears together in a named Cambridge book + test number OR is widely-reported as a single actual exam day. confidence=medium when only one of the two tasks has a clear attribution. confidence=low when both are vague or unattributed.
+- examDate should be set only when the source explicitly attributes the prompts (the pair, OR the better-attributed single task) to a specific real-exam day. Otherwise null.
+- Do NOT guess a Cambridge book number just because a prompt looks "Cambridge-style".
+- Keep "notes" under 30 words.`;
 
   // Gemini 2.5 Pro with google_search grounding. Note we cannot use
   // responseMimeType: 'application/json' here — that flag is rejected
