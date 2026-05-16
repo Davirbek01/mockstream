@@ -31789,13 +31789,13 @@
         ];
       }
       if (type === 'ielts-writing') {
-        return [
-          { k: 'logoUrl',        label: 'Logo URL',        help: 'Image URL for the logo.' },
-          { k: 'logoWording',    label: 'Logo wording',    help: 'Text next to the logo image (e.g., "CAMELOT LC").' },
-          { k: 'testIdentifier', label: 'Test identifier', help: 'Shown on the test header (e.g., "IELTS Mock 02").' },
-          { k: 'moduleTitle',    label: 'Module title',    help: 'e.g., "Academic Writing Module".' },
-          { k: 'timeInfo',       label: 'Time info',       help: 'Header line summarising timing (60 min / Task 1: 20 min / Task 2: 40 min).' }
-        ];
+        // Logo / heading / module-title / time-info were legacy fields —
+        // the runner falls back to per-clone branding for logo and to
+        // "Academic Writing Module" for the title. Hidden from the form
+        // so admins focus on the import bars + source/date. Existing
+        // stored values are preserved on save (the collector only writes
+        // back what's present in the DOM).
+        return [];
       }
       // Default: CEFR Writing
       return [
@@ -31811,10 +31811,39 @@
       var s = (md.settings = md.settings || {});
       var type = _mmgCurrentType();
       var keys = _mmgSettingsKeysForType(type);
-      var html = '<div class="mmg-section-title">Test settings (logo + headings)</div>';
-      for (var i = 0; i < keys.length; i++) {
-        var f = keys[i];
-        html += _mmgFieldText(f.label, 'mmgSet_' + f.k, s[f.k], f.help);
+      var html = '';
+
+      // IELTS Writing — per-task import bars surface the CEFR-Reading-style
+      // paste/upload modal at the Settings tab so admins can build a fresh
+      // mock without drilling into Task 1 / Task 2 tabs. Each bar opens the
+      // existing _mmgImportOpenPassage modal pre-scoped to its task
+      // (0 = Task 1, 1 = Task 2). The modal already supports drag/drop,
+      // paste-from-clipboard, multi-screenshot upload, and a free-text
+      // "Notes for the AI" box for typed prompt text.
+      if (type === 'ielts-writing') {
+        html += '<div class="mmg-section-title">✨ Import a new mock</div>';
+        html += '<div class="mmg-field-help" style="margin-bottom:10px;">Paste / upload screenshots of the prompts (or type them into the AI notes box) and Gemini fills the full structured JSON. Run each task independently — Task 2 import doesn\'t touch Task 1 and vice versa.</div>';
+
+        var iwBar = function (taskIdx, label, bodyHelp) {
+          return '<div style="background:linear-gradient(135deg,#fdf4ff,#faf5ff);border:1px solid #e9d5ff;border-radius:10px;padding:12px 14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;">'
+               +   '<div style="flex:1;font-size:12.5px;color:#581c87;line-height:1.5;">'
+               +     '<strong>' + _mmgEsc(label) + '</strong> — ' + bodyHelp
+               +   '</div>'
+               +   '<button type="button" onclick="_mmgImportOpenPassage(' + taskIdx + ')" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(124,58,237,.3);white-space:nowrap;">✨ Import task</button>'
+               + '</div>';
+        };
+        html += iwBar(0, 'Task 1 — paste / upload',
+          'Drop the prompt screenshot <em>and</em> the chart image. Gemini fills title, prompt, chart type, data nature, word goal, and time.');
+        html += iwBar(1, 'Task 2 — paste / upload',
+          'Drop the essay-prompt screenshot. Gemini fills title, prompt, essay type, word goal, and time.');
+      }
+
+      if (keys.length) {
+        html += '<div class="mmg-section-title">Test settings (logo + headings)</div>';
+        for (var i = 0; i < keys.length; i++) {
+          var f = keys[i];
+          html += _mmgFieldText(f.label, 'mmgSet_' + f.k, s[f.k], f.help);
+        }
       }
 
       // IELTS Writing — Source + exam date metadata. Both live at
