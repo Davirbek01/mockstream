@@ -6797,14 +6797,18 @@
           console.log('✅ Loaded CEFR Writing from Supabase');
           // Trigger the same UI update as script onload
           if (window.WRITING_TEST_DATA) {
-            const settings = window.WRITING_TEST_DATA.settings;
-            const tasks = window.WRITING_TEST_DATA.tasks;
-            if (!(window.SITE_CONFIG && window.SITE_CONFIG.logoUrl)) document.getElementById('gateLogo').src = settings.logoUrl;
-            if (!(window.SITE_CONFIG && window.SITE_CONFIG.brandName)) document.getElementById('gateLogoWording').textContent = settings.logoWording;
-            if (!(window.SITE_CONFIG && window.SITE_CONFIG.heading1)) document.getElementById('gateHeading1').textContent = settings.heading1;
-            if (!(window.SITE_CONFIG && window.SITE_CONFIG.heading2)) document.getElementById('gateHeading2').textContent = settings.heading2;
-            document.getElementById('gateExamTitle').textContent = settings.examTitle;
-            const p1Context = tasks.p1_context || tasks.p1_scenario.split('\n')[0];
+            // settings can be missing on mocks created via the new bulk
+            // import flow — fall back to empty object so missing logo /
+            // headings / examTitle don't crash the gate. Per-clone
+            // branding (SITE_CONFIG) is the preferred source anyway.
+            const settings = window.WRITING_TEST_DATA.settings || {};
+            const tasks = window.WRITING_TEST_DATA.tasks || {};
+            if (!(window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) && settings.logoUrl) document.getElementById('gateLogo').src = settings.logoUrl;
+            if (!(window.SITE_CONFIG && window.SITE_CONFIG.brandName) && settings.logoWording) document.getElementById('gateLogoWording').textContent = settings.logoWording;
+            if (!(window.SITE_CONFIG && window.SITE_CONFIG.heading1) && settings.heading1) document.getElementById('gateHeading1').textContent = settings.heading1;
+            if (!(window.SITE_CONFIG && window.SITE_CONFIG.heading2) && settings.heading2) document.getElementById('gateHeading2').textContent = settings.heading2;
+            document.getElementById('gateExamTitle').textContent = settings.examTitle || 'CEFR Writing';
+            const p1Context = tasks.p1_context || (tasks.p1_scenario ? tasks.p1_scenario.split('\n')[0] : '');
             const p1Scenario = tasks.p1_scenario;
             var ctx11 = document.getElementById('context_t11');
             var ctx12 = document.getElementById('context_t12');
@@ -6822,6 +6826,7 @@
             PROMPTS.t2 = tasks.t2.prompt;
             if (typeof updateSamplesModal === 'function') updateSamplesModal(tasks);
             if (typeof updateVocabularyModal === 'function') updateVocabularyModal(window.WRITING_TEST_DATA.vocabulary);
+            if (typeof _cwApplyOverlaySoonBadges === 'function') _cwApplyOverlaySoonBadges(window.WRITING_TEST_DATA);
           }
           var mockSel = document.getElementById('mockSelector');
           if (mockSel) { mockSel.style.background = '#10b981'; setTimeout(function(){ mockSel.style.background = ''; }, 500); }
@@ -6854,18 +6859,21 @@
         // Update UI with new data
         if (window.WRITING_TEST_DATA) {
           console.log('WRITING_TEST_DATA available:', window.WRITING_TEST_DATA);
-          const settings = window.WRITING_TEST_DATA.settings;
-          const tasks = window.WRITING_TEST_DATA.tasks;
+          const settings = window.WRITING_TEST_DATA.settings || {};
+          const tasks = window.WRITING_TEST_DATA.tasks || {};
 
-          // Update gate window (only if SITE_CONFIG didn't set them)
-          if (!(window.SITE_CONFIG && window.SITE_CONFIG.logoUrl)) document.getElementById('gateLogo').src = settings.logoUrl;
-          if (!(window.SITE_CONFIG && window.SITE_CONFIG.brandName)) document.getElementById('gateLogoWording').textContent = settings.logoWording;
-          if (!(window.SITE_CONFIG && window.SITE_CONFIG.heading1)) document.getElementById('gateHeading1').textContent = settings.heading1;
-          if (!(window.SITE_CONFIG && window.SITE_CONFIG.heading2)) document.getElementById('gateHeading2').textContent = settings.heading2;
-          document.getElementById('gateExamTitle').textContent = settings.examTitle;
+          // Update gate window (only if SITE_CONFIG didn't set them).
+          // Each branch also requires the legacy settings value to exist
+          // so the bulk-imported mocks (which have no settings block)
+          // don't blank out the gate fields with undefined.
+          if (!(window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) && settings.logoUrl) document.getElementById('gateLogo').src = settings.logoUrl;
+          if (!(window.SITE_CONFIG && window.SITE_CONFIG.brandName) && settings.logoWording) document.getElementById('gateLogoWording').textContent = settings.logoWording;
+          if (!(window.SITE_CONFIG && window.SITE_CONFIG.heading1) && settings.heading1) document.getElementById('gateHeading1').textContent = settings.heading1;
+          if (!(window.SITE_CONFIG && window.SITE_CONFIG.heading2) && settings.heading2) document.getElementById('gateHeading2').textContent = settings.heading2;
+          document.getElementById('gateExamTitle').textContent = settings.examTitle || 'CEFR Writing';
 
           // Update context and scenario
-          const p1Context = tasks.p1_context || tasks.p1_scenario.split('\n')[0];
+          const p1Context = tasks.p1_context || (tasks.p1_scenario ? tasks.p1_scenario.split('\n')[0] : '');
           const p1Scenario = tasks.p1_scenario;
 
           const context_t11 = document.getElementById('context_t11');
@@ -6892,6 +6900,7 @@
 
           // Update vocabulary modal if vocabulary exists
           updateVocabularyModal(window.WRITING_TEST_DATA.vocabulary);
+          if (typeof _cwApplyOverlaySoonBadges === 'function') _cwApplyOverlaySoonBadges(window.WRITING_TEST_DATA);
 
           // Show success feedback
           const mockSelector = document.getElementById('mockSelector');
@@ -17940,9 +17949,59 @@ AREAS TO IMPROVE:
         .replace(/^(.+)$/, '<p style="margin:0;">$1</p>');
     }
 
+    /* ===== Soon-badge greying for See Samples / Topic Vocabulary =====
+       When the admin hasn't generated samples or vocabulary for this
+       mock yet, grey out the finish-overlay buttons and append a small
+       "⏳ Soon" badge so students don't click a dead button. Mirrors
+       the IELTS Writing runner's behaviour. Re-run whenever the mock
+       data finishes loading. */
+    window._cwApplyOverlaySoonBadges = function (mockData) {
+      if (!mockData) return;
+      var tasks = mockData.tasks || {};
+      var SAMPLE_FIELDS = ['sample','sampleA1','sampleA2','sampleB1','sampleB2','uzSample','uzSampleA1','uzSampleA2','uzSampleB1','uzSampleB2'];
+      var hasAnySample = ['t11','t12','t2'].some(function (k) {
+        var t = tasks[k] || {};
+        return SAMPLE_FIELDS.some(function (f) { return (t[f] || '').toString().trim(); });
+      });
+      var vocab = mockData.vocabulary || {};
+      var hasAnyVocab = ['task11','task12','task2'].some(function (k) {
+        var arr = vocab[k];
+        return Array.isArray(arr) && arr.some(function (row) { return row && (row.en || row.uz); });
+      });
+
+      function applyBadge(btnId, hasData, fallbackLabel, soonLabel) {
+        var btn = document.getElementById(btnId);
+        if (!btn) return;
+        // Remember the original markup so we can restore it on a
+        // re-load that DOES include data.
+        if (btn.dataset.cwOriginalHtml == null) btn.dataset.cwOriginalHtml = btn.innerHTML;
+        if (hasData) {
+          btn.innerHTML       = btn.dataset.cwOriginalHtml;
+          btn.disabled        = false;
+          btn.style.opacity   = '';
+          btn.style.cursor    = '';
+          btn.style.background = btn.dataset.cwOriginalBg || btn.style.background;
+          btn.title           = '';
+        } else {
+          btn.disabled        = true;
+          btn.style.opacity   = '0.55';
+          btn.style.cursor    = 'not-allowed';
+          if (!btn.dataset.cwOriginalBg) btn.dataset.cwOriginalBg = btn.style.background;
+          btn.style.background = '#9ca3af';
+          btn.title           = 'Not generated yet for this mock.';
+          btn.innerHTML       = soonLabel + ' <span style="font-size:11px;font-weight:700;background:#fff3cd;color:#856404;border-radius:5px;padding:1px 6px;margin-left:6px;">⏳ Soon</span>';
+        }
+      }
+      applyBadge('seeSamples',    hasAnySample, '📚 See Samples',       '📚 See Samples');
+      applyBadge('topicVocabBtn', hasAnyVocab,  '📖 Topic Vocabulary',  '📖 Topic Vocabulary');
+      applyBadge('practiceSeeSamplesBtn', hasAnySample, '📚 See Samples', '📚 See Samples');
+    };
+
     /* ===== Samples modal wiring ===== */
     const samples = document.getElementById('samples');
     document.getElementById('seeSamples').addEventListener('click', () => {
+      // Guard against the disabled-state listener still firing.
+      if (document.getElementById('seeSamples').disabled) return;
       samples.classList.add('show');
       samples.setAttribute('aria-hidden', 'false');
     });
@@ -17984,6 +18043,7 @@ AREAS TO IMPROVE:
     /* ===== Vocabulary Modal ===== */
     const vocabModal = document.getElementById('vocabModal');
     document.getElementById('topicVocabBtn').addEventListener('click', () => {
+      if (document.getElementById('topicVocabBtn').disabled) return;
       vocabModal.classList.add('show');
       vocabModal.setAttribute('aria-hidden', 'false');
     });
