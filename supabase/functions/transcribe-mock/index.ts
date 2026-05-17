@@ -1166,6 +1166,442 @@ Task 2 (~180 words): ${t2Prompt || '(empty)'}`;
   };
 }
 
+// CEFR Writing — single-task extraction from screenshots. Called when the
+// admin clicks "Import task" on T1.1 / T1.2 / T2's tab. Returns only the
+// structural fields (title / target / prompt); picker tags (genre, chip,
+// part1.topic) come from the bulk-import path or the Auto-tag button.
+async function generateCefrWritingTask(opts: {
+  taskIndex:  0 | 1 | 2;          // 0 = T1.1 informal, 1 = T1.2 formal, 2 = T2
+  files:      FileItem[];
+  notes:      string;
+  geminiKey:  string;
+}): Promise<{ task: { title: string; target: string; prompt: string }; modelUsed: string; fallbackReason: string | null }> {
+  const { taskIndex, files, notes, geminiKey } = opts;
+  const taskName = taskIndex === 0 ? 'Task 1.1 (informal short letter, ~50 words)'
+                 : taskIndex === 1 ? 'Task 1.2 (formal short letter, ~120 words)'
+                 :                   'Task 2 (forum / blog post / magazine article, ~180 words)';
+  const defaultTarget = taskIndex === 0 ? '50–70 words'
+                      : taskIndex === 1 ? '120–150 words'
+                      :                   '180–200 words';
+
+  // Per-task example tuned to the task variant — gives Gemini a concrete
+  // pattern for what "title" extraction looks like for this register.
+  const exampleByIndex: Record<0 | 1 | 2, { source: string; out: { title: string; target: string; prompt: string } }> = {
+    0: {
+      source:
+`Task 1.1
+Your friend Anna has invited you to her birthday party next Saturday. Write an email to her.
+
+In your email:
+- thank her for the invitation
+- say whether you can come
+- suggest what to bring
+
+Write 50–70 words.`,
+      out: {
+        title:  "Friend's birthday invitation",
+        target: "50–70 words",
+        prompt: "Your friend Anna has invited you to her birthday party next Saturday. Write an email to her.\n\nIn your email:\n- thank her for the invitation\n- say whether you can come\n- suggest what to bring"
+      }
+    },
+    1: {
+      source:
+`Task 1.2
+Write a letter to your school principal about the same trip.
+
+In your letter:
+- introduce yourself
+- explain the proposed trip
+- ask for permission and request a meeting
+
+Write 120–150 words.`,
+      out: {
+        title:  "School trip permission request",
+        target: "120–150 words",
+        prompt: "Write a letter to your school principal about the same trip.\n\nIn your letter:\n- introduce yourself\n- explain the proposed trip\n- ask for permission and request a meeting"
+      }
+    },
+    2: {
+      source:
+`Task 2
+You see this post on an online forum:
+
+"Mobile phones are now banned in many schools. Some students say this rule unfairly punishes them; others say it helps them focus. What's your view?"
+
+Write your reply in 180–200 words.`,
+      out: {
+        title:  "Mobile phones in schools",
+        target: "180–200 words",
+        prompt: "You see this post on an online forum:\n\n\"Mobile phones are now banned in many schools. Some students say this rule unfairly punishes them; others say it helps them focus. What's your view?\"\n\nWrite your reply."
+      }
+    }
+  };
+  const ex = exampleByIndex[taskIndex];
+
+  const promptText =
+`You are extracting ONE CEFR Writing task from a screenshot or scanned PDF. Output ONLY a JSON object — no prose, no markdown fence.
+
+You are extracting: ${taskName}
+
+Required shape:
+{
+  "title":  string,    // 3-6 word topic phrase, sentence case. e.g. "Library opening hours", "Cell phones in schools". NEVER "Task 1.1" / "Task 1.2" / "Task 2".
+  "target": string,    // Word count target shown to the student, e.g. "50–70 words", "120–150 words", "180–200 words". If the source states a different range, use that. Default for this task is "${defaultTarget}".
+  "prompt": string     // The exact instruction the student reads. Verbatim from the source — DON'T paraphrase. Plain text. Include any preamble ("Read the following email…") or scenario context that's part of the task. Convert line breaks to "\\n\\n". Drop the trailing "Write X-Y words." sentence (it's captured in "target").
+}
+
+Rules:
+- "title" is a 3-6 word SHORT topic phrase, not the full prompt. e.g. for "Write a letter to your friend about the camping trip you went on" → title is "Camping trip with a friend".
+- "prompt" is the COMPLETE task brief verbatim — context paragraph + the bullet points or sub-questions the student must address. Keep bullet markers ("- ", "• ", "1. "). Preserve double-quoted snippets from the source verbatim.
+- If the screenshot mentions a word count (e.g., "Write 50-70 words"), put it in "target". Otherwise default to "${defaultTarget}".
+- If the screenshot shows a numbered task header like "Task 1.1" / "Task 2", IGNORE that header — never include it in either "title" or "prompt".
+
+Worked example:
+
+INPUT (what the screenshot shows):
+"""
+${ex.source}
+"""
+
+OUTPUT:
+${JSON.stringify(ex.out, null, 2)}
+${notes ? '\nAdmin notes:\n' + notes : ''}`;
+
+  const parts: Array<{ text: string } | { inlineData: { mimeType: string; data: string } }> = [
+    { text: promptText }
+  ];
+  for (const f of files) {
+    if (!f.base64 || !f.mime) continue;
+    parts.push({ inlineData: { mimeType: f.mime, data: f.base64 } });
+  }
+
+  const body = {
+    contents: [{ role: 'user', parts }],
+    generationConfig: {
+      temperature:      0.1,
+      responseMimeType: 'application/json',
+      maxOutputTokens:  2048,
+      thinkingConfig:   { thinkingBudget: 1024 }
+    },
+    safetySettings: [
+      { category: 'HARM_CATEGORY_HARASSMENT',        threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_HATE_SPEECH',       threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' }
+    ]
+  };
+
+  let modelUsed: 'gemini-2.5-pro' | 'gpt-4o' = 'gemini-2.5-pro';
+  let fallbackReason: string | null = null;
+  let raw = '';
+  try {
+    const r = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${geminiKey}`,
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
+    );
+    if (!r.ok) throw new Error(`gemini http ${r.status}: ${(await r.text()).slice(0, 200)}`);
+    const j = await r.json();
+    const cand = j?.candidates?.[0];
+    if (cand?.finishReason && cand.finishReason !== 'STOP') throw new Error(`gemini finishReason=${cand.finishReason}`);
+    raw = cand?.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
+    if (!raw.trim()) throw new Error('gemini returned empty text');
+  } catch (e) {
+    fallbackReason = e instanceof Error ? e.message : String(e);
+    // GPT-4o fallback — uses vision via the image_url format.
+    try {
+      const userContent: Array<{ type: 'text'; text: string } | { type: 'image_url'; image_url: { url: string } }> = [
+        { type: 'text', text: promptText }
+      ];
+      for (const f of files) {
+        if (!f.base64 || !f.mime) continue;
+        userContent.push({ type: 'image_url', image_url: { url: `data:${f.mime};base64,${f.base64}` } });
+      }
+      const r2 = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${OPENAI_KEY}` },
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          messages: [
+            { role: 'system', content: 'You output ONLY the JSON object the user describes — no prose, no markdown.' },
+            { role: 'user',   content: userContent }
+          ],
+          response_format: { type: 'json_object' },
+          temperature: 0.1,
+          max_tokens: 2048
+        })
+      });
+      if (!r2.ok) throw new Error(`gpt-4o http ${r2.status}: ${(await r2.text()).slice(0, 200)}`);
+      const j2 = await r2.json();
+      raw = j2?.choices?.[0]?.message?.content || '';
+      modelUsed = 'gpt-4o';
+    } catch (gptErr) {
+      throw new Error(`both models failed. gemini: ${fallbackReason}; gpt-4o: ${gptErr instanceof Error ? gptErr.message : String(gptErr)}`);
+    }
+  }
+
+  let parsed: any;
+  try { parsed = JSON.parse(raw.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '')); }
+  catch (e) { throw new Error(`task JSON parse failed: ${(e as Error).message} — raw: ${raw.slice(0, 200)}`); }
+
+  const pickStr = (v: unknown) => typeof v === 'string' && v.trim() ? v.trim() : '';
+  return {
+    task: {
+      title:  pickStr(parsed?.title)  || taskName.split(' (')[0],
+      target: pickStr(parsed?.target) || defaultTarget,
+      prompt: pickStr(parsed?.prompt) || ''
+    },
+    modelUsed,
+    fallbackReason
+  };
+}
+
+// CEFR Writing — whole-mock extraction from screenshots. Called when the
+// admin clicks "Import mock" on the Settings tab. Returns the full mock_data
+// shell covering all three tasks + the shared Part 1 topic + auto-tagged
+// chips. Samples are NOT generated here — admin populates them separately
+// on the Samples tab (or via the Samples bulk-generate button).
+async function generateCefrWritingFull(opts: {
+  files:     FileItem[];
+  notes:     string;
+  geminiKey: string;
+}): Promise<{ mockData: any; modelUsed: string; fallbackReason: string | null }> {
+  const { files, notes, geminiKey } = opts;
+
+  // Worked example showing all three tasks plus shared Part 1 topic. Helps
+  // Gemini disambiguate which screenshot block belongs to T1.1 vs T1.2 vs
+  // T2 when the admin uploads one big multi-page image.
+  const exampleSource =
+`Part 1 — Library renovation
+
+The local library will be renovated next month. The library committee wants student input.
+
+Task 1.1
+Write an email to your friend Sam telling them about the renovation.
+
+In your email:
+- explain what is happening
+- say which features you would like
+- invite Sam to a meeting
+
+Write 50–70 words.
+
+Task 1.2
+Write a letter to the library committee.
+
+In your letter:
+- introduce yourself
+- state which features matter most to students
+- propose a deadline for student feedback
+
+Write 120–150 words.
+
+Part 2
+
+Task 2
+You see this post on a community blog:
+
+"Public libraries are becoming less relevant in the digital age. Should councils invest in them or close them?"
+
+Write a blog post replying to it in 180–200 words.`;
+
+  const exampleOut = {
+    tasks: {
+      t11: {
+        title:  "Library renovation news",
+        target: "50–70 words",
+        prompt: "Write an email to your friend Sam telling them about the renovation.\n\nIn your email:\n- explain what is happening\n- say which features you would like\n- invite Sam to a meeting"
+      },
+      t12: {
+        title:  "Library committee proposal",
+        target: "120–150 words",
+        prompt: "Write a letter to the library committee.\n\nIn your letter:\n- introduce yourself\n- state which features matter most to students\n- propose a deadline for student feedback"
+      },
+      t2: {
+        title:  "Libraries in the digital age",
+        target: "180–200 words",
+        prompt: "You see this post on a community blog:\n\n\"Public libraries are becoming less relevant in the digital age. Should councils invest in them or close them?\"\n\nWrite a blog post replying to it.",
+        genre:  "blog post",
+        chip:   "education"
+      }
+    },
+    part1: {
+      topic: "Library renovation",
+      chip:  "education"
+    },
+    targetLevel: "B1"
+  };
+
+  const promptText =
+`You are extracting a complete CEFR Writing mock test (Part 1 + Part 2) from one or more screenshots / scanned PDF pages. Output ONLY one JSON object — no prose, no markdown.
+
+A CEFR Writing test has exactly three tasks:
+  • Task 1.1 — short informal letter (~50–70 words, e.g. to a friend)
+  • Task 1.2 — short formal letter (~120–150 words, e.g. to a manager / authority)
+  • Task 2   — longer piece in ONE of three genres: "forum" (online discussion reply), "blog post", or "article" (~180–200 words)
+T1.1 and T1.2 share the SAME Part 1 scenario but differ in register + recipient.
+
+The admin may have uploaded:
+  (a) one screenshot containing ALL three tasks back-to-back, OR
+  (b) two-to-three separate screenshots (one per task). Either way, identify each task by its heading ("Task 1.1", "Task 1.2", "Task 2") or its content shape (informal short letter vs formal short letter vs longer forum/blog/article piece). Treat them as the same mock and emit ONE combined JSON.
+
+Required shape:
+{
+  "tasks": {
+    "t11": { "title": string, "target": "50–70 words" | "<source's count>", "prompt": "<verbatim task brief>" },
+    "t12": { "title": string, "target": "120–150 words" | "<source's count>", "prompt": "<verbatim task brief>" },
+    "t2":  {
+      "title":  string,
+      "target": "180–200 words" | "<source's count>",
+      "prompt": "<verbatim task brief>",
+      "genre":  "forum" | "blog post" | "article",
+      "chip":   "<one chip from the closed vocab below>"
+    }
+  },
+  "part1": {
+    "topic": string,             // 2-5 word shared heading (the scenario T1.1 and T1.2 both reference). e.g. "Library renovation", "Music club issue".
+    "chip":  "<one chip from the closed vocab>"
+  },
+  "targetLevel": "A2" | "B1" | "B2"   // best CEFR fit for the hardest task
+}
+
+Closed chip vocab (pick ONE per part): education, work, health, technology, environment, transport, housing, entertainment, safety, family, travel, food, sports, media, money, culture, community, science.
+
+Rules:
+- Each task's "title" is 3-6 words, sentence case, NEVER literal "Task 1.1" / "Task 1.2" / "Task 2".
+- Each "prompt" is COMPLETE and VERBATIM (context + bullet points the student must address). Keep bullet markers ("- ", "• ", "1. "). Preserve double-quoted snippets from the source verbatim. Convert line breaks to "\\n\\n". Drop the trailing "Write X-Y words." sentence (it's captured in "target").
+- t11 and t12 MUST share part1.topic exactly; they only differ in register + recipient.
+- t2.genre matches the source wording: "online forum" / "discussion forum" → "forum", "blog" / "blog post" → "blog post", "magazine article" / "newspaper article" / "article" → "article". CEFR Writing Part 2 is ALWAYS one of those three — never "essay" or "report".
+- part1.chip describes Part 1 only; t2.chip describes Part 2 only. They may be the same chip if both halves cover the same subject.
+- If a task is missing from the source (e.g., admin only uploaded Part 1 screenshots), leave that task's title="" target="" prompt="" — DON'T fabricate content.
+
+Worked example:
+
+INPUT (what the screenshots together show):
+"""
+${exampleSource}
+"""
+
+OUTPUT:
+${JSON.stringify(exampleOut, null, 2)}
+${notes ? '\nAdmin notes:\n' + notes : ''}`;
+
+  const parts: Array<{ text: string } | { inlineData: { mimeType: string; data: string } }> = [
+    { text: promptText }
+  ];
+  for (const f of files) {
+    if (!f.base64 || !f.mime) continue;
+    parts.push({ inlineData: { mimeType: f.mime, data: f.base64 } });
+  }
+
+  const body = {
+    contents: [{ role: 'user', parts }],
+    generationConfig: {
+      temperature:      0.1,
+      responseMimeType: 'application/json',
+      maxOutputTokens:  4096,
+      thinkingConfig:   { thinkingBudget: 2048 }
+    },
+    safetySettings: [
+      { category: 'HARM_CATEGORY_HARASSMENT',        threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_HATE_SPEECH',       threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' }
+    ]
+  };
+
+  let modelUsed: 'gemini-2.5-pro' | 'gpt-4o' = 'gemini-2.5-pro';
+  let fallbackReason: string | null = null;
+  let raw = '';
+  try {
+    const r = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${geminiKey}`,
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
+    );
+    if (!r.ok) throw new Error(`gemini http ${r.status}: ${(await r.text()).slice(0, 200)}`);
+    const j = await r.json();
+    const cand = j?.candidates?.[0];
+    if (cand?.finishReason && cand.finishReason !== 'STOP') throw new Error(`gemini finishReason=${cand.finishReason}`);
+    raw = cand?.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
+    if (!raw.trim()) throw new Error('gemini returned empty text');
+  } catch (e) {
+    fallbackReason = e instanceof Error ? e.message : String(e);
+    // GPT-4o fallback with vision support — passes the same images through
+    // the image_url format. Same prompt text and structure so the output
+    // shape doesn't drift between models.
+    try {
+      const userContent: Array<{ type: 'text'; text: string } | { type: 'image_url'; image_url: { url: string } }> = [
+        { type: 'text', text: promptText }
+      ];
+      for (const f of files) {
+        if (!f.base64 || !f.mime) continue;
+        userContent.push({ type: 'image_url', image_url: { url: `data:${f.mime};base64,${f.base64}` } });
+      }
+      const r2 = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${OPENAI_KEY}` },
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          messages: [
+            { role: 'system', content: 'You output ONLY the JSON object the user describes — no prose, no markdown.' },
+            { role: 'user',   content: userContent }
+          ],
+          response_format: { type: 'json_object' },
+          temperature: 0.1,
+          max_tokens: 4096
+        })
+      });
+      if (!r2.ok) throw new Error(`gpt-4o http ${r2.status}: ${(await r2.text()).slice(0, 200)}`);
+      const j2 = await r2.json();
+      raw = j2?.choices?.[0]?.message?.content || '';
+      modelUsed = 'gpt-4o';
+    } catch (gptErr) {
+      throw new Error(`both models failed. gemini: ${fallbackReason}; gpt-4o: ${gptErr instanceof Error ? gptErr.message : String(gptErr)}`);
+    }
+  }
+
+  let parsed: any;
+  try { parsed = JSON.parse(raw.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '')); }
+  catch (e) { throw new Error(`full JSON parse failed: ${(e as Error).message} — raw: ${raw.slice(0, 200)}`); }
+
+  const TOPIC_SET = new Set(['education','work','health','technology','environment','transport','housing','entertainment','safety','family','travel','food','sports','media','money','culture','community','science']);
+  const GENRE_SET = new Set(['forum','blog post','article']);
+  const LEVEL_SET = new Set(['A2','B1','B2']);
+  const pickStr  = (v: unknown) => typeof v === 'string' && v.trim() ? v.trim() : '';
+  const pickEnum = (v: unknown, set: Set<string>) => typeof v === 'string' && set.has(v) ? v : '';
+  const pickChip = (v: unknown) => typeof v === 'string' && TOPIC_SET.has(v.trim().toLowerCase()) ? v.trim().toLowerCase() : '';
+
+  const tasksIn = parsed?.tasks || {};
+  const t11In   = tasksIn.t11  || {};
+  const t12In   = tasksIn.t12  || {};
+  const t2In    = tasksIn.t2   || {};
+  const p1In    = parsed?.part1 || {};
+
+  const buildTask = (raw: any, defaultLabel: string, defaultTarget: string) => ({
+    title:  pickStr(raw.title)  || defaultLabel,
+    target: pickStr(raw.target) || defaultTarget,
+    prompt: pickStr(raw.prompt) || ''
+  });
+
+  const mockData: any = {
+    tasks: {
+      t11: buildTask(t11In, 'Task 1.1', '50–70 words'),
+      t12: buildTask(t12In, 'Task 1.2', '120–150 words'),
+      t2:  {
+        ...buildTask(t2In,  'Task 2',   '180–200 words'),
+        genre: pickEnum(t2In.genre, GENRE_SET) || undefined,
+        chip:  pickChip(t2In.chip) || undefined
+      }
+    },
+    part1: {
+      topic: pickStr(p1In.topic) || undefined,
+      chip:  pickChip(p1In.chip) || undefined
+    },
+    targetLevel: pickEnum(parsed?.targetLevel, LEVEL_SET) || undefined
+  };
+
+  return { mockData, modelUsed, fallbackReason };
+}
+
 async function generateIeltsWritingTags(opts: {
   task1Prompt: string;
   task2Prompt: string;
@@ -2492,8 +2928,74 @@ Deno.serve(async (req) => {
   }
   if (examType === 'cefr-writing') {
     const _cwScope = (body.scope || 'tags').toString();
-    if (_cwScope !== 'tags') {
-      return json(400, { error: 'bad_scope', detail: 'CEFR Writing supports scope: "tags". Got "' + _cwScope + '".' });
+    const _cwOk = ['tags','passage','full'];
+    if (!_cwOk.includes(_cwScope)) {
+      return json(400, { error: 'bad_scope', detail: 'CEFR Writing supports scope: ' + _cwOk.map(s => '"' + s + '"').join(' / ') + '. Got "' + _cwScope + '".' });
+    }
+  }
+
+  // ── PASSAGE scope (CEFR Writing only): single-task extraction from
+  //    one or more screenshots. passage_index is 1-based (1 = T1.1,
+  //    2 = T1.2, 3 = T2). Returns mock_data = { title, target, prompt }
+  //    so the client can slot it into mock_data.tasks[t11|t12|t2].
+  if ((body.scope || '').toString() === 'passage' && examType === 'cefr-writing') {
+    const idx1 = Number(body.passage_index) || 0;
+    if (idx1 < 1 || idx1 > 3) {
+      return json(400, { error: 'bad_passage_index', detail: 'cefr-writing scope=passage requires passage_index ∈ {1,2,3}.' });
+    }
+    const incomingFiles = (Array.isArray(body.files) ? body.files : []) as FileItem[];
+    const testFiles = incomingFiles.filter(f => (f.group || 'test') === 'test');
+    if (testFiles.length === 0) {
+      return json(400, { error: 'no_files', detail: 'cefr-writing scope=passage requires at least one test-content file.' });
+    }
+    try {
+      const result = await generateCefrWritingTask({
+        taskIndex: (idx1 - 1) as 0 | 1 | 2,
+        files:     testFiles,
+        notes:     String(body.notes || ''),
+        geminiKey: GEMINI_KEY
+      });
+      return json(200, {
+        mock_data:       result.task,
+        model_used:      result.modelUsed,
+        fallback_reason: result.fallbackReason,
+        actor:           (auth as AuthOk).actor
+      });
+    } catch (e) {
+      return json(502, {
+        error:  'cefr_writing_task_failed',
+        detail: e instanceof Error ? e.message : String(e)
+      });
+    }
+  }
+
+  // ── FULL scope (CEFR Writing): whole-mock extraction. Returns the
+  //    full mock_data shell covering all three tasks + part1.topic +
+  //    auto-tagged chips + targetLevel. Samples are NOT generated
+  //    here — admin uses the Samples tab for that.
+  if ((body.scope || '').toString() === 'full' && examType === 'cefr-writing') {
+    const incomingFiles = (Array.isArray(body.files) ? body.files : []) as FileItem[];
+    const testFiles = incomingFiles.filter(f => (f.group || 'test') === 'test');
+    if (testFiles.length === 0) {
+      return json(400, { error: 'no_files', detail: 'cefr-writing scope=full requires at least one test-content file.' });
+    }
+    try {
+      const result = await generateCefrWritingFull({
+        files:     testFiles,
+        notes:     String(body.notes || ''),
+        geminiKey: GEMINI_KEY
+      });
+      return json(200, {
+        mock_data:       result.mockData,
+        model_used:      result.modelUsed,
+        fallback_reason: result.fallbackReason,
+        actor:           (auth as AuthOk).actor
+      });
+    } catch (e) {
+      return json(502, {
+        error:  'cefr_writing_full_failed',
+        detail: e instanceof Error ? e.message : String(e)
+      });
     }
   }
 

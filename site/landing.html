@@ -32569,6 +32569,20 @@
         var cwT12  = (cwT.t12 = cwT.t12 || {});
         var cwT2   = (cwT.t2  = cwT.t2  || {});
 
+        // Bulk import bar — covers the WHOLE mock (Part 1 T1.1 + T1.2 + Part 2)
+        // in a single Gemini call. Per-task import lives on each task's own
+        // tab (see _mmgRenderTask). Routes through _mmgImportOpenPassage
+        // with scope='full' so the edge function returns a wrapped mock_data
+        // covering all three tasks plus the shared Part 1 topic.
+        html += '<div class="mmg-section-title">✨ Import a new mock</div>';
+        html += '<div class="mmg-field-help" style="margin-bottom:10px;">Paste / upload screenshots covering <strong>Part 1</strong> (T1.1 informal + T1.2 formal — they share a topic) and <strong>Part 2</strong> (T2 forum / blog / article). Gemini fills every task in one go. Existing samples are preserved.</div>';
+        html += '<div style="background:linear-gradient(135deg,#fdf4ff,#faf5ff);border:1px solid #e9d5ff;border-radius:10px;padding:12px 14px;margin-bottom:18px;display:flex;align-items:center;gap:12px;">'
+              +   '<div style="flex:1;font-size:12.5px;color:#581c87;line-height:1.5;">'
+              +     '<strong>Whole mock — paste / upload</strong> — Drop screenshots of all three task prompts at once. Gemini extracts T1.1 + T1.2 + T2 plus auto-tags the shared Part 1 topic, T2 genre, and category chips.'
+              +   '</div>'
+              +   '<button type="button" onclick="_mmgImportOpenPassage(-1)" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(124,58,237,.3);white-space:nowrap;">✨ Import mock</button>'
+              + '</div>';
+
         html += '<div class="mmg-section-title" style="margin-top:14px;">Picker tags</div>';
         html += '<div class="mmg-field-help">Short tags that drive what students see on the CEFR Writing picker cards. <strong>Editable</strong> — type in any of the fields below, or click <strong>✨ Auto-tag</strong> to have Gemini fill them all from the prompts.</div>';
 
@@ -32916,6 +32930,18 @@
 
       var html = '<div class="mmg-section-title">' + _mmgEsc(label) + '</div>'
               + (sectionHelp ? '<div class="mmg-field-help">' + _mmgEsc(sectionHelp) + '</div>' : '');
+
+      // Per-task import bar — Gemini extracts just this task's title /
+      // target / prompt from a screenshot. Lives at the top of each task
+      // tab so admins can re-import a single task without touching the
+      // others. Mock-wide bulk import lives on the Settings tab.
+      var _cwTaskIdx = (key === 't11') ? 0 : (key === 't12') ? 1 : 2;
+      html += '<div style="background:linear-gradient(135deg,#fdf4ff,#faf5ff);border:1px solid #e9d5ff;border-radius:10px;padding:10px 12px;margin:6px 0 14px;display:flex;align-items:center;gap:10px;">'
+            +   '<div style="flex:1;font-size:12px;color:#581c87;line-height:1.45;">'
+            +     '<strong>' + _mmgEsc(label) + ' — paste / upload</strong> — Drop just this task\'s prompt screenshot; Gemini fills title, target, and prompt. The other tasks stay untouched.'
+            +   '</div>'
+            +   '<button type="button" onclick="_mmgImportOpenPassage(' + _cwTaskIdx + ')" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(124,58,237,.3);white-space:nowrap;">✨ Import task</button>'
+            + '</div>';
 
       html += _mmgFieldText('Title',  p + 'title',  task.title  || label,         'Display label.');
       html += _mmgFieldText('Target', p + 'target', task.target || defaultTarget, 'Word count target shown to the student (e.g., "50–70 words").');
@@ -38912,22 +38938,30 @@
       var ttl = document.getElementById('mmgImportTitle');
       if (!ttl) return;
       // IELTS speaks in passages; CEFR speaks in parts; IELTS Listening
-      // calls them sections; IELTS Writing calls them tasks. Data stays
-      // 1-based for the user.
+      // calls them sections; IELTS Writing calls them tasks; CEFR Writing
+      // labels its task tabs T1.1 / T1.2 / T2 (passageIndex 0/1/2). Data
+      // stays 1-based for the user.
       var unit = (st.examType === 'cefr-reading' || st.examType === 'cefr-listening') ? 'Part'
                : (st.examType === 'ielts-listening') ? 'Section'
                : (st.examType === 'ielts-writing') ? 'Task'
                : 'Passage';
       if (st.scope === 'passage') {
-        ttl.textContent = '✨ Import ' + unit + ' ' + (st.passageIndex + 1) + ' from PDF / image';
+        // CEFR Writing task labels are not numeric (T1.1 / T1.2 / T2),
+        // so spell them out instead of saying "Task 1 / 2 / 3".
+        if (st.examType === 'cefr-writing') {
+          var _cwLabels = ['Task 1.1', 'Task 1.2', 'Task 2'];
+          ttl.textContent = '✨ Import ' + (_cwLabels[st.passageIndex] || ('Task ' + (st.passageIndex + 1))) + ' from PDF / image';
+        } else {
+          ttl.textContent = '✨ Import ' + unit + ' ' + (st.passageIndex + 1) + ' from PDF / image';
+        }
       } else {
         ttl.textContent = '✨ Import test from PDF / image';
       }
-      // IELTS Writing has no answer key (Task 1 + 2 are free-response).
-      // Hide the Answer key section + the "skip if your test file…"
-      // tagline so admins don't think they need to provide one.
+      // IELTS Writing + CEFR Writing have no answer key (every task is
+      // free-response). Hide the Answer key section + the "skip if your
+      // test file…" tagline so admins don't think they need to provide one.
       var keyHeader = document.getElementById('mmgImportKeySection');
-      if (keyHeader) keyHeader.style.display = (st.examType === 'ielts-writing') ? 'none' : '';
+      if (keyHeader) keyHeader.style.display = (st.examType === 'ielts-writing' || st.examType === 'cefr-writing') ? 'none' : '';
     }
 
     function _mmgImportOpen() {
@@ -39035,24 +39069,29 @@
       var typeSel = document.getElementById('mmgFldType');
       var currentType = (typeSel && typeSel.value) || (m && m.mock_type);
       if (m) m.mock_type = currentType;
-      if (!m || (currentType !== 'cefr-reading' && currentType !== 'ielts-reading' && currentType !== 'ielts-listening' && currentType !== 'cefr-listening' && currentType !== 'ielts-writing')) {
-        alert('Per-section import is currently available for CEFR Reading, IELTS Reading, IELTS Listening, CEFR Listening, and IELTS Writing mocks.');
+      if (!m || (currentType !== 'cefr-reading' && currentType !== 'ielts-reading' && currentType !== 'ielts-listening' && currentType !== 'cefr-listening' && currentType !== 'ielts-writing' && currentType !== 'cefr-writing')) {
+        alert('Per-section import is currently available for CEFR Reading, IELTS Reading, IELTS Listening, CEFR Listening, IELTS Writing, and CEFR Writing mocks.');
         return;
       }
+      // CEFR Writing: idx === -1 is the Settings-tab bulk bar (whole mock
+      // in one shot). idx 0/1/2 are the per-task bars on T1.1 / T1.2 / T2.
+      var isCwBulk = (currentType === 'cefr-writing' && idx === -1);
       window._mmgImportState = {
         files:        [],
         examType:     currentType,
-        scope:        'passage',
-        passageIndex: idx
+        scope:        isCwBulk ? 'full' : 'passage',
+        passageIndex: isCwBulk ? 0 : idx
       };
       _mmgImportApplyScope();
       document.getElementById('mmgImportNotes').value = '';
       document.getElementById('mmgImportStatus').textContent = '';
       document.getElementById('mmgImportStatus').style.color = '#64748b';
       var btn = document.getElementById('mmgImportSubmitBtn');
-      // Match the button label to the exam's unit (Part / Passage / Task).
-      var unitLabel = (m.mock_type === 'cefr-reading' || m.mock_type === 'cefr-listening') ? 'part'
-                    : (m.mock_type === 'ielts-writing') ? 'task'
+      // Match the button label to the exam's unit (Part / Passage / Task /
+      // Mock for the cefr-writing bulk case).
+      var unitLabel = isCwBulk ? 'mock'
+                    : (m.mock_type === 'cefr-reading' || m.mock_type === 'cefr-listening') ? 'part'
+                    : (m.mock_type === 'ielts-writing' || m.mock_type === 'cefr-writing') ? 'task'
                     : 'passage';
       btn.disabled = false; btn.textContent = '✨ Import ' + unitLabel;
       _mmgImportRender();
@@ -39428,6 +39467,13 @@
         payload.scope         = 'passage';
         payload.passage_index = st.passageIndex + 1;
       }
+      // CEFR Writing bulk: scope=full tells the edge function to return
+      // the whole mock_data covering all three tasks + the shared Part 1
+      // topic + auto-tagged chips. Same payload shape as the IELTS
+      // Reading / Listening full-mock importers.
+      if (st.scope === 'full' && st.examType === 'cefr-writing') {
+        payload.scope = 'full';
+      }
 
       try {
         var r = await fetch(_MMG_TRANSCRIBE_URL, {
@@ -39471,6 +39517,42 @@
           var isListeningImport    = (st.examType === 'ielts-listening');
           var isCefrListeningImport = (st.examType === 'cefr-listening');
           var isIeltsWritingImport  = (st.examType === 'ielts-writing');
+          var isCefrWritingImport   = (st.examType === 'cefr-writing');
+
+          // CEFR Writing per-task import — analogous to the IELTS Writing
+          // branch below, but the storage keys are t11 / t12 / t2 and the
+          // sample fields use the CEFR (A1–B2 + Uzbek) banding rather
+          // than IELTS Band 5–9.
+          if (isCefrWritingImport) {
+            var _cwKeys     = ['t11', 't12', 't2'];
+            var _cwTaskKey  = _cwKeys[st.passageIndex] || 't11';
+            md.tasks = md.tasks || {};
+            var _cwPrev = md.tasks[_cwTaskKey] || {};
+            // Preserve curated CEFR samples (main + A1 / A2 / B1 / B2 +
+            // Uzbek translations) and any picker-tag fields the admin
+            // set previously (genre / chip live at the t2-level).
+            var _cwSampleFields = ['sampleAnswer','sampleA1','sampleA2','sampleB1','sampleB2',
+                                   'uzSampleA1','uzSampleA2','uzSampleB1','uzSampleB2',
+                                   'genre','chip'];
+            for (var _csi = 0; _csi < _cwSampleFields.length; _csi++) {
+              var _csf = _cwSampleFields[_csi];
+              if (_cwPrev[_csf] != null) newObj[_csf] = _cwPrev[_csf];
+            }
+            md.tasks[_cwTaskKey] = newObj;
+            window._mmgEditing.mock_data = md;
+            document.getElementById('mmgFldData').value = JSON.stringify(md, null, 2);
+            window._mmgActiveTab = null;
+            _mmgInitTabs();
+            _mmgSwitchTab(_cwTaskKey);
+            _mmgImportProgressDone(j.model_used, j.fallback_reason);
+            var _cwTaskLabel = (_cwTaskKey === 't11') ? 'Task 1.1' : (_cwTaskKey === 't12') ? 'Task 1.2' : 'Task 2';
+            var _cwLbl = (j.model_used === 'gpt-4o')
+              ? '✓ Imported ' + _cwTaskLabel + ' via GPT-4o (Gemini fallback)'
+              : '✓ Imported ' + _cwTaskLabel + ' via Gemini 2.5 Pro';
+            _mmgStatus(_cwLbl + ' — review and Save when ready.', '#16a34a');
+            setTimeout(_mmgImportClose, 1400);
+            return;
+          }
 
           // IELTS Writing per-task import — different storage shape:
           // tasks live as mock_data.tasks.{task1,task2}, NOT in a parts[]
@@ -39647,6 +39729,34 @@
           }
           newMd.parts = newParts;
           j.mock_data = newMd;
+        } else if (st.examType === 'cefr-writing') {
+          // CEFR Writing bulk-import: preserve curated samples on each
+          // of the three tasks (main + A1 / A2 / B1 / B2 + Uzbek)
+          // across import. The edge function only returns the
+          // structural fields (title / target / prompt) plus the
+          // picker-tag fields (part1.topic, t2.genre, chips, targetLevel).
+          var prevCw  = window._mmgEditing.mock_data || {};
+          var newCw   = j.mock_data || {};
+          var _cwSampleFieldsBulk = ['sampleAnswer','sampleA1','sampleA2','sampleB1','sampleB2',
+                                     'uzSampleA1','uzSampleA2','uzSampleB1','uzSampleB2'];
+          var _cwTaskKeysBulk = ['t11','t12','t2'];
+          var prevCwTasks = (prevCw.tasks || {});
+          var newCwTasks  = (newCw.tasks  = newCw.tasks  || {});
+          for (var _cti = 0; _cti < _cwTaskKeysBulk.length; _cti++) {
+            var _ctk = _cwTaskKeysBulk[_cti];
+            var _ctPrev = prevCwTasks[_ctk] || {};
+            newCwTasks[_ctk] = newCwTasks[_ctk] || {};
+            for (var _cfi = 0; _cfi < _cwSampleFieldsBulk.length; _cfi++) {
+              var _cfn = _cwSampleFieldsBulk[_cfi];
+              if (_ctPrev[_cfn] != null) newCwTasks[_ctk][_cfn] = _ctPrev[_cfn];
+            }
+          }
+          // Preserve top-level non-structural fields the admin might have
+          // curated previously: vocabulary, tokenTranslations, settings.
+          ['vocabulary','tokenTranslations','settings','source','examDate'].forEach(function (k) {
+            if (prevCw[k] != null && newCw[k] == null) newCw[k] = prevCw[k];
+          });
+          j.mock_data = newCw;
         } else if (st.examType === 'cefr-listening') {
           // CEFR Listening bulk-import: preserve per-part audioFile,
           // mapImage (Part 4), and transcript across import. CEFR
