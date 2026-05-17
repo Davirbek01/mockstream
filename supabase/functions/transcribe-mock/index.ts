@@ -1369,11 +1369,23 @@ async function generateCefrWritingFull(opts: {
 
   // Worked example showing all three tasks plus shared Part 1 topic. Helps
   // Gemini disambiguate which screenshot block belongs to T1.1 vs T1.2 vs
-  // T2 when the admin uploads one big multi-page image.
+  // T2 when the admin uploads one big multi-page image. Includes the
+  // shared Part 1 context + scenario/email so T1.1 and T1.2 both have
+  // something to react to (the runner shows context + scenario on top
+  // of each Part 1 task page).
   const exampleSource =
-`Part 1 — Library renovation
+`Part 1
 
-The local library will be renovated next month. The library committee wants student input.
+You are a member of the local library. You received an email from the library committee.
+
+Dear Member,
+
+We would like to let you know that the library will be renovated starting next month. The renovation will last six weeks.
+
+We are inviting all members to share what features they want to see most: more study space, more books, longer opening hours, or a coffee corner. Please respond by the end of this week.
+
+Kind regards,
+The Library Committee
 
 Task 1.1
 Write an email to your friend Sam telling them about the renovation.
@@ -1405,6 +1417,10 @@ You see this post on a community blog:
 Write a blog post replying to it in 180–200 words.`;
 
   const exampleOut = {
+    partOne: {
+      context:  "You are a member of the local library. You received an email from the library committee.",
+      scenario: "Dear Member,\n\nWe would like to let you know that the library will be renovated starting next month. The renovation will last six weeks.\n\nWe are inviting all members to share what features they want to see most: more study space, more books, longer opening hours, or a coffee corner. Please respond by the end of this week.\n\nKind regards,\nThe Library Committee"
+    },
     tasks: {
       t11: {
         title:  "Library renovation news",
@@ -1446,6 +1462,10 @@ The admin may have uploaded:
 
 Required shape:
 {
+  "partOne": {
+    "context":  string,         // ONE-SENTENCE setup that frames who the student is in this scenario. e.g. "You are a member of the local library." or "You are a student at City College." If the source labels this block as "Part 1" or shows it as a lead-in paragraph above the email, that's the context.
+    "scenario": string           // The FULL email / letter / notice the student is reacting to — verbatim from the source, including the greeting line ("Dear Member,") and the signature ("Kind regards, The Library Committee"). Newlines preserved as "\\n\\n". This is what T1.1 and T1.2 both refer to.
+  },
   "tasks": {
     "t11": { "title": string, "target": "50–70 words" | "<source's count>", "prompt": "<verbatim task brief>" },
     "t12": { "title": string, "target": "120–150 words" | "<source's count>", "prompt": "<verbatim task brief>" },
@@ -1467,8 +1487,10 @@ Required shape:
 Closed chip vocab (pick ONE per part): education, work, health, technology, environment, transport, housing, entertainment, safety, family, travel, food, sports, media, money, culture, community, science.
 
 Rules:
+- partOne.context is ONE sentence ("You are a …"). If the source doesn't have an explicit setup line, INFER a natural one from the scenario / email recipient ("You are a member of the sports center.").
+- partOne.scenario is the COMPLETE email / letter / notice the student responds to — verbatim. Include greeting + body + sign-off. Convert blank lines to "\\n\\n". If the source has no scenario block (Part 2-only screenshot), leave scenario="".
 - Each task's "title" is 3-6 words, sentence case, NEVER literal "Task 1.1" / "Task 1.2" / "Task 2".
-- Each "prompt" is COMPLETE and VERBATIM (context + bullet points the student must address). Keep bullet markers ("- ", "• ", "1. "). Preserve double-quoted snippets from the source verbatim. Convert line breaks to "\\n\\n". Drop the trailing "Write X-Y words." sentence (it's captured in "target").
+- Each task "prompt" is the SHORT instruction that follows the "Task 1.1" / "Task 1.2" / "Task 2" heading — NOT the shared scenario / email above it (that lives in partOne.scenario). Keep bullet markers ("- ", "• ", "1. "). Convert line breaks to "\\n\\n". Drop the trailing "Write X-Y words." sentence (it's captured in "target").
 - t11 and t12 MUST share part1.topic exactly; they only differ in register + recipient.
 - t2.genre matches the source wording: "online forum" / "discussion forum" → "forum", "blog" / "blog post" → "blog post", "magazine article" / "newspaper article" / "article" → "article". CEFR Writing Part 2 is ALWAYS one of those three — never "essay" or "report".
 - part1.chip describes Part 1 only; t2.chip describes Part 2 only. They may be the same chip if both halves cover the same subject.
@@ -1570,11 +1592,12 @@ ${notes ? '\nAdmin notes:\n' + notes : ''}`;
   const pickEnum = (v: unknown, set: Set<string>) => typeof v === 'string' && set.has(v) ? v : '';
   const pickChip = (v: unknown) => typeof v === 'string' && TOPIC_SET.has(v.trim().toLowerCase()) ? v.trim().toLowerCase() : '';
 
-  const tasksIn = parsed?.tasks || {};
-  const t11In   = tasksIn.t11  || {};
-  const t12In   = tasksIn.t12  || {};
-  const t2In    = tasksIn.t2   || {};
-  const p1In    = parsed?.part1 || {};
+  const tasksIn   = parsed?.tasks   || {};
+  const t11In     = tasksIn.t11    || {};
+  const t12In     = tasksIn.t12    || {};
+  const t2In      = tasksIn.t2     || {};
+  const p1In      = parsed?.part1  || {};
+  const partOneIn = parsed?.partOne || {};
 
   const buildTask = (raw: any, defaultLabel: string, defaultTarget: string) => ({
     title:  pickStr(raw.title)  || defaultLabel,
@@ -1584,6 +1607,10 @@ ${notes ? '\nAdmin notes:\n' + notes : ''}`;
 
   const mockData: any = {
     tasks: {
+      // Part 1 shared context + scenario live UNDER mock_data.tasks (not
+      // mock_data.part1) — that's where _mmgRenderPart1 reads from.
+      p1_context:  pickStr(partOneIn.context)  || '',
+      p1_scenario: pickStr(partOneIn.scenario) || '',
       t11: buildTask(t11In, 'Task 1.1', '50–70 words'),
       t12: buildTask(t12In, 'Task 1.2', '120–150 words'),
       t2:  {
