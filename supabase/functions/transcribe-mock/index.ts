@@ -1238,8 +1238,12 @@ Write your reply in 180–200 words.`,
   };
   const ex = exampleByIndex[taskIndex];
 
+  const hasFiles = files.length > 0;
+  const sourceLabel = hasFiles
+    ? 'a screenshot or scanned PDF'
+    : 'pasted raw text (no screenshots — read the text in the "Admin notes" block below as the SOLE source)';
   const promptText =
-`You are extracting ONE CEFR Writing task from a screenshot or scanned PDF. Output ONLY a JSON object — no prose, no markdown fence.
+`You are extracting ONE CEFR Writing task from ${sourceLabel}. Output ONLY a JSON object — no prose, no markdown fence.
 
 You are extracting: ${taskName}
 
@@ -1457,8 +1461,12 @@ Write an article for the magazine in 180–200 words.`;
     targetLevel: "B1"
   };
 
+  const hasFilesBulk = files.length > 0;
+  const sourceLabelBulk = hasFilesBulk
+    ? 'one or more screenshots / scanned PDF pages'
+    : 'pasted raw text (no screenshots — read the text in the "Admin notes" block below as the SOLE source for all three tasks + the Part 1 scenario)';
   const promptText =
-`You are extracting a complete CEFR Writing mock test (Part 1 + Part 2) from one or more screenshots / scanned PDF pages. Output ONLY one JSON object — no prose, no markdown.
+`You are extracting a complete CEFR Writing mock test (Part 1 + Part 2) from ${sourceLabelBulk}. Output ONLY one JSON object — no prose, no markdown.
 
 A CEFR Writing test has exactly three tasks:
   • Task 1.1 — short informal letter (~50–70 words, e.g. to a friend)
@@ -2976,9 +2984,9 @@ Deno.serve(async (req) => {
   }
 
   // ── PASSAGE scope (CEFR Writing only): single-task extraction from
-  //    one or more screenshots. passage_index is 1-based (1 = T1.1,
-  //    2 = T1.2, 3 = T2). Returns mock_data = { title, target, prompt }
-  //    so the client can slot it into mock_data.tasks[t11|t12|t2].
+  //    one or more screenshots OR pasted text. passage_index is 1-based
+  //    (1 = T1.1, 2 = T1.2, 3 = T2). Returns mock_data = { title,
+  //    target, prompt } so the client slots it into mock_data.tasks[…].
   if ((body.scope || '').toString() === 'passage' && examType === 'cefr-writing') {
     const idx1 = Number(body.passage_index) || 0;
     if (idx1 < 1 || idx1 > 3) {
@@ -2986,14 +2994,15 @@ Deno.serve(async (req) => {
     }
     const incomingFiles = (Array.isArray(body.files) ? body.files : []) as FileItem[];
     const testFiles = incomingFiles.filter(f => (f.group || 'test') === 'test');
-    if (testFiles.length === 0) {
-      return json(400, { error: 'no_files', detail: 'cefr-writing scope=passage requires at least one test-content file.' });
+    const notesText = String(body.notes || '').trim();
+    if (testFiles.length === 0 && notesText.length < 20) {
+      return json(400, { error: 'no_source', detail: 'cefr-writing scope=passage requires at least one screenshot OR pasted task text (≥20 chars) in notes.' });
     }
     try {
       const result = await generateCefrWritingTask({
         taskIndex: (idx1 - 1) as 0 | 1 | 2,
         files:     testFiles,
-        notes:     String(body.notes || ''),
+        notes:     notesText,
         geminiKey: GEMINI_KEY
       });
       return json(200, {
@@ -3010,20 +3019,21 @@ Deno.serve(async (req) => {
     }
   }
 
-  // ── FULL scope (CEFR Writing): whole-mock extraction. Returns the
-  //    full mock_data shell covering all three tasks + part1.topic +
-  //    auto-tagged chips + targetLevel. Samples are NOT generated
-  //    here — admin uses the Samples tab for that.
+  // ── FULL scope (CEFR Writing): whole-mock extraction from screenshots
+  //    OR pasted text. Returns the full mock_data shell covering all
+  //    three tasks + part1.topic + auto-tagged chips + targetLevel.
+  //    Samples are NOT generated here — admin uses the Samples tab.
   if ((body.scope || '').toString() === 'full' && examType === 'cefr-writing') {
     const incomingFiles = (Array.isArray(body.files) ? body.files : []) as FileItem[];
     const testFiles = incomingFiles.filter(f => (f.group || 'test') === 'test');
-    if (testFiles.length === 0) {
-      return json(400, { error: 'no_files', detail: 'cefr-writing scope=full requires at least one test-content file.' });
+    const notesText = String(body.notes || '').trim();
+    if (testFiles.length === 0 && notesText.length < 20) {
+      return json(400, { error: 'no_source', detail: 'cefr-writing scope=full requires at least one screenshot OR pasted task text (≥20 chars) in notes.' });
     }
     try {
       const result = await generateCefrWritingFull({
         files:     testFiles,
-        notes:     String(body.notes || ''),
+        notes:     notesText,
         geminiKey: GEMINI_KEY
       });
       return json(200, {

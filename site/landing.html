@@ -38962,6 +38962,26 @@
       // test file…" tagline so admins don't think they need to provide one.
       var keyHeader = document.getElementById('mmgImportKeySection');
       if (keyHeader) keyHeader.style.display = (st.examType === 'ielts-writing' || st.examType === 'cefr-writing') ? 'none' : '';
+
+      // CEFR Writing supports a text-only path: admin pastes the raw task
+      // text into "Notes for the AI" and skips the screenshot upload.
+      // Re-label the notes textarea + size row to advertise it.
+      var notesLbl   = document.querySelector('label[for="mmgImportNotes"]');
+      var notesArea  = document.getElementById('mmgImportNotes');
+      var sizeRow    = document.getElementById('mmgImportSizeRow');
+      var isCw       = (st.examType === 'cefr-writing');
+      if (notesLbl) notesLbl.textContent = isCw
+        ? 'Notes / paste raw task text (use this OR upload screenshots)'
+        : 'Notes for the AI (optional)';
+      if (notesArea) {
+        notesArea.placeholder = isCw
+          ? 'Paste the full task text here (Part 1 context + email + Task 1.1 + Task 1.2 + Task 2). Gemini extracts everything from this text — no screenshot needed.'
+          : 'e.g., \'Part 3 is matching-headings; the headings list is on page 4.\'  Leave blank to use defaults.';
+        notesArea.style.minHeight = isCw ? '160px' : '60px';
+      }
+      if (sizeRow) sizeRow.textContent = isCw
+        ? 'Either paste the task text above OR upload screenshots. Total upload: 0 MB / 20 MB'
+        : 'Total: 0 MB / 20 MB';
     }
 
     function _mmgImportOpen() {
@@ -39429,9 +39449,17 @@
       var btn    = document.getElementById('mmgImportSubmitBtn');
 
       var testCount = st.files.filter(function (f) { return f.group === 'test'; }).length;
-      if (testCount === 0) {
+      // CEFR Writing (passage + full scopes) lets the admin paste the raw
+      // task text into "Notes for the AI" instead of uploading screenshots
+      // — when notes is non-empty, allow zero-file submission. All other
+      // exam types still require at least one screenshot / PDF.
+      var notesPreview = (document.getElementById('mmgImportNotes').value || '').trim();
+      var allowTextOnly = (st.examType === 'cefr-writing') && notesPreview.length >= 20;
+      if (testCount === 0 && !allowTextOnly) {
         status.style.color = '#dc2626';
-        status.textContent = 'Add at least one test-content file.';
+        status.textContent = (st.examType === 'cefr-writing')
+          ? 'Add at least one screenshot OR paste the task text (≥20 chars) into "Notes for the AI".'
+          : 'Add at least one test-content file.';
         return;
       }
       var totalBytes = st.files.reduce(function (s, f) { return s + f.size; }, 0);
