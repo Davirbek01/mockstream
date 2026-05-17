@@ -1204,7 +1204,9 @@ KEEP IDENTICAL (do not change any of these):
 ${chartTypeHint ? '- The chart type is a ' + chartTypeHint.replace('_', ' ') + ' — keep it that way.' : '- The chart type as it appears in the source.'}
 
 WHAT TO IMPROVE:
-- Background → pure white (#FFFFFF), remove watermarks and page tint
+- Background → pure white (#FFFFFF)
+- Watermarks, stamps, logos, site URLs (e.g. "ieltsmaterial.com", "ieltsonlinetests", text/image overlays bleeding through the page) → REMOVE COMPLETELY. The output must look like a clean exam handout, not a marked-up download.
+- Page tint, drop shadows, scan artefacts, fold lines, paper texture → remove
 - Text and numerals → crisp, anti-aliased, Arial / sans-serif typography
 - Lines → clean, no JPEG halos / scan noise
 
@@ -1449,7 +1451,7 @@ Layout requirements:
 - The overall caption appears once — centred between the rows OR above the grid, NEVER duplicated inside each panel.
 
 Visual style:
-- Pure white background (#FFFFFF). No watermark, no extra annotation.
+- Pure white background (#FFFFFF). REMOVE every watermark, stamp, logo, site URL, page tint, or fold/scan artefact from the source — output looks like a fresh exam handout, not a marked-up download.
 - Clean black axes, tick marks, light-grey gridlines (0.5px) — for bar / line / table panels.
 - Pie slices labelled with their percentage value inside the slice, in dark text on light slices and white text on dark slices.
 - Typography: Arial / sans-serif, crisp at small sizes. Sub-titles bold.
