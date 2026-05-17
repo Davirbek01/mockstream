@@ -18234,20 +18234,20 @@
       // its own task). Renders "PART N · <topic>" with the prefix in a
       // small uppercase pill that ALWAYS fits its text.
       const partHeadingRow = (n, topic, ready, genre) => {
-        const prefix = '<span class="cwet-part-label">PART ' + n + '</span>';
+        const labelText = genre
+          ? 'PART ' + n + ' · ' + _cwetEsc(genre)
+          : 'PART ' + n;
+        const prefix = '<span class="cwet-part-label">' + labelText + '</span>';
         const titleInner = topic
           ? '<strong style="color:#4c1d95;">' + _cwetEsc(topic) + '</strong>'
           : '<span style="color:#94a3b8;">' + muted + '</span>';
-        const genreBadge = genre
-          ? ' <span class="cwet-pill cwet-pill-topic" style="font-size:10px;">' + _cwetEsc(genre) + '</span>'
-          : '';
         const readyBadge = ready != null
           ? '<span class="ilet-section-badge ' + (ready ? 'ilet-badge-ready' : 'ilet-badge-soon') + '">'
             + (ready ? '✓ Ready' : '⏳ Soon') + '</span>'
           : '';
         return '<li class="ilet-section cwet-part-heading">'
           + prefix
-          + '<span class="ilet-section-title">' + titleInner + genreBadge + '</span>'
+          + '<span class="ilet-section-title">' + titleInner + '</span>'
           + readyBadge
           + '</li>';
       };
@@ -32555,7 +32555,7 @@
       // CEFR Writing — picker tags section. Editable fields the cwetPicker
       // reads to render its cards:
       //   - part1.topic         (shared Part 1 heading across T1.1 + T1.2)
-      //   - tasks.t2.genre      (forum / article / blog post / report / essay)
+      //   - tasks.t2.genre      (forum / blog post / article)
       //   - topics[]            (filter chips)
       //   - targetLevel         (A2 / B1 / B2 level badge)
       // Per-task short titles (t11.title / t12.title / t2.title) are
@@ -32601,8 +32601,9 @@
         html += rolabel('mmgCwSet_t12Title', 'T1.2 register tag',  cwT12.title, 'e.g. formal letter · to manager');
         html += rolabel('mmgCwSet_t2Title',  'T2 topic',           cwT2.title,  'e.g. Cell phones in schools');
 
-        // T2 genre dropdown.
-        var _cwGenres = ['', 'forum', 'article', 'blog post', 'report', 'essay'];
+        // T2 genre dropdown. CEFR Writing Part 2 is ALWAYS one of three:
+        // forum discussion / blog post / magazine article.
+        var _cwGenres = ['', 'forum', 'blog post', 'article'];
         var _cwGenreOpts = _cwGenres.map(function (g) {
           var label = g === '' ? '— unset —' : g;
           return '<option value="' + g + '"' + (g === (cwT2.genre || '') ? ' selected' : '') + '>' + label + '</option>';

@@ -1054,8 +1054,8 @@ Required shape:
   "t11":   { "title": string },     // Register tag for the informal task. Pattern: "<register> · to <recipient>". e.g. "informal note · to friend".
   "t12":   { "title": string },     // Register tag for the formal task. Same pattern but formal. e.g. "formal letter · to manager".
   "t2": {
-    "title": string,                // The T2 topic (subject of the essay/forum/article). e.g. "Cell phones in schools".
-    "genre": "forum" | "article" | "blog post" | "report" | "essay",  // Format the prompt asked for.
+    "title": string,                // The T2 topic (subject of the forum / blog / article). e.g. "Cell phones in schools".
+    "genre": "forum" | "blog post" | "article",  // Format the prompt asked for. CEFR Writing Part 2 is ALWAYS one of these three — never "essay", "report", or anything else.
     "chip":  string                 // ONE category chip for Part 2 from the same closed vocabulary as part1.chip.
   },
   "targetLevel": "A2" | "B1" | "B2" // Best CEFR fit for the hardest of the three tasks (saved for future filtering, not displayed on the card)
@@ -1067,7 +1067,7 @@ Rules:
 - T1.1 and T1.2 MUST share part1.topic exactly; they only differ in register + recipient.
 - part1.chip describes the Part 1 scenario only. t2.chip describes Part 2 only. They MAY be the same chip if both halves cover the same subject area, but you should still emit one for each independently.
 - Pick the SINGLE best-fitting chip for each part — don't emit fallback or umbrella chips ("community" when "safety" fits better).
-- For genre, match the wording: "discussion forum" → "forum", "magazine article" → "article", "newspaper article" → "article", "blog" → "blog post", "report" → "report", otherwise "essay".
+- For genre, match the wording: "discussion forum" / "online forum" → "forum", "blog post" / "blog" → "blog post", "magazine article" / "newspaper article" / "article" → "article". If the prompt isn't explicit, infer the closest fit from these THREE — never emit "essay" or "report".
 
 INPUT:
 ${p1Context ? 'Part 1 context: ' + p1Context + '\n' : ''}${p1Scenario ? 'Part 1 scenario: ' + p1Scenario + '\n' : ''}Task 1.1 (informal, ~50 words): ${t11Prompt || '(empty)'}
@@ -1136,7 +1136,7 @@ Task 2 (~180 words): ${t2Prompt || '(empty)'}`;
   catch (e) { throw new Error(`tag JSON parse failed: ${(e as Error).message} — raw: ${raw.slice(0, 200)}`); }
 
   const TOPIC_SET = new Set(['education','work','health','technology','environment','transport','housing','entertainment','safety','family','travel','food','sports','media','money','culture','community','science']);
-  const GENRE_SET = new Set(['forum','article','blog post','report','essay']);
+  const GENRE_SET = new Set(['forum','blog post','article']);
   const LEVEL_SET = new Set(['A2','B1','B2']);
   const pickStr   = (v: unknown) => typeof v === 'string' && v.trim() ? v.trim() : '';
   const pickEnum  = (v: unknown, set: Set<string>) => typeof v === 'string' && set.has(v) ? v : '';
