@@ -18278,6 +18278,13 @@
       overlay.classList.add('ilet-open');
       overlay.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
+      // Back-button plumbing (browser Back / mobile swipe-back / Telegram
+      // Mini App BackButton API). pushState gives popstate something to
+      // catch when the user navigates back; _pickerShowTmaBack wires the
+      // TMA-specific back gesture to _pickerTmaBackHandler, which closes
+      // whichever picker is currently open.
+      try { history.pushState({ picker: 'cwet' }, ''); } catch (_e) {}
+      if (typeof _pickerShowTmaBack === 'function') _pickerShowTmaBack();
 
       // Render skeleton + fetch
       const grid = document.getElementById('cwetGrid');
@@ -18311,13 +18318,27 @@
     }
 
     function cwetClose(opts) {
-      const keepUrl = opts && opts.keepUrl;
+      // opts.keepUrl=true → caller is navigating away to a /take/<slug>
+      // URL and wants the URL bar to stay there. Default: roll back the
+      // picker-open history entry + reset /take/ → /landing.html so the
+      // student doesn't land on a stale deep-link URL after closing.
+      const keepUrl = !!(opts && opts.keepUrl);
       const overlay = document.getElementById('cwetPicker');
       overlay.classList.remove('ilet-open');
       overlay.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
-      if (!keepUrl) {
-        try { history.replaceState(null, '', '/landing.html'); } catch (_e) {}
+      if (typeof _pickerHideTmaBack === 'function') _pickerHideTmaBack();
+      if (!_pickerFromPopstate && !keepUrl) {
+        try {
+          // Pop the picker-open history entry so the user doesn't have to
+          // press Back twice to leave. If that entry isn't there (e.g.
+          // we're already on /landing.html after a popstate triggered
+          // close), guard via history.state shape.
+          if (history.state && history.state.picker === 'cwet') history.back();
+          if (/^\/take\//i.test(window.location.pathname)) {
+            history.replaceState(null, '', '/landing.html');
+          }
+        } catch (_e) {}
       }
     }
 
