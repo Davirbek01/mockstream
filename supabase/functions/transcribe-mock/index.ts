@@ -1022,6 +1022,150 @@ type TagsResult = {
   fallbackReason: string | null;
 };
 
+// ── CEFR Writing auto-tag (scope=tags) ─────────────────────────────
+// Reads the three task prompts (+ optional p1_context / p1_scenario)
+// and emits a short tag set the cwetPicker displays on each card:
+//   part1.topic           — shared Part 1 heading
+//   t11.title             — informal register tag ("informal note · to friend")
+//   t12.title             — formal register tag ("formal letter · to manager")
+//   t2.title              — Part 2 topic
+//   t2.genre              — Part 2 genre (forum / article / blog post / report)
+//   topics[]              — controlled-vocab filter chips
+//   targetLevel           — A2 / B1 / B2
+// Does NOT touch prompts / samples / vocab — admin reviews + edits + saves.
+async function generateCefrWritingTags(opts: {
+  t11Prompt:     string;
+  t12Prompt:     string;
+  t2Prompt:      string;
+  p1Context?:    string;
+  p1Scenario?:   string;
+  geminiKey:     string;
+}): Promise<{ tags: any; modelUsed: string; fallbackReason: string | null }> {
+  const { t11Prompt, t12Prompt, t2Prompt, p1Context, p1Scenario, geminiKey } = opts;
+
+  const promptText = `You are tagging a CEFR Writing mock test so a student-facing picker can preview it at a glance. Output ONLY a JSON object — no prose, no markdown fence.
+
+Required shape:
+{
+  "part1": {
+    "topic": string,                // 2-5 word heading shared by T1.1 + T1.2 (same scenario, different registers). Sentence case. e.g. "Club management issue", "Library renovation".
+    "chip":  string                 // ONE category chip describing what Part 1 is about. Pick from this closed vocabulary: education, work, health, technology, environment, transport, housing, entertainment, safety, family, travel, food, sports, media, money, culture, community, science.
+  },
+  "t11":   { "title": string },     // Register tag for the informal task. Pattern: "<register> · to <recipient>". e.g. "informal note · to friend".
+  "t12":   { "title": string },     // Register tag for the formal task. Same pattern but formal. e.g. "formal letter · to manager".
+  "t2": {
+    "title": string,                // The T2 topic (subject of the forum / blog / article). e.g. "Cell phones in schools".
+    "genre": "forum" | "blog post" | "article",  // Format the prompt asked for. CEFR Writing Part 2 is ALWAYS one of these three — never "essay", "report", or anything else.
+    "chip":  string                 // ONE category chip for Part 2 from the same closed vocabulary as part1.chip.
+  },
+  "targetLevel": "A2" | "B1" | "B2" // Best CEFR fit for the hardest of the three tasks (saved for future filtering, not displayed on the card)
+}
+
+Rules:
+- All strings sentence case, no trailing punctuation.
+- Recipient on t11 / t12 is ONE noun (friend, neighbour, manager, council, principal, mayor, editor, employer, club leader…). Don't use proper names from the prompt.
+- T1.1 and T1.2 MUST share part1.topic exactly; they only differ in register + recipient.
+- part1.chip describes the Part 1 scenario only. t2.chip describes Part 2 only. They MAY be the same chip if both halves cover the same subject area, but you should still emit one for each independently.
+- Pick the SINGLE best-fitting chip for each part — don't emit fallback or umbrella chips ("community" when "safety" fits better).
+- For genre, match the wording: "discussion forum" / "online forum" → "forum", "blog post" / "blog" → "blog post", "magazine article" / "newspaper article" / "article" → "article". If the prompt isn't explicit, infer the closest fit from these THREE — never emit "essay" or "report".
+
+INPUT:
+${p1Context ? 'Part 1 context: ' + p1Context + '\n' : ''}${p1Scenario ? 'Part 1 scenario: ' + p1Scenario + '\n' : ''}Task 1.1 (informal, ~50 words): ${t11Prompt || '(empty)'}
+
+Task 1.2 (formal, ~120 words): ${t12Prompt || '(empty)'}
+
+Task 2 (~180 words): ${t2Prompt || '(empty)'}`;
+
+  const body = {
+    contents: [{ role: 'user', parts: [{ text: promptText }] }],
+    generationConfig: {
+      temperature:      0.1,
+      responseMimeType: 'application/json',
+      maxOutputTokens:  1024,
+      thinkingConfig:   { thinkingBudget: 512 }
+    },
+    safetySettings: [
+      { category: 'HARM_CATEGORY_HARASSMENT',        threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_HATE_SPEECH',       threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' }
+    ]
+  };
+
+  let modelUsed: 'gemini-2.5-pro' | 'gpt-4o' = 'gemini-2.5-pro';
+  let fallbackReason: string | null = null;
+  let raw = '';
+  try {
+    const r = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${geminiKey}`,
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
+    );
+    if (!r.ok) throw new Error(`gemini http ${r.status}: ${(await r.text()).slice(0, 200)}`);
+    const j = await r.json();
+    const cand = j?.candidates?.[0];
+    if (cand?.finishReason && cand.finishReason !== 'STOP') throw new Error(`gemini finishReason=${cand.finishReason}`);
+    raw = cand?.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
+    if (!raw.trim()) throw new Error('gemini returned empty text');
+  } catch (e) {
+    fallbackReason = e instanceof Error ? e.message : String(e);
+    try {
+      const r2 = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${OPENAI_KEY}` },
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          messages: [
+            { role: 'system', content: 'You output ONLY the JSON object the user describes — no prose, no markdown.' },
+            { role: 'user',   content: promptText }
+          ],
+          response_format: { type: 'json_object' },
+          temperature: 0.1
+        })
+      });
+      if (!r2.ok) throw new Error(`gpt-4o http ${r2.status}: ${(await r2.text()).slice(0, 200)}`);
+      const j2 = await r2.json();
+      raw = j2?.choices?.[0]?.message?.content || '';
+      modelUsed = 'gpt-4o';
+    } catch (gptErr) {
+      throw new Error(`both models failed. gemini: ${fallbackReason}; gpt-4o: ${gptErr instanceof Error ? gptErr.message : String(gptErr)}`);
+    }
+  }
+
+  let parsed: any;
+  try { parsed = JSON.parse(raw.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '')); }
+  catch (e) { throw new Error(`tag JSON parse failed: ${(e as Error).message} — raw: ${raw.slice(0, 200)}`); }
+
+  const TOPIC_SET = new Set(['education','work','health','technology','environment','transport','housing','entertainment','safety','family','travel','food','sports','media','money','culture','community','science']);
+  const GENRE_SET = new Set(['forum','blog post','article']);
+  const LEVEL_SET = new Set(['A2','B1','B2']);
+  const pickStr   = (v: unknown) => typeof v === 'string' && v.trim() ? v.trim() : '';
+  const pickEnum  = (v: unknown, set: Set<string>) => typeof v === 'string' && set.has(v) ? v : '';
+  const pickChip  = (v: unknown) => typeof v === 'string' && TOPIC_SET.has(v.trim().toLowerCase()) ? v.trim().toLowerCase() : '';
+
+  const p1   = parsed?.part1 || {};
+  const t11o = parsed?.t11   || {};
+  const t12o = parsed?.t12   || {};
+  const t2o  = parsed?.t2    || {};
+  return {
+    tags: {
+      part1: {
+        topic: pickStr(p1.topic) || undefined,
+        chip:  pickChip(p1.chip) || undefined
+      },
+      t11:   { title: pickStr(t11o.title) || undefined },
+      t12:   { title: pickStr(t12o.title) || undefined },
+      t2: {
+        title: pickStr(t2o.title) || undefined,
+        genre: pickEnum(t2o.genre, GENRE_SET) || undefined,
+        chip:  pickChip(t2o.chip) || undefined
+      },
+      targetLevel: pickEnum(parsed?.targetLevel, LEVEL_SET) || undefined
+    },
+    modelUsed,
+    fallbackReason
+  };
+}
+
 async function generateIeltsWritingTags(opts: {
   task1Prompt: string;
   task2Prompt: string;
@@ -2331,7 +2475,7 @@ Deno.serve(async (req) => {
 
   // ── Validate inputs ──────────────────────────────────────────────
   const examType = (body.exam_type || '').toString();
-  if (examType !== 'cefr-reading' && examType !== 'ielts-reading' && examType !== 'ielts-listening' && examType !== 'cefr-listening' && examType !== 'ielts-writing') {
+  if (examType !== 'cefr-reading' && examType !== 'ielts-reading' && examType !== 'ielts-listening' && examType !== 'cefr-listening' && examType !== 'ielts-writing' && examType !== 'cefr-writing') {
     return json(400, { error: 'bad_exam_type', detail: 'expected "cefr-reading", "ielts-reading", "ielts-listening", "cefr-listening", or "ielts-writing"' });
   }
   // IELTS Writing supports per-task import (scope=passage) for full
@@ -2344,6 +2488,12 @@ Deno.serve(async (req) => {
     const _iwOk = ['passage','tags','find-source','enhance-chart','samples','vocab'];
     if (!_iwOk.includes(_iwScope)) {
       return json(400, { error: 'bad_scope', detail: 'IELTS Writing supports scope: ' + _iwOk.map(s => '"' + s + '"').join(' / ') + '. Got "' + _iwScope + '".' });
+    }
+  }
+  if (examType === 'cefr-writing') {
+    const _cwScope = (body.scope || 'tags').toString();
+    if (_cwScope !== 'tags') {
+      return json(400, { error: 'bad_scope', detail: 'CEFR Writing supports scope: "tags". Got "' + _cwScope + '".' });
     }
   }
 
@@ -2551,6 +2701,41 @@ Deno.serve(async (req) => {
       return json(200, {
         tags:           result.tags,
         model_used:     result.modelUsed,
+        fallback_reason: result.fallbackReason || undefined,
+        actor:           (auth as AuthOk).actor
+      });
+    } catch (e) {
+      return json(502, {
+        error:  'tags_failed',
+        detail: e instanceof Error ? e.message : String(e)
+      });
+    }
+  }
+
+  // ── TAGS scope (CEFR Writing): three-task auto-tag flow ──────────
+  // Reads t11 / t12 / t2 prompts (+ optional p1_context / p1_scenario)
+  // and emits Part 1 shared topic + per-task register tags + Part 2
+  // topic+genre + topics[] + targetLevel. Does NOT touch prompts /
+  // samples — admin reviews + edits + saves.
+  if ((body.scope || '').toString() === 'tags' && examType === 'cefr-writing') {
+    const t11p = String(body.t11_prompt || '').trim();
+    const t12p = String(body.t12_prompt || '').trim();
+    const t2p  = String(body.t2_prompt  || '').trim();
+    if (!t11p && !t12p && !t2p) {
+      return json(400, { error: 'no_prompts', detail: 'scope=tags (cefr-writing) requires at least one of t11_prompt / t12_prompt / t2_prompt.' });
+    }
+    try {
+      const result = await generateCefrWritingTags({
+        t11Prompt:   t11p,
+        t12Prompt:   t12p,
+        t2Prompt:    t2p,
+        p1Context:   body.p1_context  ? String(body.p1_context)  : undefined,
+        p1Scenario:  body.p1_scenario ? String(body.p1_scenario) : undefined,
+        geminiKey:   GEMINI_KEY
+      });
+      return json(200, {
+        tags:            result.tags,
+        model_used:      result.modelUsed,
         fallback_reason: result.fallbackReason || undefined,
         actor:           (auth as AuthOk).actor
       });
