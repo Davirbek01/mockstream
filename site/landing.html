@@ -8085,6 +8085,45 @@
     </div>
   </div>
 
+  <!-- ===== Full-screen CEFR Writing picker (cwetPicker) ===== -->
+  <!-- Mirrors iwetPicker but for CEFR Writing's three-task shape
+       (t11 / t12 / t2). One filter dropdown: topic. Purple tone to
+       distinguish from IELTS Writing's orange. -->
+  <div id="cwetPicker" class="ilet-overlay" aria-hidden="true">
+    <header class="ilet-header">
+      <button class="ilet-back" type="button" onclick="cwetClose()" title="Back to landing">←</button>
+      <div class="ilet-title">
+        <span class="ilet-title-emoji">✏️</span>
+        <span class="ilet-title-text">CEFR Writing</span>
+        <span class="ilet-count" id="cwetCount">0</span>
+      </div>
+      <div class="ilet-header-tools">
+        <input type="search" class="ilet-search" id="cwetSearch" placeholder="🔍 Search mock #, topic…" autocomplete="off" spellcheck="false">
+        <select class="ilet-sort" id="cwetJump" title="Jump to mock #">
+          <option value="">Jump to #…</option>
+        </select>
+      </div>
+    </header>
+
+    <div class="ilet-filter-row cwet-filter-row">
+      <button type="button" class="ilet-chip ilet-chip-active cwet-chip" data-filter="all">All</button>
+      <button type="button" class="ilet-chip cwet-chip" data-filter="ready">✓ Ready only</button>
+      <button type="button" class="ilet-chip cwet-chip" data-filter="soon">⏳ Coming soon</button>
+      <button type="button" class="ilet-chip cwet-chip" data-filter="done">★ Done before</button>
+      <select class="ilet-source-filter" id="cwetTopicFilter" title="Filter by topic">
+        <option value="">🏷 All topics</option>
+      </select>
+    </div>
+
+    <main class="ilet-grid" id="cwetGrid"></main>
+
+    <div class="ilet-empty" id="cwetEmpty" style="display:none;">
+      <div class="ilet-empty-icon">🔍</div>
+      <p class="ilet-empty-msg">No mocks match your filters.</p>
+      <button type="button" class="ilet-empty-clear" onclick="cwetClearFilters()">Clear filters</button>
+    </div>
+  </div>
+
   <style>
     /* ===== Full-screen IELTS Reading picker ===== */
     .iret-overlay {
@@ -8623,6 +8662,111 @@
       padding: 1px 8px;
       font-weight: 600;
       white-space: nowrap;
+    }
+    /* ===== CEFR Writing picker (cwetPicker) — purple tone =====
+       Mirrors iwetPicker's selectors but with a violet palette so the
+       two pickers feel related-but-distinct. Reuses .ilet-* layout
+       classes for grid + header + card scaffolding. */
+    #cwetPicker .ilet-header {
+      background: rgba(245, 243, 255, 0.95);
+      border-bottom: 1px solid #ddd6fe;
+    }
+    #cwetPicker .ilet-back {
+      color: #6d28d9;
+      border-color: #ddd6fe;
+    }
+    #cwetPicker .ilet-back:hover { background: #6d28d9; color: #fff; }
+    #cwetPicker .ilet-title { color: #4c1d95; }
+    #cwetPicker .ilet-count {
+      background: #ede9fe;
+      color: #6d28d9;
+      border: 1px solid #c4b5fd;
+    }
+    #cwetPicker .ilet-card {
+      background: linear-gradient(135deg, #faf5ff 0%, #f5f3ff 100%);
+      border: 1px solid #ddd6fe;
+    }
+    #cwetPicker .ilet-card:hover:not(.ilet-card-disabled) {
+      border-color: #8b5cf6;
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.2);
+    }
+    #cwetPicker .ilet-mocknum {
+      background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+    }
+    #cwetPicker .ilet-take {
+      background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+    }
+    #cwetPicker .ilet-take:hover {
+      background: linear-gradient(135deg, #6d28d9, #5b21b6);
+    }
+    #cwetPicker .ilet-chip-active {
+      background: #6d28d9;
+      color: #fff;
+      border-color: #6d28d9;
+    }
+    #cwetPicker .ilet-mock-title { color: #4c1d95; }
+    #cwetPicker .cwet-filter-row {
+      background: rgba(245, 243, 255, 0.6);
+      border-bottom: 1px solid #ede9fe;
+    }
+    #cwetPicker .ilet-section { align-items: flex-start; }
+    #cwetPicker .ilet-section-num {
+      background: #ede9fe;
+      color: #6d28d9;
+    }
+    #cwetPicker .ilet-section-title {
+      font-weight: 600;
+      line-height: 1.4;
+    }
+    /* Per-task topic pill — small chip with the same family of colours
+       used on iwet pills so the visual language is consistent. */
+    #cwetPicker .cwet-pill {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 1px 8px;
+      border-radius: 999px;
+      margin-right: 4px;
+      vertical-align: middle;
+      line-height: 1.5;
+      white-space: nowrap;
+    }
+    #cwetPicker .cwet-pill-topic {
+      color: #6d28d9;
+      background: #ede9fe;
+      border: 1px solid #c4b5fd;
+    }
+    #cwetPicker .cwet-pill-level {
+      color: #1e40af;
+      background: #dbeafe;
+      border: 1px solid #93c5fd;
+    }
+    /* Share button — keeps the same shape as iwet but in violet tone. */
+    #cwetPicker .cwet-share,
+    #cwetPicker .iwet-share {
+      background: transparent;
+      border: 1px solid #c4b5fd;
+      color: #6d28d9;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+      transition: background 120ms ease, border-color 120ms ease;
+      margin-right: 8px;
+      white-space: nowrap;
+    }
+    #cwetPicker .cwet-share:hover,
+    #cwetPicker .iwet-share:hover {
+      background: #f5f3ff;
+      border-color: #6d28d9;
+    }
+    #cwetPicker .cwet-share.cwet-share-copied {
+      background: #dcfce7;
+      border-color: #86efac;
+      color: #15803d;
+      font-size: 11px;
+      font-weight: 700;
     }
     .ilet-header {
       position: sticky;
@@ -11824,7 +11968,7 @@
         // when that flow is added.
         var m = takeParam.match(/^(cefr|ielts)-(reading|listening)-(\d+)$/i)
              || takeParam.match(/^(cefr)-(speaking)-(\d+)$/i)
-             || takeParam.match(/^(ielts)-(writing)-(\d+)$/i);
+             || takeParam.match(/^(ielts|cefr)-(writing)-(\d+)$/i);
         if (!m) {
           console.warn('[deep-link] Unrecognised slug:', takeParam);
           return;
@@ -11890,14 +12034,17 @@
           return;
         }
 
-        // IELTS Writing — different runner + auto-proceed gate quirk.
-        // The runner page bails to landing without ?test=, so we pass
-        // BOTH ?test=ielts-writing-mock-NN AND ?sbmock=<id>. Same URL
-        // shape ieltsWritingMocks entries use after the dynamic upgrade.
+        // Writing — different runner + auto-proceed gate quirk. The
+        // runner page bails to landing without ?test=, so we pass
+        // BOTH ?test=<exam>-writing-mock-NN AND ?sbmock=<id>. Same URL
+        // shape the dynamic-upgrade fetcher uses.
         if (skill === 'writing') {
           var padded = String(mockNum).padStart(2, '0');
-          var pageUrlW = 'Writing IELTS Mock.html'
-            + '?test=ielts-writing-mock-' + padded
+          // CEFR Writing uses the shared 'Writing Mocks.html' runner,
+          // IELTS Writing uses 'Writing IELTS Mock.html'.
+          var runnerWriting = (exam === 'cefr') ? 'Writing Mocks.html' : 'Writing IELTS Mock.html';
+          var pageUrlW = runnerWriting
+            + '?test=' + exam + '-writing-mock-' + padded
             + '&sbmock=' + encodeURIComponent(sbMockId)
             + '&auto=1';
           if (typeof handleWritingMockClick !== 'function') {
@@ -16069,6 +16216,8 @@
       if (clet && clet.classList.contains('ilet-open')) { cletClose(); return; }
       var iwet = document.getElementById('iwetPicker');
       if (iwet && iwet.classList.contains('ilet-open')) { iwetClose(); return; }
+      var cwet = document.getElementById('cwetPicker');
+      if (cwet && cwet.classList.contains('ilet-open')) { cwetClose(); return; }
     }
     function _pickerShowTmaBack() {
       try {
@@ -17924,6 +18073,339 @@
     window.iwetClose = iwetClose;
     window.iwetClearFilters = iwetClearFilters;
 
+    // ────────────────────────────────────────────────────────────────────
+    // FULL-SCREEN CEFR WRITING PICKER (cwetPicker)
+    // ────────────────────────────────────────────────────────────────────
+    // CEFR Writing has THREE tasks per mock (t11 / t12 / t2) and no
+    // chart image — readiness is just "prompt non-empty". Filter set is
+    // intentionally minimal vs iwetPicker: status (Ready/Soon/Done) +
+    // topic chip filter. No source / year / chart / essay-type filters.
+    // ════════════════════════════════════════════════════════════════════
+    const _cwet_SB_URL  = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    const _cwet_SB_KEY  = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    const _cwetMockMeta = {};
+    let   _cwetServerDone = {};
+    let   _cwetFilter      = 'all';
+    let   _cwetTopicFilter = '';
+
+    function _cwetEsc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    function _cwetBuildMetaFromMockData(md) {
+      const t = (md && md.tasks && typeof md.tasks === 'object') ? md.tasks : {};
+      const t11 = (t.t11 && typeof t.t11 === 'object') ? t.t11 : {};
+      const t12 = (t.t12 && typeof t.t12 === 'object') ? t.t12 : {};
+      const t2  = (t.t2  && typeof t.t2  === 'object') ? t.t2  : {};
+      const ready = (x) => !!(x.prompt && String(x.prompt).trim());
+      // Topics live at md.topics (string[]) for filtering — admin
+      // populates them via the editor (or AI auto-tag later).
+      const topics = Array.isArray(md && md.topics) ? md.topics
+                       .map(s => String(s || '').trim().toLowerCase())
+                       .filter(Boolean) : [];
+      return {
+        topics: topics,
+        level:  (md && md.targetLevel) || '',
+        tasks: [
+          { key: 't11', title: String(t11.title || '').trim(), ready: ready(t11) },
+          { key: 't12', title: String(t12.title || '').trim(), ready: ready(t12) },
+          { key: 't2',  title: String(t2.title  || '').trim(), ready: ready(t2)  }
+        ]
+      };
+    }
+
+    function _cwetGetDoneInfo(mockN) {
+      // Same convention as iwet — bestPercents stored in localStorage
+      // under `ms_cefrWriting_done` (server-side count overlays).
+      try {
+        const local = JSON.parse(localStorage.getItem('ms_cefrWriting_done') || '{}');
+        if (local && local[mockN]) {
+          return { percent: Number(local[mockN].percent) || null };
+        }
+      } catch (_e) {}
+      if (_cwetServerDone && _cwetServerDone[mockN]) return _cwetServerDone[mockN];
+      return null;
+    }
+
+    function _cwetCardHtml(mockNum, item, meta, doneInfo) {
+      const tasks = meta.tasks;
+      const readyCount = tasks.filter(p => p.ready).length;
+      const total = tasks.length;
+      const noneReady = readyCount === 0;
+      const dots = tasks.map(p =>
+        '<span class="ilet-dot ' + (p.ready ? 'ilet-dot-ready' : 'ilet-dot-soon') + '"></span>'
+      ).join('');
+      const taskRows = tasks.map((p, i) => {
+        const labels = ['T1.1', 'T1.2', 'T2'];
+        const titleHtml = p.title
+          ? '<strong>' + _cwetEsc(p.title) + '</strong>'
+          : '<strong style="color:#94a3b8;">(no task title yet)</strong>';
+        return '<li class="ilet-section">'
+          + '<span class="ilet-section-num">' + labels[i] + '</span>'
+          + '<span class="ilet-section-title">' + titleHtml + '</span>'
+          + '<span class="ilet-section-badge ' + (p.ready ? 'ilet-badge-ready' : 'ilet-badge-soon') + '">'
+          +   (p.ready ? '✓ Ready' : '⏳ Soon')
+          + '</span>'
+          + '</li>';
+      }).join('');
+      const topicsHtml = meta.topics.length
+        ? '<div style="margin:6px 0 0;display:flex;flex-wrap:wrap;gap:4px;">'
+            + meta.topics.slice(0, 4).map(t =>
+                '<span class="cwet-pill cwet-pill-topic">' + _cwetEsc(t) + '</span>').join('')
+          + '</div>'
+        : '';
+      const levelHtml = meta.level
+        ? '<span class="cwet-pill cwet-pill-level" title="Target CEFR level">' + _cwetEsc(meta.level) + '</span>'
+        : '';
+      const doneHtml = doneInfo
+        ? (typeof doneInfo.percent === 'number'
+            ? '<span class="ilet-done">★ Done · ' + doneInfo.percent + '%</span>'
+            : '<span class="ilet-done">★ Done</span>')
+        : '';
+      const shareBtnHtml = noneReady
+        ? ''
+        : '<button type="button" class="cwet-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
+      const actionHtml = noneReady
+        ? '<span class="ilet-coming-soon">Coming soon</span>'
+        : (shareBtnHtml + '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Take Test →</button>');
+      const cleanTitle = String(item.name || '').replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]+\s*/u, '');
+      const topicBlob = (meta.topics || []).concat(tasks.map(p => p.title || '')).join(' ').toLowerCase();
+      return '<article class="ilet-card ' + (noneReady ? 'ilet-card-disabled' : '') + '"'
+        + ' id="cwet-card-' + mockNum + '"'
+        + ' data-mock="' + mockNum + '"'
+        + ' data-file="' + _cwetEsc(item.file) + '"'
+        + ' data-ready-count="' + readyCount + '"'
+        + ' data-total="' + total + '"'
+        + ' data-topics="' + _cwetEsc(meta.topics.join('|').toLowerCase()) + '"'
+        + ' data-done="' + (doneHtml ? '1' : '0') + '"'
+        + ' data-title="' + _cwetEsc(cleanTitle.toLowerCase()) + '"'
+        + ' data-blob="' + _cwetEsc(topicBlob) + '">'
+        + '<header class="ilet-card-head">'
+        +   '<span class="ilet-mocknum">#' + mockNum + '</span>'
+        +   '<span class="ilet-mock-dots">' + dots + '</span>'
+        +   '<span class="ilet-mock-status">' + readyCount + '/' + total + ' READY</span>'
+        +   levelHtml
+        +   doneHtml
+        + '</header>'
+        + '<h3 class="ilet-mock-title">' + _cwetEsc(cleanTitle) + '</h3>'
+        + topicsHtml
+        + '<ul class="ilet-mock-sections">' + taskRows + '</ul>'
+        + '<footer class="ilet-card-foot">' + actionHtml + '</footer>'
+        + '</article>';
+    }
+
+    async function _cwetLoadAllMockMeta(mocks) {
+      // Pull mock_data for every published CEFR Writing mock once on
+      // open. No localStorage cache — keeps the picker honest about
+      // freshly-edited mocks.
+      try {
+        const resp = await fetch(`${_cwet_SB_URL}/rest/v1/mock_tests?mock_type=eq.cefr-writing&status=eq.published&select=mock_number,mock_data`, {
+          headers: { 'apikey': _cwet_SB_KEY, 'Authorization': 'Bearer ' + _cwet_SB_KEY }
+        });
+        if (resp.ok) {
+          const rows = await resp.json();
+          for (const r of (rows || [])) {
+            const padded = String(r.mock_number).padStart(2, '0');
+            _cwetMockMeta[padded] = _cwetBuildMetaFromMockData(r.mock_data);
+          }
+        }
+      } catch (e) { console.warn('[cwetPicker] meta fetch failed:', e); }
+    }
+
+    function _cwetBuildTopicFilterOptions() {
+      const sel = document.getElementById('cwetTopicFilter');
+      if (!sel) return;
+      const all = new Set();
+      Object.values(_cwetMockMeta).forEach(m => (m.topics || []).forEach(t => t && all.add(t)));
+      const current = sel.value;
+      sel.innerHTML = '<option value="">🏷 All topics</option>'
+        + Array.from(all).sort().map(t => '<option value="' + _cwetEsc(t) + '">' + _cwetEsc(t) + '</option>').join('');
+      sel.style.display = all.size ? '' : 'none';
+      if (current && all.has(current)) sel.value = current;
+    }
+
+    function _cwetApplyFiltersAndSort() {
+      const grid    = document.getElementById('cwetGrid');
+      const empty   = document.getElementById('cwetEmpty');
+      const search  = (document.getElementById('cwetSearch').value || '').trim().toLowerCase();
+      const cards   = Array.from(grid.querySelectorAll('.ilet-card'));
+      let shown = 0;
+      cards.forEach(card => {
+        const readyCount = parseInt(card.dataset.readyCount, 10) || 0;
+        const total      = parseInt(card.dataset.total, 10)      || 3;
+        const isDone     = card.dataset.done === '1';
+        const noneReady  = readyCount === 0;
+        const blob       = card.dataset.blob || '';
+        const topics     = (card.dataset.topics || '').split('|').filter(Boolean);
+        let pass = true;
+        // Status filter
+        if (_cwetFilter === 'ready' && readyCount !== total) pass = false;
+        else if (_cwetFilter === 'soon' && !noneReady)        pass = false;
+        else if (_cwetFilter === 'done' && !isDone)           pass = false;
+        // Topic filter
+        if (pass && _cwetTopicFilter && !topics.includes(_cwetTopicFilter.toLowerCase())) pass = false;
+        // Search
+        if (pass && search) {
+          const hay = '#' + card.dataset.mock + ' ' + (card.dataset.title || '') + ' ' + blob;
+          if (hay.indexOf(search) === -1) pass = false;
+        }
+        card.style.display = pass ? '' : 'none';
+        if (pass) shown++;
+      });
+      document.getElementById('cwetCount').textContent = shown;
+      empty.style.display = shown ? 'none' : 'flex';
+    }
+
+    function _cwetClearFilters() {
+      _cwetFilter = 'all';
+      _cwetTopicFilter = '';
+      document.querySelectorAll('#cwetPicker .cwet-chip').forEach(c =>
+        c.classList.toggle('ilet-chip-active', c.dataset.filter === 'all'));
+      const sf = document.getElementById('cwetTopicFilter'); if (sf) sf.value = '';
+      const sr = document.getElementById('cwetSearch');      if (sr) sr.value = '';
+      _cwetApplyFiltersAndSort();
+    }
+
+    async function cwetOpen() {
+      // Lazy-load done count once
+      try {
+        const localDone = JSON.parse(localStorage.getItem('ms_cefrWriting_done') || '{}');
+        _cwetServerDone = localDone || {};
+      } catch (_e) { _cwetServerDone = {}; }
+
+      const overlay = document.getElementById('cwetPicker');
+      overlay.classList.add('ilet-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+
+      // Render skeleton + fetch
+      const grid = document.getElementById('cwetGrid');
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#7c3aed;font-size:14px;">Loading CEFR Writing mocks…</div>';
+      await _cwetLoadAllMockMeta();
+      // Build the list of items from the module-scoped cefrWritingMocks
+      // array (populated at script-load by the legacy fetcher). Items
+      // don't carry an id field — the mock number is the 1-based array
+      // index, same convention iwetPicker uses for ieltsWritingMocks.
+      const items = (typeof cefrWritingMocks !== 'undefined' && Array.isArray(cefrWritingMocks))
+        ? cefrWritingMocks.slice() : [];
+      const jump = document.getElementById('cwetJump');
+      if (jump) {
+        jump.innerHTML = '<option value="">Jump to #…</option>'
+          + items.map((_it, idx) => {
+              const n = String(idx + 1).padStart(2, '0');
+              return '<option value="' + n + '">#' + n + '</option>';
+            }).join('');
+      }
+      grid.innerHTML = items.map((item, idx) => {
+        const mockNum = String(idx + 1).padStart(2, '0');
+        const meta = _cwetMockMeta[mockNum] || { topics: [], level: '', tasks: [
+          { key: 't11', title: '', ready: false },
+          { key: 't12', title: '', ready: false },
+          { key: 't2',  title: '', ready: false }
+        ] };
+        return _cwetCardHtml(mockNum, item, meta, _cwetGetDoneInfo(mockNum));
+      }).join('');
+      _cwetBuildTopicFilterOptions();
+      _cwetApplyFiltersAndSort();
+    }
+
+    function cwetClose(opts) {
+      const keepUrl = opts && opts.keepUrl;
+      const overlay = document.getElementById('cwetPicker');
+      overlay.classList.remove('ilet-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (!keepUrl) {
+        try { history.replaceState(null, '', '/landing.html'); } catch (_e) {}
+      }
+    }
+
+    function cwetClearFilters() { _cwetClearFilters(); }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const searchEl = document.getElementById('cwetSearch');
+      if (searchEl) searchEl.addEventListener('input', _cwetApplyFiltersAndSort);
+      const topicSel = document.getElementById('cwetTopicFilter');
+      if (topicSel) topicSel.addEventListener('change', function () {
+        _cwetTopicFilter = this.value || '';
+        _cwetApplyFiltersAndSort();
+      });
+      document.querySelectorAll('#cwetPicker .cwet-chip').forEach(chip => {
+        chip.addEventListener('click', function () {
+          _cwetFilter = this.dataset.filter || 'all';
+          document.querySelectorAll('#cwetPicker .cwet-chip').forEach(c =>
+            c.classList.toggle('ilet-chip-active', c === this));
+          _cwetApplyFiltersAndSort();
+        });
+      });
+      const jumpEl = document.getElementById('cwetJump');
+      if (jumpEl) jumpEl.addEventListener('change', function () {
+        const v = this.value;
+        if (!v) return;
+        const padded = String(v).padStart(2, '0');
+        const card = document.getElementById('cwet-card-' + padded);
+        if (card) {
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          card.style.outline = '2px solid #6d28d9';
+          setTimeout(() => { card.style.outline = ''; }, 1200);
+        }
+        this.value = '';
+      });
+      const gridEl = document.getElementById('cwetGrid');
+      if (gridEl) gridEl.addEventListener('click', function (e) {
+        if (e.target.closest('input, select, textarea, a, [contenteditable]')) return;
+        const card = e.target.closest('.ilet-card');
+        if (!card) return;
+        if (card.classList.contains('ilet-card-disabled')) return;
+        const mockN = card.dataset.mock;
+
+        const shareBtn = e.target.closest('.cwet-share');
+        if (shareBtn) {
+          e.stopPropagation();
+          _pickerShareMock('cefr-writing', 'CEFR Writing Mock', mockN, shareBtn, 'cwet-share-copied');
+          return;
+        }
+
+        const isTakeBtn = !!e.target.closest('.ilet-take');
+        if (!isTakeBtn) {
+          // Whole-card tap = URL preview only.
+          if (mockN) {
+            try { history.replaceState(null, '', '/take/cefr-writing-' + encodeURIComponent(mockN)); } catch (_e) {}
+          }
+          return;
+        }
+
+        // Take Test → optional single-task mode for partial-ready mocks.
+        let file = card.dataset.file;
+        if (!file) return;
+        const meta = _cwetMockMeta[mockN];
+        if (meta && Array.isArray(meta.tasks)) {
+          const readyKeys = meta.tasks.filter(t => t.ready).map(t => t.key);
+          if (readyKeys.length === 1) {
+            // Only one task authored — append it as the runner's task param.
+            file += (file.indexOf('?') === -1 ? '?' : '&') + 'task=' + readyKeys[0];
+          }
+        }
+        if (mockN) {
+          try { history.pushState(null, '', '/take/cefr-writing-' + encodeURIComponent(mockN)); } catch (_e) {}
+        }
+        cwetClose({ keepUrl: true });
+        if (typeof handleWritingMockClick === 'function') {
+          handleWritingMockClick(file, 'cefr-writing');
+        } else if (typeof loadMock === 'function') {
+          loadMock(file, 'writing');
+        }
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && document.getElementById('cwetPicker').classList.contains('ilet-open')) cwetClose();
+      });
+    });
+
+    window.cwetOpen         = cwetOpen;
+    window.cwetClose        = cwetClose;
+    window.cwetClearFilters = cwetClearFilters;
+
     // ===== FULL-SCREEN CEFR READING PICKER =====
     // Same flow as the IELTS picker (iretOpen / iretRender) but for CEFR mocks.
     // Differences from IELTS: 5 parts (not 3), each part type is fixed
@@ -19336,12 +19818,16 @@
 
     // ========== WRITING MOCKS CATEGORY MODAL ==========
     function openWritingCategoryModal(category) {
-      // IELTS Writing got its own fullscreen picker (iwetPicker) as part
-      // of Phase 3+ — route there instead of the legacy grid modal.
-      // CEFR Writing keeps the old modal for now until it gets the same
-      // treatment.
+      // IELTS Writing + CEFR Writing both have fullscreen pickers
+      // (iwetPicker / cwetPicker). Route there instead of the legacy
+      // grid modal. Any future writing variant can follow the same
+      // pattern.
       if (category === 'ielts-writing' && typeof iwetOpen === 'function') {
         iwetOpen();
+        return;
+      }
+      if (category === 'cefr-writing' && typeof cwetOpen === 'function') {
+        cwetOpen();
         return;
       }
       _categoryModalParent = showWritingOptions; // Back → Writing format modal
@@ -22423,6 +22909,12 @@
         if (iwet && iwet.classList.contains('ilet-open')) {
           _pickerFromPopstate = true;
           iwetClose();
+          _pickerFromPopstate = false;
+        }
+        var cwet = document.getElementById('cwetPicker');
+        if (cwet && cwet.classList.contains('ilet-open')) {
+          _pickerFromPopstate = true;
+          cwetClose();
           _pickerFromPopstate = false;
         }
         // 2) Close access-code modals if URL left /take/...
