@@ -6698,6 +6698,43 @@
         }
       });
 
+      // Hide band chips that have no authored content for this mock — and
+      // snap the active band to the highest available one so we don't
+      // open straight onto "No Band N sample available."
+      ['task1', 'task2'].forEach(taskKey => {
+        const task = testData.tasks[taskKey] || {};
+        const selector = document.getElementById(taskKey + 'BandSelector');
+        if (!selector) return;
+        const availableBands = [];
+        [5, 6, 7, 8, 9].forEach(b => {
+          // Band 9 has a legacy fallback: if sampleBand9 is empty but
+          // sampleAnswer exists, the renderer shows sampleAnswer at Band 9.
+          const hasContent = (task['sampleBand' + b] || '').toString().trim().length > 0
+                          || (b === 9 && (task.sampleAnswer || '').toString().trim().length > 0);
+          const btn = selector.querySelector('.ielts-band-btn[data-band="' + b + '"]');
+          if (!btn) return;
+          if (hasContent) {
+            btn.style.display = '';
+            availableBands.push(b);
+          } else {
+            btn.style.display = 'none';
+          }
+        });
+        // If the stored active band is no longer available, snap to the
+        // highest one we have. If NOTHING is available, leave 9 selected
+        // — the renderer will print its existing 'No Band N sample
+        // available.' message (and the parent samples button is greyed
+        // out anyway by _iwRefreshOverlayButtonStates).
+        if (availableBands.length && availableBands.indexOf(window._ieltsCurrentBand[taskKey]) === -1) {
+          window._ieltsCurrentBand[taskKey] = availableBands[availableBands.length - 1];
+        }
+        // Refresh the 'active' chip styling against the (possibly new)
+        // current band.
+        selector.querySelectorAll('.ielts-band-btn').forEach(b => b.classList.remove('active'));
+        const activeBtn = selector.querySelector('.ielts-band-btn[data-band="' + window._ieltsCurrentBand[taskKey] + '"]');
+        if (activeBtn) activeBtn.classList.add('active');
+      });
+
       // Load both tasks at their current band
       ['task1', 'task2'].forEach(taskKey => {
         const band = window._ieltsCurrentBand[taskKey];
