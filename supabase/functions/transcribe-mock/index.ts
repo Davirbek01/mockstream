@@ -1187,15 +1187,28 @@ async function enhanceIeltsChart(opts: {
   if (mode === 'visual') {
     // Direct image-in image-out via gemini-2.5-flash-image. The model
     // takes the original screenshot and the text prompt as parts; we
-    // ask for an IMAGE-only response back.
-    const prompt = `You are cleaning up an IELTS Writing Task 1 chart screenshot for student use.
-Produce a polished version of THIS EXACT chart with these requirements:
-1. Preserve every data value, label, legend entry, title, and axis exactly as in the original.
-2. Background: pure white (#FFFFFF). Remove any tint, watermark, or page background.
-3. Sharpen all text and numerals to crisp typography (Arial / sans-serif).
-4. Use clean black axis lines and a tidy legend.
-5. ${chartTypeHint ? `The chart is a ${chartTypeHint.replace('_', ' ')}.` : 'Keep the chart type identical to the source.'}
-6. Output ONE image only. No extra text, no annotations beyond what is on the original chart.`;
+    // ask for an IMAGE-only response back. Prompt is intentionally
+    // short and directive — earlier versions said "produce a polished
+    // version" which invited Flash Image to redraw creatively and
+    // shift digits. Framing as "regenerate this image sharper" (the
+    // wording gemini.google.com uses for the same task) keeps the
+    // model in upscale-mode rather than re-paint-mode.
+    const prompt = `Regenerate THIS chart image to be sharper, clearer, and easier to read. Treat this as an upscale / denoise pass on the EXACT same picture — do NOT redraw or restyle.
+
+KEEP IDENTICAL (do not change any of these):
+- Every number / percentage / digit visible
+- Every text label, title, legend entry, axis label, footnote
+- Every colour (slice colours, bar colours, line colours)
+- Slice angles / bar heights / line positions — the geometry of every shape
+- Layout — number of panels, their order, the position of titles and legends
+${chartTypeHint ? '- The chart type is a ' + chartTypeHint.replace('_', ' ') + ' — keep it that way.' : '- The chart type as it appears in the source.'}
+
+WHAT TO IMPROVE:
+- Background → pure white (#FFFFFF), remove watermarks and page tint
+- Text and numerals → crisp, anti-aliased, Arial / sans-serif typography
+- Lines → clean, no JPEG halos / scan noise
+
+Output ONE image only. No commentary, no extra annotations.`;
     const parts = [
       { text: prompt },
       { inlineData: { mimeType, data: imageBase64 } }
