@@ -1658,6 +1658,300 @@ ${notes ? '\nAdmin notes:\n' + notes : ''}`;
   return { mockData, modelUsed, fallbackReason };
 }
 
+// CEFR Writing — sample-answer generation for the ticked levels × tasks.
+// Returns a partial object per task so the client can merge without
+// touching slots that already have content. Each requested level slot
+// gets a fresh sample at that CEFR proficiency. Uzbek translations live
+// at uzSampleA1 / uzSampleA2 / etc. Main (the band-7-equivalent model
+// answer) lives at `sample` and its Uzbek pair is `uzSample`.
+async function generateCefrWritingSamples(opts: {
+  levels:        string[];
+  includeUzbek:  boolean;
+  includeMain:   boolean;
+  t11Prompt:     string;
+  t12Prompt:     string;
+  t2Prompt:      string;
+  p1Context:     string;
+  p1Scenario:    string;
+  t2Genre:       string;
+  geminiKey:     string;
+}): Promise<{ samples: any; modelUsed: string; fallbackReason: string | null }> {
+  const { levels, includeUzbek, includeMain, t11Prompt, t12Prompt, t2Prompt,
+          p1Context, p1Scenario, t2Genre, geminiKey } = opts;
+
+  const VALID_LEVELS = new Set(['A1','A2','B1','B2']);
+  const cleanLevels = levels.filter(l => VALID_LEVELS.has(l));
+
+  const LEVEL_NOTES: Record<string,string> = {
+    A1: 'Very basic vocabulary, present + simple past, short sentences (~5-9 words). Some natural beginner errors (missing articles, wrong word order, simple verb tense slips) — like a real A1 student.',
+    A2: 'Common everyday vocabulary, simple + compound sentences. Few errors but limited range. Like a real A2 student.',
+    B1: 'Range of common topics, simple linkers (because, however, also). Mostly accurate; occasional slips in complex grammar. Like a real B1 student.',
+    B2: 'Wider range of vocabulary, complex sentences with subordinate clauses, accurate use of tenses. Some sophisticated linkers (despite, although, on the other hand).'
+  };
+
+  const TARGETS: Record<string,{t11:string;t12:string;t2:string}> = {
+    A1: { t11: '40-50 words', t12: '80-100 words',  t2: '120-140 words' },
+    A2: { t11: '45-55 words', t12: '100-120 words', t2: '140-160 words' },
+    B1: { t11: '50-60 words', t12: '110-130 words', t2: '160-180 words' },
+    B2: { t11: '55-70 words', t12: '120-150 words', t2: '180-200 words' }
+  };
+  const MAIN_TARGETS = { t11: '50-70 words', t12: '120-150 words', t2: '180-200 words' };
+
+  // Build a description of what we want emitted per task. Only the
+  // tasks the admin ticked have a non-empty prompt.
+  const taskList: Array<{ key: 't11'|'t12'|'t2'; label: string; prompt: string; register: string }> = [];
+  if (t11Prompt) taskList.push({ key: 't11', label: 'Task 1.1', prompt: t11Prompt, register: 'short informal letter to a friend (~50–70 words)' });
+  if (t12Prompt) taskList.push({ key: 't12', label: 'Task 1.2', prompt: t12Prompt, register: 'short formal letter to an authority (~120–150 words, signed off with name)' });
+  if (t2Prompt)  taskList.push({ key: 't2',  label: 'Task 2',   prompt: t2Prompt,  register: t2Genre ? ('a ' + t2Genre + ' (~180–200 words)') : 'an extended written response (~180–200 words)' });
+
+  // Build the JSON shape Gemini should emit per task — only the slots
+  // we actually want, so it doesn't waste tokens on unrequested ones.
+  const slotsLines: string[] = [];
+  if (includeMain) {
+    slotsLines.push('"sample": "<the main model-answer essay (target band ~B2). Wrap 4-8 high-value chunks (collocations, advanced phrases) in <mark>…</mark>>"');
+    if (includeUzbek) slotsLines.push('"uzSample": "<faithful Uzbek translation of the main sample (natural, modern Uzbek in Latin script). Wrap the SAME 4-8 chunks in <mark>…</mark>>"');
+  }
+  for (const lvl of cleanLevels) {
+    slotsLines.push(`"sample${lvl}": "<a ${lvl}-level essay at the target word count for that level for this task. Wrap 2-4 phrases in <mark>…</mark> to highlight the level-appropriate vocabulary>"`);
+    if (includeUzbek) {
+      slotsLines.push(`"uzSample${lvl}": "<faithful Uzbek translation of sample${lvl} (preserve the level — DON'T polish an A1 essay into B2 Uzbek prose). Wrap the SAME marked phrases in <mark>…</mark>>"`);
+    }
+  }
+
+  const tasksBlock = taskList.map(t => {
+    const target = (cleanLevels[0] && TARGETS[cleanLevels[0]]) ? TARGETS[cleanLevels[0]][t.key] : MAIN_TARGETS[t.key];
+    return `─ ${t.label} (${t.register}, default target ~${target}):
+${t.prompt}`;
+  }).join('\n\n');
+
+  const promptText =
+`You are writing sample answers for a CEFR Writing mock test. The student studies for CEFR (A1 → B2) so your samples must match the requested level accurately. Output ONLY a JSON object — no prose, no markdown.
+
+For each task you emit, fill ONLY the slot keys listed below for THAT task. Leave out any slot we did NOT list.
+
+Required output shape:
+{
+${taskList.map(t => `  "${t.key}": {\n    ${slotsLines.join(',\n    ')}\n  }`).join(',\n')}
+}
+
+CEFR level guidance (use these as targets when writing each sample):
+${cleanLevels.map(l => `• ${l}: ${LEVEL_NOTES[l]}`).join('\n')}
+${includeMain ? '• Main (sample): a polished B2-equivalent model answer that demonstrates strong organisation, varied vocabulary, and accurate complex sentences. Aim for a student aiming at B2 / mid-band-7 IELTS quality.' : ''}
+
+Word-count targets per task per level:
+${taskList.map(t => `• ${t.label}: ` + cleanLevels.map(l => `${l} ${TARGETS[l] ? TARGETS[l][t.key] : ''}`).join(', ') + (includeMain ? `, Main ${MAIN_TARGETS[t.key]}` : '')).join('\n')}
+
+Rules:
+- Each essay must actually do what the task asks (greet the recipient, cover every bullet point in the brief, sign off appropriately). The reader is a real student, not a marker — write naturally.
+- Lower levels should make natural learner-mistakes (article slips, simple tense errors, limited linkers). Higher levels should be more accurate AND show wider range.
+- For T1.1 and T1.2, reference details from the Part 1 scenario / email above when relevant — don't invent unrelated facts.
+- For T2, frame the response as the requested genre (forum reply / blog post / magazine article).
+- Wrap high-value chunks (collocations, advanced phrases) in <mark>…</mark> so the reader sees what's worth memorising. Match the same chunks across the English and Uzbek versions of the same level.
+- Uzbek translations must mirror the level — DON'T polish an A1 essay into eloquent Uzbek. Render natural modern Uzbek (Latin script).
+- DO NOT emit Markdown, code fences, or commentary — JSON only.
+
+CONTEXT:
+${p1Context ? 'Part 1 context: ' + p1Context + '\n' : ''}${p1Scenario ? 'Part 1 scenario / email (T1.1 + T1.2 both respond to this):\n' + p1Scenario + '\n\n' : ''}TASKS:
+${tasksBlock}`;
+
+  const body = {
+    contents: [{ role: 'user', parts: [{ text: promptText }] }],
+    generationConfig: {
+      temperature:      0.45,
+      responseMimeType: 'application/json',
+      maxOutputTokens:  16384,
+      thinkingConfig:   { thinkingBudget: 2048 }
+    },
+    safetySettings: [
+      { category: 'HARM_CATEGORY_HARASSMENT',        threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_HATE_SPEECH',       threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' }
+    ]
+  };
+
+  let modelUsed: 'gemini-2.5-pro' | 'gpt-4o' = 'gemini-2.5-pro';
+  let fallbackReason: string | null = null;
+  let raw = '';
+  try {
+    const r = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${geminiKey}`,
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
+    );
+    if (!r.ok) throw new Error(`gemini http ${r.status}: ${(await r.text()).slice(0, 200)}`);
+    const j = await r.json();
+    const cand = j?.candidates?.[0];
+    if (cand?.finishReason && cand.finishReason !== 'STOP') throw new Error(`gemini finishReason=${cand.finishReason}`);
+    raw = cand?.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
+    if (!raw.trim()) throw new Error('gemini returned empty text');
+  } catch (e) {
+    fallbackReason = e instanceof Error ? e.message : String(e);
+    try {
+      const r2 = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${OPENAI_KEY}` },
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          messages: [
+            { role: 'system', content: 'You output ONLY the JSON object the user describes — no prose, no markdown.' },
+            { role: 'user',   content: promptText }
+          ],
+          response_format: { type: 'json_object' },
+          temperature: 0.45,
+          max_tokens: 8192
+        })
+      });
+      if (!r2.ok) throw new Error(`gpt-4o http ${r2.status}: ${(await r2.text()).slice(0, 200)}`);
+      const j2 = await r2.json();
+      raw = j2?.choices?.[0]?.message?.content || '';
+      modelUsed = 'gpt-4o';
+    } catch (gptErr) {
+      throw new Error(`both models failed. gemini: ${fallbackReason}; gpt-4o: ${gptErr instanceof Error ? gptErr.message : String(gptErr)}`);
+    }
+  }
+
+  let parsed: any;
+  try { parsed = JSON.parse(raw.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '')); }
+  catch (e) { throw new Error(`samples JSON parse failed: ${(e as Error).message} — raw: ${raw.slice(0, 200)}`); }
+
+  // Sanitise: only return keys that match the slots we actually
+  // requested for each task. Any extra keys Gemini emitted are dropped.
+  const wantedSlots = new Set<string>();
+  if (includeMain) { wantedSlots.add('sample'); if (includeUzbek) wantedSlots.add('uzSample'); }
+  for (const lvl of cleanLevels) {
+    wantedSlots.add('sample' + lvl);
+    if (includeUzbek) wantedSlots.add('uzSample' + lvl);
+  }
+  const samples: any = {};
+  for (const t of taskList) {
+    const taskOut: Record<string, string> = {};
+    const src = parsed?.[t.key] || {};
+    for (const k of wantedSlots) {
+      const v = src[k];
+      if (typeof v === 'string' && v.trim()) taskOut[k] = v.trim();
+    }
+    if (Object.keys(taskOut).length) samples[t.key] = taskOut;
+  }
+
+  return { samples, modelUsed, fallbackReason };
+}
+
+// CEFR Writing — vocabulary generation for one task. Returns a list of
+// {en, uz} pairs. The client dedupes against the existing vocab list.
+async function generateCefrWritingVocab(opts: {
+  taskKey:    't11' | 't12' | 't2';
+  prompt:     string;
+  p1Context:  string;
+  p1Scenario: string;
+  count:      number;
+  geminiKey:  string;
+}): Promise<{ vocabulary: Array<{ en: string; uz: string }>; modelUsed: string; fallbackReason: string | null }> {
+  const { taskKey, prompt, p1Context, p1Scenario, count, geminiKey } = opts;
+  const taskLabel = taskKey === 't11' ? 'Task 1.1 (informal short letter, ~50-70 words)'
+                  : taskKey === 't12' ? 'Task 1.2 (formal short letter, ~120-150 words)'
+                  : 'Task 2 (forum / blog / article, ~180-200 words)';
+
+  const promptText =
+`You are building a topical English ↔ Uzbek vocabulary list for a CEFR Writing student preparing for this task:
+
+${taskLabel}
+
+Prompt:
+${prompt}
+${p1Context  ? '\nPart 1 context: ' + p1Context  : ''}
+${p1Scenario ? '\nPart 1 scenario / email:\n' + p1Scenario : ''}
+
+Output ONLY a JSON object — no prose, no markdown:
+{
+  "vocabulary": [
+    { "en": "<English word or short phrase>", "uz": "<faithful Uzbek translation, Latin script>" }
+  ]
+}
+
+Rules:
+- Emit exactly ${count} entries.
+- Mix levels: ~30% A2-B1 everyday lexis, ~50% B1-B2 topical phrases, ~20% B2 collocations / advanced expressions.
+- Each entry must be USEFUL for THIS specific task (not generic IELTS-style filler). Include topic nouns, common verbs, useful adjectives, idiomatic phrases the student would naturally reach for.
+- Uzbek must be natural modern Uzbek in Latin script — NOT word-for-word from a dictionary. e.g. "to address an issue" → "muammoni hal qilish".
+- No duplicates. No proper names from the prompt.`;
+
+  const body = {
+    contents: [{ role: 'user', parts: [{ text: promptText }] }],
+    generationConfig: {
+      temperature:      0.4,
+      responseMimeType: 'application/json',
+      maxOutputTokens:  4096,
+      thinkingConfig:   { thinkingBudget: 1024 }
+    },
+    safetySettings: [
+      { category: 'HARM_CATEGORY_HARASSMENT',        threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_HATE_SPEECH',       threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' }
+    ]
+  };
+
+  let modelUsed: 'gemini-2.5-pro' | 'gpt-4o' = 'gemini-2.5-pro';
+  let fallbackReason: string | null = null;
+  let raw = '';
+  try {
+    const r = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${geminiKey}`,
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
+    );
+    if (!r.ok) throw new Error(`gemini http ${r.status}: ${(await r.text()).slice(0, 200)}`);
+    const j = await r.json();
+    const cand = j?.candidates?.[0];
+    if (cand?.finishReason && cand.finishReason !== 'STOP') throw new Error(`gemini finishReason=${cand.finishReason}`);
+    raw = cand?.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
+    if (!raw.trim()) throw new Error('gemini returned empty text');
+  } catch (e) {
+    fallbackReason = e instanceof Error ? e.message : String(e);
+    try {
+      const r2 = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${OPENAI_KEY}` },
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          messages: [
+            { role: 'system', content: 'You output ONLY the JSON object the user describes — no prose, no markdown.' },
+            { role: 'user',   content: promptText }
+          ],
+          response_format: { type: 'json_object' },
+          temperature: 0.4,
+          max_tokens: 4096
+        })
+      });
+      if (!r2.ok) throw new Error(`gpt-4o http ${r2.status}: ${(await r2.text()).slice(0, 200)}`);
+      const j2 = await r2.json();
+      raw = j2?.choices?.[0]?.message?.content || '';
+      modelUsed = 'gpt-4o';
+    } catch (gptErr) {
+      throw new Error(`both models failed. gemini: ${fallbackReason}; gpt-4o: ${gptErr instanceof Error ? gptErr.message : String(gptErr)}`);
+    }
+  }
+
+  let parsed: any;
+  try { parsed = JSON.parse(raw.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '')); }
+  catch (e) { throw new Error(`vocab JSON parse failed: ${(e as Error).message} — raw: ${raw.slice(0, 200)}`); }
+
+  const list = Array.isArray(parsed?.vocabulary) ? parsed.vocabulary : [];
+  const vocabulary: Array<{ en: string; uz: string }> = [];
+  const seen = new Set<string>();
+  for (const row of list) {
+    if (!row || typeof row.en !== 'string' || typeof row.uz !== 'string') continue;
+    const en = row.en.trim();
+    const uz = row.uz.trim();
+    if (!en || !uz) continue;
+    const k = en.toLowerCase();
+    if (seen.has(k)) continue;
+    seen.add(k);
+    vocabulary.push({ en, uz });
+  }
+
+  return { vocabulary, modelUsed, fallbackReason };
+}
+
 async function generateIeltsWritingTags(opts: {
   task1Prompt: string;
   task2Prompt: string;
@@ -2984,7 +3278,7 @@ Deno.serve(async (req) => {
   }
   if (examType === 'cefr-writing') {
     const _cwScope = (body.scope || 'tags').toString();
-    const _cwOk = ['tags','passage','full'];
+    const _cwOk = ['tags','passage','full','samples','vocab'];
     if (!_cwOk.includes(_cwScope)) {
       return json(400, { error: 'bad_scope', detail: 'CEFR Writing supports scope: ' + _cwOk.map(s => '"' + s + '"').join(' / ') + '. Got "' + _cwScope + '".' });
     }
@@ -3052,6 +3346,91 @@ Deno.serve(async (req) => {
     } catch (e) {
       return json(502, {
         error:  'cefr_writing_full_failed',
+        detail: e instanceof Error ? e.message : String(e)
+      });
+    }
+  }
+
+  // ── SAMPLES scope (CEFR Writing): Gemini-generated sample answers
+  //    for the ticked levels × tasks. Returns { samples: { t11: {…},
+  //    t12: {…}, t2: {…} } } where each task object only contains
+  //    the requested level slots (sample / sampleA1 / sampleA2 /
+  //    sampleB1 / sampleB2 + uz variants). Empty slots aren't filled.
+  if ((body.scope || '').toString() === 'samples' && examType === 'cefr-writing') {
+    const levels       = Array.isArray(body.levels) ? body.levels.filter((l: unknown) => typeof l === 'string') : [];
+    const includeUzbek = !!body.include_uzbek;
+    const includeMain  = !!body.include_main;
+    const t11Prompt    = String(body.t11_prompt || '').trim();
+    const t12Prompt    = String(body.t12_prompt || '').trim();
+    const t2Prompt     = String(body.t2_prompt  || '').trim();
+    const p1Context    = String(body.p1_context  || '').trim();
+    const p1Scenario   = String(body.p1_scenario || '').trim();
+    const t2Genre      = String(body.t2_genre    || '').trim();
+    if (!t11Prompt && !t12Prompt && !t2Prompt) {
+      return json(400, { error: 'no_prompts', detail: 'cefr-writing scope=samples needs at least one of t11_prompt / t12_prompt / t2_prompt.' });
+    }
+    if (!levels.length && !includeMain) {
+      return json(400, { error: 'no_slots', detail: 'cefr-writing scope=samples needs at least one level (A1/A2/B1/B2) or include_main=true.' });
+    }
+    try {
+      const result = await generateCefrWritingSamples({
+        levels,
+        includeUzbek,
+        includeMain,
+        t11Prompt,
+        t12Prompt,
+        t2Prompt,
+        p1Context,
+        p1Scenario,
+        t2Genre,
+        geminiKey: GEMINI_KEY
+      });
+      return json(200, {
+        samples:         result.samples,
+        model_used:      result.modelUsed,
+        fallback_reason: result.fallbackReason,
+        actor:           (auth as AuthOk).actor
+      });
+    } catch (e) {
+      return json(502, {
+        error:  'cefr_writing_samples_failed',
+        detail: e instanceof Error ? e.message : String(e)
+      });
+    }
+  }
+
+  // ── VOCAB scope (CEFR Writing): Gemini-generated topical EN↔UZ
+  //    vocabulary list for one task. Returns { vocabulary: [{en, uz}] }.
+  if ((body.scope || '').toString() === 'vocab' && examType === 'cefr-writing') {
+    const taskKey = String(body.task_key || '').trim();
+    if (taskKey !== 't11' && taskKey !== 't12' && taskKey !== 't2') {
+      return json(400, { error: 'bad_task_key', detail: 'cefr-writing scope=vocab needs task_key ∈ {t11,t12,t2}.' });
+    }
+    const taskPrompt = String(body.prompt || '').trim();
+    if (!taskPrompt) {
+      return json(400, { error: 'no_prompt', detail: 'cefr-writing scope=vocab needs the active task prompt.' });
+    }
+    const count = Math.max(5, Math.min(60, Number(body.count) || 20));
+    const p1Context  = String(body.p1_context  || '').trim();
+    const p1Scenario = String(body.p1_scenario || '').trim();
+    try {
+      const result = await generateCefrWritingVocab({
+        taskKey:  taskKey as 't11' | 't12' | 't2',
+        prompt:   taskPrompt,
+        p1Context,
+        p1Scenario,
+        count,
+        geminiKey: GEMINI_KEY
+      });
+      return json(200, {
+        vocabulary:      result.vocabulary,
+        model_used:      result.modelUsed,
+        fallback_reason: result.fallbackReason,
+        actor:           (auth as AuthOk).actor
+      });
+    } catch (e) {
+      return json(502, {
+        error:  'cefr_writing_vocab_failed',
         detail: e instanceof Error ? e.message : String(e)
       });
     }

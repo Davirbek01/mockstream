@@ -33712,6 +33712,158 @@
     // Reads the active task's prompt (+ chart for T1) and asks Pro for a
     // topical EN↔UZ list. Appends to the existing list, deduping
     // case-insensitively on the English side.
+    // ── CEFR Writing — Samples tab live cost / enable helper ──────────
+    // Mirrors _mmgIwGenSamplesUpdateCost: re-runs on every checkbox
+    // change, counts selected level×task pairs (+ optional Uzbek + Main),
+    // shows a $-estimate, disables the Generate button when nothing's
+    // selected.
+    window._mmgCwGenSamplesUpdateCost = function () {
+      var levels  = Array.from(document.querySelectorAll('.mmgCwGenLevel:checked')).map(function (el) { return el.dataset.level; });
+      var tasks   = Array.from(document.querySelectorAll('.mmgCwGenTask:checked')).map(function (el) { return el.dataset.task; });
+      var incUz   = !!document.getElementById('mmgCwGenIncludeUz')?.checked;
+      var incMain = !!document.getElementById('mmgCwGenIncludeMain')?.checked;
+      var btn  = document.getElementById('mmgCwGenSamplesBtn');
+      var hint = document.getElementById('mmgCwGenCostHint');
+      if (!btn || !hint) return;
+      var enabled = levels.length > 0 && tasks.length > 0;
+      btn.disabled       = !enabled;
+      btn.style.cursor   = enabled ? 'pointer' : 'not-allowed';
+      btn.style.opacity  = enabled ? 1 : .55;
+      if (!enabled) {
+        hint.textContent = levels.length === 0 && tasks.length === 0
+          ? 'Pick at least one level + one task to enable.'
+          : levels.length === 0
+            ? 'Pick at least one level to enable.'
+            : 'Pick at least one task to enable.';
+        return;
+      }
+      // CEFR samples are shorter than IELTS (~50-200 words vs ~150-250),
+      // so per-essay cost is lower: ~$0.008 average.
+      var perTask = levels.length * (incUz ? 2 : 1) + (incMain ? 1 : 0);
+      var totalEssays = perTask * tasks.length;
+      var costLow  = (totalEssays * 0.006).toFixed(2);
+      var costHigh = (totalEssays * 0.012).toFixed(2);
+      hint.textContent = totalEssays + ' essay' + (totalEssays === 1 ? '' : 's')
+        + ' · ' + levels.join(' / ') + ' × ' + tasks.length + ' task' + (tasks.length === 1 ? '' : 's')
+        + (incUz ? ' (×2 for Uz)' : '')
+        + (incMain ? ' + Main' : '')
+        + ' · ~$' + costLow + '–$' + costHigh + ' · ~' + (3 * totalEssays) + 's';
+    };
+
+    // ── CEFR Writing — Samples tab "✨ Generate selected" ─────────────
+    // Posts the picked levels + tasks to transcribe-mock scope=samples,
+    // merges the returned sample slots into mock_data without
+    // overwriting any slot that already has content.
+    window._mmgCwGenSamples = async function () {
+      var btnEl = document.getElementById('mmgCwGenSamplesBtn');
+      function setStatus(msg, color) {
+        var s = document.getElementById('mmgCwGenSamplesStatus');
+        if (s) { s.textContent = msg; s.style.color = color || '#64748b'; }
+      }
+      if (!_mmgFlushStructuredToRaw()) {
+        setStatus('Fix the highlighted field, then try again.', '#dc2626');
+        return;
+      }
+      var levels  = Array.from(document.querySelectorAll('.mmgCwGenLevel:checked')).map(function (el) { return el.dataset.level; });
+      var tasks   = Array.from(document.querySelectorAll('.mmgCwGenTask:checked')).map(function (el) { return el.dataset.task; });
+      var includeUz   = !!document.getElementById('mmgCwGenIncludeUz')?.checked;
+      var includeMain = !!document.getElementById('mmgCwGenIncludeMain')?.checked;
+      if (!levels.length || !tasks.length) {
+        setStatus('Pick at least one level + one task to enable generation.', '#dc2626');
+        return;
+      }
+      var md = _mmgGetMockData();
+      var t11 = md.tasks && md.tasks.t11 || {};
+      var t12 = md.tasks && md.tasks.t12 || {};
+      var t2  = md.tasks && md.tasks.t2  || {};
+      var p1Context  = (md.tasks && md.tasks.p1_context)  || '';
+      var p1Scenario = (md.tasks && md.tasks.p1_scenario) || '';
+      // Only require a prompt for tasks the admin actually ticked.
+      if (tasks.indexOf('t11') > -1 && !String(t11.prompt || '').trim()) {
+        setStatus('Fill in the Task 1.1 prompt before generating Task 1.1 samples.', '#dc2626');
+        return;
+      }
+      if (tasks.indexOf('t12') > -1 && !String(t12.prompt || '').trim()) {
+        setStatus('Fill in the Task 1.2 prompt before generating Task 1.2 samples.', '#dc2626');
+        return;
+      }
+      if (tasks.indexOf('t2') > -1 && !String(t2.prompt || '').trim()) {
+        setStatus('Fill in the Task 2 prompt before generating Task 2 samples.', '#dc2626');
+        return;
+      }
+
+      btnEl.disabled = true;
+      var origLabel = btnEl.textContent;
+      btnEl.textContent = '⏳ Generating…';
+      var tick = 0;
+      var tickI = setInterval(function () {
+        tick++;
+        setStatus('Calling Gemini 2.5 Pro… ' + tick + 's elapsed (typical: 30-90s)', '#7c3aed');
+      }, 1000);
+
+      try {
+        var r = await fetch(_MMG_TRANSCRIBE_URL, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': _MMG_ANON, 'Authorization': 'Bearer ' + _MMG_ANON },
+          body: JSON.stringify({
+            adminPasscode: window._mmgPasscode,
+            exam_type:     'cefr-writing',
+            scope:         'samples',
+            // Send prompts only for the tasks the admin ticked.
+            p1_context:    p1Context,
+            p1_scenario:   p1Scenario,
+            t11_prompt:    tasks.indexOf('t11') > -1 ? String(t11.prompt || '').trim() : '',
+            t12_prompt:    tasks.indexOf('t12') > -1 ? String(t12.prompt || '').trim() : '',
+            t2_prompt:     tasks.indexOf('t2')  > -1 ? String(t2.prompt  || '').trim() : '',
+            t2_genre:      (t2.genre || ''),
+            levels:        levels,
+            include_uzbek: includeUz,
+            include_main:  includeMain
+          })
+        });
+        var j = await r.json().catch(function () { return { error: 'bad_response' }; });
+        clearInterval(tickI);
+        if (!r.ok || j.error) {
+          var detail = j.detail || '';
+          throw new Error((j.error || ('HTTP ' + r.status)) + (detail ? ' — ' + String(detail).slice(0, 200) : ''));
+        }
+        // Merge: only fill empty slots, never overwrite admin work.
+        var s11 = (j.samples && j.samples.t11) || {};
+        var s12 = (j.samples && j.samples.t12) || {};
+        var s2  = (j.samples && j.samples.t2)  || {};
+        md.tasks = md.tasks || {};
+        md.tasks.t11 = md.tasks.t11 || {};
+        md.tasks.t12 = md.tasks.t12 || {};
+        md.tasks.t2  = md.tasks.t2  || {};
+        var filled = 0, skipped = 0;
+        function mergeInto(target, src) {
+          Object.keys(src || {}).forEach(function (k) {
+            var existing = (target[k] || '').toString().trim();
+            if (existing) { skipped++; return; }
+            target[k] = src[k];
+            filled++;
+          });
+        }
+        mergeInto(md.tasks.t11, s11);
+        mergeInto(md.tasks.t12, s12);
+        mergeInto(md.tasks.t2,  s2);
+        _mmgSetMockData(md);
+        window._mmgActiveTab = null;
+        _mmgInitTabs();
+        _mmgSwitchTab('samples');
+        var msg = '✓ Filled ' + filled + ' sample slot' + (filled === 1 ? '' : 's')
+                + (skipped ? ' (skipped ' + skipped + ' that already had content)' : '')
+                + ' — review and Save when ready.';
+        setStatus(msg, '#16a34a');
+      } catch (e) {
+        clearInterval(tickI);
+        setStatus('⚠ ' + (e.message || String(e)), '#dc2626');
+      } finally {
+        btnEl.disabled = false;
+        btnEl.textContent = origLabel;
+      }
+    };
+
     window._mmgIwGenVocab = async function () {
       var btnEl    = document.getElementById('mmgIwGenVocabBtn');
       var countEl  = document.getElementById('mmgIwVocabCount');
@@ -33803,6 +33955,98 @@
         _mmgSetMockData(md);
         _mmgRenderVocab(md);
         setStatus('✓ Added ' + added + ' entr' + (added === 1 ? 'y' : 'ies') + ' to ' + (activeKey === 'task1' ? 'Task 1' : 'Task 2') + ' — review and Save when ready.', '#16a34a');
+      } catch (e) {
+        clearInterval(tickI);
+        setStatus('⚠ ' + (e.message || String(e)), '#dc2626');
+      } finally {
+        btnEl.disabled = false;
+        btnEl.textContent = origLabel;
+      }
+    };
+
+    // ── CEFR Writing — Vocab tab "✨ Generate" ──────────────────────
+    // Mirrors _mmgIwGenVocab. CEFR vocab keys are task11 / task12 / task2
+    // (note the differing format from sample-task keys t11/t12/t2 —
+    // _mmgVocabGroupsForType drives this naming).
+    window._mmgCwGenVocab = async function () {
+      var btnEl   = document.getElementById('mmgCwGenVocabBtn');
+      var countEl = document.getElementById('mmgCwVocabCount');
+      function setStatus(msg, color) {
+        var s = document.getElementById('mmgCwGenVocabStatus');
+        if (s) { s.textContent = msg; s.style.color = color || '#64748b'; }
+      }
+      if (!_mmgFlushStructuredToRaw()) {
+        setStatus('Fix the highlighted field, then try again.', '#dc2626');
+        return;
+      }
+      var md = _mmgGetMockData();
+      // Vocab tabs map: task11 ↔ t11, task12 ↔ t12, task2 ↔ t2.
+      var vocabKey = (window._mmgVocabState && window._mmgVocabState.task) || 'task11';
+      var sampleKey = vocabKey === 'task11' ? 't11' : vocabKey === 'task12' ? 't12' : 't2';
+      var taskObj = (md.tasks && md.tasks[sampleKey]) || {};
+      var taskPrompt = String(taskObj.prompt || '').trim();
+      var p1Context  = (md.tasks && md.tasks.p1_context)  || '';
+      var p1Scenario = (md.tasks && md.tasks.p1_scenario) || '';
+      if (!taskPrompt) {
+        var label = vocabKey === 'task11' ? 'Task 1.1' : vocabKey === 'task12' ? 'Task 1.2' : 'Task 2';
+        setStatus('Fill in the ' + label + ' prompt before generating vocab.', '#dc2626');
+        return;
+      }
+      var count = parseInt((countEl && countEl.value) || '20', 10);
+      if (!isFinite(count) || count < 5) count = 20;
+
+      btnEl.disabled = true;
+      var origLabel = btnEl.textContent;
+      btnEl.textContent = '⏳ …';
+      var tick = 0;
+      var tickI = setInterval(function () {
+        tick++;
+        setStatus('Calling Gemini 2.5 Pro… ' + tick + 's elapsed', '#7c3aed');
+      }, 1000);
+
+      try {
+        var r = await fetch(_MMG_TRANSCRIBE_URL, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': _MMG_ANON, 'Authorization': 'Bearer ' + _MMG_ANON },
+          body: JSON.stringify({
+            adminPasscode: window._mmgPasscode,
+            exam_type:     'cefr-writing',
+            scope:         'vocab',
+            task_key:      sampleKey,       // t11 / t12 / t2 — server-side semantic
+            prompt:        taskPrompt,
+            p1_context:    p1Context,
+            p1_scenario:   p1Scenario,
+            count:         count
+          })
+        });
+        var j = await r.json().catch(function () { return { error: 'bad_response' }; });
+        clearInterval(tickI);
+        if (!r.ok || j.error) {
+          var detail = j.detail || '';
+          throw new Error((j.error || ('HTTP ' + r.status)) + (detail ? ' — ' + String(detail).slice(0, 200) : ''));
+        }
+        // Dedupe + append into the active vocab list. The vocab UI key
+        // is task11 / task12 / task2 (note the differing format from
+        // sample keys); that's what the runner reads.
+        md.vocabulary = md.vocabulary || {};
+        md.vocabulary[vocabKey] = Array.isArray(md.vocabulary[vocabKey]) ? md.vocabulary[vocabKey] : [];
+        var existingEn = new Set();
+        md.vocabulary[vocabKey].forEach(function (row) {
+          if (row && row.en) existingEn.add(String(row.en).trim().toLowerCase());
+        });
+        var added = 0;
+        (j.vocabulary || []).forEach(function (row) {
+          if (!row || !row.en || !row.uz) return;
+          var k = String(row.en).trim().toLowerCase();
+          if (existingEn.has(k)) return;
+          existingEn.add(k);
+          md.vocabulary[vocabKey].push({ en: String(row.en).trim(), uz: String(row.uz).trim() });
+          added++;
+        });
+        _mmgSetMockData(md);
+        _mmgRenderVocab(md);
+        var label = vocabKey === 'task11' ? 'Task 1.1' : vocabKey === 'task12' ? 'Task 1.2' : 'Task 2';
+        setStatus('✓ Added ' + added + ' entr' + (added === 1 ? 'y' : 'ies') + ' to ' + label + ' — review and Save when ready.', '#16a34a');
       } catch (e) {
         clearInterval(tickI);
         setStatus('⚠ ' + (e.message || String(e)), '#dc2626');
@@ -35002,6 +35246,41 @@
       html += '<div class="mmg-section-title">Sample answers</div>'
             + '<div class="mmg-field-help">All samples are optional. Skip the ones you don\'t need; the runner falls back gracefully. <span style="color:#15803d;">●</span> = already has content.</div>';
 
+      // CEFR Writing — ✨ Auto-generate selected levels for selected
+      // tasks. Mirrors the IELTS UI below but uses CEFR levels
+      // (A1 / A2 / B1 / B2) and CEFR task keys (t11 / t12 / t2). Same
+      // "don't overwrite slots that already have content" semantics.
+      if (type === 'cefr-writing') {
+        html += '<div style="background:linear-gradient(135deg,#fdf4ff,#faf5ff);border:1px solid #e9d5ff;border-radius:10px;padding:14px 16px;margin:6px 0 14px;">'
+              +   '<div style="font-size:12.5px;color:#581c87;line-height:1.5;margin-bottom:10px;">'
+              +     '<strong>✨ Auto-generate samples</strong> — Gemini 2.5 Pro writes the CEFR levels you tick below. Existing samples with content are <strong>preserved</strong>. Pick fewer levels to spend less.'
+              +   '</div>'
+              +   '<div style="display:grid;grid-template-columns:max-content 1fr;gap:8px 14px;align-items:center;font-size:12.5px;color:#0f172a;">'
+              +     '<span style="font-weight:600;color:#581c87;">Levels:</span>'
+              +     '<div style="display:flex;flex-wrap:wrap;gap:10px 16px;">'
+              +       ['A1','A2','B1','B2'].map(function (lvl) {
+                        return '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" class="mmgCwGenLevel" data-level="' + lvl + '" onchange="_mmgCwGenSamplesUpdateCost()"> ' + lvl + '</label>';
+                      }).join('')
+              +     '</div>'
+              +     '<span style="font-weight:600;color:#581c87;">Include:</span>'
+              +     '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="mmgCwGenIncludeUz" onchange="_mmgCwGenSamplesUpdateCost()"> Uzbek translations of the ticked levels</label>'
+              +     '<span style="font-weight:600;color:#581c87;">Tasks:</span>'
+              +     '<div style="display:flex;flex-wrap:wrap;gap:10px 16px;">'
+              +       '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" class="mmgCwGenTask" data-task="t11" onchange="_mmgCwGenSamplesUpdateCost()"> Task 1.1</label>'
+              +       '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" class="mmgCwGenTask" data-task="t12" onchange="_mmgCwGenSamplesUpdateCost()"> Task 1.2</label>'
+              +       '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" class="mmgCwGenTask" data-task="t2"  onchange="_mmgCwGenSamplesUpdateCost()"> Task 2</label>'
+              +     '</div>'
+              +     '<span style="font-weight:600;color:#581c87;">Main:</span>'
+              +     '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="mmgCwGenIncludeMain" onchange="_mmgCwGenSamplesUpdateCost()"> Also produce the main model answer</label>'
+              +   '</div>'
+              +   '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;gap:10px;flex-wrap:wrap;">'
+              +     '<div id="mmgCwGenCostHint" style="font-size:11.5px;color:#64748b;font-weight:500;">Pick at least one level + one task to enable.</div>'
+              +     '<button type="button" id="mmgCwGenSamplesBtn" onclick="_mmgCwGenSamples()" disabled style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12.5px;font-weight:700;cursor:not-allowed;opacity:.55;box-shadow:0 4px 10px rgba(124,58,237,.3);white-space:nowrap;">✨ Generate selected</button>'
+              +   '</div>'
+              + '</div>';
+        html += '<div id="mmgCwGenSamplesStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;font-weight:500;"></div>';
+      }
+
       // IELTS Writing — ✨ Auto-generate selected bands for selected
       // tasks. Per-band + per-task checkboxes mean admin only spends
       // tokens on the slots they actually need (the default is
@@ -35175,6 +35454,19 @@
 
       var html = '<div class="mmg-section-title">Vocabulary lists (English ↔ Uzbek)</div>'
               + '<div class="mmg-field-help">One list per task. <span style="color:#15803d;">●</span> = list has rows. Use search to find an existing entry.</div>';
+
+      // CEFR Writing — ✨ Auto-generate topical EN↔UZ vocab for the
+      // active task. Mirrors the IELTS pattern below.
+      if (_mmgCurrentType() === 'cefr-writing') {
+        html += '<div style="background:linear-gradient(135deg,#fdf4ff,#faf5ff);border:1px solid #e9d5ff;border-radius:10px;padding:12px 14px;margin:8px 0 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">'
+              +   '<div style="flex:1;min-width:240px;font-size:12px;color:#581c87;line-height:1.5;">'
+              +     '<strong>✨ Auto-generate vocabulary</strong> — Gemini 2.5 Pro reads the active task\'s prompt (plus the Part 1 scenario for T1.1 / T1.2) and emits topical English↔Uzbek pairs. Skips duplicates that are already on the list. ~10–15s · ~$0.03.'
+              +   '</div>'
+              +   '<input type="number" id="mmgCwVocabCount" value="20" min="5" max="60" style="width:64px;border:1px solid #cbd5e1;border-radius:6px;padding:6px 8px;font-size:12.5px;text-align:right;" title="How many entries to generate (5–60)">'
+              +   '<button type="button" id="mmgCwGenVocabBtn" onclick="_mmgCwGenVocab()" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(124,58,237,.3);white-space:nowrap;">✨ Generate</button>'
+              + '</div>';
+        html += '<div id="mmgCwGenVocabStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;font-weight:500;"></div>';
+      }
 
       // IELTS Writing — ✨ Auto-generate topical EN↔UZ vocab for the
       // active task. Won't duplicate existing entries; appends new ones.
