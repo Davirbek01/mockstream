@@ -17909,52 +17909,44 @@
     //   2. navigator.share     → mobile OS share sheet
     //   3. clipboard.writeText → desktop / older browsers (button flashes "✓ Copied!")
     //   4. window.prompt       → last-resort manual copy
-    // Shared share-menu element. We reuse one DOM node across all
-    // pickers so the popover always tears down cleanly when a new
-    // share button is clicked (no leaked menus).
-    function _pickerEnsureShareMenu() {
-      var m = document.getElementById('_pickerShareMenu');
-      if (m) return m;
-      m = document.createElement('div');
-      m.id = '_pickerShareMenu';
-      m.style.cssText = 'position:fixed;z-index:99999;background:#fff;border:1px solid #e2e8f0;border-radius:10px;box-shadow:0 8px 24px rgba(15,23,42,.18);padding:6px;display:none;min-width:180px;font-family:inherit;';
-      document.body.appendChild(m);
-      // Auto-dismiss on outside click. The capture-phase listener fires
-      // BEFORE the share button's click handler reopens the menu, so we
-      // ignore clicks that land on a share button (handled by re-render).
-      document.addEventListener('click', function (e) {
-        if (m.style.display === 'none') return;
-        var t = e.target;
-        if (m.contains(t)) return;
-        if (t && t.closest && t.closest('[data-share-mock-n]')) return;
-        m.style.display = 'none';
-      });
-      window.addEventListener('scroll', function () { m.style.display = 'none'; }, true);
-      window.addEventListener('resize', function () { m.style.display = 'none'; });
-      return m;
-    }
-
     async function _pickerShareMock(slugBase, titleBase, mockN, btnEl, copiedClass) {
       if (!mockN) return;
       var url = window.location.origin + '/take/' + slugBase + '-' + encodeURIComponent(mockN);
       var title = titleBase + ' ' + mockN;
 
-      // Mark the button so the outside-click listener can recognise it.
-      if (btnEl) btnEl.dataset.shareMockN = String(mockN);
+      // Tear down any previous share popover before opening a new one.
+      var existing = document.getElementById('_pickerShareBackdrop');
+      if (existing) existing.remove();
 
-      var menu = _pickerEnsureShareMenu();
-      var copyHtml = '<button type="button" class="_psm-opt" data-act="copy" style="display:flex;align-items:center;gap:8px;width:100%;background:none;border:0;padding:9px 12px;border-radius:7px;font-size:13px;font-weight:600;color:#0f172a;cursor:pointer;text-align:left;"><span style="font-size:15px;">📋</span> Copy link</button>';
-      var tgHtml   = '<button type="button" class="_psm-opt" data-act="telegram" style="display:flex;align-items:center;gap:8px;width:100%;background:none;border:0;padding:9px 12px;border-radius:7px;font-size:13px;font-weight:600;color:#0369a1;cursor:pointer;text-align:left;"><span style="font-size:15px;">✈️</span> Share to Telegram</button>';
-      menu.innerHTML = copyHtml + tgHtml;
+      // Backdrop catches all clicks outside the menu and closes the
+      // popover. Using a full-screen backdrop instead of document-level
+      // click listeners avoids stopPropagation / bubble-phase races.
+      var backdrop = document.createElement('div');
+      backdrop.id = '_pickerShareBackdrop';
+      backdrop.style.cssText = 'position:fixed;inset:0;z-index:2147483600;background:transparent;';
+      backdrop.addEventListener('click', function (e) {
+        if (e.target === backdrop) close();
+      });
+      function close() { backdrop.remove(); }
 
-      // Hover affordance — inline since we can't easily inject CSS rules.
-      Array.prototype.forEach.call(menu.querySelectorAll('._psm-opt'), function (b) {
+      var menu = document.createElement('div');
+      menu.style.cssText = 'position:fixed;z-index:2147483601;background:#fff;border:1px solid #e2e8f0;border-radius:10px;box-shadow:0 8px 24px rgba(15,23,42,.18);padding:6px;min-width:200px;font-family:inherit;';
+      menu.innerHTML =
+        '<button type="button" data-act="copy" style="display:flex;align-items:center;gap:8px;width:100%;background:none;border:0;padding:10px 12px;border-radius:7px;font-size:13px;font-weight:600;color:#0f172a;cursor:pointer;text-align:left;">' +
+        '<span style="font-size:16px;">📋</span> Copy link</button>' +
+        '<button type="button" data-act="telegram" style="display:flex;align-items:center;gap:8px;width:100%;background:none;border:0;padding:10px 12px;border-radius:7px;font-size:13px;font-weight:600;color:#0369a1;cursor:pointer;text-align:left;">' +
+        '<span style="font-size:16px;">✈️</span> Share to Telegram</button>';
+      backdrop.appendChild(menu);
+      document.body.appendChild(backdrop);
+
+      // Hover affordance.
+      Array.prototype.forEach.call(menu.querySelectorAll('button'), function (b) {
         b.addEventListener('mouseenter', function () { b.style.background = '#f1f5f9'; });
         b.addEventListener('mouseleave', function () { b.style.background = 'none'; });
       });
 
       function doCopy() {
-        var done = function () {
+        function done() {
           if (btnEl) {
             var origText = btnEl.textContent;
             btnEl.textContent = '✓';
@@ -17966,11 +17958,12 @@
               btnEl.disabled = false;
             }, 1500);
           }
-        };
+        }
         try {
           if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(url).then(done, function () {
               try { window.prompt('Copy this link:', url); } catch (_e) {}
+              done();
             });
             return;
           }
@@ -17988,31 +17981,39 @@
             return;
           }
         } catch (_e) {}
-        // Browser: open in a new tab so the picker stays in view.
         try { window.open(tgUrl, '_blank', 'noopener'); } catch (_e) {
           window.location.href = tgUrl;
         }
       }
 
-      menu.addEventListener('click', function _onClick(e) {
-        var t = e.target.closest('._psm-opt');
+      // Option clicks — close first so doTelegram's window.open isn't
+      // blocked by a still-open popover stealing focus.
+      menu.addEventListener('click', function (e) {
+        var t = e.target.closest('button[data-act]');
         if (!t) return;
-        menu.removeEventListener('click', _onClick);
-        menu.style.display = 'none';
-        if (t.dataset.act === 'copy')     doCopy();
-        if (t.dataset.act === 'telegram') doTelegram();
+        var act = t.dataset.act;
+        close();
+        if (act === 'copy')     doCopy();
+        if (act === 'telegram') doTelegram();
       });
 
-      // Position the menu just under the share button. If it would
-      // overflow the viewport on the right, anchor it to the right edge
-      // of the button instead.
-      var r = btnEl && btnEl.getBoundingClientRect ? btnEl.getBoundingClientRect() : { left: 16, bottom: 16, right: 16 };
-      menu.style.display = 'block';
-      var menuW = menu.offsetWidth;
-      var leftPx = r.left;
-      if (leftPx + menuW > window.innerWidth - 8) leftPx = Math.max(8, r.right - menuW);
-      menu.style.left = leftPx + 'px';
-      menu.style.top  = (r.bottom + 6) + 'px';
+      // Position the menu just under the share button. Falls back to
+      // viewport-centred if the button isn't available.
+      var r;
+      try { r = btnEl.getBoundingClientRect(); } catch (_e) {}
+      if (r && r.width) {
+        var menuW = menu.offsetWidth || 220;
+        var leftPx = r.left;
+        if (leftPx + menuW > window.innerWidth - 8) leftPx = Math.max(8, r.right - menuW);
+        var topPx = r.bottom + 6;
+        if (topPx + 120 > window.innerHeight - 8) topPx = Math.max(8, r.top - 6 - 120);
+        menu.style.left = leftPx + 'px';
+        menu.style.top  = topPx + 'px';
+      } else {
+        menu.style.left = '50%';
+        menu.style.top  = '50%';
+        menu.style.transform = 'translate(-50%,-50%)';
+      }
     }
     // Backward-compat thin wrapper used by the iwetPicker click handler.
     async function _iwetShareMock(mockN, btnEl) {
