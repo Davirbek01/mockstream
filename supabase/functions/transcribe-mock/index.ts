@@ -1679,21 +1679,25 @@ async function generateCefrWritingSamples(opts: {
   const { levels, includeUzbek, includeMain, t11Prompt, t12Prompt, t2Prompt,
           p1Context, p1Scenario, t2Genre, geminiKey } = opts;
 
-  const VALID_LEVELS = new Set(['A1','A2','B1','B2']);
+  const VALID_LEVELS = new Set(['A1','A2','B1','B2','C1','C2']);
   const cleanLevels = levels.filter(l => VALID_LEVELS.has(l));
 
   const LEVEL_NOTES: Record<string,string> = {
     A1: 'Very basic vocabulary, present + simple past, short sentences (~5-9 words). Some natural beginner errors (missing articles, wrong word order, simple verb tense slips) — like a real A1 student.',
     A2: 'Common everyday vocabulary, simple + compound sentences. Few errors but limited range. Like a real A2 student.',
     B1: 'Range of common topics, simple linkers (because, however, also). Mostly accurate; occasional slips in complex grammar. Like a real B1 student.',
-    B2: 'Wider range of vocabulary, complex sentences with subordinate clauses, accurate use of tenses. Some sophisticated linkers (despite, although, on the other hand).'
+    B2: 'Wider range of vocabulary, complex sentences with subordinate clauses, accurate use of tenses. Some sophisticated linkers (despite, although, on the other hand).',
+    C1: 'Effective, fluent English with idiomatic expressions and a wide range of complex grammatical structures. Cohesive use of advanced linkers (whereas, furthermore, in light of, notwithstanding). Nuanced control of tone and register; very few errors.',
+    C2: 'Native-like mastery — sophisticated lexis, precise word choice, complex syntax executed with full accuracy. Idiomatic, with rhetorical flair where appropriate. Reads like a polished newspaper opinion piece or a top-band academic essay.'
   };
 
   const TARGETS: Record<string,{t11:string;t12:string;t2:string}> = {
     A1: { t11: '40-50 words', t12: '80-100 words',  t2: '120-140 words' },
     A2: { t11: '45-55 words', t12: '100-120 words', t2: '140-160 words' },
     B1: { t11: '50-60 words', t12: '110-130 words', t2: '160-180 words' },
-    B2: { t11: '55-70 words', t12: '120-150 words', t2: '180-200 words' }
+    B2: { t11: '55-70 words', t12: '120-150 words', t2: '180-200 words' },
+    C1: { t11: '60-75 words', t12: '130-160 words', t2: '200-230 words' },
+    C2: { t11: '65-80 words', t12: '140-170 words', t2: '220-260 words' }
   };
   const MAIN_TARGETS = { t11: '50-70 words', t12: '120-150 words', t2: '180-200 words' };
 
@@ -1759,8 +1763,12 @@ ${tasksBlock}`;
     generationConfig: {
       temperature:      0.45,
       responseMimeType: 'application/json',
-      maxOutputTokens:  16384,
-      thinkingConfig:   { thinkingBudget: 2048 }
+      // 65535 is gemini-2.5-pro's max output budget. Higher levels
+      // (C1/C2) with Uzbek translations × 3 tasks can output ~30-50K
+      // characters worth of essays, which easily overflows the 16K
+      // limit and causes mid-essay truncation → JSON parse failure.
+      maxOutputTokens:  65535,
+      thinkingConfig:   { thinkingBudget: 1024 }
     },
     safetySettings: [
       { category: 'HARM_CATEGORY_HARASSMENT',        threshold: 'BLOCK_ONLY_HIGH' },
@@ -1773,6 +1781,9 @@ ${tasksBlock}`;
   let modelUsed: 'gemini-2.5-pro' | 'gpt-4o' = 'gemini-2.5-pro';
   let fallbackReason: string | null = null;
   let raw = '';
+  // Counts how many task × slot combinations the admin asked for. We
+  // surface this so a truncation that yields valid JSON for fewer
+  // tasks than requested is still reported as a non-fatal "partial".
   try {
     const r = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${geminiKey}`,
@@ -1781,7 +1792,12 @@ ${tasksBlock}`;
     if (!r.ok) throw new Error(`gemini http ${r.status}: ${(await r.text()).slice(0, 200)}`);
     const j = await r.json();
     const cand = j?.candidates?.[0];
-    if (cand?.finishReason && cand.finishReason !== 'STOP') throw new Error(`gemini finishReason=${cand.finishReason}`);
+    if (cand?.finishReason && cand.finishReason !== 'STOP' && cand.finishReason !== 'MAX_TOKENS') {
+      throw new Error(`gemini finishReason=${cand.finishReason}`);
+    }
+    if (cand?.finishReason === 'MAX_TOKENS') {
+      fallbackReason = `gemini hit MAX_TOKENS (65535) — output was clipped. Generate fewer level × task combinations per call.`;
+    }
     raw = cand?.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
     if (!raw.trim()) throw new Error('gemini returned empty text');
   } catch (e) {
@@ -1798,7 +1814,7 @@ ${tasksBlock}`;
           ],
           response_format: { type: 'json_object' },
           temperature: 0.45,
-          max_tokens: 8192
+          max_tokens: 16384
         })
       });
       if (!r2.ok) throw new Error(`gpt-4o http ${r2.status}: ${(await r2.text()).slice(0, 200)}`);
@@ -1810,9 +1826,46 @@ ${tasksBlock}`;
     }
   }
 
+  // Repair pass: if Gemini hit MAX_TOKENS mid-string the raw JSON is
+  // malformed. Try to recover whatever complete entries we got by
+  // truncating to the last full {"slot":"…"} entry and closing braces.
+  function tryRepair(input: string): any {
+    // Strip code fence if any.
+    let s = input.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '');
+    try { return JSON.parse(s); } catch (_e) {}
+    // Walk back from the end, dropping characters until a balanced
+    // close-brace structure is reached. Crude but effective for
+    // single-level truncation in a flat {task:{slot:"…"}} shape.
+    let depthObj = 0;
+    let lastGoodIdx = -1;
+    let inString = false;
+    let esc = false;
+    for (let i = 0; i < s.length; i++) {
+      const ch = s[i];
+      if (esc) { esc = false; continue; }
+      if (ch === '\\') { esc = true; continue; }
+      if (ch === '"') { inString = !inString; continue; }
+      if (inString) continue;
+      if (ch === '{') depthObj++;
+      else if (ch === '}') { depthObj--; if (depthObj === 0) lastGoodIdx = i; }
+    }
+    if (lastGoodIdx < 0) return null;
+    // If we're inside a string at the end, the last full closing brace
+    // gives us a clipped-but-valid object.
+    const candidate = s.slice(0, lastGoodIdx + 1);
+    try { return JSON.parse(candidate); } catch (_e) {}
+    // Final attempt: close any open quotes + braces.
+    let s2 = candidate;
+    return null;
+  }
+
   let parsed: any;
   try { parsed = JSON.parse(raw.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '')); }
-  catch (e) { throw new Error(`samples JSON parse failed: ${(e as Error).message} — raw: ${raw.slice(0, 200)}`); }
+  catch (_e) {
+    parsed = tryRepair(raw);
+    if (!parsed) throw new Error(`samples JSON parse failed — raw clipped at ${raw.length} chars. Try generating fewer levels per call.`);
+    if (!fallbackReason) fallbackReason = 'JSON was clipped mid-response — recovered the entries that finished before truncation.';
+  }
 
   // Sanitise: only return keys that match the slots we actually
   // requested for each task. Any extra keys Gemini emitted are dropped.

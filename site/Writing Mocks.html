@@ -4498,7 +4498,7 @@
 
       <!-- Header -->
       <div class="ml-hero">
-        <h2>Model Writing Answers - C1/C2 (Multilevel)</h2>
+        <h2>Model Writing Answers (Multilevel — A1 to C2)</h2>
         <p>Professional sample answers with highlighted advanced vocabulary and grammar structures.</p>
       </div>
 
@@ -4523,7 +4523,8 @@
               <button class="ml-level-btn" data-level="A2" data-task="t11">A2</button>
               <button class="ml-level-btn" data-level="B1" data-task="t11">B1</button>
               <button class="ml-level-btn" data-level="B2" data-task="t11">B2</button>
-              <button class="ml-level-btn active" data-level="C1/C2" data-task="t11">C1/C2</button>
+              <button class="ml-level-btn" data-level="C1" data-task="t11">C1</button>
+              <button class="ml-level-btn active" data-level="C2" data-task="t11">C2</button>
             </div>
             <div class="ml-answer" id="sample-t11-content">
               Hey Sam, did you read the message from the <span class="ml-token colloc">Neighborhood Office</span>? I'm
@@ -4555,7 +4556,8 @@
               <button class="ml-level-btn" data-level="A2" data-task="t12">A2</button>
               <button class="ml-level-btn" data-level="B1" data-task="t12">B1</button>
               <button class="ml-level-btn" data-level="B2" data-task="t12">B2</button>
-              <button class="ml-level-btn active" data-level="C1/C2" data-task="t12">C1/C2</button>
+              <button class="ml-level-btn" data-level="C1" data-task="t12">C1</button>
+              <button class="ml-level-btn active" data-level="C2" data-task="t12">C2</button>
             </div>
             <div class="ml-answer" id="sample-t12-content">
               Dear Sir or Madam,<br><br>
@@ -4613,7 +4615,8 @@
               <button class="ml-level-btn" data-level="A2" data-task="t2">A2</button>
               <button class="ml-level-btn" data-level="B1" data-task="t2">B1</button>
               <button class="ml-level-btn" data-level="B2" data-task="t2">B2</button>
-              <button class="ml-level-btn active" data-level="C1/C2" data-task="t2">C1/C2</button>
+              <button class="ml-level-btn" data-level="C1" data-task="t2">C1</button>
+              <button class="ml-level-btn active" data-level="C2" data-task="t2">C2</button>
             </div>
             <div class="ml-answer" id="sample-t2-content">
               If your phone keeps telling you that you've spent four or five hours online, but you <span
@@ -7209,48 +7212,85 @@
       // Helper to populate a task section with level data
       function updateTaskSection(contentEl, headingEl, wordCountEl, task, defaultType) {
         if (!contentEl) return;
-        // No sample for this task → render an empty state and clear
-        // any leveled-sample data attributes that may be left from the
-        // previously-loaded mock. (Previously the function early-returned
-        // here, leaking the prior mock's samples into a freshly opened one.)
-        if (!task?.sample) {
+        // Build a map of which levels actually have content for this task.
+        // Legacy mocks store the C1/C2-equivalent answer in task.sample;
+        // new mocks may have task.sampleC2 directly. Prefer the dedicated
+        // sampleC2 field but fall back to task.sample so existing mocks
+        // still render. Returns ordered list from A1 → C2.
+        const ALL_LEVELS = ['A1','A2','B1','B2','C1','C2'];
+        const taskAny = task || {};
+        const legacyMain = taskAny.sample ? cleanSample(taskAny.sample) : '';
+        const legacyUz   = taskAny.uzSample ? cleanSample(taskAny.uzSample) : '';
+        // resolveLevel(lvl) → cleaned sample text (or empty string).
+        function resolveLevel(lvl) {
+          const own = taskAny['sample' + lvl];
+          if (own && String(own).trim()) return cleanSample(own);
+          // Fall back to legacy task.sample on the C2 slot only (matches
+          // the old "C1/C2" chip's behaviour). This keeps every previously-
+          // published mock looking the same as before the chip split.
+          if (lvl === 'C2' && legacyMain) return legacyMain;
+          return '';
+        }
+        function resolveUz(lvl) {
+          const own = taskAny['uzSample' + lvl];
+          if (own && String(own).trim()) return cleanSample(own);
+          if (lvl === 'C2' && legacyUz) return legacyUz;
+          return '';
+        }
+
+        // Discover all sibling level buttons for THIS task (one of the
+        // three #level-selector-* groups) by walking up to the article.
+        const card = contentEl.closest('article');
+        const buttons = card ? Array.from(card.querySelectorAll('.ml-level-selector .ml-level-btn')) : [];
+
+        const filled = {};
+        const uzFilled = {};
+        ALL_LEVELS.forEach(lvl => {
+          filled[lvl]   = resolveLevel(lvl);
+          uzFilled[lvl] = resolveUz(lvl);
+        });
+        const present = ALL_LEVELS.filter(lvl => filled[lvl]);
+
+        // No samples at all → empty state + hide every chip + wipe cached
+        // dataset values so the previous mock doesn't leak through.
+        if (!present.length) {
           contentEl.innerHTML = '<div style="text-align:center;padding:40px 20px;color:#6b7280;">'
                               +   '<div style="font-size:38px;margin-bottom:8px;opacity:0.6;">📝</div>'
                               +   '<div style="font-style:italic;font-size:14px;">No sample available for this task.</div>'
                               + '</div>';
-          // Wipe any cached level / Uz samples on this element.
-          contentEl.dataset.sampleC1c2 = '';
-          ['A1','A2','B1','B2'].forEach(lvl => {
-            const dataKey = 'sample' + lvl.charAt(0).toUpperCase() + lvl.slice(1).toLowerCase();
-            contentEl.dataset[dataKey] = '';
+          ALL_LEVELS.forEach(lvl => {
+            contentEl.dataset['sample' + lvl] = '';
+            contentEl.dataset['uzSample' + lvl] = '';
           });
-          contentEl.dataset.uzSampleC1c2 = '';
-          ['A1','A2','B1','B2'].forEach(lvl => {
-            const uzDataKey = 'uzSample' + lvl.charAt(0).toUpperCase() + lvl.slice(1).toLowerCase();
-            contentEl.dataset[uzDataKey] = '';
-          });
+          buttons.forEach(b => { b.style.display = 'none'; });
           if (headingEl) headingEl.textContent = '';
           if (wordCountEl) wordCountEl.textContent = '';
           return;
         }
-        const cleanedSample = cleanSample(task.sample);
-        contentEl.innerHTML = cleanedSample;
-        // Store C1/C2 sample
-        contentEl.dataset.sampleC1c2 = encodeURIComponent(cleanedSample);
-        // Store level samples if available
-        ['A1','A2','B1','B2'].forEach(lvl => {
-          const key = 'sample' + lvl;
-          const dataKey = 'sample' + lvl.charAt(0).toUpperCase() + lvl.slice(1).toLowerCase();
-          contentEl.dataset[dataKey] = task[key] ? encodeURIComponent(cleanSample(task[key])) : '';
+
+        // Stash every level (filled or empty) so the click handler can
+        // still find them via dataset lookups.
+        ALL_LEVELS.forEach(lvl => {
+          contentEl.dataset['sample' + lvl]   = filled[lvl]   ? encodeURIComponent(filled[lvl])   : '';
+          contentEl.dataset['uzSample' + lvl] = uzFilled[lvl] ? encodeURIComponent(uzFilled[lvl]) : '';
         });
-        // Store Uzbek translations
-        contentEl.dataset.uzSampleC1c2 = task.uzSample ? encodeURIComponent(cleanSample(task.uzSample)) : '';
-        ['A1','A2','B1','B2'].forEach(lvl => {
-          const uzKey = 'uzSample' + lvl;
-          const uzDataKey = 'uzSample' + lvl.charAt(0).toUpperCase() + lvl.slice(1).toLowerCase();
-          contentEl.dataset[uzDataKey] = task[uzKey] ? encodeURIComponent(cleanSample(task[uzKey])) : '';
+
+        // Show only the chips whose level has content; default the active
+        // chip to the highest level present (e.g. C2 if generated, else
+        // C1, else B2…).
+        const defaultLevel = present[present.length - 1];
+        buttons.forEach(b => {
+          const lvl = b.dataset.level;
+          const has = !!filled[lvl];
+          b.style.display = has ? '' : 'none';
+          b.classList.toggle('active', has && lvl === defaultLevel);
         });
-        const wordCount = countSampleWords(cleanedSample);
+
+        // Render the default level's content.
+        const initialContent = filled[defaultLevel];
+        contentEl.innerHTML = initialContent;
+
+        const wordCount = countSampleWords(initialContent);
         const taskType = extractTaskType(task.prompt, defaultType);
         if (headingEl) headingEl.textContent = `${taskType} (~${wordCount} words)`;
         if (wordCountEl) wordCountEl.textContent = `${wordCount} words`;
@@ -7259,11 +7299,6 @@
       updateTaskSection(t11Content, t11Heading, t11WordCount, tasks.t11, 'Note to a Friend');
       updateTaskSection(t12Content, t12Heading, t12WordCount, tasks.t12, 'Formal Letter');
       updateTaskSection(t2Content, t2Heading, t2WordCount, tasks.t2, 'Essay');
-
-      // Reset level buttons to C1/C2 active
-      document.querySelectorAll('.ml-level-selector .ml-level-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.level === 'C1/C2');
-      });
 
       // Attach level selector click handlers
       initWritingLevelButtons();
@@ -7288,8 +7323,8 @@
           const answerDiv = card.querySelector('.ml-answer');
           const translateBtn = card.querySelector('[data-translate]');
           const isTranslated = translateBtn && translateBtn.classList.contains('active');
-          const levelMap = {'A1':'sampleA1','A2':'sampleA2','B1':'sampleB1','B2':'sampleB2','C1/C2':'sampleC1c2'};
-          const uzLevelMap = {'A1':'uzSampleA1','A2':'uzSampleA2','B1':'uzSampleB1','B2':'uzSampleB2','C1/C2':'uzSampleC1c2'};
+          const levelMap = {'A1':'sampleA1','A2':'sampleA2','B1':'sampleB1','B2':'sampleB2','C1':'sampleC1','C2':'sampleC2'};
+          const uzLevelMap = {'A1':'uzSampleA1','A2':'uzSampleA2','B1':'uzSampleB1','B2':'uzSampleB2','C1':'uzSampleC1','C2':'uzSampleC2'};
           const dataKey = isTranslated ? uzLevelMap[btn.dataset.level] : levelMap[btn.dataset.level];
           const sampleHtml = answerDiv.dataset[dataKey];
 
@@ -7319,9 +7354,9 @@
           const card = btn.closest('.ml-qa-card') || btn.closest('article');
           const answerDiv = card.querySelector('.ml-answer');
           const activeLevel = card.querySelector('.ml-level-btn.active');
-          const level = activeLevel ? activeLevel.dataset.level : 'C1/C2';
-          const levelMap = {'A1':'sampleA1','A2':'sampleA2','B1':'sampleB1','B2':'sampleB2','C1/C2':'sampleC1c2'};
-          const uzLevelMap = {'A1':'uzSampleA1','A2':'uzSampleA2','B1':'uzSampleB1','B2':'uzSampleB2','C1/C2':'uzSampleC1c2'};
+          const level = activeLevel ? activeLevel.dataset.level : 'C2';
+          const levelMap = {'A1':'sampleA1','A2':'sampleA2','B1':'sampleB1','B2':'sampleB2','C1':'sampleC1','C2':'sampleC2'};
+          const uzLevelMap = {'A1':'uzSampleA1','A2':'uzSampleA2','B1':'uzSampleB1','B2':'uzSampleB2','C1':'uzSampleC1','C2':'uzSampleC2'};
 
           const isTranslated = btn.classList.contains('active');
           if (isTranslated) {
@@ -17958,7 +17993,8 @@ AREAS TO IMPROVE:
     window._cwApplyOverlaySoonBadges = function (mockData) {
       if (!mockData) return;
       var tasks = mockData.tasks || {};
-      var SAMPLE_FIELDS = ['sample','sampleA1','sampleA2','sampleB1','sampleB2','uzSample','uzSampleA1','uzSampleA2','uzSampleB1','uzSampleB2'];
+      var SAMPLE_FIELDS = ['sample','sampleA1','sampleA2','sampleB1','sampleB2','sampleC1','sampleC2',
+                           'uzSample','uzSampleA1','uzSampleA2','uzSampleB1','uzSampleB2','uzSampleC1','uzSampleC2'];
       var hasAnySample = ['t11','t12','t2'].some(function (k) {
         var t = tasks[k] || {};
         return SAMPLE_FIELDS.some(function (f) { return (t[f] || '').toString().trim(); });

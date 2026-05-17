@@ -35228,14 +35228,18 @@
       { fld: 'sampleA1', label: 'A1', minH: 70 },
       { fld: 'sampleA2', label: 'A2', minH: 70 },
       { fld: 'sampleB1', label: 'B1', minH: 90 },
-      { fld: 'sampleB2', label: 'B2', minH: 110 }
+      { fld: 'sampleB2', label: 'B2', minH: 110 },
+      { fld: 'sampleC1', label: 'C1', minH: 130 },
+      { fld: 'sampleC2', label: 'C2', minH: 150 }
     ];
     var _MMG_CW_UZ_LEVELS = [
       { fld: 'uzSample',   label: 'Uz · main sample', minH: 110 },
       { fld: 'uzSampleA1', label: 'Uz · A1',          minH: 70 },
       { fld: 'uzSampleA2', label: 'Uz · A2',          minH: 70 },
       { fld: 'uzSampleB1', label: 'Uz · B1',          minH: 90 },
-      { fld: 'uzSampleB2', label: 'Uz · B2',          minH: 110 }
+      { fld: 'uzSampleB2', label: 'Uz · B2',          minH: 110 },
+      { fld: 'uzSampleC1', label: 'Uz · C1',          minH: 130 },
+      { fld: 'uzSampleC2', label: 'Uz · C2',          minH: 150 }
     ];
     var _MMG_IW_BAND_LEVELS = [
       { fld: 'sampleBand5', label: 'Band 5' },
@@ -35260,11 +35264,15 @@
       { k: 'sampleA2',   l: 'A2',      group: 'levels' },
       { k: 'sampleB1',   l: 'B1',      group: 'levels' },
       { k: 'sampleB2',   l: 'B2',      group: 'levels' },
+      { k: 'sampleC1',   l: 'C1',      group: 'levels' },
+      { k: 'sampleC2',   l: 'C2',      group: 'levels' },
       { k: 'uzSample',   l: 'Uz · Main', group: 'uz' },
       { k: 'uzSampleA1', l: 'Uz · A1', group: 'uz' },
       { k: 'uzSampleA2', l: 'Uz · A2', group: 'uz' },
       { k: 'uzSampleB1', l: 'Uz · B1', group: 'uz' },
-      { k: 'uzSampleB2', l: 'Uz · B2', group: 'uz' }
+      { k: 'uzSampleB2', l: 'Uz · B2', group: 'uz' },
+      { k: 'uzSampleC1', l: 'Uz · C1', group: 'uz' },
+      { k: 'uzSampleC2', l: 'Uz · C2', group: 'uz' }
     ];
     var _MMG_IW_SAMPLE_SLOTS = [
       { k: 'sampleAnswer',   l: 'Main',     group: 'main' },
@@ -35326,7 +35334,7 @@
               +   '<div style="display:grid;grid-template-columns:max-content 1fr;gap:8px 14px;align-items:center;font-size:12.5px;color:#0f172a;">'
               +     '<span style="font-weight:600;color:#581c87;">Levels:</span>'
               +     '<div style="display:flex;flex-wrap:wrap;gap:10px 16px;">'
-              +       ['A1','A2','B1','B2'].map(function (lvl) {
+              +       ['A1','A2','B1','B2','C1','C2'].map(function (lvl) {
                         return '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" class="mmgCwGenLevel" data-level="' + lvl + '" onchange="_mmgCwGenSamplesUpdateCost()"> ' + lvl + '</label>';
                       }).join('')
               +     '</div>'
@@ -39919,8 +39927,9 @@
             // Preserve curated CEFR samples (main + A1 / A2 / B1 / B2 +
             // Uzbek translations) and any picker-tag fields the admin
             // set previously (genre / chip live at the t2-level).
-            var _cwSampleFields = ['sampleAnswer','sampleA1','sampleA2','sampleB1','sampleB2',
-                                   'uzSampleA1','uzSampleA2','uzSampleB1','uzSampleB2',
+            var _cwSampleFields = ['sampleAnswer','sample',
+                                   'sampleA1','sampleA2','sampleB1','sampleB2','sampleC1','sampleC2',
+                                   'uzSample','uzSampleA1','uzSampleA2','uzSampleB1','uzSampleB2','uzSampleC1','uzSampleC2',
                                    'genre','chip'];
             for (var _csi = 0; _csi < _cwSampleFields.length; _csi++) {
               var _csf = _cwSampleFields[_csi];
@@ -40125,8 +40134,9 @@
           // picker-tag fields (part1.topic, t2.genre, chips, targetLevel).
           var prevCw  = window._mmgEditing.mock_data || {};
           var newCw   = j.mock_data || {};
-          var _cwSampleFieldsBulk = ['sampleAnswer','sampleA1','sampleA2','sampleB1','sampleB2',
-                                     'uzSampleA1','uzSampleA2','uzSampleB1','uzSampleB2'];
+          var _cwSampleFieldsBulk = ['sampleAnswer','sample',
+                                     'sampleA1','sampleA2','sampleB1','sampleB2','sampleC1','sampleC2',
+                                     'uzSample','uzSampleA1','uzSampleA2','uzSampleB1','uzSampleB2','uzSampleC1','uzSampleC2'];
           var _cwTaskKeysBulk = ['t11','t12','t2'];
           var prevCwTasks = (prevCw.tasks || {});
           var newCwTasks  = (newCw.tasks  = newCw.tasks  || {});
