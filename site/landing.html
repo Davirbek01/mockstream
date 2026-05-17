@@ -32720,6 +32720,220 @@
       }
     };
 
+    // ── IELTS Writing — Samples tab "✨ Generate all samples" ──────────
+    // One Gemini Pro call returns all leveled samples for both tasks.
+    // Existing samples (admin-curated) are preserved — only empty
+    // slots get filled. Long-running (~60-90s); UI shows a ticker.
+    window._mmgIwGenSamples = async function () {
+      var btnEl    = document.getElementById('mmgIwGenSamplesBtn');
+      // setStatus re-queries every time — _mmgInitTabs() re-renders the
+      // Samples pane after a successful merge, which detaches the original
+      // status node. Cached reference would silently write to a stale element.
+      function setStatus(msg, color) {
+        var s = document.getElementById('mmgIwGenSamplesStatus');
+        if (s) { s.textContent = msg; s.style.color = color || '#64748b'; }
+      }
+      if (!_mmgFlushStructuredToRaw()) {
+        setStatus('Fix the highlighted field, then try again.', '#dc2626');
+        return;
+      }
+      var md = _mmgGetMockData();
+      var t1 = md.tasks && md.tasks.task1 || {};
+      var t2 = md.tasks && md.tasks.task2 || {};
+      var t1Prompt = String(t1.prompt || '').trim();
+      var t2Prompt = String(t2.prompt || '').trim();
+      if (!t1Prompt && !t2Prompt) {
+        setStatus('Fill in at least one task prompt before generating samples.', '#dc2626');
+        return;
+      }
+      // Try to attach the chart image if T1 has one. Falls through silently
+      // on fetch failure — Pro still works text-only for T2 + Uz.
+      var files = [];
+      if (t1.chartImageUrl && String(t1.chartImageUrl).trim()) {
+        try {
+          var imgR = await fetch(String(t1.chartImageUrl).trim());
+          if (imgR.ok) {
+            var ab   = await imgR.arrayBuffer();
+            var mime = imgR.headers.get('content-type') || 'image/png';
+            files.push({
+              name:   'chart.' + (mime.split('/')[1] || 'png'),
+              mime:   mime,
+              base64: _mmgArrayBufferToBase64(ab),
+              group:  'chart-image'
+            });
+          }
+        } catch (_e) { /* keep going text-only */ }
+      }
+
+      // Spinner ticker — Pro responses on this prompt can run 60-90s.
+      btnEl.disabled = true;
+      var origLabel = btnEl.textContent;
+      btnEl.textContent = '⏳ Generating…';
+      var tick = 0;
+      var tickI = setInterval(function () {
+        tick++;
+        setStatus('Calling Gemini 2.5 Pro… ' + tick + 's elapsed (typical: 60-90s)', '#7c3aed');
+      }, 1000);
+
+      try {
+        var r = await fetch(_MMG_TRANSCRIBE_URL, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': _MMG_ANON, 'Authorization': 'Bearer ' + _MMG_ANON },
+          body: JSON.stringify({
+            adminPasscode:     window._mmgPasscode,
+            exam_type:         'ielts-writing',
+            scope:             'samples',
+            task1_prompt:      t1Prompt,
+            task1_instruction: t1.instruction || '',
+            task2_prompt:      t2Prompt,
+            task2_instruction: t2.instruction || '',
+            files:             files
+          })
+        });
+        var j = await r.json().catch(function () { return { error: 'bad_response' }; });
+        clearInterval(tickI);
+        if (!r.ok || j.error) {
+          var detail = j.detail || '';
+          throw new Error((j.error || ('HTTP ' + r.status)) + (detail ? ' — ' + String(detail).slice(0, 200) : ''));
+        }
+        // Merge: only fill empty slots, never overwrite admin work.
+        var s1 = (j.samples && j.samples.task1) || {};
+        var s2 = (j.samples && j.samples.task2) || {};
+        md.tasks = md.tasks || {};
+        md.tasks.task1 = md.tasks.task1 || {};
+        md.tasks.task2 = md.tasks.task2 || {};
+        var filled = 0, skipped = 0;
+        function mergeInto(target, src) {
+          Object.keys(src || {}).forEach(function (k) {
+            var existing = (target[k] || '').toString().trim();
+            if (existing) { skipped++; return; }
+            target[k] = src[k];
+            filled++;
+          });
+        }
+        mergeInto(md.tasks.task1, s1);
+        mergeInto(md.tasks.task2, s2);
+        _mmgSetMockData(md);
+        window._mmgActiveTab = null;
+        _mmgInitTabs();
+        _mmgSwitchTab('samples');
+        var msg = '✓ Filled ' + filled + ' sample slot' + (filled === 1 ? '' : 's')
+                + (skipped ? ' (skipped ' + skipped + ' that already had content)' : '')
+                + ' — review and Save when ready.';
+        setStatus(msg, '#16a34a');
+      } catch (e) {
+        clearInterval(tickI);
+        setStatus('⚠ ' + (e.message || String(e)), '#dc2626');
+      } finally {
+        btnEl.disabled = false;
+        btnEl.textContent = origLabel;
+      }
+    };
+
+    // ── IELTS Writing — Vocab tab "✨ Generate" for active task ─────────
+    // Reads the active task's prompt (+ chart for T1) and asks Pro for a
+    // topical EN↔UZ list. Appends to the existing list, deduping
+    // case-insensitively on the English side.
+    window._mmgIwGenVocab = async function () {
+      var btnEl    = document.getElementById('mmgIwGenVocabBtn');
+      var countEl  = document.getElementById('mmgIwVocabCount');
+      // setStatus re-queries every time — the vocab pane re-renders after
+      // a successful merge, which detaches the original status node, so
+      // a cached reference would silently write into a stale element.
+      function setStatus(msg, color) {
+        var s = document.getElementById('mmgIwGenVocabStatus');
+        if (s) { s.textContent = msg; s.style.color = color || '#64748b'; }
+      }
+      if (!_mmgFlushStructuredToRaw()) {
+        setStatus('Fix the highlighted field, then try again.', '#dc2626');
+        return;
+      }
+      var md = _mmgGetMockData();
+      var activeKey = (window._mmgVocabState && window._mmgVocabState.task) || 'task1';
+      var taskObj = (md.tasks && md.tasks[activeKey]) || {};
+      var taskPrompt = String(taskObj.prompt || '').trim();
+      if (!taskPrompt) {
+        setStatus('Fill in the ' + (activeKey === 'task1' ? 'Task 1' : 'Task 2') + ' prompt before generating vocab.', '#dc2626');
+        return;
+      }
+      var count = parseInt((countEl && countEl.value) || '20', 10);
+      if (!isFinite(count) || count < 5) count = 20;
+
+      // Chart attach for T1 only.
+      var files = [];
+      if (activeKey === 'task1' && taskObj.chartImageUrl && String(taskObj.chartImageUrl).trim()) {
+        try {
+          var imgR = await fetch(String(taskObj.chartImageUrl).trim());
+          if (imgR.ok) {
+            var ab   = await imgR.arrayBuffer();
+            var mime = imgR.headers.get('content-type') || 'image/png';
+            files.push({
+              name:   'chart.' + (mime.split('/')[1] || 'png'),
+              mime:   mime,
+              base64: _mmgArrayBufferToBase64(ab),
+              group:  'chart-image'
+            });
+          }
+        } catch (_e) {}
+      }
+
+      btnEl.disabled = true;
+      var origLabel = btnEl.textContent;
+      btnEl.textContent = '⏳ …';
+      var tick = 0;
+      var tickI = setInterval(function () {
+        tick++;
+        setStatus('Calling Gemini 2.5 Pro… ' + tick + 's elapsed', '#7c3aed');
+      }, 1000);
+
+      try {
+        var r = await fetch(_MMG_TRANSCRIBE_URL, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': _MMG_ANON, 'Authorization': 'Bearer ' + _MMG_ANON },
+          body: JSON.stringify({
+            adminPasscode: window._mmgPasscode,
+            exam_type:     'ielts-writing',
+            scope:         'vocab',
+            task_key:      activeKey,
+            prompt:        taskPrompt,
+            count:         count,
+            files:         files
+          })
+        });
+        var j = await r.json().catch(function () { return { error: 'bad_response' }; });
+        clearInterval(tickI);
+        if (!r.ok || j.error) {
+          var detail = j.detail || '';
+          throw new Error((j.error || ('HTTP ' + r.status)) + (detail ? ' — ' + String(detail).slice(0, 200) : ''));
+        }
+        // Merge into existing vocab list, dedupe on English (case-insensitive).
+        md.vocabulary = md.vocabulary || {};
+        md.vocabulary[activeKey] = Array.isArray(md.vocabulary[activeKey]) ? md.vocabulary[activeKey] : [];
+        var existingEn = new Set();
+        md.vocabulary[activeKey].forEach(function (row) {
+          if (row && row.en) existingEn.add(String(row.en).trim().toLowerCase());
+        });
+        var added = 0;
+        (j.vocabulary || []).forEach(function (row) {
+          if (!row || !row.en || !row.uz) return;
+          var k = String(row.en).trim().toLowerCase();
+          if (existingEn.has(k)) return;
+          existingEn.add(k);
+          md.vocabulary[activeKey].push({ en: String(row.en).trim(), uz: String(row.uz).trim() });
+          added++;
+        });
+        _mmgSetMockData(md);
+        _mmgRenderVocab(md);
+        setStatus('✓ Added ' + added + ' entr' + (added === 1 ? 'y' : 'ies') + ' to ' + (activeKey === 'task1' ? 'Task 1' : 'Task 2') + ' — review and Save when ready.', '#16a34a');
+      } catch (e) {
+        clearInterval(tickI);
+        setStatus('⚠ ' + (e.message || String(e)), '#dc2626');
+      } finally {
+        btnEl.disabled = false;
+        btnEl.textContent = origLabel;
+      }
+    };
+
     // ── IELTS Writing — Settings-tab "🔎 Find online" handler ──────────
     // Sends the current Task 1 + Task 2 prompts to transcribe-mock with
     // scope=find-source. The server calls Gemini 2.5 Pro with Google
@@ -33813,6 +34027,19 @@
       html += '<div class="mmg-section-title">Sample answers</div>'
             + '<div class="mmg-field-help">All samples are optional. Skip the ones you don\'t need; the runner falls back gracefully. <span style="color:#15803d;">●</span> = already has content.</div>';
 
+      // IELTS Writing — ✨ Auto-generate Band 5-9 EN + Uz for BOTH tasks.
+      // One Gemini Pro call (~$0.20-0.40, ~60-90s). Won't overwrite a
+      // sample slot that already has content.
+      if (isIw) {
+        html += '<div style="background:linear-gradient(135deg,#fdf4ff,#faf5ff);border:1px solid #e9d5ff;border-radius:10px;padding:12px 14px;margin:6px 0 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">'
+              +   '<div style="flex:1;min-width:240px;font-size:12px;color:#581c87;line-height:1.5;">'
+              +     '<strong>✨ Auto-generate samples</strong> — Gemini 2.5 Pro writes the full set: <em>main + Band 5–9 + Uzbek Band 5–9</em> for <em>both</em> Task 1 and Task 2 (22 essays total) in one call. Existing samples with content are <strong>preserved</strong>. ~60–90s · ~$0.20–0.40.'
+              +   '</div>'
+              +   '<button type="button" id="mmgIwGenSamplesBtn" onclick="_mmgIwGenSamples()" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(124,58,237,.3);white-space:nowrap;">✨ Generate all samples</button>'
+              + '</div>';
+        html += '<div id="mmgIwGenSamplesStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;font-weight:500;"></div>';
+      }
+
       // Task chip row
       html += '<div class="mmg-chip-row"><span class="mmg-chip-label">Task</span>';
       for (var i = 0; i < tasks.length; i++) {
@@ -33951,6 +34178,19 @@
 
       var html = '<div class="mmg-section-title">Vocabulary lists (English ↔ Uzbek)</div>'
               + '<div class="mmg-field-help">One list per task. <span style="color:#15803d;">●</span> = list has rows. Use search to find an existing entry.</div>';
+
+      // IELTS Writing — ✨ Auto-generate topical EN↔UZ vocab for the
+      // active task. Won't duplicate existing entries; appends new ones.
+      if (_mmgCurrentType() === 'ielts-writing') {
+        html += '<div style="background:linear-gradient(135deg,#fdf4ff,#faf5ff);border:1px solid #e9d5ff;border-radius:10px;padding:12px 14px;margin:8px 0 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">'
+              +   '<div style="flex:1;min-width:240px;font-size:12px;color:#581c87;line-height:1.5;">'
+              +     '<strong>✨ Auto-generate vocabulary</strong> — Gemini 2.5 Pro reads the active task\'s prompt (and chart, for T1) and emits topical English↔Uzbek pairs. Skips duplicates that are already on the list. ~10–15s · ~$0.05.'
+              +   '</div>'
+              +   '<input type="number" id="mmgIwVocabCount" value="20" min="5" max="60" style="width:64px;border:1px solid #cbd5e1;border-radius:6px;padding:6px 8px;font-size:12.5px;text-align:right;" title="How many entries to generate (5–60)">'
+              +   '<button type="button" id="mmgIwGenVocabBtn" onclick="_mmgIwGenVocab()" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(124,58,237,.3);white-space:nowrap;">✨ Generate</button>'
+              + '</div>';
+        html += '<div id="mmgIwGenVocabStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;font-weight:500;"></div>';
+      }
 
       // Task chip row (count + filled dot per chip).
       html += '<div class="mmg-chip-row"><span class="mmg-chip-label">Task</span>';

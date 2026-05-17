@@ -1565,6 +1565,229 @@ async function enhanceWithRealEsrgan(opts: {
   };
 }
 
+// ── IELTS Writing samples (scope=samples) ──────────────────────────
+// Generates the full set of leveled sample answers for both tasks in
+// a single Pro call:
+//   task1.sampleAnswer / sampleBand5..9 / uzSampleBand5..9
+//   task2.sampleAnswer / sampleBand5..9 / uzSampleBand5..9
+// Returns whatever subset Pro could produce; the client merges into
+// existing samples (never overwrites a field the admin already wrote).
+async function generateIeltsWritingSamples(opts: {
+  task1Prompt:        string;
+  task1Instruction?:  string;
+  task1ChartFile?:    { mime: string; base64: string };
+  task2Prompt:        string;
+  task2Instruction?:  string;
+  geminiKey:          string;
+}): Promise<{ samples: any; modelUsed: string }> {
+  const { task1Prompt, task1Instruction, task1ChartFile, task2Prompt, task2Instruction, geminiKey } = opts;
+
+  const promptText = `You are a senior IELTS examiner generating sample answers for a Writing test. Output ONLY a JSON object (no prose, no markdown fence).
+
+Required shape:
+{
+  "task1": {
+    "sampleAnswer":  string,   // 150+ word polished model answer (target Band 8)
+    "sampleBand5":   string,   // ~150 words, faithfully demonstrating Band 5 issues: limited vocab, frequent grammar errors, simple structures, some inaccurate data, basic linking
+    "sampleBand6":   string,   // ~150 words, Band 6: clear overall but with errors, mostly accurate data, some range of vocab and grammar
+    "sampleBand7":   string,   // ~150 words, Band 7: well-organised, accurate data, good range with occasional slip-ups
+    "sampleBand8":   string,   // ~150 words, Band 8: precise, sophisticated, well-developed, near-flawless
+    "sampleBand9":   string,   // ~150 words, Band 9: expert use of language, fully accurate, naturally varied
+    "uzSampleBand5": string,   // Uzbek translation of sampleBand5
+    "uzSampleBand6": string,
+    "uzSampleBand7": string,
+    "uzSampleBand8": string,
+    "uzSampleBand9": string
+  },
+  "task2": {
+    "sampleAnswer":  string,   // 250+ word polished model answer (target Band 8)
+    "sampleBand5":   string,   // ~250 words, Band 5 quality
+    "sampleBand6":   string,   // ~250 words
+    "sampleBand7":   string,
+    "sampleBand8":   string,
+    "sampleBand9":   string,
+    "uzSampleBand5": string,   // Uzbek translation
+    "uzSampleBand6": string,
+    "uzSampleBand7": string,
+    "uzSampleBand8": string,
+    "uzSampleBand9": string
+  }
+}
+
+IELTS band conventions to honour:
+- Band 5 ≠ deliberately broken English. It's a real student who's working hard but makes systematic errors with tense, articles, word choice, and complex grammar. Word count near 150 / 250.
+- Band 6 ≈ clear and on-topic; tense errors, some awkward collocations, occasional underdevelopment.
+- Band 7 ≈ well-developed, mostly accurate, good range; minor slips.
+- Band 8 ≈ precise, sophisticated lexical choices, full range of structures with very few errors.
+- Band 9 ≈ effortless command, fully integrated argumentation, idiomatic vocabulary.
+
+Task 1 specifics:
+- Describe the chart factually. Open with a paraphrased question (overview sentence), then group + compare key features.
+- DO NOT invent numbers — use only what is shown in the chart image (if provided) or referenced in the prompt.
+- Avoid personal opinion; keep it descriptive.
+
+Task 2 specifics:
+- Take a clear position appropriate to the question type (opinion / discussion / problem-solution / advantage-disadvantage / two-part).
+- Introduction → 2 body paragraphs → conclusion. Strong topic sentences.
+- Examples should be plausible, not exaggerated.
+
+Uzbek translations:
+- Translate the corresponding English Band-N text faithfully into modern, natural Uzbek (Latin script). Preserve the writer's level — DON'T polish a Band 5 essay into Band 9 Uzbek prose. If the English makes a grammar mistake, render it naturally as a beginner-level Uzbek learner might write it (but keep it readable).
+
+INPUT:
+Task 1 instruction: ${task1Instruction || '(use the standard IELTS Task 1 rubric)'}
+Task 1 prompt: ${task1Prompt || '(empty)'}
+
+Task 2 instruction: ${task2Instruction || '(use the standard IELTS Task 2 rubric)'}
+Task 2 prompt: ${task2Prompt || '(empty)'}
+${task1ChartFile ? '\n[Task 1 chart image follows — use it as the source of truth for all numbers and labels in Task 1 samples]' : ''}`;
+
+  const parts: Array<{ text: string } | { inlineData: { mimeType: string; data: string } }> = [
+    { text: promptText }
+  ];
+  if (task1ChartFile && task1ChartFile.base64) {
+    parts.push({ inlineData: { mimeType: task1ChartFile.mime, data: task1ChartFile.base64 } });
+  }
+
+  const r = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${geminiKey}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ role: 'user', parts }],
+        generationConfig: {
+          temperature:      0.4,
+          responseMimeType: 'application/json',
+          maxOutputTokens:  32768,
+          thinkingConfig:   { thinkingBudget: 4096 }
+        },
+        safetySettings: [
+          { category: 'HARM_CATEGORY_HARASSMENT',        threshold: 'BLOCK_ONLY_HIGH' },
+          { category: 'HARM_CATEGORY_HATE_SPEECH',       threshold: 'BLOCK_ONLY_HIGH' },
+          { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
+          { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' }
+        ]
+      })
+    }
+  );
+  if (!r.ok) throw new Error(`samples http ${r.status}: ${(await r.text()).slice(0, 300)}`);
+  const j = await r.json();
+  const cand = j?.candidates?.[0];
+  const raw  = cand?.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
+  if (!raw.trim()) {
+    const finish    = cand?.finishReason || 'NO_CANDIDATE';
+    const safetyHit = (cand?.safetyRatings || []).find((s: { blocked?: boolean }) => s.blocked);
+    const safetyTxt = safetyHit ? ` · safety blocked: ${(safetyHit as { category?: string }).category}` : '';
+    throw new Error(`samples returned empty text (finish=${finish}${safetyTxt})`);
+  }
+  let parsed: any;
+  try { parsed = JSON.parse(raw.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '')); }
+  catch (e) { throw new Error(`samples JSON parse failed: ${(e as Error).message} — raw: ${raw.slice(0, 200)}`); }
+
+  // Whitelist the keys we expect — drops any extras Pro might invent.
+  const FIELDS = ['sampleAnswer','sampleBand5','sampleBand6','sampleBand7','sampleBand8','sampleBand9',
+                  'uzSampleBand5','uzSampleBand6','uzSampleBand7','uzSampleBand8','uzSampleBand9'];
+  const pickTask = (t: any) => {
+    const out: Record<string, string> = {};
+    if (t && typeof t === 'object') {
+      for (const k of FIELDS) {
+        if (typeof t[k] === 'string' && t[k].trim()) out[k] = String(t[k]).trim();
+      }
+    }
+    return out;
+  };
+  return {
+    samples: {
+      task1: pickTask(parsed.task1),
+      task2: pickTask(parsed.task2)
+    },
+    modelUsed: 'gemini-2.5-pro'
+  };
+}
+
+// ── IELTS Writing topical vocabulary (scope=vocab) ─────────────────
+// Generates a list of useful EN↔UZ pairs tied to one task's prompt
+// and (for T1) the chart image. Default count 20.
+async function generateIeltsWritingVocab(opts: {
+  taskKey:      'task1' | 'task2';
+  prompt:       string;
+  count:        number;
+  chartFile?:   { mime: string; base64: string };
+  geminiKey:    string;
+}): Promise<{ vocabulary: Array<{ en: string; uz: string }>; modelUsed: string }> {
+  const { taskKey, prompt, count, chartFile, geminiKey } = opts;
+  const isT1 = taskKey === 'task1';
+  const promptText = `You are an IELTS Writing tutor curating a vocabulary list for a Band 6-8 student preparing for the following ${isT1 ? 'Task 1 chart description' : 'Task 2 essay'}. Output ONLY a JSON object — no prose, no markdown fence.
+
+Shape:
+{ "vocabulary": [ { "en": string, "uz": string }, ... ] }
+
+Requirements:
+- Exactly ${count} entries.
+- Topical: every entry must be useful for THIS specific prompt's subject matter, NOT generic IELTS filler.
+- Mix of single words, collocations, and short phrases (2-4 words). Bias toward collocations and chunks, which is what raises a student's lexical band.
+- Each en entry should be the EXACT form a student would write (e.g. "to constitute the majority", "labour force participation"). Avoid bare nouns unless they're genuinely useful in isolation.
+- Each uz entry should be a natural modern-Uzbek translation in Latin script. Use the form that fits the en collocation grammatically.
+${isT1 ? '- For T1 lean toward data-description phrases (trends, comparisons, percentages, units, time markers).' : '- For T2 include opinion/argument language (concession, cause/effect, exemplification, evaluation) plus topic-specific terms.'}
+- No duplicates. No hex codes or rgb() values. No emojis.
+
+INPUT:
+Task: ${isT1 ? 'IELTS Writing Task 1' : 'IELTS Writing Task 2'}
+Prompt: ${prompt || '(empty)'}
+${chartFile ? '\n[Task 1 chart image follows — use it to ground the vocabulary in the actual data shown]' : ''}`;
+
+  const parts: Array<{ text: string } | { inlineData: { mimeType: string; data: string } }> = [
+    { text: promptText }
+  ];
+  if (chartFile && chartFile.base64) {
+    parts.push({ inlineData: { mimeType: chartFile.mime, data: chartFile.base64 } });
+  }
+
+  const r = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${geminiKey}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ role: 'user', parts }],
+        generationConfig: {
+          temperature:      0.55,
+          responseMimeType: 'application/json',
+          maxOutputTokens:  4096,
+          thinkingConfig:   { thinkingBudget: 1024 }
+        }
+      })
+    }
+  );
+  if (!r.ok) throw new Error(`vocab http ${r.status}: ${(await r.text()).slice(0, 300)}`);
+  const j = await r.json();
+  const cand = j?.candidates?.[0];
+  const raw  = cand?.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
+  if (!raw.trim()) {
+    const finish = cand?.finishReason || 'NO_CANDIDATE';
+    throw new Error(`vocab returned empty text (finish=${finish})`);
+  }
+  let parsed: any;
+  try { parsed = JSON.parse(raw.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '')); }
+  catch (e) { throw new Error(`vocab JSON parse failed: ${(e as Error).message} — raw: ${raw.slice(0, 200)}`); }
+
+  const seen = new Set<string>();
+  const list: Array<{ en: string; uz: string }> = [];
+  const arr = Array.isArray(parsed?.vocabulary) ? parsed.vocabulary : [];
+  for (const row of arr) {
+    if (!row || typeof row !== 'object') continue;
+    const en = String(row.en || '').trim();
+    const uz = String(row.uz || '').trim();
+    if (!en || !uz) continue;
+    const key = en.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    list.push({ en, uz });
+  }
+  return { vocabulary: list, modelUsed: 'gemini-2.5-pro' };
+}
+
 async function generateExplanations(
   passage: Record<string, unknown>,
   examType: string
@@ -2099,8 +2322,9 @@ Deno.serve(async (req) => {
   // two free-response tasks — reject any other scope.
   if (examType === 'ielts-writing') {
     const _iwScope = (body.scope || 'full').toString();
-    if (_iwScope !== 'passage' && _iwScope !== 'tags' && _iwScope !== 'find-source' && _iwScope !== 'enhance-chart') {
-      return json(400, { error: 'bad_scope', detail: 'IELTS Writing supports scope: "passage" / "tags" / "find-source" / "enhance-chart". Got "' + _iwScope + '".' });
+    const _iwOk = ['passage','tags','find-source','enhance-chart','samples','vocab'];
+    if (!_iwOk.includes(_iwScope)) {
+      return json(400, { error: 'bad_scope', detail: 'IELTS Writing supports scope: ' + _iwOk.map(s => '"' + s + '"').join(' / ') + '. Got "' + _iwScope + '".' });
     }
   }
 
@@ -2194,6 +2418,76 @@ Deno.serve(async (req) => {
         error:  'enhance_chart_failed',
         detail: e instanceof Error ? e.message : String(e),
         mode:   enhanceMode
+      });
+    }
+  }
+
+  // ── SAMPLES scope (IELTS Writing only): generate Band 5-9 EN + Uz
+  //    for both tasks in a single Pro call. ~$0.20-0.40, ~60-90s.
+  if ((body.scope || '').toString() === 'samples' && examType === 'ielts-writing') {
+    const t1Prompt = String(body.task1_prompt || '').trim();
+    const t2Prompt = String(body.task2_prompt || '').trim();
+    if (!t1Prompt && !t2Prompt) {
+      return json(400, { error: 'no_prompts', detail: 'scope=samples requires at least one of task1_prompt / task2_prompt.' });
+    }
+    const incomingFiles = (Array.isArray(body.files) ? body.files : []) as FileItem[];
+    const chartFile = incomingFiles[0] && incomingFiles[0].base64 ? { mime: incomingFiles[0].mime, base64: incomingFiles[0].base64 } : undefined;
+    try {
+      const result = await generateIeltsWritingSamples({
+        task1Prompt:       t1Prompt,
+        task1Instruction:  body.task1_instruction ? String(body.task1_instruction) : undefined,
+        task1ChartFile:    chartFile,
+        task2Prompt:       t2Prompt,
+        task2Instruction:  body.task2_instruction ? String(body.task2_instruction) : undefined,
+        geminiKey:         GEMINI_KEY
+      });
+      return json(200, {
+        samples:    result.samples,
+        model_used: result.modelUsed,
+        actor:      (auth as AuthOk).actor
+      });
+    } catch (e) {
+      return json(502, {
+        error:  'samples_failed',
+        detail: e instanceof Error ? e.message : String(e)
+      });
+    }
+  }
+
+  // ── VOCAB scope (IELTS Writing only): generate ~20 EN↔UZ pairs for
+  //    one task. ~$0.05, ~10-15s.
+  if ((body.scope || '').toString() === 'vocab' && examType === 'ielts-writing') {
+    const taskKey = String(body.task_key || '').trim();
+    if (taskKey !== 'task1' && taskKey !== 'task2') {
+      return json(400, { error: 'bad_task_key', detail: 'scope=vocab requires task_key: "task1" | "task2".' });
+    }
+    const prompt = String(body.prompt || '').trim();
+    if (!prompt) {
+      return json(400, { error: 'no_prompt', detail: 'scope=vocab requires the task prompt in body.prompt.' });
+    }
+    const count = Math.min(60, Math.max(5, Number(body.count) || 20));
+    const incomingFiles = (Array.isArray(body.files) ? body.files : []) as FileItem[];
+    const chartFile = (taskKey === 'task1' && incomingFiles[0] && incomingFiles[0].base64)
+      ? { mime: incomingFiles[0].mime, base64: incomingFiles[0].base64 }
+      : undefined;
+    try {
+      const result = await generateIeltsWritingVocab({
+        taskKey,
+        prompt,
+        count,
+        chartFile,
+        geminiKey: GEMINI_KEY
+      });
+      return json(200, {
+        task_key:   taskKey,
+        vocabulary: result.vocabulary,
+        model_used: result.modelUsed,
+        actor:      (auth as AuthOk).actor
+      });
+    } catch (e) {
+      return json(502, {
+        error:  'vocab_failed',
+        detail: e instanceof Error ? e.message : String(e)
       });
     }
   }
