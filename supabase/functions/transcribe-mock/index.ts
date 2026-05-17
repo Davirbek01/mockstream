@@ -1256,7 +1256,9 @@ Rules:
 - If the screenshot mentions a word count (e.g., "Write 50-70 words"), put it in "target". Otherwise default to "${defaultTarget}".
 - If the screenshot shows a numbered task header like "Task 1.1" / "Task 2", IGNORE that header — never include it in either "title" or "prompt".
 
-Worked example:
+CRITICAL — the example below is ONLY a SHAPE reference. The content of YOUR output MUST come from the user's screenshot. NEVER copy words from the worked example into your output unless they actually appear in the user's screenshot. If the example talks about birthdays and your screenshot is about a sports center, your output must be about the sports center.
+
+Worked example (FOR SHAPE ONLY — DO NOT REUSE ITS CONTENT):
 
 INPUT (what the screenshot shows):
 """
@@ -1265,6 +1267,8 @@ ${ex.source}
 
 OUTPUT:
 ${JSON.stringify(ex.out, null, 2)}
+
+Now extract from the user's actual screenshot that follows.
 ${notes ? '\nAdmin notes:\n' + notes : ''}`;
 
   const parts: Array<{ text: string } | { inlineData: { mimeType: string; data: string } }> = [
@@ -1373,76 +1377,82 @@ async function generateCefrWritingFull(opts: {
   // shared Part 1 context + scenario/email so T1.1 and T1.2 both have
   // something to react to (the runner shows context + scenario on top
   // of each Part 1 task page).
+  // The example domain is deliberately a niche scenario (community
+  // beekeeping society) so Gemini can't echo phrasing from it when the
+  // user's actual screenshots are about a different topic. Combined with
+  // the "DO NOT REUSE EXAMPLE CONTENT" rule below, this prevents the
+  // model from defaulting to the example's domain on partial-OCR pages.
   const exampleSource =
 `Part 1
 
-You are a member of the local library. You received an email from the library committee.
+You are a member of the Greendale Beekeeping Society. You received an email from the society chairperson.
 
 Dear Member,
 
-We would like to let you know that the library will be renovated starting next month. The renovation will last six weeks.
+We are pleased to share that the society will host its annual honey tasting evening at the village hall on the last Friday of next month.
 
-We are inviting all members to share what features they want to see most: more study space, more books, longer opening hours, or a coffee corner. Please respond by the end of this week.
+We would like members to vote on three things: which guest beekeeper to invite, what label design to use for this year's honey jars, and whether to include a short children's workshop. Please send your replies by Sunday.
 
-Kind regards,
-The Library Committee
+Warm regards,
+Iris Whitfield
+Chair, Greendale Beekeeping Society
 
 Task 1.1
-Write an email to your friend Sam telling them about the renovation.
+Write an email to your friend Theo who also keeps bees.
 
 In your email:
-- explain what is happening
-- say which features you would like
-- invite Sam to a meeting
+- tell Theo about the honey tasting evening
+- say which guest beekeeper you want to invite
+- ask Theo to bring a sample of his honey
 
 Write 50–70 words.
 
 Task 1.2
-Write a letter to the library committee.
+Write a letter to Iris Whitfield, the society chairperson.
 
 In your letter:
 - introduce yourself
-- state which features matter most to students
-- propose a deadline for student feedback
+- give your vote on the label design and the children's workshop
+- suggest a way to advertise the evening locally
 
 Write 120–150 words.
 
 Part 2
 
 Task 2
-You see this post on a community blog:
+You see this post in a gardening magazine:
 
-"Public libraries are becoming less relevant in the digital age. Should councils invest in them or close them?"
+"Urban beekeeping is becoming a popular hobby, but some neighbours worry about safety. Should councils encourage hives in city gardens or restrict them?"
 
-Write a blog post replying to it in 180–200 words.`;
+Write an article for the magazine in 180–200 words.`;
 
   const exampleOut = {
     partOne: {
-      context:  "You are a member of the local library. You received an email from the library committee.",
-      scenario: "Dear Member,\n\nWe would like to let you know that the library will be renovated starting next month. The renovation will last six weeks.\n\nWe are inviting all members to share what features they want to see most: more study space, more books, longer opening hours, or a coffee corner. Please respond by the end of this week.\n\nKind regards,\nThe Library Committee"
+      context:  "You are a member of the Greendale Beekeeping Society. You received an email from the society chairperson.",
+      scenario: "Dear Member,\n\nWe are pleased to share that the society will host its annual honey tasting evening at the village hall on the last Friday of next month.\n\nWe would like members to vote on three things: which guest beekeeper to invite, what label design to use for this year's honey jars, and whether to include a short children's workshop. Please send your replies by Sunday.\n\nWarm regards,\nIris Whitfield\nChair, Greendale Beekeeping Society"
     },
     tasks: {
       t11: {
-        title:  "Library renovation news",
+        title:  "Beekeeping tasting evening",
         target: "50–70 words",
-        prompt: "Write an email to your friend Sam telling them about the renovation.\n\nIn your email:\n- explain what is happening\n- say which features you would like\n- invite Sam to a meeting"
+        prompt: "Write an email to your friend Theo who also keeps bees.\n\nIn your email:\n- tell Theo about the honey tasting evening\n- say which guest beekeeper you want to invite\n- ask Theo to bring a sample of his honey"
       },
       t12: {
-        title:  "Library committee proposal",
+        title:  "Beekeeping society votes",
         target: "120–150 words",
-        prompt: "Write a letter to the library committee.\n\nIn your letter:\n- introduce yourself\n- state which features matter most to students\n- propose a deadline for student feedback"
+        prompt: "Write a letter to Iris Whitfield, the society chairperson.\n\nIn your letter:\n- introduce yourself\n- give your vote on the label design and the children's workshop\n- suggest a way to advertise the evening locally"
       },
       t2: {
-        title:  "Libraries in the digital age",
+        title:  "Urban beekeeping rules",
         target: "180–200 words",
-        prompt: "You see this post on a community blog:\n\n\"Public libraries are becoming less relevant in the digital age. Should councils invest in them or close them?\"\n\nWrite a blog post replying to it.",
-        genre:  "blog post",
-        chip:   "education"
+        prompt: "You see this post in a gardening magazine:\n\n\"Urban beekeeping is becoming a popular hobby, but some neighbours worry about safety. Should councils encourage hives in city gardens or restrict them?\"\n\nWrite an article for the magazine.",
+        genre:  "article",
+        chip:   "community"
       }
     },
     part1: {
-      topic: "Library renovation",
-      chip:  "education"
+      topic: "Beekeeping society event",
+      chip:  "community"
     },
     targetLevel: "B1"
   };
@@ -1496,7 +1506,9 @@ Rules:
 - part1.chip describes Part 1 only; t2.chip describes Part 2 only. They may be the same chip if both halves cover the same subject.
 - If a task is missing from the source (e.g., admin only uploaded Part 1 screenshots), leave that task's title="" target="" prompt="" — DON'T fabricate content.
 
-Worked example:
+CRITICAL — the example below is ONLY a SHAPE reference. The content of YOUR output MUST come from the user's screenshots. NEVER copy words like "beekeeping", "honey", "Greendale", "Iris Whitfield", or any other phrase from the worked example into your output unless those exact words actually appear in the user's screenshots. If the user's screenshot subject is "swimming lessons", your output must be about swimming lessons — not about the example's beekeeping society.
+
+Worked example (FOR SHAPE ONLY — DO NOT REUSE ITS CONTENT):
 
 INPUT (what the screenshots together show):
 """
@@ -1505,6 +1517,8 @@ ${exampleSource}
 
 OUTPUT:
 ${JSON.stringify(exampleOut, null, 2)}
+
+Now extract the user's actual mock from the screenshots that follow.
 ${notes ? '\nAdmin notes:\n' + notes : ''}`;
 
   const parts: Array<{ text: string } | { inlineData: { mimeType: string; data: string } }> = [
