@@ -8085,6 +8085,45 @@
     </div>
   </div>
 
+  <!-- ===== Full-screen CEFR Writing picker (cwetPicker) ===== -->
+  <!-- Mirrors iwetPicker but for CEFR Writing's three-task shape
+       (t11 / t12 / t2). One filter dropdown: topic. Purple tone to
+       distinguish from IELTS Writing's orange. -->
+  <div id="cwetPicker" class="ilet-overlay" aria-hidden="true">
+    <header class="ilet-header">
+      <button class="ilet-back" type="button" onclick="cwetClose()" title="Back to landing">←</button>
+      <div class="ilet-title">
+        <span class="ilet-title-emoji">✏️</span>
+        <span class="ilet-title-text">CEFR Writing</span>
+        <span class="ilet-count" id="cwetCount">0</span>
+      </div>
+      <div class="ilet-header-tools">
+        <input type="search" class="ilet-search" id="cwetSearch" placeholder="🔍 Search mock #, topic…" autocomplete="off" spellcheck="false">
+        <select class="ilet-sort" id="cwetJump" title="Jump to mock #">
+          <option value="">Jump to #…</option>
+        </select>
+      </div>
+    </header>
+
+    <div class="ilet-filter-row cwet-filter-row">
+      <button type="button" class="ilet-chip ilet-chip-active cwet-chip" data-filter="all">All</button>
+      <button type="button" class="ilet-chip cwet-chip" data-filter="ready">✓ Ready only</button>
+      <button type="button" class="ilet-chip cwet-chip" data-filter="soon">⏳ Coming soon</button>
+      <button type="button" class="ilet-chip cwet-chip" data-filter="done">★ Done before</button>
+      <select class="ilet-source-filter" id="cwetTopicFilter" title="Filter by topic">
+        <option value="">🏷 All topics</option>
+      </select>
+    </div>
+
+    <main class="ilet-grid" id="cwetGrid"></main>
+
+    <div class="ilet-empty" id="cwetEmpty" style="display:none;">
+      <div class="ilet-empty-icon">🔍</div>
+      <p class="ilet-empty-msg">No mocks match your filters.</p>
+      <button type="button" class="ilet-empty-clear" onclick="cwetClearFilters()">Clear filters</button>
+    </div>
+  </div>
+
   <style>
     /* ===== Full-screen IELTS Reading picker ===== */
     .iret-overlay {
@@ -8623,6 +8662,111 @@
       padding: 1px 8px;
       font-weight: 600;
       white-space: nowrap;
+    }
+    /* ===== CEFR Writing picker (cwetPicker) — purple tone =====
+       Mirrors iwetPicker's selectors but with a violet palette so the
+       two pickers feel related-but-distinct. Reuses .ilet-* layout
+       classes for grid + header + card scaffolding. */
+    #cwetPicker .ilet-header {
+      background: rgba(245, 243, 255, 0.95);
+      border-bottom: 1px solid #ddd6fe;
+    }
+    #cwetPicker .ilet-back {
+      color: #6d28d9;
+      border-color: #ddd6fe;
+    }
+    #cwetPicker .ilet-back:hover { background: #6d28d9; color: #fff; }
+    #cwetPicker .ilet-title { color: #4c1d95; }
+    #cwetPicker .ilet-count {
+      background: #ede9fe;
+      color: #6d28d9;
+      border: 1px solid #c4b5fd;
+    }
+    #cwetPicker .ilet-card {
+      background: linear-gradient(135deg, #faf5ff 0%, #f5f3ff 100%);
+      border: 1px solid #ddd6fe;
+    }
+    #cwetPicker .ilet-card:hover:not(.ilet-card-disabled) {
+      border-color: #8b5cf6;
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.2);
+    }
+    #cwetPicker .ilet-mocknum {
+      background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+    }
+    #cwetPicker .ilet-take {
+      background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+    }
+    #cwetPicker .ilet-take:hover {
+      background: linear-gradient(135deg, #6d28d9, #5b21b6);
+    }
+    #cwetPicker .ilet-chip-active {
+      background: #6d28d9;
+      color: #fff;
+      border-color: #6d28d9;
+    }
+    #cwetPicker .ilet-mock-title { color: #4c1d95; }
+    #cwetPicker .cwet-filter-row {
+      background: rgba(245, 243, 255, 0.6);
+      border-bottom: 1px solid #ede9fe;
+    }
+    #cwetPicker .ilet-section { align-items: flex-start; }
+    #cwetPicker .ilet-section-num {
+      background: #ede9fe;
+      color: #6d28d9;
+    }
+    #cwetPicker .ilet-section-title {
+      font-weight: 600;
+      line-height: 1.4;
+    }
+    /* Per-task topic pill — small chip with the same family of colours
+       used on iwet pills so the visual language is consistent. */
+    #cwetPicker .cwet-pill {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 1px 8px;
+      border-radius: 999px;
+      margin-right: 4px;
+      vertical-align: middle;
+      line-height: 1.5;
+      white-space: nowrap;
+    }
+    #cwetPicker .cwet-pill-topic {
+      color: #6d28d9;
+      background: #ede9fe;
+      border: 1px solid #c4b5fd;
+    }
+    #cwetPicker .cwet-pill-level {
+      color: #1e40af;
+      background: #dbeafe;
+      border: 1px solid #93c5fd;
+    }
+    /* Share button — keeps the same shape as iwet but in violet tone. */
+    #cwetPicker .cwet-share,
+    #cwetPicker .iwet-share {
+      background: transparent;
+      border: 1px solid #c4b5fd;
+      color: #6d28d9;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+      transition: background 120ms ease, border-color 120ms ease;
+      margin-right: 8px;
+      white-space: nowrap;
+    }
+    #cwetPicker .cwet-share:hover,
+    #cwetPicker .iwet-share:hover {
+      background: #f5f3ff;
+      border-color: #6d28d9;
+    }
+    #cwetPicker .cwet-share.cwet-share-copied {
+      background: #dcfce7;
+      border-color: #86efac;
+      color: #15803d;
+      font-size: 11px;
+      font-weight: 700;
     }
     .ilet-header {
       position: sticky;
@@ -11824,7 +11968,7 @@
         // when that flow is added.
         var m = takeParam.match(/^(cefr|ielts)-(reading|listening)-(\d+)$/i)
              || takeParam.match(/^(cefr)-(speaking)-(\d+)$/i)
-             || takeParam.match(/^(ielts)-(writing)-(\d+)$/i);
+             || takeParam.match(/^(ielts|cefr)-(writing)-(\d+)$/i);
         if (!m) {
           console.warn('[deep-link] Unrecognised slug:', takeParam);
           return;
@@ -11890,14 +12034,17 @@
           return;
         }
 
-        // IELTS Writing — different runner + auto-proceed gate quirk.
-        // The runner page bails to landing without ?test=, so we pass
-        // BOTH ?test=ielts-writing-mock-NN AND ?sbmock=<id>. Same URL
-        // shape ieltsWritingMocks entries use after the dynamic upgrade.
+        // Writing — different runner + auto-proceed gate quirk. The
+        // runner page bails to landing without ?test=, so we pass
+        // BOTH ?test=<exam>-writing-mock-NN AND ?sbmock=<id>. Same URL
+        // shape the dynamic-upgrade fetcher uses.
         if (skill === 'writing') {
           var padded = String(mockNum).padStart(2, '0');
-          var pageUrlW = 'Writing IELTS Mock.html'
-            + '?test=ielts-writing-mock-' + padded
+          // CEFR Writing uses the shared 'Writing Mocks.html' runner,
+          // IELTS Writing uses 'Writing IELTS Mock.html'.
+          var runnerWriting = (exam === 'cefr') ? 'Writing Mocks.html' : 'Writing IELTS Mock.html';
+          var pageUrlW = runnerWriting
+            + '?test=' + exam + '-writing-mock-' + padded
             + '&sbmock=' + encodeURIComponent(sbMockId)
             + '&auto=1';
           if (typeof handleWritingMockClick !== 'function') {
@@ -16069,6 +16216,8 @@
       if (clet && clet.classList.contains('ilet-open')) { cletClose(); return; }
       var iwet = document.getElementById('iwetPicker');
       if (iwet && iwet.classList.contains('ilet-open')) { iwetClose(); return; }
+      var cwet = document.getElementById('cwetPicker');
+      if (cwet && cwet.classList.contains('ilet-open')) { cwetClose(); return; }
     }
     function _pickerShowTmaBack() {
       try {
@@ -17887,8 +18036,24 @@
         // Take Test button — pushState (committed navigation) + tell
         // iwetClose to leave the URL alone so the runner page keeps
         // /take/<slug> visible.
-        const file = card.dataset.file;
+        // Partial-ready handling: if only one task is Ready, append
+        // ?task=t1 / ?task=t2 so the runner launches in single-task
+        // mode (it already supports this — see Writing IELTS Mock.html
+        // line ~77 _singleTaskId handling). Skips the missing task
+        // entirely instead of letting the runner silently fall back to
+        // a default chart from another mock.
+        let file = card.dataset.file;
         if (!file) return;
+        const meta = _iwetMockMeta[mockN];
+        if (meta && Array.isArray(meta.tasks)) {
+          const t1Ready = !!(meta.tasks[0] && meta.tasks[0].ready);
+          const t2Ready = !!(meta.tasks[1] && meta.tasks[1].ready);
+          if (t1Ready && !t2Ready) {
+            file += (file.indexOf('?') === -1 ? '?' : '&') + 'task=t1';
+          } else if (!t1Ready && t2Ready) {
+            file += (file.indexOf('?') === -1 ? '?' : '&') + 'task=t2';
+          }
+        }
         if (mockN) {
           try { history.pushState(null, '', '/take/ielts-writing-' + encodeURIComponent(mockN)); } catch (_e) {}
         }
@@ -17907,6 +18072,339 @@
     window.iwetOpen = iwetOpen;
     window.iwetClose = iwetClose;
     window.iwetClearFilters = iwetClearFilters;
+
+    // ────────────────────────────────────────────────────────────────────
+    // FULL-SCREEN CEFR WRITING PICKER (cwetPicker)
+    // ────────────────────────────────────────────────────────────────────
+    // CEFR Writing has THREE tasks per mock (t11 / t12 / t2) and no
+    // chart image — readiness is just "prompt non-empty". Filter set is
+    // intentionally minimal vs iwetPicker: status (Ready/Soon/Done) +
+    // topic chip filter. No source / year / chart / essay-type filters.
+    // ════════════════════════════════════════════════════════════════════
+    const _cwet_SB_URL  = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    const _cwet_SB_KEY  = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    const _cwetMockMeta = {};
+    let   _cwetServerDone = {};
+    let   _cwetFilter      = 'all';
+    let   _cwetTopicFilter = '';
+
+    function _cwetEsc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    function _cwetBuildMetaFromMockData(md) {
+      const t = (md && md.tasks && typeof md.tasks === 'object') ? md.tasks : {};
+      const t11 = (t.t11 && typeof t.t11 === 'object') ? t.t11 : {};
+      const t12 = (t.t12 && typeof t.t12 === 'object') ? t.t12 : {};
+      const t2  = (t.t2  && typeof t.t2  === 'object') ? t.t2  : {};
+      const ready = (x) => !!(x.prompt && String(x.prompt).trim());
+      // Topics live at md.topics (string[]) for filtering — admin
+      // populates them via the editor (or AI auto-tag later).
+      const topics = Array.isArray(md && md.topics) ? md.topics
+                       .map(s => String(s || '').trim().toLowerCase())
+                       .filter(Boolean) : [];
+      return {
+        topics: topics,
+        level:  (md && md.targetLevel) || '',
+        tasks: [
+          { key: 't11', title: String(t11.title || '').trim(), ready: ready(t11) },
+          { key: 't12', title: String(t12.title || '').trim(), ready: ready(t12) },
+          { key: 't2',  title: String(t2.title  || '').trim(), ready: ready(t2)  }
+        ]
+      };
+    }
+
+    function _cwetGetDoneInfo(mockN) {
+      // Same convention as iwet — bestPercents stored in localStorage
+      // under `ms_cefrWriting_done` (server-side count overlays).
+      try {
+        const local = JSON.parse(localStorage.getItem('ms_cefrWriting_done') || '{}');
+        if (local && local[mockN]) {
+          return { percent: Number(local[mockN].percent) || null };
+        }
+      } catch (_e) {}
+      if (_cwetServerDone && _cwetServerDone[mockN]) return _cwetServerDone[mockN];
+      return null;
+    }
+
+    function _cwetCardHtml(mockNum, item, meta, doneInfo) {
+      const tasks = meta.tasks;
+      const readyCount = tasks.filter(p => p.ready).length;
+      const total = tasks.length;
+      const noneReady = readyCount === 0;
+      const dots = tasks.map(p =>
+        '<span class="ilet-dot ' + (p.ready ? 'ilet-dot-ready' : 'ilet-dot-soon') + '"></span>'
+      ).join('');
+      const taskRows = tasks.map((p, i) => {
+        const labels = ['T1.1', 'T1.2', 'T2'];
+        const titleHtml = p.title
+          ? '<strong>' + _cwetEsc(p.title) + '</strong>'
+          : '<strong style="color:#94a3b8;">(no task title yet)</strong>';
+        return '<li class="ilet-section">'
+          + '<span class="ilet-section-num">' + labels[i] + '</span>'
+          + '<span class="ilet-section-title">' + titleHtml + '</span>'
+          + '<span class="ilet-section-badge ' + (p.ready ? 'ilet-badge-ready' : 'ilet-badge-soon') + '">'
+          +   (p.ready ? '✓ Ready' : '⏳ Soon')
+          + '</span>'
+          + '</li>';
+      }).join('');
+      const topicsHtml = meta.topics.length
+        ? '<div style="margin:6px 0 0;display:flex;flex-wrap:wrap;gap:4px;">'
+            + meta.topics.slice(0, 4).map(t =>
+                '<span class="cwet-pill cwet-pill-topic">' + _cwetEsc(t) + '</span>').join('')
+          + '</div>'
+        : '';
+      const levelHtml = meta.level
+        ? '<span class="cwet-pill cwet-pill-level" title="Target CEFR level">' + _cwetEsc(meta.level) + '</span>'
+        : '';
+      const doneHtml = doneInfo
+        ? (typeof doneInfo.percent === 'number'
+            ? '<span class="ilet-done">★ Done · ' + doneInfo.percent + '%</span>'
+            : '<span class="ilet-done">★ Done</span>')
+        : '';
+      const shareBtnHtml = noneReady
+        ? ''
+        : '<button type="button" class="cwet-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
+      const actionHtml = noneReady
+        ? '<span class="ilet-coming-soon">Coming soon</span>'
+        : (shareBtnHtml + '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Take Test →</button>');
+      const cleanTitle = String(item.name || '').replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]+\s*/u, '');
+      const topicBlob = (meta.topics || []).concat(tasks.map(p => p.title || '')).join(' ').toLowerCase();
+      return '<article class="ilet-card ' + (noneReady ? 'ilet-card-disabled' : '') + '"'
+        + ' id="cwet-card-' + mockNum + '"'
+        + ' data-mock="' + mockNum + '"'
+        + ' data-file="' + _cwetEsc(item.file) + '"'
+        + ' data-ready-count="' + readyCount + '"'
+        + ' data-total="' + total + '"'
+        + ' data-topics="' + _cwetEsc(meta.topics.join('|').toLowerCase()) + '"'
+        + ' data-done="' + (doneHtml ? '1' : '0') + '"'
+        + ' data-title="' + _cwetEsc(cleanTitle.toLowerCase()) + '"'
+        + ' data-blob="' + _cwetEsc(topicBlob) + '">'
+        + '<header class="ilet-card-head">'
+        +   '<span class="ilet-mocknum">#' + mockNum + '</span>'
+        +   '<span class="ilet-mock-dots">' + dots + '</span>'
+        +   '<span class="ilet-mock-status">' + readyCount + '/' + total + ' READY</span>'
+        +   levelHtml
+        +   doneHtml
+        + '</header>'
+        + '<h3 class="ilet-mock-title">' + _cwetEsc(cleanTitle) + '</h3>'
+        + topicsHtml
+        + '<ul class="ilet-mock-sections">' + taskRows + '</ul>'
+        + '<footer class="ilet-card-foot">' + actionHtml + '</footer>'
+        + '</article>';
+    }
+
+    async function _cwetLoadAllMockMeta(mocks) {
+      // Pull mock_data for every published CEFR Writing mock once on
+      // open. No localStorage cache — keeps the picker honest about
+      // freshly-edited mocks.
+      try {
+        const resp = await fetch(`${_cwet_SB_URL}/rest/v1/mock_tests?mock_type=eq.cefr-writing&status=eq.published&select=mock_number,mock_data`, {
+          headers: { 'apikey': _cwet_SB_KEY, 'Authorization': 'Bearer ' + _cwet_SB_KEY }
+        });
+        if (resp.ok) {
+          const rows = await resp.json();
+          for (const r of (rows || [])) {
+            const padded = String(r.mock_number).padStart(2, '0');
+            _cwetMockMeta[padded] = _cwetBuildMetaFromMockData(r.mock_data);
+          }
+        }
+      } catch (e) { console.warn('[cwetPicker] meta fetch failed:', e); }
+    }
+
+    function _cwetBuildTopicFilterOptions() {
+      const sel = document.getElementById('cwetTopicFilter');
+      if (!sel) return;
+      const all = new Set();
+      Object.values(_cwetMockMeta).forEach(m => (m.topics || []).forEach(t => t && all.add(t)));
+      const current = sel.value;
+      sel.innerHTML = '<option value="">🏷 All topics</option>'
+        + Array.from(all).sort().map(t => '<option value="' + _cwetEsc(t) + '">' + _cwetEsc(t) + '</option>').join('');
+      sel.style.display = all.size ? '' : 'none';
+      if (current && all.has(current)) sel.value = current;
+    }
+
+    function _cwetApplyFiltersAndSort() {
+      const grid    = document.getElementById('cwetGrid');
+      const empty   = document.getElementById('cwetEmpty');
+      const search  = (document.getElementById('cwetSearch').value || '').trim().toLowerCase();
+      const cards   = Array.from(grid.querySelectorAll('.ilet-card'));
+      let shown = 0;
+      cards.forEach(card => {
+        const readyCount = parseInt(card.dataset.readyCount, 10) || 0;
+        const total      = parseInt(card.dataset.total, 10)      || 3;
+        const isDone     = card.dataset.done === '1';
+        const noneReady  = readyCount === 0;
+        const blob       = card.dataset.blob || '';
+        const topics     = (card.dataset.topics || '').split('|').filter(Boolean);
+        let pass = true;
+        // Status filter
+        if (_cwetFilter === 'ready' && readyCount !== total) pass = false;
+        else if (_cwetFilter === 'soon' && !noneReady)        pass = false;
+        else if (_cwetFilter === 'done' && !isDone)           pass = false;
+        // Topic filter
+        if (pass && _cwetTopicFilter && !topics.includes(_cwetTopicFilter.toLowerCase())) pass = false;
+        // Search
+        if (pass && search) {
+          const hay = '#' + card.dataset.mock + ' ' + (card.dataset.title || '') + ' ' + blob;
+          if (hay.indexOf(search) === -1) pass = false;
+        }
+        card.style.display = pass ? '' : 'none';
+        if (pass) shown++;
+      });
+      document.getElementById('cwetCount').textContent = shown;
+      empty.style.display = shown ? 'none' : 'flex';
+    }
+
+    function _cwetClearFilters() {
+      _cwetFilter = 'all';
+      _cwetTopicFilter = '';
+      document.querySelectorAll('#cwetPicker .cwet-chip').forEach(c =>
+        c.classList.toggle('ilet-chip-active', c.dataset.filter === 'all'));
+      const sf = document.getElementById('cwetTopicFilter'); if (sf) sf.value = '';
+      const sr = document.getElementById('cwetSearch');      if (sr) sr.value = '';
+      _cwetApplyFiltersAndSort();
+    }
+
+    async function cwetOpen() {
+      // Lazy-load done count once
+      try {
+        const localDone = JSON.parse(localStorage.getItem('ms_cefrWriting_done') || '{}');
+        _cwetServerDone = localDone || {};
+      } catch (_e) { _cwetServerDone = {}; }
+
+      const overlay = document.getElementById('cwetPicker');
+      overlay.classList.add('ilet-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+
+      // Render skeleton + fetch
+      const grid = document.getElementById('cwetGrid');
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#7c3aed;font-size:14px;">Loading CEFR Writing mocks…</div>';
+      await _cwetLoadAllMockMeta();
+      // Build the list of items from the module-scoped cefrWritingMocks
+      // array (populated at script-load by the legacy fetcher). Items
+      // don't carry an id field — the mock number is the 1-based array
+      // index, same convention iwetPicker uses for ieltsWritingMocks.
+      const items = (typeof cefrWritingMocks !== 'undefined' && Array.isArray(cefrWritingMocks))
+        ? cefrWritingMocks.slice() : [];
+      const jump = document.getElementById('cwetJump');
+      if (jump) {
+        jump.innerHTML = '<option value="">Jump to #…</option>'
+          + items.map((_it, idx) => {
+              const n = String(idx + 1).padStart(2, '0');
+              return '<option value="' + n + '">#' + n + '</option>';
+            }).join('');
+      }
+      grid.innerHTML = items.map((item, idx) => {
+        const mockNum = String(idx + 1).padStart(2, '0');
+        const meta = _cwetMockMeta[mockNum] || { topics: [], level: '', tasks: [
+          { key: 't11', title: '', ready: false },
+          { key: 't12', title: '', ready: false },
+          { key: 't2',  title: '', ready: false }
+        ] };
+        return _cwetCardHtml(mockNum, item, meta, _cwetGetDoneInfo(mockNum));
+      }).join('');
+      _cwetBuildTopicFilterOptions();
+      _cwetApplyFiltersAndSort();
+    }
+
+    function cwetClose(opts) {
+      const keepUrl = opts && opts.keepUrl;
+      const overlay = document.getElementById('cwetPicker');
+      overlay.classList.remove('ilet-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (!keepUrl) {
+        try { history.replaceState(null, '', '/landing.html'); } catch (_e) {}
+      }
+    }
+
+    function cwetClearFilters() { _cwetClearFilters(); }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const searchEl = document.getElementById('cwetSearch');
+      if (searchEl) searchEl.addEventListener('input', _cwetApplyFiltersAndSort);
+      const topicSel = document.getElementById('cwetTopicFilter');
+      if (topicSel) topicSel.addEventListener('change', function () {
+        _cwetTopicFilter = this.value || '';
+        _cwetApplyFiltersAndSort();
+      });
+      document.querySelectorAll('#cwetPicker .cwet-chip').forEach(chip => {
+        chip.addEventListener('click', function () {
+          _cwetFilter = this.dataset.filter || 'all';
+          document.querySelectorAll('#cwetPicker .cwet-chip').forEach(c =>
+            c.classList.toggle('ilet-chip-active', c === this));
+          _cwetApplyFiltersAndSort();
+        });
+      });
+      const jumpEl = document.getElementById('cwetJump');
+      if (jumpEl) jumpEl.addEventListener('change', function () {
+        const v = this.value;
+        if (!v) return;
+        const padded = String(v).padStart(2, '0');
+        const card = document.getElementById('cwet-card-' + padded);
+        if (card) {
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          card.style.outline = '2px solid #6d28d9';
+          setTimeout(() => { card.style.outline = ''; }, 1200);
+        }
+        this.value = '';
+      });
+      const gridEl = document.getElementById('cwetGrid');
+      if (gridEl) gridEl.addEventListener('click', function (e) {
+        if (e.target.closest('input, select, textarea, a, [contenteditable]')) return;
+        const card = e.target.closest('.ilet-card');
+        if (!card) return;
+        if (card.classList.contains('ilet-card-disabled')) return;
+        const mockN = card.dataset.mock;
+
+        const shareBtn = e.target.closest('.cwet-share');
+        if (shareBtn) {
+          e.stopPropagation();
+          _pickerShareMock('cefr-writing', 'CEFR Writing Mock', mockN, shareBtn, 'cwet-share-copied');
+          return;
+        }
+
+        const isTakeBtn = !!e.target.closest('.ilet-take');
+        if (!isTakeBtn) {
+          // Whole-card tap = URL preview only.
+          if (mockN) {
+            try { history.replaceState(null, '', '/take/cefr-writing-' + encodeURIComponent(mockN)); } catch (_e) {}
+          }
+          return;
+        }
+
+        // Take Test → optional single-task mode for partial-ready mocks.
+        let file = card.dataset.file;
+        if (!file) return;
+        const meta = _cwetMockMeta[mockN];
+        if (meta && Array.isArray(meta.tasks)) {
+          const readyKeys = meta.tasks.filter(t => t.ready).map(t => t.key);
+          if (readyKeys.length === 1) {
+            // Only one task authored — append it as the runner's task param.
+            file += (file.indexOf('?') === -1 ? '?' : '&') + 'task=' + readyKeys[0];
+          }
+        }
+        if (mockN) {
+          try { history.pushState(null, '', '/take/cefr-writing-' + encodeURIComponent(mockN)); } catch (_e) {}
+        }
+        cwetClose({ keepUrl: true });
+        if (typeof handleWritingMockClick === 'function') {
+          handleWritingMockClick(file, 'cefr-writing');
+        } else if (typeof loadMock === 'function') {
+          loadMock(file, 'writing');
+        }
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && document.getElementById('cwetPicker').classList.contains('ilet-open')) cwetClose();
+      });
+    });
+
+    window.cwetOpen         = cwetOpen;
+    window.cwetClose        = cwetClose;
+    window.cwetClearFilters = cwetClearFilters;
 
     // ===== FULL-SCREEN CEFR READING PICKER =====
     // Same flow as the IELTS picker (iretOpen / iretRender) but for CEFR mocks.
@@ -19320,12 +19818,16 @@
 
     // ========== WRITING MOCKS CATEGORY MODAL ==========
     function openWritingCategoryModal(category) {
-      // IELTS Writing got its own fullscreen picker (iwetPicker) as part
-      // of Phase 3+ — route there instead of the legacy grid modal.
-      // CEFR Writing keeps the old modal for now until it gets the same
-      // treatment.
+      // IELTS Writing + CEFR Writing both have fullscreen pickers
+      // (iwetPicker / cwetPicker). Route there instead of the legacy
+      // grid modal. Any future writing variant can follow the same
+      // pattern.
       if (category === 'ielts-writing' && typeof iwetOpen === 'function') {
         iwetOpen();
+        return;
+      }
+      if (category === 'cefr-writing' && typeof cwetOpen === 'function') {
+        cwetOpen();
         return;
       }
       _categoryModalParent = showWritingOptions; // Back → Writing format modal
@@ -22407,6 +22909,12 @@
         if (iwet && iwet.classList.contains('ilet-open')) {
           _pickerFromPopstate = true;
           iwetClose();
+          _pickerFromPopstate = false;
+        }
+        var cwet = document.getElementById('cwetPicker');
+        if (cwet && cwet.classList.contains('ilet-open')) {
+          _pickerFromPopstate = true;
+          cwetClose();
           _pickerFromPopstate = false;
         }
         // 2) Close access-code modals if URL left /take/...
@@ -31055,7 +31563,7 @@
             <div id="mmgImportTestFiles"></div>
           </div>
 
-          <div style="margin-bottom:14px;">
+          <div id="mmgImportKeySection" style="margin-bottom:14px;">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
               <strong>Answer key (optional)</strong>
               <span style="flex:1;color:#94a3b8;font-size:11px;font-weight:normal;"> · skip if your test file already includes the key</span>
@@ -31087,7 +31595,7 @@
           </div>
 
           <div id="mmgImportStatus" style="margin-top:8px;font-size:12px;min-height:16px;"></div>
-          <div style="margin-top:4px;font-size:11px;color:#64748b;">💡 Tip: click <strong>📋 Paste</strong> next to a section to open a sticky paste dialog — Alt-Tab to your source, take a screenshot (Win + Shift + S), come back, <kbd style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:3px;padding:1px 6px;font-family:ui-monospace,monospace;font-size:10.5px;">Ctrl + V</kbd>, repeat. Click Done to add the whole batch. Or just press Ctrl + V anywhere here for a quick one-shot to Test content.</div>
+          <div style="margin-top:4px;font-size:11px;color:#64748b;">💡 Tip: take a screenshot first (Win + Shift + S on Windows, ⌘ + Shift + 5 on Mac), then click <strong>📋 Paste</strong> — the image drops straight in. If clipboard access is blocked, a paste dialog opens where you can <kbd style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:3px;padding:1px 6px;font-family:ui-monospace,monospace;font-size:10.5px;">Ctrl + V</kbd> any number of screenshots in one session.</div>
         </div>
 
         <div style="padding:12px 18px;border-top:1px solid #e2e8f0;display:flex;gap:8px;align-items:center;">
@@ -31789,13 +32297,13 @@
         ];
       }
       if (type === 'ielts-writing') {
-        return [
-          { k: 'logoUrl',        label: 'Logo URL',        help: 'Image URL for the logo.' },
-          { k: 'logoWording',    label: 'Logo wording',    help: 'Text next to the logo image (e.g., "CAMELOT LC").' },
-          { k: 'testIdentifier', label: 'Test identifier', help: 'Shown on the test header (e.g., "IELTS Mock 02").' },
-          { k: 'moduleTitle',    label: 'Module title',    help: 'e.g., "Academic Writing Module".' },
-          { k: 'timeInfo',       label: 'Time info',       help: 'Header line summarising timing (60 min / Task 1: 20 min / Task 2: 40 min).' }
-        ];
+        // Logo / heading / module-title / time-info were legacy fields —
+        // the runner falls back to per-clone branding for logo and to
+        // "Academic Writing Module" for the title. Hidden from the form
+        // so admins focus on the import bars + source/date. Existing
+        // stored values are preserved on save (the collector only writes
+        // back what's present in the DOM).
+        return [];
       }
       // Default: CEFR Writing
       return [
@@ -31811,10 +32319,87 @@
       var s = (md.settings = md.settings || {});
       var type = _mmgCurrentType();
       var keys = _mmgSettingsKeysForType(type);
-      var html = '<div class="mmg-section-title">Test settings (logo + headings)</div>';
-      for (var i = 0; i < keys.length; i++) {
-        var f = keys[i];
-        html += _mmgFieldText(f.label, 'mmgSet_' + f.k, s[f.k], f.help);
+      var html = '';
+
+      // IELTS Writing — per-task import bars surface the CEFR-Reading-style
+      // paste/upload modal at the Settings tab so admins can build a fresh
+      // mock without drilling into Task 1 / Task 2 tabs. Each bar opens the
+      // existing _mmgImportOpenPassage modal pre-scoped to its task
+      // (0 = Task 1, 1 = Task 2). The modal already supports drag/drop,
+      // paste-from-clipboard, multi-screenshot upload, and a free-text
+      // "Notes for the AI" box for typed prompt text.
+      if (type === 'ielts-writing') {
+        html += '<div class="mmg-section-title">✨ Import a new mock</div>';
+        html += '<div class="mmg-field-help" style="margin-bottom:10px;">Paste / upload screenshots of the prompts (or type them into the AI notes box) and Gemini fills the full structured JSON. Run each task independently — Task 2 import doesn\'t touch Task 1 and vice versa.</div>';
+
+        var iwBar = function (taskIdx, label, bodyHelp) {
+          return '<div style="background:linear-gradient(135deg,#fdf4ff,#faf5ff);border:1px solid #e9d5ff;border-radius:10px;padding:12px 14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;">'
+               +   '<div style="flex:1;font-size:12.5px;color:#581c87;line-height:1.5;">'
+               +     '<strong>' + _mmgEsc(label) + '</strong> — ' + bodyHelp
+               +   '</div>'
+               +   '<button type="button" onclick="_mmgImportOpenPassage(' + taskIdx + ')" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(124,58,237,.3);white-space:nowrap;">✨ Import task</button>'
+               + '</div>';
+        };
+        html += iwBar(0, 'Task 1 — paste / upload',
+          'Drop the prompt screenshot <em>and</em> the chart image. Gemini fills title, prompt, chart type, data nature, word goal, and time.');
+        html += iwBar(1, 'Task 2 — paste / upload',
+          'Drop the essay-prompt screenshot. Gemini fills title, prompt, essay type, word goal, and time.');
+
+        // Chart / diagram for Task 1 — surfaced here on the Settings tab
+        // so admins can manage the chart image alongside the import bars.
+        // Data still lives at md.tasks.task1.chartImageUrl / chartType /
+        // dataNature; the DOM prefix mmgIwSet_ keeps it distinct from
+        // the legacy mmgIw_task1_ inputs that no longer render anywhere.
+        var t1 = (md.tasks = md.tasks || {});
+        t1.task1 = t1.task1 || {};
+        var t1Chart = t1.task1;
+        html += '<div class="mmg-section-title" style="margin-top:20px;">Task 1 — chart / diagram</div>';
+        html += _mmgUploadFieldHtml({
+          id: 'mmgIwSet_chartImageUrl',
+          value: t1Chart.chartImageUrl,
+          skill: 'ielts-writing',
+          accept: 'image/png,image/jpeg,image/webp,image/gif',
+          allowPaste: true,
+          label: 'Chart image URL',
+          help: 'Take a screenshot (Win + Shift + S / ⌘ + Shift + 5), then click 📋 Paste — image uploads straight to GCS. Or click 📁 Upload to pick a file from disk, or paste a public URL into the input.'
+        });
+        var _setChartType = t1Chart.chartType || 'line_graph';
+        var _setTypeOpts = '';
+        for (var _ci = 0; _ci < _MMG_IW_CHART_TYPES.length; _ci++) {
+          var _cv = _MMG_IW_CHART_TYPES[_ci];
+          _setTypeOpts += '<option value="' + _cv + '"' + (_cv === _setChartType ? ' selected' : '') + '>' + _cv.replace('_',' ') + '</option>';
+        }
+        html += '<div class="mmg-field"><label for="mmgIwSet_chartType">Chart type</label>'
+              +   '<select id="mmgIwSet_chartType" style="border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;">' + _setTypeOpts + '</select>'
+              +   '<div class="mmg-field-help">Used for AI feedback context — pick the visualisation that best matches the chart image.</div>'
+              + '</div>';
+        html += '<div class="mmg-field"><label for="mmgIwSet_dataNature">Data nature</label>'
+              +   _mmgIwSelectHtml('mmgIwSet_dataNature', _MMG_IW_DATA_NATURES, t1Chart.dataNature)
+              +   '<div class="mmg-field-help">Does the chart show change over time, a static snapshot, or is it not applicable (map / process diagram)? Gemini auto-detects this on import.</div>'
+              + '</div>';
+        html += '<div class="mmg-field"><label>Image preview</label>'
+              +   '<div id="mmgIwSet_chartPreview" style="border:1px dashed #cbd5e1;border-radius:8px;padding:8px;background:#fffbeb;display:flex;align-items:center;justify-content:center;min-height:60px;">'
+              +     '<span style="color:#94a3b8;font-size:12px;">no image url yet</span>'
+              +   '</div>'
+              + '</div>';
+        // ✨ Enhance-with-AI launcher. Twin-preview modal renders option A
+        // (Gemini 2.5 Flash Image visual cleanup) and option B (Pro spec
+        // extraction → Flash Image re-render) side by side; admin picks
+        // the cleaner one and we PUT it to GCS to replace chartImageUrl.
+        html += '<div class="mmg-field"><label>Enhance the chart</label>'
+              +   '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">'
+              +     '<button type="button" id="mmgIwSetEnhanceBtn" onclick="_mmgIwOpenEnhance()" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(124,58,237,.3);white-space:nowrap;">✨ Enhance with AI</button>'
+              +     '<span style="font-size:11.5px;color:#64748b;flex:1;min-width:200px;">Two Gemini variants side-by-side: visual cleanup vs. re-render from data. Pick the cleaner one to replace the chart.</span>'
+              +   '</div>'
+              + '</div>';
+      }
+
+      if (keys.length) {
+        html += '<div class="mmg-section-title">Test settings (logo + headings)</div>';
+        for (var i = 0; i < keys.length; i++) {
+          var f = keys[i];
+          html += _mmgFieldText(f.label, 'mmgSet_' + f.k, s[f.k], f.help);
+        }
       }
 
       // IELTS Writing — Source + exam date metadata. Both live at
@@ -31929,6 +32514,21 @@
         _mmgUploadBind({ id: 'mmgSetImg1', skill: type });
         _mmgUploadBind({ id: 'mmgSetImg2', skill: type });
       }
+
+      // IELTS Writing — wire the Task 1 chart upload/preview now that
+      // the chart UI lives on the Settings tab. _mmgUpdateChartPreview
+      // takes the field-ID prefix; passing 'mmgIwSet_' renders the
+      // preview into the matching #mmgIwSet_chartPreview slot.
+      if (type === 'ielts-writing') {
+        _mmgUpdateChartPreview('mmgIwSet_');
+        var _setUrlEl = document.getElementById('mmgIwSet_chartImageUrl');
+        if (_setUrlEl) _setUrlEl.addEventListener('input', function () { _mmgUpdateChartPreview('mmgIwSet_'); });
+        _mmgUploadBind({
+          id: 'mmgIwSet_chartImageUrl',
+          skill: 'ielts-writing',
+          onUploaded: function () { _mmgUpdateChartPreview('mmgIwSet_'); }
+        });
+      }
     }
     function _mmgCollectSettings(md) {
       md.settings = md.settings || {};
@@ -31952,6 +32552,20 @@
         if (dateEl) {
           var dv = (dateEl.value || '').trim();
           if (dv) md.examDate = dv; else delete md.examDate;
+        }
+        // Task 1 chart fields — moved from the Task 1 tab. Saved into
+        // md.tasks.task1.* same as before so the runner / picker
+        // continue to read from the same path.
+        md.tasks = md.tasks || {};
+        md.tasks.task1 = md.tasks.task1 || {};
+        var setUrlEl  = document.getElementById('mmgIwSet_chartImageUrl');
+        var setTypeEl = document.getElementById('mmgIwSet_chartType');
+        var setNatEl  = document.getElementById('mmgIwSet_dataNature');
+        if (setUrlEl)  md.tasks.task1.chartImageUrl = setUrlEl.value;
+        if (setTypeEl) md.tasks.task1.chartType     = setTypeEl.value;
+        if (setNatEl) {
+          var nv = (setNatEl.value || '').trim();
+          if (nv) md.tasks.task1.dataNature = nv; else delete md.tasks.task1.dataNature;
         }
       }
 
@@ -32119,40 +32733,12 @@
       html += _mmgFieldArea('Instruction', p + 'instruction', instrValue,
         'Sub-instruction shown below the prompt. Pre-filled with the standard IELTS rubric for this task — edit to match the prompt type (e.g., "Discuss both views…" for discussion essays).', 70);
 
-      // Task 1 only: chart image.
+      // Task 1 chart / chart-type / data-nature now live on the Settings
+      // tab (see _mmgRenderSettings) — admins manage them alongside the
+      // import bars + source/date metadata. Underlying data still saved
+      // at md.tasks.task1.chartImageUrl / chartType / dataNature.
       if (key === 'task1') {
-        html += '<div class="mmg-section-title">Chart / diagram</div>';
-        html += _mmgUploadFieldHtml({
-          id: p + 'chartImageUrl',
-          value: task.chartImageUrl,
-          skill: 'ielts-writing',
-          accept: 'image/png,image/jpeg,image/webp,image/gif',
-          label: 'Chart image URL',
-          help: 'Click 📁 Upload to add a new chart from your computer (uploads to GCS, URL fills automatically). Or paste a public URL manually.'
-        });
-        // Chart-type dropdown.
-        var chartType = task.chartType || 'line_graph';
-        var typeOpts = '';
-        for (var i = 0; i < _MMG_IW_CHART_TYPES.length; i++) {
-          var v = _MMG_IW_CHART_TYPES[i];
-          typeOpts += '<option value="' + v + '"' + (v === chartType ? ' selected' : '') + '>' + v.replace('_',' ') + '</option>';
-        }
-        html += '<div class="mmg-field"><label for="' + p + 'chartType">Chart type</label>'
-              +   '<select id="' + p + 'chartType" style="border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;">' + typeOpts + '</select>'
-              +   '<div class="mmg-field-help">Used for AI feedback context — pick the visualisation that best matches the chart image.</div>'
-              + '</div>';
-        // Data nature — picker filter dimension. "Not applicable" for
-        // map / process_diagram by convention.
-        html += '<div class="mmg-field"><label for="' + p + 'dataNature">Data nature</label>'
-              +   _mmgIwSelectHtml(p + 'dataNature', _MMG_IW_DATA_NATURES, task.dataNature)
-              +   '<div class="mmg-field-help">Does the chart show change over time, a static snapshot, or is it not applicable (map / process diagram)? Gemini auto-detects this on import.</div>'
-              + '</div>';
-        // Live thumbnail preview of the chart URL.
-        html += '<div class="mmg-field"><label>Image preview</label>'
-              +   '<div id="' + p + 'chartPreview" style="border:1px dashed #cbd5e1;border-radius:8px;padding:8px;background:#fffbeb;display:flex;align-items:center;justify-content:center;min-height:60px;">'
-              +     '<span style="color:#94a3b8;font-size:12px;">no image url yet</span>'
-              +   '</div>'
-              + '</div>';
+        html += '<div class="mmg-field-help" style="margin-top:8px;padding:8px 10px;background:#fdf4ff;border:1px dashed #d8b4fe;border-radius:6px;color:#6b21a8;">📊 <strong>Chart image, chart type, and data nature</strong> live in the <strong>Settings</strong> tab.</div>';
       }
 
       // Task 2 only: essay type dropdown. Picker filter dimension.
@@ -32170,18 +32756,8 @@
       html += '<div class="mmg-field-help" style="margin-top:8px;padding:8px 10px;background:#f0f9ff;border:1px dashed #93c5fd;border-radius:6px;color:#1e40af;">💡 Sample answers (main + Band 5–9 + Uzbek) live in the <strong>Samples</strong> tab. Optional — leave empty if you don\'t need them for this mock.</div>';
 
       document.getElementById(paneId).innerHTML = html;
-      if (key === 'task1') {
-        _mmgUpdateChartPreview(p);
-        // Refresh thumbnail on URL input.
-        var urlEl = document.getElementById(p + 'chartImageUrl');
-        if (urlEl) urlEl.addEventListener('input', function() { _mmgUpdateChartPreview(p); });
-        // Wire the 📁 Upload button on the chart URL field.
-        _mmgUploadBind({
-          id: p + 'chartImageUrl',
-          skill: 'ielts-writing',
-          onUploaded: function() { _mmgUpdateChartPreview(p); }
-        });
-      }
+      // Chart image + chart-type + data-nature live on the Settings tab
+      // now; no per-task chart wiring needed here.
     }
     function _mmgCollectIwTask(md, key) {
       md.tasks = md.tasks || {};
@@ -32242,6 +32818,255 @@
     // returned tag fields back into mock_data (chartType, dataNature,
     // essayType, short titles) WITHOUT overwriting prompts / samples /
     // chart URLs. Admin reviews + edits + saves.
+
+    // ═══ Chart Enhance modal — twin-preview UI ════════════════════════
+    // Two Gemini variants:
+    //   A (visual)    — gemini-2.5-flash-image polishes the original
+    //                   screenshot pixels (same data, cleaner output).
+    //                   Cheaper: one Flash Image call (~$0.04).
+    //   B (rerender)  — gemini-2.5-pro extracts a chart spec, then
+    //                   gemini-2.5-flash-image draws a brand-new chart
+    //                   from that spec in Cambridge-IELTS style.
+    //                   Costlier: Pro + Flash Image (~$0.10).
+    // Each variant fires only when the admin clicks ▶ Run on that
+    // card — no auto-fire on open. Each successful result exposes
+    // 💾 Save (download PNG locally) and ✓ Use this version (upload
+    // to GCS + replace chartImageUrl).
+    function _mmgIwEnsureEnhanceModal() {
+      if (document.getElementById('mmgIwEnhanceModal')) return;
+      var modal = document.createElement('div');
+      modal.id = 'mmgIwEnhanceModal';
+      // z-index must beat #mmgOverlay (10220) — the mock-management
+      // overlay sits at 10220 with its own opaque white background, so
+      // a 9999 modal renders behind it and is invisible even though
+      // the JS fires correctly.
+      modal.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(15,23,42,.7);z-index:11000;align-items:center;justify-content:center;padding:24px;';
+      modal.innerHTML =
+        '<div style="background:#fff;border-radius:14px;max-width:1100px;width:100%;max-height:90vh;overflow:auto;padding:22px 24px;box-shadow:0 24px 60px rgba(0,0,0,.4);">'
+        + '<div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;">'
+        +   '<h3 style="margin:0;font-size:18px;color:#1e1b4b;flex:1;">✨ Enhance chart with AI</h3>'
+        +   '<button type="button" onclick="_mmgIwCloseEnhance()" style="background:transparent;border:0;font-size:22px;color:#64748b;cursor:pointer;line-height:1;">×</button>'
+        + '</div>'
+        + '<div style="font-size:12.5px;color:#475569;margin-bottom:16px;">Try the cheaper variant first; only run the costlier one if it doesn\'t satisfy. Each variant fires only when you click ▶ Run. After it finishes, 💾 Save the image locally and / or ✓ Use this version replaces the chart URL in GCS.</div>'
+        + '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;align-items:stretch;">'
+        +   _mmgIwEnhanceCardHtml('realesrgan', 'C — Sharpen only', '~$0.002 · ~10s · Real-ESRGAN super-resolution via Replicate. Non-generative: pixels are upscaled, NOT redrawn. Numbers and labels stay 100% intact. Won\'t remove watermarks. Best when you trust the original and just need it crisper.')
+        +   _mmgIwEnhanceCardHtml('visual',   'A — Visual cleanup',     '~$0.04 · ~15s · Gemini 2.5 Flash Image polishes the same chart: pure-white background, sharper text, no watermarks. Best when the data is detailed and you trust the original layout. Numbers may drift slightly (generative model).')
+        +   _mmgIwEnhanceCardHtml('rerender', 'B — Re-render from data', '~$0.10 · ~30s · Gemini 2.5 Pro reads the chart and emits a spec; Flash Image redraws it from that spec in Cambridge-IELTS style. Cleaner lines & typography, but small data values may shift slightly.')
+        + '</div>'
+        + '<div style="margin-top:14px;display:flex;gap:10px;justify-content:flex-end;">'
+        +   '<button type="button" onclick="_mmgIwCloseEnhance()" style="background:#f1f5f9;border:1px solid #cbd5e1;color:#334155;border-radius:8px;padding:8px 16px;font-size:12.5px;font-weight:600;cursor:pointer;">Keep original</button>'
+        + '</div>'
+        + '</div>';
+      document.body.appendChild(modal);
+    }
+    function _mmgIwEnhanceCardHtml(mode, title, blurb) {
+      // Per-variant palette + run-button label. realesrgan is the
+      // cheapest, lossless-data variant, so it goes first (blue).
+      var border = mode === 'realesrgan' ? '#93c5fd'
+                 : mode === 'visual'     ? '#a7f3d0'
+                 :                         '#fcd34d';
+      var bg     = mode === 'realesrgan' ? '#eff6ff'
+                 : mode === 'visual'     ? '#ecfdf5'
+                 :                         '#fffbeb';
+      var runLabel = mode === 'realesrgan' ? '▶ Run variant C (cheapest)'
+                   : mode === 'visual'     ? '▶ Run variant A'
+                   :                         '▶ Run variant B (costliest)';
+      return '<div style="border:2px solid ' + border + ';background:' + bg + ';border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;min-height:360px;">'
+        + '<div style="font-size:14px;font-weight:700;color:#0f172a;margin-bottom:4px;">' + title + '</div>'
+        + '<div style="font-size:11.5px;color:#475569;line-height:1.45;margin-bottom:10px;">' + blurb + '</div>'
+        + '<div id="mmgIwEnh_' + mode + '_view" style="flex:1;background:#fff;border:1px dashed #cbd5e1;border-radius:8px;padding:10px;display:flex;align-items:center;justify-content:center;min-height:240px;color:#94a3b8;font-size:12px;text-align:center;">Click ▶ Run below to start.</div>'
+        + '<div id="mmgIwEnh_' + mode + '_status" style="font-size:11px;color:#64748b;margin:8px 0;min-height:14px;"></div>'
+        + '<div id="mmgIwEnh_' + mode + '_actions" style="display:flex;gap:6px;flex-wrap:wrap;">'
+        +   '<button type="button" id="mmgIwEnh_' + mode + '_run" onclick="_mmgIwRunEnhance(\'' + mode + '\')" style="flex:1;min-width:160px;background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:9px 14px;font-size:12.5px;font-weight:700;cursor:pointer;">' + runLabel + '</button>'
+        +   '<button type="button" id="mmgIwEnh_' + mode + '_save" onclick="_mmgIwSaveEnhanced(\'' + mode + '\')" style="display:none;background:#0f172a;color:#fff;border:0;border-radius:8px;padding:9px 14px;font-size:12.5px;font-weight:700;cursor:pointer;">💾 Save</button>'
+        +   '<button type="button" id="mmgIwEnh_' + mode + '_use" onclick="_mmgIwUseEnhanced(\'' + mode + '\')" style="display:none;flex:1;min-width:140px;background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;border:0;border-radius:8px;padding:9px 14px;font-size:12.5px;font-weight:700;cursor:pointer;">✓ Use this version</button>'
+        + '</div>'
+        + '</div>';
+    }
+    // Cached chart state for the open modal session. Set on _mmgIwOpenEnhance,
+    // reused by each Run click so we don't re-fetch the chart twice.
+    window._mmgIwEnhanceState = { chartBase64: null, chartMime: null, fileName: null, chartTypeHint: null };
+    window._mmgIwEnhanceResults = { visual: null, rerender: null, realesrgan: null };
+    var _MMG_ENH_MODES = ['realesrgan', 'visual', 'rerender'];
+    window._mmgIwOpenEnhance = async function () {
+      if (typeof _mmgFlushStructuredToRaw === 'function' && !_mmgFlushStructuredToRaw()) {
+        alert('Fix the highlighted field first, then click Enhance.');
+        return;
+      }
+      var md = _mmgGetMockData();
+      var t1 = md && md.tasks && md.tasks.task1;
+      var url = t1 && t1.chartImageUrl;
+      if (!url || !String(url).trim()) {
+        alert('Upload a chart image first, then click Enhance.');
+        return;
+      }
+      _mmgIwEnsureEnhanceModal();
+      var modal = document.getElementById('mmgIwEnhanceModal');
+      modal.style.display = 'flex';
+      // Reset all card states — fresh modal session.
+      _MMG_ENH_MODES.forEach(function (m) {
+        document.getElementById('mmgIwEnh_' + m + '_view').innerHTML   = '<div style="color:#94a3b8;font-size:12px;text-align:center;">Click ▶ Run below to start.</div>';
+        document.getElementById('mmgIwEnh_' + m + '_status').textContent = '';
+        var runBtn  = document.getElementById('mmgIwEnh_' + m + '_run');
+        var saveBtn = document.getElementById('mmgIwEnh_' + m + '_save');
+        var useBtn  = document.getElementById('mmgIwEnh_' + m + '_use');
+        runBtn.style.display  = '';
+        runBtn.disabled       = false;
+        runBtn.textContent    = m === 'realesrgan' ? '▶ Run variant C (cheapest)'
+                              : m === 'visual'     ? '▶ Run variant A'
+                              :                       '▶ Run variant B (costliest)';
+        saveBtn.style.display = 'none';
+        useBtn.style.display  = 'none';
+        window._mmgIwEnhanceResults[m] = null;
+      });
+      // Fetch chart bytes ONCE and cache for the duration of the modal —
+      // subsequent Run clicks reuse it instead of re-downloading from GCS.
+      var statusAll = function (msg, color) {
+        _MMG_ENH_MODES.forEach(function (m) {
+          var s = document.getElementById('mmgIwEnh_' + m + '_status');
+          if (s) { s.textContent = msg; s.style.color = color || '#64748b'; }
+        });
+      };
+      statusAll('Fetching chart bytes…');
+      try {
+        var resp = await fetch(url);
+        if (!resp.ok) throw new Error('chart fetch ' + resp.status);
+        var mime = resp.headers.get('content-type') || 'image/png';
+        var buf  = await resp.arrayBuffer();
+        var b64  = _mmgArrayBufferToBase64(buf);
+        window._mmgIwEnhanceState = {
+          chartBase64:   b64,
+          chartMime:     mime,
+          fileName:      (url.split('/').pop() || 'chart.png').split('?')[0],
+          chartTypeHint: (t1 && t1.chartType) || null
+        };
+        statusAll('');
+      } catch (e) {
+        statusAll('⚠ Failed to fetch chart: ' + (e.message || String(e)), '#dc2626');
+        _MMG_ENH_MODES.forEach(function (m) {
+          document.getElementById('mmgIwEnh_' + m + '_run').disabled = true;
+        });
+      }
+    };
+    window._mmgIwRunEnhance = async function (mode) {
+      var st = window._mmgIwEnhanceState;
+      if (!st || !st.chartBase64) {
+        alert('Chart bytes not loaded yet — wait a moment and retry.');
+        return;
+      }
+      var viewEl   = document.getElementById('mmgIwEnh_' + mode + '_view');
+      var statusEl = document.getElementById('mmgIwEnh_' + mode + '_status');
+      var runBtn   = document.getElementById('mmgIwEnh_' + mode + '_run');
+      var saveBtn  = document.getElementById('mmgIwEnh_' + mode + '_save');
+      var useBtn   = document.getElementById('mmgIwEnh_' + mode + '_use');
+      var label    = mode === 'realesrgan' ? 'Real-ESRGAN upscale'
+                   : mode === 'visual'     ? 'Flash Image cleanup'
+                   :                          'Pro → Flash Image re-render';
+      var typicalSecs = mode === 'realesrgan' ? '~10s typical'
+                      : mode === 'visual'     ? '~15s typical'
+                      :                          '~30s typical';
+      viewEl.innerHTML = '<div style="color:#7c3aed;font-size:12px;text-align:center;">⏳ Running (' + label + ')…<br><span style="color:#94a3b8;font-size:11px;">' + typicalSecs + '</span></div>';
+      statusEl.textContent = 'Calling…';
+      statusEl.style.color = '#7c3aed';
+      runBtn.disabled = true; runBtn.style.opacity = .55; runBtn.textContent = 'Running…';
+      saveBtn.style.display = 'none';
+      useBtn.style.display = 'none';
+      var start = Date.now();
+      try {
+        var r = await fetch(_MMG_TRANSCRIBE_URL, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': _MMG_ANON, 'Authorization': 'Bearer ' + _MMG_ANON },
+          body: JSON.stringify({
+            adminPasscode:   window._mmgPasscode,
+            exam_type:       'ielts-writing',
+            scope:           'enhance-chart',
+            mode:            mode,
+            chart_type_hint: st.chartTypeHint,
+            files:           [{ base64: st.chartBase64, mime: st.chartMime, name: st.fileName }]
+          })
+        });
+        var j = await r.json().catch(function () { return { error: 'bad_response' }; });
+        if (!r.ok || j.error) {
+          var detail = j.detail || '';
+          throw new Error((j.error || ('HTTP ' + r.status)) + (detail ? ' — ' + String(detail).slice(0, 200) : ''));
+        }
+        if (!j.imageBase64) throw new Error('no image returned');
+        var dataUri = 'data:' + (j.mimeType || 'image/png') + ';base64,' + j.imageBase64;
+        window._mmgIwEnhanceResults[mode] = { dataUri: dataUri, mimeType: j.mimeType || 'image/png' };
+        viewEl.innerHTML = '<img src="' + dataUri + '" alt="' + mode + ' preview" style="max-width:100%;max-height:280px;border-radius:6px;">';
+        statusEl.textContent = '✓ Ready · ' + Math.round((Date.now() - start) / 1000) + 's · ' + (j.modelChain || label);
+        statusEl.style.color = '#16a34a';
+        // Hide Run, show Save + Use.
+        runBtn.style.display  = 'none';
+        saveBtn.style.display = '';
+        useBtn.style.display  = '';
+      } catch (e) {
+        viewEl.innerHTML = '<div style="color:#dc2626;font-size:12px;padding:8px;text-align:left;">Failed: ' + _mmgEsc(e.message || String(e)) + '</div>';
+        statusEl.textContent = '';
+        // Allow re-run.
+        runBtn.disabled = false; runBtn.style.opacity = 1;
+        runBtn.textContent = mode === 'realesrgan' ? '🔄 Retry variant C'
+                           : mode === 'visual'     ? '🔄 Retry variant A'
+                           :                          '🔄 Retry variant B';
+      }
+    };
+    // Save the chosen variant as a local file. Browsers always honour the
+    // download attribute on data: URIs, so a synthetic anchor click works
+    // across Chromium / Firefox / Safari without needing FileSaver.
+    window._mmgIwSaveEnhanced = function (mode) {
+      var res = window._mmgIwEnhanceResults[mode];
+      if (!res || !res.dataUri) return;
+      var ext   = (res.mimeType.split('/')[1] || 'png').toLowerCase();
+      var stamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+      var a = document.createElement('a');
+      a.href     = res.dataUri;
+      a.download = 'chart-enhanced-' + mode + '-' + stamp + '.' + ext;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    };
+    window._mmgIwUseEnhanced = async function (mode) {
+      var res = window._mmgIwEnhanceResults[mode];
+      if (!res || !res.dataUri) return;
+      var useBtn  = document.getElementById('mmgIwEnh_' + mode + '_use');
+      var saveBtn = document.getElementById('mmgIwEnh_' + mode + '_save');
+      var statusEl = document.getElementById('mmgIwEnh_' + mode + '_status');
+      useBtn.disabled = true; useBtn.style.opacity = .5; useBtn.textContent = 'Uploading…';
+      if (saveBtn) saveBtn.disabled = true;
+      try {
+        // Convert data URI → Blob → File for the GCS signed-upload flow.
+        var blob = await (await fetch(res.dataUri)).blob();
+        var ext  = (res.mimeType.split('/')[1] || 'png').toLowerCase();
+        var fileName = 'chart-enhanced-' + mode + '-' + Date.now() + '.' + ext;
+        var sig = await _mmgCall('gcs_signed_upload_url', {
+          skill:       'ielts-writing',
+          filename:    fileName,
+          contentType: res.mimeType
+        });
+        if (!sig || !sig.uploadUrl) throw new Error(sig && sig.error || 'no upload url');
+        var put = await fetch(sig.uploadUrl, {
+          method:  'PUT',
+          headers: { 'Content-Type': res.mimeType },
+          body:    blob
+        });
+        if (!put.ok) throw new Error('GCS PUT failed: ' + put.status);
+        var urlEl = document.getElementById('mmgIwSet_chartImageUrl');
+        if (urlEl) {
+          urlEl.value = sig.publicUrl;
+          urlEl.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+        _mmgIwCloseEnhance();
+      } catch (e) {
+        statusEl.textContent = '⚠ Upload failed: ' + (e.message || e);
+        useBtn.disabled = false; useBtn.style.opacity = 1; useBtn.textContent = '✓ Use this version';
+        if (saveBtn) saveBtn.disabled = false;
+      }
+    };
+    window._mmgIwCloseEnhance = function () {
+      var modal = document.getElementById('mmgIwEnhanceModal');
+      if (modal) modal.style.display = 'none';
+    };
+
     function _mmgArrayBufferToBase64(buffer) {
       const bytes = new Uint8Array(buffer);
       let binary = '';
@@ -32387,6 +33212,280 @@
       }
     };
 
+    // ── IELTS Writing — Samples tab live cost / enable helper ──────────
+    // Re-runs on every checkbox change. Counts selected band×task pairs
+    // (plus optional Uzbek and Main multipliers) and shows a $-estimate.
+    // Disables the Generate button when nothing is selected.
+    window._mmgIwGenSamplesUpdateCost = function () {
+      var bands = Array.from(document.querySelectorAll('.mmgIwGenBand:checked')).map(function (el) { return parseInt(el.dataset.band, 10); });
+      var tasks = Array.from(document.querySelectorAll('.mmgIwGenTask:checked')).map(function (el) { return el.dataset.task; });
+      var incUz   = !!document.getElementById('mmgIwGenIncludeUz')?.checked;
+      var incMain = !!document.getElementById('mmgIwGenIncludeMain')?.checked;
+      var btn  = document.getElementById('mmgIwGenSamplesBtn');
+      var hint = document.getElementById('mmgIwGenCostHint');
+      if (!btn || !hint) return;
+      var enabled = bands.length > 0 && tasks.length > 0;
+      btn.disabled       = !enabled;
+      btn.style.cursor   = enabled ? 'pointer' : 'not-allowed';
+      btn.style.opacity  = enabled ? 1 : .55;
+      if (!enabled) {
+        hint.textContent = bands.length === 0 && tasks.length === 0
+          ? 'Pick at least one band + one task to enable.'
+          : bands.length === 0
+            ? 'Pick at least one band to enable.'
+            : 'Pick at least one task to enable.';
+        return;
+      }
+      // Cost model: ~$0.014/essay (Pro output tokens for ~150-250-word
+      // sample). Uzbek translations count as another essay each.
+      var perTask = bands.length * (incUz ? 2 : 1) + (incMain ? 1 : 0);
+      var totalEssays = perTask * tasks.length;
+      var costLow  = (totalEssays * 0.012).toFixed(2);
+      var costHigh = (totalEssays * 0.018).toFixed(2);
+      var bandsLabel = bands.sort(function (a, b) { return a - b; }).map(function (b) { return 'B' + b; }).join(' / ');
+      hint.textContent = totalEssays + ' essay' + (totalEssays === 1 ? '' : 's')
+        + ' · ' + bandsLabel + ' × ' + tasks.length + ' task' + (tasks.length === 1 ? '' : 's')
+        + (incUz ? ' (×2 for Uz)' : '')
+        + (incMain ? ' + Main' : '')
+        + ' · ~$' + costLow + '–$' + costHigh + ' · ~' + (3 * totalEssays) + 's';
+    };
+
+    // ── IELTS Writing — Samples tab "✨ Generate selected" ─────────────
+    // One Gemini Pro call returns ONLY the bands × tasks the admin ticked.
+    // Existing samples (admin-curated) are preserved — only empty slots
+    // get filled. Long-running (~30-90s depending on selection); ticker
+    // shows elapsed seconds.
+    window._mmgIwGenSamples = async function () {
+      var btnEl    = document.getElementById('mmgIwGenSamplesBtn');
+      // setStatus re-queries every time — _mmgInitTabs() re-renders the
+      // Samples pane after a successful merge, which detaches the original
+      // status node. Cached reference would silently write to a stale element.
+      function setStatus(msg, color) {
+        var s = document.getElementById('mmgIwGenSamplesStatus');
+        if (s) { s.textContent = msg; s.style.color = color || '#64748b'; }
+      }
+      if (!_mmgFlushStructuredToRaw()) {
+        setStatus('Fix the highlighted field, then try again.', '#dc2626');
+        return;
+      }
+      // Read the checklist state.
+      var bands = Array.from(document.querySelectorAll('.mmgIwGenBand:checked')).map(function (el) { return parseInt(el.dataset.band, 10); });
+      var tasks = Array.from(document.querySelectorAll('.mmgIwGenTask:checked')).map(function (el) { return el.dataset.task; });
+      var includeUz   = !!document.getElementById('mmgIwGenIncludeUz')?.checked;
+      var includeMain = !!document.getElementById('mmgIwGenIncludeMain')?.checked;
+      if (!bands.length || !tasks.length) {
+        setStatus('Pick at least one band + one task to enable generation.', '#dc2626');
+        return;
+      }
+      var md = _mmgGetMockData();
+      var t1 = md.tasks && md.tasks.task1 || {};
+      var t2 = md.tasks && md.tasks.task2 || {};
+      var t1Prompt = String(t1.prompt || '').trim();
+      var t2Prompt = String(t2.prompt || '').trim();
+      // Only require a prompt for tasks the admin actually ticked.
+      if (tasks.indexOf('task1') > -1 && !t1Prompt) {
+        setStatus('Fill in the Task 1 prompt before generating Task 1 samples.', '#dc2626');
+        return;
+      }
+      if (tasks.indexOf('task2') > -1 && !t2Prompt) {
+        setStatus('Fill in the Task 2 prompt before generating Task 2 samples.', '#dc2626');
+        return;
+      }
+      // Try to attach the chart image if T1 has one AND T1 is selected.
+      // Falls through silently on fetch failure — Pro still works text-only
+      // for T2 + Uz.
+      var files = [];
+      if (tasks.indexOf('task1') > -1 && t1.chartImageUrl && String(t1.chartImageUrl).trim()) {
+        try {
+          var imgR = await fetch(String(t1.chartImageUrl).trim());
+          if (imgR.ok) {
+            var ab   = await imgR.arrayBuffer();
+            var mime = imgR.headers.get('content-type') || 'image/png';
+            files.push({
+              name:   'chart.' + (mime.split('/')[1] || 'png'),
+              mime:   mime,
+              base64: _mmgArrayBufferToBase64(ab),
+              group:  'chart-image'
+            });
+          }
+        } catch (_e) { /* keep going text-only */ }
+      }
+
+      // Spinner ticker — Pro responses on this prompt can run 60-90s.
+      btnEl.disabled = true;
+      var origLabel = btnEl.textContent;
+      btnEl.textContent = '⏳ Generating…';
+      var tick = 0;
+      var tickI = setInterval(function () {
+        tick++;
+        setStatus('Calling Gemini 2.5 Pro… ' + tick + 's elapsed (typical: 60-90s)', '#7c3aed');
+      }, 1000);
+
+      try {
+        var r = await fetch(_MMG_TRANSCRIBE_URL, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': _MMG_ANON, 'Authorization': 'Bearer ' + _MMG_ANON },
+          body: JSON.stringify({
+            adminPasscode:     window._mmgPasscode,
+            exam_type:         'ielts-writing',
+            scope:             'samples',
+            // Only send prompts for the tasks the admin ticked — the
+            // backend uses presence of a prompt to decide which task to
+            // generate for.
+            task1_prompt:      tasks.indexOf('task1') > -1 ? t1Prompt : '',
+            task1_instruction: tasks.indexOf('task1') > -1 ? (t1.instruction || '') : '',
+            task2_prompt:      tasks.indexOf('task2') > -1 ? t2Prompt : '',
+            task2_instruction: tasks.indexOf('task2') > -1 ? (t2.instruction || '') : '',
+            bands:             bands,
+            include_uzbek:     includeUz,
+            include_main:      includeMain,
+            files:             files
+          })
+        });
+        var j = await r.json().catch(function () { return { error: 'bad_response' }; });
+        clearInterval(tickI);
+        if (!r.ok || j.error) {
+          var detail = j.detail || '';
+          throw new Error((j.error || ('HTTP ' + r.status)) + (detail ? ' — ' + String(detail).slice(0, 200) : ''));
+        }
+        // Merge: only fill empty slots, never overwrite admin work.
+        var s1 = (j.samples && j.samples.task1) || {};
+        var s2 = (j.samples && j.samples.task2) || {};
+        md.tasks = md.tasks || {};
+        md.tasks.task1 = md.tasks.task1 || {};
+        md.tasks.task2 = md.tasks.task2 || {};
+        var filled = 0, skipped = 0;
+        function mergeInto(target, src) {
+          Object.keys(src || {}).forEach(function (k) {
+            var existing = (target[k] || '').toString().trim();
+            if (existing) { skipped++; return; }
+            target[k] = src[k];
+            filled++;
+          });
+        }
+        mergeInto(md.tasks.task1, s1);
+        mergeInto(md.tasks.task2, s2);
+        _mmgSetMockData(md);
+        window._mmgActiveTab = null;
+        _mmgInitTabs();
+        _mmgSwitchTab('samples');
+        var msg = '✓ Filled ' + filled + ' sample slot' + (filled === 1 ? '' : 's')
+                + (skipped ? ' (skipped ' + skipped + ' that already had content)' : '')
+                + ' — review and Save when ready.';
+        setStatus(msg, '#16a34a');
+      } catch (e) {
+        clearInterval(tickI);
+        setStatus('⚠ ' + (e.message || String(e)), '#dc2626');
+      } finally {
+        btnEl.disabled = false;
+        btnEl.textContent = origLabel;
+      }
+    };
+
+    // ── IELTS Writing — Vocab tab "✨ Generate" for active task ─────────
+    // Reads the active task's prompt (+ chart for T1) and asks Pro for a
+    // topical EN↔UZ list. Appends to the existing list, deduping
+    // case-insensitively on the English side.
+    window._mmgIwGenVocab = async function () {
+      var btnEl    = document.getElementById('mmgIwGenVocabBtn');
+      var countEl  = document.getElementById('mmgIwVocabCount');
+      // setStatus re-queries every time — the vocab pane re-renders after
+      // a successful merge, which detaches the original status node, so
+      // a cached reference would silently write into a stale element.
+      function setStatus(msg, color) {
+        var s = document.getElementById('mmgIwGenVocabStatus');
+        if (s) { s.textContent = msg; s.style.color = color || '#64748b'; }
+      }
+      if (!_mmgFlushStructuredToRaw()) {
+        setStatus('Fix the highlighted field, then try again.', '#dc2626');
+        return;
+      }
+      var md = _mmgGetMockData();
+      var activeKey = (window._mmgVocabState && window._mmgVocabState.task) || 'task1';
+      var taskObj = (md.tasks && md.tasks[activeKey]) || {};
+      var taskPrompt = String(taskObj.prompt || '').trim();
+      if (!taskPrompt) {
+        setStatus('Fill in the ' + (activeKey === 'task1' ? 'Task 1' : 'Task 2') + ' prompt before generating vocab.', '#dc2626');
+        return;
+      }
+      var count = parseInt((countEl && countEl.value) || '20', 10);
+      if (!isFinite(count) || count < 5) count = 20;
+
+      // Chart attach for T1 only.
+      var files = [];
+      if (activeKey === 'task1' && taskObj.chartImageUrl && String(taskObj.chartImageUrl).trim()) {
+        try {
+          var imgR = await fetch(String(taskObj.chartImageUrl).trim());
+          if (imgR.ok) {
+            var ab   = await imgR.arrayBuffer();
+            var mime = imgR.headers.get('content-type') || 'image/png';
+            files.push({
+              name:   'chart.' + (mime.split('/')[1] || 'png'),
+              mime:   mime,
+              base64: _mmgArrayBufferToBase64(ab),
+              group:  'chart-image'
+            });
+          }
+        } catch (_e) {}
+      }
+
+      btnEl.disabled = true;
+      var origLabel = btnEl.textContent;
+      btnEl.textContent = '⏳ …';
+      var tick = 0;
+      var tickI = setInterval(function () {
+        tick++;
+        setStatus('Calling Gemini 2.5 Pro… ' + tick + 's elapsed', '#7c3aed');
+      }, 1000);
+
+      try {
+        var r = await fetch(_MMG_TRANSCRIBE_URL, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': _MMG_ANON, 'Authorization': 'Bearer ' + _MMG_ANON },
+          body: JSON.stringify({
+            adminPasscode: window._mmgPasscode,
+            exam_type:     'ielts-writing',
+            scope:         'vocab',
+            task_key:      activeKey,
+            prompt:        taskPrompt,
+            count:         count,
+            files:         files
+          })
+        });
+        var j = await r.json().catch(function () { return { error: 'bad_response' }; });
+        clearInterval(tickI);
+        if (!r.ok || j.error) {
+          var detail = j.detail || '';
+          throw new Error((j.error || ('HTTP ' + r.status)) + (detail ? ' — ' + String(detail).slice(0, 200) : ''));
+        }
+        // Merge into existing vocab list, dedupe on English (case-insensitive).
+        md.vocabulary = md.vocabulary || {};
+        md.vocabulary[activeKey] = Array.isArray(md.vocabulary[activeKey]) ? md.vocabulary[activeKey] : [];
+        var existingEn = new Set();
+        md.vocabulary[activeKey].forEach(function (row) {
+          if (row && row.en) existingEn.add(String(row.en).trim().toLowerCase());
+        });
+        var added = 0;
+        (j.vocabulary || []).forEach(function (row) {
+          if (!row || !row.en || !row.uz) return;
+          var k = String(row.en).trim().toLowerCase();
+          if (existingEn.has(k)) return;
+          existingEn.add(k);
+          md.vocabulary[activeKey].push({ en: String(row.en).trim(), uz: String(row.uz).trim() });
+          added++;
+        });
+        _mmgSetMockData(md);
+        _mmgRenderVocab(md);
+        setStatus('✓ Added ' + added + ' entr' + (added === 1 ? 'y' : 'ies') + ' to ' + (activeKey === 'task1' ? 'Task 1' : 'Task 2') + ' — review and Save when ready.', '#16a34a');
+      } catch (e) {
+        clearInterval(tickI);
+        setStatus('⚠ ' + (e.message || String(e)), '#dc2626');
+      } finally {
+        btnEl.disabled = false;
+        btnEl.textContent = origLabel;
+      }
+    };
+
     // ── IELTS Writing — Settings-tab "🔎 Find online" handler ──────────
     // Sends the current Task 1 + Task 2 prompts to transcribe-mock with
     // scope=find-source. The server calls Gemini 2.5 Pro with Google
@@ -32508,9 +33607,17 @@
       var btnId    = opts.id + '_upbtn';
       var fileId   = opts.id + '_upfile';
       var progId   = opts.id + '_upprog';
+      var pasteId  = opts.id + '_pastebtn';
+      // Paste opt-in via opts.allowPaste — only shown for image fields
+      // where pasting a screenshot makes sense (chart uploads). Audio /
+      // PDF uploads skip this since the clipboard never holds those.
+      var pasteBtn = opts.allowPaste
+        ? '<button type="button" class="mmg-upload-btn" id="' + pasteId + '" title="Paste an image from the clipboard">📋 Paste</button>'
+        : '';
       return '<div class="mmg-field"><label for="' + opts.id + '">' + _mmgEsc(label) + '</label>'
         + '<div class="mmg-upload-row">'
         +   '<input type="text" id="' + opts.id + '" value="' + safeVal + '">'
+        +   pasteBtn
         +   '<button type="button" class="mmg-upload-btn" id="' + btnId + '">📁 Upload</button>'
         +   '<input type="file" id="' + fileId + '" accept="' + _mmgEsc(accept) + '" style="display:none;">'
         + '</div>'
@@ -32518,57 +33625,94 @@
         + (opts.help ? '<div class="mmg-field-help">' + _mmgEsc(opts.help) + '</div>' : '')
         + '</div>';
     }
-    function _mmgUploadBind(opts) {
+    // Shared upload pipeline: signed URL → GCS PUT → fill input → fire
+    // onUploaded callback. Used by both the file picker and the
+    // clipboard-paste path so they share status + size cap.
+    async function _mmgUploadFileToGcs(file, opts) {
       var inputEl = document.getElementById(opts.id);
+      var progEl  = document.getElementById(opts.id + '_upprog');
+      if (file.size > 25 * 1024 * 1024) {
+        _mmgUploadStatus(progEl, 'error', '⚠ File too large (' + Math.round(file.size/1024/1024) + ' MB) — max is 25 MB.');
+        return;
+      }
+      _mmgUploadStatus(progEl, 'active', 'Requesting upload URL…', 10);
+      var sig = await _mmgCall('gcs_signed_upload_url', {
+        skill:       opts.skill,
+        filename:    file.name,
+        contentType: file.type || 'application/octet-stream'
+      });
+      if (!sig || !sig.uploadUrl) throw new Error(sig && sig.error || 'no upload url');
+      _mmgUploadStatus(progEl, 'active', 'Uploading ' + _mmgPrettyBytes(file.size) + '…', 30);
+      var put = await fetch(sig.uploadUrl, {
+        method: 'PUT',
+        headers: { 'Content-Type': file.type || 'application/octet-stream' },
+        body: file
+      });
+      if (!put.ok) {
+        var body = await put.text().catch(function () { return ''; });
+        throw new Error('GCS PUT failed: ' + put.status + ' ' + body.slice(0, 200));
+      }
+      if (inputEl) {
+        inputEl.value = sig.publicUrl;
+        inputEl.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+      _mmgUploadStatus(progEl, 'success', '✓ Uploaded — URL filled in. Click Save to persist.', 100);
+      if (typeof opts.onUploaded === 'function') opts.onUploaded(sig.publicUrl);
+      setTimeout(function () { progEl && progEl.classList.remove('active'); }, 4000);
+    }
+    function _mmgUploadBind(opts) {
       var btnEl   = document.getElementById(opts.id + '_upbtn');
       var fileEl  = document.getElementById(opts.id + '_upfile');
       var progEl  = document.getElementById(opts.id + '_upprog');
+      var pasteEl = document.getElementById(opts.id + '_pastebtn');
       if (!btnEl || !fileEl) return;
-      btnEl.addEventListener('click', function() { fileEl.click(); });
-      fileEl.addEventListener('change', async function() {
+      btnEl.addEventListener('click', function () { fileEl.click(); });
+      fileEl.addEventListener('change', async function () {
         var file = fileEl.files && fileEl.files[0];
         if (!file) return;
-        // 25 MB hard cap (matches MAX_UPLOAD_MB in admin-mocks).
-        if (file.size > 25 * 1024 * 1024) {
-          _mmgUploadStatus(progEl, 'error', '⚠ File too large (' + Math.round(file.size/1024/1024) + ' MB) — max is 25 MB.');
-          fileEl.value = '';
-          return;
-        }
         btnEl.disabled = true;
-        try {
-          // Step 1 — ask admin-mocks for a signed URL.
-          _mmgUploadStatus(progEl, 'active', 'Requesting upload URL…', 10);
-          var sig = await _mmgCall('gcs_signed_upload_url', {
-            skill: opts.skill,
-            filename: file.name,
-            contentType: file.type || 'application/octet-stream'
-          });
-          if (!sig || !sig.uploadUrl) throw new Error(sig && sig.error || 'no upload url');
-          // Step 2 — PUT the file directly to GCS.
-          _mmgUploadStatus(progEl, 'active', 'Uploading ' + _mmgPrettyBytes(file.size) + '…', 30);
-          var put = await fetch(sig.uploadUrl, {
-            method: 'PUT',
-            headers: { 'Content-Type': file.type || 'application/octet-stream' },
-            body: file
-          });
-          if (!put.ok) {
-            var body = await put.text().catch(function(){ return ''; });
-            throw new Error('GCS PUT failed: ' + put.status + ' ' + body.slice(0, 200));
-          }
-          // Step 3 — fill the URL input + fire optional callback.
-          inputEl.value = sig.publicUrl;
-          inputEl.dispatchEvent(new Event('input', { bubbles: true }));
-          _mmgUploadStatus(progEl, 'success', '✓ Uploaded — URL filled in. Click Save to persist.', 100);
-          if (typeof opts.onUploaded === 'function') opts.onUploaded(sig.publicUrl);
-          // Auto-clear the success badge after a moment.
-          setTimeout(function() { progEl.classList.remove('active'); }, 4000);
-        } catch (e) {
-          _mmgUploadStatus(progEl, 'error', '⚠ Upload failed: ' + (e.message || e));
-        } finally {
-          btnEl.disabled = false;
-          fileEl.value = '';
-        }
+        try { await _mmgUploadFileToGcs(file, opts); }
+        catch (e) { _mmgUploadStatus(progEl, 'error', '⚠ Upload failed: ' + (e.message || e)); }
+        finally { btnEl.disabled = false; fileEl.value = ''; }
       });
+      // Paste-from-clipboard handler — present only when the field was
+      // rendered with allowPaste: true. Reads navigator.clipboard.read()
+      // directly so a single click uploads whatever screenshot is on the
+      // clipboard. No Ctrl+V needed.
+      if (pasteEl) {
+        pasteEl.addEventListener('click', async function () {
+          pasteEl.disabled = true;
+          try {
+            if (!navigator.clipboard || typeof navigator.clipboard.read !== 'function') {
+              _mmgUploadStatus(progEl, 'error', '⚠ This browser blocks clipboard read — use 📁 Upload instead.');
+              return;
+            }
+            var items = await navigator.clipboard.read();
+            var picked = null;
+            outer: for (var i = 0; i < items.length; i++) {
+              for (var j = 0; j < items[i].types.length; j++) {
+                var t = items[i].types[j];
+                if (/^image\//.test(t)) {
+                  var blob = await items[i].getType(t);
+                  var ext = (t.split('/')[1] || 'png');
+                  var stamp = new Date().toISOString().replace(/[:.]/g, '-');
+                  picked = new File([blob], 'pasted-' + stamp + '.' + ext, { type: t });
+                  break outer;
+                }
+              }
+            }
+            if (!picked) {
+              _mmgUploadStatus(progEl, 'error', '⚠ No image on clipboard — take a screenshot first (Win+Shift+S / ⌘+Shift+5).');
+              return;
+            }
+            await _mmgUploadFileToGcs(picked, opts);
+          } catch (e) {
+            _mmgUploadStatus(progEl, 'error', '⚠ Paste failed: ' + (e.message || e));
+          } finally {
+            pasteEl.disabled = false;
+          }
+        });
+      }
     }
     function _mmgUploadStatus(progEl, kind, msg, pct) {
       if (!progEl) return;
@@ -33435,6 +34579,41 @@
       html += '<div class="mmg-section-title">Sample answers</div>'
             + '<div class="mmg-field-help">All samples are optional. Skip the ones you don\'t need; the runner falls back gracefully. <span style="color:#15803d;">●</span> = already has content.</div>';
 
+      // IELTS Writing — ✨ Auto-generate selected bands for selected
+      // tasks. Per-band + per-task checkboxes mean admin only spends
+      // tokens on the slots they actually need (the default is
+      // nothing-checked, so an accidental click costs zero). Won't
+      // overwrite a sample slot that already has content.
+      if (isIw) {
+        html += '<div style="background:linear-gradient(135deg,#fdf4ff,#faf5ff);border:1px solid #e9d5ff;border-radius:10px;padding:14px 16px;margin:6px 0 14px;">'
+              +   '<div style="font-size:12.5px;color:#581c87;line-height:1.5;margin-bottom:10px;">'
+              +     '<strong>✨ Auto-generate samples</strong> — Gemini 2.5 Pro writes the bands you tick below. Existing samples with content are <strong>preserved</strong>. Pricing: ≈ $0.014 per essay (Pro output tokens). Pick fewer bands to spend less.'
+              +   '</div>'
+              +   '<div style="display:grid;grid-template-columns:max-content 1fr;gap:8px 14px;align-items:center;font-size:12.5px;color:#0f172a;">'
+              +     '<span style="font-weight:600;color:#581c87;">Bands:</span>'
+              +     '<div style="display:flex;flex-wrap:wrap;gap:10px 16px;">'
+              +       [5,6,7,8,9].map(function (b) {
+                        return '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" class="mmgIwGenBand" data-band="' + b + '" onchange="_mmgIwGenSamplesUpdateCost()"> Band ' + b + '</label>';
+                      }).join('')
+              +     '</div>'
+              +     '<span style="font-weight:600;color:#581c87;">Include:</span>'
+              +     '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="mmgIwGenIncludeUz" onchange="_mmgIwGenSamplesUpdateCost()"> Uzbek translations of the ticked bands</label>'
+              +     '<span style="font-weight:600;color:#581c87;">Tasks:</span>'
+              +     '<div style="display:flex;flex-wrap:wrap;gap:10px 16px;">'
+              +       '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" class="mmgIwGenTask" data-task="task1" onchange="_mmgIwGenSamplesUpdateCost()"> Task 1</label>'
+              +       '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" class="mmgIwGenTask" data-task="task2" onchange="_mmgIwGenSamplesUpdateCost()"> Task 2</label>'
+              +     '</div>'
+              +     '<span style="font-weight:600;color:#581c87;">Main:</span>'
+              +     '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="mmgIwGenIncludeMain" onchange="_mmgIwGenSamplesUpdateCost()"> Also produce Band 8 model answer (sampleAnswer)</label>'
+              +   '</div>'
+              +   '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;gap:10px;flex-wrap:wrap;">'
+              +     '<div id="mmgIwGenCostHint" style="font-size:11.5px;color:#64748b;font-weight:500;">Pick at least one band + one task to enable.</div>'
+              +     '<button type="button" id="mmgIwGenSamplesBtn" onclick="_mmgIwGenSamples()" disabled style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12.5px;font-weight:700;cursor:not-allowed;opacity:.55;box-shadow:0 4px 10px rgba(124,58,237,.3);white-space:nowrap;">✨ Generate selected</button>'
+              +   '</div>'
+              + '</div>';
+        html += '<div id="mmgIwGenSamplesStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;font-weight:500;"></div>';
+      }
+
       // Task chip row
       html += '<div class="mmg-chip-row"><span class="mmg-chip-label">Task</span>';
       for (var i = 0; i < tasks.length; i++) {
@@ -33573,6 +34752,19 @@
 
       var html = '<div class="mmg-section-title">Vocabulary lists (English ↔ Uzbek)</div>'
               + '<div class="mmg-field-help">One list per task. <span style="color:#15803d;">●</span> = list has rows. Use search to find an existing entry.</div>';
+
+      // IELTS Writing — ✨ Auto-generate topical EN↔UZ vocab for the
+      // active task. Won't duplicate existing entries; appends new ones.
+      if (_mmgCurrentType() === 'ielts-writing') {
+        html += '<div style="background:linear-gradient(135deg,#fdf4ff,#faf5ff);border:1px solid #e9d5ff;border-radius:10px;padding:12px 14px;margin:8px 0 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">'
+              +   '<div style="flex:1;min-width:240px;font-size:12px;color:#581c87;line-height:1.5;">'
+              +     '<strong>✨ Auto-generate vocabulary</strong> — Gemini 2.5 Pro reads the active task\'s prompt (and chart, for T1) and emits topical English↔Uzbek pairs. Skips duplicates that are already on the list. ~10–15s · ~$0.05.'
+              +   '</div>'
+              +   '<input type="number" id="mmgIwVocabCount" value="20" min="5" max="60" style="width:64px;border:1px solid #cbd5e1;border-radius:6px;padding:6px 8px;font-size:12.5px;text-align:right;" title="How many entries to generate (5–60)">'
+              +   '<button type="button" id="mmgIwGenVocabBtn" onclick="_mmgIwGenVocab()" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(124,58,237,.3);white-space:nowrap;">✨ Generate</button>'
+              + '</div>';
+        html += '<div id="mmgIwGenVocabStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;font-weight:500;"></div>';
+      }
 
       // Task chip row (count + filled dot per chip).
       html += '<div class="mmg-chip-row"><span class="mmg-chip-label">Task</span>';
@@ -37323,15 +38515,22 @@
       var ttl = document.getElementById('mmgImportTitle');
       if (!ttl) return;
       // IELTS speaks in passages; CEFR speaks in parts; IELTS Listening
-      // calls them sections. Data stays 1-based for the user.
-      var unit = (st.examType === 'cefr-reading') ? 'Part'
+      // calls them sections; IELTS Writing calls them tasks. Data stays
+      // 1-based for the user.
+      var unit = (st.examType === 'cefr-reading' || st.examType === 'cefr-listening') ? 'Part'
                : (st.examType === 'ielts-listening') ? 'Section'
+               : (st.examType === 'ielts-writing') ? 'Task'
                : 'Passage';
       if (st.scope === 'passage') {
         ttl.textContent = '✨ Import ' + unit + ' ' + (st.passageIndex + 1) + ' from PDF / image';
       } else {
         ttl.textContent = '✨ Import test from PDF / image';
       }
+      // IELTS Writing has no answer key (Task 1 + 2 are free-response).
+      // Hide the Answer key section + the "skip if your test file…"
+      // tagline so admins don't think they need to provide one.
+      var keyHeader = document.getElementById('mmgImportKeySection');
+      if (keyHeader) keyHeader.style.display = (st.examType === 'ielts-writing') ? 'none' : '';
     }
 
     function _mmgImportOpen() {
@@ -37496,7 +38695,58 @@
     // (take a shot, Alt-Tab back, Ctrl+V, repeat) without the dialog
     // closing or refocusing. On Done, the whole batch is committed to
     // the chosen group in the parent import modal.
-    window._mmgImportPasteFromClipboard = function (group) {
+    window._mmgImportPasteFromClipboard = async function (group) {
+      // Modern path: read the clipboard directly so a single click pastes
+      // whatever image is on the clipboard (admin took a screenshot with
+      // Win+Shift+S, came back here, hit Paste — done).
+      //   • Needs HTTPS + a recent Chromium / Edge / Safari.
+      //   • The browser prompts for clipboard-read permission the first
+      //     time on a given origin.
+      // Fallback: the old sticky-dialog path is still useful when the
+      // direct read fails (Firefox, permission denied, no image on
+      // clipboard) — it lets the admin paste via Ctrl+V across many
+      // screenshots in a single session.
+      var status = document.getElementById('mmgImportStatus');
+      if (navigator.clipboard && typeof navigator.clipboard.read === 'function') {
+        try {
+          var items = await navigator.clipboard.read();
+          var files = [];
+          for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            for (var j = 0; j < item.types.length; j++) {
+              var t = item.types[j];
+              if (!/^image\//.test(t)) continue;
+              try {
+                var blob = await item.getType(t);
+                var stamp = new Date().toISOString().replace(/[:.]/g, '-');
+                var ext   = (t.split('/')[1] || 'png');
+                files.push(new File([blob], 'pasted-' + stamp + '.' + ext, { type: t }));
+              } catch (_e) { /* keep trying other types */ }
+            }
+          }
+          if (files.length > 0) {
+            _mmgImportFilesPicked(group, files);
+            if (status) {
+              status.style.color = '#0369a1';
+              status.textContent = '📋 Pasted ' + files.length + ' file from clipboard';
+            }
+            return;
+          }
+          // No image on the clipboard — surface a hint then open the
+          // sticky dialog as a fallback so admin can still take a fresh
+          // screenshot + Ctrl+V into it.
+          if (status) {
+            status.style.color = '#b45309';
+            status.textContent = 'No image on clipboard — take a screenshot (Win+Shift+S) then click Paste again, or use the dialog that just opened.';
+          }
+        } catch (e) {
+          // Permission denied / SecurityError / browser doesn't support it.
+          if (status) {
+            status.style.color = '#b45309';
+            status.textContent = 'Clipboard read blocked — using the paste dialog (Ctrl+V to drop screenshots).';
+          }
+        }
+      }
       _mmgPasteCollectOpen(group);
     };
 
@@ -37808,7 +39058,13 @@
         // the runner orders them correctly even if the AI emits a wrong /
         // missing one.
         if (st.scope === 'passage') {
-          var md = window._mmgEditing.mock_data || {};
+          // Source of truth is the raw-JSON textarea, NOT _mmgEditing.mock_data —
+          // the latter is the snapshot from when the editor opened and never gets
+          // re-synced. Flushing first guarantees that any unsaved chart upload /
+          // sample edits from the active tab make it into md before the import
+          // merges the new task object, so chartImageUrl + samples survive.
+          if (typeof _mmgFlushStructuredToRaw === 'function') _mmgFlushStructuredToRaw();
+          var md = _mmgGetMockData() || {};
           var newObj = (j.mock_data && typeof j.mock_data === 'object' && !Array.isArray(j.mock_data))
             ? j.mock_data
             : null;
@@ -38075,6 +39331,12 @@
         if (/Failed to fetch|NetworkError|net::|520/i.test(em)) {
           document.getElementById('mmgImportPhaseSub').textContent =
             'Network error reaching the AI server (Cloudflare 520 / fetch failed). Usually a transient blip — try Import again. If it keeps happening, your file may be hitting an upstream limit.';
+        } else if (/HTTP 401|unauthorized/i.test(em)) {
+          // Passcode session lost / expired. Clear it so the next admin
+          // action will prompt for the passcode again, and tell the user.
+          window._mmgPasscode = '';
+          document.getElementById('mmgImportPhaseSub').textContent =
+            'Admin session expired (HTTP 401). Close this dialog, refresh, and re-enter the admin passcode — then try Import again.';
         }
         btn.disabled = false;
         btn.textContent = '✨ Import';

@@ -1162,6 +1162,651 @@ ${t2 || '(empty — task 2 not yet written; leave all task2 tags null)'}`;
   };
 }
 
+// ── IELTS Writing chart enhance (scope=enhance-chart) ──────────────
+// Returns a cleaned-up chart image in one of two modes:
+//
+//   • 'visual'    — Gemini 2.5 Flash Image takes the raw screenshot
+//                   and returns a polished version (same data,
+//                   sharper text, white background, no watermark).
+//   • 'rerender'  — Two-pass: Gemini 2.5 Pro reads the chart and
+//                   emits a structured spec (type, axes, series);
+//                   Gemini 2.5 Flash Image then draws a fresh chart
+//                   from that spec in Cambridge-IELTS style.
+//
+// Both modes return base64 PNG. 'rerender' additionally returns the
+// extracted spec so the frontend can show it for debugging.
+async function enhanceIeltsChart(opts: {
+  imageBase64: string;
+  mimeType:    string;
+  mode:        'visual' | 'rerender';
+  chartTypeHint?: string;
+  geminiKey:   string;
+}): Promise<{ imageBase64: string; mimeType: string; spec?: unknown; modelChain: string }> {
+  const { imageBase64, mimeType, mode, chartTypeHint, geminiKey } = opts;
+
+  if (mode === 'visual') {
+    // Direct image-in image-out via gemini-2.5-flash-image. The model
+    // takes the original screenshot and the text prompt as parts; we
+    // ask for an IMAGE-only response back. Prompt is intentionally
+    // short and directive — earlier versions said "produce a polished
+    // version" which invited Flash Image to redraw creatively and
+    // shift digits. Framing as "regenerate this image sharper" (the
+    // wording gemini.google.com uses for the same task) keeps the
+    // model in upscale-mode rather than re-paint-mode.
+    const prompt = `Regenerate THIS chart image to be sharper, clearer, and easier to read. Treat this as an upscale / denoise pass on the EXACT same picture — do NOT redraw or restyle.
+
+KEEP IDENTICAL (do not change any of these):
+- Every number / percentage / digit visible
+- Every text label, title, legend entry, axis label, footnote
+- Every colour (slice colours, bar colours, line colours)
+- Slice angles / bar heights / line positions — the geometry of every shape
+- Layout — number of panels, their order, the position of titles and legends
+${chartTypeHint ? '- The chart type is a ' + chartTypeHint.replace('_', ' ') + ' — keep it that way.' : '- The chart type as it appears in the source.'}
+
+WHAT TO IMPROVE:
+- Background → pure white (#FFFFFF)
+- Watermarks, stamps, logos, site URLs (e.g. "ieltsmaterial.com", "ieltsonlinetests", text/image overlays bleeding through the page) → REMOVE COMPLETELY. The output must look like a clean exam handout, not a marked-up download.
+- Page tint, drop shadows, scan artefacts, fold lines, paper texture → remove
+- Text and numerals → crisp, anti-aliased, Arial / sans-serif typography
+- Lines → clean, no JPEG halos / scan noise
+
+Output ONE image only. No commentary, no extra annotations.`;
+    const parts = [
+      { text: prompt },
+      { inlineData: { mimeType, data: imageBase64 } }
+    ];
+    const r = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent?key=${geminiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ role: 'user', parts }],
+          generationConfig: { responseModalities: ['IMAGE'] }
+        })
+      }
+    );
+    if (!r.ok) throw new Error(`flash-image http ${r.status}: ${(await r.text()).slice(0, 200)}`);
+    const j = await r.json();
+    const cand = j?.candidates?.[0];
+    const respParts = cand?.content?.parts || [];
+    for (const p of respParts) {
+      if (p.inlineData?.data) {
+        return {
+          imageBase64: p.inlineData.data,
+          mimeType:    p.inlineData.mimeType || 'image/png',
+          modelChain:  'gemini-2.5-flash-image'
+        };
+      }
+    }
+    // No image — capture Gemini's text response + finishReason so the
+    // admin can see WHY it refused (safety filter, can't reproduce
+    // copyrighted material, etc.) instead of an opaque error.
+    const textOut    = respParts.map((p: { text?: string }) => p?.text || '').join('').trim();
+    const finish     = cand?.finishReason || 'NO_CANDIDATE';
+    const safetyHit  = (cand?.safetyRatings || []).find((s: { blocked?: boolean }) => s.blocked);
+    const safetyTxt  = safetyHit ? ` · safety blocked: ${(safetyHit as { category?: string }).category}` : '';
+    throw new Error(`flash-image returned no image (finish=${finish}${safetyTxt})${textOut ? ' · response: ' + textOut.slice(0, 200) : ''}`);
+  }
+
+  // ── 'rerender' mode: two-pass ──────────────────────────────────────
+  // Pass 1 — Gemini 2.5 Pro reads the chart and emits a structured spec.
+  // The spec is ALWAYS panel-based — even single-chart screenshots get
+  // wrapped in panels[0], and multi-panel composites (2x2 pies, side-
+  // by-side bars, etc.) populate panels[] in reading order. Without this,
+  // Pro silently collapsed 4 pies into a single series, Flash Image got
+  // told to draw "one pie" and returned NO_IMAGE.
+  const specPrompt = `You are analysing an IELTS Writing Task 1 chart. Read the image carefully and emit JSON describing every chart panel visible. Output ONLY the JSON object — no prose, no markdown fence.
+
+Shape:
+{
+  "title":   string,                                    // overall caption / question above the panels (or between rows). Use "" if there's none.
+  "layout":  "single" | "grid_1x2" | "grid_2x1" | "grid_2x2" | "row" | "column",
+  "panels":  [                                          // ONE entry per visible chart, in reading order (left→right, top→bottom)
+    {
+      "label":     string,                              // EXACT sub-caption above the panel (e.g. "Full-time students"). USE "" (empty string) if the panel has NO sub-caption — do NOT invent labels like "Panel 1".
+      "chartType": "line_graph" | "bar_chart" | "pie_chart" | "table",
+      "xAxis":     { "label": string, "values": string[] },   // omit / leave empty for pie/table
+      "yAxis":     { "label": string, "unit": string },       // omit / leave empty for pie/table
+      "legend":    string[],                             // human-readable category names ("Quite happy", "Not at all", "1995"…). NEVER put hex codes (#a1b2c3, 22cc55e) or rgb() values here — those go in "colors".
+      "values":    number[] | number[][],                // pie: ONE array aligned to legend. Pie values are percentages and MUST sum to 100 (±2 for rounding). bar/line: 2D array, one row per series, columns aligned to xAxis.values. table: 2D matrix.
+      "colors":    string[]                              // optional hex colours per legend entry, e.g. ["#fbbf24","#3b82f6","#22c55e"]. Must be prefixed with #.
+    }
+  ],
+  "notes":   string                                     // anything else worth preserving (source line, axis range, footer text…)
+}
+
+CRITICAL CONSTRAINTS:
+1. Multi-panel charts: if the screenshot contains more than one chart side-by-side or in a grid (very common with IELTS pies — "full-time students" vs "part-time students", "1995" vs "2005", etc.), emit ONE entry in panels[] per chart, NOT a single merged chart. Set layout to the closest grid shape.
+2. Unique legend entries: each panel's legend[] must have NO duplicates. If you see the same category twice, deduplicate it.
+3. Pie sum rule: pie values are percentages. They MUST sum to 100 (±2 for rounding). If the values you can read don't sum to ~100, recheck the image — DO NOT submit pies where a slice exceeds 100% (no "111%" slices).
+4. No hex in legend: legend strings are HUMAN-READABLE category names ("Quite happy", "1995", "Asia"). Hex / rgb / oklch colour values belong in "colors", never "legend".
+5. Faithfulness over guessing: if a value is hard to read, prefer the closest visible value or omit that panel entirely. Do NOT invent percentages to make a sum work — round known sectors and let the remainder fall on the largest slice.
+6. Labels: panel.label must come VERBATIM from the image. If a panel has no visible sub-caption, set label="" — never invent "Panel 1" / "Chart 1".
+7. Maps / process diagrams: the structured shape doesn't fit — return { "title":"...", "layout":"single", "panels":[], "notes":"Not re-renderable — use visual mode." }.`;
+  const specParts = [
+    { text: specPrompt },
+    { inlineData: { mimeType, data: imageBase64 } }
+  ];
+  const r1 = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${geminiKey}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ role: 'user', parts: specParts }],
+        generationConfig: {
+          temperature:        0.1,
+          responseMimeType:   'application/json',
+          // Pro on a vision task wants headroom — bump to 8192 so chart
+          // specs with 10+ data points fit. Cap thinking at 1024 so the
+          // budget can't be consumed before output starts (the symptom
+          // was an empty `raw` and a JSON parse error).
+          maxOutputTokens:    8192,
+          thinkingConfig:     { thinkingBudget: 1024 }
+        }
+      })
+    }
+  );
+  if (!r1.ok) throw new Error(`pro-spec http ${r1.status}: ${(await r1.text()).slice(0, 200)}`);
+  const j1     = await r1.json();
+  const cand1  = j1?.candidates?.[0];
+  const raw1   = cand1?.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
+  if (!raw1.trim()) {
+    const finish    = cand1?.finishReason || 'NO_CANDIDATE';
+    const safetyHit = (cand1?.safetyRatings || []).find((s: { blocked?: boolean }) => s.blocked);
+    const safetyTxt = safetyHit ? ` · safety blocked: ${(safetyHit as { category?: string }).category}` : '';
+    throw new Error(`pro-spec returned empty text (finish=${finish}${safetyTxt})`);
+  }
+  let spec: any;
+  try { spec = JSON.parse(raw1.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '')); }
+  catch (e) { throw new Error(`spec JSON parse failed: ${(e as Error).message} — raw: ${raw1.slice(0, 200)}`); }
+
+  // ── Sanitise the spec before handing to Flash Image ─────────────
+  // Pro routinely leaks hex codes into legend strings, duplicates a
+  // category in pie legends, and emits pie sums that bust 100. Each of
+  // these wrecks the draw prompt; clean before passing along.
+  const isHexish = (s: string) =>
+    /^#?[0-9a-fA-F]{3,8}$/.test(String(s).trim()) ||                  // #abc / abcdef / 22cc55e
+    /^rgba?\s*\(/i.test(String(s)) || /^oklch\b/i.test(String(s));    // rgb()/oklch
+  const panelsIn = Array.isArray(spec?.panels) ? spec.panels : [];
+  spec.panels = panelsIn.map((p: any) => {
+    p = p && typeof p === 'object' ? p : {};
+    // Legend: dedupe + strip hex-y entries
+    const seen = new Set<string>();
+    const legendOut: string[] = [];
+    const keepIdx: number[] = [];
+    (Array.isArray(p.legend) ? p.legend : []).forEach((l: unknown, i: number) => {
+      const s = String(l == null ? '' : l).trim();
+      if (!s) return;
+      if (isHexish(s)) return;                                        // colour value leaked into legend — drop
+      const k = s.toLowerCase();
+      if (seen.has(k)) return;
+      seen.add(k);
+      legendOut.push(s);
+      keepIdx.push(i);
+    });
+    p.legend = legendOut;
+    // Re-align values to the surviving legend indices (only for 1D pie values)
+    if (Array.isArray(p.values) && p.values.length && !Array.isArray(p.values[0])) {
+      const filtered = keepIdx.map(i => p.values[i]).filter((v: unknown) => v != null);
+      p.values = filtered;
+      // Pie-sum normalisation — if the values clearly don't sum to ~100,
+      // rescale so the proportions are preserved but the prompt doesn't
+      // tell Flash Image to draw 111% slices.
+      if (String(p.chartType).includes('pie') && filtered.length) {
+        const nums = filtered.map((v: unknown) => Number(v) || 0);
+        const sum  = nums.reduce((a: number, b: number) => a + b, 0);
+        if (sum > 0 && (sum < 95 || sum > 105)) {
+          p.values = nums.map((v: number) => Math.round((v / sum) * 100));
+        }
+      }
+    }
+    // Colours: keep only legitimate hex (with or without #), prefix any missing #.
+    if (Array.isArray(p.colors)) {
+      p.colors = p.colors
+        .map((c: unknown) => String(c == null ? '' : c).trim())
+        .filter((c: string) => /^#?[0-9a-fA-F]{3,8}$/.test(c))
+        .map((c: string) => c.startsWith('#') ? c : '#' + c);
+    }
+    // Label: trim; empty strings stay empty (do NOT synthesise "Panel N")
+    p.label = p.label ? String(p.label).trim() : '';
+    return p;
+  });
+
+  // Pass 2 — Gemini 2.5 Flash Image draws a brand-new clean chart from
+  // the spec in Cambridge-IELTS style. The prompt makes the panel layout
+  // explicit so Flash Image renders a composite (e.g. 2x2 pies) rather
+  // than collapsing to a single chart and returning NO_IMAGE.
+  const panels: any[] = Array.isArray(spec?.panels) ? spec.panels : [];
+  if (!panels.length) {
+    throw new Error('pro-spec returned no panels (chart not re-renderable; try visual mode instead)');
+  }
+  const layout = String(spec?.layout || 'single');
+  const layoutDesc: Record<string, string> = {
+    single:   'a single panel',
+    row:      'a horizontal row of panels (one row, side-by-side)',
+    column:   'a vertical column of panels (one column, stacked)',
+    grid_1x2: 'a 1×2 grid (one row, two panels side-by-side)',
+    grid_2x1: 'a 2×1 grid (two rows, one panel each)',
+    grid_2x2: 'a 2×2 grid (two rows, two columns — top-left, top-right, bottom-left, bottom-right)'
+  };
+  const layoutText = layoutDesc[layout] || (panels.length > 1 ? 'a grid of ' + panels.length + ' panels' : 'a single panel');
+
+  function panelBlock(p: any, idx: number): string {
+    const label    = p.label ? String(p.label) : '';        // empty → no sub-title for this panel
+    const chartT   = String(p.chartType || 'chart').replace('_', ' ');
+    const legend   = Array.isArray(p.legend) ? p.legend : [];
+    const xVals    = Array.isArray(p?.xAxis?.values) ? p.xAxis.values : [];
+    const isPieish = chartT === 'pie chart' || chartT === 'table';
+    let body = label
+      ? `  Sub-title above this panel: "${label}"\n`
+      : `  Sub-title above this panel: (none — do NOT add a generic label like "Panel ${idx + 1}", leave the area blank)\n`;
+    body += `  Chart type: ${chartT}\n  Legend (in display order, exactly ${legend.length} item${legend.length === 1 ? '' : 's'}): ${legend.join(', ') || '(none)'}\n`;
+    if (!isPieish && xVals.length) {
+      body += `  X axis (${p?.xAxis?.label || 'category'}): ${xVals.join(', ')}\n  Y axis (${p?.yAxis?.label || 'value'}${p?.yAxis?.unit ? ', unit ' + p.yAxis.unit : ''})\n`;
+    }
+    // values can be 1D (pie) or 2D (bar/line/table)
+    const vals = p.values;
+    if (Array.isArray(vals) && vals.length) {
+      if (Array.isArray(vals[0])) {
+        body += '  Data rows (each row = one series, columns aligned to legend / x-axis):\n';
+        vals.forEach((row: any, i: number) => {
+          body += `    • ${legend[i] || ('Row ' + (i + 1))}: ${Array.isArray(row) ? row.join(', ') : row}\n`;
+        });
+      } else if (chartT === 'pie chart') {
+        const nums = vals.map((v: any) => Number(v) || 0);
+        const sum  = nums.reduce((a: number, b: number) => a + b, 0);
+        const pairs = legend.map((l: string, i: number) => `${l} = ${nums[i] ?? 0}%`).join(', ');
+        body += `  Pie slices (must sum to 100): ${pairs} (sum ${sum})\n`;
+      } else {
+        body += `  Values: ${vals.join(', ')}\n`;
+      }
+    }
+    if (Array.isArray(p.colors) && p.colors.length) {
+      body += `  Colours (per legend entry, same order): ${p.colors.join(', ')}\n`;
+    }
+    return body;
+  }
+  const panelsText = panels.map(panelBlock).join('\n');
+  const overallTitle = spec?.title ? String(spec.title) : '';
+
+  const drawPrompt = `Draw ONE clean Cambridge-IELTS-style composite image showing ${layoutText} (${panels.length} chart${panels.length === 1 ? '' : 's'} total) from this exact data. Render EXACTLY what is given — do not invent any labels, slices, or legend entries.
+
+${overallTitle ? 'Overall caption (centred between the rows OR above the whole grid): "' + overallTitle + '"\n\n' : ''}Panels (in reading order):
+
+${panelsText}
+${spec?.notes ? 'Notes: ' + spec.notes + '\n' : ''}
+ACCURACY REQUIREMENTS (these override style):
+- Use the EXACT legend, slice values, and sub-titles given above. Do not add or remove categories. Do not relabel slices.
+- Pie slices: the percentage written inside each slice MUST match the value given in the panel block. Slices must sum to 100. No "111%" labels.
+- Sub-title above a panel: if the panel block says "(none)" leave that space blank — do not write "Panel 1" / "Chart 1" / etc.
+- Legend entries are HUMAN-READABLE words from the panel block. Never write a hex code (#a1b2c3, 22cc55e) or rgb() inside the legend or anywhere on the chart.
+- No duplicate legend entries on any panel.
+
+Layout requirements:
+- Render ALL ${panels.length} panel${panels.length === 1 ? '' : 's'} in the SAME output image, arranged as ${layoutText}.
+- Equal panel sizes; consistent fonts and palette across panels.
+- Each panel shows its own sub-title above it (only if non-empty).
+- The overall caption appears once — centred between the rows OR above the grid, NEVER duplicated inside each panel.
+
+Visual style:
+- Pure white background (#FFFFFF). REMOVE every watermark, stamp, logo, site URL, page tint, or fold/scan artefact from the source — output looks like a fresh exam handout, not a marked-up download.
+- Clean black axes, tick marks, light-grey gridlines (0.5px) — for bar / line / table panels.
+- Pie slices labelled with their percentage value inside the slice, in dark text on light slices and white text on dark slices.
+- Typography: Arial / sans-serif, crisp at small sizes. Sub-titles bold.
+- Bar / line colours: Cambridge Press palette (#1f77b4 navy, #d62728 red, #2ca02c green, #ff7f0e orange, #9467bd purple) unless the spec supplies colours.
+- Legend appears ONCE if all panels share the same legend (preferred). Per-panel legend only if panels differ.
+- Output ONE composite image only. Do not add explanatory text outside the chart area.`;
+  const r2 = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent?key=${geminiKey}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ role: 'user', parts: [{ text: drawPrompt }] }],
+        generationConfig: { responseModalities: ['IMAGE'] }
+      })
+    }
+  );
+  if (!r2.ok) throw new Error(`flash-image-render http ${r2.status}: ${(await r2.text()).slice(0, 200)}`);
+  const j2 = await r2.json();
+  const cand2     = j2?.candidates?.[0];
+  const respParts2 = cand2?.content?.parts || [];
+  for (const p of respParts2) {
+    if (p.inlineData?.data) {
+      return {
+        imageBase64: p.inlineData.data,
+        mimeType:    p.inlineData.mimeType || 'image/png',
+        spec,
+        modelChain:  'gemini-2.5-pro → gemini-2.5-flash-image'
+      };
+    }
+  }
+  const textOut2 = respParts2.map((p: { text?: string }) => p?.text || '').join('').trim();
+  const finish2  = cand2?.finishReason || 'NO_CANDIDATE';
+  throw new Error(`flash-image-render returned no image (finish=${finish2})${textOut2 ? ' · response: ' + textOut2.slice(0, 200) : ''}`);
+}
+
+// ── Variant C: Real-ESRGAN via Replicate ─────────────────────────
+// Generative models (variants A/B) shift digits because they're
+// re-drawing. Real-ESRGAN is a non-generative super-resolution model
+// — it upscales/denoises pixels without inventing new content, so
+// numbers and labels stay byte-identical. No watermark removal, no
+// restyling. Pure clarity pass.
+//
+// Cost: ~$0.002 per image (Replicate billed-time pricing, vs $0.04
+// for a Flash Image call).
+async function enhanceWithRealEsrgan(opts: {
+  imageBase64:    string;
+  mimeType:       string;
+  replicateToken: string;
+}): Promise<{ imageBase64: string; mimeType: string; modelChain: string }> {
+  const dataUri = `data:${opts.mimeType};base64,${opts.imageBase64}`;
+  // Use the official `models/<owner>/<name>/predictions` endpoint so
+  // we don't have to track version hashes. Prefer: wait makes Replicate
+  // block up to 60s and return the final status inline (synchronous
+  // workflow that matches how variants A/B already behave).
+  const resp = await fetch(
+    'https://api.replicate.com/v1/models/nightmareai/real-esrgan/predictions',
+    {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${opts.replicateToken}`,
+        'Content-Type':  'application/json',
+        'Prefer':        'wait=60'
+      },
+      body: JSON.stringify({
+        input: {
+          image:        dataUri,
+          scale:        2,
+          face_enhance: false
+        }
+      })
+    }
+  );
+  if (!resp.ok) {
+    const detail = (await resp.text()).slice(0, 300);
+    if (resp.status === 402) {
+      throw new Error('Replicate account has no credit. Add a card or buy credit at https://replicate.com/account/billing — Real-ESRGAN costs ~$0.002 per run.');
+    }
+    if (resp.status === 401) {
+      throw new Error('Replicate token is invalid or revoked. Set a fresh token: replicate.com → Settings → API → Create a new token, then update Supabase secret REPLICATE_API_TOKEN.');
+    }
+    throw new Error(`replicate http ${resp.status}: ${detail}`);
+  }
+  const j = await resp.json();
+  if (j.status === 'failed') {
+    throw new Error(`replicate failed: ${j.error || 'unknown'}`);
+  }
+  if (j.status !== 'succeeded') {
+    throw new Error(`replicate did not complete in 60s (status=${j.status}). Try again or fall back to variant A.`);
+  }
+  const outputUrl: string | undefined = Array.isArray(j.output) ? j.output[0] : j.output;
+  if (!outputUrl) throw new Error('replicate returned no output URL');
+  // Fetch the upscaled PNG and base64-encode for the JSON response.
+  // Replicate output URLs are signed and expire in ~24h, so we MUST
+  // re-host the bytes ourselves (the client uploads to GCS via the
+  // existing _mmgIwUseEnhanced flow).
+  const imgResp = await fetch(outputUrl);
+  if (!imgResp.ok) throw new Error(`fetch result image http ${imgResp.status}`);
+  const buf   = await imgResp.arrayBuffer();
+  const bytes = new Uint8Array(buf);
+  const CHUNK = 0x8000;
+  let binary = '';
+  for (let i = 0; i < bytes.length; i += CHUNK) {
+    binary += String.fromCharCode.apply(null, Array.from(bytes.subarray(i, i + CHUNK)));
+  }
+  const outBase64 = btoa(binary);
+  return {
+    imageBase64: outBase64,
+    mimeType:    imgResp.headers.get('content-type') || 'image/png',
+    modelChain:  'nightmareai/real-esrgan'
+  };
+}
+
+// ── IELTS Writing samples (scope=samples) ──────────────────────────
+// Generates the full set of leveled sample answers for both tasks in
+// a single Pro call:
+//   task1.sampleAnswer / sampleBand5..9 / uzSampleBand5..9
+//   task2.sampleAnswer / sampleBand5..9 / uzSampleBand5..9
+// Returns whatever subset Pro could produce; the client merges into
+// existing samples (never overwrites a field the admin already wrote).
+async function generateIeltsWritingSamples(opts: {
+  task1Prompt:        string;
+  task1Instruction?:  string;
+  task1ChartFile?:    { mime: string; base64: string };
+  task2Prompt:        string;
+  task2Instruction?:  string;
+  bands:              number[];           // which leveled samples to produce (e.g. [7,9])
+  includeUzbek:       boolean;            // include uzSampleBandN for each band
+  includeMain:        boolean;            // include sampleAnswer (Band 8 model)
+  geminiKey:          string;
+}): Promise<{ samples: any; modelUsed: string }> {
+  const { task1Prompt, task1Instruction, task1ChartFile, task2Prompt, task2Instruction, bands, includeUzbek, includeMain, geminiKey } = opts;
+
+  // Build a dynamic per-task shape based on what the admin actually ticked.
+  // Pro generates only what we describe, so unticked slots cost nothing.
+  const wordTarget = (which: 'task1' | 'task2') => which === 'task1' ? '~150 words' : '~250 words';
+  const fieldDesc = (band: number) => {
+    const descByBand: Record<number, string> = {
+      5: 'faithfully demonstrating Band 5 issues: limited vocab, frequent grammar errors, simple structures, basic linking',
+      6: 'Band 6: clear overall but with errors, mostly accurate data, some range of vocab and grammar',
+      7: 'Band 7: well-organised, accurate, good range with occasional slip-ups',
+      8: 'Band 8: precise, sophisticated, well-developed, near-flawless',
+      9: 'Band 9: expert use of language, fully accurate, naturally varied'
+    };
+    return descByBand[band] || `Band ${band}`;
+  };
+  const taskShape = (which: 'task1' | 'task2'): string => {
+    const lines: string[] = ['  "' + which + '": {'];
+    if (includeMain) {
+      lines.push(`    "sampleAnswer":  string,   // ${wordTarget(which)}, polished model answer (Band 8 target)`);
+    }
+    bands.forEach(b => {
+      lines.push(`    "sampleBand${b}":  string,   // ${wordTarget(which)}, ${fieldDesc(b)}`);
+    });
+    if (includeUzbek) {
+      bands.forEach(b => {
+        lines.push(`    "uzSampleBand${b}": string,  // Uzbek translation of sampleBand${b} (preserve the level — do not polish a Band 5 essay into Band 9 Uzbek prose)`);
+      });
+    }
+    // Trim trailing comma on the last field line
+    if (lines.length > 1) {
+      lines[lines.length - 1] = lines[lines.length - 1].replace(/,(\s*\/\/[^\n]*)?\s*$/, '$1');
+    }
+    lines.push('  }');
+    return lines.join('\n');
+  };
+  const tasksRequested: string[] = [];
+  if (task1Prompt) tasksRequested.push('task1');
+  if (task2Prompt) tasksRequested.push('task2');
+
+  const promptText = `You are a senior IELTS examiner generating sample answers for a Writing test. Output ONLY a JSON object (no prose, no markdown fence).
+
+Required shape (produce ONLY these keys — do not invent extras):
+{
+${tasksRequested.map(t => taskShape(t as 'task1' | 'task2')).join(',\n')}
+}
+
+IELTS band conventions to honour:
+- Band 5 ≠ deliberately broken English. It's a real student who's working hard but makes systematic errors with tense, articles, word choice, and complex grammar. Word count near 150 / 250.
+- Band 6 ≈ clear and on-topic; tense errors, some awkward collocations, occasional underdevelopment.
+- Band 7 ≈ well-developed, mostly accurate, good range; minor slips.
+- Band 8 ≈ precise, sophisticated lexical choices, full range of structures with very few errors.
+- Band 9 ≈ effortless command, fully integrated argumentation, idiomatic vocabulary.
+
+Task 1 specifics:
+- Describe the chart factually. Open with a paraphrased question (overview sentence), then group + compare key features.
+- DO NOT invent numbers — use only what is shown in the chart image (if provided) or referenced in the prompt.
+- Avoid personal opinion; keep it descriptive.
+
+Task 2 specifics:
+- Take a clear position appropriate to the question type (opinion / discussion / problem-solution / advantage-disadvantage / two-part).
+- Introduction → 2 body paragraphs → conclusion. Strong topic sentences.
+- Examples should be plausible, not exaggerated.
+
+Uzbek translations:
+- Translate the corresponding English Band-N text faithfully into modern, natural Uzbek (Latin script). Preserve the writer's level — DON'T polish a Band 5 essay into Band 9 Uzbek prose. If the English makes a grammar mistake, render it naturally as a beginner-level Uzbek learner might write it (but keep it readable).
+
+INPUT:
+Task 1 instruction: ${task1Instruction || '(use the standard IELTS Task 1 rubric)'}
+Task 1 prompt: ${task1Prompt || '(empty)'}
+
+Task 2 instruction: ${task2Instruction || '(use the standard IELTS Task 2 rubric)'}
+Task 2 prompt: ${task2Prompt || '(empty)'}
+${task1ChartFile ? '\n[Task 1 chart image follows — use it as the source of truth for all numbers and labels in Task 1 samples]' : ''}`;
+
+  const parts: Array<{ text: string } | { inlineData: { mimeType: string; data: string } }> = [
+    { text: promptText }
+  ];
+  if (task1ChartFile && task1ChartFile.base64) {
+    parts.push({ inlineData: { mimeType: task1ChartFile.mime, data: task1ChartFile.base64 } });
+  }
+
+  const r = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${geminiKey}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ role: 'user', parts }],
+        generationConfig: {
+          temperature:      0.4,
+          responseMimeType: 'application/json',
+          maxOutputTokens:  32768,
+          thinkingConfig:   { thinkingBudget: 4096 }
+        },
+        safetySettings: [
+          { category: 'HARM_CATEGORY_HARASSMENT',        threshold: 'BLOCK_ONLY_HIGH' },
+          { category: 'HARM_CATEGORY_HATE_SPEECH',       threshold: 'BLOCK_ONLY_HIGH' },
+          { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
+          { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' }
+        ]
+      })
+    }
+  );
+  if (!r.ok) throw new Error(`samples http ${r.status}: ${(await r.text()).slice(0, 300)}`);
+  const j = await r.json();
+  const cand = j?.candidates?.[0];
+  const raw  = cand?.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
+  if (!raw.trim()) {
+    const finish    = cand?.finishReason || 'NO_CANDIDATE';
+    const safetyHit = (cand?.safetyRatings || []).find((s: { blocked?: boolean }) => s.blocked);
+    const safetyTxt = safetyHit ? ` · safety blocked: ${(safetyHit as { category?: string }).category}` : '';
+    throw new Error(`samples returned empty text (finish=${finish}${safetyTxt})`);
+  }
+  let parsed: any;
+  try { parsed = JSON.parse(raw.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '')); }
+  catch (e) { throw new Error(`samples JSON parse failed: ${(e as Error).message} — raw: ${raw.slice(0, 200)}`); }
+
+  // Whitelist the keys we expect — drops any extras Pro might invent.
+  // Built from the actual selection so nothing outside the asked-for
+  // slots leaks into the saved mock_data.
+  const wantedFields: string[] = [];
+  if (includeMain) wantedFields.push('sampleAnswer');
+  bands.forEach(b => wantedFields.push('sampleBand' + b));
+  if (includeUzbek) bands.forEach(b => wantedFields.push('uzSampleBand' + b));
+  const pickTask = (t: any) => {
+    const out: Record<string, string> = {};
+    if (t && typeof t === 'object') {
+      for (const k of wantedFields) {
+        if (typeof t[k] === 'string' && t[k].trim()) out[k] = String(t[k]).trim();
+      }
+    }
+    return out;
+  };
+  return {
+    samples: {
+      task1: tasksRequested.includes('task1') ? pickTask(parsed.task1) : {},
+      task2: tasksRequested.includes('task2') ? pickTask(parsed.task2) : {}
+    },
+    modelUsed: 'gemini-2.5-pro'
+  };
+}
+
+// ── IELTS Writing topical vocabulary (scope=vocab) ─────────────────
+// Generates a list of useful EN↔UZ pairs tied to one task's prompt
+// and (for T1) the chart image. Default count 20.
+async function generateIeltsWritingVocab(opts: {
+  taskKey:      'task1' | 'task2';
+  prompt:       string;
+  count:        number;
+  chartFile?:   { mime: string; base64: string };
+  geminiKey:    string;
+}): Promise<{ vocabulary: Array<{ en: string; uz: string }>; modelUsed: string }> {
+  const { taskKey, prompt, count, chartFile, geminiKey } = opts;
+  const isT1 = taskKey === 'task1';
+  const promptText = `You are an IELTS Writing tutor curating a vocabulary list for a Band 6-8 student preparing for the following ${isT1 ? 'Task 1 chart description' : 'Task 2 essay'}. Output ONLY a JSON object — no prose, no markdown fence.
+
+Shape:
+{ "vocabulary": [ { "en": string, "uz": string }, ... ] }
+
+Requirements:
+- Exactly ${count} entries.
+- Topical: every entry must be useful for THIS specific prompt's subject matter, NOT generic IELTS filler.
+- Mix of single words, collocations, and short phrases (2-4 words). Bias toward collocations and chunks, which is what raises a student's lexical band.
+- Each en entry should be the EXACT form a student would write (e.g. "to constitute the majority", "labour force participation"). Avoid bare nouns unless they're genuinely useful in isolation.
+- Each uz entry should be a natural modern-Uzbek translation in Latin script. Use the form that fits the en collocation grammatically.
+${isT1 ? '- For T1 lean toward data-description phrases (trends, comparisons, percentages, units, time markers).' : '- For T2 include opinion/argument language (concession, cause/effect, exemplification, evaluation) plus topic-specific terms.'}
+- No duplicates. No hex codes or rgb() values. No emojis.
+
+INPUT:
+Task: ${isT1 ? 'IELTS Writing Task 1' : 'IELTS Writing Task 2'}
+Prompt: ${prompt || '(empty)'}
+${chartFile ? '\n[Task 1 chart image follows — use it to ground the vocabulary in the actual data shown]' : ''}`;
+
+  const parts: Array<{ text: string } | { inlineData: { mimeType: string; data: string } }> = [
+    { text: promptText }
+  ];
+  if (chartFile && chartFile.base64) {
+    parts.push({ inlineData: { mimeType: chartFile.mime, data: chartFile.base64 } });
+  }
+
+  const r = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${geminiKey}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ role: 'user', parts }],
+        generationConfig: {
+          temperature:      0.55,
+          responseMimeType: 'application/json',
+          maxOutputTokens:  4096,
+          thinkingConfig:   { thinkingBudget: 1024 }
+        }
+      })
+    }
+  );
+  if (!r.ok) throw new Error(`vocab http ${r.status}: ${(await r.text()).slice(0, 300)}`);
+  const j = await r.json();
+  const cand = j?.candidates?.[0];
+  const raw  = cand?.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
+  if (!raw.trim()) {
+    const finish = cand?.finishReason || 'NO_CANDIDATE';
+    throw new Error(`vocab returned empty text (finish=${finish})`);
+  }
+  let parsed: any;
+  try { parsed = JSON.parse(raw.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '')); }
+  catch (e) { throw new Error(`vocab JSON parse failed: ${(e as Error).message} — raw: ${raw.slice(0, 200)}`); }
+
+  const seen = new Set<string>();
+  const list: Array<{ en: string; uz: string }> = [];
+  const arr = Array.isArray(parsed?.vocabulary) ? parsed.vocabulary : [];
+  for (const row of arr) {
+    if (!row || typeof row !== 'object') continue;
+    const en = String(row.en || '').trim();
+    const uz = String(row.uz || '').trim();
+    if (!en || !uz) continue;
+    const key = en.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    list.push({ en, uz });
+  }
+  return { vocabulary: list, modelUsed: 'gemini-2.5-pro' };
+}
+
 async function generateExplanations(
   passage: Record<string, unknown>,
   examType: string
@@ -1696,8 +2341,9 @@ Deno.serve(async (req) => {
   // two free-response tasks — reject any other scope.
   if (examType === 'ielts-writing') {
     const _iwScope = (body.scope || 'full').toString();
-    if (_iwScope !== 'passage' && _iwScope !== 'tags' && _iwScope !== 'find-source') {
-      return json(400, { error: 'bad_scope', detail: 'IELTS Writing supports scope: "passage" / "tags" / "find-source". Got "' + _iwScope + '".' });
+    const _iwOk = ['passage','tags','find-source','enhance-chart','samples','vocab'];
+    if (!_iwOk.includes(_iwScope)) {
+      return json(400, { error: 'bad_scope', detail: 'IELTS Writing supports scope: ' + _iwOk.map(s => '"' + s + '"').join(' / ') + '. Got "' + _iwScope + '".' });
     }
   }
 
@@ -1731,6 +2377,150 @@ Deno.serve(async (req) => {
     } catch (e) {
       return json(502, {
         error:  'find_source_failed',
+        detail: e instanceof Error ? e.message : String(e)
+      });
+    }
+  }
+
+  // ── ENHANCE-CHART scope (IELTS Writing only) ───────────────────────
+  // Cleans up a Task 1 chart screenshot in one of three modes:
+  //   • visual     — Flash Image polishes pixels (generative)
+  //   • rerender   — Pro extracts spec → Flash Image redraws (generative)
+  //   • realesrgan — Real-ESRGAN via Replicate upscales non-generatively
+  //                  (no digit drift, no watermark removal)
+  if ((body.scope || '').toString() === 'enhance-chart' && examType === 'ielts-writing') {
+    const enhanceMode = (body.mode || 'visual').toString();
+    if (enhanceMode !== 'visual' && enhanceMode !== 'rerender' && enhanceMode !== 'realesrgan') {
+      return json(400, { error: 'bad_mode', detail: 'scope=enhance-chart requires mode: "visual" | "rerender" | "realesrgan". Got "' + enhanceMode + '".' });
+    }
+    const incomingFiles = (Array.isArray(body.files) ? body.files : []) as FileItem[];
+    const img = incomingFiles[0];
+    if (!img || !img.base64 || !img.mime) {
+      return json(400, { error: 'no_chart', detail: 'scope=enhance-chart requires files[0] = { base64, mime, name } for the chart image to enhance.' });
+    }
+    try {
+      let result;
+      if (enhanceMode === 'realesrgan') {
+        const replicateToken = Deno.env.get('REPLICATE_API_TOKEN') || '';
+        if (!replicateToken) {
+          return json(503, {
+            error:  'replicate_token_missing',
+            detail: 'Variant C needs REPLICATE_API_TOKEN set as a Supabase Edge Function secret. Get a token from replicate.com → Settings → API and run `npx supabase secrets set REPLICATE_API_TOKEN=<token> --project-ref zknyukkbtbcqgvkgjktb`.',
+            mode:   enhanceMode
+          });
+        }
+        result = await enhanceWithRealEsrgan({
+          imageBase64:    img.base64,
+          mimeType:       img.mime,
+          replicateToken
+        });
+      } else {
+        const chartTypeHint = body.chart_type_hint ? String(body.chart_type_hint) : undefined;
+        result = await enhanceIeltsChart({
+          imageBase64:   img.base64,
+          mimeType:      img.mime,
+          mode:          enhanceMode as 'visual' | 'rerender',
+          chartTypeHint,
+          geminiKey:     GEMINI_KEY
+        });
+      }
+      return json(200, {
+        imageBase64: result.imageBase64,
+        mimeType:    result.mimeType,
+        spec:        (result as { spec?: unknown }).spec,
+        modelChain:  result.modelChain,
+        mode:        enhanceMode,
+        actor:       (auth as AuthOk).actor
+      });
+    } catch (e) {
+      return json(502, {
+        error:  'enhance_chart_failed',
+        detail: e instanceof Error ? e.message : String(e),
+        mode:   enhanceMode
+      });
+    }
+  }
+
+  // ── SAMPLES scope (IELTS Writing only): generate Band 5-9 EN + Uz
+  //    for both tasks in a single Pro call. ~$0.20-0.40, ~60-90s.
+  if ((body.scope || '').toString() === 'samples' && examType === 'ielts-writing') {
+    const t1Prompt = String(body.task1_prompt || '').trim();
+    const t2Prompt = String(body.task2_prompt || '').trim();
+    if (!t1Prompt && !t2Prompt) {
+      return json(400, { error: 'no_prompts', detail: 'scope=samples requires at least one of task1_prompt / task2_prompt.' });
+    }
+    const incomingFiles = (Array.isArray(body.files) ? body.files : []) as FileItem[];
+    const chartFile = incomingFiles[0] && incomingFiles[0].base64 ? { mime: incomingFiles[0].mime, base64: incomingFiles[0].base64 } : undefined;
+    // Sanitise the band selection so we never burn tokens on garbage
+    // input (e.g. body.bands = [11, "x", -2]). Default falls back to
+    // the full 5-9 set to preserve callers that don't pass anything.
+    const rawBands = Array.isArray(body.bands) ? body.bands : [5, 6, 7, 8, 9];
+    const bands = Array.from(new Set(
+      rawBands.map((b: unknown) => parseInt(String(b), 10)).filter((b: number) => [5,6,7,8,9].includes(b))
+    )).sort();
+    if (!bands.length) {
+      return json(400, { error: 'no_bands', detail: 'scope=samples requires bands to be a non-empty subset of [5,6,7,8,9].' });
+    }
+    const includeUzbek = body.include_uzbek !== false;        // default true (backward compat)
+    const includeMain  = !!body.include_main;                  // default false
+    try {
+      const result = await generateIeltsWritingSamples({
+        task1Prompt:       t1Prompt,
+        task1Instruction:  body.task1_instruction ? String(body.task1_instruction) : undefined,
+        task1ChartFile:    chartFile,
+        task2Prompt:       t2Prompt,
+        task2Instruction:  body.task2_instruction ? String(body.task2_instruction) : undefined,
+        bands,
+        includeUzbek,
+        includeMain,
+        geminiKey:         GEMINI_KEY
+      });
+      return json(200, {
+        samples:    result.samples,
+        model_used: result.modelUsed,
+        actor:      (auth as AuthOk).actor
+      });
+    } catch (e) {
+      return json(502, {
+        error:  'samples_failed',
+        detail: e instanceof Error ? e.message : String(e)
+      });
+    }
+  }
+
+  // ── VOCAB scope (IELTS Writing only): generate ~20 EN↔UZ pairs for
+  //    one task. ~$0.05, ~10-15s.
+  if ((body.scope || '').toString() === 'vocab' && examType === 'ielts-writing') {
+    const taskKey = String(body.task_key || '').trim();
+    if (taskKey !== 'task1' && taskKey !== 'task2') {
+      return json(400, { error: 'bad_task_key', detail: 'scope=vocab requires task_key: "task1" | "task2".' });
+    }
+    const prompt = String(body.prompt || '').trim();
+    if (!prompt) {
+      return json(400, { error: 'no_prompt', detail: 'scope=vocab requires the task prompt in body.prompt.' });
+    }
+    const count = Math.min(60, Math.max(5, Number(body.count) || 20));
+    const incomingFiles = (Array.isArray(body.files) ? body.files : []) as FileItem[];
+    const chartFile = (taskKey === 'task1' && incomingFiles[0] && incomingFiles[0].base64)
+      ? { mime: incomingFiles[0].mime, base64: incomingFiles[0].base64 }
+      : undefined;
+    try {
+      const result = await generateIeltsWritingVocab({
+        taskKey,
+        prompt,
+        count,
+        chartFile,
+        geminiKey: GEMINI_KEY
+      });
+      return json(200, {
+        task_key:   taskKey,
+        vocabulary: result.vocabulary,
+        model_used: result.modelUsed,
+        actor:      (auth as AuthOk).actor
+      });
+    } catch (e) {
+      return json(502, {
+        error:  'vocab_failed',
         detail: e instanceof Error ? e.message : String(e)
       });
     }

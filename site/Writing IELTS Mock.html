@@ -6698,6 +6698,43 @@
         }
       });
 
+      // Hide band chips that have no authored content for this mock — and
+      // snap the active band to the highest available one so we don't
+      // open straight onto "No Band N sample available."
+      ['task1', 'task2'].forEach(taskKey => {
+        const task = testData.tasks[taskKey] || {};
+        const selector = document.getElementById(taskKey + 'BandSelector');
+        if (!selector) return;
+        const availableBands = [];
+        [5, 6, 7, 8, 9].forEach(b => {
+          // Band 9 has a legacy fallback: if sampleBand9 is empty but
+          // sampleAnswer exists, the renderer shows sampleAnswer at Band 9.
+          const hasContent = (task['sampleBand' + b] || '').toString().trim().length > 0
+                          || (b === 9 && (task.sampleAnswer || '').toString().trim().length > 0);
+          const btn = selector.querySelector('.ielts-band-btn[data-band="' + b + '"]');
+          if (!btn) return;
+          if (hasContent) {
+            btn.style.display = '';
+            availableBands.push(b);
+          } else {
+            btn.style.display = 'none';
+          }
+        });
+        // If the stored active band is no longer available, snap to the
+        // highest one we have. If NOTHING is available, leave 9 selected
+        // — the renderer will print its existing 'No Band N sample
+        // available.' message (and the parent samples button is greyed
+        // out anyway by _iwRefreshOverlayButtonStates).
+        if (availableBands.length && availableBands.indexOf(window._ieltsCurrentBand[taskKey]) === -1) {
+          window._ieltsCurrentBand[taskKey] = availableBands[availableBands.length - 1];
+        }
+        // Refresh the 'active' chip styling against the (possibly new)
+        // current band.
+        selector.querySelectorAll('.ielts-band-btn').forEach(b => b.classList.remove('active'));
+        const activeBtn = selector.querySelector('.ielts-band-btn[data-band="' + window._ieltsCurrentBand[taskKey] + '"]');
+        if (activeBtn) activeBtn.classList.add('active');
+      });
+
       // Load both tasks at their current band
       ['task1', 'task2'].forEach(taskKey => {
         const band = window._ieltsCurrentBand[taskKey];
@@ -6809,14 +6846,21 @@
       vocabArray.forEach(item => {
         if (typeof item === 'string') {
           html += `<div><strong>${item}</strong></div>`;
-        } else if (item.word || item.term) {
-          // Support both 'word' (from AI) and 'term' (from test builder) formats
-          const word = item.word || item.term;
-          html += `<div><strong>${word}</strong>`;
-          if (item.meaning) html += ` – ${item.meaning}`;
-          if (item.translation) html += `<br><span style="color:#666">👉 ${item.translation}</span>`;
-          html += '</div>';
+          return;
         }
+        if (!item || typeof item !== 'object') return;
+        // Support every shape we've shipped:
+        //   • { en, uz }                (editor canonical + Gemini generator)
+        //   • { word, meaning, translation }   (legacy AI-builder)
+        //   • { term, meaning, translation }   (legacy test-builder)
+        const headword    = item.en   || item.word   || item.term;
+        const meaning     = item.meaning;
+        const translation = item.uz   || item.translation;
+        if (!headword) return;
+        html += `<div><strong>${headword}</strong>`;
+        if (meaning) html += ` – ${meaning}`;
+        if (translation) html += `<br><span style="color:#666">👉 ${translation}</span>`;
+        html += '</div>';
       });
 
       html += '</div>';
@@ -7110,8 +7154,8 @@ Respond in JSON format:
 
           task1Vocab.forEach(item => {
             checkNewPage(12);
-            const word = item.word || item.term || '';
-            const meaning = item.meaning || '';
+            const word    = item.en      || item.word        || item.term  || '';
+            const meaning = item.meaning || item.translation || item.uz    || '';
 
             pdf.setFont('helvetica', 'bold');
             pdf.setTextColor(109, 40, 217);
@@ -7168,8 +7212,8 @@ Respond in JSON format:
 
           task2Vocab.forEach(item => {
             checkNewPage(12);
-            const word = item.word || item.term || '';
-            const meaning = item.meaning || '';
+            const word    = item.en      || item.word        || item.term  || '';
+            const meaning = item.meaning || item.translation || item.uz    || '';
 
             pdf.setFont('helvetica', 'bold');
             pdf.setTextColor(3, 105, 161);
@@ -7528,8 +7572,84 @@ Respond in JSON format:
       document.getElementById('finish').classList.remove('show');
     };
 
+    // ── Grey-out + Soon-badge logic for Samples / Vocabulary buttons ───
+    // The Samples and Topic-Vocabulary buttons on the finish overlay
+    // should only be clickable when the mock actually has authored
+    // content. Threshold (per the admin's request):
+    //   • Samples ready  ⇢ at least one non-empty leveled sample (any
+    //                       band, any task) OR a main sampleAnswer
+    //   • Vocab ready    ⇢ task1 or task2 has at least one entry
+    // Practice mode (single task) checks only the active task's slots.
+    function _iwHasAnySample(taskObj) {
+      if (!taskObj) return false;
+      var keys = ['sampleAnswer','sampleBand5','sampleBand6','sampleBand7','sampleBand8','sampleBand9',
+                  'uzSampleBand5','uzSampleBand6','uzSampleBand7','uzSampleBand8','uzSampleBand9'];
+      return keys.some(function (k) { return (taskObj[k] || '').toString().trim().length > 0; });
+    }
+    function _iwHasAnyVocab(vocArr) {
+      return Array.isArray(vocArr) && vocArr.some(function (r) {
+        return r && (String(r.en || '').trim().length > 0 || String(r.uz || '').trim().length > 0);
+      });
+    }
+    function _iwRefreshOverlayButtonStates() {
+      var td = (typeof currentTestData !== 'undefined' && currentTestData) || window.IELTS_WRITING_TEST_DATA || null;
+      // Decide which task(s) count for readiness — single-task practice
+      // mode only inspects the active task.
+      var t1 = td && td.tasks && td.tasks.task1 || null;
+      var t2 = td && td.tasks && td.tasks.task2 || null;
+      var voc = td && td.vocabulary || null;
+      var samplesReady, vocabReady;
+      if (window._singleTaskId === 't1') {
+        samplesReady = _iwHasAnySample(t1);
+        vocabReady   = _iwHasAnyVocab(voc && voc.task1);
+      } else if (window._singleTaskId === 't2') {
+        samplesReady = _iwHasAnySample(t2);
+        vocabReady   = _iwHasAnyVocab(voc && voc.task2);
+      } else {
+        samplesReady = _iwHasAnySample(t1) || _iwHasAnySample(t2);
+        vocabReady   = _iwHasAnyVocab(voc && voc.task1) || _iwHasAnyVocab(voc && voc.task2);
+      }
+      ['samplesBtn', 'practiceSeeSamplesBtn'].forEach(function (id) {
+        var btn = document.getElementById(id);
+        if (!btn) return;
+        _iwApplySoonBadge(btn, samplesReady, '📚 See Samples');
+      });
+      var vBtn = document.getElementById('topicVocabBtn');
+      if (vBtn) _iwApplySoonBadge(vBtn, vocabReady, '📖 Topic Vocabulary');
+    }
+    function _iwApplySoonBadge(btn, ready, defaultLabel) {
+      if (ready) {
+        // Re-enable; remove any earlier Soon styling.
+        btn.disabled = false;
+        btn.style.opacity = '';
+        btn.style.cursor = 'pointer';
+        btn.style.filter = '';
+        btn.title = '';
+        // Restore the original label if we previously rewrote it.
+        if (btn.dataset.iwSoonReplaced === '1') {
+          btn.textContent = defaultLabel;
+          delete btn.dataset.iwSoonReplaced;
+        }
+      } else {
+        btn.disabled = true;
+        btn.style.opacity = '.55';
+        btn.style.cursor = 'not-allowed';
+        btn.style.filter = 'grayscale(.6)';
+        btn.title = 'Not yet authored — coming soon';
+        // Append ⏳ Soon badge once.
+        if (btn.dataset.iwSoonReplaced !== '1') {
+          btn.textContent = defaultLabel + ' · ⏳ Soon';
+          btn.dataset.iwSoonReplaced = '1';
+        }
+      }
+    }
+
     // Helper: show/hide the correct finish overlay based on mode
     window.showFinishOverlay = function () {
+      // Refresh the Samples/Vocab button states every time the overlay
+      // opens — handles mocks where the admin saved samples mid-session,
+      // and single-task practice mode where the active task may differ.
+      try { _iwRefreshOverlayButtonStates(); } catch (_e) {}
       if (window._practiceMode) {
         document.getElementById('practiceFinish').style.display = 'flex';
       } else {
