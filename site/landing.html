@@ -8741,6 +8741,33 @@
       background: #dbeafe;
       border: 1px solid #93c5fd;
     }
+    /* Part-N heading row — a section-style divider between T1.1/T1.2
+       and Part 2. Uppercase label + topic text + optional Ready badge.
+       Width is auto so "PART 1" / "PART 2" never get cropped to a
+       single character like the compact .ilet-section-num pill did. */
+    #cwetPicker .cwet-part-heading {
+      align-items: center;
+      padding: 6px 4px;
+      border-top: 1px dashed #e9d5ff;
+      margin-top: 4px;
+    }
+    #cwetPicker .cwet-part-heading:first-child {
+      border-top: 0;
+      margin-top: 0;
+    }
+    #cwetPicker .cwet-part-label {
+      flex-shrink: 0;
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      color: #fff;
+      background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-right: 8px;
+      line-height: 1.4;
+    }
     /* Share button — keeps the same shape as iwet but in violet tone. */
     #cwetPicker .cwet-share,
     #cwetPicker .iwet-share {
@@ -18147,52 +18174,56 @@
       const dots = tasks.map(p =>
         '<span class="ilet-dot ' + (p.ready ? 'ilet-dot-ready' : 'ilet-dot-soon') + '"></span>'
       ).join('');
-      // Card layout: Part 1 is one scenario in two registers, so render
-      // the shared topic as a bold heading row with T1.1 / T1.2 beneath
-      // it carrying just the register tag. Part 2 stands alone with its
-      // own topic + genre badge.
+      // Card layout: Part 1 is one scenario in two registers. We render
+      // it as a part-heading row (just topic text, no compact badge)
+      // followed by two indented sub-rows (T1.1 / T1.2) carrying the
+      // register tag and Ready/Soon badge. Part 2 stands alone with its
+      // own heading row + topic + genre pill + Ready/Soon badge.
       const muted = '(no tag — click Auto-tag)';
-      const renderRow = (label, p) =>
-        '<li class="ilet-section">'
+
+      // Sub-row used for T1.1 / T1.2 only — short label fits the
+      // compact .ilet-section-num pill perfectly.
+      const renderSubRow = (label, p) =>
+        '<li class="ilet-section" style="padding-left:18px;">'
         + '<span class="ilet-section-num">' + label + '</span>'
         + '<span class="ilet-section-title">'
         +   (p.title
-              ? '<strong>' + _cwetEsc(p.title) + '</strong>'
-              : '<strong style="color:#94a3b8;">' + muted + '</strong>')
+              ? _cwetEsc(p.title)
+              : '<span style="color:#94a3b8;">' + muted + '</span>')
         + '</span>'
         + '<span class="ilet-section-badge ' + (p.ready ? 'ilet-badge-ready' : 'ilet-badge-soon') + '">'
         +   (p.ready ? '✓ Ready' : '⏳ Soon')
         + '</span>'
         + '</li>';
-      const part1HeadingHtml = '<li class="ilet-section" style="background:#f5f3ff;border-radius:6px;padding:4px 8px;">'
-        + '<span class="ilet-section-num" style="background:#6d28d9;color:#fff;">Part 1</span>'
-        + '<span class="ilet-section-title">'
-        +   (meta.part1Topic
-              ? '<strong style="color:#4c1d95;">' + _cwetEsc(meta.part1Topic) + '</strong>'
-              : '<strong style="color:#94a3b8;">' + muted + '</strong>')
-        + '</span>'
-        + '</li>';
-      const t2RowHtml = (function () {
-        const t = tasks[2];
-        const genreBadge = meta.t2Genre
-          ? ' <span class="cwet-pill cwet-pill-topic" style="font-size:10px;">' + _cwetEsc(meta.t2Genre) + '</span>'
+
+      // Section-heading row used for Part 1 (no badge — aggregate state
+      // comes from its sub-rows) and Part 2 (single badge, since it is
+      // its own task). Renders "PART N · <topic>" with the prefix in a
+      // small uppercase pill that ALWAYS fits its text.
+      const partHeadingRow = (n, topic, ready, genre) => {
+        const prefix = '<span class="cwet-part-label">PART ' + n + '</span>';
+        const titleInner = topic
+          ? '<strong style="color:#4c1d95;">' + _cwetEsc(topic) + '</strong>'
+          : '<span style="color:#94a3b8;">' + muted + '</span>';
+        const genreBadge = genre
+          ? ' <span class="cwet-pill cwet-pill-topic" style="font-size:10px;">' + _cwetEsc(genre) + '</span>'
           : '';
-        return '<li class="ilet-section">'
-          + '<span class="ilet-section-num" style="background:#6d28d9;color:#fff;">Part 2</span>'
-          + '<span class="ilet-section-title">'
-          +   (t.title
-                ? '<strong style="color:#4c1d95;">' + _cwetEsc(t.title) + '</strong>' + genreBadge
-                : '<strong style="color:#94a3b8;">' + muted + '</strong>')
-          + '</span>'
-          + '<span class="ilet-section-badge ' + (t.ready ? 'ilet-badge-ready' : 'ilet-badge-soon') + '">'
-          +   (t.ready ? '✓ Ready' : '⏳ Soon')
-          + '</span>'
+        const readyBadge = ready != null
+          ? '<span class="ilet-section-badge ' + (ready ? 'ilet-badge-ready' : 'ilet-badge-soon') + '">'
+            + (ready ? '✓ Ready' : '⏳ Soon') + '</span>'
+          : '';
+        return '<li class="ilet-section cwet-part-heading">'
+          + prefix
+          + '<span class="ilet-section-title">' + titleInner + genreBadge + '</span>'
+          + readyBadge
           + '</li>';
-      })();
-      const taskRows = part1HeadingHtml
-        + renderRow('T1.1', tasks[0])
-        + renderRow('T1.2', tasks[1])
-        + t2RowHtml;
+      };
+
+      const t2 = tasks[2];
+      const taskRows = partHeadingRow(1, meta.part1Topic, null, '')
+        + renderSubRow('T1.1', tasks[0])
+        + renderSubRow('T1.2', tasks[1])
+        + partHeadingRow(2, t2.title, t2.ready, meta.t2Genre);
       const topicsHtml = meta.topics.length
         ? '<div style="margin:6px 0 0;display:flex;flex-wrap:wrap;gap:4px;">'
             + meta.topics.slice(0, 4).map(t =>
