@@ -1578,40 +1578,55 @@ async function generateIeltsWritingSamples(opts: {
   task1ChartFile?:    { mime: string; base64: string };
   task2Prompt:        string;
   task2Instruction?:  string;
+  bands:              number[];           // which leveled samples to produce (e.g. [7,9])
+  includeUzbek:       boolean;            // include uzSampleBandN for each band
+  includeMain:        boolean;            // include sampleAnswer (Band 8 model)
   geminiKey:          string;
 }): Promise<{ samples: any; modelUsed: string }> {
-  const { task1Prompt, task1Instruction, task1ChartFile, task2Prompt, task2Instruction, geminiKey } = opts;
+  const { task1Prompt, task1Instruction, task1ChartFile, task2Prompt, task2Instruction, bands, includeUzbek, includeMain, geminiKey } = opts;
+
+  // Build a dynamic per-task shape based on what the admin actually ticked.
+  // Pro generates only what we describe, so unticked slots cost nothing.
+  const wordTarget = (which: 'task1' | 'task2') => which === 'task1' ? '~150 words' : '~250 words';
+  const fieldDesc = (band: number) => {
+    const descByBand: Record<number, string> = {
+      5: 'faithfully demonstrating Band 5 issues: limited vocab, frequent grammar errors, simple structures, basic linking',
+      6: 'Band 6: clear overall but with errors, mostly accurate data, some range of vocab and grammar',
+      7: 'Band 7: well-organised, accurate, good range with occasional slip-ups',
+      8: 'Band 8: precise, sophisticated, well-developed, near-flawless',
+      9: 'Band 9: expert use of language, fully accurate, naturally varied'
+    };
+    return descByBand[band] || `Band ${band}`;
+  };
+  const taskShape = (which: 'task1' | 'task2'): string => {
+    const lines: string[] = ['  "' + which + '": {'];
+    if (includeMain) {
+      lines.push(`    "sampleAnswer":  string,   // ${wordTarget(which)}, polished model answer (Band 8 target)`);
+    }
+    bands.forEach(b => {
+      lines.push(`    "sampleBand${b}":  string,   // ${wordTarget(which)}, ${fieldDesc(b)}`);
+    });
+    if (includeUzbek) {
+      bands.forEach(b => {
+        lines.push(`    "uzSampleBand${b}": string,  // Uzbek translation of sampleBand${b} (preserve the level — do not polish a Band 5 essay into Band 9 Uzbek prose)`);
+      });
+    }
+    // Trim trailing comma on the last field line
+    if (lines.length > 1) {
+      lines[lines.length - 1] = lines[lines.length - 1].replace(/,(\s*\/\/[^\n]*)?\s*$/, '$1');
+    }
+    lines.push('  }');
+    return lines.join('\n');
+  };
+  const tasksRequested: string[] = [];
+  if (task1Prompt) tasksRequested.push('task1');
+  if (task2Prompt) tasksRequested.push('task2');
 
   const promptText = `You are a senior IELTS examiner generating sample answers for a Writing test. Output ONLY a JSON object (no prose, no markdown fence).
 
-Required shape:
+Required shape (produce ONLY these keys — do not invent extras):
 {
-  "task1": {
-    "sampleAnswer":  string,   // 150+ word polished model answer (target Band 8)
-    "sampleBand5":   string,   // ~150 words, faithfully demonstrating Band 5 issues: limited vocab, frequent grammar errors, simple structures, some inaccurate data, basic linking
-    "sampleBand6":   string,   // ~150 words, Band 6: clear overall but with errors, mostly accurate data, some range of vocab and grammar
-    "sampleBand7":   string,   // ~150 words, Band 7: well-organised, accurate data, good range with occasional slip-ups
-    "sampleBand8":   string,   // ~150 words, Band 8: precise, sophisticated, well-developed, near-flawless
-    "sampleBand9":   string,   // ~150 words, Band 9: expert use of language, fully accurate, naturally varied
-    "uzSampleBand5": string,   // Uzbek translation of sampleBand5
-    "uzSampleBand6": string,
-    "uzSampleBand7": string,
-    "uzSampleBand8": string,
-    "uzSampleBand9": string
-  },
-  "task2": {
-    "sampleAnswer":  string,   // 250+ word polished model answer (target Band 8)
-    "sampleBand5":   string,   // ~250 words, Band 5 quality
-    "sampleBand6":   string,   // ~250 words
-    "sampleBand7":   string,
-    "sampleBand8":   string,
-    "sampleBand9":   string,
-    "uzSampleBand5": string,   // Uzbek translation
-    "uzSampleBand6": string,
-    "uzSampleBand7": string,
-    "uzSampleBand8": string,
-    "uzSampleBand9": string
-  }
+${tasksRequested.map(t => taskShape(t as 'task1' | 'task2')).join(',\n')}
 }
 
 IELTS band conventions to honour:
@@ -1686,12 +1701,16 @@ ${task1ChartFile ? '\n[Task 1 chart image follows — use it as the source of tr
   catch (e) { throw new Error(`samples JSON parse failed: ${(e as Error).message} — raw: ${raw.slice(0, 200)}`); }
 
   // Whitelist the keys we expect — drops any extras Pro might invent.
-  const FIELDS = ['sampleAnswer','sampleBand5','sampleBand6','sampleBand7','sampleBand8','sampleBand9',
-                  'uzSampleBand5','uzSampleBand6','uzSampleBand7','uzSampleBand8','uzSampleBand9'];
+  // Built from the actual selection so nothing outside the asked-for
+  // slots leaks into the saved mock_data.
+  const wantedFields: string[] = [];
+  if (includeMain) wantedFields.push('sampleAnswer');
+  bands.forEach(b => wantedFields.push('sampleBand' + b));
+  if (includeUzbek) bands.forEach(b => wantedFields.push('uzSampleBand' + b));
   const pickTask = (t: any) => {
     const out: Record<string, string> = {};
     if (t && typeof t === 'object') {
-      for (const k of FIELDS) {
+      for (const k of wantedFields) {
         if (typeof t[k] === 'string' && t[k].trim()) out[k] = String(t[k]).trim();
       }
     }
@@ -1699,8 +1718,8 @@ ${task1ChartFile ? '\n[Task 1 chart image follows — use it as the source of tr
   };
   return {
     samples: {
-      task1: pickTask(parsed.task1),
-      task2: pickTask(parsed.task2)
+      task1: tasksRequested.includes('task1') ? pickTask(parsed.task1) : {},
+      task2: tasksRequested.includes('task2') ? pickTask(parsed.task2) : {}
     },
     modelUsed: 'gemini-2.5-pro'
   };
@@ -2432,6 +2451,18 @@ Deno.serve(async (req) => {
     }
     const incomingFiles = (Array.isArray(body.files) ? body.files : []) as FileItem[];
     const chartFile = incomingFiles[0] && incomingFiles[0].base64 ? { mime: incomingFiles[0].mime, base64: incomingFiles[0].base64 } : undefined;
+    // Sanitise the band selection so we never burn tokens on garbage
+    // input (e.g. body.bands = [11, "x", -2]). Default falls back to
+    // the full 5-9 set to preserve callers that don't pass anything.
+    const rawBands = Array.isArray(body.bands) ? body.bands : [5, 6, 7, 8, 9];
+    const bands = Array.from(new Set(
+      rawBands.map((b: unknown) => parseInt(String(b), 10)).filter((b: number) => [5,6,7,8,9].includes(b))
+    )).sort();
+    if (!bands.length) {
+      return json(400, { error: 'no_bands', detail: 'scope=samples requires bands to be a non-empty subset of [5,6,7,8,9].' });
+    }
+    const includeUzbek = body.include_uzbek !== false;        // default true (backward compat)
+    const includeMain  = !!body.include_main;                  // default false
     try {
       const result = await generateIeltsWritingSamples({
         task1Prompt:       t1Prompt,
@@ -2439,6 +2470,9 @@ Deno.serve(async (req) => {
         task1ChartFile:    chartFile,
         task2Prompt:       t2Prompt,
         task2Instruction:  body.task2_instruction ? String(body.task2_instruction) : undefined,
+        bands,
+        includeUzbek,
+        includeMain,
         geminiKey:         GEMINI_KEY
       });
       return json(200, {

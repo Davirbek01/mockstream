@@ -7528,8 +7528,84 @@ Respond in JSON format:
       document.getElementById('finish').classList.remove('show');
     };
 
+    // ── Grey-out + Soon-badge logic for Samples / Vocabulary buttons ───
+    // The Samples and Topic-Vocabulary buttons on the finish overlay
+    // should only be clickable when the mock actually has authored
+    // content. Threshold (per the admin's request):
+    //   • Samples ready  ⇢ at least one non-empty leveled sample (any
+    //                       band, any task) OR a main sampleAnswer
+    //   • Vocab ready    ⇢ task1 or task2 has at least one entry
+    // Practice mode (single task) checks only the active task's slots.
+    function _iwHasAnySample(taskObj) {
+      if (!taskObj) return false;
+      var keys = ['sampleAnswer','sampleBand5','sampleBand6','sampleBand7','sampleBand8','sampleBand9',
+                  'uzSampleBand5','uzSampleBand6','uzSampleBand7','uzSampleBand8','uzSampleBand9'];
+      return keys.some(function (k) { return (taskObj[k] || '').toString().trim().length > 0; });
+    }
+    function _iwHasAnyVocab(vocArr) {
+      return Array.isArray(vocArr) && vocArr.some(function (r) {
+        return r && (String(r.en || '').trim().length > 0 || String(r.uz || '').trim().length > 0);
+      });
+    }
+    function _iwRefreshOverlayButtonStates() {
+      var td = (typeof currentTestData !== 'undefined' && currentTestData) || window.IELTS_WRITING_TEST_DATA || null;
+      // Decide which task(s) count for readiness — single-task practice
+      // mode only inspects the active task.
+      var t1 = td && td.tasks && td.tasks.task1 || null;
+      var t2 = td && td.tasks && td.tasks.task2 || null;
+      var voc = td && td.vocabulary || null;
+      var samplesReady, vocabReady;
+      if (window._singleTaskId === 't1') {
+        samplesReady = _iwHasAnySample(t1);
+        vocabReady   = _iwHasAnyVocab(voc && voc.task1);
+      } else if (window._singleTaskId === 't2') {
+        samplesReady = _iwHasAnySample(t2);
+        vocabReady   = _iwHasAnyVocab(voc && voc.task2);
+      } else {
+        samplesReady = _iwHasAnySample(t1) || _iwHasAnySample(t2);
+        vocabReady   = _iwHasAnyVocab(voc && voc.task1) || _iwHasAnyVocab(voc && voc.task2);
+      }
+      ['samplesBtn', 'practiceSeeSamplesBtn'].forEach(function (id) {
+        var btn = document.getElementById(id);
+        if (!btn) return;
+        _iwApplySoonBadge(btn, samplesReady, '📚 See Samples');
+      });
+      var vBtn = document.getElementById('topicVocabBtn');
+      if (vBtn) _iwApplySoonBadge(vBtn, vocabReady, '📖 Topic Vocabulary');
+    }
+    function _iwApplySoonBadge(btn, ready, defaultLabel) {
+      if (ready) {
+        // Re-enable; remove any earlier Soon styling.
+        btn.disabled = false;
+        btn.style.opacity = '';
+        btn.style.cursor = 'pointer';
+        btn.style.filter = '';
+        btn.title = '';
+        // Restore the original label if we previously rewrote it.
+        if (btn.dataset.iwSoonReplaced === '1') {
+          btn.textContent = defaultLabel;
+          delete btn.dataset.iwSoonReplaced;
+        }
+      } else {
+        btn.disabled = true;
+        btn.style.opacity = '.55';
+        btn.style.cursor = 'not-allowed';
+        btn.style.filter = 'grayscale(.6)';
+        btn.title = 'Not yet authored — coming soon';
+        // Append ⏳ Soon badge once.
+        if (btn.dataset.iwSoonReplaced !== '1') {
+          btn.textContent = defaultLabel + ' · ⏳ Soon';
+          btn.dataset.iwSoonReplaced = '1';
+        }
+      }
+    }
+
     // Helper: show/hide the correct finish overlay based on mode
     window.showFinishOverlay = function () {
+      // Refresh the Samples/Vocab button states every time the overlay
+      // opens — handles mocks where the admin saved samples mid-session,
+      // and single-task practice mode where the active task may differ.
+      try { _iwRefreshOverlayButtonStates(); } catch (_e) {}
       if (window._practiceMode) {
         document.getElementById('practiceFinish').style.display = 'flex';
       } else {

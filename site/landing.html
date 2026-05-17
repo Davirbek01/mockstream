@@ -32720,10 +32720,49 @@
       }
     };
 
-    // ── IELTS Writing — Samples tab "✨ Generate all samples" ──────────
-    // One Gemini Pro call returns all leveled samples for both tasks.
-    // Existing samples (admin-curated) are preserved — only empty
-    // slots get filled. Long-running (~60-90s); UI shows a ticker.
+    // ── IELTS Writing — Samples tab live cost / enable helper ──────────
+    // Re-runs on every checkbox change. Counts selected band×task pairs
+    // (plus optional Uzbek and Main multipliers) and shows a $-estimate.
+    // Disables the Generate button when nothing is selected.
+    window._mmgIwGenSamplesUpdateCost = function () {
+      var bands = Array.from(document.querySelectorAll('.mmgIwGenBand:checked')).map(function (el) { return parseInt(el.dataset.band, 10); });
+      var tasks = Array.from(document.querySelectorAll('.mmgIwGenTask:checked')).map(function (el) { return el.dataset.task; });
+      var incUz   = !!document.getElementById('mmgIwGenIncludeUz')?.checked;
+      var incMain = !!document.getElementById('mmgIwGenIncludeMain')?.checked;
+      var btn  = document.getElementById('mmgIwGenSamplesBtn');
+      var hint = document.getElementById('mmgIwGenCostHint');
+      if (!btn || !hint) return;
+      var enabled = bands.length > 0 && tasks.length > 0;
+      btn.disabled       = !enabled;
+      btn.style.cursor   = enabled ? 'pointer' : 'not-allowed';
+      btn.style.opacity  = enabled ? 1 : .55;
+      if (!enabled) {
+        hint.textContent = bands.length === 0 && tasks.length === 0
+          ? 'Pick at least one band + one task to enable.'
+          : bands.length === 0
+            ? 'Pick at least one band to enable.'
+            : 'Pick at least one task to enable.';
+        return;
+      }
+      // Cost model: ~$0.014/essay (Pro output tokens for ~150-250-word
+      // sample). Uzbek translations count as another essay each.
+      var perTask = bands.length * (incUz ? 2 : 1) + (incMain ? 1 : 0);
+      var totalEssays = perTask * tasks.length;
+      var costLow  = (totalEssays * 0.012).toFixed(2);
+      var costHigh = (totalEssays * 0.018).toFixed(2);
+      var bandsLabel = bands.sort(function (a, b) { return a - b; }).map(function (b) { return 'B' + b; }).join(' / ');
+      hint.textContent = totalEssays + ' essay' + (totalEssays === 1 ? '' : 's')
+        + ' · ' + bandsLabel + ' × ' + tasks.length + ' task' + (tasks.length === 1 ? '' : 's')
+        + (incUz ? ' (×2 for Uz)' : '')
+        + (incMain ? ' + Main' : '')
+        + ' · ~$' + costLow + '–$' + costHigh + ' · ~' + (3 * totalEssays) + 's';
+    };
+
+    // ── IELTS Writing — Samples tab "✨ Generate selected" ─────────────
+    // One Gemini Pro call returns ONLY the bands × tasks the admin ticked.
+    // Existing samples (admin-curated) are preserved — only empty slots
+    // get filled. Long-running (~30-90s depending on selection); ticker
+    // shows elapsed seconds.
     window._mmgIwGenSamples = async function () {
       var btnEl    = document.getElementById('mmgIwGenSamplesBtn');
       // setStatus re-queries every time — _mmgInitTabs() re-renders the
@@ -32737,19 +32776,34 @@
         setStatus('Fix the highlighted field, then try again.', '#dc2626');
         return;
       }
+      // Read the checklist state.
+      var bands = Array.from(document.querySelectorAll('.mmgIwGenBand:checked')).map(function (el) { return parseInt(el.dataset.band, 10); });
+      var tasks = Array.from(document.querySelectorAll('.mmgIwGenTask:checked')).map(function (el) { return el.dataset.task; });
+      var includeUz   = !!document.getElementById('mmgIwGenIncludeUz')?.checked;
+      var includeMain = !!document.getElementById('mmgIwGenIncludeMain')?.checked;
+      if (!bands.length || !tasks.length) {
+        setStatus('Pick at least one band + one task to enable generation.', '#dc2626');
+        return;
+      }
       var md = _mmgGetMockData();
       var t1 = md.tasks && md.tasks.task1 || {};
       var t2 = md.tasks && md.tasks.task2 || {};
       var t1Prompt = String(t1.prompt || '').trim();
       var t2Prompt = String(t2.prompt || '').trim();
-      if (!t1Prompt && !t2Prompt) {
-        setStatus('Fill in at least one task prompt before generating samples.', '#dc2626');
+      // Only require a prompt for tasks the admin actually ticked.
+      if (tasks.indexOf('task1') > -1 && !t1Prompt) {
+        setStatus('Fill in the Task 1 prompt before generating Task 1 samples.', '#dc2626');
         return;
       }
-      // Try to attach the chart image if T1 has one. Falls through silently
-      // on fetch failure — Pro still works text-only for T2 + Uz.
+      if (tasks.indexOf('task2') > -1 && !t2Prompt) {
+        setStatus('Fill in the Task 2 prompt before generating Task 2 samples.', '#dc2626');
+        return;
+      }
+      // Try to attach the chart image if T1 has one AND T1 is selected.
+      // Falls through silently on fetch failure — Pro still works text-only
+      // for T2 + Uz.
       var files = [];
-      if (t1.chartImageUrl && String(t1.chartImageUrl).trim()) {
+      if (tasks.indexOf('task1') > -1 && t1.chartImageUrl && String(t1.chartImageUrl).trim()) {
         try {
           var imgR = await fetch(String(t1.chartImageUrl).trim());
           if (imgR.ok) {
@@ -32783,10 +32837,16 @@
             adminPasscode:     window._mmgPasscode,
             exam_type:         'ielts-writing',
             scope:             'samples',
-            task1_prompt:      t1Prompt,
-            task1_instruction: t1.instruction || '',
-            task2_prompt:      t2Prompt,
-            task2_instruction: t2.instruction || '',
+            // Only send prompts for the tasks the admin ticked — the
+            // backend uses presence of a prompt to decide which task to
+            // generate for.
+            task1_prompt:      tasks.indexOf('task1') > -1 ? t1Prompt : '',
+            task1_instruction: tasks.indexOf('task1') > -1 ? (t1.instruction || '') : '',
+            task2_prompt:      tasks.indexOf('task2') > -1 ? t2Prompt : '',
+            task2_instruction: tasks.indexOf('task2') > -1 ? (t2.instruction || '') : '',
+            bands:             bands,
+            include_uzbek:     includeUz,
+            include_main:      includeMain,
             files:             files
           })
         });
@@ -34027,15 +34087,37 @@
       html += '<div class="mmg-section-title">Sample answers</div>'
             + '<div class="mmg-field-help">All samples are optional. Skip the ones you don\'t need; the runner falls back gracefully. <span style="color:#15803d;">●</span> = already has content.</div>';
 
-      // IELTS Writing — ✨ Auto-generate Band 5-9 EN + Uz for BOTH tasks.
-      // One Gemini Pro call (~$0.20-0.40, ~60-90s). Won't overwrite a
-      // sample slot that already has content.
+      // IELTS Writing — ✨ Auto-generate selected bands for selected
+      // tasks. Per-band + per-task checkboxes mean admin only spends
+      // tokens on the slots they actually need (the default is
+      // nothing-checked, so an accidental click costs zero). Won't
+      // overwrite a sample slot that already has content.
       if (isIw) {
-        html += '<div style="background:linear-gradient(135deg,#fdf4ff,#faf5ff);border:1px solid #e9d5ff;border-radius:10px;padding:12px 14px;margin:6px 0 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">'
-              +   '<div style="flex:1;min-width:240px;font-size:12px;color:#581c87;line-height:1.5;">'
-              +     '<strong>✨ Auto-generate samples</strong> — Gemini 2.5 Pro writes the full set: <em>main + Band 5–9 + Uzbek Band 5–9</em> for <em>both</em> Task 1 and Task 2 (22 essays total) in one call. Existing samples with content are <strong>preserved</strong>. ~60–90s · ~$0.20–0.40.'
+        html += '<div style="background:linear-gradient(135deg,#fdf4ff,#faf5ff);border:1px solid #e9d5ff;border-radius:10px;padding:14px 16px;margin:6px 0 14px;">'
+              +   '<div style="font-size:12.5px;color:#581c87;line-height:1.5;margin-bottom:10px;">'
+              +     '<strong>✨ Auto-generate samples</strong> — Gemini 2.5 Pro writes the bands you tick below. Existing samples with content are <strong>preserved</strong>. Pricing: ≈ $0.014 per essay (Pro output tokens). Pick fewer bands to spend less.'
               +   '</div>'
-              +   '<button type="button" id="mmgIwGenSamplesBtn" onclick="_mmgIwGenSamples()" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(124,58,237,.3);white-space:nowrap;">✨ Generate all samples</button>'
+              +   '<div style="display:grid;grid-template-columns:max-content 1fr;gap:8px 14px;align-items:center;font-size:12.5px;color:#0f172a;">'
+              +     '<span style="font-weight:600;color:#581c87;">Bands:</span>'
+              +     '<div style="display:flex;flex-wrap:wrap;gap:10px 16px;">'
+              +       [5,6,7,8,9].map(function (b) {
+                        return '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" class="mmgIwGenBand" data-band="' + b + '" onchange="_mmgIwGenSamplesUpdateCost()"> Band ' + b + '</label>';
+                      }).join('')
+              +     '</div>'
+              +     '<span style="font-weight:600;color:#581c87;">Include:</span>'
+              +     '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="mmgIwGenIncludeUz" onchange="_mmgIwGenSamplesUpdateCost()"> Uzbek translations of the ticked bands</label>'
+              +     '<span style="font-weight:600;color:#581c87;">Tasks:</span>'
+              +     '<div style="display:flex;flex-wrap:wrap;gap:10px 16px;">'
+              +       '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" class="mmgIwGenTask" data-task="task1" onchange="_mmgIwGenSamplesUpdateCost()"> Task 1</label>'
+              +       '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" class="mmgIwGenTask" data-task="task2" onchange="_mmgIwGenSamplesUpdateCost()"> Task 2</label>'
+              +     '</div>'
+              +     '<span style="font-weight:600;color:#581c87;">Main:</span>'
+              +     '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="mmgIwGenIncludeMain" onchange="_mmgIwGenSamplesUpdateCost()"> Also produce Band 8 model answer (sampleAnswer)</label>'
+              +   '</div>'
+              +   '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;gap:10px;flex-wrap:wrap;">'
+              +     '<div id="mmgIwGenCostHint" style="font-size:11.5px;color:#64748b;font-weight:500;">Pick at least one band + one task to enable.</div>'
+              +     '<button type="button" id="mmgIwGenSamplesBtn" onclick="_mmgIwGenSamples()" disabled style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12.5px;font-weight:700;cursor:not-allowed;opacity:.55;box-shadow:0 4px 10px rgba(124,58,237,.3);white-space:nowrap;">✨ Generate selected</button>'
+              +   '</div>'
               + '</div>';
         html += '<div id="mmgIwGenSamplesStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;font-weight:500;"></div>';
       }
