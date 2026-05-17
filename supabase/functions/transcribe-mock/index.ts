@@ -1679,21 +1679,25 @@ async function generateCefrWritingSamples(opts: {
   const { levels, includeUzbek, includeMain, t11Prompt, t12Prompt, t2Prompt,
           p1Context, p1Scenario, t2Genre, geminiKey } = opts;
 
-  const VALID_LEVELS = new Set(['A1','A2','B1','B2']);
+  const VALID_LEVELS = new Set(['A1','A2','B1','B2','C1','C2']);
   const cleanLevels = levels.filter(l => VALID_LEVELS.has(l));
 
   const LEVEL_NOTES: Record<string,string> = {
     A1: 'Very basic vocabulary, present + simple past, short sentences (~5-9 words). Some natural beginner errors (missing articles, wrong word order, simple verb tense slips) — like a real A1 student.',
     A2: 'Common everyday vocabulary, simple + compound sentences. Few errors but limited range. Like a real A2 student.',
     B1: 'Range of common topics, simple linkers (because, however, also). Mostly accurate; occasional slips in complex grammar. Like a real B1 student.',
-    B2: 'Wider range of vocabulary, complex sentences with subordinate clauses, accurate use of tenses. Some sophisticated linkers (despite, although, on the other hand).'
+    B2: 'Wider range of vocabulary, complex sentences with subordinate clauses, accurate use of tenses. Some sophisticated linkers (despite, although, on the other hand).',
+    C1: 'Effective, fluent English with idiomatic expressions and a wide range of complex grammatical structures. Cohesive use of advanced linkers (whereas, furthermore, in light of, notwithstanding). Nuanced control of tone and register; very few errors.',
+    C2: 'Native-like mastery — sophisticated lexis, precise word choice, complex syntax executed with full accuracy. Idiomatic, with rhetorical flair where appropriate. Reads like a polished newspaper opinion piece or a top-band academic essay.'
   };
 
   const TARGETS: Record<string,{t11:string;t12:string;t2:string}> = {
     A1: { t11: '40-50 words', t12: '80-100 words',  t2: '120-140 words' },
     A2: { t11: '45-55 words', t12: '100-120 words', t2: '140-160 words' },
     B1: { t11: '50-60 words', t12: '110-130 words', t2: '160-180 words' },
-    B2: { t11: '55-70 words', t12: '120-150 words', t2: '180-200 words' }
+    B2: { t11: '55-70 words', t12: '120-150 words', t2: '180-200 words' },
+    C1: { t11: '60-75 words', t12: '130-160 words', t2: '200-230 words' },
+    C2: { t11: '65-80 words', t12: '140-170 words', t2: '220-260 words' }
   };
   const MAIN_TARGETS = { t11: '50-70 words', t12: '120-150 words', t2: '180-200 words' };
 

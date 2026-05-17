@@ -17958,7 +17958,8 @@ AREAS TO IMPROVE:
     window._cwApplyOverlaySoonBadges = function (mockData) {
       if (!mockData) return;
       var tasks = mockData.tasks || {};
-      var SAMPLE_FIELDS = ['sample','sampleA1','sampleA2','sampleB1','sampleB2','uzSample','uzSampleA1','uzSampleA2','uzSampleB1','uzSampleB2'];
+      var SAMPLE_FIELDS = ['sample','sampleA1','sampleA2','sampleB1','sampleB2','sampleC1','sampleC2',
+                           'uzSample','uzSampleA1','uzSampleA2','uzSampleB1','uzSampleB2','uzSampleC1','uzSampleC2'];
       var hasAnySample = ['t11','t12','t2'].some(function (k) {
         var t = tasks[k] || {};
         return SAMPLE_FIELDS.some(function (f) { return (t[f] || '').toString().trim(); });
