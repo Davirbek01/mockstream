@@ -1527,6 +1527,12 @@ async function enhanceWithRealEsrgan(opts: {
   );
   if (!resp.ok) {
     const detail = (await resp.text()).slice(0, 300);
+    if (resp.status === 402) {
+      throw new Error('Replicate account has no credit. Add a card or buy credit at https://replicate.com/account/billing — Real-ESRGAN costs ~$0.002 per run.');
+    }
+    if (resp.status === 401) {
+      throw new Error('Replicate token is invalid or revoked. Set a fresh token: replicate.com → Settings → API → Create a new token, then update Supabase secret REPLICATE_API_TOKEN.');
+    }
     throw new Error(`replicate http ${resp.status}: ${detail}`);
   }
   const j = await resp.json();
