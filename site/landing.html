@@ -32452,16 +32452,18 @@
           { k: 'heading2',        label: 'Heading 2',        help: 'Second centred heading (test description).' }
         ];
       }
-      if (type === 'ielts-writing') {
+      if (type === 'ielts-writing' || type === 'cefr-writing') {
         // Logo / heading / module-title / time-info were legacy fields —
         // the runner falls back to per-clone branding for logo and to
-        // "Academic Writing Module" for the title. Hidden from the form
-        // so admins focus on the import bars + source/date. Existing
-        // stored values are preserved on save (the collector only writes
-        // back what's present in the DOM).
+        // the default exam-title heading. Hidden from the form so admins
+        // focus on the import bars + picker tags. Existing stored values
+        // are preserved on save (the collector only writes back what's
+        // present in the DOM).
         return [];
       }
-      // Default: CEFR Writing
+      // Default: CW (cefr-writing) legacy + anything else gets the legacy
+      // fields. Reserved for any future writing variant that still wants
+      // them.
       return [
         { k: 'examTitle',     label: 'Exam title',      help: 'Shown on the test header (e.g., "Writing exam").' },
         { k: 'heading1',      label: 'Heading 1',       help: 'First centred heading (org name in Uzbek).' },
