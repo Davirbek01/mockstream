@@ -18098,19 +18098,30 @@
       const t11 = (t.t11 && typeof t.t11 === 'object') ? t.t11 : {};
       const t12 = (t.t12 && typeof t.t12 === 'object') ? t.t12 : {};
       const t2  = (t.t2  && typeof t.t2  === 'object') ? t.t2  : {};
+      const p1  = (md && md.part1 && typeof md.part1 === 'object') ? md.part1 : {};
       const ready = (x) => !!(x.prompt && String(x.prompt).trim());
-      // Topics live at md.topics (string[]) for filtering — admin
-      // populates them via the editor (or AI auto-tag later).
+      // Skip placeholder titles like "Task 1.1" / "Task 1.2" / "Task 2"
+      // (the seed default before any tagging happened) — render the
+      // muted "(no task title yet)" instead so admins notice they need
+      // to run Auto-tag.
+      const cleanTitle = (raw, key) => {
+        const v = String(raw || '').trim();
+        if (!v) return '';
+        if (/^task\s*(1\.?1|1\.?2|2)$/i.test(v)) return '';
+        return v;
+      };
       const topics = Array.isArray(md && md.topics) ? md.topics
                        .map(s => String(s || '').trim().toLowerCase())
                        .filter(Boolean) : [];
       return {
-        topics: topics,
-        level:  (md && md.targetLevel) || '',
+        topics:     topics,
+        level:      (md && md.targetLevel) || '',
+        part1Topic: String(p1.topic || '').trim(),
+        t2Genre:    String(t2.genre || '').trim(),
         tasks: [
-          { key: 't11', title: String(t11.title || '').trim(), ready: ready(t11) },
-          { key: 't12', title: String(t12.title || '').trim(), ready: ready(t12) },
-          { key: 't2',  title: String(t2.title  || '').trim(), ready: ready(t2)  }
+          { key: 't11', title: cleanTitle(t11.title, 't11'), ready: ready(t11) },
+          { key: 't12', title: cleanTitle(t12.title, 't12'), ready: ready(t12) },
+          { key: 't2',  title: cleanTitle(t2.title,  't2'),  ready: ready(t2)  }
         ]
       };
     }
@@ -18136,19 +18147,52 @@
       const dots = tasks.map(p =>
         '<span class="ilet-dot ' + (p.ready ? 'ilet-dot-ready' : 'ilet-dot-soon') + '"></span>'
       ).join('');
-      const taskRows = tasks.map((p, i) => {
-        const labels = ['T1.1', 'T1.2', 'T2'];
-        const titleHtml = p.title
-          ? '<strong>' + _cwetEsc(p.title) + '</strong>'
-          : '<strong style="color:#94a3b8;">(no task title yet)</strong>';
+      // Card layout: Part 1 is one scenario in two registers, so render
+      // the shared topic as a bold heading row with T1.1 / T1.2 beneath
+      // it carrying just the register tag. Part 2 stands alone with its
+      // own topic + genre badge.
+      const muted = '(no tag — click Auto-tag)';
+      const renderRow = (label, p) =>
+        '<li class="ilet-section">'
+        + '<span class="ilet-section-num">' + label + '</span>'
+        + '<span class="ilet-section-title">'
+        +   (p.title
+              ? '<strong>' + _cwetEsc(p.title) + '</strong>'
+              : '<strong style="color:#94a3b8;">' + muted + '</strong>')
+        + '</span>'
+        + '<span class="ilet-section-badge ' + (p.ready ? 'ilet-badge-ready' : 'ilet-badge-soon') + '">'
+        +   (p.ready ? '✓ Ready' : '⏳ Soon')
+        + '</span>'
+        + '</li>';
+      const part1HeadingHtml = '<li class="ilet-section" style="background:#f5f3ff;border-radius:6px;padding:4px 8px;">'
+        + '<span class="ilet-section-num" style="background:#6d28d9;color:#fff;">Part 1</span>'
+        + '<span class="ilet-section-title">'
+        +   (meta.part1Topic
+              ? '<strong style="color:#4c1d95;">' + _cwetEsc(meta.part1Topic) + '</strong>'
+              : '<strong style="color:#94a3b8;">' + muted + '</strong>')
+        + '</span>'
+        + '</li>';
+      const t2RowHtml = (function () {
+        const t = tasks[2];
+        const genreBadge = meta.t2Genre
+          ? ' <span class="cwet-pill cwet-pill-topic" style="font-size:10px;">' + _cwetEsc(meta.t2Genre) + '</span>'
+          : '';
         return '<li class="ilet-section">'
-          + '<span class="ilet-section-num">' + labels[i] + '</span>'
-          + '<span class="ilet-section-title">' + titleHtml + '</span>'
-          + '<span class="ilet-section-badge ' + (p.ready ? 'ilet-badge-ready' : 'ilet-badge-soon') + '">'
-          +   (p.ready ? '✓ Ready' : '⏳ Soon')
+          + '<span class="ilet-section-num" style="background:#6d28d9;color:#fff;">Part 2</span>'
+          + '<span class="ilet-section-title">'
+          +   (t.title
+                ? '<strong style="color:#4c1d95;">' + _cwetEsc(t.title) + '</strong>' + genreBadge
+                : '<strong style="color:#94a3b8;">' + muted + '</strong>')
+          + '</span>'
+          + '<span class="ilet-section-badge ' + (t.ready ? 'ilet-badge-ready' : 'ilet-badge-soon') + '">'
+          +   (t.ready ? '✓ Ready' : '⏳ Soon')
           + '</span>'
           + '</li>';
-      }).join('');
+      })();
+      const taskRows = part1HeadingHtml
+        + renderRow('T1.1', tasks[0])
+        + renderRow('T1.2', tasks[1])
+        + t2RowHtml;
       const topicsHtml = meta.topics.length
         ? '<div style="margin:6px 0 0;display:flex;flex-wrap:wrap;gap:4px;">'
             + meta.topics.slice(0, 4).map(t =>
@@ -18170,7 +18214,10 @@
         ? '<span class="ilet-coming-soon">Coming soon</span>'
         : (shareBtnHtml + '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Take Test →</button>');
       const cleanTitle = String(item.name || '').replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]+\s*/u, '');
-      const topicBlob = (meta.topics || []).concat(tasks.map(p => p.title || '')).join(' ').toLowerCase();
+      const topicBlob = (meta.topics || [])
+        .concat(tasks.map(p => p.title || ''))
+        .concat([meta.part1Topic || '', meta.t2Genre || ''])
+        .join(' ').toLowerCase();
       return '<article class="ilet-card ' + (noneReady ? 'ilet-card-disabled' : '') + '"'
         + ' id="cwet-card-' + mockNum + '"'
         + ' data-mock="' + mockNum + '"'
@@ -32415,6 +32462,80 @@
               + '</div>';
       }
 
+      // CEFR Writing — picker tags section. Editable fields the cwetPicker
+      // reads to render its cards:
+      //   - part1.topic         (shared Part 1 heading across T1.1 + T1.2)
+      //   - tasks.t2.genre      (forum / article / blog post / report / essay)
+      //   - topics[]            (filter chips)
+      //   - targetLevel         (A2 / B1 / B2 level badge)
+      // Per-task short titles (t11.title / t12.title / t2.title) are
+      // edited on their own task tabs as before — listed here read-only
+      // for at-a-glance review. ✨ Auto-tag fills them all in one Pro
+      // call (~$0.025, ~10s); admin reviews + edits before Save.
+      if (type === 'cefr-writing') {
+        var p1     = (md.part1 = md.part1 || {});
+        var cwT    = (md.tasks = md.tasks || {});
+        var cwT11  = (cwT.t11 = cwT.t11 || {});
+        var cwT12  = (cwT.t12 = cwT.t12 || {});
+        var cwT2   = (cwT.t2  = cwT.t2  || {});
+        var topics = Array.isArray(md.topics) ? md.topics : [];
+
+        html += '<div class="mmg-section-title" style="margin-top:14px;">Picker tags</div>';
+        html += '<div class="mmg-field-help">Short tags that drive what students see on the CEFR Writing picker cards. <strong>Editable</strong> — type in any of the fields below, or click <strong>✨ Auto-tag</strong> to have Gemini fill them all from the prompts.</div>';
+
+        html += '<div class="mmg-field"><label for="mmgCwSet_part1Topic">Part 1 topic <span style="color:#94a3b8;font-weight:400;">(shared by T1.1 + T1.2)</span></label>'
+              +   '<input type="text" id="mmgCwSet_part1Topic" value="' + _mmgEsc(p1.topic || '') + '" placeholder="e.g. Club management issue" style="width:100%;border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;">'
+              +   '<div class="mmg-field-help">2–5 words, sentence case. Renders as the bold heading above T1.1 and T1.2.</div>'
+              + '</div>';
+
+        // Read-only previews of T1.1 / T1.2 titles (editable on their tabs).
+        var rolabel = function (id, label, val, hint) {
+          return '<div class="mmg-field"><label>' + label + '</label>'
+               + '<input type="text" id="' + id + '" value="' + _mmgEsc(val || '') + '" placeholder="' + _mmgEsc(hint) + '" style="width:100%;border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;">'
+               + '</div>';
+        };
+        html += rolabel('mmgCwSet_t11Title', 'T1.1 register tag',  cwT11.title, 'e.g. informal note · to friend');
+        html += rolabel('mmgCwSet_t12Title', 'T1.2 register tag',  cwT12.title, 'e.g. formal letter · to manager');
+        html += rolabel('mmgCwSet_t2Title',  'T2 topic',           cwT2.title,  'e.g. Cell phones in schools');
+
+        // T2 genre dropdown.
+        var _cwGenres = ['', 'forum', 'article', 'blog post', 'report', 'essay'];
+        var _cwGenreOpts = _cwGenres.map(function (g) {
+          var label = g === '' ? '— unset —' : g;
+          return '<option value="' + g + '"' + (g === (cwT2.genre || '') ? ' selected' : '') + '>' + label + '</option>';
+        }).join('');
+        html += '<div class="mmg-field"><label for="mmgCwSet_t2Genre">T2 genre</label>'
+              +   '<select id="mmgCwSet_t2Genre" style="width:100%;max-width:280px;border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;">' + _cwGenreOpts + '</select>'
+              +   '<div class="mmg-field-help">Format the T2 prompt asks for — drives the genre badge on the picker card.</div>'
+              + '</div>';
+
+        // Topics (comma-separated; constrained vocab).
+        html += '<div class="mmg-field"><label for="mmgCwSet_topics">Topics <span style="color:#94a3b8;font-weight:400;">(comma-separated, max 5)</span></label>'
+              +   '<input type="text" id="mmgCwSet_topics" value="' + _mmgEsc(topics.join(', ')) + '" placeholder="e.g. health, entertainment" style="width:100%;border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;">'
+              +   '<div class="mmg-field-help">From: education, work, health, technology, environment, transport, housing, entertainment, safety, family, travel, food, sports, media, money, culture, community, science. Drives the picker\'s 🏷 topic dropdown.</div>'
+              + '</div>';
+
+        // Target level.
+        var _cwLevels = ['', 'A2', 'B1', 'B2'];
+        var _cwLevelOpts = _cwLevels.map(function (l) {
+          var label = l === '' ? '— unset —' : l;
+          return '<option value="' + l + '"' + (l === (md.targetLevel || '') ? ' selected' : '') + '>' + label + '</option>';
+        }).join('');
+        html += '<div class="mmg-field"><label for="mmgCwSet_targetLevel">Target level</label>'
+              +   '<select id="mmgCwSet_targetLevel" style="width:100%;max-width:160px;border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;">' + _cwLevelOpts + '</select>'
+              +   '<div class="mmg-field-help">Best CEFR fit for the hardest of the three tasks. Renders as a small blue pill on the card.</div>'
+              + '</div>';
+
+        // Auto-tag button.
+        html += '<div style="background:linear-gradient(135deg,#fdf4ff,#faf5ff);border:1px solid #e9d5ff;border-radius:10px;padding:12px 14px;margin:14px 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">'
+              +   '<div style="flex:1;min-width:240px;font-size:12px;color:#581c87;line-height:1.5;">'
+              +     'Sends Gemini the three task prompts and fills every tag field above (Part 1 topic, T1.1 / T1.2 register tags, T2 topic + genre, topics, target level). <strong>Existing prompts and samples are not touched</strong> — review and edit anything afterward.'
+              +   '</div>'
+              +   '<button type="button" id="mmgCwAutoTagBtn" onclick="_mmgCwAutoTag()" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(124,58,237,.3);white-space:nowrap;">✨ Auto-tag with Gemini</button>'
+              + '</div>';
+        html += '<div id="mmgCwAutoTagStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;font-weight:500;"></div>';
+      }
+
       if (keys.length) {
         html += '<div class="mmg-section-title">Test settings (logo + headings)</div>';
         for (var i = 0; i < keys.length; i++) {
@@ -32588,6 +32709,51 @@
           var nv = (setNatEl.value || '').trim();
           if (nv) md.tasks.task1.dataNature = nv; else delete md.tasks.task1.dataNature;
         }
+      }
+
+      // CEFR Writing — picker tag fields collected from the Settings tab.
+      // Stored at mock_data root (md.part1.topic, md.topics, md.targetLevel)
+      // and per-task (md.tasks.t11.title, t12.title, t2.title, t2.genre)
+      // so the cwetPicker can read them without touching prompts / samples.
+      if (type === 'cefr-writing') {
+        md.tasks = md.tasks || {};
+        md.tasks.t11 = md.tasks.t11 || {};
+        md.tasks.t12 = md.tasks.t12 || {};
+        md.tasks.t2  = md.tasks.t2  || {};
+        var trimOrDel = function (obj, key, val) {
+          var v = (val || '').toString().trim();
+          if (v) obj[key] = v; else delete obj[key];
+        };
+        var cwP1Topic    = document.getElementById('mmgCwSet_part1Topic');
+        var cwT11Title   = document.getElementById('mmgCwSet_t11Title');
+        var cwT12Title   = document.getElementById('mmgCwSet_t12Title');
+        var cwT2Title    = document.getElementById('mmgCwSet_t2Title');
+        var cwT2Genre    = document.getElementById('mmgCwSet_t2Genre');
+        var cwTopicsEl   = document.getElementById('mmgCwSet_topics');
+        var cwLevelEl    = document.getElementById('mmgCwSet_targetLevel');
+        if (cwP1Topic) {
+          md.part1 = md.part1 || {};
+          trimOrDel(md.part1, 'topic', cwP1Topic.value);
+          if (!md.part1.topic && Object.keys(md.part1).length === 0) delete md.part1;
+        }
+        if (cwT11Title) trimOrDel(md.tasks.t11, 'title', cwT11Title.value);
+        if (cwT12Title) trimOrDel(md.tasks.t12, 'title', cwT12Title.value);
+        if (cwT2Title)  trimOrDel(md.tasks.t2,  'title', cwT2Title.value);
+        if (cwT2Genre)  trimOrDel(md.tasks.t2,  'genre', cwT2Genre.value);
+        if (cwTopicsEl) {
+          var raw = (cwTopicsEl.value || '').toLowerCase();
+          var arr = raw.split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+          // Dedupe + cap at 5.
+          var seen = {};
+          var out = [];
+          for (var i = 0; i < arr.length && out.length < 5; i++) {
+            if (seen[arr[i]]) continue;
+            seen[arr[i]] = 1;
+            out.push(arr[i]);
+          }
+          if (out.length) md.topics = out; else delete md.topics;
+        }
+        if (cwLevelEl)  trimOrDel(md, 'targetLevel', cwLevelEl.value);
       }
 
       if (type === 'cefr-speaking' || type === 'ielts-speaking') {
@@ -33498,6 +33664,99 @@
         _mmgSetMockData(md);
         _mmgRenderVocab(md);
         setStatus('✓ Added ' + added + ' entr' + (added === 1 ? 'y' : 'ies') + ' to ' + (activeKey === 'task1' ? 'Task 1' : 'Task 2') + ' — review and Save when ready.', '#16a34a');
+      } catch (e) {
+        clearInterval(tickI);
+        setStatus('⚠ ' + (e.message || String(e)), '#dc2626');
+      } finally {
+        btnEl.disabled = false;
+        btnEl.textContent = origLabel;
+      }
+    };
+
+    // ── CEFR Writing — Settings-tab "✨ Auto-tag this mock" handler ───
+    // Sends t11/t12/t2 prompts (+ p1_context/p1_scenario for context) to
+    // transcribe-mock with scope=tags. Server calls Gemini Pro and emits
+    // part1.topic + t11.title + t12.title + t2.title + t2.genre +
+    // topics[] + targetLevel. Handler merges all fields into mock_data
+    // (overwriting existing tags since admin clicked the button = intent
+    // to re-tag) and re-renders the Settings tab so the new values
+    // appear in their inputs immediately.
+    window._mmgCwAutoTag = async function () {
+      var statusEl = document.getElementById('mmgCwAutoTagStatus');
+      var btnEl    = document.getElementById('mmgCwAutoTagBtn');
+      function setStatus(msg, color) {
+        var s = document.getElementById('mmgCwAutoTagStatus');
+        if (s) { s.textContent = msg; s.style.color = color || '#64748b'; }
+      }
+      // Flush any pending edits so we read fresh prompts.
+      if (typeof _mmgFlushStructuredToRaw === 'function' && !_mmgFlushStructuredToRaw()) {
+        setStatus('Fix the highlighted field, then click Auto-tag.', '#dc2626');
+        return;
+      }
+      var md = _mmgGetMockData();
+      var t = (md && md.tasks) || {};
+      var t11p = String((t.t11 && t.t11.prompt) || '').trim();
+      var t12p = String((t.t12 && t.t12.prompt) || '').trim();
+      var t2p  = String((t.t2  && t.t2.prompt)  || '').trim();
+      if (!t11p && !t12p && !t2p) {
+        setStatus('Fill in at least one task prompt before auto-tagging.', '#dc2626');
+        return;
+      }
+
+      btnEl.disabled = true;
+      var origLabel = btnEl.textContent;
+      btnEl.textContent = '⏳ Tagging…';
+      var tick = 0;
+      var tickI = setInterval(function () {
+        tick++;
+        setStatus('Calling Gemini 2.5 Pro… ' + tick + 's elapsed', '#7c3aed');
+      }, 1000);
+
+      try {
+        var r = await fetch(_MMG_TRANSCRIBE_URL, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': _MMG_ANON, 'Authorization': 'Bearer ' + _MMG_ANON },
+          body: JSON.stringify({
+            adminPasscode: window._mmgPasscode,
+            exam_type:     'cefr-writing',
+            scope:         'tags',
+            t11_prompt:    t11p,
+            t12_prompt:    t12p,
+            t2_prompt:     t2p,
+            p1_context:    (t.p1_context  && t.p1_context.text)  || t.p1_context  || '',
+            p1_scenario:   (t.p1_scenario && t.p1_scenario.text) || t.p1_scenario || ''
+          })
+        });
+        var j = await r.json().catch(function () { return { error: 'bad_response' }; });
+        clearInterval(tickI);
+        if (!r.ok || j.error) {
+          var detail = j.detail || '';
+          throw new Error((j.error || ('HTTP ' + r.status)) + (detail ? ' — ' + String(detail).slice(0, 200) : ''));
+        }
+        var tags = j.tags || {};
+        md.tasks = md.tasks || {};
+        md.tasks.t11 = md.tasks.t11 || {};
+        md.tasks.t12 = md.tasks.t12 || {};
+        md.tasks.t2  = md.tasks.t2  || {};
+        var applied = [];
+        if (tags.part1 && tags.part1.topic) {
+          md.part1 = md.part1 || {};
+          md.part1.topic = tags.part1.topic;
+          applied.push('Part 1 topic');
+        }
+        if (tags.t11 && tags.t11.title) { md.tasks.t11.title = tags.t11.title; applied.push('T1.1 tag'); }
+        if (tags.t12 && tags.t12.title) { md.tasks.t12.title = tags.t12.title; applied.push('T1.2 tag'); }
+        if (tags.t2 && tags.t2.title)   { md.tasks.t2.title  = tags.t2.title;  applied.push('T2 title'); }
+        if (tags.t2 && tags.t2.genre)   { md.tasks.t2.genre  = tags.t2.genre;  applied.push('T2 genre'); }
+        if (Array.isArray(tags.topics) && tags.topics.length) { md.topics = tags.topics; applied.push(tags.topics.length + ' topic' + (tags.topics.length === 1 ? '' : 's')); }
+        if (tags.targetLevel) { md.targetLevel = tags.targetLevel; applied.push(tags.targetLevel + ' level'); }
+
+        _mmgSetMockData(md);
+        // Re-render the Settings tab so the new values appear in inputs.
+        window._mmgActiveTab = null;
+        _mmgInitTabs();
+        _mmgSwitchTab('settings');
+        setStatus('✓ Applied ' + applied.join(', ') + ' — review and Save when ready.', '#16a34a');
       } catch (e) {
         clearInterval(tickI);
         setStatus('⚠ ' + (e.message || String(e)), '#dc2626');
