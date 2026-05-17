@@ -32355,9 +32355,10 @@
         +   '<h3 style="margin:0;font-size:18px;color:#1e1b4b;flex:1;">✨ Enhance chart with AI</h3>'
         +   '<button type="button" onclick="_mmgIwCloseEnhance()" style="background:transparent;border:0;font-size:22px;color:#64748b;cursor:pointer;line-height:1;">×</button>'
         + '</div>'
-        + '<div style="font-size:12.5px;color:#475569;margin-bottom:16px;">Try the cheaper variant first; only run the costlier one if A doesn\'t satisfy. Each variant fires only when you click ▶ Run. After it finishes, 💾 Save the image locally and / or ✓ Use this version replaces the chart URL in GCS.</div>'
-        + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch;">'
-        +   _mmgIwEnhanceCardHtml('visual',   'A — Visual cleanup',     '~$0.04 · ~15s · Gemini 2.5 Flash Image polishes the same chart: pure-white background, sharper text, no watermarks. Best when the data is detailed and you trust the original layout.')
+        + '<div style="font-size:12.5px;color:#475569;margin-bottom:16px;">Try the cheaper variant first; only run the costlier one if it doesn\'t satisfy. Each variant fires only when you click ▶ Run. After it finishes, 💾 Save the image locally and / or ✓ Use this version replaces the chart URL in GCS.</div>'
+        + '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;align-items:stretch;">'
+        +   _mmgIwEnhanceCardHtml('realesrgan', 'C — Sharpen only', '~$0.002 · ~10s · Real-ESRGAN super-resolution via Replicate. Non-generative: pixels are upscaled, NOT redrawn. Numbers and labels stay 100% intact. Won\'t remove watermarks. Best when you trust the original and just need it crisper.')
+        +   _mmgIwEnhanceCardHtml('visual',   'A — Visual cleanup',     '~$0.04 · ~15s · Gemini 2.5 Flash Image polishes the same chart: pure-white background, sharper text, no watermarks. Best when the data is detailed and you trust the original layout. Numbers may drift slightly (generative model).')
         +   _mmgIwEnhanceCardHtml('rerender', 'B — Re-render from data', '~$0.10 · ~30s · Gemini 2.5 Pro reads the chart and emits a spec; Flash Image redraws it from that spec in Cambridge-IELTS style. Cleaner lines & typography, but small data values may shift slightly.')
         + '</div>'
         + '<div style="margin-top:14px;display:flex;gap:10px;justify-content:flex-end;">'
@@ -32367,9 +32368,17 @@
       document.body.appendChild(modal);
     }
     function _mmgIwEnhanceCardHtml(mode, title, blurb) {
-      var border = mode === 'visual' ? '#a7f3d0' : '#fcd34d';
-      var bg     = mode === 'visual' ? '#ecfdf5' : '#fffbeb';
-      var runLabel = mode === 'visual' ? '▶ Run variant A (cheap)' : '▶ Run variant B (costlier)';
+      // Per-variant palette + run-button label. realesrgan is the
+      // cheapest, lossless-data variant, so it goes first (blue).
+      var border = mode === 'realesrgan' ? '#93c5fd'
+                 : mode === 'visual'     ? '#a7f3d0'
+                 :                         '#fcd34d';
+      var bg     = mode === 'realesrgan' ? '#eff6ff'
+                 : mode === 'visual'     ? '#ecfdf5'
+                 :                         '#fffbeb';
+      var runLabel = mode === 'realesrgan' ? '▶ Run variant C (cheapest)'
+                   : mode === 'visual'     ? '▶ Run variant A'
+                   :                         '▶ Run variant B (costliest)';
       return '<div style="border:2px solid ' + border + ';background:' + bg + ';border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;min-height:360px;">'
         + '<div style="font-size:14px;font-weight:700;color:#0f172a;margin-bottom:4px;">' + title + '</div>'
         + '<div style="font-size:11.5px;color:#475569;line-height:1.45;margin-bottom:10px;">' + blurb + '</div>'
@@ -32385,7 +32394,8 @@
     // Cached chart state for the open modal session. Set on _mmgIwOpenEnhance,
     // reused by each Run click so we don't re-fetch the chart twice.
     window._mmgIwEnhanceState = { chartBase64: null, chartMime: null, fileName: null, chartTypeHint: null };
-    window._mmgIwEnhanceResults = { visual: null, rerender: null };
+    window._mmgIwEnhanceResults = { visual: null, rerender: null, realesrgan: null };
+    var _MMG_ENH_MODES = ['realesrgan', 'visual', 'rerender'];
     window._mmgIwOpenEnhance = async function () {
       if (typeof _mmgFlushStructuredToRaw === 'function' && !_mmgFlushStructuredToRaw()) {
         alert('Fix the highlighted field first, then click Enhance.');
@@ -32401,8 +32411,8 @@
       _mmgIwEnsureEnhanceModal();
       var modal = document.getElementById('mmgIwEnhanceModal');
       modal.style.display = 'flex';
-      // Reset both card states — fresh modal session.
-      ['visual','rerender'].forEach(function (m) {
+      // Reset all card states — fresh modal session.
+      _MMG_ENH_MODES.forEach(function (m) {
         document.getElementById('mmgIwEnh_' + m + '_view').innerHTML   = '<div style="color:#94a3b8;font-size:12px;text-align:center;">Click ▶ Run below to start.</div>';
         document.getElementById('mmgIwEnh_' + m + '_status').textContent = '';
         var runBtn  = document.getElementById('mmgIwEnh_' + m + '_run');
@@ -32410,20 +32420,22 @@
         var useBtn  = document.getElementById('mmgIwEnh_' + m + '_use');
         runBtn.style.display  = '';
         runBtn.disabled       = false;
-        runBtn.textContent    = m === 'visual' ? '▶ Run variant A (cheap)' : '▶ Run variant B (costlier)';
+        runBtn.textContent    = m === 'realesrgan' ? '▶ Run variant C (cheapest)'
+                              : m === 'visual'     ? '▶ Run variant A'
+                              :                       '▶ Run variant B (costliest)';
         saveBtn.style.display = 'none';
         useBtn.style.display  = 'none';
         window._mmgIwEnhanceResults[m] = null;
       });
       // Fetch chart bytes ONCE and cache for the duration of the modal —
       // subsequent Run clicks reuse it instead of re-downloading from GCS.
-      var statusBoth = function (msg, color) {
-        ['visual','rerender'].forEach(function (m) {
+      var statusAll = function (msg, color) {
+        _MMG_ENH_MODES.forEach(function (m) {
           var s = document.getElementById('mmgIwEnh_' + m + '_status');
           if (s) { s.textContent = msg; s.style.color = color || '#64748b'; }
         });
       };
-      statusBoth('Fetching chart bytes…');
+      statusAll('Fetching chart bytes…');
       try {
         var resp = await fetch(url);
         if (!resp.ok) throw new Error('chart fetch ' + resp.status);
@@ -32436,10 +32448,10 @@
           fileName:      (url.split('/').pop() || 'chart.png').split('?')[0],
           chartTypeHint: (t1 && t1.chartType) || null
         };
-        statusBoth('');
+        statusAll('');
       } catch (e) {
-        statusBoth('⚠ Failed to fetch chart: ' + (e.message || String(e)), '#dc2626');
-        ['visual','rerender'].forEach(function (m) {
+        statusAll('⚠ Failed to fetch chart: ' + (e.message || String(e)), '#dc2626');
+        _MMG_ENH_MODES.forEach(function (m) {
           document.getElementById('mmgIwEnh_' + m + '_run').disabled = true;
         });
       }
@@ -32455,9 +32467,14 @@
       var runBtn   = document.getElementById('mmgIwEnh_' + mode + '_run');
       var saveBtn  = document.getElementById('mmgIwEnh_' + mode + '_save');
       var useBtn   = document.getElementById('mmgIwEnh_' + mode + '_use');
-      var label    = mode === 'visual' ? 'Flash Image cleanup' : 'Pro → Flash Image re-render';
-      viewEl.innerHTML = '<div style="color:#7c3aed;font-size:12px;text-align:center;">⏳ Asking Gemini (' + label + ')…<br><span style="color:#94a3b8;font-size:11px;">' + (mode === 'visual' ? '~15s typical' : '~30s typical') + '</span></div>';
-      statusEl.textContent = 'Calling Gemini…';
+      var label    = mode === 'realesrgan' ? 'Real-ESRGAN upscale'
+                   : mode === 'visual'     ? 'Flash Image cleanup'
+                   :                          'Pro → Flash Image re-render';
+      var typicalSecs = mode === 'realesrgan' ? '~10s typical'
+                      : mode === 'visual'     ? '~15s typical'
+                      :                          '~30s typical';
+      viewEl.innerHTML = '<div style="color:#7c3aed;font-size:12px;text-align:center;">⏳ Running (' + label + ')…<br><span style="color:#94a3b8;font-size:11px;">' + typicalSecs + '</span></div>';
+      statusEl.textContent = 'Calling…';
       statusEl.style.color = '#7c3aed';
       runBtn.disabled = true; runBtn.style.opacity = .55; runBtn.textContent = 'Running…';
       saveBtn.style.display = 'none';
@@ -32496,7 +32513,9 @@
         statusEl.textContent = '';
         // Allow re-run.
         runBtn.disabled = false; runBtn.style.opacity = 1;
-        runBtn.textContent = mode === 'visual' ? '🔄 Retry variant A' : '🔄 Retry variant B';
+        runBtn.textContent = mode === 'realesrgan' ? '🔄 Retry variant C'
+                           : mode === 'visual'     ? '🔄 Retry variant A'
+                           :                          '🔄 Retry variant B';
       }
     };
     // Save the chosen variant as a local file. Browsers always honour the

@@ -1488,6 +1488,77 @@ Visual style:
   throw new Error(`flash-image-render returned no image (finish=${finish2})${textOut2 ? ' · response: ' + textOut2.slice(0, 200) : ''}`);
 }
 
+// ── Variant C: Real-ESRGAN via Replicate ─────────────────────────
+// Generative models (variants A/B) shift digits because they're
+// re-drawing. Real-ESRGAN is a non-generative super-resolution model
+// — it upscales/denoises pixels without inventing new content, so
+// numbers and labels stay byte-identical. No watermark removal, no
+// restyling. Pure clarity pass.
+//
+// Cost: ~$0.002 per image (Replicate billed-time pricing, vs $0.04
+// for a Flash Image call).
+async function enhanceWithRealEsrgan(opts: {
+  imageBase64:    string;
+  mimeType:       string;
+  replicateToken: string;
+}): Promise<{ imageBase64: string; mimeType: string; modelChain: string }> {
+  const dataUri = `data:${opts.mimeType};base64,${opts.imageBase64}`;
+  // Use the official `models/<owner>/<name>/predictions` endpoint so
+  // we don't have to track version hashes. Prefer: wait makes Replicate
+  // block up to 60s and return the final status inline (synchronous
+  // workflow that matches how variants A/B already behave).
+  const resp = await fetch(
+    'https://api.replicate.com/v1/models/nightmareai/real-esrgan/predictions',
+    {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${opts.replicateToken}`,
+        'Content-Type':  'application/json',
+        'Prefer':        'wait=60'
+      },
+      body: JSON.stringify({
+        input: {
+          image:        dataUri,
+          scale:        2,
+          face_enhance: false
+        }
+      })
+    }
+  );
+  if (!resp.ok) {
+    const detail = (await resp.text()).slice(0, 300);
+    throw new Error(`replicate http ${resp.status}: ${detail}`);
+  }
+  const j = await resp.json();
+  if (j.status === 'failed') {
+    throw new Error(`replicate failed: ${j.error || 'unknown'}`);
+  }
+  if (j.status !== 'succeeded') {
+    throw new Error(`replicate did not complete in 60s (status=${j.status}). Try again or fall back to variant A.`);
+  }
+  const outputUrl: string | undefined = Array.isArray(j.output) ? j.output[0] : j.output;
+  if (!outputUrl) throw new Error('replicate returned no output URL');
+  // Fetch the upscaled PNG and base64-encode for the JSON response.
+  // Replicate output URLs are signed and expire in ~24h, so we MUST
+  // re-host the bytes ourselves (the client uploads to GCS via the
+  // existing _mmgIwUseEnhanced flow).
+  const imgResp = await fetch(outputUrl);
+  if (!imgResp.ok) throw new Error(`fetch result image http ${imgResp.status}`);
+  const buf   = await imgResp.arrayBuffer();
+  const bytes = new Uint8Array(buf);
+  const CHUNK = 0x8000;
+  let binary = '';
+  for (let i = 0; i < bytes.length; i += CHUNK) {
+    binary += String.fromCharCode.apply(null, Array.from(bytes.subarray(i, i + CHUNK)));
+  }
+  const outBase64 = btoa(binary);
+  return {
+    imageBase64: outBase64,
+    mimeType:    imgResp.headers.get('content-type') || 'image/png',
+    modelChain:  'nightmareai/real-esrgan'
+  };
+}
+
 async function generateExplanations(
   passage: Record<string, unknown>,
   examType: string
@@ -2063,33 +2134,51 @@ Deno.serve(async (req) => {
   }
 
   // ── ENHANCE-CHART scope (IELTS Writing only) ───────────────────────
-  // Cleans up a Task 1 chart screenshot. mode='visual' polishes the
-  // pixels via Flash Image; mode='rerender' extracts a chart spec
-  // with Pro then redraws via Flash Image. Both return base64 PNG so
-  // the client can either preview directly or upload back to GCS.
+  // Cleans up a Task 1 chart screenshot in one of three modes:
+  //   • visual     — Flash Image polishes pixels (generative)
+  //   • rerender   — Pro extracts spec → Flash Image redraws (generative)
+  //   • realesrgan — Real-ESRGAN via Replicate upscales non-generatively
+  //                  (no digit drift, no watermark removal)
   if ((body.scope || '').toString() === 'enhance-chart' && examType === 'ielts-writing') {
     const enhanceMode = (body.mode || 'visual').toString();
-    if (enhanceMode !== 'visual' && enhanceMode !== 'rerender') {
-      return json(400, { error: 'bad_mode', detail: 'scope=enhance-chart requires mode: "visual" | "rerender". Got "' + enhanceMode + '".' });
+    if (enhanceMode !== 'visual' && enhanceMode !== 'rerender' && enhanceMode !== 'realesrgan') {
+      return json(400, { error: 'bad_mode', detail: 'scope=enhance-chart requires mode: "visual" | "rerender" | "realesrgan". Got "' + enhanceMode + '".' });
     }
     const incomingFiles = (Array.isArray(body.files) ? body.files : []) as FileItem[];
     const img = incomingFiles[0];
     if (!img || !img.base64 || !img.mime) {
       return json(400, { error: 'no_chart', detail: 'scope=enhance-chart requires files[0] = { base64, mime, name } for the chart image to enhance.' });
     }
-    const chartTypeHint = body.chart_type_hint ? String(body.chart_type_hint) : undefined;
     try {
-      const result = await enhanceIeltsChart({
-        imageBase64:   img.base64,
-        mimeType:      img.mime,
-        mode:          enhanceMode as 'visual' | 'rerender',
-        chartTypeHint,
-        geminiKey:     GEMINI_KEY
-      });
+      let result;
+      if (enhanceMode === 'realesrgan') {
+        const replicateToken = Deno.env.get('REPLICATE_API_TOKEN') || '';
+        if (!replicateToken) {
+          return json(503, {
+            error:  'replicate_token_missing',
+            detail: 'Variant C needs REPLICATE_API_TOKEN set as a Supabase Edge Function secret. Get a token from replicate.com → Settings → API and run `npx supabase secrets set REPLICATE_API_TOKEN=<token> --project-ref zknyukkbtbcqgvkgjktb`.',
+            mode:   enhanceMode
+          });
+        }
+        result = await enhanceWithRealEsrgan({
+          imageBase64:    img.base64,
+          mimeType:       img.mime,
+          replicateToken
+        });
+      } else {
+        const chartTypeHint = body.chart_type_hint ? String(body.chart_type_hint) : undefined;
+        result = await enhanceIeltsChart({
+          imageBase64:   img.base64,
+          mimeType:      img.mime,
+          mode:          enhanceMode as 'visual' | 'rerender',
+          chartTypeHint,
+          geminiKey:     GEMINI_KEY
+        });
+      }
       return json(200, {
         imageBase64: result.imageBase64,
         mimeType:    result.mimeType,
-        spec:        result.spec,
+        spec:        (result as { spec?: unknown }).spec,
         modelChain:  result.modelChain,
         mode:        enhanceMode,
         actor:       (auth as AuthOk).actor
