@@ -4791,17 +4791,88 @@
       '<span class="cb-typing-text">' + escapeHtml(text) + '</span>';
   }
 
+  // ─── HELP-CENTER TOGGLE WIRING ────────────────────────────────────────────
+  // The bubble's enabled state is owned by center-guard.js, which fetches
+  // the per-centre config from Supabase and exposes it as window._centerConfig
+  // + a 'mockStream:centerConfigLoaded' event. To prevent the bubble from
+  // briefly flashing on cold loads (cache empty → optimistic mount → fetch
+  // lands → CSS hides), we:
+  //   1. Tear-down on late arrival — always subscribe to the event and
+  //      remove FAB / overlay / polling if helpCenter:false ever arrives.
+  //   2. First-load gate — when no _centerConfig is set yet at init time,
+  //      wait up to ~600ms for the event before mounting. Falls back to
+  //      optimistic mount on timeout so offline / slow networks still get
+  //      a bubble (just slightly delayed).
+  var _bubbleTorndown = false;
+  function _teardownBubble() {
+    if (_bubbleTorndown) return;
+    _bubbleTorndown = true;
+    ['cb-fab', 'cb-overlay', 'cb-overlay-old', 'cb-badge'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el && el.parentNode) el.parentNode.removeChild(el);
+    });
+    try { if (pollTimer) { clearInterval(pollTimer); pollTimer = null; } } catch (_e) {}
+    try { if (window._cbRealtimeChannel) { window._cbRealtimeChannel.unsubscribe(); window._cbRealtimeChannel = null; } } catch (_e) {}
+  }
+  function _bubbleEnabledIn(cc) {
+    return !(cc && cc.helpCenter === false);
+  }
+
   // ─── INIT ─────────────────────────────────────────────────────────────────
   function init() {
-    // Hard gate: if the centre admin disabled the Help Center toggle, don't
-    // mount anything at all. Previously we relied on center-guard.js to hide
-    // #cb-fab via injected CSS, but in the Telegram Mini App WebView the CSS
-    // race could lose (or stale cached center-guard.js could be missing the
-    // rule entirely), and the bubble would stay visible. Skipping the mount
-    // up-front removes the dependency on CSS-injection ordering.
+    // Hard gate: if the centre admin disabled the Help Center toggle and
+    // the config is already known (cached path), skip the mount entirely.
     try {
       if (window._centerConfig && window._centerConfig.helpCenter === false) return;
     } catch (_e) {}
+
+    // Always wire the late-arrival tear-down listener — even if we go on
+    // to mount the bubble below. If the toggle flipped after our mount,
+    // or the cache was stale and the fresh fetch comes back disabled,
+    // this strips the bubble cleanly.
+    document.addEventListener('mockStream:centerConfigLoaded', function (e) {
+      var cc = e && e.detail;
+      if (!_bubbleEnabledIn(cc)) _teardownBubble();
+    });
+
+    // First-load gate: if we haven't seen ANY config yet, wait briefly
+    // for the fresh fetch to settle before deciding to mount. Avoids
+    // the visible flash on cold loads on disabled centres.
+    if (typeof window._centerConfig === 'undefined') {
+      var resolved = false;
+      var continueAnyway = function () {
+        if (resolved) return;
+        resolved = true;
+        try {
+          if (window._centerConfig && window._centerConfig.helpCenter === false) return;
+        } catch (_e) {}
+        _continueInit();
+      };
+      var onConfigLoaded = function (e) {
+        if (resolved) return;
+        var cc = e && e.detail;
+        if (!_bubbleEnabledIn(cc)) {
+          // Config arrived with helpCenter=false — never mount.
+          resolved = true;
+          return;
+        }
+        continueAnyway();
+      };
+      document.addEventListener('mockStream:centerConfigLoaded', onConfigLoaded, { once: true });
+      // Fallback: 600ms is enough for a typical Supabase REST round-trip
+      // on a warm connection. On offline / cold devices we fall through
+      // and mount optimistically — the tear-down listener will still
+      // strip the bubble if the response eventually says disabled.
+      setTimeout(function () {
+        document.removeEventListener('mockStream:centerConfigLoaded', onConfigLoaded);
+        continueAnyway();
+      }, 600);
+      return;
+    }
+    _continueInit();
+  }
+
+  function _continueInit() {
     loadLocal();
     syncFromLandingHC();
     injectCSS();
