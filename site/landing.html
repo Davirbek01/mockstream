@@ -17909,43 +17909,110 @@
     //   2. navigator.share     → mobile OS share sheet
     //   3. clipboard.writeText → desktop / older browsers (button flashes "✓ Copied!")
     //   4. window.prompt       → last-resort manual copy
+    // Shared share-menu element. We reuse one DOM node across all
+    // pickers so the popover always tears down cleanly when a new
+    // share button is clicked (no leaked menus).
+    function _pickerEnsureShareMenu() {
+      var m = document.getElementById('_pickerShareMenu');
+      if (m) return m;
+      m = document.createElement('div');
+      m.id = '_pickerShareMenu';
+      m.style.cssText = 'position:fixed;z-index:99999;background:#fff;border:1px solid #e2e8f0;border-radius:10px;box-shadow:0 8px 24px rgba(15,23,42,.18);padding:6px;display:none;min-width:180px;font-family:inherit;';
+      document.body.appendChild(m);
+      // Auto-dismiss on outside click. The capture-phase listener fires
+      // BEFORE the share button's click handler reopens the menu, so we
+      // ignore clicks that land on a share button (handled by re-render).
+      document.addEventListener('click', function (e) {
+        if (m.style.display === 'none') return;
+        var t = e.target;
+        if (m.contains(t)) return;
+        if (t && t.closest && t.closest('[data-share-mock-n]')) return;
+        m.style.display = 'none';
+      });
+      window.addEventListener('scroll', function () { m.style.display = 'none'; }, true);
+      window.addEventListener('resize', function () { m.style.display = 'none'; });
+      return m;
+    }
+
     async function _pickerShareMock(slugBase, titleBase, mockN, btnEl, copiedClass) {
       if (!mockN) return;
-      const url = window.location.origin + '/take/' + slugBase + '-' + encodeURIComponent(mockN);
-      const title = titleBase + ' ' + mockN;
-      const shareText = title + ' · ' + url;
-      try {
-        const tg = window.Telegram && window.Telegram.WebApp;
-        if (tg && typeof tg.openTelegramLink === 'function') {
-          const tgUrl = 'https://t.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(title);
-          tg.openTelegramLink(tgUrl);
-          return;
-        }
-      } catch (_e) {}
-      if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
+      var url = window.location.origin + '/take/' + slugBase + '-' + encodeURIComponent(mockN);
+      var title = titleBase + ' ' + mockN;
+
+      // Mark the button so the outside-click listener can recognise it.
+      if (btnEl) btnEl.dataset.shareMockN = String(mockN);
+
+      var menu = _pickerEnsureShareMenu();
+      var copyHtml = '<button type="button" class="_psm-opt" data-act="copy" style="display:flex;align-items:center;gap:8px;width:100%;background:none;border:0;padding:9px 12px;border-radius:7px;font-size:13px;font-weight:600;color:#0f172a;cursor:pointer;text-align:left;"><span style="font-size:15px;">📋</span> Copy link</button>';
+      var tgHtml   = '<button type="button" class="_psm-opt" data-act="telegram" style="display:flex;align-items:center;gap:8px;width:100%;background:none;border:0;padding:9px 12px;border-radius:7px;font-size:13px;font-weight:600;color:#0369a1;cursor:pointer;text-align:left;"><span style="font-size:15px;">✈️</span> Share to Telegram</button>';
+      menu.innerHTML = copyHtml + tgHtml;
+
+      // Hover affordance — inline since we can't easily inject CSS rules.
+      Array.prototype.forEach.call(menu.querySelectorAll('._psm-opt'), function (b) {
+        b.addEventListener('mouseenter', function () { b.style.background = '#f1f5f9'; });
+        b.addEventListener('mouseleave', function () { b.style.background = 'none'; });
+      });
+
+      function doCopy() {
+        var done = function () {
+          if (btnEl) {
+            var origText = btnEl.textContent;
+            btnEl.textContent = '✓';
+            if (copiedClass) btnEl.classList.add(copiedClass);
+            btnEl.disabled = true;
+            setTimeout(function () {
+              btnEl.textContent = origText;
+              if (copiedClass) btnEl.classList.remove(copiedClass);
+              btnEl.disabled = false;
+            }, 1500);
+          }
+        };
         try {
-          await navigator.share({ title: title, text: shareText, url: url });
-          return;
-        } catch (e) {
-          if (e && e.name === 'AbortError') return;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).then(done, function () {
+              try { window.prompt('Copy this link:', url); } catch (_e) {}
+            });
+            return;
+          }
+        } catch (_e) {}
+        try { window.prompt('Copy this link:', url); } catch (_e) {}
+        done();
+      }
+
+      function doTelegram() {
+        var tgUrl = 'https://t.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(title);
+        try {
+          var tg = window.Telegram && window.Telegram.WebApp;
+          if (tg && typeof tg.openTelegramLink === 'function') {
+            tg.openTelegramLink(tgUrl);
+            return;
+          }
+        } catch (_e) {}
+        // Browser: open in a new tab so the picker stays in view.
+        try { window.open(tgUrl, '_blank', 'noopener'); } catch (_e) {
+          window.location.href = tgUrl;
         }
       }
-      try {
-        await navigator.clipboard.writeText(url);
-        if (btnEl) {
-          const origText = btnEl.textContent;
-          btnEl.textContent = '✓ Copied!';
-          if (copiedClass) btnEl.classList.add(copiedClass);
-          btnEl.disabled = true;
-          setTimeout(function () {
-            btnEl.textContent = origText;
-            if (copiedClass) btnEl.classList.remove(copiedClass);
-            btnEl.disabled = false;
-          }, 1500);
-        }
-        return;
-      } catch (_e) {}
-      try { window.prompt('Copy this link:', url); } catch (_e) {}
+
+      menu.addEventListener('click', function _onClick(e) {
+        var t = e.target.closest('._psm-opt');
+        if (!t) return;
+        menu.removeEventListener('click', _onClick);
+        menu.style.display = 'none';
+        if (t.dataset.act === 'copy')     doCopy();
+        if (t.dataset.act === 'telegram') doTelegram();
+      });
+
+      // Position the menu just under the share button. If it would
+      // overflow the viewport on the right, anchor it to the right edge
+      // of the button instead.
+      var r = btnEl && btnEl.getBoundingClientRect ? btnEl.getBoundingClientRect() : { left: 16, bottom: 16, right: 16 };
+      menu.style.display = 'block';
+      var menuW = menu.offsetWidth;
+      var leftPx = r.left;
+      if (leftPx + menuW > window.innerWidth - 8) leftPx = Math.max(8, r.right - menuW);
+      menu.style.left = leftPx + 'px';
+      menu.style.top  = (r.bottom + 6) + 'px';
     }
     // Backward-compat thin wrapper used by the iwetPicker click handler.
     async function _iwetShareMock(mockN, btnEl) {
