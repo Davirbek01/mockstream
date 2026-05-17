@@ -1628,6 +1628,13 @@ ${notes ? '\nAdmin notes:\n' + notes : ''}`;
   });
 
   const mockData: any = {
+    // Minimal settings block so the runner doesn't crash on
+    // window.WRITING_TEST_DATA.settings.examTitle. Per-clone branding
+    // (logo / heading1 / heading2) is the preferred source via
+    // SITE_CONFIG; this just gives the gate a non-empty exam title.
+    settings: {
+      examTitle: 'CEFR Writing'
+    },
     tasks: {
       // Part 1 shared context + scenario live UNDER mock_data.tasks (not
       // mock_data.part1) — that's where _mmgRenderPart1 reads from.
