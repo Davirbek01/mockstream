@@ -1047,18 +1047,26 @@ async function generateCefrWritingTags(opts: {
 
 Required shape:
 {
-  "part1": { "topic": string },     // 2-5 word heading shared by T1.1 + T1.2 (same scenario, different registers). Sentence case. e.g. "Club management issue", "Library renovation", "Office noise complaint".
-  "t11":   { "title": string },     // Register tag for the informal task. Pattern: "<register> · to <recipient>". e.g. "informal note · to friend", "informal message · to neighbour".
-  "t12":   { "title": string },     // Register tag for the formal task. Same pattern but formal. e.g. "formal letter · to manager", "formal email · to council".
-  "t2":    { "title": string, "genre": "forum" | "article" | "blog post" | "report" | "essay" }, // T2 topic + genre. Title is the subject; genre matches the prompt's instructed format. e.g. title="Cell phones in schools", genre="forum".
-  "topics": [string, ...],          // 1-3 topic chips from this controlled vocabulary: education, work, health, technology, environment, transport, housing, entertainment, safety, family, travel, food, sports, media, money, culture, community, science. Pick the ones that best match the OVERALL mock content (T1 + T2 combined).
-  "targetLevel": "A2" | "B1" | "B2" // Best CEFR fit for the harder of the three tasks
+  "part1": {
+    "topic": string,                // 2-5 word heading shared by T1.1 + T1.2 (same scenario, different registers). Sentence case. e.g. "Club management issue", "Library renovation".
+    "chip":  string                 // ONE category chip describing what Part 1 is about. Pick from this closed vocabulary: education, work, health, technology, environment, transport, housing, entertainment, safety, family, travel, food, sports, media, money, culture, community, science.
+  },
+  "t11":   { "title": string },     // Register tag for the informal task. Pattern: "<register> · to <recipient>". e.g. "informal note · to friend".
+  "t12":   { "title": string },     // Register tag for the formal task. Same pattern but formal. e.g. "formal letter · to manager".
+  "t2": {
+    "title": string,                // The T2 topic (subject of the essay/forum/article). e.g. "Cell phones in schools".
+    "genre": "forum" | "article" | "blog post" | "report" | "essay",  // Format the prompt asked for.
+    "chip":  string                 // ONE category chip for Part 2 from the same closed vocabulary as part1.chip.
+  },
+  "targetLevel": "A2" | "B1" | "B2" // Best CEFR fit for the hardest of the three tasks (saved for future filtering, not displayed on the card)
 }
 
 Rules:
 - All strings sentence case, no trailing punctuation.
 - Recipient on t11 / t12 is ONE noun (friend, neighbour, manager, council, principal, mayor, editor, employer, club leader…). Don't use proper names from the prompt.
 - T1.1 and T1.2 MUST share part1.topic exactly; they only differ in register + recipient.
+- part1.chip describes the Part 1 scenario only. t2.chip describes Part 2 only. They MAY be the same chip if both halves cover the same subject area, but you should still emit one for each independently.
+- Pick the SINGLE best-fitting chip for each part — don't emit fallback or umbrella chips ("community" when "safety" fits better).
 - For genre, match the wording: "discussion forum" → "forum", "magazine article" → "article", "newspaper article" → "article", "blog" → "blog post", "report" → "report", otherwise "essay".
 
 INPUT:
@@ -1132,13 +1140,7 @@ Task 2 (~180 words): ${t2Prompt || '(empty)'}`;
   const LEVEL_SET = new Set(['A2','B1','B2']);
   const pickStr   = (v: unknown) => typeof v === 'string' && v.trim() ? v.trim() : '';
   const pickEnum  = (v: unknown, set: Set<string>) => typeof v === 'string' && set.has(v) ? v : '';
-  const pickTopics = (v: unknown) =>
-    Array.isArray(v)
-      ? Array.from(new Set(v
-          .map(x => typeof x === 'string' ? x.trim().toLowerCase() : '')
-          .filter(x => TOPIC_SET.has(x))))
-          .slice(0, 5)
-      : [];
+  const pickChip  = (v: unknown) => typeof v === 'string' && TOPIC_SET.has(v.trim().toLowerCase()) ? v.trim().toLowerCase() : '';
 
   const p1   = parsed?.part1 || {};
   const t11o = parsed?.t11   || {};
@@ -1146,12 +1148,17 @@ Task 2 (~180 words): ${t2Prompt || '(empty)'}`;
   const t2o  = parsed?.t2    || {};
   return {
     tags: {
-      part1: { topic: pickStr(p1.topic) || undefined },
+      part1: {
+        topic: pickStr(p1.topic) || undefined,
+        chip:  pickChip(p1.chip) || undefined
+      },
       t11:   { title: pickStr(t11o.title) || undefined },
       t12:   { title: pickStr(t12o.title) || undefined },
-      t2:    { title: pickStr(t2o.title)  || undefined,
-               genre: pickEnum(t2o.genre, GENRE_SET) || undefined },
-      topics:      pickTopics(parsed?.topics),
+      t2: {
+        title: pickStr(t2o.title) || undefined,
+        genre: pickEnum(t2o.genre, GENRE_SET) || undefined,
+        chip:  pickChip(t2o.chip) || undefined
+      },
       targetLevel: pickEnum(parsed?.targetLevel, LEVEL_SET) || undefined
     },
     modelUsed,
