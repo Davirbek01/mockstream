@@ -6846,14 +6846,21 @@
       vocabArray.forEach(item => {
         if (typeof item === 'string') {
           html += `<div><strong>${item}</strong></div>`;
-        } else if (item.word || item.term) {
-          // Support both 'word' (from AI) and 'term' (from test builder) formats
-          const word = item.word || item.term;
-          html += `<div><strong>${word}</strong>`;
-          if (item.meaning) html += ` – ${item.meaning}`;
-          if (item.translation) html += `<br><span style="color:#666">👉 ${item.translation}</span>`;
-          html += '</div>';
+          return;
         }
+        if (!item || typeof item !== 'object') return;
+        // Support every shape we've shipped:
+        //   • { en, uz }                (editor canonical + Gemini generator)
+        //   • { word, meaning, translation }   (legacy AI-builder)
+        //   • { term, meaning, translation }   (legacy test-builder)
+        const headword    = item.en   || item.word   || item.term;
+        const meaning     = item.meaning;
+        const translation = item.uz   || item.translation;
+        if (!headword) return;
+        html += `<div><strong>${headword}</strong>`;
+        if (meaning) html += ` – ${meaning}`;
+        if (translation) html += `<br><span style="color:#666">👉 ${translation}</span>`;
+        html += '</div>';
       });
 
       html += '</div>';
@@ -7147,8 +7154,8 @@ Respond in JSON format:
 
           task1Vocab.forEach(item => {
             checkNewPage(12);
-            const word = item.word || item.term || '';
-            const meaning = item.meaning || '';
+            const word    = item.en      || item.word        || item.term  || '';
+            const meaning = item.meaning || item.translation || item.uz    || '';
 
             pdf.setFont('helvetica', 'bold');
             pdf.setTextColor(109, 40, 217);
@@ -7205,8 +7212,8 @@ Respond in JSON format:
 
           task2Vocab.forEach(item => {
             checkNewPage(12);
-            const word = item.word || item.term || '';
-            const meaning = item.meaning || '';
+            const word    = item.en      || item.word        || item.term  || '';
+            const meaning = item.meaning || item.translation || item.uz    || '';
 
             pdf.setFont('helvetica', 'bold');
             pdf.setTextColor(3, 105, 161);
