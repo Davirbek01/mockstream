@@ -19411,8 +19411,10 @@
           alert('Could not locate this mock in the database (mock #' + padded + '). Please refresh and try again.');
           return;
         }
+        // auto=1 required — see CEFR handler above for the rationale.
         const pageUrl = 'IELTS Speaking Mocks.html?sbmock=' + encodeURIComponent(sbId)
-                      + '&num=' + encodeURIComponent(padded);
+                      + '&num=' + encodeURIComponent(padded)
+                      + '&auto=1';
         try { history.pushState(null, '', '/take/ielts-speaking-' + encodeURIComponent(mockN)); } catch (_e) {}
         ispetClose({ keepUrl: true });
         // Cancel on the mode modal should reopen ispetPicker, not land.
@@ -19780,8 +19782,16 @@
           alert('Could not locate this mock in the database (mock #' + padded + '). Please refresh and try again.');
           return;
         }
+        // auto=1 is required — without it the runner's gate fires
+        // goToLanding() immediately on iframe load and the picker
+        // reopens (via the return-handler) before the runner can show.
+        // The mode modal is on the LANDING page, not in the runner; the
+        // auto=1 flag tells the runner to auto-click Continue once it
+        // loads (after which the candidate-details modal reuses the
+        // saved welcome-page name).
         const pageUrl = 'Speaking Mocks.html?sbmock=' + encodeURIComponent(sbId)
-                      + '&num=' + encodeURIComponent(padded);
+                      + '&num=' + encodeURIComponent(padded)
+                      + '&auto=1';
         try { history.pushState(null, '', '/take/cefr-speaking-' + encodeURIComponent(mockN)); } catch (_e) {}
         cspetClose({ keepUrl: true });
         // Tell closeSpeakingModeModal that the mode modal was launched
