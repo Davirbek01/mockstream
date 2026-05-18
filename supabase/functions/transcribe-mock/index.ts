@@ -2005,6 +2005,252 @@ Rules:
   return { vocabulary, modelUsed, fallbackReason };
 }
 
+// IELTS Speaking — whole-mock extraction from screenshots or pasted
+// text. Returns a mock_data shape covering all 17 questions across
+// the 3 parts + tags.{p1,p2,p3}Topic in one call so no separate
+// Auto-tag round-trip is ever needed.
+async function generateIeltsSpeakingFull(opts: {
+  files:     FileItem[];
+  notes:     string;
+  geminiKey: string;
+}): Promise<{ mockData: any; modelUsed: string; fallbackReason: string | null }> {
+  const { files, notes, geminiKey } = opts;
+  const hasFiles = files.length > 0;
+  const sourceLabel = hasFiles
+    ? 'one or more screenshots / scanned PDF pages'
+    : 'pasted raw text (no screenshots — read the text in the "Admin notes" block below as the SOLE source for all 17 questions)';
+
+  // Worked example uses a niche domain so Gemini cannot echo it into
+  // unrelated mocks (same trick the cwet bulk prompt uses).
+  const exampleSource =
+`Part 1 — Beekeeping & gardening
+
+  Do you grow any plants at home?
+  Have you ever kept bees or small insects as a hobby?
+  What kinds of plants are popular in your country?
+  Do you think children should learn about gardening in school?
+  Would you rather work in a garden or in an office?
+  Is gardening more popular with older people or younger people in your country?
+  Do you buy flowers as gifts often?
+
+Part 2
+
+  Describe a hobby that involves working with your hands.
+
+  You should say:
+    what the hobby is
+    how you started it
+    why you enjoy it
+    and explain whether you would recommend it to others.
+
+Part 3 — Practical hobbies
+
+  Why do you think hands-on hobbies are popular?
+  Should schools spend more time teaching practical skills?
+  How does doing a creative hobby help mental health?
+  Are these hobbies more popular with men or women in your country?
+  Do you think modern technology has reduced traditional crafts?
+  Should governments fund organisations that preserve old crafts?
+  Do you think practical hobbies could become careers?`;
+
+  const exampleOut = {
+    tags: {
+      p1Topic: 'Plants & gardening',
+      p2Topic: 'A hands-on hobby',
+      p3Topic: 'Practical hobbies & crafts'
+    },
+    questions: [
+      { number: 1,  part: 'Part 1', prompt: 'Do you grow any plants at home?',                                    prepTime: 0,  speakTime: 30,  topic: 'Plants' },
+      { number: 2,  part: 'Part 1', prompt: 'Have you ever kept bees or small insects as a hobby?',               prepTime: 0,  speakTime: 30,  topic: 'Plants' },
+      { number: 3,  part: 'Part 1', prompt: 'What kinds of plants are popular in your country?',                  prepTime: 0,  speakTime: 30,  topic: 'Plants' },
+      { number: 4,  part: 'Part 1', prompt: 'Do you think children should learn about gardening in school?',      prepTime: 0,  speakTime: 30,  topic: 'Plants' },
+      { number: 5,  part: 'Part 1', prompt: 'Would you rather work in a garden or in an office?',                 prepTime: 0,  speakTime: 30,  topic: 'Plants' },
+      { number: 6,  part: 'Part 1', prompt: 'Is gardening more popular with older people or younger people in your country?', prepTime: 0, speakTime: 30, topic: 'Plants' },
+      { number: 7,  part: 'Part 1', prompt: 'Do you buy flowers as gifts often?',                                 prepTime: 0,  speakTime: 30,  topic: 'Plants' },
+      { number: 8,  part: 'Part 2', prompt: 'Describe a hobby that involves working with your hands.\n\nYou should say:\n  what the hobby is\n  how you started it\n  why you enjoy it\n  and explain whether you would recommend it to others.', prepTime: 60, speakTime: 120, topic: 'Hands-on hobby' },
+      { number: 9,  part: 'Part 2', prompt: 'Do you usually do this hobby alone or with other people?',           prepTime: 0,  speakTime: 30,  topic: 'Hands-on hobby' },
+      { number: 10, part: 'Part 2', prompt: 'Is it expensive to keep this hobby going?',                          prepTime: 0,  speakTime: 30,  topic: 'Hands-on hobby' },
+      { number: 11, part: 'Part 3', prompt: 'Why do you think hands-on hobbies are popular?',                     prepTime: 0,  speakTime: 45,  topic: 'Practical hobbies' },
+      { number: 12, part: 'Part 3', prompt: 'Should schools spend more time teaching practical skills?',          prepTime: 0,  speakTime: 45,  topic: 'Practical hobbies' },
+      { number: 13, part: 'Part 3', prompt: 'How does doing a creative hobby help mental health?',                prepTime: 0,  speakTime: 45,  topic: 'Practical hobbies' },
+      { number: 14, part: 'Part 3', prompt: 'Are these hobbies more popular with men or women in your country?',  prepTime: 0,  speakTime: 45,  topic: 'Practical hobbies' },
+      { number: 15, part: 'Part 3', prompt: 'Do you think modern technology has reduced traditional crafts?',     prepTime: 0,  speakTime: 45,  topic: 'Practical hobbies' },
+      { number: 16, part: 'Part 3', prompt: 'Should governments fund organisations that preserve old crafts?',    prepTime: 0,  speakTime: 45,  topic: 'Practical hobbies' },
+      { number: 17, part: 'Part 3', prompt: 'Do you think practical hobbies could become careers?',               prepTime: 0,  speakTime: 45,  topic: 'Practical hobbies' }
+    ]
+  };
+
+  const promptText =
+`You are extracting a complete IELTS Speaking mock (Part 1 + Part 2 + Part 3) from ${sourceLabel}. Output ONLY one JSON object — no prose, no markdown.
+
+IELTS Speaking has exactly THREE parts and (typically) 17 questions:
+
+  Part 1 — 7 warm-up questions, grouped into 1-3 topics. Each Q: prepTime=0, speakTime=30.
+  Part 2 — 1 cue card ("Describe …") with bullet points + 2 short follow-up Qs. Cue card: prepTime=60, speakTime=120. Follow-ups: prepTime=0, speakTime=30.
+  Part 3 — 7 deeper discussion questions on the Part 2 theme. Each Q: prepTime=0, speakTime=45.
+
+Required output shape (numbers are exact):
+{
+  "tags": {
+    "p1Topic": string,   // 2-6 words. General theme covering Part 1's 7 Qs. Multiple topics OK — join with " / ". e.g. "Hometown / Work or Study".
+    "p2Topic": string,   // 2-4 words. Cue-card CORE phrase, no "Describe a/an/the" preamble. e.g. "A wild animal", "Encouraging someone".
+    "p3Topic": string    // 3-5 words. Umbrella theme covering ALL 7 Part 3 follow-ups (broader than p2). e.g. "Wildlife & nature", "Encouragement & motivation".
+  },
+  "questions": [
+    { "number": 1,  "part": "Part 1", "prompt": "<verbatim Q>", "prepTime": 0,  "speakTime": 30, "topic": "<2-3 word topic label>" },
+    …
+    { "number": 8,  "part": "Part 2", "prompt": "Describe …\\n\\nYou should say:\\n  …\\n  …", "prepTime": 60, "speakTime": 120, "topic": "<same as p2Topic>" },
+    { "number": 9,  "part": "Part 2", "prompt": "<follow-up Q>",                    "prepTime": 0, "speakTime": 30, "topic": "<same as p2Topic>" },
+    { "number": 10, "part": "Part 2", "prompt": "<follow-up Q>",                    "prepTime": 0, "speakTime": 30, "topic": "<same as p2Topic>" },
+    { "number": 11, "part": "Part 3", "prompt": "<verbatim Q>", "prepTime": 0,  "speakTime": 45, "topic": "<same as p3Topic>" },
+    …
+  ]
+}
+
+Rules:
+- "prompt" is VERBATIM from the source. Keep bullet points on Part 2's cue card (use "\\n" between lines).
+- "number" is 1-based and continuous across all 17 (Part 1 = 1-7, Part 2 = 8-10, Part 3 = 11-17). If the source has more or fewer Qs than 17, emit what's there but keep the order Part 1 → Part 2 → Part 3.
+- "topic" on each Q is short (2-3 words). For Part 1, group Qs by their sub-topic. For Part 2 and Part 3, use the umbrella topic.
+- "tags.p2Topic" MUST NOT start with "Describe", "A time", "An occasion", "A place" — extract the CORE noun phrase. e.g. cue card "Describe a time when you helped a stranger" → p2Topic = "Helping a stranger".
+- "tags.p3Topic" expands p2Topic's theme. Pick a label that fits the umbrella across all 7 follow-ups.
+- DO NOT emit Markdown, code fences, or commentary — JSON only.
+
+CRITICAL — the example below is ONLY a SHAPE reference. The content of YOUR output MUST come from the user's source. NEVER copy words like "beekeeping", "hands-on hobby", "Plants & gardening" from the example unless they actually appear in the user's source.
+
+Worked example (FOR SHAPE ONLY — DO NOT REUSE ITS CONTENT):
+
+INPUT:
+"""
+${exampleSource}
+"""
+
+OUTPUT:
+${JSON.stringify(exampleOut, null, 2)}
+
+Now extract the user's actual mock from the source that follows.
+${notes ? '\nAdmin notes:\n' + notes : ''}`;
+
+  const parts: Array<{ text: string } | { inlineData: { mimeType: string; data: string } }> = [
+    { text: promptText }
+  ];
+  for (const f of files) {
+    if (!f.base64 || !f.mime) continue;
+    parts.push({ inlineData: { mimeType: f.mime, data: f.base64 } });
+  }
+
+  const body = {
+    contents: [{ role: 'user', parts }],
+    generationConfig: {
+      temperature:      0.15,
+      responseMimeType: 'application/json',
+      maxOutputTokens:  16384,
+      thinkingConfig:   { thinkingBudget: 2048 }
+    },
+    safetySettings: [
+      { category: 'HARM_CATEGORY_HARASSMENT',        threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_HATE_SPEECH',       threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' }
+    ]
+  };
+
+  let modelUsed: 'gemini-2.5-pro' | 'gpt-4o' = 'gemini-2.5-pro';
+  let fallbackReason: string | null = null;
+  let raw = '';
+  try {
+    const r = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${geminiKey}`,
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
+    );
+    if (!r.ok) throw new Error(`gemini http ${r.status}: ${(await r.text()).slice(0, 200)}`);
+    const j = await r.json();
+    const cand = j?.candidates?.[0];
+    if (cand?.finishReason && cand.finishReason !== 'STOP' && cand.finishReason !== 'MAX_TOKENS') {
+      throw new Error(`gemini finishReason=${cand.finishReason}`);
+    }
+    raw = cand?.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
+    if (!raw.trim()) throw new Error('gemini returned empty text');
+  } catch (e) {
+    fallbackReason = e instanceof Error ? e.message : String(e);
+    // GPT-4o fallback with vision.
+    try {
+      const userContent: Array<{ type: 'text'; text: string } | { type: 'image_url'; image_url: { url: string } }> = [
+        { type: 'text', text: promptText }
+      ];
+      for (const f of files) {
+        if (!f.base64 || !f.mime) continue;
+        userContent.push({ type: 'image_url', image_url: { url: `data:${f.mime};base64,${f.base64}` } });
+      }
+      const r2 = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${OPENAI_KEY}` },
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          messages: [
+            { role: 'system', content: 'You output ONLY the JSON object the user describes — no prose, no markdown.' },
+            { role: 'user',   content: userContent }
+          ],
+          response_format: { type: 'json_object' },
+          temperature: 0.15,
+          max_tokens: 8192
+        })
+      });
+      if (!r2.ok) throw new Error(`gpt-4o http ${r2.status}: ${(await r2.text()).slice(0, 200)}`);
+      const j2 = await r2.json();
+      raw = j2?.choices?.[0]?.message?.content || '';
+      modelUsed = 'gpt-4o';
+    } catch (gptErr) {
+      throw new Error(`both models failed. gemini: ${fallbackReason}; gpt-4o: ${gptErr instanceof Error ? gptErr.message : String(gptErr)}`);
+    }
+  }
+
+  let parsed: any;
+  try { parsed = JSON.parse(raw.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '')); }
+  catch (e) { throw new Error(`ielts speaking full JSON parse failed: ${(e as Error).message} — raw: ${raw.slice(0, 200)}`); }
+
+  // Sanitise the response into the mock_data shape the editor expects.
+  const VALID_PART = new Set(['Part 1', 'Part 2', 'Part 3']);
+  const pickStr  = (v: unknown) => typeof v === 'string' && v.trim() ? v.trim() : '';
+  const pickNum  = (v: unknown, fallback: number) => {
+    const n = Number(v);
+    return Number.isFinite(n) && n >= 0 ? n : fallback;
+  };
+
+  const tagsIn = parsed?.tags || {};
+  const qsIn   = Array.isArray(parsed?.questions) ? parsed.questions : [];
+  let counter = 1;
+  const questions: any[] = [];
+  for (const q of qsIn) {
+    if (!q) continue;
+    const part = VALID_PART.has(q.part) ? q.part : 'Part 1';
+    const defaultSpeak = part === 'Part 2' && (q.prepTime > 0 || /^describe\s+/i.test(String(q.prompt || ''))) ? 120
+                        : part === 'Part 3' ? 45 : 30;
+    const defaultPrep  = part === 'Part 2' && /^describe\s+/i.test(String(q.prompt || '')) ? 60 : 0;
+    questions.push({
+      number:    pickNum(q.number, counter),
+      part,
+      prompt:    pickStr(q.prompt),
+      prepTime:  pickNum(q.prepTime, defaultPrep),
+      speakTime: pickNum(q.speakTime, defaultSpeak),
+      topic:     pickStr(q.topic)
+    });
+    counter++;
+  }
+
+  const mockData: any = {
+    tags: {
+      p1Topic: pickStr(tagsIn.p1Topic) || undefined,
+      p2Topic: pickStr(tagsIn.p2Topic) || undefined,
+      p3Topic: pickStr(tagsIn.p3Topic) || undefined
+    },
+    questions,
+    // Minimal settings so the runner gate doesn't crash on first load.
+    settings: { examTitle: 'IELTS Speaking' }
+  };
+
+  return { mockData, modelUsed, fallbackReason };
+}
+
 async function generateIeltsWritingTags(opts: {
   task1Prompt: string;
   task2Prompt: string;
@@ -3314,8 +3560,8 @@ Deno.serve(async (req) => {
 
   // ── Validate inputs ──────────────────────────────────────────────
   const examType = (body.exam_type || '').toString();
-  if (examType !== 'cefr-reading' && examType !== 'ielts-reading' && examType !== 'ielts-listening' && examType !== 'cefr-listening' && examType !== 'ielts-writing' && examType !== 'cefr-writing') {
-    return json(400, { error: 'bad_exam_type', detail: 'expected "cefr-reading", "ielts-reading", "ielts-listening", "cefr-listening", or "ielts-writing"' });
+  if (examType !== 'cefr-reading' && examType !== 'ielts-reading' && examType !== 'ielts-listening' && examType !== 'cefr-listening' && examType !== 'ielts-writing' && examType !== 'cefr-writing' && examType !== 'ielts-speaking') {
+    return json(400, { error: 'bad_exam_type', detail: 'expected "cefr-reading", "ielts-reading", "ielts-listening", "cefr-listening", "ielts-writing", "cefr-writing", or "ielts-speaking"' });
   }
   // IELTS Writing supports per-task import (scope=passage) for full
   // structural extraction, scope=tags for the Settings-tab auto-tag
@@ -3334,6 +3580,45 @@ Deno.serve(async (req) => {
     const _cwOk = ['tags','passage','full','samples','vocab'];
     if (!_cwOk.includes(_cwScope)) {
       return json(400, { error: 'bad_scope', detail: 'CEFR Writing supports scope: ' + _cwOk.map(s => '"' + s + '"').join(' / ') + '. Got "' + _cwScope + '".' });
+    }
+  }
+  if (examType === 'ielts-speaking') {
+    const _ispScope = (body.scope || 'full').toString();
+    const _ispOk = ['passage','full'];
+    if (!_ispOk.includes(_ispScope)) {
+      return json(400, { error: 'bad_scope', detail: 'IELTS Speaking supports scope: ' + _ispOk.map(s => '"' + s + '"').join(' / ') + '. Got "' + _ispScope + '".' });
+    }
+  }
+
+  // ── FULL scope (IELTS Speaking): whole-mock extraction from
+  //    screenshots OR pasted text. Returns mock_data containing
+  //    questions[] (17 total — 7 Part 1, 3 Part 2 [cue card + 2
+  //    follow-ups], 7 Part 3) + tags.{p1,p2,p3}Topic in ONE call,
+  //    so we never need a separate Auto-tag round-trip.
+  if ((body.scope || '').toString() === 'full' && examType === 'ielts-speaking') {
+    const incomingFiles = (Array.isArray(body.files) ? body.files : []) as FileItem[];
+    const testFiles = incomingFiles.filter(f => (f.group || 'test') === 'test');
+    const notesText = String(body.notes || '').trim();
+    if (testFiles.length === 0 && notesText.length < 20) {
+      return json(400, { error: 'no_source', detail: 'ielts-speaking scope=full requires at least one screenshot OR pasted task text (≥20 chars) in notes.' });
+    }
+    try {
+      const result = await generateIeltsSpeakingFull({
+        files:     testFiles,
+        notes:     notesText,
+        geminiKey: GEMINI_KEY
+      });
+      return json(200, {
+        mock_data:       result.mockData,
+        model_used:      result.modelUsed,
+        fallback_reason: result.fallbackReason,
+        actor:           (auth as AuthOk).actor
+      });
+    } catch (e) {
+      return json(502, {
+        error:  'ielts_speaking_full_failed',
+        detail: e instanceof Error ? e.message : String(e)
+      });
     }
   }
 

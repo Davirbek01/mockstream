@@ -33328,11 +33328,20 @@
         html += '<div id="mmgCwAutoTagStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;font-weight:500;"></div>';
       }
 
-      // IELTS Speaking — Picker tags section. Three text inputs (one per
-      // part) that drive what shows on the ispetPicker card chips. The
-      // bulk + per-part import flows (Phase 2B/2C) auto-fill these;
-      // admin can edit at any time and the picker re-reads on next open.
+      // IELTS Speaking — Bulk import bar + Picker tags section.
       if (type === 'ielts-speaking') {
+        // Bulk import bar — covers the WHOLE mock (17 Qs across 3 parts)
+        // in a single Gemini call. Per-part import lives on each Part
+        // tab. Routes through _mmgImportOpenPassage with scope='full'.
+        html += '<div class="mmg-section-title">✨ Import a new mock</div>';
+        html += '<div class="mmg-field-help" style="margin-bottom:10px;">Paste / upload screenshots covering <strong>Part 1</strong> (7 warm-up Qs), <strong>Part 2</strong> (cue card + 2 follow-ups), and <strong>Part 3</strong> (7 deeper Qs). Gemini extracts every question with the right part label, prep/speak times, AND auto-fills the picker tags below in <strong>one</strong> call.</div>';
+        html += '<div style="background:linear-gradient(135deg,#ecfeff,#cffafe);border:1px solid #a5f3fc;border-radius:10px;padding:12px 14px;margin-bottom:18px;display:flex;align-items:center;gap:12px;">'
+              +   '<div style="flex:1;font-size:12.5px;color:#155e75;line-height:1.5;">'
+              +     '<strong>Whole mock — paste / upload</strong> — Drop screenshots of all three parts at once. Gemini emits 17 questions + 3 part topics in a single response.'
+              +   '</div>'
+              +   '<button type="button" onclick="_mmgImportOpenPassage(-1)" style="background:linear-gradient(135deg,#06b6d4,#0891b2);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(8,145,178,.3);white-space:nowrap;">✨ Import mock</button>'
+              + '</div>';
+
         var ispTags = (md.tags = md.tags || {});
         html += '<div class="mmg-section-title" style="margin-top:14px;">Picker tags</div>';
         html += '<div class="mmg-field-help">Short topic labels that drive the chips on the IELTS Speaking picker card. <strong>Editable</strong> — type in to override what Gemini extracted, or leave to auto-fill from the next bulk / per-part import.</div>';
@@ -39954,7 +39963,7 @@
       // calls them sections; IELTS Writing calls them tasks; CEFR Writing
       // labels its task tabs T1.1 / T1.2 / T2 (passageIndex 0/1/2). Data
       // stays 1-based for the user.
-      var unit = (st.examType === 'cefr-reading' || st.examType === 'cefr-listening') ? 'Part'
+      var unit = (st.examType === 'cefr-reading' || st.examType === 'cefr-listening' || st.examType === 'ielts-speaking') ? 'Part'
                : (st.examType === 'ielts-listening') ? 'Section'
                : (st.examType === 'ielts-writing') ? 'Task'
                : 'Passage';
@@ -39970,11 +39979,10 @@
       } else {
         ttl.textContent = '✨ Import test from PDF / image';
       }
-      // IELTS Writing + CEFR Writing have no answer key (every task is
-      // free-response). Hide the Answer key section + the "skip if your
-      // test file…" tagline so admins don't think they need to provide one.
+      // IELTS Writing, CEFR Writing, and IELTS Speaking have no answer
+      // key (all open-response). Hide the Answer key section + tagline.
       var keyHeader = document.getElementById('mmgImportKeySection');
-      if (keyHeader) keyHeader.style.display = (st.examType === 'ielts-writing' || st.examType === 'cefr-writing') ? 'none' : '';
+      if (keyHeader) keyHeader.style.display = (st.examType === 'ielts-writing' || st.examType === 'cefr-writing' || st.examType === 'ielts-speaking') ? 'none' : '';
 
       // CEFR Writing supports a text-only path: admin pastes the raw task
       // text into "Notes for the AI" and skips the screenshot upload.
@@ -39983,16 +39991,20 @@
       var notesArea  = document.getElementById('mmgImportNotes');
       var sizeRow    = document.getElementById('mmgImportSizeRow');
       var isCw       = (st.examType === 'cefr-writing');
-      if (notesLbl) notesLbl.textContent = isCw
+      var isIsp      = (st.examType === 'ielts-speaking');
+      var allowText  = isCw || isIsp;
+      if (notesLbl) notesLbl.textContent = allowText
         ? 'Notes / paste raw task text (use this OR upload screenshots)'
         : 'Notes for the AI (optional)';
       if (notesArea) {
         notesArea.placeholder = isCw
           ? 'Paste the full task text here (Part 1 context + email + Task 1.1 + Task 1.2 + Task 2). Gemini extracts everything from this text — no screenshot needed.'
+          : isIsp
+          ? 'Paste all 17 question prompts here (Part 1: 7 Qs · Part 2: cue card + 2 follow-ups · Part 3: 7 Qs). Gemini extracts everything — no screenshot needed.'
           : 'e.g., \'Part 3 is matching-headings; the headings list is on page 4.\'  Leave blank to use defaults.';
-        notesArea.style.minHeight = isCw ? '160px' : '60px';
+        notesArea.style.minHeight = allowText ? '160px' : '60px';
       }
-      if (sizeRow) sizeRow.textContent = isCw
+      if (sizeRow) sizeRow.textContent = allowText
         ? 'Either paste the task text above OR upload screenshots. Total upload: 0 MB / 20 MB'
         : 'Total: 0 MB / 20 MB';
     }
@@ -40102,18 +40114,20 @@
       var typeSel = document.getElementById('mmgFldType');
       var currentType = (typeSel && typeSel.value) || (m && m.mock_type);
       if (m) m.mock_type = currentType;
-      if (!m || (currentType !== 'cefr-reading' && currentType !== 'ielts-reading' && currentType !== 'ielts-listening' && currentType !== 'cefr-listening' && currentType !== 'ielts-writing' && currentType !== 'cefr-writing')) {
-        alert('Per-section import is currently available for CEFR Reading, IELTS Reading, IELTS Listening, CEFR Listening, IELTS Writing, and CEFR Writing mocks.');
+      if (!m || (currentType !== 'cefr-reading' && currentType !== 'ielts-reading' && currentType !== 'ielts-listening' && currentType !== 'cefr-listening' && currentType !== 'ielts-writing' && currentType !== 'cefr-writing' && currentType !== 'ielts-speaking')) {
+        alert('Per-section import is currently available for CEFR Reading, IELTS Reading, IELTS Listening, CEFR Listening, IELTS Writing, CEFR Writing, and IELTS Speaking mocks.');
         return;
       }
-      // CEFR Writing: idx === -1 is the Settings-tab bulk bar (whole mock
-      // in one shot). idx 0/1/2 are the per-task bars on T1.1 / T1.2 / T2.
+      // CEFR Writing + IELTS Speaking: idx === -1 is the Settings-tab
+      // bulk bar (whole mock in one shot). Other idx values are per-part
+      // bars on each Part tab.
       var isCwBulk = (currentType === 'cefr-writing' && idx === -1);
+      var isIspBulk = (currentType === 'ielts-speaking' && idx === -1);
       window._mmgImportState = {
         files:        [],
         examType:     currentType,
-        scope:        isCwBulk ? 'full' : 'passage',
-        passageIndex: isCwBulk ? 0 : idx
+        scope:        (isCwBulk || isIspBulk) ? 'full' : 'passage',
+        passageIndex: (isCwBulk || isIspBulk) ? 0 : idx
       };
       _mmgImportApplyScope();
       document.getElementById('mmgImportNotes').value = '';
@@ -40122,9 +40136,10 @@
       var btn = document.getElementById('mmgImportSubmitBtn');
       // Match the button label to the exam's unit (Part / Passage / Task /
       // Mock for the cefr-writing bulk case).
-      var unitLabel = isCwBulk ? 'mock'
+      var unitLabel = (isCwBulk || isIspBulk) ? 'mock'
                     : (m.mock_type === 'cefr-reading' || m.mock_type === 'cefr-listening') ? 'part'
                     : (m.mock_type === 'ielts-writing' || m.mock_type === 'cefr-writing') ? 'task'
+                    : (m.mock_type === 'ielts-speaking') ? 'part'
                     : 'passage';
       btn.disabled = false; btn.textContent = '✨ Import ' + unitLabel;
       _mmgImportRender();
@@ -40467,10 +40482,10 @@
       // — when notes is non-empty, allow zero-file submission. All other
       // exam types still require at least one screenshot / PDF.
       var notesPreview = (document.getElementById('mmgImportNotes').value || '').trim();
-      var allowTextOnly = (st.examType === 'cefr-writing') && notesPreview.length >= 20;
+      var allowTextOnly = (st.examType === 'cefr-writing' || st.examType === 'ielts-speaking') && notesPreview.length >= 20;
       if (testCount === 0 && !allowTextOnly) {
         status.style.color = '#dc2626';
-        status.textContent = (st.examType === 'cefr-writing')
+        status.textContent = (st.examType === 'cefr-writing' || st.examType === 'ielts-speaking')
           ? 'Add at least one screenshot OR paste the task text (≥20 chars) into "Notes for the AI".'
           : 'Add at least one test-content file.';
         return;
@@ -40513,6 +40528,11 @@
       // topic + auto-tagged chips. Same payload shape as the IELTS
       // Reading / Listening full-mock importers.
       if (st.scope === 'full' && st.examType === 'cefr-writing') {
+        payload.scope = 'full';
+      }
+      // IELTS Speaking bulk: scope=full returns a questions[] array
+      // covering all 17 Qs across the 3 parts + tags.{p1,p2,p3}Topic.
+      if (st.scope === 'full' && st.examType === 'ielts-speaking') {
         payload.scope = 'full';
       }
 
@@ -40800,6 +40820,45 @@
             if (prevCw[k] != null && newCw[k] == null) newCw[k] = prevCw[k];
           });
           j.mock_data = newCw;
+        } else if (st.examType === 'ielts-speaking') {
+          // IELTS Speaking bulk-import: replace questions[] with the new
+          // extraction but preserve admin-curated audio paths (matched
+          // by part + index in the part), samples (sampleA1/A2/B1/B2/C1
+          // /C2 + Uz variants per Q), and the per-question topic field.
+          // Also preserve top-level fields the runner needs.
+          var prevIsp  = window._mmgEditing.mock_data || {};
+          var newIsp   = j.mock_data || {};
+          var SAMPLE_KEYS = ['sample','sampleA1','sampleA2','sampleB1','sampleB2','sampleC1','sampleC2',
+                             'uzSample','uzSampleA1','uzSampleA2','uzSampleB1','uzSampleB2','uzSampleC1','uzSampleC2'];
+          var prevByPartIdx = {};
+          (Array.isArray(prevIsp.questions) ? prevIsp.questions : []).forEach(function (q) {
+            if (!q || !q.part) return;
+            prevByPartIdx[q.part] = prevByPartIdx[q.part] || [];
+            prevByPartIdx[q.part].push(q);
+          });
+          var newQs = Array.isArray(newIsp.questions) ? newIsp.questions.slice() : [];
+          var counter = { 'Part 1': 0, 'Part 2': 0, 'Part 3': 0 };
+          for (var qi = 0; qi < newQs.length; qi++) {
+            var nq = newQs[qi] = (newQs[qi] || {});
+            var partKey = String(nq.part || 'Part 1');
+            var localIdx = counter[partKey] || 0;
+            counter[partKey] = localIdx + 1;
+            var prevQ = (prevByPartIdx[partKey] && prevByPartIdx[partKey][localIdx]) || {};
+            // Preserve admin-managed fields when the new extraction
+            // doesn't include them (audio + per-Q samples + topic tag).
+            if (prevQ.audioFile && !nq.audioFile) nq.audioFile = prevQ.audioFile;
+            if (prevQ.topic && !nq.topic)         nq.topic     = prevQ.topic;
+            for (var si = 0; si < SAMPLE_KEYS.length; si++) {
+              var sk = SAMPLE_KEYS[si];
+              if (prevQ[sk] != null && nq[sk] == null) nq[sk] = prevQ[sk];
+            }
+          }
+          newIsp.questions = newQs;
+          // Preserve top-level extras the runner reads.
+          ['settings','announcements','vocabulary','tokenTranslations','source','examDate'].forEach(function (k) {
+            if (prevIsp[k] != null && newIsp[k] == null) newIsp[k] = prevIsp[k];
+          });
+          j.mock_data = newIsp;
         } else if (st.examType === 'cefr-listening') {
           // CEFR Listening bulk-import: preserve per-part audioFile,
           // mapImage (Part 4), and transcript across import. CEFR
