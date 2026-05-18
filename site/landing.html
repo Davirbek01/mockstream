@@ -8163,6 +8163,46 @@
     </div>
   </div>
 
+  <!-- ===== Full-screen CEFR Speaking picker (cspetPicker) ===== -->
+  <!-- CEFR Speaking has 4 parts: Part 1.1 (3 warm-up Qs across 1-3 topics),
+       Part 1.2 (describe-2-pictures task), Part 2 (topic card + follow-up Qs),
+       Part 3 (discussion turn with for/against points). Card chips reflect
+       the four parts. -->
+  <div id="cspetPicker" class="ilet-overlay" aria-hidden="true">
+    <header class="ilet-header">
+      <button class="ilet-back" type="button" onclick="cspetClose()" title="Back to landing">←</button>
+      <div class="ilet-title">
+        <span class="ilet-title-emoji">🎤</span>
+        <span class="ilet-title-text">CEFR Speaking</span>
+        <span class="ilet-count" id="cspetCount">0</span>
+      </div>
+      <div class="ilet-header-tools">
+        <input type="search" class="ilet-search" id="cspetSearch" placeholder="🔍 Search mock #, topic, picture, discussion…" autocomplete="off" spellcheck="false">
+        <select class="ilet-sort" id="cspetJump" title="Jump to mock #">
+          <option value="">Jump to #…</option>
+        </select>
+      </div>
+    </header>
+
+    <div class="ilet-filter-row cspet-filter-row">
+      <button type="button" class="ilet-chip ilet-chip-active cspet-chip" data-filter="all">All</button>
+      <button type="button" class="ilet-chip cspet-chip" data-filter="ready">✓ Ready only</button>
+      <button type="button" class="ilet-chip cspet-chip" data-filter="soon">⏳ Coming soon</button>
+      <button type="button" class="ilet-chip cspet-chip" data-filter="done">★ Done before</button>
+      <select class="ilet-source-filter" id="cspetTopicFilter" title="Filter by topic">
+        <option value="">🏷 All topics</option>
+      </select>
+    </div>
+
+    <main class="ilet-grid" id="cspetGrid"></main>
+
+    <div class="ilet-empty" id="cspetEmpty" style="display:none;">
+      <div class="ilet-empty-icon">🔍</div>
+      <p class="ilet-empty-msg">No mocks match your filters.</p>
+      <button type="button" class="ilet-empty-clear" onclick="cspetClearFilters()">Clear filters</button>
+    </div>
+  </div>
+
   <style>
     /* ===== Full-screen IELTS Reading picker ===== */
     .iret-overlay {
@@ -8967,6 +9007,134 @@
       border-color: #0e7490;
     }
     #ispetPicker .ispet-share.ispet-share-copied {
+      background: #dcfce7;
+      border-color: #86efac;
+      color: #15803d;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    /* ===== CEFR Speaking picker (cspetPicker) — emerald tone =====
+       Mirrors ispetPicker but with an emerald / teal palette so CEFR
+       Speaking stays visually distinct from IELTS Speaking (sky-blue).
+       CEFR Speaking has 4 parts (1.1, 1.2, 2, 3) so each card has 4
+       part-rows. */
+    #cspetPicker.ilet-overlay {
+      background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+    }
+    #cspetPicker .ilet-header {
+      background: rgba(236, 253, 245, 0.95);
+      border-bottom: 1px solid #a7f3d0;
+    }
+    #cspetPicker .ilet-back {
+      color: #047857;
+      border-color: #a7f3d0;
+    }
+    #cspetPicker .ilet-back:hover { background: #047857; color: #fff; }
+    #cspetPicker .ilet-title { color: #064e3b; }
+    #cspetPicker .ilet-count {
+      background: #d1fae5;
+      color: #047857;
+      border: 1px solid #6ee7b7;
+    }
+    #cspetPicker .ilet-card {
+      background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+      border: 1px solid #a7f3d0;
+    }
+    #cspetPicker .ilet-card:hover:not(.ilet-card-disabled) {
+      border-color: #10b981;
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2);
+    }
+    #cspetPicker .ilet-mocknum {
+      background: linear-gradient(135deg, #10b981, #059669);
+    }
+    #cspetPicker .ilet-take {
+      background: linear-gradient(135deg, #10b981, #059669);
+    }
+    #cspetPicker .ilet-take:hover {
+      background: linear-gradient(135deg, #059669, #047857);
+    }
+    #cspetPicker .ilet-chip-active {
+      background: #047857;
+      color: #fff;
+      border-color: #047857;
+    }
+    #cspetPicker .ilet-mock-title { color: #064e3b; }
+    #cspetPicker .cspet-filter-row {
+      background: rgba(236, 253, 245, 0.6);
+      border-bottom: 1px solid #d1fae5;
+    }
+    #cspetPicker .cspet-pill {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 1px 8px;
+      border-radius: 999px;
+      margin-right: 4px;
+      vertical-align: middle;
+      line-height: 1.5;
+      white-space: nowrap;
+      color: #047857;
+      background: #d1fae5;
+      border: 1px solid #6ee7b7;
+    }
+    #cspetPicker .cspet-part-heading {
+      display: flex;
+      align-items: center;
+      padding: 6px 4px;
+      border-top: 1px dashed #a7f3d0;
+      margin-top: 4px;
+      gap: 8px;
+    }
+    #cspetPicker .cspet-part-heading:first-of-type {
+      border-top: 0;
+      margin-top: 0;
+    }
+    #cspetPicker .cspet-part-label {
+      flex-shrink: 0;
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      color: #fff;
+      background: linear-gradient(135deg, #10b981, #059669);
+      padding: 2px 8px;
+      border-radius: 6px;
+      line-height: 1.4;
+    }
+    #cspetPicker .cspet-part-topic {
+      font-size: 12.5px;
+      color: #064e3b;
+      font-weight: 500;
+      flex: 1;
+    }
+    #cspetPicker .cspet-exam-date {
+      font-size: 11px;
+      color: #064e3b;
+      background: #d1fae5;
+      border: 1px solid #6ee7b7;
+      border-radius: 999px;
+      padding: 1px 8px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    #cspetPicker .cspet-share {
+      background: transparent;
+      border: 1px solid #6ee7b7;
+      color: #047857;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+      transition: background 120ms ease, border-color 120ms ease;
+      margin-right: 8px;
+      white-space: nowrap;
+    }
+    #cspetPicker .cspet-share:hover {
+      background: #ecfdf5;
+      border-color: #047857;
+    }
+    #cspetPicker .cspet-share.cspet-share-copied {
       background: #dcfce7;
       border-color: #86efac;
       color: #15803d;
@@ -16425,6 +16593,8 @@
       if (cwet && cwet.classList.contains('ilet-open')) { cwetClose(); return; }
       var ispet = document.getElementById('ispetPicker');
       if (ispet && ispet.classList.contains('ilet-open')) { ispetClose(); return; }
+      var cspet = document.getElementById('cspetPicker');
+      if (cspet && cspet.classList.contains('ilet-open')) { cspetClose(); return; }
     }
     function _pickerShowTmaBack() {
       try {
@@ -19227,6 +19397,350 @@
     window.ispetClose        = ispetClose;
     window.ispetClearFilters = ispetClearFilters;
 
+    // ===== FULL-SCREEN CEFR SPEAKING PICKER (cspetPicker) =====
+    // Mirrors ispetPicker but for CEFR Speaking's 4-part structure:
+    //   • Part 1.1 (Q1-Q3): 3 warm-up questions across 1-3 topics.
+    //   • Part 1.2 (Q4-Q6): describe-2-pictures task (tag should match the
+    //     content of the picture pair).
+    //   • Part 2   (Q7):    topic card with follow-up questions.
+    //   • Part 3   (Q8):    discussion turn with for/against points (tag
+    //     focuses on the main discussion question).
+    // Card chips show one topic per part. Mocks load from Supabase
+    // (mock_type=cefr-speaking) and reuse the picker share + TMA helpers.
+    const _CSPET_SB_URL  = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    const _CSPET_SB_KEY  = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    const _cspetMockMeta = {};
+    let   _cspetFilter      = 'all';
+    let   _cspetTopicFilter = '';
+    let   _cspetServerDone  = {};
+
+    function _cspetEsc(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
+
+    function _cspetBuildMetaFromMockData(md) {
+      const m  = md || {};
+      const qs = Array.isArray(m.questions) ? m.questions : [];
+      // CEFR Speaking is fixed-shape: Q1-3 = Part 1.1, Q4-6 = Part 1.2
+      // (image-pair), Q7 = Part 2 (topic card), Q8 = Part 3 (discussion).
+      // We bucket by number range so the picker stays correct even when
+      // q.part is missing or stored differently.
+      const buckets = { p11: [], p12: [], p2: [], p3: [] };
+      for (const q of qs) {
+        const n = parseInt(q && q.number, 10);
+        if (!isFinite(n))           continue;
+        if      (n >= 1 && n <= 3)  buckets.p11.push(q);
+        else if (n >= 4 && n <= 6)  buckets.p12.push(q);
+        else if (n === 7)           buckets.p2.push(q);
+        else if (n === 8)           buckets.p3.push(q);
+      }
+      const tags = m.tags || {};
+      function firstFew(s, n) {
+        const text = String(s || '').trim().replace(/\s+/g,' ');
+        if (!text) return '';
+        const words = text.split(' ');
+        return words.length <= n ? text : words.slice(0, n).join(' ') + '…';
+      }
+      // Tag resolution order: admin-saved tag → first Q's topic field →
+      // heuristic from the prompt → empty string (placeholder rendered).
+      const p11Topic = (tags.p11Topic && String(tags.p11Topic).trim())
+                    || (buckets.p11[0] && buckets.p11[0].topic && String(buckets.p11[0].topic).trim())
+                    || firstFew(buckets.p11[0] && buckets.p11[0].prompt, 6);
+      const p12Topic = (tags.p12Topic && String(tags.p12Topic).trim())
+                    || (buckets.p12[0] && buckets.p12[0].topic && String(buckets.p12[0].topic).trim())
+                    || '';
+      // CEFR Part 2 prompts don't always start with "Describe a/an/the …"
+      // (some say "Discuss the following with your partner…"), so the
+      // IELTS-trained _ispetDeriveP2Topic helper would derive nonsense
+      // like "A discuss the following" from those. Only use it when the
+      // prompt actually fits the Describe-a-X shape; otherwise just
+      // preview the first few words.
+      const p2Prompt = String((buckets.p2[0] && buckets.p2[0].prompt) || '').trim();
+      const p2Derived = (p2Prompt && /^describe\s+(?:a|an|the)\s+/i.test(p2Prompt) && typeof _ispetDeriveP2Topic === 'function')
+                    ? _ispetDeriveP2Topic(buckets.p2[0])
+                    : firstFew(p2Prompt, 5);
+      const p2Topic  = (tags.p2Topic && String(tags.p2Topic).trim())
+                    || (buckets.p2[0] && buckets.p2[0].topic && String(buckets.p2[0].topic).trim())
+                    || p2Derived;
+      const p3Topic  = (tags.p3Topic && String(tags.p3Topic).trim())
+                    || (buckets.p3[0] && buckets.p3[0].topic && String(buckets.p3[0].topic).trim())
+                    || '';
+      // A part is "ready" when at least one of its Qs has a non-empty prompt.
+      const partReady = (arr) => arr.some(q => q && String(q.prompt || '').trim());
+      const readyCount = [buckets.p11, buckets.p12, buckets.p2, buckets.p3].filter(partReady).length;
+      return {
+        p11Topic, p12Topic, p2Topic, p3Topic,
+        qCount:     4,             // 4 parts on a card
+        readyCount,                // 0-4
+        actualQCount: qs.length,   // 8 total Qs in a standard mock
+        examDate:   String(m.examDate || '').trim(),
+        title:      String(m.title || '').trim(),
+        topicsAll:  [p11Topic, p12Topic, p2Topic, p3Topic].filter(Boolean).map(t => t.toLowerCase())
+      };
+    }
+
+    function _cspetFmtDate(d) {
+      if (!d) return '';
+      const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(d);
+      if (!m) return d;
+      const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      return parseInt(m[3], 10) + ' ' + MONTHS[parseInt(m[2], 10) - 1] + ' ' + m[1];
+    }
+
+    function _cspetCardHtml(mockNum, meta, doneInfo) {
+      const padded = String(mockNum).padStart(2, '0');
+      const readyOf = meta.readyCount > 0
+        ? (meta.readyCount + '/' + meta.qCount + ' READY')
+        : 'Not ready yet';
+      const fullyReady = meta.qCount > 0 && meta.readyCount === meta.qCount;
+      const partRow = (n, topic, placeholder) => {
+        const label = '<span class="cspet-part-label">PART ' + n + '</span>';
+        let text;
+        if (topic) {
+          text = '<span class="cspet-part-topic">' + _cspetEsc(topic) + '</span>';
+        } else {
+          text = '<span class="cspet-part-topic" style="color:#94a3b8;font-style:italic;">' + _cspetEsc(placeholder) + '</span>';
+        }
+        return '<li class="ilet-section cspet-part-heading">' + label + text + '</li>';
+      };
+      const doneBadge = doneInfo && doneInfo.done
+        ? '<span class="cspet-pill" style="background:#dcfce7;color:#15803d;border-color:#86efac;">★ Done</span>'
+        : '';
+      const dateBadge = meta.examDate
+        ? '<span class="cspet-exam-date">📅 ' + _cspetFmtDate(meta.examDate) + '</span>'
+        : '';
+      const titleText = meta.title || ('CEFR Speaking Mock ' + padded);
+      return ''
+        + '<article class="ilet-card' + (fullyReady ? '' : ' ilet-card-disabled') + '" data-mock="' + padded + '" id="cspet-card-' + padded + '">'
+        +   '<div class="ilet-card-head">'
+        +     '<span class="ilet-mocknum">#' + padded + '</span>'
+        +     '<span style="flex:1;"></span>'
+        +     dateBadge
+        +     '<span style="font-size:11.5px;color:' + (fullyReady ? '#15803d' : '#92400e') + ';font-weight:700;margin-left:8px;">' + readyOf + '</span>'
+        +   '</div>'
+        +   '<h3 class="ilet-mock-title">' + _cspetEsc(titleText) + '</h3>'
+        +   (doneBadge ? '<div style="margin:4px 0 6px;">' + doneBadge + '</div>' : '')
+        +   '<ul class="ilet-sections" style="list-style:none;padding:0;margin:8px 0;display:flex;flex-direction:column;gap:0;">'
+        +     partRow('1.1', meta.p11Topic, '— topic not tagged —')
+        +     partRow('1.2', meta.p12Topic, 'Picture pair (not tagged)')
+        +     partRow('2',   meta.p2Topic,  'Topic card (not tagged)')
+        +     partRow('3',   meta.p3Topic,  'Discussion turn (not tagged)')
+        +   '</ul>'
+        +   '<div class="ilet-card-foot">'
+        +     '<button type="button" class="cspet-share" data-mock="' + padded + '" title="Share this mock" aria-label="Share mock #' + padded + '">🔗</button>'
+        +     '<button type="button" class="ilet-take">Take Test →</button>'
+        +   '</div>'
+        + '</article>';
+    }
+
+    function _cspetSkeletonHtml() {
+      return '<div class="ilet-card-skeleton">'
+        + '<div class="ilet-skel-line short"></div>'
+        + '<div class="ilet-skel-line tall"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '</div>';
+    }
+
+    function _cspetRenderSkeletons() {
+      const grid = document.getElementById('cspetGrid');
+      if (!grid) return;
+      const count = Math.max(12, Object.keys(_cspetMockMeta).length || 12);
+      grid.innerHTML = Array.from({ length: count }, _cspetSkeletonHtml).join('');
+      const empty = document.getElementById('cspetEmpty');
+      if (empty) empty.style.display = 'none';
+    }
+
+    async function _cspetLoadAllMockMeta() {
+      try {
+        const resp = await fetch(`${_CSPET_SB_URL}/rest/v1/mock_tests?mock_type=eq.cefr-speaking&status=eq.published&select=mock_number,mock_data,title`, {
+          headers: { 'apikey': _CSPET_SB_KEY, 'Authorization': 'Bearer ' + _CSPET_SB_KEY }
+        });
+        if (!resp.ok) return;
+        const rows = await resp.json();
+        for (const r of rows) {
+          const padded = String(r.mock_number).padStart(2, '0');
+          const meta = _cspetBuildMetaFromMockData(r.mock_data);
+          if (r.title && !meta.title) meta.title = r.title;
+          _cspetMockMeta[padded] = meta;
+        }
+      } catch (_e) { /* swallow — picker still renders empty grid */ }
+    }
+
+    async function _cspetFetchServerDone() {
+      // Phase 1 stub — see _ispetFetchServerDone for the same shape.
+      return {};
+    }
+
+    function _cspetBuildTopicFilterOptions() {
+      const sel = document.getElementById('cspetTopicFilter');
+      if (!sel) return;
+      const all = new Set();
+      Object.values(_cspetMockMeta).forEach(m => {
+        (m.topicsAll || []).forEach(t => { if (t) all.add(t); });
+      });
+      const current = sel.value;
+      sel.innerHTML = '<option value="">🏷 All topics</option>'
+        + Array.from(all).sort().map(t => '<option value="' + _cspetEsc(t) + '">' + _cspetEsc(t.charAt(0).toUpperCase() + t.slice(1)) + '</option>').join('');
+      if (current) sel.value = current;
+    }
+
+    function _cspetRenderAll() {
+      const grid = document.getElementById('cspetGrid');
+      const jump = document.getElementById('cspetJump');
+      if (!grid) return;
+      const keys = Object.keys(_cspetMockMeta).sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+      document.getElementById('cspetCount').textContent = keys.length;
+      if (jump) {
+        const opts = ['<option value="">Jump to #…</option>']
+          .concat(keys.map(k => '<option value="' + k + '">#' + k + '</option>'));
+        jump.innerHTML = opts.join('');
+      }
+      grid.innerHTML = keys.map(k => _cspetCardHtml(parseInt(k, 10), _cspetMockMeta[k], _cspetServerDone[k] || {})).join('');
+      _cspetBuildTopicFilterOptions();
+      _cspetApplyFiltersAndSort();
+    }
+
+    function _cspetApplyFiltersAndSort() {
+      const grid  = document.getElementById('cspetGrid');
+      const empty = document.getElementById('cspetEmpty');
+      const search = (document.getElementById('cspetSearch').value || '').trim().toLowerCase();
+      if (!grid) return;
+      let shown = 0;
+      Array.from(grid.children).forEach(card => {
+        const mockNum = card.dataset.mock;
+        const meta    = _cspetMockMeta[mockNum] || {};
+        const fullyReady = meta.qCount > 0 && meta.readyCount === meta.qCount;
+        const done = !!(_cspetServerDone[mockNum] && _cspetServerDone[mockNum].done);
+        let show = true;
+        if (_cspetFilter === 'ready' && !fullyReady) show = false;
+        if (_cspetFilter === 'soon'  &&  fullyReady) show = false;
+        if (_cspetFilter === 'done'  && !done)       show = false;
+        if (_cspetTopicFilter && !(meta.topicsAll || []).includes(_cspetTopicFilter)) show = false;
+        if (search) {
+          const hay = (mockNum + ' ' + (meta.title || '') + ' ' + (meta.p11Topic || '') + ' ' + (meta.p12Topic || '') + ' ' + (meta.p2Topic || '') + ' ' + (meta.p3Topic || '')).toLowerCase();
+          if (hay.indexOf(search) < 0) show = false;
+        }
+        card.style.display = show ? '' : 'none';
+        if (show) shown++;
+      });
+      if (empty) empty.style.display = shown === 0 ? '' : 'none';
+    }
+
+    function _cspetJumpToMock(n) {
+      if (!n) return;
+      const card = document.getElementById('cspet-card-' + String(n).padStart(2, '0'));
+      if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    async function cspetOpen() {
+      const overlay = document.getElementById('cspetPicker');
+      overlay.classList.add('ilet-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      try { history.pushState({ picker: 'cspet' }, ''); } catch (_e) {}
+      if (typeof _pickerShowTmaBack === 'function') _pickerShowTmaBack();
+      _cspetRenderSkeletons();
+      try {
+        if (window._mmgRefreshAllPickersPromise) await window._mmgRefreshAllPickersPromise;
+      } catch (_e) {}
+      await Promise.all([_cspetLoadAllMockMeta(), _cspetFetchServerDone().then(d => { _cspetServerDone = d || {}; })]);
+      _cspetRenderAll();
+    }
+
+    function cspetClose(opts) {
+      const keepUrl = !!(opts && opts.keepUrl);
+      const overlay = document.getElementById('cspetPicker');
+      overlay.classList.remove('ilet-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (typeof _pickerHideTmaBack === 'function') _pickerHideTmaBack();
+      if (!window._pickerFromPopstate && !keepUrl) {
+        try {
+          if (history.state && history.state.picker === 'cspet') history.back();
+          if (/^\/take\//i.test(window.location.pathname)) {
+            history.replaceState(null, '', '/landing.html');
+          }
+        } catch (_e) {}
+      }
+    }
+
+    function cspetClearFilters() {
+      _cspetFilter      = 'all';
+      _cspetTopicFilter = '';
+      document.querySelectorAll('#cspetPicker .cspet-chip').forEach(c =>
+        c.classList.toggle('ilet-chip-active', c.dataset.filter === 'all')
+      );
+      document.getElementById('cspetSearch').value = '';
+      const t = document.getElementById('cspetTopicFilter');
+      if (t) t.value = '';
+      _cspetApplyFiltersAndSort();
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const overlay = document.getElementById('cspetPicker');
+      if (!overlay) return;
+      document.querySelectorAll('#cspetPicker .cspet-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          _cspetFilter = chip.dataset.filter;
+          document.querySelectorAll('#cspetPicker .cspet-chip').forEach(c =>
+            c.classList.toggle('ilet-chip-active', c === chip)
+          );
+          _cspetApplyFiltersAndSort();
+        });
+      });
+      const search = document.getElementById('cspetSearch');
+      const jump   = document.getElementById('cspetJump');
+      const topic  = document.getElementById('cspetTopicFilter');
+      if (search) search.addEventListener('input', _cspetApplyFiltersAndSort);
+      if (jump) jump.addEventListener('change', function () {
+        _cspetJumpToMock(this.value);
+        setTimeout(() => { this.value = ''; }, 400);
+      });
+      if (topic) topic.addEventListener('change', function () {
+        _cspetTopicFilter = this.value || '';
+        _cspetApplyFiltersAndSort();
+      });
+
+      document.getElementById('cspetGrid').addEventListener('click', function (e) {
+        const card = e.target.closest('.ilet-card');
+        if (!card) return;
+        const mockN = card.dataset.mock;
+
+        const shareBtn = e.target.closest('.cspet-share');
+        if (shareBtn) {
+          e.stopPropagation();
+          _pickerShareMock('cefr-speaking', 'CEFR Speaking Mock', mockN, shareBtn, 'cspet-share-copied');
+          return;
+        }
+        if (card.classList.contains('ilet-card-disabled')) return;
+        const isTakeBtn = !!e.target.closest('.ilet-take');
+        if (!isTakeBtn) {
+          if (mockN) {
+            try { history.replaceState(null, '', '/take/cefr-speaking-' + encodeURIComponent(mockN)); } catch (_e) {}
+          }
+          return;
+        }
+        try { history.pushState(null, '', '/take/cefr-speaking-' + encodeURIComponent(mockN)); } catch (_e) {}
+        const padded = String(mockN).padStart(2, '0');
+        const url = 'Speaking Mocks.html?test=cefr-speaking-mock-' + padded + '&auto=1';
+        cspetClose({ keepUrl: true });
+        window.location.href = url;
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && document.getElementById('cspetPicker').classList.contains('ilet-open')) cspetClose();
+      });
+    });
+
+    window.cspetOpen         = cspetOpen;
+    window.cspetClose        = cspetClose;
+    window.cspetClearFilters = cspetClearFilters;
+
     // ===== FULL-SCREEN CEFR READING PICKER =====
     // Same flow as the IELTS picker (iretOpen / iretRender) but for CEFR mocks.
     // Differences from IELTS: 5 parts (not 3), each part type is fixed
@@ -20415,7 +20929,7 @@
       } else if (type === 'ielts') {
         if (typeof ispetOpen === 'function') { ispetOpen(); } else { openSpeakingCategoryModal('ielts-speaking'); }
       } else {
-        openSpeakingCategoryModal('cefr-speaking');
+        if (typeof cspetOpen === 'function') { cspetOpen(); } else { openSpeakingCategoryModal('cefr-speaking'); }
       }
     }
 
@@ -23498,7 +24012,8 @@
       sessionStorage.removeItem('testReturnCategory');
 
       if (target === 'cefr-speaking') {
-        openSpeakingCategoryModal('cefr-speaking');
+        if (typeof cspetOpen === 'function') { cspetOpen(); }
+        else { openSpeakingCategoryModal('cefr-speaking'); }
       } else if (target === 'ielts-speaking') {
         if (typeof ispetOpen === 'function') { ispetOpen(); }
         else { openSpeakingCategoryModal('ielts-speaking'); }
@@ -23744,6 +24259,12 @@
         if (ispet && ispet.classList.contains('ilet-open')) {
           _pickerFromPopstate = true;
           ispetClose();
+          _pickerFromPopstate = false;
+        }
+        var cspet = document.getElementById('cspetPicker');
+        if (cspet && cspet.classList.contains('ilet-open')) {
+          _pickerFromPopstate = true;
+          cspetClose();
           _pickerFromPopstate = false;
         }
         // 2) Close access-code modals if URL left /take/...
