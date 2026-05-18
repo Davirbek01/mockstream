@@ -32261,8 +32261,8 @@
           <button class="mmg-tab mmg-tab-cs mmg-tab-is" data-tab="sp_part12" onclick="_mmgSwitchTab('sp_part12')">Part 1.2</button>
           <button class="mmg-tab mmg-tab-cs mmg-tab-is" data-tab="sp_part2"  onclick="_mmgSwitchTab('sp_part2')">Part 2</button>
           <button class="mmg-tab mmg-tab-cs mmg-tab-is" data-tab="sp_part3"  onclick="_mmgSwitchTab('sp_part3')">Part 3</button>
-          <button class="mmg-tab mmg-tab-cw mmg-tab-iw" data-tab="samples"  onclick="_mmgSwitchTab('samples')">Samples</button>
-          <button class="mmg-tab mmg-tab-cw mmg-tab-iw" data-tab="vocab"    onclick="_mmgSwitchTab('vocab')">Vocabulary</button>
+          <button class="mmg-tab mmg-tab-cw mmg-tab-iw mmg-tab-is" data-tab="samples"  onclick="_mmgSwitchTab('samples')">Samples</button>
+          <button class="mmg-tab mmg-tab-cw mmg-tab-iw mmg-tab-is" data-tab="vocab"    onclick="_mmgSwitchTab('vocab')">Vocabulary</button>
           <button class="mmg-tab mmg-tab-cw mmg-tab-iw mmg-tab-cs mmg-tab-is" data-tab="tokens"   onclick="_mmgSwitchTab('tokens')">Tokens</button>
           <button class="mmg-tab mmg-tab-cr"           data-tab="cr_settings" onclick="_mmgSwitchTab('cr_settings')">Settings</button>
           <button class="mmg-tab mmg-tab-cr"           data-tab="cr_part1"    onclick="_mmgSwitchTab('cr_part1')">Part 1</button>
@@ -35504,13 +35504,19 @@
         +   _mmgVocabSubList(idP + '_voci', 'Idioms',            voc.idioms || [])
         + '</details>';
 
+      // IELTS Speaking: samples + topical vocabulary moved to their own
+      // top-level tabs (isp_samples / isp_vocab) so the part tabs only
+      // show structural Q content. CEFR Speaking still embeds them
+      // inline for now (mirror restructure can follow if needed).
+      var inlineSamples = type === 'ielts-speaking' ? '' : samplesHtml;
+      var inlineVocab   = type === 'ielts-speaking' ? '' : vocabHtml;
       return '<details class="mmg-q-block" data-q-index="' + qIndex + '" open>'
         +     '<summary class="mmg-q-summary" style="cursor:pointer;padding:6px 8px;background:#f1f5f9;border-radius:6px;font-weight:700;">'
         +       'Q' + (q.number || (qIndex + 1)) + ' · ' + _mmgEsc(q.part || '') + headerExtras
         +     '</summary>'
         +     '<div class="mmg-q-body" style="display:flex;flex-direction:column;gap:10px;padding:10px 4px;">'
         +       _mmgFieldArea('Prompt', idP + '_prompt', q.prompt || '', '', 80)
-        +       audioHtml + timingHtml + imagesHtml + bulletsHtml + samplesHtml + vocabHtml
+        +       audioHtml + timingHtml + imagesHtml + bulletsHtml + inlineSamples + inlineVocab
         +     '</div>'
         + '</details>';
     }
@@ -35867,6 +35873,11 @@
         { key: 'task1', label: 'Task 1 vocabulary' },
         { key: 'task2', label: 'Task 2 vocabulary' }
       ];
+      if (type === 'ielts-speaking') return [
+        { key: 'part1', label: 'Part 1 vocabulary' },
+        { key: 'part2', label: 'Part 2 vocabulary' },
+        { key: 'part3', label: 'Part 3 vocabulary' }
+      ];
       return [
         { key: 'task11', label: 'Task 1.1 vocabulary' },
         { key: 'task12', label: 'Task 1.2 vocabulary' },
@@ -35955,6 +35966,10 @@
     ];
     function _mmgRenderSamples(md) {
       var type = _mmgCurrentType();
+      // IELTS Speaking samples are per-QUESTION (not per-task) — render
+      // a different layout: generator card + a flat list of every Q with
+      // its own band chips + active-band editor.
+      if (type === 'ielts-speaking') { _mmgRenderIspSamples(md); return; }
       var isIw = type === 'ielts-writing';
       var pane = document.getElementById('mmgPaneSamples');
       pane.classList.add('mmg-samples-pane');
@@ -36132,6 +36147,159 @@
       pane.innerHTML = html;
       _mmgUpdatePreview(activeFieldId);
     }
+
+    // ── IELTS Speaking — per-question samples on its own top-level tab.
+    // Generator card at top (band 5-9 × parts × ±Uz × ±Main), then a
+    // flat list of every Q with band chips + active-band editor. Existing
+    // samples preserved on generate; flush-to-mock on every chip switch.
+    function _mmgRenderIspSamples(md) {
+      var pane = document.getElementById('mmgPaneSamples');
+      pane.classList.add('mmg-samples-pane');
+      md.questions = Array.isArray(md.questions) ? md.questions : [];
+
+      var html = '';
+      html += '<div class="mmg-section-title">Sample answers — IELTS Speaking</div>'
+            + '<div class="mmg-field-help">Per-question model spoken answers at IELTS bands 5–9, plus an optional Main + Uzbek translations. All samples optional. <span style="color:#15803d;">●</span> = already filled.</div>';
+
+      // Generator card.
+      html += '<div style="background:linear-gradient(135deg,#ecfeff,#cffafe);border:1px solid #a5f3fc;border-radius:10px;padding:14px 16px;margin:6px 0 14px;">'
+            +   '<div style="font-size:12.5px;color:#155e75;line-height:1.5;margin-bottom:10px;">'
+            +     '<strong>✨ Auto-generate samples</strong> — Gemini 2.5 Pro writes the IELTS bands you tick below for the parts you select. Existing samples with content are <strong>preserved</strong>.'
+            +   '</div>'
+            +   '<div style="display:grid;grid-template-columns:max-content 1fr;gap:8px 14px;align-items:center;font-size:12.5px;color:#0f172a;">'
+            +     '<span style="font-weight:600;color:#155e75;">Bands:</span>'
+            +     '<div style="display:flex;flex-wrap:wrap;gap:10px 16px;">'
+            +       [5,6,7,8,9].map(function (b) {
+                      return '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" class="mmgIspGenBand" data-band="' + b + '" onchange="_mmgIspGenSamplesUpdateCost()"> Band ' + b + '</label>';
+                    }).join('')
+            +     '</div>'
+            +     '<span style="font-weight:600;color:#155e75;">Include:</span>'
+            +     '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="mmgIspGenIncludeUz" onchange="_mmgIspGenSamplesUpdateCost()"> Uzbek translations of the ticked bands</label>'
+            +     '<span style="font-weight:600;color:#155e75;">Parts:</span>'
+            +     '<div style="display:flex;flex-wrap:wrap;gap:10px 16px;">'
+            +       ['Part 1','Part 2','Part 3'].map(function (p) {
+                      return '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" class="mmgIspGenPart" data-part="' + p + '" onchange="_mmgIspGenSamplesUpdateCost()"> ' + p + '</label>';
+                    }).join('')
+            +     '</div>'
+            +     '<span style="font-weight:600;color:#155e75;">Main:</span>'
+            +     '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="mmgIspGenIncludeMain" onchange="_mmgIspGenSamplesUpdateCost()"> Also produce a Band 8 main model answer</label>'
+            +   '</div>'
+            +   '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;gap:10px;flex-wrap:wrap;">'
+            +     '<div id="mmgIspGenCostHint" style="font-size:11.5px;color:#64748b;font-weight:500;">Pick at least one band + one part to enable.</div>'
+            +     '<button type="button" id="mmgIspGenSamplesBtn" onclick="_mmgIspGenSamples()" disabled style="background:linear-gradient(135deg,#06b6d4,#0891b2);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12.5px;font-weight:700;cursor:not-allowed;opacity:.55;box-shadow:0 4px 10px rgba(8,145,178,.3);white-space:nowrap;">✨ Generate selected</button>'
+            +   '</div>'
+            + '</div>';
+      html += '<div id="mmgIspGenSamplesStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;font-weight:500;"></div>';
+
+      // Per-question sample editors. Each Q gets a collapsible block with
+      // band-chip row + active-band English / Uzbek textareas.
+      if (!md.questions.length) {
+        html += '<div class="mmg-empty-hint">No questions yet. Add or import questions on the Part tabs first.</div>';
+      } else {
+        var levels = _mmgLevelTabsFor('ielts-speaking');
+        window._mmgSpLevel = window._mmgSpLevel || {};
+        for (var qi = 0; qi < md.questions.length; qi++) {
+          var q = md.questions[qi];
+          if (!q) continue;
+          if (!window._mmgSpLevel[qi]) window._mmgSpLevel[qi] = 'main';
+          var idP = 'spQ' + qi;
+          var activeLevel = window._mmgSpLevel[qi];
+          var activeLevelDef = levels.find(function (L) { return L.key === activeLevel; }) || levels[0];
+          var levelChips = levels.map(function (L) {
+            var dot = _mmgLevelStatus(q, L);
+            return '<button type="button" class="mmg-level-chip' + (L.key === activeLevel ? ' active' : '') + '" '
+              + 'onclick="_mmgIspPickLevel(' + qi + ', \'' + L.key + '\')">'
+              + '<span class="mmg-level-dot mmg-level-dot-' + dot.charCodeAt(0) + '">' + dot + '</span> '
+              + _mmgEsc(L.label) + '</button>';
+          }).join('');
+          var promptPreview = String(q.prompt || '').replace(/\s+/g, ' ').slice(0, 90);
+          if (q.prompt && q.prompt.length > 90) promptPreview += '…';
+          html += '<details class="mmg-q-block" data-q-index="' + qi + '" open style="margin-bottom:10px;">'
+                +   '<summary class="mmg-q-summary" style="cursor:pointer;padding:6px 8px;background:#f1f5f9;border-radius:6px;font-weight:700;">'
+                +     'Q' + (q.number || (qi + 1)) + ' · ' + _mmgEsc(q.part || '')
+                +     (promptPreview ? ' · <span style="font-weight:400;color:#64748b;">' + _mmgEsc(promptPreview) + '</span>' : '')
+                +   '</summary>'
+                +   '<div style="padding:10px 4px;">'
+                +     '<div class="mmg-level-chips" style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px;">' + levelChips + '</div>'
+                +     '<div class="mmg-sample-pair" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">'
+                +       '<div>' + _mmgFieldSample('English (' + activeLevelDef.label + ')', idP + '_en_' + activeLevel, q[activeLevelDef.enKey] || '', '') + '</div>'
+                +       '<div>' + _mmgFieldArea('Uzbek (' + activeLevelDef.label + ')', idP + '_uz_' + activeLevel, q[activeLevelDef.uzKey] || '', '', 200) + '</div>'
+                +     '</div>'
+                +   '</div>'
+                + '</details>';
+        }
+      }
+
+      pane.innerHTML = html;
+    }
+
+    // Flush sample textareas on the Samples tab back into mock_data.questions
+    // before re-rendering (chip switch / Save / level change).
+    function _mmgCollectIspSamples(md) {
+      if (!md) return;
+      md.questions = Array.isArray(md.questions) ? md.questions : [];
+      var levels = _mmgLevelTabsFor('ielts-speaking');
+      window._mmgSpLevel = window._mmgSpLevel || {};
+      for (var qi = 0; qi < md.questions.length; qi++) {
+        var activeLevel = window._mmgSpLevel[qi] || 'main';
+        var levelDef = levels.find(function (L) { return L.key === activeLevel; });
+        if (!levelDef) continue;
+        var enEl = document.getElementById('spQ' + qi + '_en_' + activeLevel);
+        var uzEl = document.getElementById('spQ' + qi + '_uz_' + activeLevel);
+        if (enEl && md.questions[qi]) md.questions[qi][levelDef.enKey] = enEl.value;
+        if (uzEl && md.questions[qi]) md.questions[qi][levelDef.uzKey] = uzEl.value;
+      }
+    }
+
+    window._mmgIspPickLevel = function (qIndex, level) {
+      var md = _mmgGetMockData(); if (!md) return;
+      _mmgCollectIspSamples(md);
+      _mmgSetMockData(md);
+      window._mmgSpLevel = window._mmgSpLevel || {};
+      window._mmgSpLevel[qIndex] = level;
+      _mmgRenderIspSamples(md);
+    };
+
+    window._mmgIspGenSamplesUpdateCost = function () {
+      var bands = Array.from(document.querySelectorAll('.mmgIspGenBand:checked')).map(function (el) { return parseInt(el.dataset.band, 10); });
+      var parts = Array.from(document.querySelectorAll('.mmgIspGenPart:checked')).map(function (el) { return el.dataset.part; });
+      var incUz   = !!document.getElementById('mmgIspGenIncludeUz')?.checked;
+      var incMain = !!document.getElementById('mmgIspGenIncludeMain')?.checked;
+      var btn = document.getElementById('mmgIspGenSamplesBtn');
+      var hint = document.getElementById('mmgIspGenCostHint');
+      if (!btn || !hint) return;
+      var enabled = bands.length > 0 && parts.length > 0;
+      btn.disabled = !enabled;
+      btn.style.cursor = enabled ? 'pointer' : 'not-allowed';
+      btn.style.opacity = enabled ? 1 : 0.55;
+      if (!enabled) {
+        hint.textContent = bands.length === 0 && parts.length === 0
+          ? 'Pick at least one band + one part to enable.'
+          : bands.length === 0 ? 'Pick at least one band.' : 'Pick at least one part.';
+        return;
+      }
+      var bandsLabel = bands.sort(function (a, b) { return a - b; }).map(function (b) { return 'B' + b; }).join(' / ');
+      hint.textContent = bandsLabel + ' × ' + parts.join(', ')
+        + (incUz   ? ' (×2 for Uz)' : '')
+        + (incMain ? ' + Main'      : '');
+    };
+
+    window._mmgIspGenSamples = async function () {
+      function setStatus(msg, color) {
+        var s = document.getElementById('mmgIspGenSamplesStatus');
+        if (s) { s.textContent = msg; s.style.color = color || '#64748b'; }
+      }
+      setStatus('Sample-generation backend lands in the next push — UI is staged. Click again once it deploys.', '#d97706');
+    };
+
+    window._mmgIspGenVocab = async function () {
+      function setStatus(msg, color) {
+        var s = document.getElementById('mmgIspGenVocabStatus');
+        if (s) { s.textContent = msg; s.style.color = color || '#64748b'; }
+      }
+      setStatus('Vocab-generation backend lands in the next push — UI is staged. Click again once it deploys.', '#d97706');
+    };
+
     // Click handlers for the inner-navigation chips.
     function _mmgSamplesPickTask(taskKey) {
       var md = _mmgGetMockData(); if (!md) return;
@@ -36151,6 +36319,8 @@
     }
     function _mmgCollectSamples(md) {
       var type = _mmgCurrentType();
+      // IELTS Speaking samples live per-question on the new Samples tab.
+      if (type === 'ielts-speaking') { _mmgCollectIspSamples(md); return; }
       md.tasks = md.tasks || {};
       if (type === 'cefr-writing') {
         var cwAllFields = ['sample','sampleA1','sampleA2','sampleB1','sampleB2',
@@ -36221,6 +36391,19 @@
               +   '<button type="button" id="mmgIwGenVocabBtn" onclick="_mmgIwGenVocab()" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(124,58,237,.3);white-space:nowrap;">✨ Generate</button>'
               + '</div>';
         html += '<div id="mmgIwGenVocabStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;font-weight:500;"></div>';
+      }
+
+      // IELTS Speaking — ✨ Auto-generate topical EN↔UZ vocab for the
+      // active part. Reads ALL questions in that part as context.
+      if (_mmgCurrentType() === 'ielts-speaking') {
+        html += '<div style="background:linear-gradient(135deg,#ecfeff,#cffafe);border:1px solid #a5f3fc;border-radius:10px;padding:12px 14px;margin:8px 0 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">'
+              +   '<div style="flex:1;min-width:240px;font-size:12px;color:#155e75;line-height:1.5;">'
+              +     '<strong>✨ Auto-generate vocabulary</strong> — Gemini 2.5 Pro reads every question in the active Part and emits topical English↔Uzbek pairs. Skips duplicates that are already on the list.'
+              +   '</div>'
+              +   '<input type="number" id="mmgIspVocabCount" value="20" min="5" max="60" style="width:64px;border:1px solid #cbd5e1;border-radius:6px;padding:6px 8px;font-size:12.5px;text-align:right;" title="How many entries to generate (5–60)">'
+              +   '<button type="button" id="mmgIspGenVocabBtn" onclick="_mmgIspGenVocab()" style="background:linear-gradient(135deg,#06b6d4,#0891b2);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(8,145,178,.3);white-space:nowrap;">✨ Generate</button>'
+              + '</div>';
+        html += '<div id="mmgIspGenVocabStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;font-weight:500;"></div>';
       }
 
       // Task chip row (count + filled dot per chip).
