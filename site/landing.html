@@ -19417,6 +19417,10 @@
         ispetClose({ keepUrl: true });
         // Cancel on the mode modal should reopen ispetPicker, not land.
         window._spkModalSourcePicker = 'ispet';
+        // Override the return-to-picker key — see cspet handler above
+        // for the full rationale (handleSpeakingMockClick writes the
+        // old category key, two landing handlers act on it).
+        sessionStorage.setItem('speakingMockReturnPicker', 'ispet');
         if (typeof handleSpeakingMockClick === 'function') {
           handleSpeakingMockClick(pageUrl, 'ielts-speaking');
         } else {
@@ -19784,6 +19788,12 @@
         // from this picker, so Cancel reopens the picker instead of
         // dropping the student back on the landing page.
         window._spkModalSourcePicker = 'cspet';
+        // ALSO override the return-to-picker key that handleSpeakingMockClick
+        // writes to sessionStorage. Without this, the two landing-init
+        // return handlers (checkSpeakingReturnCategory + the inline one)
+        // see speakingMockReturnCategory='cefr-speaking' and open the
+        // OLD openSpeakingCategoryModal popup when the runner exits.
+        sessionStorage.setItem('speakingMockReturnPicker', 'cspet');
         // Hand off to the existing speaking-launch flow: access-code gate
         // (when required) → mode-select modal (Full / Part-based) →
         // loadMock with the smooth overlay transition. Skipping this
@@ -20782,9 +20792,22 @@
         setTimeout(function () { openWritingCategoryModal(returnCat); }, 350);
       }
 
-      // Re-open the speaking mock selector popup the user came from
+      // Re-open the speaking mock selector the user came from.
+      // The new fullscreen pickers (cspet / ispet) stash a picker key so
+      // we route to THEM instead of the legacy popup that
+      // handleSpeakingMockClick's category key would resolve to.
+      const returnSpeakingPicker = sessionStorage.getItem('speakingMockReturnPicker');
       const returnSpeakingCat = sessionStorage.getItem('speakingMockReturnCategory');
-      if (returnSpeakingCat) {
+      if (returnSpeakingPicker === 'cspet' && typeof cspetOpen === 'function') {
+        sessionStorage.removeItem('speakingMockReturnPicker');
+        sessionStorage.removeItem('speakingMockReturnCategory');
+        setTimeout(function () { cspetOpen(); }, 350);
+      } else if (returnSpeakingPicker === 'ispet' && typeof ispetOpen === 'function') {
+        sessionStorage.removeItem('speakingMockReturnPicker');
+        sessionStorage.removeItem('speakingMockReturnCategory');
+        setTimeout(function () { ispetOpen(); }, 350);
+      } else if (returnSpeakingCat) {
+        sessionStorage.removeItem('speakingMockReturnPicker');
         sessionStorage.removeItem('speakingMockReturnCategory');
         setTimeout(function () { openSpeakingCategoryModal(returnSpeakingCat); }, 350);
       }
@@ -29533,11 +29556,24 @@
       }
     })();
 
-    // Auto-open the speaking mock selector if returning from a completed speaking exam
+    // Auto-open the speaking mock selector if returning from a completed
+    // speaking exam. Prefer the new fullscreen pickers (cspet / ispet)
+    // when the launch came from them — otherwise fall back to the legacy
+    // openSpeakingCategoryModal popup.
     (function checkSpeakingReturnCategory() {
       if (window.__openSelectorTarget) return;
+      const returnPicker = sessionStorage.getItem('speakingMockReturnPicker');
       const returnCat = sessionStorage.getItem('speakingMockReturnCategory');
-      if (returnCat) {
+      if (returnPicker === 'cspet' && typeof cspetOpen === 'function') {
+        sessionStorage.removeItem('speakingMockReturnPicker');
+        sessionStorage.removeItem('speakingMockReturnCategory');
+        setTimeout(function () { cspetOpen(); }, 400);
+      } else if (returnPicker === 'ispet' && typeof ispetOpen === 'function') {
+        sessionStorage.removeItem('speakingMockReturnPicker');
+        sessionStorage.removeItem('speakingMockReturnCategory');
+        setTimeout(function () { ispetOpen(); }, 400);
+      } else if (returnCat) {
+        sessionStorage.removeItem('speakingMockReturnPicker');
         sessionStorage.removeItem('speakingMockReturnCategory');
         setTimeout(function () { openSpeakingCategoryModal(returnCat); }, 400);
       }
