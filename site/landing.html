@@ -11608,10 +11608,23 @@
 
     function closeSpeakingModeModal() {
       document.getElementById('speakingModeModal').style.display = 'none';
+      // Picker-aware Cancel: if the speaking-mode modal was opened from
+      // one of the new fullscreen pickers (cspetPicker / ispetPicker),
+      // reopen that picker so the student can pick a different mock
+      // instead of being dropped back on the landing page. Cleared after
+      // reopen so a follow-up close (e.g. from a different launch source)
+      // doesn't re-trigger the picker.
+      var src = window._spkModalSourcePicker;
+      window._spkModalSourcePicker = null;
+      if (src === 'cspet' && typeof cspetOpen === 'function') { cspetOpen(); }
+      else if (src === 'ispet' && typeof ispetOpen === 'function') { ispetOpen(); }
     }
 
     function _speakingModeFullMock() {
       if (!_pendingSpeakingLaunch) return;
+      // Picking a mode means we're proceeding into the runner — don't
+      // re-open the source picker when closeSpeakingModeModal runs.
+      window._spkModalSourcePicker = null;
       closeSpeakingModeModal();
       var url = _pendingSpeakingLaunch.pageUrl;
       if (_isSpeakingPremiumAi()) {
@@ -11622,6 +11635,9 @@
     }
 
     function _speakingModePartBased() {
+      // Picking a mode means we're proceeding (to the part picker, then
+      // the runner) — don't re-open the source picker when the close fires.
+      window._spkModalSourcePicker = null;
       closeSpeakingModeModal();
       var container = document.getElementById('speakingPartPickerButtons');
       var pickerTitle = document.getElementById('speakingPartPickerTitle');
@@ -19205,7 +19221,7 @@
 
     async function _ispetLoadAllMockMeta() {
       try {
-        const resp = await fetch(`${_ISPET_SB_URL}/rest/v1/mock_tests?mock_type=eq.ielts-speaking&status=eq.published&select=mock_number,mock_data,title`, {
+        const resp = await fetch(`${_ISPET_SB_URL}/rest/v1/mock_tests?mock_type=eq.ielts-speaking&status=eq.published&select=id,mock_number,mock_data,title`, {
           headers: { 'apikey': _ISPET_SB_KEY, 'Authorization': 'Bearer ' + _ISPET_SB_KEY }
         });
         if (!resp.ok) return;
@@ -19214,6 +19230,10 @@
           const padded = String(r.mock_number).padStart(2, '0');
           const meta = _ispetBuildMetaFromMockData(r.mock_data);
           if (r.title && !meta.title) meta.title = r.title;
+          // sbId is the mock_tests.id — IELTS Speaking Mocks.html loads
+          // via ?sbmock=<id>. All IELTS Speaking mocks are Supabase-only
+          // after the Phase 3 migration.
+          meta.sbId = r.id;
           _ispetMockMeta[padded] = meta;
         }
       } catch (_e) { /* swallow — picker still renders empty grid */ }
@@ -19378,14 +19398,30 @@
           }
           return;
         }
-        // Take Test → navigate to the speaking runner. Mirror the existing
-        // openSpeakingCategoryModal launch path: it opens "Speaking Mocks.html"
-        // with the mock param.
-        try { history.pushState(null, '', '/take/ielts-speaking-' + encodeURIComponent(mockN)); } catch (_e) {}
+        // Take Test → IELTS speaking runner. All mocks Supabase-only, so
+        // route via ?sbmock=<id>&num=<padded>. Hand off to the existing
+        // handleSpeakingMockClick pipeline so the access-code gate +
+        // mode-select modal (Full / Part-based) + smooth loading overlay
+        // all run, and the candidate-name modal reuses the welcome-page
+        // value instead of prompting again.
         const padded = String(mockN).padStart(2, '0');
-        const url = 'IELTS Speaking Mocks.html?test=ielts-speaking-mock-' + padded + '&auto=1';
+        const meta = _ispetMockMeta[padded] || {};
+        const sbId = meta.sbId;
+        if (!sbId) {
+          alert('Could not locate this mock in the database (mock #' + padded + '). Please refresh and try again.');
+          return;
+        }
+        const pageUrl = 'IELTS Speaking Mocks.html?sbmock=' + encodeURIComponent(sbId)
+                      + '&num=' + encodeURIComponent(padded);
+        try { history.pushState(null, '', '/take/ielts-speaking-' + encodeURIComponent(mockN)); } catch (_e) {}
         ispetClose({ keepUrl: true });
-        window.location.href = url;
+        // Cancel on the mode modal should reopen ispetPicker, not land.
+        window._spkModalSourcePicker = 'ispet';
+        if (typeof handleSpeakingMockClick === 'function') {
+          handleSpeakingMockClick(pageUrl, 'ielts-speaking');
+        } else {
+          window.location.href = pageUrl + '&auto=1&action=practice';
+        }
       });
 
       document.addEventListener('keydown', function (e) {
@@ -19557,7 +19593,7 @@
 
     async function _cspetLoadAllMockMeta() {
       try {
-        const resp = await fetch(`${_CSPET_SB_URL}/rest/v1/mock_tests?mock_type=eq.cefr-speaking&status=eq.published&select=mock_number,mock_data,title`, {
+        const resp = await fetch(`${_CSPET_SB_URL}/rest/v1/mock_tests?mock_type=eq.cefr-speaking&status=eq.published&select=id,mock_number,mock_data,title`, {
           headers: { 'apikey': _CSPET_SB_KEY, 'Authorization': 'Bearer ' + _CSPET_SB_KEY }
         });
         if (!resp.ok) return;
@@ -19566,6 +19602,10 @@
           const padded = String(r.mock_number).padStart(2, '0');
           const meta = _cspetBuildMetaFromMockData(r.mock_data);
           if (r.title && !meta.title) meta.title = r.title;
+          // sbId is the mock_tests.id — Speaking Mocks.html loads the mock
+          // via ?sbmock=<id>. CEFR Speaking has no static JS fallback any
+          // more, so this is the ONLY working route.
+          meta.sbId = r.id;
           _cspetMockMeta[padded] = meta;
         }
       } catch (_e) { /* swallow — picker still renders empty grid */ }
@@ -19725,11 +19765,37 @@
           }
           return;
         }
-        try { history.pushState(null, '', '/take/cefr-speaking-' + encodeURIComponent(mockN)); } catch (_e) {}
         const padded = String(mockN).padStart(2, '0');
-        const url = 'Speaking Mocks.html?test=cefr-speaking-mock-' + padded + '&auto=1';
+        // All CEFR Speaking mocks live in Supabase (Phase 3 migration —
+        // no static questions.js files remain). Route via ?sbmock=<id>
+        // + ?num=<padded> so the runner can show the correct mock # in
+        // its modals even though the row id is unrelated to the number.
+        const meta = _cspetMockMeta[padded] || {};
+        const sbId = meta.sbId;
+        if (!sbId) {
+          alert('Could not locate this mock in the database (mock #' + padded + '). Please refresh and try again.');
+          return;
+        }
+        const pageUrl = 'Speaking Mocks.html?sbmock=' + encodeURIComponent(sbId)
+                      + '&num=' + encodeURIComponent(padded);
+        try { history.pushState(null, '', '/take/cefr-speaking-' + encodeURIComponent(mockN)); } catch (_e) {}
         cspetClose({ keepUrl: true });
-        window.location.href = url;
+        // Tell closeSpeakingModeModal that the mode modal was launched
+        // from this picker, so Cancel reopens the picker instead of
+        // dropping the student back on the landing page.
+        window._spkModalSourcePicker = 'cspet';
+        // Hand off to the existing speaking-launch flow: access-code gate
+        // (when required) → mode-select modal (Full / Part-based) →
+        // loadMock with the smooth overlay transition. Skipping this
+        // pipeline causes the runner to bounce back to landing AND skip
+        // the candidate-name short-circuit that reuses the welcome-page
+        // value.
+        if (typeof handleSpeakingMockClick === 'function') {
+          handleSpeakingMockClick(pageUrl, 'cefr-speaking');
+        } else {
+          // Last-resort fallback if the helper isn't loaded yet.
+          window.location.href = pageUrl + '&auto=1&action=practice';
+        }
       });
 
       document.addEventListener('keydown', function (e) {
