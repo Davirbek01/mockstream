@@ -35474,8 +35474,31 @@
       }
 
       var bulletsHtml = '';
-      if (type === 'ielts-speaking' && _mmgQuestionPartKey(q) === 'part2' && q.part === 'Part 2') {
-        bulletsHtml = _mmgFieldBulletList('Cue card bullet points', idP + '_bullets', q.bulletPoints || []);
+      // IELTS Speaking Part 2: prompt + bullets are presented as ONE
+      // textarea — easier to read and edit. Parsing back is handled in
+      // _mmgCollectQuestionBlock. Follow-ups (no bullets) just show as
+      // a plain prompt; the cue card shows "You should say:" + bullets.
+      var isIspPart2 = (type === 'ielts-speaking' && q.part === 'Part 2');
+      var promptValue = q.prompt || '';
+      var promptHeight = 80;
+      var promptLabel = 'Prompt';
+      var promptHelp  = '';
+      if (isIspPart2) {
+        var ispBullets = Array.isArray(q.bulletPoints) ? q.bulletPoints : [];
+        if (ispBullets.length || (q.prepTime != null && q.prepTime >= 60)) {
+          // Cue card — combine bullets into the prompt for editing.
+          var combined = String(q.prompt || '').replace(/\s+$/, '');
+          if (ispBullets.length) {
+            combined += (combined ? '\n\n' : '') + 'You should say:';
+            for (var bi = 0; bi < ispBullets.length; bi++) {
+              combined += '\n  ' + String(ispBullets[bi] || '').trim();
+            }
+          }
+          promptValue  = combined;
+          promptHeight = 200;
+          promptLabel  = 'Cue card (prompt + bullets)';
+          promptHelp   = 'Write the cue card on one line, then a blank line, then "You should say:" and one bullet per line (any leading dashes or spaces are stripped on save).';
+        }
       }
 
       var levelChips = levels.map(function(L) {
@@ -35522,7 +35545,7 @@
         +       'Q' + (q.number || (qIndex + 1)) + ' · ' + _mmgEsc(q.part || '') + headerExtras
         +     '</summary>'
         +     '<div class="mmg-q-body" style="display:flex;flex-direction:column;gap:10px;padding:10px 4px;">'
-        +       _mmgFieldArea('Prompt', idP + '_prompt', q.prompt || '', '', 80)
+        +       _mmgFieldArea(promptLabel, idP + '_prompt', promptValue, promptHelp, promptHeight)
         +       audioHtml + timingHtml + imagesHtml + bulletsHtml + inlineSamples + inlineVocab
         +     '</div>'
         + '</details>';
@@ -35546,7 +35569,36 @@
       var type = _mmgCurrentType();
 
       var promptEl = document.getElementById(idP + '_prompt');
-      if (promptEl) q.prompt = promptEl.value;
+      if (promptEl) {
+        // IELTS Speaking Part 2: the prompt textarea contains BOTH the
+        // cue card text AND its bullets, joined by a "You should say:"
+        // header. Split them back so q.prompt + q.bulletPoints stay
+        // structured for the runner. Follow-ups have no header and
+        // pass through as a plain prompt.
+        if (type === 'ielts-speaking' && q.part === 'Part 2') {
+          var raw = String(promptEl.value || '');
+          var lines = raw.split(/\r?\n/);
+          var hsIdx = -1;
+          for (var li = 0; li < lines.length; li++) {
+            if (/^\s*you\s+should\s+say\s*:?\s*$/i.test(lines[li])) { hsIdx = li; break; }
+          }
+          if (hsIdx >= 0) {
+            q.prompt = lines.slice(0, hsIdx).join('\n').replace(/\s+$/, '');
+            var bArr2 = [];
+            for (var li2 = hsIdx + 1; li2 < lines.length; li2++) {
+              var clean = lines[li2].replace(/^[\s•\-\*•]+/, '').trim();
+              if (clean) bArr2.push(clean);
+            }
+            q.bulletPoints = bArr2;
+          } else {
+            q.prompt = raw.replace(/\s+$/, '');
+            // No "You should say:" header — treat as a follow-up: no bullets.
+            q.bulletPoints = [];
+          }
+        } else {
+          q.prompt = promptEl.value;
+        }
+      }
 
       var audioEl = document.getElementById(idP + '_audio');
       if (audioEl) q.audioFile = audioEl.value;
