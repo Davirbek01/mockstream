@@ -33446,12 +33446,18 @@
         html += '<div id="mmgIwAutoTagStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;font-weight:500;"></div>';
       }
 
-      // Speaking-only extras: images, voice picker, IELTS announcements, bulk-audio button.
+      // Speaking-only extras: images (CEFR only), voice picker, IELTS announcements, bulk-audio button.
       if (type === 'cefr-speaking' || type === 'ielts-speaking') {
-        var images = (md.images = md.images || {});
-        html += '<div class="mmg-section-title">Top-level images (used by hasImages questions)</div>';
-        html += _mmgImageRow('img1', images.img1, images.img1Alt);
-        html += _mmgImageRow('img2', images.img2, images.img2Alt);
+        // Only CEFR Speaking uses the top-level image slots — Q4 prompts
+        // the candidate to describe one of two pictures. IELTS Speaking
+        // is purely verbal (no images on any of its 3 parts), so the
+        // image section is hidden for ielts-speaking.
+        if (type === 'cefr-speaking') {
+          var images = (md.images = md.images || {});
+          html += '<div class="mmg-section-title">Top-level images (used by hasImages questions)</div>';
+          html += _mmgImageRow('img1', images.img1, images.img1Alt);
+          html += _mmgImageRow('img2', images.img2, images.img2Alt);
+        }
         html += _mmgRenderVoicePreviewGrid(md);
         if (type === 'ielts-speaking') {
           var ann = (md.announcements = md.announcements || {});
@@ -33468,8 +33474,8 @@
 
       document.getElementById('mmgPaneSettings').innerHTML = html;
 
-      // Wire image upload buttons (speaking only).
-      if (type === 'cefr-speaking' || type === 'ielts-speaking') {
+      // Wire image upload buttons (CEFR Speaking only — IELTS has no images).
+      if (type === 'cefr-speaking') {
         _mmgUploadBind({ id: 'mmgSetImg1', skill: type });
         _mmgUploadBind({ id: 'mmgSetImg2', skill: type });
       }
@@ -33569,12 +33575,17 @@
       }
 
       if (type === 'cefr-speaking' || type === 'ielts-speaking') {
-        md.images = md.images || {};
         var get = function (id) { var e = document.getElementById(id); return e ? e.value : undefined; };
-        if (get('mmgSetImg1')    !== undefined) md.images.img1    = get('mmgSetImg1');
-        if (get('mmgSetImg1Alt') !== undefined) md.images.img1Alt = get('mmgSetImg1Alt');
-        if (get('mmgSetImg2')    !== undefined) md.images.img2    = get('mmgSetImg2');
-        if (get('mmgSetImg2Alt') !== undefined) md.images.img2Alt = get('mmgSetImg2Alt');
+        // Images live in mock_data.images for CEFR Speaking only (Q4
+        // uses two pictures). IELTS Speaking's settings tab no longer
+        // renders these fields, so we skip the collection too.
+        if (type === 'cefr-speaking') {
+          md.images = md.images || {};
+          if (get('mmgSetImg1')    !== undefined) md.images.img1    = get('mmgSetImg1');
+          if (get('mmgSetImg1Alt') !== undefined) md.images.img1Alt = get('mmgSetImg1Alt');
+          if (get('mmgSetImg2')    !== undefined) md.images.img2    = get('mmgSetImg2');
+          if (get('mmgSetImg2Alt') !== undefined) md.images.img2Alt = get('mmgSetImg2Alt');
+        }
 
         if (type === 'ielts-speaking') {
           md.announcements = md.announcements || {};
