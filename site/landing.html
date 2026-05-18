@@ -11608,10 +11608,23 @@
 
     function closeSpeakingModeModal() {
       document.getElementById('speakingModeModal').style.display = 'none';
+      // Picker-aware Cancel: if the speaking-mode modal was opened from
+      // one of the new fullscreen pickers (cspetPicker / ispetPicker),
+      // reopen that picker so the student can pick a different mock
+      // instead of being dropped back on the landing page. Cleared after
+      // reopen so a follow-up close (e.g. from a different launch source)
+      // doesn't re-trigger the picker.
+      var src = window._spkModalSourcePicker;
+      window._spkModalSourcePicker = null;
+      if (src === 'cspet' && typeof cspetOpen === 'function') { cspetOpen(); }
+      else if (src === 'ispet' && typeof ispetOpen === 'function') { ispetOpen(); }
     }
 
     function _speakingModeFullMock() {
       if (!_pendingSpeakingLaunch) return;
+      // Picking a mode means we're proceeding into the runner — don't
+      // re-open the source picker when closeSpeakingModeModal runs.
+      window._spkModalSourcePicker = null;
       closeSpeakingModeModal();
       var url = _pendingSpeakingLaunch.pageUrl;
       if (_isSpeakingPremiumAi()) {
@@ -11622,6 +11635,9 @@
     }
 
     function _speakingModePartBased() {
+      // Picking a mode means we're proceeding (to the part picker, then
+      // the runner) — don't re-open the source picker when the close fires.
+      window._spkModalSourcePicker = null;
       closeSpeakingModeModal();
       var container = document.getElementById('speakingPartPickerButtons');
       var pickerTitle = document.getElementById('speakingPartPickerTitle');
@@ -19399,6 +19415,8 @@
                       + '&num=' + encodeURIComponent(padded);
         try { history.pushState(null, '', '/take/ielts-speaking-' + encodeURIComponent(mockN)); } catch (_e) {}
         ispetClose({ keepUrl: true });
+        // Cancel on the mode modal should reopen ispetPicker, not land.
+        window._spkModalSourcePicker = 'ispet';
         if (typeof handleSpeakingMockClick === 'function') {
           handleSpeakingMockClick(pageUrl, 'ielts-speaking');
         } else {
@@ -19762,6 +19780,10 @@
                       + '&num=' + encodeURIComponent(padded);
         try { history.pushState(null, '', '/take/cefr-speaking-' + encodeURIComponent(mockN)); } catch (_e) {}
         cspetClose({ keepUrl: true });
+        // Tell closeSpeakingModeModal that the mode modal was launched
+        // from this picker, so Cancel reopens the picker instead of
+        // dropping the student back on the landing page.
+        window._spkModalSourcePicker = 'cspet';
         // Hand off to the existing speaking-launch flow: access-code gate
         // (when required) → mode-select modal (Full / Part-based) →
         // loadMock with the smooth overlay transition. Skipping this
