@@ -18929,13 +18929,23 @@
         if (q && q.topic) return String(q.topic).trim();
         return '';  // Empty → card shows "Follow-up questions" placeholder.
       }
-      const readyCount = qs.filter(q => q && (q.audioFile || q.prompt)).length;
+      // Card "ready" status is by PART, not by individual question.
+      // IELTS Speaking always has 3 parts; a part counts as "ready" when
+      // it has at least one question with a non-empty prompt. Question
+      // counts vary between mocks (some Part 1 has 5 Qs, some 8) so the
+      // x/y count would be misleading for students.
+      const partReady = (partLabel) => {
+        const arr = grouped[partLabel] || [];
+        return arr.some(q => q && String(q.prompt || '').trim());
+      };
+      const readyCount = ['Part 1','Part 2','Part 3'].filter(partReady).length;
       return {
         p1Topic:    p1TopicFor(grouped['Part 1'][0]),
         p2Topic:    p2TopicFor(grouped['Part 2'][0]),
         p3Topic:    p3TopicFor(grouped['Part 3'][0]),
-        qCount:     qs.length,
-        readyCount,
+        qCount:     3,             // always 3 parts on a card
+        readyCount,                // 0-3, counting parts not questions
+        actualQCount: qs.length,   // total Qs (used internally, not shown)
         examDate:   String(m.examDate || '').trim(),
         title:      String(m.title || '').trim(),
         topicsAll:  [
@@ -18956,7 +18966,9 @@
 
     function _ispetCardHtml(mockNum, meta, doneInfo) {
       const padded = String(mockNum).padStart(2, '0');
-      const readyOf = meta.qCount > 0 ? (meta.readyCount + '/' + meta.qCount + ' READY') : 'No questions yet';
+      const readyOf = meta.readyCount > 0
+        ? (meta.readyCount + '/' + meta.qCount + ' READY')
+        : 'Not ready yet';
       const fullyReady = meta.qCount > 0 && meta.readyCount === meta.qCount;
       const partRow = (n, topic) => {
         const label = '<span class="ispet-part-label">PART ' + n + '</span>';
