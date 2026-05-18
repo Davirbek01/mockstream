@@ -33104,14 +33104,13 @@
     // has moduleTitle/timeInfo. Both share logoUrl/logoWording/testIdentifier.
     function _mmgSettingsKeysForType(type) {
       if (type === 'cefr-speaking' || type === 'ielts-speaking') {
-        return [
-          { k: 'logoUrl',         label: 'Logo URL',         help: 'Image URL for the logo.' },
-          { k: 'logoWording',     label: 'Logo wording',     help: 'Text next to the logo (e.g., "Mock Stream").' },
-          { k: 'telegramChannel', label: 'Telegram channel', help: 'e.g., @mock_stream — used in the report header.' },
-          { k: 'testIdentifier',  label: 'Test identifier',  help: 'Internal ID — leave as "mock_stream" unless you know why.' },
-          { k: 'heading1',        label: 'Heading 1',        help: 'First centred heading (org name in Uzbek).' },
-          { k: 'heading2',        label: 'Heading 2',        help: 'Second centred heading (test description).' }
-        ];
+        // Logo / headings / Telegram channel / identifier come from
+        // per-clone SITE_CONFIG branding + the mock's own Title field.
+        // The fields used to live here as a manual edit form, but the
+        // runner doesn't need them set per-mock anymore. Existing
+        // stored settings.* values are preserved on save (the collector
+        // only writes back what's present in the DOM).
+        return [];
       }
       if (type === 'ielts-writing' || type === 'cefr-writing') {
         // Logo / heading / module-title / time-info were legacy fields —
