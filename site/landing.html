@@ -8124,6 +8124,45 @@
     </div>
   </div>
 
+  <!-- ===== Full-screen IELTS Speaking picker (ispetPicker) ===== -->
+  <!-- IELTS Speaking has 3 parts: Part 1 (warm-up Qs across 1-3 topics),
+       Part 2 (cue-card + 2 follow-ups, single topic), Part 3 (deeper Qs
+       on Part 2's theme). Card chips reflect the three parts. -->
+  <div id="ispetPicker" class="ilet-overlay" aria-hidden="true">
+    <header class="ilet-header">
+      <button class="ilet-back" type="button" onclick="ispetClose()" title="Back to landing">←</button>
+      <div class="ilet-title">
+        <span class="ilet-title-emoji">🎤</span>
+        <span class="ilet-title-text">IELTS Speaking</span>
+        <span class="ilet-count" id="ispetCount">0</span>
+      </div>
+      <div class="ilet-header-tools">
+        <input type="search" class="ilet-search" id="ispetSearch" placeholder="🔍 Search mock #, topic, cue card…" autocomplete="off" spellcheck="false">
+        <select class="ilet-sort" id="ispetJump" title="Jump to mock #">
+          <option value="">Jump to #…</option>
+        </select>
+      </div>
+    </header>
+
+    <div class="ilet-filter-row ispet-filter-row">
+      <button type="button" class="ilet-chip ilet-chip-active ispet-chip" data-filter="all">All</button>
+      <button type="button" class="ilet-chip ispet-chip" data-filter="ready">✓ Ready only</button>
+      <button type="button" class="ilet-chip ispet-chip" data-filter="soon">⏳ Coming soon</button>
+      <button type="button" class="ilet-chip ispet-chip" data-filter="done">★ Done before</button>
+      <select class="ilet-source-filter" id="ispetTopicFilter" title="Filter by topic">
+        <option value="">🏷 All topics</option>
+      </select>
+    </div>
+
+    <main class="ilet-grid" id="ispetGrid"></main>
+
+    <div class="ilet-empty" id="ispetEmpty" style="display:none;">
+      <div class="ilet-empty-icon">🔍</div>
+      <p class="ilet-empty-msg">No mocks match your filters.</p>
+      <button type="button" class="ilet-empty-clear" onclick="ispetClearFilters()">Clear filters</button>
+    </div>
+  </div>
+
   <style>
     /* ===== Full-screen IELTS Reading picker ===== */
     .iret-overlay {
@@ -8801,6 +8840,133 @@
       border-color: #6d28d9;
     }
     #cwetPicker .cwet-share.cwet-share-copied {
+      background: #dcfce7;
+      border-color: #86efac;
+      color: #15803d;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    /* ===== IELTS Speaking picker (ispetPicker) — sky-blue tone =====
+       Mirrors cwetPicker but with a sky / cyan palette to distinguish
+       IELTS Speaking from CEFR Writing (purple) and IELTS Writing
+       (orange). Reuses .ilet-* layout classes for grid + header. */
+    #ispetPicker.ilet-overlay {
+      background: linear-gradient(135deg, #ecfeff 0%, #cffafe 100%);
+    }
+    #ispetPicker .ilet-header {
+      background: rgba(236, 254, 255, 0.95);
+      border-bottom: 1px solid #a5f3fc;
+    }
+    #ispetPicker .ilet-back {
+      color: #0e7490;
+      border-color: #a5f3fc;
+    }
+    #ispetPicker .ilet-back:hover { background: #0e7490; color: #fff; }
+    #ispetPicker .ilet-title { color: #155e75; }
+    #ispetPicker .ilet-count {
+      background: #cffafe;
+      color: #0e7490;
+      border: 1px solid #67e8f9;
+    }
+    #ispetPicker .ilet-card {
+      background: linear-gradient(135deg, #f0fdfa 0%, #ecfeff 100%);
+      border: 1px solid #a5f3fc;
+    }
+    #ispetPicker .ilet-card:hover:not(.ilet-card-disabled) {
+      border-color: #06b6d4;
+      box-shadow: 0 8px 24px rgba(6, 182, 212, 0.2);
+    }
+    #ispetPicker .ilet-mocknum {
+      background: linear-gradient(135deg, #06b6d4, #0891b2);
+    }
+    #ispetPicker .ilet-take {
+      background: linear-gradient(135deg, #06b6d4, #0891b2);
+    }
+    #ispetPicker .ilet-take:hover {
+      background: linear-gradient(135deg, #0891b2, #0e7490);
+    }
+    #ispetPicker .ilet-chip-active {
+      background: #0e7490;
+      color: #fff;
+      border-color: #0e7490;
+    }
+    #ispetPicker .ilet-mock-title { color: #155e75; }
+    #ispetPicker .ispet-filter-row {
+      background: rgba(236, 254, 255, 0.6);
+      border-bottom: 1px solid #cffafe;
+    }
+    #ispetPicker .ispet-pill {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 1px 8px;
+      border-radius: 999px;
+      margin-right: 4px;
+      vertical-align: middle;
+      line-height: 1.5;
+      white-space: nowrap;
+      color: #0e7490;
+      background: #cffafe;
+      border: 1px solid #67e8f9;
+    }
+    #ispetPicker .ispet-part-heading {
+      display: flex;
+      align-items: center;
+      padding: 6px 4px;
+      border-top: 1px dashed #a5f3fc;
+      margin-top: 4px;
+      gap: 8px;
+    }
+    #ispetPicker .ispet-part-heading:first-of-type {
+      border-top: 0;
+      margin-top: 0;
+    }
+    #ispetPicker .ispet-part-label {
+      flex-shrink: 0;
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      color: #fff;
+      background: linear-gradient(135deg, #06b6d4, #0891b2);
+      padding: 2px 8px;
+      border-radius: 6px;
+      line-height: 1.4;
+    }
+    #ispetPicker .ispet-part-topic {
+      font-size: 12.5px;
+      color: #164e63;
+      font-weight: 500;
+      flex: 1;
+    }
+    #ispetPicker .ispet-exam-date {
+      font-size: 11px;
+      color: #155e75;
+      background: #cffafe;
+      border: 1px solid #67e8f9;
+      border-radius: 999px;
+      padding: 1px 8px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    #ispetPicker .ispet-share {
+      background: transparent;
+      border: 1px solid #67e8f9;
+      color: #0e7490;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+      transition: background 120ms ease, border-color 120ms ease;
+      margin-right: 8px;
+      white-space: nowrap;
+    }
+    #ispetPicker .ispet-share:hover {
+      background: #ecfeff;
+      border-color: #0e7490;
+    }
+    #ispetPicker .ispet-share.ispet-share-copied {
       background: #dcfce7;
       border-color: #86efac;
       color: #15803d;
@@ -16257,6 +16423,8 @@
       if (iwet && iwet.classList.contains('ilet-open')) { iwetClose(); return; }
       var cwet = document.getElementById('cwetPicker');
       if (cwet && cwet.classList.contains('ilet-open')) { cwetClose(); return; }
+      var ispet = document.getElementById('ispetPicker');
+      if (ispet && ispet.classList.contains('ilet-open')) { ispetClose(); return; }
     }
     function _pickerShowTmaBack() {
       try {
@@ -18489,9 +18657,23 @@
       try { history.pushState({ picker: 'cwet' }, ''); } catch (_e) {}
       if (typeof _pickerShowTmaBack === 'function') _pickerShowTmaBack();
 
-      // Render skeleton + fetch
+      // Render skeleton cards + fetch. Same shimmer treatment iret /
+      // iwet / cret / clet / ispet pickers use — fills the grid with
+      // .ilet-card-skeleton placeholders until the Supabase meta load
+      // returns, so the picker never looks blank on first open.
       const grid = document.getElementById('cwetGrid');
-      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#7c3aed;font-size:14px;">Loading CEFR Writing mocks…</div>';
+      const skelCount = Math.max(12, Object.keys(_cwetMockMeta).length || 12);
+      grid.innerHTML = Array.from({ length: skelCount }, () =>
+        '<div class="ilet-card-skeleton">'
+        + '<div class="ilet-skel-line short"></div>'
+        + '<div class="ilet-skel-line tall"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '</div>'
+      ).join('');
+      const cwetEmpty = document.getElementById('cwetEmpty');
+      if (cwetEmpty) cwetEmpty.style.display = 'none';
       await _cwetLoadAllMockMeta();
       // Build the list of items from the module-scoped cefrWritingMocks
       // array (populated at script-load by the legacy fetcher). Items
@@ -18629,6 +18811,421 @@
     window.cwetOpen         = cwetOpen;
     window.cwetClose        = cwetClose;
     window.cwetClearFilters = cwetClearFilters;
+
+    // ===== FULL-SCREEN IELTS SPEAKING PICKER (ispetPicker) =====
+    // Mirrors cwetPicker shape but for IELTS Speaking's 3-part structure:
+    //   • Part 1: 7 warm-up questions (1-3 topics)
+    //   • Part 2: cue-card (1 question) + 2 follow-ups (same topic)
+    //   • Part 3: 7 deeper questions on the Part 2 theme
+    // Card chips show one topic per part. Mocks are loaded from Supabase
+    // and cached briefly so the picker opens instantly after the first
+    // visit. Reuses _pickerShareMock / _pickerShowTmaBack helpers.
+    const _ISPET_SB_URL    = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    const _ISPET_SB_KEY    = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    const _ispetMockMeta   = {};   // mockNumStr -> { p1Topic, p2Topic, p3Topic, qCount, readyCount, examDate, title }
+    let   _ispetFilter      = 'all';
+    let   _ispetTopicFilter = '';
+    let   _ispetServerDone  = {};
+
+    function _ispetEsc(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
+
+    // Capitalize first letter only — the rest of the phrase is meant to
+    // read like a natural noun phrase (e.g. "A wild animal", not "A Wild Animal").
+    function _ispetCap(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''; }
+    function _ispetArticle(word) {
+      return /^[aeiouAEIOU]/.test(word) ? 'An ' : 'A ';
+    }
+
+    // Part 2 cue cards almost always start with "Describe a/an/the …".
+    // The "Describe a" preamble is dead weight on the card; we want the
+    // core noun phrase or verb-object. A handful of regex patterns cover
+    // the common shapes IELTS uses; anything else falls back to the first
+    // 3 words after the stripped preamble.
+    function _ispetDeriveP2Topic(q) {
+      if (!q || !q.prompt) return '';
+      let p = String(q.prompt).trim().replace(/\s+/g, ' ');
+      p = p.replace(/^describe\s+(?:a|an|the)\s+/i, '');
+      if (!p) return '';
+
+      // "time / occasion / moment / day / situation when you/I VERB [OBJ]…"
+      let m = /^(?:time|occasion|moment|day|situation)\s+when\s+(?:you|i)\s+(\w+)(?:\s+(\w+))?/i.exec(p);
+      if (m) {
+        const verb = m[1].toLowerCase();
+        const next = m[2] ? m[2].toLowerCase() : '';
+        const stopWords = /^(?:a|an|the|to|in|on|at|that|which|who|so|but|or|and|of|for|with)$/i;
+        const core = verb + (next && !stopWords.test(next) ? ' ' + next : '');
+        return _ispetCap(core);
+      }
+
+      // "[ADJ?] [ADJ?] [NOUN] who/that/which/where …"
+      m = /^((?:[a-z]+\s+){0,2}[a-z]+)\s+(?:who|that|which|where|whom|whose)\b/i.exec(p);
+      if (m) {
+        const phrase = m[1].toLowerCase();
+        return _ispetArticle(phrase) + phrase;
+      }
+
+      // "[ADJ?] [NOUN] you VERB …"
+      m = /^((?:[a-z]+\s+){0,2}[a-z]+)\s+you\s+\w+/i.exec(p);
+      if (m) {
+        const phrase = m[1].toLowerCase();
+        return _ispetArticle(phrase) + phrase;
+      }
+
+      // "[NOUN] with / in / on / at / of / about …"
+      m = /^((?:[a-z]+\s+){0,2}[a-z]+)\s+(?:with|in|on|at|of|about|by|for|from)\b/i.exec(p);
+      if (m) {
+        const phrase = m[1].toLowerCase();
+        return _ispetArticle(phrase) + phrase;
+      }
+
+      // Generic fallback: first 3 words.
+      const words = p.split(/\s+/).slice(0, 3);
+      const phrase = words.join(' ').toLowerCase();
+      return _ispetArticle(phrase) + phrase;
+    }
+
+    function _ispetBuildMetaFromMockData(md) {
+      const m = md || {};
+      const qs = Array.isArray(m.questions) ? m.questions : [];
+      // Group by part label.
+      const grouped = { 'Part 1': [], 'Part 2': [], 'Part 3': [] };
+      for (const q of qs) {
+        const p = String(q && q.part || '').trim();
+        if (grouped[p]) grouped[p].push(q);
+      }
+      // Topics: admin can store md.tags.{p1Topic,p2Topic,p3Topic} (set by
+      // the editor's Auto-tag button, coming in Phase 2). Until those
+      // are populated we fall back to heuristics:
+      //   Part 1 → first question's `topic` field or first few words
+      //            of the first prompt (already generic enough).
+      //   Part 2 → strip "Describe a/an/the…" preamble, extract the
+      //            core 2-3 word phrase (handled by _ispetDeriveP2Topic).
+      //   Part 3 → 7 questions cover the broad theme; no clean regex
+      //            shortcut, so we show a "Follow-up questions" badge
+      //            until the admin tags it manually or hits Auto-tag.
+      const tags  = m.tags || {};
+      function firstFew(s, n) {
+        const text = String(s || '').trim().replace(/\s+/g,' ');
+        if (!text) return '';
+        const words = text.split(' ');
+        return words.length <= n ? text : words.slice(0, n).join(' ') + '…';
+      }
+      function p1TopicFor(q) {
+        if (tags.p1Topic) return String(tags.p1Topic).trim();
+        if (q && q.topic) return String(q.topic).trim();
+        return firstFew(q && q.prompt, 6);
+      }
+      function p2TopicFor(q) {
+        if (tags.p2Topic) return String(tags.p2Topic).trim();
+        if (q && q.topic) return String(q.topic).trim();
+        return _ispetDeriveP2Topic(q);
+      }
+      function p3TopicFor(q) {
+        if (tags.p3Topic) return String(tags.p3Topic).trim();
+        if (q && q.topic) return String(q.topic).trim();
+        return '';  // Empty → card shows "Follow-up questions" placeholder.
+      }
+      // Card "ready" status is by PART, not by individual question.
+      // IELTS Speaking always has 3 parts; a part counts as "ready" when
+      // it has at least one question with a non-empty prompt. Question
+      // counts vary between mocks (some Part 1 has 5 Qs, some 8) so the
+      // x/y count would be misleading for students.
+      const partReady = (partLabel) => {
+        const arr = grouped[partLabel] || [];
+        return arr.some(q => q && String(q.prompt || '').trim());
+      };
+      const readyCount = ['Part 1','Part 2','Part 3'].filter(partReady).length;
+      return {
+        p1Topic:    p1TopicFor(grouped['Part 1'][0]),
+        p2Topic:    p2TopicFor(grouped['Part 2'][0]),
+        p3Topic:    p3TopicFor(grouped['Part 3'][0]),
+        qCount:     3,             // always 3 parts on a card
+        readyCount,                // 0-3, counting parts not questions
+        actualQCount: qs.length,   // total Qs (used internally, not shown)
+        examDate:   String(m.examDate || '').trim(),
+        title:      String(m.title || '').trim(),
+        topicsAll:  [
+          p1TopicFor(grouped['Part 1'][0]),
+          p2TopicFor(grouped['Part 2'][0]),
+          p3TopicFor(grouped['Part 3'][0])
+        ].filter(Boolean).map(t => t.toLowerCase())
+      };
+    }
+
+    function _ispetFmtDate(d) {
+      if (!d) return '';
+      const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(d);
+      if (!m) return d;
+      const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      return parseInt(m[3], 10) + ' ' + MONTHS[parseInt(m[2], 10) - 1] + ' ' + m[1];
+    }
+
+    function _ispetCardHtml(mockNum, meta, doneInfo) {
+      const padded = String(mockNum).padStart(2, '0');
+      const readyOf = meta.readyCount > 0
+        ? (meta.readyCount + '/' + meta.qCount + ' READY')
+        : 'Not ready yet';
+      const fullyReady = meta.qCount > 0 && meta.readyCount === meta.qCount;
+      const partRow = (n, topic) => {
+        const label = '<span class="ispet-part-label">PART ' + n + '</span>';
+        let text;
+        if (topic) {
+          text = '<span class="ispet-part-topic">' + _ispetEsc(topic) + '</span>';
+        } else if (n === 3) {
+          // Part 3's umbrella theme needs admin tagging; show a clean
+          // placeholder while Phase 2 auto-tag is pending.
+          text = '<span class="ispet-part-topic" style="color:#94a3b8;font-style:italic;">Follow-up questions</span>';
+        } else {
+          text = '<span class="ispet-part-topic" style="color:#94a3b8;">— topic not tagged —</span>';
+        }
+        return '<li class="ilet-section ispet-part-heading">' + label + text + '</li>';
+      };
+      const doneBadge = doneInfo && doneInfo.done
+        ? '<span class="ispet-pill" style="background:#dcfce7;color:#15803d;border-color:#86efac;">★ Done</span>'
+        : '';
+      const dateBadge = meta.examDate
+        ? '<span class="ispet-exam-date">📅 ' + _ispetFmtDate(meta.examDate) + '</span>'
+        : '';
+      const titleText = meta.title || ('IELTS Speaking Mock ' + padded);
+      return ''
+        + '<article class="ilet-card' + (fullyReady ? '' : ' ilet-card-disabled') + '" data-mock="' + padded + '" id="ispet-card-' + padded + '">'
+        +   '<div class="ilet-card-head">'
+        +     '<span class="ilet-mocknum">#' + padded + '</span>'
+        +     '<span style="flex:1;"></span>'
+        +     dateBadge
+        +     '<span style="font-size:11.5px;color:' + (fullyReady ? '#15803d' : '#92400e') + ';font-weight:700;margin-left:8px;">' + readyOf + '</span>'
+        +   '</div>'
+        +   '<h3 class="ilet-mock-title">' + _ispetEsc(titleText) + '</h3>'
+        +   (doneBadge ? '<div style="margin:4px 0 6px;">' + doneBadge + '</div>' : '')
+        +   '<ul class="ilet-sections" style="list-style:none;padding:0;margin:8px 0;display:flex;flex-direction:column;gap:0;">'
+        +     partRow(1, meta.p1Topic)
+        +     partRow(2, meta.p2Topic)
+        +     partRow(3, meta.p3Topic)
+        +   '</ul>'
+        +   '<div class="ilet-card-foot">'
+        +     '<button type="button" class="ispet-share" data-mock="' + padded + '" title="Share this mock" aria-label="Share mock #' + padded + '">🔗</button>'
+        +     '<button type="button" class="ilet-take">Take Test →</button>'
+        +   '</div>'
+        + '</article>';
+    }
+
+    function _ispetSkeletonHtml() {
+      return '<div class="ilet-card-skeleton">'
+        + '<div class="ilet-skel-line short"></div>'
+        + '<div class="ilet-skel-line tall"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '</div>';
+    }
+
+    function _ispetRenderSkeletons() {
+      const grid = document.getElementById('ispetGrid');
+      if (!grid) return;
+      // Use the current cached count if we have one, else a sensible 12.
+      const count = Math.max(12, Object.keys(_ispetMockMeta).length || 12);
+      grid.innerHTML = Array.from({ length: count }, _ispetSkeletonHtml).join('');
+      const empty = document.getElementById('ispetEmpty');
+      if (empty) empty.style.display = 'none';
+    }
+
+    async function _ispetLoadAllMockMeta() {
+      try {
+        const resp = await fetch(`${_ISPET_SB_URL}/rest/v1/mock_tests?mock_type=eq.ielts-speaking&status=eq.published&select=mock_number,mock_data,title`, {
+          headers: { 'apikey': _ISPET_SB_KEY, 'Authorization': 'Bearer ' + _ISPET_SB_KEY }
+        });
+        if (!resp.ok) return;
+        const rows = await resp.json();
+        for (const r of rows) {
+          const padded = String(r.mock_number).padStart(2, '0');
+          const meta = _ispetBuildMetaFromMockData(r.mock_data);
+          if (r.title && !meta.title) meta.title = r.title;
+          _ispetMockMeta[padded] = meta;
+        }
+      } catch (_e) { /* swallow — picker still renders empty grid */ }
+    }
+
+    async function _ispetFetchServerDone() {
+      // Lightweight stub — actual done-tracking would read from results
+      // table. For Phase 1 we just return {} so no done badges show.
+      return {};
+    }
+
+    function _ispetBuildTopicFilterOptions() {
+      const sel = document.getElementById('ispetTopicFilter');
+      if (!sel) return;
+      const all = new Set();
+      Object.values(_ispetMockMeta).forEach(m => {
+        (m.topicsAll || []).forEach(t => { if (t) all.add(t); });
+      });
+      const current = sel.value;
+      sel.innerHTML = '<option value="">🏷 All topics</option>'
+        + Array.from(all).sort().map(t => '<option value="' + _ispetEsc(t) + '">' + _ispetEsc(t.charAt(0).toUpperCase() + t.slice(1)) + '</option>').join('');
+      if (current) sel.value = current;
+    }
+
+    function _ispetRenderAll() {
+      const grid = document.getElementById('ispetGrid');
+      const jump = document.getElementById('ispetJump');
+      if (!grid) return;
+      const keys = Object.keys(_ispetMockMeta).sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+      document.getElementById('ispetCount').textContent = keys.length;
+      // Build the Jump dropdown.
+      if (jump) {
+        const opts = ['<option value="">Jump to #…</option>']
+          .concat(keys.map(k => '<option value="' + k + '">#' + k + '</option>'));
+        jump.innerHTML = opts.join('');
+      }
+      grid.innerHTML = keys.map(k => _ispetCardHtml(parseInt(k, 10), _ispetMockMeta[k], _ispetServerDone[k] || {})).join('');
+      _ispetBuildTopicFilterOptions();
+      _ispetApplyFiltersAndSort();
+    }
+
+    function _ispetApplyFiltersAndSort() {
+      const grid  = document.getElementById('ispetGrid');
+      const empty = document.getElementById('ispetEmpty');
+      const search = (document.getElementById('ispetSearch').value || '').trim().toLowerCase();
+      if (!grid) return;
+      let shown = 0;
+      Array.from(grid.children).forEach(card => {
+        const mockNum = card.dataset.mock;
+        const meta    = _ispetMockMeta[mockNum] || {};
+        const fullyReady = meta.qCount > 0 && meta.readyCount === meta.qCount;
+        const done = !!(_ispetServerDone[mockNum] && _ispetServerDone[mockNum].done);
+        let show = true;
+        if (_ispetFilter === 'ready' && !fullyReady) show = false;
+        if (_ispetFilter === 'soon'  &&  fullyReady) show = false;
+        if (_ispetFilter === 'done'  && !done)       show = false;
+        if (_ispetTopicFilter && !(meta.topicsAll || []).includes(_ispetTopicFilter)) show = false;
+        if (search) {
+          const hay = (mockNum + ' ' + (meta.title || '') + ' ' + (meta.p1Topic || '') + ' ' + (meta.p2Topic || '') + ' ' + (meta.p3Topic || '')).toLowerCase();
+          if (hay.indexOf(search) < 0) show = false;
+        }
+        card.style.display = show ? '' : 'none';
+        if (show) shown++;
+      });
+      if (empty) empty.style.display = shown === 0 ? '' : 'none';
+    }
+
+    function _ispetJumpToMock(n) {
+      if (!n) return;
+      const card = document.getElementById('ispet-card-' + String(n).padStart(2, '0'));
+      if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    async function ispetOpen() {
+      const overlay = document.getElementById('ispetPicker');
+      overlay.classList.add('ilet-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      try { history.pushState({ picker: 'ispet' }, ''); } catch (_e) {}
+      if (typeof _pickerShowTmaBack === 'function') _pickerShowTmaBack();
+      // Paint skeleton cards immediately so the picker doesn't look blank
+      // while we wait for Supabase to return mock metadata. Same trick
+      // iret / iwet / cret / clet pickers use.
+      _ispetRenderSkeletons();
+      try {
+        if (window._mmgRefreshAllPickersPromise) await window._mmgRefreshAllPickersPromise;
+      } catch (_e) {}
+      await Promise.all([_ispetLoadAllMockMeta(), _ispetFetchServerDone().then(d => { _ispetServerDone = d || {}; })]);
+      _ispetRenderAll();
+    }
+
+    function ispetClose(opts) {
+      const keepUrl = !!(opts && opts.keepUrl);
+      const overlay = document.getElementById('ispetPicker');
+      overlay.classList.remove('ilet-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (typeof _pickerHideTmaBack === 'function') _pickerHideTmaBack();
+      if (!window._pickerFromPopstate && !keepUrl) {
+        try {
+          if (history.state && history.state.picker === 'ispet') history.back();
+          if (/^\/take\//i.test(window.location.pathname)) {
+            history.replaceState(null, '', '/landing.html');
+          }
+        } catch (_e) {}
+      }
+    }
+
+    function ispetClearFilters() {
+      _ispetFilter      = 'all';
+      _ispetTopicFilter = '';
+      document.querySelectorAll('#ispetPicker .ispet-chip').forEach(c =>
+        c.classList.toggle('ilet-chip-active', c.dataset.filter === 'all')
+      );
+      document.getElementById('ispetSearch').value = '';
+      const t = document.getElementById('ispetTopicFilter');
+      if (t) t.value = '';
+      _ispetApplyFiltersAndSort();
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const overlay = document.getElementById('ispetPicker');
+      if (!overlay) return;
+      document.querySelectorAll('#ispetPicker .ispet-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          _ispetFilter = chip.dataset.filter;
+          document.querySelectorAll('#ispetPicker .ispet-chip').forEach(c =>
+            c.classList.toggle('ilet-chip-active', c === chip)
+          );
+          _ispetApplyFiltersAndSort();
+        });
+      });
+      const search = document.getElementById('ispetSearch');
+      const jump   = document.getElementById('ispetJump');
+      const topic  = document.getElementById('ispetTopicFilter');
+      if (search) search.addEventListener('input', _ispetApplyFiltersAndSort);
+      if (jump) jump.addEventListener('change', function () {
+        _ispetJumpToMock(this.value);
+        setTimeout(() => { this.value = ''; }, 400);
+      });
+      if (topic) topic.addEventListener('change', function () {
+        _ispetTopicFilter = this.value || '';
+        _ispetApplyFiltersAndSort();
+      });
+
+      document.getElementById('ispetGrid').addEventListener('click', function (e) {
+        const card = e.target.closest('.ilet-card');
+        if (!card) return;
+        const mockN = card.dataset.mock;
+
+        const shareBtn = e.target.closest('.ispet-share');
+        if (shareBtn) {
+          e.stopPropagation();
+          _pickerShareMock('ielts-speaking', 'IELTS Speaking Mock', mockN, shareBtn, 'ispet-share-copied');
+          return;
+        }
+        if (card.classList.contains('ilet-card-disabled')) return;
+        const isTakeBtn = !!e.target.closest('.ilet-take');
+        if (!isTakeBtn) {
+          if (mockN) {
+            try { history.replaceState(null, '', '/take/ielts-speaking-' + encodeURIComponent(mockN)); } catch (_e) {}
+          }
+          return;
+        }
+        // Take Test → navigate to the speaking runner. Mirror the existing
+        // openSpeakingCategoryModal launch path: it opens "Speaking Mocks.html"
+        // with the mock param.
+        try { history.pushState(null, '', '/take/ielts-speaking-' + encodeURIComponent(mockN)); } catch (_e) {}
+        const padded = String(mockN).padStart(2, '0');
+        const url = 'IELTS Speaking Mocks.html?test=ielts-speaking-mock-' + padded + '&auto=1';
+        ispetClose({ keepUrl: true });
+        window.location.href = url;
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && document.getElementById('ispetPicker').classList.contains('ilet-open')) ispetClose();
+      });
+    });
+
+    window.ispetOpen         = ispetOpen;
+    window.ispetClose        = ispetClose;
+    window.ispetClearFilters = ispetClearFilters;
 
     // ===== FULL-SCREEN CEFR READING PICKER =====
     // Same flow as the IELTS picker (iretOpen / iretRender) but for CEFR mocks.
@@ -19816,7 +20413,7 @@
         }
         loadMock('Speaking Plus.html', 'speaking');
       } else if (type === 'ielts') {
-        openSpeakingCategoryModal('ielts-speaking');
+        if (typeof ispetOpen === 'function') { ispetOpen(); } else { openSpeakingCategoryModal('ielts-speaking'); }
       } else {
         openSpeakingCategoryModal('cefr-speaking');
       }
@@ -22879,8 +23476,9 @@
     function selectIELTSSpeakingMode(mode) {
       closeIELTSSpeakingModeModal();
       if (mode === 'ai') {
-        // Open CEFR-like mock selection popup with PDF download button
-        openSpeakingCategoryModal('ielts-speaking');
+        // Open the new fullscreen IELTS Speaking picker (ispetPicker).
+        if (typeof ispetOpen === 'function') { ispetOpen(); }
+        else { openSpeakingCategoryModal('ielts-speaking'); }
       } else {
         // Show tutorial and then booking form
         showIELTSSpeakingTutorial();
@@ -22902,7 +23500,8 @@
       if (target === 'cefr-speaking') {
         openSpeakingCategoryModal('cefr-speaking');
       } else if (target === 'ielts-speaking') {
-        openSpeakingCategoryModal('ielts-speaking');
+        if (typeof ispetOpen === 'function') { ispetOpen(); }
+        else { openSpeakingCategoryModal('ielts-speaking'); }
       } else if (target === 'cefr-writing') {
         openWritingCategoryModal('cefr-writing');
       } else if (target === 'ielts-writing') {
@@ -23139,6 +23738,12 @@
         if (cwet && cwet.classList.contains('ilet-open')) {
           _pickerFromPopstate = true;
           cwetClose();
+          _pickerFromPopstate = false;
+        }
+        var ispet = document.getElementById('ispetPicker');
+        if (ispet && ispet.classList.contains('ilet-open')) {
+          _pickerFromPopstate = true;
+          ispetClose();
           _pickerFromPopstate = false;
         }
         // 2) Close access-code modals if URL left /take/...
@@ -31652,12 +32257,13 @@
           <button class="mmg-tab mmg-tab-cw"           data-tab="t2"        onclick="_mmgSwitchTab('t2')">Task 2</button>
           <button class="mmg-tab mmg-tab-iw"           data-tab="iw_task1"  onclick="_mmgSwitchTab('iw_task1')">Task 1</button>
           <button class="mmg-tab mmg-tab-iw"           data-tab="iw_task2"  onclick="_mmgSwitchTab('iw_task2')">Task 2</button>
-          <button class="mmg-tab mmg-tab-cs mmg-tab-is" data-tab="sp_part11" onclick="_mmgSwitchTab('sp_part11')">Part 1.1</button>
-          <button class="mmg-tab mmg-tab-cs mmg-tab-is" data-tab="sp_part12" onclick="_mmgSwitchTab('sp_part12')">Part 1.2</button>
+          <button class="mmg-tab mmg-tab-is"            data-tab="sp_part1"  onclick="_mmgSwitchTab('sp_part1')">Part 1</button>
+          <button class="mmg-tab mmg-tab-cs"            data-tab="sp_part11" onclick="_mmgSwitchTab('sp_part11')">Part 1.1</button>
+          <button class="mmg-tab mmg-tab-cs"            data-tab="sp_part12" onclick="_mmgSwitchTab('sp_part12')">Part 1.2</button>
           <button class="mmg-tab mmg-tab-cs mmg-tab-is" data-tab="sp_part2"  onclick="_mmgSwitchTab('sp_part2')">Part 2</button>
           <button class="mmg-tab mmg-tab-cs mmg-tab-is" data-tab="sp_part3"  onclick="_mmgSwitchTab('sp_part3')">Part 3</button>
-          <button class="mmg-tab mmg-tab-cw mmg-tab-iw" data-tab="samples"  onclick="_mmgSwitchTab('samples')">Samples</button>
-          <button class="mmg-tab mmg-tab-cw mmg-tab-iw" data-tab="vocab"    onclick="_mmgSwitchTab('vocab')">Vocabulary</button>
+          <button class="mmg-tab mmg-tab-cw mmg-tab-iw mmg-tab-is" data-tab="samples"  onclick="_mmgSwitchTab('samples')">Samples</button>
+          <button class="mmg-tab mmg-tab-cw mmg-tab-iw mmg-tab-is" data-tab="vocab"    onclick="_mmgSwitchTab('vocab')">Vocabulary</button>
           <button class="mmg-tab mmg-tab-cw mmg-tab-iw mmg-tab-cs mmg-tab-is" data-tab="tokens"   onclick="_mmgSwitchTab('tokens')">Tokens</button>
           <button class="mmg-tab mmg-tab-cr"           data-tab="cr_settings" onclick="_mmgSwitchTab('cr_settings')">Settings</button>
           <button class="mmg-tab mmg-tab-cr"           data-tab="cr_part1"    onclick="_mmgSwitchTab('cr_part1')">Part 1</button>
@@ -31697,6 +32303,7 @@
         <div id="mmgPaneVocab"    class="mmg-pane"></div>
         <div id="mmgPaneTokens"   class="mmg-pane"></div>
 
+        <div id="mmgPaneSpPart1"  class="mmg-pane"></div>
         <div id="mmgPaneSpPart11" class="mmg-pane"></div>
         <div id="mmgPaneSpPart12" class="mmg-pane"></div>
         <div id="mmgPaneSpPart2"  class="mmg-pane"></div>
@@ -32244,7 +32851,7 @@
     var _MMG_TAB_TO_PANE = {
       settings:'Settings', part1:'Part1', t11:'T11', t12:'T12', t2:'T2',
       iw_task1:'IwTask1', iw_task2:'IwTask2',
-      sp_part11:'SpPart11', sp_part12:'SpPart12', sp_part2:'SpPart2', sp_part3:'SpPart3',
+      sp_part1:'SpPart1', sp_part11:'SpPart11', sp_part12:'SpPart12', sp_part2:'SpPart2', sp_part3:'SpPart3',
       cr_settings:'CrSettings', cr_part1:'CrPart1', cr_part2:'CrPart2', cr_part3:'CrPart3', cr_part4:'CrPart4', cr_part5:'CrPart5',
       ir_settings:'IrSettings', ir_p1:'IrP1', ir_p2:'IrP2', ir_p3:'IrP3',
       il_settings:'IlSettings', il_part1:'IlPart1', il_part2:'IlPart2', il_part3:'IlPart3', il_part4:'IlPart4',
@@ -32301,6 +32908,7 @@
           case 't2':       _mmgCollectTask(md, 't2');  break;
           case 'iw_task1': _mmgCollectIwTask(md, 'task1'); break;
           case 'iw_task2': _mmgCollectIwTask(md, 'task2'); break;
+          case 'sp_part1':  _mmgCollectSpPart(md, 'part1');  break;
           case 'sp_part11': _mmgCollectSpPart(md, 'part11'); break;
           case 'sp_part12': _mmgCollectSpPart(md, 'part12'); break;
           case 'sp_part2':  _mmgCollectSpPart(md, 'part2');  break;
@@ -32355,6 +32963,7 @@
         case 't2':       _mmgRenderTask(md, 't2',  'Task 2',   '180–200 words', 'Opinion piece — has its own context inside the prompt.'); break;
         case 'iw_task1': _mmgRenderIwTask(md, 'task1', 'Task 1', 150, 20, 'Describe a chart/graph/diagram. Includes chart image and chart type.'); break;
         case 'iw_task2': _mmgRenderIwTask(md, 'task2', 'Task 2', 250, 40, 'Essay — present an argument or discuss both sides of a topic.'); break;
+        case 'sp_part1':  _mmgRenderSpPart(md, 'part1');  break;
         case 'sp_part11': _mmgRenderSpPart(md, 'part11'); break;
         case 'sp_part12': _mmgRenderSpPart(md, 'part12'); break;
         case 'sp_part2':  _mmgRenderSpPart(md, 'part2');  break;
@@ -32511,14 +33120,13 @@
     // has moduleTitle/timeInfo. Both share logoUrl/logoWording/testIdentifier.
     function _mmgSettingsKeysForType(type) {
       if (type === 'cefr-speaking' || type === 'ielts-speaking') {
-        return [
-          { k: 'logoUrl',         label: 'Logo URL',         help: 'Image URL for the logo.' },
-          { k: 'logoWording',     label: 'Logo wording',     help: 'Text next to the logo (e.g., "Mock Stream").' },
-          { k: 'telegramChannel', label: 'Telegram channel', help: 'e.g., @mock_stream — used in the report header.' },
-          { k: 'testIdentifier',  label: 'Test identifier',  help: 'Internal ID — leave as "mock_stream" unless you know why.' },
-          { k: 'heading1',        label: 'Heading 1',        help: 'First centred heading (org name in Uzbek).' },
-          { k: 'heading2',        label: 'Heading 2',        help: 'Second centred heading (test description).' }
-        ];
+        // Logo / headings / Telegram channel / identifier come from
+        // per-clone SITE_CONFIG branding + the mock's own Title field.
+        // The fields used to live here as a manual edit form, but the
+        // runner doesn't need them set per-mock anymore. Existing
+        // stored settings.* values are preserved on save (the collector
+        // only writes back what's present in the DOM).
+        return [];
       }
       if (type === 'ielts-writing' || type === 'cefr-writing') {
         // Logo / heading / module-title / time-info were legacy fields —
@@ -32736,6 +33344,40 @@
         html += '<div id="mmgCwAutoTagStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;font-weight:500;"></div>';
       }
 
+      // IELTS Speaking — Bulk import bar + Picker tags section.
+      if (type === 'ielts-speaking') {
+        // Bulk import bar — covers the WHOLE mock (17 Qs across 3 parts)
+        // in a single Gemini call. Per-part import lives on each Part
+        // tab. Routes through _mmgImportOpenPassage with scope='full'.
+        html += '<div class="mmg-section-title">✨ Import a new mock</div>';
+        html += '<div class="mmg-field-help" style="margin-bottom:10px;">Paste / upload screenshots covering <strong>Part 1</strong> (7 warm-up Qs), <strong>Part 2</strong> (cue card + 2 follow-ups), and <strong>Part 3</strong> (7 deeper Qs). Gemini extracts every question with the right part label, prep/speak times, AND auto-fills the picker tags below in <strong>one</strong> call.</div>';
+        html += '<div style="background:linear-gradient(135deg,#ecfeff,#cffafe);border:1px solid #a5f3fc;border-radius:10px;padding:12px 14px;margin-bottom:18px;display:flex;align-items:center;gap:12px;">'
+              +   '<div style="flex:1;font-size:12.5px;color:#155e75;line-height:1.5;">'
+              +     '<strong>Whole mock — paste / upload</strong> — Drop screenshots of all three parts at once. Gemini emits 17 questions + 3 part topics in a single response.'
+              +   '</div>'
+              +   '<button type="button" onclick="_mmgImportOpenPassage(-1)" style="background:linear-gradient(135deg,#06b6d4,#0891b2);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(8,145,178,.3);white-space:nowrap;">✨ Import mock</button>'
+              + '</div>';
+
+        var ispTags = (md.tags = md.tags || {});
+        html += '<div class="mmg-section-title" style="margin-top:14px;">Picker tags</div>';
+        html += '<div class="mmg-field-help">Short topic labels that drive the chips on the IELTS Speaking picker card. <strong>Editable</strong> — type in to override what Gemini extracted, or leave to auto-fill from the next bulk / per-part import.</div>';
+
+        html += '<div class="mmg-field"><label for="mmgIspSet_p1Topic">Part 1 topic <span style="color:#94a3b8;font-weight:400;">(general theme covering Part 1\'s 7 warm-up Qs)</span></label>'
+              +   '<input type="text" id="mmgIspSet_p1Topic" value="' + _mmgEsc(ispTags.p1Topic || '') + '" placeholder="e.g. Hometown, Work or Study" style="width:100%;border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;">'
+              +   '<div class="mmg-field-help">2–6 words. Multiple topics OK — join with " / " e.g. <em>Hometown / Work</em>.</div>'
+              + '</div>';
+
+        html += '<div class="mmg-field"><label for="mmgIspSet_p2Topic">Part 2 topic <span style="color:#94a3b8;font-weight:400;">(cue-card core phrase, no "Describe a/an")</span></label>'
+              +   '<input type="text" id="mmgIspSet_p2Topic" value="' + _mmgEsc(ispTags.p2Topic || '') + '" placeholder="e.g. A wild animal, Encouraging someone" style="width:100%;border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;">'
+              +   '<div class="mmg-field-help">2–4 words. The verbatim "Describe a/an/the…" preamble lives in the actual cue-card prompt — this is just the topic label.</div>'
+              + '</div>';
+
+        html += '<div class="mmg-field"><label for="mmgIspSet_p3Topic">Part 3 topic <span style="color:#94a3b8;font-weight:400;">(umbrella theme covering all 7 Part 3 Qs)</span></label>'
+              +   '<input type="text" id="mmgIspSet_p3Topic" value="' + _mmgEsc(ispTags.p3Topic || '') + '" placeholder="e.g. Wildlife &amp; nature, Encouragement &amp; motivation" style="width:100%;border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;">'
+              +   '<div class="mmg-field-help">3–5 words. Part 3 follow-ups broaden Part 2\'s theme — pick a label that fits the umbrella across all 7 follow-ups.</div>'
+              + '</div>';
+      }
+
       if (keys.length) {
         html += '<div class="mmg-section-title">Test settings (logo + headings)</div>';
         for (var i = 0; i < keys.length; i++) {
@@ -32829,12 +33471,18 @@
         html += '<div id="mmgIwAutoTagStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;font-weight:500;"></div>';
       }
 
-      // Speaking-only extras: images, voice picker, IELTS announcements, bulk-audio button.
+      // Speaking-only extras: images (CEFR only), voice picker, IELTS announcements, bulk-audio button.
       if (type === 'cefr-speaking' || type === 'ielts-speaking') {
-        var images = (md.images = md.images || {});
-        html += '<div class="mmg-section-title">Top-level images (used by hasImages questions)</div>';
-        html += _mmgImageRow('img1', images.img1, images.img1Alt);
-        html += _mmgImageRow('img2', images.img2, images.img2Alt);
+        // Only CEFR Speaking uses the top-level image slots — Q4 prompts
+        // the candidate to describe one of two pictures. IELTS Speaking
+        // is purely verbal (no images on any of its 3 parts), so the
+        // image section is hidden for ielts-speaking.
+        if (type === 'cefr-speaking') {
+          var images = (md.images = md.images || {});
+          html += '<div class="mmg-section-title">Top-level images (used by hasImages questions)</div>';
+          html += _mmgImageRow('img1', images.img1, images.img1Alt);
+          html += _mmgImageRow('img2', images.img2, images.img2Alt);
+        }
         html += _mmgRenderVoicePreviewGrid(md);
         if (type === 'ielts-speaking') {
           var ann = (md.announcements = md.announcements || {});
@@ -32851,8 +33499,8 @@
 
       document.getElementById('mmgPaneSettings').innerHTML = html;
 
-      // Wire image upload buttons (speaking only).
-      if (type === 'cefr-speaking' || type === 'ielts-speaking') {
+      // Wire image upload buttons (CEFR Speaking only — IELTS has no images).
+      if (type === 'cefr-speaking') {
         _mmgUploadBind({ id: 'mmgSetImg1', skill: type });
         _mmgUploadBind({ id: 'mmgSetImg2', skill: type });
       }
@@ -32952,12 +33600,17 @@
       }
 
       if (type === 'cefr-speaking' || type === 'ielts-speaking') {
-        md.images = md.images || {};
         var get = function (id) { var e = document.getElementById(id); return e ? e.value : undefined; };
-        if (get('mmgSetImg1')    !== undefined) md.images.img1    = get('mmgSetImg1');
-        if (get('mmgSetImg1Alt') !== undefined) md.images.img1Alt = get('mmgSetImg1Alt');
-        if (get('mmgSetImg2')    !== undefined) md.images.img2    = get('mmgSetImg2');
-        if (get('mmgSetImg2Alt') !== undefined) md.images.img2Alt = get('mmgSetImg2Alt');
+        // Images live in mock_data.images for CEFR Speaking only (Q4
+        // uses two pictures). IELTS Speaking's settings tab no longer
+        // renders these fields, so we skip the collection too.
+        if (type === 'cefr-speaking') {
+          md.images = md.images || {};
+          if (get('mmgSetImg1')    !== undefined) md.images.img1    = get('mmgSetImg1');
+          if (get('mmgSetImg1Alt') !== undefined) md.images.img1Alt = get('mmgSetImg1Alt');
+          if (get('mmgSetImg2')    !== undefined) md.images.img2    = get('mmgSetImg2');
+          if (get('mmgSetImg2Alt') !== undefined) md.images.img2Alt = get('mmgSetImg2Alt');
+        }
 
         if (type === 'ielts-speaking') {
           md.announcements = md.announcements || {};
@@ -32967,6 +33620,23 @@
           if (get('mmgAnnP2F') !== undefined) md.announcements.beforePart2FollowUp = get('mmgAnnP2F');
           if (get('mmgAnnP3')  !== undefined) md.announcements.beforePart3         = get('mmgAnnP3');
           if (get('mmgAnnEnd') !== undefined) md.announcements.afterExam           = get('mmgAnnEnd');
+
+          // Picker tags — admin-edited (or auto-filled by bulk / per-part
+          // import). Stored at mock_data.tags.{p1,p2,p3}Topic, which is
+          // exactly what ispetPicker reads. Empty strings get pruned so
+          // we don't carry blank "tags": { "p1Topic": "" } noise.
+          md.tags = md.tags || {};
+          var ispTrim = function (key, val) {
+            var v = (val == null ? '' : String(val)).trim();
+            if (v) md.tags[key] = v; else delete md.tags[key];
+          };
+          var ispP1 = document.getElementById('mmgIspSet_p1Topic');
+          var ispP2 = document.getElementById('mmgIspSet_p2Topic');
+          var ispP3 = document.getElementById('mmgIspSet_p3Topic');
+          if (ispP1) ispTrim('p1Topic', ispP1.value);
+          if (ispP2) ispTrim('p2Topic', ispP2.value);
+          if (ispP3) ispTrim('p3Topic', ispP3.value);
+          if (!md.tags.p1Topic && !md.tags.p2Topic && !md.tags.p3Topic) delete md.tags;
         }
         // settings.voice / settings.tts_model are written immediately by
         // _mmgPickTtsVoice / _mmgPickTtsModel — nothing to flush here.
@@ -34678,11 +35348,14 @@
     // CEFR uses Q-numbers (1–3 → part11, 4–6 → part12, 7 → part2, 8 → part3).
     // IELTS uses the `part` string directly (Part 2 / Part 2 Follow-up both → part2).
     function _mmgQuestionPartKey(q) {
-      if (!q) return 'part11';
+      if (!q) return _mmgCurrentType() === 'ielts-speaking' ? 'part1' : 'part11';
       var p = String(q.part || '').toLowerCase();
       if (p.indexOf('part 3') !== -1) return 'part3';
       if (p.indexOf('part 2') !== -1) return 'part2';
-      // Part 1 — split by question number for CEFR (Q1–3 vs Q4–6).
+      // Part 1 — IELTS Speaking uses a single Part 1 tab (no sub-split).
+      // CEFR Speaking splits Part 1 by question number (Q1–3 vs Q4–6)
+      // because that mock variant has a richer Part 1 structure.
+      if (_mmgCurrentType() === 'ielts-speaking') return 'part1';
       var n = Number(q.number || 0);
       if (n >= 4 && n <= 6) return 'part12';
       return 'part11';
@@ -34801,8 +35474,31 @@
       }
 
       var bulletsHtml = '';
-      if (type === 'ielts-speaking' && _mmgQuestionPartKey(q) === 'part2' && q.part === 'Part 2') {
-        bulletsHtml = _mmgFieldBulletList('Cue card bullet points', idP + '_bullets', q.bulletPoints || []);
+      // IELTS Speaking Part 2: prompt + bullets are presented as ONE
+      // textarea — easier to read and edit. Parsing back is handled in
+      // _mmgCollectQuestionBlock. Follow-ups (no bullets) just show as
+      // a plain prompt; the cue card shows "You should say:" + bullets.
+      var isIspPart2 = (type === 'ielts-speaking' && q.part === 'Part 2');
+      var promptValue = q.prompt || '';
+      var promptHeight = 80;
+      var promptLabel = 'Prompt';
+      var promptHelp  = '';
+      if (isIspPart2) {
+        var ispBullets = Array.isArray(q.bulletPoints) ? q.bulletPoints : [];
+        if (ispBullets.length || (q.prepTime != null && q.prepTime >= 60)) {
+          // Cue card — combine bullets into the prompt for editing.
+          var combined = String(q.prompt || '').replace(/\s+$/, '');
+          if (ispBullets.length) {
+            combined += (combined ? '\n\n' : '') + 'You should say:';
+            for (var bi = 0; bi < ispBullets.length; bi++) {
+              combined += '\n  ' + String(ispBullets[bi] || '').trim();
+            }
+          }
+          promptValue  = combined;
+          promptHeight = 200;
+          promptLabel  = 'Cue card (prompt + bullets)';
+          promptHelp   = 'Write the cue card on one line, then a blank line, then "You should say:" and one bullet per line (any leading dashes or spaces are stripped on save).';
+        }
       }
 
       var levelChips = levels.map(function(L) {
@@ -34838,13 +35534,19 @@
         +   _mmgVocabSubList(idP + '_voci', 'Idioms',            voc.idioms || [])
         + '</details>';
 
+      // IELTS Speaking: samples + topical vocabulary moved to their own
+      // top-level tabs (isp_samples / isp_vocab) so the part tabs only
+      // show structural Q content. CEFR Speaking still embeds them
+      // inline for now (mirror restructure can follow if needed).
+      var inlineSamples = type === 'ielts-speaking' ? '' : samplesHtml;
+      var inlineVocab   = type === 'ielts-speaking' ? '' : vocabHtml;
       return '<details class="mmg-q-block" data-q-index="' + qIndex + '" open>'
         +     '<summary class="mmg-q-summary" style="cursor:pointer;padding:6px 8px;background:#f1f5f9;border-radius:6px;font-weight:700;">'
         +       'Q' + (q.number || (qIndex + 1)) + ' · ' + _mmgEsc(q.part || '') + headerExtras
         +     '</summary>'
         +     '<div class="mmg-q-body" style="display:flex;flex-direction:column;gap:10px;padding:10px 4px;">'
-        +       _mmgFieldArea('Prompt', idP + '_prompt', q.prompt || '', '', 80)
-        +       audioHtml + timingHtml + imagesHtml + bulletsHtml + samplesHtml + vocabHtml
+        +       _mmgFieldArea(promptLabel, idP + '_prompt', promptValue, promptHelp, promptHeight)
+        +       audioHtml + timingHtml + imagesHtml + bulletsHtml + inlineSamples + inlineVocab
         +     '</div>'
         + '</details>';
     }
@@ -34867,7 +35569,36 @@
       var type = _mmgCurrentType();
 
       var promptEl = document.getElementById(idP + '_prompt');
-      if (promptEl) q.prompt = promptEl.value;
+      if (promptEl) {
+        // IELTS Speaking Part 2: the prompt textarea contains BOTH the
+        // cue card text AND its bullets, joined by a "You should say:"
+        // header. Split them back so q.prompt + q.bulletPoints stay
+        // structured for the runner. Follow-ups have no header and
+        // pass through as a plain prompt.
+        if (type === 'ielts-speaking' && q.part === 'Part 2') {
+          var raw = String(promptEl.value || '');
+          var lines = raw.split(/\r?\n/);
+          var hsIdx = -1;
+          for (var li = 0; li < lines.length; li++) {
+            if (/^\s*you\s+should\s+say\s*:?\s*$/i.test(lines[li])) { hsIdx = li; break; }
+          }
+          if (hsIdx >= 0) {
+            q.prompt = lines.slice(0, hsIdx).join('\n').replace(/\s+$/, '');
+            var bArr2 = [];
+            for (var li2 = hsIdx + 1; li2 < lines.length; li2++) {
+              var clean = lines[li2].replace(/^[\s•\-\*•]+/, '').trim();
+              if (clean) bArr2.push(clean);
+            }
+            q.bulletPoints = bArr2;
+          } else {
+            q.prompt = raw.replace(/\s+$/, '');
+            // No "You should say:" header — treat as a follow-up: no bullets.
+            q.bulletPoints = [];
+          }
+        } else {
+          q.prompt = promptEl.value;
+        }
+      }
 
       var audioEl = document.getElementById(idP + '_audio');
       if (audioEl) q.audioFile = audioEl.value;
@@ -34927,7 +35658,7 @@
         if (_mmgQuestionPartKey(md.questions[i]) === partKey) questionsInPart.push(i);
       }
 
-      var partLabel = { part11:'Part 1.1', part12:'Part 1.2', part2:'Part 2', part3:'Part 3' }[partKey] || partKey;
+      var partLabel = { part1:'Part 1', part11:'Part 1.1', part12:'Part 1.2', part2:'Part 2', part3:'Part 3' }[partKey] || partKey;
 
       var html = '<div class="mmg-section-title" style="display:flex;align-items:center;gap:10px;">'
                +   '<span style="flex:1;">' + _mmgEsc(partLabel) + ' — ' + questionsInPart.length + ' question(s)</span>'
@@ -34972,10 +35703,11 @@
       _mmgCollectSpPart(md, partKey);
       md.questions = Array.isArray(md.questions) ? md.questions : [];
       var defaults = {
+        part1:  { part: 'Part 1', prepTime: 0,  speakTime: 30,  number: md.questions.length + 1 },
         part11: { part: 'Part 1', prepTime: 5,  speakTime: 30,  number: md.questions.length + 1 },
         part12: { part: 'Part 1', prepTime: 10, speakTime: 45,  number: md.questions.length + 1 },
         part2:  { part: 'Part 2', prepTime: 60, speakTime: 120, number: md.questions.length + 1 },
-        part3:  { part: 'Part 3', prepTime: 5,  speakTime: 30,  number: md.questions.length + 1 }
+        part3:  { part: 'Part 3', prepTime: 0,  speakTime: 45,  number: md.questions.length + 1 }
       }[partKey] || {};
       md.questions.push(Object.assign({ prompt: '', audioFile: '' }, defaults));
       _mmgSetMockData(md);
@@ -35201,6 +35933,11 @@
         { key: 'task1', label: 'Task 1 vocabulary' },
         { key: 'task2', label: 'Task 2 vocabulary' }
       ];
+      if (type === 'ielts-speaking') return [
+        { key: 'part1', label: 'Part 1 vocabulary' },
+        { key: 'part2', label: 'Part 2 vocabulary' },
+        { key: 'part3', label: 'Part 3 vocabulary' }
+      ];
       return [
         { key: 'task11', label: 'Task 1.1 vocabulary' },
         { key: 'task12', label: 'Task 1.2 vocabulary' },
@@ -35289,6 +36026,10 @@
     ];
     function _mmgRenderSamples(md) {
       var type = _mmgCurrentType();
+      // IELTS Speaking samples are per-QUESTION (not per-task) — render
+      // a different layout: generator card + a flat list of every Q with
+      // its own band chips + active-band editor.
+      if (type === 'ielts-speaking') { _mmgRenderIspSamples(md); return; }
       var isIw = type === 'ielts-writing';
       var pane = document.getElementById('mmgPaneSamples');
       pane.classList.add('mmg-samples-pane');
@@ -35466,6 +36207,323 @@
       pane.innerHTML = html;
       _mmgUpdatePreview(activeFieldId);
     }
+
+    // ── IELTS Speaking — per-question samples on its own top-level tab.
+    // Generator card at top (band 5-9 × parts × ±Uz × ±Main), then a
+    // flat list of every Q with band chips + active-band editor. Existing
+    // samples preserved on generate; flush-to-mock on every chip switch.
+    function _mmgRenderIspSamples(md) {
+      var pane = document.getElementById('mmgPaneSamples');
+      pane.classList.add('mmg-samples-pane');
+      md.questions = Array.isArray(md.questions) ? md.questions : [];
+
+      var html = '';
+      html += '<div class="mmg-section-title">Sample answers — IELTS Speaking</div>'
+            + '<div class="mmg-field-help">Per-question model spoken answers at IELTS bands 5–9, plus an optional Main + Uzbek translations. All samples optional. <span style="color:#15803d;">●</span> = already filled.</div>';
+
+      // Generator card.
+      html += '<div style="background:linear-gradient(135deg,#ecfeff,#cffafe);border:1px solid #a5f3fc;border-radius:10px;padding:14px 16px;margin:6px 0 14px;">'
+            +   '<div style="font-size:12.5px;color:#155e75;line-height:1.5;margin-bottom:10px;">'
+            +     '<strong>✨ Auto-generate samples</strong> — Gemini 2.5 Pro writes the IELTS bands you tick below for the parts you select. Existing samples with content are <strong>preserved</strong>.'
+            +   '</div>'
+            +   '<div style="display:grid;grid-template-columns:max-content 1fr;gap:8px 14px;align-items:center;font-size:12.5px;color:#0f172a;">'
+            +     '<span style="font-weight:600;color:#155e75;">Bands:</span>'
+            +     '<div style="display:flex;flex-wrap:wrap;gap:10px 16px;">'
+            +       [5,6,7,8,9].map(function (b) {
+                      return '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" class="mmgIspGenBand" data-band="' + b + '" onchange="_mmgIspGenSamplesUpdateCost()"> Band ' + b + '</label>';
+                    }).join('')
+            +     '</div>'
+            +     '<span style="font-weight:600;color:#155e75;">Include:</span>'
+            +     '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="mmgIspGenIncludeUz" onchange="_mmgIspGenSamplesUpdateCost()"> Uzbek translations of the ticked bands</label>'
+            +     '<span style="font-weight:600;color:#155e75;">Parts:</span>'
+            +     '<div style="display:flex;flex-wrap:wrap;gap:10px 16px;">'
+            +       ['Part 1','Part 2','Part 3'].map(function (p) {
+                      return '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" class="mmgIspGenPart" data-part="' + p + '" onchange="_mmgIspGenSamplesUpdateCost()"> ' + p + '</label>';
+                    }).join('')
+            +     '</div>'
+            +     '<span style="font-weight:600;color:#155e75;">Main:</span>'
+            +     '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="mmgIspGenIncludeMain" onchange="_mmgIspGenSamplesUpdateCost()"> Also produce a Band 8 main model answer</label>'
+            +   '</div>'
+            +   '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;gap:10px;flex-wrap:wrap;">'
+            +     '<div id="mmgIspGenCostHint" style="font-size:11.5px;color:#64748b;font-weight:500;">Pick at least one band + one part to enable.</div>'
+            +     '<button type="button" id="mmgIspGenSamplesBtn" onclick="_mmgIspGenSamples()" disabled style="background:linear-gradient(135deg,#06b6d4,#0891b2);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12.5px;font-weight:700;cursor:not-allowed;opacity:.55;box-shadow:0 4px 10px rgba(8,145,178,.3);white-space:nowrap;">✨ Generate selected</button>'
+            +   '</div>'
+            + '</div>';
+      html += '<div id="mmgIspGenSamplesStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;font-weight:500;"></div>';
+
+      // Per-question sample editors. Each Q gets a collapsible block with
+      // band-chip row + active-band English / Uzbek textareas.
+      if (!md.questions.length) {
+        html += '<div class="mmg-empty-hint">No questions yet. Add or import questions on the Part tabs first.</div>';
+      } else {
+        var levels = _mmgLevelTabsFor('ielts-speaking');
+        window._mmgSpLevel = window._mmgSpLevel || {};
+        for (var qi = 0; qi < md.questions.length; qi++) {
+          var q = md.questions[qi];
+          if (!q) continue;
+          if (!window._mmgSpLevel[qi]) window._mmgSpLevel[qi] = 'main';
+          var idP = 'spQ' + qi;
+          var activeLevel = window._mmgSpLevel[qi];
+          var activeLevelDef = levels.find(function (L) { return L.key === activeLevel; }) || levels[0];
+          var levelChips = levels.map(function (L) {
+            var dot = _mmgLevelStatus(q, L);
+            return '<button type="button" class="mmg-level-chip' + (L.key === activeLevel ? ' active' : '') + '" '
+              + 'onclick="_mmgIspPickLevel(' + qi + ', \'' + L.key + '\')">'
+              + '<span class="mmg-level-dot mmg-level-dot-' + dot.charCodeAt(0) + '">' + dot + '</span> '
+              + _mmgEsc(L.label) + '</button>';
+          }).join('');
+          var promptPreview = String(q.prompt || '').replace(/\s+/g, ' ').slice(0, 90);
+          if (q.prompt && q.prompt.length > 90) promptPreview += '…';
+          html += '<details class="mmg-q-block" data-q-index="' + qi + '" open style="margin-bottom:10px;">'
+                +   '<summary class="mmg-q-summary" style="cursor:pointer;padding:6px 8px;background:#f1f5f9;border-radius:6px;font-weight:700;">'
+                +     'Q' + (q.number || (qi + 1)) + ' · ' + _mmgEsc(q.part || '')
+                +     (promptPreview ? ' · <span style="font-weight:400;color:#64748b;">' + _mmgEsc(promptPreview) + '</span>' : '')
+                +   '</summary>'
+                +   '<div style="padding:10px 4px;">'
+                +     '<div class="mmg-level-chips" style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px;">' + levelChips + '</div>'
+                +     '<div class="mmg-sample-pair" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">'
+                +       '<div>' + _mmgFieldSample('English (' + activeLevelDef.label + ')', idP + '_en_' + activeLevel, q[activeLevelDef.enKey] || '', '') + '</div>'
+                +       '<div>' + _mmgFieldArea('Uzbek (' + activeLevelDef.label + ')', idP + '_uz_' + activeLevel, q[activeLevelDef.uzKey] || '', '', 200) + '</div>'
+                +     '</div>'
+                +   '</div>'
+                + '</details>';
+        }
+      }
+
+      pane.innerHTML = html;
+    }
+
+    // Flush sample textareas on the Samples tab back into mock_data.questions
+    // before re-rendering (chip switch / Save / level change).
+    function _mmgCollectIspSamples(md) {
+      if (!md) return;
+      md.questions = Array.isArray(md.questions) ? md.questions : [];
+      var levels = _mmgLevelTabsFor('ielts-speaking');
+      window._mmgSpLevel = window._mmgSpLevel || {};
+      for (var qi = 0; qi < md.questions.length; qi++) {
+        var activeLevel = window._mmgSpLevel[qi] || 'main';
+        var levelDef = levels.find(function (L) { return L.key === activeLevel; });
+        if (!levelDef) continue;
+        var enEl = document.getElementById('spQ' + qi + '_en_' + activeLevel);
+        var uzEl = document.getElementById('spQ' + qi + '_uz_' + activeLevel);
+        if (enEl && md.questions[qi]) md.questions[qi][levelDef.enKey] = enEl.value;
+        if (uzEl && md.questions[qi]) md.questions[qi][levelDef.uzKey] = uzEl.value;
+      }
+    }
+
+    window._mmgIspPickLevel = function (qIndex, level) {
+      var md = _mmgGetMockData(); if (!md) return;
+      _mmgCollectIspSamples(md);
+      _mmgSetMockData(md);
+      window._mmgSpLevel = window._mmgSpLevel || {};
+      window._mmgSpLevel[qIndex] = level;
+      _mmgRenderIspSamples(md);
+    };
+
+    window._mmgIspGenSamplesUpdateCost = function () {
+      var bands = Array.from(document.querySelectorAll('.mmgIspGenBand:checked')).map(function (el) { return parseInt(el.dataset.band, 10); });
+      var parts = Array.from(document.querySelectorAll('.mmgIspGenPart:checked')).map(function (el) { return el.dataset.part; });
+      var incUz   = !!document.getElementById('mmgIspGenIncludeUz')?.checked;
+      var incMain = !!document.getElementById('mmgIspGenIncludeMain')?.checked;
+      var btn = document.getElementById('mmgIspGenSamplesBtn');
+      var hint = document.getElementById('mmgIspGenCostHint');
+      if (!btn || !hint) return;
+      var enabled = bands.length > 0 && parts.length > 0;
+      btn.disabled = !enabled;
+      btn.style.cursor = enabled ? 'pointer' : 'not-allowed';
+      btn.style.opacity = enabled ? 1 : 0.55;
+      if (!enabled) {
+        hint.textContent = bands.length === 0 && parts.length === 0
+          ? 'Pick at least one band + one part to enable.'
+          : bands.length === 0 ? 'Pick at least one band.' : 'Pick at least one part.';
+        return;
+      }
+      var bandsLabel = bands.sort(function (a, b) { return a - b; }).map(function (b) { return 'B' + b; }).join(' / ');
+      hint.textContent = bandsLabel + ' × ' + parts.join(', ')
+        + (incUz   ? ' (×2 for Uz)' : '')
+        + (incMain ? ' + Main'      : '');
+    };
+
+    window._mmgIspGenSamples = async function () {
+      var btnEl = document.getElementById('mmgIspGenSamplesBtn');
+      function setStatus(msg, color) {
+        var s = document.getElementById('mmgIspGenSamplesStatus');
+        if (s) { s.textContent = msg; s.style.color = color || '#64748b'; }
+      }
+      if (!_mmgFlushStructuredToRaw()) {
+        setStatus('Fix the highlighted field, then try again.', '#dc2626');
+        return;
+      }
+      var bands = Array.from(document.querySelectorAll('.mmgIspGenBand:checked')).map(function (el) { return parseInt(el.dataset.band, 10); });
+      var parts = Array.from(document.querySelectorAll('.mmgIspGenPart:checked')).map(function (el) { return el.dataset.part; });
+      var includeUz   = !!document.getElementById('mmgIspGenIncludeUz')?.checked;
+      var includeMain = !!document.getElementById('mmgIspGenIncludeMain')?.checked;
+      if (!bands.length || !parts.length) {
+        setStatus('Pick at least one band + one part.', '#dc2626');
+        return;
+      }
+      var md = _mmgGetMockData();
+      var allQs = Array.isArray(md.questions) ? md.questions : [];
+      // Only send Qs that belong to a ticked part AND have a prompt.
+      var sendQs = allQs.map(function (q, i) {
+        return Object.assign({ qIndex: i }, q || {});
+      }).filter(function (q) {
+        return parts.indexOf(String(q.part || '')) >= 0 && String(q.prompt || '').trim();
+      });
+      if (!sendQs.length) {
+        setStatus('No questions with a prompt in the selected parts. Fill prompts first.', '#dc2626');
+        return;
+      }
+
+      btnEl.disabled = true;
+      var origLabel = btnEl.textContent;
+      btnEl.textContent = '⏳ Generating…';
+      var tick = 0;
+      var tickI = setInterval(function () {
+        tick++;
+        setStatus('Calling Gemini 2.5 Pro… ' + tick + 's elapsed (typical: 30–90s)', '#0e7490');
+      }, 1000);
+
+      try {
+        var r = await fetch(_MMG_TRANSCRIBE_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': _MMG_ANON, 'Authorization': 'Bearer ' + _MMG_ANON },
+          body: JSON.stringify({
+            adminPasscode: window._mmgPasscode,
+            exam_type:     'ielts-speaking',
+            scope:         'samples',
+            bands:         bands,
+            include_uzbek: includeUz,
+            include_main:  includeMain,
+            tags:          md.tags || {},
+            questions:     sendQs.map(function (q) {
+              return {
+                qIndex:       q.qIndex,
+                number:       q.number,
+                part:         q.part,
+                prompt:       String(q.prompt || '').trim(),
+                topic:        String(q.topic  || '').trim(),
+                bulletPoints: Array.isArray(q.bulletPoints) ? q.bulletPoints : undefined
+              };
+            })
+          })
+        });
+        var j = await r.json().catch(function () { return { error: 'bad_response' }; });
+        clearInterval(tickI);
+        if (!r.ok || j.error) {
+          var detail = j.detail || '';
+          throw new Error((j.error || ('HTTP ' + r.status)) + (detail ? ' — ' + String(detail).slice(0, 200) : ''));
+        }
+        // Merge per-Q samples — only fill empty slots.
+        var samplesByIdx = (j.samples || {});  // { "0": { sampleBand5: "...", ... }, ... }
+        md.questions = Array.isArray(md.questions) ? md.questions : [];
+        var filled = 0, skipped = 0;
+        Object.keys(samplesByIdx).forEach(function (qIdxStr) {
+          var qIdx = parseInt(qIdxStr, 10);
+          var q = md.questions[qIdx];
+          if (!q) return;
+          var slot = samplesByIdx[qIdxStr] || {};
+          Object.keys(slot).forEach(function (k) {
+            var existing = (q[k] || '').toString().trim();
+            if (existing) { skipped++; return; }
+            q[k] = slot[k];
+            filled++;
+          });
+        });
+        _mmgSetMockData(md);
+        window._mmgActiveTab = null;
+        _mmgInitTabs();
+        _mmgSwitchTab('samples');
+        setStatus('✓ Filled ' + filled + ' sample slot' + (filled === 1 ? '' : 's')
+                + (skipped ? ' (skipped ' + skipped + ' already filled)' : '')
+                + ' — review and Save when ready.', '#16a34a');
+      } catch (e) {
+        clearInterval(tickI);
+        setStatus('⚠ ' + (e.message || String(e)), '#dc2626');
+      } finally {
+        btnEl.disabled = false;
+        btnEl.textContent = origLabel;
+      }
+    };
+
+    window._mmgIspGenVocab = async function () {
+      var btnEl   = document.getElementById('mmgIspGenVocabBtn');
+      var countEl = document.getElementById('mmgIspVocabCount');
+      function setStatus(msg, color) {
+        var s = document.getElementById('mmgIspGenVocabStatus');
+        if (s) { s.textContent = msg; s.style.color = color || '#64748b'; }
+      }
+      if (!_mmgFlushStructuredToRaw()) {
+        setStatus('Fix the highlighted field, then try again.', '#dc2626');
+        return;
+      }
+      var activeKey = (window._mmgVocabState && window._mmgVocabState.task) || 'part1';
+      var partLabel = activeKey === 'part1' ? 'Part 1' : activeKey === 'part2' ? 'Part 2' : 'Part 3';
+      var md = _mmgGetMockData();
+      var partQs = (md.questions || []).filter(function (q) { return q && String(q.part || '') === partLabel; });
+      if (!partQs.length) {
+        setStatus('Add or import questions for ' + partLabel + ' before generating vocab.', '#dc2626');
+        return;
+      }
+      var count = parseInt((countEl && countEl.value) || '20', 10);
+      if (!isFinite(count) || count < 5) count = 20;
+
+      btnEl.disabled = true;
+      var origLabel = btnEl.textContent;
+      btnEl.textContent = '⏳ …';
+      var tick = 0;
+      var tickI = setInterval(function () {
+        tick++;
+        setStatus('Calling Gemini 2.5 Pro… ' + tick + 's elapsed', '#0e7490');
+      }, 1000);
+
+      try {
+        var r = await fetch(_MMG_TRANSCRIBE_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': _MMG_ANON, 'Authorization': 'Bearer ' + _MMG_ANON },
+          body: JSON.stringify({
+            adminPasscode: window._mmgPasscode,
+            exam_type:     'ielts-speaking',
+            scope:         'vocab',
+            part:          partLabel,
+            tags:          md.tags || {},
+            count:         count,
+            questions:     partQs.map(function (q) { return { prompt: q.prompt, topic: q.topic }; })
+          })
+        });
+        var j = await r.json().catch(function () { return { error: 'bad_response' }; });
+        clearInterval(tickI);
+        if (!r.ok || j.error) {
+          var detail = j.detail || '';
+          throw new Error((j.error || ('HTTP ' + r.status)) + (detail ? ' — ' + String(detail).slice(0, 200) : ''));
+        }
+        md.vocabulary = md.vocabulary || {};
+        md.vocabulary[activeKey] = Array.isArray(md.vocabulary[activeKey]) ? md.vocabulary[activeKey] : [];
+        var existingEn = new Set();
+        md.vocabulary[activeKey].forEach(function (row) {
+          if (row && row.en) existingEn.add(String(row.en).trim().toLowerCase());
+        });
+        var added = 0;
+        (j.vocabulary || []).forEach(function (row) {
+          if (!row || !row.en || !row.uz) return;
+          var k = String(row.en).trim().toLowerCase();
+          if (existingEn.has(k)) return;
+          existingEn.add(k);
+          md.vocabulary[activeKey].push({ en: String(row.en).trim(), uz: String(row.uz).trim() });
+          added++;
+        });
+        _mmgSetMockData(md);
+        _mmgRenderVocab(md);
+        setStatus('✓ Added ' + added + ' entr' + (added === 1 ? 'y' : 'ies') + ' to ' + partLabel + ' — review and Save when ready.', '#16a34a');
+      } catch (e) {
+        clearInterval(tickI);
+        setStatus('⚠ ' + (e.message || String(e)), '#dc2626');
+      } finally {
+        btnEl.disabled = false;
+        btnEl.textContent = origLabel;
+      }
+    };
+
     // Click handlers for the inner-navigation chips.
     function _mmgSamplesPickTask(taskKey) {
       var md = _mmgGetMockData(); if (!md) return;
@@ -35485,6 +36543,8 @@
     }
     function _mmgCollectSamples(md) {
       var type = _mmgCurrentType();
+      // IELTS Speaking samples live per-question on the new Samples tab.
+      if (type === 'ielts-speaking') { _mmgCollectIspSamples(md); return; }
       md.tasks = md.tasks || {};
       if (type === 'cefr-writing') {
         var cwAllFields = ['sample','sampleA1','sampleA2','sampleB1','sampleB2',
@@ -35555,6 +36615,19 @@
               +   '<button type="button" id="mmgIwGenVocabBtn" onclick="_mmgIwGenVocab()" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(124,58,237,.3);white-space:nowrap;">✨ Generate</button>'
               + '</div>';
         html += '<div id="mmgIwGenVocabStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;font-weight:500;"></div>';
+      }
+
+      // IELTS Speaking — ✨ Auto-generate topical EN↔UZ vocab for the
+      // active part. Reads ALL questions in that part as context.
+      if (_mmgCurrentType() === 'ielts-speaking') {
+        html += '<div style="background:linear-gradient(135deg,#ecfeff,#cffafe);border:1px solid #a5f3fc;border-radius:10px;padding:12px 14px;margin:8px 0 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">'
+              +   '<div style="flex:1;min-width:240px;font-size:12px;color:#155e75;line-height:1.5;">'
+              +     '<strong>✨ Auto-generate vocabulary</strong> — Gemini 2.5 Pro reads every question in the active Part and emits topical English↔Uzbek pairs. Skips duplicates that are already on the list.'
+              +   '</div>'
+              +   '<input type="number" id="mmgIspVocabCount" value="20" min="5" max="60" style="width:64px;border:1px solid #cbd5e1;border-radius:6px;padding:6px 8px;font-size:12.5px;text-align:right;" title="How many entries to generate (5–60)">'
+              +   '<button type="button" id="mmgIspGenVocabBtn" onclick="_mmgIspGenVocab()" style="background:linear-gradient(135deg,#06b6d4,#0891b2);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:12.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 10px rgba(8,145,178,.3);white-space:nowrap;">✨ Generate</button>'
+              + '</div>';
+        html += '<div id="mmgIspGenVocabStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;font-weight:500;"></div>';
       }
 
       // Task chip row (count + filled dot per chip).
@@ -39309,7 +40382,7 @@
       // calls them sections; IELTS Writing calls them tasks; CEFR Writing
       // labels its task tabs T1.1 / T1.2 / T2 (passageIndex 0/1/2). Data
       // stays 1-based for the user.
-      var unit = (st.examType === 'cefr-reading' || st.examType === 'cefr-listening') ? 'Part'
+      var unit = (st.examType === 'cefr-reading' || st.examType === 'cefr-listening' || st.examType === 'ielts-speaking') ? 'Part'
                : (st.examType === 'ielts-listening') ? 'Section'
                : (st.examType === 'ielts-writing') ? 'Task'
                : 'Passage';
@@ -39325,11 +40398,10 @@
       } else {
         ttl.textContent = '✨ Import test from PDF / image';
       }
-      // IELTS Writing + CEFR Writing have no answer key (every task is
-      // free-response). Hide the Answer key section + the "skip if your
-      // test file…" tagline so admins don't think they need to provide one.
+      // IELTS Writing, CEFR Writing, and IELTS Speaking have no answer
+      // key (all open-response). Hide the Answer key section + tagline.
       var keyHeader = document.getElementById('mmgImportKeySection');
-      if (keyHeader) keyHeader.style.display = (st.examType === 'ielts-writing' || st.examType === 'cefr-writing') ? 'none' : '';
+      if (keyHeader) keyHeader.style.display = (st.examType === 'ielts-writing' || st.examType === 'cefr-writing' || st.examType === 'ielts-speaking') ? 'none' : '';
 
       // CEFR Writing supports a text-only path: admin pastes the raw task
       // text into "Notes for the AI" and skips the screenshot upload.
@@ -39338,16 +40410,20 @@
       var notesArea  = document.getElementById('mmgImportNotes');
       var sizeRow    = document.getElementById('mmgImportSizeRow');
       var isCw       = (st.examType === 'cefr-writing');
-      if (notesLbl) notesLbl.textContent = isCw
+      var isIsp      = (st.examType === 'ielts-speaking');
+      var allowText  = isCw || isIsp;
+      if (notesLbl) notesLbl.textContent = allowText
         ? 'Notes / paste raw task text (use this OR upload screenshots)'
         : 'Notes for the AI (optional)';
       if (notesArea) {
         notesArea.placeholder = isCw
           ? 'Paste the full task text here (Part 1 context + email + Task 1.1 + Task 1.2 + Task 2). Gemini extracts everything from this text — no screenshot needed.'
+          : isIsp
+          ? 'Paste all 17 question prompts here (Part 1: 7 Qs · Part 2: cue card + 2 follow-ups · Part 3: 7 Qs). Gemini extracts everything — no screenshot needed.'
           : 'e.g., \'Part 3 is matching-headings; the headings list is on page 4.\'  Leave blank to use defaults.';
-        notesArea.style.minHeight = isCw ? '160px' : '60px';
+        notesArea.style.minHeight = allowText ? '160px' : '60px';
       }
-      if (sizeRow) sizeRow.textContent = isCw
+      if (sizeRow) sizeRow.textContent = allowText
         ? 'Either paste the task text above OR upload screenshots. Total upload: 0 MB / 20 MB'
         : 'Total: 0 MB / 20 MB';
     }
@@ -39457,18 +40533,20 @@
       var typeSel = document.getElementById('mmgFldType');
       var currentType = (typeSel && typeSel.value) || (m && m.mock_type);
       if (m) m.mock_type = currentType;
-      if (!m || (currentType !== 'cefr-reading' && currentType !== 'ielts-reading' && currentType !== 'ielts-listening' && currentType !== 'cefr-listening' && currentType !== 'ielts-writing' && currentType !== 'cefr-writing')) {
-        alert('Per-section import is currently available for CEFR Reading, IELTS Reading, IELTS Listening, CEFR Listening, IELTS Writing, and CEFR Writing mocks.');
+      if (!m || (currentType !== 'cefr-reading' && currentType !== 'ielts-reading' && currentType !== 'ielts-listening' && currentType !== 'cefr-listening' && currentType !== 'ielts-writing' && currentType !== 'cefr-writing' && currentType !== 'ielts-speaking')) {
+        alert('Per-section import is currently available for CEFR Reading, IELTS Reading, IELTS Listening, CEFR Listening, IELTS Writing, CEFR Writing, and IELTS Speaking mocks.');
         return;
       }
-      // CEFR Writing: idx === -1 is the Settings-tab bulk bar (whole mock
-      // in one shot). idx 0/1/2 are the per-task bars on T1.1 / T1.2 / T2.
+      // CEFR Writing + IELTS Speaking: idx === -1 is the Settings-tab
+      // bulk bar (whole mock in one shot). Other idx values are per-part
+      // bars on each Part tab.
       var isCwBulk = (currentType === 'cefr-writing' && idx === -1);
+      var isIspBulk = (currentType === 'ielts-speaking' && idx === -1);
       window._mmgImportState = {
         files:        [],
         examType:     currentType,
-        scope:        isCwBulk ? 'full' : 'passage',
-        passageIndex: isCwBulk ? 0 : idx
+        scope:        (isCwBulk || isIspBulk) ? 'full' : 'passage',
+        passageIndex: (isCwBulk || isIspBulk) ? 0 : idx
       };
       _mmgImportApplyScope();
       document.getElementById('mmgImportNotes').value = '';
@@ -39477,9 +40555,10 @@
       var btn = document.getElementById('mmgImportSubmitBtn');
       // Match the button label to the exam's unit (Part / Passage / Task /
       // Mock for the cefr-writing bulk case).
-      var unitLabel = isCwBulk ? 'mock'
+      var unitLabel = (isCwBulk || isIspBulk) ? 'mock'
                     : (m.mock_type === 'cefr-reading' || m.mock_type === 'cefr-listening') ? 'part'
                     : (m.mock_type === 'ielts-writing' || m.mock_type === 'cefr-writing') ? 'task'
+                    : (m.mock_type === 'ielts-speaking') ? 'part'
                     : 'passage';
       btn.disabled = false; btn.textContent = '✨ Import ' + unitLabel;
       _mmgImportRender();
@@ -39822,10 +40901,10 @@
       // — when notes is non-empty, allow zero-file submission. All other
       // exam types still require at least one screenshot / PDF.
       var notesPreview = (document.getElementById('mmgImportNotes').value || '').trim();
-      var allowTextOnly = (st.examType === 'cefr-writing') && notesPreview.length >= 20;
+      var allowTextOnly = (st.examType === 'cefr-writing' || st.examType === 'ielts-speaking') && notesPreview.length >= 20;
       if (testCount === 0 && !allowTextOnly) {
         status.style.color = '#dc2626';
-        status.textContent = (st.examType === 'cefr-writing')
+        status.textContent = (st.examType === 'cefr-writing' || st.examType === 'ielts-speaking')
           ? 'Add at least one screenshot OR paste the task text (≥20 chars) into "Notes for the AI".'
           : 'Add at least one test-content file.';
         return;
@@ -39868,6 +40947,11 @@
       // topic + auto-tagged chips. Same payload shape as the IELTS
       // Reading / Listening full-mock importers.
       if (st.scope === 'full' && st.examType === 'cefr-writing') {
+        payload.scope = 'full';
+      }
+      // IELTS Speaking bulk: scope=full returns a questions[] array
+      // covering all 17 Qs across the 3 parts + tags.{p1,p2,p3}Topic.
+      if (st.scope === 'full' && st.examType === 'ielts-speaking') {
         payload.scope = 'full';
       }
 
@@ -40155,6 +41239,45 @@
             if (prevCw[k] != null && newCw[k] == null) newCw[k] = prevCw[k];
           });
           j.mock_data = newCw;
+        } else if (st.examType === 'ielts-speaking') {
+          // IELTS Speaking bulk-import: replace questions[] with the new
+          // extraction but preserve admin-curated audio paths (matched
+          // by part + index in the part), samples (sampleA1/A2/B1/B2/C1
+          // /C2 + Uz variants per Q), and the per-question topic field.
+          // Also preserve top-level fields the runner needs.
+          var prevIsp  = window._mmgEditing.mock_data || {};
+          var newIsp   = j.mock_data || {};
+          var SAMPLE_KEYS = ['sample','sampleA1','sampleA2','sampleB1','sampleB2','sampleC1','sampleC2',
+                             'uzSample','uzSampleA1','uzSampleA2','uzSampleB1','uzSampleB2','uzSampleC1','uzSampleC2'];
+          var prevByPartIdx = {};
+          (Array.isArray(prevIsp.questions) ? prevIsp.questions : []).forEach(function (q) {
+            if (!q || !q.part) return;
+            prevByPartIdx[q.part] = prevByPartIdx[q.part] || [];
+            prevByPartIdx[q.part].push(q);
+          });
+          var newQs = Array.isArray(newIsp.questions) ? newIsp.questions.slice() : [];
+          var counter = { 'Part 1': 0, 'Part 2': 0, 'Part 3': 0 };
+          for (var qi = 0; qi < newQs.length; qi++) {
+            var nq = newQs[qi] = (newQs[qi] || {});
+            var partKey = String(nq.part || 'Part 1');
+            var localIdx = counter[partKey] || 0;
+            counter[partKey] = localIdx + 1;
+            var prevQ = (prevByPartIdx[partKey] && prevByPartIdx[partKey][localIdx]) || {};
+            // Preserve admin-managed fields when the new extraction
+            // doesn't include them (audio + per-Q samples + topic tag).
+            if (prevQ.audioFile && !nq.audioFile) nq.audioFile = prevQ.audioFile;
+            if (prevQ.topic && !nq.topic)         nq.topic     = prevQ.topic;
+            for (var si = 0; si < SAMPLE_KEYS.length; si++) {
+              var sk = SAMPLE_KEYS[si];
+              if (prevQ[sk] != null && nq[sk] == null) nq[sk] = prevQ[sk];
+            }
+          }
+          newIsp.questions = newQs;
+          // Preserve top-level extras the runner reads.
+          ['settings','announcements','vocabulary','tokenTranslations','source','examDate'].forEach(function (k) {
+            if (prevIsp[k] != null && newIsp[k] == null) newIsp[k] = prevIsp[k];
+          });
+          j.mock_data = newIsp;
         } else if (st.examType === 'cefr-listening') {
           // CEFR Listening bulk-import: preserve per-part audioFile,
           // mapImage (Part 4), and transcript across import. CEFR

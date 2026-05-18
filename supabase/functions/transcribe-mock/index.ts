@@ -2005,6 +2005,594 @@ Rules:
   return { vocabulary, modelUsed, fallbackReason };
 }
 
+// IELTS Speaking — whole-mock extraction from screenshots or pasted
+// text. Returns a mock_data shape covering all 17 questions across
+// the 3 parts + tags.{p1,p2,p3}Topic in one call so no separate
+// Auto-tag round-trip is ever needed.
+async function generateIeltsSpeakingFull(opts: {
+  files:     FileItem[];
+  notes:     string;
+  geminiKey: string;
+}): Promise<{ mockData: any; modelUsed: string; fallbackReason: string | null }> {
+  const { files, notes, geminiKey } = opts;
+  const hasFiles = files.length > 0;
+  const sourceLabel = hasFiles
+    ? 'one or more screenshots / scanned PDF pages'
+    : 'pasted raw text (no screenshots — read the text in the "Admin notes" block below as the SOLE source for all 17 questions)';
+
+  // Worked example uses a niche domain so Gemini cannot echo it into
+  // unrelated mocks (same trick the cwet bulk prompt uses).
+  const exampleSource =
+`Part 1 — Beekeeping & gardening
+
+  Do you grow any plants at home?
+  Have you ever kept bees or small insects as a hobby?
+  What kinds of plants are popular in your country?
+  Do you think children should learn about gardening in school?
+  Would you rather work in a garden or in an office?
+  Is gardening more popular with older people or younger people in your country?
+  Do you buy flowers as gifts often?
+
+Part 2
+
+  Describe a hobby that involves working with your hands.
+
+  You should say:
+    what the hobby is
+    how you started it
+    why you enjoy it
+    and explain whether you would recommend it to others.
+
+Part 3 — Practical hobbies
+
+  Why do you think hands-on hobbies are popular?
+  Should schools spend more time teaching practical skills?
+  How does doing a creative hobby help mental health?
+  Are these hobbies more popular with men or women in your country?
+  Do you think modern technology has reduced traditional crafts?
+  Should governments fund organisations that preserve old crafts?
+  Do you think practical hobbies could become careers?`;
+
+  const exampleOut = {
+    tags: {
+      p1Topic: 'Plants & gardening',
+      p2Topic: 'A hands-on hobby',
+      p3Topic: 'Practical hobbies & crafts'
+    },
+    questions: [
+      { number: 1,  part: 'Part 1', prompt: 'Do you grow any plants at home?',                                    prepTime: 0,  speakTime: 30,  topic: 'Plants' },
+      { number: 2,  part: 'Part 1', prompt: 'Have you ever kept bees or small insects as a hobby?',               prepTime: 0,  speakTime: 30,  topic: 'Plants' },
+      { number: 3,  part: 'Part 1', prompt: 'What kinds of plants are popular in your country?',                  prepTime: 0,  speakTime: 30,  topic: 'Plants' },
+      { number: 4,  part: 'Part 1', prompt: 'Do you think children should learn about gardening in school?',      prepTime: 0,  speakTime: 30,  topic: 'Plants' },
+      { number: 5,  part: 'Part 1', prompt: 'Would you rather work in a garden or in an office?',                 prepTime: 0,  speakTime: 30,  topic: 'Plants' },
+      { number: 6,  part: 'Part 1', prompt: 'Is gardening more popular with older people or younger people in your country?', prepTime: 0, speakTime: 30, topic: 'Plants' },
+      { number: 7,  part: 'Part 1', prompt: 'Do you buy flowers as gifts often?',                                 prepTime: 0,  speakTime: 30,  topic: 'Plants' },
+      { number: 8,  part: 'Part 2', prompt: 'Describe a hobby that involves working with your hands.\n\nYou should say:\n  what the hobby is\n  how you started it\n  why you enjoy it\n  and explain whether you would recommend it to others.', prepTime: 60, speakTime: 120, topic: 'Hands-on hobby' },
+      { number: 9,  part: 'Part 2', prompt: 'Do you usually do this hobby alone or with other people?',           prepTime: 0,  speakTime: 30,  topic: 'Hands-on hobby' },
+      { number: 10, part: 'Part 2', prompt: 'Is it expensive to keep this hobby going?',                          prepTime: 0,  speakTime: 30,  topic: 'Hands-on hobby' },
+      { number: 11, part: 'Part 3', prompt: 'Why do you think hands-on hobbies are popular?',                     prepTime: 0,  speakTime: 45,  topic: 'Practical hobbies' },
+      { number: 12, part: 'Part 3', prompt: 'Should schools spend more time teaching practical skills?',          prepTime: 0,  speakTime: 45,  topic: 'Practical hobbies' },
+      { number: 13, part: 'Part 3', prompt: 'How does doing a creative hobby help mental health?',                prepTime: 0,  speakTime: 45,  topic: 'Practical hobbies' },
+      { number: 14, part: 'Part 3', prompt: 'Are these hobbies more popular with men or women in your country?',  prepTime: 0,  speakTime: 45,  topic: 'Practical hobbies' },
+      { number: 15, part: 'Part 3', prompt: 'Do you think modern technology has reduced traditional crafts?',     prepTime: 0,  speakTime: 45,  topic: 'Practical hobbies' },
+      { number: 16, part: 'Part 3', prompt: 'Should governments fund organisations that preserve old crafts?',    prepTime: 0,  speakTime: 45,  topic: 'Practical hobbies' },
+      { number: 17, part: 'Part 3', prompt: 'Do you think practical hobbies could become careers?',               prepTime: 0,  speakTime: 45,  topic: 'Practical hobbies' }
+    ]
+  };
+
+  const promptText =
+`You are extracting a complete IELTS Speaking mock (Part 1 + Part 2 + Part 3) from ${sourceLabel}. Output ONLY one JSON object — no prose, no markdown.
+
+IELTS Speaking has exactly THREE parts. The question count VARIES from mock to mock — do NOT pad or trim to hit any target number. Emit EXACTLY what the source shows:
+
+  Part 1 — warm-up questions grouped into 1-3 topics. Typical count: 4-9 (most often 6-8). Each Q: prepTime=0, speakTime=30.
+  Part 2 — exactly 1 cue card ("Describe …") with bullet points, optionally followed by 0-3 short follow-up Qs. Cue card: prepTime=60, speakTime=120. Follow-ups: prepTime=0, speakTime=30.
+  Part 3 — deeper discussion questions on the Part 2 theme. Typical count: 4-9 (most often 6-8). Each Q: prepTime=0, speakTime=45.
+
+If the source shows only 5 Part 1 Qs, emit 5. If it shows 8 Part 3 Qs, emit 8. Do not invent questions to fill a quota.
+
+Required output shape (numbers are exact):
+{
+  "tags": {
+    "p1Topic": string,   // 2-6 words. General theme covering Part 1's 7 Qs. Multiple topics OK — join with " / ". e.g. "Hometown / Work or Study".
+    "p2Topic": string,   // 2-4 words. Cue-card CORE phrase, no "Describe a/an/the" preamble. e.g. "A wild animal", "Encouraging someone".
+    "p3Topic": string    // 3-5 words. Umbrella theme covering ALL 7 Part 3 follow-ups (broader than p2). e.g. "Wildlife & nature", "Encouragement & motivation".
+  },
+  "questions": [
+    { "number": 1,  "part": "Part 1", "prompt": "<verbatim Q>", "prepTime": 0,  "speakTime": 30, "topic": "<2-3 word topic label>" },
+    …
+    { "number": 8,  "part": "Part 2", "prompt": "Describe …\\n\\nYou should say:\\n  …\\n  …", "prepTime": 60, "speakTime": 120, "topic": "<same as p2Topic>" },
+    { "number": 9,  "part": "Part 2", "prompt": "<follow-up Q>",                    "prepTime": 0, "speakTime": 30, "topic": "<same as p2Topic>" },
+    { "number": 10, "part": "Part 2", "prompt": "<follow-up Q>",                    "prepTime": 0, "speakTime": 30, "topic": "<same as p2Topic>" },
+    { "number": 11, "part": "Part 3", "prompt": "<verbatim Q>", "prepTime": 0,  "speakTime": 45, "topic": "<same as p3Topic>" },
+    …
+  ]
+}
+
+Rules:
+- "prompt" is VERBATIM from the source. Keep bullet points on Part 2's cue card (use "\\n" between lines).
+- "number" is 1-based and continuous across the WHOLE mock (Part 1 first, then Part 2, then Part 3 — never reset to 1 between parts). The example below shows 17 because that's the count of THAT example — your output's count comes from the user's source.
+- "topic" on each Q is short (2-3 words). For Part 1, group Qs by their sub-topic. For Part 2 and Part 3, use the umbrella topic.
+- "tags.p2Topic" MUST NOT start with "Describe", "A time", "An occasion", "A place" — extract the CORE noun phrase. e.g. cue card "Describe a time when you helped a stranger" → p2Topic = "Helping a stranger".
+- "tags.p3Topic" expands p2Topic's theme. Pick a label that fits the umbrella across all 7 follow-ups.
+- DO NOT emit Markdown, code fences, or commentary — JSON only.
+
+CRITICAL — the example below is ONLY a SHAPE reference. The content of YOUR output MUST come from the user's source. NEVER copy words like "beekeeping", "hands-on hobby", "Plants & gardening" from the example unless they actually appear in the user's source.
+
+Worked example (FOR SHAPE ONLY — DO NOT REUSE ITS CONTENT):
+
+INPUT:
+"""
+${exampleSource}
+"""
+
+OUTPUT:
+${JSON.stringify(exampleOut, null, 2)}
+
+Now extract the user's actual mock from the source that follows.
+${notes ? '\nAdmin notes:\n' + notes : ''}`;
+
+  const parts: Array<{ text: string } | { inlineData: { mimeType: string; data: string } }> = [
+    { text: promptText }
+  ];
+  for (const f of files) {
+    if (!f.base64 || !f.mime) continue;
+    parts.push({ inlineData: { mimeType: f.mime, data: f.base64 } });
+  }
+
+  const body = {
+    contents: [{ role: 'user', parts }],
+    generationConfig: {
+      temperature:      0.15,
+      responseMimeType: 'application/json',
+      maxOutputTokens:  16384,
+      thinkingConfig:   { thinkingBudget: 2048 }
+    },
+    safetySettings: [
+      { category: 'HARM_CATEGORY_HARASSMENT',        threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_HATE_SPEECH',       threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' }
+    ]
+  };
+
+  let modelUsed: 'gemini-2.5-pro' | 'gpt-4o' = 'gemini-2.5-pro';
+  let fallbackReason: string | null = null;
+  let raw = '';
+  try {
+    const r = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${geminiKey}`,
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
+    );
+    if (!r.ok) throw new Error(`gemini http ${r.status}: ${(await r.text()).slice(0, 200)}`);
+    const j = await r.json();
+    const cand = j?.candidates?.[0];
+    if (cand?.finishReason && cand.finishReason !== 'STOP' && cand.finishReason !== 'MAX_TOKENS') {
+      throw new Error(`gemini finishReason=${cand.finishReason}`);
+    }
+    raw = cand?.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
+    if (!raw.trim()) throw new Error('gemini returned empty text');
+  } catch (e) {
+    fallbackReason = e instanceof Error ? e.message : String(e);
+    // GPT-4o fallback with vision.
+    try {
+      const userContent: Array<{ type: 'text'; text: string } | { type: 'image_url'; image_url: { url: string } }> = [
+        { type: 'text', text: promptText }
+      ];
+      for (const f of files) {
+        if (!f.base64 || !f.mime) continue;
+        userContent.push({ type: 'image_url', image_url: { url: `data:${f.mime};base64,${f.base64}` } });
+      }
+      const r2 = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${OPENAI_KEY}` },
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          messages: [
+            { role: 'system', content: 'You output ONLY the JSON object the user describes — no prose, no markdown.' },
+            { role: 'user',   content: userContent }
+          ],
+          response_format: { type: 'json_object' },
+          temperature: 0.15,
+          max_tokens: 8192
+        })
+      });
+      if (!r2.ok) throw new Error(`gpt-4o http ${r2.status}: ${(await r2.text()).slice(0, 200)}`);
+      const j2 = await r2.json();
+      raw = j2?.choices?.[0]?.message?.content || '';
+      modelUsed = 'gpt-4o';
+    } catch (gptErr) {
+      throw new Error(`both models failed. gemini: ${fallbackReason}; gpt-4o: ${gptErr instanceof Error ? gptErr.message : String(gptErr)}`);
+    }
+  }
+
+  let parsed: any;
+  try { parsed = JSON.parse(raw.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '')); }
+  catch (e) { throw new Error(`ielts speaking full JSON parse failed: ${(e as Error).message} — raw: ${raw.slice(0, 200)}`); }
+
+  // Sanitise the response into the mock_data shape the editor expects.
+  const VALID_PART = new Set(['Part 1', 'Part 2', 'Part 3']);
+  const pickStr  = (v: unknown) => typeof v === 'string' && v.trim() ? v.trim() : '';
+  const pickNum  = (v: unknown, fallback: number) => {
+    const n = Number(v);
+    return Number.isFinite(n) && n >= 0 ? n : fallback;
+  };
+
+  const tagsIn = parsed?.tags || {};
+  const qsIn   = Array.isArray(parsed?.questions) ? parsed.questions : [];
+  let counter = 1;
+  const questions: any[] = [];
+  for (const q of qsIn) {
+    if (!q) continue;
+    const part = VALID_PART.has(q.part) ? q.part : 'Part 1';
+    const defaultSpeak = part === 'Part 2' && (q.prepTime > 0 || /^describe\s+/i.test(String(q.prompt || ''))) ? 120
+                        : part === 'Part 3' ? 45 : 30;
+    const defaultPrep  = part === 'Part 2' && /^describe\s+/i.test(String(q.prompt || '')) ? 60 : 0;
+    questions.push({
+      number:    pickNum(q.number, counter),
+      part,
+      prompt:    pickStr(q.prompt),
+      prepTime:  pickNum(q.prepTime, defaultPrep),
+      speakTime: pickNum(q.speakTime, defaultSpeak),
+      topic:     pickStr(q.topic)
+    });
+    counter++;
+  }
+
+  const mockData: any = {
+    tags: {
+      p1Topic: pickStr(tagsIn.p1Topic) || undefined,
+      p2Topic: pickStr(tagsIn.p2Topic) || undefined,
+      p3Topic: pickStr(tagsIn.p3Topic) || undefined
+    },
+    questions,
+    // Minimal settings so the runner gate doesn't crash on first load.
+    settings: { examTitle: 'IELTS Speaking' }
+  };
+
+  return { mockData, modelUsed, fallbackReason };
+}
+
+// IELTS Speaking — generate per-question spoken samples for the
+// requested bands × parts. Returns { samples: { "<qIndex>": { sampleBand5,
+// sampleBand6, … sampleAnswer, uzSampleBand5, … uzSampleAnswer } } }.
+// Client only sends Qs in the ticked parts + only Qs that already have a
+// prompt. Empty existing slots get filled; non-empty ones are preserved.
+async function generateIeltsSpeakingSamples(opts: {
+  bands:        number[];
+  includeUzbek: boolean;
+  includeMain:  boolean;
+  tags:         { p1Topic?: string; p2Topic?: string; p3Topic?: string };
+  questions:    Array<{ qIndex: number; number?: number; part: string; prompt: string; topic?: string; bulletPoints?: string[] }>;
+  geminiKey:    string;
+}): Promise<{ samples: any; modelUsed: string; fallbackReason: string | null }> {
+  const { bands, includeUzbek, includeMain, tags, questions, geminiKey } = opts;
+
+  const VALID_BANDS = new Set([5, 6, 7, 8, 9]);
+  const cleanBands = bands.filter(b => VALID_BANDS.has(b));
+
+  const BAND_NOTES: Record<number, string> = {
+    5: 'Band 5 — limited range. Short, simple sentences. Frequent hesitations and self-correction. Limited topical vocabulary; learner-typical grammar errors (article slips, simple-past slips, subject-verb agreement misses). Pronunciation features are basic; some L1 influence.',
+    6: 'Band 6 — willing to talk at length but with occasional repetition / self-correction. Mix of simple and complex sentences. A reasonable range of vocabulary but uses some inaccurate word choice. Generally appropriate use of cohesive devices, sometimes overused.',
+    7: 'Band 7 — speaks at length without noticeable effort. Some vocabulary flexibility, less-common items used with some awareness of style and collocation. A range of complex grammar with some errors. Effective use of cohesive devices.',
+    8: 'Band 8 — fluent with only occasional repetition or hesitation. Wide range of vocabulary fluently and flexibly to convey precise meaning. Wide range of structures used flexibly. Idiomatic language used appropriately. Errors are rare.',
+    9: 'Band 9 — fluent with only very rare repetition. Fully natural and appropriate. Full flexibility with structure and vocabulary. Native-like idioms and discourse markers. Errors are extremely rare and only as slips.'
+  };
+
+  // Target length depends on the part:
+  //   Part 1 Q → ~30-50 words (one-paragraph answer)
+  //   Part 2 cue card → ~150-220 words (2-min monologue)
+  //   Part 2 follow-up → ~25-40 words
+  //   Part 3 Q → ~70-100 words
+  function lenTarget(q: { part: string; bulletPoints?: string[] }): string {
+    const part = String(q.part || '');
+    const isCue = part === 'Part 2' && (q.bulletPoints?.length || (q as any).prompt?.toLowerCase?.().startsWith?.('describe'));
+    if (part === 'Part 1')  return '30-50 words';
+    if (part === 'Part 2')  return isCue ? '150-220 words' : '25-40 words';
+    if (part === 'Part 3')  return '70-100 words';
+    return '40-60 words';
+  }
+
+  // Build the JSON shape Gemini should emit per question — only the slots we
+  // actually want, so it doesn't waste tokens on unrequested ones.
+  const slotsLines: string[] = [];
+  if (includeMain) {
+    slotsLines.push('"sampleAnswer": "<the main model spoken answer (target band ~7). Sound like a confident speaker — natural fillers OK (\\"well, …\\", \\"to be honest, …\\"). Wrap 3-6 high-value chunks in <mark>…</mark>>"');
+    if (includeUzbek) slotsLines.push('"uzSampleAnswer": "<faithful Uzbek translation of sampleAnswer (natural modern Uzbek in Latin script). Wrap the SAME 3-6 chunks in <mark>…</mark>>"');
+  }
+  for (const b of cleanBands) {
+    slotsLines.push(`"sampleBand${b}": "<a Band-${b} spoken response at the target length for THIS question's part. Wrap 2-4 phrases in <mark>…</mark> to highlight the band-appropriate vocabulary>"`);
+    if (includeUzbek) {
+      slotsLines.push(`"uzSampleBand${b}": "<faithful Uzbek translation of sampleBand${b} (preserve the band — DON'T polish a Band-5 answer into eloquent Uzbek). Wrap the SAME marked phrases in <mark>…</mark>>"`);
+    }
+  }
+
+  const qLines = questions.map(q => {
+    const promptOneLine = String(q.prompt || '').replace(/\s+/g, ' ').trim();
+    return `qIndex=${q.qIndex} | ${q.part} | target length ${lenTarget(q)} | prompt: ${promptOneLine}`;
+  }).join('\n');
+
+  const tagBlock = [
+    tags.p1Topic ? `Part 1 topic: ${tags.p1Topic}` : '',
+    tags.p2Topic ? `Part 2 cue-card theme: ${tags.p2Topic}` : '',
+    tags.p3Topic ? `Part 3 umbrella theme: ${tags.p3Topic}` : ''
+  ].filter(Boolean).join('\n');
+
+  const promptText =
+`You are writing model spoken answers for an IELTS Speaking mock test. The student is preparing for the IELTS Speaking exam, so your samples must match the requested band accurately. Output ONLY a JSON object — no prose, no markdown.
+
+For EACH question in the list below, emit ONE object keyed by its qIndex with ONLY the slot keys listed below. Leave out any slot we did NOT list.
+
+Required output shape:
+{
+  "samples": {
+${questions.map(q => `    "${q.qIndex}": {\n      ${slotsLines.join(',\n      ')}\n    }`).join(',\n')}
+  }
+}
+
+IELTS Speaking band guidance (use these as targets when writing each sample):
+${cleanBands.map(b => `• Band ${b}: ${BAND_NOTES[b]}`).join('\n')}
+${includeMain ? '• Main (sampleAnswer): a polished Band-7 spoken answer that demonstrates strong fluency, range of vocabulary, and natural delivery.' : ''}
+
+Length targets per part:
+• Part 1 — ~30-50 words per answer (one-paragraph).
+• Part 2 cue card — ~150-220 words (a 2-minute monologue that covers the bullet points).
+• Part 2 follow-up — ~25-40 words.
+• Part 3 — ~70-100 words per answer (extended opinion with reasoning).
+
+Rules:
+- Each answer must actually engage with what the question asks (give a real opinion, reason, example).
+- For Part 2 cue cards, cover ALL the bullet points in order, in one connected monologue.
+- Lower bands (5-6) MUST sound like real learners: shorter clauses, occasional grammar slips, simpler vocab. Don't make a Band 5 answer secretly Band 7.
+- Higher bands (8-9) use idiomatic phrases, varied connectors, and natural discourse markers ("the thing is", "off the top of my head", "having said that").
+- Wrap high-value chunks (collocations, idioms, advanced phrasal verbs) in <mark>…</mark> so the reader sees what's worth memorising. Match the same chunks across the English and Uzbek versions of the same band.
+- Uzbek translations must mirror the band — DON'T polish a Band-5 answer into eloquent Uzbek. Render natural modern Uzbek (Latin script).
+- DO NOT emit Markdown, code fences, or commentary — JSON only.
+
+CONTEXT:
+${tagBlock ? tagBlock + '\n' : ''}
+QUESTIONS:
+${qLines}`;
+
+  const body = {
+    contents: [{ role: 'user', parts: [{ text: promptText }] }],
+    generationConfig: {
+      temperature:      0.55,
+      responseMimeType: 'application/json',
+      maxOutputTokens:  65535,
+      thinkingConfig:   { thinkingBudget: 1024 }
+    },
+    safetySettings: [
+      { category: 'HARM_CATEGORY_HARASSMENT',        threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_HATE_SPEECH',       threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' }
+    ]
+  };
+
+  let modelUsed: 'gemini-2.5-pro' | 'gpt-4o' = 'gemini-2.5-pro';
+  let fallbackReason: string | null = null;
+  let raw = '';
+  try {
+    const r = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${geminiKey}`,
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
+    );
+    if (!r.ok) throw new Error(`gemini http ${r.status}: ${(await r.text()).slice(0, 200)}`);
+    const j = await r.json();
+    const cand = j?.candidates?.[0];
+    if (cand?.finishReason && cand.finishReason !== 'STOP' && cand.finishReason !== 'MAX_TOKENS') {
+      throw new Error(`gemini finishReason=${cand.finishReason}`);
+    }
+    if (cand?.finishReason === 'MAX_TOKENS') {
+      fallbackReason = `gemini hit MAX_TOKENS (65535) — output was clipped. Generate fewer band × question combinations per call.`;
+    }
+    raw = cand?.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
+    if (!raw.trim()) throw new Error('gemini returned empty text');
+  } catch (e) {
+    fallbackReason = e instanceof Error ? e.message : String(e);
+    try {
+      const r2 = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${OPENAI_KEY}` },
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          messages: [
+            { role: 'system', content: 'You output ONLY the JSON object the user describes — no prose, no markdown.' },
+            { role: 'user',   content: promptText }
+          ],
+          response_format: { type: 'json_object' },
+          temperature: 0.55,
+          max_tokens: 16384
+        })
+      });
+      if (!r2.ok) throw new Error(`gpt-4o http ${r2.status}: ${(await r2.text()).slice(0, 200)}`);
+      const j2 = await r2.json();
+      raw = j2?.choices?.[0]?.message?.content || '';
+      modelUsed = 'gpt-4o';
+    } catch (gptErr) {
+      throw new Error(`both models failed. gemini: ${fallbackReason}; gpt-4o: ${gptErr instanceof Error ? gptErr.message : String(gptErr)}`);
+    }
+  }
+
+  // Try direct parse, then walk-back repair if Gemini hit MAX_TOKENS mid-string.
+  function tryRepair(input: string): any {
+    let s = input.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '');
+    try { return JSON.parse(s); } catch (_e) {}
+    let depthObj = 0;
+    let lastGoodIdx = -1;
+    let inString = false;
+    let esc = false;
+    for (let i = 0; i < s.length; i++) {
+      const ch = s[i];
+      if (esc) { esc = false; continue; }
+      if (ch === '\\') { esc = true; continue; }
+      if (ch === '"') { inString = !inString; continue; }
+      if (inString) continue;
+      if (ch === '{') depthObj++;
+      else if (ch === '}') { depthObj--; if (depthObj === 0) lastGoodIdx = i; }
+    }
+    if (lastGoodIdx < 0) return null;
+    try { return JSON.parse(s.slice(0, lastGoodIdx + 1)); } catch (_e) {}
+    return null;
+  }
+
+  let parsed: any;
+  try { parsed = JSON.parse(raw.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '')); }
+  catch (_e) {
+    parsed = tryRepair(raw);
+    if (!parsed) throw new Error(`samples JSON parse failed — raw clipped at ${raw.length} chars. Try generating fewer bands or fewer parts per call.`);
+    if (!fallbackReason) fallbackReason = 'JSON was clipped mid-response — recovered the entries that finished before truncation.';
+  }
+
+  // Sanitise: only return slot keys we actually requested. Drop extras.
+  const wantedSlots = new Set<string>();
+  if (includeMain) { wantedSlots.add('sampleAnswer'); if (includeUzbek) wantedSlots.add('uzSampleAnswer'); }
+  for (const b of cleanBands) {
+    wantedSlots.add('sampleBand' + b);
+    if (includeUzbek) wantedSlots.add('uzSampleBand' + b);
+  }
+  const samples: Record<string, Record<string, string>> = {};
+  const src = parsed?.samples || {};
+  for (const q of questions) {
+    const key = String(q.qIndex);
+    const slot = src[key] || src[q.qIndex] || {};
+    const out: Record<string, string> = {};
+    for (const k of wantedSlots) {
+      const v = slot[k];
+      if (typeof v === 'string' && v.trim()) out[k] = v.trim();
+    }
+    if (Object.keys(out).length) samples[key] = out;
+  }
+
+  return { samples, modelUsed, fallbackReason };
+}
+
+// IELTS Speaking — generate topical EN↔UZ vocabulary for ONE part. The
+// client passes all questions in that part as context so the list stays
+// on-topic. Returns a list of {en, uz} pairs; the client dedupes against
+// what's already in mock_data.vocabulary[partKey].
+async function generateIeltsSpeakingVocab(opts: {
+  part:      'Part 1' | 'Part 2' | 'Part 3';
+  tags:      { p1Topic?: string; p2Topic?: string; p3Topic?: string };
+  questions: Array<{ prompt: string; topic?: string }>;
+  count:     number;
+  geminiKey: string;
+}): Promise<{ vocabulary: Array<{ en: string; uz: string }>; modelUsed: string; fallbackReason: string | null }> {
+  const { part, tags, questions, count, geminiKey } = opts;
+  const themeForPart = part === 'Part 1' ? tags.p1Topic
+                     : part === 'Part 2' ? tags.p2Topic
+                     : tags.p3Topic;
+  const partLabel = part === 'Part 1' ? 'Part 1 (warm-up questions, ~30-50 words each)'
+                  : part === 'Part 2' ? 'Part 2 (cue-card monologue + short follow-ups)'
+                  : 'Part 3 (extended-opinion discussion questions)';
+
+  const qLines = questions.map((q, i) => {
+    const p = String(q.prompt || '').replace(/\s+/g, ' ').trim();
+    return `${i + 1}. ${p}`;
+  }).join('\n');
+
+  const promptText =
+`You are building a topical English ↔ Uzbek vocabulary list for an IELTS Speaking student preparing for this part of a mock:
+
+${partLabel}
+${themeForPart ? 'Theme: ' + themeForPart : ''}
+
+Questions in this part:
+${qLines}
+
+Output ONLY a JSON object — no prose, no markdown:
+{
+  "vocabulary": [
+    { "en": "<English word, phrase, or short collocation>", "uz": "<faithful Uzbek translation, Latin script>" }
+  ]
+}
+
+Rules:
+- Emit exactly ${count} entries.
+- Mix levels: ~25% B1 everyday lexis the student must know, ~50% B2 topical phrases and collocations, ~25% C1 idiomatic expressions / advanced phrasal verbs (the kind that pushes a Band 6 student toward Band 7+).
+- Each entry must be USEFUL for THIS specific part's questions — NOT generic IELTS filler. Include topic nouns, common opinion verbs, useful adjectives, idiomatic phrases the student would naturally reach for when speaking about this theme.
+- Favour SPOKEN-register chunks ("the thing is …", "to be honest", "off the top of my head") over essay-only formal lexis.
+- Uzbek must be natural modern Uzbek in Latin script — NOT word-for-word from a dictionary. e.g. "to address an issue" → "muammoni hal qilish".
+- No duplicates. No proper names.`;
+
+  const body = {
+    contents: [{ role: 'user', parts: [{ text: promptText }] }],
+    generationConfig: {
+      temperature:      0.45,
+      responseMimeType: 'application/json',
+      maxOutputTokens:  4096,
+      thinkingConfig:   { thinkingBudget: 1024 }
+    },
+    safetySettings: [
+      { category: 'HARM_CATEGORY_HARASSMENT',        threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_HATE_SPEECH',       threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' }
+    ]
+  };
+
+  let modelUsed: 'gemini-2.5-pro' | 'gpt-4o' = 'gemini-2.5-pro';
+  let fallbackReason: string | null = null;
+  let raw = '';
+  try {
+    const r = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${geminiKey}`,
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
+    );
+    if (!r.ok) throw new Error(`gemini http ${r.status}: ${(await r.text()).slice(0, 200)}`);
+    const j = await r.json();
+    const cand = j?.candidates?.[0];
+    if (cand?.finishReason && cand.finishReason !== 'STOP') throw new Error(`gemini finishReason=${cand.finishReason}`);
+    raw = cand?.content?.parts?.map((p: { text?: string }) => p?.text || '').join('') || '';
+    if (!raw.trim()) throw new Error('gemini returned empty text');
+  } catch (e) {
+    fallbackReason = e instanceof Error ? e.message : String(e);
+    try {
+      const r2 = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${OPENAI_KEY}` },
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          messages: [
+            { role: 'system', content: 'You output ONLY the JSON object the user describes — no prose, no markdown.' },
+            { role: 'user',   content: promptText }
+          ],
+          response_format: { type: 'json_object' },
+          temperature: 0.45,
+          max_tokens: 4096
+        })
+      });
+      if (!r2.ok) throw new Error(`gpt-4o http ${r2.status}: ${(await r2.text()).slice(0, 200)}`);
+      const j2 = await r2.json();
+      raw = j2?.choices?.[0]?.message?.content || '';
+      modelUsed = 'gpt-4o';
+    } catch (gptErr) {
+      throw new Error(`both models failed. gemini: ${fallbackReason}; gpt-4o: ${gptErr instanceof Error ? gptErr.message : String(gptErr)}`);
+    }
+  }
+
+  let parsed: any;
+  try { parsed = JSON.parse(raw.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '')); }
+  catch (e) { throw new Error(`vocab JSON parse failed: ${(e as Error).message} — raw: ${raw.slice(0, 200)}`); }
+
+  const list = Array.isArray(parsed?.vocabulary) ? parsed.vocabulary : [];
+  const vocabulary: Array<{ en: string; uz: string }> = [];
+  const seen = new Set<string>();
+  for (const row of list) {
+    if (!row || typeof row.en !== 'string' || typeof row.uz !== 'string') continue;
+    const en = row.en.trim();
+    const uz = row.uz.trim();
+    if (!en || !uz) continue;
+    const k = en.toLowerCase();
+    if (seen.has(k)) continue;
+    seen.add(k);
+    vocabulary.push({ en, uz });
+  }
+
+  return { vocabulary, modelUsed, fallbackReason };
+}
+
 async function generateIeltsWritingTags(opts: {
   task1Prompt: string;
   task2Prompt: string;
@@ -3314,8 +3902,8 @@ Deno.serve(async (req) => {
 
   // ── Validate inputs ──────────────────────────────────────────────
   const examType = (body.exam_type || '').toString();
-  if (examType !== 'cefr-reading' && examType !== 'ielts-reading' && examType !== 'ielts-listening' && examType !== 'cefr-listening' && examType !== 'ielts-writing' && examType !== 'cefr-writing') {
-    return json(400, { error: 'bad_exam_type', detail: 'expected "cefr-reading", "ielts-reading", "ielts-listening", "cefr-listening", or "ielts-writing"' });
+  if (examType !== 'cefr-reading' && examType !== 'ielts-reading' && examType !== 'ielts-listening' && examType !== 'cefr-listening' && examType !== 'ielts-writing' && examType !== 'cefr-writing' && examType !== 'ielts-speaking') {
+    return json(400, { error: 'bad_exam_type', detail: 'expected "cefr-reading", "ielts-reading", "ielts-listening", "cefr-listening", "ielts-writing", "cefr-writing", or "ielts-speaking"' });
   }
   // IELTS Writing supports per-task import (scope=passage) for full
   // structural extraction, scope=tags for the Settings-tab auto-tag
@@ -3334,6 +3922,145 @@ Deno.serve(async (req) => {
     const _cwOk = ['tags','passage','full','samples','vocab'];
     if (!_cwOk.includes(_cwScope)) {
       return json(400, { error: 'bad_scope', detail: 'CEFR Writing supports scope: ' + _cwOk.map(s => '"' + s + '"').join(' / ') + '. Got "' + _cwScope + '".' });
+    }
+  }
+  if (examType === 'ielts-speaking') {
+    const _ispScope = (body.scope || 'full').toString();
+    const _ispOk = ['passage','full','samples','vocab'];
+    if (!_ispOk.includes(_ispScope)) {
+      return json(400, { error: 'bad_scope', detail: 'IELTS Speaking supports scope: ' + _ispOk.map(s => '"' + s + '"').join(' / ') + '. Got "' + _ispScope + '".' });
+    }
+  }
+
+  // ── FULL scope (IELTS Speaking): whole-mock extraction from
+  //    screenshots OR pasted text. Returns mock_data containing
+  //    questions[] (17 total — 7 Part 1, 3 Part 2 [cue card + 2
+  //    follow-ups], 7 Part 3) + tags.{p1,p2,p3}Topic in ONE call,
+  //    so we never need a separate Auto-tag round-trip.
+  if ((body.scope || '').toString() === 'full' && examType === 'ielts-speaking') {
+    const incomingFiles = (Array.isArray(body.files) ? body.files : []) as FileItem[];
+    const testFiles = incomingFiles.filter(f => (f.group || 'test') === 'test');
+    const notesText = String(body.notes || '').trim();
+    if (testFiles.length === 0 && notesText.length < 20) {
+      return json(400, { error: 'no_source', detail: 'ielts-speaking scope=full requires at least one screenshot OR pasted task text (≥20 chars) in notes.' });
+    }
+    try {
+      const result = await generateIeltsSpeakingFull({
+        files:     testFiles,
+        notes:     notesText,
+        geminiKey: GEMINI_KEY
+      });
+      return json(200, {
+        mock_data:       result.mockData,
+        model_used:      result.modelUsed,
+        fallback_reason: result.fallbackReason,
+        actor:           (auth as AuthOk).actor
+      });
+    } catch (e) {
+      return json(502, {
+        error:  'ielts_speaking_full_failed',
+        detail: e instanceof Error ? e.message : String(e)
+      });
+    }
+  }
+
+  // ── SAMPLES scope (IELTS Speaking): Gemini-generated spoken model
+  //    answers for the ticked bands × parts. Returns { samples: {
+  //    "<qIndex>": { sampleBand5, sampleBand6, … sampleAnswer,
+  //    uzSampleBand5, … } } }. Empty existing slots only — the client
+  //    merges and refuses to overwrite filled slots.
+  if ((body.scope || '').toString() === 'samples' && examType === 'ielts-speaking') {
+    const bands        = Array.isArray(body.bands) ? body.bands.map((n: unknown) => Number(n)).filter((n: number) => n >= 5 && n <= 9) : [];
+    const includeUzbek = !!body.include_uzbek;
+    const includeMain  = !!body.include_main;
+    const tagsIn       = (body.tags && typeof body.tags === 'object') ? body.tags as Record<string, unknown> : {};
+    const rawQs        = Array.isArray(body.questions) ? body.questions : [];
+    const questions    = rawQs
+      .map((q: any) => ({
+        qIndex:       Number(q?.qIndex ?? -1),
+        number:       q?.number,
+        part:         String(q?.part || ''),
+        prompt:       String(q?.prompt || '').trim(),
+        topic:        typeof q?.topic === 'string' ? q.topic : undefined,
+        bulletPoints: Array.isArray(q?.bulletPoints) ? q.bulletPoints : undefined
+      }))
+      .filter((q: { qIndex: number; part: string; prompt: string }) =>
+        q.qIndex >= 0
+        && (q.part === 'Part 1' || q.part === 'Part 2' || q.part === 'Part 3')
+        && q.prompt.length > 0);
+
+    if (!questions.length) {
+      return json(400, { error: 'no_questions', detail: 'ielts-speaking scope=samples needs at least one question with a non-empty prompt and valid part.' });
+    }
+    if (!bands.length && !includeMain) {
+      return json(400, { error: 'no_slots', detail: 'ielts-speaking scope=samples needs at least one band (5-9) or include_main=true.' });
+    }
+    try {
+      const result = await generateIeltsSpeakingSamples({
+        bands,
+        includeUzbek,
+        includeMain,
+        tags: {
+          p1Topic: typeof tagsIn.p1Topic === 'string' ? tagsIn.p1Topic : undefined,
+          p2Topic: typeof tagsIn.p2Topic === 'string' ? tagsIn.p2Topic : undefined,
+          p3Topic: typeof tagsIn.p3Topic === 'string' ? tagsIn.p3Topic : undefined
+        },
+        questions,
+        geminiKey: GEMINI_KEY
+      });
+      return json(200, {
+        samples:         result.samples,
+        model_used:      result.modelUsed,
+        fallback_reason: result.fallbackReason,
+        actor:           (auth as AuthOk).actor
+      });
+    } catch (e) {
+      return json(502, {
+        error:  'ielts_speaking_samples_failed',
+        detail: e instanceof Error ? e.message : String(e)
+      });
+    }
+  }
+
+  // ── VOCAB scope (IELTS Speaking): Gemini-generated topical EN↔UZ
+  //    vocabulary list for ONE part. Returns { vocabulary: [{en, uz}] }.
+  if ((body.scope || '').toString() === 'vocab' && examType === 'ielts-speaking') {
+    const partRaw = String(body.part || '').trim();
+    if (partRaw !== 'Part 1' && partRaw !== 'Part 2' && partRaw !== 'Part 3') {
+      return json(400, { error: 'bad_part', detail: 'ielts-speaking scope=vocab needs part ∈ {"Part 1","Part 2","Part 3"}.' });
+    }
+    const rawQs = Array.isArray(body.questions) ? body.questions : [];
+    const questions = rawQs
+      .map((q: any) => ({ prompt: String(q?.prompt || '').trim(), topic: typeof q?.topic === 'string' ? q.topic : undefined }))
+      .filter((q: { prompt: string }) => q.prompt.length > 0);
+    if (!questions.length) {
+      return json(400, { error: 'no_questions', detail: 'ielts-speaking scope=vocab needs at least one question prompt in this part.' });
+    }
+    const count = Math.max(5, Math.min(60, Number(body.count) || 20));
+    const tagsIn = (body.tags && typeof body.tags === 'object') ? body.tags as Record<string, unknown> : {};
+    try {
+      const result = await generateIeltsSpeakingVocab({
+        part: partRaw as 'Part 1' | 'Part 2' | 'Part 3',
+        tags: {
+          p1Topic: typeof tagsIn.p1Topic === 'string' ? tagsIn.p1Topic : undefined,
+          p2Topic: typeof tagsIn.p2Topic === 'string' ? tagsIn.p2Topic : undefined,
+          p3Topic: typeof tagsIn.p3Topic === 'string' ? tagsIn.p3Topic : undefined
+        },
+        questions,
+        count,
+        geminiKey: GEMINI_KEY
+      });
+      return json(200, {
+        vocabulary:      result.vocabulary,
+        model_used:      result.modelUsed,
+        fallback_reason: result.fallbackReason,
+        actor:           (auth as AuthOk).actor
+      });
+    } catch (e) {
+      return json(502, {
+        error:  'ielts_speaking_vocab_failed',
+        detail: e instanceof Error ? e.message : String(e)
+      });
     }
   }
 
