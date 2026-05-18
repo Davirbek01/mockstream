@@ -18657,9 +18657,23 @@
       try { history.pushState({ picker: 'cwet' }, ''); } catch (_e) {}
       if (typeof _pickerShowTmaBack === 'function') _pickerShowTmaBack();
 
-      // Render skeleton + fetch
+      // Render skeleton cards + fetch. Same shimmer treatment iret /
+      // iwet / cret / clet / ispet pickers use — fills the grid with
+      // .ilet-card-skeleton placeholders until the Supabase meta load
+      // returns, so the picker never looks blank on first open.
       const grid = document.getElementById('cwetGrid');
-      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#7c3aed;font-size:14px;">Loading CEFR Writing mocks…</div>';
+      const skelCount = Math.max(12, Object.keys(_cwetMockMeta).length || 12);
+      grid.innerHTML = Array.from({ length: skelCount }, () =>
+        '<div class="ilet-card-skeleton">'
+        + '<div class="ilet-skel-line short"></div>'
+        + '<div class="ilet-skel-line tall"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '</div>'
+      ).join('');
+      const cwetEmpty = document.getElementById('cwetEmpty');
+      if (cwetEmpty) cwetEmpty.style.display = 'none';
       await _cwetLoadAllMockMeta();
       // Build the list of items from the module-scoped cefrWritingMocks
       // array (populated at script-load by the legacy fetcher). Items
