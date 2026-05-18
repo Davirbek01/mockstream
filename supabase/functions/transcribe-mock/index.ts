@@ -2083,11 +2083,13 @@ Part 3 — Practical hobbies
   const promptText =
 `You are extracting a complete IELTS Speaking mock (Part 1 + Part 2 + Part 3) from ${sourceLabel}. Output ONLY one JSON object — no prose, no markdown.
 
-IELTS Speaking has exactly THREE parts and (typically) 17 questions:
+IELTS Speaking has exactly THREE parts. The question count VARIES from mock to mock — do NOT pad or trim to hit any target number. Emit EXACTLY what the source shows:
 
-  Part 1 — 7 warm-up questions, grouped into 1-3 topics. Each Q: prepTime=0, speakTime=30.
-  Part 2 — 1 cue card ("Describe …") with bullet points + 2 short follow-up Qs. Cue card: prepTime=60, speakTime=120. Follow-ups: prepTime=0, speakTime=30.
-  Part 3 — 7 deeper discussion questions on the Part 2 theme. Each Q: prepTime=0, speakTime=45.
+  Part 1 — warm-up questions grouped into 1-3 topics. Typical count: 4-9 (most often 6-8). Each Q: prepTime=0, speakTime=30.
+  Part 2 — exactly 1 cue card ("Describe …") with bullet points, optionally followed by 0-3 short follow-up Qs. Cue card: prepTime=60, speakTime=120. Follow-ups: prepTime=0, speakTime=30.
+  Part 3 — deeper discussion questions on the Part 2 theme. Typical count: 4-9 (most often 6-8). Each Q: prepTime=0, speakTime=45.
+
+If the source shows only 5 Part 1 Qs, emit 5. If it shows 8 Part 3 Qs, emit 8. Do not invent questions to fill a quota.
 
 Required output shape (numbers are exact):
 {
@@ -2109,7 +2111,7 @@ Required output shape (numbers are exact):
 
 Rules:
 - "prompt" is VERBATIM from the source. Keep bullet points on Part 2's cue card (use "\\n" between lines).
-- "number" is 1-based and continuous across all 17 (Part 1 = 1-7, Part 2 = 8-10, Part 3 = 11-17). If the source has more or fewer Qs than 17, emit what's there but keep the order Part 1 → Part 2 → Part 3.
+- "number" is 1-based and continuous across the WHOLE mock (Part 1 first, then Part 2, then Part 3 — never reset to 1 between parts). The example below shows 17 because that's the count of THAT example — your output's count comes from the user's source.
 - "topic" on each Q is short (2-3 words). For Part 1, group Qs by their sub-topic. For Part 2 and Part 3, use the umbrella topic.
 - "tags.p2Topic" MUST NOT start with "Describe", "A time", "An occasion", "A place" — extract the CORE noun phrase. e.g. cue card "Describe a time when you helped a stranger" → p2Topic = "Helping a stranger".
 - "tags.p3Topic" expands p2Topic's theme. Pick a label that fits the umbrella across all 7 follow-ups.
