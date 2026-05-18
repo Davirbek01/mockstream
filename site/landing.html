@@ -36293,19 +36293,183 @@
     };
 
     window._mmgIspGenSamples = async function () {
+      var btnEl = document.getElementById('mmgIspGenSamplesBtn');
       function setStatus(msg, color) {
         var s = document.getElementById('mmgIspGenSamplesStatus');
         if (s) { s.textContent = msg; s.style.color = color || '#64748b'; }
       }
-      setStatus('Sample-generation backend lands in the next push — UI is staged. Click again once it deploys.', '#d97706');
+      if (!_mmgFlushStructuredToRaw()) {
+        setStatus('Fix the highlighted field, then try again.', '#dc2626');
+        return;
+      }
+      var bands = Array.from(document.querySelectorAll('.mmgIspGenBand:checked')).map(function (el) { return parseInt(el.dataset.band, 10); });
+      var parts = Array.from(document.querySelectorAll('.mmgIspGenPart:checked')).map(function (el) { return el.dataset.part; });
+      var includeUz   = !!document.getElementById('mmgIspGenIncludeUz')?.checked;
+      var includeMain = !!document.getElementById('mmgIspGenIncludeMain')?.checked;
+      if (!bands.length || !parts.length) {
+        setStatus('Pick at least one band + one part.', '#dc2626');
+        return;
+      }
+      var md = _mmgGetMockData();
+      var allQs = Array.isArray(md.questions) ? md.questions : [];
+      // Only send Qs that belong to a ticked part AND have a prompt.
+      var sendQs = allQs.map(function (q, i) {
+        return Object.assign({ qIndex: i }, q || {});
+      }).filter(function (q) {
+        return parts.indexOf(String(q.part || '')) >= 0 && String(q.prompt || '').trim();
+      });
+      if (!sendQs.length) {
+        setStatus('No questions with a prompt in the selected parts. Fill prompts first.', '#dc2626');
+        return;
+      }
+
+      btnEl.disabled = true;
+      var origLabel = btnEl.textContent;
+      btnEl.textContent = '⏳ Generating…';
+      var tick = 0;
+      var tickI = setInterval(function () {
+        tick++;
+        setStatus('Calling Gemini 2.5 Pro… ' + tick + 's elapsed (typical: 30–90s)', '#0e7490');
+      }, 1000);
+
+      try {
+        var r = await fetch(_MMG_TRANSCRIBE_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': _MMG_ANON, 'Authorization': 'Bearer ' + _MMG_ANON },
+          body: JSON.stringify({
+            adminPasscode: window._mmgPasscode,
+            exam_type:     'ielts-speaking',
+            scope:         'samples',
+            bands:         bands,
+            include_uzbek: includeUz,
+            include_main:  includeMain,
+            tags:          md.tags || {},
+            questions:     sendQs.map(function (q) {
+              return {
+                qIndex:       q.qIndex,
+                number:       q.number,
+                part:         q.part,
+                prompt:       String(q.prompt || '').trim(),
+                topic:        String(q.topic  || '').trim(),
+                bulletPoints: Array.isArray(q.bulletPoints) ? q.bulletPoints : undefined
+              };
+            })
+          })
+        });
+        var j = await r.json().catch(function () { return { error: 'bad_response' }; });
+        clearInterval(tickI);
+        if (!r.ok || j.error) {
+          var detail = j.detail || '';
+          throw new Error((j.error || ('HTTP ' + r.status)) + (detail ? ' — ' + String(detail).slice(0, 200) : ''));
+        }
+        // Merge per-Q samples — only fill empty slots.
+        var samplesByIdx = (j.samples || {});  // { "0": { sampleBand5: "...", ... }, ... }
+        md.questions = Array.isArray(md.questions) ? md.questions : [];
+        var filled = 0, skipped = 0;
+        Object.keys(samplesByIdx).forEach(function (qIdxStr) {
+          var qIdx = parseInt(qIdxStr, 10);
+          var q = md.questions[qIdx];
+          if (!q) return;
+          var slot = samplesByIdx[qIdxStr] || {};
+          Object.keys(slot).forEach(function (k) {
+            var existing = (q[k] || '').toString().trim();
+            if (existing) { skipped++; return; }
+            q[k] = slot[k];
+            filled++;
+          });
+        });
+        _mmgSetMockData(md);
+        window._mmgActiveTab = null;
+        _mmgInitTabs();
+        _mmgSwitchTab('samples');
+        setStatus('✓ Filled ' + filled + ' sample slot' + (filled === 1 ? '' : 's')
+                + (skipped ? ' (skipped ' + skipped + ' already filled)' : '')
+                + ' — review and Save when ready.', '#16a34a');
+      } catch (e) {
+        clearInterval(tickI);
+        setStatus('⚠ ' + (e.message || String(e)), '#dc2626');
+      } finally {
+        btnEl.disabled = false;
+        btnEl.textContent = origLabel;
+      }
     };
 
     window._mmgIspGenVocab = async function () {
+      var btnEl   = document.getElementById('mmgIspGenVocabBtn');
+      var countEl = document.getElementById('mmgIspVocabCount');
       function setStatus(msg, color) {
         var s = document.getElementById('mmgIspGenVocabStatus');
         if (s) { s.textContent = msg; s.style.color = color || '#64748b'; }
       }
-      setStatus('Vocab-generation backend lands in the next push — UI is staged. Click again once it deploys.', '#d97706');
+      if (!_mmgFlushStructuredToRaw()) {
+        setStatus('Fix the highlighted field, then try again.', '#dc2626');
+        return;
+      }
+      var activeKey = (window._mmgVocabState && window._mmgVocabState.task) || 'part1';
+      var partLabel = activeKey === 'part1' ? 'Part 1' : activeKey === 'part2' ? 'Part 2' : 'Part 3';
+      var md = _mmgGetMockData();
+      var partQs = (md.questions || []).filter(function (q) { return q && String(q.part || '') === partLabel; });
+      if (!partQs.length) {
+        setStatus('Add or import questions for ' + partLabel + ' before generating vocab.', '#dc2626');
+        return;
+      }
+      var count = parseInt((countEl && countEl.value) || '20', 10);
+      if (!isFinite(count) || count < 5) count = 20;
+
+      btnEl.disabled = true;
+      var origLabel = btnEl.textContent;
+      btnEl.textContent = '⏳ …';
+      var tick = 0;
+      var tickI = setInterval(function () {
+        tick++;
+        setStatus('Calling Gemini 2.5 Pro… ' + tick + 's elapsed', '#0e7490');
+      }, 1000);
+
+      try {
+        var r = await fetch(_MMG_TRANSCRIBE_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': _MMG_ANON, 'Authorization': 'Bearer ' + _MMG_ANON },
+          body: JSON.stringify({
+            adminPasscode: window._mmgPasscode,
+            exam_type:     'ielts-speaking',
+            scope:         'vocab',
+            part:          partLabel,
+            tags:          md.tags || {},
+            count:         count,
+            questions:     partQs.map(function (q) { return { prompt: q.prompt, topic: q.topic }; })
+          })
+        });
+        var j = await r.json().catch(function () { return { error: 'bad_response' }; });
+        clearInterval(tickI);
+        if (!r.ok || j.error) {
+          var detail = j.detail || '';
+          throw new Error((j.error || ('HTTP ' + r.status)) + (detail ? ' — ' + String(detail).slice(0, 200) : ''));
+        }
+        md.vocabulary = md.vocabulary || {};
+        md.vocabulary[activeKey] = Array.isArray(md.vocabulary[activeKey]) ? md.vocabulary[activeKey] : [];
+        var existingEn = new Set();
+        md.vocabulary[activeKey].forEach(function (row) {
+          if (row && row.en) existingEn.add(String(row.en).trim().toLowerCase());
+        });
+        var added = 0;
+        (j.vocabulary || []).forEach(function (row) {
+          if (!row || !row.en || !row.uz) return;
+          var k = String(row.en).trim().toLowerCase();
+          if (existingEn.has(k)) return;
+          existingEn.add(k);
+          md.vocabulary[activeKey].push({ en: String(row.en).trim(), uz: String(row.uz).trim() });
+          added++;
+        });
+        _mmgSetMockData(md);
+        _mmgRenderVocab(md);
+        setStatus('✓ Added ' + added + ' entr' + (added === 1 ? 'y' : 'ies') + ' to ' + partLabel + ' — review and Save when ready.', '#16a34a');
+      } catch (e) {
+        clearInterval(tickI);
+        setStatus('⚠ ' + (e.message || String(e)), '#dc2626');
+      } finally {
+        btnEl.disabled = false;
+        btnEl.textContent = origLabel;
+      }
     };
 
     // Click handlers for the inner-navigation chips.
