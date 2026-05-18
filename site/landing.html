@@ -8124,6 +8124,45 @@
     </div>
   </div>
 
+  <!-- ===== Full-screen IELTS Speaking picker (ispetPicker) ===== -->
+  <!-- IELTS Speaking has 3 parts: Part 1 (warm-up Qs across 1-3 topics),
+       Part 2 (cue-card + 2 follow-ups, single topic), Part 3 (deeper Qs
+       on Part 2's theme). Card chips reflect the three parts. -->
+  <div id="ispetPicker" class="ilet-overlay" aria-hidden="true">
+    <header class="ilet-header">
+      <button class="ilet-back" type="button" onclick="ispetClose()" title="Back to landing">←</button>
+      <div class="ilet-title">
+        <span class="ilet-title-emoji">🎤</span>
+        <span class="ilet-title-text">IELTS Speaking</span>
+        <span class="ilet-count" id="ispetCount">0</span>
+      </div>
+      <div class="ilet-header-tools">
+        <input type="search" class="ilet-search" id="ispetSearch" placeholder="🔍 Search mock #, topic, cue card…" autocomplete="off" spellcheck="false">
+        <select class="ilet-sort" id="ispetJump" title="Jump to mock #">
+          <option value="">Jump to #…</option>
+        </select>
+      </div>
+    </header>
+
+    <div class="ilet-filter-row ispet-filter-row">
+      <button type="button" class="ilet-chip ilet-chip-active ispet-chip" data-filter="all">All</button>
+      <button type="button" class="ilet-chip ispet-chip" data-filter="ready">✓ Ready only</button>
+      <button type="button" class="ilet-chip ispet-chip" data-filter="soon">⏳ Coming soon</button>
+      <button type="button" class="ilet-chip ispet-chip" data-filter="done">★ Done before</button>
+      <select class="ilet-source-filter" id="ispetTopicFilter" title="Filter by topic">
+        <option value="">🏷 All topics</option>
+      </select>
+    </div>
+
+    <main class="ilet-grid" id="ispetGrid"></main>
+
+    <div class="ilet-empty" id="ispetEmpty" style="display:none;">
+      <div class="ilet-empty-icon">🔍</div>
+      <p class="ilet-empty-msg">No mocks match your filters.</p>
+      <button type="button" class="ilet-empty-clear" onclick="ispetClearFilters()">Clear filters</button>
+    </div>
+  </div>
+
   <style>
     /* ===== Full-screen IELTS Reading picker ===== */
     .iret-overlay {
@@ -8801,6 +8840,133 @@
       border-color: #6d28d9;
     }
     #cwetPicker .cwet-share.cwet-share-copied {
+      background: #dcfce7;
+      border-color: #86efac;
+      color: #15803d;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    /* ===== IELTS Speaking picker (ispetPicker) — sky-blue tone =====
+       Mirrors cwetPicker but with a sky / cyan palette to distinguish
+       IELTS Speaking from CEFR Writing (purple) and IELTS Writing
+       (orange). Reuses .ilet-* layout classes for grid + header. */
+    #ispetPicker.ilet-overlay {
+      background: linear-gradient(135deg, #ecfeff 0%, #cffafe 100%);
+    }
+    #ispetPicker .ilet-header {
+      background: rgba(236, 254, 255, 0.95);
+      border-bottom: 1px solid #a5f3fc;
+    }
+    #ispetPicker .ilet-back {
+      color: #0e7490;
+      border-color: #a5f3fc;
+    }
+    #ispetPicker .ilet-back:hover { background: #0e7490; color: #fff; }
+    #ispetPicker .ilet-title { color: #155e75; }
+    #ispetPicker .ilet-count {
+      background: #cffafe;
+      color: #0e7490;
+      border: 1px solid #67e8f9;
+    }
+    #ispetPicker .ilet-card {
+      background: linear-gradient(135deg, #f0fdfa 0%, #ecfeff 100%);
+      border: 1px solid #a5f3fc;
+    }
+    #ispetPicker .ilet-card:hover:not(.ilet-card-disabled) {
+      border-color: #06b6d4;
+      box-shadow: 0 8px 24px rgba(6, 182, 212, 0.2);
+    }
+    #ispetPicker .ilet-mocknum {
+      background: linear-gradient(135deg, #06b6d4, #0891b2);
+    }
+    #ispetPicker .ilet-take {
+      background: linear-gradient(135deg, #06b6d4, #0891b2);
+    }
+    #ispetPicker .ilet-take:hover {
+      background: linear-gradient(135deg, #0891b2, #0e7490);
+    }
+    #ispetPicker .ilet-chip-active {
+      background: #0e7490;
+      color: #fff;
+      border-color: #0e7490;
+    }
+    #ispetPicker .ilet-mock-title { color: #155e75; }
+    #ispetPicker .ispet-filter-row {
+      background: rgba(236, 254, 255, 0.6);
+      border-bottom: 1px solid #cffafe;
+    }
+    #ispetPicker .ispet-pill {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 1px 8px;
+      border-radius: 999px;
+      margin-right: 4px;
+      vertical-align: middle;
+      line-height: 1.5;
+      white-space: nowrap;
+      color: #0e7490;
+      background: #cffafe;
+      border: 1px solid #67e8f9;
+    }
+    #ispetPicker .ispet-part-heading {
+      display: flex;
+      align-items: center;
+      padding: 6px 4px;
+      border-top: 1px dashed #a5f3fc;
+      margin-top: 4px;
+      gap: 8px;
+    }
+    #ispetPicker .ispet-part-heading:first-of-type {
+      border-top: 0;
+      margin-top: 0;
+    }
+    #ispetPicker .ispet-part-label {
+      flex-shrink: 0;
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      color: #fff;
+      background: linear-gradient(135deg, #06b6d4, #0891b2);
+      padding: 2px 8px;
+      border-radius: 6px;
+      line-height: 1.4;
+    }
+    #ispetPicker .ispet-part-topic {
+      font-size: 12.5px;
+      color: #164e63;
+      font-weight: 500;
+      flex: 1;
+    }
+    #ispetPicker .ispet-exam-date {
+      font-size: 11px;
+      color: #155e75;
+      background: #cffafe;
+      border: 1px solid #67e8f9;
+      border-radius: 999px;
+      padding: 1px 8px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    #ispetPicker .ispet-share {
+      background: transparent;
+      border: 1px solid #67e8f9;
+      color: #0e7490;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+      transition: background 120ms ease, border-color 120ms ease;
+      margin-right: 8px;
+      white-space: nowrap;
+    }
+    #ispetPicker .ispet-share:hover {
+      background: #ecfeff;
+      border-color: #0e7490;
+    }
+    #ispetPicker .ispet-share.ispet-share-copied {
       background: #dcfce7;
       border-color: #86efac;
       color: #15803d;
@@ -16257,6 +16423,8 @@
       if (iwet && iwet.classList.contains('ilet-open')) { iwetClose(); return; }
       var cwet = document.getElementById('cwetPicker');
       if (cwet && cwet.classList.contains('ilet-open')) { cwetClose(); return; }
+      var ispet = document.getElementById('ispetPicker');
+      if (ispet && ispet.classList.contains('ilet-open')) { ispetClose(); return; }
     }
     function _pickerShowTmaBack() {
       try {
@@ -18630,6 +18798,305 @@
     window.cwetClose        = cwetClose;
     window.cwetClearFilters = cwetClearFilters;
 
+    // ===== FULL-SCREEN IELTS SPEAKING PICKER (ispetPicker) =====
+    // Mirrors cwetPicker shape but for IELTS Speaking's 3-part structure:
+    //   • Part 1: 7 warm-up questions (1-3 topics)
+    //   • Part 2: cue-card (1 question) + 2 follow-ups (same topic)
+    //   • Part 3: 7 deeper questions on the Part 2 theme
+    // Card chips show one topic per part. Mocks are loaded from Supabase
+    // and cached briefly so the picker opens instantly after the first
+    // visit. Reuses _pickerShareMock / _pickerShowTmaBack helpers.
+    const _ISPET_SB_URL    = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    const _ISPET_SB_KEY    = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    const _ispetMockMeta   = {};   // mockNumStr -> { p1Topic, p2Topic, p3Topic, qCount, readyCount, examDate, title }
+    let   _ispetFilter      = 'all';
+    let   _ispetTopicFilter = '';
+    let   _ispetServerDone  = {};
+
+    function _ispetEsc(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
+
+    function _ispetBuildMetaFromMockData(md) {
+      const m = md || {};
+      const qs = Array.isArray(m.questions) ? m.questions : [];
+      // Group by part label.
+      const grouped = { 'Part 1': [], 'Part 2': [], 'Part 3': [] };
+      for (const q of qs) {
+        const p = String(q && q.part || '').trim();
+        if (grouped[p]) grouped[p].push(q);
+      }
+      // Topics: admin can store md.tags.{p1Topic,p2Topic,p3Topic}, or fall
+      // back to the first question's `topic` field, or to the first 4-5
+      // words of the prompt.
+      const tags  = m.tags || {};
+      function firstFew(s, n) {
+        const text = String(s || '').trim().replace(/\s+/g,' ');
+        if (!text) return '';
+        const words = text.split(' ');
+        return words.length <= n ? text : words.slice(0, n).join(' ') + '…';
+      }
+      function topicFor(partLabel, fallbackQ) {
+        const fromTag = tags[partLabel === 'Part 1' ? 'p1Topic' : partLabel === 'Part 2' ? 'p2Topic' : 'p3Topic'];
+        if (fromTag) return String(fromTag).trim();
+        if (fallbackQ && fallbackQ.topic) return String(fallbackQ.topic).trim();
+        return firstFew(fallbackQ && fallbackQ.prompt, 6);
+      }
+      const readyCount = qs.filter(q => q && (q.audioFile || q.prompt)).length;
+      return {
+        p1Topic:    topicFor('Part 1', grouped['Part 1'][0]),
+        p2Topic:    topicFor('Part 2', grouped['Part 2'][0]),
+        p3Topic:    topicFor('Part 3', grouped['Part 3'][0]),
+        qCount:     qs.length,
+        readyCount,
+        examDate:   String(m.examDate || '').trim(),
+        title:      String(m.title || '').trim(),
+        topicsAll:  [topicFor('Part 1', grouped['Part 1'][0]),
+                     topicFor('Part 2', grouped['Part 2'][0]),
+                     topicFor('Part 3', grouped['Part 3'][0])].filter(Boolean).map(t => t.toLowerCase())
+      };
+    }
+
+    function _ispetFmtDate(d) {
+      if (!d) return '';
+      const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(d);
+      if (!m) return d;
+      const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      return parseInt(m[3], 10) + ' ' + MONTHS[parseInt(m[2], 10) - 1] + ' ' + m[1];
+    }
+
+    function _ispetCardHtml(mockNum, meta, doneInfo) {
+      const padded = String(mockNum).padStart(2, '0');
+      const readyOf = meta.qCount > 0 ? (meta.readyCount + '/' + meta.qCount + ' READY') : 'No questions yet';
+      const fullyReady = meta.qCount > 0 && meta.readyCount === meta.qCount;
+      const partRow = (n, topic) => {
+        const label = '<span class="ispet-part-label">PART ' + n + '</span>';
+        const text  = topic
+          ? '<span class="ispet-part-topic">' + _ispetEsc(topic) + '</span>'
+          : '<span class="ispet-part-topic" style="color:#94a3b8;">— topic not tagged —</span>';
+        return '<li class="ilet-section ispet-part-heading">' + label + text + '</li>';
+      };
+      const doneBadge = doneInfo && doneInfo.done
+        ? '<span class="ispet-pill" style="background:#dcfce7;color:#15803d;border-color:#86efac;">★ Done</span>'
+        : '';
+      const dateBadge = meta.examDate
+        ? '<span class="ispet-exam-date">📅 ' + _ispetFmtDate(meta.examDate) + '</span>'
+        : '';
+      const titleText = meta.title || ('IELTS Speaking Mock ' + padded);
+      return ''
+        + '<article class="ilet-card' + (fullyReady ? '' : ' ilet-card-disabled') + '" data-mock="' + padded + '" id="ispet-card-' + padded + '">'
+        +   '<div class="ilet-card-head">'
+        +     '<span class="ilet-mocknum">#' + padded + '</span>'
+        +     '<span style="flex:1;"></span>'
+        +     dateBadge
+        +     '<span style="font-size:11.5px;color:' + (fullyReady ? '#15803d' : '#92400e') + ';font-weight:700;margin-left:8px;">' + readyOf + '</span>'
+        +   '</div>'
+        +   '<h3 class="ilet-mock-title">' + _ispetEsc(titleText) + '</h3>'
+        +   (doneBadge ? '<div style="margin:4px 0 6px;">' + doneBadge + '</div>' : '')
+        +   '<ul class="ilet-sections" style="list-style:none;padding:0;margin:8px 0;display:flex;flex-direction:column;gap:0;">'
+        +     partRow(1, meta.p1Topic)
+        +     partRow(2, meta.p2Topic)
+        +     partRow(3, meta.p3Topic)
+        +   '</ul>'
+        +   '<div class="ilet-card-foot">'
+        +     '<button type="button" class="ispet-share" data-mock="' + padded + '" title="Share this mock" aria-label="Share mock #' + padded + '">🔗</button>'
+        +     '<button type="button" class="ilet-take">Take Test →</button>'
+        +   '</div>'
+        + '</article>';
+    }
+
+    async function _ispetLoadAllMockMeta() {
+      try {
+        const resp = await fetch(`${_ISPET_SB_URL}/rest/v1/mock_tests?mock_type=eq.ielts-speaking&status=eq.published&select=mock_number,mock_data,title`, {
+          headers: { 'apikey': _ISPET_SB_KEY, 'Authorization': 'Bearer ' + _ISPET_SB_KEY }
+        });
+        if (!resp.ok) return;
+        const rows = await resp.json();
+        for (const r of rows) {
+          const padded = String(r.mock_number).padStart(2, '0');
+          const meta = _ispetBuildMetaFromMockData(r.mock_data);
+          if (r.title && !meta.title) meta.title = r.title;
+          _ispetMockMeta[padded] = meta;
+        }
+      } catch (_e) { /* swallow — picker still renders empty grid */ }
+    }
+
+    async function _ispetFetchServerDone() {
+      // Lightweight stub — actual done-tracking would read from results
+      // table. For Phase 1 we just return {} so no done badges show.
+      return {};
+    }
+
+    function _ispetBuildTopicFilterOptions() {
+      const sel = document.getElementById('ispetTopicFilter');
+      if (!sel) return;
+      const all = new Set();
+      Object.values(_ispetMockMeta).forEach(m => {
+        (m.topicsAll || []).forEach(t => { if (t) all.add(t); });
+      });
+      const current = sel.value;
+      sel.innerHTML = '<option value="">🏷 All topics</option>'
+        + Array.from(all).sort().map(t => '<option value="' + _ispetEsc(t) + '">' + _ispetEsc(t.charAt(0).toUpperCase() + t.slice(1)) + '</option>').join('');
+      if (current) sel.value = current;
+    }
+
+    function _ispetRenderAll() {
+      const grid = document.getElementById('ispetGrid');
+      const jump = document.getElementById('ispetJump');
+      if (!grid) return;
+      const keys = Object.keys(_ispetMockMeta).sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+      document.getElementById('ispetCount').textContent = keys.length;
+      // Build the Jump dropdown.
+      if (jump) {
+        const opts = ['<option value="">Jump to #…</option>']
+          .concat(keys.map(k => '<option value="' + k + '">#' + k + '</option>'));
+        jump.innerHTML = opts.join('');
+      }
+      grid.innerHTML = keys.map(k => _ispetCardHtml(parseInt(k, 10), _ispetMockMeta[k], _ispetServerDone[k] || {})).join('');
+      _ispetBuildTopicFilterOptions();
+      _ispetApplyFiltersAndSort();
+    }
+
+    function _ispetApplyFiltersAndSort() {
+      const grid  = document.getElementById('ispetGrid');
+      const empty = document.getElementById('ispetEmpty');
+      const search = (document.getElementById('ispetSearch').value || '').trim().toLowerCase();
+      if (!grid) return;
+      let shown = 0;
+      Array.from(grid.children).forEach(card => {
+        const mockNum = card.dataset.mock;
+        const meta    = _ispetMockMeta[mockNum] || {};
+        const fullyReady = meta.qCount > 0 && meta.readyCount === meta.qCount;
+        const done = !!(_ispetServerDone[mockNum] && _ispetServerDone[mockNum].done);
+        let show = true;
+        if (_ispetFilter === 'ready' && !fullyReady) show = false;
+        if (_ispetFilter === 'soon'  &&  fullyReady) show = false;
+        if (_ispetFilter === 'done'  && !done)       show = false;
+        if (_ispetTopicFilter && !(meta.topicsAll || []).includes(_ispetTopicFilter)) show = false;
+        if (search) {
+          const hay = (mockNum + ' ' + (meta.title || '') + ' ' + (meta.p1Topic || '') + ' ' + (meta.p2Topic || '') + ' ' + (meta.p3Topic || '')).toLowerCase();
+          if (hay.indexOf(search) < 0) show = false;
+        }
+        card.style.display = show ? '' : 'none';
+        if (show) shown++;
+      });
+      if (empty) empty.style.display = shown === 0 ? '' : 'none';
+    }
+
+    function _ispetJumpToMock(n) {
+      if (!n) return;
+      const card = document.getElementById('ispet-card-' + String(n).padStart(2, '0'));
+      if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    async function ispetOpen() {
+      const overlay = document.getElementById('ispetPicker');
+      overlay.classList.add('ilet-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      try { history.pushState({ picker: 'ispet' }, ''); } catch (_e) {}
+      if (typeof _pickerShowTmaBack === 'function') _pickerShowTmaBack();
+      try {
+        if (window._mmgRefreshAllPickersPromise) await window._mmgRefreshAllPickersPromise;
+      } catch (_e) {}
+      await Promise.all([_ispetLoadAllMockMeta(), _ispetFetchServerDone().then(d => { _ispetServerDone = d || {}; })]);
+      _ispetRenderAll();
+    }
+
+    function ispetClose(opts) {
+      const keepUrl = !!(opts && opts.keepUrl);
+      const overlay = document.getElementById('ispetPicker');
+      overlay.classList.remove('ilet-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (typeof _pickerHideTmaBack === 'function') _pickerHideTmaBack();
+      if (!window._pickerFromPopstate && !keepUrl) {
+        try {
+          if (history.state && history.state.picker === 'ispet') history.back();
+          if (/^\/take\//i.test(window.location.pathname)) {
+            history.replaceState(null, '', '/landing.html');
+          }
+        } catch (_e) {}
+      }
+    }
+
+    function ispetClearFilters() {
+      _ispetFilter      = 'all';
+      _ispetTopicFilter = '';
+      document.querySelectorAll('#ispetPicker .ispet-chip').forEach(c =>
+        c.classList.toggle('ilet-chip-active', c.dataset.filter === 'all')
+      );
+      document.getElementById('ispetSearch').value = '';
+      const t = document.getElementById('ispetTopicFilter');
+      if (t) t.value = '';
+      _ispetApplyFiltersAndSort();
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const overlay = document.getElementById('ispetPicker');
+      if (!overlay) return;
+      document.querySelectorAll('#ispetPicker .ispet-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          _ispetFilter = chip.dataset.filter;
+          document.querySelectorAll('#ispetPicker .ispet-chip').forEach(c =>
+            c.classList.toggle('ilet-chip-active', c === chip)
+          );
+          _ispetApplyFiltersAndSort();
+        });
+      });
+      const search = document.getElementById('ispetSearch');
+      const jump   = document.getElementById('ispetJump');
+      const topic  = document.getElementById('ispetTopicFilter');
+      if (search) search.addEventListener('input', _ispetApplyFiltersAndSort);
+      if (jump) jump.addEventListener('change', function () {
+        _ispetJumpToMock(this.value);
+        setTimeout(() => { this.value = ''; }, 400);
+      });
+      if (topic) topic.addEventListener('change', function () {
+        _ispetTopicFilter = this.value || '';
+        _ispetApplyFiltersAndSort();
+      });
+
+      document.getElementById('ispetGrid').addEventListener('click', function (e) {
+        const card = e.target.closest('.ilet-card');
+        if (!card) return;
+        const mockN = card.dataset.mock;
+
+        const shareBtn = e.target.closest('.ispet-share');
+        if (shareBtn) {
+          e.stopPropagation();
+          _pickerShareMock('ielts-speaking', 'IELTS Speaking Mock', mockN, shareBtn, 'ispet-share-copied');
+          return;
+        }
+        if (card.classList.contains('ilet-card-disabled')) return;
+        const isTakeBtn = !!e.target.closest('.ilet-take');
+        if (!isTakeBtn) {
+          if (mockN) {
+            try { history.replaceState(null, '', '/take/ielts-speaking-' + encodeURIComponent(mockN)); } catch (_e) {}
+          }
+          return;
+        }
+        // Take Test → navigate to the speaking runner. Mirror the existing
+        // openSpeakingCategoryModal launch path: it opens "Speaking Mocks.html"
+        // with the mock param.
+        try { history.pushState(null, '', '/take/ielts-speaking-' + encodeURIComponent(mockN)); } catch (_e) {}
+        const padded = String(mockN).padStart(2, '0');
+        const url = 'IELTS Speaking Mocks.html?test=ielts-speaking-mock-' + padded + '&auto=1';
+        ispetClose({ keepUrl: true });
+        window.location.href = url;
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && document.getElementById('ispetPicker').classList.contains('ilet-open')) ispetClose();
+      });
+    });
+
+    window.ispetOpen         = ispetOpen;
+    window.ispetClose        = ispetClose;
+    window.ispetClearFilters = ispetClearFilters;
+
     // ===== FULL-SCREEN CEFR READING PICKER =====
     // Same flow as the IELTS picker (iretOpen / iretRender) but for CEFR mocks.
     // Differences from IELTS: 5 parts (not 3), each part type is fixed
@@ -19816,7 +20283,7 @@
         }
         loadMock('Speaking Plus.html', 'speaking');
       } else if (type === 'ielts') {
-        openSpeakingCategoryModal('ielts-speaking');
+        if (typeof ispetOpen === 'function') { ispetOpen(); } else { openSpeakingCategoryModal('ielts-speaking'); }
       } else {
         openSpeakingCategoryModal('cefr-speaking');
       }
@@ -22879,8 +23346,9 @@
     function selectIELTSSpeakingMode(mode) {
       closeIELTSSpeakingModeModal();
       if (mode === 'ai') {
-        // Open CEFR-like mock selection popup with PDF download button
-        openSpeakingCategoryModal('ielts-speaking');
+        // Open the new fullscreen IELTS Speaking picker (ispetPicker).
+        if (typeof ispetOpen === 'function') { ispetOpen(); }
+        else { openSpeakingCategoryModal('ielts-speaking'); }
       } else {
         // Show tutorial and then booking form
         showIELTSSpeakingTutorial();
@@ -22902,7 +23370,8 @@
       if (target === 'cefr-speaking') {
         openSpeakingCategoryModal('cefr-speaking');
       } else if (target === 'ielts-speaking') {
-        openSpeakingCategoryModal('ielts-speaking');
+        if (typeof ispetOpen === 'function') { ispetOpen(); }
+        else { openSpeakingCategoryModal('ielts-speaking'); }
       } else if (target === 'cefr-writing') {
         openWritingCategoryModal('cefr-writing');
       } else if (target === 'ielts-writing') {
@@ -23139,6 +23608,12 @@
         if (cwet && cwet.classList.contains('ilet-open')) {
           _pickerFromPopstate = true;
           cwetClose();
+          _pickerFromPopstate = false;
+        }
+        var ispet = document.getElementById('ispetPicker');
+        if (ispet && ispet.classList.contains('ilet-open')) {
+          _pickerFromPopstate = true;
+          ispetClose();
           _pickerFromPopstate = false;
         }
         // 2) Close access-code modals if URL left /take/...
