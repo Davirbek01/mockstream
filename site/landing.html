@@ -33329,6 +33329,31 @@
         html += '<div id="mmgCwAutoTagStatus" style="font-size:11.5px;color:#64748b;margin:-6px 0 14px;min-height:14px;font-weight:500;"></div>';
       }
 
+      // IELTS Speaking — Picker tags section. Three text inputs (one per
+      // part) that drive what shows on the ispetPicker card chips. The
+      // bulk + per-part import flows (Phase 2B/2C) auto-fill these;
+      // admin can edit at any time and the picker re-reads on next open.
+      if (type === 'ielts-speaking') {
+        var ispTags = (md.tags = md.tags || {});
+        html += '<div class="mmg-section-title" style="margin-top:14px;">Picker tags</div>';
+        html += '<div class="mmg-field-help">Short topic labels that drive the chips on the IELTS Speaking picker card. <strong>Editable</strong> — type in to override what Gemini extracted, or leave to auto-fill from the next bulk / per-part import.</div>';
+
+        html += '<div class="mmg-field"><label for="mmgIspSet_p1Topic">Part 1 topic <span style="color:#94a3b8;font-weight:400;">(general theme covering Part 1\'s 7 warm-up Qs)</span></label>'
+              +   '<input type="text" id="mmgIspSet_p1Topic" value="' + _mmgEsc(ispTags.p1Topic || '') + '" placeholder="e.g. Hometown, Work or Study" style="width:100%;border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;">'
+              +   '<div class="mmg-field-help">2–6 words. Multiple topics OK — join with " / " e.g. <em>Hometown / Work</em>.</div>'
+              + '</div>';
+
+        html += '<div class="mmg-field"><label for="mmgIspSet_p2Topic">Part 2 topic <span style="color:#94a3b8;font-weight:400;">(cue-card core phrase, no "Describe a/an")</span></label>'
+              +   '<input type="text" id="mmgIspSet_p2Topic" value="' + _mmgEsc(ispTags.p2Topic || '') + '" placeholder="e.g. A wild animal, Encouraging someone" style="width:100%;border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;">'
+              +   '<div class="mmg-field-help">2–4 words. The verbatim "Describe a/an/the…" preamble lives in the actual cue-card prompt — this is just the topic label.</div>'
+              + '</div>';
+
+        html += '<div class="mmg-field"><label for="mmgIspSet_p3Topic">Part 3 topic <span style="color:#94a3b8;font-weight:400;">(umbrella theme covering all 7 Part 3 Qs)</span></label>'
+              +   '<input type="text" id="mmgIspSet_p3Topic" value="' + _mmgEsc(ispTags.p3Topic || '') + '" placeholder="e.g. Wildlife &amp; nature, Encouragement &amp; motivation" style="width:100%;border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;">'
+              +   '<div class="mmg-field-help">3–5 words. Part 3 follow-ups broaden Part 2\'s theme — pick a label that fits the umbrella across all 7 follow-ups.</div>'
+              + '</div>';
+      }
+
       if (keys.length) {
         html += '<div class="mmg-section-title">Test settings (logo + headings)</div>';
         for (var i = 0; i < keys.length; i++) {
@@ -33560,6 +33585,23 @@
           if (get('mmgAnnP2F') !== undefined) md.announcements.beforePart2FollowUp = get('mmgAnnP2F');
           if (get('mmgAnnP3')  !== undefined) md.announcements.beforePart3         = get('mmgAnnP3');
           if (get('mmgAnnEnd') !== undefined) md.announcements.afterExam           = get('mmgAnnEnd');
+
+          // Picker tags — admin-edited (or auto-filled by bulk / per-part
+          // import). Stored at mock_data.tags.{p1,p2,p3}Topic, which is
+          // exactly what ispetPicker reads. Empty strings get pruned so
+          // we don't carry blank "tags": { "p1Topic": "" } noise.
+          md.tags = md.tags || {};
+          var ispTrim = function (key, val) {
+            var v = (val == null ? '' : String(val)).trim();
+            if (v) md.tags[key] = v; else delete md.tags[key];
+          };
+          var ispP1 = document.getElementById('mmgIspSet_p1Topic');
+          var ispP2 = document.getElementById('mmgIspSet_p2Topic');
+          var ispP3 = document.getElementById('mmgIspSet_p3Topic');
+          if (ispP1) ispTrim('p1Topic', ispP1.value);
+          if (ispP2) ispTrim('p2Topic', ispP2.value);
+          if (ispP3) ispTrim('p3Topic', ispP3.value);
+          if (!md.tags.p1Topic && !md.tags.p2Topic && !md.tags.p3Topic) delete md.tags;
         }
         // settings.voice / settings.tts_model are written immediately by
         // _mmgPickTtsVoice / _mmgPickTtsModel — nothing to flush here.
