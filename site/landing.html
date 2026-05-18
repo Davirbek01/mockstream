@@ -19205,7 +19205,7 @@
 
     async function _ispetLoadAllMockMeta() {
       try {
-        const resp = await fetch(`${_ISPET_SB_URL}/rest/v1/mock_tests?mock_type=eq.ielts-speaking&status=eq.published&select=mock_number,mock_data,title`, {
+        const resp = await fetch(`${_ISPET_SB_URL}/rest/v1/mock_tests?mock_type=eq.ielts-speaking&status=eq.published&select=id,mock_number,mock_data,title`, {
           headers: { 'apikey': _ISPET_SB_KEY, 'Authorization': 'Bearer ' + _ISPET_SB_KEY }
         });
         if (!resp.ok) return;
@@ -19214,6 +19214,10 @@
           const padded = String(r.mock_number).padStart(2, '0');
           const meta = _ispetBuildMetaFromMockData(r.mock_data);
           if (r.title && !meta.title) meta.title = r.title;
+          // sbId is the mock_tests.id — IELTS Speaking Mocks.html loads
+          // via ?sbmock=<id>. All IELTS Speaking mocks are Supabase-only
+          // after the Phase 3 migration.
+          meta.sbId = r.id;
           _ispetMockMeta[padded] = meta;
         }
       } catch (_e) { /* swallow — picker still renders empty grid */ }
@@ -19378,12 +19382,21 @@
           }
           return;
         }
-        // Take Test → navigate to the speaking runner. Mirror the existing
-        // openSpeakingCategoryModal launch path: it opens "Speaking Mocks.html"
-        // with the mock param.
+        // Take Test → navigate to the IELTS speaking runner. All IELTS
+        // Speaking mocks are Supabase-only (Phase 3 migration), so we
+        // must route via ?sbmock=<id>. The ?num= param is the real mock
+        // number for modal headers (the row id ≠ mock number).
         try { history.pushState(null, '', '/take/ielts-speaking-' + encodeURIComponent(mockN)); } catch (_e) {}
         const padded = String(mockN).padStart(2, '0');
-        const url = 'IELTS Speaking Mocks.html?test=ielts-speaking-mock-' + padded + '&auto=1';
+        const meta = _ispetMockMeta[padded] || {};
+        const sbId = meta.sbId;
+        if (!sbId) {
+          alert('Could not locate this mock in the database (mock #' + padded + '). Please refresh and try again.');
+          return;
+        }
+        const url = 'IELTS Speaking Mocks.html?sbmock=' + encodeURIComponent(sbId)
+                  + '&num=' + encodeURIComponent(padded)
+                  + '&auto=1&action=practice';
         ispetClose({ keepUrl: true });
         window.location.href = url;
       });
@@ -19557,7 +19570,7 @@
 
     async function _cspetLoadAllMockMeta() {
       try {
-        const resp = await fetch(`${_CSPET_SB_URL}/rest/v1/mock_tests?mock_type=eq.cefr-speaking&status=eq.published&select=mock_number,mock_data,title`, {
+        const resp = await fetch(`${_CSPET_SB_URL}/rest/v1/mock_tests?mock_type=eq.cefr-speaking&status=eq.published&select=id,mock_number,mock_data,title`, {
           headers: { 'apikey': _CSPET_SB_KEY, 'Authorization': 'Bearer ' + _CSPET_SB_KEY }
         });
         if (!resp.ok) return;
@@ -19566,6 +19579,10 @@
           const padded = String(r.mock_number).padStart(2, '0');
           const meta = _cspetBuildMetaFromMockData(r.mock_data);
           if (r.title && !meta.title) meta.title = r.title;
+          // sbId is the mock_tests.id — Speaking Mocks.html loads the mock
+          // via ?sbmock=<id>. CEFR Speaking has no static JS fallback any
+          // more, so this is the ONLY working route.
+          meta.sbId = r.id;
           _cspetMockMeta[padded] = meta;
         }
       } catch (_e) { /* swallow — picker still renders empty grid */ }
@@ -19727,7 +19744,19 @@
         }
         try { history.pushState(null, '', '/take/cefr-speaking-' + encodeURIComponent(mockN)); } catch (_e) {}
         const padded = String(mockN).padStart(2, '0');
-        const url = 'Speaking Mocks.html?test=cefr-speaking-mock-' + padded + '&auto=1';
+        // All CEFR Speaking mocks live in Supabase (Phase 3 migration —
+        // no static questions.js files remain). Route via ?sbmock=<id>
+        // + ?num=<padded> so the runner can show the correct mock # in
+        // its modals even though the row id is unrelated to the number.
+        const meta = _cspetMockMeta[padded] || {};
+        const sbId = meta.sbId;
+        if (!sbId) {
+          alert('Could not locate this mock in the database (mock #' + padded + '). Please refresh and try again.');
+          return;
+        }
+        const url = 'Speaking Mocks.html?sbmock=' + encodeURIComponent(sbId)
+                  + '&num=' + encodeURIComponent(padded)
+                  + '&auto=1&action=practice';
         cspetClose({ keepUrl: true });
         window.location.href = url;
       });
