@@ -19382,11 +19382,12 @@
           }
           return;
         }
-        // Take Test → navigate to the IELTS speaking runner. All IELTS
-        // Speaking mocks are Supabase-only (Phase 3 migration), so we
-        // must route via ?sbmock=<id>. The ?num= param is the real mock
-        // number for modal headers (the row id ≠ mock number).
-        try { history.pushState(null, '', '/take/ielts-speaking-' + encodeURIComponent(mockN)); } catch (_e) {}
+        // Take Test → IELTS speaking runner. All mocks Supabase-only, so
+        // route via ?sbmock=<id>&num=<padded>. Hand off to the existing
+        // handleSpeakingMockClick pipeline so the access-code gate +
+        // mode-select modal (Full / Part-based) + smooth loading overlay
+        // all run, and the candidate-name modal reuses the welcome-page
+        // value instead of prompting again.
         const padded = String(mockN).padStart(2, '0');
         const meta = _ispetMockMeta[padded] || {};
         const sbId = meta.sbId;
@@ -19394,11 +19395,15 @@
           alert('Could not locate this mock in the database (mock #' + padded + '). Please refresh and try again.');
           return;
         }
-        const url = 'IELTS Speaking Mocks.html?sbmock=' + encodeURIComponent(sbId)
-                  + '&num=' + encodeURIComponent(padded)
-                  + '&auto=1&action=practice';
+        const pageUrl = 'IELTS Speaking Mocks.html?sbmock=' + encodeURIComponent(sbId)
+                      + '&num=' + encodeURIComponent(padded);
+        try { history.pushState(null, '', '/take/ielts-speaking-' + encodeURIComponent(mockN)); } catch (_e) {}
         ispetClose({ keepUrl: true });
-        window.location.href = url;
+        if (typeof handleSpeakingMockClick === 'function') {
+          handleSpeakingMockClick(pageUrl, 'ielts-speaking');
+        } else {
+          window.location.href = pageUrl + '&auto=1&action=practice';
+        }
       });
 
       document.addEventListener('keydown', function (e) {
@@ -19742,7 +19747,6 @@
           }
           return;
         }
-        try { history.pushState(null, '', '/take/cefr-speaking-' + encodeURIComponent(mockN)); } catch (_e) {}
         const padded = String(mockN).padStart(2, '0');
         // All CEFR Speaking mocks live in Supabase (Phase 3 migration —
         // no static questions.js files remain). Route via ?sbmock=<id>
@@ -19754,11 +19758,22 @@
           alert('Could not locate this mock in the database (mock #' + padded + '). Please refresh and try again.');
           return;
         }
-        const url = 'Speaking Mocks.html?sbmock=' + encodeURIComponent(sbId)
-                  + '&num=' + encodeURIComponent(padded)
-                  + '&auto=1&action=practice';
+        const pageUrl = 'Speaking Mocks.html?sbmock=' + encodeURIComponent(sbId)
+                      + '&num=' + encodeURIComponent(padded);
+        try { history.pushState(null, '', '/take/cefr-speaking-' + encodeURIComponent(mockN)); } catch (_e) {}
         cspetClose({ keepUrl: true });
-        window.location.href = url;
+        // Hand off to the existing speaking-launch flow: access-code gate
+        // (when required) → mode-select modal (Full / Part-based) →
+        // loadMock with the smooth overlay transition. Skipping this
+        // pipeline causes the runner to bounce back to landing AND skip
+        // the candidate-name short-circuit that reuses the welcome-page
+        // value.
+        if (typeof handleSpeakingMockClick === 'function') {
+          handleSpeakingMockClick(pageUrl, 'cefr-speaking');
+        } else {
+          // Last-resort fallback if the helper isn't loaded yet.
+          window.location.href = pageUrl + '&auto=1&action=practice';
+        }
       });
 
       document.addEventListener('keydown', function (e) {
