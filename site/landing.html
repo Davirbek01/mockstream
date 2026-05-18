@@ -18987,6 +18987,26 @@
         + '</article>';
     }
 
+    function _ispetSkeletonHtml() {
+      return '<div class="ilet-card-skeleton">'
+        + '<div class="ilet-skel-line short"></div>'
+        + '<div class="ilet-skel-line tall"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '</div>';
+    }
+
+    function _ispetRenderSkeletons() {
+      const grid = document.getElementById('ispetGrid');
+      if (!grid) return;
+      // Use the current cached count if we have one, else a sensible 12.
+      const count = Math.max(12, Object.keys(_ispetMockMeta).length || 12);
+      grid.innerHTML = Array.from({ length: count }, _ispetSkeletonHtml).join('');
+      const empty = document.getElementById('ispetEmpty');
+      if (empty) empty.style.display = 'none';
+    }
+
     async function _ispetLoadAllMockMeta() {
       try {
         const resp = await fetch(`${_ISPET_SB_URL}/rest/v1/mock_tests?mock_type=eq.ielts-speaking&status=eq.published&select=mock_number,mock_data,title`, {
@@ -19078,6 +19098,10 @@
       document.body.style.overflow = 'hidden';
       try { history.pushState({ picker: 'ispet' }, ''); } catch (_e) {}
       if (typeof _pickerShowTmaBack === 'function') _pickerShowTmaBack();
+      // Paint skeleton cards immediately so the picker doesn't look blank
+      // while we wait for Supabase to return mock metadata. Same trick
+      // iret / iwet / cret / clet pickers use.
+      _ispetRenderSkeletons();
       try {
         if (window._mmgRefreshAllPickersPromise) await window._mmgRefreshAllPickersPromise;
       } catch (_e) {}
