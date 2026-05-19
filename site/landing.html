@@ -34147,6 +34147,22 @@
 
       // Speaking-only extras: images (CEFR only), voice picker, IELTS announcements, bulk-audio button.
       if (type === 'cefr-speaking' || type === 'ielts-speaking') {
+        // Exam date — pre-fill TODAY for brand-new mocks so admins don't
+        // have to type it. The picker reads md.examDate and renders the
+        // 📅 badge on each card. Admin can override anytime via this
+        // input (mmgSpk_examDate). Same pattern as IELTS Writing above.
+        if (!md.examDate && !(window._mmgEditing && window._mmgEditing.id)) {
+          var _spNow = new Date();
+          md.examDate = _spNow.getFullYear() + '-'
+            + String(_spNow.getMonth() + 1).padStart(2, '0') + '-'
+            + String(_spNow.getDate()).padStart(2, '0');
+        }
+        html += '<div class="mmg-section-title">Exam date</div>';
+        html += '<div class="mmg-field">'
+              +   '<input type="date" id="mmgSpk_examDate" value="' + _mmgEsc(md.examDate || '') + '" style="border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;max-width:240px;">'
+              +   '<div class="mmg-field-help">Date this mock first appeared / is being released (YYYY-MM-DD). Shown as the 📅 badge on the picker card. Auto-set to today for new mocks; override anytime with the real exam date.</div>'
+              + '</div>';
+
         // Only CEFR Speaking uses the top-level image slots — Q4 prompts
         // the candidate to describe one of two pictures. IELTS Speaking
         // is purely verbal (no images on any of its 3 parts), so the
@@ -34201,6 +34217,17 @@
       for (var i = 0; i < keys.length; i++) {
         var el = document.getElementById('mmgSet_' + keys[i].k);
         if (el) md.settings[keys[i].k] = el.value;
+      }
+
+      // Speaking exam date — top-level md.examDate, read back from the
+      // mmgSpk_examDate input rendered above. Same shape as IELTS Writing
+      // examDate (YYYY-MM-DD); the picker's 📅 badge reads it directly.
+      if (type === 'cefr-speaking' || type === 'ielts-speaking') {
+        var spDateEl = document.getElementById('mmgSpk_examDate');
+        if (spDateEl) {
+          var spDv = (spDateEl.value || '').trim();
+          if (spDv) md.examDate = spDv; else delete md.examDate;
+        }
       }
 
       // IELTS Writing top-level metadata (source + examDate). NOT under
