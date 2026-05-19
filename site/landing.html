@@ -19008,10 +19008,18 @@
     // visit. Reuses _pickerShareMock / _pickerShowTmaBack helpers.
     const _ISPET_SB_URL    = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
     const _ISPET_SB_KEY    = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
-    const _ispetMockMeta   = {};   // mockNumStr -> { p1Topic, p2Topic, p3Topic, qCount, readyCount, examDate, title }
+    const _ispetMockMeta   = {};   // mockNumStr -> { p1Topic, p2Topic, p3Topic, qCount, readyCount, examDate, title, createdAt }
     let   _ispetFilter      = 'all';
     let   _ispetTopicFilter = '';
     let   _ispetServerDone  = {};
+    // Per-mock attempt counts populated by _ispetLoadStats: total all-time,
+    // today (UTC), last7 (rolling 7-day window). Plus a derived badge per
+    // mock — one of 'trending' | 'new' | 'popular' | 'gem' | null —
+    // computed by _ispetComputeBadges after both stats and metadata loads.
+    let   _ispetStatsByMock  = {};   // mockNumStr -> { total, today, last7 }
+    let   _ispetBadgesByMock = {};   // mockNumStr -> badge key | null
+    let   _ispetTopicCounts  = {};   // 'P1::topic-lower' -> { total, last7 }
+    let   _ispetTopicBadges  = {};   // 'P1::topic-lower' -> badge key | null
 
     function _ispetEsc(s) {
       return String(s == null ? '' : s)
@@ -19180,6 +19188,24 @@
         ? '<span class="ispet-exam-date">📅 ' + _ispetFmtDate(meta.examDate) + '</span>'
         : '';
       const titleText = meta.title || ('IELTS Speaking Mock ' + padded);
+      // Activity row: 🔥/🆕/👑/💎 + raw attempt counts. The four badge
+      // states are mutually exclusive (computed in _ispetComputeBadges).
+      // The 👥 and ⚡ stats render unconditionally so admins can see live
+      // traffic even on cards without a category badge.
+      const stats = _ispetStatsByMock[padded] || { total: 0, today: 0, last7: 0 };
+      const BADGE_LABELS = { trending: '🔥 Trending', new: '🆕 New', popular: '👑 Popular', gem: '💎 Hidden gem' };
+      const BADGE_COLORS = { trending: '#b45309', new: '#0e7490', popular: '#7c3aed', gem: '#15803d' };
+      const badgeKey = _ispetBadgesByMock[padded];
+      const badgeChip = badgeKey
+        ? '<span style="font-weight:700;color:' + BADGE_COLORS[badgeKey] + ';">' + BADGE_LABELS[badgeKey] + '</span>'
+        : '';
+      const statsRowParts = [];
+      if (badgeChip) statsRowParts.push(badgeChip);
+      statsRowParts.push('<span>👥 ' + stats.total + '</span>');
+      statsRowParts.push('<span>⚡ ' + stats.today + ' today</span>');
+      const statsRow = '<div class="ispet-stat-row" style="display:flex;gap:8px;font-size:11.5px;color:#475569;margin:4px 0 8px;flex-wrap:wrap;align-items:center;">'
+                     + statsRowParts.join('<span style="color:#cbd5e1;">·</span>')
+                     + '</div>';
       return ''
         + '<article class="ilet-card' + (fullyReady ? '' : ' ilet-card-disabled') + '" data-mock="' + padded + '" id="ispet-card-' + padded + '">'
         +   '<div class="ilet-card-head">'
@@ -19189,6 +19215,7 @@
         +     '<span style="font-size:11.5px;color:' + (fullyReady ? '#15803d' : '#92400e') + ';font-weight:700;margin-left:8px;">' + readyOf + '</span>'
         +   '</div>'
         +   '<h3 class="ilet-mock-title">' + _ispetEsc(titleText) + '</h3>'
+        +   statsRow
         +   (doneBadge ? '<div style="margin:4px 0 6px;">' + doneBadge + '</div>' : '')
         +   '<ul class="ilet-sections" style="list-style:none;padding:0;margin:8px 0;display:flex;flex-direction:column;gap:0;">'
         +     partRow(1, meta.p1Topic)
@@ -19224,7 +19251,7 @@
 
     async function _ispetLoadAllMockMeta() {
       try {
-        const resp = await fetch(`${_ISPET_SB_URL}/rest/v1/mock_tests?mock_type=eq.ielts-speaking&status=eq.published&select=id,mock_number,mock_data,title`, {
+        const resp = await fetch(`${_ISPET_SB_URL}/rest/v1/mock_tests?mock_type=eq.ielts-speaking&status=eq.published&select=id,mock_number,mock_data,title,created_at`, {
           headers: { 'apikey': _ISPET_SB_KEY, 'Authorization': 'Bearer ' + _ISPET_SB_KEY }
         });
         if (!resp.ok) return;
@@ -19237,9 +19264,109 @@
           // via ?sbmock=<id>. All IELTS Speaking mocks are Supabase-only
           // after the Phase 3 migration.
           meta.sbId = r.id;
+          meta.createdAt = r.created_at;
           _ispetMockMeta[padded] = meta;
         }
       } catch (_e) { /* swallow — picker still renders empty grid */ }
+    }
+
+    // Fetch all IELTS Speaking attempt rows in one shot and bucket by
+    // mock_number client-side. PostgREST doesn't support GROUP BY out of
+    // the box (would need an RPC), but row counts for one skill+exam-type
+    // are small enough that a flat fetch + JS reduce is fast and cheap.
+    async function _ispetLoadStats() {
+      _ispetStatsByMock = {};
+      try {
+        const resp = await fetch(
+          `${_ISPET_SB_URL}/rest/v1/mock_attempts?select=mock_number,opened_at&skill=eq.speaking&exam_type=eq.ielts&limit=50000`,
+          { headers: { 'apikey': _ISPET_SB_KEY, 'Authorization': 'Bearer ' + _ISPET_SB_KEY } }
+        );
+        if (!resp.ok) return;
+        const rows = await resp.json();
+        const todayStart = new Date();
+        todayStart.setUTCHours(0, 0, 0, 0);
+        const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+        for (const r of rows) {
+          if (r.mock_number == null) continue;
+          const padded = String(r.mock_number).padStart(2, '0');
+          const opened = new Date(r.opened_at);
+          const s = _ispetStatsByMock[padded] = _ispetStatsByMock[padded] || { total: 0, today: 0, last7: 0 };
+          s.total++;
+          if (opened.getTime() >= sevenDaysAgo) s.last7++;
+          if (opened >= todayStart) s.today++;
+        }
+      } catch (_e) { /* picker still renders without stats */ }
+    }
+
+    // Derive the one-badge-per-mock category from the loaded stats +
+    // mock_tests.created_at. Priority: trending > new > popular > gem.
+    // Hidden gem is gated on the mock being fully ready AND having
+    // 1-3 attempts so we don't badge un-played or un-finished mocks.
+    function _ispetComputeBadges() {
+      _ispetBadgesByMock = {};
+      const keys = Object.keys(_ispetMockMeta);
+      const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      const trending = keys
+        .filter(k => (_ispetStatsByMock[k]?.last7 || 0) > 0)
+        .sort((a, b) => (_ispetStatsByMock[b]?.last7 || 0) - (_ispetStatsByMock[a]?.last7 || 0))
+        .slice(0, 3);
+      const trendingSet = new Set(trending);
+      const newSet = new Set(keys.filter(k => {
+        const t = _ispetMockMeta[k] && _ispetMockMeta[k].createdAt;
+        return t && new Date(t).getTime() >= sevenDaysAgo;
+      }));
+      const popularSrc = keys
+        .filter(k => !trendingSet.has(k) && !newSet.has(k) && (_ispetStatsByMock[k]?.total || 0) > 0)
+        .sort((a, b) => (_ispetStatsByMock[b]?.total || 0) - (_ispetStatsByMock[a]?.total || 0))
+        .slice(0, 5);
+      const popularSet = new Set(popularSrc);
+      const gemSrc = keys.filter(k => {
+        if (trendingSet.has(k) || newSet.has(k) || popularSet.has(k)) return false;
+        const s = _ispetStatsByMock[k] || { total: 0 };
+        const meta = _ispetMockMeta[k];
+        return s.total >= 1 && s.total <= 3 && meta && meta.qCount > 0 && meta.readyCount === meta.qCount;
+      })
+        .sort((a, b) => (_ispetStatsByMock[a]?.total || 0) - (_ispetStatsByMock[b]?.total || 0))
+        .slice(0, 5);
+      const gemSet = new Set(gemSrc);
+      for (const k of keys) {
+        if (trendingSet.has(k))     _ispetBadgesByMock[k] = 'trending';
+        else if (newSet.has(k))     _ispetBadgesByMock[k] = 'new';
+        else if (popularSet.has(k)) _ispetBadgesByMock[k] = 'popular';
+        else if (gemSet.has(k))     _ispetBadgesByMock[k] = 'gem';
+        else                         _ispetBadgesByMock[k] = null;
+      }
+      // Aggregate topic counts + topic-level badges. A topic inherits
+      // attempts from EVERY mock it appears on. Same priority rule
+      // (trending > popular > gem; topics don't have a "new" state
+      // since topic strings can predate the picker).
+      _ispetTopicCounts = {};
+      Object.entries(_ispetMockMeta).forEach(([padded, meta]) => {
+        const s = _ispetStatsByMock[padded] || { total: 0, last7: 0 };
+        (meta.topicsAll || []).forEach(t => {
+          const tc = _ispetTopicCounts[t] = _ispetTopicCounts[t] || { total: 0, last7: 0 };
+          tc.total += s.total;
+          tc.last7 += s.last7;
+        });
+      });
+      _ispetTopicBadges = {};
+      const tKeys = Object.keys(_ispetTopicCounts);
+      const tTrending = new Set(tKeys.filter(t => _ispetTopicCounts[t].last7 > 0)
+        .sort((a, b) => _ispetTopicCounts[b].last7 - _ispetTopicCounts[a].last7)
+        .slice(0, 3));
+      const tPopular = new Set(tKeys.filter(t => !tTrending.has(t) && _ispetTopicCounts[t].total > 0)
+        .sort((a, b) => _ispetTopicCounts[b].total - _ispetTopicCounts[a].total)
+        .slice(0, 5));
+      const tGem = new Set(tKeys.filter(t => !tTrending.has(t) && !tPopular.has(t)
+                                          && _ispetTopicCounts[t].total >= 1 && _ispetTopicCounts[t].total <= 3)
+        .sort((a, b) => _ispetTopicCounts[a].total - _ispetTopicCounts[b].total)
+        .slice(0, 5));
+      for (const t of tKeys) {
+        if (tTrending.has(t))     _ispetTopicBadges[t] = 'trending';
+        else if (tPopular.has(t)) _ispetTopicBadges[t] = 'popular';
+        else if (tGem.has(t))     _ispetTopicBadges[t] = 'gem';
+        else                       _ispetTopicBadges[t] = null;
+      }
     }
 
     async function _ispetFetchServerDone() {
@@ -19252,25 +19379,34 @@
       const sel = document.getElementById('ispetTopicFilter');
       if (!sel) return;
       // topicsAll entries look like "P1::transport & seasons" — split,
-      // group P1 → P2 → P3, sort alphabetically within each group, and
-      // render with a "P<n> — Topic" label so the same word doesn't
-      // collapse across parts.
+      // group P1 → P2 → P3, then within each group sort by attempt
+      // count DESC (most-practised first, so the dropdown surfaces what
+      // students actually engage with). Prefix the topic with a status
+      // icon when it qualifies as 🔥 trending / 👑 popular / 💎 gem.
       const all = new Set();
       Object.values(_ispetMockMeta).forEach(m => {
         (m.topicsAll || []).forEach(t => { if (t) all.add(t); });
       });
       const PART_RANK = { P1: 0, P2: 1, P3: 2 };
+      const TOPIC_ICON = { trending: '🔥 ', popular: '👑 ', gem: '💎 ' };
       const sorted = Array.from(all).sort((a, b) => {
         const [pa, ta] = a.split('::');
         const [pb, tb] = b.split('::');
         const r = (PART_RANK[pa] ?? 99) - (PART_RANK[pb] ?? 99);
-        return r !== 0 ? r : ta.localeCompare(tb);
+        if (r !== 0) return r;
+        const ca = (_ispetTopicCounts[a] && _ispetTopicCounts[a].total) || 0;
+        const cb = (_ispetTopicCounts[b] && _ispetTopicCounts[b].total) || 0;
+        return (cb - ca) || ta.localeCompare(tb);
       });
       const current = sel.value;
       sel.innerHTML = '<option value="">🏷 All topics</option>'
         + sorted.map(composite => {
             const [part, topic] = composite.split('::');
-            const label = part + ' — ' + topic.charAt(0).toUpperCase() + topic.slice(1);
+            const tc    = _ispetTopicCounts[composite] || { total: 0 };
+            const badge = _ispetTopicBadges[composite];
+            const icon  = (badge && TOPIC_ICON[badge]) || '';
+            const countSuffix = tc.total > 0 ? ' (' + tc.total + ')' : '';
+            const label = part + ' — ' + icon + topic.charAt(0).toUpperCase() + topic.slice(1) + countSuffix;
             return '<option value="' + _ispetEsc(composite) + '">' + _ispetEsc(label) + '</option>';
           }).join('');
       if (current) sel.value = current;
@@ -19339,7 +19475,12 @@
       try {
         if (window._mmgRefreshAllPickersPromise) await window._mmgRefreshAllPickersPromise;
       } catch (_e) {}
-      await Promise.all([_ispetLoadAllMockMeta(), _ispetFetchServerDone().then(d => { _ispetServerDone = d || {}; })]);
+      await Promise.all([
+        _ispetLoadAllMockMeta(),
+        _ispetLoadStats(),
+        _ispetFetchServerDone().then(d => { _ispetServerDone = d || {}; })
+      ]);
+      _ispetComputeBadges();
       _ispetRenderAll();
     }
 
@@ -19473,6 +19614,13 @@
     let   _cspetFilter      = 'all';
     let   _cspetTopicFilter = '';
     let   _cspetServerDone  = {};
+    // Phase 2 stats: per-mock attempt counts + derived one-of badges.
+    // Mirrors the ispet structure exactly; see _ispetLoadStats /
+    // _ispetComputeBadges above for the rationale and rules.
+    let   _cspetStatsByMock  = {};
+    let   _cspetBadgesByMock = {};
+    let   _cspetTopicCounts  = {};
+    let   _cspetTopicBadges  = {};
 
     function _cspetEsc(s) {
       return String(s == null ? '' : s)
@@ -19580,6 +19728,21 @@
         ? '<span class="cspet-exam-date">📅 ' + _cspetFmtDate(meta.examDate) + '</span>'
         : '';
       const titleText = meta.title || ('CEFR Speaking Mock ' + padded);
+      // Activity row mirrors ispet — badge (if any) + raw counts.
+      const stats = _cspetStatsByMock[padded] || { total: 0, today: 0, last7: 0 };
+      const BADGE_LABELS_CS = { trending: '🔥 Trending', new: '🆕 New', popular: '👑 Popular', gem: '💎 Hidden gem' };
+      const BADGE_COLORS_CS = { trending: '#b45309', new: '#047857', popular: '#7c3aed', gem: '#15803d' };
+      const badgeKeyCs = _cspetBadgesByMock[padded];
+      const badgeChipCs = badgeKeyCs
+        ? '<span style="font-weight:700;color:' + BADGE_COLORS_CS[badgeKeyCs] + ';">' + BADGE_LABELS_CS[badgeKeyCs] + '</span>'
+        : '';
+      const csStatsRowParts = [];
+      if (badgeChipCs) csStatsRowParts.push(badgeChipCs);
+      csStatsRowParts.push('<span>👥 ' + stats.total + '</span>');
+      csStatsRowParts.push('<span>⚡ ' + stats.today + ' today</span>');
+      const csStatsRow = '<div class="cspet-stat-row" style="display:flex;gap:8px;font-size:11.5px;color:#475569;margin:4px 0 8px;flex-wrap:wrap;align-items:center;">'
+                       + csStatsRowParts.join('<span style="color:#cbd5e1;">·</span>')
+                       + '</div>';
       return ''
         + '<article class="ilet-card' + (fullyReady ? '' : ' ilet-card-disabled') + '" data-mock="' + padded + '" id="cspet-card-' + padded + '">'
         +   '<div class="ilet-card-head">'
@@ -19589,6 +19752,7 @@
         +     '<span style="font-size:11.5px;color:' + (fullyReady ? '#15803d' : '#92400e') + ';font-weight:700;margin-left:8px;">' + readyOf + '</span>'
         +   '</div>'
         +   '<h3 class="ilet-mock-title">' + _cspetEsc(titleText) + '</h3>'
+        +   csStatsRow
         +   (doneBadge ? '<div style="margin:4px 0 6px;">' + doneBadge + '</div>' : '')
         +   '<ul class="ilet-sections" style="list-style:none;padding:0;margin:8px 0;display:flex;flex-direction:column;gap:0;">'
         +     partRow('1.1', meta.p11Topic, '— topic not tagged —')
@@ -19625,7 +19789,7 @@
 
     async function _cspetLoadAllMockMeta() {
       try {
-        const resp = await fetch(`${_CSPET_SB_URL}/rest/v1/mock_tests?mock_type=eq.cefr-speaking&status=eq.published&select=id,mock_number,mock_data,title`, {
+        const resp = await fetch(`${_CSPET_SB_URL}/rest/v1/mock_tests?mock_type=eq.cefr-speaking&status=eq.published&select=id,mock_number,mock_data,title,created_at`, {
           headers: { 'apikey': _CSPET_SB_KEY, 'Authorization': 'Bearer ' + _CSPET_SB_KEY }
         });
         if (!resp.ok) return;
@@ -19638,9 +19802,95 @@
           // via ?sbmock=<id>. CEFR Speaking has no static JS fallback any
           // more, so this is the ONLY working route.
           meta.sbId = r.id;
+          meta.createdAt = r.created_at;
           _cspetMockMeta[padded] = meta;
         }
       } catch (_e) { /* swallow — picker still renders empty grid */ }
+    }
+
+    // Same shape as _ispetLoadStats but filters mock_attempts on
+    // exam_type=cefr. Bucket client-side because PostgREST has no
+    // GROUP BY without an RPC and row counts are small.
+    async function _cspetLoadStats() {
+      _cspetStatsByMock = {};
+      try {
+        const resp = await fetch(
+          `${_CSPET_SB_URL}/rest/v1/mock_attempts?select=mock_number,opened_at&skill=eq.speaking&exam_type=eq.cefr&limit=50000`,
+          { headers: { 'apikey': _CSPET_SB_KEY, 'Authorization': 'Bearer ' + _CSPET_SB_KEY } }
+        );
+        if (!resp.ok) return;
+        const rows = await resp.json();
+        const todayStart = new Date();
+        todayStart.setUTCHours(0, 0, 0, 0);
+        const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+        for (const r of rows) {
+          if (r.mock_number == null) continue;
+          const padded = String(r.mock_number).padStart(2, '0');
+          const opened = new Date(r.opened_at);
+          const s = _cspetStatsByMock[padded] = _cspetStatsByMock[padded] || { total: 0, today: 0, last7: 0 };
+          s.total++;
+          if (opened.getTime() >= sevenDaysAgo) s.last7++;
+          if (opened >= todayStart) s.today++;
+        }
+      } catch (_e) {}
+    }
+
+    function _cspetComputeBadges() {
+      _cspetBadgesByMock = {};
+      const keys = Object.keys(_cspetMockMeta);
+      const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      const trending = keys
+        .filter(k => (_cspetStatsByMock[k]?.last7 || 0) > 0)
+        .sort((a, b) => (_cspetStatsByMock[b]?.last7 || 0) - (_cspetStatsByMock[a]?.last7 || 0))
+        .slice(0, 3);
+      const trendingSet = new Set(trending);
+      const newSet = new Set(keys.filter(k => {
+        const t = _cspetMockMeta[k] && _cspetMockMeta[k].createdAt;
+        return t && new Date(t).getTime() >= sevenDaysAgo;
+      }));
+      const popularSet = new Set(keys
+        .filter(k => !trendingSet.has(k) && !newSet.has(k) && (_cspetStatsByMock[k]?.total || 0) > 0)
+        .sort((a, b) => (_cspetStatsByMock[b]?.total || 0) - (_cspetStatsByMock[a]?.total || 0))
+        .slice(0, 5));
+      const gemSet = new Set(keys.filter(k => {
+        if (trendingSet.has(k) || newSet.has(k) || popularSet.has(k)) return false;
+        const s = _cspetStatsByMock[k] || { total: 0 };
+        const meta = _cspetMockMeta[k];
+        return s.total >= 1 && s.total <= 3 && meta && meta.qCount > 0 && meta.readyCount === meta.qCount;
+      })
+        .sort((a, b) => (_cspetStatsByMock[a]?.total || 0) - (_cspetStatsByMock[b]?.total || 0))
+        .slice(0, 5));
+      for (const k of keys) {
+        if (trendingSet.has(k))     _cspetBadgesByMock[k] = 'trending';
+        else if (newSet.has(k))     _cspetBadgesByMock[k] = 'new';
+        else if (popularSet.has(k)) _cspetBadgesByMock[k] = 'popular';
+        else if (gemSet.has(k))     _cspetBadgesByMock[k] = 'gem';
+        else                         _cspetBadgesByMock[k] = null;
+      }
+      _cspetTopicCounts = {};
+      Object.entries(_cspetMockMeta).forEach(([padded, meta]) => {
+        const s = _cspetStatsByMock[padded] || { total: 0, last7: 0 };
+        (meta.topicsAll || []).forEach(t => {
+          const tc = _cspetTopicCounts[t] = _cspetTopicCounts[t] || { total: 0, last7: 0 };
+          tc.total += s.total;
+          tc.last7 += s.last7;
+        });
+      });
+      _cspetTopicBadges = {};
+      const tKeys = Object.keys(_cspetTopicCounts);
+      const tTrending = new Set(tKeys.filter(t => _cspetTopicCounts[t].last7 > 0)
+        .sort((a, b) => _cspetTopicCounts[b].last7 - _cspetTopicCounts[a].last7).slice(0, 3));
+      const tPopular = new Set(tKeys.filter(t => !tTrending.has(t) && _cspetTopicCounts[t].total > 0)
+        .sort((a, b) => _cspetTopicCounts[b].total - _cspetTopicCounts[a].total).slice(0, 5));
+      const tGem = new Set(tKeys.filter(t => !tTrending.has(t) && !tPopular.has(t)
+                                          && _cspetTopicCounts[t].total >= 1 && _cspetTopicCounts[t].total <= 3)
+        .sort((a, b) => _cspetTopicCounts[a].total - _cspetTopicCounts[b].total).slice(0, 5));
+      for (const t of tKeys) {
+        if (tTrending.has(t))     _cspetTopicBadges[t] = 'trending';
+        else if (tPopular.has(t)) _cspetTopicBadges[t] = 'popular';
+        else if (tGem.has(t))     _cspetTopicBadges[t] = 'gem';
+        else                       _cspetTopicBadges[t] = null;
+      }
     }
 
     async function _cspetFetchServerDone() {
@@ -19651,26 +19901,33 @@
     function _cspetBuildTopicFilterOptions() {
       const sel = document.getElementById('cspetTopicFilter');
       if (!sel) return;
-      // topicsAll entries look like "P1.1::transport & seasons" — split,
-      // group P1.1 → P1.2 → P2 → P3, sort alphabetically within each
-      // group, and render with a "P<n> — Topic" label so same-named
-      // themes don't collapse across parts.
+      // Group P1.1 → P1.2 → P2 → P3, then sort by attempt count DESC
+      // within each group (most-practised first). Prefix with status
+      // icon when topic qualifies as 🔥 trending / 👑 popular / 💎 gem.
       const all = new Set();
       Object.values(_cspetMockMeta).forEach(m => {
         (m.topicsAll || []).forEach(t => { if (t) all.add(t); });
       });
       const PART_RANK = { 'P1.1': 0, 'P1.2': 1, 'P2': 2, 'P3': 3 };
+      const TOPIC_ICON_CS = { trending: '🔥 ', popular: '👑 ', gem: '💎 ' };
       const sorted = Array.from(all).sort((a, b) => {
         const [pa, ta] = a.split('::');
         const [pb, tb] = b.split('::');
         const r = (PART_RANK[pa] ?? 99) - (PART_RANK[pb] ?? 99);
-        return r !== 0 ? r : ta.localeCompare(tb);
+        if (r !== 0) return r;
+        const ca = (_cspetTopicCounts[a] && _cspetTopicCounts[a].total) || 0;
+        const cb = (_cspetTopicCounts[b] && _cspetTopicCounts[b].total) || 0;
+        return (cb - ca) || ta.localeCompare(tb);
       });
       const current = sel.value;
       sel.innerHTML = '<option value="">🏷 All topics</option>'
         + sorted.map(composite => {
             const [part, topic] = composite.split('::');
-            const label = part + ' — ' + topic.charAt(0).toUpperCase() + topic.slice(1);
+            const tc    = _cspetTopicCounts[composite] || { total: 0 };
+            const badge = _cspetTopicBadges[composite];
+            const icon  = (badge && TOPIC_ICON_CS[badge]) || '';
+            const countSuffix = tc.total > 0 ? ' (' + tc.total + ')' : '';
+            const label = part + ' — ' + icon + topic.charAt(0).toUpperCase() + topic.slice(1) + countSuffix;
             return '<option value="' + _cspetEsc(composite) + '">' + _cspetEsc(label) + '</option>';
           }).join('');
       if (current) sel.value = current;
@@ -19735,7 +19992,12 @@
       try {
         if (window._mmgRefreshAllPickersPromise) await window._mmgRefreshAllPickersPromise;
       } catch (_e) {}
-      await Promise.all([_cspetLoadAllMockMeta(), _cspetFetchServerDone().then(d => { _cspetServerDone = d || {}; })]);
+      await Promise.all([
+        _cspetLoadAllMockMeta(),
+        _cspetLoadStats(),
+        _cspetFetchServerDone().then(d => { _cspetServerDone = d || {}; })
+      ]);
+      _cspetComputeBadges();
       _cspetRenderAll();
     }
 
