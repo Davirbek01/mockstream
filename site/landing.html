@@ -16328,23 +16328,21 @@
     async function _iretLoadStats() {
       _iretStatsByMock = {};
       try {
-        const resp = await fetch(
-          _IRET_SB_URL + '/rest/v1/mock_attempts?select=mock_number,opened_at&skill=eq.reading&exam_type=eq.ielts&limit=50000',
-          { headers: { apikey: _IRET_SB_KEY, Authorization: 'Bearer ' + _IRET_SB_KEY } }
-        );
+        const resp = await fetch(_IRET_SB_URL + '/rest/v1/rpc/mock_attempt_stats', {
+          method: 'POST',
+          headers: { apikey: _IRET_SB_KEY, Authorization: 'Bearer ' + _IRET_SB_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ p_skill: 'reading', p_exam_type: 'ielts' })
+        });
         if (!resp.ok) return;
         const rows = await resp.json();
-        const todayStart = new Date();
-        todayStart.setUTCHours(0, 0, 0, 0);
-        const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
         for (const r of rows) {
           if (r.mock_number == null) continue;
           const padded = String(r.mock_number).padStart(2, '0');
-          const opened = new Date(r.opened_at);
-          const s = _iretStatsByMock[padded] = _iretStatsByMock[padded] || { total: 0, today: 0, last7: 0 };
-          s.total++;
-          if (opened.getTime() >= sevenDaysAgo) s.last7++;
-          if (opened >= todayStart) s.today++;
+          _iretStatsByMock[padded] = {
+            total: Number(r.total) || 0,
+            today: Number(r.today) || 0,
+            last7: Number(r.last7) || 0
+          };
         }
       } catch (_e) {}
     }
@@ -16980,23 +16978,21 @@
     async function _iletLoadStats() {
       _iletStatsByMock = {};
       try {
-        const resp = await fetch(
-          _ilet_SB_URL + '/rest/v1/mock_attempts?select=mock_number,opened_at&skill=eq.listening&exam_type=eq.ielts&limit=50000',
-          { headers: { apikey: _ilet_SB_KEY, Authorization: 'Bearer ' + _ilet_SB_KEY } }
-        );
+        const resp = await fetch(_ilet_SB_URL + '/rest/v1/rpc/mock_attempt_stats', {
+          method: 'POST',
+          headers: { apikey: _ilet_SB_KEY, Authorization: 'Bearer ' + _ilet_SB_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ p_skill: 'listening', p_exam_type: 'ielts' })
+        });
         if (!resp.ok) return;
         const rows = await resp.json();
-        const todayStart = new Date();
-        todayStart.setUTCHours(0, 0, 0, 0);
-        const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
         for (const r of rows) {
           if (r.mock_number == null) continue;
           const padded = String(r.mock_number).padStart(2, '0');
-          const opened = new Date(r.opened_at);
-          const s = _iletStatsByMock[padded] = _iletStatsByMock[padded] || { total: 0, today: 0, last7: 0 };
-          s.total++;
-          if (opened.getTime() >= sevenDaysAgo) s.last7++;
-          if (opened >= todayStart) s.today++;
+          _iletStatsByMock[padded] = {
+            total: Number(r.total) || 0,
+            today: Number(r.today) || 0,
+            last7: Number(r.last7) || 0
+          };
         }
       } catch (_e) {}
     }
@@ -17649,23 +17645,21 @@
     async function _cletLoadStats() {
       _cletStatsByMock = {};
       try {
-        const resp = await fetch(
-          _clet_SB_URL + '/rest/v1/mock_attempts?select=mock_number,opened_at&skill=eq.listening&exam_type=eq.cefr&limit=50000',
-          { headers: { apikey: _clet_SB_KEY, Authorization: 'Bearer ' + _clet_SB_KEY } }
-        );
+        const resp = await fetch(_clet_SB_URL + '/rest/v1/rpc/mock_attempt_stats', {
+          method: 'POST',
+          headers: { apikey: _clet_SB_KEY, Authorization: 'Bearer ' + _clet_SB_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ p_skill: 'listening', p_exam_type: 'cefr' })
+        });
         if (!resp.ok) return;
         const rows = await resp.json();
-        const todayStart = new Date();
-        todayStart.setUTCHours(0, 0, 0, 0);
-        const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
         for (const r of rows) {
           if (r.mock_number == null) continue;
           const padded = String(r.mock_number).padStart(2, '0');
-          const opened = new Date(r.opened_at);
-          const s = _cletStatsByMock[padded] = _cletStatsByMock[padded] || { total: 0, today: 0, last7: 0 };
-          s.total++;
-          if (opened.getTime() >= sevenDaysAgo) s.last7++;
-          if (opened >= todayStart) s.today++;
+          _cletStatsByMock[padded] = {
+            total: Number(r.total) || 0,
+            today: Number(r.today) || 0,
+            last7: Number(r.last7) || 0
+          };
         }
       } catch (_e) {}
     }
@@ -18274,23 +18268,21 @@
     async function _iwetLoadStats() {
       _iwetStatsByMock = {};
       try {
-        const resp = await fetch(
-          _iwet_SB_URL + '/rest/v1/mock_attempts?select=mock_number,opened_at&skill=eq.writing&exam_type=eq.ielts&limit=50000',
-          { headers: { apikey: _iwet_SB_KEY, Authorization: 'Bearer ' + _iwet_SB_KEY } }
-        );
+        const resp = await fetch(_iwet_SB_URL + '/rest/v1/rpc/mock_attempt_stats', {
+          method: 'POST',
+          headers: { apikey: _iwet_SB_KEY, Authorization: 'Bearer ' + _iwet_SB_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ p_skill: 'writing', p_exam_type: 'ielts' })
+        });
         if (!resp.ok) return;
         const rows = await resp.json();
-        const todayStart = new Date();
-        todayStart.setUTCHours(0, 0, 0, 0);
-        const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
         for (const r of rows) {
           if (r.mock_number == null) continue;
           const padded = String(r.mock_number).padStart(2, '0');
-          const opened = new Date(r.opened_at);
-          const s = _iwetStatsByMock[padded] = _iwetStatsByMock[padded] || { total: 0, today: 0, last7: 0 };
-          s.total++;
-          if (opened.getTime() >= sevenDaysAgo) s.last7++;
-          if (opened >= todayStart) s.today++;
+          _iwetStatsByMock[padded] = {
+            total: Number(r.total) || 0,
+            today: Number(r.today) || 0,
+            last7: Number(r.last7) || 0
+          };
         }
       } catch (_e) {}
     }
@@ -19191,28 +19183,25 @@
       } catch (e) { console.warn('[cwetPicker] meta fetch failed:', e); }
     }
 
-    // Fetch CEFR Writing attempt rows + bucket per mock_number. Same
-    // pattern as the speaking pickers — see _ispetLoadStats.
+    // CEFR Writing — server-side aggregation RPC. See _ispetLoadStats.
     async function _cwetLoadStats() {
       _cwetStatsByMock = {};
       try {
-        const resp = await fetch(
-          `${_cwet_SB_URL}/rest/v1/mock_attempts?select=mock_number,opened_at&skill=eq.writing&exam_type=eq.cefr&limit=50000`,
-          { headers: { 'apikey': _cwet_SB_KEY, 'Authorization': 'Bearer ' + _cwet_SB_KEY } }
-        );
+        const resp = await fetch(`${_cwet_SB_URL}/rest/v1/rpc/mock_attempt_stats`, {
+          method: 'POST',
+          headers: { 'apikey': _cwet_SB_KEY, 'Authorization': 'Bearer ' + _cwet_SB_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ p_skill: 'writing', p_exam_type: 'cefr' })
+        });
         if (!resp.ok) return;
         const rows = await resp.json();
-        const todayStart = new Date();
-        todayStart.setUTCHours(0, 0, 0, 0);
-        const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
         for (const r of rows) {
           if (r.mock_number == null) continue;
           const padded = String(r.mock_number).padStart(2, '0');
-          const opened = new Date(r.opened_at);
-          const s = _cwetStatsByMock[padded] = _cwetStatsByMock[padded] || { total: 0, today: 0, last7: 0 };
-          s.total++;
-          if (opened.getTime() >= sevenDaysAgo) s.last7++;
-          if (opened >= todayStart) s.today++;
+          _cwetStatsByMock[padded] = {
+            total: Number(r.total) || 0,
+            today: Number(r.today) || 0,
+            last7: Number(r.last7) || 0
+          };
         }
       } catch (_e) {}
     }
@@ -19793,30 +19782,28 @@
       } catch (_e) { /* swallow — picker still renders empty grid */ }
     }
 
-    // Fetch all IELTS Speaking attempt rows in one shot and bucket by
-    // mock_number client-side. PostgREST doesn't support GROUP BY out of
-    // the box (would need an RPC), but row counts for one skill+exam-type
-    // are small enough that a flat fetch + JS reduce is fast and cheap.
+    // Fetch IELTS Speaking attempt stats via the server-side aggregation
+    // RPC. Raw SELECT used to cap at PostgREST's db-max-rows (1000), so
+    // popular mocks reported 1000 total + 0 today. The RPC returns one
+    // row per mock_number with total / today / last7 already counted.
     async function _ispetLoadStats() {
       _ispetStatsByMock = {};
       try {
-        const resp = await fetch(
-          `${_ISPET_SB_URL}/rest/v1/mock_attempts?select=mock_number,opened_at&skill=eq.speaking&exam_type=eq.ielts&limit=50000`,
-          { headers: { 'apikey': _ISPET_SB_KEY, 'Authorization': 'Bearer ' + _ISPET_SB_KEY } }
-        );
+        const resp = await fetch(`${_ISPET_SB_URL}/rest/v1/rpc/mock_attempt_stats`, {
+          method: 'POST',
+          headers: { 'apikey': _ISPET_SB_KEY, 'Authorization': 'Bearer ' + _ISPET_SB_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ p_skill: 'speaking', p_exam_type: 'ielts' })
+        });
         if (!resp.ok) return;
         const rows = await resp.json();
-        const todayStart = new Date();
-        todayStart.setUTCHours(0, 0, 0, 0);
-        const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
         for (const r of rows) {
           if (r.mock_number == null) continue;
           const padded = String(r.mock_number).padStart(2, '0');
-          const opened = new Date(r.opened_at);
-          const s = _ispetStatsByMock[padded] = _ispetStatsByMock[padded] || { total: 0, today: 0, last7: 0 };
-          s.total++;
-          if (opened.getTime() >= sevenDaysAgo) s.last7++;
-          if (opened >= todayStart) s.today++;
+          _ispetStatsByMock[padded] = {
+            total: Number(r.total) || 0,
+            today: Number(r.today) || 0,
+            last7: Number(r.last7) || 0
+          };
         }
       } catch (_e) { /* picker still renders without stats */ }
     }
@@ -20343,23 +20330,21 @@
     async function _cspetLoadStats() {
       _cspetStatsByMock = {};
       try {
-        const resp = await fetch(
-          `${_CSPET_SB_URL}/rest/v1/mock_attempts?select=mock_number,opened_at&skill=eq.speaking&exam_type=eq.cefr&limit=50000`,
-          { headers: { 'apikey': _CSPET_SB_KEY, 'Authorization': 'Bearer ' + _CSPET_SB_KEY } }
-        );
+        const resp = await fetch(`${_CSPET_SB_URL}/rest/v1/rpc/mock_attempt_stats`, {
+          method: 'POST',
+          headers: { 'apikey': _CSPET_SB_KEY, 'Authorization': 'Bearer ' + _CSPET_SB_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ p_skill: 'speaking', p_exam_type: 'cefr' })
+        });
         if (!resp.ok) return;
         const rows = await resp.json();
-        const todayStart = new Date();
-        todayStart.setUTCHours(0, 0, 0, 0);
-        const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
         for (const r of rows) {
           if (r.mock_number == null) continue;
           const padded = String(r.mock_number).padStart(2, '0');
-          const opened = new Date(r.opened_at);
-          const s = _cspetStatsByMock[padded] = _cspetStatsByMock[padded] || { total: 0, today: 0, last7: 0 };
-          s.total++;
-          if (opened.getTime() >= sevenDaysAgo) s.last7++;
-          if (opened >= todayStart) s.today++;
+          _cspetStatsByMock[padded] = {
+            total: Number(r.total) || 0,
+            today: Number(r.today) || 0,
+            last7: Number(r.last7) || 0
+          };
         }
       } catch (_e) {}
     }
@@ -20811,23 +20796,21 @@
     async function _cretLoadStats() {
       _cretStatsByMock = {};
       try {
-        const resp = await fetch(
-          _CRET_SB_URL + '/rest/v1/mock_attempts?select=mock_number,opened_at&skill=eq.reading&exam_type=eq.cefr&limit=50000',
-          { headers: { apikey: _CRET_SB_KEY, Authorization: 'Bearer ' + _CRET_SB_KEY } }
-        );
+        const resp = await fetch(_CRET_SB_URL + '/rest/v1/rpc/mock_attempt_stats', {
+          method: 'POST',
+          headers: { apikey: _CRET_SB_KEY, Authorization: 'Bearer ' + _CRET_SB_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ p_skill: 'reading', p_exam_type: 'cefr' })
+        });
         if (!resp.ok) return;
         const rows = await resp.json();
-        const todayStart = new Date();
-        todayStart.setUTCHours(0, 0, 0, 0);
-        const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
         for (const r of rows) {
           if (r.mock_number == null) continue;
           const padded = String(r.mock_number).padStart(2, '0');
-          const opened = new Date(r.opened_at);
-          const s = _cretStatsByMock[padded] = _cretStatsByMock[padded] || { total: 0, today: 0, last7: 0 };
-          s.total++;
-          if (opened.getTime() >= sevenDaysAgo) s.last7++;
-          if (opened >= todayStart) s.today++;
+          _cretStatsByMock[padded] = {
+            total: Number(r.total) || 0,
+            today: Number(r.today) || 0,
+            last7: Number(r.last7) || 0
+          };
         }
       } catch (_e) {}
     }
