@@ -19537,7 +19537,15 @@
         actualQCount: qs.length,   // 8 total Qs in a standard mock
         examDate:   String(m.examDate || '').trim(),
         title:      String(m.title || '').trim(),
-        topicsAll:  [p11Topic, p12Topic, p2Topic, p3Topic].filter(Boolean).map(t => t.toLowerCase())
+        // Composite "P<n>::<lowercased topic>" entries so the topic
+        // filter can disambiguate same-named topics across parts AND
+        // tag each option with its part badge (P1.1 / P1.2 / P2 / P3).
+        topicsAll: [
+          ['P1.1', p11Topic],
+          ['P1.2', p12Topic],
+          ['P2',   p2Topic],
+          ['P3',   p3Topic]
+        ].filter(([, t]) => !!t).map(([p, t]) => p + '::' + t.toLowerCase())
       };
     }
 
@@ -19643,13 +19651,28 @@
     function _cspetBuildTopicFilterOptions() {
       const sel = document.getElementById('cspetTopicFilter');
       if (!sel) return;
+      // topicsAll entries look like "P1.1::transport & seasons" — split,
+      // group P1.1 → P1.2 → P2 → P3, sort alphabetically within each
+      // group, and render with a "P<n> — Topic" label so same-named
+      // themes don't collapse across parts.
       const all = new Set();
       Object.values(_cspetMockMeta).forEach(m => {
         (m.topicsAll || []).forEach(t => { if (t) all.add(t); });
       });
+      const PART_RANK = { 'P1.1': 0, 'P1.2': 1, 'P2': 2, 'P3': 3 };
+      const sorted = Array.from(all).sort((a, b) => {
+        const [pa, ta] = a.split('::');
+        const [pb, tb] = b.split('::');
+        const r = (PART_RANK[pa] ?? 99) - (PART_RANK[pb] ?? 99);
+        return r !== 0 ? r : ta.localeCompare(tb);
+      });
       const current = sel.value;
       sel.innerHTML = '<option value="">🏷 All topics</option>'
-        + Array.from(all).sort().map(t => '<option value="' + _cspetEsc(t) + '">' + _cspetEsc(t.charAt(0).toUpperCase() + t.slice(1)) + '</option>').join('');
+        + sorted.map(composite => {
+            const [part, topic] = composite.split('::');
+            const label = part + ' — ' + topic.charAt(0).toUpperCase() + topic.slice(1);
+            return '<option value="' + _cspetEsc(composite) + '">' + _cspetEsc(label) + '</option>';
+          }).join('');
       if (current) sel.value = current;
     }
 
