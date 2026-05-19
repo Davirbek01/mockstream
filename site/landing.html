@@ -18915,10 +18915,14 @@
         if (mockN) {
           try { history.pushState(null, '', '/take/ielts-writing-' + encodeURIComponent(mockN)); } catch (_e) {}
         }
-        iwetClose({ keepUrl: true });
+        // Leave the picker open behind the access-code / launch modals
+        // — same pattern reading + listening pickers use. loadMock tears
+        // it down before the iframe paints. Closing here would dump the
+        // student onto the landing page if they mistap a mock and cancel.
         if (typeof handleWritingMockClick === 'function') {
           handleWritingMockClick(file, 'ielts-writing');
         } else if (typeof loadMock === 'function') {
+          iwetClose({ keepUrl: true });
           loadMock(file, 'writing');
         }
       });
@@ -19494,10 +19498,12 @@
         if (mockN) {
           try { history.pushState(null, '', '/take/cefr-writing-' + encodeURIComponent(mockN)); } catch (_e) {}
         }
-        cwetClose({ keepUrl: true });
+        // Leave the picker open behind the access-code modal — same as
+        // reading + listening. loadMock tears it down before the iframe.
         if (typeof handleWritingMockClick === 'function') {
           handleWritingMockClick(file, 'cefr-writing');
         } else if (typeof loadMock === 'function') {
+          cwetClose({ keepUrl: true });
           loadMock(file, 'writing');
         }
       });
@@ -20091,16 +20097,18 @@
                       + '&num=' + encodeURIComponent(padded)
                       + '&auto=1';
         try { history.pushState(null, '', '/take/ielts-speaking-' + encodeURIComponent(mockN)); } catch (_e) {}
-        ispetClose({ keepUrl: true });
-        // Cancel on the mode modal should reopen ispetPicker, not land.
+        // Leave the picker open behind the access-code + mode modals —
+        // matches reading + listening behaviour, so a mistapped mock can
+        // be cancelled without dumping the student back on the landing
+        // page. loadMock tears the picker down before the iframe paints.
+        // _spkModalSourcePicker still stashed for return-from-runner —
+        // returnToLanding reopens the picker on natural exit.
         window._spkModalSourcePicker = 'ispet';
-        // Override the return-to-picker key — see cspet handler above
-        // for the full rationale (handleSpeakingMockClick writes the
-        // old category key, two landing handlers act on it).
         sessionStorage.setItem('speakingMockReturnPicker', 'ispet');
         if (typeof handleSpeakingMockClick === 'function') {
           handleSpeakingMockClick(pageUrl, 'ielts-speaking');
         } else {
+          ispetClose({ keepUrl: true });
           window.location.href = pageUrl + '&auto=1&action=practice';
         }
       });
@@ -20615,27 +20623,19 @@
                       + '&num=' + encodeURIComponent(padded)
                       + '&auto=1';
         try { history.pushState(null, '', '/take/cefr-speaking-' + encodeURIComponent(mockN)); } catch (_e) {}
-        cspetClose({ keepUrl: true });
-        // Tell closeSpeakingModeModal that the mode modal was launched
-        // from this picker, so Cancel reopens the picker instead of
-        // dropping the student back on the landing page.
+        // Leave the picker open behind the access-code + mode modals —
+        // matches reading + listening behaviour. loadMock tears it down
+        // before the iframe paints. _spkModalSourcePicker +
+        // speakingMockReturnPicker are still useful: the former keeps
+        // closeSpeakingModeModal's reopen logic harmless when the picker
+        // is already open, the latter routes returnToLanding back to
+        // the new picker instead of the legacy popup.
         window._spkModalSourcePicker = 'cspet';
-        // ALSO override the return-to-picker key that handleSpeakingMockClick
-        // writes to sessionStorage. Without this, the two landing-init
-        // return handlers (checkSpeakingReturnCategory + the inline one)
-        // see speakingMockReturnCategory='cefr-speaking' and open the
-        // OLD openSpeakingCategoryModal popup when the runner exits.
         sessionStorage.setItem('speakingMockReturnPicker', 'cspet');
-        // Hand off to the existing speaking-launch flow: access-code gate
-        // (when required) → mode-select modal (Full / Part-based) →
-        // loadMock with the smooth overlay transition. Skipping this
-        // pipeline causes the runner to bounce back to landing AND skip
-        // the candidate-name short-circuit that reuses the welcome-page
-        // value.
         if (typeof handleSpeakingMockClick === 'function') {
           handleSpeakingMockClick(pageUrl, 'cefr-speaking');
         } else {
-          // Last-resort fallback if the helper isn't loaded yet.
+          cspetClose({ keepUrl: true });
           window.location.href = pageUrl + '&auto=1&action=practice';
         }
       });
@@ -21565,13 +21565,20 @@
       if (isLoadingMock) return;
       isLoadingMock = true;
       currentLoadingType = type || 'writing';
-      // Tear down the IELTS / CEFR Reading + Listening pickers if any was
-      // the launch point — runner iframe sits at z-index 9999, pickers at
-      // 100003, so we'd otherwise see the picker draped over the test.
-      try { if (window.iretClose) window.iretClose(); } catch (e) {}
-      try { if (window.cretClose) window.cretClose(); } catch (e) {}
-      try { if (window.iletClose) window.iletClose(); } catch (e) {}
-      try { if (window.cletClose) window.cletClose(); } catch (e) {}
+      // Tear down every fullscreen picker if any was the launch point —
+      // runner iframe sits at z-index 9999, pickers at 100003, so we'd
+      // otherwise see the picker draped over the test. Speaking + writing
+      // pickers stay open through the access-code / mode modals (matches
+      // reading + listening UX), so this teardown is the single place we
+      // dismiss them before the iframe paints.
+      try { if (window.iretClose)  window.iretClose({  keepUrl: true }); } catch (e) {}
+      try { if (window.cretClose)  window.cretClose({  keepUrl: true }); } catch (e) {}
+      try { if (window.iletClose)  window.iletClose({  keepUrl: true }); } catch (e) {}
+      try { if (window.cletClose)  window.cletClose({  keepUrl: true }); } catch (e) {}
+      try { if (window.cwetClose)  window.cwetClose({  keepUrl: true }); } catch (e) {}
+      try { if (window.iwetClose)  window.iwetClose({  keepUrl: true }); } catch (e) {}
+      try { if (window.cspetClose) window.cspetClose({ keepUrl: true }); } catch (e) {}
+      try { if (window.ispetClose) window.ispetClose({ keepUrl: true }); } catch (e) {}
 
       // Configure loading screen based on type
       if (currentLoadingType === 'speaking') {
