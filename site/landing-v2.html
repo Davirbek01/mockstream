@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mock Stream · Landing v2 preview</title>
+
+  <!-- Standalone preview — no shared CSS / JS. Safe to delete; existing
+       landing.html is untouched. URL: /landing-v2.html -->
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    :root {
+      --ink:          #0f172a;
+      --ink-2:        #334155;
+      --muted:        #64748b;
+      --line:         #e2e8f0;
+      --card:         #ffffff;
+      --emerald:      #10b981;
+      --emerald-deep: #047857;
+      --orange:       #ea580c;
+      --amber:        #f59e0b;
+      --violet:       #7c3aed;
+      --cyan:         #06b6d4;
+      --fire:         #ea580c;
+      --shadow-sm:    0 1px 2px rgba(15, 23, 42, .04);
+      --shadow:       0 4px 14px rgba(15, 23, 42, .08);
+      --shadow-md:    0 10px 26px rgba(15, 23, 42, .10);
+      --shadow-lg:    0 18px 40px rgba(15, 23, 42, .14);
+      --radius:       18px;
+      --radius-sm:    12px;
+      --radius-lg:    24px;
+    }
+    html, body { margin: 0; padding: 0; }
+    body {
+      /* Animated bloom background — three soft radial glows + a warm
+         linear wash. Reads as energetic but never noisy because the
+         glows are <15% opacity. */
+      background:
+        radial-gradient(1100px 600px at -10% -10%, rgba(251, 191, 36, .18), transparent 60%),
+        radial-gradient(900px  600px at 110% -5%,  rgba(16, 185, 129, .14), transparent 60%),
+        radial-gradient(900px  700px at 50%  110%, rgba(124, 58, 237, .12), transparent 60%),
+        linear-gradient(180deg, #fff8f0 0%, #f5fbf8 100%);
+      background-attachment: fixed;
+      color: var(--ink);
+      font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+
+    /* ── Brand stripe at the very top ─────────────────────── */
+    .brand-stripe {
+      height: 5px;
+      background: linear-gradient(90deg, #f59e0b 0%, #ea580c 35%, #ec4899 70%, #7c3aed 100%);
+      width: 100%;
+    }
+
+    /* ── Slim top bar ─────────────────────────────────────── */
+    .topbar {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: saturate(180%) blur(14px);
+      -webkit-backdrop-filter: saturate(180%) blur(14px);
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid rgba(226, 232, 240, 0.7);
+    }
+    .topbar-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 17px;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+    .brand-logo {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #fb923c, #ec4899);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 900;
+      font-size: 14px;
+      letter-spacing: 0.04em;
+      box-shadow: 0 6px 14px rgba(236, 72, 153, .28);
+    }
+    .topbar-spacer { flex: 1; }
+    .topbar-actions { display: flex; gap: 8px; align-items: center; }
+    .icon-btn {
+      width: 40px; height: 40px;
+      border: 1px solid rgba(226, 232, 240, .7);
+      background: var(--card);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 140ms ease;
+      color: var(--ink-2);
+      font-size: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+    .icon-btn:hover { transform: translateY(-1px); box-shadow: var(--shadow); border-color: #cbd5e1; }
+
+    /* ── Page container ───────────────────────────────────── */
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 32px 24px 64px;
+    }
+
+    /* ── Hero with bold gradient surface ──────────────────── */
+    .hero {
+      position: relative;
+      margin-bottom: 36px;
+      padding: 32px 36px 28px;
+      border-radius: var(--radius-lg);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(255, 255, 255, .35), transparent 50%),
+        linear-gradient(135deg, #fb923c 0%, #ec4899 45%, #8b5cf6 100%);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      color: white;
+    }
+    .hero::before, .hero::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .hero::before {
+      width: 240px; height: 240px;
+      background: radial-gradient(circle, rgba(251, 191, 36, .35), transparent 70%);
+      top: -80px; right: -40px;
+    }
+    .hero::after {
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(16, 185, 129, .35), transparent 70%);
+      bottom: -60px; left: 18%;
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .hero-eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: rgba(255, 255, 255, .82);
+      margin-bottom: 8px;
+    }
+    .hero-title {
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin: 0 0 4px;
+      color: white;
+      line-height: 1.15;
+    }
+    .hero-sub {
+      font-size: 14.5px;
+      color: rgba(255, 255, 255, .85);
+      margin-bottom: 22px;
+    }
+    .vitals {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .vital {
+      position: relative;
+      background: rgba(255, 255, 255, .94);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 10px 26px rgba(15, 23, 42, .14);
+      backdrop-filter: blur(6px);
+      transition: transform 180ms ease;
+    }
+    .vital:hover { transform: translateY(-3px); }
+    .vital-emoji {
+      width: 48px; height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+      color: white;
+      box-shadow: 0 6px 14px rgba(15, 23, 42, .12);
+    }
+    .vital-emoji.t-emerald { background: linear-gradient(135deg, #34d399, #059669); }
+    .vital-emoji.t-orange  { background: linear-gradient(135deg, #fb923c, #ea580c); }
+    .vital-emoji.t-violet  { background: linear-gradient(135deg, #a78bfa, #7c3aed); }
+    .vital-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .vital-number {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+    }
+    .vital-label {
+      font-size: 12.5px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* ── Section header ───────────────────────────────────── */
+    .section {
+      margin-bottom: 36px;
+    }
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      gap: 12px;
+    }
+    .section-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title .glyph {
+      font-size: 22px;
+      filter: drop-shadow(0 4px 6px rgba(234, 88, 12, .35));
+    }
+    .section-title.fresh .glyph { filter: drop-shadow(0 4px 6px rgba(16, 185, 129, .35)); }
+    .section-link {
+      font-size: 13px;
+      color: var(--emerald-deep);
+      font-weight: 700;
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 10px;
+      transition: background 140ms ease;
+    }
+    .section-link:hover { background: rgba(16, 185, 129, .08); }
+
+    /* ── Rails (horizontal scroll) ────────────────────────── */
+    .rail {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(238px, 1fr);
+      gap: 14px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 4px 4px 12px;
+      margin: 0 -4px;
+    }
+    .rail::-webkit-scrollbar { height: 8px; }
+    .rail::-webkit-scrollbar-thumb { background: rgba(15, 23, 42, .15); border-radius: 999px; }
+    .rail::-webkit-scrollbar-track { background: transparent; }
+
+    .rail-card {
+      position: relative;
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      cursor: pointer;
+      transition: transform 160ms ease, box-shadow 160ms ease;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 144px;
+      overflow: hidden;
+      color: var(--ink);
+      box-shadow: var(--shadow);
+    }
+    .rail-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .rail-card.trending {
+      background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+      border: 1px solid rgba(251, 146, 60, .35);
+    }
+    .rail-card.trending::before {
+      content: '🔥';
+      position: absolute;
+      top: -8px; right: -8px;
+      font-size: 64px;
+      opacity: 0.08;
+      transform: rotate(-15deg);
+    }
+    .rail-card.fresh {
+      background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+      border: 1px solid rgba(16, 185, 129, .35);
+    }
+    .rail-card.fresh::before {
+      content: '✨';
+      position: absolute;
+      top: -8px; right: -8px;
+      font-size: 64px;
+      opacity: 0.10;
+      transform: rotate(-15deg);
+    }
+    .rail-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .skill-chip {
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      box-shadow: 0 1px 0 rgba(255, 255, 255, .6) inset;
+    }
+    .skill-chip.cw { background: #ede9fe; color: #5b21b6; }
+    .skill-chip.iw { background: #fae8ff; color: #86198f; }
+    .skill-chip.cs { background: #d1fae5; color: #047857; }
+    .skill-chip.is { background: #cffafe; color: #0e7490; }
+    .skill-chip.cr { background: #fee2e2; color: #b91c1c; }
+    .skill-chip.ir { background: #ffedd5; color: #9a3412; }
+    .skill-chip.cl { background: #e0f2fe; color: #075985; }
+    .skill-chip.il { background: #fef3c7; color: #92400e; }
+    .rail-card-mock {
+      font-size: 14px;
+      color: var(--ink);
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+    .rail-card-title {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.35;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      flex: 1;
+      letter-spacing: -0.01em;
+    }
+    .rail-card-stat {
+      font-size: 13px;
+      color: var(--ink-2);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ── Skill grid — bold colored statement cards ───────── */
+    .skill-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .skill-card {
+      position: relative;
+      border-radius: var(--radius);
+      padding: 24px 24px 22px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: transform 200ms ease, box-shadow 200ms ease;
+      color: white;
+      overflow: hidden;
+      min-height: 200px;
+    }
+    .skill-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .skill-card::after {
+      content: '';
+      position: absolute;
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      right: -50px; bottom: -60px;
+      background: rgba(255, 255, 255, .12);
+      pointer-events: none;
+    }
+    .skill-card[data-skill="speaking"]  { background: linear-gradient(135deg, #10b981 0%, #047857 100%); }
+    .skill-card[data-skill="writing"]   { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); }
+    .skill-card[data-skill="listening"] { background: linear-gradient(135deg, #06b6d4 0%, #0e7490 100%); }
+    .skill-card[data-skill="reading"]   { background: linear-gradient(135deg, #f59e0b 0%, #c2410c 100%); }
+
+    .skill-card-head {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+      z-index: 1;
+    }
+    .skill-card-icon {
+      width: 56px; height: 56px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, .22);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 6px 14px rgba(15, 23, 42, .18);
+    }
+    .skill-card-name {
+      font-size: 22px;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.02em;
+    }
+    .skill-card-meta {
+      font-size: 13px;
+      color: rgba(255, 255, 255, .82);
+      margin-top: 2px;
+      font-weight: 500;
+    }
+    .skill-card-stats {
+      display: flex;
+      gap: 14px;
+      font-size: 13.5px;
+      color: rgba(255, 255, 255, .92);
+      align-items: center;
+      font-weight: 600;
+      position: relative;
+      z-index: 1;
+    }
+    .skill-card-stats .num {
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.01em;
+    }
+    .skill-card-ctas {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+    .skill-cta {
+      flex: 1;
+      padding: 11px 16px;
+      background: white;
+      color: var(--ink);
+      border: 0;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 13.5px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 140ms ease;
+      letter-spacing: -0.005em;
+      box-shadow: 0 4px 10px rgba(15, 23, 42, .12);
+    }
+    .skill-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(15, 23, 42, .18); }
+    .skill-cta:active { transform: scale(0.97); }
+    .skill-cta.ghost {
+      background: rgba(255, 255, 255, .14);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, .35);
+      box-shadow: none;
+      backdrop-filter: blur(6px);
+    }
+    .skill-cta.ghost:hover { background: rgba(255, 255, 255, .22); }
+
+    /* ── Secondary bold cards ────────────────────────────── */
+    .secondary {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .secondary-card {
+      position: relative;
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      transition: transform 180ms ease, box-shadow 180ms ease;
+      color: white;
+      overflow: hidden;
+      min-height: 92px;
+    }
+    .secondary-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+    .secondary-card.full { background: linear-gradient(135deg, #f43f5e 0%, #db2777 50%, #7c3aed 100%); }
+    .secondary-card.camb { background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 50%, #4f46e5 100%); }
+    .secondary-card::after {
+      content: '';
+      position: absolute;
+      width: 140px; height: 140px;
+      border-radius: 50%;
+      right: -36px; top: -36px;
+      background: rgba(255, 255, 255, .14);
+    }
+    .secondary-card .icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .22);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      backdrop-filter: blur(6px);
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+    .secondary-card .body { flex: 1; min-width: 0; position: relative; z-index: 1; }
+    .secondary-card .title {
+      font-size: 17px;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.02em;
+    }
+    .secondary-card .sub {
+      font-size: 13px;
+      color: rgba(255, 255, 255, .85);
+      margin-top: 3px;
+      font-weight: 500;
+    }
+    .secondary-card .arrow {
+      color: white;
+      font-size: 22px;
+      font-weight: 700;
+      opacity: .85;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Footer ──────────────────────────────────────────── */
+    footer {
+      max-width: 1120px;
+      margin: 24px auto 0;
+      padding: 28px 24px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    footer a { color: var(--ink-2); margin: 0 10px; font-weight: 500; }
+    footer a:hover { color: var(--emerald-deep); }
+
+    /* ── Skeleton (loading state) ─────────────────────────── */
+    .skel {
+      background: linear-gradient(90deg, rgba(255, 255, 255, .35), rgba(255, 255, 255, .6), rgba(255, 255, 255, .35));
+      background-size: 200% 100%;
+      border-radius: 6px;
+      height: 14px;
+      animation: skelShim 1.4s ease-in-out infinite;
+    }
+    .skel.tall { height: 28px; }
+    .skel.short { width: 60%; }
+    .skel.dark {
+      background: linear-gradient(90deg, #e2e8f0, #f1f5f9, #e2e8f0);
+      background-size: 200% 100%;
+    }
+    @keyframes skelShim {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+
+    /* ── Responsive ───────────────────────────────────────── */
+    @media (max-width: 720px) {
+      .topbar-inner { padding: 0 14px; height: 58px; }
+      main { padding: 20px 14px 40px; }
+      .hero { padding: 26px 20px 22px; border-radius: var(--radius); }
+      .hero-title { font-size: 24px; }
+      .hero-sub { font-size: 13.5px; margin-bottom: 18px; }
+      .vitals { grid-template-columns: 1fr; gap: 10px; }
+      .vital { padding: 14px 16px; }
+      .vital-number { font-size: 22px; }
+      .skill-grid { grid-template-columns: 1fr; gap: 14px; }
+      .skill-card { padding: 22px 22px 20px; min-height: auto; }
+      .secondary { grid-template-columns: 1fr; }
+      .rail { grid-auto-columns: minmax(220px, 80%); }
+      .section-title { font-size: 18px; }
+    }
+    @media (min-width: 721px) and (max-width: 1024px) {
+      .rail { grid-auto-columns: minmax(220px, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div class="brand-stripe"></div>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="/landing.html">
+        <span class="brand-logo">MS</span>
+        <span>Mock Stream</span>
+      </a>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-actions">
+        <button class="icon-btn" title="Notifications" aria-label="Notifications">🔔</button>
+        <button class="icon-btn" title="Profile" aria-label="Profile">👤</button>
+        <button class="icon-btn" title="Menu" aria-label="Menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO ─────────────────────────────────────────────── -->
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-eyebrow">Right now on Mock Stream</div>
+        <h1 class="hero-title">Live exam practice for CEFR &amp; IELTS</h1>
+        <div class="hero-sub">Thousands of students practising right alongside you</div>
+        <div class="vitals" id="vitals">
+          <div class="vital">
+            <div class="vital-emoji t-emerald">👥</div>
+            <div class="vital-body">
+              <div class="vital-number" id="vitalAllTime"><span class="skel tall short"></span></div>
+              <div class="vital-label">attempts all-time</div>
+            </div>
+          </div>
+          <div class="vital">
+            <div class="vital-emoji t-orange">⚡</div>
+            <div class="vital-body">
+              <div class="vital-number" id="vitalToday"><span class="skel tall short"></span></div>
+              <div class="vital-label">attempts today</div>
+            </div>
+          </div>
+          <div class="vital">
+            <div class="vital-emoji t-violet">✨</div>
+            <div class="vital-body">
+              <div class="vital-number" id="vitalNewWeek"><span class="skel tall short"></span></div>
+              <div class="vital-label">new mocks this week</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRENDING RAIL ─────────────────────────────────────── -->
+    <section class="section">
+      <div class="section-head">
+        <h2 class="section-title"><span class="glyph">🔥</span> Trending this week</h2>
+        <a class="section-link" href="/landing.html">View all →</a>
+      </div>
+      <div class="rail" id="trendingRail">
+        <div class="rail-card trending"><div class="skel dark short"></div><div class="skel dark tall"></div><div class="skel dark short"></div></div>
+        <div class="rail-card trending"><div class="skel dark short"></div><div class="skel dark tall"></div><div class="skel dark short"></div></div>
+        <div class="rail-card trending"><div class="skel dark short"></div><div class="skel dark tall"></div><div class="skel dark short"></div></div>
+        <div class="rail-card trending"><div class="skel dark short"></div><div class="skel dark tall"></div><div class="skel dark short"></div></div>
+      </div>
+    </section>
+
+    <!-- JUST ADDED RAIL ──────────────────────────────────── -->
+    <section class="section">
+      <div class="section-head">
+        <h2 class="section-title fresh"><span class="glyph">🆕</span> Just added this week</h2>
+        <a class="section-link" href="/landing.html">View all →</a>
+      </div>
+      <div class="rail" id="addedRail">
+        <div class="rail-card fresh"><div class="skel dark short"></div><div class="skel dark tall"></div><div class="skel dark short"></div></div>
+        <div class="rail-card fresh"><div class="skel dark short"></div><div class="skel dark tall"></div><div class="skel dark short"></div></div>
+        <div class="rail-card fresh"><div class="skel dark short"></div><div class="skel dark tall"></div><div class="skel dark short"></div></div>
+        <div class="rail-card fresh"><div class="skel dark short"></div><div class="skel dark tall"></div><div class="skel dark short"></div></div>
+      </div>
+    </section>
+
+    <!-- SKILL GRID ────────────────────────────────────────── -->
+    <section class="section">
+      <div class="section-head">
+        <h2 class="section-title"><span class="glyph">🎯</span> Practice by skill</h2>
+      </div>
+      <div class="skill-grid">
+        <div class="skill-card" data-skill="speaking">
+          <div class="skill-card-head">
+            <div class="skill-card-icon">🎤</div>
+            <div>
+              <div class="skill-card-name">Speaking</div>
+              <div class="skill-card-meta"><span id="speakingCount">…</span> mocks total</div>
+            </div>
+          </div>
+          <div class="skill-card-stats">
+            <span>⚡ <span class="num" id="speakingToday">0</span> attempts today</span>
+          </div>
+          <div class="skill-card-ctas">
+            <button class="skill-cta"       data-open="cefr-speaking">CEFR →</button>
+            <button class="skill-cta ghost" data-open="ielts-speaking">IELTS →</button>
+          </div>
+        </div>
+        <div class="skill-card" data-skill="writing">
+          <div class="skill-card-head">
+            <div class="skill-card-icon">✍️</div>
+            <div>
+              <div class="skill-card-name">Writing</div>
+              <div class="skill-card-meta"><span id="writingCount">…</span> mocks total</div>
+            </div>
+          </div>
+          <div class="skill-card-stats">
+            <span>⚡ <span class="num" id="writingToday">0</span> attempts today</span>
+          </div>
+          <div class="skill-card-ctas">
+            <button class="skill-cta"       data-open="cefr-writing">CEFR →</button>
+            <button class="skill-cta ghost" data-open="ielts-writing">IELTS →</button>
+          </div>
+        </div>
+        <div class="skill-card" data-skill="listening">
+          <div class="skill-card-head">
+            <div class="skill-card-icon">🎧</div>
+            <div>
+              <div class="skill-card-name">Listening</div>
+              <div class="skill-card-meta"><span id="listeningCount">…</span> mocks total</div>
+            </div>
+          </div>
+          <div class="skill-card-stats">
+            <span>⚡ <span class="num" id="listeningToday">0</span> attempts today</span>
+          </div>
+          <div class="skill-card-ctas">
+            <button class="skill-cta"       data-open="cefr-listening">CEFR →</button>
+            <button class="skill-cta ghost" data-open="ielts-listening">IELTS →</button>
+          </div>
+        </div>
+        <div class="skill-card" data-skill="reading">
+          <div class="skill-card-head">
+            <div class="skill-card-icon">📖</div>
+            <div>
+              <div class="skill-card-name">Reading</div>
+              <div class="skill-card-meta"><span id="readingCount">…</span> mocks total</div>
+            </div>
+          </div>
+          <div class="skill-card-stats">
+            <span>⚡ <span class="num" id="readingToday">0</span> attempts today</span>
+          </div>
+          <div class="skill-card-ctas">
+            <button class="skill-cta"       data-open="cefr-reading">CEFR →</button>
+            <button class="skill-cta ghost" data-open="ielts-reading">IELTS →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECONDARY ─────────────────────────────────────────── -->
+    <section class="section">
+      <div class="secondary">
+        <a class="secondary-card full" href="/landing.html#fullmock">
+          <div class="icon">📚</div>
+          <div class="body">
+            <div class="title">Full Mock Experience</div>
+            <div class="sub">All 4 skills sequenced — most realistic run</div>
+          </div>
+          <div class="arrow">→</div>
+        </a>
+        <a class="secondary-card camb" href="/landing.html#cambridge">
+          <div class="icon">🎓</div>
+          <div class="body">
+            <div class="title">Cambridge English</div>
+            <div class="sub">KET · PET · FCE · CAE · CPE — coming soon</div>
+          </div>
+          <div class="arrow">→</div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Mock Stream Preview ·
+    <a href="/landing.html">Original landing</a> ·
+    <a href="#">Privacy</a> ·
+    <a href="#">Contact</a>
+  </footer>
+
+  <script>
+    const SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    const SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+
+    const SKILLS = [
+      { label: 'speaking',  combos: [['speaking',  'cefr'], ['speaking',  'ielts']] },
+      { label: 'writing',   combos: [['writing',   'cefr'], ['writing',   'ielts']] },
+      { label: 'listening', combos: [['listening', 'cefr'], ['listening', 'ielts']] },
+      { label: 'reading',   combos: [['reading',   'cefr'], ['reading',   'ielts']] }
+    ];
+
+    function fmtNumber(n) {
+      if (n == null) return '0';
+      return Number(n).toLocaleString('en-US');
+    }
+
+    async function fetchStats(skill, examType) {
+      try {
+        const r = await fetch(SB_URL + '/rest/v1/rpc/mock_attempt_stats', {
+          method: 'POST',
+          headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ p_skill: skill, p_exam_type: examType })
+        });
+        if (!r.ok) return [];
+        return await r.json();
+      } catch (_e) { return []; }
+    }
+
+    async function fetchMockTotals() {
+      const types = ['cefr-speaking','ielts-speaking','cefr-writing','ielts-writing',
+                     'cefr-listening','ielts-listening','cefr-reading','ielts-reading'];
+      const results = {};
+      await Promise.all(types.map(async t => {
+        try {
+          const r = await fetch(SB_URL + '/rest/v1/mock_tests?mock_type=eq.' + t + '&status=eq.published&select=mock_number', {
+            headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, Prefer: 'count=exact', Range: '0-0' }
+          });
+          const cr = r.headers.get('content-range') || '';
+          const slash = cr.lastIndexOf('/');
+          results[t] = slash >= 0 ? parseInt(cr.slice(slash + 1), 10) || 0 : 0;
+        } catch (_e) { results[t] = 0; }
+      }));
+      return results;
+    }
+
+    async function fetchJustAdded(limit = 6) {
+      try {
+        const r = await fetch(
+          SB_URL + '/rest/v1/mock_tests?status=eq.published&order=created_at.desc&limit=' + limit
+                 + '&select=mock_number,mock_type,title,created_at',
+          { headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY } }
+        );
+        if (!r.ok) return [];
+        return await r.json();
+      } catch (_e) { return []; }
+    }
+
+    function skillChipClass(skill, examType) {
+      const map = {
+        'writing_cefr':   'cw', 'writing_ielts':   'iw',
+        'speaking_cefr':  'cs', 'speaking_ielts':  'is',
+        'reading_cefr':   'cr', 'reading_ielts':   'ir',
+        'listening_cefr': 'cl', 'listening_ielts': 'il'
+      };
+      return map[skill + '_' + examType] || '';
+    }
+    function skillChipLabel(skill, examType) {
+      const e = examType === 'cefr' ? 'CEFR' : 'IELTS';
+      const s = { writing: 'Writing', speaking: 'Speaking', reading: 'Reading', listening: 'Listening' }[skill] || skill;
+      return e + ' ' + s;
+    }
+    function skillPickerOpenSlug(skill, examType) {
+      return examType + '-' + skill;
+    }
+    function navToPicker(slug) {
+      window.location.href = '/landing.html?openSelector=' + encodeURIComponent(slug);
+    }
+
+    function shortMockTitle(row) {
+      const t = (row.title || '').trim();
+      if (t) return t.replace(/^\W+/, '').slice(0, 40);
+      return 'Mock #' + String(row.mock_number).padStart(2, '0');
+    }
+    function mockTypeToCombo(mockType) {
+      const [examType, skill] = mockType.split('-');
+      return { skill, examType };
+    }
+
+    function renderTrending(perCombo) {
+      const rail = document.getElementById('trendingRail');
+      const winners = [];
+      for (const combo of Object.keys(perCombo)) {
+        const rows = perCombo[combo] || [];
+        if (!rows.length) continue;
+        const top = rows.slice().sort((a, b) => (b.last7 - a.last7) || (b.total - a.total))[0];
+        if (top && top.last7 > 0) {
+          const [skill, examType] = combo.split('|');
+          winners.push({ skill, examType, ...top });
+        }
+      }
+      winners.sort((a, b) => b.last7 - a.last7);
+      const cards = [];
+      for (const w of winners.slice(0, 8)) {
+        const chipCls = skillChipClass(w.skill, w.examType);
+        const chipLbl = skillChipLabel(w.skill, w.examType);
+        cards.push(
+          '<div class="rail-card trending" data-open="' + skillPickerOpenSlug(w.skill, w.examType) + '">'
+          + '<div class="rail-card-head">'
+          +   '<span class="skill-chip ' + chipCls + '">' + chipLbl + '</span>'
+          +   '<span class="rail-card-mock">#' + String(w.mock_number).padStart(2, '0') + '</span>'
+          + '</div>'
+          + '<div class="rail-card-title">Mock ' + String(w.mock_number).padStart(2, '0') + '</div>'
+          + '<div class="rail-card-stat">🔥 ' + fmtNumber(w.last7) + ' attempts this week</div>'
+          + '</div>'
+        );
+      }
+      if (!cards.length) {
+        rail.innerHTML = '<div class="rail-card trending"><div class="rail-card-title" style="color:#94a3b8;">No trending data yet — counts will populate as students take mocks.</div></div>';
+        return;
+      }
+      rail.innerHTML = cards.join('');
+    }
+
+    function renderJustAdded(rows) {
+      const rail = document.getElementById('addedRail');
+      const cards = [];
+      for (const r of rows.slice(0, 8)) {
+        const { skill, examType } = mockTypeToCombo(r.mock_type);
+        if (!skill || !examType) continue;
+        const chipCls = skillChipClass(skill, examType);
+        const chipLbl = skillChipLabel(skill, examType);
+        cards.push(
+          '<div class="rail-card fresh" data-open="' + skillPickerOpenSlug(skill, examType) + '">'
+          + '<div class="rail-card-head">'
+          +   '<span class="skill-chip ' + chipCls + '">' + chipLbl + '</span>'
+          +   '<span class="rail-card-mock">#' + String(r.mock_number).padStart(2, '0') + '</span>'
+          + '</div>'
+          + '<div class="rail-card-title">' + shortMockTitle(r) + '</div>'
+          + '<div class="rail-card-stat">✨ added ' + relativeDate(r.created_at) + '</div>'
+          + '</div>'
+        );
+      }
+      if (!cards.length) {
+        rail.innerHTML = '<div class="rail-card fresh"><div class="rail-card-title" style="color:#94a3b8;">No mocks added this week.</div></div>';
+        return;
+      }
+      rail.innerHTML = cards.join('');
+    }
+
+    function relativeDate(iso) {
+      if (!iso) return 'recently';
+      const ms = Date.now() - new Date(iso).getTime();
+      const days = Math.floor(ms / (24 * 60 * 60 * 1000));
+      if (days <= 0) return 'today';
+      if (days === 1) return 'yesterday';
+      if (days < 7)  return days + 'd ago';
+      const weeks = Math.floor(days / 7);
+      if (weeks === 1) return 'last week';
+      return weeks + 'w ago';
+    }
+
+    async function load() {
+      const [totals, justAdded, ...statsResults] = await Promise.all([
+        fetchMockTotals(),
+        fetchJustAdded(8),
+        ...SKILLS.flatMap(s => s.combos.map(([sk, ex]) => fetchStats(sk, ex)))
+      ]);
+
+      let allTime = 0, today = 0;
+      const perCombo = {};
+      let resultIdx = 0;
+      for (const skillDef of SKILLS) {
+        for (const [skill, examType] of skillDef.combos) {
+          const rows = statsResults[resultIdx++];
+          perCombo[skill + '|' + examType] = rows;
+          for (const r of rows) {
+            allTime += Number(r.total) || 0;
+            today   += Number(r.today) || 0;
+          }
+        }
+      }
+
+      const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      let newWeek = 0;
+      try {
+        const r = await fetch(SB_URL + '/rest/v1/mock_tests?status=eq.published&created_at=gt.'
+                              + new Date(sevenDaysAgo).toISOString() + '&select=mock_number',
+          { headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, Prefer: 'count=exact', Range: '0-0' } });
+        const cr = r.headers.get('content-range') || '';
+        const slash = cr.lastIndexOf('/');
+        if (slash >= 0) {
+          const c = parseInt(cr.slice(slash + 1), 10);
+          if (Number.isFinite(c)) newWeek = c;
+        }
+      } catch (_e) {
+        for (const m of justAdded) {
+          if (new Date(m.created_at).getTime() >= sevenDaysAgo) newWeek++;
+        }
+      }
+
+      document.getElementById('vitalAllTime').textContent  = fmtNumber(allTime);
+      document.getElementById('vitalToday').textContent    = fmtNumber(today);
+      document.getElementById('vitalNewWeek').textContent  = fmtNumber(newWeek);
+
+      const skillTotalMap = {
+        speaking:  totals['cefr-speaking']  + totals['ielts-speaking'],
+        writing:   totals['cefr-writing']   + totals['ielts-writing'],
+        listening: totals['cefr-listening'] + totals['ielts-listening'],
+        reading:   totals['cefr-reading']   + totals['ielts-reading']
+      };
+      const skillTodayMap = { speaking: 0, writing: 0, listening: 0, reading: 0 };
+      for (const skillDef of SKILLS) {
+        for (const [skill, examType] of skillDef.combos) {
+          const rows = perCombo[skill + '|' + examType] || [];
+          for (const r of rows) skillTodayMap[skill] += Number(r.today) || 0;
+        }
+      }
+      document.getElementById('speakingCount').textContent  = fmtNumber(skillTotalMap.speaking);
+      document.getElementById('speakingToday').textContent  = fmtNumber(skillTodayMap.speaking);
+      document.getElementById('writingCount').textContent   = fmtNumber(skillTotalMap.writing);
+      document.getElementById('writingToday').textContent   = fmtNumber(skillTodayMap.writing);
+      document.getElementById('listeningCount').textContent = fmtNumber(skillTotalMap.listening);
+      document.getElementById('listeningToday').textContent = fmtNumber(skillTodayMap.listening);
+      document.getElementById('readingCount').textContent   = fmtNumber(skillTotalMap.reading);
+      document.getElementById('readingToday').textContent   = fmtNumber(skillTodayMap.reading);
+
+      renderTrending(perCombo);
+      renderJustAdded(justAdded);
+    }
+
+    document.addEventListener('click', function (e) {
+      const target = e.target.closest('[data-open]');
+      if (target) {
+        e.preventDefault();
+        const slug = target.getAttribute('data-open');
+        navToPicker(slug);
+      }
+    });
+
+    load().catch(err => { console.warn('[landing-v2] load failed:', err); });
+  </script>
+</body>
+</html>

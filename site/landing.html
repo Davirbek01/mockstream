@@ -7006,6 +7006,28 @@
     </div>
   </div>
 
+  <!-- When the user lands here from landing-v3's tile click
+       (?openSelector=cefr-speaking etc.), the picker modal opens after a
+       ~250ms delay. To avoid a flash of the old hero/skill grid before the
+       modal pops up, hide #landingPage immediately. openSelectorFromQuery
+       clears the URL via history.replaceState once the modal is shown — so
+       after that, normal navigation back here (without the param) renders
+       the page normally. -->
+  <style>
+    html.ms-discovery-handoff #landingPage { visibility: hidden; }
+    html.ms-discovery-handoff body { background: #f8fafc; }
+  </style>
+  <script>
+    (function () {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        if (params.get('openSelector')) {
+          document.documentElement.classList.add('ms-discovery-handoff');
+        }
+      } catch (_e) {}
+    })();
+  </script>
+
   <!-- Landing Page Container -->
   <div id="landingPage">
     <!-- Header -->
@@ -25067,6 +25089,12 @@
         var clean = window.location.pathname + window.location.hash;
         window.history.replaceState({}, document.title, clean);
       } catch (e) {}
+
+      // Reveal the landing page beneath the modal so that when the user
+      // closes the picker (or backs out), they see the normal landing.html
+      // content instead of a blank canvas. The hide was only meant to mask
+      // the brief flash between page-load and modal-open.
+      try { document.documentElement.classList.remove('ms-discovery-handoff'); } catch (_e) {}
     }
 
     document.addEventListener('DOMContentLoaded', function () {

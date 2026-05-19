@@ -1810,6 +1810,359 @@
     #fsWelcomeBtn:active { transform: scale(0.93); }
     #welcomeScreen.hidden #fsWelcomeBtn { display: none; }
 
+    /* ═══════════════════════════════════════════════════════
+       Welcome v2 — sign-up-first card (May 2026 redesign)
+       New design layered on top of existing #welcomeScreen.
+       Older .name-overlay / .name-card / .continue-btn / .logo-*
+       / .particle / .bg-pattern / .title / .subtitle styles are
+       kept below as dead CSS — no element references them now.
+       ═══════════════════════════════════════════════════════ */
+    #welcomeScreen {
+      background:
+        radial-gradient(900px 500px at 8% -10%,  rgba(37, 99, 235, .08), transparent 60%),
+        radial-gradient(700px 400px at 100% 8%,  rgba(249, 115, 22, .07), transparent 60%),
+        radial-gradient(800px 600px at 50% 110%, rgba(99, 102, 241, .05), transparent 60%),
+        #f8fafc;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #0f172a;
+    }
+    .wv2-stripe {
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #2563eb 0%, #6366f1 50%, #f97316 100%);
+      z-index: 2;
+    }
+    .wv2-main {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 20px;
+    }
+    .wv2-card {
+      width: 100%;
+      max-width: 440px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 22px;
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.14);
+      padding: 38px 36px 32px;
+      position: relative;
+      overflow: hidden;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .wv2-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #2563eb 0%, #6366f1 50%, #f97316 100%);
+    }
+    .wv2-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    .wv2-logo {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #2563eb 0%, #6366f1 60%, #f97316 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 900;
+      font-size: 17px;
+      letter-spacing: 0.04em;
+      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.28);
+      flex-shrink: 0;
+      overflow: hidden;
+      position: relative;
+    }
+    .wv2-logo img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .wv2-logo img.loaded { background: #fff; }
+    .wv2-brand-text { min-width: 0; }
+    .wv2-brand-name {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #0f172a;
+      line-height: 1.2;
+      margin: 0 0 2px;
+    }
+    .wv2-brand-tag {
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 500;
+    }
+    .wv2-headline {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      margin: 0 0 8px;
+      color: #0f172a;
+    }
+    .wv2-headline em {
+      font-style: normal;
+      background: linear-gradient(90deg, #2563eb, #6366f1, #f97316);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .wv2-sub {
+      font-size: 14.5px;
+      color: #64748b;
+      margin: 0 0 22px;
+      line-height: 1.5;
+    }
+    .wv2-slot { position: relative; }
+    .wv2-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      animation: wv2In 240ms ease-out;
+    }
+    .wv2-panel.wv2-exiting { animation: wv2Out 200ms ease-in forwards; }
+    @keyframes wv2In {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes wv2Out {
+      from { opacity: 1; transform: translateY(0); }
+      to   { opacity: 0; transform: translateY(-8px); }
+    }
+
+    .wv2-provider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      padding: 14px 18px;
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 14px;
+      color: #0f172a;
+      font: 600 15px/1.4 'Inter', sans-serif;
+      letter-spacing: -0.005em;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+      transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+      text-align: left;
+      cursor: pointer;
+    }
+    .wv2-provider:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+    }
+    .wv2-provider.wv2-google:hover  { border-color: #2563eb; }
+    .wv2-provider.wv2-telegram:hover { border-color: #229ED9; }
+    .wv2-provider:active { transform: translateY(0); }
+    .wv2-provider svg { flex-shrink: 0; }
+    .wv2-provider .wv2-label { flex: 1; }
+    .wv2-provider .wv2-arrow {
+      color: #94a3b8;
+      transition: transform 180ms ease, color 180ms ease;
+    }
+    .wv2-provider:hover .wv2-arrow { transform: translateX(3px); }
+    .wv2-provider.wv2-google:hover .wv2-arrow  { color: #2563eb; }
+    .wv2-provider.wv2-telegram:hover .wv2-arrow { color: #229ED9; }
+
+    .wv2-or {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 4px 0;
+    }
+    .wv2-or::before, .wv2-or::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e2e8f0;
+    }
+    .wv2-or span {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #94a3b8;
+    }
+
+    .wv2-guest-link {
+      background: none;
+      border: 0;
+      padding: 10px 6px;
+      color: #64748b;
+      font: 500 14px/1.4 'Inter', sans-serif;
+      text-align: center;
+      border-radius: 8px;
+      transition: color 160ms ease, background 160ms ease;
+      cursor: pointer;
+    }
+    .wv2-guest-link strong { color: #334155; font-weight: 700; }
+    .wv2-guest-link .wv2-arrow {
+      color: #94a3b8;
+      margin-left: 4px;
+      transition: transform 160ms ease, color 160ms ease;
+      display: inline-block;
+    }
+    .wv2-guest-link:hover {
+      color: #0f172a;
+      background: #f1f5f9;
+    }
+    .wv2-guest-link:hover .wv2-arrow { color: #f97316; transform: translateX(3px); }
+
+    .wv2-save-hint {
+      font-size: 12px;
+      color: #94a3b8;
+      text-align: center;
+      margin-top: 6px;
+      letter-spacing: 0.005em;
+    }
+    .wv2-save-hint span { color: #2563eb; font-weight: 600; }
+
+    .wv2-guest-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+    .wv2-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: none;
+      border: 0;
+      padding: 6px 10px 6px 6px;
+      margin-left: -6px;
+      color: #64748b;
+      font: 600 13px/1.4 'Inter', sans-serif;
+      border-radius: 8px;
+      transition: color 160ms ease, background 160ms ease;
+      cursor: pointer;
+    }
+    .wv2-back:hover { color: #0f172a; background: #f1f5f9; }
+    .wv2-back .wv2-surname-chip {
+      color: #334155;
+      max-width: 140px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .wv2-step-indicator {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #94a3b8;
+    }
+    .wv2-step-indicator b { color: #2563eb; }
+
+    .wv2-field-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #64748b;
+      margin: 6px 0 6px 2px;
+    }
+    .wv2-input-row { display: flex; gap: 10px; }
+    .wv2-input-row input {
+      flex: 1;
+      padding: 14px 16px;
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 14px;
+      font: 500 16px/1.4 'Inter', sans-serif;
+      color: #0f172a;
+      outline: none;
+      transition: border-color 160ms ease, box-shadow 160ms ease;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .wv2-input-row input::placeholder { color: #94a3b8; font-weight: 400; }
+    .wv2-input-row input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+    }
+    .wv2-input-row input.invalid {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12);
+    }
+    .wv2-submit {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      border: 0;
+      background: linear-gradient(135deg, #2563eb, #6366f1 75%, #f97316);
+      background-size: 200% 100%;
+      background-position: 0% 50%;
+      color: white;
+      font-size: 22px;
+      font-weight: 700;
+      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.32);
+      transition: transform 180ms ease, box-shadow 180ms ease, background-position 360ms ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .wv2-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(37, 99, 235, 0.38);
+      background-position: 100% 50%;
+    }
+    .wv2-submit:active { transform: translateY(0); }
+    .wv2-err {
+      font: 500 12.5px/1.4 'Inter', sans-serif;
+      color: #dc2626;
+      margin: 8px 2px 0;
+      min-height: 16px;
+    }
+    .wv2-warn {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-top: 16px;
+      padding: 12px 14px;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      border-radius: 12px;
+      font-size: 12.5px;
+      color: #c2410c;
+      line-height: 1.45;
+    }
+    .wv2-warn-icon { font-size: 14px; line-height: 1; padding-top: 1px; }
+    .wv2-card.wv2-loading .wv2-slot,
+    .wv2-card.wv2-loading .wv2-headline,
+    .wv2-card.wv2-loading .wv2-sub { opacity: 0.35; pointer-events: none; transition: opacity 0.3s ease; }
+
+    .wv2-footer {
+      text-align: center;
+      color: #94a3b8;
+      font-size: 12px;
+      padding: 18px 16px 26px;
+      letter-spacing: 0.005em;
+      flex-shrink: 0;
+    }
+    .wv2-footer .wv2-dot { color: #e2e8f0; margin: 0 8px; }
+
+    @media (max-width: 480px) {
+      .wv2-card { padding: 30px 24px 26px; border-radius: 18px; }
+      .wv2-headline { font-size: 22px; }
+      .wv2-sub { font-size: 14px; margin-bottom: 20px; }
+      .wv2-provider { padding: 13px 16px; font-size: 14.5px; }
+      .wv2-submit { width: 48px; height: 48px; font-size: 20px; }
+      .wv2-logo { width: 46px; height: 46px; border-radius: 12px; }
+      .wv2-brand-name { font-size: 15.5px; }
+    }
+
     /* ===== NAME INPUT OVERLAY ===== */
     .name-overlay {
       position: fixed;
@@ -3036,153 +3389,257 @@
   <div id="welcomeScreen">
     <!-- Fullscreen toggle button -->
     <button id="fsWelcomeBtn" title="Toggle fullscreen" onclick="toggleWelcomeFullscreen()">⛶</button>
-    <!-- Animated Background -->
-    <div class="bg-pattern"></div>
 
-    <!-- Floating Particles -->
-    <div class="particles">
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-    </div>
+    <div class="wv2-stripe"></div>
 
-    <!-- Main Content -->
-    <div class="content">
-      <div class="logo-container">
-        <div class="logo-glow"></div>
-        <div class="logo-ring"></div>
-        <div class="logo-ring"></div>
-        <div class="logo-ring"></div>
-        <div class="logo-spinner" id="logoSpinner"></div>
-        <img id="logo" src="" alt="" class="logo">
-        <script>
-          (function() {
-            var img = document.getElementById('logo');
-            var spinner = document.getElementById('logoSpinner');
-            var src = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png';
-            function onLoaded() {
-              img.classList.add('loaded');
-              if (spinner) spinner.classList.add('hidden');
-            }
-            img.onload = onLoaded;
-            img.onerror = onLoaded; // still hide spinner on error
-            img.src = src;
-            // If already cached
-            if (img.complete && img.naturalWidth > 0) onLoaded();
-          })();
-        </script>
-      </div>
+    <main class="wv2-main">
+      <div class="wv2-card" id="welcomeCard">
 
-      <h1 class="title" id="brandTitle">Mock Stream</h1>
-      <script>document.getElementById('brandTitle').textContent=(window.SITE_CONFIG&&window.SITE_CONFIG.brandName)||'Mock Stream';</script>
-      <p class="subtitle">Your gateway to exam success. Practice makes perfect.</p>
-
-      <button class="continue-btn" id="continueBtn" onclick="enterAndContinue()">
-        Continue
-        <span class="btn-arrow">→</span>
-      </button>
-
-      <!-- Progress Bar (shown during loading) -->
-      <div class="progress-container" id="progressContainer">
-        <div class="progress-label">
-          <span class="progress-status" id="progressStatus">Initializing...</span>
-          <span class="progress-percent" id="progressPercent">0%</span>
-        </div>
-        <div class="progress-bar">
-          <div class="progress-fill" id="progressFill"></div>
-        </div>
-        <div class="progress-steps" id="progressSteps"></div>
-      </div>
-    </div>
-
-    <!-- Name Input Overlay (shown after Continue, while loading runs in background) -->
-    <div class="name-overlay" id="nameOverlay">
-      <div class="name-card">
-        <div class="name-card-icon">
-          <!-- Emoji is the default; once SITE_CONFIG.logoUrl resolves, the
-               script swaps it for the per-clone brand logo. img.onload /
-               onerror toggle visibility so a broken URL keeps the emoji. -->
-          <img id="nameCardLogo" alt="" hidden>
-          <span id="nameCardEmoji" aria-hidden="true">👤</span>
-        </div>
-        <h2 id="nameCardTitle">Welcome to <span id="nameCardBrand">Mock Stream</span></h2>
-        <p class="name-card-sub">Davom etish uchun kiring</p>
-
-        <!-- Sign-in options (Google + Telegram). Collapsed when the guest
-             section is expanded, so the card stays compact while typing. -->
-        <div class="signin-options" id="signinOptions">
-          <button type="button" class="google-signin-btn" id="googleSigninBtn" onclick="signInWithGoogle()">
-            <svg width="18" height="18" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16 18.9 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.4-4.5 2.4-7.2 2.4-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.1 5.7l6.2 5.2c-.4.4 6.6-4.9 6.6-14.9 0-1.3-.1-2.6-.4-3.9z"/></svg>
-            <span>Google bilan davom etish</span>
-          </button>
-
-          <!-- OR divider between the two sign-in options. Hidden if Telegram
-               isn't configured for this center (then Google is the only path). -->
-          <div class="signin-or" id="signinOr"><span>OR</span></div>
-
-          <!-- Telegram login — custom button, full-width to match Google's.
-               Hidden until JS confirms a per-center bot is configured. -->
-          <button type="button" class="telegram-signin-btn" id="telegramSigninBtn" style="display:none;" onclick="startTelegramLogin()">
-            <svg width="18" height="18" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="tg-grad" x1="120" y1="0" x2="120" y2="240" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#37aee2"/><stop offset="1" stop-color="#1e96c8"/></linearGradient></defs><circle cx="120" cy="120" r="120" fill="url(#tg-grad)"/><path d="M81 128.5l-29-9c-6.3-1.9-6.3-6.3 1.4-9.4l113-43.6c5.2-2.1 8.1.6 6.4 7.6L153.6 188c-1.2 4.8-4.2 6-8.5 3.7l-23.7-17.5-11.4 11c-1.3 1.3-2.4 2.4-4.8 2.4l1.7-24.4 44.4-40.1c1.9-1.7-.4-2.6-3-1l-54.9 34.6-23.6-7.4z" fill="#fff"/></svg>
-            <span>Telegram bilan davom etish</span>
-          </button>
-          <div class="google-signin-hint" id="googleSigninHint">Natijalaringiz har bir qurilmada saqlanadi</div>
+        <div class="wv2-head">
+          <div class="wv2-logo" id="brandLogo">
+            <img id="nameCardLogo" alt="" hidden>
+            <span id="nameCardEmoji" aria-hidden="true">M</span>
+          </div>
+          <div class="wv2-brand-text">
+            <div class="wv2-brand-name" id="brandTitle">Mock Stream</div>
+            <div class="wv2-brand-tag">English exam practice</div>
+          </div>
         </div>
 
-        <!-- Static guest heading (no chevron, not clickable). The id stays
-             as `nameOrSeparator` for the Telegram-WebView fallback to hide it. -->
-        <div class="guest-heading" id="nameOrSeparator">
-          yoki <strong>Mehmon</strong> sifatida davom eting
-        </div>
+        <h1 class="wv2-headline"><em>Welcome</em></h1>
+        <p class="wv2-sub">
+          Sign in to save your progress across every device, or continue as a guest.
+        </p>
 
-        <div class="guest-section" id="guestSection">
-          <!-- Back link to Step 1 — shown only on Step 2. -->
-          <div class="guest-back-row" id="guestBackRow" style="display:none;">
-            <button type="button" class="guest-back-btn" onclick="guestStepBack()" aria-label="Familiyani tahrirlash">
-              ← <span class="surname-preview" id="guestSurnamePreview"></span>
+        <div class="wv2-slot">
+
+          <!-- Sign-in panel (default) -->
+          <div class="wv2-panel" id="signinOptions">
+            <button type="button" class="wv2-provider wv2-google" id="googleSigninBtn" onclick="onWelcomeProvider('google')">
+              <svg width="20" height="20" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16 18.9 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.4-4.5 2.4-7.2 2.4-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.1 5.7l6.2 5.2c-.4.4 6.6-4.9 6.6-14.9 0-1.3-.1-2.6-.4-3.9z"/></svg>
+              <span class="wv2-label">Google bilan davom etish</span>
+              <span class="wv2-arrow">→</span>
             </button>
-          </div>
 
-          <!-- Step 1: Familiya (visible on load) -->
-          <div class="guest-step active" id="guestStep1">
-            <div class="guest-name-row">
-              <input type="text" id="nameInputSurname" placeholder="Familiya" aria-label="Familiya (Surname)"
-                autocomplete="off" autocorrect="off" spellcheck="false">
-              <button type="button" class="name-submit-btn-inline" onclick="guestStepNext1()"
-                aria-label="Keyingi" title="Keyingi (Enter)">→</button>
+            <!-- Hidden until per-clone Telegram bot is configured. Existing
+                 _initTelegramLogin shows it when a bot id is found. -->
+            <button type="button" class="wv2-provider wv2-telegram" id="telegramSigninBtn" style="display:none;" onclick="onWelcomeProvider('telegram')">
+              <svg width="20" height="20" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="tg-grad" x1="120" y1="0" x2="120" y2="240" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#37aee2"/><stop offset="1" stop-color="#1e96c8"/></linearGradient></defs><circle cx="120" cy="120" r="120" fill="url(#tg-grad)"/><path d="M81 128.5l-29-9c-6.3-1.9-6.3-6.3 1.4-9.4l113-43.6c5.2-2.1 8.1.6 6.4 7.6L153.6 188c-1.2 4.8-4.2 6-8.5 3.7l-23.7-17.5-11.4 11c-1.3 1.3-2.4 2.4-4.8 2.4l1.7-24.4 44.4-40.1c1.9-1.7-.4-2.6-3-1l-54.9 34.6-23.6-7.4z" fill="#fff"/></svg>
+              <span class="wv2-label">Telegram bilan davom etish</span>
+              <span class="wv2-arrow">→</span>
+            </button>
+
+            <div class="wv2-save-hint" id="googleSigninHint">
+              <span>✓</span> Natijalaringiz har bir qurilmada saqlanadi
             </div>
-            <div class="name-field-error" id="surnameError"></div>
+
+            <!-- Divider — id kept for the Telegram-WebView fallback hider. -->
+            <div class="wv2-or" id="nameOrSeparator"><span>OR</span></div>
+
+            <button type="button" class="wv2-guest-link" onclick="openWelcomeGuest()">
+              <strong>Mehmon</strong> sifatida davom eting
+              <span class="wv2-arrow">→</span>
+            </button>
+            <!-- Legacy id kept for compatibility with any cached selectors. -->
+            <span id="signinOr" style="display:none;"></span>
           </div>
 
-          <!-- Step 2: Ism (revealed after Step 1) -->
-          <div class="guest-step" id="guestStep2">
-            <div class="guest-name-row">
-              <input type="text" id="nameInputFirstname" placeholder="Ism" aria-label="Ism (Name)"
-                autocomplete="off" autocorrect="off" spellcheck="false">
-              <button type="button" class="name-submit-btn-inline" id="nameSubmitBtn" onclick="submitCandidateName()"
-                aria-label="Davom etish (Continue)" title="Davom etish (Enter)">→</button>
+          <!-- Guest panel (slide-replaces sign-in panel) -->
+          <div class="wv2-panel" id="guestSection" style="display:none;">
+
+            <div class="wv2-guest-top">
+              <button type="button" class="wv2-back" onclick="welcomeGuestBack()" id="guestBackRow">
+                ← <span id="wv2BackLabel">Hisob bilan kirish</span>
+                <span class="wv2-surname-chip" id="guestSurnamePreview" style="display:none;"></span>
+              </button>
+              <div class="wv2-step-indicator">Step <b id="wv2StepNum">1</b> of 2</div>
             </div>
-            <div class="name-field-error" id="firstnameError"></div>
+
+            <!-- Step 1: Familiya -->
+            <div id="guestStep1" class="wv2-step active">
+              <div class="wv2-field-label">Familiya (Surname)</div>
+              <div class="wv2-input-row">
+                <input type="text" id="nameInputSurname" placeholder="Familiyangizni kiriting"
+                       aria-label="Familiya (Surname)"
+                       autocomplete="off" autocorrect="off" spellcheck="false"
+                       onkeydown="if(event.key==='Enter'){event.preventDefault();welcomeGuestStep1Next();}">
+                <button type="button" class="wv2-submit" onclick="welcomeGuestStep1Next()"
+                        aria-label="Keyingi" title="Keyingi (Enter)">→</button>
+              </div>
+              <div class="wv2-err" id="surnameError"></div>
+            </div>
+
+            <!-- Step 2: Ism -->
+            <div id="guestStep2" class="wv2-step" style="display:none;">
+              <div class="wv2-field-label">Ism (First name)</div>
+              <div class="wv2-input-row">
+                <input type="text" id="nameInputFirstname" placeholder="Ismingizni kiriting"
+                       aria-label="Ism (First name)"
+                       autocomplete="off" autocorrect="off" spellcheck="false"
+                       onkeydown="if(event.key==='Enter'){event.preventDefault();submitCandidateName();}">
+                <button type="button" class="wv2-submit" id="nameSubmitBtn" onclick="submitCandidateName()"
+                        aria-label="Davom etish (Continue)" title="Davom etish (Enter)">→</button>
+              </div>
+              <div class="wv2-err" id="firstnameError"></div>
+            </div>
+
+            <div class="wv2-warn">
+              <span class="wv2-warn-icon">⚠️</span>
+              <span>Mehmon sifatida natijalar tarixini ko'ra olmaysiz. Saqlash uchun Google bilan kiring.</span>
+            </div>
           </div>
 
-          <div class="guest-warning">
-            ⚠️ Mehmon sifatida natijalar tarixini ko'ra olmaysiz
-          </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-      <p id="footerCopyright">&copy; 2025 Mock Stream. All rights reserved.</p>
-      <script>(function(){var el=document.getElementById('footerCopyright');if(window.SITE_CONFIG)el.innerHTML='&copy; '+new Date().getFullYear()+' '+window.SITE_CONFIG.brandName+'. All rights reserved.';})()</script>
+        <!-- Progress bar (hidden until enterAndContinue runs). Same IDs as before -->
+        <div class="progress-container" id="progressContainer">
+          <div class="progress-label">
+            <span class="progress-status" id="progressStatus">Initializing...</span>
+            <span class="progress-percent" id="progressPercent">0%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <div class="progress-steps" id="progressSteps"></div>
+        </div>
+
+      </div>
+    </main>
+
+    <footer class="wv2-footer">
+      <span id="footerBrand">Mock Stream</span>
+      <span class="wv2-dot">·</span>
+      Practice exams · Get instant AI feedback
     </footer>
+
+    <!-- Hidden compatibility shims. JS in this file targets these ids/elements
+         for behaviour (resetWelcomeScreen, brand-aware welcome title, etc.).
+         Keeping them as detached stubs avoids null-deref without complicating
+         the visible markup. -->
+    <span id="continueBtn" style="display:none;"></span>
+    <span id="nameOverlay" style="display:none;"></span>
+    <span id="nameCardBrand" style="display:none;">Mock Stream</span>
+
+    <script>
+      /* Welcome-v2 panel switching + provider routing. The actual auth
+         handlers (signInWithGoogle / startTelegramLogin) and the guest
+         submission pipeline (submitCandidateName, validateNameField,
+         enterAndContinue) live further down in this file — these helpers
+         just route to them. */
+      (function () {
+        var signinPanel = document.getElementById('signinOptions');
+        var guestPanel  = document.getElementById('guestSection');
+        var step1       = document.getElementById('guestStep1');
+        var step2       = document.getElementById('guestStep2');
+        var stepNumEl   = document.getElementById('wv2StepNum');
+        var backLabel   = document.getElementById('wv2BackLabel');
+        var surnameChip = document.getElementById('guestSurnamePreview');
+
+        function showSignin() {
+          guestPanel.classList.add('wv2-exiting');
+          setTimeout(function () {
+            guestPanel.style.display = 'none';
+            guestPanel.classList.remove('wv2-exiting');
+            signinPanel.style.display = '';
+            void signinPanel.offsetWidth;
+          }, 180);
+        }
+
+        function showGuest() {
+          signinPanel.classList.add('wv2-exiting');
+          setTimeout(function () {
+            signinPanel.style.display = 'none';
+            signinPanel.classList.remove('wv2-exiting');
+            guestPanel.style.display = '';
+            void guestPanel.offsetWidth;
+            setTimeout(function () {
+              var inp = document.getElementById('nameInputSurname');
+              if (inp) inp.focus();
+            }, 50);
+          }, 180);
+        }
+
+        function showStep1() {
+          step1.style.display = '';
+          step2.style.display = 'none';
+          stepNumEl.textContent = '1';
+          backLabel.textContent = 'Hisob bilan kirish';
+          if (surnameChip) surnameChip.style.display = 'none';
+        }
+
+        function showStep2() {
+          var surname = (document.getElementById('nameInputSurname').value || '').trim();
+          step1.style.display = 'none';
+          step2.style.display = '';
+          stepNumEl.textContent = '2';
+          backLabel.textContent = '';
+          if (surnameChip) {
+            surnameChip.textContent = surname;
+            surnameChip.style.display = '';
+          }
+          setTimeout(function () {
+            var inp = document.getElementById('nameInputFirstname');
+            if (inp) inp.focus();
+          }, 30);
+        }
+
+        window.openWelcomeGuest = function () {
+          showStep1();
+          showGuest();
+        };
+        window.welcomeGuestBack = function () {
+          if (step2.style.display !== 'none') {
+            showStep1();
+          } else {
+            showSignin();
+          }
+        };
+        // Step-1 submit — validates surname, then advances to Step 2.
+        window.welcomeGuestStep1Next = function () {
+          var input = document.getElementById('nameInputSurname');
+          var errEl = document.getElementById('surnameError');
+          var err = (typeof validateNameField === 'function')
+            ? validateNameField(input.value)
+            : (input.value.trim().length >= 2 ? null : 'Kamida 2 ta harf');
+          errEl.textContent = err || '';
+          if (err) { input.classList.add('invalid'); input.focus(); return; }
+          input.classList.remove('invalid');
+          showStep2();
+        };
+        // Legacy aliases the old wizard used. Some keyboard handlers and
+        // cached pages still call them.
+        window.guestStepNext1 = window.welcomeGuestStep1Next;
+        window.guestStepBack  = window.welcomeGuestBack;
+
+        // Route provider clicks: kick off auth, then enterAndContinue so the
+        // progress bar animates. Google does a full-page redirect so progress
+        // is moot in that case, but enterAndContinue is cheap and the card
+        // fades anyway.
+        window.onWelcomeProvider = function (provider) {
+          try {
+            if (provider === 'google' && typeof signInWithGoogle === 'function') {
+              signInWithGoogle();
+            } else if (provider === 'telegram' && typeof startTelegramLogin === 'function') {
+              startTelegramLogin();
+            }
+          } catch (_e) {}
+        };
+
+        // Clear field error as user types — same UX as before.
+        ['nameInputSurname', 'nameInputFirstname'].forEach(function (id) {
+          var el = document.getElementById(id);
+          if (!el) return;
+          el.addEventListener('input', function () {
+            var errId = id === 'nameInputSurname' ? 'surnameError' : 'firstnameError';
+            var errEl = document.getElementById(errId);
+            if (errEl && errEl.textContent) {
+              errEl.textContent = '';
+              el.classList.remove('invalid');
+            }
+          });
+        });
+      })();
+    </script>
   </div>
 
   <!-- (Iframe removed: index.html now navigates directly to landing.html via window.location.
@@ -4988,25 +5445,30 @@
     // Set the brand-aware welcome title once SITE_CONFIG resolves. Falls back
     // to "Mock Stream" if the per-center config hasn't loaded yet (e.g. an
     // offline first paint). All 6 clones reuse this same template.
+    // Welcome-v2 surfaces the brand in three places: the card-head title
+    // (#brandTitle), the footer (#footerBrand), and the page <title>.
     (function setWelcomeBrand() {
       var apply = function () {
         try {
           var brand = (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream';
           var logo  = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl)   || '';
-          var el = document.getElementById('nameCardBrand');
-          if (el) el.textContent = brand;
-          var logoEl  = document.getElementById('nameCardLogo');
-          var emojiEl = document.getElementById('nameCardEmoji');
-          if (logoEl && logo) {
-            logoEl.onload = function () {
-              logoEl.hidden = false;
-              if (emojiEl) emojiEl.style.display = 'none';
-            };
-            logoEl.onerror = function () {
-              logoEl.hidden = true;
-              if (emojiEl) emojiEl.style.display = '';
-            };
-            logoEl.src = logo;
+          // Visible welcome-v2 brand surfaces.
+          var btEl = document.getElementById('brandTitle');   if (btEl) btEl.textContent = brand;
+          var fbEl = document.getElementById('footerBrand');  if (fbEl) fbEl.textContent = brand;
+          try { document.title = 'Welcome · ' + brand; } catch (_e) {}
+          // Legacy nameCardBrand stays as a hidden shim — keep it in sync.
+          var ncbEl = document.getElementById('nameCardBrand');
+          if (ncbEl) ncbEl.textContent = brand;
+          // Logo swap: place the per-clone logo inside the gradient tile.
+          if (logo) {
+            var logoBox = document.getElementById('brandLogo');
+            if (logoBox) {
+              logoBox.style.background = '#ffffff';
+              logoBox.style.padding    = '4px';
+              logoBox.style.boxShadow  = '0 6px 14px rgba(15, 23, 42, 0.08)';
+              logoBox.innerHTML = '<img src="' + logo.replace(/"/g, '%22')
+                                + '" alt="" style="width:100%;height:100%;object-fit:contain;display:block;">';
+            }
           }
         } catch (_e) {}
       };
@@ -5015,6 +5477,13 @@
       } else {
         apply();
       }
+      // Re-apply once SITE_CONFIG fires its ready event (site-config.js dispatches
+      // 'ms:config-ready' after the per-center fetch resolves). On the first paint
+      // SITE_CONFIG might still be empty, leaving the default "Mock Stream"
+      // placeholder. center-guard.js also dispatches centerConfigLoaded earlier
+      // in the boot — listen for both so whichever fires first triggers the swap.
+      document.addEventListener('ms:config-ready', apply);
+      document.addEventListener('mockStream:centerConfigLoaded', apply);
     })();
 
     // No-op stub. Guest fields are now always visible — the toggle is
@@ -5181,51 +5650,41 @@
       // redirect — too fast for the user to react. landing.html prompts after
       // its DOM settles, which is reachable from every auth path.
 
-      // Hide name overlay with animation
-      const overlay = document.getElementById('nameOverlay');
-      overlay.style.transition = 'opacity 0.3s ease';
-      overlay.style.opacity = '0';
-      setTimeout(() => {
-        overlay.classList.remove('show');
-        overlay.style.opacity = '';
-        overlay.style.transition = '';
-      }, 300);
+      // Fade the welcome card into its loading state. (The old #nameOverlay
+      // was a separate dialog; in welcome-v2 the card itself fades.)
+      var _wv2Card = document.getElementById('welcomeCard');
+      if (_wv2Card) _wv2Card.classList.add('wv2-loading');
 
       nameSubmitted = true;
-      // If loading already finished while name was being entered, show app now
-      if (pendingTryShowApp) pendingTryShowApp();
+      // If loading is already running, poke the pipeline. Otherwise kick off
+      // the progress animation now — welcome-v2 has no separate "Continue"
+      // step that would have started it earlier.
+      if (pendingTryShowApp) {
+        pendingTryShowApp();
+      } else if (!isLoading) {
+        enterAndContinue();
+      }
     }
 
-    // Enter fullscreen and show app in iframe
+    // Welcome-v2 entry: fade the card to loading state, animate progress,
+    // navigate to landing-v3 once both progress + name are done.
     function enterAndContinue() {
       if (isLoading) return;
       isLoading = true;
 
-      const btn = document.getElementById('continueBtn');
-      btn.style.opacity = '0';
-      btn.style.transform = 'scale(0.9)';
-      btn.style.pointerEvents = 'none';
+      // Fade the welcome card; show the loading progress strip. The old
+      // #continueBtn and #nameOverlay survive as hidden shims so legacy code
+      // paths that touch them don't throw — but we no longer animate them.
+      var _wv2Card = document.getElementById('welcomeCard');
+      if (_wv2Card) _wv2Card.classList.add('wv2-loading');
 
-      // Show progress bar AND name overlay
-      setTimeout(() => {
-        btn.style.display = 'none';
-        progressContainer.classList.add('visible');
-        // If user is already signed in via Google (session restored by auth.js),
-        // skip the name overlay entirely — nameSubmitted was set by the
-        // 'mockStream:userSignedIn' event listener at page load.
-        if (nameSubmitted && sessionStorage.getItem('CANDIDATE_FULL_NAME')) {
-          console.log('[index] Google session detected, skipping name overlay');
-        } else {
-          // Show the name input overlay
-          document.getElementById('nameOverlay').classList.add('show');
-        }
-      }, 300);
+      setTimeout(function () {
+        if (progressContainer) progressContainer.classList.add('visible');
+      }, 200);
 
       const startLoading = () => {
-        // No iframe anymore — just animate the progress bar, then navigate
-        // the top window to landing.html. Use replace() so the welcome page
-        // does not sit in browser history (back from landing returns to
-        // whatever the user came from, not back to welcome).
+        // No iframe — animate progress bar, then navigate the top window to
+        // landing-v3.html. replace() so welcome doesn't stay in history.
         let progressDone = false;
 
         const tryShowApp = () => {
@@ -5233,7 +5692,7 @@
             if (window._userIsBlocked) return;
             sessionStorage.setItem('ms_entered_app', '1');
             setTimeout(() => {
-              window.location.replace('landing.html');
+              window.location.replace('landing-v3.html');
             }, 200);
           }
         };
@@ -5280,13 +5739,10 @@
     function resetWelcomeScreen() {
       welcomeScreen.classList.remove('hidden');
 
-      // Reset button
-      const btn = document.getElementById('continueBtn');
-      btn.innerHTML = 'Continue <span class="btn-arrow">→</span>';
-      btn.style.display = '';
-      btn.style.opacity = '1';
-      btn.style.transform = '';
-      btn.style.pointerEvents = '';
+      // Unfade the welcome-v2 card. (The old #continueBtn / #nameOverlay
+      // exist only as hidden shims now; nothing to reset on them.)
+      var _wv2Card = document.getElementById('welcomeCard');
+      if (_wv2Card) _wv2Card.classList.remove('wv2-loading');
       document.body.classList.remove('loading');
 
       // Reset progress bar
@@ -5329,7 +5785,7 @@
           }
         }
         // replace() so welcome page does not stay in history
-        window.location.replace('landing.html');
+        window.location.replace('landing-v3.html');
       }
       if (hasEntered || hasGoogleSession) { _go(); return; }
       if (hasOAuthHash) {
@@ -5354,12 +5810,10 @@
     // Note: Exiting fullscreen no longer resets to welcome screen
     // Users can tap/click anywhere to re-enter fullscreen
 
-    // Also allow Enter key to continue
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' && !welcomeScreen.classList.contains('hidden')) {
-        enterAndContinue();
-      }
-    });
+    // Note: in welcome-v2 each input has an inline onkeydown that routes
+    // Enter to the correct submit handler (welcomeGuestStep1Next /
+    // submitCandidateName), so we no longer need a global Enter listener
+    // that would otherwise freeze the page when no auth path is chosen.
 
     // ========== ANTI-CHEAT & DEV TOOLS PROTECTION ==========
     let adminModeActive = false;

@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mock Stream · Landing v3 (Premium EdTech)</title>
+
+  <!-- Standalone preview — no shared CSS / JS. Sister file to
+       landing-v2.html. Open either at /landing-v2.html or /landing-v3.html. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    :root {
+      /* ── Brand ───────────────────────────────────────────── */
+      --indigo:        #2563eb;
+      --indigo-deep:   #1d4ed8;
+      --indigo-soft:   #eef2ff;
+      --orange:        #f97316;
+      --orange-deep:   #c2410c;
+      --orange-soft:   #fff7ed;
+      /* ── Ink ─────────────────────────────────────────────── */
+      --ink:           #0f172a;
+      --ink-2:         #334155;
+      --muted:         #64748b;
+      --muted-2:       #94a3b8;
+      --line:          #e2e8f0;
+      --line-soft:     #f1f5f9;
+      /* ── Surfaces ────────────────────────────────────────── */
+      --bg:            #f8fafc;
+      --card:          #ffffff;
+      --card-soft:     #fafbfc;
+      /* ── Shadows ─────────────────────────────────────────── */
+      --shadow-xs:     0 1px 2px rgba(15, 23, 42, 0.04);
+      --shadow:        0 4px 14px rgba(15, 23, 42, 0.06);
+      --shadow-md:     0 10px 26px rgba(15, 23, 42, 0.08);
+      --shadow-lg:     0 22px 48px rgba(15, 23, 42, 0.12);
+      /* Color-tinted glows for hover lift on vitals + skill cards */
+      --glow-indigo:   0 18px 32px -8px rgba(37, 99, 235, 0.32);
+      --glow-orange:   0 18px 32px -8px rgba(249, 115, 22, 0.32);
+      --glow-emerald:  0 18px 32px -8px rgba(16, 185, 129, 0.32);
+      --glow-violet:   0 18px 32px -8px rgba(139, 92, 246, 0.32);
+      --glow-cyan:     0 18px 32px -8px rgba(14, 165, 233, 0.32);
+      /* ── Radii ───────────────────────────────────────────── */
+      --r-sm:          10px;
+      --r:             14px;
+      --r-lg:          18px;
+      --r-xl:          22px;
+    }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background:
+        radial-gradient(900px 500px at 8% -10%,  rgba(37, 99, 235, .07), transparent 60%),
+        radial-gradient(700px 400px at 100% 8%,  rgba(249, 115, 22, .06), transparent 60%),
+        var(--bg);
+      background-attachment: fixed;
+      color: var(--ink);
+      font: 15px/1.6 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; }
+    svg { display: block; }
+
+    /* ═══════════════════════════════════════════════════════
+       Top accent line + sticky header
+       ═══════════════════════════════════════════════════════ */
+    .brand-stripe {
+      height: 3px;
+      background: linear-gradient(90deg, var(--indigo) 0%, #6366f1 50%, var(--orange) 100%);
+      width: 100%;
+    }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: saturate(180%) blur(12px);
+      -webkit-backdrop-filter: saturate(180%) blur(12px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+    }
+    .topbar-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 28px;
+      height: 66px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-weight: 800;
+      font-size: 17px;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+    .brand-logo {
+      width: 36px; height: 36px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, var(--indigo) 0%, #6366f1 60%, var(--orange) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 900;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      box-shadow: 0 6px 14px rgba(37, 99, 235, 0.24);
+    }
+    .topbar-spacer { flex: 1; }
+    .topbar-actions { display: flex; gap: 10px; align-items: center; }
+    .icon-btn {
+      width: 40px; height: 40px;
+      border: 1px solid var(--line);
+      background: var(--card);
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+      color: var(--ink-2);
+      box-shadow: var(--shadow-xs);
+      position: relative;
+    }
+    .icon-btn:hover {
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: var(--shadow);
+      border-color: var(--indigo);
+      color: var(--indigo);
+    }
+    .icon-btn svg { width: 18px; height: 18px; }
+    .icon-btn .dot {
+      position: absolute;
+      top: 9px; right: 9px;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--orange);
+      box-shadow: 0 0 0 2px var(--card);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       Page container
+       ═══════════════════════════════════════════════════════ */
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 36px 28px 64px;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       Hero + vitals
+       ═══════════════════════════════════════════════════════ */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      margin-bottom: 40px;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--indigo);
+      background: var(--indigo-soft);
+      padding: 6px 12px;
+      border-radius: 999px;
+      align-self: flex-start;
+    }
+    .hero-eyebrow .live-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--orange);
+      box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.6);
+      animation: livePulse 1.8s ease-out infinite;
+    }
+    @keyframes livePulse {
+      0%   { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.6); }
+      70%  { box-shadow: 0 0 0 9px rgba(249, 115, 22, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
+    }
+    .hero-title {
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin: 0;
+      color: var(--ink);
+    }
+    .hero-title em {
+      font-style: normal;
+      background: linear-gradient(90deg, var(--indigo), #6366f1, var(--orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 15.5px;
+      color: var(--muted);
+      max-width: 620px;
+      margin: 0;
+    }
+
+    .vitals {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 6px;
+    }
+    .vital {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      padding: 20px 22px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: var(--shadow);
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+      cursor: default;
+    }
+    .vital:hover { transform: translateY(-4px); }
+    .vital.v-violet:hover  { box-shadow: var(--glow-violet);  border-color: rgba(139, 92, 246, 0.32); }
+    .vital.v-orange:hover  { box-shadow: var(--glow-orange);  border-color: rgba(249, 115, 22, 0.32); }
+    .vital.v-emerald:hover { box-shadow: var(--glow-emerald); border-color: rgba(16, 185, 129, 0.32); }
+
+    .vital-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      display: grid; place-items: center;
+      flex-shrink: 0;
+      color: white;
+      position: relative;
+    }
+    .vital-icon::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.25), transparent 50%);
+    }
+    .vital.v-violet  .vital-icon { background: linear-gradient(135deg, #a78bfa, #7c3aed); }
+    .vital.v-orange  .vital-icon { background: linear-gradient(135deg, #fb923c, #ea580c); }
+    .vital.v-emerald .vital-icon { background: linear-gradient(135deg, #34d399, #059669); }
+    .vital-icon svg { width: 24px; height: 24px; position: relative; z-index: 1; }
+
+    .vital-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .vital-number {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+    }
+    .vital-label {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       Section header
+       ═══════════════════════════════════════════════════════ */
+    .section { margin-bottom: 40px; }
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      gap: 14px;
+    }
+    .section-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      margin: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 5px 9px;
+      border-radius: 999px;
+    }
+    .section-title .badge.hot   { background: var(--orange-soft); color: var(--orange-deep); }
+    .section-title .badge.new   { background: #ecfdf5;             color: #047857; }
+    .section-link {
+      font-size: 13px;
+      color: var(--indigo);
+      font-weight: 700;
+      padding: 7px 13px;
+      border-radius: 10px;
+      transition: background 160ms ease;
+    }
+    .section-link:hover { background: var(--indigo-soft); }
+
+    /* ═══════════════════════════════════════════════════════
+       Rails — horizontally scrollable mock cards
+       ═══════════════════════════════════════════════════════ */
+    .rail {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(248px, 1fr);
+      gap: 16px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 6px 4px 14px;
+      margin: 0 -4px;
+    }
+    .rail::-webkit-scrollbar { height: 8px; }
+    .rail::-webkit-scrollbar-thumb { background: rgba(15, 23, 42, .12); border-radius: 999px; }
+    .rail::-webkit-scrollbar-track { background: transparent; }
+
+    .mock-card {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      padding: 18px 20px 20px;
+      cursor: pointer;
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 168px;
+      overflow: hidden;
+      box-shadow: var(--shadow-xs);
+    }
+    .mock-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--indigo), var(--orange));
+      opacity: 0;
+      transition: opacity 220ms ease;
+    }
+    .mock-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--indigo);
+    }
+    .mock-card:hover::before { opacity: 1; }
+    .mock-card.trending::after,
+    .mock-card.fresh::after {
+      content: '';
+      position: absolute;
+      right: -16px;
+      bottom: -16px;
+      width: 96px; height: 96px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(249, 115, 22, 0.10) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .mock-card.fresh::after { background: radial-gradient(circle, rgba(16, 185, 129, 0.10) 0%, transparent 70%); }
+
+    .mc-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .skill-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 5px 10px;
+      border-radius: 999px;
+      line-height: 1;
+    }
+    /* Per-skill soft tint + deep text — calm but distinctive */
+    .skill-chip.cw { background: #ede9fe; color: #5b21b6; }   /* CEFR Writing  → lavender */
+    .skill-chip.iw { background: #fce7f3; color: #9d174d; }   /* IELTS Writing → soft pink */
+    .skill-chip.cs { background: #d1fae5; color: #065f46; }   /* CEFR Speaking → mint */
+    .skill-chip.is { background: #cffafe; color: #155e75; }   /* IELTS Speaking → soft cyan */
+    .skill-chip.cr { background: #fef3c7; color: #92400e; }   /* CEFR Reading → soft amber */
+    .skill-chip.ir { background: #ffedd5; color: #9a3412; }   /* IELTS Reading → soft peach */
+    .skill-chip.cl { background: #dbeafe; color: #1e40af; }   /* CEFR Listening → soft sky */
+    .skill-chip.il { background: #fef9c3; color: #854d0e; }   /* IELTS Listening → soft yellow */
+
+    .mc-num {
+      font-size: 13.5px;
+      color: var(--ink-2);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+    .mc-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1.3;
+      letter-spacing: -0.015em;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      flex: 1;
+    }
+    .mc-stat {
+      font-size: 12.5px;
+      color: var(--muted);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .mc-stat .fire   { color: var(--orange); }
+    .mc-stat .spark  { color: #059669; }
+
+    .mc-cta {
+      position: absolute;
+      left: 20px;
+      bottom: 18px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--indigo);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 220ms ease, transform 220ms ease;
+    }
+    .mock-card:hover .mc-cta {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .mock-card:hover .mc-stat { opacity: 0; transition: opacity 200ms ease; }
+    .mc-stat { transition: opacity 200ms ease; }
+
+    /* ═══════════════════════════════════════════════════════
+       Skill grid — restrained tinted cards
+       ═══════════════════════════════════════════════════════ */
+    .skill-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+    .skill-card {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      padding: 24px 24px 22px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+      min-height: 200px;
+      overflow: hidden;
+    }
+    .skill-card::before {
+      /* Tinted ribbon on the left edge, distinct per skill */
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      bottom: 0;
+      width: 4px;
+    }
+    .skill-card[data-skill="speaking"]::before  { background: linear-gradient(180deg, #34d399, #059669); }
+    .skill-card[data-skill="writing"]::before   { background: linear-gradient(180deg, #a78bfa, #7c3aed); }
+    .skill-card[data-skill="listening"]::before { background: linear-gradient(180deg, #38bdf8, #0284c7); }
+    .skill-card[data-skill="reading"]::before   { background: linear-gradient(180deg, #fbbf24, #d97706); }
+
+    .skill-card:hover { transform: translateY(-4px); }
+    .skill-card[data-skill="speaking"]:hover  { box-shadow: var(--glow-emerald); border-color: rgba(16, 185, 129, 0.32); }
+    .skill-card[data-skill="writing"]:hover   { box-shadow: var(--glow-violet);  border-color: rgba(139, 92, 246, 0.32); }
+    .skill-card[data-skill="listening"]:hover { box-shadow: var(--glow-cyan);    border-color: rgba(14, 165, 233, 0.32); }
+    .skill-card[data-skill="reading"]:hover   { box-shadow: var(--glow-orange);  border-color: rgba(249, 115, 22, 0.32); }
+
+    .sc-head {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .sc-icon {
+      width: 56px; height: 56px;
+      border-radius: 16px;
+      display: grid; place-items: center;
+      font-size: 26px;
+      flex-shrink: 0;
+      color: white;
+      position: relative;
+    }
+    .sc-icon::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.25), transparent 55%);
+    }
+    .skill-card[data-skill="speaking"]  .sc-icon { background: linear-gradient(135deg, #34d399, #059669); }
+    .skill-card[data-skill="writing"]   .sc-icon { background: linear-gradient(135deg, #a78bfa, #7c3aed); }
+    .skill-card[data-skill="listening"] .sc-icon { background: linear-gradient(135deg, #38bdf8, #0284c7); }
+    .skill-card[data-skill="reading"]   .sc-icon { background: linear-gradient(135deg, #fbbf24, #d97706); }
+    .sc-icon svg { width: 26px; height: 26px; position: relative; z-index: 1; }
+
+    .sc-name {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .sc-meta {
+      font-size: 13.5px;
+      color: var(--muted);
+      font-weight: 500;
+      margin-top: 4px;
+    }
+    .sc-stats {
+      display: flex;
+      gap: 18px;
+      font-size: 13px;
+      color: var(--ink-2);
+      align-items: center;
+      font-weight: 500;
+    }
+    .sc-stats .num {
+      font-weight: 800;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+    }
+    .sc-ctas {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .sc-cta {
+      flex: 1;
+      padding: 11px 16px;
+      border: 0;
+      border-radius: 11px;
+      font-weight: 700;
+      font-size: 13.5px;
+      letter-spacing: -0.005em;
+      transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .sc-cta.primary {
+      background: var(--ink);
+      color: white;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
+    }
+    .sc-cta.primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(15, 23, 42, 0.24); }
+    .sc-cta.ghost {
+      background: var(--card-soft);
+      color: var(--ink-2);
+      border: 1px solid var(--line);
+    }
+    .sc-cta.ghost:hover { background: var(--indigo-soft); color: var(--indigo); border-color: var(--indigo); }
+
+    /* ═══════════════════════════════════════════════════════
+       Secondary cards (Full Mock / Cambridge)
+       ═══════════════════════════════════════════════════════ */
+    .secondary {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .secondary-card {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      padding: 22px 24px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+      overflow: hidden;
+      min-height: 96px;
+    }
+    .secondary-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--indigo);
+      box-shadow: var(--glow-indigo);
+    }
+    .secondary-card .icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      display: grid; place-items: center;
+      flex-shrink: 0;
+      color: white;
+      position: relative;
+    }
+    .secondary-card .icon::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.25), transparent 55%);
+    }
+    .secondary-card.full .icon { background: linear-gradient(135deg, var(--indigo), #6366f1); }
+    .secondary-card.camb .icon { background: linear-gradient(135deg, var(--orange), var(--orange-deep)); }
+    .secondary-card .icon svg { width: 22px; height: 22px; position: relative; z-index: 1; }
+    .secondary-card .body { flex: 1; min-width: 0; }
+    .secondary-card .title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.015em;
+    }
+    .secondary-card .sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 3px;
+      font-weight: 500;
+    }
+    .secondary-card .arrow {
+      color: var(--muted);
+      font-size: 20px;
+      transition: transform 220ms ease, color 220ms ease;
+    }
+    .secondary-card:hover .arrow { transform: translateX(4px); color: var(--indigo); }
+
+    /* ═══════════════════════════════════════════════════════
+       Footer
+       ═══════════════════════════════════════════════════════ */
+    footer {
+      max-width: 1180px;
+      margin: 30px auto 0;
+      padding: 28px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--line);
+    }
+    footer a { color: var(--ink-2); margin: 0 12px; font-weight: 500; }
+    footer a:hover { color: var(--indigo); }
+
+    /* ═══════════════════════════════════════════════════════
+       Skeleton
+       ═══════════════════════════════════════════════════════ */
+    .skel {
+      background: linear-gradient(90deg, #e2e8f0, #f1f5f9, #e2e8f0);
+      background-size: 200% 100%;
+      border-radius: 6px;
+      height: 14px;
+      animation: skelShim 1.4s ease-in-out infinite;
+    }
+    .skel.tall { height: 28px; }
+    .skel.short { width: 60%; }
+    @keyframes skelShim {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       Responsive
+       ═══════════════════════════════════════════════════════ */
+    @media (max-width: 720px) {
+      .topbar-inner { padding: 0 16px; height: 60px; }
+      main { padding: 24px 16px 48px; }
+      .hero-title { font-size: 28px; }
+      .hero-sub { font-size: 14px; }
+      .vitals { grid-template-columns: 1fr; gap: 12px; }
+      .vital { padding: 16px 18px; }
+      .vital-number { font-size: 24px; }
+      .skill-grid { grid-template-columns: 1fr; gap: 14px; }
+      .skill-card { padding: 22px 22px 20px; min-height: auto; }
+      .secondary { grid-template-columns: 1fr; }
+      .rail { grid-auto-columns: minmax(232px, 82%); }
+      .section-title { font-size: 18px; }
+      .mc-title { font-size: 16px; }
+    }
+    @media (min-width: 721px) and (max-width: 1024px) {
+      .rail { grid-auto-columns: minmax(230px, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div class="brand-stripe"></div>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="/landing.html">
+        <span class="brand-logo" id="brandLogo">MS</span>
+        <span id="brandName">Mock Stream</span>
+      </a>
+      <div class="topbar-spacer"></div>
+      <!-- Topbar action icons (notifications, profile, menu) intentionally
+           omitted: they aren't wired to anything yet. Adding them back is a
+           later milestone that needs real handlers (results history, profile,
+           settings drawer). -->
+      <div class="topbar-actions"></div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ── HERO ─────────────────────────────────────────────── -->
+    <section class="hero">
+      <span class="hero-eyebrow">
+        <span class="live-dot"></span>
+        Live now on <span id="brandNameInline">Mock Stream</span>
+      </span>
+      <h1 class="hero-title">
+        Practice exams. Earn real <em>CEFR &amp; IELTS</em> readiness.
+      </h1>
+      <p class="hero-sub">
+        Thousands of students sit alongside you every day. Pick a skill, jump into a
+        trending mock, or grab one that was added this week.
+      </p>
+      <div class="vitals">
+        <div class="vital v-violet">
+          <div class="vital-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9"  cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <div class="vital-body">
+            <div class="vital-number" id="vitalAllTime"><span class="skel tall short"></span></div>
+            <div class="vital-label">attempts all-time</div>
+          </div>
+        </div>
+        <div class="vital v-orange">
+          <div class="vital-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+          </div>
+          <div class="vital-body">
+            <div class="vital-number" id="vitalToday"><span class="skel tall short"></span></div>
+            <div class="vital-label">attempts today</div>
+          </div>
+        </div>
+        <div class="vital v-emerald">
+          <div class="vital-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 15 8.5 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 9 8.5 12 2"></polygon>
+            </svg>
+          </div>
+          <div class="vital-body">
+            <div class="vital-number" id="vitalNewWeek"><span class="skel tall short"></span></div>
+            <div class="vital-label">new mocks this week</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── TRENDING RAIL ───────────────────────────────────── -->
+    <section class="section">
+      <div class="section-head">
+        <h2 class="section-title">
+          Trending this week
+          <span class="badge hot">🔥 Hot</span>
+        </h2>
+        <a class="section-link" href="/landing.html">View all →</a>
+      </div>
+      <div class="rail" id="trendingRail">
+        <div class="mock-card trending"><div class="skel short"></div><div class="skel tall"></div><div class="skel short"></div></div>
+        <div class="mock-card trending"><div class="skel short"></div><div class="skel tall"></div><div class="skel short"></div></div>
+        <div class="mock-card trending"><div class="skel short"></div><div class="skel tall"></div><div class="skel short"></div></div>
+        <div class="mock-card trending"><div class="skel short"></div><div class="skel tall"></div><div class="skel short"></div></div>
+      </div>
+    </section>
+
+    <!-- ── JUST ADDED RAIL ────────────────────────────────── -->
+    <section class="section">
+      <div class="section-head">
+        <h2 class="section-title">
+          Just added this week
+          <span class="badge new">✨ New</span>
+        </h2>
+        <a class="section-link" href="/landing.html">View all →</a>
+      </div>
+      <div class="rail" id="addedRail">
+        <div class="mock-card fresh"><div class="skel short"></div><div class="skel tall"></div><div class="skel short"></div></div>
+        <div class="mock-card fresh"><div class="skel short"></div><div class="skel tall"></div><div class="skel short"></div></div>
+        <div class="mock-card fresh"><div class="skel short"></div><div class="skel tall"></div><div class="skel short"></div></div>
+        <div class="mock-card fresh"><div class="skel short"></div><div class="skel tall"></div><div class="skel short"></div></div>
+      </div>
+    </section>
+
+    <!-- ── SKILL GRID ─────────────────────────────────────── -->
+    <section class="section">
+      <div class="section-head">
+        <h2 class="section-title">Practice by skill</h2>
+      </div>
+      <div class="skill-grid">
+        <div class="skill-card" data-skill="speaking">
+          <div class="sc-head">
+            <div class="sc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                <line x1="12" y1="19" x2="12" y2="23"></line>
+                <line x1="8"  y1="23" x2="16" y2="23"></line>
+              </svg>
+            </div>
+            <div>
+              <div class="sc-name">Speaking</div>
+              <div class="sc-meta"><span id="speakingCount">…</span> mocks · CEFR + IELTS</div>
+            </div>
+          </div>
+          <div class="sc-stats">
+            <span>⚡ <span class="num" id="speakingToday">0</span> taken today</span>
+          </div>
+          <div class="sc-ctas">
+            <button class="sc-cta primary" data-open="cefr-speaking">CEFR →</button>
+            <button class="sc-cta ghost"   data-open="ielts-speaking">IELTS →</button>
+          </div>
+        </div>
+        <div class="skill-card" data-skill="writing">
+          <div class="sc-head">
+            <div class="sc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9"></path>
+                <path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+              </svg>
+            </div>
+            <div>
+              <div class="sc-name">Writing</div>
+              <div class="sc-meta"><span id="writingCount">…</span> mocks · CEFR + IELTS</div>
+            </div>
+          </div>
+          <div class="sc-stats">
+            <span>⚡ <span class="num" id="writingToday">0</span> taken today</span>
+          </div>
+          <div class="sc-ctas">
+            <button class="sc-cta primary" data-open="cefr-writing">CEFR →</button>
+            <button class="sc-cta ghost"   data-open="ielts-writing">IELTS →</button>
+          </div>
+        </div>
+        <div class="skill-card" data-skill="listening">
+          <div class="sc-head">
+            <div class="sc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+                <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+              </svg>
+            </div>
+            <div>
+              <div class="sc-name">Listening</div>
+              <div class="sc-meta"><span id="listeningCount">…</span> mocks · CEFR + IELTS</div>
+            </div>
+          </div>
+          <div class="sc-stats">
+            <span>⚡ <span class="num" id="listeningToday">0</span> taken today</span>
+          </div>
+          <div class="sc-ctas">
+            <button class="sc-cta primary" data-open="cefr-listening">CEFR →</button>
+            <button class="sc-cta ghost"   data-open="ielts-listening">IELTS →</button>
+          </div>
+        </div>
+        <div class="skill-card" data-skill="reading">
+          <div class="sc-head">
+            <div class="sc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+              </svg>
+            </div>
+            <div>
+              <div class="sc-name">Reading</div>
+              <div class="sc-meta"><span id="readingCount">…</span> mocks · CEFR + IELTS</div>
+            </div>
+          </div>
+          <div class="sc-stats">
+            <span>⚡ <span class="num" id="readingToday">0</span> taken today</span>
+          </div>
+          <div class="sc-ctas">
+            <button class="sc-cta primary" data-open="cefr-reading">CEFR →</button>
+            <button class="sc-cta ghost"   data-open="ielts-reading">IELTS →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SECONDARY: FULL MOCK + CAMBRIDGE ──────────────── -->
+    <section class="section">
+      <div class="secondary">
+        <a class="secondary-card full" href="/landing.html#fullmock">
+          <div class="icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+          </div>
+          <div class="body">
+            <div class="title">Full Mock Experience</div>
+            <div class="sub">All 4 skills sequenced · most realistic exam run</div>
+          </div>
+          <div class="arrow">→</div>
+        </a>
+        <a class="secondary-card camb" href="/landing.html#cambridge">
+          <div class="icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+            </svg>
+          </div>
+          <div class="body">
+            <div class="title">Cambridge English</div>
+            <div class="sub">KET · PET · FCE · CAE · CPE — coming soon</div>
+          </div>
+          <div class="arrow">→</div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span id="footerBrand">Mock Stream</span> · Practice exams · Get instant AI feedback
+  </footer>
+
+  <!-- Load the per-clone center id (set by Netlify build to
+       window.__CENTER_ID = 'bek' / 'niners' / 'global' / 'muzaffars' /
+       'achievers' / 'record' / 'mock_stream'). If the file isn't there
+       — e.g. during local file-system testing — we fall back to
+       'mock_stream'. -->
+  <script src="center-id.js" onerror="window.__CENTER_ID=window.__CENTER_ID||'mock_stream';"></script>
+
+  <script>
+    /* Same data fetch as v2 — uses the mock_attempt_stats RPC + a few
+       lightweight mock_tests counts. Numbers are real and tick live as
+       students take mocks. */
+    const SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    const SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+
+    /* Per-clone branding — read window.__CENTER_ID (set by
+       site/center-id.js, which Netlify overwrites per deploy) and look
+       up the matching site_settings row. Falls through silently to the
+       default "Mock Stream" / "MS" placeholder if the fetch fails. */
+    async function applyCloneBranding() {
+      const centerId = (window.__CENTER_ID || 'mock_stream').trim();
+      try {
+        const r = await fetch(SB_URL + '/rest/v1/site_settings?key=eq.center_site_config_'
+                              + encodeURIComponent(centerId) + '&select=value',
+          { headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY } });
+        if (!r.ok) return;
+        const rows = await r.json();
+        if (!rows || !rows.length) return;
+        // The "value" column is a stringified JSON blob. Parse it.
+        let cfg = rows[0].value;
+        if (typeof cfg === 'string') {
+          try { cfg = JSON.parse(cfg); } catch (_e) { return; }
+        }
+        if (!cfg || typeof cfg !== 'object') return;
+
+        const brandName = (cfg.brandName || '').trim();
+        const logoUrl   = (cfg.logoUrl   || '').trim();
+
+        if (brandName) {
+          document.title = brandName + ' · Practice exams';
+          const bnEl = document.getElementById('brandName');
+          const beEl = document.getElementById('brandNameInline');
+          const fbEl = document.getElementById('footerBrand');
+          if (bnEl) bnEl.textContent = brandName;
+          if (beEl) beEl.textContent = brandName;
+          if (fbEl) fbEl.textContent = brandName;
+        }
+        if (logoUrl) {
+          const logoBox = document.getElementById('brandLogo');
+          if (logoBox) {
+            // Swap the "MS" gradient tile for the real centre logo. Same
+            // box dimensions; image gets object-fit:cover so any shape
+            // logo sits cleanly inside the rounded tile.
+            logoBox.style.background = '#ffffff';
+            logoBox.style.boxShadow  = '0 4px 10px rgba(15, 23, 42, .12)';
+            logoBox.style.padding    = '4px';
+            logoBox.style.overflow   = 'hidden';
+            logoBox.innerHTML = '<img src="' + logoUrl.replace(/"/g, '%22')
+                              + '" alt="" style="width:100%;height:100%;object-fit:contain;display:block;">';
+          }
+        }
+      } catch (_e) {
+        /* Network down / RLS blocking / etc — keep the default brand. */
+      }
+    }
+    applyCloneBranding();
+
+    const SKILLS = [
+      { label: 'speaking',  combos: [['speaking',  'cefr'], ['speaking',  'ielts']] },
+      { label: 'writing',   combos: [['writing',   'cefr'], ['writing',   'ielts']] },
+      { label: 'listening', combos: [['listening', 'cefr'], ['listening', 'ielts']] },
+      { label: 'reading',   combos: [['reading',   'cefr'], ['reading',   'ielts']] }
+    ];
+
+    function fmtNumber(n) {
+      if (n == null) return '0';
+      return Number(n).toLocaleString('en-US');
+    }
+
+    async function fetchStats(skill, examType) {
+      try {
+        const r = await fetch(SB_URL + '/rest/v1/rpc/mock_attempt_stats', {
+          method: 'POST',
+          headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ p_skill: skill, p_exam_type: examType })
+        });
+        if (!r.ok) return [];
+        return await r.json();
+      } catch (_e) { return []; }
+    }
+
+    async function fetchMockTotals() {
+      const types = ['cefr-speaking','ielts-speaking','cefr-writing','ielts-writing',
+                     'cefr-listening','ielts-listening','cefr-reading','ielts-reading'];
+      const results = {};
+      await Promise.all(types.map(async t => {
+        try {
+          const r = await fetch(SB_URL + '/rest/v1/mock_tests?mock_type=eq.' + t + '&status=eq.published&select=mock_number', {
+            headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, Prefer: 'count=exact', Range: '0-0' }
+          });
+          const cr = r.headers.get('content-range') || '';
+          const slash = cr.lastIndexOf('/');
+          results[t] = slash >= 0 ? parseInt(cr.slice(slash + 1), 10) || 0 : 0;
+        } catch (_e) { results[t] = 0; }
+      }));
+      return results;
+    }
+
+    async function fetchJustAdded(limit = 8) {
+      try {
+        const r = await fetch(
+          SB_URL + '/rest/v1/mock_tests?status=eq.published&order=created_at.desc&limit=' + limit
+                 + '&select=mock_number,mock_type,title,created_at',
+          { headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY } }
+        );
+        if (!r.ok) return [];
+        return await r.json();
+      } catch (_e) { return []; }
+    }
+
+    function skillChipClass(skill, examType) {
+      const map = {
+        'writing_cefr':   'cw', 'writing_ielts':   'iw',
+        'speaking_cefr':  'cs', 'speaking_ielts':  'is',
+        'reading_cefr':   'cr', 'reading_ielts':   'ir',
+        'listening_cefr': 'cl', 'listening_ielts': 'il'
+      };
+      return map[skill + '_' + examType] || '';
+    }
+    function skillChipLabel(skill, examType) {
+      const e = examType === 'cefr' ? 'CEFR' : 'IELTS';
+      const s = { writing: 'Writing', speaking: 'Speaking', reading: 'Reading', listening: 'Listening' }[skill] || skill;
+      return e + ' ' + s;
+    }
+    function skillPickerOpenSlug(skill, examType) {
+      return examType + '-' + skill;
+    }
+    function navToPicker(slug) {
+      window.location.href = '/landing.html?openSelector=' + encodeURIComponent(slug);
+    }
+
+    function shortMockTitle(row) {
+      const t = (row.title || '').trim();
+      if (t) return t.replace(/^\W+/, '').slice(0, 50);
+      return 'Mock #' + String(row.mock_number).padStart(2, '0');
+    }
+    function mockTypeToCombo(mockType) {
+      const [examType, skill] = mockType.split('-');
+      return { skill, examType };
+    }
+
+    function renderTrending(perCombo) {
+      const rail = document.getElementById('trendingRail');
+      const winners = [];
+      for (const combo of Object.keys(perCombo)) {
+        const rows = perCombo[combo] || [];
+        if (!rows.length) continue;
+        const top = rows.slice().sort((a, b) => (b.last7 - a.last7) || (b.total - a.total))[0];
+        if (top && top.last7 > 0) {
+          const [skill, examType] = combo.split('|');
+          winners.push({ skill, examType, ...top });
+        }
+      }
+      winners.sort((a, b) => b.last7 - a.last7);
+      const cards = winners.slice(0, 8).map(w => {
+        const chipCls = skillChipClass(w.skill, w.examType);
+        const chipLbl = skillChipLabel(w.skill, w.examType);
+        const padded  = String(w.mock_number).padStart(2, '0');
+        return (
+          '<div class="mock-card trending" data-open="' + skillPickerOpenSlug(w.skill, w.examType) + '">'
+          + '<div class="mc-head">'
+          +   '<span class="skill-chip ' + chipCls + '">' + chipLbl + '</span>'
+          +   '<span class="mc-num">#' + padded + '</span>'
+          + '</div>'
+          + '<div class="mc-title">Mock ' + padded + '</div>'
+          + '<div class="mc-stat"><span class="fire">🔥</span> ' + fmtNumber(w.last7) + ' attempts this week</div>'
+          + '<div class="mc-cta">Practice now →</div>'
+          + '</div>'
+        );
+      });
+      rail.innerHTML = cards.length
+        ? cards.join('')
+        : '<div class="mock-card trending"><div class="mc-title" style="color:#94a3b8;">No trending data yet</div></div>';
+    }
+
+    function renderJustAdded(rows) {
+      const rail = document.getElementById('addedRail');
+      const cards = rows.slice(0, 8).map(r => {
+        const { skill, examType } = mockTypeToCombo(r.mock_type);
+        if (!skill || !examType) return '';
+        const chipCls = skillChipClass(skill, examType);
+        const chipLbl = skillChipLabel(skill, examType);
+        const padded  = String(r.mock_number).padStart(2, '0');
+        return (
+          '<div class="mock-card fresh" data-open="' + skillPickerOpenSlug(skill, examType) + '">'
+          + '<div class="mc-head">'
+          +   '<span class="skill-chip ' + chipCls + '">' + chipLbl + '</span>'
+          +   '<span class="mc-num">#' + padded + '</span>'
+          + '</div>'
+          + '<div class="mc-title">' + shortMockTitle(r) + '</div>'
+          + '<div class="mc-stat"><span class="spark">✨</span> added ' + relativeDate(r.created_at) + '</div>'
+          + '<div class="mc-cta">Practice now →</div>'
+          + '</div>'
+        );
+      }).filter(Boolean);
+      rail.innerHTML = cards.length
+        ? cards.join('')
+        : '<div class="mock-card fresh"><div class="mc-title" style="color:#94a3b8;">No mocks added this week</div></div>';
+    }
+
+    function relativeDate(iso) {
+      if (!iso) return 'recently';
+      const ms = Date.now() - new Date(iso).getTime();
+      const days = Math.floor(ms / (24 * 60 * 60 * 1000));
+      if (days <= 0) return 'today';
+      if (days === 1) return 'yesterday';
+      if (days < 7)  return days + 'd ago';
+      const weeks = Math.floor(days / 7);
+      if (weeks === 1) return 'last week';
+      return weeks + 'w ago';
+    }
+
+    async function load() {
+      const [totals, justAdded, ...statsResults] = await Promise.all([
+        fetchMockTotals(),
+        fetchJustAdded(8),
+        ...SKILLS.flatMap(s => s.combos.map(([sk, ex]) => fetchStats(sk, ex)))
+      ]);
+
+      let allTime = 0, today = 0;
+      const perCombo = {};
+      let resultIdx = 0;
+      for (const skillDef of SKILLS) {
+        for (const [skill, examType] of skillDef.combos) {
+          const rows = statsResults[resultIdx++];
+          perCombo[skill + '|' + examType] = rows;
+          for (const r of rows) {
+            allTime += Number(r.total) || 0;
+            today   += Number(r.today) || 0;
+          }
+        }
+      }
+
+      const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      let newWeek = 0;
+      try {
+        const r = await fetch(SB_URL + '/rest/v1/mock_tests?status=eq.published&created_at=gt.'
+                              + new Date(sevenDaysAgo).toISOString() + '&select=mock_number',
+          { headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, Prefer: 'count=exact', Range: '0-0' } });
+        const cr = r.headers.get('content-range') || '';
+        const slash = cr.lastIndexOf('/');
+        if (slash >= 0) {
+          const c = parseInt(cr.slice(slash + 1), 10);
+          if (Number.isFinite(c)) newWeek = c;
+        }
+      } catch (_e) {
+        for (const m of justAdded) {
+          if (new Date(m.created_at).getTime() >= sevenDaysAgo) newWeek++;
+        }
+      }
+
+      document.getElementById('vitalAllTime').textContent  = fmtNumber(allTime);
+      document.getElementById('vitalToday').textContent    = fmtNumber(today);
+      document.getElementById('vitalNewWeek').textContent  = fmtNumber(newWeek);
+
+      const skillTotalMap = {
+        speaking:  totals['cefr-speaking']  + totals['ielts-speaking'],
+        writing:   totals['cefr-writing']   + totals['ielts-writing'],
+        listening: totals['cefr-listening'] + totals['ielts-listening'],
+        reading:   totals['cefr-reading']   + totals['ielts-reading']
+      };
+      const skillTodayMap = { speaking: 0, writing: 0, listening: 0, reading: 0 };
+      for (const skillDef of SKILLS) {
+        for (const [skill, examType] of skillDef.combos) {
+          const rows = perCombo[skill + '|' + examType] || [];
+          for (const r of rows) skillTodayMap[skill] += Number(r.today) || 0;
+        }
+      }
+      document.getElementById('speakingCount').textContent  = fmtNumber(skillTotalMap.speaking);
+      document.getElementById('speakingToday').textContent  = fmtNumber(skillTodayMap.speaking);
+      document.getElementById('writingCount').textContent   = fmtNumber(skillTotalMap.writing);
+      document.getElementById('writingToday').textContent   = fmtNumber(skillTodayMap.writing);
+      document.getElementById('listeningCount').textContent = fmtNumber(skillTotalMap.listening);
+      document.getElementById('listeningToday').textContent = fmtNumber(skillTodayMap.listening);
+      document.getElementById('readingCount').textContent   = fmtNumber(skillTotalMap.reading);
+      document.getElementById('readingToday').textContent   = fmtNumber(skillTodayMap.reading);
+
+      renderTrending(perCombo);
+      renderJustAdded(justAdded);
+    }
+
+    document.addEventListener('click', function (e) {
+      const target = e.target.closest('[data-open]');
+      if (target) {
+        e.preventDefault();
+        const slug = target.getAttribute('data-open');
+        navToPicker(slug);
+      }
+    });
+
+    load().catch(err => { console.warn('[landing-v3] load failed:', err); });
+  </script>
+</body>
+</html>
