@@ -16256,6 +16256,10 @@
     // rows where submitted_at IS NOT NULL for the logged-in candidate.
     // Stays empty for guests, who get localStorage-only tracking.
     let _iretServerDone = {};
+    // Phase 2 stats — see _ispetLoadStats for the same shape + rules.
+    let _iretStatsByMock  = {};
+    let _iretBadgesByMock = {};
+    let _iretCreatedAt    = {};
     let _iretFilter = 'all';
     // Source-filter state. '' = all sources. Otherwise the book label (e.g.
     // "Cambridge 18") — cards match if their source string starts with this.
@@ -16279,7 +16283,11 @@
         };
       });
       while (passages.length < 3) passages.push({ title: '—', ready: false });
-      return { source: (md && md.source) || '', passages: passages.slice(0, 3) };
+      return {
+        source:   (md && md.source) || '',
+        examDate: (md && md.examDate) || '',
+        passages: passages.slice(0, 3)
+      };
     }
 
     async function _iretLoadStaticMockMeta(filename) {
@@ -16305,14 +16313,78 @@
     async function _iretLoadSupabaseMockMeta(id) {
       try {
         const r = await fetch(
-          _IRET_SB_URL + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(id) + '&select=mock_data',
+          _IRET_SB_URL + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(id) + '&select=mock_data,created_at',
           { headers: { apikey: _IRET_SB_KEY, Authorization: 'Bearer ' + _IRET_SB_KEY } }
         );
         if (!r.ok) return null;
         const rows = await r.json();
         if (!rows || !rows.length) return null;
-        return _iretBuildMetaFromMockData(rows[0].mock_data || {});
+        const meta = _iretBuildMetaFromMockData(rows[0].mock_data || {});
+        if (meta) meta.createdAt = rows[0].created_at;
+        return meta;
       } catch (e) { return null; }
+    }
+
+    async function _iretLoadStats() {
+      _iretStatsByMock = {};
+      try {
+        const resp = await fetch(
+          _IRET_SB_URL + '/rest/v1/mock_attempts?select=mock_number,opened_at&skill=eq.reading&exam_type=eq.ielts&limit=50000',
+          { headers: { apikey: _IRET_SB_KEY, Authorization: 'Bearer ' + _IRET_SB_KEY } }
+        );
+        if (!resp.ok) return;
+        const rows = await resp.json();
+        const todayStart = new Date();
+        todayStart.setUTCHours(0, 0, 0, 0);
+        const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+        for (const r of rows) {
+          if (r.mock_number == null) continue;
+          const padded = String(r.mock_number).padStart(2, '0');
+          const opened = new Date(r.opened_at);
+          const s = _iretStatsByMock[padded] = _iretStatsByMock[padded] || { total: 0, today: 0, last7: 0 };
+          s.total++;
+          if (opened.getTime() >= sevenDaysAgo) s.last7++;
+          if (opened >= todayStart) s.today++;
+        }
+      } catch (_e) {}
+    }
+
+    function _iretComputeBadges() {
+      _iretBadgesByMock = {};
+      const keys = Object.keys(_iretMockMeta);
+      const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      const trending = keys
+        .filter(k => (_iretStatsByMock[k]?.last7 || 0) > 0)
+        .sort((a, b) => (_iretStatsByMock[b]?.last7 || 0) - (_iretStatsByMock[a]?.last7 || 0))
+        .slice(0, 3);
+      const trendingSet = new Set(trending);
+      // Cap "New" at top-3 most-recent — see ispet for rationale.
+      const newSet = new Set(keys.filter(k => {
+        const t = (_iretMockMeta[k] && _iretMockMeta[k].createdAt) || _iretCreatedAt[k];
+        return t && new Date(t).getTime() >= sevenDaysAgo;
+      }).sort((a, b) => {
+        const ta = new Date((_iretMockMeta[a] && _iretMockMeta[a].createdAt) || _iretCreatedAt[a]).getTime();
+        const tb = new Date((_iretMockMeta[b] && _iretMockMeta[b].createdAt) || _iretCreatedAt[b]).getTime();
+        return tb - ta;
+      }).slice(0, 3));
+      const popularSet = new Set(keys
+        .filter(k => !trendingSet.has(k) && !newSet.has(k) && (_iretStatsByMock[k]?.total || 0) > 0)
+        .sort((a, b) => (_iretStatsByMock[b]?.total || 0) - (_iretStatsByMock[a]?.total || 0))
+        .slice(0, 5));
+      const gemSet = new Set(keys.filter(k => {
+        if (trendingSet.has(k) || newSet.has(k) || popularSet.has(k)) return false;
+        const s = _iretStatsByMock[k] || { total: 0 };
+        return s.total >= 1 && s.total <= 3;
+      })
+        .sort((a, b) => (_iretStatsByMock[a]?.total || 0) - (_iretStatsByMock[b]?.total || 0))
+        .slice(0, 5));
+      for (const k of keys) {
+        if (trendingSet.has(k))     _iretBadgesByMock[k] = 'trending';
+        else if (newSet.has(k))     _iretBadgesByMock[k] = 'new';
+        else if (popularSet.has(k)) _iretBadgesByMock[k] = 'popular';
+        else if (gemSet.has(k))     _iretBadgesByMock[k] = 'gem';
+        else                         _iretBadgesByMock[k] = null;
+      }
     }
 
     function _iretParseFileSpec(fileSpec) {
@@ -16423,6 +16495,21 @@
         ? '<div class="iret-source" title="' + _iretEsc(meta.source) + '">' + _iretEsc(meta.source) + '</div>'
         : '';
 
+      // Compact 📅 date pill — same shape as cret.
+      const irExamLabel = (function fmtIret(iso) {
+        if (!iso) return '';
+        const s = String(iso).trim();
+        const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        let m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        if (m) return parseInt(m[3], 10) + ' ' + MON[parseInt(m[2], 10) - 1] + ' ' + m[1];
+        m = s.match(/^(\d{4})-(\d{2})$/);
+        if (m) return MON[parseInt(m[2], 10) - 1] + ' ' + m[1];
+        return s;
+      })(meta.examDate);
+      const irDateHtml = irExamLabel
+        ? '<span class="iret-exam-date" title="Exam date ' + _iretEsc(meta.examDate) + '" style="font-size:11px;background:#fef3c7;color:#92400e;border:1px solid #fde68a;border-radius:999px;padding:1px 8px;font-weight:600;white-space:nowrap;">📅 ' + _iretEsc(irExamLabel) + '</span>'
+        : '';
+
       const passageRows = passages.map((p, i) =>
         '<li class="iret-passage">'
           + '<span class="iret-passage-num">' + (i + 1) + '</span>'
@@ -16471,8 +16558,25 @@
               + '<span class="iret-status-label">' + readyCount + '/' + total + ' READY</span>'
             + '</div>'
             + sourceHtml
+            + irDateHtml
           + '</div>'
           + '<h3 class="iret-mock-title">' + _iretEsc(cleanTitle) + '</h3>'
+          + (function () {
+              const irStats = _iretStatsByMock[String(mockNum)] || { total: 0, today: 0, last7: 0 };
+              const IR_LABELS = { trending: '🔥 Trending', new: '🆕 New', popular: '👑 Popular', gem: '💎 Hidden gem' };
+              const IR_COLORS = { trending: '#b45309', new: '#c2410c', popular: '#7c3aed', gem: '#15803d' };
+              const irBadgeKey = _iretBadgesByMock[String(mockNum)];
+              const irBadgeChip = irBadgeKey
+                ? '<span style="font-weight:700;color:' + IR_COLORS[irBadgeKey] + ';">' + IR_LABELS[irBadgeKey] + '</span>'
+                : '';
+              const irParts = [];
+              if (irBadgeChip) irParts.push(irBadgeChip);
+              irParts.push('<span>👥 ' + irStats.total + '</span>');
+              irParts.push('<span>⚡ ' + irStats.today + ' today</span>');
+              return '<div class="iret-stat-row" style="display:flex;gap:8px;font-size:11.5px;color:#475569;margin:4px 0 8px;flex-wrap:wrap;align-items:center;">'
+                   + irParts.join('<span style="color:#cbd5e1;">·</span>')
+                   + '</div>';
+            })()
           + '<ul class="iret-passages">' + passageRows + '</ul>'
           + '<div class="iret-card-foot">' + doneHtml + actionHtml + '</div>'
         + '</article>';
@@ -16644,9 +16748,11 @@
       // (one Supabase query). They're independent.
       const [, serverDone] = await Promise.all([
         _iretLoadAllMockMeta(),
-        _iretFetchServerDone()
+        _iretFetchServerDone(),
+        _iretLoadStats()
       ]);
       _iretServerDone = serverDone || {};
+      _iretComputeBadges();
       _iretRender();
     }
 
@@ -16785,6 +16891,10 @@
     const _ilet_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
     const _ilet_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
     const _iletMockMeta = {};
+    // Phase 2 stats — see _ispetLoadStats for the same shape + rules.
+    let _iletStatsByMock  = {};
+    let _iletBadgesByMock = {};
+    let _iletCreatedAt    = {};
     // Server-side done map: { '02': true, '07': true, ... } — keyed by
     // zero-padded mock number. Populated on picker open from mock_attempts
     // rows where submitted_at IS NOT NULL for the logged-in candidate.
@@ -16820,7 +16930,11 @@
         };
       });
       while (sections.length < 4) sections.push({ title: '—', ready: false });
-      return { source: (md && md.source) || '', sections: sections.slice(0, 4) };
+      return {
+        source:   (md && md.source) || '',
+        examDate: (md && md.examDate) || '',
+        sections: sections.slice(0, 4)
+      };
     }
 
     async function _iletLoadStaticMockMeta(filename) {
@@ -16851,14 +16965,77 @@
     async function _iletLoadSupabaseMockMeta(id) {
       try {
         const r = await fetch(
-          _ilet_SB_URL + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(id) + '&select=mock_data',
+          _ilet_SB_URL + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(id) + '&select=mock_data,created_at',
           { headers: { apikey: _ilet_SB_KEY, Authorization: 'Bearer ' + _ilet_SB_KEY } }
         );
         if (!r.ok) return null;
         const rows = await r.json();
         if (!rows || !rows.length) return null;
-        return _iletBuildMetaFromMockData(rows[0].mock_data || {});
+        const meta = _iletBuildMetaFromMockData(rows[0].mock_data || {});
+        if (meta) meta.createdAt = rows[0].created_at;
+        return meta;
       } catch (e) { return null; }
+    }
+
+    async function _iletLoadStats() {
+      _iletStatsByMock = {};
+      try {
+        const resp = await fetch(
+          _ilet_SB_URL + '/rest/v1/mock_attempts?select=mock_number,opened_at&skill=eq.listening&exam_type=eq.ielts&limit=50000',
+          { headers: { apikey: _ilet_SB_KEY, Authorization: 'Bearer ' + _ilet_SB_KEY } }
+        );
+        if (!resp.ok) return;
+        const rows = await resp.json();
+        const todayStart = new Date();
+        todayStart.setUTCHours(0, 0, 0, 0);
+        const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+        for (const r of rows) {
+          if (r.mock_number == null) continue;
+          const padded = String(r.mock_number).padStart(2, '0');
+          const opened = new Date(r.opened_at);
+          const s = _iletStatsByMock[padded] = _iletStatsByMock[padded] || { total: 0, today: 0, last7: 0 };
+          s.total++;
+          if (opened.getTime() >= sevenDaysAgo) s.last7++;
+          if (opened >= todayStart) s.today++;
+        }
+      } catch (_e) {}
+    }
+
+    function _iletComputeBadges() {
+      _iletBadgesByMock = {};
+      const keys = Object.keys(_iletMockMeta);
+      const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      const trending = keys
+        .filter(k => (_iletStatsByMock[k]?.last7 || 0) > 0)
+        .sort((a, b) => (_iletStatsByMock[b]?.last7 || 0) - (_iletStatsByMock[a]?.last7 || 0))
+        .slice(0, 3);
+      const trendingSet = new Set(trending);
+      const newSet = new Set(keys.filter(k => {
+        const t = (_iletMockMeta[k] && _iletMockMeta[k].createdAt) || _iletCreatedAt[k];
+        return t && new Date(t).getTime() >= sevenDaysAgo;
+      }).sort((a, b) => {
+        const ta = new Date((_iletMockMeta[a] && _iletMockMeta[a].createdAt) || _iletCreatedAt[a]).getTime();
+        const tb = new Date((_iletMockMeta[b] && _iletMockMeta[b].createdAt) || _iletCreatedAt[b]).getTime();
+        return tb - ta;
+      }).slice(0, 3));
+      const popularSet = new Set(keys
+        .filter(k => !trendingSet.has(k) && !newSet.has(k) && (_iletStatsByMock[k]?.total || 0) > 0)
+        .sort((a, b) => (_iletStatsByMock[b]?.total || 0) - (_iletStatsByMock[a]?.total || 0))
+        .slice(0, 5));
+      const gemSet = new Set(keys.filter(k => {
+        if (trendingSet.has(k) || newSet.has(k) || popularSet.has(k)) return false;
+        const s = _iletStatsByMock[k] || { total: 0 };
+        return s.total >= 1 && s.total <= 3;
+      })
+        .sort((a, b) => (_iletStatsByMock[a]?.total || 0) - (_iletStatsByMock[b]?.total || 0))
+        .slice(0, 5));
+      for (const k of keys) {
+        if (trendingSet.has(k))     _iletBadgesByMock[k] = 'trending';
+        else if (newSet.has(k))     _iletBadgesByMock[k] = 'new';
+        else if (popularSet.has(k)) _iletBadgesByMock[k] = 'popular';
+        else if (gemSet.has(k))     _iletBadgesByMock[k] = 'gem';
+        else                         _iletBadgesByMock[k] = null;
+      }
     }
 
     function _iletParseFileSpec(fileSpec) {
@@ -16998,6 +17175,20 @@
       // sit visually consistent.
       const cleanTitle = String(item.name || '').replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]+\s*/u, '');
 
+      // Compact 📅 date pill + activity stats row (Phase 1 + 2).
+      const ilExamLabel = (function fmtIlet(iso) {
+        if (!iso) return '';
+        const s = String(iso).trim();
+        const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        let m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        if (m) return parseInt(m[3], 10) + ' ' + MON[parseInt(m[2], 10) - 1] + ' ' + m[1];
+        m = s.match(/^(\d{4})-(\d{2})$/);
+        if (m) return MON[parseInt(m[2], 10) - 1] + ' ' + m[1];
+        return s;
+      })(meta.examDate);
+      const ilDateHtml = ilExamLabel
+        ? '<span class="ilet-exam-date" title="Exam date ' + _iletEsc(meta.examDate) + '" style="font-size:11px;background:#fef3c7;color:#92400e;border:1px solid #fde68a;border-radius:999px;padding:1px 8px;font-weight:600;white-space:nowrap;">📅 ' + _iletEsc(ilExamLabel) + '</span>'
+        : '';
       return '<article class="ilet-card ' + (noneReady ? 'ilet-card-disabled' : '') + '"'
         + ' id="ilet-card-' + mockNum + '"'
         + ' data-mock="' + mockNum + '"'
@@ -17015,8 +17206,25 @@
               + '<span class="ilet-status-label">' + readyCount + '/' + total + ' READY</span>'
             + '</div>'
             + sourceHtml
+            + ilDateHtml
           + '</div>'
           + '<h3 class="ilet-mock-title">' + _iletEsc(cleanTitle) + '</h3>'
+          + (function () {
+              const ilStats = _iletStatsByMock[String(mockNum)] || { total: 0, today: 0, last7: 0 };
+              const IL_LABELS = { trending: '🔥 Trending', new: '🆕 New', popular: '👑 Popular', gem: '💎 Hidden gem' };
+              const IL_COLORS = { trending: '#b45309', new: '#c2410c', popular: '#7c3aed', gem: '#15803d' };
+              const ilBadgeKey = _iletBadgesByMock[String(mockNum)];
+              const ilBadgeChip = ilBadgeKey
+                ? '<span style="font-weight:700;color:' + IL_COLORS[ilBadgeKey] + ';">' + IL_LABELS[ilBadgeKey] + '</span>'
+                : '';
+              const ilParts = [];
+              if (ilBadgeChip) ilParts.push(ilBadgeChip);
+              ilParts.push('<span>👥 ' + ilStats.total + '</span>');
+              ilParts.push('<span>⚡ ' + ilStats.today + ' today</span>');
+              return '<div class="ilet-stat-row" style="display:flex;gap:8px;font-size:11.5px;color:#475569;margin:4px 0 8px;flex-wrap:wrap;align-items:center;">'
+                   + ilParts.join('<span style="color:#cbd5e1;">·</span>')
+                   + '</div>';
+            })()
           + '<ul class="ilet-sections">' + sectionRows + '</ul>'
           + '<div class="ilet-card-foot">' + doneHtml + actionHtml + '</div>'
         + '</article>';
@@ -17145,9 +17353,11 @@
       // (one Supabase query). They're independent.
       const [, serverDone] = await Promise.all([
         _iletLoadAllMockMeta(),
-        _iletFetchServerDone()
+        _iletFetchServerDone(),
+        _iletLoadStats()
       ]);
       _iletServerDone = serverDone || {};
+      _iletComputeBadges();
       _iletRender();
     }
 
@@ -17297,6 +17507,10 @@
     const _clet_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
     const _cletMockMeta = {};
     let _cletServerDone = {};
+    // Phase 2 stats — see _ispetLoadStats for the same shape + rules.
+    let _cletStatsByMock  = {};
+    let _cletBadgesByMock = {};
+    let _cletCreatedAt    = {};
     let _cletFilter = 'all';
     let _cletSourceFilter = '';
 
@@ -17395,7 +17609,11 @@
         };
       });
       while (sections.length < 6) sections.push({ title: '—', ready: false });
-      return { source: (md && md.source) || '', sections: sections.slice(0, 6) };
+      return {
+        source:   (md && md.source) || '',
+        examDate: (md && md.examDate) || '',
+        sections: sections.slice(0, 6)
+      };
     }
 
     async function _cletLoadStaticMockMeta(filename) {
@@ -17416,14 +17634,77 @@
     async function _cletLoadSupabaseMockMeta(id) {
       try {
         const r = await fetch(
-          _clet_SB_URL + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(id) + '&select=mock_data',
+          _clet_SB_URL + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(id) + '&select=mock_data,created_at',
           { headers: { apikey: _clet_SB_KEY, Authorization: 'Bearer ' + _clet_SB_KEY } }
         );
         if (!r.ok) return null;
         const rows = await r.json();
         if (!rows || !rows.length) return null;
-        return _cletBuildMetaFromMockData(rows[0].mock_data || {});
+        const meta = _cletBuildMetaFromMockData(rows[0].mock_data || {});
+        if (meta) meta.createdAt = rows[0].created_at;
+        return meta;
       } catch (e) { return null; }
+    }
+
+    async function _cletLoadStats() {
+      _cletStatsByMock = {};
+      try {
+        const resp = await fetch(
+          _clet_SB_URL + '/rest/v1/mock_attempts?select=mock_number,opened_at&skill=eq.listening&exam_type=eq.cefr&limit=50000',
+          { headers: { apikey: _clet_SB_KEY, Authorization: 'Bearer ' + _clet_SB_KEY } }
+        );
+        if (!resp.ok) return;
+        const rows = await resp.json();
+        const todayStart = new Date();
+        todayStart.setUTCHours(0, 0, 0, 0);
+        const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+        for (const r of rows) {
+          if (r.mock_number == null) continue;
+          const padded = String(r.mock_number).padStart(2, '0');
+          const opened = new Date(r.opened_at);
+          const s = _cletStatsByMock[padded] = _cletStatsByMock[padded] || { total: 0, today: 0, last7: 0 };
+          s.total++;
+          if (opened.getTime() >= sevenDaysAgo) s.last7++;
+          if (opened >= todayStart) s.today++;
+        }
+      } catch (_e) {}
+    }
+
+    function _cletComputeBadges() {
+      _cletBadgesByMock = {};
+      const keys = Object.keys(_cletMockMeta);
+      const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      const trending = keys
+        .filter(k => (_cletStatsByMock[k]?.last7 || 0) > 0)
+        .sort((a, b) => (_cletStatsByMock[b]?.last7 || 0) - (_cletStatsByMock[a]?.last7 || 0))
+        .slice(0, 3);
+      const trendingSet = new Set(trending);
+      const newSet = new Set(keys.filter(k => {
+        const t = (_cletMockMeta[k] && _cletMockMeta[k].createdAt) || _cletCreatedAt[k];
+        return t && new Date(t).getTime() >= sevenDaysAgo;
+      }).sort((a, b) => {
+        const ta = new Date((_cletMockMeta[a] && _cletMockMeta[a].createdAt) || _cletCreatedAt[a]).getTime();
+        const tb = new Date((_cletMockMeta[b] && _cletMockMeta[b].createdAt) || _cletCreatedAt[b]).getTime();
+        return tb - ta;
+      }).slice(0, 3));
+      const popularSet = new Set(keys
+        .filter(k => !trendingSet.has(k) && !newSet.has(k) && (_cletStatsByMock[k]?.total || 0) > 0)
+        .sort((a, b) => (_cletStatsByMock[b]?.total || 0) - (_cletStatsByMock[a]?.total || 0))
+        .slice(0, 5));
+      const gemSet = new Set(keys.filter(k => {
+        if (trendingSet.has(k) || newSet.has(k) || popularSet.has(k)) return false;
+        const s = _cletStatsByMock[k] || { total: 0 };
+        return s.total >= 1 && s.total <= 3;
+      })
+        .sort((a, b) => (_cletStatsByMock[a]?.total || 0) - (_cletStatsByMock[b]?.total || 0))
+        .slice(0, 5));
+      for (const k of keys) {
+        if (trendingSet.has(k))     _cletBadgesByMock[k] = 'trending';
+        else if (newSet.has(k))     _cletBadgesByMock[k] = 'new';
+        else if (popularSet.has(k)) _cletBadgesByMock[k] = 'popular';
+        else if (gemSet.has(k))     _cletBadgesByMock[k] = 'gem';
+        else                         _cletBadgesByMock[k] = null;
+      }
     }
 
     function _cletParseFileSpec(fileSpec) {
@@ -17547,6 +17828,20 @@
         ? '<span class="ilet-coming-soon">Coming soon</span>'
         : (shareBtnHtml + '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Take Test →</button>');
       const cleanTitle = String(item.name || '').replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]+\s*/u, '');
+      // Compact 📅 date pill + activity stats row (Phase 1 + 2).
+      const clExamLabel = (function fmtClet(iso) {
+        if (!iso) return '';
+        const s = String(iso).trim();
+        const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        let m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        if (m) return parseInt(m[3], 10) + ' ' + MON[parseInt(m[2], 10) - 1] + ' ' + m[1];
+        m = s.match(/^(\d{4})-(\d{2})$/);
+        if (m) return MON[parseInt(m[2], 10) - 1] + ' ' + m[1];
+        return s;
+      })(meta.examDate);
+      const clDateHtml = clExamLabel
+        ? '<span class="clet-exam-date" title="Exam date ' + _cletEsc(meta.examDate) + '" style="font-size:11px;background:#fef3c7;color:#92400e;border:1px solid #fde68a;border-radius:999px;padding:1px 8px;font-weight:600;white-space:nowrap;">📅 ' + _cletEsc(clExamLabel) + '</span>'
+        : '';
       return '<article class="ilet-card ' + (noneReady ? 'ilet-card-disabled' : '') + '"'
         + ' id="clet-card-' + mockNum + '"'
         + ' data-mock="' + mockNum + '"'
@@ -17564,8 +17859,25 @@
               + '<span class="ilet-status-label">' + readyCount + '/' + total + ' READY</span>'
             + '</div>'
             + sourceHtml
+            + clDateHtml
           + '</div>'
           + '<h3 class="ilet-mock-title">' + _cletEsc(cleanTitle) + '</h3>'
+          + (function () {
+              const clStats = _cletStatsByMock[String(mockNum)] || { total: 0, today: 0, last7: 0 };
+              const CL_LABELS = { trending: '🔥 Trending', new: '🆕 New', popular: '👑 Popular', gem: '💎 Hidden gem' };
+              const CL_COLORS = { trending: '#b45309', new: '#c2410c', popular: '#7c3aed', gem: '#15803d' };
+              const clBadgeKey = _cletBadgesByMock[String(mockNum)];
+              const clBadgeChip = clBadgeKey
+                ? '<span style="font-weight:700;color:' + CL_COLORS[clBadgeKey] + ';">' + CL_LABELS[clBadgeKey] + '</span>'
+                : '';
+              const clParts = [];
+              if (clBadgeChip) clParts.push(clBadgeChip);
+              clParts.push('<span>👥 ' + clStats.total + '</span>');
+              clParts.push('<span>⚡ ' + clStats.today + ' today</span>');
+              return '<div class="clet-stat-row" style="display:flex;gap:8px;font-size:11.5px;color:#475569;margin:4px 0 8px;flex-wrap:wrap;align-items:center;">'
+                   + clParts.join('<span style="color:#cbd5e1;">·</span>')
+                   + '</div>';
+            })()
           + '<ul class="ilet-sections">' + sectionRows + '</ul>'
           + '<div class="ilet-card-foot">' + doneHtml + actionHtml + '</div>'
         + '</article>';
@@ -17685,9 +17997,11 @@
       } catch (_e) { /* fail open — render whatever we have */ }
       const [, serverDone] = await Promise.all([
         _cletLoadAllMockMeta(),
-        _cletFetchServerDone()
+        _cletFetchServerDone(),
+        _cletLoadStats()
       ]);
       _cletServerDone = serverDone || {};
+      _cletComputeBadges();
       _cletRender();
     }
 
@@ -38770,6 +39084,18 @@
             + '</div>';
       html += '<div class="mmg-section-title">IELTS Reading — test info</div>';
       html += _mmgFieldText('Source',           'mmgIrTi_source',         md.source,         'e.g. Cambridge 16, Actual 3, Mini IELTS 3. Optional — shown as a chip on the picker card.');
+      // Exam date — pre-fill today for new mocks. Picker reads md.examDate
+      // for the 📅 badge.
+      if (!md.examDate && !(window._mmgEditing && window._mmgEditing.id)) {
+        var _irNow = new Date();
+        md.examDate = _irNow.getFullYear() + '-'
+          + String(_irNow.getMonth() + 1).padStart(2, '0') + '-'
+          + String(_irNow.getDate()).padStart(2, '0');
+      }
+      html += '<div class="mmg-field"><label for="mmgIrTi_examDate">Exam date</label>'
+            +   '<input type="date" id="mmgIrTi_examDate" value="' + _mmgEsc(md.examDate || '') + '" style="border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;max-width:240px;">'
+            +   '<div class="mmg-field-help">Date this test first appeared / is being released (YYYY-MM-DD). Shown as the 📅 badge on the picker card. Auto-set to today for new mocks.</div>'
+            + '</div>';
       html += _mmgFieldText('Total questions',  'mmgIrTi_totalQuestions', ti.totalQuestions, 'Usually 40.');
       html += _mmgFieldText('Total time (min)', 'mmgIrTi_totalTime',      ti.totalTime,      'Usually 60.');
       html += _mmgFieldText('Passages',         'mmgIrTi_passages',       ti.passages,       'Usually 3.');
@@ -38784,6 +39110,11 @@
         var trimmed = String(src).trim();
         if (trimmed) md.source = trimmed;
         else delete md.source;
+      }
+      var irDate = f('mmgIrTi_examDate');
+      if (irDate !== undefined) {
+        var irDv = String(irDate).trim();
+        if (irDv) md.examDate = irDv; else delete md.examDate;
       }
       if (f('mmgIrTi_totalQuestions') !== undefined) md.testInfo.totalQuestions = asNum(f('mmgIrTi_totalQuestions'));
       if (f('mmgIrTi_totalTime')      !== undefined) md.testInfo.totalTime      = asNum(f('mmgIrTi_totalTime'));
@@ -39168,6 +39499,18 @@
       // Standard test-info fields.
       html += '<div class="mmg-section-title">IELTS Listening — test info</div>';
       html += _mmgFieldText('Source',           'mmgIlTi_source',         md.source,         'e.g. Cambridge IELTS 18. Optional — shown as a chip on the picker card.');
+      // Exam date — pre-fill today for new mocks. Picker reads md.examDate
+      // for the 📅 badge.
+      if (!md.examDate && !(window._mmgEditing && window._mmgEditing.id)) {
+        var _ilNow = new Date();
+        md.examDate = _ilNow.getFullYear() + '-'
+          + String(_ilNow.getMonth() + 1).padStart(2, '0') + '-'
+          + String(_ilNow.getDate()).padStart(2, '0');
+      }
+      html += '<div class="mmg-field"><label for="mmgIlTi_examDate">Exam date</label>'
+            +   '<input type="date" id="mmgIlTi_examDate" value="' + _mmgEsc(md.examDate || '') + '" style="border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;max-width:240px;">'
+            +   '<div class="mmg-field-help">Date this test first appeared / is being released (YYYY-MM-DD). Shown as the 📅 badge on the picker card. Auto-set to today for new mocks.</div>'
+            + '</div>';
       html += _mmgFieldText('Title',            'mmgIlTi_title',          ti.title,          'e.g., "IELTS Listening Practice Test 02".');
       html += _mmgFieldText('Total questions',  'mmgIlTi_totalQuestions', ti.totalQuestions, 'Usually 40 (10 per section × 4 sections).');
       html += _mmgFieldText('Total time (min)', 'mmgIlTi_totalTime',      ti.totalTime,      'Usually 40 (audio ~30 min + 10 min answer transfer).');
@@ -39203,6 +39546,11 @@
         var trimmed = String(src).trim();
         if (trimmed) md.source = trimmed;
         else delete md.source;
+      }
+      var ilDate = f('mmgIlTi_examDate');
+      if (ilDate !== undefined) {
+        var ilDv = String(ilDate).trim();
+        if (ilDv) md.examDate = ilDv; else delete md.examDate;
       }
       // Audio layout + merged audio URL (only relevant when layout === 'merged').
       var layoutEl = document.querySelector('input[name="mmgIlTi_layout"]:checked');
@@ -39923,6 +40271,18 @@
       // Standard test-info fields.
       html += '<div class="mmg-section-title">CEFR Listening — test info</div>';
       html += _mmgFieldText('Source',          'mmgClTi_source',         md.source,          'Optional — shown as a chip on the picker card.');
+      // Exam date — pre-fill today for new mocks. Picker reads md.examDate
+      // for the 📅 badge.
+      if (!md.examDate && !(window._mmgEditing && window._mmgEditing.id)) {
+        var _clNow = new Date();
+        md.examDate = _clNow.getFullYear() + '-'
+          + String(_clNow.getMonth() + 1).padStart(2, '0') + '-'
+          + String(_clNow.getDate()).padStart(2, '0');
+      }
+      html += '<div class="mmg-field"><label for="mmgClTi_examDate">Exam date</label>'
+            +   '<input type="date" id="mmgClTi_examDate" value="' + _mmgEsc(md.examDate || '') + '" style="border:1px solid #cbd5e1;border-radius:6px;padding:7px 10px;font:13px ui-sans-serif,system-ui;max-width:240px;">'
+            +   '<div class="mmg-field-help">Date this test first appeared / is being released (YYYY-MM-DD). Shown as the 📅 badge on the picker card. Auto-set to today for new mocks.</div>'
+            + '</div>';
       html += _mmgFieldText('Title',           'mmgClTi_title',          ti.title,           'e.g. "CEFR Listening Mock Test 02".');
       html += _mmgFieldText('Total questions', 'mmgClTi_totalQuestions', ti.totalQuestions,  'Usually 35.');
       html += _mmgFieldText('Total time (min)','mmgClTi_totalTime',      ti.totalTime,       'Usually 40.');
@@ -39970,6 +40330,11 @@
       if (src !== undefined) {
         var t = String(src).trim();
         if (t) md.source = t; else delete md.source;
+      }
+      var clDate = f('mmgClTi_examDate');
+      if (clDate !== undefined) {
+        var clDv = String(clDate).trim();
+        if (clDv) md.examDate = clDv; else delete md.examDate;
       }
       if (f('mmgClTi_title')          !== undefined) md.testInfo.title          = f('mmgClTi_title');
       if (f('mmgClTi_totalQuestions') !== undefined) md.testInfo.totalQuestions = asNum(f('mmgClTi_totalQuestions'));
