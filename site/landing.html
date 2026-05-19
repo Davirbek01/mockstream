@@ -19134,11 +19134,14 @@
         actualQCount: qs.length,   // total Qs (used internally, not shown)
         examDate:   String(m.examDate || '').trim(),
         title:      String(m.title || '').trim(),
-        topicsAll:  [
-          p1TopicFor(grouped['Part 1'][0]),
-          p2TopicFor(grouped['Part 2'][0]),
-          p3TopicFor(grouped['Part 3'][0])
-        ].filter(Boolean).map(t => t.toLowerCase())
+        // Composite "P<n>::<lowercased topic>" entries so the topic
+        // filter can disambiguate same-named topics across parts AND
+        // tag each option with its part badge (P1 / P2 / P3).
+        topicsAll: [
+          ['P1', p1TopicFor(grouped['Part 1'][0])],
+          ['P2', p2TopicFor(grouped['Part 2'][0])],
+          ['P3', p3TopicFor(grouped['Part 3'][0])]
+        ].filter(([, t]) => !!t).map(([p, t]) => p + '::' + t.toLowerCase())
       };
     }
 
@@ -19248,13 +19251,28 @@
     function _ispetBuildTopicFilterOptions() {
       const sel = document.getElementById('ispetTopicFilter');
       if (!sel) return;
+      // topicsAll entries look like "P1::transport & seasons" — split,
+      // group P1 → P2 → P3, sort alphabetically within each group, and
+      // render with a "P<n> — Topic" label so the same word doesn't
+      // collapse across parts.
       const all = new Set();
       Object.values(_ispetMockMeta).forEach(m => {
         (m.topicsAll || []).forEach(t => { if (t) all.add(t); });
       });
+      const PART_RANK = { P1: 0, P2: 1, P3: 2 };
+      const sorted = Array.from(all).sort((a, b) => {
+        const [pa, ta] = a.split('::');
+        const [pb, tb] = b.split('::');
+        const r = (PART_RANK[pa] ?? 99) - (PART_RANK[pb] ?? 99);
+        return r !== 0 ? r : ta.localeCompare(tb);
+      });
       const current = sel.value;
       sel.innerHTML = '<option value="">🏷 All topics</option>'
-        + Array.from(all).sort().map(t => '<option value="' + _ispetEsc(t) + '">' + _ispetEsc(t.charAt(0).toUpperCase() + t.slice(1)) + '</option>').join('');
+        + sorted.map(composite => {
+            const [part, topic] = composite.split('::');
+            const label = part + ' — ' + topic.charAt(0).toUpperCase() + topic.slice(1);
+            return '<option value="' + _ispetEsc(composite) + '">' + _ispetEsc(label) + '</option>';
+          }).join('');
       if (current) sel.value = current;
     }
 
