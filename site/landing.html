@@ -22894,6 +22894,13 @@
       if (isLoadingMock) return;
       isLoadingMock = true;
       currentLoadingType = type || 'writing';
+      // User is proceeding INTO a mock — drop the v3 discovery-handoff
+      // context so the return-to-v3 polling watcher stops chasing closed
+      // overlays. Without this, picking a mode in the speaking/reading/
+      // listening mode modal fires loadMock, the modal closes, the watcher
+      // sees no overlay open and bounces to /landing-v3.html before the
+      // mock iframe paints.
+      try { document.documentElement.classList.remove('ms-discovery-handoff'); } catch (_e) {}
       // Tear down every fullscreen picker if any was the launch point —
       // runner iframe sits at z-index 9999, pickers at 100003, so we'd
       // otherwise see the picker draped over the test. Speaking + writing
@@ -26587,6 +26594,14 @@
       // visible, so we don't trip on the empty pre-open state.
       var sawOpen = false;
       var iv = setInterval(function () {
+        // Bail if the handoff context was dropped (e.g. loadMock fired —
+        // user is proceeding into a mock runner and must NOT be bounced
+        // back to v3). The class is the canonical signal that the user
+        // is still in the v3 handoff context.
+        if (!document.documentElement.classList.contains('ms-discovery-handoff')) {
+          clearInterval(iv);
+          return;
+        }
         if (anyOpen()) { sawOpen = true; return; }
         if (sawOpen) {
           clearInterval(iv);
