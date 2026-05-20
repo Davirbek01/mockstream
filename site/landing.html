@@ -6871,28 +6871,38 @@
         </button>
       </div>
 
-      <!-- Plus Modes — exam-agnostic alternative practice tools per skill. -->
+      <!-- Plus Modes — same skill silhouettes as the main cards, but
+           outlined-stroke on tinted background so they read as "lighter
+           cousins" rather than competing with the bold solid icons above. -->
       <div class="msv3-section">
         <div class="msv3-section-head">
           Plus Modes
           <span class="msv3-tag msv3-tag-plus">Extra practice</span>
         </div>
         <div class="msv3-plus-grid">
-          <a class="msv3-plus plus-spk" href="Speaking Plus.html">
-            <span class="msv3-plus-ico">+</span>
-            <span class="msv3-plus-lbl">Speaking</span>
+          <a class="msv3-plus plus-spk" href="Speaking Plus.html" aria-label="Speaking Plus">
+            <span class="msv3-plus-ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+            </span>
+            <span class="msv3-plus-lbl">Plus</span>
           </a>
-          <a class="msv3-plus plus-wrt" href="Writing Plus.html">
-            <span class="msv3-plus-ico">+</span>
-            <span class="msv3-plus-lbl">Writing</span>
+          <a class="msv3-plus plus-wrt" href="Writing Plus.html" aria-label="Writing Plus">
+            <span class="msv3-plus-ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+            </span>
+            <span class="msv3-plus-lbl">Plus</span>
           </a>
-          <a class="msv3-plus plus-lst" href="Listening Plus.html">
-            <span class="msv3-plus-ico">+</span>
-            <span class="msv3-plus-lbl">Listening</span>
+          <a class="msv3-plus plus-lst" href="Listening Plus.html" aria-label="Listening Plus">
+            <span class="msv3-plus-ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg>
+            </span>
+            <span class="msv3-plus-lbl">Plus</span>
           </a>
-          <a class="msv3-plus plus-rdg" href="Reading Plus.html">
-            <span class="msv3-plus-ico">+</span>
-            <span class="msv3-plus-lbl">Reading</span>
+          <a class="msv3-plus plus-rdg" href="Reading Plus.html" aria-label="Reading Plus">
+            <span class="msv3-plus-ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+            </span>
+            <span class="msv3-plus-lbl">Plus</span>
           </a>
         </div>
       </div>
@@ -7494,28 +7504,65 @@
       color: #0f172a;
       font-size: 13.5px;
     }
-    /* Mobile-only compaction (mirror of landing-v3) — narrower sidebar +
-       tighter padding inside each section so the chrome doesn't eat the
-       viewport. */
+    /* Mobile-only compaction (mirror of landing-v3) — narrow + dense.
+       Width capped at ~50% of viewport, body locked to vertical scroll. */
     @media (max-width: 480px) {
       .msv3-sidebar {
-        width: min(300px, 86vw);
-        font-size: 13px;
+        width: 58vw;
+        min-width: 240px;
+        max-width: 290px;
+        font-size: 12.5px;
+        overflow-x: hidden;
       }
-      .msv3-head { padding: 14px 14px 10px; gap: 9px; }
-      .msv3-body { padding: 8px 14px 12px; }
-      .msv3-foot { padding: 12px 14px; }
-      .msv3-skill { min-height: 76px; padding: 12px 8px; gap: 5px; }
-      .msv3-skill .ico { width: 32px; height: 32px; }
-      .msv3-skill .lbl { font-size: 10.5px; letter-spacing: 0.06em; }
-      .msv3-provider { padding: 10px 12px; font-size: 13.5px; gap: 10px; }
-      .msv3-row { padding: 10px 12px; font-size: 13px; }
-      .msv3-vip-row input { padding: 9px 11px; font-size: 13px; }
-      .msv3-vip-row button { width: 38px; height: 38px; font-size: 16px; }
-      .msv3-fullmock { padding: 11px 12px; font-size: 12px; }
-      .msv3-plus { padding: 8px 10px; font-size: 12.5px; gap: 7px; }
-      .msv3-plus-ico { width: 20px; height: 20px; font-size: 13px; }
-      .msv3-section { margin-top: 12px; }
+      .msv3-body { overflow-x: hidden; }
+      .msv3-vip-row { min-width: 0; }
+      .msv3-vip-row input { min-width: 0; flex: 1 1 auto; }
+      .msv3-section, .msv3-row, .msv3-provider, .msv3-skill,
+      .msv3-plus, .msv3-profile { max-width: 100%; }
+      .msv3-head { padding: 12px 12px 8px; gap: 8px; }
+      .msv3-logo { width: 26px; height: 26px; border-radius: 8px; }
+      .msv3-brand { font-size: 14px; }
+      .msv3-close { width: 26px; height: 26px; font-size: 15px; border-radius: 7px; }
+      .msv3-body { padding: 6px 12px 10px; }
+      .msv3-foot { padding: 10px 12px; }
+      .msv3-section { margin-top: 10px; }
+      .msv3-section-head { font-size: 10px; letter-spacing: 0.08em; margin-bottom: 6px; }
+      .msv3-section-head .msv3-tag { font-size: 8.5px; padding: 2px 6px; }
+      .msv3-account { gap: 7px; }
+      .msv3-provider { padding: 9px 11px; font-size: 12.5px; gap: 9px; border-radius: 10px; }
+      .msv3-provider svg { width: 16px; height: 16px; }
+      .msv3-email-link { font-size: 11.5px; }
+      .msv3-profile { padding: 10px 11px; gap: 9px; border-radius: 11px; }
+      .msv3-avatar { width: 34px; height: 34px; font-size: 13px; }
+      .msv3-profile-name { font-size: 13px; }
+      .msv3-profile-role { font-size: 11px; }
+      .msv3-vip-row { gap: 6px; }
+      .msv3-vip-row input { padding: 8px 10px; font-size: 12.5px; border-radius: 9px; }
+      .msv3-vip-row button { width: 34px; height: 34px; font-size: 15px; border-radius: 9px; }
+      .msv3-vip-sub { font-size: 11px; margin-top: 4px; }
+      .msv3-row { padding: 9px 11px; font-size: 12.5px; gap: 8px; border-radius: 10px; margin-bottom: 6px; }
+      .msv3-row-icon { font-size: 14px; }
+      .msv3-skills { gap: 7px; }
+      .msv3-skill { min-height: 64px; padding: 9px 6px; gap: 4px; border-radius: 10px; }
+      .msv3-skill .ico { width: 28px; height: 28px; border-radius: 9px; overflow: hidden; }
+      .msv3-skill .ico svg { width: 14px; height: 14px; }
+      .msv3-skill .lbl { font-size: 9.5px; letter-spacing: 0.05em; }
+      .msv3-fullmock { margin-top: 10px; padding: 10px 12px; font-size: 11px; border-radius: 10px; }
+      .msv3-fullmock .star { font-size: 14px; }
+      .msv3-plus-grid { gap: 6px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .msv3-plus {
+        padding: 7px 8px;
+        font-size: 11.5px;
+        gap: 7px;
+        border-radius: 9px;
+        min-width: 0;
+        overflow: hidden;
+      }
+      .msv3-plus-ico { width: 22px; height: 22px; border-radius: 6px; }
+      .msv3-plus-ico svg { width: 12px; height: 12px; }
+      .msv3-foot-links { font-size: 10.5px; gap: 3px; }
+      .msv3-logout { font-size: 11px; padding: 6px 10px; border-radius: 7px; }
+      .msv3-vip-badge { font-size: 8.5px; padding: 2px 6px; }
     }
     .msv3-sidebar.show { transform: translateX(0); }
     .msv3-sidebar::before {
@@ -7787,16 +7834,23 @@
     }
     .msv3-skill .ico {
       width: 36px; height: 36px;
-      border-radius: 10px;
+      border-radius: 12px;
       display: grid; place-items: center;
       color: white;
+      overflow: hidden;
     }
     /* Solid icon backgrounds — match the target mockup exactly. */
     .msv3-skill.spk .ico { background: #ef4444; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.25); }
     .msv3-skill.wrt .ico { background: #f97316; box-shadow: 0 4px 10px rgba(249, 115, 22, 0.25); }
     .msv3-skill.lst .ico { background: #06b6d4; box-shadow: 0 4px 10px rgba(6, 182, 212, 0.25); }
     .msv3-skill.rdg .ico { background: #10b981; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25); }
-    .msv3-skill .ico svg { width: 18px; height: 18px; }
+    .msv3-skill .ico svg { width: 18px; height: 18px; transform-origin: center; }
+    /* Per-icon optical scale so mic / pen / headphones / book all land
+       at the same visual weight despite filling their viewBox differently. */
+    .msv3-skill.spk .ico svg { transform: scale(1.08); }
+    .msv3-skill.wrt .ico svg { transform: scale(0.92); }
+    .msv3-skill.lst .ico svg { transform: scale(1.04); }
+    .msv3-skill.rdg .ico svg { transform: scale(0.90); }
     .msv3-skill .lbl {
       font-size: 11.5px;
       font-weight: 800;
@@ -7836,7 +7890,9 @@
     .msv3-fullmock.msv3-fullmock-ielts:hover {
       box-shadow: 0 14px 28px rgba(37, 99, 235, 0.36);
     }
-    /* Plus Modes — compact 2x2 grid below CEFR + IELTS. */
+    /* Plus Modes — same skill silhouettes as main cards but outlined
+       stroke on tinted background so they read as the "lighter cousin"
+       of the bold solid icons above. */
     html.ms-discovery-handoff #msv3Sidebar .msv3-section-head .msv3-tag.msv3-tag-plus {
       background: #f5f3ff !important;
       color: #5b21b6 !important;
@@ -7849,14 +7905,14 @@
     .msv3-plus {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 9px;
       padding: 9px 12px;
       background: #ffffff;
       border: 1px solid #e2e8f0;
       border-radius: 10px;
       color: #0f172a;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 700;
       letter-spacing: -0.005em;
       text-decoration: none;
       box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
@@ -7864,23 +7920,34 @@
     }
     .msv3-plus:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(15, 23, 42, 0.07); }
     .msv3-plus-ico {
-      width: 22px; height: 22px;
-      border-radius: 7px;
+      width: 26px; height: 26px;
+      border-radius: 8px;
       display: grid; place-items: center;
-      color: #fff;
-      font-size: 14px;
-      font-weight: 800;
-      line-height: 1;
       flex-shrink: 0;
     }
-    .msv3-plus.plus-spk .msv3-plus-ico { background: #ef4444; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.30); }
+    .msv3-plus-ico svg { width: 14px; height: 14px; }
+    .msv3-plus.plus-spk .msv3-plus-ico { background: #fee2e2; color: #dc2626; }
     .msv3-plus.plus-spk:hover { border-color: #ef4444; }
-    .msv3-plus.plus-wrt .msv3-plus-ico { background: #f97316; box-shadow: 0 2px 6px rgba(249, 115, 22, 0.30); }
+    .msv3-plus.plus-wrt .msv3-plus-ico { background: #ffedd5; color: #ea580c; }
     .msv3-plus.plus-wrt:hover { border-color: #f97316; }
-    .msv3-plus.plus-lst .msv3-plus-ico { background: #06b6d4; box-shadow: 0 2px 6px rgba(6, 182, 212, 0.30); }
+    .msv3-plus.plus-lst .msv3-plus-ico { background: #cffafe; color: #0891b2; }
     .msv3-plus.plus-lst:hover { border-color: #06b6d4; }
-    .msv3-plus.plus-rdg .msv3-plus-ico { background: #10b981; box-shadow: 0 2px 6px rgba(16, 185, 129, 0.30); }
+    .msv3-plus.plus-rdg .msv3-plus-ico { background: #d1fae5; color: #059669; }
     .msv3-plus.plus-rdg:hover { border-color: #10b981; }
+    .msv3-plus-lbl {
+      flex: 1 1 auto;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Body scroll lock — blurred landing behind the sidebar shouldn't
+       scroll while the sidebar is in focus. */
+    body.msv3-sidebar-open {
+      overflow: hidden;
+      touch-action: none;
+    }
 
     /* Footer */
     .msv3-foot {
@@ -14076,6 +14143,7 @@
       s.classList.add('show');
       if (o) o.classList.add('show');
       s.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('msv3-sidebar-open');
       msv3RenderAccount();
       msv3RefreshAdminLocks();
       msv3RefreshVipBadge();
@@ -14092,6 +14160,7 @@
       s.classList.remove('show');
       if (o) o.classList.remove('show');
       s.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('msv3-sidebar-open');
     }
     function msv3RequestSidebarClose() {
       var s = document.getElementById('msv3Sidebar');
