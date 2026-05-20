@@ -643,11 +643,12 @@
     /* Optical balance — each SVG fills its 24×24 viewBox to a different
        degree (mic is tall+narrow, pen is square+diagonal, headphones is
        wide+short, book is wide+tall). Scale per skill so they all land
-       at the same visual weight inside the colored badge. */
-    .msv3-skill.spk .ico svg { transform: scale(1.06); }
-    .msv3-skill.wrt .ico svg { transform: scale(0.94); }
-    .msv3-skill.lst .ico svg { transform: scale(1.02); }
-    .msv3-skill.rdg .ico svg { transform: scale(0.92); }
+       at the same visual weight inside the colored badge. Values chosen
+       to be visually obvious, not just mathematically nudged. */
+    .msv3-skill.spk .ico svg { transform: scale(1.18); }
+    .msv3-skill.wrt .ico svg { transform: scale(0.85); }
+    .msv3-skill.lst .ico svg { transform: scale(1.12); }
+    .msv3-skill.rdg .ico svg { transform: scale(0.82); }
     .msv3-skill .lbl {
       font-size: 11.5px;
       font-weight: 800;
