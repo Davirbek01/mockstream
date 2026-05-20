@@ -89,7 +89,13 @@
           await Promise.all(regs.map(function (r) { return r.unregister(); }));
         }
       } catch (e) { console.warn('sw unregister failed:', e); }
-      location.reload();
+      // Land on a clean home URL after refresh. Without this, a reload
+      // from a /take/<slug> URL or a handoff query (?openSelector=...)
+      // would re-trigger the deep-link flow and auto-reopen the picker
+      // the student had just dismissed — which is not what "Refresh"
+      // implies. location.replace ensures the browser doesn't keep the
+      // pre-refresh entry in history.
+      location.replace('/landing-v3.html');
     });
   }
 
