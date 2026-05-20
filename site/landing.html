@@ -6730,6 +6730,137 @@
 </head>
 
 <body>
+  <!-- ═══════════════════════════════════════════════════════
+       Boot splash — visible from first paint on handoff loads
+       (return-flag, /take/ deep link, #cambridge / #fullmock).
+       Stays up until a picker overlay or modal becomes visible,
+       or 12 s pass — whichever comes first. Without this the
+       student sees an empty white page for the 5-10 s the bulk
+       Supabase SELECT + landing.html parse take on slow links.
+       ═══════════════════════════════════════════════════════ -->
+  <style id="mskBootSplashCss">
+    #mskBootSplash{position:fixed;inset:0;background:linear-gradient(180deg,#ffffff 0%,#f1f4fb 100%);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:2147483600;transition:opacity .28s ease;-webkit-user-select:none;user-select:none}
+    #mskBootSplash[data-show="1"]{display:flex}
+    #mskBootSplash.is-fading{opacity:0;pointer-events:none}
+    #mskBootSplash .msk-logo{width:84px;height:84px;border-radius:20px;background:linear-gradient(135deg,#6366f1 0%,#f97316 100%);overflow:hidden;display:flex;align-items:center;justify-content:center;box-shadow:0 22px 44px rgba(99,102,241,.22)}
+    #mskBootSplash .msk-logo img{width:100%;height:100%;object-fit:cover;display:block}
+    #mskBootSplash .msk-brand{margin-top:18px;font:700 19px/1.2 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#0b1330;letter-spacing:-.01em}
+    #mskBootSplash .msk-hint{margin-top:6px;font:500 13.5px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#5a6584}
+    #mskBootSplash .msk-spinner{margin-top:20px;width:30px;height:30px;border-radius:50%;border:3px solid rgba(99,102,241,.16);border-top-color:#6366f1;animation:mskSpin .9s linear infinite}
+    @keyframes mskSpin{to{transform:rotate(360deg)}}
+  </style>
+  <div id="mskBootSplash" role="status" aria-live="polite" aria-label="Loading mocks">
+    <div class="msk-logo"><img id="mskBootSplashLogo" alt=""></div>
+    <div class="msk-brand" id="mskBootSplashBrand">Mock Stream</div>
+    <div class="msk-hint">Loading mocks…</div>
+    <div class="msk-spinner" aria-hidden="true"></div>
+  </div>
+  <script>
+    (function () {
+      var splash = document.getElementById('mskBootSplash');
+      if (!splash) return;
+      // Mirror landing.html's existing "stay vs bounce" logic so we only
+      // show the splash on the same loads that will actually open
+      // something (picker, modal, or /take/ runner). Plain ?center=X
+      // visits bounce to /landing-v3.html — no point flashing a splash.
+      var path = String(location.pathname || '');
+      var hash = String(location.hash || '');
+      var isTake = /^\/take\//i.test(path);
+      var hashTrigger = (hash === '#cambridge' || hash === '#fullmock');
+      var returnFlagKeys = [
+        'speakingMockReturnCategory', 'writingMockReturnCategory',
+        'listeningMockReturnCategory', 'readingMockReturnCategory',
+        'speakingMockReturnPicker',   'flashcardReturnCategory',
+        'articlesReturnCategory',     'testReturnCategory'
+      ];
+      var hasReturnFlag = false;
+      try {
+        for (var i = 0; i < returnFlagKeys.length; i++) {
+          if (sessionStorage.getItem(returnFlagKeys[i])) { hasReturnFlag = true; break; }
+        }
+      } catch (_e) {}
+      if (!(isTake || hashTrigger || hasReturnFlag)) return;
+
+      // Pull brand from already-populated SITE_CONFIG (site-config.js ran
+      // synchronously in <head> with a localStorage warm start).
+      try {
+        var cfg = (typeof window.SITE_CONFIG === 'object' && window.SITE_CONFIG) || null;
+        if (cfg) {
+          var name = cfg.brandName || 'Mock Stream';
+          var logo = cfg.logoUrl || '';
+          var brandEl = document.getElementById('mskBootSplashBrand');
+          if (brandEl) brandEl.textContent = name;
+          if (logo) {
+            var img = document.getElementById('mskBootSplashLogo');
+            if (img) { img.src = logo; img.alt = name; }
+          }
+        }
+      } catch (_e) {}
+      // If SITE_CONFIG arrives after the splash is up, swap to the fresh
+      // logo/name so a clone doesn't show the generic Mock Stream brand.
+      try {
+        document.addEventListener('ms:config-ready', function () {
+          try {
+            var c = window.SITE_CONFIG || {};
+            var n = c.brandName || 'Mock Stream';
+            var l = c.logoUrl || '';
+            var b = document.getElementById('mskBootSplashBrand');
+            if (b) b.textContent = n;
+            if (l) {
+              var im = document.getElementById('mskBootSplashLogo');
+              if (im) { im.src = l; im.alt = n; }
+            }
+          } catch (_e) {}
+        }, { once: true });
+      } catch (_e) {}
+
+      splash.setAttribute('data-show', '1');
+      // Block background scroll while splash is up.
+      var prevHtmlOverflow = document.documentElement.style.overflow;
+      document.documentElement.style.overflow = 'hidden';
+
+      var hidden = false;
+      function hide() {
+        if (hidden) return;
+        hidden = true;
+        splash.classList.add('is-fading');
+        document.documentElement.style.overflow = prevHtmlOverflow;
+        setTimeout(function () { splash.style.display = 'none'; }, 320);
+      }
+      // Expose for any code that wants to dismiss it explicitly.
+      window.__mskHideBootSplash = hide;
+
+      // Poll: hide as soon as a picker overlay or access-code/mode modal
+      // becomes visible, OR after a 12 s safety timeout. Mirrors the
+      // ACTIVE_SELECTORS list used by the discovery-return watcher.
+      var openSelector =
+        '#cspetPicker[aria-hidden="false"], #ispetPicker[aria-hidden="false"], ' +
+        '#cretPicker[aria-hidden="false"], #iretPicker[aria-hidden="false"], ' +
+        '#cletPicker[aria-hidden="false"], #iletPicker[aria-hidden="false"], ' +
+        '#cwetPicker[aria-hidden="false"], #iwetPicker[aria-hidden="false"], ' +
+        '#categoryModal.show, #speakingCategoryModal.show, #writingCategoryModal.show, ' +
+        '#ieltsSpeakingModeModal.show, ' +
+        '#speakingAccessCodeModal.show, #ieltsSpeakingAccessCodeModal.show, ' +
+        '#writingModeModal.show, #ieltsWritingModeModal.show, ' +
+        '#writingTaskPickerModal.show, #ieltsWritingTaskPickerModal.show, ' +
+        '#readingAccessCodeModal.show, #ieltsReadingAccessCodeModal.show, ' +
+        '#listeningAccessCodeModal.show, #ieltsListeningAccessCodeModal.show, ' +
+        '#fullMockModal.show, .fullmock-modal-overlay.show, ' +
+        '#testsModal.show, #ketModal.show, #petModal.show, #fceModal.show, ' +
+        '#caeModal.show, #cpeModal.show';
+      var modalSelector = '';
+      var startTs = Date.now();
+      var poll = setInterval(function () {
+        if (document.querySelector(openSelector)) {
+          clearInterval(poll); hide(); return;
+        }
+        if (Date.now() - startTs > 12000) {
+          clearInterval(poll); hide();
+        }
+      }, 80);
+    })();
+  </script>
+
   <!-- (CEFR Speaking Mock 01 and CEFR Writing Mock 01 used to be loaded
        here as <script src=...> for their logo/wording globals — those
        files are now in Supabase and the runner pages fall back to
