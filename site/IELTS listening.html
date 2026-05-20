@@ -5147,7 +5147,7 @@
             var suffix = (it.suffix || '').toString();
             html += (prefix ? prefix + ' ' : '')
                   + '<span class="gap-label">(' + it.gapId + ')</span> '
-                  + '<input type="text" autocomplete="off" class="gap-input" data-q="' + it.gapId + '">'
+                  + '<input type="text" autocomplete="new-password" class="gap-input" data-q="' + it.gapId + '">'
                   + (suffix ? ' ' + suffix : '');
           } else if (it && typeof it.text === 'string') {
             html += it.text;
@@ -5171,7 +5171,7 @@
         /<span\s+class=["']gap-input["']\s+data-(?:gap|q)=["'](\d+)["'][^>]*>[\s\S]*?<\/span>/gi,
         function (_m, qid) {
           return '<span class="gap-label">(' + qid + ')</span> '
-               + '<input type="text" autocomplete="off" class="gap-input" data-q="' + qid + '">';
+               + '<input type="text" autocomplete="new-password" class="gap-input" data-q="' + qid + '">';
         }
       );
       return '<div class="form-container"><div class="form-html">' + html + '</div></div>';
@@ -5213,7 +5213,7 @@
           if (typeof cell === 'string') {
             html += cell;
           } else if (cell && cell.type === 'gap') {
-            html += (cell.prefix || '') + ' <span class="gap-label">(' + cell.gapId + ')</span> <input type="text" autocomplete="off" class="gap-input" data-q="' + cell.gapId + '"> ' + (cell.suffix || '');
+            html += (cell.prefix || '') + ' <span class="gap-label">(' + cell.gapId + ')</span> <input type="text" autocomplete="new-password" class="gap-input" data-q="' + cell.gapId + '"> ' + (cell.suffix || '');
           }
           html += '</td>';
         });
@@ -5264,7 +5264,7 @@
         } else if (item.type === 'item') {
           html += '<div class="form-item">' + item.text + '</div>';
         } else if (item.type === 'item-gap') {
-          html += '<div class="form-item">' + item.text + ' <span class="gap-label">(' + item.gapId + ')</span> <input type="text" autocomplete="off" class="gap-input" data-q="' + item.gapId + '">' + (item.gapSuffix || '') + '</div>';
+          html += '<div class="form-item">' + item.text + ' <span class="gap-label">(' + item.gapId + ')</span> <input type="text" autocomplete="new-password" class="gap-input" data-q="' + item.gapId + '">' + (item.gapSuffix || '') + '</div>';
         } else if (item.type === 'text') {
           html += '<div class="form-text">' + item.text + '</div>';
         } else if (item.type === 'html') {
@@ -5482,7 +5482,7 @@
     function renderSentenceCompletion(part) {
       // Replace span placeholders with actual input fields
       let content = part.passageContent.replace(/<span class="gap-input" data-gap="(\d+)">[^<]*<\/span>/g,
-        '<input type="text" autocomplete="off" class="gap-input sentence-gap" data-q="$1" placeholder="($1)">');
+        '<input type="text" autocomplete="new-password" class="gap-input sentence-gap" data-q="$1" placeholder="($1)">');
       return '<div class="passage-container"><div class="passage-title">' + part.passageTitle + '</div><div class="passage-text">' + content + '</div></div>';
     }
 

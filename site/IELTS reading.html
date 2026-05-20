@@ -3091,91 +3091,91 @@
                             <div class="review-container">
                                 <div class="input-group">
                                     <span class="input-group-addon" id="basic-addon1">Q01</span>
-                                    <input autocomplete="off" type="text" class="form-control answers review-textboxes"
+                                    <input autocomplete="new-password" type="text" class="form-control answers review-textboxes"
                                         name="a" id="txtq1" required>
                                 </div>
                             </div>
                             <div class="review-container">
                                 <div class="input-group">
                                     <span class="input-group-addon" id="basic-addon2">Q02</span>
-                                    <input autocomplete="off" type="text" class="form-control answers review-textboxes"
+                                    <input autocomplete="new-password" type="text" class="form-control answers review-textboxes"
                                         name="a" id="txtq2" required>
                                 </div>
                             </div>
                             <div class="review-container">
                                 <div class="input-group">
                                     <span class="input-group-addon" id="basic-addon3">Q03</span>
-                                    <input autocomplete="off" type="text" class="form-control answers review-textboxes"
+                                    <input autocomplete="new-password" type="text" class="form-control answers review-textboxes"
                                         name="a" id="txtq3" required>
                                 </div>
                             </div>
                             <div class="review-container">
                                 <div class="input-group">
                                     <span class="input-group-addon" id="basic-addon4">Q04</span>
-                                    <input autocomplete="off" type="text" class="form-control answers review-textboxes"
+                                    <input autocomplete="new-password" type="text" class="form-control answers review-textboxes"
                                         name="a" id="txtq4" required>
                                 </div>
                             </div>
                             <div class="review-container">
                                 <div class="input-group">
                                     <span class="input-group-addon" id="basic-addon5">Q05</span>
-                                    <input autocomplete="off" type="text" class="form-control answers review-textboxes"
+                                    <input autocomplete="new-password" type="text" class="form-control answers review-textboxes"
                                         name="a" id="txtq5" required>
                                 </div>
                             </div>
                             <div class="review-container">
                                 <div class="input-group">
                                     <span class="input-group-addon" id="basic-addon6">Q06</span>
-                                    <input autocomplete="off" type="text" class="form-control answers review-textboxes"
+                                    <input autocomplete="new-password" type="text" class="form-control answers review-textboxes"
                                         name="a" id="txtq6" required>
                                 </div>
                             </div>
                             <div class="review-container">
                                 <div class="input-group">
                                     <span class="input-group-addon" id="basic-addon7">Q07</span>
-                                    <input autocomplete="off" type="text" class="form-control answers review-textboxes"
+                                    <input autocomplete="new-password" type="text" class="form-control answers review-textboxes"
                                         name="a" id="txtq7" required>
                                 </div>
                             </div>
                             <div class="review-container">
                                 <div class="input-group">
                                     <span class="input-group-addon" id="basic-addon8">Q08</span>
-                                    <input autocomplete="off" type="text" class="form-control answers review-textboxes"
+                                    <input autocomplete="new-password" type="text" class="form-control answers review-textboxes"
                                         name="a" id="txtq8" required>
                                 </div>
                             </div>
                             <div class="review-container">
                                 <div class="input-group">
                                     <span class="input-group-addon" id="basic-addon9">Q09</span>
-                                    <input autocomplete="off" type="text" class="form-control answers review-textboxes"
+                                    <input autocomplete="new-password" type="text" class="form-control answers review-textboxes"
                                         name="a" id="txtq9" required>
                                 </div>
                             </div>
                             <div class="review-container">
                                 <div class="input-group">
                                     <span class="input-group-addon" id="basic-addon10">Q10</span>
-                                    <input autocomplete="off" type="text" class="form-control answers review-textboxes"
+                                    <input autocomplete="new-password" type="text" class="form-control answers review-textboxes"
                                         name="a" id="txtq10" required>
                                 </div>
                             </div>
                             <div class="review-container">
                                 <div class="input-group">
                                     <span class="input-group-addon" id="basic-addon11">Q11</span>
-                                    <input autocomplete="off" type="text" class="form-control answers review-textboxes"
+                                    <input autocomplete="new-password" type="text" class="form-control answers review-textboxes"
                                         name="a" id="txtq11" required>
                                 </div>
                             </div>
                             <div class="review-container">
                                 <div class="input-group">
                                     <span class="input-group-addon" id="basic-addon12">Q12</span>
-                                    <input autocomplete="off" type="text" class="form-control answers review-textboxes"
+                                    <input autocomplete="new-password" type="text" class="form-control answers review-textboxes"
                                         name="a" id="txtq12" required>
                                 </div>
                             </div>
                             <div class="review-container">
                                 <div class="input-group">
                                     <span class="input-group-addon" id="basic-addon13">Q13</span>
-                                    <input autocomplete="off" type="text" class="form-control answers review-textboxes"
+                                    <input autocomplete="new-password" type="text" class="form-control answers review-textboxes"
                                         name="a" id="txtq13" required>
                                 </div>
                             </div>
@@ -7077,7 +7077,7 @@
                         }
                         section.questions.forEach(function (q) {
                             html += '<div class="question-container" id="q' + q.id + '-container">';
-                            var selectHtml = '<input type="text" readonly autocomplete="off" id="q' + q.id + '" name="q' + q.id + '" class="compact-input interactive-receiver readonly-slot" placeholder="Tap to fill" aria-label="Answer ' + q.id + '">';
+                            var selectHtml = '<input type="text" readonly autocomplete="new-password" id="q' + q.id + '" name="q' + q.id + '" class="compact-input interactive-receiver readonly-slot" placeholder="Tap to fill" aria-label="Answer ' + q.id + '">';
                             // Replace {INPUT} with dropdown, or append at end if no {INPUT}
                             var text = q.text;
                             if (text.indexOf('{INPUT}') !== -1) {
@@ -7119,8 +7119,8 @@
                         // word bank is present, plain text input otherwise.
                         function _completionInputHtml(qid) {
                             return hasWordBank
-                                ? '<input type="text" readonly autocomplete="off" id="q' + qid + '" name="q' + qid + '" class="compact-input interactive-receiver readonly-slot" placeholder="Tap to fill" onchange="gtb(this)" aria-label="Answer ' + qid + '">'
-                                : '<input type="text" autocomplete="off" id="q' + qid + '" name="q' + qid + '" class="compact-input interactive-receiver" placeholder="" oninput="gtb(this)" aria-label="Answer ' + qid + '">';
+                                ? '<input type="text" readonly autocomplete="new-password" id="q' + qid + '" name="q' + qid + '" class="compact-input interactive-receiver readonly-slot" placeholder="Tap to fill" onchange="gtb(this)" aria-label="Answer ' + qid + '">'
+                                : '<input type="text" autocomplete="new-password" id="q' + qid + '" name="q' + qid + '" class="compact-input interactive-receiver" placeholder="" oninput="gtb(this)" aria-label="Answer ' + qid + '">';
                         }
                         if (section.boxTitle) {
                             if (section.imageGroups && section.imageGroups.length > 0) {
@@ -7231,7 +7231,7 @@
                                 var text = q.text.replace(/\{INPUT\}/g, function() {
                                     var qId = inputIdx === 0 ? q.id : section.questions[idx + inputIdx].id;
                                     inputIdx++;
-                                    return '<input type="text" readonly autocomplete="off" id="q' + qId + '" name="q' + qId + '" class="compact-input interactive-receiver readonly-slot" placeholder="Tap to fill" onchange="gtb(this)" aria-label="Answer ' + qId + '">';
+                                    return '<input type="text" readonly autocomplete="new-password" id="q' + qId + '" name="q' + qId + '" class="compact-input interactive-receiver readonly-slot" placeholder="Tap to fill" onchange="gtb(this)" aria-label="Answer ' + qId + '">';
                                 });
                                 skipNext = inputCount - 1;
                                 html += '<p>' + text + '</p></div>';
@@ -7239,7 +7239,7 @@
                                 // Skip standalone "(second answer...)" questions — already embedded above
                                 html += '<p style="display:none"></p></div>';
                             } else {
-                                var selectHtml = '<input type="text" readonly autocomplete="off" id="q' + q.id + '" name="q' + q.id + '" class="compact-input interactive-receiver readonly-slot" placeholder="Tap to fill" onchange="gtb(this)" aria-label="Answer ' + q.id + '">';
+                                var selectHtml = '<input type="text" readonly autocomplete="new-password" id="q' + q.id + '" name="q' + q.id + '" class="compact-input interactive-receiver readonly-slot" placeholder="Tap to fill" onchange="gtb(this)" aria-label="Answer ' + q.id + '">';
                                 var text = q.text.replace(/\{INPUT\}/g, selectHtml);
                                 html += '<p>' + text + '</p></div>';
                             }
@@ -7249,7 +7249,7 @@
                         section.questions.forEach(function (q) {
                             html += '<div class="question-container" id="q' + q.id + '-container">';
                             html += '<p><b>' + q.id + ' </b> ' + q.text + ' ';
-                            html += '<input type="text" autocomplete="off" id="q' + q.id + '" name="q' + q.id + '" class="compact-input interactive-receiver" placeholder="" oninput="gtb(this)" aria-label="Answer ' + q.id + '">';
+                            html += '<input type="text" autocomplete="new-password" id="q' + q.id + '" name="q' + q.id + '" class="compact-input interactive-receiver" placeholder="" oninput="gtb(this)" aria-label="Answer ' + q.id + '">';
                             html += '</p></div>';
                         });
                     }

@@ -4831,7 +4831,7 @@
         } else if (item.type === 'item') {
           html += '<div class="form-item">' + item.text + '</div>';
         } else if (item.type === 'item-gap') {
-          html += '<div class="form-item">' + item.text + ' <span class="gap-label">(' + item.gapId + ')</span> <input type="text" autocomplete="off" class="gap-input" data-q="' + item.gapId + '">' + (item.gapSuffix || '') + '</div>';
+          html += '<div class="form-item">' + item.text + ' <span class="gap-label">(' + item.gapId + ')</span> <input type="text" autocomplete="new-password" class="gap-input" data-q="' + item.gapId + '">' + (item.gapSuffix || '') + '</div>';
         } else if (item.type === 'text') {
           html += '<div class="form-text">' + item.text + '</div>';
         } else if (item.type === 'html') {
@@ -5044,7 +5044,7 @@
       // Replace span placeholders with actual input fields.
       var withInputs = String(part.passageContent || '').replace(
         /<span class="gap-input" data-gap="(\d+)">[^<]*<\/span>/g,
-        '<input type="text" autocomplete="off" class="gap-input sentence-gap" data-q="$1" placeholder="($1)">'
+        '<input type="text" autocomplete="new-password" class="gap-input sentence-gap" data-q="$1" placeholder="($1)">'
       );
       // Wrap each sentence (Gemini emits <br><br> between sentences per the
       // schema) in its own .gap-fill-row div so the post-submit explanation

@@ -21088,6 +21088,10 @@
     // visit. Reuses _pickerShareMock / _pickerShowTmaBack helpers.
     const _ISPET_SB_URL    = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
     const _ISPET_SB_KEY    = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    // 5-min localStorage cache for the bulk meta SELECT — repeat opens
+    // within the window skip the network round-trip entirely.
+    const _ISPET_CACHE_KEY = 'ms_ispet_meta_v1';
+    const _ISPET_CACHE_TTL = 5 * 60 * 1000;
     const _ispetMockMeta   = {};   // mockNumStr -> { p1Topic, p2Topic, p3Topic, qCount, readyCount, examDate, title, createdAt }
     let   _ispetFilter      = 'all';
     let   _ispetTopicFilter = '';
@@ -21331,6 +21335,13 @@
 
     async function _ispetLoadAllMockMeta() {
       try {
+        const cached = JSON.parse(localStorage.getItem(_ISPET_CACHE_KEY) || 'null');
+        if (cached && cached.ts && cached.data && (Date.now() - cached.ts) < _ISPET_CACHE_TTL) {
+          Object.assign(_ispetMockMeta, cached.data);
+          return;
+        }
+      } catch (_e) {}
+      try {
         const resp = await fetch(`${_ISPET_SB_URL}/rest/v1/mock_tests?mock_type=eq.ielts-speaking&status=eq.published&select=id,mock_number,mock_data,title,created_at`, {
           headers: { 'apikey': _ISPET_SB_KEY, 'Authorization': 'Bearer ' + _ISPET_SB_KEY }
         });
@@ -21340,13 +21351,11 @@
           const padded = String(r.mock_number).padStart(2, '0');
           const meta = _ispetBuildMetaFromMockData(r.mock_data);
           if (r.title && !meta.title) meta.title = r.title;
-          // sbId is the mock_tests.id — IELTS Speaking Mocks.html loads
-          // via ?sbmock=<id>. All IELTS Speaking mocks are Supabase-only
-          // after the Phase 3 migration.
           meta.sbId = r.id;
           meta.createdAt = r.created_at;
           _ispetMockMeta[padded] = meta;
         }
+        try { localStorage.setItem(_ISPET_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: _ispetMockMeta })); } catch (_e) {}
       } catch (_e) { /* swallow — picker still renders empty grid */ }
     }
 
@@ -21696,6 +21705,10 @@
     // (mock_type=cefr-speaking) and reuse the picker share + TMA helpers.
     const _CSPET_SB_URL  = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
     const _CSPET_SB_KEY  = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    // Short TTL so admin-added mocks surface within ~5 min, but a repeat
+    // open within that window skips the bulk SELECT entirely (instant).
+    const _CSPET_CACHE_KEY = 'ms_cspet_meta_v1';
+    const _CSPET_CACHE_TTL = 5 * 60 * 1000;
     const _cspetMockMeta = {};
     let   _cspetFilter      = 'all';
     let   _cspetTopicFilter = '';
@@ -21875,6 +21888,13 @@
 
     async function _cspetLoadAllMockMeta() {
       try {
+        const cached = JSON.parse(localStorage.getItem(_CSPET_CACHE_KEY) || 'null');
+        if (cached && cached.ts && cached.data && (Date.now() - cached.ts) < _CSPET_CACHE_TTL) {
+          Object.assign(_cspetMockMeta, cached.data);
+          return;
+        }
+      } catch (_e) {}
+      try {
         const resp = await fetch(`${_CSPET_SB_URL}/rest/v1/mock_tests?mock_type=eq.cefr-speaking&status=eq.published&select=id,mock_number,mock_data,title,created_at`, {
           headers: { 'apikey': _CSPET_SB_KEY, 'Authorization': 'Bearer ' + _CSPET_SB_KEY }
         });
@@ -21884,13 +21904,11 @@
           const padded = String(r.mock_number).padStart(2, '0');
           const meta = _cspetBuildMetaFromMockData(r.mock_data);
           if (r.title && !meta.title) meta.title = r.title;
-          // sbId is the mock_tests.id — Speaking Mocks.html loads the mock
-          // via ?sbmock=<id>. CEFR Speaking has no static JS fallback any
-          // more, so this is the ONLY working route.
           meta.sbId = r.id;
           meta.createdAt = r.created_at;
           _cspetMockMeta[padded] = meta;
         }
+        try { localStorage.setItem(_CSPET_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: _cspetMockMeta })); } catch (_e) {}
       } catch (_e) { /* swallow — picker still renders empty grid */ }
     }
 
