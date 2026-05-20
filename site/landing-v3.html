@@ -317,7 +317,13 @@
     .msv3-overlay.show { opacity: 1; pointer-events: auto; }
     .msv3-sidebar {
       position: fixed; top: 0; right: 0;
+      /* 100vh on mobile browsers spans behind the URL bar / bottom toolbar,
+         so the last few sidebar items (Log Out / Terms / Support) end up
+         hidden under chrome. 100dvh (dynamic viewport height) tracks the
+         real visible viewport on iOS Safari + Chrome Android. 100vh stays
+         as fallback for older browsers. */
       height: 100vh;
+      height: 100dvh;
       width: 320px;
       max-width: calc(100vw - 24px);
       background: #ffffff;
@@ -440,7 +446,16 @@
     .msv3-body {
       flex: 1;
       overflow-y: auto;
+      /* iOS-style momentum/bounce scrolling so the user can swipe quickly
+         through the list, plus overscroll-behavior:contain so swiping
+         past the top/bottom doesn't escape to the underlying page. */
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
       padding: 10px 16px 14px;
+      /* Extra bottom padding so the last footer item (Log Out / Terms /
+         Support) clears the mobile browser's bottom toolbar and any iOS
+         home-indicator safe area. */
+      padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
     }
     .msv3-section { margin-top: 14px; }
     .msv3-section:first-child { margin-top: 4px; }

@@ -6906,14 +6906,15 @@
           </a>
         </div>
       </div>
-    </div>
 
-    <div class="msv3-foot">
-      <div class="msv3-foot-links">
-        <a id="msv3SupportLink">Support Center</a>
-        <a id="msv3TermsLink" href="/terms.html" target="_blank" rel="noopener">Terms of Service</a>
+      <!-- Footer scrolls with the body — same change as landing-v3. -->
+      <div class="msv3-foot">
+        <div class="msv3-foot-links">
+          <a id="msv3SupportLink">Support Center</a>
+          <a id="msv3TermsLink" href="/terms.html" target="_blank" rel="noopener">Terms of Service</a>
+        </div>
+        <button type="button" class="msv3-logout" id="msv3LogoutBtn" style="display:none;">Log Out</button>
       </div>
-      <button type="button" class="msv3-logout" id="msv3LogoutBtn" style="display:none;">Log Out</button>
     </div>
   </aside>
 
@@ -7489,7 +7490,11 @@
     .msv3-sidebar {
       position: fixed;
       top: 0; right: 0;
+      /* 100dvh tracks the real visible viewport on mobile (avoids the
+         "last items hidden under the browser bottom bar" problem).
+         100vh fallback for browsers without dvh. */
       height: 100vh;
+      height: 100dvh;
       width: 320px;
       max-width: calc(100vw - 24px);
       background: #ffffff;
@@ -7615,7 +7620,14 @@
     .msv3-body {
       flex: 1;
       overflow-y: auto;
+      /* iOS momentum scroll + clamp overscroll so swiping past the edge
+         doesn't escape to the underlying page. */
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
       padding: 10px 16px 14px;
+      /* Extra bottom padding so the last footer item clears the mobile
+         browser's bottom toolbar + iOS home indicator safe area. */
+      padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
     }
     .msv3-section { margin-top: 14px; }
     .msv3-section:first-child { margin-top: 4px; }
@@ -7949,14 +7961,14 @@
       touch-action: none;
     }
 
-    /* Footer */
+    /* Footer — scrolls inside the body. */
     .msv3-foot {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 14px 22px;
+      padding: 16px 0 4px;
+      margin-top: 18px;
       border-top: 1px solid #f1f5f9;
-      background: #fafbfc;
     }
     .msv3-foot-links {
       display: flex;
