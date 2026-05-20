@@ -6765,8 +6765,29 @@
       // visits bounce to /landing-v3.html — no point flashing a splash.
       var path = String(location.pathname || '');
       var hash = String(location.hash || '');
+      var search = '';
+      try { search = String(location.search || ''); } catch (_e) {}
+      var params;
+      try { params = new URLSearchParams(search); } catch (_e) { params = null; }
       var isTake = /^\/take\//i.test(path);
       var hashTrigger = (hash === '#cambridge' || hash === '#fullmock');
+      // v3 hands off via query params, NOT return flags. Return flags are
+      // only set on the OUTBOUND trip from a mock runner. Keep this list
+      // in sync with KNOWN_HANDOFF_PARAMS further down in this file.
+      var handoffParamKeys = [
+        'openSelector', 'openSidebar', 'openFullMock', 'openModal',
+        'msv3Vip', 'msv3TgAuth',
+        'openAdminDashboard', 'openSiteMgmt',
+        'openIeltsSpeakingMode', 'openIeltsFullMock',
+        'openHelpCenter', 'openVipSignIn',
+        'take'
+      ];
+      var hasHandoffParam = false;
+      if (params) {
+        for (var j = 0; j < handoffParamKeys.length; j++) {
+          if (params.has(handoffParamKeys[j])) { hasHandoffParam = true; break; }
+        }
+      }
       var returnFlagKeys = [
         'speakingMockReturnCategory', 'writingMockReturnCategory',
         'listeningMockReturnCategory', 'readingMockReturnCategory',
@@ -6779,7 +6800,7 @@
           if (sessionStorage.getItem(returnFlagKeys[i])) { hasReturnFlag = true; break; }
         }
       } catch (_e) {}
-      if (!(isTake || hashTrigger || hasReturnFlag)) return;
+      if (!(isTake || hashTrigger || hasHandoffParam || hasReturnFlag)) return;
 
       // Pull brand from already-populated SITE_CONFIG (site-config.js ran
       // synchronously in <head> with a localStorage warm start).
