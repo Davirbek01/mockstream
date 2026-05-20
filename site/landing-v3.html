@@ -490,6 +490,37 @@
     }
     .msv3-vip-row button:hover { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(234, 88, 12, 0.36); }
     .msv3-vip-sub { font-size: 12px; color: var(--muted); margin-top: 6px; }
+    /* VIP unlocked state — premium (gold) or regular (silver). Flag source:
+       sessionStorage vipPremiumAi / vipSessionAccess, set by
+       validateVipFromSidebar after the handoff verify completes. */
+    .msv3-vip-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      padding: 3px 8px;
+      border-radius: 999px;
+      margin-left: auto;
+    }
+    .msv3-vip-badge.premium {
+      background: linear-gradient(135deg, #fde68a, #f59e0b);
+      color: #78350f;
+      box-shadow: 0 2px 6px rgba(245, 158, 11, 0.30);
+    }
+    .msv3-vip-badge.regular {
+      background: #e2e8f0;
+      color: #334155;
+    }
+    .msv3-vip-badge[hidden] { display: none; }
+    #msv3VipSection.unlocked .msv3-vip-row input {
+      background: #ecfdf5;
+      border-color: #6ee7b7;
+      color: #065f46;
+    }
+    #msv3VipSection.unlocked .msv3-vip-row input::placeholder { color: #047857; opacity: 0.6; }
+    #msv3VipSection.unlocked .msv3-vip-sub { color: #047857; font-weight: 600; }
     .msv3-row {
       display: flex; align-items: center; gap: 10px;
       padding: 12px 14px;
@@ -2202,13 +2233,16 @@
         <div class="msv3-account" id="msv3AccountSlot"></div>
       </div>
 
-      <div class="msv3-section">
-        <div class="msv3-section-head">VIP Activation</div>
+      <div class="msv3-section" id="msv3VipSection">
+        <div class="msv3-section-head">
+          VIP Activation
+          <span class="msv3-vip-badge" id="msv3VipBadge" hidden></span>
+        </div>
         <div class="msv3-vip-row">
           <input type="text" id="msv3VipInput" placeholder="Enter your VIP Access Code" autocomplete="off">
           <button type="button" id="msv3VipBtn" aria-label="Activate VIP">→</button>
         </div>
-        <div class="msv3-vip-sub">Activate for all features</div>
+        <div class="msv3-vip-sub" id="msv3VipSub">Activate for all features</div>
       </div>
 
       <div class="msv3-section">
@@ -2338,8 +2372,48 @@
         s.setAttribute('aria-hidden', 'false');
         renderAccount();
         refreshAdminLocks();
+        refreshVipBadge();
       }
     }
+
+    // ─────── VIP unlock badge ───────
+    // Reads the sessionStorage flags set by validateVipFromSidebar after the
+    // handoff verify completes. Premium beats regular when both are set.
+    function refreshVipBadge() {
+      var section = document.getElementById('msv3VipSection');
+      var badge = document.getElementById('msv3VipBadge');
+      var input = document.getElementById('msv3VipInput');
+      var sub = document.getElementById('msv3VipSub');
+      if (!section || !badge) return;
+      var premium = false, regular = false;
+      try {
+        premium = sessionStorage.getItem('vipPremiumAi') === 'true';
+        if (!premium) regular = sessionStorage.getItem('vipSessionAccess') === 'true';
+      } catch (_e) {}
+      if (premium) {
+        badge.hidden = false;
+        badge.className = 'msv3-vip-badge premium';
+        badge.textContent = '★ PREMIUM';
+        section.classList.add('unlocked');
+        if (input) input.placeholder = 'Premium VIP active';
+        if (sub) sub.textContent = 'All features unlocked';
+      } else if (regular) {
+        badge.hidden = false;
+        badge.className = 'msv3-vip-badge regular';
+        badge.textContent = 'REGULAR';
+        section.classList.add('unlocked');
+        if (input) input.placeholder = 'Regular VIP active';
+        if (sub) sub.textContent = 'Session access enabled';
+      } else {
+        badge.hidden = true;
+        section.classList.remove('unlocked');
+        if (input) input.placeholder = 'Enter your VIP Access Code';
+        if (sub) sub.textContent = 'Activate for all features';
+      }
+    }
+    // Run once on script load too, so the badge is correct even if the user
+    // never opens the sidebar (e.g. session restored mid-flow).
+    refreshVipBadge();
     document.getElementById('msv3HamburgerBtn').addEventListener('click', toggle);
     document.getElementById('msv3CloseBtn').addEventListener('click', toggle);
     document.getElementById('msv3Overlay').addEventListener('click', toggle);

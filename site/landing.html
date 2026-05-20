@@ -6761,13 +6761,16 @@
       </div>
 
       <!-- VIP -->
-      <div class="msv3-section">
-        <div class="msv3-section-head">VIP Activation</div>
+      <div class="msv3-section" id="msv3VipSection">
+        <div class="msv3-section-head">
+          VIP Activation
+          <span class="msv3-vip-badge" id="msv3VipBadge" hidden></span>
+        </div>
         <div class="msv3-vip-row">
           <input type="text" id="msv3VipInput" placeholder="Enter your VIP Access Code" autocomplete="off">
           <button type="button" id="msv3VipBtn" aria-label="Activate VIP">→</button>
         </div>
-        <div class="msv3-vip-sub">Activate for all features</div>
+        <div class="msv3-vip-sub" id="msv3VipSub">Activate for all features</div>
         <div class="msv3-vip-sub" id="msv3VipStatus" style="margin-top:4px;color:#dc2626;display:none;"></div>
       </div>
 
@@ -7674,6 +7677,31 @@
       color: #64748b;
       margin-top: 6px;
     }
+    /* VIP unlocked state — same logic as landing-v3's badge. */
+    .msv3-vip-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      padding: 3px 8px;
+      border-radius: 999px;
+      margin-left: auto;
+    }
+    .msv3-vip-badge.premium {
+      background: linear-gradient(135deg, #fde68a, #f59e0b);
+      color: #78350f;
+      box-shadow: 0 2px 6px rgba(245, 158, 11, 0.30);
+    }
+    .msv3-vip-badge.regular { background: #e2e8f0; color: #334155; }
+    .msv3-vip-badge[hidden] { display: none; }
+    #msv3VipSection.unlocked .msv3-vip-row input {
+      background: #ecfdf5 !important;
+      border-color: #6ee7b7 !important;
+      color: #065f46 !important;
+    }
+    #msv3VipSection.unlocked .msv3-vip-sub { color: #047857; font-weight: 600; }
 
     /* Generic action row (admin, platform mgmt, support center, terms) */
     .msv3-row {
@@ -14022,6 +14050,41 @@
         s.setAttribute('aria-hidden', 'false');
         msv3RenderAccount();
         msv3RefreshAdminLocks();
+        msv3RefreshVipBadge();
+      }
+    }
+
+    // VIP badge — reads sessionStorage flags set by validateVipFromSidebar.
+    function msv3RefreshVipBadge() {
+      var section = document.getElementById('msv3VipSection');
+      var badge = document.getElementById('msv3VipBadge');
+      var input = document.getElementById('msv3VipInput');
+      var sub = document.getElementById('msv3VipSub');
+      if (!section || !badge) return;
+      var premium = false, regular = false;
+      try {
+        premium = sessionStorage.getItem('vipPremiumAi') === 'true';
+        if (!premium) regular = sessionStorage.getItem('vipSessionAccess') === 'true';
+      } catch (_e) {}
+      if (premium) {
+        badge.hidden = false;
+        badge.className = 'msv3-vip-badge premium';
+        badge.textContent = '★ PREMIUM';
+        section.classList.add('unlocked');
+        if (input) input.placeholder = 'Premium VIP active';
+        if (sub) sub.textContent = 'All features unlocked';
+      } else if (regular) {
+        badge.hidden = false;
+        badge.className = 'msv3-vip-badge regular';
+        badge.textContent = 'REGULAR';
+        section.classList.add('unlocked');
+        if (input) input.placeholder = 'Regular VIP active';
+        if (sub) sub.textContent = 'Session access enabled';
+      } else {
+        badge.hidden = true;
+        section.classList.remove('unlocked');
+        if (input) input.placeholder = 'Enter your VIP Access Code';
+        if (sub) sub.textContent = 'Activate for all features';
       }
     }
 
