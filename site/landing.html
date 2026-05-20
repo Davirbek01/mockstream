@@ -12876,14 +12876,22 @@
       document.getElementById('speakingModeModal').style.display = 'none';
       // Picker-aware Cancel: if the speaking-mode modal was opened from
       // one of the new fullscreen pickers (cspetPicker / ispetPicker),
-      // reopen that picker so the student can pick a different mock
-      // instead of being dropped back on the landing page. Cleared after
-      // reopen so a follow-up close (e.g. from a different launch source)
-      // doesn't re-trigger the picker.
+      // make sure that picker is showing — but only re-open it if it was
+      // actually closed in the meantime. The mode modal is a z-stacked
+      // overlay, so 99% of the time the picker is still open behind it
+      // and calling Open again would needlessly wipe the cards back to
+      // skeletons + refetch stats.
       var src = window._spkModalSourcePicker;
       window._spkModalSourcePicker = null;
-      if (src === 'cspet' && typeof cspetOpen === 'function') { cspetOpen(); }
-      else if (src === 'ispet' && typeof ispetOpen === 'function') { ispetOpen(); }
+      function isOpen(id) {
+        var el = document.getElementById(id);
+        return !!(el && el.getAttribute('aria-hidden') === 'false');
+      }
+      if (src === 'cspet' && typeof cspetOpen === 'function' && !isOpen('cspetPicker')) {
+        cspetOpen();
+      } else if (src === 'ispet' && typeof ispetOpen === 'function' && !isOpen('ispetPicker')) {
+        ispetOpen();
+      }
     }
 
     function _speakingModeFullMock() {
