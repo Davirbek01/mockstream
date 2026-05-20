@@ -16,6 +16,8 @@
        bottom. -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="auth.js" defer></script>
+  <!-- "New version available · Refresh" banner — same module as landing.html. -->
+  <script src="version-banner.js" defer></script>
 
   <style>
     *, *::before, *::after { box-sizing: border-box; }
@@ -2105,6 +2107,7 @@
 
         const brandName = (cfg.brandName || '').trim();
         const logoUrl   = (cfg.logoUrl   || '').trim();
+        const logoShape = (cfg.logoShape || '').toString().trim().toLowerCase();
 
         if (brandName) {
           document.title = brandName + ' · Practice exams';
@@ -2118,15 +2121,19 @@
         if (logoUrl) {
           const logoBox = document.getElementById('brandLogo');
           if (logoBox) {
-            // Swap the "MS" gradient tile for the real centre logo. Same
-            // box dimensions; image gets object-fit:cover so any shape
-            // logo sits cleanly inside the rounded tile.
+            // Swap the "MS" gradient tile for the real centre logo.
+            // Portrait logos (logoShape:"circle") are face-cropped via
+            // object-fit:cover and the box is rounded to a full circle.
+            // Everything else keeps the original rounded-tile treatment.
+            const isCircle = logoShape === 'circle';
             logoBox.style.background = '#ffffff';
             logoBox.style.boxShadow  = '0 4px 10px rgba(15, 23, 42, .12)';
-            logoBox.style.padding    = '4px';
+            logoBox.style.padding    = isCircle ? '0' : '4px';
             logoBox.style.overflow   = 'hidden';
+            if (isCircle) logoBox.style.borderRadius = '50%';
+            const fit = isCircle ? 'cover' : 'contain';
             logoBox.innerHTML = '<img src="' + logoUrl.replace(/"/g, '%22')
-                              + '" alt="" style="width:100%;height:100%;object-fit:contain;display:block;">';
+                              + '" alt="" style="width:100%;height:100%;object-fit:' + fit + ';display:block;">';
           }
         }
       } catch (_e) {
@@ -2835,14 +2842,29 @@
         || document.getElementById('brandName')?.textContent
         || 'Mock Stream';
       var logo = (cfg && cfg.logoUrl) || '';
+      var shape = (cfg && (cfg.logoShape || '')).toString().trim().toLowerCase();
       var be = document.getElementById('msv3HeadBrand');
       if (be) be.textContent = brand;
       if (logo) {
         var img = document.getElementById('msv3HeadLogoImg');
+        var box = document.getElementById('msv3HeadLogo');
         if (img) {
           img.onload = function () { img.hidden = false; };
           img.onerror = function () { img.hidden = true; };
           img.src = logo;
+        }
+        // Portrait logos render as circular avatars (logoShape:"circle"),
+        // face-cropped via object-fit:cover. Default keeps the rounded
+        // gradient tile + object-fit:contain.
+        if (box) {
+          if (shape === 'circle') {
+            box.style.borderRadius = '50%';
+            box.style.padding = '0';
+            box.style.background = '#ffffff';
+            if (img) img.style.objectFit = 'cover';
+          } else {
+            if (img) img.style.objectFit = 'contain';
+          }
         }
       }
     }
