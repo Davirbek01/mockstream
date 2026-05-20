@@ -2842,7 +2842,11 @@
         || document.getElementById('brandName')?.textContent
         || 'Mock Stream';
       var logo = (cfg && cfg.logoUrl) || '';
-      var shape = (cfg && (cfg.logoShape || '')).toString().trim().toLowerCase();
+      // Guard the lookup chain so cfg=undefined doesn't yield `undefined`
+      // and crash .toString(). Crash blew up before TELEGRAM_BOT_BY_CENTER
+      // got defined, cascading into a renderAccount failure that hid the
+      // admin lock buttons.
+      var shape = ((cfg && cfg.logoShape) || '').toString().trim().toLowerCase();
       var be = document.getElementById('msv3HeadBrand');
       if (be) be.textContent = brand;
       if (logo) {
