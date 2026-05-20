@@ -2297,11 +2297,32 @@
     document.addEventListener('mockStream:centerConfigLoaded', applyBrand);
     applyBrand();
 
-    // ─────── Telegram lazy-load ───────
-    var TELEGRAM_BOT_IDS = {
-      bek: 7782060938, niners: 7945127820, global: 7969117692,
-      muzaffars: 7903562930, achievers: 7807470080, record: 8052290876,
-      mock_stream: 7669533614
+    // ─────── Telegram bot id + widget lazy-load ───────
+    // Bot IDs are NOT hardcoded — each clone has its own bot and Telegram
+    // /setdomain only allows ONE domain per bot, so the IDs are fetched from
+    // the get-login-bot-ids Edge Function (same source index.html uses).
+    // Hardcoding here caused "bot domain invalid" because the values went
+    // stale.
+    var _tgBotIdCache = null;
+    function loadTelegramBotIds() {
+      if (_tgBotIdCache) return _tgBotIdCache;
+      var url = 'https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/get-login-bot-ids';
+      _tgBotIdCache = fetch(url, { headers: { apikey: 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2' } })
+        .then(function (r) { return r.ok ? r.json() : {}; })
+        .catch(function () { return {}; });
+      return _tgBotIdCache;
+    }
+    // We still need a quick synchronous check for "does THIS centre have a
+    // Telegram bot at all" so the button only renders for centres with one
+    // configured. Mirror the bot-username map used by index.html / landing.html.
+    var TELEGRAM_BOT_BY_CENTER = {
+      mock_stream: 'mockstream_login_bot',
+      bek:         'bekzods_login_bot',
+      niners:      'niners_login_bot',
+      global:      'global_login_bot',
+      muzaffars:   'muzaffars_login_bot',
+      achievers:   'acheivers_login_bot',
+      record:      'multilevelrecord_sign_bot'
     };
     var _tgLoading = null;
     function loadTelegram() {
@@ -2314,6 +2335,8 @@
         s.onload = res; s.onerror = res;
         document.head.appendChild(s);
       });
+      // Pre-warm the bot-id fetch so the first click is instant.
+      loadTelegramBotIds();
       return _tgLoading;
     }
 
@@ -2335,7 +2358,7 @@
       try { avatarUrl = localStorage.getItem('ms_avatar_url') || ''; } catch (_e) {}
       var isSignedIn = !!fullName;
       var centerId = (window.__CENTER_ID || 'mock_stream').toString();
-      var hasTgBot = !!TELEGRAM_BOT_IDS[centerId];
+      var hasTgBot = !!TELEGRAM_BOT_BY_CENTER[centerId];
 
       var logoutBtn = document.getElementById('msv3LogoutBtn');
       if (logoutBtn) logoutBtn.style.display = isSignedIn ? '' : 'none';
@@ -2383,8 +2406,12 @@
         });
         var tb = document.getElementById('msv3TelegramBtn');
         if (tb) tb.addEventListener('click', function () {
-          loadTelegram().then(function () {
-            var botId = TELEGRAM_BOT_IDS[centerId];
+          // Need BOTH the widget script and the live bot-id (same flow
+          // index.html uses). Hardcoding the bot id breaks when the IDs
+          // rotate or when a clone's domain doesn't match the cached value.
+          Promise.all([loadTelegram(), loadTelegramBotIds()]).then(function (results) {
+            var ids = results[1] || {};
+            var botId = ids[centerId];
             if (!botId || !window.Telegram || !window.Telegram.Login) {
               alert('Telegram sign-in is not available yet.'); return;
             }

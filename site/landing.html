@@ -13993,15 +13993,28 @@
       });
       return _msv3TgLoading;
     }
-    var TELEGRAM_BOT_IDS = {
-      bek:        7782060938,
-      niners:     7945127820,
-      global:     7969117692,
-      muzaffars:  7903562930,
-      achievers:  7807470080,
-      record:     8052290876,
-      mock_stream: 7669533614
+    // Bot IDs are NOT hardcoded — fetched from get-login-bot-ids Edge
+    // Function (matches the live source-of-truth used by index.html). The
+    // bot-username map is still local because /setdomain only allows one
+    // domain per bot and the usernames are stable.
+    var TELEGRAM_BOT_BY_CENTER_MSV3 = {
+      mock_stream: 'mockstream_login_bot',
+      bek:         'bekzods_login_bot',
+      niners:      'niners_login_bot',
+      global:      'global_login_bot',
+      muzaffars:   'muzaffars_login_bot',
+      achievers:   'acheivers_login_bot',
+      record:      'multilevelrecord_sign_bot'
     };
+    var _msv3TgBotIdCache = null;
+    function msv3LoadBotIds() {
+      if (_msv3TgBotIdCache) return _msv3TgBotIdCache;
+      var url = 'https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/get-login-bot-ids';
+      _msv3TgBotIdCache = fetch(url, { headers: { apikey: 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2' } })
+        .then(function (r) { return r.ok ? r.json() : {}; })
+        .catch(function () { return {}; });
+      return _msv3TgBotIdCache;
+    }
 
     // Render either provider buttons OR a signed-in profile chip in the
     // Account Access slot. Uses the same signed-in heuristic the legacy
@@ -14023,7 +14036,7 @@
       // configured for this centre. Mirrors the legacy logic in
       // _initTelegramLogin.
       var centerId = (window.__CENTER_ID || (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream');
-      var hasTgBot = !!TELEGRAM_BOT_IDS[centerId];
+      var hasTgBot = !!TELEGRAM_BOT_BY_CENTER_MSV3[centerId];
 
       // Sign-out button reflects sign-in state.
       var logoutBtn = document.getElementById('msv3LogoutBtn');
@@ -14072,8 +14085,12 @@
         });
         var tb = document.getElementById('msv3TelegramBtn');
         if (tb) tb.addEventListener('click', function () {
-          msv3LoadTelegram().then(function () {
-            var botId = TELEGRAM_BOT_IDS[centerId];
+          // Need BOTH the widget script and the LIVE bot-id from the Edge
+          // Function (hardcoded IDs go stale and Telegram rejects with
+          // "bot domain invalid" / "bot_id required").
+          Promise.all([msv3LoadTelegram(), msv3LoadBotIds()]).then(function (results) {
+            var ids = results[1] || {};
+            var botId = ids[centerId];
             if (!botId || !window.Telegram || !window.Telegram.Login) {
               alert('Telegram sign-in is not available yet.');
               return;
