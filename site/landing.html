@@ -7494,28 +7494,48 @@
       color: #0f172a;
       font-size: 13.5px;
     }
-    /* Mobile-only compaction (mirror of landing-v3) — narrower sidebar +
-       tighter padding inside each section so the chrome doesn't eat the
-       viewport. */
+    /* Mobile-only compaction (mirror of landing-v3) — narrow + dense. */
     @media (max-width: 480px) {
       .msv3-sidebar {
-        width: min(300px, 86vw);
-        font-size: 13px;
+        width: min(278px, 80vw);
+        font-size: 12.5px;
       }
-      .msv3-head { padding: 14px 14px 10px; gap: 9px; }
-      .msv3-body { padding: 8px 14px 12px; }
-      .msv3-foot { padding: 12px 14px; }
-      .msv3-skill { min-height: 76px; padding: 12px 8px; gap: 5px; }
-      .msv3-skill .ico { width: 32px; height: 32px; }
-      .msv3-skill .lbl { font-size: 10.5px; letter-spacing: 0.06em; }
-      .msv3-provider { padding: 10px 12px; font-size: 13.5px; gap: 10px; }
-      .msv3-row { padding: 10px 12px; font-size: 13px; }
-      .msv3-vip-row input { padding: 9px 11px; font-size: 13px; }
-      .msv3-vip-row button { width: 38px; height: 38px; font-size: 16px; }
-      .msv3-fullmock { padding: 11px 12px; font-size: 12px; }
-      .msv3-plus { padding: 8px 10px; font-size: 12.5px; gap: 7px; }
-      .msv3-plus-ico { width: 20px; height: 20px; font-size: 13px; }
-      .msv3-section { margin-top: 12px; }
+      .msv3-head { padding: 12px 12px 8px; gap: 8px; }
+      .msv3-logo { width: 26px; height: 26px; border-radius: 8px; }
+      .msv3-brand { font-size: 14px; }
+      .msv3-close { width: 26px; height: 26px; font-size: 15px; border-radius: 7px; }
+      .msv3-body { padding: 6px 12px 10px; }
+      .msv3-foot { padding: 10px 12px; }
+      .msv3-section { margin-top: 10px; }
+      .msv3-section-head { font-size: 10px; letter-spacing: 0.08em; margin-bottom: 6px; }
+      .msv3-section-head .msv3-tag { font-size: 8.5px; padding: 2px 6px; }
+      .msv3-account { gap: 7px; }
+      .msv3-provider { padding: 9px 11px; font-size: 12.5px; gap: 9px; border-radius: 10px; }
+      .msv3-provider svg { width: 16px; height: 16px; }
+      .msv3-email-link { font-size: 11.5px; }
+      .msv3-profile { padding: 10px 11px; gap: 9px; border-radius: 11px; }
+      .msv3-avatar { width: 34px; height: 34px; font-size: 13px; }
+      .msv3-profile-name { font-size: 13px; }
+      .msv3-profile-role { font-size: 11px; }
+      .msv3-vip-row { gap: 6px; }
+      .msv3-vip-row input { padding: 8px 10px; font-size: 12.5px; border-radius: 9px; }
+      .msv3-vip-row button { width: 34px; height: 34px; font-size: 15px; border-radius: 9px; }
+      .msv3-vip-sub { font-size: 11px; margin-top: 4px; }
+      .msv3-row { padding: 9px 11px; font-size: 12.5px; gap: 8px; border-radius: 10px; margin-bottom: 6px; }
+      .msv3-row-icon { font-size: 14px; }
+      .msv3-skills { gap: 7px; }
+      .msv3-skill { min-height: 64px; padding: 9px 6px; gap: 4px; border-radius: 10px; }
+      .msv3-skill .ico { width: 28px; height: 28px; border-radius: 8px; }
+      .msv3-skill .ico svg { width: 14px; height: 14px; }
+      .msv3-skill .lbl { font-size: 9.5px; letter-spacing: 0.05em; }
+      .msv3-fullmock { margin-top: 10px; padding: 10px 12px; font-size: 11px; border-radius: 10px; }
+      .msv3-fullmock .star { font-size: 14px; }
+      .msv3-plus-grid { gap: 6px; }
+      .msv3-plus { padding: 7px 9px; font-size: 12px; gap: 6px; border-radius: 9px; }
+      .msv3-plus-ico { width: 18px; height: 18px; font-size: 12px; border-radius: 6px; }
+      .msv3-foot-links { font-size: 10.5px; gap: 3px; }
+      .msv3-logout { font-size: 11px; padding: 6px 10px; border-radius: 7px; }
+      .msv3-vip-badge { font-size: 8.5px; padding: 2px 6px; }
     }
     .msv3-sidebar.show { transform: translateX(0); }
     .msv3-sidebar::before {
