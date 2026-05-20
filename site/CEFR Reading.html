@@ -6876,6 +6876,7 @@
     }
 
     function showLeaveWarningModal() {
+      try { if (typeof closeHomeSidebar === 'function') closeHomeSidebar(); } catch (_e) {}
       createLeaveWarningModal();
       const modal = document.getElementById('leaveWarningModal');
       modal.style.display = 'flex';
@@ -7291,7 +7292,7 @@
 <script>
 function openHomeSidebar(){var m=document.getElementById('mobileToolsMenu'),f=document.getElementById('mobileFab'),o=document.getElementById('mobileMenuOverlay'),ic=document.getElementById('fabIcon');if(m)m.classList.remove('active');if(f){f.classList.remove('open');f.classList.add('idle');}if(o)o.classList.remove('active');if(ic)ic.className='fa fa-plus';document.getElementById('hsOverlay').classList.add('active');document.getElementById('hsPanel').classList.add('active');}
 function closeHomeSidebar(){document.getElementById('hsOverlay').classList.remove('active');document.getElementById('hsPanel').classList.remove('active');}
-function goToMockSelector(url){var m={"Speaking Mocks.html":"landing.html?openSelector=cefr-speaking","IELTS Speaking Mocks.html":"landing.html?openSelector=ielts-speaking","Writing Mocks.html":"landing.html?openSelector=cefr-writing","Writing IELTS Mock.html":"landing.html?openSelector=ielts-writing"};promptFriendlyLeave(function(){window.__okToLeave=true;window.location.replace(m[url]||url);});}
+function goToMockSelector(url){var m={"Speaking Mocks.html":"landing.html?openSelector=cefr-speaking","IELTS Speaking Mocks.html":"landing.html?openSelector=ielts-speaking","Writing Mocks.html":"landing.html?openSelector=cefr-writing","Writing IELTS Mock.html":"landing.html?openSelector=ielts-writing","CEFR Listening Mocks.html":"landing.html?openSelector=cefr-listening","IELTS Listening Mocks.html":"landing.html?openSelector=ielts-listening","CEFR Reading Mocks.html":"landing.html?openSelector=cefr-reading","IELTS Reading Mocks.html":"landing.html?openSelector=ielts-reading"};promptFriendlyLeave(function(){window.__okToLeave=true;window.location.replace(m[url]||url);});}
 document.querySelectorAll('#hsPanel .hs-btn[href]').forEach(function(a){var h=a.getAttribute('href');if(a.getAttribute('target')){{a.addEventListener('click',function(){window.__okToLeave=true;});return;}}a.addEventListener('click',function(e){e.preventDefault();goToMockSelector(h);});});
 document.querySelectorAll('#hsPanel .hs-action[href], #hsPanel a[href][style]').forEach(function(a){if(!a.getAttribute('target')){a.addEventListener('click',function(e){e.preventDefault();promptFriendlyLeave(function(){window.__okToLeave=true;window.location.href=a.getAttribute('href');});});}else{a.addEventListener('click',function(){window.__okToLeave=true;});}});
 </script>

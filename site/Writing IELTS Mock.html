@@ -11566,6 +11566,7 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (Criteria scores MUST be whole numbers â€
     }
 
     function showLeaveWarningModal() {
+      try { if (typeof closeHomeSidebar === 'function') closeHomeSidebar(); } catch (_e) {}
       createLeaveWarningModal();
       const modal = document.getElementById('leaveWarningModal');
       modal.style.display = 'flex';
@@ -12045,7 +12046,11 @@ function goToMockSelector(url){
     "Speaking Mocks.html":"landing.html?openSelector=cefr-speaking",
     "IELTS Speaking Mocks.html":"landing.html?openSelector=ielts-speaking",
     "Writing Mocks.html":"landing.html?openSelector=cefr-writing",
-    "Writing IELTS Mock.html":"landing.html?openSelector=ielts-writing"
+    "Writing IELTS Mock.html":"landing.html?openSelector=ielts-writing",
+    "CEFR Listening Mocks.html":"landing.html?openSelector=cefr-listening",
+    "IELTS Listening Mocks.html":"landing.html?openSelector=ielts-listening",
+    "CEFR Reading Mocks.html":"landing.html?openSelector=cefr-reading",
+    "IELTS Reading Mocks.html":"landing.html?openSelector=ielts-reading"
   };
   promptFriendlyLeave(function(){
     window.__okToLeave=true;

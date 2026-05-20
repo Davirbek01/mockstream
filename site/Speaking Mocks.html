@@ -19299,6 +19299,8 @@ Please contact your instructor or upgrade to the full version with speech recogn
     }
 
     function showLeaveWarningModal() {
+      // Auto-hide the FAB home sidebar so the warning isn't stacked behind it.
+      try { if (typeof closeHomeSidebar === 'function') closeHomeSidebar(); } catch (_e) {}
       createLeaveWarningModal();
       const modal = document.getElementById('leaveWarningModal');
       modal.style.display = 'flex';
@@ -21257,7 +21259,7 @@ Please contact your instructor or upgrade to the full version with speech recogn
 
     function openHomeSidebar() { closeSpkToolsMenu(); document.getElementById('hsOverlay').classList.add('active'); document.getElementById('hsPanel').classList.add('active'); }
     function closeHomeSidebar() { document.getElementById('hsOverlay').classList.remove('active'); document.getElementById('hsPanel').classList.remove('active'); }
-    function goToMockSelector(url) { var m = {"Speaking Mocks.html":"landing.html?openSelector=cefr-speaking","IELTS Speaking Mocks.html":"landing.html?openSelector=ielts-speaking","Writing Mocks.html":"landing.html?openSelector=cefr-writing","Writing IELTS Mock.html":"landing.html?openSelector=ielts-writing"}; var targetUrl = m[url] || url; promptFriendlyLeave(function () { __okToLeave = true; window.__okToLeave = true; window.location.replace(targetUrl); }); }
+    function goToMockSelector(url) { var m = {"Speaking Mocks.html":"landing.html?openSelector=cefr-speaking","IELTS Speaking Mocks.html":"landing.html?openSelector=ielts-speaking","Writing Mocks.html":"landing.html?openSelector=cefr-writing","Writing IELTS Mock.html":"landing.html?openSelector=ielts-writing","CEFR Listening Mocks.html":"landing.html?openSelector=cefr-listening","IELTS Listening Mocks.html":"landing.html?openSelector=ielts-listening","CEFR Reading Mocks.html":"landing.html?openSelector=cefr-reading","IELTS Reading Mocks.html":"landing.html?openSelector=ielts-reading"}; var targetUrl = m[url] || url; promptFriendlyLeave(function () { __okToLeave = true; window.__okToLeave = true; window.location.replace(targetUrl); }); }
     document.querySelectorAll('#hsPanel .hs-btn[href]').forEach(function (a) { var h=a.getAttribute('href'); if(a.getAttribute('target')){a.addEventListener('click',function(){window.__okToLeave=true;});return;} a.addEventListener('click', function (e) { e.preventDefault(); goToMockSelector(h); }); });
     document.querySelectorAll('#hsPanel .hs-action[href]:not([target="_blank"])').forEach(function (a) {
       a.addEventListener('click', function (e) {
