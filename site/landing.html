@@ -12887,6 +12887,18 @@
         var el = document.getElementById(id);
         return !!(el && el.getAttribute('aria-hidden') === 'false');
       }
+      // Cancelling the mode modal means the student isn't launching this
+      // mock — undo the pre-launch state (return flag + /take/ deep-link
+      // URL) so a Refresh-banner reload doesn't auto-reopen the picker.
+      try {
+        sessionStorage.removeItem('speakingMockReturnPicker');
+        sessionStorage.removeItem('speakingMockReturnCategory');
+      } catch (_e) {}
+      try {
+        if (/^\/take\//i.test(window.location.pathname)) {
+          history.replaceState({}, document.title, '/landing.html');
+        }
+      } catch (_e) {}
       if (src === 'cspet' && typeof cspetOpen === 'function' && !isOpen('cspetPicker')) {
         cspetOpen();
       } else if (src === 'ispet' && typeof ispetOpen === 'function' && !isOpen('ispetPicker')) {
