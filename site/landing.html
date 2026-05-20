@@ -7544,7 +7544,7 @@
       .msv3-row-icon { font-size: 14px; }
       .msv3-skills { gap: 7px; }
       .msv3-skill { min-height: 64px; padding: 9px 6px; gap: 4px; border-radius: 10px; }
-      .msv3-skill .ico { width: 28px; height: 28px; border-radius: 8px; }
+      .msv3-skill .ico { width: 28px; height: 28px; border-radius: 9px; overflow: hidden; }
       .msv3-skill .ico svg { width: 14px; height: 14px; }
       .msv3-skill .lbl { font-size: 9.5px; letter-spacing: 0.05em; }
       .msv3-fullmock { margin-top: 10px; padding: 10px 12px; font-size: 11px; border-radius: 10px; }
@@ -7834,9 +7834,10 @@
     }
     .msv3-skill .ico {
       width: 36px; height: 36px;
-      border-radius: 10px;
+      border-radius: 12px;
       display: grid; place-items: center;
       color: white;
+      overflow: hidden;
     }
     /* Solid icon backgrounds — match the target mockup exactly. */
     .msv3-skill.spk .ico { background: #ef4444; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.25); }
@@ -7846,10 +7847,10 @@
     .msv3-skill .ico svg { width: 18px; height: 18px; transform-origin: center; }
     /* Per-icon optical scale so mic / pen / headphones / book all land
        at the same visual weight despite filling their viewBox differently. */
-    .msv3-skill.spk .ico svg { transform: scale(1.18); }
-    .msv3-skill.wrt .ico svg { transform: scale(0.85); }
-    .msv3-skill.lst .ico svg { transform: scale(1.12); }
-    .msv3-skill.rdg .ico svg { transform: scale(0.82); }
+    .msv3-skill.spk .ico svg { transform: scale(1.08); }
+    .msv3-skill.wrt .ico svg { transform: scale(0.92); }
+    .msv3-skill.lst .ico svg { transform: scale(1.04); }
+    .msv3-skill.rdg .ico svg { transform: scale(0.90); }
     .msv3-skill .lbl {
       font-size: 11.5px;
       font-weight: 800;
