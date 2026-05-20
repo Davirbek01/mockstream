@@ -14035,24 +14035,51 @@
     }
 
     // ===== msv3 SIDEBAR (v3 redesign, handoff-only) =====
-    function msv3ToggleSidebar() {
+    // History-aware: open pushes a state so browser back / mobile swipe-back /
+    // Telegram MiniApp back all close the sidebar. Close routes through
+    // history.back() so the pushed state never leaks if the user navigates.
+    function msv3OpenSidebarUi() {
       var s = document.getElementById('msv3Sidebar');
       var o = document.getElementById('msv3Overlay');
-      if (!s) return;
-      var isOpen = s.classList.contains('show');
-      if (isOpen) {
-        s.classList.remove('show');
-        if (o) o.classList.remove('show');
-        s.setAttribute('aria-hidden', 'true');
-      } else {
-        s.classList.add('show');
-        if (o) o.classList.add('show');
-        s.setAttribute('aria-hidden', 'false');
-        msv3RenderAccount();
-        msv3RefreshAdminLocks();
-        msv3RefreshVipBadge();
-      }
+      if (!s || s.classList.contains('show')) return;
+      s.classList.add('show');
+      if (o) o.classList.add('show');
+      s.setAttribute('aria-hidden', 'false');
+      msv3RenderAccount();
+      msv3RefreshAdminLocks();
+      msv3RefreshVipBadge();
+      try {
+        if (!(history.state && history.state.msv3Sidebar)) {
+          history.pushState({ msv3Sidebar: true }, '', window.location.href);
+        }
+      } catch (_e) {}
     }
+    function msv3CloseSidebarUi() {
+      var s = document.getElementById('msv3Sidebar');
+      var o = document.getElementById('msv3Overlay');
+      if (!s || !s.classList.contains('show')) return;
+      s.classList.remove('show');
+      if (o) o.classList.remove('show');
+      s.setAttribute('aria-hidden', 'true');
+    }
+    function msv3RequestSidebarClose() {
+      var s = document.getElementById('msv3Sidebar');
+      if (!s || !s.classList.contains('show')) return;
+      if (history.state && history.state.msv3Sidebar) {
+        try { history.back(); return; } catch (_e) {}
+      }
+      msv3CloseSidebarUi();
+    }
+    function msv3ToggleSidebar() {
+      var s = document.getElementById('msv3Sidebar');
+      if (!s) return;
+      if (s.classList.contains('show')) msv3RequestSidebarClose();
+      else msv3OpenSidebarUi();
+    }
+    // Back / swipe-back / Telegram MiniApp back → popstate. We don't gate
+    // by `history.state.msv3Sidebar` here because by the time popstate
+    // fires we've already moved past that state.
+    window.addEventListener('popstate', function () { msv3CloseSidebarUi(); });
 
     // VIP badge — reads sessionStorage flags set by validateVipFromSidebar.
     function msv3RefreshVipBadge() {
@@ -14271,8 +14298,16 @@
     document.addEventListener('DOMContentLoaded', function () {
       var close = document.getElementById('msv3CloseBtn');
       var overlay = document.getElementById('msv3Overlay');
-      if (close)   close.addEventListener('click', msv3ToggleSidebar);
-      if (overlay) overlay.addEventListener('click', msv3ToggleSidebar);
+      // Close routes through requestClose so the pushed history state is
+      // popped, making back / swipe / MiniApp back work the same way.
+      if (close)   close.addEventListener('click', msv3RequestSidebarClose);
+      if (overlay) overlay.addEventListener('click', msv3RequestSidebarClose);
+      // Escape too.
+      document.addEventListener('keydown', function (e) {
+        if (e.key !== 'Escape') return;
+        var s = document.getElementById('msv3Sidebar');
+        if (s && s.classList.contains('show')) msv3RequestSidebarClose();
+      });
 
       var vipBtn   = document.getElementById('msv3VipBtn');
       var vipInput = document.getElementById('msv3VipInput');

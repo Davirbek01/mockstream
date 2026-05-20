@@ -2356,25 +2356,52 @@
   <script>
   (function () {
     'use strict';
-    // ─────── Sidebar toggle ───────
-    function toggle() {
+    // ─────── Sidebar toggle (history-aware) ───────
+    // Open pushes a history state so browser back / mobile swipe-back /
+    // Telegram Mini App back all close the sidebar. Close goes through
+    // history.back() so the pushed state never leaks into history if the
+    // user later navigates somewhere else.
+    function openSidebarUi() {
       var s = document.getElementById('msv3Sidebar');
       var o = document.getElementById('msv3Overlay');
-      if (!s) return;
-      var open = s.classList.contains('show');
-      if (open) {
-        s.classList.remove('show');
-        if (o) o.classList.remove('show');
-        s.setAttribute('aria-hidden', 'true');
-      } else {
-        s.classList.add('show');
-        if (o) o.classList.add('show');
-        s.setAttribute('aria-hidden', 'false');
-        renderAccount();
-        refreshAdminLocks();
-        refreshVipBadge();
-      }
+      if (!s || s.classList.contains('show')) return;
+      s.classList.add('show');
+      if (o) o.classList.add('show');
+      s.setAttribute('aria-hidden', 'false');
+      renderAccount();
+      refreshAdminLocks();
+      refreshVipBadge();
+      try {
+        if (!(history.state && history.state.msv3Sidebar)) {
+          history.pushState({ msv3Sidebar: true }, '', window.location.href);
+        }
+      } catch (_e) {}
     }
+    function closeSidebarUi() {
+      var s = document.getElementById('msv3Sidebar');
+      var o = document.getElementById('msv3Overlay');
+      if (!s || !s.classList.contains('show')) return;
+      s.classList.remove('show');
+      if (o) o.classList.remove('show');
+      s.setAttribute('aria-hidden', 'true');
+    }
+    // Closes routed through here so back() pops the history state we pushed.
+    function requestSidebarClose() {
+      var s = document.getElementById('msv3Sidebar');
+      if (!s || !s.classList.contains('show')) return;
+      if (history.state && history.state.msv3Sidebar) {
+        try { history.back(); return; } catch (_e) {}
+      }
+      closeSidebarUi();
+    }
+    function toggle() {
+      var s = document.getElementById('msv3Sidebar');
+      if (!s) return;
+      if (s.classList.contains('show')) requestSidebarClose();
+      else openSidebarUi();
+    }
+    // Browser back / mobile swipe / Telegram MiniApp back → popstate.
+    window.addEventListener('popstate', function () { closeSidebarUi(); });
 
     // ─────── VIP unlock badge ───────
     // Reads the sessionStorage flags set by validateVipFromSidebar after the
@@ -2415,13 +2442,10 @@
     // never opens the sidebar (e.g. session restored mid-flow).
     refreshVipBadge();
     document.getElementById('msv3HamburgerBtn').addEventListener('click', toggle);
-    document.getElementById('msv3CloseBtn').addEventListener('click', toggle);
-    document.getElementById('msv3Overlay').addEventListener('click', toggle);
+    document.getElementById('msv3CloseBtn').addEventListener('click', requestSidebarClose);
+    document.getElementById('msv3Overlay').addEventListener('click', requestSidebarClose);
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') {
-        var s = document.getElementById('msv3Sidebar');
-        if (s && s.classList.contains('show')) toggle();
-      }
+      if (e.key === 'Escape') requestSidebarClose();
     });
 
     // ─────── Brand fill ───────
