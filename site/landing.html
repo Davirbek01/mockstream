@@ -25,7 +25,15 @@
         if (typeof tg.ready === 'function') tg.ready();
         if (typeof tg.expand === 'function') tg.expand();
         if (tg.BackButton && typeof tg.BackButton.hide === 'function') tg.BackButton.hide();
-        if (typeof tg.requestFullscreen === 'function' && !tg.isFullscreen) {
+        // Only request true fullscreen on DESKTOP Telegram clients.
+        // Mobile Telegram (iOS / Android) overlays its own chrome (Close pill,
+        // Expand arrow, 3-dot menu) on top of the WebApp surface when in
+        // fullscreen — that hides our top-right icon row (bell / profile /
+        // hamburger) so students can't open the sidebar to enter a VIP code.
+        // Desktop chrome doesn't overlap, so we keep fullscreen there.
+        var plat = (tg.platform || '').toString();
+        var isMobile = (plat === 'ios' || plat === 'android');
+        if (!isMobile && typeof tg.requestFullscreen === 'function' && !tg.isFullscreen) {
           tg.requestFullscreen();
         }
       } catch (_e) {}

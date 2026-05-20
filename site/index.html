@@ -36,6 +36,16 @@
         // initData — it's an empty string under some launch paths.
         if (typeof tg.ready === 'function') tg.ready();
         if (typeof tg.expand === 'function') tg.expand();
+        // Mobile Telegram (iOS / Android) overlays its own chrome — the Close
+        // pill, expand arrow, and 3-dot menu — on top of fullscreen WebApps,
+        // blocking the v3 top-right icon row (bell / profile / hamburger).
+        // Without those the student can't open the sidebar to enter a VIP
+        // code. expand() above already gives near-fullscreen on mobile.
+        // Desktop Telegram clients (tdesktop / macos / web) don't overlap, so
+        // requestFullscreen stays for them.
+        var plat = (tg.platform || '').toString();
+        var isMobile = (plat === 'ios' || plat === 'android');
+        if (isMobile) return;
         var goFullscreen = function () {
           if (typeof tg.requestFullscreen === 'function' && !tg.isFullscreen) {
             tg.requestFullscreen();
