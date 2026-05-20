@@ -2259,6 +2259,29 @@
     function navToPicker(slug) {
       window.location.href = '/landing.html?openSelector=' + encodeURIComponent(slug);
     }
+    // Mirrors the matchers in landing.html's _processDeepLinkTake so we
+    // only build a take URL for combos that route actually supports.
+    // IELTS Speaking has no deep-link path today, so we'll fall back to
+    // opening the picker for those cards.
+    function takeUrlFor(skill, examType, mockNumber) {
+      var num = parseInt(mockNumber, 10);
+      if (!Number.isFinite(num) || num <= 0) return '';
+      var s = (skill || '').toLowerCase();
+      var e = (examType || '').toLowerCase();
+      var supported =
+        (s === 'reading'   && (e === 'cefr' || e === 'ielts')) ||
+        (s === 'listening' && (e === 'cefr' || e === 'ielts')) ||
+        (s === 'writing'   && (e === 'cefr' || e === 'ielts')) ||
+        (s === 'speaking'  &&  e === 'cefr');
+      if (!supported) return '';
+      return '/take/' + e + '-' + s + '-' + num;
+    }
+    function navToTake(takeUrl) {
+      // /take/<slug> is rewritten to landing.html?take=<slug> by Netlify,
+      // landing.html's _processDeepLinkTake then opens the access-code /
+      // mode modal for that specific mock. Direct nav, no picker stop.
+      window.location.href = takeUrl;
+    }
 
     function shortMockTitle(row) {
       const t = (row.title || '').trim();
@@ -2287,8 +2310,17 @@
         const chipCls = skillChipClass(w.skill, w.examType);
         const chipLbl = skillChipLabel(w.skill, w.examType);
         const padded  = String(w.mock_number).padStart(2, '0');
+        // Trending cards now deep-link straight to the specific mock via
+        // /take/<exam>-<skill>-<num> — landing.html's _processDeepLinkTake
+        // opens the access-code / mode modal for that exact mock. Falls
+        // back to opening the picker for combos the deep-link route
+        // doesn't support (only IELTS Speaking today).
+        const takeUrl = takeUrlFor(w.skill, w.examType, w.mock_number);
+        const dataAttr = takeUrl
+          ? 'data-take="' + takeUrl + '"'
+          : 'data-open="' + skillPickerOpenSlug(w.skill, w.examType) + '"';
         return (
-          '<div class="mock-card trending" data-open="' + skillPickerOpenSlug(w.skill, w.examType) + '">'
+          '<div class="mock-card trending" ' + dataAttr + '>'
           + '<div class="mc-head">'
           +   '<span class="skill-chip ' + chipCls + '">' + chipLbl + '</span>'
           +   '<span class="mc-num">#' + padded + '</span>'
@@ -2312,8 +2344,15 @@
         const chipCls = skillChipClass(skill, examType);
         const chipLbl = skillChipLabel(skill, examType);
         const padded  = String(r.mock_number).padStart(2, '0');
+        // Same direct-launch story as the trending rail above — clicking a
+        // just-added card jumps to that exact mock instead of forcing the
+        // student to find it again inside the picker.
+        const takeUrl = takeUrlFor(skill, examType, r.mock_number);
+        const dataAttr = takeUrl
+          ? 'data-take="' + takeUrl + '"'
+          : 'data-open="' + skillPickerOpenSlug(skill, examType) + '"';
         return (
-          '<div class="mock-card fresh" data-open="' + skillPickerOpenSlug(skill, examType) + '">'
+          '<div class="mock-card fresh" ' + dataAttr + '>'
           + '<div class="mc-head">'
           +   '<span class="skill-chip ' + chipCls + '">' + chipLbl + '</span>'
           +   '<span class="mc-num">#' + padded + '</span>'
@@ -2476,7 +2515,14 @@
         var slug    = skillPickerOpenSlug(combo.skill, combo.examType);
         var padded  = String(r.mock_number).padStart(2, '0');
         var title   = shortMockTitle(r);
-        html += '<button type="button" class="bell-pop-item" data-open="' + slug + '">'
+        // Bell items now deep-link straight to the specific mock when the
+        // /take/ route supports the combo, falling back to opening the
+        // picker for unsupported ones (IELTS Speaking).
+        var takeUrl = takeUrlFor(combo.skill, combo.examType, r.mock_number);
+        var dataAttr = takeUrl
+          ? 'data-take="' + takeUrl + '"'
+          : 'data-open="' + slug + '"';
+        html += '<button type="button" class="bell-pop-item" ' + dataAttr + '>'
               +   '<span class="bpi-chip ' + chipCls + '">' + chipLbl + '</span>'
               +   '<span class="bpi-body">'
               +     '<span class="bpi-title">' + title + ' · #' + padded + '</span>'
@@ -2532,9 +2578,17 @@
         e.stopPropagation();
         if (wrap.classList.contains('open')) close(); else open();
       });
-      // Click inside the popover → if it's a [data-open] item, navigate;
-      // otherwise just keep the popover open.
+      // Click inside the popover → deep-link to the specific mock when
+      // possible (data-take), otherwise fall back to opening the picker
+      // for that skill (data-open). Backdrop clicks keep the popover open.
       pop.addEventListener('click', function (e) {
+        var takeTarget = e.target.closest('[data-take]');
+        if (takeTarget) {
+          e.preventDefault();
+          close();
+          navToTake(takeTarget.getAttribute('data-take'));
+          return;
+        }
         var target = e.target.closest('[data-open]');
         if (target) {
           e.preventDefault();
@@ -2564,7 +2618,16 @@
     })();
 
     document.addEventListener('click', function (e) {
-      // Skill tiles / secondary cards outside the bell popover.
+      // data-take always wins — trending / just-added cards specify the
+      // exact mock the student picked, so we send them straight to that
+      // mock's flow instead of stopping at the picker.
+      var takeTarget = e.target.closest('[data-take]');
+      if (takeTarget && !takeTarget.closest('#bellPopover')) {
+        e.preventDefault();
+        navToTake(takeTarget.getAttribute('data-take'));
+        return;
+      }
+      // Skill tiles / secondary cards / "View all" links → open the picker.
       var target = e.target.closest('[data-open]');
       if (!target) return;
       // The bell-popover click handler already handled its own items.
