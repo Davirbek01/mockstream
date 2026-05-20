@@ -332,12 +332,24 @@
       color: var(--ink);
     }
     /* Mobile-only compaction (≤480px): narrow, dense sidebar that doesn't
-       hog the viewport. Targets phones + Telegram Mini App. */
+       hog the viewport. Targets phones + Telegram Mini App.
+       Width is capped at ~50% of the viewport per user spec; min-width
+       protects tiny phones from a sub-200px sidebar. Body locks
+       horizontal scroll so wide content gets clipped instead of
+       letting the user drag the content sideways. */
     @media (max-width: 480px) {
       .msv3-sidebar {
-        width: min(278px, 80vw);
+        width: 50vw;
+        min-width: 220px;
+        max-width: 260px;
         font-size: 12.5px;
+        overflow-x: hidden;
       }
+      .msv3-body { overflow-x: hidden; }
+      .msv3-vip-row { min-width: 0; }
+      .msv3-vip-row input { min-width: 0; flex: 1 1 auto; }
+      .msv3-section, .msv3-row, .msv3-provider, .msv3-skill,
+      .msv3-plus, .msv3-profile { max-width: 100%; }
       .msv3-head { padding: 12px 12px 8px; gap: 8px; }
       .msv3-logo { width: 26px; height: 26px; border-radius: 8px; }
       .msv3-brand { font-size: 14px; }
