@@ -14677,35 +14677,40 @@
         });
       }
 
-      // ── CEFR (Uzbekistan) — same launchers the legacy sidebar uses.
-      wireSkill('msv3CefrSpeaking',  function () { window.location.href = 'Speaking Mocks.html'; });
-      wireSkill('msv3CefrWriting',   function () { window.location.href = 'Writing Mocks.html'; });
+      // Sidebar skill buttons open the inline fullscreen pickers directly,
+      // mirroring what /landing.html?openSelector=<slug> does — that way
+      // they behave the same as the main landing tiles instead of bouncing
+      // to a legacy runner page.
+      wireSkill('msv3CefrSpeaking', function () {
+        if (typeof cspetOpen === 'function') cspetOpen();
+        else openSpeakingCategoryModal('cefr-speaking');
+      });
+      wireSkill('msv3CefrWriting', function () {
+        if (typeof openWritingCategoryModal === 'function') openWritingCategoryModal('cefr-writing');
+      });
       wireSkill('msv3CefrListening', function () {
-        if (typeof loadMock === 'function') loadMock('CEFR Listening Mocks.html', 'listening');
-        else window.location.href = 'CEFR Listening Mocks.html';
+        if (typeof openCategoryModal === 'function') openCategoryModal('cefr-listening');
       });
       wireSkill('msv3CefrReading', function () {
-        if (typeof loadMock === 'function') loadMock('CEFR Reading Mocks.html', 'reading');
-        else window.location.href = 'CEFR Reading Mocks.html';
+        if (typeof openCategoryModal === 'function') openCategoryModal('cefr-reading');
       });
       wireSkill('msv3CefrFullMock', function () {
         if (typeof startFullMock === 'function') startFullMock();
         else if (typeof showFullMockOptions === 'function') showFullMockOptions();
       });
 
-      // ── IELTS (International) — direct routes per the legacy sidebar's
-      //    IELTS section.
       wireSkill('msv3IeltsSpeaking', function () {
-        if (typeof showIELTSSpeakingModeModal === 'function') showIELTSSpeakingModeModal();
+        if (typeof ispetOpen === 'function') ispetOpen();
+        else openSpeakingCategoryModal('ielts-speaking');
       });
-      wireSkill('msv3IeltsWriting',  function () { window.location.href = 'Writing IELTS Mock.html'; });
+      wireSkill('msv3IeltsWriting', function () {
+        if (typeof openWritingCategoryModal === 'function') openWritingCategoryModal('ielts-writing');
+      });
       wireSkill('msv3IeltsListening', function () {
-        if (typeof loadMock === 'function') loadMock('IELTS Listening Mocks.html', 'listening');
-        else window.location.href = 'IELTS Listening Mocks.html';
+        if (typeof openCategoryModal === 'function') openCategoryModal('ielts-listening');
       });
       wireSkill('msv3IeltsReading', function () {
-        if (typeof loadMock === 'function') loadMock('IELTS Reading Mocks.html', 'reading');
-        else window.location.href = 'IELTS Reading Mocks.html';
+        if (typeof openCategoryModal === 'function') openCategoryModal('ielts-reading');
       });
       wireSkill('msv3IeltsFullMock', function () {
         if (typeof showIELTSFullMockOptions === 'function') showIELTSFullMockOptions();

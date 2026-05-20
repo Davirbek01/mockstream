@@ -3248,34 +3248,37 @@
     })();
 
     // CEFR — direct page navigation (these pages exist standalone)
+    // Sidebar skill buttons mirror the main landing tile behaviour: route
+    // through /landing.html?openSelector=<slug> so the inline fullscreen
+    // picker opens, instead of landing on a runner page that immediately
+    // bounces back.
     document.getElementById('msv3CefrSpeaking').addEventListener('click', function () {
-      window.location.href = 'Speaking Mocks.html';
+      window.location.href = '/landing.html?openSelector=cefr-speaking';
     });
     document.getElementById('msv3CefrWriting').addEventListener('click', function () {
-      window.location.href = 'Writing Mocks.html';
+      window.location.href = '/landing.html?openSelector=cefr-writing';
     });
     document.getElementById('msv3CefrListening').addEventListener('click', function () {
-      window.location.href = 'CEFR Listening Mocks.html';
+      window.location.href = '/landing.html?openSelector=cefr-listening';
     });
     document.getElementById('msv3CefrReading').addEventListener('click', function () {
-      window.location.href = 'CEFR Reading Mocks.html';
+      window.location.href = '/landing.html?openSelector=cefr-reading';
     });
     document.getElementById('msv3CefrFullMock').addEventListener('click', function () {
       window.location.href = '/landing.html?openFullMock=1';
     });
 
-    // IELTS — direct pages for skills, handoff for the speaking-mode modal and full mock
     document.getElementById('msv3IeltsSpeaking').addEventListener('click', function () {
-      window.location.href = '/landing.html?openIeltsSpeakingMode=1';
+      window.location.href = '/landing.html?openSelector=ielts-speaking';
     });
     document.getElementById('msv3IeltsWriting').addEventListener('click', function () {
-      window.location.href = 'Writing IELTS Mock.html';
+      window.location.href = '/landing.html?openSelector=ielts-writing';
     });
     document.getElementById('msv3IeltsListening').addEventListener('click', function () {
-      window.location.href = 'IELTS Listening Mocks.html';
+      window.location.href = '/landing.html?openSelector=ielts-listening';
     });
     document.getElementById('msv3IeltsReading').addEventListener('click', function () {
-      window.location.href = 'IELTS Reading Mocks.html';
+      window.location.href = '/landing.html?openSelector=ielts-reading';
     });
     document.getElementById('msv3IeltsFullMock').addEventListener('click', function () {
       window.location.href = '/landing.html?openIeltsFullMock=1';
