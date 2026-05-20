@@ -331,6 +331,29 @@
       font-size: 13.5px;
       color: var(--ink);
     }
+    /* Mobile-only compaction: narrow the sidebar to ~85% of the viewport
+       and tighten internal padding so the section content drives the
+       perceived width instead of the chrome. */
+    @media (max-width: 480px) {
+      .msv3-sidebar {
+        width: min(300px, 86vw);
+        font-size: 13px;
+      }
+      .msv3-head { padding: 14px 14px 10px; gap: 9px; }
+      .msv3-body { padding: 8px 14px 12px; }
+      .msv3-foot { padding: 12px 14px; }
+      .msv3-skill { min-height: 76px; padding: 12px 8px; gap: 5px; }
+      .msv3-skill .ico { width: 32px; height: 32px; }
+      .msv3-skill .lbl { font-size: 10.5px; letter-spacing: 0.06em; }
+      .msv3-provider { padding: 10px 12px; font-size: 13.5px; gap: 10px; }
+      .msv3-row { padding: 10px 12px; font-size: 13px; }
+      .msv3-vip-row input { padding: 9px 11px; font-size: 13px; }
+      .msv3-vip-row button { width: 38px; height: 38px; font-size: 16px; }
+      .msv3-fullmock { padding: 11px 12px; font-size: 12px; }
+      .msv3-plus { padding: 8px 10px; font-size: 12.5px; gap: 7px; }
+      .msv3-plus-ico { width: 20px; height: 20px; font-size: 13px; }
+      .msv3-section { margin-top: 12px; }
+    }
     .msv3-sidebar.show { transform: translateX(0); }
     .msv3-sidebar::before {
       content: '';
