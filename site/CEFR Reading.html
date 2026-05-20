@@ -3541,7 +3541,7 @@
       let passageContent = part.passage.content;
       part.questions.forEach(q => {
         const gapPattern = new RegExp(`<span class="gap" data-gap="${q.id}">.*?</span>`, 'g');
-        const inputHtml = `<span class="inline-gap-input"><span class="gap-number">${q.id}</span><input type="text" autocomplete="off" id="answer-${q.id}" data-question="${q.id}" placeholder="Type answer..."></span>`;
+        const inputHtml = `<span class="inline-gap-input"><span class="gap-number">${q.id}</span><input type="text" autocomplete="new-password" id="answer-${q.id}" data-question="${q.id}" placeholder="Type answer..."></span>`;
         passageContent = passageContent.replace(gapPattern, inputHtml);
       });
 
@@ -4204,7 +4204,7 @@
           let summaryContent = section.summaryText;
           section.questions.forEach(q => {
             const gapPattern = new RegExp(`<span class="gap-input" data-gap="${q.id}">.*?</span>`, 'g');
-            const inputHtml = `<span class="inline-gap-input"><span class="gap-number">${q.id}</span><input type="text" autocomplete="off" id="answer-${q.id}" data-question="${q.id}" placeholder="Type answer..."></span>`;
+            const inputHtml = `<span class="inline-gap-input"><span class="gap-number">${q.id}</span><input type="text" autocomplete="new-password" id="answer-${q.id}" data-question="${q.id}" placeholder="Type answer..."></span>`;
             summaryContent = summaryContent.replace(gapPattern, inputHtml);
           });
           questionsHtml += `<div class="summary-text">${summaryContent}</div>`;
