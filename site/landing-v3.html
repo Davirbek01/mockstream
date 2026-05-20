@@ -1,0 +1,2529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mock Stream · Landing v3 (Premium EdTech)</title>
+
+  <!-- Standalone preview — no shared CSS / JS. Sister file to
+       landing-v2.html. Open either at /landing-v2.html or /landing-v3.html. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Supabase + auth helper, needed by the inline sidebar (Google sign-in,
+       Telegram sign-in, signed-in state). Load before the sidebar JS at the
+       bottom. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="auth.js" defer></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    :root {
+      /* ── Brand ───────────────────────────────────────────── */
+      --indigo:        #2563eb;
+      --indigo-deep:   #1d4ed8;
+      --indigo-soft:   #eef2ff;
+      --orange:        #f97316;
+      --orange-deep:   #c2410c;
+      --orange-soft:   #fff7ed;
+      /* ── Ink ─────────────────────────────────────────────── */
+      --ink:           #0f172a;
+      --ink-2:         #334155;
+      --muted:         #64748b;
+      --muted-2:       #94a3b8;
+      --line:          #e2e8f0;
+      --line-soft:     #f1f5f9;
+      /* ── Surfaces ────────────────────────────────────────── */
+      --bg:            #f8fafc;
+      --card:          #ffffff;
+      --card-soft:     #fafbfc;
+      /* ── Shadows ─────────────────────────────────────────── */
+      --shadow-xs:     0 1px 2px rgba(15, 23, 42, 0.04);
+      --shadow:        0 4px 14px rgba(15, 23, 42, 0.06);
+      --shadow-md:     0 10px 26px rgba(15, 23, 42, 0.08);
+      --shadow-lg:     0 22px 48px rgba(15, 23, 42, 0.12);
+      /* Color-tinted glows for hover lift on vitals + skill cards */
+      --glow-indigo:   0 18px 32px -8px rgba(37, 99, 235, 0.32);
+      --glow-orange:   0 18px 32px -8px rgba(249, 115, 22, 0.32);
+      --glow-emerald:  0 18px 32px -8px rgba(16, 185, 129, 0.32);
+      --glow-violet:   0 18px 32px -8px rgba(139, 92, 246, 0.32);
+      --glow-cyan:     0 18px 32px -8px rgba(14, 165, 233, 0.32);
+      /* ── Radii ───────────────────────────────────────────── */
+      --r-sm:          10px;
+      --r:             14px;
+      --r-lg:          18px;
+      --r-xl:          22px;
+    }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background:
+        radial-gradient(900px 500px at 8% -10%,  rgba(37, 99, 235, .07), transparent 60%),
+        radial-gradient(700px 400px at 100% 8%,  rgba(249, 115, 22, .06), transparent 60%),
+        var(--bg);
+      background-attachment: fixed;
+      color: var(--ink);
+      font: 15px/1.6 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; }
+    svg { display: block; }
+
+    /* ═══════════════════════════════════════════════════════
+       Top accent line + sticky header
+       ═══════════════════════════════════════════════════════ */
+    .brand-stripe {
+      height: 3px;
+      background: linear-gradient(90deg, var(--indigo) 0%, #6366f1 50%, var(--orange) 100%);
+      width: 100%;
+    }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: saturate(180%) blur(12px);
+      -webkit-backdrop-filter: saturate(180%) blur(12px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+    }
+    .topbar-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 28px;
+      height: 66px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-weight: 800;
+      font-size: 17px;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+    .brand-logo {
+      width: 36px; height: 36px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, var(--indigo) 0%, #6366f1 60%, var(--orange) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 900;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      box-shadow: 0 6px 14px rgba(37, 99, 235, 0.24);
+    }
+    .topbar-spacer { flex: 1; }
+    .topbar-actions { display: flex; gap: 10px; align-items: center; }
+    .icon-btn {
+      width: 40px; height: 40px;
+      border: 1px solid var(--line);
+      background: var(--card);
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+      color: var(--ink-2);
+      box-shadow: var(--shadow-xs);
+      position: relative;
+    }
+    .icon-btn:hover {
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: var(--shadow);
+      border-color: var(--indigo);
+      color: var(--indigo);
+    }
+    .icon-btn svg { width: 18px; height: 18px; }
+    .icon-btn .dot {
+      position: absolute;
+      top: 9px; right: 9px;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--orange);
+      box-shadow: 0 0 0 2px var(--card);
+    }
+    .icon-btn .dot.hidden { display: none; }
+
+    /* ═══════════════════════════════════════════════════════
+       Bell popover — "What's new" feed
+       Anchored under the notifications bell. Lists the latest
+       published mocks from mock_tests; click jumps to the matching picker.
+       ═══════════════════════════════════════════════════════ */
+    .bell-wrap { position: relative; }
+    .bell-popover {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      width: 360px;
+      max-width: calc(100vw - 32px);
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow-lg);
+      opacity: 0;
+      transform: translateY(-6px) scale(0.98);
+      pointer-events: none;
+      transition: opacity .18s ease, transform .18s ease;
+      z-index: 1000;
+      overflow: hidden;
+    }
+    .bell-wrap.open .bell-popover {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+    .bell-pop-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .bell-pop-title {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .bell-pop-title .badge-new {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: #ecfdf5;
+      color: #047857;
+    }
+    .bell-pop-sub {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .bell-pop-list {
+      max-height: 360px;
+      overflow-y: auto;
+      padding: 4px 0;
+    }
+    .bell-pop-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 16px;
+      cursor: pointer;
+      transition: background 140ms ease;
+      border: 0;
+      background: none;
+      width: 100%;
+      text-align: left;
+      font: inherit;
+    }
+    .bell-pop-item:hover { background: var(--line-soft); }
+    .bell-pop-item:active { background: #e2e8f0; }
+    .bell-pop-item .bpi-chip {
+      flex-shrink: 0;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+    .bell-pop-item .bpi-chip.cs  { background: #f1f5f9; color: #475569; }
+    .bell-pop-item .bpi-chip.is  { background: #fff7ed; color: #c2410c; }
+    .bell-pop-item .bpi-chip.cw  { background: #eef2ff; color: #4338ca; }
+    .bell-pop-item .bpi-chip.iw  { background: #fdf2f8; color: #be185d; }
+    .bell-pop-item .bpi-chip.cl  { background: #ecfdf5; color: #047857; }
+    .bell-pop-item .bpi-chip.il  { background: #fef3c7; color: #b45309; }
+    .bell-pop-item .bpi-chip.cr  { background: #f0f9ff; color: #0369a1; }
+    .bell-pop-item .bpi-chip.ir  { background: #faf5ff; color: #6b21a8; }
+    .bell-pop-item .bpi-body {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+    .bell-pop-item .bpi-title {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.3;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .bell-pop-item .bpi-meta {
+      font-size: 11.5px;
+      color: var(--muted);
+    }
+    .bell-pop-item .bpi-arrow {
+      color: var(--muted-2);
+      transition: transform 160ms ease, color 160ms ease;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .bell-pop-item:hover .bpi-arrow {
+      transform: translateX(2px);
+      color: var(--indigo);
+    }
+    .bell-pop-empty,
+    .bell-pop-loading {
+      padding: 24px 16px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .bell-pop-foot {
+      padding: 10px 16px;
+      border-top: 1px solid var(--line-soft);
+      text-align: center;
+    }
+    .bell-pop-foot a {
+      font-size: 12.5px;
+      color: var(--indigo);
+      font-weight: 700;
+      padding: 6px 10px;
+      border-radius: 8px;
+      transition: background 140ms ease;
+    }
+    .bell-pop-foot a:hover { background: var(--indigo-soft); }
+
+    /* ═══════════════════════════════════════════════════════
+       Inline sidebar (msv3) — opens over the v3 landing page.
+       Sign-in / sign-out / Telegram run locally via auth.js;
+       VIP / admin / IELTS modal / Full Mock hand off to landing.html.
+       ═══════════════════════════════════════════════════════ */
+    .msv3-overlay {
+      position: fixed; inset: 0;
+      background: rgba(15, 23, 42, 0.30);
+      backdrop-filter: saturate(180%) blur(4px);
+      -webkit-backdrop-filter: saturate(180%) blur(4px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 220ms ease;
+      z-index: 9990;
+    }
+    .msv3-overlay.show { opacity: 1; pointer-events: auto; }
+    .msv3-sidebar {
+      position: fixed; top: 0; right: 0;
+      height: 100vh;
+      width: 320px;
+      max-width: calc(100vw - 24px);
+      background: #ffffff;
+      box-shadow: -24px 0 60px rgba(15, 23, 42, 0.14);
+      border-left: 1px solid var(--line);
+      transform: translateX(100%);
+      transition: transform 280ms cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 9995;
+      display: flex;
+      flex-direction: column;
+      font-size: 13.5px;
+      color: var(--ink);
+    }
+    .msv3-sidebar.show { transform: translateX(0); }
+    .msv3-sidebar::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--indigo) 0%, #6366f1 50%, var(--orange) 100%);
+      z-index: 2;
+    }
+    .msv3-head {
+      display: flex; align-items: center; gap: 10px;
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .msv3-logo {
+      width: 30px; height: 30px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, var(--indigo) 0%, #6366f1 60%, var(--orange) 100%);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 3px 8px rgba(37, 99, 235, 0.22);
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .msv3-logo img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .msv3-brand {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      flex: 1;
+    }
+    .msv3-close {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--muted);
+      font-size: 16px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: all 160ms ease;
+    }
+    .msv3-close:hover { color: var(--ink); border-color: #cbd5e1; background: #f8fafc; }
+    .msv3-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 10px 16px 14px;
+    }
+    .msv3-section { margin-top: 14px; }
+    .msv3-section:first-child { margin-top: 4px; }
+    .msv3-section-head {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 10.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .msv3-section-head .msv3-tag {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      background: var(--indigo-soft);
+      color: #4338ca;
+      padding: 3px 7px;
+      border-radius: 999px;
+    }
+    .msv3-section-head .msv3-tag.msv3-tag-ielts {
+      background: var(--orange-soft);
+      color: var(--orange-deep);
+    }
+    .msv3-account { display: flex; flex-direction: column; gap: 10px; }
+    .msv3-provider {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 14px;
+      background: #ffffff;
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+      text-align: left;
+      width: 100%;
+    }
+    .msv3-provider:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08); }
+    .msv3-provider.google:hover { border-color: var(--indigo); }
+    .msv3-provider.telegram:hover { border-color: #229ED9; }
+    .msv3-provider svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .msv3-email-link {
+      background: none; border: 0;
+      color: var(--indigo);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      align-self: flex-start;
+      padding: 4px 0;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .msv3-email-link:hover { color: var(--indigo-deep); }
+    .msv3-profile {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+    }
+    .msv3-avatar {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--indigo), #6366f1);
+      color: #fff;
+      font-weight: 700;
+      font-size: 15px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .msv3-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .msv3-profile-text { flex: 1; min-width: 0; }
+    .msv3-profile-name {
+      font-size: 14.5px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .msv3-profile-role { font-size: 12px; color: var(--muted); font-weight: 500; }
+    .msv3-vip-row { display: flex; gap: 8px; }
+    .msv3-vip-row input {
+      flex: 1;
+      padding: 11px 13px;
+      background: #fffbeb;
+      border: 1.5px solid #fcd34d;
+      border-radius: 10px;
+      font: 600 14px/1.4 'Inter', sans-serif;
+      color: #78350f;
+      outline: none;
+      transition: border-color 160ms ease, box-shadow 160ms ease;
+    }
+    .msv3-vip-row input::placeholder { color: #b45309; opacity: 0.7; }
+    .msv3-vip-row input:focus { border-color: #f59e0b; box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.18); }
+    .msv3-vip-row button {
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      border: 0;
+      background: linear-gradient(135deg, #f59e0b, #ea580c);
+      color: white;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(234, 88, 12, 0.30);
+      transition: transform 160ms ease, box-shadow 160ms ease;
+      flex-shrink: 0;
+    }
+    .msv3-vip-row button:hover { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(234, 88, 12, 0.36); }
+    .msv3-vip-sub { font-size: 12px; color: var(--muted); margin-top: 6px; }
+    .msv3-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 14px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+      width: 100%;
+      text-align: left;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+      margin-bottom: 8px;
+    }
+    .msv3-row:last-child { margin-bottom: 0; }
+    .msv3-row:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(15, 23, 42, 0.07); border-color: var(--indigo); }
+    .msv3-row-icon { font-size: 16px; }
+    .msv3-row-arrow { margin-left: auto; color: var(--muted-2); font-size: 14px; }
+    .msv3-skills {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .msv3-skill {
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px 12px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+      text-align: center;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+      min-height: 88px;
+    }
+    .msv3-skill:hover {
+      transform: translateY(-2px);
+      border-color: var(--indigo);
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+    }
+    .msv3-skill .ico {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      display: grid; place-items: center;
+      color: white;
+    }
+    .msv3-skill.spk .ico { background: #ef4444; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.25); }
+    .msv3-skill.wrt .ico { background: #f97316; box-shadow: 0 4px 10px rgba(249, 115, 22, 0.25); }
+    .msv3-skill.lst .ico { background: #06b6d4; box-shadow: 0 4px 10px rgba(6, 182, 212, 0.25); }
+    .msv3-skill.rdg .ico { background: #10b981; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25); }
+    .msv3-skill .ico svg { width: 18px; height: 18px; }
+    .msv3-skill .lbl {
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+    .msv3-fullmock {
+      margin-top: 14px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 13px 14px;
+      border: 0;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      color: #fff;
+      font: 800 13px/1 'Inter', sans-serif;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.20);
+      transition: transform 160ms ease, box-shadow 160ms ease;
+      width: 100%;
+    }
+    .msv3-fullmock:hover { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(15, 23, 42, 0.28); }
+    .msv3-fullmock .star { color: #fbbf24; font-size: 16px; }
+    .msv3-fullmock.msv3-fullmock-ielts {
+      background: linear-gradient(135deg, #1d4ed8, var(--indigo));
+      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.30);
+    }
+    .msv3-fullmock.msv3-fullmock-ielts:hover { box-shadow: 0 14px 28px rgba(37, 99, 235, 0.36); }
+    .msv3-foot {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 16px;
+      border-top: 1px solid #f1f5f9;
+      background: #fafbfc;
+    }
+    .msv3-foot-links {
+      display: flex; flex-direction: column; gap: 4px;
+      font-size: 11.5px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .msv3-foot-links a { color: var(--muted); cursor: pointer; }
+    .msv3-foot-links a:hover { color: var(--indigo); }
+    .msv3-logout {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 7px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 160ms ease;
+    }
+    .msv3-logout:hover { border-color: #ef4444; color: #ef4444; background: #fef2f2; }
+
+    /* ═══════════════════════════════════════════════════════
+       Page container
+       ═══════════════════════════════════════════════════════ */
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 36px 28px 64px;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       Hero + vitals
+       ═══════════════════════════════════════════════════════ */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      margin-bottom: 40px;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--indigo);
+      background: var(--indigo-soft);
+      padding: 6px 12px;
+      border-radius: 999px;
+      align-self: flex-start;
+    }
+    .hero-eyebrow .live-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--orange);
+      box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.6);
+      animation: livePulse 1.8s ease-out infinite;
+    }
+    @keyframes livePulse {
+      0%   { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.6); }
+      70%  { box-shadow: 0 0 0 9px rgba(249, 115, 22, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
+    }
+    .hero-title {
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin: 0;
+      color: var(--ink);
+    }
+    .hero-title em {
+      font-style: normal;
+      background: linear-gradient(90deg, var(--indigo), #6366f1, var(--orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 15.5px;
+      color: var(--muted);
+      max-width: 620px;
+      margin: 0;
+    }
+
+    .vitals {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 6px;
+    }
+    .vital {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      padding: 20px 22px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: var(--shadow);
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+      cursor: default;
+    }
+    .vital:hover { transform: translateY(-4px); }
+    .vital.v-violet:hover  { box-shadow: var(--glow-violet);  border-color: rgba(139, 92, 246, 0.32); }
+    .vital.v-orange:hover  { box-shadow: var(--glow-orange);  border-color: rgba(249, 115, 22, 0.32); }
+    .vital.v-emerald:hover { box-shadow: var(--glow-emerald); border-color: rgba(16, 185, 129, 0.32); }
+
+    .vital-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      display: grid; place-items: center;
+      flex-shrink: 0;
+      color: white;
+      position: relative;
+    }
+    .vital-icon::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.25), transparent 50%);
+    }
+    .vital.v-violet  .vital-icon { background: linear-gradient(135deg, #a78bfa, #7c3aed); }
+    .vital.v-orange  .vital-icon { background: linear-gradient(135deg, #fb923c, #ea580c); }
+    .vital.v-emerald .vital-icon { background: linear-gradient(135deg, #34d399, #059669); }
+    .vital-icon svg { width: 24px; height: 24px; position: relative; z-index: 1; }
+
+    .vital-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .vital-number {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+    }
+    .vital-label {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       Section header
+       ═══════════════════════════════════════════════════════ */
+    .section { margin-bottom: 40px; }
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      gap: 14px;
+    }
+    .section-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      margin: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 5px 9px;
+      border-radius: 999px;
+    }
+    .section-title .badge.hot   { background: var(--orange-soft); color: var(--orange-deep); }
+    .section-title .badge.new   { background: #ecfdf5;             color: #047857; }
+    .section-link {
+      font-size: 13px;
+      color: var(--indigo);
+      font-weight: 700;
+      padding: 7px 13px;
+      border-radius: 10px;
+      transition: background 160ms ease;
+    }
+    .section-link:hover { background: var(--indigo-soft); }
+
+    /* ═══════════════════════════════════════════════════════
+       Rails — horizontally scrollable mock cards
+       ═══════════════════════════════════════════════════════ */
+    .rail {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(248px, 1fr);
+      gap: 16px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 6px 4px 14px;
+      margin: 0 -4px;
+    }
+    .rail::-webkit-scrollbar { height: 8px; }
+    .rail::-webkit-scrollbar-thumb { background: rgba(15, 23, 42, .12); border-radius: 999px; }
+    .rail::-webkit-scrollbar-track { background: transparent; }
+
+    .mock-card {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      padding: 18px 20px 20px;
+      cursor: pointer;
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 168px;
+      overflow: hidden;
+      box-shadow: var(--shadow-xs);
+    }
+    .mock-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--indigo), var(--orange));
+      opacity: 0;
+      transition: opacity 220ms ease;
+    }
+    .mock-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--indigo);
+    }
+    .mock-card:hover::before { opacity: 1; }
+    .mock-card.trending::after,
+    .mock-card.fresh::after {
+      content: '';
+      position: absolute;
+      right: -16px;
+      bottom: -16px;
+      width: 96px; height: 96px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(249, 115, 22, 0.10) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .mock-card.fresh::after { background: radial-gradient(circle, rgba(16, 185, 129, 0.10) 0%, transparent 70%); }
+
+    .mc-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .skill-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 5px 10px;
+      border-radius: 999px;
+      line-height: 1;
+    }
+    /* Per-skill soft tint + deep text — calm but distinctive */
+    .skill-chip.cw { background: #ede9fe; color: #5b21b6; }   /* CEFR Writing  → lavender */
+    .skill-chip.iw { background: #fce7f3; color: #9d174d; }   /* IELTS Writing → soft pink */
+    .skill-chip.cs { background: #d1fae5; color: #065f46; }   /* CEFR Speaking → mint */
+    .skill-chip.is { background: #cffafe; color: #155e75; }   /* IELTS Speaking → soft cyan */
+    .skill-chip.cr { background: #fef3c7; color: #92400e; }   /* CEFR Reading → soft amber */
+    .skill-chip.ir { background: #ffedd5; color: #9a3412; }   /* IELTS Reading → soft peach */
+    .skill-chip.cl { background: #dbeafe; color: #1e40af; }   /* CEFR Listening → soft sky */
+    .skill-chip.il { background: #fef9c3; color: #854d0e; }   /* IELTS Listening → soft yellow */
+
+    .mc-num {
+      font-size: 13.5px;
+      color: var(--ink-2);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+    .mc-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1.3;
+      letter-spacing: -0.015em;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      flex: 1;
+    }
+    .mc-stat {
+      font-size: 12.5px;
+      color: var(--muted);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .mc-stat .fire   { color: var(--orange); }
+    .mc-stat .spark  { color: #059669; }
+
+    .mc-cta {
+      position: absolute;
+      left: 20px;
+      bottom: 18px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--indigo);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 220ms ease, transform 220ms ease;
+    }
+    .mock-card:hover .mc-cta {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .mock-card:hover .mc-stat { opacity: 0; transition: opacity 200ms ease; }
+    .mc-stat { transition: opacity 200ms ease; }
+
+    /* ═══════════════════════════════════════════════════════
+       Skill grid — restrained tinted cards
+       ═══════════════════════════════════════════════════════ */
+    .skill-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+    .skill-card {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      padding: 24px 24px 22px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+      min-height: 200px;
+      overflow: hidden;
+    }
+    .skill-card::before {
+      /* Tinted ribbon on the left edge, distinct per skill */
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      bottom: 0;
+      width: 4px;
+    }
+    .skill-card[data-skill="speaking"]::before  { background: linear-gradient(180deg, #34d399, #059669); }
+    .skill-card[data-skill="writing"]::before   { background: linear-gradient(180deg, #a78bfa, #7c3aed); }
+    .skill-card[data-skill="listening"]::before { background: linear-gradient(180deg, #38bdf8, #0284c7); }
+    .skill-card[data-skill="reading"]::before   { background: linear-gradient(180deg, #fbbf24, #d97706); }
+
+    .skill-card:hover { transform: translateY(-4px); }
+    .skill-card[data-skill="speaking"]:hover  { box-shadow: var(--glow-emerald); border-color: rgba(16, 185, 129, 0.32); }
+    .skill-card[data-skill="writing"]:hover   { box-shadow: var(--glow-violet);  border-color: rgba(139, 92, 246, 0.32); }
+    .skill-card[data-skill="listening"]:hover { box-shadow: var(--glow-cyan);    border-color: rgba(14, 165, 233, 0.32); }
+    .skill-card[data-skill="reading"]:hover   { box-shadow: var(--glow-orange);  border-color: rgba(249, 115, 22, 0.32); }
+
+    .sc-head {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .sc-icon {
+      width: 56px; height: 56px;
+      border-radius: 16px;
+      display: grid; place-items: center;
+      font-size: 26px;
+      flex-shrink: 0;
+      color: white;
+      position: relative;
+    }
+    .sc-icon::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.25), transparent 55%);
+    }
+    .skill-card[data-skill="speaking"]  .sc-icon { background: linear-gradient(135deg, #34d399, #059669); }
+    .skill-card[data-skill="writing"]   .sc-icon { background: linear-gradient(135deg, #a78bfa, #7c3aed); }
+    .skill-card[data-skill="listening"] .sc-icon { background: linear-gradient(135deg, #38bdf8, #0284c7); }
+    .skill-card[data-skill="reading"]   .sc-icon { background: linear-gradient(135deg, #fbbf24, #d97706); }
+    .sc-icon svg { width: 26px; height: 26px; position: relative; z-index: 1; }
+
+    .sc-name {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .sc-meta {
+      font-size: 13.5px;
+      color: var(--muted);
+      font-weight: 500;
+      margin-top: 4px;
+    }
+    .sc-stats {
+      display: flex;
+      gap: 18px;
+      font-size: 13px;
+      color: var(--ink-2);
+      align-items: center;
+      font-weight: 500;
+    }
+    .sc-stats .num {
+      font-weight: 800;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+    }
+    .sc-ctas {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .sc-cta {
+      flex: 1;
+      padding: 11px 16px;
+      border: 0;
+      border-radius: 11px;
+      font-weight: 700;
+      font-size: 13.5px;
+      letter-spacing: -0.005em;
+      transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .sc-cta.primary {
+      background: var(--ink);
+      color: white;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
+    }
+    .sc-cta.primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(15, 23, 42, 0.24); }
+    .sc-cta.ghost {
+      background: var(--card-soft);
+      color: var(--ink-2);
+      border: 1px solid var(--line);
+    }
+    .sc-cta.ghost:hover { background: var(--indigo-soft); color: var(--indigo); border-color: var(--indigo); }
+
+    /* ═══════════════════════════════════════════════════════
+       Secondary cards (Full Mock / Cambridge)
+       ═══════════════════════════════════════════════════════ */
+    .secondary {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .secondary-card {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      padding: 22px 24px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+      overflow: hidden;
+      min-height: 96px;
+    }
+    .secondary-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--indigo);
+      box-shadow: var(--glow-indigo);
+    }
+    .secondary-card .icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      display: grid; place-items: center;
+      flex-shrink: 0;
+      color: white;
+      position: relative;
+    }
+    .secondary-card .icon::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.25), transparent 55%);
+    }
+    .secondary-card.full .icon { background: linear-gradient(135deg, var(--indigo), #6366f1); }
+    .secondary-card.camb .icon { background: linear-gradient(135deg, var(--orange), var(--orange-deep)); }
+    .secondary-card .icon svg { width: 22px; height: 22px; position: relative; z-index: 1; }
+    .secondary-card .body { flex: 1; min-width: 0; }
+    .secondary-card .title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.015em;
+    }
+    .secondary-card .sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 3px;
+      font-weight: 500;
+    }
+    .secondary-card .arrow {
+      color: var(--muted);
+      font-size: 20px;
+      transition: transform 220ms ease, color 220ms ease;
+    }
+    .secondary-card:hover .arrow { transform: translateX(4px); color: var(--indigo); }
+
+    /* ═══════════════════════════════════════════════════════
+       International Exams — horizontal slider rail
+       Cambridge (KET → CPE) + SAT, scroll-snap so future exams just append.
+       ═══════════════════════════════════════════════════════ */
+    .exams-rail {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 6px 4px 14px;
+      margin: -6px -4px 0;
+      scrollbar-width: thin;
+      scrollbar-color: var(--line) transparent;
+    }
+    .exams-rail::-webkit-scrollbar { height: 8px; }
+    .exams-rail::-webkit-scrollbar-track { background: transparent; }
+    .exams-rail::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+    .exams-rail::-webkit-scrollbar-thumb:hover { background: var(--muted-2); }
+    .exams-rail > .cambridge-card {
+      flex: 0 0 175px;
+      scroll-snap-align: start;
+    }
+    @media (max-width: 540px) {
+      .exams-rail > .cambridge-card { flex: 0 0 150px; }
+    }
+    .cambridge-card {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      padding: 18px 16px 16px;
+      box-shadow: var(--shadow-xs);
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-height: 110px;
+    }
+    .cambridge-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #2563eb, #8b5cf6, #ec4899);
+    }
+    .cambridge-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--indigo);
+      box-shadow: var(--shadow-md);
+    }
+    .cambridge-card .cb-level {
+      display: inline-block;
+      align-self: flex-start;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: var(--indigo-soft);
+      color: var(--indigo-deep);
+      margin-bottom: 6px;
+    }
+    .cambridge-card .cb-code {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      line-height: 1.1;
+    }
+    .cambridge-card .cb-name {
+      font-size: 12.5px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    /* SAT — distinct stripe + level chip so it visually breaks from
+       the Cambridge family it sits beside. */
+    .cambridge-card.sat-card::before {
+      background: linear-gradient(90deg, #0f4c81, #d40000);
+    }
+    .cambridge-card .cb-level.cb-level-sat {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    .cambridge-card.sat-card:hover { border-color: #d40000; }
+
+    /* ═══════════════════════════════════════════════════════
+       Learning Tools grid — 4 compact cards under the secondary row
+       ═══════════════════════════════════════════════════════ */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 920px) { .tools-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 460px) { .tools-grid { grid-template-columns: 1fr; } }
+    .tool-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      padding: 16px 18px;
+      box-shadow: var(--shadow-xs);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+      min-height: 78px;
+    }
+    .tool-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--indigo);
+      box-shadow: var(--shadow-md);
+    }
+    .tool-icon {
+      width: 42px; height: 42px;
+      border-radius: 11px;
+      display: grid; place-items: center;
+      flex-shrink: 0;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    .tool-icon::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 11px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.25), transparent 55%);
+    }
+    .tool-icon svg { width: 19px; height: 19px; position: relative; z-index: 1; }
+    .tool-body { flex: 1; min-width: 0; }
+    .tool-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+    .tool-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+      font-weight: 500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .tool-arrow {
+      color: var(--muted-2);
+      font-size: 18px;
+      transition: transform 220ms ease, color 220ms ease;
+      flex-shrink: 0;
+    }
+    .tool-card:hover .tool-arrow { transform: translateX(3px); color: var(--indigo); }
+    .tools-grid.tools-grid-3 { grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 760px) { .tools-grid.tools-grid-3 { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 460px) { .tools-grid.tools-grid-3 { grid-template-columns: 1fr; } }
+    /* Coming-soon variant — same shape, muted feel, pill instead of arrow */
+    .tool-card.soon {
+      cursor: default;
+      opacity: 0.92;
+    }
+    .tool-card.soon:hover {
+      transform: none;
+      border-color: var(--line);
+      box-shadow: var(--shadow-xs);
+    }
+    .tool-card .soon-pill {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: var(--orange-soft);
+      color: var(--orange-deep);
+      flex-shrink: 0;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       Footer
+       ═══════════════════════════════════════════════════════ */
+    footer {
+      max-width: 1180px;
+      margin: 30px auto 0;
+      padding: 28px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--line);
+    }
+    footer a { color: var(--ink-2); margin: 0 12px; font-weight: 500; }
+    footer a:hover { color: var(--indigo); }
+
+    /* ═══════════════════════════════════════════════════════
+       Skeleton
+       ═══════════════════════════════════════════════════════ */
+    .skel {
+      background: linear-gradient(90deg, #e2e8f0, #f1f5f9, #e2e8f0);
+      background-size: 200% 100%;
+      border-radius: 6px;
+      height: 14px;
+      animation: skelShim 1.4s ease-in-out infinite;
+    }
+    .skel.tall { height: 28px; }
+    .skel.short { width: 60%; }
+    @keyframes skelShim {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       Responsive
+       ═══════════════════════════════════════════════════════ */
+    @media (max-width: 720px) {
+      .topbar-inner { padding: 0 16px; height: 60px; }
+      main { padding: 24px 16px 48px; }
+      .hero-title { font-size: 28px; }
+      .hero-sub { font-size: 14px; }
+      .vitals { grid-template-columns: 1fr; gap: 12px; }
+      .vital { padding: 16px 18px; }
+      .vital-number { font-size: 24px; }
+      .skill-grid { grid-template-columns: 1fr; gap: 14px; }
+      .skill-card { padding: 22px 22px 20px; min-height: auto; }
+      .secondary { grid-template-columns: 1fr; }
+      .rail { grid-auto-columns: minmax(232px, 82%); }
+      .section-title { font-size: 18px; }
+      .mc-title { font-size: 16px; }
+    }
+    @media (min-width: 721px) and (max-width: 1024px) {
+      .rail { grid-auto-columns: minmax(230px, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div class="brand-stripe"></div>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="/landing-v3.html">
+        <span class="brand-logo" id="brandLogo">MS</span>
+        <span id="brandName">Mock Stream</span>
+      </a>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-actions">
+        <!-- Notifications bell with "What's new" popover. Shows the most
+             recently published mocks (last 7 days). Reuses the same
+             fetchJustAdded() that powers the Just-added rail below. The
+             orange unread dot clears the first time the bell is opened in a
+             given session (sessionStorage flag). -->
+        <div class="bell-wrap" id="bellWrap">
+          <button type="button" class="icon-btn" id="bellBtn" title="What's new" aria-label="What's new" aria-haspopup="true" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+              <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+            </svg>
+            <span class="dot" id="bellDot"></span>
+          </button>
+          <div class="bell-popover" id="bellPopover" role="dialog" aria-label="What's new">
+            <div class="bell-pop-head">
+              <div class="bell-pop-title">What's new <span class="badge-new">Fresh</span></div>
+              <div class="bell-pop-sub" id="bellPopSub">Last 7 days</div>
+            </div>
+            <div class="bell-pop-list" id="bellPopList">
+              <div class="bell-pop-loading">Loading…</div>
+            </div>
+            <div class="bell-pop-foot">
+              <a href="#addedRail" id="bellPopMore">View all just-added →</a>
+            </div>
+          </div>
+        </div>
+        <!-- Profile → My Results page (history of attempts, scores, etc.). -->
+        <a class="icon-btn" href="/results/my-results.html" title="My Results" aria-label="My Results">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"></path>
+          </svg>
+        </a>
+        <!-- Hamburger toggles the inline v3 sidebar that overlays the
+             page (so vitals + trending stay visible behind it). Sign-in
+             and Telegram run locally via auth.js + Telegram widget; the
+             few actions that need landing.html (VIP verify, admin, IELTS
+             modal, full mock) hand off via query params. -->
+        <button type="button" class="icon-btn" id="msv3HamburgerBtn" title="Menu" aria-label="Menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="6"  x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ── HERO ─────────────────────────────────────────────── -->
+    <section class="hero">
+      <span class="hero-eyebrow">
+        <span class="live-dot"></span>
+        Live now on <span id="brandNameInline">Mock Stream</span>
+      </span>
+      <h1 class="hero-title">
+        Practice exams. Earn real <em>CEFR &amp; IELTS</em> readiness.
+      </h1>
+      <p class="hero-sub">
+        Thousands of students sit alongside you every day. Pick a skill, jump into a
+        trending mock, or grab one that was added this week.
+      </p>
+      <div class="vitals">
+        <div class="vital v-violet">
+          <div class="vital-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9"  cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <div class="vital-body">
+            <div class="vital-number" id="vitalAllTime"><span class="skel tall short"></span></div>
+            <div class="vital-label">attempts all-time</div>
+          </div>
+        </div>
+        <div class="vital v-orange">
+          <div class="vital-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+          </div>
+          <div class="vital-body">
+            <div class="vital-number" id="vitalToday"><span class="skel tall short"></span></div>
+            <div class="vital-label">attempts today</div>
+          </div>
+        </div>
+        <div class="vital v-emerald">
+          <div class="vital-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 15 8.5 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 9 8.5 12 2"></polygon>
+            </svg>
+          </div>
+          <div class="vital-body">
+            <div class="vital-number" id="vitalNewWeek"><span class="skel tall short"></span></div>
+            <div class="vital-label">new mocks this week</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── TRENDING RAIL ───────────────────────────────────── -->
+    <section class="section">
+      <div class="section-head">
+        <h2 class="section-title">
+          Trending this week
+          <span class="badge hot">🔥 Hot</span>
+        </h2>
+        <a class="section-link" href="/landing.html">View all →</a>
+      </div>
+      <div class="rail" id="trendingRail">
+        <div class="mock-card trending"><div class="skel short"></div><div class="skel tall"></div><div class="skel short"></div></div>
+        <div class="mock-card trending"><div class="skel short"></div><div class="skel tall"></div><div class="skel short"></div></div>
+        <div class="mock-card trending"><div class="skel short"></div><div class="skel tall"></div><div class="skel short"></div></div>
+        <div class="mock-card trending"><div class="skel short"></div><div class="skel tall"></div><div class="skel short"></div></div>
+      </div>
+    </section>
+
+    <!-- ── JUST ADDED RAIL ────────────────────────────────── -->
+    <section class="section">
+      <div class="section-head">
+        <h2 class="section-title">
+          Just added this week
+          <span class="badge new">✨ New</span>
+        </h2>
+        <a class="section-link" href="/landing.html">View all →</a>
+      </div>
+      <div class="rail" id="addedRail">
+        <div class="mock-card fresh"><div class="skel short"></div><div class="skel tall"></div><div class="skel short"></div></div>
+        <div class="mock-card fresh"><div class="skel short"></div><div class="skel tall"></div><div class="skel short"></div></div>
+        <div class="mock-card fresh"><div class="skel short"></div><div class="skel tall"></div><div class="skel short"></div></div>
+        <div class="mock-card fresh"><div class="skel short"></div><div class="skel tall"></div><div class="skel short"></div></div>
+      </div>
+    </section>
+
+    <!-- ── SKILL GRID ─────────────────────────────────────── -->
+    <section class="section">
+      <div class="section-head">
+        <h2 class="section-title">Practice by skill</h2>
+      </div>
+      <div class="skill-grid">
+        <div class="skill-card" data-skill="speaking">
+          <div class="sc-head">
+            <div class="sc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                <line x1="12" y1="19" x2="12" y2="23"></line>
+                <line x1="8"  y1="23" x2="16" y2="23"></line>
+              </svg>
+            </div>
+            <div>
+              <div class="sc-name">Speaking</div>
+              <div class="sc-meta"><span id="speakingCount">…</span> mocks · CEFR + IELTS</div>
+            </div>
+          </div>
+          <div class="sc-stats">
+            <span>⚡ <span class="num" id="speakingToday">0</span> taken today</span>
+          </div>
+          <div class="sc-ctas">
+            <button class="sc-cta primary" data-open="cefr-speaking">CEFR →</button>
+            <button class="sc-cta ghost"   data-open="ielts-speaking">IELTS →</button>
+          </div>
+        </div>
+        <div class="skill-card" data-skill="writing">
+          <div class="sc-head">
+            <div class="sc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9"></path>
+                <path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+              </svg>
+            </div>
+            <div>
+              <div class="sc-name">Writing</div>
+              <div class="sc-meta"><span id="writingCount">…</span> mocks · CEFR + IELTS</div>
+            </div>
+          </div>
+          <div class="sc-stats">
+            <span>⚡ <span class="num" id="writingToday">0</span> taken today</span>
+          </div>
+          <div class="sc-ctas">
+            <button class="sc-cta primary" data-open="cefr-writing">CEFR →</button>
+            <button class="sc-cta ghost"   data-open="ielts-writing">IELTS →</button>
+          </div>
+        </div>
+        <div class="skill-card" data-skill="listening">
+          <div class="sc-head">
+            <div class="sc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+                <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+              </svg>
+            </div>
+            <div>
+              <div class="sc-name">Listening</div>
+              <div class="sc-meta"><span id="listeningCount">…</span> mocks · CEFR + IELTS</div>
+            </div>
+          </div>
+          <div class="sc-stats">
+            <span>⚡ <span class="num" id="listeningToday">0</span> taken today</span>
+          </div>
+          <div class="sc-ctas">
+            <button class="sc-cta primary" data-open="cefr-listening">CEFR →</button>
+            <button class="sc-cta ghost"   data-open="ielts-listening">IELTS →</button>
+          </div>
+        </div>
+        <div class="skill-card" data-skill="reading">
+          <div class="sc-head">
+            <div class="sc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+              </svg>
+            </div>
+            <div>
+              <div class="sc-name">Reading</div>
+              <div class="sc-meta"><span id="readingCount">…</span> mocks · CEFR + IELTS</div>
+            </div>
+          </div>
+          <div class="sc-stats">
+            <span>⚡ <span class="num" id="readingToday">0</span> taken today</span>
+          </div>
+          <div class="sc-ctas">
+            <button class="sc-cta primary" data-open="cefr-reading">CEFR →</button>
+            <button class="sc-cta ghost"   data-open="ielts-reading">IELTS →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SECONDARY: FULL MOCK + CAMBRIDGE ──────────────── -->
+    <section class="section">
+      <div class="secondary">
+        <!-- Full Mock launches its modal via discovery handoff — the modal
+             pops over the v3 backdrop, closing returns to v3 automatically. -->
+        <a class="secondary-card full" href="/landing.html?openFullMock=1">
+          <div class="icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+          </div>
+          <div class="body">
+            <div class="title">Full Mock Experience</div>
+            <div class="sub">All 4 skills sequenced · most realistic exam run</div>
+          </div>
+          <div class="arrow">→</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ── INTERNATIONAL EXAMS ───────────────────────────── -->
+    <section class="section">
+      <div class="section-head">
+        <h2 class="section-title">
+          International Exams
+          <span class="badge new">🎓 New tracks</span>
+        </h2>
+      </div>
+      <!-- Horizontal slider — scroll-snap rail so adding more exams (TOEFL,
+           GRE, etc.) later is just appending cards. Cambridge cards hand off
+           to the existing showXXXOptions modals via openSelector; SAT
+           navigates directly to its own runner page. -->
+      <div class="exams-rail" id="examsRail">
+        <a class="cambridge-card" href="/landing.html?openSelector=cambridge-ket">
+          <div class="cb-level">A2</div>
+          <div class="cb-code">KET</div>
+          <div class="cb-name">Key English Test</div>
+        </a>
+        <a class="cambridge-card" href="/landing.html?openSelector=cambridge-pet">
+          <div class="cb-level">B1</div>
+          <div class="cb-code">PET</div>
+          <div class="cb-name">Preliminary</div>
+        </a>
+        <a class="cambridge-card" href="/landing.html?openSelector=cambridge-fce">
+          <div class="cb-level">B2</div>
+          <div class="cb-code">FCE</div>
+          <div class="cb-name">First</div>
+        </a>
+        <a class="cambridge-card" href="/landing.html?openSelector=cambridge-cae">
+          <div class="cb-level">C1</div>
+          <div class="cb-code">CAE</div>
+          <div class="cb-name">Advanced</div>
+        </a>
+        <a class="cambridge-card" href="/landing.html?openSelector=cambridge-cpe">
+          <div class="cb-level">C2</div>
+          <div class="cb-code">CPE</div>
+          <div class="cb-name">Proficiency</div>
+        </a>
+        <!-- SAT — direct navigation to the SAT runner, no modal. Distinct
+             stripe colours so it visually reads as a different exam family. -->
+        <a class="cambridge-card sat-card" href="/SAT Mocks.html">
+          <div class="cb-level cb-level-sat">College</div>
+          <div class="cb-code">SAT</div>
+          <div class="cb-name">Digital Adaptive</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ── LEARNING TOOLS ─────────────────────────────────── -->
+    <section class="section">
+      <div class="section-head">
+        <h2 class="section-title">
+          Learning Tools
+          <span class="badge new">📚 Practice</span>
+        </h2>
+      </div>
+      <div class="tools-grid tools-grid-3">
+        <!-- Flashcards — uses the same _gateLearningTool('flashcards', ...)
+             pipeline as landing.html's in-page card. Closing the modal
+             returns to v3 via the discovery-handoff watcher. -->
+        <a class="tool-card" href="/landing.html?openSelector=flashcards">
+          <div class="tool-icon" style="background: linear-gradient(135deg, #fb923c, #ea580c);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="14" rx="2"></rect>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+          </div>
+          <div class="tool-body">
+            <div class="tool-name">Flashcards</div>
+            <div class="tool-sub">Build &amp; drill vocab decks</div>
+          </div>
+          <div class="tool-arrow">→</div>
+        </a>
+        <!-- Articles — same gating pipeline, openCategoryModal('articles'). -->
+        <a class="tool-card" href="/landing.html?openSelector=articles">
+          <div class="tool-icon" style="background: linear-gradient(135deg, #34d399, #059669);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="8"  y1="13" x2="16" y2="13"></line>
+              <line x1="8"  y1="17" x2="16" y2="17"></line>
+            </svg>
+          </div>
+          <div class="tool-body">
+            <div class="tool-name">Articles</div>
+            <div class="tool-sub">Long-form reading practice</div>
+          </div>
+          <div class="tool-arrow">→</div>
+        </a>
+        <!-- Tests — landing.html's _gateLearningTool('tests', showTestsSubmenu)
+             pipeline, fronted by the testsModal (Grammar / Vocabulary chooser). -->
+        <a class="tool-card" href="/landing.html?openSelector=tests">
+          <div class="tool-icon" style="background: linear-gradient(135deg, #a78bfa, #7c3aed);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 11l3 3L22 4"></path>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+            </svg>
+          </div>
+          <div class="tool-body">
+            <div class="tool-name">Tests</div>
+            <div class="tool-sub">Grammar &amp; vocabulary drills</div>
+          </div>
+          <div class="tool-arrow">→</div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span id="footerBrand">Mock Stream</span> · Practice exams · Get instant AI feedback
+  </footer>
+
+  <!-- Load the per-clone center id (set by Netlify build to
+       window.__CENTER_ID = 'bek' / 'niners' / 'global' / 'muzaffars' /
+       'achievers' / 'record' / 'mock_stream'). If the file isn't there
+       — e.g. during local file-system testing — we fall back to
+       'mock_stream'. -->
+  <script src="center-id.js" onerror="window.__CENTER_ID=window.__CENTER_ID||'mock_stream';"></script>
+
+  <script>
+    /* Same data fetch as v2 — uses the mock_attempt_stats RPC + a few
+       lightweight mock_tests counts. Numbers are real and tick live as
+       students take mocks. */
+    const SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    const SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+
+    /* Per-clone branding — read window.__CENTER_ID (set by
+       site/center-id.js, which Netlify overwrites per deploy) and look
+       up the matching site_settings row. Falls through silently to the
+       default "Mock Stream" / "MS" placeholder if the fetch fails. */
+    async function applyCloneBranding() {
+      const centerId = (window.__CENTER_ID || 'mock_stream').trim();
+      try {
+        const r = await fetch(SB_URL + '/rest/v1/site_settings?key=eq.center_site_config_'
+                              + encodeURIComponent(centerId) + '&select=value',
+          { headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY } });
+        if (!r.ok) return;
+        const rows = await r.json();
+        if (!rows || !rows.length) return;
+        // The "value" column is a stringified JSON blob. Parse it.
+        let cfg = rows[0].value;
+        if (typeof cfg === 'string') {
+          try { cfg = JSON.parse(cfg); } catch (_e) { return; }
+        }
+        if (!cfg || typeof cfg !== 'object') return;
+
+        const brandName = (cfg.brandName || '').trim();
+        const logoUrl   = (cfg.logoUrl   || '').trim();
+
+        if (brandName) {
+          document.title = brandName + ' · Practice exams';
+          const bnEl = document.getElementById('brandName');
+          const beEl = document.getElementById('brandNameInline');
+          const fbEl = document.getElementById('footerBrand');
+          if (bnEl) bnEl.textContent = brandName;
+          if (beEl) beEl.textContent = brandName;
+          if (fbEl) fbEl.textContent = brandName;
+        }
+        if (logoUrl) {
+          const logoBox = document.getElementById('brandLogo');
+          if (logoBox) {
+            // Swap the "MS" gradient tile for the real centre logo. Same
+            // box dimensions; image gets object-fit:cover so any shape
+            // logo sits cleanly inside the rounded tile.
+            logoBox.style.background = '#ffffff';
+            logoBox.style.boxShadow  = '0 4px 10px rgba(15, 23, 42, .12)';
+            logoBox.style.padding    = '4px';
+            logoBox.style.overflow   = 'hidden';
+            logoBox.innerHTML = '<img src="' + logoUrl.replace(/"/g, '%22')
+                              + '" alt="" style="width:100%;height:100%;object-fit:contain;display:block;">';
+          }
+        }
+      } catch (_e) {
+        /* Network down / RLS blocking / etc — keep the default brand. */
+      }
+    }
+    applyCloneBranding();
+
+    const SKILLS = [
+      { label: 'speaking',  combos: [['speaking',  'cefr'], ['speaking',  'ielts']] },
+      { label: 'writing',   combos: [['writing',   'cefr'], ['writing',   'ielts']] },
+      { label: 'listening', combos: [['listening', 'cefr'], ['listening', 'ielts']] },
+      { label: 'reading',   combos: [['reading',   'cefr'], ['reading',   'ielts']] }
+    ];
+
+    function fmtNumber(n) {
+      if (n == null) return '0';
+      return Number(n).toLocaleString('en-US');
+    }
+
+    async function fetchStats(skill, examType) {
+      try {
+        const r = await fetch(SB_URL + '/rest/v1/rpc/mock_attempt_stats', {
+          method: 'POST',
+          headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ p_skill: skill, p_exam_type: examType })
+        });
+        if (!r.ok) return [];
+        return await r.json();
+      } catch (_e) { return []; }
+    }
+
+    async function fetchMockTotals() {
+      const types = ['cefr-speaking','ielts-speaking','cefr-writing','ielts-writing',
+                     'cefr-listening','ielts-listening','cefr-reading','ielts-reading'];
+      const results = {};
+      await Promise.all(types.map(async t => {
+        try {
+          const r = await fetch(SB_URL + '/rest/v1/mock_tests?mock_type=eq.' + t + '&status=eq.published&select=mock_number', {
+            headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, Prefer: 'count=exact', Range: '0-0' }
+          });
+          const cr = r.headers.get('content-range') || '';
+          const slash = cr.lastIndexOf('/');
+          results[t] = slash >= 0 ? parseInt(cr.slice(slash + 1), 10) || 0 : 0;
+        } catch (_e) { results[t] = 0; }
+      }));
+      return results;
+    }
+
+    async function fetchJustAdded(limit = 8) {
+      try {
+        const r = await fetch(
+          SB_URL + '/rest/v1/mock_tests?status=eq.published&order=created_at.desc&limit=' + limit
+                 + '&select=mock_number,mock_type,title,created_at',
+          { headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY } }
+        );
+        if (!r.ok) return [];
+        return await r.json();
+      } catch (_e) { return []; }
+    }
+
+    function skillChipClass(skill, examType) {
+      const map = {
+        'writing_cefr':   'cw', 'writing_ielts':   'iw',
+        'speaking_cefr':  'cs', 'speaking_ielts':  'is',
+        'reading_cefr':   'cr', 'reading_ielts':   'ir',
+        'listening_cefr': 'cl', 'listening_ielts': 'il'
+      };
+      return map[skill + '_' + examType] || '';
+    }
+    function skillChipLabel(skill, examType) {
+      const e = examType === 'cefr' ? 'CEFR' : 'IELTS';
+      const s = { writing: 'Writing', speaking: 'Speaking', reading: 'Reading', listening: 'Listening' }[skill] || skill;
+      return e + ' ' + s;
+    }
+    function skillPickerOpenSlug(skill, examType) {
+      return examType + '-' + skill;
+    }
+    function navToPicker(slug) {
+      window.location.href = '/landing.html?openSelector=' + encodeURIComponent(slug);
+    }
+
+    function shortMockTitle(row) {
+      const t = (row.title || '').trim();
+      if (t) return t.replace(/^\W+/, '').slice(0, 50);
+      return 'Mock #' + String(row.mock_number).padStart(2, '0');
+    }
+    function mockTypeToCombo(mockType) {
+      const [examType, skill] = mockType.split('-');
+      return { skill, examType };
+    }
+
+    function renderTrending(perCombo) {
+      const rail = document.getElementById('trendingRail');
+      const winners = [];
+      for (const combo of Object.keys(perCombo)) {
+        const rows = perCombo[combo] || [];
+        if (!rows.length) continue;
+        const top = rows.slice().sort((a, b) => (b.last7 - a.last7) || (b.total - a.total))[0];
+        if (top && top.last7 > 0) {
+          const [skill, examType] = combo.split('|');
+          winners.push({ skill, examType, ...top });
+        }
+      }
+      winners.sort((a, b) => b.last7 - a.last7);
+      const cards = winners.slice(0, 8).map(w => {
+        const chipCls = skillChipClass(w.skill, w.examType);
+        const chipLbl = skillChipLabel(w.skill, w.examType);
+        const padded  = String(w.mock_number).padStart(2, '0');
+        return (
+          '<div class="mock-card trending" data-open="' + skillPickerOpenSlug(w.skill, w.examType) + '">'
+          + '<div class="mc-head">'
+          +   '<span class="skill-chip ' + chipCls + '">' + chipLbl + '</span>'
+          +   '<span class="mc-num">#' + padded + '</span>'
+          + '</div>'
+          + '<div class="mc-title">Mock ' + padded + '</div>'
+          + '<div class="mc-stat"><span class="fire">🔥</span> ' + fmtNumber(w.last7) + ' attempts this week</div>'
+          + '<div class="mc-cta">Practice now →</div>'
+          + '</div>'
+        );
+      });
+      rail.innerHTML = cards.length
+        ? cards.join('')
+        : '<div class="mock-card trending"><div class="mc-title" style="color:#94a3b8;">No trending data yet</div></div>';
+    }
+
+    function renderJustAdded(rows) {
+      const rail = document.getElementById('addedRail');
+      const cards = rows.slice(0, 8).map(r => {
+        const { skill, examType } = mockTypeToCombo(r.mock_type);
+        if (!skill || !examType) return '';
+        const chipCls = skillChipClass(skill, examType);
+        const chipLbl = skillChipLabel(skill, examType);
+        const padded  = String(r.mock_number).padStart(2, '0');
+        return (
+          '<div class="mock-card fresh" data-open="' + skillPickerOpenSlug(skill, examType) + '">'
+          + '<div class="mc-head">'
+          +   '<span class="skill-chip ' + chipCls + '">' + chipLbl + '</span>'
+          +   '<span class="mc-num">#' + padded + '</span>'
+          + '</div>'
+          + '<div class="mc-title">' + shortMockTitle(r) + '</div>'
+          + '<div class="mc-stat"><span class="spark">✨</span> added ' + relativeDate(r.created_at) + '</div>'
+          + '<div class="mc-cta">Practice now →</div>'
+          + '</div>'
+        );
+      }).filter(Boolean);
+      rail.innerHTML = cards.length
+        ? cards.join('')
+        : '<div class="mock-card fresh"><div class="mc-title" style="color:#94a3b8;">No mocks added this week</div></div>';
+    }
+
+    function relativeDate(iso) {
+      if (!iso) return 'recently';
+      const ms = Date.now() - new Date(iso).getTime();
+      const days = Math.floor(ms / (24 * 60 * 60 * 1000));
+      if (days <= 0) return 'today';
+      if (days === 1) return 'yesterday';
+      if (days < 7)  return days + 'd ago';
+      const weeks = Math.floor(days / 7);
+      if (weeks === 1) return 'last week';
+      return weeks + 'w ago';
+    }
+
+    async function load() {
+      const [totals, justAdded, ...statsResults] = await Promise.all([
+        fetchMockTotals(),
+        fetchJustAdded(8),
+        ...SKILLS.flatMap(s => s.combos.map(([sk, ex]) => fetchStats(sk, ex)))
+      ]);
+
+      let allTime = 0, today = 0;
+      const perCombo = {};
+      let resultIdx = 0;
+      for (const skillDef of SKILLS) {
+        for (const [skill, examType] of skillDef.combos) {
+          const rows = statsResults[resultIdx++];
+          perCombo[skill + '|' + examType] = rows;
+          for (const r of rows) {
+            allTime += Number(r.total) || 0;
+            today   += Number(r.today) || 0;
+          }
+        }
+      }
+
+      const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      let newWeek = 0;
+      try {
+        const r = await fetch(SB_URL + '/rest/v1/mock_tests?status=eq.published&created_at=gt.'
+                              + new Date(sevenDaysAgo).toISOString() + '&select=mock_number',
+          { headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, Prefer: 'count=exact', Range: '0-0' } });
+        const cr = r.headers.get('content-range') || '';
+        const slash = cr.lastIndexOf('/');
+        if (slash >= 0) {
+          const c = parseInt(cr.slice(slash + 1), 10);
+          if (Number.isFinite(c)) newWeek = c;
+        }
+      } catch (_e) {
+        for (const m of justAdded) {
+          if (new Date(m.created_at).getTime() >= sevenDaysAgo) newWeek++;
+        }
+      }
+
+      document.getElementById('vitalAllTime').textContent  = fmtNumber(allTime);
+      document.getElementById('vitalToday').textContent    = fmtNumber(today);
+      document.getElementById('vitalNewWeek').textContent  = fmtNumber(newWeek);
+
+      const skillTotalMap = {
+        speaking:  totals['cefr-speaking']  + totals['ielts-speaking'],
+        writing:   totals['cefr-writing']   + totals['ielts-writing'],
+        listening: totals['cefr-listening'] + totals['ielts-listening'],
+        reading:   totals['cefr-reading']   + totals['ielts-reading']
+      };
+      const skillTodayMap = { speaking: 0, writing: 0, listening: 0, reading: 0 };
+      for (const skillDef of SKILLS) {
+        for (const [skill, examType] of skillDef.combos) {
+          const rows = perCombo[skill + '|' + examType] || [];
+          for (const r of rows) skillTodayMap[skill] += Number(r.today) || 0;
+        }
+      }
+      document.getElementById('speakingCount').textContent  = fmtNumber(skillTotalMap.speaking);
+      document.getElementById('speakingToday').textContent  = fmtNumber(skillTodayMap.speaking);
+      document.getElementById('writingCount').textContent   = fmtNumber(skillTotalMap.writing);
+      document.getElementById('writingToday').textContent   = fmtNumber(skillTodayMap.writing);
+      document.getElementById('listeningCount').textContent = fmtNumber(skillTotalMap.listening);
+      document.getElementById('listeningToday').textContent = fmtNumber(skillTodayMap.listening);
+      document.getElementById('readingCount').textContent   = fmtNumber(skillTotalMap.reading);
+      document.getElementById('readingToday').textContent   = fmtNumber(skillTodayMap.reading);
+
+      renderTrending(perCombo);
+      renderJustAdded(justAdded);
+      renderBellPopover(justAdded);
+    }
+
+    /* ───────── Bell popover — "What's new" ─────────
+       Populated from the same fetchJustAdded() rows that feed the
+       Just-added rail. Click an item → opens the matching picker via
+       the same navToPicker handoff used by tile clicks. */
+    function renderBellPopover(rows) {
+      var listEl = document.getElementById('bellPopList');
+      var subEl  = document.getElementById('bellPopSub');
+      if (!listEl) return;
+
+      var fresh = (rows || []).slice(0, 10);
+      if (!fresh.length) {
+        listEl.innerHTML = '<div class="bell-pop-empty">No new mocks this week. Check back soon.</div>';
+        if (subEl) subEl.textContent = 'Last 7 days';
+        var dot = document.getElementById('bellDot');
+        if (dot) dot.classList.add('hidden');
+        return;
+      }
+      if (subEl) subEl.textContent = fresh.length + ' new in the last week';
+
+      var html = '';
+      for (var i = 0; i < fresh.length; i++) {
+        var r = fresh[i];
+        var combo = mockTypeToCombo(r.mock_type);
+        if (!combo.skill || !combo.examType) continue;
+        var chipCls = skillChipClass(combo.skill, combo.examType);
+        var chipLbl = skillChipLabel(combo.skill, combo.examType);
+        var slug    = skillPickerOpenSlug(combo.skill, combo.examType);
+        var padded  = String(r.mock_number).padStart(2, '0');
+        var title   = shortMockTitle(r);
+        html += '<button type="button" class="bell-pop-item" data-open="' + slug + '">'
+              +   '<span class="bpi-chip ' + chipCls + '">' + chipLbl + '</span>'
+              +   '<span class="bpi-body">'
+              +     '<span class="bpi-title">' + title + ' · #' + padded + '</span>'
+              +     '<span class="bpi-meta">added ' + relativeDate(r.created_at) + '</span>'
+              +   '</span>'
+              +   '<span class="bpi-arrow">→</span>'
+              + '</button>';
+      }
+      listEl.innerHTML = html || '<div class="bell-pop-empty">No new mocks this week.</div>';
+
+      // Hide the unread dot once the user has data to look at; show it again
+      // next session if new mocks have been added since the last visit. Cheap
+      // heuristic: stash the newest created_at the user has seen.
+      var newest = fresh[0] && fresh[0].created_at ? fresh[0].created_at : '';
+      var lastSeen = '';
+      try { lastSeen = localStorage.getItem('ms_bell_last_seen') || ''; } catch (_e) {}
+      var dotEl = document.getElementById('bellDot');
+      if (dotEl) {
+        if (newest && newest <= lastSeen) {
+          dotEl.classList.add('hidden');
+        } else {
+          dotEl.classList.remove('hidden');
+        }
+        // Stash on the element so the open-handler can mark-seen.
+        dotEl.dataset.newest = newest;
+      }
+    }
+
+    (function wireBellPopover() {
+      var wrap = document.getElementById('bellWrap');
+      var btn  = document.getElementById('bellBtn');
+      var dot  = document.getElementById('bellDot');
+      var pop  = document.getElementById('bellPopover');
+      var more = document.getElementById('bellPopMore');
+      if (!wrap || !btn || !pop) return;
+
+      function close() {
+        wrap.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+      function open() {
+        wrap.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+        // Mark the freshest mock as "seen" — clears the unread dot until a
+        // newer mock arrives.
+        if (dot && dot.dataset && dot.dataset.newest) {
+          try { localStorage.setItem('ms_bell_last_seen', dot.dataset.newest); } catch (_e) {}
+          dot.classList.add('hidden');
+        }
+      }
+
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (wrap.classList.contains('open')) close(); else open();
+      });
+      // Click inside the popover → if it's a [data-open] item, navigate;
+      // otherwise just keep the popover open.
+      pop.addEventListener('click', function (e) {
+        var target = e.target.closest('[data-open]');
+        if (target) {
+          e.preventDefault();
+          close();
+          navToPicker(target.getAttribute('data-open'));
+        } else {
+          e.stopPropagation();
+        }
+      });
+      // Outside click → close.
+      document.addEventListener('click', function (e) {
+        if (!wrap.contains(e.target)) close();
+      });
+      // Escape → close.
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && wrap.classList.contains('open')) close();
+      });
+      // "View all just-added →" scrolls smoothly to the addedRail section.
+      if (more) {
+        more.addEventListener('click', function (e) {
+          e.preventDefault();
+          close();
+          var rail = document.getElementById('addedRail');
+          if (rail) rail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      }
+    })();
+
+    document.addEventListener('click', function (e) {
+      // Skill tiles / secondary cards outside the bell popover.
+      var target = e.target.closest('[data-open]');
+      if (!target) return;
+      // The bell-popover click handler already handled its own items.
+      if (target.closest('#bellPopover')) return;
+      e.preventDefault();
+      const slug = target.getAttribute('data-open');
+      navToPicker(slug);
+    });
+
+    load().catch(err => { console.warn('[landing-v3] load failed:', err); });
+  </script>
+
+  <!-- ═══════════════════════════════════════════════════════
+       Inline sidebar — opens over the v3 page (no navigation).
+       Sign-in / Telegram / Sign-out run locally; VIP / admin /
+       IELTS modal / Full Mock / Support hand off to landing.html.
+       ═══════════════════════════════════════════════════════ -->
+  <div class="msv3-overlay" id="msv3Overlay"></div>
+  <aside class="msv3-sidebar" id="msv3Sidebar" aria-hidden="true">
+    <div class="msv3-head">
+      <div class="msv3-logo" id="msv3HeadLogo">
+        <img id="msv3HeadLogoImg" alt="" hidden>
+      </div>
+      <div class="msv3-brand" id="msv3HeadBrand">Mock Stream</div>
+      <button type="button" class="msv3-close" id="msv3CloseBtn" aria-label="Close menu">×</button>
+    </div>
+
+    <div class="msv3-body">
+      <div class="msv3-section">
+        <div class="msv3-section-head">Account Access</div>
+        <div class="msv3-account" id="msv3AccountSlot"></div>
+      </div>
+
+      <div class="msv3-section">
+        <div class="msv3-section-head">VIP Activation</div>
+        <div class="msv3-vip-row">
+          <input type="text" id="msv3VipInput" placeholder="Enter your VIP Access Code" autocomplete="off">
+          <button type="button" id="msv3VipBtn" aria-label="Activate VIP">→</button>
+        </div>
+        <div class="msv3-vip-sub">Activate for all features</div>
+      </div>
+
+      <div class="msv3-section">
+        <div class="msv3-section-head">System Administration</div>
+        <button type="button" class="msv3-row" id="msv3AdminBtn">
+          <span class="msv3-row-icon">🛡️</span>
+          Dashboard Access
+          <span class="msv3-row-arrow">🔒</span>
+        </button>
+        <button type="button" class="msv3-row" id="msv3PlatformBtn">
+          <span class="msv3-row-icon">⚙️</span>
+          Platform Management
+          <span class="msv3-row-arrow">🔒</span>
+        </button>
+      </div>
+
+      <div class="msv3-section">
+        <div class="msv3-section-head">
+          Exam Prep &amp; Skills
+          <span class="msv3-tag">CEFR · Uzbekistan</span>
+        </div>
+        <div class="msv3-skills">
+          <button type="button" class="msv3-skill spk" id="msv3CefrSpeaking">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg></div>
+            <div class="lbl">Speaking</div>
+          </button>
+          <button type="button" class="msv3-skill wrt" id="msv3CefrWriting">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg></div>
+            <div class="lbl">Writing</div>
+          </button>
+          <button type="button" class="msv3-skill lst" id="msv3CefrListening">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg></div>
+            <div class="lbl">Listening</div>
+          </button>
+          <button type="button" class="msv3-skill rdg" id="msv3CefrReading">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></div>
+            <div class="lbl">Reading</div>
+          </button>
+        </div>
+        <button type="button" class="msv3-fullmock" id="msv3CefrFullMock">
+          <span class="star">★</span> CEFR Full Mock Exam
+        </button>
+      </div>
+
+      <div class="msv3-section">
+        <div class="msv3-section-head">
+          IELTS Practice
+          <span class="msv3-tag msv3-tag-ielts">International</span>
+        </div>
+        <div class="msv3-skills">
+          <button type="button" class="msv3-skill spk" id="msv3IeltsSpeaking">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg></div>
+            <div class="lbl">Speaking</div>
+          </button>
+          <button type="button" class="msv3-skill wrt" id="msv3IeltsWriting">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg></div>
+            <div class="lbl">Writing</div>
+          </button>
+          <button type="button" class="msv3-skill lst" id="msv3IeltsListening">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg></div>
+            <div class="lbl">Listening</div>
+          </button>
+          <button type="button" class="msv3-skill rdg" id="msv3IeltsReading">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></div>
+            <div class="lbl">Reading</div>
+          </button>
+        </div>
+        <button type="button" class="msv3-fullmock msv3-fullmock-ielts" id="msv3IeltsFullMock">
+          <span class="star">★</span> IELTS Full Mock Exam
+        </button>
+      </div>
+    </div>
+
+    <div class="msv3-foot">
+      <div class="msv3-foot-links">
+        <a id="msv3SupportLink">Support Center</a>
+        <a id="msv3TermsLink" href="/terms.html" target="_blank" rel="noopener">Terms of Service</a>
+      </div>
+      <button type="button" class="msv3-logout" id="msv3LogoutBtn" style="display:none;">Log Out</button>
+    </div>
+  </aside>
+
+  <script>
+  (function () {
+    'use strict';
+    // ─────── Sidebar toggle ───────
+    function toggle() {
+      var s = document.getElementById('msv3Sidebar');
+      var o = document.getElementById('msv3Overlay');
+      if (!s) return;
+      var open = s.classList.contains('show');
+      if (open) {
+        s.classList.remove('show');
+        if (o) o.classList.remove('show');
+        s.setAttribute('aria-hidden', 'true');
+      } else {
+        s.classList.add('show');
+        if (o) o.classList.add('show');
+        s.setAttribute('aria-hidden', 'false');
+        renderAccount();
+        refreshAdminLocks();
+      }
+    }
+    document.getElementById('msv3HamburgerBtn').addEventListener('click', toggle);
+    document.getElementById('msv3CloseBtn').addEventListener('click', toggle);
+    document.getElementById('msv3Overlay').addEventListener('click', toggle);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        var s = document.getElementById('msv3Sidebar');
+        if (s && s.classList.contains('show')) toggle();
+      }
+    });
+
+    // ─────── Brand fill ───────
+    function applyBrand() {
+      var cfg = window.SITE_CONFIG;
+      var brand = (cfg && cfg.brandName)
+        || document.getElementById('brandName')?.textContent
+        || 'Mock Stream';
+      var logo = (cfg && cfg.logoUrl) || '';
+      var be = document.getElementById('msv3HeadBrand');
+      if (be) be.textContent = brand;
+      if (logo) {
+        var img = document.getElementById('msv3HeadLogoImg');
+        if (img) {
+          img.onload = function () { img.hidden = false; };
+          img.onerror = function () { img.hidden = true; };
+          img.src = logo;
+        }
+      }
+    }
+    document.addEventListener('ms:config-ready', applyBrand);
+    document.addEventListener('mockStream:centerConfigLoaded', applyBrand);
+    applyBrand();
+
+    // ─────── Telegram bot id + widget lazy-load ───────
+    // Bot IDs are NOT hardcoded — each clone has its own bot and Telegram
+    // /setdomain only allows ONE domain per bot, so the IDs are fetched from
+    // the get-login-bot-ids Edge Function (same source index.html uses).
+    // Hardcoding here caused "bot domain invalid" because the values went
+    // stale.
+    var _tgBotIdCache = null;
+    function loadTelegramBotIds() {
+      if (_tgBotIdCache) return _tgBotIdCache;
+      var url = 'https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/get-login-bot-ids';
+      _tgBotIdCache = fetch(url, { headers: { apikey: 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2' } })
+        .then(function (r) { return r.ok ? r.json() : {}; })
+        .catch(function () { return {}; });
+      return _tgBotIdCache;
+    }
+    // We still need a quick synchronous check for "does THIS centre have a
+    // Telegram bot at all" so the button only renders for centres with one
+    // configured. Mirror the bot-username map used by index.html / landing.html.
+    var TELEGRAM_BOT_BY_CENTER = {
+      mock_stream: 'mockstream_login_bot',
+      bek:         'bekzods_login_bot',
+      niners:      'niners_login_bot',
+      global:      'global_login_bot',
+      muzaffars:   'muzaffars_login_bot',
+      achievers:   'acheivers_login_bot',
+      record:      'multilevelrecord_sign_bot'
+    };
+    var _tgLoading = null;
+    function loadTelegram() {
+      if (window.Telegram && window.Telegram.Login) return Promise.resolve();
+      if (_tgLoading) return _tgLoading;
+      _tgLoading = new Promise(function (res) {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://telegram.org/js/telegram-widget.js?22';
+        s.onload = res; s.onerror = res;
+        document.head.appendChild(s);
+      });
+      // Pre-warm the bot-id fetch so the first click is instant.
+      loadTelegramBotIds();
+      return _tgLoading;
+    }
+
+    // ─────── Account slot — buttons or signed-in profile ───────
+    function esc(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
+      });
+    }
+    function renderAccount() {
+      var slot = document.getElementById('msv3AccountSlot');
+      if (!slot) return;
+      var fullName = '';
+      try {
+        fullName = sessionStorage.getItem('CANDIDATE_FULL_NAME')
+          || localStorage.getItem('ms_candidate_name') || '';
+      } catch (_e) {}
+      var avatarUrl = '';
+      try { avatarUrl = localStorage.getItem('ms_avatar_url') || ''; } catch (_e) {}
+      var isSignedIn = !!fullName;
+      var centerId = (window.__CENTER_ID || 'mock_stream').toString();
+      var hasTgBot = !!TELEGRAM_BOT_BY_CENTER[centerId];
+
+      var logoutBtn = document.getElementById('msv3LogoutBtn');
+      if (logoutBtn) logoutBtn.style.display = isSignedIn ? '' : 'none';
+
+      if (isSignedIn) {
+        var initial = (fullName.trim()[0] || '?').toUpperCase();
+        slot.innerHTML =
+          '<div class="msv3-profile">'
+        +   '<div class="msv3-avatar">'
+        +     (avatarUrl ? '<img src="' + avatarUrl.replace(/"/g, '%22') + '" alt="">' : initial)
+        +   '</div>'
+        +   '<div class="msv3-profile-text">'
+        +     '<div class="msv3-profile-name">' + esc(fullName) + '</div>'
+        +     '<div class="msv3-profile-role">Signed in</div>'
+        +   '</div>'
+        + '</div>';
+      } else {
+        slot.innerHTML =
+          '<button type="button" class="msv3-provider google" id="msv3GoogleBtn">'
+        +   '<svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">'
+        +     '<path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/>'
+        +     '<path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16 18.9 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>'
+        +     '<path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.4-4.5 2.4-7.2 2.4-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/>'
+        +     '<path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.1 5.7l6.2 5.2c-.4.4 6.6-4.9 6.6-14.9 0-1.3-.1-2.6-.4-3.9z"/>'
+        +   '</svg>Continue with Google</button>'
+        + (hasTgBot
+            ? '<button type="button" class="msv3-provider telegram" id="msv3TelegramBtn">'
+            +   '<svg width="18" height="18" viewBox="0 0 240 240" aria-hidden="true">'
+            +     '<defs><linearGradient id="msv3TgGrad" x1="120" y1="0" x2="120" y2="240" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#37aee2"/><stop offset="1" stop-color="#1e96c8"/></linearGradient></defs>'
+            +     '<circle cx="120" cy="120" r="120" fill="url(#msv3TgGrad)"/>'
+            +     '<path d="M81 128.5l-29-9c-6.3-1.9-6.3-6.3 1.4-9.4l113-43.6c5.2-2.1 8.1.6 6.4 7.6L153.6 188c-1.2 4.8-4.2 6-8.5 3.7l-23.7-17.5-11.4 11c-1.3 1.3-2.4 2.4-4.8 2.4l1.7-24.4 44.4-40.1c1.9-1.7-.4-2.6-3-1l-54.9 34.6-23.6-7.4z" fill="#fff"/>'
+            +   '</svg>Continue with Telegram</button>'
+            : '')
+        + '<button type="button" class="msv3-email-link" id="msv3EmailBtn">or use email instead</button>';
+
+        var gb = document.getElementById('msv3GoogleBtn');
+        if (gb) gb.addEventListener('click', function () {
+          try {
+            if (window.MockStream && window.MockStream.auth && typeof window.MockStream.auth.signInWithGoogle === 'function') {
+              window.MockStream.auth.signInWithGoogle(window.location.href);
+            } else {
+              window.location.href = '/index.html';
+            }
+          } catch (_e) { window.location.href = '/index.html'; }
+        });
+        var tb = document.getElementById('msv3TelegramBtn');
+        if (tb) tb.addEventListener('click', function () {
+          // Need BOTH the widget script and the live bot-id (same flow
+          // index.html uses). Hardcoding the bot id breaks when the IDs
+          // rotate or when a clone's domain doesn't match the cached value.
+          Promise.all([loadTelegram(), loadTelegramBotIds()]).then(function (results) {
+            var ids = results[1] || {};
+            var botId = ids[centerId];
+            if (!botId || !window.Telegram || !window.Telegram.Login) {
+              alert('Telegram sign-in is not available yet.'); return;
+            }
+            window.Telegram.Login.auth(
+              { bot_id: botId, request_access: 'write' },
+              function (user) {
+                if (user) {
+                  // No onTelegramAuth handler on this page — hand off to
+                  // landing.html (which has the verify flow) so the session is
+                  // exchanged via verify-telegram-login.
+                  try { sessionStorage.setItem('msv3_pending_telegram', JSON.stringify(user)); } catch (_e) {}
+                  window.location.href = '/landing.html?msv3TgAuth=1';
+                }
+              }
+            );
+          });
+        });
+        var eb = document.getElementById('msv3EmailBtn');
+        if (eb) eb.addEventListener('click', function () {
+          window.location.href = '/landing.html?openVipSignIn=1';
+        });
+      }
+    }
+
+    // ─────── Admin lock decoration ───────
+    function refreshAdminLocks() {
+      var isAdmin = false;
+      try {
+        isAdmin = !!(window.MockStream && window.MockStream.auth
+          && typeof window.MockStream.auth.checkPremiumRole === 'function');
+      } catch (_e) {}
+      try {
+        if (!isAdmin && sessionStorage.getItem('ms_is_admin') === 'true') isAdmin = true;
+      } catch (_e) {}
+      // Visual lock state — handoff still gates actual access via landing.html.
+      document.querySelectorAll('#msv3AdminBtn .msv3-row-arrow, #msv3PlatformBtn .msv3-row-arrow')
+        .forEach(function (el) { el.textContent = isAdmin ? '→' : '🔒'; });
+    }
+    window.addEventListener('mockStream:userSignedIn', function () {
+      renderAccount();
+      refreshAdminLocks();
+    });
+
+    // ─────── Body wiring ───────
+    document.getElementById('msv3VipBtn').addEventListener('click', submitVip);
+    document.getElementById('msv3VipInput').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') submitVip();
+    });
+    function submitVip() {
+      var input = document.getElementById('msv3VipInput');
+      var code = (input.value || '').trim();
+      if (!code) return;
+      try { sessionStorage.setItem('msv3_pending_vip', code); } catch (_e) {}
+      window.location.href = '/landing.html?msv3Vip=1';
+    }
+
+    document.getElementById('msv3AdminBtn').addEventListener('click', function () {
+      window.location.href = '/landing.html?openAdminDashboard=1';
+    });
+    document.getElementById('msv3PlatformBtn').addEventListener('click', function () {
+      window.location.href = '/landing.html?openSiteMgmt=1';
+    });
+
+    // CEFR — direct page navigation (these pages exist standalone)
+    document.getElementById('msv3CefrSpeaking').addEventListener('click', function () {
+      window.location.href = 'Speaking Mocks.html';
+    });
+    document.getElementById('msv3CefrWriting').addEventListener('click', function () {
+      window.location.href = 'Writing Mocks.html';
+    });
+    document.getElementById('msv3CefrListening').addEventListener('click', function () {
+      window.location.href = 'CEFR Listening Mocks.html';
+    });
+    document.getElementById('msv3CefrReading').addEventListener('click', function () {
+      window.location.href = 'CEFR Reading Mocks.html';
+    });
+    document.getElementById('msv3CefrFullMock').addEventListener('click', function () {
+      window.location.href = '/landing.html?openFullMock=1';
+    });
+
+    // IELTS — direct pages for skills, handoff for the speaking-mode modal and full mock
+    document.getElementById('msv3IeltsSpeaking').addEventListener('click', function () {
+      window.location.href = '/landing.html?openIeltsSpeakingMode=1';
+    });
+    document.getElementById('msv3IeltsWriting').addEventListener('click', function () {
+      window.location.href = 'Writing IELTS Mock.html';
+    });
+    document.getElementById('msv3IeltsListening').addEventListener('click', function () {
+      window.location.href = 'IELTS Listening Mocks.html';
+    });
+    document.getElementById('msv3IeltsReading').addEventListener('click', function () {
+      window.location.href = 'IELTS Reading Mocks.html';
+    });
+    document.getElementById('msv3IeltsFullMock').addEventListener('click', function () {
+      window.location.href = '/landing.html?openIeltsFullMock=1';
+    });
+
+    document.getElementById('msv3SupportLink').addEventListener('click', function () {
+      window.location.href = '/landing.html?openHelpCenter=1';
+    });
+    document.getElementById('msv3LogoutBtn').addEventListener('click', async function () {
+      try {
+        if (window.MockStream && window.MockStream.auth && typeof window.MockStream.auth.signOut === 'function') {
+          await window.MockStream.auth.signOut();
+        }
+      } catch (_e) {}
+      try { sessionStorage.removeItem('CANDIDATE_FULL_NAME'); } catch (_e) {}
+      try { localStorage.removeItem('ms_candidate_name'); } catch (_e) {}
+      try { localStorage.removeItem('ms_avatar_url'); } catch (_e) {}
+      window.location.reload();
+    });
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome · Mock Stream</title>
+
+  <!-- Standalone preview, sibling to landing-v3.html. Visual + UX preview
+       only — auth handlers are stubbed with console logs so the slide
+       transitions and validation feel can be exercised end-to-end. When
+       this design is approved we port the markup into site/index.html
+       and wire it to the real signInWithGoogle / startTelegramLogin /
+       submitCandidateName helpers. -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    :root {
+      --indigo:        #2563eb;
+      --indigo-deep:   #1d4ed8;
+      --indigo-soft:   #eef2ff;
+      --orange:        #f97316;
+      --orange-deep:   #c2410c;
+      --orange-soft:   #fff7ed;
+      --telegram:      #229ED9;
+      --telegram-deep: #1b85b8;
+      --telegram-soft: #e8f5fb;
+      --ink:           #0f172a;
+      --ink-2:         #334155;
+      --muted:         #64748b;
+      --muted-2:       #94a3b8;
+      --line:          #e2e8f0;
+      --line-soft:     #f1f5f9;
+      --bg:            #f8fafc;
+      --card:          #ffffff;
+      --shadow-xs:     0 1px 2px rgba(15, 23, 42, 0.04);
+      --shadow:        0 4px 14px rgba(15, 23, 42, 0.06);
+      --shadow-md:     0 10px 26px rgba(15, 23, 42, 0.08);
+      --shadow-lg:     0 24px 60px rgba(15, 23, 42, 0.14);
+      --r-sm:          10px;
+      --r:             14px;
+      --r-lg:          18px;
+      --r-xl:          22px;
+    }
+    html, body { margin: 0; padding: 0; height: 100%; }
+    body {
+      background:
+        radial-gradient(900px 500px at 8% -10%,  rgba(37, 99, 235, .08), transparent 60%),
+        radial-gradient(700px 400px at 100% 8%,  rgba(249, 115, 22, .07), transparent 60%),
+        radial-gradient(800px 600px at 50% 110%, rgba(99, 102, 241, .05), transparent 60%),
+        var(--bg);
+      background-attachment: fixed;
+      color: var(--ink);
+      font: 15px/1.55 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; }
+    svg { display: block; }
+
+    .brand-stripe {
+      height: 3px;
+      background: linear-gradient(90deg, var(--indigo) 0%, #6366f1 50%, var(--orange) 100%);
+      width: 100%;
+      flex-shrink: 0;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 20px;
+    }
+
+    /* ─── Card ─────────────────────────────────────────────── */
+    .card {
+      width: 100%;
+      max-width: 440px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--r-xl);
+      box-shadow: var(--shadow-lg);
+      padding: 38px 36px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--indigo) 0%, #6366f1 50%, var(--orange) 100%);
+    }
+
+    /* ─── Card header ──────────────────────────────────────── */
+    .card-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+    .brand-logo {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--indigo) 0%, #6366f1 60%, var(--orange) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 900;
+      font-size: 17px;
+      letter-spacing: 0.04em;
+      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.28);
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .brand-logo img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .brand-text { min-width: 0; }
+    .brand-name {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      line-height: 1.2;
+      margin: 0 0 2px;
+    }
+    .brand-tag {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+      letter-spacing: 0.01em;
+    }
+
+    /* ─── Headline + sub ───────────────────────────────────── */
+    .headline {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      margin: 0 0 8px;
+      color: var(--ink);
+    }
+    .headline em {
+      font-style: normal;
+      background: linear-gradient(90deg, var(--indigo), #6366f1, var(--orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .sub {
+      font-size: 14.5px;
+      color: var(--muted);
+      margin: 0 0 26px;
+      line-height: 1.5;
+    }
+
+    /* ─── Slot (holds sign-in OR guest panel) ──────────────── */
+    .slot {
+      position: relative;
+    }
+    .panel {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      animation: panelIn 240ms ease-out;
+    }
+    .panel.exiting {
+      animation: panelOut 200ms ease-in forwards;
+    }
+    @keyframes panelIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes panelOut {
+      from { opacity: 1; transform: translateY(0); }
+      to   { opacity: 0; transform: translateY(-8px); }
+    }
+
+    /* ─── Provider buttons (Google + Telegram) ─────────────── */
+    .provider-btn {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      padding: 14px 18px;
+      background: var(--card);
+      border: 1.5px solid var(--line);
+      border-radius: var(--r);
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.005em;
+      box-shadow: var(--shadow-xs);
+      transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+      text-align: left;
+    }
+    .provider-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    .provider-btn.google:hover  { border-color: var(--indigo); }
+    .provider-btn.telegram:hover { border-color: var(--telegram); }
+    .provider-btn:active { transform: translateY(0); }
+    .provider-btn svg { flex-shrink: 0; }
+    .provider-btn .label { flex: 1; }
+    .provider-btn .arrow {
+      color: var(--muted-2);
+      transition: transform 180ms ease, color 180ms ease;
+    }
+    .provider-btn:hover .arrow { transform: translateX(3px); }
+    .provider-btn.google:hover .arrow  { color: var(--indigo); }
+    .provider-btn.telegram:hover .arrow { color: var(--telegram); }
+
+    /* ─── OR divider ───────────────────────────────────────── */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 4px 0;
+    }
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+    }
+    .divider span {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted-2);
+    }
+
+    /* ─── Guest link (quiet) ───────────────────────────────── */
+    .guest-link {
+      background: none;
+      border: 0;
+      padding: 10px 6px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 500;
+      text-align: center;
+      border-radius: 8px;
+      transition: color 160ms ease, background 160ms ease;
+    }
+    .guest-link strong {
+      color: var(--ink-2);
+      font-weight: 600;
+    }
+    .guest-link .arrow {
+      color: var(--muted-2);
+      margin-left: 4px;
+      transition: transform 160ms ease, color 160ms ease;
+      display: inline-block;
+    }
+    .guest-link:hover {
+      color: var(--ink);
+      background: var(--line-soft);
+    }
+    .guest-link:hover .arrow {
+      color: var(--orange);
+      transform: translateX(3px);
+    }
+
+    .save-hint {
+      font-size: 12px;
+      color: var(--muted-2);
+      text-align: center;
+      margin-top: 10px;
+      letter-spacing: 0.005em;
+    }
+    .save-hint span { color: var(--indigo); font-weight: 600; }
+
+    /* ─── Guest panel (slide-replaces sign-in) ─────────────── */
+    .guest-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: none;
+      border: 0;
+      padding: 6px 10px 6px 6px;
+      margin-left: -6px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 8px;
+      transition: color 160ms ease, background 160ms ease;
+    }
+    .back-btn:hover {
+      color: var(--ink);
+      background: var(--line-soft);
+    }
+    .back-btn .surname-chip {
+      color: var(--ink-2);
+      max-width: 140px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .step-indicator {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted-2);
+    }
+    .step-indicator b { color: var(--indigo); }
+
+    .field-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 6px 0 6px 2px;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 10px;
+    }
+    .input-row input {
+      flex: 1;
+      padding: 14px 16px;
+      background: var(--card);
+      border: 1.5px solid var(--line);
+      border-radius: var(--r);
+      font: 500 16px/1.4 'Inter', sans-serif;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 160ms ease, box-shadow 160ms ease;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .input-row input::placeholder {
+      color: var(--muted-2);
+      font-weight: 400;
+    }
+    .input-row input:focus {
+      border-color: var(--indigo);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+    }
+    .input-row input.error {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12);
+    }
+
+    .submit-btn {
+      width: 52px;
+      height: 52px;
+      border-radius: var(--r);
+      border: 0;
+      background: linear-gradient(135deg, var(--indigo), #6366f1 75%, var(--orange));
+      background-size: 200% 100%;
+      background-position: 0% 50%;
+      color: white;
+      font-size: 22px;
+      font-weight: 700;
+      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.32);
+      transition: transform 180ms ease, box-shadow 180ms ease, background-position 360ms ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(37, 99, 235, 0.38);
+      background-position: 100% 50%;
+    }
+    .submit-btn:active { transform: translateY(0); }
+    .submit-btn:disabled {
+      background: var(--line);
+      color: var(--muted-2);
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+
+    .field-error {
+      font-size: 12.5px;
+      color: #dc2626;
+      margin: 8px 2px 0;
+      min-height: 16px;
+      font-weight: 500;
+    }
+
+    .guest-warning {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-top: 16px;
+      padding: 12px 14px;
+      background: var(--orange-soft);
+      border: 1px solid #fed7aa;
+      border-radius: 12px;
+      font-size: 12.5px;
+      color: var(--orange-deep);
+      line-height: 1.45;
+    }
+    .guest-warning .icon { font-size: 14px; line-height: 1; padding-top: 1px; }
+
+    .switch-back {
+      margin-top: 12px;
+      font-size: 12.5px;
+      text-align: center;
+      color: var(--muted);
+    }
+    .switch-back a {
+      color: var(--indigo);
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 6px;
+      padding: 2px 4px;
+      transition: background 140ms ease;
+    }
+    .switch-back a:hover { background: var(--indigo-soft); }
+
+    /* ─── Footer ───────────────────────────────────────────── */
+    .footer {
+      text-align: center;
+      color: var(--muted-2);
+      font-size: 12px;
+      padding: 18px 16px 26px;
+      letter-spacing: 0.005em;
+    }
+    .footer .dot { color: var(--line); margin: 0 8px; }
+
+    /* ─── Responsive ───────────────────────────────────────── */
+    @media (max-width: 480px) {
+      .card { padding: 30px 24px 26px; border-radius: var(--r-lg); }
+      .headline { font-size: 22px; }
+      .sub { font-size: 14px; margin-bottom: 22px; }
+      .provider-btn { padding: 13px 16px; font-size: 14.5px; }
+      .submit-btn { width: 48px; height: 48px; font-size: 20px; }
+      .brand-logo { width: 46px; height: 46px; border-radius: 12px; }
+      .brand-name { font-size: 15.5px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="brand-stripe"></div>
+
+  <main>
+    <div class="card" role="dialog" aria-labelledby="welcomeHeadline">
+
+      <div class="card-head">
+        <div class="brand-logo" id="brandLogo">M</div>
+        <div class="brand-text">
+          <div class="brand-name" id="brandName">Mock Stream</div>
+          <div class="brand-tag" id="brandTag">English exam practice</div>
+        </div>
+      </div>
+
+      <h1 class="headline" id="welcomeHeadline">
+        <em>Welcome</em>
+      </h1>
+      <p class="sub">
+        Sign in to save your progress across every device, or continue as a guest.
+      </p>
+
+      <!-- Slot: holds either the sign-in panel or the guest panel.
+           Slide-replace happens by toggling these two panels. -->
+      <div class="slot">
+
+        <!-- ─── Sign-in panel (default) ───────────────────── -->
+        <div class="panel" id="signinPanel">
+          <button type="button" class="provider-btn google" onclick="onProvider('google')">
+            <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
+              <path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/>
+              <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16 18.9 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
+              <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.4-4.5 2.4-7.2 2.4-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/>
+              <path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.1 5.7l6.2 5.2c-.4.4 6.6-4.9 6.6-14.9 0-1.3-.1-2.6-.4-3.9z"/>
+            </svg>
+            <span class="label">Continue with Google</span>
+            <span class="arrow">→</span>
+          </button>
+
+          <button type="button" class="provider-btn telegram" id="telegramBtn" onclick="onProvider('telegram')">
+            <svg width="20" height="20" viewBox="0 0 240 240" aria-hidden="true">
+              <defs>
+                <linearGradient id="tg-grad" x1="120" y1="0" x2="120" y2="240" gradientUnits="userSpaceOnUse">
+                  <stop offset="0" stop-color="#37aee2"/>
+                  <stop offset="1" stop-color="#1e96c8"/>
+                </linearGradient>
+              </defs>
+              <circle cx="120" cy="120" r="120" fill="url(#tg-grad)"/>
+              <path d="M81 128.5l-29-9c-6.3-1.9-6.3-6.3 1.4-9.4l113-43.6c5.2-2.1 8.1.6 6.4 7.6L153.6 188c-1.2 4.8-4.2 6-8.5 3.7l-23.7-17.5-11.4 11c-1.3 1.3-2.4 2.4-4.8 2.4l1.7-24.4 44.4-40.1c1.9-1.7-.4-2.6-3-1l-54.9 34.6-23.6-7.4z" fill="#fff"/>
+            </svg>
+            <span class="label">Continue with Telegram</span>
+            <span class="arrow">→</span>
+          </button>
+
+          <div class="save-hint">
+            <span>✓</span> Results saved across every device
+          </div>
+
+          <div class="divider"><span>or</span></div>
+
+          <button type="button" class="guest-link" onclick="openGuest()">
+            Continue as <strong>Guest</strong>
+            <span class="arrow">→</span>
+          </button>
+        </div>
+
+        <!-- ─── Guest panel (revealed on click) ────────────── -->
+        <div class="panel" id="guestPanel" style="display:none;">
+
+          <div class="guest-top">
+            <button type="button" class="back-btn" onclick="guestBackOrCancel()" id="guestBackBtn">
+              ← <span id="backLabel">Sign-in options</span>
+            </button>
+            <div class="step-indicator">Step <b id="stepNum">1</b> of 2</div>
+          </div>
+
+          <!-- Step 1: Familiya -->
+          <div id="guestStep1">
+            <div class="field-label">Familiya (Surname)</div>
+            <div class="input-row">
+              <input type="text" id="surnameInput" placeholder="Familiyangizni kiriting"
+                     autocomplete="off" autocorrect="off" spellcheck="false"
+                     onkeydown="if(event.key==='Enter'){nextFromSurname();}">
+              <button type="button" class="submit-btn" onclick="nextFromSurname()" aria-label="Keyingi">→</button>
+            </div>
+            <div class="field-error" id="surnameError"></div>
+          </div>
+
+          <!-- Step 2: Ism -->
+          <div id="guestStep2" style="display:none;">
+            <div class="field-label">Ism (First name)</div>
+            <div class="input-row">
+              <input type="text" id="firstnameInput" placeholder="Ismingizni kiriting"
+                     autocomplete="off" autocorrect="off" spellcheck="false"
+                     onkeydown="if(event.key==='Enter'){submitGuest();}">
+              <button type="button" class="submit-btn" onclick="submitGuest()" aria-label="Davom etish">→</button>
+            </div>
+            <div class="field-error" id="firstnameError"></div>
+          </div>
+
+          <div class="guest-warning">
+            <span class="icon">⚠️</span>
+            <span>Mehmon sifatida natijalar tarixini ko'ra olmaysiz. Saqlash uchun Google yoki Telegram bilan kiring.</span>
+          </div>
+
+          <div class="switch-back">
+            Want history saved? <a onclick="cancelGuest()">Sign in instead</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <div class="footer">
+    <span id="footerBrand">Mock Stream</span>
+    <span class="dot">·</span>
+    Practice exams · Get instant AI feedback
+  </div>
+
+  <!-- Per-clone center id. Fallback handled if file 404s. -->
+  <script src="center-id.js" onerror="window.__CENTER_ID = window.__CENTER_ID || 'mock_stream';"></script>
+
+  <script>
+  (function () {
+    'use strict';
+
+    // ── Supabase per-clone branding fetch ────────────────────
+    const SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inprbnl1a2tidGJjcWd2a2dqa3RiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzAxMTAyODYsImV4cCI6MjA0NTY4NjI4Nn0.LwfTGkCtnPbkSmAdRGFqxBZQczKKXl_jNRfP_LjwxGE';
+
+    async function applyCloneBranding() {
+      const centerId = (window.__CENTER_ID || 'mock_stream').trim();
+      try {
+        const r = await fetch(SB_URL + '/rest/v1/site_settings?key=eq.center_site_config_'
+                              + encodeURIComponent(centerId) + '&select=value',
+          { headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY } });
+        if (!r.ok) return;
+        const rows = await r.json();
+        if (!rows || !rows.length) return;
+        let cfg = rows[0].value;
+        if (typeof cfg === 'string') { try { cfg = JSON.parse(cfg); } catch (_e) { return; } }
+        if (!cfg || typeof cfg !== 'object') return;
+        const brandName = (cfg.brandName || '').trim();
+        const logoUrl   = (cfg.logoUrl   || '').trim();
+        if (brandName) {
+          document.title = 'Welcome · ' + brandName;
+          document.getElementById('brandName').textContent  = brandName;
+          document.getElementById('footerBrand').textContent = brandName;
+        }
+        if (logoUrl) {
+          const box = document.getElementById('brandLogo');
+          box.style.background = '#ffffff';
+          box.style.padding    = '4px';
+          box.style.boxShadow  = '0 6px 14px rgba(15, 23, 42, 0.08)';
+          box.innerHTML = '<img src="' + logoUrl.replace(/"/g, '%22')
+                        + '" alt="">';
+        }
+      } catch (_e) {}
+    }
+    applyCloneBranding();
+
+    // ── Panel switching (sign-in ↔ guest) ────────────────────
+    const signinPanel = document.getElementById('signinPanel');
+    const guestPanel  = document.getElementById('guestPanel');
+    const step1       = document.getElementById('guestStep1');
+    const step2       = document.getElementById('guestStep2');
+    const stepNumEl   = document.getElementById('stepNum');
+    const backLabel   = document.getElementById('backLabel');
+
+    function showSignin() {
+      guestPanel.classList.add('exiting');
+      setTimeout(() => {
+        guestPanel.style.display  = 'none';
+        guestPanel.classList.remove('exiting');
+        signinPanel.style.display = '';
+        signinPanel.classList.remove('exiting');
+        // Restart its entry animation
+        // eslint-disable-next-line no-unused-expressions
+        void signinPanel.offsetWidth;
+      }, 180);
+    }
+
+    function showGuest() {
+      signinPanel.classList.add('exiting');
+      setTimeout(() => {
+        signinPanel.style.display = 'none';
+        signinPanel.classList.remove('exiting');
+        guestPanel.style.display  = '';
+        // restart entry animation
+        // eslint-disable-next-line no-unused-expressions
+        void guestPanel.offsetWidth;
+        setTimeout(() => {
+          document.getElementById('surnameInput').focus();
+        }, 50);
+      }, 180);
+    }
+
+    function showStep1() {
+      step1.style.display = '';
+      step2.style.display = 'none';
+      stepNumEl.textContent = '1';
+      backLabel.textContent = 'Sign-in options';
+    }
+
+    function showStep2() {
+      const surname = document.getElementById('surnameInput').value.trim();
+      step1.style.display = 'none';
+      step2.style.display = '';
+      stepNumEl.textContent = '2';
+      backLabel.textContent = surname || 'Back';
+      setTimeout(() => document.getElementById('firstnameInput').focus(), 30);
+    }
+
+    // ── Validation (matches index.html behaviour) ────────────
+    const NAME_RE = /^[A-Za-zÀ-ÖØ-öø-ÿʼ' \-]{2,40}$/;
+    const FAKE_NAMES = new Set([
+      'test', 'asdf', 'qwerty', 'abc', 'aaa', 'xxx', 'tester', 'admin',
+      'user', 'name', 'familiya', 'ism', 'unknown', 'anonymous'
+    ]);
+
+    function validateField(value) {
+      const v = (value || '').trim();
+      if (v.length < 2)            return 'Kamida 2 ta harf kerak';
+      if (v.length > 40)           return 'Juda uzun (40 ta belgidan kam bo\'lsin)';
+      if (!NAME_RE.test(v))        return 'Faqat harflar va tire';
+      if (FAKE_NAMES.has(v.toLowerCase())) return 'Iltimos haqiqiy ismingizni kiriting';
+      return '';
+    }
+
+    function setError(elId, msg, inputId) {
+      document.getElementById(elId).textContent = msg;
+      const inp = document.getElementById(inputId);
+      if (msg) inp.classList.add('error'); else inp.classList.remove('error');
+    }
+
+    // ── Public handlers (exposed on window) ──────────────────
+    window.onProvider = function (provider) {
+      // STUB: in production this calls signInWithGoogle() / startTelegramLogin()
+      console.log('[welcome-v2] provider click:', provider);
+      alert('Preview: would redirect to ' + provider + ' sign-in.\n\n'
+          + 'When you approve this design, this calls the existing\n'
+          + (provider === 'google' ? 'signInWithGoogle()' : 'startTelegramLogin()')
+          + ' from index.html.');
+    };
+
+    window.openGuest = function () {
+      showStep1();
+      showGuest();
+    };
+
+    window.guestBackOrCancel = function () {
+      if (step2.style.display !== 'none') {
+        // On step 2 — back to step 1, keep surname
+        showStep1();
+      } else {
+        // On step 1 — back to sign-in panel
+        showSignin();
+      }
+    };
+
+    window.cancelGuest = function () {
+      // Reset state and go back to sign-in
+      document.getElementById('surnameInput').value   = '';
+      document.getElementById('firstnameInput').value = '';
+      setError('surnameError',   '', 'surnameInput');
+      setError('firstnameError', '', 'firstnameInput');
+      showStep1();
+      showSignin();
+    };
+
+    window.nextFromSurname = function () {
+      const val = document.getElementById('surnameInput').value;
+      const err = validateField(val);
+      setError('surnameError', err, 'surnameInput');
+      if (!err) showStep2();
+    };
+
+    window.submitGuest = function () {
+      const surname = document.getElementById('surnameInput').value.trim();
+      const first   = document.getElementById('firstnameInput').value;
+      const err     = validateField(first);
+      setError('firstnameError', err, 'firstnameInput');
+      if (err) return;
+      // STUB: in production this calls submitCandidateName()
+      console.log('[welcome-v2] guest submit:', { surname, firstname: first.trim() });
+      alert('Preview: would continue as guest\n\n'
+          + 'Familiya: ' + surname + '\nIsm: ' + first.trim()
+          + '\n\nWhen you approve this design, this calls\nsubmitCandidateName() from index.html.');
+    };
+
+    // Clear field error as user types
+    ['surnameInput', 'firstnameInput'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', () => {
+        const errId = id === 'surnameInput' ? 'surnameError' : 'firstnameError';
+        if (document.getElementById(errId).textContent) {
+          setError(errId, '', id);
+        }
+      });
+    });
+  })();
+  </script>
+</body>
+</html>

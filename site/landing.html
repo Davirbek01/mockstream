@@ -6731,6 +6731,145 @@
   <!-- Sidebar Overlay -->
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
+  <!-- ═══════════════════════════════════════════════════════
+       v3-native sidebar — shown during discovery handoff. Reuses the
+       existing signInWithGoogle / validateVipFromSidebar / show*Options
+       / showFullMockOptions / openAdminDashboard / openSiteMgmtGrid /
+       openHelpCenter functions defined further down. Telegram sign-in
+       calls window.Telegram.Login.auth directly (script lazy-loaded by
+       msv3LoadTelegram below).
+       ═══════════════════════════════════════════════════════ -->
+  <div class="msv3-overlay" id="msv3Overlay"></div>
+  <aside class="msv3-sidebar" id="msv3Sidebar" aria-hidden="true">
+    <div class="msv3-head">
+      <div class="msv3-logo" id="msv3HeadLogo">
+        <img id="msv3HeadLogoImg" alt="" hidden>
+      </div>
+      <div class="msv3-brand" id="msv3HeadBrand">Mock Stream</div>
+      <button type="button" class="msv3-close" id="msv3CloseBtn" aria-label="Close menu">×</button>
+    </div>
+
+    <div class="msv3-body">
+
+      <!-- Account / Profile -->
+      <div class="msv3-section" id="msv3AccountSec">
+        <div class="msv3-section-head">Account Access</div>
+        <div class="msv3-account" id="msv3AccountSlot">
+          <!-- Filled by msv3RenderAccount() — either provider buttons or a
+               signed-in profile card. -->
+        </div>
+      </div>
+
+      <!-- VIP -->
+      <div class="msv3-section">
+        <div class="msv3-section-head">VIP Activation</div>
+        <div class="msv3-vip-row">
+          <input type="text" id="msv3VipInput" placeholder="Enter your VIP Access Code" autocomplete="off">
+          <button type="button" id="msv3VipBtn" aria-label="Activate VIP">→</button>
+        </div>
+        <div class="msv3-vip-sub">Activate for all features</div>
+        <div class="msv3-vip-sub" id="msv3VipStatus" style="margin-top:4px;color:#dc2626;display:none;"></div>
+      </div>
+
+      <!-- System Administration -->
+      <div class="msv3-section" id="msv3AdminSec">
+        <div class="msv3-section-head">System Administration</div>
+        <button type="button" class="msv3-row" id="msv3AdminBtn">
+          <span class="msv3-row-icon">🛡️</span>
+          Dashboard Access
+          <span class="msv3-row-arrow" id="msv3AdminLock">🔒</span>
+        </button>
+        <button type="button" class="msv3-row" id="msv3PlatformBtn">
+          <span class="msv3-row-icon">⚙️</span>
+          Platform Management
+          <span class="msv3-row-arrow" id="msv3PlatformLock">🔒</span>
+        </button>
+      </div>
+
+      <!-- Exam Prep — CEFR (Uzbekistan track) -->
+      <div class="msv3-section">
+        <div class="msv3-section-head">
+          Exam Prep &amp; Skills
+          <span class="msv3-tag">CEFR · Uzbekistan</span>
+        </div>
+        <div class="msv3-skills">
+          <button type="button" class="msv3-skill spk" id="msv3CefrSpeaking">
+            <div class="ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+            </div>
+            <div class="lbl">Speaking</div>
+          </button>
+          <button type="button" class="msv3-skill wrt" id="msv3CefrWriting">
+            <div class="ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+            </div>
+            <div class="lbl">Writing</div>
+          </button>
+          <button type="button" class="msv3-skill lst" id="msv3CefrListening">
+            <div class="ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg>
+            </div>
+            <div class="lbl">Listening</div>
+          </button>
+          <button type="button" class="msv3-skill rdg" id="msv3CefrReading">
+            <div class="ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+            </div>
+            <div class="lbl">Reading</div>
+          </button>
+        </div>
+        <button type="button" class="msv3-fullmock" id="msv3CefrFullMock">
+          <span class="star">★</span> CEFR Full Mock Exam
+        </button>
+      </div>
+
+      <!-- Exam Prep — IELTS (International track) -->
+      <div class="msv3-section">
+        <div class="msv3-section-head">
+          IELTS Practice
+          <span class="msv3-tag msv3-tag-ielts">International</span>
+        </div>
+        <div class="msv3-skills">
+          <button type="button" class="msv3-skill spk" id="msv3IeltsSpeaking">
+            <div class="ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+            </div>
+            <div class="lbl">Speaking</div>
+          </button>
+          <button type="button" class="msv3-skill wrt" id="msv3IeltsWriting">
+            <div class="ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+            </div>
+            <div class="lbl">Writing</div>
+          </button>
+          <button type="button" class="msv3-skill lst" id="msv3IeltsListening">
+            <div class="ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg>
+            </div>
+            <div class="lbl">Listening</div>
+          </button>
+          <button type="button" class="msv3-skill rdg" id="msv3IeltsReading">
+            <div class="ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+            </div>
+            <div class="lbl">Reading</div>
+          </button>
+        </div>
+        <button type="button" class="msv3-fullmock msv3-fullmock-ielts" id="msv3IeltsFullMock">
+          <span class="star">★</span> IELTS Full Mock Exam
+        </button>
+      </div>
+    </div>
+
+    <div class="msv3-foot">
+      <div class="msv3-foot-links">
+        <a id="msv3SupportLink">Support Center</a>
+        <a id="msv3TermsLink" href="/terms.html" target="_blank" rel="noopener">Terms of Service</a>
+      </div>
+      <button type="button" class="msv3-logout" id="msv3LogoutBtn" style="display:none;">Log Out</button>
+    </div>
+  </aside>
+
   <!-- Sidebar Menu -->
   <nav class="sidebar-menu" id="sidebarMenu">
     <a href="javascript:void(0)" class="sidebar-profile" id="sidebarProfile" onclick="_handleSidebarProfileClick()">
@@ -6767,12 +6906,11 @@
         </div>
       </li>
 
-      <!-- My Results Menu Item (Student) -->
-      <li class="my-results-menu-item" id="myResultsMenuItem">
-        <a href="results/my-results.html" id="myResultsLink" onclick="return _handleMyResultsClick(event);">
-          <span class="menu-icon" id="myResultsIcon">📊</span> <span id="myResultsLabel">My Results</span>
-        </a>
-      </li>
+      <!-- My Results moved to landing-v3's topbar person icon; the
+           sidebar entry is removed to avoid duplicating the same action
+           in two places. The myResIcon / myResLabel / myResLink lookups
+           in initSidebarProfile (~line 13245) are all guarded with
+           `if (el)` so the missing element is safe. -->
 
       <!-- Admin Dashboard (gated by Google + premium admin role) -->
       <li class="admin-dashboard-menu-item">
@@ -7005,6 +7143,751 @@
       </div>
     </div>
   </div>
+
+  <!-- When the user lands here from landing-v3's tile click
+       (?openSelector=cefr-speaking etc.), the picker modal opens after a
+       ~250ms delay. To avoid a flash of the old hero/skill grid before the
+       modal pops up, hide #landingPage immediately. openSelectorFromQuery
+       clears the URL via history.replaceState once the modal is shown — so
+       after that, normal navigation back here (without the param) renders
+       the page normally. -->
+  <style>
+    /* Inter — used by the v3-style sidebar restyle below. Must be at the
+       top of the style block for @import to be honored by the CSS parser. */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+    /* When the user arrived via landing-v3's handoff (?openSelector or
+       ?openSidebar), hide landing.html's own UI and paint a richer v3-style
+       backdrop. The empty area gets a centered brand mark + headline so the
+       canvas behind the sidebar / picker feels intentional, not abandoned. */
+    html.ms-discovery-handoff #landingPage { visibility: hidden; }
+    html.ms-discovery-handoff body {
+      /* Warm cool→peach gradient matching the v3 landing palette. The cool
+         indigo tint sits top-left, soft warm peach in the top-right — the
+         "interesting color" the target mockup carries across the canvas. */
+      background:
+        radial-gradient(1200px 700px at -5% -10%,  rgba(99, 102, 241, .10), transparent 55%),
+        radial-gradient(1000px 600px at 105% 5%,   rgba(251, 146, 60, .09), transparent 55%),
+        radial-gradient(800px  500px at 50% 110%,  rgba(244, 114, 182, .05), transparent 60%),
+        #f5f7fb !important;
+      background-attachment: fixed !important;
+    }
+    /* Thin gradient stripe along the top, matching landing-v3 exactly. */
+    html.ms-discovery-handoff body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #2563eb 0%, #6366f1 50%, #f97316 100%);
+      z-index: 9999;
+      pointer-events: none;
+    }
+    /* Centered brand watermark for the empty backdrop area. Sits behind any
+       overlaying sidebar / picker. Subtle so it never competes with the
+       overlay; just enough that the empty canvas feels branded. */
+    /* Backdrop: small brand chip in the top-left, plus a large v3 hero
+       headline + LIVE pill centred-left so the empty area mirrors the v3
+       landing's hero strip (matches target mockup). */
+    .ms-discovery-watermark {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity .35s ease;
+    }
+    html.ms-discovery-handoff .ms-discovery-watermark { opacity: 1; }
+    .ms-dw-chip {
+      position: absolute;
+      top: 22px;
+      left: 26px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .ms-discovery-watermark .ms-dw-logo {
+      width: 38px; height: 38px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, #2563eb 0%, #6366f1 60%, #f97316 100%);
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.24);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .ms-discovery-watermark .ms-dw-logo img {
+      width: 100%; height: 100%; object-fit: contain; display: block;
+    }
+    .ms-discovery-watermark .ms-dw-sub {
+      font: 800 16px/1.2 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+    /* Big centred headline behind the sidebar — mimics the v3 hero so the
+       backdrop reads as the v3 landing, not an empty page. Stays clear of
+       the right-side sidebar via right-padding. */
+    .ms-dw-headline {
+      position: absolute;
+      top: 50%;
+      left: 56px;
+      transform: translateY(-50%);
+      max-width: min(720px, calc(100vw - 380px));
+      padding-right: 24px;
+    }
+    .ms-dw-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font: 800 11px/1 'Inter', sans-serif;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #2563eb;
+      background: #eef2ff;
+      padding: 6px 12px;
+      border-radius: 999px;
+      margin-bottom: 18px;
+    }
+    .ms-dw-pill .ms-dw-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #f97316;
+      box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.6);
+      animation: msDwPulse 1.8s ease-out infinite;
+    }
+    @keyframes msDwPulse {
+      0%   { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.6); }
+      70%  { box-shadow: 0 0 0 9px rgba(249, 115, 22, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
+    }
+    .ms-discovery-watermark .ms-dw-title {
+      display: block;
+      font: 800 36px/1.1 'Inter', sans-serif;
+      letter-spacing: -0.03em;
+      color: #0f172a;
+      margin: 0;
+    }
+    .ms-discovery-watermark .ms-dw-title em {
+      font-style: normal;
+      background: linear-gradient(90deg, #2563eb, #6366f1, #f97316);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .ms-dw-tagline {
+      font: 500 14.5px/1.55 'Inter', sans-serif;
+      color: #64748b;
+      max-width: 500px;
+      margin: 14px 0 0;
+    }
+    @media (max-width: 980px) {
+      .ms-dw-headline { display: none; }
+    }
+    @media (max-width: 640px) {
+      .ms-dw-chip { top: 18px; left: 18px; gap: 10px; }
+      .ms-discovery-watermark .ms-dw-logo { width: 34px; height: 34px; border-radius: 10px; }
+      .ms-discovery-watermark .ms-dw-sub { font-size: 14.5px; }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       Sidebar restyle (scoped to discovery handoff only)
+       Reskins the existing sidebar markup with v3 visual language —
+       Inter font, indigo + orange accents, soft slate grays, calmer
+       borders. Direct landing.html visitors keep the legacy look.
+       Inter font @import is at the top of this <style> block.
+       ═══════════════════════════════════════════════════════ */
+    html.ms-discovery-handoff #sidebarMenu {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+      font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+      background:
+        radial-gradient(280px 200px at 100% 0%, rgba(37, 99, 235, .06), transparent 60%),
+        #ffffff !important;
+      border-left: 1px solid #e2e8f0 !important;
+      box-shadow: -24px 0 60px rgba(15, 23, 42, 0.10) !important;
+      color: #0f172a !important;
+    }
+
+    /* Section headers */
+    html.ms-discovery-handoff #sidebarMenu h3 {
+      font-weight: 800 !important;
+      font-size: 11px !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.1em !important;
+      color: #64748b !important;
+      margin: 18px 0 10px 4px !important;
+    }
+
+    /* Profile card */
+    html.ms-discovery-handoff #sidebarMenu .sidebar-profile {
+      background: #f8fafc !important;
+      border: 1px solid #e2e8f0 !important;
+      border-radius: 14px !important;
+      padding: 14px !important;
+      box-shadow: none !important;
+      transition: border-color 180ms ease, background 180ms ease !important;
+    }
+    html.ms-discovery-handoff #sidebarMenu .sidebar-profile:hover {
+      border-color: #c7d2fe !important;
+      background: #fafbfe !important;
+    }
+    html.ms-discovery-handoff #sidebarMenu .sidebar-profile-name {
+      font-weight: 700 !important;
+      color: #0f172a !important;
+      letter-spacing: -0.01em !important;
+    }
+    html.ms-discovery-handoff #sidebarMenu .sidebar-profile-role {
+      color: #64748b !important;
+      font-weight: 500 !important;
+    }
+
+    /* Menu links — all <a> rows */
+    html.ms-discovery-handoff #sidebarMenu ul li a,
+    html.ms-discovery-handoff #sidebarMenu .sidebar-action-btn {
+      background: #ffffff !important;
+      border: 1px solid #e2e8f0 !important;
+      border-radius: 12px !important;
+      padding: 12px 14px !important;
+      color: #0f172a !important;
+      font-weight: 600 !important;
+      font-size: 14px !important;
+      letter-spacing: -0.005em !important;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04) !important;
+      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease, background 160ms ease !important;
+      gap: 10px !important;
+    }
+    html.ms-discovery-handoff #sidebarMenu ul li a:hover,
+    html.ms-discovery-handoff #sidebarMenu .sidebar-action-btn:hover {
+      transform: translateY(-1px) !important;
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.07) !important;
+      border-color: #2563eb !important;
+      background: #ffffff !important;
+    }
+    html.ms-discovery-handoff #sidebarMenu ul li a .menu-icon,
+    html.ms-discovery-handoff #sidebarMenu .sidebar-action-btn .action-icon {
+      font-size: 16px !important;
+      width: 22px !important;
+      text-align: center !important;
+      flex-shrink: 0 !important;
+    }
+
+    /* VIP code card — keep the original dark-gold pill exactly as-is.
+       The [class*="vip"] override turned out to bleed into nested elements
+       and corrupted the gradient. Original design is fine. */
+
+    /* Admin Dashboard / Site Management — keep their semantic colors but
+       in calmer v3-style tints. */
+    html.ms-discovery-handoff #sidebarMenu .admin-dashboard-menu-item a {
+      background: #eef2ff !important;
+      border-color: #c7d2fe !important;
+      color: #312e81 !important;
+    }
+    html.ms-discovery-handoff #sidebarMenu .admin-dashboard-menu-item a:hover {
+      border-color: #6366f1 !important;
+      background: #e0e7ff !important;
+    }
+    html.ms-discovery-handoff #sidebarMenu [class*="site-mgmt"] a,
+    html.ms-discovery-handoff #sidebarMenu #siteMgmtMenuItem a {
+      background: #fff7ed !important;
+      border-color: #fed7aa !important;
+      color: #9a3412 !important;
+    }
+    html.ms-discovery-handoff #sidebarMenu [class*="site-mgmt"] a:hover,
+    html.ms-discovery-handoff #sidebarMenu #siteMgmtMenuItem a:hover {
+      border-color: #f97316 !important;
+      background: #ffedd5 !important;
+    }
+
+    /* Help Center / Premium / Partner action buttons */
+    html.ms-discovery-handoff #sidebarMenu .sidebar-action-btn.support-btn {
+      background: #eff6ff !important;
+      border-color: #bfdbfe !important;
+      color: #1e40af !important;
+    }
+    html.ms-discovery-handoff #sidebarMenu .sidebar-action-btn.support-btn:hover {
+      border-color: #2563eb !important;
+      background: #dbeafe !important;
+    }
+    html.ms-discovery-handoff #sidebarMenu .sidebar-action-btn.premium-btn {
+      background: linear-gradient(135deg, #fef3c7, #fde68a) !important;
+      border-color: #fcd34d !important;
+      color: #78350f !important;
+    }
+    html.ms-discovery-handoff #sidebarMenu .sidebar-action-btn.partner-btn {
+      background: #f5f3ff !important;
+      border-color: #ddd6fe !important;
+      color: #5b21b6 !important;
+    }
+
+    /* The new v3 sidebar replaces the legacy one entirely during handoff. */
+    html.ms-discovery-handoff #sidebarMenu,
+    html.ms-discovery-handoff #sidebarOverlay { display: none !important; }
+
+    /* ═══════════════════════════════════════════════════════
+       msv3Sidebar — v3-native sidebar shown during discovery handoff.
+       Matches the mockup: Account / VIP / System / Skills / Full Mock.
+       ═══════════════════════════════════════════════════════ */
+    .msv3-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.30);
+      backdrop-filter: saturate(180%) blur(4px);
+      -webkit-backdrop-filter: saturate(180%) blur(4px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 220ms ease;
+      z-index: 9990;
+    }
+    .msv3-overlay.show { opacity: 1; pointer-events: auto; }
+
+    .msv3-sidebar {
+      position: fixed;
+      top: 0; right: 0;
+      height: 100vh;
+      width: 320px;
+      max-width: calc(100vw - 24px);
+      background: #ffffff;
+      box-shadow: -24px 0 60px rgba(15, 23, 42, 0.14);
+      border-left: 1px solid #e2e8f0;
+      transform: translateX(100%);
+      transition: transform 280ms cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 9995;
+      display: flex;
+      flex-direction: column;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #0f172a;
+      font-size: 13.5px;
+    }
+    .msv3-sidebar.show { transform: translateX(0); }
+    .msv3-sidebar::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #2563eb 0%, #6366f1 50%, #f97316 100%);
+      z-index: 2;
+    }
+
+    /* Header */
+    .msv3-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .msv3-logo {
+      width: 30px; height: 30px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #2563eb 0%, #6366f1 60%, #f97316 100%);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 3px 8px rgba(37, 99, 235, 0.22);
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .msv3-logo img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .msv3-brand {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      flex: 1;
+    }
+    .msv3-close {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      background: #fff;
+      color: #64748b;
+      font-size: 16px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: all 160ms ease;
+    }
+    .msv3-close:hover { color: #0f172a; border-color: #cbd5e1; background: #f8fafc; }
+
+    /* Scrollable body */
+    .msv3-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 10px 16px 14px;
+    }
+    .msv3-section { margin-top: 14px; }
+    .msv3-section:first-child { margin-top: 4px; }
+    .msv3-section-head {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: #64748b;
+      margin-bottom: 8px;
+    }
+    .msv3-section-head .msv3-tag {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      background: #eef2ff;
+      color: #4338ca;
+      padding: 3px 7px;
+      border-radius: 999px;
+    }
+    /* IELTS section tag — orange tint so the two skill blocks read as
+       different exam tracks at a glance. */
+    .msv3-section-head .msv3-tag.msv3-tag-ielts {
+      background: #fff7ed;
+      color: #c2410c;
+    }
+
+    /* Account: Google + Telegram buttons */
+    .msv3-account { display: flex; flex-direction: column; gap: 10px; }
+    .msv3-provider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #0f172a;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+      text-align: left;
+      width: 100%;
+    }
+    .msv3-provider:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08); }
+    .msv3-provider.google:hover { border-color: #2563eb; }
+    .msv3-provider.telegram:hover { border-color: #229ED9; }
+    .msv3-provider svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .msv3-email-link {
+      background: none;
+      border: 0;
+      color: #2563eb;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      align-self: flex-start;
+      padding: 4px 0;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .msv3-email-link:hover { color: #1d4ed8; }
+
+    /* Signed-in profile card */
+    .msv3-profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+    }
+    .msv3-avatar {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2563eb, #6366f1);
+      color: #fff;
+      font-weight: 700;
+      font-size: 15px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .msv3-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .msv3-profile-text { flex: 1; min-width: 0; }
+    .msv3-profile-name {
+      font-size: 14.5px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .msv3-profile-role {
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    /* VIP */
+    .msv3-vip-row {
+      display: flex;
+      gap: 8px;
+    }
+    .msv3-vip-row input {
+      flex: 1;
+      padding: 11px 13px;
+      background: #fffbeb;
+      border: 1.5px solid #fcd34d;
+      border-radius: 10px;
+      font: 600 14px/1.4 'Inter', sans-serif;
+      color: #78350f;
+      outline: none;
+      transition: border-color 160ms ease, box-shadow 160ms ease;
+    }
+    .msv3-vip-row input::placeholder { color: #b45309; opacity: 0.7; }
+    .msv3-vip-row input:focus { border-color: #f59e0b; box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.18); }
+    .msv3-vip-row button {
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      border: 0;
+      background: linear-gradient(135deg, #f59e0b, #ea580c);
+      color: white;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(234, 88, 12, 0.30);
+      transition: transform 160ms ease, box-shadow 160ms ease;
+      flex-shrink: 0;
+    }
+    .msv3-vip-row button:hover { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(234, 88, 12, 0.36); }
+    .msv3-vip-sub {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 6px;
+    }
+
+    /* Generic action row (admin, platform mgmt, support center, terms) */
+    .msv3-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 11px;
+      color: #0f172a;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+      width: 100%;
+      text-align: left;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+      margin-bottom: 8px;
+    }
+    .msv3-row:last-child { margin-bottom: 0; }
+    .msv3-row:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(15, 23, 42, 0.07); border-color: #2563eb; }
+    .msv3-row-icon { font-size: 16px; }
+    .msv3-row-arrow { margin-left: auto; color: #94a3b8; font-size: 14px; }
+
+    /* Skills grid (2x2) */
+    .msv3-skills {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .msv3-skill {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+      text-align: center;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+      min-height: 88px;
+    }
+    .msv3-skill:hover {
+      transform: translateY(-2px);
+      border-color: #2563eb;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+    }
+    .msv3-skill .ico {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      display: grid; place-items: center;
+      color: white;
+    }
+    /* Solid icon backgrounds — match the target mockup exactly. */
+    .msv3-skill.spk .ico { background: #ef4444; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.25); }
+    .msv3-skill.wrt .ico { background: #f97316; box-shadow: 0 4px 10px rgba(249, 115, 22, 0.25); }
+    .msv3-skill.lst .ico { background: #06b6d4; box-shadow: 0 4px 10px rgba(6, 182, 212, 0.25); }
+    .msv3-skill.rdg .ico { background: #10b981; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25); }
+    .msv3-skill .ico svg { width: 18px; height: 18px; }
+    .msv3-skill .lbl {
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #0f172a;
+    }
+
+    /* Full Mock CTA */
+    .msv3-fullmock {
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 14px;
+      border: 0;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      color: #fff;
+      font: 800 13px/1 'Inter', sans-serif;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.20);
+      transition: transform 160ms ease, box-shadow 160ms ease;
+      width: 100%;
+    }
+    .msv3-fullmock:hover { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(15, 23, 42, 0.28); }
+    .msv3-fullmock .star { color: #fbbf24; font-size: 16px; }
+    /* IELTS Full Mock — indigo/blue variant so the two CTAs are
+       visually distinct in the sidebar. */
+    .msv3-fullmock.msv3-fullmock-ielts {
+      background: linear-gradient(135deg, #1d4ed8, #2563eb);
+      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.30);
+    }
+    .msv3-fullmock.msv3-fullmock-ielts:hover {
+      box-shadow: 0 14px 28px rgba(37, 99, 235, 0.36);
+    }
+
+    /* Footer */
+    .msv3-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 22px;
+      border-top: 1px solid #f1f5f9;
+      background: #fafbfc;
+    }
+    .msv3-foot-links {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 11.5px;
+      color: #64748b;
+      font-weight: 500;
+    }
+    .msv3-foot-links a { color: #64748b; cursor: pointer; }
+    .msv3-foot-links a:hover { color: #2563eb; }
+    .msv3-logout {
+      border: 1px solid #e2e8f0;
+      background: #fff;
+      color: #64748b;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 7px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 160ms ease;
+    }
+    .msv3-logout:hover { border-color: #ef4444; color: #ef4444; background: #fef2f2; }
+  </style>
+  <script>
+    (function () {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var hash = window.location.hash || '';
+        var hasQuery = window.location.search && window.location.search.length > 1;
+
+        // "Returning from a mock" detection: the mock pages stash a return-
+        // category flag in sessionStorage before navigating back to landing.
+        // The existing handler at the bottom of this file picks that up and
+        // re-opens the matching picker on a setTimeout. We need to KEEP that
+        // behaviour — but we also want the v3 backdrop behind the picker so
+        // the user doesn't see the old landing's hero flash through.
+        var returnFlags = [
+          'speakingMockReturnCategory', 'writingMockReturnCategory',
+          'listeningMockReturnCategory', 'readingMockReturnCategory',
+          'speakingMockReturnPicker',   'flashcardReturnCategory',
+          'articlesReturnCategory',     'testReturnCategory'
+        ];
+        var hasReturnFlag = false;
+        try {
+          for (var i = 0; i < returnFlags.length; i++) {
+            if (sessionStorage.getItem(returnFlags[i])) { hasReturnFlag = true; break; }
+          }
+        } catch (_e) {}
+
+        // Cold visit to /landing.html (no query, no hash, no mock-return flag) —
+        // the user probably wants the new discovery landing. Bounce to v3.
+        // Deep-links with any query / hash keep hitting this file as before.
+        // Mock-return visits stay here so the existing picker-reopen handler
+        // can fire — but we also activate the discovery-handoff class so the
+        // picker sits over the v3-style backdrop, not the old landing.
+        if (!hasQuery && !hash && !hasReturnFlag) {
+          window.location.replace('/landing-v3.html');
+          return;
+        }
+        if (hasReturnFlag) {
+          document.documentElement.classList.add('ms-discovery-handoff');
+        }
+
+        if (params.get('openSelector') || params.get('openSidebar') || params.get('openFullMock')
+         || params.get('msv3Vip') || params.get('msv3TgAuth')
+         || params.get('openAdminDashboard') || params.get('openSiteMgmt')
+         || params.get('openIeltsSpeakingMode') || params.get('openIeltsFullMock')
+         || params.get('openHelpCenter') || params.get('openVipSignIn')) {
+          document.documentElement.classList.add('ms-discovery-handoff');
+        }
+      } catch (_e) {}
+    })();
+  </script>
+
+  <!-- Backdrop chrome behind the overlay (visible only during handoff). The
+       per-clone logo + brand name is filled in by site-config.js once the
+       config resolves. -->
+  <div class="ms-discovery-watermark" aria-hidden="true">
+    <div class="ms-dw-chip">
+      <div class="ms-dw-logo" id="msDwLogo">
+        <img id="msDwLogoImg" alt="" hidden>
+      </div>
+      <p class="ms-dw-sub" id="msDwBrand">Mock Stream</p>
+    </div>
+    <div class="ms-dw-headline">
+      <span class="ms-dw-pill">
+        <span class="ms-dw-dot"></span>
+        Live now on <span id="msDwBrandInline">Mock Stream</span>
+      </span>
+      <h1 class="ms-dw-title">
+        Practice exams. Earn real <em>CEFR &amp; IELTS</em> readiness.
+      </h1>
+      <p class="ms-dw-tagline">
+        Thousands of students sit alongside you every day. Pick a skill, jump into a
+        trending mock, or grab one that was added this week.
+      </p>
+    </div>
+  </div>
+  <script>
+    (function () {
+      function applyDwBrand() {
+        try {
+          var brand = (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream';
+          var logo  = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl)   || '';
+          var brandEl = document.getElementById('msDwBrand');
+          if (brandEl) brandEl.textContent = brand;
+          var brandInline = document.getElementById('msDwBrandInline');
+          if (brandInline) brandInline.textContent = brand;
+          if (logo) {
+            var img = document.getElementById('msDwLogoImg');
+            if (img) {
+              img.onload  = function () { img.hidden = false; };
+              img.onerror = function () { img.hidden = true; };
+              img.src = logo;
+            }
+          }
+        } catch (_e) {}
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', applyDwBrand);
+      } else {
+        applyDwBrand();
+      }
+      document.addEventListener('ms:config-ready', applyDwBrand);
+      document.addEventListener('mockStream:centerConfigLoaded', applyDwBrand);
+    })();
+  </script>
 
   <!-- Landing Page Container -->
   <div id="landingPage">
@@ -13035,7 +13918,14 @@
     })();
 
     // ===== SIDEBAR MENU TOGGLE =====
+    // When the discovery handoff is active (user arrived from landing-v3),
+    // open the new msv3Sidebar instead of the legacy one. Either way the
+    // polling watcher in the handoff script detects "any overlay open" via
+    // both #sidebarMenu.active and #msv3Sidebar.show selectors.
     function toggleSidebar() {
+      if (document.documentElement.classList.contains('ms-discovery-handoff')) {
+        return msv3ToggleSidebar();
+      }
       const hamburger = document.getElementById('hamburgerBtn');
       const sidebar = document.getElementById('sidebarMenu');
       const overlay = document.getElementById('sidebarOverlay');
@@ -13044,6 +13934,301 @@
       sidebar.classList.toggle('active');
       overlay.classList.toggle('active');
     }
+
+    // ===== msv3 SIDEBAR (v3 redesign, handoff-only) =====
+    function msv3ToggleSidebar() {
+      var s = document.getElementById('msv3Sidebar');
+      var o = document.getElementById('msv3Overlay');
+      if (!s) return;
+      var isOpen = s.classList.contains('show');
+      if (isOpen) {
+        s.classList.remove('show');
+        if (o) o.classList.remove('show');
+        s.setAttribute('aria-hidden', 'true');
+      } else {
+        s.classList.add('show');
+        if (o) o.classList.add('show');
+        s.setAttribute('aria-hidden', 'false');
+        msv3RenderAccount();
+        msv3RefreshAdminLocks();
+      }
+    }
+
+    // Brand fill — same SITE_CONFIG source as the existing sidebar.
+    function msv3ApplyBrand() {
+      try {
+        var brand = (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream';
+        var logo  = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl)   || '';
+        var be = document.getElementById('msv3HeadBrand');
+        if (be) be.textContent = brand;
+        if (logo) {
+          var img = document.getElementById('msv3HeadLogoImg');
+          if (img) {
+            img.onload  = function () { img.hidden = false; };
+            img.onerror = function () { img.hidden = true; };
+            img.src = logo;
+          }
+        }
+      } catch (_e) {}
+    }
+    document.addEventListener('ms:config-ready', msv3ApplyBrand);
+    document.addEventListener('mockStream:centerConfigLoaded', msv3ApplyBrand);
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', msv3ApplyBrand);
+    } else { msv3ApplyBrand(); }
+
+    // Lazy-load Telegram widget script so window.Telegram.Login is available
+    // when the Telegram provider button is clicked. Same pattern index.html uses.
+    var _msv3TgLoading = null;
+    function msv3LoadTelegram() {
+      if (window.Telegram && window.Telegram.Login) return Promise.resolve();
+      if (_msv3TgLoading) return _msv3TgLoading;
+      _msv3TgLoading = new Promise(function (res) {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://telegram.org/js/telegram-widget.js?22';
+        s.onload  = function () { res(); };
+        s.onerror = function () { res(); };
+        document.head.appendChild(s);
+      });
+      return _msv3TgLoading;
+    }
+    // Bot IDs are NOT hardcoded — fetched from get-login-bot-ids Edge
+    // Function (matches the live source-of-truth used by index.html). The
+    // bot-username map is still local because /setdomain only allows one
+    // domain per bot and the usernames are stable.
+    var TELEGRAM_BOT_BY_CENTER_MSV3 = {
+      mock_stream: 'mockstream_login_bot',
+      bek:         'bekzods_login_bot',
+      niners:      'niners_login_bot',
+      global:      'global_login_bot',
+      muzaffars:   'muzaffars_login_bot',
+      achievers:   'acheivers_login_bot',
+      record:      'multilevelrecord_sign_bot'
+    };
+    var _msv3TgBotIdCache = null;
+    function msv3LoadBotIds() {
+      if (_msv3TgBotIdCache) return _msv3TgBotIdCache;
+      var url = 'https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/get-login-bot-ids';
+      _msv3TgBotIdCache = fetch(url, { headers: { apikey: 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2' } })
+        .then(function (r) { return r.ok ? r.json() : {}; })
+        .catch(function () { return {}; });
+      return _msv3TgBotIdCache;
+    }
+
+    // Render either provider buttons OR a signed-in profile chip in the
+    // Account Access slot. Uses the same signed-in heuristic the legacy
+    // sidebar uses: CANDIDATE_FULL_NAME populated by Google or Telegram auth.
+    function msv3RenderAccount() {
+      var slot = document.getElementById('msv3AccountSlot');
+      if (!slot) return;
+      var fullName = '';
+      try {
+        fullName = sessionStorage.getItem('CANDIDATE_FULL_NAME')
+                || localStorage.getItem('ms_candidate_name')
+                || '';
+      } catch (_e) {}
+      var avatarUrl = '';
+      try { avatarUrl = localStorage.getItem('ms_avatar_url') || ''; } catch (_e) {}
+      var isSignedIn = !!fullName;
+
+      // Decide whether to show the Telegram button — only if a bot is
+      // configured for this centre. Mirrors the legacy logic in
+      // _initTelegramLogin.
+      var centerId = (window.__CENTER_ID || (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream');
+      var hasTgBot = !!TELEGRAM_BOT_BY_CENTER_MSV3[centerId];
+
+      // Sign-out button reflects sign-in state.
+      var logoutBtn = document.getElementById('msv3LogoutBtn');
+      if (logoutBtn) logoutBtn.style.display = isSignedIn ? '' : 'none';
+
+      if (isSignedIn) {
+        var initial = (fullName.trim()[0] || '?').toUpperCase();
+        slot.innerHTML =
+          '<div class="msv3-profile">'
+        +   '<div class="msv3-avatar" id="msv3AvatarBox">'
+        +     (avatarUrl
+                ? '<img src="' + avatarUrl.replace(/"/g, '%22') + '" alt="">'
+                : initial)
+        +   '</div>'
+        +   '<div class="msv3-profile-text">'
+        +     '<div class="msv3-profile-name">' + msv3Esc(fullName) + '</div>'
+        +     '<div class="msv3-profile-role">Signed in</div>'
+        +   '</div>'
+        + '</div>';
+      } else {
+        slot.innerHTML =
+          '<button type="button" class="msv3-provider google" id="msv3GoogleBtn">'
+        +   '<svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">'
+        +     '<path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/>'
+        +     '<path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16 18.9 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>'
+        +     '<path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.4-4.5 2.4-7.2 2.4-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/>'
+        +     '<path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.1 5.7l6.2 5.2c-.4.4 6.6-4.9 6.6-14.9 0-1.3-.1-2.6-.4-3.9z"/>'
+        +   '</svg>'
+        +   'Continue with Google'
+        + '</button>'
+        + (hasTgBot
+            ? '<button type="button" class="msv3-provider telegram" id="msv3TelegramBtn">'
+            +   '<svg width="18" height="18" viewBox="0 0 240 240" aria-hidden="true">'
+            +     '<defs><linearGradient id="msv3TgGrad" x1="120" y1="0" x2="120" y2="240" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#37aee2"/><stop offset="1" stop-color="#1e96c8"/></linearGradient></defs>'
+            +     '<circle cx="120" cy="120" r="120" fill="url(#msv3TgGrad)"/>'
+            +     '<path d="M81 128.5l-29-9c-6.3-1.9-6.3-6.3 1.4-9.4l113-43.6c5.2-2.1 8.1.6 6.4 7.6L153.6 188c-1.2 4.8-4.2 6-8.5 3.7l-23.7-17.5-11.4 11c-1.3 1.3-2.4 2.4-4.8 2.4l1.7-24.4 44.4-40.1c1.9-1.7-.4-2.6-3-1l-54.9 34.6-23.6-7.4z" fill="#fff"/>'
+            +   '</svg>'
+            +   'Continue with Telegram'
+            + '</button>'
+            : '')
+        + '<button type="button" class="msv3-email-link" id="msv3EmailBtn">or use email instead</button>';
+
+        var gb = document.getElementById('msv3GoogleBtn');
+        if (gb) gb.addEventListener('click', function () {
+          try { if (typeof signInWithGoogle === 'function') signInWithGoogle(); } catch (_e) {}
+        });
+        var tb = document.getElementById('msv3TelegramBtn');
+        if (tb) tb.addEventListener('click', function () {
+          // Need BOTH the widget script and the LIVE bot-id from the Edge
+          // Function (hardcoded IDs go stale and Telegram rejects with
+          // "bot domain invalid" / "bot_id required").
+          Promise.all([msv3LoadTelegram(), msv3LoadBotIds()]).then(function (results) {
+            var ids = results[1] || {};
+            var botId = ids[centerId];
+            if (!botId || !window.Telegram || !window.Telegram.Login) {
+              alert('Telegram sign-in is not available yet.');
+              return;
+            }
+            window.Telegram.Login.auth(
+              { bot_id: botId, request_access: 'write' },
+              function (user) { if (user && typeof window.onTelegramAuth === 'function') window.onTelegramAuth(user); }
+            );
+          });
+        });
+        var eb = document.getElementById('msv3EmailBtn');
+        if (eb) eb.addEventListener('click', function () {
+          try { if (typeof openVipSignInModal === 'function') openVipSignInModal(); } catch (_e) {}
+        });
+      }
+    }
+    function msv3Esc(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
+      });
+    }
+
+    // Show / hide the lock badges on the admin rows based on detected role.
+    function msv3RefreshAdminLocks() {
+      var isAdmin = false;
+      try {
+        isAdmin = !!(window.MockStream
+                  && window.MockStream.auth
+                  && typeof window.MockStream.auth.isAdmin === 'function'
+                  && window.MockStream.auth.isAdmin());
+      } catch (_e) {}
+      try {
+        if (!isAdmin && sessionStorage.getItem('ms_is_admin') === 'true') isAdmin = true;
+      } catch (_e) {}
+      var adminLock    = document.getElementById('msv3AdminLock');
+      var platformLock = document.getElementById('msv3PlatformLock');
+      if (adminLock)    adminLock.textContent    = isAdmin ? '→' : '🔒';
+      if (platformLock) platformLock.textContent = isAdmin ? '→' : '🔒';
+    }
+
+    // Wire body buttons once on load — they live in static markup so we
+    // can bind handlers directly. Account-section buttons are bound inside
+    // msv3RenderAccount (re-rendered on each open).
+    document.addEventListener('DOMContentLoaded', function () {
+      var close = document.getElementById('msv3CloseBtn');
+      var overlay = document.getElementById('msv3Overlay');
+      if (close)   close.addEventListener('click', msv3ToggleSidebar);
+      if (overlay) overlay.addEventListener('click', msv3ToggleSidebar);
+
+      var vipBtn   = document.getElementById('msv3VipBtn');
+      var vipInput = document.getElementById('msv3VipInput');
+      function submitVip() {
+        if (!vipInput) return;
+        // Mirror the value into the legacy input the existing validator
+        // reads, then call it. Keeps the entire VIP verification pipeline
+        // (Supabase / per-tier flags / unlock toast) untouched.
+        var legacy = document.getElementById('vipSidebarInput');
+        if (legacy) legacy.value = vipInput.value;
+        try { if (typeof validateVipFromSidebar === 'function') validateVipFromSidebar(); } catch (_e) {}
+      }
+      if (vipBtn)   vipBtn.addEventListener('click', submitVip);
+      if (vipInput) vipInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') submitVip(); });
+
+      var adminBtn    = document.getElementById('msv3AdminBtn');
+      var platformBtn = document.getElementById('msv3PlatformBtn');
+      if (adminBtn)    adminBtn.addEventListener('click', function () {
+        try { if (typeof openAdminDashboard === 'function') openAdminDashboard(); } catch (_e) {}
+      });
+      if (platformBtn) platformBtn.addEventListener('click', function () {
+        try { if (typeof openSiteMgmtGrid === 'function') openSiteMgmtGrid(); } catch (_e) {}
+      });
+
+      // Skill cards close the sidebar first, then trigger the action. For
+      // direct page navigations (CEFR speaking → Speaking Mocks.html etc.)
+      // we just set window.location; for in-page launchers (modals / pickers)
+      // we call the existing global function so the picker pops over the v3
+      // backdrop and the polling watcher returns to v3 on close.
+      function wireSkill(id, fn) {
+        var b = document.getElementById(id);
+        if (!b || typeof fn !== 'function') return;
+        b.addEventListener('click', function () {
+          msv3ToggleSidebar();
+          setTimeout(fn, 220);
+        });
+      }
+
+      // ── CEFR (Uzbekistan) — same launchers the legacy sidebar uses.
+      wireSkill('msv3CefrSpeaking',  function () { window.location.href = 'Speaking Mocks.html'; });
+      wireSkill('msv3CefrWriting',   function () { window.location.href = 'Writing Mocks.html'; });
+      wireSkill('msv3CefrListening', function () {
+        if (typeof loadMock === 'function') loadMock('CEFR Listening Mocks.html', 'listening');
+        else window.location.href = 'CEFR Listening Mocks.html';
+      });
+      wireSkill('msv3CefrReading', function () {
+        if (typeof loadMock === 'function') loadMock('CEFR Reading Mocks.html', 'reading');
+        else window.location.href = 'CEFR Reading Mocks.html';
+      });
+      wireSkill('msv3CefrFullMock', function () {
+        if (typeof startFullMock === 'function') startFullMock();
+        else if (typeof showFullMockOptions === 'function') showFullMockOptions();
+      });
+
+      // ── IELTS (International) — direct routes per the legacy sidebar's
+      //    IELTS section.
+      wireSkill('msv3IeltsSpeaking', function () {
+        if (typeof showIELTSSpeakingModeModal === 'function') showIELTSSpeakingModeModal();
+      });
+      wireSkill('msv3IeltsWriting',  function () { window.location.href = 'Writing IELTS Mock.html'; });
+      wireSkill('msv3IeltsListening', function () {
+        if (typeof loadMock === 'function') loadMock('IELTS Listening Mocks.html', 'listening');
+        else window.location.href = 'IELTS Listening Mocks.html';
+      });
+      wireSkill('msv3IeltsReading', function () {
+        if (typeof loadMock === 'function') loadMock('IELTS Reading Mocks.html', 'reading');
+        else window.location.href = 'IELTS Reading Mocks.html';
+      });
+      wireSkill('msv3IeltsFullMock', function () {
+        if (typeof showIELTSFullMockOptions === 'function') showIELTSFullMockOptions();
+      });
+
+      var sup = document.getElementById('msv3SupportLink');
+      if (sup) sup.addEventListener('click', function () {
+        try { if (typeof openHelpCenter === 'function') openHelpCenter(); } catch (_e) {}
+      });
+
+      var logoutBtn = document.getElementById('msv3LogoutBtn');
+      if (logoutBtn) logoutBtn.addEventListener('click', async function () {
+        try {
+          if (window.MockStream && window.MockStream.auth && typeof window.MockStream.auth.signOut === 'function') {
+            await window.MockStream.auth.signOut();
+          }
+        } catch (_e) {}
+        try { sessionStorage.removeItem('CANDIDATE_FULL_NAME'); } catch (_e) {}
+        try { localStorage.removeItem('ms_candidate_name'); } catch (_e) {}
+        try { localStorage.removeItem('ms_avatar_url'); } catch (_e) {}
+        window.location.reload();
+      });
+    });
 
     // ===== SIDEBAR PROFILE =====
     (function initSidebarProfile() {
@@ -25061,16 +26246,249 @@
         openWritingCategoryModal('ielts-writing');
       } else if (target === 'cefr-listening' || target === 'ielts-listening' || target === 'cefr-reading' || target === 'ielts-reading') {
         openCategoryModal(target);
+      } else if (target === 'articles' || target === 'flashcards') {
+        // Learning Tools — gated by tier the same way the in-page cards are.
+        try {
+          if (typeof _gateLearningTool === 'function') {
+            _gateLearningTool(target, function () { openCategoryModal(target); });
+          } else if (typeof openCategoryModal === 'function') {
+            openCategoryModal(target);
+          }
+        } catch (_e) {}
+      } else if (target === 'tests') {
+        // Tests submenu (Grammar / Vocabulary). Gated by tier.
+        try {
+          if (typeof _gateLearningTool === 'function') {
+            _gateLearningTool('tests', function () {
+              if (typeof showTestsSubmenu === 'function') showTestsSubmenu();
+            });
+          } else if (typeof showTestsSubmenu === 'function') {
+            showTestsSubmenu();
+          }
+        } catch (_e) {}
+      } else if (target === 'cambridge-ket' || target === 'cambridge-pet'
+              || target === 'cambridge-fce' || target === 'cambridge-cae'
+              || target === 'cambridge-cpe') {
+        var fnMap = {
+          'cambridge-ket': 'showKETOptions',
+          'cambridge-pet': 'showPETOptions',
+          'cambridge-fce': 'showFCEOptions',
+          'cambridge-cae': 'showCAEOptions',
+          'cambridge-cpe': 'showCPEOptions'
+        };
+        var fnName = fnMap[target];
+        try { if (typeof window[fnName] === 'function') window[fnName](); } catch (_e) {}
       }
 
       try {
         var clean = window.location.pathname + window.location.hash;
         window.history.replaceState({}, document.title, clean);
       } catch (e) {}
+
+      // Picker is open and the user came in from landing-v3. Start watching
+      // the picker overlays; when they all close, navigate back to v3 so
+      // the user doesn't get dumped onto the old landing.html UI.
+      startDiscoveryReturnWatcher();
+    }
+
+    // When the user clicks the v3 hamburger, landing-v3 sends them to
+    // landing.html?openSidebar=1. Open the existing sidebar and start the
+    // same return-to-v3 watcher so closing the sidebar lands them back on v3.
+    function openSidebarFromQuery() {
+      var params = new URLSearchParams(window.location.search);
+      if (!params.get('openSidebar')) return;
+      try {
+        var clean = window.location.pathname + window.location.hash;
+        window.history.replaceState({}, document.title, clean);
+      } catch (e) {}
+      // Defer one frame so toggleSidebar can find the DOM nodes it needs.
+      setTimeout(function () {
+        try { if (typeof toggleSidebar === 'function') toggleSidebar(); } catch (_e) {}
+        startDiscoveryReturnWatcher();
+      }, 50);
+    }
+
+    // Full Mock handoff. landing-v3's "Full Mock Experience" card sends users
+    // to landing.html?openFullMock=1 — we open the existing fullmock modal
+    // (showFullMockOptions) and start the same return-to-v3 watcher.
+    function openFullMockFromQuery() {
+      var params = new URLSearchParams(window.location.search);
+      if (!params.get('openFullMock')) return;
+      try {
+        var clean = window.location.pathname + window.location.hash;
+        window.history.replaceState({}, document.title, clean);
+      } catch (e) {}
+      setTimeout(function () {
+        try { if (typeof showFullMockOptions === 'function') showFullMockOptions(); } catch (_e) {}
+        startDiscoveryReturnWatcher();
+      }, 50);
+    }
+
+    // ── v3 sidebar handoffs ─────────────────────────────────
+    // The inline sidebar on landing-v3.html bounces to landing.html for
+    // actions that need landing.html's globals: VIP verification, admin
+    // panels, IELTS speaking-mode modal, IELTS full-mock options, Help
+    // Center, and the Telegram OAuth verify-and-session-exchange flow.
+    function _msv3Handoff(paramName, action) {
+      var params = new URLSearchParams(window.location.search);
+      if (!params.get(paramName)) return;
+      try {
+        var clean = window.location.pathname + window.location.hash;
+        window.history.replaceState({}, document.title, clean);
+      } catch (e) {}
+      setTimeout(function () {
+        try { action(); } catch (_e) {}
+        startDiscoveryReturnWatcher();
+      }, 50);
+    }
+    function openVipFromV3() {
+      _msv3Handoff('msv3Vip', function () {
+        var code = '';
+        try { code = sessionStorage.getItem('msv3_pending_vip') || ''; } catch (_e) {}
+        try { sessionStorage.removeItem('msv3_pending_vip'); } catch (_e) {}
+        if (!code) return;
+        // Mirror into the legacy input and call the existing validator.
+        var legacy = document.getElementById('vipSidebarInput');
+        if (legacy) legacy.value = code;
+        // Open the sidebar so the user sees the result inline.
+        if (typeof toggleSidebar === 'function') toggleSidebar();
+        setTimeout(function () {
+          if (typeof validateVipFromSidebar === 'function') validateVipFromSidebar();
+        }, 200);
+      });
+    }
+    function openTelegramAuthFromV3() {
+      _msv3Handoff('msv3TgAuth', function () {
+        var payload = '';
+        try { payload = sessionStorage.getItem('msv3_pending_telegram') || ''; } catch (_e) {}
+        try { sessionStorage.removeItem('msv3_pending_telegram'); } catch (_e) {}
+        if (!payload || typeof window.onTelegramAuth !== 'function') return;
+        try { window.onTelegramAuth(JSON.parse(payload)); } catch (_e) {}
+      });
+    }
+    function openAdminFromV3() {
+      _msv3Handoff('openAdminDashboard', function () {
+        if (typeof openAdminDashboard === 'function') openAdminDashboard();
+      });
+    }
+    function openSiteMgmtFromV3() {
+      _msv3Handoff('openSiteMgmt', function () {
+        if (typeof openSiteMgmtGrid === 'function') openSiteMgmtGrid();
+      });
+    }
+    function openIeltsSpeakingModeFromV3() {
+      _msv3Handoff('openIeltsSpeakingMode', function () {
+        if (typeof showIELTSSpeakingModeModal === 'function') showIELTSSpeakingModeModal();
+      });
+    }
+    function openIeltsFullMockFromV3() {
+      _msv3Handoff('openIeltsFullMock', function () {
+        if (typeof showIELTSFullMockOptions === 'function') showIELTSFullMockOptions();
+      });
+    }
+    function openHelpCenterFromV3() {
+      _msv3Handoff('openHelpCenter', function () {
+        if (typeof openHelpCenter === 'function') openHelpCenter();
+      });
+    }
+    function openVipSignInFromV3() {
+      _msv3Handoff('openVipSignIn', function () {
+        if (typeof openVipSignInModal === 'function') openVipSignInModal();
+      });
+    }
+
+    // Polls the known picker / sidebar overlays. When none are visible — i.e.
+    // the user closed whatever brought them here — replace() back to v3.
+    var _msDiscoveryWatcherStarted = false;
+    function startDiscoveryReturnWatcher() {
+      if (_msDiscoveryWatcherStarted) return;
+      if (!document.documentElement.classList.contains('ms-discovery-handoff')) return;
+      _msDiscoveryWatcherStarted = true;
+      // Selectors that mean "an overlay the user might still be interacting
+      // with is open". If any matches, we keep waiting.
+      var ACTIVE_SELECTORS = [
+        '#categoryModal.show',
+        '#ispetPicker[aria-hidden="false"]',
+        '#cspetPicker[aria-hidden="false"]',
+        '#cwetPicker[aria-hidden="false"]',
+        '#iwetPicker[aria-hidden="false"]',
+        '#cletPicker[aria-hidden="false"]',
+        '#iletPicker[aria-hidden="false"]',
+        '#cretPicker[aria-hidden="false"]',
+        '#iretPicker[aria-hidden="false"]',
+        '#speakingCategoryModal.show',
+        '#writingCategoryModal.show',
+        '#ieltsSpeakingModeModal.show',
+        '#sidebarMenu.active',
+        '#msv3Sidebar.show',
+        '.fullmock-modal-overlay.show',
+        '#testsModal.show',
+        '#ketModal.show',
+        '#petModal.show',
+        '#fceModal.show',
+        '#caeModal.show',
+        '#cpeModal.show',
+        '.pg-modal-overlay',  /* premium-gate upgrade modal — appended to body when a gate blocks */
+        '#ieltsSpeakingModeModal.show',
+        '#adminDashboardModal.show',
+        '#smgOverlay.show'
+      ];
+      function anyOpen() {
+        for (var i = 0; i < ACTIVE_SELECTORS.length; i++) {
+          if (document.querySelector(ACTIVE_SELECTORS[i])) return true;
+        }
+        return false;
+      }
+      // Wait a tick for whatever was opened (picker / sidebar) to become
+      // visible, so we don't trip on the empty pre-open state.
+      var sawOpen = false;
+      var iv = setInterval(function () {
+        if (anyOpen()) { sawOpen = true; return; }
+        if (sawOpen) {
+          clearInterval(iv);
+          try {
+            document.documentElement.classList.remove('ms-discovery-handoff');
+          } catch (_e) {}
+          window.location.replace('/landing-v3.html');
+        }
+      }, 200);
+      // Give the open call up to 2s to fire before we stop waiting. If
+      // nothing ever opened (e.g. a tier gate silently blocked the modal),
+      // bounce back to v3 instead of revealing the old landing — landing.html
+      // is meant to be a transient handoff page, not a destination on its own.
+      setTimeout(function () {
+        if (!sawOpen) {
+          clearInterval(iv);
+          try {
+            document.documentElement.classList.remove('ms-discovery-handoff');
+          } catch (_e) {}
+          window.location.replace('/landing-v3.html');
+        }
+      }, 2000);
     }
 
     document.addEventListener('DOMContentLoaded', function () {
       setTimeout(openSelectorFromQuery, 250);
+      setTimeout(openSidebarFromQuery, 250);
+      setTimeout(openFullMockFromQuery, 250);
+      setTimeout(openVipFromV3, 250);
+      setTimeout(openTelegramAuthFromV3, 250);
+      setTimeout(openAdminFromV3, 250);
+      setTimeout(openSiteMgmtFromV3, 250);
+      setTimeout(openIeltsSpeakingModeFromV3, 250);
+      setTimeout(openIeltsFullMockFromV3, 250);
+      setTimeout(openHelpCenterFromV3, 250);
+      setTimeout(openVipSignInFromV3, 250);
+      // Mock-return case: ms-discovery-handoff class was set by the inline
+      // redirect-detection script (no explicit handoff param), the existing
+      // return-flag handlers below open the picker on a ~350ms timeout.
+      // Start the return-to-v3 watcher AFTER that so closing the picker
+      // bounces the user back to landing-v3.html.
+      setTimeout(function () {
+        if (document.documentElement.classList.contains('ms-discovery-handoff')) {
+          startDiscoveryReturnWatcher();
+        }
+      }, 500);
     });
 
     function showIELTSSpeakingTutorial() {
