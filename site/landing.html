@@ -7996,16 +7996,36 @@
   <script>
     (function () {
       try {
+        var path = window.location.pathname || '';
         var params = new URLSearchParams(window.location.search);
         var hash = window.location.hash || '';
-        var hasQuery = window.location.search && window.location.search.length > 1;
+        var hasHash = !!hash;
 
-        // "Returning from a mock" detection: the mock pages stash a return-
-        // category flag in sessionStorage before navigating back to landing.
-        // The existing handler at the bottom of this file picks that up and
-        // re-opens the matching picker on a setTimeout. We need to KEEP that
-        // behaviour — but we also want the v3 backdrop behind the picker so
-        // the user doesn't see the old landing's hero flash through.
+        // /take/<slug> deep-link routes are served by landing.html via a
+        // Netlify 200 rewrite (URL bar shows /take/..., file is landing.html).
+        // _processDeepLinkTake reads window.location.pathname and opens the
+        // matching mock. Never bounce these to v3.
+        var isTakeRoute = /^\/take\//i.test(path);
+
+        // Known handoff query params — every URL that legitimately wants to
+        // render on landing.html instead of bouncing to v3 must use one of
+        // these. Anything else with a query is treated as a stale link and
+        // bounced to v3.
+        var KNOWN_HANDOFF_PARAMS = [
+          'openSelector', 'openSidebar', 'openFullMock', 'openModal',
+          'msv3Vip', 'msv3TgAuth',
+          'openAdminDashboard', 'openSiteMgmt',
+          'openIeltsSpeakingMode', 'openIeltsFullMock',
+          'openHelpCenter', 'openVipSignIn',
+          'take' /* legacy: /landing.html?take=cefr-reading-45 */
+        ];
+        var hasKnownHandoff = KNOWN_HANDOFF_PARAMS.some(function (k) {
+          return params.has(k);
+        });
+
+        // "Returning from a mock" — mock pages stash a return-category flag
+        // before navigating back to landing.html. The picker-reopen handler
+        // further down reads it and re-opens the matching picker.
         var returnFlags = [
           'speakingMockReturnCategory', 'writingMockReturnCategory',
           'listeningMockReturnCategory', 'readingMockReturnCategory',
@@ -8019,25 +8039,24 @@
           }
         } catch (_e) {}
 
-        // Cold visit to /landing.html (no query, no hash, no mock-return flag) —
-        // the user probably wants the new discovery landing. Bounce to v3.
-        // Deep-links with any query / hash keep hitting this file as before.
-        // Mock-return visits stay here so the existing picker-reopen handler
-        // can fire — but we also activate the discovery-handoff class so the
-        // picker sits over the v3-style backdrop, not the old landing.
-        if (!hasQuery && !hash && !hasReturnFlag) {
+        // Decide: bounce to v3, or stay here?
+        //   STAY when this load has a real reason: /take/, known handoff
+        //   param, hash anchor (#cambridge / #fullmock), or a return-flag.
+        //   BOUNCE otherwise — even with an unknown query like ?center=ID
+        //   we'd rather drop students on v3 than show the old landing.
+        var stay = isTakeRoute || hasKnownHandoff || hasHash || hasReturnFlag;
+        if (!stay) {
           window.location.replace('/landing-v3.html');
           return;
         }
-        if (hasReturnFlag) {
-          document.documentElement.classList.add('ms-discovery-handoff');
-        }
 
-        if (params.get('openSelector') || params.get('openSidebar') || params.get('openFullMock')
-         || params.get('msv3Vip') || params.get('msv3TgAuth')
-         || params.get('openAdminDashboard') || params.get('openSiteMgmt')
-         || params.get('openIeltsSpeakingMode') || params.get('openIeltsFullMock')
-         || params.get('openHelpCenter') || params.get('openVipSignIn')) {
+        // Activate the v3-style backdrop for paths where it makes sense.
+        // /take/ shows the access-code / mode modal over the backdrop; a
+        // known handoff has a modal/picker opening; a return-flag triggers
+        // the picker-reopen. Hash anchors (#cambridge / #fullmock) are
+        // section scrolls — those keep the legacy landing visible so the
+        // section is readable.
+        if (isTakeRoute || hasKnownHandoff || hasReturnFlag) {
           document.documentElement.classList.add('ms-discovery-handoff');
         }
       } catch (_e) {}
@@ -26729,7 +26748,17 @@
         '.pg-modal-overlay',  /* premium-gate upgrade modal — appended to body when a gate blocks */
         '#ieltsSpeakingModeModal.show',
         '#adminDashboardModal.show',
-        '#smgOverlay.show'
+        '#smgOverlay.show',
+        /* Per-skill access-code modals — opened by /take/<slug> deep-links
+           via handleReadingMockClick / etc. Without these, the watcher
+           bounces the user to v3 the moment the access-code modal opens. */
+        '#readingAccessCodeModal[style*="flex"]',
+        '#listeningAccessCodeModal[style*="flex"]',
+        '#writingAccessCodeModal[style*="flex"]',
+        '#speakingAccessCodeModal[style*="flex"]',
+        /* Speaking mode-picker / part-picker (CEFR + IELTS share). */
+        '#speakingModeModal[style*="flex"]',
+        '#speakingPartPickerModal[style*="flex"]'
       ];
       function anyOpen() {
         for (var i = 0; i < ACTIVE_SELECTORS.length; i++) {
