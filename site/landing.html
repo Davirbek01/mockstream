@@ -14423,21 +14423,42 @@
     }
 
     // Show / hide the lock badges on the admin rows based on detected role.
-    function msv3RefreshAdminLocks() {
-      var isAdmin = false;
-      try {
-        isAdmin = !!(window.MockStream
-                  && window.MockStream.auth
-                  && typeof window.MockStream.auth.isAdmin === 'function'
-                  && window.MockStream.auth.isAdmin());
-      } catch (_e) {}
-      try {
-        if (!isAdmin && sessionStorage.getItem('ms_is_admin') === 'true') isAdmin = true;
-      } catch (_e) {}
+    // checkPremiumRole() is async — we call it for real (not just check
+    // function existence) and update the UI when it resolves.
+    function _msv3ApplyAdminLockUI(isAdmin) {
       var adminLock    = document.getElementById('msv3AdminLock');
       var platformLock = document.getElementById('msv3PlatformLock');
       if (adminLock)    adminLock.textContent    = isAdmin ? '→' : '🔒';
       if (platformLock) platformLock.textContent = isAdmin ? '→' : '🔒';
+    }
+    function msv3RefreshAdminLocks() {
+      // Default to locked — never optimistically show "admin".
+      if (window.__msv3LastIsAdmin === true || window.__msv3LastIsAdmin === false) {
+        _msv3ApplyAdminLockUI(window.__msv3LastIsAdmin);
+      } else {
+        _msv3ApplyAdminLockUI(false);
+      }
+      // Fast path: applyPremiumUnlock (auth.js) sets this when it confirms
+      // an admin role.
+      try {
+        if (sessionStorage.getItem('ms_is_admin') === 'true') {
+          window.__msv3LastIsAdmin = true;
+          _msv3ApplyAdminLockUI(true);
+          return;
+        }
+      } catch (_e) {}
+      // Slow path: ask auth.js. Async, UI updates on resolve.
+      try {
+        var auth = window.MockStream && window.MockStream.auth;
+        if (auth && typeof auth.checkPremiumRole === 'function') {
+          auth.checkPremiumRole().then(function (info) {
+            var isAdmin = !!(info && info.isAdmin && info.active !== false);
+            window.__msv3LastIsAdmin = isAdmin;
+            try { sessionStorage.setItem('ms_is_admin', isAdmin ? 'true' : 'false'); } catch (_e) {}
+            _msv3ApplyAdminLockUI(isAdmin);
+          }).catch(function () {});
+        }
+      } catch (_e) {}
     }
 
     // Wire body buttons once on load — they live in static markup so we
