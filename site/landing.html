@@ -26781,9 +26781,11 @@
         if (anyOpen()) { sawOpen = true; return; }
         if (sawOpen) {
           clearInterval(iv);
-          try {
-            document.documentElement.classList.remove('ms-discovery-handoff');
-          } catch (_e) {}
+          // Important: do NOT remove the handoff class before navigating.
+          // Removing it makes #landingPage visible for the few ms before
+          // the browser commits the redirect — a flash of the old landing
+          // (very visible in Telegram Mini App, briefly visible on PC). The
+          // page is about to unload anyway, the class state is irrelevant.
           window.location.replace('/landing-v3.html');
         }
       }, 200);
@@ -26794,9 +26796,8 @@
       setTimeout(function () {
         if (!sawOpen) {
           clearInterval(iv);
-          try {
-            document.documentElement.classList.remove('ms-discovery-handoff');
-          } catch (_e) {}
+          // Same reasoning: keep the class to avoid an old-landing flash
+          // during the brief window before navigation commits.
           window.location.replace('/landing-v3.html');
         }
       }, 2000);
