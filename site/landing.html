@@ -23289,6 +23289,23 @@
         return;
       }
 
+      // "Home" button after finishing (or backing out of) a mock — the user
+      // expects to land on the NEW v3 home, not the legacy landing.html
+      // picker grid. Clear the return-flags so the bare /landing.html
+      // redirect at the top of this file kicks in and bounces them onto
+      // /landing-v3.html. (Picker re-open on cancel is fine to drop here —
+      // the v3 hero rails + skill tiles surface the next mock more cleanly
+      // than reopening the picker would.)
+      try {
+        ['speakingMockReturnCategory', 'writingMockReturnCategory',
+         'listeningMockReturnCategory', 'readingMockReturnCategory',
+         'speakingMockReturnPicker',  'flashcardReturnCategory',
+         'articlesReturnCategory',    'testReturnCategory'
+        ].forEach(function (k) { try { sessionStorage.removeItem(k); } catch (_e) {} });
+      } catch (_e) {}
+      window.location.replace('/landing-v3.html');
+      return;
+
       // If openSelector query param is present, skip return-category auto-reopens
       // (openSelectorFromQuery will handle the navigation instead)
       var hasOpenSelector = new URLSearchParams(window.location.search).get('openSelector');
