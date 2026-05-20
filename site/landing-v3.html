@@ -3235,15 +3235,47 @@
       if (openId) { e.stopPropagation(); closePanel(openId); }
     }, true);
     document.getElementById('msv3LogoutBtn').addEventListener('click', async function () {
+      // Disable the button while we work — sign-out is async (Supabase call).
+      var btn = this;
+      btn.disabled = true;
+      var prevText = btn.textContent;
+      btn.textContent = 'Signing out…';
+      // 1. Sign out of Supabase (revokes Google / Telegram session).
       try {
         if (window.MockStream && window.MockStream.auth && typeof window.MockStream.auth.signOut === 'function') {
           await window.MockStream.auth.signOut();
         }
       } catch (_e) {}
-      try { sessionStorage.removeItem('CANDIDATE_FULL_NAME'); } catch (_e) {}
-      try { localStorage.removeItem('ms_candidate_name'); } catch (_e) {}
-      try { localStorage.removeItem('ms_avatar_url'); } catch (_e) {}
-      window.location.reload();
+      // 2. Wipe every locally cached identity / unlock flag so the welcome
+      //    page starts clean. Premium flags get re-derived on the next
+      //    sign-in via applyPremiumUnlock.
+      var sessionKeys = [
+        'CANDIDATE_FULL_NAME', 'ms_entered_app', 'ms_is_admin',
+        'vipPremiumAi', 'vipSessionAccess',
+        'speakingPremiumEntry', 'writingPremiumEntry',
+        'listeningPremiumEntry', 'readingPremiumEntry',
+        'speakingIndividualCode',
+        'speakingMockReturnCategory', 'writingMockReturnCategory',
+        'listeningMockReturnCategory', 'readingMockReturnCategory',
+        'speakingMockReturnPicker',  'flashcardReturnCategory',
+        'articlesReturnCategory',    'testReturnCategory',
+        'msv3_pending_vip',          'msv3_pending_telegram'
+      ];
+      sessionKeys.forEach(function (k) {
+        try { sessionStorage.removeItem(k); } catch (_e) {}
+      });
+      var localKeys = [
+        'ms_candidate_name', 'ms_avatar_url',
+        'CANDIDATE_SURNAME', 'CANDIDATE_FIRSTNAME',
+        'ms_is_admin', 'ms_oauth_next',
+        'ms_bell_last_seen'
+      ];
+      localKeys.forEach(function (k) {
+        try { localStorage.removeItem(k); } catch (_e) {}
+      });
+      // 3. Land on the welcome page in a fresh state. replace() so the
+      //    browser's back button can't return to the signed-in v3 view.
+      window.location.replace('/index.html');
     });
   })();
   </script>
