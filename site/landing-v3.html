@@ -301,6 +301,25 @@
     }
     .bell-pop-foot a:hover { background: var(--indigo-soft); }
 
+    /* Mobile: bell popover anchored to viewport edges instead of the bell
+       button. On a narrow phone the 360px-wide popover anchored right:0
+       extended past the LEFT viewport edge, clipping skill chips and
+       arrows. Anchoring to fixed left/right gutters always fits. */
+    @media (max-width: 540px) {
+      .bell-popover {
+        position: fixed;
+        top: 72px;
+        left: 12px;
+        right: 12px;
+        width: auto;
+        max-width: none;
+      }
+      .bell-pop-list { max-height: calc(100vh - 220px); }
+      .bell-pop-item .bpi-chip { font-size: 9px; padding: 3px 6px; }
+      .bell-pop-item .bpi-title { font-size: 13px; }
+      .bell-pop-item .bpi-meta { font-size: 11px; }
+    }
+
     /* ═══════════════════════════════════════════════════════
        Inline sidebar (msv3) — opens over the v3 landing page.
        Sign-in / sign-out / Telegram run locally via auth.js;
@@ -515,6 +534,16 @@
       text-underline-offset: 2px;
     }
     .msv3-email-link:hover { color: var(--indigo-deep); }
+    /* Guest hint — short rationale that sits above the Google / Telegram
+       buttons explaining why to sign in. Visually quiet so it doesn't
+       compete with the action buttons. */
+    .msv3-account-hint {
+      font-size: 12px;
+      line-height: 1.45;
+      color: var(--muted);
+      margin: 0 0 4px;
+    }
+    .msv3-account-hint strong { color: var(--ink); font-weight: 700; }
     .msv3-profile {
       display: flex; align-items: center; gap: 12px;
       padding: 14px;
@@ -2114,26 +2143,41 @@
           const bnEl = document.getElementById('brandName');
           const beEl = document.getElementById('brandNameInline');
           const fbEl = document.getElementById('footerBrand');
+          // Sidebar HEAD brand too — was showing the default "Mock Stream"
+          // on clones because SITE_CONFIG hadn't finished its async fetch
+          // by the time the sidebar applyBrand IIFE ran. This fetch is
+          // running directly against Supabase so it's the source of truth.
+          const mhbEl = document.getElementById('msv3HeadBrand');
           if (bnEl) bnEl.textContent = brandName;
           if (beEl) beEl.textContent = brandName;
           if (fbEl) fbEl.textContent = brandName;
+          if (mhbEl) mhbEl.textContent = brandName;
         }
         if (logoUrl) {
+          const isCircle = logoShape === 'circle';
+          const fit = isCircle ? 'cover' : 'contain';
+          const imgHtml = '<img src="' + logoUrl.replace(/"/g, '%22')
+                       + '" alt="" style="width:100%;height:100%;object-fit:' + fit + ';display:block;">';
+          // Topbar logo (the rounded gradient tile next to the brand name).
           const logoBox = document.getElementById('brandLogo');
           if (logoBox) {
-            // Swap the "MS" gradient tile for the real centre logo.
-            // Portrait logos (logoShape:"circle") are face-cropped via
-            // object-fit:cover and the box is rounded to a full circle.
-            // Everything else keeps the original rounded-tile treatment.
-            const isCircle = logoShape === 'circle';
             logoBox.style.background = '#ffffff';
             logoBox.style.boxShadow  = '0 4px 10px rgba(15, 23, 42, .12)';
             logoBox.style.padding    = isCircle ? '0' : '4px';
             logoBox.style.overflow   = 'hidden';
             if (isCircle) logoBox.style.borderRadius = '50%';
-            const fit = isCircle ? 'cover' : 'contain';
-            logoBox.innerHTML = '<img src="' + logoUrl.replace(/"/g, '%22')
-                              + '" alt="" style="width:100%;height:100%;object-fit:' + fit + ';display:block;">';
+            logoBox.innerHTML = imgHtml;
+          }
+          // Sidebar HEAD logo too (only the IMG, the gradient box stays as
+          // background fallback). Same treatment so the clone's portrait
+          // shows in both surfaces.
+          const sideLogoBox = document.getElementById('msv3HeadLogo');
+          if (sideLogoBox) {
+            sideLogoBox.style.background = '#ffffff';
+            sideLogoBox.style.padding    = isCircle ? '0' : '2px';
+            sideLogoBox.style.overflow   = 'hidden';
+            if (isCircle) sideLogoBox.style.borderRadius = '50%';
+            sideLogoBox.innerHTML = imgHtml;
           }
         }
       } catch (_e) {
@@ -2956,7 +3000,15 @@
         + '</div>';
       } else {
         slot.innerHTML =
-          '<button type="button" class="msv3-provider google" id="msv3GoogleBtn">'
+          // Friendly guest hint — explains the value of signing in BEFORE
+          // the Google / Telegram buttons. Encourages sign-up over the
+          // quiet "or use email instead" fallback.
+          '<p class="msv3-account-hint">'
+        +   'Sign in with <strong>Google</strong>'
+        +   (hasTgBot ? ' or <strong>Telegram</strong>' : '')
+        +   ' to save your results across every device.'
+        + '</p>'
+        + '<button type="button" class="msv3-provider google" id="msv3GoogleBtn">'
         +   '<svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">'
         +     '<path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/>'
         +     '<path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16 18.9 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>'
