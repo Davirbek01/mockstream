@@ -600,6 +600,34 @@
     }
     .msv3-vip-row button:hover { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(234, 88, 12, 0.36); }
     .msv3-vip-sub { font-size: 12px; color: var(--muted); margin-top: 6px; }
+    /* Disabled VIP input + button after activation — visible but uneditable. */
+    .msv3-vip-row input:disabled {
+      background: #fef3c7;
+      color: #92400e;
+      cursor: not-allowed;
+      opacity: 0.85;
+    }
+    .msv3-vip-row button:disabled {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      cursor: not-allowed;
+      opacity: 0.7;
+      box-shadow: none;
+    }
+    .msv3-vip-row button:disabled:hover { transform: none; box-shadow: none; }
+    /* Replace-code link — appears only when VIP is active. */
+    .msv3-vip-replace {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 4px 0;
+      background: transparent;
+      border: 0;
+      color: #b45309;
+      font: 600 12px/1.4 'Inter', sans-serif;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .msv3-vip-replace:hover { color: #92400e; }
     /* VIP unlocked state — premium (gold) or regular (silver). Flag source:
        sessionStorage vipPremiumAi / vipSessionAccess, set by
        validateVipFromSidebar after the handoff verify completes. */
@@ -2669,6 +2697,7 @@
           <button type="button" id="msv3VipBtn" aria-label="Activate VIP">→</button>
         </div>
         <div class="msv3-vip-sub" id="msv3VipSub">Activate for all features</div>
+        <button type="button" id="msv3VipReplaceBtn" class="msv3-vip-replace" hidden>✎ Replace code</button>
       </div>
 
       <div class="msv3-section">
@@ -2938,13 +2967,28 @@
       var section = document.getElementById('msv3VipSection');
       var badge = document.getElementById('msv3VipBadge');
       var input = document.getElementById('msv3VipInput');
+      var btn = document.getElementById('msv3VipBtn');
       var sub = document.getElementById('msv3VipSub');
+      var replaceBtn = document.getElementById('msv3VipReplaceBtn');
       if (!section || !badge) return;
       var premium = false, regular = false;
       try {
         premium = sessionStorage.getItem('vipPremiumAi') === 'true';
         if (!premium) regular = sessionStorage.getItem('vipSessionAccess') === 'true';
       } catch (_e) {}
+      // Activated state: disable the input + arrow button so it's clear
+      // the code is locked in, and reveal the "Replace code" link as the
+      // escape hatch for students who need to swap codes mid-session.
+      function lockInput() {
+        if (input) { input.disabled = true; input.value = ''; }
+        if (btn) btn.disabled = true;
+        if (replaceBtn) replaceBtn.hidden = false;
+      }
+      function unlockInput() {
+        if (input) input.disabled = false;
+        if (btn) btn.disabled = false;
+        if (replaceBtn) replaceBtn.hidden = true;
+      }
       if (premium) {
         badge.hidden = false;
         badge.className = 'msv3-vip-badge premium';
@@ -2952,6 +2996,7 @@
         section.classList.add('unlocked');
         if (input) input.placeholder = 'Premium VIP active';
         if (sub) sub.textContent = 'All features unlocked';
+        lockInput();
       } else if (regular) {
         badge.hidden = false;
         badge.className = 'msv3-vip-badge regular';
@@ -2959,11 +3004,13 @@
         section.classList.add('unlocked');
         if (input) input.placeholder = 'Regular VIP active';
         if (sub) sub.textContent = 'Session access enabled';
+        lockInput();
       } else {
         badge.hidden = true;
         section.classList.remove('unlocked');
         if (input) input.placeholder = 'Enter your VIP Access Code';
         if (sub) sub.textContent = 'Activate for all features';
+        unlockInput();
       }
     }
     // Run once on script load too, so the badge is correct even if the user
@@ -3218,6 +3265,16 @@
     document.getElementById('msv3VipBtn').addEventListener('click', submitVip);
     document.getElementById('msv3VipInput').addEventListener('keydown', function (e) {
       if (e.key === 'Enter') submitVip();
+    });
+    // Replace-code link re-enables the input + button so a student can
+    // swap to a new VIP code mid-session without having to log out.
+    document.getElementById('msv3VipReplaceBtn').addEventListener('click', function () {
+      var input = document.getElementById('msv3VipInput');
+      var btn = document.getElementById('msv3VipBtn');
+      var replaceBtn = document.getElementById('msv3VipReplaceBtn');
+      if (input) { input.disabled = false; input.value = ''; input.placeholder = 'Enter new VIP Access Code'; input.focus(); }
+      if (btn) btn.disabled = false;
+      if (replaceBtn) replaceBtn.hidden = true;
     });
     function submitVip() {
       var input = document.getElementById('msv3VipInput');
