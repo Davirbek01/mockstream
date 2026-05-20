@@ -3012,23 +3012,54 @@
     }
 
     // ─────── Admin lock decoration ───────
-    function refreshAdminLocks() {
-      var isAdmin = false;
-      try {
-        isAdmin = !!(window.MockStream && window.MockStream.auth
-          && typeof window.MockStream.auth.checkPremiumRole === 'function');
-      } catch (_e) {}
-      try {
-        if (!isAdmin && sessionStorage.getItem('ms_is_admin') === 'true') isAdmin = true;
-      } catch (_e) {}
-      // Visual lock state — handoff still gates actual access via landing.html.
+    // checkPremiumRole() is async and returns {isAdmin: bool, ...} after
+    // a Supabase round-trip. Existence-of-function ≠ user-is-admin, which
+    // was the old (broken) check. We now call it for real, cache the
+    // result on window so subsequent opens are instant, and update the
+    // lock badge based on the actual role.
+    function _applyAdminLockUI(isAdmin) {
       document.querySelectorAll('#msv3AdminBtn .msv3-row-arrow, #msv3PlatformBtn .msv3-row-arrow')
         .forEach(function (el) { el.textContent = isAdmin ? '→' : '🔒'; });
     }
+    function refreshAdminLocks() {
+      // Fast path 1: cached premium info from a prior check.
+      if (window.__msv3LastIsAdmin === true || window.__msv3LastIsAdmin === false) {
+        _applyAdminLockUI(window.__msv3LastIsAdmin);
+      } else {
+        // Otherwise lock until we know — never default to "admin".
+        _applyAdminLockUI(false);
+      }
+      // Fast path 2: sessionStorage flag set by applyPremiumUnlock (auth.js).
+      try {
+        if (sessionStorage.getItem('ms_is_admin') === 'true') {
+          window.__msv3LastIsAdmin = true;
+          _applyAdminLockUI(true);
+          return;
+        }
+      } catch (_e) {}
+      // Slow path: ask auth.js. Async — UI updates when it resolves.
+      try {
+        var auth = window.MockStream && window.MockStream.auth;
+        if (auth && typeof auth.checkPremiumRole === 'function') {
+          auth.checkPremiumRole().then(function (info) {
+            var isAdmin = !!(info && info.isAdmin && info.active !== false);
+            window.__msv3LastIsAdmin = isAdmin;
+            try { sessionStorage.setItem('ms_is_admin', isAdmin ? 'true' : 'false'); } catch (_e) {}
+            _applyAdminLockUI(isAdmin);
+          }).catch(function () {});
+        }
+      } catch (_e) {}
+    }
+    // Re-check after any sign-in event — the user might have just become
+    // recognised as admin (or signed out and lost the role).
     window.addEventListener('mockStream:userSignedIn', function () {
+      window.__msv3LastIsAdmin = undefined;
+      try { sessionStorage.removeItem('ms_is_admin'); } catch (_e) {}
       renderAccount();
       refreshAdminLocks();
     });
+    // Also re-check on every msv3 open so a tab opened pre-sign-in
+    // updates once the role resolves.
 
     // ─────── Body wiring ───────
     document.getElementById('msv3VipBtn').addEventListener('click', submitVip);
