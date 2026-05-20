@@ -2341,14 +2341,44 @@
       return weeks + 'w ago';
     }
 
+    // Per-centre hero summary. Mock-stream main site passes NULL → global
+    // stats across every centre (matches the old behaviour). Each clone
+    // passes its own window.__CENTER_ID → only that centre's attempts are
+    // counted. Per-mock badges, trending, "today" on skill cards and the
+    // admin Results Dashboard all keep calling mock_attempt_stats and stay
+    // unchanged.
+    async function fetchHeroSummary() {
+      try {
+        var centerId = (window.__CENTER_ID || '').toString().trim();
+        var body = (!centerId || centerId === 'mock_stream')
+          ? { p_center: null }
+          : { p_center: centerId };
+        const r = await fetch(SB_URL + '/rest/v1/rpc/mock_attempt_summary', {
+          method: 'POST',
+          headers: {
+            apikey: SB_KEY,
+            Authorization: 'Bearer ' + SB_KEY,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        });
+        if (!r.ok) return null;
+        const arr = await r.json();
+        return Array.isArray(arr) && arr.length ? arr[0] : null;
+      } catch (_e) { return null; }
+    }
+
     async function load() {
-      const [totals, justAdded, ...statsResults] = await Promise.all([
+      const [totals, justAdded, heroSummary, ...statsResults] = await Promise.all([
         fetchMockTotals(),
         fetchJustAdded(8),
+        fetchHeroSummary(),
         ...SKILLS.flatMap(s => s.combos.map(([sk, ex]) => fetchStats(sk, ex)))
       ]);
 
-      let allTime = 0, today = 0;
+      // Per-skill totals + perCombo are still computed from mock_attempt_stats
+      // because trending / "X taken today" on skill cards must stay global.
+      let allTime = 0, today = 0; // fallback if the summary RPC failed
       const perCombo = {};
       let resultIdx = 0;
       for (const skillDef of SKILLS) {
@@ -2360,6 +2390,12 @@
             today   += Number(r.today) || 0;
           }
         }
+      }
+      // Prefer the per-centre summary for the hero tiles; if it fell over,
+      // fall back to the global sum so the tiles still show something.
+      if (heroSummary) {
+        allTime = Number(heroSummary.all_time) || 0;
+        today   = Number(heroSummary.today)    || 0;
       }
 
       const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
