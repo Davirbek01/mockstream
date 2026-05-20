@@ -639,7 +639,15 @@
     .msv3-skill.wrt .ico { background: #f97316; box-shadow: 0 4px 10px rgba(249, 115, 22, 0.25); }
     .msv3-skill.lst .ico { background: #06b6d4; box-shadow: 0 4px 10px rgba(6, 182, 212, 0.25); }
     .msv3-skill.rdg .ico { background: #10b981; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25); }
-    .msv3-skill .ico svg { width: 18px; height: 18px; }
+    .msv3-skill .ico svg { width: 18px; height: 18px; transform-origin: center; }
+    /* Optical balance — each SVG fills its 24×24 viewBox to a different
+       degree (mic is tall+narrow, pen is square+diagonal, headphones is
+       wide+short, book is wide+tall). Scale per skill so they all land
+       at the same visual weight inside the colored badge. */
+    .msv3-skill.spk .ico svg { transform: scale(1.06); }
+    .msv3-skill.wrt .ico svg { transform: scale(0.94); }
+    .msv3-skill.lst .ico svg { transform: scale(1.02); }
+    .msv3-skill.rdg .ico svg { transform: scale(0.92); }
     .msv3-skill .lbl {
       font-size: 11.5px;
       font-weight: 800;

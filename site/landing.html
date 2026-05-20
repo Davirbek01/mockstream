@@ -7843,7 +7843,13 @@
     .msv3-skill.wrt .ico { background: #f97316; box-shadow: 0 4px 10px rgba(249, 115, 22, 0.25); }
     .msv3-skill.lst .ico { background: #06b6d4; box-shadow: 0 4px 10px rgba(6, 182, 212, 0.25); }
     .msv3-skill.rdg .ico { background: #10b981; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25); }
-    .msv3-skill .ico svg { width: 18px; height: 18px; }
+    .msv3-skill .ico svg { width: 18px; height: 18px; transform-origin: center; }
+    /* Per-icon optical scale so mic / pen / headphones / book all land
+       at the same visual weight despite filling their viewBox differently. */
+    .msv3-skill.spk .ico svg { transform: scale(1.06); }
+    .msv3-skill.wrt .ico svg { transform: scale(0.94); }
+    .msv3-skill.lst .ico svg { transform: scale(1.02); }
+    .msv3-skill.rdg .ico svg { transform: scale(0.92); }
     .msv3-skill .lbl {
       font-size: 11.5px;
       font-weight: 800;
