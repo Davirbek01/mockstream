@@ -5689,6 +5689,9 @@
 
     // Static catalog of CEFR Writing mocks. Mock 01 is the Supabase pilot;
     // 02-100 follow the legacy ?test=cefr-writing-mock-NN runner URL.
+    // The dynamic upgrader below appends mocks 101+ from mock_tests as
+    // admins add them — without it, v3 caps at the hardcoded 100 while
+    // landing.html shows the live total.
     const cefrWritingMocks = (() => {
       const mocks = [];
       mocks.push({
@@ -5709,6 +5712,46 @@
       return mocks;
     })();
     window.cefrWritingMocks = cefrWritingMocks;
+
+    // Dynamic upgrader — mirrors landing.html's loadDynamicCefrWritingMocks.
+    // Fetches every published cefr-writing row + either upgrades the
+    // matching static entry (Mock 01 → pilot pin, 02-100 → 🟢 icon) or
+    // appends new entries for mocks beyond the static catalog.
+    // cwetOpen awaits the exposed promise before rendering so 101+ mocks
+    // appear on first open, not just on reopen.
+    window._cwetDynamicUpgradePromise = (async function loadDynamicCefrWritingMocks() {
+      try {
+        const SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+        const SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+        const res = await fetch(
+          `${SB_URL}/rest/v1/mock_tests?mock_type=eq.cefr-writing&status=eq.published&select=id,mock_number,title&order=mock_number.asc`,
+          { headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` } }
+        );
+        if (!res.ok) return;
+        const rows = await res.json();
+        if (!rows || !rows.length) return;
+        let upgraded = 0;
+        rows.forEach(m => {
+          const num = m.mock_number;
+          const padded = String(num).padStart(2, '0');
+          const newFile = `Writing Mocks.html?test=cefr-writing-mock-${padded}&sbmock=${m.id}&auto=1`;
+          const newName = `🟢 CEFR Writing Mock ${padded}`;
+          const cIdx = cefrWritingMocks.findIndex(t =>
+            t.name === `CEFR Writing Mock ${padded}` ||
+            (t.file && t.file.indexOf('sbmock=' + m.id) !== -1)
+          );
+          if (cIdx !== -1) {
+            cefrWritingMocks[cIdx].file = newFile;
+            cefrWritingMocks[cIdx].name = newName;
+            cefrWritingMocks[cIdx].icon = '🟢';
+            upgraded++;
+          } else {
+            cefrWritingMocks.push({ file: newFile, name: newName, icon: '🟢', actionText: 'Start' });
+            upgraded++;
+          }
+        });
+      } catch (_e) { /* silent — picker still renders the static catalog */ }
+    })();
 
     const _cwet_SB_URL  = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
     const _cwet_SB_KEY  = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
@@ -6073,6 +6116,9 @@
       const cwetEmpty = document.getElementById('cwetEmpty');
       if (cwetEmpty) cwetEmpty.style.display = 'none';
       try {
+        // Wait for the Supabase upgrader so admin-added mocks (101+) show
+        // on first open, not just on reopen.
+        try { if (window._cwetDynamicUpgradePromise) await window._cwetDynamicUpgradePromise; } catch (_e) {}
         await Promise.all([_cwetLoadAllMockMeta(), _cwetLoadStats()]);
         _cwetComputeBadges();
         const items = (typeof cefrWritingMocks !== 'undefined' && Array.isArray(cefrWritingMocks))
