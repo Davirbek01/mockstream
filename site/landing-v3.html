@@ -2301,6 +2301,13 @@
       return examType + '-' + skill;
     }
     function navToPicker(slug) {
+      // Phase 1 of the engine migration — CEFR Speaking opens inline on v3
+      // when cspetOpen is defined (loaded by the picker engine block at the
+      // end of body). The legacy handoff URL stays as the fallback path so
+      // a missing/broken inline picker just degrades to the old behaviour.
+      if (slug === 'cefr-speaking' && typeof window.cspetOpen === 'function') {
+        try { cspetOpen(); return; } catch (_e) { /* fall through to handoff */ }
+      }
       window.location.href = '/landing.html?openSelector=' + encodeURIComponent(slug);
     }
     // Mirrors the matchers in landing.html's _processDeepLinkTake so we
@@ -3326,6 +3333,12 @@
     // picker opens, instead of landing on a runner page that immediately
     // bounces back.
     document.getElementById('msv3CefrSpeaking').addEventListener('click', function () {
+      // Same engine-migration check as the main tile in navToPicker:
+      // prefer the inline picker; fall back to the handoff if it isn't
+      // available (e.g. picker engine failed to load for any reason).
+      if (typeof window.cspetOpen === 'function') {
+        try { requestSidebarClose(); cspetOpen(); return; } catch (_e) {}
+      }
       window.location.href = '/landing.html?openSelector=cefr-speaking';
     });
     document.getElementById('msv3CefrWriting').addEventListener('click', function () {
