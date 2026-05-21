@@ -1728,25 +1728,27 @@
     .exams-rail::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
     .exams-rail::-webkit-scrollbar-thumb:hover { background: var(--muted-2); }
     .exams-rail > .cambridge-card {
-      flex: 0 0 175px;
+      flex: 0 0 120px;
       scroll-snap-align: start;
     }
     @media (max-width: 540px) {
-      .exams-rail > .cambridge-card { flex: 0 0 150px; }
+      .exams-rail > .cambridge-card { flex: 0 0 96px; }
     }
     .cambridge-card {
       position: relative;
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: var(--r);
-      padding: 18px 16px 16px;
+      padding: 12px 10px 11px;
       box-shadow: var(--shadow-xs);
       transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      min-height: 110px;
+      align-items: center;
+      gap: 3px;
+      min-height: 0;
+      text-align: center;
     }
     .cambridge-card::before {
       content: '';
@@ -1762,28 +1764,28 @@
     }
     .cambridge-card .cb-level {
       display: inline-block;
-      align-self: flex-start;
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 800;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      padding: 3px 7px;
+      padding: 2px 6px;
       border-radius: 999px;
       background: var(--indigo-soft);
       color: var(--indigo-deep);
-      margin-bottom: 6px;
+      margin-bottom: 2px;
     }
     .cambridge-card .cb-code {
-      font-size: 20px;
+      font-size: 15px;
       font-weight: 800;
       letter-spacing: -0.02em;
       color: var(--ink);
       line-height: 1.1;
     }
     .cambridge-card .cb-name {
-      font-size: 12.5px;
+      font-size: 10.5px;
       color: var(--muted);
       font-weight: 500;
+      line-height: 1.2;
     }
     /* SAT — distinct stripe + level chip so it visually breaks from
        the Cambridge family it sits beside. */
@@ -2286,6 +2288,48 @@
       </div>
     </section>
 
+    <!-- ── INTERNATIONAL EXAMS ───────────────────────────── -->
+    <section class="section">
+      <div class="section-head">
+        <h2 class="section-title">
+          International Exams
+          <span class="badge new">🎓 New tracks</span>
+        </h2>
+      </div>
+      <div class="exams-rail" id="examsRail">
+        <a class="cambridge-card" href="javascript:void(0)" data-cambridge="ket">
+          <div class="cb-level">A2</div>
+          <div class="cb-code">KET</div>
+          <div class="cb-name">Key English Test</div>
+        </a>
+        <a class="cambridge-card" href="javascript:void(0)" data-cambridge="pet">
+          <div class="cb-level">B1</div>
+          <div class="cb-code">PET</div>
+          <div class="cb-name">Preliminary</div>
+        </a>
+        <a class="cambridge-card" href="javascript:void(0)" data-cambridge="fce">
+          <div class="cb-level">B2</div>
+          <div class="cb-code">FCE</div>
+          <div class="cb-name">First</div>
+        </a>
+        <a class="cambridge-card" href="javascript:void(0)" data-cambridge="cae">
+          <div class="cb-level">C1</div>
+          <div class="cb-code">CAE</div>
+          <div class="cb-name">Advanced</div>
+        </a>
+        <a class="cambridge-card" href="javascript:void(0)" data-cambridge="cpe">
+          <div class="cb-level">C2</div>
+          <div class="cb-code">CPE</div>
+          <div class="cb-name">Proficiency</div>
+        </a>
+        <a class="cambridge-card sat-card" href="/SAT Mocks.html">
+          <div class="cb-level cb-level-sat">College</div>
+          <div class="cb-code">SAT</div>
+          <div class="cb-name">Digital Adaptive</div>
+        </a>
+      </div>
+    </section>
+
     <!-- ── TRENDING RAIL ───────────────────────────────────── -->
     <section class="section">
       <div class="section-head">
@@ -2315,54 +2359,6 @@
         <div class="mock-card fresh"><div class="skel short"></div><div class="skel tall"></div><div class="skel short"></div></div>
         <div class="mock-card fresh"><div class="skel short"></div><div class="skel tall"></div><div class="skel short"></div></div>
         <div class="mock-card fresh"><div class="skel short"></div><div class="skel tall"></div><div class="skel short"></div></div>
-      </div>
-    </section>
-
-    <!-- ── INTERNATIONAL EXAMS ───────────────────────────── -->
-    <section class="section">
-      <div class="section-head">
-        <h2 class="section-title">
-          International Exams
-          <span class="badge new">🎓 New tracks</span>
-        </h2>
-      </div>
-      <!-- Horizontal slider — scroll-snap rail so adding more exams (TOEFL,
-           GRE, etc.) later is just appending cards. Cambridge cards hand off
-           to the existing showXXXOptions modals via openSelector; SAT
-           navigates directly to its own runner page. -->
-      <div class="exams-rail" id="examsRail">
-        <a class="cambridge-card" href="javascript:void(0)" data-cambridge="ket">
-          <div class="cb-level">A2</div>
-          <div class="cb-code">KET</div>
-          <div class="cb-name">Key English Test</div>
-        </a>
-        <a class="cambridge-card" href="javascript:void(0)" data-cambridge="pet">
-          <div class="cb-level">B1</div>
-          <div class="cb-code">PET</div>
-          <div class="cb-name">Preliminary</div>
-        </a>
-        <a class="cambridge-card" href="javascript:void(0)" data-cambridge="fce">
-          <div class="cb-level">B2</div>
-          <div class="cb-code">FCE</div>
-          <div class="cb-name">First</div>
-        </a>
-        <a class="cambridge-card" href="javascript:void(0)" data-cambridge="cae">
-          <div class="cb-level">C1</div>
-          <div class="cb-code">CAE</div>
-          <div class="cb-name">Advanced</div>
-        </a>
-        <a class="cambridge-card" href="javascript:void(0)" data-cambridge="cpe">
-          <div class="cb-level">C2</div>
-          <div class="cb-code">CPE</div>
-          <div class="cb-name">Proficiency</div>
-        </a>
-        <!-- SAT — direct navigation to the SAT runner, no modal. Distinct
-             stripe colours so it visually reads as a different exam family. -->
-        <a class="cambridge-card sat-card" href="/SAT Mocks.html">
-          <div class="cb-level cb-level-sat">College</div>
-          <div class="cb-code">SAT</div>
-          <div class="cb-name">Digital Adaptive</div>
-        </a>
       </div>
     </section>
 
