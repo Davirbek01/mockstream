@@ -1167,8 +1167,11 @@
       display: flex;
       flex-direction: column;
       gap: 22px;
-      margin-bottom: 40px;
+      margin-bottom: 28px;
+      text-align: center;
+      align-items: center;
     }
+    .hero-title { text-align: center; }
     .hero-eyebrow {
       display: inline-flex;
       align-items: center;
@@ -1924,7 +1927,7 @@
     @media (max-width: 720px) {
       .topbar-inner { padding: 0 16px; height: 60px; }
       main { padding: 14px 16px 48px; }
-      .hero { gap: 10px; margin-bottom: 18px; }
+      .hero { gap: 8px; margin-bottom: 14px; }
       .hero-eyebrow { font-size: 11px; padding: 4px 10px; letter-spacing: 0.08em; }
       .hero-title { font-size: 24px; line-height: 1.14; }
       .hero-sub { font-size: 13px; line-height: 1.45; }
@@ -1965,7 +1968,8 @@
           <span id="brandName">Mock Stream</span>
           <span class="hero-eyebrow brand-live">
             <span class="live-dot"></span>
-            Live now on <span id="brandNameInline">Mock Stream</span>
+            Live now
+            <span id="brandNameInline" hidden></span>
           </span>
         </span>
       </a>
@@ -2024,7 +2028,7 @@
     <!-- ── HERO ─────────────────────────────────────────────── -->
     <section class="hero">
       <h1 class="hero-title">
-        Practice exams. Earn real <em>CEFR &amp; IELTS</em> readiness.
+        Earn real <em>Multilevel &amp; IELTS</em> readiness
       </h1>
       <div class="vitals">
         <div class="vital v-violet">
@@ -2068,9 +2072,6 @@
 
     <!-- ── SKILL GRID ─────────────────────────────────────── -->
     <section class="section">
-      <div class="section-head">
-        <h2 class="section-title">Practice by skill</h2>
-      </div>
       <div class="skill-grid">
         <div class="skill-card" data-skill="speaking">
           <div class="sc-head">
