@@ -1799,6 +1799,40 @@
     }
     .cambridge-card.sat-card:hover { border-color: #d40000; }
 
+    /* Coming-soon tiles — greyed, no hover lift, soon pill at top right.
+       Per-family stripe colours and level-chip tints distinguish each
+       exam family without needing licensed logos. */
+    .cambridge-card.soon {
+      cursor: default;
+      opacity: 0.62;
+      filter: saturate(0.55);
+    }
+    .cambridge-card.soon:hover {
+      transform: none;
+      border-color: var(--line);
+      box-shadow: var(--shadow-xs);
+    }
+    .cambridge-card .cb-soon {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      font-size: 7.5px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 5px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.08);
+      color: var(--muted);
+      line-height: 1;
+    }
+    .cambridge-card.toefl-card::before { background: linear-gradient(90deg, #1d4ed8, #60a5fa); }
+    .cambridge-card.gre-card::before   { background: linear-gradient(90deg, #6d28d9, #a78bfa); }
+    .cambridge-card.tkt-card::before   { background: linear-gradient(90deg, #be123c, #fb7185); }
+    .cambridge-card .cb-level.cb-level-toefl { background: #dbeafe; color: #1e40af; }
+    .cambridge-card .cb-level.cb-level-gre   { background: #ede9fe; color: #5b21b6; }
+    .cambridge-card .cb-level.cb-level-tkt   { background: #ffe4e6; color: #9f1239; }
+
     /* ═══════════════════════════════════════════════════════
        Learning Tools grid — 4 compact cards under the secondary row
        ═══════════════════════════════════════════════════════ */
@@ -2327,6 +2361,32 @@
           <div class="cb-level cb-level-sat">College</div>
           <div class="cb-code">SAT</div>
           <div class="cb-name">Digital Adaptive</div>
+        </a>
+        <!-- Coming-soon tiles — fill the row visually. No href so they're
+             not navigable. .soon greys them out and adds the Soon pill. -->
+        <a class="cambridge-card soon toefl-card" href="javascript:void(0)" data-exam-soon="toefl-ibt">
+          <span class="cb-soon">Soon</span>
+          <div class="cb-level cb-level-toefl">Uni</div>
+          <div class="cb-code">TOEFL</div>
+          <div class="cb-name">iBT</div>
+        </a>
+        <a class="cambridge-card soon toefl-card" href="javascript:void(0)" data-exam-soon="toefl-itp">
+          <span class="cb-soon">Soon</span>
+          <div class="cb-level cb-level-toefl">Inst</div>
+          <div class="cb-code">TOEFL</div>
+          <div class="cb-name">ITP</div>
+        </a>
+        <a class="cambridge-card soon gre-card" href="javascript:void(0)" data-exam-soon="gre">
+          <span class="cb-soon">Soon</span>
+          <div class="cb-level cb-level-gre">Grad</div>
+          <div class="cb-code">GRE</div>
+          <div class="cb-name">General Test</div>
+        </a>
+        <a class="cambridge-card soon tkt-card" href="javascript:void(0)" data-exam-soon="tkt">
+          <span class="cb-soon">Soon</span>
+          <div class="cb-level cb-level-tkt">Teach</div>
+          <div class="cb-code">TKT</div>
+          <div class="cb-name">Teaching Knowledge</div>
         </a>
       </div>
     </section>
