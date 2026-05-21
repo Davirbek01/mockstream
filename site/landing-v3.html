@@ -1633,6 +1633,20 @@
       transition: transform 220ms ease, color 220ms ease;
     }
     .secondary-card:hover .arrow { transform: translateX(4px); color: var(--indigo); }
+    /* Split variant: replaces the single arrow with CEFR/IELTS buttons
+       so the Full Mock card matches the skill-card pattern. Two buttons
+       sit on the right at desktop, full-width row at mobile. */
+    .secondary-card.split .sc-ctas {
+      flex: 0 0 auto;
+      width: 260px;
+      gap: 8px;
+    }
+    .secondary-card.split .sc-cta { padding: 9px 14px; font-size: 13px; }
+    @media (max-width: 640px) {
+      .secondary-card.split { flex-wrap: wrap; }
+      .secondary-card.split .body { flex: 1 1 auto; }
+      .secondary-card.split .sc-ctas { width: 100%; }
+    }
 
     /* ═══════════════════════════════════════════════════════
        International Exams — horizontal slider rail
@@ -2113,9 +2127,11 @@
     <!-- ── SECONDARY: FULL MOCK + CAMBRIDGE ──────────────── -->
     <section class="section">
       <div class="secondary">
-        <!-- Full Mock launches its modal via discovery handoff — the modal
-             pops over the v3 backdrop, closing returns to v3 automatically. -->
-        <a class="secondary-card full" href="/landing.html?openFullMock=1">
+        <!-- Full Mock — CEFR + IELTS split buttons mirror the skill-card
+             pattern (Reading/Listening above). Each launches its runner
+             inline; same handlers as the sidebar msv3CefrFullMock /
+             msv3IeltsFullMock buttons. -->
+        <div class="secondary-card full split">
           <div class="icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
@@ -2126,8 +2142,11 @@
             <div class="title">Full Mock Experience</div>
             <div class="sub">All 4 skills sequenced · most realistic exam run</div>
           </div>
-          <div class="arrow">→</div>
-        </a>
+          <div class="sc-ctas">
+            <button class="sc-cta primary" id="msv3MainCefrFullMock" type="button">CEFR →</button>
+            <button class="sc-cta ghost"   id="msv3MainIeltsFullMock" type="button">IELTS →</button>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -3539,6 +3558,28 @@
       try { window.location.replace('/ielts-full-mock.html'); }
       catch (_e) { window.location.href = '/ielts-full-mock.html'; }
     });
+
+    // Main landing Full Mock card — same handlers as the sidebar buttons.
+    function _msv3LaunchCefrFullMock() {
+      try {
+        var L = (Math.floor(Math.random() * 14) + 1).toString().padStart(2, '0');
+        var R = (Math.floor(Math.random() * 14) + 1).toString().padStart(2, '0');
+        var W = (Math.floor(Math.random() * 99) + 1).toString().padStart(2, '0');
+        var S = (Math.floor(Math.random() * 53) + 1).toString().padStart(2, '0');
+        var url = '/full-mock.html?L=' + L + '&R=' + R + '&W=' + W + '&S=' + S;
+        try { window.location.replace(url); } catch (_e) { window.location.href = url; }
+      } catch (_e) {
+        window.location.href = '/landing.html?openFullMock=1';
+      }
+    }
+    function _msv3LaunchIeltsFullMock() {
+      try { window.location.replace('/ielts-full-mock.html'); }
+      catch (_e) { window.location.href = '/ielts-full-mock.html'; }
+    }
+    var _mainCefrFM = document.getElementById('msv3MainCefrFullMock');
+    if (_mainCefrFM) _mainCefrFM.addEventListener('click', _msv3LaunchCefrFullMock);
+    var _mainIeltsFM = document.getElementById('msv3MainIeltsFullMock');
+    if (_mainIeltsFM) _mainIeltsFM.addEventListener('click', _msv3LaunchIeltsFullMock);
 
     // Help Center + Terms panels — inline overlays, no navigation.
     function openPanel(id) {
