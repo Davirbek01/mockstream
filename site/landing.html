@@ -23082,6 +23082,11 @@
       // the watcher doesn't race ahead of this iframe load and bounce the
       // user back to v3 the moment the category modal closes.
       try { document.documentElement.classList.remove('ms-discovery-handoff'); } catch (_e) {}
+      // Replace the parent URL with /landing-v3.html so a browser-back
+      // press from inside the iframe goes straight to v3 instead of
+      // briefly flashing the legacy landing.html UI. The iframe state
+      // isn't shareable anyway, so the URL bar "lying" is the lesser evil.
+      try { history.replaceState({}, document.title, '/landing-v3.html'); } catch (_e) {}
 
       // Close category modal
       document.getElementById('categoryModal').classList.remove('show');
@@ -23775,11 +23780,11 @@
       try { document.documentElement.classList.remove('ms-discovery-handoff'); } catch (_e) {}
       closeKETModal();
       if (type === 'rw') {
-        window.location.href = 'KET Reading & Writing Mocks.html';
+        window.location.replace('KET Reading & Writing Mocks.html');
       } else if (type === 'listening') {
-        window.location.href = 'KET Listening Mocks.html';
+        window.location.replace('KET Listening Mocks.html');
       } else if (type === 'speaking') {
-        window.location.href = 'KET Speaking Mocks.html';
+        window.location.replace('KET Speaking Mocks.html');
       }
     }
 
@@ -23797,11 +23802,11 @@
       try { document.documentElement.classList.remove('ms-discovery-handoff'); } catch (_e) {}
       closePETModal();
       if (type === 'rw') {
-        window.location.href = 'PET Reading & Writing Mocks.html';
+        window.location.replace('PET Reading & Writing Mocks.html');
       } else if (type === 'listening') {
-        window.location.href = 'PET Listening Mocks.html';
+        window.location.replace('PET Listening Mocks.html');
       } else if (type === 'speaking') {
-        window.location.href = 'PET Speaking Mocks.html';
+        window.location.replace('PET Speaking Mocks.html');
       }
     }
 
@@ -23819,11 +23824,11 @@
       try { document.documentElement.classList.remove('ms-discovery-handoff'); } catch (_e) {}
       closeFCEModal();
       if (type === 'rw') {
-        window.location.href = 'FCE Reading & Writing Mocks.html';
+        window.location.replace('FCE Reading & Writing Mocks.html');
       } else if (type === 'listening') {
-        window.location.href = 'FCE Listening Mocks.html';
+        window.location.replace('FCE Listening Mocks.html');
       } else if (type === 'speaking') {
-        window.location.href = 'FCE Speaking Mocks.html';
+        window.location.replace('FCE Speaking Mocks.html');
       }
     }
 
@@ -23841,11 +23846,11 @@
       try { document.documentElement.classList.remove('ms-discovery-handoff'); } catch (_e) {}
       closeCAEModal();
       if (type === 'rw') {
-        window.location.href = 'CAE Reading & Writing Mocks.html';
+        window.location.replace('CAE Reading & Writing Mocks.html');
       } else if (type === 'listening') {
-        window.location.href = 'CAE Listening Mocks.html';
+        window.location.replace('CAE Listening Mocks.html');
       } else if (type === 'speaking') {
-        window.location.href = 'CAE Speaking Mocks.html';
+        window.location.replace('CAE Speaking Mocks.html');
       }
     }
 
@@ -23863,11 +23868,11 @@
       try { document.documentElement.classList.remove('ms-discovery-handoff'); } catch (_e) {}
       closeCPEModal();
       if (type === 'rw') {
-        window.location.href = 'CPE Reading & Writing Mocks.html';
+        window.location.replace('CPE Reading & Writing Mocks.html');
       } else if (type === 'listening') {
-        window.location.href = 'CPE Listening Mocks.html';
+        window.location.replace('CPE Listening Mocks.html');
       } else if (type === 'speaking') {
-        window.location.href = 'CPE Speaking Mocks.html';
+        window.location.replace('CPE Speaking Mocks.html');
       }
     }
 
