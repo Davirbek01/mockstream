@@ -2276,7 +2276,7 @@
         <!-- Flashcards — uses the same _gateLearningTool('flashcards', ...)
              pipeline as landing.html's in-page card. Closing the modal
              returns to v3 via the discovery-handoff watcher. -->
-        <a class="tool-card" href="/flashcards.html" data-learn="flashcards">
+        <a class="tool-card" href="javascript:void(0)" data-learn="flashcards">
           <div class="tool-icon" style="background: linear-gradient(135deg, #fb923c, #ea580c);">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="4" width="18" height="14" rx="2"></rect>
@@ -4947,6 +4947,145 @@
       .cret-filter-row { gap: 4px; padding: 10px 8px 0; }
       .cret-chip { padding: 3px 7px; font-size: 10px; font-weight: 700; }
       .cret-source-filter { flex: 1 1 100%; margin-left: 0; padding: 4px 8px; font-size: 11px; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       Learning Tools full-screen picker — Articles, Grammar, Vocab,
+       Flashcards. Card grid with inline level buttons.
+       ═══════════════════════════════════════════════════════════════ */
+    .learn-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      z-index: 100005;
+      background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+      overflow-y: auto;
+      flex-direction: column;
+    }
+    .learn-overlay.learn-open { display: flex; }
+    .learn-header {
+      position: sticky; top: 0; z-index: 5;
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 24px;
+      background: rgba(245, 243, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #ddd6fe;
+    }
+    .learn-back {
+      flex-shrink: 0;
+      width: 38px; height: 38px;
+      border-radius: 10px; border: none;
+      background: #fff; color: #6d28d9;
+      font-size: 20px; font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(109,40,217,.15);
+      transition: all .15s;
+    }
+    .learn-back:hover { background: #6d28d9; color: #fff; transform: translateX(-2px); }
+    .learn-title {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 18px; font-weight: 700; color: #4c1d95;
+      flex-shrink: 0;
+    }
+    .learn-title-emoji { font-size: 22px; }
+    .learn-count {
+      background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+      color: #fff; font-size: 12px; font-weight: 700;
+      padding: 3px 10px; border-radius: 999px;
+      min-width: 28px; text-align: center;
+    }
+    .learn-header-tools { flex: 1; display: flex; gap: 10px; justify-content: flex-end; }
+    .learn-search {
+      flex: 1; max-width: 360px;
+      padding: 9px 14px;
+      border: 1.5px solid #ddd6fe;
+      border-radius: 10px;
+      font-size: 13.5px;
+      background: #fff;
+      outline: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .learn-search:focus { border-color: #8b5cf6; box-shadow: 0 0 0 3px rgba(139,92,246,.15); }
+    .learn-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      padding: 18px 24px 40px;
+      flex: 1;
+    }
+    @media (max-width: 1199px) { .learn-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 899px)  { .learn-grid { grid-template-columns: repeat(2, 1fr); padding: 14px 16px 30px; } }
+    @media (max-width: 540px)  { .learn-grid { grid-template-columns: 1fr; } }
+    .learn-card {
+      background: #fff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 14px 14px 12px;
+      display: flex; flex-direction: column; gap: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.04);
+      transition: transform .15s, box-shadow .15s, border-color .15s;
+      min-height: 120px;
+    }
+    .learn-card:hover {
+      transform: translateY(-2px) scale(1.005);
+      box-shadow: 0 8px 20px rgba(139,92,246,.12);
+      border-color: #c4b5fd;
+    }
+    .learn-card-head {
+      display: flex; align-items: flex-start; gap: 10px;
+      min-height: 40px;
+    }
+    .learn-card-icon {
+      font-size: 22px; flex-shrink: 0; line-height: 1;
+      width: 32px; height: 32px;
+      display: grid; place-items: center;
+      border-radius: 9px;
+      background: #f5f3ff;
+    }
+    .learn-card-name {
+      flex: 1; min-width: 0;
+      font-size: 13px; font-weight: 700;
+      color: #1e293b; line-height: 1.3;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    .learn-card-levels {
+      display: grid;
+      gap: 6px;
+      margin-top: auto;
+    }
+    .learn-card-levels.cols-3 { grid-template-columns: repeat(3, 1fr); }
+    .learn-card-levels.cols-1 { grid-template-columns: 1fr; }
+    .learn-level-btn {
+      padding: 7px 6px;
+      border: 1.5px solid #ddd6fe;
+      border-radius: 8px;
+      background: #f5f3ff;
+      color: #6d28d9;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .12s;
+      letter-spacing: .4px;
+    }
+    .learn-level-btn:hover {
+      background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+      color: #fff;
+      border-color: #6d28d9;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(139,92,246,.25);
+    }
+    .learn-level-btn.open-only {
+      font-size: 12.5px; padding: 9px 6px;
+    }
+    .learn-empty { text-align: center; padding: 60px 20px; color: #64748b; }
+    .learn-empty-icon { font-size: 48px; opacity: .5; margin-bottom: 14px; }
+    .learn-empty-msg { font-size: 15px; }
+    @media (max-width: 600px) {
+      .learn-header { flex-wrap: wrap; padding: 10px 14px; gap: 8px; }
+      .learn-header-tools { width: 100%; }
+      .learn-search { max-width: none; padding: 7px 10px; font-size: 13px; }
     }
 
     /* ===== IELTS Reading picker (iretPicker) — orange theme ===== */
@@ -12818,65 +12957,309 @@
     var _LEARN_CATALOGS = {
       grammar:    { items: GRAMMAR_TESTS,    icon: '📖', title: 'Grammar Tests',     desc: 'Choose a grammar topic to practice' },
       vocabulary: { items: VOCAB_TESTS,      icon: '📚', title: 'Vocabulary Tests',  desc: 'Choose a vocabulary topic to test' },
-      articles:   { items: READING_ARTICLES, icon: '📰', title: 'Reading Articles',  desc: 'Tap an article to read and learn vocabulary' }
+      articles:   { items: READING_ARTICLES, icon: '📰', title: 'Reading Articles',  desc: 'Tap an article to read and learn vocabulary' },
+      flashcards: { items: [],               icon: '🃏', title: 'Flashcard Decks',   desc: 'Choose a topic to study' }
     };
+    // FLASHCARD_TOPICS — assigned after declaration to keep this section
+    // readable. Items with a .levels object get B1/B2/C1 buttons; items
+    // without get a single "Open" button (no level variation exists).
+    var FLASHCARD_TOPICS = [
+      { file: 'idioms01.js', name: 'Idioms', icon: '💬' },
+      { file: 'digital-frontier01.js', name: 'Digital Frontier', icon: '💻', levels: { intermediate: 'digital-frontier-intermediate', 'upper-intermediate': 'digital-frontier-upper-intermediate', advanced: 'digital-frontier-advanced' } },
+      { file: 'short-questions01.js', name: 'Short Questions', icon: '❓' },
+      { file: 'personal-intro01.js', name: 'Personal Intro', icon: '👤' },
+      { file: 'present-tenses01.js', name: 'Present Tenses', icon: '🕐' },
+      { file: 'family-friends01.js', name: 'Family, Friends & Relationships', icon: '👨‍👩‍👧‍👦' },
+      { file: 'education-learning01.js', name: 'Education & Learning', icon: '📚' },
+      { file: 'infinitive-gerund01.js', name: 'Infinitive & Gerund', icon: '📖' },
+      { file: 'free-time-sports01.js', name: 'Free Time, Hobbies & Sports', icon: '⚽' },
+      { file: 'travel-holiday01.js', name: 'Travel & Holiday', icon: '✈️' },
+      { file: 'health-body01.js', name: 'Health & Body', icon: '🏥' },
+      { file: 'tech-social-media01.js', name: 'Technology & Social Media', icon: '📱' },
+      { file: 'environment-climate01.js', name: 'Environment & Climate', icon: '🌍' },
+      { file: 'housing-city-life01.js', name: 'Housing & City Life', icon: '🏠' },
+      { file: 'films-books-music01.js', name: 'Films, Books & Music', icon: '🎬' },
+      { file: 'work-career01.js', name: 'Work & Career', icon: '💼' },
+      { file: 'crime-law01.js', name: 'Crime & Law', icon: '⚖️' },
+      { file: 'media-advertising01.js', name: 'Media & Advertising', icon: '📢' },
+      { file: 'food-nutrition01.js', name: 'Food & Nutrition', icon: '🥗' },
+      { file: 'money-consumerism01.js', name: 'Money & Consumerism', icon: '💰' },
+      { file: 'personality-behavior01.js', name: 'Personality & Behavior', icon: '🧠' },
+      { file: 'art-design-fashion01.js', name: 'Art, Design & Fashion', icon: '🎨' },
+      { file: 'science-research01.js', name: 'Science & Research', icon: '🔬' },
+      { file: 'history-culture01.js', name: 'History & Cultural Heritage', icon: '📜' },
+      { file: 'architecture-urban01.js', name: 'Architecture & Urban Planning', icon: '🏙️' },
+      { file: 'wildlife-conservation01.js', name: 'Wildlife & Conservation', icon: '🦁' },
+      { file: 'space-exploration01.js', name: 'Space Exploration', icon: '🚀' },
+      { file: 'disasters-geography01.js', name: 'Natural Disasters & Geography', icon: '🌋' },
+      { file: 'human-rights-social01.js', name: 'Human Rights & Social Issues', icon: '⚖️' },
+      { file: 'proverbs01.js', name: '100 Common Proverbs', icon: '📜' },
+      { file: 'small-talk01.js', name: 'Small Talk Collocations', icon: '💬' },
+      { file: 'three-part-verbs01.js', name: 'Three-part Phrasal Verbs', icon: '🔗' },
+      { file: 'letter-email-phrases01.js', name: 'Letter & Email Phrases', icon: '✉️' },
+      { file: 'feelings-emotions01.js', name: 'Feelings & Emotions', icon: '😊' },
+      { file: 'relationships-social01.js', name: 'Relationships & Socializing', icon: '🤝' },
+      { file: 'mind-memory01.js', name: 'Mind, Memory & Thought', icon: '🧩' },
+      { file: 'communication-speech01.js', name: 'Communication & Speech', icon: '🗣️' },
+      { file: 'conflict-resolution01.js', name: 'Conflict & Resolution', icon: '⚔️' },
+      { file: 'success-failure01.js', name: 'Success & Failure', icon: '🏆' },
+      { file: 'time-change01.js', name: 'Time, Change & Trends', icon: '⏳' },
+      { file: 'politics-government01.js', name: 'Politics & Government', icon: '🏛️' },
+      { file: 'risk-danger01.js', name: 'Risk, Danger & Safety', icon: '⚠️' },
+      { file: 'society-inequality01.js', name: 'Society & Inequality', icon: '⚖️' },
+      { file: 'business-negotiations01.js', name: 'Business & Negotiations', icon: '💼' },
+      { file: 'describing-appearance01.js', name: 'Describing Appearance', icon: '👤' },
+      { file: 'movement-transport01.js', name: 'Movement & Transport', icon: '🚗' },
+      { file: 'cause-effect01.js', name: 'Cause, Effect & Purpose', icon: '🔗' },
+      { file: 'celebrations-traditions01.js', name: 'Celebrations & Traditions', icon: '🎉' },
+      { file: 'truth-lies01.js', name: 'Truth, Lies & Honesty', icon: '🤥' },
+      { file: 'daily-routines01.js', name: 'Daily Routines & Habits', icon: '📅' },
+      { file: 'weather-nature01.js', name: 'Weather & Nature', icon: '🌦️' },
+      { file: 'addictions-obsessions01.js', name: 'Addictions & Obsessions', icon: '🔄' },
+      { file: 'academic-writing01.js', name: 'Academic & Formal Writing', icon: '🎓' },
+      { file: 'sounds-noise01.js', name: 'Sounds & Noise', icon: '🔊' },
+      { file: 'size-shape01.js', name: 'Size, Shape & Dimensions', icon: '📐' },
+      { file: 'war-military01.js', name: 'War & the Military', icon: '⚔️' },
+      { file: 'plans-decisions01.js', name: 'Plans & Decisions', icon: '🎯' },
+      { file: 'problems-solutions01.js', name: 'Problems & Solutions', icon: '🧩' },
+      { file: 'effort-ambition01.js', name: 'Effort & Ambition', icon: '🏆' },
+      { file: 'belief-opinion01.js', name: 'Belief & Opinion', icon: '💭' },
+      { file: 'numbers-quantities01.js', name: 'Numbers & Quantities', icon: '🔢' },
+      { file: 'anger-fear01.js', name: 'Anger, Fear & Shock', icon: '😤' },
+      { file: 'formal-register01.js', name: 'Formal & Informal Register', icon: '📝' },
+      { file: 'sleep-dreams01.js', name: 'Sleep & Dreams', icon: '😴' },
+      { file: 'law-justice01.js', name: 'Law & Justice', icon: '⚖️' },
+      { file: 'memory-aging01.js', name: 'Memory & Aging', icon: '🧓' },
+      { file: 'money-debt01.js', name: 'Money & Debt', icon: '💳' },
+      { file: 'happiness-satisfaction01.js', name: 'Happiness & Satisfaction', icon: '😊' },
+      { file: 'change-reform01.js', name: 'Change & Reform', icon: '🔄' },
+      { file: 'sports-competition01.js', name: 'Sports & Competition', icon: '🏅' },
+      { file: 'travel-tourism01.js', name: 'Travel & Tourism', icon: '✈️' },
+      { file: 'language-learning01.js', name: 'Language & Learning', icon: '🗣️' },
+      { file: 'imagination-creativity01.js', name: 'Imagination & Creativity', icon: '🎨' },
+      { file: 'power-influence01.js', name: 'Power & Influence', icon: '👑' },
+      { file: 'taste-smell01.js', name: 'Taste, Smell & Touch', icon: '👃' },
+      { file: 'age-experience01.js', name: 'Age & Experience', icon: '🎂' },
+      { file: 'permission-obligation01.js', name: 'Permission & Obligation', icon: '📋' },
+      { file: 'praise-criticism01.js', name: 'Praise & Criticism', icon: '👏' },
+      { file: 'wealth-poverty01.js', name: 'Wealth & Poverty', icon: '💎' },
+      { file: 'loyalty-betrayal01.js', name: 'Loyalty & Betrayal', icon: '🤞' },
+      { file: 'news-journalism01.js', name: 'News & Journalism', icon: '📰' },
+      { file: 'patience-impatience01.js', name: 'Patience & Impatience', icon: '⏰' },
+      { file: 'knowledge-ignorance01.js', name: 'Knowledge & Ignorance', icon: '📖' },
+      { file: 'appearance-fashion01.js', name: 'Clothes & Fashion', icon: '👗' },
+      { file: 'responsibility-blame01.js', name: 'Responsibility & Blame', icon: '🎯' },
+      { file: 'hope-despair01.js', name: 'Hope & Despair', icon: '🌟' },
+      { file: 'similarity-difference01.js', name: 'Similarity & Difference', icon: '🔀' },
+      { file: 'secrecy-privacy01.js', name: 'Secrecy & Privacy', icon: '🔒' },
+      { file: 'speed-pace01.js', name: 'Speed & Pace', icon: '⚡' },
+      { file: 'intelligence-stupidity01.js', name: 'Intelligence & Stupidity', icon: '🧠' },
+      { file: 'apology-forgiveness01.js', name: 'Apology & Forgiveness', icon: '🙏' },
+      { file: 'order-chaos01.js', name: 'Order & Chaos', icon: '📊' },
+      { file: 'honesty-corruption01.js', name: 'Honesty & Corruption', icon: '🏴' },
+      { file: 'health-medicine01.js', name: 'Health & Medicine', icon: '🏥' },
+      { file: 'food-cooking01.js', name: 'Food & Cooking', icon: '🍳' },
+      { file: 'education-schooling01.js', name: 'Education & Schooling', icon: '🎓' },
+      { file: 'technology-innovation01.js', name: 'Technology & Innovation', icon: '💻' },
+      { file: 'environment-pollution01.js', name: 'Environment & Pollution', icon: '🌿' },
+      { file: 'housing-architecture01.js', name: 'Housing & Architecture', icon: '🏠' },
+      { file: 'work-employment01.js', name: 'Work & Employment', icon: '💼' },
+      { file: 'freedom-restriction01.js', name: 'Freedom & Restriction', icon: '🕊️' },
+      { file: 'attention-distraction01.js', name: 'Attention & Distraction', icon: '👁️' },
+      { file: 'agreement-disagreement01.js', name: 'Agreement & Disagreement', icon: '🤝' },
+      { file: 'personality-character01.js', name: 'Personality & Character', icon: '🎭' },
+      { file: 'crime-punishment01.js', name: 'Crime & Punishment', icon: '🔍' },
+      { file: 'media-advertising01-alt.js', name: 'Media & Advertising (alt)', icon: '📺' },
+      { file: 'money-finance01.js', name: 'Money & Finance', icon: '💰' },
+      { file: 'arts-entertainment01.js', name: 'Arts & Entertainment', icon: '🎨' },
+      { file: 'social-issues01.js', name: 'Social Issues', icon: '⚖️' },
+      { file: 'science-research01-alt.js', name: 'Science & Research (alt)', icon: '🔬' },
+      { file: 'emotions-reactions01.js', name: 'Emotions & Reactions', icon: '😤' },
+      { file: 'globalisation-trade01.js', name: 'Globalisation & Trade', icon: '🌐' },
+      { file: 'body-gestures01.js', name: 'Body Language & Gestures', icon: '🤚' },
+      { file: 'relationships-family01.js', name: 'Relationships & Family', icon: '👨‍👩‍👧' },
+      { file: 'travel-transport01.js', name: 'Travel & Transport', icon: '✈️' },
+      { file: 'appearance-looks01.js', name: 'Appearance & Looks', icon: '👤' },
+      { file: 'weather-climate01.js', name: 'Weather & Climate', icon: '🌦️' },
+      { file: 'law-legal01.js', name: 'Law & Legal System', icon: '⚖️' },
+      { file: 'animals-nature01.js', name: 'Animals & Nature', icon: '🦁' },
+      { file: 'communication-language01.js', name: 'Communication & Language', icon: '💬' },
+      { file: 'habits-lifestyle01.js', name: 'Habits & Lifestyle', icon: '🔄' },
+      { file: 'memory-mind01.js', name: 'Memory & the Mind', icon: '🧠' },
+      { file: 'conflict-war01.js', name: 'Conflict & War', icon: '⚔️' },
+      { file: 'desire-ambition01.js', name: 'Desire & Ambition', icon: '🔥' },
+      { file: 'trust-suspicion01.js', name: 'Trust & Suspicion', icon: '🤞' },
+      { file: 'sport-fitness01.js', name: 'Sport & Fitness', icon: '🏋️' },
+      { file: 'culture-tradition01.js', name: 'Culture & Tradition', icon: '🏛️' },
+      { file: 'time-deadlines01.js', name: 'Time & Deadlines', icon: '⏰' },
+      { file: 'danger-risk01.js', name: 'Danger & Risk', icon: '⚠️' },
+      { file: 'opinions-arguments01.js', name: 'Opinions & Arguments', icon: '💭' },
+      { file: 'luck-chance01.js', name: 'Luck & Chance', icon: '🍀' },
+      { file: 'change-progress01.js', name: 'Change & Progress', icon: '📈' },
+      { file: 'success-achievement01.js', name: 'Success & Achievement', icon: '🏆' },
+      { file: 'shopping-consumerism01.js', name: 'Shopping & Consumerism', icon: '🛒' },
+      { file: 'music-performance01.js', name: 'Music & Performance', icon: '🎵' },
+      { file: 'books-literature01.js', name: 'Books & Literature', icon: '📚' },
+      { file: 'politics-elections01.js', name: 'Politics & Elections', icon: '🗳️' },
+      { file: 'disasters-emergencies01.js', name: 'Disasters & Emergencies', icon: '🌪️' },
+      { file: 'friendship-loyalty01.js', name: 'Friendship & Loyalty', icon: '🤝' },
+      { file: 'technology-devices01.js', name: 'Technology & Devices', icon: '📱' },
+      { file: 'food-nutrition01-alt.js', name: 'Food & Nutrition (alt)', icon: '🥗' },
+      { file: 'work-careers01.js', name: 'Work & Careers', icon: '💼' },
+      { file: 'education-learning01-alt.js', name: 'Education & Learning (alt)', icon: '🎓' },
+      { file: 'housing-property01.js', name: 'Housing & Property', icon: '🏠' },
+      { file: 'justice-fairness01.js', name: 'Justice & Fairness', icon: '⚖️' },
+      { file: 'illness-recovery01.js', name: 'Illness & Recovery', icon: '🏥' },
+      { file: 'travel-adventure01.js', name: 'Travel & Adventure', icon: '🧭' },
+      { file: 'environment-sustainability01.js', name: 'Environment & Sustainability', icon: '🌱' },
+      { file: 'media-journalism01.js', name: 'Media & Journalism', icon: '📰' },
+      { file: 'money-banking01.js', name: 'Money & Banking', icon: '🏦' },
+      { file: 'personality-behaviour01.js', name: 'Personality & Behaviour', icon: '🎭' },
+      { file: 'crime-investigation01.js', name: 'Crime & Investigation', icon: '🔍' },
+      { file: 'language-communication01.js', name: 'Language & Communication', icon: '🗣️' },
+      { file: 'anxiety-stress01.js', name: 'Anxiety & Stress', icon: '😰' },
+      { file: 'history-heritage01.js', name: 'History & Heritage', icon: '🏰' },
+      { file: 'transport-commuting01.js', name: 'Transport & Commuting', icon: '🚇' },
+      { file: 'fashion-clothing01.js', name: 'Fashion & Clothing', icon: '👗' },
+      { file: 'internet-social-media01.js', name: 'Internet & Social Media', icon: '🌐' },
+      { file: 'aging-retirement01.js', name: 'Ageing & Retirement', icon: '👴' },
+      { file: 'ethics-morality01.js', name: 'Ethics & Morality', icon: '⚡' },
+      { file: 'celebration-festivals01.js', name: 'Celebrations & Festivals', icon: '🎉' },
+      { file: 'competition-rivalry01.js', name: 'Competition & Rivalry', icon: '🏅' },
+      { file: 'dreams-imagination01.js', name: 'Dreams & Imagination', icon: '💫' },
+      { file: 'war-conflict01.js', name: 'War & Conflict', icon: '💣' },
+      { file: 'nature-wildlife01.js', name: 'Nature & Wildlife', icon: '🦁' },
+      { file: 'appearance-beauty01.js', name: 'Appearance & Beauty', icon: '💄' },
+      { file: 'science-discovery01.js', name: 'Science & Discovery', icon: '🔬' },
+      { file: 'cooking-recipes01.js', name: 'Cooking & Recipes', icon: '👨‍🍳' },
+      { file: 'volunteering-charity01.js', name: 'Volunteering & Charity', icon: '🤲' },
+      { file: 'art-creativity01.js', name: 'Art & Creativity', icon: '🎨' },
+      { file: 'addiction-dependency01.js', name: 'Addiction & Dependency', icon: '🚬' },
+      { file: 'negotiation-diplomacy01.js', name: 'Negotiation & Diplomacy', icon: '🕊️' },
+      { file: 'cinema-film01.js', name: 'Cinema & Film', icon: '🎬' }
+    ];
+    _LEARN_CATALOGS.flashcards.items = FLASHCARD_TOPICS;
+    var _learnCurrentCategory = null;
     var _learnCurrentItems = [];
     function _escLearn(s) {
       return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
         return ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[c];
       });
     }
+    // Build the runner URL for (category, item, level). Levels for grammar/
+    // vocabulary/articles/flashcards map intermediate=B1, upper-intermediate=
+    // B2, advanced=C1. Flashcard items without .levels ignore level and
+    // open the bare topic. Absolute /paths so /take/-style URLs can't break.
+    function _learnRunnerUrl(category, item, level) {
+      if (category === 'articles') {
+        var artNum = (item.file.match(/article=([^&]+)/) || [])[1];
+        if (!artNum) return null;
+        var artLevelMap = { 'intermediate': 'B1', 'upper-intermediate': 'B2', 'advanced': 'C1' };
+        var lvl = artLevelMap[level] || 'B1';
+        return '/Articles.html?article=' + encodeURIComponent(artNum) + '&level=' + lvl;
+      }
+      if (category === 'grammar' || category === 'vocabulary') {
+        var slug = (item.file.match(/test=([^&]+)/) || [])[1];
+        if (!slug) return null;
+        return '/test.html?test=' + encodeURIComponent(slug) + '-' + level + '&type=' + category;
+      }
+      if (category === 'flashcards') {
+        var base = item.file.replace(/\.js$/, '');
+        if (item.levels && item.levels[level]) {
+          return '/flashcards.html?topic=' + encodeURIComponent(item.levels[level]);
+        }
+        return '/flashcards.html?topic=' + encodeURIComponent(base);
+      }
+      return null;
+    }
+    function _hasLevels(category, item) {
+      if (category === 'articles' || category === 'grammar' || category === 'vocabulary') return true;
+      if (category === 'flashcards') return !!(item && item.levels);
+      return false;
+    }
     function openLearningCategory(category) {
       var cat = _LEARN_CATALOGS[category];
       if (!cat) return;
+      _learnCurrentCategory = category;
       _learnCurrentItems = cat.items || [];
-      document.getElementById('learningCategoryIcon').textContent = cat.icon;
-      document.getElementById('learningCategoryTitle').textContent = cat.title;
-      document.getElementById('learningCategoryDesc').textContent = cat.desc;
-      document.getElementById('learningCategoryCount').textContent = _learnCurrentItems.length;
-      var search = document.getElementById('learningCategorySearch');
+      document.getElementById('learnTitleIcon').textContent = cat.icon;
+      document.getElementById('learnTitleText').textContent = cat.title;
+      document.getElementById('learnCount').textContent = _learnCurrentItems.length;
+      var search = document.getElementById('learnSearch');
       if (search) search.value = '';
-      _renderLearningList(_learnCurrentItems);
-      document.getElementById('learningCategoryModal').style.display = 'flex';
+      _renderLearnGrid(_learnCurrentItems);
+      var overlay = document.getElementById('learnPicker');
+      overlay.classList.add('learn-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      try { history.pushState({ picker: 'learn' }, ''); } catch (_e) {}
     }
-    function _renderLearningList(items) {
-      var list = document.getElementById('learningCategoryList');
-      if (!items.length) { list.innerHTML = '<div style="text-align:center;color:var(--muted);padding:24px;font-size:13px;">No items match your search.</div>'; return; }
-      list.innerHTML = items.map(function (item) {
-        // Absolute /path so /take/-style URLs don't break the click target.
-        var file = item.file.charAt(0) === '/' ? item.file : '/' + item.file;
-        return '<button type="button" data-file="' + _escLearn(file) + '"'
-             + ' style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1.5px solid var(--ring);border-radius:10px;background:var(--card);cursor:pointer;text-align:left;transition:border-color 120ms,background 120ms;font-size:13.5px;color:var(--ink);">'
-             +   '<span style="font-size:18px;flex-shrink:0;">' + _escLearn(item.icon || '📄') + '</span>'
-             +   '<span style="flex:1;font-weight:600;line-height:1.3;">' + _escLearn(item.name) + '</span>'
-             +   '<span style="color:var(--muted);font-size:13px;flex-shrink:0;">→</span>'
-             + '</button>';
+    function _renderLearnGrid(items) {
+      var grid = document.getElementById('learnGrid');
+      var empty = document.getElementById('learnEmpty');
+      if (!items.length) {
+        grid.innerHTML = '';
+        if (empty) empty.style.display = '';
+        document.getElementById('learnCount').textContent = '0';
+        return;
+      }
+      if (empty) empty.style.display = 'none';
+      var cat = _learnCurrentCategory;
+      var cards = items.map(function (item, idx) {
+        var levels = _hasLevels(cat, item);
+        var buttons;
+        if (levels) {
+          buttons = '<div class="learn-card-levels cols-3">'
+            + '<button class="learn-level-btn" type="button" data-idx="' + idx + '" data-level="intermediate">B1</button>'
+            + '<button class="learn-level-btn" type="button" data-idx="' + idx + '" data-level="upper-intermediate">B2</button>'
+            + '<button class="learn-level-btn" type="button" data-idx="' + idx + '" data-level="advanced">C1</button>'
+            + '</div>';
+        } else {
+          buttons = '<div class="learn-card-levels cols-1">'
+            + '<button class="learn-level-btn open-only" type="button" data-idx="' + idx + '" data-level="open">Open →</button>'
+            + '</div>';
+        }
+        return '<article class="learn-card">'
+          + '<div class="learn-card-head">'
+          +   '<span class="learn-card-icon">' + _escLearn(item.icon || '📄') + '</span>'
+          +   '<span class="learn-card-name" title="' + _escLearn(item.name) + '">' + _escLearn(item.name) + '</span>'
+          + '</div>'
+          + buttons
+          + '</article>';
       }).join('');
-      // Wire item clicks
-      list.querySelectorAll('button[data-file]').forEach(function (b) {
+      grid.innerHTML = cards;
+      // Wire level-button clicks
+      grid.querySelectorAll('.learn-level-btn').forEach(function (b) {
         b.addEventListener('click', function () {
-          var f = b.getAttribute('data-file');
-          if (f) window.location.href = f;
+          var idx = parseInt(b.getAttribute('data-idx'), 10);
+          var level = b.getAttribute('data-level');
+          var item = items[idx];
+          if (!item) return;
+          var url = _learnRunnerUrl(cat, item, level);
+          if (url) window.location.href = url;
         });
-        b.addEventListener('mouseenter', function () { b.style.borderColor = 'var(--indigo)'; b.style.background = 'var(--indigo-soft)'; });
-        b.addEventListener('mouseleave', function () { b.style.borderColor = 'var(--ring)';   b.style.background = 'var(--card)'; });
       });
+      document.getElementById('learnCount').textContent = items.length;
     }
     function _filterLearningList(query) {
       var q = (query || '').toLowerCase().trim();
-      if (!q) { _renderLearningList(_learnCurrentItems); return; }
-      _renderLearningList(_learnCurrentItems.filter(function (item) {
+      if (!q) { _renderLearnGrid(_learnCurrentItems); return; }
+      _renderLearnGrid(_learnCurrentItems.filter(function (item) {
         return (item.name || '').toLowerCase().indexOf(q) !== -1;
       }));
     }
-    function closeLearningCategory(event) {
-      var m = document.getElementById('learningCategoryModal');
-      if (!m) return;
-      if (!event || event.target === m) m.style.display = 'none';
+    function closeLearnPicker() {
+      var overlay = document.getElementById('learnPicker');
+      overlay.classList.remove('learn-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      try {
+        if (history.state && history.state.picker === 'learn') history.back();
+      } catch (_e) {}
     }
     function showTestsSubmenu() {
-      document.getElementById('testsGrammarCount').textContent = GRAMMAR_TESTS.length + ' topics to drill';
-      document.getElementById('testsVocabCount').textContent   = VOCAB_TESTS.length + ' topics to test';
+      document.getElementById('testsGrammarCount').textContent = GRAMMAR_TESTS.length + ' topics · B1·B2·C1';
+      document.getElementById('testsVocabCount').textContent   = VOCAB_TESTS.length + ' topics · B1·B2·C1';
       document.getElementById('testsSubmenuModal').style.display = 'flex';
     }
     function closeTestsSubmenu(event) {
@@ -12889,18 +13272,22 @@
       openLearningCategory(type);
     }
     window.openLearningCategory = openLearningCategory;
-    window.closeLearningCategory = closeLearningCategory;
+    window.closeLearnPicker = closeLearnPicker;
     window.showTestsSubmenu = showTestsSubmenu;
     window.closeTestsSubmenu = closeTestsSubmenu;
     window._pickTestType = _pickTestType;
-    window._filterLearningList = _filterLearningList;
-    // Wire tool cards
+    // Hook search input
+    (function _wireLearnSearch() {
+      var s = document.getElementById('learnSearch');
+      if (s) s.addEventListener('input', function () { _filterLearningList(this.value); });
+    })();
+    // Wire tool cards (Flashcards now opens picker too — has its own catalog).
     document.querySelectorAll('.tool-card[data-learn]').forEach(function (a) {
       var key = a.getAttribute('data-learn');
-      if (key === 'flashcards') return; // direct href, no modal
       a.addEventListener('click', function (e) {
         e.preventDefault();
-        if (key === 'tests') showTestsSubmenu();
+        if (key === 'flashcards') openLearningCategory('flashcards');
+        else if (key === 'tests') showTestsSubmenu();
         else if (key === 'articles') openLearningCategory('articles');
       });
     });
@@ -13142,24 +13529,25 @@
     </div>
   </div>
 
-  <div id="learningCategoryModal"
-    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:100005;align-items:center;justify-content:center;padding:20px;"
-    onclick="closeLearningCategory(event)">
-    <div
-      style="background:var(--card);border:2px solid var(--brand);border-radius:24px;padding:24px 22px 18px;max-width:560px;width:100%;max-height:88vh;display:flex;flex-direction:column;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
-      onclick="event.stopPropagation()">
-      <h3 style="font-size:19px;color:var(--brand);margin-bottom:4px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px;">
-        <span id="learningCategoryIcon">📰</span>
-        <span id="learningCategoryTitle">Articles</span>
-        <span id="learningCategoryCount" style="background:var(--brand);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;min-width:28px;text-align:center;">0</span>
-      </h3>
-      <p id="learningCategoryDesc" style="font-size:13px;color:var(--muted);margin-bottom:14px;">Choose a topic</p>
-      <input type="search" id="learningCategorySearch" placeholder="🔍 Search…" autocomplete="off" spellcheck="false"
-        style="width:100%;padding:9px 14px;border:1.5px solid var(--ring);border-radius:10px;font-size:13.5px;background:var(--bg);color:var(--ink);outline:none;margin-bottom:12px;box-sizing:border-box;"
-        oninput="_filterLearningList(this.value)">
-      <div id="learningCategoryList" style="overflow-y:auto;flex:1;min-height:0;text-align:left;display:flex;flex-direction:column;gap:6px;padding:2px;"></div>
-      <button onclick="closeLearningCategory()" type="button"
-        style="margin-top:14px;padding:8px 24px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;align-self:center;">Close</button>
+  <!-- Full-screen Learning Tools picker (Articles / Grammar / Vocabulary /
+       Flashcards). Card grid with inline B1/B2/C1 level buttons so each
+       level launches the runner directly — no extra level-picker tap. -->
+  <div id="learnPicker" class="learn-overlay" aria-hidden="true">
+    <header class="learn-header">
+      <button class="learn-back" type="button" onclick="closeLearnPicker()" title="Back to landing">←</button>
+      <div class="learn-title">
+        <span class="learn-title-emoji" id="learnTitleIcon">📰</span>
+        <span class="learn-title-text" id="learnTitleText">Articles</span>
+        <span class="learn-count" id="learnCount">0</span>
+      </div>
+      <div class="learn-header-tools">
+        <input type="search" class="learn-search" id="learnSearch" placeholder="🔍 Search…" autocomplete="off" spellcheck="false">
+      </div>
+    </header>
+    <main class="learn-grid" id="learnGrid"></main>
+    <div class="learn-empty" id="learnEmpty" style="display:none;">
+      <div class="learn-empty-icon">🔍</div>
+      <p class="learn-empty-msg">No items match your search.</p>
     </div>
   </div>
 
