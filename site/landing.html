@@ -27045,6 +27045,29 @@
         '#ieltsSpeakingModeModal.show',
         '#adminDashboardModal.show',
         '#smgOverlay.show',
+        /* Admin auth + Platform Management overlays — both are appended
+           to body when shown and removed when closed, so presence alone
+           is the visibility signal (no class filter needed). Without
+           these, openSiteMgmtFromV3 / openAdminFromV3 bounce the user
+           back to v3 after 2s even though the auth modal is on screen. */
+        '#adminAuthOverlay',
+        '#siteMgmtGridOverlay',
+        /* Platform Management sub-panels — most use .active / .visible
+           classes, the rest are display-toggled with inline styles. */
+        '#ruOverlay.active', '#ruOverlay.visible',
+        '#wpOverlay.active', '#wpOverlay.visible',
+        '#spOverlay.active', '#spOverlay.visible',
+        '#rpOverlay.active', '#rpOverlay.visible',
+        '#lpOverlay.active', '#lpOverlay.visible',
+        '#aiRouterOverlay.active', '#aiRouterOverlay.visible',
+        '#pmOverlay.active', '#pmOverlay.visible',
+        '#smOverlay.active', '#smOverlay.visible',
+        '#vgOverlay.active', '#vgOverlay.visible',
+        '#centersPanel.visible', '#centersPanel.active',
+        '#codeMgmtOverlay.visible', '#codeMgmtOverlay.active',
+        '#sysPromptOverlay.visible', '#sysPromptOverlay.active',
+        '#testMakerOverlay.visible', '#testMakerOverlay.active',
+        '#cmOverlay.visible', '#cmOverlay.active',
         /* Per-skill access-code modals — opened by /take/<slug> deep-links
            via handleReadingMockClick / etc. Without these, the watcher
            bounces the user to v3 the moment the access-code modal opens. */
