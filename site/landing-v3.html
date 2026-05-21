@@ -4168,6 +4168,15 @@
       background: rgba(245, 243, 255, 0.6);
       border-bottom: 1px solid #ede9fe;
     }
+    /* Force the topic dropdown onto its own row inside cwet's filter row,
+       so the 4 chips always share row 1 and the dropdown sits alone on
+       row 2 — matches the master layout the user prefers. Without this,
+       certain viewport widths (~600-700 px) squeeze the dropdown onto
+       row 1 and bump "Done before" to row 2. */
+    #cwetPicker .cwet-filter-row .ilet-source-filter {
+      flex: 1 1 100%;
+      margin-left: 0;
+    }
     #cwetPicker .ilet-section { align-items: flex-start; }
     #cwetPicker .ilet-section-num { background: #ede9fe; color: #6d28d9; }
     #cwetPicker .ilet-section-title { font-weight: 600; line-height: 1.4; }
