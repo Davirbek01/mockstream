@@ -13190,7 +13190,7 @@
       // suffix.
       return true;
     }
-    function openLearningCategory(category) {
+    function openLearningCategory(category, opts) {
       var cat = _LEARN_CATALOGS[category];
       if (!cat) return;
       _learnCurrentCategory = category;
@@ -13205,8 +13205,66 @@
       overlay.classList.add('learn-open');
       overlay.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
-      try { history.pushState({ picker: 'learn' }, ''); } catch (_e) {}
+      // Push a history entry with the category so browser-back from a
+      // runner page (flashcards.html, Articles.html, test.html) restores
+      // the picker via popstate, instead of dropping the user on the
+      // bare landing.
+      if (!(opts && opts.fromRestore)) {
+        try { history.pushState({ picker: 'learn', cat: category }, ''); } catch (_e) {}
+      }
     }
+    // Restore picker if we landed here with picker state already in history
+    // (e.g. user navigated back from a runner page via browser back), OR with
+    // a hash like #learn=flashcards (in-app Home buttons from runner pages
+    // push this URL so picker re-opens cleanly without depending on bfcache
+    // or stepping through internal runner history entries).
+    (function _restoreLearnIfStateMatches() {
+      function restore() {
+        try {
+          var s = history.state;
+          if (s && s.picker === 'learn' && s.cat && _LEARN_CATALOGS[s.cat]) {
+            openLearningCategory(s.cat, { fromRestore: true });
+            return;
+          }
+          var h = (location.hash || '').replace(/^#/, '');
+          if (h && h.indexOf('learn=') === 0) {
+            var cat = h.slice('learn='.length);
+            if (cat && _LEARN_CATALOGS[cat]) {
+              // Drop the hash so reload/back-to-clean works, then open picker
+              // with proper state pushed for back-button to re-trigger restore.
+              try { history.replaceState(null, '', location.pathname + location.search); } catch (_e) {}
+              openLearningCategory(cat);
+            }
+          }
+        } catch (_e) {}
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', restore);
+      } else {
+        restore();
+      }
+    })();
+    // Popstate handler: when user presses back while ON v3 with the picker
+    // open, close it. When they press forward (or back to a learn state),
+    // re-open the picker for that category. Other picker popstate logic
+    // (cret/iret/etc.) is in its own listener — this one is scoped to the
+    // learn state shape.
+    window.addEventListener('popstate', function (e) {
+      var s = e.state;
+      var overlay = document.getElementById('learnPicker');
+      if (!overlay) return;
+      var isOpen = overlay.classList.contains('learn-open');
+      if (s && s.picker === 'learn' && s.cat) {
+        if (!isOpen || _learnCurrentCategory !== s.cat) {
+          openLearningCategory(s.cat, { fromRestore: true });
+        }
+      } else if (isOpen) {
+        overlay.classList.remove('learn-open');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        _learnCurrentCategory = null;
+      }
+    });
     function _renderLearnGrid(items) {
       var grid = document.getElementById('learnGrid');
       var empty = document.getElementById('learnEmpty');

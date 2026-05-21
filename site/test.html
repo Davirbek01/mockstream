@@ -1940,7 +1940,7 @@
       if (window.parent !== window) {
         window.parent.postMessage({ action: 'returnToLanding', openModal: _type || '' }, '*');
       } else {
-        window.location.href = 'landing-v3.html';
+        _returnToV3Picker();
       }
     });
   }
@@ -1958,8 +1958,16 @@
     if (window.parent !== window) {
       window.parent.postMessage({ action: 'returnToLanding', openModal: _type || '' }, '*');
     } else {
-      window.location.href = 'landing-v3.html';
+      _returnToV3Picker();
     }
+  }
+  // Push v3 with a hash so the picker auto-re-opens on the new
+  // landing entry. _type matches the v3 _LEARN_CATALOGS keys
+  // (grammar | vocabulary).
+  function _returnToV3Picker() {
+    var _tp = new URLSearchParams(window.location.search);
+    var _type = _tp.get('type') || 'grammar';
+    window.location.href = '/landing-v3.html#learn=' + encodeURIComponent(_type);
   }
   // Make goBack available globally
   window.goBack = goBack;

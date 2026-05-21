@@ -3418,7 +3418,7 @@
                 if (window.parent !== window) {
                     window.parent.postMessage({ action: 'returnToLanding', openModal: 'articles' }, '*');
                 } else {
-                    window.location.href = 'landing-v3.html';
+                    _returnToV3Picker();
                 }
                 return;
             }
@@ -3451,9 +3451,14 @@
                 if (window.parent !== window) {
                     window.parent.postMessage({ action: 'returnToLanding', openModal: 'articles' }, '*');
                 } else {
-                    window.location.href = 'landing-v3.html';
+                    _returnToV3Picker();
                 }
             }
+        }
+        // Push v3 with a hash so the picker auto-re-opens on the new
+        // landing entry (sidesteps any internal back-button traps).
+        function _returnToV3Picker() {
+          window.location.href = '/landing-v3.html#learn=articles';
         }
 
         // Passage Audio Logic
@@ -4492,7 +4497,7 @@
     if (window.parent !== window) {
       window.parent.postMessage({ action: 'returnToLanding', openModal: 'articles' }, '*');
     } else {
-      window.location.href = 'landing-v3.html';
+      window.location.href = '/landing-v3.html#learn=articles';
     }
   }
 

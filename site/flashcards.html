@@ -1459,9 +1459,9 @@
           hideLeaveWarningModal();
           if (window.parent !== window) {
             window.parent.postMessage({ action: 'returnToLanding', openModal: 'flashcards' }, '*');
-          } else {
-            window.location.href = 'landing-v3.html';
+            return;
           }
+          window.location.href = '/landing-v3.html#learn=flashcards';
         });
       }
 
@@ -1472,12 +1472,14 @@
           return;
         }
         window.__okToLeave = true;
-        // Use postMessage if in iframe, else direct navigation
         if (window.parent !== window) {
           window.parent.postMessage({ action: 'returnToLanding', openModal: 'flashcards' }, '*');
-        } else {
-          window.location.href = 'landing-v3.html';
+          return;
         }
+        // Push v3 with a hash so the picker auto-re-opens on the new
+        // landing entry. Using a hash (instead of history.back) sidesteps
+        // the back-button trap's dummy history entries.
+        window.location.href = '/landing-v3.html#learn=flashcards';
       }
       // Make goBack available globally
       window.goBack = goBack;
