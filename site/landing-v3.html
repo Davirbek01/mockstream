@@ -4243,6 +4243,27 @@
       font-size: 11px;
       font-weight: 700;
     }
+    /* User request 2026-05-21: CEFR Writing cards carry more text than
+       speaking pickers (T1.1/T1.2 topics, chips, exam-date, part labels)
+       which made them feel bulky. Scoped font + padding shrink — affects
+       cwet only, speaking pickers and landing.html stay as-is. */
+    #cwetPicker .ilet-card {
+      padding: 14px 14px 12px;
+      min-height: 0;
+      gap: 8px;
+    }
+    #cwetPicker .ilet-mock-title { font-size: 14.5px; line-height: 1.25; }
+    #cwetPicker .ilet-section { font-size: 12px; }
+    #cwetPicker .ilet-section-num { width: 26px; height: 18px; font-size: 9.5px; border-radius: 5px; }
+    #cwetPicker .ilet-section-title { font-size: 12px; }
+    #cwetPicker .ilet-section-badge { font-size: 9.5px; padding: 2px 6px; }
+    #cwetPicker .cwet-part-label { font-size: 9.5px; padding: 1px 7px; }
+    #cwetPicker .cwet-pill { font-size: 10px; padding: 1px 7px; }
+    #cwetPicker .cwet-exam-date { font-size: 10px; padding: 1px 7px; }
+    #cwetPicker .ilet-mocknum { font-size: 11.5px; padding: 3px 9px; }
+    #cwetPicker .ilet-take { padding: 7px 14px; font-size: 12.5px; }
+    #cwetPicker .cwet-share { padding: 5px 8px; font-size: 13px; }
+    #cwetPicker .ilet-card-foot { gap: 8px; }
   </style>
 
   <!-- CEFR Speaking fullscreen picker — DOM only. JS in the script
