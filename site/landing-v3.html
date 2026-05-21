@@ -3513,17 +3513,18 @@
       // CEFR Full Mock — generate random L/R/W/S mock numbers (mirrors
       // landing.html startFullMock at line 15633). Runner page
       // full-mock.html handles the name-gate + premium check internally.
-      // Absolute /path so /take/<slug> rewrites don't shadow it.
+      // Use href (push) not replace so browser-back from full-mock.html
+      // returns to v3, not whatever was earlier in history (which on
+      // legacy sessions was /landing.html?openFullMock=1 showing the
+      // old chooser modal).
       try {
         var L = (Math.floor(Math.random() * 14) + 1).toString().padStart(2, '0');
         var R = (Math.floor(Math.random() * 14) + 1).toString().padStart(2, '0');
         var W = (Math.floor(Math.random() * 99) + 1).toString().padStart(2, '0');
         var S = (Math.floor(Math.random() * 53) + 1).toString().padStart(2, '0');
-        var url = '/full-mock.html?L=' + L + '&R=' + R + '&W=' + W + '&S=' + S;
-        try { window.location.replace(url); } catch (_e) { window.location.href = url; }
+        window.location.href = '/full-mock.html?L=' + L + '&R=' + R + '&W=' + W + '&S=' + S;
       } catch (_e) {
-        // Fall back to legacy handoff so a JS failure doesn't strand the user.
-        window.location.href = '/landing.html?openFullMock=1';
+        window.location.href = '/landing-v3.html';
       }
     });
 
@@ -3554,9 +3555,9 @@
     });
     document.getElementById('msv3IeltsFullMock').addEventListener('click', function () {
       // IELTS Full Mock — direct navigation (runner page picks its own
-      // mocks internally; no random selection needed at v3 level).
-      try { window.location.replace('/ielts-full-mock.html'); }
-      catch (_e) { window.location.href = '/ielts-full-mock.html'; }
+      // mocks internally; no random selection needed at v3 level). Use
+      // href (push) so browser-back returns to v3.
+      window.location.href = '/ielts-full-mock.html';
     });
 
     // Main landing Full Mock card — same handlers as the sidebar buttons.
@@ -3566,15 +3567,13 @@
         var R = (Math.floor(Math.random() * 14) + 1).toString().padStart(2, '0');
         var W = (Math.floor(Math.random() * 99) + 1).toString().padStart(2, '0');
         var S = (Math.floor(Math.random() * 53) + 1).toString().padStart(2, '0');
-        var url = '/full-mock.html?L=' + L + '&R=' + R + '&W=' + W + '&S=' + S;
-        try { window.location.replace(url); } catch (_e) { window.location.href = url; }
+        window.location.href = '/full-mock.html?L=' + L + '&R=' + R + '&W=' + W + '&S=' + S;
       } catch (_e) {
-        window.location.href = '/landing.html?openFullMock=1';
+        window.location.href = '/landing-v3.html';
       }
     }
     function _msv3LaunchIeltsFullMock() {
-      try { window.location.replace('/ielts-full-mock.html'); }
-      catch (_e) { window.location.href = '/ielts-full-mock.html'; }
+      window.location.href = '/ielts-full-mock.html';
     }
     var _mainCefrFM = document.getElementById('msv3MainCefrFullMock');
     if (_mainCefrFM) _mainCefrFM.addEventListener('click', _msv3LaunchCefrFullMock);
