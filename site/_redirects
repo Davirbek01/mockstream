@@ -1,8 +1,15 @@
 # Netlify rewrites — keep URL clean while routing to the entry HTML.
 # 200 = internal rewrite (URL bar unchanged); a 301/302 would visibly redirect.
 
-# Deep-link "take" URLs: /take/cefr-reading-45  →  /landing.html?take=cefr-reading-45
+# Deep-link "take" URLs: /take/cefr-reading-45  →  /landing-v3.html?take=cefr-reading-45
 # Shared in Telegram channels so followers land directly on the access-code
 # modal for that specific mock instead of navigating through the welcome
 # page + skill picker + scroll-to-mock flow.
-/take/* /landing.html?take=:splat 200
+#
+# As of 2026-05-21: target flipped from landing.html to landing-v3.html.
+# v3 has its own _processDeepLinkTakeV3 (commit 6809b1b) that runs through
+# the inline pickers + handle*MockClick handlers. Avoids landing.html's
+# loadMock iframe path which had a return-to-v3 quirk that bounced users
+# back to /landing-v3.html instead of opening the speaking mock on first
+# code submit.
+/take/* /landing-v3.html?take=:splat 200
