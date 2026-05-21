@@ -11913,6 +11913,128 @@
     window._ieltsListeningModePartBased = _ieltsListeningModePartBased;
     window.closeIeltsListeningPartPicker = closeIeltsListeningPartPicker;
     window._pickIeltsListeningPart       = _pickIeltsListeningPart;
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // DEEP-LINK: /take/<slug> resolver — Phase 6-1
+    // Ported from landing.html (_processDeepLinkTake) so v3 can resolve
+    // /take/cefr-reading-45 etc. directly. Netlify rewrite still maps
+    // /take/* → /landing.html?take=:splat for now (see site/_redirects);
+    // once this baked on dev we flip the rewrite to landing-v3.html.
+    // Until then this only fires when v3 is loaded with a /take/ pathname
+    // (manual address-bar entry) or ?take= query param.
+    // ═══════════════════════════════════════════════════════════════════════
+    async function _processDeepLinkTakeV3() {
+      try {
+        var takeParam = null;
+        var pathMatch = window.location.pathname.match(/^\/take\/([^\/?#]+)/i);
+        if (pathMatch) {
+          takeParam = decodeURIComponent(pathMatch[1]);
+        } else {
+          var params = new URLSearchParams(window.location.search);
+          takeParam = params.get('take');
+        }
+        if (!takeParam) return;
+        // Match the same slugs landing.html accepts.
+        var m = takeParam.match(/^(cefr|ielts)-(reading|listening)-(\d+)$/i)
+             || takeParam.match(/^(cefr)-(speaking)-(\d+)$/i)
+             || takeParam.match(/^(ielts|cefr)-(writing)-(\d+)$/i);
+        if (!m) {
+          console.warn('[deep-link v3] Unrecognised slug:', takeParam);
+          return;
+        }
+        var exam     = m[1].toLowerCase();
+        var skill    = m[2].toLowerCase();
+        var mockNum  = parseInt(m[3], 10);
+        var mockType = exam + '-' + skill;
+        var category = mockType;
+
+        var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+        var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+        var lookupUrl = SB_URL + '/rest/v1/mock_tests'
+          + '?mock_type=eq.' + encodeURIComponent(mockType)
+          + '&mock_number=eq.' + encodeURIComponent(String(mockNum))
+          + '&status=eq.published'
+          + '&select=id&limit=1';
+        var resp = await fetch(lookupUrl, {
+          headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY }
+        });
+        if (!resp.ok) {
+          console.warn('[deep-link v3] Supabase lookup failed:', resp.status);
+          alert('Could not load that mock — please open the regular mock list and pick it manually.');
+          return;
+        }
+        var rows = await resp.json();
+        var sbMockId = (rows && rows.length) ? rows[0].id : null;
+
+        if (skill === 'speaking') {
+          if (!sbMockId) {
+            alert('CEFR Speaking Mock ' + mockNum + ' is not available right now.');
+            return;
+          }
+          var pageUrlSpk = 'Speaking Mocks.html?sbmock=' + encodeURIComponent(sbMockId)
+                         + '&num=' + encodeURIComponent(String(mockNum).padStart(2, '0'))
+                         + '&auto=1&action=practice';
+          if (typeof handleSpeakingMockClick === 'function') {
+            handleSpeakingMockClick(pageUrlSpk, category);
+          } else {
+            try { window.location.replace(pageUrlSpk); } catch (_e) { window.location.href = pageUrlSpk; }
+          }
+          return;
+        }
+
+        if (!sbMockId) {
+          alert((exam.toUpperCase() + ' ' + skill[0].toUpperCase() + skill.slice(1)) + ' Mock ' + mockNum + ' is not available right now.');
+          return;
+        }
+
+        if (skill === 'writing') {
+          var padded = String(mockNum).padStart(2, '0');
+          var runnerWriting = (exam === 'cefr') ? 'Writing Mocks.html' : 'Writing IELTS Mock.html';
+          var pageUrlW = runnerWriting
+            + '?test=' + exam + '-writing-mock-' + padded
+            + '&sbmock=' + encodeURIComponent(sbMockId)
+            + '&auto=1';
+          if (typeof handleWritingMockClick === 'function') {
+            handleWritingMockClick(pageUrlW, category);
+          } else {
+            try { window.location.replace(pageUrlW); } catch (_e) { window.location.href = pageUrlW; }
+          }
+          return;
+        }
+
+        var runnerFile;
+        if (skill === 'reading') {
+          runnerFile = (exam === 'cefr') ? 'CEFR Reading.html' : 'IELTS reading.html';
+        } else {
+          runnerFile = (exam === 'cefr') ? 'CEFR Listening.html' : 'IELTS listening.html';
+        }
+        var pageUrl = runnerFile + '?sbmock=' + encodeURIComponent(sbMockId) + '&mock=' + encodeURIComponent(mockNum);
+
+        if (skill === 'reading') {
+          if (typeof handleReadingMockClick === 'function') {
+            handleReadingMockClick(pageUrl, category);
+          } else {
+            try { window.location.replace(pageUrl); } catch (_e) { window.location.href = pageUrl; }
+          }
+        } else {
+          if (typeof handleListeningMockClick === 'function') {
+            handleListeningMockClick(pageUrl, category);
+          } else {
+            try { window.location.replace(pageUrl); } catch (_e) { window.location.href = pageUrl; }
+          }
+        }
+      } catch (err) {
+        console.warn('[deep-link v3] failed:', err);
+      }
+    }
+    window._processDeepLinkTakeV3 = _processDeepLinkTakeV3;
+    (function () {
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () { setTimeout(_processDeepLinkTakeV3, 50); });
+      } else {
+        setTimeout(_processDeepLinkTakeV3, 50);
+      }
+    })();
   </script>
 
   <!-- ═══════════════════════════════════════════════════════
