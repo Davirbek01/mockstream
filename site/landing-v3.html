@@ -65,19 +65,22 @@
           .then(function (rows) {
             var sbId = (rows && rows.length) ? rows[0].id : null;
             if (!sbId) { pending.urlReady = true; return null; }
+            // Absolute /paths so /take/<slug> doesn't prefix the runner
+            // URL with /take/ when window.location.replace resolves it.
+            // Same root cause as P6-5 script paths.
             var url;
             if (skill === 'speaking') {
-              url = 'Speaking Mocks.html?sbmock=' + encodeURIComponent(sbId)
+              url = '/Speaking Mocks.html?sbmock=' + encodeURIComponent(sbId)
                   + '&num=' + padded + '&auto=1&action=practice';
             } else if (skill === 'writing') {
-              var rW = (exam === 'cefr') ? 'Writing Mocks.html' : 'Writing IELTS Mock.html';
+              var rW = (exam === 'cefr') ? '/Writing Mocks.html' : '/Writing IELTS Mock.html';
               url = rW + '?test=' + exam + '-writing-mock-' + padded
                   + '&sbmock=' + encodeURIComponent(sbId) + '&auto=1';
             } else if (skill === 'reading') {
-              var rR = (exam === 'cefr') ? 'CEFR Reading.html' : 'IELTS reading.html';
+              var rR = (exam === 'cefr') ? '/CEFR Reading.html' : '/IELTS reading.html';
               url = rR + '?sbmock=' + encodeURIComponent(sbId) + '&mock=' + mockNum;
             } else {
-              var rL = (exam === 'cefr') ? 'CEFR Listening.html' : 'IELTS listening.html';
+              var rL = (exam === 'cefr') ? '/CEFR Listening.html' : '/IELTS listening.html';
               url = rL + '?sbmock=' + encodeURIComponent(sbId) + '&mock=' + mockNum;
             }
             pending.pageUrl = url;
@@ -3488,7 +3491,21 @@
       window.location.href = '/landing.html?openSelector=cefr-reading';
     });
     document.getElementById('msv3CefrFullMock').addEventListener('click', function () {
-      window.location.href = '/landing.html?openFullMock=1';
+      // CEFR Full Mock — generate random L/R/W/S mock numbers (mirrors
+      // landing.html startFullMock at line 15633). Runner page
+      // full-mock.html handles the name-gate + premium check internally.
+      // Absolute /path so /take/<slug> rewrites don't shadow it.
+      try {
+        var L = (Math.floor(Math.random() * 14) + 1).toString().padStart(2, '0');
+        var R = (Math.floor(Math.random() * 14) + 1).toString().padStart(2, '0');
+        var W = (Math.floor(Math.random() * 99) + 1).toString().padStart(2, '0');
+        var S = (Math.floor(Math.random() * 53) + 1).toString().padStart(2, '0');
+        var url = '/full-mock.html?L=' + L + '&R=' + R + '&W=' + W + '&S=' + S;
+        try { window.location.replace(url); } catch (_e) { window.location.href = url; }
+      } catch (_e) {
+        // Fall back to legacy handoff so a JS failure doesn't strand the user.
+        window.location.href = '/landing.html?openFullMock=1';
+      }
     });
 
     document.getElementById('msv3IeltsSpeaking').addEventListener('click', function () {
@@ -3517,7 +3534,10 @@
       window.location.href = '/landing.html?openSelector=ielts-reading';
     });
     document.getElementById('msv3IeltsFullMock').addEventListener('click', function () {
-      window.location.href = '/landing.html?openIeltsFullMock=1';
+      // IELTS Full Mock — direct navigation (runner page picks its own
+      // mocks internally; no random selection needed at v3 level).
+      try { window.location.replace('/ielts-full-mock.html'); }
+      catch (_e) { window.location.href = '/ielts-full-mock.html'; }
     });
 
     // Help Center + Terms panels — inline overlays, no navigation.
@@ -12096,7 +12116,9 @@
             alert('CEFR Speaking Mock ' + mockNum + ' is not available right now.');
             return;
           }
-          var pageUrlSpk = 'Speaking Mocks.html?sbmock=' + encodeURIComponent(sbMockId)
+          // Absolute /paths so the runner URL doesn't get /take/ prefix
+          // when window.location.replace resolves it from /take/<slug>.
+          var pageUrlSpk = '/Speaking Mocks.html?sbmock=' + encodeURIComponent(sbMockId)
                          + '&num=' + encodeURIComponent(String(mockNum).padStart(2, '0'))
                          + '&auto=1&action=practice';
           if (typeof handleSpeakingMockClick === 'function') {
@@ -12114,7 +12136,7 @@
 
         if (skill === 'writing') {
           var padded = String(mockNum).padStart(2, '0');
-          var runnerWriting = (exam === 'cefr') ? 'Writing Mocks.html' : 'Writing IELTS Mock.html';
+          var runnerWriting = (exam === 'cefr') ? '/Writing Mocks.html' : '/Writing IELTS Mock.html';
           var pageUrlW = runnerWriting
             + '?test=' + exam + '-writing-mock-' + padded
             + '&sbmock=' + encodeURIComponent(sbMockId)
@@ -12129,9 +12151,9 @@
 
         var runnerFile;
         if (skill === 'reading') {
-          runnerFile = (exam === 'cefr') ? 'CEFR Reading.html' : 'IELTS reading.html';
+          runnerFile = (exam === 'cefr') ? '/CEFR Reading.html' : '/IELTS reading.html';
         } else {
-          runnerFile = (exam === 'cefr') ? 'CEFR Listening.html' : 'IELTS listening.html';
+          runnerFile = (exam === 'cefr') ? '/CEFR Listening.html' : '/IELTS listening.html';
         }
         var pageUrl = runnerFile + '?sbmock=' + encodeURIComponent(sbMockId) + '&mock=' + encodeURIComponent(mockNum);
 
