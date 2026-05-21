@@ -2320,6 +2320,9 @@
       if (slug === 'cefr-reading' && typeof window.cretOpen === 'function') {
         try { cretOpen(); return; } catch (_e) {}
       }
+      if (slug === 'ielts-reading' && typeof window.iretOpen === 'function') {
+        try { iretOpen(); return; } catch (_e) {}
+      }
       window.location.href = '/landing.html?openSelector=' + encodeURIComponent(slug);
     }
     // Mirrors the matchers in landing.html's _processDeepLinkTake so we
@@ -3389,6 +3392,9 @@
       window.location.href = '/landing.html?openSelector=ielts-listening';
     });
     document.getElementById('msv3IeltsReading').addEventListener('click', function () {
+      if (typeof window.iretOpen === 'function') {
+        try { requestSidebarClose(); iretOpen(); return; } catch (_e) {}
+      }
       window.location.href = '/landing.html?openSelector=ielts-reading';
     });
     document.getElementById('msv3IeltsFullMock').addEventListener('click', function () {
@@ -4691,6 +4697,290 @@
       .cret-chip { padding: 3px 7px; font-size: 10px; font-weight: 700; }
       .cret-source-filter { flex: 1 1 100%; margin-left: 0; padding: 4px 8px; font-size: 11px; }
     }
+
+    /* ===== IELTS Reading picker (iretPicker) — orange theme ===== */
+    .iret-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100003;
+      background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%);
+      overflow-y: auto;
+      flex-direction: column;
+    }
+    .iret-overlay.iret-open { display: flex; }
+    .iret-header {
+      position: sticky; top: 0; z-index: 5;
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 24px;
+      background: rgba(255, 247, 237, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #fed7aa;
+    }
+    .iret-back {
+      flex-shrink: 0;
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      border: none;
+      background: #fff;
+      color: #c2410c;
+      font-size: 20px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(194,65,12,.15);
+      transition: all .15s;
+    }
+    .iret-back:hover { background: #c2410c; color: #fff; transform: translateX(-2px); }
+    .iret-title {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 18px; font-weight: 700; color: #7c2d12;
+      flex-shrink: 0;
+    }
+    .iret-title-emoji { font-size: 22px; }
+    .iret-count {
+      background: linear-gradient(135deg,#f97316,#ea580c);
+      color: #fff; font-size: 12px; font-weight: 700;
+      padding: 3px 10px; border-radius: 999px;
+      min-width: 28px; text-align: center;
+    }
+    .iret-header-tools {
+      flex: 1;
+      display: flex; gap: 10px; justify-content: flex-end;
+    }
+    .iret-search {
+      flex: 1; max-width: 360px;
+      padding: 9px 14px;
+      border: 1.5px solid #fed7aa;
+      border-radius: 10px;
+      font-size: 13.5px;
+      background: #fff;
+      outline: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .iret-search:focus { border-color: #f97316; box-shadow: 0 0 0 3px rgba(249,115,22,.15); }
+    .iret-sort {
+      padding: 9px 12px;
+      border: 1.5px solid #fed7aa;
+      border-radius: 10px;
+      font-size: 13px;
+      background: #fff;
+      cursor: pointer;
+      outline: none;
+    }
+    .iret-filter-row {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      padding: 14px 24px 0;
+    }
+    .iret-chip {
+      padding: 7px 14px;
+      border: 1.5px solid #fed7aa;
+      border-radius: 999px;
+      background: #fff;
+      color: #9a3412;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .iret-chip:hover { border-color: #f97316; }
+    .iret-chip-active {
+      background: linear-gradient(135deg,#f97316,#ea580c);
+      color: #fff;
+      border-color: #ea580c;
+    }
+    .iret-source-filter {
+      padding: 7px 12px;
+      border: 1.5px solid #fed7aa;
+      border-radius: 999px;
+      background: #fff;
+      color: #9a3412;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+      margin-left: auto;
+    }
+    .iret-source-filter:hover { border-color: #f97316; }
+    .iret-source-filter:focus { box-shadow: 0 0 0 3px rgba(249,115,22,.15); }
+    .iret-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      padding: 18px 24px 40px;
+      flex: 1;
+    }
+    @media (max-width: 1279px) { .iret-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 1023px) { .iret-grid { grid-template-columns: 1fr; padding: 14px 16px 30px; } }
+    .iret-card {
+      background: #fff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px;
+      display: flex; flex-direction: column; gap: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.04);
+      transition: transform .15s, box-shadow .15s, border-color .15s;
+      min-height: 260px;
+    }
+    .iret-card:hover:not(.iret-card-disabled) {
+      transform: translateY(-2px) scale(1.005);
+      box-shadow: 0 8px 24px rgba(249,115,22,.12);
+      border-color: #fed7aa;
+    }
+    .iret-card-disabled { opacity: .6; }
+    .iret-card-head {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      flex-wrap: wrap;
+    }
+    .iret-mocknum {
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: #fff;
+      font-size: 12.5px;
+      font-weight: 800;
+      letter-spacing: .3px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(249,115,22,.3);
+      font-variant-numeric: tabular-nums;
+    }
+    .iret-status { display: flex; align-items: center; gap: 8px; }
+    .iret-card-jumped { animation: iret-jump-pulse 1.2s ease-out; }
+    @keyframes iret-jump-pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(249,115,22,.5); border-color: #f97316; }
+      100% { box-shadow: 0 0 0 12px rgba(249,115,22,0); border-color: #e2e8f0; }
+    }
+    .iret-dots { display: flex; gap: 4px; }
+    .iret-dot { width: 9px; height: 9px; border-radius: 50%; background: #e2e8f0; }
+    .iret-dot-ready { background: #10b981; }
+    .iret-dot-soon { background: #fbbf24; }
+    .iret-status-label {
+      font-size: 10.5px; font-weight: 700; letter-spacing: .5px; color: #64748b;
+    }
+    .iret-source {
+      font-size: 11px; font-weight: 600;
+      color: #475569;
+      background: #f1f5f9;
+      padding: 4px 10px;
+      border-radius: 999px;
+      letter-spacing: .2px;
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 50%;
+    }
+    .iret-mock-title { font-size: 16px; font-weight: 700; color: #1e293b; margin: 0; line-height: 1.3; }
+    .iret-passages { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+    .iret-passage { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #334155; }
+    .iret-passage-num {
+      flex-shrink: 0;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      color: #64748b;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .iret-passage-title { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .iret-passage-badge {
+      flex-shrink: 0;
+      font-size: 10.5px; font-weight: 700;
+      padding: 3px 8px; border-radius: 6px; letter-spacing: .2px;
+    }
+    .iret-badge-ready { background: #d1fae5; color: #065f46; }
+    .iret-badge-soon  { background: #fef3c7; color: #92400e; }
+    .iret-card-foot {
+      margin-top: auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    }
+    .iret-done {
+      font-size: 11.5px; font-weight: 700;
+      color: #6d28d9;
+      background: #ede9fe;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+    .iret-take {
+      margin-left: auto;
+      padding: 9px 18px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+      font-size: 13.5px; font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(16,185,129,.3);
+      transition: all .15s;
+    }
+    .iret-take:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(16,185,129,.4); }
+    .iret-coming-soon {
+      margin-left: auto;
+      font-size: 12px; font-weight: 700;
+      color: #92400e;
+      background: #fef3c7;
+      padding: 7px 14px;
+      border-radius: 10px;
+    }
+    .iret-share {
+      background: transparent;
+      border: 1px solid #a7f3d0;
+      color: #047857;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 14px; line-height: 1;
+      cursor: pointer;
+      transition: background 120ms ease, border-color 120ms ease;
+      margin-right: 8px;
+      white-space: nowrap;
+    }
+    .iret-share:hover { background: #ecfdf5; border-color: #059669; }
+    .iret-share.iret-share-copied {
+      background: #dcfce7; border-color: #86efac; color: #15803d;
+      font-size: 11px; font-weight: 700;
+    }
+    .iret-card-skeleton {
+      background: #fff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px;
+      min-height: 260px;
+      position: relative;
+      overflow: hidden;
+    }
+    .iret-card-skeleton::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,247,237,.6), transparent);
+      animation: iret-shimmer 1.4s infinite;
+    }
+    @keyframes iret-shimmer { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+    .iret-skel-line { height: 12px; border-radius: 4px; background: #f1f5f9; margin-bottom: 10px; }
+    .iret-skel-line.tall { height: 18px; }
+    .iret-skel-line.short { width: 40%; }
+    .iret-empty { text-align: center; padding: 60px 20px; color: #64748b; }
+    .iret-empty-icon { font-size: 48px; opacity: .5; margin-bottom: 14px; }
+    .iret-empty-msg { font-size: 15px; margin-bottom: 18px; }
+    .iret-empty-clear {
+      padding: 10px 22px;
+      border: 1.5px solid #fed7aa;
+      border-radius: 10px;
+      background: #fff;
+      color: #9a3412;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .iret-empty-clear:hover { border-color: #f97316; background: #fff7ed; }
+    @media (max-width: 600px) {
+      .iret-header { flex-wrap: wrap; padding: 10px 14px; gap: 8px; }
+      .iret-header-tools { width: 100%; gap: 6px; }
+      .iret-search { max-width: none; padding: 7px 10px; font-size: 13px; }
+      .iret-sort { padding: 7px 10px; font-size: 12px; }
+      .iret-source { max-width: 40%; }
+      .iret-filter-row { gap: 4px; padding: 10px 8px 0; }
+      .iret-chip { padding: 3px 7px; font-size: 10px; font-weight: 700; }
+      .iret-source-filter { flex: 1 1 100%; margin-left: 0; padding: 4px 8px; font-size: 11px; }
+    }
   </style>
 
   <!-- CEFR Speaking fullscreen picker — DOM only. JS in the script
@@ -5046,6 +5336,106 @@
     </div>
   </div>
 
+  <!-- IELTS Reading fullscreen picker (iretPicker) — Phase 5b -->
+  <div id="iretPicker" class="iret-overlay" aria-hidden="true">
+    <header class="iret-header">
+      <button class="iret-back" type="button" onclick="if(typeof iretClose==='function')iretClose()" title="Back to landing">←</button>
+      <div class="iret-title">
+        <span class="iret-title-emoji">📖</span>
+        <span class="iret-title-text">IELTS Reading</span>
+        <span class="iret-count" id="iretCount">0</span>
+      </div>
+      <div class="iret-header-tools">
+        <input type="search" class="iret-search" id="iretSearch" placeholder="🔍 Search mock #, source, passage…" autocomplete="off" spellcheck="false">
+        <select class="iret-sort" id="iretJump" title="Jump to mock #">
+          <option value="">Jump to #…</option>
+        </select>
+      </div>
+    </header>
+    <div class="iret-filter-row">
+      <button type="button" class="iret-chip iret-chip-active" data-filter="all">All</button>
+      <button type="button" class="iret-chip" data-filter="ready">✓ Ready only</button>
+      <button type="button" class="iret-chip" data-filter="soon">⏳ Coming soon</button>
+      <button type="button" class="iret-chip" data-filter="done">★ Done before</button>
+      <select class="iret-source-filter" id="iretSourceFilter" title="Filter by source">
+        <option value="">📚 All sources</option>
+      </select>
+    </div>
+    <main class="iret-grid" id="iretGrid"></main>
+    <div class="iret-empty" id="iretEmpty" style="display:none;">
+      <div class="iret-empty-icon">🔍</div>
+      <p class="iret-empty-msg">No mocks match your filters.</p>
+      <button type="button" class="iret-empty-clear" onclick="if(typeof iretClearFilters==='function')iretClearFilters()">Clear filters</button>
+    </div>
+  </div>
+
+  <!-- IELTS Reading mode modal (Full Reading vs Passage Practice) — Phase 5b -->
+  <div id="ieltsReadingModeModal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:100005;align-items:center;justify-content:center;padding:20px;"
+    onclick="closeIeltsReadingModeModal()">
+    <div
+      style="background:var(--card);border:2px solid var(--brand);border-radius:24px;padding:32px 28px;max-width:480px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
+      onclick="event.stopPropagation()">
+      <div style="font-size:36px;margin-bottom:6px;">📖</div>
+      <h3 style="font-size:20px;color:var(--brand);margin-bottom:4px;">Choose Your Mode</h3>
+      <p id="ieltsReadingModeMockLabel" style="font-size:13px;color:var(--muted);margin-bottom:22px;">IELTS Reading Mock</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+        <button onclick="_ieltsReadingModeFullMock()"
+          style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#0369a1 0%,#0284c7 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(3,105,161,0.3);">
+          <div style="font-size:28px;margin-bottom:6px;">📖</div>
+          Full Reading Test
+          <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">All 3 passages • 60 min</div>
+        </button>
+        <button id="ieltsReadingPracticeBtn" onclick="_ieltsReadingModePassageBased()"
+          style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(124,58,237,0.3);">
+          <div style="font-size:28px;margin-bottom:6px;">🎯</div>
+          Passage Practice
+          <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">Pick one passage • ~20 min</div>
+        </button>
+      </div>
+      <button onclick="closeIeltsReadingModeModal()"
+        style="margin-top:18px;padding:8px 24px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;">Cancel</button>
+    </div>
+  </div>
+
+  <!-- IELTS Reading Passage Picker Modal — Phase 5b -->
+  <div id="ieltsReadingPassagePickerModal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:100006;align-items:center;justify-content:center;padding:20px;"
+    onclick="closeIeltsReadingPassagePicker()">
+    <div
+      style="background:var(--card);border:2px solid #7c3aed;border-radius:24px;padding:32px 28px;max-width:380px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
+      onclick="event.stopPropagation()">
+      <div style="font-size:36px;margin-bottom:6px;">🎯</div>
+      <h3 style="font-size:20px;color:#7c3aed;margin-bottom:4px;">Select a Passage</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:20px;">Choose which passage you'd like to practice</p>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <button onclick="_pickIeltsReadingPassage(1)"
+          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
+          onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">1</span>
+          <div><div>Passage 1</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">~13 questions • ~20 min</div></div>
+        </button>
+        <button onclick="_pickIeltsReadingPassage(2)"
+          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
+          onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">2</span>
+          <div><div>Passage 2</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">~14 questions • ~20 min</div></div>
+        </button>
+        <button onclick="_pickIeltsReadingPassage(3)"
+          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
+          onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">3</span>
+          <div><div>Passage 3</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">~13 questions • ~20 min</div></div>
+        </button>
+      </div>
+      <button onclick="closeIeltsReadingPassagePicker()"
+        style="margin-top:18px;padding:8px 24px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;">Back</button>
+    </div>
+  </div>
+
   <!-- ═══════════════════════════════════════════════════════
        Phase 5a — CEFR Reading launch modals.
        Mode picker (Full Reading Test vs Part Practice) + Part picker
@@ -5174,6 +5564,11 @@
       var cret = document.getElementById('cretPicker');
       if (cret && cret.classList.contains('cret-open')) {
         if (typeof cretClose === 'function') cretClose();
+        return;
+      }
+      var iret = document.getElementById('iretPicker');
+      if (iret && iret.classList.contains('iret-open')) {
+        if (typeof iretClose === 'function') iretClose();
       }
     }
     function _pickerShowTmaBack() {
@@ -5322,6 +5717,13 @@
         if (cret && cret.classList.contains('cret-open')) {
           _pickerFromPopstate = true;
           if (typeof cretClose === 'function') cretClose();
+          _pickerFromPopstate = false;
+          return;
+        }
+        var iret = document.getElementById('iretPicker');
+        if (iret && iret.classList.contains('iret-open')) {
+          _pickerFromPopstate = true;
+          if (typeof iretClose === 'function') iretClose();
           _pickerFromPopstate = false;
         }
       } catch (_e) {}
@@ -8681,8 +9083,14 @@
         if (label) label.textContent = 'CEFR Reading Mock ' + mockNum;
         var modal = document.getElementById('cefrReadingModeModal');
         if (modal) modal.style.display = 'flex';
+      } else if (category === 'ielts-reading') {
+        _pendingIeltsReadingUrl = pageUrl;
+        var mockNum = _extractReadingMockNumber(pageUrl) || '??';
+        var label = document.getElementById('ieltsReadingModeMockLabel');
+        if (label) label.textContent = 'IELTS Reading Mock ' + mockNum;
+        var modal = document.getElementById('ieltsReadingModeModal');
+        if (modal) modal.style.display = 'flex';
       } else {
-        // ielts-reading lands in next session — direct nav for now.
         try { window.location.replace(pageUrl); } catch (_e) { window.location.href = pageUrl; }
       }
     }
@@ -8728,6 +9136,597 @@
     window._cefrReadingModePartBased = _cefrReadingModePartBased;
     window.closeCefrReadingPartPicker = closeCefrReadingPartPicker;
     window._pickCefrReadingPart       = _pickCefrReadingPart;
+
+    // ===== IELTS Reading picker (iretPicker) — Phase 5b =====
+    // 50 mocks, all Supabase-backed via ?sbmock=<id>.
+    const ieltsReadingTests = [
+      { file: 'IELTS reading.html?sbmock=4',   name: '🧪 IELTS Reading Practice Test 01 (Supabase pilot)', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=294', name: 'IELTS Reading Practice Test 02', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=295', name: 'IELTS Reading Practice Test 03', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=296', name: 'IELTS Reading Practice Test 04', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=297', name: 'IELTS Reading Practice Test 05', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=298', name: 'IELTS Reading Practice Test 06', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=299', name: 'IELTS Reading Practice Test 07', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=300', name: 'IELTS Reading Practice Test 08', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=301', name: 'IELTS Reading Practice Test 09', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=302', name: 'IELTS Reading Practice Test 10', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=303', name: 'IELTS Reading Practice Test 11', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=304', name: 'IELTS Reading Practice Test 12', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=305', name: 'IELTS Reading Practice Test 13', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=306', name: 'IELTS Reading Practice Test 14', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=307', name: 'IELTS Reading Practice Test 15', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=308', name: 'IELTS Reading Practice Test 16', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=309', name: 'IELTS Reading Practice Test 17', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=310', name: 'IELTS Reading Practice Test 18', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=311', name: 'IELTS Reading Practice Test 19', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=312', name: 'IELTS Reading Practice Test 20', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=313', name: 'IELTS Reading Practice Test 21', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=314', name: 'IELTS Reading Practice Test 22', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=315', name: 'IELTS Reading Practice Test 23', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=316', name: 'IELTS Reading Practice Test 24', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=317', name: 'IELTS Reading Practice Test 25', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=318', name: 'IELTS Reading Practice Test 26', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=319', name: 'IELTS Reading Practice Test 27', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=320', name: 'IELTS Reading Practice Test 28', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=321', name: 'IELTS Reading Practice Test 29', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=322', name: 'IELTS Reading Practice Test 30', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=323', name: 'IELTS Reading Practice Test 31', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=324', name: 'IELTS Reading Practice Test 32', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=325', name: 'IELTS Reading Practice Test 33', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=326', name: 'IELTS Reading Practice Test 34', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=327', name: 'IELTS Reading Practice Test 35', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=328', name: 'IELTS Reading Practice Test 36', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=329', name: 'IELTS Reading Practice Test 37', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=330', name: 'IELTS Reading Practice Test 38', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=331', name: 'IELTS Reading Practice Test 39', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?sbmock=332', name: 'IELTS Reading Practice Test 40', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?sbmock=333', name: 'IELTS Reading Practice Test 41', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?sbmock=334', name: 'IELTS Reading Practice Test 42', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?sbmock=335', name: 'IELTS Reading Practice Test 43', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?sbmock=336', name: 'IELTS Reading Practice Test 44', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?sbmock=337', name: 'IELTS Reading Practice Test 45', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?sbmock=338', name: 'IELTS Reading Practice Test 46', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?sbmock=339', name: 'IELTS Reading Practice Test 47', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?sbmock=340', name: 'IELTS Reading Practice Test 48', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?sbmock=341', name: 'IELTS Reading Practice Test 49', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?sbmock=342', name: 'IELTS Reading Practice Test 50', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' }
+    ];
+    window.ieltsReadingTests = ieltsReadingTests;
+
+    const _IRET_CACHE_KEY = 'ms_iret_meta_v3';
+    const _IRET_CACHE_TTL = 24 * 60 * 60 * 1000;
+    const _IRET_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    const _IRET_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    const _iretMockMeta = {};
+    let _iretServerDone = {};
+    let _iretStatsByMock  = {};
+    let _iretBadgesByMock = {};
+    let _iretCreatedAt    = {};
+    let _iretFilter = 'all';
+    let _iretSourceFilter = '';
+
+    function _iretEsc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    function _iretBuildMetaFromMockData(md) {
+      const passages = (md && Array.isArray(md.passages) ? md.passages : []).map(p => {
+        const html = typeof p.passage === 'string'
+          ? p.passage
+          : (p.passage && p.passage.content) || '';
+        const hasHtml = !!(html && String(html).trim());
+        const hasAnswers = p.correctAnswers && Object.keys(p.correctAnswers).length > 0;
+        return {
+          title: p.shortName || p.title || 'Untitled',
+          ready: !!(hasHtml && hasAnswers)
+        };
+      });
+      while (passages.length < 3) passages.push({ title: '—', ready: false });
+      return {
+        source:   (md && md.source) || '',
+        examDate: (md && md.examDate) || '',
+        passages: passages.slice(0, 3)
+      };
+    }
+
+    async function _iretLoadStaticMockMeta(filename) {
+      try {
+        const resp = await fetch('questions IELTS R/' + filename);
+        if (!resp.ok) return null;
+        const code = await resp.text();
+        const sandbox = { IELTS_READING_TEST: null };
+        try { new Function('window', code + '\n;return window;')(sandbox); }
+        catch (_e) { return null; }
+        return sandbox.IELTS_READING_TEST ? _iretBuildMetaFromMockData(sandbox.IELTS_READING_TEST) : null;
+      } catch (_e) { return null; }
+    }
+
+    async function _iretLoadSupabaseMockMeta(id) {
+      try {
+        const r = await fetch(
+          _IRET_SB_URL + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(id) + '&select=mock_data,created_at',
+          { headers: { apikey: _IRET_SB_KEY, Authorization: 'Bearer ' + _IRET_SB_KEY } }
+        );
+        if (!r.ok) return null;
+        const rows = await r.json();
+        if (!rows || !rows.length) return null;
+        const meta = _iretBuildMetaFromMockData(rows[0].mock_data || {});
+        if (meta) meta.createdAt = rows[0].created_at;
+        return meta;
+      } catch (_e) { return null; }
+    }
+
+    async function _iretLoadStats() {
+      _iretStatsByMock = {};
+      try {
+        const resp = await fetch(_IRET_SB_URL + '/rest/v1/rpc/mock_attempt_stats', {
+          method: 'POST',
+          headers: { apikey: _IRET_SB_KEY, Authorization: 'Bearer ' + _IRET_SB_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ p_skill: 'reading', p_exam_type: 'ielts' })
+        });
+        if (!resp.ok) return;
+        const rows = await resp.json();
+        for (const r of rows) {
+          if (r.mock_number == null) continue;
+          const padded = String(r.mock_number).padStart(2, '0');
+          _iretStatsByMock[padded] = {
+            total: Number(r.total) || 0,
+            today: Number(r.today) || 0,
+            last7: Number(r.last7) || 0
+          };
+        }
+      } catch (_e) {}
+    }
+
+    function _iretComputeBadges() {
+      _iretBadgesByMock = {};
+      const keys = Object.keys(_iretMockMeta);
+      const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      const trending = keys
+        .filter(k => (_iretStatsByMock[k]?.last7 || 0) > 0)
+        .sort((a, b) => (_iretStatsByMock[b]?.last7 || 0) - (_iretStatsByMock[a]?.last7 || 0))
+        .slice(0, 3);
+      const trendingSet = new Set(trending);
+      const newSet = new Set(keys.filter(k => {
+        const t = (_iretMockMeta[k] && _iretMockMeta[k].createdAt) || _iretCreatedAt[k];
+        return t && new Date(t).getTime() >= sevenDaysAgo;
+      }).sort((a, b) => {
+        const ta = new Date((_iretMockMeta[a] && _iretMockMeta[a].createdAt) || _iretCreatedAt[a]).getTime();
+        const tb = new Date((_iretMockMeta[b] && _iretMockMeta[b].createdAt) || _iretCreatedAt[b]).getTime();
+        return tb - ta;
+      }).slice(0, 3));
+      const popularSet = new Set(keys
+        .filter(k => !trendingSet.has(k) && !newSet.has(k) && (_iretStatsByMock[k]?.total || 0) > 0)
+        .sort((a, b) => (_iretStatsByMock[b]?.total || 0) - (_iretStatsByMock[a]?.total || 0))
+        .slice(0, 5));
+      const gemSet = new Set(keys.filter(k => {
+        if (trendingSet.has(k) || newSet.has(k) || popularSet.has(k)) return false;
+        const s = _iretStatsByMock[k] || { total: 0 };
+        return s.total >= 1 && s.total <= 3;
+      })
+        .sort((a, b) => (_iretStatsByMock[a]?.total || 0) - (_iretStatsByMock[b]?.total || 0))
+        .slice(0, 5));
+      for (const k of keys) {
+        if (trendingSet.has(k))     _iretBadgesByMock[k] = 'trending';
+        else if (newSet.has(k))     _iretBadgesByMock[k] = 'new';
+        else if (popularSet.has(k)) _iretBadgesByMock[k] = 'popular';
+        else if (gemSet.has(k))     _iretBadgesByMock[k] = 'gem';
+        else                         _iretBadgesByMock[k] = null;
+      }
+    }
+
+    function _iretParseFileSpec(fileSpec) {
+      const sbMatch = String(fileSpec || '').match(/sbmock=([^&]+)/);
+      if (sbMatch) return { kind: 'sb', id: sbMatch[1] };
+      const stMatch = String(fileSpec || '').match(/test=([^&]+)/);
+      if (stMatch) return { kind: 'static', filename: stMatch[1] };
+      return { kind: 'unknown' };
+    }
+
+    async function _iretLoadAllMockMeta() {
+      let cachedData = {};
+      try {
+        const cached = JSON.parse(localStorage.getItem(_IRET_CACHE_KEY) || 'null');
+        if (cached && cached.ts && (Date.now() - cached.ts) < _IRET_CACHE_TTL && cached.data) {
+          cachedData = cached.data;
+          Object.assign(_iretMockMeta, cachedData);
+        }
+      } catch (_e) {}
+      const items = (typeof ieltsReadingTests !== 'undefined' && Array.isArray(ieltsReadingTests))
+        ? ieltsReadingTests : [];
+      const missing = items
+        .map((t, idx) => ({ t, key: String(idx + 1).padStart(2, '0') }))
+        .filter(({ key }) => !cachedData[key]);
+      if (missing.length === 0) return;
+      await Promise.all(missing.map(async ({ t, key }) => {
+        const spec = _iretParseFileSpec(t && t.file);
+        let meta = null;
+        if (spec.kind === 'static') meta = await _iretLoadStaticMockMeta(spec.filename);
+        else if (spec.kind === 'sb') meta = await _iretLoadSupabaseMockMeta(spec.id);
+        if (meta) _iretMockMeta[key] = meta;
+      }));
+      try { localStorage.setItem(_IRET_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: _iretMockMeta })); } catch (_e) {}
+    }
+
+    function _iretGetDoneInfo(mockNum) {
+      try {
+        const raw = localStorage.getItem('mock-ielts-reading-done-' + mockNum);
+        if (raw) return JSON.parse(raw);
+      } catch (_e) {}
+      if (_iretServerDone[mockNum]) return { fromServer: true };
+      return null;
+    }
+
+    async function _iretFetchServerDone() {
+      try {
+        if (!window.PremiumGate || !window.PremiumGate._normName) return {};
+        const candidateName = sessionStorage.getItem('CANDIDATE_NAME') || '';
+        const name = window.PremiumGate._normName(candidateName);
+        if (!name) return {};
+        const url = _IRET_SB_URL + '/rest/v1/mock_attempts'
+          + '?candidate_name=eq.' + encodeURIComponent(name)
+          + '&skill=eq.reading&exam_type=eq.ielts&submitted_at=not.is.null&select=mock_number';
+        const r = await fetch(url, { headers: { apikey: _IRET_SB_KEY, Authorization: 'Bearer ' + _IRET_SB_KEY } });
+        if (!r.ok) return {};
+        const rows = await r.json();
+        const out = {};
+        (rows || []).forEach(row => { out[String(row.mock_number).padStart(2, '0')] = true; });
+        return out;
+      } catch (_e) { return {}; }
+    }
+
+    function _iretSkeletonHtml() {
+      return '<div class="iret-card-skeleton">'
+        + '<div class="iret-skel-line short"></div>'
+        + '<div class="iret-skel-line tall"></div>'
+        + '<div class="iret-skel-line"></div>'
+        + '<div class="iret-skel-line"></div>'
+        + '<div class="iret-skel-line"></div>'
+        + '</div>';
+    }
+
+    function _iretCardHtml(mockNum, item, meta, doneInfo) {
+      const passages = meta.passages;
+      const readyCount = passages.filter(p => p.ready).length;
+      const total = passages.length;
+      const noneReady = readyCount === 0;
+      const dots = passages.map(p =>
+        '<span class="iret-dot ' + (p.ready ? 'iret-dot-ready' : 'iret-dot-soon') + '"></span>'
+      ).join('');
+      const sourceHtml = meta.source
+        ? '<div class="iret-source" title="' + _iretEsc(meta.source) + '">' + _iretEsc(meta.source) + '</div>'
+        : '';
+      const irExamLabel = (function fmtIret(iso) {
+        if (!iso) return '';
+        const s = String(iso).trim();
+        const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        let m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        if (m) return parseInt(m[3], 10) + ' ' + MON[parseInt(m[2], 10) - 1] + ' ' + m[1];
+        m = s.match(/^(\d{4})-(\d{2})$/);
+        if (m) return MON[parseInt(m[2], 10) - 1] + ' ' + m[1];
+        return s;
+      })(meta.examDate);
+      const irDateHtml = irExamLabel
+        ? '<span class="iret-exam-date" title="Exam date ' + _iretEsc(meta.examDate) + '" style="font-size:11px;background:#fef3c7;color:#92400e;border:1px solid #fde68a;border-radius:999px;padding:1px 8px;font-weight:600;white-space:nowrap;">📅 ' + _iretEsc(irExamLabel) + '</span>'
+        : '';
+      const passageRows = passages.map((p, i) =>
+        '<li class="iret-passage">'
+          + '<span class="iret-passage-num">' + (i + 1) + '</span>'
+          + '<span class="iret-passage-title">' + _iretEsc(p.title) + '</span>'
+          + '<span class="iret-passage-badge ' + (p.ready ? 'iret-badge-ready' : 'iret-badge-soon') + '">'
+          +   (p.ready ? '✓ Ready' : '⏳ Soon')
+          + '</span>'
+        + '</li>'
+      ).join('');
+      const doneHtml = doneInfo
+        ? (typeof doneInfo.percent === 'number'
+            ? '<span class="iret-done">★ Done · ' + doneInfo.percent + '%</span>'
+            : '<span class="iret-done">★ Done</span>')
+        : '';
+      const shareBtnHtml = noneReady
+        ? ''
+        : '<button type="button" class="iret-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
+      const actionHtml = noneReady
+        ? '<span class="iret-coming-soon">Coming soon</span>'
+        : (shareBtnHtml + '<button type="button" class="iret-take" data-mock="' + mockNum + '">Take Test →</button>');
+      const cleanTitle = String(item.name || '').replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]+\s*/u, '');
+      const irStats = _iretStatsByMock[String(mockNum)] || { total: 0, today: 0, last7: 0 };
+      const IR_LABELS = { trending: '🔥 Trending', new: '🆕 New', popular: '👑 Popular', gem: '💎 Hidden gem' };
+      const IR_COLORS = { trending: '#b45309', new: '#c2410c', popular: '#7c3aed', gem: '#15803d' };
+      const irBadgeKey = _iretBadgesByMock[String(mockNum)];
+      const irBadgeChip = irBadgeKey
+        ? '<span style="font-weight:700;color:' + IR_COLORS[irBadgeKey] + ';">' + IR_LABELS[irBadgeKey] + '</span>'
+        : '';
+      const irParts = [];
+      if (irBadgeChip) irParts.push(irBadgeChip);
+      irParts.push('<span>👥 ' + irStats.total + '</span>');
+      irParts.push('<span>⚡ ' + irStats.today + ' today</span>');
+      const statsRow = '<div class="iret-stat-row" style="display:flex;gap:8px;font-size:11.5px;color:#475569;margin:4px 0 8px;flex-wrap:wrap;align-items:center;">'
+                     + irParts.join('<span style="color:#cbd5e1;">·</span>')
+                     + '</div>';
+      return '<article class="iret-card ' + (noneReady ? 'iret-card-disabled' : '') + '"'
+        + ' id="iret-card-' + mockNum + '"'
+        + ' data-mock="' + mockNum + '"'
+        + ' data-file="' + _iretEsc(item.file) + '"'
+        + ' data-ready-count="' + readyCount + '"'
+        + ' data-total="' + total + '"'
+        + ' data-source="' + _iretEsc(String(meta.source || '').toLowerCase()) + '"'
+        + ' data-done="' + (doneHtml ? '1' : '0') + '"'
+        + ' data-title="' + _iretEsc(cleanTitle.toLowerCase()) + '"'
+        + ' data-passages="' + _iretEsc(passages.map(p => p.title).join(' ').toLowerCase()) + '">'
+          + '<div class="iret-card-head">'
+            + '<div class="iret-mocknum">#' + mockNum + '</div>'
+            + '<div class="iret-status">'
+              + '<span class="iret-dots">' + dots + '</span>'
+              + '<span class="iret-status-label">' + readyCount + '/' + total + ' READY</span>'
+            + '</div>'
+            + sourceHtml
+            + irDateHtml
+          + '</div>'
+          + '<h3 class="iret-mock-title">' + _iretEsc(cleanTitle) + '</h3>'
+          + statsRow
+          + '<ul class="iret-passages">' + passageRows + '</ul>'
+          + '<div class="iret-card-foot">' + doneHtml + actionHtml + '</div>'
+        + '</article>';
+    }
+
+    function _iretRenderSkeletons() {
+      const grid = document.getElementById('iretGrid');
+      const count = (typeof ieltsReadingTests !== 'undefined' && Array.isArray(ieltsReadingTests))
+        ? ieltsReadingTests.length : 12;
+      grid.innerHTML = Array.from({ length: count }, _iretSkeletonHtml).join('');
+      document.getElementById('iretCount').textContent = count;
+    }
+
+    function _iretRender() {
+      const grid = document.getElementById('iretGrid');
+      const items = (typeof ieltsReadingTests !== 'undefined' && Array.isArray(ieltsReadingTests))
+        ? ieltsReadingTests : [];
+      const cards = items.map((t, idx) => {
+        const mockNum = String(idx + 1).padStart(2, '0');
+        const meta = _iretMockMeta[mockNum] || { source: '', passages: [
+          { title: '—', ready: false }, { title: '—', ready: false }, { title: '—', ready: false }
+        ] };
+        return _iretCardHtml(mockNum, t, meta, _iretGetDoneInfo(mockNum));
+      });
+      grid.innerHTML = cards.join('');
+      _iretBuildJumpOptions();
+      _iretBuildSourceOptions();
+      _iretApplyFiltersAndSort();
+    }
+
+    function _iretApplyFiltersAndSort() {
+      const search = (document.getElementById('iretSearch').value || '').toLowerCase().trim();
+      const sourceFilter = _iretSourceFilter.toLowerCase();
+      let visible = 0;
+      document.querySelectorAll('#iretGrid .iret-card').forEach(c => {
+        const ready = parseInt(c.dataset.readyCount, 10) || 0;
+        const total = parseInt(c.dataset.total, 10) || 0;
+        const done = c.dataset.done === '1';
+        const source = c.dataset.source || '';
+        let pass = true;
+        if (_iretFilter === 'ready') pass = (ready === total && total > 0);
+        else if (_iretFilter === 'soon') pass = (ready < total);
+        else if (_iretFilter === 'done') pass = done;
+        if (pass && sourceFilter) pass = source.startsWith(sourceFilter);
+        if (pass && search) {
+          pass = (c.dataset.title || '').includes(search)
+            || (c.dataset.source || '').includes(search)
+            || (c.dataset.passages || '').includes(search)
+            || (c.dataset.mock || '').includes(search);
+        }
+        c.style.display = pass ? '' : 'none';
+        if (pass) visible++;
+      });
+      document.getElementById('iretCount').textContent = visible;
+      document.getElementById('iretEmpty').style.display = visible === 0 ? '' : 'none';
+    }
+
+    function _iretBuildSourceOptions() {
+      const sel = document.getElementById('iretSourceFilter');
+      if (!sel) return;
+      const groups = new Set();
+      Object.values(_iretMockMeta).forEach(m => {
+        if (!m || !m.source) return;
+        const stripped = String(m.source).replace(/\s+Test\s+\d+\s*$/i, '').trim();
+        if (stripped) groups.add(stripped);
+      });
+      const sorted = Array.from(groups).sort();
+      let opts = '<option value="">📚 All sources</option>';
+      sorted.forEach(g => {
+        const selAttr = (g === _iretSourceFilter) ? ' selected' : '';
+        opts += '<option value="' + _iretEsc(g) + '"' + selAttr + '>' + _iretEsc(g) + '</option>';
+      });
+      sel.innerHTML = opts;
+    }
+
+    function _iretBuildJumpOptions() {
+      const sel = document.getElementById('iretJump');
+      if (!sel) return;
+      const cards = document.querySelectorAll('#iretGrid .iret-card');
+      let opts = '<option value="">Jump to #…</option>';
+      cards.forEach(c => {
+        const n = c.dataset.mock;
+        if (!n) return;
+        opts += '<option value="' + n + '">#' + n + '</option>';
+      });
+      sel.innerHTML = opts;
+    }
+
+    function _iretJumpToMock(mockNum) {
+      if (!mockNum) return;
+      const card = document.getElementById('iret-card-' + mockNum);
+      if (!card) return;
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.classList.remove('iret-card-jumped');
+      void card.offsetWidth;
+      card.classList.add('iret-card-jumped');
+    }
+
+    async function iretOpen() {
+      try { if (typeof window.__msv3ShowInlineSplash === 'function') window.__msv3ShowInlineSplash(); } catch (_e) {}
+      const overlay = document.getElementById('iretPicker');
+      overlay.classList.add('iret-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      try { history.pushState({ picker: 'iret' }, ''); } catch (_e) {}
+      if (typeof _pickerShowTmaBack === 'function') _pickerShowTmaBack();
+      _iretRenderSkeletons();
+      try {
+        const [, serverDone] = await Promise.all([
+          _iretLoadAllMockMeta(),
+          _iretFetchServerDone(),
+          _iretLoadStats()
+        ]);
+        _iretServerDone = serverDone || {};
+        _iretComputeBadges();
+        _iretRender();
+      } finally {
+        try { if (typeof window.__msv3HideInlineSplash === 'function') window.__msv3HideInlineSplash(); } catch (_e) {}
+      }
+    }
+
+    function iretClose(opts) {
+      const keepUrl = !!(opts && opts.keepUrl);
+      const overlay = document.getElementById('iretPicker');
+      overlay.classList.remove('iret-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (typeof _pickerHideTmaBack === 'function') _pickerHideTmaBack();
+      if (!_pickerFromPopstate && !keepUrl) {
+        try {
+          if (history.state && history.state.picker === 'iret') history.back();
+          if (/^\/take\//i.test(window.location.pathname)) {
+            history.replaceState(null, '', '/landing-v3.html');
+          }
+        } catch (_e) {}
+      }
+    }
+
+    function iretClearFilters() {
+      _iretFilter = 'all';
+      _iretSourceFilter = '';
+      document.querySelectorAll('.iret-chip').forEach(c =>
+        c.classList.toggle('iret-chip-active', c.dataset.filter === 'all')
+      );
+      document.getElementById('iretSearch').value = '';
+      const srcSel = document.getElementById('iretSourceFilter');
+      if (srcSel) srcSel.value = '';
+      _iretApplyFiltersAndSort();
+    }
+
+    (function _iretWire() {
+      const overlay = document.getElementById('iretPicker');
+      if (!overlay) return;
+      document.querySelectorAll('.iret-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          _iretFilter = chip.dataset.filter;
+          document.querySelectorAll('.iret-chip').forEach(c =>
+            c.classList.toggle('iret-chip-active', c === chip)
+          );
+          _iretApplyFiltersAndSort();
+        });
+      });
+      const search = document.getElementById('iretSearch');
+      const jump   = document.getElementById('iretJump');
+      const srcSel = document.getElementById('iretSourceFilter');
+      if (search) search.addEventListener('input', _iretApplyFiltersAndSort);
+      if (jump) jump.addEventListener('change', function () {
+        _iretJumpToMock(this.value);
+        setTimeout(() => { this.value = ''; }, 400);
+      });
+      if (srcSel) srcSel.addEventListener('change', function () {
+        _iretSourceFilter = this.value || '';
+        _iretApplyFiltersAndSort();
+      });
+      document.getElementById('iretGrid').addEventListener('click', function (e) {
+        if (e.target.closest('input, select, textarea, a, [contenteditable]')) return;
+        const card = e.target.closest('.iret-card');
+        if (!card) return;
+        if (card.classList.contains('iret-card-disabled')) return;
+        const mockN = card.dataset.mock;
+        const shareBtn = e.target.closest('.iret-share');
+        if (shareBtn) {
+          e.stopPropagation();
+          _pickerShareMock('ielts-reading', 'IELTS Reading Mock', mockN, shareBtn, 'iret-share-copied');
+          return;
+        }
+        const isTakeBtn = !!e.target.closest('.iret-take');
+        if (!isTakeBtn) {
+          if (mockN) {
+            try { history.replaceState(null, '', '/take/ielts-reading-' + encodeURIComponent(mockN)); } catch (_e) {}
+          }
+          return;
+        }
+        const file = card.dataset.file;
+        if (!file) return;
+        const fileWithMock = mockN
+          ? file + (file.indexOf('?') >= 0 ? '&' : '?') + 'mock=' + encodeURIComponent(mockN)
+          : file;
+        if (mockN) {
+          try { history.pushState(null, '', '/take/ielts-reading-' + encodeURIComponent(mockN)); } catch (_e) {}
+        }
+        if (typeof handleReadingMockClick === 'function') {
+          handleReadingMockClick(fileWithMock, 'ielts-reading');
+        } else {
+          iretClose({ keepUrl: true });
+          try { window.location.replace(fileWithMock); } catch (_e) { window.location.href = fileWithMock; }
+        }
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && overlay.classList.contains('iret-open')) iretClose();
+      });
+    })();
+
+    window.iretOpen = iretOpen;
+    window.iretClose = iretClose;
+    window.iretClearFilters = iretClearFilters;
+
+    // ===== IELTS Reading mode/passage modal handlers — Phase 5b =====
+    let _pendingIeltsReadingUrl = null;
+
+    function closeIeltsReadingModeModal() {
+      var modal = document.getElementById('ieltsReadingModeModal');
+      if (modal) modal.style.display = 'none';
+      _pendingIeltsReadingUrl = null;
+      try { sessionStorage.removeItem('readingMockReturnCategory'); } catch (_e) {}
+      try {
+        if (/^\/take\//i.test(window.location.pathname)) {
+          history.replaceState({}, document.title, '/landing-v3.html');
+        }
+      } catch (_e) {}
+    }
+    function _ieltsReadingModeFullMock() {
+      var url = _pendingIeltsReadingUrl;
+      _pendingIeltsReadingUrl = null;
+      document.getElementById('ieltsReadingModeModal').style.display = 'none';
+      if (url) { try { window.location.replace(url); } catch (_e) { window.location.href = url; } }
+    }
+    function _ieltsReadingModePassageBased() {
+      document.getElementById('ieltsReadingModeModal').style.display = 'none';
+      document.getElementById('ieltsReadingPassagePickerModal').style.display = 'flex';
+    }
+    function closeIeltsReadingPassagePicker() {
+      document.getElementById('ieltsReadingPassagePickerModal').style.display = 'none';
+      if (_pendingIeltsReadingUrl) {
+        document.getElementById('ieltsReadingModeModal').style.display = 'flex';
+      }
+    }
+    function _pickIeltsReadingPassage(n) {
+      var url = _pendingIeltsReadingUrl;
+      document.getElementById('ieltsReadingPassagePickerModal').style.display = 'none';
+      _pendingIeltsReadingUrl = null;
+      if (url) {
+        var fullUrl = url + '&passage=' + n;
+        try { window.location.replace(fullUrl); } catch (_e) { window.location.href = fullUrl; }
+      }
+    }
+    window.closeIeltsReadingModeModal  = closeIeltsReadingModeModal;
+    window._ieltsReadingModeFullMock    = _ieltsReadingModeFullMock;
+    window._ieltsReadingModePassageBased = _ieltsReadingModePassageBased;
+    window.closeIeltsReadingPassagePicker = closeIeltsReadingPassagePicker;
+    window._pickIeltsReadingPassage     = _pickIeltsReadingPassage;
   </script>
 
   <!-- ═══════════════════════════════════════════════════════
