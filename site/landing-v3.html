@@ -13939,8 +13939,52 @@
         return '/' + url;
       };
     }
+    // Full-screen launch splash that covers the picker between mode-click
+    // and the runner page painting. Without it, the user sees the speaking
+    // picker for ~1 second while Speaking Mocks.html (~20k lines) parses.
+    function _msv3ShowLaunchSplash() {
+      if (document.getElementById('_msv3LaunchSplash')) return;
+      var brand = (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream';
+      var logo  = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl)
+        || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+      var s = document.createElement('div');
+      s.id = '_msv3LaunchSplash';
+      s.setAttribute('aria-hidden', 'false');
+      s.style.cssText = [
+        'position:fixed','inset:0','z-index:2147483647',
+        'display:flex','flex-direction:column','align-items:center','justify-content:center',
+        'gap:18px','background:linear-gradient(135deg,#7c3aed 0%,#a855f7 55%,#c084fc 100%)',
+        'color:#fff','font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif',
+        'opacity:0','transition:opacity 180ms ease-out','pointer-events:auto'
+      ].join(';');
+      s.innerHTML = ''
+        + '<img src="' + logo + '" alt="" style="width:72px;height:72px;border-radius:18px;'
+        + 'box-shadow:0 12px 30px rgba(0,0,0,.25);background:#fff;padding:8px;object-fit:contain;">'
+        + '<div style="font-size:18px;font-weight:700;letter-spacing:.2px;">' + brand + '</div>'
+        + '<div style="display:flex;align-items:center;gap:10px;font-size:14px;opacity:.92;">'
+        +   '<span style="width:18px;height:18px;border-radius:50%;border:2.5px solid rgba(255,255,255,.4);'
+        +   'border-top-color:#fff;animation:_msv3Spin .8s linear infinite;"></span>'
+        +   '<span>Loading mock…</span>'
+        + '</div>';
+      // Keyframes (idempotent)
+      if (!document.getElementById('_msv3SplashStyle')) {
+        var st = document.createElement('style');
+        st.id = '_msv3SplashStyle';
+        st.textContent = '@keyframes _msv3Spin{to{transform:rotate(360deg)}}';
+        document.head.appendChild(st);
+      }
+      document.body.appendChild(s);
+      // Force reflow so the transition runs.
+      // eslint-disable-next-line no-unused-expressions
+      s.offsetHeight;
+      s.style.opacity = '1';
+    }
+    window._msv3ShowLaunchSplash = _msv3ShowLaunchSplash;
+
     function _navigateToRunner(url) {
       url = window.__msv3AbsUrl(url);
+      // Cover the picker so it isn't visible while the runner page loads.
+      try { _msv3ShowLaunchSplash(); } catch (_e) {}
       // v3 doesn't host the legacy loadMock iframe loader — direct navigate.
       // The runner page (Speaking Mocks.html) takes over the tab. Use
       // window.location.replace so a Back from the runner skips the
