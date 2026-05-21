@@ -1865,8 +1865,24 @@
     }
     .tool-card:hover .tool-arrow { transform: translateX(3px); color: var(--indigo); }
     .tools-grid.tools-grid-3 { grid-template-columns: repeat(3, 1fr); }
-    @media (max-width: 760px) { .tools-grid.tools-grid-3 { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 460px) { .tools-grid.tools-grid-3 { grid-template-columns: 1fr; } }
+    /* Mobile: keep 3 columns by switching to a tight vertical tile
+       (icon on top, name below — no sub, no arrow). */
+    @media (max-width: 460px) {
+      .tools-grid.tools-grid-3 { gap: 8px; }
+      .tools-grid.tools-grid-3 .tool-card {
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        padding: 10px 6px;
+        min-height: 0;
+        text-align: center;
+      }
+      .tools-grid.tools-grid-3 .tool-icon { width: 32px; height: 32px; border-radius: 9px; }
+      .tools-grid.tools-grid-3 .tool-icon svg { width: 15px; height: 15px; }
+      .tools-grid.tools-grid-3 .tool-name { font-size: 12px; line-height: 1.15; }
+      .tools-grid.tools-grid-3 .tool-sub,
+      .tools-grid.tools-grid-3 .tool-arrow { display: none; }
+    }
     /* Coming-soon variant — same shape, muted feel, pill instead of arrow */
     .tool-card.soon {
       cursor: default;
@@ -2214,6 +2230,62 @@
       </div>
     </section>
 
+    <!-- ── LEARNING TOOLS ─────────────────────────────────── -->
+    <section class="section">
+      <div class="section-head">
+        <h2 class="section-title">
+          Learning Tools
+          <span class="badge new">📚 Practice</span>
+        </h2>
+      </div>
+      <div class="tools-grid tools-grid-3">
+        <!-- Flashcards — uses the same _gateLearningTool('flashcards', ...)
+             pipeline as landing.html's in-page card. Closing the modal
+             returns to v3 via the discovery-handoff watcher. -->
+        <a class="tool-card" href="javascript:void(0)" data-learn="flashcards">
+          <div class="tool-icon" style="background: linear-gradient(135deg, #fb923c, #ea580c);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="14" rx="2"></rect>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+          </div>
+          <div class="tool-body">
+            <div class="tool-name">Flashcards</div>
+            <div class="tool-sub">Build &amp; drill vocab decks</div>
+          </div>
+          <div class="tool-arrow">→</div>
+        </a>
+        <a class="tool-card" href="javascript:void(0)" data-learn="articles">
+          <div class="tool-icon" style="background: linear-gradient(135deg, #34d399, #059669);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="8"  y1="13" x2="16" y2="13"></line>
+              <line x1="8"  y1="17" x2="16" y2="17"></line>
+            </svg>
+          </div>
+          <div class="tool-body">
+            <div class="tool-name">Articles</div>
+            <div class="tool-sub">Long-form reading practice</div>
+          </div>
+          <div class="tool-arrow">→</div>
+        </a>
+        <a class="tool-card" href="javascript:void(0)" data-learn="tests">
+          <div class="tool-icon" style="background: linear-gradient(135deg, #a78bfa, #7c3aed);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 11l3 3L22 4"></path>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+            </svg>
+          </div>
+          <div class="tool-body">
+            <div class="tool-name">Tests</div>
+            <div class="tool-sub">Grammar &amp; vocabulary drills</div>
+          </div>
+          <div class="tool-arrow">→</div>
+        </a>
+      </div>
+    </section>
+
     <!-- ── TRENDING RAIL ───────────────────────────────────── -->
     <section class="section">
       <div class="section-head">
@@ -2294,61 +2366,6 @@
       </div>
     </section>
 
-    <!-- ── LEARNING TOOLS ─────────────────────────────────── -->
-    <section class="section">
-      <div class="section-head">
-        <h2 class="section-title">
-          Learning Tools
-          <span class="badge new">📚 Practice</span>
-        </h2>
-      </div>
-      <div class="tools-grid tools-grid-3">
-        <!-- Flashcards — uses the same _gateLearningTool('flashcards', ...)
-             pipeline as landing.html's in-page card. Closing the modal
-             returns to v3 via the discovery-handoff watcher. -->
-        <a class="tool-card" href="javascript:void(0)" data-learn="flashcards">
-          <div class="tool-icon" style="background: linear-gradient(135deg, #fb923c, #ea580c);">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="4" width="18" height="14" rx="2"></rect>
-              <line x1="3" y1="10" x2="21" y2="10"></line>
-            </svg>
-          </div>
-          <div class="tool-body">
-            <div class="tool-name">Flashcards</div>
-            <div class="tool-sub">Build &amp; drill vocab decks</div>
-          </div>
-          <div class="tool-arrow">→</div>
-        </a>
-        <a class="tool-card" href="javascript:void(0)" data-learn="articles">
-          <div class="tool-icon" style="background: linear-gradient(135deg, #34d399, #059669);">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="8"  y1="13" x2="16" y2="13"></line>
-              <line x1="8"  y1="17" x2="16" y2="17"></line>
-            </svg>
-          </div>
-          <div class="tool-body">
-            <div class="tool-name">Articles</div>
-            <div class="tool-sub">Long-form reading practice</div>
-          </div>
-          <div class="tool-arrow">→</div>
-        </a>
-        <a class="tool-card" href="javascript:void(0)" data-learn="tests">
-          <div class="tool-icon" style="background: linear-gradient(135deg, #a78bfa, #7c3aed);">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 11l3 3L22 4"></path>
-              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-            </svg>
-          </div>
-          <div class="tool-body">
-            <div class="tool-name">Tests</div>
-            <div class="tool-sub">Grammar &amp; vocabulary drills</div>
-          </div>
-          <div class="tool-arrow">→</div>
-        </a>
-      </div>
-    </section>
   </main>
 
   <footer>
