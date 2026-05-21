@@ -2317,6 +2317,9 @@
       if (slug === 'ielts-writing' && typeof window.iwetOpen === 'function') {
         try { iwetOpen(); return; } catch (_e) {}
       }
+      if (slug === 'cefr-reading' && typeof window.cretOpen === 'function') {
+        try { cretOpen(); return; } catch (_e) {}
+      }
       window.location.href = '/landing.html?openSelector=' + encodeURIComponent(slug);
     }
     // Mirrors the matchers in landing.html's _processDeepLinkTake so we
@@ -3360,6 +3363,9 @@
       window.location.href = '/landing.html?openSelector=cefr-listening';
     });
     document.getElementById('msv3CefrReading').addEventListener('click', function () {
+      if (typeof window.cretOpen === 'function') {
+        try { requestSidebarClose(); cretOpen(); return; } catch (_e) {}
+      }
       window.location.href = '/landing.html?openSelector=cefr-reading';
     });
     document.getElementById('msv3CefrFullMock').addEventListener('click', function () {
@@ -4386,6 +4392,305 @@
         margin-left: 0;
       }
     }
+
+    /* ===== CEFR Reading picker (cretPicker) — teal/emerald theme =====
+       Uses its OWN base CSS family (.cret-*), not the shared .ilet-*
+       family that cspet/ispet/cwet/iwet/ilet/clet share. iret in the
+       next session will need the same own-family treatment. */
+    .cret-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100003;
+      background: linear-gradient(135deg, #f0fdfa 0%, #d1fae5 100%);
+      overflow-y: auto;
+      flex-direction: column;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity .22s ease, transform .22s ease;
+    }
+    .cret-overlay.cret-open { display: flex; opacity: 1; transform: translateY(0); }
+    .cret-header {
+      position: sticky; top: 0; z-index: 5;
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 24px;
+      background: rgba(240, 253, 250, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #99f6e4;
+    }
+    .cret-back {
+      flex-shrink: 0;
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      border: none;
+      background: #fff;
+      color: #0f766e;
+      font-size: 20px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(15,118,110,.15);
+      transition: all .15s;
+    }
+    .cret-back:hover { background: #0f766e; color: #fff; transform: translateX(-2px); }
+    .cret-title {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 18px; font-weight: 700; color: #134e4a;
+      flex-shrink: 0;
+    }
+    .cret-title-emoji { font-size: 22px; }
+    .cret-count {
+      background: linear-gradient(135deg,#10b981,#059669);
+      color: #fff; font-size: 12px; font-weight: 700;
+      padding: 3px 10px; border-radius: 999px;
+      min-width: 28px; text-align: center;
+    }
+    .cret-header-tools { flex: 1; display: flex; gap: 10px; justify-content: flex-end; }
+    .cret-search {
+      flex: 1; max-width: 360px;
+      padding: 9px 14px;
+      border: 1.5px solid #99f6e4;
+      border-radius: 10px;
+      font-size: 13.5px;
+      background: #fff;
+      outline: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .cret-search:focus { border-color: #10b981; box-shadow: 0 0 0 3px rgba(16,185,129,.15); }
+    .cret-sort {
+      padding: 9px 12px;
+      border: 1.5px solid #99f6e4;
+      border-radius: 10px;
+      font-size: 13px;
+      background: #fff;
+      cursor: pointer;
+      outline: none;
+    }
+    .cret-filter-row { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 24px 0; }
+    .cret-chip {
+      padding: 7px 14px;
+      border: 1.5px solid #99f6e4;
+      border-radius: 999px;
+      background: #fff;
+      color: #0f766e;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .cret-chip:hover { border-color: #10b981; }
+    .cret-chip-active {
+      background: linear-gradient(135deg,#10b981,#059669);
+      color: #fff;
+      border-color: #059669;
+    }
+    .cret-source-filter {
+      padding: 7px 12px;
+      border: 1.5px solid #99f6e4;
+      border-radius: 999px;
+      background: #fff;
+      color: #0f766e;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+      margin-left: auto;
+    }
+    .cret-source-filter:hover { border-color: #10b981; }
+    .cret-source-filter:focus { box-shadow: 0 0 0 3px rgba(16,185,129,.15); }
+    .cret-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      padding: 18px 24px 40px;
+      flex: 1;
+    }
+    @media (max-width: 1279px) { .cret-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 1023px) { .cret-grid { grid-template-columns: minmax(0, 1fr); padding: 14px 16px 30px; } }
+    .cret-card {
+      background: #fff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 16px;
+      display: flex; flex-direction: column; gap: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.04);
+      transition: transform .15s, box-shadow .15s, border-color .15s;
+    }
+    .cret-card:hover:not(.cret-card-disabled) {
+      transform: translateY(-2px) scale(1.005);
+      box-shadow: 0 8px 24px rgba(16,185,129,.12);
+      border-color: #99f6e4;
+    }
+    .cret-card-disabled { opacity: .6; }
+    .cret-card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .cret-mocknum {
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+      font-size: 12.5px;
+      font-weight: 800;
+      letter-spacing: .3px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(16,185,129,.3);
+      font-variant-numeric: tabular-nums;
+    }
+    .cret-status { display: flex; align-items: center; gap: 8px; }
+    .cret-card-jumped { animation: cret-jump-pulse 1.2s ease-out; }
+    @keyframes cret-jump-pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(16,185,129,.5); border-color: #10b981; }
+      100% { box-shadow: 0 0 0 12px rgba(16,185,129,0); border-color: #e2e8f0; }
+    }
+    .cret-dots { display: flex; gap: 4px; }
+    .cret-dot { width: 9px; height: 9px; border-radius: 50%; background: #e2e8f0; }
+    .cret-dot-ready { background: #10b981; }
+    .cret-dot-soon { background: #fbbf24; }
+    .cret-status-label { font-size: 10.5px; font-weight: 700; letter-spacing: .5px; color: #64748b; }
+    .cret-source {
+      font-size: 11px; font-weight: 600;
+      color: #475569;
+      background: #f1f5f9;
+      padding: 4px 10px;
+      border-radius: 999px;
+      letter-spacing: .2px;
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 50%;
+    }
+    .cret-mock-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1e293b;
+      margin: 0;
+      line-height: 1.3;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cret-parts {
+      list-style: none; padding: 0; margin: 0;
+      display: flex; flex-direction: column; gap: 5px;
+    }
+    .cret-part { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #334155; }
+    .cret-part-num {
+      flex-shrink: 0;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      color: #64748b;
+      font-size: 10.5px;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cret-part-title { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .cret-part-badge {
+      flex-shrink: 0;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: .2px;
+    }
+    .cret-badge-ready { background: #d1fae5; color: #065f46; }
+    .cret-badge-soon  { background: #fef3c7; color: #92400e; }
+    .cret-card-foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .cret-done {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #6d28d9;
+      background: #ede9fe;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+    .cret-take {
+      margin-left: auto;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(16,185,129,.3);
+      transition: all .15s;
+    }
+    .cret-take:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(16,185,129,.4); }
+    .cret-coming-soon {
+      margin-left: auto;
+      font-size: 12px;
+      font-weight: 700;
+      color: #92400e;
+      background: #fef3c7;
+      padding: 7px 14px;
+      border-radius: 10px;
+    }
+    .cret-share {
+      background: transparent;
+      border: 1px solid #a7f3d0;
+      color: #047857;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+      transition: background 120ms ease, border-color 120ms ease;
+      margin-right: 8px;
+      white-space: nowrap;
+    }
+    .cret-share:hover { background: #ecfdf5; border-color: #059669; }
+    .cret-share.cret-share-copied {
+      background: #dcfce7;
+      border-color: #86efac;
+      color: #15803d;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .cret-card-skeleton {
+      background: #fff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px;
+      min-height: 260px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cret-card-skeleton::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(240,253,250,.6), transparent);
+      animation: cret-shimmer 1.4s infinite;
+    }
+    @keyframes cret-shimmer { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+    .cret-skel-line { height: 12px; border-radius: 4px; background: #f1f5f9; margin-bottom: 10px; }
+    .cret-skel-line.tall { height: 18px; }
+    .cret-skel-line.short { width: 40%; }
+    .cret-empty { text-align: center; padding: 60px 20px; color: #64748b; }
+    .cret-empty-icon { font-size: 48px; opacity: .5; margin-bottom: 14px; }
+    .cret-empty-msg { font-size: 15px; margin-bottom: 18px; }
+    .cret-empty-clear {
+      padding: 10px 22px;
+      border: 1.5px solid #99f6e4;
+      border-radius: 10px;
+      background: #fff;
+      color: #0f766e;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .cret-empty-clear:hover { border-color: #10b981; background: #f0fdfa; }
+    @media (max-width: 600px) {
+      .cret-header { flex-wrap: wrap; padding: 10px 14px; gap: 8px; }
+      .cret-header-tools { width: 100%; gap: 6px; }
+      .cret-search { max-width: none; padding: 7px 10px; font-size: 13px; }
+      .cret-sort { padding: 7px 10px; font-size: 12px; }
+      .cret-source { max-width: 40%; }
+      /* Mobile chip + dropdown tightening so all 4 chips fit row 1 like
+         cwet/iwet (Inter font drift fix). Source dropdown wraps to own row. */
+      .cret-filter-row { gap: 4px; padding: 10px 8px 0; }
+      .cret-chip { padding: 3px 7px; font-size: 10px; font-weight: 700; }
+      .cret-source-filter { flex: 1 1 100%; margin-left: 0; padding: 4px 8px; font-size: 11px; }
+    }
   </style>
 
   <!-- CEFR Speaking fullscreen picker — DOM only. JS in the script
@@ -4708,6 +5013,135 @@
     </div>
   </div>
 
+  <!-- CEFR Reading fullscreen picker (cret) — Phase 5a. Own .cret-* CSS family. -->
+  <div id="cretPicker" class="cret-overlay" aria-hidden="true">
+    <header class="cret-header">
+      <button class="cret-back" type="button" onclick="if(typeof cretClose==='function')cretClose()" title="Back to landing">←</button>
+      <div class="cret-title">
+        <span class="cret-title-emoji">📚</span>
+        <span class="cret-title-text">CEFR Reading</span>
+        <span class="cret-count" id="cretCount">0</span>
+      </div>
+      <div class="cret-header-tools">
+        <input type="search" class="cret-search" id="cretSearch" placeholder="🔍 Search mock #, source, part…" autocomplete="off" spellcheck="false">
+        <select class="cret-sort" id="cretJump" title="Jump to mock #">
+          <option value="">Jump to #…</option>
+        </select>
+      </div>
+    </header>
+    <div class="cret-filter-row">
+      <button type="button" class="cret-chip cret-chip-active" data-filter="all">All</button>
+      <button type="button" class="cret-chip" data-filter="ready">✓ Ready only</button>
+      <button type="button" class="cret-chip" data-filter="soon">⏳ Coming soon</button>
+      <button type="button" class="cret-chip" data-filter="done">★ Done before</button>
+      <select class="cret-source-filter" id="cretSourceFilter" title="Filter by source">
+        <option value="">📚 All sources</option>
+      </select>
+    </div>
+    <main class="cret-grid" id="cretGrid"></main>
+    <div class="cret-empty" id="cretEmpty" style="display:none;">
+      <div class="cret-empty-icon">🔍</div>
+      <p class="cret-empty-msg">No mocks match your filters.</p>
+      <button type="button" class="cret-empty-clear" onclick="if(typeof cretClearFilters==='function')cretClearFilters()">Clear filters</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       Phase 5a — CEFR Reading launch modals.
+       Mode picker (Full Reading Test vs Part Practice) + Part picker
+       (1-5) + shared Reading Access Code modal (also used by iret in
+       the next session).
+       ═══════════════════════════════════════════════════════ -->
+  <div id="cefrReadingModeModal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:100005;align-items:center;justify-content:center;padding:20px;"
+    onclick="closeCefrReadingModeModal()">
+    <div
+      style="background:var(--card);border:2px solid var(--brand);border-radius:24px;padding:32px 28px;max-width:480px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
+      onclick="event.stopPropagation()">
+      <div style="font-size:36px;margin-bottom:6px;">📖</div>
+      <h3 style="font-size:20px;color:var(--brand);margin-bottom:4px;">Choose Your Mode</h3>
+      <p id="cefrReadingModeMockLabel" style="font-size:13px;color:var(--muted);margin-bottom:22px;">CEFR Reading Mock</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+        <button onclick="_cefrReadingModeFullMock()"
+          style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#0369a1 0%,#0284c7 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(3,105,161,0.3);">
+          <div style="font-size:28px;margin-bottom:6px;">📖</div>
+          Full Reading Test
+          <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">All 5 parts • 60 min</div>
+        </button>
+        <button id="cefrReadingPracticeBtn" onclick="_cefrReadingModePartBased()"
+          style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(124,58,237,0.3);">
+          <div style="font-size:28px;margin-bottom:6px;">🎯</div>
+          Part Practice
+          <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">Pick one part • ~12 min</div>
+        </button>
+      </div>
+      <button onclick="closeCefrReadingModeModal()"
+        style="margin-top:18px;padding:8px 24px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;">Cancel</button>
+    </div>
+  </div>
+
+  <div id="cefrReadingPartPickerModal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:100006;align-items:center;justify-content:center;padding:20px;"
+    onclick="closeCefrReadingPartPicker()">
+    <div
+      style="background:var(--card);border:2px solid #7c3aed;border-radius:24px;padding:32px 28px;max-width:380px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
+      onclick="event.stopPropagation()">
+      <div style="font-size:36px;margin-bottom:6px;">🎯</div>
+      <h3 style="font-size:20px;color:#7c3aed;margin-bottom:4px;">Select a Part</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:20px;">Choose which part you'd like to practice</p>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <button onclick="_pickCefrReadingPart(1)" style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">1</span>
+          <div><div>Part 1</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">Gap Fill • ~7 questions</div></div></button>
+        <button onclick="_pickCefrReadingPart(2)" style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">2</span>
+          <div><div>Part 2</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">Matching • ~8 questions</div></div></button>
+        <button onclick="_pickCefrReadingPart(3)" style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">3</span>
+          <div><div>Part 3</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">Matching Headings • ~6 questions</div></div></button>
+        <button onclick="_pickCefrReadingPart(4)" style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">4</span>
+          <div><div>Part 4</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">Reading Comprehension • ~7 questions</div></div></button>
+        <button onclick="_pickCefrReadingPart(5)" style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">5</span>
+          <div><div>Part 5</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">Reading Comprehension • ~7 questions</div></div></button>
+      </div>
+      <button onclick="closeCefrReadingPartPicker()"
+        style="margin-top:18px;padding:8px 24px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;">Back</button>
+    </div>
+  </div>
+
+  <div id="readingAccessCodeModal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);z-index:100004;align-items:center;justify-content:center;padding:20px;"
+    onclick="cancelReadingAccessCodeModal()">
+    <div
+      style="background:var(--card);border:2px solid var(--brand);border-radius:20px;padding:28px;max-width:380px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:slideUp 0.3s ease;"
+      onclick="event.stopPropagation()">
+      <div style="font-size:36px;margin-bottom:8px;">🔐</div>
+      <h3 style="font-size:20px;color:var(--brand);margin-bottom:4px;">Access Code Required</h3>
+      <p id="readingAccessMockLabel" style="font-size:13px;color:var(--muted);margin-bottom:18px;">Mock 01 requires an access code</p>
+      <div id="readingAccessNameWrap" style="display:none;margin-bottom:10px;text-align:left;">
+        <input type="text" id="readingAccessNameInput" placeholder="Your full name" autocomplete="name" spellcheck="false"
+          style="width:100%;padding:12px 16px;border:2px solid var(--ring);border-radius:10px;font-size:15px;font-weight:600;box-sizing:border-box;background:var(--bg);color:var(--ink);transition:border-color 0.2s;"
+          onfocus="this.style.borderColor='var(--brand)';this.style.boxShadow='0 0 0 3px rgba(16,185,129,0.15)'"
+          onblur="this.style.borderColor='var(--ring)';this.style.boxShadow='none'">
+      </div>
+      <input type="text" id="readingAccessCodeInput" placeholder="Enter your access code" autocomplete="off"
+        autocorrect="off" spellcheck="false" inputmode="numeric" pattern="[0-9]*"
+        style="width:100%;padding:12px 16px;border:2px solid var(--ring);border-radius:10px;font-size:15px;font-weight:600;box-sizing:border-box;background:var(--bg);color:var(--ink);letter-spacing:2px;transition:border-color 0.2s;"
+        onfocus="this.style.borderColor='var(--brand)';this.style.boxShadow='0 0 0 3px rgba(16,185,129,0.15)'"
+        onblur="this.style.borderColor='var(--ring)';this.style.boxShadow='none'"
+        oninput="this.value=this.value.replace(/\D/g,'')">
+      <div id="readingAccessCodeError" style="font-size:13px;margin-top:10px;margin-bottom:14px;min-height:20px;font-weight:600;"></div>
+      <div style="display:flex;gap:10px;">
+        <button onclick="cancelReadingAccessCodeModal()"
+          style="flex:1;padding:11px;background:var(--bg);color:var(--muted);border:2px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;">Cancel</button>
+        <button id="readingAccessCodeSubmitBtn" onclick="verifyReadingAccessCode()"
+          style="flex:2;padding:11px;background:linear-gradient(135deg,var(--brand) 0%,#059669 100%);color:white;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;">Verify &amp; Start</button>
+      </div>
+    </div>
+  </div>
+
   <script id="msv3PickerEngineJs">
     // ===== Shared picker plumbing =====
     // _pickerFromPopstate: cspetClose (and future picker close fns) read
@@ -4735,6 +5169,11 @@
       var iwet = document.getElementById('iwetPicker');
       if (iwet && iwet.classList.contains('ilet-open')) {
         if (typeof iwetClose === 'function') iwetClose();
+        return;
+      }
+      var cret = document.getElementById('cretPicker');
+      if (cret && cret.classList.contains('cret-open')) {
+        if (typeof cretClose === 'function') cretClose();
       }
     }
     function _pickerShowTmaBack() {
@@ -4876,6 +5315,13 @@
         if (iwet && iwet.classList.contains('ilet-open')) {
           _pickerFromPopstate = true;
           if (typeof iwetClose === 'function') iwetClose();
+          _pickerFromPopstate = false;
+          return;
+        }
+        var cret = document.getElementById('cretPicker');
+        if (cret && cret.classList.contains('cret-open')) {
+          _pickerFromPopstate = true;
+          if (typeof cretClose === 'function') cretClose();
           _pickerFromPopstate = false;
         }
       } catch (_e) {}
@@ -7424,6 +7870,864 @@
     window._ieltsWritingModeTaskBased = _ieltsWritingModeTaskBased;
     window.closeIeltsWritingTaskPicker = closeIeltsWritingTaskPicker;
     window._pickIeltsWritingTask       = _pickIeltsWritingTask;
+
+    // ===== CEFR Reading picker (cretPicker) — Phase 5a =====
+    // Static 40-entry catalog (all Supabase-backed via ?sbmock=<id>). No
+    // dynamic upgrader for cret — admins add via existing IDs in the catalog.
+    const cefrReadingTests = [
+      { file: 'CEFR Reading.html?sbmock=5',   name: 'CEFR Reading Test 01', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=343', name: 'CEFR Reading Test 02', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=344', name: 'CEFR Reading Test 03', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=345', name: 'CEFR Reading Test 04', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=346', name: 'CEFR Reading Test 05', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=347', name: 'CEFR Reading Test 06', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=348', name: 'CEFR Reading Test 07', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=349', name: 'CEFR Reading Test 08', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=350', name: 'CEFR Reading Test 09', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=351', name: 'CEFR Reading Test 10', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=352', name: 'CEFR Reading Test 11', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=353', name: 'CEFR Reading Test 12', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=354', name: 'CEFR Reading Test 13', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=355', name: 'CEFR Reading Test 14', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=356', name: 'CEFR Reading Test 15', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=357', name: 'CEFR Reading Test 16', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=358', name: 'CEFR Reading Test 17', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=359', name: 'CEFR Reading Test 18', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=360', name: 'CEFR Reading Test 19', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=361', name: 'CEFR Reading Test 20', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=362', name: 'CEFR Reading Test 21', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=363', name: 'CEFR Reading Test 22', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=364', name: 'CEFR Reading Test 23', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=365', name: 'CEFR Reading Test 24', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=366', name: 'CEFR Reading Test 25', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=367', name: 'CEFR Reading Test 26', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=368', name: 'CEFR Reading Test 27', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=369', name: 'CEFR Reading Test 28', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=370', name: 'CEFR Reading Test 29', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=371', name: 'CEFR Reading Test 30', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=372', name: 'CEFR Reading Test 31', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=373', name: 'CEFR Reading Test 32', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=374', name: 'CEFR Reading Test 33', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=375', name: 'CEFR Reading Test 34', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=376', name: 'CEFR Reading Test 35', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=377', name: 'CEFR Reading Test 36', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=378', name: 'CEFR Reading Test 37', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=379', name: 'CEFR Reading Test 38', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=380', name: 'CEFR Reading Test 39', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?sbmock=381', name: 'CEFR Reading Test 40', icon: '📖', actionText: 'Take Test' }
+    ];
+    window.cefrReadingTests = cefrReadingTests;
+
+    const _CRET_CACHE_KEY = 'ms_cret_meta_v3';
+    const _CRET_CACHE_TTL = 24 * 60 * 60 * 1000;
+    const _CRET_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    const _CRET_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    const _cretMockMeta = {};
+    let _cretStatsByMock  = {};
+    let _cretBadgesByMock = {};
+    let _cretCreatedAt    = {};
+    let _cretServerDone = {};
+    let _cretFilter = 'all';
+    let _cretSourceFilter = '';
+
+    function _cretPreview(html, maxChars) {
+      const stripped = String(html || '').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
+      if (!stripped) return '';
+      if (stripped.length <= maxChars) return stripped;
+      const cut = stripped.slice(0, maxChars);
+      const lastSpace = cut.lastIndexOf(' ');
+      return (lastSpace > maxChars / 2 ? cut.slice(0, lastSpace) : cut) + '…';
+    }
+
+    function _cretEsc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    function _cretBuildMetaFromMockData(md) {
+      const parts = (md && Array.isArray(md.parts) ? md.parts : []).map((p, i) => {
+        const passageObj = (p && p.passage && typeof p.passage === 'object') ? p.passage : null;
+        const partType = p && p.type;
+        let hasContent;
+        if (partType === 'matching') {
+          hasContent = Array.isArray(p.texts) && p.texts.length > 0;
+        } else if (partType === 'matching-headings') {
+          hasContent = !!(passageObj && (
+            (Array.isArray(passageObj.paragraphs) && passageObj.paragraphs.length > 0)
+            || (typeof passageObj.content === 'string' && passageObj.content.trim().length > 0)
+          ));
+        } else {
+          const html = passageObj
+            ? String(passageObj.content || '')
+            : (typeof (p && p.passage) === 'string' ? p.passage : '');
+          hasContent = !!(html && String(html).trim());
+        }
+        const hasAnswers = !!(p && p.answers && Object.keys(p.answers).length > 0);
+        const ready = !!(hasContent && hasAnswers);
+        const passageTitle = passageObj && passageObj.title ? String(passageObj.title).trim() : '';
+        const topicTitle = (p && typeof p.topicTitle === 'string') ? p.topicTitle.trim() : '';
+        let title = passageTitle || topicTitle;
+        if (!title) {
+          if (partType === 'matching' && Array.isArray(p.texts) && p.texts.length > 0) {
+            title = _cretPreview(p.texts[0].content, 36);
+          } else if (partType === 'matching-headings' && passageObj && Array.isArray(passageObj.paragraphs) && passageObj.paragraphs.length > 0) {
+            title = _cretPreview(passageObj.paragraphs[0].content, 36);
+          }
+        }
+        if (!title) title = '—';
+        return { title, ready };
+      });
+      while (parts.length < 5) parts.push({ title: '—', ready: false });
+      return {
+        source: (md && md.source) || '',
+        examDate: (md && md.examDate) || '',
+        parts: parts.slice(0, 5)
+      };
+    }
+
+    async function _cretLoadStaticMockMeta(filename) {
+      try {
+        const resp = await fetch('questions CEFR R/' + filename);
+        if (!resp.ok) return null;
+        const code = await resp.text();
+        const sandbox = { CEFR_READING_TEST: null };
+        try { new Function('window', code + '\n;return window;')(sandbox); }
+        catch (_e) { return null; }
+        return sandbox.CEFR_READING_TEST ? _cretBuildMetaFromMockData(sandbox.CEFR_READING_TEST) : null;
+      } catch (_e) { return null; }
+    }
+
+    async function _cretLoadSupabaseMockMeta(id) {
+      try {
+        const r = await fetch(
+          _CRET_SB_URL + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(id) + '&select=mock_data,created_at',
+          { headers: { apikey: _CRET_SB_KEY, Authorization: 'Bearer ' + _CRET_SB_KEY } }
+        );
+        if (!r.ok) return null;
+        const rows = await r.json();
+        if (!rows || !rows.length) return null;
+        const meta = _cretBuildMetaFromMockData(rows[0].mock_data || {});
+        if (meta) meta.createdAt = rows[0].created_at;
+        return meta;
+      } catch (_e) { return null; }
+    }
+
+    async function _cretLoadStats() {
+      _cretStatsByMock = {};
+      try {
+        const resp = await fetch(_CRET_SB_URL + '/rest/v1/rpc/mock_attempt_stats', {
+          method: 'POST',
+          headers: { apikey: _CRET_SB_KEY, Authorization: 'Bearer ' + _CRET_SB_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ p_skill: 'reading', p_exam_type: 'cefr' })
+        });
+        if (!resp.ok) return;
+        const rows = await resp.json();
+        for (const r of rows) {
+          if (r.mock_number == null) continue;
+          const padded = String(r.mock_number).padStart(2, '0');
+          _cretStatsByMock[padded] = {
+            total: Number(r.total) || 0,
+            today: Number(r.today) || 0,
+            last7: Number(r.last7) || 0
+          };
+        }
+      } catch (_e) {}
+    }
+
+    function _cretComputeBadges() {
+      _cretBadgesByMock = {};
+      const keys = Object.keys(_cretMockMeta);
+      const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      const trending = keys
+        .filter(k => (_cretStatsByMock[k]?.last7 || 0) > 0)
+        .sort((a, b) => (_cretStatsByMock[b]?.last7 || 0) - (_cretStatsByMock[a]?.last7 || 0))
+        .slice(0, 3);
+      const trendingSet = new Set(trending);
+      const newSet = new Set(keys.filter(k => {
+        const t = (_cretMockMeta[k] && _cretMockMeta[k].createdAt) || _cretCreatedAt[k];
+        return t && new Date(t).getTime() >= sevenDaysAgo;
+      }).sort((a, b) => {
+        const ta = new Date((_cretMockMeta[a] && _cretMockMeta[a].createdAt) || _cretCreatedAt[a]).getTime();
+        const tb = new Date((_cretMockMeta[b] && _cretMockMeta[b].createdAt) || _cretCreatedAt[b]).getTime();
+        return tb - ta;
+      }).slice(0, 3));
+      const popularSet = new Set(keys
+        .filter(k => !trendingSet.has(k) && !newSet.has(k) && (_cretStatsByMock[k]?.total || 0) > 0)
+        .sort((a, b) => (_cretStatsByMock[b]?.total || 0) - (_cretStatsByMock[a]?.total || 0))
+        .slice(0, 5));
+      const gemSet = new Set(keys.filter(k => {
+        if (trendingSet.has(k) || newSet.has(k) || popularSet.has(k)) return false;
+        const s = _cretStatsByMock[k] || { total: 0 };
+        return s.total >= 1 && s.total <= 3;
+      })
+        .sort((a, b) => (_cretStatsByMock[a]?.total || 0) - (_cretStatsByMock[b]?.total || 0))
+        .slice(0, 5));
+      for (const k of keys) {
+        if (trendingSet.has(k))     _cretBadgesByMock[k] = 'trending';
+        else if (newSet.has(k))     _cretBadgesByMock[k] = 'new';
+        else if (popularSet.has(k)) _cretBadgesByMock[k] = 'popular';
+        else if (gemSet.has(k))     _cretBadgesByMock[k] = 'gem';
+        else                         _cretBadgesByMock[k] = null;
+      }
+    }
+
+    function _cretParseFileSpec(fileSpec) {
+      const sbMatch = String(fileSpec || '').match(/sbmock=([^&]+)/);
+      if (sbMatch) return { kind: 'sb', id: sbMatch[1] };
+      const stMatch = String(fileSpec || '').match(/test=([^&]+)/);
+      if (stMatch) return { kind: 'static', filename: stMatch[1] + '.js' };
+      return { kind: 'unknown' };
+    }
+
+    async function _cretLoadAllMockMeta() {
+      let cachedData = {};
+      try {
+        const cached = JSON.parse(localStorage.getItem(_CRET_CACHE_KEY) || 'null');
+        if (cached && cached.ts && (Date.now() - cached.ts) < _CRET_CACHE_TTL && cached.data) {
+          cachedData = cached.data;
+          Object.assign(_cretMockMeta, cachedData);
+        }
+      } catch (_e) {}
+      const items = (typeof cefrReadingTests !== 'undefined' && Array.isArray(cefrReadingTests))
+        ? cefrReadingTests : [];
+      const missing = items
+        .map((t, idx) => ({ t, key: String(idx + 1).padStart(2, '0') }))
+        .filter(({ key }) => !cachedData[key]);
+      if (missing.length === 0) return;
+      await Promise.all(missing.map(async ({ t, key }) => {
+        const spec = _cretParseFileSpec(t && t.file);
+        let meta = null;
+        if (spec.kind === 'static') meta = await _cretLoadStaticMockMeta(spec.filename);
+        else if (spec.kind === 'sb') meta = await _cretLoadSupabaseMockMeta(spec.id);
+        if (meta) _cretMockMeta[key] = meta;
+      }));
+      try { localStorage.setItem(_CRET_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: _cretMockMeta })); } catch (_e) {}
+    }
+
+    function _cretGetDoneInfo(mockNum) {
+      try {
+        const raw = localStorage.getItem('mock-cefr-reading-done-' + mockNum);
+        if (raw) return JSON.parse(raw);
+      } catch (_e) {}
+      if (_cretServerDone[mockNum]) return { fromServer: true };
+      return null;
+    }
+
+    async function _cretFetchServerDone() {
+      try {
+        if (!window.PremiumGate || !window.PremiumGate._normName) return {};
+        const candidateName = sessionStorage.getItem('CANDIDATE_NAME') || '';
+        const name = window.PremiumGate._normName(candidateName);
+        if (!name) return {};
+        const url = _CRET_SB_URL + '/rest/v1/mock_attempts'
+          + '?candidate_name=eq.' + encodeURIComponent(name)
+          + '&skill=eq.reading&exam_type=eq.cefr&submitted_at=not.is.null&select=mock_number';
+        const r = await fetch(url, { headers: { apikey: _CRET_SB_KEY, Authorization: 'Bearer ' + _CRET_SB_KEY } });
+        if (!r.ok) return {};
+        const rows = await r.json();
+        const out = {};
+        (rows || []).forEach(row => { out[String(row.mock_number).padStart(2, '0')] = true; });
+        return out;
+      } catch (_e) { return {}; }
+    }
+
+    function _cretSkeletonHtml() {
+      return '<div class="cret-card-skeleton">'
+        + '<div class="cret-skel-line short"></div>'
+        + '<div class="cret-skel-line tall"></div>'
+        + '<div class="cret-skel-line"></div>'
+        + '<div class="cret-skel-line"></div>'
+        + '<div class="cret-skel-line"></div>'
+        + '<div class="cret-skel-line"></div>'
+        + '<div class="cret-skel-line"></div>'
+        + '</div>';
+    }
+
+    function _cretCardHtml(mockNum, item, meta, doneInfo) {
+      const parts = meta.parts;
+      const readyCount = parts.filter(p => p.ready).length;
+      const total = parts.length;
+      const noneReady = readyCount === 0;
+      const dots = parts.map(p =>
+        '<span class="cret-dot ' + (p.ready ? 'cret-dot-ready' : 'cret-dot-soon') + '"></span>'
+      ).join('');
+      const sourceHtml = meta.source
+        ? '<div class="cret-source" title="' + _cretEsc(meta.source) + '">' + _cretEsc(meta.source) + '</div>'
+        : '';
+      const examLabel = (function fmtCret(iso) {
+        if (!iso) return '';
+        const s = String(iso).trim();
+        const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        let m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        if (m) return parseInt(m[3], 10) + ' ' + MON[parseInt(m[2], 10) - 1] + ' ' + m[1];
+        m = s.match(/^(\d{4})-(\d{2})$/);
+        if (m) return MON[parseInt(m[2], 10) - 1] + ' ' + m[1];
+        return s;
+      })(meta.examDate);
+      const dateHtml = examLabel
+        ? '<span class="cret-exam-date" title="Exam date ' + _cretEsc(meta.examDate) + '" style="font-size:11px;background:#fef3c7;color:#92400e;border:1px solid #fde68a;border-radius:999px;padding:1px 8px;font-weight:600;white-space:nowrap;">📅 ' + _cretEsc(examLabel) + '</span>'
+        : '';
+      const partRows = parts.map((p, i) =>
+        '<li class="cret-part">'
+          + '<span class="cret-part-num">' + (i + 1) + '</span>'
+          + '<span class="cret-part-title">' + _cretEsc(p.title) + '</span>'
+          + '<span class="cret-part-badge ' + (p.ready ? 'cret-badge-ready' : 'cret-badge-soon') + '">'
+          +   (p.ready ? '✓ Ready' : '⏳ Soon')
+          + '</span>'
+        + '</li>'
+      ).join('');
+      const doneHtml = doneInfo
+        ? (typeof doneInfo.percent === 'number'
+            ? '<span class="cret-done">★ Done · ' + doneInfo.percent + '%</span>'
+            : '<span class="cret-done">★ Done</span>')
+        : '';
+      const shareBtnHtml = noneReady
+        ? ''
+        : '<button type="button" class="cret-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
+      const actionHtml = noneReady
+        ? '<span class="cret-coming-soon">Coming soon</span>'
+        : (shareBtnHtml + '<button type="button" class="cret-take" data-mock="' + mockNum + '">Take Test →</button>');
+      const cleanTitle = String(item.name || '').replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]+\s*/u, '');
+      const crStats = _cretStatsByMock[String(mockNum)] || { total: 0, today: 0, last7: 0 };
+      const CR_LABELS = { trending: '🔥 Trending', new: '🆕 New', popular: '👑 Popular', gem: '💎 Hidden gem' };
+      const CR_COLORS = { trending: '#b45309', new: '#c2410c', popular: '#7c3aed', gem: '#15803d' };
+      const crBadgeKey = _cretBadgesByMock[String(mockNum)];
+      const crBadgeChip = crBadgeKey
+        ? '<span style="font-weight:700;color:' + CR_COLORS[crBadgeKey] + ';">' + CR_LABELS[crBadgeKey] + '</span>'
+        : '';
+      const crParts = [];
+      if (crBadgeChip) crParts.push(crBadgeChip);
+      crParts.push('<span>👥 ' + crStats.total + '</span>');
+      crParts.push('<span>⚡ ' + crStats.today + ' today</span>');
+      const statsRow = '<div class="cret-stat-row" style="display:flex;gap:8px;font-size:11.5px;color:#475569;margin:4px 0 8px;flex-wrap:wrap;align-items:center;">'
+                     + crParts.join('<span style="color:#cbd5e1;">·</span>')
+                     + '</div>';
+      return '<article class="cret-card ' + (noneReady ? 'cret-card-disabled' : '') + '"'
+        + ' id="cret-card-' + mockNum + '"'
+        + ' data-mock="' + mockNum + '"'
+        + ' data-file="' + _cretEsc(item.file) + '"'
+        + ' data-ready-count="' + readyCount + '"'
+        + ' data-total="' + total + '"'
+        + ' data-source="' + _cretEsc(String(meta.source || '').toLowerCase()) + '"'
+        + ' data-done="' + (doneHtml ? '1' : '0') + '"'
+        + ' data-title="' + _cretEsc(cleanTitle.toLowerCase()) + '"'
+        + ' data-parts="' + _cretEsc(parts.map(p => p.title).join(' ').toLowerCase()) + '">'
+          + '<div class="cret-card-head">'
+            + '<div class="cret-mocknum">#' + mockNum + '</div>'
+            + '<div class="cret-status">'
+              + '<span class="cret-dots">' + dots + '</span>'
+              + '<span class="cret-status-label">' + readyCount + '/' + total + ' READY</span>'
+            + '</div>'
+            + sourceHtml
+            + dateHtml
+          + '</div>'
+          + '<h3 class="cret-mock-title" title="' + _cretEsc(cleanTitle) + '">' + _cretEsc(cleanTitle) + '</h3>'
+          + statsRow
+          + '<ul class="cret-parts">' + partRows + '</ul>'
+          + '<div class="cret-card-foot">' + doneHtml + actionHtml + '</div>'
+        + '</article>';
+    }
+
+    function _cretRenderSkeletons() {
+      const grid = document.getElementById('cretGrid');
+      const count = (typeof cefrReadingTests !== 'undefined' && Array.isArray(cefrReadingTests))
+        ? cefrReadingTests.length : 12;
+      grid.innerHTML = Array.from({ length: count }, _cretSkeletonHtml).join('');
+      document.getElementById('cretCount').textContent = count;
+    }
+
+    function _cretRender() {
+      const grid = document.getElementById('cretGrid');
+      const items = (typeof cefrReadingTests !== 'undefined' && Array.isArray(cefrReadingTests))
+        ? cefrReadingTests : [];
+      const cards = items.map((t, idx) => {
+        const mockNum = String(idx + 1).padStart(2, '0');
+        const meta = _cretMockMeta[mockNum] || { source: '', parts: [
+          { title: '—', ready: false }, { title: '—', ready: false },
+          { title: '—', ready: false }, { title: '—', ready: false },
+          { title: '—', ready: false }
+        ] };
+        return _cretCardHtml(mockNum, t, meta, _cretGetDoneInfo(mockNum));
+      });
+      grid.innerHTML = cards.join('');
+      _cretBuildJumpOptions();
+      _cretBuildSourceOptions();
+      _cretApplyFiltersAndSort();
+    }
+
+    function _cretApplyFiltersAndSort() {
+      const search = (document.getElementById('cretSearch').value || '').toLowerCase().trim();
+      const sourceFilter = _cretSourceFilter.toLowerCase();
+      let visible = 0;
+      document.querySelectorAll('#cretGrid .cret-card').forEach(c => {
+        const ready = parseInt(c.dataset.readyCount, 10) || 0;
+        const total = parseInt(c.dataset.total, 10) || 0;
+        const done = c.dataset.done === '1';
+        const source = c.dataset.source || '';
+        let pass = true;
+        if (_cretFilter === 'ready') pass = (ready === total && total > 0);
+        else if (_cretFilter === 'soon') pass = (ready < total);
+        else if (_cretFilter === 'done') pass = done;
+        if (pass && sourceFilter) pass = source.startsWith(sourceFilter);
+        if (pass && search) {
+          pass = (c.dataset.title || '').includes(search)
+            || (c.dataset.source || '').includes(search)
+            || (c.dataset.parts || '').includes(search)
+            || (c.dataset.mock || '').includes(search);
+        }
+        c.style.display = pass ? '' : 'none';
+        if (pass) visible++;
+      });
+      document.getElementById('cretCount').textContent = visible;
+      document.getElementById('cretEmpty').style.display = visible === 0 ? '' : 'none';
+    }
+
+    function _cretBuildSourceOptions() {
+      const sel = document.getElementById('cretSourceFilter');
+      if (!sel) return;
+      const groups = new Set();
+      Object.values(_cretMockMeta).forEach(m => {
+        if (!m || !m.source) return;
+        const stripped = String(m.source).replace(/\s+Test\s+\d+\s*$/i, '').trim();
+        if (stripped) groups.add(stripped);
+      });
+      const sorted = Array.from(groups).sort();
+      let opts = '<option value="">📚 All sources</option>';
+      sorted.forEach(g => {
+        const selAttr = (g === _cretSourceFilter) ? ' selected' : '';
+        opts += '<option value="' + _cretEsc(g) + '"' + selAttr + '>' + _cretEsc(g) + '</option>';
+      });
+      sel.innerHTML = opts;
+    }
+
+    function _cretBuildJumpOptions() {
+      const sel = document.getElementById('cretJump');
+      if (!sel) return;
+      const cards = document.querySelectorAll('#cretGrid .cret-card');
+      let opts = '<option value="">Jump to #…</option>';
+      cards.forEach(c => {
+        const n = c.dataset.mock;
+        if (!n) return;
+        opts += '<option value="' + n + '">#' + n + '</option>';
+      });
+      sel.innerHTML = opts;
+    }
+
+    function _cretJumpToMock(mockNum) {
+      if (!mockNum) return;
+      const card = document.getElementById('cret-card-' + mockNum);
+      if (!card) return;
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.classList.remove('cret-card-jumped');
+      void card.offsetWidth;
+      card.classList.add('cret-card-jumped');
+    }
+
+    async function cretOpen() {
+      try { if (typeof window.__msv3ShowInlineSplash === 'function') window.__msv3ShowInlineSplash(); } catch (_e) {}
+      const overlay = document.getElementById('cretPicker');
+      overlay.classList.add('cret-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      try { history.pushState({ picker: 'cret' }, ''); } catch (_e) {}
+      if (typeof _pickerShowTmaBack === 'function') _pickerShowTmaBack();
+      _cretRenderSkeletons();
+      try {
+        const [, serverDone] = await Promise.all([
+          _cretLoadAllMockMeta(),
+          _cretFetchServerDone(),
+          _cretLoadStats()
+        ]);
+        _cretServerDone = serverDone || {};
+        _cretComputeBadges();
+        _cretRender();
+      } finally {
+        try { if (typeof window.__msv3HideInlineSplash === 'function') window.__msv3HideInlineSplash(); } catch (_e) {}
+      }
+    }
+
+    function cretClose(opts) {
+      const keepUrl = !!(opts && opts.keepUrl);
+      const overlay = document.getElementById('cretPicker');
+      overlay.classList.remove('cret-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (typeof _pickerHideTmaBack === 'function') _pickerHideTmaBack();
+      if (!_pickerFromPopstate && !keepUrl) {
+        try {
+          if (history.state && history.state.picker === 'cret') history.back();
+          if (/^\/take\//i.test(window.location.pathname)) {
+            history.replaceState(null, '', '/landing-v3.html');
+          }
+        } catch (_e) {}
+      }
+    }
+
+    function cretClearFilters() {
+      _cretFilter = 'all';
+      _cretSourceFilter = '';
+      document.querySelectorAll('.cret-chip').forEach(c =>
+        c.classList.toggle('cret-chip-active', c.dataset.filter === 'all')
+      );
+      document.getElementById('cretSearch').value = '';
+      const srcSel = document.getElementById('cretSourceFilter');
+      if (srcSel) srcSel.value = '';
+      _cretApplyFiltersAndSort();
+    }
+
+    (function _cretWire() {
+      const overlay = document.getElementById('cretPicker');
+      if (!overlay) return;
+      document.querySelectorAll('.cret-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          _cretFilter = chip.dataset.filter;
+          document.querySelectorAll('.cret-chip').forEach(c =>
+            c.classList.toggle('cret-chip-active', c === chip)
+          );
+          _cretApplyFiltersAndSort();
+        });
+      });
+      const search = document.getElementById('cretSearch');
+      const jump   = document.getElementById('cretJump');
+      const srcSel = document.getElementById('cretSourceFilter');
+      if (search) search.addEventListener('input', _cretApplyFiltersAndSort);
+      if (jump) jump.addEventListener('change', function () {
+        _cretJumpToMock(this.value);
+        setTimeout(() => { this.value = ''; }, 400);
+      });
+      if (srcSel) srcSel.addEventListener('change', function () {
+        _cretSourceFilter = this.value || '';
+        _cretApplyFiltersAndSort();
+      });
+      document.getElementById('cretGrid').addEventListener('click', function (e) {
+        if (e.target.closest('input, select, textarea, a, [contenteditable]')) return;
+        const card = e.target.closest('.cret-card');
+        if (!card) return;
+        if (card.classList.contains('cret-card-disabled')) return;
+        const mockN = card.dataset.mock;
+        const shareBtn = e.target.closest('.cret-share');
+        if (shareBtn) {
+          e.stopPropagation();
+          _pickerShareMock('cefr-reading', 'CEFR Reading Mock', mockN, shareBtn, 'cret-share-copied');
+          return;
+        }
+        const isTakeBtn = !!e.target.closest('.cret-take');
+        if (!isTakeBtn) {
+          if (mockN) {
+            try { history.replaceState(null, '', '/take/cefr-reading-' + encodeURIComponent(mockN)); } catch (_e) {}
+          }
+          return;
+        }
+        const file = card.dataset.file;
+        if (!file) return;
+        const fileWithMock = mockN
+          ? file + (file.indexOf('?') >= 0 ? '&' : '?') + 'mock=' + encodeURIComponent(mockN)
+          : file;
+        if (mockN) {
+          try { history.pushState(null, '', '/take/cefr-reading-' + encodeURIComponent(mockN)); } catch (_e) {}
+        }
+        if (typeof handleReadingMockClick === 'function') {
+          handleReadingMockClick(fileWithMock, 'cefr-reading');
+        } else {
+          cretClose({ keepUrl: true });
+          try { window.location.replace(fileWithMock); } catch (_e) { window.location.href = fileWithMock; }
+        }
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && overlay.classList.contains('cret-open')) cretClose();
+      });
+    })();
+
+    window.cretOpen = cretOpen;
+    window.cretClose = cretClose;
+    window.cretClearFilters = cretClearFilters;
+
+    // ===== Reading launch flow — Phase 5a =====
+    // CEFR Reading + (next session) IELTS Reading both flow through this.
+    window.landingReadingMockRequiresPromocode = window.landingReadingMockRequiresPromocode || function (_mockNumber) {
+      if (window.isSuperAccessUnlocked()) return false;
+      return true;
+    };
+    window.validateFullReadingAccess = window.validateFullReadingAccess || async function (inputValue, mockNumber, candidateName) {
+      try {
+        if (window.isSuperAccessUnlocked()) { const isVipAi = sessionStorage.getItem('vipPremiumAi') === 'true'; return { valid: true, premiumEntry: isVipAi }; }
+        if (window.isPremiumUnlocked && window.isPremiumUnlocked()) return { valid: true, isPremium: true, premiumEntry: false };
+        const cleanInput = inputValue.trim().replace(/[-\s]/g, '');
+        if (candidateName && window.validatePremiumPasscode) {
+          const premiumResult = window.validatePremiumPasscode(candidateName, cleanInput.toUpperCase());
+          if (premiumResult.valid) {
+            sessionStorage.setItem('premiumUnlocked', 'true');
+            sessionStorage.setItem('usedPasscode', cleanInput);
+            sessionStorage.setItem('premiumUserName', candidateName.trim());
+            return { valid: true, isPremium: true, premiumEntry: false };
+          }
+        }
+        if (cleanInput.length === 10 && /^\d{10}$/.test(cleanInput) && window.extractReadingPremiumOTP) {
+          const aiPasscode = window.extractReadingPremiumOTP(cleanInput, mockNumber);
+          if (aiPasscode) {
+            try {
+              const response = await fetch('https://admin0709.alwaysdata.net/verify', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ passcode: parseInt(aiPasscode, 10), center: ((window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream').replace(/_/g,'') })
+              });
+              if (response.ok) {
+                const data = await response.json();
+                if (data.access || data.valid) {
+                  sessionStorage.setItem('readingPremiumEntry', 'true');
+                  sessionStorage.setItem('readingAiPasscode', aiPasscode);
+                  return { valid: true, premiumEntry: true };
+                }
+              }
+            } catch (_e) {}
+          }
+        }
+        if (cleanInput.length === 12 && /^\d{12}$/.test(cleanInput) && window.extractReadingRegularOTP) {
+          const otp = window.extractReadingRegularOTP(cleanInput, mockNumber);
+          if (otp) {
+            const rawOtp = otp.replace(/0+$/, '') || otp;
+            const response = await fetch('https://davirbek.alwaysdata.net/verify', {
+              method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ code: rawOtp, center: ((window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream').replace(/_/g,'') })
+            });
+            if (!response.ok) return { valid: false, error: 'Server error. Please try again.' };
+            const data = await response.json();
+            if (data.access || data.valid) {
+              sessionStorage.setItem('readingPremiumEntry', 'false');
+              return { valid: true, premiumEntry: false };
+            }
+            return { valid: false, error: 'Invalid or expired passcode.' };
+          }
+        }
+        if (/^\d{4,12}$/.test(cleanInput) && typeof window.verifyMockStreamCode === 'function') {
+          const msRes = await window.verifyMockStreamCode(cleanInput, { skill: 'reading', mockNumber: parseInt(mockNumber, 10) });
+          if (msRes && msRes.valid) {
+            sessionStorage.setItem('readingPremiumEntry', msRes.premiumEntry ? 'true' : 'false');
+            return { valid: true, premiumEntry: !!msRes.premiumEntry };
+          }
+        }
+        return { valid: false, error: 'Invalid code. Please check your code or contact support.' };
+      } catch (error) {
+        console.error('[v3 reading] validation error:', error);
+        return { valid: false, error: 'Connection error. Please check your internet.' };
+      }
+    };
+
+    let _pendingReadingMock = null;
+    let _pendingCefrReadingUrl = null;
+
+    function _extractReadingMockNumber(pageUrl) {
+      const mp = pageUrl.match(/[?&]mock=(\d+)/);
+      if (mp) return mp[1].padStart(2, '0');
+      const m = pageUrl.match(/(\d+)(?:\.js)?(?=&|$)/);
+      return m ? m[1].padStart(2, '0') : null;
+    }
+    function _isReadingMockTaken(pageUrl) {
+      try {
+        if (!window.PremiumGate) return false;
+        if (window.PremiumGate.isPremiumTier('reading') || window.PremiumGate.isAdmin()) return false;
+        var n = _extractReadingMockNumber(pageUrl);
+        if (!n) return false;
+        var examType = ((pageUrl || '').toLowerCase().indexOf('ielts') !== -1) ? 'ielts' : 'cefr';
+        return window.PremiumGate.hasTaken({ skill: 'reading', exam_type: examType, mock_number: parseInt(n, 10) });
+      } catch (_e) { return false; }
+    }
+    function _showReadingTakenAlert() {
+      var ov = document.createElement('div');
+      ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);z-index:100010;display:flex;align-items:center;justify-content:center';
+      ov.innerHTML = '<div style="background:#fff;border-radius:20px;padding:32px 26px;max-width:380px;width:90%;text-align:center;box-shadow:0 25px 50px rgba(0,0,0,.3);animation:slideUp .3s ease">'
+        + '<div style="width:64px;height:64px;background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:30px">✅</div>'
+        + '<h3 style="color:#1e293b;font-size:18px;margin:0 0 8px">🎯 Mock Completed!</h3>'
+        + '<p style="color:#64748b;font-size:13.5px;line-height:1.6;margin:0 0 14px">You’ve already used your free attempt on this mock.</p>'
+        + '<div style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);border-radius:12px;padding:12px 16px;margin:0 0 18px">'
+        + '<p style="color:#6d28d9;font-size:13px;font-weight:600;margin:0">💎 Upgrade to Premium for unlimited retakes, answer review & solutions</p></div>'
+        + '<button onclick="this.closest(\'div[style]\').parentElement.remove()" style="padding:11px 28px;background:linear-gradient(135deg,#0d9488,#0f766e);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer">Got it</button></div>';
+      document.body.appendChild(ov);
+      ov.addEventListener('click', function(e) { if (e.target === ov) ov.remove(); });
+    }
+
+    function handleReadingMockClick(pageUrl, category) {
+      const mockNumber = _extractReadingMockNumber(pageUrl);
+      sessionStorage.setItem('readingMockReturnCategory', category);
+      if (!mockNumber) { _loadReadingMockOrShowMode(pageUrl, category); return; }
+      if (window.isSuperAccessUnlocked()) {
+        const isVipAi = sessionStorage.getItem('vipPremiumAi') === 'true';
+        sessionStorage.setItem('readingPremiumEntry', isVipAi ? 'true' : 'false');
+        if (!isVipAi && _isReadingMockTaken(pageUrl)) { _showReadingTakenAlert(); return; }
+        sessionStorage.setItem('readingLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: isVipAi }));
+        sessionStorage.setItem('readingCodeValidated', 'true');
+        _loadReadingMockOrShowMode(pageUrl, category);
+        return;
+      }
+      if (window.isPremiumUnlocked && window.isPremiumUnlocked()) {
+        sessionStorage.setItem('readingPremiumEntry', 'true');
+        sessionStorage.setItem('readingLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: true }));
+        sessionStorage.setItem('readingCodeValidated', 'true');
+        _loadReadingMockOrShowMode(pageUrl, category);
+        return;
+      }
+      if (window._centerAccess) {
+        var _caLevel = window._centerAccess.globalAccess !== 'off' ? window._centerAccess.globalAccess : (window._centerAccess.skillAccess && window._centerAccess.skillAccess.reading) || 'off';
+        if (_caLevel !== 'off') {
+          var _caPrem = _caLevel === 'premium';
+          sessionStorage.setItem('readingPremiumEntry', _caPrem ? 'true' : 'false');
+          if (!_caPrem && _isReadingMockTaken(pageUrl)) { _showReadingTakenAlert(); return; }
+          sessionStorage.setItem('readingLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: _caPrem }));
+          sessionStorage.setItem('readingCodeValidated', 'true');
+          _loadReadingMockOrShowMode(pageUrl, category);
+          return;
+        }
+      }
+      if (!window.landingReadingMockRequiresPromocode(mockNumber)) {
+        sessionStorage.setItem('readingPremiumEntry', 'false');
+        if (_isReadingMockTaken(pageUrl)) { _showReadingTakenAlert(); return; }
+        sessionStorage.setItem('readingLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: false }));
+        sessionStorage.setItem('readingCodeValidated', 'true');
+        _loadReadingMockOrShowMode(pageUrl, category);
+        return;
+      }
+      _pendingReadingMock = { pageUrl, mockNumber, category };
+      showReadingAccessCodeModal();
+    }
+    window.handleReadingMockClick = handleReadingMockClick;
+
+    function showReadingAccessCodeModal() {
+      const modal = document.getElementById('readingAccessCodeModal');
+      const input = document.getElementById('readingAccessCodeInput');
+      const error = document.getElementById('readingAccessCodeError');
+      const label = document.getElementById('readingAccessMockLabel');
+      const btn = document.getElementById('readingAccessCodeSubmitBtn');
+      if (!modal || !_pendingReadingMock) return;
+      const isIELTS = _pendingReadingMock.category === 'ielts-reading';
+      label.textContent = (isIELTS ? 'IELTS' : 'CEFR') + ' Reading Mock ' + _pendingReadingMock.mockNumber + ' requires an access code';
+      error.textContent = ''; error.style.color = '';
+      input.value = '';
+      btn.textContent = 'Verify & Start'; btn.disabled = false;
+      const nameWrap  = document.getElementById('readingAccessNameWrap');
+      const nameInput = document.getElementById('readingAccessNameInput');
+      const existingName = (sessionStorage.getItem('CANDIDATE_FULL_NAME') || '').trim();
+      const needName = nameWrap && nameInput && !existingName;
+      if (nameWrap)  nameWrap.style.display = needName ? '' : 'none';
+      if (nameInput) {
+        nameInput.value = existingName;
+        if (needName) nameInput.onkeypress = function (e) { if (e.key === 'Enter') document.getElementById('readingAccessCodeInput').focus(); };
+      }
+      modal.style.display = 'flex';
+      setTimeout(() => (needName ? nameInput : input).focus(), 100);
+      input.onkeypress = function (e) { if (e.key === 'Enter') verifyReadingAccessCode(); };
+    }
+    function closeReadingAccessCodeModal() {
+      const modal = document.getElementById('readingAccessCodeModal');
+      if (modal) modal.style.display = 'none';
+      _pendingReadingMock = null;
+    }
+    window.cancelReadingAccessCodeModal = function () {
+      closeReadingAccessCodeModal();
+      try {
+        if (/^\/take\//i.test(window.location.pathname)) {
+          history.replaceState(null, '', '/landing-v3.html');
+        }
+      } catch (_e) {}
+    };
+    async function verifyReadingAccessCode() {
+      if (!_pendingReadingMock) return;
+      const input = document.getElementById('readingAccessCodeInput');
+      const error = document.getElementById('readingAccessCodeError');
+      const btn = document.getElementById('readingAccessCodeSubmitBtn');
+      const inputValue = input.value.trim();
+      const nameWrap  = document.getElementById('readingAccessNameWrap');
+      const nameInput = document.getElementById('readingAccessNameInput');
+      if (nameWrap && nameWrap.style.display !== 'none' && nameInput) {
+        const nameVal = (nameInput.value || '').trim();
+        if (!nameVal) { error.style.color = '#dc2626'; error.textContent = '❌ Please enter your full name'; return; }
+        sessionStorage.setItem('CANDIDATE_FULL_NAME', nameVal);
+      }
+      if (!inputValue) { error.style.color = '#dc2626'; error.textContent = '❌ Please enter your access code'; return; }
+      btn.textContent = 'Validating...'; btn.disabled = true;
+      error.style.color = '#f59e0b'; error.textContent = '🔄 Validating access code...';
+      const candidateName = sessionStorage.getItem('CANDIDATE_FULL_NAME') || '';
+      const { mockNumber, pageUrl } = _pendingReadingMock;
+      try {
+        const result = await window.validateFullReadingAccess(inputValue, mockNumber, candidateName);
+        if (!result.valid) {
+          error.style.color = '#dc2626'; error.textContent = '❌ ' + result.error;
+          btn.textContent = 'Verify & Start'; btn.disabled = false;
+          return;
+        }
+        error.style.color = '#059669'; error.textContent = '✅ Access verified!';
+        sessionStorage.setItem('readingPremiumEntry', result.premiumEntry ? 'true' : 'false');
+        if (!result.premiumEntry && _isReadingMockTaken(_pendingReadingMock.pageUrl)) {
+          closeReadingAccessCodeModal(); _showReadingTakenAlert(); btn.disabled = false; btn.textContent = 'Verify & Start'; return;
+        }
+        sessionStorage.setItem('readingLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: result.premiumEntry || false }));
+        sessionStorage.setItem('readingCodeValidated', 'true');
+        try { window.dispatchEvent(new CustomEvent('mockStream:premiumUnlocked', { detail: { source: 'reading_access_code', skill: 'reading' } })); } catch (_e) {}
+        const _rdResumeUrl = _pendingReadingMock.pageUrl;
+        const _rdResumeCategory = _pendingReadingMock.category;
+        closeReadingAccessCodeModal();
+        setTimeout(() => _loadReadingMockOrShowMode(_rdResumeUrl, _rdResumeCategory), 300);
+      } catch (_err) {
+        error.style.color = '#dc2626'; error.textContent = '❌ Connection error. Please try again.';
+        btn.textContent = 'Verify & Start'; btn.disabled = false;
+      }
+    }
+    window.verifyReadingAccessCode = verifyReadingAccessCode;
+    window.closeReadingAccessCodeModal = closeReadingAccessCodeModal;
+
+    function _loadReadingMockOrShowMode(pageUrl, category) {
+      if (category === 'cefr-reading') {
+        _pendingCefrReadingUrl = pageUrl;
+        var mockNum = _extractReadingMockNumber(pageUrl) || '??';
+        var label = document.getElementById('cefrReadingModeMockLabel');
+        if (label) label.textContent = 'CEFR Reading Mock ' + mockNum;
+        var modal = document.getElementById('cefrReadingModeModal');
+        if (modal) modal.style.display = 'flex';
+      } else {
+        // ielts-reading lands in next session — direct nav for now.
+        try { window.location.replace(pageUrl); } catch (_e) { window.location.href = pageUrl; }
+      }
+    }
+
+    function closeCefrReadingModeModal() {
+      var modal = document.getElementById('cefrReadingModeModal');
+      if (modal) modal.style.display = 'none';
+      _pendingCefrReadingUrl = null;
+      try { sessionStorage.removeItem('readingMockReturnCategory'); } catch (_e) {}
+      try {
+        if (/^\/take\//i.test(window.location.pathname)) {
+          history.replaceState({}, document.title, '/landing-v3.html');
+        }
+      } catch (_e) {}
+    }
+    function _cefrReadingModeFullMock() {
+      var url = _pendingCefrReadingUrl;
+      _pendingCefrReadingUrl = null;
+      document.getElementById('cefrReadingModeModal').style.display = 'none';
+      if (url) { try { window.location.replace(url); } catch (_e) { window.location.href = url; } }
+    }
+    function _cefrReadingModePartBased() {
+      document.getElementById('cefrReadingModeModal').style.display = 'none';
+      document.getElementById('cefrReadingPartPickerModal').style.display = 'flex';
+    }
+    function closeCefrReadingPartPicker() {
+      document.getElementById('cefrReadingPartPickerModal').style.display = 'none';
+      if (_pendingCefrReadingUrl) {
+        document.getElementById('cefrReadingModeModal').style.display = 'flex';
+      }
+    }
+    function _pickCefrReadingPart(n) {
+      var url = _pendingCefrReadingUrl;
+      document.getElementById('cefrReadingPartPickerModal').style.display = 'none';
+      _pendingCefrReadingUrl = null;
+      if (url) {
+        var fullUrl = url + '&part=' + n;
+        try { window.location.replace(fullUrl); } catch (_e) { window.location.href = fullUrl; }
+      }
+    }
+    window.closeCefrReadingModeModal = closeCefrReadingModeModal;
+    window._cefrReadingModeFullMock  = _cefrReadingModeFullMock;
+    window._cefrReadingModePartBased = _cefrReadingModePartBased;
+    window.closeCefrReadingPartPicker = closeCefrReadingPartPicker;
+    window._pickCefrReadingPart       = _pickCefrReadingPart;
   </script>
 
   <!-- ═══════════════════════════════════════════════════════
