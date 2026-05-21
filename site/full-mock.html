@@ -12729,7 +12729,11 @@ function promptFriendlyLeave(leaveAction){closeHomeSidebar();var tm=document.get
 function goToMockSelector(url){var m={"Speaking Mocks.html":"landing.html?openSelector=cefr-speaking","IELTS Speaking Mocks.html":"landing.html?openSelector=ielts-speaking","Writing Mocks.html":"landing.html?openSelector=cefr-writing","Writing IELTS Mock.html":"landing.html?openSelector=ielts-writing","CEFR Listening Mocks.html":"landing.html?openSelector=cefr-listening","IELTS Listening Mocks.html":"landing.html?openSelector=ielts-listening","CEFR Reading Mocks.html":"landing.html?openSelector=cefr-reading","IELTS Reading Mocks.html":"landing.html?openSelector=ielts-reading"};promptFriendlyLeave(function(){window.__okToLeave=true;_iframeNav(m[url]||url);});}
 document.querySelectorAll('#hsPanel .hs-btn[href]').forEach(function(a){var h=a.getAttribute('href');if(a.getAttribute('target')){{a.addEventListener('click',function(){window.__okToLeave=true;});return;}}a.addEventListener('click',function(e){e.preventDefault();goToMockSelector(h);});});
 document.querySelectorAll('#hsPanel .hs-action[href], #hsPanel a[href][style]').forEach(function(a){if(!a.getAttribute('target')){a.addEventListener('click',function(e){e.preventDefault();promptFriendlyLeave(function(){window.__okToLeave=true;_iframeNav(a.getAttribute('href'));});});}else{a.addEventListener('click',function(){window.__okToLeave=true;});}});
-document.querySelectorAll('.gate-back-btn').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();promptFriendlyLeave(function(){window.__okToLeave=true;_iframeNav(a.getAttribute('href'));});});});
+// Gate back button: this fires BEFORE "Begin Session" — no exam in
+// progress, no progress to warn about. Navigate directly. The in-exam
+// back buttons (hdrBackBtn, .tool-btn) still go through
+// promptFriendlyLeave because by then the user has actually started.
+document.querySelectorAll('.gate-back-btn').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();window.__okToLeave=true;_iframeNav(a.getAttribute('href'));});});
 </script>
 <script src="chat-bubble.js"></script>
 </body>
