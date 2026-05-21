@@ -2301,12 +2301,15 @@
       return examType + '-' + skill;
     }
     function navToPicker(slug) {
-      // Phase 1 of the engine migration — CEFR Speaking opens inline on v3
-      // when cspetOpen is defined (loaded by the picker engine block at the
-      // end of body). The legacy handoff URL stays as the fallback path so
-      // a missing/broken inline picker just degrades to the old behaviour.
+      // Engine migration — speaking pickers (cspet, ispet) open inline on
+      // v3 when their open fn is defined. The legacy handoff URL stays as
+      // the fallback so a missing/broken inline picker just degrades to
+      // the old behaviour.
       if (slug === 'cefr-speaking' && typeof window.cspetOpen === 'function') {
-        try { cspetOpen(); return; } catch (_e) { /* fall through to handoff */ }
+        try { cspetOpen(); return; } catch (_e) {}
+      }
+      if (slug === 'ielts-speaking' && typeof window.ispetOpen === 'function') {
+        try { ispetOpen(); return; } catch (_e) {}
       }
       window.location.href = '/landing.html?openSelector=' + encodeURIComponent(slug);
     }
@@ -3355,6 +3358,10 @@
     });
 
     document.getElementById('msv3IeltsSpeaking').addEventListener('click', function () {
+      // Same inline-first check as cspet — Phase 2 wires ispetPicker on v3.
+      if (typeof window.ispetOpen === 'function') {
+        try { requestSidebarClose(); ispetOpen(); return; } catch (_e) {}
+      }
       window.location.href = '/landing.html?openSelector=ielts-speaking';
     });
     document.getElementById('msv3IeltsWriting').addEventListener('click', function () {
@@ -3979,6 +3986,128 @@
       font-size: 11px;
       font-weight: 700;
     }
+
+    /* ===== IELTS Speaking specific overrides (sky-blue theme) ===== */
+    #ispetPicker.ilet-overlay {
+      background: linear-gradient(135deg, #ecfeff 0%, #cffafe 100%);
+    }
+    #ispetPicker .ilet-header {
+      background: rgba(236, 254, 255, 0.95);
+      border-bottom: 1px solid #a5f3fc;
+    }
+    #ispetPicker .ilet-back {
+      color: #0e7490;
+      border-color: #a5f3fc;
+    }
+    #ispetPicker .ilet-back:hover { background: #0e7490; color: #fff; }
+    #ispetPicker .ilet-title { color: #155e75; }
+    #ispetPicker .ilet-count {
+      background: #cffafe;
+      color: #0e7490;
+      border: 1px solid #67e8f9;
+    }
+    #ispetPicker .ilet-card {
+      background: linear-gradient(135deg, #f0fdfa 0%, #ecfeff 100%);
+      border: 1px solid #a5f3fc;
+    }
+    #ispetPicker .ilet-card:hover:not(.ilet-card-disabled) {
+      border-color: #06b6d4;
+      box-shadow: 0 8px 24px rgba(6, 182, 212, 0.2);
+    }
+    #ispetPicker .ilet-mocknum {
+      background: linear-gradient(135deg, #06b6d4, #0891b2);
+    }
+    #ispetPicker .ilet-take {
+      background: linear-gradient(135deg, #06b6d4, #0891b2);
+    }
+    #ispetPicker .ilet-take:hover {
+      background: linear-gradient(135deg, #0891b2, #0e7490);
+    }
+    #ispetPicker .ilet-chip-active {
+      background: #0e7490;
+      color: #fff;
+      border-color: #0e7490;
+    }
+    #ispetPicker .ilet-mock-title { color: #155e75; }
+    #ispetPicker .ispet-filter-row {
+      background: rgba(236, 254, 255, 0.6);
+      border-bottom: 1px solid #cffafe;
+    }
+    #ispetPicker .ispet-pill {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 1px 8px;
+      border-radius: 999px;
+      margin-right: 4px;
+      vertical-align: middle;
+      line-height: 1.5;
+      white-space: nowrap;
+      color: #0e7490;
+      background: #cffafe;
+      border: 1px solid #67e8f9;
+    }
+    #ispetPicker .ispet-part-heading {
+      display: flex;
+      align-items: center;
+      padding: 6px 4px;
+      border-top: 1px dashed #a5f3fc;
+      margin-top: 4px;
+      gap: 8px;
+    }
+    #ispetPicker .ispet-part-heading:first-of-type { border-top: 0; margin-top: 0; }
+    #ispetPicker .ispet-part-label {
+      flex-shrink: 0;
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      color: #fff;
+      background: linear-gradient(135deg, #06b6d4, #0891b2);
+      padding: 2px 8px;
+      border-radius: 6px;
+      line-height: 1.4;
+    }
+    #ispetPicker .ispet-part-topic {
+      font-size: 12.5px;
+      color: #164e63;
+      font-weight: 500;
+      flex: 1;
+    }
+    #ispetPicker .ispet-exam-date {
+      font-size: 11px;
+      color: #155e75;
+      background: #cffafe;
+      border: 1px solid #67e8f9;
+      border-radius: 999px;
+      padding: 1px 8px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    #ispetPicker .ispet-share {
+      background: transparent;
+      border: 1px solid #67e8f9;
+      color: #0e7490;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+      transition: background 120ms ease, border-color 120ms ease;
+      margin-right: 8px;
+      white-space: nowrap;
+    }
+    #ispetPicker .ispet-share:hover {
+      background: #ecfeff;
+      border-color: #0e7490;
+    }
+    #ispetPicker .ispet-share.ispet-share-copied {
+      background: #dcfce7;
+      border-color: #86efac;
+      color: #15803d;
+      font-size: 11px;
+      font-weight: 700;
+    }
   </style>
 
   <!-- CEFR Speaking fullscreen picker — DOM only. JS in the script
@@ -4018,6 +4147,44 @@
     </div>
   </div>
 
+  <!-- IELTS Speaking fullscreen picker (ispet) — Phase 2 of engine migration.
+       Reuses the same .ilet-* shared classes as cspet (different theme via
+       #ispetPicker overrides above). -->
+  <div id="ispetPicker" class="ilet-overlay" aria-hidden="true">
+    <header class="ilet-header">
+      <button class="ilet-back" type="button" onclick="if(typeof ispetClose==='function')ispetClose()" title="Back to landing">←</button>
+      <div class="ilet-title">
+        <span class="ilet-title-emoji">🎤</span>
+        <span class="ilet-title-text">IELTS Speaking</span>
+        <span class="ilet-count" id="ispetCount">0</span>
+      </div>
+      <div class="ilet-header-tools">
+        <input type="search" class="ilet-search" id="ispetSearch" placeholder="🔍 Search mock #, topic, cue card…" autocomplete="off" spellcheck="false">
+        <select class="ilet-sort" id="ispetJump" title="Jump to mock #">
+          <option value="">Jump to #…</option>
+        </select>
+      </div>
+    </header>
+
+    <div class="ilet-filter-row ispet-filter-row">
+      <button type="button" class="ilet-chip ilet-chip-active ispet-chip" data-filter="all">All</button>
+      <button type="button" class="ilet-chip ispet-chip" data-filter="ready">✓ Ready only</button>
+      <button type="button" class="ilet-chip ispet-chip" data-filter="soon">⏳ Coming soon</button>
+      <button type="button" class="ilet-chip ispet-chip" data-filter="done">★ Done before</button>
+      <select class="ilet-source-filter" id="ispetTopicFilter" title="Filter by topic">
+        <option value="">🏷 All topics</option>
+      </select>
+    </div>
+
+    <main class="ilet-grid" id="ispetGrid"></main>
+
+    <div class="ilet-empty" id="ispetEmpty" style="display:none;">
+      <div class="ilet-empty-icon">🔍</div>
+      <p class="ilet-empty-msg">No mocks match your filters.</p>
+      <button type="button" class="ilet-empty-clear" onclick="if(typeof ispetClearFilters==='function')ispetClearFilters()">Clear filters</button>
+    </div>
+  </div>
+
   <script id="msv3PickerEngineJs">
     // ===== Shared picker plumbing =====
     // _pickerFromPopstate: cspetClose (and future picker close fns) read
@@ -4026,10 +4193,15 @@
     let _pickerFromPopstate = false;
 
     function _pickerTmaBackHandler() {
-      // Future phases add ispet/clet/ilet/cwet/iwet checks here.
+      // Future phases add clet/ilet/cwet/iwet checks here.
       var cspet = document.getElementById('cspetPicker');
       if (cspet && cspet.classList.contains('ilet-open')) {
         if (typeof cspetClose === 'function') cspetClose();
+        return;
+      }
+      var ispet = document.getElementById('ispetPicker');
+      if (ispet && ispet.classList.contains('ilet-open')) {
+        if (typeof ispetClose === 'function') ispetClose();
       }
     }
     function _pickerShowTmaBack() {
@@ -4150,6 +4322,13 @@
         if (cspet && cspet.classList.contains('ilet-open')) {
           _pickerFromPopstate = true;
           if (typeof cspetClose === 'function') cspetClose();
+          _pickerFromPopstate = false;
+          return;
+        }
+        var ispet = document.getElementById('ispetPicker');
+        if (ispet && ispet.classList.contains('ilet-open')) {
+          _pickerFromPopstate = true;
+          if (typeof ispetClose === 'function') ispetClose();
           _pickerFromPopstate = false;
         }
       } catch (_e) {}
@@ -4663,6 +4842,521 @@
     window.cspetOpen         = cspetOpen;
     window.cspetClose        = cspetClose;
     window.cspetClearFilters = cspetClearFilters;
+
+    // ===== IELTS Speaking picker (ispetPicker) — Phase 2 =====
+    // Ported verbatim from landing.html. Same shape as cspet but with
+    // IELTS-flavoured prompt parsing (_ispetDeriveP2Topic strips
+    // "Describe a X" preambles) and 3 parts instead of 4. Mock-click
+    // funnels into the same speakingModeModal flow that Phase 1 wired
+    // for cspet — handleSpeakingMockClick handles both categories.
+    const _ISPET_SB_URL    = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    const _ISPET_SB_KEY    = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    const _ISPET_CACHE_KEY = 'ms_ispet_meta_v1';
+    const _ISPET_CACHE_TTL = 5 * 60 * 1000;
+    const _ispetMockMeta   = {};
+    let   _ispetFilter      = 'all';
+    let   _ispetTopicFilter = '';
+    let   _ispetServerDone  = {};
+    let   _ispetStatsByMock  = {};
+    let   _ispetBadgesByMock = {};
+    let   _ispetTopicCounts  = {};
+    let   _ispetTopicBadges  = {};
+
+    function _ispetEsc(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
+    function _ispetCap(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''; }
+    function _ispetArticle(word) { return /^[aeiouAEIOU]/.test(word) ? 'An ' : 'A '; }
+
+    function _ispetDeriveP2Topic(q) {
+      if (!q || !q.prompt) return '';
+      let p = String(q.prompt).trim().replace(/\s+/g, ' ');
+      p = p.replace(/^describe\s+(?:a|an|the)\s+/i, '');
+      if (!p) return '';
+      let m = /^(?:time|occasion|moment|day|situation)\s+when\s+(?:you|i)\s+(\w+)(?:\s+(\w+))?/i.exec(p);
+      if (m) {
+        const verb = m[1].toLowerCase();
+        const next = m[2] ? m[2].toLowerCase() : '';
+        const stopWords = /^(?:a|an|the|to|in|on|at|that|which|who|so|but|or|and|of|for|with)$/i;
+        const core = verb + (next && !stopWords.test(next) ? ' ' + next : '');
+        return _ispetCap(core);
+      }
+      m = /^((?:[a-z]+\s+){0,2}[a-z]+)\s+(?:who|that|which|where|whom|whose)\b/i.exec(p);
+      if (m) { const phrase = m[1].toLowerCase(); return _ispetArticle(phrase) + phrase; }
+      m = /^((?:[a-z]+\s+){0,2}[a-z]+)\s+you\s+\w+/i.exec(p);
+      if (m) { const phrase = m[1].toLowerCase(); return _ispetArticle(phrase) + phrase; }
+      m = /^((?:[a-z]+\s+){0,2}[a-z]+)\s+(?:with|in|on|at|of|about|by|for|from)\b/i.exec(p);
+      if (m) { const phrase = m[1].toLowerCase(); return _ispetArticle(phrase) + phrase; }
+      const words = p.split(/\s+/).slice(0, 3);
+      const phrase = words.join(' ').toLowerCase();
+      return _ispetArticle(phrase) + phrase;
+    }
+    // Expose so cspet's _cspetBuildMetaFromMockData typeof-check finds it
+    // (it falls back to firstFew when this helper is missing — having it
+    // present means CEFR Part 2 prompts that DO start with "Describe a X"
+    // get a polished topic instead of the firstFew default).
+    window._ispetDeriveP2Topic = _ispetDeriveP2Topic;
+
+    function _ispetBuildMetaFromMockData(md) {
+      const m = md || {};
+      const qs = Array.isArray(m.questions) ? m.questions : [];
+      const grouped = { 'Part 1': [], 'Part 2': [], 'Part 3': [] };
+      for (const q of qs) {
+        const p = String(q && q.part || '').trim();
+        if (grouped[p]) grouped[p].push(q);
+      }
+      const tags  = m.tags || {};
+      function firstFew(s, n) {
+        const text = String(s || '').trim().replace(/\s+/g,' ');
+        if (!text) return '';
+        const words = text.split(' ');
+        return words.length <= n ? text : words.slice(0, n).join(' ') + '…';
+      }
+      function p1TopicFor(q) {
+        if (tags.p1Topic) return String(tags.p1Topic).trim();
+        if (q && q.topic) return String(q.topic).trim();
+        return firstFew(q && q.prompt, 6);
+      }
+      function p2TopicFor(q) {
+        if (tags.p2Topic) return String(tags.p2Topic).trim();
+        if (q && q.topic) return String(q.topic).trim();
+        return _ispetDeriveP2Topic(q);
+      }
+      function p3TopicFor(q) {
+        if (tags.p3Topic) return String(tags.p3Topic).trim();
+        if (q && q.topic) return String(q.topic).trim();
+        return '';
+      }
+      const partReady = (partLabel) => {
+        const arr = grouped[partLabel] || [];
+        return arr.some(q => q && String(q.prompt || '').trim());
+      };
+      const readyCount = ['Part 1','Part 2','Part 3'].filter(partReady).length;
+      return {
+        p1Topic:    p1TopicFor(grouped['Part 1'][0]),
+        p2Topic:    p2TopicFor(grouped['Part 2'][0]),
+        p3Topic:    p3TopicFor(grouped['Part 3'][0]),
+        qCount:     3,
+        readyCount,
+        actualQCount: qs.length,
+        examDate:   String(m.examDate || '').trim(),
+        title:      String(m.title || '').trim(),
+        topicsAll: [
+          ['P1', p1TopicFor(grouped['Part 1'][0])],
+          ['P2', p2TopicFor(grouped['Part 2'][0])],
+          ['P3', p3TopicFor(grouped['Part 3'][0])]
+        ].filter(([, t]) => !!t).map(([p, t]) => p + '::' + t.toLowerCase())
+      };
+    }
+
+    function _ispetFmtDate(d) {
+      if (!d) return '';
+      const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(d);
+      if (!m) return d;
+      const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      return parseInt(m[3], 10) + ' ' + MONTHS[parseInt(m[2], 10) - 1] + ' ' + m[1];
+    }
+
+    function _ispetCardHtml(mockNum, meta, doneInfo) {
+      const padded = String(mockNum).padStart(2, '0');
+      const readyOf = meta.readyCount > 0
+        ? (meta.readyCount + '/' + meta.qCount + ' READY')
+        : 'Not ready yet';
+      const fullyReady = meta.qCount > 0 && meta.readyCount === meta.qCount;
+      const partRow = (n, topic) => {
+        const label = '<span class="ispet-part-label">PART ' + n + '</span>';
+        let text;
+        if (topic) {
+          text = '<span class="ispet-part-topic">' + _ispetEsc(topic) + '</span>';
+        } else if (n === 3) {
+          text = '<span class="ispet-part-topic" style="color:#94a3b8;font-style:italic;">Follow-up questions</span>';
+        } else {
+          text = '<span class="ispet-part-topic" style="color:#94a3b8;">— topic not tagged —</span>';
+        }
+        return '<li class="ilet-section ispet-part-heading">' + label + text + '</li>';
+      };
+      const doneBadge = doneInfo && doneInfo.done
+        ? '<span class="ispet-pill" style="background:#dcfce7;color:#15803d;border-color:#86efac;">★ Done</span>'
+        : '';
+      const dateBadge = meta.examDate
+        ? '<span class="ispet-exam-date">📅 ' + _ispetFmtDate(meta.examDate) + '</span>'
+        : '';
+      const titleText = meta.title || ('IELTS Speaking Mock ' + padded);
+      const stats = _ispetStatsByMock[padded] || { total: 0, today: 0, last7: 0 };
+      const BADGE_LABELS = { trending: '🔥 Trending', new: '🆕 New', popular: '👑 Popular', gem: '💎 Hidden gem' };
+      const BADGE_COLORS = { trending: '#b45309', new: '#0e7490', popular: '#7c3aed', gem: '#15803d' };
+      const badgeKey = _ispetBadgesByMock[padded];
+      const badgeChip = badgeKey
+        ? '<span style="font-weight:700;color:' + BADGE_COLORS[badgeKey] + ';">' + BADGE_LABELS[badgeKey] + '</span>'
+        : '';
+      const statsRowParts = [];
+      if (badgeChip) statsRowParts.push(badgeChip);
+      statsRowParts.push('<span>👥 ' + stats.total + '</span>');
+      statsRowParts.push('<span>⚡ ' + stats.today + ' today</span>');
+      const statsRow = '<div class="ispet-stat-row" style="display:flex;gap:8px;font-size:11.5px;color:#475569;margin:4px 0 8px;flex-wrap:wrap;align-items:center;">'
+                     + statsRowParts.join('<span style="color:#cbd5e1;">·</span>')
+                     + '</div>';
+      return ''
+        + '<article class="ilet-card' + (fullyReady ? '' : ' ilet-card-disabled') + '" data-mock="' + padded + '" id="ispet-card-' + padded + '">'
+        +   '<div class="ilet-card-head">'
+        +     '<span class="ilet-mocknum">#' + padded + '</span>'
+        +     '<span style="flex:1;"></span>'
+        +     dateBadge
+        +     '<span style="font-size:11.5px;color:' + (fullyReady ? '#15803d' : '#92400e') + ';font-weight:700;margin-left:8px;">' + readyOf + '</span>'
+        +   '</div>'
+        +   '<h3 class="ilet-mock-title">' + _ispetEsc(titleText) + '</h3>'
+        +   statsRow
+        +   (doneBadge ? '<div style="margin:4px 0 6px;">' + doneBadge + '</div>' : '')
+        +   '<ul class="ilet-sections" style="list-style:none;padding:0;margin:8px 0;display:flex;flex-direction:column;gap:0;">'
+        +     partRow(1, meta.p1Topic)
+        +     partRow(2, meta.p2Topic)
+        +     partRow(3, meta.p3Topic)
+        +   '</ul>'
+        +   '<div class="ilet-card-foot">'
+        +     '<button type="button" class="ispet-share" data-mock="' + padded + '" title="Share this mock" aria-label="Share mock #' + padded + '">🔗</button>'
+        +     '<button type="button" class="ilet-take">Take Test →</button>'
+        +   '</div>'
+        + '</article>';
+    }
+
+    function _ispetSkeletonHtml() {
+      return '<div class="ilet-card-skeleton">'
+        + '<div class="ilet-skel-line short"></div>'
+        + '<div class="ilet-skel-line tall"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '</div>';
+    }
+    function _ispetRenderSkeletons() {
+      const grid = document.getElementById('ispetGrid');
+      if (!grid) return;
+      const count = Math.max(12, Object.keys(_ispetMockMeta).length || 12);
+      grid.innerHTML = Array.from({ length: count }, _ispetSkeletonHtml).join('');
+      const empty = document.getElementById('ispetEmpty');
+      if (empty) empty.style.display = 'none';
+    }
+
+    async function _ispetLoadAllMockMeta() {
+      try {
+        const cached = JSON.parse(localStorage.getItem(_ISPET_CACHE_KEY) || 'null');
+        if (cached && cached.ts && cached.data && (Date.now() - cached.ts) < _ISPET_CACHE_TTL) {
+          Object.assign(_ispetMockMeta, cached.data);
+          return;
+        }
+      } catch (_e) {}
+      try {
+        const resp = await fetch(`${_ISPET_SB_URL}/rest/v1/mock_tests?mock_type=eq.ielts-speaking&status=eq.published&select=id,mock_number,mock_data,title,created_at`, {
+          headers: { 'apikey': _ISPET_SB_KEY, 'Authorization': 'Bearer ' + _ISPET_SB_KEY }
+        });
+        if (!resp.ok) return;
+        const rows = await resp.json();
+        for (const r of rows) {
+          const padded = String(r.mock_number).padStart(2, '0');
+          const meta = _ispetBuildMetaFromMockData(r.mock_data);
+          if (r.title && !meta.title) meta.title = r.title;
+          meta.sbId = r.id;
+          meta.createdAt = r.created_at;
+          _ispetMockMeta[padded] = meta;
+        }
+        try { localStorage.setItem(_ISPET_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: _ispetMockMeta })); } catch (_e) {}
+      } catch (_e) {}
+    }
+
+    async function _ispetLoadStats() {
+      _ispetStatsByMock = {};
+      try {
+        const resp = await fetch(`${_ISPET_SB_URL}/rest/v1/rpc/mock_attempt_stats`, {
+          method: 'POST',
+          headers: { 'apikey': _ISPET_SB_KEY, 'Authorization': 'Bearer ' + _ISPET_SB_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ p_skill: 'speaking', p_exam_type: 'ielts' })
+        });
+        if (!resp.ok) return;
+        const rows = await resp.json();
+        for (const r of rows) {
+          if (r.mock_number == null) continue;
+          const padded = String(r.mock_number).padStart(2, '0');
+          _ispetStatsByMock[padded] = {
+            total: Number(r.total) || 0,
+            today: Number(r.today) || 0,
+            last7: Number(r.last7) || 0
+          };
+        }
+      } catch (_e) {}
+    }
+
+    function _ispetComputeBadges() {
+      _ispetBadgesByMock = {};
+      const keys = Object.keys(_ispetMockMeta);
+      const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      const trending = keys
+        .filter(k => (_ispetStatsByMock[k]?.last7 || 0) > 0)
+        .sort((a, b) => (_ispetStatsByMock[b]?.last7 || 0) - (_ispetStatsByMock[a]?.last7 || 0))
+        .slice(0, 3);
+      const trendingSet = new Set(trending);
+      const newSet = new Set(keys.filter(k => {
+        const t = _ispetMockMeta[k] && _ispetMockMeta[k].createdAt;
+        return t && new Date(t).getTime() >= sevenDaysAgo;
+      }).sort((a, b) => {
+        const ta = new Date(_ispetMockMeta[a].createdAt).getTime();
+        const tb = new Date(_ispetMockMeta[b].createdAt).getTime();
+        return tb - ta;
+      }).slice(0, 3));
+      const popularSet = new Set(keys
+        .filter(k => !trendingSet.has(k) && !newSet.has(k) && (_ispetStatsByMock[k]?.total || 0) > 0)
+        .sort((a, b) => (_ispetStatsByMock[b]?.total || 0) - (_ispetStatsByMock[a]?.total || 0))
+        .slice(0, 5));
+      const gemSet = new Set(keys.filter(k => {
+        if (trendingSet.has(k) || newSet.has(k) || popularSet.has(k)) return false;
+        const s = _ispetStatsByMock[k] || { total: 0 };
+        const meta = _ispetMockMeta[k];
+        return s.total >= 1 && s.total <= 3 && meta && meta.qCount > 0 && meta.readyCount === meta.qCount;
+      })
+        .sort((a, b) => (_ispetStatsByMock[a]?.total || 0) - (_ispetStatsByMock[b]?.total || 0))
+        .slice(0, 5));
+      for (const k of keys) {
+        if (trendingSet.has(k))     _ispetBadgesByMock[k] = 'trending';
+        else if (newSet.has(k))     _ispetBadgesByMock[k] = 'new';
+        else if (popularSet.has(k)) _ispetBadgesByMock[k] = 'popular';
+        else if (gemSet.has(k))     _ispetBadgesByMock[k] = 'gem';
+        else                         _ispetBadgesByMock[k] = null;
+      }
+      _ispetTopicCounts = {};
+      Object.entries(_ispetMockMeta).forEach(([padded, meta]) => {
+        const s = _ispetStatsByMock[padded] || { total: 0, last7: 0 };
+        (meta.topicsAll || []).forEach(t => {
+          const tc = _ispetTopicCounts[t] = _ispetTopicCounts[t] || { total: 0, last7: 0 };
+          tc.total += s.total;
+          tc.last7 += s.last7;
+        });
+      });
+      _ispetTopicBadges = {};
+      const tKeys = Object.keys(_ispetTopicCounts);
+      const tTrending = new Set(tKeys.filter(t => _ispetTopicCounts[t].last7 > 0)
+        .sort((a, b) => _ispetTopicCounts[b].last7 - _ispetTopicCounts[a].last7).slice(0, 3));
+      const tPopular = new Set(tKeys.filter(t => !tTrending.has(t) && _ispetTopicCounts[t].total > 0)
+        .sort((a, b) => _ispetTopicCounts[b].total - _ispetTopicCounts[a].total).slice(0, 5));
+      const tGem = new Set(tKeys.filter(t => !tTrending.has(t) && !tPopular.has(t)
+                                          && _ispetTopicCounts[t].total >= 1 && _ispetTopicCounts[t].total <= 3)
+        .sort((a, b) => _ispetTopicCounts[a].total - _ispetTopicCounts[b].total).slice(0, 5));
+      for (const t of tKeys) {
+        if (tTrending.has(t))     _ispetTopicBadges[t] = 'trending';
+        else if (tPopular.has(t)) _ispetTopicBadges[t] = 'popular';
+        else if (tGem.has(t))     _ispetTopicBadges[t] = 'gem';
+        else                       _ispetTopicBadges[t] = null;
+      }
+    }
+
+    async function _ispetFetchServerDone() { return {}; }
+
+    function _ispetBuildTopicFilterOptions() {
+      const sel = document.getElementById('ispetTopicFilter');
+      if (!sel) return;
+      const all = new Set();
+      Object.values(_ispetMockMeta).forEach(m => {
+        (m.topicsAll || []).forEach(t => { if (t) all.add(t); });
+      });
+      const PART_RANK = { P1: 0, P2: 1, P3: 2 };
+      const TOPIC_ICON = { trending: '🔥 ', popular: '👑 ', gem: '💎 ' };
+      const sorted = Array.from(all).sort((a, b) => {
+        const [pa, ta] = a.split('::');
+        const [pb, tb] = b.split('::');
+        const r = (PART_RANK[pa] ?? 99) - (PART_RANK[pb] ?? 99);
+        if (r !== 0) return r;
+        const ca = (_ispetTopicCounts[a] && _ispetTopicCounts[a].total) || 0;
+        const cb = (_ispetTopicCounts[b] && _ispetTopicCounts[b].total) || 0;
+        return (cb - ca) || ta.localeCompare(tb);
+      });
+      const current = sel.value;
+      sel.innerHTML = '<option value="">🏷 All topics</option>'
+        + sorted.map(composite => {
+            const [part, topic] = composite.split('::');
+            const tc    = _ispetTopicCounts[composite] || { total: 0 };
+            const badge = _ispetTopicBadges[composite];
+            const icon  = (badge && TOPIC_ICON[badge]) || '';
+            const countSuffix = tc.total > 0 ? ' (' + tc.total + ')' : '';
+            const label = part + ' — ' + icon + topic.charAt(0).toUpperCase() + topic.slice(1) + countSuffix;
+            return '<option value="' + _ispetEsc(composite) + '">' + _ispetEsc(label) + '</option>';
+          }).join('');
+      if (current) sel.value = current;
+    }
+
+    function _ispetRenderAll() {
+      const grid = document.getElementById('ispetGrid');
+      const jump = document.getElementById('ispetJump');
+      if (!grid) return;
+      const keys = Object.keys(_ispetMockMeta).sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+      document.getElementById('ispetCount').textContent = keys.length;
+      if (jump) {
+        const opts = ['<option value="">Jump to #…</option>']
+          .concat(keys.map(k => '<option value="' + k + '">#' + k + '</option>'));
+        jump.innerHTML = opts.join('');
+      }
+      grid.innerHTML = keys.map(k => _ispetCardHtml(parseInt(k, 10), _ispetMockMeta[k], _ispetServerDone[k] || {})).join('');
+      _ispetBuildTopicFilterOptions();
+      _ispetApplyFiltersAndSort();
+    }
+
+    function _ispetApplyFiltersAndSort() {
+      const grid  = document.getElementById('ispetGrid');
+      const empty = document.getElementById('ispetEmpty');
+      const search = (document.getElementById('ispetSearch').value || '').trim().toLowerCase();
+      if (!grid) return;
+      let shown = 0;
+      Array.from(grid.children).forEach(card => {
+        const mockNum = card.dataset.mock;
+        const meta    = _ispetMockMeta[mockNum] || {};
+        const fullyReady = meta.qCount > 0 && meta.readyCount === meta.qCount;
+        const done = !!(_ispetServerDone[mockNum] && _ispetServerDone[mockNum].done);
+        let show = true;
+        if (_ispetFilter === 'ready' && !fullyReady) show = false;
+        if (_ispetFilter === 'soon'  &&  fullyReady) show = false;
+        if (_ispetFilter === 'done'  && !done)       show = false;
+        if (_ispetTopicFilter && !(meta.topicsAll || []).includes(_ispetTopicFilter)) show = false;
+        if (search) {
+          const hay = (mockNum + ' ' + (meta.title || '') + ' ' + (meta.p1Topic || '') + ' ' + (meta.p2Topic || '') + ' ' + (meta.p3Topic || '')).toLowerCase();
+          if (hay.indexOf(search) < 0) show = false;
+        }
+        card.style.display = show ? '' : 'none';
+        if (show) shown++;
+      });
+      if (empty) empty.style.display = shown === 0 ? '' : 'none';
+    }
+
+    function _ispetJumpToMock(n) {
+      if (!n) return;
+      const card = document.getElementById('ispet-card-' + String(n).padStart(2, '0'));
+      if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    async function ispetOpen() {
+      try { if (typeof window.__msv3ShowInlineSplash === 'function') window.__msv3ShowInlineSplash(); } catch (_e) {}
+      const overlay = document.getElementById('ispetPicker');
+      overlay.classList.add('ilet-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      try { history.pushState({ picker: 'ispet' }, ''); } catch (_e) {}
+      if (typeof _pickerShowTmaBack === 'function') _pickerShowTmaBack();
+      _ispetRenderSkeletons();
+      try {
+        if (window._mmgRefreshAllPickersPromise) await window._mmgRefreshAllPickersPromise;
+      } catch (_e) {}
+      try {
+        await Promise.all([
+          _ispetLoadAllMockMeta(),
+          _ispetLoadStats(),
+          _ispetFetchServerDone().then(d => { _ispetServerDone = d || {}; })
+        ]);
+        _ispetComputeBadges();
+        _ispetRenderAll();
+      } finally {
+        try { if (typeof window.__msv3HideInlineSplash === 'function') window.__msv3HideInlineSplash(); } catch (_e) {}
+      }
+    }
+
+    function ispetClose(opts) {
+      const keepUrl = !!(opts && opts.keepUrl);
+      const overlay = document.getElementById('ispetPicker');
+      overlay.classList.remove('ilet-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (typeof _pickerHideTmaBack === 'function') _pickerHideTmaBack();
+      if (!_pickerFromPopstate && !keepUrl) {
+        try {
+          if (history.state && history.state.picker === 'ispet') history.back();
+          if (/^\/take\//i.test(window.location.pathname)) {
+            history.replaceState(null, '', '/landing-v3.html');
+          }
+        } catch (_e) {}
+      }
+    }
+
+    function ispetClearFilters() {
+      _ispetFilter      = 'all';
+      _ispetTopicFilter = '';
+      document.querySelectorAll('#ispetPicker .ispet-chip').forEach(c =>
+        c.classList.toggle('ilet-chip-active', c.dataset.filter === 'all')
+      );
+      document.getElementById('ispetSearch').value = '';
+      const t = document.getElementById('ispetTopicFilter');
+      if (t) t.value = '';
+      _ispetApplyFiltersAndSort();
+    }
+
+    (function _ispetWire() {
+      const overlay = document.getElementById('ispetPicker');
+      if (!overlay) return;
+      document.querySelectorAll('#ispetPicker .ispet-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          _ispetFilter = chip.dataset.filter;
+          document.querySelectorAll('#ispetPicker .ispet-chip').forEach(c =>
+            c.classList.toggle('ilet-chip-active', c === chip)
+          );
+          _ispetApplyFiltersAndSort();
+        });
+      });
+      const search = document.getElementById('ispetSearch');
+      const jump   = document.getElementById('ispetJump');
+      const topic  = document.getElementById('ispetTopicFilter');
+      if (search) search.addEventListener('input', _ispetApplyFiltersAndSort);
+      if (jump) jump.addEventListener('change', function () {
+        _ispetJumpToMock(this.value);
+        setTimeout(() => { this.value = ''; }, 400);
+      });
+      if (topic) topic.addEventListener('change', function () {
+        _ispetTopicFilter = this.value || '';
+        _ispetApplyFiltersAndSort();
+      });
+
+      document.getElementById('ispetGrid').addEventListener('click', function (e) {
+        const card = e.target.closest('.ilet-card');
+        if (!card) return;
+        const mockN = card.dataset.mock;
+        const shareBtn = e.target.closest('.ispet-share');
+        if (shareBtn) {
+          e.stopPropagation();
+          _pickerShareMock('ielts-speaking', 'IELTS Speaking Mock', mockN, shareBtn, 'ispet-share-copied');
+          return;
+        }
+        if (card.classList.contains('ilet-card-disabled')) return;
+        const isTakeBtn = !!e.target.closest('.ilet-take');
+        if (!isTakeBtn) {
+          if (mockN) {
+            try { history.replaceState(null, '', '/take/ielts-speaking-' + encodeURIComponent(mockN)); } catch (_e) {}
+          }
+          return;
+        }
+        const padded = String(mockN).padStart(2, '0');
+        const meta = _ispetMockMeta[padded] || {};
+        const sbId = meta.sbId;
+        if (!sbId) {
+          alert('Could not locate this mock in the database (mock #' + padded + '). Please refresh and try again.');
+          return;
+        }
+        const pageUrl = 'IELTS Speaking Mocks.html?sbmock=' + encodeURIComponent(sbId)
+                      + '&num=' + encodeURIComponent(padded)
+                      + '&auto=1';
+        try { history.pushState(null, '', '/take/ielts-speaking-' + encodeURIComponent(mockN)); } catch (_e) {}
+        window._spkModalSourcePicker = 'ispet';
+        sessionStorage.setItem('speakingMockReturnPicker', 'ispet');
+        if (typeof handleSpeakingMockClick === 'function') {
+          handleSpeakingMockClick(pageUrl, 'ielts-speaking');
+        } else {
+          ispetClose({ keepUrl: true });
+          window.location.href = pageUrl + '&action=practice';
+        }
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && document.getElementById('ispetPicker').classList.contains('ilet-open')) ispetClose();
+      });
+    })();
+
+    window.ispetOpen         = ispetOpen;
+    window.ispetClose        = ispetClose;
+    window.ispetClearFilters = ispetClearFilters;
   </script>
 
   <!-- ═══════════════════════════════════════════════════════
