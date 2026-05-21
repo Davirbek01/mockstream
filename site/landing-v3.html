@@ -4106,15 +4106,25 @@
     .ilet-source-filter:hover { border-color: #f97316; }
     .ilet-source-filter:focus { box-shadow: 0 0 0 3px rgba(249,115,22,.15); }
     @media (max-width: 600px) {
-      .ilet-filter-row { padding: 10px 14px 0; gap: 6px; }
-      .ilet-chip { padding: 5px 10px; font-size: 11.5px; }
+      /* Single-row filter chips on mobile — fit All / Ready only /
+         Coming soon / Done before all on one line. The All-topics
+         dropdown forces itself to 100% width so it wraps onto the
+         next line instead of bumping a chip down. */
+      .ilet-filter-row {
+        padding: 10px 12px 0;
+        gap: 5px;
+        flex-wrap: wrap;
+      }
+      .ilet-chip {
+        padding: 4px 8px;
+        font-size: 10px;
+        white-space: nowrap;
+      }
       .ilet-source-filter {
         margin-left: 0;
-        width: auto;
-        max-width: 100%;
         padding: 5px 10px;
-        font-size: 11.5px;
-        flex: 1 1 140px;
+        font-size: 11px;
+        flex: 1 1 100%;
       }
     }
     .ilet-grid {
@@ -4350,8 +4360,29 @@
       .ilet-source { max-width: 140px; font-size: 9.5px; padding: 3px 7px; }
       .ilet-title-text { font-size: 16px; }
       .ilet-count { font-size: 12px; padding: 2px 7px; }
-      .ilet-card { padding: 14px; min-height: 220px; gap: 10px; }
-      .ilet-mock-title { font-size: 15px; }
+      /* Shrink the per-mock card so more cards fit per screen */
+      .ilet-card { padding: 11px; min-height: 0; gap: 8px; border-radius: 12px; }
+      .ilet-mock-title, .cspet-mock-title, .ispet-mock-title { font-size: 13px; }
+      .ilet-mocknum { font-size: 11px; padding: 3px 8px; }
+      .ilet-status-label { font-size: 9.5px; }
+      .ilet-dot { width: 7px; height: 7px; }
+      /* Speaking-specific (cspet/ispet) part rows */
+      #cspetPicker .cspet-part-heading,
+      #ispetPicker .cspet-part-heading,
+      #ispetPicker .ispet-part-heading { padding: 4px 2px; margin-top: 2px; gap: 6px; }
+      #cspetPicker .cspet-part-label,
+      #ispetPicker .cspet-part-label,
+      #ispetPicker .ispet-part-label { font-size: 9.5px; padding: 2px 6px; border-radius: 5px; }
+      #cspetPicker .cspet-part-topic,
+      #ispetPicker .cspet-part-topic,
+      #ispetPicker .ispet-part-topic { font-size: 11.5px; }
+      #cspetPicker .cspet-exam-date,
+      #ispetPicker .cspet-exam-date,
+      #ispetPicker .ispet-exam-date { font-size: 10px; padding: 1px 7px; }
+      #cspetPicker .cspet-pill,
+      #ispetPicker .cspet-pill { font-size: 10px; padding: 1px 7px; }
+      #cspetPicker .cspet-share,
+      #ispetPicker .cspet-share { padding: 5px 8px; font-size: 12px; margin-right: 6px; }
     }
 
     /* ===== CEFR Speaking specific overrides (green theme) ===== */
