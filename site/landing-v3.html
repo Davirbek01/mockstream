@@ -118,9 +118,13 @@
        Telegram sign-in, signed-in state). Load before the sidebar JS at the
        bottom. -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-  <script src="auth.js" defer></script>
+  <!-- Absolute paths (/auth.js, not auth.js) so /take/<slug> deep-link URLs
+       don't make the browser resolve these to /take/auth.js, which the
+       Netlify rewrite then turns into HTML — script load fails and
+       mock-code-verifier ends up undefined, blocking access-code verify. -->
+  <script src="/auth.js" defer></script>
   <!-- "New version available · Refresh" banner — same module as landing.html. -->
-  <script src="version-banner.js" defer></script>
+  <script src="/version-banner.js" defer></script>
 
   <style>
     *, *::before, *::after { box-sizing: border-box; }
@@ -2241,7 +2245,7 @@
        'achievers' / 'record' / 'mock_stream'). If the file isn't there
        — e.g. during local file-system testing — we fall back to
        'mock_stream'. -->
-  <script src="center-id.js" onerror="window.__CENTER_ID=window.__CENTER_ID||'mock_stream';"></script>
+  <script src="/center-id.js" onerror="window.__CENTER_ID=window.__CENTER_ID||'mock_stream';"></script>
 
   <!-- ─── Engine-migration Phase 1, step 3a: dependency scripts that the
        speaking-modal flow needs once it's ported in step 3b.
@@ -2250,9 +2254,9 @@
        the "centre locked / maintenance" overlay if the centre is
        disabled — that overlay was previously only on landing.html, so
        v3 now correctly respects centre status too. ───────────────── -->
-  <script src="site-config/site-config.js"></script>
-  <script src="premium-gate.js" defer></script>
-  <script src="mock-code-verifier.js?v=2"></script>
+  <script src="/site-config/site-config.js"></script>
+  <script src="/premium-gate.js" defer></script>
+  <script src="/mock-code-verifier.js?v=2"></script>
 
   <script>
     /* Same data fetch as v2 — uses the mock_attempt_stats RPC + a few
