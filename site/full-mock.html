@@ -12730,10 +12730,33 @@ function goToMockSelector(url){var m={"Speaking Mocks.html":"landing.html?openSe
 document.querySelectorAll('#hsPanel .hs-btn[href]').forEach(function(a){var h=a.getAttribute('href');if(a.getAttribute('target')){{a.addEventListener('click',function(){window.__okToLeave=true;});return;}}a.addEventListener('click',function(e){e.preventDefault();goToMockSelector(h);});});
 document.querySelectorAll('#hsPanel .hs-action[href], #hsPanel a[href][style]').forEach(function(a){if(!a.getAttribute('target')){a.addEventListener('click',function(e){e.preventDefault();promptFriendlyLeave(function(){window.__okToLeave=true;_iframeNav(a.getAttribute('href'));});});}else{a.addEventListener('click',function(){window.__okToLeave=true;});}});
 // Gate back button: this fires BEFORE "Begin Session" — no exam in
-// progress, no progress to warn about. Navigate directly. The in-exam
+// progress, no progress to warn about. Prefer history.back() so the
+// browser bfcache restores the v3 landing instantly (no skeleton
+// reload, no re-fetch). Fall back to direct navigation when the
+// runner was opened in a fresh tab with no history. The in-exam
 // back buttons (hdrBackBtn, .tool-btn) still go through
 // promptFriendlyLeave because by then the user has actually started.
-document.querySelectorAll('.gate-back-btn').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();window.__okToLeave=true;_iframeNav(a.getAttribute('href'));});});
+document.querySelectorAll('.gate-back-btn').forEach(function(a){
+  a.addEventListener('click', function(e) {
+    e.preventDefault();
+    window.__okToLeave = true;
+    var ref = '';
+    try { ref = document.referrer || ''; } catch (_e) {}
+    var refMatchesV3 = false;
+    try {
+      if (ref) {
+        var u = new URL(ref);
+        refMatchesV3 = (u.origin === window.location.origin)
+                    && /\/landing-v3(\.html)?$/.test(u.pathname);
+      }
+    } catch (_e) {}
+    if (history.length > 1 && refMatchesV3) {
+      history.back();
+      return;
+    }
+    _iframeNav(a.getAttribute('href'));
+  });
+});
 </script>
 <script src="chat-bubble.js"></script>
 </body>
