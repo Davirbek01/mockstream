@@ -8320,6 +8320,48 @@
     ];
     window.cefrReadingTests = cefrReadingTests;
 
+    // Same Supabase-merge as iret. Master count was 46 vs v3's static 40
+    // because admin-imported entries past #40 weren't being merged in.
+    async function loadDynamicCefrReadingMocks() {
+      const SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      const SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      let rows = [];
+      try {
+        const r = await fetch(
+          SB_URL + '/rest/v1/mock_tests?mock_type=eq.cefr-reading&status=eq.published&select=id,mock_number,title&order=mock_number.asc',
+          { headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY } }
+        );
+        if (!r.ok) return;
+        rows = await r.json();
+      } catch (_e) { return; }
+      const label = 'CEFR Reading Test';
+      for (const row of rows) {
+        const padded = String(row.mock_number).padStart(2, '0');
+        const isPilot = row.mock_number === 1;
+        const displayName = isPilot ? '🧪 ' + label + ' ' + padded + ' (Supabase pilot)' : label + ' ' + padded;
+        const fileUrl = 'CEFR Reading.html?sbmock=' + row.id;
+        const plainName = label + ' ' + padded;
+        const idx = cefrReadingTests.findIndex(t =>
+          (t.file && t.file.indexOf('sbmock=' + row.id) !== -1) ||
+          t.name === plainName ||
+          t.name === displayName
+        );
+        if (idx !== -1) {
+          cefrReadingTests[idx].file = fileUrl;
+          cefrReadingTests[idx].name = displayName;
+          cefrReadingTests[idx].icon = '🟢';
+        } else {
+          cefrReadingTests.push({ file: fileUrl, name: displayName, icon: '🟢', actionText: 'Take Test' });
+        }
+      }
+      cefrReadingTests.sort((a, b) => {
+        const am = (a.name || '').match(/Test\s+(\d+)/);
+        const bm = (b.name || '').match(/Test\s+(\d+)/);
+        return (am ? parseInt(am[1], 10) : 0) - (bm ? parseInt(bm[1], 10) : 0);
+      });
+    }
+    window.loadDynamicCefrReadingMocks = loadDynamicCefrReadingMocks;
+
     const _CRET_CACHE_KEY = 'ms_cret_meta_v3';
     const _CRET_CACHE_TTL = 24 * 60 * 60 * 1000;
     const _CRET_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
@@ -8733,6 +8775,9 @@
       document.body.style.overflow = 'hidden';
       try { history.pushState({ picker: 'cret' }, ''); } catch (_e) {}
       if (typeof _pickerShowTmaBack === 'function') _pickerShowTmaBack();
+      // Merge Supabase-published rows past #40 BEFORE rendering skeletons
+      // so the count badge is accurate from first paint.
+      try { await loadDynamicCefrReadingMocks(); } catch (_e) {}
       _cretRenderSkeletons();
       try {
         const [, serverDone] = await Promise.all([
@@ -9193,6 +9238,51 @@
     ];
     window.ieltsReadingTests = ieltsReadingTests;
 
+    // Pull any Supabase-published IELTS Reading mocks and merge into the
+    // static catalog so admin-imported entries past #50 show up on v3
+    // (master picker shows 52+). Matches by sbmock=<id> / by name and
+    // updates in place; pushes a new entry when no match. Re-sorts by
+    // trailing Test number so #51/#52 land at the bottom in order.
+    async function loadDynamicIeltsReadingMocks() {
+      const SB_URL = _IRET_SB_URL;
+      const SB_KEY = _IRET_SB_KEY;
+      let rows = [];
+      try {
+        const r = await fetch(
+          SB_URL + '/rest/v1/mock_tests?mock_type=eq.ielts-reading&status=eq.published&select=id,mock_number,title&order=mock_number.asc',
+          { headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY } }
+        );
+        if (!r.ok) return;
+        rows = await r.json();
+      } catch (_e) { return; }
+      const label = 'IELTS Reading Practice Test';
+      for (const row of rows) {
+        const padded = String(row.mock_number).padStart(2, '0');
+        const isPilot = row.mock_number === 1;
+        const displayName = isPilot ? '🧪 ' + label + ' ' + padded + ' (Supabase pilot)' : label + ' ' + padded;
+        const fileUrl = 'IELTS reading.html?sbmock=' + row.id;
+        const plainName = label + ' ' + padded;
+        const idx = ieltsReadingTests.findIndex(t =>
+          (t.file && t.file.indexOf('sbmock=' + row.id) !== -1) ||
+          t.name === plainName ||
+          t.name === displayName
+        );
+        if (idx !== -1) {
+          ieltsReadingTests[idx].file = fileUrl;
+          ieltsReadingTests[idx].name = displayName;
+          ieltsReadingTests[idx].icon = '🟢';
+        } else {
+          ieltsReadingTests.push({ file: fileUrl, name: displayName, icon: '🟢', actionText: 'Take Test' });
+        }
+      }
+      ieltsReadingTests.sort((a, b) => {
+        const am = (a.name || '').match(/Test\s+(\d+)/);
+        const bm = (b.name || '').match(/Test\s+(\d+)/);
+        return (am ? parseInt(am[1], 10) : 0) - (bm ? parseInt(bm[1], 10) : 0);
+      });
+    }
+    window.loadDynamicIeltsReadingMocks = loadDynamicIeltsReadingMocks;
+
     const _IRET_CACHE_KEY = 'ms_iret_meta_v3';
     const _IRET_CACHE_TTL = 24 * 60 * 60 * 1000;
     const _IRET_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
@@ -9572,6 +9662,10 @@
       document.body.style.overflow = 'hidden';
       try { history.pushState({ picker: 'iret' }, ''); } catch (_e) {}
       if (typeof _pickerShowTmaBack === 'function') _pickerShowTmaBack();
+      // Upgrade the catalog with any Supabase-published mocks past the
+      // static 50 BEFORE rendering skeletons — keeps the count badge
+      // accurate from first paint instead of jumping after the fetch.
+      try { await loadDynamicIeltsReadingMocks(); } catch (_e) {}
       _iretRenderSkeletons();
       try {
         const [, serverDone] = await Promise.all([
