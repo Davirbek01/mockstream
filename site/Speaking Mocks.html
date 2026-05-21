@@ -38,7 +38,9 @@
           if (window.top && window.top !== window) { window.top.postMessage('returnToLanding', '*'); return; }
           if (window.parent && window.parent !== window) { window.parent.postMessage('returnToLanding', '*'); return; }
         } catch (e3) { }
-        try { window.top.location.href = 'landing.html'; } catch (e4) { window.location.href = 'landing.html'; }
+        // Direct-nav fallback: target landing-v3.html so we skip the
+        // landing.html bounce-flash. v3 is the home for every clone now.
+        try { window.top.location.href = 'landing-v3.html'; } catch (e4) { window.location.href = 'landing-v3.html'; }
       }
       window.goBack = goBack;
       window.goToLanding = goBack; // Alias for compatibility
@@ -110,7 +112,7 @@
         document.head.appendChild(style);
         window._autoHideGateStyle = style;
         if (window.goToLanding) { window.goToLanding(); }
-        else { window.location.href = 'landing.html'; }
+        else { window.location.href = 'landing-v3.html'; }
         return;
       }
 
@@ -3501,7 +3503,7 @@
 
       <!-- Logo + Mock Stream Label (Combined) -->
       <div style="margin: 16px auto 20px; max-width: 90%; text-align: center;">
-        <a id="gateLogoLink" href="landing.html" target="_top" style="text-decoration:none;display:inline-block;"
+        <a id="gateLogoLink" href="landing-v3.html" target="_top" style="text-decoration:none;display:inline-block;"
           onclick="event.preventDefault(); goBack();">
           <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; margin-bottom: 16px;">
             <img id="gateLogo" alt="Logo" class="logo" src=""
@@ -10789,7 +10791,7 @@
           modal.setAttribute('aria-hidden', 'true');
           // Gate is no longer used — return to landing
           if (window.goToLanding) window.goToLanding();
-          else window.location.href = 'landing.html';
+          else window.location.href = 'landing-v3.html';
         } else if (t && t.id === 'micCheckBtn') {
           // Request microphone access before opening mic check
           try {
@@ -11404,7 +11406,7 @@
         __okToLeave = true;
         sessionStorage.setItem('speakingMockReturnCategory', 'cefr-speaking');
         if (window.goToLanding) window.goToLanding();
-        else window.location.href = 'landing.html';
+        else window.location.href = 'landing-v3.html';
       };
 
       window.spPracticeFullMock = function () {
@@ -13759,7 +13761,7 @@ function printAiModal() {
 
         // Return to landing page (gate is no longer used)
         if (window.goToLanding) window.goToLanding();
-        else window.location.href = 'landing.html';
+        else window.location.href = 'landing-v3.html';
       }
       // Make functions globally accessible
       window.closeAlreadyUsedPopup = closeAlreadyUsedPopup;
@@ -18716,7 +18718,7 @@ REMEMBER: Your role is to ENCOURAGE language learners, not discourage them! Scor
           if (window.goToLanding) {
             window.goToLanding();
           } else {
-            window.location.href = 'landing.html';
+            window.location.href = 'landing-v3.html';
           }
         }
 
@@ -19755,7 +19757,7 @@ Please contact your instructor or upgrade to the full version with speech recogn
       const mainTestContent = document.getElementById('mainTestContent');
       if (gate && !window._autoHideGateStyle) {
         if (window.goToLanding) window.goToLanding();
-        else window.location.href = 'landing.html';
+        else window.location.href = 'landing-v3.html';
       }
 
       // Always clear promocode input on page load (no caching)
@@ -20696,7 +20698,7 @@ Please contact your instructor or upgrade to the full version with speech recogn
           hidePasscodeModal();
           // Return to landing page (gate is no longer used)
           if (window.goToLanding) window.goToLanding();
-          else window.location.href = 'landing.html';
+          else window.location.href = 'landing-v3.html';
         });
       }
 
@@ -21101,7 +21103,7 @@ Please contact your instructor or upgrade to the full version with speech recogn
   <div class="hs-panel" id="hsPanel">
     <button class="hs-close" onclick="closeHomeSidebar()">✕</button>
     <div class="hs-title">Menu</div>
-    <a href="landing.html" class="hs-action" style="margin-bottom:8px;"><span class="hs-ai">🏠</span> Home</a>
+    <a href="landing-v3.html" class="hs-action" style="margin-bottom:8px;"><span class="hs-ai">🏠</span> Home</a>
     <div class="hs-section">
       <div class="hs-section-hdr cefr"><span>🎯</span> CEFR</div>
       <div class="hs-grid">
@@ -21125,7 +21127,7 @@ Please contact your instructor or upgrade to the full version with speech recogn
       <div class="hs-grid">
         <a href="Articles.html" class="hs-btn"><span class="hs-icon">📰</span>Articles</a>
         <a href="flashcards.html" class="hs-btn"><span class="hs-icon">🃏</span>Flashcards</a>
-        <a href="landing.html" class="hs-btn"><span class="hs-icon">📝</span>Tests</a>
+        <a href="landing-v3.html" class="hs-btn"><span class="hs-icon">📝</span>Tests</a>
         <a href="https://www.youtube.com/@MockStream" target="_blank" class="hs-btn"><span class="hs-icon">🎥</span>Video Guides</a>
       </div>
     </div>
