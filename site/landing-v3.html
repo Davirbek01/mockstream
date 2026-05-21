@@ -1906,12 +1906,25 @@
        ═══════════════════════════════════════════════════════ */
     @media (max-width: 720px) {
       .topbar-inner { padding: 0 16px; height: 60px; }
-      main { padding: 24px 16px 48px; }
-      .hero-title { font-size: 28px; }
-      .hero-sub { font-size: 14px; }
-      .vitals { grid-template-columns: 1fr; gap: 12px; }
-      .vital { padding: 16px 18px; }
-      .vital-number { font-size: 24px; }
+      main { padding: 14px 16px 48px; }
+      .hero { gap: 10px; margin-bottom: 18px; }
+      .hero-eyebrow { font-size: 11px; padding: 4px 10px; letter-spacing: 0.08em; }
+      .hero-title { font-size: 24px; line-height: 1.14; }
+      .hero-sub { font-size: 13px; line-height: 1.45; }
+      /* Stats in a single row on mobile — three compact stacked cards
+         (icon on top, number, label) instead of the desktop row layout.
+         Keeps the skill-grid above the fold on first paint. */
+      .vitals { grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 2px; }
+      .vital {
+        padding: 10px 8px 11px;
+        gap: 6px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .vital-icon { width: 32px; height: 32px; border-radius: 9px; }
+      .vital-icon svg { width: 16px; height: 16px; }
+      .vital-number { font-size: 17px; letter-spacing: -0.02em; }
+      .vital-label { font-size: 10px; line-height: 1.2; }
       .skill-grid { grid-template-columns: 1fr; gap: 14px; }
       .skill-card { padding: 22px 22px 20px; min-height: auto; }
       .secondary { grid-template-columns: 1fr; }
