@@ -2314,6 +2314,9 @@
       if (slug === 'cefr-writing' && typeof window.cwetOpen === 'function') {
         try { cwetOpen(); return; } catch (_e) {}
       }
+      if (slug === 'ielts-writing' && typeof window.iwetOpen === 'function') {
+        try { iwetOpen(); return; } catch (_e) {}
+      }
       window.location.href = '/landing.html?openSelector=' + encodeURIComponent(slug);
     }
     // Mirrors the matchers in landing.html's _processDeepLinkTake so we
@@ -3371,6 +3374,9 @@
       window.location.href = '/landing.html?openSelector=ielts-speaking';
     });
     document.getElementById('msv3IeltsWriting').addEventListener('click', function () {
+      if (typeof window.iwetOpen === 'function') {
+        try { requestSidebarClose(); iwetOpen(); return; } catch (_e) {}
+      }
       window.location.href = '/landing.html?openSelector=ielts-writing';
     });
     document.getElementById('msv3IeltsListening').addEventListener('click', function () {
@@ -4286,6 +4292,100 @@
     #cwetPicker .ilet-take { padding: 7px 14px; font-size: 12.5px; }
     #cwetPicker .cwet-share { padding: 5px 8px; font-size: 13px; }
     #cwetPicker .ilet-card-foot { gap: 8px; }
+
+    /* ===== IELTS Writing picker (iwetPicker) — orange theme ===== */
+    #iwetPicker.ilet-overlay {
+      background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%);
+    }
+    #iwetPicker .ilet-header {
+      background: rgba(255, 247, 237, 0.95);
+      border-bottom-color: #fdba74;
+    }
+    #iwetPicker .ilet-back { color: #c2410c; box-shadow: 0 1px 3px rgba(194,65,12,.15); }
+    #iwetPicker .ilet-back:hover { background: #c2410c; color: #fff; }
+    #iwetPicker .ilet-title { color: #7c2d12; }
+    #iwetPicker .ilet-count { background: linear-gradient(135deg,#fb923c,#ea580c); color: #fff; }
+    #iwetPicker .ilet-card { border-color: #fed7aa; }
+    #iwetPicker .ilet-card:hover:not(.ilet-card-disabled) {
+      border-color: #c2410c;
+      box-shadow: 0 8px 20px rgba(194,65,12,.18);
+    }
+    #iwetPicker .ilet-mocknum { background: linear-gradient(135deg,#fb923c,#ea580c); }
+    #iwetPicker .ilet-take { background: linear-gradient(135deg,#fb923c,#ea580c); }
+    #iwetPicker .ilet-take:hover { background: linear-gradient(135deg,#ea580c,#c2410c); }
+    #iwetPicker .ilet-chip-active { background: #c2410c; color: #fff; border-color: #c2410c; }
+    #iwetPicker .ilet-mock-title { color: #7c2d12; }
+    #iwetPicker .iwet-filter-row { flex-wrap: wrap; gap: 8px; row-gap: 8px; }
+    #iwetPicker .iwet-secondary-filter { min-width: 0; }
+    #iwetPicker .ilet-section { align-items: flex-start; }
+    #iwetPicker .ilet-section-num {
+      background: linear-gradient(135deg,#fdba74,#fb923c);
+      color: #fff;
+      font-weight: 700;
+    }
+    #iwetPicker .ilet-section-title { display: flex; flex-direction: column; gap: 2px; }
+    #iwetPicker .iwet-task-sub { font-size: 11px; color: #92400e; opacity: 0.85; font-weight: 500; }
+    #iwetPicker .iwet-pill {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 1px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.6;
+      opacity: 1;
+      margin-right: 2px;
+    }
+    #iwetPicker .iwet-pill-chart { color: #1e40af; background: #dbeafe; border: 1px solid #93c5fd; }
+    #iwetPicker .iwet-pill-data  { color: #15803d; background: #dcfce7; border: 1px solid #86efac; }
+    #iwetPicker .iwet-pill-essay { color: #6b21a8; background: #f3e8ff; border: 1px solid #d8b4fe; }
+    #iwetPicker .iwet-share {
+      background: transparent;
+      border: 1px solid #fed7aa;
+      color: #c2410c;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+      transition: background 120ms ease, border-color 120ms ease;
+      margin-right: 8px;
+      white-space: nowrap;
+    }
+    #iwetPicker .iwet-share:hover { background: #fff7ed; border-color: #c2410c; }
+    #iwetPicker .iwet-share.iwet-share-copied {
+      background: #dcfce7;
+      border-color: #86efac;
+      color: #15803d;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    #iwetPicker .iwet-exam-date {
+      font-size: 11px;
+      color: #7c2d12;
+      background: #ffedd5;
+      border: 1px solid #fdba74;
+      border-radius: 999px;
+      padding: 1px 8px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    /* Mobile filter-row tightening — iwet has 6 dropdowns + 4 chips so
+       it naturally wraps. At narrow viewports tighten chip + dropdown
+       sizing so all 4 chips fit on row 1 (same lesson as cwet — Inter
+       font widens chips, so we force dropdowns to their own rows). */
+    @media (max-width: 600px) {
+      #iwetPicker .iwet-chip {
+        padding: 3px 7px;
+        font-size: 10px;
+        font-weight: 700;
+      }
+      #iwetPicker .iwet-filter-row { gap: 4px; padding-left: 8px; padding-right: 8px; }
+      #iwetPicker .iwet-filter-row .ilet-source-filter,
+      #iwetPicker .iwet-filter-row .iwet-secondary-filter {
+        flex: 1 1 100%;
+        margin-left: 0;
+      }
+    }
   </style>
 
   <!-- CEFR Speaking fullscreen picker — DOM only. JS in the script
@@ -4426,6 +4526,60 @@
     </div>
   </div>
 
+  <!-- IELTS Writing Mode Selector Modal (Phase 4) -->
+  <div id="ieltsWritingModeModal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:100005;align-items:center;justify-content:center;padding:20px;"
+    onclick="closeIeltsWritingModeModal()">
+    <div
+      style="background:var(--card);border:2px solid var(--brand);border-radius:24px;padding:32px 28px;max-width:480px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
+      onclick="event.stopPropagation()">
+      <div style="font-size:36px;margin-bottom:6px;">✍️</div>
+      <h3 style="font-size:20px;color:var(--brand);margin-bottom:4px;">Choose Your Mode</h3>
+      <p id="ieltsWritingModeMockLabel" style="font-size:13px;color:var(--muted);margin-bottom:22px;">IELTS Writing Mock</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+        <button onclick="_ieltsWritingModeFullMock()"
+          style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#0369a1 0%,#0284c7 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(3,105,161,0.3);">
+          <div style="font-size:28px;margin-bottom:6px;">📝</div>
+          Full Writing Mock
+          <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">Both tasks • 60 min timer</div>
+        </button>
+        <button id="ieltsWritingPracticeBtn" onclick="_ieltsWritingModeTaskBased()"
+          style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(124,58,237,0.3);">
+          <div style="font-size:28px;margin-bottom:6px;">🎯</div>
+          Task Based Practice
+          <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">Pick one task • No time limit</div>
+        </button>
+      </div>
+      <button onclick="closeIeltsWritingModeModal()"
+        style="margin-top:18px;padding:8px 24px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;">Cancel</button>
+    </div>
+  </div>
+
+  <!-- IELTS Writing Task Picker Modal (Phase 4) -->
+  <div id="ieltsWritingTaskPickerModal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:100006;align-items:center;justify-content:center;padding:20px;"
+    onclick="closeIeltsWritingTaskPicker()">
+    <div
+      style="background:var(--card);border:2px solid #7c3aed;border-radius:24px;padding:32px 28px;max-width:380px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
+      onclick="event.stopPropagation()">
+      <div style="font-size:36px;margin-bottom:6px;">🎯</div>
+      <h3 style="font-size:20px;color:#7c3aed;margin-bottom:4px;">Select a Task</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:20px;">Choose which IELTS Writing task to practice</p>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <button onclick="_pickIeltsWritingTask('t1')"
+          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#16a34a,#22c55e);color:white;font-size:14px;font-weight:800;flex-shrink:0;">1</span>
+          <div><div>Task 1</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">Graph / Chart / Diagram • 150+ words</div></div></button>
+        <button onclick="_pickIeltsWritingTask('t2')"
+          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">2</span>
+          <div><div>Task 2</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">Essay • 250+ words</div></div></button>
+      </div>
+      <button onclick="closeIeltsWritingTaskPicker()"
+        style="margin-top:18px;padding:8px 24px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;">Back</button>
+    </div>
+  </div>
+
   <div id="writingAccessCodeModal"
     style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);z-index:100004;align-items:center;justify-content:center;padding:20px;"
     onclick="closeWritingAccessCodeModal()">
@@ -4490,6 +4644,70 @@
     </div>
   </div>
 
+  <!-- IELTS Writing fullscreen picker (iwet) — Phase 4 of engine migration.
+       2 tasks per mock (T1 graph/chart + T2 essay) with extra filter
+       dropdowns for source/year/chart type/data nature/essay type. -->
+  <div id="iwetPicker" class="ilet-overlay" aria-hidden="true">
+    <header class="ilet-header">
+      <button class="ilet-back" type="button" onclick="if(typeof iwetClose==='function')iwetClose()" title="Back to landing">←</button>
+      <div class="ilet-title">
+        <span class="ilet-title-emoji">✍️</span>
+        <span class="ilet-title-text">IELTS Writing</span>
+        <span class="ilet-count" id="iwetCount">0</span>
+      </div>
+      <div class="ilet-header-tools">
+        <input type="search" class="ilet-search" id="iwetSearch" placeholder="🔍 Search mock #, topic, source…" autocomplete="off" spellcheck="false">
+        <select class="ilet-sort" id="iwetJump" title="Jump to mock #">
+          <option value="">Jump to #…</option>
+        </select>
+      </div>
+    </header>
+
+    <div class="ilet-filter-row iwet-filter-row">
+      <button type="button" class="ilet-chip ilet-chip-active iwet-chip" data-filter="all">All</button>
+      <button type="button" class="ilet-chip iwet-chip" data-filter="ready">✓ Ready only</button>
+      <button type="button" class="ilet-chip iwet-chip" data-filter="soon">⏳ Coming soon</button>
+      <button type="button" class="ilet-chip iwet-chip" data-filter="done">★ Done before</button>
+      <select class="ilet-source-filter" id="iwetSourceFilter" title="Filter by source">
+        <option value="">📚 All sources</option>
+      </select>
+      <select class="ilet-source-filter iwet-secondary-filter" id="iwetYearFilter" title="Filter by exam year">
+        <option value="">📅 Any year</option>
+      </select>
+      <select class="ilet-source-filter iwet-secondary-filter" id="iwetChartTypeFilter" title="Task 1 chart type">
+        <option value="">📈 Any T1 chart</option>
+        <option value="line_graph">Line graph</option>
+        <option value="bar_chart">Bar chart</option>
+        <option value="pie_chart">Pie chart</option>
+        <option value="table">Table</option>
+        <option value="map">Map</option>
+        <option value="process_diagram">Process diagram</option>
+      </select>
+      <select class="ilet-source-filter iwet-secondary-filter" id="iwetDataNatureFilter" title="Task 1 data nature">
+        <option value="">⏱ Any T1 data</option>
+        <option value="over-time">Over time</option>
+        <option value="static">Static</option>
+        <option value="not-applicable">N/A (map/process)</option>
+      </select>
+      <select class="ilet-source-filter iwet-secondary-filter" id="iwetEssayTypeFilter" title="Task 2 essay type">
+        <option value="">📝 Any T2 essay</option>
+        <option value="opinion">Opinion</option>
+        <option value="balanced">Balanced / Discuss</option>
+        <option value="problem-solution">Problem-solution</option>
+        <option value="advantage-disadvantage">Adv-disadv</option>
+        <option value="two-part">Two-part</option>
+      </select>
+    </div>
+
+    <main class="ilet-grid" id="iwetGrid"></main>
+
+    <div class="ilet-empty" id="iwetEmpty" style="display:none;">
+      <div class="ilet-empty-icon">🔍</div>
+      <p class="ilet-empty-msg">No mocks match your filters.</p>
+      <button type="button" class="ilet-empty-clear" onclick="if(typeof iwetClearFilters==='function')iwetClearFilters()">Clear filters</button>
+    </div>
+  </div>
+
   <script id="msv3PickerEngineJs">
     // ===== Shared picker plumbing =====
     // _pickerFromPopstate: cspetClose (and future picker close fns) read
@@ -4498,7 +4716,7 @@
     let _pickerFromPopstate = false;
 
     function _pickerTmaBackHandler() {
-      // Future phases add clet/ilet/iwet checks here.
+      // Future phases add clet/ilet checks here.
       var cspet = document.getElementById('cspetPicker');
       if (cspet && cspet.classList.contains('ilet-open')) {
         if (typeof cspetClose === 'function') cspetClose();
@@ -4512,6 +4730,11 @@
       var cwet = document.getElementById('cwetPicker');
       if (cwet && cwet.classList.contains('ilet-open')) {
         if (typeof cwetClose === 'function') cwetClose();
+        return;
+      }
+      var iwet = document.getElementById('iwetPicker');
+      if (iwet && iwet.classList.contains('ilet-open')) {
+        if (typeof iwetClose === 'function') iwetClose();
       }
     }
     function _pickerShowTmaBack() {
@@ -4646,6 +4869,13 @@
         if (cwet && cwet.classList.contains('ilet-open')) {
           _pickerFromPopstate = true;
           if (typeof cwetClose === 'function') cwetClose();
+          _pickerFromPopstate = false;
+          return;
+        }
+        var iwet = document.getElementById('iwetPicker');
+        if (iwet && iwet.classList.contains('ilet-open')) {
+          _pickerFromPopstate = true;
+          if (typeof iwetClose === 'function') iwetClose();
           _pickerFromPopstate = false;
         }
       } catch (_e) {}
@@ -6243,6 +6473,633 @@
     window.cwetClose        = cwetClose;
     window.cwetClearFilters = cwetClearFilters;
 
+    // ===== IELTS Writing picker (iwetPicker) — Phase 4 =====
+    // 2 tasks per mock (T1 graph/chart with image + T2 essay). Filter
+    // dropdowns for source, year, T1 chart type, T1 data nature, T2 essay
+    // type. Same dynamic-upgrader pattern as cwet: static catalog of 30
+    // mocks + Supabase upgrader for admin-added entries beyond 30.
+    const ieltsWritingMocks = (() => {
+      const mocks = [];
+      mocks.push({
+        file: 'Writing IELTS Mock.html?test=ielts-writing-mock-01&sbmock=8&auto=1',
+        name: '🧪 IELTS Writing Mock 01 (Supabase pilot)',
+        icon: '✍️',
+        actionText: 'Start'
+      });
+      for (let i = 2; i <= 30; i++) {
+        const padded = String(i).padStart(2, '0');
+        mocks.push({
+          file: `Writing IELTS Mock.html?test=ielts-writing-mock-${padded}&auto=1`,
+          name: `IELTS Writing Mock ${padded}`,
+          icon: '✍️',
+          actionText: 'Start'
+        });
+      }
+      return mocks;
+    })();
+    window.ieltsWritingMocks = ieltsWritingMocks;
+
+    window._iwetDynamicUpgradePromise = (async function loadDynamicIeltsWritingMocks() {
+      try {
+        const SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+        const SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+        const res = await fetch(
+          `${SB_URL}/rest/v1/mock_tests?mock_type=eq.ielts-writing&status=eq.published&select=id,mock_number,title&order=mock_number.asc`,
+          { headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` } }
+        );
+        if (!res.ok) return;
+        const rows = await res.json();
+        if (!rows || !rows.length) return;
+        rows.forEach(m => {
+          const padded = String(m.mock_number).padStart(2, '0');
+          const newFile = `Writing IELTS Mock.html?test=ielts-writing-mock-${padded}&sbmock=${m.id}&auto=1`;
+          const newName = `🟢 IELTS Writing Mock ${padded}`;
+          const cIdx = ieltsWritingMocks.findIndex(t =>
+            t.name === `IELTS Writing Mock ${padded}` ||
+            (t.file && t.file.indexOf('sbmock=' + m.id) !== -1)
+          );
+          if (cIdx !== -1) {
+            ieltsWritingMocks[cIdx].file = newFile;
+            ieltsWritingMocks[cIdx].name = newName;
+            ieltsWritingMocks[cIdx].icon = '🟢';
+          } else {
+            ieltsWritingMocks.push({ file: newFile, name: newName, icon: '🟢', actionText: 'Start' });
+          }
+        });
+      } catch (_e) {}
+    })();
+
+    const _iwet_SB_URL    = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    const _iwet_SB_KEY    = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    const _iwetMockMeta   = {};
+    let   _iwetServerDone = {};
+    let   _iwetStatsByMock  = {};
+    let   _iwetBadgesByMock = {};
+    let   _iwetCreatedAt    = {};
+    let   _iwetFilter        = 'all';
+    let   _iwetSourceFilter  = '';
+    let   _iwetYearFilter    = '';
+    let   _iwetChartFilter   = '';
+    let   _iwetDataFilter    = '';
+    let   _iwetEssayFilter   = '';
+
+    function _iwetEsc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+    const _IWET_CHART_LABEL = {
+      line_graph: 'Line graph', bar_chart: 'Bar chart', pie_chart: 'Pie chart',
+      table: 'Table', map: 'Map', process_diagram: 'Process diagram'
+    };
+    const _IWET_DATA_LABEL = { 'over-time': 'Over time', 'static': 'Static', 'not-applicable': 'N/A' };
+    const _IWET_ESSAY_LABEL = {
+      'opinion': 'Opinion', 'balanced': 'Discussion',
+      'problem-solution': 'Problem-solution',
+      'advantage-disadvantage': 'Advantage-disadvantage', 'two-part': 'Two-part question'
+    };
+
+    function _iwetBuildMetaFromMockData(md) {
+      const t = (md && md.tasks && typeof md.tasks === 'object') ? md.tasks : {};
+      const t1 = (t.task1 && typeof t.task1 === 'object') ? t.task1 : {};
+      const t2 = (t.task2 && typeof t.task2 === 'object') ? t.task2 : {};
+      const t1Ready = !!(t1.prompt && String(t1.prompt).trim() && t1.chartImageUrl && String(t1.chartImageUrl).trim());
+      const t2Ready = !!(t2.prompt && String(t2.prompt).trim());
+      return {
+        source:   (md && md.source) || '',
+        examDate: (md && md.examDate) || '',
+        tasks: [
+          { title: String(t1.title || '').trim(), ready: t1Ready, wordGoal: typeof t1.wordGoal === 'number' ? t1.wordGoal : 150, chartType: t1.chartType || '', dataNature: t1.dataNature || '' },
+          { title: String(t2.title || '').trim(), ready: t2Ready, wordGoal: typeof t2.wordGoal === 'number' ? t2.wordGoal : 250, essayType: t2.essayType || '' }
+        ]
+      };
+    }
+
+    function _iwetCleanSourceLabel(raw) {
+      if (!raw) return '';
+      const monthName = '(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*';
+      return String(raw)
+        .replace(/\b\d{4}-(?:Q[1-4]|\d{1,2}(?:-\d{1,2})?)\b/gi, '')
+        .replace(new RegExp('\\b' + monthName + '\\s+(?:19|20)\\d{2}\\b', 'gi'), '')
+        .replace(/\b(?:19|20)\d{2}\b/g, '')
+        .replace(/[\s,;:\-]+$/g, '')
+        .replace(/^[\s,;:\-]+/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    function _iwetFormatExamDate(iso) {
+      if (!iso || typeof iso !== 'string') return '';
+      var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      var full = iso.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+      if (full) {
+        var mi = parseInt(full[2], 10) - 1;
+        if (mi < 0 || mi > 11) return full[1];
+        return parseInt(full[3], 10) + ' ' + months[mi] + ' ' + full[1];
+      }
+      var ym = iso.match(/^(\d{4})-(\d{1,2})$/);
+      if (ym) {
+        var mi2 = parseInt(ym[2], 10) - 1;
+        if (mi2 < 0 || mi2 > 11) return ym[1];
+        return months[mi2] + ' ' + ym[1];
+      }
+      var yOnly = iso.match(/^(\d{4})$/);
+      if (yOnly) return yOnly[1];
+      return iso;
+    }
+
+    async function _iwetLoadSupabaseMockMeta(id) {
+      try {
+        const r = await fetch(
+          _iwet_SB_URL + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(id) + '&select=mock_data,created_at',
+          { headers: { apikey: _iwet_SB_KEY, Authorization: 'Bearer ' + _iwet_SB_KEY } }
+        );
+        if (!r.ok) return null;
+        const rows = await r.json();
+        if (!rows || !rows.length) return null;
+        const meta = _iwetBuildMetaFromMockData(rows[0].mock_data || {});
+        if (meta) meta.createdAt = rows[0].created_at;
+        return meta;
+      } catch (_e) { return null; }
+    }
+
+    async function _iwetLoadStats() {
+      _iwetStatsByMock = {};
+      try {
+        const resp = await fetch(_iwet_SB_URL + '/rest/v1/rpc/mock_attempt_stats', {
+          method: 'POST',
+          headers: { apikey: _iwet_SB_KEY, Authorization: 'Bearer ' + _iwet_SB_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ p_skill: 'writing', p_exam_type: 'ielts' })
+        });
+        if (!resp.ok) return;
+        const rows = await resp.json();
+        for (const r of rows) {
+          if (r.mock_number == null) continue;
+          const padded = String(r.mock_number).padStart(2, '0');
+          _iwetStatsByMock[padded] = { total: Number(r.total) || 0, today: Number(r.today) || 0, last7: Number(r.last7) || 0 };
+        }
+      } catch (_e) {}
+    }
+
+    function _iwetComputeBadges() {
+      _iwetBadgesByMock = {};
+      const keys = Object.keys(_iwetMockMeta);
+      const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      const trending = keys
+        .filter(k => (_iwetStatsByMock[k]?.last7 || 0) > 0)
+        .sort((a, b) => (_iwetStatsByMock[b]?.last7 || 0) - (_iwetStatsByMock[a]?.last7 || 0))
+        .slice(0, 3);
+      const trendingSet = new Set(trending);
+      const newSet = new Set(keys.filter(k => {
+        const t = (_iwetMockMeta[k] && _iwetMockMeta[k].createdAt) || _iwetCreatedAt[k];
+        return t && new Date(t).getTime() >= sevenDaysAgo;
+      }).sort((a, b) => {
+        const ta = new Date((_iwetMockMeta[a] && _iwetMockMeta[a].createdAt) || _iwetCreatedAt[a]).getTime();
+        const tb = new Date((_iwetMockMeta[b] && _iwetMockMeta[b].createdAt) || _iwetCreatedAt[b]).getTime();
+        return tb - ta;
+      }).slice(0, 3));
+      const popularSet = new Set(keys
+        .filter(k => !trendingSet.has(k) && !newSet.has(k) && (_iwetStatsByMock[k]?.total || 0) > 0)
+        .sort((a, b) => (_iwetStatsByMock[b]?.total || 0) - (_iwetStatsByMock[a]?.total || 0))
+        .slice(0, 5));
+      const gemSet = new Set(keys.filter(k => {
+        if (trendingSet.has(k) || newSet.has(k) || popularSet.has(k)) return false;
+        const s = _iwetStatsByMock[k] || { total: 0 };
+        const meta = _iwetMockMeta[k];
+        const allReady = meta && Array.isArray(meta.tasks) && meta.tasks.length === 2 && meta.tasks.every(t => t.ready);
+        return s.total >= 1 && s.total <= 3 && allReady;
+      })
+        .sort((a, b) => (_iwetStatsByMock[a]?.total || 0) - (_iwetStatsByMock[b]?.total || 0))
+        .slice(0, 5));
+      for (const k of keys) {
+        if (trendingSet.has(k))     _iwetBadgesByMock[k] = 'trending';
+        else if (newSet.has(k))     _iwetBadgesByMock[k] = 'new';
+        else if (popularSet.has(k)) _iwetBadgesByMock[k] = 'popular';
+        else if (gemSet.has(k))     _iwetBadgesByMock[k] = 'gem';
+        else                         _iwetBadgesByMock[k] = null;
+      }
+    }
+
+    function _iwetParseFileSpec(fileSpec) {
+      const sbMatch = String(fileSpec || '').match(/sbmock=([^&]+)/);
+      if (sbMatch) return { kind: 'sb', id: sbMatch[1] };
+      return { kind: 'unknown' };
+    }
+
+    async function _iwetLoadAllMockMeta() {
+      const items = (typeof ieltsWritingMocks !== 'undefined' && Array.isArray(ieltsWritingMocks))
+        ? ieltsWritingMocks : [];
+      const missing = items
+        .map((t, idx) => ({ t, key: String(idx + 1).padStart(2, '0') }))
+        .filter(({ key }) => !_iwetMockMeta[key]);
+      if (missing.length === 0) return;
+      await Promise.all(missing.map(async ({ t, key }) => {
+        const spec = _iwetParseFileSpec(t && t.file);
+        if (spec.kind !== 'sb') return;
+        const meta = await _iwetLoadSupabaseMockMeta(spec.id);
+        if (meta) _iwetMockMeta[key] = meta;
+      }));
+    }
+
+    function _iwetGetDoneInfo(mockNum) {
+      try {
+        const raw = localStorage.getItem('mock-ielts-writing-done-' + mockNum);
+        if (raw) return JSON.parse(raw);
+      } catch (_e) {}
+      if (_iwetServerDone[mockNum]) return { fromServer: true };
+      return null;
+    }
+
+    async function _iwetFetchServerDone() {
+      try {
+        if (!window.PremiumGate || !window.PremiumGate._normName) return {};
+        const candidateName = sessionStorage.getItem('CANDIDATE_NAME') || '';
+        const name = window.PremiumGate._normName(candidateName);
+        if (!name) return {};
+        const url = _iwet_SB_URL + '/rest/v1/mock_attempts'
+          + '?candidate_name=eq.' + encodeURIComponent(name)
+          + '&skill=eq.writing&exam_type=eq.ielts&submitted_at=not.is.null&select=mock_number';
+        const r = await fetch(url, { headers: { apikey: _iwet_SB_KEY, Authorization: 'Bearer ' + _iwet_SB_KEY } });
+        if (!r.ok) return {};
+        const rows = await r.json();
+        const out = {};
+        (rows || []).forEach(row => { out[String(row.mock_number).padStart(2, '0')] = true; });
+        return out;
+      } catch (_e) { return {}; }
+    }
+
+    function _iwetSkeletonHtml() {
+      return '<div class="ilet-card-skeleton">'
+        + '<div class="ilet-skel-line short"></div>'
+        + '<div class="ilet-skel-line tall"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '</div>';
+    }
+
+    function _iwetCardHtml(mockNum, item, meta, doneInfo) {
+      const tasks = meta.tasks;
+      const readyCount = tasks.filter(p => p.ready).length;
+      const total = tasks.length;
+      const noneReady = readyCount === 0;
+      const dots = tasks.map(p =>
+        '<span class="ilet-dot ' + (p.ready ? 'ilet-dot-ready' : 'ilet-dot-soon') + '"></span>'
+      ).join('');
+      const sourceLabel = _iwetCleanSourceLabel(meta.source);
+      const sourceHtml = sourceLabel
+        ? '<div class="ilet-source" title="' + _iwetEsc(meta.source) + '">' + _iwetEsc(sourceLabel) + '</div>'
+        : '';
+      const dateLabel = _iwetFormatExamDate(meta.examDate);
+      const dateHtml  = dateLabel
+        ? '<div class="iwet-exam-date" title="Exam date ' + _iwetEsc(meta.examDate) + '">📅 ' + _iwetEsc(dateLabel) + '</div>'
+        : '';
+      const taskRows = tasks.map((p, i) => {
+        const isT1 = (i === 0);
+        let sub;
+        if (isT1) {
+          const chartSeg = '<span class="iwet-pill iwet-pill-chart">'
+            + _iwetEsc(_IWET_CHART_LABEL[p.chartType] || (p.chartType || '—'))
+            + '</span>';
+          const natLabel = _IWET_DATA_LABEL[p.dataNature];
+          const natSeg = (natLabel && p.dataNature !== 'not-applicable')
+            ? ' <span class="iwet-pill iwet-pill-data">' + _iwetEsc(natLabel) + '</span>'
+            : '';
+          sub = chartSeg + natSeg;
+        } else {
+          sub = '<span class="iwet-pill iwet-pill-essay">'
+            + _iwetEsc(_IWET_ESSAY_LABEL[p.essayType] || (p.essayType || '—'))
+            + '</span>';
+        }
+        const titleHtml = p.title
+          ? '<strong>' + _iwetEsc(p.title) + '</strong><span class="iwet-task-sub">' + sub + '</span>'
+          : '<strong style="color:#94a3b8;">(no topic title yet)</strong><span class="iwet-task-sub">' + sub + '</span>';
+        return '<li class="ilet-section">'
+          + '<span class="ilet-section-num">T' + (i + 1) + '</span>'
+          + '<span class="ilet-section-title">' + titleHtml + '</span>'
+          + '<span class="ilet-section-badge ' + (p.ready ? 'ilet-badge-ready' : 'ilet-badge-soon') + '">'
+          +   (p.ready ? '✓ Ready' : '⏳ Soon')
+          + '</span>'
+          + '</li>';
+      }).join('');
+      const doneHtml = doneInfo
+        ? (typeof doneInfo.percent === 'number'
+            ? '<span class="ilet-done">★ Done · ' + doneInfo.percent + '%</span>'
+            : '<span class="ilet-done">★ Done</span>')
+        : '';
+      const shareBtnHtml = noneReady
+        ? ''
+        : '<button type="button" class="iwet-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
+      const actionHtml = noneReady
+        ? '<span class="ilet-coming-soon">Coming soon</span>'
+        : (shareBtnHtml + '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Take Test →</button>');
+      const cleanTitle = String(item.name || '').replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]+\s*/u, '');
+      const t1Chart = tasks[0] ? (tasks[0].chartType  || '') : '';
+      const t1Data  = tasks[0] ? (tasks[0].dataNature || '') : '';
+      const t2Essay = tasks[1] ? (tasks[1].essayType  || '') : '';
+      const topicBlob = tasks.map(p => (p.title || '')).join(' ').toLowerCase();
+      const iwStats = _iwetStatsByMock[String(mockNum)] || { total: 0, today: 0, last7: 0 };
+      const IW_BADGE_LABELS = { trending: '🔥 Trending', new: '🆕 New', popular: '👑 Popular', gem: '💎 Hidden gem' };
+      const IW_BADGE_COLORS = { trending: '#b45309', new: '#c2410c', popular: '#7c3aed', gem: '#15803d' };
+      const iwBadgeKey = _iwetBadgesByMock[String(mockNum)];
+      const iwBadgeChip = iwBadgeKey
+        ? '<span style="font-weight:700;color:' + IW_BADGE_COLORS[iwBadgeKey] + ';">' + IW_BADGE_LABELS[iwBadgeKey] + '</span>'
+        : '';
+      const iwParts = [];
+      if (iwBadgeChip) iwParts.push(iwBadgeChip);
+      iwParts.push('<span>👥 ' + iwStats.total + '</span>');
+      iwParts.push('<span>⚡ ' + iwStats.today + ' today</span>');
+      const statsRow = '<div class="iwet-stat-row" style="display:flex;gap:8px;font-size:11.5px;color:#475569;margin:4px 0 8px;flex-wrap:wrap;align-items:center;">'
+                     + iwParts.join('<span style="color:#cbd5e1;">·</span>')
+                     + '</div>';
+      return '<article class="ilet-card ' + (noneReady ? 'ilet-card-disabled' : '') + '"'
+        + ' id="iwet-card-' + mockNum + '"'
+        + ' data-mock="' + mockNum + '"'
+        + ' data-file="' + _iwetEsc(item.file) + '"'
+        + ' data-ready-count="' + readyCount + '"'
+        + ' data-total="' + total + '"'
+        + ' data-source="' + _iwetEsc(_iwetCleanSourceLabel(meta.source).toLowerCase()) + '"'
+        + ' data-year="' + _iwetEsc(meta.examDate ? String(meta.examDate).slice(0, 4) : '') + '"'
+        + ' data-done="' + (doneHtml ? '1' : '0') + '"'
+        + ' data-title="' + _iwetEsc(cleanTitle.toLowerCase()) + '"'
+        + ' data-topics="' + _iwetEsc(topicBlob) + '"'
+        + ' data-t1-chart="' + _iwetEsc(t1Chart) + '"'
+        + ' data-t1-data="'  + _iwetEsc(t1Data)  + '"'
+        + ' data-t2-essay="' + _iwetEsc(t2Essay) + '">'
+          + '<div class="ilet-card-head">'
+            + '<div class="ilet-mocknum">#' + mockNum + '</div>'
+            + '<div class="ilet-status">'
+              + '<span class="ilet-dots">' + dots + '</span>'
+              + '<span class="ilet-status-label">' + readyCount + '/' + total + ' READY</span>'
+            + '</div>'
+            + sourceHtml
+            + dateHtml
+          + '</div>'
+          + '<h3 class="ilet-mock-title">' + _iwetEsc(cleanTitle) + '</h3>'
+          + statsRow
+          + '<ul class="ilet-sections">' + taskRows + '</ul>'
+          + '<div class="ilet-card-foot">' + doneHtml + actionHtml + '</div>'
+        + '</article>';
+    }
+
+    function _iwetRenderSkeletons() {
+      const grid = document.getElementById('iwetGrid');
+      const count = (typeof ieltsWritingMocks !== 'undefined' && Array.isArray(ieltsWritingMocks))
+        ? ieltsWritingMocks.length : 12;
+      grid.innerHTML = Array.from({ length: count }, _iwetSkeletonHtml).join('');
+      document.getElementById('iwetCount').textContent = count;
+    }
+
+    function _iwetRender() {
+      const grid = document.getElementById('iwetGrid');
+      const items = (typeof ieltsWritingMocks !== 'undefined' && Array.isArray(ieltsWritingMocks))
+        ? ieltsWritingMocks : [];
+      const cards = items.map((t, idx) => {
+        const mockNum = String(idx + 1).padStart(2, '0');
+        const meta = _iwetMockMeta[mockNum] || {
+          source: '',
+          tasks: [
+            { title: '', ready: false, wordGoal: 150, chartType: '', dataNature: '' },
+            { title: '', ready: false, wordGoal: 250, essayType: '' }
+          ]
+        };
+        return _iwetCardHtml(mockNum, t, meta, _iwetGetDoneInfo(mockNum));
+      });
+      grid.innerHTML = cards.join('');
+      _iwetBuildJumpOptions();
+      _iwetBuildSourceOptions();
+      _iwetBuildYearOptions();
+      _iwetApplyFiltersAndSort();
+    }
+
+    function _iwetApplyFiltersAndSort() {
+      const search = (document.getElementById('iwetSearch').value || '').toLowerCase().trim();
+      const sourceFilter = _iwetSourceFilter.toLowerCase();
+      let visible = 0;
+      document.querySelectorAll('#iwetGrid .ilet-card').forEach(c => {
+        const ready = parseInt(c.dataset.readyCount, 10) || 0;
+        const total = parseInt(c.dataset.total, 10) || 0;
+        const done  = c.dataset.done === '1';
+        const source = c.dataset.source || '';
+        let pass = true;
+        if (_iwetFilter === 'ready') pass = (ready === total && total > 0);
+        else if (_iwetFilter === 'soon')  pass = (ready < total);
+        else if (_iwetFilter === 'done')  pass = done;
+        if (pass && sourceFilter)        pass = source.startsWith(sourceFilter);
+        if (pass && _iwetYearFilter)     pass = (c.dataset.year   === _iwetYearFilter);
+        if (pass && _iwetChartFilter)    pass = (c.dataset.t1Chart === _iwetChartFilter);
+        if (pass && _iwetDataFilter)     pass = (c.dataset.t1Data  === _iwetDataFilter);
+        if (pass && _iwetEssayFilter)    pass = (c.dataset.t2Essay === _iwetEssayFilter);
+        if (pass && search) {
+          pass = (c.dataset.title  || '').includes(search)
+              || (c.dataset.source || '').includes(search)
+              || (c.dataset.topics || '').includes(search)
+              || (c.dataset.mock   || '').includes(search);
+        }
+        c.style.display = pass ? '' : 'none';
+        if (pass) visible++;
+      });
+      document.getElementById('iwetCount').textContent = visible;
+      document.getElementById('iwetEmpty').style.display = visible === 0 ? '' : 'none';
+    }
+
+    function _iwetBuildSourceOptions() {
+      const sel = document.getElementById('iwetSourceFilter');
+      if (!sel) return;
+      const groups = new Set();
+      Object.values(_iwetMockMeta).forEach(m => {
+        if (!m || !m.source) return;
+        const label = _iwetCleanSourceLabel(m.source);
+        const stripped = label.replace(/\s+Test\s+\d+\s*$/i, '').trim();
+        if (stripped) groups.add(stripped);
+      });
+      const sorted = Array.from(groups).sort();
+      let opts = '<option value="">📚 All sources</option>';
+      sorted.forEach(g => {
+        const selAttr = (g === _iwetSourceFilter) ? ' selected' : '';
+        opts += '<option value="' + _iwetEsc(g) + '"' + selAttr + '>' + _iwetEsc(g) + '</option>';
+      });
+      sel.innerHTML = opts;
+    }
+
+    function _iwetBuildYearOptions() {
+      const sel = document.getElementById('iwetYearFilter');
+      if (!sel) return;
+      const years = new Set();
+      Object.values(_iwetMockMeta).forEach(m => {
+        if (!m || !m.examDate) return;
+        const y = String(m.examDate).slice(0, 4);
+        if (/^\d{4}$/.test(y)) years.add(y);
+      });
+      const sorted = Array.from(years).sort((a, b) => b.localeCompare(a));
+      let opts = '<option value="">📅 Any year</option>';
+      sorted.forEach(y => {
+        const selAttr = (y === _iwetYearFilter) ? ' selected' : '';
+        opts += '<option value="' + y + '"' + selAttr + '>' + y + '</option>';
+      });
+      sel.innerHTML = opts;
+    }
+
+    function _iwetBuildJumpOptions() {
+      const sel = document.getElementById('iwetJump');
+      if (!sel) return;
+      const cards = document.querySelectorAll('#iwetGrid .ilet-card');
+      let opts = '<option value="">Jump to #…</option>';
+      cards.forEach(c => {
+        const n = c.dataset.mock;
+        if (!n) return;
+        opts += '<option value="' + n + '">#' + n + '</option>';
+      });
+      sel.innerHTML = opts;
+    }
+
+    function _iwetJumpToMock(mockNum) {
+      if (!mockNum) return;
+      const card = document.getElementById('iwet-card-' + mockNum);
+      if (!card) return;
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.classList.remove('ilet-card-jumped');
+      void card.offsetWidth;
+      card.classList.add('ilet-card-jumped');
+    }
+
+    async function _iwetShareMock(mockN, btnEl) {
+      return _pickerShareMock('ielts-writing', 'IELTS Writing Mock', mockN, btnEl, 'iwet-share-copied');
+    }
+
+    async function iwetOpen() {
+      try { if (typeof window.__msv3ShowInlineSplash === 'function') window.__msv3ShowInlineSplash(); } catch (_e) {}
+      const overlay = document.getElementById('iwetPicker');
+      overlay.classList.add('ilet-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      try { history.pushState({ picker: 'iwet' }, ''); } catch (_e) {}
+      if (typeof _pickerShowTmaBack === 'function') _pickerShowTmaBack();
+      _iwetRenderSkeletons();
+      try { if (window._iwetDynamicUpgradePromise) await window._iwetDynamicUpgradePromise; } catch (_e) {}
+      try {
+        const [, serverDone] = await Promise.all([
+          _iwetLoadAllMockMeta(),
+          _iwetFetchServerDone(),
+          _iwetLoadStats()
+        ]);
+        _iwetServerDone = serverDone || {};
+        _iwetComputeBadges();
+        _iwetRender();
+      } finally {
+        try { if (typeof window.__msv3HideInlineSplash === 'function') window.__msv3HideInlineSplash(); } catch (_e) {}
+      }
+    }
+
+    function iwetClose(opts) {
+      const keepUrl = !!(opts && opts.keepUrl);
+      const overlay = document.getElementById('iwetPicker');
+      overlay.classList.remove('ilet-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (typeof _pickerHideTmaBack === 'function') _pickerHideTmaBack();
+      if (!_pickerFromPopstate && !keepUrl) {
+        try {
+          if (history.state && history.state.picker === 'iwet') history.back();
+          if (/^\/take\//i.test(window.location.pathname)) {
+            history.replaceState(null, '', '/landing-v3.html');
+          }
+        } catch (_e) {}
+      }
+    }
+
+    function iwetClearFilters() {
+      _iwetFilter       = 'all';
+      _iwetSourceFilter = '';
+      _iwetYearFilter   = '';
+      _iwetChartFilter  = '';
+      _iwetDataFilter   = '';
+      _iwetEssayFilter  = '';
+      document.querySelectorAll('#iwetPicker .iwet-chip').forEach(c =>
+        c.classList.toggle('ilet-chip-active', c.dataset.filter === 'all')
+      );
+      document.getElementById('iwetSearch').value = '';
+      ['iwetSourceFilter','iwetYearFilter','iwetChartTypeFilter','iwetDataNatureFilter','iwetEssayTypeFilter'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+      _iwetApplyFiltersAndSort();
+    }
+
+    (function _iwetWire() {
+      const overlay = document.getElementById('iwetPicker');
+      if (!overlay) return;
+      document.querySelectorAll('#iwetPicker .iwet-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          _iwetFilter = chip.dataset.filter;
+          document.querySelectorAll('#iwetPicker .iwet-chip').forEach(c =>
+            c.classList.toggle('ilet-chip-active', c === chip)
+          );
+          _iwetApplyFiltersAndSort();
+        });
+      });
+      const search = document.getElementById('iwetSearch');
+      const jump   = document.getElementById('iwetJump');
+      const srcSel = document.getElementById('iwetSourceFilter');
+      const yrSel  = document.getElementById('iwetYearFilter');
+      const chSel  = document.getElementById('iwetChartTypeFilter');
+      const dnSel  = document.getElementById('iwetDataNatureFilter');
+      const etSel  = document.getElementById('iwetEssayTypeFilter');
+      if (search) search.addEventListener('input', _iwetApplyFiltersAndSort);
+      if (jump) jump.addEventListener('change', function () {
+        _iwetJumpToMock(this.value);
+        setTimeout(() => { this.value = ''; }, 400);
+      });
+      if (srcSel) srcSel.addEventListener('change', function () { _iwetSourceFilter = this.value || ''; _iwetApplyFiltersAndSort(); });
+      if (yrSel)  yrSel.addEventListener('change',  function () { _iwetYearFilter   = this.value || ''; _iwetApplyFiltersAndSort(); });
+      if (chSel)  chSel.addEventListener('change',  function () { _iwetChartFilter  = this.value || ''; _iwetApplyFiltersAndSort(); });
+      if (dnSel)  dnSel.addEventListener('change',  function () { _iwetDataFilter   = this.value || ''; _iwetApplyFiltersAndSort(); });
+      if (etSel)  etSel.addEventListener('change',  function () { _iwetEssayFilter  = this.value || ''; _iwetApplyFiltersAndSort(); });
+      document.getElementById('iwetGrid').addEventListener('click', function (e) {
+        if (e.target.closest('input, select, textarea, a, [contenteditable]')) return;
+        const card = e.target.closest('.ilet-card');
+        if (!card) return;
+        if (card.classList.contains('ilet-card-disabled')) return;
+        const mockN = card.dataset.mock;
+        const shareBtn = e.target.closest('.iwet-share');
+        if (shareBtn) {
+          e.stopPropagation();
+          _iwetShareMock(mockN, shareBtn);
+          return;
+        }
+        const isTakeBtn = !!e.target.closest('.ilet-take');
+        if (!isTakeBtn) {
+          if (mockN) {
+            try { history.replaceState(null, '', '/take/ielts-writing-' + encodeURIComponent(mockN)); } catch (_e) {}
+          }
+          return;
+        }
+        let file = card.dataset.file;
+        if (!file) return;
+        const meta = _iwetMockMeta[mockN];
+        if (meta && Array.isArray(meta.tasks)) {
+          const t1Ready = !!(meta.tasks[0] && meta.tasks[0].ready);
+          const t2Ready = !!(meta.tasks[1] && meta.tasks[1].ready);
+          if (t1Ready && !t2Ready) file += (file.indexOf('?') === -1 ? '?' : '&') + 'task=t1';
+          else if (!t1Ready && t2Ready) file += (file.indexOf('?') === -1 ? '?' : '&') + 'task=t2';
+        }
+        if (mockN) {
+          try { history.pushState(null, '', '/take/ielts-writing-' + encodeURIComponent(mockN)); } catch (_e) {}
+        }
+        if (typeof handleWritingMockClick === 'function') {
+          handleWritingMockClick(file, 'ielts-writing');
+        } else {
+          iwetClose({ keepUrl: true });
+          try { window.location.replace(file); } catch (_e) { window.location.href = file; }
+        }
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && overlay.classList.contains('ilet-open')) iwetClose();
+      });
+    })();
+
+    window.iwetOpen         = iwetOpen;
+    window.iwetClose        = iwetClose;
+    window.iwetClearFilters = iwetClearFilters;
+
     // ===== Writing launch flow — Phase 3 step B =====
     // CEFR Writing only for now (mode + task + access-code modals + the
     // handleWritingMockClick gate). IELTS Writing's modal handlers land
@@ -6461,14 +7318,19 @@
     window.verifyWritingAccessCode    = verifyWritingAccessCode;
 
     function _launchWritingMock(pageUrl, category) {
+      var num = _extractWritingMockNumber(pageUrl);
       if (category === 'cefr-writing') {
         _pendingWritingLaunch = { pageUrl, category };
         var label = document.getElementById('writingModeMockLabel');
-        var num = _extractWritingMockNumber(pageUrl);
         if (label) label.textContent = 'CEFR Writing Mock ' + (num || '');
         document.getElementById('writingModeModal').style.display = 'flex';
+      } else if (category === 'ielts-writing') {
+        // Phase 4 — IELTS Writing now has its own mode modal too.
+        _pendingIeltsWritingLaunch = { pageUrl, category };
+        var lbl2 = document.getElementById('ieltsWritingModeMockLabel');
+        if (lbl2) lbl2.textContent = 'IELTS Writing Mock ' + (num || '');
+        document.getElementById('ieltsWritingModeModal').style.display = 'flex';
       } else {
-        // IELTS writing's modal lands in Phase 4 — direct nav for now.
         try { window.location.replace(pageUrl); } catch (_e) { window.location.href = pageUrl; }
       }
     }
@@ -6517,6 +7379,51 @@
     window._writingModeTaskBased  = _writingModeTaskBased;
     window.closeWritingTaskPicker = closeWritingTaskPicker;
     window._pickWritingTask       = _pickWritingTask;
+
+    // ===== IELTS Writing mode + task picker handlers — Phase 4 =====
+    let _pendingIeltsWritingLaunch = null;
+
+    function closeIeltsWritingModeModal() {
+      document.getElementById('ieltsWritingModeModal').style.display = 'none';
+      try {
+        sessionStorage.removeItem('writingMockReturnCategory');
+      } catch (_e) {}
+      try {
+        if (/^\/take\//i.test(window.location.pathname)) {
+          history.replaceState({}, document.title, '/landing-v3.html');
+        }
+      } catch (_e) {}
+    }
+    function _ieltsWritingModeFullMock() {
+      if (!_pendingIeltsWritingLaunch) return;
+      const url = _pendingIeltsWritingLaunch.pageUrl;
+      _pendingIeltsWritingLaunch = null;
+      document.getElementById('ieltsWritingModeModal').style.display = 'none';
+      try { window.location.replace(url); } catch (_e) { window.location.href = url; }
+    }
+    function _ieltsWritingModeTaskBased() {
+      document.getElementById('ieltsWritingModeModal').style.display = 'none';
+      document.getElementById('ieltsWritingTaskPickerModal').style.display = 'flex';
+    }
+    function closeIeltsWritingTaskPicker() {
+      document.getElementById('ieltsWritingTaskPickerModal').style.display = 'none';
+      if (_pendingIeltsWritingLaunch) {
+        document.getElementById('ieltsWritingModeModal').style.display = 'flex';
+      }
+    }
+    function _pickIeltsWritingTask(taskId) {
+      if (!_pendingIeltsWritingLaunch) return;
+      document.getElementById('ieltsWritingTaskPickerModal').style.display = 'none';
+      var url = _pendingIeltsWritingLaunch.pageUrl;
+      url += (url.includes('?') ? '&' : '?') + 'task=' + taskId;
+      _pendingIeltsWritingLaunch = null;
+      try { window.location.replace(url); } catch (_e) { window.location.href = url; }
+    }
+    window.closeIeltsWritingModeModal = closeIeltsWritingModeModal;
+    window._ieltsWritingModeFullMock  = _ieltsWritingModeFullMock;
+    window._ieltsWritingModeTaskBased = _ieltsWritingModeTaskBased;
+    window.closeIeltsWritingTaskPicker = closeIeltsWritingTaskPicker;
+    window._pickIeltsWritingTask       = _pickIeltsWritingTask;
   </script>
 
   <!-- ═══════════════════════════════════════════════════════
