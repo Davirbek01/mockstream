@@ -2229,27 +2229,27 @@
            to the existing showXXXOptions modals via openSelector; SAT
            navigates directly to its own runner page. -->
       <div class="exams-rail" id="examsRail">
-        <a class="cambridge-card" href="/landing.html?openSelector=cambridge-ket">
+        <a class="cambridge-card" href="javascript:void(0)" data-cambridge="ket">
           <div class="cb-level">A2</div>
           <div class="cb-code">KET</div>
           <div class="cb-name">Key English Test</div>
         </a>
-        <a class="cambridge-card" href="/landing.html?openSelector=cambridge-pet">
+        <a class="cambridge-card" href="javascript:void(0)" data-cambridge="pet">
           <div class="cb-level">B1</div>
           <div class="cb-code">PET</div>
           <div class="cb-name">Preliminary</div>
         </a>
-        <a class="cambridge-card" href="/landing.html?openSelector=cambridge-fce">
+        <a class="cambridge-card" href="javascript:void(0)" data-cambridge="fce">
           <div class="cb-level">B2</div>
           <div class="cb-code">FCE</div>
           <div class="cb-name">First</div>
         </a>
-        <a class="cambridge-card" href="/landing.html?openSelector=cambridge-cae">
+        <a class="cambridge-card" href="javascript:void(0)" data-cambridge="cae">
           <div class="cb-level">C1</div>
           <div class="cb-code">CAE</div>
           <div class="cb-name">Advanced</div>
         </a>
-        <a class="cambridge-card" href="/landing.html?openSelector=cambridge-cpe">
+        <a class="cambridge-card" href="javascript:void(0)" data-cambridge="cpe">
           <div class="cb-level">C2</div>
           <div class="cb-code">CPE</div>
           <div class="cb-name">Proficiency</div>
@@ -12282,6 +12282,59 @@
     }
     window._processDeepLinkTakeV3 = _processDeepLinkTakeV3;
 
+    // ═══════════════════════════════════════════════════════════════
+    // Cambridge KET / PET / FCE / CAE / CPE — Phase 6-B
+    // Single modal driven by exam-data table. Only RW paper is active;
+    // Listening + Speaking marked SOON. Direct navigation to runner
+    // pages (no access-code gate — exam runners handle premium check).
+    // ═══════════════════════════════════════════════════════════════
+    var CAMBRIDGE_EXAMS = {
+      ket: { code: 'KET', tag: 'A2 Key',         rwLabel: 'Reading & Writing',     rwDur: '60 min · 32 questions',           listDur: '30 min · 25 questions',  spkDur: '8–10 min (paired)' },
+      pet: { code: 'PET', tag: 'B1 Preliminary', rwLabel: 'Reading & Writing',     rwDur: '90 min · 32 reading + 2 writing', listDur: '~30 min · 25 questions', spkDur: '~12 min (paired)' },
+      fce: { code: 'FCE', tag: 'B2 First',       rwLabel: 'Reading, UoE & Writing', rwDur: '155 min · 52 reading + 2 writing', listDur: '~40 min · 30 questions', spkDur: '~14 min (paired)' },
+      cae: { code: 'CAE', tag: 'C1 Advanced',    rwLabel: 'Reading, UoE & Writing', rwDur: '180 min · 56 reading + 2 writing', listDur: '~40 min · 30 questions', spkDur: '~15 min (paired)' },
+      cpe: { code: 'CPE', tag: 'C2 Proficiency', rwLabel: 'Reading, UoE & Writing', rwDur: '180 min · 53 reading + 2 writing', listDur: '~40 min · 30 questions', spkDur: '~16 min (paired)' }
+    };
+    function showCambridgeModal(exam) {
+      var e = CAMBRIDGE_EXAMS[exam];
+      if (!e) return;
+      document.getElementById('cambridgeModalTitle').textContent = '🎓 ' + e.code + ' (' + e.tag + ')';
+      document.getElementById('cambridgeRwLabel').textContent = e.rwLabel;
+      document.getElementById('cambridgeRwDur').textContent = e.rwDur;
+      document.getElementById('cambridgeListDur').textContent = e.listDur + ' · arriving in v2';
+      document.getElementById('cambridgeSpkDur').textContent = e.spkDur + ' · arriving in v2';
+      var rwBtn = document.getElementById('cambridgeRwBtn');
+      rwBtn.onclick = function () { _selectCambridge(exam, 'rw'); };
+      document.getElementById('cambridgeModal').style.display = 'flex';
+    }
+    function closeCambridgeModal(event) {
+      var m = document.getElementById('cambridgeModal');
+      if (!m) return;
+      if (!event || event.target === m) m.style.display = 'none';
+    }
+    function _selectCambridge(exam, type) {
+      var e = CAMBRIDGE_EXAMS[exam];
+      if (!e) return;
+      closeCambridgeModal();
+      // Use href (push) so browser-back from the runner lands on v3.
+      // Absolute /paths in case the runner ever loads from a /take/-style URL.
+      var url;
+      if (type === 'rw') url = '/' + e.code + ' Reading & Writing Mocks.html';
+      else if (type === 'listening') url = '/' + e.code + ' Listening Mocks.html';
+      else url = '/' + e.code + ' Speaking Mocks.html';
+      window.location.href = url;
+    }
+    window.showCambridgeModal = showCambridgeModal;
+    window.closeCambridgeModal = closeCambridgeModal;
+    // Wire the .cambridge-card tiles (skip the SAT card which has no data-cambridge).
+    document.querySelectorAll('.cambridge-card[data-cambridge]').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        var exam = a.getAttribute('data-cambridge');
+        if (exam) showCambridgeModal(exam);
+      });
+    });
+
     // Early-open the access modal as soon as the head-script's __msTakePending
     // is populated AND the show*AccessCodeModal handlers are defined. This
     // happens IMMEDIATELY after the script chain finishes parsing — no async
@@ -12431,6 +12484,52 @@
       <div id="speakingPartPickerButtons" style="display:flex;flex-direction:column;gap:10px;"></div>
       <button onclick="closeSpeakingPartPicker()"
         style="margin-top:18px;padding:8px 24px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;">Back</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       Cambridge KET / PET / FCE / CAE / CPE — single modal,
+       content swaps per exam via CAMBRIDGE_EXAMS data. Wired
+       to the .cambridge-card tiles in #examsRail.
+       ═══════════════════════════════════════════════════════ -->
+  <div id="cambridgeModal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:100005;align-items:center;justify-content:center;padding:20px;"
+    onclick="closeCambridgeModal(event)">
+    <div
+      style="background:var(--card);border:2px solid var(--brand);border-radius:24px;padding:28px 24px 22px;max-width:480px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
+      onclick="event.stopPropagation()">
+      <h3 id="cambridgeModalTitle" style="font-size:20px;color:var(--brand);margin-bottom:4px;font-weight:800;">🎓 Cambridge Exam</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:18px;">Select a paper to practice</p>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <button id="cambridgeRwBtn" type="button"
+          style="padding:14px 18px;border:2px solid var(--ring);border-radius:14px;font-size:14px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.15s;display:flex;align-items:center;gap:12px;background:var(--card);">
+          <span style="font-size:24px;flex-shrink:0;">📝</span>
+          <span style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;">
+            <span id="cambridgeRwLabel" style="color:var(--ink);">Reading &amp; Writing</span>
+            <span id="cambridgeRwDur" style="font-size:11.5px;font-weight:400;color:var(--muted);">duration</span>
+          </span>
+        </button>
+        <button type="button" disabled aria-disabled="true"
+          style="padding:14px 18px;border:2px solid var(--ring);border-radius:14px;font-size:14px;font-weight:700;color:var(--ink-2);text-align:left;display:flex;align-items:center;gap:12px;background:var(--card-soft);opacity:0.6;cursor:not-allowed;position:relative;">
+          <span style="position:absolute;top:6px;right:8px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:white;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.5px;">SOON</span>
+          <span style="font-size:24px;flex-shrink:0;">🎧</span>
+          <span style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;">
+            <span>Listening</span>
+            <span id="cambridgeListDur" style="font-size:11.5px;font-weight:400;color:var(--muted);">duration · arriving in v2</span>
+          </span>
+        </button>
+        <button type="button" disabled aria-disabled="true"
+          style="padding:14px 18px;border:2px solid var(--ring);border-radius:14px;font-size:14px;font-weight:700;color:var(--ink-2);text-align:left;display:flex;align-items:center;gap:12px;background:var(--card-soft);opacity:0.6;cursor:not-allowed;position:relative;">
+          <span style="position:absolute;top:6px;right:8px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:white;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.5px;">SOON</span>
+          <span style="font-size:24px;flex-shrink:0;">🎤</span>
+          <span style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;">
+            <span>Speaking</span>
+            <span id="cambridgeSpkDur" style="font-size:11.5px;font-weight:400;color:var(--muted);">duration · arriving in v2</span>
+          </span>
+        </button>
+      </div>
+      <button onclick="closeCambridgeModal()" type="button"
+        style="margin-top:18px;padding:8px 24px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;">Cancel</button>
     </div>
   </div>
 
