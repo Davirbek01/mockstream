@@ -1647,6 +1647,47 @@
       .secondary-card.split .body { flex: 1 1 auto; }
       .secondary-card.split .sc-ctas { width: 100%; }
     }
+    /* 4-skill icon strip on Full Mock card — visualises "all 4 skills"
+       (Speaking + Writing + Listening + Reading). Same colour palette
+       as the main skill cards above. Replaces the generic book icon. */
+    .full-skills-strip {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    .full-skills-strip .fs-icon {
+      width: 32px; height: 32px;
+      border-radius: 9px;
+      display: grid; place-items: center;
+      color: white;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.12);
+      position: relative;
+    }
+    .full-skills-strip .fs-icon::after {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: 9px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.22), transparent 55%);
+    }
+    .full-skills-strip .fs-icon svg { width: 16px; height: 16px; position: relative; z-index: 1; }
+    .full-skills-strip .fs-icon.spk { background: linear-gradient(135deg, #34d399, #059669); }
+    .full-skills-strip .fs-icon.wrt { background: linear-gradient(135deg, #a78bfa, #7c3aed); }
+    .full-skills-strip .fs-icon.lst { background: linear-gradient(135deg, #38bdf8, #0284c7); }
+    .full-skills-strip .fs-icon.rdg { background: linear-gradient(135deg, #fbbf24, #d97706); }
+    .full-skills-strip .fs-plus {
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 12px;
+      letter-spacing: 0;
+      opacity: 0.6;
+    }
+    @media (max-width: 480px) {
+      .full-skills-strip .fs-icon { width: 28px; height: 28px; border-radius: 8px; }
+      .full-skills-strip .fs-icon svg { width: 14px; height: 14px; }
+      .full-skills-strip .fs-plus { font-size: 11px; }
+      .full-skills-strip { gap: 3px; }
+    }
 
     /* ═══════════════════════════════════════════════════════
        International Exams — horizontal slider rail
@@ -2132,11 +2173,36 @@
              inline; same handlers as the sidebar msv3CefrFullMock /
              msv3IeltsFullMock buttons. -->
         <div class="secondary-card full split">
-          <div class="icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-            </svg>
+          <div class="full-skills-strip" aria-hidden="true">
+            <span class="fs-icon spk" title="Speaking">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                <line x1="12" y1="19" x2="12" y2="23"></line>
+                <line x1="8" y1="23" x2="16" y2="23"></line>
+              </svg>
+            </span>
+            <span class="fs-plus">+</span>
+            <span class="fs-icon wrt" title="Writing">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9"></path>
+                <path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+              </svg>
+            </span>
+            <span class="fs-plus">+</span>
+            <span class="fs-icon lst" title="Listening">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+                <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+              </svg>
+            </span>
+            <span class="fs-plus">+</span>
+            <span class="fs-icon rdg" title="Reading">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+              </svg>
+            </span>
           </div>
           <div class="body">
             <div class="title">Full Mock Experience</div>
