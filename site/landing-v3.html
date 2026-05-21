@@ -2311,6 +2311,9 @@
       if (slug === 'ielts-speaking' && typeof window.ispetOpen === 'function') {
         try { ispetOpen(); return; } catch (_e) {}
       }
+      if (slug === 'cefr-writing' && typeof window.cwetOpen === 'function') {
+        try { cwetOpen(); return; } catch (_e) {}
+      }
       window.location.href = '/landing.html?openSelector=' + encodeURIComponent(slug);
     }
     // Mirrors the matchers in landing.html's _processDeepLinkTake so we
@@ -3345,6 +3348,9 @@
       window.location.href = '/landing.html?openSelector=cefr-speaking';
     });
     document.getElementById('msv3CefrWriting').addEventListener('click', function () {
+      if (typeof window.cwetOpen === 'function') {
+        try { requestSidebarClose(); cwetOpen(); return; } catch (_e) {}
+      }
       window.location.href = '/landing.html?openSelector=cefr-writing';
     });
     document.getElementById('msv3CefrListening').addEventListener('click', function () {
@@ -4108,6 +4114,112 @@
       font-size: 11px;
       font-weight: 700;
     }
+
+    /* ===== CEFR Writing picker (cwetPicker) — violet/purple theme ===== */
+    #cwetPicker .ilet-header {
+      background: rgba(245, 243, 255, 0.95);
+      border-bottom: 1px solid #ddd6fe;
+    }
+    #cwetPicker .ilet-back { color: #6d28d9; border-color: #ddd6fe; }
+    #cwetPicker .ilet-back:hover { background: #6d28d9; color: #fff; }
+    #cwetPicker .ilet-title { color: #4c1d95; }
+    #cwetPicker .ilet-count {
+      background: #ede9fe;
+      color: #6d28d9;
+      border: 1px solid #c4b5fd;
+    }
+    #cwetPicker .ilet-card {
+      background: linear-gradient(135deg, #faf5ff 0%, #f5f3ff 100%);
+      border: 1px solid #ddd6fe;
+    }
+    #cwetPicker .ilet-card:hover:not(.ilet-card-disabled) {
+      border-color: #8b5cf6;
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.2);
+    }
+    #cwetPicker .ilet-mocknum { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
+    #cwetPicker .ilet-take { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
+    #cwetPicker .ilet-take:hover { background: linear-gradient(135deg, #6d28d9, #5b21b6); }
+    #cwetPicker .ilet-chip-active { background: #6d28d9; color: #fff; border-color: #6d28d9; }
+    #cwetPicker .ilet-mock-title { color: #4c1d95; }
+    #cwetPicker .cwet-filter-row {
+      background: rgba(245, 243, 255, 0.6);
+      border-bottom: 1px solid #ede9fe;
+    }
+    #cwetPicker .ilet-section { align-items: flex-start; }
+    #cwetPicker .ilet-section-num { background: #ede9fe; color: #6d28d9; }
+    #cwetPicker .ilet-section-title { font-weight: 600; line-height: 1.4; }
+    #cwetPicker .cwet-pill {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 1px 8px;
+      border-radius: 999px;
+      margin-right: 4px;
+      vertical-align: middle;
+      line-height: 1.5;
+      white-space: nowrap;
+    }
+    #cwetPicker .cwet-pill-topic {
+      color: #6d28d9;
+      background: #ede9fe;
+      border: 1px solid #c4b5fd;
+    }
+    #cwetPicker .cwet-pill-level {
+      color: #1e40af;
+      background: #dbeafe;
+      border: 1px solid #93c5fd;
+    }
+    #cwetPicker .cwet-part-heading {
+      align-items: center;
+      padding: 6px 4px;
+      border-top: 1px dashed #e9d5ff;
+      margin-top: 4px;
+    }
+    #cwetPicker .cwet-part-heading:first-child { border-top: 0; margin-top: 0; }
+    #cwetPicker .cwet-part-label {
+      flex-shrink: 0;
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      color: #fff;
+      background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-right: 8px;
+      line-height: 1.4;
+    }
+    #cwetPicker .cwet-exam-date {
+      font-size: 11px;
+      color: #4c1d95;
+      background: #ede9fe;
+      border: 1px solid #c4b5fd;
+      border-radius: 999px;
+      padding: 1px 8px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    #cwetPicker .cwet-share {
+      background: transparent;
+      border: 1px solid #c4b5fd;
+      color: #6d28d9;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+      transition: background 120ms ease, border-color 120ms ease;
+      margin-right: 8px;
+      white-space: nowrap;
+    }
+    #cwetPicker .cwet-share:hover { background: #f5f3ff; border-color: #6d28d9; }
+    #cwetPicker .cwet-share.cwet-share-copied {
+      background: #dcfce7;
+      border-color: #86efac;
+      color: #15803d;
+      font-size: 11px;
+      font-weight: 700;
+    }
   </style>
 
   <!-- CEFR Speaking fullscreen picker — DOM only. JS in the script
@@ -4185,6 +4297,44 @@
     </div>
   </div>
 
+  <!-- CEFR Writing fullscreen picker (cwet) — Phase 3 of engine migration.
+       3 tasks per mock (T1.1 / T1.2 / T2). Uses cefrWritingMocks data
+       built dynamically in the JS block below. -->
+  <div id="cwetPicker" class="ilet-overlay" aria-hidden="true">
+    <header class="ilet-header">
+      <button class="ilet-back" type="button" onclick="if(typeof cwetClose==='function')cwetClose()" title="Back to landing">←</button>
+      <div class="ilet-title">
+        <span class="ilet-title-emoji">✏️</span>
+        <span class="ilet-title-text">CEFR Writing</span>
+        <span class="ilet-count" id="cwetCount">0</span>
+      </div>
+      <div class="ilet-header-tools">
+        <input type="search" class="ilet-search" id="cwetSearch" placeholder="🔍 Search mock #, topic…" autocomplete="off" spellcheck="false">
+        <select class="ilet-sort" id="cwetJump" title="Jump to mock #">
+          <option value="">Jump to #…</option>
+        </select>
+      </div>
+    </header>
+
+    <div class="ilet-filter-row cwet-filter-row">
+      <button type="button" class="ilet-chip ilet-chip-active cwet-chip" data-filter="all">All</button>
+      <button type="button" class="ilet-chip cwet-chip" data-filter="ready">✓ Ready only</button>
+      <button type="button" class="ilet-chip cwet-chip" data-filter="soon">⏳ Coming soon</button>
+      <button type="button" class="ilet-chip cwet-chip" data-filter="done">★ Done before</button>
+      <select class="ilet-source-filter" id="cwetTopicFilter" title="Filter by topic">
+        <option value="">🏷 All topics</option>
+      </select>
+    </div>
+
+    <main class="ilet-grid" id="cwetGrid"></main>
+
+    <div class="ilet-empty" id="cwetEmpty" style="display:none;">
+      <div class="ilet-empty-icon">🔍</div>
+      <p class="ilet-empty-msg">No mocks match your filters.</p>
+      <button type="button" class="ilet-empty-clear" onclick="if(typeof cwetClearFilters==='function')cwetClearFilters()">Clear filters</button>
+    </div>
+  </div>
+
   <script id="msv3PickerEngineJs">
     // ===== Shared picker plumbing =====
     // _pickerFromPopstate: cspetClose (and future picker close fns) read
@@ -4193,7 +4343,7 @@
     let _pickerFromPopstate = false;
 
     function _pickerTmaBackHandler() {
-      // Future phases add clet/ilet/cwet/iwet checks here.
+      // Future phases add clet/ilet/iwet checks here.
       var cspet = document.getElementById('cspetPicker');
       if (cspet && cspet.classList.contains('ilet-open')) {
         if (typeof cspetClose === 'function') cspetClose();
@@ -4202,6 +4352,11 @@
       var ispet = document.getElementById('ispetPicker');
       if (ispet && ispet.classList.contains('ilet-open')) {
         if (typeof ispetClose === 'function') ispetClose();
+        return;
+      }
+      var cwet = document.getElementById('cwetPicker');
+      if (cwet && cwet.classList.contains('ilet-open')) {
+        if (typeof cwetClose === 'function') cwetClose();
       }
     }
     function _pickerShowTmaBack() {
@@ -4329,6 +4484,13 @@
         if (ispet && ispet.classList.contains('ilet-open')) {
           _pickerFromPopstate = true;
           if (typeof ispetClose === 'function') ispetClose();
+          _pickerFromPopstate = false;
+          return;
+        }
+        var cwet = document.getElementById('cwetPicker');
+        if (cwet && cwet.classList.contains('ilet-open')) {
+          _pickerFromPopstate = true;
+          if (typeof cwetClose === 'function') cwetClose();
           _pickerFromPopstate = false;
         }
       } catch (_e) {}
@@ -5357,6 +5519,528 @@
     window.ispetOpen         = ispetOpen;
     window.ispetClose        = ispetClose;
     window.ispetClearFilters = ispetClearFilters;
+
+    // ===== CEFR Writing picker (cwetPicker) — Phase 3 =====
+    // CEFR Writing has 3 tasks per mock (T1.1 / T1.2 / T2). Picker is
+    // backed by a static cefrWritingMocks array (1-based by mock #) +
+    // a Supabase mock_tests fetch for per-task readiness metadata.
+    // Mock click in this commit falls through to direct nav (handleWritingMockClick
+    // + writing modals land in Phase 3 step B).
+
+    // Static catalog of CEFR Writing mocks. Mock 01 is the Supabase pilot;
+    // 02-100 follow the legacy ?test=cefr-writing-mock-NN runner URL.
+    const cefrWritingMocks = (() => {
+      const mocks = [];
+      mocks.push({
+        file: 'Writing Mocks.html?test=cefr-writing-mock-01&sbmock=9&auto=1',
+        name: '🧪 CEFR Writing Mock 01 (Supabase pilot)',
+        icon: '✍️',
+        actionText: 'Start'
+      });
+      for (let i = 2; i <= 100; i++) {
+        const padded = String(i).padStart(2, '0');
+        mocks.push({
+          file: `Writing Mocks.html?test=cefr-writing-mock-${padded}&auto=1`,
+          name: `CEFR Writing Mock ${padded}`,
+          icon: '✍️',
+          actionText: 'Start'
+        });
+      }
+      return mocks;
+    })();
+    window.cefrWritingMocks = cefrWritingMocks;
+
+    const _cwet_SB_URL  = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    const _cwet_SB_KEY  = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    const _cwetMockMeta = {};
+    let   _cwetServerDone = {};
+    let   _cwetStatsByMock  = {};
+    let   _cwetBadgesByMock = {};
+    let   _cwetCreatedAt    = {};
+    let   _cwetFilter      = 'all';
+    let   _cwetTopicFilter = '';
+
+    function _cwetEsc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    function _cwetBuildMetaFromMockData(md) {
+      const t = (md && md.tasks && typeof md.tasks === 'object') ? md.tasks : {};
+      const t11 = (t.t11 && typeof t.t11 === 'object') ? t.t11 : {};
+      const t12 = (t.t12 && typeof t.t12 === 'object') ? t.t12 : {};
+      const t2  = (t.t2  && typeof t.t2  === 'object') ? t.t2  : {};
+      const p1  = (md && md.part1 && typeof md.part1 === 'object') ? md.part1 : {};
+      const ready = (x) => !!(x.prompt && String(x.prompt).trim());
+      const cleanTitle = (raw) => {
+        const v = String(raw || '').trim();
+        if (!v) return '';
+        if (/^task\s*(1\.?1|1\.?2|2)$/i.test(v)) return '';
+        return v;
+      };
+      return {
+        part1Topic: String(p1.topic   || '').trim(),
+        part1Chip:  String(p1.chip    || '').trim().toLowerCase(),
+        t2Genre:    String(t2.genre   || '').trim(),
+        t2Chip:     String(t2.chip    || '').trim().toLowerCase(),
+        examDate:   String((md && md.examDate) || '').trim(),
+        level:      String((md && md.targetLevel) || '').trim(),
+        tasks: [
+          { key: 't11', title: cleanTitle(t11.title), ready: ready(t11) },
+          { key: 't12', title: cleanTitle(t12.title), ready: ready(t12) },
+          { key: 't2',  title: cleanTitle(t2.title),  ready: ready(t2)  }
+        ]
+      };
+    }
+
+    function _cwetFormatExamDate(iso) {
+      if (!iso) return '';
+      const s = String(iso).trim();
+      let m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      if (m) {
+        const mon = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][parseInt(m[2], 10) - 1] || '';
+        return parseInt(m[3], 10) + ' ' + mon + ' ' + m[1];
+      }
+      m = s.match(/^(\d{4})-(\d{2})$/);
+      if (m) {
+        const mon = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][parseInt(m[2], 10) - 1] || '';
+        return mon + ' ' + m[1];
+      }
+      m = s.match(/^(\d{4})$/);
+      if (m) return m[1];
+      return s;
+    }
+
+    function _cwetGetDoneInfo(mockN) {
+      try {
+        const local = JSON.parse(localStorage.getItem('ms_cefrWriting_done') || '{}');
+        if (local && local[mockN]) {
+          return { percent: Number(local[mockN].percent) || null };
+        }
+      } catch (_e) {}
+      if (_cwetServerDone && _cwetServerDone[mockN]) return _cwetServerDone[mockN];
+      return null;
+    }
+
+    function _cwetCardHtml(mockNum, item, meta, doneInfo) {
+      const tasks = meta.tasks;
+      const readyCount = tasks.filter(p => p.ready).length;
+      const total = tasks.length;
+      const noneReady = readyCount === 0;
+      const dots = tasks.map(p =>
+        '<span class="ilet-dot ' + (p.ready ? 'ilet-dot-ready' : 'ilet-dot-soon') + '"></span>'
+      ).join('');
+      const muted = '(no tag — click Auto-tag)';
+      const renderSubRow = (label, p) =>
+        '<li class="ilet-section" style="padding-left:18px;">'
+        + '<span class="ilet-section-num">' + label + '</span>'
+        + '<span class="ilet-section-title">'
+        +   (p.title ? _cwetEsc(p.title) : '<span style="color:#94a3b8;">' + muted + '</span>')
+        + '</span>'
+        + '<span class="ilet-section-badge ' + (p.ready ? 'ilet-badge-ready' : 'ilet-badge-soon') + '">'
+        +   (p.ready ? '✓ Ready' : '⏳ Soon')
+        + '</span>'
+        + '</li>';
+      const partHeadingRow = (n, topic, ready, genre) => {
+        const labelText = genre ? 'PART ' + n + ' · ' + _cwetEsc(genre) : 'PART ' + n;
+        const prefix = '<span class="cwet-part-label">' + labelText + '</span>';
+        const titleInner = topic
+          ? '<strong style="color:#4c1d95;">' + _cwetEsc(topic) + '</strong>'
+          : '<span style="color:#94a3b8;">' + muted + '</span>';
+        const readyBadge = ready != null
+          ? '<span class="ilet-section-badge ' + (ready ? 'ilet-badge-ready' : 'ilet-badge-soon') + '">'
+            + (ready ? '✓ Ready' : '⏳ Soon') + '</span>'
+          : '';
+        return '<li class="ilet-section cwet-part-heading">'
+          + prefix
+          + '<span class="ilet-section-title">' + titleInner + '</span>'
+          + readyBadge
+          + '</li>';
+      };
+      const t2 = tasks[2];
+      const taskRows = partHeadingRow(1, meta.part1Topic, null, '')
+        + renderSubRow('T1.1', tasks[0])
+        + renderSubRow('T1.2', tasks[1])
+        + partHeadingRow(2, t2.title, t2.ready, meta.t2Genre);
+      const chips = [];
+      if (meta.part1Chip) chips.push(['Part 1', meta.part1Chip]);
+      if (meta.t2Chip)    chips.push(['Part 2', meta.t2Chip]);
+      const topicsHtml = chips.length
+        ? '<div style="margin:6px 0 0;display:flex;flex-wrap:wrap;gap:4px;">'
+            + chips.map(([part, chip]) =>
+                '<span class="cwet-pill cwet-pill-topic" title="' + part + ' · ' + chip + '">'
+                + '<span style="font-weight:800;opacity:.7;letter-spacing:.04em;">' + part + '</span>'
+                + ' · ' + _cwetEsc(chip) + '</span>').join('')
+          + '</div>'
+        : '';
+      const examLabel = _cwetFormatExamDate(meta.examDate);
+      const dateHtml = examLabel
+        ? '<span class="cwet-exam-date" title="Exam date ' + _cwetEsc(meta.examDate) + '">📅 ' + _cwetEsc(examLabel) + '</span>'
+        : '';
+      const doneHtml = doneInfo
+        ? (typeof doneInfo.percent === 'number'
+            ? '<span class="ilet-done">★ Done · ' + doneInfo.percent + '%</span>'
+            : '<span class="ilet-done">★ Done</span>')
+        : '';
+      const shareBtnHtml = noneReady
+        ? ''
+        : '<button type="button" class="cwet-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
+      const actionHtml = noneReady
+        ? '<span class="ilet-coming-soon">Coming soon</span>'
+        : (shareBtnHtml + '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Take Test →</button>');
+      const cleanTitle = String(item.name || '').replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]+\s*/u, '');
+      const topicBlob = [
+        meta.part1Topic, meta.part1Chip, meta.t2Genre, meta.t2Chip,
+        meta.examDate, meta.level
+      ].concat(tasks.map(p => p.title || ''))
+        .filter(Boolean).join(' ').toLowerCase();
+      const cwStats = _cwetStatsByMock[String(mockNum)] || { total: 0, today: 0, last7: 0 };
+      const CW_BADGE_LABELS = { trending: '🔥 Trending', new: '🆕 New', popular: '👑 Popular', gem: '💎 Hidden gem' };
+      const CW_BADGE_COLORS = { trending: '#b45309', new: '#7c3aed', popular: '#6d28d9', gem: '#15803d' };
+      const cwBadgeKey = _cwetBadgesByMock[String(mockNum)];
+      const cwBadgeChip = cwBadgeKey
+        ? '<span style="font-weight:700;color:' + CW_BADGE_COLORS[cwBadgeKey] + ';">' + CW_BADGE_LABELS[cwBadgeKey] + '</span>'
+        : '';
+      const cwStatsParts = [];
+      if (cwBadgeChip) cwStatsParts.push(cwBadgeChip);
+      cwStatsParts.push('<span>👥 ' + cwStats.total + '</span>');
+      cwStatsParts.push('<span>⚡ ' + cwStats.today + ' today</span>');
+      const cwStatsRow = '<div class="cwet-stat-row" style="display:flex;gap:8px;font-size:11.5px;color:#475569;margin:4px 0 8px;flex-wrap:wrap;align-items:center;">'
+                       + cwStatsParts.join('<span style="color:#cbd5e1;">·</span>')
+                       + '</div>';
+      return '<article class="ilet-card ' + (noneReady ? 'ilet-card-disabled' : '') + '"'
+        + ' id="cwet-card-' + mockNum + '"'
+        + ' data-mock="' + mockNum + '"'
+        + ' data-file="' + _cwetEsc(item.file) + '"'
+        + ' data-ready-count="' + readyCount + '"'
+        + ' data-total="' + total + '"'
+        + ' data-topics="' + _cwetEsc([meta.part1Chip, meta.t2Chip].filter(Boolean).join('|').toLowerCase()) + '"'
+        + ' data-done="' + (doneHtml ? '1' : '0') + '"'
+        + ' data-title="' + _cwetEsc(cleanTitle.toLowerCase()) + '"'
+        + ' data-blob="' + _cwetEsc(topicBlob) + '">'
+        + '<header class="ilet-card-head">'
+        +   '<span class="ilet-mocknum">#' + mockNum + '</span>'
+        +   '<span class="ilet-mock-dots">' + dots + '</span>'
+        +   '<span class="ilet-mock-status">' + readyCount + '/' + total + ' READY</span>'
+        +   dateHtml
+        +   doneHtml
+        + '</header>'
+        + '<h3 class="ilet-mock-title">' + _cwetEsc(cleanTitle) + '</h3>'
+        + cwStatsRow
+        + topicsHtml
+        + '<ul class="ilet-mock-sections">' + taskRows + '</ul>'
+        + '<footer class="ilet-card-foot">' + actionHtml + '</footer>'
+        + '</article>';
+    }
+
+    async function _cwetLoadAllMockMeta() {
+      try {
+        const resp = await fetch(`${_cwet_SB_URL}/rest/v1/mock_tests?mock_type=eq.cefr-writing&status=eq.published&select=mock_number,mock_data,created_at`, {
+          headers: { 'apikey': _cwet_SB_KEY, 'Authorization': 'Bearer ' + _cwet_SB_KEY }
+        });
+        if (resp.ok) {
+          const rows = await resp.json();
+          for (const r of (rows || [])) {
+            const padded = String(r.mock_number).padStart(2, '0');
+            _cwetMockMeta[padded] = _cwetBuildMetaFromMockData(r.mock_data);
+            _cwetCreatedAt[padded] = r.created_at;
+          }
+        }
+      } catch (e) { console.warn('[cwetPicker] meta fetch failed:', e); }
+    }
+
+    async function _cwetLoadStats() {
+      _cwetStatsByMock = {};
+      try {
+        const resp = await fetch(`${_cwet_SB_URL}/rest/v1/rpc/mock_attempt_stats`, {
+          method: 'POST',
+          headers: { 'apikey': _cwet_SB_KEY, 'Authorization': 'Bearer ' + _cwet_SB_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ p_skill: 'writing', p_exam_type: 'cefr' })
+        });
+        if (!resp.ok) return;
+        const rows = await resp.json();
+        for (const r of rows) {
+          if (r.mock_number == null) continue;
+          const padded = String(r.mock_number).padStart(2, '0');
+          _cwetStatsByMock[padded] = {
+            total: Number(r.total) || 0,
+            today: Number(r.today) || 0,
+            last7: Number(r.last7) || 0
+          };
+        }
+      } catch (_e) {}
+    }
+
+    function _cwetComputeBadges() {
+      _cwetBadgesByMock = {};
+      const keys = Object.keys(_cwetMockMeta);
+      const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      const trending = keys
+        .filter(k => (_cwetStatsByMock[k]?.last7 || 0) > 0)
+        .sort((a, b) => (_cwetStatsByMock[b]?.last7 || 0) - (_cwetStatsByMock[a]?.last7 || 0))
+        .slice(0, 3);
+      const trendingSet = new Set(trending);
+      const newSet = new Set(keys.filter(k => {
+        const t = _cwetCreatedAt[k];
+        return t && new Date(t).getTime() >= sevenDaysAgo;
+      }).sort((a, b) => new Date(_cwetCreatedAt[b]).getTime() - new Date(_cwetCreatedAt[a]).getTime()).slice(0, 3));
+      const popularSet = new Set(keys
+        .filter(k => !trendingSet.has(k) && !newSet.has(k) && (_cwetStatsByMock[k]?.total || 0) > 0)
+        .sort((a, b) => (_cwetStatsByMock[b]?.total || 0) - (_cwetStatsByMock[a]?.total || 0))
+        .slice(0, 5));
+      const gemSet = new Set(keys.filter(k => {
+        if (trendingSet.has(k) || newSet.has(k) || popularSet.has(k)) return false;
+        const s = _cwetStatsByMock[k] || { total: 0 };
+        const meta = _cwetMockMeta[k];
+        const allReady = meta && Array.isArray(meta.tasks) && meta.tasks.length === 3 && meta.tasks.every(t => t.ready);
+        return s.total >= 1 && s.total <= 3 && allReady;
+      })
+        .sort((a, b) => (_cwetStatsByMock[a]?.total || 0) - (_cwetStatsByMock[b]?.total || 0))
+        .slice(0, 5));
+      for (const k of keys) {
+        if (trendingSet.has(k))     _cwetBadgesByMock[k] = 'trending';
+        else if (newSet.has(k))     _cwetBadgesByMock[k] = 'new';
+        else if (popularSet.has(k)) _cwetBadgesByMock[k] = 'popular';
+        else if (gemSet.has(k))     _cwetBadgesByMock[k] = 'gem';
+        else                         _cwetBadgesByMock[k] = null;
+      }
+    }
+
+    function _cwetBuildTopicFilterOptions() {
+      const sel = document.getElementById('cwetTopicFilter');
+      if (!sel) return;
+      const counts = {};
+      Object.entries(_cwetMockMeta).forEach(([padded, m]) => {
+        const s = _cwetStatsByMock[padded] || { total: 0, last7: 0 };
+        const seen = new Set();
+        if (m.part1Chip) seen.add(m.part1Chip);
+        if (m.t2Chip)    seen.add(m.t2Chip);
+        seen.forEach(chip => {
+          const c = counts[chip] = counts[chip] || { total: 0, last7: 0 };
+          c.total += s.total;
+          c.last7 += s.last7;
+        });
+      });
+      const all = Object.keys(counts);
+      const trending = new Set(all.filter(t => counts[t].last7 > 0)
+        .sort((a, b) => counts[b].last7 - counts[a].last7).slice(0, 3));
+      const popular = new Set(all.filter(t => !trending.has(t) && counts[t].total > 0)
+        .sort((a, b) => counts[b].total - counts[a].total).slice(0, 5));
+      const gem = new Set(all.filter(t => !trending.has(t) && !popular.has(t)
+                                       && counts[t].total >= 1 && counts[t].total <= 3)
+        .sort((a, b) => counts[a].total - counts[b].total).slice(0, 5));
+      const TOPIC_ICON_CW = { trending: '🔥 ', popular: '👑 ', gem: '💎 ' };
+      const sorted = all.slice().sort((a, b) => (counts[b].total - counts[a].total) || a.localeCompare(b));
+      const current = sel.value;
+      sel.innerHTML = '<option value="">🏷 All topics</option>'
+        + sorted.map(chip => {
+            const c = counts[chip];
+            const icon = trending.has(chip) ? TOPIC_ICON_CW.trending
+                       : popular.has(chip)  ? TOPIC_ICON_CW.popular
+                       : gem.has(chip)      ? TOPIC_ICON_CW.gem
+                       : '';
+            const countSuffix = c.total > 0 ? ' (' + c.total + ')' : '';
+            return '<option value="' + _cwetEsc(chip) + '">' + _cwetEsc(icon + chip + countSuffix) + '</option>';
+          }).join('');
+      sel.style.display = all.length ? '' : 'none';
+      if (current && counts[current]) sel.value = current;
+    }
+
+    function _cwetApplyFiltersAndSort() {
+      const grid    = document.getElementById('cwetGrid');
+      const empty   = document.getElementById('cwetEmpty');
+      const search  = (document.getElementById('cwetSearch').value || '').trim().toLowerCase();
+      const cards   = Array.from(grid.querySelectorAll('.ilet-card'));
+      let shown = 0;
+      cards.forEach(card => {
+        const readyCount = parseInt(card.dataset.readyCount, 10) || 0;
+        const total      = parseInt(card.dataset.total, 10)      || 3;
+        const isDone     = card.dataset.done === '1';
+        const noneReady  = readyCount === 0;
+        const blob       = card.dataset.blob || '';
+        const topics     = (card.dataset.topics || '').split('|').filter(Boolean);
+        let pass = true;
+        if (_cwetFilter === 'ready' && readyCount !== total) pass = false;
+        else if (_cwetFilter === 'soon' && !noneReady)        pass = false;
+        else if (_cwetFilter === 'done' && !isDone)           pass = false;
+        if (pass && _cwetTopicFilter && !topics.includes(_cwetTopicFilter.toLowerCase())) pass = false;
+        if (pass && search) {
+          const hay = '#' + card.dataset.mock + ' ' + (card.dataset.title || '') + ' ' + blob;
+          if (hay.indexOf(search) === -1) pass = false;
+        }
+        card.style.display = pass ? '' : 'none';
+        if (pass) shown++;
+      });
+      document.getElementById('cwetCount').textContent = shown;
+      empty.style.display = shown ? 'none' : 'flex';
+    }
+
+    function _cwetClearFilters() {
+      _cwetFilter = 'all';
+      _cwetTopicFilter = '';
+      document.querySelectorAll('#cwetPicker .cwet-chip').forEach(c =>
+        c.classList.toggle('ilet-chip-active', c.dataset.filter === 'all'));
+      const sf = document.getElementById('cwetTopicFilter'); if (sf) sf.value = '';
+      const sr = document.getElementById('cwetSearch');      if (sr) sr.value = '';
+      _cwetApplyFiltersAndSort();
+    }
+
+    async function cwetOpen() {
+      try { if (typeof window.__msv3ShowInlineSplash === 'function') window.__msv3ShowInlineSplash(); } catch (_e) {}
+      try {
+        const localDone = JSON.parse(localStorage.getItem('ms_cefrWriting_done') || '{}');
+        _cwetServerDone = localDone || {};
+      } catch (_e) { _cwetServerDone = {}; }
+
+      const overlay = document.getElementById('cwetPicker');
+      overlay.classList.add('ilet-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      try { history.pushState({ picker: 'cwet' }, ''); } catch (_e) {}
+      if (typeof _pickerShowTmaBack === 'function') _pickerShowTmaBack();
+
+      const grid = document.getElementById('cwetGrid');
+      const skelCount = Math.max(12, Object.keys(_cwetMockMeta).length || 12);
+      grid.innerHTML = Array.from({ length: skelCount }, () =>
+        '<div class="ilet-card-skeleton">'
+        + '<div class="ilet-skel-line short"></div>'
+        + '<div class="ilet-skel-line tall"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '</div>'
+      ).join('');
+      const cwetEmpty = document.getElementById('cwetEmpty');
+      if (cwetEmpty) cwetEmpty.style.display = 'none';
+      try {
+        await Promise.all([_cwetLoadAllMockMeta(), _cwetLoadStats()]);
+        _cwetComputeBadges();
+        const items = (typeof cefrWritingMocks !== 'undefined' && Array.isArray(cefrWritingMocks))
+          ? cefrWritingMocks.slice() : [];
+        const jump = document.getElementById('cwetJump');
+        if (jump) {
+          jump.innerHTML = '<option value="">Jump to #…</option>'
+            + items.map((_it, idx) => {
+                const n = String(idx + 1).padStart(2, '0');
+                return '<option value="' + n + '">#' + n + '</option>';
+              }).join('');
+        }
+        grid.innerHTML = items.map((item, idx) => {
+          const mockNum = String(idx + 1).padStart(2, '0');
+          const meta = _cwetMockMeta[mockNum] || { topics: [], level: '', tasks: [
+            { key: 't11', title: '', ready: false },
+            { key: 't12', title: '', ready: false },
+            { key: 't2',  title: '', ready: false }
+          ] };
+          return _cwetCardHtml(mockNum, item, meta, _cwetGetDoneInfo(mockNum));
+        }).join('');
+        _cwetBuildTopicFilterOptions();
+        _cwetApplyFiltersAndSort();
+      } finally {
+        try { if (typeof window.__msv3HideInlineSplash === 'function') window.__msv3HideInlineSplash(); } catch (_e) {}
+      }
+    }
+
+    function cwetClose(opts) {
+      const keepUrl = !!(opts && opts.keepUrl);
+      const overlay = document.getElementById('cwetPicker');
+      overlay.classList.remove('ilet-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (typeof _pickerHideTmaBack === 'function') _pickerHideTmaBack();
+      if (!_pickerFromPopstate && !keepUrl) {
+        try {
+          if (history.state && history.state.picker === 'cwet') history.back();
+          if (/^\/take\//i.test(window.location.pathname)) {
+            history.replaceState(null, '', '/landing-v3.html');
+          }
+        } catch (_e) {}
+      }
+    }
+
+    function cwetClearFilters() { _cwetClearFilters(); }
+
+    (function _cwetWire() {
+      const overlay = document.getElementById('cwetPicker');
+      if (!overlay) return;
+      const searchEl = document.getElementById('cwetSearch');
+      if (searchEl) searchEl.addEventListener('input', _cwetApplyFiltersAndSort);
+      const topicSel = document.getElementById('cwetTopicFilter');
+      if (topicSel) topicSel.addEventListener('change', function () {
+        _cwetTopicFilter = this.value || '';
+        _cwetApplyFiltersAndSort();
+      });
+      document.querySelectorAll('#cwetPicker .cwet-chip').forEach(chip => {
+        chip.addEventListener('click', function () {
+          _cwetFilter = this.dataset.filter || 'all';
+          document.querySelectorAll('#cwetPicker .cwet-chip').forEach(c =>
+            c.classList.toggle('ilet-chip-active', c === this));
+          _cwetApplyFiltersAndSort();
+        });
+      });
+      const jumpEl = document.getElementById('cwetJump');
+      if (jumpEl) jumpEl.addEventListener('change', function () {
+        const v = this.value;
+        if (!v) return;
+        const padded = String(v).padStart(2, '0');
+        const card = document.getElementById('cwet-card-' + padded);
+        if (card) {
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          card.style.outline = '2px solid #6d28d9';
+          setTimeout(() => { card.style.outline = ''; }, 1200);
+        }
+        this.value = '';
+      });
+      const gridEl = document.getElementById('cwetGrid');
+      if (gridEl) gridEl.addEventListener('click', function (e) {
+        if (e.target.closest('input, select, textarea, a, [contenteditable]')) return;
+        const card = e.target.closest('.ilet-card');
+        if (!card) return;
+        if (card.classList.contains('ilet-card-disabled')) return;
+        const mockN = card.dataset.mock;
+        const shareBtn = e.target.closest('.cwet-share');
+        if (shareBtn) {
+          e.stopPropagation();
+          _pickerShareMock('cefr-writing', 'CEFR Writing Mock', mockN, shareBtn, 'cwet-share-copied');
+          return;
+        }
+        const isTakeBtn = !!e.target.closest('.ilet-take');
+        if (!isTakeBtn) {
+          if (mockN) {
+            try { history.replaceState(null, '', '/take/cefr-writing-' + encodeURIComponent(mockN)); } catch (_e) {}
+          }
+          return;
+        }
+        let file = card.dataset.file;
+        if (!file) return;
+        const meta = _cwetMockMeta[mockN];
+        if (meta && Array.isArray(meta.tasks)) {
+          const readyKeys = meta.tasks.filter(t => t.ready).map(t => t.key);
+          if (readyKeys.length === 1) {
+            file += (file.indexOf('?') === -1 ? '?' : '&') + 'task=' + readyKeys[0];
+          }
+        }
+        if (mockN) {
+          try { history.pushState(null, '', '/take/cefr-writing-' + encodeURIComponent(mockN)); } catch (_e) {}
+        }
+        // Step A: handleWritingMockClick + writing modals not yet ported
+        // (step B). Fall through to direct nav so the picker is at least
+        // testable end-to-end.
+        if (typeof handleWritingMockClick === 'function') {
+          handleWritingMockClick(file, 'cefr-writing');
+        } else {
+          cwetClose({ keepUrl: true });
+          try { window.location.replace(file); } catch (_e) { window.location.href = file; }
+        }
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && document.getElementById('cwetPicker').classList.contains('ilet-open')) cwetClose();
+      });
+    })();
+
+    window.cwetOpen         = cwetOpen;
+    window.cwetClose        = cwetClose;
+    window.cwetClearFilters = cwetClearFilters;
   </script>
 
   <!-- ═══════════════════════════════════════════════════════
