@@ -6774,11 +6774,14 @@
       // v3 hands off via query params, NOT return flags. Return flags are
       // only set on the OUTBOUND trip from a mock runner. Keep this list
       // in sync with KNOWN_HANDOFF_PARAMS further down in this file.
+      // (openFullMock + openIeltsFullMock removed 2026-05-21 — v3 now
+      // launches Full Mock inline, so legacy ?openFullMock=1 links should
+      // bounce to v3 instead of opening the old chooser modal.)
       var handoffParamKeys = [
-        'openSelector', 'openSidebar', 'openFullMock', 'openModal',
+        'openSelector', 'openSidebar', 'openModal',
         'msv3Vip', 'msv3TgAuth',
         'openAdminDashboard', 'openSiteMgmt',
-        'openIeltsSpeakingMode', 'openIeltsFullMock',
+        'openIeltsSpeakingMode',
         'openHelpCenter', 'openVipSignIn',
         'take'
       ];
@@ -8166,11 +8169,14 @@
         // render on landing.html instead of bouncing to v3 must use one of
         // these. Anything else with a query is treated as a stale link and
         // bounced to v3.
+        // openFullMock + openIeltsFullMock removed 2026-05-21 — v3 owns
+        // the Full Mock launch flow now. Legacy URLs with those params
+        // intentionally fall through and bounce to /landing-v3.html.
         var KNOWN_HANDOFF_PARAMS = [
-          'openSelector', 'openSidebar', 'openFullMock', 'openModal',
+          'openSelector', 'openSidebar', 'openModal',
           'msv3Vip', 'msv3TgAuth',
           'openAdminDashboard', 'openSiteMgmt',
-          'openIeltsSpeakingMode', 'openIeltsFullMock',
+          'openIeltsSpeakingMode',
           'openHelpCenter', 'openVipSignIn',
           'take' /* legacy: /landing.html?take=cefr-reading-45 */
         ];
@@ -27045,6 +27051,29 @@
         '#ieltsSpeakingModeModal.show',
         '#adminDashboardModal.show',
         '#smgOverlay.show',
+        /* Admin auth + Platform Management overlays — both are appended
+           to body when shown and removed when closed, so presence alone
+           is the visibility signal (no class filter needed). Without
+           these, openSiteMgmtFromV3 / openAdminFromV3 bounce the user
+           back to v3 after 2s even though the auth modal is on screen. */
+        '#adminAuthOverlay',
+        '#siteMgmtGridOverlay',
+        /* Platform Management sub-panels — most use .active / .visible
+           classes, the rest are display-toggled with inline styles. */
+        '#ruOverlay.active', '#ruOverlay.visible',
+        '#wpOverlay.active', '#wpOverlay.visible',
+        '#spOverlay.active', '#spOverlay.visible',
+        '#rpOverlay.active', '#rpOverlay.visible',
+        '#lpOverlay.active', '#lpOverlay.visible',
+        '#aiRouterOverlay.active', '#aiRouterOverlay.visible',
+        '#pmOverlay.active', '#pmOverlay.visible',
+        '#smOverlay.active', '#smOverlay.visible',
+        '#vgOverlay.active', '#vgOverlay.visible',
+        '#centersPanel.visible', '#centersPanel.active',
+        '#codeMgmtOverlay.visible', '#codeMgmtOverlay.active',
+        '#sysPromptOverlay.visible', '#sysPromptOverlay.active',
+        '#testMakerOverlay.visible', '#testMakerOverlay.active',
+        '#cmOverlay.visible', '#cmOverlay.active',
         /* Per-skill access-code modals — opened by /take/<slug> deep-links
            via handleReadingMockClick / etc. Without these, the watcher
            bounces the user to v3 the moment the access-code modal opens. */

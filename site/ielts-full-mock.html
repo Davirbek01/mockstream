@@ -3930,7 +3930,7 @@
                     <i style="font-style:normal;font-size:20px;">☰</i>
                     <span>Home</span>
                 </button>
-                <button class="tool-btn" onclick="promptFriendlyLeave(function(){window.__okToLeave=true;_iframeNav('landing.html?openModal=fullmock');})">
+                <button class="tool-btn" onclick="promptFriendlyLeave(function(){window.__okToLeave=true;_iframeNav('landing-v3.html');})">
                     <i>🔙</i>
                     <span>Back</span>
                 </button>
@@ -3979,7 +3979,7 @@
     <!-- Gate Entry -->
     <div id="gate">
         <div class="gate-card">
-            <a href="landing.html?openModal=fullmock" class="gate-back-btn" title="Back to Home">
+            <a href="landing-v3.html" class="gate-back-btn" title="Back to Home">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                     <path d="M19 12H5M5 12L12 19M5 12L12 5"></path>
                 </svg>
@@ -4746,7 +4746,7 @@
             }
 
             document.getElementById('mobPauseBtn').onclick = () => { doPause(); };
-            document.getElementById('hdrBackBtn').onclick = () => { promptFriendlyLeave(function(){ window.__okToLeave = true; _iframeNav('landing.html?openModal=fullmock'); }); };
+            document.getElementById('hdrBackBtn').onclick = () => { promptFriendlyLeave(function(){ window.__okToLeave = true; _iframeNav('landing-v3.html'); }); };
             document.getElementById('hdrPauseBtn').onclick = () => { doPause(); };
             pauseResumeBtn.onclick = () => { doResume(); };
 
@@ -6264,7 +6264,7 @@
             try { if (window.top && window.top !== window && typeof window.top.returnToLanding === 'function') { window.top.returnToLanding(); return; } } catch (e1) { }
             try { if (window.parent && window.parent !== window && typeof window.parent.returnToLanding === 'function') { window.parent.returnToLanding(); return; } } catch (e2) { }
             try { if (window.top && window.top !== window) { window.top.postMessage('returnToLanding', '*'); return; } } catch (e3) { }
-            try { window.top.location.href = 'landing.html'; } catch (e4) { window.location.href = 'landing.html'; }
+            try { window.top.location.href = 'landing-v3.html'; } catch (e4) { window.location.href = 'landing-v3.html'; }
         }
 
         function showHomeConfirmModal() {
@@ -10299,7 +10299,7 @@ ${questionsHTML}
 <div class="hs-panel" id="hsPanel">
   <button class="hs-close" onclick="closeHomeSidebar()">✕</button>
   <div class="hs-title">Menu</div>
-  <a href="landing.html" class="hs-action" style="margin-bottom:8px;"><span class="hs-ai">🏠</span> Home</a>
+  <a href="landing-v3.html" class="hs-action" style="margin-bottom:8px;"><span class="hs-ai">🏠</span> Home</a>
   <div class="hs-section">
     <div class="hs-section-hdr cefr"><span>🎯</span> CEFR</div>
     <div class="hs-grid">
@@ -10323,7 +10323,7 @@ ${questionsHTML}
     <div class="hs-grid">
       <a href="Articles.html" class="hs-btn"><span class="hs-icon">📰</span>Articles</a>
       <a href="flashcards.html" class="hs-btn"><span class="hs-icon">🃏</span>Flashcards</a>
-      <a href="landing.html" class="hs-btn"><span class="hs-icon">📝</span>Tests</a>
+      <a href="landing-v3.html" class="hs-btn"><span class="hs-icon">📝</span>Tests</a>
       <a href="https://www.youtube.com/@MockStream" target="_blank" class="hs-btn"><span class="hs-icon">🎥</span>Video Guides</a>
     </div>
   </div>
@@ -10344,7 +10344,31 @@ function promptFriendlyLeave(leaveAction){closeHomeSidebar();var tm=document.get
 function goToMockSelector(url){var m={"Speaking Mocks.html":"landing.html?openSelector=cefr-speaking","IELTS Speaking Mocks.html":"landing.html?openSelector=ielts-speaking","Writing Mocks.html":"landing.html?openSelector=cefr-writing","Writing IELTS Mock.html":"landing.html?openSelector=ielts-writing","CEFR Listening Mocks.html":"landing.html?openSelector=cefr-listening","IELTS Listening Mocks.html":"landing.html?openSelector=ielts-listening","CEFR Reading Mocks.html":"landing.html?openSelector=cefr-reading","IELTS Reading Mocks.html":"landing.html?openSelector=ielts-reading"};promptFriendlyLeave(function(){window.__okToLeave=true;_iframeNav(m[url]||url);});}
 document.querySelectorAll('#hsPanel .hs-btn[href]').forEach(function(a){var h=a.getAttribute('href');if(a.getAttribute('target')){{a.addEventListener('click',function(){window.__okToLeave=true;});return;}}a.addEventListener('click',function(e){e.preventDefault();goToMockSelector(h);});});
 document.querySelectorAll('#hsPanel .hs-action[href], #hsPanel a[href][style]').forEach(function(a){if(!a.getAttribute('target')){a.addEventListener('click',function(e){e.preventDefault();promptFriendlyLeave(function(){window.__okToLeave=true;_iframeNav(a.getAttribute('href'));});});}else{a.addEventListener('click',function(){window.__okToLeave=true;});}});
-document.querySelectorAll('.gate-back-btn').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();promptFriendlyLeave(function(){window.__okToLeave=true;_iframeNav(a.getAttribute('href'));});});});
+// Gate back button: fires BEFORE "Begin Session" — no exam progress
+// to warn about. Prefer history.back() when v3 is the previous entry
+// so bfcache restores it without a reload; fall through to direct
+// navigation if there's no history.
+document.querySelectorAll('.gate-back-btn').forEach(function(a){
+  a.addEventListener('click', function(e) {
+    e.preventDefault();
+    window.__okToLeave = true;
+    var ref = '';
+    try { ref = document.referrer || ''; } catch (_e) {}
+    var refMatchesV3 = false;
+    try {
+      if (ref) {
+        var u = new URL(ref);
+        refMatchesV3 = (u.origin === window.location.origin)
+                    && /\/landing-v3(\.html)?$/.test(u.pathname);
+      }
+    } catch (_e) {}
+    if (history.length > 1 && refMatchesV3) {
+      history.back();
+      return;
+    }
+    _iframeNav(a.getAttribute('href'));
+  });
+});
 </script>
 <script src="chat-bubble.js"></script>
 </body>
