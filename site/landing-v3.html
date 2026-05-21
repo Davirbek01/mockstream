@@ -7072,7 +7072,7 @@
           handleSpeakingMockClick(pageUrl, 'cefr-speaking');
         } else {
           cspetClose({ keepUrl: true });
-          window.location.href = pageUrl + '&action=practice';
+          window.location.href = window.__msv3AbsUrl(pageUrl + '&action=practice');
         }
       });
 
@@ -7588,7 +7588,7 @@
           handleSpeakingMockClick(pageUrl, 'ielts-speaking');
         } else {
           ispetClose({ keepUrl: true });
-          window.location.href = pageUrl + '&action=practice';
+          window.location.href = window.__msv3AbsUrl(pageUrl + '&action=practice');
         }
       });
 
@@ -9027,7 +9027,7 @@
         if (lbl2) lbl2.textContent = 'IELTS Writing Mock ' + (num || '');
         document.getElementById('ieltsWritingModeModal').style.display = 'flex';
       } else {
-        try { window.location.replace(pageUrl); } catch (_e) { window.location.href = pageUrl; }
+        try { window.location.replace(window.__msv3AbsUrl(pageUrl)); } catch (_e) { window.location.href = window.__msv3AbsUrl(pageUrl); }
       }
     }
     function closeWritingModeModal() {
@@ -9049,7 +9049,7 @@
       const url = _pendingWritingLaunch.pageUrl;
       _pendingWritingLaunch = null;
       document.getElementById('writingModeModal').style.display = 'none';
-      try { window.location.replace(url); } catch (_e) { window.location.href = url; }
+      try { window.location.replace(window.__msv3AbsUrl(url)); } catch (_e) { window.location.href = window.__msv3AbsUrl(url); }
     }
     function _writingModeTaskBased() {
       document.getElementById('writingModeModal').style.display = 'none';
@@ -9067,7 +9067,7 @@
       var url = _pendingWritingLaunch.pageUrl;
       url += (url.includes('?') ? '&' : '?') + 'task=' + taskId;
       _pendingWritingLaunch = null;
-      try { window.location.replace(url); } catch (_e) { window.location.href = url; }
+      try { window.location.replace(window.__msv3AbsUrl(url)); } catch (_e) { window.location.href = window.__msv3AbsUrl(url); }
     }
     window._launchWritingMock     = _launchWritingMock;
     window.closeWritingModeModal  = closeWritingModeModal;
@@ -9095,7 +9095,7 @@
       const url = _pendingIeltsWritingLaunch.pageUrl;
       _pendingIeltsWritingLaunch = null;
       document.getElementById('ieltsWritingModeModal').style.display = 'none';
-      try { window.location.replace(url); } catch (_e) { window.location.href = url; }
+      try { window.location.replace(window.__msv3AbsUrl(url)); } catch (_e) { window.location.href = window.__msv3AbsUrl(url); }
     }
     function _ieltsWritingModeTaskBased() {
       document.getElementById('ieltsWritingModeModal').style.display = 'none';
@@ -9113,7 +9113,7 @@
       var url = _pendingIeltsWritingLaunch.pageUrl;
       url += (url.includes('?') ? '&' : '?') + 'task=' + taskId;
       _pendingIeltsWritingLaunch = null;
-      try { window.location.replace(url); } catch (_e) { window.location.href = url; }
+      try { window.location.replace(window.__msv3AbsUrl(url)); } catch (_e) { window.location.href = window.__msv3AbsUrl(url); }
     }
     window.closeIeltsWritingModeModal = closeIeltsWritingModeModal;
     window._ieltsWritingModeFullMock  = _ieltsWritingModeFullMock;
@@ -9725,7 +9725,7 @@
           handleReadingMockClick(fileWithMock, 'cefr-reading');
         } else {
           cretClose({ keepUrl: true });
-          try { window.location.replace(fileWithMock); } catch (_e) { window.location.href = fileWithMock; }
+          try { window.location.replace(window.__msv3AbsUrl(fileWithMock)); } catch (_e) { window.location.href = window.__msv3AbsUrl(fileWithMock); }
         }
       });
       document.addEventListener('keydown', function (e) {
@@ -9984,7 +9984,7 @@
         var modal = document.getElementById('ieltsReadingModeModal');
         if (modal) modal.style.display = 'flex';
       } else {
-        try { window.location.replace(pageUrl); } catch (_e) { window.location.href = pageUrl; }
+        try { window.location.replace(window.__msv3AbsUrl(pageUrl)); } catch (_e) { window.location.href = window.__msv3AbsUrl(pageUrl); }
       }
     }
 
@@ -10003,7 +10003,7 @@
       var url = _pendingCefrReadingUrl;
       _pendingCefrReadingUrl = null;
       document.getElementById('cefrReadingModeModal').style.display = 'none';
-      if (url) { try { window.location.replace(url); } catch (_e) { window.location.href = url; } }
+      if (url) { try { window.location.replace(window.__msv3AbsUrl(url)); } catch (_e) { window.location.href = window.__msv3AbsUrl(url); } }
     }
     function _cefrReadingModePartBased() {
       document.getElementById('cefrReadingModeModal').style.display = 'none';
@@ -10613,7 +10613,7 @@
           handleReadingMockClick(fileWithMock, 'ielts-reading');
         } else {
           iretClose({ keepUrl: true });
-          try { window.location.replace(fileWithMock); } catch (_e) { window.location.href = fileWithMock; }
+          try { window.location.replace(window.__msv3AbsUrl(fileWithMock)); } catch (_e) { window.location.href = window.__msv3AbsUrl(fileWithMock); }
         }
       });
       document.addEventListener('keydown', function (e) {
@@ -10643,7 +10643,7 @@
       var url = _pendingIeltsReadingUrl;
       _pendingIeltsReadingUrl = null;
       document.getElementById('ieltsReadingModeModal').style.display = 'none';
-      if (url) { try { window.location.replace(url); } catch (_e) { window.location.href = url; } }
+      if (url) { try { window.location.replace(window.__msv3AbsUrl(url)); } catch (_e) { window.location.href = window.__msv3AbsUrl(url); } }
     }
     function _ieltsReadingModePassageBased() {
       document.getElementById('ieltsReadingModeModal').style.display = 'none';
@@ -11276,7 +11276,7 @@
           handleListeningMockClick(fileWithMock, 'cefr-listening');
         } else {
           cletClose({ keepUrl: true });
-          try { window.location.replace(fileWithMock); } catch (_e) { window.location.href = fileWithMock; }
+          try { window.location.replace(window.__msv3AbsUrl(fileWithMock)); } catch (_e) { window.location.href = window.__msv3AbsUrl(fileWithMock); }
         }
       });
       document.addEventListener('keydown', function (e) {
@@ -11519,7 +11519,7 @@
         var modal = document.getElementById('ieltsListeningModeModal');
         if (modal) modal.style.display = 'flex';
       } else {
-        try { window.location.replace(pageUrl); } catch (_e) { window.location.href = pageUrl; }
+        try { window.location.replace(window.__msv3AbsUrl(pageUrl)); } catch (_e) { window.location.href = window.__msv3AbsUrl(pageUrl); }
       }
     }
 
@@ -11538,7 +11538,7 @@
       var url = _pendingCefrListeningUrl;
       _pendingCefrListeningUrl = null;
       document.getElementById('cefrListeningModeModal').style.display = 'none';
-      if (url) { try { window.location.replace(url); } catch (_e) { window.location.href = url; } }
+      if (url) { try { window.location.replace(window.__msv3AbsUrl(url)); } catch (_e) { window.location.href = window.__msv3AbsUrl(url); } }
     }
     function _cefrListeningModePartBased() {
       document.getElementById('cefrListeningModeModal').style.display = 'none';
@@ -12189,7 +12189,7 @@
           handleListeningMockClick(fileWithMock, 'ielts-listening');
         } else {
           iletClose({ keepUrl: true });
-          try { window.location.replace(fileWithMock); } catch (_e) { window.location.href = fileWithMock; }
+          try { window.location.replace(window.__msv3AbsUrl(fileWithMock)); } catch (_e) { window.location.href = window.__msv3AbsUrl(fileWithMock); }
         }
       });
       document.addEventListener('keydown', function (e) {
@@ -12219,7 +12219,7 @@
       var url = _pendingIeltsListeningUrl;
       _pendingIeltsListeningUrl = null;
       document.getElementById('ieltsListeningModeModal').style.display = 'none';
-      if (url) { try { window.location.replace(url); } catch (_e) { window.location.href = url; } }
+      if (url) { try { window.location.replace(window.__msv3AbsUrl(url)); } catch (_e) { window.location.href = window.__msv3AbsUrl(url); } }
     }
     function _ieltsListeningModePartBased() {
       document.getElementById('ieltsListeningModeModal').style.display = 'none';
@@ -12366,7 +12366,7 @@
           if (typeof handleSpeakingMockClick === 'function') {
             handleSpeakingMockClick(pageUrlSpk, category);
           } else {
-            try { window.location.replace(pageUrlSpk); } catch (_e) { window.location.href = pageUrlSpk; }
+            try { window.location.replace(window.__msv3AbsUrl(pageUrlSpk)); } catch (_e) { window.location.href = window.__msv3AbsUrl(pageUrlSpk); }
           }
           return;
         }
@@ -12386,7 +12386,7 @@
           if (typeof handleWritingMockClick === 'function') {
             handleWritingMockClick(pageUrlW, category);
           } else {
-            try { window.location.replace(pageUrlW); } catch (_e) { window.location.href = pageUrlW; }
+            try { window.location.replace(window.__msv3AbsUrl(pageUrlW)); } catch (_e) { window.location.href = window.__msv3AbsUrl(pageUrlW); }
           }
           return;
         }
@@ -12403,13 +12403,13 @@
           if (typeof handleReadingMockClick === 'function') {
             handleReadingMockClick(pageUrl, category);
           } else {
-            try { window.location.replace(pageUrl); } catch (_e) { window.location.href = pageUrl; }
+            try { window.location.replace(window.__msv3AbsUrl(pageUrl)); } catch (_e) { window.location.href = window.__msv3AbsUrl(pageUrl); }
           }
         } else {
           if (typeof handleListeningMockClick === 'function') {
             handleListeningMockClick(pageUrl, category);
           } else {
-            try { window.location.replace(pageUrl); } catch (_e) { window.location.href = pageUrl; }
+            try { window.location.replace(window.__msv3AbsUrl(pageUrl)); } catch (_e) { window.location.href = window.__msv3AbsUrl(pageUrl); }
           }
         }
       } catch (err) {
@@ -13868,7 +13868,21 @@
         ispetOpen();
       }
     }
+    // Make a runner URL absolute. Picker card clicks push /take/<slug>
+    // to history BEFORE showing the mode modal, so when we later call
+    // window.location.replace('Speaking Mocks.html?...') the browser
+    // resolves the relative URL against /take/... and Netlify's
+    // /take/* rewrite catches it, returning landing-v3.html (the
+    // "bounce to landing" the user saw). Prepending / fixes that.
+    if (typeof window.__msv3AbsUrl !== 'function') {
+      window.__msv3AbsUrl = function (url) {
+        if (!url) return url;
+        if (/^[a-z]+:|^\//i.test(url)) return url;
+        return '/' + url;
+      };
+    }
     function _navigateToRunner(url) {
+      url = window.__msv3AbsUrl(url);
       // v3 doesn't host the legacy loadMock iframe loader — direct navigate.
       // The runner page (Speaking Mocks.html) takes over the tab. Use
       // window.location.replace so a Back from the runner skips the
