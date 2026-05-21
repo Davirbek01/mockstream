@@ -15007,14 +15007,16 @@
     }
 
     // ===== Floating guest → Google upgrade pill =====
-    // Small persistent bottom-right pill shown to guests (not signed in with
-    // Google). Lets them upgrade after having used guest mode. Dismissable
-    // for the current session.
+    // Small persistent bottom-right pill shown to guests. Removed at the
+    // user's request — it was hovering over the sign-in flow and felt
+    // pushy. Function kept as a no-op so existing call sites + the
+    // signed-in/out listeners still work without errors.
     function _syncGuestUpgradePill() {
+      var existing = document.getElementById('guestUpgradePill');
+      if (existing) existing.style.display = 'none';
+      return;
+      // eslint-disable-next-line no-unreachable
       try {
-        // Only show the pill on the main site — Google OAuth origins are
-        // not registered for clone Netlify subdomains, so the button would
-        // just 403 on those sites.
         var _siteIdPill = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
         if (_siteIdPill !== 'mock_stream') {
           var elx = document.getElementById('guestUpgradePill');
@@ -23076,6 +23078,15 @@
       if (isLoadingMock) return;
       isLoadingMock = true;
       currentLoadingType = type;
+      // Same reason as loadMock: drop the v3 discovery-handoff context so
+      // the watcher doesn't race ahead of this iframe load and bounce the
+      // user back to v3 the moment the category modal closes.
+      try { document.documentElement.classList.remove('ms-discovery-handoff'); } catch (_e) {}
+      // Replace the parent URL with /landing-v3.html so a browser-back
+      // press from inside the iframe goes straight to v3 instead of
+      // briefly flashing the legacy landing.html UI. The iframe state
+      // isn't shareable anyway, so the URL bar "lying" is the lesser evil.
+      try { history.replaceState({}, document.title, '/landing-v3.html'); } catch (_e) {}
 
       // Close category modal
       document.getElementById('categoryModal').classList.remove('show');
@@ -23763,15 +23774,17 @@
       if (!event || event.target === m) m.classList.remove('show');
     }
     function selectKETType(type) {
+      // Drop the v3 discovery-handoff context so the return-to-v3 watcher
+      // doesn't race ahead of this navigation and replace() to v3 before
+      // the KET runner has time to load.
+      try { document.documentElement.classList.remove('ms-discovery-handoff'); } catch (_e) {}
       closeKETModal();
-      // Direct navigation (not loadMock iframe) so the URL bar updates and
-      // refresh keeps the user on the KET page instead of returning to landing.
       if (type === 'rw') {
-        window.location.href = 'KET Reading & Writing Mocks.html';
+        window.location.replace('KET Reading & Writing Mocks.html');
       } else if (type === 'listening') {
-        window.location.href = 'KET Listening Mocks.html';
+        window.location.replace('KET Listening Mocks.html');
       } else if (type === 'speaking') {
-        window.location.href = 'KET Speaking Mocks.html';
+        window.location.replace('KET Speaking Mocks.html');
       }
     }
 
@@ -23786,13 +23799,14 @@
       if (!event || event.target === m) m.classList.remove('show');
     }
     function selectPETType(type) {
+      try { document.documentElement.classList.remove('ms-discovery-handoff'); } catch (_e) {}
       closePETModal();
       if (type === 'rw') {
-        window.location.href = 'PET Reading & Writing Mocks.html';
+        window.location.replace('PET Reading & Writing Mocks.html');
       } else if (type === 'listening') {
-        window.location.href = 'PET Listening Mocks.html';
+        window.location.replace('PET Listening Mocks.html');
       } else if (type === 'speaking') {
-        window.location.href = 'PET Speaking Mocks.html';
+        window.location.replace('PET Speaking Mocks.html');
       }
     }
 
@@ -23807,13 +23821,14 @@
       if (!event || event.target === m) m.classList.remove('show');
     }
     function selectFCEType(type) {
+      try { document.documentElement.classList.remove('ms-discovery-handoff'); } catch (_e) {}
       closeFCEModal();
       if (type === 'rw') {
-        window.location.href = 'FCE Reading & Writing Mocks.html';
+        window.location.replace('FCE Reading & Writing Mocks.html');
       } else if (type === 'listening') {
-        window.location.href = 'FCE Listening Mocks.html';
+        window.location.replace('FCE Listening Mocks.html');
       } else if (type === 'speaking') {
-        window.location.href = 'FCE Speaking Mocks.html';
+        window.location.replace('FCE Speaking Mocks.html');
       }
     }
 
@@ -23828,13 +23843,14 @@
       if (!event || event.target === m) m.classList.remove('show');
     }
     function selectCAEType(type) {
+      try { document.documentElement.classList.remove('ms-discovery-handoff'); } catch (_e) {}
       closeCAEModal();
       if (type === 'rw') {
-        window.location.href = 'CAE Reading & Writing Mocks.html';
+        window.location.replace('CAE Reading & Writing Mocks.html');
       } else if (type === 'listening') {
-        window.location.href = 'CAE Listening Mocks.html';
+        window.location.replace('CAE Listening Mocks.html');
       } else if (type === 'speaking') {
-        window.location.href = 'CAE Speaking Mocks.html';
+        window.location.replace('CAE Speaking Mocks.html');
       }
     }
 
@@ -23849,13 +23865,14 @@
       if (!event || event.target === m) m.classList.remove('show');
     }
     function selectCPEType(type) {
+      try { document.documentElement.classList.remove('ms-discovery-handoff'); } catch (_e) {}
       closeCPEModal();
       if (type === 'rw') {
-        window.location.href = 'CPE Reading & Writing Mocks.html';
+        window.location.replace('CPE Reading & Writing Mocks.html');
       } else if (type === 'listening') {
-        window.location.href = 'CPE Listening Mocks.html';
+        window.location.replace('CPE Listening Mocks.html');
       } else if (type === 'speaking') {
-        window.location.href = 'CPE Speaking Mocks.html';
+        window.location.replace('CPE Speaking Mocks.html');
       }
     }
 
