@@ -13935,6 +13935,14 @@
     if (typeof window.__msv3AbsUrl !== 'function') {
       window.__msv3AbsUrl = function (url) {
         if (!url) return url;
+        // Every caller of __msv3AbsUrl is immediately followed by
+        // window.location.replace/href — i.e. a runner navigation. Show the
+        // launch splash as a side effect so all skill pickers (W/L/R + S)
+        // get the same overlay during the runner's parse without
+        // editing each call site.
+        try {
+          if (typeof _msv3ShowLaunchSplash === 'function') _msv3ShowLaunchSplash();
+        } catch (_e) {}
         if (/^[a-z]+:|^\//i.test(url)) return url;
         return '/' + url;
       };
