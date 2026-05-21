@@ -11,6 +11,109 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
+  <!-- ═══════════════════════════════════════════════════════════════════
+       Deep-link /take/<slug> early-pass — Phase 6-3
+       Runs SYNCHRONOUSLY in the head before any body content renders.
+       Detects /take/ pathname, parses the slug, kicks off the Supabase
+       mock_id lookup IMMEDIATELY (no await), and marks the html element
+       so CSS can hide the landing UI until the access modal is ready.
+       Eliminates the ~1s "I see landing then modal flashes in" lag the
+       user reported on 2026-05-21.
+       ═══════════════════════════════════════════════════════════════════ -->
+  <script>
+    (function () {
+      try {
+        var slug = null;
+        var pathMatch = window.location.pathname.match(/^\/take\/([^\/?#]+)/i);
+        if (pathMatch) {
+          slug = decodeURIComponent(pathMatch[1]);
+        } else {
+          try { slug = new URLSearchParams(window.location.search).get('take'); } catch (_e) {}
+        }
+        if (!slug) return;
+        var m = slug.match(/^(cefr|ielts)-(reading|listening)-(\d+)$/i)
+             || slug.match(/^(cefr)-(speaking)-(\d+)$/i)
+             || slug.match(/^(ielts|cefr)-(writing)-(\d+)$/i);
+        if (!m) return;
+        var exam   = m[1].toLowerCase();
+        var skill  = m[2].toLowerCase();
+        var mockNum = parseInt(m[3], 10);
+        var padded = String(mockNum).padStart(2, '0');
+        var category = exam + '-' + skill;
+        var pending = {
+          exam: exam, skill: skill, mockNum: mockNum, padded: padded,
+          category: category, pageUrl: '', urlReady: false, urlPromise: null
+        };
+        // Tell the rest of the page (CSS + JS) we're in deep-link mode.
+        // CSS rule below hides the hero/landing chrome behind the splash
+        // until the access modal opens.
+        document.documentElement.setAttribute('data-takelink', '1');
+
+        // Fire the Supabase mock_id lookup IMMEDIATELY — no await.
+        // By the time the user finishes typing 8-12 digits, the fetch
+        // has resolved and _pendingXxxMock.pageUrl is populated.
+        var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+        var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+        var mockType = exam + '-' + skill;
+        var lookupUrl = SB_URL + '/rest/v1/mock_tests'
+          + '?mock_type=eq.' + encodeURIComponent(mockType)
+          + '&mock_number=eq.' + mockNum
+          + '&status=eq.published&select=id&limit=1';
+        pending.urlPromise = fetch(lookupUrl, {
+          headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY }
+        }).then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (rows) {
+            var sbId = (rows && rows.length) ? rows[0].id : null;
+            if (!sbId) { pending.urlReady = true; return null; }
+            var url;
+            if (skill === 'speaking') {
+              url = 'Speaking Mocks.html?sbmock=' + encodeURIComponent(sbId)
+                  + '&num=' + padded + '&auto=1&action=practice';
+            } else if (skill === 'writing') {
+              var rW = (exam === 'cefr') ? 'Writing Mocks.html' : 'Writing IELTS Mock.html';
+              url = rW + '?test=' + exam + '-writing-mock-' + padded
+                  + '&sbmock=' + encodeURIComponent(sbId) + '&auto=1';
+            } else if (skill === 'reading') {
+              var rR = (exam === 'cefr') ? 'CEFR Reading.html' : 'IELTS reading.html';
+              url = rR + '?sbmock=' + encodeURIComponent(sbId) + '&mock=' + mockNum;
+            } else {
+              var rL = (exam === 'cefr') ? 'CEFR Listening.html' : 'IELTS listening.html';
+              url = rL + '?sbmock=' + encodeURIComponent(sbId) + '&mock=' + mockNum;
+            }
+            pending.pageUrl = url;
+            pending.urlReady = true;
+            // Patch the _pendingXxxMock object that the early-open created so
+            // verify*AccessCode reads the real URL at submit time.
+            var capSkill = skill[0].toUpperCase() + skill.slice(1);
+            var key = '_pending' + capSkill + 'Mock';
+            if (window[key]) { window[key].pageUrl = url; }
+            return url;
+          }).catch(function () { pending.urlReady = true; return null; });
+
+        window.__msTakePending = pending;
+      } catch (_e) {}
+    })();
+  </script>
+  <style>
+    /* While we're resolving a /take/ deep-link, hide the landing chrome
+       (hero rails, skill tiles, footer, etc.) so the user only sees the
+       splash + the soon-to-open access modal. Splash and the modals
+       themselves are exempt — they belong above the curtain. */
+    html[data-takelink] body > *:not(#msv3InlineSplash):not(.access-code-modal-host):not(script):not(style) {
+      visibility: hidden;
+    }
+    /* But the access-code modals are inside body too and need to be
+       visible. They use display:none/flex inline-style toggles, so we
+       can't filter by class on body children. Instead, force their
+       visibility back on when shown. */
+    html[data-takelink] #speakingAccessCodeModal,
+    html[data-takelink] #readingAccessCodeModal,
+    html[data-takelink] #listeningAccessCodeModal,
+    html[data-takelink] #writingAccessCodeModal {
+      visibility: visible !important;
+    }
+  </style>
+
   <!-- Supabase + auth helper, needed by the inline sidebar (Google sign-in,
        Telegram sign-in, signed-in state). Load before the sidebar JS at the
        bottom. -->
@@ -3579,6 +3682,15 @@
       // the splash brand/logo so it matches the rest of the v3 chrome.
       try {
         document.addEventListener('ms:config-ready', function () { applyBrand(); }, { once: true });
+      } catch (_e) {}
+
+      // Deep-link /take/<slug> entry — show the splash IMMEDIATELY so
+      // we have a friendly loading state while the early-open script
+      // chain wires up. The actual access modal opens as soon as
+      // showXxxAccessCodeModal is defined (see end of script chain),
+      // at which point we hide the splash.
+      try {
+        if (window.__msTakePending) window.__msv3ShowInlineSplash();
       } catch (_e) {}
     })();
   </script>
@@ -11924,6 +12036,14 @@
     // (manual address-bar entry) or ?take= query param.
     // ═══════════════════════════════════════════════════════════════════════
     async function _processDeepLinkTakeV3() {
+      // Splash was shown synchronously at the top of the script chain so
+      // the user sees a loading state rather than the landing UI while
+      // we look up the mock. Hide it right before any modal/nav fires
+      // (or on an early bail-out so the user can still see the landing
+      // if the slug is bogus).
+      var _takeHideSplash = function () {
+        try { if (typeof window.__msv3HideInlineSplash === 'function') window.__msv3HideInlineSplash(); } catch (_e) {}
+      };
       try {
         var takeParam = null;
         var pathMatch = window.location.pathname.match(/^\/take\/([^\/?#]+)/i);
@@ -11933,13 +12053,14 @@
           var params = new URLSearchParams(window.location.search);
           takeParam = params.get('take');
         }
-        if (!takeParam) return;
+        if (!takeParam) { _takeHideSplash(); return; }
         // Match the same slugs landing.html accepts.
         var m = takeParam.match(/^(cefr|ielts)-(reading|listening)-(\d+)$/i)
              || takeParam.match(/^(cefr)-(speaking)-(\d+)$/i)
              || takeParam.match(/^(ielts|cefr)-(writing)-(\d+)$/i);
         if (!m) {
           console.warn('[deep-link v3] Unrecognised slug:', takeParam);
+          _takeHideSplash();
           return;
         }
         var exam     = m[1].toLowerCase();
@@ -12028,11 +12149,89 @@
       }
     }
     window._processDeepLinkTakeV3 = _processDeepLinkTakeV3;
+
+    // Early-open the access modal as soon as the head-script's __msTakePending
+    // is populated AND the show*AccessCodeModal handlers are defined. This
+    // happens IMMEDIATELY after the script chain finishes parsing — no async
+    // Supabase wait. pageUrl is filled in by the head-script's parallel fetch.
+    // If the user submits the code before the fetch resolves, verify*AccessCode
+    // awaits window.__msTakePending.urlPromise (see guard below).
+    function _openTakeModalEarly() {
+      var p = window.__msTakePending;
+      if (!p) return;
+      // VIP / super-access users skip the modal entirely — _processDeepLinkTakeV3
+      // will navigate them straight to the runner. Don't flash a modal they
+      // won't interact with. Splash stays up until the resolver navigates.
+      try {
+        if (typeof window.isSuperAccessUnlocked === 'function' && window.isSuperAccessUnlocked()) {
+          return;
+        }
+        if (typeof window.isPremiumUnlocked === 'function' && window.isPremiumUnlocked()) {
+          return;
+        }
+      } catch (_e) {}
+      try {
+        if (p.skill === 'speaking') {
+          window._pendingSpeakingMock = { pageUrl: p.pageUrl, mockNumber: p.padded, category: p.category };
+          if (typeof showSpeakingAccessCodeModal === 'function') showSpeakingAccessCodeModal();
+        } else if (p.skill === 'reading') {
+          window._pendingReadingMock = { pageUrl: p.pageUrl, mockNumber: p.padded, category: p.category };
+          if (typeof showReadingAccessCodeModal === 'function') showReadingAccessCodeModal();
+        } else if (p.skill === 'listening') {
+          window._pendingListeningMock = { pageUrl: p.pageUrl, mockNumber: p.padded, category: p.category };
+          if (typeof showListeningAccessCodeModal === 'function') showListeningAccessCodeModal();
+        } else if (p.skill === 'writing') {
+          window._pendingWritingMock = { pageUrl: p.pageUrl, mockNumber: p.padded, category: p.category };
+          if (typeof showWritingAccessCodeModal === 'function') showWritingAccessCodeModal();
+        }
+      } catch (_e) {}
+      try { if (typeof window.__msv3HideInlineSplash === 'function') window.__msv3HideInlineSplash(); } catch (_e) {}
+      try { document.documentElement.removeAttribute('data-takelink'); } catch (_e) {}
+    }
+    window._openTakeModalEarly = _openTakeModalEarly;
+
+    // Guard for fast typists: if a deep-link modal is open and the user
+    // hits Submit BEFORE __msTakePending.urlPromise has resolved, verify*
+    // would call _launch*Mock with an empty pageUrl. Patch each verify*
+    // to await the promise + repopulate _pendingXxxMock.pageUrl first.
+    (function _patchVerifyForDeepLink() {
+      function makeGuard(verifyOrigName, pendingKey) {
+        var orig = window[verifyOrigName];
+        if (typeof orig !== 'function') return;
+        window[verifyOrigName] = async function () {
+          try {
+            var p = window.__msTakePending;
+            var pend = window[pendingKey];
+            if (p && pend && !pend.pageUrl && p.urlPromise) {
+              await p.urlPromise;
+              if (p.pageUrl) pend.pageUrl = p.pageUrl;
+            }
+          } catch (_e) {}
+          return orig.apply(this, arguments);
+        };
+      }
+      makeGuard('verifySpeakingAccessCode',  '_pendingSpeakingMock');
+      makeGuard('verifyReadingAccessCode',   '_pendingReadingMock');
+      makeGuard('verifyListeningAccessCode', '_pendingListeningMock');
+      makeGuard('verifyWritingAccessCode',   '_pendingWritingMock');
+    })();
+
     (function () {
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function () { setTimeout(_processDeepLinkTakeV3, 50); });
-      } else {
+      function go() {
+        // Open the modal IMMEDIATELY (synchronously) — show*AccessCodeModal
+        // handlers are all defined above by this point in the script chain.
+        _openTakeModalEarly();
+        // _processDeepLinkTakeV3 still runs as the fallback path: it handles
+        // VIP / super-access bypass that skips the modal entirely. Because
+        // the modal was opened just now, the bypass path needs to close
+        // it before navigating. handle*MockClick + _launch*Mock paths do
+        // that naturally via closeXxxAccessCodeModal / direct navigate.
         setTimeout(_processDeepLinkTakeV3, 50);
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', go);
+      } else {
+        go();
       }
     })();
   </script>
