@@ -2763,7 +2763,10 @@
     📋 View Results
   </button>
   <!-- ===== MAIN ===== -->
-  <div class="layout" id="mainTestContent">
+  <!-- display:none until beginFlow() reveals it, so the stacked Q1..Q8
+       overview never flashes between the gate/auto-proceed splash and
+       the first-question loading overlay. -->
+  <div class="layout" id="mainTestContent" style="display:none;">
     <!-- Part Indicator -->
     <div class="part-indicator" id="partIndicator" style="display:none;">
       <div class="part-step" data-part="1.1">1.1</div>
