@@ -2133,6 +2133,17 @@
        'mock_stream'. -->
   <script src="center-id.js" onerror="window.__CENTER_ID=window.__CENTER_ID||'mock_stream';"></script>
 
+  <!-- ─── Engine-migration Phase 1, step 3a: dependency scripts that the
+       speaking-modal flow needs once it's ported in step 3b.
+       site-config.js also auto-loads site-config/center-guard.js, which
+       sets window._centerAccess (per-clone access enforcement) and adds
+       the "centre locked / maintenance" overlay if the centre is
+       disabled — that overlay was previously only on landing.html, so
+       v3 now correctly respects centre status too. ───────────────── -->
+  <script src="site-config/site-config.js"></script>
+  <script src="premium-gate.js" defer></script>
+  <script src="mock-code-verifier.js?v=2"></script>
+
   <script>
     /* Same data fetch as v2 — uses the mock_attempt_stats RPC + a few
        lightweight mock_tests counts. Numbers are real and tick live as
