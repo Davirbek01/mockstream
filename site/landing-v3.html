@@ -612,16 +612,16 @@
          home-indicator safe area. */
       padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
     }
-    .msv3-section { margin-top: 14px; }
-    .msv3-section:first-child { margin-top: 4px; }
+    .msv3-section { margin-top: 10px; }
+    .msv3-section:first-child { margin-top: 2px; }
     .msv3-section-head {
       display: flex; align-items: center; gap: 6px;
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.09em;
       color: var(--muted);
-      margin-bottom: 8px;
+      margin-bottom: 5px;
     }
     .msv3-section-head .msv3-tag {
       font-size: 9px;
@@ -679,19 +679,19 @@
     }
     .msv3-account-hint strong { color: var(--ink); font-weight: 700; }
     .msv3-profile {
-      display: flex; align-items: center; gap: 12px;
-      padding: 14px;
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 11px;
       background: #f8fafc;
       border: 1px solid var(--line);
-      border-radius: 14px;
+      border-radius: 12px;
     }
     .msv3-avatar {
-      width: 42px; height: 42px;
+      width: 34px; height: 34px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--indigo), #6366f1);
       color: #fff;
       font-weight: 700;
-      font-size: 15px;
+      font-size: 13px;
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
       overflow: hidden;
@@ -699,19 +699,19 @@
     .msv3-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .msv3-profile-text { flex: 1; min-width: 0; }
     .msv3-profile-name {
-      font-size: 14.5px;
+      font-size: 13.5px;
       font-weight: 700;
       letter-spacing: -0.01em;
       overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     }
-    .msv3-profile-role { font-size: 12px; color: var(--muted); font-weight: 500; }
-    .msv3-vip-row { display: flex; gap: 8px; }
+    .msv3-profile-role { font-size: 11.5px; color: var(--muted); font-weight: 500; }
+    .msv3-vip-row { display: flex; gap: 7px; }
     .msv3-vip-row input {
       flex: 1;
-      padding: 11px 13px;
+      padding: 9px 11px;
       background: #fffbeb;
       border: 1.5px solid #fcd34d;
-      border-radius: 10px;
+      border-radius: 9px;
       font: 600 14px/1.4 'Inter', sans-serif;
       color: #78350f;
       outline: none;
@@ -720,12 +720,12 @@
     .msv3-vip-row input::placeholder { color: #b45309; opacity: 0.7; }
     .msv3-vip-row input:focus { border-color: #f59e0b; box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.18); }
     .msv3-vip-row button {
-      width: 42px; height: 42px;
-      border-radius: 10px;
+      width: 36px; height: 36px;
+      border-radius: 9px;
       border: 0;
       background: linear-gradient(135deg, #f59e0b, #ea580c);
       color: white;
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 700;
       cursor: pointer;
       box-shadow: 0 4px 10px rgba(234, 88, 12, 0.30);
@@ -733,7 +733,7 @@
       flex-shrink: 0;
     }
     .msv3-vip-row button:hover { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(234, 88, 12, 0.36); }
-    .msv3-vip-sub { font-size: 12px; color: var(--muted); margin-top: 6px; }
+    .msv3-vip-sub { font-size: 11.5px; color: var(--muted); margin-top: 4px; }
     /* Disabled VIP input + button after activation — visible but uneditable. */
     .msv3-vip-row input:disabled {
       background: #fef3c7;
@@ -794,13 +794,13 @@
     #msv3VipSection.unlocked .msv3-vip-row input::placeholder { color: #047857; opacity: 0.6; }
     #msv3VipSection.unlocked .msv3-vip-sub { color: #047857; font-weight: 600; }
     .msv3-row {
-      display: flex; align-items: center; gap: 10px;
-      padding: 12px 14px;
+      display: flex; align-items: center; gap: 9px;
+      padding: 9px 11px;
       background: #fff;
       border: 1px solid var(--line);
-      border-radius: 11px;
+      border-radius: 10px;
       color: var(--ink);
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       cursor: pointer;
       transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
