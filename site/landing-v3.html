@@ -2276,7 +2276,7 @@
         <!-- Flashcards — uses the same _gateLearningTool('flashcards', ...)
              pipeline as landing.html's in-page card. Closing the modal
              returns to v3 via the discovery-handoff watcher. -->
-        <a class="tool-card" href="/landing.html?openSelector=flashcards">
+        <a class="tool-card" href="/flashcards.html" data-learn="flashcards">
           <div class="tool-icon" style="background: linear-gradient(135deg, #fb923c, #ea580c);">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="4" width="18" height="14" rx="2"></rect>
@@ -2289,8 +2289,7 @@
           </div>
           <div class="tool-arrow">→</div>
         </a>
-        <!-- Articles — same gating pipeline, openCategoryModal('articles'). -->
-        <a class="tool-card" href="/landing.html?openSelector=articles">
+        <a class="tool-card" href="javascript:void(0)" data-learn="articles">
           <div class="tool-icon" style="background: linear-gradient(135deg, #34d399, #059669);">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -2305,9 +2304,7 @@
           </div>
           <div class="tool-arrow">→</div>
         </a>
-        <!-- Tests — landing.html's _gateLearningTool('tests', showTestsSubmenu)
-             pipeline, fronted by the testsModal (Grammar / Vocabulary chooser). -->
-        <a class="tool-card" href="/landing.html?openSelector=tests">
+        <a class="tool-card" href="javascript:void(0)" data-learn="tests">
           <div class="tool-icon" style="background: linear-gradient(135deg, #a78bfa, #7c3aed);">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M9 11l3 3L22 4"></path>
@@ -12335,6 +12332,579 @@
       });
     });
 
+    // ═══════════════════════════════════════════════════════════════
+    // Learning Tools — Phase 6-D
+    // Articles + Grammar + Vocabulary catalog picker. Mirrors
+    // landing.html's openCategoryModal('articles' | 'grammar' |
+    // 'vocabulary') flow. Catalogs inlined here so v3 can launch
+    // these without a round-trip through landing.html. Each item
+    // is a free practice, no access-code gate at the picker level
+    // (runners enforce premium server-side if needed).
+    // ═══════════════════════════════════════════════════════════════
+    var GRAMMAR_TESTS = [
+      { file: 'test.html?test=subjunctive-mood01&type=grammar', name: 'Subjunctive Mood', icon: '📝' },
+      { file: 'test.html?test=question-compare01&type=grammar', name: 'Question & Compare', icon: '❓' },
+      { file: 'test.html?test=present-tenses-day04&type=grammar', name: 'Present Tenses Day 4', icon: '🕐' },
+      { file: 'test.html?test=gerunds-infinitives01&type=grammar', name: 'Gerunds vs Infinitives', icon: '📖' },
+      { file: 'test.html?test=articles01&type=grammar', name: 'Articles', icon: '📰' },
+      { file: 'test.html?test=conditionals01&type=grammar', name: 'Conditionals', icon: '🔀' },
+      { file: 'test.html?test=modal-verbs01&type=grammar', name: 'Modal Verbs', icon: '🔧' },
+      { file: 'test.html?test=passive-voice01&type=grammar', name: 'Passive Voice', icon: '🔄' },
+      { file: 'test.html?test=relative-clauses01&type=grammar', name: 'Relative Clauses', icon: '🔗' },
+      { file: 'test.html?test=reported-speech01&type=grammar', name: 'Reported Speech', icon: '💬' },
+      { file: 'test.html?test=tenses-past01&type=grammar', name: 'Past Tenses', icon: '⏪' },
+      { file: 'test.html?test=tenses-future01&type=grammar', name: 'Future Tenses', icon: '⏩' },
+      { file: 'test.html?test=conjunctions01&type=grammar', name: 'Conjunctions', icon: '⛓️' },
+      { file: 'test.html?test=quantifiers01&type=grammar', name: 'Quantifiers', icon: '🔢' },
+      { file: 'test.html?test=adjectives-adverbs01&type=grammar', name: 'Adjectives & Adverbs', icon: '📊' },
+      { file: 'test.html?test=adverbial-clauses01&type=grammar', name: 'Adverbial Clauses', icon: '📎' },
+      { file: 'test.html?test=causatives01&type=grammar', name: 'Causatives', icon: '🔨' },
+      { file: 'test.html?test=inversions01&type=grammar', name: 'Inversions', icon: '🔃' },
+      { file: 'test.html?test=noun-clauses01&type=grammar', name: 'Noun Clauses', icon: '📋' },
+      { file: 'test.html?test=wish-clauses01&type=grammar', name: 'Wish Clauses', icon: '⭐' },
+      { file: 'test.html?test=prepositions01&type=grammar', name: 'Prepositions', icon: '📍' },
+      { file: 'test.html?test=subject-verb-agreement01&type=grammar', name: 'Subject-Verb Agreement', icon: '✅' },
+      { file: 'test.html?test=word-formation01&type=grammar', name: 'Word Formation', icon: '🔤' },
+      { file: 'test.html?test=present-tenses01&type=grammar', name: 'Present Tenses', icon: '🕐' },
+      { file: 'test.html?test=phrasal-verbs01&type=grammar', name: 'Phrasal Verbs', icon: '🚀' },
+      { file: 'test.html?test=perfect-tenses01&type=grammar', name: 'Perfect Tenses', icon: '💎' },
+      { file: 'test.html?test=participles01&type=grammar', name: 'Participle Clauses', icon: '📝' },
+      { file: 'test.html?test=cleft-sentences01&type=grammar', name: 'Cleft Sentences', icon: '🎯' },
+      { file: 'test.html?test=tag-questions01&type=grammar', name: 'Tag Questions', icon: '🏷️' },
+      { file: 'test.html?test=determiners01&type=grammar', name: 'Determiners', icon: '📐' },
+      { file: 'test.html?test=verb-patterns01&type=grammar', name: 'Verb Patterns', icon: '🔗' },
+      { file: 'test.html?test=mixed-tenses01&type=grammar', name: 'Mixed Tenses', icon: '🔀' },
+      { file: 'test.html?test=ellipsis-substitution01&type=grammar', name: 'Ellipsis & Substitution', icon: '✂️' },
+      { file: 'test.html?test=countable-uncountable01&type=grammar', name: 'Countable & Uncountable', icon: '📦' },
+      { file: 'test.html?test=comparatives-superlatives01&type=grammar', name: 'Comparatives & Superlatives', icon: '📊' },
+      { file: 'test.html?test=linking-words01&type=grammar', name: 'Linking Words & Connectors', icon: '🔗' },
+      { file: 'test.html?test=indirect-questions01&type=grammar', name: 'Indirect Questions', icon: '❓' },
+      { file: 'test.html?test=future-forms01&type=grammar', name: 'Future Forms', icon: '🔮' },
+      { file: 'test.html?test=modifiers-intensifiers01&type=grammar', name: 'Modifiers & Intensifiers', icon: '💪' },
+      { file: 'test.html?test=parallel-structure01&type=grammar', name: 'Parallel Structure', icon: '⚖️' },
+      { file: 'test.html?test=complex-noun-phrases01&type=grammar', name: 'Complex Noun Phrases', icon: '🏗️' },
+      { file: 'test.html?test=emphatic-structures01&type=grammar', name: 'Emphatic Structures', icon: '💥' },
+      { file: 'test.html?test=so-such-too-enough01&type=grammar', name: 'So/Such/Too/Enough', icon: '📏' },
+      { file: 'test.html?test=concession-contrast01&type=grammar', name: 'Concession & Contrast', icon: '🔄' },
+      { file: 'test.html?test=collocations01&type=grammar', name: 'Collocations', icon: '🤝' },
+      { file: 'test.html?test=discourse-markers01&type=grammar', name: 'Discourse Markers', icon: '💬' },
+      { file: 'test.html?test=narrative-tenses01&type=grammar', name: 'Narrative Tenses', icon: '📖' },
+      { file: 'test.html?test=mixed-conditionals01&type=grammar', name: 'Mixed Conditionals', icon: '🔀' },
+      { file: 'test.html?test=participle-adjectives01&type=grammar', name: 'Participle Adjectives', icon: '😊' },
+      { file: 'test.html?test=formal-informal01&type=grammar', name: 'Formal vs Informal', icon: '🎩' },
+      { file: 'test.html?test=used-to-would01&type=grammar', name: 'Used to / Would / Be Used to', icon: '🕰️' },
+      { file: 'test.html?test=have-get-expressions01&type=grammar', name: 'Have & Get Expressions', icon: '🔧' },
+      { file: 'test.html?test=relative-clauses-advanced01&type=grammar', name: 'Advanced Relative Clauses', icon: '📎' },
+      { file: 'test.html?test=articles-advanced01&type=grammar', name: 'Advanced Articles', icon: '📰' },
+      { file: 'test.html?test=confusing-words01&type=grammar', name: 'Commonly Confused Words', icon: '🔍' },
+      { file: 'test.html?test=time-clauses01&type=grammar', name: 'Time Clauses', icon: '⏰' },
+      { file: 'test.html?test=question-forms01&type=grammar', name: 'Question Formation', icon: '❓' },
+      { file: 'test.html?test=negative-forms01&type=grammar', name: 'Negative Forms', icon: '🚫' },
+      { file: 'test.html?test=word-order01&type=grammar', name: 'Word Order', icon: '📐' },
+      { file: 'test.html?test=academic-grammar01&type=grammar', name: 'Academic Grammar', icon: '🎓' },
+      { file: 'test.html?test=possessives-pronouns01&type=grammar', name: 'Possessives & Pronouns', icon: '👤' },
+      { file: 'test.html?test=sentence-transformation01&type=grammar', name: 'Sentence Transformation', icon: '🔄' },
+      { file: 'test.html?test=spelling-grammar-traps01&type=grammar', name: 'Grammar Traps', icon: '⚠️' },
+      { file: 'test.html?test=purpose-reason-result01&type=grammar', name: 'Purpose, Reason & Result', icon: '🎯' },
+      { file: 'test.html?test=punctuation-rules01&type=grammar', name: 'Punctuation Rules', icon: '✏️' },
+      { file: 'test.html?test=british-american01&type=grammar', name: 'British vs American English', icon: '🇬🇧' },
+      { file: 'test.html?test=passive-advanced01&type=grammar', name: 'Advanced Passive', icon: '🔄' },
+      { file: 'test.html?test=reported-commands01&type=grammar', name: 'Reported Commands & Requests', icon: '📢' },
+      { file: 'test.html?test=obligation-advice01&type=grammar', name: 'Obligation & Advice', icon: '⚖️' },
+      { file: 'test.html?test=speculation-deduction01&type=grammar', name: 'Speculation & Deduction', icon: '🔮' },
+      { file: 'test.html?test=expressing-ability01&type=grammar', name: 'Expressing Ability', icon: '💪' },
+      { file: 'test.html?test=dependent-prepositions01&type=grammar', name: 'Dependent Prepositions', icon: '🔗' },
+      { file: 'test.html?test=habitual-actions01&type=grammar', name: 'Expressing Habits', icon: '🔁' },
+      { file: 'test.html?test=idiomatic-grammar01&type=grammar', name: 'Idiomatic Grammar', icon: '🎭' },
+      { file: 'test.html?test=stative-dynamic-verbs01&type=grammar', name: 'Stative vs Dynamic Verbs', icon: '🧠' },
+      { file: 'test.html?test=hedging-vague-language01&type=grammar', name: 'Hedging & Vague Language', icon: '🌫️' },
+      { file: 'test.html?test=reduced-clauses01&type=grammar', name: 'Reduced Clauses', icon: '✂️' },
+      { file: 'test.html?test=dummy-subjects01&type=grammar', name: 'Dummy Subjects (It/There)', icon: '🎯' },
+      { file: 'test.html?test=conditionals-alternatives01&type=grammar', name: 'Alternatives to If', icon: '🔀' },
+      { file: 'test.html?test=noun-modification01&type=grammar', name: 'Noun Modification', icon: '📐' },
+      { file: 'test.html?test=apposition01&type=grammar', name: 'Apposition', icon: '📎' },
+      { file: 'test.html?test=reflexive-reciprocal01&type=grammar', name: 'Reflexive & Reciprocal', icon: '🪞' },
+      { file: 'test.html?test=infinitive-patterns01&type=grammar', name: 'Infinitive Patterns', icon: '🔑' },
+      { file: 'test.html?test=adverb-placement01&type=grammar', name: 'Adverb Placement', icon: '📍' },
+      { file: 'test.html?test=fronting-topicalisation01&type=grammar', name: 'Fronting & Topicalisation', icon: '🔝' },
+      { file: 'test.html?test=cohesion-reference01&type=grammar', name: 'Cohesion & Reference', icon: '🔗' },
+      { file: 'test.html?test=future-in-past01&type=grammar', name: 'Future in the Past', icon: '⏪' },
+      { file: 'test.html?test=comment-viewpoint-adverbs01&type=grammar', name: 'Comment & Viewpoint Adverbs', icon: '💬' },
+      { file: 'test.html?test=existential-there01&type=grammar', name: 'Existential Constructions', icon: '📦' },
+      { file: 'test.html?test=focus-structures01&type=grammar', name: 'Focus Structures', icon: '🎯' },
+      { file: 'test.html?test=stance-attitude01&type=grammar', name: 'Expressing Stance & Attitude', icon: '🗣️' },
+      { file: 'test.html?test=generic-reference01&type=grammar', name: 'Generic Reference', icon: '👥' },
+      { file: 'test.html?test=binomials-trinomials01&type=grammar', name: 'Binomials & Fixed Pairs', icon: '🔢' },
+      { file: 'test.html?test=complex-sentences01&type=grammar', name: 'Complex Sentence Building', icon: '🏗️' },
+      { file: 'test.html?test=nominal-relative-clauses01&type=grammar', name: 'Nominal Relative Clauses', icon: '🌀' },
+      { file: 'test.html?test=transitive-intransitive01&type=grammar', name: 'Transitive vs Intransitive', icon: '🔄' },
+      { file: 'test.html?test=ditransitive-verbs01&type=grammar', name: 'Double Object Verbs', icon: '🎁' },
+      { file: 'test.html?test=extraposition01&type=grammar', name: 'Extraposition', icon: '📤' },
+      { file: 'test.html?test=gradable-ungradable01&type=grammar', name: 'Gradable vs Ungradable', icon: '🌡️' },
+      { file: 'test.html?test=nominalisation01&type=grammar', name: 'Nominalisation', icon: '📝' },
+      { file: 'test.html?test=auxiliary-verbs01&type=grammar', name: 'Auxiliary Verbs', icon: '⚙️' },
+      { file: 'test.html?test=common-grammar-errors01&type=grammar', name: 'Common Grammar Errors', icon: '⚠️' },
+      { file: 'test.html?test=conditional-inversion01&type=grammar', name: 'Conditional Inversion', icon: '🔃' },
+      { file: 'test.html?test=tense-aspect-review01&type=grammar', name: 'Tense & Aspect Review', icon: '🕰️' },
+      { file: 'test.html?test=articles02&type=grammar', name: 'Articles: Advanced Usage', icon: '📰' },
+      { file: 'test.html?test=conditionals02&type=grammar', name: 'Conditionals: Advanced Patterns', icon: '🔀' },
+      { file: 'test.html?test=modal-verbs02&type=grammar', name: 'Modals: Nuance & Precision', icon: '🔧' },
+      { file: 'test.html?test=passive-voice02&type=grammar', name: 'Passive Voice: Complex Forms', icon: '🔄' },
+      { file: 'test.html?test=relative-clauses02&type=grammar', name: 'Relative Clauses: Mastery', icon: '🔗' },
+      { file: 'test.html?test=reported-speech02&type=grammar', name: 'Reported Speech: Advanced', icon: '💬' },
+      { file: 'test.html?test=prepositions02&type=grammar', name: 'Prepositions: Tricky Contexts', icon: '📍' },
+      { file: 'test.html?test=tenses-present02&type=grammar', name: 'Present Tenses: Deep Dive', icon: '🕐' },
+      { file: 'test.html?test=tenses-past02&type=grammar', name: 'Past Tenses: Deep Dive', icon: '⏪' },
+      { file: 'test.html?test=gerunds-infinitives02&type=grammar', name: 'Gerunds & Infinitives: Mastery', icon: '📖' },
+      { file: 'test.html?test=phrasal-verbs02&type=grammar', name: 'Phrasal Verbs: Advanced', icon: '🚀' },
+      { file: 'test.html?test=word-formation02&type=grammar', name: 'Word Formation: Advanced', icon: '🔤' },
+      { file: 'test.html?test=conjunctions02&type=grammar', name: 'Conjunctions: Complex Linking', icon: '⛓️' },
+      { file: 'test.html?test=subject-verb-agreement02&type=grammar', name: 'Agreement: Tricky Cases', icon: '✅' },
+      { file: 'test.html?test=conditionals03&type=grammar', name: 'Conditionals: Formal & Rare', icon: '🔀' },
+      { file: 'test.html?test=emphasis-focus01&type=grammar', name: 'Emphasis & Focus Structures', icon: '🎯' },
+      { file: 'test.html?test=academic-writing-grammar01&type=grammar', name: 'Academic Writing Grammar', icon: '🎓' },
+      { file: 'test.html?test=connectors-transitions01&type=grammar', name: 'Connectors & Transitions', icon: '🔗' },
+      { file: 'test.html?test=error-correction01&type=grammar', name: 'Error Correction', icon: '🔍' },
+      { file: 'test.html?test=determiners02&type=grammar', name: 'Determiners: Advanced', icon: '📐' },
+      { file: 'test.html?test=verb-tense-contrast01&type=grammar', name: 'Tense Contrast Pairs', icon: '⏱️' },
+      { file: 'test.html?test=noun-phrases-advanced01&type=grammar', name: 'Advanced Noun Phrases', icon: '🏗️' },
+      { file: 'test.html?test=expressing-opinions01&type=grammar', name: 'Expressing Opinions & Certainty', icon: '🗣️' },
+      { file: 'test.html?test=comparison-structures01&type=grammar', name: 'Comparison Structures', icon: '📊' },
+      { file: 'test.html?test=sentence-types01&type=grammar', name: 'Sentence Types & Structure', icon: '📝' },
+      { file: 'test.html?test=formal-register01&type=grammar', name: 'Formal Register Grammar', icon: '🎩' },
+      { file: 'test.html?test=clause-combination01&type=grammar', name: 'Clause Combination', icon: '🔧' },
+      { file: 'test.html?test=negation-advanced01&type=grammar', name: 'Negation: Advanced Patterns', icon: '🚫' },
+      { file: 'test.html?test=it-there-constructions01&type=grammar', name: 'It & There Constructions', icon: '📦' },
+      { file: 'test.html?test=quantifiers02&type=grammar', name: 'Quantifiers: Precision', icon: '🔢' }
+    ];
+    var VOCAB_TESTS = [
+      { file: 'test.html?test=mixed-vocab01&type=vocabulary', name: 'Mixed Vocabulary', icon: '🔤' },
+      { file: 'test.html?test=architecture-urban01&type=vocabulary', name: 'Architecture & Urban Planning', icon: '🏙️' },
+      { file: 'test.html?test=art-design-fashion01&type=vocabulary', name: 'Art, Design & Fashion', icon: '🎨' },
+      { file: 'test.html?test=crime-law01&type=vocabulary', name: 'Crime & Law', icon: '⚖️' },
+      { file: 'test.html?test=digital-frontier01&type=vocabulary', name: 'Digital Frontier', icon: '💻' },
+      { file: 'test.html?test=disasters-geography01&type=vocabulary', name: 'Natural Disasters & Geography', icon: '🌋' },
+      { file: 'test.html?test=education-learning01&type=vocabulary', name: 'Education & Learning', icon: '📚' },
+      { file: 'test.html?test=environment-climate01&type=vocabulary', name: 'Environment & Climate', icon: '🌍' },
+      { file: 'test.html?test=family-friends01&type=vocabulary', name: 'Family, Friends & Relationships', icon: '👨‍👩‍👧‍👦' },
+      { file: 'test.html?test=films-books-music01&type=vocabulary', name: 'Films, Books & Music', icon: '🎬' },
+      { file: 'test.html?test=food-nutrition01&type=vocabulary', name: 'Food & Nutrition', icon: '🥗' },
+      { file: 'test.html?test=free-time-sports01&type=vocabulary', name: 'Free Time, Hobbies & Sports', icon: '⚽' },
+      { file: 'test.html?test=health-body01&type=vocabulary', name: 'Health & Body', icon: '🏥' },
+      { file: 'test.html?test=history-culture01&type=vocabulary', name: 'History & Cultural Heritage', icon: '📜' },
+      { file: 'test.html?test=housing-city-life01&type=vocabulary', name: 'Housing & City Life', icon: '🏠' },
+      { file: 'test.html?test=human-rights-social01&type=vocabulary', name: 'Human Rights & Social Issues', icon: '✊' },
+      { file: 'test.html?test=idioms01&type=vocabulary', name: 'Idioms & Expressions', icon: '✨' },
+      { file: 'test.html?test=media-advertising01&type=vocabulary', name: 'Media & Advertising', icon: '📢' },
+      { file: 'test.html?test=money-consumerism01&type=vocabulary', name: 'Money & Consumerism', icon: '💰' },
+      { file: 'test.html?test=personal-intro01&type=vocabulary', name: 'Personal Intro', icon: '👤' },
+      { file: 'test.html?test=personality-behavior01&type=vocabulary', name: 'Personality & Behavior', icon: '🧠' },
+      { file: 'test.html?test=proverbs01&type=vocabulary', name: 'Proverbs (A1–C2)', icon: '📜' },
+      { file: 'test.html?test=science-research01&type=vocabulary', name: 'Science & Research', icon: '🔬' },
+      { file: 'test.html?test=space-exploration01&type=vocabulary', name: 'Space Exploration', icon: '🚀' },
+      { file: 'test.html?test=tech-social-media01&type=vocabulary', name: 'Technology & Social Media', icon: '📱' },
+      { file: 'test.html?test=three-part-verbs01&type=vocabulary', name: 'Three-part Phrasal Verbs', icon: '🔗' },
+      { file: 'test.html?test=travel-holiday01&type=vocabulary', name: 'Travel & Holiday', icon: '✈️' },
+      { file: 'test.html?test=wildlife-conservation01&type=vocabulary', name: 'Wildlife & Conservation', icon: '🦁' },
+      { file: 'test.html?test=work-career01&type=vocabulary', name: 'Work & Career', icon: '💼' },
+      { file: 'test.html?test=business-economics01&type=vocabulary', name: 'Business & Economics', icon: '💼' },
+      { file: 'test.html?test=politics-government01&type=vocabulary', name: 'Politics & Government', icon: '🏛️' },
+      { file: 'test.html?test=medicine-healthcare01&type=vocabulary', name: 'Medicine & Healthcare', icon: '🏥' },
+      { file: 'test.html?test=psychology-mind01&type=vocabulary', name: 'Psychology & Mind', icon: '🧠' },
+      { file: 'test.html?test=law-court01&type=vocabulary', name: 'Law & Court', icon: '⚖️' },
+      { file: 'test.html?test=transport-travel01&type=vocabulary', name: 'Transport & Travel', icon: '🚆' },
+      { file: 'test.html?test=weather-nature01&type=vocabulary', name: 'Weather & Nature', icon: '🌤️' },
+      { file: 'test.html?test=sports-competition01&type=vocabulary', name: 'Sports & Competition', icon: '🏆' },
+      { file: 'test.html?test=music-arts01&type=vocabulary', name: 'Music & Arts', icon: '🎵' },
+      { file: 'test.html?test=fashion-trends01&type=vocabulary', name: 'Fashion & Trends', icon: '👗' },
+      { file: 'test.html?test=journalism-reporting01&type=vocabulary', name: 'Journalism & Reporting', icon: '📰' },
+      { file: 'test.html?test=agriculture-farming01&type=vocabulary', name: 'Agriculture & Farming', icon: '🌾' },
+      { file: 'test.html?test=energy-resources01&type=vocabulary', name: 'Energy & Resources', icon: '⚡' },
+      { file: 'test.html?test=society-inequality01&type=vocabulary', name: 'Society & Inequality', icon: '🏘️' },
+      { file: 'test.html?test=marketing-branding01&type=vocabulary', name: 'Marketing & Branding', icon: '📊' },
+      { file: 'test.html?test=relationships-dating01&type=vocabulary', name: 'Relationships & Dating', icon: '💕' },
+      { file: 'test.html?test=immigration-borders01&type=vocabulary', name: 'Immigration & Borders', icon: '🌍' },
+      { file: 'test.html?test=cybersecurity-privacy01&type=vocabulary', name: 'Cybersecurity & Privacy', icon: '🔒' },
+      { file: 'test.html?test=war-military01&type=vocabulary', name: 'War & Military', icon: '🎖️' },
+      { file: 'test.html?test=philosophy-ethics01&type=vocabulary', name: 'Philosophy & Ethics', icon: '💭' },
+      { file: 'test.html?test=astronomy-space01&type=vocabulary', name: 'Astronomy & Space', icon: '🔭' },
+      { file: 'test.html?test=banking-finance01&type=vocabulary', name: 'Banking & Finance', icon: '🏦' },
+      { file: 'test.html?test=cooking-cuisine01&type=vocabulary', name: 'Cooking & Cuisine', icon: '🍳' },
+      { file: 'test.html?test=diplomacy-international01&type=vocabulary', name: 'Diplomacy & International Relations', icon: '🕊️' },
+      { file: 'test.html?test=ecology-wildlife01&type=vocabulary', name: 'Ecology & Wildlife', icon: '🦋' },
+      { file: 'test.html?test=film-cinema01&type=vocabulary', name: 'Film & Cinema', icon: '🎬' },
+      { file: 'test.html?test=genetics-biotech01&type=vocabulary', name: 'Genetics & Biotech', icon: '🧬' },
+      { file: 'test.html?test=hospitality-tourism01&type=vocabulary', name: 'Hospitality & Tourism', icon: '🏨' },
+      { file: 'test.html?test=insurance-risk01&type=vocabulary', name: 'Insurance & Risk', icon: '🛡️' },
+      { file: 'test.html?test=linguistics-language01&type=vocabulary', name: 'Linguistics & Language', icon: '🗣️' },
+      { file: 'test.html?test=architecture-design01&type=vocabulary', name: 'Architecture & Design', icon: '🏗️' },
+      { file: 'test.html?test=childcare-parenting01&type=vocabulary', name: 'Childcare & Parenting', icon: '👶' },
+      { file: 'test.html?test=disasters-emergencies01&type=vocabulary', name: 'Disasters & Emergencies', icon: '🌊' },
+      { file: 'test.html?test=entrepreneurship-startups01&type=vocabulary', name: 'Entrepreneurship & Startups', icon: '🚀' },
+      { file: 'test.html?test=fitness-wellness01&type=vocabulary', name: 'Fitness & Wellness', icon: '💪' },
+      { file: 'test.html?test=globalisation-trade01&type=vocabulary', name: 'Globalisation & Trade', icon: '🌐' },
+      { file: 'test.html?test=history-civilisation01&type=vocabulary', name: 'History & Civilisation', icon: '📜' },
+      { file: 'test.html?test=internet-technology01&type=vocabulary', name: 'Internet & Technology', icon: '💻' },
+      { file: 'test.html?test=journalism-media01&type=vocabulary', name: 'Journalism & Media', icon: '📺' },
+      { file: 'test.html?test=religion-beliefs01&type=vocabulary', name: 'Religion & Beliefs', icon: '🕌' },
+      { file: 'test.html?test=aviation-aerospace01&type=vocabulary', name: 'Aviation & Aerospace', icon: '✈️' },
+      { file: 'test.html?test=charity-volunteering01&type=vocabulary', name: 'Charity & Volunteering', icon: '🤝' },
+      { file: 'test.html?test=education-academia01&type=vocabulary', name: 'Education & Academia', icon: '🎓' },
+      { file: 'test.html?test=forensics-investigation01&type=vocabulary', name: 'Forensics & Investigation', icon: '🔍' },
+      { file: 'test.html?test=gaming-esports01&type=vocabulary', name: 'Gaming & Esports', icon: '🎮' },
+      { file: 'test.html?test=housing-property01&type=vocabulary', name: 'Housing & Property', icon: '🏠' },
+      { file: 'test.html?test=manufacturing-industry01&type=vocabulary', name: 'Manufacturing & Industry', icon: '🏭' },
+      { file: 'test.html?test=oceanography-marine01&type=vocabulary', name: 'Oceanography & Marine Life', icon: '🐋' },
+      { file: 'test.html?test=photography-visual01&type=vocabulary', name: 'Photography & Visual Arts', icon: '📷' },
+      { file: 'test.html?test=taxation-economics01&type=vocabulary', name: 'Taxation & Economics', icon: '💰' },
+      { file: 'test.html?test=artificial-intelligence01&type=vocabulary', name: 'AI & Machine Learning', icon: '🤖' },
+      { file: 'test.html?test=mental-health01&type=vocabulary', name: 'Mental Health & Well-being', icon: '🧘' },
+      { file: 'test.html?test=social-justice01&type=vocabulary', name: 'Social Justice & Activism', icon: '✊' },
+      { file: 'test.html?test=renewable-energy01&type=vocabulary', name: 'Renewable Energy & Clean Tech', icon: '🌱' },
+      { file: 'test.html?test=urban-development01&type=vocabulary', name: 'Urban Development & Smart Cities', icon: '🏙️' },
+      { file: 'test.html?test=cryptocurrency01&type=vocabulary', name: 'Cryptocurrency & Blockchain', icon: '💎' },
+      { file: 'test.html?test=robotics-automation01&type=vocabulary', name: 'Robotics & Automation', icon: '🦾' },
+      { file: 'test.html?test=public-health01&type=vocabulary', name: 'Public Health & Epidemics', icon: '🦠' },
+      { file: 'test.html?test=sustainability01&type=vocabulary', name: 'Sustainability & Green Living', icon: '♻️' },
+      { file: 'test.html?test=remote-work01&type=vocabulary', name: 'Remote Work & Digital Nomads', icon: '🏠' },
+      { file: 'test.html?test=data-analytics01&type=vocabulary', name: 'Data Science & Analytics', icon: '📊' },
+      { file: 'test.html?test=e-commerce01&type=vocabulary', name: 'E-Commerce & Online Business', icon: '🛒' },
+      { file: 'test.html?test=elderly-care01&type=vocabulary', name: 'Elderly Care & Aging', icon: '👴' },
+      { file: 'test.html?test=marine-pollution01&type=vocabulary', name: 'Marine Pollution & Ocean Health', icon: '🌊' },
+      { file: 'test.html?test=biotechnology01&type=vocabulary', name: 'Biotechnology & Innovation', icon: '🧪' },
+      { file: 'test.html?test=crime-law02&type=vocabulary', name: 'Crime & Justice: Advanced', icon: '⚖️' },
+      { file: 'test.html?test=business-economics02&type=vocabulary', name: 'Business & Economics: Advanced', icon: '📈' },
+      { file: 'test.html?test=medicine-healthcare02&type=vocabulary', name: 'Medicine: Cutting Edge', icon: '🏥' },
+      { file: 'test.html?test=education-learning02&type=vocabulary', name: 'Education: Modern Trends', icon: '📚' },
+      { file: 'test.html?test=environment-climate02&type=vocabulary', name: 'Environment: Advanced', icon: '🌍' },
+      { file: 'test.html?test=science-research02&type=vocabulary', name: 'Science: Cutting Edge', icon: '🔬' },
+      { file: 'test.html?test=politics-government02&type=vocabulary', name: 'Politics: Advanced', icon: '🏛️' },
+      { file: 'test.html?test=travel-holiday02&type=vocabulary', name: 'Travel: Advanced', icon: '✈️' },
+      { file: 'test.html?test=food-nutrition02&type=vocabulary', name: 'Food & Health: Advanced', icon: '🥗' },
+      { file: 'test.html?test=psychology-mind02&type=vocabulary', name: 'Psychology: Advanced', icon: '🧠' },
+      { file: 'test.html?test=technology-digital02&type=vocabulary', name: 'Digital Technology: Advanced', icon: '💻' },
+      { file: 'test.html?test=sports-competition02&type=vocabulary', name: 'Sports: Advanced', icon: '🏆' },
+      { file: 'test.html?test=health-body02&type=vocabulary', name: 'Health & Fitness: Advanced', icon: '💪' },
+      { file: 'test.html?test=work-career02&type=vocabulary', name: 'Career Development: Advanced', icon: '💼' },
+      { file: 'test.html?test=media-advertising02&type=vocabulary', name: 'Media & PR: Advanced', icon: '📢' },
+      { file: 'test.html?test=infinitive-gerund01&type=vocabulary', name: 'Infinitive & Gerund', icon: '🔤' },
+      { file: 'test.html?test=letter-email-phrases01&type=vocabulary', name: 'Letter & Email Phrases', icon: '✉️' },
+      { file: 'test.html?test=short-questions01&type=vocabulary', name: 'Short Questions: Conversational', icon: '❓' },
+      { file: 'test.html?test=small-talk01&type=vocabulary', name: 'Small Talk Collocations', icon: '💬' },
+      { file: 'test.html?test=sample01&type=vocabulary', name: 'Sample Test', icon: '📋' }
+    ];
+    var READING_ARTICLES = [
+      { file: 'Articles.html?article=01', name: 'Article 01: Green Packaging (22 words)', icon: '📰' },
+      { file: 'Articles.html?article=02', name: 'Article 02: Too Much Traffic (25 words)', icon: '📰' },
+      { file: 'Articles.html?article=03', name: 'Article 03: Bullying (22 words)', icon: '📰' },
+      { file: 'Articles.html?article=04', name: 'Article 04: Growing Old (24 words)', icon: '📰' },
+      { file: 'Articles.html?article=05', name: 'Article 05: Parental Aspirations (18 words)', icon: '📰' },
+      { file: 'Articles.html?article=06', name: 'Article 06: Discrimination against Disability (22 words)', icon: '📰' },
+      { file: 'Articles.html?article=07', name: 'Article 07: Football Hooligans (21 words)', icon: '📰' },
+      { file: 'Articles.html?article=08', name: 'Article 08: Travel Troubles (23 words)', icon: '📰' },
+      { file: 'Articles.html?article=09', name: 'Article 09: New Research on Computer Games (18 words)', icon: '📰' },
+      { file: 'Articles.html?article=10', name: 'Article 10: Terrorism (25 words)', icon: '📰' },
+      { file: 'Articles.html?article=11', name: 'Article 11: Healthy Eating (22 words)', icon: '📰' },
+      { file: 'Articles.html?article=12', name: 'Article 12: Food Scares (20 words)', icon: '📰' },
+      { file: 'Articles.html?article=13', name: 'Article 13: The Dangers of Passive Smoking (18 words)', icon: '📰' },
+      { file: 'Articles.html?article=14', name: 'Article 14: A Donor Shortage (21 words)', icon: '📰' },
+      { file: 'Articles.html?article=15', name: 'Article 15: The Benefits of Chocolate (23 words)', icon: '📰' },
+      { file: 'Articles.html?article=16', name: 'Article 16: Climate Change (24 words)', icon: '📰' },
+      { file: 'Articles.html?article=17', name: 'Article 17: Endangered Species (22 words)', icon: '📰' },
+      { file: 'Articles.html?article=18', name: 'Article 18: Modern Celebrities (22 words)', icon: '📰' },
+      { file: 'Articles.html?article=19', name: 'Article 19: The Right to Die (19 words)', icon: '📰' },
+      { file: 'Articles.html?article=20', name: 'Article 20: All Kinds of Rage (24 words)', icon: '📰' },
+      { file: 'Articles.html?article=21', name: 'Article 21: Ageing Populations (22 words)', icon: '📰' },
+      { file: 'Articles.html?article=22', name: 'Article 22: Gender Discrimination (20 words)', icon: '📰' },
+      { file: 'Articles.html?article=23', name: 'Article 23: Taking Time Out (23 words)', icon: '📰' },
+      { file: 'Articles.html?article=24', name: 'Article 24: Gambling Figures Escalate (24 words)', icon: '📰' },
+      { file: 'Articles.html?article=25', name: 'Article 25: Advances in Detection (23 words)', icon: '📰' },
+      { file: 'Articles.html?article=26', name: 'Article 26: Computer Crime (24 words)', icon: '📰' },
+      { file: 'Articles.html?article=27', name: 'Article 27: Eating Disorders (24 words)', icon: '📰' },
+      { file: 'Articles.html?article=28', name: 'Article 28: Stress at Work (23 words)', icon: '📰' },
+      { file: 'Articles.html?article=29', name: 'Article 29: A Sudden Decision (16 words)', icon: '📰' },
+      { file: 'Articles.html?article=30', name: 'Article 30: Blood Transfusion Fears (25 words)', icon: '📰' },
+      { file: 'Articles.html?article=31', name: 'Article 31: The Mystery of Asthma (21 words)', icon: '📰' },
+      { file: 'Articles.html?article=32', name: 'Article 32: Bad News (22 words)', icon: '📰' },
+      { file: 'Articles.html?article=33', name: 'Article 33: Surprising News (21 words)', icon: '📰' },
+      { file: 'Articles.html?article=34', name: 'Article 34: Coping with Misery (24 words)', icon: '📰' },
+      { file: 'Articles.html?article=35', name: 'Article 35: Time to Study (22 words)', icon: '📰' },
+      { file: 'Articles.html?article=36', name: 'Article 36: Job Losses (28 words)', icon: '📰' },
+      { file: 'Articles.html?article=37', name: 'Article 37: Football Defeat (25 words)', icon: '📰' },
+      { file: 'Articles.html?article=38', name: 'Article 38: A Disappointment (28 words)', icon: '📰' },
+      { file: 'Articles.html?article=39', name: 'Article 39: A Letter of Apology (41 words)', icon: '📰' },
+      { file: 'Articles.html?article=40', name: 'Article 40: A Lucky Escape (33 words)', icon: '📰' },
+      { file: 'Articles.html?article=41', name: 'Article 41: A Day of Misfortunes (39 words)', icon: '📰' },
+      { file: 'Articles.html?article=42', name: 'Article 42: Goodbye and Hello (35 words)', icon: '📰' },
+      { file: 'Articles.html?article=43', name: 'Article 43: Bridge Delay (48 words)', icon: '📰' },
+      { file: 'Articles.html?article=44', name: 'Article 44: A Birthday Party (41 words)', icon: '📰' },
+      { file: 'Articles.html?article=45', name: 'Article 45: Reluctant Attendance (55 words)', icon: '📰' },
+      { file: 'Articles.html?article=46', name: 'Article 46: Facing Angry Parents (51 words)', icon: '📰' },
+      { file: 'Articles.html?article=47', name: 'Article 47: A Sudden Decision (51 words)', icon: '📰' },
+      { file: 'Articles.html?article=48', name: 'Article 48: More Break-ins (58 words)', icon: '📰' },
+      { file: 'Articles.html?article=49', name: 'Article 49: Obituary (66 words)', icon: '📰' },
+      { file: 'Articles.html?article=50', name: 'Article 50: Going on a Diet (58 words)', icon: '📰' },
+      { file: 'Articles.html?article=51', name: 'Article 51: A Change of Plan (50 words)', icon: '📰' },
+      { file: 'Articles.html?article=52', name: 'Article 52: A Grim Discovery (18 words)', icon: '📰' },
+      { file: 'Articles.html?article=53', name: 'Article 53: A Sales Report (20 words)', icon: '📰' },
+      { file: 'Articles.html?article=54', name: 'Article 54: Problems at Work (19 words)', icon: '📰' },
+      { file: 'Articles.html?article=55', name: 'Article 55: Health Scares (19 words)', icon: '📰' },
+      { file: 'Articles.html?article=56', name: 'Article 56: Young Children Value the Lives of Animals More Than Adults Do (20 words)', icon: '📰' },
+      { file: 'Articles.html?article=57', name: 'Article 57: Climate Strikes Grow Up (16 words)', icon: '📰' },
+      { file: 'Articles.html?article=58', name: 'Article 58: Burning Issue (18 words)', icon: '📰' },
+      { file: 'Articles.html?article=59', name: 'Article 59: No Planet B (18 words)', icon: '📰' },
+      { file: 'Articles.html?article=60', name: 'Article 60: Ancestral Voices (18 words)', icon: '📰' },
+      { file: 'Articles.html?article=61', name: 'Article 61: Who Wants a Predictable Life? (18 words)', icon: '📰' },
+      { file: 'Articles.html?article=62', name: 'Article 62: Shift in the Gulf Stream (19 words)', icon: '📰' },
+      { file: 'Articles.html?article=63', name: "Article 63: Why Yuri Gagarin Wasn't the First in Space (26 words)", icon: '📰' },
+      { file: 'Articles.html?article=64', name: 'Article 64: The Real Reasons Birth Rates Are Declining Worldwide (29 words)', icon: '📰' },
+      { file: 'Articles.html?article=65', name: 'Article 65: Why Falling Birth Rates Will Be a Bigger Problem Than Overpopulation (21 words)', icon: '📰' },
+      { file: 'Articles.html?article=66', name: 'Article 66: How Worried Should You Be About Microplastics? (34 words)', icon: '📰' },
+      { file: 'Articles.html?article=67', name: 'Article 67: Can Magnesium Supplements Improve Sleep, Energy and Concentration? (30 words)', icon: '📰' },
+      { file: 'Articles.html?article=68', name: 'Article 68: People Who Eat a Lot of Fibre Spend More Time in Deep Sleep (20 words)', icon: '📰' },
+      { file: 'Articles.html?article=69', name: 'Article 69: Earth Is Now Heating Up Twice as Fast as in Previous Decades (26 words)', icon: '📰' },
+      { file: 'Articles.html?article=70', name: 'Article 70: Sea Levels Around the World Are Much Higher Than We Thought (27 words)', icon: '📰' },
+      { file: 'Articles.html?article=71', name: 'Article 71: Claude AI: Why are there so many internet outages? (919 words)', icon: '📰' },
+      { file: 'Articles.html?article=72', name: "Article 72: The internet feels super lonely right now. Here's why (850 words)", icon: '📰' },
+      { file: 'Articles.html?article=73', name: 'Article 73: Atmospheric pollution caused by space junk could be a huge problem (480 words)', icon: '📰' },
+      { file: 'Articles.html?article=74', name: "Article 74: It's your perception of sleep that's making you feel tired all day (1449 words)", icon: '📰' },
+      { file: 'Articles.html?article=75', name: 'Article 75: Artificial Intelligence and the Future of Work (873 words)', icon: '📰' },
+      { file: 'Articles.html?article=76', name: 'Article 76: The Rise of Remote Work (863 words)', icon: '📰' },
+      { file: 'Articles.html?article=77', name: 'Article 77: Water Scarcity: A Growing Global Crisis (905 words)', icon: '📰' },
+      { file: 'Articles.html?article=78', name: 'Article 78: Mental Health Among Young People (927 words)', icon: '📰' },
+      { file: 'Articles.html?article=79', name: 'Article 79: Social Media and the Threat to Democracy (1079 words)', icon: '📰' },
+      { file: 'Articles.html?article=80', name: 'Article 80: Antibiotic Resistance: A Silent Threat (1008 words)', icon: '📰' },
+      { file: 'Articles.html?article=81', name: 'Article 81: The Renewable Energy Revolution (912 words)', icon: '📰' },
+      { file: 'Articles.html?article=82', name: 'Article 82: The Ethics of Genetic Engineering (874 words)', icon: '📰' },
+      { file: 'Articles.html?article=83', name: 'Article 83: Urbanization and the Rise of Megacities (864 words)', icon: '📰' },
+      { file: 'Articles.html?article=84', name: 'Article 84: Fast Fashion and Its Environmental Cost (784 words)', icon: '📰' },
+      { file: 'Articles.html?article=85', name: 'Article 85: Digital Privacy and Surveillance in the Modern Age (1138 words)', icon: '📰' },
+      { file: 'Articles.html?article=86', name: 'Article 86: The Future of Education: Technology in the Classroom (931 words)', icon: '📰' },
+      { file: 'Articles.html?article=87', name: 'Article 87: Ocean Pollution Beyond Plastics (839 words)', icon: '📰' },
+      { file: 'Articles.html?article=88', name: 'Article 88: Food Waste and Global Hunger (783 words)', icon: '📰' },
+      { file: 'Articles.html?article=89', name: 'Article 89: The Loneliness Epidemic in Modern Societies (909 words)', icon: '📰' },
+      { file: 'Articles.html?article=90', name: 'Article 90: Electric Vehicles and the Infrastructure Challenge (994 words)', icon: '📰' },
+      { file: 'Articles.html?article=91', name: 'Article 91: Cultural Heritage at Risk: Preserving the Past (910 words)', icon: '📰' },
+      { file: 'Articles.html?article=92', name: 'Article 92: The Gig Economy: Freedom or Exploitation? (974 words)', icon: '📰' },
+      { file: 'Articles.html?article=93', name: 'Article 93: Space Tourism: The Next Frontier (803 words)', icon: '📰' },
+      { file: 'Articles.html?article=94', name: 'Article 94: Deforestation and Biodiversity Loss (873 words)', icon: '📰' },
+      { file: 'Articles.html?article=95', name: 'Article 95: The Psychology of Social Media Addiction (902 words)', icon: '📰' },
+      { file: 'Articles.html?article=96', name: 'Article 96: Sustainable Agriculture and Food Security (898 words)', icon: '📰' },
+      { file: 'Articles.html?article=97', name: 'Article 97: The Rise of Cryptocurrency and Digital Finance (808 words)', icon: '📰' },
+      { file: 'Articles.html?article=98', name: 'Article 98: Climate Migration and Environmental Refugees (992 words)', icon: '📰' },
+      { file: 'Articles.html?article=99', name: 'Article 99: The Ethics of Animal Testing in Scientific Research (988 words)', icon: '📰' },
+      { file: 'Articles.html?article=100', name: 'Article 100: Artificial Intelligence in Creative Arts (926 words)', icon: '📰' },
+      { file: 'Articles.html?article=101', name: 'Article 101: The Science of Sleep and Modern Insomnia (901 words)', icon: '📰' },
+      { file: 'Articles.html?article=102', name: 'Article 102: The Global Organ Trade and Ethical Dilemmas (1031 words)', icon: '📰' },
+      { file: 'Articles.html?article=103', name: 'Article 103: The Dark Side of Fast Tourism (958 words)', icon: '📰' },
+      { file: 'Articles.html?article=104', name: 'Article 104: Nuclear Energy: Salvation or Catastrophe? (974 words)', icon: '📰' },
+      { file: 'Articles.html?article=105', name: 'Article 105: The Decline of Public Trust in Institutions (1032 words)', icon: '📰' },
+      { file: 'Articles.html?article=106', name: 'Article 106: Microplastics: The Invisible Threat (812 words)', icon: '📰' },
+      { file: 'Articles.html?article=107', name: 'Article 107: Universal Basic Income: Utopia or Reality? (1022 words)', icon: '📰' },
+      { file: 'Articles.html?article=108', name: 'Article 108: The Hidden Cost of Free Social Media (1010 words)', icon: '📰' },
+      { file: 'Articles.html?article=109', name: 'Article 109: The Rise of Deepfakes and Misinformation (851 words)', icon: '📰' },
+      { file: 'Articles.html?article=110', name: 'Article 110: The Future of Work: Automation and Human Purpose (996 words)', icon: '📰' },
+      { file: 'Articles.html?article=111', name: 'Article 111: The Collapse of Local Journalism (766 words)', icon: '📰' },
+      { file: 'Articles.html?article=112', name: 'Article 112: Child Labour in Global Supply Chains (773 words)', icon: '📰' },
+      { file: 'Articles.html?article=113', name: 'Article 113: The Psychology of Conspiracy Theories (1187 words)', icon: '📰' },
+      { file: 'Articles.html?article=114', name: 'Article 114: Rewilding: Restoring Nature on a Grand Scale (867 words)', icon: '📰' },
+      { file: 'Articles.html?article=115', name: 'Article 115: The Ethics of Surveillance Capitalism (869 words)', icon: '📰' },
+      { file: 'Articles.html?article=116', name: 'Article 116: Pandemics and the Lessons We Never Learn (661 words)', icon: '📰' },
+      { file: 'Articles.html?article=117', name: 'Article 117: The Digital Divide: Who Gets Left Behind? (828 words)', icon: '📰' },
+      { file: 'Articles.html?article=118', name: 'Article 118: Plastic Surgery and the Culture of Perfection (1130 words)', icon: '📰' },
+      { file: 'Articles.html?article=119', name: 'Article 119: The Race to Mine the Deep Sea (832 words)', icon: '📰' },
+      { file: 'Articles.html?article=120', name: 'Article 120: Longevity Science: Can We Cheat Death? (988 words)', icon: '📰' },
+      { file: 'Articles.html?article=121', name: 'Article 121: The Hidden World of Human Trafficking (933 words)', icon: '📰' },
+      { file: 'Articles.html?article=122', name: 'Article 122: Space Tourism: Playground for the Rich? (872 words)', icon: '📰' },
+      { file: 'Articles.html?article=123', name: 'Article 123: The Crisis of Affordable Housing (787 words)', icon: '📰' },
+      { file: 'Articles.html?article=124', name: 'Article 124: Biomimicry: Nature as the Ultimate Engineer (850 words)', icon: '📰' },
+      { file: 'Articles.html?article=125', name: 'Article 125: The Psychological Impact of Social Isolation (848 words)', icon: '📰' },
+      { file: 'Articles.html?article=126', name: 'Article 126: Nuclear Energy: Saviour or Threat? (933 words)', icon: '📰' },
+      { file: 'Articles.html?article=127', name: 'Article 127: The Ethics of Gene Editing in Humans (873 words)', icon: '📰' },
+      { file: 'Articles.html?article=128', name: 'Article 128: Cryptocurrency and the Future of Money (932 words)', icon: '📰' },
+      { file: 'Articles.html?article=129', name: 'Article 129: The Rise of Authoritarianism in the Modern World (912 words)', icon: '📰' },
+      { file: 'Articles.html?article=130', name: 'Article 130: Veganism: A Moral Imperative or a Lifestyle Trend? (1226 words)', icon: '📰' },
+      { file: 'Articles.html?article=131', name: 'Article 131: The Hidden Cost of Returns in Online Shopping (844 words)', icon: '📰' },
+      { file: 'Articles.html?article=132', name: 'Article 132: Blood Diamonds and Conflict Minerals (829 words)', icon: '📰' },
+      { file: 'Articles.html?article=133', name: 'Article 133: The Rise of Telemedicine and Virtual Healthcare (871 words)', icon: '📰' },
+      { file: 'Articles.html?article=134', name: 'Article 134: Urban Farming: Growing Food in Concrete Jungles (797 words)', icon: '📰' },
+      { file: 'Articles.html?article=135', name: 'Article 135: The Opioid Crisis: Pain, Profit, and Addiction (770 words)', icon: '📰' },
+      { file: 'Articles.html?article=136', name: 'Article 136: Autonomous Weapons and the Future of Warfare (866 words)', icon: '📰' },
+      { file: 'Articles.html?article=137', name: 'Article 137: The Psychology of Crowds and Mob Mentality (934 words)', icon: '📰' },
+      { file: 'Articles.html?article=138', name: 'Article 138: Ocean Acidification: The Other CO2 Problem (854 words)', icon: '📰' },
+      { file: 'Articles.html?article=139', name: 'Article 139: The Ethics of Wealth Inequality (788 words)', icon: '📰' },
+      { file: 'Articles.html?article=140', name: 'Article 140: Cultural Appropriation vs Cultural Exchange (949 words)', icon: '📰' },
+      { file: 'Articles.html?article=141', name: 'Article 141: The Dark Side of the Pharmaceutical Industry (819 words)', icon: '📰' },
+      { file: 'Articles.html?article=142', name: 'Article 142: Space Debris: The Growing Threat Above Us (855 words)', icon: '📰' },
+      { file: 'Articles.html?article=143', name: 'Article 143: The Psychology of Procrastination (839 words)', icon: '📰' },
+      { file: 'Articles.html?article=144', name: 'Article 144: The Hidden World of Deep-Sea Mining (935 words)', icon: '📰' },
+      { file: 'Articles.html?article=145', name: 'Article 145: The Decline of Insect Populations and Its Consequences (830 words)', icon: '📰' },
+      { file: 'Articles.html?article=146', name: 'Article 146: Digital Nomads and the Future of Remote Work (1023 words)', icon: '📰' },
+      { file: 'Articles.html?article=147', name: 'Article 147: Language Extinction and the Loss of Cultural Identity (990 words)', icon: '📰' },
+      { file: 'Articles.html?article=148', name: 'Article 148: Microplastics: The Invisible Pollution Crisis (938 words)', icon: '📰' },
+      { file: 'Articles.html?article=149', name: 'Article 149: The Commercialisation of Outer Space (863 words)', icon: '📰' },
+      { file: 'Articles.html?article=150', name: 'Article 150: Food Deserts and Nutritional Inequality (835 words)', icon: '📰' },
+      { file: 'Articles.html?article=151', name: 'Article 151: The Forgotten Crisis of Antibiotic Resistance (723 words)', icon: '📰' },
+      { file: 'Articles.html?article=152', name: 'Article 152: Sand: The Most Contested Resource on Earth (795 words)', icon: '📰' },
+      { file: 'Articles.html?article=153', name: 'Article 153: The Hidden Costs of Cheap Clothing (1007 words)', icon: '📰' },
+      { file: 'Articles.html?article=154', name: 'Article 154: Cyberbullying and Its Impact on Mental Health (945 words)', icon: '📰' },
+      { file: 'Articles.html?article=155', name: 'Article 155: The Business of Prisons and Mass Incarceration (823 words)', icon: '📰' },
+      { file: 'Articles.html?article=156', name: 'Article 156: Vertical Cities: Building Upwards to Save Space (803 words)', icon: '📰' },
+      { file: 'Articles.html?article=157', name: 'Article 157: Noise Pollution and Its Hidden Health Effects (889 words)', icon: '📰' },
+      { file: 'Articles.html?article=158', name: 'Article 158: E-Waste: The Toxic Legacy of Our Digital Lives (668 words)', icon: '📰' },
+      { file: 'Articles.html?article=159', name: 'Article 159: The Dark Web: Crime, Commerce, and Anonymity (843 words)', icon: '📰' },
+      { file: 'Articles.html?article=160', name: 'Article 160: Cobalt Mining and the Human Cost of Batteries (890 words)', icon: '📰' },
+      { file: 'Articles.html?article=161', name: "Article 161: The Gig Economy and the Erosion of Workers' Rights (938 words)", icon: '📰' },
+      { file: 'Articles.html?article=162', name: 'Article 162: Trophy Hunting and the Debate over Conservation (780 words)', icon: '📰' },
+      { file: 'Articles.html?article=163', name: 'Article 163: The Controversial World of Bullfighting and Tradition (829 words)', icon: '📰' },
+      { file: 'Articles.html?article=164', name: 'Article 164: Urban Heat Islands and Climate-Resilient Cities (1067 words)', icon: '📰' },
+      { file: 'Articles.html?article=165', name: 'Article 165: Biometric Surveillance and the End of Anonymity (905 words)', icon: '📰' },
+      { file: 'Articles.html?article=166', name: 'Article 166: Vanishing Languages and the Fight against Linguistic Extinction (1003 words)', icon: '📰' },
+      { file: 'Articles.html?article=167', name: 'Article 167: The Hidden Economy of Organ Trafficking (849 words)', icon: '📰' },
+      { file: 'Articles.html?article=168', name: 'Article 168: Plastic Surgery and the Pressure of Beauty Standards (900 words)', icon: '📰' },
+      { file: 'Articles.html?article=169', name: 'Article 169: The Rise of Autonomous Weapons and Killer Robots (1001 words)', icon: '📰' },
+      { file: 'Articles.html?article=170', name: 'Article 170: Deforestation in the Amazon: Consequences for the Planet (805 words)', icon: '📰' },
+      { file: 'Articles.html?article=171', name: 'Article 171: The Opioid Crisis and the Pharmaceutical Industry (893 words)', icon: '📰' },
+      { file: 'Articles.html?article=172', name: 'Article 172: The Hidden World of Underground Economies and Shadow Banking (926 words)', icon: '📰' },
+      { file: 'Articles.html?article=173', name: 'Article 173: The Psychology of Hoarding and Material Attachment (928 words)', icon: '📰' },
+      { file: 'Articles.html?article=174', name: 'Article 174: Microplastics in the Food Chain and Their Health Implications (947 words)', icon: '📰' },
+      { file: 'Articles.html?article=175', name: 'Article 175: The Decline of Coral Reefs and Ocean Acidification (834 words)', icon: '📰' },
+      { file: 'Articles.html?article=176', name: 'Article 176: Forced Marriage and the Struggle for Individual Rights (1267 words)', icon: '📰' },
+      { file: 'Articles.html?article=177', name: 'Article 177: The Cultural Impact of K-Pop and the Korean Wave (814 words)', icon: '📰' },
+      { file: 'Articles.html?article=178', name: 'Article 178: Ransomware Attacks and the Vulnerability of Critical Infrastructure (804 words)', icon: '📰' },
+      { file: 'Articles.html?article=179', name: 'Article 179: The Paradox of Choice in Consumer Culture (911 words)', icon: '📰' },
+      { file: 'Articles.html?article=180', name: 'Article 180: Land Grabbing and the Displacement of Indigenous Communities (913 words)', icon: '📰' },
+      { file: 'Articles.html?article=181', name: 'Article 181: The Exploitation of Migrant Workers in the Gulf States (867 words)', icon: '📰' },
+      { file: 'Articles.html?article=182', name: 'Article 182: Deepfake Technology and the Erosion of Trust in Media (1141 words)', icon: '📰' },
+      { file: 'Articles.html?article=183', name: 'Article 183: The Global Shortage of Freshwater and Looming Water Wars (886 words)', icon: '📰' },
+      { file: 'Articles.html?article=184', name: 'Article 184: The Psychological Toll of Social Media on Adolescents (956 words)', icon: '📰' },
+      { file: 'Articles.html?article=185', name: 'Article 185: The Dark Side of Tourism and Its Impact on Local Communities (1020 words)', icon: '📰' },
+      { file: 'Articles.html?article=186', name: 'Article 186: The Hidden Environmental Cost of Streaming and Digital Entertainment (1020 words)', icon: '📰' },
+      { file: 'Articles.html?article=187', name: 'Article 187: Sweatshops and the True Cost of Cheap Clothing (846 words)', icon: '📰' },
+      { file: 'Articles.html?article=188', name: 'Article 188: The Collapse of Bee Populations and the Future of Agriculture (811 words)', icon: '📰' },
+      { file: 'Articles.html?article=189', name: 'Article 189: Cryptocurrency Scams and the Unregulated Digital Frontier (918 words)', icon: '📰' },
+      { file: 'Articles.html?article=190', name: 'Article 190: The Forgotten Crisis of Soil Degradation and Desertification (922 words)', icon: '📰' },
+      { file: 'Articles.html?article=191', name: 'Article 191: The Weaponisation of Misinformation in Modern Elections (929 words)', icon: '📰' },
+      { file: 'Articles.html?article=192', name: 'Article 192: Child Labour in the Cobalt Mining Industry (1046 words)', icon: '📰' },
+      { file: 'Articles.html?article=193', name: 'Article 193: The Decline of Public Libraries and the Knowledge Gap (784 words)', icon: '📰' },
+      { file: 'Articles.html?article=194', name: "Article 194: Microfinance and Its Broken Promise to the World's Poorest (1025 words)", icon: '📰' },
+      { file: 'Articles.html?article=195', name: 'Article 195: Ocean Dead Zones and the Collapse of Marine Biodiversity (987 words)', icon: '📰' },
+      { file: 'Articles.html?article=196', name: 'Article 196: Digital Nomads and the Transformation of Local Economies (911 words)', icon: '📰' },
+      { file: 'Articles.html?article=197', name: 'Article 197: The Ethics of Zoos and Animal Captivity in the 21st Century (957 words)', icon: '📰' },
+      { file: 'Articles.html?article=198', name: 'Article 198: How Ultra-Processed Foods Are Reshaping Global Health (939 words)', icon: '📰' },
+      { file: 'Articles.html?article=199', name: 'Article 199: The Human Cost of Cobalt-Free Battery Research (960 words)', icon: '📰' },
+      { file: 'Articles.html?article=200', name: 'Article 200: Language Death and the Disappearance of Indigenous Cultures (822 words)', icon: '📰' },
+      { file: 'Articles.html?article=201', name: 'Article 201: The Silent Crisis of Global Groundwater Depletion (854 words)', icon: '📰' },
+      { file: 'Articles.html?article=202', name: 'Article 202: How Algorithmic Bias Perpetuates Social Inequality (926 words)', icon: '📰' },
+      { file: 'Articles.html?article=203', name: 'Article 203: The Resurgence of Nuclear Energy in the Climate Debate (921 words)', icon: '📰' },
+      { file: 'Articles.html?article=204', name: 'Article 204: Street Art and Graffiti as Tools of Political Protest (738 words)', icon: '📰' },
+      { file: 'Articles.html?article=205', name: 'Article 205: The Psychological Effects of Long-Duration Space Travel (920 words)', icon: '📰' },
+      { file: 'Articles.html?article=206', name: 'Article 206: Why Global Supply Chains Are More Fragile Than We Think (790 words)', icon: '📰' },
+      { file: 'Articles.html?article=207', name: 'Article 207: The Controversy Surrounding Genetic Engineering in Agriculture (1044 words)', icon: '📰' },
+      { file: 'Articles.html?article=208', name: 'Article 208: How Megacities Are Struggling to Manage Urban Waste (995 words)', icon: '📰' },
+      { file: 'Articles.html?article=209', name: 'Article 209: The Rise of Citizen Science and Its Impact on Research (1000 words)', icon: '📰' },
+      { file: 'Articles.html?article=210', name: 'Article 210: Cultural Appropriation Versus Cultural Exchange in a Globalised World (1022 words)', icon: '📰' },
+      { file: 'Articles.html?article=211', name: 'Article 211: The Collapse of Insect Populations and Its Threat to Food Security (946 words)', icon: '📰' },
+      { file: 'Articles.html?article=212', name: 'Article 212: How Social Media Influencers Are Reshaping Consumer Behaviour (1032 words)', icon: '📰' },
+      { file: 'Articles.html?article=213', name: 'Article 213: The Growing Problem of Space Debris and Orbital Pollution (899 words)', icon: '📰' },
+      { file: 'Articles.html?article=214', name: 'Article 214: Why Multilingualism Should Be Encouraged in Education Systems (892 words)', icon: '📰' },
+      { file: 'Articles.html?article=215', name: 'Article 215: The Ethics and Economics of Organ Transplant Tourism (1011 words)', icon: '📰' },
+      { file: 'Articles.html?article=216', name: 'Article 216: How Climate Migration Is Redrawing the World Map (799 words)', icon: '📰' },
+      { file: 'Articles.html?article=217', name: 'Article 217: The Dark Side of the Gig Economy and Workers Rights (836 words)', icon: '📰' },
+      { file: 'Articles.html?article=218', name: 'Article 218: Rewilding Europe and the Return of Apex Predators (808 words)', icon: '📰' },
+      { file: 'Articles.html?article=219', name: 'Article 219: The Global Race for Rare Earth Minerals and Geopolitical Tensions (906 words)', icon: '📰' },
+      { file: 'Articles.html?article=220', name: 'Article 220: How Artificial Light Pollution Is Disrupting Ecosystems (874 words)', icon: '📰' }
+    ];
+    var _LEARN_CATALOGS = {
+      grammar:    { items: GRAMMAR_TESTS,    icon: '📖', title: 'Grammar Tests',     desc: 'Choose a grammar topic to practice' },
+      vocabulary: { items: VOCAB_TESTS,      icon: '📚', title: 'Vocabulary Tests',  desc: 'Choose a vocabulary topic to test' },
+      articles:   { items: READING_ARTICLES, icon: '📰', title: 'Reading Articles',  desc: 'Tap an article to read and learn vocabulary' }
+    };
+    var _learnCurrentItems = [];
+    function _escLearn(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+        return ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[c];
+      });
+    }
+    function openLearningCategory(category) {
+      var cat = _LEARN_CATALOGS[category];
+      if (!cat) return;
+      _learnCurrentItems = cat.items || [];
+      document.getElementById('learningCategoryIcon').textContent = cat.icon;
+      document.getElementById('learningCategoryTitle').textContent = cat.title;
+      document.getElementById('learningCategoryDesc').textContent = cat.desc;
+      document.getElementById('learningCategoryCount').textContent = _learnCurrentItems.length;
+      var search = document.getElementById('learningCategorySearch');
+      if (search) search.value = '';
+      _renderLearningList(_learnCurrentItems);
+      document.getElementById('learningCategoryModal').style.display = 'flex';
+    }
+    function _renderLearningList(items) {
+      var list = document.getElementById('learningCategoryList');
+      if (!items.length) { list.innerHTML = '<div style="text-align:center;color:var(--muted);padding:24px;font-size:13px;">No items match your search.</div>'; return; }
+      list.innerHTML = items.map(function (item) {
+        // Absolute /path so /take/-style URLs don't break the click target.
+        var file = item.file.charAt(0) === '/' ? item.file : '/' + item.file;
+        return '<button type="button" data-file="' + _escLearn(file) + '"'
+             + ' style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1.5px solid var(--ring);border-radius:10px;background:var(--card);cursor:pointer;text-align:left;transition:border-color 120ms,background 120ms;font-size:13.5px;color:var(--ink);">'
+             +   '<span style="font-size:18px;flex-shrink:0;">' + _escLearn(item.icon || '📄') + '</span>'
+             +   '<span style="flex:1;font-weight:600;line-height:1.3;">' + _escLearn(item.name) + '</span>'
+             +   '<span style="color:var(--muted);font-size:13px;flex-shrink:0;">→</span>'
+             + '</button>';
+      }).join('');
+      // Wire item clicks
+      list.querySelectorAll('button[data-file]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var f = b.getAttribute('data-file');
+          if (f) window.location.href = f;
+        });
+        b.addEventListener('mouseenter', function () { b.style.borderColor = 'var(--indigo)'; b.style.background = 'var(--indigo-soft)'; });
+        b.addEventListener('mouseleave', function () { b.style.borderColor = 'var(--ring)';   b.style.background = 'var(--card)'; });
+      });
+    }
+    function _filterLearningList(query) {
+      var q = (query || '').toLowerCase().trim();
+      if (!q) { _renderLearningList(_learnCurrentItems); return; }
+      _renderLearningList(_learnCurrentItems.filter(function (item) {
+        return (item.name || '').toLowerCase().indexOf(q) !== -1;
+      }));
+    }
+    function closeLearningCategory(event) {
+      var m = document.getElementById('learningCategoryModal');
+      if (!m) return;
+      if (!event || event.target === m) m.style.display = 'none';
+    }
+    function showTestsSubmenu() {
+      document.getElementById('testsGrammarCount').textContent = GRAMMAR_TESTS.length + ' topics to drill';
+      document.getElementById('testsVocabCount').textContent   = VOCAB_TESTS.length + ' topics to test';
+      document.getElementById('testsSubmenuModal').style.display = 'flex';
+    }
+    function closeTestsSubmenu(event) {
+      var m = document.getElementById('testsSubmenuModal');
+      if (!m) return;
+      if (!event || event.target === m) m.style.display = 'none';
+    }
+    function _pickTestType(type) {
+      closeTestsSubmenu();
+      openLearningCategory(type);
+    }
+    window.openLearningCategory = openLearningCategory;
+    window.closeLearningCategory = closeLearningCategory;
+    window.showTestsSubmenu = showTestsSubmenu;
+    window.closeTestsSubmenu = closeTestsSubmenu;
+    window._pickTestType = _pickTestType;
+    window._filterLearningList = _filterLearningList;
+    // Wire tool cards
+    document.querySelectorAll('.tool-card[data-learn]').forEach(function (a) {
+      var key = a.getAttribute('data-learn');
+      if (key === 'flashcards') return; // direct href, no modal
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (key === 'tests') showTestsSubmenu();
+        else if (key === 'articles') openLearningCategory('articles');
+      });
+    });
+
     // Early-open the access modal as soon as the head-script's __msTakePending
     // is populated AND the show*AccessCodeModal handlers are defined. This
     // happens IMMEDIATELY after the script chain finishes parsing — no async
@@ -12530,6 +13100,66 @@
       </div>
       <button onclick="closeCambridgeModal()" type="button"
         style="margin-top:18px;padding:8px 24px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;">Cancel</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       Learning Tools picker — Phase 6-D
+       Articles / Grammar / Vocabulary catalog modal. Single
+       overlay; content swaps per category via openLearningCategory().
+       The Tests submenu chooses Grammar vs Vocabulary before
+       the picker opens.
+       ═══════════════════════════════════════════════════════ -->
+  <div id="testsSubmenuModal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:100005;align-items:center;justify-content:center;padding:20px;"
+    onclick="closeTestsSubmenu(event)">
+    <div
+      style="background:var(--card);border:2px solid var(--brand);border-radius:24px;padding:28px 24px 22px;max-width:420px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
+      onclick="event.stopPropagation()">
+      <div style="font-size:36px;margin-bottom:6px;">📝</div>
+      <h3 style="font-size:20px;color:var(--brand);margin-bottom:4px;font-weight:800;">Tests</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:18px;">Pick a test type</p>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <button onclick="_pickTestType('grammar')" type="button"
+          style="padding:14px 18px;border:2px solid var(--ring);border-radius:14px;font-size:14px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.15s;display:flex;align-items:center;gap:12px;background:var(--card);">
+          <span style="font-size:24px;flex-shrink:0;">📖</span>
+          <span style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;">
+            <span style="color:var(--ink);">Grammar</span>
+            <span id="testsGrammarCount" style="font-size:11.5px;font-weight:400;color:var(--muted);">topics to drill</span>
+          </span>
+        </button>
+        <button onclick="_pickTestType('vocabulary')" type="button"
+          style="padding:14px 18px;border:2px solid var(--ring);border-radius:14px;font-size:14px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.15s;display:flex;align-items:center;gap:12px;background:var(--card);">
+          <span style="font-size:24px;flex-shrink:0;">📚</span>
+          <span style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;">
+            <span style="color:var(--ink);">Vocabulary</span>
+            <span id="testsVocabCount" style="font-size:11.5px;font-weight:400;color:var(--muted);">topics to test</span>
+          </span>
+        </button>
+      </div>
+      <button onclick="closeTestsSubmenu()" type="button"
+        style="margin-top:18px;padding:8px 24px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;">Cancel</button>
+    </div>
+  </div>
+
+  <div id="learningCategoryModal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:100005;align-items:center;justify-content:center;padding:20px;"
+    onclick="closeLearningCategory(event)">
+    <div
+      style="background:var(--card);border:2px solid var(--brand);border-radius:24px;padding:24px 22px 18px;max-width:560px;width:100%;max-height:88vh;display:flex;flex-direction:column;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
+      onclick="event.stopPropagation()">
+      <h3 style="font-size:19px;color:var(--brand);margin-bottom:4px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px;">
+        <span id="learningCategoryIcon">📰</span>
+        <span id="learningCategoryTitle">Articles</span>
+        <span id="learningCategoryCount" style="background:var(--brand);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;min-width:28px;text-align:center;">0</span>
+      </h3>
+      <p id="learningCategoryDesc" style="font-size:13px;color:var(--muted);margin-bottom:14px;">Choose a topic</p>
+      <input type="search" id="learningCategorySearch" placeholder="🔍 Search…" autocomplete="off" spellcheck="false"
+        style="width:100%;padding:9px 14px;border:1.5px solid var(--ring);border-radius:10px;font-size:13.5px;background:var(--bg);color:var(--ink);outline:none;margin-bottom:12px;box-sizing:border-box;"
+        oninput="_filterLearningList(this.value)">
+      <div id="learningCategoryList" style="overflow-y:auto;flex:1;min-height:0;text-align:left;display:flex;flex-direction:column;gap:6px;padding:2px;"></div>
+      <button onclick="closeLearningCategory()" type="button"
+        style="margin-top:14px;padding:8px 24px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;align-self:center;">Close</button>
     </div>
   </div>
 
