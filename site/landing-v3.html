@@ -4297,6 +4297,95 @@
     </div>
   </div>
 
+  <!-- ═══════════════════════════════════════════════════════
+       Phase 3 step B — CEFR Writing launch modals.
+       Mode picker (Full Writing Mock vs Task Based Practice) +
+       Task picker (T1.1 / T1.2 / T2) + Access Code modal.
+       IELTS Writing modals (ieltsWritingModeModal + Task Picker)
+       land in Phase 4 alongside iwetPicker.
+       ═══════════════════════════════════════════════════════ -->
+  <div id="writingModeModal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:100005;align-items:center;justify-content:center;padding:20px;"
+    onclick="closeWritingModeModal()">
+    <div
+      style="background:var(--card);border:2px solid var(--brand);border-radius:24px;padding:32px 28px;max-width:480px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
+      onclick="event.stopPropagation()">
+      <div style="font-size:36px;margin-bottom:6px;">✍️</div>
+      <h3 style="font-size:20px;color:var(--brand);margin-bottom:4px;">Choose Your Mode</h3>
+      <p id="writingModeMockLabel" style="font-size:13px;color:var(--muted);margin-bottom:22px;">CEFR Writing Mock</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+        <button onclick="_writingModeFullMock()"
+          style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#0369a1 0%,#0284c7 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(3,105,161,0.3);">
+          <div style="font-size:28px;margin-bottom:6px;">📝</div>
+          Full Writing Mock
+          <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">All tasks • 60 min timer</div>
+        </button>
+        <button id="cefrWritingPracticeBtn" onclick="_writingModeTaskBased()"
+          style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(124,58,237,0.3);">
+          <div style="font-size:28px;margin-bottom:6px;">🎯</div>
+          Task Based Practice
+          <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">Pick one task • No time limit</div>
+        </button>
+      </div>
+      <button onclick="closeWritingModeModal()"
+        style="margin-top:18px;padding:8px 24px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;">Cancel</button>
+    </div>
+  </div>
+
+  <div id="writingTaskPickerModal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:100006;align-items:center;justify-content:center;padding:20px;"
+    onclick="closeWritingTaskPicker()">
+    <div
+      style="background:var(--card);border:2px solid #7c3aed;border-radius:24px;padding:32px 28px;max-width:380px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
+      onclick="event.stopPropagation()">
+      <div style="font-size:36px;margin-bottom:6px;">🎯</div>
+      <h3 style="font-size:20px;color:#7c3aed;margin-bottom:4px;">Select a Task</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:20px;">Choose which task you'd like to practice</p>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <button onclick="_pickWritingTask('t11')"
+          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#16a34a,#22c55e);color:white;font-size:14px;font-weight:800;flex-shrink:0;">1.1</span>
+          <div><div>Task 1.1</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">Informal letter • 50–70 words</div></div></button>
+        <button onclick="_pickWritingTask('t12')"
+          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#2563eb,#3b82f6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">1.2</span>
+          <div><div>Task 1.2</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">Formal letter • 120–150 words</div></div></button>
+        <button onclick="_pickWritingTask('t2')"
+          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">2</span>
+          <div><div>Task 2</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">Essay / Forum post • 180–200 words</div></div></button>
+      </div>
+      <button onclick="closeWritingTaskPicker()"
+        style="margin-top:18px;padding:8px 24px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;">Back</button>
+    </div>
+  </div>
+
+  <div id="writingAccessCodeModal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);z-index:100004;align-items:center;justify-content:center;padding:20px;"
+    onclick="closeWritingAccessCodeModal()">
+    <div
+      style="background:var(--card);border:2px solid var(--brand);border-radius:20px;padding:28px;max-width:380px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:slideUp 0.3s ease;"
+      onclick="event.stopPropagation()">
+      <div style="font-size:36px;margin-bottom:8px;">🔐</div>
+      <h3 style="font-size:20px;color:var(--brand);margin-bottom:4px;">Access Code Required</h3>
+      <p id="writingAccessMockLabel" style="font-size:13px;color:var(--muted);margin-bottom:18px;">Mock 01 requires an access code</p>
+      <input type="text" id="writingAccessCodeInput" placeholder="Enter your access code" autocomplete="off"
+        autocorrect="off" spellcheck="false" inputmode="numeric" pattern="[0-9]*"
+        style="width:100%;padding:12px 16px;border:2px solid var(--ring);border-radius:10px;font-size:15px;font-weight:600;box-sizing:border-box;background:var(--bg);color:var(--ink);letter-spacing:2px;transition:border-color 0.2s;"
+        onfocus="this.style.borderColor='var(--brand)';this.style.boxShadow='0 0 0 3px rgba(16,185,129,0.15)'"
+        onblur="this.style.borderColor='var(--ring)';this.style.boxShadow='none'"
+        oninput="this.value=this.value.replace(/\D/g,'')">
+      <div id="writingAccessCodeError"
+        style="font-size:13px;margin-top:10px;margin-bottom:14px;min-height:20px;font-weight:600;"></div>
+      <div style="display:flex;gap:10px;">
+        <button onclick="closeWritingAccessCodeModal()"
+          style="flex:1;padding:11px;background:var(--bg);color:var(--muted);border:2px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;">Cancel</button>
+        <button id="writingAccessCodeSubmitBtn" onclick="verifyWritingAccessCode()"
+          style="flex:2;padding:11px;background:linear-gradient(135deg,var(--brand) 0%,#059669 100%);color:white;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;">Verify &amp; Start</button>
+      </div>
+    </div>
+  </div>
+
   <!-- CEFR Writing fullscreen picker (cwet) — Phase 3 of engine migration.
        3 tasks per mock (T1.1 / T1.2 / T2). Uses cefrWritingMocks data
        built dynamically in the JS block below. -->
@@ -6041,6 +6130,281 @@
     window.cwetOpen         = cwetOpen;
     window.cwetClose        = cwetClose;
     window.cwetClearFilters = cwetClearFilters;
+
+    // ===== Writing launch flow — Phase 3 step B =====
+    // CEFR Writing only for now (mode + task + access-code modals + the
+    // handleWritingMockClick gate). IELTS Writing's modal handlers land
+    // in Phase 4 with iwetPicker.
+    window.landingWritingMockRequiresPromocode = window.landingWritingMockRequiresPromocode || function (_mockNumber) {
+      if (window.isSuperAccessUnlocked()) return false;
+      return true;
+    };
+    window.validateFullWritingAccess = window.validateFullWritingAccess || async function (inputValue, mockNumber, candidateName) {
+      try {
+        if (window.isSuperAccessUnlocked()) { const isVipAi = sessionStorage.getItem('vipPremiumAi') === 'true'; return { valid: true, premiumEntry: isVipAi }; }
+        if (window.isPremiumUnlocked && window.isPremiumUnlocked()) return { valid: true, isPremium: true, premiumEntry: false };
+        const cleanInput = inputValue.trim().replace(/[-\s]/g, '');
+        if (candidateName && window.validatePremiumPasscode) {
+          const premiumResult = window.validatePremiumPasscode(candidateName, cleanInput.toUpperCase());
+          if (premiumResult.valid) {
+            sessionStorage.setItem('premiumUnlocked', 'true');
+            sessionStorage.setItem('usedPasscode', cleanInput);
+            sessionStorage.setItem('premiumUserName', candidateName.trim());
+            return { valid: true, isPremium: true, premiumEntry: false };
+          }
+        }
+        if (cleanInput.length === 10 && /^\d{10}$/.test(cleanInput) && window.extractWritingPremiumOTP) {
+          const aiPasscode = window.extractWritingPremiumOTP(cleanInput, mockNumber);
+          if (aiPasscode) {
+            try {
+              const response = await fetch('https://admin0709.alwaysdata.net/verify', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ passcode: parseInt(aiPasscode, 10), center: ((window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream').replace(/_/g,'') })
+              });
+              if (response.ok) {
+                const data = await response.json();
+                if (data.access || data.valid) {
+                  sessionStorage.setItem('writingPremiumEntry', 'true');
+                  sessionStorage.setItem('writingIndividualCode', 'premium');
+                  sessionStorage.setItem('writingAiPasscode', aiPasscode);
+                  return { valid: true, premiumEntry: true };
+                }
+              }
+            } catch (_e) {}
+          }
+        }
+        if (cleanInput.length === 12 && /^\d{12}$/.test(cleanInput) && window.extractWritingRegularOTP) {
+          const otp = window.extractWritingRegularOTP(cleanInput, mockNumber);
+          if (otp) {
+            const rawOtp = otp.replace(/0+$/, '') || otp;
+            const response = await fetch('https://davirbek.alwaysdata.net/verify', {
+              method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ code: rawOtp, center: ((window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream').replace(/_/g,'') })
+            });
+            if (!response.ok) return { valid: false, error: 'Server error. Please try again.' };
+            const data = await response.json();
+            if (data.access || data.valid) {
+              sessionStorage.setItem('writingPremiumEntry', 'false');
+              sessionStorage.setItem('writingIndividualCode', 'regular');
+              return { valid: true, premiumEntry: false };
+            }
+            return { valid: false, error: 'Invalid or expired passcode.' };
+          }
+        }
+        if (/^\d{4,12}$/.test(cleanInput) && typeof window.verifyMockStreamCode === 'function') {
+          const msRes = await window.verifyMockStreamCode(cleanInput, { skill: 'writing', mockNumber: parseInt(mockNumber, 10) });
+          if (msRes && msRes.valid) {
+            sessionStorage.setItem('writingPremiumEntry', msRes.premiumEntry ? 'true' : 'false');
+            sessionStorage.setItem('writingIndividualCode', msRes.tier || 'regular');
+            return { valid: true, premiumEntry: !!msRes.premiumEntry };
+          }
+        }
+        return { valid: false, error: 'Invalid code. Please check your code or contact support.' };
+      } catch (error) {
+        console.error('[v3 writing] validation error:', error);
+        return { valid: false, error: 'Connection error. Please check your internet.' };
+      }
+    };
+
+    let _pendingWritingMock   = null;
+    let _pendingWritingLaunch = null;
+
+    function _extractWritingMockNumber(pageUrl) {
+      const np = pageUrl.match(/[?&]num=(\d+)/);
+      if (np) return np[1].padStart(2, '0');
+      const m = pageUrl.match(/mock-(\d+)/);
+      if (m) return m[1].padStart(2, '0');
+      const t = pageUrl.match(/(\d+)(?=&|$)/);
+      return t ? t[1].padStart(2, '0') : null;
+    }
+    function _isWritingMockTaken(pageUrl) {
+      try {
+        if (!window.PremiumGate) return false;
+        if (window.PremiumGate.isPremiumTier('writing') || window.PremiumGate.isAdmin()) return false;
+        var n = _extractWritingMockNumber(pageUrl);
+        if (!n) return false;
+        var examType = ((pageUrl || '').toLowerCase().indexOf('ielts') !== -1) ? 'ielts' : 'cefr';
+        return window.PremiumGate.hasTaken({ skill: 'writing', exam_type: examType, mock_number: parseInt(n, 10) });
+      } catch (_e) { return false; }
+    }
+    function _showWritingTakenAlert() {
+      var ov = document.createElement('div');
+      ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);z-index:100010;display:flex;align-items:center;justify-content:center';
+      ov.innerHTML = '<div style="background:#fff;border-radius:20px;padding:32px 26px;max-width:380px;width:90%;text-align:center;box-shadow:0 25px 50px rgba(0,0,0,.3);animation:slideUp .3s ease">'
+        + '<div style="width:64px;height:64px;background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:30px">✅</div>'
+        + '<h3 style="color:#1e293b;font-size:18px;margin:0 0 8px">🎯 Mock Completed!</h3>'
+        + '<p style="color:#64748b;font-size:13.5px;line-height:1.6;margin:0 0 14px">You’ve already used your free attempt on this mock.</p>'
+        + '<div style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);border-radius:12px;padding:12px 16px;margin:0 0 18px">'
+        + '<p style="color:#6d28d9;font-size:13px;font-weight:600;margin:0">💎 Upgrade to Premium for unlimited retakes & AI scoring</p></div>'
+        + '<button onclick="this.closest(\'div[style]\').parentElement.remove()" style="padding:11px 28px;background:linear-gradient(135deg,#0d9488,#0f766e);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer">Got it</button></div>';
+      document.body.appendChild(ov);
+      ov.addEventListener('click', function(e) { if (e.target === ov) ov.remove(); });
+    }
+
+    function handleWritingMockClick(pageUrl, category) {
+      sessionStorage.setItem('writingMockReturnCategory', category);
+      const mockNumber = _extractWritingMockNumber(pageUrl);
+      if (!mockNumber) { _launchWritingMock(pageUrl, category); return; }
+
+      if (window.isSuperAccessUnlocked()) {
+        const isVipAi = sessionStorage.getItem('vipPremiumAi') === 'true';
+        sessionStorage.setItem('writingPremiumEntry', isVipAi ? 'true' : 'false');
+        sessionStorage.removeItem('writingIndividualCode');
+        if (!isVipAi && _isWritingMockTaken(pageUrl)) { _showWritingTakenAlert(); return; }
+        sessionStorage.setItem('writingLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: isVipAi }));
+        sessionStorage.setItem('writingCodeValidated', 'true');
+        _launchWritingMock(pageUrl, category);
+        return;
+      }
+      if (window.isPremiumUnlocked && window.isPremiumUnlocked()) {
+        sessionStorage.setItem('writingLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: false }));
+        sessionStorage.setItem('writingCodeValidated', 'true');
+        _launchWritingMock(pageUrl, category);
+        return;
+      }
+      if (window._centerAccess) {
+        var _caLevel = window._centerAccess.globalAccess !== 'off' ? window._centerAccess.globalAccess : (window._centerAccess.skillAccess && window._centerAccess.skillAccess.writing) || 'off';
+        if (_caLevel !== 'off') {
+          var _caPrem = _caLevel === 'premium';
+          sessionStorage.setItem('writingPremiumEntry', _caPrem ? 'true' : 'false');
+          sessionStorage.removeItem('writingIndividualCode');
+          if (!_caPrem && _isWritingMockTaken(pageUrl)) { _showWritingTakenAlert(); return; }
+          sessionStorage.setItem('writingLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: _caPrem }));
+          sessionStorage.setItem('writingCodeValidated', 'true');
+          _launchWritingMock(pageUrl, category);
+          return;
+        }
+      }
+      if (!window.landingWritingMockRequiresPromocode(mockNumber)) {
+        sessionStorage.setItem('writingPremiumEntry', 'false');
+        sessionStorage.removeItem('writingIndividualCode');
+        if (_isWritingMockTaken(pageUrl)) { _showWritingTakenAlert(); return; }
+        sessionStorage.setItem('writingLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: false }));
+        sessionStorage.setItem('writingCodeValidated', 'true');
+        _launchWritingMock(pageUrl, category);
+        return;
+      }
+      _pendingWritingMock = { pageUrl, mockNumber, category };
+      showWritingAccessCodeModal();
+    }
+    window.handleWritingMockClick = handleWritingMockClick;
+
+    function showWritingAccessCodeModal() {
+      const modal = document.getElementById('writingAccessCodeModal');
+      const input = document.getElementById('writingAccessCodeInput');
+      const error = document.getElementById('writingAccessCodeError');
+      const label = document.getElementById('writingAccessMockLabel');
+      const btn   = document.getElementById('writingAccessCodeSubmitBtn');
+      if (!modal || !_pendingWritingMock) return;
+      const isIELTS = _pendingWritingMock.category === 'ielts-writing';
+      label.textContent = (isIELTS ? 'IELTS' : 'CEFR') + ' Writing Mock ' + _pendingWritingMock.mockNumber + ' requires an access code';
+      error.textContent = ''; error.style.color = '';
+      input.value = '';
+      btn.textContent = 'Verify & Start'; btn.disabled = false;
+      modal.style.display = 'flex';
+      setTimeout(() => input.focus(), 100);
+      input.onkeypress = function (e) { if (e.key === 'Enter') verifyWritingAccessCode(); };
+    }
+    function closeWritingAccessCodeModal() {
+      const modal = document.getElementById('writingAccessCodeModal');
+      if (modal) modal.style.display = 'none';
+      _pendingWritingMock = null;
+    }
+    async function verifyWritingAccessCode() {
+      if (!_pendingWritingMock) return;
+      const input = document.getElementById('writingAccessCodeInput');
+      const error = document.getElementById('writingAccessCodeError');
+      const btn   = document.getElementById('writingAccessCodeSubmitBtn');
+      const inputValue = input.value.trim();
+      if (!inputValue) { error.style.color = '#dc2626'; error.textContent = '❌ Please enter your access code'; return; }
+      btn.textContent = 'Validating...'; btn.disabled = true;
+      error.style.color = '#f59e0b'; error.textContent = '🔄 Validating access code...';
+      const candidateName = sessionStorage.getItem('CANDIDATE_FULL_NAME') || '';
+      const { mockNumber, pageUrl } = _pendingWritingMock;
+      try {
+        const result = await window.validateFullWritingAccess(inputValue, mockNumber, candidateName);
+        if (!result.valid) {
+          error.style.color = '#dc2626'; error.textContent = '❌ ' + result.error;
+          btn.textContent = 'Verify & Start'; btn.disabled = false;
+          return;
+        }
+        error.style.color = '#059669'; error.textContent = '✅ Access verified!';
+        sessionStorage.setItem('writingPremiumEntry', result.premiumEntry ? 'true' : 'false');
+        if (!result.premiumEntry && _isWritingMockTaken(_pendingWritingMock.pageUrl)) {
+          closeWritingAccessCodeModal(); _showWritingTakenAlert(); btn.disabled = false; btn.textContent = 'Verify & Start'; return;
+        }
+        sessionStorage.setItem('writingLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: result.premiumEntry || false }));
+        sessionStorage.setItem('writingCodeValidated', 'true');
+        try { window.dispatchEvent(new CustomEvent('mockStream:premiumUnlocked', { detail: { source: 'writing_access_code', skill: 'writing' } })); } catch (_e) {}
+        const _wResumeUrl = _pendingWritingMock.pageUrl;
+        const _wResumeCategory = _pendingWritingMock.category;
+        closeWritingAccessCodeModal();
+        setTimeout(() => _launchWritingMock(_wResumeUrl, _wResumeCategory), 300);
+      } catch (_err) {
+        error.style.color = '#dc2626'; error.textContent = '❌ Connection error. Please try again.';
+        btn.textContent = 'Verify & Start'; btn.disabled = false;
+      }
+    }
+    window.closeWritingAccessCodeModal = closeWritingAccessCodeModal;
+    window.verifyWritingAccessCode    = verifyWritingAccessCode;
+
+    function _launchWritingMock(pageUrl, category) {
+      if (category === 'cefr-writing') {
+        _pendingWritingLaunch = { pageUrl, category };
+        var label = document.getElementById('writingModeMockLabel');
+        var num = _extractWritingMockNumber(pageUrl);
+        if (label) label.textContent = 'CEFR Writing Mock ' + (num || '');
+        document.getElementById('writingModeModal').style.display = 'flex';
+      } else {
+        // IELTS writing's modal lands in Phase 4 — direct nav for now.
+        try { window.location.replace(pageUrl); } catch (_e) { window.location.href = pageUrl; }
+      }
+    }
+    function closeWritingModeModal() {
+      document.getElementById('writingModeModal').style.display = 'none';
+      // Cancel-on-mode cleanup mirrors closeSpeakingModeModal (rollback
+      // the /take/<slug> URL + return flag so a later refresh doesn't
+      // auto-reopen).
+      try {
+        sessionStorage.removeItem('writingMockReturnCategory');
+      } catch (_e) {}
+      try {
+        if (/^\/take\//i.test(window.location.pathname)) {
+          history.replaceState({}, document.title, '/landing-v3.html');
+        }
+      } catch (_e) {}
+    }
+    function _writingModeFullMock() {
+      if (!_pendingWritingLaunch) return;
+      const url = _pendingWritingLaunch.pageUrl;
+      _pendingWritingLaunch = null;
+      document.getElementById('writingModeModal').style.display = 'none';
+      try { window.location.replace(url); } catch (_e) { window.location.href = url; }
+    }
+    function _writingModeTaskBased() {
+      document.getElementById('writingModeModal').style.display = 'none';
+      document.getElementById('writingTaskPickerModal').style.display = 'flex';
+    }
+    function closeWritingTaskPicker() {
+      document.getElementById('writingTaskPickerModal').style.display = 'none';
+      if (_pendingWritingLaunch) {
+        document.getElementById('writingModeModal').style.display = 'flex';
+      }
+    }
+    function _pickWritingTask(taskId) {
+      if (!_pendingWritingLaunch) return;
+      document.getElementById('writingTaskPickerModal').style.display = 'none';
+      var url = _pendingWritingLaunch.pageUrl;
+      url += (url.includes('?') ? '&' : '?') + 'task=' + taskId;
+      _pendingWritingLaunch = null;
+      try { window.location.replace(url); } catch (_e) { window.location.href = url; }
+    }
+    window._launchWritingMock     = _launchWritingMock;
+    window.closeWritingModeModal  = closeWritingModeModal;
+    window._writingModeFullMock   = _writingModeFullMock;
+    window._writingModeTaskBased  = _writingModeTaskBased;
+    window.closeWritingTaskPicker = closeWritingTaskPicker;
+    window._pickWritingTask       = _pickWritingTask;
   </script>
 
   <!-- ═══════════════════════════════════════════════════════
