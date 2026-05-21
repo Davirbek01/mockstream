@@ -3492,8 +3492,18 @@
       background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%);
       overflow-y: auto;
       flex-direction: column;
+      /* Brief fade + slight upward slide on open so the inline picker
+         appearance feels like a real transition, not a teleport. Tap →
+         picker glides into view in ~220 ms. */
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity .22s ease, transform .22s ease;
     }
-    .ilet-overlay.ilet-open { display: flex; }
+    .ilet-overlay.ilet-open {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0);
+    }
     .ilet-header {
       position: sticky;
       top: 0;
@@ -3609,6 +3619,12 @@
       gap: 18px;
       padding: 18px 24px 40px;
       flex: 1;
+      /* Override v3's global `main { max-width: 1180px; margin: 0 auto; }` —
+         the cspet/ilet grid uses a <main> tag (verbatim from landing.html)
+         which gets caught by that rule, cramming the picker into a centred
+         1180px column instead of filling the fixed overlay. */
+      max-width: none;
+      margin: 0;
     }
     @media (max-width: 1279px) { .ilet-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 1023px) { .ilet-grid { grid-template-columns: 1fr; padding: 14px 16px 30px; } }
