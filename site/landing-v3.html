@@ -245,6 +245,19 @@
       flex-direction: column;
       gap: 3px;
       line-height: 1.05;
+      min-width: 0;
+      max-width: 100%;
+    }
+    /* On mobile, force the brand name onto a single line. _msv3FitBrandName()
+       below scales the font down at runtime if it overflows, so longer
+       clone names like "Global Education LC" or "Multilevel Record" no
+       longer wrap to two lines. */
+    @media (max-width: 480px) {
+      .brand-text #brandName {
+        white-space: nowrap;
+        overflow: hidden;
+        display: block;
+      }
     }
     .hero-eyebrow.brand-live {
       font-size: 9.5px;
@@ -2454,6 +2467,38 @@
     const SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
     const SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
 
+    /* Auto-shrink the brand name on mobile if it overflows the topbar
+       brand slot. Clone names like "Multilevel Record" or "Global
+       Education LC" used to wrap to two lines; this keeps them on one
+       line by scaling the font down between 17px and 11px. */
+    function _msv3FitBrandName() {
+      if (window.innerWidth > 480) return;
+      var el = document.getElementById('brandName');
+      if (!el) return;
+      var container = el.parentElement;
+      if (!container) return;
+      el.style.fontSize = '';
+      var size = 17;
+      el.style.fontSize = size + 'px';
+      // scrollWidth includes the overflow if nowrap is applied via CSS.
+      var safety = 14;
+      while (el.scrollWidth > container.clientWidth && size > 11 && safety-- > 0) {
+        size -= 0.5;
+        el.style.fontSize = size + 'px';
+      }
+    }
+    window._msv3FitBrandName = _msv3FitBrandName;
+    window.addEventListener('resize', function () {
+      try { _msv3FitBrandName(); } catch (_e) {}
+    });
+    // Also run once on first paint in case SITE_CONFIG localStorage warm
+    // start populated the brand name before applyCloneBranding fires.
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', _msv3FitBrandName);
+    } else {
+      _msv3FitBrandName();
+    }
+
     /* Per-clone branding — read window.__CENTER_ID (set by
        site/center-id.js, which Netlify overwrites per deploy) and look
        up the matching site_settings row. Falls through silently to the
@@ -2492,6 +2537,7 @@
           if (beEl) beEl.textContent = brandName;
           if (fbEl) fbEl.textContent = brandName;
           if (mhbEl) mhbEl.textContent = brandName;
+          try { if (typeof _msv3FitBrandName === 'function') _msv3FitBrandName(); } catch (_e) {}
         }
         if (logoUrl) {
           const isCircle = logoShape === 'circle';
