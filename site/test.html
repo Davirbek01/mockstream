@@ -1940,7 +1940,7 @@
       if (window.parent !== window) {
         window.parent.postMessage({ action: 'returnToLanding', openModal: _type || '' }, '*');
       } else {
-        window.location.href = 'landing.html?openModal=' + (_type || '');
+        window.location.href = 'landing-v3.html';
       }
     });
   }
@@ -1958,7 +1958,7 @@
     if (window.parent !== window) {
       window.parent.postMessage({ action: 'returnToLanding', openModal: _type || '' }, '*');
     } else {
-      window.location.href = 'landing.html?openModal=' + (_type || '');
+      window.location.href = 'landing-v3.html';
     }
   }
   // Make goBack available globally
