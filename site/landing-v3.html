@@ -3567,54 +3567,6 @@
        openSelector=cefr-speaking handoff continues to work unchanged.
        ═══════════════════════════════════════════════════════ -->
   <style id="msv3PickerEngineCss">
-    /* ═══════════════════════════════════════════════════════════════
-       Picker element-reset — defensive shield against v3's global
-       element selectors bleeding into picker markup.
-
-       Picker markup is copied verbatim from landing.html and uses
-       semantic tags (<main>, <header>, <footer>, <article>, <h3>, <ul>
-       etc.) that landing.html zeroes via its own resets, but v3 has
-       several global element rules (e.g. `main { max-width:1180px;
-       margin:0 auto; padding:36px 28px 64px; }`, `footer { padding:
-       28px; border-top: 1px solid var(--line); }`) for the surrounding
-       page chrome. Without these resets each new picker added in a
-       future migration phase risks inheriting page-chrome styling
-       (caused two visible regressions in Phase 1 + Phase 3 before this
-       block landed). Scope reset to `.ilet-overlay`-descendants only —
-       other v3 content is unaffected.
-
-       Class-specificity beats element-specificity, so the actual picker
-       styles (.ilet-header, .ilet-grid, .ilet-card-foot, .ilet-mock-title
-       etc.) still apply on top of these resets. Only properties that
-       v3's element rules touch are reset; cosmetic things (color, font)
-       inherit naturally.
-       ═══════════════════════════════════════════════════════════════ */
-    .ilet-overlay main,
-    .ilet-overlay header,
-    .ilet-overlay footer,
-    .ilet-overlay article,
-    .ilet-overlay section,
-    .ilet-overlay nav,
-    .ilet-overlay aside {
-      max-width: none;
-      margin: 0;
-      padding: 0;
-      border: 0;
-      background: none;
-    }
-    .ilet-overlay ul,
-    .ilet-overlay ol {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-    .ilet-overlay h1, .ilet-overlay h2, .ilet-overlay h3,
-    .ilet-overlay h4, .ilet-overlay h5, .ilet-overlay h6,
-    .ilet-overlay p {
-      margin: 0;
-      padding: 0;
-    }
-
     /* ===== Shared fullscreen picker base — used by cspetPicker today;
        ispet/clet/ilet/cwet/iwet share the same .ilet-* CSS family. ===== */
     .ilet-overlay {
