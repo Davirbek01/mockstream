@@ -3469,6 +3469,78 @@
   </script>
 
   <!-- ═══════════════════════════════════════════════════════
+       Boot splash for inline picker opens — the same branded
+       "Mock Stream / Loading mocks…" overlay that appears on the
+       landing.html handoff path. We render it on top of the picker
+       while it's loading stats / done-status so the inline flow has
+       the same visual hand-hold the navigation flow has.
+       ═══════════════════════════════════════════════════════ -->
+  <style id="msv3InlineSplashCss">
+    #msv3InlineSplash{position:fixed;inset:0;background:linear-gradient(180deg,#ffffff 0%,#f1f4fb 100%);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:2147483600;transition:opacity .28s ease;-webkit-user-select:none;user-select:none}
+    #msv3InlineSplash[data-show="1"]{display:flex}
+    #msv3InlineSplash.is-fading{opacity:0;pointer-events:none}
+    #msv3InlineSplash .msk-logo{width:84px;height:84px;border-radius:20px;background:linear-gradient(135deg,#6366f1 0%,#f97316 100%);overflow:hidden;display:flex;align-items:center;justify-content:center;box-shadow:0 22px 44px rgba(99,102,241,.22)}
+    #msv3InlineSplash .msk-logo img{width:100%;height:100%;object-fit:cover;display:block}
+    #msv3InlineSplash .msk-brand{margin-top:18px;font:700 19px/1.2 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#0b1330;letter-spacing:-.01em}
+    #msv3InlineSplash .msk-hint{margin-top:6px;font:500 13.5px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#5a6584}
+    #msv3InlineSplash .msk-spinner{margin-top:20px;width:30px;height:30px;border-radius:50%;border:3px solid rgba(99,102,241,.16);border-top-color:#6366f1;animation:msv3InlineSplashSpin .9s linear infinite}
+    @keyframes msv3InlineSplashSpin{to{transform:rotate(360deg)}}
+  </style>
+  <div id="msv3InlineSplash" role="status" aria-live="polite" aria-label="Loading mocks">
+    <div class="msk-logo"><img id="msv3InlineSplashLogo" alt=""></div>
+    <div class="msk-brand" id="msv3InlineSplashBrand">Mock Stream</div>
+    <div class="msk-hint">Loading mocks…</div>
+    <div class="msk-spinner" aria-hidden="true"></div>
+  </div>
+  <script id="msv3InlineSplashJs">
+    // Show/hide helpers for the inline picker splash. Mirrors the boot-splash
+    // UX on landing.html so an inline open of cspetPicker gets the same
+    // branded "Loading mocks…" mask other skill handoffs already show.
+    (function () {
+      var splash = document.getElementById('msv3InlineSplash');
+      if (!splash) return;
+      var hideTimer = null;
+      function applyBrand() {
+        try {
+          var cfg = (typeof window.SITE_CONFIG === 'object' && window.SITE_CONFIG) || null;
+          if (!cfg) return;
+          var name = cfg.brandName || 'Mock Stream';
+          var logo = cfg.logoUrl || '';
+          var brandEl = document.getElementById('msv3InlineSplashBrand');
+          var imgEl   = document.getElementById('msv3InlineSplashLogo');
+          if (brandEl) brandEl.textContent = name;
+          if (logo && imgEl) { imgEl.src = logo; imgEl.alt = name; }
+        } catch (_e) {}
+      }
+      window.__msv3ShowInlineSplash = function () {
+        applyBrand();
+        splash.classList.remove('is-fading');
+        splash.setAttribute('data-show', '1');
+        try { document.documentElement.style.overflow = 'hidden'; } catch (_e) {}
+        // Safety timeout so we never get stuck if the picker open fails.
+        if (hideTimer) clearTimeout(hideTimer);
+        hideTimer = setTimeout(function () { window.__msv3HideInlineSplash(); }, 12000);
+      };
+      window.__msv3HideInlineSplash = function () {
+        if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+        if (splash.getAttribute('data-show') !== '1') return;
+        splash.classList.add('is-fading');
+        try { document.documentElement.style.overflow = ''; } catch (_e) {}
+        setTimeout(function () {
+          splash.setAttribute('data-show', '0');
+          splash.style.display = '';
+          splash.classList.remove('is-fading');
+        }, 320);
+      };
+      // Late-arriving SITE_CONFIG (e.g. clone branding fetched async) refreshes
+      // the splash brand/logo so it matches the rest of the v3 chrome.
+      try {
+        document.addEventListener('ms:config-ready', function () { applyBrand(); }, { once: true });
+      } catch (_e) {}
+    })();
+  </script>
+
+  <!-- ═══════════════════════════════════════════════════════
        ENGINE MIGRATION — Phase 1: CEFR Speaking inline on v3.
 
        This block ports the cspetPicker overlay + the .ilet-* shared
@@ -4451,6 +4523,11 @@
     }
 
     async function cspetOpen() {
+      // Show the branded "Mock Stream / Loading mocks…" splash on top of
+      // the picker while we fetch stats + meta. Matches the splash other
+      // skills get when they hand off through /landing.html — without it
+      // the inline open felt jarring (the splash was a familiar cue).
+      try { if (typeof window.__msv3ShowInlineSplash === 'function') window.__msv3ShowInlineSplash(); } catch (_e) {}
       const overlay = document.getElementById('cspetPicker');
       overlay.classList.add('ilet-open');
       overlay.setAttribute('aria-hidden', 'false');
@@ -4461,13 +4538,19 @@
       try {
         if (window._mmgRefreshAllPickersPromise) await window._mmgRefreshAllPickersPromise;
       } catch (_e) {}
-      await Promise.all([
-        _cspetLoadAllMockMeta(),
-        _cspetLoadStats(),
-        _cspetFetchServerDone().then(d => { _cspetServerDone = d || {}; })
-      ]);
-      _cspetComputeBadges();
-      _cspetRenderAll();
+      try {
+        await Promise.all([
+          _cspetLoadAllMockMeta(),
+          _cspetLoadStats(),
+          _cspetFetchServerDone().then(d => { _cspetServerDone = d || {}; })
+        ]);
+        _cspetComputeBadges();
+        _cspetRenderAll();
+      } finally {
+        // Hide the splash whether the loads succeeded or threw — the picker
+        // still renders an empty grid in the failure case.
+        try { if (typeof window.__msv3HideInlineSplash === 'function') window.__msv3HideInlineSplash(); } catch (_e) {}
+      }
     }
 
     function cspetClose(opts) {
