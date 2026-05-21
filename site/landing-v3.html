@@ -3829,6 +3829,29 @@
     .ilet-card-foot {
       margin-top: auto;
       display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      /* cwetPicker's card foot uses a <footer> tag (verbatim from
+         landing.html). v3 has a global `footer { padding: 28px;
+         border-top: 1px solid var(--line); max-width: 1180px; ... }`
+         rule for the page footer — without these resets the card's
+         <footer> child inherits all of that, blowing up the card height
+         and drawing an unwanted divider line. Class beats element
+         specificity so these win. */
+      max-width: none;
+      margin-left: 0; margin-right: 0; margin-bottom: 0;
+      padding: 0;
+      border-top: 0;
+      text-align: left;
+      font-size: inherit;
+      color: inherit;
+    }
+    /* Same pattern for the sections <ul> — user-agent's default 1em
+       margin-block adds an extra ~15px above/below in v3 (landing.html's
+       reset zeroes it). Picker cards want a tight stack. */
+    .ilet-mock-sections,
+    .ilet-sections {
+      margin: 0;
+      padding: 0;
+      list-style: none;
     }
     .ilet-done {
       font-size: 11.5px;
