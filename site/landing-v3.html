@@ -2323,6 +2323,9 @@
       if (slug === 'ielts-reading' && typeof window.iretOpen === 'function') {
         try { iretOpen(); return; } catch (_e) {}
       }
+      if (slug === 'cefr-listening' && typeof window.cletOpen === 'function') {
+        try { cletOpen(); return; } catch (_e) {}
+      }
       window.location.href = '/landing.html?openSelector=' + encodeURIComponent(slug);
     }
     // Mirrors the matchers in landing.html's _processDeepLinkTake so we
@@ -3363,6 +3366,9 @@
       window.location.href = '/landing.html?openSelector=cefr-writing';
     });
     document.getElementById('msv3CefrListening').addEventListener('click', function () {
+      if (typeof window.cletOpen === 'function') {
+        try { requestSidebarClose(); cletOpen(); return; } catch (_e) {}
+      }
       window.location.href = '/landing.html?openSelector=cefr-listening';
     });
     document.getElementById('msv3CefrReading').addEventListener('click', function () {
@@ -4981,6 +4987,73 @@
       .iret-chip { padding: 3px 7px; font-size: 10px; font-weight: 700; }
       .iret-source-filter { flex: 1 1 100%; margin-left: 0; padding: 4px 8px; font-size: 11px; }
     }
+
+    /* ===== CEFR Listening picker (cletPicker) — teal/emerald overrides on
+       shared .ilet-* base so visual family matches cretPicker. Scoped to
+       #cletPicker so iletPicker keeps its peach/orange tone. ===== */
+    #cletPicker.ilet-overlay {
+      background: linear-gradient(135deg, #f0fdfa 0%, #d1fae5 100%);
+    }
+    #cletPicker .ilet-header {
+      background: rgba(240, 253, 250, 0.95);
+      border-bottom-color: #99f6e4;
+    }
+    #cletPicker .ilet-back {
+      color: #0f766e;
+      box-shadow: 0 1px 3px rgba(15,118,110,.15);
+    }
+    #cletPicker .ilet-back:hover { background: #0f766e; color: #fff; }
+    #cletPicker .ilet-title { color: #134e4a; }
+    #cletPicker .ilet-count {
+      background: linear-gradient(135deg,#10b981,#059669);
+      color: #fff;
+    }
+    #cletPicker .ilet-card { border-color: #99f6e4; }
+    #cletPicker .ilet-card:hover:not(.ilet-card-disabled) {
+      border-color: #0f766e;
+      box-shadow: 0 8px 20px rgba(15,118,110,.18);
+    }
+    #cletPicker .ilet-mocknum {
+      background: linear-gradient(135deg,#10b981,#059669);
+    }
+    #cletPicker .ilet-take {
+      background: linear-gradient(135deg,#10b981,#059669);
+    }
+    #cletPicker .ilet-take:hover {
+      background: linear-gradient(135deg,#059669,#047857);
+    }
+    #cletPicker .ilet-chip-active {
+      background: #0f766e;
+      color: #fff;
+      border-color: #0f766e;
+    }
+    #cletPicker .ilet-mock-title { color: #134e4a; }
+    #cletPicker .clet-share {
+      background: transparent;
+      border: 1px solid #a7f3d0;
+      color: #047857;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+      transition: background 120ms ease, border-color 120ms ease;
+      margin-right: 8px;
+      white-space: nowrap;
+    }
+    #cletPicker .clet-share:hover { background: #ecfdf5; border-color: #059669; }
+    #cletPicker .clet-share.clet-share-copied {
+      background: #dcfce7;
+      border-color: #86efac;
+      color: #15803d;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    @media (max-width: 600px) {
+      #cletPicker .ilet-filter-row { gap: 4px; padding: 10px 8px 0; }
+      #cletPicker .ilet-chip { padding: 3px 7px; font-size: 10px; font-weight: 700; }
+      #cletPicker .ilet-source-filter { flex: 1 1 100%; margin-left: 0; padding: 4px 8px; font-size: 11px; }
+    }
   </style>
 
   <!-- CEFR Speaking fullscreen picker — DOM only. JS in the script
@@ -5436,6 +5509,172 @@
     </div>
   </div>
 
+  <!-- CEFR Listening fullscreen picker (cletPicker) — Phase 5c -->
+  <div id="cletPicker" class="ilet-overlay" aria-hidden="true">
+    <header class="ilet-header">
+      <button class="ilet-back" type="button" onclick="if(typeof cletClose==='function')cletClose()" title="Back to landing">←</button>
+      <div class="ilet-title">
+        <span class="ilet-title-emoji">🎧</span>
+        <span class="ilet-title-text">CEFR Listening</span>
+        <span class="ilet-count" id="cletCount">0</span>
+      </div>
+      <div class="ilet-header-tools">
+        <input type="search" class="ilet-search" id="cletSearch" placeholder="🔍 Search mock #, source, section…" autocomplete="off" spellcheck="false">
+        <select class="ilet-sort" id="cletJump" title="Jump to mock #">
+          <option value="">Jump to #…</option>
+        </select>
+      </div>
+    </header>
+    <div class="ilet-filter-row">
+      <button type="button" class="ilet-chip ilet-chip-active clet-chip" data-filter="all">All</button>
+      <button type="button" class="ilet-chip clet-chip" data-filter="ready">✓ Ready only</button>
+      <button type="button" class="ilet-chip clet-chip" data-filter="soon">⏳ Coming soon</button>
+      <button type="button" class="ilet-chip clet-chip" data-filter="done">★ Done before</button>
+      <select class="ilet-source-filter" id="cletSourceFilter" title="Filter by source">
+        <option value="">📚 All sources</option>
+      </select>
+    </div>
+    <main class="ilet-grid" id="cletGrid"></main>
+    <div class="ilet-empty" id="cletEmpty" style="display:none;">
+      <div class="ilet-empty-icon">🔍</div>
+      <p class="ilet-empty-msg">No mocks match your filters.</p>
+      <button type="button" class="ilet-empty-clear" onclick="if(typeof cletClearFilters==='function')cletClearFilters()">Clear filters</button>
+    </div>
+  </div>
+
+  <!-- CEFR Listening mode modal (Full Listening vs Part Practice) — Phase 5c -->
+  <div id="cefrListeningModeModal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:100005;align-items:center;justify-content:center;padding:20px;"
+    onclick="closeCefrListeningModeModal()">
+    <div
+      style="background:var(--card);border:2px solid var(--brand);border-radius:24px;padding:32px 28px;max-width:480px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
+      onclick="event.stopPropagation()">
+      <div style="font-size:36px;margin-bottom:6px;">🎧</div>
+      <h3 style="font-size:20px;color:var(--brand);margin-bottom:4px;">Choose Your Mode</h3>
+      <p id="cefrListeningModeMockLabel" style="font-size:13px;color:var(--muted);margin-bottom:22px;">CEFR Listening Mock</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+        <button onclick="_cefrListeningModeFullMock()"
+          style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#0369a1 0%,#0284c7 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(3,105,161,0.3);">
+          <div style="font-size:28px;margin-bottom:6px;">🎧</div>
+          Full Listening Test
+          <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">All 6 parts • 40 min</div>
+        </button>
+        <button id="cefrListeningPracticeBtn" onclick="_cefrListeningModePartBased()"
+          style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(124,58,237,0.3);">
+          <div style="font-size:28px;margin-bottom:6px;">🎯</div>
+          Part Practice
+          <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">Pick one part • ~7 min</div>
+        </button>
+      </div>
+      <button onclick="closeCefrListeningModeModal()"
+        style="margin-top:18px;padding:8px 24px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;">Cancel</button>
+    </div>
+  </div>
+
+  <!-- CEFR Listening Part Picker Modal — Phase 5c (6 parts; max-height + overflow for short phones) -->
+  <div id="cefrListeningPartPickerModal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:100006;align-items:center;justify-content:center;padding:12px;"
+    onclick="closeCefrListeningPartPicker()">
+    <div
+      style="background:var(--card);border:2px solid #7c3aed;border-radius:18px;padding:14px 14px 10px;max-width:320px;width:100%;max-height:92vh;overflow-y:auto;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
+      onclick="event.stopPropagation()">
+      <div style="font-size:24px;margin-bottom:2px;line-height:1;">🎯</div>
+      <h3 style="font-size:17px;color:#7c3aed;margin:0 0 2px;">Select a Part</h3>
+      <p style="font-size:12px;color:var(--muted);margin:0 0 12px;">Choose a part to practice</p>
+      <div style="display:flex;flex-direction:column;gap:5px;">
+        <button onclick="_pickCefrListeningPart(1)"
+          style="padding:6px 10px;background:var(--bg);border:1.5px solid var(--ring);border-radius:9px;font-size:13.5px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.15s;display:flex;align-items:center;gap:9px;"
+          onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
+          onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:12px;font-weight:800;flex-shrink:0;">1</span>
+          <div style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.15;">
+            <span>Part 1</span>
+            <span style="font-size:11px;font-weight:400;color:var(--muted);">8 questions · ~7 min</span>
+          </div>
+        </button>
+        <button onclick="_pickCefrListeningPart(2)"
+          style="padding:6px 10px;background:var(--bg);border:1.5px solid var(--ring);border-radius:9px;font-size:13.5px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.15s;display:flex;align-items:center;gap:9px;"
+          onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
+          onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:12px;font-weight:800;flex-shrink:0;">2</span>
+          <div style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.15;">
+            <span>Part 2</span>
+            <span style="font-size:11px;font-weight:400;color:var(--muted);">6 questions · ~7 min</span>
+          </div>
+        </button>
+        <button onclick="_pickCefrListeningPart(3)"
+          style="padding:6px 10px;background:var(--bg);border:1.5px solid var(--ring);border-radius:9px;font-size:13.5px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.15s;display:flex;align-items:center;gap:9px;"
+          onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
+          onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:12px;font-weight:800;flex-shrink:0;">3</span>
+          <div style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.15;">
+            <span>Part 3</span>
+            <span style="font-size:11px;font-weight:400;color:var(--muted);">5 questions · ~6 min</span>
+          </div>
+        </button>
+        <button onclick="_pickCefrListeningPart(4)"
+          style="padding:6px 10px;background:var(--bg);border:1.5px solid var(--ring);border-radius:9px;font-size:13.5px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.15s;display:flex;align-items:center;gap:9px;"
+          onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
+          onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:12px;font-weight:800;flex-shrink:0;">4</span>
+          <div style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.15;">
+            <span>Part 4</span>
+            <span style="font-size:11px;font-weight:400;color:var(--muted);">5 questions · ~6 min</span>
+          </div>
+        </button>
+        <button onclick="_pickCefrListeningPart(5)"
+          style="padding:6px 10px;background:var(--bg);border:1.5px solid var(--ring);border-radius:9px;font-size:13.5px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.15s;display:flex;align-items:center;gap:9px;"
+          onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
+          onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:12px;font-weight:800;flex-shrink:0;">5</span>
+          <div style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.15;">
+            <span>Part 5</span>
+            <span style="font-size:11px;font-weight:400;color:var(--muted);">6 questions · ~7 min</span>
+          </div>
+        </button>
+        <button onclick="_pickCefrListeningPart(6)"
+          style="padding:6px 10px;background:var(--bg);border:1.5px solid var(--ring);border-radius:9px;font-size:13.5px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.15s;display:flex;align-items:center;gap:9px;"
+          onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
+          onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:12px;font-weight:800;flex-shrink:0;">6</span>
+          <div style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.15;">
+            <span>Part 6</span>
+            <span style="font-size:11px;font-weight:400;color:var(--muted);">6 questions · ~7 min</span>
+          </div>
+        </button>
+      </div>
+      <button onclick="closeCefrListeningPartPicker()"
+        style="margin-top:12px;padding:6px 20px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;">Back</button>
+    </div>
+  </div>
+
+  <!-- Listening Access Code Modal — Phase 5c (shared with ielts-listening next session) -->
+  <div id="listeningAccessCodeModal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);z-index:100004;align-items:center;justify-content:center;padding:20px;"
+    onclick="cancelListeningAccessCodeModal()">
+    <div
+      style="background:var(--card);border:2px solid var(--brand);border-radius:20px;padding:28px;max-width:380px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:slideUp 0.3s ease;"
+      onclick="event.stopPropagation()">
+      <div style="font-size:36px;margin-bottom:8px;">🔐</div>
+      <h3 style="font-size:20px;color:var(--brand);margin-bottom:4px;">Access Code Required</h3>
+      <p id="listeningAccessMockLabel" style="font-size:13px;color:var(--muted);margin-bottom:18px;">Mock 01 requires an access code</p>
+      <input type="text" id="listeningAccessCodeInput" placeholder="Enter your access code" autocomplete="off"
+        autocorrect="off" spellcheck="false" inputmode="numeric" pattern="[0-9]*"
+        style="width:100%;padding:12px 16px;border:2px solid var(--ring);border-radius:10px;font-size:15px;font-weight:600;box-sizing:border-box;background:var(--bg);color:var(--ink);letter-spacing:2px;transition:border-color 0.2s;"
+        onfocus="this.style.borderColor='var(--brand)';this.style.boxShadow='0 0 0 3px rgba(16,185,129,0.15)'"
+        onblur="this.style.borderColor='var(--ring)';this.style.boxShadow='none'"
+        oninput="this.value=this.value.replace(/\D/g,'')">
+      <div id="listeningAccessCodeError"
+        style="font-size:13px;margin-top:10px;margin-bottom:14px;min-height:20px;font-weight:600;"></div>
+      <div style="display:flex;gap:10px;">
+        <button onclick="cancelListeningAccessCodeModal()"
+          style="flex:1;padding:11px;background:var(--bg);color:var(--muted);border:2px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;">Cancel</button>
+        <button id="listeningAccessCodeSubmitBtn" onclick="verifyListeningAccessCode()"
+          style="flex:2;padding:11px;background:linear-gradient(135deg,var(--brand) 0%,#059669 100%);color:white;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;">Verify &amp; Start</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ═══════════════════════════════════════════════════════
        Phase 5a — CEFR Reading launch modals.
        Mode picker (Full Reading Test vs Part Practice) + Part picker
@@ -5569,6 +5808,13 @@
       var iret = document.getElementById('iretPicker');
       if (iret && iret.classList.contains('iret-open')) {
         if (typeof iretClose === 'function') iretClose();
+        return;
+      }
+      // clet uses .ilet-open shared class — disambiguate by container id
+      // so the back gesture closes the right picker.
+      var clet = document.getElementById('cletPicker');
+      if (clet && clet.classList.contains('ilet-open')) {
+        if (typeof cletClose === 'function') cletClose();
       }
     }
     function _pickerShowTmaBack() {
@@ -5724,6 +5970,13 @@
         if (iret && iret.classList.contains('iret-open')) {
           _pickerFromPopstate = true;
           if (typeof iretClose === 'function') iretClose();
+          _pickerFromPopstate = false;
+          return;
+        }
+        var clet = document.getElementById('cletPicker');
+        if (clet && clet.classList.contains('ilet-open')) {
+          _pickerFromPopstate = true;
+          if (typeof cletClose === 'function') cletClose();
           _pickerFromPopstate = false;
         }
       } catch (_e) {}
@@ -9821,6 +10074,943 @@
     window._ieltsReadingModePassageBased = _ieltsReadingModePassageBased;
     window.closeIeltsReadingPassagePicker = closeIeltsReadingPassagePicker;
     window._pickIeltsReadingPassage     = _pickIeltsReadingPassage;
+
+    // ===== CEFR Listening picker (cletPicker) — Phase 5c =====
+    // 32 static entries + Supabase upgrader for admin-imported mocks 33+.
+    const cefrListeningTests = [
+      { file: 'CEFR Listening.html?sbmock=6',   name: 'CEFR Listening Test 01', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=442', name: 'CEFR Listening Test 02', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=443', name: 'CEFR Listening Test 03', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=444', name: 'CEFR Listening Test 04', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=445', name: 'CEFR Listening Test 05', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=446', name: 'CEFR Listening Test 06', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=447', name: 'CEFR Listening Test 07', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=448', name: 'CEFR Listening Test 08', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=449', name: 'CEFR Listening Test 09', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=450', name: 'CEFR Listening Test 10', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=451', name: 'CEFR Listening Test 11', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=452', name: 'CEFR Listening Test 12', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=453', name: 'CEFR Listening Test 13', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=454', name: 'CEFR Listening Test 14', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=455', name: 'CEFR Listening Test 15', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=456', name: 'CEFR Listening Test 16', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=457', name: 'CEFR Listening Test 17', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=458', name: 'CEFR Listening Test 18', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=459', name: 'CEFR Listening Test 19', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=460', name: 'CEFR Listening Test 20', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=461', name: 'CEFR Listening Test 21', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=462', name: 'CEFR Listening Test 22', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=463', name: 'CEFR Listening Test 23', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=464', name: 'CEFR Listening Test 24', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=465', name: 'CEFR Listening Test 25', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=466', name: 'CEFR Listening Test 26', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=467', name: 'CEFR Listening Test 27', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=468', name: 'CEFR Listening Test 28', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=469', name: 'CEFR Listening Test 29', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=470', name: 'CEFR Listening Test 30', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=471', name: 'CEFR Listening Test 31', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?sbmock=472', name: 'CEFR Listening Test 32', icon: '🎧', actionText: 'Take Test' }
+    ];
+    window.cefrListeningTests = cefrListeningTests;
+
+    async function loadDynamicCefrListeningMocks() {
+      const SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      const SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      let rows = [];
+      try {
+        const r = await fetch(
+          SB_URL + '/rest/v1/mock_tests?mock_type=eq.cefr-listening&status=eq.published&select=id,mock_number,title&order=mock_number.asc',
+          { headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY } }
+        );
+        if (!r.ok) return;
+        rows = await r.json();
+      } catch (_e) { return; }
+      const label = 'CEFR Listening Test';
+      for (const row of rows) {
+        const padded = String(row.mock_number).padStart(2, '0');
+        const isPilot = row.mock_number === 1;
+        const displayName = isPilot ? '🧪 ' + label + ' ' + padded + ' (Supabase pilot)' : label + ' ' + padded;
+        const fileUrl = 'CEFR Listening.html?sbmock=' + row.id;
+        const plainName = label + ' ' + padded;
+        const idx = cefrListeningTests.findIndex(t =>
+          (t.file && t.file.indexOf('sbmock=' + row.id) !== -1) ||
+          t.name === plainName ||
+          t.name === displayName
+        );
+        if (idx !== -1) {
+          cefrListeningTests[idx].file = fileUrl;
+          cefrListeningTests[idx].name = displayName;
+          cefrListeningTests[idx].icon = '🟢';
+        } else {
+          cefrListeningTests.push({ file: fileUrl, name: displayName, icon: '🟢', actionText: 'Take Test' });
+        }
+      }
+      cefrListeningTests.sort((a, b) => {
+        const am = (a.name || '').match(/Test\s+(\d+)/);
+        const bm = (b.name || '').match(/Test\s+(\d+)/);
+        return (am ? parseInt(am[1], 10) : 0) - (bm ? parseInt(bm[1], 10) : 0);
+      });
+    }
+    window.loadDynamicCefrListeningMocks = loadDynamicCefrListeningMocks;
+
+    const _clet_CACHE_KEY = 'ms_clet_meta_v4';
+    const _clet_CACHE_TTL = 24 * 60 * 60 * 1000;
+    const _clet_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    const _clet_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    const _cletMockMeta = {};
+    let _cletServerDone = {};
+    let _cletStatsByMock  = {};
+    let _cletBadgesByMock = {};
+    let _cletCreatedAt    = {};
+    let _cletFilter = 'all';
+    let _cletSourceFilter = '';
+
+    function _cletEsc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    function _cletBuildMetaFromMockData(md) {
+      function _cletExtractTranscriptTopic(transcript) {
+        if (!transcript || typeof transcript !== 'string') return null;
+        const head = transcript.slice(0, 500);
+        const patterns = [
+          /\btalking\s+about\s+([^.\n]{3,60})/i,
+          /\bbe\s+talking\s+about\s+([^.\n]{3,60})/i,
+          /\binterested\s+in\s+(?:taking\s+up\s+)?([^.\n]{3,60})/i,
+          /\blecture\s+(?:on|about)\s+([^.\n]{3,60})/i,
+          /\b(?:program|programme)\s+(?:on|about)\s+([^.\n]{3,60})/i,
+          /\b(?:hear|listen\s+to)\s+(?:a|an|the|some)\s+([a-z][^.\n]{3,60})/i
+        ];
+        for (const re of patterns) {
+          const m = head.match(re);
+          if (!m) continue;
+          let phrase = m[1].trim()
+            .replace(/^(the|a|an|some|her|his|their)\s+/i, '')
+            .replace(/\s+/g, ' ')
+            .replace(/[,;:]\s.*$/, '');
+          phrase = phrase.replace(/\s+(?:and|but|so|because|which)\s.*$/i, '');
+          if (phrase.length > 50) phrase = phrase.slice(0, 50).replace(/\s+\S*$/, '') + '…';
+          if (phrase) return phrase.charAt(0).toUpperCase() + phrase.slice(1);
+        }
+        return null;
+      }
+      function _cletPartTitle(p) {
+        if (!p) return '—';
+        const raw = String(p.title || '').trim();
+        if (raw && !/^part\s*\d+$/i.test(raw)) return raw;
+        if (p.formTitle && String(p.formTitle).trim()) return String(p.formTitle).trim();
+        if (p.mapTitle && String(p.mapTitle).trim()) return String(p.mapTitle).trim();
+        if (Array.isArray(p.extracts) && p.extracts[0] && p.extracts[0].title) {
+          const ex0 = String(p.extracts[0].title).trim();
+          if (ex0 && !/^extract\s+(one|two|three|four|\d+)$/i.test(ex0)) return ex0;
+        }
+        if ((p.type === 'sentence-completion' || p.type === 'matching-speakers') && p.transcript) {
+          const fromTranscript = _cletExtractTranscriptTopic(p.transcript);
+          if (fromTranscript) return fromTranscript;
+        }
+        const typeLabels = {
+          'mcq-reply':           'Short replies (A/B/C)',
+          'mcq-extracts':        'MCQ extracts',
+          'gap-fill-form':       'Form completion',
+          'matching-speakers':   'Speaker matching',
+          'map-labeling':        'Map labelling',
+          'sentence-completion': 'Sentence completion'
+        };
+        return typeLabels[p.type] || raw || ('Part ' + (p.partNumber || '?'));
+      }
+      const sections = (md && Array.isArray(md.parts) ? md.parts : []).map(p => {
+        const ansCount = (p.answers && typeof p.answers === 'object') ? Object.keys(p.answers).length : 0;
+        return { title: _cletPartTitle(p), ready: ansCount >= 4 };
+      });
+      while (sections.length < 6) sections.push({ title: '—', ready: false });
+      return {
+        source:   (md && md.source) || '',
+        examDate: (md && md.examDate) || '',
+        sections: sections.slice(0, 6)
+      };
+    }
+
+    async function _cletLoadStaticMockMeta(filename) {
+      try {
+        const fname = /\.js$/i.test(filename) ? filename : (filename + '.js');
+        const resp = await fetch('questions CEFR L/' + fname);
+        if (!resp.ok) return null;
+        const code = await resp.text();
+        const sandbox = { CEFR_LISTENING_TEST: null };
+        try { new Function('window', code + '\n;return window;')(sandbox); }
+        catch (_e) { return null; }
+        return sandbox.CEFR_LISTENING_TEST ? _cletBuildMetaFromMockData(sandbox.CEFR_LISTENING_TEST) : null;
+      } catch (_e) { return null; }
+    }
+
+    async function _cletLoadSupabaseMockMeta(id) {
+      try {
+        const r = await fetch(
+          _clet_SB_URL + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(id) + '&select=mock_data,created_at',
+          { headers: { apikey: _clet_SB_KEY, Authorization: 'Bearer ' + _clet_SB_KEY } }
+        );
+        if (!r.ok) return null;
+        const rows = await r.json();
+        if (!rows || !rows.length) return null;
+        const meta = _cletBuildMetaFromMockData(rows[0].mock_data || {});
+        if (meta) meta.createdAt = rows[0].created_at;
+        return meta;
+      } catch (_e) { return null; }
+    }
+
+    async function _cletLoadStats() {
+      _cletStatsByMock = {};
+      try {
+        const resp = await fetch(_clet_SB_URL + '/rest/v1/rpc/mock_attempt_stats', {
+          method: 'POST',
+          headers: { apikey: _clet_SB_KEY, Authorization: 'Bearer ' + _clet_SB_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ p_skill: 'listening', p_exam_type: 'cefr' })
+        });
+        if (!resp.ok) return;
+        const rows = await resp.json();
+        for (const r of rows) {
+          if (r.mock_number == null) continue;
+          const padded = String(r.mock_number).padStart(2, '0');
+          _cletStatsByMock[padded] = {
+            total: Number(r.total) || 0,
+            today: Number(r.today) || 0,
+            last7: Number(r.last7) || 0
+          };
+        }
+      } catch (_e) {}
+    }
+
+    function _cletComputeBadges() {
+      _cletBadgesByMock = {};
+      const keys = Object.keys(_cletMockMeta);
+      const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      const trending = keys
+        .filter(k => (_cletStatsByMock[k]?.last7 || 0) > 0)
+        .sort((a, b) => (_cletStatsByMock[b]?.last7 || 0) - (_cletStatsByMock[a]?.last7 || 0))
+        .slice(0, 3);
+      const trendingSet = new Set(trending);
+      const newSet = new Set(keys.filter(k => {
+        const t = (_cletMockMeta[k] && _cletMockMeta[k].createdAt) || _cletCreatedAt[k];
+        return t && new Date(t).getTime() >= sevenDaysAgo;
+      }).sort((a, b) => {
+        const ta = new Date((_cletMockMeta[a] && _cletMockMeta[a].createdAt) || _cletCreatedAt[a]).getTime();
+        const tb = new Date((_cletMockMeta[b] && _cletMockMeta[b].createdAt) || _cletCreatedAt[b]).getTime();
+        return tb - ta;
+      }).slice(0, 3));
+      const popularSet = new Set(keys
+        .filter(k => !trendingSet.has(k) && !newSet.has(k) && (_cletStatsByMock[k]?.total || 0) > 0)
+        .sort((a, b) => (_cletStatsByMock[b]?.total || 0) - (_cletStatsByMock[a]?.total || 0))
+        .slice(0, 5));
+      const gemSet = new Set(keys.filter(k => {
+        if (trendingSet.has(k) || newSet.has(k) || popularSet.has(k)) return false;
+        const s = _cletStatsByMock[k] || { total: 0 };
+        return s.total >= 1 && s.total <= 3;
+      })
+        .sort((a, b) => (_cletStatsByMock[a]?.total || 0) - (_cletStatsByMock[b]?.total || 0))
+        .slice(0, 5));
+      for (const k of keys) {
+        if (trendingSet.has(k))     _cletBadgesByMock[k] = 'trending';
+        else if (newSet.has(k))     _cletBadgesByMock[k] = 'new';
+        else if (popularSet.has(k)) _cletBadgesByMock[k] = 'popular';
+        else if (gemSet.has(k))     _cletBadgesByMock[k] = 'gem';
+        else                         _cletBadgesByMock[k] = null;
+      }
+    }
+
+    function _cletParseFileSpec(fileSpec) {
+      const sbMatch = String(fileSpec || '').match(/sbmock=([^&]+)/);
+      if (sbMatch) return { kind: 'sb', id: sbMatch[1] };
+      const stMatch = String(fileSpec || '').match(/test=([^&]+)/);
+      if (stMatch) return { kind: 'static', filename: stMatch[1] };
+      return { kind: 'unknown' };
+    }
+
+    async function _cletLoadAllMockMeta() {
+      let cachedData = {};
+      try {
+        const cached = JSON.parse(localStorage.getItem(_clet_CACHE_KEY) || 'null');
+        if (cached && cached.ts && (Date.now() - cached.ts) < _clet_CACHE_TTL && cached.data) {
+          cachedData = cached.data;
+          Object.assign(_cletMockMeta, cachedData);
+        }
+      } catch (_e) {}
+      const items = (typeof cefrListeningTests !== 'undefined' && Array.isArray(cefrListeningTests))
+        ? cefrListeningTests : [];
+      const missing = items
+        .map((t, idx) => ({ t, key: String(idx + 1).padStart(2, '0') }))
+        .filter(({ key }) => {
+          const cm = cachedData[key];
+          if (!cm) return true;
+          const sections = cm.sections || [];
+          const readyCount = sections.filter(p => p.ready).length;
+          return readyCount < sections.length;
+        });
+      if (missing.length === 0) return;
+      await Promise.all(missing.map(async ({ t, key }) => {
+        const spec = _cletParseFileSpec(t && t.file);
+        let meta = null;
+        if (spec.kind === 'static') meta = await _cletLoadStaticMockMeta(spec.filename);
+        else if (spec.kind === 'sb') meta = await _cletLoadSupabaseMockMeta(spec.id);
+        if (meta) _cletMockMeta[key] = meta;
+      }));
+      try { localStorage.setItem(_clet_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: _cletMockMeta })); } catch (_e) {}
+    }
+
+    function _cletGetDoneInfo(mockNum) {
+      try {
+        const raw = localStorage.getItem('mock-cefr-listening-done-' + mockNum);
+        if (raw) return JSON.parse(raw);
+      } catch (_e) {}
+      if (_cletServerDone[mockNum]) return { fromServer: true };
+      return null;
+    }
+
+    async function _cletFetchServerDone() {
+      try {
+        if (!window.PremiumGate || !window.PremiumGate._normName) return {};
+        const candidateName = sessionStorage.getItem('CANDIDATE_NAME') || '';
+        const name = window.PremiumGate._normName(candidateName);
+        if (!name) return {};
+        const url = _clet_SB_URL + '/rest/v1/mock_attempts'
+          + '?candidate_name=eq.' + encodeURIComponent(name)
+          + '&skill=eq.listening&exam_type=eq.cefr&submitted_at=not.is.null&select=mock_number';
+        const r = await fetch(url, { headers: { apikey: _clet_SB_KEY, Authorization: 'Bearer ' + _clet_SB_KEY } });
+        if (!r.ok) return {};
+        const rows = await r.json();
+        const out = {};
+        (rows || []).forEach(row => { out[String(row.mock_number).padStart(2, '0')] = true; });
+        return out;
+      } catch (_e) { return {}; }
+    }
+
+    function _cletSkeletonHtml() {
+      return '<div class="ilet-card-skeleton">'
+        + '<div class="ilet-skel-line short"></div>'
+        + '<div class="ilet-skel-line tall"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '<div class="ilet-skel-line"></div>'
+        + '</div>';
+    }
+
+    function _cletCardHtml(mockNum, item, meta, doneInfo) {
+      const sections = meta.sections;
+      const readyCount = sections.filter(p => p.ready).length;
+      const total = sections.length;
+      const noneReady = readyCount === 0;
+      const dots = sections.map(p =>
+        '<span class="ilet-dot ' + (p.ready ? 'ilet-dot-ready' : 'ilet-dot-soon') + '"></span>'
+      ).join('');
+      const sourceHtml = meta.source
+        ? '<div class="ilet-source" title="' + _cletEsc(meta.source) + '">' + _cletEsc(meta.source) + '</div>'
+        : '';
+      const sectionRows = sections.map((p, i) =>
+        '<li class="ilet-section">'
+          + '<span class="ilet-section-num">' + (i + 1) + '</span>'
+          + '<span class="ilet-section-title">' + _cletEsc(p.title) + '</span>'
+          + '<span class="ilet-section-badge ' + (p.ready ? 'ilet-badge-ready' : 'ilet-badge-soon') + '">'
+          +   (p.ready ? '✓ Ready' : '⏳ Soon')
+          + '</span>'
+        + '</li>'
+      ).join('');
+      const doneHtml = doneInfo
+        ? (typeof doneInfo.percent === 'number'
+            ? '<span class="ilet-done">★ Done · ' + doneInfo.percent + '%</span>'
+            : '<span class="ilet-done">★ Done</span>')
+        : '';
+      const shareBtnHtml = noneReady
+        ? ''
+        : '<button type="button" class="clet-share" data-mock="' + mockNum + '" title="Share this mock" aria-label="Share mock #' + mockNum + '">🔗</button>';
+      const actionHtml = noneReady
+        ? '<span class="ilet-coming-soon">Coming soon</span>'
+        : (shareBtnHtml + '<button type="button" class="ilet-take" data-mock="' + mockNum + '">Take Test →</button>');
+      const cleanTitle = String(item.name || '').replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]+\s*/u, '');
+      const clExamLabel = (function fmtClet(iso) {
+        if (!iso) return '';
+        const s = String(iso).trim();
+        const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        let m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        if (m) return parseInt(m[3], 10) + ' ' + MON[parseInt(m[2], 10) - 1] + ' ' + m[1];
+        m = s.match(/^(\d{4})-(\d{2})$/);
+        if (m) return MON[parseInt(m[2], 10) - 1] + ' ' + m[1];
+        return s;
+      })(meta.examDate);
+      const clDateHtml = clExamLabel
+        ? '<span class="clet-exam-date" title="Exam date ' + _cletEsc(meta.examDate) + '" style="font-size:11px;background:#fef3c7;color:#92400e;border:1px solid #fde68a;border-radius:999px;padding:1px 8px;font-weight:600;white-space:nowrap;">📅 ' + _cletEsc(clExamLabel) + '</span>'
+        : '';
+      const clStats = _cletStatsByMock[String(mockNum)] || { total: 0, today: 0, last7: 0 };
+      const CL_LABELS = { trending: '🔥 Trending', new: '🆕 New', popular: '👑 Popular', gem: '💎 Hidden gem' };
+      const CL_COLORS = { trending: '#b45309', new: '#c2410c', popular: '#7c3aed', gem: '#15803d' };
+      const clBadgeKey = _cletBadgesByMock[String(mockNum)];
+      const clBadgeChip = clBadgeKey
+        ? '<span style="font-weight:700;color:' + CL_COLORS[clBadgeKey] + ';">' + CL_LABELS[clBadgeKey] + '</span>'
+        : '';
+      const clParts = [];
+      if (clBadgeChip) clParts.push(clBadgeChip);
+      clParts.push('<span>👥 ' + clStats.total + '</span>');
+      clParts.push('<span>⚡ ' + clStats.today + ' today</span>');
+      const statsRow = '<div class="clet-stat-row" style="display:flex;gap:8px;font-size:11.5px;color:#475569;margin:4px 0 8px;flex-wrap:wrap;align-items:center;">'
+                     + clParts.join('<span style="color:#cbd5e1;">·</span>')
+                     + '</div>';
+      return '<article class="ilet-card ' + (noneReady ? 'ilet-card-disabled' : '') + '"'
+        + ' id="clet-card-' + mockNum + '"'
+        + ' data-mock="' + mockNum + '"'
+        + ' data-file="' + _cletEsc(item.file) + '"'
+        + ' data-ready-count="' + readyCount + '"'
+        + ' data-total="' + total + '"'
+        + ' data-source="' + _cletEsc(String(meta.source || '').toLowerCase()) + '"'
+        + ' data-done="' + (doneHtml ? '1' : '0') + '"'
+        + ' data-title="' + _cletEsc(cleanTitle.toLowerCase()) + '"'
+        + ' data-sections="' + _cletEsc(sections.map(p => p.title).join(' ').toLowerCase()) + '">'
+          + '<div class="ilet-card-head">'
+            + '<div class="ilet-mocknum">#' + mockNum + '</div>'
+            + '<div class="ilet-status">'
+              + '<span class="ilet-dots">' + dots + '</span>'
+              + '<span class="ilet-status-label">' + readyCount + '/' + total + ' READY</span>'
+            + '</div>'
+            + sourceHtml
+            + clDateHtml
+          + '</div>'
+          + '<h3 class="ilet-mock-title">' + _cletEsc(cleanTitle) + '</h3>'
+          + statsRow
+          + '<ul class="ilet-sections">' + sectionRows + '</ul>'
+          + '<div class="ilet-card-foot">' + doneHtml + actionHtml + '</div>'
+        + '</article>';
+    }
+
+    function _cletRenderSkeletons() {
+      const grid = document.getElementById('cletGrid');
+      const count = (typeof cefrListeningTests !== 'undefined' && Array.isArray(cefrListeningTests))
+        ? cefrListeningTests.length : 12;
+      grid.innerHTML = Array.from({ length: count }, _cletSkeletonHtml).join('');
+      document.getElementById('cletCount').textContent = count;
+    }
+
+    function _cletRender() {
+      const grid = document.getElementById('cletGrid');
+      const items = (typeof cefrListeningTests !== 'undefined' && Array.isArray(cefrListeningTests))
+        ? cefrListeningTests : [];
+      const cards = items.map((t, idx) => {
+        const mockNum = String(idx + 1).padStart(2, '0');
+        const meta = _cletMockMeta[mockNum] || { source: '', sections: [
+          { title: '—', ready: false }, { title: '—', ready: false }, { title: '—', ready: false },
+          { title: '—', ready: false }, { title: '—', ready: false }, { title: '—', ready: false }
+        ] };
+        return _cletCardHtml(mockNum, t, meta, _cletGetDoneInfo(mockNum));
+      });
+      grid.innerHTML = cards.join('');
+      _cletBuildJumpOptions();
+      _cletBuildSourceOptions();
+      _cletApplyFiltersAndSort();
+    }
+
+    function _cletApplyFiltersAndSort() {
+      const search = (document.getElementById('cletSearch').value || '').toLowerCase().trim();
+      const sourceFilter = _cletSourceFilter.toLowerCase();
+      let visible = 0;
+      document.querySelectorAll('#cletGrid .ilet-card').forEach(c => {
+        const ready = parseInt(c.dataset.readyCount, 10) || 0;
+        const total = parseInt(c.dataset.total, 10) || 0;
+        const done = c.dataset.done === '1';
+        const source = c.dataset.source || '';
+        let pass = true;
+        if (_cletFilter === 'ready') pass = (ready === total && total > 0);
+        else if (_cletFilter === 'soon') pass = (ready < total);
+        else if (_cletFilter === 'done') pass = done;
+        if (pass && sourceFilter) pass = source.startsWith(sourceFilter);
+        if (pass && search) {
+          pass = (c.dataset.title || '').includes(search)
+            || (c.dataset.source || '').includes(search)
+            || (c.dataset.sections || '').includes(search)
+            || (c.dataset.mock || '').includes(search);
+        }
+        c.style.display = pass ? '' : 'none';
+        if (pass) visible++;
+      });
+      document.getElementById('cletCount').textContent = visible;
+      document.getElementById('cletEmpty').style.display = visible === 0 ? '' : 'none';
+    }
+
+    function _cletBuildSourceOptions() {
+      const sel = document.getElementById('cletSourceFilter');
+      if (!sel) return;
+      const groups = new Set();
+      Object.values(_cletMockMeta).forEach(m => {
+        if (!m || !m.source) return;
+        const stripped = String(m.source).replace(/\s+Test\s+\d+\s*$/i, '').trim();
+        if (stripped) groups.add(stripped);
+      });
+      const sorted = Array.from(groups).sort();
+      let opts = '<option value="">📚 All sources</option>';
+      sorted.forEach(g => {
+        const selAttr = (g === _cletSourceFilter) ? ' selected' : '';
+        opts += '<option value="' + _cletEsc(g) + '"' + selAttr + '>' + _cletEsc(g) + '</option>';
+      });
+      sel.innerHTML = opts;
+    }
+
+    function _cletBuildJumpOptions() {
+      const sel = document.getElementById('cletJump');
+      if (!sel) return;
+      const cards = document.querySelectorAll('#cletGrid .ilet-card');
+      let opts = '<option value="">Jump to #…</option>';
+      cards.forEach(c => {
+        const n = c.dataset.mock;
+        if (!n) return;
+        opts += '<option value="' + n + '">#' + n + '</option>';
+      });
+      sel.innerHTML = opts;
+    }
+
+    function _cletJumpToMock(mockNum) {
+      if (!mockNum) return;
+      const card = document.getElementById('clet-card-' + mockNum);
+      if (!card) return;
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.classList.remove('ilet-card-jumped');
+      void card.offsetWidth;
+      card.classList.add('ilet-card-jumped');
+    }
+
+    async function cletOpen() {
+      try { if (typeof window.__msv3ShowInlineSplash === 'function') window.__msv3ShowInlineSplash(); } catch (_e) {}
+      const overlay = document.getElementById('cletPicker');
+      overlay.classList.add('ilet-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      try { history.pushState({ picker: 'clet' }, ''); } catch (_e) {}
+      if (typeof _pickerShowTmaBack === 'function') _pickerShowTmaBack();
+      try { await loadDynamicCefrListeningMocks(); } catch (_e) {}
+      _cletRenderSkeletons();
+      try {
+        const [, serverDone] = await Promise.all([
+          _cletLoadAllMockMeta(),
+          _cletFetchServerDone(),
+          _cletLoadStats()
+        ]);
+        _cletServerDone = serverDone || {};
+        _cletComputeBadges();
+        _cletRender();
+      } finally {
+        try { if (typeof window.__msv3HideInlineSplash === 'function') window.__msv3HideInlineSplash(); } catch (_e) {}
+      }
+    }
+
+    function cletClose(opts) {
+      const keepUrl = !!(opts && opts.keepUrl);
+      const overlay = document.getElementById('cletPicker');
+      overlay.classList.remove('ilet-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (typeof _pickerHideTmaBack === 'function') _pickerHideTmaBack();
+      if (!_pickerFromPopstate && !keepUrl) {
+        try {
+          if (history.state && history.state.picker === 'clet') history.back();
+          if (/^\/take\//i.test(window.location.pathname)) {
+            history.replaceState(null, '', '/landing-v3.html');
+          }
+        } catch (_e) {}
+      }
+    }
+
+    function cletClearFilters() {
+      _cletFilter = 'all';
+      _cletSourceFilter = '';
+      document.querySelectorAll('#cletPicker .clet-chip').forEach(c =>
+        c.classList.toggle('ilet-chip-active', c.dataset.filter === 'all')
+      );
+      document.getElementById('cletSearch').value = '';
+      const srcSel = document.getElementById('cletSourceFilter');
+      if (srcSel) srcSel.value = '';
+      _cletApplyFiltersAndSort();
+    }
+
+    (function _cletWire() {
+      const overlay = document.getElementById('cletPicker');
+      if (!overlay) return;
+      document.querySelectorAll('#cletPicker .clet-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          _cletFilter = chip.dataset.filter;
+          document.querySelectorAll('#cletPicker .clet-chip').forEach(c =>
+            c.classList.toggle('ilet-chip-active', c === chip)
+          );
+          _cletApplyFiltersAndSort();
+        });
+      });
+      const search = document.getElementById('cletSearch');
+      const jump   = document.getElementById('cletJump');
+      const srcSel = document.getElementById('cletSourceFilter');
+      if (search) search.addEventListener('input', _cletApplyFiltersAndSort);
+      if (jump) jump.addEventListener('change', function () {
+        _cletJumpToMock(this.value);
+        setTimeout(() => { this.value = ''; }, 400);
+      });
+      if (srcSel) srcSel.addEventListener('change', function () {
+        _cletSourceFilter = this.value || '';
+        _cletApplyFiltersAndSort();
+      });
+      document.getElementById('cletGrid').addEventListener('click', function (e) {
+        if (e.target.closest('input, select, textarea, a, [contenteditable]')) return;
+        const card = e.target.closest('.ilet-card');
+        if (!card) return;
+        if (card.classList.contains('ilet-card-disabled')) return;
+        const mockN = card.dataset.mock;
+        const shareBtn = e.target.closest('.clet-share');
+        if (shareBtn) {
+          e.stopPropagation();
+          _pickerShareMock('cefr-listening', 'CEFR Listening Mock', mockN, shareBtn, 'clet-share-copied');
+          return;
+        }
+        const isTakeBtn = !!e.target.closest('.ilet-take');
+        if (!isTakeBtn) {
+          if (mockN) {
+            try { history.replaceState(null, '', '/take/cefr-listening-' + encodeURIComponent(mockN)); } catch (_e) {}
+          }
+          return;
+        }
+        const file = card.dataset.file;
+        if (!file) return;
+        const fileWithMock = mockN
+          ? file + (file.indexOf('?') >= 0 ? '&' : '?') + 'mock=' + encodeURIComponent(mockN)
+          : file;
+        if (mockN) {
+          try { history.pushState(null, '', '/take/cefr-listening-' + encodeURIComponent(mockN)); } catch (_e) {}
+        }
+        if (typeof handleListeningMockClick === 'function') {
+          handleListeningMockClick(fileWithMock, 'cefr-listening');
+        } else {
+          cletClose({ keepUrl: true });
+          try { window.location.replace(fileWithMock); } catch (_e) { window.location.href = fileWithMock; }
+        }
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && overlay.classList.contains('ilet-open')) cletClose();
+      });
+    })();
+
+    window.cletOpen = cletOpen;
+    window.cletClose = cletClose;
+    window.cletClearFilters = cletClearFilters;
+
+    // ===== Listening launch flow — Phase 5c =====
+    // CEFR Listening here; IELTS Listening lands in Phase 5c-ilet (next).
+    window.landingListeningMockRequiresPromocode = window.landingListeningMockRequiresPromocode || function (_mockNumber) {
+      if (window.isSuperAccessUnlocked()) return false;
+      return true;
+    };
+    window.validateFullListeningAccess = window.validateFullListeningAccess || async function (inputValue, mockNumber, candidateName) {
+      try {
+        if (window.isSuperAccessUnlocked()) { const isVipAi = sessionStorage.getItem('vipPremiumAi') === 'true'; return { valid: true, premiumEntry: isVipAi }; }
+        if (window.isPremiumUnlocked && window.isPremiumUnlocked()) return { valid: true, isPremium: true, premiumEntry: false };
+        const cleanInput = inputValue.trim().replace(/[-\s]/g, '');
+        if (candidateName && window.validatePremiumPasscode) {
+          const premiumResult = window.validatePremiumPasscode(candidateName, cleanInput.toUpperCase());
+          if (premiumResult.valid) {
+            sessionStorage.setItem('premiumUnlocked', 'true');
+            sessionStorage.setItem('usedPasscode', cleanInput);
+            sessionStorage.setItem('premiumUserName', candidateName.trim());
+            return { valid: true, isPremium: true, premiumEntry: false };
+          }
+        }
+        if (cleanInput.length === 10 && /^\d{10}$/.test(cleanInput) && window.extractListeningPremiumOTP) {
+          const aiPasscode = window.extractListeningPremiumOTP(cleanInput, mockNumber);
+          if (aiPasscode) {
+            try {
+              const response = await fetch('https://admin0709.alwaysdata.net/verify', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ passcode: parseInt(aiPasscode, 10), center: ((window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream').replace(/_/g,'') })
+              });
+              if (response.ok) {
+                const data = await response.json();
+                if (data.access || data.valid) {
+                  sessionStorage.setItem('listeningPremiumEntry', 'true');
+                  sessionStorage.setItem('listeningAiPasscode', aiPasscode);
+                  return { valid: true, premiumEntry: true };
+                }
+              }
+            } catch (_e) {}
+          }
+        }
+        if (cleanInput.length === 12 && /^\d{12}$/.test(cleanInput) && window.extractListeningRegularOTP) {
+          const otp = window.extractListeningRegularOTP(cleanInput, mockNumber);
+          if (otp) {
+            const rawOtp = otp.replace(/0+$/, '') || otp;
+            const response = await fetch('https://davirbek.alwaysdata.net/verify', {
+              method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ code: rawOtp, center: ((window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream').replace(/_/g,'') })
+            });
+            if (!response.ok) return { valid: false, error: 'Server error. Please try again.' };
+            const data = await response.json();
+            if (data.access || data.valid) {
+              sessionStorage.setItem('listeningPremiumEntry', 'false');
+              return { valid: true, premiumEntry: false };
+            }
+            return { valid: false, error: 'Invalid or expired passcode.' };
+          }
+        }
+        if (/^\d{4,12}$/.test(cleanInput) && typeof window.verifyMockStreamCode === 'function') {
+          const msRes = await window.verifyMockStreamCode(cleanInput, { skill: 'listening', mockNumber: parseInt(mockNumber, 10) });
+          if (msRes && msRes.valid) {
+            sessionStorage.setItem('listeningPremiumEntry', msRes.premiumEntry ? 'true' : 'false');
+            return { valid: true, premiumEntry: !!msRes.premiumEntry };
+          }
+        }
+        return { valid: false, error: 'Invalid code. Please check your code or contact support.' };
+      } catch (error) {
+        console.error('[v3 listening] validation error:', error);
+        return { valid: false, error: 'Connection error. Please check your internet.' };
+      }
+    };
+
+    let _pendingListeningMock = null;
+    let _pendingCefrListeningUrl = null;
+
+    function _extractListeningMockNumber(pageUrl) {
+      const mp = pageUrl.match(/[?&]mock=(\d+)/);
+      if (mp) return mp[1].padStart(2, '0');
+      const m = pageUrl.match(/(\d+)(?:\.js)?(?=&|$)/);
+      return m ? m[1].padStart(2, '0') : null;
+    }
+    function _isListeningMockTaken(pageUrl) {
+      try {
+        if (!window.PremiumGate) return false;
+        if (window.PremiumGate.isPremiumTier('listening') || window.PremiumGate.isAdmin()) return false;
+        var n = _extractListeningMockNumber(pageUrl);
+        if (!n) return false;
+        var examType = ((pageUrl || '').toLowerCase().indexOf('ielts') !== -1) ? 'ielts' : 'cefr';
+        return window.PremiumGate.hasTaken({ skill: 'listening', exam_type: examType, mock_number: parseInt(n, 10) });
+      } catch (_e) { return false; }
+    }
+    function _showListeningTakenAlert() {
+      var ov = document.createElement('div');
+      ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);z-index:100010;display:flex;align-items:center;justify-content:center';
+      ov.innerHTML = '<div style="background:#fff;border-radius:20px;padding:32px 26px;max-width:380px;width:90%;text-align:center;box-shadow:0 25px 50px rgba(0,0,0,.3);animation:slideUp .3s ease">'
+        + '<div style="width:64px;height:64px;background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:30px">✅</div>'
+        + '<h3 style="color:#1e293b;font-size:18px;margin:0 0 8px">🎯 Mock Completed!</h3>'
+        + '<p style="color:#64748b;font-size:13.5px;line-height:1.6;margin:0 0 14px">You’ve already used your free attempt on this mock.</p>'
+        + '<div style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);border-radius:12px;padding:12px 16px;margin:0 0 18px">'
+        + '<p style="color:#6d28d9;font-size:13px;font-weight:600;margin:0">💎 Upgrade to Premium for unlimited retakes, answer review & transcripts</p></div>'
+        + '<button onclick="this.closest(\'div[style]\').parentElement.remove()" style="padding:11px 28px;background:linear-gradient(135deg,#0d9488,#0f766e);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer">Got it</button></div>';
+      document.body.appendChild(ov);
+      ov.addEventListener('click', function(e) { if (e.target === ov) ov.remove(); });
+    }
+
+    function handleListeningMockClick(pageUrl, category) {
+      const mockNumber = _extractListeningMockNumber(pageUrl);
+      sessionStorage.setItem('listeningMockReturnCategory', category);
+      if (!mockNumber) { _loadListeningMockOrShowMode(pageUrl, category); return; }
+      if (window.isSuperAccessUnlocked()) {
+        const isVipAi = sessionStorage.getItem('vipPremiumAi') === 'true';
+        sessionStorage.setItem('listeningPremiumEntry', isVipAi ? 'true' : 'false');
+        if (!isVipAi && _isListeningMockTaken(pageUrl)) { _showListeningTakenAlert(); return; }
+        sessionStorage.setItem('listeningLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: isVipAi }));
+        sessionStorage.setItem('listeningCodeValidated', 'true');
+        _loadListeningMockOrShowMode(pageUrl, category);
+        return;
+      }
+      if (window.isPremiumUnlocked && window.isPremiumUnlocked()) {
+        sessionStorage.setItem('listeningPremiumEntry', 'true');
+        sessionStorage.setItem('listeningLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: true }));
+        sessionStorage.setItem('listeningCodeValidated', 'true');
+        _loadListeningMockOrShowMode(pageUrl, category);
+        return;
+      }
+      if (window._centerAccess) {
+        var _caLevel = window._centerAccess.globalAccess !== 'off' ? window._centerAccess.globalAccess : (window._centerAccess.skillAccess && window._centerAccess.skillAccess.listening) || 'off';
+        if (_caLevel !== 'off') {
+          var _caPrem = _caLevel === 'premium';
+          sessionStorage.setItem('listeningPremiumEntry', _caPrem ? 'true' : 'false');
+          if (!_caPrem && _isListeningMockTaken(pageUrl)) { _showListeningTakenAlert(); return; }
+          sessionStorage.setItem('listeningLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: _caPrem }));
+          sessionStorage.setItem('listeningCodeValidated', 'true');
+          _loadListeningMockOrShowMode(pageUrl, category);
+          return;
+        }
+      }
+      if (!window.landingListeningMockRequiresPromocode(mockNumber)) {
+        sessionStorage.setItem('listeningPremiumEntry', 'false');
+        if (_isListeningMockTaken(pageUrl)) { _showListeningTakenAlert(); return; }
+        sessionStorage.setItem('listeningLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: false }));
+        sessionStorage.setItem('listeningCodeValidated', 'true');
+        _loadListeningMockOrShowMode(pageUrl, category);
+        return;
+      }
+      _pendingListeningMock = { pageUrl, mockNumber, category };
+      showListeningAccessCodeModal();
+    }
+    window.handleListeningMockClick = handleListeningMockClick;
+
+    function showListeningAccessCodeModal() {
+      const modal = document.getElementById('listeningAccessCodeModal');
+      const input = document.getElementById('listeningAccessCodeInput');
+      const error = document.getElementById('listeningAccessCodeError');
+      const label = document.getElementById('listeningAccessMockLabel');
+      const btn = document.getElementById('listeningAccessCodeSubmitBtn');
+      if (!modal || !_pendingListeningMock) return;
+      const isIELTS = _pendingListeningMock.category === 'ielts-listening';
+      label.textContent = (isIELTS ? 'IELTS' : 'CEFR') + ' Listening Mock ' + _pendingListeningMock.mockNumber + ' requires an access code';
+      error.textContent = ''; error.style.color = '';
+      input.value = '';
+      btn.textContent = 'Verify & Start'; btn.disabled = false;
+      modal.style.display = 'flex';
+      setTimeout(() => input.focus(), 100);
+      input.onkeypress = function (e) { if (e.key === 'Enter') verifyListeningAccessCode(); };
+    }
+    function closeListeningAccessCodeModal() {
+      const modal = document.getElementById('listeningAccessCodeModal');
+      if (modal) modal.style.display = 'none';
+      _pendingListeningMock = null;
+    }
+    window.cancelListeningAccessCodeModal = function () {
+      closeListeningAccessCodeModal();
+      try {
+        if (/^\/take\//i.test(window.location.pathname)) {
+          history.replaceState(null, '', '/landing-v3.html');
+        }
+      } catch (_e) {}
+    };
+    async function verifyListeningAccessCode() {
+      if (!_pendingListeningMock) return;
+      const input = document.getElementById('listeningAccessCodeInput');
+      const error = document.getElementById('listeningAccessCodeError');
+      const btn = document.getElementById('listeningAccessCodeSubmitBtn');
+      const inputValue = input.value.trim();
+      if (!inputValue) { error.style.color = '#dc2626'; error.textContent = '❌ Please enter your access code'; return; }
+      btn.textContent = 'Validating...'; btn.disabled = true;
+      error.style.color = '#f59e0b'; error.textContent = '🔄 Validating access code...';
+      const candidateName = sessionStorage.getItem('CANDIDATE_FULL_NAME') || '';
+      const { mockNumber, pageUrl } = _pendingListeningMock;
+      try {
+        const result = await window.validateFullListeningAccess(inputValue, mockNumber, candidateName);
+        if (!result.valid) {
+          error.style.color = '#dc2626'; error.textContent = '❌ ' + result.error;
+          btn.textContent = 'Verify & Start'; btn.disabled = false;
+          return;
+        }
+        error.style.color = '#059669'; error.textContent = '✅ Access verified!';
+        sessionStorage.setItem('listeningPremiumEntry', result.premiumEntry ? 'true' : 'false');
+        try { window.dispatchEvent(new CustomEvent('mockStream:premiumUnlocked', { detail: { source: 'listening_access_code', skill: 'listening' } })); } catch (_e) {}
+        if (!result.premiumEntry && _isListeningMockTaken(_pendingListeningMock.pageUrl)) {
+          closeListeningAccessCodeModal(); _showListeningTakenAlert(); btn.disabled = false; btn.textContent = 'Verify & Start'; return;
+        }
+        sessionStorage.setItem('listeningLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: result.premiumEntry || false }));
+        sessionStorage.setItem('listeningCodeValidated', 'true');
+        const _lsResumeUrl = _pendingListeningMock.pageUrl;
+        const _lsResumeCategory = _pendingListeningMock.category;
+        closeListeningAccessCodeModal();
+        setTimeout(() => _loadListeningMockOrShowMode(_lsResumeUrl, _lsResumeCategory), 300);
+      } catch (_err) {
+        error.style.color = '#dc2626'; error.textContent = '❌ Connection error. Please try again.';
+        btn.textContent = 'Verify & Start'; btn.disabled = false;
+      }
+    }
+    window.verifyListeningAccessCode = verifyListeningAccessCode;
+    window.closeListeningAccessCodeModal = closeListeningAccessCodeModal;
+
+    function _loadListeningMockOrShowMode(pageUrl, category) {
+      if (category === 'cefr-listening') {
+        _pendingCefrListeningUrl = pageUrl;
+        var mockNum = _extractListeningMockNumber(pageUrl) || '??';
+        var label = document.getElementById('cefrListeningModeMockLabel');
+        if (label) label.textContent = 'CEFR Listening Mock ' + mockNum;
+        var modal = document.getElementById('cefrListeningModeModal');
+        if (modal) modal.style.display = 'flex';
+      } else {
+        // ielts-listening lands in Phase 5c-ilet — direct nav for now.
+        try { window.location.replace(pageUrl); } catch (_e) { window.location.href = pageUrl; }
+      }
+    }
+
+    function closeCefrListeningModeModal() {
+      var modal = document.getElementById('cefrListeningModeModal');
+      if (modal) modal.style.display = 'none';
+      _pendingCefrListeningUrl = null;
+      try { sessionStorage.removeItem('listeningMockReturnCategory'); } catch (_e) {}
+      try {
+        if (/^\/take\//i.test(window.location.pathname)) {
+          history.replaceState({}, document.title, '/landing-v3.html');
+        }
+      } catch (_e) {}
+    }
+    function _cefrListeningModeFullMock() {
+      var url = _pendingCefrListeningUrl;
+      _pendingCefrListeningUrl = null;
+      document.getElementById('cefrListeningModeModal').style.display = 'none';
+      if (url) { try { window.location.replace(url); } catch (_e) { window.location.href = url; } }
+    }
+    function _cefrListeningModePartBased() {
+      document.getElementById('cefrListeningModeModal').style.display = 'none';
+      var modal = document.getElementById('cefrListeningPartPickerModal');
+      var allBtns = modal.querySelectorAll('button[onclick^="_pickCefrListeningPart"]');
+      allBtns.forEach(function (b) { b.style.display = ''; });
+      function _applyReady(readyArr) {
+        if (!Array.isArray(readyArr)) return;
+        allBtns.forEach(function (btn) {
+          var m = btn.getAttribute('onclick').match(/_pickCefrListeningPart\((\d+)\)/);
+          if (!m) return;
+          var partIdx = parseInt(m[1], 10) - 1;
+          btn.style.display = readyArr[partIdx] ? '' : 'none';
+        });
+      }
+      function _show() { modal.style.display = 'flex'; }
+      try {
+        var url   = _pendingCefrListeningUrl || '';
+        var numM  = url.match(/[?&](?:num|mock)=(\d+)/);
+        var mn    = numM ? String(parseInt(numM[1], 10)).padStart(2, '0') : null;
+        var testM = url.match(/[?&]test=cefr-listening-test-(\d+)/);
+        if (!mn && testM) mn = String(parseInt(testM[1], 10)).padStart(2, '0');
+        var sbM   = url.match(/[?&]sbmock=([^&]+)/);
+        var sbId  = sbM ? sbM[1] : null;
+        var cached = (mn && typeof _cletMockMeta !== 'undefined') ? _cletMockMeta[mn] : null;
+        if (cached && Array.isArray(cached.sections)) {
+          _applyReady(cached.sections.map(function (s) { return !!(s && s.ready); }));
+          _show();
+          return;
+        }
+        if (sbId) {
+          _show();
+          var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+          var KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+          fetch(SB + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(sbId) + '&select=mock_data', {
+            headers: { apikey: KEY, Authorization: 'Bearer ' + KEY }
+          }).then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (rows) {
+              if (!rows || !rows.length) return;
+              var parts = (rows[0].mock_data && Array.isArray(rows[0].mock_data.parts)) ? rows[0].mock_data.parts : [];
+              var ready = parts.map(function (p) {
+                var n = (p && p.answers && typeof p.answers === 'object') ? Object.keys(p.answers).length : 0;
+                return n >= 4;
+              });
+              while (ready.length < 6) ready.push(false);
+              _applyReady(ready);
+            })
+            .catch(function () {});
+          return;
+        }
+      } catch (_e) {}
+      _show();
+    }
+    function closeCefrListeningPartPicker() {
+      document.getElementById('cefrListeningPartPickerModal').style.display = 'none';
+      if (_pendingCefrListeningUrl) {
+        document.getElementById('cefrListeningModeModal').style.display = 'flex';
+      }
+    }
+    function _pickCefrListeningPart(n) {
+      var url = _pendingCefrListeningUrl;
+      document.getElementById('cefrListeningPartPickerModal').style.display = 'none';
+      _pendingCefrListeningUrl = null;
+      if (url) {
+        var fullUrl = url + '&part=' + n;
+        try { window.location.replace(fullUrl); } catch (_e) { window.location.href = fullUrl; }
+      }
+    }
+    window.closeCefrListeningModeModal = closeCefrListeningModeModal;
+    window._cefrListeningModeFullMock  = _cefrListeningModeFullMock;
+    window._cefrListeningModePartBased = _cefrListeningModePartBased;
+    window.closeCefrListeningPartPicker = closeCefrListeningPartPicker;
+    window._pickCefrListeningPart       = _pickCefrListeningPart;
   </script>
 
   <!-- ═══════════════════════════════════════════════════════
