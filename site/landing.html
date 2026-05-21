@@ -15007,14 +15007,16 @@
     }
 
     // ===== Floating guest → Google upgrade pill =====
-    // Small persistent bottom-right pill shown to guests (not signed in with
-    // Google). Lets them upgrade after having used guest mode. Dismissable
-    // for the current session.
+    // Small persistent bottom-right pill shown to guests. Removed at the
+    // user's request — it was hovering over the sign-in flow and felt
+    // pushy. Function kept as a no-op so existing call sites + the
+    // signed-in/out listeners still work without errors.
     function _syncGuestUpgradePill() {
+      var existing = document.getElementById('guestUpgradePill');
+      if (existing) existing.style.display = 'none';
+      return;
+      // eslint-disable-next-line no-unreachable
       try {
-        // Only show the pill on the main site — Google OAuth origins are
-        // not registered for clone Netlify subdomains, so the button would
-        // just 403 on those sites.
         var _siteIdPill = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
         if (_siteIdPill !== 'mock_stream') {
           var elx = document.getElementById('guestUpgradePill');
