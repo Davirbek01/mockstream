@@ -5112,6 +5112,34 @@
       #iletPicker .ilet-chip { padding: 3px 7px; font-size: 10px; font-weight: 700; }
       #iletPicker .ilet-source-filter { flex: 1 1 100%; margin-left: 0; padding: 4px 8px; font-size: 11px; }
     }
+    /* Compact ilet cards — match the master/landing.html look. Scoped
+       shrink + keep the header on a single row (no flex-wrap) so the
+       date pill sits inline with the source chip like master. */
+    #iletPicker .ilet-card {
+      padding: 14px 14px 12px;
+      min-height: 0;
+      gap: 8px;
+    }
+    #iletPicker .ilet-card-head { flex-wrap: nowrap; row-gap: 0; }
+    #iletPicker .ilet-mock-title { font-size: 14.5px; line-height: 1.25; }
+    #iletPicker .ilet-section { font-size: 12px; }
+    #iletPicker .ilet-section-num { width: 18px; height: 18px; font-size: 9.5px; }
+    #iletPicker .ilet-section-title { font-size: 12px; }
+    #iletPicker .ilet-section-badge { font-size: 9.5px; padding: 2px 6px; }
+    #iletPicker .ilet-mocknum { font-size: 11.5px; padding: 3px 9px; }
+    #iletPicker .ilet-take { padding: 7px 14px; font-size: 12.5px; }
+    #iletPicker .ilet-share { padding: 5px 8px; font-size: 13px; }
+    #iletPicker .ilet-card-foot { gap: 8px; }
+    #iletPicker .ilet-status-label { font-size: 10px; }
+    #iletPicker .ilet-source { font-size: 10.5px; padding: 3px 8px; }
+    #iletPicker .ilet-stat-row { font-size: 11px; gap: 6px; margin: 2px 0 6px; }
+    #iletPicker .ilet-sections { gap: 6px; }
+    #iletPicker .ilet-exam-date { font-size: 10px; padding: 1px 7px; }
+    /* On phones the header is still tight — let it wrap again so the
+       date chip drops to a new line instead of overflowing. */
+    @media (max-width: 600px) {
+      #iletPicker .ilet-card-head { flex-wrap: wrap; row-gap: 6px; }
+    }
   </style>
 
   <!-- CEFR Speaking fullscreen picker — DOM only. JS in the script
