@@ -13146,10 +13146,16 @@
         return ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[c];
       });
     }
-    // Build the runner URL for (category, item, level). Levels for grammar/
-    // vocabulary/articles/flashcards map intermediate=B1, upper-intermediate=
-    // B2, advanced=C1. Flashcard items without .levels ignore level and
-    // open the bare topic. Absolute /paths so /take/-style URLs can't break.
+    // Build the runner URL for (category, item, level). Levels map:
+    // intermediate=B1, upper-intermediate=B2, advanced=C1.
+    // Filesystem audit (2026-05-21) confirmed every catalog item has all
+    // 3 level files — grammar / vocab / flashcards all use the suffix
+    // pattern <bare-slug>-<level>.js (the trailing 01/02/03 from the
+    // catalog slug gets stripped). Articles use runtime ?level= switching.
+    function _stripSlugDigits(s) {
+      // 'idioms01' -> 'idioms', 'present-tenses-day04' -> 'present-tenses-day'
+      return String(s || '').replace(/\d+$/, '');
+    }
     function _learnRunnerUrl(category, item, level) {
       if (category === 'articles') {
         var artNum = (item.file.match(/article=([^&]+)/) || [])[1];
@@ -13161,21 +13167,28 @@
       if (category === 'grammar' || category === 'vocabulary') {
         var slug = (item.file.match(/test=([^&]+)/) || [])[1];
         if (!slug) return null;
-        return '/test.html?test=' + encodeURIComponent(slug) + '-' + level + '&type=' + category;
+        var bare = _stripSlugDigits(slug);
+        // Files live at questions G/<bare>-<level>.js (or questions V/).
+        // Runner reads ?test= and looks up the file by slug.
+        return '/test.html?test=' + encodeURIComponent(bare + '-' + level) + '&type=' + category;
       }
       if (category === 'flashcards') {
-        var base = item.file.replace(/\.js$/, '');
+        // Explicit .levels mapping wins (e.g. Digital Frontier in landing.html).
         if (item.levels && item.levels[level]) {
           return '/flashcards.html?topic=' + encodeURIComponent(item.levels[level]);
         }
-        return '/flashcards.html?topic=' + encodeURIComponent(base);
+        // Otherwise compute: 'idioms01.js' -> 'idioms-intermediate' / etc.
+        var base = item.file.replace(/\.js$/, '');
+        var bareFc = _stripSlugDigits(base);
+        return '/flashcards.html?topic=' + encodeURIComponent(bareFc + '-' + level);
       }
       return null;
     }
-    function _hasLevels(category, item) {
-      if (category === 'articles' || category === 'grammar' || category === 'vocabulary') return true;
-      if (category === 'flashcards') return !!(item && item.levels);
-      return false;
+    function _hasLevels(_category, _item) {
+      // All 4 categories now support B1/B2/C1 universally. Articles via
+      // runtime ?level= switching; grammar/vocab/flashcards via filename
+      // suffix.
+      return true;
     }
     function openLearningCategory(category) {
       var cat = _LEARN_CATALOGS[category];
