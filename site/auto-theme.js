@@ -1,15 +1,9 @@
-// Apply OS dark/light preference to the document on load + react to changes.
-// Used by KET pages so they pick up the user's system theme even when opened
-// directly (not via landing.html which has its own copy of this logic).
+// Theme is locked to light across the whole site — the OS dark/light
+// preference is intentionally ignored so the UI looks identical on every
+// device. This file used to mirror the system theme via matchMedia, but
+// users found the auto-dark surprising on mocks / dashboards. Keep the
+// file (it's referenced from every Cambridge exam page) but no-op the
+// detection.
 (function () {
-  function applySystemTheme() {
-    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
-  }
-  applySystemTheme();
-  try {
-    var mq = window.matchMedia('(prefers-color-scheme: dark)');
-    if (mq.addEventListener) mq.addEventListener('change', applySystemTheme);
-    else if (mq.addListener) mq.addListener(applySystemTheme);  // older Safari
-  } catch (e) {}
+  document.documentElement.setAttribute('data-theme', 'light');
 })();

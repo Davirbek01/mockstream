@@ -3335,7 +3335,7 @@
       [data-theme="dark"] .cb-global-announce{background:linear-gradient(135deg,#451a03,#78350f);border-color:#d97706}
       [data-theme="dark"] .cb-global-announce-label{color:#fbbf24}
       [data-theme="dark"] .cb-global-announce-text{color:#fde68a}
-      @media(prefers-color-scheme:dark){.cb-global-announce{background:linear-gradient(135deg,#451a03,#78350f);border-color:#d97706}.cb-global-announce-label{color:#fbbf24}.cb-global-announce-text{color:#fde68a}}
+      @media (max-width: -1px) /* prefers-color-scheme:dark - disabled site-wide */{.cb-global-announce{background:linear-gradient(135deg,#451a03,#78350f);border-color:#d97706}.cb-global-announce-label{color:#fbbf24}.cb-global-announce-text{color:#fde68a}}
 
       /* ── Animations ── */
       @keyframes cb-bounce{to{transform:translateY(-4px)}}
@@ -3385,7 +3385,7 @@
       #cb-reply-banner{display:none;align-items:center;padding:6px 14px;background:#f1f5f9;border-bottom:1px solid #e5e7eb;flex-shrink:0;gap:8px}
 
       /* ── Dark Mode (overlay) ── */
-      @media(prefers-color-scheme:dark){
+      @media (max-width: -1px) /* prefers-color-scheme:dark - disabled site-wide */{
         #cb-overlay .cb-hc-container{background:#1e293b;border-color:rgba(255,255,255,.1)}
         #cb-overlay .cb-hc-tabs{border-color:rgba(255,255,255,.1)}
         #cb-overlay .cb-cat-btn{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.15);color:#e2e8f0}

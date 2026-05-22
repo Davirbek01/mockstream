@@ -1132,14 +1132,9 @@
       submitBtn.innerHTML = '<span>📤</span> Submit Booking Request';
     });
 
-    // Auto-detect theme
+    // Theme locked to light — OS dark mode is intentionally ignored.
     const html = document.documentElement;
-    function applySystemTheme() {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      html.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
-    }
-    applySystemTheme();
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applySystemTheme);
+    html.setAttribute('data-theme', 'light');
 
     // Apply CEFR logo to header
     document.getElementById('headerLogo').src = window.CEFR_LOGO_URL || (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png';

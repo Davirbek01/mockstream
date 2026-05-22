@@ -2,6 +2,100 @@
 <html data-theme="light" lang="en">
 
 <head>
+  <!-- Platform host marker — set BEFORE any other tag so the CSS backdrop
+       (html.ms-platform-host::before) paints the moment <head> parses.
+       The spinner ring is a real <div> injected the instant <body> exists
+       (see the inline poller below) because pseudo-element animations on
+       <html> didn't render reliably across browsers. -->
+  <script>document.documentElement.classList.add('ms-platform-host');</script>
+  <style>
+    html.ms-platform-host::before {
+      content: '';
+      position: fixed; inset: 0;
+      background: linear-gradient(180deg, #ffffff 0%, #f1f4fb 100%);
+      z-index: 10000;
+      pointer-events: none;
+      transition: opacity .25s ease;
+    }
+    #msPlatformSplash {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10001;
+      pointer-events: none;
+      transition: opacity .28s ease;
+      -webkit-user-select: none; user-select: none;
+    }
+    #msPlatformSplash .msk-logo {
+      width: 84px; height: 84px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #6366f1 0%, #f97316 100%);
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 22px 44px rgba(99,102,241,.22);
+    }
+    #msPlatformSplash .msk-logo img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+    #msPlatformSplash .msk-brand {
+      margin-top: 18px;
+      font: 700 19px/1.2 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      color: #0b1330;
+      letter-spacing: -.01em;
+    }
+    #msPlatformSplash .msk-hint {
+      margin-top: 6px;
+      font: 500 13.5px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      color: #5a6584;
+    }
+    #msPlatformSplash .msk-spinner {
+      margin-top: 20px;
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      border: 3px solid rgba(99,102,241,.16);
+      border-top-color: #6366f1;
+      animation: mspsSpin .9s linear infinite;
+    }
+    #msPlatformSplash.hide { opacity: 0; }
+    html.ms-platform-ready::before { opacity: 0; }
+    @keyframes mspsSpin { to { transform: rotate(360deg); } }
+  </style>
+  <script>
+    // Inject the branded splash card the instant <body> exists. Re-used
+    // by both the entry path (auto-opener waiting for the grid) and the
+    // exit path (× / backdrop / Esc → fade to v3 home).
+    window.__msPlatformInjectSplash = function _inject(hint) {
+      if (!document.body) return setTimeout(function () { _inject(hint); }, 0);
+      var existing = document.getElementById('msPlatformSplash');
+      if (existing) {
+        existing.classList.remove('hide');
+        if (hint) {
+          var h = existing.querySelector('.msk-hint');
+          if (h) h.textContent = hint;
+        }
+        return existing;
+      }
+      var brand = (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream';
+      var logo  = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl)
+                || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+      var d = document.createElement('div');
+      d.id = 'msPlatformSplash';
+      d.setAttribute('role', 'status');
+      d.setAttribute('aria-live', 'polite');
+      d.innerHTML =
+        '<div class="msk-logo"><img alt="" src="' + logo + '"></div>' +
+        '<div class="msk-brand">' + brand + '</div>' +
+        '<div class="msk-hint">' + (hint || 'Loading platform…') + '</div>' +
+        '<div class="msk-spinner" aria-hidden="true"></div>';
+      document.body.appendChild(d);
+      return d;
+    };
+    window.__msPlatformInjectSplash();
+  </script>
   <!-- Resolve relative asset paths from site root regardless of current URL.
        Without this, deep-link URLs like /take/cefr-reading-44 cause every
        <script src="auth.js"> etc. to fetch /take/auth.js (which Netlify
@@ -1873,9 +1967,7 @@
       transition: background 0.15s;
     }
     .hc-toast-dismiss:hover { background: #e2e8f0; }
-    /* OS dark-mode auto-detect disabled site-wide. Block kept for
-       reference but the media query is rewritten to never match. */
-    @media (max-width: -1px) {
+    @media (prefers-color-scheme: dark) {
       #hcMsgToast { background: #1e293b; }
       .hc-toast-title { color: #f1f5f9; }
       .hc-toast-text { color: #94a3b8; }
@@ -8154,6 +8246,41 @@
     .msv3-logout:hover { border-color: #ef4444; color: #ef4444; background: #fef2f2; }
   </style>
   <script>
+    // Phase 6-E P2a — platform.html is a literal duplicate of landing.html
+    // that auto-jumps to the Site Management grid for admins. The bounce
+    // block below decides "stay on landing or redirect to v3"; on
+    // platform.html we ALWAYS stay (no redirect). The student welcome
+    // backdrop is suppressed and replaced by a centered splash spinner
+    // until the grid (or sign-in modal) opens.
+    window.__msPlatformHost = true;
+  </script>
+  <style>
+    /* Hide every static landing-page chrome element so nothing leaks
+       behind the Site Management grid. The body's static children stay
+       below the html::before backdrop (z-index 10000) anyway, but these
+       rules are belt-and-braces for elements that have their own high
+       z-index (msv3Sidebar, mobile FAB, etc.). */
+    html.ms-platform-host #landingPage,
+    html.ms-platform-host #sidebarMenu,
+    html.ms-platform-host #sidebarOverlay,
+    html.ms-platform-host #msv3Sidebar,
+    html.ms-platform-host #msv3Overlay,
+    html.ms-platform-host .ms-discovery-watermark,
+    html.ms-platform-host #cretPicker,
+    html.ms-platform-host #iretPicker,
+    html.ms-platform-host #cletPicker,
+    html.ms-platform-host #iletPicker,
+    html.ms-platform-host #cspetPicker,
+    html.ms-platform-host #ispetPicker,
+    html.ms-platform-host #cwetPicker,
+    html.ms-platform-host #iwetPicker,
+    html.ms-platform-host #mobileFab,
+    html.ms-platform-host #mobileToolsMenu,
+    html.ms-platform-host #mobileMenuOverlay {
+      display: none !important;
+    }
+  </style>
+  <script>
     (function () {
       try {
         var path = window.location.pathname || '';
@@ -8202,27 +8329,114 @@
           }
         } catch (_e) {}
 
-        // Decide: bounce to v3, or stay here?
-        //   STAY when this load has a real reason: /take/, known handoff
-        //   param, hash anchor (#cambridge / #fullmock), or a return-flag.
-        //   BOUNCE otherwise — even with an unknown query like ?center=ID
-        //   we'd rather drop students on v3 than show the old landing.
-        var stay = isTakeRoute || hasKnownHandoff || hasHash || hasReturnFlag;
-        if (!stay) {
-          window.location.replace('/landing-v3.html');
-          return;
-        }
-
-        // Activate the v3-style backdrop for paths where it makes sense.
-        // /take/ shows the access-code / mode modal over the backdrop; a
-        // known handoff has a modal/picker opening; a return-flag triggers
-        // the picker-reopen. Hash anchors (#cambridge / #fullmock) are
-        // section scrolls — those keep the legacy landing visible so the
-        // section is readable.
-        if (isTakeRoute || hasKnownHandoff || hasReturnFlag) {
-          document.documentElement.classList.add('ms-discovery-handoff');
-        }
+        // platform.html: always stay, never bounce. The student welcome /
+        // hero stays hidden via the .ms-platform-host class (CSS above)
+        // and is replaced by the centered #msPlatformSplash spinner until
+        // the Site Management grid (or the admin sign-in modal) opens.
+        document.documentElement.classList.add('ms-platform-host');
       } catch (_e) {}
+    })();
+  </script>
+  <script>
+    // platform.html auto-opener with auth-ready awareness.
+    //
+    // The pure-CSS splash (html::before backdrop + html::after spinner) is
+    // painted the instant the head parses, so there's never a flash of
+    // student content. Once openSiteMgmtGrid renders, we add the
+    // .ms-platform-ready class to <html> which fades the backdrop/spinner
+    // out.
+    //
+    // We also poll for window.MockStream.auth.isSignedIn() to become true
+    // before calling openSiteMgmtGrid — Supabase needs a tick to restore
+    // the session from storage and without this the admin sign-in modal
+    // pops up needlessly for already-signed-in users.
+    (function () {
+      function _ready() {
+        return typeof window.openSiteMgmtGrid === 'function';
+      }
+      function _authSigned() {
+        try {
+          var a = window.MockStream && window.MockStream.auth;
+          return !!(a && typeof a.isSignedIn === 'function' && a.isSignedIn());
+        } catch (_e) { return false; }
+      }
+      function _markReady() {
+        try { document.documentElement.classList.add('ms-platform-ready'); } catch (_e) {}
+        var s = document.getElementById('msPlatformSplash');
+        if (s) {
+          s.classList.add('hide');
+          setTimeout(function () { try { s.remove(); } catch (_e) {} }, 300);
+        }
+      }
+      function _navHome() {
+        // Re-show the branded splash with a "Returning to home…" hint so
+        // the navigation tick has a clear visual instead of a blank flash.
+        try {
+          document.documentElement.classList.remove('ms-platform-ready');
+          if (typeof window.__msPlatformInjectSplash === 'function') {
+            window.__msPlatformInjectSplash('Returning to home…');
+          }
+        } catch (_e) {}
+        try { window.location.href = '/landing-v3.html'; }
+        catch (_e) { window.location.replace('/landing-v3.html'); }
+      }
+      var _wiredOverlay = null;
+      function _wireOverlayToHome(ov) {
+        if (!ov || _wiredOverlay === ov) return;
+        _wiredOverlay = ov;
+        var closeBtn = ov.querySelector('#smgCloseBtn');
+        if (closeBtn) closeBtn.addEventListener('click', _navHome, true);
+        ov.addEventListener('click', function (e) {
+          if (e.target === ov) _navHome();
+        }, true);
+      }
+      // openSiteMgmtGrid returns immediately, then requireAdminAuth runs an
+      // async checkPremiumRole before _showSiteMgmtGrid actually appends
+      // #siteMgmtGridOverlay. Watch the DOM with a MutationObserver so we
+      // attach the close-to-home listeners the instant the overlay shows
+      // (works regardless of how long the auth check takes).
+      function _watchForOverlay() {
+        var existing = document.getElementById('siteMgmtGridOverlay');
+        if (existing) { _wireOverlayToHome(existing); return; }
+        var obs = new MutationObserver(function () {
+          var ov = document.getElementById('siteMgmtGridOverlay');
+          if (ov) {
+            _wireOverlayToHome(ov);
+            // Keep observing in case the overlay is recreated (the grid's
+            // sub-panels rebuild it on each open).
+          }
+        });
+        obs.observe(document.body, { childList: true, subtree: true });
+        // Esc anywhere — only kicks in when the overlay is currently shown.
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && document.getElementById('siteMgmtGridOverlay')) {
+            _navHome();
+          }
+        });
+      }
+      function _openGrid() {
+        _watchForOverlay();
+        try { window.openSiteMgmtGrid(); }
+        catch (e) { console.warn('[platform] openSiteMgmtGrid failed', e); }
+        // Fade backdrop + spinner after the grid (or sign-in modal) renders.
+        setTimeout(_markReady, 80);
+      }
+      function _bootstrap() {
+        var start = Date.now();
+        var MAX_WAIT = 2500;
+        function _poll() {
+          var elapsed = Date.now() - start;
+          if (_ready() && _authSigned()) return _openGrid();
+          if (_ready() && elapsed >= MAX_WAIT) return _openGrid();
+          setTimeout(_poll, 80);
+        }
+        _poll();
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', _bootstrap);
+      } else {
+        _bootstrap();
+      }
     })();
   </script>
 
@@ -23176,10 +23390,19 @@
       }
     });
 
-    // Theme locked to light — OS dark mode is intentionally ignored.
+    // Auto System Theme Detection
     const html = document.documentElement;
-    function applySystemTheme() { html.setAttribute('data-theme', 'light'); }
+
+    function applySystemTheme() {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      html.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+    }
+
+    // Apply on load
     applySystemTheme();
+
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applySystemTheme);
 
     // Fullscreen function
     function enterFullscreen() {

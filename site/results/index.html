@@ -1779,7 +1779,7 @@
         </div>
         <div class="auth-error" id="authEmailError"></div>
       </div>
-      <button class="auth-back-btn" onclick="window.location.href='../landing.html'">← Back to Home</button>
+      <button class="auth-back-btn" onclick="window.location.href='../landing-v3.html'">← Back to Home</button>
     </div>
   </div>
 
@@ -1800,7 +1800,7 @@
         <button class="topbar-btn main-site-only" onclick="openStoragePanel()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);color:white;font-weight:700;">💾 Storage</button>
         <button class="topbar-btn main-site-only" id="returnMainBtn" style="display:none;background:linear-gradient(135deg,#f59e0b,#dc2626);color:white;font-weight:700;animation:chPulse 2s infinite;" onclick="returnToMainSite()">🏠 Return to Mock Stream</button>
         <button class="topbar-btn" onclick="refreshResults()">🔄 Refresh</button>
-        <button class="topbar-btn" onclick="window.location.href='../landing.html'">🏠 Home</button>
+        <button class="topbar-btn" onclick="window.location.href='../landing-v3.html'">🏠 Home</button>
       </div>
     </div>
 
@@ -3186,8 +3186,11 @@
     // THEME
     // ====================================================================
     (function initTheme() {
+      // OS dark-mode auto-detection disabled site-wide. Honour an
+      // explicit user-saved 'dark' preference but never fall back to
+      // matchMedia, so a user on a dark-themed OS still sees the light UI.
       var saved = localStorage.getItem('dashboard-theme');
-      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      if (saved === 'dark') {
         document.documentElement.setAttribute('data-theme', 'dark');
       }
     })();
@@ -3229,11 +3232,30 @@
         //    via auth.js or admin-auth.js AND has an active admin row in
         //    premium_emails, auto-unlock. This means a super-admin who
         //    signed in on landing.html lands straight into the dashboard.
-        autoLoginSupabaseSession().then(function (ok) {
-          if (ok) return;
-          // 2) Fallback: auto-login with stored admin email (legacy).
+        //
+        //    auth.js / admin-auth.js load with defer, so the session may
+        //    not be restored on the first attempt. Retry a few times with
+        //    short delays, and also listen for the userSignedIn event in
+        //    case the session restores later (e.g., user signs in from
+        //    the gate's email form or returns from an OAuth redirect).
+        (async function _tryAutoLoginWithRetry() {
+          var delays = [0, 300, 700, 1000];
+          for (var i = 0; i < delays.length; i++) {
+            if (delays[i] > 0) await new Promise(function (r) { setTimeout(r, delays[i]); });
+            try {
+              var ok = await autoLoginSupabaseSession();
+              if (ok) return;
+            } catch (_e) {}
+          }
+          // Fallback: auto-login with stored admin email (legacy).
           var savedAdminEmail = localStorage.getItem('ms_admin_email');
           if (savedAdminEmail) autoLoginAdminEmail(savedAdminEmail);
+        })();
+        // Late sign-in: if auth.js dispatches userSignedIn after we've
+        // already fallen back to the gate, try the auto-login once more.
+        window.addEventListener('mockStream:userSignedIn', function () {
+          if (sessionStorage.getItem('dashboard-auth') === 'true') return;
+          autoLoginSupabaseSession();
         });
       }
 
@@ -5353,7 +5375,7 @@
           if (k && k.startsWith('ms_center_cfg_')) localStorage.removeItem(k);
         }
       } catch(e) {}
-      window.location.href = '../landing.html';
+      window.location.href = '../landing-v3.html';
     }
 
     // ====================================================================
