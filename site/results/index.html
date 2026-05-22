@@ -3229,11 +3229,30 @@
         //    via auth.js or admin-auth.js AND has an active admin row in
         //    premium_emails, auto-unlock. This means a super-admin who
         //    signed in on landing.html lands straight into the dashboard.
-        autoLoginSupabaseSession().then(function (ok) {
-          if (ok) return;
-          // 2) Fallback: auto-login with stored admin email (legacy).
+        //
+        //    auth.js / admin-auth.js load with defer, so the session may
+        //    not be restored on the first attempt. Retry a few times with
+        //    short delays, and also listen for the userSignedIn event in
+        //    case the session restores later (e.g., user signs in from
+        //    the gate's email form or returns from an OAuth redirect).
+        (async function _tryAutoLoginWithRetry() {
+          var delays = [0, 300, 700, 1000];
+          for (var i = 0; i < delays.length; i++) {
+            if (delays[i] > 0) await new Promise(function (r) { setTimeout(r, delays[i]); });
+            try {
+              var ok = await autoLoginSupabaseSession();
+              if (ok) return;
+            } catch (_e) {}
+          }
+          // Fallback: auto-login with stored admin email (legacy).
           var savedAdminEmail = localStorage.getItem('ms_admin_email');
           if (savedAdminEmail) autoLoginAdminEmail(savedAdminEmail);
+        })();
+        // Late sign-in: if auth.js dispatches userSignedIn after we've
+        // already fallen back to the gate, try the auto-login once more.
+        window.addEventListener('mockStream:userSignedIn', function () {
+          if (sessionStorage.getItem('dashboard-auth') === 'true') return;
+          autoLoginSupabaseSession();
         });
       }
 
