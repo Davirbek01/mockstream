@@ -121,7 +121,7 @@
     <pre id="log" class="log">Ready.</pre>
   </div>
 
-  <script src="../speaking-realtime-engine.js?v=phase3b"></script>
+  <script src="../speaking-realtime-engine.js?v=phase3c"></script>
   <script>
     var $ = function (id) { return document.getElementById(id); };
     var logEl = $('log');
@@ -287,15 +287,16 @@
 
     /* ── Exam orchestration ────────────────────────────────────── */
     async function runExam() {
-      // Intro = persona introduces self, asks name. No timer.
       setExamStep('intro');
       $('timerLabel').textContent = 'Intro — say hi to the AI';
       $('timer').textContent = '—';
-
-      // P1.1 starts when intro feels natural — for the skeleton, click
-      // "Skip to next part" to advance. (Phase 2.5: detect via the
-      // model's transcript or a simple "ready" cue.)
       $('nextBtn').disabled = false;
+      // Kick the AI to start the conversation. Without this it sits
+      // silent because Google's Live API waits for the first input.
+      try {
+        session.sendSystem('The student has just joined the session. Begin now with your usual welcome greeting and ask the student their name. Then wait for their answer.');
+        log('sent intro kick to AI', 'send');
+      } catch (e) { log('kick failed: ' + e.message, 'err'); }
     }
 
     function advance() {
@@ -388,6 +389,7 @@
       session.on('close',      function () { log('session closed', 'info'); setStatus('sessStatus', 'bad', 'closed'); $('startExamBtn').disabled = false; });
       session.on('micOn',      function () { setStatus('micStatus', 'ok', 'mic streaming'); });
       session.on('micOff',     function () { setStatus('micStatus', 'warn', 'mic off'); });
+      session.on('micProgress', function (p) { log('🎙 ' + p.chunks + ' chunks sent (' + p.bytesPerChunk + 'B each)', 'send'); });
 
       try { await session.start(); }
       catch (e) { log('start failed: ' + e.message, 'err'); $('startExamBtn').disabled = false; }

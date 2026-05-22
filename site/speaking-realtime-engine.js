@@ -356,9 +356,6 @@
     var bin = '';
     for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
     var b64 = btoa(bin);
-    // Google's proto-JSON accepts both snake_case and camelCase, but
-    // some preview builds are stricter about camelCase. Use camelCase
-    // for the audio path so we don't trip a server-side parse bug.
     var msg = {
       realtimeInput: {
         mediaChunks: [{
@@ -368,6 +365,12 @@
       }
     };
     this.ws.send(JSON.stringify(msg));
+    // Diagnostic: emit a 'micChunk' event so the test UI can show how
+    // much audio is flowing. We expect ~5 chunks/sec at 200ms each.
+    this._micChunkCount = (this._micChunkCount || 0) + 1;
+    if (this._micChunkCount % 25 === 0) {
+      this._emit('micProgress', { chunks: this._micChunkCount, bytesPerChunk: pcm16.length * 2 });
+    }
   };
 
   RealtimeSession.prototype.stopMic = function () {
