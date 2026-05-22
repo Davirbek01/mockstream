@@ -98,22 +98,34 @@
   RealtimeSession.prototype.getTranscript = function () {
     return this._transcriptLog.slice();
   };
-  // Start MediaRecorder on the existing mic stream. Call this AFTER
-  // startMic(). Produces an Opus blob you can upload at session end.
+  // Start MediaRecorder that captures BOTH the student's mic AND the AI's
+  // playback. Mic + AI are routed into a single MediaStreamDestination via
+  // the AudioContext, then MediaRecorder records that mixed stream as
+  // a single Opus file. ~14MB for 10 min of conversation.
   RealtimeSession.prototype.startRecording = function () {
     if (this._micRecording) return;
     if (!this.micStream) throw new Error('mic not running; call startMic first');
+    // Ensure we have an AudioContext (created lazily in _enqueueAudio).
+    if (!this.audioCtx) {
+      this.audioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: this.opts.outputSampleRate });
+      this.playbackTime = this.audioCtx.currentTime;
+    }
+    // Create the mix destination + route mic into it.
+    this._recDest = this.audioCtx.createMediaStreamDestination();
+    var micSrc = this.audioCtx.createMediaStreamSource(this.micStream);
+    micSrc.connect(this._recDest);
+    // AI side gets connected per-chunk inside _enqueueAudio.
     var mime = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
       ? 'audio/webm;codecs=opus'
       : (MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : '');
-    var opts = mime ? { mimeType: mime, audioBitsPerSecond: 32000 } : {};
-    this._micRecorder = new MediaRecorder(this.micStream, opts);
+    var opts = mime ? { mimeType: mime, audioBitsPerSecond: 24000 } : {};
+    this._micRecorder = new MediaRecorder(this._recDest.stream, opts);
     this._micChunks = [];
     var self = this;
     this._micRecorder.ondataavailable = function (e) {
       if (e.data && e.data.size > 0) self._micChunks.push(e.data);
     };
-    this._micRecorder.start(1000); // 1s chunks
+    this._micRecorder.start(1000);
     this._micRecording = true;
     this._emit('recordingOn');
   };
@@ -277,6 +289,11 @@
     var src = this.audioCtx.createBufferSource();
     src.buffer = buf;
     src.connect(this.audioCtx.destination);
+    // ALSO tee the AI playback into the recording destination if
+    // recording is active — captures the AI side of the conversation.
+    if (this._recDest) {
+      try { src.connect(this._recDest); } catch (_e) {}
+    }
     var startAt = Math.max(this.audioCtx.currentTime, this.playbackTime);
     src.start(startAt);
     this.playbackTime = startAt + buf.duration;

@@ -216,7 +216,7 @@
     </div>
   </div>
 
-  <script src="speaking-realtime-engine.js?v=maya1"></script>
+  <script src="speaking-realtime-engine.js?v=maya2"></script>
   <script>
     var $ = function (id) { return document.getElementById(id); };
     var session = null;
@@ -265,6 +265,9 @@
     // doesn't re-greet the student or ask their name twice.
     var conversationMemory = []; // [{ role: 'user'|'model', text }]
     var studentName = '';
+    // Page-lifetime conversation state shared across reconnects
+    var conversationStartedAt = null;
+    var recordingChunks = []; // append blobs from each ws session here
 
     function buildPersona() {
       if (conversationMemory.length === 0) return BASE_PERSONA;
@@ -314,7 +317,16 @@
       var isReconnect = conversationMemory.length > 0;
 
       session = new RealtimeSession({ vipToken: token, persona: buildPersona(), voiceName: 'Aoede' });
-      session.on('ready',      function () { setOrb('listening'); setStatus(isReconnect ? 'Reconnected — keep going' : 'Listening — go ahead, say hi'); kickAi(isReconnect); autoMic(); });
+      session.on('ready',      function () {
+        if (!conversationStartedAt) conversationStartedAt = new Date().toISOString();
+        setOrb('listening');
+        setStatus(isReconnect ? 'Reconnected — keep going' : 'Listening — go ahead, say hi');
+        kickAi(isReconnect);
+        autoMic().then(function () {
+          // Start the dual-side recorder once mic is up.
+          try { session.startRecording(); } catch (_e) {}
+        });
+      });
       session.on('audio',      function () { setOrb('speaking'); setStatus(''); reconnectCount = 0; });
       session.on('turnComplete', function () { setOrb('listening'); setStatus('Your turn'); });
       session.on('transcript', function (t) {
@@ -350,8 +362,15 @@
     // For 1006/1011 we silently reopen and continue the chat.
     var reconnectCount = 0;
     var userEndedSession = false;
-    function handleClose(c, token) {
+    async function handleClose(c, token) {
       var code = c && c.code;
+      // Collect this WS session's audio chunk so reconnects don't lose it.
+      if (session) {
+        try {
+          var blob = await session.stopRecording();
+          if (blob && blob.size > 0) recordingChunks.push(blob);
+        } catch (_e) {}
+      }
       if (userEndedSession || code === 1000 || code === 1008) {
         var why = code ? ' (' + code + (c.reason ? ': ' + c.reason : '') + ')' : '';
         setStatus('Conversation ended' + why);
@@ -416,10 +435,58 @@
     $('endBtn').addEventListener('click', endIt);
     $('exitBtn').addEventListener('click', endIt);
 
-    function endIt() {
+    async function endIt() {
       userEndedSession = true;
-      if (session) { try { session.close(); } catch (_e) {} session = null; }
+      setStatus('Saving session…');
+      // Collect this session's recording chunk first
+      if (session) {
+        try {
+          var blob = await session.stopRecording();
+          if (blob && blob.size > 0) recordingChunks.push(blob);
+        } catch (_e) {}
+        try { session.close(); } catch (_e) {}
+      }
+      // Combine all per-ws-session blobs (across reconnects) into one,
+      // then upload + redirect.
+      try {
+        if (recordingChunks.length > 0) {
+          var combined = new Blob(recordingChunks, { type: recordingChunks[0].type || 'audio/webm' });
+          await uploadSession(combined);
+        }
+      } catch (e) { console.warn('save failed', e); }
+      session = null;
       location.href = '/landing-v3.html';
+    }
+
+    var SAVE_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/speaking-realtime-save';
+    async function uploadSession(blob) {
+      var token = '';
+      try { token = sessionStorage.getItem('vipToken') || ''; } catch (_e) {}
+      if (!token) return;
+      var endedAt = new Date().toISOString();
+      var durationSec = conversationStartedAt
+        ? Math.round((Date.now() - new Date(conversationStartedAt).getTime()) / 1000)
+        : null;
+      var meta = {
+        token: token,
+        user_name: studentName || null,
+        started_at: conversationStartedAt,
+        ended_at: endedAt,
+        duration_sec: durationSec,
+        transcript: conversationMemory.slice() // full conversation log
+      };
+      var form = new FormData();
+      form.append('audio', blob, 'maya-' + Date.now() + '.webm');
+      form.append('meta', JSON.stringify(meta));
+      var r = await fetch(SAVE_URL, {
+        method: 'POST',
+        headers: {
+          'apikey': 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2',
+          'Authorization': 'Bearer sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2'
+        },
+        body: form
+      });
+      if (!r.ok) throw new Error('save ' + r.status);
     }
   </script>
 </body>
