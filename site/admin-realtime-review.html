@@ -45,6 +45,12 @@
     pre.json { background: #0b1220; border: 1px solid var(--line); border-radius: 8px; padding: 10px; font-size: 11.5px; max-height: 280px; overflow: auto; }
     .meta { font-size: 12px; color: var(--muted); }
     .meta strong { color: var(--ink); }
+    .stat-tile {
+      background: #0b1220; border: 1px solid var(--line); border-radius: 10px;
+      padding: 14px 16px; min-width: 0;
+    }
+    .stat-n   { font: 700 24px/1.1 'JetBrains Mono', monospace; color: var(--ink); letter-spacing: -0.02em; }
+    .stat-lbl { font-size: 11px; color: var(--muted); margin-top: 4px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
   </style>
 </head>
 <body>
@@ -59,9 +65,24 @@
     </div>
   </div>
 
+  <div class="card" id="statsCard" style="display: none;">
+    <h3 style="margin: 0 0 12px; font-size: 14px;">Usage stats</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px;">
+      <div class="stat-tile"><div class="stat-n" id="stat24">—</div><div class="stat-lbl">Sessions today</div></div>
+      <div class="stat-tile"><div class="stat-n" id="stat7d">—</div><div class="stat-lbl">Sessions this week</div></div>
+      <div class="stat-tile"><div class="stat-n" id="statAll">—</div><div class="stat-lbl">Sessions all-time</div></div>
+      <div class="stat-tile"><div class="stat-n" id="statUsers24">—</div><div class="stat-lbl">Unique users today</div></div>
+      <div class="stat-tile"><div class="stat-n" id="statUsers7">—</div><div class="stat-lbl">Unique users this week</div></div>
+      <div class="stat-tile"><div class="stat-n" id="statMin7">—</div><div class="stat-lbl">Recorded minutes (7d)</div></div>
+    </div>
+    <div class="meta" style="margin-top: 10px; font-size: 11px;">
+      "Sessions" counts every proxy connection — natural reconnects (~10min cap) count as separate sessions. "Unique users" approximates students via IP. Audio recording not yet wired on the free-chat page, so the recorded-minutes stat will read 0 until that's enabled.
+    </div>
+  </div>
+
   <div class="card" id="listCard" style="display: none;">
     <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
-      <h3 style="margin: 0; font-size: 14px;">Sessions <span id="count" class="meta"></span></h3>
+      <h3 style="margin: 0; font-size: 14px;">Recorded sessions <span id="count" class="meta"></span></h3>
       <button id="refreshBtn" class="ghost">Refresh</button>
     </div>
     <table>
@@ -145,15 +166,29 @@
     async function loadSessions() {
       setStatus('warn', 'loading…');
       try {
-        var data = await callAdmin('list', { limit: 100 });
-        sessions = data.sessions || [];
+        var [list, stats] = await Promise.all([
+          callAdmin('list', { limit: 100 }),
+          callAdmin('stats').catch(function () { return null; })
+        ]);
+        sessions = list.sessions || [];
         setStatus('ok', 'loaded ' + sessions.length + ' sessions');
         renderList();
         $('listCard').style.display = '';
+        if (stats) renderStats(stats);
       } catch (e) {
         setStatus('bad', e.message);
         $('listCard').style.display = 'none';
+        $('statsCard').style.display = 'none';
       }
+    }
+    function renderStats(s) {
+      $('stat24').textContent      = s.connections_24h ?? 0;
+      $('stat7d').textContent      = s.connections_7d  ?? 0;
+      $('statAll').textContent     = s.connections_all ?? 0;
+      $('statUsers24').textContent = s.unique_users_24h ?? 0;
+      $('statUsers7').textContent  = s.unique_users_7d  ?? 0;
+      $('statMin7').textContent    = s.total_recorded_minutes_7d ?? 0;
+      $('statsCard').style.display = '';
     }
 
     function renderList() {
