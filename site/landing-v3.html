@@ -3772,7 +3772,12 @@
     }
 
     document.getElementById('msv3AdminBtn').addEventListener('click', function () {
-      window.location.href = '/landing.html?openAdminDashboard=1';
+      // Skip landing.html — go directly to the dashboard HTML. The
+      // dashboard has its own auth gate (Supabase session OR admin
+      // passcode); landing.html's requireAdminAuth bounce is no longer
+      // needed, and avoiding it means pressing Back from the dashboard
+      // returns to v3 instead of landing.html?openAdminDashboard=1.
+      window.location.href = '/results/index.html';
     });
     document.getElementById('msv3PlatformBtn').addEventListener('click', function () {
       // Phase 6-E P2b: route to the dedicated platform.html host (a
