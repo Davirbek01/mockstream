@@ -96,6 +96,20 @@
         window.__msTakePending = pending;
       } catch (_e) {}
     })();
+
+    // Picker-reopen early-pass. Runs synchronously so the v3 home chrome
+    // never paints when the user is bouncing back from a runner. The
+    // matching handler at the foot of the script chain calls
+    // navToPicker(slug) once the picker JS is defined, then clears the
+    // attribute so the page becomes visible behind the overlay.
+    (function () {
+      try {
+        var slug = new URLSearchParams(window.location.search).get('reopen');
+        if (!slug) return;
+        if (!/^(cefr|ielts)-(speaking|writing|reading|listening)$/.test(slug)) return;
+        document.documentElement.setAttribute('data-reopenpicker', slug);
+      } catch (_e) {}
+    })();
   </script>
   <style>
     /* While we're resolving a /take/ deep-link, hide the landing chrome
@@ -113,6 +127,22 @@
     html[data-takelink] #readingAccessCodeModal,
     html[data-takelink] #listeningAccessCodeModal,
     html[data-takelink] #writingAccessCodeModal {
+      visibility: visible !important;
+    }
+    /* Picker reopen — same idea: hide everything until the matching
+       overlay (cspetPicker / ispetPicker / cwetPicker / iwetPicker /
+       cretPicker / iretPicker / cletPicker / iletPicker) is opened. */
+    html[data-reopenpicker] body > *:not(script):not(style) {
+      visibility: hidden;
+    }
+    html[data-reopenpicker] body > #cspetPicker,
+    html[data-reopenpicker] body > #ispetPicker,
+    html[data-reopenpicker] body > #cwetPicker,
+    html[data-reopenpicker] body > #iwetPicker,
+    html[data-reopenpicker] body > #cretPicker,
+    html[data-reopenpicker] body > #iretPicker,
+    html[data-reopenpicker] body > #cletPicker,
+    html[data-reopenpicker] body > #iletPicker {
       visibility: visible !important;
     }
   </style>
@@ -5010,6 +5040,11 @@
       gap: 18px;
       padding: 18px 24px 40px;
       flex: 1;
+      /* Override v3's global `main { max-width: 1180px; margin: 0 auto; }`
+         so the picker grid fills the full overlay width like every other
+         skill picker. */
+      max-width: none;
+      margin: 0;
     }
     @media (max-width: 1279px) { .cret-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     @media (max-width: 1023px) { .cret-grid { grid-template-columns: minmax(0, 1fr); padding: 14px 16px 30px; } }
@@ -5448,6 +5483,8 @@
       gap: 18px;
       padding: 18px 24px 40px;
       flex: 1;
+      max-width: none;
+      margin: 0;
     }
     @media (max-width: 1279px) { .iret-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 1023px) { .iret-grid { grid-template-columns: 1fr; padding: 14px 16px 30px; } }
@@ -10253,7 +10290,7 @@
       var url = _pendingCefrReadingUrl;
       _pendingCefrReadingUrl = null;
       document.getElementById('cefrReadingModeModal').style.display = 'none';
-      if (url) { try { window.location.replace(window.__msv3AbsUrl(url)); } catch (_e) { window.location.href = window.__msv3AbsUrl(url); } }
+      if (url) { window.location.href = window.__msv3AbsUrl(url); }
     }
     function _cefrReadingModePartBased() {
       document.getElementById('cefrReadingModeModal').style.display = 'none';
@@ -10271,7 +10308,10 @@
       _pendingCefrReadingUrl = null;
       if (url) {
         var fullUrl = url + '&part=' + n;
-        try { window.location.replace(fullUrl); } catch (_e) { window.location.href = fullUrl; }
+        var abs = (typeof window.__msv3AbsUrl === 'function') ? window.__msv3AbsUrl(fullUrl) : fullUrl;
+        // Use href (push, not replace) so the /take/<slug> entry stays
+        // in history and browser back from the runner re-opens the picker.
+        window.location.href = abs;
       }
     }
     window.closeCefrReadingModeModal = closeCefrReadingModeModal;
@@ -10893,7 +10933,7 @@
       var url = _pendingIeltsReadingUrl;
       _pendingIeltsReadingUrl = null;
       document.getElementById('ieltsReadingModeModal').style.display = 'none';
-      if (url) { try { window.location.replace(window.__msv3AbsUrl(url)); } catch (_e) { window.location.href = window.__msv3AbsUrl(url); } }
+      if (url) { window.location.href = window.__msv3AbsUrl(url); }
     }
     function _ieltsReadingModePassageBased() {
       document.getElementById('ieltsReadingModeModal').style.display = 'none';
@@ -10911,7 +10951,9 @@
       _pendingIeltsReadingUrl = null;
       if (url) {
         var fullUrl = url + '&passage=' + n;
-        try { window.location.replace(fullUrl); } catch (_e) { window.location.href = fullUrl; }
+        var abs = (typeof window.__msv3AbsUrl === 'function') ? window.__msv3AbsUrl(fullUrl) : fullUrl;
+        // push (not replace) so back from the runner re-opens the picker.
+        window.location.href = abs;
       }
     }
     window.closeIeltsReadingModeModal  = closeIeltsReadingModeModal;
@@ -11788,7 +11830,7 @@
       var url = _pendingCefrListeningUrl;
       _pendingCefrListeningUrl = null;
       document.getElementById('cefrListeningModeModal').style.display = 'none';
-      if (url) { try { window.location.replace(window.__msv3AbsUrl(url)); } catch (_e) { window.location.href = window.__msv3AbsUrl(url); } }
+      if (url) { window.location.href = window.__msv3AbsUrl(url); }
     }
     function _cefrListeningModePartBased() {
       document.getElementById('cefrListeningModeModal').style.display = 'none';
@@ -11854,7 +11896,8 @@
       _pendingCefrListeningUrl = null;
       if (url) {
         var fullUrl = url + '&part=' + n;
-        try { window.location.replace(fullUrl); } catch (_e) { window.location.href = fullUrl; }
+        var abs = (typeof window.__msv3AbsUrl === 'function') ? window.__msv3AbsUrl(fullUrl) : fullUrl;
+        window.location.href = abs;
       }
     }
     window.closeCefrListeningModeModal = closeCefrListeningModeModal;
@@ -12469,7 +12512,7 @@
       var url = _pendingIeltsListeningUrl;
       _pendingIeltsListeningUrl = null;
       document.getElementById('ieltsListeningModeModal').style.display = 'none';
-      if (url) { try { window.location.replace(window.__msv3AbsUrl(url)); } catch (_e) { window.location.href = window.__msv3AbsUrl(url); } }
+      if (url) { window.location.href = window.__msv3AbsUrl(url); }
     }
     function _ieltsListeningModePartBased() {
       document.getElementById('ieltsListeningModeModal').style.display = 'none';
@@ -12533,7 +12576,8 @@
       _pendingIeltsListeningUrl = null;
       if (url) {
         var fullUrl = url + '&part=' + n;
-        try { window.location.replace(fullUrl); } catch (_e) { window.location.href = fullUrl; }
+        var abs = (typeof window.__msv3AbsUrl === 'function') ? window.__msv3AbsUrl(fullUrl) : fullUrl;
+        window.location.href = abs;
       }
     }
     window.closeIeltsListeningModeModal = closeIeltsListeningModeModal;
@@ -13697,6 +13741,47 @@
         go();
       }
     })();
+
+    // Picker-reopen on Back from a runner. The runner's "Leave Anyway"
+    // navigates here with ?reopen=<slug> (e.g. cefr-speaking) so we open
+    // that picker overlay directly. We use a URL parameter, NOT
+    // *MockReturnCategory sessionStorage — that key is also set by every
+    // handle*MockClick call, so reading it here would auto-open the
+    // picker on stale state any time the user lands on v3 home.
+    (function () {
+      function reopen() {
+        try {
+          if (/^\/take\//i.test(window.location.pathname)) return;
+        } catch (_e) {}
+        var slug = document.documentElement.getAttribute('data-reopenpicker');
+        if (!slug) {
+          try { slug = new URLSearchParams(window.location.search).get('reopen'); } catch (_e) {}
+        }
+        if (!slug) return;
+        // Strip the param so a refresh doesn't reopen the picker again.
+        try {
+          var u = new URL(window.location.href);
+          u.searchParams.delete('reopen');
+          history.replaceState({}, document.title, u.pathname + (u.search || '') + (u.hash || ''));
+        } catch (_e) {}
+        if (typeof window.navToPicker === 'function') {
+          try { window.navToPicker(slug); } catch (_e) {}
+        }
+        // Drop the curtain a frame after the picker open call returns so
+        // the overlay is already on screen. Two rAFs guarantees layout +
+        // first paint of the picker have happened.
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            try { document.documentElement.removeAttribute('data-reopenpicker'); } catch (_e) {}
+          });
+        });
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', reopen);
+      } else {
+        reopen();
+      }
+    })();
   </script>
 
   <!-- ═══════════════════════════════════════════════════════
@@ -14241,14 +14326,11 @@
 
     function _navigateToRunner(url) {
       url = window.__msv3AbsUrl(url);
-      // Cover the picker so it isn't visible while the runner page loads.
       try { _msv3ShowLaunchSplash(); } catch (_e) {}
-      // v3 doesn't host the legacy loadMock iframe loader — direct navigate.
-      // The runner page (Speaking Mocks.html) takes over the tab. Use
-      // window.location.replace so a Back from the runner skips the
-      // intermediate landing-v3 step the user was just on.
-      try { window.location.replace(url); }
-      catch (_e) { window.location.href = url; }
+      // Push (not replace) so Back from the runner returns to the /take/<slug>
+      // entry → Netlify rewrites to landing-v3 → _processDeepLinkTakeV3 re-opens
+      // the picker. Replace would skip past /take/ and dump the user on v3 home.
+      window.location.href = url;
     }
     function _speakingModeFullMock() {
       if (!_pendingSpeakingLaunch) return;

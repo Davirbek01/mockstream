@@ -19298,8 +19298,10 @@ Please contact your instructor or upgrade to the full version with speech recogn
           pendingAction();
           return;
         }
-        // Fallback behavior for refresh/back protection flows
-        window.location.reload();
+        // Default leave path (browser back / hardware back / refresh trap):
+        // tell v3 which picker to reopen via ?reopen=<slug>. Previously
+        // this just reloaded the page, so the back button looked broken.
+        window.location.href = '/landing-v3.html?reopen=cefr-speaking';
       });
     }
 

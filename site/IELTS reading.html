@@ -3701,8 +3701,8 @@
                   pendingAction();
                   return;
                 }
-                sessionStorage.setItem('readingMockReturnCategory', 'ielts-reading');
-                try { window.top.location.href = 'landing.html'; } catch(e) { window.location.href = 'landing.html'; }
+                var _v3Url = '/landing-v3.html?reopen=ielts-reading';
+                try { window.top.location.href = _v3Url; } catch(e) { window.location.href = _v3Url; }
               });
             }
 
@@ -3768,11 +3768,11 @@
                 if (exitConfirmBtn) {
                     exitConfirmBtn.onclick = function () {
                         window.__okToLeave = true;
-                        sessionStorage.setItem('readingMockReturnCategory', 'ielts-reading');
                         try { if (window.top && window.top !== window && typeof window.top.returnToLanding === 'function') { window.top.returnToLanding(); return; } } catch (e1) {}
                         try { if (window.parent && window.parent !== window && typeof window.parent.returnToLanding === 'function') { window.parent.returnToLanding(); return; } } catch (e2) {}
                         try { if (window.top && window.top !== window) { window.top.postMessage('returnToLanding', '*'); return; } } catch (e3) {}
-                        try { window.top.location.href = 'landing.html'; } catch (e4) { window.location.href = 'landing.html'; }
+                        var _v3Url = '/landing-v3.html?reopen=ielts-reading';
+                        try { window.top.location.href = _v3Url; } catch (e4) { window.location.href = _v3Url; }
                     };
                 }
                 if (exitCancelBtn) {

@@ -4362,8 +4362,9 @@
         if (window.top && window.top !== window) { window.top.postMessage('returnToLanding', '*'); return; }
         if (window.parent && window.parent !== window) { window.parent.postMessage('returnToLanding', '*'); return; }
       } catch (e3) { }
-      // Last resort: navigate the TOP window (not the iframe)
-      try { window.top.location.href = 'landing.html'; } catch (e4) { window.location.href = 'landing.html'; }
+      // Last resort: navigate the TOP window to v3 with picker-reopen hint.
+      var _v3Url = '/landing-v3.html?reopen=ielts-listening';
+      try { window.top.location.href = _v3Url; } catch (e4) { window.location.href = _v3Url; }
     }
 
     // Initialize back button trap on load
