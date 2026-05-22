@@ -216,16 +216,17 @@
     </div>
   </div>
 
-  <script src="speaking-realtime-engine.js?v=free6"></script>
+  <script src="speaking-realtime-engine.js?v=free7"></script>
   <script>
     var $ = function (id) { return document.getElementById(id); };
     var session = null;
     var muted = false;
 
-    var FREE_PERSONA = [
-      "You are a friendly, funny 23-year-old Uzbek person helping students practice their English speaking on Mockstream Academy.",
+    var BASE_PERSONA = [
+      "You are Azam, a friendly, funny 23-year-old Uzbek MAN helping students practice their English speaking on Mockstream Academy.",
+      "Your name is Azam. You are male. Always introduce yourself as Azam if asked.",
       "",
-      "Open with something natural like: \"Hey! I'm here to chat and help you practice your speaking. What's your name?\"",
+      "Open with something natural like: \"Hey! I'm Azam — I'm here to chat and help you practice your speaking. What's your name?\"",
       "After they tell you their name, ask how you should call them, then keep the conversation going naturally — ask about their hobbies, school, day, food, music, whatever they want.",
       "",
       "Rules:",
@@ -234,8 +235,38 @@
       "- If they say something funny, react with laughter or light teasing.",
       "- If they're nervous or silent, encourage them gently.",
       "- Keep the conversation flowing — ask follow-up questions about what they just said.",
-      "- Speak naturally with simple, common English suitable for someone learning."
+      "- Speak naturally with simple, common English suitable for someone learning.",
+      "- Refer to yourself using he/him pronouns since you are Azam, a young man."
     ].join('\n');
+
+    // Conversation memory survives across auto-reconnects so the AI
+    // doesn't re-greet the student or ask their name twice.
+    var conversationMemory = []; // [{ role: 'user'|'model', text }]
+    var studentName = '';
+
+    function buildPersona() {
+      if (conversationMemory.length === 0) return BASE_PERSONA;
+      // On reconnect: hand the model a summary so it can pick up cleanly.
+      // Keep it tight — last ~12 turns is enough context.
+      var recent = conversationMemory.slice(-24);
+      var transcript = recent.map(function (t) {
+        return (t.role === 'user' ? 'Student' : 'You') + ': ' + t.text;
+      }).join('\n');
+      var resume = [
+        "",
+        "=== CONVERSATION SO FAR ===",
+        studentName ? ("The student's name is " + studentName + ".") : "",
+        transcript,
+        "=== END OF HISTORY ===",
+        "",
+        "IMPORTANT: This is a CONTINUATION of the conversation above, not a new session.",
+        "- Do NOT re-greet the student.",
+        "- Do NOT ask for their name again — you already know it.",
+        "- Continue naturally from the last exchange. Pick up the topic you were on.",
+        "- Your first response should feel like the next normal turn, not an introduction."
+      ].filter(Boolean).join('\n');
+      return BASE_PERSONA + '\n' + resume;
+    }
 
     /* ── Bootstrap: auto-start if sessionStorage already has a token ─── */
     var bootToken = '';
@@ -258,12 +289,24 @@
 
     async function start(token) {
       $('gateErr').textContent = '';
+      var isReconnect = conversationMemory.length > 0;
 
-      session = new RealtimeSession({ vipToken: token, persona: FREE_PERSONA });
-      session.on('ready',      function () { setOrb('listening'); setStatus('Listening — go ahead, say hi'); kickAi(); autoMic(); });
-      session.on('audio',      function () { setOrb('speaking'); setStatus(''); });
+      session = new RealtimeSession({ vipToken: token, persona: buildPersona(), voiceName: 'Puck' });
+      session.on('ready',      function () { setOrb('listening'); setStatus(isReconnect ? 'Reconnected — keep going' : 'Listening — go ahead, say hi'); kickAi(isReconnect); autoMic(); });
+      session.on('audio',      function () { setOrb('speaking'); setStatus(''); reconnectCount = 0; });
       session.on('turnComplete', function () { setOrb('listening'); setStatus('Your turn'); });
-      session.on('transcript', function (t) { /* could surface captions later */ });
+      session.on('transcript', function (t) {
+        // Remember the conversation so we can rebuild context on reconnect.
+        if (!t.text) return;
+        conversationMemory.push({ role: t.role, text: t.text });
+        if (conversationMemory.length > 80) conversationMemory.splice(0, conversationMemory.length - 80);
+        // Capture the student's name from their first user utterance —
+        // helps the resume prompt avoid re-asking.
+        if (!studentName && t.role === 'user') {
+          var m = t.text.match(/\b(?:i'?m|my name is|call me|it'?s)\s+([A-Z][a-zA-Z]+)/i);
+          if (m) studentName = m[1];
+        }
+      });
       session.on('micOn',      function () { /* nothing */ });
       session.on('micOff',     function () { /* nothing */ });
       session.on('error',      function (e) { setStatus('Connection error: ' + (e.message || '')); });
@@ -305,15 +348,16 @@
       setOrb('connecting');
       setTimeout(function () { start(token); }, delay);
     }
-    // Reset reconnect counter once we get an audio response — that
-    // means the new session is healthy.
-    function resetReconnectOnAudio() {
-      if (!session) return;
-      session.on('audio', function () { reconnectCount = 0; });
-    }
+    // (reconnect counter resets inside the 'audio' handler above)
 
-    function kickAi() {
-      try { session.sendSystem('The student just opened the chat. Greet them warmly and naturally as instructed in your persona. Keep it brief.'); } catch (_e) {}
+    function kickAi(isReconnect) {
+      try {
+        if (isReconnect) {
+          session.sendSystem('The connection just refreshed. Continue the conversation naturally — do NOT re-greet, do NOT ask their name again. Pick up where you left off.');
+        } else {
+          session.sendSystem('The student just opened the chat. Greet them warmly and naturally as instructed in your persona. Keep it brief.');
+        }
+      } catch (_e) {}
     }
     async function autoMic() {
       try {

@@ -158,16 +158,23 @@
       var settled = false;
       self.ws.onopen = function () {
         // 3. send setup — required first message
-        // Minimal setup. Earlier attempts had realtime_input_config with
-        // field names I wasn't sure about — Google may reject the
-        // entire setup if it sees unknown proto fields. Default VAD
-        // is the safer baseline; we can tune after the basic loop is
-        // confirmed alive.
+        // Minimal setup. Voice locked to a specific pre-built so
+        // auto-reconnects don't switch the AI's gender / tone mid-chat.
+        // Available prebuilt voices on Live API: Puck, Charon, Kore,
+        // Fenrir, Aoede. Puck = friendly young male (best fit for the
+        // Uzbek-23yo persona).
         var setup = {
           setup: {
             model: 'models/' + self.opts.model,
             generation_config: {
-              response_modalities: ['AUDIO']
+              response_modalities: ['AUDIO'],
+              speech_config: {
+                voice_config: {
+                  prebuilt_voice_config: {
+                    voice_name: self.opts.voiceName || 'Puck'
+                  }
+                }
+              }
             },
             system_instruction: {
               parts: [{ text: self.persona }]
