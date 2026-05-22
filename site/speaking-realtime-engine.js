@@ -1,0 +1,350 @@
+/* ====================================================================
+   Speaking Plus realtime — engine module
+   --------------------------------------------------------------------
+   Wraps the Gemini Live API (gemini-3.1-flash-live-preview) plumbing
+   so the UI layer just calls high-level methods:
+
+     var session = new RealtimeSession({ vipToken, persona, ... });
+     session.on('ready',      function () { ... });
+     session.on('transcript', function (t) { ... });
+     session.on('audio',      function () { ... });   // when AI starts speaking
+     session.on('userSpoke',  function () { ... });   // when user voice detected
+     session.on('error',      function (e) { ... });
+     session.on('close',      function () { ... });
+     await session.start();          // mints token + opens WS + sends setup
+     await session.startMic();       // requests mic, starts streaming
+     session.sendText('Hello');      // for system / scripted prompts
+     session.sendSystem('Now move to Part 2.');
+     await session.close();
+
+   Audio I/O:
+     - OUT: Google streams 24 kHz mono PCM (16-bit, little-endian).
+            We decode + queue + play via Web Audio.
+     - IN:  Browser mic at native rate → resample to 16 kHz mono PCM
+            → 200 ms chunks → base64 → realtime_input.
+
+   Persona / system_instruction is whatever the caller passes in.
+   Phase 2 onward will use the full 4-part exam persona; Phase 1
+   tests with a 1-sentence "friendly assistant" persona.
+   ==================================================================== */
+
+(function (global) {
+  'use strict';
+
+  var DEFAULTS = {
+    edgeUrl: 'https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/gemini-live-token',
+    supabaseAnon: 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2',
+    wsBase: 'wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent',
+    model: 'gemini-3.1-flash-live-preview',
+    // Audio settings
+    outputSampleRate: 24000,     // Live API speaks at 24 kHz
+    inputSampleRate:  16000,     // Live API accepts 16 kHz from mic
+    micChunkMs:       200        // how often to flush mic data to server
+  };
+
+  function RealtimeSession(opts) {
+    if (!(this instanceof RealtimeSession)) return new RealtimeSession(opts);
+    opts = opts || {};
+    this.opts = Object.assign({}, DEFAULTS, opts);
+    this.vipToken = opts.vipToken || '';
+    this.persona = opts.persona || 'You are a helpful AI assistant.';
+
+    this.ephemeralToken = null;
+    this.ws = null;
+    this.audioCtx = null;
+    this.playbackTime = 0;
+    this.micStream = null;
+    this.micCtx = null;
+    this.micProc = null;
+    this.micRunning = false;
+    this.closed = false;
+    this._listeners = {};
+  }
+
+  RealtimeSession.prototype.on = function (event, cb) {
+    (this._listeners[event] = this._listeners[event] || []).push(cb);
+    return this;
+  };
+  RealtimeSession.prototype._emit = function (event, payload) {
+    var list = this._listeners[event] || [];
+    for (var i = 0; i < list.length; i++) {
+      try { list[i](payload); } catch (e) { console.error('listener error', e); }
+    }
+  };
+
+  /* ── start: mint ephemeral token + open WebSocket + send setup ─── */
+  RealtimeSession.prototype.start = async function () {
+    if (this.ws) throw new Error('session already started');
+    if (!this.vipToken) throw new Error('vipToken required');
+
+    // 1. mint ephemeral token via our Edge Function
+    var mintResp;
+    try {
+      mintResp = await fetch(this.opts.edgeUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey':        this.opts.supabaseAnon,
+          'Authorization': 'Bearer ' + this.opts.supabaseAnon
+        },
+        body: JSON.stringify({ token: this.vipToken, model: this.opts.model })
+      });
+    } catch (e) {
+      this._emit('error', { stage: 'mint', message: e.message });
+      throw e;
+    }
+    var mintData = await mintResp.json().catch(function () { return {}; });
+    if (!mintResp.ok) {
+      this._emit('error', { stage: 'mint', status: mintResp.status, ...mintData });
+      throw new Error('mint failed: ' + (mintData.error || mintResp.status));
+    }
+    this.ephemeralToken = mintData.token;
+
+    // 2. open WebSocket
+    var url = this.opts.wsBase + '?access_token=' + encodeURIComponent(this.ephemeralToken);
+    var self = this;
+    return new Promise(function (resolve, reject) {
+      try {
+        self.ws = new WebSocket(url);
+      } catch (e) {
+        reject(e); return;
+      }
+      self.ws.binaryType = 'arraybuffer';
+
+      var settled = false;
+      self.ws.onopen = function () {
+        // 3. send setup — required first message
+        var setup = {
+          setup: {
+            model: 'models/' + self.opts.model,
+            generation_config: {
+              response_modalities: ['AUDIO']
+            },
+            system_instruction: {
+              parts: [{ text: self.persona }]
+            }
+          }
+        };
+        self.ws.send(JSON.stringify(setup));
+      };
+
+      self.ws.onmessage = function (evt) {
+        self._handleMessage(evt);
+        if (!settled) {
+          // Resolve start() once we get setupComplete (first JSON message).
+          try {
+            var msg = JSON.parse(evt.data);
+            if (msg && msg.setupComplete) {
+              settled = true;
+              self._emit('ready');
+              resolve();
+            }
+          } catch (_e) {}
+        }
+      };
+      self.ws.onerror = function (e) {
+        self._emit('error', { stage: 'ws', message: e.message || 'ws error' });
+        if (!settled) { settled = true; reject(new Error('ws error')); }
+      };
+      self.ws.onclose = function (e) {
+        self.closed = true;
+        self._emit('close', { code: e.code, reason: e.reason });
+      };
+    });
+  };
+
+  /* ── _handleMessage: parse Live API replies ──────────────────── */
+  RealtimeSession.prototype._handleMessage = function (evt) {
+    if (typeof evt.data !== 'string') return;
+    var msg;
+    try { msg = JSON.parse(evt.data); } catch { return; }
+
+    // Server content — model speaking
+    var sc = msg.serverContent;
+    if (sc) {
+      if (sc.modelTurn && sc.modelTurn.parts) {
+        for (var i = 0; i < sc.modelTurn.parts.length; i++) {
+          var p = sc.modelTurn.parts[i];
+          if (p.inlineData && p.inlineData.data) {
+            this._enqueueAudio(p.inlineData.data, p.inlineData.mimeType || 'audio/pcm');
+          }
+          if (p.text) {
+            this._emit('transcript', { role: 'model', text: p.text, at: Date.now() });
+          }
+        }
+      }
+      // Server-side voice-activity-detection signal
+      if (sc.inputTranscription && sc.inputTranscription.text) {
+        this._emit('transcript', { role: 'user', text: sc.inputTranscription.text, at: Date.now() });
+      }
+      if (sc.outputTranscription && sc.outputTranscription.text) {
+        this._emit('transcript', { role: 'model', text: sc.outputTranscription.text, at: Date.now() });
+      }
+      if (sc.interrupted) this._emit('interrupted');
+      if (sc.turnComplete) this._emit('turnComplete');
+    }
+  };
+
+  /* ── Audio OUT — decode PCM, queue, play with continuous scheduling ── */
+  RealtimeSession.prototype._enqueueAudio = function (b64data) {
+    if (!this.audioCtx) {
+      this.audioCtx = new (window.AudioContext || window.webkitAudioContext)({
+        sampleRate: this.opts.outputSampleRate
+      });
+      this.playbackTime = this.audioCtx.currentTime;
+    }
+    var pcm = this._b64toPCM16(b64data);
+    var buf = this.audioCtx.createBuffer(1, pcm.length, this.opts.outputSampleRate);
+    var ch = buf.getChannelData(0);
+    for (var i = 0; i < pcm.length; i++) ch[i] = pcm[i] / 32768;
+    var src = this.audioCtx.createBufferSource();
+    src.buffer = buf;
+    src.connect(this.audioCtx.destination);
+    // Schedule sequentially so chunks don't overlap.
+    var startAt = Math.max(this.audioCtx.currentTime, this.playbackTime);
+    src.start(startAt);
+    this.playbackTime = startAt + buf.duration;
+    this._emit('audio', { durationMs: buf.duration * 1000 });
+  };
+  RealtimeSession.prototype._b64toPCM16 = function (b64) {
+    var raw = atob(b64);
+    var pcm = new Int16Array(raw.length / 2);
+    for (var i = 0; i < pcm.length; i++) {
+      var lo = raw.charCodeAt(i * 2);
+      var hi = raw.charCodeAt(i * 2 + 1);
+      var v = lo | (hi << 8);
+      if (v >= 0x8000) v -= 0x10000;
+      pcm[i] = v;
+    }
+    return pcm;
+  };
+
+  /* ── Audio IN — mic capture + resample + stream ─────────────── */
+  RealtimeSession.prototype.startMic = async function () {
+    if (this.micRunning) return;
+    if (!this.ws || this.ws.readyState !== 1) throw new Error('ws not open');
+
+    this.micStream = await navigator.mediaDevices.getUserMedia({
+      audio: {
+        channelCount: 1,
+        echoCancellation: true,
+        noiseSuppression: true,
+        autoGainControl: true
+      }
+    });
+
+    // We use a ScriptProcessorNode for simplicity / wide support. Yes
+    // AudioWorklet is the modern path; ScriptProcessor still works and
+    // saves us a separate file. Swap later if iOS Safari complains.
+    this.micCtx = new (window.AudioContext || window.webkitAudioContext)();
+    var source = this.micCtx.createMediaStreamSource(this.micStream);
+    var BUFFER = 4096;
+    var proc = this.micCtx.createScriptProcessor(BUFFER, 1, 1);
+    source.connect(proc);
+    proc.connect(this.micCtx.destination);   // needed in Safari to start firing
+
+    var self = this;
+    var srcRate = this.micCtx.sampleRate;
+    var dstRate = this.opts.inputSampleRate;
+    var pendingFloat = [];
+    var chunkSize = Math.floor(dstRate * (this.opts.micChunkMs / 1000));
+
+    proc.onaudioprocess = function (e) {
+      if (!self.micRunning) return;
+      var input = e.inputBuffer.getChannelData(0);
+      // simple linear resample
+      var resampled = self._resample(input, srcRate, dstRate);
+      // accumulate
+      for (var i = 0; i < resampled.length; i++) pendingFloat.push(resampled[i]);
+      while (pendingFloat.length >= chunkSize) {
+        var slice = pendingFloat.splice(0, chunkSize);
+        var pcm = new Int16Array(slice.length);
+        for (var j = 0; j < slice.length; j++) {
+          var s = Math.max(-1, Math.min(1, slice[j]));
+          pcm[j] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+        }
+        self._sendMicChunk(pcm);
+      }
+    };
+    this.micProc = proc;
+    this.micRunning = true;
+    this._emit('micOn');
+  };
+
+  RealtimeSession.prototype._resample = function (data, srcRate, dstRate) {
+    if (srcRate === dstRate) return data;
+    var ratio = srcRate / dstRate;
+    var outLen = Math.floor(data.length / ratio);
+    var out = new Float32Array(outLen);
+    for (var i = 0; i < outLen; i++) {
+      var idx = i * ratio;
+      var lo = Math.floor(idx);
+      var hi = Math.min(lo + 1, data.length - 1);
+      var frac = idx - lo;
+      out[i] = data[lo] * (1 - frac) + data[hi] * frac;
+    }
+    return out;
+  };
+
+  RealtimeSession.prototype._sendMicChunk = function (pcm16) {
+    if (!this.ws || this.ws.readyState !== 1) return;
+    // base64-encode the little-endian int16 stream
+    var bytes = new Uint8Array(pcm16.buffer);
+    var bin = '';
+    for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    var b64 = btoa(bin);
+    var msg = {
+      realtime_input: {
+        media_chunks: [{
+          mime_type: 'audio/pcm;rate=' + this.opts.inputSampleRate,
+          data: b64
+        }]
+      }
+    };
+    this.ws.send(JSON.stringify(msg));
+  };
+
+  RealtimeSession.prototype.stopMic = function () {
+    this.micRunning = false;
+    if (this.micProc) { try { this.micProc.disconnect(); } catch (_e) {} this.micProc = null; }
+    if (this.micCtx)  { try { this.micCtx.close(); } catch (_e) {} this.micCtx = null; }
+    if (this.micStream) {
+      this.micStream.getTracks().forEach(function (t) { t.stop(); });
+      this.micStream = null;
+    }
+    this._emit('micOff');
+  };
+
+  /* ── Send text + system messages ─────────────────────────────── */
+  RealtimeSession.prototype.sendText = function (text) {
+    if (!this.ws || this.ws.readyState !== 1) throw new Error('ws not open');
+    this.ws.send(JSON.stringify({
+      clientContent: {
+        turns: [{ role: 'user', parts: [{ text: text }] }],
+        turnComplete: true
+      }
+    }));
+  };
+  // Used by Phase 2+ exam state machine to nudge the model into the next
+  // part. NB: there's no formal "system" role mid-session — we send it
+  // as a user message but the persona system_instruction tells the model
+  // to treat bracketed control text differently.
+  RealtimeSession.prototype.sendSystem = function (text) {
+    if (!this.ws || this.ws.readyState !== 1) throw new Error('ws not open');
+    this.ws.send(JSON.stringify({
+      clientContent: {
+        turns: [{ role: 'user', parts: [{ text: '[SYSTEM]: ' + text }] }],
+        turnComplete: true
+      }
+    }));
+  };
+
+  /* ── close ────────────────────────────────────────────────── */
+  RealtimeSession.prototype.close = function () {
+    this.stopMic();
+    if (this.ws) { try { this.ws.close(); } catch (_e) {} this.ws = null; }
+    if (this.audioCtx) { try { this.audioCtx.close(); } catch (_e) {} this.audioCtx = null; }
+  };
+
+  global.RealtimeSession = RealtimeSession;
+})(window);
