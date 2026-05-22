@@ -158,6 +158,11 @@
       var settled = false;
       self.ws.onopen = function () {
         // 3. send setup — required first message
+        // Minimal setup. Earlier attempts had realtime_input_config with
+        // field names I wasn't sure about — Google may reject the
+        // entire setup if it sees unknown proto fields. Default VAD
+        // is the safer baseline; we can tune after the basic loop is
+        // confirmed alive.
         var setup = {
           setup: {
             model: 'models/' + self.opts.model,
@@ -166,23 +171,6 @@
             },
             system_instruction: {
               parts: [{ text: self.persona }]
-            },
-            input_audio_transcription:  {},
-            output_audio_transcription: {},
-            // Server-side VAD turn-handling. The previous default was
-            // closing sessions after short silences. Configure a more
-            // forgiving silence threshold so the conversation can
-            // breathe without Google ending the turn / session.
-            realtime_input_config: {
-              automatic_activity_detection: {
-                disabled: false,
-                start_of_speech_sensitivity:  'START_SENSITIVITY_LOW',
-                end_of_speech_sensitivity:    'END_SENSITIVITY_LOW',
-                prefix_padding_ms:    300,
-                silence_duration_ms:  1500
-              },
-              activity_handling: 'START_OF_ACTIVITY_INTERRUPTS',
-              turn_coverage:     'TURN_INCLUDES_ONLY_ACTIVITY'
             }
           }
         };
