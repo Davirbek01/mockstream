@@ -8307,11 +8307,22 @@
     html.ms-platform-host #mobileFab,
     html.ms-platform-host #mobileToolsMenu,
     html.ms-platform-host #mobileMenuOverlay,
+    html.ms-platform-host #cb-fab,
+    html.ms-platform-host #cb-overlay,
+    html.ms-platform-host #cb-badge,
     html.ms-platform-host #msSupportBubble,
     html.ms-platform-host .ms-support-bubble,
     html.ms-platform-host iframe[id*="chat"],
     html.ms-platform-host [id*="supportChat"] {
       display: none !important;
+    }
+    /* Admin sign-in modal — kill its dark backdrop on platform.html so
+       the soft white→lavender gradient shows behind it instead of the
+       muddy grey we get when 55%-opaque navy sits over the gradient. */
+    html.ms-platform-host #adminAuthOverlay {
+      background: transparent !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
     }
   </style>
   <script>
@@ -8457,7 +8468,7 @@
       }
       function _bootstrap() {
         var start = Date.now();
-        var MAX_WAIT = 2500;
+        var MAX_WAIT = 5000;
         function _poll() {
           var elapsed = Date.now() - start;
           if (_ready() && _authSigned()) return _openGrid();
@@ -8465,6 +8476,17 @@
           setTimeout(_poll, 80);
         }
         _poll();
+        // Late sign-in handler — if Supabase restored the session AFTER
+        // the modal was already opened (slow restore), close the modal
+        // and retry openSiteMgmtGrid so the admin lands in the grid.
+        window.addEventListener('mockStream:userSignedIn', function () {
+          if (!_authSigned()) return;
+          var modal = document.getElementById('adminAuthOverlay');
+          if (modal) modal.remove();
+          var grid = document.getElementById('siteMgmtGridOverlay');
+          if (grid) return; // already in the grid
+          try { window.openSiteMgmtGrid(); } catch (_e) {}
+        });
       }
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', _bootstrap);
