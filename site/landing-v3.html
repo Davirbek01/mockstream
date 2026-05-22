@@ -3780,11 +3780,11 @@
       window.location.href = '/results/index.html';
     });
     document.getElementById('msv3PlatformBtn').addEventListener('click', function () {
-      // Phase 6-E P2b: route to the dedicated platform.html host (a
-      // duplicate of landing.html that auto-opens openSiteMgmtGrid()).
-      // landing.html stays available as a manual fallback at
-      // /landing.html?openSiteMgmt=1 if anything regresses.
-      window.location.href = '/platform.html';
+      // Reverted Phase 6-E P2: the platform.html host caused too much
+      // friction (centers-panel writes appeared not to land because of
+      // the 5-min per-clone center-guard cache). Back to bouncing through
+      // landing.html?openSiteMgmt=1 which has worked reliably for months.
+      window.location.href = '/landing.html?openSiteMgmt=1';
     });
     // Platform Management is main-site only — hide the row entirely on clones
     // (mirrors the legacy sidebar's behaviour for #siteMgmtMenuItem). Same
