@@ -155,14 +155,15 @@ async function mintGoogleEphemeral(model: string): Promise<{ ok: boolean; token?
   const newSessionExpireIso = new Date(Date.now() + 2 * 60 * 1000).toISOString();
 
   const url = `https://generativelanguage.googleapis.com/v1alpha/auth_tokens?key=${encodeURIComponent(GEMINI_API_KEY)}`;
+  // Google's auth_tokens endpoint expects the AuthToken fields at the
+  // TOP LEVEL of the body, NOT wrapped in a `config` field. Confirmed
+  // via the 400 INVALID_ARGUMENT response we got on the first deploy.
   const body = {
-    config: {
-      uses: 1,
-      expire_time: expireIso,
-      new_session_expire_time: newSessionExpireIso,
-      live_connect_constraints: {
-        model: `models/${model}`
-      }
+    uses: 1,
+    expire_time: expireIso,
+    new_session_expire_time: newSessionExpireIso,
+    bidi_generate_content_setup: {
+      model: `models/${model}`
     }
   };
 

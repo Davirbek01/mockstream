@@ -101,7 +101,10 @@
     this.ephemeralToken = mintData.token;
 
     // 2. open WebSocket
-    var url = this.opts.wsBase + '?access_token=' + encodeURIComponent(this.ephemeralToken);
+    // Ephemeral token plugs into ?key= (acts as a temporary API key on
+    // the WebSocket). The auth_tokens/<hash> resource name from Google
+    // IS the token value. Verified 2026-05-22.
+    var url = this.opts.wsBase + '?key=' + encodeURIComponent(this.ephemeralToken);
     var self = this;
     return new Promise(function (resolve, reject) {
       try {

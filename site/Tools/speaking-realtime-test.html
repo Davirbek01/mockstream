@@ -200,7 +200,10 @@
     // ─── Step 2: connect WebSocket ─────────────────────────────────
     $('connectBtn').addEventListener('click', function () {
       if (!ephemeralToken) return;
-      var url = WS_URL_BASE + '?access_token=' + encodeURIComponent(ephemeralToken);
+      // Live API uses the ephemeral token in the ?key= param (it plugs
+      // in like an API key would). The auth_tokens/<hash> resource name
+      // is the full token value. Confirmed via Google's response shape.
+      var url = WS_URL_BASE + '?key=' + encodeURIComponent(ephemeralToken);
       log('WS connect → ' + WS_URL_BASE, 'send');
       setStatus('wsStatus', 'warn', 'connecting…');
       try {
