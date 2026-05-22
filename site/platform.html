@@ -12,42 +12,89 @@
     html.ms-platform-host::before {
       content: '';
       position: fixed; inset: 0;
-      background:
-        radial-gradient(1200px 700px at -5% -10%, rgba(99,102,241,.10), transparent 55%),
-        radial-gradient(1000px 600px at 105% 5%, rgba(251,146,60,.09), transparent 55%),
-        #f5f7fb;
+      background: linear-gradient(180deg, #ffffff 0%, #f1f4fb 100%);
       z-index: 10000;
       pointer-events: none;
       transition: opacity .25s ease;
     }
     #msPlatformSplash {
       position: fixed;
-      left: 50%; top: 50%;
-      width: 64px; height: 64px;
-      margin: -32px 0 0 -32px;
-      border-radius: 50%;
-      border: 4px solid rgba(99,102,241,.22);
-      border-top-color: #6366f1;
-      animation: mspsSpin 0.85s linear infinite;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       z-index: 10001;
       pointer-events: none;
-      transition: opacity .25s ease;
+      transition: opacity .28s ease;
+      -webkit-user-select: none; user-select: none;
+    }
+    #msPlatformSplash .msk-logo {
+      width: 84px; height: 84px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #6366f1 0%, #f97316 100%);
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 22px 44px rgba(99,102,241,.22);
+    }
+    #msPlatformSplash .msk-logo img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+    #msPlatformSplash .msk-brand {
+      margin-top: 18px;
+      font: 700 19px/1.2 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      color: #0b1330;
+      letter-spacing: -.01em;
+    }
+    #msPlatformSplash .msk-hint {
+      margin-top: 6px;
+      font: 500 13.5px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      color: #5a6584;
+    }
+    #msPlatformSplash .msk-spinner {
+      margin-top: 20px;
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      border: 3px solid rgba(99,102,241,.16);
+      border-top-color: #6366f1;
+      animation: mspsSpin .9s linear infinite;
     }
     #msPlatformSplash.hide { opacity: 0; }
     html.ms-platform-ready::before { opacity: 0; }
     @keyframes mspsSpin { to { transform: rotate(360deg); } }
   </style>
   <script>
-    // Inject the spinner div the instant <body> exists. Polling at 0ms
-    // until body is parseable; in practice this fires within a couple of
-    // ticks, well before any of landing.html's 45k-line script chain.
-    (function _injectPlatformSpinner() {
-      if (!document.body) return setTimeout(_injectPlatformSpinner, 0);
-      if (document.getElementById('msPlatformSplash')) return;
+    // Inject the branded splash card the instant <body> exists. Re-used
+    // by both the entry path (auto-opener waiting for the grid) and the
+    // exit path (× / backdrop / Esc → fade to v3 home).
+    window.__msPlatformInjectSplash = function _inject(hint) {
+      if (!document.body) return setTimeout(function () { _inject(hint); }, 0);
+      var existing = document.getElementById('msPlatformSplash');
+      if (existing) {
+        existing.classList.remove('hide');
+        if (hint) {
+          var h = existing.querySelector('.msk-hint');
+          if (h) h.textContent = hint;
+        }
+        return existing;
+      }
+      var brand = (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream';
+      var logo  = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl)
+                || 'https://i.ibb.co/WN0XY5Lv/logo.png';
       var d = document.createElement('div');
       d.id = 'msPlatformSplash';
+      d.setAttribute('role', 'status');
+      d.setAttribute('aria-live', 'polite');
+      d.innerHTML =
+        '<div class="msk-logo"><img alt="" src="' + logo + '"></div>' +
+        '<div class="msk-brand">' + brand + '</div>' +
+        '<div class="msk-hint">' + (hint || 'Loading platform…') + '</div>' +
+        '<div class="msk-spinner" aria-hidden="true"></div>';
       document.body.appendChild(d);
-    })();
+      return d;
+    };
+    window.__msPlatformInjectSplash();
   </script>
   <!-- Resolve relative asset paths from site root regardless of current URL.
        Without this, deep-link URLs like /take/cefr-reading-44 cause every
@@ -8322,17 +8369,12 @@
         }
       }
       function _navHome() {
-        // Re-show the splash so the user gets the spinner during the
-        // navigation tick, not a silent blank screen.
+        // Re-show the branded splash with a "Returning to home…" hint so
+        // the navigation tick has a clear visual instead of a blank flash.
         try {
           document.documentElement.classList.remove('ms-platform-ready');
-          var s = document.getElementById('msPlatformSplash');
-          if (!s) {
-            s = document.createElement('div');
-            s.id = 'msPlatformSplash';
-            document.body.appendChild(s);
-          } else {
-            s.classList.remove('hide');
+          if (typeof window.__msPlatformInjectSplash === 'function') {
+            window.__msPlatformInjectSplash('Returning to home…');
           }
         } catch (_e) {}
         try { window.location.href = '/landing-v3.html'; }
