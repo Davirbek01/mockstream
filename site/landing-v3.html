@@ -2572,6 +2572,75 @@
     }
     applyCloneBranding();
 
+    /* ═══════════════════════════════════════════════════════════════
+       Per-centre Features Toggle enforcement
+       ──────────────────────────────────────────────────────────────
+       Mirrors the old landing.html behaviour: the Centers Management
+       admin panel writes a `center_config_<id>` row in site_settings
+       with feature toggles (writingPlus / speakingPlus / readingPlus /
+       listeningPlus / flashcards / articles / helpCenter / leaderboard
+       / certificates / telegramNotifs / freeCodeDispenser). When a
+       toggle is false, the corresponding button on v3 is greyed out
+       + given an "OFF" badge + made unclickable.
+       ═══════════════════════════════════════════════════════════════ */
+    function _msv3DeactivateEl(el, label) {
+      if (!el || el._msv3Deactivated) return;
+      el._msv3Deactivated = true;
+      el.style.opacity        = '0.4';
+      el.style.pointerEvents  = 'none';
+      el.style.filter         = 'grayscale(85%)';
+      el.style.position       = el.style.position || 'relative';
+      var badge = document.createElement('span');
+      badge.textContent = 'OFF';
+      badge.style.cssText = 'position:absolute;top:6px;right:6px;background:#9ca3af;color:#fff;padding:2px 7px;border-radius:6px;font-size:9.5px;font-weight:800;letter-spacing:0.04em;z-index:2;';
+      el.appendChild(badge);
+    }
+    async function _msv3ApplyFeatures() {
+      var centerId = (window.__CENTER_ID || 'mock_stream').toString().trim();
+      var key = 'center_config_' + centerId;
+      var cfg;
+      try {
+        var r = await fetch(SB_URL + '/rest/v1/site_settings?key=eq.' + encodeURIComponent(key) + '&select=value', {
+          headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY }
+        });
+        if (!r.ok) return;
+        var rows = await r.json();
+        if (!rows || !rows.length) return;
+        cfg = rows[0].value;
+        if (typeof cfg === 'string') { try { cfg = JSON.parse(cfg); } catch (_e) { return; } }
+      } catch (_e) { return; }
+      if (!cfg || typeof cfg !== 'object') return;
+      window.__msv3CenterFeatures = cfg;
+
+      // Plus buttons in the sidebar — match the .msv3-plus.plus-XXX classes.
+      var plusMap = {
+        writingPlus:   '.msv3-plus.plus-wrt',
+        speakingPlus:  '.msv3-plus.plus-spk',
+        readingPlus:   '.msv3-plus.plus-rdg',
+        listeningPlus: '.msv3-plus.plus-lst'
+      };
+      Object.keys(plusMap).forEach(function (key) {
+        if (cfg[key] === false) _msv3DeactivateEl(document.querySelector(plusMap[key]), key);
+      });
+
+      // Learning Tools tile-cards on the main landing.
+      var toolMap = {
+        flashcards: '.tool-card[data-learn="flashcards"]',
+        articles:   '.tool-card[data-learn="articles"]'
+      };
+      Object.keys(toolMap).forEach(function (key) {
+        if (cfg[key] === false) _msv3DeactivateEl(document.querySelector(toolMap[key]), key);
+      });
+
+      // Help Center button in the sidebar foot (msv3-foot-links).
+      if (cfg.helpCenter === false) {
+        document.querySelectorAll('[onclick*="msv3HelpPanel"], [data-open-panel="msv3HelpPanel"]').forEach(function (el) {
+          _msv3DeactivateEl(el, 'helpCenter');
+        });
+      }
+    }
+    _msv3ApplyFeatures();
+
     const SKILLS = [
       { label: 'speaking',  combos: [['speaking',  'cefr'], ['speaking',  'ielts']] },
       { label: 'writing',   combos: [['writing',   'cefr'], ['writing',   'ielts']] },
