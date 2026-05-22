@@ -5333,6 +5333,46 @@
       _initTelegramLogin();
     }
 
+    // Hide Google sign-in when running inside a Telegram Mini App.
+    // The Supabase OAuth flow (third-party cookies + #access_token URL
+    // fragment) is broken in TMA's WebView on iOS / Android / Desktop —
+    // the user picks an account, returns to the index page, and no
+    // session is set. Telegram sign-in works because it's a native
+    // postMessage flow with no cross-domain hop. Detection: WebApp SDK
+    // present AND platform is a real Telegram client (not 'unknown',
+    // which is what regular browsers report when the script loads).
+    (function _hideGoogleInTelegramMiniApp() {
+      function _isTelegramMiniApp() {
+        var tg = window.Telegram && window.Telegram.WebApp;
+        if (!tg) return false;
+        var plat = (tg.platform || '').toString().toLowerCase();
+        return plat && plat !== 'unknown';
+      }
+      function _apply() {
+        if (!_isTelegramMiniApp()) return;
+        var gBtn = document.getElementById('googleSigninBtn');
+        if (gBtn) gBtn.style.display = 'none';
+        // The "OR" divider only makes sense when there are two sign-in
+        // options above it; hide it too so the layout doesn't look broken.
+        var orSep = document.getElementById('nameOrSeparator');
+        if (orSep) orSep.style.display = 'none';
+        // Update the hint copy to match the remaining options.
+        var hint = document.getElementById('googleSigninHint');
+        if (hint) {
+          var span = hint.querySelector('span');
+          var txt = '✓ Telegram orqali davom eting — natijalaringiz saqlanadi';
+          hint.innerHTML = '';
+          if (span) hint.appendChild(span);
+          hint.appendChild(document.createTextNode(' Telegram orqali davom eting — natijalaringiz saqlanadi'));
+        }
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', _apply);
+      } else {
+        _apply();
+      }
+    })();
+
     // Telegram widget callback — verifies via Edge Function then establishes
     // a Supabase session via verifyOtp. Existing post-sign-in code paths
     // (auth.js + tryShowApp) take over after that.
