@@ -75,8 +75,19 @@
       <div class="stat-tile"><div class="stat-n" id="statUsers7">—</div><div class="stat-lbl">Unique users this week</div></div>
       <div class="stat-tile"><div class="stat-n" id="statMin7">—</div><div class="stat-lbl">Recorded minutes (7d)</div></div>
     </div>
+  </div>
+
+  <div class="card" id="costCard" style="display: none;">
+    <h3 style="margin: 0 0 6px; font-size: 14px;">💰 Estimated Gemini Live API cost <span class="meta" id="costRate"></span></h3>
+    <div class="meta" style="margin-bottom: 12px;">Isolated to this realtime feature only. Recorded sessions use actual durations; the rest are estimated at 5 min average per connection. Authoritative $ amounts are in your Google Cloud billing dashboard.</div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px;">
+      <div class="stat-tile"><div class="stat-n" id="cost24">—</div><div class="stat-lbl">Today (USD)</div></div>
+      <div class="stat-tile"><div class="stat-n" id="cost7">—</div><div class="stat-lbl">Last 7 days</div></div>
+      <div class="stat-tile"><div class="stat-n" id="cost30">—</div><div class="stat-lbl">Last 30 days</div></div>
+      <div class="stat-tile"><div class="stat-n" id="costAll">—</div><div class="stat-lbl">All-time</div></div>
+    </div>
     <div class="meta" style="margin-top: 10px; font-size: 11px;">
-      "Sessions" counts every proxy connection — natural reconnects (~10min cap) count as separate sessions. "Unique users" approximates students via IP. Audio recording not yet wired on the free-chat page, so the recorded-minutes stat will read 0 until that's enabled.
+      <strong>Rate override:</strong> set the Supabase secret <code style="background:#0b1220;padding:1px 6px;border-radius:4px;">GEMINI_LIVE_USD_PER_MIN</code> to the per-minute price from Google when published. Default: $0.03/min.
     </div>
   </div>
 
@@ -189,6 +200,16 @@
       $('statUsers7').textContent  = s.unique_users_7d  ?? 0;
       $('statMin7').textContent    = s.total_recorded_minutes_7d ?? 0;
       $('statsCard').style.display = '';
+
+      var fmt = function (n) { return '$' + (Math.round((n || 0) * 100) / 100).toFixed(2); };
+      if (s.cost_24h) {
+        $('cost24').textContent  = fmt(s.cost_24h.estimated_usd);
+        $('cost7').textContent   = fmt(s.cost_7d.estimated_usd);
+        $('cost30').textContent  = fmt(s.cost_30d.estimated_usd);
+        $('costAll').textContent = fmt(s.cost_all.estimated_usd);
+        $('costRate').textContent = '— rate $' + (s.cost_24h.rate_per_minute_usd || 0).toFixed(3) + '/min';
+        $('costCard').style.display = '';
+      }
     }
 
     function renderList() {
