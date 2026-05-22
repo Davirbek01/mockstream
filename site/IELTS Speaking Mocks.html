@@ -15928,8 +15928,12 @@ Please contact your instructor or upgrade to the full version with speech recogn
           pendingAction();
           return;
         }
-        // Fallback behavior for refresh/back protection flows
-        window.location.reload();
+        // Default leave path (browser back / hardware back / refresh trap):
+        // set the return-category hint so v3 reopens the right picker, then
+        // navigate to v3 home. Previously this just reloaded the page, so
+        // the back button appeared broken to the user.
+        try { sessionStorage.setItem('speakingMockReturnCategory', 'ielts-speaking'); } catch (_e) {}
+        window.location.href = '/landing-v3.html';
       });
     }
 

@@ -11560,6 +11560,7 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (Criteria scores MUST be whole numbers â€
           window.__pendingLeaveAction = null;
           fn();
         } else {
+          try { sessionStorage.setItem('writingMockReturnCategory', 'ielts-writing'); } catch (_e) {}
           goToLanding();
         }
       });
