@@ -62,6 +62,12 @@
     this.micRunning = false;
     this.closed = false;
     this._listeners = {};
+    // Recording state (Phase 3)
+    this._micRecorder = null;
+    this._micChunks = [];
+    this._micRecording = false;
+    this._transcriptLog = [];
+    this._startedAt = null;
   }
 
   RealtimeSession.prototype.on = function (event, cb) {
@@ -73,12 +79,58 @@
     for (var i = 0; i < list.length; i++) {
       try { list[i](payload); } catch (e) { console.error('listener error', e); }
     }
+    // Auto-capture transcript events for Phase 3 export.
+    if (event === 'transcript' && payload && payload.text) {
+      this._transcriptLog.push({
+        role: payload.role,
+        text: payload.text,
+        at_ms: this._startedAt ? (Date.now() - this._startedAt) : 0
+      });
+    }
   };
+  /* ── Phase 3 capture: transcript + mic recording ─────────────── */
+  RealtimeSession.prototype.getTranscript = function () {
+    return this._transcriptLog.slice();
+  };
+  // Start MediaRecorder on the existing mic stream. Call this AFTER
+  // startMic(). Produces an Opus blob you can upload at session end.
+  RealtimeSession.prototype.startRecording = function () {
+    if (this._micRecording) return;
+    if (!this.micStream) throw new Error('mic not running; call startMic first');
+    var mime = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
+      ? 'audio/webm;codecs=opus'
+      : (MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : '');
+    var opts = mime ? { mimeType: mime, audioBitsPerSecond: 32000 } : {};
+    this._micRecorder = new MediaRecorder(this.micStream, opts);
+    this._micChunks = [];
+    var self = this;
+    this._micRecorder.ondataavailable = function (e) {
+      if (e.data && e.data.size > 0) self._micChunks.push(e.data);
+    };
+    this._micRecorder.start(1000); // 1s chunks
+    this._micRecording = true;
+    this._emit('recordingOn');
+  };
+  RealtimeSession.prototype.stopRecording = function () {
+    if (!this._micRecording) return Promise.resolve(null);
+    var self = this;
+    return new Promise(function (resolve) {
+      self._micRecorder.onstop = function () {
+        self._micRecording = false;
+        self._emit('recordingOff');
+        var blob = new Blob(self._micChunks, { type: self._micRecorder.mimeType || 'audio/webm' });
+        resolve(blob);
+      };
+      try { self._micRecorder.stop(); } catch (_e) { resolve(null); }
+    });
+  };
+  RealtimeSession.prototype.isRecording = function () { return this._micRecording; };
 
   /* ── start: open WebSocket to our proxy + send setup ─── */
   RealtimeSession.prototype.start = async function () {
     if (this.ws) throw new Error('session already started');
     if (!this.vipToken) throw new Error('vipToken required');
+    this._startedAt = Date.now();
 
     // Open WebSocket directly to our Supabase proxy. The proxy verifies
     // the VIP token + premium gate, then opens an upstream WS to Google

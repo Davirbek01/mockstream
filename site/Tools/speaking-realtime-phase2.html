@@ -355,10 +355,9 @@
           session.sendSystem('Prep is over. Begin the discussion — ask one opening question, then follow up based on their answer. Keep it conversational. After 2 minutes I will end the exam.');
           startTimer(120, 'P3 talk — 2 minutes discussion', function () {
             setExamStep('p3talk');
-            session.sendSystem('Time is up. Tell the student that\'s the end of the exam and you\'ll go over their performance now. Then go silent — the host is computing the score.');
+            session.sendSystem('Time is up. Tell the student that\'s the end of the exam and you\'ll go over their performance now. Then go silent — the host is uploading the recording.');
             $('nextBtn').disabled = true;
-            // Phase 6 hookup: trigger grading here.
-            log('[Phase 6 hook] would now POST transcript to grading endpoint', 'info');
+            saveSessionToSupabase();
           });
           break;
       }
@@ -397,17 +396,69 @@
     $('closeBtn').addEventListener('click', function () { stopTimer(); if (session) { session.close(); session = null; } });
     $('nextBtn').addEventListener('click', advance);
 
-    // Mic on/off toggle (free-running once on).
+    // Mic on/off toggle (free-running once on). First mic-on also starts
+    // recording so the whole session lands on the server for review.
     var micOn = false;
     $('micBtn').addEventListener('click', function () {
       if (!session) return;
       if (!micOn) {
-        session.startMic().then(function () { micOn = true; $('micBtn').textContent = '🔴 Mic ON — click to mute'; })
-                          .catch(function (e) { log('mic fail: ' + e.message, 'err'); });
+        session.startMic().then(function () {
+          micOn = true;
+          $('micBtn').textContent = '🔴 Mic ON — click to mute';
+          try { session.startRecording(); log('recording started', 'info'); } catch (e) { log('recording start failed: ' + e.message, 'err'); }
+        }).catch(function (e) { log('mic fail: ' + e.message, 'err'); });
       } else {
         session.stopMic(); micOn = false; $('micBtn').textContent = '🎙 Mic ON';
       }
     });
+
+    // ── Phase 3: upload audio + transcript + metadata at session end ──
+    var SAVE_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/speaking-realtime-save';
+    async function saveSessionToSupabase() {
+      if (!session) { log('no session to save', 'err'); return; }
+      log('stopping recording…', 'info');
+      var blob = await session.stopRecording();
+      if (!blob || blob.size === 0) { log('no audio captured', 'err'); return; }
+      log('audio blob: ' + blob.size + ' bytes (' + blob.type + ')', 'info');
+
+      var startedAt = new Date(session._startedAt || Date.now()).toISOString();
+      var endedAt   = new Date().toISOString();
+      var durationSec = Math.round((Date.now() - (session._startedAt || Date.now())) / 1000);
+      var meta = {
+        token: $('vipToken').value.trim(),
+        started_at: startedAt,
+        ended_at: endedAt,
+        duration_sec: durationSec,
+        p1_1_source: pickedMocks ? { mock_id: pickedMocks.p11.mockId, mock_number: pickedMocks.p11.mockNumber, questions: pickedMocks.p11.questions } : null,
+        p1_2_source: pickedMocks ? { mock_id: pickedMocks.p12.mockId, mock_number: pickedMocks.p12.mockNumber, questions: pickedMocks.p12.questions, images: pickedMocks.p12.images } : null,
+        p2_source:   pickedMocks ? { mock_id: pickedMocks.p2.mockId,  mock_number: pickedMocks.p2.mockNumber,  questions: pickedMocks.p2.questions } : null,
+        p3_source:   pickedMocks ? { mock_id: pickedMocks.p3.mockId,  mock_number: pickedMocks.p3.mockNumber,  questions: pickedMocks.p3.questions } : null,
+        transcript:  session.getTranscript()
+      };
+      var form = new FormData();
+      form.append('audio', blob, 'session.' + (blob.type.includes('mp4') ? 'mp4' : 'webm'));
+      form.append('meta', JSON.stringify(meta));
+
+      log('uploading session…', 'send');
+      try {
+        var r = await fetch(SAVE_URL, {
+          method: 'POST',
+          headers: {
+            'apikey': SB_KEY,
+            'Authorization': 'Bearer ' + SB_KEY
+          },
+          body: form
+        });
+        var data = await r.json();
+        if (r.ok) {
+          log('saved session id=' + data.id + ' → ' + data.audio_url, 'recv');
+        } else {
+          log('save failed: ' + JSON.stringify(data), 'err');
+        }
+      } catch (e) {
+        log('save error: ' + e.message, 'err');
+      }
+    }
   </script>
 </body>
 </html>

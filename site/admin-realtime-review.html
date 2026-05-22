@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Speaking Realtime — Admin Review</title>
+  <style>
+    :root {
+      --bg: #0f172a; --panel: #1e293b; --line: #334155;
+      --ink: #f1f5f9; --muted: #94a3b8;
+      --ok: #10b981; --bad: #ef4444; --warn: #f59e0b; --accent: #6366f1;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font: 14px/1.5 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--ink); padding: 20px; }
+    h1 { font-size: 22px; margin: 0 0 4px; }
+    .lede { color: var(--muted); margin: 0 0 18px; }
+    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin-bottom: 14px; }
+    input { width: 100%; background: #0b1220; border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; color: var(--ink); font: inherit; }
+    button { background: var(--accent); color: #fff; border: 0; padding: 8px 14px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+    button:disabled { opacity: .35; cursor: not-allowed; }
+    button.ghost { background: transparent; border: 1px solid var(--line); }
+    button.bad { background: var(--bad); }
+    .status { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 600; }
+    .status.ok { background: rgba(16,185,129,.15); color: var(--ok); }
+    .status.bad { background: rgba(239,68,68,.15); color: var(--bad); }
+    .status.warn { background: rgba(245,158,11,.15); color: var(--warn); }
+
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--line); font-size: 13px; }
+    th { font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 700; }
+    tr.row:hover { background: rgba(99,102,241,.05); cursor: pointer; }
+    tr.row.active { background: rgba(99,102,241,.12); }
+
+    .detail-grid { display: grid; grid-template-columns: 280px 1fr; gap: 16px; align-items: start; }
+    @media (max-width: 880px) { .detail-grid { grid-template-columns: 1fr; } }
+    .transcript {
+      background: #0b1220; border: 1px solid var(--line); border-radius: 8px;
+      padding: 10px; max-height: 520px; overflow: auto; font-size: 12.5px;
+    }
+    .transcript .row { padding: 5px 7px; border-radius: 4px; margin: 3px 0; }
+    .transcript .row.user  { background: rgba(99,102,241,.08); }
+    .transcript .row.model { background: rgba(16,185,129,.08); }
+    .transcript .who { font-size: 10px; color: var(--muted); font-weight: 700; text-transform: uppercase; }
+    .transcript .what { color: var(--ink); margin-top: 1px; }
+    pre.json { background: #0b1220; border: 1px solid var(--line); border-radius: 8px; padding: 10px; font-size: 11.5px; max-height: 280px; overflow: auto; }
+    .meta { font-size: 12px; color: var(--muted); }
+    .meta strong { color: var(--ink); }
+  </style>
+</head>
+<body>
+  <h1>🎤 Speaking Realtime — Admin Review</h1>
+  <p class="lede">Admin-only. Lists captured realtime sessions, plays audio, shows transcript. Manual delete clears the audio file + row.</p>
+
+  <div class="card" id="authCard">
+    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+      <input id="vipToken" placeholder="Admin VIP token (sessionStorage.vipToken with role=admin)" style="flex: 1; min-width: 240px;">
+      <button id="loadBtn">Load sessions</button>
+      <span id="authStatus" class="status warn">not loaded</span>
+    </div>
+  </div>
+
+  <div class="card" id="listCard" style="display: none;">
+    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+      <h3 style="margin: 0; font-size: 14px;">Sessions <span id="count" class="meta"></span></h3>
+      <button id="refreshBtn" class="ghost">Refresh</button>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Started</th>
+          <th>Center</th>
+          <th>Student</th>
+          <th>Duration</th>
+          <th>CEFR</th>
+          <th>Reviewed</th>
+        </tr>
+      </thead>
+      <tbody id="sessionsTbody"></tbody>
+    </table>
+  </div>
+
+  <div class="card" id="detailCard" style="display: none;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+      <h3 style="margin: 0; font-size: 14px;">Session detail</h3>
+      <button id="deleteBtn" class="bad">🗑 Delete session</button>
+    </div>
+    <div class="detail-grid">
+      <div>
+        <div class="meta" id="detailMeta"></div>
+        <div style="margin-top: 12px;">
+          <audio id="audioEl" controls style="width: 100%;"></audio>
+        </div>
+        <details style="margin-top: 12px;">
+          <summary class="meta">Mock sources</summary>
+          <pre class="json" id="sourcesJson"></pre>
+        </details>
+        <details style="margin-top: 8px;">
+          <summary class="meta">Scoring (Phase 6 hook)</summary>
+          <pre class="json" id="scoringJson">(not yet graded)</pre>
+        </details>
+      </div>
+      <div>
+        <div class="meta" style="margin-bottom: 6px;">Transcript</div>
+        <div class="transcript" id="transcriptBox"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var $ = function (id) { return document.getElementById(id); };
+    var ADMIN_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/speaking-realtime-admin';
+    var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    var sessions = [];
+    var activeId = null;
+
+    // Restore VIP token from sessionStorage if available (matches the
+    // same key auth.js uses).
+    try {
+      var saved = sessionStorage.getItem('vipToken');
+      if (saved) $('vipToken').value = saved;
+    } catch (_e) {}
+
+    function setStatus(cls, text) { var s = $('authStatus'); s.className = 'status ' + cls; s.textContent = text; }
+
+    async function callAdmin(action, extra) {
+      var token = $('vipToken').value.trim();
+      if (!token) throw new Error('no token');
+      var r = await fetch(ADMIN_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY },
+        body: JSON.stringify(Object.assign({ token: token, action: action }, extra || {}))
+      });
+      var data = await r.json();
+      if (!r.ok) { var err = new Error(data.error || ('http ' + r.status)); err.code = r.status; err.data = data; throw err; }
+      return data;
+    }
+
+    function fmtTime(iso) { if (!iso) return '—'; var d = new Date(iso); return d.toLocaleString(); }
+    function fmtDuration(sec) {
+      if (sec == null) return '—';
+      var m = Math.floor(sec / 60), s = sec % 60;
+      return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+    }
+
+    async function loadSessions() {
+      setStatus('warn', 'loading…');
+      try {
+        var data = await callAdmin('list', { limit: 100 });
+        sessions = data.sessions || [];
+        setStatus('ok', 'loaded ' + sessions.length + ' sessions');
+        renderList();
+        $('listCard').style.display = '';
+      } catch (e) {
+        setStatus('bad', e.message);
+        $('listCard').style.display = 'none';
+      }
+    }
+
+    function renderList() {
+      $('count').textContent = '(' + sessions.length + ')';
+      var html = '';
+      sessions.forEach(function (s) {
+        html += '<tr class="row" data-id="' + s.id + '">'
+              + '<td>' + fmtTime(s.started_at) + '</td>'
+              + '<td>' + (s.center_id || '—') + '</td>'
+              + '<td>' + ((s.user_name || s.user_email || '—').slice(0, 28)) + '</td>'
+              + '<td>' + fmtDuration(s.duration_sec) + '</td>'
+              + '<td>' + (s.cefr_level || '—') + '</td>'
+              + '<td>' + (s.reviewed_at ? '✓' : '—') + '</td>'
+              + '</tr>';
+      });
+      $('sessionsTbody').innerHTML = html;
+      Array.prototype.forEach.call(document.querySelectorAll('tr.row'), function (tr) {
+        tr.addEventListener('click', function () { openDetail(tr.dataset.id); });
+      });
+    }
+
+    async function openDetail(id) {
+      activeId = id;
+      Array.prototype.forEach.call(document.querySelectorAll('tr.row'), function (tr) {
+        tr.classList.toggle('active', tr.dataset.id === id);
+      });
+      $('detailCard').style.display = '';
+      $('detailMeta').textContent = 'loading…';
+      $('transcriptBox').innerHTML = '';
+      $('audioEl').removeAttribute('src');
+      try {
+        var [det, aud] = await Promise.all([
+          callAdmin('get',   { id: id }),
+          callAdmin('audio', { id: id })
+        ]);
+        var s = det.session;
+        $('detailMeta').innerHTML =
+          '<strong>' + (s.user_name || s.user_email || '—') + '</strong><br>'
+          + 'Started: ' + fmtTime(s.started_at) + '<br>'
+          + 'Duration: ' + fmtDuration(s.duration_sec) + '<br>'
+          + 'Center: ' + (s.center_id || '—') + '<br>'
+          + 'Score: ' + (s.cert_score == null ? '—' : (s.cert_score + ' (' + (s.cefr_level || '—') + ')')) + '<br>'
+          + 'ID: <code style="font-size:11px;">' + s.id + '</code>';
+        $('audioEl').src = aud.url;
+        $('sourcesJson').textContent = JSON.stringify({
+          p11: s.p1_1_source, p12: s.p1_2_source, p2: s.p2_source, p3: s.p3_source
+        }, null, 2);
+        $('scoringJson').textContent = s.raw_section_scores
+          ? JSON.stringify({ raw: s.raw_section_scores, total: s.raw_total, cert: s.cert_score, cefr: s.cefr_level, rationale: s.grader_rationale }, null, 2)
+          : '(not yet graded)';
+        renderTranscript(s.transcript || []);
+      } catch (e) {
+        $('detailMeta').textContent = 'detail load failed: ' + e.message;
+      }
+    }
+
+    function renderTranscript(transcript) {
+      var box = $('transcriptBox');
+      if (!transcript.length) { box.innerHTML = '<div class="meta">(no transcript captured)</div>'; return; }
+      var html = '';
+      transcript.forEach(function (t) {
+        html += '<div class="row ' + (t.role === 'user' ? 'user' : 'model') + '">'
+              + '<div class="who">' + (t.role === 'user' ? 'STUDENT' : 'AI') + (typeof t.at_ms === 'number' ? ' · ' + Math.round(t.at_ms / 1000) + 's' : '') + '</div>'
+              + '<div class="what"></div></div>';
+      });
+      box.innerHTML = html;
+      // Set text content safely
+      var nodes = box.querySelectorAll('.row .what');
+      transcript.forEach(function (t, i) { nodes[i].textContent = t.text || ''; });
+    }
+
+    $('loadBtn').addEventListener('click', loadSessions);
+    $('refreshBtn').addEventListener('click', loadSessions);
+
+    $('deleteBtn').addEventListener('click', async function () {
+      if (!activeId) return;
+      if (!confirm('Delete this session permanently? Audio file + row will be removed and cannot be undone.')) return;
+      try {
+        await callAdmin('delete', { id: activeId });
+        $('detailCard').style.display = 'none';
+        activeId = null;
+        loadSessions();
+      } catch (e) {
+        alert('Delete failed: ' + e.message);
+      }
+    });
+
+    // Auto-load on page open if a token is present.
+    if ($('vipToken').value) loadSessions();
+  </script>
+</body>
+</html>
