@@ -216,7 +216,7 @@
     </div>
   </div>
 
-  <script src="speaking-realtime-engine.js?v=free2"></script>
+  <script src="speaking-realtime-engine.js?v=free3"></script>
   <script>
     var $ = function (id) { return document.getElementById(id); };
     var session = null;
@@ -267,7 +267,11 @@
       session.on('micOn',      function () { /* nothing */ });
       session.on('micOff',     function () { /* nothing */ });
       session.on('error',      function (e) { setStatus('Connection error: ' + (e.message || '')); });
-      session.on('close',      function () { setStatus('Conversation ended'); setOrb('connecting'); });
+      session.on('close',      function (c) {
+        var why = c && c.code ? ' (code ' + c.code + (c.reason ? ': ' + c.reason : '') + ')' : '';
+        setStatus('Conversation ended' + why);
+        setOrb('connecting');
+      });
 
       try {
         await session.start();

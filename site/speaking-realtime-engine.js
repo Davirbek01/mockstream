@@ -167,10 +167,23 @@
             system_instruction: {
               parts: [{ text: self.persona }]
             },
-            // Ask Google to transcribe BOTH directions so we can see in
-            // the log whether the mic audio is reaching them as speech.
             input_audio_transcription:  {},
-            output_audio_transcription: {}
+            output_audio_transcription: {},
+            // Server-side VAD turn-handling. The previous default was
+            // closing sessions after short silences. Configure a more
+            // forgiving silence threshold so the conversation can
+            // breathe without Google ending the turn / session.
+            realtime_input_config: {
+              automatic_activity_detection: {
+                disabled: false,
+                start_of_speech_sensitivity:  'START_SENSITIVITY_LOW',
+                end_of_speech_sensitivity:    'END_SENSITIVITY_LOW',
+                prefix_padding_ms:    300,
+                silence_duration_ms:  1500
+              },
+              activity_handling: 'START_OF_ACTIVITY_INTERRUPTS',
+              turn_coverage:     'TURN_INCLUDES_ONLY_ACTIVITY'
+            }
           }
         };
         self.ws.send(JSON.stringify(setup));
@@ -380,12 +393,16 @@
     var bin = '';
     for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
     var b64 = btoa(bin);
+    // Use the .audio sub-field of realtimeInput (single-chunk audio
+    // path) rather than .mediaChunks (mixed audio+video legacy). Per
+    // Google's current Live API docs this is the supported shape for
+    // audio-only streaming. Mime type per docs: "audio/pcm;rate=16000".
     var msg = {
       realtimeInput: {
-        mediaChunks: [{
+        audio: {
           mimeType: 'audio/pcm;rate=' + this.opts.inputSampleRate,
           data: b64
-        }]
+        }
       }
     };
     this.ws.send(JSON.stringify(msg));
