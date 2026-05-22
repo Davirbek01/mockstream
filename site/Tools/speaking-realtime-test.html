@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Speaking Realtime — Sandbox (Phase 0)</title>
+  <style>
+    :root {
+      --bg: #0f172a; --panel: #1e293b; --line: #334155;
+      --ink: #f1f5f9; --muted: #94a3b8;
+      --ok: #10b981; --bad: #ef4444; --warn: #f59e0b; --accent: #6366f1;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font: 14px/1.5 'Inter', system-ui, sans-serif;
+      background: var(--bg); color: var(--ink); padding: 24px;
+    }
+    h1 { font-size: 22px; margin: 0 0 6px; }
+    .lede { color: var(--muted); margin: 0 0 24px; max-width: 740px; }
+    .card {
+      background: var(--panel); border: 1px solid var(--line);
+      border-radius: 12px; padding: 18px; margin-bottom: 16px;
+      max-width: 920px;
+    }
+    .card h2 { margin: 0 0 12px; font-size: 15px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+    label { display: block; font-size: 12px; color: var(--muted); margin: 8px 0 4px; }
+    input, textarea {
+      width: 100%; background: #0b1220; border: 1px solid var(--line);
+      border-radius: 8px; padding: 10px 12px; color: var(--ink); font: inherit;
+    }
+    textarea { min-height: 80px; resize: vertical; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12.5px; }
+    button {
+      background: var(--accent); color: #fff; border: 0;
+      padding: 9px 16px; border-radius: 8px; font-weight: 600;
+      cursor: pointer; transition: opacity .15s;
+    }
+    button:hover { opacity: .9; }
+    button:disabled { opacity: .4; cursor: not-allowed; }
+    button.ghost { background: transparent; border: 1px solid var(--line); color: var(--ink); }
+    button.bad { background: var(--bad); }
+    .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .status {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 10px; border-radius: 999px;
+      font-size: 12px; font-weight: 600;
+    }
+    .status.ok   { background: rgba(16, 185, 129, .15); color: var(--ok); }
+    .status.bad  { background: rgba(239, 68, 68, .15);  color: var(--bad); }
+    .status.warn { background: rgba(245, 158, 11, .15); color: var(--warn); }
+    .status::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+    pre.log {
+      background: #0b1220; border: 1px solid var(--line); border-radius: 8px;
+      padding: 12px; font: 12px/1.5 'JetBrains Mono', monospace;
+      max-height: 320px; overflow: auto; white-space: pre-wrap; word-break: break-word;
+    }
+    .log-line { padding: 2px 0; border-bottom: 1px dotted #1e293b; }
+    .log-line.send { color: #60a5fa; }
+    .log-line.recv { color: #34d399; }
+    .log-line.err  { color: #f87171; }
+    .log-line.info { color: var(--muted); }
+    code.inline {
+      background: #0b1220; padding: 1px 6px; border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace; font-size: 12.5px;
+    }
+    .warning {
+      background: rgba(245, 158, 11, .08);
+      border: 1px solid rgba(245, 158, 11, .25);
+      color: #fbbf24; padding: 12px 14px; border-radius: 8px;
+      font-size: 13px; margin-bottom: 16px; max-width: 920px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎤 Speaking Realtime — Phase 0 Sandbox</h1>
+  <p class="lede">
+    Admin-only test page for the Gemini Live API integration. Verifies the ephemeral-token
+    flow end-to-end before any student-facing UI is built. <strong>Not linked from anywhere
+    in the main app.</strong>
+  </p>
+
+  <div class="warning">
+    ⚠️ <strong>Phase 0 only.</strong> No exam logic yet — just confirms the WebSocket
+    opens, the model speaks, and we can hear it. Once green-lit, this code becomes the
+    foundation for the real Speaking Plus feature.
+  </div>
+
+  <!-- ── Token step ─────────────────────────────────────────── -->
+  <div class="card">
+    <h2>1. Mint ephemeral token</h2>
+    <label>VIP token (paste from <code class="inline">sessionStorage.vipToken</code>)</label>
+    <input id="vipToken" placeholder="payloadB64.sigB64 — get this after running a premium code through verify-passcode">
+    <div class="row" style="margin-top: 12px;">
+      <button id="mintBtn">Mint ephemeral token</button>
+      <span id="mintStatus" class="status warn">idle</span>
+    </div>
+    <label style="margin-top: 14px;">Response</label>
+    <pre id="mintOut" class="log">(not yet called)</pre>
+  </div>
+
+  <!-- ── WebSocket step ────────────────────────────────────── -->
+  <div class="card">
+    <h2>2. Open Live WebSocket</h2>
+    <p class="lede" style="margin-bottom: 8px;">
+      Connects to <code class="inline">gemini-3.1-flash-live-preview</code> with the
+      ephemeral token from step 1.
+    </p>
+    <div class="row">
+      <button id="connectBtn" disabled>Connect</button>
+      <button id="disconnectBtn" class="ghost" disabled>Disconnect</button>
+      <span id="wsStatus" class="status warn">disconnected</span>
+    </div>
+  </div>
+
+  <!-- ── Send / receive ────────────────────────────────────── -->
+  <div class="card">
+    <h2>3. Send a test message</h2>
+    <label>Text input (will be sent as <code class="inline">client_content</code>)</label>
+    <textarea id="msgInput">Hi! Just a quick test. Say hello in one short sentence.</textarea>
+    <div class="row" style="margin-top: 10px;">
+      <button id="sendBtn" disabled>Send</button>
+      <button id="clearLogBtn" class="ghost">Clear log</button>
+    </div>
+    <label style="margin-top: 14px;">Audio playback</label>
+    <div id="audioStatus" class="status warn">no audio received</div>
+  </div>
+
+  <!-- ── Log ────────────────────────────────────────────────── -->
+  <div class="card">
+    <h2>4. Log</h2>
+    <pre id="log" class="log">Ready. Open DevTools for full network traces.</pre>
+  </div>
+
+  <script>
+    // ─── Config ────────────────────────────────────────────────────
+    // Proxy WS — browser connects here; the Edge Function authenticates
+    // VIP token + opens upstream WS to Google with the real API key.
+    var PROXY_WS_BASE = 'wss://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/gemini-live-proxy';
+    var SUPABASE_ANON = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    var MODEL = 'gemini-3.1-flash-live-preview';
+    var API_PATH = 'v1beta';
+
+    // ─── DOM refs ──────────────────────────────────────────────────
+    var $ = function (id) { return document.getElementById(id); };
+    var logEl = $('log');
+    var ws = null;
+    var ephemeralToken = null;
+    var audioCtx = null;
+    var audioQueue = [];
+    var audioReceived = false;
+
+    function log(line, cls) {
+      var d = document.createElement('div');
+      d.className = 'log-line ' + (cls || 'info');
+      d.textContent = '[' + new Date().toISOString().slice(11, 19) + '] ' + line;
+      logEl.appendChild(d);
+      logEl.scrollTop = logEl.scrollHeight;
+    }
+    function setStatus(el, cls, text) {
+      var s = $(el);
+      s.className = 'status ' + cls;
+      s.textContent = text;
+    }
+
+    // ─── Step 1: stash VIP token (no separate mint — proxy handles auth) ──
+    $('mintBtn').addEventListener('click', function () {
+      var vipToken = $('vipToken').value.trim();
+      if (!vipToken) {
+        setStatus('mintStatus', 'bad', 'no VIP token');
+        return;
+      }
+      ephemeralToken = vipToken; // reuse variable; proxy verifies it
+      setStatus('mintStatus', 'ok', 'ready');
+      $('mintOut').textContent = 'VIP token stored. The proxy verifies + opens upstream WS to Google with the real key — no separate mint step.';
+      $('connectBtn').disabled = false;
+    });
+
+    // ─── Step 2: connect WebSocket via our proxy ───────────────────
+    $('connectBtn').addEventListener('click', function () {
+      if (!ephemeralToken) return;
+      var url = PROXY_WS_BASE
+        + '?token=' + encodeURIComponent(ephemeralToken)
+        + '&model=' + encodeURIComponent(MODEL)
+        + '&api='   + encodeURIComponent(API_PATH);
+      log('WS connect → ' + PROXY_WS_BASE, 'send');
+      setStatus('wsStatus', 'warn', 'connecting…');
+      try {
+        ws = new WebSocket(url);
+      } catch (e) {
+        setStatus('wsStatus', 'bad', 'construct failed');
+        log('WS construct error: ' + e.message, 'err');
+        return;
+      }
+      ws.binaryType = 'arraybuffer';
+
+      ws.onopen = function () {
+        setStatus('wsStatus', 'ok', 'connected');
+        $('connectBtn').disabled = true;
+        $('disconnectBtn').disabled = false;
+        $('sendBtn').disabled = false;
+        log('WS open', 'recv');
+        // Send setup message — required first message per Live API.
+        var setup = {
+          setup: {
+            model: 'models/' + MODEL,
+            generation_config: {
+              response_modalities: ['AUDIO']
+            },
+            system_instruction: {
+              parts: [{ text: 'You are a friendly AI assistant. Keep responses brief — under 2 sentences. Phase 0 sandbox.' }]
+            }
+          }
+        };
+        ws.send(JSON.stringify(setup));
+        log('setup sent', 'send');
+      };
+      ws.onmessage = function (evt) {
+        var text;
+        if (typeof evt.data === 'string') text = evt.data;
+        else if (evt.data instanceof ArrayBuffer) text = new TextDecoder().decode(evt.data);
+        else { log('unknown frame type', 'err'); return; }
+        log('recv ' + text.length + 'B: ' + text.slice(0, 90).replace(/\s+/g, ' '), 'recv');
+        try {
+          var msg = JSON.parse(text);
+          if (msg.setupComplete) log('setupComplete', 'recv');
+          if (msg.serverContent && msg.serverContent.modelTurn) {
+            var parts = msg.serverContent.modelTurn.parts || [];
+            parts.forEach(function (p) {
+              if (p.inlineData && p.inlineData.data) {
+                enqueueAudio(p.inlineData.data, p.inlineData.mimeType || 'audio/pcm');
+              }
+            });
+          }
+        } catch (_e) {}
+      };
+      ws.onerror = function (e) {
+        setStatus('wsStatus', 'bad', 'error');
+        log('WS error: ' + (e.message || 'unknown'), 'err');
+      };
+      ws.onclose = function (e) {
+        setStatus('wsStatus', 'bad', 'closed (code ' + e.code + ')');
+        $('connectBtn').disabled = !ephemeralToken;
+        $('disconnectBtn').disabled = true;
+        $('sendBtn').disabled = true;
+        log('WS close code=' + e.code + ' reason=' + (e.reason || '(none)'), 'info');
+      };
+    });
+
+    $('disconnectBtn').addEventListener('click', function () {
+      if (ws) ws.close();
+    });
+
+    // ─── Step 3: send a message ────────────────────────────────────
+    $('sendBtn').addEventListener('click', function () {
+      if (!ws || ws.readyState !== 1) return;
+      var text = $('msgInput').value.trim();
+      if (!text) return;
+      var msg = {
+        clientContent: {
+          turns: [{ role: 'user', parts: [{ text: text }] }],
+          turnComplete: true
+        }
+      };
+      ws.send(JSON.stringify(msg));
+      log('client_content sent: ' + text.slice(0, 80), 'send');
+    });
+
+    // ─── Audio playback (PCM from Live API → Web Audio) ────────────
+    // Live API streams 24kHz mono PCM. Decode + queue + play.
+    function enqueueAudio(b64data, mimeType) {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 24000 });
+      try {
+        var raw = atob(b64data);
+        var pcm = new Int16Array(raw.length / 2);
+        for (var i = 0; i < pcm.length; i++) {
+          pcm[i] = (raw.charCodeAt(i * 2) | (raw.charCodeAt(i * 2 + 1) << 8));
+          if (pcm[i] > 32767) pcm[i] -= 65536;
+        }
+        var buf = audioCtx.createBuffer(1, pcm.length, 24000);
+        var ch = buf.getChannelData(0);
+        for (var j = 0; j < pcm.length; j++) ch[j] = pcm[j] / 32768;
+        var src = audioCtx.createBufferSource();
+        src.buffer = buf;
+        src.connect(audioCtx.destination);
+        src.start();
+        if (!audioReceived) {
+          audioReceived = true;
+          setStatus('audioStatus', 'ok', 'playing back');
+        }
+      } catch (e) {
+        log('audio decode error: ' + e.message, 'err');
+      }
+    }
+
+    $('clearLogBtn').addEventListener('click', function () { logEl.innerHTML = ''; });
+  </script>
+</body>
+</html>

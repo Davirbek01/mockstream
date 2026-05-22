@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>Speaking · Mock Stream</title>
+  <link rel="shortcut icon" href="https://i.ibb.co/WN0XY5Lv/logo.png">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%; height: 100%;
+      background: #000;
+      color: #fff;
+      font: 14px/1.4 'Inter', -apple-system, system-ui, sans-serif;
+      overflow: hidden;
+      overscroll-behavior: none;
+    }
+
+    /* ── Layout ─────────────────────────────────────────────────── */
+    .stage {
+      position: fixed; inset: 0;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      padding: env(safe-area-inset-top, 0) 0 env(safe-area-inset-bottom, 0);
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 22px;
+    }
+    .title {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .02em;
+      color: rgba(255,255,255,.92);
+    }
+    .title .accent { color: #9ca3af; font-weight: 500; margin-left: 4px; }
+    .icon-btn {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      border: 0;
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      font-size: 18px;
+      display: grid; place-items: center;
+      cursor: pointer;
+      transition: background 160ms ease, transform 160ms ease;
+    }
+    .icon-btn:hover { background: rgba(255,255,255,.16); transform: scale(1.04); }
+
+    /* ── Center orb ──────────────────────────────────────────────── */
+    .orb-wrap {
+      display: grid; place-items: center;
+      position: relative;
+    }
+    .orb {
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #c4d4ff, #6b87e6 40%, #1e3a8a 75%, #0b1a4d 100%);
+      box-shadow: 0 0 80px rgba(99, 135, 230, 0.45), inset 0 0 60px rgba(255,255,255,.08);
+      position: relative;
+      transition: transform 240ms ease, box-shadow 240ms ease;
+    }
+    .orb::before {
+      content: '';
+      position: absolute; inset: 8%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, rgba(255,255,255,.35), transparent 60%);
+      pointer-events: none;
+    }
+    /* AI speaking — bright pulse */
+    .orb.speaking {
+      animation: orb-speaking 1.2s ease-in-out infinite;
+      box-shadow: 0 0 120px rgba(124, 165, 255, 0.75), inset 0 0 60px rgba(255,255,255,.12);
+    }
+    @keyframes orb-speaking {
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.06); }
+    }
+    /* User talking detected — soft ambient breathing */
+    .orb.listening { animation: orb-listening 3.6s ease-in-out infinite; }
+    @keyframes orb-listening {
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.025); }
+    }
+    /* Connecting — pulsing slowly */
+    .orb.connecting {
+      animation: orb-connecting 1.8s ease-in-out infinite;
+      filter: brightness(0.6);
+    }
+    @keyframes orb-connecting {
+      0%, 100% { opacity: 0.45; }
+      50%      { opacity: 1; }
+    }
+    .orb.muted { filter: grayscale(0.6) brightness(0.7); }
+
+    .status {
+      margin-top: 28px;
+      text-align: center;
+      font-size: 13px;
+      color: rgba(255,255,255,.55);
+      min-height: 1.4em;
+      padding: 0 24px;
+    }
+
+    /* ── Footer controls ───────────────────────────────────────── */
+    .footer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 22px;
+      padding: 22px 22px 28px;
+    }
+    .control {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      border: 0;
+      background: rgba(255,255,255,.10);
+      color: #fff;
+      display: grid; place-items: center;
+      cursor: pointer;
+      transition: background 160ms ease, transform 160ms ease;
+    }
+    .control:hover { background: rgba(255,255,255,.18); transform: scale(1.04); }
+    .control svg { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .control.muted {
+      background: rgba(239,68,68,.18);
+      color: #fca5a5;
+    }
+    .control.muted::after {
+      content: '';
+      position: absolute;
+      width: 32px; height: 2px;
+      background: #fca5a5;
+      transform: rotate(45deg);
+      pointer-events: none;
+    }
+    .control.close { background: #ffffff; color: #111; }
+    .control.close:hover { background: #f3f4f6; }
+
+    /* ── Gate (paste token first time) ─────────────────────────── */
+    .gate {
+      position: fixed; inset: 0;
+      background: #000;
+      display: grid; place-items: center;
+      padding: 30px;
+      z-index: 100;
+    }
+    .gate.hidden { display: none; }
+    .gate-card {
+      width: min(420px, 96%);
+      background: #0f1729;
+      border: 1px solid #1f2937;
+      border-radius: 18px;
+      padding: 24px;
+    }
+    .gate-card h2 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    .gate-card p { color: #9ca3af; font-size: 13px; margin-bottom: 16px; }
+    .gate-card input {
+      width: 100%;
+      padding: 11px 12px;
+      background: #0b1220;
+      border: 1px solid #1f2937;
+      border-radius: 10px;
+      color: #fff;
+      font: 12.5px 'JetBrains Mono', monospace;
+    }
+    .gate-card .row { display: flex; gap: 10px; margin-top: 14px; align-items: center; }
+    .gate-card button {
+      background: linear-gradient(135deg, #6366f1, #4338ca);
+      color: #fff;
+      border: 0;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .gate-card button:disabled { opacity: .4; cursor: not-allowed; }
+    .gate-card .err { color: #fca5a5; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <!-- Premium-required gate. Shown only when sessionStorage.vipToken is
+       missing — i.e. the student hasn't entered their premium code yet.
+       If a token exists we skip this entirely. -->
+  <div class="gate" id="gate">
+    <div class="gate-card">
+      <h2>Premium feature</h2>
+      <p>Voice chat is for premium students. Enter your VIP access code in the sidebar first, then come back.</p>
+      <div class="row">
+        <button id="goBtn">Open sidebar</button>
+        <span id="gateErr" class="err"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stage" id="stage" style="display: none;">
+    <div class="header">
+      <div class="title">Mock Stream<span class="accent">· Speaking</span></div>
+      <button class="icon-btn" id="exitBtn" title="Exit">✕</button>
+    </div>
+
+    <div class="orb-wrap">
+      <div class="orb connecting" id="orb"></div>
+      <div class="status" id="status">Connecting…</div>
+    </div>
+
+    <div class="footer">
+      <button class="control" id="muteBtn" title="Mute / unmute mic" aria-label="Toggle mic">
+        <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+      </button>
+      <button class="control close" id="endBtn" title="End conversation" aria-label="End">
+        <svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="6" y1="18" x2="18" y2="6"></line></svg>
+      </button>
+    </div>
+  </div>
+
+  <script src="speaking-realtime-engine.js?v=free7b"></script>
+  <script>
+    var $ = function (id) { return document.getElementById(id); };
+    var session = null;
+    var muted = false;
+
+    var BASE_PERSONA = [
+      "You are Azam — a chill, warm, 23-year-old Uzbek guy. NOT an AI assistant. A real person hanging out with the student over voice, helping them practice English.",
+      "Your name is Azam. You are male. He/him.",
+      "",
+      "=== HOW TO TALK ===",
+      "Talk like a HUMAN who's actually thinking, not a polished assistant reading a script. Real speech is messy.",
+      "",
+      "PACE — slow down. Real people don't speak in perfect, dense sentences. Take your time. Pause mid-thought.",
+      "",
+      "FILLERS — use them naturally: \"um\", \"uh\", \"hmm\", \"y'know\", \"like\", \"actually\", \"I mean\", \"wait\", \"oh\", \"so\". Sprinkle, don't overload. Real-conversation density.",
+      "",
+      "REACTIONS — use them out loud. When something's funny, write \"haha\" or \"hahaha\" — when surprising, \"oh wow\" or \"no way\" — when thinking, \"hmm\" or \"mmm\". The voice engine will perform these as actual laughs / sighs / hums.",
+      "",
+      "PUNCTUATION FOR PACING — em-dashes for natural pauses, ellipses for trailing off, commas for breath. Example: \"oh — wait, you said... pizza? hahaha, that's amazing.\"",
+      "",
+      "PITCH + ENERGY — vary it. Rise on questions, soften on emotion, get excited when the student says something cool. Don't be monotone.",
+      "",
+      "LENGTH — short turns. 1, sometimes 2 sentences. Real conversation has back-and-forth, not monologues. Let them talk most.",
+      "",
+      "SELF-CORRECTING — sometimes start a sentence and pivot: \"so, do you — actually wait, what time is it for you right now?\"",
+      "",
+      "WARMTH — react genuinely. Don't just acknowledge ('oh nice'); follow up with curiosity ('oh nice! what kind?').",
+      "",
+      "=== OPENING ===",
+      "First turn, say something casual like:",
+      "\"Hey... I'm Azam. Nice to meet you. What's your name?\"",
+      "After they tell you, say \"oh, [name] — cool, nice to meet you\" and then ask something light about them.",
+      "",
+      "=== ABSOLUTE RULES ===",
+      "- NEVER sound like a teacher, examiner, or assistant. You're a guy hanging out.",
+      "- NEVER list things. No \"firstly, secondly, thirdly\".",
+      "- NEVER use formal phrases like \"that is wonderful\" — say \"oh that's cool\" instead.",
+      "- Keep English simple — your student is still learning. No SAT vocabulary.",
+      "- If they're shy, give them space. \"that's okay... take your time\".",
+      "- If they say something funny, ACTUALLY laugh: \"hahaha\" or \"hahaha okay that's funny.\"",
+      "- If you're thinking about something they said, hum: \"hmm... that's interesting.\""
+    ].join('\n');
+
+    // Conversation memory survives across auto-reconnects so the AI
+    // doesn't re-greet the student or ask their name twice.
+    var conversationMemory = []; // [{ role: 'user'|'model', text }]
+    var studentName = '';
+
+    function buildPersona() {
+      if (conversationMemory.length === 0) return BASE_PERSONA;
+      // On reconnect: hand the model a summary so it can pick up cleanly.
+      // Keep it tight — last ~12 turns is enough context.
+      var recent = conversationMemory.slice(-24);
+      var transcript = recent.map(function (t) {
+        return (t.role === 'user' ? 'Student' : 'You') + ': ' + t.text;
+      }).join('\n');
+      var resume = [
+        "",
+        "=== CONVERSATION SO FAR ===",
+        studentName ? ("The student's name is " + studentName + ".") : "",
+        transcript,
+        "=== END OF HISTORY ===",
+        "",
+        "IMPORTANT: This is a CONTINUATION of the conversation above, not a new session.",
+        "- Do NOT re-greet the student.",
+        "- Do NOT ask for their name again — you already know it.",
+        "- Continue naturally from the last exchange. Pick up the topic you were on.",
+        "- Your first response should feel like the next normal turn, not an introduction."
+      ].filter(Boolean).join('\n');
+      return BASE_PERSONA + '\n' + resume;
+    }
+
+    /* ── Bootstrap: auto-start if sessionStorage already has a token ─── */
+    var bootToken = '';
+    try { bootToken = sessionStorage.getItem('vipToken') || ''; } catch (_e) {}
+    var urlToken = new URLSearchParams(location.search).get('token');
+    if (urlToken) bootToken = urlToken;
+
+    if (bootToken) {
+      // Skip the gate entirely
+      $('gate').classList.add('hidden');
+      $('stage').style.display = '';
+      setTimeout(function () { start(bootToken); }, 50);
+    } else {
+      // No token — show "premium required" gate; button sends them back
+      $('goBtn').textContent = 'Open sidebar';
+      $('goBtn').addEventListener('click', function () {
+        location.href = '/landing-v3.html#open-sidebar';
+      });
+    }
+
+    async function start(token) {
+      $('gateErr').textContent = '';
+      var isReconnect = conversationMemory.length > 0;
+
+      session = new RealtimeSession({ vipToken: token, persona: buildPersona(), voiceName: 'Puck' });
+      session.on('ready',      function () { setOrb('listening'); setStatus(isReconnect ? 'Reconnected — keep going' : 'Listening — go ahead, say hi'); kickAi(isReconnect); autoMic(); });
+      session.on('audio',      function () { setOrb('speaking'); setStatus(''); reconnectCount = 0; });
+      session.on('turnComplete', function () { setOrb('listening'); setStatus('Your turn'); });
+      session.on('transcript', function (t) {
+        // Remember the conversation so we can rebuild context on reconnect.
+        if (!t.text) return;
+        conversationMemory.push({ role: t.role, text: t.text });
+        if (conversationMemory.length > 80) conversationMemory.splice(0, conversationMemory.length - 80);
+        // Capture the student's name from their first user utterance —
+        // helps the resume prompt avoid re-asking.
+        if (!studentName && t.role === 'user') {
+          var m = t.text.match(/\b(?:i'?m|my name is|call me|it'?s)\s+([A-Z][a-zA-Z]+)/i);
+          if (m) studentName = m[1];
+        }
+      });
+      session.on('micOn',      function () { /* nothing */ });
+      session.on('micOff',     function () { /* nothing */ });
+      session.on('error',      function (e) { setStatus('Connection error: ' + (e.message || '')); });
+      session.on('close',      function (c) { handleClose(c, token); });
+
+      try {
+        await session.start();
+      } catch (e) {
+        setStatus('Failed to start: ' + (e.message || ''));
+      }
+    }
+
+    // ── Auto-reconnect ────────────────────────────────────────────
+    // Google's Live API caps sessions at ~10-15 min. Closure codes:
+    //   1000 — clean close (we triggered it)
+    //   1006 — abnormal close, no frame (server timeout or net hiccup)
+    //   1011 — server error
+    //   1008 — policy violation (don't auto-reconnect)
+    // For 1006/1011 we silently reopen and continue the chat.
+    var reconnectCount = 0;
+    var userEndedSession = false;
+    function handleClose(c, token) {
+      var code = c && c.code;
+      if (userEndedSession || code === 1000 || code === 1008) {
+        var why = code ? ' (' + code + (c.reason ? ': ' + c.reason : '') + ')' : '';
+        setStatus('Conversation ended' + why);
+        setOrb('connecting');
+        return;
+      }
+      // Transient. Auto-reconnect with exponential backoff (max 5 tries).
+      if (reconnectCount >= 5) {
+        setStatus('Could not reconnect. Refresh to try again.');
+        setOrb('connecting');
+        return;
+      }
+      reconnectCount++;
+      var delay = Math.min(1000 * reconnectCount, 4000);
+      setStatus('Reconnecting…');
+      setOrb('connecting');
+      setTimeout(function () { start(token); }, delay);
+    }
+    // (reconnect counter resets inside the 'audio' handler above)
+
+    function kickAi(isReconnect) {
+      try {
+        if (isReconnect) {
+          session.sendSystem('The connection just refreshed. Continue the conversation naturally — do NOT re-greet, do NOT ask their name again. Pick up where you left off.');
+        } else {
+          session.sendSystem('The student just opened the chat. Greet them warmly and naturally as instructed in your persona. Keep it brief.');
+        }
+      } catch (_e) {}
+    }
+    async function autoMic() {
+      try {
+        await session.startMic();
+      } catch (e) {
+        setStatus('Could not access microphone — ' + (e.message || 'permission denied'));
+      }
+    }
+
+    function setOrb(state) {
+      var o = $('orb');
+      o.classList.remove('speaking', 'listening', 'connecting', 'muted');
+      o.classList.add(state);
+      if (muted) o.classList.add('muted');
+    }
+    function setStatus(text) { $('status').textContent = text || ''; }
+
+    $('muteBtn').addEventListener('click', function () {
+      if (!session) return;
+      muted = !muted;
+      if (muted) {
+        session.stopMic();
+        $('muteBtn').classList.add('muted');
+        $('orb').classList.add('muted');
+        setStatus('Mic muted');
+      } else {
+        session.startMic().catch(function (e) { setStatus('Mic error: ' + e.message); });
+        $('muteBtn').classList.remove('muted');
+        $('orb').classList.remove('muted');
+        setStatus('');
+      }
+    });
+
+    $('endBtn').addEventListener('click', endIt);
+    $('exitBtn').addEventListener('click', endIt);
+
+    function endIt() {
+      userEndedSession = true;
+      if (session) { try { session.close(); } catch (_e) {} session = null; }
+      location.href = '/landing-v3.html';
+    }
+  </script>
+</body>
+</html>

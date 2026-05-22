@@ -2572,6 +2572,75 @@
     }
     applyCloneBranding();
 
+    /* ═══════════════════════════════════════════════════════════════
+       Per-centre Features Toggle enforcement
+       ──────────────────────────────────────────────────────────────
+       Mirrors the old landing.html behaviour: the Centers Management
+       admin panel writes a `center_config_<id>` row in site_settings
+       with feature toggles (writingPlus / speakingPlus / readingPlus /
+       listeningPlus / flashcards / articles / helpCenter / leaderboard
+       / certificates / telegramNotifs / freeCodeDispenser). When a
+       toggle is false, the corresponding button on v3 is greyed out
+       + given an "OFF" badge + made unclickable.
+       ═══════════════════════════════════════════════════════════════ */
+    function _msv3DeactivateEl(el, label) {
+      if (!el || el._msv3Deactivated) return;
+      el._msv3Deactivated = true;
+      el.style.opacity        = '0.4';
+      el.style.pointerEvents  = 'none';
+      el.style.filter         = 'grayscale(85%)';
+      el.style.position       = el.style.position || 'relative';
+      var badge = document.createElement('span');
+      badge.textContent = 'OFF';
+      badge.style.cssText = 'position:absolute;top:6px;right:6px;background:#9ca3af;color:#fff;padding:2px 7px;border-radius:6px;font-size:9.5px;font-weight:800;letter-spacing:0.04em;z-index:2;';
+      el.appendChild(badge);
+    }
+    async function _msv3ApplyFeatures() {
+      var centerId = (window.__CENTER_ID || 'mock_stream').toString().trim();
+      var key = 'center_config_' + centerId;
+      var cfg;
+      try {
+        var r = await fetch(SB_URL + '/rest/v1/site_settings?key=eq.' + encodeURIComponent(key) + '&select=value', {
+          headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY }
+        });
+        if (!r.ok) return;
+        var rows = await r.json();
+        if (!rows || !rows.length) return;
+        cfg = rows[0].value;
+        if (typeof cfg === 'string') { try { cfg = JSON.parse(cfg); } catch (_e) { return; } }
+      } catch (_e) { return; }
+      if (!cfg || typeof cfg !== 'object') return;
+      window.__msv3CenterFeatures = cfg;
+
+      // Plus buttons in the sidebar — match the .msv3-plus.plus-XXX classes.
+      var plusMap = {
+        writingPlus:   '.msv3-plus.plus-wrt',
+        speakingPlus:  '.msv3-plus.plus-spk',
+        readingPlus:   '.msv3-plus.plus-rdg',
+        listeningPlus: '.msv3-plus.plus-lst'
+      };
+      Object.keys(plusMap).forEach(function (key) {
+        if (cfg[key] === false) _msv3DeactivateEl(document.querySelector(plusMap[key]), key);
+      });
+
+      // Learning Tools tile-cards on the main landing.
+      var toolMap = {
+        flashcards: '.tool-card[data-learn="flashcards"]',
+        articles:   '.tool-card[data-learn="articles"]'
+      };
+      Object.keys(toolMap).forEach(function (key) {
+        if (cfg[key] === false) _msv3DeactivateEl(document.querySelector(toolMap[key]), key);
+      });
+
+      // Help Center button in the sidebar foot (msv3-foot-links).
+      if (cfg.helpCenter === false) {
+        document.querySelectorAll('[onclick*="msv3HelpPanel"], [data-open-panel="msv3HelpPanel"]').forEach(function (el) {
+          _msv3DeactivateEl(el, 'helpCenter');
+        });
+      }
+    }
+    _msv3ApplyFeatures();
+
     const SKILLS = [
       { label: 'speaking',  combos: [['speaking',  'cefr'], ['speaking',  'ielts']] },
       { label: 'writing',   combos: [['writing',   'cefr'], ['writing',   'ielts']] },
@@ -3170,7 +3239,7 @@
           <span class="msv3-tag msv3-tag-plus">Extra practice</span>
         </div>
         <div class="msv3-plus-grid">
-          <a class="msv3-plus plus-spk" href="Speaking Plus.html" aria-label="Speaking Plus">
+          <a class="msv3-plus plus-spk" href="/speaking-realtime.html" aria-label="Speaking Plus — realtime voice chat">
             <span class="msv3-plus-ico">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
             </span>
@@ -13329,12 +13398,14 @@
     }
     // Build the runner URL for (category, item, level). Levels map:
     // intermediate=B1, upper-intermediate=B2, advanced=C1.
-    // Filesystem audit (2026-05-21) confirmed every catalog item has all
-    // 3 level files — grammar / vocab / flashcards all use the suffix
-    // pattern <bare-slug>-<level>.js (the trailing 01/02/03 from the
-    // catalog slug gets stripped). Articles use runtime ?level= switching.
+    // Naming conventions differ per category (verified by filesystem
+    // audit 2026-05-22):
+    //   - Grammar / Vocab: <slug>-<level>.js  (digits stay in slug)
+    //     e.g.  adjectives-adverbs01-upper-intermediate.js
+    //   - Flashcards:      <bare>-<level>.js  (digits stripped)
+    //     e.g.  idioms01.js → idioms-intermediate.js
+    //   - Articles: runtime ?level=B1/B2/C1 switching
     function _stripSlugDigits(s) {
-      // 'idioms01' -> 'idioms', 'present-tenses-day04' -> 'present-tenses-day'
       return String(s || '').replace(/\d+$/, '');
     }
     function _learnRunnerUrl(category, item, level) {
@@ -13348,17 +13419,15 @@
       if (category === 'grammar' || category === 'vocabulary') {
         var slug = (item.file.match(/test=([^&]+)/) || [])[1];
         if (!slug) return null;
-        var bare = _stripSlugDigits(slug);
-        // Files live at questions G/<bare>-<level>.js (or questions V/).
-        // Runner reads ?test= and looks up the file by slug.
-        return '/test.html?test=' + encodeURIComponent(bare + '-' + level) + '&type=' + category;
+        // Keep digits — grammar/vocab files use <slug>-<level>.js verbatim.
+        return '/test.html?test=' + encodeURIComponent(slug + '-' + level) + '&type=' + category;
       }
       if (category === 'flashcards') {
         // Explicit .levels mapping wins (e.g. Digital Frontier in landing.html).
         if (item.levels && item.levels[level]) {
           return '/flashcards.html?topic=' + encodeURIComponent(item.levels[level]);
         }
-        // Otherwise compute: 'idioms01.js' -> 'idioms-intermediate' / etc.
+        // Flashcard level files DO strip digits: idioms01.js -> idioms-intermediate.js
         var base = item.file.replace(/\.js$/, '');
         var bareFc = _stripSlugDigits(base);
         return '/flashcards.html?topic=' + encodeURIComponent(bareFc + '-' + level);
