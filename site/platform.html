@@ -63,7 +63,31 @@
     #msPlatformSplash.hide { opacity: 0; }
     html.ms-platform-ready::before { opacity: 0; }
     @keyframes mspsSpin { to { transform: rotate(360deg); } }
-  </style>
+    /* Full-screen Site Management on platform.html — the floating card
+       look made sense on landing.html as a temporary overlay, but here
+       it's the entire purpose of the page so it should fill the viewport
+       (matches /results/index.html's full-page treatment). */
+    html.ms-platform-host #siteMgmtGridOverlay {
+      background: transparent !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      padding: 0 !important;
+      align-items: stretch !important;
+    }
+    html.ms-platform-host #siteMgmtGridOverlay .smg-panel {
+      max-width: none !important;
+      width: 100vw !important;
+      min-height: 100vh !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      padding: 28px 36px 40px !important;
+      overflow-y: auto;
+    }
+    @media (max-width: 720px) {
+      html.ms-platform-host #siteMgmtGridOverlay .smg-panel {
+        padding: 20px 16px 32px !important;
+      }
+    }
   <script>
     // Inject the branded splash card the instant <body> exists. Re-used
     // by both the entry path (auto-opener waiting for the grid) and the
