@@ -181,15 +181,15 @@
   </style>
 </head>
 <body>
-  <!-- First-time gate: paste VIP token. After accept, we close this overlay
-       and the conversation begins. -->
+  <!-- Premium-required gate. Shown only when sessionStorage.vipToken is
+       missing — i.e. the student hasn't entered their premium code yet.
+       If a token exists we skip this entirely. -->
   <div class="gate" id="gate">
     <div class="gate-card">
-      <h2>Speaking practice — voice mode</h2>
-      <p>Premium feature. Paste your VIP access token to begin.</p>
-      <input id="tokenInput" placeholder="VIP token (long signed string)" autocomplete="off">
+      <h2>Premium feature</h2>
+      <p>Voice chat is for premium students. Enter your VIP access code in the sidebar first, then come back.</p>
       <div class="row">
-        <button id="goBtn">Start conversation</button>
+        <button id="goBtn">Open sidebar</button>
         <span id="gateErr" class="err"></span>
       </div>
     </div>
@@ -216,7 +216,7 @@
     </div>
   </div>
 
-  <script src="speaking-realtime-engine.js?v=free1"></script>
+  <script src="speaking-realtime-engine.js?v=free2"></script>
   <script>
     var $ = function (id) { return document.getElementById(id); };
     var session = null;
@@ -237,37 +237,42 @@
       "- Speak naturally with simple, common English suitable for someone learning."
     ].join('\n');
 
-    /* ── Pre-flight: did the URL provide a token? ─────────────── */
-    (function bootstrap() {
-      var urlToken = new URLSearchParams(location.search).get('token');
-      if (urlToken) { $('tokenInput').value = urlToken; setTimeout(start, 200); return; }
-      try { var cached = sessionStorage.getItem('vipToken'); if (cached) $('tokenInput').value = cached; } catch (_e) {}
-    })();
+    /* ── Bootstrap: auto-start if sessionStorage already has a token ─── */
+    var bootToken = '';
+    try { bootToken = sessionStorage.getItem('vipToken') || ''; } catch (_e) {}
+    var urlToken = new URLSearchParams(location.search).get('token');
+    if (urlToken) bootToken = urlToken;
 
-    $('goBtn').addEventListener('click', start);
-    $('tokenInput').addEventListener('keydown', function (e) { if (e.key === 'Enter') start(); });
+    if (bootToken) {
+      // Skip the gate entirely
+      $('gate').classList.add('hidden');
+      $('stage').style.display = '';
+      setTimeout(function () { start(bootToken); }, 50);
+    } else {
+      // No token — show "premium required" gate; button sends them back
+      $('goBtn').textContent = 'Open sidebar';
+      $('goBtn').addEventListener('click', function () {
+        location.href = '/landing-v3.html#open-sidebar';
+      });
+    }
 
-    async function start() {
-      var token = $('tokenInput').value.trim();
-      if (!token) { $('gateErr').textContent = 'Paste your VIP token first.'; return; }
+    async function start(token) {
       $('gateErr').textContent = '';
-      $('goBtn').disabled = true;
 
       session = new RealtimeSession({ vipToken: token, persona: FREE_PERSONA });
-      session.on('ready',      function () { setOrb('listening'); setStatus('Listening — go ahead, say hi'); $('gate').classList.add('hidden'); $('stage').style.display = ''; kickAi(); autoMic(); });
+      session.on('ready',      function () { setOrb('listening'); setStatus('Listening — go ahead, say hi'); kickAi(); autoMic(); });
       session.on('audio',      function () { setOrb('speaking'); setStatus(''); });
       session.on('turnComplete', function () { setOrb('listening'); setStatus('Your turn'); });
       session.on('transcript', function (t) { /* could surface captions later */ });
       session.on('micOn',      function () { /* nothing */ });
       session.on('micOff',     function () { /* nothing */ });
-      session.on('error',      function (e) { $('gateErr').textContent = (e.message || 'connection error'); $('goBtn').disabled = false; });
-      session.on('close',      function () { setStatus('Conversation ended'); setOrb('connecting'); setTimeout(function () { location.reload(); }, 1500); });
+      session.on('error',      function (e) { setStatus('Connection error: ' + (e.message || '')); });
+      session.on('close',      function () { setStatus('Conversation ended'); setOrb('connecting'); });
 
       try {
         await session.start();
       } catch (e) {
-        $('gateErr').textContent = e.message || 'failed';
-        $('goBtn').disabled = false;
+        setStatus('Failed to start: ' + (e.message || ''));
       }
     }
 

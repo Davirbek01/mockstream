@@ -371,14 +371,11 @@
 
   RealtimeSession.prototype._sendMicChunk = function (pcm16) {
     if (!this.ws || this.ws.readyState !== 1) return;
-    // Echo-loop gate: while the AI is speaking (or for ~400ms after),
-    // skip sending mic audio. Otherwise the speakers play the AI back
-    // into the mic and Google hears itself, gets confused, and closes
-    // the session.
-    if (this._aiSpeaking) {
-      if (Date.now() > this._aiSpeakingUntil) this._aiSpeaking = false;
-      else return;
-    }
+    // Echo-gate removed 2026-05-22: it was dropping mic frames for the
+    // entire duration of the AI's turn (~5s for the intro), and Google
+    // appears to close sessions when no realtimeInput arrives for that
+    // long. Rely on the browser's getUserMedia echo cancellation +
+    // Google's own VAD interruption handling instead.
     var bytes = new Uint8Array(pcm16.buffer);
     var bin = '';
     for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
