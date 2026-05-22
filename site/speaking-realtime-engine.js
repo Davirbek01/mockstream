@@ -338,6 +338,24 @@
       }
     }));
   };
+  // Send a user turn with one or more inline images + optional text.
+  // images: [{ mimeType: 'image/jpeg', data: '<base64>' }, ...]
+  // Used by Phase 2 when entering Part 1.2 (picture description).
+  RealtimeSession.prototype.sendContent = function (opts) {
+    if (!this.ws || this.ws.readyState !== 1) throw new Error('ws not open');
+    var parts = [];
+    if (opts.text) parts.push({ text: opts.text });
+    var images = opts.images || [];
+    for (var i = 0; i < images.length; i++) {
+      parts.push({ inlineData: { mimeType: images[i].mimeType || 'image/jpeg', data: images[i].data } });
+    }
+    this.ws.send(JSON.stringify({
+      clientContent: {
+        turns: [{ role: 'user', parts: parts }],
+        turnComplete: opts.turnComplete !== false
+      }
+    }));
+  };
 
   /* ── close ────────────────────────────────────────────────── */
   RealtimeSession.prototype.close = function () {

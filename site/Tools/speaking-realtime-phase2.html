@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Speaking Realtime — Phase 2 (4-part exam)</title>
+  <style>
+    :root {
+      --bg: #0f172a; --panel: #1e293b; --line: #334155;
+      --ink: #f1f5f9; --muted: #94a3b8;
+      --ok: #10b981; --bad: #ef4444; --warn: #f59e0b; --accent: #6366f1; --pink: #ec4899;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font: 14px/1.5 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--ink); padding: 24px; }
+    h1 { font-size: 22px; margin: 0 0 6px; }
+    .lede { color: var(--muted); margin: 0 0 24px; max-width: 740px; }
+    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px; margin-bottom: 16px; max-width: 920px; }
+    .card h2 { margin: 0 0 12px; font-size: 15px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+    input, textarea {
+      width: 100%; background: #0b1220; border: 1px solid var(--line);
+      border-radius: 8px; padding: 10px 12px; color: var(--ink); font: inherit;
+    }
+    button { background: var(--accent); color: #fff; border: 0; padding: 9px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+    button:disabled { opacity: .35; cursor: not-allowed; }
+    button.ghost { background: transparent; border: 1px solid var(--line); }
+    button.big { padding: 14px 22px; font-size: 16px; }
+    button.mic { background: var(--pink); }
+    .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .status { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+    .status.ok   { background: rgba(16,185,129,.15); color: var(--ok); }
+    .status.bad  { background: rgba(239,68,68,.15);  color: var(--bad); }
+    .status.warn { background: rgba(245,158,11,.15); color: var(--warn); }
+    .status::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+    pre.log { background: #0b1220; border: 1px solid var(--line); border-radius: 8px; padding: 12px; font: 12px/1.5 monospace; max-height: 320px; overflow: auto; white-space: pre-wrap; }
+    .log-line { padding: 2px 0; }
+    .log-line.send { color: #60a5fa; }
+    .log-line.recv { color: #34d399; }
+    .log-line.err  { color: #f87171; }
+    .log-line.info { color: var(--muted); }
+
+    /* Exam state bar */
+    .exam-bar {
+      display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px;
+      margin: 12px 0;
+    }
+    .exam-step {
+      padding: 8px 6px; border-radius: 8px; text-align: center;
+      background: #0b1220; border: 1px solid var(--line);
+      font-size: 11px; color: var(--muted); font-weight: 600;
+    }
+    .exam-step.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .exam-step.done   { background: rgba(16,185,129,.15); color: var(--ok); border-color: var(--ok); }
+
+    /* Timer */
+    .timer-box {
+      font: 700 36px 'JetBrains Mono', monospace;
+      text-align: center; padding: 16px; background: #0b1220;
+      border-radius: 10px; border: 1px solid var(--line);
+      letter-spacing: .03em;
+    }
+    .timer-label { font-size: 12px; color: var(--muted); margin-bottom: 6px; text-align: center; }
+
+    /* Pictures (Part 1.2) */
+    .pics { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .pics img { width: 100%; height: 260px; object-fit: cover; border-radius: 10px; background: #0b1220; }
+    .pics .empty { background: #0b1220; border: 1px dashed var(--line); border-radius: 10px; height: 260px; display: grid; place-items: center; color: var(--muted); font-size: 12px; }
+  </style>
+</head>
+<body>
+  <h1>🎤 Phase 2 — 4-part exam state machine</h1>
+  <p class="lede">
+    Skeleton implementation. Pulls 4 random published <code>cefr-speaking</code> mocks
+    from Supabase, then runs the conversational exam: P1.1 (3 Q) → P1.2 (pictures + 3 Q)
+    → P2 (1m prep + 2m speak) → P3 (1m prep + 2m discuss). Frontend owns all timers and
+    sends <code>[SYSTEM]:</code> transition messages into the Live session. <strong>Image
+    fetching to actually display the P1.2 pictures requires the mock JSON's image URL
+    convention — verify in morning before sending image bytes to Gemini.</strong>
+  </p>
+
+  <div class="card">
+    <h2>1. Setup</h2>
+    <label style="font-size: 12px; color: var(--muted);">VIP token</label>
+    <input id="vipToken" placeholder="paste from sessionStorage.vipToken">
+    <div class="row" style="margin-top: 12px;">
+      <button id="startExamBtn" class="big">▶ Start exam</button>
+      <button id="closeBtn" class="ghost" disabled>End / close</button>
+      <span id="sessStatus" class="status warn">idle</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>2. Exam state</h2>
+    <div class="exam-bar" id="examBar">
+      <div class="exam-step" data-step="intro">Intro</div>
+      <div class="exam-step" data-step="p11">P1.1</div>
+      <div class="exam-step" data-step="p12">P1.2 🖼</div>
+      <div class="exam-step" data-step="p2prep">P2 prep</div>
+      <div class="exam-step" data-step="p2talk">P2 talk</div>
+      <div class="exam-step" data-step="p3prep">P3 prep</div>
+      <div class="exam-step" data-step="p3talk">P3 talk</div>
+    </div>
+    <div class="timer-label" id="timerLabel">No timer</div>
+    <div class="timer-box" id="timer">—</div>
+    <div class="row" style="margin-top: 12px;">
+      <button id="nextBtn" class="ghost" disabled>Skip to next part (debug)</button>
+      <button id="micBtn" class="mic" disabled>🎙 Mic ON</button>
+      <span id="micStatus" class="status warn">mic off</span>
+    </div>
+  </div>
+
+  <div class="card" id="picsCard" style="display: none;">
+    <h2>3. Part 1.2 — pictures</h2>
+    <div class="pics" id="picsBox">
+      <div class="empty">Picture 1</div>
+      <div class="empty">Picture 2</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>4. Engine log</h2>
+    <pre id="log" class="log">Ready.</pre>
+  </div>
+
+  <script src="../speaking-realtime-engine.js"></script>
+  <script>
+    var $ = function (id) { return document.getElementById(id); };
+    var logEl = $('log');
+    var session = null;
+    var examState = 'idle';
+    var timerHandle = null;
+    var pickedMocks = null;
+
+    var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+
+    /* ── Logging + UI helpers ──────────────────────────────────── */
+    function log(line, cls) {
+      var d = document.createElement('div');
+      d.className = 'log-line ' + (cls || 'info');
+      d.textContent = '[' + new Date().toISOString().slice(11, 19) + '] ' + line;
+      logEl.appendChild(d);
+      logEl.scrollTop = logEl.scrollHeight;
+    }
+    function setStatus(el, cls, text) {
+      var s = $(el);
+      s.className = 'status ' + cls;
+      s.textContent = text;
+    }
+    function setExamStep(step) {
+      examState = step;
+      $$('.exam-step').forEach(function (el) { el.classList.remove('active'); });
+      var stepsOrder = ['intro','p11','p12','p2prep','p2talk','p3prep','p3talk'];
+      var idx = stepsOrder.indexOf(step);
+      stepsOrder.forEach(function (s, i) {
+        var el = document.querySelector('.exam-step[data-step="' + s + '"]');
+        if (!el) return;
+        if (i < idx) el.classList.add('done');
+        else if (i === idx) el.classList.add('active');
+      });
+    }
+    function $$(sel) { return Array.prototype.slice.call(document.querySelectorAll(sel)); }
+
+    /* ── Timer ──────────────────────────────────────────────────── */
+    function startTimer(seconds, label, onDone) {
+      stopTimer();
+      var endAt = Date.now() + seconds * 1000;
+      $('timerLabel').textContent = label;
+      var tick = function () {
+        var left = Math.max(0, Math.ceil((endAt - Date.now()) / 1000));
+        var m = Math.floor(left / 60), s = left % 60;
+        $('timer').textContent = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+        if (left <= 0) {
+          stopTimer();
+          if (onDone) onDone();
+        }
+      };
+      tick();
+      timerHandle = setInterval(tick, 250);
+    }
+    function stopTimer() {
+      if (timerHandle) { clearInterval(timerHandle); timerHandle = null; }
+    }
+
+    /* ── Random mock picker ────────────────────────────────────── */
+    async function pickRandomMocks() {
+      var r = await fetch(SB_URL + '/rest/v1/mock_tests?mock_type=eq.cefr-speaking&status=eq.published&select=id,mock_number,mock_data&order=mock_number.asc', {
+        headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+      });
+      if (!r.ok) throw new Error('mock fetch ' + r.status);
+      var rows = await r.json();
+      if (!rows.length) throw new Error('no mocks available');
+      // Pick 4 distinct random ones (fewer if pool small)
+      var pool = rows.slice();
+      function takeOne() {
+        if (!pool.length) return null;
+        var i = Math.floor(Math.random() * pool.length);
+        return pool.splice(i, 1)[0];
+      }
+      var p11Mock = takeOne();
+      var p12Mock = takeOne() || p11Mock;
+      var p2Mock  = takeOne() || p11Mock;
+      var p3Mock  = takeOne() || p11Mock;
+      function qs(m, nums) {
+        if (!m || !m.mock_data || !m.mock_data.questions) return [];
+        return m.mock_data.questions.filter(function (q) { return nums.indexOf(q.number) >= 0; });
+      }
+      return {
+        p11:   { mockId: p11Mock.id, mockNumber: p11Mock.mock_number, questions: qs(p11Mock, [1,2,3]) },
+        p12:   { mockId: p12Mock.id, mockNumber: p12Mock.mock_number, questions: qs(p12Mock, [4,5,6]) },
+        p2:    { mockId: p2Mock.id,  mockNumber: p2Mock.mock_number,  questions: qs(p2Mock,  [7]) },
+        p3:    { mockId: p3Mock.id,  mockNumber: p3Mock.mock_number,  questions: qs(p3Mock,  [8]) }
+      };
+    }
+
+    /* ── Persona builder ───────────────────────────────────────── */
+    function buildPersona(picked) {
+      var lines = [];
+      lines.push('You are a friendly and funny 23-year-old Uzbek person helping students practice on Mockstream Academy.');
+      lines.push('');
+      lines.push('At the start, say: "Hey! Welcome to Mockstream Academy. I\'m here to help you practice your speaking. What\'s your name?"');
+      lines.push('After they answer, ask: "Nice to meet you! How should I call you?"');
+      lines.push('');
+      lines.push('Good sense of humor, warm and chill — NEVER teacher-like. If they ask their score mid-exam, deflect: "I\'ll tell you at the end — let\'s keep going!" Never make up numbers.');
+      lines.push('');
+      lines.push('When you receive a [SYSTEM]: message, treat it as a stage direction from the host, not as something to read aloud.');
+      lines.push('');
+      lines.push('You will run a 4-part speaking exam. The host will tell you when to advance to each part. Stick to that part\'s questions. Wait for the student to finish before moving on.');
+      lines.push('');
+      lines.push('=== EXAM QUESTIONS ===');
+      lines.push('Part 1.1 (3 general questions — ask one at a time, react naturally):');
+      picked.p11.questions.forEach(function (q, i) { lines.push('  ' + (i + 1) + '. ' + (q.prompt || q.text || '?')); });
+      lines.push('');
+      lines.push('Part 1.2 (3 picture-based questions — first question compares the two pictures shown on screen):');
+      picked.p12.questions.forEach(function (q, i) { lines.push('  ' + (i + 1) + '. ' + (q.prompt || q.text || '?')); });
+      lines.push('');
+      lines.push('Part 2 (1 min prep + 2 min monologue on this topic):');
+      if (picked.p2.questions[0]) lines.push('  ' + (picked.p2.questions[0].prompt || picked.p2.questions[0].text || '?'));
+      lines.push('');
+      lines.push('Part 3 (1 min prep + 2 min discussion):');
+      if (picked.p3.questions[0]) lines.push('  ' + (picked.p3.questions[0].prompt || picked.p3.questions[0].text || '?'));
+      return lines.join('\n');
+    }
+
+    /* ── Exam orchestration ────────────────────────────────────── */
+    async function runExam() {
+      // Intro = persona introduces self, asks name. No timer.
+      setExamStep('intro');
+      $('timerLabel').textContent = 'Intro — say hi to the AI';
+      $('timer').textContent = '—';
+
+      // P1.1 starts when intro feels natural — for the skeleton, click
+      // "Skip to next part" to advance. (Phase 2.5: detect via the
+      // model's transcript or a simple "ready" cue.)
+      $('nextBtn').disabled = false;
+    }
+
+    function advance() {
+      if (!session) return;
+      var stepsOrder = ['intro','p11','p12','p2prep','p2talk','p3prep','p3talk','done'];
+      var idx = stepsOrder.indexOf(examState);
+      var next = stepsOrder[idx + 1];
+      if (!next || next === 'done') {
+        setExamStep('p3talk'); // hold last
+        session.sendSystem("That's the end of Part 3. Tell the student to hold on while you go over their performance.");
+        return;
+      }
+      setExamStep(next);
+      switch (next) {
+        case 'p11':
+          session.sendSystem('Move to Part 1.1 now. Ask the three general questions one at a time, reacting naturally to each answer.');
+          $('timerLabel').textContent = 'P1.1 — answer the 3 questions';
+          $('timer').textContent = '—';
+          break;
+        case 'p12':
+          session.sendSystem('Move to Part 1.2. The student now sees two pictures on screen. Start with the comparison question, then ask the other two picture-based questions.');
+          $('picsCard').style.display = '';
+          // TODO Phase 2.5: render real picture URLs from picked.p12 + fetch bytes + send via session.sendContent({images:[...]})
+          $('timerLabel').textContent = 'P1.2 — describe the pictures';
+          $('timer').textContent = '—';
+          break;
+        case 'p2prep':
+          session.sendSystem('Move to Part 2. Read the cue card to the student and say "You have 1 minute to prepare. Take your time." Then go silent until I tell you the prep is over.');
+          startTimer(60, 'P2 prep — 1 minute to think', function () { advance(); });
+          break;
+        case 'p2talk':
+          session.sendSystem("Prep is over. Tell the student: \"OK, you have 2 minutes — go ahead!\" Stay quiet while they speak; only intervene if they pause for more than 8 seconds.");
+          startTimer(120, 'P2 talk — 2 minutes monologue', function () { advance(); });
+          break;
+        case 'p3prep':
+          session.sendSystem('Move to Part 3. Read the discussion prompt. Say "You have 1 minute to think about this." Then go silent.');
+          $('picsCard').style.display = 'none';
+          startTimer(60, 'P3 prep — 1 minute to think', function () { advance(); });
+          break;
+        case 'p3talk':
+          session.sendSystem('Prep is over. Begin the discussion — ask one opening question, then follow up based on their answer. Keep it conversational. After 2 minutes I will end the exam.');
+          startTimer(120, 'P3 talk — 2 minutes discussion', function () {
+            setExamStep('p3talk');
+            session.sendSystem('Time is up. Tell the student that\'s the end of the exam and you\'ll go over their performance now. Then go silent — the host is computing the score.');
+            $('nextBtn').disabled = true;
+            // Phase 6 hookup: trigger grading here.
+            log('[Phase 6 hook] would now POST transcript to grading endpoint', 'info');
+          });
+          break;
+      }
+    }
+
+    /* ── Wire UI ───────────────────────────────────────────────── */
+    $('startExamBtn').addEventListener('click', async function () {
+      var vipToken = $('vipToken').value.trim();
+      if (!vipToken) { setStatus('sessStatus', 'bad', 'no VIP token'); return; }
+      $('startExamBtn').disabled = true;
+      setStatus('sessStatus', 'warn', 'picking mocks…');
+      try {
+        pickedMocks = await pickRandomMocks();
+        log('picked mocks: P1.1=' + pickedMocks.p11.mockNumber + ' P1.2=' + pickedMocks.p12.mockNumber + ' P2=' + pickedMocks.p2.mockNumber + ' P3=' + pickedMocks.p3.mockNumber, 'recv');
+      } catch (e) {
+        log('mock pick failed: ' + e.message, 'err');
+        setStatus('sessStatus', 'bad', 'mock pick failed');
+        $('startExamBtn').disabled = false;
+        return;
+      }
+      var persona = buildPersona(pickedMocks);
+      log('persona length: ' + persona.length + ' chars', 'info');
+
+      session = new RealtimeSession({ vipToken: vipToken, persona: persona });
+      session.on('ready',      function () { setStatus('sessStatus', 'ok', 'session live'); $('closeBtn').disabled = false; $('micBtn').disabled = false; log('session ready — exam intro starting', 'recv'); runExam(); });
+      session.on('transcript', function (t) { log(t.role + ': ' + t.text.slice(0, 80), 'recv'); });
+      session.on('error',      function (e) { log('error: ' + (e.message || JSON.stringify(e)), 'err'); });
+      session.on('close',      function () { log('session closed', 'info'); setStatus('sessStatus', 'bad', 'closed'); $('startExamBtn').disabled = false; });
+      session.on('micOn',      function () { setStatus('micStatus', 'ok', 'mic streaming'); });
+      session.on('micOff',     function () { setStatus('micStatus', 'warn', 'mic off'); });
+
+      try { await session.start(); }
+      catch (e) { log('start failed: ' + e.message, 'err'); $('startExamBtn').disabled = false; }
+    });
+
+    $('closeBtn').addEventListener('click', function () { stopTimer(); if (session) { session.close(); session = null; } });
+    $('nextBtn').addEventListener('click', advance);
+
+    // Mic on/off toggle (free-running once on).
+    var micOn = false;
+    $('micBtn').addEventListener('click', function () {
+      if (!session) return;
+      if (!micOn) {
+        session.startMic().then(function () { micOn = true; $('micBtn').textContent = '🔴 Mic ON — click to mute'; })
+                          .catch(function (e) { log('mic fail: ' + e.message, 'err'); });
+      } else {
+        session.stopMic(); micOn = false; $('micBtn').textContent = '🎙 Mic ON';
+      }
+    });
+  </script>
+</body>
+</html>
