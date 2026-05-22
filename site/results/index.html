@@ -1798,7 +1798,6 @@
         <button class="topbar-btn main-site-only" onclick="openSettingsPanel()" style="background:linear-gradient(135deg,#059669,#047857);color:white;font-weight:700;">⚙️ Settings</button>
         <button class="topbar-btn main-site-only" onclick="openCenterHub()" style="background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;font-weight:700;">🏢 Centers</button>
         <button class="topbar-btn main-site-only" onclick="openStoragePanel()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);color:white;font-weight:700;">💾 Storage</button>
-        <button class="topbar-btn main-site-only" onclick="openChannelPostsPanel()" style="background:linear-gradient(135deg,#0ea5e9,#0284c7);color:white;font-weight:700;">📰 News</button>
         <button class="topbar-btn main-site-only" id="returnMainBtn" style="display:none;background:linear-gradient(135deg,#f59e0b,#dc2626);color:white;font-weight:700;animation:chPulse 2s infinite;" onclick="returnToMainSite()">🏠 Return to Mock Stream</button>
         <button class="topbar-btn" onclick="refreshResults()">🔄 Refresh</button>
         <button class="topbar-btn" onclick="window.location.href='../landing.html'">🏠 Home</button>
@@ -3161,6 +3160,17 @@
     var sortField = 'created_at';
     var sortDir = 'desc';
     var _resultsLoading = false;
+    // Server-side stats + paginated rows (results_dashboard_* RPCs) replace the
+    // old "download every row, filter in JS" path. _currentStats is the stats
+    // RPC response (total/today/centers_count/avg_ielts/avg_cefr/mobile/desktop);
+    // _currentTotal is the unfiltered-total for pagination math. The full set
+    // still loads in the background into `allResults` for legacy lookups that
+    // need cross-page reads (e.g. showStudentTrack reading a student's full
+    // history). Visible-row lookups (openResultDm / viewResult) work either
+    // way because the visible row is always in the current page.
+    var _currentStats = null;
+    var _currentTotal = 0;
+    var _bgLoadPromise = null;
     var _autoRefreshTimer = null;
     var AUTO_REFRESH_DEFAULT_MS = 60000;
     var AUTO_REFRESH_MS = AUTO_REFRESH_DEFAULT_MS;
@@ -3515,6 +3525,96 @@
     // ====================================================================
     // SUPABASE DATA LOADING
     // ====================================================================
+    // ── RPC helpers (results_dashboard_stats + results_dashboard_rows) ──
+    async function _callRpc(name, args) {
+      var resp = await fetch(SUPABASE_URL + '/rest/v1/rpc/' + name, {
+        method: 'POST',
+        headers: {
+          'apikey':        SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+          'Content-Type':  'application/json'
+        },
+        body: JSON.stringify(args)
+      });
+      if (!resp.ok) {
+        var txt = '';
+        try { txt = await resp.text(); } catch (_e) {}
+        throw new Error(name + ' ' + resp.status + ': ' + txt.slice(0, 200));
+      }
+      return await resp.json();
+    }
+
+    function _readFilterArgs() {
+      var center   = document.getElementById('filterCenter').value   || null;
+      var exam     = document.getElementById('filterExam').value     || null;
+      var skill    = document.getElementById('filterSkill').value    || null;
+      var type     = document.getElementById('filterType').value     || null;
+      var name     = (document.getElementById('filterName').value || '').trim() || null;
+      var dateFrom = document.getElementById('filterDateFrom').value || null;
+      var dateTo   = document.getElementById('filterDateTo').value   || null;
+      // Clone-site lock — same logic the old bulk fetch used after download.
+      var cid = (window.__CENTER_ID || 'mock_stream').toString();
+      if (cid !== 'mock_stream') center = cid;
+      // JS getTimezoneOffset is West-positive; the RPC expects East-positive
+      // minutes east of UTC, so negate.
+      var tzMin = -new Date().getTimezoneOffset();
+      // Local midnight bounds for the "today" stat.
+      var now = new Date();
+      var midnight    = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
+      var nextMidnight= new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0, 0);
+      return {
+        p_center:        center,
+        p_exam_type:     exam,
+        p_skill:         skill,
+        p_type:          type,
+        p_name:          name,
+        p_date_from:     dateFrom,
+        p_date_to:       dateTo,
+        p_tz_offset_min: tzMin,
+        p_today_start:   midnight.toISOString(),
+        p_today_end:     nextMidnight.toISOString()
+      };
+    }
+
+    // Lazy full-set loader — replicates the old bulk fetch but only fires once,
+    // in the background, so legacy cross-page reads (showStudentTrack) still
+    // work. The visible table is rendered from the per-page RPC long before
+    // this finishes.
+    function _startBackgroundLoadOnce() {
+      if (_bgLoadPromise) return _bgLoadPromise;
+      _bgLoadPromise = (async function () {
+        try {
+          var PAGE = 1000, cursor = null, safetyCap = 200;
+          var collected = [];
+          while (safetyCap-- > 0) {
+            var url = SUPABASE_URL + '/rest/v1/results?select=*&order=created_at.desc&limit=' + PAGE;
+            if (cursor) url += '&created_at=lt.' + encodeURIComponent(cursor);
+            var r = await fetch(url, {
+              headers: {
+                'apikey':        SUPABASE_ANON_KEY,
+                'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+                'Content-Type':  'application/json'
+              }
+            });
+            if (!r.ok) return;
+            var page = await r.json();
+            if (!page.length) break;
+            collected = collected.concat(page);
+            if (page.length < PAGE) break;
+            var last = page[page.length - 1];
+            if (!last || !last.created_at || last.created_at === cursor) break;
+            cursor = last.created_at;
+          }
+          var cid = (window.__CENTER_ID || 'mock_stream').toString();
+          if (cid !== 'mock_stream') {
+            collected = collected.filter(function (r) { return r.center === cid; });
+          }
+          allResults = collected;
+        } catch (_e) { /* legacy reads will just show fewer rows */ }
+      })();
+      return _bgLoadPromise;
+    }
+
     async function loadResults() {
       if (_resultsLoading) return;
       _resultsLoading = true;
@@ -3527,56 +3627,41 @@
       emptyEl.style.display = 'none';
 
       if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-        // Supabase not configured yet — show placeholder message
         loading.style.display = 'none';
         emptyEl.querySelector('h3').textContent = 'Supabase Not Connected';
         emptyEl.querySelector('p').textContent = 'Configure SUPABASE_URL and SUPABASE_ANON_KEY at the top of this page to connect to your database.';
         emptyEl.style.display = 'block';
         updateStats([]);
+        _resultsLoading = false;
         return;
       }
 
       try {
-        // Fetch ALL results using KEYSET pagination on created_at.
-        // We previously used OFFSET pagination, but with RLS active that
-        // forces Postgres to evaluate the RLS predicate over every row
-        // before skipping, which times out (500) for center-scoped admins
-        // and any large table. Keyset uses an index range instead.
-        var PAGE_SIZE = 1000;
-        var cursor = null;  // last seen created_at
-        var safetyCap = 200; // 200k rows max — plenty
-        allResults = [];
-        while (safetyCap-- > 0) {
-          var url = SUPABASE_URL + '/rest/v1/results?select=*&order=created_at.desc&limit=' + PAGE_SIZE;
-          if (cursor) {
-            // strictly less than to avoid duplicates / infinite loop
-            url += '&created_at=lt.' + encodeURIComponent(cursor);
-          }
-          var response = await fetch(url, {
-            headers: {
-              'apikey': SUPABASE_ANON_KEY,
-              'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
-              'Content-Type': 'application/json'
-            }
-          });
-          if (!response.ok) throw new Error('Failed to fetch results');
-          var page = await response.json();
-          if (!page.length) break;
-          allResults = allResults.concat(page);
-          if (page.length < PAGE_SIZE) break;
-          var last = page[page.length - 1];
-          if (!last || !last.created_at || last.created_at === cursor) break;
-          cursor = last.created_at;
-        }
+        var filterArgs = _readFilterArgs();
+        var rowsArgs = Object.assign({}, filterArgs);
+        delete rowsArgs.p_today_start;
+        delete rowsArgs.p_today_end;
+        rowsArgs.p_sort_field = sortField;
+        rowsArgs.p_sort_desc  = (sortDir === 'desc');
+        rowsArgs.p_limit      = PAGE_SIZE;
+        rowsArgs.p_offset     = (currentPage - 1) * PAGE_SIZE;
 
-        // Clone sites: pre-filter to own center only
-        var _cid2 = window.__CENTER_ID || 'mock_stream';
-        var lockedCenter = _cid2 !== 'mock_stream' ? _cid2 : null;
-        if (lockedCenter) {
-          allResults = allResults.filter(function (r) { return r.center === lockedCenter; });
-        }
-
-        applyFilters();
+        var both = await Promise.all([
+          _callRpc('results_dashboard_stats', filterArgs),
+          _callRpc('results_dashboard_rows',  rowsArgs)
+        ]);
+        _currentStats = both[0] || null;
+        _currentTotal = (_currentStats && _currentStats.total) || 0;
+        var rows = both[1] || [];
+        // allResults seed: current page only. The background loader replaces
+        // this with the full set ~10s later so showStudentTrack can read
+        // across pages. Visible-row lookups (openResultDm / viewResult) work
+        // immediately because they only see the visible page anyway.
+        allResults      = rows.slice();
+        filteredResults = rows;
+        renderTable();
+        updateStats(rows);
+        _startBackgroundLoadOnce();
       } catch (err) {
         console.error('[Dashboard] Load error:', err);
         loading.style.display = 'none';
@@ -3598,50 +3683,11 @@
     // FILTERS & SORT
     // ====================================================================
     function applyFilters() {
-      var center = document.getElementById('filterCenter').value;
-      var exam = document.getElementById('filterExam').value;
-      var skill = document.getElementById('filterSkill').value;
-      var type = document.getElementById('filterType').value;
-      var name = document.getElementById('filterName').value.trim().toLowerCase();
-      var dateFrom = document.getElementById('filterDateFrom').value;
-      var dateTo = document.getElementById('filterDateTo').value;
-
-      filteredResults = allResults.filter(function (r) {
-        if (center && r.center !== center) return false;
-        if (exam && r.exam_type !== exam) return false;
-        if (skill && r.skill !== skill) return false;
-        if (name && (r.student_name || '').toLowerCase().indexOf(name) === -1) return false;
-        if ((dateFrom || dateTo) && r.created_at) {
-          var localDate = new Date(r.created_at);
-          var ld = localDate.getFullYear() + '-' + String(localDate.getMonth()+1).padStart(2,'0') + '-' + String(localDate.getDate()).padStart(2,'0');
-          if (dateFrom && ld < dateFrom) return false;
-          if (dateTo && ld > dateTo) return false;
-        }
-        // Practice / Full filter
-        if (type) {
-          var isPractice = (r.metadata && r.metadata.is_practice) || (r.mock_number && r.mock_number.indexOf('Practice') === 0);
-          if (type === 'practice' && !isPractice) return false;
-          if (type === 'full' && isPractice) return false;
-        }
-        return true;
-      });
-
-      // Sort
-      filteredResults.sort(function (a, b) {
-        var aVal = a[sortField] || '';
-        var bVal = b[sortField] || '';
-        if (sortField === 'score') {
-          aVal = parseFloat(aVal) || 0;
-          bVal = parseFloat(bVal) || 0;
-        }
-        if (aVal < bVal) return sortDir === 'asc' ? -1 : 1;
-        if (aVal > bVal) return sortDir === 'asc' ? 1 : -1;
-        return 0;
-      });
-
+      // Filtering, sorting, paginating now all happen server-side via the
+      // results_dashboard_stats + results_dashboard_rows RPCs. Reset to page 1
+      // and let loadResults read the filter form + fire the RPCs.
       currentPage = 1;
-      renderTable();
-      updateStats(filteredResults);
+      loadResults();
     }
 
     function clearFilters() {
@@ -3694,9 +3740,12 @@
       emptyEl.style.display = 'none';
       tableEl.style.display = 'table';
 
+      // filteredResults is already the current page slice (returned from
+      // results_dashboard_rows for currentPage). Don't re-slice — pagination
+      // math uses _currentTotal from results_dashboard_stats.
       var start = (currentPage - 1) * PAGE_SIZE;
-      var end = Math.min(start + PAGE_SIZE, filteredResults.length);
-      var pageResults = filteredResults.slice(start, end);
+      var end = start + filteredResults.length;
+      var pageResults = filteredResults;
 
       tbody.innerHTML = '';
 
@@ -3766,11 +3815,12 @@
     }
 
     function renderPagination(start, end) {
-      var total = filteredResults.length;
-      var totalPages = Math.ceil(total / PAGE_SIZE);
+      // Total comes from the stats RPC, not from a client-side array length.
+      var total = _currentTotal || 0;
+      var totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
       var paginationEl = document.getElementById('pagination');
 
-      if (totalPages <= 1) {
+      if (total <= PAGE_SIZE) {
         paginationEl.style.display = 'none';
         return;
       }
@@ -3782,15 +3832,18 @@
       var btns = document.getElementById('paginationBtns');
       btns.innerHTML = '';
 
+      // Each page click triggers a fresh RPC fetch.
+      function _go(page) {
+        currentPage = page;
+        loadResults();
+      }
+
       // Prev
       var prevBtn = document.createElement('button');
       prevBtn.className = 'page-btn';
       prevBtn.textContent = '← Prev';
       prevBtn.disabled = currentPage === 1;
-      prevBtn.onclick = function () {
-        currentPage--;
-        renderTable();
-      };
+      prevBtn.onclick = function () { _go(currentPage - 1); };
       btns.appendChild(prevBtn);
 
       // Page numbers (show max 5 around current)
@@ -3803,10 +3856,7 @@
         btn.className = 'page-btn' + (i === currentPage ? ' active' : '');
         btn.textContent = i;
         btn.onclick = (function (page) {
-          return function () {
-            currentPage = page;
-            renderTable();
-          };
+          return function () { _go(page); };
         })(i);
         btns.appendChild(btn);
       }
@@ -3816,38 +3866,30 @@
       nextBtn.className = 'page-btn';
       nextBtn.textContent = 'Next →';
       nextBtn.disabled = currentPage === totalPages;
-      nextBtn.onclick = function () {
-        currentPage++;
-        renderTable();
-      };
+      nextBtn.onclick = function () { _go(currentPage + 1); };
       btns.appendChild(nextBtn);
     }
 
     // ====================================================================
     // STATS
     // ====================================================================
-    function updateStats(results) {
-      // Check if any filter is active
-      var centerFilter = document.getElementById('filterCenter').value;
-      var examFilter = document.getElementById('filterExam').value;
-      var skillFilter = document.getElementById('filterSkill').value;
-      var typeFilter = document.getElementById('filterType').value;
-      var nameFilter = document.getElementById('filterName').value.trim();
+    function updateStats(_results) {
+      // _results is unused now — every card is filled from _currentStats (the
+      // results_dashboard_stats RPC). If the RPC hasn't returned yet, show '—'.
+      var s = _currentStats || {};
       var dateFrom = document.getElementById('filterDateFrom').value;
-      var dateTo = document.getElementById('filterDateTo').value;
-      var hasFilter = centerFilter || examFilter || skillFilter || typeFilter || nameFilter || dateFrom || dateTo;
+      var dateTo   = document.getElementById('filterDateTo').value;
+      var hasDate  = !!(dateFrom || dateTo);
 
-      // Total Results: filtered count when any filter is active, otherwise all
-      document.getElementById('statTotal').textContent = (hasFilter ? filteredResults.length : allResults.length) || '—';
+      // Total — server-side count after all filters applied.
+      document.getElementById('statTotal').textContent =
+        (typeof s.total === 'number') ? s.total.toLocaleString('en-GB') : '—';
 
-      // Date-aware count (local timezone)
+      // "Today" card switches to "filtered total" when a date filter is on.
       var label = document.getElementById('statTodayLabel');
-      // Use the appropriate base set for "Today" count
-      var baseForToday = (centerFilter || examFilter || skillFilter || typeFilter || nameFilter)
-        ? filteredResults : allResults;
-      if (dateFrom || dateTo) {
-        // Show filtered results count with date label
-        document.getElementById('statToday').textContent = filteredResults.length || '—';
+      var statTodayEl = document.getElementById('statToday');
+      if (hasDate) {
+        statTodayEl.textContent = (typeof s.total === 'number') ? s.total.toLocaleString('en-GB') : '—';
         if (dateFrom && dateTo && dateFrom === dateTo) {
           var dp = dateFrom.split('-');
           label.textContent = dp[2] + '/' + dp[1] + '/' + dp[0];
@@ -3862,74 +3904,44 @@
           label.textContent = 'Until ' + tp2[2] + '/' + tp2[1];
         }
       } else {
-        var now = new Date();
-        var today = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
-        var todayCount = baseForToday.filter(function (r) {
-          if (!r.created_at) return false;
-          var d = new Date(r.created_at);
-          var ld = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
-          return ld === today;
-        }).length;
-        document.getElementById('statToday').textContent = todayCount || '—';
+        statTodayEl.textContent = (typeof s.today === 'number') ? s.today.toLocaleString('en-GB') : '—';
         label.textContent = 'Today';
       }
 
-      // Unique centers from filtered results
-      var centersBase = hasFilter ? filteredResults : allResults;
-      var centers = {};
-      centersBase.forEach(function (r) {
-        if (r.center) centers[r.center] = true;
-      });
-      document.getElementById('statCenters').textContent = Object.keys(centers).length || '—';
+      document.getElementById('statCenters').textContent =
+        (typeof s.centers_count === 'number') ? s.centers_count : '—';
 
-      // Avg score from filtered results — split by exam type
-      var scoreBase = hasFilter ? filteredResults : allResults;
-      var scoresByExam = {};
-      scoreBase.forEach(function (r) {
-        var s = parseFloat(r.score);
-        if (isNaN(s)) return;
-        var et = (r.exam_type || 'other').toLowerCase();
-        if (!scoresByExam[et]) scoresByExam[et] = [];
-        scoresByExam[et].push(s);
-      });
-      var examKeys = Object.keys(scoresByExam).filter(function(k){ return k === 'ielts' || k === 'cefr'; });
+      // Avg score — full mocks only (excludes Practice + Plus modes). The
+      // *_full fields come from the RPC's is_full_mock predicate which
+      // mirrors the table's Practice/+ badges. Falls back to the legacy
+      // any-score fields if the RPC didn't return _full (older clients).
       var avgEl = document.getElementById('statAvgScore');
-      if (examKeys.length >= 2) {
+      var ieltsAvg = (typeof s.avg_ielts_full === 'number' || typeof s.avg_ielts_full === 'string') ? s.avg_ielts_full : s.avg_ielts;
+      var ieltsCnt = (typeof s.cnt_ielts_full === 'number') ? s.cnt_ielts_full : (s.cnt_ielts || 0);
+      var cefrAvg  = (typeof s.avg_cefr_full  === 'number' || typeof s.avg_cefr_full  === 'string') ? s.avg_cefr_full  : s.avg_cefr;
+      var cefrCnt  = (typeof s.cnt_cefr_full  === 'number') ? s.cnt_cefr_full  : (s.cnt_cefr  || 0);
+      var hasIelts = ieltsCnt > 0 && ieltsAvg != null;
+      var hasCefr  = cefrCnt  > 0 && cefrAvg  != null;
+      if (hasIelts && hasCefr) {
         var html = '<div class="score-badges">';
-        if (scoresByExam['ielts'] && scoresByExam['ielts'].length) {
-          var iAvg = scoresByExam['ielts'].reduce(function(a,b){return a+b;},0) / scoresByExam['ielts'].length;
-          html += '<div class="score-badge"><span class="badge-tag ielts">IELTS</span> ' + iAvg.toFixed(1) + '</div>';
-        }
-        if (scoresByExam['cefr'] && scoresByExam['cefr'].length) {
-          var cAvg = scoresByExam['cefr'].reduce(function(a,b){return a+b;},0) / scoresByExam['cefr'].length;
-          html += '<div class="score-badge"><span class="badge-tag cefr">CEFR</span> ' + cAvg.toFixed(1) + '</div>';
-        }
+        html += '<div class="score-badge"><span class="badge-tag ielts">IELTS</span> ' + Number(ieltsAvg).toFixed(1) + '</div>';
+        html += '<div class="score-badge"><span class="badge-tag cefr">CEFR</span> '   + Number(cefrAvg ).toFixed(1) + '</div>';
         html += '</div>';
         avgEl.innerHTML = html;
+      } else if (hasIelts) {
+        avgEl.textContent = Number(ieltsAvg).toFixed(1);
+      } else if (hasCefr) {
+        avgEl.textContent = Number(cefrAvg ).toFixed(1);
       } else {
-        var allScores = [];
-        Object.keys(scoresByExam).forEach(function(k){ allScores = allScores.concat(scoresByExam[k]); });
-        if (allScores.length > 0) {
-          var avg = allScores.reduce(function(a,b){return a+b;},0) / allScores.length;
-          avgEl.textContent = avg.toFixed(1);
-        } else {
-          avgEl.textContent = '—';
-        }
+        avgEl.textContent = '—';
       }
 
-      // Device stats from device_info column
-      var deviceBase = hasFilter ? filteredResults : allResults;
-      var mobileCount = 0, desktopCount = 0;
-      deviceBase.forEach(function(r) {
-        var di = r.device_info;
-        if (di && di.type) {
-          if (di.type === 'Mobile' || di.type === 'Tablet') mobileCount++;
-          else desktopCount++;
-        }
-      });
-      var deviceTotal = mobileCount + desktopCount;
-      document.getElementById('statMobile').textContent = deviceTotal > 0 ? mobileCount + ' (' + Math.round(mobileCount / deviceTotal * 100) + '%)' : '—';
-      document.getElementById('statDesktop').textContent = deviceTotal > 0 ? desktopCount + ' (' + Math.round(desktopCount / deviceTotal * 100) + '%)' : '—';
+      // Device split
+      var mobile  = s.mobile  || 0;
+      var desktop = s.desktop || 0;
+      var devTot  = mobile + desktop;
+      document.getElementById('statMobile').textContent  = devTot > 0 ? mobile  + ' (' + Math.round(mobile  / devTot * 100) + '%)' : '—';
+      document.getElementById('statDesktop').textContent = devTot > 0 ? desktop + ' (' + Math.round(desktop / devTot * 100) + '%)' : '—';
     }
 
     // ====================================================================
