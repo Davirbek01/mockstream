@@ -5010,6 +5010,11 @@
       gap: 18px;
       padding: 18px 24px 40px;
       flex: 1;
+      /* Override v3's global `main { max-width: 1180px; margin: 0 auto; }`
+         so the picker grid fills the full overlay width like every other
+         skill picker. */
+      max-width: none;
+      margin: 0;
     }
     @media (max-width: 1279px) { .cret-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     @media (max-width: 1023px) { .cret-grid { grid-template-columns: minmax(0, 1fr); padding: 14px 16px 30px; } }
@@ -5448,6 +5453,8 @@
       gap: 18px;
       padding: 18px 24px 40px;
       flex: 1;
+      max-width: none;
+      margin: 0;
     }
     @media (max-width: 1279px) { .iret-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 1023px) { .iret-grid { grid-template-columns: 1fr; padding: 14px 16px 30px; } }
