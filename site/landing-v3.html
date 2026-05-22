@@ -10271,7 +10271,8 @@
       _pendingCefrReadingUrl = null;
       if (url) {
         var fullUrl = url + '&part=' + n;
-        try { window.location.replace(fullUrl); } catch (_e) { window.location.href = fullUrl; }
+        var abs = (typeof window.__msv3AbsUrl === 'function') ? window.__msv3AbsUrl(fullUrl) : fullUrl;
+        try { window.location.replace(abs); } catch (_e) { window.location.href = abs; }
       }
     }
     window.closeCefrReadingModeModal = closeCefrReadingModeModal;
@@ -10911,7 +10912,12 @@
       _pendingIeltsReadingUrl = null;
       if (url) {
         var fullUrl = url + '&passage=' + n;
-        try { window.location.replace(fullUrl); } catch (_e) { window.location.href = fullUrl; }
+        // Absolutize — current pathname is /take/ielts-reading-NN (pushed
+        // by the picker card click), so a relative URL would resolve to
+        // /take/IELTS reading.html... which Netlify rewrites BACK to
+        // landing-v3 and the student appears to bounce home.
+        var abs = (typeof window.__msv3AbsUrl === 'function') ? window.__msv3AbsUrl(fullUrl) : fullUrl;
+        try { window.location.replace(abs); } catch (_e) { window.location.href = abs; }
       }
     }
     window.closeIeltsReadingModeModal  = closeIeltsReadingModeModal;
@@ -11854,7 +11860,8 @@
       _pendingCefrListeningUrl = null;
       if (url) {
         var fullUrl = url + '&part=' + n;
-        try { window.location.replace(fullUrl); } catch (_e) { window.location.href = fullUrl; }
+        var abs = (typeof window.__msv3AbsUrl === 'function') ? window.__msv3AbsUrl(fullUrl) : fullUrl;
+        try { window.location.replace(abs); } catch (_e) { window.location.href = abs; }
       }
     }
     window.closeCefrListeningModeModal = closeCefrListeningModeModal;
@@ -12533,7 +12540,8 @@
       _pendingIeltsListeningUrl = null;
       if (url) {
         var fullUrl = url + '&part=' + n;
-        try { window.location.replace(fullUrl); } catch (_e) { window.location.href = fullUrl; }
+        var abs = (typeof window.__msv3AbsUrl === 'function') ? window.__msv3AbsUrl(fullUrl) : fullUrl;
+        try { window.location.replace(abs); } catch (_e) { window.location.href = abs; }
       }
     }
     window.closeIeltsListeningModeModal = closeIeltsListeningModeModal;
