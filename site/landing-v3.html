@@ -13329,12 +13329,14 @@
     }
     // Build the runner URL for (category, item, level). Levels map:
     // intermediate=B1, upper-intermediate=B2, advanced=C1.
-    // Filesystem audit (2026-05-21) confirmed every catalog item has all
-    // 3 level files — grammar / vocab / flashcards all use the suffix
-    // pattern <bare-slug>-<level>.js (the trailing 01/02/03 from the
-    // catalog slug gets stripped). Articles use runtime ?level= switching.
+    // Naming conventions differ per category (verified by filesystem
+    // audit 2026-05-22):
+    //   - Grammar / Vocab: <slug>-<level>.js  (digits stay in slug)
+    //     e.g.  adjectives-adverbs01-upper-intermediate.js
+    //   - Flashcards:      <bare>-<level>.js  (digits stripped)
+    //     e.g.  idioms01.js → idioms-intermediate.js
+    //   - Articles: runtime ?level=B1/B2/C1 switching
     function _stripSlugDigits(s) {
-      // 'idioms01' -> 'idioms', 'present-tenses-day04' -> 'present-tenses-day'
       return String(s || '').replace(/\d+$/, '');
     }
     function _learnRunnerUrl(category, item, level) {
@@ -13348,17 +13350,15 @@
       if (category === 'grammar' || category === 'vocabulary') {
         var slug = (item.file.match(/test=([^&]+)/) || [])[1];
         if (!slug) return null;
-        var bare = _stripSlugDigits(slug);
-        // Files live at questions G/<bare>-<level>.js (or questions V/).
-        // Runner reads ?test= and looks up the file by slug.
-        return '/test.html?test=' + encodeURIComponent(bare + '-' + level) + '&type=' + category;
+        // Keep digits — grammar/vocab files use <slug>-<level>.js verbatim.
+        return '/test.html?test=' + encodeURIComponent(slug + '-' + level) + '&type=' + category;
       }
       if (category === 'flashcards') {
         // Explicit .levels mapping wins (e.g. Digital Frontier in landing.html).
         if (item.levels && item.levels[level]) {
           return '/flashcards.html?topic=' + encodeURIComponent(item.levels[level]);
         }
-        // Otherwise compute: 'idioms01.js' -> 'idioms-intermediate' / etc.
+        // Flashcard level files DO strip digits: idioms01.js -> idioms-intermediate.js
         var base = item.file.replace(/\.js$/, '');
         var bareFc = _stripSlugDigits(base);
         return '/flashcards.html?topic=' + encodeURIComponent(bareFc + '-' + level);
