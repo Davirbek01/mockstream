@@ -384,28 +384,25 @@
 
   RealtimeSession.prototype._sendMicChunk = function (pcm16) {
     if (!this.ws || this.ws.readyState !== 1) return;
-    // Echo-gate removed 2026-05-22: it was dropping mic frames for the
-    // entire duration of the AI's turn (~5s for the intro), and Google
-    // appears to close sessions when no realtimeInput arrives for that
-    // long. Rely on the browser's getUserMedia echo cancellation +
-    // Google's own VAD interruption handling instead.
-    var bytes = new Uint8Array(pcm16.buffer);
-    var bin = '';
-    for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
-    var b64 = btoa(bin);
-    // Use the .audio sub-field of realtimeInput (single-chunk audio
-    // path) rather than .mediaChunks (mixed audio+video legacy). Per
-    // Google's current Live API docs this is the supported shape for
-    // audio-only streaming. Mime type per docs: "audio/pcm;rate=16000".
-    var msg = {
-      realtimeInput: {
-        audio: {
-          mimeType: 'audio/pcm;rate=' + this.opts.inputSampleRate,
-          data: b64
+    // Try BOTH paths — first the JSON-base64 form (what proto-JSON
+    // docs describe), then the raw-binary form (what one community
+    // sample claimed is required for the new Live API). We toggle
+    // between them by mode flag; default is JSON.
+    if (this.opts.audioWire === 'binary') {
+      // Raw little-endian PCM16 bytes — no JSON wrapper.
+      this.ws.send(pcm16.buffer);
+    } else {
+      var bytes = new Uint8Array(pcm16.buffer);
+      var bin = '';
+      for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+      var b64 = btoa(bin);
+      var msg = {
+        realtimeInput: {
+          audio: { mimeType: 'audio/pcm;rate=' + this.opts.inputSampleRate, data: b64 }
         }
-      }
-    };
-    this.ws.send(JSON.stringify(msg));
+      };
+      this.ws.send(JSON.stringify(msg));
+    }
     // Diagnostic: emit a 'micChunk' event so the test UI can show how
     // much audio is flowing. We expect ~5 chunks/sec at 200ms each.
     this._micChunkCount = (this._micChunkCount || 0) + 1;

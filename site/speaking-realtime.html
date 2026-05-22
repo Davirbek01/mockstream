@@ -216,7 +216,7 @@
     </div>
   </div>
 
-  <script src="speaking-realtime-engine.js?v=free3"></script>
+  <script src="speaking-realtime-engine.js?v=free4"></script>
   <script>
     var $ = function (id) { return document.getElementById(id); };
     var session = null;
@@ -259,7 +259,7 @@
     async function start(token) {
       $('gateErr').textContent = '';
 
-      session = new RealtimeSession({ vipToken: token, persona: FREE_PERSONA });
+      session = new RealtimeSession({ vipToken: token, persona: FREE_PERSONA, audioWire: 'binary' });
       session.on('ready',      function () { setOrb('listening'); setStatus('Listening — go ahead, say hi'); kickAi(); autoMic(); });
       session.on('audio',      function () { setOrb('speaking'); setStatus(''); });
       session.on('turnComplete', function () { setOrb('listening'); setStatus('Your turn'); });
