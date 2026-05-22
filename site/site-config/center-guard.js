@@ -117,7 +117,21 @@
     if (!cc) return;
 
     // Store for other scripts to read
-    window._centerConfig = cc;    try { document.dispatchEvent(new CustomEvent('mockStream:centerConfigLoaded', { detail: cc })); } catch (e) {}
+    window._centerConfig = cc;
+    // Pre-existing bug fix: landing-v3.html (and the legacy landing.html
+    // mock-click handlers) consult window._centerAccess.globalAccess /
+    // skillAccess to grant code-free access when an admin sets a centre to
+    // "Premium" or "Regular" in the Centers panel. Previously this was
+    // only populated by an inline script in landing.html, so on v3-served
+    // clones the bypass never fired — students still saw the access-code
+    // gate even though the centre was wide open in the admin UI. Now
+    // center-guard sets it on every fetch (cache or fresh) so v3 honours
+    // it identically to landing.html.
+    window._centerAccess = {
+      globalAccess: cc.globalAccess || 'off',
+      skillAccess:  cc.skillAccess  || {}
+    };
+    try { document.dispatchEvent(new CustomEvent('mockStream:centerConfigLoaded', { detail: cc })); } catch (e) {}
     // ─── 1. ACTIVE CHECK ────────────────────────────────────────────────
     if (cc.active === false) {
       _cgBlockScreen('🚫', 'Center Deactivated', 'This learning center is currently deactivated. Access to all exams and features has been suspended.', '#dc2626');
@@ -537,6 +551,13 @@
   function _cgApplyAccessNow(cc) {
     if (!cc) return;
     window._centerConfig = cc;
+    // Same pre-existing-bug fix as _cgEnforce: expose centre access flags
+    // BEFORE DOM-ready so the first mock-click after page load already
+    // sees the right values, not just after _cgEnforce has run.
+    window._centerAccess = {
+      globalAccess: cc.globalAccess || 'off',
+      skillAccess:  cc.skillAccess  || {}
+    };
     try { document.dispatchEvent(new CustomEvent('mockStream:centerConfigLoaded', { detail: cc })); } catch (e) {}
     var mockKey = _cgDetectMockKey();
     if (mockKey && cc.mocks) {
