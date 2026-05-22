@@ -10260,7 +10260,7 @@
       var url = _pendingCefrReadingUrl;
       _pendingCefrReadingUrl = null;
       document.getElementById('cefrReadingModeModal').style.display = 'none';
-      if (url) { try { window.location.replace(window.__msv3AbsUrl(url)); } catch (_e) { window.location.href = window.__msv3AbsUrl(url); } }
+      if (url) { window.location.href = window.__msv3AbsUrl(url); }
     }
     function _cefrReadingModePartBased() {
       document.getElementById('cefrReadingModeModal').style.display = 'none';
@@ -10279,7 +10279,9 @@
       if (url) {
         var fullUrl = url + '&part=' + n;
         var abs = (typeof window.__msv3AbsUrl === 'function') ? window.__msv3AbsUrl(fullUrl) : fullUrl;
-        try { window.location.replace(abs); } catch (_e) { window.location.href = abs; }
+        // Use href (push, not replace) so the /take/<slug> entry stays
+        // in history and browser back from the runner re-opens the picker.
+        window.location.href = abs;
       }
     }
     window.closeCefrReadingModeModal = closeCefrReadingModeModal;
@@ -10901,7 +10903,7 @@
       var url = _pendingIeltsReadingUrl;
       _pendingIeltsReadingUrl = null;
       document.getElementById('ieltsReadingModeModal').style.display = 'none';
-      if (url) { try { window.location.replace(window.__msv3AbsUrl(url)); } catch (_e) { window.location.href = window.__msv3AbsUrl(url); } }
+      if (url) { window.location.href = window.__msv3AbsUrl(url); }
     }
     function _ieltsReadingModePassageBased() {
       document.getElementById('ieltsReadingModeModal').style.display = 'none';
@@ -10919,12 +10921,9 @@
       _pendingIeltsReadingUrl = null;
       if (url) {
         var fullUrl = url + '&passage=' + n;
-        // Absolutize — current pathname is /take/ielts-reading-NN (pushed
-        // by the picker card click), so a relative URL would resolve to
-        // /take/IELTS reading.html... which Netlify rewrites BACK to
-        // landing-v3 and the student appears to bounce home.
         var abs = (typeof window.__msv3AbsUrl === 'function') ? window.__msv3AbsUrl(fullUrl) : fullUrl;
-        try { window.location.replace(abs); } catch (_e) { window.location.href = abs; }
+        // push (not replace) so back from the runner re-opens the picker.
+        window.location.href = abs;
       }
     }
     window.closeIeltsReadingModeModal  = closeIeltsReadingModeModal;
@@ -11801,7 +11800,7 @@
       var url = _pendingCefrListeningUrl;
       _pendingCefrListeningUrl = null;
       document.getElementById('cefrListeningModeModal').style.display = 'none';
-      if (url) { try { window.location.replace(window.__msv3AbsUrl(url)); } catch (_e) { window.location.href = window.__msv3AbsUrl(url); } }
+      if (url) { window.location.href = window.__msv3AbsUrl(url); }
     }
     function _cefrListeningModePartBased() {
       document.getElementById('cefrListeningModeModal').style.display = 'none';
@@ -11868,7 +11867,7 @@
       if (url) {
         var fullUrl = url + '&part=' + n;
         var abs = (typeof window.__msv3AbsUrl === 'function') ? window.__msv3AbsUrl(fullUrl) : fullUrl;
-        try { window.location.replace(abs); } catch (_e) { window.location.href = abs; }
+        window.location.href = abs;
       }
     }
     window.closeCefrListeningModeModal = closeCefrListeningModeModal;
@@ -12483,7 +12482,7 @@
       var url = _pendingIeltsListeningUrl;
       _pendingIeltsListeningUrl = null;
       document.getElementById('ieltsListeningModeModal').style.display = 'none';
-      if (url) { try { window.location.replace(window.__msv3AbsUrl(url)); } catch (_e) { window.location.href = window.__msv3AbsUrl(url); } }
+      if (url) { window.location.href = window.__msv3AbsUrl(url); }
     }
     function _ieltsListeningModePartBased() {
       document.getElementById('ieltsListeningModeModal').style.display = 'none';
@@ -12548,7 +12547,7 @@
       if (url) {
         var fullUrl = url + '&part=' + n;
         var abs = (typeof window.__msv3AbsUrl === 'function') ? window.__msv3AbsUrl(fullUrl) : fullUrl;
-        try { window.location.replace(abs); } catch (_e) { window.location.href = abs; }
+        window.location.href = abs;
       }
     }
     window.closeIeltsListeningModeModal = closeIeltsListeningModeModal;
@@ -14256,14 +14255,11 @@
 
     function _navigateToRunner(url) {
       url = window.__msv3AbsUrl(url);
-      // Cover the picker so it isn't visible while the runner page loads.
       try { _msv3ShowLaunchSplash(); } catch (_e) {}
-      // v3 doesn't host the legacy loadMock iframe loader — direct navigate.
-      // The runner page (Speaking Mocks.html) takes over the tab. Use
-      // window.location.replace so a Back from the runner skips the
-      // intermediate landing-v3 step the user was just on.
-      try { window.location.replace(url); }
-      catch (_e) { window.location.href = url; }
+      // Push (not replace) so Back from the runner returns to the /take/<slug>
+      // entry → Netlify rewrites to landing-v3 → _processDeepLinkTakeV3 re-opens
+      // the picker. Replace would skip past /take/ and dump the user on v3 home.
+      window.location.href = url;
     }
     function _speakingModeFullMock() {
       if (!_pendingSpeakingLaunch) return;
