@@ -8322,6 +8322,19 @@
         }
       }
       function _navHome() {
+        // Re-show the splash so the user gets the spinner during the
+        // navigation tick, not a silent blank screen.
+        try {
+          document.documentElement.classList.remove('ms-platform-ready');
+          var s = document.getElementById('msPlatformSplash');
+          if (!s) {
+            s = document.createElement('div');
+            s.id = 'msPlatformSplash';
+            document.body.appendChild(s);
+          } else {
+            s.classList.remove('hide');
+          }
+        } catch (_e) {}
         try { window.location.href = '/landing-v3.html'; }
         catch (_e) { window.location.replace('/landing-v3.html'); }
       }
