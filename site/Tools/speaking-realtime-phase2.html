@@ -398,8 +398,10 @@
     $('closeBtn').addEventListener('click', function () { stopTimer(); if (session) { session.close(); session = null; } });
     $('nextBtn').addEventListener('click', advance);
 
-    // Mic on/off toggle (free-running once on). First mic-on also starts
-    // recording so the whole session lands on the server for review.
+    // Mic on/off toggle. Recording is DECOUPLED — see #recordBtn below.
+    // MediaRecorder + AudioContext on the same mic stream breaks the WS
+    // on Edge; we still want to verify the conversation loop works
+    // without recording first.
     var micOn = false;
     $('micBtn').addEventListener('click', function () {
       if (!session) return;
@@ -407,7 +409,6 @@
         session.startMic().then(function () {
           micOn = true;
           $('micBtn').textContent = '🔴 Mic ON — click to mute';
-          try { session.startRecording(); log('recording started', 'info'); } catch (e) { log('recording start failed: ' + e.message, 'err'); }
         }).catch(function (e) { log('mic fail: ' + e.message, 'err'); });
       } else {
         session.stopMic(); micOn = false; $('micBtn').textContent = '🎙 Mic ON';
