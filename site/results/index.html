@@ -3186,8 +3186,11 @@
     // THEME
     // ====================================================================
     (function initTheme() {
+      // OS dark-mode auto-detection disabled site-wide. Honour an
+      // explicit user-saved 'dark' preference but never fall back to
+      // matchMedia, so a user on a dark-themed OS still sees the light UI.
       var saved = localStorage.getItem('dashboard-theme');
-      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      if (saved === 'dark') {
         document.documentElement.setAttribute('data-theme', 'dark');
       }
     })();

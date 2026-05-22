@@ -61,7 +61,7 @@
       '#ms-progress-pill.success .ms-dot{background:#10b981;animation:none}' +
       '#ms-progress-pill.error{background:#fef2f2;color:#991b1b}' +
       '#ms-progress-pill.error .ms-dot{background:#ef4444;animation:none}' +
-      '@media(prefers-color-scheme:dark){#ms-progress-bar-track{background:rgba(255,255,255,.08)}' +
+      '@media (max-width: -1px){#ms-progress-bar-track{background:rgba(255,255,255,.08)}' + /* OS dark-mode auto-detect disabled site-wide */
       '#ms-progress-pill{background:#1e293b;color:#e2e8f0;box-shadow:0 2px 12px rgba(0,0,0,.4)}' +
       '#ms-progress-pill.success{background:#064e3b;color:#a7f3d0}' +
       '#ms-progress-pill.error{background:#450a0a;color:#fca5a5}}';

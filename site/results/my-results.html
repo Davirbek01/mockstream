@@ -822,8 +822,10 @@
     // THEME
     // ====================================================================
     (function initTheme() {
+      // OS dark-mode auto-detection disabled site-wide. Only honour an
+      // explicit user-saved 'dark' preference.
       var saved = localStorage.getItem('dashboard-theme');
-      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      if (saved === 'dark') {
         document.documentElement.setAttribute('data-theme', 'dark');
       }
     })();

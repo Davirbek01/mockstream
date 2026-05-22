@@ -1340,19 +1340,10 @@ window.addEventListener('message', function (event) {
   }
 });
 
-// Auto System Theme Detection
+// Theme locked to light — OS dark mode is intentionally ignored site-wide.
 const html = document.documentElement;
-
-function applySystemTheme() {
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  html.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
-}
-
-// Apply on load
+function applySystemTheme() { html.setAttribute('data-theme', 'light'); }
 applySystemTheme();
-
-// Listen for system theme changes
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applySystemTheme);
 
 // Lock to portrait orientation on mobile
 function lockPortrait() {

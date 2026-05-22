@@ -1873,7 +1873,9 @@
       transition: background 0.15s;
     }
     .hc-toast-dismiss:hover { background: #e2e8f0; }
-    @media (prefers-color-scheme: dark) {
+    /* OS dark-mode auto-detect disabled site-wide. Block kept for
+       reference but the media query is rewritten to never match. */
+    @media (max-width: -1px) {
       #hcMsgToast { background: #1e293b; }
       .hc-toast-title { color: #f1f5f9; }
       .hc-toast-text { color: #94a3b8; }
@@ -23174,19 +23176,10 @@
       }
     });
 
-    // Auto System Theme Detection
+    // Theme locked to light — OS dark mode is intentionally ignored.
     const html = document.documentElement;
-
-    function applySystemTheme() {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      html.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
-    }
-
-    // Apply on load
+    function applySystemTheme() { html.setAttribute('data-theme', 'light'); }
     applySystemTheme();
-
-    // Listen for system theme changes
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applySystemTheme);
 
     // Fullscreen function
     function enterFullscreen() {

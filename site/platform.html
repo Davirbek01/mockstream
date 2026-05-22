@@ -61,7 +61,11 @@
       animation: mspsSpin .9s linear infinite;
     }
     #msPlatformSplash.hide { opacity: 0; }
-    html.ms-platform-ready::before { opacity: 0; }
+    /* Backdrop gradient stays visible PERMANENTLY — when the admin sign-in
+       modal opens its own dark overlay would otherwise sit on a blank
+       browser white, which looks like a grey "strange" page. Keeping
+       html::before always-on means the auth modal sits on the soft
+       white→lavender gradient and the page reads as a branded surface. */
     @keyframes mspsSpin { to { transform: rotate(360deg); } }
     /* Full-screen Site Management on platform.html — the floating card
        look made sense on landing.html as a temporary overlay, but here
@@ -1991,7 +1995,9 @@
       transition: background 0.15s;
     }
     .hc-toast-dismiss:hover { background: #e2e8f0; }
-    @media (prefers-color-scheme: dark) {
+    /* OS dark-mode auto-detect disabled site-wide. Block kept for
+       reference but the media query is rewritten to never match. */
+    @media (max-width: -1px) {
       #hcMsgToast { background: #1e293b; }
       .hc-toast-title { color: #f1f5f9; }
       .hc-toast-text { color: #94a3b8; }
@@ -8300,7 +8306,11 @@
     html.ms-platform-host #iwetPicker,
     html.ms-platform-host #mobileFab,
     html.ms-platform-host #mobileToolsMenu,
-    html.ms-platform-host #mobileMenuOverlay {
+    html.ms-platform-host #mobileMenuOverlay,
+    html.ms-platform-host #msSupportBubble,
+    html.ms-platform-host .ms-support-bubble,
+    html.ms-platform-host iframe[id*="chat"],
+    html.ms-platform-host [id*="supportChat"] {
       display: none !important;
     }
   </style>
@@ -23414,19 +23424,10 @@
       }
     });
 
-    // Auto System Theme Detection
+    // Theme locked to light — OS dark mode is intentionally ignored.
     const html = document.documentElement;
-
-    function applySystemTheme() {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      html.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
-    }
-
-    // Apply on load
+    function applySystemTheme() { html.setAttribute('data-theme', 'light'); }
     applySystemTheme();
-
-    // Listen for system theme changes
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applySystemTheme);
 
     // Fullscreen function
     function enterFullscreen() {

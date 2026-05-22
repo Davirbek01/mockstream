@@ -4951,14 +4951,9 @@
     };
     document.head.appendChild(script);
 
-    // Auto System Theme Detection
+    // Theme locked to light — OS dark mode is intentionally ignored.
     const html = document.documentElement;
-    function applySystemTheme() {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      html.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
-    }
-    applySystemTheme();
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applySystemTheme);
+    html.setAttribute('data-theme', 'light');
 
     const welcomeScreen = document.getElementById('welcomeScreen');
     // appFrame removed — no iframe; we navigate the top window directly.
