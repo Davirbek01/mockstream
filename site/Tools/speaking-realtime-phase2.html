@@ -189,7 +189,6 @@
       if (!r.ok) throw new Error('mock fetch ' + r.status);
       var rows = await r.json();
       if (!rows.length) throw new Error('no mocks available');
-      // Pick 4 distinct random ones (fewer if pool small)
       var pool = rows.slice();
       function takeOne() {
         if (!pool.length) return null;
@@ -205,11 +204,56 @@
         return m.mock_data.questions.filter(function (q) { return nums.indexOf(q.number) >= 0; });
       }
       return {
-        p11:   { mockId: p11Mock.id, mockNumber: p11Mock.mock_number, questions: qs(p11Mock, [1,2,3]) },
-        p12:   { mockId: p12Mock.id, mockNumber: p12Mock.mock_number, questions: qs(p12Mock, [4,5,6]) },
-        p2:    { mockId: p2Mock.id,  mockNumber: p2Mock.mock_number,  questions: qs(p2Mock,  [7]) },
-        p3:    { mockId: p3Mock.id,  mockNumber: p3Mock.mock_number,  questions: qs(p3Mock,  [8]) }
+        p11: { mockId: p11Mock.id, mockNumber: p11Mock.mock_number, questions: qs(p11Mock, [1,2,3]) },
+        p12: {
+          mockId: p12Mock.id,
+          mockNumber: p12Mock.mock_number,
+          questions: qs(p12Mock, [4,5,6]),
+          // Picture URLs come from the SAME mock as P1.2 questions so
+          // the comparison question makes sense.
+          images: (p12Mock.mock_data && p12Mock.mock_data.images) || {}
+        },
+        p2: { mockId: p2Mock.id, mockNumber: p2Mock.mock_number, questions: qs(p2Mock, [7]) },
+        p3: { mockId: p3Mock.id, mockNumber: p3Mock.mock_number, questions: qs(p3Mock, [8]) }
       };
+    }
+
+    /* ── Fetch image as base64 (for sending to Gemini) ─────────── */
+    async function fetchImageAsBase64(url) {
+      var r = await fetch(url, { mode: 'cors' });
+      if (!r.ok) throw new Error('image fetch ' + r.status);
+      var blob = await r.blob();
+      return new Promise(function (resolve, reject) {
+        var reader = new FileReader();
+        reader.onloadend = function () {
+          // data:image/png;base64,XXXX  →  { mimeType: 'image/png', data: 'XXXX' }
+          var dataUrl = String(reader.result || '');
+          var m = dataUrl.match(/^data:([^;]+);base64,(.*)$/);
+          if (!m) return reject(new Error('bad dataurl'));
+          resolve({ mimeType: m[1], data: m[2] });
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    }
+    async function loadP12Pictures() {
+      var picsBox = $('picsBox');
+      var imgs = pickedMocks && pickedMocks.p12 && pickedMocks.p12.images;
+      if (!imgs || !imgs.img1 || !imgs.img2) {
+        picsBox.innerHTML = '<div class="empty">(this mock has no pictures)</div><div class="empty"></div>';
+        return [];
+      }
+      // Render to screen
+      picsBox.innerHTML = '<img src="' + imgs.img1 + '" alt="' + (imgs.img1Alt || '') + '">'
+                       + '<img src="' + imgs.img2 + '" alt="' + (imgs.img2Alt || '') + '">';
+      // Fetch bytes for Gemini
+      try {
+        var [a, b] = await Promise.all([fetchImageAsBase64(imgs.img1), fetchImageAsBase64(imgs.img2)]);
+        return [a, b];
+      } catch (e) {
+        log('image fetch failed: ' + e.message, 'err');
+        return [];
+      }
     }
 
     /* ── Persona builder ───────────────────────────────────────── */
@@ -272,11 +316,27 @@
           $('timer').textContent = '—';
           break;
         case 'p12':
-          session.sendSystem('Move to Part 1.2. The student now sees two pictures on screen. Start with the comparison question, then ask the other two picture-based questions.');
           $('picsCard').style.display = '';
-          // TODO Phase 2.5: render real picture URLs from picked.p12 + fetch bytes + send via session.sendContent({images:[...]})
           $('timerLabel').textContent = 'P1.2 — describe the pictures';
           $('timer').textContent = '—';
+          (async function () {
+            log('loading P1.2 pictures…', 'info');
+            var images = await loadP12Pictures();
+            if (images.length === 2) {
+              log('sending 2 pictures to Gemini (' + images[0].mimeType + ', ' + images[1].mimeType + ')', 'send');
+              try {
+                session.sendContent({
+                  text: '[SYSTEM]: Move to Part 1.2. The student now sees these two pictures on screen. Start with the comparison question, then ask the other two picture-based questions.',
+                  images: images
+                });
+              } catch (e) {
+                log('sendContent failed: ' + e.message, 'err');
+              }
+            } else {
+              // Fall back: just text instruction
+              session.sendSystem('Move to Part 1.2. The mock has no pictures attached — read the comparison question as-is and ask the other two questions naturally.');
+            }
+          })();
           break;
         case 'p2prep':
           session.sendSystem('Move to Part 2. Read the cue card to the student and say "You have 1 minute to prepare. Take your time." Then go silent until I tell you the prep is over.');
