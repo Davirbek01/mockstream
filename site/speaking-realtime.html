@@ -216,7 +216,7 @@
     </div>
   </div>
 
-  <script src="speaking-realtime-engine.js?v=free5"></script>
+  <script src="speaking-realtime-engine.js?v=free6"></script>
   <script>
     var $ = function (id) { return document.getElementById(id); };
     var session = null;
@@ -267,17 +267,49 @@
       session.on('micOn',      function () { /* nothing */ });
       session.on('micOff',     function () { /* nothing */ });
       session.on('error',      function (e) { setStatus('Connection error: ' + (e.message || '')); });
-      session.on('close',      function (c) {
-        var why = c && c.code ? ' (code ' + c.code + (c.reason ? ': ' + c.reason : '') + ')' : '';
-        setStatus('Conversation ended' + why);
-        setOrb('connecting');
-      });
+      session.on('close',      function (c) { handleClose(c, token); });
 
       try {
         await session.start();
       } catch (e) {
         setStatus('Failed to start: ' + (e.message || ''));
       }
+    }
+
+    // ── Auto-reconnect ────────────────────────────────────────────
+    // Google's Live API caps sessions at ~10-15 min. Closure codes:
+    //   1000 — clean close (we triggered it)
+    //   1006 — abnormal close, no frame (server timeout or net hiccup)
+    //   1011 — server error
+    //   1008 — policy violation (don't auto-reconnect)
+    // For 1006/1011 we silently reopen and continue the chat.
+    var reconnectCount = 0;
+    var userEndedSession = false;
+    function handleClose(c, token) {
+      var code = c && c.code;
+      if (userEndedSession || code === 1000 || code === 1008) {
+        var why = code ? ' (' + code + (c.reason ? ': ' + c.reason : '') + ')' : '';
+        setStatus('Conversation ended' + why);
+        setOrb('connecting');
+        return;
+      }
+      // Transient. Auto-reconnect with exponential backoff (max 5 tries).
+      if (reconnectCount >= 5) {
+        setStatus('Could not reconnect. Refresh to try again.');
+        setOrb('connecting');
+        return;
+      }
+      reconnectCount++;
+      var delay = Math.min(1000 * reconnectCount, 4000);
+      setStatus('Reconnecting…');
+      setOrb('connecting');
+      setTimeout(function () { start(token); }, delay);
+    }
+    // Reset reconnect counter once we get an audio response — that
+    // means the new session is healthy.
+    function resetReconnectOnAudio() {
+      if (!session) return;
+      session.on('audio', function () { reconnectCount = 0; });
     }
 
     function kickAi() {
@@ -319,6 +351,7 @@
     $('exitBtn').addEventListener('click', endIt);
 
     function endIt() {
+      userEndedSession = true;
       if (session) { try { session.close(); } catch (_e) {} session = null; }
       location.href = '/landing-v3.html';
     }
