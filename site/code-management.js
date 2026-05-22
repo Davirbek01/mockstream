@@ -233,6 +233,9 @@
       } else {
         renderSignInPrompt(r && r.error);
       }
+    }).catch(function(err){
+      console.warn('[code-management] list_centers failed', err);
+      renderSignInPrompt('network_error');
     });
   }
   function hide() {

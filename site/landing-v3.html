@@ -156,6 +156,15 @@
        Netlify rewrite then turns into HTML — script load fails and
        mock-code-verifier ends up undefined, blocking access-code verify. -->
   <script src="/auth.js" defer></script>
+  <!-- Phase 6-E P1: Code Management on v3 — admin-auth.js for the sign-in
+       modal + magic-link helper, code-management.js for the overlay. Both
+       are self-contained modules that expose window.openCodesPanel and
+       window.AdminAuth; v3's Code Management sidebar row calls them
+       directly. Loaded with defer so they're ready by the time the user
+       clicks the row. NOTE: requires codes-manager Edge Function to be
+       deployed with --no-verify-jwt or the fetch fails CORS preflight. -->
+  <script src="/admin-auth.js" defer></script>
+  <script src="/code-management.js?v=12" defer></script>
   <!-- "New version available · Refresh" banner — same module as landing.html. -->
   <script src="/version-banner.js" defer></script>
 
@@ -3199,6 +3208,11 @@
           Platform Management
           <span class="msv3-row-arrow">🔒</span>
         </button>
+        <button type="button" class="msv3-row" id="msv3CodesBtn">
+          <span class="msv3-row-icon">🔑</span>
+          Code Management
+          <span class="msv3-row-arrow">🔒</span>
+        </button>
       </div>
 
       <div class="msv3-section">
@@ -3777,15 +3791,30 @@
     document.getElementById('msv3PlatformBtn').addEventListener('click', function () {
       window.location.href = '/landing.html?openSiteMgmt=1';
     });
-    // Platform Management is main-site only — hide the row entirely on clones
-    // (mirrors the legacy sidebar's behaviour for #siteMgmtMenuItem). Same
-    // detection source the rest of the file uses: window.__CENTER_ID set by
-    // center-id.js per Netlify build, defaulting to 'mock_stream'.
+    // Phase 6-E P1: Code Management opens inline on v3 (no bounce). The
+    // module gates itself by calling codes-manager list_centers and
+    // showing its own sign-in prompt if the user isn't admin, so we
+    // don't need a separate v3 auth wrapper here.
+    document.getElementById('msv3CodesBtn').addEventListener('click', function () {
+      try { if (typeof requestSidebarClose === 'function') requestSidebarClose(); } catch (_e) {}
+      if (typeof window.openCodesPanel === 'function') {
+        try { window.openCodesPanel(false); }
+        catch (e) { console.error('[v3] openCodesPanel failed', e); alert('Code Management failed to open.'); }
+      } else {
+        alert('Code Management script not loaded yet — please retry in a moment.');
+      }
+    });
+    // Platform Management + Code Management are main-site only — hide on
+    // clones (mirrors the legacy sidebar's behaviour for #siteMgmtMenuItem).
+    // Same detection source the rest of the file uses: window.__CENTER_ID
+    // set by center-id.js per Netlify build, defaulting to 'mock_stream'.
     (function hidePlatformOnClones() {
       var centerId = (window.__CENTER_ID || 'mock_stream').toString();
       if (centerId !== 'mock_stream') {
-        var btn = document.getElementById('msv3PlatformBtn');
-        if (btn) btn.style.display = 'none';
+        ['msv3PlatformBtn', 'msv3CodesBtn'].forEach(function (id) {
+          var btn = document.getElementById(id);
+          if (btn) btn.style.display = 'none';
+        });
       }
     })();
 
