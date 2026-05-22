@@ -2,6 +2,43 @@
 <html data-theme="light" lang="en">
 
 <head>
+  <!-- Platform host marker — set BEFORE any other tag so the CSS splash
+       (html.ms-platform-host::before / ::after) paints the moment <head>
+       parses. Without this the student welcome would flash for a few ms
+       while landing.html's massive script chain loads. -->
+  <script>document.documentElement.classList.add('ms-platform-host');</script>
+  <style>
+    html.ms-platform-host::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(1200px 700px at -5% -10%, rgba(99,102,241,.10), transparent 55%),
+        radial-gradient(1000px 600px at 105% 5%, rgba(251,146,60,.09), transparent 55%),
+        #f5f7fb;
+      z-index: 10000;
+      pointer-events: none;
+      transition: opacity .25s ease;
+    }
+    html.ms-platform-host::after {
+      content: '';
+      position: fixed;
+      left: 50%; top: 50%;
+      width: 56px; height: 56px;
+      margin: -28px 0 0 -28px;
+      border-radius: 50%;
+      border: 3px solid rgba(99,102,241,.18);
+      border-top-color: #6366f1;
+      animation: mspsSpin 0.9s linear infinite;
+      z-index: 10001;
+      pointer-events: none;
+      transition: opacity .25s ease;
+    }
+    html.ms-platform-ready::before,
+    html.ms-platform-ready::after {
+      opacity: 0;
+    }
+    @keyframes mspsSpin { to { transform: rotate(360deg); } }
+  </style>
   <!-- Resolve relative asset paths from site root regardless of current URL.
        Without this, deep-link URLs like /take/cefr-reading-44 cause every
        <script src="auth.js"> etc. to fetch /take/auth.js (which Netlify
@@ -8161,42 +8198,30 @@
     window.__msPlatformHost = true;
   </script>
   <style>
-    /* Hide the discovery watermark backdrop entirely on platform.html — we
-       don't want the student "Practice exams. Earn real CEFR" hero leaking
-       behind the admin sign-in modal. */
-    html.ms-platform-host .ms-discovery-watermark { display: none !important; }
-    html.ms-platform-host #landingPage { visibility: hidden !important; }
-    html.ms-platform-host body {
-      background:
-        radial-gradient(1200px 700px at -5% -10%, rgba(99,102,241,.10), transparent 55%),
-        radial-gradient(1000px 600px at 105% 5%, rgba(251,146,60,.09), transparent 55%),
-        #f5f7fb !important;
+    /* Hide every static landing-page chrome element so nothing leaks
+       behind the Site Management grid. The body's static children stay
+       below the html::before backdrop (z-index 10000) anyway, but these
+       rules are belt-and-braces for elements that have their own high
+       z-index (msv3Sidebar, mobile FAB, etc.). */
+    html.ms-platform-host #landingPage,
+    html.ms-platform-host #sidebarMenu,
+    html.ms-platform-host #sidebarOverlay,
+    html.ms-platform-host #msv3Sidebar,
+    html.ms-platform-host #msv3Overlay,
+    html.ms-platform-host .ms-discovery-watermark,
+    html.ms-platform-host #cretPicker,
+    html.ms-platform-host #iretPicker,
+    html.ms-platform-host #cletPicker,
+    html.ms-platform-host #iletPicker,
+    html.ms-platform-host #cspetPicker,
+    html.ms-platform-host #ispetPicker,
+    html.ms-platform-host #cwetPicker,
+    html.ms-platform-host #iwetPicker,
+    html.ms-platform-host #mobileFab,
+    html.ms-platform-host #mobileToolsMenu,
+    html.ms-platform-host #mobileMenuOverlay {
+      display: none !important;
     }
-    /* Splash overlay: centered logo + spinner. Sits behind the admin
-       sign-in modal (z-index 10200) and the grid overlay (z-index 10250),
-       so once either of those opens the spinner becomes irrelevant. */
-    #msPlatformSplash {
-      position: fixed; inset: 0; z-index: 10100;
-      display: flex; align-items: center; justify-content: center;
-      flex-direction: column; gap: 18px;
-      background: transparent;
-      pointer-events: none;
-      transition: opacity .25s ease;
-    }
-    #msPlatformSplash.hide { opacity: 0; }
-    #msPlatformSplash .msps-ring {
-      width: 56px; height: 56px;
-      border-radius: 50%;
-      border: 3px solid rgba(99,102,241,.18);
-      border-top-color: #6366f1;
-      animation: mspsSpin 0.9s linear infinite;
-    }
-    #msPlatformSplash .msps-title {
-      font: 600 14px system-ui, -apple-system, "Segoe UI", sans-serif;
-      color: #475569;
-      letter-spacing: 0.2px;
-    }
-    @keyframes mspsSpin { to { transform: rotate(360deg); } }
   </style>
   <script>
     (function () {
@@ -8258,28 +8283,17 @@
   <script>
     // platform.html auto-opener with auth-ready awareness.
     //
-    // Problem we're solving: requireAdminAuth() returns false at "is signed
-    // in?" if Supabase hasn't finished restoring the session from storage
-    // yet (auth.js is loaded with defer). The user IS signed in, but the
-    // check runs early and the sign-in modal pops up needlessly. We poll
-    // for window.MockStream.auth.isSignedIn() to become true with a 2.5s
-    // ceiling; if it does, openSiteMgmtGrid takes the onPass branch
-    // directly (no modal). If it doesn't (genuinely a guest), the modal
-    // opens as before.
+    // The pure-CSS splash (html::before backdrop + html::after spinner) is
+    // painted the instant the head parses, so there's never a flash of
+    // student content. Once openSiteMgmtGrid renders, we add the
+    // .ms-platform-ready class to <html> which fades the backdrop/spinner
+    // out.
+    //
+    // We also poll for window.MockStream.auth.isSignedIn() to become true
+    // before calling openSiteMgmtGrid — Supabase needs a tick to restore
+    // the session from storage and without this the admin sign-in modal
+    // pops up needlessly for already-signed-in users.
     (function () {
-      function _injectSplash() {
-        if (document.getElementById('msPlatformSplash')) return;
-        var el = document.createElement('div');
-        el.id = 'msPlatformSplash';
-        el.innerHTML = '<div class="msps-ring"></div><div class="msps-title">Opening platform settings…</div>';
-        document.body.appendChild(el);
-      }
-      function _hideSplash() {
-        var el = document.getElementById('msPlatformSplash');
-        if (!el) return;
-        el.classList.add('hide');
-        setTimeout(function () { try { el.remove(); } catch (_e) {} }, 300);
-      }
       function _ready() {
         return typeof window.openSiteMgmtGrid === 'function';
       }
@@ -8289,24 +8303,21 @@
           return !!(a && typeof a.isSignedIn === 'function' && a.isSignedIn());
         } catch (_e) { return false; }
       }
+      function _markReady() {
+        try { document.documentElement.classList.add('ms-platform-ready'); } catch (_e) {}
+      }
       function _openGrid() {
         try { window.openSiteMgmtGrid(); }
         catch (e) { console.warn('[platform] openSiteMgmtGrid failed', e); }
-        // Splash hides whether requireAdminAuth opened the grid or the
-        // sign-in modal — either UI sits on top of the splash visually.
-        setTimeout(_hideSplash, 50);
+        // Fade backdrop + spinner after the grid (or sign-in modal) renders.
+        setTimeout(_markReady, 80);
       }
       function _bootstrap() {
-        _injectSplash();
         var start = Date.now();
         var MAX_WAIT = 2500;
         function _poll() {
           var elapsed = Date.now() - start;
-          // Fast path: grid ready + auth restored → open immediately.
           if (_ready() && _authSigned()) return _openGrid();
-          // Timeout path: still wait for grid script (it's at the bottom
-          // of body), but stop waiting on auth after 2.5s. If the user is
-          // a guest the admin modal will open — that's the right behavior.
           if (_ready() && elapsed >= MAX_WAIT) return _openGrid();
           setTimeout(_poll, 80);
         }
