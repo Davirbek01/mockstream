@@ -160,7 +160,11 @@
             },
             system_instruction: {
               parts: [{ text: self.persona }]
-            }
+            },
+            // Ask Google to transcribe BOTH directions so we can see in
+            // the log whether the mic audio is reaching them as speech.
+            input_audio_transcription:  {},
+            output_audio_transcription: {}
           }
         };
         self.ws.send(JSON.stringify(setup));
@@ -352,10 +356,13 @@
     var bin = '';
     for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
     var b64 = btoa(bin);
+    // Google's proto-JSON accepts both snake_case and camelCase, but
+    // some preview builds are stricter about camelCase. Use camelCase
+    // for the audio path so we don't trip a server-side parse bug.
     var msg = {
-      realtime_input: {
-        media_chunks: [{
-          mime_type: 'audio/pcm;rate=' + this.opts.inputSampleRate,
+      realtimeInput: {
+        mediaChunks: [{
+          mimeType: 'audio/pcm;rate=' + this.opts.inputSampleRate,
           data: b64
         }]
       }
