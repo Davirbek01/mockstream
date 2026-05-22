@@ -32,10 +32,13 @@
   'use strict';
 
   var DEFAULTS = {
-    edgeUrl: 'https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/gemini-live-token',
-    supabaseAnon: 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2',
-    wsBase: 'wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent',
-    model: 'gemini-3.1-flash-live-preview',
+    // WebSocket proxy. Browser connects here; the Edge Function pipes
+    // to Google with the real API key (server-side). Ephemeral tokens
+    // via Google's auth_tokens endpoint don't authenticate the Live
+    // WebSocket (returns "API key not valid"), so we proxy instead.
+    proxyWsBase: 'wss://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/gemini-live-proxy',
+    apiPath:     'v1beta',
+    model:       'gemini-3.1-flash-live-preview',
     // Audio settings
     outputSampleRate: 24000,     // Live API speaks at 24 kHz
     inputSampleRate:  16000,     // Live API accepts 16 kHz from mic
@@ -72,39 +75,19 @@
     }
   };
 
-  /* ── start: mint ephemeral token + open WebSocket + send setup ─── */
+  /* ── start: open WebSocket to our proxy + send setup ─── */
   RealtimeSession.prototype.start = async function () {
     if (this.ws) throw new Error('session already started');
     if (!this.vipToken) throw new Error('vipToken required');
 
-    // 1. mint ephemeral token via our Edge Function
-    var mintResp;
-    try {
-      mintResp = await fetch(this.opts.edgeUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey':        this.opts.supabaseAnon,
-          'Authorization': 'Bearer ' + this.opts.supabaseAnon
-        },
-        body: JSON.stringify({ token: this.vipToken, model: this.opts.model })
-      });
-    } catch (e) {
-      this._emit('error', { stage: 'mint', message: e.message });
-      throw e;
-    }
-    var mintData = await mintResp.json().catch(function () { return {}; });
-    if (!mintResp.ok) {
-      this._emit('error', { stage: 'mint', status: mintResp.status, ...mintData });
-      throw new Error('mint failed: ' + (mintData.error || mintResp.status));
-    }
-    this.ephemeralToken = mintData.token;
-
-    // 2. open WebSocket
-    // Ephemeral token plugs into ?key= (acts as a temporary API key on
-    // the WebSocket). The auth_tokens/<hash> resource name from Google
-    // IS the token value — pass it raw; encoding the / kills it.
-    var url = this.opts.wsBase + '?key=' + this.ephemeralToken;
+    // Open WebSocket directly to our Supabase proxy. The proxy verifies
+    // the VIP token + premium gate, then opens an upstream WS to Google
+    // with the real GEMINI_API_KEY. Returns 403 in the upgrade response
+    // if the gate fails (browser sees code 1006 / close).
+    var url = this.opts.proxyWsBase
+      + '?token=' + encodeURIComponent(this.vipToken)
+      + '&model=' + encodeURIComponent(this.opts.model)
+      + '&api='   + encodeURIComponent(this.opts.apiPath);
     var self = this;
     return new Promise(function (resolve, reject) {
       try {
@@ -132,18 +115,24 @@
       };
 
       self.ws.onmessage = function (evt) {
-        self._handleMessage(evt);
-        if (!settled) {
-          // Resolve start() once we get setupComplete (first JSON message).
+        // Decode binary → text up front (used by both setupComplete check
+        // and _handleMessage below).
+        var text;
+        if (typeof evt.data === 'string') text = evt.data;
+        else if (evt.data instanceof ArrayBuffer) text = new TextDecoder().decode(evt.data);
+        else text = null;
+        if (!settled && text) {
           try {
-            var msg = JSON.parse(evt.data);
+            var msg = JSON.parse(text);
             if (msg && msg.setupComplete) {
               settled = true;
               self._emit('ready');
               resolve();
+              return; // skip the regular handler for the setup frame
             }
           } catch (_e) {}
         }
+        self._handleMessage(evt);
       };
       self.ws.onerror = function (e) {
         self._emit('error', { stage: 'ws', message: e.message || 'ws error' });
@@ -158,9 +147,24 @@
 
   /* ── _handleMessage: parse Live API replies ──────────────────── */
   RealtimeSession.prototype._handleMessage = function (evt) {
-    if (typeof evt.data !== 'string') return;
+    // Google's Live WS sends JSON as binary frames. Decode either way.
+    var text;
+    if (typeof evt.data === 'string') {
+      text = evt.data;
+    } else if (evt.data instanceof ArrayBuffer) {
+      text = new TextDecoder().decode(evt.data);
+    } else if (evt.data && evt.data.arrayBuffer) {
+      // Blob path (some browsers)
+      var self = this;
+      evt.data.arrayBuffer().then(function (buf) {
+        self._handleMessage({ data: buf });
+      });
+      return;
+    } else {
+      return;
+    }
     var msg;
-    try { msg = JSON.parse(evt.data); } catch { return; }
+    try { msg = JSON.parse(text); } catch { return; }
 
     // Server content — model speaking
     var sc = msg.serverContent;

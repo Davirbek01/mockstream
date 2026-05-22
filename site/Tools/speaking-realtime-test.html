@@ -132,12 +132,12 @@
 
   <script>
     // ─── Config ────────────────────────────────────────────────────
-    // Edge Function URL (Supabase). Adjust if function naming changes.
-    var EDGE_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/gemini-live-token';
+    // Proxy WS — browser connects here; the Edge Function authenticates
+    // VIP token + opens upstream WS to Google with the real API key.
+    var PROXY_WS_BASE = 'wss://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/gemini-live-proxy';
     var SUPABASE_ANON = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
-    // WebSocket endpoint per Live API docs (subject to Google version changes).
-    var WS_URL_BASE = 'wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent';
     var MODEL = 'gemini-3.1-flash-live-preview';
+    var API_PATH = 'v1beta';
 
     // ─── DOM refs ──────────────────────────────────────────────────
     var $ = function (id) { return document.getElementById(id); };
@@ -161,51 +161,27 @@
       s.textContent = text;
     }
 
-    // ─── Step 1: mint token ────────────────────────────────────────
-    $('mintBtn').addEventListener('click', async function () {
+    // ─── Step 1: stash VIP token (no separate mint — proxy handles auth) ──
+    $('mintBtn').addEventListener('click', function () {
       var vipToken = $('vipToken').value.trim();
       if (!vipToken) {
         setStatus('mintStatus', 'bad', 'no VIP token');
         return;
       }
-      setStatus('mintStatus', 'warn', 'minting…');
-      log('POST ' + EDGE_URL, 'send');
-      try {
-        var r = await fetch(EDGE_URL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'apikey': SUPABASE_ANON,
-            'Authorization': 'Bearer ' + SUPABASE_ANON
-          },
-          body: JSON.stringify({ token: vipToken, model: MODEL })
-        });
-        var data = await r.json();
-        $('mintOut').textContent = JSON.stringify(data, null, 2);
-        if (!r.ok) {
-          setStatus('mintStatus', 'bad', 'failed: ' + (data.error || r.status));
-          log('mint failed: ' + JSON.stringify(data), 'err');
-          return;
-        }
-        ephemeralToken = data.token;
-        setStatus('mintStatus', 'ok', 'minted (expires ' + new Date(data.expires_at * 1000).toLocaleTimeString() + ')');
-        $('connectBtn').disabled = false;
-        log('ephemeral token received', 'recv');
-      } catch (e) {
-        setStatus('mintStatus', 'bad', 'network error');
-        log('mint error: ' + e.message, 'err');
-      }
+      ephemeralToken = vipToken; // reuse variable; proxy verifies it
+      setStatus('mintStatus', 'ok', 'ready');
+      $('mintOut').textContent = 'VIP token stored. The proxy verifies + opens upstream WS to Google with the real key — no separate mint step.';
+      $('connectBtn').disabled = false;
     });
 
-    // ─── Step 2: connect WebSocket ─────────────────────────────────
+    // ─── Step 2: connect WebSocket via our proxy ───────────────────
     $('connectBtn').addEventListener('click', function () {
       if (!ephemeralToken) return;
-      // Live API uses the ephemeral token in the ?key= param. The
-      // auth_tokens/<hash> resource name is the token value — do NOT
-      // url-encode it (the / must stay literal; encoding to %2F makes
-      // Google reject it as "invalid API key").
-      var url = WS_URL_BASE + '?key=' + ephemeralToken;
-      log('WS connect → ' + WS_URL_BASE, 'send');
+      var url = PROXY_WS_BASE
+        + '?token=' + encodeURIComponent(ephemeralToken)
+        + '&model=' + encodeURIComponent(MODEL)
+        + '&api='   + encodeURIComponent(API_PATH);
+      log('WS connect → ' + PROXY_WS_BASE, 'send');
       setStatus('wsStatus', 'warn', 'connecting…');
       try {
         ws = new WebSocket(url);
@@ -238,24 +214,23 @@
         log('setup sent', 'send');
       };
       ws.onmessage = function (evt) {
-        if (typeof evt.data === 'string') {
-          log('text recv: ' + evt.data.slice(0, 200), 'recv');
-          try {
-            var msg = JSON.parse(evt.data);
-            if (msg.setupComplete) log('setupComplete', 'recv');
-            if (msg.serverContent && msg.serverContent.modelTurn) {
-              var parts = msg.serverContent.modelTurn.parts || [];
-              parts.forEach(function (p) {
-                if (p.inlineData && p.inlineData.data) {
-                  enqueueAudio(p.inlineData.data, p.inlineData.mimeType || 'audio/pcm');
-                }
-              });
-            }
-          } catch (_e) {}
-        } else {
-          // binary blob — older Live API path
-          log('binary recv: ' + evt.data.byteLength + ' bytes', 'recv');
-        }
+        var text;
+        if (typeof evt.data === 'string') text = evt.data;
+        else if (evt.data instanceof ArrayBuffer) text = new TextDecoder().decode(evt.data);
+        else { log('unknown frame type', 'err'); return; }
+        log('recv ' + text.length + 'B: ' + text.slice(0, 90).replace(/\s+/g, ' '), 'recv');
+        try {
+          var msg = JSON.parse(text);
+          if (msg.setupComplete) log('setupComplete', 'recv');
+          if (msg.serverContent && msg.serverContent.modelTurn) {
+            var parts = msg.serverContent.modelTurn.parts || [];
+            parts.forEach(function (p) {
+              if (p.inlineData && p.inlineData.data) {
+                enqueueAudio(p.inlineData.data, p.inlineData.mimeType || 'audio/pcm');
+              }
+            });
+          }
+        } catch (_e) {}
       };
       ws.onerror = function (e) {
         setStatus('wsStatus', 'bad', 'error');
