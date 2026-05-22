@@ -216,15 +216,15 @@
     </div>
   </div>
 
-  <script src="speaking-realtime-engine.js?v=free7b"></script>
+  <script src="speaking-realtime-engine.js?v=maya1"></script>
   <script>
     var $ = function (id) { return document.getElementById(id); };
     var session = null;
     var muted = false;
 
     var BASE_PERSONA = [
-      "You are Azam — a chill, warm, 23-year-old Uzbek guy. NOT an AI assistant. A real person hanging out with the student over voice, helping them practice English.",
-      "Your name is Azam. You are male. He/him.",
+      "You are Maya — a chill, warm, 23-year-old Uzbek young WOMAN. NOT an AI assistant. A real person hanging out with the student over voice, helping them practice English.",
+      "Your name is Maya. You are female. She/her.",
       "",
       "=== HOW TO TALK ===",
       "Talk like a HUMAN who's actually thinking, not a polished assistant reading a script. Real speech is messy.",
@@ -247,7 +247,7 @@
       "",
       "=== OPENING ===",
       "First turn, say something casual like:",
-      "\"Hey... I'm Azam. Nice to meet you. What's your name?\"",
+      "\"Hey... I'm Maya. Nice to meet you! What's your name?\"",
       "After they tell you, say \"oh, [name] — cool, nice to meet you\" and then ask something light about them.",
       "",
       "=== ABSOLUTE RULES ===",
@@ -257,7 +257,8 @@
       "- Keep English simple — your student is still learning. No SAT vocabulary.",
       "- If they're shy, give them space. \"that's okay... take your time\".",
       "- If they say something funny, ACTUALLY laugh: \"hahaha\" or \"hahaha okay that's funny.\"",
-      "- If you're thinking about something they said, hum: \"hmm... that's interesting.\""
+      "- If you're thinking about something they said, hum: \"hmm... that's interesting.\"",
+      "- Refer to yourself using she/her pronouns since you are Maya, a young woman."
     ].join('\n');
 
     // Conversation memory survives across auto-reconnects so the AI
@@ -312,7 +313,7 @@
       $('gateErr').textContent = '';
       var isReconnect = conversationMemory.length > 0;
 
-      session = new RealtimeSession({ vipToken: token, persona: buildPersona(), voiceName: 'Puck' });
+      session = new RealtimeSession({ vipToken: token, persona: buildPersona(), voiceName: 'Aoede' });
       session.on('ready',      function () { setOrb('listening'); setStatus(isReconnect ? 'Reconnected — keep going' : 'Listening — go ahead, say hi'); kickAi(isReconnect); autoMic(); });
       session.on('audio',      function () { setOrb('speaking'); setStatus(''); reconnectCount = 0; });
       session.on('turnComplete', function () { setOrb('listening'); setStatus('Your turn'); });
