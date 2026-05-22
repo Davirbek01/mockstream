@@ -296,15 +296,24 @@
       }
     });
 
-    // We use a ScriptProcessorNode for simplicity / wide support. Yes
-    // AudioWorklet is the modern path; ScriptProcessor still works and
-    // saves us a separate file. Swap later if iOS Safari complains.
     this.micCtx = new (window.AudioContext || window.webkitAudioContext)();
+    // Some browsers (esp. mobile Safari) start the context suspended.
+    // Explicitly resume — user just clicked the mic button so it's
+    // a valid user-gesture window.
+    try { await this.micCtx.resume(); } catch (_e) {}
     var source = this.micCtx.createMediaStreamSource(this.micStream);
     var BUFFER = 4096;
     var proc = this.micCtx.createScriptProcessor(BUFFER, 1, 1);
     source.connect(proc);
-    proc.connect(this.micCtx.destination);   // needed in Safari to start firing
+    // Route processor to a MUTED gain so the node actually fires its
+    // onaudioprocess callback (some browsers won't fire it if the node
+    // is dangling). The gain is at 0 so we DON'T loop mic back to the
+    // speakers — that was feedbacking the AI's voice back to Google
+    // and causing the session to close mid-stream.
+    var muteGain = this.micCtx.createGain();
+    muteGain.gain.value = 0;
+    proc.connect(muteGain);
+    muteGain.connect(this.micCtx.destination);
 
     var self = this;
     var srcRate = this.micCtx.sampleRate;
