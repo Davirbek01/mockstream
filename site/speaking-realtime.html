@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>Speaking · Mock Stream</title>
+  <link rel="shortcut icon" href="https://i.ibb.co/WN0XY5Lv/logo.png">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%; height: 100%;
+      background: #000;
+      color: #fff;
+      font: 14px/1.4 'Inter', -apple-system, system-ui, sans-serif;
+      overflow: hidden;
+      overscroll-behavior: none;
+    }
+
+    /* ── Layout ─────────────────────────────────────────────────── */
+    .stage {
+      position: fixed; inset: 0;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      padding: env(safe-area-inset-top, 0) 0 env(safe-area-inset-bottom, 0);
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 22px;
+    }
+    .title {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .02em;
+      color: rgba(255,255,255,.92);
+    }
+    .title .accent { color: #9ca3af; font-weight: 500; margin-left: 4px; }
+    .icon-btn {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      border: 0;
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      font-size: 18px;
+      display: grid; place-items: center;
+      cursor: pointer;
+      transition: background 160ms ease, transform 160ms ease;
+    }
+    .icon-btn:hover { background: rgba(255,255,255,.16); transform: scale(1.04); }
+
+    /* ── Center orb ──────────────────────────────────────────────── */
+    .orb-wrap {
+      display: grid; place-items: center;
+      position: relative;
+    }
+    .orb {
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #c4d4ff, #6b87e6 40%, #1e3a8a 75%, #0b1a4d 100%);
+      box-shadow: 0 0 80px rgba(99, 135, 230, 0.45), inset 0 0 60px rgba(255,255,255,.08);
+      position: relative;
+      transition: transform 240ms ease, box-shadow 240ms ease;
+    }
+    .orb::before {
+      content: '';
+      position: absolute; inset: 8%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, rgba(255,255,255,.35), transparent 60%);
+      pointer-events: none;
+    }
+    /* AI speaking — bright pulse */
+    .orb.speaking {
+      animation: orb-speaking 1.2s ease-in-out infinite;
+      box-shadow: 0 0 120px rgba(124, 165, 255, 0.75), inset 0 0 60px rgba(255,255,255,.12);
+    }
+    @keyframes orb-speaking {
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.06); }
+    }
+    /* User talking detected — soft ambient breathing */
+    .orb.listening { animation: orb-listening 3.6s ease-in-out infinite; }
+    @keyframes orb-listening {
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.025); }
+    }
+    /* Connecting — pulsing slowly */
+    .orb.connecting {
+      animation: orb-connecting 1.8s ease-in-out infinite;
+      filter: brightness(0.6);
+    }
+    @keyframes orb-connecting {
+      0%, 100% { opacity: 0.45; }
+      50%      { opacity: 1; }
+    }
+    .orb.muted { filter: grayscale(0.6) brightness(0.7); }
+
+    .status {
+      margin-top: 28px;
+      text-align: center;
+      font-size: 13px;
+      color: rgba(255,255,255,.55);
+      min-height: 1.4em;
+      padding: 0 24px;
+    }
+
+    /* ── Footer controls ───────────────────────────────────────── */
+    .footer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 22px;
+      padding: 22px 22px 28px;
+    }
+    .control {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      border: 0;
+      background: rgba(255,255,255,.10);
+      color: #fff;
+      display: grid; place-items: center;
+      cursor: pointer;
+      transition: background 160ms ease, transform 160ms ease;
+    }
+    .control:hover { background: rgba(255,255,255,.18); transform: scale(1.04); }
+    .control svg { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .control.muted {
+      background: rgba(239,68,68,.18);
+      color: #fca5a5;
+    }
+    .control.muted::after {
+      content: '';
+      position: absolute;
+      width: 32px; height: 2px;
+      background: #fca5a5;
+      transform: rotate(45deg);
+      pointer-events: none;
+    }
+    .control.close { background: #ffffff; color: #111; }
+    .control.close:hover { background: #f3f4f6; }
+
+    /* ── Gate (paste token first time) ─────────────────────────── */
+    .gate {
+      position: fixed; inset: 0;
+      background: #000;
+      display: grid; place-items: center;
+      padding: 30px;
+      z-index: 100;
+    }
+    .gate.hidden { display: none; }
+    .gate-card {
+      width: min(420px, 96%);
+      background: #0f1729;
+      border: 1px solid #1f2937;
+      border-radius: 18px;
+      padding: 24px;
+    }
+    .gate-card h2 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    .gate-card p { color: #9ca3af; font-size: 13px; margin-bottom: 16px; }
+    .gate-card input {
+      width: 100%;
+      padding: 11px 12px;
+      background: #0b1220;
+      border: 1px solid #1f2937;
+      border-radius: 10px;
+      color: #fff;
+      font: 12.5px 'JetBrains Mono', monospace;
+    }
+    .gate-card .row { display: flex; gap: 10px; margin-top: 14px; align-items: center; }
+    .gate-card button {
+      background: linear-gradient(135deg, #6366f1, #4338ca);
+      color: #fff;
+      border: 0;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .gate-card button:disabled { opacity: .4; cursor: not-allowed; }
+    .gate-card .err { color: #fca5a5; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <!-- First-time gate: paste VIP token. After accept, we close this overlay
+       and the conversation begins. -->
+  <div class="gate" id="gate">
+    <div class="gate-card">
+      <h2>Speaking practice — voice mode</h2>
+      <p>Premium feature. Paste your VIP access token to begin.</p>
+      <input id="tokenInput" placeholder="VIP token (long signed string)" autocomplete="off">
+      <div class="row">
+        <button id="goBtn">Start conversation</button>
+        <span id="gateErr" class="err"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stage" id="stage" style="display: none;">
+    <div class="header">
+      <div class="title">Mock Stream<span class="accent">· Speaking</span></div>
+      <button class="icon-btn" id="exitBtn" title="Exit">✕</button>
+    </div>
+
+    <div class="orb-wrap">
+      <div class="orb connecting" id="orb"></div>
+      <div class="status" id="status">Connecting…</div>
+    </div>
+
+    <div class="footer">
+      <button class="control" id="muteBtn" title="Mute / unmute mic" aria-label="Toggle mic">
+        <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+      </button>
+      <button class="control close" id="endBtn" title="End conversation" aria-label="End">
+        <svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="6" y1="18" x2="18" y2="6"></line></svg>
+      </button>
+    </div>
+  </div>
+
+  <script src="speaking-realtime-engine.js?v=free1"></script>
+  <script>
+    var $ = function (id) { return document.getElementById(id); };
+    var session = null;
+    var muted = false;
+
+    var FREE_PERSONA = [
+      "You are a friendly, funny 23-year-old Uzbek person helping students practice their English speaking on Mockstream Academy.",
+      "",
+      "Open with something natural like: \"Hey! I'm here to chat and help you practice your speaking. What's your name?\"",
+      "After they tell you their name, ask how you should call them, then keep the conversation going naturally — ask about their hobbies, school, day, food, music, whatever they want.",
+      "",
+      "Rules:",
+      "- Stay warm, supportive, chill. NEVER sound like a teacher or examiner.",
+      "- Keep your turns SHORT — 1-2 sentences usually. This is a back-and-forth, not a monologue.",
+      "- If they say something funny, react with laughter or light teasing.",
+      "- If they're nervous or silent, encourage them gently.",
+      "- Keep the conversation flowing — ask follow-up questions about what they just said.",
+      "- Speak naturally with simple, common English suitable for someone learning."
+    ].join('\n');
+
+    /* ── Pre-flight: did the URL provide a token? ─────────────── */
+    (function bootstrap() {
+      var urlToken = new URLSearchParams(location.search).get('token');
+      if (urlToken) { $('tokenInput').value = urlToken; setTimeout(start, 200); return; }
+      try { var cached = sessionStorage.getItem('vipToken'); if (cached) $('tokenInput').value = cached; } catch (_e) {}
+    })();
+
+    $('goBtn').addEventListener('click', start);
+    $('tokenInput').addEventListener('keydown', function (e) { if (e.key === 'Enter') start(); });
+
+    async function start() {
+      var token = $('tokenInput').value.trim();
+      if (!token) { $('gateErr').textContent = 'Paste your VIP token first.'; return; }
+      $('gateErr').textContent = '';
+      $('goBtn').disabled = true;
+
+      session = new RealtimeSession({ vipToken: token, persona: FREE_PERSONA });
+      session.on('ready',      function () { setOrb('listening'); setStatus('Listening — go ahead, say hi'); $('gate').classList.add('hidden'); $('stage').style.display = ''; kickAi(); autoMic(); });
+      session.on('audio',      function () { setOrb('speaking'); setStatus(''); });
+      session.on('turnComplete', function () { setOrb('listening'); setStatus('Your turn'); });
+      session.on('transcript', function (t) { /* could surface captions later */ });
+      session.on('micOn',      function () { /* nothing */ });
+      session.on('micOff',     function () { /* nothing */ });
+      session.on('error',      function (e) { $('gateErr').textContent = (e.message || 'connection error'); $('goBtn').disabled = false; });
+      session.on('close',      function () { setStatus('Conversation ended'); setOrb('connecting'); setTimeout(function () { location.reload(); }, 1500); });
+
+      try {
+        await session.start();
+      } catch (e) {
+        $('gateErr').textContent = e.message || 'failed';
+        $('goBtn').disabled = false;
+      }
+    }
+
+    function kickAi() {
+      try { session.sendSystem('The student just opened the chat. Greet them warmly and naturally as instructed in your persona. Keep it brief.'); } catch (_e) {}
+    }
+    async function autoMic() {
+      try {
+        await session.startMic();
+      } catch (e) {
+        setStatus('Could not access microphone — ' + (e.message || 'permission denied'));
+      }
+    }
+
+    function setOrb(state) {
+      var o = $('orb');
+      o.classList.remove('speaking', 'listening', 'connecting', 'muted');
+      o.classList.add(state);
+      if (muted) o.classList.add('muted');
+    }
+    function setStatus(text) { $('status').textContent = text || ''; }
+
+    $('muteBtn').addEventListener('click', function () {
+      if (!session) return;
+      muted = !muted;
+      if (muted) {
+        session.stopMic();
+        $('muteBtn').classList.add('muted');
+        $('orb').classList.add('muted');
+        setStatus('Mic muted');
+      } else {
+        session.startMic().catch(function (e) { setStatus('Mic error: ' + e.message); });
+        $('muteBtn').classList.remove('muted');
+        $('orb').classList.remove('muted');
+        setStatus('');
+      }
+    });
+
+    $('endBtn').addEventListener('click', endIt);
+    $('exitBtn').addEventListener('click', endIt);
+
+    function endIt() {
+      if (session) { try { session.close(); } catch (_e) {} session = null; }
+      location.href = '/landing-v3.html';
+    }
+  </script>
+</body>
+</html>

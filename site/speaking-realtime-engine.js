@@ -68,6 +68,12 @@
     this._micRecording = false;
     this._transcriptLog = [];
     this._startedAt = null;
+    // AI-speaking gate — when true, skip sending mic chunks so the
+    // speaker→mic echo of the AI's voice doesn't loop back into the
+    // model. Set on first inlineData chunk, cleared shortly after the
+    // model's last queued audio chunk has finished playing.
+    this._aiSpeaking = false;
+    this._aiSpeakingUntil = 0;
   }
 
   RealtimeSession.prototype.on = function (event, cb) {
@@ -263,10 +269,15 @@
     var src = this.audioCtx.createBufferSource();
     src.buffer = buf;
     src.connect(this.audioCtx.destination);
-    // Schedule sequentially so chunks don't overlap.
     var startAt = Math.max(this.audioCtx.currentTime, this.playbackTime);
     src.start(startAt);
     this.playbackTime = startAt + buf.duration;
+    // Mark the AI as actively speaking. We extend the "until" by each
+    // new chunk's duration + a small grace so the tail-end echo
+    // doesn't sneak back into the mic.
+    this._aiSpeaking = true;
+    var endsAt = Date.now() + (this.playbackTime - this.audioCtx.currentTime) * 1000 + 400;
+    if (endsAt > this._aiSpeakingUntil) this._aiSpeakingUntil = endsAt;
     this._emit('audio', { durationMs: buf.duration * 1000 });
   };
   RealtimeSession.prototype._b64toPCM16 = function (b64) {
@@ -360,7 +371,14 @@
 
   RealtimeSession.prototype._sendMicChunk = function (pcm16) {
     if (!this.ws || this.ws.readyState !== 1) return;
-    // base64-encode the little-endian int16 stream
+    // Echo-loop gate: while the AI is speaking (or for ~400ms after),
+    // skip sending mic audio. Otherwise the speakers play the AI back
+    // into the mic and Google hears itself, gets confused, and closes
+    // the session.
+    if (this._aiSpeaking) {
+      if (Date.now() > this._aiSpeakingUntil) this._aiSpeaking = false;
+      else return;
+    }
     var bytes = new Uint8Array(pcm16.buffer);
     var bin = '';
     for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
