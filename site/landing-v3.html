@@ -96,6 +96,20 @@
         window.__msTakePending = pending;
       } catch (_e) {}
     })();
+
+    // Picker-reopen early-pass. Runs synchronously so the v3 home chrome
+    // never paints when the user is bouncing back from a runner. The
+    // matching handler at the foot of the script chain calls
+    // navToPicker(slug) once the picker JS is defined, then clears the
+    // attribute so the page becomes visible behind the overlay.
+    (function () {
+      try {
+        var slug = new URLSearchParams(window.location.search).get('reopen');
+        if (!slug) return;
+        if (!/^(cefr|ielts)-(speaking|writing|reading|listening)$/.test(slug)) return;
+        document.documentElement.setAttribute('data-reopenpicker', slug);
+      } catch (_e) {}
+    })();
   </script>
   <style>
     /* While we're resolving a /take/ deep-link, hide the landing chrome
@@ -113,6 +127,22 @@
     html[data-takelink] #readingAccessCodeModal,
     html[data-takelink] #listeningAccessCodeModal,
     html[data-takelink] #writingAccessCodeModal {
+      visibility: visible !important;
+    }
+    /* Picker reopen — same idea: hide everything until the matching
+       overlay (cspetPicker / ispetPicker / cwetPicker / iwetPicker /
+       cretPicker / iretPicker / cletPicker / iletPicker) is opened. */
+    html[data-reopenpicker] body > *:not(script):not(style) {
+      visibility: hidden;
+    }
+    html[data-reopenpicker] body > #cspetPicker,
+    html[data-reopenpicker] body > #ispetPicker,
+    html[data-reopenpicker] body > #cwetPicker,
+    html[data-reopenpicker] body > #iwetPicker,
+    html[data-reopenpicker] body > #cretPicker,
+    html[data-reopenpicker] body > #iretPicker,
+    html[data-reopenpicker] body > #cletPicker,
+    html[data-reopenpicker] body > #iletPicker {
       visibility: visible !important;
     }
   </style>
@@ -13712,37 +13742,44 @@
       }
     })();
 
-    // Picker-reopen on Back from a runner. When a runner page navigates
-    // here (after "Leave Anyway" or natural Back), it leaves a
-    // <skill>MockReturnCategory flag in sessionStorage. Open the matching
-    // v3 picker overlay so the user lands on the mock list, not v3 home.
-    // Skip when /take/ is active — the deep-link path already drives a
-    // skill-specific modal.
+    // Picker-reopen on Back from a runner. The runner's "Leave Anyway"
+    // navigates here with ?reopen=<slug> (e.g. cefr-speaking) so we open
+    // that picker overlay directly. We use a URL parameter, NOT
+    // *MockReturnCategory sessionStorage — that key is also set by every
+    // handle*MockClick call, so reading it here would auto-open the
+    // picker on stale state any time the user lands on v3 home.
     (function () {
       function reopen() {
         try {
           if (/^\/take\//i.test(window.location.pathname)) return;
         } catch (_e) {}
-        var keys = [
-          'speakingMockReturnCategory', 'writingMockReturnCategory',
-          'listeningMockReturnCategory', 'readingMockReturnCategory'
-        ];
-        var slug = null;
-        for (var i = 0; i < keys.length; i++) {
-          try {
-            var v = sessionStorage.getItem(keys[i]);
-            if (v) { slug = v; sessionStorage.removeItem(keys[i]); break; }
-          } catch (_e) {}
+        var slug = document.documentElement.getAttribute('data-reopenpicker');
+        if (!slug) {
+          try { slug = new URLSearchParams(window.location.search).get('reopen'); } catch (_e) {}
         }
         if (!slug) return;
+        // Strip the param so a refresh doesn't reopen the picker again.
+        try {
+          var u = new URL(window.location.href);
+          u.searchParams.delete('reopen');
+          history.replaceState({}, document.title, u.pathname + (u.search || '') + (u.hash || ''));
+        } catch (_e) {}
         if (typeof window.navToPicker === 'function') {
           try { window.navToPicker(slug); } catch (_e) {}
         }
+        // Drop the curtain a frame after the picker open call returns so
+        // the overlay is already on screen. Two rAFs guarantees layout +
+        // first paint of the picker have happened.
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            try { document.documentElement.removeAttribute('data-reopenpicker'); } catch (_e) {}
+          });
+        });
       }
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function () { setTimeout(reopen, 100); });
+        document.addEventListener('DOMContentLoaded', reopen);
       } else {
-        setTimeout(reopen, 100);
+        reopen();
       }
     })();
   </script>

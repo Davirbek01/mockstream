@@ -15929,11 +15929,9 @@ Please contact your instructor or upgrade to the full version with speech recogn
           return;
         }
         // Default leave path (browser back / hardware back / refresh trap):
-        // set the return-category hint so v3 reopens the right picker, then
-        // navigate to v3 home. Previously this just reloaded the page, so
-        // the back button appeared broken to the user.
-        try { sessionStorage.setItem('speakingMockReturnCategory', 'ielts-speaking'); } catch (_e) {}
-        window.location.href = '/landing-v3.html';
+        // tell v3 which picker to reopen via ?reopen=<slug>. Previously
+        // this just reloaded the page, so the back button looked broken.
+        window.location.href = '/landing-v3.html?reopen=ielts-speaking';
       });
     }
 
