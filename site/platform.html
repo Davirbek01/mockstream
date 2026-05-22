@@ -8325,22 +8325,34 @@
         try { window.location.href = '/landing-v3.html'; }
         catch (_e) { window.location.replace('/landing-v3.html'); }
       }
-      function _wireCloseToHome() {
-        // openSiteMgmtGrid builds the overlay synchronously; the × and the
-        // backdrop both currently just remove the overlay, which leaves
-        // platform.html showing an empty (hidden-chrome) page. Wire them
-        // to navigate back to v3 home instead.
-        var ov = document.getElementById('siteMgmtGridOverlay');
-        if (!ov) return;
+      var _wiredOverlay = null;
+      function _wireOverlayToHome(ov) {
+        if (!ov || _wiredOverlay === ov) return;
+        _wiredOverlay = ov;
         var closeBtn = ov.querySelector('#smgCloseBtn');
-        if (closeBtn) {
-          closeBtn.addEventListener('click', _navHome, true);
-        }
-        // Backdrop click (clicking outside the panel).
+        if (closeBtn) closeBtn.addEventListener('click', _navHome, true);
         ov.addEventListener('click', function (e) {
           if (e.target === ov) _navHome();
         }, true);
-        // Esc key.
+      }
+      // openSiteMgmtGrid returns immediately, then requireAdminAuth runs an
+      // async checkPremiumRole before _showSiteMgmtGrid actually appends
+      // #siteMgmtGridOverlay. Watch the DOM with a MutationObserver so we
+      // attach the close-to-home listeners the instant the overlay shows
+      // (works regardless of how long the auth check takes).
+      function _watchForOverlay() {
+        var existing = document.getElementById('siteMgmtGridOverlay');
+        if (existing) { _wireOverlayToHome(existing); return; }
+        var obs = new MutationObserver(function () {
+          var ov = document.getElementById('siteMgmtGridOverlay');
+          if (ov) {
+            _wireOverlayToHome(ov);
+            // Keep observing in case the overlay is recreated (the grid's
+            // sub-panels rebuild it on each open).
+          }
+        });
+        obs.observe(document.body, { childList: true, subtree: true });
+        // Esc anywhere — only kicks in when the overlay is currently shown.
         document.addEventListener('keydown', function (e) {
           if (e.key === 'Escape' && document.getElementById('siteMgmtGridOverlay')) {
             _navHome();
@@ -8348,12 +8360,11 @@
         });
       }
       function _openGrid() {
+        _watchForOverlay();
         try { window.openSiteMgmtGrid(); }
         catch (e) { console.warn('[platform] openSiteMgmtGrid failed', e); }
         // Fade backdrop + spinner after the grid (or sign-in modal) renders.
         setTimeout(_markReady, 80);
-        // Hook the close paths after the grid DOM is attached.
-        setTimeout(_wireCloseToHome, 100);
       }
       function _bootstrap() {
         var start = Date.now();
