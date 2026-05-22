@@ -8155,11 +8155,49 @@
     // Phase 6-E P2a — platform.html is a literal duplicate of landing.html
     // that auto-jumps to the Site Management grid for admins. The bounce
     // block below decides "stay on landing or redirect to v3"; on
-    // platform.html we ALWAYS stay (no redirect) and ALWAYS activate the
-    // discovery-handoff backdrop so the student welcome/hero stays hidden
-    // behind the grid overlay.
+    // platform.html we ALWAYS stay (no redirect). The student welcome
+    // backdrop is suppressed and replaced by a centered splash spinner
+    // until the grid (or sign-in modal) opens.
     window.__msPlatformHost = true;
   </script>
+  <style>
+    /* Hide the discovery watermark backdrop entirely on platform.html — we
+       don't want the student "Practice exams. Earn real CEFR" hero leaking
+       behind the admin sign-in modal. */
+    html.ms-platform-host .ms-discovery-watermark { display: none !important; }
+    html.ms-platform-host #landingPage { visibility: hidden !important; }
+    html.ms-platform-host body {
+      background:
+        radial-gradient(1200px 700px at -5% -10%, rgba(99,102,241,.10), transparent 55%),
+        radial-gradient(1000px 600px at 105% 5%, rgba(251,146,60,.09), transparent 55%),
+        #f5f7fb !important;
+    }
+    /* Splash overlay: centered logo + spinner. Sits behind the admin
+       sign-in modal (z-index 10200) and the grid overlay (z-index 10250),
+       so once either of those opens the spinner becomes irrelevant. */
+    #msPlatformSplash {
+      position: fixed; inset: 0; z-index: 10100;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 18px;
+      background: transparent;
+      pointer-events: none;
+      transition: opacity .25s ease;
+    }
+    #msPlatformSplash.hide { opacity: 0; }
+    #msPlatformSplash .msps-ring {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      border: 3px solid rgba(99,102,241,.18);
+      border-top-color: #6366f1;
+      animation: mspsSpin 0.9s linear infinite;
+    }
+    #msPlatformSplash .msps-title {
+      font: 600 14px system-ui, -apple-system, "Segoe UI", sans-serif;
+      color: #475569;
+      letter-spacing: 0.2px;
+    }
+    @keyframes mspsSpin { to { transform: rotate(360deg); } }
+  </style>
   <script>
     (function () {
       try {
@@ -8209,30 +8247,75 @@
           }
         } catch (_e) {}
 
-        // platform.html: always stay, never bounce. Backdrop is always on
-        // because the student welcome/hero must stay hidden — the page only
-        // exists to host the Site Management grid.
-        document.documentElement.classList.add('ms-discovery-handoff');
+        // platform.html: always stay, never bounce. The student welcome /
+        // hero stays hidden via the .ms-platform-host class (CSS above)
+        // and is replaced by the centered #msPlatformSplash spinner until
+        // the Site Management grid (or the admin sign-in modal) opens.
+        document.documentElement.classList.add('ms-platform-host');
       } catch (_e) {}
     })();
   </script>
   <script>
-    // platform.html auto-opener: once the panel scripts have loaded, jump
-    // straight into the Site Management grid. requireAdminAuth handles the
-    // Google sign-in modal when the user isn't authenticated yet.
+    // platform.html auto-opener with auth-ready awareness.
+    //
+    // Problem we're solving: requireAdminAuth() returns false at "is signed
+    // in?" if Supabase hasn't finished restoring the session from storage
+    // yet (auth.js is loaded with defer). The user IS signed in, but the
+    // check runs early and the sign-in modal pops up needlessly. We poll
+    // for window.MockStream.auth.isSignedIn() to become true with a 2.5s
+    // ceiling; if it does, openSiteMgmtGrid takes the onPass branch
+    // directly (no modal). If it doesn't (genuinely a guest), the modal
+    // opens as before.
     (function () {
-      function _msOpenGridWhenReady() {
-        if (typeof window.openSiteMgmtGrid !== 'function') {
-          // Scripts at the bottom of body still loading; retry shortly.
-          return setTimeout(_msOpenGridWhenReady, 50);
-        }
+      function _injectSplash() {
+        if (document.getElementById('msPlatformSplash')) return;
+        var el = document.createElement('div');
+        el.id = 'msPlatformSplash';
+        el.innerHTML = '<div class="msps-ring"></div><div class="msps-title">Opening platform settings…</div>';
+        document.body.appendChild(el);
+      }
+      function _hideSplash() {
+        var el = document.getElementById('msPlatformSplash');
+        if (!el) return;
+        el.classList.add('hide');
+        setTimeout(function () { try { el.remove(); } catch (_e) {} }, 300);
+      }
+      function _ready() {
+        return typeof window.openSiteMgmtGrid === 'function';
+      }
+      function _authSigned() {
+        try {
+          var a = window.MockStream && window.MockStream.auth;
+          return !!(a && typeof a.isSignedIn === 'function' && a.isSignedIn());
+        } catch (_e) { return false; }
+      }
+      function _openGrid() {
         try { window.openSiteMgmtGrid(); }
         catch (e) { console.warn('[platform] openSiteMgmtGrid failed', e); }
+        // Splash hides whether requireAdminAuth opened the grid or the
+        // sign-in modal — either UI sits on top of the splash visually.
+        setTimeout(_hideSplash, 50);
+      }
+      function _bootstrap() {
+        _injectSplash();
+        var start = Date.now();
+        var MAX_WAIT = 2500;
+        function _poll() {
+          var elapsed = Date.now() - start;
+          // Fast path: grid ready + auth restored → open immediately.
+          if (_ready() && _authSigned()) return _openGrid();
+          // Timeout path: still wait for grid script (it's at the bottom
+          // of body), but stop waiting on auth after 2.5s. If the user is
+          // a guest the admin modal will open — that's the right behavior.
+          if (_ready() && elapsed >= MAX_WAIT) return _openGrid();
+          setTimeout(_poll, 80);
+        }
+        _poll();
       }
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', _msOpenGridWhenReady);
+        document.addEventListener('DOMContentLoaded', _bootstrap);
       } else {
-        _msOpenGridWhenReady();
+        _bootstrap();
       }
     })();
   </script>
