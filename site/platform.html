@@ -61,12 +61,9 @@
       animation: mspsSpin .9s linear infinite;
     }
     #msPlatformSplash.hide { opacity: 0; }
-    /* Backdrop gradient stays visible PERMANENTLY — the Site Management
-       grid renders on top as its original centered-card pop-up (we no
-       longer override its layout here; the legacy overlay styles
-       inherited from landing.html provide the dark backdrop + white
-       card look). */
+    html.ms-platform-ready::before { opacity: 0; }
     @keyframes mspsSpin { to { transform: rotate(360deg); } }
+  </style>
   <script>
     // Inject the branded splash card the instant <body> exists. Re-used
     // by both the entry path (auto-opener waiting for the grid) and the
@@ -1970,9 +1967,7 @@
       transition: background 0.15s;
     }
     .hc-toast-dismiss:hover { background: #e2e8f0; }
-    /* OS dark-mode auto-detect disabled site-wide. Block kept for
-       reference but the media query is rewritten to never match. */
-    @media (max-width: -1px) {
+    @media (prefers-color-scheme: dark) {
       #hcMsgToast { background: #1e293b; }
       .hc-toast-title { color: #f1f5f9; }
       .hc-toast-text { color: #94a3b8; }
@@ -8281,14 +8276,7 @@
     html.ms-platform-host #iwetPicker,
     html.ms-platform-host #mobileFab,
     html.ms-platform-host #mobileToolsMenu,
-    html.ms-platform-host #mobileMenuOverlay,
-    html.ms-platform-host #cb-fab,
-    html.ms-platform-host #cb-overlay,
-    html.ms-platform-host #cb-badge,
-    html.ms-platform-host #msSupportBubble,
-    html.ms-platform-host .ms-support-bubble,
-    html.ms-platform-host iframe[id*="chat"],
-    html.ms-platform-host [id*="supportChat"] {
+    html.ms-platform-host #mobileMenuOverlay {
       display: none !important;
     }
   </style>
@@ -8435,7 +8423,7 @@
       }
       function _bootstrap() {
         var start = Date.now();
-        var MAX_WAIT = 5000;
+        var MAX_WAIT = 2500;
         function _poll() {
           var elapsed = Date.now() - start;
           if (_ready() && _authSigned()) return _openGrid();
@@ -8443,17 +8431,6 @@
           setTimeout(_poll, 80);
         }
         _poll();
-        // Late sign-in handler — if Supabase restored the session AFTER
-        // the modal was already opened (slow restore), close the modal
-        // and retry openSiteMgmtGrid so the admin lands in the grid.
-        window.addEventListener('mockStream:userSignedIn', function () {
-          if (!_authSigned()) return;
-          var modal = document.getElementById('adminAuthOverlay');
-          if (modal) modal.remove();
-          var grid = document.getElementById('siteMgmtGridOverlay');
-          if (grid) return; // already in the grid
-          try { window.openSiteMgmtGrid(); } catch (_e) {}
-        });
       }
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', _bootstrap);
@@ -23413,10 +23390,19 @@
       }
     });
 
-    // Theme locked to light — OS dark mode is intentionally ignored.
+    // Auto System Theme Detection
     const html = document.documentElement;
-    function applySystemTheme() { html.setAttribute('data-theme', 'light'); }
+
+    function applySystemTheme() {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      html.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+    }
+
+    // Apply on load
     applySystemTheme();
+
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applySystemTheme);
 
     // Fullscreen function
     function enterFullscreen() {
