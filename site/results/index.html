@@ -3911,21 +3911,27 @@
       document.getElementById('statCenters').textContent =
         (typeof s.centers_count === 'number') ? s.centers_count : '—';
 
-      // Avg score — split by exam type if both have rows; otherwise show the
-      // single available average. cnt_* tells us which buckets are populated.
+      // Avg score — full mocks only (excludes Practice + Plus modes). The
+      // *_full fields come from the RPC's is_full_mock predicate which
+      // mirrors the table's Practice/+ badges. Falls back to the legacy
+      // any-score fields if the RPC didn't return _full (older clients).
       var avgEl = document.getElementById('statAvgScore');
-      var hasIelts = (s.cnt_ielts || 0) > 0;
-      var hasCefr  = (s.cnt_cefr  || 0) > 0;
+      var ieltsAvg = (typeof s.avg_ielts_full === 'number' || typeof s.avg_ielts_full === 'string') ? s.avg_ielts_full : s.avg_ielts;
+      var ieltsCnt = (typeof s.cnt_ielts_full === 'number') ? s.cnt_ielts_full : (s.cnt_ielts || 0);
+      var cefrAvg  = (typeof s.avg_cefr_full  === 'number' || typeof s.avg_cefr_full  === 'string') ? s.avg_cefr_full  : s.avg_cefr;
+      var cefrCnt  = (typeof s.cnt_cefr_full  === 'number') ? s.cnt_cefr_full  : (s.cnt_cefr  || 0);
+      var hasIelts = ieltsCnt > 0 && ieltsAvg != null;
+      var hasCefr  = cefrCnt  > 0 && cefrAvg  != null;
       if (hasIelts && hasCefr) {
         var html = '<div class="score-badges">';
-        html += '<div class="score-badge"><span class="badge-tag ielts">IELTS</span> ' + Number(s.avg_ielts).toFixed(1) + '</div>';
-        html += '<div class="score-badge"><span class="badge-tag cefr">CEFR</span> '   + Number(s.avg_cefr ).toFixed(1) + '</div>';
+        html += '<div class="score-badge"><span class="badge-tag ielts">IELTS</span> ' + Number(ieltsAvg).toFixed(1) + '</div>';
+        html += '<div class="score-badge"><span class="badge-tag cefr">CEFR</span> '   + Number(cefrAvg ).toFixed(1) + '</div>';
         html += '</div>';
         avgEl.innerHTML = html;
       } else if (hasIelts) {
-        avgEl.textContent = Number(s.avg_ielts).toFixed(1);
+        avgEl.textContent = Number(ieltsAvg).toFixed(1);
       } else if (hasCefr) {
-        avgEl.textContent = Number(s.avg_cefr ).toFixed(1);
+        avgEl.textContent = Number(cefrAvg ).toFixed(1);
       } else {
         avgEl.textContent = '—';
       }
