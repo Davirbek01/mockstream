@@ -19,6 +19,93 @@
   // the IIFE is self-contained.
   var _siteAdminUnlocked = false;
 
+  // Inject the panel's CSS once on first open. Copied verbatim from
+  // landing.html lines 1591-1770 — same selectors, so the existing
+  // _renderRuList markup paints with the cards/avatars/badges users expect.
+  function _ruInjectStyles() {
+    if (document.getElementById('ruPanelStyles')) return;
+    var s = document.createElement('style');
+    s.id = 'ruPanelStyles';
+    s.textContent = [
+      '.ru-overlay{position:fixed;inset:0;z-index:10100;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s ease;}',
+      '.ru-overlay.active{opacity:1;pointer-events:auto;}',
+      '.ru-panel{background:var(--surface,#fff);border-radius:16px;width:94vw;max-width:560px;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.3);overflow:hidden;}',
+      '.ru-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--ring,#e5e7eb);background:linear-gradient(135deg,#6366f122,#818cf822);}',
+      '.ru-header h3{margin:0;font-size:16px;font-weight:700;}',
+      '.ru-close{background:none;border:none;font-size:22px;cursor:pointer;color:var(--ink,#333);line-height:1;}',
+      '.ru-search{margin:12px 16px 8px;padding:10px 14px;border:1px solid var(--ring,#e5e7eb);border-radius:10px;font-size:14px;outline:none;width:calc(100% - 32px);background:var(--surface,#fff);color:var(--ink,#333);}',
+      '.ru-search:focus{border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,0.15);}',
+      '.ru-stats{padding:4px 16px 8px;font-size:12px;color:#888;}',
+      '.ru-list{flex:1;overflow-y:auto;padding:0 16px 16px;display:flex;flex-direction:column;gap:10px;}',
+      '.ru-card{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border-radius:12px;border:1px solid var(--ring,#e5e7eb);background:var(--surface,#fff);transition:all .15s ease;cursor:pointer;}',
+      '.ru-card:hover{border-color:#6366f1;box-shadow:0 2px 8px rgba(99,102,241,0.1);}',
+      '.ru-card-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#818cf8);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:15px;flex-shrink:0;overflow:hidden;}',
+      '.ru-card-avatar img{width:100%;height:100%;object-fit:cover;}',
+      '.ru-card-info{flex:1;min-width:0;}',
+      '.ru-card-name{font-weight:600;font-size:14px;margin-bottom:2px;}',
+      '.ru-card-detail{font-size:12px;color:#888;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}',
+      '.ru-center-badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;color:#fff;margin-top:4px;text-transform:capitalize;}',
+      '.ru-center-badge.mock_stream{background:linear-gradient(135deg,#6366f1,#818cf8);}',
+      '.ru-center-badge.bek{background:linear-gradient(135deg,#f59e0b,#d97706);}',
+      '.ru-center-badge.global{background:linear-gradient(135deg,#10b981,#059669);}',
+      '.ru-center-badge.niners{background:linear-gradient(135deg,#ef4444,#dc2626);}',
+      '.ru-center-badge.muzaffars{background:linear-gradient(135deg,#8b5cf6,#7c3aed);}',
+      '.ru-center-badge.achievers{background:linear-gradient(135deg,#14b8a6,#0d9488);}',
+      '.ru-center-badge.record{background:linear-gradient(135deg,#0ea5e9,#0284c7);}',
+      '.ru-center-badge.mockstream{background:linear-gradient(135deg,#6366f1,#818cf8);}',
+      '.ru-center-badge.unknown{background:#888;}',
+      '.ru-empty{text-align:center;padding:32px 0;color:#aaa;font-size:14px;}',
+      '.ru-card-blocked{opacity:0.55;}',
+      '.ru-role-badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:6px;vertical-align:middle;margin-left:4px;}',
+      '.ru-role-premium{background:#fff3e0;color:#e65100;border:1px solid #ffcc80;}',
+      '.ru-role-admin{background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;}',
+      '.ru-role-super-admin{background:#ede7f6;color:#4527a0;border:1px solid #b39ddb;}',
+      '.ru-back-btn{background:none;border:none;font-size:14px;cursor:pointer;color:#6366f1;font-weight:600;display:flex;align-items:center;gap:4px;}',
+      '.ru-back-btn:hover{text-decoration:underline;}',
+      '.ru-result-card{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border-radius:12px;border:1px solid var(--ring,#e5e7eb);background:var(--surface,#fff);transition:all .15s ease;cursor:pointer;}',
+      '.ru-result-card:hover{border-color:#6366f1;box-shadow:0 2px 8px rgba(99,102,241,0.1);}',
+      '.ru-result-score{min-width:56px;text-align:center;padding:6px 0;}',
+      '.ru-result-score .big{font-size:20px;font-weight:800;color:#6366f1;line-height:1.1;}',
+      '.ru-result-score .sub{font-size:11px;color:#888;}',
+      '.ru-result-info{flex:1;min-width:0;}',
+      '.ru-result-date{font-size:12px;color:#888;margin-bottom:2px;}',
+      '.ru-result-badges{display:flex;flex-wrap:wrap;gap:4px;margin-top:3px;}',
+      '.ru-result-badges .rb{display:inline-block;padding:2px 7px;border-radius:6px;font-size:10px;font-weight:600;color:#fff;}',
+      '.rb-ielts{background:#3b82f6;}',
+      '.rb-cefr{background:#8b5cf6;}',
+      '.rb-speaking{background:#f59e0b;}',
+      '.rb-writing{background:#10b981;}',
+      '.rb-listening{background:#6366f1;}',
+      '.rb-reading{background:#ec4899;}',
+      '.rb-full{background:#ef4444;}',
+      '.rb-practice{background:#94a3b8;}',
+      '.rb-ai{background:linear-gradient(135deg,#6366f1,#818cf8);}',
+      '.ru-result-details{font-size:11px;color:#888;margin-top:3px;line-height:1.5;}',
+      '.ru-result-details .dl{font-weight:600;color:#666;}',
+      '.ru-summary-row{display:flex;flex-wrap:wrap;gap:8px;padding:8px 0 4px;}',
+      '.ru-summary-stat{flex:1;min-width:70px;text-align:center;padding:8px 4px;border-radius:10px;background:linear-gradient(135deg,#6366f108,#818cf808);border:1px solid var(--ring,#e5e7eb);}',
+      '.ru-summary-stat .sv{font-size:18px;font-weight:800;color:#6366f1;}',
+      '.ru-summary-stat .sl{font-size:10px;color:#888;margin-top:2px;}',
+      '.ru-report-overlay{position:fixed;inset:0;z-index:10200;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s ease;}',
+      '.ru-report-overlay.active{opacity:1;pointer-events:auto;}',
+      '.ru-report-panel{background:#fff;border-radius:10px;width:100vw;max-width:100vw;height:100vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.35);overflow:hidden;}',
+      '.ru-report-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #e5e7eb;background:linear-gradient(135deg,#6366f108,#818cf808);}',
+      '.ru-report-header h4{margin:0;font-size:14px;font-weight:600;}',
+      '.ru-report-close{background:none;border:none;font-size:22px;cursor:pointer;color:#333;line-height:1;}',
+      '.ru-report-body{flex:1;overflow:hidden;position:relative;}',
+      '.ru-report-body iframe{width:100%;height:100%;border:none;}',
+      '.ru-report-progress{position:absolute;top:0;left:0;right:0;height:3px;background:#e5e7eb;z-index:2;overflow:hidden;}',
+      '.ru-report-progress-bar{height:100%;width:0%;border-radius:3px;background:linear-gradient(90deg,#6366f1,#818cf8,#6366f1);background-size:200% 100%;animation:ruProgressShimmer 1.5s ease infinite;transition:width 0.3s ease;}',
+      '.ru-report-progress.done{opacity:0;transition:opacity 0.4s ease 0.3s;}',
+      '@keyframes ruProgressShimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}',
+      '.ru-report-loading{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:var(--surface,#fff);z-index:1;}',
+      '.ru-report-loading .spinner{width:36px;height:36px;border:3px solid #e5e7eb;border-top-color:#6366f1;border-radius:50%;animation:ruSpin 0.8s linear infinite;}',
+      '.ru-report-loading .label{font-size:13px;color:#888;}',
+      '@keyframes ruSpin{to{transform:rotate(360deg);}}'
+    ].join('');
+    document.head.appendChild(s);
+  }
+
     // ===== REGISTERED USERS PANEL =====
     var _ruData = [];
 
@@ -135,6 +222,7 @@
         _showRuPasscode();
         return;
       }
+      _ruInjectStyles();
       _ensureRuOverlay();
       var overlay = document.getElementById('ruOverlay');
       if (overlay) overlay.classList.add('active');
