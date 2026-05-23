@@ -343,11 +343,22 @@
             'border:1px solid var(--ring);border-radius:12px;background:#0f172a;" ' +
             'title="Voice Sessions"></iframe>';
       }
+    },
+    'writing-plus': {
+      label: 'Writing Plus',
+      icon: '✏️',
+      script: '/admin/writing-plus.js',
+      open: function (container) {
+        if (window.AdminPanels && window.AdminPanels.writingPlus && typeof window.AdminPanels.writingPlus.open === 'function') {
+          window.AdminPanels.writingPlus.open(container);
+        } else {
+          container.innerHTML = '<div class="adm-loading"><div>Writing Plus script loaded but did not register correctly.</div></div>';
+        }
+      }
     }
   };
   var LEGACY_ITEMS = [
     { icon: '🛠️', label: 'Test Maker' },
-    { icon: '✏️', label: 'Writing Plus' },
     { icon: '📖', label: 'Reading Plus' },
     { icon: '🎧', label: 'Listening Plus' },
     { icon: '🧪', label: 'Mock Settings' },
