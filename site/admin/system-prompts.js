@@ -619,6 +619,7 @@
         var b = document.getElementById(id);
         if (b) b.classList.toggle('active', id === btnId);
       });
+    }
 
     var _spAdminUnlocked = false;
 
