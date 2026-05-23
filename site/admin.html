@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#6366f1">
+  <title>Admin Panel — Mock Stream</title>
+  <base href="/">
+
+  <!-- Theme is locked to light site-wide. -->
+  <script>document.documentElement.setAttribute('data-theme', 'light');</script>
+
+  <!-- Supabase JS + auth helpers (same modules the dashboard uses). -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/auth.js" defer></script>
+  <script src="/admin-auth.js" defer></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    :root {
+      --indigo:#6366f1; --indigo-deep:#4f46e5; --indigo-soft:#eef2ff;
+      --orange:#f97316;
+      --ink:#0f172a; --ink-muted:#64748b; --ink-faint:#94a3b8;
+      --surface:#ffffff; --surface-2:#f8fafc; --surface-3:#f1f5f9;
+      --ring:#e2e8f0; --ring-strong:#cbd5e1;
+      --danger:#ef4444; --success:#10b981;
+      --sidebar-w: 248px;
+    }
+    html, body { height:100%; margin:0; }
+    body {
+      background: var(--surface-2);
+      color: var(--ink);
+      font: 14px/1.5 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--indigo-deep); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    button { font: inherit; }
+
+    /* Top bar (compact) */
+    .adm-topbar {
+      display:flex; align-items:center; gap:12px;
+      padding:10px 18px;
+      height:54px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--ring);
+      position: sticky; top: 0; z-index: 50;
+    }
+    .adm-topbar .adm-logo {
+      width:30px; height:30px;
+      border-radius:8px;
+      background: linear-gradient(135deg, var(--indigo) 0%, var(--orange) 100%);
+      display:flex; align-items:center; justify-content:center;
+      color:#fff; font-weight:800; font-size:14px;
+    }
+    .adm-topbar .adm-title {
+      font-weight: 700; font-size: 15px; color: var(--ink);
+    }
+    .adm-topbar .adm-crumb {
+      color: var(--ink-faint); font-size: 13px;
+    }
+    .adm-topbar .adm-crumb b { color: var(--ink); font-weight: 600; }
+    .adm-topbar .adm-spacer { flex: 1; }
+    .adm-topbar .adm-home {
+      display:inline-flex; align-items:center; gap:6px;
+      padding:7px 12px;
+      border-radius:8px;
+      border:1px solid var(--ring);
+      background:#fff;
+      color: var(--ink-muted);
+      font-size: 12.5px; font-weight: 600;
+      cursor:pointer;
+      transition: all .15s ease;
+    }
+    .adm-topbar .adm-home:hover { color: var(--ink); border-color: var(--ring-strong); }
+    .adm-topbar .adm-hamburger {
+      display: none;
+      width: 32px; height: 32px;
+      border: 1px solid var(--ring); border-radius: 8px;
+      background: #fff;
+      align-items: center; justify-content: center;
+      cursor: pointer; color: var(--ink-muted);
+    }
+
+    /* Main layout: sidebar + content */
+    .adm-layout {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) 1fr;
+      min-height: calc(100vh - 54px);
+    }
+    .adm-sidebar {
+      background: var(--surface);
+      border-right: 1px solid var(--ring);
+      padding: 14px 10px;
+      overflow-y: auto;
+      max-height: calc(100vh - 54px);
+      position: sticky; top: 54px;
+    }
+    .adm-section-label {
+      font-size: 11px; font-weight: 700; letter-spacing: .04em;
+      color: var(--ink-faint);
+      text-transform: uppercase;
+      padding: 10px 8px 6px;
+    }
+    .adm-nav { display: flex; flex-direction: column; gap: 1px; }
+    .adm-nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      color: var(--ink-muted);
+      cursor: pointer;
+      font-size: 13.5px; font-weight: 500;
+      border: none; background: transparent; text-align: left;
+      min-height: 36px;
+      transition: background .12s ease, color .12s ease;
+      user-select: none;
+    }
+    .adm-nav-item:hover { background: var(--surface-3); color: var(--ink); }
+    .adm-nav-item.active {
+      background: var(--indigo-soft);
+      color: var(--indigo-deep);
+      font-weight: 600;
+    }
+    .adm-nav-item.disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+    .adm-nav-item.disabled:hover { background: transparent; color: var(--ink-faint); }
+    .adm-nav-item .adm-nav-icon {
+      width: 22px;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 16px;
+    }
+    .adm-nav-item .adm-nav-soon {
+      margin-left: auto;
+      font-size: 9.5px; font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 6px;
+      background: var(--surface-3);
+      color: var(--ink-faint);
+      letter-spacing: .02em;
+    }
+
+    /* Content pane */
+    .adm-content {
+      padding: 24px 28px 40px;
+      max-width: 1200px;
+      width: 100%;
+    }
+    .adm-loading {
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      gap: 14px;
+      padding: 60px 20px;
+      color: var(--ink-muted);
+    }
+    .adm-loading .adm-spinner {
+      width: 32px; height: 32px;
+      border: 3px solid var(--ring);
+      border-top-color: var(--indigo);
+      border-radius: 50%;
+      animation: admSpin 0.9s linear infinite;
+    }
+    @keyframes admSpin { to { transform: rotate(360deg); } }
+
+    /* Auth gate */
+    .adm-gate {
+      max-width: 420px;
+      margin: 80px auto;
+      background: var(--surface);
+      border: 1px solid var(--ring);
+      border-radius: 16px;
+      padding: 32px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,.04);
+    }
+    .adm-gate h2 { margin: 8px 0 6px; font-size: 18px; color: var(--ink); }
+    .adm-gate p { color: var(--ink-muted); font-size: 13.5px; margin: 0 0 18px; }
+    .adm-gate .adm-gate-icon { font-size: 36px; }
+    .adm-gate-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 22px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--indigo) 0%, var(--indigo-deep) 100%);
+      color: #fff; font-weight: 700; font-size: 14px;
+      border: 0; cursor: pointer;
+      box-shadow: 0 4px 14px rgba(99,102,241,.25);
+    }
+
+    /* Mobile drawer */
+    @media (max-width: 880px) {
+      .adm-topbar .adm-hamburger { display: inline-flex; }
+      .adm-topbar .adm-crumb { display: none; }
+      .adm-layout { grid-template-columns: 1fr; }
+      .adm-sidebar {
+        position: fixed;
+        top: 54px; left: 0;
+        width: 84vw; max-width: 320px;
+        height: calc(100vh - 54px);
+        z-index: 45;
+        transform: translateX(-100%);
+        transition: transform .22s ease;
+        box-shadow: 14px 0 28px rgba(15,23,42,.12);
+      }
+      html.adm-drawer-open .adm-sidebar { transform: translateX(0); }
+      .adm-drawer-backdrop {
+        position: fixed; inset: 54px 0 0 0;
+        background: rgba(15,23,42,.45);
+        z-index: 40;
+        opacity: 0; pointer-events: none;
+        transition: opacity .22s ease;
+      }
+      html.adm-drawer-open .adm-drawer-backdrop { opacity: 1; pointer-events: auto; }
+      .adm-content { padding: 18px 14px 32px; }
+    }
+
+    /* iOS safe-area */
+    @supports (padding: max(0px)) {
+      .adm-topbar { padding-left: max(18px, env(safe-area-inset-left)); }
+      .adm-content { padding-bottom: max(40px, calc(env(safe-area-inset-bottom) + 16px)); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="adm-topbar">
+  <button class="adm-hamburger" id="admHamburger" aria-label="Open menu">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+  </button>
+  <div class="adm-logo">M</div>
+  <span class="adm-title">Admin Panel</span>
+  <span class="adm-crumb">/ <b id="admBreadcrumb">Centers</b></span>
+  <div class="adm-spacer"></div>
+  <button class="adm-home" onclick="window.location.href='/landing-v3.html'">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Home
+  </button>
+</div>
+
+<div class="adm-drawer-backdrop" id="admDrawerBackdrop"></div>
+
+<div class="adm-layout">
+  <aside class="adm-sidebar" id="admSidebar">
+    <div class="adm-section-label">Pilot (extracted)</div>
+    <div class="adm-nav">
+      <button class="adm-nav-item" data-panel="centers">
+        <span class="adm-nav-icon">🏢</span>
+        Centers
+      </button>
+    </div>
+    <div class="adm-section-label">Still on legacy host</div>
+    <div class="adm-nav" id="admNavLegacy">
+      <!-- Filled in by JS — each item links to landing.html?openSiteMgmt=1
+           so Platform Management still works end-to-end while we extract
+           the remaining panels one by one. -->
+    </div>
+  </aside>
+
+  <main class="adm-content" id="admContent">
+    <div class="adm-loading">
+      <div class="adm-spinner"></div>
+      <div>Loading…</div>
+    </div>
+  </main>
+</div>
+
+<script>
+(function () {
+  // ── Sidebar nav definition ─────────────────────────────────────────────
+  // Pilot panel ("centers") is extracted; the rest still bounce to the
+  // legacy host. As we extract more panels, move them into PANELS.
+  var PANELS = {
+    centers: {
+      label: 'Centers',
+      script: '/admin/centers.js',
+      open: function (container) {
+        // centers.js exposes window.AdminPanels.centers.open(container)
+        if (window.AdminPanels && window.AdminPanels.centers && typeof window.AdminPanels.centers.open === 'function') {
+          window.AdminPanels.centers.open(container);
+        } else {
+          container.innerHTML = '<div class="adm-loading"><div>Centers script loaded but did not register correctly.</div></div>';
+        }
+      }
+    }
+  };
+  var LEGACY_ITEMS = [
+    { icon: '📝', label: 'System Prompts' },
+    { icon: '🛠️', label: 'Test Maker' },
+    { icon: '👥', label: 'Registered Users' },
+    { icon: '✏️', label: 'Writing Plus' },
+    { icon: '🎙️', label: 'Voice Sessions',  href: '/admin-realtime-review.html', newTab: true },
+    { icon: '📖', label: 'Reading Plus' },
+    { icon: '🎧', label: 'Listening Plus' },
+    { icon: '🧪', label: 'Mock Settings' },
+    { icon: '🔑', label: 'Code Management' },
+    { icon: '🤖', label: 'AI Grading Router' },
+    { icon: '✉️', label: 'Private Messages' },
+    { icon: '💬', label: 'Support Messages' },
+    { icon: '🎬', label: 'Video Guides' },
+    { icon: '🛡️', label: 'IP Blocker',      href: '/ip-blocker.html' }
+  ];
+  function renderLegacy() {
+    var holder = document.getElementById('admNavLegacy');
+    if (!holder) return;
+    holder.innerHTML = LEGACY_ITEMS.map(function (it) {
+      return '<button class="adm-nav-item" data-legacy="' + (it.href || '') + '" data-newtab="' + (it.newTab ? '1' : '') + '">' +
+               '<span class="adm-nav-icon">' + it.icon + '</span>' + it.label +
+               '<span class="adm-nav-soon">soon</span>' +
+             '</button>';
+    }).join('');
+    holder.querySelectorAll('.adm-nav-item').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var href = btn.getAttribute('data-legacy');
+        var newTab = btn.getAttribute('data-newtab') === '1';
+        if (href) {
+          if (newTab) window.open(href, '_blank', 'noopener');
+          else        window.location.href = href;
+        } else {
+          // Bounce to landing.html's full Site Management grid — admin
+          // picks the panel they want from there. Keeps every legacy
+          // panel reachable until we've extracted it.
+          window.location.href = '/landing.html?openSiteMgmt=1';
+        }
+      });
+    });
+  }
+
+  // ── Auth gate ──────────────────────────────────────────────────────────
+  // Wait for admin-auth.js + auth.js to be ready, then require super-admin.
+  function _authReady() {
+    return window.AdminAuth && typeof window.AdminAuth.currentRole === 'function';
+  }
+  async function _checkAdmin() {
+    try {
+      var info = await window.AdminAuth.currentRole();
+      return !!(info && info.role === 'super_admin');
+    } catch (_e) { return false; }
+  }
+  function _showGate() {
+    var content = document.getElementById('admContent');
+    if (!content) return;
+    content.innerHTML =
+      '<div class="adm-gate">' +
+        '<div class="adm-gate-icon">🔐</div>' +
+        '<h2>Super-admin sign-in required</h2>' +
+        '<p>Admin Panel is restricted to the super-admin Google account.</p>' +
+        '<button class="adm-gate-btn" id="admGateBtn">Sign in with Google</button>' +
+      '</div>';
+    document.getElementById('admGateBtn').addEventListener('click', function () {
+      if (window.AdminAuth && typeof window.AdminAuth.requireLogin === 'function') {
+        try { window.AdminAuth.requireLogin(); } catch (_e) {}
+      }
+    });
+  }
+
+  // ── Panel activation ──────────────────────────────────────────────────
+  var _loadedScripts = {};
+  function _loadScriptOnce(src) {
+    if (_loadedScripts[src]) return _loadedScripts[src];
+    _loadedScripts[src] = new Promise(function (resolve, reject) {
+      var s = document.createElement('script');
+      s.src = src;
+      s.defer = true;
+      s.onload = function () { resolve(); };
+      s.onerror = function () { reject(new Error('script load failed: ' + src)); };
+      document.head.appendChild(s);
+    });
+    return _loadedScripts[src];
+  }
+  async function _activate(panelKey) {
+    var panel = PANELS[panelKey];
+    if (!panel) return;
+    // Active state in sidebar
+    document.querySelectorAll('.adm-sidebar .adm-nav-item').forEach(function (el) {
+      el.classList.toggle('active', el.getAttribute('data-panel') === panelKey);
+    });
+    var crumb = document.getElementById('admBreadcrumb');
+    if (crumb) crumb.textContent = panel.label;
+    var content = document.getElementById('admContent');
+    if (!content) return;
+    content.innerHTML = '<div class="adm-loading"><div class="adm-spinner"></div><div>Loading ' + panel.label + '…</div></div>';
+    try {
+      await _loadScriptOnce(panel.script);
+      content.innerHTML = '';
+      panel.open(content);
+    } catch (e) {
+      console.error('[admin] panel load failed', e);
+      content.innerHTML = '<div class="adm-loading"><div>Failed to load ' + panel.label + '. See console for details.</div></div>';
+    }
+    _closeDrawer();
+  }
+
+  function _readHashPanel() {
+    var h = (window.location.hash || '').replace(/^#/, '').toLowerCase();
+    return PANELS[h] ? h : 'centers';
+  }
+
+  // ── Mobile drawer ──────────────────────────────────────────────────────
+  function _openDrawer()  { document.documentElement.classList.add('adm-drawer-open'); }
+  function _closeDrawer() { document.documentElement.classList.remove('adm-drawer-open'); }
+  document.getElementById('admHamburger').addEventListener('click', function () {
+    if (document.documentElement.classList.contains('adm-drawer-open')) _closeDrawer();
+    else _openDrawer();
+  });
+  document.getElementById('admDrawerBackdrop').addEventListener('click', _closeDrawer);
+
+  // ── Sidebar clicks ─────────────────────────────────────────────────────
+  document.querySelectorAll('.adm-sidebar .adm-nav-item[data-panel]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var key = btn.getAttribute('data-panel');
+      window.location.hash = '#' + key;
+    });
+  });
+  window.addEventListener('hashchange', function () {
+    _activate(_readHashPanel());
+  });
+
+  // ── Boot ───────────────────────────────────────────────────────────────
+  renderLegacy();
+  async function _boot() {
+    // Wait up to ~3s for AdminAuth (auth.js + admin-auth.js load deferred).
+    var start = Date.now();
+    while (!_authReady() && Date.now() - start < 3000) {
+      await new Promise(function (r) { setTimeout(r, 80); });
+    }
+    if (!_authReady()) {
+      console.warn('[admin] AdminAuth never loaded');
+      _showGate();
+      return;
+    }
+    var isAdmin = await _checkAdmin();
+    if (!isAdmin) {
+      _showGate();
+      // If session restores later (e.g., after sign-in), retry.
+      window.addEventListener('mockStream:userSignedIn', async function () {
+        if (await _checkAdmin()) _activate(_readHashPanel());
+      });
+      return;
+    }
+    _activate(_readHashPanel());
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', _boot);
+  } else {
+    _boot();
+  }
+})();
+</script>
+
+</body>
+</html>

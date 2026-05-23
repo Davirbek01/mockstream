@@ -3198,6 +3198,11 @@
           Dashboard Access
           <span class="msv3-row-arrow">🔒</span>
         </button>
+        <button type="button" class="msv3-row" id="msv3AdminPanelBtn">
+          <span class="msv3-row-icon">🧭</span>
+          Admin Panel
+          <span class="msv3-row-arrow">🔒</span>
+        </button>
         <button type="button" class="msv3-row" id="msv3PlatformBtn">
           <span class="msv3-row-icon">⚙️</span>
           Platform Management
@@ -3790,15 +3795,23 @@
       // landing.html?openSiteMgmt=1 which has worked reliably for months.
       window.location.href = '/landing.html?openSiteMgmt=1';
     });
-    // Platform Management is main-site only — hide the row entirely on clones
-    // (mirrors the legacy sidebar's behaviour for #siteMgmtMenuItem). Same
-    // detection source the rest of the file uses: window.__CENTER_ID set by
-    // center-id.js per Netlify build, defaulting to 'mock_stream'.
+    // Phase 6-E pilot: NEW Admin Panel host (site/admin.html). Currently
+    // only Centers is extracted; every other sidebar item bounces back
+    // to /landing.html?openSiteMgmt=1 so Platform Management still works
+    // end-to-end during the transition.
+    document.getElementById('msv3AdminPanelBtn').addEventListener('click', function () {
+      window.location.href = '/admin.html#centers';
+    });
+    // Platform Management + Admin Panel are main-site only — hide both
+    // rows entirely on clones. Same detection source the rest of the file
+    // uses: window.__CENTER_ID set by center-id.js per Netlify build.
     (function hidePlatformOnClones() {
       var centerId = (window.__CENTER_ID || 'mock_stream').toString();
       if (centerId !== 'mock_stream') {
-        var btn = document.getElementById('msv3PlatformBtn');
-        if (btn) btn.style.display = 'none';
+        ['msv3PlatformBtn', 'msv3AdminPanelBtn'].forEach(function (id) {
+          var btn = document.getElementById(id);
+          if (btn) btn.style.display = 'none';
+        });
       }
     })();
 
