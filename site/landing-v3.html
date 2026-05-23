@@ -3816,6 +3816,105 @@
     // userJwt } to the admin-mocks Edge Function. No numeric passcode
     // prompt — the JWT IS the auth. Banner reaches all open landing
     // tabs across all 6 sites within ~3 min (or instantly on tab-focus).
+    // Modal gate card — mirrors the one /admin.html shows when a non-admin
+    // hits the panel. Used by the Force-refresh handler so it has the same
+    // friendly UX instead of a browser alert(). Offers Google + Telegram
+    // sign-in because either can satisfy super-admin now.
+    function _showAdminGateModal(msg) {
+      // Clean up any prior instance so repeated clicks don't stack overlays.
+      var existing = document.getElementById('msv3AdminGate');
+      if (existing) existing.remove();
+
+      var ov = document.createElement('div');
+      ov.id = 'msv3AdminGate';
+      ov.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:100020;display:flex;align-items:center;justify-content:center;padding:20px;';
+      ov.onclick = function (e) { if (e.target === ov) ov.remove(); };
+
+      var centerId = (window.__CENTER_ID || 'mock_stream').toString();
+      // Same loader the sidebar's welcome card uses — only show the
+      // Telegram button when a bot id is actually configured for this
+      // clone, otherwise it would fail on click.
+      var showTelegram = false;
+      try {
+        if (window.MockStream && window.MockStream.auth &&
+            typeof window.MockStream.auth.hasTelegramBot === 'function') {
+          showTelegram = !!window.MockStream.auth.hasTelegramBot();
+        } else if (window._tgBotIds && window._tgBotIds[centerId]) {
+          showTelegram = true;
+        } else {
+          // Default to showing it on mock_stream main site (bot exists);
+          // worst case the click does nothing visible if the bot id
+          // really is missing — same as the welcome card behaviour.
+          showTelegram = (centerId === 'mock_stream');
+        }
+      } catch (_e) {}
+
+      ov.innerHTML =
+        '<div role="dialog" aria-modal="true" aria-labelledby="msv3GateTitle"' +
+            ' style="background:#fff;border:1px solid #e5e7eb;border-radius:16px;' +
+                   'padding:28px 24px;max-width:380px;width:100%;text-align:center;' +
+                   'box-shadow:0 12px 32px rgba(15,23,42,.18);">' +
+          '<div style="font-size:36px;line-height:1;margin-bottom:6px;">🔐</div>' +
+          '<h2 id="msv3GateTitle" style="margin:6px 0 6px;font-size:17px;color:#111;font-weight:700;">Super-admin sign-in required</h2>' +
+          '<p style="color:#6b7280;font-size:13.5px;line-height:1.45;margin:0 0 18px;">' +
+            (msg || 'This action is restricted to the super-admin account. Sign in with the account that has admin rights.') +
+          '</p>' +
+          '<div style="display:flex;flex-direction:column;gap:8px;">' +
+            '<button type="button" id="msv3GateGoogle" ' +
+              'style="display:inline-flex;align-items:center;justify-content:center;gap:8px;' +
+                     'padding:11px 22px;border-radius:10px;border:1.5px solid #e5e7eb;' +
+                     'background:#fff;color:#111;font-weight:700;font-size:14px;cursor:pointer;">' +
+              '🟦 Sign in with Google' +
+            '</button>' +
+            (showTelegram
+              ? '<button type="button" id="msv3GateTelegram" ' +
+                  'style="display:inline-flex;align-items:center;justify-content:center;gap:8px;' +
+                         'padding:11px 22px;border-radius:10px;border:none;' +
+                         'background:linear-gradient(135deg,#2aabee,#229ed9);' +
+                         'color:#fff;font-weight:700;font-size:14px;cursor:pointer;">' +
+                  '✈️ Sign in with Telegram' +
+                '</button>'
+              : '') +
+            '<button type="button" id="msv3GateCancel" ' +
+              'style="margin-top:4px;background:transparent;border:0;color:#6b7280;font-size:13px;cursor:pointer;">' +
+              'Cancel' +
+            '</button>' +
+          '</div>' +
+        '</div>';
+      document.body.appendChild(ov);
+
+      ov.querySelector('#msv3GateCancel').onclick = function () { ov.remove(); };
+      ov.querySelector('#msv3GateGoogle').onclick = function () {
+        try {
+          if (window.MockStream && window.MockStream.auth &&
+              typeof window.MockStream.auth.signInWithGoogle === 'function') {
+            window.MockStream.auth.signInWithGoogle(window.location.href);
+          } else {
+            window.location.href = '/index.html';
+          }
+        } catch (_e) { window.location.href = '/index.html'; }
+      };
+      var tgBtn = ov.querySelector('#msv3GateTelegram');
+      if (tgBtn) tgBtn.onclick = function () {
+        // Reuse the same loader the welcome card uses so the Telegram
+        // widget + per-clone bot id stay consistent.
+        try {
+          if (typeof loadTelegram === 'function' && typeof loadTelegramBotIds === 'function') {
+            Promise.all([loadTelegram(), loadTelegramBotIds()]).then(function (results) {
+              var ids = results[1] || {};
+              var botId = ids[centerId];
+              if (botId && window.Telegram && window.Telegram.Login) {
+                window.Telegram.Login.auth(
+                  { bot_id: botId, request_access: 'write' },
+                  function (user) { if (user && window.onTelegramAuth) window.onTelegramAuth(user); }
+                );
+              }
+            });
+          }
+        } catch (_e) {}
+      };
+    }
+
     document.getElementById('msv3ForceRefreshBtn').addEventListener('click', async function () {
       var btn = this;
       var arrow = btn.querySelector('.msv3-row-arrow');
@@ -3831,7 +3930,7 @@
           jwt = (sess && sess.data && sess.data.session && sess.data.session.access_token) || '';
         }
         if (!jwt) {
-          alert('Please sign in as super-admin first (Google or Telegram).');
+          _showAdminGateModal('Force-refresh is restricted to the super-admin account. Sign in to continue.');
           return;
         }
         if (arrow) arrow.textContent = '⏳';
@@ -3847,6 +3946,11 @@
           body: JSON.stringify({ action: 'bump_reload_version', userJwt: jwt })
         });
         var j = await r.json().catch(function () { return { error: 'bad_response' }; });
+        if (r.status === 401 || r.status === 403 || (j && j.error === 'unauthorized') || (j && j.error === 'super_admin_required')) {
+          if (arrow) arrow.textContent = orig;
+          _showAdminGateModal('Your account is not a super-admin. Sign in with the super-admin account to force-refresh.');
+          return;
+        }
         if (!r.ok || j.error) {
           alert('Force-refresh failed: ' + (j.error || ('HTTP ' + r.status)));
           if (arrow) arrow.textContent = orig;
