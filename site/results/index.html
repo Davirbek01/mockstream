@@ -1327,7 +1327,8 @@
       margin-bottom: 20px;
       flex-wrap: wrap;
     }
-    .premium-add-form input[type="email"] {
+    .premium-add-form input[type="email"],
+    .premium-add-form input[type="text"] {
       flex: 1;
       min-width: 200px;
       padding: 10px 14px;
@@ -1340,7 +1341,8 @@
       outline: none;
       transition: border-color 0.2s;
     }
-    .premium-add-form input[type="email"]:focus {
+    .premium-add-form input[type="email"]:focus,
+    .premium-add-form input[type="text"]:focus {
       border-color: #f59e0b;
       box-shadow: 0 0 0 3px rgba(245,158,11,0.15);
     }
@@ -1528,7 +1530,8 @@
     @media (max-width: 768px) {
       .premium-container { margin: 10px; }
       .premium-add-form { flex-direction: column; }
-      .premium-add-form input[type="email"] { min-width: auto; }
+      .premium-add-form input[type="email"],
+      .premium-add-form input[type="text"] { min-width: auto; }
       .premium-item { flex-wrap: wrap; gap: 8px; }
     }
     /* Phone tweak: identity needs its own line at the top of the card so
