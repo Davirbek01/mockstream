@@ -2643,9 +2643,13 @@
       window.__msv3CenterFeatures = cfg;
 
       // Plus buttons in the sidebar — match the .msv3-plus.plus-XXX classes.
+      // speakingPlus is intentionally NOT in this map: the Speaking Plus
+      // button opens a chooser (Mock Stream vs Sesame), and Sesame stays
+      // available even when a centre disables the Mock Stream side. The
+      // chooser itself checks __msv3CenterFeatures.speakingPlus and greys
+      // only the Mock Stream card.
       var plusMap = {
         writingPlus:   '.msv3-plus.plus-wrt',
-        speakingPlus:  '.msv3-plus.plus-spk',
         readingPlus:   '.msv3-plus.plus-rdg',
         listeningPlus: '.msv3-plus.plus-lst'
       };
@@ -3269,12 +3273,12 @@
           <span class="msv3-tag msv3-tag-plus">Extra practice</span>
         </div>
         <div class="msv3-plus-grid">
-          <a class="msv3-plus plus-spk" href="/speaking-realtime.html" aria-label="Speaking Plus — realtime voice chat">
+          <button type="button" class="msv3-plus plus-spk" onclick="_openSpkPlusChooser()" aria-label="Speaking Plus — choose realtime chat">
             <span class="msv3-plus-ico">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
             </span>
             <span class="msv3-plus-lbl">Plus</span>
-          </a>
+          </button>
           <a class="msv3-plus plus-wrt" href="Writing Plus.html" aria-label="Writing Plus">
             <span class="msv3-plus-ico">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
@@ -13813,6 +13817,87 @@
       to   { opacity: 1; transform: translateY(0)    scale(1); }
     }
   </style>
+
+  <!-- Speaking Plus chooser — Mock Stream realtime hub vs Sesame demo.
+       Mock Stream side opens our own /speaking-realtime.html in the same
+       tab. Sesame side opens https://www.sesame.com/voicedemo in a new
+       tab because Sesame sets X-Frame-Options: SAMEORIGIN (we cannot
+       iframe their voice chat). Centre toggle speakingPlus=false greys
+       only the Mock Stream card; Sesame stays available. -->
+  <div id="spkPlusChooser"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:100007;align-items:center;justify-content:center;padding:20px;"
+    onclick="_closeSpkPlusChooser()">
+    <div onclick="event.stopPropagation()"
+      style="background:var(--card);border:2px solid var(--brand);border-radius:24px;padding:32px 28px;max-width:540px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;">
+      <div style="font-size:36px;margin-bottom:6px;">🎙️</div>
+      <h3 style="font-size:20px;color:var(--brand);margin-bottom:4px;">Speaking Plus — choose your partner</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:22px;">Free-conversation practice with an AI voice partner.</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+        <button id="spkPlusMs" type="button" onclick="_pickSpkPlusMs()"
+          style="flex:1;min-width:200px;padding:20px 16px;background:linear-gradient(135deg,#16a34a 0%,#15803d 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(22,163,74,0.3);text-align:center;">
+          <div style="font-size:28px;margin-bottom:6px;">🟢</div>
+          Mock Stream
+          <div style="font-size:11px;font-weight:400;opacity:0.92;margin-top:6px;">Our own live voice chat (Maya)</div>
+          <div id="spkPlusMsHint" style="display:none;font-size:11px;font-weight:600;margin-top:8px;background:rgba(255,255,255,0.18);padding:4px 8px;border-radius:6px;">Disabled by your centre</div>
+        </button>
+        <button type="button" onclick="_pickSpkPlusSesame()"
+          style="flex:1;min-width:200px;padding:20px 16px;background:linear-gradient(135deg,#a3b18a 0%,#6a994e 100%);color:#1a2e05;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(106,153,78,0.3);text-align:center;">
+          <div style="font-size:28px;margin-bottom:6px;">🌿</div>
+          Sesame
+          <div style="font-size:11px;font-weight:400;opacity:0.82;margin-top:6px;">Maya · Miles (opens in a new tab)</div>
+        </button>
+      </div>
+      <button type="button" onclick="_closeSpkPlusChooser()"
+        style="margin-top:18px;padding:8px 24px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;">Cancel</button>
+    </div>
+  </div>
+  <script>
+    function _openSpkPlusChooser() {
+      var modal = document.getElementById('spkPlusChooser');
+      if (!modal) return;
+      // Re-evaluate centre toggle each time — admins might flip it without
+      // a page reload (the watcher in _msv3ApplyFeatures runs on focus).
+      var feats = window.__msv3CenterFeatures || {};
+      var msBtn = document.getElementById('spkPlusMs');
+      var msHint = document.getElementById('spkPlusMsHint');
+      if (msBtn) {
+        if (feats.speakingPlus === false) {
+          msBtn.disabled = true;
+          msBtn.style.opacity = '0.45';
+          msBtn.style.cursor = 'not-allowed';
+          msBtn.style.filter = 'grayscale(70%)';
+          if (msHint) msHint.style.display = 'block';
+        } else {
+          msBtn.disabled = false;
+          msBtn.style.opacity = '';
+          msBtn.style.cursor = '';
+          msBtn.style.filter = '';
+          if (msHint) msHint.style.display = 'none';
+        }
+      }
+      modal.style.display = 'flex';
+    }
+    function _closeSpkPlusChooser() {
+      var modal = document.getElementById('spkPlusChooser');
+      if (modal) modal.style.display = 'none';
+    }
+    function _pickSpkPlusMs() {
+      var msBtn = document.getElementById('spkPlusMs');
+      if (msBtn && msBtn.disabled) return;
+      _closeSpkPlusChooser();
+      window.location.href = '/speaking-realtime.html';
+    }
+    function _pickSpkPlusSesame() {
+      _closeSpkPlusChooser();
+      // New tab; noopener so the Sesame page can't read window.opener.
+      try { window.open('https://www.sesame.com/voicedemo', '_blank', 'noopener'); }
+      catch (_e) { window.location.href = 'https://www.sesame.com/voicedemo'; }
+    }
+    window._openSpkPlusChooser = _openSpkPlusChooser;
+    window._closeSpkPlusChooser = _closeSpkPlusChooser;
+    window._pickSpkPlusMs = _pickSpkPlusMs;
+    window._pickSpkPlusSesame = _pickSpkPlusSesame;
+  </script>
 
   <!-- CEFR Speaking Mode Selector Modal — ported from landing.html. -->
   <div id="speakingModeModal"
