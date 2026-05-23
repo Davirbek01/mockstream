@@ -318,10 +318,22 @@
   // would have the flag but no token and would still see locked mocks.
   async function applyPremiumUnlock() {
     var info = await checkPremiumRole();
-    if (!info) return null;
+    // Clear any cached premium flags from a prior session whenever the
+    // current check fails — covers the "user was premium yesterday, kept
+    // the tab open, cron expired them overnight" case so the next mock-
+    // click correctly falls through to the access-code modal instead of
+    // honouring stale sessionStorage state.
+    function _clearStalePremiumFlags() {
+      try {
+        sessionStorage.removeItem('vipSessionAccess');
+        sessionStorage.removeItem('vipPremiumAi');
+        sessionStorage.removeItem('vipToken');
+      } catch (_e) {}
+    }
+    if (!info) { _clearStalePremiumFlags(); return null; }
     var siteCenter = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || '';
-    if (!info.active && !info.isAdmin) return null;
-    if (info.center && info.center !== '' && info.center !== siteCenter) return null;
+    if (!info.active && !info.isAdmin) { _clearStalePremiumFlags(); return null; }
+    if (info.center && info.center !== '' && info.center !== siteCenter) { _clearStalePremiumFlags(); return null; }
 
     // Mint a server-validated vipToken from the user's Supabase JWT.
     // The Edge Function re-checks premium_emails server-side — the client
