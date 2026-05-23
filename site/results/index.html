@@ -1521,6 +1521,19 @@
       transition: all 0.15s;
     }
     .premium-item-delete:hover { background: rgba(220,38,38,0.2); }
+    .premium-item-renew {
+      padding: 4px 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      background: linear-gradient(135deg, rgba(5,150,105,0.15), rgba(4,120,87,0.1));
+      color: #047857;
+      transition: all 0.15s;
+    }
+    .premium-item-renew:hover { background: linear-gradient(135deg, #059669, #047857); color: #fff; }
     .premium-empty {
       text-align: center;
       padding: 40px 20px;
@@ -2081,6 +2094,9 @@
           <select id="premiumCenterSelect">
             <option value="">All Centers</option>
           </select>
+          <input type="number" id="premiumDays" min="1" max="3650" value="90"
+                 title="Subscription period in days (default 90)"
+                 style="width:80px;text-align:center;flex:0 0 auto;min-width:0;">
           <button class="premium-add-btn" id="premiumAddBtn" onclick="addPremiumEmail()">+ Add</button>
         </div>
         <!-- Phase 2: grant by Telegram username (for users who can't use Google).
@@ -2104,6 +2120,9 @@
           <select id="premiumTgCenter">
             <option value="">All Centers</option>
           </select>
+          <input type="number" id="premiumTgDays" min="1" max="3650" value="90"
+                 title="Subscription period in days (default 90)"
+                 style="width:80px;text-align:center;flex:0 0 auto;min-width:0;">
           <button class="premium-add-btn" id="premiumTgAddBtn" onclick="addPremiumTelegram()" style="background:#0ea5e9;">📨 Add by Telegram</button>
         </div>
 
@@ -4821,11 +4840,19 @@
         return;
       }
 
-      // Auto-deactivate expired user accounts (expires = created_at + 3 months)
+      // Auto-deactivate expired user accounts. Prefers the explicit
+      // expires_at column (set at create/renew time); falls back to
+      // created_at + 90 days for very old rows that pre-date the column.
+      // The daily pg_cron job handles this server-side too, so this is
+      // belt-and-braces for users who open the dashboard mid-day.
       var now = new Date();
       var expiredUsers = premiumEmails.filter(function(e) {
-        if (!e.active || (e.role !== 'user' && e.role !== 'student') || !e.created_at) return false;
-        var exp = new Date(e.created_at); exp.setMonth(exp.getMonth() + 3);
+        if (!e.active || (e.role !== 'user' && e.role !== 'student')) return false;
+        if (e.expires_at) {
+          return new Date(e.expires_at) < now;
+        }
+        if (!e.created_at) return false;
+        var exp = new Date(e.created_at); exp.setDate(exp.getDate() + 90);
         return exp < now;
       });
       if (expiredUsers.length > 0) {
@@ -4955,9 +4982,15 @@
           ? item.email
           : (item.telegram_username ? '📨 @' + item.telegram_username : '(no identity)');
         var escapedEmail = escapeHtml(item.email || '').replace(/'/g, "\\'");
+        // Pick the expiry source: explicit expires_at (preferred — set by
+        // Add/Renew with a custom period), else legacy created_at + 90 days.
+        var expSource = item.expires_at ? new Date(item.expires_at)
+                       : (item.created_at ? (function(){ var d = new Date(item.created_at); d.setDate(d.getDate() + 90); return d; })()
+                                          : null);
+
         var expiryBadge = '';
-        if ((item.role === 'user' || item.role === 'student') && item.created_at) {
-          var expDate = new Date(item.created_at); expDate.setMonth(expDate.getMonth() + 3);
+        if ((item.role === 'user' || item.role === 'student') && expSource) {
+          var expDate = expSource;
           var daysLeft = Math.ceil((expDate - now) / (1000 * 60 * 60 * 24));
           var isExpired = expDate < now;
           var expStr = expDate.getDate() + '/' + (expDate.getMonth() + 1) + '/' + expDate.getFullYear();
@@ -4969,9 +5002,9 @@
         }
 
         var expiryBar = '';
-        if ((item.role === 'user' || item.role === 'student') && item.created_at) {
+        if ((item.role === 'user' || item.role === 'student') && expSource && item.created_at) {
           var createdAt = new Date(item.created_at);
-          var expDateBar = new Date(item.created_at); expDateBar.setMonth(expDateBar.getMonth() + 3);
+          var expDateBar = expSource;
           var totalMs = expDateBar - createdAt;
           var elapsedMs = now - createdAt;
           var pct = Math.min(100, Math.max(0, Math.round((elapsedMs / totalMs) * 100)));
@@ -4990,6 +5023,11 @@
             + '</div>';
         }
 
+        // Renew button shown only on user/student rows; admins never expire.
+        var renewBtn = (item.role === 'user' || item.role === 'student')
+          ? '<button class="premium-item-renew" onclick="event.stopPropagation();renewPremium(\'' + item.id + '\')" title="Renew subscription">↻ Renew</button>'
+          : '';
+
         html += '<div class="premium-item-wrap" id="prem-' + item.id + '">'
           + '<div class="premium-item" onclick="togglePremiumCard(this.parentNode, event)">'
           + '<span class="premium-item-num">' + (idx + 1) + '.</span>'
@@ -5004,6 +5042,7 @@
           + '<span class="premium-item-center">' + escapeHtml(centerLabel) + '</span>'
           + expiryBadge
           + '<span style="font-size:11px;padding:3px 8px;border-radius:8px;background:var(--surface);border:1px solid var(--border);cursor:pointer;' + devClass + '" onclick="event.stopPropagation();showDeviceDetails(\'' + escapedEmail + '\')" title="' + devCount + ' device(s) — click to view">📱 ' + devLabel + '</span>'
+          + renewBtn
           + '</div>'
           + expiryBar
           + '</div>';
@@ -5054,6 +5093,19 @@
     }
     window.togglePremiumCard = togglePremiumCard;
 
+    // Reads the days input + returns an ISO expires_at = now + N days.
+    // Returns null for admin/super_admin (they never expire) or when the
+    // input is missing/invalid. Default 90 days mirrors the legacy plan.
+    function _premiumExpiresAt(daysInputId, role) {
+      if (role === 'admin') return null; // admins never expire
+      var el = document.getElementById(daysInputId);
+      var d = el && el.value ? parseInt(el.value, 10) : 90;
+      if (!Number.isFinite(d) || d <= 0) d = 90;
+      var dt = new Date();
+      dt.setUTCDate(dt.getUTCDate() + d);
+      return dt.toISOString();
+    }
+
     async function addPremiumEmail() {
       var emailInput = document.getElementById('premiumEmailInput');
       var tierSelect = document.getElementById('premiumTierSelect');
@@ -5064,6 +5116,7 @@
       var tier = tierSelect.value;
       var role = roleSelect.value;
       var center = centerSelect.value;
+      var expiresAt = _premiumExpiresAt('premiumDays', role);
 
       // Basic email validation
       if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -5076,6 +5129,8 @@
       btn.textContent = '...';
 
       try {
+        var payload = { email: email, tier: tier, role: role, center: center, active: true };
+        if (expiresAt) payload.expires_at = expiresAt;
         var resp = await fetch(SUPABASE_URL + '/rest/v1/premium_emails', {
           method: 'POST',
           headers: {
@@ -5084,7 +5139,7 @@
             'Content-Type': 'application/json',
             'Prefer': 'return=minimal'
           },
-          body: JSON.stringify({ email: email, tier: tier, role: role, center: center, active: true })
+          body: JSON.stringify(payload)
         });
 
         if (resp.status === 409 || resp.status === 409) {
@@ -5124,6 +5179,7 @@
       var tier = tierSelect.value;
       var role = roleSelect.value;
       var center = centerSelect.value;
+      var expiresAt = _premiumExpiresAt('premiumTgDays', role);
 
       if (!u || !/^[a-zA-Z0-9_]{3,32}$/.test(u)) {
         showPremiumMsg('Enter a valid Telegram username (3–32 chars, letters/digits/underscore)', 'error');
@@ -5136,6 +5192,8 @@
 
       try {
         // Try UPDATE first (in case @username already exists), else INSERT.
+        var patchBody = { tier: tier, role: role, center: center, active: true };
+        if (expiresAt) patchBody.expires_at = expiresAt;
         var patchResp = await fetch(SUPABASE_URL + '/rest/v1/premium_emails?telegram_username=eq.' + encodeURIComponent(u), {
           method: 'PATCH',
           headers: {
@@ -5144,7 +5202,7 @@
             'Content-Type': 'application/json',
             'Prefer': 'return=representation'
           },
-          body: JSON.stringify({ tier: tier, role: role, center: center, active: true })
+          body: JSON.stringify(patchBody)
         });
         var patchData = patchResp.ok ? await patchResp.json() : null;
         if (!patchData || patchData.length === 0) {
@@ -5156,7 +5214,7 @@
               'Content-Type': 'application/json',
               'Prefer': 'return=minimal'
             },
-            body: JSON.stringify({ telegram_username: u, tier: tier, role: role, center: center, active: true })
+            body: JSON.stringify(Object.assign({ telegram_username: u, tier: tier, role: role, center: center, active: true }, expiresAt ? { expires_at: expiresAt } : {}))
           });
           if (!insResp.ok) {
             var errData = await insResp.json().catch(function() { return {}; });
@@ -5195,6 +5253,41 @@
         showPremiumMsg('Failed to update', 'error');
       }
     }
+
+    // Renew: prompt the admin for a period in days, PATCH expires_at to
+    // now + N days and re-activate the row. Works for both freshly-expired
+    // and still-active subscriptions (renewal extends from "now", not
+    // from the prior expires_at — same model as Netflix/Spotify renewals).
+    async function renewPremium(id) {
+      var input = prompt('Renew subscription — period in days?', '90');
+      if (input === null) return; // cancelled
+      var days = parseInt(String(input).trim(), 10);
+      if (!Number.isFinite(days) || days <= 0 || days > 3650) {
+        showPremiumMsg('Enter a valid number of days (1–3650).', 'error');
+        return;
+      }
+      var dt = new Date();
+      dt.setUTCDate(dt.getUTCDate() + days);
+      var expiresAt = dt.toISOString();
+      try {
+        var resp = await fetch(SUPABASE_URL + '/rest/v1/premium_emails?id=eq.' + id, {
+          method: 'PATCH',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify({ expires_at: expiresAt, active: true })
+        });
+        if (!resp.ok) throw new Error('Renew failed');
+        showPremiumMsg('✅ Renewed for ' + days + ' day' + (days !== 1 ? 's' : '') + ' — expires ' + dt.toLocaleDateString(), 'success');
+        loadPremiumEmails();
+      } catch (e) {
+        showPremiumMsg('Renewal failed. Check Supabase connection.', 'error');
+      }
+    }
+    window.renewPremium = renewPremium;
 
     async function deletePremium(id, email) {
       if (!confirm('Remove premium access for ' + email + '?')) return;
