@@ -241,10 +241,36 @@
     #sysPromptOverlay.sp-inline .sysprompt-panel {
       width: 100%;
       max-width: 100%;
+      min-width: 0;
       max-height: none;
       transform: none;
       box-shadow: 0 1px 3px rgba(0,0,0,0.06);
       border: 1px solid var(--ring, #e5e7eb);
+    }
+    /* Inline-mode mobile tuning: shrink the chrome that was sized for a
+       desktop modal so a 320-600px viewport can show the full panel. */
+    @media (max-width: 720px) {
+      #sysPromptOverlay.sp-inline .sysprompt-header {
+        padding: 12px 14px;
+      }
+      #sysPromptOverlay.sp-inline .sysprompt-header h3 {
+        font-size: 15px;
+      }
+      #sysPromptOverlay.sp-inline .sysprompt-provider-row {
+        padding: 8px 12px;
+        gap: 6px;
+      }
+      #sysPromptOverlay.sp-inline .sysprompt-provider-btn {
+        padding: 5px 9px;
+        font-size: 10.5px;
+      }
+      #sysPromptOverlay.sp-inline .sysprompt-tab {
+        padding: 9px 12px;
+        font-size: 11px;
+      }
+      #sysPromptOverlay.sp-inline .sysprompt-body {
+        padding: 14px;
+      }
     }
 
     /* ===== TEST MAKER MODAL ===== */

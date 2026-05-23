@@ -85,7 +85,7 @@
     /* Main layout: sidebar + content */
     .adm-layout {
       display: grid;
-      grid-template-columns: var(--sidebar-w) 1fr;
+      grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
       min-height: calc(100vh - 54px);
     }
     .adm-sidebar {
@@ -191,7 +191,7 @@
     @media (max-width: 880px) {
       .adm-topbar .adm-hamburger { display: inline-flex; }
       .adm-topbar .adm-crumb { display: none; }
-      .adm-layout { grid-template-columns: 1fr; }
+      .adm-layout { grid-template-columns: minmax(0, 1fr); }
       .adm-sidebar {
         position: fixed;
         top: 54px; left: 0;
