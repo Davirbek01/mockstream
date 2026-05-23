@@ -232,6 +232,20 @@
         font-size: 11px;
       }
     }
+    /* Inline-mount mode (admin.html host): drop the modal sizing so the
+       panel fills the host content pane instead of capping at 800px. */
+    #sysPromptOverlay.sp-inline {
+      width: 100%;
+      max-width: 100%;
+    }
+    #sysPromptOverlay.sp-inline .sysprompt-panel {
+      width: 100%;
+      max-width: 100%;
+      max-height: none;
+      transform: none;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      border: 1px solid var(--ring, #e5e7eb);
+    }
 
     /* ===== TEST MAKER MODAL ===== */
     `;
@@ -896,7 +910,7 @@
       if (_inlineContainer) {
         // Inline mode: render as in-flow block (not fixed-position).
         overlay.style.cssText = 'position:static;inset:auto;background:none;display:block;opacity:1;pointer-events:auto;visibility:visible;padding:0;z-index:auto;';
-        overlay.classList.add('visible');
+        overlay.classList.add('visible', 'sp-inline');
       } else {
         overlay.style.display = 'flex';
         requestAnimationFrame(function () { overlay.classList.add('visible'); });
