@@ -2115,6 +2115,11 @@
             <option value="admin">🛡️ Admins</option>
             <option value="user">👤 Users</option>
           </select>
+          <select id="premiumFilterIdentity" onchange="renderPremiumList()">
+            <option value="all">All identities</option>
+            <option value="email">📧 Google email</option>
+            <option value="telegram">📨 Telegram username</option>
+          </select>
           <select id="premiumFilterCenter" onchange="renderPremiumList()">
             <option value="all">All centers</option>
           </select>
@@ -4881,12 +4886,14 @@
       var countEl = document.getElementById('premiumCount');
       if (!listEl || !countEl) return;
 
-      var fRoleEl   = document.getElementById('premiumFilterRole');
-      var fCenterEl = document.getElementById('premiumFilterCenter');
-      var fSortEl   = document.getElementById('premiumSort');
-      var fRole   = fRoleEl   ? fRoleEl.value   : 'all';
-      var fCenter = fCenterEl ? fCenterEl.value : 'all';
-      var fSort   = fSortEl   ? fSortEl.value   : 'desc';
+      var fRoleEl     = document.getElementById('premiumFilterRole');
+      var fIdentityEl = document.getElementById('premiumFilterIdentity');
+      var fCenterEl   = document.getElementById('premiumFilterCenter');
+      var fSortEl     = document.getElementById('premiumSort');
+      var fRole     = fRoleEl     ? fRoleEl.value     : 'all';
+      var fIdentity = fIdentityEl ? fIdentityEl.value : 'all';
+      var fCenter   = fCenterEl   ? fCenterEl.value   : 'all';
+      var fSort     = fSortEl     ? fSortEl.value     : 'desc';
 
       var now = new Date();
 
@@ -4899,6 +4906,12 @@
         if (fRole === 'super_admin' && !isSuper) return false;
         if (fRole === 'admin' && !(item.role === 'admin' && item.center)) return false;
         if (fRole === 'user' && item.role !== 'user' && item.role !== 'student') return false;
+
+        // Identity filter: email-only rows = Google; telegram_username-only
+        // rows = Telegram. Rows that somehow have BOTH (shouldn't happen
+        // in practice) match either filter.
+        if (fIdentity === 'email'    && !item.email) return false;
+        if (fIdentity === 'telegram' && !item.telegram_username) return false;
 
         if (fCenter !== 'all') {
           var rowCenter = item.center || '__none__';
