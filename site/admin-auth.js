@@ -70,23 +70,54 @@
 
   async function currentRole() {
     // Returns { role: 'super_admin'|'admin'|null, center: '' }.
-    var email = await currentEmail();
-    if (!email) return { role: null, center: '' };
+    //
+    // Looks up the active session against premium_emails by EITHER:
+    //   - the Google email (currentEmail()), or
+    //   - the Telegram username (user_metadata.telegram_username, populated
+    //     by the verify-telegram-login Edge Function).
+    // Mirrors auth.js → checkPremiumRole so a super-admin granted to a
+    // Telegram username unlocks the admin gate the same way a super-admin
+    // email does. The RLS SELECT policy on premium_emails allows
+    // jwt.email = row.email OR jwt.user_metadata.telegram_username =
+    // row.telegram_username, so the filtered fetch returns the right row
+    // either way.
     var s = await currentSession();
-    var r = await fetch(
-      SUPABASE_URL + '/rest/v1/premium_emails?email=eq.' + encodeURIComponent(email) +
-      '&active=eq.true&role=eq.admin&select=center',
-      {
-        headers: {
-          'apikey': SUPABASE_ANONKEY,
-          'Authorization': 'Bearer ' + (s ? s.access_token : SUPABASE_ANONKEY)
-        }
+    var email = s && s.user && s.user.email ? String(s.user.email).toLowerCase() : '';
+    var meta = (s && s.user && s.user.user_metadata) || {};
+    var tgUsernameRaw = typeof meta.telegram_username === 'string' ? meta.telegram_username : '';
+    var tgUsername = tgUsernameRaw.toLowerCase().replace(/^@/, '').trim();
+    if (!email && !tgUsername) return { role: null, center: '' };
+
+    var filterParam;
+    if (email && tgUsername) {
+      filterParam = 'or=(email.eq.' + encodeURIComponent(email) +
+                    ',telegram_username.eq.' + encodeURIComponent(tgUsername) + ')';
+    } else if (email) {
+      filterParam = 'email=eq.' + encodeURIComponent(email);
+    } else {
+      filterParam = 'telegram_username=eq.' + encodeURIComponent(tgUsername);
+    }
+    var url = SUPABASE_URL + '/rest/v1/premium_emails?' + filterParam +
+              '&active=eq.true&role=eq.admin&select=email,telegram_username,center';
+    var r = await fetch(url, {
+      headers: {
+        'apikey': SUPABASE_ANONKEY,
+        'Authorization': 'Bearer ' + (s ? s.access_token : SUPABASE_ANONKEY)
       }
-    );
+    });
     if (!r.ok) return { role: null, center: '' };
     var rows = await r.json();
     if (!rows.length) return { role: null, center: '' };
-    var c = rows[0].center || '';
+    // If the user has both identities and both happen to match different
+    // rows, prefer the row matching the identity they actually signed in
+    // with: email for Google, telegram_username otherwise.
+    var m = rows[0];
+    if (rows.length > 1) {
+      var byEmail = rows.find(function (x) { return email && x.email && x.email.toLowerCase() === email; });
+      var byTg = rows.find(function (x) { return tgUsername && x.telegram_username && x.telegram_username.toLowerCase() === tgUsername; });
+      m = (email && byEmail) || byTg || m;
+    }
+    var c = m.center || '';
     return { role: c ? 'admin' : 'super_admin', center: c };
   }
 

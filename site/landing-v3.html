@@ -3208,6 +3208,18 @@
           Platform Management
           <span class="msv3-row-arrow">🔒</span>
         </button>
+        <button type="button" class="msv3-row" id="msv3ForceRefreshBtn"
+                title='Sends a "New version available" banner to every open landing-page tab across all 6 sites.'>
+          <span class="msv3-row-icon">📢</span>
+          Force-refresh all tabs
+          <span class="msv3-row-arrow">🔒</span>
+        </button>
+        <button type="button" class="msv3-row" id="msv3MockMgmtBtn"
+                title="Opens the Mock Settings editor (8 per-skill editors, audio/image uploads, backups).">
+          <span class="msv3-row-icon">🧪</span>
+          Mock Settings
+          <span class="msv3-row-arrow">🔒</span>
+        </button>
       </div>
 
       <div class="msv3-section">
@@ -3366,7 +3378,7 @@
         <button type="button" class="msv3-panel-close" data-close="terms" aria-label="Close">×</button>
       </div>
       <div class="msv3-panel-body">
-        <p class="msv3-panel-meta">Last updated: 20 May 2026</p>
+        <p class="msv3-panel-meta">Last updated: 23 May 2026</p>
         <p class="msv3-panel-intro">
           By using Mock Stream you agree to the terms below. They're written in plain language; if anything is unclear, message us on Telegram (<a href="https://t.me/mrkhasanoff3" target="_blank" rel="noopener">@mrkhasanoff3</a>).
         </p>
@@ -3379,6 +3391,8 @@
 
         <h4 class="msv3-panel-h4">3. VIP and premium access</h4>
         <p>Premium and Regular VIP codes are issued individually and may be revoked if shared, resold, or used in bad faith. Your premium status applies to the account it was activated on; refunds are handled case-by-case via Telegram.</p>
+        <p><strong>Subscription period.</strong> Each premium/regular access is granted for a fixed period (90 days by default; the actual length is set by your administrator at the time of purchase). When the period ends, premium features are automatically disabled. You can request a renewal from your administrator.</p>
+        <p><strong>Device limit.</strong> A single account can be used on up to <strong>5 different devices</strong>. To enforce this and prevent account sharing, we record a device identifier the first time you sign in on each browser/device. We do not share this data with third parties, do not use it for advertising, and use it only to protect the subscription you paid for. If you genuinely need to use more than 5 devices, contact your administrator.</p>
 
         <h4 class="msv3-panel-h4">4. Content and fair use</h4>
         <p>Mock content, audio, AI explanations and example answers are for personal study only. Don't copy or redistribute them. Recordings you make during a mock are stored to score your attempt and may be reviewed by our team for quality checks; we don't sell them to third parties.</p>
@@ -3714,7 +3728,7 @@
     // result on window so subsequent opens are instant, and update the
     // lock badge based on the actual role.
     function _applyAdminLockUI(isAdmin) {
-      document.querySelectorAll('#msv3AdminBtn .msv3-row-arrow, #msv3PlatformBtn .msv3-row-arrow')
+      document.querySelectorAll('#msv3AdminBtn .msv3-row-arrow, #msv3PlatformBtn .msv3-row-arrow, #msv3AdminPanelBtn .msv3-row-arrow, #msv3ForceRefreshBtn .msv3-row-arrow, #msv3MockMgmtBtn .msv3-row-arrow')
         .forEach(function (el) { el.textContent = isAdmin ? '→' : '🔒'; });
     }
     function refreshAdminLocks() {
@@ -3802,13 +3816,235 @@
     document.getElementById('msv3AdminPanelBtn').addEventListener('click', function () {
       window.location.href = '/admin.html#centers';
     });
-    // Platform Management + Admin Panel are main-site only — hide both
-    // rows entirely on clones. Same detection source the rest of the file
-    // uses: window.__CENTER_ID set by center-id.js per Netlify build.
+    // Mock Settings — deep-link to landing.html with ?openMockMgmt=1.
+    // First gate on super-admin role using the same Supabase JWT check
+    // Force-refresh uses. Non-admins get the 🔐 modal instead of being
+    // sent to landing.html only to fail at the legacy passcode prompt.
+    // Super-admins (Google OR Telegram) bounce through to the panel.
+    document.getElementById('msv3MockMgmtBtn').addEventListener('click', async function () {
+      try {
+        if (window.MockStream && window.MockStream.auth &&
+            typeof window.MockStream.auth.checkPremiumRole === 'function') {
+          var info = await window.MockStream.auth.checkPremiumRole();
+          if (!info || !info.isAdmin) {
+            _showAdminGateModal('Mock Settings is restricted to the super-admin account. Sign in to continue.');
+            return;
+          }
+        }
+      } catch (_e) { /* fall through to navigation */ }
+      window.location.href = '/landing.html?openMockMgmt=1';
+    });
+    // Force-refresh button. Checks the caller's super-admin role via
+    // AdminAuth (Google email OR Telegram username, since admin-auth.js
+    // now matches both), then POSTs { action: 'bump_reload_version',
+    // userJwt } to the admin-mocks Edge Function. No numeric passcode
+    // prompt — the JWT IS the auth. Banner reaches all open landing
+    // tabs across all 6 sites within ~3 min (or instantly on tab-focus).
+    // Modal gate card — mirrors the one /admin.html shows when a non-admin
+    // hits the panel. Used by the Force-refresh handler so it has the same
+    // friendly UX instead of a browser alert(). Offers Google + Telegram
+    // sign-in because either can satisfy super-admin now.
+    function _showAdminGateModal(msg) {
+      // Clean up any prior instance so repeated clicks don't stack overlays.
+      var existing = document.getElementById('msv3AdminGate');
+      if (existing) existing.remove();
+
+      var ov = document.createElement('div');
+      ov.id = 'msv3AdminGate';
+      ov.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:100020;display:flex;align-items:center;justify-content:center;padding:20px;';
+      ov.onclick = function (e) { if (e.target === ov) ov.remove(); };
+
+      var centerId = (window.__CENTER_ID || 'mock_stream').toString();
+      // Same loader the sidebar's welcome card uses — only show the
+      // Telegram button when a bot id is actually configured for this
+      // clone, otherwise it would fail on click.
+      var showTelegram = false;
+      try {
+        if (window.MockStream && window.MockStream.auth &&
+            typeof window.MockStream.auth.hasTelegramBot === 'function') {
+          showTelegram = !!window.MockStream.auth.hasTelegramBot();
+        } else if (window._tgBotIds && window._tgBotIds[centerId]) {
+          showTelegram = true;
+        } else {
+          // Default to showing it on mock_stream main site (bot exists);
+          // worst case the click does nothing visible if the bot id
+          // really is missing — same as the welcome card behaviour.
+          showTelegram = (centerId === 'mock_stream');
+        }
+      } catch (_e) {}
+
+      ov.innerHTML =
+        '<div role="dialog" aria-modal="true" aria-labelledby="msv3GateTitle"' +
+            ' style="background:#fff;border:1px solid #e5e7eb;border-radius:16px;' +
+                   'padding:28px 24px;max-width:380px;width:100%;text-align:center;' +
+                   'box-shadow:0 12px 32px rgba(15,23,42,.18);">' +
+          '<div style="font-size:36px;line-height:1;margin-bottom:6px;">🔐</div>' +
+          '<h2 id="msv3GateTitle" style="margin:6px 0 6px;font-size:17px;color:#111;font-weight:700;">Super-admin sign-in required</h2>' +
+          '<p style="color:#6b7280;font-size:13.5px;line-height:1.45;margin:0 0 18px;">' +
+            (msg || 'This action is restricted to the super-admin account. Sign in with the account that has admin rights.') +
+          '</p>' +
+          '<div style="display:flex;flex-direction:column;gap:8px;">' +
+            '<button type="button" id="msv3GateGoogle" ' +
+              'style="display:inline-flex;align-items:center;justify-content:center;gap:8px;' +
+                     'padding:11px 22px;border-radius:10px;border:1.5px solid #e5e7eb;' +
+                     'background:#fff;color:#111;font-weight:700;font-size:14px;cursor:pointer;">' +
+              '🟦 Sign in with Google' +
+            '</button>' +
+            (showTelegram
+              ? '<button type="button" id="msv3GateTelegram" ' +
+                  'style="display:inline-flex;align-items:center;justify-content:center;gap:8px;' +
+                         'padding:11px 22px;border-radius:10px;border:none;' +
+                         'background:linear-gradient(135deg,#2aabee,#229ed9);' +
+                         'color:#fff;font-weight:700;font-size:14px;cursor:pointer;">' +
+                  '✈️ Sign in with Telegram' +
+                '</button>'
+              : '') +
+            '<button type="button" id="msv3GateCancel" ' +
+              'style="margin-top:4px;background:transparent;border:0;color:#6b7280;font-size:13px;cursor:pointer;">' +
+              'Cancel' +
+            '</button>' +
+          '</div>' +
+          '<div id="msv3GateStatus" style="margin-top:10px;font-size:12px;color:#dc2626;min-height:1em;line-height:1.4;"></div>' +
+        '</div>';
+      document.body.appendChild(ov);
+
+      ov.querySelector('#msv3GateCancel').onclick = function () { ov.remove(); };
+      ov.querySelector('#msv3GateGoogle').onclick = function () {
+        try {
+          if (window.MockStream && window.MockStream.auth &&
+              typeof window.MockStream.auth.signInWithGoogle === 'function') {
+            window.MockStream.auth.signInWithGoogle(window.location.href);
+          } else {
+            window.location.href = '/index.html';
+          }
+        } catch (_e) { window.location.href = '/index.html'; }
+      };
+      var tgBtn = ov.querySelector('#msv3GateTelegram');
+      if (tgBtn) tgBtn.onclick = function () {
+        // Reuse the same loader the welcome card uses so the Telegram
+        // widget + per-clone bot id stay consistent. Surface a useful
+        // error in the modal itself rather than failing silently when
+        // anything goes wrong (missing scripts, blocked popup, bot
+        // /setdomain mismatch, etc.) — earlier user feedback was
+        // "nothing happens" when the OAuth popup was silently rejected.
+        var statusEl = ov.querySelector('#msv3GateStatus');
+        function setStatus(text, color) {
+          if (!statusEl) return;
+          statusEl.style.color = color || '#dc2626';
+          statusEl.textContent = text;
+        }
+        tgBtn.disabled = true;
+        tgBtn.style.opacity = '0.7';
+        setStatus('Opening Telegram…', '#6b7280');
+
+        if (typeof loadTelegram !== 'function' || typeof loadTelegramBotIds !== 'function') {
+          setStatus('Telegram loader not available on this page.');
+          tgBtn.disabled = false; tgBtn.style.opacity = '';
+          return;
+        }
+        Promise.all([loadTelegram(), loadTelegramBotIds()]).then(function (results) {
+          var ids = results[1] || {};
+          var botId = ids[centerId];
+          if (!botId) {
+            setStatus('No Telegram login bot is configured for this centre.');
+            tgBtn.disabled = false; tgBtn.style.opacity = '';
+            return;
+          }
+          if (!window.Telegram || !window.Telegram.Login) {
+            setStatus('Telegram script failed to load. Check your internet connection.');
+            tgBtn.disabled = false; tgBtn.style.opacity = '';
+            return;
+          }
+          // Telegram.Login.auth opens a popup. If the bot's /setdomain
+          // doesn't include the current URL, the popup is denied and the
+          // callback is never invoked. Time-box the wait so we can give
+          // the user a real explanation instead of an endless spinner.
+          var settled = false;
+          var t = setTimeout(function () {
+            if (settled) return;
+            settled = true;
+            setStatus('Telegram sign-in did not complete. The bot domain may not include this URL — try Google sign-in instead.');
+            tgBtn.disabled = false; tgBtn.style.opacity = '';
+          }, 45000);
+          window.Telegram.Login.auth(
+            { bot_id: botId, request_access: 'write' },
+            function (user) {
+              if (settled) return;
+              settled = true;
+              clearTimeout(t);
+              if (user && window.onTelegramAuth) {
+                setStatus('Signing in…', '#6b7280');
+                window.onTelegramAuth(user);
+              } else {
+                setStatus('Sign-in was cancelled. Try again or use Google.');
+                tgBtn.disabled = false; tgBtn.style.opacity = '';
+              }
+            }
+          );
+        }).catch(function (e) {
+          setStatus('Telegram sign-in error: ' + (e && e.message ? e.message : e));
+          tgBtn.disabled = false; tgBtn.style.opacity = '';
+        });
+      };
+    }
+
+    document.getElementById('msv3ForceRefreshBtn').addEventListener('click', async function () {
+      var btn = this;
+      var arrow = btn.querySelector('.msv3-row-arrow');
+      var orig = arrow ? arrow.textContent : '';
+      try {
+        // Resolve the current Supabase session JWT.
+        var client = (window.MockStream && window.MockStream.auth &&
+                      typeof window.MockStream.auth.getClient === 'function')
+                       ? window.MockStream.auth.getClient() : null;
+        var jwt = '';
+        if (client && client.auth) {
+          var sess = await client.auth.getSession();
+          jwt = (sess && sess.data && sess.data.session && sess.data.session.access_token) || '';
+        }
+        if (!jwt) {
+          _showAdminGateModal('Force-refresh is restricted to the super-admin account. Sign in to continue.');
+          return;
+        }
+        if (arrow) arrow.textContent = '⏳';
+        var SB  = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+        var KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+        var r = await fetch(SB + '/functions/v1/admin-mocks', {
+          method: 'POST',
+          headers: {
+            'Content-Type':  'application/json',
+            'apikey':        KEY,
+            'Authorization': 'Bearer ' + KEY
+          },
+          body: JSON.stringify({ action: 'bump_reload_version', userJwt: jwt })
+        });
+        var j = await r.json().catch(function () { return { error: 'bad_response' }; });
+        if (r.status === 401 || r.status === 403 || (j && j.error === 'unauthorized') || (j && j.error === 'super_admin_required')) {
+          if (arrow) arrow.textContent = orig;
+          _showAdminGateModal('Your account is not a super-admin. Sign in with the super-admin account to force-refresh.');
+          return;
+        }
+        if (!r.ok || j.error) {
+          alert('Force-refresh failed: ' + (j.error || ('HTTP ' + r.status)));
+          if (arrow) arrow.textContent = orig;
+          return;
+        }
+        if (arrow) {
+          arrow.textContent = '✓';
+          setTimeout(function () { arrow.textContent = orig; }, 2500);
+        }
+      } catch (e) {
+        alert('Force-refresh failed: ' + (e && e.message ? e.message : e));
+        if (arrow) arrow.textContent = orig;
+      }
+    });
+    // Platform Management + Admin Panel + Force-refresh + Mock Settings
+    // are main-site only — hide on clones. Same __CENTER_ID gate the rest
+    // of the file uses.
     (function hidePlatformOnClones() {
       var centerId = (window.__CENTER_ID || 'mock_stream').toString();
       if (centerId !== 'mock_stream') {
-        ['msv3PlatformBtn', 'msv3AdminPanelBtn'].forEach(function (id) {
+        ['msv3PlatformBtn', 'msv3AdminPanelBtn', 'msv3ForceRefreshBtn', 'msv3MockMgmtBtn'].forEach(function (id) {
           var btn = document.getElementById(id);
           if (btn) btn.style.display = 'none';
         });

@@ -268,8 +268,37 @@
         role: m.role || null,
         center: m.center || '',
         active: m.active !== false,
-        isAdmin: m.role === 'admin'
+        isAdmin: m.role === 'admin',
+        deviceLimitExceeded: false
       };
+
+      // ── Soft device-cap enforcement ────────────────────────────────
+      // For email-bearing non-admin students, count distinct devices
+      // (hardware_fp first, device_id fallback) via the SECURITY DEFINER
+      // RPC. If >5, return null so all premium gates close — the 6th
+      // browser/device sees the same UX as an unverified guest. Admins
+      // are exempt (badge shows count/∞ for them in the panel too).
+      if (info.active && !info.isAdmin && email) {
+        try {
+          var dcResp = await fetch(SB_URL + '/rest/v1/rpc/_device_count_for', {
+            method: 'POST',
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token,
+                       'Content-Type': 'application/json' },
+            body: JSON.stringify({ p_email: email })
+          });
+          if (dcResp.ok) {
+            var cnt = await dcResp.json();
+            if (typeof cnt === 'number' && cnt > 5) {
+              info.deviceLimitExceeded = true;
+              info.active = false; // gate premium features off
+              try { window.dispatchEvent(new CustomEvent('mockStream:deviceLimitExceeded',
+                                                         { detail: { count: cnt, max: 5 } })); }
+              catch (_e) {}
+            }
+          }
+        } catch (_e) { /* non-fatal — count check is best-effort */ }
+      }
+
       _premiumCache = info;
       return info;
     } catch (e) {
@@ -289,10 +318,22 @@
   // would have the flag but no token and would still see locked mocks.
   async function applyPremiumUnlock() {
     var info = await checkPremiumRole();
-    if (!info) return null;
+    // Clear any cached premium flags from a prior session whenever the
+    // current check fails — covers the "user was premium yesterday, kept
+    // the tab open, cron expired them overnight" case so the next mock-
+    // click correctly falls through to the access-code modal instead of
+    // honouring stale sessionStorage state.
+    function _clearStalePremiumFlags() {
+      try {
+        sessionStorage.removeItem('vipSessionAccess');
+        sessionStorage.removeItem('vipPremiumAi');
+        sessionStorage.removeItem('vipToken');
+      } catch (_e) {}
+    }
+    if (!info) { _clearStalePremiumFlags(); return null; }
     var siteCenter = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || '';
-    if (!info.active && !info.isAdmin) return null;
-    if (info.center && info.center !== '' && info.center !== siteCenter) return null;
+    if (!info.active && !info.isAdmin) { _clearStalePremiumFlags(); return null; }
+    if (info.center && info.center !== '' && info.center !== siteCenter) { _clearStalePremiumFlags(); return null; }
 
     // Mint a server-validated vipToken from the user's Supabase JWT.
     // The Edge Function re-checks premium_emails server-side — the client
@@ -371,6 +412,44 @@
     return info;
   }
 
+  // Hardware fingerprint — a hash of properties that stay the same across
+  // browsers on the same physical device, so the device cap can detect a
+  // student who tries "open Firefox to dodge" or "clear all data". Not
+  // bulletproof (fingerprint-resistant browsers like Brave scramble these),
+  // but raises the bar from ~50% to ~80% reliable. Stored alongside the
+  // existing localStorage device_id; either column matches a row.
+  function _computeHardwareFp() {
+    try {
+      var parts = [
+        screen.width + 'x' + screen.height,
+        screen.colorDepth || '',
+        navigator.hardwareConcurrency || '',
+        Intl.DateTimeFormat().resolvedOptions().timeZone || '',
+        navigator.platform || '',
+        (navigator.language || '') + '|' + (navigator.languages || []).join(',')
+      ];
+      // WebGL renderer string — mostly stable across browsers on the
+      // same hardware (Apple GPU / NVIDIA RTX 3060 / etc.). May be
+      // empty in fingerprint-resistant browsers; that's expected.
+      try {
+        var canvas = document.createElement('canvas');
+        var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        if (gl) {
+          var ext = gl.getExtension('WEBGL_debug_renderer_info');
+          if (ext) parts.push(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) || '');
+        }
+      } catch (_e) {}
+      // FNV-1a 32-bit hash → 8-char hex string. Deterministic + short.
+      var str = parts.join('|');
+      var h = 0x811c9dc5;
+      for (var i = 0; i < str.length; i++) {
+        h ^= str.charCodeAt(i);
+        h = (h * 0x01000193) >>> 0;
+      }
+      return 'hw_' + h.toString(16).padStart(8, '0');
+    } catch (_e) { return ''; }
+  }
+
   async function _registerSignedInDevice(profile) {
     try {
       if (!profile || !profile.email) return;
@@ -381,10 +460,38 @@
         deviceId = 'dev_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
         try { localStorage.setItem('ms_device_id', deviceId); } catch (_e) {}
       }
+      var hardwareFp = _computeHardwareFp();
+
+      // Cross-browser merge: if a row already exists for this email with
+      // the same hardware_fp (different browser on same machine), reuse
+      // its device_id so the count doesn't grow. Falls back to upsert by
+      // (email, device_id) when no fp match (or fp is empty).
+      if (hardwareFp) {
+        try {
+          var lookup = await fetch(
+            SB_URL + '/rest/v1/premium_devices?email=eq.' + encodeURIComponent(email) +
+            '&hardware_fp=eq.' + encodeURIComponent(hardwareFp) +
+            '&select=device_id&limit=1',
+            { headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY } }
+          );
+          if (lookup.ok) {
+            var rows = await lookup.json();
+            if (rows.length && rows[0].device_id) {
+              // Adopt the existing row's device_id locally so future
+              // upserts hit the same row even if hardware_fp can't be
+              // computed later (e.g. Safari ITP).
+              deviceId = rows[0].device_id;
+              try { localStorage.setItem('ms_device_id', deviceId); } catch (_e) {}
+            }
+          }
+        } catch (_e) {}
+      }
+
       var body = {
         email: email,
         device_id: deviceId,
         device_info: _miniDeviceInfo(),
+        hardware_fp: hardwareFp || null,
         last_seen: new Date().toISOString()
       };
       // Upsert via PostgREST: on_conflict targets the (email, device_id) UNIQUE.

@@ -6782,7 +6782,7 @@
       var handoffParamKeys = [
         'openSelector', 'openSidebar', 'openModal',
         'msv3Vip', 'msv3TgAuth',
-        'openAdminDashboard', 'openSiteMgmt',
+        'openAdminDashboard', 'openSiteMgmt', 'openMockMgmt',
         'openIeltsSpeakingMode',
         'openHelpCenter', 'openVipSignIn',
         'take'
@@ -8177,7 +8177,7 @@
         var KNOWN_HANDOFF_PARAMS = [
           'openSelector', 'openSidebar', 'openModal',
           'msv3Vip', 'msv3TgAuth',
-          'openAdminDashboard', 'openSiteMgmt',
+          'openAdminDashboard', 'openSiteMgmt', 'openMockMgmt',
           'openIeltsSpeakingMode',
           'openHelpCenter', 'openVipSignIn',
           'take' /* legacy: /landing.html?take=cefr-reading-45 */
@@ -26988,6 +26988,15 @@
         if (typeof openSiteMgmtGrid === 'function') openSiteMgmtGrid();
       });
     }
+    // Direct deep-link from the v3 sidebar's Mock Settings button —
+    // skip the Site Management grid and open openMockMgmtPanel directly.
+    // The panel self-gates with its own super-admin passcode modal so
+    // we don't need to pre-authenticate here.
+    function openMockMgmtFromV3() {
+      _msv3Handoff('openMockMgmt', function () {
+        if (typeof openMockMgmtPanel === 'function') openMockMgmtPanel();
+      });
+    }
     function openIeltsSpeakingModeFromV3() {
       _msv3Handoff('openIeltsSpeakingMode', function () {
         if (typeof showIELTSSpeakingModeModal === 'function') showIELTSSpeakingModeModal();
@@ -27067,6 +27076,15 @@
         '#sysPromptOverlay.visible', '#sysPromptOverlay.active',
         '#testMakerOverlay.visible', '#testMakerOverlay.active',
         '#cmOverlay.visible', '#cmOverlay.active',
+        /* Mock Settings — passcode prompt + main panel. The passcode
+           overlay is created on-the-fly so presence == visible. The main
+           #mmgOverlay element is permanently in the DOM with
+           style="display:none" until opened (style flips to "flex"), so
+           we use a style-attribute filter to avoid matching the hidden
+           default state. Without these, openMockMgmtFromV3 bounces the
+           user back to v3 after 2s even with the passcode modal showing. */
+        '#mmgPasscodeOverlay',
+        '#mmgOverlay[style*="flex"]',
         /* Per-skill access-code modals — opened by /take/<slug> deep-links
            via handleReadingMockClick / etc. Without these, the watcher
            bounces the user to v3 the moment the access-code modal opens. */
@@ -27134,6 +27152,7 @@
       setTimeout(openTelegramAuthFromV3, 250);
       setTimeout(openAdminFromV3, 250);
       setTimeout(openSiteMgmtFromV3, 250);
+      setTimeout(openMockMgmtFromV3, 250);
       setTimeout(openIeltsSpeakingModeFromV3, 250);
       setTimeout(openIeltsFullMockFromV3, 250);
       setTimeout(openHelpCenterFromV3, 250);
@@ -28513,22 +28532,17 @@
             '<button id="smgCloseBtn" aria-label="Close" class="smg-close">×</button>' +
           '</div>' +
           '<div class="smg-sub">Administrator tools. Click any card to open.</div>' +
-          // Force-refresh row — fans out a "New version available" banner
-          // to every open landing-page tab across all 6 sites within ~3 min.
-          // Useful after adding/editing mocks or toggling center features.
-          '<div style="display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#fffbeb,#fef3c7);border:1px solid #fbbf24;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:12.5px;">' +
-            '<div style="flex:1;color:#78350f;line-height:1.45;">' +
-              '<strong>📢 Force-refresh all open tabs</strong> — fans a "New version available" banner to every open landing page across all 6 sites. Useful after adding mocks or toggling features.' +
-            '</div>' +
-            '<button id="smgForceReloadBtn" type="button" style="background:#d97706;color:#fff;border:0;border-radius:8px;padding:9px 14px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;box-shadow:0 4px 12px rgba(217,119,6,.3);">📢 Force refresh</button>' +
-          '</div>' +
+          // Force-refresh row removed 2026-05-23 — moved to the v3 sidebar
+          // as a standalone "Force-refresh all tabs" button so it uses the
+          // logged-in admin's JWT (Google OR Telegram) instead of a
+          // separate numeric passcode prompt. The Edge Function action
+          // bump_reload_version still does the same thing; only the
+          // entry point moved.
           '<div id="smgGrid" class="smg-grid">' + cards + '</div>' +
         '</div>';
       document.body.appendChild(div);
       div.addEventListener('click', function (e) { if (e.target === div) { div.remove(); _removeSmgBackPill(); } });
       div.querySelector('#smgCloseBtn').onclick = function () { div.remove(); _removeSmgBackPill(); };
-      var _frBtn = div.querySelector('#smgForceReloadBtn');
-      if (_frBtn) _frBtn.onclick = function (e) { e.stopPropagation(); _smgBumpReloadVersion(_frBtn); };
       div.querySelectorAll('.smg-card').forEach(function (btn) {
         btn.addEventListener('click', function () {
           var idx = parseInt(btn.getAttribute('data-idx'), 10);
@@ -36154,7 +36168,22 @@
       { id: 'listening', label: 'Listening', icon: '🎧', color: '#0ea5e9' }
     ];
 
-    function openMockMgmtPanel() {
+    // Resolves the current Supabase session JWT if available, used by
+    // _mmgCall to authenticate via JWT instead of the legacy passcode.
+    // Non-blocking — returns '' when no session, so callers fall back to
+    // the existing passcode flow.
+    async function _mmgGetJwt() {
+      try {
+        var c = (window.MockStream && window.MockStream.auth &&
+                 typeof window.MockStream.auth.getClient === 'function')
+                  ? window.MockStream.auth.getClient() : null;
+        if (!c || !c.auth) return '';
+        var sess = await c.auth.getSession();
+        return (sess && sess.data && sess.data.session && sess.data.session.access_token) || '';
+      } catch (_e) { return ''; }
+    }
+
+    async function openMockMgmtPanel() {
       // Defense-in-depth: lock to main site so a clone-side admin can't
       // open the panel by calling this from the browser console.
       var _cidGuard = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
@@ -36162,9 +36191,31 @@
         alert('Mock Settings is only available on the main mock-stream.com site.');
         return;
       }
-      // First-open requires the super-admin (or center-admin) passcode.
-      // Show a custom branded modal instead of the browser's native prompt
-      // (which looks generic and exposes the passcode in plain text).
+      // JWT-first path: if the user is signed in as super-admin (Google
+      // OR Telegram), skip the numeric passcode entirely. The Edge
+      // Function (admin-mocks) already accepts userJwt as a credential
+      // since v12, so we just probe with a cheap `list` call. If it
+      // succeeds we set _mmgJwtMode and _mmgCall sends userJwt on every
+      // future request.
+      window._mmgJwtMode = false;
+      var jwt = await _mmgGetJwt();
+      if (jwt) {
+        try {
+          var probe = await fetch(_MMG_FN_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'apikey': _MMG_ANON, 'Authorization': 'Bearer ' + _MMG_ANON },
+            body: JSON.stringify({ action: 'list', userJwt: jwt })
+          });
+          if (probe.ok) {
+            // JWT auth works — skip the legacy passcode modal.
+            window._mmgJwtMode = true;
+            _mmgOpenAfterAuth();
+            return;
+          }
+        } catch (_e) { /* fall through to passcode */ }
+      }
+      // Fallback: classic passcode prompt for sessions without a valid
+      // super-admin JWT (legacy bots / shared logins / unsigned-in users).
       if (!window._mmgPasscode) {
         _mmgShowPasscodeModal(function (pc) {
           window._mmgPasscode = pc.trim();
@@ -36241,7 +36292,22 @@
     async function _mmgCall(action, args) {
       args = args || {};
       args.action = action;
-      args.adminPasscode = window._mmgPasscode || '';
+      // Prefer JWT (when openMockMgmtPanel's probe set _mmgJwtMode);
+      // fall back to the legacy passcode. The Edge Function accepts
+      // either — JWT path mirrors Force-refresh, passcode keeps
+      // backwards-compat for bots / unsigned-in flows.
+      if (window._mmgJwtMode) {
+        var jwt = await _mmgGetJwt();
+        if (jwt) {
+          args.userJwt = jwt;
+        } else {
+          // JWT mode was active but the session expired mid-edit — fall
+          // back to passcode if we have one cached.
+          args.adminPasscode = window._mmgPasscode || '';
+        }
+      } else {
+        args.adminPasscode = window._mmgPasscode || '';
+      }
       var r = await fetch(_MMG_FN_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'apikey': _MMG_ANON, 'Authorization': 'Bearer ' + _MMG_ANON },
@@ -36249,7 +36315,11 @@
       });
       var j = await r.json().catch(function () { return { error: 'bad_response' }; });
       if (!r.ok || j.error) {
-        if (r.status === 401) { window._mmgPasscode = ''; }
+        if (r.status === 401) {
+          // Both passcode and JWT can expire/fail; clear cached creds.
+          window._mmgPasscode = '';
+          window._mmgJwtMode  = false;
+        }
         throw new Error(j.error || ('HTTP ' + r.status));
       }
       return j;

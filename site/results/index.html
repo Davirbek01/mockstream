@@ -1265,13 +1265,70 @@
       overflow-y: auto;
       padding: 20px;
     }
+    /* Two collapsible add-form launchers. Tap once → expands the form
+       below. Saves vertical room so the user list shows immediately. */
+    .premium-add-toggles {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .premium-add-toggle {
+      flex: 1;
+      min-width: 160px;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      color: var(--ink);
+      font: 600 13.5px inherit;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .premium-add-toggle.email:hover    { border-color: #f59e0b; color: #b45309; }
+    .premium-add-toggle.telegram:hover { border-color: #0ea5e9; color: #0369a1; }
+    .premium-add-toggle.email.open {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #fff; border-color: transparent;
+    }
+    .premium-add-toggle.telegram.open {
+      background: linear-gradient(135deg, #0ea5e9, #0284c7);
+      color: #fff; border-color: transparent;
+    }
+
+    /* Filter + sort toolbar (between forms and list). */
+    .premium-filter-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 6px 0 14px;
+    }
+    .premium-filter-bar select {
+      flex: 1;
+      min-width: 130px;
+      padding: 8px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      color: var(--ink);
+      font-size: 13px;
+      font-family: inherit;
+      cursor: pointer;
+    }
+
     .premium-add-form {
       display: flex;
       gap: 8px;
       margin-bottom: 20px;
       flex-wrap: wrap;
     }
-    .premium-add-form input[type="email"] {
+    .premium-add-form input[type="email"],
+    .premium-add-form input[type="text"] {
       flex: 1;
       min-width: 200px;
       padding: 10px 14px;
@@ -1284,7 +1341,8 @@
       outline: none;
       transition: border-color 0.2s;
     }
-    .premium-add-form input[type="email"]:focus {
+    .premium-add-form input[type="email"]:focus,
+    .premium-add-form input[type="text"]:focus {
       border-color: #f59e0b;
       box-shadow: 0 0 0 3px rgba(245,158,11,0.15);
     }
@@ -1346,10 +1404,36 @@
       align-items: center;
       gap: 12px;
       padding: 12px 16px;
+      cursor: pointer;
+      user-select: none;
     }
-    .premium-expiry-bar-wrap {
+    /* Chevron rotates when the wrap is in .expanded state. */
+    .premium-item-chevron {
+      width: 22px; height: 22px;
+      display: inline-flex;
+      align-items: center; justify-content: center;
+      color: var(--ink-secondary);
+      font-size: 12px;
+      transition: transform 0.18s ease;
+      flex-shrink: 0;
+    }
+    .premium-item-wrap.expanded .premium-item-chevron {
+      transform: rotate(180deg);
+    }
+    /* Collapsible details section — hidden by default; .expanded reveals it. */
+    .premium-card-details {
+      display: none;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
       padding: 0 16px 10px;
     }
+    .premium-item-wrap.expanded .premium-card-details { display: flex; }
+    .premium-expiry-bar-wrap {
+      padding: 0 16px 10px;
+      display: none;
+    }
+    .premium-item-wrap.expanded .premium-expiry-bar-wrap { display: block; }
     .premium-expiry-bar-track {
       height: 5px;
       border-radius: 99px;
@@ -1377,6 +1461,16 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+    /* Position number (1., 2., 3.) shown left of the identity. */
+    .premium-item-num {
+      flex-shrink: 0;
+      font-variant-numeric: tabular-nums;
+      font-weight: 700;
+      color: var(--ink-secondary);
+      font-size: 12px;
+      min-width: 22px;
+      text-align: right;
     }
     .premium-item-tier {
       font-size: 11px;
@@ -1427,6 +1521,19 @@
       transition: all 0.15s;
     }
     .premium-item-delete:hover { background: rgba(220,38,38,0.2); }
+    .premium-item-renew {
+      padding: 4px 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      background: linear-gradient(135deg, rgba(5,150,105,0.15), rgba(4,120,87,0.1));
+      color: #047857;
+      transition: all 0.15s;
+    }
+    .premium-item-renew:hover { background: linear-gradient(135deg, #059669, #047857); color: #fff; }
     .premium-empty {
       text-align: center;
       padding: 40px 20px;
@@ -1436,8 +1543,33 @@
     @media (max-width: 768px) {
       .premium-container { margin: 10px; }
       .premium-add-form { flex-direction: column; }
-      .premium-add-form input[type="email"] { min-width: auto; }
+      .premium-add-form input[type="email"],
+      .premium-add-form input[type="text"] { min-width: auto; }
       .premium-item { flex-wrap: wrap; gap: 8px; }
+    }
+    /* Phone tweak: identity needs its own line at the top of the card so
+       the email / @username is fully visible instead of being squeezed
+       into a few pixels next to the badges row. */
+    @media (max-width: 640px) {
+      .premium-item {
+        flex-wrap: wrap;
+        align-items: center;
+        row-gap: 6px;
+      }
+      .premium-item-num {
+        order: 0;
+        font-size: 11px;
+      }
+      .premium-item-email {
+        order: 1;
+        flex: 1 1 calc(100% - 60px);
+        font-size: 13.5px;
+      }
+      .premium-item-chevron { order: 2; margin-left: auto; }
+      .premium-item-tier,
+      .premium-item-role,
+      .premium-item-toggle,
+      .premium-item-delete { order: 3; }
     }
 
     /* Result viewer overlay */
@@ -1939,7 +2071,17 @@
         <button class="viewer-close" onclick="closePremiumPanel()">✕</button>
       </div>
       <div class="premium-body" id="premiumBody">
-        <div class="premium-add-form">
+        <!-- Two collapsed add-form pills. Tap one to expand its form;
+             tap again (or the other pill) to swap. Saves vertical room
+             so the list is visible immediately on mobile. -->
+        <div class="premium-add-toggles">
+          <button type="button" class="premium-add-toggle email" id="premiumAddToggleEmail"
+                  onclick="togglePremiumAddForm('email')">📧 Add by Email</button>
+          <button type="button" class="premium-add-toggle telegram" id="premiumAddToggleTg"
+                  onclick="togglePremiumAddForm('telegram')">📨 Add by Telegram</button>
+        </div>
+
+        <div class="premium-add-form" id="premiumAddFormEmail" style="display:none;">
           <input type="email" id="premiumEmailInput" placeholder="student@email.com" autocomplete="off">
           <select id="premiumTierSelect">
             <option value="premium">Premium (AI)</option>
@@ -1952,11 +2094,21 @@
           <select id="premiumCenterSelect">
             <option value="">All Centers</option>
           </select>
+          <input type="number" id="premiumDays" min="1" max="3650" value="90"
+                 title="Subscription period in days (default 90)"
+                 style="width:80px;text-align:center;flex:0 0 auto;min-width:0;">
           <button class="premium-add-btn" id="premiumAddBtn" onclick="addPremiumEmail()">+ Add</button>
         </div>
-        <!-- Phase 2: grant by Telegram username (for users who can't use Google) -->
-        <div class="premium-add-form" style="margin-top:10px;background:#f0f9ff;padding:10px;border-radius:10px;border:1px solid #bae6fd;">
-          <input type="text" id="premiumTgInput" placeholder="@telegram_username" autocomplete="off" style="flex:1;">
+        <!-- Phase 2: grant by Telegram username (for users who can't use Google).
+             Styled the same as the email form — no panel background — so the
+             two paths feel uniform. autocomplete="new-password" + a random
+             name= defeat Chrome's habit of autofilling the saved email into
+             any text input that resembles an account field. -->
+        <div class="premium-add-form" id="premiumAddFormTelegram" style="display:none;">
+          <input type="text" id="premiumTgInput" name="ms-tg-username-noautofill"
+                 placeholder="@telegram_username"
+                 autocomplete="new-password" autocapitalize="none"
+                 autocorrect="off" spellcheck="false" style="flex:1;">
           <select id="premiumTgTier">
             <option value="premium">Premium (AI)</option>
             <option value="regular">Regular (Mocks)</option>
@@ -1968,8 +2120,34 @@
           <select id="premiumTgCenter">
             <option value="">All Centers</option>
           </select>
+          <input type="number" id="premiumTgDays" min="1" max="3650" value="90"
+                 title="Subscription period in days (default 90)"
+                 style="width:80px;text-align:center;flex:0 0 auto;min-width:0;">
           <button class="premium-add-btn" id="premiumTgAddBtn" onclick="addPremiumTelegram()" style="background:#0ea5e9;">📨 Add by Telegram</button>
         </div>
+
+        <!-- Filter + sort toolbar — applies to the rendered list only. -->
+        <div class="premium-filter-bar">
+          <select id="premiumFilterRole" onchange="renderPremiumList()">
+            <option value="all">All roles</option>
+            <option value="super_admin">⚡ Super Admins</option>
+            <option value="admin">🛡️ Admins</option>
+            <option value="user">👤 Users</option>
+          </select>
+          <select id="premiumFilterIdentity" onchange="renderPremiumList()">
+            <option value="all">All identities</option>
+            <option value="email">📧 Google email</option>
+            <option value="telegram">📨 Telegram username</option>
+          </select>
+          <select id="premiumFilterCenter" onchange="renderPremiumList()">
+            <option value="all">All centers</option>
+          </select>
+          <select id="premiumSort" onchange="renderPremiumList()">
+            <option value="desc">⬇ Newest first</option>
+            <option value="asc">⬆ Oldest first</option>
+          </select>
+        </div>
+
         <div class="premium-msg" id="premiumMsg"></div>
         <div class="premium-count" id="premiumCount"></div>
         <div class="premium-list" id="premiumList">
@@ -4595,6 +4773,12 @@
       setTimeout(function() { el.className = 'premium-msg'; el.textContent = ''; }, 4000);
     }
 
+    // Module-scoped state used by renderPremiumList() to draw the filtered/
+    // sorted/numbered list without re-fetching from Supabase on every
+    // filter change.
+    var _premDeviceCountMap = {};
+    var _premLockedCenter   = null;
+
     async function loadPremiumEmails() {
       var listEl = document.getElementById('premiumList');
       var countEl = document.getElementById('premiumCount');
@@ -4603,6 +4787,7 @@
       // Detect if this is a clone site
       var _cid3 = window.__CENTER_ID || 'mock_stream';
       var premiumLockedCenter = _cid3 !== 'mock_stream' ? _cid3 : null;
+      _premLockedCenter = premiumLockedCenter;
 
       // Lock center dropdown on clone sites
       var centerSelect = document.getElementById('premiumCenterSelect');
@@ -4639,6 +4824,7 @@
           if (!deviceDetailsMap[d.email]) deviceDetailsMap[d.email] = [];
           deviceDetailsMap[d.email].push(d);
         });
+        _premDeviceCountMap = deviceCountMap;
 
         // Clone sites only see emails added specifically for their center
         if (premiumLockedCenter) {
@@ -4654,11 +4840,19 @@
         return;
       }
 
-      // Auto-deactivate expired user accounts (expires = created_at + 3 months)
+      // Auto-deactivate expired user accounts. Prefers the explicit
+      // expires_at column (set at create/renew time); falls back to
+      // created_at + 90 days for very old rows that pre-date the column.
+      // The daily pg_cron job handles this server-side too, so this is
+      // belt-and-braces for users who open the dashboard mid-day.
       var now = new Date();
       var expiredUsers = premiumEmails.filter(function(e) {
-        if (!e.active || (e.role !== 'user' && e.role !== 'student') || !e.created_at) return false;
-        var exp = new Date(e.created_at); exp.setMonth(exp.getMonth() + 3);
+        if (!e.active || (e.role !== 'user' && e.role !== 'student')) return false;
+        if (e.expires_at) {
+          return new Date(e.expires_at) < now;
+        }
+        if (!e.created_at) return false;
+        var exp = new Date(e.created_at); exp.setDate(exp.getDate() + 90);
         return exp < now;
       });
       if (expiredUsers.length > 0) {
@@ -4671,23 +4865,108 @@
         expiredUsers.forEach(function(eu) { eu.active = false; });
       }
 
-      var activeCount = premiumEmails.filter(function(e) { return e.active; }).length;
-      countEl.textContent = premiumEmails.length + ' email' + (premiumEmails.length !== 1 ? 's' : '') + ' registered · ' + activeCount + ' active';
+      // Store device details globally for popup access (used by
+      // showDeviceDetails). renderPremiumList reads _premDeviceCountMap.
+      window._premiumDeviceDetails = deviceDetailsMap;
 
-      if (premiumEmails.length === 0) {
-        listEl.innerHTML = '<div class="premium-empty"><div class="icon">📧</div><h3>No premium emails yet</h3><p>Add a student email above to give them VIP access.</p></div>';
+      // Populate the center filter dropdown from the loaded data. Main
+      // site shows every observed center; clones lock to their own.
+      _populatePremiumCenterFilter();
+
+      // Hand off to renderPremiumList — it does the filter/sort/count/HTML
+      // build. Called on every filter change too (no re-fetch).
+      renderPremiumList();
+    }
+
+    // Builds the filter dropdown options from the centers seen in
+    // premiumEmails. Preserves user's current selection.
+    function _populatePremiumCenterFilter() {
+      var sel = document.getElementById('premiumFilterCenter');
+      if (!sel) return;
+      var prev = sel.value || 'all';
+      if (_premLockedCenter) {
+        var name = CENTER_NAMES[_premLockedCenter] || _premLockedCenter;
+        sel.innerHTML = '<option value="' + _premLockedCenter + '">' + name + '</option>';
+        sel.value = _premLockedCenter;
+        sel.disabled = true;
+        return;
+      }
+      var seen = {};
+      premiumEmails.forEach(function (e) {
+        var c = e.center || '';
+        seen[c] = true;
+      });
+      var keys = Object.keys(seen).sort();
+      var html = '<option value="all">All centers</option>';
+      keys.forEach(function (c) {
+        var name = c === '' ? '— Super-admin (no centre) —' : (CENTER_NAMES[c] || c);
+        html += '<option value="' + (c || '__none__') + '">' + escapeHtml(name) + '</option>';
+      });
+      sel.innerHTML = html;
+      sel.value = prev;
+    }
+
+    // Renders the premium-emails list with current filter + sort + numbers.
+    // Pure DOM work — no Supabase fetch.
+    function renderPremiumList() {
+      var listEl  = document.getElementById('premiumList');
+      var countEl = document.getElementById('premiumCount');
+      if (!listEl || !countEl) return;
+
+      var fRoleEl     = document.getElementById('premiumFilterRole');
+      var fIdentityEl = document.getElementById('premiumFilterIdentity');
+      var fCenterEl   = document.getElementById('premiumFilterCenter');
+      var fSortEl     = document.getElementById('premiumSort');
+      var fRole     = fRoleEl     ? fRoleEl.value     : 'all';
+      var fIdentity = fIdentityEl ? fIdentityEl.value : 'all';
+      var fCenter   = fCenterEl   ? fCenterEl.value   : 'all';
+      var fSort     = fSortEl     ? fSortEl.value     : 'desc';
+
+      var now = new Date();
+
+      // Filter: drop clone-site super-admins (existing behaviour), then
+      // apply role and centre filters from the toolbar.
+      var rows = premiumEmails.filter(function (item) {
+        var isSuper = item.role === 'admin' && (!item.center || item.center === '');
+        if (_premLockedCenter && isSuper) return false;
+
+        if (fRole === 'super_admin' && !isSuper) return false;
+        if (fRole === 'admin' && !(item.role === 'admin' && item.center)) return false;
+        if (fRole === 'user' && item.role !== 'user' && item.role !== 'student') return false;
+
+        // Identity filter: email-only rows = Google; telegram_username-only
+        // rows = Telegram. Rows that somehow have BOTH (shouldn't happen
+        // in practice) match either filter.
+        if (fIdentity === 'email'    && !item.email) return false;
+        if (fIdentity === 'telegram' && !item.telegram_username) return false;
+
+        if (fCenter !== 'all') {
+          var rowCenter = item.center || '__none__';
+          if (rowCenter !== fCenter) return false;
+        }
+        return true;
+      });
+
+      // Sort by created_at; missing dates land at the end.
+      rows.sort(function (a, b) {
+        var ta = a.created_at ? new Date(a.created_at).getTime() : 0;
+        var tb = b.created_at ? new Date(b.created_at).getTime() : 0;
+        return fSort === 'asc' ? (ta - tb) : (tb - ta);
+      });
+
+      // Active vs total in the FILTERED set, plus the unfiltered total.
+      var totalAll = premiumEmails.length;
+      var activeFiltered = rows.filter(function (e) { return e.active; }).length;
+      countEl.textContent = rows.length + ' shown · ' + activeFiltered + ' active · ' + totalAll + ' total';
+
+      if (!rows.length) {
+        listEl.innerHTML = '<div class="premium-empty"><div class="icon">📧</div><h3>No emails match the filters</h3><p>Try a different role or center, or clear the filters.</p></div>';
         return;
       }
 
-      // Store device details globally for popup access
-      window._premiumDeviceDetails = deviceDetailsMap;
-
       var html = '';
-      premiumEmails.forEach(function(item) {
-        // Skip super admins (all-center admins) on clone sites
+      rows.forEach(function (item, idx) {
         var isSuperAdmin = item.role === 'admin' && (!item.center || item.center === '');
-        if (premiumLockedCenter && isSuperAdmin) return; // hide on clones
-
         var tierClass = item.tier === 'premium' ? 'premium' : 'regular';
         var tierLabel = item.tier === 'premium' ? 'Premium AI' : 'Regular';
         var roleClass = isSuperAdmin ? 'admin' : (item.role === 'admin' ? 'admin' : 'user');
@@ -4695,19 +4974,23 @@
         var toggleClass = item.active ? 'active' : 'inactive';
         var toggleLabel = item.active ? '✓ Active' : '✗ Inactive';
         var centerLabel = item.center ? (CENTER_NAMES[item.center] || item.center) : 'All centers';
-        var devCount = deviceCountMap[item.email] || 0;
+        var devCount = _premDeviceCountMap[item.email] || 0;
         var isAdminRow = (item.role === 'admin');
         var devClass = isAdminRow ? 'color:var(--ink-secondary);' : (devCount >= 5 ? 'color:#dc2626;font-weight:800;' : devCount >= 3 ? 'color:#d97706;font-weight:700;' : 'color:var(--ink-secondary);');
         var devLabel = isAdminRow ? (devCount + '/∞') : (devCount + '/5');
-        // Display label: email if present, else @telegram_username (Phase 2).
         var displayLabel = item.email
           ? item.email
           : (item.telegram_username ? '📨 @' + item.telegram_username : '(no identity)');
         var escapedEmail = escapeHtml(item.email || '').replace(/'/g, "\\'");
-        var escapedTg    = escapeHtml(item.telegram_username || '').replace(/'/g, "\\'");
+        // Pick the expiry source: explicit expires_at (preferred — set by
+        // Add/Renew with a custom period), else legacy created_at + 90 days.
+        var expSource = item.expires_at ? new Date(item.expires_at)
+                       : (item.created_at ? (function(){ var d = new Date(item.created_at); d.setDate(d.getDate() + 90); return d; })()
+                                          : null);
+
         var expiryBadge = '';
-        if ((item.role === 'user' || item.role === 'student') && item.created_at) {
-          var expDate = new Date(item.created_at); expDate.setMonth(expDate.getMonth() + 3);
+        if ((item.role === 'user' || item.role === 'student') && expSource) {
+          var expDate = expSource;
           var daysLeft = Math.ceil((expDate - now) / (1000 * 60 * 60 * 24));
           var isExpired = expDate < now;
           var expStr = expDate.getDate() + '/' + (expDate.getMonth() + 1) + '/' + expDate.getFullYear();
@@ -4719,9 +5002,9 @@
         }
 
         var expiryBar = '';
-        if ((item.role === 'user' || item.role === 'student') && item.created_at) {
+        if ((item.role === 'user' || item.role === 'student') && expSource && item.created_at) {
           var createdAt = new Date(item.created_at);
-          var expDateBar = new Date(item.created_at); expDateBar.setMonth(expDateBar.getMonth() + 3);
+          var expDateBar = expSource;
           var totalMs = expDateBar - createdAt;
           var elapsedMs = now - createdAt;
           var pct = Math.min(100, Math.max(0, Math.round((elapsedMs / totalMs) * 100)));
@@ -4740,21 +5023,87 @@
             + '</div>';
         }
 
+        // Renew button shown only on user/student rows; admins never expire.
+        var renewBtn = (item.role === 'user' || item.role === 'student')
+          ? '<button class="premium-item-renew" onclick="event.stopPropagation();renewPremium(\'' + item.id + '\')" title="Renew subscription">↻ Renew</button>'
+          : '';
+
         html += '<div class="premium-item-wrap" id="prem-' + item.id + '">'
-          + '<div class="premium-item">'
+          + '<div class="premium-item" onclick="togglePremiumCard(this.parentNode, event)">'
+          + '<span class="premium-item-num">' + (idx + 1) + '.</span>'
           + '<div class="premium-item-email">' + escapeHtml(displayLabel) + '</div>'
           + '<span class="premium-item-tier ' + tierClass + '">' + tierLabel + '</span>'
           + '<span class="premium-item-role ' + roleClass + '">' + roleLabel + '</span>'
+          + '<button class="premium-item-toggle ' + toggleClass + '" onclick="event.stopPropagation();togglePremium(\'' + item.id + '\',' + !item.active + ')">' + toggleLabel + '</button>'
+          + '<button class="premium-item-delete" onclick="event.stopPropagation();deletePremium(\'' + item.id + '\',\'' + escapedEmail + '\')" title="Delete">🗑</button>'
+          + '<span class="premium-item-chevron" aria-hidden="true">▾</span>'
+          + '</div>'
+          + '<div class="premium-card-details">'
           + '<span class="premium-item-center">' + escapeHtml(centerLabel) + '</span>'
           + expiryBadge
-          + '<span style="font-size:11px;padding:3px 8px;border-radius:8px;background:var(--surface);border:1px solid var(--border);cursor:pointer;' + devClass + '" onclick="showDeviceDetails(\'' + escapedEmail + '\')" title="' + devCount + ' device(s) — click to view">📱 ' + devLabel + '</span>'
-          + '<button class="premium-item-toggle ' + toggleClass + '" onclick="togglePremium(\'' + item.id + '\',' + !item.active + ')">' + toggleLabel + '</button>'
-          + '<button class="premium-item-delete" onclick="deletePremium(\'' + item.id + '\',\'' + escapedEmail + '\')" title="Delete">🗑</button>'
+          + '<span style="font-size:11px;padding:3px 8px;border-radius:8px;background:var(--surface);border:1px solid var(--border);cursor:pointer;' + devClass + '" onclick="event.stopPropagation();showDeviceDetails(\'' + escapedEmail + '\')" title="' + devCount + ' device(s) — click to view">📱 ' + devLabel + '</span>'
+          + renewBtn
           + '</div>'
           + expiryBar
           + '</div>';
       });
       listEl.innerHTML = html;
+    }
+    window.renderPremiumList = renderPremiumList;
+
+    // Tab-style add-form launcher. Tapping one button reveals its form
+    // (Email or Telegram) and collapses the other — keeps the panel
+    // compact so the user list is visible on phone screens.
+    function togglePremiumAddForm(which) {
+      var emailBtn  = document.getElementById('premiumAddToggleEmail');
+      var tgBtn     = document.getElementById('premiumAddToggleTg');
+      var emailForm = document.getElementById('premiumAddFormEmail');
+      var tgForm    = document.getElementById('premiumAddFormTelegram');
+      if (!emailBtn || !tgBtn || !emailForm || !tgForm) return;
+      var openingEmail = which === 'email' && !emailBtn.classList.contains('open');
+      var openingTg    = which === 'telegram' && !tgBtn.classList.contains('open');
+      emailBtn.classList.toggle('open', openingEmail);
+      tgBtn.classList.toggle('open', openingTg);
+      emailForm.style.display = openingEmail ? 'flex' : 'none';
+      tgForm.style.display    = openingTg    ? 'flex' : 'none';
+      if (openingEmail) {
+        var inp = document.getElementById('premiumEmailInput');
+        if (inp) setTimeout(function () { inp.focus(); }, 50);
+      } else if (openingTg) {
+        var tgInp = document.getElementById('premiumTgInput');
+        if (tgInp) {
+          // Wipe any value Chrome's autofill may have just dropped in
+          // (it likes to put the saved Google email into any text input
+          // that looks like an account field, even with autocomplete=off).
+          tgInp.value = '';
+          setTimeout(function () { tgInp.value = ''; tgInp.focus(); }, 50);
+        }
+      }
+    }
+    window.togglePremiumAddForm = togglePremiumAddForm;
+
+    // Toggles the .expanded state on a premium-item-wrap so the card grows
+    // to show center / expiry / device count / progress bar. Called from
+    // the summary row; the action buttons inside the row stopPropagation
+    // so clicking Active / Delete doesn't also collapse the card.
+    function togglePremiumCard(wrap, ev) {
+      if (!wrap) return;
+      if (ev && typeof ev.stopPropagation === 'function') ev.stopPropagation();
+      wrap.classList.toggle('expanded');
+    }
+    window.togglePremiumCard = togglePremiumCard;
+
+    // Reads the days input + returns an ISO expires_at = now + N days.
+    // Returns null for admin/super_admin (they never expire) or when the
+    // input is missing/invalid. Default 90 days mirrors the legacy plan.
+    function _premiumExpiresAt(daysInputId, role) {
+      if (role === 'admin') return null; // admins never expire
+      var el = document.getElementById(daysInputId);
+      var d = el && el.value ? parseInt(el.value, 10) : 90;
+      if (!Number.isFinite(d) || d <= 0) d = 90;
+      var dt = new Date();
+      dt.setUTCDate(dt.getUTCDate() + d);
+      return dt.toISOString();
     }
 
     async function addPremiumEmail() {
@@ -4767,6 +5116,7 @@
       var tier = tierSelect.value;
       var role = roleSelect.value;
       var center = centerSelect.value;
+      var expiresAt = _premiumExpiresAt('premiumDays', role);
 
       // Basic email validation
       if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -4779,6 +5129,8 @@
       btn.textContent = '...';
 
       try {
+        var payload = { email: email, tier: tier, role: role, center: center, active: true };
+        if (expiresAt) payload.expires_at = expiresAt;
         var resp = await fetch(SUPABASE_URL + '/rest/v1/premium_emails', {
           method: 'POST',
           headers: {
@@ -4787,7 +5139,7 @@
             'Content-Type': 'application/json',
             'Prefer': 'return=minimal'
           },
-          body: JSON.stringify({ email: email, tier: tier, role: role, center: center, active: true })
+          body: JSON.stringify(payload)
         });
 
         if (resp.status === 409 || resp.status === 409) {
@@ -4827,6 +5179,7 @@
       var tier = tierSelect.value;
       var role = roleSelect.value;
       var center = centerSelect.value;
+      var expiresAt = _premiumExpiresAt('premiumTgDays', role);
 
       if (!u || !/^[a-zA-Z0-9_]{3,32}$/.test(u)) {
         showPremiumMsg('Enter a valid Telegram username (3–32 chars, letters/digits/underscore)', 'error');
@@ -4839,6 +5192,8 @@
 
       try {
         // Try UPDATE first (in case @username already exists), else INSERT.
+        var patchBody = { tier: tier, role: role, center: center, active: true };
+        if (expiresAt) patchBody.expires_at = expiresAt;
         var patchResp = await fetch(SUPABASE_URL + '/rest/v1/premium_emails?telegram_username=eq.' + encodeURIComponent(u), {
           method: 'PATCH',
           headers: {
@@ -4847,7 +5202,7 @@
             'Content-Type': 'application/json',
             'Prefer': 'return=representation'
           },
-          body: JSON.stringify({ tier: tier, role: role, center: center, active: true })
+          body: JSON.stringify(patchBody)
         });
         var patchData = patchResp.ok ? await patchResp.json() : null;
         if (!patchData || patchData.length === 0) {
@@ -4859,7 +5214,7 @@
               'Content-Type': 'application/json',
               'Prefer': 'return=minimal'
             },
-            body: JSON.stringify({ telegram_username: u, tier: tier, role: role, center: center, active: true })
+            body: JSON.stringify(Object.assign({ telegram_username: u, tier: tier, role: role, center: center, active: true }, expiresAt ? { expires_at: expiresAt } : {}))
           });
           if (!insResp.ok) {
             var errData = await insResp.json().catch(function() { return {}; });
@@ -4898,6 +5253,41 @@
         showPremiumMsg('Failed to update', 'error');
       }
     }
+
+    // Renew: prompt the admin for a period in days, PATCH expires_at to
+    // now + N days and re-activate the row. Works for both freshly-expired
+    // and still-active subscriptions (renewal extends from "now", not
+    // from the prior expires_at — same model as Netflix/Spotify renewals).
+    async function renewPremium(id) {
+      var input = prompt('Renew subscription — period in days?', '90');
+      if (input === null) return; // cancelled
+      var days = parseInt(String(input).trim(), 10);
+      if (!Number.isFinite(days) || days <= 0 || days > 3650) {
+        showPremiumMsg('Enter a valid number of days (1–3650).', 'error');
+        return;
+      }
+      var dt = new Date();
+      dt.setUTCDate(dt.getUTCDate() + days);
+      var expiresAt = dt.toISOString();
+      try {
+        var resp = await fetch(SUPABASE_URL + '/rest/v1/premium_emails?id=eq.' + id, {
+          method: 'PATCH',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify({ expires_at: expiresAt, active: true })
+        });
+        if (!resp.ok) throw new Error('Renew failed');
+        showPremiumMsg('✅ Renewed for ' + days + ' day' + (days !== 1 ? 's' : '') + ' — expires ' + dt.toLocaleDateString(), 'success');
+        loadPremiumEmails();
+      } catch (e) {
+        showPremiumMsg('Renewal failed. Check Supabase connection.', 'error');
+      }
+    }
+    window.renewPremium = renewPremium;
 
     async function deletePremium(id, email) {
       if (!confirm('Remove premium access for ' + email + '?')) return;
