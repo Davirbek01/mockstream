@@ -12,6 +12,13 @@
 (function () {
   if (window.openCodesPanel) return; // idempotent
 
+  // Phase 6-E pilot: when /admin.html calls window.AdminPanels.codes.open(c)
+  // we mount the panel chrome (#cmRoot) directly into `c` instead of
+  // creating the fixed-position #codeMgmtOverlay modal. The legacy modal
+  // mode is preserved verbatim for landing.html's Site Management grid +
+  // results/index.html's topbar Codes button.
+  var _inlineContainer = null;
+
   var SUPABASE_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
   var FN_URL       = SUPABASE_URL + '/functions/v1/codes-manager';
   var ANON         = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
@@ -198,27 +205,39 @@
   /* -------------------------------------------------------------- shell */
   function show() {
     injectStyles();
-    // Use a unique id distinct from the Centers panel's overlay (which also
-    // claims 'cmOverlay'); without this rename, reopening Site Management and
-    // picking Centers after Code Management was open returns to landing
-    // because _cmEnsureOverlay() finds the leftover Code Management element
-    // by id and short-circuits.
-    var ov = document.getElementById('codeMgmtOverlay');
-    if (ov) { ov.style.display = 'block'; }
-    else {
-      ov = document.createElement('div');
-      ov.id = 'codeMgmtOverlay';
-      ov.className = 'cm-overlay';
-      ov.innerHTML = '<div class="cm-panel"><div id="cmRoot"></div></div>';
-      ov.addEventListener('click', function(e){ if (e.target === ov) hide(); });
-      document.body.appendChild(ov);
+    // Admin-host inline mode: mount #cmRoot directly into the host's
+    // container — no fixed-position #codeMgmtOverlay, no backdrop.
+    if (_inlineContainer) {
+      _inlineContainer.innerHTML = '<div class="cm-panel cm-panel-inline"><div id="cmRoot"></div></div>';
+    } else {
+      // Legacy modal mode (landing.html / dashboard topbar). Use a unique
+      // id distinct from the Centers panel's overlay (which also claims
+      // 'cmOverlay'); without this rename, reopening Site Management and
+      // picking Centers after Code Management was open returns to landing
+      // because _cmEnsureOverlay() finds the leftover Code Management
+      // element by id and short-circuits.
+      var ov = document.getElementById('codeMgmtOverlay');
+      if (ov) { ov.style.display = 'block'; }
+      else {
+        ov = document.createElement('div');
+        ov.id = 'codeMgmtOverlay';
+        ov.className = 'cm-overlay';
+        ov.innerHTML = '<div class="cm-panel"><div id="cmRoot"></div></div>';
+        ov.addEventListener('click', function(e){ if (e.target === ov) hide(); });
+        document.body.appendChild(ov);
+      }
     }
     // Show a transient “Loading…” frame while we verify the admin session.
+    // The × close button stays — in admin-host mode hide() is a no-op
+    // (the sidebar navigates away instead), so the button looks dead;
+    // hide it inline to avoid confusion.
     document.getElementById('cmRoot').innerHTML =
       '<div class="cm-header"><h3>🔑 Code Management</h3>' +
-        '<button class="cm-close" id="cmCloseLoad">×</button></div>' +
+        (_inlineContainer ? '' : '<button class="cm-close" id="cmCloseLoad">×</button>') +
+      '</div>' +
       '<div class="cm-body"><div class="cm-empty">Verifying admin session…</div></div>';
-    document.getElementById('cmCloseLoad').onclick = hide;
+    var closeLoad = document.getElementById('cmCloseLoad');
+    if (closeLoad) closeLoad.onclick = hide;
     call('list_centers', {}).then(function(r){
       if (r && r.ok) {
         // Hide the legacy 'mock_stream' (with underscore) row from the dropdown.
@@ -239,6 +258,8 @@
     });
   }
   function hide() {
+    // Inline mode has no overlay — the host's sidebar handles navigation.
+    if (_inlineContainer) return;
     var ov = document.getElementById('codeMgmtOverlay');
     if (ov) ov.style.display = 'none';
   }
@@ -1518,4 +1539,16 @@
   /* -------------------------------------------------------------- expose */
   window.openCodesPanel = function(fromSMG) { state.fromSMG = !!fromSMG; show(); };
   window.codesPanel = { open: show, hide: hide, call: call };
+
+  // Phase 6-E pilot: admin-host entry point. Called by /admin.html when
+  // the user clicks the "Codes" sidebar item. Sets the inline mount
+  // target then runs the same show flow legacy callers used.
+  window.AdminPanels = window.AdminPanels || {};
+  window.AdminPanels.codes = {
+    open: function (container) {
+      _inlineContainer = container || null;
+      state.fromSMG = false;
+      show();
+    }
+  };
 })();

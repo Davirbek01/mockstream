@@ -242,17 +242,14 @@
 <div class="adm-layout">
   <aside class="adm-sidebar" id="admSidebar">
     <div class="adm-section-label">Pilot (extracted)</div>
-    <div class="adm-nav">
-      <button class="adm-nav-item" data-panel="centers">
-        <span class="adm-nav-icon">🏢</span>
-        Centers
-      </button>
+    <div class="adm-nav" id="admNavExtracted">
+      <!-- Filled in by JS from PANELS. -->
     </div>
     <div class="adm-section-label">Still on legacy host</div>
     <div class="adm-nav" id="admNavLegacy">
-      <!-- Filled in by JS — each item links to landing.html?openSiteMgmt=1
-           so Platform Management still works end-to-end while we extract
-           the remaining panels one by one. -->
+      <!-- Filled in by JS from LEGACY_ITEMS. Each item bounces to
+           /landing.html?openSiteMgmt=1 so Platform Management still
+           works end-to-end while we extract the remaining panels. -->
     </div>
   </aside>
 
@@ -272,13 +269,28 @@
   var PANELS = {
     centers: {
       label: 'Centers',
+      icon: '🏢',
       script: '/admin/centers.js',
       open: function (container) {
-        // centers.js exposes window.AdminPanels.centers.open(container)
         if (window.AdminPanels && window.AdminPanels.centers && typeof window.AdminPanels.centers.open === 'function') {
           window.AdminPanels.centers.open(container);
         } else {
           container.innerHTML = '<div class="adm-loading"><div>Centers script loaded but did not register correctly.</div></div>';
+        }
+      }
+    },
+    codes: {
+      label: 'Code Management',
+      icon: '🔑',
+      // code-management.js is already a stand-alone module shared with
+      // landing.html and the dashboard topbar. We just load it once and
+      // call its admin-host entry point.
+      script: '/code-management.js?v=13',
+      open: function (container) {
+        if (window.AdminPanels && window.AdminPanels.codes && typeof window.AdminPanels.codes.open === 'function') {
+          window.AdminPanels.codes.open(container);
+        } else {
+          container.innerHTML = '<div class="adm-loading"><div>Code Management script loaded but did not register correctly.</div></div>';
         }
       }
     }
@@ -292,13 +304,29 @@
     { icon: '📖', label: 'Reading Plus' },
     { icon: '🎧', label: 'Listening Plus' },
     { icon: '🧪', label: 'Mock Settings' },
-    { icon: '🔑', label: 'Code Management' },
     { icon: '🤖', label: 'AI Grading Router' },
     { icon: '✉️', label: 'Private Messages' },
     { icon: '💬', label: 'Support Messages' },
     { icon: '🎬', label: 'Video Guides' },
     { icon: '🛡️', label: 'IP Blocker',      href: '/ip-blocker.html' }
   ];
+  function _escAttr(s) { return String(s).replace(/"/g, '&quot;'); }
+  function renderExtracted() {
+    var holder = document.getElementById('admNavExtracted');
+    if (!holder) return;
+    holder.innerHTML = Object.keys(PANELS).map(function (key) {
+      var p = PANELS[key];
+      return '<button class="adm-nav-item" data-panel="' + _escAttr(key) + '">' +
+               '<span class="adm-nav-icon">' + (p.icon || '•') + '</span>' + p.label +
+             '</button>';
+    }).join('');
+    holder.querySelectorAll('.adm-nav-item').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var key = btn.getAttribute('data-panel');
+        window.location.hash = '#' + key;
+      });
+    });
+  }
   function renderLegacy() {
     var holder = document.getElementById('admNavLegacy');
     if (!holder) return;
@@ -405,17 +433,13 @@
   document.getElementById('admDrawerBackdrop').addEventListener('click', _closeDrawer);
 
   // ── Sidebar clicks ─────────────────────────────────────────────────────
-  document.querySelectorAll('.adm-sidebar .adm-nav-item[data-panel]').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var key = btn.getAttribute('data-panel');
-      window.location.hash = '#' + key;
-    });
-  });
+  // (Click handlers are wired by renderExtracted / renderLegacy.)
   window.addEventListener('hashchange', function () {
     _activate(_readHashPanel());
   });
 
   // ── Boot ───────────────────────────────────────────────────────────────
+  renderExtracted();
   renderLegacy();
   async function _boot() {
     // Wait up to ~3s for AdminAuth (auth.js + admin-auth.js load deferred).
