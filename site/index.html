@@ -5333,24 +5333,23 @@
       _initTelegramLogin();
     }
 
-    // Hide Google sign-in when running inside a *mobile* Telegram Mini App.
+    // Hide Google sign-in when running inside a Telegram Mini App.
     // The Supabase OAuth flow (third-party cookies + #access_token URL
-    // fragment) is broken specifically in iOS / Android TMA WebViews:
+    // fragment) is broken in TMA's WebView on iOS / Android / Desktop —
     // the user picks an account, returns to the index page, and no
-    // session is set. Desktop TMA clients (tdesktop / macos) and the
-    // web versions (weba / webk) open Google in a normal browser tab,
-    // so OAuth completes — Google sign-in stays usable there. Telegram
-    // sign-in works in all cases. Detection: WebApp SDK present AND
-    // platform is a known *mobile* Telegram client.
-    (function _hideGoogleInMobileTelegramMiniApp() {
-      function _isMobileTelegramMiniApp() {
+    // session is set. Telegram sign-in works because it's a native
+    // postMessage flow with no cross-domain hop. Detection: WebApp SDK
+    // present AND platform is a real Telegram client (not 'unknown',
+    // which is what regular browsers report when the script loads).
+    (function _hideGoogleInTelegramMiniApp() {
+      function _isTelegramMiniApp() {
         var tg = window.Telegram && window.Telegram.WebApp;
         if (!tg) return false;
         var plat = (tg.platform || '').toString().toLowerCase();
-        return plat === 'android' || plat === 'ios';
+        return plat && plat !== 'unknown';
       }
       function _apply() {
-        if (!_isMobileTelegramMiniApp()) return;
+        if (!_isTelegramMiniApp()) return;
         var gBtn = document.getElementById('googleSigninBtn');
         if (gBtn) gBtn.style.display = 'none';
         // The "OR" divider only makes sense when there are two sign-in
