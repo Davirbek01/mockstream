@@ -27076,6 +27076,15 @@
         '#sysPromptOverlay.visible', '#sysPromptOverlay.active',
         '#testMakerOverlay.visible', '#testMakerOverlay.active',
         '#cmOverlay.visible', '#cmOverlay.active',
+        /* Mock Settings — passcode prompt + main panel. The passcode
+           overlay is created on-the-fly so presence == visible. The main
+           #mmgOverlay element is permanently in the DOM with
+           style="display:none" until opened (style flips to "flex"), so
+           we use a style-attribute filter to avoid matching the hidden
+           default state. Without these, openMockMgmtFromV3 bounces the
+           user back to v3 after 2s even with the passcode modal showing. */
+        '#mmgPasscodeOverlay',
+        '#mmgOverlay[style*="flex"]',
         /* Per-skill access-code modals — opened by /take/<slug> deep-links
            via handleReadingMockClick / etc. Without these, the watcher
            bounces the user to v3 the moment the access-code modal opens. */
