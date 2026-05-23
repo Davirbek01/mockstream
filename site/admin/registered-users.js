@@ -1098,6 +1098,24 @@
       var f = parseFloat(s); return isNaN(f) ? null : f;
     }
 
+    // Expose every function referenced from inline onclick="..." attributes
+    // to window so the browser can resolve them when the click fires. In
+    // landing.html these were already globals because the script ran in
+    // page-script scope; the IIFE made them local, which is why card
+    // clicks did nothing in the admin host.
+    window._verifyRuPasscode    = _verifyRuPasscode;
+    window._closeRuPasscode     = _closeRuPasscode;
+    window._filterRuList        = _filterRuList;
+    window._viewUserResults     = _viewUserResults;
+    window._backToUsersList     = _backToUsersList;
+    window._toggleBlockUser     = _toggleBlockUser;
+    window._saveUserRole        = _saveUserRole;
+    window._toggleUserRoleActive= _toggleUserRoleActive;
+    window._removeUserRole      = _removeUserRole;
+    window._openRuReport        = _openRuReport;
+    window._closeRuReport       = _closeRuReport;
+    window.closeRegisteredUsersPanel = closeRegisteredUsersPanel;
+
     // Phase 6-E pilot: admin-host entry point. Called by /admin.html when
     // the user clicks the "Registered Users" sidebar item.
     window.AdminPanels = window.AdminPanels || {};
