@@ -293,12 +293,23 @@
           container.innerHTML = '<div class="adm-loading"><div>Code Management script loaded but did not register correctly.</div></div>';
         }
       }
+    },
+    'registered-users': {
+      label: 'Registered Users',
+      icon: '👥',
+      script: '/admin/registered-users.js',
+      open: function (container) {
+        if (window.AdminPanels && window.AdminPanels.registeredUsers && typeof window.AdminPanels.registeredUsers.open === 'function') {
+          window.AdminPanels.registeredUsers.open(container);
+        } else {
+          container.innerHTML = '<div class="adm-loading"><div>Registered Users script loaded but did not register correctly.</div></div>';
+        }
+      }
     }
   };
   var LEGACY_ITEMS = [
     { icon: '📝', label: 'System Prompts' },
     { icon: '🛠️', label: 'Test Maker' },
-    { icon: '👥', label: 'Registered Users' },
     { icon: '✏️', label: 'Writing Plus' },
     { icon: '🎙️', label: 'Voice Sessions',  href: '/admin-realtime-review.html', newTab: true },
     { icon: '📖', label: 'Reading Plus' },
