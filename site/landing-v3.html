@@ -3817,11 +3817,21 @@
       window.location.href = '/admin.html#centers';
     });
     // Mock Settings — deep-link to landing.html with ?openMockMgmt=1.
-    // landing.html's openMockMgmtFromV3 handler picks that up post-load
-    // and calls openMockMgmtPanel(), which then self-prompts for the
-    // super-admin passcode. We don't extract the 9.4k-line panel here;
-    // this is just a shortcut to the existing legacy panel.
-    document.getElementById('msv3MockMgmtBtn').addEventListener('click', function () {
+    // First gate on super-admin role using the same Supabase JWT check
+    // Force-refresh uses. Non-admins get the 🔐 modal instead of being
+    // sent to landing.html only to fail at the legacy passcode prompt.
+    // Super-admins (Google OR Telegram) bounce through to the panel.
+    document.getElementById('msv3MockMgmtBtn').addEventListener('click', async function () {
+      try {
+        if (window.MockStream && window.MockStream.auth &&
+            typeof window.MockStream.auth.checkPremiumRole === 'function') {
+          var info = await window.MockStream.auth.checkPremiumRole();
+          if (!info || !info.isAdmin) {
+            _showAdminGateModal('Mock Settings is restricted to the super-admin account. Sign in to continue.');
+            return;
+          }
+        }
+      } catch (_e) { /* fall through to navigation */ }
       window.location.href = '/landing.html?openMockMgmt=1';
     });
     // Force-refresh button. Checks the caller's super-admin role via
