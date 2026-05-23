@@ -104,28 +104,53 @@ async function authenticate(passcode: string): Promise<AuthResult> {
   return { role: 'none' };
 }
 
-// Browser admins authenticate via their Supabase JWT — matches the
-// codes-manager authenticateViaJwt pattern exactly.
+// Browser admins authenticate via their Supabase JWT. Matches by EITHER
+// email (Google sign-in) OR telegram_username (Telegram sign-in) so a
+// super-admin granted to a Telegram handle works the same as one granted
+// to an email — same OR-pattern the client uses in auth.js and the RLS
+// helpers use server-side.
 async function authenticateViaJwt(jwt: string): Promise<AuthResult> {
   if (!jwt) return { role: 'none' };
   let email = '';
+  let tgUsername = '';
   try {
     const { data, error } = await sb.auth.getUser(jwt);
-    if (error || !data || !data.user || !data.user.email) return { role: 'none' };
-    email = data.user.email.toLowerCase();
+    if (error || !data || !data.user) return { role: 'none' };
+    email = (data.user.email || '').toLowerCase();
+    const meta = data.user.user_metadata || {};
+    const raw = typeof meta.telegram_username === 'string' ? meta.telegram_username : '';
+    tgUsername = raw.toLowerCase().replace(/^@/, '').trim();
   } catch {
     return { role: 'none' };
   }
-  if (!email) return { role: 'none' };
+  if (!email && !tgUsername) return { role: 'none' };
   if (email === 'davirbekkhasanov02@gmail.com') return { role: 'super_admin' };
-  const { data: row } = await sb
+
+  // Build the query — match email OR telegram_username depending on what
+  // the JWT actually carries. .or() needs both column names for the
+  // multi-identity case; .eq() is cleaner when only one is known.
+  let q = sb
     .from('premium_emails')
-    .select('center, role, active')
-    .eq('email', email)
+    .select('center, email, telegram_username, role, active')
     .eq('role', 'admin')
-    .eq('active', true)
-    .maybeSingle();
-  if (!row) return { role: 'none' };
+    .eq('active', true);
+  if (email && tgUsername) {
+    q = q.or(`email.eq.${email},telegram_username.eq.${tgUsername}`);
+  } else if (email) {
+    q = q.eq('email', email);
+  } else {
+    q = q.eq('telegram_username', tgUsername);
+  }
+  const { data: rows } = await q;
+  if (!rows || !rows.length) return { role: 'none' };
+  // When both identities match different rows, prefer the one that
+  // matched the identity the user is actually signed in with.
+  let row = rows[0];
+  if (rows.length > 1) {
+    const byEmail = rows.find(r => email && r.email && r.email.toLowerCase() === email);
+    const byTg    = rows.find(r => tgUsername && r.telegram_username && r.telegram_username.toLowerCase() === tgUsername);
+    row = (email && byEmail) || byTg || rows[0];
+  }
   const center = (row.center || '').toString();
   if (!center) return { role: 'super_admin' };
   return { role: 'admin', center: center.toLowerCase().replace(/[_\s]/g, '') };

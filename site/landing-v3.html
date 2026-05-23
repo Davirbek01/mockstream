@@ -3208,6 +3208,12 @@
           Platform Management
           <span class="msv3-row-arrow">🔒</span>
         </button>
+        <button type="button" class="msv3-row" id="msv3ForceRefreshBtn"
+                title='Sends a "New version available" banner to every open landing-page tab across all 6 sites.'>
+          <span class="msv3-row-icon">📢</span>
+          Force-refresh all tabs
+          <span class="msv3-row-arrow">🔒</span>
+        </button>
       </div>
 
       <div class="msv3-section">
@@ -3716,7 +3722,7 @@
     // result on window so subsequent opens are instant, and update the
     // lock badge based on the actual role.
     function _applyAdminLockUI(isAdmin) {
-      document.querySelectorAll('#msv3AdminBtn .msv3-row-arrow, #msv3PlatformBtn .msv3-row-arrow')
+      document.querySelectorAll('#msv3AdminBtn .msv3-row-arrow, #msv3PlatformBtn .msv3-row-arrow, #msv3AdminPanelBtn .msv3-row-arrow, #msv3ForceRefreshBtn .msv3-row-arrow')
         .forEach(function (el) { el.textContent = isAdmin ? '→' : '🔒'; });
     }
     function refreshAdminLocks() {
@@ -3804,13 +3810,63 @@
     document.getElementById('msv3AdminPanelBtn').addEventListener('click', function () {
       window.location.href = '/admin.html#centers';
     });
-    // Platform Management + Admin Panel are main-site only — hide both
-    // rows entirely on clones. Same detection source the rest of the file
-    // uses: window.__CENTER_ID set by center-id.js per Netlify build.
+    // Force-refresh button. Checks the caller's super-admin role via
+    // AdminAuth (Google email OR Telegram username, since admin-auth.js
+    // now matches both), then POSTs { action: 'bump_reload_version',
+    // userJwt } to the admin-mocks Edge Function. No numeric passcode
+    // prompt — the JWT IS the auth. Banner reaches all open landing
+    // tabs across all 6 sites within ~3 min (or instantly on tab-focus).
+    document.getElementById('msv3ForceRefreshBtn').addEventListener('click', async function () {
+      var btn = this;
+      var arrow = btn.querySelector('.msv3-row-arrow');
+      var orig = arrow ? arrow.textContent : '';
+      try {
+        // Resolve the current Supabase session JWT.
+        var client = (window.MockStream && window.MockStream.auth &&
+                      typeof window.MockStream.auth.getClient === 'function')
+                       ? window.MockStream.auth.getClient() : null;
+        var jwt = '';
+        if (client && client.auth) {
+          var sess = await client.auth.getSession();
+          jwt = (sess && sess.data && sess.data.session && sess.data.session.access_token) || '';
+        }
+        if (!jwt) {
+          alert('Please sign in as super-admin first (Google or Telegram).');
+          return;
+        }
+        if (arrow) arrow.textContent = '⏳';
+        var SB  = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+        var KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+        var r = await fetch(SB + '/functions/v1/admin-mocks', {
+          method: 'POST',
+          headers: {
+            'Content-Type':  'application/json',
+            'apikey':        KEY,
+            'Authorization': 'Bearer ' + KEY
+          },
+          body: JSON.stringify({ action: 'bump_reload_version', userJwt: jwt })
+        });
+        var j = await r.json().catch(function () { return { error: 'bad_response' }; });
+        if (!r.ok || j.error) {
+          alert('Force-refresh failed: ' + (j.error || ('HTTP ' + r.status)));
+          if (arrow) arrow.textContent = orig;
+          return;
+        }
+        if (arrow) {
+          arrow.textContent = '✓';
+          setTimeout(function () { arrow.textContent = orig; }, 2500);
+        }
+      } catch (e) {
+        alert('Force-refresh failed: ' + (e && e.message ? e.message : e));
+        if (arrow) arrow.textContent = orig;
+      }
+    });
+    // Platform Management + Admin Panel + Force-refresh are main-site only
+    // — hide on clones. Same __CENTER_ID gate the rest of the file uses.
     (function hidePlatformOnClones() {
       var centerId = (window.__CENTER_ID || 'mock_stream').toString();
       if (centerId !== 'mock_stream') {
-        ['msv3PlatformBtn', 'msv3AdminPanelBtn'].forEach(function (id) {
+        ['msv3PlatformBtn', 'msv3AdminPanelBtn', 'msv3ForceRefreshBtn'].forEach(function (id) {
           var btn = document.getElementById(id);
           if (btn) btn.style.display = 'none';
         });

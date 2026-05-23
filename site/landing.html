@@ -28513,22 +28513,17 @@
             '<button id="smgCloseBtn" aria-label="Close" class="smg-close">×</button>' +
           '</div>' +
           '<div class="smg-sub">Administrator tools. Click any card to open.</div>' +
-          // Force-refresh row — fans out a "New version available" banner
-          // to every open landing-page tab across all 6 sites within ~3 min.
-          // Useful after adding/editing mocks or toggling center features.
-          '<div style="display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#fffbeb,#fef3c7);border:1px solid #fbbf24;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:12.5px;">' +
-            '<div style="flex:1;color:#78350f;line-height:1.45;">' +
-              '<strong>📢 Force-refresh all open tabs</strong> — fans a "New version available" banner to every open landing page across all 6 sites. Useful after adding mocks or toggling features.' +
-            '</div>' +
-            '<button id="smgForceReloadBtn" type="button" style="background:#d97706;color:#fff;border:0;border-radius:8px;padding:9px 14px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;box-shadow:0 4px 12px rgba(217,119,6,.3);">📢 Force refresh</button>' +
-          '</div>' +
+          // Force-refresh row removed 2026-05-23 — moved to the v3 sidebar
+          // as a standalone "Force-refresh all tabs" button so it uses the
+          // logged-in admin's JWT (Google OR Telegram) instead of a
+          // separate numeric passcode prompt. The Edge Function action
+          // bump_reload_version still does the same thing; only the
+          // entry point moved.
           '<div id="smgGrid" class="smg-grid">' + cards + '</div>' +
         '</div>';
       document.body.appendChild(div);
       div.addEventListener('click', function (e) { if (e.target === div) { div.remove(); _removeSmgBackPill(); } });
       div.querySelector('#smgCloseBtn').onclick = function () { div.remove(); _removeSmgBackPill(); };
-      var _frBtn = div.querySelector('#smgForceReloadBtn');
-      if (_frBtn) _frBtn.onclick = function (e) { e.stopPropagation(); _smgBumpReloadVersion(_frBtn); };
       div.querySelectorAll('.smg-card').forEach(function (btn) {
         btn.addEventListener('click', function () {
           var idx = parseInt(btn.getAttribute('data-idx'), 10);
