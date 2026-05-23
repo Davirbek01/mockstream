@@ -3214,6 +3214,12 @@
           Force-refresh all tabs
           <span class="msv3-row-arrow">🔒</span>
         </button>
+        <button type="button" class="msv3-row" id="msv3MockMgmtBtn"
+                title="Opens the Mock Settings editor (8 per-skill editors, audio/image uploads, backups).">
+          <span class="msv3-row-icon">🧪</span>
+          Mock Settings
+          <span class="msv3-row-arrow">🔒</span>
+        </button>
       </div>
 
       <div class="msv3-section">
@@ -3722,7 +3728,7 @@
     // result on window so subsequent opens are instant, and update the
     // lock badge based on the actual role.
     function _applyAdminLockUI(isAdmin) {
-      document.querySelectorAll('#msv3AdminBtn .msv3-row-arrow, #msv3PlatformBtn .msv3-row-arrow, #msv3AdminPanelBtn .msv3-row-arrow, #msv3ForceRefreshBtn .msv3-row-arrow')
+      document.querySelectorAll('#msv3AdminBtn .msv3-row-arrow, #msv3PlatformBtn .msv3-row-arrow, #msv3AdminPanelBtn .msv3-row-arrow, #msv3ForceRefreshBtn .msv3-row-arrow, #msv3MockMgmtBtn .msv3-row-arrow')
         .forEach(function (el) { el.textContent = isAdmin ? '→' : '🔒'; });
     }
     function refreshAdminLocks() {
@@ -3809,6 +3815,14 @@
     // end-to-end during the transition.
     document.getElementById('msv3AdminPanelBtn').addEventListener('click', function () {
       window.location.href = '/admin.html#centers';
+    });
+    // Mock Settings — deep-link to landing.html with ?openMockMgmt=1.
+    // landing.html's openMockMgmtFromV3 handler picks that up post-load
+    // and calls openMockMgmtPanel(), which then self-prompts for the
+    // super-admin passcode. We don't extract the 9.4k-line panel here;
+    // this is just a shortcut to the existing legacy panel.
+    document.getElementById('msv3MockMgmtBtn').addEventListener('click', function () {
+      window.location.href = '/landing.html?openMockMgmt=1';
     });
     // Force-refresh button. Checks the caller's super-admin role via
     // AdminAuth (Google email OR Telegram username, since admin-auth.js
@@ -4014,12 +4028,13 @@
         if (arrow) arrow.textContent = orig;
       }
     });
-    // Platform Management + Admin Panel + Force-refresh are main-site only
-    // — hide on clones. Same __CENTER_ID gate the rest of the file uses.
+    // Platform Management + Admin Panel + Force-refresh + Mock Settings
+    // are main-site only — hide on clones. Same __CENTER_ID gate the rest
+    // of the file uses.
     (function hidePlatformOnClones() {
       var centerId = (window.__CENTER_ID || 'mock_stream').toString();
       if (centerId !== 'mock_stream') {
-        ['msv3PlatformBtn', 'msv3AdminPanelBtn', 'msv3ForceRefreshBtn'].forEach(function (id) {
+        ['msv3PlatformBtn', 'msv3AdminPanelBtn', 'msv3ForceRefreshBtn', 'msv3MockMgmtBtn'].forEach(function (id) {
           var btn = document.getElementById(id);
           if (btn) btn.style.display = 'none';
         });

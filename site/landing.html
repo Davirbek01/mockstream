@@ -6782,7 +6782,7 @@
       var handoffParamKeys = [
         'openSelector', 'openSidebar', 'openModal',
         'msv3Vip', 'msv3TgAuth',
-        'openAdminDashboard', 'openSiteMgmt',
+        'openAdminDashboard', 'openSiteMgmt', 'openMockMgmt',
         'openIeltsSpeakingMode',
         'openHelpCenter', 'openVipSignIn',
         'take'
@@ -8177,7 +8177,7 @@
         var KNOWN_HANDOFF_PARAMS = [
           'openSelector', 'openSidebar', 'openModal',
           'msv3Vip', 'msv3TgAuth',
-          'openAdminDashboard', 'openSiteMgmt',
+          'openAdminDashboard', 'openSiteMgmt', 'openMockMgmt',
           'openIeltsSpeakingMode',
           'openHelpCenter', 'openVipSignIn',
           'take' /* legacy: /landing.html?take=cefr-reading-45 */
@@ -26988,6 +26988,15 @@
         if (typeof openSiteMgmtGrid === 'function') openSiteMgmtGrid();
       });
     }
+    // Direct deep-link from the v3 sidebar's Mock Settings button —
+    // skip the Site Management grid and open openMockMgmtPanel directly.
+    // The panel self-gates with its own super-admin passcode modal so
+    // we don't need to pre-authenticate here.
+    function openMockMgmtFromV3() {
+      _msv3Handoff('openMockMgmt', function () {
+        if (typeof openMockMgmtPanel === 'function') openMockMgmtPanel();
+      });
+    }
     function openIeltsSpeakingModeFromV3() {
       _msv3Handoff('openIeltsSpeakingMode', function () {
         if (typeof showIELTSSpeakingModeModal === 'function') showIELTSSpeakingModeModal();
@@ -27134,6 +27143,7 @@
       setTimeout(openTelegramAuthFromV3, 250);
       setTimeout(openAdminFromV3, 250);
       setTimeout(openSiteMgmtFromV3, 250);
+      setTimeout(openMockMgmtFromV3, 250);
       setTimeout(openIeltsSpeakingModeFromV3, 250);
       setTimeout(openIeltsFullMockFromV3, 250);
       setTimeout(openHelpCenterFromV3, 250);
