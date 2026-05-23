@@ -1,0 +1,926 @@
+// ═══════════════════════════════════════════════════════════════════════
+// System Prompts — admin host panel (Phase 6-E pilot).
+// Per-skill / per-exam AI scoring prompts (system + user), plus AI
+// provider selector, fallback selector, transcription helper selector,
+// and Models tab. Writes to site_settings.scoring_*.
+//
+// landing.html keeps its own inline copy of CSS + HTML + JS so the
+// legacy /landing.html?openSiteMgmt=1 → System Prompts flow stays
+// byte-for-byte untouched.
+//
+// Exposes window.AdminPanels.systemPrompts.open(container).
+// ═══════════════════════════════════════════════════════════════════════
+(function () {
+  var _inlineContainer = null;
+  var _spHtmlInjected = false;
+  var _spTabsWired = false;
+  var _siteAdminUnlocked = false;
+
+  function _injectStyles() {
+    if (document.getElementById('spPanelStyles')) return;
+    var s = document.createElement('style');
+    s.id = 'spPanelStyles';
+    s.textContent = `
+
+    .sysprompt-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10001;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .sysprompt-overlay.visible {
+      display: flex;
+      opacity: 1;
+    }
+    .sysprompt-panel {
+      background: var(--card);
+      border-radius: 16px;
+      width: 95%;
+      max-width: 800px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+      overflow: hidden;
+    }
+    .sysprompt-overlay.visible .sysprompt-panel {
+      transform: scale(1);
+    }
+    .sysprompt-header {
+      background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+      color: white;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .sysprompt-header h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .sysprompt-close {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sysprompt-close:hover {
+      background: rgba(255,255,255,0.35);
+    }
+    .sysprompt-tabs {
+      display: flex;
+      border-bottom: 2px solid var(--ring);
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+    .sysprompt-tab {
+      padding: 10px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .sysprompt-tab:hover {
+      color: var(--ink);
+      background: rgba(124,58,237,0.05);
+    }
+    .sysprompt-tab.active {
+      color: #7c3aed;
+      border-bottom-color: #7c3aed;
+    }
+    .sysprompt-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+    .sysprompt-section {
+      display: none;
+    }
+    .sysprompt-section.active {
+      display: block;
+    }
+    .sysprompt-field {
+      margin-bottom: 20px;
+    }
+    .sysprompt-field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+    .sysprompt-field textarea {
+      width: 100%;
+      min-height: 180px;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1.5px solid var(--ring);
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 12px;
+      font-family: monospace;
+      line-height: 1.5;
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+    }
+    .sysprompt-field textarea:focus {
+      border-color: #7c3aed;
+    }
+    .sysprompt-provider-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      border-bottom: 1px solid var(--ring);
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+    .sysprompt-provider-row span {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .sysprompt-provider-btn {
+      padding: 5px 12px;
+      border: 2px solid var(--ring);
+      border-radius: 8px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .sysprompt-provider-btn.active {
+      border-color: #7c3aed;
+      background: linear-gradient(135deg, #7c3aed22, #6d28d922);
+      color: #7c3aed;
+    }
+    .sysprompt-provider-btn:hover:not(.active) {
+      border-color: var(--muted);
+      color: var(--foreground);
+    }
+    .sysprompt-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .sysprompt-save-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #7c3aed, #6d28d9);
+      color: white;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+    .sysprompt-save-btn:hover {
+      transform: translateY(-1px);
+    }
+    .sysprompt-reset-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background: var(--ring);
+      color: var(--ink);
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .sysprompt-status {
+      font-size: 12px;
+      margin-top: 8px;
+      min-height: 18px;
+    }
+    @media (max-width: 480px) {
+      .sysprompt-panel {
+        width: 100%;
+        max-width: 100%;
+        max-height: 100vh;
+        border-radius: 0;
+      }
+      .sysprompt-tab {
+        padding: 8px 10px;
+        font-size: 11px;
+      }
+    }
+
+    /* ===== TEST MAKER MODAL ===== */
+    `;
+    document.head.appendChild(s);
+  }
+
+  function _injectHtml(container) {
+    container.innerHTML = `
+  <div class="sysprompt-overlay" id="sysPromptOverlay" onclick="closeSystemPromptsPanel()">
+    <div class="sysprompt-panel" onclick="event.stopPropagation()">
+      <div class="sysprompt-header">
+        <h3>📝 System Prompts</h3>
+        <button class="sysprompt-close" onclick="closeSystemPromptsPanel()">✕</button>
+      </div>
+      <div class="sysprompt-provider-row">
+        <span>AI Provider:</span>
+        <button class="sysprompt-provider-btn active" id="spProviderGemini" onclick="_spSetProvider('gemini')">✨ Gemini</button>
+        <button class="sysprompt-provider-btn" id="spProviderOpenai" onclick="_spSetProvider('openai')">🤖 OpenAI</button>
+        <button class="sysprompt-provider-btn" id="spProviderClaude" onclick="_spSetProvider('claude')">🟣 Claude</button>
+        <button class="sysprompt-provider-btn" id="spProviderGrok" onclick="_spSetProvider('grok')" title="⚠️ Text only — Speaking mocks will use transcript-based scoring (no audio)">⚡ Grok ⚠️</button>
+        <button class="sysprompt-provider-btn" id="spProviderDeepseek" onclick="_spSetProvider('deepseek')" title="⚠️ Text only — Speaking mocks will use transcript-based scoring (no audio)">🔵 DeepSeek ⚠️</button>
+        <button class="sysprompt-provider-btn" id="spProviderGroqQwen" onclick="_spSetGroqVariant('qwen/qwen3-32b','spProviderGroqQwen')" title="⚠️ Text only — Speaking mocks use transcript-based scoring (no audio)">⚡ Groq Qwen 3 32B ⚠️</button>
+        <button class="sysprompt-provider-btn" id="spProviderGroqLlama70B" onclick="_spSetGroqVariant('llama-3.3-70b-versatile','spProviderGroqLlama70B')" title="⚠️ Text only — Speaking mocks use transcript-based scoring (no audio)">⚡ Groq Llama 3.3 70B ⚠️</button>
+        <button class="sysprompt-provider-btn" id="spProviderGroqLlama4Scout" onclick="_spSetGroqVariant('meta-llama/llama-4-scout-17b-16e-instruct','spProviderGroqLlama4Scout')" title="Vision-capable — image prompts work">⚡ Groq Llama 4 Scout 🖼️</button>
+      </div>
+      <div class="sysprompt-provider-row" style="margin-top:6px;align-items:center;">
+        <span style="font-size:12px;color:#6b7280;font-weight:600;">🛟 Fallback if primary fails:</span>
+        <select id="sp_scoring_ai_fallback" style="padding:6px 10px;border:1px solid var(--ring);border-radius:6px;font-size:12px;background:var(--bg);color:var(--text);">
+          <option value="">— None (show error) —</option>
+          <option value="gemini">Gemini</option>
+          <option value="openai">OpenAI</option>
+          <option value="claude">Claude</option>
+          <option value="grok">Grok (text only)</option>
+          <option value="deepseek">DeepSeek (text only)</option>
+          <option value="groq:llama-3.3-70b-versatile">Groq Llama 3.3 70B</option>
+          <option value="groq:qwen/qwen3-32b">Groq Qwen 3 32B</option>
+          <option value="groq:meta-llama/llama-4-scout-17b-16e-instruct">Groq Llama 4 Scout</option>
+        </select>
+        <span style="font-size:11px;color:#9ca3af;">Tried only when ALL primary keys fail terminally. Leave empty to disable.</span>
+      </div>
+      <div class="sysprompt-tabs" id="sysPromptTabs">
+        <button class="sysprompt-tab active" data-tab="cefr-writing">CEFR Writing</button>
+        <button class="sysprompt-tab" data-tab="cefr-speaking">CEFR Speaking</button>
+        <button class="sysprompt-tab" data-tab="ielts-writing">IELTS Writing</button>
+        <button class="sysprompt-tab" data-tab="ielts-speaking">IELTS Speaking</button>
+        <button class="sysprompt-tab" data-tab="models">⚙️ Models</button>
+      </div>
+      <div class="sysprompt-body" id="sysPromptBody">
+        <!-- CEFR Writing -->
+        <div class="sysprompt-section active" id="sec-cefr-writing">
+          <h4 style="margin:0 0 12px;font-size:15px;">CEFR Writing Prompts</h4>
+          <div class="sysprompt-field">
+            <label>Regular — System Instruction</label>
+            <textarea id="sp_scoring_cefr_writing_system" placeholder="System instruction for CEFR writing scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Regular — User Prompt Template</label>
+            <textarea id="sp_scoring_cefr_writing_prompt" placeholder="User prompt template for CEFR writing scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Task Mode — System Instruction</label>
+            <textarea id="sp_scoring_cefr_writing_task_system" placeholder="System instruction for CEFR writing task scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Task Mode — User Prompt Template</label>
+            <textarea id="sp_scoring_cefr_writing_task_prompt" placeholder="User prompt template for CEFR writing task scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Full Mock — System Instruction</label>
+            <textarea id="sp_scoring_cefr_writing_full_system" placeholder="System instruction for CEFR full mock writing..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Full Mock — User Prompt Template</label>
+            <textarea id="sp_scoring_cefr_writing_full_prompt" placeholder="User prompt template for CEFR full mock writing..."></textarea>
+          </div>
+        </div>
+        <!-- CEFR Speaking -->
+        <div class="sysprompt-section" id="sec-cefr-speaking">
+          <h4 style="margin:0 0 12px;font-size:15px;">CEFR Speaking Prompts</h4>
+          <div class="sysprompt-field">
+            <label>Regular — System Instruction</label>
+            <textarea id="sp_scoring_cefr_speaking_system" placeholder="System instruction for CEFR speaking scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Regular — User Prompt Template</label>
+            <textarea id="sp_scoring_cefr_speaking_prompt" placeholder="User prompt template for CEFR speaking scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Part Mode — System Instruction</label>
+            <textarea id="sp_scoring_cefr_speaking_part_system" placeholder="System instruction for CEFR speaking part scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Part Mode — User Prompt Template</label>
+            <textarea id="sp_scoring_cefr_speaking_part_prompt" placeholder="User prompt template for CEFR speaking part scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Full Mock — System Instruction</label>
+            <textarea id="sp_scoring_cefr_speaking_full_system" placeholder="System instruction for CEFR full mock speaking..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Full Mock — User Prompt Template</label>
+            <textarea id="sp_scoring_cefr_speaking_full_prompt" placeholder="User prompt template for CEFR full mock speaking..."></textarea>
+          </div>
+        </div>
+        <!-- IELTS Writing -->
+        <div class="sysprompt-section" id="sec-ielts-writing">
+          <h4 style="margin:0 0 12px;font-size:15px;">IELTS Writing Prompts</h4>
+          <div class="sysprompt-field">
+            <label>Regular — System Instruction</label>
+            <textarea id="sp_scoring_ielts_writing_system" placeholder="System instruction for IELTS writing scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Regular — User Prompt Template</label>
+            <textarea id="sp_scoring_ielts_writing_prompt" placeholder="User prompt template for IELTS writing scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Task Mode — System Instruction</label>
+            <textarea id="sp_scoring_ielts_writing_task_system" placeholder="System instruction for IELTS writing task scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Task Mode — User Prompt Template</label>
+            <textarea id="sp_scoring_ielts_writing_task_prompt" placeholder="User prompt template for IELTS writing task scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Full Mock — System Instruction</label>
+            <textarea id="sp_scoring_ielts_writing_full_system" placeholder="System instruction for IELTS full mock writing..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Full Mock — User Prompt Template</label>
+            <textarea id="sp_scoring_ielts_writing_full_prompt" placeholder="User prompt template for IELTS full mock writing..."></textarea>
+          </div>
+        </div>
+        <!-- IELTS Speaking -->
+        <div class="sysprompt-section" id="sec-ielts-speaking">
+          <h4 style="margin:0 0 12px;font-size:15px;">IELTS Speaking Prompts</h4>
+          <div class="sysprompt-field">
+            <label>Regular — System Instruction</label>
+            <textarea id="sp_scoring_ielts_speaking_system" placeholder="System instruction for IELTS speaking scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Regular — User Prompt Template</label>
+            <textarea id="sp_scoring_ielts_speaking_prompt" placeholder="User prompt template for IELTS speaking scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Part Mode — System Instruction</label>
+            <textarea id="sp_scoring_ielts_speaking_part_system" placeholder="System instruction for IELTS speaking part scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Part Mode — User Prompt Template</label>
+            <textarea id="sp_scoring_ielts_speaking_part_prompt" placeholder="User prompt template for IELTS speaking part scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Full Mock — System Instruction</label>
+            <textarea id="sp_scoring_ielts_speaking_full_system" placeholder="System instruction for IELTS full mock speaking..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Full Mock — User Prompt Template</label>
+            <textarea id="sp_scoring_ielts_speaking_full_prompt" placeholder="User prompt template for IELTS full mock speaking..."></textarea>
+          </div>
+        </div>
+
+        <!-- ⚙️ Models -->
+        <div class="sysprompt-section" id="sec-models">
+          <h4 style="margin:0 0 6px;font-size:15px;">⚙️ AI Model Versions</h4>
+          <p style="margin:0 0 16px;font-size:12px;color:#888;">Update these when a provider releases a new model version. Leave blank to keep the current default.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div class="sysprompt-field" style="margin:0">
+              <label>OpenAI — Scoring model</label>
+              <input type="text" id="sp_scoring_model_openai" placeholder="gpt-4o-mini" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+            </div>
+            <div class="sysprompt-field" style="margin:0">
+              <label>OpenAI — Transcription model (Whisper)</label>
+              <input type="text" id="sp_scoring_model_whisper" placeholder="whisper-1" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+            </div>
+            <div class="sysprompt-field" style="margin:0">
+              <label>Gemini — Scoring &amp; Transcription model</label>
+              <input type="text" id="sp_scoring_model_gemini" placeholder="gemini-flash-latest" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+            </div>
+            <div class="sysprompt-field" style="margin:0">
+              <label>Claude model</label>
+              <input type="text" id="sp_scoring_model_claude" placeholder="claude-sonnet-4-20250514" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+            </div>
+            <div class="sysprompt-field" style="margin:0">
+              <label>Grok model</label>
+              <input type="text" id="sp_scoring_model_grok" placeholder="grok-3-mini" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+            </div>
+            <div class="sysprompt-field" style="margin:0">
+              <label>DeepSeek model</label>
+              <input type="text" id="sp_scoring_model_deepseek" placeholder="deepseek-chat" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+            </div>
+            <div class="sysprompt-field" style="margin:0;grid-column:1 / -1">
+              <label>Groq model (clicking a Groq provider button above prefills this)</label>
+              <input type="text" id="sp_scoring_model_groq" placeholder="llama-3.3-70b-versatile · qwen/qwen3-32b · meta-llama/llama-4-scout-17b-16e-instruct" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+            </div>
+
+            <div class="sysprompt-field" style="margin:0;grid-column:1 / -1;border-top:1px dashed var(--ring);padding-top:12px;">
+              <label style="font-weight:700;color:#7c3aed;">✨ Gemini Multi-Key Billing</label>
+              <p style="margin:4px 0 12px;font-size:12px;color:#888;">Pick which billing slot the AI proxy uses. <strong>Both</strong> mode tries slot 1 first and auto-fails over to slot 2 on rate-limit or quota errors — emergency backup if one billing account drains.</p>
+
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <div>
+                  <div style="font-size:12px;color:#666;font-weight:600;margin-bottom:6px;">💰 Prepay accounts</div>
+                  <div class="sp-gemini-row" data-group="prepay" style="display:flex;gap:8px;flex-wrap:wrap;">
+                    <button type="button" class="sp-gemini-btn" data-plan="prepay">Prepay 1</button>
+                    <button type="button" class="sp-gemini-btn" data-plan="prepay_2">Prepay 2</button>
+                    <button type="button" class="sp-gemini-btn" data-plan="prepay_both">Both (auto-failover)</button>
+                  </div>
+                </div>
+
+                <div>
+                  <div style="font-size:12px;color:#666;font-weight:600;margin-bottom:6px;">📆 Postpay accounts</div>
+                  <div class="sp-gemini-row" data-group="postpay" style="display:flex;gap:8px;flex-wrap:wrap;">
+                    <button type="button" class="sp-gemini-btn" data-plan="postpay">Postpay 1</button>
+                    <button type="button" class="sp-gemini-btn" data-plan="postpay_2">Postpay 2</button>
+                    <button type="button" class="sp-gemini-btn" data-plan="postpay_both">Both (auto-failover)</button>
+                  </div>
+                </div>
+
+                <div>
+                  <button type="button" class="sp-gemini-btn" data-plan="">⚙ Server fallback (no plan)</button>
+                </div>
+              </div>
+
+              <p style="margin:12px 0 0;font-size:11px;color:#94a3b8;">Selected plan saved to <code>site_settings.gemini_active_plan</code>. API keys live only in Edge Function secrets (<code>GEMINI_API_KEY_PREPAY</code>, <code>_PREPAY_2</code>, <code>_POSTPAY</code>, <code>_POSTPAY_2</code>) — no plaintext keys in the database.</p>
+
+              <style>
+                .sp-gemini-btn{padding:8px 14px;border:1.5px solid var(--ring);border-radius:8px;background:var(--bg);color:var(--text);font-size:13px;cursor:pointer;transition:all .15s;font-weight:500;}
+                .sp-gemini-btn:hover{border-color:#7c3aed;background:rgba(124,58,237,.05);}
+                .sp-gemini-btn.active{border-color:#7c3aed;background:#7c3aed;color:#fff;box-shadow:0 2px 8px rgba(124,58,237,.3);}
+              </style>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="padding:12px 20px 16px;border-top:1px solid var(--ring);flex-shrink:0;">
+        <div class="sysprompt-actions">
+          <button class="sysprompt-save-btn" onclick="saveScoringPrompts()">💾 Save All</button>
+          <button class="sysprompt-reset-btn" onclick="resetScoringPrompts()">↩️ Reset to Defaults</button>
+        </div>
+        <div class="sysprompt-status" id="sysPromptStatus"></div>
+      </div>
+    </div>
+  </div>
+    `;
+    _spHtmlInjected = true;
+    // Wire tab switching (event delegation on the tabs container) — done
+    // here instead of at module-load time so it fires AFTER the HTML
+    // exists in the DOM. Guarded so we only wire once across re-opens.
+    if (!_spTabsWired) {
+      var tabsEl = document.getElementById('sysPromptTabs');
+      if (tabsEl) {
+        tabsEl.addEventListener('click', function (e) {
+          var tab = e.target.closest('.sysprompt-tab');
+          if (!tab) return;
+          document.querySelectorAll('.sysprompt-tab').forEach(function (t) { t.classList.remove('active'); });
+          document.querySelectorAll('.sysprompt-section').forEach(function (s) { s.classList.remove('active'); });
+          tab.classList.add('active');
+          var sec = document.getElementById('sec-' + tab.dataset.tab);
+          if (sec) sec.classList.add('active');
+        });
+        _spTabsWired = true;
+      }
+    }
+  }
+
+    var _SP_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    var _SP_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    var _SP_ALL_KEYS = [
+      'scoring_cefr_writing_system','scoring_cefr_writing_prompt',
+      'scoring_cefr_writing_task_system','scoring_cefr_writing_task_prompt',
+      'scoring_cefr_writing_full_system','scoring_cefr_writing_full_prompt',
+      'scoring_cefr_speaking_system','scoring_cefr_speaking_prompt',
+      'scoring_cefr_speaking_part_system','scoring_cefr_speaking_part_prompt',
+      'scoring_cefr_speaking_full_system','scoring_cefr_speaking_full_prompt',
+      'scoring_ielts_writing_system','scoring_ielts_writing_prompt',
+      'scoring_ielts_writing_task_system','scoring_ielts_writing_task_prompt',
+      'scoring_ielts_writing_full_system','scoring_ielts_writing_full_prompt',
+      'scoring_ielts_speaking_system','scoring_ielts_speaking_prompt',
+      'scoring_ielts_speaking_part_system','scoring_ielts_speaking_part_prompt',
+      'scoring_ielts_speaking_full_system','scoring_ielts_speaking_full_prompt',
+      'scoring_model_openai','scoring_model_whisper',
+      'scoring_model_gemini','scoring_model_claude',
+      'scoring_model_grok','scoring_model_deepseek','scoring_model_groq'
+      // 'scoring_ai_fallback' is special-cased in saveScoringPrompts so it can
+      // be cleared back to "no fallback" (empty value still gets upserted).
+    ];
+
+    var _spCurrentProvider = 'gemini';
+    var _spTranscriptionProvider = 'gemini'; // helper AI for text-only providers
+
+    function _spSetTranscriptionHelper(h) {
+      _spTranscriptionProvider = h;
+      var providerLabel = _spCurrentProvider.charAt(0).toUpperCase() + _spCurrentProvider.slice(1);
+      var isTextOnly = (_spCurrentProvider === 'grok' || _spCurrentProvider === 'deepseek');
+      var theme = isTextOnly
+        ? { active: '#f59e0b', text: '#92400e', border: '#f59e0b' }
+        : { active: '#2563eb', text: '#1e40af', border: '#3b82f6' };
+      ['default','gemini','openai','assemblyai','groq'].forEach(function(k) {
+        var btn = document.getElementById('_spTrHelper_' + k);
+        if (!btn) return;
+        btn.style.background = (k === h) ? theme.active : 'transparent';
+        btn.style.color = (k === h) ? '#ffffff' : theme.text;
+        btn.style.borderColor = theme.border;
+      });
+      var labels = {
+        'default':    isTextOnly ? ('Default — system prompts helper') : ('Default — ' + providerLabel + ' transcribes its own audio'),
+        'gemini':     'Gemini 2.0 Flash',
+        'openai':     'OpenAI Whisper',
+        'assemblyai': 'AssemblyAI Universal',
+        'groq':       'Groq Whisper Turbo'
+      };
+      var note = document.getElementById('_spTrHelperNote');
+      if (note) {
+        if (h === 'default') {
+          note.textContent = isTextOnly
+            ? ('✓ Falls back to the helper AI defined in the system prompts (default: Gemini), then ' + providerLabel + ' scores the text.')
+            : ('✓ ' + providerLabel + ' will transcribe student audio AND score it (one-step, native).');
+        } else {
+          note.textContent = '✓ ' + (labels[h] || h) + ' will transcribe student audio, then ' + providerLabel + ' scores the text.';
+        }
+      }
+    }
+
+    function _spSetProvider(p) {
+      _spCurrentProvider = p;
+      document.getElementById('spProviderGemini').classList.toggle('active', p === 'gemini');
+      document.getElementById('spProviderOpenai').classList.toggle('active', p === 'openai');
+      document.getElementById('spProviderClaude').classList.toggle('active', p === 'claude');
+      document.getElementById('spProviderGrok').classList.toggle('active', p === 'grok');
+      document.getElementById('spProviderDeepseek').classList.toggle('active', p === 'deepseek');
+      // The three Groq variant buttons are deactivated when a non-Groq provider
+      // is picked. _spSetGroqVariant() handles activating exactly the variant
+      // the user clicked (since they all share provider id 'groq').
+      var groqBtns = ['spProviderGroqQwen', 'spProviderGroqLlama70B', 'spProviderGroqLlama4Scout'];
+      if (p !== 'groq') {
+        groqBtns.forEach(function (id) { var b = document.getElementById(id); if (b) b.classList.remove('active'); });
+      }
+      var providerLabel = p.charAt(0).toUpperCase() + p.slice(1);
+      // Llama 4 Scout has vision; Qwen/Llama 3.3 70B do not. The variant button's
+      // own click handler refines the warning, so default Groq treatment is text-only.
+      var isTextOnly = (p === 'grok' || p === 'deepseek' || p === 'groq');
+      var box = document.getElementById('_spAudioWarning');
+      if (!box) {
+        box = document.createElement('div');
+        box.id = '_spAudioWarning';
+        var providerRow = document.querySelector('.sysprompt-provider-row');
+        if (providerRow) providerRow.after(box);
+      }
+      // Re-theme box every time provider changes (amber for text-only, blue for native-capable)
+      var theme = isTextOnly
+        ? { bg: '#fef3c7', border: '#f59e0b', text: '#92400e', divider: 'rgba(245,158,11,0.35)' }
+        : { bg: '#dbeafe', border: '#3b82f6', text: '#1e40af', divider: 'rgba(59,130,246,0.35)' };
+      box.style.cssText = 'margin:6px 0 0;padding:6px 12px;background:' + theme.bg + ';border:1px solid ' + theme.border + ';border-radius:8px;font-size:11px;color:' + theme.text + ';flex-shrink:0;';
+      var headline = isTextOnly
+        ? '⚠️ ' + providerLabel + ' cannot process audio. Pick transcriber:'
+        : '🎙️ Transcriber (default = ' + providerLabel + ' itself):';
+      box.innerHTML =
+        '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">' +
+          '<span style="font-weight:600;font-size:11px;">' + headline + '</span>' +
+          '<button id="_spTrHelper_default" onclick="_spSetTranscriptionHelper(\'default\')" style="padding:3px 10px;border-radius:6px;border:1px solid ' + theme.border + ';background:transparent;cursor:pointer;font-size:11px;font-weight:600;color:' + theme.text + ';">⚙ Default</button>' +
+          '<button id="_spTrHelper_gemini" onclick="_spSetTranscriptionHelper(\'gemini\')" style="padding:3px 10px;border-radius:6px;border:1px solid ' + theme.border + ';background:transparent;cursor:pointer;font-size:11px;font-weight:600;color:' + theme.text + ';">✨ Gemini</button>' +
+          '<button id="_spTrHelper_openai" onclick="_spSetTranscriptionHelper(\'openai\')" style="padding:3px 10px;border-radius:6px;border:1px solid ' + theme.border + ';background:transparent;cursor:pointer;font-size:11px;font-weight:600;color:' + theme.text + ';">🤖 OpenAI</button>' +
+          '<button id="_spTrHelper_assemblyai" onclick="_spSetTranscriptionHelper(\'assemblyai\')" style="padding:3px 10px;border-radius:6px;border:1px solid ' + theme.border + ';background:transparent;cursor:pointer;font-size:11px;font-weight:600;color:' + theme.text + ';">📝 AssemblyAI</button>' +
+          '<button id="_spTrHelper_groq" onclick="_spSetTranscriptionHelper(\'groq\')" style="padding:3px 10px;border-radius:6px;border:1px solid ' + theme.border + ';background:transparent;cursor:pointer;font-size:11px;font-weight:600;color:' + theme.text + ';">⚡ Groq</button>' +
+          '<span id="_spTrHelperNote" style="font-size:10px;opacity:0.7;flex-basis:100%;"></span>' +
+        '</div>';
+      // For text-only providers, "default" maps to system-prompt helper (i.e. gemini-by-default).
+      // For native providers, "default" means "use itself".
+      _spSetTranscriptionHelper(_spTranscriptionProvider || 'default');
+      // Scroll body back to top so the prompt fields are visible after banner re-flow.
+      var body = document.getElementById('sysPromptBody');
+      if (body) body.scrollTop = 0;
+    }
+
+    // Three Groq variant buttons all share provider id 'groq' but preset
+    // a different model string in sp_scoring_model_groq. Backend code only
+    // sees provider='groq' + model=<chosen>, so a single 'groq' branch in
+    // each scoring page handles all three.
+    function _spSetGroqVariant(modelString, btnId) {
+      _spSetProvider('groq');
+      var fld = document.getElementById('sp_scoring_model_groq');
+      if (fld) fld.value = modelString;
+      var groqBtns = ['spProviderGroqQwen', 'spProviderGroqLlama70B', 'spProviderGroqLlama4Scout'];
+      groqBtns.forEach(function (id) {
+        var b = document.getElementById(id);
+        if (b) b.classList.toggle('active', id === btnId);
+      });
+
+    var _spAdminUnlocked = false;
+
+    function _showSpPasscode() {
+      var existing = document.getElementById('spPasscodeOverlay');
+      if (existing) { existing.classList.add('active'); document.getElementById('spPasscodeInput').value = ''; document.getElementById('spPasscodeInput').focus(); return; }
+      var div = document.createElement('div');
+      div.id = 'spPasscodeOverlay';
+      div.className = 'ru-overlay';
+      div.style.zIndex = '10150';
+      div.onclick = function(e) { if (e.target === div) _closeSpPasscode(); };
+      div.innerHTML = '<div style="background:var(--surface,#fff);border-radius:16px;padding:28px 24px;width:90vw;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:center;">' +
+        '<div style="font-size:28px;margin-bottom:8px;">🔐</div>' +
+        '<h3 style="margin:0 0 4px;font-size:16px;">Admin Access Required</h3>' +
+        '<p style="margin:0 0 16px;font-size:13px;color:#888;">Enter passcode to manage system prompts</p>' +
+        '<input type="password" id="spPasscodeInput" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" placeholder="••••••••" maxlength="20" style="width:100%;padding:12px 14px;border:1px solid var(--ring,#e5e7eb);border-radius:10px;font-size:15px;text-align:center;outline:none;background:var(--surface,#fff);color:var(--ink,#333);box-sizing:border-box;" onkeypress="if(event.key===\'Enter\')_verifySpPasscode()">' +
+        '<div id="spPasscodeError" style="min-height:20px;margin:8px 0;font-size:13px;color:#f87171;"></div>' +
+        '<button id="spPasscodeBtn" onclick="_verifySpPasscode()" style="width:100%;padding:12px;border:none;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;font-weight:600;font-size:14px;cursor:pointer;">Unlock</button>' +
+        '<button onclick="_closeSpPasscode()" style="margin-top:8px;background:none;border:none;color:#888;font-size:13px;cursor:pointer;">Cancel</button>' +
+        '</div>';
+      document.body.appendChild(div);
+      setTimeout(function() { div.classList.add('active'); document.getElementById('spPasscodeInput').focus(); }, 10);
+    }
+
+    function _closeSpPasscode() {
+      var el = document.getElementById('spPasscodeOverlay');
+      if (el) el.classList.remove('active');
+    }
+
+    async function _verifySpPasscode() {
+      var input = document.getElementById('spPasscodeInput');
+      var error = document.getElementById('spPasscodeError');
+      var btn = document.getElementById('spPasscodeBtn');
+      var code = (input.value || '').trim();
+      if (!code) { error.textContent = '❌ Please enter a passcode'; return; }
+      btn.disabled = true; btn.textContent = '⏳ Verifying...';
+      error.textContent = '';
+      try {
+        var resp = await fetch('https://admin0709.alwaysdata.net/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ passcode: code, type: 'bsb', validate: true, timestamp: Date.now(), source: 'system-prompts' , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
+        });
+        if (!resp.ok) throw new Error('Server error');
+        var data = await resp.json();
+        if (data.access) {
+          _spAdminUnlocked = true;
+          _closeSpPasscode();
+          openSystemPromptsPanel();
+        } else {
+          throw new Error('Invalid');
+        }
+      } catch (e) {
+        error.textContent = '❌ Incorrect passcode';
+        input.value = '';
+        input.focus();
+      } finally {
+        btn.disabled = false; btn.textContent = 'Unlock';
+      }
+    }
+
+    function openSystemPromptsPanel() {
+      if (!_spAdminUnlocked && !_siteAdminUnlocked) {
+        _showSpPasscode();
+        return;
+      }
+      var overlay = document.getElementById('sysPromptOverlay');
+      overlay.style.display = 'flex';
+      requestAnimationFrame(function() { overlay.classList.add('visible'); });
+      loadScoringPrompts();
+    }
+
+    function closeSystemPromptsPanel() {
+      var overlay = document.getElementById('sysPromptOverlay');
+      overlay.classList.remove('visible');
+      setTimeout(function() { overlay.style.display = 'none'; }, 300);
+    }
+
+    async function loadScoringPrompts() {
+      var status = document.getElementById('sysPromptStatus');
+      status.innerHTML = '<span style="color:var(--muted);">Loading prompts...</span>';
+      try {
+        var resp = await fetch(_SP_SB_URL + '/rest/v1/site_settings?key=like.scoring_*&select=key,value', {
+          headers: { 'apikey': _SP_SB_KEY, 'Authorization': 'Bearer ' + _SP_SB_KEY }
+        });
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        var rows = await resp.json();
+        var map = {};
+        rows.forEach(function(r) { map[r.key] = r.value; });
+        _SP_ALL_KEYS.forEach(function(key) {
+          var el = document.getElementById('sp_' + key);
+          if (el) el.value = map[key] || '';
+        });
+        if (map['scoring_ai_provider']) _spSetProvider(map['scoring_ai_provider']);
+        if (map['scoring_transcription_provider']) { _spTranscriptionProvider = map['scoring_transcription_provider']; _spSetTranscriptionHelper(_spTranscriptionProvider); }
+        // Load fallback selector (separate from generic loop since saveScoringPrompts
+        // also special-cases it to allow clearing back to empty/no-fallback).
+        var fbEl = document.getElementById('sp_scoring_ai_fallback');
+        if (fbEl) fbEl.value = map['scoring_ai_fallback'] || '';
+        // Load Gemini active plan + bind button selector
+        try {
+          var gResp = await fetch(_SP_SB_URL + '/rest/v1/site_settings?key=eq.gemini_active_plan&select=value', {
+            headers: { 'apikey': _SP_SB_KEY, 'Authorization': 'Bearer ' + _SP_SB_KEY }
+          });
+          var gRows = await gResp.json();
+          var activePlan = (gRows && gRows[0] && gRows[0].value) || '';
+          _spSetGeminiPlan(activePlan, false);
+          // One-time delegated click handler (idempotent)
+          if (!window._spGeminiBound) {
+            window._spGeminiBound = true;
+            document.querySelectorAll('.sp-gemini-btn').forEach(function (btn) {
+              btn.addEventListener('click', function () {
+                _spSetGeminiPlan(btn.getAttribute('data-plan') || '', true);
+              });
+            });
+          }
+        } catch(ge) { console.warn('[Gemini multi-key] load failed:', ge); }
+        status.innerHTML = '<span style="color:#10b981;">✓ Loaded ' + rows.length + ' saved prompt(s)</span>';
+      } catch(e) {
+        status.innerHTML = '<span style="color:#dc2626;">Failed to load: ' + e.message + '</span>';
+      }
+    }
+
+    // Gemini active-plan button selector. `persist`=false → reflect DB only;
+    // true → user clicked, mark dirty for next Save All.
+    function _spSetGeminiPlan(plan, persist) {
+      plan = plan || '';
+      document.querySelectorAll('.sp-gemini-btn').forEach(function (btn) {
+        var v = btn.getAttribute('data-plan') || '';
+        if (v === plan) btn.classList.add('active');
+        else btn.classList.remove('active');
+      });
+      if (persist) {
+        window._spPendingPlan = plan;
+        var status = document.getElementById('sysPromptStatus');
+        if (status) status.innerHTML = '<span style="color:#f59e0b;">● Plan changed — click Save All to apply</span>';
+      }
+    }
+
+    async function _spUpsertSetting(key, value) {
+      var res = await fetch(_SP_SB_URL + '/rest/v1/site_settings?key=eq.' + encodeURIComponent(key), {
+        method: 'PATCH',
+        headers: {
+          'apikey': _SP_SB_KEY, 'Authorization': 'Bearer ' + _SP_SB_KEY,
+          'Content-Type': 'application/json', 'Prefer': 'return=representation'
+        },
+        body: JSON.stringify({ value: value, updated_at: new Date().toISOString() })
+      });
+      var data = await res.json();
+      if (!data || data.length === 0) {
+        await fetch(_SP_SB_URL + '/rest/v1/site_settings', {
+          method: 'POST',
+          headers: {
+            'apikey': _SP_SB_KEY, 'Authorization': 'Bearer ' + _SP_SB_KEY,
+            'Content-Type': 'application/json', 'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify({ key: key, value: value })
+        });
+      }
+    }
+
+    async function _spDeleteSetting(key) {
+      await fetch(_SP_SB_URL + '/rest/v1/site_settings?key=eq.' + encodeURIComponent(key), {
+        method: 'DELETE',
+        headers: { 'apikey': _SP_SB_KEY, 'Authorization': 'Bearer ' + _SP_SB_KEY }
+      });
+    }
+
+    async function saveScoringPrompts() {
+      var status = document.getElementById('sysPromptStatus');
+      status.innerHTML = '<span style="color:var(--muted);">Saving...</span>';
+      try {
+        // Safety: count non-empty textareas. If ALL prompt textareas are empty
+        // (e.g. user opened the panel and clicked Save before the load finished,
+        // or a network glitch returned no rows) refuse the save — we'd otherwise
+        // wipe years of prompt work. Provider/transcriber config still saves.
+        var nonEmptyCount = 0;
+        for (var ci = 0; ci < _SP_ALL_KEYS.length; ci++) {
+          var ce = document.getElementById('sp_' + _SP_ALL_KEYS[ci]);
+          if (ce && ce.value.trim()) nonEmptyCount++;
+        }
+        if (nonEmptyCount === 0) {
+          var ok = confirm('⚠️ All prompt fields are empty.\n\nIf you click OK, every saved prompt in the database will be DELETED.\n\nThis usually means the prompts did not finish loading. Click Cancel to abort.');
+          if (!ok) {
+            status.innerHTML = '<span style="color:#f59e0b;">Save aborted (empty form).</span>';
+            return;
+          }
+        }
+        var saved = 0, skipped = 0;
+        await _spUpsertSetting('scoring_ai_provider', _spCurrentProvider);
+        saved++;
+        // Always persist transcriber-provider override (applies to ALL base providers now)
+        await _spUpsertSetting('scoring_transcription_provider', _spTranscriptionProvider || 'default');
+        saved++;
+        // Always persist the fallback selector — even when set to empty
+        // ("None"), so changing FROM a real fallback TO "no fallback" actually
+        // takes effect. The generic loop below would otherwise skip-save
+        // empty values (intentional safeguard for prompt textareas).
+        var fbEl = document.getElementById('sp_scoring_ai_fallback');
+        await _spUpsertSetting('scoring_ai_fallback', (fbEl ? fbEl.value : '').trim());
+        saved++;
+        for (var i = 0; i < _SP_ALL_KEYS.length; i++) {
+          var key = _SP_ALL_KEYS[i];
+          var el = document.getElementById('sp_' + key);
+          if (!el) continue;
+          var val = el.value.trim();
+          if (val) {
+            await _spUpsertSetting(key, val);
+            saved++;
+          } else {
+            // SAFETY: do NOT delete on empty. To remove a prompt, use Reset to Defaults.
+            // (Previous behaviour wiped prompts when textarea was blank — destroyed user data.)
+            skipped++;
+          }
+        }
+        // Gemini active plan (saved/cleared on Save All; key buttons set _spPendingPlan)
+        try {
+          var pendingPlan = (typeof window._spPendingPlan === 'string') ? window._spPendingPlan : null;
+          if (pendingPlan !== null) {
+            if (pendingPlan) { await _spUpsertSetting('gemini_active_plan', pendingPlan); saved++; }
+            else { await _spDeleteSetting('gemini_active_plan'); }
+            window._spPendingPlan = null;
+          }
+          // Security: ensure no plaintext API keys linger in site_settings.
+          // (Older admin builds saved them here; new flow keeps keys only in
+          // Edge Function secrets.) Idempotent — DELETE on missing row is a no-op.
+          var legacySlots = ['prepay','prepay_2','postpay','postpay_2'];
+          for (var lsi = 0; lsi < legacySlots.length; lsi++) {
+            await _spDeleteSetting('gemini_api_key_' + legacySlots[lsi]);
+          }
+        } catch(ge) { console.warn('[Gemini multi-key] save failed:', ge); }
+        status.innerHTML = '<span style="color:#10b981;">✓ Saved ' + saved + ' setting(s)' + (skipped ? ', ' + skipped + ' empty field(s) skipped (use Reset to remove)' : '') + '</span>';
+      } catch(e) {
+        status.innerHTML = '<span style="color:#dc2626;">Save failed: ' + e.message + '</span>';
+      }
+    }
+
+    async function resetScoringPrompts() {
+      if (!confirm('Reset all scoring prompts to defaults? This will remove all custom prompts from the database.')) return;
+      var status = document.getElementById('sysPromptStatus');
+      status.innerHTML = '<span style="color:var(--muted);">Resetting...</span>';
+      try {
+        for (var i = 0; i < _SP_ALL_KEYS.length; i++) {
+          await _spDeleteSetting(_SP_ALL_KEYS[i]);
+          var el = document.getElementById('sp_' + _SP_ALL_KEYS[i]);
+          if (el) el.value = '';
+        }
+        status.innerHTML = '<span style="color:#10b981;">✓ All prompts reset to defaults</span>';
+      } catch(e) {
+        status.innerHTML = '<span style="color:#dc2626;">Reset failed: ' + e.message + '</span>';
+      }
+    }
+
+
+  // ── Inline-mount adaptation ─────────────────────────────────────────
+  // Wrap openSystemPromptsPanel so the admin host can call it via
+  // AdminPanels.systemPrompts.open(container) — same passcode bypass
+  // pattern the other extracted panels use.
+  var _origOpen = openSystemPromptsPanel;
+  openSystemPromptsPanel = function () {
+    if (!_inlineContainer && !_spAdminUnlocked && !_siteAdminUnlocked) {
+      _showSpPasscode();
+      return;
+    }
+    _injectStyles();
+    if (_inlineContainer) {
+      // Re-inject HTML into the host container on every open so a panel
+      // switch (e.g. → Centers → back to System Prompts) gets a clean
+      // tree. Tabs listener guard above prevents double-binding.
+      _injectHtml(_inlineContainer);
+    }
+    var overlay = document.getElementById('sysPromptOverlay');
+    if (overlay) {
+      if (_inlineContainer) {
+        // Inline mode: render as in-flow block (not fixed-position).
+        overlay.style.cssText = 'position:static;inset:auto;background:none;display:block;opacity:1;pointer-events:auto;visibility:visible;padding:0;z-index:auto;';
+        overlay.classList.add('visible');
+      } else {
+        overlay.style.display = 'flex';
+        requestAnimationFrame(function () { overlay.classList.add('visible'); });
+      }
+    }
+    loadScoringPrompts();
+  };
+
+  // Expose handlers referenced from inline onclick="..." attributes.
+  window._spSetProvider           = _spSetProvider;
+  window._spSetGroqVariant        = _spSetGroqVariant;
+  window._spSetTranscriptionHelper= _spSetTranscriptionHelper;
+  window._spSetGeminiPlan         = _spSetGeminiPlan;
+  window._verifySpPasscode        = _verifySpPasscode;
+  window._closeSpPasscode         = _closeSpPasscode;
+  window.openSystemPromptsPanel   = openSystemPromptsPanel;
+  window.closeSystemPromptsPanel  = closeSystemPromptsPanel;
+  window.saveScoringPrompts       = saveScoringPrompts;
+  window.resetScoringPrompts      = resetScoringPrompts;
+
+  window.AdminPanels = window.AdminPanels || {};
+  window.AdminPanels.systemPrompts = {
+    open: function (container) {
+      _inlineContainer = container || null;
+      return openSystemPromptsPanel();
+    }
+  };
+})();

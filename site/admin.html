@@ -317,10 +317,21 @@
           container.innerHTML = '<div class="adm-loading"><div>AI Grading Router script loaded but did not register correctly.</div></div>';
         }
       }
+    },
+    'system-prompts': {
+      label: 'System Prompts',
+      icon: '📝',
+      script: '/admin/system-prompts.js',
+      open: function (container) {
+        if (window.AdminPanels && window.AdminPanels.systemPrompts && typeof window.AdminPanels.systemPrompts.open === 'function') {
+          window.AdminPanels.systemPrompts.open(container);
+        } else {
+          container.innerHTML = '<div class="adm-loading"><div>System Prompts script loaded but did not register correctly.</div></div>';
+        }
+      }
     }
   };
   var LEGACY_ITEMS = [
-    { icon: '📝', label: 'System Prompts' },
     { icon: '🛠️', label: 'Test Maker' },
     { icon: '✏️', label: 'Writing Plus' },
     { icon: '🎙️', label: 'Voice Sessions',  href: '/admin-realtime-review.html', newTab: true },
