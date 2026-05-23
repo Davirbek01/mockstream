@@ -1,7 +1,7 @@
 // Mock Stream Service Worker
 // Strategy: Network-first for HTML/JS, Cache-first for icons/images
 
-const CACHE_NAME = 'mockstream-v551';
+const CACHE_NAME = 'mockstream-v566';
 
 // Core shell files to pre-cache on install
 // Icons & manifest are per-clone (inside site-config/<clone>/), so they are
@@ -10,6 +10,7 @@ const PRECACHE_URLS = [
   'index.html',
   'landing.html',
   'landing-v3.html',
+  'admin.html',
   'version-banner.js',
   'site-config/site-config.js',
   'site-config/responsive-scaling.css'
