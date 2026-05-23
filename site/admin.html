@@ -329,12 +329,25 @@
           container.innerHTML = '<div class="adm-loading"><div>System Prompts script loaded but did not register correctly.</div></div>';
         }
       }
+    },
+    'voice-sessions': {
+      label: 'Voice Sessions',
+      icon: '🎙️',
+      iframe: '/admin-realtime-review.html',
+      open: function (container) {
+        // Existing standalone dark-themed page — embed verbatim so its
+        // own auth, audio player and table keep working unchanged.
+        container.innerHTML =
+          '<iframe src="/admin-realtime-review.html" ' +
+            'style="display:block;width:100%;height:calc(100vh - 110px);' +
+            'border:1px solid var(--ring);border-radius:12px;background:#0f172a;" ' +
+            'title="Voice Sessions"></iframe>';
+      }
     }
   };
   var LEGACY_ITEMS = [
     { icon: '🛠️', label: 'Test Maker' },
     { icon: '✏️', label: 'Writing Plus' },
-    { icon: '🎙️', label: 'Voice Sessions',  href: '/admin-realtime-review.html', newTab: true },
     { icon: '📖', label: 'Reading Plus' },
     { icon: '🎧', label: 'Listening Plus' },
     { icon: '🧪', label: 'Mock Settings' },
@@ -441,7 +454,7 @@
     if (!content) return;
     content.innerHTML = '<div class="adm-loading"><div class="adm-spinner"></div><div>Loading ' + panel.label + '…</div></div>';
     try {
-      await _loadScriptOnce(panel.script);
+      if (panel.script) await _loadScriptOnce(panel.script);
       content.innerHTML = '';
       panel.open(content);
     } catch (e) {
