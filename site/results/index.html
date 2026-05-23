@@ -2080,9 +2080,16 @@
           </select>
           <button class="premium-add-btn" id="premiumAddBtn" onclick="addPremiumEmail()">+ Add</button>
         </div>
-        <!-- Phase 2: grant by Telegram username (for users who can't use Google) -->
-        <div class="premium-add-form" id="premiumAddFormTelegram" style="display:none;background:#f0f9ff;padding:10px;border-radius:10px;border:1px solid #bae6fd;">
-          <input type="text" id="premiumTgInput" placeholder="@telegram_username" autocomplete="off" style="flex:1;">
+        <!-- Phase 2: grant by Telegram username (for users who can't use Google).
+             Styled the same as the email form — no panel background — so the
+             two paths feel uniform. autocomplete="new-password" + a random
+             name= defeat Chrome's habit of autofilling the saved email into
+             any text input that resembles an account field. -->
+        <div class="premium-add-form" id="premiumAddFormTelegram" style="display:none;">
+          <input type="text" id="premiumTgInput" name="ms-tg-username-noautofill"
+                 placeholder="@telegram_username"
+                 autocomplete="new-password" autocapitalize="none"
+                 autocorrect="off" spellcheck="false" style="flex:1;">
           <select id="premiumTgTier">
             <option value="premium">Premium (AI)</option>
             <option value="regular">Regular (Mocks)</option>
@@ -5009,7 +5016,13 @@
         if (inp) setTimeout(function () { inp.focus(); }, 50);
       } else if (openingTg) {
         var tgInp = document.getElementById('premiumTgInput');
-        if (tgInp) setTimeout(function () { tgInp.focus(); }, 50);
+        if (tgInp) {
+          // Wipe any value Chrome's autofill may have just dropped in
+          // (it likes to put the saved Google email into any text input
+          // that looks like an account field, even with autocomplete=off).
+          tgInp.value = '';
+          setTimeout(function () { tgInp.value = ''; tgInp.focus(); }, 50);
+        }
       }
     }
     window.togglePremiumAddForm = togglePremiumAddForm;
