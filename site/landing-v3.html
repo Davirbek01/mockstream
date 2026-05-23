@@ -3880,6 +3880,7 @@
               'Cancel' +
             '</button>' +
           '</div>' +
+          '<div id="msv3GateStatus" style="margin-top:10px;font-size:12px;color:#dc2626;min-height:1em;line-height:1.4;"></div>' +
         '</div>';
       document.body.appendChild(ov);
 
@@ -3897,21 +3898,69 @@
       var tgBtn = ov.querySelector('#msv3GateTelegram');
       if (tgBtn) tgBtn.onclick = function () {
         // Reuse the same loader the welcome card uses so the Telegram
-        // widget + per-clone bot id stay consistent.
-        try {
-          if (typeof loadTelegram === 'function' && typeof loadTelegramBotIds === 'function') {
-            Promise.all([loadTelegram(), loadTelegramBotIds()]).then(function (results) {
-              var ids = results[1] || {};
-              var botId = ids[centerId];
-              if (botId && window.Telegram && window.Telegram.Login) {
-                window.Telegram.Login.auth(
-                  { bot_id: botId, request_access: 'write' },
-                  function (user) { if (user && window.onTelegramAuth) window.onTelegramAuth(user); }
-                );
-              }
-            });
+        // widget + per-clone bot id stay consistent. Surface a useful
+        // error in the modal itself rather than failing silently when
+        // anything goes wrong (missing scripts, blocked popup, bot
+        // /setdomain mismatch, etc.) — earlier user feedback was
+        // "nothing happens" when the OAuth popup was silently rejected.
+        var statusEl = ov.querySelector('#msv3GateStatus');
+        function setStatus(text, color) {
+          if (!statusEl) return;
+          statusEl.style.color = color || '#dc2626';
+          statusEl.textContent = text;
+        }
+        tgBtn.disabled = true;
+        tgBtn.style.opacity = '0.7';
+        setStatus('Opening Telegram…', '#6b7280');
+
+        if (typeof loadTelegram !== 'function' || typeof loadTelegramBotIds !== 'function') {
+          setStatus('Telegram loader not available on this page.');
+          tgBtn.disabled = false; tgBtn.style.opacity = '';
+          return;
+        }
+        Promise.all([loadTelegram(), loadTelegramBotIds()]).then(function (results) {
+          var ids = results[1] || {};
+          var botId = ids[centerId];
+          if (!botId) {
+            setStatus('No Telegram login bot is configured for this centre.');
+            tgBtn.disabled = false; tgBtn.style.opacity = '';
+            return;
           }
-        } catch (_e) {}
+          if (!window.Telegram || !window.Telegram.Login) {
+            setStatus('Telegram script failed to load. Check your internet connection.');
+            tgBtn.disabled = false; tgBtn.style.opacity = '';
+            return;
+          }
+          // Telegram.Login.auth opens a popup. If the bot's /setdomain
+          // doesn't include the current URL, the popup is denied and the
+          // callback is never invoked. Time-box the wait so we can give
+          // the user a real explanation instead of an endless spinner.
+          var settled = false;
+          var t = setTimeout(function () {
+            if (settled) return;
+            settled = true;
+            setStatus('Telegram sign-in did not complete. The bot domain may not include this URL — try Google sign-in instead.');
+            tgBtn.disabled = false; tgBtn.style.opacity = '';
+          }, 45000);
+          window.Telegram.Login.auth(
+            { bot_id: botId, request_access: 'write' },
+            function (user) {
+              if (settled) return;
+              settled = true;
+              clearTimeout(t);
+              if (user && window.onTelegramAuth) {
+                setStatus('Signing in…', '#6b7280');
+                window.onTelegramAuth(user);
+              } else {
+                setStatus('Sign-in was cancelled. Try again or use Google.');
+                tgBtn.disabled = false; tgBtn.style.opacity = '';
+              }
+            }
+          );
+        }).catch(function (e) {
+          setStatus('Telegram sign-in error: ' + (e && e.message ? e.message : e));
+          tgBtn.disabled = false; tgBtn.style.opacity = '';
+        });
       };
     }
 
