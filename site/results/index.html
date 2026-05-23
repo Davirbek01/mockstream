@@ -1346,10 +1346,36 @@
       align-items: center;
       gap: 12px;
       padding: 12px 16px;
+      cursor: pointer;
+      user-select: none;
     }
-    .premium-expiry-bar-wrap {
+    /* Chevron rotates when the wrap is in .expanded state. */
+    .premium-item-chevron {
+      width: 22px; height: 22px;
+      display: inline-flex;
+      align-items: center; justify-content: center;
+      color: var(--ink-secondary);
+      font-size: 12px;
+      transition: transform 0.18s ease;
+      flex-shrink: 0;
+    }
+    .premium-item-wrap.expanded .premium-item-chevron {
+      transform: rotate(180deg);
+    }
+    /* Collapsible details section — hidden by default; .expanded reveals it. */
+    .premium-card-details {
+      display: none;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
       padding: 0 16px 10px;
     }
+    .premium-item-wrap.expanded .premium-card-details { display: flex; }
+    .premium-expiry-bar-wrap {
+      padding: 0 16px 10px;
+      display: none;
+    }
+    .premium-item-wrap.expanded .premium-expiry-bar-wrap { display: block; }
     .premium-expiry-bar-track {
       height: 5px;
       border-radius: 99px;
@@ -4740,22 +4766,40 @@
             + '</div>';
         }
 
+        // Card layout: a clickable summary row (.premium-item) + a hidden
+        // details block (.premium-card-details) + the expiry bar. Adding
+        // .expanded on the wrapper reveals both — handled by togglePremiumCard.
+        // Buttons inside the summary stopPropagation so they don't toggle.
         html += '<div class="premium-item-wrap" id="prem-' + item.id + '">'
-          + '<div class="premium-item">'
+          + '<div class="premium-item" onclick="togglePremiumCard(this.parentNode, event)">'
           + '<div class="premium-item-email">' + escapeHtml(displayLabel) + '</div>'
           + '<span class="premium-item-tier ' + tierClass + '">' + tierLabel + '</span>'
           + '<span class="premium-item-role ' + roleClass + '">' + roleLabel + '</span>'
+          + '<button class="premium-item-toggle ' + toggleClass + '" onclick="event.stopPropagation();togglePremium(\'' + item.id + '\',' + !item.active + ')">' + toggleLabel + '</button>'
+          + '<button class="premium-item-delete" onclick="event.stopPropagation();deletePremium(\'' + item.id + '\',\'' + escapedEmail + '\')" title="Delete">🗑</button>'
+          + '<span class="premium-item-chevron" aria-hidden="true">▾</span>'
+          + '</div>'
+          + '<div class="premium-card-details">'
           + '<span class="premium-item-center">' + escapeHtml(centerLabel) + '</span>'
           + expiryBadge
-          + '<span style="font-size:11px;padding:3px 8px;border-radius:8px;background:var(--surface);border:1px solid var(--border);cursor:pointer;' + devClass + '" onclick="showDeviceDetails(\'' + escapedEmail + '\')" title="' + devCount + ' device(s) — click to view">📱 ' + devLabel + '</span>'
-          + '<button class="premium-item-toggle ' + toggleClass + '" onclick="togglePremium(\'' + item.id + '\',' + !item.active + ')">' + toggleLabel + '</button>'
-          + '<button class="premium-item-delete" onclick="deletePremium(\'' + item.id + '\',\'' + escapedEmail + '\')" title="Delete">🗑</button>'
+          + '<span style="font-size:11px;padding:3px 8px;border-radius:8px;background:var(--surface);border:1px solid var(--border);cursor:pointer;' + devClass + '" onclick="event.stopPropagation();showDeviceDetails(\'' + escapedEmail + '\')" title="' + devCount + ' device(s) — click to view">📱 ' + devLabel + '</span>'
           + '</div>'
           + expiryBar
           + '</div>';
       });
       listEl.innerHTML = html;
     }
+
+    // Toggles the .expanded state on a premium-item-wrap so the card grows
+    // to show center / expiry / device count / progress bar. Called from
+    // the summary row; the action buttons inside the row stopPropagation
+    // so clicking Active / Delete doesn't also collapse the card.
+    function togglePremiumCard(wrap, ev) {
+      if (!wrap) return;
+      if (ev && typeof ev.stopPropagation === 'function') ev.stopPropagation();
+      wrap.classList.toggle('expanded');
+    }
+    window.togglePremiumCard = togglePremiumCard;
 
     async function addPremiumEmail() {
       var emailInput = document.getElementById('premiumEmailInput');
