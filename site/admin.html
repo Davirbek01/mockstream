@@ -421,14 +421,66 @@
       return !!(info && info.role === 'super_admin');
     } catch (_e) { return false; }
   }
-  function _showGate() {
+
+  // Returns { signedIn: bool, identity: string } describing what we know
+  // about the current session — used by _showGate to render the right
+  // copy ("Sign in" vs "Wrong account").
+  async function _currentSessionInfo() {
+    try {
+      var c = (window.MockStream && window.MockStream.auth &&
+               typeof window.MockStream.auth.getClient === 'function')
+                ? window.MockStream.auth.getClient() : null;
+      if (!c || !c.auth) return { signedIn: false, identity: '' };
+      var sess = await c.auth.getSession();
+      var s = sess && sess.data && sess.data.session;
+      if (!s || !s.user) return { signedIn: false, identity: '' };
+      var email = (s.user.email || '').toLowerCase();
+      var meta = s.user.user_metadata || {};
+      var tg = typeof meta.telegram_username === 'string'
+        ? meta.telegram_username.replace(/^@/, '') : '';
+      return { signedIn: true, identity: email || (tg ? '@' + tg : 'unknown') };
+    } catch (_e) { return { signedIn: false, identity: '' }; }
+  }
+
+  async function _showGate() {
     var content = document.getElementById('admContent');
     if (!content) return;
+    var info = await _currentSessionInfo();
+    if (info.signedIn) {
+      // Signed in but not super-admin. No sign-in buttons — the user is
+      // already signed in, just on the wrong account. Surface the
+      // identity so they can see they're on the wrong one, and tell
+      // them what to do.
+      content.innerHTML =
+        '<div class="adm-gate">' +
+          '<div class="adm-gate-icon">🛑</div>' +
+          '<h2>Not an admin account</h2>' +
+          '<p>You\'re signed in as <strong>' + (info.identity || '(unknown)').replace(/</g,'&lt;') + '</strong>, ' +
+            'which doesn\'t have admin access. ' +
+            'Contact the super-admin to be granted access, or sign out and use the admin account.</p>' +
+          '<div style="display:flex;gap:10px;justify-content:center;margin-top:6px;flex-wrap:wrap;">' +
+            '<a href="/landing-v3.html" class="adm-gate-btn" style="background:#fff;color:var(--ink);border:1px solid var(--ring);text-decoration:none;">← Back home</a>' +
+            '<button class="adm-gate-btn" id="admGateSignOut">Sign out</button>' +
+          '</div>' +
+        '</div>';
+      var soBtn = document.getElementById('admGateSignOut');
+      if (soBtn) soBtn.addEventListener('click', async function () {
+        try {
+          if (window.MockStream && window.MockStream.auth &&
+              typeof window.MockStream.auth.signOut === 'function') {
+            await window.MockStream.auth.signOut();
+          }
+        } catch (_e) {}
+        location.replace('/landing-v3.html');
+      });
+      return;
+    }
+    // Not signed in at all — show sign-in path.
     content.innerHTML =
       '<div class="adm-gate">' +
         '<div class="adm-gate-icon">🔐</div>' +
         '<h2>Super-admin sign-in required</h2>' +
-        '<p>Admin Panel is restricted to the super-admin Google account.</p>' +
+        '<p>Admin Panel is restricted to the super-admin account.</p>' +
         '<button class="adm-gate-btn" id="admGateBtn">Sign in with Google</button>' +
       '</div>';
     document.getElementById('admGateBtn').addEventListener('click', function () {
@@ -452,7 +504,20 @@
     });
     return _loadedScripts[src];
   }
+  // Set to true ONLY after _checkAdmin() confirms super-admin role.
+  // Until then, every _activate call (sidebar click OR hashchange) is
+  // bounced into _showGate so the panel content can't be loaded by
+  // navigating a hash. This closes the bug where a non-admin could
+  // click a sidebar item after the gate rendered and the panel would
+  // load into the content pane, bypassing the gate.
+  var _isAdminAuthed = false;
+
   async function _activate(panelKey) {
+    if (!_isAdminAuthed) {
+      // Not authenticated — re-show the gate instead of loading anything.
+      _showGate();
+      return;
+    }
     var panel = PANELS[panelKey];
     if (!panel) return;
     // Active state in sidebar
@@ -506,18 +571,26 @@
     }
     if (!_authReady()) {
       console.warn('[admin] AdminAuth never loaded');
+      _isAdminAuthed = false;
       _showGate();
       return;
     }
     var isAdmin = await _checkAdmin();
     if (!isAdmin) {
+      _isAdminAuthed = false;
       _showGate();
-      // If session restores later (e.g., after sign-in), retry.
+      // If session restores later (e.g., after sign-in), retry. _checkAdmin
+      // must succeed before we flip _isAdminAuthed; otherwise the sidebar
+      // gate logic above kicks them back to _showGate.
       window.addEventListener('mockStream:userSignedIn', async function () {
-        if (await _checkAdmin()) _activate(_readHashPanel());
+        if (await _checkAdmin()) {
+          _isAdminAuthed = true;
+          _activate(_readHashPanel());
+        }
       });
       return;
     }
+    _isAdminAuthed = true;
     _activate(_readHashPanel());
   }
   if (document.readyState === 'loading') {
