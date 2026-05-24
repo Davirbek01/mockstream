@@ -77,18 +77,52 @@
     if (refreshEl) refreshEl.addEventListener('click', async function () {
       refreshEl.disabled = true;
       refreshEl.textContent = '⏳ Refreshing…';
+
+      // ── Selective localStorage wipe ─────────────────────────────────
+      // Without this, the picker meta caches (5-min TTL) and the
+      // center-guard config cache (5-min TTL) survive the reload and
+      // continue serving stale data, so "Refresh" looked like nothing
+      // changed for up to 5 min after an admin pushed updates.
+      //
+      // Strict allowlist of patterns — anything outside these is
+      // preserved so we don't sign students out, wipe their VIP code,
+      // erase device-id, lose completed-mocks history, etc.
+      //   ms_*_meta_v*          → picker meta (cspet/ispet/cwet/iwet/cret/iret/clet/ilet)
+      //   cg_cc_<centerId>      → center-guard config payload
+      //   cg_cc_ts_<centerId>   → center-guard cache timestamp
       try {
-        if ('caches' in window) {
-          var keys = await caches.keys();
-          await Promise.all(keys.map(function (k) { return caches.delete(k); }));
+        var keysToWipe = [];
+        for (var i = 0; i < localStorage.length; i++) {
+          var k = localStorage.key(i);
+          if (!k) continue;
+          if (/^ms_[a-z]+_meta_v\d+$/i.test(k)) { keysToWipe.push(k); continue; }
+          if (k.indexOf('cg_cc_') === 0)        { keysToWipe.push(k); continue; }
         }
-      } catch (e) { console.warn('cache clear failed:', e); }
-      try {
-        if (navigator.serviceWorker) {
-          var regs = await navigator.serviceWorker.getRegistrations();
-          await Promise.all(regs.map(function (r) { return r.unregister(); }));
+        for (var j = 0; j < keysToWipe.length; j++) {
+          try { localStorage.removeItem(keysToWipe[j]); } catch (_e) {}
         }
-      } catch (e) { console.warn('sw unregister failed:', e); }
+      } catch (e) { console.warn('[ver] localStorage wipe failed:', e); }
+
+      // ── Service worker + CacheStorage wipe ──────────────────────────
+      // Skip when offline — wiping the SW cache without a network would
+      // leave the next navigation with nothing to serve. The new SW
+      // version will install on the next reload once back online.
+      var canTouchSW = (typeof navigator.onLine === 'undefined') || navigator.onLine;
+      if (canTouchSW) {
+        try {
+          if ('caches' in window) {
+            var keys = await caches.keys();
+            await Promise.all(keys.map(function (k) { return caches.delete(k); }));
+          }
+        } catch (e) { console.warn('[ver] cache clear failed:', e); }
+        try {
+          if (navigator.serviceWorker) {
+            var regs = await navigator.serviceWorker.getRegistrations();
+            await Promise.all(regs.map(function (r) { return r.unregister(); }));
+          }
+        } catch (e) { console.warn('[ver] sw unregister failed:', e); }
+      }
+
       // Land on a clean home URL after refresh. Without this, a reload
       // from a /take/<slug> URL or a handoff query (?openSelector=...)
       // would re-trigger the deep-link flow and auto-reopen the picker
