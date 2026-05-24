@@ -4674,6 +4674,18 @@
       padding: 7px 14px;
       border-radius: 10px;
     }
+    /* Distinct from .ilet-coming-soon — used for mocks that admin
+       explicitly set to status='deactivated' (vs simply not yet built).
+       Red palette signals "withdrawn" instead of "wait for it". */
+    .ilet-unavailable {
+      margin-left: auto;
+      font-size: 12px;
+      font-weight: 700;
+      color: #991b1b;
+      background: #fee2e2;
+      padding: 7px 14px;
+      border-radius: 10px;
+    }
     .ilet-card-skeleton {
       background: #fff;
       border: 1.5px solid #e2e8f0;
@@ -7126,6 +7138,45 @@
       } catch (_e) {}
     });
 
+    // ───────────────────────────────────────────────────────────────────
+    // Shared helper: load the deactivated mock_numbers for one skill+exam
+    // combo via the mock_availability_map(p_mock_type) RPC. RLS hides
+    // deactivated rows from a normal SELECT, so without this call no
+    // picker could distinguish "withdrawn by admin" from "not built yet".
+    // Returns a Set of zero-padded mock numbers. Cached per type in
+    // window._mockDeactivatedCache so concurrent pickers reuse one fetch.
+    // Fail-open: returns an empty Set on any error (callers fall back to
+    // the existing "Coming soon" rendering, which is the safer default).
+    // ───────────────────────────────────────────────────────────────────
+    window._mockDeactivatedCache = window._mockDeactivatedCache || {};
+    window._loadMockDeactivatedSet = async function (mockType) {
+      if (window._mockDeactivatedCache[mockType]) {
+        return window._mockDeactivatedCache[mockType];
+      }
+      const promise = (async function () {
+        try {
+          const SB  = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+          const KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+          const r = await fetch(SB + '/rest/v1/rpc/mock_availability_map', {
+            method: 'POST',
+            headers: { apikey: KEY, Authorization: 'Bearer ' + KEY, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ p_mock_type: mockType })
+          });
+          if (!r.ok) return new Set();
+          const rows = await r.json();
+          const out = new Set();
+          for (const row of (rows || [])) {
+            if (row && row.status === 'deactivated' && row.mock_number != null) {
+              out.add(String(row.mock_number).padStart(2, '0'));
+            }
+          }
+          return out;
+        } catch (_e) { return new Set(); }
+      })();
+      window._mockDeactivatedCache[mockType] = promise;
+      return promise;
+    };
+
     // ===== CEFR Speaking picker (cspetPicker) =====
     // Ported verbatim from landing.html's cspet block. State + 17
     // functions + DOMContentLoaded wiring. Mock-click in this commit
@@ -7218,6 +7269,23 @@
 
     function _cspetCardHtml(mockNum, meta, doneInfo) {
       const padded = String(mockNum).padStart(2, '0');
+      // Short-circuit for admin-deactivated mocks: render a minimal
+      // greyed card with the 🚫 Unavailable badge so students can see
+      // the mock number still exists in the sequence but won't be
+      // clickable. (vs the 🕓 Coming soon path below for unbuilt mocks.)
+      if (meta && meta.deactivated) {
+        const titleText = meta.title || ('CEFR Speaking Mock ' + padded);
+        return ''
+          + '<article class="ilet-card ilet-card-disabled" data-mock="' + padded + '" id="cspet-card-' + padded + '" data-deactivated="1">'
+          +   '<div class="ilet-card-head">'
+          +     '<span class="ilet-mocknum">#' + padded + '</span>'
+          +     '<span style="flex:1;"></span>'
+          +     '<span class="ilet-unavailable">🚫 Unavailable</span>'
+          +   '</div>'
+          +   '<h3 class="ilet-mock-title">' + _cspetEsc(titleText) + '</h3>'
+          +   '<p style="color:#94a3b8;font-style:italic;font-size:12.5px;margin:10px 0;">This mock has been withdrawn by the admin.</p>'
+          + '</article>';
+      }
       const readyOf = meta.readyCount > 0
         ? (meta.readyCount + '/' + meta.qCount + ' READY')
         : 'Not ready yet';
@@ -7302,25 +7370,41 @@
         const cached = JSON.parse(localStorage.getItem(_CSPET_CACHE_KEY) || 'null');
         if (cached && cached.ts && cached.data && (Date.now() - cached.ts) < _CSPET_CACHE_TTL) {
           Object.assign(_cspetMockMeta, cached.data);
-          return;
+        } else {
+          const resp = await fetch(`${_CSPET_SB_URL}/rest/v1/mock_tests?mock_type=eq.cefr-speaking&status=eq.published&select=id,mock_number,mock_data,title,created_at`, {
+            headers: { 'apikey': _CSPET_SB_KEY, 'Authorization': 'Bearer ' + _CSPET_SB_KEY }
+          });
+          if (resp.ok) {
+            const rows = await resp.json();
+            for (const r of rows) {
+              const padded = String(r.mock_number).padStart(2, '0');
+              const meta = _cspetBuildMetaFromMockData(r.mock_data);
+              if (r.title && !meta.title) meta.title = r.title;
+              meta.sbId = r.id;
+              meta.createdAt = r.created_at;
+              _cspetMockMeta[padded] = meta;
+            }
+            try { localStorage.setItem(_CSPET_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: _cspetMockMeta })); } catch (_e) {}
+          }
         }
-      } catch (_e) {}
-      try {
-        const resp = await fetch(`${_CSPET_SB_URL}/rest/v1/mock_tests?mock_type=eq.cefr-speaking&status=eq.published&select=id,mock_number,mock_data,title,created_at`, {
-          headers: { 'apikey': _CSPET_SB_KEY, 'Authorization': 'Bearer ' + _CSPET_SB_KEY }
-        });
-        if (!resp.ok) return;
-        const rows = await resp.json();
-        for (const r of rows) {
-          const padded = String(r.mock_number).padStart(2, '0');
-          const meta = _cspetBuildMetaFromMockData(r.mock_data);
-          if (r.title && !meta.title) meta.title = r.title;
-          meta.sbId = r.id;
-          meta.createdAt = r.created_at;
-          _cspetMockMeta[padded] = meta;
-        }
-        try { localStorage.setItem(_CSPET_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: _cspetMockMeta })); } catch (_e) {}
       } catch (_e) { /* swallow — picker still renders empty grid */ }
+      // Merge deactivated rows as sentinel entries so the grid shows
+      // them with a 🚫 Unavailable badge instead of silently hiding the
+      // mock number. Sentinels never overwrite a published row.
+      try {
+        const dset = await window._loadMockDeactivatedSet('cefr-speaking');
+        dset.forEach(padded => {
+          if (!_cspetMockMeta[padded]) {
+            _cspetMockMeta[padded] = {
+              deactivated: true,
+              title: 'CEFR Speaking Mock ' + padded,
+              qCount: 0,
+              readyCount: 0,
+              topicsAll: []
+            };
+          }
+        });
+      } catch (_e) {}
     }
 
     async function _cspetLoadStats() {
@@ -7470,12 +7554,16 @@
       Array.from(grid.children).forEach(card => {
         const mockNum = card.dataset.mock;
         const meta    = _cspetMockMeta[mockNum] || {};
-        const fullyReady = meta.qCount > 0 && meta.readyCount === meta.qCount;
+        const isDeactivated = !!meta.deactivated;
+        const fullyReady = !isDeactivated && meta.qCount > 0 && meta.readyCount === meta.qCount;
         const done = !!(_cspetServerDone[mockNum] && _cspetServerDone[mockNum].done);
         let show = true;
         if (_cspetFilter === 'ready' && !fullyReady) show = false;
+        // "Coming soon" bucket holds anything not currently takeable —
+        // unbuilt mocks AND admin-deactivated mocks. Both share the
+        // grouping; only the badge label differs (🕓 vs 🚫).
         if (_cspetFilter === 'soon'  &&  fullyReady) show = false;
-        if (_cspetFilter === 'done'  && !done)       show = false;
+        if (_cspetFilter === 'done'  && (!done || isDeactivated)) show = false;
         if (_cspetTopicFilter && !(meta.topicsAll || []).includes(_cspetTopicFilter)) show = false;
         if (search) {
           const hay = (mockNum + ' ' + (meta.title || '') + ' ' + (meta.p11Topic || '') + ' ' + (meta.p12Topic || '') + ' ' + (meta.p2Topic || '') + ' ' + (meta.p3Topic || '')).toLowerCase();
@@ -7753,6 +7841,19 @@
 
     function _ispetCardHtml(mockNum, meta, doneInfo) {
       const padded = String(mockNum).padStart(2, '0');
+      if (meta && meta.deactivated) {
+        const titleText = meta.title || ('IELTS Speaking Mock ' + padded);
+        return ''
+          + '<article class="ilet-card ilet-card-disabled" data-mock="' + padded + '" id="ispet-card-' + padded + '" data-deactivated="1">'
+          +   '<div class="ilet-card-head">'
+          +     '<span class="ilet-mocknum">#' + padded + '</span>'
+          +     '<span style="flex:1;"></span>'
+          +     '<span class="ilet-unavailable">🚫 Unavailable</span>'
+          +   '</div>'
+          +   '<h3 class="ilet-mock-title">' + _ispetEsc(titleText) + '</h3>'
+          +   '<p style="color:#94a3b8;font-style:italic;font-size:12.5px;margin:10px 0;">This mock has been withdrawn by the admin.</p>'
+          + '</article>';
+      }
       const readyOf = meta.readyCount > 0
         ? (meta.readyCount + '/' + meta.qCount + ' READY')
         : 'Not ready yet';
@@ -7836,24 +7937,38 @@
         const cached = JSON.parse(localStorage.getItem(_ISPET_CACHE_KEY) || 'null');
         if (cached && cached.ts && cached.data && (Date.now() - cached.ts) < _ISPET_CACHE_TTL) {
           Object.assign(_ispetMockMeta, cached.data);
-          return;
+        } else {
+          const resp = await fetch(`${_ISPET_SB_URL}/rest/v1/mock_tests?mock_type=eq.ielts-speaking&status=eq.published&select=id,mock_number,mock_data,title,created_at`, {
+            headers: { 'apikey': _ISPET_SB_KEY, 'Authorization': 'Bearer ' + _ISPET_SB_KEY }
+          });
+          if (resp.ok) {
+            const rows = await resp.json();
+            for (const r of rows) {
+              const padded = String(r.mock_number).padStart(2, '0');
+              const meta = _ispetBuildMetaFromMockData(r.mock_data);
+              if (r.title && !meta.title) meta.title = r.title;
+              meta.sbId = r.id;
+              meta.createdAt = r.created_at;
+              _ispetMockMeta[padded] = meta;
+            }
+            try { localStorage.setItem(_ISPET_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: _ispetMockMeta })); } catch (_e) {}
+          }
         }
       } catch (_e) {}
+      // Merge admin-deactivated rows as sentinel entries (see cspet).
       try {
-        const resp = await fetch(`${_ISPET_SB_URL}/rest/v1/mock_tests?mock_type=eq.ielts-speaking&status=eq.published&select=id,mock_number,mock_data,title,created_at`, {
-          headers: { 'apikey': _ISPET_SB_KEY, 'Authorization': 'Bearer ' + _ISPET_SB_KEY }
+        const dset = await window._loadMockDeactivatedSet('ielts-speaking');
+        dset.forEach(padded => {
+          if (!_ispetMockMeta[padded]) {
+            _ispetMockMeta[padded] = {
+              deactivated: true,
+              title: 'IELTS Speaking Mock ' + padded,
+              qCount: 0,
+              readyCount: 0,
+              topicsAll: []
+            };
+          }
         });
-        if (!resp.ok) return;
-        const rows = await resp.json();
-        for (const r of rows) {
-          const padded = String(r.mock_number).padStart(2, '0');
-          const meta = _ispetBuildMetaFromMockData(r.mock_data);
-          if (r.title && !meta.title) meta.title = r.title;
-          meta.sbId = r.id;
-          meta.createdAt = r.created_at;
-          _ispetMockMeta[padded] = meta;
-        }
-        try { localStorage.setItem(_ISPET_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: _ispetMockMeta })); } catch (_e) {}
       } catch (_e) {}
     }
 
@@ -8000,12 +8115,13 @@
       Array.from(grid.children).forEach(card => {
         const mockNum = card.dataset.mock;
         const meta    = _ispetMockMeta[mockNum] || {};
-        const fullyReady = meta.qCount > 0 && meta.readyCount === meta.qCount;
+        const isDeactivated = !!meta.deactivated;
+        const fullyReady = !isDeactivated && meta.qCount > 0 && meta.readyCount === meta.qCount;
         const done = !!(_ispetServerDone[mockNum] && _ispetServerDone[mockNum].done);
         let show = true;
         if (_ispetFilter === 'ready' && !fullyReady) show = false;
         if (_ispetFilter === 'soon'  &&  fullyReady) show = false;
-        if (_ispetFilter === 'done'  && !done)       show = false;
+        if (_ispetFilter === 'done'  && (!done || isDeactivated)) show = false;
         if (_ispetTopicFilter && !(meta.topicsAll || []).includes(_ispetTopicFilter)) show = false;
         if (search) {
           const hay = (mockNum + ' ' + (meta.title || '') + ' ' + (meta.p1Topic || '') + ' ' + (meta.p2Topic || '') + ' ' + (meta.p3Topic || '')).toLowerCase();
@@ -8296,6 +8412,20 @@
     }
 
     function _cwetCardHtml(mockNum, item, meta, doneInfo) {
+      const padded = String(mockNum).padStart(2, '0');
+      if (meta && meta.deactivated) {
+        const titleText = (item && item.title) || ('CEFR Writing Mock ' + padded);
+        return ''
+          + '<article class="ilet-card ilet-card-disabled" data-mock="' + padded + '" id="cwet-card-' + padded + '" data-deactivated="1">'
+          +   '<div class="ilet-card-head">'
+          +     '<span class="ilet-mocknum">#' + padded + '</span>'
+          +     '<span style="flex:1;"></span>'
+          +     '<span class="ilet-unavailable">🚫 Unavailable</span>'
+          +   '</div>'
+          +   '<h3 class="ilet-mock-title">' + _cwetEsc(titleText) + '</h3>'
+          +   '<p style="color:#94a3b8;font-style:italic;font-size:12.5px;margin:10px 0;">This mock has been withdrawn by the admin.</p>'
+          + '</article>';
+      }
       const tasks = meta.tasks;
       const readyCount = tasks.filter(p => p.ready).length;
       const total = tasks.length;
@@ -8420,6 +8550,17 @@
           }
         }
       } catch (e) { console.warn('[cwetPicker] meta fetch failed:', e); }
+      // Merge admin-deactivated rows as sentinel entries so the picker
+      // shows them with 🚫 Unavailable instead of the 🕓 Coming soon
+      // label that unbuilt mocks get.
+      try {
+        const dset = await window._loadMockDeactivatedSet('cefr-writing');
+        dset.forEach(padded => {
+          if (!_cwetMockMeta[padded]) {
+            _cwetMockMeta[padded] = { deactivated: true };
+          }
+        });
+      } catch (_e) {}
     }
 
     async function _cwetLoadStats() {
@@ -8936,13 +9077,24 @@
       const missing = items
         .map((t, idx) => ({ t, key: String(idx + 1).padStart(2, '0') }))
         .filter(({ key }) => !_iwetMockMeta[key]);
-      if (missing.length === 0) return;
-      await Promise.all(missing.map(async ({ t, key }) => {
-        const spec = _iwetParseFileSpec(t && t.file);
-        if (spec.kind !== 'sb') return;
-        const meta = await _iwetLoadSupabaseMockMeta(spec.id);
-        if (meta) _iwetMockMeta[key] = meta;
-      }));
+      if (missing.length) {
+        await Promise.all(missing.map(async ({ t, key }) => {
+          const spec = _iwetParseFileSpec(t && t.file);
+          if (spec.kind !== 'sb') return;
+          const meta = await _iwetLoadSupabaseMockMeta(spec.id);
+          if (meta) _iwetMockMeta[key] = meta;
+        }));
+      }
+      // Merge admin-deactivated rows so 🚫 Unavailable shows instead of
+      // 🕓 Coming soon for withdrawn mocks.
+      try {
+        const dset = await window._loadMockDeactivatedSet('ielts-writing');
+        dset.forEach(padded => {
+          if (!_iwetMockMeta[padded]) {
+            _iwetMockMeta[padded] = { deactivated: true };
+          }
+        });
+      } catch (_e) {}
     }
 
     function _iwetGetDoneInfo(mockNum) {
@@ -8982,6 +9134,20 @@
     }
 
     function _iwetCardHtml(mockNum, item, meta, doneInfo) {
+      const padded = String(mockNum).padStart(2, '0');
+      if (meta && meta.deactivated) {
+        const titleText = (item && item.title) || ('IELTS Writing Mock ' + padded);
+        return ''
+          + '<article class="ilet-card ilet-card-disabled" data-mock="' + padded + '" id="iwet-card-' + padded + '" data-deactivated="1">'
+          +   '<div class="ilet-card-head">'
+          +     '<span class="ilet-mocknum">#' + padded + '</span>'
+          +     '<span style="flex:1;"></span>'
+          +     '<span class="ilet-unavailable">🚫 Unavailable</span>'
+          +   '</div>'
+          +   '<h3 class="ilet-mock-title">' + (typeof _cwetEsc === 'function' ? _cwetEsc(titleText) : titleText) + '</h3>'
+          +   '<p style="color:#94a3b8;font-style:italic;font-size:12.5px;margin:10px 0;">This mock has been withdrawn by the admin.</p>'
+          + '</article>';
+      }
       const tasks = meta.tasks;
       const readyCount = tasks.filter(p => p.ready).length;
       const total = tasks.length;
@@ -9934,15 +10100,25 @@
       const missing = items
         .map((t, idx) => ({ t, key: String(idx + 1).padStart(2, '0') }))
         .filter(({ key }) => !cachedData[key]);
-      if (missing.length === 0) return;
-      await Promise.all(missing.map(async ({ t, key }) => {
-        const spec = _cretParseFileSpec(t && t.file);
-        let meta = null;
-        if (spec.kind === 'static') meta = await _cretLoadStaticMockMeta(spec.filename);
-        else if (spec.kind === 'sb') meta = await _cretLoadSupabaseMockMeta(spec.id);
-        if (meta) _cretMockMeta[key] = meta;
-      }));
-      try { localStorage.setItem(_CRET_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: _cretMockMeta })); } catch (_e) {}
+      if (missing.length) {
+        await Promise.all(missing.map(async ({ t, key }) => {
+          const spec = _cretParseFileSpec(t && t.file);
+          let meta = null;
+          if (spec.kind === 'static') meta = await _cretLoadStaticMockMeta(spec.filename);
+          else if (spec.kind === 'sb') meta = await _cretLoadSupabaseMockMeta(spec.id);
+          if (meta) _cretMockMeta[key] = meta;
+        }));
+        try { localStorage.setItem(_CRET_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: _cretMockMeta })); } catch (_e) {}
+      }
+      // Merge admin-deactivated rows (see cspet/cwet for the pattern).
+      try {
+        const dset = await window._loadMockDeactivatedSet('cefr-reading');
+        dset.forEach(padded => {
+          if (!_cretMockMeta[padded]) {
+            _cretMockMeta[padded] = { deactivated: true };
+          }
+        });
+      } catch (_e) {}
     }
 
     function _cretGetDoneInfo(mockNum) {
@@ -9985,6 +10161,21 @@
     }
 
     function _cretCardHtml(mockNum, item, meta, doneInfo) {
+      const padded = String(mockNum).padStart(2, '0');
+      if (meta && meta.deactivated) {
+        const titleText = (item && item.title) || ('CEFR Reading Mock ' + padded);
+        const esc = (typeof _cretEsc === 'function') ? _cretEsc : (s => s);
+        return ''
+          + '<article class="ilet-card ilet-card-disabled" data-mock="' + padded + '" id="cret-card-' + padded + '" data-deactivated="1">'
+          +   '<div class="ilet-card-head">'
+          +     '<span class="ilet-mocknum">#' + padded + '</span>'
+          +     '<span style="flex:1;"></span>'
+          +     '<span class="ilet-unavailable">🚫 Unavailable</span>'
+          +   '</div>'
+          +   '<h3 class="ilet-mock-title">' + esc(titleText) + '</h3>'
+          +   '<p style="color:#94a3b8;font-style:italic;font-size:12.5px;margin:10px 0;">This mock has been withdrawn by the admin.</p>'
+          + '</article>';
+      }
       const parts = meta.parts;
       const readyCount = parts.filter(p => p.ready).length;
       const total = parts.length;
@@ -10828,15 +11019,24 @@
       const missing = items
         .map((t, idx) => ({ t, key: String(idx + 1).padStart(2, '0') }))
         .filter(({ key }) => !cachedData[key]);
-      if (missing.length === 0) return;
-      await Promise.all(missing.map(async ({ t, key }) => {
-        const spec = _iretParseFileSpec(t && t.file);
-        let meta = null;
-        if (spec.kind === 'static') meta = await _iretLoadStaticMockMeta(spec.filename);
-        else if (spec.kind === 'sb') meta = await _iretLoadSupabaseMockMeta(spec.id);
-        if (meta) _iretMockMeta[key] = meta;
-      }));
-      try { localStorage.setItem(_IRET_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: _iretMockMeta })); } catch (_e) {}
+      if (missing.length) {
+        await Promise.all(missing.map(async ({ t, key }) => {
+          const spec = _iretParseFileSpec(t && t.file);
+          let meta = null;
+          if (spec.kind === 'static') meta = await _iretLoadStaticMockMeta(spec.filename);
+          else if (spec.kind === 'sb') meta = await _iretLoadSupabaseMockMeta(spec.id);
+          if (meta) _iretMockMeta[key] = meta;
+        }));
+        try { localStorage.setItem(_IRET_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: _iretMockMeta })); } catch (_e) {}
+      }
+      try {
+        const dset = await window._loadMockDeactivatedSet('ielts-reading');
+        dset.forEach(padded => {
+          if (!_iretMockMeta[padded]) {
+            _iretMockMeta[padded] = { deactivated: true };
+          }
+        });
+      } catch (_e) {}
     }
 
     function _iretGetDoneInfo(mockNum) {
@@ -10877,6 +11077,21 @@
     }
 
     function _iretCardHtml(mockNum, item, meta, doneInfo) {
+      const padded = String(mockNum).padStart(2, '0');
+      if (meta && meta.deactivated) {
+        const titleText = (item && item.title) || ('IELTS Reading Mock ' + padded);
+        const esc = (typeof _iretEsc === 'function') ? _iretEsc : (s => s);
+        return ''
+          + '<article class="ilet-card ilet-card-disabled" data-mock="' + padded + '" id="iret-card-' + padded + '" data-deactivated="1">'
+          +   '<div class="ilet-card-head">'
+          +     '<span class="ilet-mocknum">#' + padded + '</span>'
+          +     '<span style="flex:1;"></span>'
+          +     '<span class="ilet-unavailable">🚫 Unavailable</span>'
+          +   '</div>'
+          +   '<h3 class="ilet-mock-title">' + esc(titleText) + '</h3>'
+          +   '<p style="color:#94a3b8;font-style:italic;font-size:12.5px;margin:10px 0;">This mock has been withdrawn by the admin.</p>'
+          + '</article>';
+      }
       const passages = meta.passages;
       const readyCount = passages.filter(p => p.ready).length;
       const total = passages.length;
@@ -11495,15 +11710,24 @@
           const readyCount = sections.filter(p => p.ready).length;
           return readyCount < sections.length;
         });
-      if (missing.length === 0) return;
-      await Promise.all(missing.map(async ({ t, key }) => {
-        const spec = _cletParseFileSpec(t && t.file);
-        let meta = null;
-        if (spec.kind === 'static') meta = await _cletLoadStaticMockMeta(spec.filename);
-        else if (spec.kind === 'sb') meta = await _cletLoadSupabaseMockMeta(spec.id);
-        if (meta) _cletMockMeta[key] = meta;
-      }));
-      try { localStorage.setItem(_clet_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: _cletMockMeta })); } catch (_e) {}
+      if (missing.length) {
+        await Promise.all(missing.map(async ({ t, key }) => {
+          const spec = _cletParseFileSpec(t && t.file);
+          let meta = null;
+          if (spec.kind === 'static') meta = await _cletLoadStaticMockMeta(spec.filename);
+          else if (spec.kind === 'sb') meta = await _cletLoadSupabaseMockMeta(spec.id);
+          if (meta) _cletMockMeta[key] = meta;
+        }));
+        try { localStorage.setItem(_clet_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: _cletMockMeta })); } catch (_e) {}
+      }
+      try {
+        const dset = await window._loadMockDeactivatedSet('cefr-listening');
+        dset.forEach(padded => {
+          if (!_cletMockMeta[padded]) {
+            _cletMockMeta[padded] = { deactivated: true };
+          }
+        });
+      } catch (_e) {}
     }
 
     function _cletGetDoneInfo(mockNum) {
@@ -11544,6 +11768,21 @@
     }
 
     function _cletCardHtml(mockNum, item, meta, doneInfo) {
+      const padded = String(mockNum).padStart(2, '0');
+      if (meta && meta.deactivated) {
+        const titleText = (item && item.title) || ('CEFR Listening Mock ' + padded);
+        const esc = (typeof _cletEsc === 'function') ? _cletEsc : (s => s);
+        return ''
+          + '<article class="ilet-card ilet-card-disabled" data-mock="' + padded + '" id="clet-card-' + padded + '" data-deactivated="1">'
+          +   '<div class="ilet-card-head">'
+          +     '<span class="ilet-mocknum">#' + padded + '</span>'
+          +     '<span style="flex:1;"></span>'
+          +     '<span class="ilet-unavailable">🚫 Unavailable</span>'
+          +   '</div>'
+          +   '<h3 class="ilet-mock-title">' + esc(titleText) + '</h3>'
+          +   '<p style="color:#94a3b8;font-style:italic;font-size:12.5px;margin:10px 0;">This mock has been withdrawn by the admin.</p>'
+          + '</article>';
+      }
       const sections = meta.sections;
       const readyCount = sections.filter(p => p.ready).length;
       const total = sections.length;
@@ -12406,15 +12645,24 @@
       const missing = items
         .map((t, idx) => ({ t, key: String(idx + 1).padStart(2, '0') }))
         .filter(({ key }) => !cachedData[key]);
-      if (missing.length === 0) return;
-      await Promise.all(missing.map(async ({ t, key }) => {
-        const spec = _iletParseFileSpec(t && t.file);
-        let meta = null;
-        if (spec.kind === 'static') meta = await _iletLoadStaticMockMeta(spec.filename);
-        else if (spec.kind === 'sb') meta = await _iletLoadSupabaseMockMeta(spec.id);
-        if (meta) _iletMockMeta[key] = meta;
-      }));
-      try { localStorage.setItem(_ilet_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: _iletMockMeta })); } catch (_e) {}
+      if (missing.length) {
+        await Promise.all(missing.map(async ({ t, key }) => {
+          const spec = _iletParseFileSpec(t && t.file);
+          let meta = null;
+          if (spec.kind === 'static') meta = await _iletLoadStaticMockMeta(spec.filename);
+          else if (spec.kind === 'sb') meta = await _iletLoadSupabaseMockMeta(spec.id);
+          if (meta) _iletMockMeta[key] = meta;
+        }));
+        try { localStorage.setItem(_ilet_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: _iletMockMeta })); } catch (_e) {}
+      }
+      try {
+        const dset = await window._loadMockDeactivatedSet('ielts-listening');
+        dset.forEach(padded => {
+          if (!_iletMockMeta[padded]) {
+            _iletMockMeta[padded] = { deactivated: true };
+          }
+        });
+      } catch (_e) {}
     }
 
     function _iletGetDoneInfo(mockNum) {
@@ -12455,6 +12703,21 @@
     }
 
     function _iletCardHtml(mockNum, item, meta, doneInfo) {
+      const padded = String(mockNum).padStart(2, '0');
+      if (meta && meta.deactivated) {
+        const titleText = (item && item.title) || ('IELTS Listening Mock ' + padded);
+        const esc = (typeof _iletEsc === 'function') ? _iletEsc : (s => s);
+        return ''
+          + '<article class="ilet-card ilet-card-disabled" data-mock="' + padded + '" id="ilet-card-' + padded + '" data-deactivated="1">'
+          +   '<div class="ilet-card-head">'
+          +     '<span class="ilet-mocknum">#' + padded + '</span>'
+          +     '<span style="flex:1;"></span>'
+          +     '<span class="ilet-unavailable">🚫 Unavailable</span>'
+          +   '</div>'
+          +   '<h3 class="ilet-mock-title">' + esc(titleText) + '</h3>'
+          +   '<p style="color:#94a3b8;font-style:italic;font-size:12.5px;margin:10px 0;">This mock has been withdrawn by the admin.</p>'
+          + '</article>';
+      }
       const sections = meta.sections;
       const readyCount = sections.filter(p => p.ready).length;
       const total = sections.length;
