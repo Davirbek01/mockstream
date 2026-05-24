@@ -219,6 +219,17 @@
       .adm-topbar { padding-left: max(18px, env(safe-area-inset-left)); }
       .adm-content { padding-bottom: max(40px, calc(env(safe-area-inset-bottom) + 16px)); }
     }
+
+    /* Locked state — applied to <html> by the boot logic when the user
+       hasn't been confirmed as super-admin. Hides every surface that
+       would leak the admin structure (sidebar, breadcrumb, hamburger).
+       Only the topbar logo/title + the gate card in the content pane
+       remain visible. */
+    html.adm-locked .adm-sidebar,
+    html.adm-locked .adm-crumb,
+    html.adm-locked .adm-hamburger,
+    html.adm-locked .adm-drawer-backdrop { display: none !important; }
+    html.adm-locked .adm-layout { grid-template-columns: minmax(0, 1fr); }
   </style>
 </head>
 <body>
@@ -561,8 +572,24 @@
   });
 
   // ── Boot ───────────────────────────────────────────────────────────────
+  // Default to LOCKED at boot — the sidebar/breadcrumb stay hidden until
+  // _checkAdmin() confirms super-admin role. Without this default, a
+  // non-admin who lands on /admin.html#centers can SEE the panel list
+  // before the auth check fires, leaking the admin structure to
+  // anyone (competitors, ordinary students) who finds the URL.
+  document.documentElement.classList.add('adm-locked');
   renderExtracted();
   renderLegacy();
+
+  function _lock() {
+    _isAdminAuthed = false;
+    document.documentElement.classList.add('adm-locked');
+  }
+  function _unlock() {
+    _isAdminAuthed = true;
+    document.documentElement.classList.remove('adm-locked');
+  }
+
   async function _boot() {
     // Wait up to ~3s for AdminAuth (auth.js + admin-auth.js load deferred).
     var start = Date.now();
@@ -571,26 +598,26 @@
     }
     if (!_authReady()) {
       console.warn('[admin] AdminAuth never loaded');
-      _isAdminAuthed = false;
+      _lock();
       _showGate();
       return;
     }
     var isAdmin = await _checkAdmin();
     if (!isAdmin) {
-      _isAdminAuthed = false;
+      _lock();
       _showGate();
       // If session restores later (e.g., after sign-in), retry. _checkAdmin
-      // must succeed before we flip _isAdminAuthed; otherwise the sidebar
-      // gate logic above kicks them back to _showGate.
+      // must succeed before we unlock; otherwise the activate gate above
+      // kicks them back to _showGate.
       window.addEventListener('mockStream:userSignedIn', async function () {
         if (await _checkAdmin()) {
-          _isAdminAuthed = true;
+          _unlock();
           _activate(_readHashPanel());
         }
       });
       return;
     }
-    _isAdminAuthed = true;
+    _unlock();
     _activate(_readHashPanel());
   }
   if (document.readyState === 'loading') {
