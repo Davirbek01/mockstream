@@ -3592,26 +3592,26 @@
     // passcode-or-email card for a "Not an admin account" card. Asking
     // someone for an admin passcode they don't have is pointless — they
     // need to know which account they're on and how to switch.
+    //
+    // Note: this page only loads admin-auth.js (not the student-side
+    // auth.js), so window.MockStream is undefined here — we go through
+    // window.AdminAuth, which exposes currentSession() + the raw
+    // supabase client + logout().
     async function _maybeShowWrongAccountGate() {
-      // Bail if the dashboard is already unlocked or about to be.
       if (sessionStorage.getItem('dashboard-auth') === 'true') return;
       try {
-        var client = (window.MockStream && window.MockStream.auth &&
-                      typeof window.MockStream.auth.getClient === 'function')
-                       ? window.MockStream.auth.getClient() : null;
-        if (!client || !client.auth) return;
-        var sess = await client.auth.getSession();
-        var s = sess && sess.data && sess.data.session;
+        var aa = window.AdminAuth;
+        if (!aa || typeof aa.currentSession !== 'function') return;
+        var s = await aa.currentSession();
         if (!s || !s.user) return; // not signed in → keep the original card
-        // Last-chance: the session might have become admin between the
-        // last retry and now. Probe once more before swapping the card.
-        try {
-          var aa = window.AdminAuth;
-          if (aa && typeof aa.currentRole === 'function') {
+        // Last-chance: session might have become admin between the last
+        // retry and now. Probe once more before swapping the card.
+        if (typeof aa.currentRole === 'function') {
+          try {
             var roleInfo = await aa.currentRole();
             if (roleInfo && roleInfo.role) return; // they ARE admin — let the retry path unlock
-          }
-        } catch (_e) {}
+          } catch (_e) {}
+        }
         var em = (s.user.email || '').toLowerCase();
         var meta = s.user.user_metadata || {};
         var tg = typeof meta.telegram_username === 'string'
@@ -3633,9 +3633,8 @@
         var so = document.getElementById('dashGateSignOut');
         if (so) so.onclick = async function () {
           try {
-            if (window.MockStream && window.MockStream.auth &&
-                typeof window.MockStream.auth.signOut === 'function') {
-              await window.MockStream.auth.signOut();
+            if (window.AdminAuth && typeof window.AdminAuth.logout === 'function') {
+              await window.AdminAuth.logout();
             }
           } catch (_e) {}
           location.replace('/landing-v3.html');
