@@ -2187,6 +2187,8 @@
           </div>
           <div class="sc-stats">
             <span>⚡ <span class="num" id="speakingToday">0</span> taken today</span>
+            <span style="opacity:.55;margin:0 6px;">·</span>
+            <span><span class="num" id="speakingAllTime">0</span> all-time</span>
           </div>
           <div class="sc-ctas">
             <button class="sc-cta primary" data-open="cefr-speaking">CEFR →</button>
@@ -2208,6 +2210,8 @@
           </div>
           <div class="sc-stats">
             <span>⚡ <span class="num" id="writingToday">0</span> taken today</span>
+            <span style="opacity:.55;margin:0 6px;">·</span>
+            <span><span class="num" id="writingAllTime">0</span> all-time</span>
           </div>
           <div class="sc-ctas">
             <button class="sc-cta primary" data-open="cefr-writing">CEFR →</button>
@@ -2229,6 +2233,8 @@
           </div>
           <div class="sc-stats">
             <span>⚡ <span class="num" id="listeningToday">0</span> taken today</span>
+            <span style="opacity:.55;margin:0 6px;">·</span>
+            <span><span class="num" id="listeningAllTime">0</span> all-time</span>
           </div>
           <div class="sc-ctas">
             <button class="sc-cta primary" data-open="cefr-listening">CEFR →</button>
@@ -2250,6 +2256,8 @@
           </div>
           <div class="sc-stats">
             <span>⚡ <span class="num" id="readingToday">0</span> taken today</span>
+            <span style="opacity:.55;margin:0 6px;">·</span>
+            <span><span class="num" id="readingAllTime">0</span> all-time</span>
           </div>
           <div class="sc-ctas">
             <button class="sc-cta primary" data-open="cefr-reading">CEFR →</button>
@@ -2987,21 +2995,29 @@
         listening: totals['cefr-listening'] + totals['ielts-listening'],
         reading:   totals['cefr-reading']   + totals['ielts-reading']
       };
-      const skillTodayMap = { speaking: 0, writing: 0, listening: 0, reading: 0 };
+      const skillTodayMap   = { speaking: 0, writing: 0, listening: 0, reading: 0 };
+      const skillAllTimeMap = { speaking: 0, writing: 0, listening: 0, reading: 0 };
       for (const skillDef of SKILLS) {
         for (const [skill, examType] of skillDef.combos) {
           const rows = perCombo[skill + '|' + examType] || [];
-          for (const r of rows) skillTodayMap[skill] += Number(r.today) || 0;
+          for (const r of rows) {
+            skillTodayMap[skill]   += Number(r.today) || 0;
+            skillAllTimeMap[skill] += Number(r.total) || 0;
+          }
         }
       }
-      document.getElementById('speakingCount').textContent  = fmtNumber(skillTotalMap.speaking);
-      document.getElementById('speakingToday').textContent  = fmtNumber(skillTodayMap.speaking);
-      document.getElementById('writingCount').textContent   = fmtNumber(skillTotalMap.writing);
-      document.getElementById('writingToday').textContent   = fmtNumber(skillTodayMap.writing);
-      document.getElementById('listeningCount').textContent = fmtNumber(skillTotalMap.listening);
-      document.getElementById('listeningToday').textContent = fmtNumber(skillTodayMap.listening);
-      document.getElementById('readingCount').textContent   = fmtNumber(skillTotalMap.reading);
-      document.getElementById('readingToday').textContent   = fmtNumber(skillTodayMap.reading);
+      document.getElementById('speakingCount').textContent    = fmtNumber(skillTotalMap.speaking);
+      document.getElementById('speakingToday').textContent    = fmtNumber(skillTodayMap.speaking);
+      document.getElementById('speakingAllTime').textContent  = fmtNumber(skillAllTimeMap.speaking);
+      document.getElementById('writingCount').textContent     = fmtNumber(skillTotalMap.writing);
+      document.getElementById('writingToday').textContent     = fmtNumber(skillTodayMap.writing);
+      document.getElementById('writingAllTime').textContent   = fmtNumber(skillAllTimeMap.writing);
+      document.getElementById('listeningCount').textContent   = fmtNumber(skillTotalMap.listening);
+      document.getElementById('listeningToday').textContent   = fmtNumber(skillTodayMap.listening);
+      document.getElementById('listeningAllTime').textContent = fmtNumber(skillAllTimeMap.listening);
+      document.getElementById('readingCount').textContent     = fmtNumber(skillTotalMap.reading);
+      document.getElementById('readingToday').textContent     = fmtNumber(skillTodayMap.reading);
+      document.getElementById('readingAllTime').textContent   = fmtNumber(skillAllTimeMap.reading);
 
       // Full Mock Experience card — two stats: today's takes + all-time.
       // Counts SESSIONS (one results row per completed full-mock run, not
