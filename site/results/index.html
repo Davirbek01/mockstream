@@ -1887,31 +1887,24 @@
 
 <body>
 
-  <!-- ===== AUTH GATE ===== -->
+  <!-- ===== AUTH GATE =====
+       Default state is a neutral "Checking access…" spinner so we don't
+       flash the wrong card. After the boot probe in the DOMContentLoaded
+       handler:
+         - super-admin role → autoLoginSupabaseSession unlocks the
+                              dashboard and #authGate gets display:none
+         - signed in but not admin → _maybeShowWrongAccountGate swaps
+                              this card body for the "Not an admin
+                              account" card
+         - not signed in     → _showSignInGate swaps this body for the
+                              "Sign in required" card with Google /
+                              Telegram sign-in buttons
+       The legacy passcode + email form was removed 2026-05-24 — all
+       admins are reached via Google/Telegram now. -->
   <div class="auth-gate" id="authGate">
     <div class="auth-card">
-      <div class="icon">📊</div>
-      <h2>Results Dashboard</h2>
-      <p>Unlock with passcode or admin email</p>
-      <div class="auth-tabs">
-        <button class="auth-tab active" onclick="switchAuthTab('code')">🔑 Code</button>
-        <button class="auth-tab" onclick="switchAuthTab('email')">📧 Email</button>
-      </div>
-      <div class="auth-pane active" id="authPaneCode">
-        <div class="auth-input-row">
-          <input type="password" id="authInput" placeholder="••••••••" maxlength="20" autocomplete="off">
-          <button id="authSubmit" onclick="verifyPasscode()">→</button>
-        </div>
-        <div class="auth-error" id="authError"></div>
-      </div>
-      <div class="auth-pane" id="authPaneEmail">
-        <div class="auth-input-row">
-          <input type="email" id="authEmailInput" placeholder="admin@email.com" autocomplete="email">
-          <button id="authEmailSubmit" onclick="verifyAdminEmail()">→</button>
-        </div>
-        <div class="auth-error" id="authEmailError"></div>
-      </div>
-      <button class="auth-back-btn" onclick="window.location.href='../landing-v3.html'">← Back to Home</button>
+      <div class="icon" style="opacity:0.5;">⏳</div>
+      <h2 style="color:#94a3b8;">Checking access…</h2>
     </div>
   </div>
 
@@ -3389,12 +3382,16 @@
       var cfg = window.SITE_CONFIG || {};
       document.getElementById('brandLabel').textContent = '— ' + (cfg.brandName || 'Mock Stream');
 
+      // Passcode + email form was removed 2026-05-24 — guard the dead
+      // listeners so they no-op cleanly when the elements aren't
+      // present. The verifyPasscode / verifyAdminEmail functions
+      // themselves remain defined further down for any external caller.
       var input = document.getElementById('authInput');
-      input.addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') verifyPasscode();
-      });
-
-      // Email login - Enter key
+      if (input) {
+        input.addEventListener('keypress', function (e) {
+          if (e.key === 'Enter') verifyPasscode();
+        });
+      }
       var emailInput = document.getElementById('authEmailInput');
       if (emailInput) {
         emailInput.addEventListener('keypress', function (e) {
@@ -3424,17 +3421,30 @@
               var ok = await autoLoginSupabaseSession();
               if (ok) return;
             } catch (_e) {}
+            // Eager card-swap: after each attempt, if we can already see a
+            // session (Google/Telegram) that ISN'T admin, swap the
+            // passcode/email card right away. Without this we'd burn the
+            // remaining 2-3s of retry budget showing the wrong card to a
+            // signed-in non-admin who's clearly never going to flip to
+            // admin via a retry.
+            try {
+              var swapped = await _maybeShowWrongAccountGate();
+              if (swapped) return;
+            } catch (_e) {}
           }
           // Fallback: auto-login with stored admin email (legacy).
           var savedAdminEmail = localStorage.getItem('ms_admin_email');
           if (savedAdminEmail) autoLoginAdminEmail(savedAdminEmail);
-          // Last fallback: if a Supabase session exists but the user
-          // isn't an admin, swap the passcode/email card for the
-          // "Not an admin account" card. Asking a non-admin Google /
-          // Telegram user for an admin passcode is pointless and
-          // misleading — they need to know which account they're on,
-          // and how to switch.
-          _maybeShowWrongAccountGate();
+          // Final safety net in case the eager probe missed (session
+          // restored late, AdminAuth not yet loaded on the first iteration,
+          // etc.).
+          var swapped = await _maybeShowWrongAccountGate();
+          // If still nothing happened (no session at all + no cached
+          // admin email), swap in the Sign-in card instead of leaving
+          // the "Checking access…" spinner stuck on screen.
+          if (!swapped && sessionStorage.getItem('dashboard-auth') !== 'true') {
+            _showSignInGate();
+          }
         })();
         // Late sign-in: if auth.js dispatches userSignedIn after we've
         // already fallen back to the gate, try the auto-login once more.
@@ -3597,19 +3607,67 @@
     // auth.js), so window.MockStream is undefined here — we go through
     // window.AdminAuth, which exposes currentSession() + the raw
     // supabase client + logout().
-    async function _maybeShowWrongAccountGate() {
+    // Default sign-in card for visitors with NO Supabase session.
+    // Replaces the legacy passcode/email form (removed 2026-05-24).
+    // Google sign-in uses AdminAuth.signInWithGoogle directly. Telegram
+    // sign-in needs the widget + per-clone bot id (which only landing-
+    // v3.html has wired up), so we bounce them there for that path.
+    function _showSignInGate() {
       if (sessionStorage.getItem('dashboard-auth') === 'true') return;
+      if (document.querySelector('#authGate #dashGateGoogle')) return; // already shown
+      var card = document.querySelector('#authGate .auth-card');
+      if (!card) return;
+      card.innerHTML =
+          '<div class="icon">🔐</div>' +
+          '<h2>Sign in required</h2>' +
+          '<p>The Results Dashboard is restricted to the super-admin account.</p>' +
+          '<div style="display:flex;flex-direction:column;gap:8px;margin:14px 0 6px;">' +
+            '<button id="dashGateGoogle" type="button" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 22px;border-radius:10px;border:1.5px solid #e5e7eb;background:#fff;color:#111;font-weight:700;font-size:14px;cursor:pointer;">' +
+              '🟦 Sign in with Google' +
+            '</button>' +
+            '<button id="dashGateTg" type="button" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 22px;border-radius:10px;border:none;background:linear-gradient(135deg,#2aabee,#229ed9);color:#fff;font-weight:700;font-size:14px;cursor:pointer;">' +
+              '✈️ Sign in with Telegram' +
+            '</button>' +
+          '</div>' +
+          '<button class="auth-back-btn" type="button" onclick="window.location.href=\'../landing-v3.html\'">← Back to Home</button>';
+      var gBtn = document.getElementById('dashGateGoogle');
+      if (gBtn) gBtn.onclick = function () {
+        try {
+          if (window.AdminAuth && typeof window.AdminAuth.signInWithGoogle === 'function') {
+            window.AdminAuth.signInWithGoogle();
+          } else {
+            window.location.href = '../landing-v3.html';
+          }
+        } catch (_e) { window.location.href = '../landing-v3.html'; }
+      };
+      var tBtn = document.getElementById('dashGateTg');
+      if (tBtn) tBtn.onclick = function () {
+        // Telegram OAuth widget lives on landing-v3.html — bounce there.
+        // The v3 sidebar's Dashboard Access button will bring the user
+        // back here automatically once their session is established.
+        window.location.href = '../landing-v3.html';
+      };
+    }
+
+    // Returns true if the card was swapped (caller can bail out of any
+    // retry loop), false if not (either no session, already authed,
+    // or AdminAuth wasn't loaded yet — caller should retry later).
+    async function _maybeShowWrongAccountGate() {
+      if (sessionStorage.getItem('dashboard-auth') === 'true') return false;
+      // Once the card is already swapped don't re-render (avoids the
+      // sign-out button losing its click handler if we somehow re-enter).
+      if (document.querySelector('#authGate #dashGateSignOut')) return true;
       try {
         var aa = window.AdminAuth;
-        if (!aa || typeof aa.currentSession !== 'function') return;
+        if (!aa || typeof aa.currentSession !== 'function') return false;
         var s = await aa.currentSession();
-        if (!s || !s.user) return; // not signed in → keep the original card
+        if (!s || !s.user) return false; // not signed in → keep the original card
         // Last-chance: session might have become admin between the last
         // retry and now. Probe once more before swapping the card.
         if (typeof aa.currentRole === 'function') {
           try {
             var roleInfo = await aa.currentRole();
-            if (roleInfo && roleInfo.role) return; // they ARE admin — let the retry path unlock
+            if (roleInfo && roleInfo.role) return false; // they ARE admin — let the retry path unlock
           } catch (_e) {}
         }
         var em = (s.user.email || '').toLowerCase();
@@ -3619,7 +3677,7 @@
         var identity = em || (tg ? '@' + tg : 'unknown');
         var idEsc = identity.replace(/</g, '&lt;');
         var card = document.querySelector('#authGate .auth-card');
-        if (!card) return;
+        if (!card) return false;
         card.innerHTML =
             '<div class="icon" style="color:#dc2626;">🛑</div>' +
             '<h2 style="color:#dc2626;">Not an admin account</h2>' +
@@ -3639,7 +3697,9 @@
           } catch (_e) {}
           location.replace('/landing-v3.html');
         };
+        return true;
       } catch (_e) { /* fall back to existing card on any failure */ }
+      return false;
     }
 
     async function verifyAdminEmail() {
