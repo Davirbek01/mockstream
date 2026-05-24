@@ -14771,7 +14771,8 @@
           <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">All parts • Timed</div>
         </button>
         <button id="speakingPracticeBtn" onclick="_speakingModePartBased()"
-          style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(124,58,237,0.3);">
+          style="position:relative;flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(124,58,237,0.3);">
+          <span id="speakingPracticeBtnLockBadge" style="display:none;position:absolute;top:6px;right:8px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;padding:2px 7px;border-radius:6px;font-size:9.5px;font-weight:700;letter-spacing:0.4px;">⭐ Premium only</span>
           <div style="font-size:28px;margin-bottom:6px;">🎯</div>
           Part Based Practice
           <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">Pick one part • Practice</div>
@@ -15184,7 +15185,56 @@
       } else {
         if (label) label.textContent = 'IELTS Speaking Mock ' + (num || '');
       }
+      _applySpeakingModePremiumGate();
       document.getElementById('speakingModeModal').style.display = 'flex';
+    }
+
+    // Paint the Part-Based Practice button's locked state based on
+    // whether the current entry is premium. Regular code → Part Based
+    // is dim + cursor-not-allowed + "Premium only" badge. Premium → normal.
+    // Defense-in-depth: _speakingModePartBased() also re-checks the flag
+    // so the button can't be bypassed via JS.
+    function _applySpeakingModePremiumGate() {
+      var btn   = document.getElementById('speakingPracticeBtn');
+      var badge = document.getElementById('speakingPracticeBtnLockBadge');
+      if (!btn) return;
+      var isPremium = _isSpeakingPremiumAi();
+      if (isPremium) {
+        btn.dataset.pmLocked = '';
+        btn.style.opacity = '';
+        btn.style.cursor  = 'pointer';
+        btn.style.filter  = '';
+        if (badge) badge.style.display = 'none';
+      } else {
+        btn.dataset.pmLocked = '1';
+        btn.style.opacity = '0.55';
+        btn.style.cursor  = 'not-allowed';
+        btn.style.filter  = 'grayscale(40%)';
+        if (badge) badge.style.display = '';
+      }
+    }
+
+    function _showSpeakingPremiumOnlyToast() {
+      // Small bottom toast — no global toast helper exists, so inline.
+      var t = document.createElement('div');
+      t.textContent = '⭐ Part-Based Practice is a premium feature. Upgrade your access code to unlock.';
+      t.style.cssText = [
+        'position:fixed','left:50%','bottom:32px','transform:translateX(-50%)',
+        'z-index:2147483647','max-width:90vw','padding:12px 18px',
+        'background:linear-gradient(135deg,#f59e0b,#ef4444)','color:#fff',
+        'border-radius:12px','font-size:13px','font-weight:600',
+        'box-shadow:0 8px 24px rgba(0,0,0,0.25)','text-align:center',
+        'opacity:0','transition:opacity 200ms ease'
+      ].join(';');
+      document.body.appendChild(t);
+      // Force reflow then fade in.
+      // eslint-disable-next-line no-unused-expressions
+      t.offsetHeight;
+      t.style.opacity = '1';
+      setTimeout(function () {
+        t.style.opacity = '0';
+        setTimeout(function () { if (t.parentNode) t.parentNode.removeChild(t); }, 220);
+      }, 2800);
     }
     function closeSpeakingModeModal() {
       document.getElementById('speakingModeModal').style.display = 'none';
@@ -15292,6 +15342,13 @@
       _navigateToRunner(url);
     }
     function _speakingModePartBased() {
+      // Premium-only feature. If the current entry isn't premium, refuse
+      // and toast — regardless of how this function was invoked (button
+      // tap, programmatic click, etc.).
+      if (!_isSpeakingPremiumAi()) {
+        _showSpeakingPremiumOnlyToast();
+        return;
+      }
       window._spkModalSourcePicker = null;
       document.getElementById('speakingModeModal').style.display = 'none';
       var container = document.getElementById('speakingPartPickerButtons');
