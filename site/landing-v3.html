@@ -2950,18 +2950,24 @@
         }).then(r => r.ok ? r.json() : []).catch(() => []);
       }
 
-      const [totals, justAdded, heroSummary, ...statsResults] = await Promise.all([
+      // ALL fetches in one big parallel batch so the second-batch await
+      // doesn't serialize the new centre-aware calls behind the first
+      // 11. HTTP/2 multiplexes the 19 requests over one connection.
+      // Order in the args matches the order in the destructuring on
+      // the next line, so the slice indexes line up.
+      const _comboCount = SKILLS.reduce((n, s) => n + s.combos.length, 0); // 8
+      const _all = await Promise.all([
         fetchMockTotals(),
         fetchJustAdded(8),
         fetchHeroSummary(),
-        ...SKILLS.flatMap(s => s.combos.map(([sk, ex]) => fetchStats(sk, ex)))
+        ...SKILLS.flatMap(s => s.combos.map(([sk, ex]) => fetchStats(sk, ex))),
+        ...SKILLS.flatMap(s => s.combos.map(([sk, ex]) => _cardSkillSummary(sk, ex)))
       ]);
-      // Centre-aware per-skill card summary (one row per combo).
-      // Done as a second parallel batch so the trending/perCombo
-      // global fetch above can complete independently.
-      const _cardSummary = await Promise.all(
-        SKILLS.flatMap(s => s.combos.map(([sk, ex]) => _cardSkillSummary(sk, ex)))
-      );
+      const totals       = _all[0];
+      const justAdded    = _all[1];
+      const heroSummary  = _all[2];
+      const statsResults = _all.slice(3, 3 + _comboCount);
+      const _cardSummary = _all.slice(3 + _comboCount);
 
       // Per-skill totals + perCombo are still computed from mock_attempt_stats
       // because trending / "X taken today" on skill cards must stay global.
