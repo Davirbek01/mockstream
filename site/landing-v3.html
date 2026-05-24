@@ -2302,6 +2302,11 @@
             <div class="title">Full Mock Experience</div>
             <div class="sub">All 4 skills sequenced · most realistic exam run</div>
           </div>
+          <div class="sc-stats">
+            <span>⚡ <span class="num" id="fullMockToday">0</span> taken today</span>
+            <span style="opacity:.55;margin:0 6px;">·</span>
+            <span><span class="num" id="fullMockAllTime">0</span> all-time</span>
+          </div>
           <div class="sc-ctas">
             <button class="sc-cta primary" id="msv3MainCefrFullMock" type="button">CEFR →</button>
             <button class="sc-cta ghost"   id="msv3MainIeltsFullMock" type="button">IELTS →</button>
@@ -2997,6 +3002,28 @@
       document.getElementById('listeningToday').textContent = fmtNumber(skillTodayMap.listening);
       document.getElementById('readingCount').textContent   = fmtNumber(skillTotalMap.reading);
       document.getElementById('readingToday').textContent   = fmtNumber(skillTodayMap.reading);
+
+      // Full Mock Experience card — two stats: today's takes + all-time.
+      // Counts SESSIONS (one results row per completed full-mock run, not
+      // 4 rows per skill). Reads from results via the full_mock_summary
+      // RPC because mock_attempts never gets full-mock rows.
+      (async function _populateFullMockStats() {
+        try {
+          const r = await fetch(SB_URL + '/rest/v1/rpc/full_mock_summary', {
+            method: 'POST',
+            headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+            body: '{}'
+          });
+          if (!r.ok) return;
+          const rows = await r.json();
+          const row = Array.isArray(rows) ? rows[0] : rows;
+          if (!row) return;
+          const fmEl  = document.getElementById('fullMockToday');
+          const fmAll = document.getElementById('fullMockAllTime');
+          if (fmEl)  fmEl.textContent  = fmtNumber(Number(row.today) || 0);
+          if (fmAll) fmAll.textContent = fmtNumber(Number(row.all_time) || 0);
+        } catch (_e) { /* leave the placeholder zeroes */ }
+      })();
 
       renderTrending(perCombo);
       renderJustAdded(justAdded);
