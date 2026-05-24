@@ -6929,7 +6929,8 @@
           <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">All 6 parts • 40 min</div>
         </button>
         <button id="cefrListeningPracticeBtn" onclick="_cefrListeningModePartBased()"
-          style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(124,58,237,0.3);">
+          style="position:relative;flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(124,58,237,0.3);">
+          <span id="cefrListeningPracticeBtnLockBadge" style="display:none;position:absolute;top:6px;right:8px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;padding:2px 7px;border-radius:6px;font-size:9.5px;font-weight:700;letter-spacing:0.4px;">⭐ Premium only</span>
           <div style="font-size:28px;margin-bottom:6px;">🎯</div>
           Part Practice
           <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">Pick one part • ~7 min</div>
@@ -7068,7 +7069,8 @@
           <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">All 4 parts • 40 min</div>
         </button>
         <button id="ieltsListeningPracticeBtn" onclick="_ieltsListeningModePartBased()"
-          style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(124,58,237,0.3);">
+          style="position:relative;flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(124,58,237,0.3);">
+          <span id="ieltsListeningPracticeBtnLockBadge" style="display:none;position:absolute;top:6px;right:8px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;padding:2px 7px;border-radius:6px;font-size:9.5px;font-weight:700;letter-spacing:0.4px;">⭐ Premium only</span>
           <div style="font-size:28px;margin-bottom:6px;">🎯</div>
           Part Practice
           <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">Pick one part • ~10 min</div>
@@ -12652,11 +12654,13 @@
     window.closeListeningAccessCodeModal = closeListeningAccessCodeModal;
 
     function _loadListeningMockOrShowMode(pageUrl, category) {
+      var isPremium = _isListeningPremiumAi();
       if (category === 'cefr-listening') {
         _pendingCefrListeningUrl = pageUrl;
         var mockNum = _extractListeningMockNumber(pageUrl) || '??';
         var label = document.getElementById('cefrListeningModeMockLabel');
         if (label) label.textContent = 'CEFR Listening Mock ' + mockNum;
+        _applyModeChooserPremiumGate('cefrListeningPracticeBtn', 'cefrListeningPracticeBtnLockBadge', isPremium);
         var modal = document.getElementById('cefrListeningModeModal');
         if (modal) modal.style.display = 'flex';
       } else if (category === 'ielts-listening') {
@@ -12664,6 +12668,7 @@
         var mockNum = _extractListeningMockNumber(pageUrl) || '??';
         var label = document.getElementById('ieltsListeningModeMockLabel');
         if (label) label.textContent = 'IELTS Listening Mock ' + mockNum;
+        _applyModeChooserPremiumGate('ieltsListeningPracticeBtn', 'ieltsListeningPracticeBtnLockBadge', isPremium);
         var modal = document.getElementById('ieltsListeningModeModal');
         if (modal) modal.style.display = 'flex';
       } else {
@@ -12689,6 +12694,10 @@
       if (url) { window.location.href = window.__msv3AbsUrl(url); }
     }
     function _cefrListeningModePartBased() {
+      if (!_isListeningPremiumAi()) {
+        _showModeChooserPremiumOnlyToast('Part Practice');
+        return;
+      }
       document.getElementById('cefrListeningModeModal').style.display = 'none';
       var modal = document.getElementById('cefrListeningPartPickerModal');
       var allBtns = modal.querySelectorAll('button[onclick^="_pickCefrListeningPart"]');
@@ -13395,6 +13404,10 @@
       if (url) { window.location.href = window.__msv3AbsUrl(url); }
     }
     function _ieltsListeningModePartBased() {
+      if (!_isListeningPremiumAi()) {
+        _showModeChooserPremiumOnlyToast('Part Practice');
+        return;
+      }
       document.getElementById('ieltsListeningModeModal').style.display = 'none';
       var modal = document.getElementById('ieltsListeningPartPickerModal');
       var allBtns = modal.querySelectorAll('button[onclick^="_pickIeltsListeningPart"]');
