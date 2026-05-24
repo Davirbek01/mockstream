@@ -6829,7 +6829,8 @@
           <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">All 3 passages • 60 min</div>
         </button>
         <button id="ieltsReadingPracticeBtn" onclick="_ieltsReadingModePassageBased()"
-          style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(124,58,237,0.3);">
+          style="position:relative;flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(124,58,237,0.3);">
+          <span id="ieltsReadingPracticeBtnLockBadge" style="display:none;position:absolute;top:6px;right:8px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;padding:2px 7px;border-radius:6px;font-size:9.5px;font-weight:700;letter-spacing:0.4px;">⭐ Premium only</span>
           <div style="font-size:28px;margin-bottom:6px;">🎯</div>
           Passage Practice
           <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">Pick one passage • ~20 min</div>
@@ -7188,7 +7189,8 @@
           <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">All 5 parts • 60 min</div>
         </button>
         <button id="cefrReadingPracticeBtn" onclick="_cefrReadingModePartBased()"
-          style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(124,58,237,0.3);">
+          style="position:relative;flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(124,58,237,0.3);">
+          <span id="cefrReadingPracticeBtnLockBadge" style="display:none;position:absolute;top:6px;right:8px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;padding:2px 7px;border-radius:6px;font-size:9.5px;font-weight:700;letter-spacing:0.4px;">⭐ Premium only</span>
           <div style="font-size:28px;margin-bottom:6px;">🎯</div>
           Part Practice
           <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">Pick one part • ~12 min</div>
@@ -11066,11 +11068,13 @@
     window.closeReadingAccessCodeModal = closeReadingAccessCodeModal;
 
     function _loadReadingMockOrShowMode(pageUrl, category) {
+      var isPremium = _isReadingPremiumAi();
       if (category === 'cefr-reading') {
         _pendingCefrReadingUrl = pageUrl;
         var mockNum = _extractReadingMockNumber(pageUrl) || '??';
         var label = document.getElementById('cefrReadingModeMockLabel');
         if (label) label.textContent = 'CEFR Reading Mock ' + mockNum;
+        _applyModeChooserPremiumGate('cefrReadingPracticeBtn', 'cefrReadingPracticeBtnLockBadge', isPremium);
         var modal = document.getElementById('cefrReadingModeModal');
         if (modal) modal.style.display = 'flex';
       } else if (category === 'ielts-reading') {
@@ -11078,6 +11082,7 @@
         var mockNum = _extractReadingMockNumber(pageUrl) || '??';
         var label = document.getElementById('ieltsReadingModeMockLabel');
         if (label) label.textContent = 'IELTS Reading Mock ' + mockNum;
+        _applyModeChooserPremiumGate('ieltsReadingPracticeBtn', 'ieltsReadingPracticeBtnLockBadge', isPremium);
         var modal = document.getElementById('ieltsReadingModeModal');
         if (modal) modal.style.display = 'flex';
       } else {
@@ -11103,6 +11108,10 @@
       if (url) { window.location.href = window.__msv3AbsUrl(url); }
     }
     function _cefrReadingModePartBased() {
+      if (!_isReadingPremiumAi()) {
+        _showModeChooserPremiumOnlyToast('Part Practice');
+        return;
+      }
       document.getElementById('cefrReadingModeModal').style.display = 'none';
       document.getElementById('cefrReadingPartPickerModal').style.display = 'flex';
     }
@@ -11770,6 +11779,10 @@
       if (url) { window.location.href = window.__msv3AbsUrl(url); }
     }
     function _ieltsReadingModePassageBased() {
+      if (!_isReadingPremiumAi()) {
+        _showModeChooserPremiumOnlyToast('Passage Practice');
+        return;
+      }
       document.getElementById('ieltsReadingModeModal').style.display = 'none';
       document.getElementById('ieltsReadingPassagePickerModal').style.display = 'flex';
     }
