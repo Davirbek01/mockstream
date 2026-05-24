@@ -2938,12 +2938,30 @@
     }
 
     async function load() {
+      // For the centre-aware CARD display only. perCombo + trending /
+      // popular badges in the pickers stay GLOBAL because they need the
+      // broader signal to bucket "trending" / "popular" sensibly.
+      const _centerId = (window.__CENTER_ID || 'mock_stream').toString();
+      function _cardSkillSummary(sk, ex) {
+        return fetch(SB_URL + '/rest/v1/rpc/mock_attempt_skill_summary', {
+          method: 'POST',
+          headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ p_skill: sk, p_exam_type: ex, p_center: _centerId })
+        }).then(r => r.ok ? r.json() : []).catch(() => []);
+      }
+
       const [totals, justAdded, heroSummary, ...statsResults] = await Promise.all([
         fetchMockTotals(),
         fetchJustAdded(8),
         fetchHeroSummary(),
         ...SKILLS.flatMap(s => s.combos.map(([sk, ex]) => fetchStats(sk, ex)))
       ]);
+      // Centre-aware per-skill card summary (one row per combo).
+      // Done as a second parallel batch so the trending/perCombo
+      // global fetch above can complete independently.
+      const _cardSummary = await Promise.all(
+        SKILLS.flatMap(s => s.combos.map(([sk, ex]) => _cardSkillSummary(sk, ex)))
+      );
 
       // Per-skill totals + perCombo are still computed from mock_attempt_stats
       // because trending / "X taken today" on skill cards must stay global.
@@ -2995,14 +3013,19 @@
         listening: totals['cefr-listening'] + totals['ielts-listening'],
         reading:   totals['cefr-reading']   + totals['ielts-reading']
       };
+      // Skill-card visible numbers come from _cardSummary (centre-aware
+       // on clones, global on mock_stream main site). Picker badges still
+       // use perCombo so trending/popular stay global.
       const skillTodayMap   = { speaking: 0, writing: 0, listening: 0, reading: 0 };
       const skillAllTimeMap = { speaking: 0, writing: 0, listening: 0, reading: 0 };
+      var _csIdx = 0;
       for (const skillDef of SKILLS) {
         for (const [skill, examType] of skillDef.combos) {
-          const rows = perCombo[skill + '|' + examType] || [];
-          for (const r of rows) {
-            skillTodayMap[skill]   += Number(r.today) || 0;
-            skillAllTimeMap[skill] += Number(r.total) || 0;
+          const rows = _cardSummary[_csIdx++] || [];
+          const summary = Array.isArray(rows) ? rows[0] : rows;
+          if (summary) {
+            skillTodayMap[skill]   += Number(summary.today)    || 0;
+            skillAllTimeMap[skill] += Number(summary.all_time) || 0;
           }
         }
       }
@@ -3023,12 +3046,14 @@
       // Counts SESSIONS (one results row per completed full-mock run, not
       // 4 rows per skill). Reads from results via the full_mock_summary
       // RPC because mock_attempts never gets full-mock rows.
+      // Centre-aware: clones see only their own students; main site
+      // (mock_stream) treated as universal by the RPC.
       (async function _populateFullMockStats() {
         try {
           const r = await fetch(SB_URL + '/rest/v1/rpc/full_mock_summary', {
             method: 'POST',
             headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
-            body: '{}'
+            body: JSON.stringify({ p_center: _centerId })
           });
           if (!r.ok) return;
           const rows = await r.json();
