@@ -3428,6 +3428,13 @@
           // Fallback: auto-login with stored admin email (legacy).
           var savedAdminEmail = localStorage.getItem('ms_admin_email');
           if (savedAdminEmail) autoLoginAdminEmail(savedAdminEmail);
+          // Last fallback: if a Supabase session exists but the user
+          // isn't an admin, swap the passcode/email card for the
+          // "Not an admin account" card. Asking a non-admin Google /
+          // Telegram user for an admin passcode is pointless and
+          // misleading — they need to know which account they're on,
+          // and how to switch.
+          _maybeShowWrongAccountGate();
         })();
         // Late sign-in: if auth.js dispatches userSignedIn after we've
         // already fallen back to the gate, try the auto-login once more.
@@ -3578,6 +3585,62 @@
           localStorage.removeItem('ms_admin_email');
         }
       } catch (e) { /* silent fail — user can still enter passcode */ }
+    }
+
+    // If the auto-login retries failed AND the user is signed in via
+    // Supabase (Google/Telegram) just not as admin, swap the dashboard's
+    // passcode-or-email card for a "Not an admin account" card. Asking
+    // someone for an admin passcode they don't have is pointless — they
+    // need to know which account they're on and how to switch.
+    async function _maybeShowWrongAccountGate() {
+      // Bail if the dashboard is already unlocked or about to be.
+      if (sessionStorage.getItem('dashboard-auth') === 'true') return;
+      try {
+        var client = (window.MockStream && window.MockStream.auth &&
+                      typeof window.MockStream.auth.getClient === 'function')
+                       ? window.MockStream.auth.getClient() : null;
+        if (!client || !client.auth) return;
+        var sess = await client.auth.getSession();
+        var s = sess && sess.data && sess.data.session;
+        if (!s || !s.user) return; // not signed in → keep the original card
+        // Last-chance: the session might have become admin between the
+        // last retry and now. Probe once more before swapping the card.
+        try {
+          var aa = window.AdminAuth;
+          if (aa && typeof aa.currentRole === 'function') {
+            var roleInfo = await aa.currentRole();
+            if (roleInfo && roleInfo.role) return; // they ARE admin — let the retry path unlock
+          }
+        } catch (_e) {}
+        var em = (s.user.email || '').toLowerCase();
+        var meta = s.user.user_metadata || {};
+        var tg = typeof meta.telegram_username === 'string'
+          ? meta.telegram_username.replace(/^@/, '') : '';
+        var identity = em || (tg ? '@' + tg : 'unknown');
+        var idEsc = identity.replace(/</g, '&lt;');
+        var card = document.querySelector('#authGate .auth-card');
+        if (!card) return;
+        card.innerHTML =
+            '<div class="icon" style="color:#dc2626;">🛑</div>' +
+            '<h2 style="color:#dc2626;">Not an admin account</h2>' +
+            '<p>You\'re signed in as <strong>' + idEsc + '</strong>, ' +
+              'which doesn\'t have admin access. ' +
+              'Contact the super-admin to be granted access, or sign out and use the admin account.</p>' +
+            '<div style="display:flex;gap:10px;justify-content:center;margin-top:14px;flex-wrap:wrap;">' +
+              '<button class="auth-back-btn" type="button" onclick="window.location.href=\'../landing-v3.html\'">← Back home</button>' +
+              '<button class="auth-back-btn" type="button" id="dashGateSignOut" style="background:#dc2626;color:#fff;border-color:#dc2626;">Sign out</button>' +
+            '</div>';
+        var so = document.getElementById('dashGateSignOut');
+        if (so) so.onclick = async function () {
+          try {
+            if (window.MockStream && window.MockStream.auth &&
+                typeof window.MockStream.auth.signOut === 'function') {
+              await window.MockStream.auth.signOut();
+            }
+          } catch (_e) {}
+          location.replace('/landing-v3.html');
+        };
+      } catch (_e) { /* fall back to existing card on any failure */ }
     }
 
     async function verifyAdminEmail() {
