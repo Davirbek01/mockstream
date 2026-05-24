@@ -3697,6 +3697,64 @@
         return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
       });
     }
+    // Builds the Google + Telegram + email sign-in buttons markup. Used by
+    // both the brand-new visitor card AND the guest card (so a guest can
+    // upgrade in-place without re-doing the welcome wizard).
+    function _msv3SignInButtonsHtml(hasTgBot) {
+      return '<button type="button" class="msv3-provider google" id="msv3GoogleBtn">'
+        +   '<svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">'
+        +     '<path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/>'
+        +     '<path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16 18.9 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>'
+        +     '<path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.4-4.5 2.4-7.2 2.4-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/>'
+        +     '<path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.1 5.7l6.2 5.2c-.4.4 6.6-4.9 6.6-14.9 0-1.3-.1-2.6-.4-3.9z"/>'
+        +   '</svg>Continue with Google</button>'
+        + (hasTgBot
+            ? '<button type="button" class="msv3-provider telegram" id="msv3TelegramBtn">'
+            +   '<svg width="18" height="18" viewBox="0 0 240 240" aria-hidden="true">'
+            +     '<defs><linearGradient id="msv3TgGrad" x1="120" y1="0" x2="120" y2="240" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#37aee2"/><stop offset="1" stop-color="#1e96c8"/></linearGradient></defs>'
+            +     '<circle cx="120" cy="120" r="120" fill="url(#msv3TgGrad)"/>'
+            +     '<path d="M81 128.5l-29-9c-6.3-1.9-6.3-6.3 1.4-9.4l113-43.6c5.2-2.1 8.1.6 6.4 7.6L153.6 188c-1.2 4.8-4.2 6-8.5 3.7l-23.7-17.5-11.4 11c-1.3 1.3-2.4 2.4-4.8 2.4l1.7-24.4 44.4-40.1c1.9-1.7-.4-2.6-3-1l-54.9 34.6-23.6-7.4z" fill="#fff"/>'
+            +   '</svg>Continue with Telegram</button>'
+            : '');
+      // Removed "or use email instead" — magic link is now reachable via
+      // the VIP Activation input below (the dispatcher in submitVip
+      // detects email-shaped input and routes to the magic-link path).
+    }
+
+    function _msv3WireSignInButtons(centerId) {
+      var gb = document.getElementById('msv3GoogleBtn');
+      if (gb) gb.addEventListener('click', function () {
+        try {
+          if (window.MockStream && window.MockStream.auth && typeof window.MockStream.auth.signInWithGoogle === 'function') {
+            window.MockStream.auth.signInWithGoogle(window.location.href);
+          } else {
+            window.location.href = '/index.html';
+          }
+        } catch (_e) { window.location.href = '/index.html'; }
+      });
+      var tb = document.getElementById('msv3TelegramBtn');
+      if (tb) tb.addEventListener('click', function () {
+        Promise.all([loadTelegram(), loadTelegramBotIds()]).then(function (results) {
+          var ids = results[1] || {};
+          var botId = ids[centerId];
+          if (!botId || !window.Telegram || !window.Telegram.Login) {
+            alert('Telegram sign-in is not available yet.'); return;
+          }
+          window.Telegram.Login.auth(
+            { bot_id: botId, request_access: 'write' },
+            function (user) {
+              if (user) {
+                try { sessionStorage.setItem('msv3_pending_telegram', JSON.stringify(user)); } catch (_e) {}
+                window.location.href = '/landing.html?msv3TgAuth=1';
+              }
+            }
+          );
+        });
+      });
+      // "or use email instead" button was removed — magic link now lives
+      // inside the VIP Activation input (submitVip dispatches by shape).
+    }
+
     function renderAccount() {
       var slot = document.getElementById('msv3AccountSlot');
       if (!slot) return;
@@ -3707,7 +3765,21 @@
       } catch (_e) {}
       var avatarUrl = '';
       try { avatarUrl = localStorage.getItem('ms_avatar_url') || ''; } catch (_e) {}
-      var isSignedIn = !!fullName;
+
+      // "Signed in" = real Supabase session (Google or Telegram OAuth).
+      // A guest who completed the welcome wizard has a name in storage
+      // but NO Supabase session — they shouldn't see "Signed in" or the
+      // signed-in chrome, otherwise they think they already have an
+      // account and never convert.
+      var hasSession = false;
+      try {
+        hasSession = !!(window.MockStream && window.MockStream.auth &&
+                        typeof window.MockStream.auth.isSignedIn === 'function' &&
+                        window.MockStream.auth.isSignedIn());
+      } catch (_e) {}
+      var isSignedIn = !!fullName && hasSession;
+      var isGuest    = !!fullName && !hasSession;
+
       var centerId = (window.__CENTER_ID || 'mock_stream').toString();
       var hasTgBot = !!TELEGRAM_BOT_BY_CENTER[centerId];
 
@@ -3726,73 +3798,44 @@
         +     '<div class="msv3-profile-role">Signed in</div>'
         +   '</div>'
         + '</div>';
-      } else {
+        return;
+      }
+
+      if (isGuest) {
+        // Guest card: same shape as signed-in but with a grey avatar +
+        // "Guest" badge, then the Google/Telegram buttons underneath so
+        // they can upgrade without leaving the sidebar. Results still
+        // submit under their guest name (no functional regression).
+        var gInitial = (fullName.trim()[0] || '?').toUpperCase();
         slot.innerHTML =
-          // Friendly guest hint — explains the value of signing in BEFORE
-          // the Google / Telegram buttons. Encourages sign-up over the
-          // quiet "or use email instead" fallback.
+          '<div class="msv3-profile">'
+        +   '<div class="msv3-avatar" style="background:linear-gradient(135deg,#94a3b8,#64748b);">'
+        +     gInitial
+        +   '</div>'
+        +   '<div class="msv3-profile-text">'
+        +     '<div class="msv3-profile-name">' + esc(fullName) + '</div>'
+        +     '<div class="msv3-profile-role" style="color:#64748b;">Guest</div>'
+        +   '</div>'
+        + '</div>'
+        + '<p class="msv3-account-hint" style="margin-top:14px;">'
+        +   'Sign in with <strong>Google</strong>'
+        +   (hasTgBot ? ' or <strong>Telegram</strong>' : '')
+        +   ' to save your results across every device.'
+        + '</p>'
+        + _msv3SignInButtonsHtml(hasTgBot);
+        _msv3WireSignInButtons(centerId);
+        return;
+      }
+
+      // Brand-new visitor — no name, no session.
+      slot.innerHTML =
           '<p class="msv3-account-hint">'
         +   'Sign in with <strong>Google</strong>'
         +   (hasTgBot ? ' or <strong>Telegram</strong>' : '')
         +   ' to save your results across every device.'
         + '</p>'
-        + '<button type="button" class="msv3-provider google" id="msv3GoogleBtn">'
-        +   '<svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">'
-        +     '<path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/>'
-        +     '<path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16 18.9 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>'
-        +     '<path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.4-4.5 2.4-7.2 2.4-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/>'
-        +     '<path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.1 5.7l6.2 5.2c-.4.4 6.6-4.9 6.6-14.9 0-1.3-.1-2.6-.4-3.9z"/>'
-        +   '</svg>Continue with Google</button>'
-        + (hasTgBot
-            ? '<button type="button" class="msv3-provider telegram" id="msv3TelegramBtn">'
-            +   '<svg width="18" height="18" viewBox="0 0 240 240" aria-hidden="true">'
-            +     '<defs><linearGradient id="msv3TgGrad" x1="120" y1="0" x2="120" y2="240" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#37aee2"/><stop offset="1" stop-color="#1e96c8"/></linearGradient></defs>'
-            +     '<circle cx="120" cy="120" r="120" fill="url(#msv3TgGrad)"/>'
-            +     '<path d="M81 128.5l-29-9c-6.3-1.9-6.3-6.3 1.4-9.4l113-43.6c5.2-2.1 8.1.6 6.4 7.6L153.6 188c-1.2 4.8-4.2 6-8.5 3.7l-23.7-17.5-11.4 11c-1.3 1.3-2.4 2.4-4.8 2.4l1.7-24.4 44.4-40.1c1.9-1.7-.4-2.6-3-1l-54.9 34.6-23.6-7.4z" fill="#fff"/>'
-            +   '</svg>Continue with Telegram</button>'
-            : '')
-        + '<button type="button" class="msv3-email-link" id="msv3EmailBtn">or use email instead</button>';
-
-        var gb = document.getElementById('msv3GoogleBtn');
-        if (gb) gb.addEventListener('click', function () {
-          try {
-            if (window.MockStream && window.MockStream.auth && typeof window.MockStream.auth.signInWithGoogle === 'function') {
-              window.MockStream.auth.signInWithGoogle(window.location.href);
-            } else {
-              window.location.href = '/index.html';
-            }
-          } catch (_e) { window.location.href = '/index.html'; }
-        });
-        var tb = document.getElementById('msv3TelegramBtn');
-        if (tb) tb.addEventListener('click', function () {
-          // Need BOTH the widget script and the live bot-id (same flow
-          // index.html uses). Hardcoding the bot id breaks when the IDs
-          // rotate or when a clone's domain doesn't match the cached value.
-          Promise.all([loadTelegram(), loadTelegramBotIds()]).then(function (results) {
-            var ids = results[1] || {};
-            var botId = ids[centerId];
-            if (!botId || !window.Telegram || !window.Telegram.Login) {
-              alert('Telegram sign-in is not available yet.'); return;
-            }
-            window.Telegram.Login.auth(
-              { bot_id: botId, request_access: 'write' },
-              function (user) {
-                if (user) {
-                  // No onTelegramAuth handler on this page — hand off to
-                  // landing.html (which has the verify flow) so the session is
-                  // exchanged via verify-telegram-login.
-                  try { sessionStorage.setItem('msv3_pending_telegram', JSON.stringify(user)); } catch (_e) {}
-                  window.location.href = '/landing.html?msv3TgAuth=1';
-                }
-              }
-            );
-          });
-        });
-        var eb = document.getElementById('msv3EmailBtn');
-        if (eb) eb.addEventListener('click', function () {
-          window.location.href = '/landing.html?openVipSignIn=1';
-        });
-      }
+        + _msv3SignInButtonsHtml(hasTgBot);
+      _msv3WireSignInButtons(centerId);
     }
 
     // ─────── Admin lock decoration ───────
@@ -3860,12 +3903,172 @@
       if (btn) btn.disabled = false;
       if (replaceBtn) replaceBtn.hidden = true;
     });
-    function submitVip() {
+    // ── VIP Activation submit (inline; replaces the old landing.html bounce) ──
+    // Dispatcher: looks at the input shape and routes to either the
+    // VIP-code verify path OR the magic-link path. Email-shape detection
+    // is the only switch — the placeholder still says "Enter your VIP
+    // Access Code" so students don't see an email hint. A premium/admin
+    // who happens to type their email instead of their code just gets
+    // a magic link delivered (a feature; both paths sign them in).
+    function _v3VipShowStatus(msg, kind) {
+      var sub = document.getElementById('msv3VipSub');
+      if (!sub) return;
+      sub.textContent = msg;
+      if (kind === 'error')        sub.style.color = '#dc2626';
+      else if (kind === 'success') sub.style.color = '#15803d';
+      else if (kind === 'loading') sub.style.color = '#64748b';
+      else                          sub.style.color = '';
+    }
+    function _v3VipResetUi() {
+      var btn = document.getElementById('msv3VipBtn');
+      if (btn) { btn.disabled = false; btn.textContent = '→'; }
+    }
+    function _v3VipBtnBusy() {
+      var btn = document.getElementById('msv3VipBtn');
+      if (btn) { btn.disabled = true; btn.textContent = '⏳'; }
+    }
+    async function submitVip() {
       var input = document.getElementById('msv3VipInput');
-      var code = (input.value || '').trim();
-      if (!code) return;
-      try { sessionStorage.setItem('msv3_pending_vip', code); } catch (_e) {}
-      window.location.href = '/landing.html?msv3Vip=1';
+      if (!input) return;
+      var raw = (input.value || '').trim();
+      if (!raw) return;
+      _v3VipBtnBusy();
+      _v3VipShowStatus('Checking…', 'loading');
+      // Email shape → magic-link branch. Anything else → VIP code verify.
+      if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(raw)) {
+        await _v3HandleMagicLink(raw.toLowerCase());
+      } else {
+        await _v3VerifyVipCode(raw);
+      }
+    }
+
+    async function _v3VerifyVipCode(code) {
+      if (!/^\d+$/.test(code)) {
+        // Unified "Code not recognised" message — same wording the
+        // magic-link silent-failure case uses so a wrong VIP code and
+        // an unknown email look identical (no info leak about which
+        // emails are eligible admins).
+        _v3VipShowStatus('❌ Code not recognised', 'error');
+        _v3VipResetUi();
+        return;
+      }
+      try {
+        var center = ((window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier)
+                      || window.__CENTER_ID || 'mock_stream').toString().replace(/_/g, '');
+        var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+        var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+        var resp = await fetch(SB_URL + '/functions/v1/verify-passcode', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY },
+          body: JSON.stringify({ code: code, center: center })
+        });
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        var data = await resp.json();
+        if (data.access || data.valid) {
+          // Admin / super-admin passcodes are NOT VIP codes — they belong
+          // in the Telegram bot, not the website's VIP input. Mirror
+          // landing.html's guard so typing an admin code here doesn't
+          // grant vipSessionAccess on the site.
+          if (data.role === 'admin' || data.role === 'super_admin') {
+            _v3VipShowStatus('❌ That looks like an admin passcode. Use it inside the bot, not here.', 'error');
+            _v3VipResetUi();
+            return;
+          }
+          var isPremiumAi = data.role === 'premium';
+          if (typeof data.token === 'string' && data.token.length > 20) {
+            try { sessionStorage.setItem('vipToken', data.token); } catch (_e) {}
+          }
+          try { sessionStorage.setItem('vipSessionAccess', 'true'); } catch (_e) {}
+          if (isPremiumAi) { try { sessionStorage.setItem('vipPremiumAi', 'true'); } catch (_e) {} }
+          else             { try { sessionStorage.removeItem('vipPremiumAi'); } catch (_e) {} }
+          try {
+            window.dispatchEvent(new CustomEvent('mockStream:premiumUnlocked', {
+              detail: { source: 'vip_code_sidebar', premium_ai: isPremiumAi }
+            }));
+          } catch (_e) {}
+          _v3VipShowStatus(isPremiumAi ? '✅ Premium VIP unlocked!' : '✅ Regular VIP unlocked!', 'success');
+          // Refresh the sidebar VIP badge so the unlocked-state card replaces
+          // the input UI without a page reload.
+          try { if (typeof refreshVipBadge === 'function') refreshVipBadge(); } catch (_e) {}
+          var btn = document.getElementById('msv3VipBtn');
+          if (btn) btn.textContent = '✓';
+          return;
+        }
+        _v3VipShowStatus('❌ Code not recognised', 'error');
+        _v3VipResetUi();
+      } catch (_e) {
+        _v3VipShowStatus('❌ Connection error. Try again.', 'error');
+        _v3VipResetUi();
+      }
+    }
+
+    async function _v3HandleMagicLink(email) {
+      // 60-second per-email client cooldown — stops accidental double-clicks
+      // burning Supabase's tight 2-emails/hour built-in mailer budget.
+      var cdKey = 'msv3_mlink_cd_' + email;
+      try {
+        var last = parseInt(localStorage.getItem(cdKey) || '0', 10);
+        if (Date.now() - last < 60000) {
+          var secs = Math.ceil((60000 - (Date.now() - last)) / 1000);
+          _v3VipShowStatus('⏳ Please wait ' + secs + 's before requesting another link.', 'error');
+          _v3VipResetUi();
+          return;
+        }
+      } catch (_e) {}
+
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+
+      // Layer A — eligibility gate. The RPC checks premium_emails server-
+      // side; emails not on the allowlist NEVER reach Supabase Auth's
+      // signInWithOtp, so they can't burn the 2/hour mailer quota.
+      try {
+        var elig = await fetch(SB_URL + '/rest/v1/rpc/_email_eligible_for_magic_link', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY },
+          body: JSON.stringify({ p_email: email })
+        });
+        if (!elig.ok) {
+          // Same silent-fail wording — no enumeration of admin emails.
+          _v3VipShowStatus('❌ Code not recognised', 'error');
+          _v3VipResetUi();
+          return;
+        }
+        var ok = await elig.json();
+        if (ok !== true) {
+          _v3VipShowStatus('❌ Code not recognised', 'error');
+          _v3VipResetUi();
+          return;
+        }
+      } catch (_e) {
+        _v3VipShowStatus('❌ Code not recognised', 'error');
+        _v3VipResetUi();
+        return;
+      }
+
+      // Eligible — call Supabase Auth signInWithOtp via the shared client.
+      try {
+        var client = (window.MockStream && window.MockStream.auth &&
+                      typeof window.MockStream.auth.getClient === 'function')
+                       ? window.MockStream.auth.getClient() : null;
+        if (!client || !client.auth) throw new Error('auth client missing');
+        var redirect = window.location.origin + '/index.html';
+        var res = await client.auth.signInWithOtp({
+          email: email,
+          options: { emailRedirectTo: redirect }
+        });
+        if (res.error) throw res.error;
+        try { localStorage.setItem(cdKey, String(Date.now())); } catch (_e) {}
+        _v3VipShowStatus('✅ Sign-in link sent. Check your inbox.', 'success');
+        var btn = document.getElementById('msv3VipBtn');
+        if (btn) { btn.textContent = '✓'; btn.disabled = true; }
+      } catch (e) {
+        // Even genuine errors get the silent-failure wording to prevent
+        // enumeration ("ah, this email IS an admin, just throttled").
+        console.warn('[v3] magic link failed:', e);
+        _v3VipShowStatus('❌ Code not recognised', 'error');
+        _v3VipResetUi();
+      }
     }
 
     document.getElementById('msv3AdminBtn').addEventListener('click', function () {
