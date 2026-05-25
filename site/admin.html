@@ -372,7 +372,14 @@
     { icon: '🛠️', label: 'Test Maker' },
     { icon: '📖', label: 'Reading Plus' },
     { icon: '🎧', label: 'Listening Plus' },
+    // Mock Settings has TWO entries during the migration:
+    //   - Legacy one (this) → bounces to landing.html?openSiteMgmt=1.
+    //     Stays here as the production workflow until the new page
+    //     reaches feature parity.
+    //   - New /mock-settings.html → standalone beta host, listed below
+    //     with a "(beta)" tag so admins know it's the new home.
     { icon: '🧪', label: 'Mock Settings' },
+    { icon: '🧪', label: 'Mock Settings (beta)', href: '/mock-settings.html', newTab: false },
     { icon: '✉️', label: 'Private Messages' },
     { icon: '💬', label: 'Support Messages' },
     { icon: '🎬', label: 'Video Guides' },
