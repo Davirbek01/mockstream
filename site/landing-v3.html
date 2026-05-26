@@ -2068,7 +2068,7 @@
           <span id="brandName">Mock Stream</span>
           <span class="hero-eyebrow brand-live">
             <span class="live-dot"></span>
-            Live now
+            <span id="msv3LiveNowText">Live now</span>
             <span id="brandNameInline" hidden></span>
           </span>
         </span>
@@ -2617,6 +2617,44 @@
       }
     }
     applyCloneBranding();
+
+    /* ═══════════════════════════════════════════════════════════════
+       Live-now real-time presence counter
+       ──────────────────────────────────────────────────────────────
+       Every landing-v3 visit (main site + all 6 clones) joins a single
+       Supabase Realtime channel named 'landing-presence'. The badge
+       updates from "Live now" → "N online · Live now" using the unique
+       presence keys synced from the channel. No floor, no padding —
+       displays the raw count. Tab close => untrack via beforeunload.
+       ═══════════════════════════════════════════════════════════════ */
+    (function _msv3WireLiveNow() {
+      if (!window.supabase || typeof window.supabase.createClient !== 'function') return;
+      var client;
+      try { client = window.supabase.createClient(SB_URL, SB_KEY); } catch (_e) { return; }
+      var presenceKey;
+      try { presenceKey = (crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Math.random()); }
+      catch (_e) { presenceKey = String(Math.random()) + '-' + Date.now(); }
+      var channel = client.channel('landing-presence', {
+        config: { presence: { key: presenceKey } }
+      });
+      channel.on('presence', { event: 'sync' }, function () {
+        try {
+          var state = channel.presenceState() || {};
+          var n = Object.keys(state).length;
+          var el = document.getElementById('msv3LiveNowText');
+          if (!el) return;
+          el.textContent = n > 0 ? (n + ' live now') : 'Live now';
+        } catch (_e) {}
+      });
+      channel.subscribe(function (status) {
+        if (status === 'SUBSCRIBED') {
+          try { channel.track({ at: Date.now() }); } catch (_e) {}
+        }
+      });
+      window.addEventListener('beforeunload', function () {
+        try { channel.unsubscribe(); } catch (_e) {}
+      });
+    })();
 
     /* ═══════════════════════════════════════════════════════════════
        Per-centre Features Toggle enforcement
