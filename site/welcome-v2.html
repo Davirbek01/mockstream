@@ -104,9 +104,10 @@
     /* ─── Card header ──────────────────────────────────────── */
     .card-head {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 14px;
-      margin-bottom: 26px;
+      gap: 10px;
+      margin-bottom: 18px;
     }
     .brand-logo {
       width: 52px; height: 52px;
@@ -150,8 +151,9 @@
       font-weight: 800;
       letter-spacing: -0.025em;
       line-height: 1.15;
-      margin: 0 0 8px;
+      margin: 0 0 22px;
       color: var(--ink);
+      text-align: center;
     }
     .headline em {
       font-style: normal;
@@ -213,6 +215,7 @@
     }
     .provider-btn.google:hover  { border-color: var(--indigo); }
     .provider-btn.telegram:hover { border-color: var(--telegram); }
+    .provider-btn.guest:hover    { border-color: var(--orange); }
     .provider-btn:active { transform: translateY(0); }
     .provider-btn svg { flex-shrink: 0; }
     .provider-btn .label { flex: 1; }
@@ -223,6 +226,9 @@
     .provider-btn:hover .arrow { transform: translateX(3px); }
     .provider-btn.google:hover .arrow  { color: var(--indigo); }
     .provider-btn.telegram:hover .arrow { color: var(--telegram); }
+    .provider-btn.guest:hover .arrow    { color: var(--orange); }
+    .provider-btn.guest svg { color: var(--muted); }
+    .provider-btn.guest:hover svg { color: var(--orange); }
 
     /* ─── OR divider ───────────────────────────────────────── */
     .divider {
@@ -466,18 +472,12 @@
 
       <div class="card-head">
         <div class="brand-logo" id="brandLogo">M</div>
-        <div class="brand-text">
-          <div class="brand-name" id="brandName">Mock Stream</div>
-          <div class="brand-tag" id="brandTag">English exam practice</div>
-        </div>
+        <div class="brand-name" id="brandName">Mock Stream</div>
       </div>
 
       <h1 class="headline" id="welcomeHeadline">
         <em>Welcome</em>
       </h1>
-      <p class="sub">
-        Sign in to save your progress across every device, or continue as a guest.
-      </p>
 
       <!-- Slot: holds either the sign-in panel or the guest panel.
            Slide-replace happens by toggling these two panels. -->
@@ -511,16 +511,18 @@
             <span class="arrow">→</span>
           </button>
 
+          <button type="button" class="provider-btn guest" onclick="openGuest()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="8" r="4"/>
+              <path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/>
+            </svg>
+            <span class="label">Continue as Guest</span>
+            <span class="arrow">→</span>
+          </button>
+
           <div class="save-hint">
             <span>✓</span> Results saved across every device
           </div>
-
-          <div class="divider"><span>or</span></div>
-
-          <button type="button" class="guest-link" onclick="openGuest()">
-            Continue as <strong>Guest</strong>
-            <span class="arrow">→</span>
-          </button>
         </div>
 
         <!-- ─── Guest panel (revealed on click) ────────────── -->

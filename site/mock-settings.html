@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#6366f1">
+  <title>Mock Settings — Mock Stream (beta)</title>
+  <base href="/">
+
+  <script>document.documentElement.setAttribute('data-theme', 'light');</script>
+
+  <!-- Supabase JS + auth helpers (same modules admin.html uses). -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/auth.js" defer></script>
+  <script src="/admin-auth.js" defer></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    :root {
+      --indigo:#6366f1; --indigo-deep:#4f46e5; --indigo-soft:#eef2ff;
+      --orange:#f97316;
+      --ink:#0f172a; --ink-muted:#64748b; --ink-faint:#94a3b8;
+      --surface:#ffffff; --surface-2:#f8fafc; --surface-3:#f1f5f9;
+      --ring:#e2e8f0; --ring-strong:#cbd5e1;
+      --danger:#ef4444; --success:#10b981; --warning:#f59e0b;
+      --sidebar-w: 248px;
+    }
+    html, body { height:100%; margin:0; }
+    body {
+      background: var(--surface-2);
+      color: var(--ink);
+      font: 14px/1.5 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--indigo-deep); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    button { font: inherit; }
+
+    /* Top bar — mirrors admin.html exactly so navigation feels unified. */
+    .ms-topbar {
+      display:flex; align-items:center; gap:12px;
+      padding:10px 18px; height:54px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--ring);
+      position: sticky; top: 0; z-index: 50;
+    }
+    .ms-topbar .ms-logo {
+      width:30px; height:30px; border-radius:8px;
+      background: linear-gradient(135deg, var(--indigo) 0%, var(--orange) 100%);
+      display:flex; align-items:center; justify-content:center;
+      color:#fff; font-weight:800; font-size:14px;
+    }
+    .ms-topbar .ms-title { font-weight: 700; font-size: 15px; }
+    .ms-topbar .ms-beta {
+      display:inline-block; padding:2px 8px; border-radius:6px;
+      background: linear-gradient(135deg,#f59e0b,#ef4444); color:#fff;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+      margin-left: 6px; vertical-align: middle;
+    }
+    .ms-topbar .ms-crumb { color: var(--ink-faint); font-size: 13px; }
+    .ms-topbar .ms-crumb b { color: var(--ink); font-weight: 600; }
+    .ms-topbar .ms-spacer { flex: 1; }
+    .ms-topbar .ms-pill {
+      display:inline-flex; align-items:center; gap:6px;
+      padding:7px 12px; border-radius:8px;
+      border:1px solid var(--ring); background:#fff;
+      color: var(--ink-muted); font-size: 12.5px; font-weight: 600;
+      cursor:pointer; transition: all .15s ease;
+    }
+    .ms-topbar .ms-pill:hover { color: var(--ink); border-color: var(--ring-strong); }
+    .ms-topbar .ms-pill.warning {
+      color: #b45309; border-color: #fcd34d; background: #fffbeb;
+    }
+
+    /* Layout: skill sidebar + content. */
+    .ms-layout {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+      min-height: calc(100vh - 54px);
+    }
+    .ms-sidebar {
+      background: var(--surface);
+      border-right: 1px solid var(--ring);
+      padding: 14px 10px;
+      overflow-y: auto;
+      max-height: calc(100vh - 54px);
+      position: sticky; top: 54px;
+    }
+    .ms-section-label {
+      font-size: 11px; font-weight: 700; letter-spacing: .04em;
+      color: var(--ink-faint); text-transform: uppercase;
+      padding: 6px 10px 4px;
+    }
+    .ms-nav-item {
+      display:flex; align-items:center; gap:10px;
+      width:100%; padding:9px 10px;
+      background:transparent; border:none; border-radius:8px;
+      color: var(--ink-muted); font-size: 13.5px; font-weight: 600;
+      cursor:pointer; text-align:left;
+      transition: all .15s ease; margin-bottom: 2px;
+    }
+    .ms-nav-item:hover { background: var(--surface-3); color: var(--ink); }
+    .ms-nav-item.active {
+      background: var(--indigo-soft); color: var(--indigo-deep);
+    }
+    .ms-nav-icon {
+      width: 22px; height: 22px;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 16px; flex-shrink: 0;
+    }
+
+    /* Content pane. */
+    .ms-content { padding: 20px 24px 80px; }
+    .ms-empty {
+      max-width: 720px; margin: 60px auto;
+      background: #fff; border: 1px solid var(--ring); border-radius: 14px;
+      padding: 36px 32px; text-align: center;
+    }
+    .ms-empty h2 { margin: 0 0 8px; font-size: 22px; }
+    .ms-empty p { color: var(--ink-muted); margin: 6px 0 14px; }
+    .ms-empty .ms-empty-skill {
+      display: inline-block; padding: 4px 12px; border-radius: 999px;
+      background: var(--indigo-soft); color: var(--indigo-deep);
+      font-size: 12px; font-weight: 700; margin-bottom: 12px;
+    }
+    .ms-empty .ms-empty-actions {
+      display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+      margin-top: 18px;
+    }
+    .ms-cta-primary {
+      display:inline-flex; align-items:center; gap:6px;
+      padding:10px 16px; border-radius:10px;
+      background: var(--indigo); color: #fff; border: none;
+      font-weight: 700; font-size: 13.5px; cursor: pointer;
+      transition: all .15s ease;
+    }
+    .ms-cta-primary:hover { background: var(--indigo-deep); }
+    .ms-cta-secondary {
+      display:inline-flex; align-items:center; gap:6px;
+      padding:10px 16px; border-radius:10px;
+      background: #fff; color: var(--ink); border: 1px solid var(--ring);
+      font-weight: 700; font-size: 13.5px; cursor: pointer;
+      transition: all .15s ease;
+    }
+    .ms-cta-secondary:hover { border-color: var(--ring-strong); }
+
+    /* Auth gate (mirrors admin.html's pattern). When locked, sidebar +
+       content are hidden via the html.ms-locked class. */
+    html.ms-locked .ms-sidebar,
+    html.ms-locked .ms-crumb { display: none !important; }
+    html.ms-locked .ms-layout { grid-template-columns: minmax(0, 1fr); }
+
+    .ms-gate {
+      max-width: 460px; margin: 80px auto;
+      background: #fff; border: 1px solid var(--ring); border-radius: 16px;
+      padding: 36px 32px; text-align: center;
+    }
+    .ms-gate-icon { font-size: 40px; margin-bottom: 10px; }
+    .ms-gate h2 { margin: 0 0 8px; font-size: 22px; }
+    .ms-gate p { color: var(--ink-muted); margin: 6px 0; }
+
+    .ms-loading {
+      display:flex; flex-direction:column; align-items:center;
+      justify-content:center; padding:60px 20px;
+      color: var(--ink-muted);
+    }
+    .ms-spinner {
+      width: 36px; height: 36px;
+      border: 3px solid var(--ring); border-top-color: var(--indigo);
+      border-radius: 50%; animation: msSpin .8s linear infinite;
+      margin-bottom: 14px;
+    }
+    @keyframes msSpin { to { transform: rotate(360deg); } }
+
+    /* Mobile drawer. */
+    @media (max-width: 760px) {
+      :root { --sidebar-w: 240px; }
+      .ms-topbar .ms-hamburger {
+        display: inline-flex; width: 32px; height: 32px;
+        align-items: center; justify-content: center;
+        border: 1px solid var(--ring); border-radius: 8px;
+        background: #fff; cursor: pointer; color: var(--ink-muted);
+      }
+      .ms-layout { grid-template-columns: minmax(0, 1fr); }
+      .ms-sidebar {
+        position: fixed; top: 54px; left: 0;
+        height: calc(100vh - 54px); width: var(--sidebar-w);
+        transform: translateX(-100%); transition: transform .2s ease;
+        z-index: 40;
+        box-shadow: 6px 0 24px rgba(15,23,42,.08);
+      }
+      .ms-sidebar.open { transform: translateX(0); }
+      .ms-drawer-backdrop {
+        display: none; position: fixed; inset: 0; top: 54px;
+        background: rgba(15,23,42,.35); z-index: 35;
+      }
+      .ms-drawer-backdrop.open { display: block; }
+    }
+    @media (min-width: 761px) {
+      .ms-topbar .ms-hamburger { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── Top bar ─────────────────────────────────────────────────────── -->
+<div class="ms-topbar">
+  <button class="ms-hamburger" id="msHamburger" aria-label="Menu">☰</button>
+  <div class="ms-logo">M</div>
+  <div class="ms-title">Mock Stream</div>
+  <span class="ms-crumb">Admin <b>/ Mock Settings</b><span class="ms-beta">BETA</span></span>
+  <div class="ms-spacer"></div>
+  <a href="/landing.html?openSiteMgmt=1" class="ms-pill warning" title="Use the production Mock Settings while this beta is being built">
+    📋 Use legacy ↗
+  </a>
+  <a href="/admin.html" class="ms-pill" title="Back to admin home">
+    ← Admin
+  </a>
+</div>
+
+<!-- ─── Auth gate ───────────────────────────────────────────────────── -->
+<!-- Default to locked; the bootstrap script below removes html.ms-locked
+     once AdminAuth confirms a valid admin role. -->
+<div id="msGate" style="display: none;">
+  <div class="ms-gate">
+    <div class="ms-gate-icon" id="msGateIcon">🔒</div>
+    <h2 id="msGateTitle">Sign in required</h2>
+    <p id="msGateMessage">Mock Settings is admin-only. Sign in with your admin account.</p>
+    <div style="margin-top: 18px;" id="msGateActions"></div>
+  </div>
+</div>
+
+<div class="ms-drawer-backdrop" id="msDrawerBackdrop"></div>
+
+<!-- ─── Layout: skill sidebar + content ─────────────────────────────── -->
+<div class="ms-layout" id="msLayout">
+  <aside class="ms-sidebar" id="msSidebar">
+    <div class="ms-section-label">Reading</div>
+    <button class="ms-nav-item" data-skill="cefr-reading">
+      <span class="ms-nav-icon">📖</span>CEFR Reading
+    </button>
+    <button class="ms-nav-item" data-skill="ielts-reading">
+      <span class="ms-nav-icon">📖</span>IELTS Reading
+    </button>
+
+    <div class="ms-section-label">Listening</div>
+    <button class="ms-nav-item" data-skill="cefr-listening">
+      <span class="ms-nav-icon">🎧</span>CEFR Listening
+    </button>
+    <button class="ms-nav-item" data-skill="ielts-listening">
+      <span class="ms-nav-icon">🎧</span>IELTS Listening
+    </button>
+
+    <div class="ms-section-label">Writing</div>
+    <button class="ms-nav-item" data-skill="cefr-writing">
+      <span class="ms-nav-icon">✍️</span>CEFR Writing
+    </button>
+    <button class="ms-nav-item" data-skill="ielts-writing">
+      <span class="ms-nav-icon">✍️</span>IELTS Writing
+    </button>
+
+    <div class="ms-section-label">Speaking</div>
+    <button class="ms-nav-item" data-skill="cefr-speaking">
+      <span class="ms-nav-icon">🎙️</span>CEFR Speaking
+    </button>
+    <button class="ms-nav-item" data-skill="ielts-speaking">
+      <span class="ms-nav-icon">🎙️</span>IELTS Speaking
+    </button>
+
+    <div class="ms-section-label">Voices</div>
+    <button class="ms-nav-item" data-skill="voice-preview">
+      <span class="ms-nav-icon">🔊</span>Voice Previews
+    </button>
+  </aside>
+
+  <main class="ms-content" id="msContent">
+    <div class="ms-empty">
+      <h2>Pick a skill to manage</h2>
+      <p>Choose a skill from the left to start adding or editing mocks.</p>
+      <p style="margin-top: 16px; font-size: 12.5px;">
+        <strong>This page is in beta.</strong> All real Mock Settings work
+        still happens in the legacy panel until each skill is ported here.
+      </p>
+      <div class="ms-empty-actions">
+        <a href="/landing.html?openSiteMgmt=1" class="ms-cta-primary">📋 Open legacy Mock Settings</a>
+        <a href="/admin.html" class="ms-cta-secondary">← Back to admin</a>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // ─── Mobile drawer ──────────────────────────────────────────────────
+  var sidebar     = document.getElementById('msSidebar');
+  var hamburger   = document.getElementById('msHamburger');
+  var drawerBack  = document.getElementById('msDrawerBackdrop');
+  if (hamburger) hamburger.addEventListener('click', function () {
+    sidebar.classList.toggle('open');
+    drawerBack.classList.toggle('open');
+  });
+  if (drawerBack) drawerBack.addEventListener('click', function () {
+    sidebar.classList.remove('open');
+    drawerBack.classList.remove('open');
+  });
+
+  // ─── Skill selection — placeholder behavior ─────────────────────────
+  // Wires the sidebar buttons to a "coming soon" content pane per skill.
+  // Each skill will be replaced with its actual editor as we port them.
+  var SKILL_LABELS = {
+    'cefr-reading':   'CEFR Reading',
+    'ielts-reading':  'IELTS Reading',
+    'cefr-listening': 'CEFR Listening',
+    'ielts-listening':'IELTS Listening',
+    'cefr-writing':   'CEFR Writing',
+    'ielts-writing':  'IELTS Writing',
+    'cefr-speaking':  'CEFR Speaking',
+    'ielts-speaking': 'IELTS Speaking',
+    'voice-preview':  'Voice Previews'
+  };
+
+  function showSkillPlaceholder(skill) {
+    var label = SKILL_LABELS[skill] || skill;
+    var content = document.getElementById('msContent');
+    content.innerHTML =
+      '<div class="ms-empty">' +
+      '  <div class="ms-empty-skill">' + label + '</div>' +
+      '  <h2>Editor not yet ported</h2>' +
+      '  <p>This skill\'s editor is still in the legacy Mock Settings panel.</p>' +
+      '  <p style="margin-top:14px;font-size:12.5px;">Use the button below to open it in the legacy host — your workflow there is unchanged.</p>' +
+      '  <div class="ms-empty-actions">' +
+      '    <a href="/landing.html?openSiteMgmt=1&skill=' + encodeURIComponent(skill) + '" class="ms-cta-primary">📋 Open ' + label + ' in legacy</a>' +
+      '    <a href="/admin.html" class="ms-cta-secondary">← Back to admin</a>' +
+      '  </div>' +
+      '</div>';
+    // Mark the active sidebar item.
+    document.querySelectorAll('.ms-nav-item').forEach(function (el) {
+      el.classList.toggle('active', el.getAttribute('data-skill') === skill);
+    });
+    // On mobile, close the drawer after a tap.
+    sidebar.classList.remove('open');
+    drawerBack.classList.remove('open');
+  }
+
+  document.querySelectorAll('.ms-nav-item').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      showSkillPlaceholder(btn.getAttribute('data-skill'));
+    });
+  });
+
+  // ─── Auth gate ──────────────────────────────────────────────────────
+  // Same pattern as admin.html: start locked, unlock when AdminAuth
+  // confirms an admin role. Until unlocked, the layout is hidden and
+  // a sign-in card is shown.
+  document.documentElement.classList.add('ms-locked');
+
+  function _lock() {
+    document.documentElement.classList.add('ms-locked');
+    document.getElementById('msGate').style.display = 'block';
+    document.getElementById('msLayout').style.display = 'none';
+  }
+  function _unlock() {
+    document.documentElement.classList.remove('ms-locked');
+    document.getElementById('msGate').style.display = 'none';
+    document.getElementById('msLayout').style.display = '';
+  }
+
+  function _renderGateNotAdmin(sessionUser) {
+    document.getElementById('msGateIcon').textContent = '🚫';
+    document.getElementById('msGateTitle').textContent = 'Not an admin account';
+    document.getElementById('msGateMessage').textContent =
+      'You\'re signed in as ' + (sessionUser || 'an unrecognised account') + '. ' +
+      'Mock Settings is restricted to admins.';
+    document.getElementById('msGateActions').innerHTML =
+      '<a href="/admin.html" class="ms-cta-secondary">← Back to admin</a>';
+  }
+  function _renderGateSignIn() {
+    document.getElementById('msGateIcon').textContent = '🔒';
+    document.getElementById('msGateTitle').textContent = 'Sign in required';
+    document.getElementById('msGateMessage').textContent =
+      'Mock Settings is admin-only. Sign in with your admin account.';
+    document.getElementById('msGateActions').innerHTML =
+      '<button class="ms-cta-primary" id="msGateLogin">Sign in</button>';
+    var loginBtn = document.getElementById('msGateLogin');
+    if (loginBtn) loginBtn.addEventListener('click', function () {
+      if (window.AdminAuth && typeof window.AdminAuth.requireLogin === 'function') {
+        try { window.AdminAuth.requireLogin(); } catch (_e) {}
+      }
+    });
+  }
+
+  async function _checkAuth() {
+    // Wait up to ~3s for AdminAuth (auth.js + admin-auth.js are deferred).
+    var waited = 0;
+    while ((!window.AdminAuth || typeof window.AdminAuth.currentRole !== 'function') && waited < 3000) {
+      await new Promise(function (r) { setTimeout(r, 100); });
+      waited += 100;
+    }
+    if (!window.AdminAuth || typeof window.AdminAuth.currentRole !== 'function') {
+      console.warn('[mock-settings] AdminAuth never loaded');
+      _lock();
+      _renderGateSignIn();
+      return;
+    }
+
+    try {
+      var role = await window.AdminAuth.currentRole();
+      if (role && (role.isAdmin || role.role === 'admin' || role.role === 'super')) {
+        _unlock();
+        return;
+      }
+      // Signed in but not an admin.
+      var session = (window.AdminAuth && window.AdminAuth.currentSession)
+        ? await window.AdminAuth.currentSession() : null;
+      var who = session && session.user
+        ? (session.user.email || session.user.user_metadata?.telegram_username || 'unknown')
+        : null;
+      _lock();
+      if (who) _renderGateNotAdmin(who);
+      else     _renderGateSignIn();
+    } catch (e) {
+      console.warn('[mock-settings] auth check failed', e);
+      _lock();
+      _renderGateSignIn();
+    }
+  }
+  _checkAuth();
+})();
+</script>
+</body>
+</html>
