@@ -2642,7 +2642,8 @@
           var state = channel.presenceState() || {};
           var n = Object.keys(state).length;
           var el = document.getElementById('msv3LiveNowText');
-          if (el && n > 0) el.textContent = n + ' online · Live now';
+          if (!el) return;
+          el.textContent = n > 0 ? (n + ' live now') : 'Live now';
         } catch (_e) {}
       });
       channel.subscribe(function (status) {
