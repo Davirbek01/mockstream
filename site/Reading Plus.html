@@ -138,7 +138,7 @@
   var SYS='You are an expert CEFR exam writer. Generate B2-C1 level reading content in valid JSON only. No markdown, no backticks, no explanation outside the JSON.';
 
   var PROMPTS={
-    1:'Generate a CEFR B2-C1 Part 1 gap-fill reading exercise. This is the Uzbek Multilevel exam format.\n\nRULES:\n- Write a passage (250-350 words) on an interesting topic.\n- Choose exactly 6 words to remove as gaps numbered 1-6. Replace each with _____(N)_____.\n- CRITICAL: Each removed word MUST appear at least once ELSEWHERE in the passage so students can find it by reading carefully.\n- The "hint" for each question is the EXACT sentence from the passage containing that gap — NOT a description or clue.\n\nHere is a real example of the expected JSON format:\n{"title":"The Clever Fox and the Proud Wolf","passage":"In a deep forest, a clever fox and a proud wolf lived as neighbors. The _____(1)_____ fox was small but quick, while the proud wolf was strong. One winter, the forest became quite cold. The wolf growled, \\"I am _____(2)_____! I will take what I need.\\" He stormed toward a nearby farm. The clever fox shook his head. \\"Strength alone is not enough. Watch and learn.\\" The proud wolf didn\'t _____(3)_____ and leaped over the fence.","questions":[{"id":1,"hint":"The _____(1)_____ fox was small but quick"},{"id":2,"hint":"The wolf growled, I am _____(2)_____!"},{"id":3,"hint":"The proud wolf didn\'t _____(3)_____ and leaped over the fence"}],"answers":{"1":"clever","2":"strong","3":"watch"}}\n\nNow generate a NEW passage on a different topic with 6 gaps. Return ONLY the JSON object with keys: title, passage, questions (array of {id, hint}), answers (object of {id: word}).',
+    1:'Generate a CEFR B2-C1 Part 1 gap-fill reading exercise. This is the Uzbek Multilevel exam format.\n\nRULES:\n- Write a concise passage (180-250 words) on an interesting topic.\n- Choose exactly 6 words to remove as gaps numbered 1-6. Replace each with _____(N)_____.\n- CRITICAL: Each removed word MUST appear at least once ELSEWHERE in the passage so students can find it by reading carefully.\n- The "hint" for each question is the EXACT sentence from the passage containing that gap — NOT a description or clue.\n\nHere is a real example of the expected JSON format:\n{"title":"The Clever Fox and the Proud Wolf","passage":"In a deep forest, a clever fox and a proud wolf lived as neighbors. The _____(1)_____ fox was small but quick, while the proud wolf was strong. One winter, the forest became quite cold. The wolf growled, \\"I am _____(2)_____! I will take what I need.\\" He stormed toward a nearby farm. The clever fox shook his head. \\"Strength alone is not enough. Watch and learn.\\" The proud wolf didn\'t _____(3)_____ and leaped over the fence.","questions":[{"id":1,"hint":"The _____(1)_____ fox was small but quick"},{"id":2,"hint":"The wolf growled, I am _____(2)_____!"},{"id":3,"hint":"The proud wolf didn\'t _____(3)_____ and leaped over the fence"}],"answers":{"1":"clever","2":"strong","3":"watch"}}\n\nNow generate a NEW passage on a different topic with 6 gaps. Return ONLY the JSON object with keys: title, passage, questions (array of {id, hint}), answers (object of {id: word}).',
     2:'Generate a CEFR B2-C1 matching exercise.\n\n- 8 short texts (50-80 words each), numbered 7-14. Each is a different ad/notice.\n- 10 situation statements A-J. 8 match one text each, 2 are extras.\n\nReturn JSON:\n{"texts":[{"number":7,"content":"..."},{"number":8,"content":"..."},{"number":9,"content":"..."},{"number":10,"content":"..."},{"number":11,"content":"..."},{"number":12,"content":"..."},{"number":13,"content":"..."},{"number":14,"content":"..."}],"statements":[{"letter":"A","text":"..."},{"letter":"B","text":"..."},{"letter":"C","text":"..."},{"letter":"D","text":"..."},{"letter":"E","text":"..."},{"letter":"F","text":"..."},{"letter":"G","text":"..."},{"letter":"H","text":"..."},{"letter":"I","text":"..."},{"letter":"J","text":"..."}],"answers":{"7":"J","8":"G","9":"C","10":"B","11":"H","12":"A","13":"E","14":"D"},"extras":["F","I"]}',
     3:'Generate a CEFR B2-C1 heading-matching exercise.\n\n- Article with 6 paragraphs I-VI (80-120 words each).\n- 8 headings A-H. 6 match, 2 extras.\n- Questions numbered 15-20.\n\nReturn JSON:\n{"title":"...","paragraphs":[{"number":"I","content":"..."},{"number":"II","content":"..."},{"number":"III","content":"..."},{"number":"IV","content":"..."},{"number":"V","content":"..."},{"number":"VI","content":"..."}],"headings":[{"letter":"A","text":"..."},{"letter":"B","text":"..."},{"letter":"C","text":"..."},{"letter":"D","text":"..."},{"letter":"E","text":"..."},{"letter":"F","text":"..."},{"letter":"G","text":"..."},{"letter":"H","text":"..."}],"answers":{"15":"C","16":"A","17":"F","18":"B","19":"H","20":"G"},"extras":["D","E"]}',
     4:'Generate a CEFR B2-C1 reading comprehension exercise.\n\n- Informative article (400-500 words).\n- 4 MCQ (21-24) with A-D options.\n- 5 True/False/No Information statements (25-29).\n\nReturn JSON:\n{"title":"...","passage":"...","mcqs":[{"id":21,"text":"?","options":[{"letter":"A","text":"..."},{"letter":"B","text":"..."},{"letter":"C","text":"..."},{"letter":"D","text":"..."}],"answer":"B"},{"id":22,"text":"?","options":[...],"answer":"A"},{"id":23,"text":"?","options":[...],"answer":"C"},{"id":24,"text":"?","options":[...],"answer":"D"}],"tfnis":[{"id":25,"text":"...","answer":"True"},{"id":26,"text":"...","answer":"False"},{"id":27,"text":"...","answer":"No Information"},{"id":28,"text":"...","answer":"True"},{"id":29,"text":"...","answer":"False"}]}',
@@ -167,18 +167,19 @@
     return JSON.parse(raw.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim());
   }
 
-  function gapHtml(text){return esc(text).replace(/___*\((\d+)\)___*/g,'<span class="gap">___($1)___</span>')}
+  function gapHtml(text,editable){
+    return esc(text).replace(/___*\((\d+)\)___*/g,function(_,n){
+      if(editable) return '<strong style="color:var(--brand)">Q'+n+'</strong><input type="text" data-answer="'+n+'" autocomplete="off" style="width:110px;border:none;border-bottom:2px solid var(--brand);outline:none;font:inherit;font-size:inherit;padding:0 4px;margin:0 2px;background:transparent;color:var(--ink)">';
+      return '<span class="gap">_____('+n+')_____</span>';
+    });
+  }
 
   function renderP1(d,c){
-    var h='<div class="test-header"><h3>'+esc(d.title)+'</h3><span class="part-tag">Part 1 &#8212; Gap Fill</span></div>';
-    h+='<p style="font-size:13px;color:var(--muted);margin:-8px 0 14px">Read the text. Fill in each gap with ONE word. You must use a word which is somewhere in the rest of the text.</p>';
-    h+='<div class="passage-box" style="font-size:15px;line-height:1.85">'+gapHtml(d.passage).replace(/\n/g,'<br>')+'</div>';
-    h+='<div style="font-size:12px;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:.04em;margin:16px 0 10px">Your Answers</div>';
-    h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">';
-    (d.questions||[]).forEach(function(q){
-      h+='<div class="q-card" data-q="'+q.id+'" style="padding:12px 14px"><div class="q-num" style="margin-bottom:4px">'+q.id+'.</div><input type="text" placeholder="Question '+q.id+'" data-answer="'+q.id+'" autocomplete="off" style="font-size:15px"></div>';
-    });
-    h+='</div><div class="submit-row"><button class="btn-submit" id="subBtn">Check Answers</button></div>';
+    var h='<div style="text-align:center;margin-bottom:4px"><span class="part-tag" style="font-size:13px;padding:5px 16px">Part 1</span></div>';
+    h+='<p style="font-size:13.5px;color:var(--muted);text-align:center;margin:8px 0 16px">Read the text. Fill in each gap with ONE word. You must use a word which is somewhere in the rest of the text.</p>';
+    h+='<h3 style="text-align:center;font-size:18px;color:var(--brand-deep);margin:0 0 16px">'+esc(d.title)+'</h3>';
+    h+='<div class="passage-box" style="font-size:15px;line-height:2">'+gapHtml(d.passage,true).replace(/\n/g,'<br>')+'</div>';
+    h+='<div class="submit-row"><button class="btn-submit" id="subBtn">Check Answers</button></div>';
     c.innerHTML=h;
   }
 
@@ -263,6 +264,14 @@
       if(ok)score++;
       var card=document.querySelector('.q-card[data-q="'+k+'"]');
       if(card){card.classList.add(ok?'correct':'wrong');var rv=document.createElement('div');rv.className='answer-reveal';rv.textContent=ok?'✓ Correct':'✗ Correct answer: '+correct[k];card.appendChild(rv)}
+      var inp=document.querySelector('input[data-answer="'+k+'"]');
+      if(inp){
+        inp.disabled=true;
+        inp.style.borderBottomColor=ok?'var(--green)':'var(--red)';
+        inp.style.color=ok?'var(--green)':'var(--red)';
+        inp.style.fontWeight='700';
+        if(!ok){var sp=document.createElement('span');sp.style.cssText='color:var(--green);font-weight:700;font-size:12px;margin-left:4px';sp.textContent='→ '+correct[k];inp.parentNode.insertBefore(sp,inp.nextSibling)}
+      }
     });
     document.querySelectorAll('#test input').forEach(function(el){el.disabled=true});
     document.querySelectorAll('#test .opt').forEach(function(el){el.style.pointerEvents='none'});
