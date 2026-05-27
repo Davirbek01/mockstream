@@ -2657,7 +2657,10 @@
             Authorization: 'Bearer ' + SB_KEY,
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ p_visitor_id: visitorId })
+          body: JSON.stringify({
+            p_visitor_id: visitorId,
+            p_center_id: (window.__CENTER_ID || '').toString().trim() || null
+          })
         })
           .then(function (r) { return r.ok ? r.json() : null; })
           .then(function (n) {

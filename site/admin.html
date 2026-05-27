@@ -366,6 +366,18 @@
           container.innerHTML = '<div class="adm-loading"><div>Writing Plus script loaded but did not register correctly.</div></div>';
         }
       }
+    },
+    'visitor-stats': {
+      label: 'Visitor Statistics',
+      icon: '📈',
+      script: '/admin/visitor-stats.js',
+      open: function (container) {
+        if (window.AdminPanels && window.AdminPanels.visitorStats && typeof window.AdminPanels.visitorStats.open === 'function') {
+          window.AdminPanels.visitorStats.open(container);
+        } else {
+          container.innerHTML = '<div class="adm-loading"><div>Visitor Statistics script loaded but did not register correctly.</div></div>';
+        }
+      }
     }
   };
   var LEGACY_ITEMS = [
