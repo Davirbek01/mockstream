@@ -2629,11 +2629,12 @@
        ═══════════════════════════════════════════════════════════════ */
     (function _msv3VisitorsToday() {
       var STORAGE_KEY = 'msv3_visitor_id';
+      var POLL_MS = 60000;  // 60s — cheap; tab hidden = no polling
       var visitorId;
+      var timer = null;
+
       function _newId() {
-        try {
-          if (crypto && crypto.randomUUID) return crypto.randomUUID();
-        } catch (_e) {}
+        try { if (crypto && crypto.randomUUID) return crypto.randomUUID(); } catch (_e) {}
         return String(Math.random()).slice(2) + '-' + Date.now();
       }
       try {
@@ -2647,22 +2648,39 @@
         // count still works, just won't dedupe across reloads in that tab.
         visitorId = _newId();
       }
-      fetch(SB_URL + '/rest/v1/rpc/landing_visit_today', {
-        method: 'POST',
-        headers: {
-          apikey: SB_KEY,
-          Authorization: 'Bearer ' + SB_KEY,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ p_visitor_id: visitorId })
-      })
-        .then(function (r) { return r.ok ? r.json() : null; })
-        .then(function (n) {
-          if (typeof n !== 'number' || n < 1) return;
-          var el = document.getElementById('msv3LiveNowText');
-          if (el) el.textContent = n.toLocaleString('en-US') + (n === 1 ? ' visitor today' : ' visitors today');
+
+      function _poll() {
+        fetch(SB_URL + '/rest/v1/rpc/landing_visit_today', {
+          method: 'POST',
+          headers: {
+            apikey: SB_KEY,
+            Authorization: 'Bearer ' + SB_KEY,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ p_visitor_id: visitorId })
         })
-        .catch(function () { /* leave default text on failure */ });
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (n) {
+            if (typeof n !== 'number' || n < 1) return;
+            var el = document.getElementById('msv3LiveNowText');
+            if (el) el.textContent = n.toLocaleString('en-US')
+              + (n === 1 ? ' visitor today' : ' visitors today');
+          })
+          .catch(function () { /* leave previous text on failure */ });
+      }
+      function _start() { if (!timer) timer = setInterval(_poll, POLL_MS); }
+      function _stop()  { if (timer) { clearInterval(timer); timer = null; } }
+
+      _poll();   // initial paint
+      _start();  // periodic refresh
+
+      // Pause polling when the tab is hidden (saves requests + makes the
+      // first re-visible refresh feel snappy). When the user returns we
+      // fire an immediate poll instead of waiting up to 60s.
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) { _stop(); }
+        else { _poll(); _start(); }
+      });
     })();
 
     /* ═══════════════════════════════════════════════════════════════
