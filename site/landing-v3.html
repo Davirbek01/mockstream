@@ -1635,6 +1635,17 @@
       border: 1px solid var(--line);
     }
     .sc-cta.ghost:hover { background: var(--indigo-soft); color: var(--indigo); border-color: var(--indigo); }
+    .sc-cta.plus {
+      flex: 0 0 auto;
+      padding: 11px 14px;
+      background: linear-gradient(135deg, #e11d48, #f97316);
+      color: #fff;
+      border: 0;
+      box-shadow: 0 4px 12px rgba(225, 29, 72, 0.25);
+      font-size: 12.5px;
+      letter-spacing: 0.01em;
+    }
+    .sc-cta.plus:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(225, 29, 72, 0.35); }
 
     /* ═══════════════════════════════════════════════════════
        Secondary cards (Full Mock / Cambridge)
@@ -2194,6 +2205,7 @@
           </div>
           <div class="sc-ctas">
             <button class="sc-cta primary" data-open="cefr-speaking">CEFR →</button>
+            <button class="sc-cta plus"    data-open="speaking-plus">✦ Plus</button>
             <button class="sc-cta ghost"   data-open="ielts-speaking">IELTS →</button>
           </div>
         </div>
@@ -2217,6 +2229,7 @@
           </div>
           <div class="sc-ctas">
             <button class="sc-cta primary" data-open="cefr-writing">CEFR →</button>
+            <button class="sc-cta plus"    data-open="writing-plus">✦ Plus</button>
             <button class="sc-cta ghost"   data-open="ielts-writing">IELTS →</button>
           </div>
         </div>
@@ -2835,6 +2848,13 @@
       // v3 when their open fn is defined. The legacy handoff URL stays as
       // the fallback so a missing/broken inline picker just degrades to
       // the old behaviour.
+      if (slug === 'speaking-plus' && typeof window._openSpkPlusChooser === 'function') {
+        try { _openSpkPlusChooser(); return; } catch (_e) {}
+      }
+      if (slug === 'writing-plus') {
+        window.location.href = '/Writing Plus.html';
+        return;
+      }
       if (slug === 'cefr-speaking' && typeof window.cspetOpen === 'function') {
         try { cspetOpen(); return; } catch (_e) {}
       }
@@ -14803,13 +14823,15 @@
           <div style="font-size:28px;margin-bottom:6px;">🟢</div>
           Mock Stream
           <div style="font-size:11px;font-weight:400;opacity:0.92;margin-top:6px;">Our own live voice chat (Maya)</div>
-          <div id="spkPlusMsHint" style="display:none;font-size:11px;font-weight:600;margin-top:8px;background:rgba(255,255,255,0.18);padding:4px 8px;border-radius:6px;">Disabled by your centre</div>
+          <div style="display:inline-block;margin-top:8px;background:rgba(255,255,255,0.22);padding:3px 10px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.04em;">PREMIUM</div>
+          <div id="spkPlusMsHint" style="display:none;font-size:11px;font-weight:600;margin-top:4px;background:rgba(255,255,255,0.18);padding:4px 8px;border-radius:6px;">Disabled by your centre</div>
         </button>
         <button type="button" onclick="_pickSpkPlusSesame()"
           style="flex:1;min-width:200px;padding:20px 16px;background:linear-gradient(135deg,#a3b18a 0%,#6a994e 100%);color:#1a2e05;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(106,153,78,0.3);text-align:center;">
           <div style="font-size:28px;margin-bottom:6px;">🌿</div>
           Sesame
           <div style="font-size:11px;font-weight:400;opacity:0.82;margin-top:6px;">Maya · Miles (opens in a new tab)</div>
+          <div style="display:inline-block;margin-top:8px;background:rgba(26,46,5,0.15);padding:3px 10px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.04em;color:#1a2e05;">FREE</div>
         </button>
       </div>
       <button type="button" onclick="_closeSpkPlusChooser()"
