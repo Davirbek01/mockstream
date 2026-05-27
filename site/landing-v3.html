@@ -2659,7 +2659,8 @@
           },
           body: JSON.stringify({
             p_visitor_id: visitorId,
-            p_center_id: (window.__CENTER_ID || '').toString().trim() || null
+            p_center_id: (window.__CENTER_ID || '').toString().trim() || null,
+            p_center_only: !!(window.__CENTER_ID && window.__CENTER_ID !== 'mock_stream')
           })
         })
           .then(function (r) { return r.ok ? r.json() : null; })
