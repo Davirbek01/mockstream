@@ -145,24 +145,22 @@
     5:'Generate a CEFR B2-C1 summary + MCQ exercise.\n\n- Academic passage (400-500 words).\n- Summary paragraph with 4 gaps (30-33). Each answer is ONE word from passage.\n- 2 MCQ (34-35) with A-D.\n\nReturn JSON:\n{"title":"...","passage":"...","summary":"Text with _____(30)_____ gaps _____(31)_____ placed _____(32)_____ here _____(33)_____ naturally.","gapAnswers":{"30":"w","31":"w","32":"w","33":"w"},"mcqs":[{"id":34,"text":"?","options":[{"letter":"A","text":"..."},{"letter":"B","text":"..."},{"letter":"C","text":"..."},{"letter":"D","text":"..."}],"answer":"B"},{"id":35,"text":"?","options":[...],"answer":"A"}]}'
   };
 
-  var _dsKey=null;
-  async function _fetchKey(){
-    if(_dsKey)return _dsKey;
-    var r=await fetch('https://davirbek.alwaysdata.net/key?model=deepseek');
-    if(!r.ok)throw new Error('Key fetch failed: '+r.status);
-    var d=await r.json();
-    _dsKey=d.key;
-    return _dsKey;
-  }
+  var SB_URL='https://zknyukkbtbcqgvkgjktb.supabase.co';
+  var SB_KEY='sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
   async function generate(n){
-    var key=await _fetchKey();
     var messages=[{role:'system',content:SYS},{role:'user',content:PROMPTS[n]+'\n\nIMPORTANT: Respond with valid JSON only, no markdown.'}];
-    var r=await fetch('https://api.deepseek.com/chat/completions',{
+    var r=await fetch(SB_URL+'/functions/v1/ai-proxy/deepseek/chat/completions',{
       method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
+      headers:{
+        'Content-Type':'application/json',
+        'apikey':SB_KEY,
+        'Authorization':'Bearer '+SB_KEY,
+        'x-ms-center':(window.__CENTER_ID||'mock_stream').toString().trim(),
+        'x-ms-skill':'reading-plus'
+      },
       body:JSON.stringify({model:'deepseek-chat',messages:messages,temperature:0.8,max_tokens:4096})
     });
-    if(!r.ok){var t='';try{t=await r.text()}catch(_){}throw new Error('DeepSeek '+r.status+': '+t.slice(0,200))}
+    if(!r.ok){var t='';try{t=await r.text()}catch(_){}throw new Error('AI '+r.status+': '+t.slice(0,200))}
     var j=await r.json();
     if(j.error)throw new Error(j.error.message||'API error');
     var raw=j.choices[0].message.content;
