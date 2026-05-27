@@ -2067,8 +2067,7 @@
         <span class="brand-text">
           <span id="brandName">Mock Stream</span>
           <span class="hero-eyebrow brand-live">
-            <span class="live-dot"></span>
-            <span id="msv3LiveNowText">Live now</span>
+            <span id="msv3LiveNowText">Visitors today</span>
             <span id="brandNameInline" hidden></span>
           </span>
         </span>
@@ -2619,41 +2618,51 @@
     applyCloneBranding();
 
     /* ═══════════════════════════════════════════════════════════════
-       Live-now real-time presence counter
+       Daily-visitors badge
        ──────────────────────────────────────────────────────────────
-       Every landing-v3 visit (main site + all 6 clones) joins a single
-       Supabase Realtime channel named 'landing-presence'. The badge
-       updates from "Live now" → "N online · Live now" using the unique
-       presence keys synced from the channel. No floor, no padding —
-       displays the raw count. Tab close => untrack via beforeunload.
+       Each landing-v3 load fires the `landing_visit_today` RPC with a
+       localStorage-persisted visitor UUID. The RPC upserts a row keyed
+       on (visitor_id, day) — day computed in Asia/Tashkent (UTC+5) so
+       the count rolls over at Tashkent midnight — then returns the
+       distinct visitor count for that day. Shared by main site + all
+       6 clones (same Supabase project).
        ═══════════════════════════════════════════════════════════════ */
-    (function _msv3WireLiveNow() {
-      if (!window.supabase || typeof window.supabase.createClient !== 'function') return;
-      var client;
-      try { client = window.supabase.createClient(SB_URL, SB_KEY); } catch (_e) { return; }
-      var presenceKey;
-      try { presenceKey = (crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Math.random()); }
-      catch (_e) { presenceKey = String(Math.random()) + '-' + Date.now(); }
-      var channel = client.channel('landing-presence', {
-        config: { presence: { key: presenceKey } }
-      });
-      channel.on('presence', { event: 'sync' }, function () {
+    (function _msv3VisitorsToday() {
+      var STORAGE_KEY = 'msv3_visitor_id';
+      var visitorId;
+      function _newId() {
         try {
-          var state = channel.presenceState() || {};
-          var n = Object.keys(state).length;
-          var el = document.getElementById('msv3LiveNowText');
-          if (!el) return;
-          el.textContent = n > 0 ? (n + ' live now') : 'Live now';
+          if (crypto && crypto.randomUUID) return crypto.randomUUID();
         } catch (_e) {}
-      });
-      channel.subscribe(function (status) {
-        if (status === 'SUBSCRIBED') {
-          try { channel.track({ at: Date.now() }); } catch (_e) {}
+        return String(Math.random()).slice(2) + '-' + Date.now();
+      }
+      try {
+        visitorId = localStorage.getItem(STORAGE_KEY);
+        if (!visitorId) {
+          visitorId = _newId();
+          localStorage.setItem(STORAGE_KEY, visitorId);
         }
-      });
-      window.addEventListener('beforeunload', function () {
-        try { channel.unsubscribe(); } catch (_e) {}
-      });
+      } catch (_e) {
+        // localStorage blocked (private mode etc.) — use ephemeral id;
+        // count still works, just won't dedupe across reloads in that tab.
+        visitorId = _newId();
+      }
+      fetch(SB_URL + '/rest/v1/rpc/landing_visit_today', {
+        method: 'POST',
+        headers: {
+          apikey: SB_KEY,
+          Authorization: 'Bearer ' + SB_KEY,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ p_visitor_id: visitorId })
+      })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (n) {
+          if (typeof n !== 'number' || n < 1) return;
+          var el = document.getElementById('msv3LiveNowText');
+          if (el) el.textContent = n.toLocaleString('en-US') + (n === 1 ? ' visitor today' : ' visitors today');
+        })
+        .catch(function () { /* leave default text on failure */ });
     })();
 
     /* ═══════════════════════════════════════════════════════════════
