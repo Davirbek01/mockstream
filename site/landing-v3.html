@@ -2799,8 +2799,14 @@
       // and show a popup explaining the feature is disabled by the centre.
       // Targets BOTH sidebar .msv3-plus.plus-XXX icons AND the new
       // .sc-cta.plus card buttons on the v3 landing.
+      //
+      // speakingPlus is intentionally NOT in this map: the Speaking Plus
+      // button opens a chooser (Mock Stream vs Sesame). Sesame is an
+      // external free service that costs us nothing — so even when the
+      // centre disables Mock Stream's Gemini Live (paid), Sesame stays
+      // available. The chooser greys ONLY the Mock Stream side internally
+      // when speakingPlus=false (see _openSpkPlusChooser).
       var plusMap = {
-        speakingPlus:  ['.msv3-plus.plus-spk', '.sc-cta.plus[data-open="speaking-plus"]'],
         writingPlus:   ['.msv3-plus.plus-wrt', '.sc-cta.plus[data-open="writing-plus"]'],
         readingPlus:   ['.msv3-plus.plus-rdg', '.sc-cta.plus[data-open="reading-plus"]'],
         listeningPlus: ['.msv3-plus.plus-lst', '.sc-cta.plus[data-open="listening-plus"]']
