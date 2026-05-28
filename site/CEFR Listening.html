@@ -369,13 +369,32 @@
     /* PC Part Nav Adjustments */
     .pc-part-nav {
       display: block;
+      /* Tablet landscape fix: the parts row sits in .header-left next to
+         the audio player + timer. When the viewport gets tight (~1024–
+         1280px), Parts 4-6 used to slide under the audio wrapper. The
+         min-width:0 lets this flex item shrink; the fade-mask on the
+         right edge hints at horizontal scrollability so the user knows
+         to swipe/scroll. The actual scrolling happens on .part-nav-inner. */
+      min-width: 0;
+      max-width: 100%;
+      overflow: hidden;
+      flex: 1 1 auto;
+      -webkit-mask-image: linear-gradient(to right, black 0%, black calc(100% - 28px), transparent 100%);
+      mask-image: linear-gradient(to right, black 0%, black calc(100% - 28px), transparent 100%);
     }
 
     .pc-part-nav .part-nav-inner {
       background: transparent;
       padding: 0;
       border: none;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
     }
+    .pc-part-nav .part-nav-inner::-webkit-scrollbar { display: none; }
+    .header-left { min-width: 0; flex: 1 1 auto; }
 
     .pc-part-nav .part-btn {
       padding: 0 16px;

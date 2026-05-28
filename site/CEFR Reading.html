@@ -278,6 +278,15 @@
     /* PC Part Nav (integrated in header) */
     .pc-part-nav {
       display: block;
+      /* Tablet landscape fix — see CEFR Listening.html for full notes.
+         Make the parts row shrink/scroll instead of pushing other
+         header items off-screen. */
+      min-width: 0;
+      max-width: 100%;
+      overflow: hidden;
+      flex: 1 1 auto;
+      -webkit-mask-image: linear-gradient(to right, black 0%, black calc(100% - 28px), transparent 100%);
+      mask-image: linear-gradient(to right, black 0%, black calc(100% - 28px), transparent 100%);
     }
 
     .pc-part-nav .part-nav-inner {
@@ -286,7 +295,14 @@
       border: none;
       display: flex;
       gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
     }
+    .pc-part-nav .part-nav-inner::-webkit-scrollbar { display: none; }
+    .header-left { min-width: 0; flex: 1 1 auto; }
 
     .pc-part-nav .part-btn {
       padding: 0 16px;
