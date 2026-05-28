@@ -2725,6 +2725,58 @@
       badge.style.cssText = 'position:absolute;top:6px;right:6px;background:#9ca3af;color:#fff;padding:2px 7px;border-radius:6px;font-size:9.5px;font-weight:800;letter-spacing:0.04em;z-index:2;';
       el.appendChild(badge);
     }
+    // Lock (NOT disable) a Plus button — element stays clickable but
+    // intercepts clicks to show a "feature locked by your centre" popup.
+    // Used for the v3 skill-card ✦ Plus buttons AND the sidebar
+    // .msv3-plus icons.
+    function _msv3LockPlusEl(el, featureKey) {
+      if (!el || el._msv3PlusLocked) return;
+      el._msv3PlusLocked = true;
+      el.setAttribute('data-plus-locked', featureKey);
+      el.style.position = el.style.position || 'relative';
+      el.style.filter   = 'grayscale(35%)';
+      // Subtle lock indicator — small badge top-right
+      var lock = document.createElement('span');
+      lock.textContent = '🔒';
+      lock.setAttribute('data-plus-lock-badge', '1');
+      lock.style.cssText = 'position:absolute;top:-6px;right:-6px;background:#fff;border:1.5px solid #cbd5e1;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;line-height:1;box-shadow:0 2px 6px rgba(0,0,0,0.08);z-index:3;';
+      el.appendChild(lock);
+    }
+    function _msv3ShowPlusLockedPopup(featureKey) {
+      var nameMap = {
+        speakingPlus:  'Speaking Plus',
+        writingPlus:   'Writing Plus',
+        readingPlus:   'Reading Plus',
+        listeningPlus: 'Listening Plus'
+      };
+      var pretty = nameMap[featureKey] || 'this Plus mode';
+      var existing = document.getElementById('msv3PlusLockModal');
+      if (existing) existing.remove();
+      var modal = document.createElement('div');
+      modal.id = 'msv3PlusLockModal';
+      modal.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,0.65);z-index:100020;display:flex;align-items:center;justify-content:center;padding:20px;animation:msv3FadeIn .18s ease;';
+      modal.innerHTML =
+        '<div style="background:#fff;border-radius:20px;padding:32px 28px;max-width:420px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.35);" onclick="event.stopPropagation()">' +
+          '<div style="font-size:44px;margin-bottom:10px">🔒</div>' +
+          '<h3 style="font-size:19px;font-weight:800;color:#0f172a;margin:0 0 8px">' + pretty + ' is locked</h3>' +
+          '<p style="font-size:14px;color:#64748b;margin:0 0 22px;line-height:1.55">This Plus mode has been disabled for your centre by the administrator. Contact your centre admin if you believe you should have access.</p>' +
+          '<button type="button" id="msv3PlusLockCloseBtn" style="background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;border:0;padding:11px 28px;border-radius:11px;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(99,102,241,.25)">Got it</button>' +
+        '</div>';
+      modal.addEventListener('click', function () { modal.remove(); });
+      document.body.appendChild(modal);
+      var btn = document.getElementById('msv3PlusLockCloseBtn');
+      if (btn) btn.addEventListener('click', function () { modal.remove(); });
+    }
+    // Global click interceptor (capture phase) — runs BEFORE the
+    // [data-open] handler, so a locked plus button never opens its page.
+    document.addEventListener('click', function (e) {
+      var locked = e.target.closest('[data-plus-locked]');
+      if (!locked) return;
+      var key = locked.getAttribute('data-plus-locked');
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      _msv3ShowPlusLockedPopup(key);
+    }, true);
     async function _msv3ApplyFeatures() {
       var centerId = (window.__CENTER_ID || 'mock_stream').toString().trim();
       var key = 'center_config_' + centerId;
@@ -2742,19 +2794,25 @@
       if (!cfg || typeof cfg !== 'object') return;
       window.__msv3CenterFeatures = cfg;
 
-      // Plus buttons in the sidebar — match the .msv3-plus.plus-XXX classes.
-      // speakingPlus is intentionally NOT in this map: the Speaking Plus
-      // button opens a chooser (Mock Stream vs Sesame), and Sesame stays
-      // available even when a centre disables the Mock Stream side. The
-      // chooser itself checks __msv3CenterFeatures.speakingPlus and greys
-      // only the Mock Stream card.
+      // Plus toggles — when OFF for this centre, mark the buttons as
+      // "locked" instead of disabling them. Locked buttons stay clickable
+      // and show a popup explaining the feature is disabled by the centre.
+      // Targets BOTH sidebar .msv3-plus.plus-XXX icons AND the new
+      // .sc-cta.plus card buttons on the v3 landing.
       var plusMap = {
-        writingPlus:   '.msv3-plus.plus-wrt',
-        readingPlus:   '.msv3-plus.plus-rdg',
-        listeningPlus: '.msv3-plus.plus-lst'
+        speakingPlus:  ['.msv3-plus.plus-spk', '.sc-cta.plus[data-open="speaking-plus"]'],
+        writingPlus:   ['.msv3-plus.plus-wrt', '.sc-cta.plus[data-open="writing-plus"]'],
+        readingPlus:   ['.msv3-plus.plus-rdg', '.sc-cta.plus[data-open="reading-plus"]'],
+        listeningPlus: ['.msv3-plus.plus-lst', '.sc-cta.plus[data-open="listening-plus"]']
       };
       Object.keys(plusMap).forEach(function (key) {
-        if (cfg[key] === false) _msv3DeactivateEl(document.querySelector(plusMap[key]), key);
+        if (cfg[key] === false) {
+          plusMap[key].forEach(function (sel) {
+            document.querySelectorAll(sel).forEach(function (el) {
+              _msv3LockPlusEl(el, key);
+            });
+          });
+        }
       });
 
       // Learning Tools tile-cards on the main landing.
