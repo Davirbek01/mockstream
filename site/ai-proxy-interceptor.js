@@ -114,6 +114,13 @@
       if (!_em) { try { _em = localStorage.getItem('ms_user_email') || ''; } catch (e) {} }
       if (_em) headers.set('x-ms-email', String(_em).slice(0, 160));
     } catch (_e) {}
+    // Per-page skill hint so the proxy can apply Plus-mode toggle gating.
+    // Pages set window.__MS_SKILL_HINT once near the top (e.g. 'writing-plus').
+    try {
+      var _sh = '';
+      try { _sh = String(window.__MS_SKILL_HINT || '').trim(); } catch (_e) {}
+      if (_sh) headers.set('x-ms-skill', _sh.slice(0, 32));
+    } catch (_e) {}
     nextInit.headers = headers;
 
     // Preserve method/body when input was a Request object

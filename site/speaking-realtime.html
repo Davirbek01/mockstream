@@ -293,6 +293,38 @@
       return BASE_PERSONA + '\n' + resume;
     }
 
+    /* ── Centre toggle check: refuse to load if speakingPlus is OFF ─── */
+    // Direct fetch to Supabase REST so we don't depend on any other script
+    // load order. If the toggle is OFF we wipe the page and redirect.
+    (async function _checkSpeakingPlusToggle() {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var centerId = (window.__CENTER_ID || 'mock_stream').toString().trim();
+      try {
+        var r = await fetch(SB_URL + '/rest/v1/site_settings?key=eq.center_config_'
+                            + encodeURIComponent(centerId) + '&select=value', {
+          headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY }
+        });
+        if (!r.ok) return;  // fail open — don't block on transient errors
+        var rows = await r.json();
+        if (!rows || !rows.length) return;
+        var cfg = rows[0].value;
+        if (typeof cfg === 'string') { try { cfg = JSON.parse(cfg); } catch (_e) { return; } }
+        if (cfg && cfg.speakingPlus === false) {
+          document.body.innerHTML =
+            '<div style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#0f172a;color:#fff;font:14px system-ui;padding:24px">' +
+              '<div style="max-width:420px;text-align:center;background:#1e293b;border-radius:16px;padding:32px">' +
+                '<div style="font-size:44px;margin-bottom:10px">🔒</div>' +
+                '<h2 style="font-size:19px;margin:0 0 8px">Speaking Plus is locked</h2>' +
+                '<p style="font-size:13.5px;color:#cbd5e1;margin:0 0 22px;line-height:1.55">This Plus mode has been disabled for your centre by the administrator.</p>' +
+                '<a href="/landing-v3.html" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;padding:11px 26px;border-radius:11px;font-weight:700;text-decoration:none">Back to home</a>' +
+              '</div>' +
+            '</div>';
+          throw new Error('speakingPlus disabled for centre ' + centerId);
+        }
+      } catch (_e) { /* fail open on network errors */ }
+    })();
+
     /* ── Bootstrap: auto-start if sessionStorage already has a token ─── */
     var bootToken = '';
     try { bootToken = sessionStorage.getItem('vipToken') || ''; } catch (_e) {}
