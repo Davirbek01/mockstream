@@ -33,6 +33,9 @@
     .part-card .pc-name{font-size:16px;font-weight:700;margin-bottom:4px}
     .part-card .pc-desc{font-size:12.5px;color:var(--muted);line-height:1.5}
     .part-card .pc-qs{display:inline-block;margin-top:10px;background:var(--bg);padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600;color:var(--ink2)}
+    .part-card.locked{cursor:not-allowed;opacity:.55;position:relative;filter:grayscale(70%)}
+    .part-card.locked:hover{border-color:var(--ring);box-shadow:none;transform:none}
+    .part-card .soon-badge{position:absolute;top:12px;right:12px;background:#94a3b8;color:#fff;font-size:9.5px;font-weight:800;letter-spacing:.06em;padding:3px 9px;border-radius:6px;text-transform:uppercase}
     .loading{text-align:center;padding:60px 20px}
     .loading .spinner{width:40px;height:40px;border:4px solid var(--ring);border-top-color:var(--brand);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
     @keyframes spin{to{transform:rotate(360deg)}}
@@ -95,25 +98,29 @@
         <div class="pc-desc">Read a passage and fill gaps with words found elsewhere in the text.</div>
         <span class="pc-qs">6 questions</span>
       </div>
-      <div class="part-card" data-part="2">
+      <div class="part-card locked" data-part="2" data-locked="1">
+        <span class="soon-badge">Soon</span>
         <div class="pc-num">Part 2</div>
         <div class="pc-name">Matching (Texts &harr; Statements)</div>
         <div class="pc-desc">Match 8 short texts to 10 situation statements (2 extras).</div>
         <span class="pc-qs">8 questions</span>
       </div>
-      <div class="part-card" data-part="3">
+      <div class="part-card locked" data-part="3" data-locked="1">
+        <span class="soon-badge">Soon</span>
         <div class="pc-num">Part 3</div>
         <div class="pc-name">Matching Headings</div>
         <div class="pc-desc">Match 6 paragraphs of an article to 8 headings (2 extras).</div>
         <span class="pc-qs">6 questions</span>
       </div>
-      <div class="part-card" data-part="4">
+      <div class="part-card locked" data-part="4" data-locked="1">
+        <span class="soon-badge">Soon</span>
         <div class="pc-num">Part 4</div>
         <div class="pc-name">MCQ + True / False / No Info</div>
         <div class="pc-desc">Read an article, answer 4 multiple-choice then 5 T/F/NI questions.</div>
         <span class="pc-qs">9 questions</span>
       </div>
-      <div class="part-card" data-part="5">
+      <div class="part-card locked" data-part="5" data-locked="1">
+        <span class="soon-badge">Soon</span>
         <div class="pc-num">Part 5</div>
         <div class="pc-name">Summary Gap-Fill + MCQ</div>
         <div class="pc-desc">Fill 4 gaps in a summary, then 2 multiple-choice questions.</div>
@@ -292,6 +299,7 @@
 
   document.querySelectorAll('.part-card').forEach(function(card){
     card.addEventListener('click',async function(){
+      if(card.getAttribute('data-locked')==='1')return;
       var n=parseInt(card.getAttribute('data-part'),10);
       document.getElementById('picker').classList.add('hidden');
       document.getElementById('loading').classList.remove('hidden');
