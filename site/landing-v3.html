@@ -2253,6 +2253,7 @@
           </div>
           <div class="sc-ctas">
             <button class="sc-cta primary" data-open="cefr-listening">CEFR →</button>
+            <button class="sc-cta plus"    data-open="listening-plus">✦ Plus</button>
             <button class="sc-cta ghost"   data-open="ielts-listening">IELTS →</button>
           </div>
         </div>
@@ -2858,6 +2859,10 @@
       }
       if (slug === 'reading-plus') {
         window.location.href = '/Reading Plus.html';
+        return;
+      }
+      if (slug === 'listening-plus') {
+        window.location.href = '/Listening Plus.html';
         return;
       }
       if (slug === 'cefr-speaking' && typeof window.cspetOpen === 'function') {
