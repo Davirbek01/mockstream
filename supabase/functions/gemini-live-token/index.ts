@@ -117,6 +117,27 @@ async function verifyVipToken(token: string): Promise<{ ok: boolean; payload?: V
   return { ok: true, payload };
 }
 
+// ── Centre toggle check (speakingPlus) ──────────────────────────────
+// Reads the centre's site_settings row and returns true when
+// speakingPlus is explicitly false. Missing/undefined = enabled.
+// Admin role bypasses this so testing stays possible.
+async function speakingPlusDisabled(centerId: string): Promise<boolean> {
+  if (!centerId) return false;
+  try {
+    const { data } = await sb
+      .from('site_settings')
+      .select('value')
+      .eq('key', `center_config_${centerId}`)
+      .maybeSingle();
+    if (!data) return false;
+    let v: any = data.value;
+    if (typeof v === 'string') { try { v = JSON.parse(v); } catch { return false; } }
+    return v?.speakingPlus === false;
+  } catch (_e) {
+    return false;  // fail open on transient errors
+  }
+}
+
 // ── Per-day quota (logs into gemini_live_token_log) ─────────────────
 async function quotaExceeded(centerId: string, ip: string): Promise<boolean> {
   const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
@@ -219,6 +240,17 @@ Deno.serve(async (req) => {
 
   const centerId = (payload.c || 'unknown').toString();
   const role     = (payload.r || 'unknown').toString();
+
+  // Centre toggle gate: refuse to mint when speakingPlus is OFF for
+  // this centre. Admin bypasses so super-admin can keep testing.
+  // This is the TRUE server-side enforcement — no Google API call is
+  // made, no cost incurred, no DevTools bypass possible.
+  if (role !== 'admin' && await speakingPlusDisabled(centerId)) {
+    return json(403, {
+      error: 'plus_mode_disabled',
+      detail: `Speaking Plus is disabled for centre "${centerId}". Contact your centre admin.`
+    });
+  }
 
   // Admin bypasses the daily quota (so the user can test freely).
   if (role !== 'admin' && await quotaExceeded(centerId, ip)) {
