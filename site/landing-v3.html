@@ -10450,7 +10450,7 @@
     }
     window.loadDynamicCefrReadingMocks = loadDynamicCefrReadingMocks;
 
-    const _CRET_CACHE_KEY = 'ms_cret_meta_v3';
+    const _CRET_CACHE_KEY = 'ms_cret_meta_v4';
     const _CRET_CACHE_TTL = 24 * 60 * 60 * 1000;
     const _CRET_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
     const _CRET_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
@@ -10721,8 +10721,18 @@
         if (m) return MON[parseInt(m[2], 10) - 1] + ' ' + m[1];
         return s;
       })(meta.examDate);
-      const dateHtml = examLabel
-        ? '<span class="cret-exam-date" title="Exam date ' + _cretEsc(meta.examDate) + '" style="font-size:11px;background:#fef3c7;color:#92400e;border:1px solid #fde68a;border-radius:999px;padding:1px 8px;font-weight:600;white-space:nowrap;">📅 ' + _cretEsc(examLabel) + '</span>'
+      let crChipLabel = examLabel;
+      let crChipTitle = examLabel ? ('Exam date ' + meta.examDate) : '';
+      if (!crChipLabel && meta.createdAt) {
+        const _d = new Date(meta.createdAt);
+        if (!isNaN(_d)) {
+          const _MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+          crChipLabel = _d.getDate() + ' ' + _MON[_d.getMonth()] + ' ' + _d.getFullYear();
+          crChipTitle = 'Added on ' + String(meta.createdAt).slice(0, 10);
+        }
+      }
+      const dateHtml = crChipLabel
+        ? '<span class="cret-exam-date" title="' + _cretEsc(crChipTitle) + '" style="font-size:11px;background:#fef3c7;color:#92400e;border:1px solid #fde68a;border-radius:999px;padding:1px 8px;font-weight:600;white-space:nowrap;">📅 ' + _cretEsc(crChipLabel) + '</span>'
         : '';
       const partRows = parts.map((p, i) =>
         '<li class="cret-part">'
@@ -12053,7 +12063,7 @@
     }
     window.loadDynamicCefrListeningMocks = loadDynamicCefrListeningMocks;
 
-    const _clet_CACHE_KEY = 'ms_clet_meta_v4';
+    const _clet_CACHE_KEY = 'ms_clet_meta_v5';
     const _clet_CACHE_TTL = 24 * 60 * 60 * 1000;
     const _clet_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
     const _clet_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
@@ -12360,8 +12370,18 @@
         if (m) return MON[parseInt(m[2], 10) - 1] + ' ' + m[1];
         return s;
       })(meta.examDate);
-      const clDateHtml = clExamLabel
-        ? '<span class="clet-exam-date" title="Exam date ' + _cletEsc(meta.examDate) + '" style="font-size:11px;background:#fef3c7;color:#92400e;border:1px solid #fde68a;border-radius:999px;padding:1px 8px;font-weight:600;white-space:nowrap;">📅 ' + _cletEsc(clExamLabel) + '</span>'
+      let clChipLabel = clExamLabel;
+      let clChipTitle = clExamLabel ? ('Exam date ' + meta.examDate) : '';
+      if (!clChipLabel && meta.createdAt) {
+        const _d = new Date(meta.createdAt);
+        if (!isNaN(_d)) {
+          const _MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+          clChipLabel = _d.getDate() + ' ' + _MON[_d.getMonth()] + ' ' + _d.getFullYear();
+          clChipTitle = 'Added on ' + String(meta.createdAt).slice(0, 10);
+        }
+      }
+      const clDateHtml = clChipLabel
+        ? '<span class="clet-exam-date" title="' + _cletEsc(clChipTitle) + '" style="font-size:11px;background:#fef3c7;color:#92400e;border:1px solid #fde68a;border-radius:999px;padding:1px 8px;font-weight:600;white-space:nowrap;">📅 ' + _cletEsc(clChipLabel) + '</span>'
         : '';
       const clStats = _cletStatsByMock[String(mockNum)] || { total: 0, today: 0, last7: 0 };
       const CL_LABELS = { trending: '🔥 Trending', new: '🆕 New', popular: '👑 Popular', gem: '💎 Hidden gem' };
