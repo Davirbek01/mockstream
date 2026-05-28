@@ -245,25 +245,31 @@ async function isEmailBlocked(email: string, centerId: string): Promise<boolean>
   return !!data;
 }
 
-async function getCenterGate(centerId: string): Promise<{ allowed: boolean; dailyCap: number; perStudentCap: number }> {
-  if (!centerId) return { allowed: false, dailyCap: 0, perStudentCap: 0 };
+async function getCenterGate(centerId: string): Promise<{ allowed: boolean; dailyCap: number; perStudentCap: number; plus: Record<string, boolean> }> {
+  if (!centerId) return { allowed: false, dailyCap: 0, perStudentCap: 0, plus: {} };
   const { data } = await sb
     .from('site_settings')
     .select('value')
     .eq('key', `center_config_${centerId}`)
     .maybeSingle();
-  if (!data) return { allowed: false, dailyCap: 0, perStudentCap: 0 };
+  if (!data) return { allowed: false, dailyCap: 0, perStudentCap: 0, plus: {} };
   let v: any = data.value;
   if (typeof v === 'string') { try { v = JSON.parse(v); } catch { v = {}; } }
   const allowed  = v?.active !== false;
-  // dailyMockLimit: 0 (or missing) means unlimited → fall back to env default (also 0 = unlimited).
   const dailyCap = (typeof v?.dailyMockLimit === 'number' && v.dailyMockLimit > 0)
                      ? v.dailyMockLimit
                      : AI_DAILY_CAP_DEFAULT;
   const perStudentCap = (typeof v?.maxAttemptsPerStudent === 'number' && v.maxAttemptsPerStudent > 0)
                      ? v.maxAttemptsPerStudent
                      : 0;
-  return { allowed, dailyCap, perStudentCap };
+  // Plus-mode toggles — absent / true = enabled, explicit false = disabled.
+  const plus: Record<string, boolean> = {
+    readingPlus:   v?.readingPlus   !== false,
+    writingPlus:   v?.writingPlus   !== false,
+    listeningPlus: v?.listeningPlus !== false,
+    speakingPlus:  v?.speakingPlus  !== false
+  };
+  return { allowed, dailyCap, perStudentCap, plus };
 }
 
 async function ipRateExceeded(ip: string): Promise<boolean> {
@@ -388,6 +394,25 @@ Deno.serve(async (req) => {
     logCall({ ip, userAgent, centerId, provider, skill: skillHint, studentName, userEmail, status: 'bad_center', errorMessage: centerId });
     return jsonErr(403, 'unknown_or_inactive_center',
       `centerId="${centerId}" not present in Center Hub or marked inactive.`);
+  }
+
+  // -------- gate 2b: Plus-mode toggle --------
+  // If the calling page identifies itself as a Plus mode via x-ms-skill,
+  // refuse the call when this centre has the corresponding toggle OFF.
+  // This is the server-side enforcement of the Centers Management Plus
+  // toggles — bypassing the client-side UI lock won't help.
+  const plusSkillMap: Record<string, string> = {
+    'reading-plus':   'readingPlus',
+    'writing-plus':   'writingPlus',
+    'listening-plus': 'listeningPlus',
+    'speaking-plus':  'speakingPlus'
+  };
+  const plusKey = plusSkillMap[skillHint];
+  if (plusKey && gate.plus[plusKey] === false) {
+    logCall({ ip, userAgent, centerId, provider, skill: skillHint, studentName, userEmail,
+              status: 'plus_disabled', errorMessage: `${plusKey}=false for ${centerId}` });
+    return jsonErr(403, 'plus_mode_disabled',
+      `${plusKey} is disabled for centre "${centerId}". Contact your centre admin.`);
   }
 
   // -------- gate 3: per-IP rate limit --------
