@@ -77,6 +77,7 @@
     .q-card .answer-reveal{margin-top:8px;font-size:13px;padding:8px 12px;border-radius:8px;background:#f0fdf4;color:#166534}
     .q-card.wrong .answer-reveal{background:#fef2f2;color:#991b1b}
     .hidden{display:none!important}
+    mark.ref-hl{background:transparent;color:inherit;text-decoration:underline;text-decoration-color:var(--green);text-decoration-thickness:2px;text-underline-offset:3px;font-weight:600}
   </style>
 </head>
 <body>
@@ -132,6 +133,16 @@
     <div class="loading">
       <div class="spinner"></div>
       <p id="loadingMsg">Generating your practice questions&hellip;</p>
+      <div id="progress" style="display:none;max-width:340px;margin:18px auto 0">
+        <div style="display:flex;gap:8px;font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--faint);text-transform:uppercase;margin-bottom:8px">
+          <div id="step1Lbl" style="flex:1;text-align:center">1. Writing</div>
+          <div id="step2Lbl" style="flex:1;text-align:center">2. Gaps</div>
+          <div id="step3Lbl" style="flex:1;text-align:center">3. Verify</div>
+        </div>
+        <div style="height:6px;background:var(--ring);border-radius:6px;overflow:hidden">
+          <div id="progressBar" style="height:100%;width:0%;background:linear-gradient(90deg,var(--brand),var(--brand-deep));transition:width .35s ease;border-radius:6px"></div>
+        </div>
+      </div>
     </div>
   </div>
   <div id="test" class="hidden"></div>
@@ -154,23 +165,176 @@
 
   var SB_URL='https://zknyukkbtbcqgvkgjktb.supabase.co';
   var SB_KEY='sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
-  async function generate(n){
-    var messages=[{role:'system',content:SYS},{role:'user',content:PROMPTS[n]+'\n\nIMPORTANT: Respond with valid JSON only, no markdown.'}];
+
+  function _proxyHeaders(){return{
+    'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,
+    'x-ms-center':(window.__CENTER_ID||'mock_stream').toString().trim(),'x-ms-skill':'reading-plus'
+  }}
+
+  async function _callDeepSeek(userPrompt,opts){
+    var messages=[{role:'system',content:SYS},{role:'user',content:userPrompt+'\n\nIMPORTANT: Respond with valid JSON only, no markdown.'}];
     var r=await fetch(SB_URL+'/functions/v1/ai-proxy/deepseek/chat/completions',{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'apikey':SB_KEY,
-        'Authorization':'Bearer '+SB_KEY,
-        'x-ms-center':(window.__CENTER_ID||'mock_stream').toString().trim(),
-        'x-ms-skill':'reading-plus'
-      },
-      body:JSON.stringify({model:'deepseek-chat',messages:messages,temperature:0.8,max_tokens:4096})
+      method:'POST',headers:_proxyHeaders(),
+      body:JSON.stringify({model:'deepseek-chat',messages:messages,temperature:(opts&&opts.temp)||0.8,max_tokens:(opts&&opts.maxTokens)||4096})
     });
-    if(!r.ok){var t='';try{t=await r.text()}catch(_){}throw new Error('AI '+r.status+': '+t.slice(0,200))}
+    if(!r.ok){var t='';try{t=await r.text()}catch(_){}throw new Error('DeepSeek '+r.status+': '+t.slice(0,200))}
+    var j=await r.json();if(j.error)throw new Error(j.error.message||'API error');
+    return j.choices[0].message.content;
+  }
+
+  async function _callGemini(prompt,opts){
+    var body={
+      contents:[{parts:[{text:prompt}]}],
+      generationConfig:{temperature:(opts&&opts.temp)||0.85,maxOutputTokens:(opts&&opts.maxTokens)||2048,responseMimeType:'application/json'}
+    };
+    var r=await fetch(SB_URL+'/functions/v1/ai-proxy/gemini/v1beta/models/gemini-2.5-flash:generateContent',{
+      method:'POST',headers:_proxyHeaders(),body:JSON.stringify(body)
+    });
+    if(!r.ok){var t='';try{t=await r.text()}catch(_){}throw new Error('Gemini '+r.status+': '+t.slice(0,200))}
     var j=await r.json();
-    if(j.error)throw new Error(j.error.message||'API error');
-    var raw=j.choices[0].message.content;
+    var cand=j.candidates&&j.candidates[0];
+    if(!cand)throw new Error('Gemini: no candidates');
+    return cand.content.parts[0].text;
+  }
+
+  function _setProgress(step,labelText){
+    var p=document.getElementById('progress');if(p)p.style.display='block';
+    var msg=document.getElementById('loadingMsg');if(msg&&labelText)msg.textContent=labelText;
+    var pct=step===1?33:step===2?66:100;
+    var bar=document.getElementById('progressBar');if(bar)bar.style.width=pct+'%';
+    for(var i=1;i<=3;i++){
+      var el=document.getElementById('step'+i+'Lbl');
+      if(el)el.style.color=(i<=step)?'var(--brand-deep)':'var(--faint)';
+    }
+  }
+
+  // ─── Part 1 specific: 3-step pipeline ──────────────────────────────
+  var STOPWORDS=new Set(('a an the is are was were be been being have has had do does did will would could should may might must can in on at to for of with by from as but and or if not no yes that this these those it its they them their there here he him his she her hers we us our you your i my me one two three four five six all any some many much more most less few each every other another such own same than then so very just only also too into onto upon over under between among during while because since though although whether while around about against before after off out up down ').trim().split(/\s+/));
+
+  function _pickGaps(passage){
+    // Tokenize: keep words with their positions
+    var tokens=[];
+    var re=/[A-Za-z]+(?:'[A-Za-z]+)?/g,m;
+    while((m=re.exec(passage))!==null){tokens.push({word:m[0],start:m.index,end:m.index+m[0].length})}
+    // Count case-insensitive
+    var counts={};
+    tokens.forEach(function(t){var k=t.word.toLowerCase();counts[k]=(counts[k]||0)+1});
+    // Candidates: appear >=2 times, length >=4, not stopword
+    var cands={};
+    tokens.forEach(function(t){
+      var k=t.word.toLowerCase();
+      if(k.length<4)return;
+      if(STOPWORDS.has(k))return;
+      if(counts[k]<2)return;
+      if(!cands[k])cands[k]={word:k,positions:[]};
+      cands[k].positions.push(t);
+    });
+    var candList=Object.values(cands);
+    if(candList.length<6)throw new Error('Not enough repeated content words ('+candList.length+'/6). Try again.');
+    // Sort by total spread (first position) and pick 6 spread evenly across passage
+    candList.sort(function(a,b){return a.positions[0].start-b.positions[0].start});
+    // Divide passage into 6 zones, pick one candidate per zone whose FIRST occurrence is in that zone
+    var zoneSize=Math.floor(passage.length/6),picks=[];
+    for(var z=0;z<6;z++){
+      var zStart=z*zoneSize,zEnd=(z===5)?passage.length:(z+1)*zoneSize;
+      var found=null;
+      for(var i=0;i<candList.length;i++){
+        var c=candList[i];if(c._used)continue;
+        // Find a position of c inside this zone (prefer the EARLIER occurrence so the LATER one stays visible)
+        for(var pi=0;pi<c.positions.length;pi++){
+          var p=c.positions[pi];
+          if(p.start>=zStart&&p.start<zEnd&&c.positions.length>1){
+            // This position can be replaced; another occurrence of c must remain
+            found={cand:c,pos:p};break;
+          }
+        }
+        if(found){c._used=true;break}
+      }
+      if(found)picks.push(found);
+    }
+    if(picks.length<6)throw new Error('Could not pick 6 well-spread gaps. Generation will retry.');
+    // Sort picks by position so gap numbering goes 1→6 left-to-right
+    picks.sort(function(a,b){return a.pos.start-b.pos.start});
+    // Build the gapped passage + answers
+    var out='',cursor=0,answers={};
+    picks.forEach(function(p,idx){
+      var n=idx+1;
+      out+=passage.slice(cursor,p.pos.start);
+      out+='_____('+n+')_____';
+      cursor=p.pos.end;
+      answers[String(n)]=p.cand.word;  // lowercase canonical
+    });
+    out+=passage.slice(cursor);
+    return{passage:out,answers:answers};
+  }
+
+  function _verifyGaps(gappedPassage,answers){
+    // Strip gap markers, check each answer word still appears somewhere in remaining text
+    var stripped=gappedPassage.replace(/___*\(\d+\)___*/g,'');
+    var lower=stripped.toLowerCase();
+    var issues=[];
+    Object.keys(answers).forEach(function(k){
+      var w=answers[k].toLowerCase();
+      var re=new RegExp('\\b'+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\b','i');
+      if(!re.test(lower))issues.push('Q'+k+' answer "'+w+'" not found elsewhere');
+    });
+    if(issues.length)throw new Error('Verification failed: '+issues.join('; '));
+    return true;
+  }
+
+  var TOPIC_POOL=[
+    'the lifecycle of honey bees','urban gardening on rooftops','the history of bicycles','deep-sea exploration','the science of dreams','traditional silk weaving','ancient Roman aqueducts','migration of monarch butterflies','the invention of the printing press','volcanoes and tectonic plates','the rise of street food culture','origami as art and engineering','the story of coffee beans','desert survival strategies of animals','the architecture of Gothic cathedrals','sleep patterns of teenagers','the role of librarians today','vertical farming','the language of dolphins','time zones around the world','jazz music and its origins','life in Antarctic research stations','the chemistry of bread baking','medieval Silk Road trade','astronaut training','the comeback of vinyl records','recycling glass','the Great Barrier Reef','clay pottery traditions','tornado formation','the secret world of fungi','lighthouse keepers','the art of bookbinding','desert irrigation in Uzbekistan','telescopes through history','seaweed as food','the engineering of suspension bridges','memory champions','beekeeping for beginners','the rise of board games','glacier melting in Greenland','traditional Japanese tea ceremony','how a violin is made','rainforest canopy ecosystems','windmills and renewable energy','the migration of birds','indigenous wisdom on weather','sand dunes and their movement','the world of competitive chess','watchmakers and craftsmanship','elephants and their families','desert nomads','tea plantations in Sri Lanka','the science of perfume','underwater photography','train travel in Europe','traditional bread ovens','meteor showers','life at high altitudes','dyeing fabric with plants','octopus intelligence','volcano observatories','medieval castles and their defences','northern lights','street markets of Istanbul','the journey of a raindrop','bonsai cultivation','wildlife corridors','the resurgence of handwritten letters','the construction of pyramids','the world of ice sculptors','reef-building corals','traditional dances of Central Asia','cave paintings','urban beekeepers','astronaut food','farm-to-table movement','glass blowing','migratory whales','the discovery of penicillin','traditional fishing villages','climbing Mount Everest','small farms and biodiversity','the science of fireworks','restoring old paintings','vintage cars','the role of national parks'
+  ];
+  function _pickTopic(){return TOPIC_POOL[Math.floor(Math.random()*TOPIC_POOL.length)]}
+
+  async function generatePart1(){
+    // STEP 1 — Gemini writes a plain passage with deliberate word repetition
+    _setProgress(1,'Step 1 / 3 — Writing the passage…');
+    var topic=_pickTopic();
+    var p1='You are a CEFR exam writer. Write a SHORT B2-C1 English passage suitable for a Multilevel exam Part 1 gap-fill.\n\nTOPIC: '+topic+'\n\nSTRICT RULES:\n- 220-280 words total.\n- Stay on the assigned topic above.\n- Use a clear narrative or expository style.\n- DELIBERATELY repeat at least 8 different content words (nouns, verbs, adjectives — 4+ letters) twice or more across the passage. These repetitions are essential.\n- Do NOT insert any gap markers — write the full clean passage.\n- Return JSON only: {"title": "...", "passage": "..."}';
+    var raw1=await _callGemini(p1);
+    var draft;
+    try{draft=JSON.parse(raw1.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim())}
+    catch(e){throw new Error('Gemini did not return valid JSON: '+raw1.slice(0,200))}
+    if(!draft.passage||!draft.title)throw new Error('Gemini response missing title/passage');
+
+    // STEP 2 — Code-based deterministic gap picker
+    _setProgress(2,'Step 2 / 3 — Selecting gaps…');
+    await new Promise(function(r){setTimeout(r,250)});  // small visual pause so the user sees stage 2
+    var gapped;
+    try{gapped=_pickGaps(draft.passage)}
+    catch(e){
+      // Retry once if not enough repeated words — re-call Gemini with NEW topic
+      _setProgress(1,'Step 1 / 3 — Rewriting (more repetition)…');
+      var topic2=_pickTopic();
+      var p1b='You are a CEFR exam writer. Write a SHORT B2-C1 English passage suitable for a Multilevel exam Part 1 gap-fill.\n\nTOPIC: '+topic2+'\n\nSTRICT RULES:\n- 220-280 words total.\n- DELIBERATELY repeat at least 8 different content words (nouns, verbs, adjectives — 4+ letters) twice or more.\n- Do NOT insert any gap markers.\n- Return JSON only: {"title": "...", "passage": "..."}';
+      var raw2=await _callGemini(p1b);
+      try{draft=JSON.parse(raw2.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim())}
+      catch(e2){throw new Error('Gemini retry failed: '+raw2.slice(0,200))}
+      _setProgress(2,'Step 2 / 3 — Selecting gaps…');
+      gapped=_pickGaps(draft.passage);
+    }
+
+    // STEP 3 — Verify each answer is findable
+    _setProgress(3,'Step 3 / 3 — Verifying…');
+    await new Promise(function(r){setTimeout(r,250)});
+    _verifyGaps(gapped.passage,gapped.answers);
+
+    // Build questions array with passage-context hints
+    var questions=[];
+    for(var i=1;i<=6;i++){
+      var rx=new RegExp('([^.!?]*_____\\('+i+'\\)_____[^.!?]*[.!?]?)','i');
+      var match=rx.exec(gapped.passage);
+      questions.push({id:i,hint:match?match[1].trim():'_____('+i+')_____'});
+    }
+    return{title:draft.title,passage:gapped.passage,questions:questions,answers:gapped.answers};
+  }
+
+  async function generate(n){
+    if(n===1)return generatePart1();
+    // Parts 2-5 still use the single-call DeepSeek pipeline (currently locked anyway)
+    _setProgress(2,'Generating with AI…');
+    var raw=await _callDeepSeek(PROMPTS[n]);
     return JSON.parse(raw.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim());
   }
 
@@ -261,6 +425,22 @@
     return a;
   }
 
+  function _highlightAnswerSources(answers){
+    var box=document.querySelector('.passage-box');if(!box)return;
+    var words=Object.keys(answers).map(function(k){return String(answers[k]).toLowerCase()});
+    var uniq=Array.from(new Set(words)).filter(function(w){return w.length>0}).map(function(w){return w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')});
+    if(!uniq.length)return;
+    var pattern=new RegExp('\\b('+uniq.join('|')+')\\b','gi');
+    var walker=document.createTreeWalker(box,NodeFilter.SHOW_TEXT,null);
+    var nodes=[],n;while(n=walker.nextNode()){if(n.parentElement&&n.parentElement.tagName!=='INPUT')nodes.push(n)}
+    nodes.forEach(function(tn){
+      var t=tn.nodeValue;if(!pattern.test(t))return;pattern.lastIndex=0;
+      var html=t.replace(/[&<>]/g,function(c){return c==='&'?'&amp;':c==='<'?'&lt;':'&gt;'}).replace(pattern,function(m){return '<mark class="ref-hl">'+m+'</mark>'});
+      var span=document.createElement('span');span.innerHTML=html;
+      tn.parentNode.replaceChild(span,tn);
+    });
+  }
+
   function grade(){
     _ans={};
     document.querySelectorAll('[data-answer]').forEach(function(el){_ans[el.getAttribute('data-answer')]=(el.value||'').trim()});
@@ -274,10 +454,10 @@
       var inp=document.querySelector('input[data-answer="'+k+'"]');
       if(inp){
         inp.disabled=true;
+        inp.value=correct[k];
         inp.style.borderBottomColor=ok?'var(--green)':'var(--red)';
-        inp.style.color=ok?'var(--green)':'var(--red)';
+        inp.style.color='var(--green)';
         inp.style.fontWeight='700';
-        if(!ok){var sp=document.createElement('span');sp.style.cssText='color:var(--green);font-weight:700;font-size:12px;margin-left:4px';sp.textContent='→ '+correct[k];inp.parentNode.insertBefore(sp,inp.nextSibling)}
       }
     });
     document.querySelectorAll('#test input').forEach(function(el){el.disabled=true});
@@ -288,6 +468,8 @@
     var t=document.getElementById('test');t.insertBefore(b,t.firstChild);
     var row=document.querySelector('.submit-row');
     if(row)row.innerHTML='<button class="btn-submit" onclick="location.reload()">Try Another</button>';
+    // Highlight where each answer word appears elsewhere in the passage
+    try{_highlightAnswerSources(correct)}catch(_){}
     window.scrollTo({top:0,behavior:'smooth'});
   }
 
