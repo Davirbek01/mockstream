@@ -2615,11 +2615,15 @@
         padding: 16px;
         min-height: 0;
         font-size: 0;
+        display: flex; flex-direction: column; align-items: center; gap: 14px;
       }
       .bb-detail-cover-img {
         display: block;
         max-width: 100%;
         height: auto;
+      }
+      .bb-detail-cover.has-multi .bb-detail-cover-img:not(:last-child) {
+        margin-bottom: 4px;
       }
       .bb-detail-cover.c1 { background: linear-gradient(135deg,#6366f1,#8b5cf6); }
       .bb-detail-cover.c2 { background: linear-gradient(135deg,#0ea5e9,#06b6d4); }
@@ -2762,13 +2766,14 @@
           };
         });
         const CERT = certRows.map(r => ({
-          name:     _bbDisplayName(r.student_name, r.name_visibility),
-          exam:     r.exam_type || '',
-          score:    r.score || '',
-          date:     _bbFmtMonthYear(r.exam_date),
-          cls:      _bbExamCls(r.exam_type),
-          imageUrl: r.certificate_image_url || '',
-          feedback: r.student_feedback || ''
+          name:         _bbDisplayName(r.student_name, r.name_visibility),
+          exam:         r.exam_type || '',
+          score:        r.score || '',
+          date:         _bbFmtMonthYear(r.exam_date),
+          cls:          _bbExamCls(r.exam_type),
+          imageUrl:     r.certificate_image_url || '',
+          secondaryUrl: r.secondary_image_url   || '',
+          feedback:     r.student_feedback || ''
         }));
 
         // No data → hide slot. If the toggle already hid it via display:none,
@@ -3174,9 +3179,14 @@
         }
         function _detailFillCert(c) {
           bbDetCover.removeAttribute('style');
-          if (c.imageUrl) {
-            bbDetCover.className = 'bb-detail-cover has-img';
-            bbDetCover.innerHTML = '<img class="bb-detail-cover-img" src="' + esc(c.imageUrl) + '" alt="">';
+          const imgs = [];
+          if (c.imageUrl)     imgs.push(c.imageUrl);
+          if (c.secondaryUrl) imgs.push(c.secondaryUrl);
+          if (imgs.length) {
+            bbDetCover.className = 'bb-detail-cover has-img' + (imgs.length > 1 ? ' has-multi' : '');
+            bbDetCover.innerHTML = imgs.map(u =>
+              '<img class="bb-detail-cover-img" src="' + esc(u) + '" alt="">'
+            ).join('');
           } else {
             bbDetCover.className = 'bb-detail-cover bb-cert-img ' + c.cls;
             bbDetCover.innerHTML =

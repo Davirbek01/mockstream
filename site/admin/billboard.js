@@ -485,9 +485,12 @@
         <div class="bbA-field"><label>Score / band *</label><input id="f_score" type="text" value="' + _attr(r.score) + '" placeholder="8.0 / C1 / 1480" /></div>\
         <div class="bbA-field"><label>Exam date (optional)</label><input id="f_date" type="date" value="' + _attr(r.exam_date) + '" /></div>\
       </div>\
-      <div class="bbA-field"><label>Certificate image (optional)</label><input id="f_file" type="file" accept="image/*" />' +
+      <div class="bbA-field"><label>Primary image (e.g., certificate scan)</label><input id="f_file" type="file" accept="image/*" />' +
         (r.certificate_image_url ? '<img class="bbA-preview" src="' + _attr(r.certificate_image_url) + '" alt="current" />' : '') +
         '<div class="bbA-fileinfo">Leave empty to keep ' + (r.certificate_image_url ? 'the current image.' : 'no image (a styled placeholder will be shown).') + '</div></div>\
+      <div class="bbA-field"><label>Secondary image (optional, e.g., student testimonial screenshot)</label><input id="f_file2" type="file" accept="image/*" />' +
+        (r.secondary_image_url ? '<img class="bbA-preview" src="' + _attr(r.secondary_image_url) + '" alt="current" />' : '') +
+        '<div class="bbA-fileinfo">' + (r.secondary_image_url ? 'Leave empty to keep the current image. ' : '') + 'Both images appear stacked inside the detail popup.</div></div>\
       <div class="bbA-field"><label>Student feedback (testimonial, optional)</label><textarea id="f_fb" rows="4" placeholder="The mock interviews were exactly like the real exam. - Lots of practice - Helpful tutors">' + _esc(r.student_feedback) + '</textarea><div class="bbA-fileinfo">Tip: same formatting as announcements — <code>- </code> for bullets, <code>**stars**</code> for <b>bold</b>.</div></div>\
       <div class="bbA-row">\
         <div class="bbA-field"><label>Status</label><select id="f_status">' + statusOpts + '</select></div>\
@@ -503,11 +506,11 @@
     if (!score) throw new Error('Score / band is required');
     var consent = modal.querySelector('#f_consent').checked;
     if (!consent) throw new Error('Consent checkbox must be ticked');
-    var file = modal.querySelector('#f_file').files[0];
-    var imageUrl = null;
-    if (file) {
-      imageUrl = await uploadCertImage(file, state.centerId);
-    }
+    var file  = modal.querySelector('#f_file').files[0];
+    var file2 = modal.querySelector('#f_file2').files[0];
+    var imageUrl = null, secondaryUrl = null;
+    if (file)  imageUrl     = await uploadCertImage(file,  state.centerId);
+    if (file2) secondaryUrl = await uploadCertImage(file2, state.centerId);
     var out = {
       student_name:     name,
       name_visibility:  modal.querySelector('#f_vis').value,
@@ -518,7 +521,8 @@
       consent_given:    true,
       status:           modal.querySelector('#f_status').value
     };
-    if (imageUrl) out.certificate_image_url = imageUrl;
+    if (imageUrl)     out.certificate_image_url = imageUrl;
+    if (secondaryUrl) out.secondary_image_url   = secondaryUrl;
     return out;
   }
 
