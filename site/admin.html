@@ -378,6 +378,18 @@
           container.innerHTML = '<div class="adm-loading"><div>Visitor Statistics script loaded but did not register correctly.</div></div>';
         }
       }
+    },
+    billboard: {
+      label: 'Billboard',
+      icon: '📢',
+      script: '/admin/billboard.js',
+      open: function (container) {
+        if (window.AdminPanels && window.AdminPanels.billboard && typeof window.AdminPanels.billboard.open === 'function') {
+          window.AdminPanels.billboard.open(container);
+        } else {
+          container.innerHTML = '<div class="adm-loading"><div>Billboard script loaded but did not register correctly.</div></div>';
+        }
+      }
     }
   };
   var LEGACY_ITEMS = [

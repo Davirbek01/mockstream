@@ -2180,6 +2180,566 @@
       </div>
     </section>
 
+    <!-- ── BILLBOARDS — single row, side-by-side, auto-rotating (mock test) ── -->
+    <style>
+      .bb-section { padding: 18px 0 8px; }
+      .bb-head { display:flex; align-items:center; justify-content:space-between; margin: 0 0 12px; flex-wrap:wrap; gap:8px; }
+      .bb-title-group { display:flex; align-items:center; gap:8px; }
+      .bb-title {
+        font-size: 17px; font-weight: 800; color: #0f172a;
+        display: flex; align-items: center; gap: 8px; margin: 0;
+      }
+      .bb-pill {
+        font-size: 10px; font-weight: 700; letter-spacing:.04em;
+        background:#fef3c7; color:#92400e; border:1px solid #fde68a;
+        border-radius:999px; padding:3px 8px; text-transform:uppercase;
+      }
+      .bb-dots { display:flex; gap:6px; align-items:center; }
+      .bb-dot {
+        width:7px; height:7px; border-radius:50%;
+        background:#cbd5e1; transition: background .25s, transform .25s;
+        cursor:pointer; border:none; padding:0;
+      }
+      .bb-dot.active { background:#4f46e5; transform: scale(1.3); }
+
+      .bb-row {
+        display: grid; grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      .bb-slot {
+        position: relative; min-height: 280px;
+        background:#fff; border:1px solid #e2e8f0; border-radius: 18px;
+        overflow:hidden; box-shadow: 0 2px 8px rgba(15,23,42,.05);
+      }
+      .bb-slot-label {
+        position:absolute; top:12px; left:12px; z-index:3;
+        font-size: 10px; font-weight:800; letter-spacing:.08em;
+        text-transform: uppercase;
+        background: rgba(255,255,255,.92); color:#0f172a;
+        border:1px solid #e2e8f0; padding: 4px 9px; border-radius:999px;
+        backdrop-filter: blur(4px);
+        display:flex; align-items:center; gap:6px;
+      }
+      .bb-slot-count {
+        font-weight: 700; color:#64748b;
+        font-variant-numeric: tabular-nums;
+        padding-left: 6px; margin-left: 2px;
+        border-left: 1px solid #e2e8f0;
+        letter-spacing: 0;
+      }
+      .bb-slot-count b { color:#0f172a; }
+
+      /* Prev / Next arrows on each slot */
+      .bb-nav {
+        position: absolute; top: 50%; transform: translateY(-50%);
+        z-index: 4;
+        width: 34px; height: 34px; border-radius: 50%;
+        background: rgba(255,255,255,.92); color:#0f172a;
+        border: 1px solid #e2e8f0;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 18px; line-height: 1; font-weight: 700;
+        cursor: pointer; padding: 0;
+        box-shadow: 0 4px 12px rgba(15,23,42,.12);
+        backdrop-filter: blur(4px);
+        opacity: 0.75; transition: opacity .15s ease, transform .15s ease, background .15s ease;
+      }
+      .bb-nav:hover { opacity: 1; background:#fff; transform: translateY(-50%) scale(1.07); }
+      .bb-nav:active { transform: translateY(-50%) scale(0.95); }
+      .bb-nav.prev { left: 10px; }
+      .bb-nav.next { right: 10px; }
+      @media (max-width: 640px) {
+        .bb-nav { width: 30px; height: 30px; font-size: 16px; }
+      }
+
+      /* ----- Announcement slot ----- */
+      .bb-ann-stage {
+        position: relative; height: 100%; width:100%;
+        cursor: pointer;
+      }
+      .bb-ann-card {
+        position: absolute; inset: 0; padding: 44px 18px 16px;
+        display:flex; flex-direction:column; gap:10px;
+        background: linear-gradient(135deg, #fff 0%, #f8fafc 100%);
+        opacity: 0; transform: translateX(20px);
+        transition: opacity .55s ease, transform .55s ease;
+        pointer-events: none;
+      }
+      .bb-ann-card.active { opacity:1; transform:translateX(0); pointer-events:auto; }
+      .bb-ann-cover {
+        height: 100px; border-radius: 12px;
+        display:flex; align-items:center; justify-content:center;
+        font-size: 36px; color:#fff; font-weight:800; flex-shrink:0;
+      }
+      .bb-ann-cover.c1 { background: linear-gradient(135deg,#6366f1,#8b5cf6); }
+      .bb-ann-cover.c2 { background: linear-gradient(135deg,#0ea5e9,#06b6d4); }
+      .bb-ann-cover.c3 { background: linear-gradient(135deg,#f59e0b,#ef4444); }
+      .bb-ann-cover.c4 { background: linear-gradient(135deg,#10b981,#059669); }
+      .bb-ann-meta {
+        display:flex; gap:6px; align-items:center; font-size: 10.5px; font-weight:700;
+        text-transform: uppercase; letter-spacing:.04em; color:#64748b;
+      }
+      .bb-ann-tag {
+        padding: 2px 7px; border-radius: 999px;
+        background:#eef2ff; color:#4338ca; border:1px solid #c7d2fe;
+      }
+      .bb-ann-tag.new   { background:#dcfce7; color:#166534; border-color:#bbf7d0; }
+      .bb-ann-tag.event { background:#fef3c7; color:#92400e; border-color:#fde68a; }
+      .bb-ann-tag.win   { background:#fce7f3; color:#9d174d; border-color:#fbcfe8; }
+      .bb-ann-headline { font-size: 15px; font-weight: 800; color:#0f172a; line-height: 1.3; margin: 0; }
+      .bb-ann-body {
+        font-size: 12.5px; color:#475569; line-height: 1.5;
+        display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+        overflow:hidden; margin:0;
+      }
+      .bb-ann-foot { display:flex; justify-content:space-between; align-items:center; margin-top:auto; padding-top:4px; }
+      .bb-ann-date { font-size: 11px; color:#94a3b8; font-weight:600; }
+      .bb-ann-cta  { font-size: 11.5px; font-weight: 700; color:#4f46e5; text-decoration:none; }
+
+      /* ----- Certificate slot ----- */
+      .bb-cert-stage { position: relative; height: 100%; width:100%; cursor: pointer; }
+      .bb-cert-card {
+        position: absolute; inset: 0;
+        opacity: 0; transform: translateX(20px);
+        transition: opacity .55s ease, transform .55s ease;
+        pointer-events: none;
+        display:flex; flex-direction: column;
+      }
+      .bb-cert-card.active { opacity:1; transform:translateX(0); pointer-events:auto; }
+      .bb-cert-img {
+        flex: 1 1 auto;
+        display:flex; flex-direction:column; align-items:center; justify-content:center;
+        color:#fff; padding: 14px; text-align:center; gap:6px;
+        font-family: 'Georgia', serif;
+      }
+      .bb-cert-img.ielts { background: linear-gradient(135deg,#dc2626,#991b1b); }
+      .bb-cert-img.cefr  { background: linear-gradient(135deg,#0891b2,#155e75); }
+      .bb-cert-img.camb  { background: linear-gradient(135deg,#1e3a8a,#1e1b4b); }
+      .bb-cert-img.sat   { background: linear-gradient(135deg,#0f766e,#134e4a); }
+      .bb-cert-exam     { font-size: 11px; font-weight: 700; letter-spacing:.18em; opacity:.85; text-transform: uppercase; }
+      .bb-cert-score    { font-size: 36px; font-weight: 900; line-height:1; }
+      .bb-cert-name-img { font-size: 12px; font-style:italic; opacity:.9; margin-top:4px; }
+      .bb-cert-foot {
+        padding: 10px 14px 12px; background:#fff;
+        display:flex; flex-direction:column; gap:2px; flex-shrink:0;
+      }
+      .bb-cert-name { font-size: 13px; font-weight: 700; color:#0f172a; }
+      .bb-cert-sub  { font-size: 11.5px; color:#64748b; }
+
+      /* Full-screen menu (gallery of all items) */
+      .bb-menu {
+        position: fixed; inset: 0; background: rgba(15,23,42,.85);
+        z-index: 9999; display:none; align-items:center; justify-content:center;
+        padding: 24px; backdrop-filter: blur(4px);
+      }
+      .bb-menu.open { display:flex; }
+      .bb-menu-card {
+        background:#fff; border-radius: 20px;
+        width: 100%; max-width: 960px; max-height: 86vh;
+        overflow: hidden; display:flex; flex-direction:column;
+        box-shadow: 0 24px 70px rgba(0,0,0,.5);
+      }
+      .bb-menu-head {
+        padding: 18px 22px; border-bottom: 1px solid #e2e8f0;
+        display:flex; align-items:center; justify-content:space-between; gap: 10px;
+        background: linear-gradient(180deg, #f8fafc, #fff);
+      }
+      .bb-menu-title {
+        font-size: 18px; font-weight: 800; color:#0f172a; margin: 0;
+        display:flex; align-items:center; gap:8px;
+      }
+      .bb-menu-count {
+        font-size: 11px; font-weight: 700; color:#64748b;
+        background:#f1f5f9; border:1px solid #e2e8f0;
+        padding: 3px 8px; border-radius:999px;
+      }
+      .bb-menu-close {
+        width: 36px; height: 36px; border-radius: 50%;
+        border: 1px solid #e2e8f0; background: #fff; color:#475569;
+        font-size: 22px; line-height:1; cursor: pointer;
+        display:flex; align-items:center; justify-content:center;
+        transition: background .15s, color .15s;
+      }
+      .bb-menu-close:hover { background:#f1f5f9; color:#0f172a; }
+      .bb-menu-body {
+        padding: 20px 22px 22px; overflow-y: auto;
+      }
+
+      /* Announcement menu: vertical list */
+      .bb-menu-ann-list { display:flex; flex-direction:column; gap: 14px; }
+      .bb-menu-ann-row {
+        display:flex; gap: 14px; align-items: stretch;
+        border: 1px solid #e2e8f0; border-radius: 14px; overflow:hidden;
+        background:#fff;
+        transition: transform .15s, box-shadow .15s;
+      }
+      .bb-menu-ann-row:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(15,23,42,.08); }
+      .bb-menu-ann-row .bb-ann-cover {
+        flex: 0 0 130px; height: auto; border-radius: 0;
+        font-size: 42px;
+      }
+      .bb-menu-ann-row-body {
+        flex: 1; padding: 14px 16px 14px 4px;
+        display:flex; flex-direction:column; gap: 6px;
+      }
+
+      /* Certificate menu: grid */
+      .bb-menu-cert-grid {
+        display: grid; gap: 14px;
+        grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      }
+      .bb-menu-cert-tile {
+        background:#fff; border: 1px solid #e2e8f0; border-radius: 14px;
+        overflow:hidden; cursor: pointer;
+        transition: transform .15s, box-shadow .15s;
+      }
+      .bb-menu-cert-tile:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(15,23,42,.12); }
+      .bb-menu-cert-tile .bb-cert-img { aspect-ratio: 4/3; }
+
+      @media (max-width: 640px) {
+        .bb-menu { padding: 12px; }
+        .bb-menu-card { max-height: 92vh; border-radius: 16px; }
+        .bb-menu-head { padding: 14px 16px; }
+        .bb-menu-title { font-size: 16px; }
+        .bb-menu-body { padding: 14px 14px 16px; }
+        .bb-menu-ann-row { flex-direction: column; }
+        .bb-menu-ann-row .bb-ann-cover { flex: 0 0 100px; height: 100px; }
+        .bb-menu-ann-row-body { padding: 0 14px 14px; }
+        .bb-menu-cert-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      }
+
+      @media (max-width: 640px) {
+        .bb-row { grid-template-columns: 1fr; gap: 12px; }
+        .bb-slot { min-height: 240px; }
+        .bb-title { font-size: 15px; }
+      }
+    </style>
+
+    <section class="section bb-section" id="bbBillboardSection">
+      <div class="bb-head">
+        <div class="bb-title-group">
+          <h2 class="bb-title">📢 Announcements &amp; 🏆 Achievements</h2>
+        </div>
+        <div class="bb-dots" id="bbDots"></div>
+      </div>
+      <div class="bb-row" id="bbRow">
+        <div class="bb-slot" id="bbSlotAnn">
+          <span class="bb-slot-label">📢 Announcement <span class="bb-slot-count" id="bbAnnCount"><b>1</b> / 4</span></span>
+          <button class="bb-nav prev" id="bbAnnPrev" aria-label="Previous announcement">‹</button>
+          <button class="bb-nav next" id="bbAnnNext" aria-label="Next announcement">›</button>
+          <div class="bb-ann-stage" id="bbAnnStage"></div>
+        </div>
+        <div class="bb-slot" id="bbSlotCert">
+          <span class="bb-slot-label">🏆 Achievement <span class="bb-slot-count" id="bbCertCount"><b>1</b> / 8</span></span>
+          <button class="bb-nav prev" id="bbCertPrev" aria-label="Previous certificate">‹</button>
+          <button class="bb-nav next" id="bbCertNext" aria-label="Next certificate">›</button>
+          <div class="bb-cert-stage" id="bbCertStage"></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="bb-menu" id="bbMenuAnn" role="dialog" aria-modal="true" aria-labelledby="bbMenuAnnTitle">
+      <div class="bb-menu-card">
+        <div class="bb-menu-head">
+          <h3 class="bb-menu-title" id="bbMenuAnnTitle">📢 All Announcements <span class="bb-menu-count" id="bbMenuAnnCount"></span></h3>
+          <button class="bb-menu-close" data-close="ann" aria-label="Close">×</button>
+        </div>
+        <div class="bb-menu-body">
+          <div class="bb-menu-ann-list" id="bbMenuAnnList"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bb-menu" id="bbMenuCert" role="dialog" aria-modal="true" aria-labelledby="bbMenuCertTitle">
+      <div class="bb-menu-card">
+        <div class="bb-menu-head">
+          <h3 class="bb-menu-title" id="bbMenuCertTitle">🏆 All Achievements <span class="bb-menu-count" id="bbMenuCertCount"></span></h3>
+          <button class="bb-menu-close" data-close="cert" aria-label="Close">×</button>
+        </div>
+        <div class="bb-menu-body">
+          <div class="bb-menu-cert-grid" id="bbMenuCertGrid"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (async function bbInit(){
+        const annStage  = document.getElementById('bbAnnStage');
+        const certStage = document.getElementById('bbCertStage');
+        const dotsBar   = document.getElementById('bbDots');
+        const bbSectionEl = document.getElementById('bbBillboardSection');
+        if (!annStage || !certStage) return;
+
+        // ---- Fetch billboard data from Supabase, scoped to this centre ----
+        const _BB_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+        const _BB_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+        const _bbCenter = (window.__CENTER_ID || 'mock_stream').toString().trim();
+
+        const TAG_TO_CLS = { course:'event', new:'new', results:'win', event:'event', news:'' };
+        const TAG_LABEL  = { course:'Course', new:'New', results:'Results', event:'Event', news:'News' };
+        function _bbExamCls(t) {
+          t = String(t || '').toLowerCase();
+          if (t.indexOf('ielts') >= 0) return 'ielts';
+          if (t.indexOf('cefr') >= 0) return 'cefr';
+          if (t.indexOf('cambridge') >= 0) return 'camb';
+          if (t.indexOf('sat') >= 0) return 'sat';
+          return 'cefr';
+        }
+        function _bbDisplayName(full, vis) {
+          full = String(full || '').trim();
+          if (!full) return '';
+          if (vis === 'full') return full;
+          const parts = full.split(/\s+/);
+          if (vis === 'first') return parts[0];
+          return parts.map(p => p.charAt(0).toUpperCase() + '.').join(' ').trim();
+        }
+        function _bbFmtMonthYear(iso) {
+          if (!iso) return '';
+          const m = String(iso).match(/^(\d{4})-(\d{2})/);
+          if (!m) return iso;
+          const MON = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+          return MON[parseInt(m[2], 10) - 1] + ' ' + m[1];
+        }
+        function _bbFmtFullDate(iso) {
+          if (!iso) return '';
+          const m = String(iso).match(/^(\d{4})-(\d{2})-(\d{2})/);
+          if (!m) return iso;
+          const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+          return MON[parseInt(m[2], 10) - 1] + ' ' + parseInt(m[3], 10) + ', ' + m[1];
+        }
+
+        async function _bbFetch(table) {
+          try {
+            const todayIso = new Date().toISOString().slice(0, 10);
+            // Active-window filter via PostgREST: starts_at is null OR <= today; ends_at is null OR >= today
+            const dateFilter = '&or=(starts_at.is.null,starts_at.lte.' + todayIso + ')'
+                             + '&or=(ends_at.is.null,ends_at.gte.' + todayIso + ')';
+            const url = _BB_SB_URL + '/rest/v1/' + table
+                      + '?center_id=eq.' + encodeURIComponent(_bbCenter)
+                      + '&status=eq.published'
+                      + (table === 'center_announcements' ? dateFilter : '')
+                      + '&order=sort_order.asc,created_at.desc&select=*';
+            const r = await fetch(url, { headers: { apikey: _BB_SB_KEY, Authorization: 'Bearer ' + _BB_SB_KEY } });
+            if (!r.ok) return [];
+            return await r.json();
+          } catch (_e) { return []; }
+        }
+
+        const [annRows, certRows] = await Promise.all([
+          _bbFetch('center_announcements'),
+          _bbFetch('center_certificates')
+        ]);
+
+        const ANN = annRows.map(r => {
+          const tag = (r.tag || 'news').toLowerCase();
+          return {
+            cover:    r.cover_icon || '📢',
+            coverCls: r.cover_palette || 'c1',
+            tag:      TAG_LABEL[tag] || tag,
+            tagCls:   TAG_TO_CLS[tag] || '',
+            headline: r.title || '',
+            body:     r.body  || '',
+            date:     _bbFmtFullDate(r.created_at),
+            cta:      r.link_url ? 'Learn more →' : '',
+            linkUrl:  r.link_url || ''
+          };
+        });
+        const CERT = certRows.map(r => ({
+          name:     _bbDisplayName(r.student_name, r.name_visibility),
+          exam:     r.exam_type || '',
+          score:    r.score || '',
+          date:     _bbFmtMonthYear(r.exam_date),
+          cls:      _bbExamCls(r.exam_type),
+          imageUrl: r.certificate_image_url || '',
+          feedback: r.student_feedback || ''
+        }));
+
+        // No data → hide slot. If the toggle already hid it via display:none,
+        // this is a no-op. If both slots end up empty, hide the section.
+        const slotAnn  = document.getElementById('bbSlotAnn');
+        const slotCert = document.getElementById('bbSlotCert');
+        if (slotAnn  && !ANN.length)  slotAnn.style.display  = 'none';
+        if (slotCert && !CERT.length) slotCert.style.display = 'none';
+        if (bbSectionEl && !ANN.length && !CERT.length) {
+          bbSectionEl.style.display = 'none';
+          return;
+        }
+        if (bbSectionEl && (!ANN.length || !CERT.length)) {
+          const row = document.getElementById('bbRow');
+          if (row) row.style.gridTemplateColumns = '1fr';
+        }
+
+        function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'})[c]); }
+
+        function _bbCtaHtml(a) {
+          if (!a.linkUrl) return '';
+          return '<a class="bb-ann-cta" href="' + esc(a.linkUrl) + '" target="_blank" rel="noopener">' + esc(a.cta || 'Learn more →') + '</a>';
+        }
+
+        // Build announcement cards
+        ANN.forEach((a, i) => {
+          const el = document.createElement('article');
+          el.className = 'bb-ann-card' + (i === 0 ? ' active' : '');
+          el.innerHTML =
+            '<div class="bb-ann-cover ' + a.coverCls + '">' + a.cover + '</div>' +
+            '<div class="bb-ann-meta"><span class="bb-ann-tag ' + a.tagCls + '">' + esc(a.tag) + '</span></div>' +
+            '<h3 class="bb-ann-headline">' + esc(a.headline) + '</h3>' +
+            '<p class="bb-ann-body">' + esc(a.body) + '</p>' +
+            '<div class="bb-ann-foot"><span class="bb-ann-date">' + esc(a.date) + '</span>' + _bbCtaHtml(a) + '</div>';
+          annStage.appendChild(el);
+        });
+
+        // Build certificate cards
+        CERT.forEach((c, i) => {
+          const el = document.createElement('article');
+          el.className = 'bb-cert-card' + (i === 0 ? ' active' : '');
+          el.setAttribute('data-name', c.name);
+          el.setAttribute('data-exam', c.exam);
+          el.setAttribute('data-score', c.score);
+          el.setAttribute('data-date', c.date);
+          el.setAttribute('data-cls', c.cls);
+          const imgPart = c.imageUrl
+            ? '<div class="bb-cert-img" style="background-image:url(\'' + esc(c.imageUrl) + '\');background-size:cover;background-position:center;"></div>'
+            : '<div class="bb-cert-img ' + c.cls + '">' +
+                '<div class="bb-cert-exam">' + esc(c.exam) + '</div>' +
+                '<div class="bb-cert-score">' + esc(c.score) + '</div>' +
+                '<div class="bb-cert-name-img">' + esc(c.name) + '</div>' +
+              '</div>';
+          el.innerHTML = imgPart +
+            '<div class="bb-cert-foot"><div class="bb-cert-name">' + esc(c.name) + '</div><div class="bb-cert-sub">' + esc(c.exam) + ' · ' + esc(c.date) + '</div></div>';
+          certStage.appendChild(el);
+        });
+
+        // Pagination dots — one per slide pair (max of the two lengths)
+        const total = Math.max(ANN.length, CERT.length);
+        const safeMod = (i, n) => (n > 0 ? ((i % n) + n) % n : 0);
+        for (let i = 0; i < total; i++) {
+          const d = document.createElement('button');
+          d.className = 'bb-dot' + (i === 0 ? ' active' : '');
+          d.setAttribute('aria-label', 'Slide ' + (i + 1));
+          d.addEventListener('click', () => { annIdx = safeMod(i, ANN.length); certIdx = safeMod(i, CERT.length); render(); restart(); });
+          dotsBar.appendChild(d);
+        }
+
+        let annIdx = 0, certIdx = 0;
+        const annCountEl  = document.getElementById('bbAnnCount');
+        const certCountEl = document.getElementById('bbCertCount');
+        if (annCountEl)  annCountEl.innerHTML  = '<b>' + (ANN.length  ? 1 : 0) + '</b> / ' + ANN.length;
+        if (certCountEl) certCountEl.innerHTML = '<b>' + (CERT.length ? 1 : 0) + '</b> / ' + CERT.length;
+        function render() {
+          const annCards  = annStage.querySelectorAll('.bb-ann-card');
+          const certCards = certStage.querySelectorAll('.bb-cert-card');
+          const dots      = dotsBar.querySelectorAll('.bb-dot');
+          annCards.forEach((el, i)  => el.classList.toggle('active', i === annIdx));
+          certCards.forEach((el, i) => el.classList.toggle('active', i === certIdx));
+          const dotIdx = total > 0 ? Math.max(annIdx, certIdx) % total : 0;
+          dots.forEach((el, i) => el.classList.toggle('active', i === dotIdx));
+          if (annCountEl)  annCountEl.innerHTML  = '<b>' + (ANN.length  ? annIdx  + 1 : 0) + '</b> / ' + ANN.length;
+          if (certCountEl) certCountEl.innerHTML = '<b>' + (CERT.length ? certIdx + 1 : 0) + '</b> / ' + CERT.length;
+        }
+
+        let timer = null;
+        function start() {
+          if (timer) return;
+          if (total <= 1) return; // nothing to rotate
+          timer = setInterval(() => {
+            if (ANN.length)  annIdx  = (annIdx  + 1) % ANN.length;
+            if (CERT.length) certIdx = (certIdx + 1) % CERT.length;
+            render();
+          }, 2000);
+        }
+        function stop()  { if (timer) { clearInterval(timer); timer = null; } }
+        function restart() { stop(); start(); }
+
+        // Per-slot prev / next arrows
+        document.getElementById('bbAnnPrev').addEventListener('click', () => { if (!ANN.length) return;  annIdx = safeMod(annIdx - 1, ANN.length);  render(); restart(); });
+        document.getElementById('bbAnnNext').addEventListener('click', () => { if (!ANN.length) return;  annIdx = safeMod(annIdx + 1, ANN.length);  render(); restart(); });
+        document.getElementById('bbCertPrev').addEventListener('click', () => { if (!CERT.length) return; certIdx = safeMod(certIdx - 1, CERT.length); render(); restart(); });
+        document.getElementById('bbCertNext').addEventListener('click', () => { if (!CERT.length) return; certIdx = safeMod(certIdx + 1, CERT.length); render(); restart(); });
+
+        // Pause on hover
+        const row = document.getElementById('bbRow');
+        row.addEventListener('mouseenter', stop);
+        row.addEventListener('mouseleave', start);
+
+        // ----- Full-menu galleries -----
+        const menuAnn      = document.getElementById('bbMenuAnn');
+        const menuCert     = document.getElementById('bbMenuCert');
+        const menuAnnList  = document.getElementById('bbMenuAnnList');
+        const menuCertGrid = document.getElementById('bbMenuCertGrid');
+        const menuAnnCount = document.getElementById('bbMenuAnnCount');
+        const menuCertCount= document.getElementById('bbMenuCertCount');
+
+        if (menuAnnCount)  menuAnnCount.textContent  = ANN.length + ' total';
+        if (menuCertCount) menuCertCount.textContent = CERT.length + ' total';
+
+        // Render full announcement list (vertical)
+        ANN.forEach(a => {
+          const row = document.createElement('article');
+          row.className = 'bb-menu-ann-row';
+          row.innerHTML =
+            '<div class="bb-ann-cover ' + a.coverCls + '">' + a.cover + '</div>' +
+            '<div class="bb-menu-ann-row-body">' +
+              '<div class="bb-ann-meta"><span class="bb-ann-tag ' + a.tagCls + '">' + esc(a.tag) + '</span></div>' +
+              '<h4 class="bb-ann-headline">' + esc(a.headline) + '</h4>' +
+              '<p class="bb-ann-body">' + esc(a.body) + '</p>' +
+              '<div class="bb-ann-foot"><span class="bb-ann-date">' + esc(a.date) + '</span>' + _bbCtaHtml(a) + '</div>' +
+            '</div>';
+          menuAnnList.appendChild(row);
+        });
+
+        // Render full certificate grid (with optional student feedback quote)
+        CERT.forEach(c => {
+          const tile = document.createElement('article');
+          tile.className = 'bb-menu-cert-tile';
+          const imgPart = c.imageUrl
+            ? '<div class="bb-cert-img" style="background-image:url(\'' + esc(c.imageUrl) + '\');background-size:cover;background-position:center;aspect-ratio:4/3;"></div>'
+            : '<div class="bb-cert-img ' + c.cls + '">' +
+                '<div class="bb-cert-exam">' + esc(c.exam) + '</div>' +
+                '<div class="bb-cert-score">' + esc(c.score) + '</div>' +
+                '<div class="bb-cert-name-img">' + esc(c.name) + '</div>' +
+              '</div>';
+          const fbPart = c.feedback
+            ? '<blockquote style="margin:0;padding:8px 10px;font-size:12px;font-style:italic;color:#475569;background:#f8fafc;border-left:3px solid #4f46e5;border-radius:0 6px 6px 0;line-height:1.45;">' + esc(c.feedback) + '</blockquote>'
+            : '';
+          tile.innerHTML = imgPart +
+            '<div class="bb-cert-foot">' +
+              '<div class="bb-cert-name">' + esc(c.name) + '</div>' +
+              '<div class="bb-cert-sub">' + esc(c.exam) + (c.date ? ' · ' + esc(c.date) : '') + '</div>' +
+              fbPart +
+            '</div>';
+          menuCertGrid.appendChild(tile);
+        });
+
+        function openMenu(which) {
+          stop();
+          (which === 'ann' ? menuAnn : menuCert).classList.add('open');
+        }
+        function closeMenus() {
+          menuAnn.classList.remove('open');
+          menuCert.classList.remove('open');
+          start();
+        }
+
+        // Click handlers: stage card click opens the corresponding menu
+        annStage.addEventListener('click', e => {
+          // Don't open menu if user clicked the inline CTA link
+          if (e.target.closest('.bb-ann-cta')) return;
+          openMenu('ann');
+        });
+        certStage.addEventListener('click', () => openMenu('cert'));
+
+        // Close handlers
+        document.querySelectorAll('.bb-menu-close').forEach(btn => btn.addEventListener('click', closeMenus));
+        [menuAnn, menuCert].forEach(m => {
+          m.addEventListener('click', e => { if (e.target === m) closeMenus(); });
+        });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenus(); });
+
+        render();
+        start();
+      })();
+    </script>
+
     <!-- ── SKILL GRID ─────────────────────────────────────── -->
     <section class="section">
       <div class="skill-grid">
@@ -2835,6 +3395,23 @@
         document.querySelectorAll('[onclick*="msv3HelpPanel"], [data-open-panel="msv3HelpPanel"]').forEach(function (el) {
           _msv3DeactivateEl(el, 'helpCenter');
         });
+      }
+
+      // Billboards (announcements + achievements) — fully hide each slot
+      // unless explicitly enabled (default-OFF per centre). If neither is
+      // enabled, hide the wrapping section.
+      var annSlot  = document.getElementById('bbSlotAnn');
+      var certSlot = document.getElementById('bbSlotCert');
+      var bbSection= document.getElementById('bbBillboardSection');
+      var annOn  = cfg.announcements === true;
+      var certOn = cfg.certificates  === true;
+      if (annSlot  && !annOn)  annSlot.style.display  = 'none';
+      if (certSlot && !certOn) certSlot.style.display = 'none';
+      if (bbSection && !annOn && !certOn) {
+        bbSection.style.display = 'none';
+      } else if (bbSection && (annOn ^ certOn)) {
+        var row = document.getElementById('bbRow');
+        if (row) row.style.gridTemplateColumns = '1fr';
       }
     }
     _msv3ApplyFeatures();
