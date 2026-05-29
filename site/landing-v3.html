@@ -2534,6 +2534,7 @@
           return {
             cover:    r.cover_icon || '📢',
             coverCls: r.cover_palette || 'c1',
+            imageUrl: r.image_url || '',
             tag:      TAG_LABEL[tag] || tag,
             tagCls:   TAG_TO_CLS[tag] || '',
             headline: r.title || '',
@@ -2575,12 +2576,19 @@
           return '<a class="bb-ann-cta" href="' + esc(a.linkUrl) + '" target="_blank" rel="noopener">' + esc(a.cta || 'Learn more →') + '</a>';
         }
 
+        function _bbAnnCoverHtml(a) {
+          if (a.imageUrl) {
+            return '<div class="bb-ann-cover" style="background:url(\'' + esc(a.imageUrl) + '\') center/cover; font-size:0;"></div>';
+          }
+          return '<div class="bb-ann-cover ' + a.coverCls + '">' + a.cover + '</div>';
+        }
+
         // Build announcement cards
         ANN.forEach((a, i) => {
           const el = document.createElement('article');
           el.className = 'bb-ann-card' + (i === 0 ? ' active' : '');
           el.innerHTML =
-            '<div class="bb-ann-cover ' + a.coverCls + '">' + a.cover + '</div>' +
+            _bbAnnCoverHtml(a) +
             '<div class="bb-ann-meta"><span class="bb-ann-tag ' + a.tagCls + '">' + esc(a.tag) + '</span></div>' +
             '<h3 class="bb-ann-headline">' + esc(a.headline) + '</h3>' +
             '<p class="bb-ann-body">' + esc(a.body) + '</p>' +
@@ -2677,7 +2685,7 @@
           const row = document.createElement('article');
           row.className = 'bb-menu-ann-row';
           row.innerHTML =
-            '<div class="bb-ann-cover ' + a.coverCls + '">' + a.cover + '</div>' +
+            _bbAnnCoverHtml(a) +
             '<div class="bb-menu-ann-row-body">' +
               '<div class="bb-ann-meta"><span class="bb-ann-tag ' + a.tagCls + '">' + esc(a.tag) + '</span></div>' +
               '<h4 class="bb-ann-headline">' + esc(a.headline) + '</h4>' +

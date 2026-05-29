@@ -112,10 +112,10 @@
       throw new Error('delete failed (' + r.status + '): ' + t);
     }
   }
-  async function uploadCertImage(file, centerId) {
+  async function uploadImage(file, centerId, prefix) {
     var ext = (file.name.match(/\.([a-z0-9]+)$/i) || [,'jpg'])[1].toLowerCase();
     var safe = (centerId || 'unknown').replace(/[^a-z0-9_-]/gi, '');
-    var path = 'certificates/' + safe + '/' + Date.now() + '_' + Math.random().toString(36).slice(2, 8) + '.' + ext;
+    var path = (prefix || 'misc') + '/' + safe + '/' + Date.now() + '_' + Math.random().toString(36).slice(2, 8) + '.' + ext;
     var sess = await _session();
     var token = (sess && sess.access_token) || SB_KEY;
     var r = await fetch(SB_URL + '/storage/v1/object/' + BUCKET + '/' + path, {
@@ -134,6 +134,8 @@
     }
     return SB_URL + '/storage/v1/object/public/' + BUCKET + '/' + path;
   }
+  function uploadCertImage(file, centerId) { return uploadImage(file, centerId, 'certificates'); }
+  function uploadAnnImage(file, centerId)  { return uploadImage(file, centerId, 'announcements'); }
 
   // ── styles ────────────────────────────────────────────────────────
   var STYLES = '\
@@ -273,8 +275,11 @@
   function _annCardHtml(r) {
     var pal = r.cover_palette || 'c1';
     var statusCls = r.status === 'published' ? 'published' : 'draft';
+    var cover = r.image_url
+      ? '<div class="cov" style="background:url(\'' + _attr(r.image_url) + '\') center/cover;"></div>'
+      : '<div class="cov">' + _esc(r.cover_icon || '📢') + '</div>';
     return '<div class="bbA-card ' + pal + '" data-id="' + _attr(r.id) + '">' +
-      '<div class="cov">' + _esc(r.cover_icon || '📢') + '</div>' +
+      cover +
       '<div class="ttl">' + _esc(r.title) + '</div>' +
       '<div class="meta"><span>' + _esc((r.tag || '').toUpperCase()) + '</span><span class="bbA-status ' + statusCls + '">' + statusCls + '</span></div>' +
       '<div class="actions">' +
@@ -392,7 +397,7 @@
       msg.textContent = 'Saving…';
       try {
         var data;
-        if (isAnn) data = _readAnnForm(modal);
+        if (isAnn) data = await _readAnnForm(modal);
         else       data = await _readCertForm(modal);
         data.center_id = state.centerId;
         await saveRow(isAnn ? 'center_announcements' : 'center_certificates', data, existing && existing.id);
@@ -413,12 +418,15 @@
     return '\
       <div class="bbA-field"><label>Title *</label><input id="f_title" type="text" value="' + _attr(r.title) + '" placeholder="Summer IELTS Crash Course — enrollment open" /></div>\
       <div class="bbA-field"><label>Body</label><textarea id="f_body" placeholder="Two short sentences describing the announcement.">' + _esc(r.body) + '</textarea></div>\
+      <div class="bbA-field"><label>Cover image (optional)</label><input id="f_annfile" type="file" accept="image/*" />' +
+        (r.image_url ? '<img class="bbA-preview" src="' + _attr(r.image_url) + '" alt="current" />' : '') +
+        '<div class="bbA-fileinfo">If set, this image replaces the emoji cover on the card.' + (r.image_url ? ' Leave empty to keep the current image.' : '') + '</div></div>\
       <div class="bbA-row">\
         <div class="bbA-field"><label>Tag</label><select id="f_tag">' + tagOpts + '</select></div>\
-        <div class="bbA-field"><label>Cover gradient</label><select id="f_pal">' + palOpts + '</select></div>\
+        <div class="bbA-field"><label>Cover gradient (fallback)</label><select id="f_pal">' + palOpts + '</select></div>\
       </div>\
       <div class="bbA-row">\
-        <div class="bbA-field"><label>Cover icon (emoji)</label><input id="f_cover" type="text" maxlength="6" value="' + _attr(r.cover_icon || '📢') + '" /></div>\
+        <div class="bbA-field"><label>Cover icon emoji (fallback)</label><input id="f_cover" type="text" maxlength="6" value="' + _attr(r.cover_icon || '📢') + '" /></div>\
         <div class="bbA-field"><label>Status</label><select id="f_status">' + statusOpts + '</select></div>\
       </div>\
       <div class="bbA-row">\
@@ -427,10 +435,15 @@
       </div>\
       <div class="bbA-field"><label>Link URL (optional)</label><input id="f_link" type="url" placeholder="https://…" value="' + _attr(r.link_url) + '" /></div>';
   }
-  function _readAnnForm(modal) {
+  async function _readAnnForm(modal) {
     var title = modal.querySelector('#f_title').value.trim();
     if (!title) throw new Error('Title is required');
-    return {
+    var file = modal.querySelector('#f_annfile').files[0];
+    var imageUrl = null;
+    if (file) {
+      imageUrl = await uploadAnnImage(file, state.centerId);
+    }
+    var out = {
       title:          title,
       body:           modal.querySelector('#f_body').value,
       tag:            modal.querySelector('#f_tag').value,
@@ -441,6 +454,8 @@
       link_url:       modal.querySelector('#f_link').value || null,
       status:         modal.querySelector('#f_status').value
     };
+    if (imageUrl) out.image_url = imageUrl;
+    return out;
   }
 
   function _certFormHtml(r) {
