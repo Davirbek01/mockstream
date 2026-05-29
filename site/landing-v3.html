@@ -3099,13 +3099,9 @@
           stop();
           (which === 'ann' ? menuAnn : menuCert).classList.add('open');
           _lockBody();
+          _bbPushOverlay();
         }
-        function closeMenus() {
-          menuAnn.classList.remove('open');
-          menuCert.classList.remove('open');
-          _unlockBody();
-          start();
-        }
+        function closeMenus() { _bbCloseRequest(); }
 
         // ----- Generic detail popup (announcement OR certificate) -----
         const bbDetail     = document.getElementById('bbDetail');
@@ -3178,10 +3174,41 @@
             document.body.classList.remove('bb-overlay-open');
           }
         }
+
+        // Hook the device/browser Back button: when an overlay is open
+        // and Back is pressed, intercept popstate and close the overlay
+        // instead of navigating away.
+        let bbOverlayPushed = false;
+        function _bbPushOverlay() {
+          if (!bbOverlayPushed) {
+            try { history.pushState({ bb: 'overlay' }, ''); } catch (_e) {}
+            bbOverlayPushed = true;
+          }
+        }
+        function _bbHideAll() {
+          bbDetail.classList.remove('open');
+          menuAnn.classList.remove('open');
+          menuCert.classList.remove('open');
+          _unlockBody();
+          start();
+        }
+        function _bbCloseRequest() {
+          if (bbOverlayPushed) {
+            try { history.back(); } catch (_e) { _bbHideAll(); bbOverlayPushed = false; }
+          } else {
+            _bbHideAll();
+          }
+        }
+        window.addEventListener('popstate', () => {
+          if (bbOverlayPushed) {
+            bbOverlayPushed = false;
+            _bbHideAll();
+          }
+        });
         function openDetail(type, data) {
           if (!data) return;
           stop();
-          // close any open gallery
+          // close any open gallery (no history nav — single overlay slot)
           menuAnn.classList.remove('open');
           menuCert.classList.remove('open');
           if (type === 'cert') _detailFillCert(data);
@@ -3189,8 +3216,9 @@
           bbDetail.classList.add('open');
           bbDetail.scrollTop = 0;
           _lockBody();
+          _bbPushOverlay();
         }
-        function closeDetail() { bbDetail.classList.remove('open'); _unlockBody(); start(); }
+        function closeDetail() { _bbCloseRequest(); }
         bbDetClose.addEventListener('click', closeDetail);
         bbDetail.addEventListener('click', e => { if (e.target === bbDetail) closeDetail(); });
 
