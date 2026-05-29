@@ -199,6 +199,13 @@
     .bbA-consent input{margin-top:2px;}\
     .bbA-fileinfo{font-size:11px;color:#64748b;margin-top:4px;}\
     .bbA-preview{margin-top:6px;max-height:140px;border-radius:8px;}\
+    .bbA-filerow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}\
+    .bbA-filerow input[type="file"]{flex:1 1 200px;}\
+    .bbA-paste-btn{padding:7px 11px;border:1px solid #cbd5e1;background:#fff;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;color:#475569;white-space:nowrap;font-family:inherit;}\
+    .bbA-paste-btn:hover{background:#f8fafc;border-color:#94a3b8;color:#0f172a;}\
+    .bbA-paste-btn:active{transform:scale(.97);}\
+    .bbA-paste-status{font-size:11px;color:#16a34a;margin-top:4px;min-height:14px;font-weight:600;}\
+    .bbA-paste-status.err{color:#dc2626;}\
     </style>';
 
   // ── render ────────────────────────────────────────────────────────
@@ -387,6 +394,45 @@
       '</div>';
     document.body.appendChild(modal);
 
+    // Wire the 📋 Paste buttons — read an image from the clipboard and
+    // stuff it into the matching <input type="file"> via DataTransfer.
+    modal.querySelectorAll('[data-paste-target]').forEach(function (btn) {
+      btn.addEventListener('click', async function () {
+        var targetId = btn.getAttribute('data-paste-target');
+        var input    = modal.querySelector('#' + targetId);
+        var status   = modal.querySelector('#' + targetId + '_status');
+        if (!input || !status) return;
+        status.className = 'bbA-paste-status';
+        status.textContent = 'Reading clipboard…';
+        try {
+          if (!navigator.clipboard || !navigator.clipboard.read) {
+            throw new Error('Clipboard not available in this browser. Paste with Ctrl+V works in the latest Chrome / Edge.');
+          }
+          var items = await navigator.clipboard.read();
+          for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            for (var j = 0; j < item.types.length; j++) {
+              var t = item.types[j];
+              if (t.indexOf('image/') === 0) {
+                var blob = await item.getType(t);
+                var ext  = t.split('/')[1] || 'png';
+                var file = new File([blob], 'pasted.' + ext, { type: t });
+                var dt   = new DataTransfer();
+                dt.items.add(file);
+                input.files = dt.files;
+                status.textContent = '✓ Pasted ' + ext.toUpperCase() + ' image (' + Math.round(blob.size / 1024) + ' KB)';
+                return;
+              }
+            }
+          }
+          throw new Error('No image found on clipboard. Copy an image first (Win+Shift+S, etc).');
+        } catch (err) {
+          status.className = 'bbA-paste-status err';
+          status.textContent = err.message || String(err);
+        }
+      });
+    });
+
     function close() { modal.remove(); }
     modal.querySelector('.bbA-mclose').addEventListener('click', close);
     modal.querySelector('[data-act="cancel"]').addEventListener('click', close);
@@ -418,9 +464,11 @@
     return '\
       <div class="bbA-field"><label>Title *</label><input id="f_title" type="text" value="' + _attr(r.title) + '" placeholder="Summer IELTS Crash Course — enrollment open" /></div>\
       <div class="bbA-field"><label>Body</label><textarea id="f_body" rows="5" placeholder="Two short sentences. Use a new line starting with &quot;- &quot; for bullet points.&#10;Example:&#10;Our 6-week intensive program includes:&#10;- Daily mocks&#10;- Personal feedback&#10;- Speaking club">' + _esc(r.body) + '</textarea><div class="bbA-fileinfo">Tip: start a line with <code>- </code> for a bullet, wrap text in <code>**stars**</code> for <b>bold</b>.</div></div>\
-      <div class="bbA-field"><label>Cover image (optional)</label><input id="f_annfile" type="file" accept="image/*" />' +
+      <div class="bbA-field"><label>Cover image (optional)</label>\
+        <div class="bbA-filerow"><input id="f_annfile" type="file" accept="image/*" /><button type="button" class="bbA-paste-btn" data-paste-target="f_annfile">📋 Paste</button></div>\
+        <div class="bbA-paste-status" id="f_annfile_status"></div>' +
         (r.image_url ? '<img class="bbA-preview" src="' + _attr(r.image_url) + '" alt="current" />' : '') +
-        '<div class="bbA-fileinfo">If set, this image replaces the emoji cover on the card.' + (r.image_url ? ' Leave empty to keep the current image.' : '') + '</div></div>\
+        '<div class="bbA-fileinfo">If set, this image replaces the emoji cover on the card. Paste an image directly from clipboard with the 📋 Paste button.' + (r.image_url ? ' Leave empty to keep the current image.' : '') + '</div></div>\
       <div class="bbA-row">\
         <div class="bbA-field"><label>Tag</label><select id="f_tag">' + tagOpts + '</select></div>\
         <div class="bbA-field"><label>Cover gradient (fallback)</label><select id="f_pal">' + palOpts + '</select></div>\
@@ -485,10 +533,14 @@
         <div class="bbA-field"><label>Score / band *</label><input id="f_score" type="text" value="' + _attr(r.score) + '" placeholder="8.0 / C1 / 1480" /></div>\
         <div class="bbA-field"><label>Exam date (optional)</label><input id="f_date" type="date" value="' + _attr(r.exam_date) + '" /></div>\
       </div>\
-      <div class="bbA-field"><label>Primary image (e.g., certificate scan)</label><input id="f_file" type="file" accept="image/*" />' +
+      <div class="bbA-field"><label>Primary image (e.g., certificate scan)</label>\
+        <div class="bbA-filerow"><input id="f_file" type="file" accept="image/*" /><button type="button" class="bbA-paste-btn" data-paste-target="f_file">📋 Paste</button></div>\
+        <div class="bbA-paste-status" id="f_file_status"></div>' +
         (r.certificate_image_url ? '<img class="bbA-preview" src="' + _attr(r.certificate_image_url) + '" alt="current" />' : '') +
-        '<div class="bbA-fileinfo">Leave empty to keep ' + (r.certificate_image_url ? 'the current image.' : 'no image (a styled placeholder will be shown).') + '</div></div>\
-      <div class="bbA-field"><label>Secondary image (optional, e.g., student testimonial screenshot)</label><input id="f_file2" type="file" accept="image/*" />' +
+        '<div class="bbA-fileinfo">Leave empty to keep ' + (r.certificate_image_url ? 'the current image.' : 'no image (a styled placeholder will be shown).') + ' Paste from clipboard with 📋.</div></div>\
+      <div class="bbA-field"><label>Secondary image (optional, e.g., student testimonial screenshot)</label>\
+        <div class="bbA-filerow"><input id="f_file2" type="file" accept="image/*" /><button type="button" class="bbA-paste-btn" data-paste-target="f_file2">📋 Paste</button></div>\
+        <div class="bbA-paste-status" id="f_file2_status"></div>' +
         (r.secondary_image_url ? '<img class="bbA-preview" src="' + _attr(r.secondary_image_url) + '" alt="current" />' : '') +
         '<div class="bbA-fileinfo">' + (r.secondary_image_url ? 'Leave empty to keep the current image. ' : '') + 'Both images appear stacked inside the detail popup.</div></div>\
       <div class="bbA-field"><label>Student feedback (testimonial, optional)</label><textarea id="f_fb" rows="4" placeholder="The mock interviews were exactly like the real exam. - Lots of practice - Helpful tutors">' + _esc(r.student_feedback) + '</textarea><div class="bbA-fileinfo">Tip: same formatting as announcements — <code>- </code> for bullets, <code>**stars**</code> for <b>bold</b>.</div></div>\
