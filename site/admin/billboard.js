@@ -723,7 +723,7 @@
           <button type="button" class="bbA-exam-btn' + (examMode === 'ielts' ? ' active' : '') + '" data-exam="ielts">🇬🇧 IELTS</button>\
         </div>\
       </div>\
-      <div class="bbA-field"><label>Student name *</label><input id="f_name" type="text" value="' + _attr(r.student_name) + '" placeholder="Aziza Karimova" /></div>\
+      <div class="bbA-field"><label>Student name (optional)</label><input id="f_name" type="text" value="' + _attr(r.student_name) + '" placeholder="Aziza Karimova" /></div>\
       <div class="bbA-row">\
         <div class="bbA-field"><label>Score *</label><input id="f_score" type="number" inputmode="decimal" value="' + _attr(r.score) + '" /><div class="bbA-cefr-hint" id="bbA_cefr_hint"></div></div>\
         <div class="bbA-field"><label>Exam date (optional)</label><input id="f_date" type="date" value="' + _attr(r.exam_date) + '" /></div>\
@@ -740,13 +740,47 @@
         '<div class="bbA-fileinfo">' + (r.secondary_image_url ? 'Leave empty to keep the current image. ' : '') + 'Both images appear stacked inside the detail popup.</div></div>\
       <div class="bbA-field"><label>Student feedback (testimonial, optional)</label><textarea id="f_fb" rows="4" placeholder="The mock interviews were exactly like the real exam. - Lots of practice - Helpful tutors">' + _esc(r.student_feedback) + '</textarea><div class="bbA-fileinfo">Tip: same formatting as announcements — <code>- </code> for bullets, <code>**stars**</code> for <b>bold</b>.</div></div>';
   }
+  // Generic congratulations + encouragement messages used when the
+  // testimonial field is left empty. Each one is 4+ lines of warm,
+  // positive copy that doesn't put words in the student's mouth.
+  // Picked at random per save so consecutive cards don't read the same.
+  var DEFAULT_FEEDBACKS = [
+    "Hard work always pays off, and this result is proof.\n" +
+    "Every late evening, every retake, every page of notes brought you here.\n" +
+    "Congratulations on a well-earned achievement — you should be proud.\n" +
+    "We wish you even bigger wins and brighter milestones ahead. 🎯",
+
+    "Discipline turns goals into certificates, and you've shown plenty of it.\n" +
+    "This score reflects real focus and patience — keep that energy going.\n" +
+    "We're proud to have been part of your journey so far.\n" +
+    "Wishing you greater achievements and the future you've been working for. ✨",
+
+    "Behind every score is a story of focus, patience and effort.\n" +
+    "This achievement reflects all of that, and so much more.\n" +
+    "Congratulations — you've earned every point of it.\n" +
+    "Onwards to the next chapter and even bigger milestones. 🚀",
+
+    "Hardworking students always get what they want, and you've proved it.\n" +
+    "Your consistency over the months has finally translated into this result.\n" +
+    "Take a moment to celebrate — you've earned it.\n" +
+    "We wish you even bigger achievements on the road ahead. 🌟",
+
+    "Some results are earned, not given. This is one of them.\n" +
+    "Long hours, real focus, and a clear goal — they all led here.\n" +
+    "Congratulations on a fantastic outcome.\n" +
+    "May this be the first of many bigger milestones to come. 💪"
+  ];
+
   async function _readCertForm(modal) {
     var name = modal.querySelector('#f_name').value.trim();
-    if (!name) throw new Error('Student name is required');
     var examMode = modal.querySelector('.bbA-exam-btn.active').getAttribute('data-exam');
     var exam = examMode === 'ielts' ? 'IELTS Academic' : 'CEFR Multilevel';
     var score = modal.querySelector('#f_score').value.trim();
     if (!score) throw new Error('Score is required');
+    var feedback = modal.querySelector('#f_fb').value.trim();
+    if (!feedback) {
+      feedback = DEFAULT_FEEDBACKS[Math.floor(Math.random() * DEFAULT_FEEDBACKS.length)];
+    }
     var file  = modal.querySelector('#f_file').files[0];
     var file2 = modal.querySelector('#f_file2').files[0];
     var imageUrl = null, secondaryUrl = null;
@@ -754,11 +788,11 @@
     if (file2) secondaryUrl = await uploadCertImage(file2, state.centerId);
     var out = {
       student_name:     name,
-      name_visibility:  'full',
+      name_visibility:  name ? 'full' : 'initials',
       exam_type:        exam,
       score:            score,
       exam_date:        modal.querySelector('#f_date').value || null,
-      student_feedback: modal.querySelector('#f_fb').value || null,
+      student_feedback: feedback,
       consent_given:    true,
       status:           'published'
     };
