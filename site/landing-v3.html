@@ -4678,6 +4678,12 @@
           Mock Settings
           <span class="msv3-row-arrow">🔒</span>
         </button>
+        <button type="button" class="msv3-row" id="msv3BillboardBtn"
+                title="Manage your centre's announcements and student achievements that appear on the landing page.">
+          <span class="msv3-row-icon">📢</span>
+          Billboard
+          <span class="msv3-row-arrow">🔒</span>
+        </button>
       </div>
 
       <div class="msv3-section">
@@ -5229,7 +5235,7 @@
     // result on window so subsequent opens are instant, and update the
     // lock badge based on the actual role.
     function _applyAdminLockUI(isAdmin) {
-      document.querySelectorAll('#msv3AdminBtn .msv3-row-arrow, #msv3PlatformBtn .msv3-row-arrow, #msv3AdminPanelBtn .msv3-row-arrow, #msv3ForceRefreshBtn .msv3-row-arrow, #msv3MockMgmtBtn .msv3-row-arrow')
+      document.querySelectorAll('#msv3AdminBtn .msv3-row-arrow, #msv3PlatformBtn .msv3-row-arrow, #msv3AdminPanelBtn .msv3-row-arrow, #msv3ForceRefreshBtn .msv3-row-arrow, #msv3MockMgmtBtn .msv3-row-arrow, #msv3BillboardBtn .msv3-row-arrow')
         .forEach(function (el) { el.textContent = isAdmin ? '→' : '🔒'; });
     }
     function refreshAdminLocks() {
@@ -5476,6 +5482,12 @@
     // end-to-end during the transition.
     document.getElementById('msv3AdminPanelBtn').addEventListener('click', function () {
       window.location.href = '/admin.html#centers';
+    });
+    // Billboard — opens the admin host directly on the Billboard panel.
+    // RLS scopes centre admins to their own centre automatically; super
+    // admins get the centre dropdown filter.
+    document.getElementById('msv3BillboardBtn').addEventListener('click', function () {
+      window.location.href = '/admin.html#billboard';
     });
     // Mock Settings — deep-link to landing.html with ?openMockMgmt=1.
     // First gate on super-admin role using the same Supabase JWT check

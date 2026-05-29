@@ -410,10 +410,15 @@
     { icon: '🛡️', label: 'IP Blocker',      href: '/ip-blocker.html' }
   ];
   function _escAttr(s) { return String(s).replace(/"/g, '&quot;'); }
+  // Panels available to centre admins (everything else is super-admin only).
+  var CENTER_ADMIN_PANELS = ['billboard'];
   function renderExtracted() {
     var holder = document.getElementById('admNavExtracted');
     if (!holder) return;
-    holder.innerHTML = Object.keys(PANELS).map(function (key) {
+    var isCenterAdmin = window.__admIsCenterAdmin === true;
+    holder.innerHTML = Object.keys(PANELS).filter(function (key) {
+      return !isCenterAdmin || CENTER_ADMIN_PANELS.indexOf(key) >= 0;
+    }).map(function (key) {
       var p = PANELS[key];
       return '<button class="adm-nav-item" data-panel="' + _escAttr(key) + '">' +
                '<span class="adm-nav-icon">' + (p.icon || '•') + '</span>' + p.label +
@@ -429,6 +434,8 @@
   function renderLegacy() {
     var holder = document.getElementById('admNavLegacy');
     if (!holder) return;
+    // Centre admins don't get the legacy super-admin tools.
+    if (window.__admIsCenterAdmin === true) { holder.innerHTML = ''; return; }
     holder.innerHTML = LEGACY_ITEMS.map(function (it) {
       return '<button class="adm-nav-item" data-legacy="' + (it.href || '') + '" data-newtab="' + (it.newTab ? '1' : '') + '">' +
                '<span class="adm-nav-icon">' + it.icon + '</span>' + it.label +
@@ -460,7 +467,10 @@
   async function _checkAdmin() {
     try {
       var info = await window.AdminAuth.currentRole();
-      return !!(info && info.role === 'super_admin');
+      // Both super-admin and centre admin can enter; individual panels
+      // do their own scoping (e.g. Billboard scopes a centre admin to
+      // their own centre via RLS).
+      return !!(info && (info.role === 'super_admin' || info.role === 'admin'));
     } catch (_e) { return false; }
   }
 
@@ -521,8 +531,8 @@
     content.innerHTML =
       '<div class="adm-gate">' +
         '<div class="adm-gate-icon">🔐</div>' +
-        '<h2>Super-admin sign-in required</h2>' +
-        '<p>Admin Panel is restricted to the super-admin account.</p>' +
+        '<h2>Admin sign-in required</h2>' +
+        '<p>Sign in with the admin account assigned to your centre to manage announcements and achievements.</p>' +
         '<button class="adm-gate-btn" id="admGateBtn">Sign in with Google</button>' +
       '</div>';
     document.getElementById('admGateBtn').addEventListener('click', function () {
@@ -642,14 +652,36 @@
       // kicks them back to _showGate.
       window.addEventListener('mockStream:userSignedIn', async function () {
         if (await _checkAdmin()) {
+          await _markRole();
+          renderExtracted(); renderLegacy();
           _unlock();
-          _activate(_readHashPanel());
+          _activate(_pickInitialPanel());
         }
       });
       return;
     }
+    await _markRole();
+    // Re-render now that we know the role (centre admins get filtered nav).
+    renderExtracted(); renderLegacy();
     _unlock();
-    _activate(_readHashPanel());
+    _activate(_pickInitialPanel());
+  }
+  // Flag the user's role so renderExtracted/renderLegacy can filter
+  // entries that are super-admin only.
+  async function _markRole() {
+    try {
+      var info = await window.AdminAuth.currentRole();
+      // currentRole returns 'super_admin' or 'admin' (centre admin) or null.
+      window.__admIsCenterAdmin = !!(info && info.role === 'admin');
+    } catch (_e) { window.__admIsCenterAdmin = false; }
+  }
+  // Centre admins land on billboard if they hash to a panel they can't use.
+  function _pickInitialPanel() {
+    var h = _readHashPanel();
+    if (window.__admIsCenterAdmin && CENTER_ADMIN_PANELS.indexOf(h) < 0) {
+      return CENTER_ADMIN_PANELS[0]; // 'billboard'
+    }
+    return h;
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', _boot);
