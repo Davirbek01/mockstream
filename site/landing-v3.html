@@ -2397,6 +2397,9 @@
       .bb-menu-ann-row { cursor: pointer; }
       .bb-detail-subtitle { font-size: 13px; color:#475569; margin: -4px 0 2px; }
       .bb-detail-subtitle:empty { display: none; }
+      /* Lock the page underneath when any popup is open so the landing
+         doesn't scroll along with the popup. */
+      body.bb-overlay-open { overflow: hidden; }
 
       /* ════ PC layout: side-by-side cover image + text ════ */
       @media (min-width: 641px) {
@@ -3095,10 +3098,12 @@
         function openMenu(which) {
           stop();
           (which === 'ann' ? menuAnn : menuCert).classList.add('open');
+          _lockBody();
         }
         function closeMenus() {
           menuAnn.classList.remove('open');
           menuCert.classList.remove('open');
+          _unlockBody();
           start();
         }
 
@@ -3165,6 +3170,14 @@
             : '<p style="color:#94a3b8;margin:8px 0 0;font-style:italic;">No testimonial provided.</p>';
           bbDetFoot.style.display = 'none';
         }
+        function _lockBody()   { document.body.classList.add('bb-overlay-open'); }
+        function _unlockBody() {
+          if (!bbDetail.classList.contains('open')
+              && !menuAnn.classList.contains('open')
+              && !menuCert.classList.contains('open')) {
+            document.body.classList.remove('bb-overlay-open');
+          }
+        }
         function openDetail(type, data) {
           if (!data) return;
           stop();
@@ -3175,8 +3188,9 @@
           else                 _detailFillAnn(data);
           bbDetail.classList.add('open');
           bbDetail.scrollTop = 0;
+          _lockBody();
         }
-        function closeDetail() { bbDetail.classList.remove('open'); start(); }
+        function closeDetail() { bbDetail.classList.remove('open'); _unlockBody(); start(); }
         bbDetClose.addEventListener('click', closeDetail);
         bbDetail.addEventListener('click', e => { if (e.target === bbDetail) closeDetail(); });
 
