@@ -2389,10 +2389,24 @@
         font-family: inherit;
       }
       .bb-more-btn:hover { text-decoration: underline; }
-      /* Gallery items also truncate. A Show-more button is appended
-         when the text actually overflows, and it opens the detail popup. */
-      .bb-menu-ann-row .bb-ann-body { max-height: 6em; }
-      .bb-menu-cert-tile .bb-cert-feedback { max-height: 7em; }
+      /* Gallery items truncate to keep tiles compact. A "Show more"
+         button is appended when the text actually overflows; clicking
+         opens the single-item detail popup. */
+      .bb-menu-ann-row  .bb-ann-body       { max-height: 4.6em; position: relative; }
+      .bb-menu-cert-tile .bb-cert-feedback { max-height: 3.5em; position: relative; }
+      /* Subtle three-dot / fade hint at the bottom when content is clamped */
+      .bb-menu-ann-row  .bb-ann-body::after,
+      .bb-menu-cert-tile .bb-cert-feedback::after {
+        content: '…';
+        position: absolute; right: 8px; bottom: 2px;
+        font-style: normal; color: #94a3b8; font-weight: 700;
+        background: linear-gradient(to right, transparent, #fff 30%);
+        padding-left: 18px;
+      }
+      .bb-menu-cert-tile .bb-cert-feedback::after { background: linear-gradient(to right, transparent, #f8fafc 30%); }
+      /* Hide the dots when the text fits (we set a data attribute after measuring) */
+      .bb-menu-ann-row  .bb-ann-body[data-fits="1"]::after,
+      .bb-menu-cert-tile .bb-cert-feedback[data-fits="1"]::after { display: none; }
       .bb-menu-cert-tile { cursor: pointer; }
       .bb-menu-ann-row { cursor: pointer; }
       .bb-detail-subtitle { font-size: 13px; color:#475569; margin: -4px 0 2px; }
@@ -3010,6 +3024,7 @@
           if (!el) return;
           requestAnimationFrame(() => {
             if (el.scrollHeight > el.clientHeight + 2) {
+              el.removeAttribute('data-fits');
               const btn = document.createElement('button');
               btn.className = 'bb-more-btn';
               btn.type = 'button';
@@ -3019,6 +3034,8 @@
                 openDetail(openType, dataFor());
               });
               el.insertAdjacentElement('afterend', btn);
+            } else {
+              el.setAttribute('data-fits', '1');
             }
           });
         }
@@ -3084,7 +3101,7 @@
                 '<div class="bb-cert-name-img">' + esc(c.name) + '</div>' +
               '</div>';
           const fbPart = c.feedback
-            ? '<blockquote style="margin:0;padding:8px 10px;font-size:12px;font-style:italic;color:#475569;background:#f8fafc;border-left:3px solid #4f46e5;border-radius:0 6px 6px 0;line-height:1.45;">' + _bbFormat(c.feedback) + '</blockquote>'
+            ? '<blockquote class="bb-cert-feedback">' + _bbFormat(c.feedback) + '</blockquote>'
             : '';
           tile.innerHTML = imgPart +
             '<div class="bb-cert-foot">' +
