@@ -3022,7 +3022,13 @@
         function attachShowMore(host, selector, openType, dataFor) {
           const el = host.querySelector(selector);
           if (!el) return;
+          // Idempotent — skip if a button is already attached
+          const sibling = el.nextElementSibling;
+          if (sibling && sibling.classList.contains('bb-more-btn')) return;
           requestAnimationFrame(() => {
+            // If the host is still hidden (display:none), dimensions are 0;
+            // defer until the next time the host is visible.
+            if (el.clientHeight === 0) return;
             if (el.scrollHeight > el.clientHeight + 2) {
               el.removeAttribute('data-fits');
               const btn = document.createElement('button');
@@ -3117,6 +3123,9 @@
           (which === 'ann' ? menuAnn : menuCert).classList.add('open');
           _lockBody();
           _bbPushOverlay();
+          // Wire show-more buttons now that the menu is visible
+          // (couldn't measure overflow while display:none).
+          requestAnimationFrame(_wireGalleryShowMore);
         }
         function closeMenus() { _bbCloseRequest(); }
 
