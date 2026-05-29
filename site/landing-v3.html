@@ -2735,7 +2735,18 @@
         // ---- Fetch billboard data from Supabase, scoped to this centre ----
         const _BB_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
         const _BB_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
-        const _bbCenter = (window.__CENTER_ID || 'mock_stream').toString().trim();
+        // bbInit runs early in the document but center-id.js loads further
+        // down — wait until window.__CENTER_ID is set so clones don't fall
+        // back to 'mock_stream' and end up reading the main-site billboards.
+        // Hide everything (fail closed) if it still isn't set.
+        for (let _i = 0; _i < 100 && typeof window.__CENTER_ID === 'undefined'; _i++) {
+          await new Promise(r => setTimeout(r, 10));
+        }
+        if (typeof window.__CENTER_ID === 'undefined' || String(window.__CENTER_ID).trim() === '') {
+          if (bbSectionEl) bbSectionEl.style.display = 'none';
+          return;
+        }
+        const _bbCenter = String(window.__CENTER_ID).trim();
 
         const TAG_TO_CLS = { course:'event', new:'new', results:'win', event:'event', news:'' };
         const TAG_LABEL  = { course:'Course', new:'New', results:'Results', event:'Event', news:'News' };
