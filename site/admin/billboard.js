@@ -433,7 +433,15 @@
         <div class="bbA-field"><label>Starts on (optional)</label><input id="f_start" type="date" value="' + _attr(r.starts_at) + '" /></div>\
         <div class="bbA-field"><label>Ends on (optional)</label><input id="f_end" type="date" value="' + _attr(r.ends_at) + '" /></div>\
       </div>\
-      <div class="bbA-field"><label>Link URL (optional)</label><input id="f_link" type="url" placeholder="https://…" value="' + _attr(r.link_url) + '" /></div>';
+      <div class="bbA-field"><label>Link URL (optional)</label><input id="f_link" type="url" placeholder="https://…" value="' + _attr(r.link_url) + '" /></div>\
+      <div style="margin:8px -20px 0;padding:14px 20px 6px;border-top:1px solid #e2e8f0;background:#f8fafc;">\
+        <div style="font-size:12px;font-weight:800;color:#0f172a;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;">📩 Telegram CTA (optional)</div>\
+        <div class="bbA-row">\
+          <div class="bbA-field"><label>Telegram username</label><input id="f_tg_user" type="text" placeholder="turgunov_kx (no @)" value="' + _attr(r.tg_username) + '" /></div>\
+          <div class="bbA-field"><label>Button label</label><input id="f_cta" type="text" placeholder="Kursga qo&#39;shilish" value="' + _attr(r.cta_label) + '" /></div>\
+        </div>\
+        <div class="bbA-field"><label>Pre-filled Telegram message</label><textarea id="f_tg_msg" rows="3" placeholder="Men 3 oy, har kuni jonli dars o&#39;tiladigan Multilevel Sentabr kursida tayyorlanmoqchiman.">' + _esc(r.tg_message) + '</textarea><div class="bbA-fileinfo">Shown in the user&#39;s Telegram input box when they tap the button. Same <code>**bold**</code> / bullets formatting as the body.</div></div>\
+      </div>';
   }
   async function _readAnnForm(modal) {
     var title = modal.querySelector('#f_title').value.trim();
@@ -443,6 +451,7 @@
     if (file) {
       imageUrl = await uploadAnnImage(file, state.centerId);
     }
+    var tgUser = (modal.querySelector('#f_tg_user').value || '').trim().replace(/^@/, '');
     var out = {
       title:          title,
       body:           modal.querySelector('#f_body').value,
@@ -452,7 +461,10 @@
       starts_at:      modal.querySelector('#f_start').value || null,
       ends_at:        modal.querySelector('#f_end').value || null,
       link_url:       modal.querySelector('#f_link').value || null,
-      status:         modal.querySelector('#f_status').value
+      status:         modal.querySelector('#f_status').value,
+      tg_username:    tgUser || null,
+      tg_message:     modal.querySelector('#f_tg_msg').value || null,
+      cta_label:      modal.querySelector('#f_cta').value || null
     };
     if (imageUrl) out.image_url = imageUrl;
     return out;

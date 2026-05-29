@@ -2332,7 +2332,11 @@
       .bb-ann-body strong, .bb-cert-feedback strong { color:#0f172a; }
       .bb-ann-foot { display:flex; justify-content:space-between; align-items:center; margin-top:auto; padding-top:4px; }
       .bb-ann-date { font-size: 11px; color:#94a3b8; font-weight:600; }
-      .bb-ann-cta  { font-size: 11.5px; font-weight: 700; color:#4f46e5; text-decoration:none; }
+      .bb-ann-cta  {
+        font-size: 11.5px; font-weight: 700; color:#4f46e5; text-decoration:none;
+        background: transparent; border: 0; padding: 0; font-family: inherit; cursor: pointer;
+      }
+      .bb-ann-cta:hover { text-decoration: underline; }
 
       /* ----- Certificate slot ----- */
       .bb-cert-stage {
@@ -2565,6 +2569,87 @@
       </div>
     </div>
 
+    <style>
+      .bb-detail {
+        position: fixed; inset: 0; background: rgba(15,23,42,.85);
+        z-index: 10000; display:none; align-items:flex-start; justify-content:center;
+        padding: 28px 18px; backdrop-filter: blur(4px); overflow-y: auto;
+      }
+      .bb-detail.open { display: flex; }
+      .bb-detail-card {
+        background:#fff; border-radius: 20px; width: 100%; max-width: 640px;
+        overflow: hidden; box-shadow: 0 24px 70px rgba(0,0,0,.5);
+        display:flex; flex-direction: column;
+      }
+      .bb-detail-close {
+        position: fixed; top: 18px; right: 18px; z-index: 10001;
+        width: 40px; height: 40px; border-radius: 50%; border: 0;
+        background: rgba(255,255,255,.15); color:#fff; font-size: 22px;
+        cursor: pointer; backdrop-filter: blur(6px);
+      }
+      .bb-detail-close:hover { background: rgba(255,255,255,.28); }
+      .bb-detail-cover {
+        height: 220px;
+        display:flex; align-items:center; justify-content:center;
+        color:#fff; font-size: 64px; font-weight: 800;
+      }
+      .bb-detail-cover.has-img {
+        background-color:#f8fafc;
+        background-repeat:no-repeat; background-position:center; background-size: contain;
+        height: 280px; font-size: 0;
+      }
+      .bb-detail-cover.c1 { background: linear-gradient(135deg,#6366f1,#8b5cf6); }
+      .bb-detail-cover.c2 { background: linear-gradient(135deg,#0ea5e9,#06b6d4); }
+      .bb-detail-cover.c3 { background: linear-gradient(135deg,#f59e0b,#ef4444); }
+      .bb-detail-cover.c4 { background: linear-gradient(135deg,#10b981,#059669); }
+      .bb-detail-body { padding: 22px 26px 24px; display:flex; flex-direction: column; gap: 10px; }
+      .bb-detail-title { font-size: 22px; font-weight: 800; color:#0f172a; margin: 4px 0 6px; line-height: 1.3; }
+      .bb-detail-body .bb-ann-body { max-height: none; font-size: 14px; }
+      .bb-detail-foot {
+        margin-top: 14px; padding-top: 16px; border-top: 1px solid #e2e8f0;
+        display:flex; justify-content: space-between; align-items:center;
+        flex-wrap: wrap; gap: 10px;
+      }
+      .bb-detail-cta {
+        display:inline-flex; align-items:center; gap: 8px;
+        padding: 12px 22px; border-radius: 12px;
+        background: linear-gradient(135deg, #0088cc, #006699);
+        color:#fff; font-weight: 800; font-size: 14px; letter-spacing: .01em;
+        text-decoration: none; box-shadow: 0 6px 16px rgba(0,136,204,.32);
+        transition: transform .15s, box-shadow .15s;
+      }
+      .bb-detail-cta:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(0,136,204,.45); }
+      .bb-detail-cta.alt {
+        background: linear-gradient(135deg, #6366f1, #4f46e5);
+        box-shadow: 0 6px 16px rgba(99,102,241,.32);
+      }
+      .bb-detail-cta.alt:hover { box-shadow: 0 10px 22px rgba(99,102,241,.45); }
+      @media (max-width: 640px) {
+        .bb-detail { padding: 14px; }
+        .bb-detail-card { max-width: 100%; border-radius: 16px; }
+        .bb-detail-cover { height: 180px; font-size: 48px; }
+        .bb-detail-cover.has-img { height: 220px; }
+        .bb-detail-title { font-size: 18px; }
+        .bb-detail-body { padding: 18px 18px 20px; }
+      }
+    </style>
+
+    <div class="bb-detail" id="bbDetail" role="dialog" aria-modal="true">
+      <button class="bb-detail-close" id="bbDetClose" aria-label="Close">×</button>
+      <div class="bb-detail-card">
+        <div class="bb-detail-cover" id="bbDetCover"></div>
+        <div class="bb-detail-body">
+          <div><span class="bb-ann-tag" id="bbDetTag"></span></div>
+          <h2 class="bb-detail-title" id="bbDetTitle"></h2>
+          <div class="bb-ann-body" id="bbDetBody"></div>
+          <div class="bb-detail-foot">
+            <span class="bb-ann-date" id="bbDetDate"></span>
+            <a class="bb-detail-cta" id="bbDetCta" target="_blank" rel="noopener"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script>
       (async function bbInit(){
         const annStage  = document.getElementById('bbAnnStage');
@@ -2635,17 +2720,21 @@
 
         const ANN = annRows.map(r => {
           const tag = (r.tag || 'news').toLowerCase();
+          const tgUser = String(r.tg_username || '').trim().replace(/^@/, '');
+          const hasCta = !!(tgUser || r.link_url);
           return {
-            cover:    r.cover_icon || '📢',
-            coverCls: r.cover_palette || 'c1',
-            imageUrl: r.image_url || '',
-            tag:      TAG_LABEL[tag] || tag,
-            tagCls:   TAG_TO_CLS[tag] || '',
-            headline: r.title || '',
-            body:     r.body  || '',
-            date:     _bbFmtFullDate(r.created_at),
-            cta:      r.link_url ? 'Learn more →' : '',
-            linkUrl:  r.link_url || ''
+            cover:      r.cover_icon || '📢',
+            coverCls:   r.cover_palette || 'c1',
+            imageUrl:   r.image_url || '',
+            tag:        TAG_LABEL[tag] || tag,
+            tagCls:     TAG_TO_CLS[tag] || '',
+            headline:   r.title || '',
+            body:       r.body  || '',
+            date:       _bbFmtFullDate(r.created_at),
+            cta:        hasCta ? (r.cta_label || 'Learn more →') : '',
+            linkUrl:    r.link_url || '',
+            tgUsername: tgUser,
+            tgMessage:  r.tg_message || ''
           };
         });
         const CERT = certRows.map(r => ({
@@ -2676,8 +2765,14 @@
         function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'})[c]); }
 
         function _bbCtaHtml(a) {
-          if (!a.linkUrl) return '';
-          return '<a class="bb-ann-cta" href="' + esc(a.linkUrl) + '" target="_blank" rel="noopener">' + esc(a.cta || 'Learn more →') + '</a>';
+          if (!a.cta) return '';
+          return '<button type="button" class="bb-ann-cta">' + esc(a.cta) + '</button>';
+        }
+        function _bbTgUrl(a) {
+          if (!a.tgUsername) return a.linkUrl || '';
+          const base = 'https://t.me/' + encodeURIComponent(a.tgUsername);
+          if (!a.tgMessage) return base;
+          return base + '?text=' + encodeURIComponent(a.tgMessage);
         }
 
         function _bbAnnCoverHtml(a) {
@@ -2953,9 +3048,10 @@
         if (menuCertCount) menuCertCount.textContent = CERT.length + ' total';
 
         // Render full announcement list (vertical)
-        ANN.forEach(a => {
+        ANN.forEach((a, idx) => {
           const row = document.createElement('article');
           row.className = 'bb-menu-ann-row';
+          row.dataset.idx = idx;
           row.innerHTML =
             _bbAnnCoverHtml(a) +
             '<div class="bb-menu-ann-row-body">' +
@@ -3000,20 +3096,86 @@
           start();
         }
 
-        // Click handlers: stage card click opens the corresponding menu
+        // ----- Single-announcement detail popup -----
+        const bbDetail   = document.getElementById('bbDetail');
+        const bbDetClose = document.getElementById('bbDetClose');
+        const bbDetCover = document.getElementById('bbDetCover');
+        const bbDetTag   = document.getElementById('bbDetTag');
+        const bbDetTitle = document.getElementById('bbDetTitle');
+        const bbDetBody  = document.getElementById('bbDetBody');
+        const bbDetDate  = document.getElementById('bbDetDate');
+        const bbDetCta   = document.getElementById('bbDetCta');
+
+        function openDetail(a) {
+          if (!a) return;
+          stop();
+          if (a.imageUrl) {
+            bbDetCover.className = 'bb-detail-cover has-img';
+            bbDetCover.style.backgroundImage = "url('" + a.imageUrl + "')";
+            bbDetCover.textContent = '';
+          } else {
+            bbDetCover.className = 'bb-detail-cover ' + a.coverCls;
+            bbDetCover.style.backgroundImage = '';
+            bbDetCover.textContent = a.cover;
+          }
+          bbDetTag.className = 'bb-ann-tag ' + a.tagCls;
+          bbDetTag.textContent = a.tag;
+          bbDetTitle.textContent = a.headline;
+          bbDetBody.innerHTML = _bbFormat(a.body);
+          bbDetDate.textContent = a.date;
+          const url = _bbTgUrl(a);
+          if (url) {
+            const label = a.cta && a.cta !== 'Learn more →' ? a.cta : (a.tgUsername ? "Kursga qo'shilish" : 'Learn more');
+            bbDetCta.href = url;
+            bbDetCta.textContent = '💬 ' + label + ' →';
+            bbDetCta.className = 'bb-detail-cta' + (a.tgUsername ? '' : ' alt');
+            bbDetCta.style.display = '';
+          } else {
+            bbDetCta.style.display = 'none';
+          }
+          bbDetail.classList.add('open');
+        }
+        function closeDetail() { bbDetail.classList.remove('open'); start(); }
+        bbDetClose.addEventListener('click', closeDetail);
+        bbDetail.addEventListener('click', e => { if (e.target === bbDetail) closeDetail(); });
+
+        // Click handlers: stage card click opens menu; CTA click opens detail
         annStage.addEventListener('click', e => {
-          // Don't open menu if user clicked the inline CTA link
-          if (e.target.closest('.bb-ann-cta')) return;
+          if (e.target.closest('.bb-ann-cta')) {
+            e.stopPropagation();
+            const real = ANN.length ? safeMod(annIdx, ANN.length) : 0;
+            openDetail(ANN[real]);
+            return;
+          }
           openMenu('ann');
         });
         certStage.addEventListener('click', () => openMenu('cert'));
+
+        // Menu CTA delegation → open detail for the clicked row
+        menuAnnList.addEventListener('click', e => {
+          const cta = e.target.closest('.bb-ann-cta');
+          if (!cta) return;
+          e.stopPropagation();
+          const row = cta.closest('[data-idx]');
+          if (!row) return;
+          const i = parseInt(row.dataset.idx, 10);
+          if (!isNaN(i) && ANN[i]) {
+            menuAnn.classList.remove('open');
+            openDetail(ANN[i]);
+          }
+        });
 
         // Close handlers
         document.querySelectorAll('.bb-menu-close').forEach(btn => btn.addEventListener('click', closeMenus));
         [menuAnn, menuCert].forEach(m => {
           m.addEventListener('click', e => { if (e.target === m) closeMenus(); });
         });
-        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenus(); });
+        document.addEventListener('keydown', e => {
+          if (e.key === 'Escape') {
+            if (bbDetail.classList.contains('open')) closeDetail();
+            else closeMenus();
+          }
+        });
 
         render();
         start();
