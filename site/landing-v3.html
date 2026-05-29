@@ -3222,18 +3222,23 @@
         bbDetClose.addEventListener('click', closeDetail);
         bbDetail.addEventListener('click', e => { if (e.target === bbDetail) closeDetail(); });
 
-        // Click handlers: tapping the stage card opens the detail popup
-        // (image + wording + scrollable). The CTA, Show-more buttons and
-        // arrows all also route through openDetail.
+        // Click handlers:
+        //   - Show more   → opens the single-item detail popup (own handler)
+        //   - "Learn more" CTA on announcement → opens detail popup
+        //   - Anywhere else on the card (image, text) → opens the gallery
         annStage.addEventListener('click', e => {
-          if (e.target.closest('.bb-more-btn')) return; // its own handler will run
-          const real = ANN.length ? safeMod(annIdx, ANN.length) : 0;
-          if (ANN[real]) openDetail('ann', ANN[real]);
+          if (e.target.closest('.bb-more-btn')) return;
+          if (e.target.closest('.bb-ann-cta')) {
+            e.stopPropagation();
+            const real = ANN.length ? safeMod(annIdx, ANN.length) : 0;
+            if (ANN[real]) openDetail('ann', ANN[real]);
+            return;
+          }
+          openMenu('ann');
         });
         certStage.addEventListener('click', e => {
           if (e.target.closest('.bb-more-btn')) return;
-          const real = CERT.length ? safeMod(certIdx, CERT.length) : 0;
-          if (CERT[real]) openDetail('cert', CERT[real]);
+          openMenu('cert');
         });
 
         // Gallery → click any row/tile (or its Show more / CTA) → detail popup
