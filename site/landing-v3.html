@@ -2254,19 +2254,22 @@
       /* ----- Announcement slot ----- */
       .bb-ann-stage {
         position: relative; height: 100%; width:100%;
-        cursor: pointer;
+        cursor: pointer; overflow: hidden;
       }
+      /* Shared rolling-track style for both slot types */
+      .bb-track {
+        display: flex; flex-direction: row;
+        width: 100%; height: 100%;
+        transition: transform .9s cubic-bezier(.65,.05,.36,1);
+        will-change: transform;
+      }
+      .bb-track.snap { transition: none; }
       .bb-ann-card {
-        position: absolute; inset: 0; padding: 44px 18px 16px;
+        flex: 0 0 100%; width: 100%;
+        padding: 44px 18px 16px;
         display:flex; flex-direction:column; gap:10px;
         background: linear-gradient(135deg, #fff 0%, #f8fafc 100%);
-        opacity: 0; transform: scale(0.98) translateY(6px);
-        transition: opacity .85s cubic-bezier(.22,.61,.36,1),
-                    transform .85s cubic-bezier(.22,.61,.36,1);
-        will-change: opacity, transform;
-        pointer-events: none;
       }
-      .bb-ann-card.active { opacity:1; transform: scale(1) translateY(0); pointer-events:auto; }
       .bb-ann-cover {
         height: 100px; border-radius: 12px;
         display:flex; align-items:center; justify-content:center;
@@ -2315,17 +2318,14 @@
       .bb-ann-cta  { font-size: 11.5px; font-weight: 700; color:#4f46e5; text-decoration:none; }
 
       /* ----- Certificate slot ----- */
-      .bb-cert-stage { position: relative; height: 100%; width:100%; cursor: pointer; }
+      .bb-cert-stage {
+        position: relative; height: 100%; width:100%;
+        cursor: pointer; overflow: hidden;
+      }
       .bb-cert-card {
-        position: absolute; inset: 0;
-        opacity: 0; transform: scale(0.98) translateY(6px);
-        transition: opacity .85s cubic-bezier(.22,.61,.36,1),
-                    transform .85s cubic-bezier(.22,.61,.36,1);
-        will-change: opacity, transform;
-        pointer-events: none;
+        flex: 0 0 100%; width: 100%;
         display:flex; flex-direction: column;
       }
-      .bb-cert-card.active { opacity:1; transform: scale(1) translateY(0); pointer-events:auto; }
       .bb-cert-img {
         flex: 1 1 auto;
         display:flex; flex-direction:column; align-items:center; justify-content:center;
@@ -2613,23 +2613,35 @@
           return '<div class="bb-ann-cover ' + a.coverCls + '">' + a.cover + '</div>';
         }
 
-        // Build announcement cards
-        ANN.forEach((a, i) => {
+        // Build the rolling tracks
+        const annTrack  = document.createElement('div'); annTrack.className  = 'bb-track';
+        const certTrack = document.createElement('div'); certTrack.className = 'bb-track';
+        annStage.appendChild(annTrack);
+        certStage.appendChild(certTrack);
+
+        // Announcement cards
+        ANN.forEach(a => {
           const el = document.createElement('article');
-          el.className = 'bb-ann-card' + (i === 0 ? ' active' : '');
+          el.className = 'bb-ann-card';
           el.innerHTML =
             _bbAnnCoverHtml(a) +
             '<div class="bb-ann-meta"><span class="bb-ann-tag ' + a.tagCls + '">' + esc(a.tag) + '</span></div>' +
             '<h3 class="bb-ann-headline">' + esc(a.headline) + '</h3>' +
             '<p class="bb-ann-body">' + esc(a.body) + '</p>' +
             '<div class="bb-ann-foot"><span class="bb-ann-date">' + esc(a.date) + '</span>' + _bbCtaHtml(a) + '</div>';
-          annStage.appendChild(el);
+          annTrack.appendChild(el);
         });
+        // Append clone of card 0 for seamless infinite-loop wrap
+        if (ANN.length > 1) {
+          const clone = annTrack.firstElementChild.cloneNode(true);
+          clone.dataset.clone = '1';
+          annTrack.appendChild(clone);
+        }
 
-        // Build certificate cards
-        CERT.forEach((c, i) => {
+        // Certificate cards
+        CERT.forEach(c => {
           const el = document.createElement('article');
-          el.className = 'bb-cert-card' + (i === 0 ? ' active' : '');
+          el.className = 'bb-cert-card';
           el.setAttribute('data-name', c.name);
           el.setAttribute('data-exam', c.exam);
           el.setAttribute('data-score', c.score);
@@ -2644,55 +2656,124 @@
               '</div>';
           el.innerHTML = imgPart +
             '<div class="bb-cert-foot"><div class="bb-cert-name">' + esc(c.name) + '</div><div class="bb-cert-sub">' + esc(c.exam) + ' · ' + esc(c.date) + '</div></div>';
-          certStage.appendChild(el);
+          certTrack.appendChild(el);
         });
+        if (CERT.length > 1) {
+          const clone = certTrack.firstElementChild.cloneNode(true);
+          clone.dataset.clone = '1';
+          certTrack.appendChild(clone);
+        }
 
-        // Pagination dots — one per slide pair (max of the two lengths)
+        // Pagination dots — one per real card pair (max of the two real lengths)
         const total = Math.max(ANN.length, CERT.length);
         const safeMod = (i, n) => (n > 0 ? ((i % n) + n) % n : 0);
         for (let i = 0; i < total; i++) {
           const d = document.createElement('button');
           d.className = 'bb-dot' + (i === 0 ? ' active' : '');
           d.setAttribute('aria-label', 'Slide ' + (i + 1));
-          d.addEventListener('click', () => { annIdx = safeMod(i, ANN.length); certIdx = safeMod(i, CERT.length); render(); restart(); });
+          d.addEventListener('click', () => { goAnn(safeMod(i, ANN.length || 1)); goCert(safeMod(i, CERT.length || 1)); restart(); });
           dotsBar.appendChild(d);
         }
 
+        // annIdx / certIdx are *track positions*. They can briefly equal
+        // length (the clone slot) for the wrap-around; we snap back to 0
+        // without animation once the cubic ease finishes.
         let annIdx = 0, certIdx = 0;
         const annCountEl  = document.getElementById('bbAnnCount');
         const certCountEl = document.getElementById('bbCertCount');
-        if (annCountEl)  annCountEl.innerHTML  = '<b>' + (ANN.length  ? 1 : 0) + '</b> / ' + ANN.length;
-        if (certCountEl) certCountEl.innerHTML = '<b>' + (CERT.length ? 1 : 0) + '</b> / ' + CERT.length;
+
+        function setTrack(track, idx) {
+          track.style.transform = 'translateX(-' + (idx * 100) + '%)';
+        }
+        function snapTrack(track, idx) {
+          track.classList.add('snap');
+          track.style.transform = 'translateX(-' + (idx * 100) + '%)';
+          void track.offsetWidth;       // force reflow so transition reset takes effect
+          track.classList.remove('snap');
+        }
         function render() {
-          const annCards  = annStage.querySelectorAll('.bb-ann-card');
-          const certCards = certStage.querySelectorAll('.bb-cert-card');
-          const dots      = dotsBar.querySelectorAll('.bb-dot');
-          annCards.forEach((el, i)  => el.classList.toggle('active', i === annIdx));
-          certCards.forEach((el, i) => el.classList.toggle('active', i === certIdx));
-          const dotIdx = total > 0 ? Math.max(annIdx, certIdx) % total : 0;
+          setTrack(annTrack,  annIdx);
+          setTrack(certTrack, certIdx);
+          const dots = dotsBar.querySelectorAll('.bb-dot');
+          const realAnn  = ANN.length  ? safeMod(annIdx,  ANN.length)  : 0;
+          const realCert = CERT.length ? safeMod(certIdx, CERT.length) : 0;
+          const dotIdx = total > 0 ? Math.max(realAnn, realCert) % total : 0;
           dots.forEach((el, i) => el.classList.toggle('active', i === dotIdx));
-          if (annCountEl)  annCountEl.innerHTML  = '<b>' + (ANN.length  ? annIdx  + 1 : 0) + '</b> / ' + ANN.length;
-          if (certCountEl) certCountEl.innerHTML = '<b>' + (CERT.length ? certIdx + 1 : 0) + '</b> / ' + CERT.length;
+          if (annCountEl)  annCountEl.innerHTML  = '<b>' + (ANN.length  ? realAnn  + 1 : 0) + '</b> / ' + ANN.length;
+          if (certCountEl) certCountEl.innerHTML = '<b>' + (CERT.length ? realCert + 1 : 0) + '</b> / ' + CERT.length;
+        }
+        // After the track rolls onto a clone slot, silently teleport it
+        // back to the matching real slot.
+        const SNAP_AFTER = 950; // slightly longer than the .9s transition
+        function snapBackIfClone() {
+          if (ANN.length > 1 && annIdx >= ANN.length) {
+            setTimeout(() => { snapTrack(annTrack, 0); annIdx = 0; render(); }, SNAP_AFTER);
+          }
+          if (CERT.length > 1 && certIdx >= CERT.length) {
+            setTimeout(() => { snapTrack(certTrack, 0); certIdx = 0; render(); }, SNAP_AFTER);
+          }
+        }
+        function goAnn(realIdx) {
+          if (!ANN.length) return;
+          annIdx = realIdx;
+          setTrack(annTrack, annIdx);
+          render();
+        }
+        function goCert(realIdx) {
+          if (!CERT.length) return;
+          certIdx = realIdx;
+          setTrack(certTrack, certIdx);
+          render();
+        }
+        // Going forward — we can roll into the clone slot for a seamless wrap.
+        function nextAnn() {
+          if (ANN.length <= 1) return;
+          annIdx = annIdx + 1;
+          setTrack(annTrack, annIdx);
+          render();
+          snapBackIfClone();
+        }
+        function nextCert() {
+          if (CERT.length <= 1) return;
+          certIdx = certIdx + 1;
+          setTrack(certTrack, certIdx);
+          render();
+          snapBackIfClone();
+        }
+        // Going backward from 0 — teleport to the clone first, then roll back to N-1.
+        function prevAnn() {
+          if (ANN.length <= 1) return;
+          if (annIdx === 0) {
+            snapTrack(annTrack, ANN.length); annIdx = ANN.length;
+          }
+          annIdx = annIdx - 1;
+          setTrack(annTrack, annIdx);
+          render();
+        }
+        function prevCert() {
+          if (CERT.length <= 1) return;
+          if (certIdx === 0) {
+            snapTrack(certTrack, CERT.length); certIdx = CERT.length;
+          }
+          certIdx = certIdx - 1;
+          setTrack(certTrack, certIdx);
+          render();
         }
 
         let timer = null;
         function start() {
           if (timer) return;
-          if (total <= 1) return; // nothing to rotate
-          timer = setInterval(() => {
-            if (ANN.length)  annIdx  = (annIdx  + 1) % ANN.length;
-            if (CERT.length) certIdx = (certIdx + 1) % CERT.length;
-            render();
-          }, 2000);
+          if (total <= 1) return;
+          timer = setInterval(() => { nextAnn(); nextCert(); }, 2000);
         }
         function stop()  { if (timer) { clearInterval(timer); timer = null; } }
         function restart() { stop(); start(); }
 
         // Per-slot prev / next arrows
-        document.getElementById('bbAnnPrev').addEventListener('click', () => { if (!ANN.length) return;  annIdx = safeMod(annIdx - 1, ANN.length);  render(); restart(); });
-        document.getElementById('bbAnnNext').addEventListener('click', () => { if (!ANN.length) return;  annIdx = safeMod(annIdx + 1, ANN.length);  render(); restart(); });
-        document.getElementById('bbCertPrev').addEventListener('click', () => { if (!CERT.length) return; certIdx = safeMod(certIdx - 1, CERT.length); render(); restart(); });
-        document.getElementById('bbCertNext').addEventListener('click', () => { if (!CERT.length) return; certIdx = safeMod(certIdx + 1, CERT.length); render(); restart(); });
+        document.getElementById('bbAnnPrev').addEventListener('click',  () => { prevAnn();  restart(); });
+        document.getElementById('bbAnnNext').addEventListener('click',  () => { nextAnn();  restart(); });
+        document.getElementById('bbCertPrev').addEventListener('click', () => { prevCert(); restart(); });
+        document.getElementById('bbCertNext').addEventListener('click', () => { nextCert(); restart(); });
 
         // Pause on hover
         const row = document.getElementById('bbRow');
