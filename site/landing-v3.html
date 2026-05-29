@@ -2260,11 +2260,13 @@
         position: absolute; inset: 0; padding: 44px 18px 16px;
         display:flex; flex-direction:column; gap:10px;
         background: linear-gradient(135deg, #fff 0%, #f8fafc 100%);
-        opacity: 0; transform: translateX(20px);
-        transition: opacity .55s ease, transform .55s ease;
+        opacity: 0; transform: scale(0.98) translateY(6px);
+        transition: opacity .85s cubic-bezier(.22,.61,.36,1),
+                    transform .85s cubic-bezier(.22,.61,.36,1);
+        will-change: opacity, transform;
         pointer-events: none;
       }
-      .bb-ann-card.active { opacity:1; transform:translateX(0); pointer-events:auto; }
+      .bb-ann-card.active { opacity:1; transform: scale(1) translateY(0); pointer-events:auto; }
       .bb-ann-cover {
         height: 100px; border-radius: 12px;
         display:flex; align-items:center; justify-content:center;
@@ -2316,12 +2318,14 @@
       .bb-cert-stage { position: relative; height: 100%; width:100%; cursor: pointer; }
       .bb-cert-card {
         position: absolute; inset: 0;
-        opacity: 0; transform: translateX(20px);
-        transition: opacity .55s ease, transform .55s ease;
+        opacity: 0; transform: scale(0.98) translateY(6px);
+        transition: opacity .85s cubic-bezier(.22,.61,.36,1),
+                    transform .85s cubic-bezier(.22,.61,.36,1);
+        will-change: opacity, transform;
         pointer-events: none;
         display:flex; flex-direction: column;
       }
-      .bb-cert-card.active { opacity:1; transform:translateX(0); pointer-events:auto; }
+      .bb-cert-card.active { opacity:1; transform: scale(1) translateY(0); pointer-events:auto; }
       .bb-cert-img {
         flex: 1 1 auto;
         display:flex; flex-direction:column; align-items:center; justify-content:center;
