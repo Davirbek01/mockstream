@@ -58,7 +58,7 @@
           ielts_speaking: 'premium', ielts_writing: 'premium'
         },
         // Features
-        helpCenter: true, certificates: true, telegramNotifs: true,
+        helpCenter: true, announcements: false, certificates: false, telegramNotifs: true,
         flashcards: true, articles: true, leaderboard: true, writingPlus: true, speakingPlus: true, readingPlus: true, listeningPlus: true,
         // Scheduling
         operatingHoursEnabled: false, operatingHoursStart: '09:00', operatingHoursEnd: '18:00',
@@ -610,7 +610,8 @@
             // visible. Super-admin (you) sees everything regardless. Bot side
             // is shipped separately.
             h += _cmToggleInput(cid, 'hideRegularCodes', '🙈 Hide Regular Codes (clone admin)', cfg.hideRegularCodes === true);
-            h += _cmToggleInput(cid, 'certificates', '📜 Certificates', cfg.certificates !== false);
+            h += _cmToggleInput(cid, 'announcements', '📢 Announcements Board', cfg.announcements === true);
+            h += _cmToggleInput(cid, 'certificates', '🏆 Achievements Board', cfg.certificates === true);
             h += _cmToggleInput(cid, 'telegramNotifs', '📱 Telegram Notifications', cfg.telegramNotifs !== false);
             h += _cmToggleInput(cid, 'flashcards', '🃏 Flashcards', cfg.flashcards !== false);
             h += _cmToggleInput(cid, 'articles', '📰 Articles', cfg.articles !== false);
