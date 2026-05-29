@@ -417,7 +417,7 @@
     var statusOpts = ['draft','published'].map(function (s) { return '<option value="' + s + '"' + ((r.status || 'draft') === s ? ' selected' : '') + '>' + s + '</option>'; }).join('');
     return '\
       <div class="bbA-field"><label>Title *</label><input id="f_title" type="text" value="' + _attr(r.title) + '" placeholder="Summer IELTS Crash Course — enrollment open" /></div>\
-      <div class="bbA-field"><label>Body</label><textarea id="f_body" placeholder="Two short sentences describing the announcement.">' + _esc(r.body) + '</textarea></div>\
+      <div class="bbA-field"><label>Body</label><textarea id="f_body" rows="5" placeholder="Two short sentences. Use a new line starting with &quot;- &quot; for bullet points.&#10;Example:&#10;Our 6-week intensive program includes:&#10;- Daily mocks&#10;- Personal feedback&#10;- Speaking club">' + _esc(r.body) + '</textarea><div class="bbA-fileinfo">Tip: start a line with <code>- </code> for a bullet, wrap text in <code>**stars**</code> for <b>bold</b>.</div></div>\
       <div class="bbA-field"><label>Cover image (optional)</label><input id="f_annfile" type="file" accept="image/*" />' +
         (r.image_url ? '<img class="bbA-preview" src="' + _attr(r.image_url) + '" alt="current" />' : '') +
         '<div class="bbA-fileinfo">If set, this image replaces the emoji cover on the card.' + (r.image_url ? ' Leave empty to keep the current image.' : '') + '</div></div>\
@@ -476,7 +476,7 @@
       <div class="bbA-field"><label>Certificate image (optional)</label><input id="f_file" type="file" accept="image/*" />' +
         (r.certificate_image_url ? '<img class="bbA-preview" src="' + _attr(r.certificate_image_url) + '" alt="current" />' : '') +
         '<div class="bbA-fileinfo">Leave empty to keep ' + (r.certificate_image_url ? 'the current image.' : 'no image (a styled placeholder will be shown).') + '</div></div>\
-      <div class="bbA-field"><label>Student feedback (testimonial, optional)</label><textarea id="f_fb" placeholder="\"The mock interviews were exactly like the real exam.\"">' + _esc(r.student_feedback) + '</textarea></div>\
+      <div class="bbA-field"><label>Student feedback (testimonial, optional)</label><textarea id="f_fb" rows="4" placeholder="The mock interviews were exactly like the real exam. - Lots of practice - Helpful tutors">' + _esc(r.student_feedback) + '</textarea><div class="bbA-fileinfo">Tip: same formatting as announcements — <code>- </code> for bullets, <code>**stars**</code> for <b>bold</b>.</div></div>\
       <div class="bbA-row">\
         <div class="bbA-field"><label>Status</label><select id="f_status">' + statusOpts + '</select></div>\
         <div class="bbA-field"><label>&nbsp;</label><div style="font-size:11px;color:#64748b;padding:6px 0;">Drafts are hidden on the landing page.</div></div>\
