@@ -2386,14 +2386,21 @@
       /* Foot backed by the secondary (testimonial) image — text overlays */
       .bb-cert-foot.has-bg {
         position: relative;
-        background-size: cover; background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center top;
+        background-color: #0f172a;
         padding: 14px 16px 16px;
-        color: #fff; min-height: 140px;
+        color: #fff; min-height: 180px;
       }
       .bb-cert-foot.has-bg::before {
         content: ''; position: absolute; inset: 0;
-        background: linear-gradient(180deg, rgba(15,23,42,.45) 0%, rgba(15,23,42,.82) 100%);
+        background: linear-gradient(180deg, rgba(15,23,42,.10) 0%, rgba(15,23,42,.30) 50%, rgba(15,23,42,.88) 100%);
         pointer-events: none;
+      }
+      .bb-cert-foot.has-bg {
+        display: flex; flex-direction: column;
+        justify-content: flex-end;
       }
       .bb-cert-foot.has-bg .bb-cert-foot-inner {
         position: relative; z-index: 1;
