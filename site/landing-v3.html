@@ -2383,6 +2383,36 @@
       }
       .bb-cert-name { font-size: 13px; font-weight: 700; color:#0f172a; }
       .bb-cert-sub  { font-size: 11.5px; color:#64748b; }
+      /* Foot backed by the secondary (testimonial) image — text overlays */
+      .bb-cert-foot.has-bg {
+        position: relative;
+        background-size: cover; background-position: center;
+        padding: 14px 16px 16px;
+        color: #fff; min-height: 140px;
+      }
+      .bb-cert-foot.has-bg::before {
+        content: ''; position: absolute; inset: 0;
+        background: linear-gradient(180deg, rgba(15,23,42,.45) 0%, rgba(15,23,42,.82) 100%);
+        pointer-events: none;
+      }
+      .bb-cert-foot.has-bg .bb-cert-foot-inner {
+        position: relative; z-index: 1;
+        display: flex; flex-direction: column; gap: 4px;
+      }
+      .bb-cert-foot.has-bg .bb-cert-name { color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,.4); }
+      .bb-cert-foot.has-bg .bb-cert-sub  { color: rgba(255,255,255,.88); text-shadow: 0 1px 3px rgba(0,0,0,.4); }
+      .bb-cert-foot.has-bg .bb-cert-feedback {
+        background: rgba(255,255,255,.12);
+        color: #fff;
+        border-left-color: rgba(255,255,255,.75);
+        backdrop-filter: blur(2px);
+      }
+      .bb-cert-foot.has-bg .bb-cert-feedback::after {
+        background: linear-gradient(to right, transparent, rgba(255,255,255,.12) 30%);
+        color: rgba(255,255,255,.85);
+      }
+      .bb-cert-foot.has-bg .bb-more-btn { color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.4); }
+      .bb-cert-foot.has-bg .bb-more-btn:hover { text-decoration: underline; }
       .bb-cert-feedback {
         margin: 8px 0 0; padding: 8px 12px;
         font-size: 12.5px; font-style: italic; color: #475569;
@@ -2894,7 +2924,11 @@
           el.setAttribute('data-score', c.score);
           el.setAttribute('data-date', c.date);
           el.setAttribute('data-cls', c.cls);
-          const multiBadge = c.secondaryUrl ? '<span class="bb-multi-badge">📷 +1</span>' : '';
+          // When a secondary image is set, it acts as the background of the
+          // text-side (foot), with the wording overlaid on a dark gradient.
+          // No "+1" badge needed in that case since both images are visible.
+          const hasSecondary = !!c.secondaryUrl;
+          const multiBadge = hasSecondary ? '' : (c.secondaryUrl ? '<span class="bb-multi-badge">📷 +1</span>' : '');
           const imgPart = c.imageUrl
             ? '<div class="bb-cert-img has-img" style="background-image:url(\'' + esc(c.imageUrl) + '\');">' + multiBadge + '</div>'
             : '<div class="bb-cert-img ' + c.cls + '">' +
@@ -2906,11 +2940,16 @@
           const feedbackHtml = c.feedback
             ? '<blockquote class="bb-cert-feedback">' + _bbFormat(c.feedback) + '</blockquote>'
             : '';
+          const footAttrs = hasSecondary
+            ? ' class="bb-cert-foot has-bg" style="background-image:url(\'' + esc(c.secondaryUrl) + '\');"'
+            : ' class="bb-cert-foot"';
           el.innerHTML = imgPart +
-            '<div class="bb-cert-foot">' +
-              '<div class="bb-cert-name">' + esc(c.name) + '</div>' +
-              '<div class="bb-cert-sub">' + esc(c.exam) + ' · ' + esc(c.date) + '</div>' +
-              feedbackHtml +
+            '<div' + footAttrs + '>' +
+              '<div class="bb-cert-foot-inner">' +
+                '<div class="bb-cert-name">' + esc(c.name) + '</div>' +
+                '<div class="bb-cert-sub">' + esc(c.exam) + ' · ' + esc(c.date) + '</div>' +
+                feedbackHtml +
+              '</div>' +
             '</div>';
           certTrack.appendChild(el);
         });
