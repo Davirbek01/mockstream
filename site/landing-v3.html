@@ -2270,6 +2270,23 @@
         display:flex; align-items:center; justify-content:center;
         font-size: 36px; color:#fff; font-weight:800; flex-shrink:0;
       }
+      /* When the cover is an uploaded image (no emoji), grow it and
+         keep the whole picture visible (no crop), letterboxing softly. */
+      .bb-ann-cover.has-img {
+        height: 160px;
+        background-color: #f8fafc;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+      }
+      .bb-menu-ann-row .bb-ann-cover.has-img {
+        height: auto;
+        min-height: 130px;
+        background-color: #f8fafc;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+      }
       .bb-ann-cover.c1 { background: linear-gradient(135deg,#6366f1,#8b5cf6); }
       .bb-ann-cover.c2 { background: linear-gradient(135deg,#0ea5e9,#06b6d4); }
       .bb-ann-cover.c3 { background: linear-gradient(135deg,#f59e0b,#ef4444); }
@@ -2578,7 +2595,7 @@
 
         function _bbAnnCoverHtml(a) {
           if (a.imageUrl) {
-            return '<div class="bb-ann-cover" style="background:url(\'' + esc(a.imageUrl) + '\') center/cover; font-size:0;"></div>';
+            return '<div class="bb-ann-cover has-img" style="background-image:url(\'' + esc(a.imageUrl) + '\');"></div>';
           }
           return '<div class="bb-ann-cover ' + a.coverCls + '">' + a.cover + '</div>';
         }
