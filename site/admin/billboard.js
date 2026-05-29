@@ -137,6 +137,40 @@
   function uploadCertImage(file, centerId) { return uploadImage(file, centerId, 'certificates'); }
   function uploadAnnImage(file, centerId)  { return uploadImage(file, centerId, 'announcements'); }
 
+  // Extract the storage object path from a public Supabase URL so we can
+  // DELETE it. Returns null for any URL that isn't one of our own bucket
+  // objects (manually-pasted external URLs are left alone).
+  function _storagePath(url) {
+    if (!url) return null;
+    var prefix = SB_URL + '/storage/v1/object/public/' + BUCKET + '/';
+    var s = String(url);
+    if (s.indexOf(prefix) !== 0) return null;
+    return s.slice(prefix.length);
+  }
+  // Best-effort storage delete — failures get logged but never block the
+  // row delete/update (better an orphan than a stuck row).
+  async function deleteStorageObject(url) {
+    var path = _storagePath(url);
+    if (!path) return;
+    try {
+      var sess = await _session();
+      var token = (sess && sess.access_token) || SB_KEY;
+      var r = await fetch(SB_URL + '/storage/v1/object/' + BUCKET + '/' + path, {
+        method: 'DELETE',
+        headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token }
+      });
+      if (!r.ok) {
+        var t = ''; try { t = await r.text(); } catch (_e) {}
+        console.warn('[billboard] storage delete ' + r.status + ': ' + path + ' ' + t);
+      }
+    } catch (e) { console.warn('[billboard] storage delete error', e); }
+  }
+  function _rowUrls(table, row) {
+    if (!row) return [];
+    if (table === 'center_announcements') return [row.image_url].filter(Boolean);
+    return [row.certificate_image_url, row.secondary_image_url].filter(Boolean);
+  }
+
   // ── styles ────────────────────────────────────────────────────────
   var STYLES = '\
     <style>\
@@ -360,7 +394,13 @@
         else if (act === 'del') {
           if (!confirm('Delete this ' + (state.tab === 'announcements' ? 'announcement' : 'achievement') + '? This cannot be undone.')) return;
           try {
-            await deleteRow(state.tab === 'announcements' ? 'center_announcements' : 'center_certificates', id);
+            var tableName = state.tab === 'announcements' ? 'center_announcements' : 'center_certificates';
+            // Storage cleanup BEFORE the row delete — that way we still
+            // have the URLs (if the row delete races ahead, the URLs are
+            // gone and we can never reach the objects).
+            var urls = _rowUrls(tableName, row);
+            await Promise.all(urls.map(deleteStorageObject));
+            await deleteRow(tableName, id);
             renderList();
           } catch (er) { alert('Delete failed: ' + (er.message || er)); }
         } else if (act === 'togglepub') {
@@ -458,7 +498,24 @@
         if (isAnn) data = await _readAnnForm(modal);
         else       data = await _readCertForm(modal);
         data.center_id = state.centerId;
+
+        // Collect URLs of images we're about to replace, so we can clean
+        // them out of storage AFTER the row update succeeds. Only the keys
+        // present in `data` were uploaded this session — empty file inputs
+        // leave the old URL on the row untouched.
+        var toOrphan = [];
+        if (isEdit && existing) {
+          if (isAnn) {
+            if (data.image_url && existing.image_url) toOrphan.push(existing.image_url);
+          } else {
+            if (data.certificate_image_url && existing.certificate_image_url) toOrphan.push(existing.certificate_image_url);
+            if (data.secondary_image_url   && existing.secondary_image_url)   toOrphan.push(existing.secondary_image_url);
+          }
+        }
+
         await saveRow(isAnn ? 'center_announcements' : 'center_certificates', data, existing && existing.id);
+        // Best-effort cleanup of replaced storage objects (after save).
+        if (toOrphan.length) await Promise.all(toOrphan.map(deleteStorageObject));
         close();
         renderList();
       } catch (e) {
