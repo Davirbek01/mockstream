@@ -215,58 +215,70 @@
     .bbA-card .certthumb .nm{font-size:11px;font-style:italic;opacity:.9;font-family:Georgia,serif;}\
     .bbA-empty{padding:38px 18px;text-align:center;color:#64748b;background:#fff;border:1px dashed #cbd5e1;border-radius:14px;font-size:14px;}\
     .bbA-loading{padding:30px;text-align:center;color:#64748b;}\
-    .bbA-modal{position:fixed;inset:0;background:rgba(15,23,42,.6);z-index:10000;display:flex;align-items:flex-start;justify-content:center;padding:32px 18px;overflow-y:auto;backdrop-filter:blur(4px);}\
-    .bbA-mcard{background:#fff;border-radius:18px;max-width:560px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.4);overflow:hidden;}\
-    .bbA-mhead{padding:16px 20px;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center;}\
-    .bbA-mhead h3{margin:0;font-size:17px;font-weight:800;}\
-    .bbA-mclose{width:30px;height:30px;border-radius:50%;border:1px solid #e2e8f0;background:#fff;cursor:pointer;font-size:18px;color:#475569;}\
-    .bbA-mbody{padding:18px 20px 22px;display:flex;flex-direction:column;gap:12px;}\
-    .bbA-field{display:flex;flex-direction:column;gap:5px;}\
-    .bbA-field label{font-size:12px;font-weight:700;color:#475569;}\
-    .bbA-field input,.bbA-field textarea,.bbA-field select{padding:9px 11px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;font-family:inherit;background:#fff;}\
-    .bbA-field textarea{min-height:80px;resize:vertical;}\
+    .bbA-modal{position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:10000;display:flex;align-items:flex-start;justify-content:center;padding:24px 18px;overflow-y:auto;backdrop-filter:blur(5px);}\
+    .bbA-mcard{background:#fff;border-radius:18px;max-width:520px;width:100%;box-shadow:0 24px 60px rgba(15,23,42,.45);overflow:hidden;position:relative;}\
+    .bbA-mhead{padding:14px 18px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,#6366f1 0%,#8b5cf6 50%,#a855f7 100%);color:#fff;}\
+    .bbA-mhead h3{margin:0;font-size:16px;font-weight:800;letter-spacing:.005em;display:flex;align-items:center;gap:7px;}\
+    .bbA-mhead h3::before{content:"🏆";font-size:18px;}\
+    .bbA-mhead.ann h3::before{content:"📢";}\
+    .bbA-mclose{width:28px;height:28px;border-radius:50%;border:0;background:rgba(255,255,255,.22);cursor:pointer;font-size:17px;color:#fff;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);transition:background .15s;}\
+    .bbA-mclose:hover{background:rgba(255,255,255,.35);}\
+    .bbA-mbody{padding:14px 18px 16px;display:flex;flex-direction:column;gap:11px;}\
+    .bbA-field{display:flex;flex-direction:column;gap:4px;}\
+    .bbA-field label{font-size:11px;font-weight:800;color:#4f46e5;text-transform:uppercase;letter-spacing:.06em;}\
+    .bbA-field input,.bbA-field textarea,.bbA-field select{padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13.5px;font-family:inherit;background:#fff;color:#0f172a;transition:border-color .15s,box-shadow .15s;}\
+    .bbA-field input:focus,.bbA-field textarea:focus,.bbA-field select:focus{outline:none;border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.18);}\
+    .bbA-field textarea{min-height:60px;resize:vertical;}\
     .bbA-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}\
-    .bbA-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 20px;border-top:1px solid #e2e8f0;background:#f8fafc;}\
+    .bbA-foot{display:flex;justify-content:flex-end;align-items:center;gap:8px;padding:11px 18px;border-top:1px solid #eef2ff;background:linear-gradient(180deg,#f8fafc 0%,#f5f3ff 100%);flex-wrap:wrap;}\
     .bbA-foot .msg{font-size:12px;color:#475569;flex:1;}\
     .bbA-foot .msg.err{color:#991b1b;}\
     .bbA-consent{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:#0f172a;background:#fffbeb;border:1px solid #fde68a;padding:10px;border-radius:8px;}\
     .bbA-consent input{margin-top:2px;}\
-    .bbA-fileinfo{font-size:11px;color:#64748b;margin-top:4px;}\
-    .bbA-preview{margin-top:6px;max-height:140px;border-radius:8px;}\
-    .bbA-filerow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}\
-    .bbA-filerow input[type="file"]{flex:1 1 200px;}\
-    .bbA-paste-btn,.bbA-clear-btn{padding:7px 11px;border:1px solid #cbd5e1;background:#fff;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;color:#475569;white-space:nowrap;font-family:inherit;}\
-    .bbA-paste-btn:hover{background:#f8fafc;border-color:#94a3b8;color:#0f172a;}\
+    .bbA-fileinfo{font-size:10.5px;color:#64748b;margin-top:3px;line-height:1.4;}\
+    .bbA-preview{margin-top:5px;max-height:110px;border-radius:6px;display:block;}\
+    .bbA-filerow{display:flex;gap:6px;align-items:center;}\
+    .bbA-filerow input[type="file"]{flex:1 1 0;min-width:0;font-size:12px;color:#475569;}\
+    .bbA-filerow input[type="file"]::file-selector-button{padding:6px 10px;border:1.5px solid #c7d2fe;border-radius:6px;background:#eef2ff;color:#4338ca;font-weight:700;font-size:11.5px;cursor:pointer;margin-right:8px;font-family:inherit;}\
+    .bbA-filerow input[type="file"]::file-selector-button:hover{background:#e0e7ff;}\
+    .bbA-paste-btn,.bbA-clear-btn{padding:6px 10px;border:1.5px solid #e2e8f0;background:#fff;border-radius:7px;font-size:11.5px;font-weight:700;cursor:pointer;color:#475569;white-space:nowrap;font-family:inherit;display:inline-flex;align-items:center;gap:3px;}\
+    .bbA-paste-btn:hover{background:#eef2ff;border-color:#a5b4fc;color:#4338ca;}\
     .bbA-clear-btn:hover{background:#fef2f2;border-color:#fca5a5;color:#b91c1c;}\
-    .bbA-paste-btn:active,.bbA-clear-btn:active{transform:scale(.97);}\
-    .bbA-paste-status{font-size:11px;color:#16a34a;margin-top:4px;min-height:14px;font-weight:600;}\
+    .bbA-paste-btn:active,.bbA-clear-btn:active{transform:scale(.96);}\
+    .bbA-paste-status{font-size:11px;color:#16a34a;margin-top:3px;min-height:0;font-weight:700;}\
     .bbA-paste-status.err{color:#dc2626;}\
-    .bbA-exam-toggle{display:flex;gap:6px;background:#f1f5f9;padding:4px;border-radius:11px;border:1px solid #e2e8f0;}\
-    .bbA-exam-btn{flex:1;padding:11px;border:0;background:transparent;font-size:14px;font-weight:700;color:#475569;border-radius:8px;cursor:pointer;font-family:inherit;transition:background .15s,color .15s,box-shadow .15s;}\
-    .bbA-exam-btn.active{background:#fff;color:#0f172a;box-shadow:0 1px 3px rgba(15,23,42,.1);}\
-    .bbA-cefr-hint{font-size:12px;color:#16a34a;margin-top:4px;font-weight:600;min-height:14px;}\
+    .bbA-exam-toggle{display:flex;gap:4px;background:#eef2ff;padding:3px;border-radius:11px;border:1.5px solid #c7d2fe;}\
+    .bbA-exam-btn{flex:1;padding:9px;border:0;background:transparent;font-size:13.5px;font-weight:800;color:#6366f1;border-radius:8px;cursor:pointer;font-family:inherit;transition:background .15s,color .15s,box-shadow .15s,transform .15s;}\
+    .bbA-exam-btn:hover{color:#4338ca;}\
+    .bbA-exam-btn.active{background:linear-gradient(135deg,#6366f1,#7c3aed);color:#fff;box-shadow:0 4px 12px rgba(99,102,241,.35);}\
+    .bbA-cefr-hint{font-size:11.5px;color:#16a34a;margin-top:3px;font-weight:700;min-height:14px;display:inline-flex;align-items:center;gap:4px;}\
+    .bbA-cefr-hint:not(:empty){background:#dcfce7;padding:3px 9px;border-radius:999px;border:1px solid #bbf7d0;align-self:flex-start;}\
     .bbA-cefr-hint.warn{color:#92400e;}\
-    .bbA-toast{position:absolute;left:50%;top:14px;transform:translate(-50%,-30px);background:#16a34a;color:#fff;padding:8px 16px;border-radius:999px;font-size:13px;font-weight:700;box-shadow:0 6px 18px rgba(22,163,74,.35);opacity:0;transition:transform .25s,opacity .25s;pointer-events:none;z-index:5;}\
+    .bbA-cefr-hint.warn:not(:empty){background:#fef3c7;border-color:#fde68a;}\
+    .bbA-toast{position:absolute;left:50%;top:12px;transform:translate(-50%,-30px);background:linear-gradient(135deg,#10b981,#059669);color:#fff;padding:8px 18px;border-radius:999px;font-size:13px;font-weight:800;box-shadow:0 8px 20px rgba(16,185,129,.4);opacity:0;transition:transform .25s,opacity .25s;pointer-events:none;z-index:5;}\
     .bbA-toast.show{transform:translate(-50%,0);opacity:1;}\
+    .bbA-foot .bbA-btn{padding:9px 16px;font-size:13px;}\
+    .bbA-foot .bbA-btn.ghost{background:#fff;border:1.5px solid #e2e8f0;}\
+    .bbA-foot .bbA-btn.ghost:hover{background:#f8fafc;border-color:#c7d2fe;color:#4338ca;}\
     @media (max-width: 640px) {\
-      .bbA-modal{padding:14px 8px;align-items:flex-start;}\
+      .bbA-modal{padding:10px;}\
       .bbA-mcard{max-width:100%;border-radius:14px;}\
-      .bbA-mhead{padding:14px 16px;}\
-      .bbA-mhead h3{font-size:16px;}\
-      .bbA-mbody{padding:14px 16px 18px;gap:10px;}\
-      .bbA-foot{padding:12px 16px;flex-wrap:wrap;gap:8px;}\
-      .bbA-foot .bbA-btn{flex:1 1 100%;text-align:center;padding:11px;}\
-      .bbA-foot .msg{flex:1 1 100%;text-align:center;margin-bottom:4px;}\
-      .bbA-row{grid-template-columns:1fr;}\
-      .bbA-exam-btn{font-size:13px;padding:10px;}\
+      .bbA-mhead{padding:12px 14px;}\
+      .bbA-mhead h3{font-size:15px;}\
+      .bbA-mbody{padding:12px 14px 14px;gap:9px;}\
+      .bbA-foot{padding:10px 12px;gap:6px;}\
+      .bbA-foot .msg{flex:1 1 100%;text-align:center;margin:0 0 2px;}\
+      .bbA-foot .bbA-btn{flex:1 1 auto;padding:9px 10px;font-size:12.5px;}\
+      .bbA-row{grid-template-columns:1fr;gap:9px;}\
+      .bbA-exam-btn{font-size:12.5px;padding:8px;}\
       .bbA-head{flex-direction:column;align-items:stretch;}\
       .bbA-toolbar{gap:8px;}\
       .bbA-tabs{flex:1;}\
       .bbA-tab{flex:1;text-align:center;}\
       .bbA-grid{grid-template-columns:1fr;}\
-      .bbA-filerow{flex-direction:column;align-items:stretch;}\
-      .bbA-filerow input[type="file"]{width:100%;}\
-      .bbA-paste-btn,.bbA-clear-btn{padding:10px;}\
+      .bbA-fileinfo{font-size:10px;}\
+      .bbA-filerow input[type="file"]{font-size:11px;}\
+      .bbA-paste-btn,.bbA-clear-btn{padding:6px 8px;font-size:11px;}\
     }\
     </style>';
 
@@ -449,7 +461,7 @@
     modal.className = 'bbA-modal';
     modal.innerHTML =
       '<div class="bbA-mcard">' +
-        '<div class="bbA-mhead">' +
+        '<div class="bbA-mhead' + (isAnn ? ' ann' : '') + '">' +
           '<h3>' + (isEdit ? 'Edit' : 'New') + ' ' + (isAnn ? 'announcement' : 'achievement') + '</h3>' +
           '<button class="bbA-mclose" title="Cancel">×</button>' +
         '</div>' +
