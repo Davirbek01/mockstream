@@ -2589,16 +2589,20 @@
       }
       .bb-detail-close:hover { background: rgba(255,255,255,.28); }
       .bb-detail-cover {
-        height: 220px;
+        min-height: 200px;
         display:flex; align-items:center; justify-content:center;
         color:#fff; font-size: 64px; font-weight: 800;
       }
       .bb-detail-cover.has-img {
-        background-color:#f8fafc;
-        background-repeat:no-repeat; background-position:center; background-size: contain;
-        background-origin: content-box;
-        padding: 16px 18px 8px;
-        height: 280px; font-size: 0;
+        background:#f8fafc;
+        padding: 16px;
+        min-height: 0;
+        font-size: 0;
+      }
+      .bb-detail-cover-img {
+        display: block;
+        max-width: 100%;
+        height: auto;
       }
       .bb-detail-cover.c1 { background: linear-gradient(135deg,#6366f1,#8b5cf6); }
       .bb-detail-cover.c2 { background: linear-gradient(135deg,#0ea5e9,#06b6d4); }
@@ -2629,8 +2633,8 @@
       @media (max-width: 640px) {
         .bb-detail { padding: 14px; }
         .bb-detail-card { max-width: 100%; border-radius: 16px; }
-        .bb-detail-cover { height: 180px; font-size: 48px; }
-        .bb-detail-cover.has-img { height: 220px; }
+        .bb-detail-cover { min-height: 160px; font-size: 48px; }
+        .bb-detail-cover.has-img { padding: 10px; min-height: 0; }
         .bb-detail-title { font-size: 18px; }
         .bb-detail-body { padding: 18px 18px 20px; }
       }
@@ -3115,11 +3119,9 @@
           bbDetCover.removeAttribute('style');
           if (a.imageUrl) {
             bbDetCover.className = 'bb-detail-cover has-img';
-            bbDetCover.style.backgroundImage = "url('" + a.imageUrl + "')";
-            bbDetCover.textContent = '';
+            bbDetCover.innerHTML = '<img class="bb-detail-cover-img" src="' + esc(a.imageUrl) + '" alt="">';
           } else {
             bbDetCover.className = 'bb-detail-cover ' + a.coverCls;
-            bbDetCover.style.backgroundImage = '';
             bbDetCover.textContent = a.cover;
           }
           bbDetTagWrap.style.display = '';
@@ -3147,11 +3149,9 @@
           bbDetCover.removeAttribute('style');
           if (c.imageUrl) {
             bbDetCover.className = 'bb-detail-cover has-img';
-            bbDetCover.style.backgroundImage = "url('" + c.imageUrl + "')";
-            bbDetCover.innerHTML = '';
+            bbDetCover.innerHTML = '<img class="bb-detail-cover-img" src="' + esc(c.imageUrl) + '" alt="">';
           } else {
             bbDetCover.className = 'bb-detail-cover bb-cert-img ' + c.cls;
-            bbDetCover.style.backgroundImage = '';
             bbDetCover.innerHTML =
               '<div class="bb-cert-exam">' + esc(c.exam) + '</div>' +
               '<div class="bb-cert-score">' + esc(c.score) + '</div>' +
@@ -3180,17 +3180,19 @@
         bbDetClose.addEventListener('click', closeDetail);
         bbDetail.addEventListener('click', e => { if (e.target === bbDetail) closeDetail(); });
 
-        // Click handlers: stage card click opens menu; CTA click opens detail
+        // Click handlers: tapping the stage card opens the detail popup
+        // (image + wording + scrollable). The CTA, Show-more buttons and
+        // arrows all also route through openDetail.
         annStage.addEventListener('click', e => {
-          if (e.target.closest('.bb-ann-cta')) {
-            e.stopPropagation();
-            const real = ANN.length ? safeMod(annIdx, ANN.length) : 0;
-            openDetail(ANN[real]);
-            return;
-          }
-          openMenu('ann');
+          if (e.target.closest('.bb-more-btn')) return; // its own handler will run
+          const real = ANN.length ? safeMod(annIdx, ANN.length) : 0;
+          if (ANN[real]) openDetail('ann', ANN[real]);
         });
-        certStage.addEventListener('click', () => openMenu('cert'));
+        certStage.addEventListener('click', e => {
+          if (e.target.closest('.bb-more-btn')) return;
+          const real = CERT.length ? safeMod(certIdx, CERT.length) : 0;
+          if (CERT[real]) openDetail('cert', CERT[real]);
+        });
 
         // Gallery → click any row/tile (or its Show more / CTA) → detail popup
         function _galleryClickHandler(type, list) {
