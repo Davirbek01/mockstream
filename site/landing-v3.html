@@ -2365,6 +2365,15 @@
         background-size: contain;
         padding: 6px;
       }
+      .bb-cert-img { position: relative; }
+      .bb-multi-badge {
+        position: absolute; top: 10px; right: 10px; z-index: 2;
+        background: rgba(15,23,42,.78); color: #fff;
+        padding: 4px 9px; border-radius: 999px;
+        font-size: 11px; font-weight: 700; letter-spacing: .02em;
+        backdrop-filter: blur(4px);
+        pointer-events: none;
+      }
       .bb-cert-exam     { font-size: 11px; font-weight: 700; letter-spacing:.18em; opacity:.85; text-transform: uppercase; }
       .bb-cert-score    { font-size: 36px; font-weight: 900; line-height:1; }
       .bb-cert-name-img { font-size: 12px; font-style:italic; opacity:.9; margin-top:4px; }
@@ -2885,12 +2894,14 @@
           el.setAttribute('data-score', c.score);
           el.setAttribute('data-date', c.date);
           el.setAttribute('data-cls', c.cls);
+          const multiBadge = c.secondaryUrl ? '<span class="bb-multi-badge">📷 +1</span>' : '';
           const imgPart = c.imageUrl
-            ? '<div class="bb-cert-img has-img" style="background-image:url(\'' + esc(c.imageUrl) + '\');"></div>'
+            ? '<div class="bb-cert-img has-img" style="background-image:url(\'' + esc(c.imageUrl) + '\');">' + multiBadge + '</div>'
             : '<div class="bb-cert-img ' + c.cls + '">' +
                 '<div class="bb-cert-exam">' + esc(c.exam) + '</div>' +
                 '<div class="bb-cert-score">' + esc(c.score) + '</div>' +
                 '<div class="bb-cert-name-img">' + esc(c.name) + '</div>' +
+                multiBadge +
               '</div>';
           const feedbackHtml = c.feedback
             ? '<blockquote class="bb-cert-feedback">' + _bbFormat(c.feedback) + '</blockquote>'
@@ -3104,12 +3115,14 @@
           const tile = document.createElement('article');
           tile.className = 'bb-menu-cert-tile';
           tile.dataset.idx = idx;
+          const tileMulti = c.secondaryUrl ? '<span class="bb-multi-badge">📷 +1</span>' : '';
           const imgPart = c.imageUrl
-            ? '<div class="bb-cert-img has-img" style="background-image:url(\'' + esc(c.imageUrl) + '\');aspect-ratio:4/3;"></div>'
+            ? '<div class="bb-cert-img has-img" style="background-image:url(\'' + esc(c.imageUrl) + '\');aspect-ratio:4/3;">' + tileMulti + '</div>'
             : '<div class="bb-cert-img ' + c.cls + '">' +
                 '<div class="bb-cert-exam">' + esc(c.exam) + '</div>' +
                 '<div class="bb-cert-score">' + esc(c.score) + '</div>' +
                 '<div class="bb-cert-name-img">' + esc(c.name) + '</div>' +
+                tileMulti +
               '</div>';
           const fbPart = c.feedback
             ? '<blockquote class="bb-cert-feedback">' + _bbFormat(c.feedback) + '</blockquote>'
