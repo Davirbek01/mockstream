@@ -137,6 +137,40 @@
   function uploadCertImage(file, centerId) { return uploadImage(file, centerId, 'certificates'); }
   function uploadAnnImage(file, centerId)  { return uploadImage(file, centerId, 'announcements'); }
 
+  // Extract the storage object path from a public Supabase URL so we can
+  // DELETE it. Returns null for any URL that isn't one of our own bucket
+  // objects (manually-pasted external URLs are left alone).
+  function _storagePath(url) {
+    if (!url) return null;
+    var prefix = SB_URL + '/storage/v1/object/public/' + BUCKET + '/';
+    var s = String(url);
+    if (s.indexOf(prefix) !== 0) return null;
+    return s.slice(prefix.length);
+  }
+  // Best-effort storage delete — failures get logged but never block the
+  // row delete/update (better an orphan than a stuck row).
+  async function deleteStorageObject(url) {
+    var path = _storagePath(url);
+    if (!path) return;
+    try {
+      var sess = await _session();
+      var token = (sess && sess.access_token) || SB_KEY;
+      var r = await fetch(SB_URL + '/storage/v1/object/' + BUCKET + '/' + path, {
+        method: 'DELETE',
+        headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token }
+      });
+      if (!r.ok) {
+        var t = ''; try { t = await r.text(); } catch (_e) {}
+        console.warn('[billboard] storage delete ' + r.status + ': ' + path + ' ' + t);
+      }
+    } catch (e) { console.warn('[billboard] storage delete error', e); }
+  }
+  function _rowUrls(table, row) {
+    if (!row) return [];
+    if (table === 'center_announcements') return [row.image_url].filter(Boolean);
+    return [row.certificate_image_url, row.secondary_image_url].filter(Boolean);
+  }
+
   // ── styles ────────────────────────────────────────────────────────
   var STYLES = '\
     <style>\
@@ -181,24 +215,71 @@
     .bbA-card .certthumb .nm{font-size:11px;font-style:italic;opacity:.9;font-family:Georgia,serif;}\
     .bbA-empty{padding:38px 18px;text-align:center;color:#64748b;background:#fff;border:1px dashed #cbd5e1;border-radius:14px;font-size:14px;}\
     .bbA-loading{padding:30px;text-align:center;color:#64748b;}\
-    .bbA-modal{position:fixed;inset:0;background:rgba(15,23,42,.6);z-index:10000;display:flex;align-items:flex-start;justify-content:center;padding:32px 18px;overflow-y:auto;backdrop-filter:blur(4px);}\
-    .bbA-mcard{background:#fff;border-radius:18px;max-width:560px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.4);overflow:hidden;}\
-    .bbA-mhead{padding:16px 20px;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center;}\
-    .bbA-mhead h3{margin:0;font-size:17px;font-weight:800;}\
-    .bbA-mclose{width:30px;height:30px;border-radius:50%;border:1px solid #e2e8f0;background:#fff;cursor:pointer;font-size:18px;color:#475569;}\
-    .bbA-mbody{padding:18px 20px 22px;display:flex;flex-direction:column;gap:12px;}\
-    .bbA-field{display:flex;flex-direction:column;gap:5px;}\
-    .bbA-field label{font-size:12px;font-weight:700;color:#475569;}\
-    .bbA-field input,.bbA-field textarea,.bbA-field select{padding:9px 11px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;font-family:inherit;background:#fff;}\
-    .bbA-field textarea{min-height:80px;resize:vertical;}\
+    .bbA-modal{position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:10000;display:flex;align-items:flex-start;justify-content:center;padding:24px 18px;overflow-y:auto;backdrop-filter:blur(5px);}\
+    .bbA-mcard{background:#fff;border-radius:18px;max-width:520px;width:100%;box-shadow:0 24px 60px rgba(15,23,42,.45);overflow:hidden;position:relative;}\
+    .bbA-mhead{padding:14px 18px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,#6366f1 0%,#8b5cf6 50%,#a855f7 100%);color:#fff;}\
+    .bbA-mhead h3{margin:0;font-size:16px;font-weight:800;letter-spacing:.005em;display:flex;align-items:center;gap:7px;}\
+    .bbA-mhead h3::before{content:"🏆";font-size:18px;}\
+    .bbA-mhead.ann h3::before{content:"📢";}\
+    .bbA-mclose{width:28px;height:28px;border-radius:50%;border:0;background:rgba(255,255,255,.22);cursor:pointer;font-size:17px;color:#fff;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);transition:background .15s;}\
+    .bbA-mclose:hover{background:rgba(255,255,255,.35);}\
+    .bbA-mbody{padding:14px 18px 16px;display:flex;flex-direction:column;gap:11px;}\
+    .bbA-field{display:flex;flex-direction:column;gap:4px;}\
+    .bbA-field label{font-size:11px;font-weight:800;color:#4f46e5;text-transform:uppercase;letter-spacing:.06em;}\
+    .bbA-field input,.bbA-field textarea,.bbA-field select{padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13.5px;font-family:inherit;background:#fff;color:#0f172a;transition:border-color .15s,box-shadow .15s;}\
+    .bbA-field input:focus,.bbA-field textarea:focus,.bbA-field select:focus{outline:none;border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.18);}\
+    .bbA-field textarea{min-height:60px;resize:vertical;}\
     .bbA-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}\
-    .bbA-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 20px;border-top:1px solid #e2e8f0;background:#f8fafc;}\
+    .bbA-foot{display:flex;justify-content:flex-end;align-items:center;gap:8px;padding:11px 18px;border-top:1px solid #eef2ff;background:linear-gradient(180deg,#f8fafc 0%,#f5f3ff 100%);flex-wrap:wrap;}\
     .bbA-foot .msg{font-size:12px;color:#475569;flex:1;}\
     .bbA-foot .msg.err{color:#991b1b;}\
     .bbA-consent{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:#0f172a;background:#fffbeb;border:1px solid #fde68a;padding:10px;border-radius:8px;}\
     .bbA-consent input{margin-top:2px;}\
-    .bbA-fileinfo{font-size:11px;color:#64748b;margin-top:4px;}\
-    .bbA-preview{margin-top:6px;max-height:140px;border-radius:8px;}\
+    .bbA-fileinfo{font-size:10.5px;color:#64748b;margin-top:3px;line-height:1.4;}\
+    .bbA-preview{margin-top:5px;max-height:110px;border-radius:6px;display:block;}\
+    .bbA-filerow{display:flex;gap:6px;align-items:center;}\
+    .bbA-filerow input[type="file"]{flex:1 1 0;min-width:0;font-size:12px;color:#475569;}\
+    .bbA-filerow input[type="file"]::file-selector-button{padding:6px 10px;border:1.5px solid #c7d2fe;border-radius:6px;background:#eef2ff;color:#4338ca;font-weight:700;font-size:11.5px;cursor:pointer;margin-right:8px;font-family:inherit;}\
+    .bbA-filerow input[type="file"]::file-selector-button:hover{background:#e0e7ff;}\
+    .bbA-paste-btn,.bbA-clear-btn{padding:6px 10px;border:1.5px solid #e2e8f0;background:#fff;border-radius:7px;font-size:11.5px;font-weight:700;cursor:pointer;color:#475569;white-space:nowrap;font-family:inherit;display:inline-flex;align-items:center;gap:3px;}\
+    .bbA-paste-btn:hover{background:#eef2ff;border-color:#a5b4fc;color:#4338ca;}\
+    .bbA-clear-btn:hover{background:#fef2f2;border-color:#fca5a5;color:#b91c1c;}\
+    .bbA-paste-btn:active,.bbA-clear-btn:active{transform:scale(.96);}\
+    .bbA-paste-status{font-size:11px;color:#16a34a;margin-top:3px;min-height:0;font-weight:700;}\
+    .bbA-paste-status.err{color:#dc2626;}\
+    .bbA-exam-toggle{display:flex;gap:4px;background:#eef2ff;padding:3px;border-radius:11px;border:1.5px solid #c7d2fe;}\
+    .bbA-exam-btn{flex:1;padding:9px;border:0;background:transparent;font-size:13.5px;font-weight:800;color:#6366f1;border-radius:8px;cursor:pointer;font-family:inherit;transition:background .15s,color .15s,box-shadow .15s,transform .15s;}\
+    .bbA-exam-btn:hover{color:#4338ca;}\
+    .bbA-exam-btn.active{background:linear-gradient(135deg,#6366f1,#7c3aed);color:#fff;box-shadow:0 4px 12px rgba(99,102,241,.35);}\
+    .bbA-cefr-hint{font-size:11.5px;color:#16a34a;margin-top:3px;font-weight:700;min-height:14px;display:inline-flex;align-items:center;gap:4px;}\
+    .bbA-cefr-hint:not(:empty){background:#dcfce7;padding:3px 9px;border-radius:999px;border:1px solid #bbf7d0;align-self:flex-start;}\
+    .bbA-cefr-hint.warn{color:#92400e;}\
+    .bbA-cefr-hint.warn:not(:empty){background:#fef3c7;border-color:#fde68a;}\
+    .bbA-toast{position:absolute;left:50%;top:12px;transform:translate(-50%,-30px);background:linear-gradient(135deg,#10b981,#059669);color:#fff;padding:8px 18px;border-radius:999px;font-size:13px;font-weight:800;box-shadow:0 8px 20px rgba(16,185,129,.4);opacity:0;transition:transform .25s,opacity .25s;pointer-events:none;z-index:5;}\
+    .bbA-toast.show{transform:translate(-50%,0);opacity:1;}\
+    .bbA-foot .bbA-btn{padding:9px 16px;font-size:13px;}\
+    .bbA-foot .bbA-btn.ghost{background:#fff;border:1.5px solid #e2e8f0;}\
+    .bbA-foot .bbA-btn.ghost:hover{background:#f8fafc;border-color:#c7d2fe;color:#4338ca;}\
+    @media (max-width: 640px) {\
+      .bbA-modal{padding:10px;}\
+      .bbA-mcard{max-width:100%;border-radius:14px;}\
+      .bbA-mhead{padding:12px 14px;}\
+      .bbA-mhead h3{font-size:15px;}\
+      .bbA-mbody{padding:12px 14px 14px;gap:9px;}\
+      .bbA-foot{padding:10px 12px;gap:6px;}\
+      .bbA-foot .msg{flex:1 1 100%;text-align:center;margin:0 0 2px;}\
+      .bbA-foot .bbA-btn{flex:1 1 auto;padding:9px 10px;font-size:12.5px;}\
+      .bbA-row{grid-template-columns:1fr;gap:9px;}\
+      .bbA-exam-btn{font-size:12.5px;padding:8px;}\
+      .bbA-head{flex-direction:column;align-items:stretch;}\
+      .bbA-toolbar{gap:8px;}\
+      .bbA-tabs{flex:1;}\
+      .bbA-tab{flex:1;text-align:center;}\
+      .bbA-grid{grid-template-columns:1fr;}\
+      .bbA-fileinfo{font-size:10px;}\
+      .bbA-filerow input[type="file"]{font-size:11px;}\
+      .bbA-paste-btn,.bbA-clear-btn{padding:6px 8px;font-size:11px;}\
+    }\
     </style>';
 
   // ── render ────────────────────────────────────────────────────────
@@ -352,7 +433,13 @@
         else if (act === 'del') {
           if (!confirm('Delete this ' + (state.tab === 'announcements' ? 'announcement' : 'achievement') + '? This cannot be undone.')) return;
           try {
-            await deleteRow(state.tab === 'announcements' ? 'center_announcements' : 'center_certificates', id);
+            var tableName = state.tab === 'announcements' ? 'center_announcements' : 'center_certificates';
+            // Storage cleanup BEFORE the row delete — that way we still
+            // have the URLs (if the row delete races ahead, the URLs are
+            // gone and we can never reach the objects).
+            var urls = _rowUrls(tableName, row);
+            await Promise.all(urls.map(deleteStorageObject));
+            await deleteRow(tableName, id);
             renderList();
           } catch (er) { alert('Delete failed: ' + (er.message || er)); }
         } else if (act === 'togglepub') {
@@ -374,7 +461,7 @@
     modal.className = 'bbA-modal';
     modal.innerHTML =
       '<div class="bbA-mcard">' +
-        '<div class="bbA-mhead">' +
+        '<div class="bbA-mhead' + (isAnn ? ' ann' : '') + '">' +
           '<h3>' + (isEdit ? 'Edit' : 'New') + ' ' + (isAnn ? 'announcement' : 'achievement') + '</h3>' +
           '<button class="bbA-mclose" title="Cancel">×</button>' +
         '</div>' +
@@ -382,16 +469,112 @@
         '<div class="bbA-foot">' +
           '<span class="msg" id="bbAFormMsg"></span>' +
           '<button class="bbA-btn ghost" data-act="cancel">Cancel</button>' +
+          (!isEdit && !isAnn ? '<button class="bbA-btn ghost" data-act="save-add">💾 Save &amp; Add another</button>' : '') +
           '<button class="bbA-btn" data-act="save">' + (isEdit ? '💾 Save' : '➕ Create') + '</button>' +
         '</div>' +
-      '</div>';
+      '</div>' +
+      '<div class="bbA-toast" id="bbAToast">✓ Saved</div>';
     document.body.appendChild(modal);
+
+    // Wire the IELTS / Multilevel exam toggle + dynamic CEFR hint.
+    var cefrHint  = modal.querySelector('#bbA_cefr_hint');
+    var scoreEl   = modal.querySelector('#f_score');
+    function _currentExamMode() {
+      var active = modal.querySelector('.bbA-exam-btn.active');
+      return active ? active.getAttribute('data-exam') : 'multilevel';
+    }
+    function _refreshScoreField() {
+      if (!scoreEl) return;
+      var mode = _currentExamMode();
+      if (mode === 'ielts') {
+        scoreEl.setAttribute('placeholder', '7.5');
+        scoreEl.setAttribute('min', '0');
+        scoreEl.setAttribute('max', '9');
+        scoreEl.setAttribute('step', '0.5');
+      } else {
+        scoreEl.setAttribute('placeholder', '67');
+        scoreEl.setAttribute('min', '0');
+        scoreEl.setAttribute('max', '75');
+        scoreEl.setAttribute('step', '1');
+      }
+      _updateCefrHint();
+    }
+    function _updateCefrHint() {
+      if (!cefrHint || !scoreEl) return;
+      var raw = parseFloat(scoreEl.value);
+      if (isNaN(raw)) { cefrHint.textContent = ''; return; }
+      var mode = _currentExamMode();
+      var result = mode === 'ielts' ? _cefrFromIelts(raw) : _cefrFromMultilevel(raw);
+      if (!result) { cefrHint.textContent = ''; return; }
+      var hue = result.level === 'B1' || result.level.indexOf('A') === 0 ? 'warn' : '';
+      cefrHint.className = 'bbA-cefr-hint' + (hue ? ' ' + hue : '');
+      cefrHint.textContent = '→ ' + result.level + (result.note ? ' · ' + result.note : '');
+    }
+    modal.querySelectorAll('.bbA-exam-btn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        modal.querySelectorAll('.bbA-exam-btn').forEach(function (x) { x.classList.remove('active'); });
+        b.classList.add('active');
+        _refreshScoreField();
+      });
+    });
+    if (scoreEl) scoreEl.addEventListener('input', _updateCefrHint);
+    _refreshScoreField();
+
+    // ✕ Clear buttons — drop the chosen / pasted file before saving.
+    modal.querySelectorAll('[data-clear-target]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var id = btn.getAttribute('data-clear-target');
+        var input  = modal.querySelector('#' + id);
+        var status = modal.querySelector('#' + id + '_status');
+        if (input) input.value = '';
+        if (status) { status.className = 'bbA-paste-status'; status.textContent = 'Cleared'; setTimeout(function () { status.textContent = ''; }, 1500); }
+      });
+    });
+
+    // Wire the 📋 Paste buttons — read an image from the clipboard and
+    // stuff it into the matching <input type="file"> via DataTransfer.
+    modal.querySelectorAll('[data-paste-target]').forEach(function (btn) {
+      btn.addEventListener('click', async function () {
+        var targetId = btn.getAttribute('data-paste-target');
+        var input    = modal.querySelector('#' + targetId);
+        var status   = modal.querySelector('#' + targetId + '_status');
+        if (!input || !status) return;
+        status.className = 'bbA-paste-status';
+        status.textContent = 'Reading clipboard…';
+        try {
+          if (!navigator.clipboard || !navigator.clipboard.read) {
+            throw new Error('Clipboard not available in this browser. Paste with Ctrl+V works in the latest Chrome / Edge.');
+          }
+          var items = await navigator.clipboard.read();
+          for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            for (var j = 0; j < item.types.length; j++) {
+              var t = item.types[j];
+              if (t.indexOf('image/') === 0) {
+                var blob = await item.getType(t);
+                var ext  = t.split('/')[1] || 'png';
+                var file = new File([blob], 'pasted.' + ext, { type: t });
+                var dt   = new DataTransfer();
+                dt.items.add(file);
+                input.files = dt.files;
+                status.textContent = '✓ Pasted ' + ext.toUpperCase() + ' image (' + Math.round(blob.size / 1024) + ' KB)';
+                return;
+              }
+            }
+          }
+          throw new Error('No image found on clipboard. Copy an image first (Win+Shift+S, etc).');
+        } catch (err) {
+          status.className = 'bbA-paste-status err';
+          status.textContent = err.message || String(err);
+        }
+      });
+    });
 
     function close() { modal.remove(); }
     modal.querySelector('.bbA-mclose').addEventListener('click', close);
     modal.querySelector('[data-act="cancel"]').addEventListener('click', close);
     modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
-    modal.querySelector('[data-act="save"]').addEventListener('click', async function () {
+    async function _saveOnce(closeAfter) {
       var msg = modal.querySelector('#bbAFormMsg');
       msg.className = 'msg';
       msg.textContent = 'Saving…';
@@ -400,14 +583,46 @@
         if (isAnn) data = await _readAnnForm(modal);
         else       data = await _readCertForm(modal);
         data.center_id = state.centerId;
+        // URLs to orphan-clean after a successful update.
+        var toOrphan = [];
+        if (isEdit && existing) {
+          if (isAnn) {
+            if (data.image_url && existing.image_url) toOrphan.push(existing.image_url);
+          } else {
+            if (data.certificate_image_url && existing.certificate_image_url) toOrphan.push(existing.certificate_image_url);
+            if (data.secondary_image_url   && existing.secondary_image_url)   toOrphan.push(existing.secondary_image_url);
+          }
+        }
         await saveRow(isAnn ? 'center_announcements' : 'center_certificates', data, existing && existing.id);
-        close();
-        renderList();
+        if (toOrphan.length) await Promise.all(toOrphan.map(deleteStorageObject));
+        msg.textContent = '';
+        if (closeAfter) {
+          close();
+          renderList();
+        } else {
+          // Show toast + reset per-candidate fields, keep exam type / date
+          var toast = modal.querySelector('#bbAToast');
+          if (toast) { toast.classList.add('show'); setTimeout(function () { toast.classList.remove('show'); }, 1500); }
+          _resetForNextCandidate();
+        }
       } catch (e) {
         msg.className = 'msg err';
         msg.textContent = e.message || String(e);
       }
-    });
+    }
+    function _resetForNextCandidate() {
+      var n = modal.querySelector('#f_name');     if (n) { n.value = ''; n.focus(); }
+      var s = modal.querySelector('#f_score');    if (s) s.value = '';
+      var f1= modal.querySelector('#f_file');     if (f1) f1.value = '';
+      var f2= modal.querySelector('#f_file2');    if (f2) f2.value = '';
+      var fb= modal.querySelector('#f_fb');       if (fb) fb.value = '';
+      modal.querySelectorAll('.bbA-paste-status').forEach(function (e) { e.textContent = ''; });
+      if (cefrHint) cefrHint.textContent = '';
+      // Exam type + date are intentionally preserved across consecutive saves.
+    }
+    modal.querySelector('[data-act="save"]').addEventListener('click', function () { _saveOnce(true); });
+    var saveAddBtn = modal.querySelector('[data-act="save-add"]');
+    if (saveAddBtn) saveAddBtn.addEventListener('click', function () { _saveOnce(false); });
   }
 
   function _annFormHtml(r) {
@@ -418,9 +633,11 @@
     return '\
       <div class="bbA-field"><label>Title *</label><input id="f_title" type="text" value="' + _attr(r.title) + '" placeholder="Summer IELTS Crash Course — enrollment open" /></div>\
       <div class="bbA-field"><label>Body</label><textarea id="f_body" rows="5" placeholder="Two short sentences. Use a new line starting with &quot;- &quot; for bullet points.&#10;Example:&#10;Our 6-week intensive program includes:&#10;- Daily mocks&#10;- Personal feedback&#10;- Speaking club">' + _esc(r.body) + '</textarea><div class="bbA-fileinfo">Tip: start a line with <code>- </code> for a bullet, wrap text in <code>**stars**</code> for <b>bold</b>.</div></div>\
-      <div class="bbA-field"><label>Cover image (optional)</label><input id="f_annfile" type="file" accept="image/*" />' +
+      <div class="bbA-field"><label>Cover image (optional)</label>\
+        <div class="bbA-filerow"><input id="f_annfile" type="file" accept="image/*" /><button type="button" class="bbA-paste-btn" data-paste-target="f_annfile">📋 Paste</button><button type="button" class="bbA-clear-btn" data-clear-target="f_annfile">✕ Clear</button></div>\
+        <div class="bbA-paste-status" id="f_annfile_status"></div>' +
         (r.image_url ? '<img class="bbA-preview" src="' + _attr(r.image_url) + '" alt="current" />' : '') +
-        '<div class="bbA-fileinfo">If set, this image replaces the emoji cover on the card.' + (r.image_url ? ' Leave empty to keep the current image.' : '') + '</div></div>\
+        '<div class="bbA-fileinfo">If set, this image replaces the emoji cover on the card. Paste an image directly from clipboard with the 📋 Paste button.' + (r.image_url ? ' Leave empty to keep the current image.' : '') + '</div></div>\
       <div class="bbA-row">\
         <div class="bbA-field"><label>Tag</label><select id="f_tag">' + tagOpts + '</select></div>\
         <div class="bbA-field"><label>Cover gradient (fallback)</label><select id="f_pal">' + palOpts + '</select></div>\
@@ -470,42 +687,100 @@
     return out;
   }
 
+  // Map a raw score to a CEFR level + descriptive note.
+  function _cefrFromMultilevel(score) {
+    if (isNaN(score) || score < 0) return null;
+    if (score < 51)  return { level: 'B1',  note: 'below B2 threshold' };
+    if (score <= 56) return { level: 'B2',  note: 'just achieved' };
+    if (score <= 61) return { level: 'B2',  note: 'strong B2' };
+    if (score <= 64) return { level: 'B2+', note: 'a bit shy from C1' };
+    if (score <= 67) return { level: 'C1',  note: 'lucky candidate' };
+    if (score <= 71) return { level: 'C1',  note: 'strong C1' };
+    return { level: 'C1', note: 'outstanding' };
+  }
+  function _cefrFromIelts(band) {
+    if (isNaN(band) || band < 0) return null;
+    if (band < 4.0)  return { level: 'A2',  note: '' };
+    if (band < 5.0)  return { level: 'A2+', note: 'edge of B1' };
+    if (band <= 5.5) return { level: 'B1',  note: '' };
+    if (band <= 6.0) return { level: 'B2',  note: 'just achieved' };
+    if (band <= 6.5) return { level: 'B2',  note: 'strong B2' };
+    if (band <= 7.0) return { level: 'C1',  note: 'just achieved' };
+    if (band <= 7.5) return { level: 'C1',  note: 'strong C1' };
+    if (band <= 8.5) return { level: 'C2',  note: 'high proficiency' };
+    return { level: 'C2', note: 'expert' };
+  }
+
   function _certFormHtml(r) {
     r = r || {};
-    var examOpts = EXAM_TYPES.map(function (t) { return '<option value="' + _attr(t) + '"' + (r.exam_type === t ? ' selected' : '') + '>' + _esc(t) + '</option>'; }).join('');
-    var visOpts  = VISIBILITY.map(function (v) { return '<option value="' + _attr(v.id) + '"' + ((r.name_visibility || 'initials') === v.id ? ' selected' : '') + '>' + _esc(v.label) + '</option>'; }).join('');
-    var statusOpts = ['draft','published'].map(function (s) { return '<option value="' + s + '"' + ((r.status || 'draft') === s ? ' selected' : '') + '>' + s + '</option>'; }).join('');
+    // Map legacy exam_type strings to one of two tabs.
+    var examMode = 'multilevel';
+    if (r.exam_type && /ielts/i.test(r.exam_type)) examMode = 'ielts';
     return '\
-      <div class="bbA-field"><label>Student name *</label><input id="f_name" type="text" value="' + _attr(r.student_name) + '" placeholder="Aziza Karimova" /></div>\
-      <div class="bbA-row">\
-        <div class="bbA-field"><label>Name visibility</label><select id="f_vis">' + visOpts + '</select></div>\
-        <div class="bbA-field"><label>Exam type *</label><select id="f_exam">' + examOpts + '</select></div>\
+      <div class="bbA-field"><label>Exam type *</label>\
+        <div class="bbA-exam-toggle">\
+          <button type="button" class="bbA-exam-btn' + (examMode === 'multilevel' ? ' active' : '') + '" data-exam="multilevel">🇺🇿 Multilevel</button>\
+          <button type="button" class="bbA-exam-btn' + (examMode === 'ielts' ? ' active' : '') + '" data-exam="ielts">🇬🇧 IELTS</button>\
+        </div>\
       </div>\
+      <div class="bbA-field"><label>Student name (optional)</label><input id="f_name" type="text" value="' + _attr(r.student_name) + '" placeholder="Aziza Karimova" /></div>\
       <div class="bbA-row">\
-        <div class="bbA-field"><label>Score / band *</label><input id="f_score" type="text" value="' + _attr(r.score) + '" placeholder="8.0 / C1 / 1480" /></div>\
+        <div class="bbA-field"><label>Score *</label><input id="f_score" type="number" inputmode="decimal" value="' + _attr(r.score) + '" /><div class="bbA-cefr-hint" id="bbA_cefr_hint"></div></div>\
         <div class="bbA-field"><label>Exam date (optional)</label><input id="f_date" type="date" value="' + _attr(r.exam_date) + '" /></div>\
       </div>\
-      <div class="bbA-field"><label>Primary image (e.g., certificate scan)</label><input id="f_file" type="file" accept="image/*" />' +
+      <div class="bbA-field"><label>Primary image (e.g., certificate scan)</label>\
+        <div class="bbA-filerow"><input id="f_file" type="file" accept="image/*" /><button type="button" class="bbA-paste-btn" data-paste-target="f_file">📋 Paste</button><button type="button" class="bbA-clear-btn" data-clear-target="f_file">✕ Clear</button></div>\
+        <div class="bbA-paste-status" id="f_file_status"></div>' +
         (r.certificate_image_url ? '<img class="bbA-preview" src="' + _attr(r.certificate_image_url) + '" alt="current" />' : '') +
-        '<div class="bbA-fileinfo">Leave empty to keep ' + (r.certificate_image_url ? 'the current image.' : 'no image (a styled placeholder will be shown).') + '</div></div>\
-      <div class="bbA-field"><label>Secondary image (optional, e.g., student testimonial screenshot)</label><input id="f_file2" type="file" accept="image/*" />' +
+        '<div class="bbA-fileinfo">Leave empty to keep ' + (r.certificate_image_url ? 'the current image.' : 'no image (a styled placeholder will be shown).') + ' Paste from clipboard with 📋.</div></div>\
+      <div class="bbA-field"><label>Secondary image (optional, e.g., student testimonial screenshot)</label>\
+        <div class="bbA-filerow"><input id="f_file2" type="file" accept="image/*" /><button type="button" class="bbA-paste-btn" data-paste-target="f_file2">📋 Paste</button><button type="button" class="bbA-clear-btn" data-clear-target="f_file2">✕ Clear</button></div>\
+        <div class="bbA-paste-status" id="f_file2_status"></div>' +
         (r.secondary_image_url ? '<img class="bbA-preview" src="' + _attr(r.secondary_image_url) + '" alt="current" />' : '') +
         '<div class="bbA-fileinfo">' + (r.secondary_image_url ? 'Leave empty to keep the current image. ' : '') + 'Both images appear stacked inside the detail popup.</div></div>\
-      <div class="bbA-field"><label>Student feedback (testimonial, optional)</label><textarea id="f_fb" rows="4" placeholder="The mock interviews were exactly like the real exam. - Lots of practice - Helpful tutors">' + _esc(r.student_feedback) + '</textarea><div class="bbA-fileinfo">Tip: same formatting as announcements — <code>- </code> for bullets, <code>**stars**</code> for <b>bold</b>.</div></div>\
-      <div class="bbA-row">\
-        <div class="bbA-field"><label>Status</label><select id="f_status">' + statusOpts + '</select></div>\
-        <div class="bbA-field"><label>&nbsp;</label><div style="font-size:11px;color:#64748b;padding:6px 0;">Drafts are hidden on the landing page.</div></div>\
-      </div>\
-      <label class="bbA-consent"><input id="f_consent" type="checkbox"' + (r.consent_given ? ' checked' : '') + ' /><span>I confirm the student has given consent to display their name and certificate publicly on the landing page.</span></label>';
+      <div class="bbA-field"><label>Student feedback (testimonial, optional)</label><textarea id="f_fb" rows="4" placeholder="The mock interviews were exactly like the real exam. - Lots of practice - Helpful tutors">' + _esc(r.student_feedback) + '</textarea><div class="bbA-fileinfo">Tip: same formatting as announcements — <code>- </code> for bullets, <code>**stars**</code> for <b>bold</b>.</div></div>';
   }
+  // Generic congratulations + encouragement messages used when the
+  // testimonial field is left empty. Each one is 4+ lines of warm,
+  // positive copy that doesn't put words in the student's mouth.
+  // Picked at random per save so consecutive cards don't read the same.
+  var DEFAULT_FEEDBACKS = [
+    "Hard work always pays off, and this result is proof.\n" +
+    "Every late evening, every retake, every page of notes brought you here.\n" +
+    "Congratulations on a well-earned achievement — you should be proud.\n" +
+    "We wish you even bigger wins and brighter milestones ahead. 🎯",
+
+    "Discipline turns goals into certificates, and you've shown plenty of it.\n" +
+    "This score reflects real focus and patience — keep that energy going.\n" +
+    "We're proud to have been part of your journey so far.\n" +
+    "Wishing you greater achievements and the future you've been working for. ✨",
+
+    "Behind every score is a story of focus, patience and effort.\n" +
+    "This achievement reflects all of that, and so much more.\n" +
+    "Congratulations — you've earned every point of it.\n" +
+    "Onwards to the next chapter and even bigger milestones. 🚀",
+
+    "Hardworking students always get what they want, and you've proved it.\n" +
+    "Your consistency over the months has finally translated into this result.\n" +
+    "Take a moment to celebrate — you've earned it.\n" +
+    "We wish you even bigger achievements on the road ahead. 🌟",
+
+    "Some results are earned, not given. This is one of them.\n" +
+    "Long hours, real focus, and a clear goal — they all led here.\n" +
+    "Congratulations on a fantastic outcome.\n" +
+    "May this be the first of many bigger milestones to come. 💪"
+  ];
+
   async function _readCertForm(modal) {
     var name = modal.querySelector('#f_name').value.trim();
-    if (!name) throw new Error('Student name is required');
-    var exam = modal.querySelector('#f_exam').value;
+    var examMode = modal.querySelector('.bbA-exam-btn.active').getAttribute('data-exam');
+    var exam = examMode === 'ielts' ? 'IELTS Academic' : 'CEFR Multilevel';
     var score = modal.querySelector('#f_score').value.trim();
-    if (!score) throw new Error('Score / band is required');
-    var consent = modal.querySelector('#f_consent').checked;
-    if (!consent) throw new Error('Consent checkbox must be ticked');
+    if (!score) throw new Error('Score is required');
+    var feedback = modal.querySelector('#f_fb').value.trim();
+    if (!feedback) {
+      feedback = DEFAULT_FEEDBACKS[Math.floor(Math.random() * DEFAULT_FEEDBACKS.length)];
+    }
     var file  = modal.querySelector('#f_file').files[0];
     var file2 = modal.querySelector('#f_file2').files[0];
     var imageUrl = null, secondaryUrl = null;
@@ -513,13 +788,13 @@
     if (file2) secondaryUrl = await uploadCertImage(file2, state.centerId);
     var out = {
       student_name:     name,
-      name_visibility:  modal.querySelector('#f_vis').value,
+      name_visibility:  name ? 'full' : 'initials',
       exam_type:        exam,
       score:            score,
       exam_date:        modal.querySelector('#f_date').value || null,
-      student_feedback: modal.querySelector('#f_fb').value || null,
+      student_feedback: feedback,
       consent_given:    true,
-      status:           modal.querySelector('#f_status').value
+      status:           'published'
     };
     if (imageUrl)     out.certificate_image_url = imageUrl;
     if (secondaryUrl) out.secondary_image_url   = secondaryUrl;
