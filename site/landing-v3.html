@@ -2389,15 +2389,14 @@
         font-family: inherit;
       }
       .bb-more-btn:hover { text-decoration: underline; }
-      .bb-ann-card.expanded .bb-ann-body,
-      .bb-cert-card.expanded .bb-cert-feedback {
-        max-height: 220px; overflow-y: auto;
-      }
-      /* Menu rows always show the whole text — never truncate in the gallery */
-      .bb-menu-ann-row .bb-ann-body,
-      .bb-menu-cert-tile .bb-cert-feedback {
-        max-height: none;
-      }
+      /* Gallery items also truncate. A Show-more button is appended
+         when the text actually overflows, and it opens the detail popup. */
+      .bb-menu-ann-row .bb-ann-body { max-height: 6em; }
+      .bb-menu-cert-tile .bb-cert-feedback { max-height: 7em; }
+      .bb-menu-cert-tile { cursor: pointer; }
+      .bb-menu-ann-row { cursor: pointer; }
+      .bb-detail-subtitle { font-size: 13px; color:#475569; margin: -4px 0 2px; }
+      .bb-detail-subtitle:empty { display: none; }
 
       /* ════ PC layout: side-by-side cover image + text ════ */
       @media (min-width: 641px) {
@@ -2642,10 +2641,11 @@
       <div class="bb-detail-card">
         <div class="bb-detail-cover" id="bbDetCover"></div>
         <div class="bb-detail-body">
-          <div><span class="bb-ann-tag" id="bbDetTag"></span></div>
+          <div id="bbDetTagWrap"><span class="bb-ann-tag" id="bbDetTag"></span></div>
           <h2 class="bb-detail-title" id="bbDetTitle"></h2>
+          <div class="bb-detail-subtitle" id="bbDetSubtitle"></div>
           <div class="bb-ann-body" id="bbDetBody"></div>
-          <div class="bb-detail-foot">
+          <div class="bb-detail-foot" id="bbDetFoot">
             <span class="bb-ann-date" id="bbDetDate"></span>
             <a class="bb-detail-cta" id="bbDetCta" target="_blank" rel="noopener"></a>
           </div>
@@ -2992,22 +2992,14 @@
         function stop()  { if (timer) { clearInterval(timer); timer = null; } }
         function restart() { stop(); start(); }
 
-        // Collapse any expanded cards (called when user manually navigates).
-        function collapseAll() {
-          isExpanded = false;
-          [annTrack, certTrack].forEach(track => {
-            track.querySelectorAll('.expanded').forEach(c => {
-              c.classList.remove('expanded');
-              const b = c.querySelector('.bb-more-btn');
-              if (b) b.textContent = 'Show more';
-            });
-          });
-        }
+        // No-op kept for compatibility with the manual-nav handlers.
+        function collapseAll() { isExpanded = false; }
 
-        // Attach a "Show more / less" toggle to each card whose body text
-        // is actually clamped. Click expands inline + pauses auto-rotate.
-        function attachShowMore(card, selector) {
-          const el = card.querySelector(selector);
+        // Append a "Show more" link below a clamped body/feedback element.
+        // Clicking the link opens the detail popup for that item instead
+        // of expanding inline (consistent UX for both card + gallery).
+        function attachShowMore(host, selector, openType, dataFor) {
+          const el = host.querySelector(selector);
           if (!el) return;
           requestAnimationFrame(() => {
             if (el.scrollHeight > el.clientHeight + 2) {
@@ -3017,16 +3009,22 @@
               btn.textContent = 'Show more';
               btn.addEventListener('click', e => {
                 e.stopPropagation();
-                const expanded = card.classList.toggle('expanded');
-                btn.textContent = expanded ? 'Show less' : 'Show more';
-                isExpanded = !!annTrack.querySelector('.expanded') || !!certTrack.querySelector('.expanded');
+                openDetail(openType, dataFor());
               });
               el.insertAdjacentElement('afterend', btn);
             }
           });
         }
-        annTrack.querySelectorAll('.bb-ann-card').forEach(c => attachShowMore(c, '.bb-ann-body'));
-        certTrack.querySelectorAll('.bb-cert-card').forEach(c => attachShowMore(c, '.bb-cert-feedback'));
+        // Stage cards
+        annTrack.querySelectorAll('.bb-ann-card').forEach((c, i) => {
+          // i counts through real cards then the clone; clamp via modulo
+          const idx = ANN.length ? i % ANN.length : 0;
+          attachShowMore(c, '.bb-ann-body', 'ann', () => ANN[idx]);
+        });
+        certTrack.querySelectorAll('.bb-cert-card').forEach((c, i) => {
+          const idx = CERT.length ? i % CERT.length : 0;
+          attachShowMore(c, '.bb-cert-feedback', 'cert', () => CERT[idx]);
+        });
 
         // Per-slot prev / next arrows
         document.getElementById('bbAnnPrev').addEventListener('click',  () => { collapseAll(); prevAnn();  restart(); });
@@ -3067,9 +3065,10 @@
         });
 
         // Render full certificate grid (with optional student feedback quote)
-        CERT.forEach(c => {
+        CERT.forEach((c, idx) => {
           const tile = document.createElement('article');
           tile.className = 'bb-menu-cert-tile';
+          tile.dataset.idx = idx;
           const imgPart = c.imageUrl
             ? '<div class="bb-cert-img has-img" style="background-image:url(\'' + esc(c.imageUrl) + '\');aspect-ratio:4/3;"></div>'
             : '<div class="bb-cert-img ' + c.cls + '">' +
@@ -3099,19 +3098,21 @@
           start();
         }
 
-        // ----- Single-announcement detail popup -----
-        const bbDetail   = document.getElementById('bbDetail');
-        const bbDetClose = document.getElementById('bbDetClose');
-        const bbDetCover = document.getElementById('bbDetCover');
-        const bbDetTag   = document.getElementById('bbDetTag');
-        const bbDetTitle = document.getElementById('bbDetTitle');
-        const bbDetBody  = document.getElementById('bbDetBody');
-        const bbDetDate  = document.getElementById('bbDetDate');
-        const bbDetCta   = document.getElementById('bbDetCta');
+        // ----- Generic detail popup (announcement OR certificate) -----
+        const bbDetail     = document.getElementById('bbDetail');
+        const bbDetClose   = document.getElementById('bbDetClose');
+        const bbDetCover   = document.getElementById('bbDetCover');
+        const bbDetTagWrap = document.getElementById('bbDetTagWrap');
+        const bbDetTag     = document.getElementById('bbDetTag');
+        const bbDetTitle   = document.getElementById('bbDetTitle');
+        const bbDetSub     = document.getElementById('bbDetSubtitle');
+        const bbDetBody    = document.getElementById('bbDetBody');
+        const bbDetFoot    = document.getElementById('bbDetFoot');
+        const bbDetDate    = document.getElementById('bbDetDate');
+        const bbDetCta     = document.getElementById('bbDetCta');
 
-        function openDetail(a) {
-          if (!a) return;
-          stop();
+        function _detailFillAnn(a) {
+          bbDetCover.removeAttribute('style');
           if (a.imageUrl) {
             bbDetCover.className = 'bb-detail-cover has-img';
             bbDetCover.style.backgroundImage = "url('" + a.imageUrl + "')";
@@ -3121,9 +3122,11 @@
             bbDetCover.style.backgroundImage = '';
             bbDetCover.textContent = a.cover;
           }
+          bbDetTagWrap.style.display = '';
           bbDetTag.className = 'bb-ann-tag ' + a.tagCls;
           bbDetTag.textContent = a.tag;
           bbDetTitle.textContent = a.headline;
+          bbDetSub.textContent = '';
           bbDetBody.innerHTML = _bbFormat(a.body);
           bbDetDate.textContent = a.date;
           const url = _bbTgUrl(a);
@@ -3134,10 +3137,44 @@
             bbDetCta.textContent = '💬 ' + label + ' →';
             bbDetCta.className = 'bb-detail-cta' + (a.tgUsername ? '' : ' alt');
             bbDetCta.style.display = '';
+            bbDetFoot.style.display = '';
           } else {
             bbDetCta.style.display = 'none';
+            bbDetFoot.style.display = '';
           }
+        }
+        function _detailFillCert(c) {
+          bbDetCover.removeAttribute('style');
+          if (c.imageUrl) {
+            bbDetCover.className = 'bb-detail-cover has-img';
+            bbDetCover.style.backgroundImage = "url('" + c.imageUrl + "')";
+            bbDetCover.innerHTML = '';
+          } else {
+            bbDetCover.className = 'bb-detail-cover bb-cert-img ' + c.cls;
+            bbDetCover.style.backgroundImage = '';
+            bbDetCover.innerHTML =
+              '<div class="bb-cert-exam">' + esc(c.exam) + '</div>' +
+              '<div class="bb-cert-score">' + esc(c.score) + '</div>' +
+              '<div class="bb-cert-name-img">' + esc(c.name) + '</div>';
+          }
+          bbDetTagWrap.style.display = 'none';
+          bbDetTitle.textContent = c.name;
+          bbDetSub.textContent = c.exam + (c.date ? ' · ' + c.date : '');
+          bbDetBody.innerHTML = c.feedback
+            ? '<blockquote class="bb-cert-feedback" style="max-height:none;margin:6px 0 0;">' + _bbFormat(c.feedback) + '</blockquote>'
+            : '<p style="color:#94a3b8;margin:8px 0 0;font-style:italic;">No testimonial provided.</p>';
+          bbDetFoot.style.display = 'none';
+        }
+        function openDetail(type, data) {
+          if (!data) return;
+          stop();
+          // close any open gallery
+          menuAnn.classList.remove('open');
+          menuCert.classList.remove('open');
+          if (type === 'cert') _detailFillCert(data);
+          else                 _detailFillAnn(data);
           bbDetail.classList.add('open');
+          bbDetail.scrollTop = 0;
         }
         function closeDetail() { bbDetail.classList.remove('open'); start(); }
         bbDetClose.addEventListener('click', closeDetail);
@@ -3155,19 +3192,33 @@
         });
         certStage.addEventListener('click', () => openMenu('cert'));
 
-        // Menu CTA delegation → open detail for the clicked row
-        menuAnnList.addEventListener('click', e => {
-          const cta = e.target.closest('.bb-ann-cta');
-          if (!cta) return;
-          e.stopPropagation();
-          const row = cta.closest('[data-idx]');
-          if (!row) return;
-          const i = parseInt(row.dataset.idx, 10);
-          if (!isNaN(i) && ANN[i]) {
-            menuAnn.classList.remove('open');
-            openDetail(ANN[i]);
-          }
-        });
+        // Gallery → click any row/tile (or its Show more / CTA) → detail popup
+        function _galleryClickHandler(type, list) {
+          return e => {
+            const item = e.target.closest('[data-idx]');
+            if (!item) return;
+            e.stopPropagation();
+            const i = parseInt(item.dataset.idx, 10);
+            if (isNaN(i) || !list[i]) return;
+            openDetail(type, list[i]);
+          };
+        }
+        menuAnnList.addEventListener('click', _galleryClickHandler('ann', ANN));
+        menuCertGrid.addEventListener('click', _galleryClickHandler('cert', CERT));
+
+        // Truncated body/feedback inside the gallery gets its own Show more
+        // button. Click also opens the detail popup.
+        function _wireGalleryShowMore() {
+          menuAnnList.querySelectorAll('.bb-menu-ann-row').forEach((row) => {
+            const i = parseInt(row.dataset.idx, 10);
+            attachShowMore(row, '.bb-ann-body', 'ann', () => ANN[i]);
+          });
+          menuCertGrid.querySelectorAll('.bb-menu-cert-tile').forEach((tile) => {
+            const i = parseInt(tile.dataset.idx, 10);
+            attachShowMore(tile, '.bb-cert-feedback', 'cert', () => CERT[i]);
+          });
+        }
+        _wireGalleryShowMore();
 
         // Close handlers
         document.querySelectorAll('.bb-menu-close').forEach(btn => btn.addEventListener('click', closeMenus));
