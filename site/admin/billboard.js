@@ -241,6 +241,33 @@
     .bbA-paste-btn:active,.bbA-clear-btn:active{transform:scale(.97);}\
     .bbA-paste-status{font-size:11px;color:#16a34a;margin-top:4px;min-height:14px;font-weight:600;}\
     .bbA-paste-status.err{color:#dc2626;}\
+    .bbA-exam-toggle{display:flex;gap:6px;background:#f1f5f9;padding:4px;border-radius:11px;border:1px solid #e2e8f0;}\
+    .bbA-exam-btn{flex:1;padding:11px;border:0;background:transparent;font-size:14px;font-weight:700;color:#475569;border-radius:8px;cursor:pointer;font-family:inherit;transition:background .15s,color .15s,box-shadow .15s;}\
+    .bbA-exam-btn.active{background:#fff;color:#0f172a;box-shadow:0 1px 3px rgba(15,23,42,.1);}\
+    .bbA-cefr-hint{font-size:12px;color:#16a34a;margin-top:4px;font-weight:600;min-height:14px;}\
+    .bbA-cefr-hint.warn{color:#92400e;}\
+    .bbA-toast{position:absolute;left:50%;top:14px;transform:translate(-50%,-30px);background:#16a34a;color:#fff;padding:8px 16px;border-radius:999px;font-size:13px;font-weight:700;box-shadow:0 6px 18px rgba(22,163,74,.35);opacity:0;transition:transform .25s,opacity .25s;pointer-events:none;z-index:5;}\
+    .bbA-toast.show{transform:translate(-50%,0);opacity:1;}\
+    @media (max-width: 640px) {\
+      .bbA-modal{padding:14px 8px;align-items:flex-start;}\
+      .bbA-mcard{max-width:100%;border-radius:14px;}\
+      .bbA-mhead{padding:14px 16px;}\
+      .bbA-mhead h3{font-size:16px;}\
+      .bbA-mbody{padding:14px 16px 18px;gap:10px;}\
+      .bbA-foot{padding:12px 16px;flex-wrap:wrap;gap:8px;}\
+      .bbA-foot .bbA-btn{flex:1 1 100%;text-align:center;padding:11px;}\
+      .bbA-foot .msg{flex:1 1 100%;text-align:center;margin-bottom:4px;}\
+      .bbA-row{grid-template-columns:1fr;}\
+      .bbA-exam-btn{font-size:13px;padding:10px;}\
+      .bbA-head{flex-direction:column;align-items:stretch;}\
+      .bbA-toolbar{gap:8px;}\
+      .bbA-tabs{flex:1;}\
+      .bbA-tab{flex:1;text-align:center;}\
+      .bbA-grid{grid-template-columns:1fr;}\
+      .bbA-filerow{flex-direction:column;align-items:stretch;}\
+      .bbA-filerow input[type="file"]{width:100%;}\
+      .bbA-paste-btn,.bbA-clear-btn{padding:10px;}\
+    }\
     </style>';
 
   // ── render ────────────────────────────────────────────────────────
@@ -430,10 +457,56 @@
         '<div class="bbA-foot">' +
           '<span class="msg" id="bbAFormMsg"></span>' +
           '<button class="bbA-btn ghost" data-act="cancel">Cancel</button>' +
+          (!isEdit && !isAnn ? '<button class="bbA-btn ghost" data-act="save-add">💾 Save &amp; Add another</button>' : '') +
           '<button class="bbA-btn" data-act="save">' + (isEdit ? '💾 Save' : '➕ Create') + '</button>' +
         '</div>' +
-      '</div>';
+      '</div>' +
+      '<div class="bbA-toast" id="bbAToast">✓ Saved</div>';
     document.body.appendChild(modal);
+
+    // Wire the IELTS / Multilevel exam toggle + dynamic CEFR hint.
+    var cefrHint  = modal.querySelector('#bbA_cefr_hint');
+    var scoreEl   = modal.querySelector('#f_score');
+    function _currentExamMode() {
+      var active = modal.querySelector('.bbA-exam-btn.active');
+      return active ? active.getAttribute('data-exam') : 'multilevel';
+    }
+    function _refreshScoreField() {
+      if (!scoreEl) return;
+      var mode = _currentExamMode();
+      if (mode === 'ielts') {
+        scoreEl.setAttribute('placeholder', '7.5');
+        scoreEl.setAttribute('min', '0');
+        scoreEl.setAttribute('max', '9');
+        scoreEl.setAttribute('step', '0.5');
+      } else {
+        scoreEl.setAttribute('placeholder', '67');
+        scoreEl.setAttribute('min', '0');
+        scoreEl.setAttribute('max', '75');
+        scoreEl.setAttribute('step', '1');
+      }
+      _updateCefrHint();
+    }
+    function _updateCefrHint() {
+      if (!cefrHint || !scoreEl) return;
+      var raw = parseFloat(scoreEl.value);
+      if (isNaN(raw)) { cefrHint.textContent = ''; return; }
+      var mode = _currentExamMode();
+      var result = mode === 'ielts' ? _cefrFromIelts(raw) : _cefrFromMultilevel(raw);
+      if (!result) { cefrHint.textContent = ''; return; }
+      var hue = result.level === 'B1' || result.level.indexOf('A') === 0 ? 'warn' : '';
+      cefrHint.className = 'bbA-cefr-hint' + (hue ? ' ' + hue : '');
+      cefrHint.textContent = '→ ' + result.level + (result.note ? ' · ' + result.note : '');
+    }
+    modal.querySelectorAll('.bbA-exam-btn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        modal.querySelectorAll('.bbA-exam-btn').forEach(function (x) { x.classList.remove('active'); });
+        b.classList.add('active');
+        _refreshScoreField();
+      });
+    });
+    if (scoreEl) scoreEl.addEventListener('input', _updateCefrHint);
+    _refreshScoreField();
 
     // ✕ Clear buttons — drop the chosen / pasted file before saving.
     modal.querySelectorAll('[data-clear-target]').forEach(function (btn) {
@@ -489,7 +562,7 @@
     modal.querySelector('.bbA-mclose').addEventListener('click', close);
     modal.querySelector('[data-act="cancel"]').addEventListener('click', close);
     modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
-    modal.querySelector('[data-act="save"]').addEventListener('click', async function () {
+    async function _saveOnce(closeAfter) {
       var msg = modal.querySelector('#bbAFormMsg');
       msg.className = 'msg';
       msg.textContent = 'Saving…';
@@ -498,11 +571,7 @@
         if (isAnn) data = await _readAnnForm(modal);
         else       data = await _readCertForm(modal);
         data.center_id = state.centerId;
-
-        // Collect URLs of images we're about to replace, so we can clean
-        // them out of storage AFTER the row update succeeds. Only the keys
-        // present in `data` were uploaded this session — empty file inputs
-        // leave the old URL on the row untouched.
+        // URLs to orphan-clean after a successful update.
         var toOrphan = [];
         if (isEdit && existing) {
           if (isAnn) {
@@ -512,17 +581,36 @@
             if (data.secondary_image_url   && existing.secondary_image_url)   toOrphan.push(existing.secondary_image_url);
           }
         }
-
         await saveRow(isAnn ? 'center_announcements' : 'center_certificates', data, existing && existing.id);
-        // Best-effort cleanup of replaced storage objects (after save).
         if (toOrphan.length) await Promise.all(toOrphan.map(deleteStorageObject));
-        close();
-        renderList();
+        msg.textContent = '';
+        if (closeAfter) {
+          close();
+          renderList();
+        } else {
+          // Show toast + reset per-candidate fields, keep exam type / date
+          var toast = modal.querySelector('#bbAToast');
+          if (toast) { toast.classList.add('show'); setTimeout(function () { toast.classList.remove('show'); }, 1500); }
+          _resetForNextCandidate();
+        }
       } catch (e) {
         msg.className = 'msg err';
         msg.textContent = e.message || String(e);
       }
-    });
+    }
+    function _resetForNextCandidate() {
+      var n = modal.querySelector('#f_name');     if (n) { n.value = ''; n.focus(); }
+      var s = modal.querySelector('#f_score');    if (s) s.value = '';
+      var f1= modal.querySelector('#f_file');     if (f1) f1.value = '';
+      var f2= modal.querySelector('#f_file2');    if (f2) f2.value = '';
+      var fb= modal.querySelector('#f_fb');       if (fb) fb.value = '';
+      modal.querySelectorAll('.bbA-paste-status').forEach(function (e) { e.textContent = ''; });
+      if (cefrHint) cefrHint.textContent = '';
+      // Exam type + date are intentionally preserved across consecutive saves.
+    }
+    modal.querySelector('[data-act="save"]').addEventListener('click', function () { _saveOnce(true); });
+    var saveAddBtn = modal.querySelector('[data-act="save-add"]');
+    if (saveAddBtn) saveAddBtn.addEventListener('click', function () { _saveOnce(false); });
   }
 
   function _annFormHtml(r) {
@@ -587,19 +675,45 @@
     return out;
   }
 
+  // Map a raw score to a CEFR level + descriptive note.
+  function _cefrFromMultilevel(score) {
+    if (isNaN(score) || score < 0) return null;
+    if (score < 51)  return { level: 'B1',  note: 'below B2 threshold' };
+    if (score <= 56) return { level: 'B2',  note: 'just achieved' };
+    if (score <= 61) return { level: 'B2',  note: 'strong B2' };
+    if (score <= 64) return { level: 'B2+', note: 'a bit shy from C1' };
+    if (score <= 67) return { level: 'C1',  note: 'lucky candidate' };
+    if (score <= 71) return { level: 'C1',  note: 'strong C1' };
+    return { level: 'C1', note: 'outstanding' };
+  }
+  function _cefrFromIelts(band) {
+    if (isNaN(band) || band < 0) return null;
+    if (band < 4.0)  return { level: 'A2',  note: '' };
+    if (band < 5.0)  return { level: 'A2+', note: 'edge of B1' };
+    if (band <= 5.5) return { level: 'B1',  note: '' };
+    if (band <= 6.0) return { level: 'B2',  note: 'just achieved' };
+    if (band <= 6.5) return { level: 'B2',  note: 'strong B2' };
+    if (band <= 7.0) return { level: 'C1',  note: 'just achieved' };
+    if (band <= 7.5) return { level: 'C1',  note: 'strong C1' };
+    if (band <= 8.5) return { level: 'C2',  note: 'high proficiency' };
+    return { level: 'C2', note: 'expert' };
+  }
+
   function _certFormHtml(r) {
     r = r || {};
-    var examOpts = EXAM_TYPES.map(function (t) { return '<option value="' + _attr(t) + '"' + (r.exam_type === t ? ' selected' : '') + '>' + _esc(t) + '</option>'; }).join('');
-    var visOpts  = VISIBILITY.map(function (v) { return '<option value="' + _attr(v.id) + '"' + ((r.name_visibility || 'initials') === v.id ? ' selected' : '') + '>' + _esc(v.label) + '</option>'; }).join('');
-    var statusOpts = ['draft','published'].map(function (s) { return '<option value="' + s + '"' + ((r.status || 'draft') === s ? ' selected' : '') + '>' + s + '</option>'; }).join('');
+    // Map legacy exam_type strings to one of two tabs.
+    var examMode = 'multilevel';
+    if (r.exam_type && /ielts/i.test(r.exam_type)) examMode = 'ielts';
     return '\
+      <div class="bbA-field"><label>Exam type *</label>\
+        <div class="bbA-exam-toggle">\
+          <button type="button" class="bbA-exam-btn' + (examMode === 'multilevel' ? ' active' : '') + '" data-exam="multilevel">🇺🇿 Multilevel</button>\
+          <button type="button" class="bbA-exam-btn' + (examMode === 'ielts' ? ' active' : '') + '" data-exam="ielts">🇬🇧 IELTS</button>\
+        </div>\
+      </div>\
       <div class="bbA-field"><label>Student name *</label><input id="f_name" type="text" value="' + _attr(r.student_name) + '" placeholder="Aziza Karimova" /></div>\
       <div class="bbA-row">\
-        <div class="bbA-field"><label>Name visibility</label><select id="f_vis">' + visOpts + '</select></div>\
-        <div class="bbA-field"><label>Exam type *</label><select id="f_exam">' + examOpts + '</select></div>\
-      </div>\
-      <div class="bbA-row">\
-        <div class="bbA-field"><label>Score / band *</label><input id="f_score" type="text" value="' + _attr(r.score) + '" placeholder="8.0 / C1 / 1480" /></div>\
+        <div class="bbA-field"><label>Score *</label><input id="f_score" type="number" inputmode="decimal" value="' + _attr(r.score) + '" /><div class="bbA-cefr-hint" id="bbA_cefr_hint"></div></div>\
         <div class="bbA-field"><label>Exam date (optional)</label><input id="f_date" type="date" value="' + _attr(r.exam_date) + '" /></div>\
       </div>\
       <div class="bbA-field"><label>Primary image (e.g., certificate scan)</label>\
@@ -612,21 +726,15 @@
         <div class="bbA-paste-status" id="f_file2_status"></div>' +
         (r.secondary_image_url ? '<img class="bbA-preview" src="' + _attr(r.secondary_image_url) + '" alt="current" />' : '') +
         '<div class="bbA-fileinfo">' + (r.secondary_image_url ? 'Leave empty to keep the current image. ' : '') + 'Both images appear stacked inside the detail popup.</div></div>\
-      <div class="bbA-field"><label>Student feedback (testimonial, optional)</label><textarea id="f_fb" rows="4" placeholder="The mock interviews were exactly like the real exam. - Lots of practice - Helpful tutors">' + _esc(r.student_feedback) + '</textarea><div class="bbA-fileinfo">Tip: same formatting as announcements — <code>- </code> for bullets, <code>**stars**</code> for <b>bold</b>.</div></div>\
-      <div class="bbA-row">\
-        <div class="bbA-field"><label>Status</label><select id="f_status">' + statusOpts + '</select></div>\
-        <div class="bbA-field"><label>&nbsp;</label><div style="font-size:11px;color:#64748b;padding:6px 0;">Drafts are hidden on the landing page.</div></div>\
-      </div>\
-      <label class="bbA-consent"><input id="f_consent" type="checkbox"' + (r.consent_given ? ' checked' : '') + ' /><span>I confirm the student has given consent to display their name and certificate publicly on the landing page.</span></label>';
+      <div class="bbA-field"><label>Student feedback (testimonial, optional)</label><textarea id="f_fb" rows="4" placeholder="The mock interviews were exactly like the real exam. - Lots of practice - Helpful tutors">' + _esc(r.student_feedback) + '</textarea><div class="bbA-fileinfo">Tip: same formatting as announcements — <code>- </code> for bullets, <code>**stars**</code> for <b>bold</b>.</div></div>';
   }
   async function _readCertForm(modal) {
     var name = modal.querySelector('#f_name').value.trim();
     if (!name) throw new Error('Student name is required');
-    var exam = modal.querySelector('#f_exam').value;
+    var examMode = modal.querySelector('.bbA-exam-btn.active').getAttribute('data-exam');
+    var exam = examMode === 'ielts' ? 'IELTS Academic' : 'CEFR Multilevel';
     var score = modal.querySelector('#f_score').value.trim();
-    if (!score) throw new Error('Score / band is required');
-    var consent = modal.querySelector('#f_consent').checked;
-    if (!consent) throw new Error('Consent checkbox must be ticked');
+    if (!score) throw new Error('Score is required');
     var file  = modal.querySelector('#f_file').files[0];
     var file2 = modal.querySelector('#f_file2').files[0];
     var imageUrl = null, secondaryUrl = null;
@@ -634,13 +742,13 @@
     if (file2) secondaryUrl = await uploadCertImage(file2, state.centerId);
     var out = {
       student_name:     name,
-      name_visibility:  modal.querySelector('#f_vis').value,
+      name_visibility:  'full',
       exam_type:        exam,
       score:            score,
       exam_date:        modal.querySelector('#f_date').value || null,
       student_feedback: modal.querySelector('#f_fb').value || null,
       consent_given:    true,
-      status:           modal.querySelector('#f_status').value
+      status:           'published'
     };
     if (imageUrl)     out.certificate_image_url = imageUrl;
     if (secondaryUrl) out.secondary_image_url   = secondaryUrl;
