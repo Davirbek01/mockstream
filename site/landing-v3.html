@@ -2365,6 +2365,24 @@
         display:-webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
         overflow: hidden;
       }
+      .bb-more-btn {
+        background: transparent; border: 0; padding: 0; margin-top: 4px;
+        font-size: 12px; font-weight: 700; color: #4f46e5;
+        cursor: pointer; align-self: flex-start; text-align: left;
+        font-family: inherit;
+      }
+      .bb-more-btn:hover { text-decoration: underline; }
+      .bb-ann-card.expanded .bb-ann-body,
+      .bb-cert-card.expanded .bb-cert-feedback {
+        -webkit-line-clamp: unset;
+        max-height: 220px; overflow-y: auto;
+      }
+      /* Menu rows always show the whole text — never truncate in the gallery */
+      .bb-menu-ann-row .bb-ann-body,
+      .bb-menu-cert-tile .bb-cert-feedback {
+        -webkit-line-clamp: unset;
+        display: block;
+      }
 
       /* ════ PC layout: side-by-side cover image + text ════ */
       @media (min-width: 641px) {
@@ -2815,19 +2833,59 @@
         }
 
         let timer = null;
+        let isExpanded = false;
         function start() {
           if (timer) return;
           if (total <= 1) return;
-          timer = setInterval(() => { nextAnn(); nextCert(); }, 2000);
+          timer = setInterval(() => {
+            if (isExpanded) return; // skip ticks while user is reading the full text
+            nextAnn(); nextCert();
+          }, 2000);
         }
         function stop()  { if (timer) { clearInterval(timer); timer = null; } }
         function restart() { stop(); start(); }
 
+        // Collapse any expanded cards (called when user manually navigates).
+        function collapseAll() {
+          isExpanded = false;
+          [annTrack, certTrack].forEach(track => {
+            track.querySelectorAll('.expanded').forEach(c => {
+              c.classList.remove('expanded');
+              const b = c.querySelector('.bb-more-btn');
+              if (b) b.textContent = 'Show more';
+            });
+          });
+        }
+
+        // Attach a "Show more / less" toggle to each card whose body text
+        // is actually clamped. Click expands inline + pauses auto-rotate.
+        function attachShowMore(card, selector) {
+          const el = card.querySelector(selector);
+          if (!el) return;
+          requestAnimationFrame(() => {
+            if (el.scrollHeight > el.clientHeight + 2) {
+              const btn = document.createElement('button');
+              btn.className = 'bb-more-btn';
+              btn.type = 'button';
+              btn.textContent = 'Show more';
+              btn.addEventListener('click', e => {
+                e.stopPropagation();
+                const expanded = card.classList.toggle('expanded');
+                btn.textContent = expanded ? 'Show less' : 'Show more';
+                isExpanded = !!annTrack.querySelector('.expanded') || !!certTrack.querySelector('.expanded');
+              });
+              el.insertAdjacentElement('afterend', btn);
+            }
+          });
+        }
+        annTrack.querySelectorAll('.bb-ann-card').forEach(c => attachShowMore(c, '.bb-ann-body'));
+        certTrack.querySelectorAll('.bb-cert-card').forEach(c => attachShowMore(c, '.bb-cert-feedback'));
+
         // Per-slot prev / next arrows
-        document.getElementById('bbAnnPrev').addEventListener('click',  () => { prevAnn();  restart(); });
-        document.getElementById('bbAnnNext').addEventListener('click',  () => { nextAnn();  restart(); });
-        document.getElementById('bbCertPrev').addEventListener('click', () => { prevCert(); restart(); });
-        document.getElementById('bbCertNext').addEventListener('click', () => { nextCert(); restart(); });
+        document.getElementById('bbAnnPrev').addEventListener('click',  () => { collapseAll(); prevAnn();  restart(); });
+        document.getElementById('bbAnnNext').addEventListener('click',  () => { collapseAll(); nextAnn();  restart(); });
+        document.getElementById('bbCertPrev').addEventListener('click', () => { collapseAll(); prevCert(); restart(); });
+        document.getElementById('bbCertNext').addEventListener('click', () => { collapseAll(); nextCert(); restart(); });
 
         // Pause on hover
         const row = document.getElementById('bbRow');
