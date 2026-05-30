@@ -2787,11 +2787,18 @@
             // Active-window filter via PostgREST: starts_at is null OR <= today; ends_at is null OR >= today
             const dateFilter = '&or=(starts_at.is.null,starts_at.lte.' + todayIso + ')'
                              + '&or=(ends_at.is.null,ends_at.gte.' + todayIso + ')';
+            // Newest first — certs sort by exam_date (the actual date the
+            // student earned the cert) so a freshly graded 2026 result
+                      // outranks an older one even if added later; nulls go
+            // last; created_at breaks any remaining ties.
+            const order = table === 'center_certificates'
+              ? 'sort_order.asc,exam_date.desc.nullslast,created_at.desc'
+              : 'sort_order.asc,created_at.desc';
             const url = _BB_SB_URL + '/rest/v1/' + table
                       + '?center_id=eq.' + encodeURIComponent(_bbCenter)
                       + '&status=eq.published'
                       + (table === 'center_announcements' ? dateFilter : '')
-                      + '&order=sort_order.asc,created_at.desc&select=*';
+                      + '&order=' + order + '&select=*';
             const r = await fetch(url, { headers: { apikey: _BB_SB_KEY, Authorization: 'Bearer ' + _BB_SB_KEY } });
             if (!r.ok) return [];
             return await r.json();
