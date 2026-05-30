@@ -637,7 +637,6 @@
         var t = modal.querySelector('#f_title');   if (t) { t.value = ''; t.focus(); }
         var b = modal.querySelector('#f_body');    if (b) b.value = '';
         var ai= modal.querySelector('#f_annfile'); if (ai) ai.value = '';
-        var lk= modal.querySelector('#f_link');    if (lk) lk.value = '';
         var tm= modal.querySelector('#f_tg_msg');  if (tm) tm.value = '';
         // Type pill, date range, Telegram username + button label all stay
         // so a batch of "Results" or "Course" announcements goes fast.
@@ -691,7 +690,6 @@
         <div class="bbA-field"><label>Starts on (optional)</label><input id="f_start" type="date" value="' + _attr(r.starts_at) + '" /></div>\
         <div class="bbA-field"><label>Ends on (optional)</label><input id="f_end" type="date" value="' + _attr(r.ends_at) + '" /></div>\
       </div>\
-      <div class="bbA-field"><label>Generic link URL (optional)</label><input id="f_link" type="url" placeholder="https://…" value="' + _attr(r.link_url) + '" /><div class="bbA-fileinfo">Only used if no Telegram CTA is set below.</div></div>\
       <details class="bbA-collapse"' + (hasTg ? ' open' : '') + '>\
         <summary>📩 Telegram CTA <span class="bbA-fileinfo" style="margin-left:6px;color:#94a3b8;">(optional)</span></summary>\
         <div class="bbA-collapse-body">\
@@ -724,7 +722,7 @@
       cover_palette:  pal,
       starts_at:      modal.querySelector('#f_start').value || null,
       ends_at:        modal.querySelector('#f_end').value || null,
-      link_url:       modal.querySelector('#f_link').value || null,
+      link_url:       null,
       status:         'published',
       tg_username:    tgUser || null,
       tg_message:     modal.querySelector('#f_tg_msg').value || null,
