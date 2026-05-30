@@ -152,7 +152,18 @@
       _resolved = await _resolvePromise;
     }
     var provider = (opts.providerOverride || _resolved.provider || 'gemini').toLowerCase();
-    var model = opts.modelOverride || _resolved.model || DEFAULT_MODELS[provider] || '';
+    // When the caller overrides the provider (e.g. fallback to Gemini), the
+    // resolved model belongs to the OTHER provider — don't ship it. Use the
+    // override provider's default model instead, unless the caller also gave
+    // an explicit modelOverride.
+    var model;
+    if (opts.modelOverride) {
+      model = opts.modelOverride;
+    } else if (opts.providerOverride && opts.providerOverride !== _resolved.provider) {
+      model = DEFAULT_MODELS[provider] || '';
+    } else {
+      model = _resolved.model || DEFAULT_MODELS[provider] || '';
+    }
 
     if (provider === 'gemini')   return _callGeminiPath(model, systemText, userPrompt, opts);
     if (provider === 'openai')   return _callOpenAIShape('openai',   model, systemText, userPrompt, opts);
