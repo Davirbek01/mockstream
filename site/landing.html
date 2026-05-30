@@ -44757,9 +44757,16 @@
         status.textContent = 'Total payload exceeds 20 MB. Remove some files.';
         return;
       }
-      if (!window._mmgPasscode) {
+      // JWT-mode super-admins can call transcribe-mock with their user
+      // JWT instead of the legacy numeric passcode. Only require the
+      // passcode when neither mode is available.
+      var _mmgImportJwt = '';
+      if (window._mmgJwtMode) {
+        try { _mmgImportJwt = await _mmgGetJwt(); } catch (_e) { _mmgImportJwt = ''; }
+      }
+      if (!window._mmgPasscode && !_mmgImportJwt) {
         status.style.color = '#dc2626';
-        status.textContent = 'Admin passcode missing — close + reopen the panel and try again.';
+        status.textContent = 'Admin sign-in missing — close + reopen the panel and try again.';
         return;
       }
 
@@ -44770,7 +44777,7 @@
 
       var notes = document.getElementById('mmgImportNotes').value.trim();
       var payload = {
-        adminPasscode: window._mmgPasscode,
+        adminPasscode: window._mmgPasscode || '',
         exam_type:     st.examType,
         notes:         notes,
         files: st.files.map(function (f) {
@@ -44803,7 +44810,11 @@
           headers: {
             'Content-Type':  'application/json',
             'apikey':        _MMG_ANON,
-            'Authorization': 'Bearer ' + _MMG_ANON
+            // JWT mode: hand the function the user's super-admin token so
+            // its authenticate() path treats this as a signed-in admin
+            // request. Falls back to the anon key when only the legacy
+            // numeric passcode is in play.
+            'Authorization': 'Bearer ' + (_mmgImportJwt || _MMG_ANON)
           },
           body: JSON.stringify(payload)
         });
