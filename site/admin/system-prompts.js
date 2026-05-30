@@ -286,6 +286,9 @@
         <h3>📝 System Prompts</h3>
         <button class="sysprompt-close" onclick="closeSystemPromptsPanel()">✕</button>
       </div>
+      <div style="margin:4px 0 8px;padding:6px 12px;background:#eef2ff;border:1px solid #c7d2fe;border-radius:8px;font-size:11px;color:#4338ca;line-height:1.5;">
+        💡 This provider also runs <b>Reading Plus</b> + <b>Listening Plus</b>. Per-centre AI in the Centers panel only affects graded mocks, not Plus modules.
+      </div>
       <div class="sysprompt-provider-row">
         <span>AI Provider:</span>
         <button class="sysprompt-provider-btn active" id="spProviderGemini" onclick="_spSetProvider('gemini')">✨ Gemini</button>

@@ -6,6 +6,7 @@
   <title>Listening Plus — AI Practice</title>
   <script>document.documentElement.setAttribute('data-theme','light');</script>
   <script src="/center-id.js" defer></script>
+  <script src="/plus-ai.js?v=633"></script>
   <style>
     *,*::before,*::after{box-sizing:border-box}
     :root{
@@ -95,8 +96,7 @@
         <div class="pc-desc">Hear 8 short sentences. Choose the correct reply (A, B, or C).</div>
         <span class="pc-qs">8 questions</span>
       </div>
-      <div class="part-card locked" data-part="2" data-locked="1">
-        <span class="soon-badge">Soon</span>
+      <div class="part-card" data-part="2">
         <div class="pc-num">Part 2</div>
         <div class="pc-name">Gap-Fill Form</div>
         <div class="pc-desc">Listen to a talk and complete a form with words/numbers.</div>
@@ -156,26 +156,16 @@
   var _gen=null,_ans={};
   function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 
-  var SB_URL='https://zknyukkbtbcqgvkgjktb.supabase.co';
-  var SB_KEY='sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
-  function _proxyHeaders(){return{
-    'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,
-    'x-ms-center':(window.__CENTER_ID||'mock_stream').toString().trim(),'x-ms-skill':'listening-plus'
-  }}
-
-  async function _callGemini(prompt,opts){
-    var body={
-      contents:[{parts:[{text:prompt}]}],
-      generationConfig:{temperature:(opts&&opts.temp)||0.85,maxOutputTokens:(opts&&opts.maxTokens)||8192,responseMimeType:'application/json'}
-    };
-    var r=await fetch(SB_URL+'/functions/v1/ai-proxy/gemini/v1beta/models/gemini-2.5-flash:generateContent',{
-      method:'POST',headers:_proxyHeaders(),body:JSON.stringify(body)
+  // Provider is read from System Prompts default (site_settings.scoring_ai_provider)
+  // via /plus-ai.js. Per-centre AI in Centers panel is ignored here on purpose.
+  function _callAI(prompt, opts) {
+    opts = opts || {};
+    return window.PlusAI.call('', prompt, {
+      skill: 'listening-plus',
+      temperature: opts.temp != null ? opts.temp : 0.85,
+      maxTokens: opts.maxTokens || 8192,
+      jsonMode: opts.jsonMode !== false
     });
-    if(!r.ok){var t='';try{t=await r.text()}catch(_){}throw new Error('Gemini '+r.status+': '+t.slice(0,200))}
-    var j=await r.json();
-    var cand=j.candidates&&j.candidates[0];
-    if(!cand)throw new Error('Gemini: no candidates');
-    return cand.content.parts[0].text;
   }
 
   function _setProgress(step,labelText){
@@ -186,6 +176,12 @@
     for(var i=1;i<=3;i++){
       var el=document.getElementById('step'+i+'Lbl');
       if(el)el.style.color=(i<=step)?'var(--brand-deep)':'var(--faint)';
+    }
+  }
+  function _setStepLabels(labels){
+    for(var i=0;i<3;i++){
+      var el=document.getElementById('step'+(i+1)+'Lbl');
+      if(el&&labels[i])el.textContent=(i+1)+'. '+labels[i];
     }
   }
 
@@ -236,10 +232,11 @@
 
   // ─── Part 1 generator ─────────────────────────────────────────────
   async function generatePart1(){
+    _setStepLabels(['Sentences','Structure','Voice']);
     _setProgress(1,'Step 1 / 3 — Writing 8 sentences…');
     var topic=_pickTopic();
     var prompt='You are a CEFR Multilevel exam writer. Generate Part 1 of a CEFR Listening test: 8 short conversational PROMPT sentences with reply options.\n\nFORMAT FOR EACH OF THE 8 QUESTIONS:\n- "audio_text": A short prompt sentence (5-15 words) spoken by a person. Examples: a question, an invitation, a statement that needs a response. Should be natural conversational English at B2-C1 level.\n- "options": Exactly 3 reply options labeled A, B, C. ONE option is the natural reply; TWO are distractors that sound plausible but do not actually fit.\n- "answer": The letter of the correct option (A, B, or C).\n\nTOPIC HINTS: '+topic+'\n\nReturn JSON only in this exact shape:\n{"questions":[{"id":1,"audio_text":"...","options":[{"letter":"A","text":"..."},{"letter":"B","text":"..."},{"letter":"C","text":"..."}],"answer":"A"},{"id":2,"audio_text":"...","options":[...],"answer":"B"},...8 questions total]}\n\nMake the 8 prompts varied (different conversational situations). Ensure each question has a single clear correct answer.';
-    var raw=await _callGemini(prompt);
+    var raw=await _callAI(prompt);
     _setProgress(2,'Step 2 / 3 — Structuring questions…');
     var cleaned=raw.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
     var data=null;
@@ -350,6 +347,232 @@
     window.scrollTo({top:0,behavior:'smooth'});
   }
 
+  // ─── Part 2: gap-fill form (monologue + 6 gaps) ───────────────────
+  var TALK_TOPICS=[
+    'end-of-year class trip','library tour for new students','school sports day announcement',
+    'summer camp schedule','volunteer day plans','annual book fair','drama club auditions',
+    'museum field trip briefing','wildlife reserve visit','charity bake sale','after-school club fair',
+    'language exchange programme','science fair instructions','community garden project','careers day briefing',
+    'school orchestra concert','first-aid workshop','photography club outing','exchange-student welcome',
+    'school newspaper meeting','beach clean-up day','astronomy night briefing','cooking workshop',
+    'cycling club season opener','debate tournament rules','choir auditions','robotics club kickoff',
+    'reading week activities','model UN conference','school play rehearsal schedule'
+  ];
+  function _pickTalkTopic(){return TALK_TOPICS[Math.floor(Math.random()*TALK_TOPICS.length)]}
+
+  function _stripJsonLP(raw){return String(raw||'').replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim()}
+
+  // Number-aware answer equivalence: "3" === "three", "twenty-five" === "25", etc.
+  // CEFR rubric is "ONE word or number" — both forms must count.
+  var _ONES_LP={zero:0,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,ten:10,eleven:11,twelve:12,thirteen:13,fourteen:14,fifteen:15,sixteen:16,seventeen:17,eighteen:18,nineteen:19};
+  var _TENS_LP={twenty:20,thirty:30,forty:40,fifty:50,sixty:60,seventy:70,eighty:80,ninety:90};
+  function _toNumberLP(s){
+    s=String(s||'').toLowerCase().trim().replace(/[,$£€¥%]/g,'').replace(/\s+/g,' ');
+    if(!s)return null;
+    if(/^\d+(\.\d+)?$/.test(s))return Number(s);
+    if(_ONES_LP[s]!=null)return _ONES_LP[s];
+    if(_TENS_LP[s]!=null)return _TENS_LP[s];
+    if(s==='hundred')return 100;if(s==='thousand')return 1000;
+    if(s.indexOf('-')>-1){
+      var p=s.split('-');
+      if(p.length===2&&_TENS_LP[p[0]]!=null&&_ONES_LP[p[1]]!=null)return _TENS_LP[p[0]]+_ONES_LP[p[1]];
+    }
+    var m=s.match(/^(\w+)\s+hundred(?:\s+and\s+(\w+(?:-\w+)?))?$/);
+    if(m&&_ONES_LP[m[1]]!=null){
+      var base=_ONES_LP[m[1]]*100;
+      if(!m[2])return base;
+      var tail=_toNumberLP(m[2]);
+      return tail!=null?base+tail:null;
+    }
+    var t=s.match(/^(\w+)\s+thousand$/);
+    if(t&&_ONES_LP[t[1]]!=null)return _ONES_LP[t[1]]*1000;
+    return null;
+  }
+  function _equalsAnswerLP(user, correct){
+    var u=String(user||'').trim().toLowerCase();
+    var c=String(correct||'').trim().toLowerCase();
+    if(u===c)return true;
+    var uN=_toNumberLP(u), cN=_toNumberLP(c);
+    return uN!=null && cN!=null && uN===cN;
+  }
+
+  function _verifyPart2LP(d){
+    var issues=[];
+    if(!d||typeof d!=='object')return ['payload not an object'];
+    if(!d.formTitle||typeof d.formTitle!=='string')issues.push('formTitle missing');
+    if(!d.talkScript||typeof d.talkScript!=='string')issues.push('talkScript missing');
+    else {
+      var wc=d.talkScript.trim().split(/\s+/).length;
+      if(wc<140)issues.push('talkScript only '+wc+' words — need at least 220');
+    }
+    if(!Array.isArray(d.formContent)||d.formContent.length!==6)issues.push('formContent must be exactly 6 entries');
+    if(!d.answers||typeof d.answers!=='object')issues.push('answers map missing');
+    if(issues.length)return issues;
+    var seenIds={};
+    d.formContent.forEach(function(row,i){
+      var id=Number(row.gapId);
+      if(!(id>=9&&id<=14))issues.push('formContent['+i+'].gapId='+row.gapId+' out of 9..14');
+      if(seenIds[id])issues.push('duplicate gapId '+id);else seenIds[id]=true;
+      if(!row.text||typeof row.text!=='string')issues.push('formContent['+i+'].text missing');
+    });
+    var script=String(d.talkScript||'').toLowerCase();
+    for(var n=9;n<=14;n++){
+      var ans=d.answers[String(n)];
+      if(!ans||typeof ans!=='string'){issues.push('answer '+n+' missing');continue}
+      var trimmed=String(ans).trim();
+      if(!trimmed){issues.push('answer '+n+' empty');continue}
+      // Allow hyphenated compound numbers ("twenty-five") as one word
+      if(/\s/.test(trimmed))issues.push('answer '+n+' is more than one word: "'+trimmed+'"');
+      // Must appear in the talk in EITHER form: literal OR number-equivalent.
+      // So "10" matches a talk saying "ten" and vice versa.
+      var lower=trimmed.toLowerCase();
+      var safe=lower.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+      var inLiteral=new RegExp('\\b'+safe+'\\b','i').test(script);
+      var inAlt=false;
+      var asNum=_toNumberLP(lower);
+      if(asNum!=null){
+        // Also accept the digit form if AI wrote it as a word, or vice versa
+        var alt=(/^\d+$/.test(lower)) ? _numberToWordsLP(asNum) : String(asNum);
+        if(alt){
+          var altSafe=alt.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+          inAlt=new RegExp('\\b'+altSafe+'\\b','i').test(script);
+        }
+      }
+      if(!inLiteral&&!inAlt)issues.push('answer "'+trimmed+'" (Q'+n+') does NOT appear in the talk transcript');
+    }
+    return issues;
+  }
+
+  // Reverse direction: digit → English word (for verifier alt-check only)
+  var _NUM_WORDS_LP=['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
+  var _TENS_WORDS_LP=['','','twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'];
+  function _numberToWordsLP(n){
+    n=Number(n);
+    if(!isFinite(n)||n<0||n>999||n!==Math.floor(n))return null;
+    if(n<20)return _NUM_WORDS_LP[n];
+    if(n<100){var t=Math.floor(n/10),o=n%10;return _TENS_WORDS_LP[t]+(o?'-'+_NUM_WORDS_LP[o]:'')}
+    var h=Math.floor(n/100),rest=n%100;
+    var out=_NUM_WORDS_LP[h]+' hundred';
+    if(rest)out+=' '+_numberToWordsLP(rest);
+    return out;
+  }
+
+  async function generatePart2(){
+    _setStepLabels(['Talk','Verify','Voice']);
+    _setProgress(1,'Step 1 / 3 — Writing the talk &amp; form…');
+    var topic=_pickTalkTopic();
+    var basePrompt='Generate a CEFR B2-C1 Listening Part 2 gap-fill exercise for the Uzbek Multilevel exam.\n\nTHEMING SEED (use loosely): '+topic+'\n\nYou will produce ONE monologue (a single speaker giving a talk) plus a form with 6 numbered gaps that students fill in while listening.\n\nSTRICT RULES:\n- talkScript: a SINGLE-SPEAKER monologue. **MUST BE AT LEAST 220 WORDS AND IDEALLY 250-330 WORDS — this is non-negotiable. Count your words before responding. Do not stop short.** Natural spoken English (announcements, dates, names, prices, numbers, room/floor numbers, durations are great gap material). Conversational but informative. Do NOT use stage directions or speaker labels.\n- formTitle: a short ALL-CAPS title for the form (e.g. "END-OF-YEAR CLASS TRIP", "SCHOOL SCIENCE FAIR").\n- formContent: an array of EXACTLY 6 items, each {"type":"item-gap","gapId":N,"text":"...","gapSuffix":"..."}. **gapId runs 9 through 14** (the CEFR Listening Part 2 numbering — Part 1 used 1-8). The "text" ends right before the gap; "gapSuffix" is whatever comes after the blank (often "." or a couple of words then a period). Example: {"text":"The group will be staying at the Novotel","gapSuffix":"."}\n- answers: object {"9":"WORD","10":"NUMBER",...} mapping each gapId 9-14 to the EXACT ONE-WORD answer.\n- EVERY answer word MUST appear verbatim (case-insensitive) somewhere in the talkScript so students can hear it.\n- Each answer is ONE word OR a number — never a phrase, never multiple words. Hyphenated number words like "twenty-five" also count as one word.\n- **For numeric answers, prefer digits in the answers map** (e.g. "10" not "TEN", "200" not "TWO HUNDRED", "8:30" for times). In the talkScript you can speak the number naturally either way — the grader accepts both forms.\n- Answers should be UPPERCASE in the answers map (matches Mock 38 convention).\n- Form text must read naturally as a fill-in (e.g. "Students will be able to touch pieces of actual" → gap → ".")\n\nReturn ONLY JSON, no markdown, in this exact shape:\n{"formTitle":"...","talkScript":"...","formContent":[{"type":"item-gap","gapId":9,"text":"...","gapSuffix":"..."},{"type":"item-gap","gapId":10,"text":"...","gapSuffix":"..."},{"type":"item-gap","gapId":11,"text":"...","gapSuffix":"..."},{"type":"item-gap","gapId":12,"text":"...","gapSuffix":"..."},{"type":"item-gap","gapId":13,"text":"...","gapSuffix":"..."},{"type":"item-gap","gapId":14,"text":"...","gapSuffix":"..."}],"answers":{"9":"...","10":"...","11":"...","12":"...","13":"...","14":"..."}}';
+
+    async function _attempt(prompt, opts){
+      var raw=await _callAI(prompt, opts);
+      try{return {data: JSON.parse(_stripJsonLP(raw)), raw: raw}}
+      catch(e){return {error:'Invalid JSON: '+String(raw).slice(0,160), raw: raw}}
+    }
+
+    // Attempt 1 — System Prompts default provider
+    var a1=await _attempt(basePrompt,{maxTokens:8192});
+    var data=a1.data, lastIssues=a1.error?[a1.error]:_verifyPart2LP(a1.data);
+    var prevWordCount=(a1.data&&a1.data.talkScript)?a1.data.talkScript.trim().split(/\s+/).length:0;
+
+    if(lastIssues.length){
+      // Attempt 2 — same provider, feed back the exact word count + issues
+      _setProgress(1,'Retry — fixing '+lastIssues.length+' issue'+(lastIssues.length>1?'s':'')+'…');
+      var fb='PREVIOUS ATTEMPT FAILED these checks — fix EVERY one:\n- '+lastIssues.join('\n- ');
+      if(prevWordCount)fb+='\n\nYour previous talkScript was '+prevWordCount+' words. You MUST produce at least 220 words this time — write more content, add more concrete details (dates, prices, names, places, times).';
+      var a2=await _attempt(basePrompt+'\n\n'+fb,{maxTokens:8192,temp:0.7});
+      data=a2.data;
+      lastIssues=a2.error?[a2.error]:_verifyPart2LP(a2.data);
+      // No cross-provider fallback — stay on System Prompts default. If it
+      // still fails, surface a friendly retry in the part-card error handler.
+      if(lastIssues.length)throw new Error('AI_OUTPUT_INVALID');
+    }
+
+    _setProgress(3,'Step 3 / 3 — Preparing voice…');
+    if(_voices.length===0){_loadVoices();await new Promise(function(r){setTimeout(r,400)})}
+    return data;
+  }
+
+  function renderP2(d,c){
+    var h='<div style="text-align:center;margin-bottom:4px"><span class="part-tag" style="font-size:13px;padding:5px 16px">Part 2</span></div>';
+    h+='<p style="font-size:13.5px;color:var(--muted);text-align:center;margin:8px 0 16px">Listen to the talk and fill in each gap with ONE word or number.</p>';
+    h+='<div class="q-card" style="margin-bottom:20px"><div style="text-align:center;font-size:18px;font-weight:800;letter-spacing:.04em;color:var(--brand-deep);margin:4px 0 14px;text-transform:uppercase">'+esc(d.formTitle||'TALK')+'</div>';
+    h+='<div class="play-row"><button type="button" class="play-btn" id="lpP2Play" aria-label="Play talk"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>';
+    h+='<span class="play-label" id="lpP2Status">Tap to play the talk (you can replay any time)</span>';
+    h+='<span class="play-count" id="lpP2Count">0 plays</span></div>';
+    h+='<div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--ring)">';
+    (d.formContent||[]).forEach(function(row){
+      var n=Number(row.gapId);
+      h+='<div style="margin:10px 0;font-size:14.5px;line-height:1.9" data-form-row="'+n+'">'+esc(row.text||'')+' ';
+      h+='<input type="text" data-answer="'+n+'" placeholder="('+n+')" autocomplete="off" style="display:inline-block;width:140px;padding:4px 8px;border:none;border-bottom:2px solid var(--brand);outline:none;font:inherit;font-size:14px;background:transparent;color:var(--ink);text-transform:uppercase;font-weight:600;text-align:center" maxlength="32">';
+      if(row.gapSuffix)h+=' '+esc(row.gapSuffix);
+      h+='</div>';
+    });
+    h+='</div></div><div class="submit-row"><button class="btn-submit" id="subBtn">Check Answers</button></div>';
+    c.innerHTML=h;
+    var btn=document.getElementById('lpP2Play');
+    var status=document.getElementById('lpP2Status');
+    var countEl=document.getElementById('lpP2Count');
+    var plays=0,playing=false;
+    btn.addEventListener('click',function(){
+      if(playing){
+        try{window.speechSynthesis.cancel()}catch(_){}
+        playing=false;btn.classList.remove('playing');status.textContent='Tap to play the talk again';
+        return;
+      }
+      playing=true;btn.classList.add('playing');status.textContent='Playing… (tap to stop)';
+      _speak(d.talkScript||'',function(){
+        playing=false;btn.classList.remove('playing');
+        plays++;countEl.textContent=plays+' play'+(plays===1?'':'s');
+        status.textContent='Finished. Tap to replay.';
+      });
+    });
+  }
+
+  function gradeP2(){
+    var ans={};
+    document.querySelectorAll('#test input[data-answer]').forEach(function(el){ans[el.getAttribute('data-answer')]=(el.value||'').trim()});
+    var correct={};
+    Object.keys(_gen.answers||{}).forEach(function(k){correct[k]=String(_gen.answers[k])});
+    var total=Object.keys(correct).length,score=0;
+    Object.keys(correct).forEach(function(k){
+      var rawUser=(ans[k]||'').trim();
+      var ok=_equalsAnswerLP(rawUser, correct[k]);
+      if(ok)score++;
+      var row=document.querySelector('[data-form-row="'+k+'"]');
+      var inp=document.querySelector('input[data-answer="'+k+'"]');
+      if(inp){
+        inp.disabled=true;
+        if(!rawUser)inp.placeholder='(blank)';
+        inp.style.borderBottomColor=ok?'var(--green)':'var(--red)';
+        inp.style.color=ok?'var(--green)':'var(--red)';
+      }
+      if(row){
+        var rv=document.createElement('div');
+        rv.style.cssText='font-size:12.5px;margin:4px 0 0 0;padding:4px 10px;border-radius:6px;'+(ok?'background:#f0fdf4;color:#166534':'background:#fef2f2;color:#991b1b');
+        if(ok)rv.textContent='✓ Correct';
+        else{
+          var shown=rawUser?rawUser:'(blank)';
+          rv.innerHTML='✗ Your answer: <b>'+esc(shown)+'</b> &nbsp;·&nbsp; Correct: <b>'+esc(correct[k])+'</b>';
+        }
+        row.appendChild(rv);
+      }
+    });
+    // Reveal the talk transcript so students can re-read it
+    var card=document.querySelector('#test .q-card');
+    if(card&&_gen.talkScript){
+      var sc=document.createElement('div');sc.className='reveal-script';sc.style.marginTop='14px';
+      sc.innerHTML='<b style="display:block;margin-bottom:4px;color:var(--ink2)">Transcript:</b>'+esc(_gen.talkScript);
+      card.appendChild(sc);
+    }
+    var pct=Math.round(score/total*100),b=document.createElement('div');
+    b.className='result-banner '+(pct>=60?'pass':'fail');
+    b.innerHTML='<div class="score">'+score+' / '+total+'</div><div class="label">'+pct+'% &#8212; '+(pct>=60?'Good job!':'Keep practising')+'</div>';
+    var t=document.getElementById('test');t.insertBefore(b,t.firstChild);
+    var rowEl=document.querySelector('.submit-row');
+    if(rowEl)rowEl.innerHTML='<button class="btn-submit" onclick="location.reload()">Try Another</button>';
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
   // ─── Option click handler ─────────────────────────────────────────
   document.addEventListener('click',function(e){
     var opt=e.target.closest('.opt');if(!opt)return;
@@ -358,23 +581,28 @@
   });
 
   // ─── Flow ─────────────────────────────────────────────────────────
+  var GENS={1:generatePart1,2:generatePart2};
+  var RENDERS={1:renderP1,2:renderP2};
+  var GRADERS={1:grade,2:gradeP2};
+
   document.querySelectorAll('.part-card').forEach(function(card){
     card.addEventListener('click',async function(){
       if(card.getAttribute('data-locked')==='1')return;
       var n=parseInt(card.getAttribute('data-part'),10);
-      if(n!==1)return;  // only Part 1 unlocked
+      if(!GENS[n])return;  // unsupported part
       document.getElementById('picker').classList.add('hidden');
       document.getElementById('loading').classList.remove('hidden');
       try{
-        _gen=await generatePart1();
+        _gen=await GENS[n]();
         document.getElementById('loading').classList.add('hidden');
         var t=document.getElementById('test');t.classList.remove('hidden');
-        renderP1(_gen,t);
-        var btn=document.getElementById('subBtn');if(btn)btn.addEventListener('click',grade);
+        RENDERS[n](_gen,t);
+        var btn=document.getElementById('subBtn');if(btn)btn.addEventListener('click',GRADERS[n]);
       }catch(err){
         document.getElementById('loading').classList.add('hidden');
         var t=document.getElementById('test');t.classList.remove('hidden');
-        t.innerHTML='<div style="text-align:center;padding:40px;color:var(--red)"><div style="font-size:32px;margin-bottom:12px">⚠️</div><div style="font-weight:700;margin-bottom:8px">Generation failed</div><div style="font-size:13px;color:var(--muted)">'+esc(err.message||String(err))+'</div><button class="btn-submit" style="margin-top:20px" onclick="location.reload()">Try Again</button></div>';
+        var msg=String(err&&err.message||err||'');
+        t.innerHTML='<div style="text-align:center;padding:48px 20px;color:var(--ink)"><div style="font-size:40px;margin-bottom:14px">✨</div><div style="font-weight:700;font-size:17px;margin-bottom:8px">Let\'s try that again</div><div style="font-size:13.5px;color:var(--muted);max-width:380px;margin:0 auto 22px;line-height:1.55">The AI didn\'t quite hit the mark this time. Tap below — fresh attempt, takes a few seconds.</div><button class="btn-submit" onclick="location.reload()">🔄 Try Again</button><details style="margin-top:24px;font-size:11px;color:var(--faint)"><summary style="cursor:pointer">Technical detail</summary><div style="margin-top:6px;text-align:left;max-width:380px;margin:6px auto 0">'+esc(msg)+'</div></details></div>';
       }
     });
   });
