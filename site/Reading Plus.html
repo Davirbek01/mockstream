@@ -495,16 +495,29 @@
     document.querySelectorAll('.opt.selected').forEach(function(el){_ans[el.getAttribute('data-qid')]=el.getAttribute('data-val')});
     var correct=getCorrect(),total=Object.keys(correct).length,score=0;
     Object.keys(correct).forEach(function(k){
-      var u=(_ans[k]||'').toLowerCase().trim(),r=correct[k].toLowerCase().trim(),ok=u===r;
+      var rawUser=(_ans[k]||'').trim();
+      var u=rawUser.toLowerCase(),r=correct[k].toLowerCase().trim(),ok=u===r;
       if(ok)score++;
       var card=document.querySelector('.q-card[data-q="'+k+'"]');
-      if(card){card.classList.add(ok?'correct':'wrong');var rv=document.createElement('div');rv.className='answer-reveal';rv.textContent=ok?'✓ Correct':'✗ Correct answer: '+correct[k];card.appendChild(rv)}
+      if(card){
+        card.classList.add(ok?'correct':'wrong');
+        var rv=document.createElement('div');rv.className='answer-reveal';
+        if(ok){rv.textContent='✓ Correct'}
+        else{
+          var shown=rawUser?rawUser:'(blank)';
+          rv.innerHTML='✗ Your answer: <b>'+esc(shown)+'</b> &nbsp;·&nbsp; Correct: <b>'+esc(correct[k])+'</b>';
+        }
+        card.appendChild(rv);
+      }
       var inp=document.querySelector('input[data-answer="'+k+'"]');
       if(inp){
         inp.disabled=true;
-        inp.value=correct[k];
+        // Keep the user's actual entry visible — do NOT overwrite with the
+        // correct answer (that would make wrong answers look identical to
+        // the revealed correct one). Highlight the box red/green instead.
+        if(!rawUser)inp.placeholder='(blank)';
         inp.style.borderBottomColor=ok?'var(--green)':'var(--red)';
-        inp.style.color='var(--green)';
+        inp.style.color=ok?'var(--green)':'var(--red)';
         inp.style.fontWeight='700';
       }
     });
