@@ -362,6 +362,40 @@
 
   function _stripJsonLP(raw){return String(raw||'').replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim()}
 
+  // Number-aware answer equivalence: "3" === "three", "twenty-five" === "25", etc.
+  // CEFR rubric is "ONE word or number" — both forms must count.
+  var _ONES_LP={zero:0,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,ten:10,eleven:11,twelve:12,thirteen:13,fourteen:14,fifteen:15,sixteen:16,seventeen:17,eighteen:18,nineteen:19};
+  var _TENS_LP={twenty:20,thirty:30,forty:40,fifty:50,sixty:60,seventy:70,eighty:80,ninety:90};
+  function _toNumberLP(s){
+    s=String(s||'').toLowerCase().trim().replace(/[,$£€¥%]/g,'').replace(/\s+/g,' ');
+    if(!s)return null;
+    if(/^\d+(\.\d+)?$/.test(s))return Number(s);
+    if(_ONES_LP[s]!=null)return _ONES_LP[s];
+    if(_TENS_LP[s]!=null)return _TENS_LP[s];
+    if(s==='hundred')return 100;if(s==='thousand')return 1000;
+    if(s.indexOf('-')>-1){
+      var p=s.split('-');
+      if(p.length===2&&_TENS_LP[p[0]]!=null&&_ONES_LP[p[1]]!=null)return _TENS_LP[p[0]]+_ONES_LP[p[1]];
+    }
+    var m=s.match(/^(\w+)\s+hundred(?:\s+and\s+(\w+(?:-\w+)?))?$/);
+    if(m&&_ONES_LP[m[1]]!=null){
+      var base=_ONES_LP[m[1]]*100;
+      if(!m[2])return base;
+      var tail=_toNumberLP(m[2]);
+      return tail!=null?base+tail:null;
+    }
+    var t=s.match(/^(\w+)\s+thousand$/);
+    if(t&&_ONES_LP[t[1]]!=null)return _ONES_LP[t[1]]*1000;
+    return null;
+  }
+  function _equalsAnswerLP(user, correct){
+    var u=String(user||'').trim().toLowerCase();
+    var c=String(correct||'').trim().toLowerCase();
+    if(u===c)return true;
+    var uN=_toNumberLP(u), cN=_toNumberLP(c);
+    return uN!=null && cN!=null && uN===cN;
+  }
+
   function _verifyPart2LP(d){
     var issues=[];
     if(!d||typeof d!=='object')return ['payload not an object'];
@@ -387,20 +421,47 @@
       if(!ans||typeof ans!=='string'){issues.push('answer '+n+' missing');continue}
       var trimmed=String(ans).trim();
       if(!trimmed){issues.push('answer '+n+' empty');continue}
+      // Allow hyphenated compound numbers ("twenty-five") as one word
       if(/\s/.test(trimmed))issues.push('answer '+n+' is more than one word: "'+trimmed+'"');
-      // Must appear verbatim in the talk (case-insensitive, word-boundary)
-      var safe=trimmed.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-      var re=new RegExp('\\b'+safe+'\\b','i');
-      if(!re.test(script))issues.push('answer "'+trimmed+'" (Q'+n+') does NOT appear in the talk transcript');
+      // Must appear in the talk in EITHER form: literal OR number-equivalent.
+      // So "10" matches a talk saying "ten" and vice versa.
+      var lower=trimmed.toLowerCase();
+      var safe=lower.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+      var inLiteral=new RegExp('\\b'+safe+'\\b','i').test(script);
+      var inAlt=false;
+      var asNum=_toNumberLP(lower);
+      if(asNum!=null){
+        // Also accept the digit form if AI wrote it as a word, or vice versa
+        var alt=(/^\d+$/.test(lower)) ? _numberToWordsLP(asNum) : String(asNum);
+        if(alt){
+          var altSafe=alt.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+          inAlt=new RegExp('\\b'+altSafe+'\\b','i').test(script);
+        }
+      }
+      if(!inLiteral&&!inAlt)issues.push('answer "'+trimmed+'" (Q'+n+') does NOT appear in the talk transcript');
     }
     return issues;
+  }
+
+  // Reverse direction: digit → English word (for verifier alt-check only)
+  var _NUM_WORDS_LP=['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
+  var _TENS_WORDS_LP=['','','twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'];
+  function _numberToWordsLP(n){
+    n=Number(n);
+    if(!isFinite(n)||n<0||n>999||n!==Math.floor(n))return null;
+    if(n<20)return _NUM_WORDS_LP[n];
+    if(n<100){var t=Math.floor(n/10),o=n%10;return _TENS_WORDS_LP[t]+(o?'-'+_NUM_WORDS_LP[o]:'')}
+    var h=Math.floor(n/100),rest=n%100;
+    var out=_NUM_WORDS_LP[h]+' hundred';
+    if(rest)out+=' '+_numberToWordsLP(rest);
+    return out;
   }
 
   async function generatePart2(){
     _setStepLabels(['Talk','Verify','Voice']);
     _setProgress(1,'Step 1 / 3 — Writing the talk &amp; form…');
     var topic=_pickTalkTopic();
-    var basePrompt='Generate a CEFR B2-C1 Listening Part 2 gap-fill exercise for the Uzbek Multilevel exam.\n\nTHEMING SEED (use loosely): '+topic+'\n\nYou will produce ONE monologue (a single speaker giving a talk) plus a form with 6 numbered gaps that students fill in while listening.\n\nSTRICT RULES:\n- talkScript: a SINGLE-SPEAKER monologue. **MUST BE AT LEAST 220 WORDS AND IDEALLY 250-330 WORDS — this is non-negotiable. Count your words before responding. Do not stop short.** Natural spoken English (announcements, dates, names, prices, numbers, room/floor numbers, durations are great gap material). Conversational but informative. Do NOT use stage directions or speaker labels.\n- formTitle: a short ALL-CAPS title for the form (e.g. "END-OF-YEAR CLASS TRIP", "SCHOOL SCIENCE FAIR").\n- formContent: an array of EXACTLY 6 items, each {"type":"item-gap","gapId":N,"text":"...","gapSuffix":"..."}. **gapId runs 9 through 14** (the CEFR Listening Part 2 numbering — Part 1 used 1-8). The "text" ends right before the gap; "gapSuffix" is whatever comes after the blank (often "." or a couple of words then a period). Example: {"text":"The group will be staying at the Novotel","gapSuffix":"."}\n- answers: object {"9":"WORD","10":"NUMBER",...} mapping each gapId 9-14 to the EXACT ONE-WORD answer.\n- EVERY answer word MUST appear verbatim (case-insensitive) somewhere in the talkScript so students can hear it.\n- Each answer is ONE word OR a number — never a phrase, never multiple words.\n- Answers should be UPPERCASE in the answers map (matches Mock 38 convention).\n- Form text must read naturally as a fill-in (e.g. "Students will be able to touch pieces of actual" → gap → ".")\n\nReturn ONLY JSON, no markdown, in this exact shape:\n{"formTitle":"...","talkScript":"...","formContent":[{"type":"item-gap","gapId":9,"text":"...","gapSuffix":"..."},{"type":"item-gap","gapId":10,"text":"...","gapSuffix":"..."},{"type":"item-gap","gapId":11,"text":"...","gapSuffix":"..."},{"type":"item-gap","gapId":12,"text":"...","gapSuffix":"..."},{"type":"item-gap","gapId":13,"text":"...","gapSuffix":"..."},{"type":"item-gap","gapId":14,"text":"...","gapSuffix":"..."}],"answers":{"9":"...","10":"...","11":"...","12":"...","13":"...","14":"..."}}';
+    var basePrompt='Generate a CEFR B2-C1 Listening Part 2 gap-fill exercise for the Uzbek Multilevel exam.\n\nTHEMING SEED (use loosely): '+topic+'\n\nYou will produce ONE monologue (a single speaker giving a talk) plus a form with 6 numbered gaps that students fill in while listening.\n\nSTRICT RULES:\n- talkScript: a SINGLE-SPEAKER monologue. **MUST BE AT LEAST 220 WORDS AND IDEALLY 250-330 WORDS — this is non-negotiable. Count your words before responding. Do not stop short.** Natural spoken English (announcements, dates, names, prices, numbers, room/floor numbers, durations are great gap material). Conversational but informative. Do NOT use stage directions or speaker labels.\n- formTitle: a short ALL-CAPS title for the form (e.g. "END-OF-YEAR CLASS TRIP", "SCHOOL SCIENCE FAIR").\n- formContent: an array of EXACTLY 6 items, each {"type":"item-gap","gapId":N,"text":"...","gapSuffix":"..."}. **gapId runs 9 through 14** (the CEFR Listening Part 2 numbering — Part 1 used 1-8). The "text" ends right before the gap; "gapSuffix" is whatever comes after the blank (often "." or a couple of words then a period). Example: {"text":"The group will be staying at the Novotel","gapSuffix":"."}\n- answers: object {"9":"WORD","10":"NUMBER",...} mapping each gapId 9-14 to the EXACT ONE-WORD answer.\n- EVERY answer word MUST appear verbatim (case-insensitive) somewhere in the talkScript so students can hear it.\n- Each answer is ONE word OR a number — never a phrase, never multiple words. Hyphenated number words like "twenty-five" also count as one word.\n- **For numeric answers, prefer digits in the answers map** (e.g. "10" not "TEN", "200" not "TWO HUNDRED", "8:30" for times). In the talkScript you can speak the number naturally either way — the grader accepts both forms.\n- Answers should be UPPERCASE in the answers map (matches Mock 38 convention).\n- Form text must read naturally as a fill-in (e.g. "Students will be able to touch pieces of actual" → gap → ".")\n\nReturn ONLY JSON, no markdown, in this exact shape:\n{"formTitle":"...","talkScript":"...","formContent":[{"type":"item-gap","gapId":9,"text":"...","gapSuffix":"..."},{"type":"item-gap","gapId":10,"text":"...","gapSuffix":"..."},{"type":"item-gap","gapId":11,"text":"...","gapSuffix":"..."},{"type":"item-gap","gapId":12,"text":"...","gapSuffix":"..."},{"type":"item-gap","gapId":13,"text":"...","gapSuffix":"..."},{"type":"item-gap","gapId":14,"text":"...","gapSuffix":"..."}],"answers":{"9":"...","10":"...","11":"...","12":"...","13":"...","14":"..."}}';
 
     async function _attempt(prompt, opts){
       var raw=await _callAI(prompt, opts);
@@ -475,7 +536,7 @@
     var total=Object.keys(correct).length,score=0;
     Object.keys(correct).forEach(function(k){
       var rawUser=(ans[k]||'').trim();
-      var u=rawUser.toLowerCase(),r=correct[k].toLowerCase().trim(),ok=u===r;
+      var ok=_equalsAnswerLP(rawUser, correct[k]);
       if(ok)score++;
       var row=document.querySelector('[data-form-row="'+k+'"]');
       var inp=document.querySelector('input[data-answer="'+k+'"]');
