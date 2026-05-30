@@ -658,11 +658,9 @@
 
   // Tag → palette + emoji preset (used to auto-derive the fallback cover).
   var TAG_PRESETS = {
-    course:  { pal: 'c1', icon: '🎓', label: '🎓 Course'  },
-    'new':   { pal: 'c2', icon: '🆕', label: '🆕 New'     },
-    results: { pal: 'c3', icon: '🔥', label: '🔥 Results' },
-    event:   { pal: 'c4', icon: '🗓️', label: '🗓️ Event'   },
-    news:    { pal: 'c1', icon: '📢', label: '📢 News'    }
+    course:  { pal: 'c1', icon: '🎓', label: '🎓 Course' },
+    event:   { pal: 'c4', icon: '🗓️', label: '🗓️ Event'  },
+    news:    { pal: 'c1', icon: '📢', label: '📢 News'   }
   };
 
   function _annFormHtml(r) {
@@ -686,10 +684,6 @@
         <div class="bbA-paste-status" id="f_annfile_status"></div>' +
         (r.image_url ? '<img class="bbA-preview" src="' + _attr(r.image_url) + '" alt="current" />' : '') +
         '<div class="bbA-fileinfo">If set, this image replaces the type cover on the card.' + (r.image_url ? ' Leave empty to keep the current image.' : '') + '</div></div>\
-      <div class="bbA-row">\
-        <div class="bbA-field"><label>Starts on (optional)</label><input id="f_start" type="date" value="' + _attr(r.starts_at) + '" /></div>\
-        <div class="bbA-field"><label>Ends on (optional)</label><input id="f_end" type="date" value="' + _attr(r.ends_at) + '" /></div>\
-      </div>\
       <details class="bbA-collapse"' + (hasTg ? ' open' : '') + '>\
         <summary>📩 Telegram CTA <span class="bbA-fileinfo" style="margin-left:6px;color:#94a3b8;">(optional)</span></summary>\
         <div class="bbA-collapse-body">\
@@ -720,8 +714,8 @@
       tag:            tag,
       cover_icon:     icon,
       cover_palette:  pal,
-      starts_at:      modal.querySelector('#f_start').value || null,
-      ends_at:        modal.querySelector('#f_end').value || null,
+      starts_at:      null,
+      ends_at:        null,
       link_url:       null,
       status:         'published',
       tg_username:    tgUser || null,
