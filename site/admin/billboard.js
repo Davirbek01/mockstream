@@ -251,6 +251,21 @@
     .bbA-exam-btn{flex:1;padding:9px;border:0;background:transparent;font-size:13.5px;font-weight:800;color:#6366f1;border-radius:8px;cursor:pointer;font-family:inherit;transition:background .15s,color .15s,box-shadow .15s,transform .15s;}\
     .bbA-exam-btn:hover{color:#4338ca;}\
     .bbA-exam-btn.active{background:linear-gradient(135deg,#6366f1,#7c3aed);color:#fff;box-shadow:0 4px 12px rgba(99,102,241,.35);}\
+    .bbA-tag-grid{display:flex;flex-wrap:wrap;gap:4px;background:#eef2ff;padding:3px;border-radius:11px;border:1.5px solid #c7d2fe;}\
+    .bbA-tag-btn{flex:1 1 auto;min-width:78px;padding:8px 6px;border:0;background:transparent;font-size:12.5px;font-weight:800;color:#6366f1;border-radius:8px;cursor:pointer;font-family:inherit;transition:background .15s,color .15s,box-shadow .15s,transform .15s;}\
+    .bbA-tag-btn:hover{color:#4338ca;}\
+    .bbA-tag-btn.active{color:#fff;box-shadow:0 4px 12px rgba(99,102,241,.32);}\
+    .bbA-tag-btn.active[data-tag="course"]{background:linear-gradient(135deg,#6366f1,#8b5cf6);}\
+    .bbA-tag-btn.active[data-tag="new"]{background:linear-gradient(135deg,#0ea5e9,#06b6d4);box-shadow:0 4px 12px rgba(14,165,233,.32);}\
+    .bbA-tag-btn.active[data-tag="results"]{background:linear-gradient(135deg,#f59e0b,#ef4444);box-shadow:0 4px 12px rgba(239,68,68,.32);}\
+    .bbA-tag-btn.active[data-tag="event"]{background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 4px 12px rgba(16,185,129,.32);}\
+    .bbA-tag-btn.active[data-tag="news"]{background:linear-gradient(135deg,#4f46e5,#6366f1);}\
+    .bbA-collapse{margin-top:4px;background:linear-gradient(180deg,#f5f3ff,#eef2ff);border:1.5px solid #ddd6fe;border-radius:11px;padding:0;}\
+    .bbA-collapse summary{padding:10px 14px;cursor:pointer;font-size:12.5px;font-weight:800;color:#4338ca;list-style:none;display:flex;align-items:center;gap:6px;user-select:none;}\
+    .bbA-collapse summary::-webkit-details-marker{display:none;}\
+    .bbA-collapse summary::after{content:"▾";margin-left:auto;transition:transform .2s;color:#6366f1;}\
+    .bbA-collapse[open] summary::after{transform:rotate(180deg);}\
+    .bbA-collapse-body{padding:0 14px 12px;display:flex;flex-direction:column;gap:9px;}\
     .bbA-cefr-hint{font-size:11.5px;color:#16a34a;margin-top:3px;font-weight:700;min-height:14px;display:inline-flex;align-items:center;gap:4px;}\
     .bbA-cefr-hint:not(:empty){background:#dcfce7;padding:3px 9px;border-radius:999px;border:1px solid #bbf7d0;align-self:flex-start;}\
     .bbA-cefr-hint.warn{color:#92400e;}\
@@ -469,7 +484,7 @@
         '<div class="bbA-foot">' +
           '<span class="msg" id="bbAFormMsg"></span>' +
           '<button class="bbA-btn ghost" data-act="cancel">Cancel</button>' +
-          (!isEdit && !isAnn ? '<button class="bbA-btn ghost" data-act="save-add">💾 Save &amp; Add another</button>' : '') +
+          (!isEdit ? '<button class="bbA-btn ghost" data-act="save-add">💾 Save &amp; Add another</button>' : '') +
           '<button class="bbA-btn" data-act="save">' + (isEdit ? '💾 Save' : '➕ Create') + '</button>' +
         '</div>' +
       '</div>' +
@@ -515,6 +530,13 @@
         modal.querySelectorAll('.bbA-exam-btn').forEach(function (x) { x.classList.remove('active'); });
         b.classList.add('active');
         _refreshScoreField();
+      });
+    });
+    // Announcement type pills (auto-set palette + emoji).
+    modal.querySelectorAll('.bbA-tag-btn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        modal.querySelectorAll('.bbA-tag-btn').forEach(function (x) { x.classList.remove('active'); });
+        b.classList.add('active');
       });
     });
     if (scoreEl) scoreEl.addEventListener('input', _updateCefrHint);
@@ -611,54 +633,67 @@
       }
     }
     function _resetForNextCandidate() {
-      var n = modal.querySelector('#f_name');     if (n) { n.value = ''; n.focus(); }
-      var s = modal.querySelector('#f_score');    if (s) s.value = '';
-      var f1= modal.querySelector('#f_file');     if (f1) f1.value = '';
-      var f2= modal.querySelector('#f_file2');    if (f2) f2.value = '';
-      var fb= modal.querySelector('#f_fb');       if (fb) fb.value = '';
+      if (isAnn) {
+        var t = modal.querySelector('#f_title');   if (t) { t.value = ''; t.focus(); }
+        var b = modal.querySelector('#f_body');    if (b) b.value = '';
+        var ai= modal.querySelector('#f_annfile'); if (ai) ai.value = '';
+        var tm= modal.querySelector('#f_tg_msg');  if (tm) tm.value = '';
+        // Type pill, date range, Telegram username + button label all stay
+        // so a batch of "Results" or "Course" announcements goes fast.
+      } else {
+        var n = modal.querySelector('#f_name');    if (n) { n.value = ''; n.focus(); }
+        var s = modal.querySelector('#f_score');   if (s) s.value = '';
+        var f1= modal.querySelector('#f_file');    if (f1) f1.value = '';
+        var f2= modal.querySelector('#f_file2');   if (f2) f2.value = '';
+        var fb= modal.querySelector('#f_fb');      if (fb) fb.value = '';
+        // Exam type + date are intentionally preserved.
+      }
       modal.querySelectorAll('.bbA-paste-status').forEach(function (e) { e.textContent = ''; });
       if (cefrHint) cefrHint.textContent = '';
-      // Exam type + date are intentionally preserved across consecutive saves.
     }
     modal.querySelector('[data-act="save"]').addEventListener('click', function () { _saveOnce(true); });
     var saveAddBtn = modal.querySelector('[data-act="save-add"]');
     if (saveAddBtn) saveAddBtn.addEventListener('click', function () { _saveOnce(false); });
   }
 
+  // Tag → palette + emoji preset (used to auto-derive the fallback cover).
+  var TAG_PRESETS = {
+    course:  { pal: 'c1', icon: '🎓', label: '🎓 Course' },
+    event:   { pal: 'c4', icon: '🗓️', label: '🗓️ Event'  },
+    news:    { pal: 'c1', icon: '📢', label: '📢 News'   }
+  };
+
   function _annFormHtml(r) {
     r = r || {};
-    var tagOpts = TAGS.map(function (t) { return '<option value="' + _attr(t.id) + '"' + ((r.tag || 'news') === t.id ? ' selected' : '') + '>' + _esc(t.label) + '</option>'; }).join('');
-    var palOpts = PALETTES.map(function (p) { return '<option value="' + _attr(p.id) + '"' + ((r.cover_palette || 'c1') === p.id ? ' selected' : '') + '>' + _esc(p.label) + '</option>'; }).join('');
-    var statusOpts = ['draft','published'].map(function (s) { return '<option value="' + s + '"' + ((r.status || 'draft') === s ? ' selected' : '') + '>' + s + '</option>'; }).join('');
+    var currentTag = (r.tag && TAG_PRESETS[r.tag]) ? r.tag : 'news';
+    var tagPills = Object.keys(TAG_PRESETS).map(function (key) {
+      var p = TAG_PRESETS[key];
+      return '<button type="button" class="bbA-tag-btn' + (key === currentTag ? ' active' : '') +
+             '" data-tag="' + key + '" data-pal="' + p.pal + '" data-icon="' + _attr(p.icon) + '">' + _esc(p.label) + '</button>';
+    }).join('');
+    var hasTg = !!(r.tg_username || r.tg_message || r.cta_label);
     return '\
+      <div class="bbA-field"><label>Type *</label>\
+        <div class="bbA-tag-grid">' + tagPills + '</div>\
+        <div class="bbA-fileinfo">Sets the fallback cover colour and icon when no image is uploaded.</div>\
+      </div>\
       <div class="bbA-field"><label>Title *</label><input id="f_title" type="text" value="' + _attr(r.title) + '" placeholder="Summer IELTS Crash Course — enrollment open" /></div>\
-      <div class="bbA-field"><label>Body</label><textarea id="f_body" rows="5" placeholder="Two short sentences. Use a new line starting with &quot;- &quot; for bullet points.&#10;Example:&#10;Our 6-week intensive program includes:&#10;- Daily mocks&#10;- Personal feedback&#10;- Speaking club">' + _esc(r.body) + '</textarea><div class="bbA-fileinfo">Tip: start a line with <code>- </code> for a bullet, wrap text in <code>**stars**</code> for <b>bold</b>.</div></div>\
+      <div class="bbA-field"><label>Body</label><textarea id="f_body" rows="4" placeholder="Two short sentences. Start a line with &quot;- &quot; for bullets.&#10;Example:&#10;Our 6-week intensive program includes:&#10;- Daily mocks&#10;- Personal feedback">' + _esc(r.body) + '</textarea><div class="bbA-fileinfo">Tip: <code>- </code> for bullets, <code>**stars**</code> for <b>bold</b>.</div></div>\
       <div class="bbA-field"><label>Cover image (optional)</label>\
         <div class="bbA-filerow"><input id="f_annfile" type="file" accept="image/*" /><button type="button" class="bbA-paste-btn" data-paste-target="f_annfile">📋 Paste</button><button type="button" class="bbA-clear-btn" data-clear-target="f_annfile">✕ Clear</button></div>\
         <div class="bbA-paste-status" id="f_annfile_status"></div>' +
         (r.image_url ? '<img class="bbA-preview" src="' + _attr(r.image_url) + '" alt="current" />' : '') +
-        '<div class="bbA-fileinfo">If set, this image replaces the emoji cover on the card. Paste an image directly from clipboard with the 📋 Paste button.' + (r.image_url ? ' Leave empty to keep the current image.' : '') + '</div></div>\
-      <div class="bbA-row">\
-        <div class="bbA-field"><label>Tag</label><select id="f_tag">' + tagOpts + '</select></div>\
-        <div class="bbA-field"><label>Cover gradient (fallback)</label><select id="f_pal">' + palOpts + '</select></div>\
-      </div>\
-      <div class="bbA-row">\
-        <div class="bbA-field"><label>Cover icon emoji (fallback)</label><input id="f_cover" type="text" maxlength="6" value="' + _attr(r.cover_icon || '📢') + '" /></div>\
-        <div class="bbA-field"><label>Status</label><select id="f_status">' + statusOpts + '</select></div>\
-      </div>\
-      <div class="bbA-row">\
-        <div class="bbA-field"><label>Starts on (optional)</label><input id="f_start" type="date" value="' + _attr(r.starts_at) + '" /></div>\
-        <div class="bbA-field"><label>Ends on (optional)</label><input id="f_end" type="date" value="' + _attr(r.ends_at) + '" /></div>\
-      </div>\
-      <div class="bbA-field"><label>Link URL (optional)</label><input id="f_link" type="url" placeholder="https://…" value="' + _attr(r.link_url) + '" /></div>\
-      <div style="margin:8px -20px 0;padding:14px 20px 6px;border-top:1px solid #e2e8f0;background:#f8fafc;">\
-        <div style="font-size:12px;font-weight:800;color:#0f172a;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;">📩 Telegram CTA (optional)</div>\
-        <div class="bbA-row">\
-          <div class="bbA-field"><label>Telegram username</label><input id="f_tg_user" type="text" placeholder="turgunov_kx (no @)" value="' + _attr(r.tg_username) + '" /></div>\
-          <div class="bbA-field"><label>Button label</label><input id="f_cta" type="text" placeholder="Kursga qo&#39;shilish" value="' + _attr(r.cta_label) + '" /></div>\
+        '<div class="bbA-fileinfo">If set, this image replaces the type cover on the card.' + (r.image_url ? ' Leave empty to keep the current image.' : '') + '</div></div>\
+      <details class="bbA-collapse"' + (hasTg ? ' open' : '') + '>\
+        <summary>📩 Telegram CTA <span class="bbA-fileinfo" style="margin-left:6px;color:#94a3b8;">(optional)</span></summary>\
+        <div class="bbA-collapse-body">\
+          <div class="bbA-row">\
+            <div class="bbA-field"><label>Telegram username</label><input id="f_tg_user" type="text" placeholder="turgunov_kx (no @)" value="' + _attr(r.tg_username) + '" /></div>\
+            <div class="bbA-field"><label>Button label</label><input id="f_cta" type="text" placeholder="Kursga qo&#39;shilish" value="' + _attr(r.cta_label) + '" /></div>\
+          </div>\
+          <div class="bbA-field"><label>Pre-filled Telegram message</label><textarea id="f_tg_msg" rows="3" placeholder="Men 3 oy, har kuni jonli dars o&#39;tiladigan Multilevel Sentabr kursida tayyorlanmoqchiman.">' + _esc(r.tg_message) + '</textarea><div class="bbA-fileinfo">Shown in the visitor&#39;s Telegram input box when they tap the button.</div></div>\
         </div>\
-        <div class="bbA-field"><label>Pre-filled Telegram message</label><textarea id="f_tg_msg" rows="3" placeholder="Men 3 oy, har kuni jonli dars o&#39;tiladigan Multilevel Sentabr kursida tayyorlanmoqchiman.">' + _esc(r.tg_message) + '</textarea><div class="bbA-fileinfo">Shown in the user&#39;s Telegram input box when they tap the button. Same <code>**bold**</code> / bullets formatting as the body.</div></div>\
-      </div>';
+      </details>';
   }
   async function _readAnnForm(modal) {
     var title = modal.querySelector('#f_title').value.trim();
@@ -668,17 +703,21 @@
     if (file) {
       imageUrl = await uploadAnnImage(file, state.centerId);
     }
+    var activeTag = modal.querySelector('.bbA-tag-btn.active');
+    var tag       = activeTag ? activeTag.getAttribute('data-tag') : 'news';
+    var pal       = activeTag ? activeTag.getAttribute('data-pal') : 'c1';
+    var icon      = activeTag ? activeTag.getAttribute('data-icon') : '📢';
     var tgUser = (modal.querySelector('#f_tg_user').value || '').trim().replace(/^@/, '');
     var out = {
       title:          title,
       body:           modal.querySelector('#f_body').value,
-      tag:            modal.querySelector('#f_tag').value,
-      cover_icon:     modal.querySelector('#f_cover').value || '📢',
-      cover_palette:  modal.querySelector('#f_pal').value,
-      starts_at:      modal.querySelector('#f_start').value || null,
-      ends_at:        modal.querySelector('#f_end').value || null,
-      link_url:       modal.querySelector('#f_link').value || null,
-      status:         modal.querySelector('#f_status').value,
+      tag:            tag,
+      cover_icon:     icon,
+      cover_palette:  pal,
+      starts_at:      null,
+      ends_at:        null,
+      link_url:       null,
+      status:         'published',
       tg_username:    tgUser || null,
       tg_message:     modal.querySelector('#f_tg_msg').value || null,
       cta_label:      modal.querySelector('#f_cta').value || null
