@@ -408,7 +408,7 @@
       catch(e){return {error:'Invalid JSON: '+String(raw).slice(0,160), raw: raw}}
     }
 
-    // Attempt 1 — platform-default provider
+    // Attempt 1 — System Prompts default provider
     var a1=await _attempt(basePrompt,{maxTokens:8192});
     var data=a1.data, lastIssues=a1.error?[a1.error]:_verifyPart2LP(a1.data);
     var prevWordCount=(a1.data&&a1.data.talkScript)?a1.data.talkScript.trim().split(/\s+/).length:0;
@@ -421,23 +421,9 @@
       var a2=await _attempt(basePrompt+'\n\n'+fb,{maxTokens:8192,temp:0.7});
       data=a2.data;
       lastIssues=a2.error?[a2.error]:_verifyPart2LP(a2.data);
-      if(a2.data&&a2.data.talkScript)prevWordCount=a2.data.talkScript.trim().split(/\s+/).length;
-    }
-
-    if(lastIssues.length){
-      // Attempt 3 — fall back to Gemini explicitly (more reliable for long-form)
-      _setProgress(1,'Final attempt with Gemini fallback…');
-      var fb2='PREVIOUS ATTEMPT FAILED these checks — fix EVERY one:\n- '+lastIssues.join('\n- ');
-      if(prevWordCount)fb2+='\n\nLast attempt was '+prevWordCount+' words. Need at least 220.';
-      var raw3=await window.PlusAI.call('',basePrompt+'\n\n'+fb2,{
-        skill:'listening-plus', providerOverride:'gemini',
-        temperature:0.8, maxTokens:8192, jsonMode:true
-      });
-      try{data=JSON.parse(_stripJsonLP(raw3))}
-      catch(e3){throw new Error('Gemini fallback returned invalid JSON: '+String(raw3).slice(0,200))}
-      _setProgress(2,'Step 2 / 3 — Re-verifying…');
-      var finalIssues=_verifyPart2LP(data);
-      if(finalIssues.length)throw new Error('Could not generate a clean talk after 3 attempts: '+finalIssues.join('; '));
+      // No cross-provider fallback — stay on System Prompts default. If it
+      // still fails, surface a friendly retry in the part-card error handler.
+      if(lastIssues.length)throw new Error('AI_OUTPUT_INVALID');
     }
 
     _setProgress(3,'Step 3 / 3 — Preparing voice…');
@@ -554,7 +540,8 @@
       }catch(err){
         document.getElementById('loading').classList.add('hidden');
         var t=document.getElementById('test');t.classList.remove('hidden');
-        t.innerHTML='<div style="text-align:center;padding:40px;color:var(--red)"><div style="font-size:32px;margin-bottom:12px">⚠️</div><div style="font-weight:700;margin-bottom:8px">Generation failed</div><div style="font-size:13px;color:var(--muted)">'+esc(err.message||String(err))+'</div><button class="btn-submit" style="margin-top:20px" onclick="location.reload()">Try Again</button></div>';
+        var msg=String(err&&err.message||err||'');
+        t.innerHTML='<div style="text-align:center;padding:48px 20px;color:var(--ink)"><div style="font-size:40px;margin-bottom:14px">✨</div><div style="font-weight:700;font-size:17px;margin-bottom:8px">Let\'s try that again</div><div style="font-size:13.5px;color:var(--muted);max-width:380px;margin:0 auto 22px;line-height:1.55">The AI didn\'t quite hit the mark this time. Tap below — fresh attempt, takes a few seconds.</div><button class="btn-submit" onclick="location.reload()">🔄 Try Again</button><details style="margin-top:24px;font-size:11px;color:var(--faint)"><summary style="cursor:pointer">Technical detail</summary><div style="margin-top:6px;text-align:left;max-width:380px;margin:6px auto 0">'+esc(msg)+'</div></details></div>';
       }
     });
   });

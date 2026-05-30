@@ -555,7 +555,8 @@
       }catch(err){
         document.getElementById('loading').classList.add('hidden');
         var t=document.getElementById('test');t.classList.remove('hidden');
-        t.innerHTML='<div style="text-align:center;padding:40px;color:var(--red)"><div style="font-size:32px;margin-bottom:12px">⚠️</div><div style="font-weight:700;margin-bottom:8px">Generation failed</div><div style="font-size:13px;color:var(--muted)">'+esc(err.message||String(err))+'</div><button class="btn-submit" style="margin-top:20px" onclick="location.reload()">Try Again</button></div>';
+        var msg=String(err&&err.message||err||'');
+        t.innerHTML='<div style="text-align:center;padding:48px 20px;color:var(--ink)"><div style="font-size:40px;margin-bottom:14px">✨</div><div style="font-weight:700;font-size:17px;margin-bottom:8px">Let\'s try that again</div><div style="font-size:13.5px;color:var(--muted);max-width:380px;margin:0 auto 22px;line-height:1.55">The AI didn\'t quite hit the mark this time. Tap below — fresh attempt, takes a few seconds.</div><button class="btn-submit" onclick="location.reload()">🔄 Try Again</button><details style="margin-top:24px;font-size:11px;color:var(--faint)"><summary style="cursor:pointer">Technical detail</summary><div style="margin-top:6px;text-align:left;max-width:380px;margin:6px auto 0">'+esc(msg)+'</div></details></div>';
       }
     });
   });
