@@ -367,7 +367,10 @@
     if(!d||typeof d!=='object')return ['payload not an object'];
     if(!d.formTitle||typeof d.formTitle!=='string')issues.push('formTitle missing');
     if(!d.talkScript||typeof d.talkScript!=='string')issues.push('talkScript missing');
-    else if(d.talkScript.trim().split(/\s+/).length<170)issues.push('talkScript too short (<170 words)');
+    else {
+      var wc=d.talkScript.trim().split(/\s+/).length;
+      if(wc<140)issues.push('talkScript only '+wc+' words — need at least 220');
+    }
     if(!Array.isArray(d.formContent)||d.formContent.length!==6)issues.push('formContent must be exactly 6 entries');
     if(!d.answers||typeof d.answers!=='object')issues.push('answers map missing');
     if(issues.length)return issues;
@@ -397,24 +400,46 @@
     _setStepLabels(['Talk','Verify','Voice']);
     _setProgress(1,'Step 1 / 3 — Writing the talk &amp; form…');
     var topic=_pickTalkTopic();
-    var basePrompt='Generate a CEFR B2-C1 Listening Part 2 gap-fill exercise for the Uzbek Multilevel exam.\n\nTHEMING SEED (use loosely): '+topic+'\n\nYou will produce ONE monologue (a single speaker giving a talk) plus a form with 6 numbered gaps that students fill in while listening.\n\nSTRICT RULES:\n- talkScript: a SINGLE-SPEAKER monologue, 250-330 words, natural spoken English (announcements, dates, names, prices, numbers, room/floor numbers, durations are great gap material). Conversational but informative. Do NOT use stage directions or speaker labels.\n- formTitle: a short ALL-CAPS title for the form (e.g. "END-OF-YEAR CLASS TRIP", "SCHOOL SCIENCE FAIR").\n- formContent: an array of EXACTLY 6 items, each {"type":"item-gap","gapId":N,"text":"...","gapSuffix":"..."}. gapId runs 1 through 6. The "text" ends right before the gap; "gapSuffix" is whatever comes after the blank (often "." or a couple of words then a period). Example: {"text":"The group will be staying at the Novotel","gapSuffix":"."}\n- answers: object {"1":"WORD","2":"NUMBER",...} mapping each gapId 1-6 to the EXACT ONE-WORD answer.\n- EVERY answer word MUST appear verbatim (case-insensitive) somewhere in the talkScript so students can hear it.\n- Each answer is ONE word OR a number — never a phrase, never multiple words.\n- Answers should be UPPERCASE in the answers map (matches Mock 38 convention).\n- Form text must read naturally as a fill-in (e.g. "Students will be able to touch pieces of actual" → gap → ".")\n\nReturn ONLY JSON, no markdown, in this exact shape:\n{"formTitle":"...","talkScript":"...","formContent":[{"type":"item-gap","gapId":1,"text":"...","gapSuffix":"..."},{"type":"item-gap","gapId":2,"text":"...","gapSuffix":"..."},{"type":"item-gap","gapId":3,"text":"...","gapSuffix":"..."},{"type":"item-gap","gapId":4,"text":"...","gapSuffix":"..."},{"type":"item-gap","gapId":5,"text":"...","gapSuffix":"..."},{"type":"item-gap","gapId":6,"text":"...","gapSuffix":"..."}],"answers":{"1":"...","2":"...","3":"...","4":"...","5":"...","6":"..."}}';
-    var raw=await _callAI(basePrompt,{maxTokens:8192});
-    var data;
-    try{data=JSON.parse(_stripJsonLP(raw))}
-    catch(e){throw new Error('AI did not return valid JSON: '+String(raw).slice(0,200))}
-    _setProgress(2,'Step 2 / 3 — Verifying answers appear in the talk…');
-    await new Promise(function(r){setTimeout(r,200)});
-    var issues=_verifyPart2LP(data);
-    if(issues.length){
-      _setProgress(1,'Retry — fixing structure ('+issues.length+' issue'+(issues.length>1?'s':'')+')…');
-      var retry=basePrompt+'\n\nPREVIOUS ATTEMPT FAILED these checks — fix EVERY one:\n- '+issues.join('\n- ');
-      var raw2=await _callAI(retry,{maxTokens:8192,temp:0.7});
-      try{data=JSON.parse(_stripJsonLP(raw2))}
-      catch(e2){throw new Error('Retry returned invalid JSON: '+String(raw2).slice(0,200))}
-      _setProgress(2,'Step 2 / 3 — Re-verifying…');
-      var issues2=_verifyPart2LP(data);
-      if(issues2.length)throw new Error('Could not generate a clean talk after retry: '+issues2.join('; '));
+    var basePrompt='Generate a CEFR B2-C1 Listening Part 2 gap-fill exercise for the Uzbek Multilevel exam.\n\nTHEMING SEED (use loosely): '+topic+'\n\nYou will produce ONE monologue (a single speaker giving a talk) plus a form with 6 numbered gaps that students fill in while listening.\n\nSTRICT RULES:\n- talkScript: a SINGLE-SPEAKER monologue. **MUST BE AT LEAST 220 WORDS AND IDEALLY 250-330 WORDS — this is non-negotiable. Count your words before responding. Do not stop short.** Natural spoken English (announcements, dates, names, prices, numbers, room/floor numbers, durations are great gap material). Conversational but informative. Do NOT use stage directions or speaker labels.\n- formTitle: a short ALL-CAPS title for the form (e.g. "END-OF-YEAR CLASS TRIP", "SCHOOL SCIENCE FAIR").\n- formContent: an array of EXACTLY 6 items, each {"type":"item-gap","gapId":N,"text":"...","gapSuffix":"..."}. gapId runs 1 through 6. The "text" ends right before the gap; "gapSuffix" is whatever comes after the blank (often "." or a couple of words then a period). Example: {"text":"The group will be staying at the Novotel","gapSuffix":"."}\n- answers: object {"1":"WORD","2":"NUMBER",...} mapping each gapId 1-6 to the EXACT ONE-WORD answer.\n- EVERY answer word MUST appear verbatim (case-insensitive) somewhere in the talkScript so students can hear it.\n- Each answer is ONE word OR a number — never a phrase, never multiple words.\n- Answers should be UPPERCASE in the answers map (matches Mock 38 convention).\n- Form text must read naturally as a fill-in (e.g. "Students will be able to touch pieces of actual" → gap → ".")\n\nReturn ONLY JSON, no markdown, in this exact shape:\n{"formTitle":"...","talkScript":"...","formContent":[{"type":"item-gap","gapId":1,"text":"...","gapSuffix":"..."},{"type":"item-gap","gapId":2,"text":"...","gapSuffix":"..."},{"type":"item-gap","gapId":3,"text":"...","gapSuffix":"..."},{"type":"item-gap","gapId":4,"text":"...","gapSuffix":"..."},{"type":"item-gap","gapId":5,"text":"...","gapSuffix":"..."},{"type":"item-gap","gapId":6,"text":"...","gapSuffix":"..."}],"answers":{"1":"...","2":"...","3":"...","4":"...","5":"...","6":"..."}}';
+
+    async function _attempt(prompt, opts){
+      var raw=await _callAI(prompt, opts);
+      try{return {data: JSON.parse(_stripJsonLP(raw)), raw: raw}}
+      catch(e){return {error:'Invalid JSON: '+String(raw).slice(0,160), raw: raw}}
     }
+
+    // Attempt 1 — platform-default provider
+    var a1=await _attempt(basePrompt,{maxTokens:8192});
+    var data=a1.data, lastIssues=a1.error?[a1.error]:_verifyPart2LP(a1.data);
+    var prevWordCount=(a1.data&&a1.data.talkScript)?a1.data.talkScript.trim().split(/\s+/).length:0;
+
+    if(lastIssues.length){
+      // Attempt 2 — same provider, feed back the exact word count + issues
+      _setProgress(1,'Retry — fixing '+lastIssues.length+' issue'+(lastIssues.length>1?'s':'')+'…');
+      var fb='PREVIOUS ATTEMPT FAILED these checks — fix EVERY one:\n- '+lastIssues.join('\n- ');
+      if(prevWordCount)fb+='\n\nYour previous talkScript was '+prevWordCount+' words. You MUST produce at least 220 words this time — write more content, add more concrete details (dates, prices, names, places, times).';
+      var a2=await _attempt(basePrompt+'\n\n'+fb,{maxTokens:8192,temp:0.7});
+      data=a2.data;
+      lastIssues=a2.error?[a2.error]:_verifyPart2LP(a2.data);
+      if(a2.data&&a2.data.talkScript)prevWordCount=a2.data.talkScript.trim().split(/\s+/).length;
+    }
+
+    if(lastIssues.length){
+      // Attempt 3 — fall back to Gemini explicitly (more reliable for long-form)
+      _setProgress(1,'Final attempt with Gemini fallback…');
+      var fb2='PREVIOUS ATTEMPT FAILED these checks — fix EVERY one:\n- '+lastIssues.join('\n- ');
+      if(prevWordCount)fb2+='\n\nLast attempt was '+prevWordCount+' words. Need at least 220.';
+      var raw3=await window.PlusAI.call('',basePrompt+'\n\n'+fb2,{
+        skill:'listening-plus', providerOverride:'gemini',
+        temperature:0.8, maxTokens:8192, jsonMode:true
+      });
+      try{data=JSON.parse(_stripJsonLP(raw3))}
+      catch(e3){throw new Error('Gemini fallback returned invalid JSON: '+String(raw3).slice(0,200))}
+      _setProgress(2,'Step 2 / 3 — Re-verifying…');
+      var finalIssues=_verifyPart2LP(data);
+      if(finalIssues.length)throw new Error('Could not generate a clean talk after 3 attempts: '+finalIssues.join('; '));
+    }
+
     _setProgress(3,'Step 3 / 3 — Preparing voice…');
     if(_voices.length===0){_loadVoices();await new Promise(function(r){setTimeout(r,400)})}
     return data;
