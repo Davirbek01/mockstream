@@ -434,7 +434,7 @@
   function renderP2(d,c){
     var h='<div style="text-align:center;margin-bottom:4px"><span class="part-tag" style="font-size:13px;padding:5px 16px">Part 2</span></div>';
     h+='<p style="font-size:13.5px;color:var(--muted);text-align:center;margin:8px 0 16px">Listen to the talk and fill in each gap with ONE word or number.</p>';
-    h+='<div class="q-card" style="margin-bottom:20px"><div class="q-num">'+esc(d.formTitle||'TALK')+'</div>';
+    h+='<div class="q-card" style="margin-bottom:20px"><div style="text-align:center;font-size:18px;font-weight:800;letter-spacing:.04em;color:var(--brand-deep);margin:4px 0 14px;text-transform:uppercase">'+esc(d.formTitle||'TALK')+'</div>';
     h+='<div class="play-row"><button type="button" class="play-btn" id="lpP2Play" aria-label="Play talk"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>';
     h+='<span class="play-label" id="lpP2Status">Tap to play the talk (you can replay any time)</span>';
     h+='<span class="play-count" id="lpP2Count">0 plays</span></div>';
