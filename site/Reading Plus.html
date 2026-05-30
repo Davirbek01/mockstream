@@ -6,6 +6,7 @@
   <title>Reading Plus — AI Practice</title>
   <script>document.documentElement.setAttribute('data-theme','light');</script>
   <script src="/center-id.js" defer></script>
+  <script src="/plus-ai.js"></script>
   <style>
     *,*::before,*::after{box-sizing:border-box}
     :root{
@@ -99,8 +100,7 @@
         <div class="pc-desc">Read a passage and fill gaps with words found elsewhere in the text.</div>
         <span class="pc-qs">6 questions</span>
       </div>
-      <div class="part-card locked" data-part="2" data-locked="1">
-        <span class="soon-badge">Soon</span>
+      <div class="part-card" data-part="2">
         <div class="pc-num">Part 2</div>
         <div class="pc-name">Matching (Texts &harr; Statements)</div>
         <div class="pc-desc">Match 8 short texts to 10 situation statements (2 extras).</div>
@@ -163,38 +163,16 @@
     5:'Generate a CEFR B2-C1 summary + MCQ exercise.\n\n- Academic passage (400-500 words).\n- Summary paragraph with 4 gaps (30-33). Each answer is ONE word from passage.\n- 2 MCQ (34-35) with A-D.\n\nReturn JSON:\n{"title":"...","passage":"...","summary":"Text with _____(30)_____ gaps _____(31)_____ placed _____(32)_____ here _____(33)_____ naturally.","gapAnswers":{"30":"w","31":"w","32":"w","33":"w"},"mcqs":[{"id":34,"text":"?","options":[{"letter":"A","text":"..."},{"letter":"B","text":"..."},{"letter":"C","text":"..."},{"letter":"D","text":"..."}],"answer":"B"},{"id":35,"text":"?","options":[...],"answer":"A"}]}'
   };
 
-  var SB_URL='https://zknyukkbtbcqgvkgjktb.supabase.co';
-  var SB_KEY='sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
-
-  function _proxyHeaders(){return{
-    'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,
-    'x-ms-center':(window.__CENTER_ID||'mock_stream').toString().trim(),'x-ms-skill':'reading-plus'
-  }}
-
-  async function _callDeepSeek(userPrompt,opts){
-    var messages=[{role:'system',content:SYS},{role:'user',content:userPrompt+'\n\nIMPORTANT: Respond with valid JSON only, no markdown.'}];
-    var r=await fetch(SB_URL+'/functions/v1/ai-proxy/deepseek/chat/completions',{
-      method:'POST',headers:_proxyHeaders(),
-      body:JSON.stringify({model:'deepseek-chat',messages:messages,temperature:(opts&&opts.temp)||0.8,max_tokens:(opts&&opts.maxTokens)||4096})
+  // Provider is read from System Prompts default (site_settings.scoring_ai_provider)
+  // via /plus-ai.js. Per-centre AI in Centers panel is ignored here on purpose.
+  function _callAI(userPrompt, opts) {
+    opts = opts || {};
+    return window.PlusAI.call(SYS, userPrompt, {
+      skill: 'reading-plus',
+      temperature: opts.temp != null ? opts.temp : 0.85,
+      maxTokens: opts.maxTokens || 2048,
+      jsonMode: opts.jsonMode !== false
     });
-    if(!r.ok){var t='';try{t=await r.text()}catch(_){}throw new Error('DeepSeek '+r.status+': '+t.slice(0,200))}
-    var j=await r.json();if(j.error)throw new Error(j.error.message||'API error');
-    return j.choices[0].message.content;
-  }
-
-  async function _callGemini(prompt,opts){
-    var body={
-      contents:[{parts:[{text:prompt}]}],
-      generationConfig:{temperature:(opts&&opts.temp)||0.85,maxOutputTokens:(opts&&opts.maxTokens)||2048,responseMimeType:'application/json'}
-    };
-    var r=await fetch(SB_URL+'/functions/v1/ai-proxy/gemini/v1beta/models/gemini-2.5-flash:generateContent',{
-      method:'POST',headers:_proxyHeaders(),body:JSON.stringify(body)
-    });
-    if(!r.ok){var t='';try{t=await r.text()}catch(_){}throw new Error('Gemini '+r.status+': '+t.slice(0,200))}
-    var j=await r.json();
-    var cand=j.candidates&&j.candidates[0];
-    if(!cand)throw new Error('Gemini: no candidates');
-    return cand.content.parts[0].text;
   }
 
   function _setProgress(step,labelText){
@@ -205,6 +183,12 @@
     for(var i=1;i<=3;i++){
       var el=document.getElementById('step'+i+'Lbl');
       if(el)el.style.color=(i<=step)?'var(--brand-deep)':'var(--faint)';
+    }
+  }
+  function _setStepLabels(labels){
+    for(var i=0;i<3;i++){
+      var el=document.getElementById('step'+(i+1)+'Lbl');
+      if(el&&labels[i])el.textContent=(i+1)+'. '+labels[i];
     }
   }
 
@@ -288,11 +272,12 @@
   function _pickTopic(){return TOPIC_POOL[Math.floor(Math.random()*TOPIC_POOL.length)]}
 
   async function generatePart1(){
-    // STEP 1 — Gemini writes a plain passage with deliberate word repetition
+    _setStepLabels(['Writing','Gaps','Verify']);
+    // STEP 1 — AI writes a plain passage with deliberate word repetition
     _setProgress(1,'Step 1 / 3 — Writing the passage…');
     var topic=_pickTopic();
     var p1='You are a CEFR exam writer. Write a SHORT B2-C1 English passage suitable for a Multilevel exam Part 1 gap-fill.\n\nTOPIC: '+topic+'\n\nSTRICT RULES:\n- 220-280 words total.\n- Stay on the assigned topic above.\n- Use a clear narrative or expository style.\n- DELIBERATELY repeat at least 8 different content words (nouns, verbs, adjectives — 4+ letters) twice or more across the passage. These repetitions are essential.\n- Do NOT insert any gap markers — write the full clean passage.\n- Return JSON only: {"title": "...", "passage": "..."}';
-    var raw1=await _callGemini(p1);
+    var raw1=await _callAI(p1);
     var draft;
     try{draft=JSON.parse(raw1.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim())}
     catch(e){throw new Error('Gemini did not return valid JSON: '+raw1.slice(0,200))}
@@ -308,7 +293,7 @@
       _setProgress(1,'Step 1 / 3 — Rewriting (more repetition)…');
       var topic2=_pickTopic();
       var p1b='You are a CEFR exam writer. Write a SHORT B2-C1 English passage suitable for a Multilevel exam Part 1 gap-fill.\n\nTOPIC: '+topic2+'\n\nSTRICT RULES:\n- 220-280 words total.\n- DELIBERATELY repeat at least 8 different content words (nouns, verbs, adjectives — 4+ letters) twice or more.\n- Do NOT insert any gap markers.\n- Return JSON only: {"title": "...", "passage": "..."}';
-      var raw2=await _callGemini(p1b);
+      var raw2=await _callAI(p1b);
       try{draft=JSON.parse(raw2.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim())}
       catch(e2){throw new Error('Gemini retry failed: '+raw2.slice(0,200))}
       _setProgress(2,'Step 2 / 3 — Selecting gaps…');
@@ -332,10 +317,73 @@
 
   async function generate(n){
     if(n===1)return generatePart1();
-    // Parts 2-5 still use the single-call DeepSeek pipeline (currently locked anyway)
+    if(n===2)return generatePart2();
+    // Parts 3-5 still single-call (locked)
     _setProgress(2,'Generating with AI…');
-    var raw=await _callDeepSeek(PROMPTS[n]);
+    var raw=await _callAI(PROMPTS[n]);
     return JSON.parse(raw.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim());
+  }
+
+  // ─── Part 2: matching 8 texts ↔ 10 statements ──────────────────────
+  // Two-step pipeline: AI generates, JS sanity-verifies, one retry with
+  // an explicit reason if the verify catches anything.
+  function _stripJson(raw){return String(raw||'').replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim()}
+  function _verifyPart2(d){
+    var issues=[];
+    if(!d||typeof d!=='object')return ['payload not an object'];
+    if(!Array.isArray(d.texts)||d.texts.length!==8)issues.push('texts must be exactly 8 (got '+(d.texts?d.texts.length:0)+')');
+    if(!Array.isArray(d.statements)||d.statements.length!==10)issues.push('statements must be exactly 10');
+    if(!d.answers||typeof d.answers!=='object')issues.push('answers map missing');
+    if(!Array.isArray(d.extras)||d.extras.length!==2)issues.push('extras must be exactly 2');
+    if(issues.length)return issues;
+    var letters=d.statements.map(function(s){return String(s.letter||'').toUpperCase()});
+    var expectedLetters='ABCDEFGHIJ'.split('');
+    expectedLetters.forEach(function(L){if(letters.indexOf(L)===-1)issues.push('missing statement '+L)});
+    // Each text must be numbered 7..14 with answer in A-J, no duplicates
+    var seenN={},used={};
+    d.texts.forEach(function(t,i){
+      var n=Number(t.number);
+      if(!(n>=7&&n<=14))issues.push('text['+i+'].number='+t.number+' out of 7..14');
+      if(seenN[n])issues.push('duplicate text number '+n);else seenN[n]=true;
+      var a=String((d.answers||{})[n]||'').toUpperCase();
+      if(!a||expectedLetters.indexOf(a)===-1)issues.push('answer for text '+n+' missing/invalid ('+a+')');
+      if(used[a])issues.push('letter '+a+' used twice in answers');else used[a]=true;
+      if(!t.content||String(t.content).split(/\s+/).length<25)issues.push('text '+n+' too short (<25 words)');
+    });
+    // Extras must be 2 letters NOT in answers
+    d.extras.forEach(function(L){
+      L=String(L||'').toUpperCase();
+      if(expectedLetters.indexOf(L)===-1)issues.push('extra '+L+' not A-J');
+      if(used[L])issues.push('extra '+L+' is actually used as an answer');
+    });
+    return issues;
+  }
+
+  async function generatePart2(){
+    _setStepLabels(['Texts','Verify','Done']);
+    _setProgress(1,'Step 1 / 2 — Writing texts &amp; statements…');
+    var topic=_pickTopic();
+    var basePrompt='Generate a CEFR B2-C1 Part 2 matching exercise for the Uzbek Multilevel exam.\n\nTHEMING SEED (use loosely for inspiration, vary widely): '+topic+'\n\nSTRICT RULES:\n- Produce 8 short authentic texts numbered 7 through 14. Each is a different ad/notice/listing (event ad, course notice, product listing, room rental, lost-and-found, volunteer call, etc.). 50-80 words each. Distinct voices and topics — DO NOT repeat the same format twice.\n- Produce 10 situation statements lettered A through J. Each is a short description of someone\'s need or situation (e.g. "Someone who wants to learn a craft on weekends"). 8 of the 10 statements must match exactly one text. 2 letters must be EXTRAS that match NO text.\n- The "answers" object maps each text number (7-14) to the statement letter that fits it best.\n- "extras" lists the 2 letters that intentionally do not match any text.\n- Each letter A-J is used at most once across answers + extras combined (no duplicates).\n- Return ONLY JSON, no markdown:\n{"texts":[{"number":7,"content":"..."},{"number":8,"content":"..."},{"number":9,"content":"..."},{"number":10,"content":"..."},{"number":11,"content":"..."},{"number":12,"content":"..."},{"number":13,"content":"..."},{"number":14,"content":"..."}],"statements":[{"letter":"A","text":"..."},{"letter":"B","text":"..."},{"letter":"C","text":"..."},{"letter":"D","text":"..."},{"letter":"E","text":"..."},{"letter":"F","text":"..."},{"letter":"G","text":"..."},{"letter":"H","text":"..."},{"letter":"I","text":"..."},{"letter":"J","text":"..."}],"answers":{"7":"?","8":"?","9":"?","10":"?","11":"?","12":"?","13":"?","14":"?"},"extras":["?","?"]}';
+    var raw=await _callAI(basePrompt,{maxTokens:4096});
+    var data;
+    try{data=JSON.parse(_stripJson(raw))}
+    catch(e){throw new Error('AI did not return valid JSON: '+String(raw).slice(0,200))}
+    _setProgress(2,'Step 2 / 2 — Verifying structure…');
+    await new Promise(function(r){setTimeout(r,200)});
+    var issues=_verifyPart2(data);
+    if(issues.length){
+      // One retry — feed the failure reasons back so the model can self-correct.
+      _setProgress(1,'Retry — fixing structure ('+issues.length+' issue'+(issues.length>1?'s':'')+')…');
+      var retry=basePrompt+'\n\nPREVIOUS ATTEMPT FAILED these checks — fix EVERY one:\n- '+issues.join('\n- ');
+      var raw2=await _callAI(retry,{maxTokens:4096,temp:0.7});
+      try{data=JSON.parse(_stripJson(raw2))}
+      catch(e2){throw new Error('Retry returned invalid JSON: '+String(raw2).slice(0,200))}
+      _setProgress(2,'Step 2 / 2 — Re-verifying…');
+      var issues2=_verifyPart2(data);
+      if(issues2.length)throw new Error('Could not generate a clean matching set after retry: '+issues2.join('; '));
+    }
+    _setProgress(3,'Done');
+    return data;
   }
 
   function gapHtml(text,editable){
