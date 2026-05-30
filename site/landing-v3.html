@@ -11698,7 +11698,7 @@
     }
     window.loadDynamicCefrReadingMocks = loadDynamicCefrReadingMocks;
 
-    const _CRET_CACHE_KEY = 'ms_cret_meta_v5';
+    const _CRET_CACHE_KEY = 'ms_cret_meta_v6';
     const _CRET_CACHE_TTL = 24 * 60 * 60 * 1000;
     const _CRET_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
     const _CRET_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
@@ -11956,9 +11956,7 @@
       const dots = parts.map(p =>
         '<span class="cret-dot ' + (p.ready ? 'cret-dot-ready' : 'cret-dot-soon') + '"></span>'
       ).join('');
-      const sourceHtml = meta.source
-        ? '<div class="cret-source" title="' + _cretEsc(meta.source) + '">' + _cretEsc(meta.source) + '</div>'
-        : '';
+      const sourceHtml = '';
       const examLabel = (function fmtCret(iso) {
         if (!iso) return '';
         const s = String(iso).trim();
