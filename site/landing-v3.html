@@ -2818,6 +2818,7 @@
             cover:      r.cover_icon || '📢',
             coverCls:   r.cover_palette || 'c1',
             imageUrl:   r.image_url || '',
+            imageFit:   (r.image_fit === 'contain' ? 'contain' : 'cover'),
             tag:        TAG_LABEL[tag] || tag,
             tagCls:     TAG_TO_CLS[tag] || '',
             headline:   r.title || '',
@@ -2836,24 +2837,109 @@
           date:         _bbFmtMonthYear(r.exam_date),
           cls:          _bbExamCls(r.exam_type),
           imageUrl:     r.certificate_image_url || '',
+          imageFit:     (r.image_fit === 'contain' ? 'contain' : 'cover'),
           secondaryUrl: r.secondary_image_url   || '',
+          secondaryFit: (r.secondary_image_fit === 'contain' ? 'contain' : 'cover'),
           feedback:     r.student_feedback || ''
         }));
 
-        // No data → hide slot. If the toggle already hid it via display:none,
-        // this is a no-op. If both slots end up empty, hide the section.
+        // ── DEFAULT FALLBACK CONTENT ─────────────────────────────────
+        // When a centre hasn't populated its own announcements/certificates
+        // yet, show curated platform content instead of hiding the slot.
+        // The CTAs deep-link to Telegram for Premium upgrades.
+        const _TG_USER = 'mrkhasanoff3';
+        const _TG_MSG  = "Hi! I want Mock Stream Premium. Please send me the price and activation details.";
+        const _IMG = (id, w) => 'https://images.unsplash.com/photo-' + id + '?w=' + (w||600) + '&h=400&fit=crop&auto=format&q=80';
+
+        const DEFAULT_ANN = [
+          { cover:'🚀', coverCls:'c1', imageUrl:_IMG('1503676260728-1c00da094a0b'),
+            tag:'WELCOME', tagCls:'tag-news',
+            headline:'Real Multilevel & IELTS readiness',
+            body:'Practice with 600+ real exam mocks. AI-graded writing & speaking. Live exam timer. CEFR + IELTS in one place.',
+            date:'', cta:'Get Premium →', tgUsername:_TG_USER, tgMessage:_TG_MSG },
+          { cover:'🎙️', coverCls:'c2', imageUrl:_IMG('1485217988980-11786ced9454'),
+            tag:'SPEAKING', tagCls:'tag-news',
+            headline:'Practice speaking like the real exam',
+            body:'Record under exam conditions. AI scoring on fluency, vocabulary, grammar and pronunciation in under 30 seconds.',
+            date:'', cta:'Upgrade →', tgUsername:_TG_USER, tgMessage:_TG_MSG },
+          { cover:'✍️', coverCls:'c3', imageUrl:_IMG('1455390582262-044cdead277a'),
+            tag:'WRITING', tagCls:'tag-news',
+            headline:'AI-graded writing in 30 seconds',
+            body:'Submit your task, get instant scores on Task Achievement, Coherence, Lexical Resource and Grammar. Model answers included.',
+            date:'', cta:'Try Premium →', tgUsername:_TG_USER, tgMessage:_TG_MSG },
+          { cover:'🎧', coverCls:'c4', imageUrl:_IMG('1493225457124-a3eb161ffa5f'),
+            tag:'LISTENING', tagCls:'tag-news',
+            headline:'Train your ear on real CEFR audio',
+            body:'40+ full Listening mocks across 6 parts each. Native speakers. Transcripts revealed after submission.',
+            date:'', cta:'Unlock all →', tgUsername:_TG_USER, tgMessage:_TG_MSG },
+          { cover:'📖', coverCls:'c1', imageUrl:_IMG('1481627834876-b7833e8f5570'),
+            tag:'READING', tagCls:'tag-news',
+            headline:'Master 5 CEFR Reading parts',
+            body:'Gap-fill, matching, headings, comprehension, summary completion — 50+ reading mocks calibrated to B2-C1.',
+            date:'', cta:'Get access →', tgUsername:_TG_USER, tgMessage:_TG_MSG },
+          { cover:'🏆', coverCls:'c2', imageUrl:_IMG('1523580494863-6f3031224c94'),
+            tag:'CERTIFICATES', tagCls:'tag-event',
+            headline:'Real CEFR certificates await',
+            body:'Students who practice 3+ mocks per week improve their target score by an average of 20%.',
+            date:'', cta:'Start your journey →', tgUsername:_TG_USER, tgMessage:_TG_MSG },
+          { cover:'⚡', coverCls:'c3', imageUrl:_IMG('1488998427799-e3362cec87c3'),
+            tag:'PREMIUM', tagCls:'tag-event',
+            headline:'Unlimited mocks. One subscription.',
+            body:'Premium unlocks every skill · AI grading · Plus practice modes · Model answers · Score history · Priority support.',
+            date:'', cta:'Buy Premium →', tgUsername:_TG_USER, tgMessage:_TG_MSG },
+          { cover:'👥', coverCls:'c4', imageUrl:_IMG('1522202176988-66273c2fd55f'),
+            tag:'COMMUNITY', tagCls:'tag-news',
+            headline:'Join thousands of test-takers',
+            body:'Over 79,000 mock attempts so far. Real students. Real scores. Real progress — every day.',
+            date:'', cta:'Join Premium →', tgUsername:_TG_USER, tgMessage:_TG_MSG },
+        ];
+
+        const DEFAULT_QUOTES = [
+          { quote:'A different language is a different vision of life.', author:'Federico Fellini',          img:_IMG('1457369804613-52c61a468e7d') },
+          { quote:'The limits of my language mean the limits of my world.', author:'Ludwig Wittgenstein',    img:_IMG('1481627834876-b7833e8f5570') },
+          { quote:'To have another language is to possess a second soul.', author:'Charlemagne',             img:_IMG('1499209974431-9dddcece7f88') },
+          { quote:'One language sets you in a corridor for life. Two languages open every door along the way.', author:'Frank Smith', img:_IMG('1488190211105-8b0e65b80b4e') },
+          { quote:'Language is the road map of a culture.', author:'Rita Mae Brown',                          img:_IMG('1532012197267-da84d127e765') },
+          { quote:'Every mock you take is one step closer to your target score.', author:null,               img:_IMG('1434030216411-0b793f4b4173') },
+          { quote:'Success is the sum of small efforts repeated day in and day out.', author:'Robert Collier', img:_IMG('1456513080510-7bf3a84b82f8') },
+          { quote:'The expert in anything was once a beginner.', author:'Helen Hayes',                       img:_IMG('1483736762161-1d107f3c78e1') },
+          { quote:'Learning never exhausts the mind.', author:'Leonardo da Vinci',                            img:_IMG('1513475382585-d06e58bcb0e0') },
+          { quote:'You can speak well if your tongue can deliver the message of your heart.', author:'John Ford', img:_IMG('1488998427799-e3362cec87c3') },
+          { quote:'Practice does not make perfect. Only perfect practice makes perfect.', author:'Vince Lombardi', img:_IMG('1454165804606-c3d57bc86b40') },
+          { quote:'Knowing another language is like possessing another soul.', author:'Czech proverb',        img:_IMG('1518733057094-95b53143d2a7') },
+          { quote:'Don\'t practice until you get it right. Practice until you can\'t get it wrong.',  author:null, img:_IMG('1503676260728-1c00da094a0b') },
+          { quote:'You don\'t have to be great to start, but you have to start to be great.', author:'Zig Ziglar', img:_IMG('1546410531-bb4caa6b424d') },
+          { quote:'The beautiful thing about learning is that no one can take it away from you.', author:'B.B. King', img:_IMG('1532012197267-da84d127e765') },
+          { quote:'Language is the dress of thought.', author:'Samuel Johnson',                               img:_IMG('1521587760476-6c12a4b040da') },
+          { quote:'If you talk to a man in a language he understands, that goes to his head. If you talk to him in his own language, that goes to his heart.', author:'Nelson Mandela', img:_IMG('1517842645767-c639042777db') },
+          { quote:'Skill is the unified force of experience, intellect and passion in their operation.', author:'John Ruskin', img:_IMG('1571260899304-425eee4c7efc') },
+          { quote:'The roots of education are bitter, but the fruit is sweet.', author:'Aristotle',           img:_IMG('1465056836041-7f43ac27dcb5') },
+          { quote:'Discipline is the bridge between goals and accomplishment.', author:'Jim Rohn',            img:_IMG('1497486751825-1233686d5d80') },
+        ];
+
+        const _ANN_IS_DEFAULT  = !ANN.length;
+        const _CERT_IS_DEFAULT = !CERT.length;
+        if (_ANN_IS_DEFAULT)  ANN.push(...DEFAULT_ANN.map(a => ({ ...a, _isDefault: true })));
+        if (_CERT_IS_DEFAULT) {
+          // Map quotes into the cert shape so existing render code handles them
+          DEFAULT_QUOTES.forEach(q => CERT.push({
+            name: q.author || '',
+            exam: 'INSPIRATION',
+            score: '',
+            date: '',
+            cls: 'c1',
+            imageUrl: q.img,
+            secondaryUrl: '',
+            feedback: q.quote,
+            _isDefaultQuote: true
+          }));
+        }
+        // Force-show section + slots (the toggle may have hidden them earlier)
         const slotAnn  = document.getElementById('bbSlotAnn');
         const slotCert = document.getElementById('bbSlotCert');
-        if (slotAnn  && !ANN.length)  slotAnn.style.display  = 'none';
-        if (slotCert && !CERT.length) slotCert.style.display = 'none';
-        if (bbSectionEl && !ANN.length && !CERT.length) {
-          bbSectionEl.style.display = 'none';
-          return;
-        }
-        if (bbSectionEl && (!ANN.length || !CERT.length)) {
-          const row = document.getElementById('bbRow');
-          if (row) row.style.gridTemplateColumns = '1fr';
-        }
+        if (slotAnn)  slotAnn.style.display  = '';
+        if (slotCert) slotCert.style.display = '';
+        if (bbSectionEl) bbSectionEl.style.display = '';
 
         function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'})[c]); }
 
@@ -2870,7 +2956,9 @@
 
         function _bbAnnCoverHtml(a) {
           if (a.imageUrl) {
-            return '<div class="bb-ann-cover has-img" style="background-image:url(\'' + esc(a.imageUrl) + '\');"></div>';
+            const cls = 'bb-ann-cover has-img' + (a._isDefault ? ' is-default' : '');
+            const fit = a._isDefault ? 'cover' : (a.imageFit || 'cover');
+            return '<div class="' + cls + '" style="background-image:url(\'' + esc(a.imageUrl) + '\'); background-size:' + fit + ';"></div>';
           }
           return '<div class="bb-ann-cover ' + a.coverCls + '">' + a.cover + '</div>';
         }
@@ -2954,8 +3042,9 @@
           // No "+1" badge needed in that case since both images are visible.
           const hasSecondary = !!c.secondaryUrl;
           const multiBadge = hasSecondary ? '' : (c.secondaryUrl ? '<span class="bb-multi-badge">📷 +1</span>' : '');
+          const _certFit = c._isDefaultQuote ? 'cover' : (c.imageFit || 'cover');
           const imgPart = c.imageUrl
-            ? '<div class="bb-cert-img has-img" style="background-image:url(\'' + esc(c.imageUrl) + '\');">' + multiBadge + '</div>'
+            ? '<div class="bb-cert-img has-img" style="background-image:url(\'' + esc(c.imageUrl) + '\'); background-size:' + _certFit + ';">' + multiBadge + '</div>'
             : '<div class="bb-cert-img ' + c.cls + '">' +
                 '<div class="bb-cert-exam">' + esc(c.exam) + '</div>' +
                 '<div class="bb-cert-score">' + esc(c.score) + '</div>' +
@@ -2966,7 +3055,7 @@
             ? '<blockquote class="bb-cert-feedback">' + _bbFormat(c.feedback) + '</blockquote>'
             : '';
           const footAttrs = hasSecondary
-            ? ' class="bb-cert-foot has-bg" style="background-image:url(\'' + esc(c.secondaryUrl) + '\');"'
+            ? ' class="bb-cert-foot has-bg" style="background-image:url(\'' + esc(c.secondaryUrl) + '\'); background-size:' + (c.secondaryFit || 'cover') + ';"'
             : ' class="bb-cert-foot"';
           el.innerHTML = imgPart +
             '<div' + footAttrs + '>' +
@@ -3080,17 +3169,20 @@
           render();
         }
 
-        let timer = null;
+        // Independent timers so the two panels drift apart instead of
+        // flipping in lockstep — feels more alive and less mechanical.
+        let annTimer  = null;
+        let certTimer = null;
         let isExpanded = false;
         function start() {
-          if (timer) return;
           if (total <= 1) return;
-          timer = setInterval(() => {
-            if (isExpanded) return; // skip ticks while user is reading the full text
-            nextAnn(); nextCert();
-          }, 2000);
+          if (!annTimer  && ANN.length  > 1) annTimer  = setInterval(() => { if (!isExpanded) nextAnn();  }, 5000);
+          if (!certTimer && CERT.length > 1) certTimer = setInterval(() => { if (!isExpanded) nextCert(); }, 7000);
         }
-        function stop()  { if (timer) { clearInterval(timer); timer = null; } }
+        function stop()  {
+          if (annTimer)  { clearInterval(annTimer);  annTimer  = null; }
+          if (certTimer) { clearInterval(certTimer); certTimer = null; }
+        }
         function restart() { stop(); start(); }
 
         // No-op kept for compatibility with the manual-nav handlers.
@@ -16904,6 +16996,964 @@
     window.closeSpeakingPartPicker  = closeSpeakingPartPicker;
     window._pickSpeakingPart        = _pickSpeakingPart;
     window._isSpeakingPremiumAi     = _isSpeakingPremiumAi;
+  </script>
+
+  <!-- ── DESKTOP PERSISTENT LEFT SIDEBAR (2026-06-02) ──────────────────────
+       Pin the existing right-slide sidebar to the LEFT on desktop (≥1024px),
+       collapse-to-icon-rail toggle. Mobile (≤1023px) untouched.
+       Absorbs top-right bell + profile icons (sidebar header already shows
+       account state + has "My Results" via existing rows).
+  ────────────────────────────────────────────────────────────────────── -->
+  <style>
+    /* ── DARK SIDEBAR STYLING — applies to ALL viewports (mobile drawer + desktop) ── */
+    .msv3-sidebar {
+      background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%) !important;
+      color: #cbd5e1 !important;
+      font-size: 12.5px;
+    }
+    .msv3-sidebar { border-color: rgba(255,255,255,0.06) !important; }
+    .msv3-sidebar .msv3-head { padding: 14px 14px 10px; border-bottom-color: rgba(255,255,255,0.06) !important; }
+    .msv3-sidebar .msv3-brand { font-size: 14.5px; color: #ffffff !important; }
+    .msv3-sidebar .msv3-body { padding: 6px 14px 12px; }
+    .msv3-sidebar .msv3-section { margin-top: 12px; }
+    .msv3-sidebar .msv3-section-head { font-size: 10.5px; letter-spacing: 0.06em; color: #94a3b8 !important; }
+    .msv3-sidebar .msv3-section-head .msv3-tag { background: rgba(99,102,241,0.18) !important; color: #c7d2fe !important; }
+    .msv3-sidebar .msv3-row {
+      padding: 9px 11px; font-size: 12.5px; gap: 9px;
+      background: rgba(255,255,255,0.04) !important;
+      color: #e2e8f0 !important;
+      border: 1px solid rgba(255,255,255,0.06) !important;
+    }
+    .msv3-sidebar .msv3-row:hover {
+      background: rgba(99,102,241,0.18) !important;
+      color: #ffffff !important;
+      border-color: rgba(99,102,241,0.45) !important;
+    }
+    .msv3-sidebar .msv3-row-icon { font-size: 14px; }
+    .msv3-sidebar .msv3-row-arrow { color: #64748b !important; }
+    .msv3-sidebar .msv3-vip-row input {
+      padding: 6px 9px; font-size: 11.5px; border-radius: 8px;
+      background: rgba(255,255,255,0.06) !important;
+      border-color: rgba(255,255,255,0.10) !important;
+      color: #ffffff !important;
+    }
+    .msv3-sidebar .msv3-vip-row input::placeholder { color: #94a3b8 !important; }
+    .msv3-sidebar .msv3-vip-row button { width: 30px; height: 30px; font-size: 13px; border-radius: 8px; }
+    .msv3-sidebar .msv3-quick-links a {
+      background: rgba(255,255,255,0.04) !important;
+      border-color: rgba(255,255,255,0.08) !important;
+      color: #cbd5e1 !important;
+    }
+    .msv3-sidebar .msv3-quick-links a:hover {
+      background: rgba(99,102,241,0.22) !important;
+      border-color: var(--indigo) !important;
+      color: #ffffff !important;
+    }
+    .msv3-sidebar .msv3-skill {
+      min-height: 64px; padding: 9px 6px;
+      background: rgba(255,255,255,0.04) !important;
+      border-color: rgba(255,255,255,0.06) !important;
+      color: #e2e8f0 !important;
+    }
+    .msv3-sidebar .msv3-skill:hover { background: rgba(255,255,255,0.09) !important; }
+    .msv3-sidebar .msv3-skill .lbl { color: #cbd5e1 !important; font-size: 9.5px; }
+    .msv3-sidebar .msv3-skill .ico { width: 28px; height: 28px; }
+    .msv3-sidebar .msv3-skill .ico svg { width: 14px; height: 14px; }
+    .msv3-sidebar .msv3-fullmock {
+      background: rgba(255,255,255,0.05) !important;
+      border-color: rgba(255,255,255,0.10) !important;
+      color: #f1f5f9 !important;
+    }
+    .msv3-sidebar .msv3-plus {
+      background: rgba(255,255,255,0.04) !important;
+      border-color: rgba(255,255,255,0.08) !important;
+      color: #e2e8f0 !important;
+    }
+    .msv3-sidebar .msv3-plus:hover { background: rgba(255,255,255,0.09) !important; }
+    .msv3-sidebar .msv3-foot { padding: 10px 14px; }
+    .msv3-sidebar::before {
+      left: 0; right: 0;
+      background: linear-gradient(90deg, var(--indigo) 0%, #6366f1 50%, var(--orange) 100%);
+    }
+    /* Google / Telegram sign-in buttons + the "Sign in with X or Y" hint
+       above them — dark theme overrides. */
+    .msv3-sidebar .msv3-provider {
+      background: rgba(255,255,255,0.04) !important;
+      border: 1.5px solid rgba(255,255,255,0.08) !important;
+      color: #f1f5f9 !important;
+      box-shadow: none !important;
+    }
+    .msv3-sidebar .msv3-provider:hover {
+      background: rgba(255,255,255,0.08) !important;
+      border-color: rgba(99,102,241,0.45) !important;
+    }
+    .msv3-sidebar .msv3-provider.google:hover { border-color: rgba(255,255,255,0.30) !important; }
+    .msv3-sidebar .msv3-provider.telegram:hover { border-color: #229ED9 !important; }
+    .msv3-sidebar .msv3-account-hint { color: #94a3b8 !important; }
+    .msv3-sidebar .msv3-account-hint strong { color: #ffffff !important; }
+    .msv3-sidebar .msv3-email-link { color: #c7d2fe !important; }
+    .msv3-sidebar .msv3-email-link:hover { color: #ffffff !important; }
+
+    /* Hide redundant VIP wording */
+    .msv3-sidebar #msv3VipSection > .msv3-section-head,
+    .msv3-sidebar .msv3-vip-sub,
+    .msv3-sidebar .msv3-vip-replace { display: none !important; }
+    /* Support Center / Terms of Service quick-link buttons (moved here by JS) */
+    .msv3-quick-links {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px;
+    }
+    .msv3-quick-links a {
+      display: flex; align-items: center; justify-content: center;
+      padding: 7px 8px; font-size: 11px; font-weight: 600;
+      border: 1px solid var(--line); border-radius: 8px;
+      color: var(--muted); background: #fff;
+      text-decoration: none; cursor: pointer;
+      transition: border-color 160ms, color 160ms, background 160ms;
+    }
+    .msv3-quick-links a:hover { color: var(--indigo); border-color: var(--indigo); background: #f5f3ff; }
+    /* Original foot-links container hidden — now moved to quick-links above */
+    .msv3-sidebar .msv3-foot-links { display: none !important; }
+
+    /* ── DESKTOP LAYOUT (≥1024px) — pin the sidebar to the left ── */
+    @media (min-width: 1024px) {
+      .msv3-sidebar {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: auto !important;
+        transform: translateX(0) !important;
+        width: 256px;
+        max-width: none;
+        height: 100vh;
+        height: 100dvh;
+        border-left: none;
+        border-right: 1px solid var(--line);
+        box-shadow: 6px 0 22px rgba(15, 23, 42, 0.04);
+        z-index: 90;
+        transition: width 240ms cubic-bezier(0.4, 0, 0.2, 1);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+      }
+      /* Desktop: whole sidebar scrolls (not the inner body) */
+      .msv3-sidebar .msv3-body { overflow: visible !important; flex: 0 0 auto !important; }
+      .msv3-overlay { display: none !important; }
+      body.msv3-sidebar-open { overflow: auto !important; }
+      body {
+        padding-left: 256px;
+        transition: padding-left 240ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      /* Sidebar is always visible on desktop — hide hamburger + close X */
+      #msv3HamburgerBtn { display: none !important; }
+      .msv3-close { display: none !important; }
+      /* Collapse-toggle dark theme override (desktop only) */
+      .msv3-collapse-toggle {
+        background: #1e293b !important;
+        border-color: rgba(255,255,255,0.18) !important;
+        color: #cbd5e1 !important;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.30), 0 1px 3px rgba(0,0,0,0.20) !important;
+      }
+      .msv3-collapse-toggle:hover {
+        background: var(--indigo) !important;
+        border-color: var(--indigo) !important;
+        color: #ffffff !important;
+      }
+
+      /* Collapse toggle button — chevron straddling the sidebar's right edge.
+         Hidden by default; fades in on sidebar hover so it doesn't clutter
+         the UI until the user wants it. (Linear / Notion pattern.) */
+      .msv3-collapse-toggle {
+        position: absolute;
+        right: -14px;
+        top: 72px;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: #ffffff;
+        border: 1.5px solid #cbd5e1;
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.10), 0 1px 3px rgba(15, 23, 42, 0.06);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 3;
+        color: #475569;
+        padding: 0;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(-6px) scale(0.85);
+        transition: opacity 180ms ease, transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1), color 160ms ease, background 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+      }
+      .msv3-collapse-toggle svg { width: 14px; height: 14px; stroke-width: 3; }
+      .msv3-sidebar:hover .msv3-collapse-toggle,
+      .msv3-collapse-toggle:hover,
+      .msv3-collapse-toggle:focus-visible {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateX(0) scale(1);
+      }
+      .msv3-collapse-toggle:hover {
+        background: var(--indigo);
+        border-color: var(--indigo);
+        color: #ffffff;
+        box-shadow: 0 6px 18px rgba(79, 70, 229, 0.30), 0 2px 6px rgba(79, 70, 229, 0.18);
+      }
+      .msv3-collapse-toggle:active { transform: translateX(0) scale(0.92); }
+      /* In collapsed state, keep it visible at all times — otherwise users
+         can't find the way back to expand. Rotate chevron to point right. */
+      body.msv3-collapsed .msv3-collapse-toggle {
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        transform: rotate(180deg) translateX(0) scale(1) !important;
+      }
+      body.msv3-collapsed .msv3-collapse-toggle:active {
+        transform: rotate(180deg) translateX(0) scale(0.92) !important;
+      }
+
+      /* Collapsed state — narrow icon rail */
+      body.msv3-collapsed { padding-left: 64px; }
+      body.msv3-collapsed .msv3-sidebar { width: 64px; overflow: hidden; }
+      body.msv3-collapsed .msv3-brand,
+      body.msv3-collapsed .msv3-section-head,
+      body.msv3-collapsed .msv3-foot,
+      body.msv3-collapsed .msv3-vip-row,
+      body.msv3-collapsed .msv3-vip-sub,
+      body.msv3-collapsed .msv3-vip-badge,
+      body.msv3-collapsed .msv3-vip-replace,
+      body.msv3-collapsed .msv3-account,
+      body.msv3-collapsed .msv3-profile,
+      body.msv3-collapsed .msv3-plus,
+      body.msv3-collapsed .msv3-fullmock,
+      body.msv3-collapsed .msv3-logout,
+      body.msv3-collapsed .msv3-email-link,
+      body.msv3-collapsed .msv3-provider,
+      body.msv3-collapsed .msv3-row > .msv3-row-arrow,
+      body.msv3-collapsed .msv3-skill .lbl { display: none !important; }
+      body.msv3-collapsed .msv3-head {
+        justify-content: center;
+        padding: 14px 0;
+      }
+      body.msv3-collapsed .msv3-logo { margin: 0; }
+      /* Row labels are bare text nodes (not wrapped). Zero the row's font-size
+         to make them invisible, then restore the icon's size on its span. */
+      body.msv3-collapsed .msv3-row {
+        justify-content: center;
+        padding: 10px 0;
+        gap: 0;
+        font-size: 0 !important;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      body.msv3-collapsed .msv3-row .msv3-row-icon { font-size: 18px !important; }
+      body.msv3-collapsed .msv3-section { padding-left: 6px; padding-right: 6px; }
+      body.msv3-collapsed .msv3-section + .msv3-section { border-top: 1px solid #f1f5f9; padding-top: 8px; margin-top: 4px; }
+      body.msv3-collapsed .msv3-skills { grid-template-columns: 1fr; gap: 6px; }
+      body.msv3-collapsed .msv3-skill { padding: 8px 0; min-height: 0; }
+    }
+    @media (max-width: 1023px) {
+      .msv3-collapse-toggle { display: none !important; }
+    }
+
+    /* ── Full-width "umbrella" top bar on desktop ─────────────────────── */
+    @media (min-width: 1024px) {
+      .topbar {
+        position: fixed !important;
+        top: 0; left: 0; right: 0;
+        z-index: 100;
+        background: rgba(255, 255, 255, 0.92);
+      }
+      .topbar-inner {
+        max-width: none;
+        padding: 0 24px 0 280px; /* leave room for the 256px sidebar + small gap */
+        height: 60px;
+      }
+      body { padding-top: 60px; }
+      .msv3-sidebar { top: 60px !important; height: calc(100vh - 60px) !important; height: calc(100dvh - 60px) !important; }
+    }
+
+    /* ── 3-COL: sidebar (left) + content (middle) + announcements rail (right) ──
+       Active on any laptop/MacBook/tablet-landscape (≥1024px). The rail width
+       scales fluidly so a narrow laptop doesn't get a starved middle column. */
+    @media (min-width: 1024px) {
+      body { padding-right: clamp(260px, 24vw, 340px); }
+      body.msv3-collapsed { padding-right: clamp(260px, 24vw, 340px); }
+      .topbar-inner { padding-right: calc(clamp(260px, 24vw, 340px) + 20px); }
+      #bbBillboardSection {
+        width: clamp(260px, 24vw, 340px) !important;
+        top: 60px !important;
+        height: calc(100vh - 60px) !important;
+        height: calc(100dvh - 60px) !important;
+      }
+      #bbBillboardSection {
+        position: fixed;
+        right: 0;
+        top: 0;
+        width: 340px;
+        height: 100vh;
+        height: 100dvh;
+        overflow-y: auto;
+        overflow-x: hidden;
+        background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%); /* dark slate — matches sidebar */
+        color: #cbd5e1;
+        border-left: 1px solid var(--line);
+        box-shadow: -6px 0 22px rgba(15, 23, 42, 0.04);
+        z-index: 80;
+        padding: 18px 0 28px 12px;
+        margin: 0;
+        scrollbar-width: none; /* Firefox: hide rail's internal scrollbar */
+      }
+      #bbBillboardSection::-webkit-scrollbar { width: 0; display: none; }
+      #bbBillboardSection .bb-head { margin-bottom: 12px; }
+      #bbBillboardSection .bb-title { font-size: 14px; color: #f1f5f9 !important; }
+      #bbBillboardSection .bb-dots .dot { background: rgba(255,255,255,0.15) !important; }
+      #bbBillboardSection .bb-dots .dot.active { background: var(--indigo) !important; }
+      #bbBillboardSection .bb-slot-label { background: rgba(15, 23, 42, 0.72) !important; color: #f1f5f9 !important; border-color: rgba(255,255,255,0.10) !important; }
+      #bbBillboardSection .bb-slot-count { color: #cbd5e1 !important; }
+      #bbBillboardSection .bb-slot-count b { color: #ffffff !important; }
+      #bbBillboardSection .bb-ann-card,
+      #bbBillboardSection .bb-cert-card {
+        background: #1e293b !important;
+        border-color: rgba(255,255,255,0.08) !important;
+        color: #e2e8f0 !important;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.20) !important;
+      }
+      #bbBillboardSection .bb-ann-headline,
+      #bbBillboardSection .bb-cert-name { color: #ffffff !important; }
+      #bbBillboardSection .bb-ann-body,
+      #bbBillboardSection .bb-cert-meta,
+      #bbBillboardSection .bb-cert-foot { color: #cbd5e1 !important; }
+      #bbBillboardSection .bb-ann-body p,
+      #bbBillboardSection .bb-ann-body li { color: #cbd5e1 !important; }
+      #bbBillboardSection .bb-ann-tag { background: rgba(99,102,241,0.22) !important; color: #c7d2fe !important; }
+      #bbBillboardSection .bb-ann-date { color: #94a3b8 !important; }
+      #bbBillboardSection .bb-ann-cta { background: var(--indigo) !important; color: #ffffff !important; border-color: transparent !important; }
+      #bbBillboardSection .bb-ann-cta:hover { background: #4338ca !important; }
+      #bbBillboardSection .bb-cert-foot {
+        background: transparent !important;
+        color: #e2e8f0 !important;
+      }
+      #bbBillboardSection .bb-cert-foot.has-bg::before {
+        background: linear-gradient(180deg, rgba(15,23,42,0.55) 0%, rgba(15,23,42,0.85) 100%) !important;
+      }
+      #bbBillboardSection .bb-cert-name { color: #ffffff !important; }
+      #bbBillboardSection .bb-cert-sub { color: #94a3b8 !important; }
+      #bbBillboardSection .bb-cert-feedback {
+        color: #e2e8f0 !important;
+        background: rgba(255,255,255,0.04) !important;
+        border-left-color: rgba(99,102,241,0.5) !important;
+      }
+      #bbBillboardSection .bb-ann-text { background: transparent !important; color: #e2e8f0 !important; }
+      #bbBillboardSection .bb-cert-exam,
+      #bbBillboardSection .bb-cert-score,
+      #bbBillboardSection .bb-cert-name-img { color: #ffffff !important; }
+      /* Show-more links + nav arrows on dark */
+      #bbBillboardSection a[href*="bbMenu"],
+      #bbBillboardSection .bb-ann-more,
+      #bbBillboardSection .bb-cert-more { color: #c7d2fe !important; }
+      #bbBillboardSection .bb-nav {
+        background: rgba(15, 23, 42, 0.85) !important;
+        color: #f1f5f9 !important;
+        border-color: rgba(255,255,255,0.18) !important;
+      }
+      #bbBillboardSection .bb-nav:hover { background: var(--indigo) !important; color: #ffffff !important; }
+      /* Stack the two slots vertically (no longer side-by-side) */
+      #bbBillboardSection .bb-row {
+        grid-template-columns: 1fr !important;
+        gap: 14px;
+      }
+      #bbBillboardSection .bb-slot { min-height: 260px; }
+      #bbBillboardSection .bb-ann-cover.has-img { height: 160px; }
+    }
+    /* Mobile + below 1024px: announcement section stays in normal flow above
+       the skill cards (no fixed rail). */
+    /* ── Hide thick horizontal scrollbars on carousels (Trending, Just-added, Cambridge) ── */
+    @media (min-width: 1024px) {
+      .rail, .exams-rail { scrollbar-width: none; }
+      .rail::-webkit-scrollbar,
+      .exams-rail::-webkit-scrollbar { height: 0; display: none; }
+    }
+
+    /* ── Tighter Learning Tools cards on desktop middle column (Flashcards/Articles/Tests) ── */
+    @media (min-width: 1024px) {
+      .tool-card { padding: 10px 14px; min-height: 60px; gap: 10px; }
+      .tool-icon { width: 34px; height: 34px; border-radius: 9px; }
+      .tool-icon svg { width: 16px; height: 16px; }
+      .tool-name { font-size: 13px; }
+      .tool-sub { font-size: 11.5px; }
+      .tool-arrow { font-size: 15px; }
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       SIDEBAR FEATURES — apply to ALL viewports so mobile drawer also
+       gets dark theme + dropdown System Admin + Learning Tools + Intl
+       Exams + difficulty dots/status icons/flags.
+       ───────────────────────────────────────────────────────────────── */
+
+    /* ── Collapsible SYSTEM ADMINISTRATION ──────────────────────────── */
+    .msv3-collapsible .msv3-section-head {
+      display: flex; align-items: center; justify-content: space-between;
+      user-select: none;
+      padding: 4px 0;
+      border-radius: 6px;
+      transition: color 160ms ease;
+    }
+    .msv3-collapsible .msv3-section-head:hover { color: #e2e8f0 !important; }
+    .msv3-coll-arrow {
+      display: inline-flex; align-items: center; justify-content: center;
+      margin-left: 8px;
+      color: #64748b;
+      transition: transform 220ms ease, color 160ms ease;
+    }
+    .msv3-collapsible.msv3-coll-open .msv3-coll-arrow { transform: rotate(90deg); color: #c7d2fe; }
+    .msv3-collapsible.msv3-coll-open .msv3-section-head { color: #e2e8f0 !important; }
+    .msv3-collapsible > *:not(.msv3-section-head) {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      margin: 0 !important;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+      border-top-width: 0;
+      border-bottom-width: 0;
+      transition: max-height 260ms ease, opacity 200ms ease;
+      pointer-events: none;
+    }
+    .msv3-collapsible.msv3-coll-open > *:not(.msv3-section-head) {
+      max-height: 800px;
+      opacity: 1;
+      margin: revert !important;
+      padding-top: revert !important;
+      padding-bottom: revert !important;
+      border-top-width: revert;
+      border-bottom-width: revert;
+      pointer-events: auto;
+    }
+    .msv3-collapsible.msv3-coll-open { margin-top: 12px; }
+
+    /* ── International Exams inside the sidebar — stacked 1-col ── */
+    .msv3-intl-exams .exams-rail {
+        flex-direction: column !important;
+        gap: 6px !important;
+        padding: 4px 0 6px !important;
+        margin: 0 !important;
+        overflow: visible !important;
+      }
+      .msv3-intl-exams .cambridge-card {
+        flex: 0 0 auto !important;
+        width: 100% !important;
+        min-height: 0 !important;
+        padding: 9px 12px 9px 14px !important;
+        background: rgba(255,255,255,0.04) !important;
+        border: 1px solid rgba(255,255,255,0.08) !important;
+        border-radius: 10px !important;
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        align-items: center !important;
+        column-gap: 10px !important;
+        row-gap: 2px !important;
+        text-align: left !important;
+        position: relative;
+      }
+      .msv3-intl-exams .cambridge-card .cb-level { flex: 0 0 auto; order: 1; }
+      .msv3-intl-exams .cambridge-card .cb-flag  {
+        flex: 0 0 auto; order: 2; margin-left: -4px;
+        display: inline-flex; align-items: center; justify-content: center;
+      }
+      .msv3-intl-exams .cambridge-card .cb-flag svg {
+        width: 16px; height: 12px; border-radius: 2px;
+        box-shadow: 0 0 0 1px rgba(255,255,255,0.10);
+        display: block;
+      }
+      .msv3-intl-exams .cambridge-card .cb-code  { flex: 0 0 auto; order: 3; }
+      .msv3-intl-exams .cambridge-card .cb-name  { flex: 1 1 100%; order: 5; }
+      .msv3-intl-exams .cambridge-card .cb-soon  { order: 4; margin-left: auto; }
+      .msv3-intl-exams .cambridge-card:hover {
+        background: rgba(99,102,241,0.18) !important;
+        border-color: rgba(99,102,241,0.45) !important;
+        transform: none !important;
+      }
+      .msv3-intl-exams .cambridge-card::before { display: none !important; }
+      .msv3-intl-exams .cambridge-card .cb-level {
+        font-size: 10px;
+        font-weight: 700;
+        padding: 3px 7px;
+        border-radius: 6px;
+        background: rgba(99,102,241,0.20);
+        color: #c7d2fe !important;
+        text-align: center;
+        display: inline-block;
+        width: auto;
+        letter-spacing: 0.03em;
+      }
+      /* Per-exam color coding (CEFR level palette + variant exam colors) */
+      .msv3-intl-exams .cambridge-card[data-cambridge="ket"] .cb-level { background: rgba(16,185,129,0.22) !important; color: #6ee7b7 !important; }
+      .msv3-intl-exams .cambridge-card[data-cambridge="ket"]:hover { border-color: rgba(16,185,129,0.45) !important; background: rgba(16,185,129,0.10) !important; }
+      .msv3-intl-exams .cambridge-card[data-cambridge="pet"] .cb-level { background: rgba(14,165,233,0.22) !important; color: #7dd3fc !important; }
+      .msv3-intl-exams .cambridge-card[data-cambridge="pet"]:hover { border-color: rgba(14,165,233,0.45) !important; background: rgba(14,165,233,0.10) !important; }
+      .msv3-intl-exams .cambridge-card[data-cambridge="fce"] .cb-level { background: rgba(99,102,241,0.22) !important; color: #a5b4fc !important; }
+      .msv3-intl-exams .cambridge-card[data-cambridge="fce"]:hover { border-color: rgba(99,102,241,0.45) !important; background: rgba(99,102,241,0.10) !important; }
+      .msv3-intl-exams .cambridge-card[data-cambridge="cae"] .cb-level { background: rgba(139,92,246,0.22) !important; color: #c4b5fd !important; }
+      .msv3-intl-exams .cambridge-card[data-cambridge="cae"]:hover { border-color: rgba(139,92,246,0.45) !important; background: rgba(139,92,246,0.10) !important; }
+      .msv3-intl-exams .cambridge-card[data-cambridge="cpe"] .cb-level { background: rgba(236,72,153,0.22) !important; color: #f9a8d4 !important; }
+      .msv3-intl-exams .cambridge-card[data-cambridge="cpe"]:hover { border-color: rgba(236,72,153,0.45) !important; background: rgba(236,72,153,0.10) !important; }
+      .msv3-intl-exams .cambridge-card.sat-card .cb-level { background: rgba(239,68,68,0.22) !important; color: #fca5a5 !important; }
+      .msv3-intl-exams .cambridge-card.sat-card:hover { border-color: rgba(239,68,68,0.45) !important; background: rgba(239,68,68,0.10) !important; }
+      .msv3-intl-exams .cambridge-card.toefl-card .cb-level { background: rgba(20,184,166,0.22) !important; color: #5eead4 !important; }
+      .msv3-intl-exams .cambridge-card.gre-card .cb-level { background: rgba(249,115,22,0.22) !important; color: #fdba74 !important; }
+      .msv3-intl-exams .cambridge-card.tkt-card .cb-level { background: rgba(245,158,11,0.22) !important; color: #fcd34d !important; }
+      /* Small colored stripe on the left edge to reinforce the exam identity */
+      .msv3-intl-exams .cambridge-card::after {
+        content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 3px;
+        border-radius: 0 2px 2px 0; opacity: 0.85;
+      }
+      .msv3-intl-exams .cambridge-card[data-cambridge="ket"]::after { background: #10b981; }
+      .msv3-intl-exams .cambridge-card[data-cambridge="pet"]::after { background: #0ea5e9; }
+      .msv3-intl-exams .cambridge-card[data-cambridge="fce"]::after { background: #6366f1; }
+      .msv3-intl-exams .cambridge-card[data-cambridge="cae"]::after { background: #8b5cf6; }
+      .msv3-intl-exams .cambridge-card[data-cambridge="cpe"]::after { background: #ec4899; }
+      .msv3-intl-exams .cambridge-card.sat-card::after { background: #ef4444; }
+      .msv3-intl-exams .cambridge-card.toefl-card::after { background: #14b8a6; }
+      .msv3-intl-exams .cambridge-card.gre-card::after { background: #f97316; }
+      .msv3-intl-exams .cambridge-card.tkt-card::after { background: #f59e0b; }
+      .msv3-intl-exams .cambridge-card .cb-code {
+        font-size: 13px;
+        font-weight: 700;
+        color: #f1f5f9 !important;
+        margin: 0;
+      }
+      .msv3-intl-exams .cambridge-card .cb-name {
+        font-size: 11px;
+        color: #94a3b8 !important;
+        margin-top: 1px;
+      }
+      /* Difficulty dots + status icon row */
+      .msv3-intl-exams .cb-meta {
+        order: 5;
+        flex: 1 1 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 4px;
+      }
+      .cb-dots { display: inline-flex; gap: 3px; }
+      .cb-dot {
+        width: 5px; height: 5px; border-radius: 50%;
+        background: rgba(255,255,255,0.10);
+      }
+      .cb-dot.on { background: currentColor; opacity: 0.85; }
+      /* Inherit the level color for the active dots */
+      .msv3-intl-exams .cambridge-card[data-cambridge="ket"] .cb-dot.on { background: #6ee7b7; }
+      .msv3-intl-exams .cambridge-card[data-cambridge="pet"] .cb-dot.on { background: #7dd3fc; }
+      .msv3-intl-exams .cambridge-card[data-cambridge="fce"] .cb-dot.on { background: #a5b4fc; }
+      .msv3-intl-exams .cambridge-card[data-cambridge="cae"] .cb-dot.on { background: #c4b5fd; }
+      .msv3-intl-exams .cambridge-card[data-cambridge="cpe"] .cb-dot.on { background: #f9a8d4; }
+      .msv3-intl-exams .cambridge-card.sat-card   .cb-dot.on { background: #fca5a5; }
+      .msv3-intl-exams .cambridge-card.toefl-card .cb-dot.on { background: #5eead4; }
+      .msv3-intl-exams .cambridge-card.gre-card   .cb-dot.on { background: #fdba74; }
+      .msv3-intl-exams .cambridge-card.tkt-card   .cb-dot.on { background: #fcd34d; }
+      /* Status icon (✓ live / ⧗ soon) */
+      .cb-status {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 18px; height: 18px;
+        border-radius: 50%;
+      }
+      .cb-status.live {
+        background: rgba(16, 185, 129, 0.18);
+        color: #6ee7b7;
+      }
+      .cb-status.soon {
+        background: rgba(249, 115, 22, 0.18);
+        color: #fdba74;
+        animation: cbHourglass 2.6s ease-in-out infinite;
+      }
+      @keyframes cbHourglass {
+        0%, 100% { transform: rotate(0deg); }
+        50% { transform: rotate(180deg); }
+      }
+      /* Soon variant — keep colors normal, just block click. No grey-out. */
+      .msv3-intl-exams .cambridge-card.soon {
+        opacity: 1 !important;
+        filter: none !important;
+        cursor: not-allowed !important;
+        pointer-events: none;
+      }
+      .msv3-intl-exams .cambridge-card.soon .cb-soon {
+        position: static !important;
+        background: var(--orange) !important;
+        color: #ffffff !important;
+        font-size: 9px;
+        padding: 3px 7px;
+        border-radius: 999px;
+        margin-left: auto;
+        align-self: center;
+      }
+      .msv3-intl-exams .cambridge-card.sat-card .cb-level-sat,
+      .msv3-intl-exams .cambridge-card .cb-level-toefl,
+      .msv3-intl-exams .cambridge-card .cb-level-gre,
+      .msv3-intl-exams .cambridge-card .cb-level-tkt {
+        background: rgba(99,102,241,0.20) !important;
+        color: #c7d2fe !important;
+      }
+
+      /* ── Learning Tools inside the dark sidebar — stacked 1-col + dark theme ── */
+      .msv3-learning-tools .tools-grid {
+        grid-template-columns: 1fr !important;
+        gap: 8px;
+      }
+      .msv3-learning-tools .tool-card {
+        background: rgba(255,255,255,0.04) !important;
+        border-color: rgba(255,255,255,0.08) !important;
+        padding: 9px 12px;
+        min-height: 0;
+      }
+      .msv3-learning-tools .tool-card:hover {
+        background: rgba(99,102,241,0.18) !important;
+        border-color: rgba(99,102,241,0.45) !important;
+      }
+      .msv3-learning-tools .tool-name { color: #f1f5f9 !important; font-size: 12.5px; }
+      .msv3-learning-tools .tool-sub { color: #94a3b8 !important; font-size: 11px; }
+    .msv3-learning-tools .tool-arrow { color: #64748b !important; }
+    .msv3-learning-tools .tool-icon { width: 30px; height: 30px; }
+    .msv3-learning-tools .tool-icon svg { width: 14px; height: 14px; }
+
+    /* ── Fix Full Mock card title wrapping word-by-word in narrow middle col ── */
+    @media (min-width: 1024px) {
+      .secondary-card { flex-wrap: wrap; padding: 16px 18px; min-height: 0; gap: 14px; }
+      .secondary-card .body { flex: 1 1 200px; min-width: 200px; }
+      .secondary-card .title { white-space: normal; font-size: 16px; line-height: 1.25; }
+      .secondary-card .sub {
+        font-size: 12px; line-height: 1.4;
+        display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .secondary-card .sc-stats { white-space: nowrap; font-size: 12px; }
+      .secondary-card .sc-ctas { flex: 0 0 auto; }
+    }
+
+    /* Subtle slide-in animation when cards rotate in the carousel */
+    @keyframes bbCardIn {
+      0%   { opacity: 0; transform: translateY(8px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .bb-track > * { animation: bbCardIn 360ms cubic-bezier(0.2, 0, 0.2, 1); }
+
+    /* ── SLIMMER SCROLLBARS (desktop) ─────────────────────────────────
+       Default Chrome scrollbars are 16-17px wide which feels heavy in a
+       3-col layout. Slim them to ~7px with a subtle thumb. Both the page
+       (html/body) and the sidebar's internal scroll get the same look. */
+    @media (min-width: 1024px) {
+      /* All scrollbars hidden on desktop — page, sidebar, rail. Scrolling
+         still works via mouse wheel / trackpad. Cleaner, less chrome. */
+      html, body, .msv3-sidebar, .msv3-body { scrollbar-width: none; }
+      html::-webkit-scrollbar,
+      body::-webkit-scrollbar,
+      .msv3-sidebar::-webkit-scrollbar,
+      .msv3-body::-webkit-scrollbar { width: 0 !important; height: 0 !important; display: none !important; }
+      html::-webkit-scrollbar-track,
+      body::-webkit-scrollbar-track,
+      .msv3-sidebar::-webkit-scrollbar,
+      .msv3-body::-webkit-scrollbar-track { background: transparent; }
+      html::-webkit-scrollbar-thumb,
+      body::-webkit-scrollbar-thumb,
+      .msv3-sidebar::-webkit-scrollbar,
+      .msv3-body::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+        border: 1px solid transparent;
+        background-clip: padding-box;
+      }
+      html::-webkit-scrollbar-thumb:hover,
+      body::-webkit-scrollbar-thumb:hover,
+      .msv3-sidebar::-webkit-scrollbar,
+      .msv3-body::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    }
+    /* Curated default images (Unsplash) are guaranteed to look great cropped,
+       so override the global contain → cover for full-bleed. User-uploaded
+       certs/announcements still use contain (legacy behaviour, no crop). */
+    .bb-ann-cover.has-img.is-default { background-size: cover !important; }
+    .bb-cert-card[data-exam="INSPIRATION"] .bb-cert-img.has-img { background-size: cover !important; }
+    .bb-cert-card[data-exam="INSPIRATION"] .bb-cert-img.has-img::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.55) 100%);
+    }
+  </style>
+
+  <script>
+    (function () {
+      'use strict';
+      function isDesktop() { return window.matchMedia('(min-width: 1024px)').matches; }
+
+      // Clone Support Center + Terms of Service links into a compact button
+      // pair placed right after the VIP code input (desktop only).
+      function ensureQuickLinks() {
+        var s = document.getElementById('msv3Sidebar');
+        if (!s || s.querySelector('.msv3-quick-links')) return;
+        var vipSection = s.querySelector('#msv3VipSection');
+        var support = s.querySelector('#msv3SupportLink');
+        var terms = s.querySelector('#msv3TermsLink');
+        if (!vipSection || !support || !terms) return;
+        var wrap = document.createElement('div');
+        wrap.className = 'msv3-quick-links';
+        var s2 = document.createElement('a');
+        s2.textContent = 'Support';
+        s2.setAttribute('role', 'button');
+        s2.addEventListener('click', function (e) { e.preventDefault(); support.click(); });
+        var t2 = document.createElement('a');
+        t2.textContent = 'Terms';
+        t2.setAttribute('role', 'button');
+        t2.addEventListener('click', function (e) { e.preventDefault(); terms.click(); });
+        wrap.appendChild(s2);
+        wrap.appendChild(t2);
+        vipSection.appendChild(wrap);
+      }
+
+      // Move the Learning Tools grid (Flashcards/Articles/Tests) from the
+      // middle column into the sidebar, stacked above "Exam Prep & Skills".
+      function ensureLearningTools() {
+        var s = document.getElementById('msv3Sidebar');
+        if (!s || s.querySelector('.msv3-learning-tools')) return;
+        var origGrid = document.querySelector('.tools-grid.tools-grid-3');
+        if (!origGrid) return;
+        var origSection = origGrid.closest('section');
+        var examPrep = null;
+        s.querySelectorAll('.msv3-section').forEach(function (sec) {
+          var h = sec.querySelector('.msv3-section-head');
+          if (h && /exam prep|skill/i.test(h.textContent)) examPrep = sec;
+        });
+        if (!examPrep) return;
+        var wrap = document.createElement('div');
+        wrap.className = 'msv3-section msv3-learning-tools';
+        var head = document.createElement('div');
+        head.className = 'msv3-section-head';
+        head.textContent = 'Learning Tools';
+        wrap.appendChild(head);
+        wrap.appendChild(origGrid); // MOVE preserves click handlers
+        examPrep.parentNode.insertBefore(wrap, examPrep);
+        if (origSection) origSection.style.display = 'none';
+      }
+
+      // Make the SYSTEM ADMINISTRATION section collapsible — non-admins
+      // never use these but get 6 lock-rows of clutter. State persisted in
+      // localStorage so admins who expand it once stay expanded.
+      function ensureSysAdminCollapse() {
+        var s = document.getElementById('msv3Sidebar');
+        if (!s) return;
+        var sysSec = null;
+        s.querySelectorAll('.msv3-section').forEach(function (sec) {
+          var h = sec.querySelector('.msv3-section-head');
+          if (h && /system administration/i.test(h.textContent)) sysSec = sec;
+        });
+        if (!sysSec || sysSec.dataset.collapseBound === '1') return;
+        sysSec.dataset.collapseBound = '1';
+        sysSec.classList.add('msv3-collapsible');
+        var head = sysSec.querySelector('.msv3-section-head');
+        head.style.cursor = 'pointer';
+        head.setAttribute('role', 'button');
+        // Add chevron arrow
+        var arrow = document.createElement('span');
+        arrow.className = 'msv3-coll-arrow';
+        arrow.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg>';
+        head.appendChild(arrow);
+        // Restore state (default: collapsed)
+        var key = 'msv3SysAdminOpen';
+        var open = false;
+        try { open = localStorage.getItem(key) === '1'; } catch (_) {}
+        if (open) sysSec.classList.add('msv3-coll-open');
+        head.addEventListener('click', function () {
+          var nowOpen = sysSec.classList.toggle('msv3-coll-open');
+          try { localStorage.setItem(key, nowOpen ? '1' : '0'); } catch (_) {}
+        });
+      }
+
+      // Move International Exams (KET/PET/FCE/CAE/CPE/SAT + soon TOEFL/GRE/TKT)
+      // into the sidebar, stacked below Learning Tools.
+      function ensureIntlExams() {
+        var s = document.getElementById('msv3Sidebar');
+        if (!s || s.querySelector('.msv3-intl-exams')) return;
+        var origRail = document.getElementById('examsRail');
+        if (!origRail) return;
+        var origSection = origRail.closest('section');
+        var examPrep = null;
+        s.querySelectorAll('.msv3-section').forEach(function (sec) {
+          var h = sec.querySelector('.msv3-section-head');
+          if (h && /exam prep|skill/i.test(h.textContent)) examPrep = sec;
+        });
+        if (!examPrep) return;
+        var wrap = document.createElement('div');
+        wrap.className = 'msv3-section msv3-intl-exams';
+        var head = document.createElement('div');
+        head.className = 'msv3-section-head';
+        head.textContent = 'International Exams';
+        wrap.appendChild(head);
+        wrap.appendChild(origRail);  // MOVE preserves click handlers + cards
+        examPrep.parentNode.insertBefore(wrap, examPrep);
+        if (origSection) origSection.style.display = 'none';
+        enhanceExamCards(origRail);
+      }
+
+      // Add difficulty dots + status icon (✓ live, ⧗ soon) to each exam card.
+      function enhanceExamCards(rail) {
+        // 6-dot scale aligned to CEFR: A1=1 … C2=6. Non-CEFR exams approximated.
+        var dotsByCambridge = { ket: 2, pet: 3, fce: 4, cae: 5, cpe: 6 };
+        var dotsByVariant   = { 'sat-card': 5, 'toefl-card': 5, 'gre-card': 6, 'tkt-card': 5 };
+        rail.querySelectorAll('.cambridge-card').forEach(function (card) {
+          if (card.querySelector('.cb-meta')) return;
+          var dots = 0;
+          var key = card.getAttribute('data-cambridge');
+          if (key && dotsByCambridge[key]) dots = dotsByCambridge[key];
+          else {
+            Object.keys(dotsByVariant).forEach(function (cls) {
+              if (card.classList.contains(cls)) dots = dotsByVariant[cls];
+            });
+          }
+          if (!dots) dots = 3;
+          // Country flag — inline SVG so Windows renders them (emoji fallback
+          // shows "GB"/"US" letters because Windows lacks the color flag font).
+          var FLAG_UK = '<svg viewBox="0 0 60 30" preserveAspectRatio="xMidYMid slice" aria-label="UK"><rect width="60" height="30" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,30" stroke="#C8102E" stroke-width="2.5" stroke-dasharray="29 30 30" stroke-dashoffset="0"/><path d="M60,0 L0,30" stroke="#C8102E" stroke-width="2.5" stroke-dasharray="29 30 30" stroke-dashoffset="0"/><rect x="25" width="10" height="30" fill="#fff"/><rect y="11" width="60" height="8" fill="#fff"/><rect x="27" width="6" height="30" fill="#C8102E"/><rect y="13" width="60" height="4" fill="#C8102E"/></svg>';
+          var FLAG_US = '<svg viewBox="0 0 60 32" preserveAspectRatio="xMidYMid slice" aria-label="US"><rect width="60" height="32" fill="#B22234"/><g fill="#fff"><rect y="2.46" width="60" height="2.46"/><rect y="7.38" width="60" height="2.46"/><rect y="12.31" width="60" height="2.46"/><rect y="17.23" width="60" height="2.46"/><rect y="22.15" width="60" height="2.46"/><rect y="27.08" width="60" height="2.46"/></g><rect width="24" height="17.23" fill="#3C3B6E"/></svg>';
+          var flagSvg = null;
+          if (key && /^(ket|pet|fce|cae|cpe)$/.test(key)) flagSvg = FLAG_UK;
+          else if (card.classList.contains('tkt-card')) flagSvg = FLAG_UK;
+          else if (card.classList.contains('sat-card') ||
+                   card.classList.contains('toefl-card') ||
+                   card.classList.contains('gre-card')) flagSvg = FLAG_US;
+          if (flagSvg) {
+            var flagEl = document.createElement('span');
+            flagEl.className = 'cb-flag';
+            flagEl.innerHTML = flagSvg;
+            var codeEl = card.querySelector('.cb-code');
+            if (codeEl) codeEl.before(flagEl);
+            else card.appendChild(flagEl);
+          }
+          var meta = document.createElement('div');
+          meta.className = 'cb-meta';
+          // Difficulty dots
+          var dotsEl = document.createElement('span');
+          dotsEl.className = 'cb-dots';
+          dotsEl.setAttribute('title', 'Difficulty: ' + dots + '/6');
+          for (var i = 0; i < 6; i++) {
+            var d = document.createElement('span');
+            d.className = 'cb-dot' + (i < dots ? ' on' : '');
+            dotsEl.appendChild(d);
+          }
+          meta.appendChild(dotsEl);
+          // Status icon
+          var status = document.createElement('span');
+          status.className = 'cb-status';
+          if (card.classList.contains('soon')) {
+            status.classList.add('soon');
+            status.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/></svg>';
+            status.setAttribute('title', 'Coming soon');
+          } else {
+            status.classList.add('live');
+            status.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+            status.setAttribute('title', 'Available');
+          }
+          meta.appendChild(status);
+          card.appendChild(meta);
+          // Remove the old "SOON" text pill — replaced by hourglass status
+          var oldPill = card.querySelector('.cb-soon');
+          if (oldPill) oldPill.remove();
+        });
+      }
+
+      function ensureCollapseToggle() {
+        var s = document.getElementById('msv3Sidebar');
+        if (!s || s.querySelector('.msv3-collapse-toggle')) return;
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'msv3-collapse-toggle';
+        btn.setAttribute('aria-label', 'Toggle sidebar');
+        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>';
+        btn.addEventListener('click', function () {
+          var collapsed = document.body.classList.toggle('msv3-collapsed');
+          try { localStorage.setItem('msv3SidebarCollapsed', collapsed ? '1' : '0'); } catch (_) {}
+        });
+        s.appendChild(btn);
+      }
+
+      // Global wheel interceptor. Chrome routes wheel events to the page
+      // (top-level scrollable) even when the cursor is over a fixed sidebar
+      // with overflow:auto. Forcibly route to the sidebar at native speed —
+      // direct scrollTop += deltaY matches the page's wheel feel.
+      function ensureGlobalWheelRouter() {
+        if (window._msv3WheelRouter) return;
+        window._msv3WheelRouter = true;
+        document.addEventListener('wheel', function (e) {
+          if (!isDesktop()) return;
+          var s = document.getElementById('msv3Sidebar');
+          if (!s) return;
+          var r = s.getBoundingClientRect();
+          if (e.clientX < r.left || e.clientX > r.right ||
+              e.clientY < r.top  || e.clientY > r.bottom) return;
+          var max = s.scrollHeight - s.clientHeight;
+          if (max <= 0) return;
+          s.scrollTop += e.deltaY;
+          e.preventDefault();
+        }, { passive: false, capture: true });
+      }
+
+      function applyState() {
+        var s = document.getElementById('msv3Sidebar');
+        if (!s) return;
+        // Sidebar content reorg + dark-theme features run on ALL viewports
+        // (mobile drawer + desktop pinned). Layout/wheel-router/collapse are
+        // desktop-only inside the isDesktop() block below.
+        ensureQuickLinks();
+        ensureLearningTools();
+        ensureIntlExams();
+        ensureSysAdminCollapse();
+        // Populate the Account slot (Google / Telegram buttons + hint) once.
+        // Normally that's done by openSidebarUi() but on desktop the sidebar
+        // is persistent (show class set below) so openSidebarUi never fires.
+        try {
+          var slot = document.getElementById('msv3AccountSlot');
+          if (slot && !slot.children.length && typeof renderAccount === 'function') {
+            renderAccount();
+          }
+        } catch (_e) {}
+        if (isDesktop()) {
+          s.classList.add('show');
+          s.setAttribute('aria-hidden', 'false');
+          ensureCollapseToggle();
+          ensureGlobalWheelRouter();
+          try {
+            if (localStorage.getItem('msv3SidebarCollapsed') === '1') {
+              document.body.classList.add('msv3-collapsed');
+            } else {
+              document.body.classList.remove('msv3-collapsed');
+            }
+          } catch (_) {}
+          // Defensive: keep .show even if other code removes it.
+          if (!s._msv3PinObserver) {
+            s._msv3PinObserver = new MutationObserver(function () {
+              if (isDesktop() && !s.classList.contains('show')) s.classList.add('show');
+            });
+            s._msv3PinObserver.observe(s, { attributes: true, attributeFilter: ['class'] });
+          }
+        } else {
+          // Mobile path is unchanged. Don't auto-open; the hamburger handles it.
+          document.body.classList.remove('msv3-collapsed');
+          if (s._msv3PinObserver) {
+            s._msv3PinObserver.disconnect();
+            s._msv3PinObserver = null;
+          }
+        }
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', applyState);
+      } else {
+        applyState();
+      }
+      var _rt = null;
+      window.addEventListener('resize', function () {
+        clearTimeout(_rt);
+        _rt = setTimeout(applyState, 150);
+      });
+    })();
   </script>
 </body>
 </html>

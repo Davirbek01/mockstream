@@ -683,7 +683,12 @@
         <div class="bbA-filerow"><input id="f_annfile" type="file" accept="image/*" /><button type="button" class="bbA-paste-btn" data-paste-target="f_annfile">📋 Paste</button><button type="button" class="bbA-clear-btn" data-clear-target="f_annfile">✕ Clear</button></div>\
         <div class="bbA-paste-status" id="f_annfile_status"></div>' +
         (r.image_url ? '<img class="bbA-preview" src="' + _attr(r.image_url) + '" alt="current" />' : '') +
-        '<div class="bbA-fileinfo">If set, this image replaces the type cover on the card.' + (r.image_url ? ' Leave empty to keep the current image.' : '') + '</div></div>\
+        '<div class="bbA-fileinfo">If set, this image replaces the type cover on the card.' + (r.image_url ? ' Leave empty to keep the current image.' : '') + '</div>\
+        <div class="bbA-fitrow" style="margin-top:6px;display:flex;gap:14px;align-items:center;font-size:12px;">\
+          <span style="color:#64748b;">Image rendering:</span>\
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="radio" name="f_imgfit" value="cover"' + ((r.image_fit || 'cover') === 'cover' ? ' checked' : '') + ' /> <b>Fill</b> <span style="color:#94a3b8;">(full bleed, may crop edges)</span></label>\
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="radio" name="f_imgfit" value="contain"' + (r.image_fit === 'contain' ? ' checked' : '') + ' /> <b>Fit</b> <span style="color:#94a3b8;">(whole image, with bars)</span></label>\
+        </div></div>\
       <details class="bbA-collapse"' + (hasTg ? ' open' : '') + '>\
         <summary>📩 Telegram CTA <span class="bbA-fileinfo" style="margin-left:6px;color:#94a3b8;">(optional)</span></summary>\
         <div class="bbA-collapse-body">\
@@ -723,6 +728,8 @@
       cta_label:      modal.querySelector('#f_cta').value || null
     };
     if (imageUrl) out.image_url = imageUrl;
+    var fitRadio = modal.querySelector('input[name="f_imgfit"]:checked');
+    out.image_fit = fitRadio ? fitRadio.value : 'cover';
     return out;
   }
 
@@ -771,12 +778,22 @@
         <div class="bbA-filerow"><input id="f_file" type="file" accept="image/*" /><button type="button" class="bbA-paste-btn" data-paste-target="f_file">📋 Paste</button><button type="button" class="bbA-clear-btn" data-clear-target="f_file">✕ Clear</button></div>\
         <div class="bbA-paste-status" id="f_file_status"></div>' +
         (r.certificate_image_url ? '<img class="bbA-preview" src="' + _attr(r.certificate_image_url) + '" alt="current" />' : '') +
-        '<div class="bbA-fileinfo">Leave empty to keep ' + (r.certificate_image_url ? 'the current image.' : 'no image (a styled placeholder will be shown).') + ' Paste from clipboard with 📋.</div></div>\
+        '<div class="bbA-fileinfo">Leave empty to keep ' + (r.certificate_image_url ? 'the current image.' : 'no image (a styled placeholder will be shown).') + ' Paste from clipboard with 📋.</div>\
+        <div class="bbA-fitrow" style="margin-top:6px;display:flex;gap:14px;align-items:center;font-size:12px;flex-wrap:wrap;">\
+          <span style="color:#64748b;">Image rendering:</span>\
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="radio" name="f_certfit" value="cover"' + ((r.image_fit || 'cover') === 'cover' ? ' checked' : '') + ' /> <b>Fill</b> <span style="color:#94a3b8;">(full bleed, may crop)</span></label>\
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="radio" name="f_certfit" value="contain"' + (r.image_fit === 'contain' ? ' checked' : '') + ' /> <b>Fit</b> <span style="color:#94a3b8;">(whole image, with bars)</span></label>\
+        </div></div>\
       <div class="bbA-field"><label>Secondary image (optional, e.g., student testimonial screenshot)</label>\
         <div class="bbA-filerow"><input id="f_file2" type="file" accept="image/*" /><button type="button" class="bbA-paste-btn" data-paste-target="f_file2">📋 Paste</button><button type="button" class="bbA-clear-btn" data-clear-target="f_file2">✕ Clear</button></div>\
         <div class="bbA-paste-status" id="f_file2_status"></div>' +
         (r.secondary_image_url ? '<img class="bbA-preview" src="' + _attr(r.secondary_image_url) + '" alt="current" />' : '') +
-        '<div class="bbA-fileinfo">' + (r.secondary_image_url ? 'Leave empty to keep the current image. ' : '') + 'Both images appear stacked inside the detail popup.</div></div>\
+        '<div class="bbA-fileinfo">' + (r.secondary_image_url ? 'Leave empty to keep the current image. ' : '') + 'Both images appear stacked inside the detail popup.</div>\
+        <div class="bbA-fitrow" style="margin-top:6px;display:flex;gap:14px;align-items:center;font-size:12px;flex-wrap:wrap;">\
+          <span style="color:#64748b;">Image rendering:</span>\
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="radio" name="f_certfit2" value="cover"' + ((r.secondary_image_fit || 'cover') === 'cover' ? ' checked' : '') + ' /> <b>Fill</b> <span style="color:#94a3b8;">(full bleed)</span></label>\
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="radio" name="f_certfit2" value="contain"' + (r.secondary_image_fit === 'contain' ? ' checked' : '') + ' /> <b>Fit</b> <span style="color:#94a3b8;">(letterboxed)</span></label>\
+        </div></div>\
       <div class="bbA-field"><label>Student feedback (testimonial, optional)</label><textarea id="f_fb" rows="4" placeholder="The mock interviews were exactly like the real exam. - Lots of practice - Helpful tutors">' + _esc(r.student_feedback) + '</textarea><div class="bbA-fileinfo">Tip: same formatting as announcements — <code>- </code> for bullets, <code>**stars**</code> for <b>bold</b>.</div></div>';
   }
   // Generic congratulations + encouragement messages used when the
@@ -837,6 +854,10 @@
     };
     if (imageUrl)     out.certificate_image_url = imageUrl;
     if (secondaryUrl) out.secondary_image_url   = secondaryUrl;
+    var fitRadio  = modal.querySelector('input[name="f_certfit"]:checked');
+    var fit2Radio = modal.querySelector('input[name="f_certfit2"]:checked');
+    out.image_fit           = fitRadio  ? fitRadio.value  : 'cover';
+    out.secondary_image_fit = fit2Radio ? fit2Radio.value : 'cover';
     return out;
   }
 
