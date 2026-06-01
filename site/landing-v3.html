@@ -17095,6 +17095,17 @@
       left: 0; right: 0;
       background: linear-gradient(90deg, var(--indigo) 0%, #6366f1 50%, var(--orange) 100%);
     }
+    /* Profile card (signed-in OR guest) — dark theme overrides. The base
+       card uses #f8fafc which goes near-invisible on the dark sidebar. */
+    .msv3-sidebar .msv3-profile {
+      background: rgba(255,255,255,0.04) !important;
+      border-color: rgba(255,255,255,0.08) !important;
+    }
+    .msv3-sidebar .msv3-profile-name { color: #f1f5f9 !important; }
+    /* Inline style="color:#64748b" on the Guest role label loses against
+       a specific selector here. */
+    .msv3-sidebar .msv3-profile-role,
+    .msv3-sidebar .msv3-profile-role[style] { color: #94a3b8 !important; }
     /* Google / Telegram sign-in buttons + the "Sign in with X or Y" hint
        above them — dark theme overrides. */
     .msv3-sidebar .msv3-provider {
