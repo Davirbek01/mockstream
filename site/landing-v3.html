@@ -6097,6 +6097,13 @@
       //    browser's back button can't return to the signed-in v3 view.
       window.location.replace('/index.html');
     });
+
+    // Expose for the desktop-sidebar bootstrapper below. On PC the sidebar
+    // is pinned with `.show` from boot, so openSidebarUi() early-returns
+    // and never gets to call renderAccount(); applyState() does it instead.
+    window.__msv3RenderAccount = renderAccount;
+    window.__msv3RefreshAdminLocks = refreshAdminLocks;
+    window.__msv3RefreshVipBadge = refreshVipBadge;
   })();
   </script>
 
@@ -17908,10 +17915,14 @@
         // Populate the Account slot (Google / Telegram buttons + hint) once.
         // Normally that's done by openSidebarUi() but on desktop the sidebar
         // is persistent (show class set below) so openSidebarUi never fires.
+        // renderAccount lives in a sibling IIFE — reach it via window.
         try {
           var slot = document.getElementById('msv3AccountSlot');
-          if (slot && !slot.children.length && typeof renderAccount === 'function') {
-            renderAccount();
+          var ra = window.__msv3RenderAccount;
+          if (slot && !slot.children.length && typeof ra === 'function') {
+            ra();
+            if (typeof window.__msv3RefreshAdminLocks === 'function') window.__msv3RefreshAdminLocks();
+            if (typeof window.__msv3RefreshVipBadge === 'function') window.__msv3RefreshVipBadge();
           }
         } catch (_e) {}
         if (isDesktop()) {
