@@ -17765,6 +17765,26 @@
         if (origSection) origSection.style.display = 'none';
       }
 
+      // Re-order: move the existing "Plus Modes" section (which lives at the
+      // bottom of the sidebar HTML by default) up to sit right after the
+      // moved-in Learning Tools section. Click handlers stay attached
+      // because we relocate the same DOM node, not a clone.
+      function ensurePlusBelowLearning() {
+        var s = document.getElementById('msv3Sidebar');
+        if (!s) return;
+        var plusSec = null, learningSec = null;
+        s.querySelectorAll('.msv3-section').forEach(function (sec) {
+          var h = sec.querySelector('.msv3-section-head');
+          if (!h) return;
+          if (/plus\s*modes/i.test(h.textContent)) plusSec = sec;
+          else if (/learning\s*tools/i.test(h.textContent)) learningSec = sec;
+        });
+        if (!plusSec || !learningSec) return;
+        // Already directly after Learning Tools? Don't churn the DOM.
+        if (learningSec.nextElementSibling === plusSec) return;
+        learningSec.parentNode.insertBefore(plusSec, learningSec.nextSibling);
+      }
+
       // Make the SYSTEM ADMINISTRATION section collapsible — non-admins
       // never use these but get 6 lock-rows of clutter. State persisted in
       // localStorage so admins who expand it once stay expanded.
@@ -17934,6 +17954,7 @@
         // desktop-only inside the isDesktop() block below.
         ensureQuickLinks();
         ensureLearningTools();
+        ensurePlusBelowLearning();
         ensureIntlExams();
         ensureSysAdminCollapse();
         // Populate the Account slot (Google / Telegram buttons + hint) once.
