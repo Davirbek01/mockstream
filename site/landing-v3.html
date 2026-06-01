@@ -5571,12 +5571,23 @@
       }
     }
 
-    document.getElementById('msv3AdminBtn').addEventListener('click', function () {
-      // Skip landing.html — go directly to the dashboard HTML. The
-      // dashboard has its own auth gate (Supabase session OR admin
-      // passcode); landing.html's requireAdminAuth bounce is no longer
-      // needed, and avoiding it means pressing Back from the dashboard
-      // returns to v3 instead of landing.html?openAdminDashboard=1.
+    document.getElementById('msv3AdminBtn').addEventListener('click', async function () {
+      // Gate first: the dashboard page itself only hides RESULT ROWS for
+      // non-admins, but the chrome (header, filter rail, sidebar) still
+      // renders — same complaint pattern as Mock Settings before its gate.
+      // Mirror that pattern: check super-admin role via Supabase JWT and
+      // show the same modal for non-admins, so the dashboard is never
+      // even opened in "locked" view.
+      try {
+        if (window.MockStream && window.MockStream.auth &&
+            typeof window.MockStream.auth.checkPremiumRole === 'function') {
+          var info = await window.MockStream.auth.checkPremiumRole();
+          if (!info || !info.isAdmin) {
+            _showAdminGateModal('Dashboard Access is restricted to the super-admin account. Sign in to continue.');
+            return;
+          }
+        }
+      } catch (_e) { /* fall through to navigation */ }
       window.location.href = '/results/index.html';
     });
     document.getElementById('msv3PlatformBtn').addEventListener('click', function () {
@@ -17014,7 +17025,9 @@
   <style>
     /* ── DARK SIDEBAR STYLING — applies to ALL viewports (mobile drawer + desktop) ── */
     .msv3-sidebar {
-      background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%) !important;
+      /* Desaturated dark navy/charcoal — easier on the eyes than pure
+         #0f172a (slate-900) for late-night study sessions. */
+      background: linear-gradient(180deg, #1a1d24 0%, #23262e 100%) !important;
       color: #cbd5e1 !important;
       font-size: 12.5px;
     }
@@ -17299,7 +17312,7 @@
         height: 100dvh;
         overflow-y: auto;
         overflow-x: hidden;
-        background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%); /* dark slate — matches sidebar */
+        background: linear-gradient(180deg, #1a1d24 0%, #23262e 100%); /* desaturated dark charcoal — matches sidebar */
         color: #cbd5e1;
         border-left: 1px solid var(--line);
         box-shadow: -6px 0 22px rgba(15, 23, 42, 0.04);
@@ -17313,7 +17326,7 @@
       #bbBillboardSection .bb-title { font-size: 14px; color: #f1f5f9 !important; }
       #bbBillboardSection .bb-dots .dot { background: rgba(255,255,255,0.15) !important; }
       #bbBillboardSection .bb-dots .dot.active { background: var(--indigo) !important; }
-      #bbBillboardSection .bb-slot-label { background: rgba(15, 23, 42, 0.72) !important; color: #f1f5f9 !important; border-color: rgba(255,255,255,0.10) !important; }
+      #bbBillboardSection .bb-slot-label { background: rgba(26, 29, 36, 0.78) !important; color: #f1f5f9 !important; border-color: rgba(255,255,255,0.10) !important; }
       #bbBillboardSection .bb-slot-count { color: #cbd5e1 !important; }
       #bbBillboardSection .bb-slot-count b { color: #ffffff !important; }
       #bbBillboardSection .bb-ann-card,
