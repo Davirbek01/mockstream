@@ -17478,12 +17478,16 @@
       }
       /* Brand-new visitor (no profile rendered): show a neutral "?" pill
          so the slot doesn't look broken. Injected from JS as
-         .msv3-avatar-placeholder. */
+         .msv3-avatar-placeholder. Visible ONLY in collapsed view —
+         expanded view already shows the full "Sign in with Google /
+         Telegram" buttons in the same slot. */
+      .msv3-avatar-placeholder { display: none !important; }
       body.msv3-collapsed .msv3-avatar-placeholder {
+        display: flex !important;
         width: 36px; height: 36px; border-radius: 50%;
         background: linear-gradient(135deg, #475569, #334155);
         color: #cbd5e1; font-weight: 700; font-size: 14px;
-        display: flex; align-items: center; justify-content: center;
+        align-items: center; justify-content: center;
         box-shadow: 0 0 0 2px rgba(255,255,255,0.08), 0 6px 14px rgba(0,0,0,0.35);
       }
 
@@ -18537,8 +18541,7 @@
         ensureIntlExams();
         ensureSysAdminCollapse();
         ensureCollapsedTooltips();
-        ensureCollapsedAvatarFallback();
-        // Populate the Account slot (Google / Telegram buttons + hint) once.
+        // Populate the Account slot FIRST (Google / Telegram buttons + hint).
         // Normally that's done by openSidebarUi() but on desktop the sidebar
         // is persistent (show class set below) so openSidebarUi never fires.
         // renderAccount lives in a sibling IIFE — reach it via window.
@@ -18551,6 +18554,11 @@
             if (typeof window.__msv3RefreshVipBadge === 'function') window.__msv3RefreshVipBadge();
           }
         } catch (_e) {}
+        // Avatar fallback runs AFTER renderAccount so the placeholder
+        // doesn't pre-fill the slot and short-circuit the "is slot empty?"
+        // check above (that was the v647 PC regression — hint + sign-in
+        // buttons never rendered because the "?" got there first).
+        ensureCollapsedAvatarFallback();
         if (isDesktop()) {
           s.classList.add('show');
           s.setAttribute('aria-hidden', 'false');
