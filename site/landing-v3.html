@@ -4,6 +4,36 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script>
+    // ─── TMA premium-state restore ──────────────────────────────────────
+    // Telegram Mini App on Desktop 9.x drops sessionStorage between
+    // same-origin redirects, even though it's the same browsing context
+    // per spec. index.html's tmaAutoSignIn writes a localStorage backup
+    // of the premium flags + vipToken before redirecting here; this
+    // script restores them into sessionStorage on every load so the
+    // existing isSuperAccessUnlocked() gate passes. 10-minute backup TTL
+    // — anything older is treated as expired.
+    (function () {
+      try {
+        var raw = localStorage.getItem('ms_tma_premium_backup');
+        if (!raw) return;
+        var bk = JSON.parse(raw);
+        if (!bk || !bk.t) return;
+        if ((Date.now() - bk.t) > 10 * 60 * 1000) {
+          localStorage.removeItem('ms_tma_premium_backup');
+          return;
+        }
+        if (bk.is_premium === true) {
+          try { sessionStorage.setItem('vipPremiumAi', 'true'); } catch (_e) {}
+          try { sessionStorage.setItem('vipSessionAccess', 'true'); } catch (_e) {}
+          ['reading', 'listening', 'writing', 'speaking'].forEach(function (s) {
+            try { sessionStorage.setItem(s + 'PremiumEntry', 'true'); } catch (_e) {}
+          });
+          if (bk.vipToken) {
+            try { sessionStorage.setItem('vipToken', bk.vipToken); } catch (_e) {}
+          }
+        }
+      } catch (_e) {}
+    })();
     // TMA debug banner — TEMPORARY. Mirrors the one in index.html so we
     // can see the post-redirect state without DevTools. Reads the
     // ms_tma_debug payload index.html left behind, then samples the

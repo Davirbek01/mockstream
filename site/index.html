@@ -5849,10 +5849,51 @@
           if (data.is_premium === true) {
             try { sessionStorage.setItem('vipPremiumAi', 'true'); } catch (_e) {}
             try { sessionStorage.setItem('vipSessionAccess', 'true'); } catch (_e) {}
-            // Per-skill premium flags so AI gating in each runner works.
             ['reading', 'listening', 'writing', 'speaking'].forEach(function (s) {
               try { sessionStorage.setItem(s + 'PremiumEntry', 'true'); } catch (_e) {}
             });
+
+            // Mint the server-signed vipToken via verify-passcode so the
+            // landing-v3 isSuperAccessUnlocked() gate passes (it requires
+            // BOTH the flag AND the HMAC-signed token together — flag-only
+            // sessions can't open premium mocks). This is the same call
+            // auth.js's applyPremiumUnlock makes, but doing it here means
+            // we have the token ready BEFORE the redirect.
+            var vipToken = null;
+            try {
+              var sess = await client.auth.getSession();
+              var jwt = sess && sess.data && sess.data.session && sess.data.session.access_token;
+              if (jwt) {
+                var vpResp = await fetch(SB_URL + '/functions/v1/verify-passcode', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json', 'apikey': SB_JWT },
+                  body: JSON.stringify({ email_auth: true, user_jwt: jwt, center: 'mock_stream' })
+                });
+                if (vpResp.ok) {
+                  var vpData = await vpResp.json();
+                  if (vpData && vpData.access && vpData.token) {
+                    vipToken = vpData.token;
+                    try { sessionStorage.setItem('vipToken', vipToken); } catch (_e) {}
+                  }
+                }
+              }
+            } catch (_vp) {}
+
+            // Telegram Mini App on some clients (notably Desktop 9.x) drops
+            // sessionStorage between same-origin navigations. Back up the
+            // whole premium bundle to localStorage so landing-v3.html can
+            // restore it after the redirect. 10-minute TTL so a browser tab
+            // opened a week later doesn't get free premium from a stale
+            // backup (also why we don't persist the JWT here — Supabase
+            // handles refresh).
+            try {
+              localStorage.setItem('ms_tma_premium_backup', JSON.stringify({
+                t: Date.now(),
+                is_premium: true,
+                vipToken: vipToken,
+                telegram_id: (data.profile && data.profile.telegram_id) || null
+              }));
+            } catch (_pb) {}
           }
           // Land on the dashboard directly. replace() so the welcome page
           // doesn't sit in history (back from dashboard would jump here).
