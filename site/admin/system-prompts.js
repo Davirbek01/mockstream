@@ -294,6 +294,7 @@
         <button class="sysprompt-provider-btn active" id="spProviderGemini" onclick="_spSetProvider('gemini')">✨ Gemini</button>
         <button class="sysprompt-provider-btn" id="spProviderOpenai" onclick="_spSetProvider('openai')">🤖 OpenAI</button>
         <button class="sysprompt-provider-btn" id="spProviderClaude" onclick="_spSetProvider('claude')">🟣 Claude</button>
+        <button class="sysprompt-provider-btn" id="spProviderLlamaScout" onclick="_spSetProvider('llama-scout')" title="Vision-capable — image prompts work. Hosted on Groq, no native audio (transcriber required for Speaking).">🦙 Llama 4 Scout 🖼️</button>
         <button class="sysprompt-provider-btn" id="spProviderGrok" onclick="_spSetProvider('grok')" title="⚠️ Text only — Speaking mocks will use transcript-based scoring (no audio)">⚡ Grok ⚠️</button>
         <button class="sysprompt-provider-btn" id="spProviderDeepseek" onclick="_spSetProvider('deepseek')" title="⚠️ Text only — Speaking mocks will use transcript-based scoring (no audio)">🔵 DeepSeek ⚠️</button>
         <button class="sysprompt-provider-btn" id="spProviderGroqQwen" onclick="_spSetGroqVariant('qwen/qwen3-32b','spProviderGroqQwen')" title="⚠️ Text only — Speaking mocks use transcript-based scoring (no audio)">⚡ Groq Qwen 3 32B ⚠️</button>
@@ -307,6 +308,7 @@
           <option value="gemini">Gemini</option>
           <option value="openai">OpenAI</option>
           <option value="claude">Claude</option>
+          <option value="llama-scout">Llama 4 Scout (Groq · vision)</option>
           <option value="grok">Grok (text only)</option>
           <option value="deepseek">DeepSeek (text only)</option>
           <option value="groq:llama-3.3-70b-versatile">Groq Llama 3.3 70B</option>
@@ -469,6 +471,10 @@
               <label>Groq model (clicking a Groq provider button above prefills this)</label>
               <input type="text" id="sp_scoring_model_groq" placeholder="llama-3.3-70b-versatile · qwen/qwen3-32b · meta-llama/llama-4-scout-17b-16e-instruct" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
             </div>
+            <div class="sysprompt-field" style="margin:0;grid-column:1 / -1">
+              <label>Llama 4 Scout model (Groq · vision)</label>
+              <input type="text" id="sp_scoring_model_llama_scout" placeholder="meta-llama/llama-4-scout-17b-16e-instruct" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+            </div>
 
             <div class="sysprompt-field" style="margin:0;grid-column:1 / -1;border-top:1px dashed var(--ring);padding-top:12px;">
               <label style="font-weight:700;color:#7c3aed;">✨ Gemini Multi-Key Billing</label>
@@ -557,7 +563,8 @@
       'scoring_ielts_speaking_full_system','scoring_ielts_speaking_full_prompt',
       'scoring_model_openai','scoring_model_whisper',
       'scoring_model_gemini','scoring_model_claude',
-      'scoring_model_grok','scoring_model_deepseek','scoring_model_groq'
+      'scoring_model_grok','scoring_model_deepseek','scoring_model_groq',
+      'scoring_model_llama_scout'
       // 'scoring_ai_fallback' is special-cased in saveScoringPrompts so it can
       // be cleared back to "no fallback" (empty value still gets upserted).
     ];
@@ -600,9 +607,11 @@
 
     function _spSetProvider(p) {
       _spCurrentProvider = p;
+      var _scoutBtn = document.getElementById('spProviderLlamaScout');
       document.getElementById('spProviderGemini').classList.toggle('active', p === 'gemini');
       document.getElementById('spProviderOpenai').classList.toggle('active', p === 'openai');
       document.getElementById('spProviderClaude').classList.toggle('active', p === 'claude');
+      if (_scoutBtn) _scoutBtn.classList.toggle('active', p === 'llama-scout');
       document.getElementById('spProviderGrok').classList.toggle('active', p === 'grok');
       document.getElementById('spProviderDeepseek').classList.toggle('active', p === 'deepseek');
       // The three Groq variant buttons are deactivated when a non-Groq provider
@@ -612,10 +621,12 @@
       if (p !== 'groq') {
         groqBtns.forEach(function (id) { var b = document.getElementById(id); if (b) b.classList.remove('active'); });
       }
-      var providerLabel = p.charAt(0).toUpperCase() + p.slice(1);
-      // Llama 4 Scout has vision; Qwen/Llama 3.3 70B do not. The variant button's
-      // own click handler refines the warning, so default Groq treatment is text-only.
-      var isTextOnly = (p === 'grok' || p === 'deepseek' || p === 'groq');
+      var providerLabel = (p === 'llama-scout') ? 'Llama Scout' : (p.charAt(0).toUpperCase() + p.slice(1));
+      // Llama Scout has vision but NO native audio — still needs a
+      // transcriber for Speaking mocks, same warning category as the
+      // text-only providers. Native-audio providers stay in the "blue"
+      // branch.
+      var isTextOnly = (p === 'grok' || p === 'deepseek' || p === 'groq' || p === 'llama-scout');
       var box = document.getElementById('_spAudioWarning');
       if (!box) {
         box = document.createElement('div');

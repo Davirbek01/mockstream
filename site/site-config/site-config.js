@@ -155,7 +155,10 @@ window.SITE_CONFIG = {
         // PICK: only the AI/runtime fields the runner pages actually need.
         // Keeps SITE_CONFIG focused; admin-only fields stay in center_config.
         var picked = {
-          visionFactCheck: cc.visionFactCheck === true
+          visionFactCheck: cc.visionFactCheck === true,
+          // New: which vision AI handles the pre-pass. Defaults to gemini
+          // when unset so existing centres keep their current behaviour.
+          visionFactCheckProvider: (cc.visionFactCheckProvider || 'gemini')
         };
         Object.assign(window.SITE_CONFIG, picked);
         try {
