@@ -5777,6 +5777,17 @@
             body: JSON.stringify({ initData: initData, center: centerId })
           });
           var data = await resp.json().catch(function () { return {}; });
+          // Persist the response so landing-v3.html can show it in a debug
+          // banner — we lose this scope on the redirect otherwise.
+          try {
+            localStorage.setItem('ms_tma_debug', JSON.stringify({
+              t: Date.now(), status: resp.status, ok: resp.ok,
+              is_premium: data && data.is_premium === true,
+              created_new: data && data.created_new === true,
+              email: data && data.email || null,
+              error: !resp.ok ? (data && (data.error || data.code)) : null
+            }));
+          } catch (_de) {}
           if (!resp.ok || !data || !data.email || !data.otp) {
             console.warn('[tma-auto-signin] verify failed', resp.status, data);
             _restoreWelcome();
