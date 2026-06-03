@@ -4,14 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script>
-    // ─── TMA premium-state restore ──────────────────────────────────────
-    // Telegram Mini App on Desktop 9.x drops sessionStorage between
-    // same-origin redirects, even though it's the same browsing context
-    // per spec. index.html's tmaAutoSignIn writes a localStorage backup
-    // of the premium flags + vipToken before redirecting here; this
-    // script restores them into sessionStorage on every load so the
-    // existing isSuperAccessUnlocked() gate passes. 10-minute backup TTL
-    // — anything older is treated as expired.
+    // ─── TMA premium-state restore + clear-defender ──────────────────────
+    // index.html's tmaAutoSignIn writes a localStorage backup of the
+    // premium flags + vipToken before redirecting. This script restores
+    // them on load AND monkey-patches sessionStorage.removeItem so
+    // auth.js's _clearStalePremiumFlags (which fires on race-y second
+    // applyPremiumUnlock calls during the OAuth refresh churn) can't
+    // wipe our just-set flags. 10-minute backup TTL.
     (function () {
       try {
         var raw = localStorage.getItem('ms_tma_premium_backup');
@@ -22,7 +21,8 @@
           localStorage.removeItem('ms_tma_premium_backup');
           return;
         }
-        if (bk.is_premium === true) {
+        if (bk.is_premium !== true) return;
+        function setAll() {
           try { sessionStorage.setItem('vipPremiumAi', 'true'); } catch (_e) {}
           try { sessionStorage.setItem('vipSessionAccess', 'true'); } catch (_e) {}
           ['reading', 'listening', 'writing', 'speaking'].forEach(function (s) {
@@ -32,6 +32,36 @@
             try { sessionStorage.setItem('vipToken', bk.vipToken); } catch (_e) {}
           }
         }
+        setAll();
+        // Defender — wrap removeItem so anything trying to clear our
+        // three premium keys while the backup is active gets silently
+        // ignored. Cleared by the natural TTL or an explicit sign-out
+        // (which removes ms_tma_premium_backup too).
+        var PROTECTED = { vipPremiumAi: 1, vipSessionAccess: 1, vipToken: 1 };
+        var origRemove = Storage.prototype.removeItem;
+        Storage.prototype.removeItem = function (key) {
+          if (this === sessionStorage && PROTECTED[key] === 1) {
+            // Check backup is still valid each call; if expired, lift defence.
+            try {
+              var fresh = localStorage.getItem('ms_tma_premium_backup');
+              if (fresh) {
+                var fb = JSON.parse(fresh);
+                if (fb && fb.t && (Date.now() - fb.t) <= 10 * 60 * 1000) {
+                  return; // suppressed
+                }
+              }
+            } catch (_e) {}
+          }
+          return origRemove.call(this, key);
+        };
+        // Re-assert flags every 800ms for the first 10s in case a third-
+        // party setter (not removeItem) overwrites them with empty values.
+        var ticks = 0;
+        var iv = setInterval(function () {
+          ticks++;
+          setAll();
+          if (ticks > 12) clearInterval(iv);
+        }, 800);
       } catch (_e) {}
     })();
     // TMA debug banner — TEMPORARY. Mirrors the one in index.html so we
