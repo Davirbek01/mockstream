@@ -5693,6 +5693,145 @@
     //  toggleFullscreen / nameChanged / mocksReady messages are already self-safe
     //  when running as the top window.)
 
+    // ===== TMA AUTO SIGN-IN: skip welcome entirely when launched from the
+    // Telegram Mini App. Verifies Telegram.WebApp.initData against the
+    // centre's bot token server-side, then mints a magic-link OTP that
+    // we exchange for a real Supabase session via verifyOtp — identical
+    // session shape to the Continue-with-Telegram OAuth widget flow,
+    // so My Results / RLS / etc. all work transparently.
+    //
+    // Sets the same sessionStorage / localStorage keys that auth.js's
+    // _applyToLocalStorage writes for OAuth users, so the rest of the
+    // app can't tell the difference between a TMA sign-in and a widget
+    // sign-in. On any failure (HMAC mismatch, network blip, premium
+    // lookup, etc.) we silently fall through to the existing Welcome
+    // card — no nag messages.
+    (function tmaAutoSignIn() {
+      // initData is the URL-encoded string Telegram injects into the
+      // page when the Mini App is opened via a web_app button. If it's
+      // not present we're not in a Mini App context; bail out.
+      var tg = window.Telegram && window.Telegram.WebApp;
+      var initData = tg && typeof tg.initData === 'string' ? tg.initData : '';
+      if (!initData) return; // not a Mini App launch, fall through to autoResume
+
+      // Already signed in this session? Skip the verify roundtrip.
+      if (sessionStorage.getItem('ms_entered_app') === '1') return;
+
+      var SB_URL = window.SUPABASE_URL || 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      // Legacy anon JWT (not the newer sb_publishable_ key). The Edge
+      // Function was deployed with verify_jwt=true (MCP default and can't
+      // be flipped from the deploy tool), so the gateway demands a valid
+      // JWT in Authorization. The publishable key isn't JWT-shaped, the
+      // legacy anon key is. Either works for the body — initData is the
+      // real auth. Safe to commit: the legacy anon key is already public
+      // (it's literally the supabase-js anon key on every page).
+      var SB_JWT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inprbnl1a2tidGJjcWd2a2dqa3RiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ3MTUyODIsImV4cCI6MjA5MDI5MTI4Mn0.gGRtl2TVCn_PnY1aITFdX76yxZu3QZsbdrqI5hXioEw';
+      var centerId = (window.__CENTER_ID || 'mockstream').toString();
+
+      // Hide the Welcome card immediately so the user never sees it flash —
+      // we either land them on the dashboard (success) or unhide it if
+      // verification fails.
+      var welcomeRoot = document.getElementById('welcomeScreen');
+      var hidPrior = '';
+      if (welcomeRoot) {
+        hidPrior = welcomeRoot.style.display || '';
+        welcomeRoot.style.display = 'none';
+      }
+      function _restoreWelcome() {
+        if (welcomeRoot) welcomeRoot.style.display = hidPrior;
+      }
+
+      (async function () {
+        try {
+          var resp = await fetch(SB_URL + '/functions/v1/verify-telegram-initdata', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              // Anon-JWT gates the gateway (verify_jwt=true on the function),
+              // initData inside the body is the real auth checked HMAC-side.
+              'apikey': SB_JWT,
+              'Authorization': 'Bearer ' + SB_JWT
+            },
+            body: JSON.stringify({ initData: initData, center: centerId })
+          });
+          var data = await resp.json().catch(function () { return {}; });
+          if (!resp.ok || !data || !data.email || !data.otp) {
+            console.warn('[tma-auto-signin] verify failed', resp.status, data);
+            _restoreWelcome();
+            return;
+          }
+
+          // Exchange the magic-link OTP for a real Supabase session. Same
+          // shape verify-telegram-login uses; auth.js's onAuthStateChange
+          // will fire mockStream:userSignedIn afterwards and populate
+          // CANDIDATE_FULL_NAME / ms_candidate_profile via
+          // _applyToLocalStorage.
+          var client = (window.MockStream && window.MockStream.auth &&
+                        typeof window.MockStream.auth.getClient === 'function')
+                         ? window.MockStream.auth.getClient() : null;
+          if (!client) {
+            console.warn('[tma-auto-signin] supabase client not ready');
+            _restoreWelcome();
+            return;
+          }
+
+          var verifyRes = await client.auth.verifyOtp({
+            email: data.email, token: data.otp, type: 'email'
+          });
+          if (verifyRes.error) {
+            console.warn('[tma-auto-signin] verifyOtp failed', verifyRes.error);
+            _restoreWelcome();
+            return;
+          }
+
+          // Set the same flags the welcome wizard / auth.js would set, so
+          // every downstream page treats this user as fully signed-in.
+          var p = data.profile || {};
+          var fullName = ((p.first_name || '') + ' ' + (p.last_name || '')).trim();
+          if (fullName) {
+            try { sessionStorage.setItem('CANDIDATE_FULL_NAME', fullName); } catch (_e) {}
+            try { localStorage.setItem('ms_candidate_name', fullName); } catch (_e) {}
+            var parts = fullName.split(/\s+/);
+            if (parts.length >= 2) {
+              try { localStorage.setItem('CANDIDATE_SURNAME', parts.slice(-1)[0]); } catch (_e) {}
+              try { localStorage.setItem('CANDIDATE_FIRSTNAME', parts.slice(0, -1).join(' ')); } catch (_e) {}
+            }
+          }
+          if (p.photo_url) {
+            try { localStorage.setItem('ms_avatar_url', p.photo_url); } catch (_e) {}
+          }
+          try { localStorage.setItem('ms_auth_provider', 'telegram_mini_app'); } catch (_e) {}
+          try {
+            localStorage.setItem('ms_candidate_profile', JSON.stringify({
+              email: data.email,
+              full_name: fullName,
+              first_name: p.first_name || '',
+              last_name: p.last_name || '',
+              telegram_id: p.telegram_id || null,
+              telegram_username: p.username || null,
+              avatar_url: p.photo_url || null,
+              source: 'tg_mini_app'
+            }));
+          } catch (_e) {}
+          if (data.is_premium === true) {
+            try { sessionStorage.setItem('vipPremiumAi', 'true'); } catch (_e) {}
+            try { sessionStorage.setItem('vipSessionAccess', 'true'); } catch (_e) {}
+            // Per-skill premium flags so AI gating in each runner works.
+            ['reading', 'listening', 'writing', 'speaking'].forEach(function (s) {
+              try { sessionStorage.setItem(s + 'PremiumEntry', 'true'); } catch (_e) {}
+            });
+          }
+          // Land on the dashboard directly. replace() so the welcome page
+          // doesn't sit in history (back from dashboard would jump here).
+          sessionStorage.setItem('ms_entered_app', '1');
+          window.location.replace('landing-v3.html');
+        } catch (e) {
+          console.warn('[tma-auto-signin] unexpected error', e);
+          _restoreWelcome();
+        }
+      })();
+    })();
+
     // ===== AUTO-RESUME: skip welcome entirely if user already entered or is signed in =====
     (function autoResume() {
       //   (a) the user previously entered the app in this session, OR
