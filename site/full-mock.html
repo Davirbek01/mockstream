@@ -8819,7 +8819,9 @@
           var _mdlGrok     = (cp['scoring_model_grok']     || '').trim() || 'grok-3-mini';
           var _mdlDeepseek = (cp['scoring_model_deepseek'] || '').trim() || 'deepseek-chat';
           var _mdlGroq     = (cp['scoring_model_groq']     || '').trim() || 'llama-3.3-70b-versatile';
+          var _mdlLlamaScout = (cp['scoring_model_llama_scout'] || '').trim() || 'meta-llama/llama-4-scout-17b-16e-instruct';
           if (opts._forceModel && provider === 'groq') _mdlGroq = opts._forceModel;
+          if (opts._forceModel && provider === 'llama-scout') _mdlLlamaScout = opts._forceModel;
           var _hasImages = opts.contentParts && opts.contentParts.some(function(p){ return p.inline_data || p.inlineData; });
           var _imgNote = _hasImages ? '\n\n[NOTE: This AI provider cannot view images. Some questions reference pictures the candidate was shown. Score based on the question text and the candidate\'s response only. Do not penalize for image-related content you cannot see.]' : '';
           if (provider === 'openai') {
@@ -8932,6 +8934,33 @@
               var j = await r.json();
               if (j.error) throw new Error(j.error.message || 'API error');
               var _gs = j.choices[0].message.content; var _gm = _gs.match(/```(?:json)?\s*([\s\S]*?)```/); if (_gm) _gs = _gm[1].trim(); return _gs;
+            });
+          } else if (provider === 'llama-scout') {
+            return await attemptWithRetry(async () => {
+              if (!_GROQ_KEY) { try { _GROQ_KEY = await _fetchProviderKey('groq'); } catch(e){} }
+              if (!_GROQ_KEY) throw new Error('No Groq API key available');
+              var messages = [];
+              if (systemText) messages.push({ role: 'system', content: systemText });
+              var uMsg = userPrompt;
+              if (opts.contentParts) uMsg = opts.contentParts.filter(function(p){ return p.text; }).map(function(p){ return p.text; }).join('\n');
+              uMsg += _imgNote;
+              if (opts.jsonMode) uMsg += '\n\nIMPORTANT: Respond with valid JSON only, no markdown.';
+              messages.push({ role: 'user', content: uMsg });
+              var body = { model: _mdlLlamaScout, messages: messages, temperature: opts.temperature || 0.3 };
+              if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+              if (opts.jsonMode) body.response_format = { type: 'json_object' };
+              var r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _GROQ_KEY },
+                body: JSON.stringify(body)
+              });
+              if (!r.ok) { var _e = await r.text().catch(function(){return ''}); console.error('[Llama Scout] ' + r.status + ':', _e); throw new Error('AI API error: ' + r.status + ' ' + _e.slice(0,200)); }
+              var j = await r.json();
+              if (j.error) throw new Error(j.error.message || 'API error');
+              var _ls = j.choices[0].message.content;
+              var _lm = _ls.match(/```(?:json)?\s*([\s\S]*?)```/);
+              if (_lm) _ls = _lm[1].trim();
+              return _ls;
             });
                     } else if (provider === 'gemma4') {
                         if (opts && opts.gemmaTask === 'inline_corrections') {

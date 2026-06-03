@@ -47,11 +47,17 @@
         // are 'default' = inherit from system prompts unless explicitly overridden)
         scoreBoost: 1, aiProvider: 'default', maxAiCallsDay: 0,
         geminiPlan: 'default', transcriberProvider: 'default', transcriberGeminiPlan: 'default',
-        // Vision fact-check (Gemini) — OFF by default. When ON, IELTS Writing
-        // Task 1 charts and CEFR Speaking Q4 image-pairs get Gemini Vision
-        // pre-analysis before the main AI scoring step. Forced to Gemini
-        // regardless of aiProvider above. Adds ~$0.0001 per submission.
+        // Vision fact-check — OFF by default. When ON (and the primary
+        // scoring AI is text-only), IELTS Writing Task 1 charts and CEFR
+        // Speaking Q4 image-pairs get a vision pre-analysis before the
+        // main scoring step. The provider for that pre-analysis is the
+        // separate visionFactCheckProvider field below (gemini = cheapest;
+        // llama-scout = bundle-on-Groq if you already use Groq Whisper).
+        // When the primary AI is itself vision-capable (gemini / openai /
+        // claude / llama-scout) this toggle is ignored — images are sent
+        // straight to the primary in the same scoring call.
         visionFactCheck: false,
+        visionFactCheckProvider: 'gemini',
         // Full Mock AI sub-controls
         fullMockAi: {
           cefr_speaking: 'premium', cefr_writing: 'premium',
@@ -499,9 +505,10 @@
             h += _cmNumberInput(cid, 'scoreBoost', 'Score Boost', cfg.scoreBoost, '0-3');
             h += _cmSelectInput(cid, 'aiProvider', 'AI Provider', cfg.aiProvider || 'default', [
               { val: 'default', label: 'Default (system prompts)' },
-              { val: 'gemini', label: 'Gemini' },
-              { val: 'openai', label: 'OpenAI' },
-              { val: 'claude', label: 'Claude' },
+              { val: 'gemini', label: 'Gemini (vision)' },
+              { val: 'openai', label: 'OpenAI (vision)' },
+              { val: 'claude', label: 'Claude (vision)' },
+              { val: 'llama-scout', label: 'Llama 4 Scout · Groq (vision)' },
               { val: 'grok', label: 'Grok ⚠️ (text only)' },
               { val: 'deepseek', label: 'DeepSeek ⚠️ (text only)' },
               { val: 'groq', label: 'Groq (uses System Prompts model)' }
@@ -515,6 +522,7 @@
               { val: 'gemini', label: 'Gemini' },
               { val: 'openai', label: 'OpenAI' },
               { val: 'claude', label: 'Claude' },
+              { val: 'llama-scout', label: 'Llama 4 Scout · Groq (vision)' },
               { val: 'grok', label: 'Grok (text only)' },
               { val: 'deepseek', label: 'DeepSeek (text only)' },
               { val: 'groq:llama-3.3-70b-versatile', label: 'Groq Llama 3.3 70B' },
@@ -536,15 +544,22 @@
             }
 
             // ── Transcriber-AI picker (shown under EVERY scoring AI)
-            // For text-only providers (Grok / DeepSeek) a non-default helper is REQUIRED;
-            // for OpenAI / Gemini / Claude the default = use itself (native), but admins
-            // can still override to a cheaper transcriber (e.g. AssemblyAI) to save cost.
+            // For text/vision-no-audio providers (Grok / DeepSeek / Llama
+            // Scout / Groq Qwen) a non-default helper is REQUIRED, because
+            // none of them transcribe audio. For OpenAI / Gemini / Claude
+            // the default = use itself (native), but admins can still
+            // override to a cheaper transcriber (e.g. AssemblyAI).
             {
-              var _isTextOnly = (cfg.aiProvider === 'grok' || cfg.aiProvider === 'deepseek');
-              var _providerLabel = (cfg.aiProvider || 'gemini').charAt(0).toUpperCase() + (cfg.aiProvider || 'gemini').slice(1);
+              var _isTextOnly = (cfg.aiProvider === 'grok' || cfg.aiProvider === 'deepseek' ||
+                                 cfg.aiProvider === 'llama-scout' || cfg.aiProvider === 'groq');
+              var _providerLabel = (cfg.aiProvider === 'llama-scout' ? 'Llama Scout' :
+                                    (cfg.aiProvider || 'gemini').charAt(0).toUpperCase() + (cfg.aiProvider || 'gemini').slice(1));
               if (_isTextOnly) {
+                var _audioNote = (cfg.aiProvider === 'llama-scout')
+                  ? '⚠️ ' + _providerLabel + ' has vision but no native audio. Pick a transcriber to convert speech first:'
+                  : '⚠️ ' + _providerLabel + ' cannot process speaking-mock audio. Pick an assistant AI to transcribe audio first:';
                 h += '<div style="padding:6px 0 4px 0;font-size:11px;color:#92400e;background:#fef3c7;border:1px solid #fde68a;border-radius:6px;margin:4px 0;padding:6px 10px;">' +
-                  '⚠️ ' + _providerLabel + ' cannot process speaking-mock audio. Pick an assistant AI to transcribe audio first:' +
+                  _audioNote +
                 '</div>';
               } else {
                 h += '<div style="padding:6px 0 4px 0;font-size:11px;color:#1e3a8a;background:#dbeafe;border:1px solid #93c5fd;border-radius:6px;margin:4px 0;padding:6px 10px;">' +
@@ -575,21 +590,59 @@
 
             h += _cmNumberInput(cid, 'maxAiCallsDay', 'Max AI Calls/Day', cfg.maxAiCallsDay, '0 = unlimited');
 
-            // ── Vision fact-check (Gemini) — forced provider regardless of aiProvider above
-            h += '<div style="margin-top:10px;padding:10px 12px;background:#eff6ff;border:1px solid #93c5fd;border-radius:8px;">';
-            h += '<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">';
-            h += '<span style="font-size:14px;">🔍</span>';
-            h += '<div style="flex:1;min-width:200px;">';
-            h += '<div style="font-size:13px;font-weight:700;color:#1e3a8a;">Vision fact-check (Gemini)</div>';
-            h += '<div style="font-size:11.5px;color:#475569;margin-top:2px;line-height:1.4;">'
-              +    'When ON, Gemini Vision pre-analyses <strong>IELTS Writing Task 1</strong> charts and '
-              +    '<strong>CEFR Speaking Question 4</strong> image-pairs before the main AI scores. '
-              +    'Always uses Gemini for the image step, regardless of the AI Provider above. '
-              +    'Adds ~$0.0001 per submission. <strong>Recommended ON for graded mocks, OFF for daily practice.</strong>'
-              + '</div>';
-            h += '</div>';
-            h += _cmToggleInput(cid, 'visionFactCheck', '', cfg.visionFactCheck === true);
-            h += '</div></div>';
+            // ── Vision fact-check — separate pre-pass for text-only AIs.
+            // When the primary AI is itself vision-capable (gemini / openai
+            // / claude / llama-scout), this card is ignored and shown
+            // greyed-out with an "auto-vision via primary AI" note, because
+            // the primary already sees the images in the main scoring call.
+            {
+              var _primaryHasVision = (
+                cfg.aiProvider === 'gemini' ||
+                cfg.aiProvider === 'openai' ||
+                cfg.aiProvider === 'claude' ||
+                cfg.aiProvider === 'llama-scout'
+              );
+              var _vfcOn = cfg.visionFactCheck === true;
+              var _vfcProv = (cfg.visionFactCheckProvider || 'gemini');
+              var _bg = _primaryHasVision ? '#f1f5f9' : '#eff6ff';
+              var _bd = _primaryHasVision ? '#cbd5e1' : '#93c5fd';
+              var _ttl = _primaryHasVision ? '#475569' : '#1e3a8a';
+              h += '<div style="margin-top:10px;padding:10px 12px;background:' + _bg + ';border:1px solid ' + _bd + ';border-radius:8px;' + (_primaryHasVision ? 'opacity:.65;' : '') + '">';
+              h += '<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">';
+              h += '<span style="font-size:14px;">🔍</span>';
+              h += '<div style="flex:1;min-width:200px;">';
+              h += '<div style="font-size:13px;font-weight:700;color:' + _ttl + ';">Vision fact-check</div>';
+              if (_primaryHasVision) {
+                h += '<div style="font-size:11.5px;color:#64748b;margin-top:2px;line-height:1.4;">'
+                  +    'Not needed — the selected primary AI (<strong>' + _providerLabel + '</strong>) is vision-capable. '
+                  +    'Images are sent straight to it inside the main scoring call. This toggle is ignored.'
+                  + '</div>';
+              } else {
+                h += '<div style="font-size:11.5px;color:#475569;margin-top:2px;line-height:1.4;">'
+                  +    'When ON, a separate vision AI pre-analyses <strong>IELTS Writing Task 1</strong> charts and '
+                  +    '<strong>CEFR Speaking Question 4</strong> image-pairs before the main (text-only) scorer runs. '
+                  +    'When OFF, images are not sent and the scorer skips image-relevance — only grammar, fluency, '
+                  +    'lexical resource & coherence are graded. <strong>Recommended ON for graded mocks, OFF for daily practice.</strong>'
+                  + '</div>';
+              }
+              h += '</div>';
+              h += _cmToggleInput(cid, 'visionFactCheck', '', _vfcOn);
+              h += '</div>';
+              // Vision-provider dropdown — only meaningful when toggle ON
+              // AND primary is text-only. Greyed if either condition fails.
+              if (!_primaryHasVision) {
+                var _dropDisabled = !_vfcOn;
+                h += '<div style="margin-top:10px;' + (_dropDisabled ? 'opacity:.55;pointer-events:none;' : '') + '">';
+                h += _cmSelectInput(cid, 'visionFactCheckProvider', '↳ Vision provider', _vfcProv, [
+                  { val: 'gemini',      label: 'Gemini 2.0 Flash (cheapest · default)' },
+                  { val: 'llama-scout', label: 'Llama 4 Scout · Groq (bundle w/ Whisper)' },
+                  { val: 'openai',      label: 'OpenAI gpt-4o-mini' },
+                  { val: 'claude',      label: 'Claude Haiku 4.5' }
+                ]);
+                h += '</div>';
+              }
+              h += '</div>';
+            }
 
             h += '</div>';
           }
@@ -812,7 +865,8 @@
       }
       // Re-render only for toggles that show/hide sub-fields
       if (prop === 'operatingHoursEnabled' || prop === 'examScheduleMode' || prop === 'maintenanceMode'
-          || prop === 'aiProvider' || prop === 'transcriberProvider') {
+          || prop === 'aiProvider' || prop === 'transcriberProvider'
+          || prop === 'visionFactCheck') {
         _cmRenderBody();
       }
       _cmAutoSave(centerId);

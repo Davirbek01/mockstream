@@ -10005,6 +10005,36 @@ function printWritingAiModal() {
         var j = await r.json();
         if (j.error) throw new Error(j.error.message || 'API error');
         var _gs = j.choices[0].message.content; var _gm = _gs.match(/```(?:json)?\s*([\s\S]*?)```/); if (_gm) _gs = _gm[1].trim(); return _gs;
+      } else if (provider === 'llama-scout') {
+        // Llama 4 Scout via Groq (OpenAI-compatible). IELTS Writing
+        // doesn't pass contentParts here, so this is a plain text call
+        // — the chart context comes in via the vision fact-check block
+        // already injected into userPrompt.
+        if (!_GROQ_KEY) { try { _GROQ_KEY = await _fetchProviderKey('groq'); } catch(e){} }
+        if (!_GROQ_KEY) throw new Error('No Groq API key available');
+        var _mdlScoutLocal = (opts._forceModel && opts._forceProvider === 'llama-scout')
+          ? opts._forceModel
+          : ((cp['scoring_model_llama_scout'] || '').trim() || 'meta-llama/llama-4-scout-17b-16e-instruct');
+        var messages = [];
+        if (systemText) messages.push({ role: 'system', content: systemText });
+        var uMsg = userPrompt;
+        if (opts.jsonMode) uMsg += '\n\nIMPORTANT: Respond with valid JSON only, no markdown.';
+        messages.push({ role: 'user', content: uMsg });
+        var body = { model: _mdlScoutLocal, messages: messages, temperature: opts.temperature || 0.3 };
+        if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+        if (opts.jsonMode) body.response_format = { type: 'json_object' };
+        var r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _GROQ_KEY },
+          body: JSON.stringify(body)
+        });
+        if (!r.ok) { var _e = await r.text().catch(function(){return ''}); console.error('[Llama Scout] ' + r.status + ':', _e); throw new Error('AI API error: ' + r.status + ' ' + _e.slice(0,200)); }
+        var j = await r.json();
+        if (j.error) throw new Error(j.error.message || 'API error');
+        var _ls = j.choices[0].message.content;
+        var _lm = _ls.match(/```(?:json)?\s*([\s\S]*?)```/);
+        if (_lm) _ls = _lm[1].trim();
+        return _ls;
       } else {
         if (!GEMINI_KEY) { try { await getGeminiKey(); } catch(e){} }
         if (!GEMINI_KEY) throw new Error('No Gemini API key available');
@@ -10079,32 +10109,42 @@ function printWritingAiModal() {
       const task2Instruction = testData?.tasks?.task2?.instruction || 'Write at least 250 words.';
       const chartDescription = testData?.tasks?.task1?.chartDescription || 'A chart/graph/diagram';
 
-      // Vision fact-check (Gemini) — gated on centre admin toggle.
-      // When ON: Gemini Vision pre-analyses the Task 1 chart, identifies
-      // factual errors in the student's description, returns a structured
-      // report. We feed that report into the main scoring prompt below so
-      // the default AI scores Task Achievement with chart-aware context.
-      // When OFF (default): no Vision call, no extra cost.
-      // Forced to Gemini regardless of which AI the centre picked for the
-      // main scoring step. See site/vision-factcheck.js.
+      // ─── Vision fact-check for Task 1 chart ─────────────────────────
+      // Three branches:
+      //   1. Toggle ON  → run vision-factcheck via the centre-selected
+      //      provider (gemini / openai / claude / llama-scout) and inject
+      //      its structured report into the scoring prompt.
+      //   2. Toggle OFF → emit the noVisionPreambleForScoring text so the
+      //      scorer is explicitly told NOT to penalise for chart-relevance.
+      //      Grammar / coherence / lexical / structure still get scored.
+      //   3. Vision pass returns null (network / image fetch fail) → same
+      //      no-vision preamble so the scorer doesn't fall back to alt-text.
       let visionReportT1 = null;
+      const _visionToggleOn = (window.SITE_CONFIG && window.SITE_CONFIG.visionFactCheck === true);
       try {
         const chartUrl = testData?.tasks?.task1?.chartImageUrl;
-        if (chartUrl && t1Text && t1Text.trim() && typeof window.factCheckImages === 'function') {
+        if (_visionToggleOn && chartUrl && t1Text && t1Text.trim() && typeof window.factCheckImages === 'function') {
+          const _visionProv = (window.SITE_CONFIG && window.SITE_CONFIG.visionFactCheckProvider) || 'gemini';
           visionReportT1 = await window.factCheckImages({
             taskType: 'ielts-writing-task1',
             imageUrls: [chartUrl],
             prompt: task1Prompt + '\n\n' + task1Instruction,
-            studentText: t1Text
+            studentText: t1Text,
+            provider: _visionProv
           });
         }
       } catch (visionErr) {
-        // Helper already swallows its own errors; this catch is paranoia.
         console.warn('[Vision] unexpected failure, scoring without fact-check:', visionErr);
       }
-      const visionBlockT1 = (visionReportT1 && typeof window.formatVisionReportForScoring === 'function')
-        ? window.formatVisionReportForScoring(visionReportT1, 'CHART FACT-CHECK (Gemini Vision) — Task 1')
-        : '';
+      let visionBlockT1 = '';
+      if (visionReportT1 && typeof window.formatVisionReportForScoring === 'function') {
+        visionBlockT1 = window.formatVisionReportForScoring(visionReportT1, 'CHART FACT-CHECK — Task 1');
+      } else if (typeof window.noVisionPreambleForScoring === 'function') {
+        // Either toggle OFF or vision returned null — either way tell the
+        // scorer it cannot see the chart, so it must NOT mark down for
+        // image-relevance. Other criteria still apply.
+        visionBlockT1 = window.noVisionPreambleForScoring('TASK 1 CHART CHECK SKIPPED');
+      }
 
       await delay(800);
       if (updateStep) { updateStep('aiStep3', 'completed'); updateStep('aiStep4', 'active'); }

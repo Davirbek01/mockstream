@@ -7461,18 +7461,53 @@
       var _mdlGrok     = (cp['scoring_model_grok']     || '').trim() || 'grok-3-mini';
       var _mdlDeepseek = (cp['scoring_model_deepseek'] || '').trim() || 'deepseek-chat';
       var _mdlGroq     = (cp['scoring_model_groq']     || '').trim() || 'llama-3.3-70b-versatile';
+      var _mdlLlamaScout = (cp['scoring_model_llama_scout'] || '').trim() || 'meta-llama/llama-4-scout-17b-16e-instruct';
       if (opts._forceModel && provider === 'groq') _mdlGroq = opts._forceModel;
+      if (opts._forceModel && provider === 'llama-scout') _mdlLlamaScout = opts._forceModel;
       var _hasImages = opts.contentParts && opts.contentParts.some(function(p){ return p.inline_data || p.inlineData; });
       var _imgNote = _hasImages ? '\n\n[NOTE: This AI provider cannot view images. Some questions reference pictures the candidate was shown. Score based on the question text and the candidate\'s response only. Do not penalize for image-related content you cannot see.]' : '';
+      // Helpers to convert inline_data parts into each provider's vision format.
+      // Called from the vision-capable branches (OpenAI / Claude / Llama Scout)
+      // so a single contentParts shape works across providers.
+      function _toOpenAiMultimodal(parts) {
+        var out = [];
+        (parts || []).forEach(function (p) {
+          if (p.text) out.push({ type: 'text', text: p.text });
+          else if (p.inline_data || p.inlineData) {
+            var img = p.inline_data || p.inlineData;
+            var mime = img.mime_type || img.mimeType || 'image/png';
+            out.push({ type: 'image_url', image_url: { url: 'data:' + mime + ';base64,' + img.data } });
+          }
+        });
+        return out;
+      }
+      function _toClaudeMultimodal(parts) {
+        var out = [];
+        (parts || []).forEach(function (p) {
+          if (p.text) out.push({ type: 'text', text: p.text });
+          else if (p.inline_data || p.inlineData) {
+            var img = p.inline_data || p.inlineData;
+            var mime = img.mime_type || img.mimeType || 'image/png';
+            out.push({ type: 'image', source: { type: 'base64', media_type: mime, data: img.data } });
+          }
+        });
+        return out;
+      }
       if (provider === 'openai') {
         if (!API_KEY) { try { await getKey(); } catch(e){} }
         if (!API_KEY) throw new Error('No OpenAI API key available');
         var messages = [];
         if (systemText) messages.push({ role: 'system', content: systemText });
-        var uText = userPrompt;
-        if (opts.contentParts) uText = opts.contentParts.filter(function(p){ return p.text; }).map(function(p){ return p.text; }).join('\n');
-        uText += _imgNote;
-        messages.push({ role: 'user', content: uText });
+        // Vision-capable: attach images as image_url parts when present.
+        // Otherwise fall back to the legacy text-join path with _imgNote.
+        if (opts.contentParts && _hasImages) {
+          messages.push({ role: 'user', content: _toOpenAiMultimodal(opts.contentParts) });
+        } else {
+          var uText = userPrompt;
+          if (opts.contentParts) uText = opts.contentParts.filter(function(p){ return p.text; }).map(function(p){ return p.text; }).join('\n');
+          uText += _imgNote;
+          messages.push({ role: 'user', content: uText });
+        }
         var body = { model: _mdlOpenAI, messages: messages, temperature: opts.temperature || 0.3 };
         if (opts.maxTokens) body.max_tokens = opts.maxTokens;
         if (opts.jsonMode) body.response_format = { type: 'json_object' };
@@ -7495,10 +7530,17 @@
       } else if (provider === 'claude') {
         if (!_CLAUDE_KEY) { try { _CLAUDE_KEY = await _fetchProviderKey('claude'); } catch(e){} }
         if (!_CLAUDE_KEY) throw new Error('No Claude API key available');
-        var uMsg = userPrompt;
-        if (opts.contentParts) uMsg = opts.contentParts.filter(function(p){ return p.text; }).map(function(p){ return p.text; }).join('\n');
-        uMsg += _imgNote;
-        var cBody = { model: _mdlClaude, max_tokens: opts.maxTokens || 8192, messages: [{ role: 'user', content: uMsg }] };
+        // Vision-capable: attach images as image source-base64 parts.
+        var _cUserContent;
+        if (opts.contentParts && _hasImages) {
+          _cUserContent = _toClaudeMultimodal(opts.contentParts);
+        } else {
+          var uMsg = userPrompt;
+          if (opts.contentParts) uMsg = opts.contentParts.filter(function(p){ return p.text; }).map(function(p){ return p.text; }).join('\n');
+          uMsg += _imgNote;
+          _cUserContent = uMsg;
+        }
+        var cBody = { model: _mdlClaude, max_tokens: opts.maxTokens || 8192, messages: [{ role: 'user', content: _cUserContent }] };
         if (systemText) cBody.system = systemText;
         if (opts.temperature !== undefined) cBody.temperature = opts.temperature;
         var r = await fetch('https://api.anthropic.com/v1/messages', {
@@ -7583,6 +7625,49 @@
         var j = await r.json();
         if (j.error) throw new Error(j.error.message || 'API error');
         var _gs = j.choices[0].message.content; var _gm = _gs.match(/```(?:json)?\s*([\s\S]*?)```/); if (_gm) _gs = _gm[1].trim(); return _gs;
+      } else if (provider === 'llama-scout') {
+        // Llama 4 Scout via Groq — natively multimodal (text + image, no
+        // audio). When inline_data parts are present we send a proper
+        // image_url multimodal body so the model actually sees the
+        // pictures (this is the whole point of selecting Scout). For
+        // text-only content the body collapses to the same shape as the
+        // generic Groq branch above.
+        if (!_GROQ_KEY) { try { _GROQ_KEY = await _fetchProviderKey('groq'); } catch(e){} }
+        if (!_GROQ_KEY) throw new Error('No Groq API key available');
+        var messages = [];
+        if (systemText) messages.push({ role: 'system', content: systemText });
+        if (opts.contentParts && _hasImages) {
+          messages.push({ role: 'user', content: _toOpenAiMultimodal(opts.contentParts) });
+        } else {
+          var uMsg = userPrompt;
+          if (opts.contentParts) uMsg = opts.contentParts.filter(function(p){ return p.text; }).map(function(p){ return p.text; }).join('\n');
+          if (opts.jsonMode) uMsg += '\n\nIMPORTANT: Respond with valid JSON only, no markdown.';
+          messages.push({ role: 'user', content: uMsg });
+        }
+        var body = { model: _mdlLlamaScout, messages: messages, temperature: opts.temperature || 0.3 };
+        if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+        if (opts.jsonMode) body.response_format = { type: 'json_object' };
+        var r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _GROQ_KEY },
+          body: JSON.stringify(body)
+        });
+        if (!r.ok) {
+          var _e = await r.text().catch(function(){return ''});
+          console.warn('[Llama Scout] Key failed (' + r.status + ') — re-fetching backup from server...');
+          var _failedScout = _GROQ_KEY; _GROQ_KEY = null;
+          try { _GROQ_KEY = await _fetchProviderKey('groq', _failedScout); } catch (e2) {}
+          if (!_GROQ_KEY) throw new Error('AI API error: ' + r.status + ' ' + _e.slice(0,200));
+          var r2 = await fetch('https://api.groq.com/openai/v1/chat/completions', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _GROQ_KEY }, body: JSON.stringify(body) });
+          if (!r2.ok) { var _e2 = await r2.text().catch(function(){return ''}); throw new Error('AI API error: ' + r2.status + ' ' + _e2.slice(0,200)); }
+          r = r2;
+        }
+        var j = await r.json();
+        if (j.error) throw new Error(j.error.message || 'API error');
+        var _ls = j.choices[0].message.content;
+        var _lm = _ls.match(/```(?:json)?\s*([\s\S]*?)```/);
+        if (_lm) _ls = _lm[1].trim();
+        return _ls;
       } else {
         if (!GEMINI_KEY) { try { await getGeminiKey(); } catch(e){} }
         if (!GEMINI_KEY) throw new Error('No Gemini API key available');
@@ -15051,22 +15136,39 @@ Do NOT artificially limit scores. Award the level the candidate truly deserves b
             'Q7: Long monologue', 'Q8: Discussion/Debate'
           ];
 
-          // Get picture descriptions for relevance checking (Part 1.2)
+          // ─── Determine vision strategy for Q4-Q6 image-pair ─────────
+          // The previous "img1Alt / img2Alt" pictureContext block was a known
+          // hallucination vector (mocks 1-15 had placeholder alts like
+          // "Festival event" / "Museum visit" while the real images were
+          // unrelated). We now branch on primary AI vision capability:
+          //   - vision-capable primary → attach images directly to the
+          //     scoring call; no alt-text block, no pre-pass.
+          //   - text-only primary + Vision toggle ON → run vision-factcheck
+          //     pre-pass via the centre-selected provider; inject its
+          //     accurate descriptions into the prompt.
+          //   - text-only primary + toggle OFF → no images, no descriptions;
+          //     scorer is told NOT to penalise for image-relevance.
           const testData = window.SPEAKING_TEST_DATA_CACHED || {};
-          const img1Desc = testData.images?.img1Alt || 'Image 1';
-          const img2Desc = testData.images?.img2Alt || 'Image 2';
-          const pictureContext = `
-PICTURE DESCRIPTIONS (For Q4-Q6 Relevance Checking):
-• Picture 1: ${img1Desc}
-• Picture 2: ${img2Desc}
-Note: Q4 asks about BOTH pictures. Q5-Q6 are follow-up questions about these pictures.
-If candidate's response does NOT relate to these pictures, mark as OFF-TOPIC.`;
+          const _cpResolve = await _loadScoringPrompts();
+          let _resolvedPrimary = (_cpResolve['scoring_ai_provider'] || 'gemini').toString().trim().toLowerCase();
+          try {
+            const _ovrPrimary = await _getCenterAiProviderOverride();
+            if (_ovrPrimary) _resolvedPrimary = _ovrPrimary;
+          } catch (_e) {}
+          const _primaryIsVisionCapable = (
+            _resolvedPrimary === 'gemini' || _resolvedPrimary === 'openai' ||
+            _resolvedPrimary === 'claude' || _resolvedPrimary === 'llama-scout'
+          );
+          const _visionToggleOn = (window.SITE_CONFIG && window.SITE_CONFIG.visionFactCheck === true);
+          const _needsImagesAttached = _primaryIsVisionCapable;
+          const _needsPrePass        = !_primaryIsVisionCapable && _visionToggleOn;
+          console.log('[Vision] strategy', { primary: _resolvedPrimary, capable: _primaryIsVisionCapable, toggle: _visionToggleOn });
 
-          // Fetch images for Q4-Q6 analysis (important for sample answers)
-          // Skip image loading in practice mode if not practicing Part 1.2
+          // Fetch images for Q4-Q6 analysis (only when the primary AI will
+          // actually consume them; the vision pre-pass fetches its own).
           let img1Base64 = null;
           let img2Base64 = null;
-          const needImages = !isPractice || practicePart === 'p12';
+          const needImages = _needsImagesAttached && (!isPractice || practicePart === 'p12');
 
           if (needImages && testData.images?.img1) {
             try {
@@ -15105,36 +15207,62 @@ If candidate's response does NOT relate to these pictures, mark as OFF-TOPIC.`;
             return `**Q${t.questionNum} (${part}):**\nQuestion: ${qText}\nResponse: "${t.text}"`;
           }).join('\n\n');
 
-          // ── Vision fact-check for Q4 (image-pair compare/contrast) ──
-          // Gated on per-centre toggle (window.SITE_CONFIG.visionFactCheck).
-          // Forced to Gemini regardless of which provider scores the rest.
-          // Why here: vision-capable providers (Gemini/OpenAI/Claude) already
-          // see the images via inline_data in contentParts, but text-only ones
-          // (DeepSeek/Grok) don't. Adding a Vision text report into the prompt
-          // gives EVERY provider chart-aware Task Achievement scoring.
-          let q4VisionBlock = '';
-          try {
-            const q4Prompt = (testData.questions && testData.questions[3] && testData.questions[3].prompt) || '';
-            const q4Transcript = (transcriptions.find(t => t.questionNum === 4) || {}).text || '';
-            const q4Images = [];
-            if (testData.images?.img1) q4Images.push(testData.images.img1);
-            if (testData.images?.img2) q4Images.push(testData.images.img2);
-            if (q4Images.length && q4Prompt && q4Transcript && q4Transcript !== '[No speech]'
-                && typeof window.factCheckImages === 'function') {
-              const q4Report = await window.factCheckImages({
-                taskType: 'cefr-speaking-q4',
-                imageUrls: q4Images,
-                prompt: q4Prompt,
-                studentText: q4Transcript
-              });
-              if (q4Report && typeof window.formatVisionReportForScoring === 'function') {
-                q4VisionBlock = window.formatVisionReportForScoring(
-                  q4Report, 'Q4 IMAGE-PAIR FACT-CHECK (Gemini Vision)'
-                );
+          // ── Q4 picture-aware prompt fragment ────────────────────────
+          // Three branches, set by the vision strategy decided above:
+          //   1. _needsImagesAttached     → images flow into the primary
+          //      AI's contentParts (added later); picture block here just
+          //      reminds the scorer that the pictures are attached.
+          //   2. _needsPrePass            → run the vision-factcheck helper
+          //      against the centre-selected provider; inject its accurate
+          //      summaries + error report.
+          //   3. else (text-only + OFF)   → emit the "no-vision preamble"
+          //      that explicitly tells the scorer not to grade image
+          //      relevance — only language criteria.
+          let pictureContext = '';
+          if (_needsImagesAttached) {
+            pictureContext =
+              '\n=== Q4-Q6 PICTURES ===\n' +
+              'Two images are attached for Part 1.2 (Q4-Q6). LOOK at them directly to judge relevance and to ground sample answers in what is actually shown.\n' +
+              '======================\n';
+          } else if (_needsPrePass) {
+            try {
+              const q4Prompt = (testData.questions && testData.questions[3] && testData.questions[3].prompt) || '';
+              const q4Transcript = (transcriptions.find(t => t.questionNum === 4) || {}).text || '';
+              const q4Images = [];
+              if (testData.images?.img1) q4Images.push(testData.images.img1);
+              if (testData.images?.img2) q4Images.push(testData.images.img2);
+              if (q4Images.length && q4Prompt && q4Transcript && q4Transcript !== '[No speech]'
+                  && typeof window.factCheckImages === 'function') {
+                const _visionProv = (window.SITE_CONFIG && window.SITE_CONFIG.visionFactCheckProvider) || 'gemini';
+                const q4Report = await window.factCheckImages({
+                  taskType: 'cefr-speaking-q4',
+                  imageUrls: q4Images,
+                  prompt: q4Prompt,
+                  studentText: q4Transcript,
+                  provider: _visionProv
+                });
+                if (q4Report && typeof window.formatVisionReportForScoring === 'function') {
+                  pictureContext = window.formatVisionReportForScoring(
+                    q4Report, 'Q4 IMAGE-PAIR FACT-CHECK'
+                  );
+                }
               }
+            } catch (visionErr) {
+              console.warn('[Vision] CEFR Q4 fact-check failed, scoring without:', visionErr);
             }
-          } catch (visionErr) {
-            console.warn('[Vision] CEFR Q4 fact-check failed, scoring without:', visionErr);
+            // Vision pass might have silently returned null (network blip,
+            // image fetch fail, etc.). In that case fall through to the
+            // no-vision preamble so the scorer still skips the cap.
+            if (!pictureContext && typeof window.noVisionPreambleForScoring === 'function') {
+              pictureContext = window.noVisionPreambleForScoring('Q4 IMAGE CHECK SKIPPED');
+            }
+          } else {
+            // Text-only primary + vision toggle OFF: explicitly tell the
+            // scorer NOT to penalise for image relevance, so the historical
+            // alt-text hallucination cannot happen.
+            if (typeof window.noVisionPreambleForScoring === 'function') {
+              pictureContext = window.noVisionPreambleForScoring('Q4 IMAGE CHECK DISABLED');
+            }
           }
 
           // Build practice mode note for the AI prompt
@@ -15158,9 +15286,6 @@ ${practiceNote}
                     UZBEKISTANI SPEAKING ASSESSMENT SYSTEM
 ═══════════════════════════════════════════════════════════════════════════════
 ${pictureContext}
-
-${(img1Base64 || img2Base64) ? `IMPORTANT: Two images are attached to this request for Q4-Q6 relevance checking and sample answer generation. LOOK at the actual images to provide accurate descriptions.` : `(Note: No images were provided for this request due to a loading error, please rely on the text prompts for Q4-Q6).`}
-${q4VisionBlock}
 SCORING STRUCTURE:
 • Part 1.1 (Q1-3): Simple questions → ONE score 0-5 (A2 target)
 • Part 1.2 (Q4-6): Picture-based → ONE score 0-5 (B1 target)  

@@ -8936,6 +8936,36 @@
             var j = await r.json();
             if (j.error) throw new Error(j.error.message || 'API error');
             var _gs = j.choices[0].message.content; var _gm = _gs.match(/```(?:json)?\s*([\s\S]*?)```/); if (_gm) _gs = _gm[1].trim(); return _gs;
+          } else if (provider === 'llama-scout') {
+            // Llama 4 Scout via Groq (OpenAI-compatible). Full-mock IELTS
+            // is text-only at this dispatch — the vision pass for Task 1
+            // happens upstream in Writing IELTS Mock.html when that path
+            // is taken.
+            if (!_GROQ_KEY) { try { _GROQ_KEY = await _fetchProviderKey('groq'); } catch(e){} }
+            if (!_GROQ_KEY) throw new Error('No Groq API key available');
+            var _mdlScoutLocal = (opts._forceModel && opts._forceProvider === 'llama-scout')
+              ? opts._forceModel
+              : ((cp['scoring_model_llama_scout'] || '').trim() || 'meta-llama/llama-4-scout-17b-16e-instruct');
+            var messages = [];
+            if (systemText) messages.push({ role: 'system', content: systemText });
+            var uMsg = userPrompt;
+            if (opts.jsonMode) uMsg += '\n\nIMPORTANT: Respond with valid JSON only, no markdown.';
+            messages.push({ role: 'user', content: uMsg });
+            var body = { model: _mdlScoutLocal, messages: messages, temperature: opts.temperature || 0.3 };
+            if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+            if (opts.jsonMode) body.response_format = { type: 'json_object' };
+            var r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _GROQ_KEY },
+              body: JSON.stringify(body)
+            });
+            if (!r.ok) { var _e = await r.text().catch(function(){return ''}); console.error('[Llama Scout] ' + r.status + ':', _e); throw new Error('AI API error: ' + r.status + ' ' + _e.slice(0,200)); }
+            var j = await r.json();
+            if (j.error) throw new Error(j.error.message || 'API error');
+            var _ls = j.choices[0].message.content;
+            var _lm = _ls.match(/```(?:json)?\s*([\s\S]*?)```/);
+            if (_lm) _ls = _lm[1].trim();
+            return _ls;
           } else if (provider === 'gemma4') {
             var _g4Text = (systemText ? systemText + '\n\n' : '') + userPrompt;
             return await _callGemma4(_g4Text, 180000);
