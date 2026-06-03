@@ -4,65 +4,111 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script>
-    // ─── TMA premium-state restore + clear-defender ──────────────────────
-    // index.html's tmaAutoSignIn writes a localStorage backup of the
-    // premium flags + vipToken before redirecting. This script restores
-    // them on load AND monkey-patches sessionStorage.removeItem so
-    // auth.js's _clearStalePremiumFlags (which fires on race-y second
-    // applyPremiumUnlock calls during the OAuth refresh churn) can't
-    // wipe our just-set flags. 10-minute backup TTL.
+    // ─── Self-healing premium unlock ─────────────────────────────────────
+    // Every approach via localStorage backup, cross-page sessionStorage,
+    // or relying on auth.js's applyPremiumUnlock has failed reliably in
+    // the Telegram Mini App environment (storage gets nuked across nav,
+    // SW caches lag, auth.js's REST query had its own quirks). So this
+    // script does the whole unlock self-contained on every landing-v3
+    // load: wait for Supabase, get the JWT, call verify-passcode
+    // (email_auth path), set sessionStorage from the server response,
+    // and defend the flags against any later clear.
     (function () {
-      try {
-        var raw = localStorage.getItem('ms_tma_premium_backup');
-        if (!raw) return;
-        var bk = JSON.parse(raw);
-        if (!bk || !bk.t) return;
-        if ((Date.now() - bk.t) > 10 * 60 * 1000) {
-          localStorage.removeItem('ms_tma_premium_backup');
-          return;
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_JWT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inprbnl1a2tidGJjcWd2a2dqa3RiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ3MTUyODIsImV4cCI6MjA5MDI5MTI4Mn0.gGRtl2TVCn_PnY1aITFdX76yxZu3QZsbdrqI5hXioEw';
+      var centerId = (window.__CENTER_ID || 'mockstream').toString();
+      var dbgState = { step: 'init', vpStatus: null, vpAccess: null, vpHasToken: null, err: null };
+      window._tmaSelfHealDebug = dbgState;
+
+      // Always install the defender FIRST so any clear from auth.js etc.
+      // is blocked once we set the flags. The defender activates only
+      // after _tmaUnlockActive is true, so it's a no-op until we succeed.
+      var PROTECTED = { vipPremiumAi: 1, vipSessionAccess: 1, vipToken: 1 };
+      var origRemove = Storage.prototype.removeItem;
+      Storage.prototype.removeItem = function (key) {
+        if (this === sessionStorage && PROTECTED[key] === 1 && window._tmaUnlockActive) {
+          return; // suppressed
         }
-        if (bk.is_premium !== true) return;
-        function setAll() {
+        return origRemove.call(this, key);
+      };
+
+      function setFlags(token, isPremium) {
+        try { sessionStorage.setItem('vipSessionAccess', 'true'); } catch (_e) {}
+        if (isPremium) {
           try { sessionStorage.setItem('vipPremiumAi', 'true'); } catch (_e) {}
-          try { sessionStorage.setItem('vipSessionAccess', 'true'); } catch (_e) {}
-          ['reading', 'listening', 'writing', 'speaking'].forEach(function (s) {
-            try { sessionStorage.setItem(s + 'PremiumEntry', 'true'); } catch (_e) {}
-          });
-          if (bk.vipToken) {
-            try { sessionStorage.setItem('vipToken', bk.vipToken); } catch (_e) {}
-          }
         }
-        setAll();
-        // Defender — wrap removeItem so anything trying to clear our
-        // three premium keys while the backup is active gets silently
-        // ignored. Cleared by the natural TTL or an explicit sign-out
-        // (which removes ms_tma_premium_backup too).
-        var PROTECTED = { vipPremiumAi: 1, vipSessionAccess: 1, vipToken: 1 };
-        var origRemove = Storage.prototype.removeItem;
-        Storage.prototype.removeItem = function (key) {
-          if (this === sessionStorage && PROTECTED[key] === 1) {
-            // Check backup is still valid each call; if expired, lift defence.
-            try {
-              var fresh = localStorage.getItem('ms_tma_premium_backup');
-              if (fresh) {
-                var fb = JSON.parse(fresh);
-                if (fb && fb.t && (Date.now() - fb.t) <= 10 * 60 * 1000) {
-                  return; // suppressed
-                }
-              }
-            } catch (_e) {}
+        if (token) {
+          try { sessionStorage.setItem('vipToken', token); } catch (_e) {}
+        }
+        ['reading', 'listening', 'writing', 'speaking'].forEach(function (s) {
+          try { sessionStorage.setItem(s + 'PremiumEntry', 'true'); } catch (_e) {}
+        });
+        window._tmaUnlockActive = true;
+      }
+
+      function unlockOnce(jwt) {
+        dbgState.step = 'fetching';
+        return fetch(SB_URL + '/functions/v1/verify-passcode', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': SB_JWT },
+          body: JSON.stringify({ email_auth: true, user_jwt: jwt, center: centerId })
+        }).then(function (resp) {
+          dbgState.vpStatus = resp.status;
+          return resp.json().catch(function () { return {}; });
+        }).then(function (data) {
+          dbgState.vpAccess = !!(data && data.access);
+          dbgState.vpHasToken = !!(data && data.token);
+          if (data && data.access && data.token) {
+            setFlags(data.token, data.tier === 'premium' || data.role === 'admin');
+            dbgState.step = 'unlocked';
+            // Re-assert every 800ms for first 10s as a belt-and-suspenders.
+            var ticks = 0;
+            var iv = setInterval(function () {
+              ticks++;
+              setFlags(data.token, data.tier === 'premium' || data.role === 'admin');
+              if (ticks > 12) clearInterval(iv);
+            }, 800);
+          } else {
+            dbgState.step = 'no-access';
           }
-          return origRemove.call(this, key);
-        };
-        // Re-assert flags every 800ms for the first 10s in case a third-
-        // party setter (not removeItem) overwrites them with empty values.
-        var ticks = 0;
-        var iv = setInterval(function () {
-          ticks++;
-          setAll();
-          if (ticks > 12) clearInterval(iv);
-        }, 800);
-      } catch (_e) {}
+        }).catch(function (e) {
+          dbgState.step = 'fetch-error';
+          dbgState.err = String(e && e.message || e);
+        });
+      }
+
+      // Poll for the Supabase session — auth.js initializes after
+      // supabase-js loads, so the session isn't ready at <head> time.
+      // Try every 250ms for up to 15s.
+      var attempts = 0;
+      var poll = setInterval(function () {
+        attempts++;
+        try {
+          var ms = window.MockStream;
+          var auth = ms && ms.auth;
+          var client = auth && typeof auth.getClient === 'function' ? auth.getClient() : null;
+          if (client && client.auth && typeof client.auth.getSession === 'function') {
+            clearInterval(poll);
+            client.auth.getSession().then(function (r) {
+              var sess = r && r.data && r.data.session;
+              var jwt = sess && sess.access_token;
+              if (jwt) {
+                dbgState.step = 'have-jwt';
+                unlockOnce(jwt);
+              } else {
+                dbgState.step = 'no-session';
+              }
+            }).catch(function (e) {
+              dbgState.step = 'session-error';
+              dbgState.err = String(e && e.message || e);
+            });
+          }
+        } catch (_e) {}
+        if (attempts > 60) {
+          clearInterval(poll);
+          if (dbgState.step === 'init') dbgState.step = 'no-client-timeout';
+        }
+      }, 250);
     })();
     // TMA debug banner — TEMPORARY. Mirrors the one in index.html so we
     // can see the post-redirect state without DevTools. Reads the
@@ -72,23 +118,35 @@
     // div it injects when the TMA flow is verified working end-to-end.
     (function () {
       try {
+        var inTma = !!(window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData);
         var raw = localStorage.getItem('ms_tma_debug');
-        if (!raw) return;
-        var info = JSON.parse(raw);
-        // Only show if the verify ran in the last 5 minutes — stale entries
-        // shouldn't leak into normal browser sessions.
-        if (!info.t || (Date.now() - info.t) > 5 * 60 * 1000) return;
+        var info = {};
+        if (raw) {
+          try { info = JSON.parse(raw); } catch (_) { info = {}; }
+        }
+        // Show whenever:
+        //   • a recent ms_tma_debug payload exists (within 5 min)
+        //   • OR we're currently inside the Telegram Mini App (so the self-
+        //     heal banner is visible even if index.html's payload expired)
+        var hasRecentDebug = info.t && (Date.now() - info.t) <= 5 * 60 * 1000;
+        if (!hasRecentDebug && !inTma) return;
         function build() {
           var dbg = document.createElement('div');
           dbg.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;background:#0f172a;color:#94a3b8;font:11px/1.4 monospace;padding:6px 10px;text-align:left;white-space:pre-wrap;word-break:break-all;max-height:60vh;overflow:auto;border-bottom:1px solid #1e293b;';
           function tick() {
             var s = function (k) { try { return sessionStorage.getItem(k); } catch (_) { return '?'; } };
             var ms = function (k) { try { return localStorage.getItem(k); } catch (_) { return '?'; } };
+            var sh = window._tmaSelfHealDebug || {};
             dbg.textContent =
               '[TMA-DEBUG-LANDING] verify ok=' + info.ok + ' status=' + info.status +
               ' is_premium=' + info.is_premium + ' created_new=' + info.created_new +
               ' err=' + (info.error || '-') + '\n' +
               'email=' + (info.email || '-') + '\n' +
+              'self-heal step=' + (sh.step || '?') +
+              ' vp_status=' + (sh.vpStatus == null ? '?' : sh.vpStatus) +
+              ' vp_access=' + (sh.vpAccess == null ? '?' : sh.vpAccess) +
+              ' vp_token=' + (sh.vpHasToken == null ? '?' : sh.vpHasToken) +
+              ' err=' + (sh.err || '-') + '\n' +
               'session: vipPremiumAi=' + s('vipPremiumAi') +
               '  vipSessionAccess=' + s('vipSessionAccess') +
               '  vipToken=' + (s('vipToken') ? (s('vipToken').slice(0, 10) + '...') : 'null') + '\n' +
