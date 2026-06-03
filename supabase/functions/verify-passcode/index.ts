@@ -171,21 +171,45 @@ Deno.serve(async (req) => {
         const meta = (u?.user_metadata ?? {}) as Record<string, unknown>;
         const tgUsernameRaw = typeof meta.telegram_username === 'string' ? meta.telegram_username : '';
         const tgUsername = tgUsernameRaw.toLowerCase().replace(/^@/, '').trim();
+        // Telegram numeric ID — prefer user_metadata, fall back to parsing the
+        // synthetic email (tg_<id>@telegram.<host>) that verify-telegram-* uses
+        // for users who don't share an @username. Without this, premium grants
+        // made by Telegram ID only (no @username) would silently fail to mint
+        // a vipToken even when verify-telegram-initdata correctly returns
+        // is_premium=true — they look up the same row by different columns.
+        let tgId: number | null = null;
+        if (typeof meta.telegram_id === 'number') tgId = meta.telegram_id;
+        else if (typeof meta.telegram_id === 'string' && /^\d+$/.test(meta.telegram_id)) tgId = parseInt(meta.telegram_id, 10);
+        if (tgId == null && email) {
+          const m = email.match(/^tg_(\d+)@/);
+          if (m) tgId = parseInt(m[1], 10);
+        }
 
-        if (!userErr && (email || tgUsername)) {
-          // Build an OR query: email match OR telegram_username match.
-          // PostgREST `or=` filter combines them in a single round trip.
+        if (!userErr && (email || tgUsername || tgId != null)) {
+          // Build an OR query: email match OR telegram_username match OR
+          // telegram_id match. PostgREST `or=` combines them in one round trip.
+          // CRITICAL: any value containing `,` `.` `(` `)` `:` `"` must be
+          // wrapped in double-quotes — otherwise the parser splits on the
+          // first period and the whole query silently matches nothing.
+          // Synthetic Telegram emails (tg_NN@telegram.mock-stream.com) have
+          // three periods, so this hit us hard before the fix.
+          const escVal = (v: string | number) => {
+            const s = String(v);
+            return /[,.():"]/.test(s) ? `"${s.replace(/"/g, '\\"')}"` : s;
+          };
           const orClauses: string[] = [];
-          if (email) orClauses.push(`email.eq.${email}`);
-          if (tgUsername) orClauses.push(`telegram_username.eq.${tgUsername}`);
+          if (email) orClauses.push(`email.eq.${escVal(email)}`);
+          if (tgUsername) orClauses.push(`telegram_username.eq.${escVal(tgUsername)}`);
+          if (tgId != null) orClauses.push(`telegram_id.eq.${tgId}`);
 
           let q = sb.from('premium_emails')
-            .select('tier, role, center, active, email, telegram_username')
+            .select('tier, role, center, active, email, telegram_username, telegram_id')
             .eq('active', true);
           if (orClauses.length === 1) {
             // Single-clause: use the simpler .eq() so we get an exact predicate.
             if (email) q = q.eq('email', email);
-            else q = q.eq('telegram_username', tgUsername);
+            else if (tgUsername) q = q.eq('telegram_username', tgUsername);
+            else q = q.eq('telegram_id', tgId);
           } else {
             q = q.or(orClauses.join(','));
           }
@@ -205,10 +229,13 @@ Deno.serve(async (req) => {
               await logAttempt(ip, true);
               const via = match.email && email && match.email === email
                 ? 'email_auth'
-                : 'telegram_username_auth';
+                : (match.telegram_id != null && tgId != null && match.telegram_id === tgId
+                    ? 'telegram_id_auth'
+                    : 'telegram_username_auth');
               const resp = await withToken(
                 { access: true, valid: true, role, via, tier: match.tier,
-                  email: email || null, telegram_username: tgUsername || null },
+                  email: email || null, telegram_username: tgUsername || null,
+                  telegram_id: tgId },
                 role, premium, center || normCenter(match.center) || ''
               );
               return json(200, resp);
