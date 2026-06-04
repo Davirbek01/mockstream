@@ -179,14 +179,14 @@ const BTN = {
 function mainKeyboard(cfg: CenterConfig) {
   const rows: unknown[][] = [];
   if (cfg.show_mock_btn) {
-    // When the centre has a registered Mini App slug, render the Take
-    // Mock reply-keyboard entry as a plain text button (no web_app). The
-    // actual launch happens via the inline t.me deeplink we send back as
-    // a one-shot message — see takeMockInline() + the TAKE_MOCK text
-    // handler below. Centers without a slug keep the legacy web_app
-    // launch (which works on mobile clients but not Desktop 9.x).
-    if (tmaDeeplink(cfg)) rows.push([{ text: BTN.TAKE_MOCK }]);
-    else                  rows.push([{ text: BTN.TAKE_MOCK, web_app: { url: cfg.webapp_url } }]);
+    // EXPERIMENT (2026-06-04): always render Take Mock as a direct
+    // web_app launcher so mobile (iOS / Android) gets one-tap into
+    // the signed-in dashboard. Telegram Desktop 9.x still hands the
+    // page an empty initData via this path — those users fall back
+    // to the inline t.me-deeplink button we send right after the
+    // welcome message (see showMainMenu) which DOES pass initData.
+    // Revert: re-gate on tmaDeeplink(cfg) if mobile launch breaks.
+    rows.push([{ text: BTN.TAKE_MOCK, web_app: { url: cfg.webapp_url } }]);
   }
   const second: unknown[] = [];
   if (cfg.show_admin_btn)   second.push({ text: BTN.ADMIN });
