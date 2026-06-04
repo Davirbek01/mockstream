@@ -216,7 +216,17 @@
     var meta = user.user_metadata || {};
     var tgUsernameRaw = typeof meta.telegram_username === 'string' ? meta.telegram_username : '';
     var tgUsername = tgUsernameRaw.toLowerCase().replace(/^@/, '').trim();
-    if (!email && !tgUsername) { _premiumCache = null; return null; }
+    // Telegram numeric ID — prefer user_metadata, else parse from synthetic
+    // email (tg_<id>@telegram.<host>). Required for users granted premium
+    // by Telegram ID only (no @username on record).
+    var tgId = null;
+    if (typeof meta.telegram_id === 'number') tgId = meta.telegram_id;
+    else if (typeof meta.telegram_id === 'string' && /^\d+$/.test(meta.telegram_id)) tgId = parseInt(meta.telegram_id, 10);
+    if (tgId == null && email) {
+      var emMatch = email.match(/^tg_(\d+)@/);
+      if (emMatch) tgId = parseInt(emMatch[1], 10);
+    }
+    if (!email && !tgUsername && tgId == null) { _premiumCache = null; return null; }
     try {
       // Use the signed-in user's JWT (not the anon key) so the premium_emails
       // RLS SELECT policy can match jwt.email = row.email OR
@@ -232,19 +242,36 @@
           if (at) token = at;
         }
       } catch (_) { /* fall through with anon */ }
-      // Build PostgREST `or=` filter: email match OR telegram_username match.
-      // If only one identity is known, use a single .eq() filter for clarity.
+      // Build PostgREST `or=()` filter. CRITICAL: PostgREST reserves
+      // `,` `.` `(` `)` `:` `"` inside or= values — wrap any value
+      // containing them in `"..."` or the parser splits on the first
+      // period and silently matches nothing. Synthetic Telegram emails
+      // (tg_<id>@telegram.mock-stream.com) have three periods, so this
+      // bug used to make TMA users see no premium row even with one
+      // active in the DB. encodeURIComponent does NOT fix this — the
+      // dot stays a dot in the URL, and PostgREST's grammar layer sees
+      // it before any URL-decoding.
+      function _escOrVal(v) {
+        var s = String(v);
+        return /[,.():"]/.test(s)
+          ? '"' + s.replace(/"/g, '\\"') + '"'
+          : s;
+      }
+      var orClauses = [];
+      if (email)     orClauses.push('email.eq.' + _escOrVal(email));
+      if (tgUsername) orClauses.push('telegram_username.eq.' + _escOrVal(tgUsername));
+      if (tgId != null) orClauses.push('telegram_id.eq.' + tgId);
       var filterParam;
-      if (email && tgUsername) {
-        filterParam = 'or=(email.eq.' + encodeURIComponent(email) +
-                      ',telegram_username.eq.' + encodeURIComponent(tgUsername) + ')';
-      } else if (email) {
-        filterParam = 'email=eq.' + encodeURIComponent(email);
+      if (orClauses.length === 1) {
+        // Single clause: use plain `col=eq.value` so URL-encoding is enough.
+        if (email)         filterParam = 'email=eq.'             + encodeURIComponent(email);
+        else if (tgUsername) filterParam = 'telegram_username=eq.' + encodeURIComponent(tgUsername);
+        else               filterParam = 'telegram_id=eq.'       + tgId;
       } else {
-        filterParam = 'telegram_username=eq.' + encodeURIComponent(tgUsername);
+        filterParam = 'or=(' + orClauses.map(encodeURIComponent).join(',') + ')';
       }
       var url = SB_URL + '/rest/v1/premium_emails?' + filterParam +
-                '&select=tier,role,center,active,email,telegram_username';
+                '&select=tier,role,center,active,email,telegram_username,telegram_id';
       var resp = await fetch(url, {
         headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token }
       });
@@ -332,8 +359,15 @@
     }
     if (!info) { _clearStalePremiumFlags(); return null; }
     var siteCenter = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || '';
+    // Normalize both sides — DB rows may have 'mock_stream' / 'Bek Center';
+    // SITE_CONFIG.testIdentifier may be 'mockstream' / 'bek'. Without this,
+    // a row legitimately granted for 'mock_stream' would be rejected on the
+    // 'mockstream' site even though the values are semantically identical.
+    function _normC(s) {
+      return (s == null ? '' : String(s)).toLowerCase().replace(/[_\s-]/g, '');
+    }
     if (!info.active && !info.isAdmin) { _clearStalePremiumFlags(); return null; }
-    if (info.center && info.center !== '' && info.center !== siteCenter) { _clearStalePremiumFlags(); return null; }
+    if (info.center && info.center !== '' && _normC(info.center) !== _normC(siteCenter)) { _clearStalePremiumFlags(); return null; }
 
     // Mint a server-validated vipToken from the user's Supabase JWT.
     // The Edge Function re-checks premium_emails server-side — the client

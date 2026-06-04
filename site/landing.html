@@ -30665,39 +30665,54 @@
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
       var rawU  = ((document.getElementById('ruTgUsername') || {}).value || '').trim();
-      var u = rawU.replace(/^@/, '').toLowerCase();
       var tier   = (document.getElementById('ruTgTier') || {}).value || 'premium';
       var role   = (document.getElementById('ruTgRole') || {}).value || 'user';
       var center = ((document.getElementById('ruTgCenter') || {}).value || '').trim();
       var btn  = document.getElementById('ruTgSaveBtn');
       var msg  = document.getElementById('ruTgMsg');
       function _say(t, color) { if (msg) { msg.textContent = t; msg.style.color = color || '#475569'; } }
-      if (!u || !/^[a-zA-Z0-9_]{3,32}$/.test(u)) {
-        _say('Enter a valid Telegram username (3–32 chars, letters/digits/underscore).', '#dc2626');
+      // Dual-purpose input: numeric input (e.g. "500742025") is treated as
+      // a Telegram numeric ID and stored in the telegram_id column. Any
+      // other input is treated as a @username (existing behaviour).
+      // Mini App auto-sign-in matches by either column server-side.
+      var stripped = rawU.replace(/^@/, '');
+      var isNumeric = /^\d{4,}$/.test(stripped);
+      var u = isNumeric ? null : stripped.toLowerCase();
+      var tgId = isNumeric ? parseInt(stripped, 10) : null;
+      if (!stripped || (!isNumeric && !/^[a-zA-Z0-9_]{3,32}$/.test(stripped))) {
+        _say('Enter either a @username (3–32 chars) OR a numeric Telegram ID (e.g. 500742025).', '#dc2626');
         return;
       }
       if (btn) { btn.disabled = true; btn.textContent = '⏳ Saving...'; }
       try {
+        var lookupQuery = isNumeric
+          ? '?telegram_id=eq.' + encodeURIComponent(String(tgId))
+          : '?telegram_username=eq.' + encodeURIComponent(u);
+        var patchBody = { tier: tier, role: role, center: center, active: true };
         // Try UPDATE first (in case already granted), fall back to INSERT.
-        var patchResp = await fetch(SB_URL + '/rest/v1/premium_emails?telegram_username=eq.' + encodeURIComponent(u), {
+        var patchResp = await fetch(SB_URL + '/rest/v1/premium_emails' + lookupQuery, {
           method: 'PATCH',
           headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
-          body: JSON.stringify({ tier: tier, role: role, center: center, active: true })
+          body: JSON.stringify(patchBody)
         });
         var patchData = patchResp.ok ? await patchResp.json() : null;
         if (!patchData || patchData.length === 0) {
           // No existing row → INSERT
+          var insBody = isNumeric
+            ? { telegram_id: tgId, tier: tier, role: role, center: center, active: true }
+            : { telegram_username: u, tier: tier, role: role, center: center, active: true };
           var insResp = await fetch(SB_URL + '/rest/v1/premium_emails', {
             method: 'POST',
             headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-            body: JSON.stringify({ telegram_username: u, tier: tier, role: role, center: center, active: true })
+            body: JSON.stringify(insBody)
           });
           if (!insResp.ok) {
             var errTxt = await insResp.text();
             throw new Error('HTTP ' + insResp.status + (errTxt ? (': ' + errTxt) : ''));
           }
         }
-        _say('✅ Granted to @' + u + ': ' + tier + ' / ' + role + (center ? ' @ ' + center : ''), '#10b981');
+        var label = isNumeric ? ('ID ' + tgId) : ('@' + u);
+        _say('✅ Granted to ' + label + ': ' + tier + ' / ' + role + (center ? ' @ ' + center : ''), '#10b981');
       } catch (e) {
         _say('Failed: ' + (e.message || e), '#dc2626');
       } finally {

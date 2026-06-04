@@ -3,6 +3,114 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    // ─── Self-healing premium unlock ─────────────────────────────────────
+    // Every approach via localStorage backup, cross-page sessionStorage,
+    // or relying on auth.js's applyPremiumUnlock has failed reliably in
+    // the Telegram Mini App environment (storage gets nuked across nav,
+    // SW caches lag, auth.js's REST query had its own quirks). So this
+    // script does the whole unlock self-contained on every landing-v3
+    // load: wait for Supabase, get the JWT, call verify-passcode
+    // (email_auth path), set sessionStorage from the server response,
+    // and defend the flags against any later clear.
+    (function () {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_JWT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inprbnl1a2tidGJjcWd2a2dqa3RiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ3MTUyODIsImV4cCI6MjA5MDI5MTI4Mn0.gGRtl2TVCn_PnY1aITFdX76yxZu3QZsbdrqI5hXioEw';
+      var centerId = (window.__CENTER_ID || 'mockstream').toString();
+      var dbgState = { step: 'init', vpStatus: null, vpAccess: null, vpHasToken: null, err: null };
+      window._tmaSelfHealDebug = dbgState;
+
+      // Always install the defender FIRST so any clear from auth.js etc.
+      // is blocked once we set the flags. The defender activates only
+      // after _tmaUnlockActive is true, so it's a no-op until we succeed.
+      var PROTECTED = { vipPremiumAi: 1, vipSessionAccess: 1, vipToken: 1 };
+      var origRemove = Storage.prototype.removeItem;
+      Storage.prototype.removeItem = function (key) {
+        if (this === sessionStorage && PROTECTED[key] === 1 && window._tmaUnlockActive) {
+          return; // suppressed
+        }
+        return origRemove.call(this, key);
+      };
+
+      function setFlags(token, isPremium) {
+        try { sessionStorage.setItem('vipSessionAccess', 'true'); } catch (_e) {}
+        if (isPremium) {
+          try { sessionStorage.setItem('vipPremiumAi', 'true'); } catch (_e) {}
+        }
+        if (token) {
+          try { sessionStorage.setItem('vipToken', token); } catch (_e) {}
+        }
+        ['reading', 'listening', 'writing', 'speaking'].forEach(function (s) {
+          try { sessionStorage.setItem(s + 'PremiumEntry', 'true'); } catch (_e) {}
+        });
+        window._tmaUnlockActive = true;
+      }
+
+      function unlockOnce(jwt) {
+        dbgState.step = 'fetching';
+        return fetch(SB_URL + '/functions/v1/verify-passcode', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': SB_JWT },
+          body: JSON.stringify({ email_auth: true, user_jwt: jwt, center: centerId })
+        }).then(function (resp) {
+          dbgState.vpStatus = resp.status;
+          return resp.json().catch(function () { return {}; });
+        }).then(function (data) {
+          dbgState.vpAccess = !!(data && data.access);
+          dbgState.vpHasToken = !!(data && data.token);
+          if (data && data.access && data.token) {
+            setFlags(data.token, data.tier === 'premium' || data.role === 'admin');
+            dbgState.step = 'unlocked';
+            // Re-assert every 800ms for first 10s as a belt-and-suspenders.
+            var ticks = 0;
+            var iv = setInterval(function () {
+              ticks++;
+              setFlags(data.token, data.tier === 'premium' || data.role === 'admin');
+              if (ticks > 12) clearInterval(iv);
+            }, 800);
+          } else {
+            dbgState.step = 'no-access';
+          }
+        }).catch(function (e) {
+          dbgState.step = 'fetch-error';
+          dbgState.err = String(e && e.message || e);
+        });
+      }
+
+      // Poll for the Supabase session — auth.js initializes after
+      // supabase-js loads, so the session isn't ready at <head> time.
+      // Try every 250ms for up to 15s.
+      var attempts = 0;
+      var poll = setInterval(function () {
+        attempts++;
+        try {
+          var ms = window.MockStream;
+          var auth = ms && ms.auth;
+          var client = auth && typeof auth.getClient === 'function' ? auth.getClient() : null;
+          if (client && client.auth && typeof client.auth.getSession === 'function') {
+            clearInterval(poll);
+            client.auth.getSession().then(function (r) {
+              var sess = r && r.data && r.data.session;
+              var jwt = sess && sess.access_token;
+              if (jwt) {
+                dbgState.step = 'have-jwt';
+                unlockOnce(jwt);
+              } else {
+                dbgState.step = 'no-session';
+              }
+            }).catch(function (e) {
+              dbgState.step = 'session-error';
+              dbgState.err = String(e && e.message || e);
+            });
+          }
+        } catch (_e) {}
+        if (attempts > 60) {
+          clearInterval(poll);
+          if (dbgState.step === 'init') dbgState.step = 'no-client-timeout';
+        }
+      }, 250);
+    })();
+  </script>
   <!-- Google Search Console ownership verification for mock-stream.com.
        Per Google: do NOT remove even after verification succeeds. -->
   <meta name="google-site-verification" content="KSCWtcpRc7XQevZvqHXHiEGcQP2c9np7BnGsfsdo0Gs" />
@@ -2091,6 +2199,29 @@
     }
     @media (min-width: 721px) and (max-width: 1024px) {
       .rail { grid-auto-columns: minmax(230px, 1fr); }
+    }
+    /* ─── Focus mode FOUC suppressor ───────────────────────────────────
+       The topbar Focus mode toggle (#topbarFsBtn) is in the markup at
+       line ~2226 but its full sizing + display-conditional rules don't
+       arrive until the main stylesheet block down at line ~17780. In
+       that parse window all four inner SVGs render at the SVG default
+       (300x150) and visibly explode across the page for a few hundred
+       ms during a hard reload. Pre-declaring the SAME rules here means
+       they're cached BEFORE the button element is parsed, so there's
+       no flash. The duplicate rules in the main block are equivalent
+       so the cascade outcome is identical. */
+    .topbar-fs-btn .fs-ico { width: 15px; height: 15px; flex-shrink: 0; }
+    .topbar-fs-btn .fs-mob,
+    .topbar-fs-btn .fs-exit.fs-pc { display: none; }
+    body.ms-fullscreen .topbar-fs-btn .fs-enter.fs-pc { display: none; }
+    body.ms-fullscreen .topbar-fs-btn .fs-exit.fs-pc  { display: inline-block; }
+    @media (max-width: 1023px) {
+      .topbar-fs-btn .fs-ico { width: 18px; height: 18px; }
+      .topbar-fs-btn .fs-pc { display: none !important; }
+      .topbar-fs-btn .fs-mob { display: inline-block; }
+      .topbar-fs-btn .fs-exit.fs-mob { display: none; }
+      body.ms-fullscreen .topbar-fs-btn .fs-enter.fs-mob { display: none; }
+      body.ms-fullscreen .topbar-fs-btn .fs-exit.fs-mob  { display: inline-block; }
     }
   </style>
 </head>

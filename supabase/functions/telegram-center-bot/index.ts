@@ -66,6 +66,13 @@ function genCode(length = 8): string {
 
 interface CenterConfig {
   center_id: string; bot_token: string; webapp_url: string;
+  // BotFather-registered Mini App slug (set via /newapp). When present
+  // alongside bot_username, Take Mock renders as an inline `url` button
+  // that opens https://t.me/<bot_username>/<mini_app_slug> — the only
+  // launch path that reliably passes WebApp.initData on Telegram Desktop
+  // 9.x. Without these, falls back to the legacy KeyboardButton.web_app
+  // launch which has the empty-initData bug on Desktop.
+  bot_username: string | null; mini_app_slug: string | null;
   show_admin_btn: boolean; show_mock_btn: boolean; show_support_btn: boolean;
   show_dict_btn: boolean; active: boolean;
 }
@@ -93,12 +100,25 @@ async function loadCenterConfig(centerId: string): Promise<CenterConfig | null> 
   return {
     center_id: data.center_id, bot_token: token,
     webapp_url: String(data.webapp_url || ''),
+    bot_username:  data.bot_username  ? String(data.bot_username).replace(/^@/, '').trim() : null,
+    mini_app_slug: data.mini_app_slug ? String(data.mini_app_slug).trim() : null,
     show_admin_btn:   data.show_admin_btn   !== false,
     show_mock_btn:    data.show_mock_btn    !== false,
     show_support_btn: (data.show_support_btn !== false) && freeCodeEnabled,
     show_dict_btn:    data.show_dict_btn    !== false,
     active:           data.active           !== false,
   };
+}
+
+// Compose the BotFather Mini App deeplink for this centre, if both
+// bot_username and mini_app_slug are set. The t.me launch path is the
+// only one that reliably passes WebApp.initData on Telegram Desktop 9.x
+// — KeyboardButton.web_app and (sometimes) InlineKeyboardButton.web_app
+// hand the client an empty initData string on Desktop, which then makes
+// verify-telegram-initdata reject the user as un-signed.
+function tmaDeeplink(cfg: CenterConfig): string | null {
+  if (!cfg.bot_username || !cfg.mini_app_slug) return null;
+  return `https://t.me/${cfg.bot_username}/${cfg.mini_app_slug}`;
 }
 async function getAdminPasscode(centerId: string): Promise<string | null> {
   const { data } = await sb.from('admin_passcodes').select('passcode').eq('center', centerId).maybeSingle();
@@ -158,13 +178,30 @@ const BTN = {
 };
 function mainKeyboard(cfg: CenterConfig) {
   const rows: unknown[][] = [];
-  if (cfg.show_mock_btn) rows.push([{ text: BTN.TAKE_MOCK, web_app: { url: cfg.webapp_url } }]);
+  if (cfg.show_mock_btn) {
+    // When the centre has a registered Mini App slug, render the Take
+    // Mock reply-keyboard entry as a plain text button (no web_app). The
+    // actual launch happens via the inline t.me deeplink we send back as
+    // a one-shot message — see takeMockInline() + the TAKE_MOCK text
+    // handler below. Centers without a slug keep the legacy web_app
+    // launch (which works on mobile clients but not Desktop 9.x).
+    if (tmaDeeplink(cfg)) rows.push([{ text: BTN.TAKE_MOCK }]);
+    else                  rows.push([{ text: BTN.TAKE_MOCK, web_app: { url: cfg.webapp_url } }]);
+  }
   const second: unknown[] = [];
   if (cfg.show_admin_btn)   second.push({ text: BTN.ADMIN });
   if (cfg.show_support_btn) second.push({ text: BTN.SUPPORT });
   if (second.length) rows.push(second);
   if (cfg.show_dict_btn) rows.push([{ text: BTN.DICT }]);
   return { keyboard: rows, resize_keyboard: true, is_persistent: false };
+}
+// Inline keyboard with a single t.me/<bot>/<slug> URL — the reliable
+// way to launch a Mini App so WebApp.initData is populated. Only built
+// when both bot_username and mini_app_slug are configured.
+function takeMockInline(cfg: CenterConfig) {
+  const url = tmaDeeplink(cfg);
+  if (!url) return null;
+  return { inline_keyboard: [[{ text: '🎯 Open ' + (cfg.center_id === 'mockstream' ? 'Mock Stream' : 'Mocks'), url }]] };
 }
 function codeSkillKeyboard() {
   return {
@@ -582,6 +619,15 @@ async function runAdminBulk(cfg: CenterConfig, chatId: number, mode: 'missing' |
 // ── Standard handlers (mostly unchanged from v44 except admin path) ──
 async function showMainMenu(cfg: CenterConfig, chatId: number, firstName: string) {
   await send(cfg.bot_token, chatId, welcomeText(cfg, firstName), { reply_markup: mainKeyboard(cfg) });
+  // For centers with a Mini App deeplink, also fire off a one-tap inline
+  // launch button so first-time /start users don't have to take the
+  // detour through the reply-keyboard Take Mock first.
+  const inline = takeMockInline(cfg);
+  if (cfg.show_mock_btn && inline) {
+    await send(cfg.bot_token, chatId,
+      `🎯 <b>One-tap launch</b> — sign-in is automatic.`,
+      { reply_markup: inline });
+  }
 }
 async function handleAdminTap(cfg: CenterConfig, chatId: number, tgUserId: number) {
   if (await isAdminUnlocked(cfg.center_id, tgUserId)) {
@@ -906,6 +952,22 @@ Deno.serve(async (req: Request) => {
       }
     }
 
+    if (text === BTN.TAKE_MOCK) {
+      // Centers with a t.me Mini App deeplink: reply with an inline
+      // launch button so the user gets the initData-passing launch path.
+      // Centers without one: the reply-keyboard web_app already launches
+      // them directly, so a typed "🎯 Take Mock" just re-shows the menu.
+      const inline = takeMockInline(cfg);
+      if (cfg.show_mock_btn && inline) {
+        await send(cfg.bot_token, chatId,
+          `🎯 <b>Tap below to open Mock Stream</b>\n\n` +
+          `<i>You'll be signed in automatically.</i>`,
+          { reply_markup: inline });
+      } else {
+        await showMainMenu(cfg, chatId, firstName);
+      }
+      return new Response('ok');
+    }
     if (text === BTN.ADMIN) {
       if (!cfg.show_admin_btn) await send(cfg.bot_token, chatId, 'Admin button is disabled.');
       else                     await handleAdminTap(cfg, chatId, tgUserId);
