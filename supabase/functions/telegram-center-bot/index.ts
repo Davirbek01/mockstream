@@ -490,11 +490,28 @@ async function showAdminMenu(cfg: CenterConfig, chatId: number, message_id?: num
 }
 
 // ─── Premium grants sub-panel ────────────────────────────────────────
-// Centre admins can grant / revoke / list Premium memberships directly
-// from inside the bot, by Telegram @username or numeric ID. Backs the
-// same `premium_emails` table the website's Registered Users panel
-// uses, scoped to this centre.
+// Restricted to @mock_stream_pc_bot — see mainKeyboard gate. From this
+// panel the super-admin can grant / revoke / list Premium memberships
+// for any centre by typing the user's Telegram @username or numeric ID
+// then picking which centre(s) to apply it to. Backs the same
+// premium_emails table the website's Registered Users panel uses.
 const PREM_LIST_LIMIT = 20;
+
+// All clones the centre picker can target. Order = display order in the
+// inline keyboard. mockstream first, then the 6 clones. Update this
+// list when a new centre comes online.
+const PREM_CENTERS: ReadonlyArray<{ id: string; label: string }> = [
+  { id: 'mockstream', label: 'Mock Stream' },
+  { id: 'bek',        label: "Bekzod's Multilevel" },
+  { id: 'record',     label: 'Multilevel Record' },
+  { id: 'global',     label: 'Global Education' },
+  { id: 'niners',     label: "Niner's Academy" },
+  { id: 'muzaffars',  label: "Muzaffar's English" },
+  { id: 'achievers',  label: "Achievers' Mocks" },
+];
+function premCenterLabel(id: string): string {
+  return PREM_CENTERS.find(c => c.id === id)?.label || id;
+}
 
 // Parse an admin-typed target into the column we store it under.
 // Accepts:
@@ -526,12 +543,35 @@ function centerVariants(centerId: string): string[] {
   return Array.from(variants);
 }
 async function fetchCenterPremiumRows(centerId: string, limit = PREM_LIST_LIMIT) {
+  // mockstream bot acts as super-admin and lists rows across every
+  // centre. Other bots wouldn't reach here (UI is gated) but if they
+  // ever do, they only see their own centre's rows.
+  const centers = centerId === 'mockstream'
+    ? PREM_CENTERS.flatMap(c => centerVariants(c.id))
+    : centerVariants(centerId);
   const { data } = await sb.from('premium_emails')
-    .select('id, telegram_id, telegram_username, email, tier, role, active, created_at')
-    .in('center', centerVariants(centerId))
+    .select('id, telegram_id, telegram_username, email, tier, role, active, center, created_at')
+    .in('center', centers)
     .order('created_at', { ascending: false })
     .limit(limit);
   return data ?? [];
+}
+// Inline keyboard for picking which centre(s) to grant / revoke premium on.
+// `flow` = 'g' (grant) or 'r' (revoke). The typed target is stored in
+// admin_state so callbacks don't need to carry it in callback_data
+// (which has a 64-byte cap that long @usernames would brush against).
+function premiumCenterPicker(flow: 'g' | 'r') {
+  const prefix = flow === 'g' ? 'apg' : 'apr';
+  const rows: Array<Array<{ text: string; callback_data: string }>> = [];
+  // Two-column layout for the 7 centres.
+  for (let i = 0; i < PREM_CENTERS.length; i += 2) {
+    const row = [PREM_CENTERS[i]];
+    if (PREM_CENTERS[i + 1]) row.push(PREM_CENTERS[i + 1]);
+    rows.push(row.map(c => ({ text: c.label, callback_data: `${prefix}:${c.id}` })));
+  }
+  rows.push([{ text: '🌐 All 7 centres', callback_data: `${prefix}:*` }]);
+  rows.push([{ text: '❌ Cancel',         callback_data: `${prefix}_cancel` }]);
+  return { inline_keyboard: rows };
 }
 async function sendAdminPremiumMenu(cfg: CenterConfig, chatId: number, message_id?: number) {
   const rows = await fetchCenterPremiumRows(cfg.center_id);
@@ -565,7 +605,8 @@ async function sendAdminPremiumList(cfg: CenterConfig, chatId: number, message_i
                 : '<i>(unknown)</i>';
       const tier = r.tier === 'premium' ? '👑' : r.role === 'admin' ? '🛡' : '🎟';
       const dot  = r.active === false ? '⚫' : '🟢';
-      lines.push(`${dot} ${tier} ${who}`);
+      const cen  = r.center ? esc(premCenterLabel(String(r.center).replace(/_/g, ''))) : '<i>(global)</i>';
+      lines.push(`${dot} ${tier} ${who} <i>· ${cen}</i>`);
     }
     if (rows.length === PREM_LIST_LIMIT) lines.push('', `<i>(showing latest ${PREM_LIST_LIMIT})</i>`);
   }
@@ -805,9 +846,11 @@ async function handleCallback(cfg: CenterConfig, cb: Record<string, unknown>) {
   try {
     // Hard gate: any premium-grant callback fired against a non-mockstream
     // bot is rejected outright, even if the admin crafts the callback_data
-    // manually. The grant UI is hidden on clone bots, this is defence in
-    // depth so a clone admin can't write into premium_emails at all.
-    if (data.startsWith('adm_prem') && cfg.center_id !== 'mockstream') {
+    // manually. Covers the menu (adm_prem*) AND the centre-picker buttons
+    // (apg:*, apr:*, *_cancel) so a clone admin can't write into
+    // premium_emails at all.
+    if ((data.startsWith('adm_prem') || data.startsWith('apg') || data.startsWith('apr'))
+        && cfg.center_id !== 'mockstream') {
       await answerCb(cfg.bot_token, cbId, 'Premium grants are only available on the main bot');
       return;
     }
@@ -890,14 +933,136 @@ async function handleCallback(cfg: CenterConfig, cb: Record<string, unknown>) {
       await setAdminState(cfg.center_id, tgUserId, 'await_prem_add');
       await answerCb(cfg.bot_token, cbId);
       await send(cfg.bot_token, chatId,
-        `➕ <b>Grant Premium</b>\n\nSend the Telegram <b>@username</b> or numeric <b>ID</b> to grant.\n\nExamples:\n• <code>@phd_khd</code>\n• <code>500742025</code>\n\nSend <b>/cancel</b> to abort.`);
+        `➕ <b>Grant Premium</b>\n\nSend the Telegram <b>@username</b> or numeric <b>ID</b>.\n\nExamples:\n• <code>@phd_khd</code>\n• <code>500742025</code>\n\nYou'll pick which centre(s) next.\n\nSend <b>/cancel</b> to abort.`);
       return;
     }
     if (data === 'adm_prem_del') {
       await setAdminState(cfg.center_id, tgUserId, 'await_prem_del');
       await answerCb(cfg.bot_token, cbId);
       await send(cfg.bot_token, chatId,
-        `➖ <b>Revoke Premium</b>\n\nSend the Telegram <b>@username</b> or numeric <b>ID</b> to revoke.\n\nSend <b>/cancel</b> to abort.`);
+        `➖ <b>Revoke Premium</b>\n\nSend the Telegram <b>@username</b> or numeric <b>ID</b>.\n\nYou'll pick which centre(s) to revoke from next.\n\nSend <b>/cancel</b> to abort.`);
+      return;
+    }
+    // Centre-picker cancel (grant or revoke flow).
+    if (data === 'apg_cancel' || data === 'apr_cancel') {
+      await setAdminState(cfg.center_id, tgUserId, null);
+      await answerCb(cfg.bot_token, cbId, 'Cancelled');
+      await editMessageText(cfg.bot_token, chatId, messageId, `❌ Cancelled.`);
+      await sendAdminPremiumMenu(cfg, chatId);
+      return;
+    }
+    // Centre-picker pick (grant or revoke). Reads target from admin_state.
+    if (data.startsWith('apg:') || data.startsWith('apr:')) {
+      const isGrant = data.startsWith('apg:');
+      const chosen  = data.slice(4); // centre id, or '*'
+      const state = await getAdminState(cfg.center_id, tgUserId);
+      const prefix = isGrant ? 'pick_g:' : 'pick_r:';
+      if (!state || !state.startsWith(prefix)) {
+        await answerCb(cfg.bot_token, cbId, 'Session expired — start again');
+        await sendAdminPremiumMenu(cfg, chatId);
+        return;
+      }
+      // state: pick_g:i:500742025  or  pick_g:u:davirbekkhasanov
+      const rest = state.slice(prefix.length);
+      const colon = rest.indexOf(':');
+      const kindChar = colon > 0 ? rest.slice(0, colon) : '';
+      const valStr   = colon > 0 ? rest.slice(colon + 1) : '';
+      const target = kindChar === 'i' && /^\d+$/.test(valStr)
+        ? { kind: 'id' as const, value: parseInt(valStr, 10) }
+        : kindChar === 'u' && valStr
+          ? { kind: 'username' as const, value: valStr }
+          : null;
+      if (!target) {
+        await setAdminState(cfg.center_id, tgUserId, null);
+        await answerCb(cfg.bot_token, cbId, 'Bad state — start again');
+        await sendAdminPremiumMenu(cfg, chatId);
+        return;
+      }
+      // Resolve which centres this action covers.
+      const targetCenters = chosen === '*'
+        ? PREM_CENTERS.map(c => c.id)
+        : (PREM_CENTERS.some(c => c.id === chosen) ? [chosen] : []);
+      if (!targetCenters.length) {
+        await answerCb(cfg.bot_token, cbId, 'Unknown centre');
+        return;
+      }
+      await answerCb(cfg.bot_token, cbId, isGrant ? 'Granting…' : 'Revoking…');
+      const actor = `bot:center:${cfg.center_id}:tg:${tgUserId}`;
+      const applyTarget = <T extends { eq: (k: string, v: unknown) => T }>(q: T): T =>
+        target.kind === 'id'
+          ? q.eq('telegram_id', target.value)
+          : q.eq('telegram_username', target.value);
+      const who = target.kind === 'id' ? `<code>${target.value}</code>` : `@${esc(target.value)}`;
+
+      if (isGrant) {
+        // For each chosen centre: upsert (update if a row already exists
+        // under any of that centre's underscore variants, else insert).
+        const granted: string[] = [];
+        for (const cid of targetCenters) {
+          const variants = centerVariants(cid);
+          const lookupQ = applyTarget(sb.from('premium_emails')
+            .select('id, active, tier').in('center', variants));
+          const { data: existingRows } = await lookupQ;
+          const existing = (existingRows ?? [])[0];
+          if (existing) {
+            await sb.from('premium_emails').update({
+              tier: 'premium', role: 'user', active: true, center: cid,
+            }).eq('id', existing.id);
+          } else {
+            await sb.from('premium_emails').insert({
+              ...(target.kind === 'id'
+                ? { telegram_id: target.value }
+                : { telegram_username: target.value }),
+              center: cid,
+              tier: 'premium', role: 'user', active: true,
+            });
+          }
+          granted.push(cid);
+        }
+        sb.from('code_audit').insert({
+          actor, action: 'premium_grant', center: cfg.center_id,
+          details: { via: 'center-bot', target_kind: target.kind, target: target.value, centers: granted },
+        }).then(() => {});
+        await setAdminState(cfg.center_id, tgUserId, null);
+        const where = chosen === '*' ? '<b>all 7 centres</b>' : `<b>${esc(premCenterLabel(chosen))}</b>`;
+        await editMessageText(cfg.bot_token, chatId, messageId,
+          `✅ <b>Premium granted</b> to ${who} on ${where}.\n\nThey'll see it on next Mini App open.`);
+        await sendAdminPremiumMenu(cfg, chatId);
+        return;
+      }
+      // Revoke flow.
+      let totalDeleted = 0;
+      const cleared: string[] = [];
+      for (const cid of targetCenters) {
+        const variants = centerVariants(cid);
+        const hitQ = applyTarget(sb.from('premium_emails')
+          .select('id').in('center', variants));
+        const { data: hit } = await hitQ;
+        const rowCount = (hit ?? []).length;
+        if (rowCount) {
+          const delQ = applyTarget(sb.from('premium_emails')
+            .delete().in('center', variants));
+          await delQ;
+          totalDeleted += rowCount;
+          cleared.push(cid);
+        }
+      }
+      sb.from('code_audit').insert({
+        actor, action: 'premium_revoke', center: cfg.center_id,
+        details: { via: 'center-bot', target_kind: target.kind, target: target.value, centers: cleared, rows_deleted: totalDeleted },
+      }).then(() => {});
+      await setAdminState(cfg.center_id, tgUserId, null);
+      if (!totalDeleted) {
+        const where = chosen === '*' ? 'any centre' : `<b>${esc(premCenterLabel(chosen))}</b>`;
+        await editMessageText(cfg.bot_token, chatId, messageId,
+          `⚠️ No Premium grant found for ${who} on ${where}.`);
+      } else {
+        const where = chosen === '*' ? `<b>${cleared.length}</b> centre${cleared.length === 1 ? '' : 's'} (${cleared.map(c => esc(premCenterLabel(c))).join(', ')})`
+                                     : `<b>${esc(premCenterLabel(chosen))}</b>`;
+        await editMessageText(cfg.bot_token, chatId, messageId,
+          `✅ <b>Premium revoked</b> for ${who} on ${where} (${totalDeleted} row${totalDeleted === 1 ? '' : 's'} removed).`);
+      }
+      await sendAdminPremiumMenu(cfg, chatId);
       return;
     }
     if (data === 'adm_bulk') { await answerCb(cfg.bot_token, cbId); await sendAdminBulkMenu(cfg, chatId, messageId); return; }
@@ -991,80 +1156,32 @@ Deno.serve(async (req: Request) => {
           await sendAdminPremiumMenu(cfg, chatId);
           return new Response('ok');
         }
-        // If the admin tapped a reply-keyboard button instead of typing a
-        // target, drop the state and let normal dispatch handle the tap.
         if (isMenuButton) {
           await setAdminState(cfg.center_id, tgUserId, null);
           // Fall through to the regular menu-button handling below.
         } else {
-        const target = parsePremiumTarget(text);
-        if (!target) {
-          await send(cfg.bot_token, chatId,
-            `❌ <b>Couldn't parse that.</b>\n\nSend a Telegram <b>@username</b> (4–32 letters/digits/underscores) or a numeric <b>ID</b> (4+ digits).\n\nOr send <b>/cancel</b>.`);
-          return new Response('ok');
-        }
-        const actor = `bot:center:${cfg.center_id}:tg:${tgUserId}`;
-        const variants = centerVariants(cfg.center_id);
-        // Helper: apply target's id/username filter to a query builder.
-        const applyTarget = <T extends { eq: (k: string, v: unknown) => T }>(q: T): T =>
-          target.kind === 'id'
-            ? q.eq('telegram_id', target.value)
-            : q.eq('telegram_username', target.value);
-
-        if (adminState === 'await_prem_add') {
-          // Look across centre variants so an existing 'mock_stream' row
-          // gets re-promoted instead of leaving a duplicate behind.
-          const lookupQ = applyTarget(sb.from('premium_emails')
-            .select('id, active, tier').in('center', variants));
-          const { data: existingRows } = await lookupQ;
-          const existing = (existingRows ?? [])[0];
-          if (existing) {
-            await sb.from('premium_emails').update({
-              tier: 'premium', role: 'user', active: true,
-            }).eq('id', existing.id);
-          } else {
-            await sb.from('premium_emails').insert({
-              ...(target.kind === 'id'
-                ? { telegram_id: target.value }
-                : { telegram_username: target.value }),
-              center: cfg.center_id,
-              tier: 'premium', role: 'user', active: true,
-            });
+          const target = parsePremiumTarget(text);
+          if (!target) {
+            await send(cfg.bot_token, chatId,
+              `❌ <b>Couldn't parse that.</b>\n\nSend a Telegram <b>@username</b> (4–32 letters/digits/underscores) or a numeric <b>ID</b> (4+ digits).\n\nOr send <b>/cancel</b>.`);
+            return new Response('ok');
           }
-          sb.from('code_audit').insert({
-            actor, action: 'premium_grant', center: cfg.center_id,
-            details: { via: 'center-bot', target_kind: target.kind, target: target.value },
-          }).then(() => {});
+          // Persist the parsed target in admin_state so the centre-picker
+          // callbacks can act on it without having to stuff the @username
+          // into 64-byte callback_data. Format:
+          //   pick_g:i:500742025         — grant, telegram_id
+          //   pick_g:u:davirbekkhasanov  — grant, telegram_username
+          //   pick_r:i:500742025         — revoke, telegram_id
+          //   pick_r:u:davirbekkhasanov  — revoke, telegram_username
+          const flow = adminState === 'await_prem_add' ? 'g' : 'r';
+          const targetEnc = target.kind === 'id' ? `i:${target.value}` : `u:${target.value}`;
+          await setAdminState(cfg.center_id, tgUserId, `pick_${flow}:${targetEnc}`);
           const who = target.kind === 'id' ? `<code>${target.value}</code>` : `@${esc(target.value)}`;
-          await setAdminState(cfg.center_id, tgUserId, null);
-          await send(cfg.bot_token, chatId, `✅ <b>Premium granted</b> to ${who}.\n\nThey'll see it on next Mini App open.`);
-          await sendAdminPremiumMenu(cfg, chatId);
+          const verb = flow === 'g' ? 'grant' : 'revoke';
+          await send(cfg.bot_token, chatId,
+            `🎯 Target: ${who}\n\nWhich centre(s) should this Premium ${verb} apply to?`,
+            { reply_markup: premiumCenterPicker(flow) });
           return new Response('ok');
-        }
-        // Revoke — also across centre variants.
-        const hitQ = applyTarget(sb.from('premium_emails')
-          .select('id').in('center', variants));
-        const { data: hit } = await hitQ;
-        const rowCount = (hit ?? []).length;
-        if (!rowCount) {
-          await setAdminState(cfg.center_id, tgUserId, null);
-          const who = target.kind === 'id' ? `<code>${target.value}</code>` : `@${esc(target.value)}`;
-          await send(cfg.bot_token, chatId, `⚠️ No Premium grant found for ${who} in this centre.`);
-          await sendAdminPremiumMenu(cfg, chatId);
-          return new Response('ok');
-        }
-        const delQ = applyTarget(sb.from('premium_emails')
-          .delete().in('center', variants));
-        await delQ;
-        sb.from('code_audit').insert({
-          actor, action: 'premium_revoke', center: cfg.center_id,
-          details: { via: 'center-bot', target_kind: target.kind, target: target.value, rows_deleted: rowCount },
-        }).then(() => {});
-        await setAdminState(cfg.center_id, tgUserId, null);
-        const who = target.kind === 'id' ? `<code>${target.value}</code>` : `@${esc(target.value)}`;
-        await send(cfg.bot_token, chatId, `✅ <b>Premium revoked</b> for ${who} (${rowCount} row${rowCount === 1 ? '' : 's'} removed).`);
-        await sendAdminPremiumMenu(cfg, chatId);
-        return new Response('ok');
         }
       }
     }
