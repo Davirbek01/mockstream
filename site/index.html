@@ -77,7 +77,12 @@
     (function tmaSplash() {
       try {
         var tg = window.Telegram && window.Telegram.WebApp;
-        if (!tg || !tg.initData) return;
+        // Install whenever the page is loaded inside a Telegram WebApp
+        // shell — even when initData is empty (a Desktop / Android 9.6
+        // bug that bites all KeyboardButton.web_app launches). In that
+        // failure case tmaAutoSignIn calls _tmaRemoveSplash() before
+        // bailing so the Welcome card becomes visible afterwards.
+        if (!tg) return;
         var logoUrl = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) ||
                       'https://i.ibb.co/WN0XY5Lv/logo.png';
         var brand = (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream';
@@ -5800,10 +5805,42 @@
         else _addDbg();
       } catch (_e) {}
 
-      if (!initData) return; // not a Mini App launch, fall through to autoResume
+      // Schedule the splash to come off once the underlying welcome card
+      // has finished its own loading animation (progress bar reaching
+      // 100% + wv2-loading class drops off). Used by every bail-out path
+      // below so the user sees splash → fully-ready welcome card with no
+      // half-loaded flash in between. 4 s upper-bound is the hard
+      // fallback in case the welcome card never reaches done.
+      function _removeSplashOnWelcomeReady() {
+        var max = 4000;
+        var start = Date.now();
+        function done() {
+          try { if (typeof window._tmaRemoveSplash === 'function') window._tmaRemoveSplash(); } catch (_e) {}
+        }
+        var poll = setInterval(function () {
+          var card = document.getElementById('welcomeCard');
+          var ready = card && !card.classList.contains('wv2-loading');
+          if (ready || (Date.now() - start) > max) {
+            clearInterval(poll);
+            done();
+          }
+        }, 150);
+      }
+
+      if (!initData) {
+        // No Mini App launch payload (eg Telegram Desktop 9.x bug, or
+        // user is browsing the bare site without Telegram). Hold the
+        // splash until the welcome card has fully initialised so the
+        // user goes straight from logo → signed-in card.
+        _removeSplashOnWelcomeReady();
+        return;
+      }
 
       // Already signed in this session? Skip the verify roundtrip.
-      if (sessionStorage.getItem('ms_entered_app') === '1') return;
+      if (sessionStorage.getItem('ms_entered_app') === '1') {
+        _removeSplashOnWelcomeReady();
+        return;
+      }
 
       var SB_URL = window.SUPABASE_URL || 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       // Legacy anon JWT (not the newer sb_publishable_ key). The Edge
@@ -5827,9 +5864,9 @@
       }
       function _restoreWelcome() {
         if (welcomeRoot) welcomeRoot.style.display = hidPrior;
-        // Pull the TMA splash so the Welcome card is visible again. No-op
-        // outside TMA (the splash was never installed).
-        try { if (typeof window._tmaRemoveSplash === 'function') window._tmaRemoveSplash(); } catch (_e) {}
+        // Hold the splash until the welcome card has finished its own
+        // loading animation, so we don't expose its half-loaded state.
+        _removeSplashOnWelcomeReady();
       }
 
       (async function () {
