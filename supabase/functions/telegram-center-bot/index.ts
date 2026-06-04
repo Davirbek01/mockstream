@@ -179,12 +179,14 @@ const BTN = {
 function mainKeyboard(cfg: CenterConfig) {
   const rows: unknown[][] = [];
   if (cfg.show_mock_btn) {
-    // When the centre has a registered Mini App slug, render the Take
-    // Mock reply-keyboard entry as a plain text button (no web_app). The
-    // actual launch happens via the inline t.me deeplink we send back as
-    // a one-shot message — see takeMockInline() + the TAKE_MOCK text
-    // handler below. Centers without a slug keep the legacy web_app
-    // launch (which works on mobile clients but not Desktop 9.x).
+    // Centers with a registered Mini App slug: Take Mock is a plain
+    // text reply button. Tapping it sends "🎯 Take Mock" to the bot,
+    // which replies with an inline t.me-deeplink button — that path
+    // reliably passes WebApp.initData on every client (mobile AND
+    // Desktop). Direct web_app launch was tested 2026-06-04 and
+    // confirmed empty-initData on Android TG 9.6 too, not just
+    // Desktop. Centers without a slug still use the legacy
+    // web_app launch (backward compatible).
     if (tmaDeeplink(cfg)) rows.push([{ text: BTN.TAKE_MOCK }]);
     else                  rows.push([{ text: BTN.TAKE_MOCK, web_app: { url: cfg.webapp_url } }]);
   }
