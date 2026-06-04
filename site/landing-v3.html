@@ -3,6 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- center-id.js MUST load before the self-healing IIFE below — Netlify
+       overwrites it per clone with `window.__CENTER_ID='bek'` (etc), and
+       without it the IIFE falls back to 'mockstream', sends the wrong
+       centre to verify-passcode, and silently rejects every clone's
+       Premium grant. Was missing from landing-v3 entirely until
+       2026-06-04. -->
+  <script src="center-id.js"></script>
   <script>
     // ─── Self-healing premium unlock ─────────────────────────────────────
     // Every approach via localStorage backup, cross-page sessionStorage,
@@ -16,7 +23,12 @@
     (function () {
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_JWT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inprbnl1a2tidGJjcWd2a2dqa3RiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ3MTUyODIsImV4cCI6MjA5MDI5MTI4Mn0.gGRtl2TVCn_PnY1aITFdX76yxZu3QZsbdrqI5hXioEw';
-      var centerId = (window.__CENTER_ID || 'mockstream').toString();
+      // Read __CENTER_ID lazily at each fetch — center-id.js loads with
+      // this script above but if execution order ever drifts, we always
+      // pick up the latest value rather than caching a stale fallback.
+      function _resolveCenter() {
+        return (window.__CENTER_ID || 'mockstream').toString();
+      }
       var dbgState = { step: 'init', vpStatus: null, vpAccess: null, vpHasToken: null, err: null };
       window._tmaSelfHealDebug = dbgState;
 
@@ -48,10 +60,12 @@
 
       function unlockOnce(jwt) {
         dbgState.step = 'fetching';
+        var cid = _resolveCenter();
+        dbgState.centerSent = cid;
         return fetch(SB_URL + '/functions/v1/verify-passcode', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'apikey': SB_JWT },
-          body: JSON.stringify({ email_auth: true, user_jwt: jwt, center: centerId })
+          body: JSON.stringify({ email_auth: true, user_jwt: jwt, center: cid })
         }).then(function (resp) {
           dbgState.vpStatus = resp.status;
           return resp.json().catch(function () { return {}; });
