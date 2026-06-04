@@ -5784,27 +5784,6 @@
       var tg = window.Telegram && window.Telegram.WebApp;
       var initData = tg && typeof tg.initData === 'string' ? tg.initData : '';
 
-      // Diagnostic banner — shows the TMA detection state at the top of
-      // the page so we can see what's happening on real devices without
-      // needing DevTools. Remove this block once the flow is verified.
-      try {
-        var dbg = document.createElement('div');
-        dbg.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;background:#0f172a;color:#94a3b8;font:11px/1.4 monospace;padding:6px 10px;text-align:left;white-space:pre-wrap;word-break:break-all;max-height:60vh;overflow:auto;';
-        var hasTg = !!(window.Telegram && window.Telegram.WebApp);
-        var plat = hasTg ? (window.Telegram.WebApp.platform || '?') : '-';
-        var version = hasTg ? (window.Telegram.WebApp.version || '?') : '-';
-        var initDataUnsafe = hasTg ? window.Telegram.WebApp.initDataUnsafe : null;
-        var unsafeUserId = initDataUnsafe && initDataUnsafe.user && initDataUnsafe.user.id;
-        dbg.textContent =
-          '[TMA-DEBUG] hasTg=' + hasTg + ' platform=' + plat + ' version=' + version + '\n' +
-          'initData.length=' + (initData ? initData.length : 0) + '\n' +
-          'initDataUnsafe.user.id=' + (unsafeUserId || 'null') + '\n' +
-          'userAgent=' + navigator.userAgent.slice(0, 80);
-        function _addDbg() { if (document.body) document.body.appendChild(dbg); }
-        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', _addDbg);
-        else _addDbg();
-      } catch (_e) {}
-
       // Schedule the splash to come off once the underlying welcome card
       // has finished its own loading animation (progress bar reaching
       // 100% + wv2-loading class drops off). Used by every bail-out path
@@ -5883,17 +5862,6 @@
             body: JSON.stringify({ initData: initData, center: centerId })
           });
           var data = await resp.json().catch(function () { return {}; });
-          // Persist the response so landing-v3.html can show it in a debug
-          // banner — we lose this scope on the redirect otherwise.
-          try {
-            localStorage.setItem('ms_tma_debug', JSON.stringify({
-              t: Date.now(), status: resp.status, ok: resp.ok,
-              is_premium: data && data.is_premium === true,
-              created_new: data && data.created_new === true,
-              email: data && data.email || null,
-              error: !resp.ok ? (data && (data.error || data.code)) : null
-            }));
-          } catch (_de) {}
           if (!resp.ok || !data || !data.email || !data.otp) {
             console.warn('[tma-auto-signin] verify failed', resp.status, data);
             _restoreWelcome();
