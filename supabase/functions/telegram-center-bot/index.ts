@@ -461,7 +461,13 @@ async function showAdminMenu(cfg: CenterConfig, chatId: number, message_id?: num
   if (!hideReg) buttons.push([{ text: '🎟 Regular VIP', callback_data: 'adm_vip:regular' }]);
   buttons.push([{ text: '📚 Mock codes', callback_data: 'adm_mock' }]);
   buttons.push([{ text: hideReg ? '⚡ Bulk generate (premium-only)' : '⚡ Bulk generate (all skills)', callback_data: 'adm_bulk' }]);
-  buttons.push([{ text: '🎁 Premium grants (@user / ID)', callback_data: 'adm_prem' }]);
+  // Per-user Premium grants are restricted to the mockstream bot only.
+  // Clone-bot admins manage codes; cross-centre per-user grants are a
+  // super-admin workflow that lives on the main bot to prevent every
+  // clone admin from being able to write into premium_emails.
+  if (cfg.center_id === 'mockstream') {
+    buttons.push([{ text: '🎁 Premium grants (@user / ID)', callback_data: 'adm_prem' }]);
+  }
   buttons.push([{ text: '🔒 Lock admin', callback_data: 'adm_lock' }]);
   const lines = [
     `🛠 <b>Admin — ${esc(cfg.center_id)}</b>`,
@@ -473,7 +479,9 @@ async function showAdminMenu(cfg: CenterConfig, chatId: number, message_id?: num
   if (!hideReg) lines.push(`• 🎟 Regular VIP code`);
   lines.push(`• 📚 Mock codes per skill`);
   lines.push(`• ⚡ Bulk-generate every mock at once`);
-  lines.push(`• 🎁 Grant Premium directly to a Telegram user`);
+  if (cfg.center_id === 'mockstream') {
+    lines.push(`• 🎁 Grant Premium directly to a Telegram user`);
+  }
   lines.push('');
   lines.push(`<i>Auto-locks after 12h.</i>`);
   const kb = { inline_keyboard: buttons };
@@ -795,6 +803,14 @@ async function handleCallback(cfg: CenterConfig, cb: Record<string, unknown>) {
     return;
   }
   try {
+    // Hard gate: any premium-grant callback fired against a non-mockstream
+    // bot is rejected outright, even if the admin crafts the callback_data
+    // manually. The grant UI is hidden on clone bots, this is defence in
+    // depth so a clone admin can't write into premium_emails at all.
+    if (data.startsWith('adm_prem') && cfg.center_id !== 'mockstream') {
+      await answerCb(cfg.bot_token, cbId, 'Premium grants are only available on the main bot');
+      return;
+    }
     if (data === 'adm_menu')      { await answerCb(cfg.bot_token, cbId); await showAdminMenu(cfg, chatId, messageId); return; }
     if (data === 'adm_lock')      {
       await answerCb(cfg.bot_token, cbId, 'Locked');
@@ -963,7 +979,12 @@ Deno.serve(async (req: Request) => {
       }
 
       // 🎁 Premium grant / revoke — @username or numeric Telegram ID expected
-      if (adminState === 'await_prem_add' || adminState === 'await_prem_del') {
+      // Same defence-in-depth gate as the callback handler: even if a
+      // clone-bot admin somehow has this state set, we drop it here.
+      if ((adminState === 'await_prem_add' || adminState === 'await_prem_del') && cfg.center_id !== 'mockstream') {
+        await setAdminState(cfg.center_id, tgUserId, null);
+        // Fall through to normal dispatch.
+      } else if (adminState === 'await_prem_add' || adminState === 'await_prem_del') {
         if (/^\/cancel\b/i.test(text)) {
           await setAdminState(cfg.center_id, tgUserId, null);
           await send(cfg.bot_token, chatId, `❌ Cancelled.`);
