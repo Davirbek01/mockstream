@@ -58,6 +58,7 @@
         }).then(function (data) {
           dbgState.vpAccess = !!(data && data.access);
           dbgState.vpHasToken = !!(data && data.token);
+          dbgState.vpDiag = data && data.diag ? data.diag : null;
           if (data && data.access && data.token) {
             setFlags(data.token, data.tier === 'premium' || data.role === 'admin');
             dbgState.step = 'unlocked';
@@ -125,6 +126,7 @@
           function tick() {
             var s = function (k) { try { return sessionStorage.getItem(k); } catch (_) { return '?'; } };
             var sh = window._tmaSelfHealDebug || {};
+            var d = sh.vpDiag || {};
             dbg.textContent =
               '[TMA-DEBUG-LANDING] center=' + (window.__CENTER_ID || '?') +
               ' siteId=' + ((window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || '?') + '\n' +
@@ -133,6 +135,13 @@
               ' vp_access=' + (sh.vpAccess == null ? '?' : sh.vpAccess) +
               ' vp_token=' + (sh.vpHasToken == null ? '?' : sh.vpHasToken) +
               ' err=' + (sh.err || '-') + '\n' +
+              'vp diag: user_email=' + (d.user_email || '-') +
+              ' tg_id=' + (d.tg_id == null ? '-' : d.tg_id) +
+              ' tg_un=' + (d.tg_username || '-') + '\n' +
+              'vp diag: rows=' + (d.rows_found == null ? '?' : d.rows_found) +
+              ' centers=' + (d.rows_centers ? JSON.stringify(d.rows_centers) : '?') +
+              ' want=' + (d.center_requested || '-') +
+              ' userErr=' + (d.userErr || '-') + '\n' +
               'session: vipPremiumAi=' + s('vipPremiumAi') +
               '  vipSessionAccess=' + s('vipSessionAccess') +
               '  vipToken=' + (s('vipToken') ? (s('vipToken').slice(0, 10) + '...') : 'null') + '\n' +
