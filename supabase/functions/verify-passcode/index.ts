@@ -216,11 +216,18 @@ Deno.serve(async (req) => {
           const { data: rows } = await q;
 
           if (rows && rows.length) {
-            // Prefer a row whose center matches this site, else fall back to
-            // any-center (empty/null center column treated as wildcard).
+            // Centre-scoped match ONLY. A row applies when:
+            //   • center is empty / null (explicit "universal" rows), OR
+            //   • center normalises to this site's center.
+            // The old fallback `rows.find(r => r.role === 'admin')` was a
+            // cross-tenant leak — an admin on bek silently became admin on
+            // mockstream and every other clone. Per-centre isolation now
+            // requires explicit rows. To grant someone admin/premium on
+            // multiple centres, create one premium_emails row per centre
+            // (or set center='' for a deliberate global grant).
             const match = rows.find((r: any) =>
               !r.center || r.center === '' || normCenter(r.center) === center
-            ) || (rows.find((r: any) => r.role === 'admin') || null);
+            ) || null;
             if (match) {
               const role = match.role === 'admin'
                 ? 'admin'
