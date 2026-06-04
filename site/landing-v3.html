@@ -110,6 +110,44 @@
         }
       }, 250);
     })();
+    // TEMP: TMA debug banner — shows self-heal state so we can see what
+    // verify-passcode returned on a real device. REMOVE once the bek
+    // premium-on-mock-page case is confirmed working.
+    (function () {
+      try {
+        var inTma = !!(window.Telegram && window.Telegram.WebApp);
+        if (!inTma) return;
+        function build() {
+          var dbg = document.createElement('div');
+          dbg.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;background:#0f172a;color:#94a3b8;font:11px/1.4 monospace;padding:6px 10px;text-align:left;white-space:pre-wrap;word-break:break-all;max-height:60vh;overflow:auto;border-bottom:1px solid #1e293b;';
+          function tick() {
+            var s = function (k) { try { return sessionStorage.getItem(k); } catch (_) { return '?'; } };
+            var sh = window._tmaSelfHealDebug || {};
+            dbg.textContent =
+              '[TMA-DEBUG-LANDING] center=' + (window.__CENTER_ID || '?') +
+              ' siteId=' + ((window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || '?') + '\n' +
+              'self-heal step=' + (sh.step || '?') +
+              ' vp_status=' + (sh.vpStatus == null ? '?' : sh.vpStatus) +
+              ' vp_access=' + (sh.vpAccess == null ? '?' : sh.vpAccess) +
+              ' vp_token=' + (sh.vpHasToken == null ? '?' : sh.vpHasToken) +
+              ' err=' + (sh.err || '-') + '\n' +
+              'session: vipPremiumAi=' + s('vipPremiumAi') +
+              '  vipSessionAccess=' + s('vipSessionAccess') +
+              '  vipToken=' + (s('vipToken') ? (s('vipToken').slice(0, 10) + '...') : 'null') + '\n' +
+              'session: rPE=' + s('readingPremiumEntry') +
+              ' wPE=' + s('writingPremiumEntry') +
+              ' sPE=' + s('speakingPremiumEntry') +
+              ' lPE=' + s('listeningPremiumEntry');
+          }
+          tick();
+          var n = 0;
+          var iv = setInterval(function () { n++; tick(); if (n > 24) clearInterval(iv); }, 500);
+          (document.body || document.documentElement).appendChild(dbg);
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
+        else build();
+      } catch (_e) {}
+    })();
   </script>
   <!-- Google Search Console ownership verification for mock-stream.com.
        Per Google: do NOT remove even after verification succeeds. -->
