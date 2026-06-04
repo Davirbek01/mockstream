@@ -358,10 +358,19 @@
       } catch (_e) {}
     }
     if (!info) { _clearStalePremiumFlags(); return null; }
-    var siteCenter = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || '';
+    // Prefer the synchronously-set window.__CENTER_ID (center-id.js runs
+    // first in <head>) over SITE_CONFIG.testIdentifier — the latter
+    // defaults to 'mock_stream' until site-config.js's async Supabase
+    // fetch lands. Without this, a fresh visit on bek / niners / etc
+    // would see siteCenter='mock_stream' and reject a legitimate
+    // centre-scoped premium row in the race window before the fetch
+    // resolves.
+    var siteCenter = window.__CENTER_ID
+                  || (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier)
+                  || '';
     // Normalize both sides — DB rows may have 'mock_stream' / 'Bek Center';
-    // SITE_CONFIG.testIdentifier may be 'mockstream' / 'bek'. Without this,
-    // a row legitimately granted for 'mock_stream' would be rejected on the
+    // identifiers may be 'mockstream' / 'bek'. Without this, a row
+    // legitimately granted for 'mock_stream' would be rejected on the
     // 'mockstream' site even though the values are semantically identical.
     function _normC(s) {
       return (s == null ? '' : String(s)).toLowerCase().replace(/[_\s-]/g, '');
@@ -629,7 +638,13 @@
   async function _upsertCandidateFromAuth(profile) {
     try {
       if (!profile || !profile.fullName) return;
-      var center = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
+      // Same precedence rule as the premium-unlock centre check: prefer
+      // the synchronously-set window.__CENTER_ID over the async SITE_CONFIG
+      // value so a first-paint upsert on bek/niners/etc doesn't write
+      // 'mock_stream' as the candidate's centre.
+      var center = window.__CENTER_ID
+                || (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier)
+                || 'mock_stream';
       await fetch(SB_URL + '/rest/v1/rpc/upsert_candidate', {
         method: 'POST',
         headers: {
