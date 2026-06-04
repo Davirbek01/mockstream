@@ -2200,6 +2200,29 @@
     @media (min-width: 721px) and (max-width: 1024px) {
       .rail { grid-auto-columns: minmax(230px, 1fr); }
     }
+    /* ─── Focus mode FOUC suppressor ───────────────────────────────────
+       The topbar Focus mode toggle (#topbarFsBtn) is in the markup at
+       line ~2226 but its full sizing + display-conditional rules don't
+       arrive until the main stylesheet block down at line ~17780. In
+       that parse window all four inner SVGs render at the SVG default
+       (300x150) and visibly explode across the page for a few hundred
+       ms during a hard reload. Pre-declaring the SAME rules here means
+       they're cached BEFORE the button element is parsed, so there's
+       no flash. The duplicate rules in the main block are equivalent
+       so the cascade outcome is identical. */
+    .topbar-fs-btn .fs-ico { width: 15px; height: 15px; flex-shrink: 0; }
+    .topbar-fs-btn .fs-mob,
+    .topbar-fs-btn .fs-exit.fs-pc { display: none; }
+    body.ms-fullscreen .topbar-fs-btn .fs-enter.fs-pc { display: none; }
+    body.ms-fullscreen .topbar-fs-btn .fs-exit.fs-pc  { display: inline-block; }
+    @media (max-width: 1023px) {
+      .topbar-fs-btn .fs-ico { width: 18px; height: 18px; }
+      .topbar-fs-btn .fs-pc { display: none !important; }
+      .topbar-fs-btn .fs-mob { display: inline-block; }
+      .topbar-fs-btn .fs-exit.fs-mob { display: none; }
+      body.ms-fullscreen .topbar-fs-btn .fs-enter.fs-mob { display: none; }
+      body.ms-fullscreen .topbar-fs-btn .fs-exit.fs-mob  { display: inline-block; }
+    }
   </style>
 </head>
 <body>
