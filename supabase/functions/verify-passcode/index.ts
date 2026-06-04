@@ -163,21 +163,12 @@ Deno.serve(async (req) => {
     // Server validates JWT, extracts BOTH email AND telegram_username from
     // user_metadata, then checks premium_emails by either. Cannot be forged
     // client-side because the JWT is signed by Supabase auth.
-    // TEMP diagnostic envelope — bundled into the no-access response so the
-    // client can see WHY no match was returned. Strip once the bek premium-
-    // unlock case is confirmed working.
-    let diag: Record<string, unknown> | null = null;
     if (body.email_auth && typeof body.user_jwt === 'string' && body.user_jwt) {
-      diag = {};
       try {
         const { data: userData, error: userErr } = await sb.auth.getUser(body.user_jwt);
         const u = userData?.user;
         const email = u?.email ? String(u.email).toLowerCase() : '';
-        diag.userErr = userErr ? String(userErr.message || userErr) : null;
-        diag.user_id = u?.id || null;
-        diag.user_email = email || null;
         const meta = (u?.user_metadata ?? {}) as Record<string, unknown>;
-        diag.meta_keys = Object.keys(meta);
         const tgUsernameRaw = typeof meta.telegram_username === 'string' ? meta.telegram_username : '';
         const tgUsername = tgUsernameRaw.toLowerCase().replace(/^@/, '').trim();
         // Telegram numeric ID — prefer user_metadata, fall back to parsing the
@@ -222,13 +213,7 @@ Deno.serve(async (req) => {
           } else {
             q = q.or(orClauses.join(','));
           }
-          const { data: rows, error: qErr } = await q;
-          diag.q_err = qErr ? String(qErr.message || qErr) : null;
-          diag.rows_found = (rows ?? []).length;
-          diag.rows_centers = (rows ?? []).map((r: any) => r.center);
-          diag.center_requested = center;
-          diag.tg_username = tgUsername || null;
-          diag.tg_id = tgId;
+          const { data: rows } = await q;
 
           if (rows && rows.length) {
             // Centre-scoped match ONLY. A row applies when:
@@ -264,9 +249,7 @@ Deno.serve(async (req) => {
             }
           }
         }
-      } catch (e) {
-        if (diag) diag.exception = String((e as Error)?.message || e);
-      }
+      } catch (_e) { /* fall through to no_code */ }
     }
 
     // Allow code-less requests ONLY for center premium-mode token minting.
@@ -285,7 +268,7 @@ Deno.serve(async (req) => {
       }
     }
     await logAttempt(ip, false);
-    return json(200, { access: false, valid: false, error: 'no_code', ...(diag ? { diag } : {}) });
+    return json(200, { access: false, valid: false, error: 'no_code' });
   }
 
   // Center-level premium-mode: if true, ANY attempt succeeds (whole center
