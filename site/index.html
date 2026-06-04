@@ -65,6 +65,72 @@
       } catch (_e) {}
     })();
   </script>
+  <!-- TMA splash — covers the brief flash of unstyled body content
+       (the bare sidebar nav links the user reported) while
+       tmaAutoSignIn's verify-telegram-initdata + redirect happens.
+       Activates ONLY when inside a Telegram Mini App (Telegram.WebApp
+       .initData present), so the regular web page is untouched.
+       Removed on tmaAutoSignIn failure via window._tmaRemoveSplash so
+       the Welcome card can take over. Success path leaves it visible
+       until the redirect to landing-v3, which has its own loader. -->
+  <script>
+    (function tmaSplash() {
+      try {
+        var tg = window.Telegram && window.Telegram.WebApp;
+        if (!tg || !tg.initData) return;
+        var logoUrl = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) ||
+                      'https://i.ibb.co/WN0XY5Lv/logo.png';
+        var brand = (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream';
+        var st = document.createElement('style');
+        st.id = '_tmaSplashStyle';
+        st.textContent =
+          'body > *:not(#_tmaSplash) { visibility: hidden !important; }' +
+          '#_tmaSplash { position: fixed; inset: 0; z-index: 2147483647;' +
+          '  background: #f3f9f7; display: flex; flex-direction: column;' +
+          '  align-items: center; justify-content: center; gap: 18px;' +
+          '  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;' +
+          '  visibility: visible !important; }' +
+          '[data-theme="dark"] #_tmaSplash { background: #0e141b; }' +
+          '#_tmaSplashLogo { width: 76px; height: 76px; border-radius: 20px;' +
+          '  box-shadow: 0 12px 36px rgba(17,106,96,0.18);' +
+          '  animation: _tmaPulse 1.5s ease-in-out infinite; }' +
+          '#_tmaSplashLbl { color: #5a6a75; font-size: 14px; font-weight: 500;' +
+          '  letter-spacing: 0.02em; }' +
+          '[data-theme="dark"] #_tmaSplashLbl { color: #94a3b8; }' +
+          '#_tmaSplashDots { display: inline-block; width: 24px; text-align: left; }' +
+          '@keyframes _tmaPulse { 0%,100% { transform: scale(1); opacity: 0.88; }' +
+          '  50% { transform: scale(1.06); opacity: 1; } }';
+        document.head.appendChild(st);
+        function addSplash() {
+          if (document.getElementById('_tmaSplash')) return;
+          var d = document.createElement('div');
+          d.id = '_tmaSplash';
+          d.innerHTML =
+            '<img id="_tmaSplashLogo" alt="" src="' + logoUrl + '">' +
+            '<div id="_tmaSplashLbl">Opening ' + brand +
+              '<span id="_tmaSplashDots">…</span></div>';
+          document.body.appendChild(d);
+          // Animate trailing dots so the user sees it's alive (the logo
+          // pulse alone reads as a static image on quick glances).
+          var frames = ['.', '..', '…'];
+          var i = 0;
+          var iv = setInterval(function () {
+            var el = document.getElementById('_tmaSplashDots');
+            if (!el) { clearInterval(iv); return; }
+            el.textContent = frames[i++ % frames.length];
+          }, 400);
+        }
+        if (document.body) addSplash();
+        else document.addEventListener('DOMContentLoaded', addSplash);
+        window._tmaRemoveSplash = function () {
+          var sp = document.getElementById('_tmaSplash');
+          if (sp) sp.remove();
+          var s = document.getElementById('_tmaSplashStyle');
+          if (s) s.remove();
+        };
+      } catch (_e) {}
+    })();
+  </script>
   <!-- Supabase Auth (Google Sign-In + guest hybrid) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="auth.js"></script>
@@ -5761,6 +5827,9 @@
       }
       function _restoreWelcome() {
         if (welcomeRoot) welcomeRoot.style.display = hidPrior;
+        // Pull the TMA splash so the Welcome card is visible again. No-op
+        // outside TMA (the splash was never installed).
+        try { if (typeof window._tmaRemoveSplash === 'function') window._tmaRemoveSplash(); } catch (_e) {}
       }
 
       (async function () {
