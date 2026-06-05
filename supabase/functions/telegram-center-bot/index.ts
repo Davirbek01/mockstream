@@ -757,15 +757,6 @@ async function runAdminBulk(cfg: CenterConfig, chatId: number, mode: 'missing' |
 // ── Standard handlers (mostly unchanged from v44 except admin path) ──
 async function showMainMenu(cfg: CenterConfig, chatId: number, firstName: string) {
   await send(cfg.bot_token, chatId, welcomeText(cfg, firstName), { reply_markup: mainKeyboard(cfg) });
-  // For centers with a Mini App deeplink, also fire off a one-tap inline
-  // launch button so first-time /start users don't have to take the
-  // detour through the reply-keyboard Take Mock first.
-  const inline = takeMockInline(cfg);
-  if (cfg.show_mock_btn && inline) {
-    await send(cfg.bot_token, chatId,
-      `🎯 <b>One-tap launch</b> — sign-in is automatic.`,
-      { reply_markup: inline });
-  }
 }
 async function handleAdminTap(cfg: CenterConfig, chatId: number, tgUserId: number) {
   if (await isAdminUnlocked(cfg.center_id, tgUserId)) {
