@@ -128,16 +128,16 @@
         // Store ref so we can remove it later if needed
         window._autoHideGateStyle = style;
 
-        // Show a loading spinner while auto-proceed is working
-        var loaderDiv = document.createElement('div');
-        loaderDiv.id = 'autoProceedLoader';
-        loaderDiv.innerHTML = '<div style="display:flex;flex-direction:column;align-items:center;gap:18px;"><div style="width:56px;height:56px;border:5px solid rgba(255,255,255,0.25);border-top:5px solid #fff;border-radius:50%;animation:apSpin 0.8s linear infinite;"></div><div style="color:#fff;font-size:17px;font-weight:700;letter-spacing:0.5px;">Loading your mock...</div></div>';
-        var loaderStyle = document.createElement('style');
-        loaderStyle.textContent = '#autoProceedLoader{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#2563eb;z-index:99999;}@keyframes apSpin{to{transform:rotate(360deg)}}';
-        document.head.appendChild(loaderStyle);
-        // Insert as first child of body when available
-        if (document.body) { document.body.prepend(loaderDiv); } else { document.addEventListener('DOMContentLoaded', function () { document.body.prepend(loaderDiv); }); }
-        window._autoProceedLoader = loaderDiv;
+        // (Previously also injected a full-screen blue spinner overlay
+        //  here — purely cosmetic, no progress tracking, removed at admin
+        //  request. The .gate display:none above still suppresses the
+        //  entry-chrome flash. We still set window._autoProceedLoader to
+        //  a sentinel because downstream code (e.g. the mic-permission
+        //  gate at startBtn click) uses its truthiness as a proxy for
+        //  "auto-proceed mode is active". Any later
+        //  getElementById('autoProceedLoader').remove() calls are
+        //  null-safe no-ops.)
+        window._autoProceedLoader = true;
       }
 
       if (autoMode === '1' && (testParam || sbMockParam)) {
@@ -5367,15 +5367,14 @@
           <button class="tab-btn" data-lang="uz" type="button">O‘zbekcha</button>
         </div>
       </div>
-      <!-- English -->
+      <!-- English (condensed: dropped the intro paragraph + 'How it works'
+           meta-list — the timer behaviour is self-evident once the test
+           begins. Kept the Timing table since the prep/speak seconds are
+           the one bit of info that's hard to infer in advance.) -->
       <div class="lang-pane" data-pane="en">
-        <p>This speaking test has <strong>8 questions</strong>. For each question there is a
-          <strong>Preparation</strong> time (red circle), then <strong>Speaking</strong> time (yellow circle). Questions
-          unlock one by one.
-        </p>
         <div class="t-body">
           <div class="t-box">
-            <h4>Timing</h4>
+            <h4>Timing · 8 questions</h4>
             <ul>
               <li><strong>Q1–Q3</strong>: Prep 5s → Speak 30s</li>
               <li><strong>Q4</strong>: Prep 10s → Speak 45s</li>
@@ -5383,39 +5382,18 @@
               <li><strong>Q7–Q8</strong>: Prep 60s → Speak 120s</li>
             </ul>
           </div>
-          <div class="t-box">
-            <h4>How it works</h4>
-            <ul>
-              <li>The question is <strong>read aloud</strong> first.</li>
-              <li>Only <strong>one timer</strong> is visible: preparation then speaking.</li>
-              <li><strong>REC</strong> visual shows during speaking (no microphone access required).</li>
-              <li>Use <strong>Pause</strong> to freeze and block the screen.</li>
-            </ul>
-          </div>
         </div>
       </div>
-      <!-- Uzbek -->
+      <!-- Uzbek (same condensation) -->
       <div class="lang-pane" data-pane="uz" style="display:none">
-        <p>Ushbu speaking testi <strong>8 ta savol</strong>dan iborat. Har bir savol avval <strong>Tay.</strong> vaqti
-          (<strong>qizil aylana</strong>), so‘ng <strong>Gap.</strong> vaqti (<strong>sariq aylana</strong>) beriladi.
-          Savollar ketma-ket ochiladi.</p>
         <div class="t-body">
           <div class="t-box">
-            <h4>Vaqtlar</h4>
+            <h4>Vaqtlar · 8 savol</h4>
             <ul>
               <li><strong>Q1–Q3</strong>: Tay. 5 son. → Gap. 30 son.</li>
               <li><strong>Q4</strong>: Tay. 10 son. → Gap. 45 son.</li>
               <li><strong>Q5–Q6</strong>: Tay. 5 son. → Gap. 30 son.</li>
               <li><strong>Q7–Q8</strong>: Tay. 60 son. → Gap. 2 daq</li>
-            </ul>
-          </div>
-          <div class="t-box">
-            <h4>Qanday ishlaydi</h4>
-            <ul>
-              <li><strong>Savol avval o‘qib eshittiriladi.</strong></li>
-              <li>Ekranda faqat <strong>bitta taymer</strong> ko‘rinadi: avval Tay., keyin Gap..</li>
-              <li>Gapirayotganda <strong>REC</strong> indikatori ko‘rinadi (mikrofon ruxsati talab qilinmaydi).</li>
-              <li><strong>Pause</strong> tugmasi vaqtni to‘xtatadi va ekranni bloklaydi.</li>
             </ul>
           </div>
         </div>
