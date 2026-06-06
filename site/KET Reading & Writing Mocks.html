@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>KET Reading & Writing — Mock</title>
+  <script src="center-id.js"></script>
+  <script src="site-config/site-config.js"></script>
+  <script>document.addEventListener('DOMContentLoaded',function(){document.title=((window.SITE_CONFIG&&window.SITE_CONFIG.brandName)||'Mock Stream')+' · KET Reading & Writing';});</script>
+  <style>
+    :root {
+      --bg: #f7f9fc;
+      --ink: #1a2236;
+      --ink-light: #475569;
+      --muted: #64748b;
+      --brand: #16a34a;
+      --brand-weak: #f0fdf4;
+      --ring: #e2e8f0;
+      --ring-strong: #cbd5e1;
+      --card: #ffffff;
+      --warn: #f59e0b;
+      --ok: #10b981;
+      --bad: #ef4444;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font-family: -apple-system,'Segoe UI',Roboto,'Helvetica Neue',sans-serif; }
+
+    /* Top toolbar */
+    .topbar { position: sticky; top: 0; z-index: 100; background: #0f172a; color: #fff; padding: 12px 18px; display: flex; align-items: center; gap: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+    .topbar .back { background: #fee2e2; color: #991b1b; border: 0; padding: 8px 14px; border-radius: 10px; font-weight: 700; cursor: pointer; }
+    .topbar .title { font-weight: 800; font-size: 15px; }
+    .topbar .spacer { flex: 1; }
+    .topbar .timer { background: var(--brand); color: #fff; padding: 8px 14px; border-radius: 10px; font-weight: 800; font-variant-numeric: tabular-nums; }
+    .topbar .timer.warn { background: var(--warn); }
+    .topbar .timer.crit { background: var(--bad); animation: pulse 1s ease-in-out infinite; }
+    @keyframes pulse { 50% { opacity: 0.7; } }
+    .topbar .submit { background: #16a34a; color: #fff; border: 0; padding: 8px 16px; border-radius: 10px; font-weight: 800; cursor: pointer; }
+    .topbar .submit:hover { background: #15803d; }
+
+    /* Layout */
+    .page { max-width: 880px; margin: 24px auto; padding: 0 18px 80px; }
+    .paper-head { text-align: center; margin-bottom: 22px; padding-bottom: 14px; border-bottom: 2px solid var(--ring); }
+    .paper-head .test-no { font-size: 28px; font-weight: 800; }
+    .paper-head .paper-line { font-size: 15px; color: var(--ink-light); margin-top: 6px; }
+
+    .part-card { background: var(--card); border: 1px solid var(--ring); border-radius: 16px; padding: 22px 24px; margin-bottom: 22px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .part-label { font-size: 18px; font-weight: 800; letter-spacing: 0.5px; color: var(--brand); }
+    .part-questions { font-size: 13px; font-weight: 700; color: var(--ink-light); margin-top: 2px; margin-bottom: 12px; letter-spacing: 0.3px; }
+    .part-instr { font-size: 14px; color: var(--ink); line-height: 1.55; margin-bottom: 16px; }
+    .part-instr p { margin: 0 0 4px 0; }
+
+    /* Example block */
+    .example-box { background: #f1f5f9; border: 1px solid var(--ring); border-radius: 10px; padding: 12px 14px; margin: 14px 0; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 14px; }
+    .example-box .ex-label { font-weight: 800; font-size: 11px; color: var(--ink-light); letter-spacing: 1px; }
+    .example-box .ex-ans { font-weight: 800; color: var(--brand); }
+
+    /* Notices grid (Part 1) */
+    .notices-grid { display: grid; grid-template-columns: 60px 1fr; gap: 8px 14px; margin: 16px 0; }
+    .notice-letter { font-weight: 800; color: var(--ink); text-align: center; align-self: center; }
+    .notice-card { border: 2px solid #1a2236; padding: 10px 14px; border-radius: 6px; background: #fff; font-weight: 600; white-space: pre-line; min-height: 36px; display: flex; align-items: center; justify-content: center; text-align: center; }
+
+    /* Question rows */
+    .q-row { display: grid; grid-template-columns: 36px 1fr 240px; gap: 12px; align-items: center; padding: 10px 0; border-top: 1px dashed var(--ring); }
+    .q-row:first-of-type { border-top: 0; }
+    .q-num { font-weight: 800; }
+    .q-text { font-size: 14.5px; line-height: 1.5; }
+    .q-answer-select { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+    .opt-pill { border: 1.5px solid var(--ring-strong); padding: 6px 10px; border-radius: 8px; cursor: pointer; background: #fff; font-weight: 700; font-size: 13px; min-width: 32px; text-align: center; transition: all 0.12s; }
+    .opt-pill:hover { border-color: var(--brand); background: var(--brand-weak); }
+    .opt-pill.selected { background: var(--brand); color: #fff; border-color: var(--brand); }
+
+    /* MCQ options vertical (for sentences) */
+    .sentence-q { padding: 14px 0; border-top: 1px dashed var(--ring); }
+    .sentence-q:first-of-type { border-top: 0; }
+    .sentence-stem { font-size: 14.5px; line-height: 1.6; margin-bottom: 8px; }
+    .sentence-stem .num { font-weight: 800; margin-right: 8px; }
+    .mcq-row { display: flex; gap: 10px; flex-wrap: wrap; margin-left: 28px; }
+    .mcq-opt { border: 1.5px solid var(--ring-strong); padding: 7px 14px; border-radius: 8px; cursor: pointer; background: #fff; font-size: 13.5px; flex: 1 1 28%; min-width: 130px; }
+    .mcq-opt:hover { border-color: var(--brand); background: var(--brand-weak); }
+    .mcq-opt.selected { background: var(--brand); color: #fff; border-color: var(--brand); }
+    .mcq-opt .ltr { font-weight: 800; margin-right: 6px; }
+
+    /* Dialogue table (Part 3b) */
+    .dialogue-and-options { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin: 16px 0; }
+    @media (max-width: 700px) { .dialogue-and-options { grid-template-columns: 1fr; } }
+    .dialogue { font-size: 14px; line-height: 1.55; }
+    .dlg-line { display: grid; grid-template-columns: 90px 1fr; gap: 8px; padding: 4px 0; }
+    .dlg-speaker { font-weight: 700; color: var(--ink-light); }
+    .dlg-gap { display: inline-flex; align-items: center; gap: 8px; }
+    .dlg-gap .num { font-weight: 800; }
+    .dlg-gap .gap-line { color: var(--muted); letter-spacing: 1px; }
+    .options-list { font-size: 13.5px; line-height: 1.5; border-left: 2px solid var(--ring); padding-left: 16px; }
+    .options-list .opt { padding: 6px 0; }
+    .options-list .opt .ltr { font-weight: 800; display: inline-block; width: 22px; }
+
+    /* Three book texts (Part 4) */
+    .three-texts { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 14px 0; }
+    @media (max-width: 800px) { .three-texts { grid-template-columns: 1fr; } }
+    .book-card { border: 1.5px solid var(--ring); border-radius: 10px; padding: 14px; background: #fff; }
+    .book-card .book-letter { display: inline-block; background: var(--brand); color: #fff; font-weight: 800; padding: 3px 8px; border-radius: 6px; font-size: 12px; margin-bottom: 6px; }
+    .book-card .book-title { font-weight: 800; font-size: 15px; margin-bottom: 8px; }
+    .book-card .book-body { font-size: 13px; line-height: 1.55; white-space: pre-line; color: var(--ink); }
+    .three-texts-heading { background: #1a2236; color: #fff; padding: 10px 16px; border-radius: 10px 10px 0 0; font-weight: 800; font-size: 16px; }
+
+    /* Cloze passage (Part 5) */
+    .cloze-box { background: #fff; border: 1.5px solid var(--ring); border-radius: 10px; padding: 16px 20px; font-size: 15px; line-height: 1.75; white-space: pre-line; }
+    .cloze-box h3 { margin: 0 0 10px 0; font-style: italic; }
+    .gap-pill { display: inline-block; background: #fef3c7; border: 1px solid #f59e0b; padding: 1px 8px; border-radius: 6px; font-weight: 700; font-size: 13px; vertical-align: middle; min-width: 24px; text-align: center; }
+
+    /* Vocab fill (Part 6) */
+    .vocab-row { display: grid; grid-template-columns: 36px 1fr 200px; gap: 12px; padding: 12px 0; border-top: 1px dashed var(--ring); align-items: center; }
+    .vocab-row:first-of-type { border-top: 0; }
+    .vocab-prompt { font-size: 14.5px; line-height: 1.5; }
+    .vocab-input-wrap { display: flex; align-items: center; gap: 4px; font-family: 'Courier New', monospace; }
+    .vocab-input-wrap .first-ltr { font-weight: 800; font-size: 18px; }
+    .vocab-input { font-family: inherit; font-size: 15px; padding: 6px 10px; border: 1.5px solid var(--ring-strong); border-radius: 8px; flex: 1; }
+    .vocab-input:focus { outline: 0; border-color: var(--brand); background: var(--brand-weak); }
+
+    /* Letter (Part 7) */
+    .letter-box { background: #fffef9; border: 1px solid #e8e3d1; border-radius: 10px; padding: 18px 22px; font-size: 14.5px; line-height: 1.9; }
+    .letter-header { text-align: right; white-space: pre-line; color: var(--ink-light); margin-bottom: 14px; }
+    .letter-greeting { font-weight: 700; margin-bottom: 10px; }
+    .letter-body { white-space: pre-line; }
+    .letter-closing { white-space: pre-line; margin-top: 14px; font-weight: 600; }
+    .inline-input { display: inline-block; vertical-align: baseline; font-family: inherit; font-size: 14px; width: 90px; padding: 2px 8px; border: 0; border-bottom: 2px solid var(--brand); background: var(--brand-weak); border-radius: 4px; }
+    .inline-input:focus { outline: 0; background: #fef3c7; }
+
+    /* Part 8 — notice + note + Andy's notes */
+    .notice-card-large { background: #fff; border: 2px solid var(--ink); border-radius: 8px; padding: 14px 18px; margin: 14px 0; }
+    .notice-card-large .ntitle { font-weight: 800; font-size: 16px; text-align: center; background: #fde68a; padding: 8px; margin: -14px -18px 12px; border-radius: 6px 6px 0 0; letter-spacing: 1px; }
+    .notice-card-large .nbody { white-space: pre-line; font-size: 14px; line-height: 1.65; }
+    .note-card { background: #fffcf0; border: 1px solid #e8e3d1; border-radius: 8px; padding: 14px 18px; margin: 14px 0; font-size: 14px; line-height: 1.65; }
+    .note-card .date-line { text-align: right; color: var(--ink-light); font-size: 13px; margin-bottom: 6px; }
+    .note-card .note-body { white-space: pre-line; }
+    .note-card .sig { font-weight: 700; margin-top: 6px; }
+    .andy-notes { background: #fff; border: 1px solid var(--ring); border-radius: 8px; padding: 16px 20px; margin: 14px 0; }
+    .andy-notes .an-title { font-weight: 800; text-align: center; font-size: 16px; }
+    .andy-notes .an-sub { text-align: center; color: var(--ink-light); font-size: 13px; margin-bottom: 12px; }
+    .andy-notes .an-row { display: grid; grid-template-columns: 140px 60px 1fr; gap: 10px; padding: 8px 0; align-items: center; }
+    .andy-notes .an-label { font-weight: 700; }
+    .andy-notes .an-num { font-weight: 800; background: #e2e8f0; padding: 2px 6px; border-radius: 4px; text-align: center; font-size: 13px; }
+    .andy-notes .an-input { padding: 6px 10px; border: 1.5px solid var(--ring-strong); border-radius: 6px; font-size: 14px; }
+    .andy-notes .an-input:focus { outline: 0; border-color: var(--brand); }
+    .andy-notes .prefilled { font-style: italic; color: var(--ink-light); }
+
+    /* Postcard (Part 9) */
+    .postcard-prompt-card { background: #fff; border: 1.5px solid var(--ring); border-radius: 10px; padding: 16px 20px; margin: 14px 0; font-size: 14.5px; line-height: 1.65; white-space: pre-line; }
+    .postcard-prompt-card .sig { margin-top: 10px; font-weight: 700; text-align: right; }
+    .postcard-textarea { width: 100%; min-height: 140px; padding: 12px; border: 1.5px solid var(--ring-strong); border-radius: 8px; font-family: inherit; font-size: 14.5px; line-height: 1.6; resize: vertical; }
+    .postcard-textarea:focus { outline: 0; border-color: var(--brand); background: var(--brand-weak); }
+    .wc-line { font-size: 12.5px; color: var(--ink-light); margin-top: 6px; text-align: right; }
+    .wc-line.in-range { color: var(--ok); font-weight: 700; }
+    .wc-line.out-range { color: var(--bad); font-weight: 700; }
+
+    /* Results modal */
+    .results-modal { position: fixed; inset: 0; background: rgba(15,23,42,0.7); display: none; align-items: center; justify-content: center; z-index: 200; padding: 20px; }
+    .results-modal.show { display: flex; }
+    .results-card { background: #fff; border-radius: 16px; max-width: 720px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 28px 30px; }
+    .results-card h2 { margin: 0 0 14px 0; }
+    .score-big { font-size: 42px; font-weight: 900; color: var(--brand); }
+    .score-breakdown { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 14px; margin: 16px 0; font-size: 14px; }
+    .score-breakdown .part-name { color: var(--ink-light); }
+    .score-breakdown .part-score { font-weight: 700; text-align: right; }
+    .free-text-review { background: #f8fafc; border: 1px solid var(--ring); border-radius: 10px; padding: 14px; margin: 12px 0; }
+    .free-text-review .qhead { font-weight: 700; margin-bottom: 6px; }
+    .free-text-review .their-ans { background: #fff; border: 1px solid var(--ring-strong); padding: 8px 12px; border-radius: 6px; font-size: 14px; margin-bottom: 6px; white-space: pre-line; }
+    .free-text-review .expected { color: var(--ink-light); font-size: 13px; }
+    .results-actions { display: flex; gap: 10px; margin-top: 20px; }
+    .results-actions button { flex: 1; padding: 10px 16px; border-radius: 10px; border: 0; cursor: pointer; font-weight: 700; }
+    .results-actions .btn-back { background: var(--ring); color: var(--ink); }
+    .results-actions .btn-retry { background: var(--brand); color: #fff; }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <button class="back" onclick="goBack()">← Back</button>
+  <span class="title">KET Reading & Writing</span>
+  <span class="spacer"></span>
+  <span class="timer" id="timer">1:10:00</span>
+  <button class="submit" onclick="submitTest()">Submit</button>
+</div>
+
+<div class="page" id="page">
+  <div class="paper-head">
+    <div class="test-no">Test 1</div>
+    <div class="paper-line"><strong>PAPER 1</strong> &nbsp;&nbsp; READING AND WRITING &nbsp;&nbsp; <span style="color:var(--muted)">(1 hour 10 minutes)</span></div>
+  </div>
+  <div id="partsRoot"></div>
+</div>
+
+<div class="results-modal" id="resultsModal">
+  <div class="results-card" id="resultsCard"></div>
+</div>
+
+<script src="questions KET RW/ket-rw-test-01.js"></script>
+<script>
+  function goBack() {
+    if (window.confirm('Leave the test? Your answers will be lost.')) {
+      window.location.href = '/landing-v3.html?reopen=cambridge';
+    }
+  }
+
+  // ── State ──────────────────────────────────────────────────────
+  // window.__ANS[id] = string ('A'/'B'/'C'/'D'/etc. for MCQ; free text for fills)
+  window.__ANS = {};
+
+  function setAns(id, val) { window.__ANS[id] = val; }
+  function getAns(id) { return window.__ANS[id] || ''; }
+
+  // ── Renderers, one per question type ───────────────────────────
+  function renderPartHeader(part) {
+    var instrHtml = (part.instruction || []).map(function (l) { return '<p>' + escapeHtml(l) + '</p>'; }).join('');
+    return ''
+      + (part.label ? '<div class="part-label">' + escapeHtml(part.label) + '</div>' : '')
+      + '<div class="part-questions">' + escapeHtml(part.questionsLabel || '') + '</div>'
+      + '<div class="part-instr">' + instrHtml + '</div>';
+  }
+
+  function renderExampleNoticeMatch(part) {
+    return '<div class="example-box">'
+      + '<div><div class="ex-label">EXAMPLE</div><div><strong>0</strong> ' + escapeHtml(part.example.prompt) + '</div></div>'
+      + '<div><div class="ex-label">ANSWER</div><div class="ex-ans">' + escapeHtml(part.example.answer) + '</div></div>'
+      + '</div>';
+  }
+
+  // PART 1 — match notices
+  function renderPart1(part) {
+    var html = renderPartHeader(part) + renderExampleNoticeMatch(part);
+    // Notices A-H — render as two-column grid with letter + boxed text
+    html += '<div class="notices-grid">';
+    part.notices.forEach(function (n) {
+      html += '<div class="notice-letter">' + escapeHtml(n.letter) + '</div>';
+      html += '<div class="notice-card">' + escapeHtml(n.text) + '</div>';
+    });
+    html += '</div>';
+    // Questions 1-5
+    var letters = part.notices.map(function (n) { return n.letter; });
+    part.items.forEach(function (item) {
+      html += '<div class="q-row">';
+      html += '<div class="q-num">' + item.id + '</div>';
+      html += '<div class="q-text">' + escapeHtml(item.prompt) + '</div>';
+      html += '<div class="q-answer-select" data-id="' + item.id + '">';
+      letters.forEach(function (l) {
+        html += '<button class="opt-pill" data-letter="' + l + '" onclick="pickPill(' + item.id + ',\'' + l + '\',this)">' + l + '</button>';
+      });
+      html += '</div></div>';
+    });
+    return html;
+  }
+
+  // PART 2 — MCQ gap-fill sentences (3 options A/B/C each)
+  function renderPart2(part) {
+    var html = renderPartHeader(part);
+    // Example
+    var ex = part.example;
+    var exOptsHtml = ex.options.map(function (o) { return '<div class="mcq-opt"><span class="ltr">' + escapeHtml(o.letter) + '</span>' + escapeHtml(o.text) + '</div>'; }).join('');
+    html += '<div class="example-box" style="flex-direction:column;align-items:stretch">';
+    html += '<div style="display:flex;justify-content:space-between"><div class="ex-label">EXAMPLE</div><div class="ex-label">ANSWER <span class="ex-ans">' + escapeHtml(ex.answer) + '</span></div></div>';
+    html += '<div class="sentence-stem" style="margin:8px 0 4px"><span class="num">0</span>' + escapeHtml(ex.sentence) + '</div>';
+    html += '<div class="mcq-row">' + exOptsHtml + '</div>';
+    html += '</div>';
+    // Items
+    part.items.forEach(function (item) {
+      html += '<div class="sentence-q">';
+      html += '<div class="sentence-stem"><span class="num">' + item.id + '</span>' + escapeHtml(item.sentence) + '</div>';
+      html += '<div class="mcq-row">';
+      item.options.forEach(function (o) {
+        html += '<div class="mcq-opt" onclick="pickMcq(' + item.id + ',\'' + o.letter + '\',this)" data-id="' + item.id + '" data-letter="' + o.letter + '"><span class="ltr">' + escapeHtml(o.letter) + '</span>' + escapeHtml(o.text) + '</div>';
+      });
+      html += '</div></div>';
+    });
+    return html;
+  }
+
+  // PART 3a — MCQ response (single prompt with 3 reply options)
+  function renderPart3a(part) {
+    var html = renderPartHeader(part);
+    var ex = part.example;
+    html += '<div class="example-box" style="flex-direction:column;align-items:stretch">';
+    html += '<div style="display:flex;justify-content:space-between"><div class="ex-label">EXAMPLE</div><div class="ex-label">ANSWER <span class="ex-ans">' + escapeHtml(ex.answer) + '</span></div></div>';
+    html += '<div class="sentence-stem" style="margin:8px 0 4px"><em>' + escapeHtml(ex.prompt) + '</em></div>';
+    html += '<div class="mcq-row">';
+    ex.options.forEach(function (o) { html += '<div class="mcq-opt"><span class="ltr">' + escapeHtml(o.letter) + '</span>' + escapeHtml(o.text) + '</div>'; });
+    html += '</div></div>';
+    part.items.forEach(function (item) {
+      html += '<div class="sentence-q">';
+      html += '<div class="sentence-stem"><span class="num">' + item.id + '</span><em>' + escapeHtml(item.prompt) + '</em></div>';
+      html += '<div class="mcq-row">';
+      item.options.forEach(function (o) {
+        html += '<div class="mcq-opt" onclick="pickMcq(' + item.id + ',\'' + o.letter + '\',this)" data-id="' + item.id + '" data-letter="' + o.letter + '"><span class="ltr">' + escapeHtml(o.letter) + '</span>' + escapeHtml(o.text) + '</div>';
+      });
+      html += '</div></div>';
+    });
+    return html;
+  }
+
+  // PART 3b — dialogue matching (woman's lines from A-H bank)
+  function renderPart3b(part) {
+    var html = renderPartHeader(part);
+    // Render dialogue + options bank side-by-side
+    html += '<div class="dialogue-and-options"><div class="dialogue">';
+    part.dialogue.forEach(function (d) {
+      html += '<div class="dlg-line"><div class="dlg-speaker">' + escapeHtml(d.speaker) + ':</div><div>';
+      if (typeof d.line === 'string') {
+        html += escapeHtml(d.line);
+      } else if (typeof d.gap === 'number') {
+        if (d.gap === 0) {
+          html += '<span class="dlg-gap"><span class="num">0</span> <span class="ex-ans">[ ' + escapeHtml(part.example.answer) + ' ]</span></span>';
+        } else {
+          html += '<span class="dlg-gap"><span class="num">' + d.gap + '</span> <select class="dlg-select" data-id="' + d.gap + '" onchange="setAns(' + d.gap + ', this.value)" style="padding:4px 8px;border:1.5px solid var(--ring-strong);border-radius:6px"><option value="">— pick —</option>';
+          part.options.forEach(function (o) { html += '<option value="' + o.letter + '">' + o.letter + '</option>'; });
+          html += '</select></span>';
+        }
+      }
+      html += '</div></div>';
+    });
+    html += '</div>';
+    html += '<div class="options-list">';
+    part.options.forEach(function (o) {
+      html += '<div class="opt"><span class="ltr">' + escapeHtml(o.letter) + '</span>' + escapeHtml(o.text) + '</div>';
+    });
+    html += '</div></div>';
+    return html;
+  }
+
+  // PART 4 — 3 texts, A/B/C questions
+  function renderPart4(part) {
+    var html = renderPartHeader(part);
+    html += '<div class="three-texts-heading">' + escapeHtml(part.heading) + '</div>';
+    html += '<div class="three-texts">';
+    part.texts.forEach(function (t) {
+      html += '<div class="book-card"><span class="book-letter">' + escapeHtml(t.letter) + '</span><div class="book-title">' + escapeHtml(t.title) + '</div><div class="book-body">' + escapeHtml(t.body) + '</div></div>';
+    });
+    html += '</div>';
+    // Example
+    var ex = part.example;
+    html += '<div class="example-box">';
+    html += '<div><div class="ex-label">EXAMPLE</div><div><strong>0</strong> ' + escapeHtml(ex.prompt) + '</div></div>';
+    html += '<div><div class="ex-label">ANSWER</div><div class="ex-ans">' + escapeHtml(ex.answer) + '</div></div>';
+    html += '</div>';
+    // Items
+    part.items.forEach(function (item) {
+      html += '<div class="q-row">';
+      html += '<div class="q-num">' + item.id + '</div>';
+      html += '<div class="q-text">' + escapeHtml(item.prompt) + '</div>';
+      html += '<div class="q-answer-select">';
+      ['A', 'B', 'C'].forEach(function (l) {
+        html += '<button class="opt-pill" data-letter="' + l + '" onclick="pickPill(' + item.id + ',\'' + l + '\',this)">' + l + '</button>';
+      });
+      html += '</div></div>';
+    });
+    return html;
+  }
+
+  // PART 5 — cloze passage with per-gap MCQ
+  function renderPart5(part) {
+    var html = renderPartHeader(part);
+    // Render passage with gap pills inline
+    var passageHtml = escapeHtml(part.passage).replace(/\{(\d+)\}/g, function (_, n) {
+      var id = parseInt(n, 10);
+      if (id === 0) return '<span class="gap-pill" style="background:#dcfce7;border-color:#16a34a">0 → ' + escapeHtml(part.example.answer) + '</span>';
+      return '<span class="gap-pill" id="gap-pill-' + id + '">' + id + '</span>';
+    });
+    html += '<div class="cloze-box"><h3>' + escapeHtml(part.passageTitle) + '</h3>' + passageHtml + '</div>';
+    // Options for each gap below
+    html += '<div style="margin-top:18px">';
+    part.items.forEach(function (item) {
+      html += '<div class="q-row">';
+      html += '<div class="q-num">' + item.id + '</div>';
+      html += '<div class="q-text" style="display:flex;gap:14px;flex-wrap:wrap">';
+      item.options.forEach(function (o) {
+        html += '<label style="display:inline-flex;align-items:center;gap:5px;cursor:pointer"><input type="radio" name="p5q' + item.id + '" value="' + o.letter + '" onchange="setAns(' + item.id + ', this.value)"><strong>' + escapeHtml(o.letter) + '</strong>&nbsp;' + escapeHtml(o.text) + '</label>';
+      });
+      html += '</div>';
+      html += '<div></div></div>';
+    });
+    html += '</div>';
+    return html;
+  }
+
+  // PART 6 — vocab fill, first letter given
+  function renderPart6(part) {
+    var html = renderPartHeader(part);
+    var ex = part.example;
+    html += '<div class="example-box">';
+    html += '<div><div class="ex-label">EXAMPLE</div><div><strong>0</strong> ' + escapeHtml(ex.prompt) + '</div></div>';
+    html += '<div><div class="ex-label">ANSWER</div><div class="ex-ans" style="font-family:monospace">' + escapeHtml(ex.firstLetter) + ' ' + ex.answer.slice(1).split('').join(' ') + '</div></div>';
+    html += '</div>';
+    part.items.forEach(function (item) {
+      var slots = item.letters - 1;
+      var hint = '_ '.repeat(slots).trim();
+      html += '<div class="vocab-row">';
+      html += '<div class="q-num">' + item.id + '</div>';
+      html += '<div class="vocab-prompt">' + escapeHtml(item.prompt) + '</div>';
+      html += '<div class="vocab-input-wrap"><span class="first-ltr">' + escapeHtml(item.firstLetter) + '</span>';
+      html += '<input class="vocab-input" type="text" placeholder="' + hint + '" maxlength="' + (item.letters - 1) + '" oninput="setAns(' + item.id + ', \'' + item.firstLetter + '\' + this.value)" />';
+      html += '</div></div>';
+    });
+    return html;
+  }
+
+  // PART 7 — open cloze, write one word per gap inside letter
+  function renderPart7(part) {
+    var html = renderPartHeader(part);
+    var bodyHtml = escapeHtml(part.body).replace(/\{(\d+)\}/g, function (_, n) {
+      var id = parseInt(n, 10);
+      if (id === 0) return '<strong>' + escapeHtml(part.example.answer) + '</strong>';
+      return '<input class="inline-input" type="text" data-id="' + id + '" oninput="setAns(' + id + ', this.value)" placeholder="' + id + '" />';
+    });
+    html += '<div class="letter-box">';
+    html += '<div class="letter-header">' + escapeHtml(part.header) + '</div>';
+    html += '<div class="letter-greeting">' + escapeHtml(part.greeting) + '</div>';
+    html += '<div class="letter-body">' + bodyHtml + '</div>';
+    html += '<div class="letter-closing">' + escapeHtml(part.closing) + '</div>';
+    html += '</div>';
+    return html;
+  }
+
+  // PART 8 — info transfer: notice + note → notes form
+  function renderPart8(part) {
+    var html = renderPartHeader(part);
+    // Notice
+    html += '<div class="notice-card-large">';
+    html += '<div class="ntitle">' + escapeHtml(part.notice.title) + '</div>';
+    html += '<div class="nbody">' + escapeHtml(part.notice.body) + '</div>';
+    html += '</div>';
+    // Note from Sheila
+    html += '<div class="note-card">';
+    html += '<div class="date-line">' + escapeHtml(part.note.dateLine) + '</div>';
+    html += '<div class="note-body">' + escapeHtml(part.note.body) + '</div>';
+    html += '<div class="sig">' + escapeHtml(part.note.signature) + '</div>';
+    html += '</div>';
+    // Andy's Notes
+    html += '<div class="andy-notes">';
+    html += '<div class="an-title">' + escapeHtml(part.notesTitle) + '</div>';
+    html += '<div class="an-sub">' + escapeHtml(part.notesSubtitle) + '</div>';
+    part.rows.forEach(function (row) {
+      html += '<div class="an-row">';
+      html += '<div class="an-label">' + escapeHtml(row.label) + '</div>';
+      if (row.prefilled) {
+        html += '<div></div><div class="prefilled">' + escapeHtml(row.prefilled) + '</div>';
+      } else {
+        html += '<div class="an-num">' + row.id + '</div>';
+        var prefix = row.prefix ? escapeHtml(row.prefix) + ' ' : '';
+        html += '<div style="display:flex;align-items:center;gap:6px">' + prefix + '<input class="an-input" type="text" style="flex:1" data-id="' + row.id + '" oninput="setAns(' + row.id + ', this.value)" /></div>';
+      }
+      html += '</div>';
+    });
+    html += '</div>';
+    return html;
+  }
+
+  // PART 9 — writing postcard
+  function renderPart9(part) {
+    var html = renderPartHeader(part);
+    html += '<div class="postcard-prompt-card">' + escapeHtml(part.prompt) + '<div class="sig">' + escapeHtml(part.promptSignature) + '</div></div>';
+    html += '<div style="font-weight:700;margin:10px 0 6px">Write your postcard:</div>';
+    html += '<textarea class="postcard-textarea" data-id="56" oninput="setAns(56, this.value); updateWordCount(this);" placeholder="Write your reply (25–35 words)..."></textarea>';
+    html += '<div class="wc-line" id="wc-line"><span id="wc-count">0</span> words (target: 25–35)</div>';
+    (part.footer || []).forEach(function (l) { html += '<p style="font-size:13px;color:var(--ink-light);margin:4px 0">' + escapeHtml(l) + '</p>'; });
+    return html;
+  }
+
+  function updateWordCount(textarea) {
+    var txt = (textarea.value || '').trim();
+    var n = txt ? txt.split(/\s+/).length : 0;
+    var el = document.getElementById('wc-count');
+    var line = document.getElementById('wc-line');
+    if (el) el.textContent = n;
+    if (line) {
+      line.classList.remove('in-range', 'out-range');
+      if (n >= 25 && n <= 35) line.classList.add('in-range');
+      else if (n > 35) line.classList.add('out-range');
+    }
+  }
+
+  // ── Pickers ─────────────────────────────────────────────────────
+  function pickPill(id, letter, btn) {
+    setAns(id, letter);
+    var parent = btn.parentElement;
+    parent.querySelectorAll('.opt-pill').forEach(function (p) { p.classList.remove('selected'); });
+    btn.classList.add('selected');
+  }
+  function pickMcq(id, letter, el) {
+    setAns(id, letter);
+    var siblings = el.parentElement.querySelectorAll('.mcq-opt[data-id="' + id + '"]');
+    siblings.forEach(function (s) { s.classList.remove('selected'); });
+    el.classList.add('selected');
+  }
+
+  function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+    });
+  }
+
+  // ── Build the page ─────────────────────────────────────────────
+  function build() {
+    var data = window.KET_RW_TEST;
+    if (!data) {
+      document.getElementById('partsRoot').innerHTML = '<div style="padding:40px;text-align:center;color:var(--bad)">Failed to load the test data.</div>';
+      return;
+    }
+    var renderers = {
+      'match-notices':          renderPart1,
+      'mcq-gap-fill-sentences': renderPart2,
+      'mcq-response':           renderPart3a,
+      'match-dialogue':         renderPart3b,
+      'match-three-texts':      renderPart4,
+      'mcq-cloze-passage':      renderPart5,
+      'vocab-first-letter':     renderPart6,
+      'open-cloze-letter':      renderPart7,
+      'info-transfer-notes':    renderPart8,
+      'writing-postcard':       renderPart9
+    };
+    var rootHtml = '';
+    data.parts.forEach(function (p) {
+      var fn = renderers[p.type];
+      rootHtml += '<div class="part-card">' + (fn ? fn(p) : ('<em>Unknown type: ' + p.type + '</em>')) + '</div>';
+    });
+    document.getElementById('partsRoot').innerHTML = rootHtml;
+  }
+
+  // ── Timer ───────────────────────────────────────────────────────
+  var totalSeconds = (window.KET_RW_TEST && window.KET_RW_TEST.testInfo.totalTime || 70) * 60;
+  var endAt = Date.now() + totalSeconds * 1000;
+  function fmt(s) {
+    var h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+    return h + ':' + String(m).padStart(2, '0') + ':' + String(sec).padStart(2, '0');
+  }
+  function tickTimer() {
+    var left = Math.max(0, Math.round((endAt - Date.now()) / 1000));
+    var el = document.getElementById('timer');
+    el.textContent = fmt(left);
+    el.classList.toggle('warn', left <= 600 && left > 60);
+    el.classList.toggle('crit', left <= 60);
+    if (left === 0) submitTest();
+  }
+  setInterval(tickTimer, 1000);
+
+  // ── Submit + grade ──────────────────────────────────────────────
+  function submitTest() {
+    var data = window.KET_RW_TEST;
+    if (!data) return;
+    var report = { perPart: [], totalScore: 0, totalAuto: 0, freeText: [] };
+    data.parts.forEach(function (p) {
+      var partRow = { partNumber: p.partNumber + (p.partLetter || ''), type: p.type, score: 0, max: 0 };
+      var auto = isAutoGradable(p.type);
+      (p.items || []).forEach(function (item) {
+        if (auto) {
+          partRow.max += 1;
+          var given = normalize(getAns(item.id));
+          var expected = normalize(item.answer);
+          if (given && given === expected) partRow.score += 1;
+        } else {
+          report.freeText.push({ id: item.id, partNumber: partRow.partNumber, expected: item.answer || '', given: getAns(item.id), type: p.type });
+        }
+      });
+      report.perPart.push(partRow);
+      report.totalScore += partRow.score;
+      report.totalAuto += partRow.max;
+    });
+    showResults(report);
+  }
+
+  function isAutoGradable(t) {
+    // Vocab fill (Part 6) and open cloze (Part 7) and info-transfer notes
+    // (Part 8) — answers vary in case/whitespace, we still auto-grade by
+    // case-insensitive exact match. Postcard (Part 9) is the only purely
+    // free-text item — collected for review.
+    return t === 'match-notices' || t === 'mcq-gap-fill-sentences' || t === 'mcq-response'
+        || t === 'match-dialogue' || t === 'match-three-texts' || t === 'mcq-cloze-passage'
+        || t === 'vocab-first-letter' || t === 'open-cloze-letter' || t === 'info-transfer-notes';
+  }
+  function normalize(s) {
+    return String(s == null ? '' : s).trim().toLowerCase().replace(/\s+/g, ' ');
+  }
+
+  function showResults(report) {
+    var html = '<h2>Results</h2>';
+    html += '<div class="score-big">' + report.totalScore + ' / ' + report.totalAuto + '</div>';
+    html += '<div class="score-breakdown">';
+    report.perPart.forEach(function (r) {
+      if (r.max > 0) {
+        html += '<div class="part-name">Part ' + r.partNumber + '</div>';
+        html += '<div class="part-score">' + r.score + ' / ' + r.max + '</div>';
+      }
+    });
+    html += '</div>';
+    if (report.freeText.length > 0) {
+      html += '<h3 style="margin-top:18px">Free-text answers (for self-review)</h3>';
+      report.freeText.forEach(function (ft) {
+        html += '<div class="free-text-review">';
+        html += '<div class="qhead">Q' + ft.id + ' (Part ' + ft.partNumber + ')</div>';
+        html += '<div class="their-ans">' + (escapeHtml(ft.given) || '<em style="color:var(--muted)">— blank —</em>') + '</div>';
+        if (ft.expected) html += '<div class="expected"><strong>Sample answer:</strong> ' + escapeHtml(ft.expected) + '</div>';
+        html += '</div>';
+      });
+    }
+    html += '<div class="results-actions">';
+    html += '<button class="btn-back" onclick="window.location.href=\'/landing-v3.html?reopen=cambridge\'">Back to picker</button>';
+    html += '<button class="btn-retry" onclick="window.location.reload()">Try again</button>';
+    html += '</div>';
+    document.getElementById('resultsCard').innerHTML = html;
+    document.getElementById('resultsModal').classList.add('show');
+  }
+
+  // Boot
+  build();
+  tickTimer();
+</script>
+
+</body>
+</html>
