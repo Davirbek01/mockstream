@@ -245,33 +245,28 @@
         // Skip the Choose Exam Format dialog when the centre admin has
         // turned Paper-Based Writing Exam off — there's no point asking
         // students to pick between two options when one is greyed out.
-        // Keep the autoProceedLoader visible until startComputerExam
-        // is wired so the student doesn't see a bare-DOM flash between
-        // gate-hide and the timer/textareas appearing.
         var __paperDisabled = window._centerConfig && window._centerConfig.writingPaperMode === false;
-        var __dropLoader = function () {
-          var loader = document.getElementById('autoProceedLoader');
-          if (loader) loader.remove();
-          if (window._autoHideGateStyle) window._autoHideGateStyle.remove();
-        };
         if (__paperDisabled) {
-          var __runSCE = function () {
+          setTimeout(function () {
             if (typeof window.startComputerExam === 'function') {
-              Promise.resolve().then(window.startComputerExam).finally(__dropLoader);
+              window.startComputerExam();
             } else {
               var waitForStart = setInterval(function () {
                 if (typeof window.startComputerExam === 'function') {
                   clearInterval(waitForStart);
-                  Promise.resolve().then(window.startComputerExam).finally(__dropLoader);
+                  window.startComputerExam();
                 }
               }, 200);
             }
-          };
-          __runSCE();
+          }, 500);
         } else {
           formatChoice.style.display = 'flex';
-          __dropLoader();
         }
+
+        // Remove loader
+        var loader = document.getElementById('autoProceedLoader');
+        if (loader) loader.remove();
+        if (window._autoHideGateStyle) window._autoHideGateStyle.remove();
 
         console.log('[Auto-Proceed IELTS Writing] Went straight to format choice for Mock ' + mockNum);
       }
@@ -5017,17 +5012,10 @@
       studentName = nameInput.value.trim();
       gate.style.display = 'none';
       // Skip the Choose Exam Format dialog when paper mode is off at the
-      // centre — same shortcut as the auto-proceed path above. Keep the
-      // splash visible until startComputerExam finishes so the student
-      // doesn't see a bare-DOM flash between gate-hide and timer-up.
+      // centre — same shortcut as the auto-proceed path above.
       var __paperDisabled = window._centerConfig && window._centerConfig.writingPaperMode === false;
-      var __dropLoaderSB = function () {
-        var loader = document.getElementById('autoProceedLoader');
-        if (loader) loader.remove();
-        if (window._autoHideGateStyle) window._autoHideGateStyle.remove();
-      };
       if (__paperDisabled && typeof startComputerExam === 'function') {
-        Promise.resolve().then(startComputerExam).finally(__dropLoaderSB);
+        startComputerExam();
       } else {
         formatChoice.style.display = 'flex';
       }
