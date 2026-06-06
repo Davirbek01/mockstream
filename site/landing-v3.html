@@ -15350,6 +15350,10 @@
                          + '&num=' + encodeURIComponent(String(mockNum).padStart(2, '0'))
                          + '&auto=1&action=practice';
           if (typeof handleSpeakingMockClick === 'function') {
+            // Mode-chooser modal opens but stays hidden under the splash
+            // unless we dismiss it here. Top-level nav fallbacks (else
+            // branch) don't need this — the runner page takes over.
+            _takeHideSplash();
             handleSpeakingMockClick(pageUrlSpk, category);
           } else {
             try { window.location.replace(window.__msv3AbsUrl(pageUrlSpk)); } catch (_e) { window.location.href = window.__msv3AbsUrl(pageUrlSpk); }
@@ -15370,6 +15374,7 @@
             + '&sbmock=' + encodeURIComponent(sbMockId)
             + '&auto=1';
           if (typeof handleWritingMockClick === 'function') {
+            _takeHideSplash();
             handleWritingMockClick(pageUrlW, category);
           } else {
             try { window.location.replace(window.__msv3AbsUrl(pageUrlW)); } catch (_e) { window.location.href = window.__msv3AbsUrl(pageUrlW); }
@@ -15387,12 +15392,14 @@
 
         if (skill === 'reading') {
           if (typeof handleReadingMockClick === 'function') {
+            _takeHideSplash();
             handleReadingMockClick(pageUrl, category);
           } else {
             try { window.location.replace(window.__msv3AbsUrl(pageUrl)); } catch (_e) { window.location.href = window.__msv3AbsUrl(pageUrl); }
           }
         } else {
           if (typeof handleListeningMockClick === 'function') {
+            _takeHideSplash();
             handleListeningMockClick(pageUrl, category);
           } else {
             try { window.location.replace(window.__msv3AbsUrl(pageUrl)); } catch (_e) { window.location.href = window.__msv3AbsUrl(pageUrl); }
