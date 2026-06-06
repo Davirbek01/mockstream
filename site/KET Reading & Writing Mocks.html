@@ -1229,11 +1229,12 @@
   function getPartName(part) {
     var key = part.partNumber + (part.partLetter || '');
     var base = PART_NAMES[key] || ('Part ' + key);
-    // Per-mock topic suffix; first available field wins.
-    var topic = part.passageTitle || part.articleTitle || part.heading
-             || (part.notice && part.notice.title) || part.notesTitle;
-    if (topic) {
-      var clean = String(topic).replace(/\s+/g, ' ').trim();
+    // Only Part 5 gets the per-mock topic suffix appended — it's the
+    // cloze passage and the topic varies per test (Schnauzer dogs /
+    // Dinosaurs / Rhinos / Madame Tussaud's). Other parts keep the
+    // generic label so they don't echo the heading repeated below.
+    if (key === '5' && part.passageTitle) {
+      var clean = String(part.passageTitle).replace(/\s+/g, ' ').trim();
       if (clean) return base + ' · ' + clean;
     }
     return base;
