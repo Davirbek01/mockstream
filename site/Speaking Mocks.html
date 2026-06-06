@@ -2766,6 +2766,60 @@
     #tutorialModal[data-mic-state="pending"] .tut2-verified-only,
     #tutorialModal[data-mic-state="pending"] #tutorialBegin { display: none; }
     #tutorialModal[data-mic-state="verified"] .tut2-pending-only { display: none; }
+    /* Three-state body sections — fade in when their state is active. */
+    .tut2-show-pendverif, .tut2-show-testing, .tut2-show-verified { display: none; }
+    #tutorialModal[data-mic-state="pending"]  .tut2-show-pendverif,
+    #tutorialModal[data-mic-state="verified"] .tut2-show-pendverif,
+    #tutorialModal[data-mic-state="testing"]  .tut2-show-testing,
+    #tutorialModal[data-mic-state="verified"] .tut2-show-verified {
+      display: revert;
+      animation: tut2FadeIn .26s ease both;
+    }
+    @keyframes tut2FadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    /* Mic-test panel inside the testing state — read-aloud sample + orb. */
+    .tut2-test { margin-bottom: 18px; }
+    .tut2-test-sample {
+      background: #f0fdfa;
+      border: 1px solid #99f6e4;
+      border-left: 4px solid #0d9488;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin: 0 0 14px;
+      color: #0f172a;
+      font-size: 13.5px;
+      line-height: 1.5;
+      font-weight: 500;
+    }
+    .tut2-test-orb-wrap { text-align: center; padding: 6px 0 4px; }
+    .tut2-test-orb {
+      width: 96px; height: 96px;
+      border-radius: 50%;
+      border: 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+      font-size: 38px;
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease, background .25s ease;
+      box-shadow: 0 8px 22px rgba(102, 126, 234, 0.45);
+    }
+    .tut2-test-orb:hover { transform: scale(1.04); box-shadow: 0 10px 28px rgba(102, 126, 234, 0.55); }
+    .tut2-test-orb:active { transform: scale(0.98); }
+    .tut2-test-status {
+      margin-top: 12px;
+      font-weight: 700;
+      color: #475569;
+      font-size: 13.5px;
+    }
+    .tut2-test-timer {
+      margin-top: 3px;
+      font-size: 12px;
+      color: #94a3b8;
+      font-variant-numeric: tabular-nums;
+      min-height: 16px;
+    }
     /* Language toggle — single data-lang on modal root drives all spans. */
     #tutorialModal[data-lang="en"] .tut2-uz,
     #tutorialModal[data-lang="uz"] .tut2-en { display: none !important; }
@@ -5523,10 +5577,14 @@
     </div>
   </div>
 
-  <!-- ===== Tutorial (EN/UZ) — v2 redesign 2026-06-06 =====
-       State-driven via data-mic-state + data-lang on the root. The Begin
-       button is hidden until mic check passes (mandatory), so a student
-       can't start the test without verifying their microphone first. -->
+  <!-- ===== Tutorial (EN/UZ) — v3 inline mic test, 2026-06-07 =====
+       Single self-transforming modal. Three states via data-mic-state:
+         pending  — Timing chips + amber "test required" banner
+         testing  — Sample text + record orb + Cancel/Done
+         verified — Timing chips + green "verified" banner + Begin
+       No separate mic-check pop-up; tapping Test microphone smoothly
+       fades the modal body into the testing layout, eliminating the
+       focus race that was killing the old standalone modal. -->
   <div aria-hidden="true" class="tutorial" id="tutorialModal" data-mic-state="pending" data-lang="en">
     <div class="tutorial-card tut2-card">
       <header class="tut2-header">
@@ -5549,66 +5607,88 @@
         </div>
       </header>
 
-      <!-- Timing chips — same numbers as the original Timing box, just
-           tighter so the modal stays short on mobile. -->
-      <div class="tut2-timing" role="list" aria-label="Question timing">
-        <div class="tut2-chip" role="listitem">
-          <span class="tut2-chip-q">Q1–Q3</span>
-          <span class="tut2-chip-t">5 / 30 s</span>
+      <!-- Pending / Verified body: timing chips + status banner. -->
+      <div class="tut2-show-pendverif">
+        <div class="tut2-timing" role="list" aria-label="Question timing">
+          <div class="tut2-chip" role="listitem">
+            <span class="tut2-chip-q">Q1–Q3</span>
+            <span class="tut2-chip-t">5 / 30 s</span>
+          </div>
+          <div class="tut2-chip" role="listitem">
+            <span class="tut2-chip-q">Q4</span>
+            <span class="tut2-chip-t">10 / 45 s</span>
+          </div>
+          <div class="tut2-chip" role="listitem">
+            <span class="tut2-chip-q">Q5–Q6</span>
+            <span class="tut2-chip-t">5 / 30 s</span>
+          </div>
+          <div class="tut2-chip" role="listitem">
+            <span class="tut2-chip-q">Q7–Q8</span>
+            <span class="tut2-chip-t">60 / 120 s</span>
+          </div>
         </div>
-        <div class="tut2-chip" role="listitem">
-          <span class="tut2-chip-q">Q4</span>
-          <span class="tut2-chip-t">10 / 45 s</span>
-        </div>
-        <div class="tut2-chip" role="listitem">
-          <span class="tut2-chip-q">Q5–Q6</span>
-          <span class="tut2-chip-t">5 / 30 s</span>
-        </div>
-        <div class="tut2-chip" role="listitem">
-          <span class="tut2-chip-q">Q7–Q8</span>
-          <span class="tut2-chip-t">60 / 120 s</span>
+
+        <div class="tut2-mic-banner" aria-live="polite">
+          <div class="tut2-mic-icon">
+            <span class="tut2-pending-only">🎤</span>
+            <span class="tut2-verified-only">✓</span>
+          </div>
+          <div class="tut2-mic-copy">
+            <div class="tut2-mic-title">
+              <span class="tut2-pending-only">
+                <span class="tut2-en">Microphone test required</span>
+                <span class="tut2-uz">Mikrofon tekshiruvi shart</span>
+              </span>
+              <span class="tut2-verified-only">
+                <span class="tut2-en">Microphone verified</span>
+                <span class="tut2-uz">Mikrofon tasdiqlandi</span>
+              </span>
+            </div>
+            <div class="tut2-mic-sub">
+              <span class="tut2-pending-only">
+                <span class="tut2-en">Record one short sample to unlock the test.</span>
+                <span class="tut2-uz">Testni boshlash uchun qisqa namuna yozing.</span>
+              </span>
+              <span class="tut2-verified-only">
+                <span class="tut2-en">You're ready to begin.</span>
+                <span class="tut2-uz">Boshlashga tayyorsiz.</span>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Mic check status banner (amber when pending, green when verified). -->
-      <div class="tut2-mic-banner" aria-live="polite">
-        <div class="tut2-mic-icon">
-          <span class="tut2-pending-only">🎤</span>
-          <span class="tut2-verified-only">✓</span>
-        </div>
-        <div class="tut2-mic-copy">
-          <div class="tut2-mic-title">
-            <span class="tut2-pending-only">
-              <span class="tut2-en">Microphone test required</span>
-              <span class="tut2-uz">Mikrofon tekshiruvi shart</span>
-            </span>
-            <span class="tut2-verified-only">
-              <span class="tut2-en">Microphone verified</span>
-              <span class="tut2-uz">Mikrofon tasdiqlandi</span>
-            </span>
+      <!-- Testing body: read-aloud sample + record orb + status. The
+           record orb keeps id="micTestRecordBtn" so the existing
+           MediaRecorder wiring binds without edits. -->
+      <div class="tut2-show-testing tut2-test">
+        <p class="tut2-test-sample">
+          <span class="tut2-en">"Hello, this is a microphone test — one, two, three."</span>
+          <span class="tut2-uz">"Salom, bu mikrofon sinovi — bir, ikki, uch."</span>
+        </p>
+        <div class="tut2-test-orb-wrap">
+          <button id="micTestRecordBtn" class="tut2-test-orb" type="button" aria-label="Record">🎙️</button>
+          <div id="micTestStatus" class="tut2-test-status">
+            <span class="tut2-en">Tap to start recording</span>
+            <span class="tut2-uz">Yozish uchun bosing</span>
           </div>
-          <div class="tut2-mic-sub">
-            <span class="tut2-pending-only">
-              <span class="tut2-en">Record one short sample to unlock the test.</span>
-              <span class="tut2-uz">Testni boshlash uchun qisqa namuna yozing.</span>
-            </span>
-            <span class="tut2-verified-only">
-              <span class="tut2-en">You're ready to begin.</span>
-              <span class="tut2-uz">Boshlashga tayyorsiz.</span>
-            </span>
-          </div>
+          <div id="micTestTimer" class="tut2-test-timer"></div>
         </div>
       </div>
 
-      <!-- Actions. Pending: Back + primary Test mic. Verified: Back +
-           ghost Re-test + primary Begin. CSS handles the swap via
-           data-mic-state on the modal root. -->
+      <!-- Footer — state-driven button visibility via CSS. -->
       <footer class="tut2-footer">
         <button class="tut2-btn tut2-btn-ghost" id="tutorialBack" type="button">
-          <span class="tut2-en">← Back</span>
-          <span class="tut2-uz">← Ortga</span>
+          <span class="tut2-show-pendverif">
+            <span class="tut2-en">← Back</span>
+            <span class="tut2-uz">← Ortga</span>
+          </span>
+          <span class="tut2-show-testing">
+            <span class="tut2-en">← Cancel</span>
+            <span class="tut2-uz">← Bekor</span>
+          </span>
         </button>
-        <button class="tut2-btn tut2-btn-primary" id="micCheckBtn" type="button">
+        <button class="tut2-btn tut2-btn-primary tut2-show-pendverif" id="micCheckBtn" type="button">
           <span class="tut2-pending-only">
             <span class="tut2-en">🎤 Test microphone</span>
             <span class="tut2-uz">🎤 Mikrofonni sinash</span>
@@ -5618,52 +5698,17 @@
             <span class="tut2-uz">↻ Qayta sinash</span>
           </span>
         </button>
-        <button class="tut2-btn tut2-btn-success" id="tutorialBegin" type="button">
+        <button class="tut2-btn tut2-btn-success tut2-show-testing" id="micCheckDone" type="button" disabled aria-disabled="true">
+          <span id="micCheckDoneLabel">
+            <span class="tut2-en">Record sample to continue</span>
+            <span class="tut2-uz">Davom etish uchun yozing</span>
+          </span>
+        </button>
+        <button class="tut2-btn tut2-btn-success tut2-show-verified" id="tutorialBegin" type="button">
           <span class="tut2-en">Begin →</span>
           <span class="tut2-uz">Boshlash →</span>
         </button>
       </footer>
-    </div>
-  </div>
-
-  <!-- ===== Mic Check Modal (v2 — compact) =====
-       Condensed pass over the original Audio & Video Setup card:
-       short sample sentence, smaller record orb, single CTA. The
-       button IDs / class hooks below are unchanged so the existing
-       JS handlers (micTestRecordBtn, micCheckDone, closeMicCheck)
-       keep working without edits. -->
-  <div id="micCheckModal" class="tutorial" aria-hidden="true">
-    <div class="tutorial-card tut2-card" style="max-width:420px">
-      <header class="tut2-header" style="margin-bottom:14px">
-        <div class="tut2-brand">
-          <div class="tut2-brand-icon" style="background:linear-gradient(135deg,#667eea,#764ba2);box-shadow:0 4px 12px rgba(118,75,162,0.32)">🎙️</div>
-          <div class="tut2-brand-text">
-            <div class="tut2-title">Mic Check</div>
-            <div class="tut2-sub">Record a short sample to verify your microphone</div>
-          </div>
-        </div>
-        <button id="closeMicCheck" class="tut2-btn tut2-btn-ghost" style="padding:6px 12px;font-size:16px;line-height:1" aria-label="Close" tabindex="-1">✕</button>
-      </header>
-
-      <!-- Tap-to-read sample, kept short so the modal stays compact. -->
-      <p style="background:#f0fdfa;border:1px solid #99f6e4;border-left:4px solid #0d9488;border-radius:10px;padding:12px 14px;margin:0 0 16px;color:#0f172a;font-size:13.5px;line-height:1.5;font-weight:500">
-        "Hello, this is a microphone test — one, two, three."
-      </p>
-
-      <!-- Record orb — slightly smaller than before, still touchable. -->
-      <div style="text-align:center;margin:8px 0 14px">
-        <button id="micTestRecordBtn"
-          style="width:88px;height:88px;border-radius:50%;border:none;background:linear-gradient(135deg,#667eea,#764ba2);color:white;font-size:36px;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease;box-shadow:0 6px 18px rgba(102,126,234,0.42)"
-          onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'">
-          🎙️
-        </button>
-        <div id="micTestStatus" style="margin-top:10px;font-weight:700;color:#475569;font-size:13.5px">Click to start recording</div>
-        <div id="micTestTimer" style="margin-top:4px;font-size:12px;color:#94a3b8;font-variant-numeric:tabular-nums"></div>
-      </div>
-
-      <button id="micCheckDone" class="tut2-btn tut2-btn-success" style="width:100%" disabled aria-disabled="true">
-        <span id="micCheckDoneLabel">Record sample to continue</span>
-      </button>
     </div>
   </div>
 
@@ -5700,47 +5745,10 @@
     </div>
   </div>
 
-  <!-- Connection Reminder Modal -->
-  <div aria-hidden="true" class="tutorial" id="connectionReminderModal"
-    style="z-index:10000;background:#2563eb;backdrop-filter:none;">
-    <div class="tutorial-card" style="max-width:500px">
-      <div class="t-head" style="border-bottom:none;padding-bottom:12px">
-        <div class="t-title" style="display:flex;align-items:center;gap:12px;font-size:20px">
-          <span style="font-size:32px">📶</span>
-          <span>Important Reminder</span>
-        </div>
-      </div>
-
-      <div
-        style="padding:20px;background:linear-gradient(135deg,#eff6ff 0%,#f0fdf4 100%);border-radius:12px;margin:20px 0">
-        <div style="display:flex;align-items:start;gap:12px;margin-bottom:16px">
-          <span style="font-size:24px">🌐</span>
-          <div>
-            <h4 style="margin:0 0 6px;color:#1e40af;font-size:15px">Stable Internet Connection</h4>
-            <p style="margin:0;color:#1f2937;line-height:1.6;font-size:14px">Please ensure you have a <strong>stable
-                internet connection</strong> throughout the test. Your answers will be submitted automatically at the
-              end.</p>
-          </div>
-        </div>
-
-        <div style="display:flex;align-items:start;gap:12px">
-          <span style="font-size:24px">⏱️</span>
-          <div>
-            <h4 style="margin:0 0 6px;color:#15803d;font-size:15px">Wait for Confirmation</h4>
-            <p style="margin:0;color:#1f2937;line-height:1.6;font-size:14px"><strong>Do not close the test
-                window</strong> until you see the <span style="color:#10b981;font-weight:700">"✅ Submission
-                Success"</span> message. This ensures all your answers are safely submitted.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="t-foot" style="margin-top:20px">
-        <button class="t-btn" id="connectionReminderContinue" style="width:100%;padding:12px;font-size:16px">
-          ✓ Understood, Continue
-        </button>
-      </div>
-    </div>
-  </div>
+  <!-- (Connection Reminder modal removed 2026-06-07 — the inline mic
+       test now serves as the single pre-test gate, and the stable-
+       internet copy was redundant for students who'd already auto-
+       proceeded through the gate from the v3 picker.) -->
 
   <!-- Image Preview Modal -->
   <div class="image-preview-modal" id="imagePreviewModal">
@@ -11032,7 +11040,7 @@
           // Face verification runs silently in background - no blocking required
           gate.style.display = 'none';
           window.speakingExamStartTime = Date.now();
-          _showConnectionReminder();
+          _showTutorial();
         } catch (error) {
           console.error('Failed to load selected mock:', error);
 
@@ -11053,7 +11061,7 @@
 
             gate.style.display = 'none';
             window.speakingExamStartTime = Date.now();
-            _showConnectionReminder();
+            _showTutorial();
           } catch (fallbackError) {
             startBtn.textContent = 'Next';
             startBtn.disabled = false;
@@ -11062,68 +11070,106 @@
         }
       });
 
-      /* Tutorial tabs + begin/back */
+      /* Tutorial tabs + begin/back/mic test — all dispatched from the
+         delegated click handler on document so the inline-mic-test state
+         transitions don't need separate listeners. */
       document.addEventListener('click', async function (e) {
         const t = e.target;
-        if (t && t.id === 'connectionReminderContinue') {
-          // Close connection reminder and show tutorial
-          const reminderModal = $('#connectionReminderModal');
-          reminderModal.classList.remove('show');
-          reminderModal.setAttribute('aria-hidden', 'true');
-          _showTutorial();
-        } else if (t && t.matches('.tab-btn')) {
+        if (t && t.matches('.tab-btn')) {
           const lang = t.getAttribute('data-lang');
           $$('.tab-btn').forEach(b => b.classList.toggle('active', b === t));
-          // v2: a single [data-lang] on the modal root drives all the
-          // .tut2-en / .tut2-uz spans via CSS — no per-pane toggles.
           const __tutModal = $('#tutorialModal');
           if (__tutModal) __tutModal.setAttribute('data-lang', lang);
-          // (Legacy nodes left in place — harmless no-ops if absent.)
-          $$('.lang-pane').forEach(p => p.style.display = (p.getAttribute('data-pane') === lang ? '' : 'none'));
-          $$('.t-title').forEach(tt => tt.style.display = (tt.getAttribute('data-title') === lang ? '' : 'none'));
         } else if (t && t.id === 'tutorialBegin') {
           const modal = $('#tutorialModal');
-          // Mandatory mic check: the Begin button is hidden via CSS when
-          // data-mic-state="pending", but defensive guard in case a
-          // student wires it back in via devtools.
+          // Mandatory mic check: Begin button is hidden via CSS while
+          // data-mic-state !== "verified". Defensive guard for devtools.
           if (modal && modal.getAttribute('data-mic-state') !== 'verified') {
             return;
           }
           _iosUnlockAudio();
           modal.classList.remove('show');
           modal.setAttribute('aria-hidden', 'true');
-          await _beginFlowFromTutorial(); // <-- test starts automatically now (with preloading if OpenAI TTS)
+          await _beginFlowFromTutorial();
         } else if (t && t.id === 'tutorialBack') {
           const modal = $('#tutorialModal');
+          // In testing state the Back button reads "Cancel" — clicking
+          // it should revert the state, not bounce to landing.
+          if (modal && modal.getAttribute('data-mic-state') === 'testing') {
+            _exitMicTestState(_speakingMicVerified ? 'verified' : 'pending');
+            return;
+          }
           modal.classList.remove('show');
           modal.setAttribute('aria-hidden', 'true');
-          // Gate is no longer used — return to landing
           if (window.goToLanding) window.goToLanding();
           else window.location.href = 'landing-v3.html';
         } else if (t && t.id === 'micCheckBtn') {
-          // Request microphone access before opening mic check
           try {
             await ensureMediaStream();
           } catch (e) {
             alert('Microphone access is required to test your microphone. Please allow microphone access and try again.');
             return;
           }
-          // Open mic check modal from tutorial
-          const tutModal = $('#tutorialModal');
-          tutModal.classList.remove('show');
-          tutModal.setAttribute('aria-hidden', 'true');
-          showMicCheckModal();
+          _enterMicTestState();
         }
       });
 
-      function _showConnectionReminder() {
-        // Hide auto-proceed loader if present
-        var loader = document.getElementById('autoProceedLoader');
-        if (loader) loader.remove();
-        const modal = $('#connectionReminderModal');
-        modal.classList.add('show');
-        modal.setAttribute('aria-hidden', 'false');
+      // ── Inline mic-test state transitions ──────────────────────────
+      // The mic test now lives INSIDE the tutorial modal instead of a
+      // separate pop-up. _enterMicTestState flips data-mic-state to
+      // "testing" and resets the recorder UI; _exitMicTestState reverts
+      // to "pending" or "verified" depending on the argument.
+      function _enterMicTestState() {
+        const modal = $('#tutorialModal');
+        if (!modal) return;
+        // Stop any prior recording / playback before re-entering.
+        try {
+          if (micTestRecorder && micTestRecording) micTestRecorder.stop();
+          if (micTestAudio) { micTestAudio.pause(); micTestAudio = null; }
+        } catch (_e) {}
+        micTestAudioBlob = null;
+        micTestRecording = false;
+        micTestSeconds = 0;
+        if (micTestTimer) { clearInterval(micTestTimer); micTestTimer = null; }
+        const recordBtn = document.getElementById('micTestRecordBtn');
+        if (recordBtn) {
+          recordBtn.textContent = '🎙️';
+          recordBtn.style.background = 'linear-gradient(135deg,#667eea,#764ba2)';
+        }
+        const status = document.getElementById('micTestStatus');
+        if (status) status.style.color = '#475569';
+        const timer = document.getElementById('micTestTimer');
+        if (timer) timer.textContent = '';
+        const doneBtn = document.getElementById('micCheckDone');
+        if (doneBtn) {
+          doneBtn.disabled = true;
+          doneBtn.setAttribute('aria-disabled', 'true');
+        }
+        modal.setAttribute('data-mic-state', 'testing');
+        // Focus the orb so subsequent Space/Enter starts recording rather
+        // than activating the Cancel button.
+        try {
+          requestAnimationFrame(function () {
+            const rec = document.getElementById('micTestRecordBtn');
+            if (rec) rec.focus({ preventScroll: true });
+          });
+        } catch (_e) {}
       }
+      function _exitMicTestState(targetState) {
+        const modal = $('#tutorialModal');
+        if (!modal) return;
+        // Stop any active recording / playback.
+        try {
+          if (micTestRecorder && micTestRecording) micTestRecorder.stop();
+          if (micTestAudio) { micTestAudio.pause(); micTestAudio = null; }
+        } catch (_e) {}
+        if (micTestTimer) { clearInterval(micTestTimer); micTestTimer = null; }
+        modal.setAttribute('data-mic-state', targetState || 'pending');
+      }
+      // Compat shims for legacy callers that still expect the old
+      // standalone-modal API (no longer present in the DOM).
+      function showMicCheckModal() { _enterMicTestState(); }
+      function hideMicCheckModal() { _exitMicTestState(_speakingMicVerified ? 'verified' : 'pending'); }
 
       // Module-scope flag — flips to true once the student successfully
       // completes a mic test inside the mic-check modal. _showTutorial
@@ -11146,93 +11192,20 @@
       let micTestTimer = null;
       let micTestSeconds = 0;
 
-      function showMicCheckModal() {
-        const modal = $('#micCheckModal');
-        // Belt-and-braces focus reset BEFORE the modal becomes visible.
-        // The redesigned modal's first tabbable element is the small ✕
-        // close button (#closeMicCheck). When the tutorial modal hides
-        // and this one shows, some browsers move focus to that close
-        // button — and if the user's "Test microphone" tap fires a
-        // delayed Enter keyup (keyboard nav) or the click lands near
-        // the close button, closeMicCheck triggers and the modal
-        // bounces shut immediately. Blurring the active element here +
-        // tabindex="-1" on closeMicCheck (above) prevents the race.
-        try { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); } catch (_e) {}
-        modal.classList.add('show');
-        modal.setAttribute('aria-hidden', 'false');
-        // Park focus on the record orb so subsequent Enter/Space activates
-        // the recording, not the close button. Defer to next frame so the
-        // .show transition has applied display:flex (focusing a
-        // display:none element is a no-op).
-        try {
-          requestAnimationFrame(function () {
-            var rec = document.getElementById('micTestRecordBtn');
-            if (rec) rec.focus({ preventScroll: true });
-          });
-        } catch (_e) {}
-        // Reset state
-        micTestAudioBlob = null;
-        micTestRecording = false;
-        micTestSeconds = 0;
-        if (micTestAudio) {
-          micTestAudio.pause();
-          micTestAudio = null;
-        }
-        $('#micTestStatus').textContent = 'Click to start recording';
-        $('#micTestStatus').style.color = 'var(--ink-light)';
-        $('#micTestTimer').textContent = '';
-        const recordBtn = $('#micTestRecordBtn');
-        recordBtn.textContent = '🎙️';
-        recordBtn.style.background = 'linear-gradient(135deg,#667eea,#764ba2)';
-        // Disable the "All Good — Continue" button until a sample is
-        // actually recorded. Enabled again inside the MediaRecorder
-        // onstop handler below.
-        var __doneBtn = document.getElementById('micCheckDone');
-        if (__doneBtn) {
-          __doneBtn.disabled = true;
-          __doneBtn.setAttribute('aria-disabled', 'true');
-          var __doneLabel = document.getElementById('micCheckDoneLabel');
-          if (__doneLabel) __doneLabel.textContent = 'Record sample to continue';
-        }
-
-        // Photo capture will happen automatically when ensureMediaStream is called
-      }
-
-      function hideMicCheckModal() {
-        const modal = $('#micCheckModal');
-        modal.classList.remove('show');
-        modal.setAttribute('aria-hidden', 'true');
-        // Stop any recording or playback
-        if (micTestAudio) {
-          micTestAudio.pause();
-          micTestAudio = null;
-        }
-        if (micTestRecorder && micTestRecording) {
-          micTestRecorder.stop();
-          // Don't stop the main mediaStream - we need it for the test
-        }
-        if (micTestTimer) clearInterval(micTestTimer);
-      }
-
-      $('#closeMicCheck').addEventListener('click', () => {
-        hideMicCheckModal();
-        _showTutorial(); // Go back to tutorial
-      });
+      // (Obsolete standalone modal helpers + #closeMicCheck listener
+      //  removed — the mic test is now an in-place state of #tutorialModal.
+      //  See _enterMicTestState / _exitMicTestState above, and the compat
+      //  showMicCheckModal / hideMicCheckModal shims they back.)
 
       $('#micCheckDone').addEventListener('click', async () => {
-        // Defensive: HTML `disabled` attribute is already set whenever
-        // micTestAudioBlob is null, but guard the handler too in case a
-        // student forces the attribute off via devtools. No blob → no
-        // verification.
+        // Defensive: button is disabled while !micTestAudioBlob, but
+        // guard against devtools tampering.
         if (!micTestAudioBlob) return;
-        // Microphone access already granted when mic check was opened.
-        // Per v2 redesign: completing the mic check no longer auto-starts
-        // the test. Instead, mark verified and return to the tutorial so
-        // the student explicitly confirms with Begin — that's the gating
-        // step that enforces "mic test is mandatory before start".
-        hideMicCheckModal();
+        // Mark verified and transition the same tutorial modal back into
+        // its verified body (green banner + Begin button). No modal
+        // close/reopen — the body swaps in place via data-mic-state.
         _speakingMicVerified = true;
-        _showTutorial();
+        _exitMicTestState('verified');
       });
 
       let micTestAudio = null; // Store the audio element
