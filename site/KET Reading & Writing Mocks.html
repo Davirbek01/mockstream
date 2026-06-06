@@ -1130,7 +1130,7 @@
 <div class="page" id="page">
   <div class="paper-hero">
     <span class="lvl-chip">⭐ A2 · Key English Test</span>
-    <div class="test-no">Test 1</div>
+    <div class="test-no" id="heroTestNo">Test 1</div>
     <div class="paper-line"><strong>PAPER 1</strong> &nbsp; READING AND WRITING &nbsp;·&nbsp; 1 hour 10 minutes</div>
     <div class="meta-row">
       <div class="m">📑 <b>9 parts</b></div>
@@ -1843,7 +1843,9 @@
     document.getElementById('resultsModal').classList.add('show');
   }
 
-  // Reflect active mock number in topbar + sub-title
+  // Reflect active mock number in topbar pills, subtitle, hero card +
+  // browser tab. Without this the hero stays "Test 1" even when
+  // ?mock=2 is loaded because the markup pre-fills "Test 1".
   (function () {
     var n = parseInt((window._KET_MOCK_NUM || '01'), 10);
     var pills = document.querySelectorAll('.mock-switcher .ms-pill');
@@ -1852,8 +1854,14 @@
       if (pn === n) p.classList.add('active');
     });
     var sub = document.getElementById('topbarSub');
+    var hero = document.getElementById('heroTestNo');
     var info = window.KET_RW_TEST && window.KET_RW_TEST.testInfo;
     if (sub && info && info.title) sub.textContent = info.title;
+    if (hero) hero.textContent = 'Test ' + n;
+    try {
+      var brand = (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream';
+      document.title = brand + ' · KET R&W · Test ' + n;
+    } catch (_e) {}
   })();
 
   // Boot
