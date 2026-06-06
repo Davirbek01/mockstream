@@ -23,7 +23,11 @@
       // Helper function to go back to landing
       // Standardised back navigation handler
       function goBack() {
-        // window.top for robust iframe support
+        // Legacy iframe context: runner was loaded inside landing.html's
+        // mockFrame iframe; call the parent's returnToLanding() so the
+        // landing UI swaps back to its picker. Detect by window.top !==
+        // window — only legacy landing wraps the runner in an iframe; the
+        // v3 picker uses a top-level navigation.
         try {
           if (window.top && window.top !== window && typeof window.top.returnToLanding === 'function') {
             window.top.returnToLanding(); return;
@@ -38,7 +42,14 @@
           if (window.top && window.top !== window) { window.top.postMessage('returnToLanding', '*'); return; }
           if (window.parent && window.parent !== window) { window.parent.postMessage('returnToLanding', '*'); return; }
         } catch (e3) {}
-        try { window.top.location.href = 'landing.html'; } catch (e4) { window.location.href = 'landing.html'; }
+        // Top-level context: the runner was opened directly by the v3
+        // picker (landing-v3.html → window.location.href = runnerUrl), so
+        // we know to bounce straight to v3 with the picker-reopen hint.
+        // Going through landing.html first triggers a visible flicker as
+        // legacy's watcher detects the v3 handoff state and re-redirects.
+        try { window.location.href = '/landing-v3.html?reopen=ielts-speaking'; } catch (e4) {
+          window.location.href = 'landing-v3.html?reopen=ielts-speaking';
+        }
       }
 
       // Globals for navigation and selection
