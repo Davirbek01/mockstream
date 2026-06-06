@@ -11476,8 +11476,10 @@
             // Reuse the existing stream instead of requesting new permission
             const stream = await ensureMediaStream();
             if (!stream) {
-              $('#micTestStatus').textContent = '❌ Microphone access denied';
-              $('#micTestStatus').style.color = '#ef4444';
+              // Promote into the platform-specific blocked-state panel
+              // instead of leaving the student staring at a red status
+              // line with no actionable next step.
+              _enterMicBlockedState();
               return;
             }
 
@@ -11598,8 +11600,10 @@
 
           } catch (err) {
             console.error('Mic access error:', err);
-            $('#micTestStatus').textContent = '❌ Microphone access denied';
-            $('#micTestStatus').style.color = '#ef4444';
+            // Same promotion as the !stream branch above — show the
+            // platform-specific blocked-state panel instead of a dead
+            // red status line.
+            _enterMicBlockedState();
           }
         } else {
           // Stop recording
