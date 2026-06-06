@@ -2739,6 +2739,18 @@
       box-shadow: 0 4px 14px rgba(5, 150, 105, 0.36);
     }
     .tut2-btn-success:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(5, 150, 105, 0.45); }
+    /* Disabled state for the "All Good — Continue" gate. The button is
+       greyed + non-interactive until micTestAudioBlob exists (i.e. the
+       student has actually recorded a sample). */
+    .tut2-btn:disabled, .tut2-btn[aria-disabled="true"] {
+      background: #e2e8f0 !important; color: #94a3b8 !important;
+      box-shadow: none !important; cursor: not-allowed !important;
+      transform: none !important; border: 0 !important;
+    }
+    .tut2-btn:disabled:hover, .tut2-btn[aria-disabled="true"]:hover {
+      background: #e2e8f0 !important; transform: none !important;
+      box-shadow: none !important;
+    }
     /* When mic verified: demote Mic Check button to ghost-style 'Re-test'. */
     #tutorialModal[data-mic-state="verified"] .tut2-btn-primary {
       flex: 0 0 auto;
@@ -5649,7 +5661,9 @@
         <div id="micTestTimer" style="margin-top:4px;font-size:12px;color:#94a3b8;font-variant-numeric:tabular-nums"></div>
       </div>
 
-      <button id="micCheckDone" class="tut2-btn tut2-btn-success" style="width:100%">All Good — Continue</button>
+      <button id="micCheckDone" class="tut2-btn tut2-btn-success" style="width:100%" disabled aria-disabled="true">
+        <span id="micCheckDoneLabel">Record sample to continue</span>
+      </button>
     </div>
   </div>
 
@@ -11170,6 +11184,16 @@
         const recordBtn = $('#micTestRecordBtn');
         recordBtn.textContent = '🎙️';
         recordBtn.style.background = 'linear-gradient(135deg,#667eea,#764ba2)';
+        // Disable the "All Good — Continue" button until a sample is
+        // actually recorded. Enabled again inside the MediaRecorder
+        // onstop handler below.
+        var __doneBtn = document.getElementById('micCheckDone');
+        if (__doneBtn) {
+          __doneBtn.disabled = true;
+          __doneBtn.setAttribute('aria-disabled', 'true');
+          var __doneLabel = document.getElementById('micCheckDoneLabel');
+          if (__doneLabel) __doneLabel.textContent = 'Record sample to continue';
+        }
 
         // Photo capture will happen automatically when ensureMediaStream is called
       }
@@ -11196,6 +11220,11 @@
       });
 
       $('#micCheckDone').addEventListener('click', async () => {
+        // Defensive: HTML `disabled` attribute is already set whenever
+        // micTestAudioBlob is null, but guard the handler too in case a
+        // student forces the attribute off via devtools. No blob → no
+        // verification.
+        if (!micTestAudioBlob) return;
         // Microphone access already granted when mic check was opened.
         // Per v2 redesign: completing the mic check no longer auto-starts
         // the test. Instead, mark verified and return to the tutorial so
@@ -11268,6 +11297,15 @@
               $('#micTestTimer').textContent = '';
               recordBtn.textContent = '▶️';
               recordBtn.style.background = 'linear-gradient(135deg,#667eea,#764ba2)';
+              // Unlock the "All Good — Continue" button now that there's
+              // an actual sample to confirm against.
+              var __doneBtn = document.getElementById('micCheckDone');
+              if (__doneBtn) {
+                __doneBtn.disabled = false;
+                __doneBtn.removeAttribute('aria-disabled');
+                var __doneLabel = document.getElementById('micCheckDoneLabel');
+                if (__doneLabel) __doneLabel.textContent = 'All Good — Continue';
+              }
               // Don't stop the stream - we need it for the actual test
             };
 
