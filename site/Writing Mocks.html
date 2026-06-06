@@ -263,7 +263,12 @@
           candidateModal.style.display = 'none';
           candidateModal.setAttribute('aria-hidden', 'true');
         }
-        if (window._practiceMode) {
+        // When the centre admin has disabled Paper-Based Writing Exam,
+        // skip the Choose Exam Format dialog and go straight to the
+        // computer-delivered path — same shortcut already used for
+        // _practiceMode. Greyed-out single option is just friction.
+        var __paperDisabled = window._centerConfig && window._centerConfig.writingPaperMode === false;
+        if (window._practiceMode || __paperDisabled) {
           setTimeout(function(){ startComputerExam(); }, 100);
         } else {
           formatChoice.style.display = 'flex';
@@ -7686,12 +7691,18 @@
                 const loader = document.getElementById('autoProceedLoader');
                 if (loader) loader.remove();
                 if (window._autoHideGateStyle) window._autoHideGateStyle.remove();
-                // Go straight to format choice
+                // Go straight to format choice (or skip it if paper mode
+                // is off at the centre — same logic as proceedToFormatChoice).
                 setTimeout(() => {
                   writingCandidateDetailsModal.classList.remove('show');
                   writingCandidateDetailsModal.style.display = 'none';
                   gate.style.display = 'none';
-                  formatChoice.style.display = 'flex';
+                  var __paperDisabled = window._centerConfig && window._centerConfig.writingPaperMode === false;
+                  if (__paperDisabled && typeof startComputerExam === 'function') {
+                    startComputerExam();
+                  } else {
+                    formatChoice.style.display = 'flex';
+                  }
                 }, 300);
                 return;
               } else {
@@ -7959,9 +7970,11 @@
       writingCandidateDetailsModal.style.display = 'none';
       writingCandidateDetailsModal.setAttribute('aria-hidden', 'true');
 
-      // Hide gate and show format choice
+      // Hide gate and show format choice (or skip it if centre admin
+      // turned Paper-Based Writing Exam off, same as practice mode).
       gate.style.display = 'none';
-      if (window._practiceMode) {
+      var __paperDisabled = window._centerConfig && window._centerConfig.writingPaperMode === false;
+      if (window._practiceMode || __paperDisabled) {
         setTimeout(function(){ startComputerExam(); }, 100);
       } else {
         formatChoice.style.display = 'flex';

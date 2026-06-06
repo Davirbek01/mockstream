@@ -242,7 +242,26 @@
 
         // ── All good — go straight to format choice ──
         gate.style.display = 'none';
-        formatChoice.style.display = 'flex';
+        // Skip the Choose Exam Format dialog when the centre admin has
+        // turned Paper-Based Writing Exam off — there's no point asking
+        // students to pick between two options when one is greyed out.
+        var __paperDisabled = window._centerConfig && window._centerConfig.writingPaperMode === false;
+        if (__paperDisabled) {
+          setTimeout(function () {
+            if (typeof window.startComputerExam === 'function') {
+              window.startComputerExam();
+            } else {
+              var waitForStart = setInterval(function () {
+                if (typeof window.startComputerExam === 'function') {
+                  clearInterval(waitForStart);
+                  window.startComputerExam();
+                }
+              }, 200);
+            }
+          }, 500);
+        } else {
+          formatChoice.style.display = 'flex';
+        }
 
         // Remove loader
         var loader = document.getElementById('autoProceedLoader');
@@ -4992,7 +5011,14 @@
 
       studentName = nameInput.value.trim();
       gate.style.display = 'none';
-      formatChoice.style.display = 'flex';
+      // Skip the Choose Exam Format dialog when paper mode is off at the
+      // centre — same shortcut as the auto-proceed path above.
+      var __paperDisabled = window._centerConfig && window._centerConfig.writingPaperMode === false;
+      if (__paperDisabled && typeof startComputerExam === 'function') {
+        startComputerExam();
+      } else {
+        formatChoice.style.display = 'flex';
+      }
     });
 
     // ===== PAPER-BASED TUTORIAL =====
