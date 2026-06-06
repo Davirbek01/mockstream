@@ -107,6 +107,23 @@
       letter-spacing: 0.3px;
     }
     .topbar .submit:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(212,167,44,0.55); }
+    /* Mock switcher (Test 1 / 2 / 3 / 4) */
+    .mock-switcher { display: inline-flex; gap: 4px; background: rgba(255,255,255,0.08); padding: 4px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15); }
+    .mock-switcher .ms-pill {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; border-radius: 7px;
+      color: rgba(255,255,255,0.75);
+      font-weight: 800; font-size: 12.5px;
+      text-decoration: none;
+      transition: all .12s ease;
+    }
+    .mock-switcher .ms-pill:hover { background: rgba(255,255,255,0.12); color: #fff; }
+    .mock-switcher .ms-pill.active {
+      background: linear-gradient(135deg, var(--gold-500), var(--gold-400));
+      color: var(--navy-900); font-weight: 900;
+      box-shadow: 0 4px 12px rgba(212,167,44,0.4);
+    }
+    @media (max-width: 720px) { .mock-switcher { display: none; } }
 
     /* ─── Part progress strip ─────────────────────────────────── */
     .nav-strip {
@@ -1094,10 +1111,16 @@
     <div class="crest">KE</div>
     <div class="titlewrap">
       <div class="t1">KET · Key English Test</div>
-      <div class="t2">Paper 1 · Reading and Writing</div>
+      <div class="t2" id="topbarSub">Paper 1 · Reading and Writing</div>
     </div>
   </div>
   <span class="spacer"></span>
+  <div class="mock-switcher" id="mockSwitcher">
+    <a class="ms-pill" href="?mock=1">1</a>
+    <a class="ms-pill" href="?mock=2">2</a>
+    <a class="ms-pill" href="?mock=3">3</a>
+    <a class="ms-pill" href="?mock=4">4</a>
+  </div>
   <span class="timer" id="timer">1:10:00</span>
   <button class="submit" onclick="submitTest()">Submit</button>
 </div>
@@ -1124,7 +1147,18 @@
   <div class="results-card" id="resultsCard"></div>
 </div>
 
-<script src="questions KET RW/ket-rw-test-01.js"></script>
+<script>
+  // Dynamic mock loader. ?mock=02 (or 2) → questions KET RW/ket-rw-test-02.js.
+  // Defaults to mock 01 when the param is absent or invalid.
+  (function () {
+    var p = new URLSearchParams(location.search);
+    var n = parseInt(p.get('mock') || '1', 10);
+    if (!n || n < 1 || n > 99) n = 1;
+    var pad = (n < 10 ? '0' : '') + n;
+    window._KET_MOCK_NUM = pad;
+    document.write('<script src="questions KET RW/ket-rw-test-' + pad + '.js"><\/script>');
+  })();
+</script>
 <script>
   function goBack() {
     if (window.confirm('Leave the test? Your answers will be lost.')) {
@@ -1514,20 +1548,87 @@
     return html;
   }
 
-  // PART 7 — open cloze letter
+  // PART 7 — open cloze letter(s). `letters` array supports multi-letter
+  // tests (e.g. Test 2's Joan↔Mary exchange, Test 4's Brown↔Green memos).
+  // Legacy `header`/`greeting`/`body`/`closing` props are still honoured
+  // for Test 1's single-letter shape.
   function renderPart7(part) {
     var html = renderPartHeader(part);
-    var bodyHtml = escapeHtml(part.body).replace(/\{(\d+)\}/g, function (_, n) {
-      var id = parseInt(n, 10);
-      if (id === 0) return '<strong style="color:var(--navy-800)">' + escapeHtml(part.example.answer) + '</strong>';
-      return '<input class="inline-input" type="text" data-id="' + id + '" oninput="setAns(' + id + ', this.value)" placeholder="' + id + '" />';
+    var letters = part.letters || [{ header: part.header, greeting: part.greeting, body: part.body, closing: part.closing }];
+    letters.forEach(function (L, idx) {
+      var bodyHtml = escapeHtml(L.body || '').replace(/\{(\d+)\}/g, function (_, n) {
+        var id = parseInt(n, 10);
+        if (id === 0) return '<strong style="color:var(--navy-800)">' + escapeHtml(part.example.answer) + '</strong>';
+        return '<input class="inline-input" type="text" data-id="' + id + '" oninput="setAns(' + id + ', this.value)" placeholder="' + id + '" />';
+      });
+      html += '<div class="letter-box"' + (idx > 0 ? ' style="margin-top:18px"' : '') + '>';
+      if (L.header) html += '<div class="letter-header">' + escapeHtml(L.header) + '</div>';
+      if (L.greeting) html += '<div class="letter-greeting">' + escapeHtml(L.greeting) + '</div>';
+      html += '<div class="letter-body">' + bodyHtml + '</div>';
+      if (L.closing) html += '<div class="letter-closing">' + escapeHtml(L.closing) + '</div>';
+      html += '</div>';
     });
-    html += '<div class="letter-box">';
-    html += '<div class="letter-header">' + escapeHtml(part.header) + '</div>';
-    html += '<div class="letter-greeting">' + escapeHtml(part.greeting) + '</div>';
-    html += '<div class="letter-body">' + bodyHtml + '</div>';
-    html += '<div class="letter-closing">' + escapeHtml(part.closing) + '</div>';
-    html += '</div>';
+    return html;
+  }
+
+  // PART 4 variant — single article + stem-completion MCQ (Test 2)
+  function renderPart4Stems(part) {
+    var html = renderPartHeader(part);
+    html += '<div class="three-texts-heading">📖 ' + escapeHtml(part.articleTitle || '') + '</div>';
+    html += '<div class="cloze-box" style="border-radius:0 0 14px 14px"><div style="font-family:Inter,sans-serif;font-size:15px;line-height:1.65;white-space:pre-line">' + escapeHtml(part.article || '') + '</div></div>';
+    // Example
+    var ex = part.example;
+    if (ex) {
+      html += '<div class="example-card vert">';
+      html += '<div style="display:flex;justify-content:space-between;align-items:center"><div class="ex-label">Example</div><div><span class="ex-label">Answer</span> <span class="ex-answer-pill">' + escapeHtml(ex.answer) + '</span></div></div>';
+      html += '<div class="sentence-stem" style="margin:10px 0 4px"><span class="num">0</span><span>' + escapeHtml(ex.stem) + '</span></div>';
+      var exOpts = (ex.options || []).map(function (o) { return '<div class="mcq-opt"><span class="ltr">' + escapeHtml(o.letter) + '</span>' + escapeHtml(o.text) + '</div>'; }).join('');
+      html += '<div class="mcq-row">' + exOpts + '</div>';
+      html += '</div>';
+    }
+    // Items — sentence-stem with three options each
+    part.items.forEach(function (item) {
+      html += '<div class="sentence-q" data-qslot="' + item.id + '">';
+      html += '<div class="sentence-stem"><span class="num">' + item.id + '</span><span>' + escapeHtml(item.stem) + '</span></div>';
+      html += '<div class="mcq-row">';
+      item.options.forEach(function (o) {
+        html += '<div class="mcq-opt" onclick="pickMcq(' + item.id + ',\'' + o.letter + '\',this)" data-id="' + item.id + '" data-letter="' + o.letter + '"><span class="ltr">' + escapeHtml(o.letter) + '</span>' + escapeHtml(o.text) + '</div>';
+      });
+      html += '</div></div>';
+    });
+    return html;
+  }
+
+  // PART 4 variant — Right / Wrong / Doesn't Say (Tests 3, 4)
+  function renderPart4Rws() {
+    return null; // placeholder; defined below as renderPart4Rws
+  }
+  function renderPart4RWS(part) {
+    var html = renderPartHeader(part);
+    html += '<div class="three-texts-heading">📖 ' + escapeHtml(part.articleTitle || '') + '</div>';
+    html += '<div class="cloze-box" style="border-radius:0 0 14px 14px"><div style="font-family:Inter,sans-serif;font-size:15px;line-height:1.65;white-space:pre-line">' + escapeHtml(part.article || '') + '</div></div>';
+    // Fixed RWS options for all items
+    var RWS_OPTS = [
+      { letter: "A", text: "Right" },
+      { letter: "B", text: "Wrong" },
+      { letter: "C", text: "Doesn't say" }
+    ];
+    var ex = part.example;
+    if (ex) {
+      html += '<div class="example-card">';
+      html += '<div><div class="ex-label">Example</div><div style="margin-top:4px"><b>0</b> ' + escapeHtml(ex.statement) + '</div></div>';
+      html += '<div style="text-align:right"><div class="ex-label">Answer</div><div style="margin-top:6px"><span class="ex-answer-pill">' + escapeHtml(ex.answer) + '</span></div></div>';
+      html += '</div>';
+    }
+    part.items.forEach(function (item) {
+      html += '<div class="sentence-q" data-qslot="' + item.id + '">';
+      html += '<div class="sentence-stem"><span class="num">' + item.id + '</span><span>' + escapeHtml(item.statement) + '</span></div>';
+      html += '<div class="mcq-row">';
+      RWS_OPTS.forEach(function (o) {
+        html += '<div class="mcq-opt" onclick="pickMcq(' + item.id + ',\'' + o.letter + '\',this)" data-id="' + item.id + '" data-letter="' + o.letter + '"><span class="ltr">' + escapeHtml(o.letter) + '</span>' + escapeHtml(o.text) + '</div>';
+      });
+      html += '</div></div>';
+    });
     return html;
   }
 
@@ -1637,6 +1738,8 @@
       'mcq-response':           renderPart3a,
       'match-dialogue':         renderPart3b,
       'match-three-texts':      renderPart4,
+      'mcq-passage-stems':      renderPart4Stems,
+      'mcq-passage-rws':        renderPart4RWS,
       'mcq-cloze-passage':      renderPart5,
       'vocab-first-letter':     renderPart6,
       'open-cloze-letter':      renderPart7,
@@ -1739,6 +1842,19 @@
     document.getElementById('resultsCard').innerHTML = html;
     document.getElementById('resultsModal').classList.add('show');
   }
+
+  // Reflect active mock number in topbar + sub-title
+  (function () {
+    var n = parseInt((window._KET_MOCK_NUM || '01'), 10);
+    var pills = document.querySelectorAll('.mock-switcher .ms-pill');
+    pills.forEach(function (p) {
+      var pn = parseInt(p.textContent.trim(), 10);
+      if (pn === n) p.classList.add('active');
+    });
+    var sub = document.getElementById('topbarSub');
+    var info = window.KET_RW_TEST && window.KET_RW_TEST.testInfo;
+    if (sub && info && info.title) sub.textContent = info.title;
+  })();
 
   // Boot
   build();
