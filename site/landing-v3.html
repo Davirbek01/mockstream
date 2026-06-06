@@ -9,7 +9,11 @@
        centre to verify-passcode, and silently rejects every clone's
        Premium grant. Was missing from landing-v3 entirely until
        2026-06-04. -->
-  <script src="center-id.js"></script>
+  <!-- Absolute path so /take/<slug> rewrites (Netlify) don't resolve this
+       as /take/center-id.js → 200 landing-v3.html → SyntaxError. The
+       inline page guard at the bottom (line ~4045) is a second copy with
+       an onerror fallback for the early-paint case. -->
+  <script src="/center-id.js"></script>
   <script>
     // ─── Self-healing premium unlock ─────────────────────────────────────
     // Every approach via localStorage backup, cross-page sessionStorage,
