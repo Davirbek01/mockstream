@@ -16242,13 +16242,18 @@ Please contact your instructor or upgrade to the full version with speech recogn
 
     // Load default question file on page load
     async function initializeQuestions() {
-      await populateMockDropdown();
-
-      // Skip if auto-proceeding from landing page (auto-proceed will handle loading)
+      // Skip if auto-proceeding from landing page (auto-proceed will handle
+      // loading). Critical: populateMockDropdown's innerHTML='' would clobber
+      // the supabase:<id> option that the auto-proceed branch already created
+      // from the URL's ?sbmock= param, leaving the runner with an empty
+      // selector. The new pickers always pass ?sbmock=, so the in-page
+      // dropdown is irrelevant in this flow.
       if (window._autoHideGateStyle) {
         console.log('[initializeQuestions] Skipping - auto-proceed mode active');
         return;
       }
+
+      await populateMockDropdown();
 
       const selector = document.getElementById('mockSelector');
       const defaultFile = selector ? selector.value : '';
