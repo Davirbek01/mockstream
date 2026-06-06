@@ -8579,12 +8579,6 @@
               <p>Recognised global qualifications across CEFR levels — mocks coming soon</p>
             </div>
             <div class="cambridge-exams-grid">
-              <div class="cambridge-exam-card ket active" role="button" tabindex="0" onclick="showKETOptions()" onkeypress="if(event.key==='Enter'||event.key===' ')showKETOptions()" title="KET (A2 Key)">
-                <span class="ce-level">A2</span>
-                <h4 class="ce-name">KET</h4>
-                <p class="ce-desc">A2 Key — everyday English foundations.</p>
-                <span class="ce-go">Start →</span>
-              </div>
               <div class="cambridge-exam-card pet active" role="button" tabindex="0" onclick="showPETOptions()" onkeypress="if(event.key==='Enter'||event.key===' ')showPETOptions()" title="PET (B1 Preliminary)">
                 <span class="ce-level">B1</span>
                 <h4 class="ce-name">PET</h4>
@@ -8977,34 +8971,6 @@
         </button>
       </div>
       <button class="modal-close-btn" onclick="closeSpeakingModal()">Cancel</button>
-    </div>
-  </div>
-
-  <!-- KET Options Modal -->
-  <div class="speaking-modal-overlay" id="ketModal" onclick="closeKETModal(event)">
-    <div class="speaking-modal" onclick="event.stopPropagation()">
-      <h3>🎓 KET (A2 Key)</h3>
-      <p>Select a paper to practice</p>
-      <div class="speaking-options">
-        <button class="speaking-option-btn" onclick="selectKETType('rw')" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid #16a34a">
-          <span class="option-icon">📝</span>
-          <span class="option-title" style="color:#15803d">Reading &amp; Writing</span>
-          <span class="option-desc">60 min · 32 questions</span>
-        </button>
-        <button class="speaking-option-btn" type="button" disabled aria-disabled="true" style="background:linear-gradient(135deg,#f0fdfa,#ccfbf1);border:2px solid #0d9488;position:relative;overflow:hidden;opacity:0.55;cursor:not-allowed">
-          <span style="position:absolute;top:6px;right:8px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:white;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.5px">SOON</span>
-          <span class="option-icon">🎧</span>
-          <span class="option-title" style="color:#115e59">Listening</span>
-          <span class="option-desc">30 min · 25 questions · arriving in v2</span>
-        </button>
-        <button class="speaking-option-btn" type="button" disabled aria-disabled="true" style="background:linear-gradient(135deg,#faf5ff,#f3e8ff);border:2px solid #a855f7;position:relative;overflow:hidden;opacity:0.55;cursor:not-allowed">
-          <span style="position:absolute;top:6px;right:8px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:white;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.5px">SOON</span>
-          <span class="option-icon">🎤</span>
-          <span class="option-title" style="color:#7c3aed">Speaking</span>
-          <span class="option-desc">8–10 min (paired) · arriving in v2</span>
-        </button>
-      </div>
-      <button class="modal-close-btn" onclick="closeKETModal()">Cancel</button>
     </div>
   </div>
 
@@ -23771,31 +23737,6 @@
       }
     }
 
-    // ========== KET (A2 Key) OPTIONS MODAL ==========
-    function showKETOptions() {
-      var m = document.getElementById('ketModal');
-      if (m) m.classList.add('show');
-    }
-    function closeKETModal(event) {
-      var m = document.getElementById('ketModal');
-      if (!m) return;
-      if (!event || event.target === m) m.classList.remove('show');
-    }
-    function selectKETType(type) {
-      // Drop the v3 discovery-handoff context so the return-to-v3 watcher
-      // doesn't race ahead of this navigation and replace() to v3 before
-      // the KET runner has time to load.
-      try { document.documentElement.classList.remove('ms-discovery-handoff'); } catch (_e) {}
-      closeKETModal();
-      if (type === 'rw') {
-        window.location.replace('KET Reading & Writing Mocks.html');
-      } else if (type === 'listening') {
-        window.location.replace('KET Listening Mocks.html');
-      } else if (type === 'speaking') {
-        window.location.replace('KET Speaking Mocks.html');
-      }
-    }
-
     // ========== PET (B1 Preliminary) OPTIONS MODAL ==========
     function showPETOptions() {
       var m = document.getElementById('petModal');
@@ -26887,11 +26828,10 @@
             showTestsSubmenu();
           }
         } catch (_e) {}
-      } else if (target === 'cambridge-ket' || target === 'cambridge-pet'
+      } else if (target === 'cambridge-pet'
               || target === 'cambridge-fce' || target === 'cambridge-cae'
               || target === 'cambridge-cpe') {
         var fnMap = {
-          'cambridge-ket': 'showKETOptions',
           'cambridge-pet': 'showPETOptions',
           'cambridge-fce': 'showFCEOptions',
           'cambridge-cae': 'showCAEOptions',
@@ -36175,7 +36115,7 @@
     window._mmgMocks    = [];
     window._mmgEditing  = null; // { id?, mock_type, mock_number, title, status, mock_data }
     // Hierarchical navigation state. level: 'exams' | 'skills' | 'mocks'
-    // - exams: pick IELTS / CEFR (placeholder for future KET / PET / SAT / ...)
+    // - exams: pick IELTS / CEFR (placeholder for future PET / SAT / ...)
     // - skills: pick Speaking / Writing / Reading / Listening
     // - mocks: list of mock_tests rows for the chosen exam+skill combo
     window._mmgNav = { level: 'exams', exam: null, skill: null };
@@ -36426,7 +36366,7 @@
                    '<div class="mmg-card-meta">' + count + ' mock' + (count === 1 ? '' : 's') + '</div>' +
                  '</button>';
         }).join('');
-        // Future-exam placeholders (KET / PET / SAT / Flashcards) removed —
+        // Future-exam placeholders (PET / SAT / Flashcards) removed —
         // we'll add real cards here when those exam tracks ship.
         pane.innerHTML = '<div class="mmg-grid">' + examCards + '</div>';
         return;

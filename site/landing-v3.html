@@ -1921,7 +1921,7 @@
 
     /* ═══════════════════════════════════════════════════════
        International Exams — horizontal slider rail
-       Cambridge (KET → CPE) + SAT, scroll-snap so future exams just append.
+       Cambridge (PET → CPE) + SAT, scroll-snap so future exams just append.
        ═══════════════════════════════════════════════════════ */
     .exams-rail {
       display: flex;
@@ -3944,11 +3944,6 @@
         </h2>
       </div>
       <div class="exams-rail" id="examsRail">
-        <a class="cambridge-card" href="javascript:void(0)" data-cambridge="ket">
-          <div class="cb-level">A2</div>
-          <div class="cb-code">KET</div>
-          <div class="cb-name">Key English Test</div>
-        </a>
         <a class="cambridge-card" href="javascript:void(0)" data-cambridge="pet">
           <div class="cb-level">B1</div>
           <div class="cb-code">PET</div>
@@ -15422,13 +15417,12 @@
     window._processDeepLinkTakeV3 = _processDeepLinkTakeV3;
 
     // ═══════════════════════════════════════════════════════════════
-    // Cambridge KET / PET / FCE / CAE / CPE — Phase 6-B
+    // Cambridge PET / FCE / CAE / CPE — Phase 6-B
     // Single modal driven by exam-data table. Only RW paper is active;
     // Listening + Speaking marked SOON. Direct navigation to runner
     // pages (no access-code gate — exam runners handle premium check).
     // ═══════════════════════════════════════════════════════════════
     var CAMBRIDGE_EXAMS = {
-      ket: { code: 'KET', tag: 'A2 Key',         rwLabel: 'Reading & Writing',     rwDur: '60 min · 32 questions',           listDur: '30 min · 25 questions',  spkDur: '8–10 min (paired)' },
       pet: { code: 'PET', tag: 'B1 Preliminary', rwLabel: 'Reading & Writing',     rwDur: '90 min · 32 reading + 2 writing', listDur: '~30 min · 25 questions', spkDur: '~12 min (paired)' },
       fce: { code: 'FCE', tag: 'B2 First',       rwLabel: 'Reading, UoE & Writing', rwDur: '155 min · 52 reading + 2 writing', listDur: '~40 min · 30 questions', spkDur: '~14 min (paired)' },
       cae: { code: 'CAE', tag: 'C1 Advanced',    rwLabel: 'Reading, UoE & Writing', rwDur: '180 min · 56 reading + 2 writing', listDur: '~40 min · 30 questions', spkDur: '~15 min (paired)' },
@@ -16644,7 +16638,7 @@
   </div>
 
   <!-- ═══════════════════════════════════════════════════════
-       Cambridge KET / PET / FCE / CAE / CPE — single modal,
+       Cambridge PET / FCE / CAE / CPE — single modal,
        content swaps per exam via CAMBRIDGE_EXAMS data. Wired
        to the .cambridge-card tiles in #examsRail.
        ═══════════════════════════════════════════════════════ -->
@@ -18496,7 +18490,7 @@
           var nm = c.querySelector('.tool-name');
           if (nm) c.setAttribute('data-tooltip', nm.textContent.trim());
         });
-        // International Exam cards (KET / PET / FCE / SAT…): full name
+        // International Exam cards (PET / FCE / SAT…): full name
         // sits in .cb-desc, the badge in .cb-name. Tooltip shows both.
         s.querySelectorAll('.msv3-intl-exams .cambridge-card').forEach(function (c) {
           if (c.hasAttribute('data-tooltip')) return;
@@ -18599,7 +18593,7 @@
         });
       }
 
-      // Move International Exams (KET/PET/FCE/CAE/CPE/SAT + soon TOEFL/GRE/TKT)
+      // Move International Exams (PET/FCE/CAE/CPE/SAT + soon TOEFL/GRE/TKT)
       // into the sidebar, stacked below Learning Tools.
       function ensureIntlExams() {
         var s = document.getElementById('msv3Sidebar');
