@@ -11273,18 +11273,81 @@
             micTestRecorder = new MediaRecorder(stream, options);
             const chunks = [];
 
+            // ── Live volume monitor ─────────────────────────────────
+            // Web Audio AnalyserNode taps the live stream and samples
+            // peak amplitude every animation frame. We track the
+            // loudest sample seen during the recording so that on stop
+            // we can tell silent recordings (mic muted / unplugged /
+            // hardware broken) from real ones and refuse to mark the
+            // student verified.
+            var __ac = null, __analyser = null, __srcNode = null;
+            var __micPeak = 0;            // 0–255 byte-domain peak
+            var __volRaf = null;
+            try {
+              var AC = window.AudioContext || window.webkitAudioContext;
+              if (AC) {
+                __ac = new AC();
+                __srcNode = __ac.createMediaStreamSource(stream);
+                __analyser = __ac.createAnalyser();
+                __analyser.fftSize = 512;
+                __srcNode.connect(__analyser);
+                var __buf = new Uint8Array(__analyser.fftSize);
+                var __tick = function () {
+                  if (!micTestRecording) return;
+                  __analyser.getByteTimeDomainData(__buf);
+                  // Time-domain bytes are centred at 128; peak = max
+                  // deviation from centre.
+                  var hi = 0;
+                  for (var i = 0; i < __buf.length; i++) {
+                    var v = Math.abs(__buf[i] - 128);
+                    if (v > hi) hi = v;
+                  }
+                  if (hi > __micPeak) __micPeak = hi;
+                  __volRaf = requestAnimationFrame(__tick);
+                };
+                __volRaf = requestAnimationFrame(__tick);
+              }
+            } catch (_e) { /* analyser is best-effort */ }
+
             micTestRecorder.ondataavailable = e => chunks.push(e.data);
             micTestRecorder.onstop = () => {
               micTestAudioBlob = new Blob(chunks, { type: 'audio/webm' });
               micTestRecording = false;
               if (micTestTimer) clearInterval(micTestTimer);
-              $('#micTestStatus').textContent = 'Tap to listen';
-              $('#micTestStatus').style.color = 'var(--ink-light)';
+              if (__volRaf) cancelAnimationFrame(__volRaf);
+              try { if (__ac && __ac.close) __ac.close(); } catch (_e) {}
               $('#micTestTimer').textContent = '';
+              // Silence threshold — peak amplitude below this means the
+              // mic effectively recorded nothing (system mic muted,
+              // input device unplugged, OS-level permission revoked
+              // mid-record, broken hardware, etc.). Threshold of 6
+              // (≈ -32 dBFS) tolerates quiet rooms but rejects pure
+              // digital silence.
+              var SILENCE_THRESHOLD = 6;
+              if (__micPeak < SILENCE_THRESHOLD) {
+                // Inline error — don't enable Continue.
+                $('#micTestStatus').innerHTML = '⚠️ We didn\'t hear you — check your mic and try again';
+                $('#micTestStatus').style.color = '#dc2626';
+                recordBtn.textContent = '🎙️';
+                recordBtn.style.background = 'linear-gradient(135deg,#ef4444,#b91c1c)';
+                // Clear the (silent) blob so Continue stays disabled.
+                micTestAudioBlob = null;
+                var __doneBtnX = document.getElementById('micCheckDone');
+                if (__doneBtnX) {
+                  __doneBtnX.disabled = true;
+                  __doneBtnX.setAttribute('aria-disabled', 'true');
+                  var __doneLabelX = document.getElementById('micCheckDoneLabel');
+                  if (__doneLabelX) __doneLabelX.textContent = 'Record sample to continue';
+                }
+                console.warn('[Mic Check] Recording silent — peak amplitude ' + __micPeak + ' below threshold ' + SILENCE_THRESHOLD);
+                return;
+              }
+              $('#micTestStatus').textContent = 'Tap to listen';
+              $('#micTestStatus').style.color = '#475569';
               recordBtn.textContent = '▶️';
               recordBtn.style.background = 'linear-gradient(135deg,#667eea,#764ba2)';
               // Unlock the "All Good — Continue" button now that there's
-              // an actual sample to confirm against.
+              // an actual sample (with real audio) to confirm against.
               var __doneBtn = document.getElementById('micCheckDone');
               if (__doneBtn) {
                 __doneBtn.disabled = false;
@@ -11298,6 +11361,10 @@
             micTestRecorder.start();
             micTestRecording = true;
             micTestSeconds = 0;
+            __micPeak = 0;
+            // Restore status colour in case we're entering after a
+            // previous silent-recording warning.
+            $('#micTestStatus').style.color = '#475569';
 
             recordBtn.textContent = '⏹️';
             recordBtn.style.background = '#ef4444';
