@@ -11072,15 +11072,28 @@
 
       /* Tutorial tabs + begin/back/mic test — all dispatched from the
          delegated click handler on document so the inline-mic-test state
-         transitions don't need separate listeners. */
+         transitions don't need separate listeners.
+
+         IMPORTANT: e.target is the INNERMOST node clicked. The footer
+         buttons (tutorialBegin / tutorialBack / micCheckBtn) wrap their
+         labels in nested spans for state + language toggling, so a tap
+         on the visible text lands on a <span>, not on the button. Use
+         .closest() to walk up to the actual button before id-matching —
+         using e.target.id was the bug behind "Test microphone doesn't
+         respond when you tap the text". */
       document.addEventListener('click', async function (e) {
         const t = e.target;
-        if (t && t.matches('.tab-btn')) {
-          const lang = t.getAttribute('data-lang');
-          $$('.tab-btn').forEach(b => b.classList.toggle('active', b === t));
+        if (t && t.closest && t.closest('.tab-btn')) {
+          const btn = t.closest('.tab-btn');
+          const lang = btn.getAttribute('data-lang');
+          $$('.tab-btn').forEach(b => b.classList.toggle('active', b === btn));
           const __tutModal = $('#tutorialModal');
           if (__tutModal) __tutModal.setAttribute('data-lang', lang);
-        } else if (t && t.id === 'tutorialBegin') {
+          return;
+        }
+        const btn = t && t.closest ? t.closest('button') : null;
+        if (!btn) return;
+        if (btn.id === 'tutorialBegin') {
           const modal = $('#tutorialModal');
           // Mandatory mic check: Begin button is hidden via CSS while
           // data-mic-state !== "verified". Defensive guard for devtools.
@@ -11091,7 +11104,7 @@
           modal.classList.remove('show');
           modal.setAttribute('aria-hidden', 'true');
           await _beginFlowFromTutorial();
-        } else if (t && t.id === 'tutorialBack') {
+        } else if (btn.id === 'tutorialBack') {
           const modal = $('#tutorialModal');
           // In testing state the Back button reads "Cancel" — clicking
           // it should revert the state, not bounce to landing.
@@ -11103,10 +11116,10 @@
           modal.setAttribute('aria-hidden', 'true');
           if (window.goToLanding) window.goToLanding();
           else window.location.href = 'landing-v3.html';
-        } else if (t && t.id === 'micCheckBtn') {
+        } else if (btn.id === 'micCheckBtn') {
           try {
             await ensureMediaStream();
-          } catch (e) {
+          } catch (err) {
             alert('Microphone access is required to test your microphone. Please allow microphone access and try again.');
             return;
           }
