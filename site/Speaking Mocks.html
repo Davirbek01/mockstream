@@ -2766,12 +2766,13 @@
     #tutorialModal[data-mic-state="pending"] .tut2-verified-only,
     #tutorialModal[data-mic-state="pending"] #tutorialBegin { display: none; }
     #tutorialModal[data-mic-state="verified"] .tut2-pending-only { display: none; }
-    /* Three-state body sections — fade in when their state is active. */
-    .tut2-show-pendverif, .tut2-show-testing, .tut2-show-verified { display: none; }
+    /* Four-state body sections — fade in when their state is active. */
+    .tut2-show-pendverif, .tut2-show-testing, .tut2-show-verified, .tut2-show-blocked { display: none; }
     #tutorialModal[data-mic-state="pending"]  .tut2-show-pendverif,
     #tutorialModal[data-mic-state="verified"] .tut2-show-pendverif,
     #tutorialModal[data-mic-state="testing"]  .tut2-show-testing,
-    #tutorialModal[data-mic-state="verified"] .tut2-show-verified {
+    #tutorialModal[data-mic-state="verified"] .tut2-show-verified,
+    #tutorialModal[data-mic-state="blocked"]  .tut2-show-blocked {
       display: revert;
       animation: tut2FadeIn .26s ease both;
     }
@@ -2820,6 +2821,43 @@
       font-variant-numeric: tabular-nums;
       min-height: 16px;
     }
+    /* Blocked panel — shown when the OS / browser has microphone access
+       in "denied" state and we cannot programmatically re-prompt. */
+    .tut2-blocked {
+      text-align: center;
+      padding: 16px 16px 4px;
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+      border: 1px solid #fca5a5;
+      border-radius: 14px;
+    }
+    .tut2-blocked-icon {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: #fff;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 26px;
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+      margin-bottom: 10px;
+    }
+    .tut2-blocked-title {
+      font-size: 15px; font-weight: 800; color: #991b1b;
+      line-height: 1.2;
+    }
+    .tut2-blocked-sub {
+      font-size: 12.5px; color: #7f1d1d; margin-top: 4px;
+      line-height: 1.4;
+    }
+    .tut2-blocked-howto {
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 10px;
+      font-size: 12.5px; color: #1f2937;
+      line-height: 1.5;
+      text-align: left;
+    }
+    .tut2-blocked-howto strong { color: #991b1b; }
     /* Language toggle — single data-lang on modal root drives all spans. */
     #tutorialModal[data-lang="en"] .tut2-uz,
     #tutorialModal[data-lang="uz"] .tut2-en { display: none !important; }
@@ -5658,6 +5696,23 @@
         </div>
       </div>
 
+      <!-- Blocked body: shown when navigator.permissions.query reports
+           mic state="denied". Platform-specific instruction text is
+           filled in by JS (#micBlockedHowto) since the right copy
+           depends on TMA vs desktop browser vs mobile browser. -->
+      <div class="tut2-show-blocked tut2-blocked">
+        <div class="tut2-blocked-icon">🚫</div>
+        <div class="tut2-blocked-title">
+          <span class="tut2-en">Microphone is blocked</span>
+          <span class="tut2-uz">Mikrofon bloklangan</span>
+        </div>
+        <div class="tut2-blocked-sub">
+          <span class="tut2-en">Allow microphone access for this site, then tap "Try again".</span>
+          <span class="tut2-uz">Sayt uchun mikrofonga ruxsat bering, so'ng "Yana urinish"ni bosing.</span>
+        </div>
+        <div class="tut2-blocked-howto" id="micBlockedHowto"></div>
+      </div>
+
       <!-- Testing body: read-aloud sample + record orb + status. The
            record orb keeps id="micTestRecordBtn" so the existing
            MediaRecorder wiring binds without edits. -->
@@ -5687,6 +5742,10 @@
             <span class="tut2-en">← Cancel</span>
             <span class="tut2-uz">← Bekor</span>
           </span>
+          <span class="tut2-show-blocked">
+            <span class="tut2-en">← Back</span>
+            <span class="tut2-uz">← Ortga</span>
+          </span>
         </button>
         <button class="tut2-btn tut2-btn-primary tut2-show-pendverif" id="micCheckBtn" type="button">
           <span class="tut2-pending-only">
@@ -5697,6 +5756,10 @@
             <span class="tut2-en">↻ Re-test mic</span>
             <span class="tut2-uz">↻ Qayta sinash</span>
           </span>
+        </button>
+        <button class="tut2-btn tut2-btn-primary tut2-show-blocked" id="micRetryBtn" type="button">
+          <span class="tut2-en">↻ Try again</span>
+          <span class="tut2-uz">↻ Qayta urinish</span>
         </button>
         <button class="tut2-btn tut2-btn-success tut2-show-testing" id="micCheckDone" type="button" disabled aria-disabled="true">
           <span id="micCheckDoneLabel">
@@ -11089,6 +11152,12 @@
           $$('.tab-btn').forEach(b => b.classList.toggle('active', b === btn));
           const __tutModal = $('#tutorialModal');
           if (__tutModal) __tutModal.setAttribute('data-lang', lang);
+          // Blocked-state copy is JS-driven (platform-specific) so
+          // re-render it when the language flips while shown.
+          if (__tutModal && __tutModal.getAttribute('data-mic-state') === 'blocked') {
+            var howto = document.getElementById('micBlockedHowto');
+            if (howto) howto.innerHTML = _micBlockedInstructions();
+          }
           return;
         }
         const btn = t && t.closest ? t.closest('button') : null;
@@ -11112,20 +11181,109 @@
             _exitMicTestState(_speakingMicVerified ? 'verified' : 'pending');
             return;
           }
+          // From the blocked state, Back returns the student to the
+          // landing-page picker so they can pick a different device or
+          // skill instead of bouncing between settings and us.
           modal.classList.remove('show');
           modal.setAttribute('aria-hidden', 'true');
           if (window.goToLanding) window.goToLanding();
           else window.location.href = 'landing-v3.html';
-        } else if (btn.id === 'micCheckBtn') {
+        } else if (btn.id === 'micCheckBtn' || btn.id === 'micRetryBtn') {
+          // Permission gate. Three outcomes:
+          //   "granted"  → ensureMediaStream resolves silently, enter testing.
+          //   "prompt"   → ensureMediaStream triggers the browser prompt.
+          //               If the student accepts → testing; if they Block
+          //               we fall into the catch → blocked state.
+          //   "denied"   → ensureMediaStream throws NotAllowedError
+          //               immediately, we enter the blocked state with
+          //               platform-specific instructions.
+          var permState = await _queryMicPermission();
+          if (permState === 'denied') {
+            _enterMicBlockedState();
+            return;
+          }
           try {
             await ensureMediaStream();
           } catch (err) {
-            alert('Microphone access is required to test your microphone. Please allow microphone access and try again.');
+            // Most common reason for this catch in 2026 is the user
+            // tapping Block on a freshly-shown prompt — state flips to
+            // "denied" mid-call. Treat anything that isn't a clearly
+            // recoverable error as blocked so they get help text rather
+            // than a dead-end alert.
+            _enterMicBlockedState();
             return;
           }
           _enterMicTestState();
         }
       });
+
+      // ── Microphone permission detection + recovery ─────────────────
+      // Use the Permissions API where available so we know up-front
+      // whether the prompt will fire ("prompt"), succeed silently
+      // ("granted") or refuse immediately ("denied"). When the student
+      // unblocks the permission in OS / browser settings, the
+      // PermissionStatus 'change' event fires and we auto-progress out
+      // of the blocked state without requiring another tap.
+      async function _queryMicPermission() {
+        try {
+          if (navigator.permissions && navigator.permissions.query) {
+            var st = await navigator.permissions.query({ name: 'microphone' });
+            // Lazy-register the change listener once per page.
+            if (!st.__msListenerWired) {
+              st.__msListenerWired = true;
+              try {
+                st.addEventListener('change', function () {
+                  var modal = document.getElementById('tutorialModal');
+                  if (!modal) return;
+                  if (modal.getAttribute('data-mic-state') !== 'blocked') return;
+                  if (st.state === 'granted' || st.state === 'prompt') {
+                    // Auto-recover: pop the student straight into the
+                    // testing flow now that the OS / browser has let go
+                    // of the permission lock.
+                    ensureMediaStream().then(function () {
+                      _enterMicTestState();
+                    }).catch(function () { /* still blocked somehow */ });
+                  }
+                });
+              } catch (_e) {}
+            }
+            return st.state;
+          }
+        } catch (_e) {}
+        return 'prompt'; // best-effort fallback for browsers without the API
+      }
+
+      function _enterMicBlockedState() {
+        var modal = document.getElementById('tutorialModal');
+        if (!modal) return;
+        var howto = document.getElementById('micBlockedHowto');
+        if (howto) howto.innerHTML = _micBlockedInstructions();
+        modal.setAttribute('data-mic-state', 'blocked');
+      }
+
+      // Platform-specific instructions. We deliberately use HTML rather
+      // than i18n spans here because the device-detection branches +
+      // language-toggle would blow the markup out — easier to just emit
+      // the right copy for the active data-lang.
+      function _micBlockedInstructions() {
+        var modal = document.getElementById('tutorialModal');
+        var lang = (modal && modal.getAttribute('data-lang')) || 'en';
+        var isTMA = !!(window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData);
+        var isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        if (isTMA) {
+          return lang === 'uz'
+            ? 'Telegram <strong>Sozlamalar → Maxfiylik va Xavfsizlik → Mikrofon</strong> bo\'limini oching va ushbu mini ilovaga ruxsat bering. So\'ng "Yana urinish"ni bosing.'
+            : 'Open <strong>Telegram → Settings → Privacy &amp; Security → Microphone</strong> and allow this mini app, then tap "Try again".';
+        }
+        if (isMobile) {
+          return lang === 'uz'
+            ? 'Brauzer menyusi → <strong>Sayt sozlamalari → Mikrofon</strong> bo\'limini oching va ushbu sayt uchun ruxsat bering. So\'ng "Yana urinish"ni bosing.'
+            : 'Open <strong>Browser menu → Site settings → Microphone</strong> and allow this site, then tap "Try again".';
+        }
+        return lang === 'uz'
+          ? 'Manzil qatori yonidagi 🔒 yoki 🎤 belgisini bosing, <strong>Mikrofon → Ruxsat berish</strong>ni tanlang, so\'ng "Yana urinish"ni bosing.'
+          : 'Click the 🔒 or 🎤 icon next to the address bar, choose <strong>Microphone → Allow</strong>, then tap "Try again".';
+      }
 
       // ── Inline mic-test state transitions ──────────────────────────
       // The mic test now lives INSIDE the tutorial modal instead of a
