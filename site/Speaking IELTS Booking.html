@@ -721,7 +721,9 @@
       } catch (e) {
         console.log('Error calling parent:', e);
       }
-      window.location.href = 'landing.html';
+      // Top-level fallback: bounce to v3 (Booking is a single-page widget,
+      // no card-grid picker to reopen).
+      window.location.href = '/landing-v3.html';
     }
     window.goBack = goBack;
     window.goToLanding = goBack; // Alias for compatibility
