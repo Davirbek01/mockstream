@@ -16118,29 +16118,72 @@ Please contact your instructor or upgrade to the full version with speech recogn
       });
     }
 
-    // Populate mock selector from window.IELTS_MOCKS_SELECTION
-    function populateMockDropdown() {
+    // Populate mock selector. Mocks live in Supabase (mock_tests with
+    // mock_type='ielts-speaking'); the static IELTS_MOCKS_SELECTION points
+    // at retired file paths that 404, so picking any of them used to fall
+    // back to Mock 1. Fetch fresh ids and use 'supabase:<id>' values so
+    // loadQuestionFile pulls the right mock_data for every pick.
+    async function populateMockDropdown() {
       const mockSelector = document.getElementById('mockSelector');
-      if (!mockSelector || !window.IELTS_MOCKS_SELECTION) return;
+      if (!mockSelector) return;
 
-      // Keep only the first "Choose Mock" option
       const firstOption = mockSelector.options[0];
       mockSelector.innerHTML = '';
       mockSelector.appendChild(firstOption);
 
-      window.IELTS_MOCKS_SELECTION.forEach(mock => {
-        const option = document.createElement('option');
-        option.value = mock.value;
-        option.textContent = mock.text;
-        option.style.background = 'white';
-        option.style.color = mock.comingSoon ? '#d97706' : '#10b981';
-        option.style.fontWeight = '600';
-        if (mock.comingSoon) {
-          // option.disabled = true; // Optional: disable if strictly coming soon
+      const _SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      const _SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      const _CACHE_KEY = 'ms_ielts_speaking_dropdown_v1';
+      const _CACHE_TTL = 6 * 60 * 60 * 1000;
+
+      let rows = null;
+      try {
+        const cached = JSON.parse(localStorage.getItem(_CACHE_KEY) || 'null');
+        if (cached && cached.ts && (Date.now() - cached.ts) < _CACHE_TTL && Array.isArray(cached.rows)) {
+          rows = cached.rows;
         }
-        mockSelector.appendChild(option);
-      });
-      console.log('?? Mock selector populated with', window.IELTS_MOCKS_SELECTION.length, 'options');
+      } catch (_e) {}
+
+      if (!rows) {
+        try {
+          const resp = await fetch(`${_SB_URL}/rest/v1/mock_tests?mock_type=eq.ielts-speaking&status=eq.published&select=id,mock_number,title&order=mock_number.asc`, {
+            headers: { apikey: _SB_KEY, Authorization: 'Bearer ' + _SB_KEY }
+          });
+          if (resp.ok) {
+            rows = await resp.json();
+            try { localStorage.setItem(_CACHE_KEY, JSON.stringify({ ts: Date.now(), rows })); } catch (_e) {}
+          }
+        } catch (_e) {}
+      }
+
+      if (rows && rows.length) {
+        rows.forEach(r => {
+          const padded = String(r.mock_number).padStart(2, '0');
+          const option = document.createElement('option');
+          option.value = 'supabase:' + r.id;
+          option.textContent = '✓ Mock ' + padded;
+          option.style.background = 'white';
+          option.style.color = '#10b981';
+          option.style.fontWeight = '600';
+          mockSelector.appendChild(option);
+        });
+        console.log('🟢 Mock selector populated from Supabase with', rows.length, 'options');
+        return;
+      }
+
+      // Supabase unreachable — fall back to static list so the page isn't empty
+      if (window.IELTS_MOCKS_SELECTION) {
+        window.IELTS_MOCKS_SELECTION.forEach(mock => {
+          const option = document.createElement('option');
+          option.value = mock.value;
+          option.textContent = mock.text;
+          option.style.background = 'white';
+          option.style.color = mock.comingSoon ? '#d97706' : '#10b981';
+          option.style.fontWeight = '600';
+          mockSelector.appendChild(option);
+        });
+        console.log('⚠️ Mock selector falling back to static IELTS_MOCKS_SELECTION (Supabase unreachable)');
+      }
     }
 
     // Check which mock files are available
@@ -16199,7 +16242,7 @@ Please contact your instructor or upgrade to the full version with speech recogn
 
     // Load default question file on page load
     async function initializeQuestions() {
-      populateMockDropdown();
+      await populateMockDropdown();
 
       // Skip if auto-proceeding from landing page (auto-proceed will handle loading)
       if (window._autoHideGateStyle) {
