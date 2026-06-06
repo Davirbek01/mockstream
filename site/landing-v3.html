@@ -9,7 +9,11 @@
        centre to verify-passcode, and silently rejects every clone's
        Premium grant. Was missing from landing-v3 entirely until
        2026-06-04. -->
-  <script src="center-id.js"></script>
+  <!-- Absolute path so /take/<slug> rewrites (Netlify) don't resolve this
+       as /take/center-id.js → 200 landing-v3.html → SyntaxError. The
+       inline page guard at the bottom (line ~4045) is a second copy with
+       an onerror fallback for the early-paint case. -->
+  <script src="/center-id.js"></script>
   <script>
     // ─── Self-healing premium unlock ─────────────────────────────────────
     // Every approach via localStorage backup, cross-page sessionStorage,
@@ -15295,6 +15299,12 @@
       // if the slug is bogus).
       var _takeHideSplash = function () {
         try { if (typeof window.__msv3HideInlineSplash === 'function') window.__msv3HideInlineSplash(); } catch (_e) {}
+        // ALSO drop the data-takelink curtain. The CSS rule at the top of
+        // the file hides every body child EXCEPT splash + access-code
+        // modals while data-takelink is set — so mode-chooser modals
+        // (cefrReadingModeModal etc.) open invisibly for VIP / premium
+        // users whose _openTakeModalEarly bails before clearing it.
+        try { document.documentElement.removeAttribute('data-takelink'); } catch (_e) {}
       };
       try {
         var takeParam = null;
@@ -15350,6 +15360,10 @@
                          + '&num=' + encodeURIComponent(String(mockNum).padStart(2, '0'))
                          + '&auto=1&action=practice';
           if (typeof handleSpeakingMockClick === 'function') {
+            // Mode-chooser modal opens but stays hidden under the splash
+            // unless we dismiss it here. Top-level nav fallbacks (else
+            // branch) don't need this — the runner page takes over.
+            _takeHideSplash();
             handleSpeakingMockClick(pageUrlSpk, category);
           } else {
             try { window.location.replace(window.__msv3AbsUrl(pageUrlSpk)); } catch (_e) { window.location.href = window.__msv3AbsUrl(pageUrlSpk); }
@@ -15370,6 +15384,7 @@
             + '&sbmock=' + encodeURIComponent(sbMockId)
             + '&auto=1';
           if (typeof handleWritingMockClick === 'function') {
+            _takeHideSplash();
             handleWritingMockClick(pageUrlW, category);
           } else {
             try { window.location.replace(window.__msv3AbsUrl(pageUrlW)); } catch (_e) { window.location.href = window.__msv3AbsUrl(pageUrlW); }
@@ -15387,12 +15402,14 @@
 
         if (skill === 'reading') {
           if (typeof handleReadingMockClick === 'function') {
+            _takeHideSplash();
             handleReadingMockClick(pageUrl, category);
           } else {
             try { window.location.replace(window.__msv3AbsUrl(pageUrl)); } catch (_e) { window.location.href = window.__msv3AbsUrl(pageUrl); }
           }
         } else {
           if (typeof handleListeningMockClick === 'function') {
+            _takeHideSplash();
             handleListeningMockClick(pageUrl, category);
           } else {
             try { window.location.replace(window.__msv3AbsUrl(pageUrl)); } catch (_e) { window.location.href = window.__msv3AbsUrl(pageUrl); }
