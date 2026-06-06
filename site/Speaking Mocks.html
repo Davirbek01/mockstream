@@ -38,9 +38,12 @@
           if (window.top && window.top !== window) { window.top.postMessage('returnToLanding', '*'); return; }
           if (window.parent && window.parent !== window) { window.parent.postMessage('returnToLanding', '*'); return; }
         } catch (e3) { }
-        // Direct-nav fallback: target landing-v3.html so we skip the
-        // landing.html bounce-flash. v3 is the home for every clone now.
-        try { window.top.location.href = 'landing-v3.html'; } catch (e4) { window.location.href = 'landing-v3.html'; }
+        // Direct-nav fallback: target landing-v3.html with the picker
+        // reopen hint so cspetPicker re-opens where the student came from.
+        // Skips the landing.html bounce-flash entirely.
+        try { window.location.href = '/landing-v3.html?reopen=cefr-speaking'; } catch (e4) {
+          window.location.href = 'landing-v3.html?reopen=cefr-speaking';
+        }
       }
       window.goBack = goBack;
       window.goToLanding = goBack; // Alias for compatibility

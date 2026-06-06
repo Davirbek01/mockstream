@@ -36,7 +36,13 @@
           if (window.top && window.top !== window) { window.top.postMessage('returnToLanding', '*'); return; }
           if (window.parent && window.parent !== window) { window.parent.postMessage('returnToLanding', '*'); return; }
         } catch (e3) {}
-        try { window.top.location.href = 'landing.html'; } catch (e4) { window.location.href = 'landing.html'; }
+        // Top-level context (v3 picker launched the runner directly):
+        // bounce to v3 with the ielts-writing reopen hint so the iwetPicker
+        // reopens. Going to landing.html first triggers the legacy
+        // discovery-handoff watcher → visible flicker on Leave.
+        try { window.location.href = '/landing-v3.html?reopen=ielts-writing'; } catch (e4) {
+          window.location.href = 'landing-v3.html?reopen=ielts-writing';
+        }
       }
       window.goBack = goBack;
       window.goToLanding = goBack; // Alias for compatibility
