@@ -5821,6 +5821,48 @@
     </div>
   </div>
 
+  <!-- ===== Part Intro Card Overlay (2026-06-08) =====
+       Auto-plays a narrated card before Q1 (Part 1), Q7 (Part 2), and
+       Q8 (Part 3). Audio is fixed Cloud-TTS Achird MP3s hosted on
+       GCS — no per-session TTS calls. Continue is hidden until the
+       narration ends (or the student taps Skip). -->
+  <div id="partIntroOverlay"
+    style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.85);z-index:10002;align-items:center;justify-content:center;animation:partIntroFadeIn 0.4s ease;">
+    <div id="partIntroCard"
+      style="max-width:480px;width:92%;border-radius:24px;padding:36px 32px;text-align:center;box-shadow:0 25px 60px rgba(0,0,0,0.4);position:relative;overflow:hidden;">
+      <div id="partIntroAccent"
+        style="position:absolute;top:0;right:0;width:100px;height:100px;border-radius:0 24px 0 100%;opacity:0.15;"></div>
+      <div id="partIntroBadge"
+        style="display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:50%;margin-bottom:18px;font-size:28px;font-weight:900;color:white;box-shadow:0 6px 20px rgba(0,0,0,0.2);"></div>
+      <h2 id="partIntroTitle" style="margin:0 0 6px;font-size:clamp(20px,4.5vw,26px);font-weight:800;line-height:1.25;"></h2>
+      <div id="partIntroSubtitle"
+        style="font-size:13px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:18px;opacity:0.7;"></div>
+      <div id="partIntroDivider" style="width:60px;height:3px;border-radius:3px;margin:0 auto 18px;"></div>
+      <p id="partIntroDesc" style="margin:0 0 24px;font-size:15px;line-height:1.7;font-weight:500;"></p>
+      <div style="height:4px;background:rgba(0,0,0,0.1);border-radius:4px;overflow:hidden;margin-bottom:16px;">
+        <div id="partIntroTimer" style="height:100%;width:100%;border-radius:4px;transition:width linear;"></div>
+      </div>
+      <button id="partIntroSkipBtn"
+        style="background:rgba(255,255,255,0.15);backdrop-filter:blur(4px);border:2px solid rgba(255,255,255,0.25);color:white;padding:12px 36px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;"
+        onmouseover="this.style.background='rgba(255,255,255,0.25)'"
+        onmouseout="this.style.background='rgba(255,255,255,0.15)'">Continue &rarr;</button>
+    </div>
+  </div>
+
+  <style>
+    @keyframes partIntroFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes partIntroSlideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    #partIntroCard {
+      animation: partIntroSlideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
+    }
+  </style>
+
   <!-- ===== Audio Preloading Modal ===== -->
   <div id="audioPreloadModal" class="tutorial" aria-hidden="true"
     style="z-index:10001;background:#2563eb;backdrop-filter:none;">
@@ -9963,6 +10005,164 @@
       async function beginFlow() {
         ensureAudio();
 
+        // ===== PART INTRO CARD SYSTEM (2026-06-08) =====
+        // One narrated intro card per CEFR Speaking part:
+        //   Part 1 (Q1–Q6): introduction + photo Qs
+        //   Part 2 (Q7):     picture + 3-question long turn
+        //   Part 3 (Q8):     for-and-against balanced argument
+        // Fires once per part per session (full mode: at i=0,6,7;
+        // practice mode: at the part's entry index). Audio is a
+        // fixed Cloud-TTS Achird MP3 on GCS.
+        const partIntroConfigs = {
+          part1: {
+            title: 'Part 1',
+            subtitle: 'Introduction & Photos',
+            desc: "In this part, I'm going to ask you three short questions about yourself and your interests. And then, you will see some photos and answer some questions about them. You will have 30 seconds to reply to each question.",
+            bg: 'linear-gradient(135deg, #115e59 0%, #0d9488 50%, #14b8a6 100%)',
+            badgeBg: 'linear-gradient(135deg, #0f766e, #14b8a6)',
+            divider: '#5eead4',
+            timerColor: '#99f6e4',
+            icon: '1',
+            audio: 'https://storage.googleapis.com/mockstream-listening-audio/CEFR%20Speaking%20audios/Part%20one.mp3'
+          },
+          part2: {
+            title: 'Part 2',
+            subtitle: 'Picture · Three Questions',
+            desc: "In this part, I'm going to show you a picture and ask you three questions. You will have one minute to think about your answers before you start speaking. You will have two minutes to answer all three questions.",
+            bg: 'linear-gradient(135deg, #312e81 0%, #4f46e5 50%, #6366f1 100%)',
+            badgeBg: 'linear-gradient(135deg, #4338ca, #6366f1)',
+            divider: '#a5b4fc',
+            timerColor: '#c7d2fe',
+            icon: '2',
+            audio: 'https://storage.googleapis.com/mockstream-listening-audio/CEFR%20Speaking%20audios/Part%20two.mp3'
+          },
+          part3: {
+            title: 'Part 3',
+            subtitle: 'For & Against · Balanced Argument',
+            desc: "In this part, you are going to speak on a topic for two minutes. You can see the topic on the screen and two lists of points - for and against - related to the topic. Choose two items from each list and give a balanced argument to represent both sides of the topic. You have one minute to prepare your argument. You will then have two minutes to speak.",
+            bg: 'linear-gradient(135deg, #581c87 0%, #7c3aed 50%, #a855f7 100%)',
+            badgeBg: 'linear-gradient(135deg, #6d28d9, #a855f7)',
+            divider: '#d8b4fe',
+            timerColor: '#e9d5ff',
+            icon: '3',
+            audio: 'https://storage.googleapis.com/mockstream-listening-audio/CEFR%20Speaking%20audios/Part%20three.mp3'
+          }
+        };
+        // Which question index triggers which intro. i=3 also maps to
+        // part1 so p12-practice-mode (entry at Q4) plays Part 1 intro.
+        // In full mode, i=3 is benign because _partIntrosShown.part1 is
+        // already true by then.
+        const PART_INTRO_INDEX = { 0: 'part1', 3: 'part1', 6: 'part2', 7: 'part3' };
+        const _partIntrosShown = { part1: false, part2: false, part3: false };
+        let partIntroTimerId = null;
+        let partIntroAudio = null;
+
+        function showPartIntroCard(configKey, onDone) {
+          const cfg = partIntroConfigs[configKey];
+          if (!cfg) { onDone && onDone(); return; }
+          const overlay = document.getElementById('partIntroOverlay');
+          const card = document.getElementById('partIntroCard');
+          const badge = document.getElementById('partIntroBadge');
+          const title = document.getElementById('partIntroTitle');
+          const subtitle = document.getElementById('partIntroSubtitle');
+          const desc = document.getElementById('partIntroDesc');
+          const accent = document.getElementById('partIntroAccent');
+          const divider = document.getElementById('partIntroDivider');
+          const timerBar = document.getElementById('partIntroTimer');
+          const skipBtn = document.getElementById('partIntroSkipBtn');
+          if (!overlay) { onDone && onDone(); return; }
+
+          card.style.background = cfg.bg;
+          card.style.color = 'white';
+          badge.style.background = cfg.badgeBg;
+          badge.textContent = cfg.icon;
+          title.textContent = cfg.title;
+          subtitle.textContent = cfg.subtitle;
+          desc.textContent = cfg.desc;
+          accent.style.background = 'white';
+          divider.style.background = cfg.divider;
+          timerBar.style.background = cfg.timerColor;
+          timerBar.style.width = '100%';
+
+          card.style.animation = 'none'; void card.offsetWidth;
+          card.style.animation = 'partIntroSlideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both';
+
+          overlay.style.display = 'flex';
+
+          if (partIntroAudio) { partIntroAudio.pause(); partIntroAudio = null; }
+
+          let dismissed = false;
+          function dismiss() {
+            if (dismissed) return;
+            dismissed = true;
+            if (partIntroTimerId) { clearInterval(partIntroTimerId); partIntroTimerId = null; }
+            if (partIntroAudio) { partIntroAudio.pause(); partIntroAudio = null; }
+            skipBtn.onclick = null;
+            overlay.style.opacity = '0';
+            overlay.style.transition = 'opacity 0.3s ease';
+            setTimeout(() => {
+              overlay.style.display = 'none';
+              overlay.style.opacity = '';
+              overlay.style.transition = '';
+              onDone && onDone();
+            }, 300);
+          }
+          skipBtn.onclick = dismiss;
+
+          if (cfg.audio) {
+            const audio = new Audio(cfg.audio);
+            audio.volume = 1.0;
+            partIntroAudio = audio;
+            audio.addEventListener('loadedmetadata', () => {
+              const duration = audio.duration * 1000;
+              const startTime = Date.now();
+              if (partIntroTimerId) clearInterval(partIntroTimerId);
+              partIntroTimerId = setInterval(() => {
+                const elapsed = Date.now() - startTime;
+                const pct = Math.max(0, 1 - elapsed / duration) * 100;
+                timerBar.style.width = pct + '%';
+              }, 50);
+            });
+            audio.onended = () => { partIntroAudio = null; dismiss(); };
+            audio.onerror = () => {
+              console.warn('[PartIntro] audio failed to load, using fallback timer');
+              partIntroAudio = null;
+              const fallbackDuration = 8000;
+              const startTime = Date.now();
+              if (partIntroTimerId) clearInterval(partIntroTimerId);
+              partIntroTimerId = setInterval(() => {
+                const elapsed = Date.now() - startTime;
+                const pct = Math.max(0, 1 - elapsed / fallbackDuration) * 100;
+                timerBar.style.width = pct + '%';
+                if (elapsed >= fallbackDuration) dismiss();
+              }, 50);
+            };
+            audio.play().catch(() => {
+              console.warn('[PartIntro] autoplay blocked, using fallback timer');
+              partIntroAudio = null;
+              const fallbackDuration = 8000;
+              const startTime = Date.now();
+              if (partIntroTimerId) clearInterval(partIntroTimerId);
+              partIntroTimerId = setInterval(() => {
+                const elapsed = Date.now() - startTime;
+                const pct = Math.max(0, 1 - elapsed / fallbackDuration) * 100;
+                timerBar.style.width = pct + '%';
+                if (elapsed >= fallbackDuration) dismiss();
+              }, 50);
+            });
+          } else {
+            const fallbackDuration = 8000;
+            const startTime = Date.now();
+            partIntroTimerId = setInterval(() => {
+              const elapsed = Date.now() - startTime;
+              const pct = Math.max(0, 1 - elapsed / fallbackDuration) * 100;
+              timerBar.style.width = pct + '%';
+              if (elapsed >= fallbackDuration) dismiss();
+            }, 50);
+          }
+        }
+
+
         // Show loading overlay while preparing first question
         const loadingOverlay = document.getElementById('firstQuestionLoadingOverlay');
         if (loadingOverlay) loadingOverlay.style.display = 'flex';
@@ -10422,6 +10622,27 @@
 
         function runQuestion(i) {
           const q = $$('.q')[i]; if (!q || q.dataset.started) return;
+
+          // Part-intro hook. The toggle-listener that watches <details
+          // open> AND the explicit runQuestion(i+1) call in the prior
+          // question's end-callback both fire when the next question
+          // opens, so runQuestion(i) can be invoked twice in rapid
+          // succession. Claim the slot via dataset.started so the
+          // duplicate call bails at the top guard above — otherwise it
+          // would skip past the (now-flagged) intro hook and start the
+          // question audio in parallel with the intro narration. The
+          // dismiss callback releases the slot before re-entering.
+          const introKey = PART_INTRO_INDEX[i];
+          if (introKey && !_partIntrosShown[introKey]) {
+            _partIntrosShown[introKey] = true;
+            q.dataset.started = '1';
+            showPartIntroCard(introKey, () => {
+              delete q.dataset.started;
+              runQuestion(i);
+            });
+            return;
+          }
+
           q.dataset.started = '1'; // mark
 
           // Show only the current question, hide all others
