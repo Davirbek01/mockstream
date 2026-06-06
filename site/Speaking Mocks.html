@@ -2603,6 +2603,161 @@
       color: var(--brand)
     }
 
+    /* ── Tutorial v2 — redesigned pre-test card (2026-06-06) ────────────
+       Compact, single-column, state-driven (data-mic-state). Replaces
+       the old left-aligned card with two text columns. Begin button is
+       hidden until the student completes the mic check; the banner
+       turns green + the primary CTA demotes itself to a "Re-test mic"
+       ghost once verified. Language is toggled via a single
+       [data-lang] attribute on the modal root rather than per-pane
+       display:none toggles — easier to keep in sync. */
+    .tut2-card {
+      background: #fff;
+      color: #0f172a;
+      border-radius: 22px;
+      padding: 26px 26px 22px;
+      width: min(540px, 94vw);
+      box-shadow: 0 28px 72px rgba(15, 23, 42, 0.32);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    }
+    .tut2-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .tut2-brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .tut2-brand-icon {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+      color: #fff;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(13, 148, 136, 0.28);
+    }
+    .tut2-brand-text { min-width: 0; }
+    .tut2-title {
+      font-size: 16px; font-weight: 800; color: #0f172a;
+      line-height: 1.2; letter-spacing: -0.01em;
+    }
+    .tut2-sub {
+      font-size: 12px; color: #64748b; margin-top: 2px; font-weight: 500;
+    }
+    .tut2-lang {
+      display: inline-flex; background: #f1f5f9; border-radius: 999px;
+      padding: 3px; flex-shrink: 0;
+    }
+    .tut2-lang-btn {
+      border: 0; background: transparent;
+      font-size: 11.5px; font-weight: 700; color: #64748b;
+      padding: 6px 12px; border-radius: 999px; cursor: pointer;
+      transition: all .15s ease;
+    }
+    .tut2-lang-btn.active {
+      background: #fff; color: #0d9488;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.1);
+    }
+    .tut2-timing {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+      margin-bottom: 18px;
+    }
+    .tut2-chip {
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
+      background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 10px 4px;
+      transition: transform .15s ease;
+    }
+    .tut2-chip:hover { transform: translateY(-1px); border-color: #cbd5e1; }
+    .tut2-chip-q {
+      font-size: 11px; font-weight: 800; color: #0d9488;
+      letter-spacing: 0.3px; text-transform: uppercase;
+    }
+    .tut2-chip-t {
+      font-size: 12.5px; color: #334155; font-variant-numeric: tabular-nums;
+      font-weight: 600;
+    }
+    @media (max-width: 480px) {
+      .tut2-card { padding: 22px 20px 18px; }
+      .tut2-timing { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .tut2-brand-text { font-size: 13px; }
+    }
+    .tut2-mic-banner {
+      display: flex; align-items: center; gap: 14px;
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border: 1px solid #f59e0b;
+      border-radius: 14px;
+      padding: 13px 14px;
+      margin-bottom: 18px;
+      transition: background .35s ease, border-color .35s ease;
+    }
+    #tutorialModal[data-mic-state="verified"] .tut2-mic-banner {
+      background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+      border-color: #10b981;
+    }
+    .tut2-mic-icon {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+      font-weight: 900;
+    }
+    #tutorialModal[data-mic-state="verified"] .tut2-mic-icon { color: #047857; }
+    .tut2-mic-copy { min-width: 0; line-height: 1.3; }
+    .tut2-mic-title { font-weight: 800; font-size: 13.5px; color: #0f172a; }
+    .tut2-mic-sub  { font-size: 11.5px; color: #475569; margin-top: 2px; }
+    .tut2-footer { display: flex; gap: 8px; align-items: stretch; }
+    .tut2-btn {
+      border: 0; cursor: pointer; font-weight: 700;
+      padding: 12px 16px; border-radius: 12px;
+      font-size: 14px;
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease;
+      white-space: nowrap;
+    }
+    .tut2-btn-ghost {
+      background: #f8fafc; color: #475569;
+      border: 1.5px solid #e2e8f0;
+    }
+    .tut2-btn-ghost:hover { background: #f1f5f9; }
+    .tut2-btn-primary {
+      flex: 1;
+      background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(13, 148, 136, 0.36);
+    }
+    .tut2-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(13, 148, 136, 0.45); }
+    .tut2-btn-success {
+      flex: 1;
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(5, 150, 105, 0.36);
+    }
+    .tut2-btn-success:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(5, 150, 105, 0.45); }
+    /* When mic verified: demote Mic Check button to ghost-style 'Re-test'. */
+    #tutorialModal[data-mic-state="verified"] .tut2-btn-primary {
+      flex: 0 0 auto;
+      background: #f8fafc; color: #475569;
+      border: 1.5px solid #e2e8f0;
+      box-shadow: none;
+    }
+    #tutorialModal[data-mic-state="verified"] .tut2-btn-primary:hover {
+      background: #f1f5f9; transform: none;
+    }
+    /* State-driven label swaps inside buttons + banner. */
+    .tut2-pending-only, .tut2-verified-only { display: inline; }
+    #tutorialModal[data-mic-state="pending"] .tut2-verified-only,
+    #tutorialModal[data-mic-state="pending"] #tutorialBegin { display: none; }
+    #tutorialModal[data-mic-state="verified"] .tut2-pending-only { display: none; }
+    /* Language toggle — single data-lang on modal root drives all spans. */
+    #tutorialModal[data-lang="en"] .tut2-uz,
+    #tutorialModal[data-lang="uz"] .tut2-en { display: none !important; }
+
     /* Mock Selector Dropdown Menu Height Control */
     .name-row {
       position: relative;
@@ -5356,53 +5511,106 @@
     </div>
   </div>
 
-  <!-- ===== Tutorial (EN/UZ) ===== -->
-  <div aria-hidden="true" class="tutorial" id="tutorialModal" style="background:#2563eb;backdrop-filter:none;">
-    <div class="tutorial-card">
-      <div class="t-head">
-        <div class="t-title" data-title="en">Quick guide before you start</div>
-        <div class="t-title" data-title="uz" style="display:none">Tezkor yo‘riqnoma</div>
-        <div class="lang-tabs">
-          <button class="tab-btn active" data-lang="en" type="button">English</button>
-          <button class="tab-btn" data-lang="uz" type="button">O‘zbekcha</button>
+  <!-- ===== Tutorial (EN/UZ) — v2 redesign 2026-06-06 =====
+       State-driven via data-mic-state + data-lang on the root. The Begin
+       button is hidden until mic check passes (mandatory), so a student
+       can't start the test without verifying their microphone first. -->
+  <div aria-hidden="true" class="tutorial" id="tutorialModal" data-mic-state="pending" data-lang="en">
+    <div class="tutorial-card tut2-card">
+      <header class="tut2-header">
+        <div class="tut2-brand">
+          <div class="tut2-brand-icon">🎤</div>
+          <div class="tut2-brand-text">
+            <div class="tut2-title">
+              <span class="tut2-en">Speaking Mock</span>
+              <span class="tut2-uz">Speaking testi</span>
+            </div>
+            <div class="tut2-sub">
+              <span class="tut2-en">8 questions · timed prep + speak</span>
+              <span class="tut2-uz">8 ta savol · taymerli</span>
+            </div>
+          </div>
+        </div>
+        <div class="tut2-lang">
+          <button class="tab-btn tut2-lang-btn active" data-lang="en" type="button">EN</button>
+          <button class="tab-btn tut2-lang-btn" data-lang="uz" type="button">UZ</button>
+        </div>
+      </header>
+
+      <!-- Timing chips — same numbers as the original Timing box, just
+           tighter so the modal stays short on mobile. -->
+      <div class="tut2-timing" role="list" aria-label="Question timing">
+        <div class="tut2-chip" role="listitem">
+          <span class="tut2-chip-q">Q1–Q3</span>
+          <span class="tut2-chip-t">5 / 30 s</span>
+        </div>
+        <div class="tut2-chip" role="listitem">
+          <span class="tut2-chip-q">Q4</span>
+          <span class="tut2-chip-t">10 / 45 s</span>
+        </div>
+        <div class="tut2-chip" role="listitem">
+          <span class="tut2-chip-q">Q5–Q6</span>
+          <span class="tut2-chip-t">5 / 30 s</span>
+        </div>
+        <div class="tut2-chip" role="listitem">
+          <span class="tut2-chip-q">Q7–Q8</span>
+          <span class="tut2-chip-t">60 / 120 s</span>
         </div>
       </div>
-      <!-- English (condensed: dropped the intro paragraph + 'How it works'
-           meta-list — the timer behaviour is self-evident once the test
-           begins. Kept the Timing table since the prep/speak seconds are
-           the one bit of info that's hard to infer in advance.) -->
-      <div class="lang-pane" data-pane="en">
-        <div class="t-body">
-          <div class="t-box">
-            <h4>Timing · 8 questions</h4>
-            <ul>
-              <li><strong>Q1–Q3</strong>: Prep 5s → Speak 30s</li>
-              <li><strong>Q4</strong>: Prep 10s → Speak 45s</li>
-              <li><strong>Q5–Q6</strong>: Prep 5s → Speak 30s</li>
-              <li><strong>Q7–Q8</strong>: Prep 60s → Speak 120s</li>
-            </ul>
+
+      <!-- Mic check status banner (amber when pending, green when verified). -->
+      <div class="tut2-mic-banner" aria-live="polite">
+        <div class="tut2-mic-icon">
+          <span class="tut2-pending-only">🎤</span>
+          <span class="tut2-verified-only">✓</span>
+        </div>
+        <div class="tut2-mic-copy">
+          <div class="tut2-mic-title">
+            <span class="tut2-pending-only">
+              <span class="tut2-en">Microphone test required</span>
+              <span class="tut2-uz">Mikrofon tekshiruvi shart</span>
+            </span>
+            <span class="tut2-verified-only">
+              <span class="tut2-en">Microphone verified</span>
+              <span class="tut2-uz">Mikrofon tasdiqlandi</span>
+            </span>
+          </div>
+          <div class="tut2-mic-sub">
+            <span class="tut2-pending-only">
+              <span class="tut2-en">Record one short sample to unlock the test.</span>
+              <span class="tut2-uz">Testni boshlash uchun qisqa namuna yozing.</span>
+            </span>
+            <span class="tut2-verified-only">
+              <span class="tut2-en">You're ready to begin.</span>
+              <span class="tut2-uz">Boshlashga tayyorsiz.</span>
+            </span>
           </div>
         </div>
       </div>
-      <!-- Uzbek (same condensation) -->
-      <div class="lang-pane" data-pane="uz" style="display:none">
-        <div class="t-body">
-          <div class="t-box">
-            <h4>Vaqtlar · 8 savol</h4>
-            <ul>
-              <li><strong>Q1–Q3</strong>: Tay. 5 son. → Gap. 30 son.</li>
-              <li><strong>Q4</strong>: Tay. 10 son. → Gap. 45 son.</li>
-              <li><strong>Q5–Q6</strong>: Tay. 5 son. → Gap. 30 son.</li>
-              <li><strong>Q7–Q8</strong>: Tay. 60 son. → Gap. 2 daq</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="t-foot">
-        <button class="t-btn ghost" id="tutorialBack">Back · Ortga</button>
-        <button class="t-btn" id="micCheckBtn" style="background:#059669;flex:1">🎤 Mic Check</button>
-        <button class="t-btn" id="tutorialBegin">Begin · Boshlash</button>
-      </div>
+
+      <!-- Actions. Pending: Back + primary Test mic. Verified: Back +
+           ghost Re-test + primary Begin. CSS handles the swap via
+           data-mic-state on the modal root. -->
+      <footer class="tut2-footer">
+        <button class="tut2-btn tut2-btn-ghost" id="tutorialBack" type="button">
+          <span class="tut2-en">← Back</span>
+          <span class="tut2-uz">← Ortga</span>
+        </button>
+        <button class="tut2-btn tut2-btn-primary" id="micCheckBtn" type="button">
+          <span class="tut2-pending-only">
+            <span class="tut2-en">🎤 Test microphone</span>
+            <span class="tut2-uz">🎤 Mikrofonni sinash</span>
+          </span>
+          <span class="tut2-verified-only">
+            <span class="tut2-en">↻ Re-test mic</span>
+            <span class="tut2-uz">↻ Qayta sinash</span>
+          </span>
+        </button>
+        <button class="tut2-btn tut2-btn-success" id="tutorialBegin" type="button">
+          <span class="tut2-en">Begin →</span>
+          <span class="tut2-uz">Boshlash →</span>
+        </button>
+      </footer>
     </div>
   </div>
 
@@ -10846,11 +11054,22 @@
         } else if (t && t.matches('.tab-btn')) {
           const lang = t.getAttribute('data-lang');
           $$('.tab-btn').forEach(b => b.classList.toggle('active', b === t));
+          // v2: a single [data-lang] on the modal root drives all the
+          // .tut2-en / .tut2-uz spans via CSS — no per-pane toggles.
+          const __tutModal = $('#tutorialModal');
+          if (__tutModal) __tutModal.setAttribute('data-lang', lang);
+          // (Legacy nodes left in place — harmless no-ops if absent.)
           $$('.lang-pane').forEach(p => p.style.display = (p.getAttribute('data-pane') === lang ? '' : 'none'));
           $$('.t-title').forEach(tt => tt.style.display = (tt.getAttribute('data-title') === lang ? '' : 'none'));
         } else if (t && t.id === 'tutorialBegin') {
-          _iosUnlockAudio();
           const modal = $('#tutorialModal');
+          // Mandatory mic check: the Begin button is hidden via CSS when
+          // data-mic-state="pending", but defensive guard in case a
+          // student wires it back in via devtools.
+          if (modal && modal.getAttribute('data-mic-state') !== 'verified') {
+            return;
+          }
+          _iosUnlockAudio();
           modal.classList.remove('show');
           modal.setAttribute('aria-hidden', 'true');
           await _beginFlowFromTutorial(); // <-- test starts automatically now (with preloading if OpenAI TTS)
@@ -10886,8 +11105,15 @@
         modal.setAttribute('aria-hidden', 'false');
       }
 
+      // Module-scope flag — flips to true once the student successfully
+      // completes a mic test inside the mic-check modal. _showTutorial
+      // mirrors the value onto the modal's data-mic-state attribute so
+      // the v2 CSS can swap the banner colour, the primary CTA label,
+      // and the Begin button visibility in one place.
+      let _speakingMicVerified = false;
       function _showTutorial() {
         const modal = $('#tutorialModal');
+        modal.setAttribute('data-mic-state', _speakingMicVerified ? 'verified' : 'pending');
         modal.classList.add('show');
         modal.setAttribute('aria-hidden', 'false');
       }
@@ -10944,9 +11170,14 @@
       });
 
       $('#micCheckDone').addEventListener('click', async () => {
-        // Microphone access already granted when mic check was opened
+        // Microphone access already granted when mic check was opened.
+        // Per v2 redesign: completing the mic check no longer auto-starts
+        // the test. Instead, mark verified and return to the tutorial so
+        // the student explicitly confirms with Begin — that's the gating
+        // step that enforces "mic test is mandatory before start".
         hideMicCheckModal();
-        await _beginFlowFromTutorial(); // Start the test (with preloading if OpenAI TTS)
+        _speakingMicVerified = true;
+        _showTutorial();
       });
 
       let micTestAudio = null; // Store the audio element
