@@ -27,7 +27,7 @@
             if (!c.classList || !c.classList.contains('pg-modal-overlay')) c.style.display = 'none';
           });
           document.documentElement.classList.remove('pg-pending');
-          window.PremiumGate.openUpgradeModal('plus_' + SKILL, { onClose: function () { window.location.href = 'landing.html'; } });
+          window.PremiumGate.openUpgradeModal('plus_' + SKILL, { onClose: function () { window.location.href = '/landing-v3.html'; } });
         }
         if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', lockUI);
         else lockUI();
@@ -42,7 +42,9 @@
         try{if(window.top!==window&&typeof window.top.returnToLanding==='function'){window.top.returnToLanding();return;}}catch(e){}
         try{if(window.parent!==window&&typeof window.parent.returnToLanding==='function'){window.parent.returnToLanding();return;}}catch(e){}
         try{if(window.top!==window){window.top.postMessage('returnToLanding','*');return;}}catch(e){}
-        window.location.href='landing.html';
+        // Top-level fallback: bounce to v3 (Plus is a dedicated page, not
+        // a card-grid picker, so no reopen hint needed).
+        window.location.href='/landing-v3.html';
       }
       window.goBack=goBack;window.goToLanding=goBack;
     })();
