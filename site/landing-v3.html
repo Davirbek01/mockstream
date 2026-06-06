@@ -15434,13 +15434,25 @@
       cae: { code: 'CAE', tag: 'C1 Advanced',    rwLabel: 'Reading, UoE & Writing', rwDur: '180 min · 56 reading + 2 writing', listDur: '~40 min · 30 questions', spkDur: '~15 min (paired)' },
       cpe: { code: 'CPE', tag: 'C2 Proficiency', rwLabel: 'Reading, UoE & Writing', rwDur: '180 min · 53 reading + 2 writing', listDur: '~40 min · 30 questions', spkDur: '~16 min (paired)' }
     };
-    // Mocks available per Cambridge exam · paper. Only listed exams get
-    // the multi-mock picker — others fall back to direct navigation.
-    var CAMBRIDGE_MOCK_COUNTS = { ket: { rw: 4 } };
+    // Cambridge exams that have a dedicated hub page (paper picker +
+    // mock list lives there instead of in this modal). Listed exams
+    // route from the tile click straight to /<code>.html and never
+    // open the cambridgeModal at all.
+    var CAMBRIDGE_HUBS = { ket: '/ket.html' };
+    // Mocks available per Cambridge exam · paper, for exams that
+    // still use the in-modal multi-mock picker (none right now —
+    // KET migrated to the hub above).
+    var CAMBRIDGE_MOCK_COUNTS = {};
 
     function showCambridgeModal(exam) {
       var e = CAMBRIDGE_EXAMS[exam];
       if (!e) return;
+      // Exams that have a dedicated hub page skip the modal entirely
+      // — clicking the tile is a direct hand-off to /<code>.html.
+      if (CAMBRIDGE_HUBS[exam]) {
+        window.location.href = CAMBRIDGE_HUBS[exam];
+        return;
+      }
       // Reset to the paper-pick step (in case modal was previously left
       // on the mock-pick step from a prior open).
       document.getElementById('cambridgePapers').style.display = '';

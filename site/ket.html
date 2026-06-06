@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>KET · Key English Test — Mock Stream</title>
+  <script src="center-id.js"></script>
+  <script src="site-config/site-config.js"></script>
+  <script>document.addEventListener('DOMContentLoaded',function(){document.title=((window.SITE_CONFIG&&window.SITE_CONFIG.brandName)||'Mock Stream')+' · KET (A2 Key)';});</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="cambridge/shared.css" />
+</head>
+<body>
+
+<header class="hub-top">
+  <a class="back-link" href="/landing-v3.html?reopen=cambridge">← Back</a>
+  <div class="brand">
+    <div class="crest">KE</div>
+    <div class="brand-text">
+      <div class="brand-name">KET</div>
+      <div class="brand-sub">Cambridge English · A2 Key</div>
+    </div>
+  </div>
+</header>
+
+<div class="hub-page">
+
+  <!-- Hero -->
+  <section class="hub-hero">
+    <span class="lvl-chip">⭐ A2 · CEFR Level</span>
+    <h1>Key English Test</h1>
+    <p class="hero-sub">Cambridge English's foundation-level qualification — built for learners proving they can use everyday English to read, write, listen, and speak with confidence. The full paper is 1 hour 10 minutes, nine parts, fifty-six questions.</p>
+    <div class="hero-stats">
+      <div class="m"><span class="m-num">8</span><span class="m-label">Reading & Writing mocks ready</span></div>
+      <div class="m"><span class="m-num">70 min</span><span class="m-label">per paper</span></div>
+      <div class="m"><span class="m-num">56</span><span class="m-label">questions / mock</span></div>
+      <div class="m"><span class="m-num">9</span><span class="m-label">parts / mock</span></div>
+    </div>
+  </section>
+
+  <!-- Paper tabs -->
+  <nav class="hub-tabs" id="hubTabs" role="tablist">
+    <button class="tab active" type="button" data-paper="rw" role="tab">📝 Reading & Writing<span class="tab-badge">8 mocks</span></button>
+    <button class="tab disabled" type="button" data-paper="listening" role="tab" disabled aria-disabled="true">🎧 Listening<span class="tab-badge soon">SOON</span></button>
+    <button class="tab disabled" type="button" data-paper="speaking" role="tab" disabled aria-disabled="true">🎤 Speaking<span class="tab-badge soon">SOON</span></button>
+  </nav>
+
+  <!-- Paper bodies -->
+  <main>
+
+    <!-- Reading & Writing -->
+    <section class="paper-pane" data-pane="rw">
+      <div class="paper-intro">
+        <h2>📝 Reading & Writing — Paper 1</h2>
+        <p>1 hour 10 minutes · 9 parts · 56 questions. Pick any test below to start — your timer starts the moment you open it. Mocks 1–4 are from Cambridge KET Book 1; mocks 5–8 are from Book 2. Verbatim transcription, no paraphrasing.</p>
+      </div>
+      <div class="mock-grid" id="rwMockGrid"></div>
+    </section>
+
+    <!-- Listening -->
+    <section class="paper-pane" data-pane="listening" hidden>
+      <div class="coming-soon">
+        <div class="cs-icon">🎧</div>
+        <h2>Listening — Paper 2</h2>
+        <p>Approximately 30 minutes · 5 parts · 25 questions. Audio-driven mocks with pre-recorded conversations and announcements are arriving in v2.</p>
+      </div>
+    </section>
+
+    <!-- Speaking -->
+    <section class="paper-pane" data-pane="speaking" hidden>
+      <div class="coming-soon">
+        <div class="cs-icon">🎤</div>
+        <h2>Speaking — Paper 3</h2>
+        <p>8–10 minutes · paired-candidate format. An interactive AI examiner that handles both candidates' turns is in development for v2.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="cambridge/shared.js"></script>
+<script>
+  // KET-specific paper config — wired to the existing runner files.
+  Cambridge.renderMockGrid('rwMockGrid', {
+    count:      8,
+    runnerPath: '/KET Reading & Writing Mocks.html',
+    mockParam:  'mock',
+    paperLabel: 'Reading & Writing',
+    parts:      9,
+    questions:  56,
+    duration:   '70 min'
+  });
+  Cambridge.wireTabs('hubTabs');
+</script>
+
+</body>
+</html>

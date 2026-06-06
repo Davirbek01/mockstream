@@ -1014,6 +1014,62 @@
     }
     @media (max-width: 720px) { .float-submit { display: inline-flex; align-items: center; gap: 8px; } }
 
+    /* Leave-test dialog — replaces window.confirm. Soft amber-themed
+       card with two clear actions (keep going / leave anyway). */
+    .leave-modal {
+      position: fixed; inset: 0;
+      background: rgba(11,29,58,0.78); backdrop-filter: blur(10px);
+      display: none; align-items: center; justify-content: center;
+      z-index: 250; padding: 20px;
+      animation: leaveFade .2s ease;
+    }
+    .leave-modal.show { display: flex; }
+    .leave-card {
+      background: var(--paper); border-radius: 22px;
+      max-width: 460px; width: 100%;
+      padding: 32px 30px 26px;
+      box-shadow: var(--shadow-pop);
+      text-align: center;
+      animation: leavePop .28s cubic-bezier(.34,1.56,.64,1);
+    }
+    @keyframes leaveFade { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes leavePop  { from { opacity: 0; transform: translateY(8px) scale(.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    .leave-card .leave-icon {
+      width: 60px; height: 60px; border-radius: 50%;
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border: 2px solid #f59e0b;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 28px;
+      box-shadow: 0 6px 18px rgba(245,158,11,0.35);
+      margin: 0 auto 16px;
+    }
+    .leave-card h2 {
+      margin: 0 0 10px;
+      font-family: 'Playfair Display', serif;
+      font-weight: 800; font-size: 24px; color: var(--navy-800);
+    }
+    .leave-card p {
+      margin: 0 0 22px; font-size: 14.5px; line-height: 1.6;
+      color: var(--ink-2);
+    }
+    .leave-actions { display: flex; gap: 10px; }
+    .leave-actions button {
+      flex: 1; padding: 12px 18px; border-radius: 12px;
+      border: 0; cursor: pointer; font-family: inherit;
+      font-weight: 800; font-size: 14px;
+      transition: all .15s ease;
+    }
+    .leave-stay {
+      background: linear-gradient(135deg, var(--emerald-600), var(--emerald-500));
+      color: #fff; box-shadow: 0 6px 18px rgba(5,150,105,0.35);
+    }
+    .leave-stay:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(5,150,105,0.45); }
+    .leave-go {
+      background: var(--bg-soft); color: var(--rose-500);
+      border: 1.5px solid #fecaca !important;
+    }
+    .leave-go:hover { background: #fee2e2; border-color: var(--rose-500) !important; }
+
     /* Results modal */
     .results-modal {
       position: fixed; inset: 0;
@@ -1120,6 +1176,10 @@
     <a class="ms-pill" href="?mock=2">2</a>
     <a class="ms-pill" href="?mock=3">3</a>
     <a class="ms-pill" href="?mock=4">4</a>
+    <a class="ms-pill" href="?mock=5">5</a>
+    <a class="ms-pill" href="?mock=6">6</a>
+    <a class="ms-pill" href="?mock=7">7</a>
+    <a class="ms-pill" href="?mock=8">8</a>
   </div>
   <span class="timer" id="timer">1:10:00</span>
   <button class="submit" onclick="submitTest()">Submit</button>
@@ -1147,6 +1207,19 @@
   <div class="results-card" id="resultsCard"></div>
 </div>
 
+<!-- Custom leave-test dialog (replaces window.confirm) -->
+<div class="leave-modal" id="leaveModal" onclick="closeLeaveModal(event)">
+  <div class="leave-card" onclick="event.stopPropagation()">
+    <div class="leave-icon">⚠️</div>
+    <h2>Leave this test?</h2>
+    <p>If you exit now, all your answers and your remaining time will be lost. You can come back from the KET hub and start any test fresh.</p>
+    <div class="leave-actions">
+      <button type="button" class="leave-stay" onclick="closeLeaveModal()">Keep going</button>
+      <button type="button" class="leave-go" onclick="confirmLeave()">Leave anyway</button>
+    </div>
+  </div>
+</div>
+
 <script>
   // Dynamic mock loader. ?mock=02 (or 2) → questions KET RW/ket-rw-test-02.js.
   // Defaults to mock 01 when the param is absent or invalid.
@@ -1161,10 +1234,25 @@
 </script>
 <script>
   function goBack() {
-    if (window.confirm('Leave the test? Your answers will be lost.')) {
-      window.location.href = '/landing-v3.html?reopen=cambridge';
-    }
+    var m = document.getElementById('leaveModal');
+    if (m) { m.classList.add('show'); }
+    else { window.location.href = '/ket.html?paper=rw'; }
   }
+  function closeLeaveModal(ev) {
+    if (ev && ev.type === 'click' && ev.target.id !== 'leaveModal') return;
+    var m = document.getElementById('leaveModal');
+    if (m) m.classList.remove('show');
+  }
+  function confirmLeave() {
+    window.location.href = '/ket.html?paper=rw';
+  }
+  // Esc dismisses the dialog
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      var m = document.getElementById('leaveModal');
+      if (m && m.classList.contains('show')) closeLeaveModal();
+    }
+  });
 
   // ── State ──────────────────────────────────────────────────────
   window.__ANS = {};
@@ -1210,22 +1298,38 @@
   }
 
   // ── Renderers ──────────────────────────────────────────────────
+  // Generic part-type labels. The per-mock topic (Schnauzer dogs /
+  // Dinosaurs / Rhinos / Burglars / etc.) is appended dynamically by
+  // getPartName() from whichever title field the data carries.
   var PART_NAMES = {
     '1':  'Match the notices',
-    '2':  'Sentence gap-fill · birthday',
+    '2':  'Sentence gap-fill',
     '3a': 'Conversation replies',
-    '3b': 'Conversation at a garage',
-    '4':  'Three book reviews',
-    '5':  'Cloze passage · Schnauzer dogs',
-    '6':  'Vocabulary · holidays & travel',
-    '7':  'Open cloze letter · Maria',
-    '8':  'Andy’s notes',
-    '9':  'Postcard writing'
+    '3b': 'Conversation matching',
+    '4':  'Reading passage',
+    '5':  'Cloze passage',
+    '6':  'Vocabulary',
+    '7':  'Open cloze',
+    '8':  'Information transfer',
+    '9':  'Writing'
   };
 
-  function renderPartHeader(part) {
+  function getPartName(part) {
     var key = part.partNumber + (part.partLetter || '');
-    var name = PART_NAMES[key] || ('Part ' + key);
+    var base = PART_NAMES[key] || ('Part ' + key);
+    // Only Part 5 gets the per-mock topic suffix appended — it's the
+    // cloze passage and the topic varies per test (Schnauzer dogs /
+    // Dinosaurs / Rhinos / Madame Tussaud's). Other parts keep the
+    // generic label so they don't echo the heading repeated below.
+    if (key === '5' && part.passageTitle) {
+      var clean = String(part.passageTitle).replace(/\s+/g, ' ').trim();
+      if (clean) return base + ' · ' + clean;
+    }
+    return base;
+  }
+
+  function renderPartHeader(part) {
+    var name = getPartName(part);
     var instrHtml = (part.instruction || []).map(function (l) { return '<p>' + escapeHtml(l) + '</p>'; }).join('');
     var n = (part.items || []).length;
     return ''
@@ -1836,7 +1940,7 @@
       });
     }
     html += '<div class="results-actions">';
-    html += '<button class="btn-back" onclick="window.location.href=\'/landing-v3.html?reopen=cambridge\'">← Back to picker</button>';
+    html += '<button class="btn-back" onclick="window.location.href=\'/ket.html?paper=rw\'">← Back to picker</button>';
     html += '<button class="btn-retry" onclick="window.location.reload()">Try again ↻</button>';
     html += '</div>';
     document.getElementById('resultsCard').innerHTML = html;
