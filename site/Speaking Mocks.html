@@ -3,6 +3,22 @@
 <html data-theme="light" lang="en">
 
 <head>
+  <!-- ── Auto-proceed first-paint colour ──────────────────────────
+       Synchronous, runs before anything else parses. When the URL
+       carries auto=1 we paint <html> with the launch-splash purple
+       *immediately*, so the navigation gap between the v3 picker
+       splash unloading and the in-runner splash mounting shows
+       purple instead of the browser's default white. Removed inside
+       _beginFlowFromTutorial once the test starts. -->
+  <script>
+    try {
+      if (new URLSearchParams(location.search).get('auto') === '1') {
+        document.documentElement.style.background =
+          'linear-gradient(135deg,#7c3aed 0%,#a855f7 55%,#c084fc 100%)';
+        document.documentElement.style.minHeight = '100vh';
+      }
+    } catch (_e) {}
+  </script>
   <script src="finish-gate.js" defer></script>
   <script src="./ai-proxy-interceptor.js"></script>
   <script src="./vision-factcheck.js"></script>
@@ -10569,8 +10585,11 @@
           // Lift the body-content curtain — the student has confirmed
           // they're ready to start, so the exam UI underneath needs to
           // become visible behind any subsequent overlays (audio
-          // preload, etc.).
+          // preload, etc.). Also revert the first-paint splash purple
+          // on <html> so the test screen renders against its own
+          // background, not the launch gradient.
           try { document.documentElement.removeAttribute('data-tut-open'); } catch (_e) {}
+          try { document.documentElement.style.background = ''; document.documentElement.style.minHeight = ''; } catch (_e) {}
           var _resumeSession = false;
 
           // Check if this mock has pre-generated audio files (skip all TTS preloading)
