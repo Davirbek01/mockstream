@@ -163,6 +163,19 @@
         // Older code added a blue full-screen spinner here; we removed
         // it, but we keep the flag set so the proxy keeps working.
         window._autoProceedLoader = true;
+
+        // ── Eager-tutorial / lazy-mock state ─────────────────────
+        // We're going to mask the Supabase mock fetch behind the
+        // tutorial: the modal shows as soon as it can paint, and the
+        // student spends those seconds reading the timing chips +
+        // running the mic test. Begin only needs to wait if the data
+        // hasn't landed yet, which on a typical connection it has
+        // long before they finish.
+        window._speakingMockReady = false;
+        window._speakingMockReadyPromise = new Promise(function (res, rej) {
+          window._resolveSpeakingMockReady = res;
+          window._rejectSpeakingMockReady = rej;
+        });
         // (In-runner "Loading mock…" splash removed — the v3-picker
         // splash already covers the navigation gap, and the
         // synchronous html-background paint above handles the first
@@ -11127,24 +11140,39 @@
         }
 
         try {
-          // Show loading message
-          startBtn.textContent = 'Loading mock test...';
+          // ── Auto-proceed: surface the tutorial NOW; load mock in the
+          //    background. The student spends the fetch budget reading
+          //    timing chips + running the mic test. tutorialBegin's
+          //    handler awaits _speakingMockReadyPromise if the data
+          //    hasn't landed by the time they tap Begin. Manual flow
+          //    keeps the old "load → show" ordering so the existing
+          //    candidate-details UI isn't disrupted.
+          if (window._autoProceedLoader) {
+            candidateDetailsModal.classList.remove('show');
+            candidateDetailsModal.setAttribute('aria-hidden', 'true');
+            gate.style.display = 'none';
+            window.speakingExamStartTime = Date.now();
+            _showTutorial();
+          } else {
+            startBtn.textContent = 'Loading mock test...';
+          }
 
           await loadQuestionFile(selectedFile);
           applyDynamicSettings();
 
-          // Reset button
-          startBtn.textContent = 'Start Test';
-          startBtn.disabled = false;
+          // Mock data ready — unblock Begin if it's been tapped early.
+          window._speakingMockReady = true;
+          try { if (window._resolveSpeakingMockReady) window._resolveSpeakingMockReady(); } catch (_e) {}
 
-          // Hide candidate details modal
-          candidateDetailsModal.classList.remove('show');
-          candidateDetailsModal.setAttribute('aria-hidden', 'true');
-
-          // Face verification runs silently in background - no blocking required
-          gate.style.display = 'none';
-          window.speakingExamStartTime = Date.now();
-          _showTutorial();
+          if (!window._autoProceedLoader) {
+            startBtn.textContent = 'Start Test';
+            startBtn.disabled = false;
+            candidateDetailsModal.classList.remove('show');
+            candidateDetailsModal.setAttribute('aria-hidden', 'true');
+            gate.style.display = 'none';
+            window.speakingExamStartTime = Date.now();
+            _showTutorial();
+          }
         } catch (error) {
           console.error('Failed to load selected mock:', error);
 
@@ -11154,19 +11182,24 @@
             await loadQuestionFile('questions S/questions.js');
             applyDynamicSettings();
 
-            startBtn.textContent = 'Start Test';
-            startBtn.disabled = false;
+            window._speakingMockReady = true;
+            try { if (window._resolveSpeakingMockReady) window._resolveSpeakingMockReady(); } catch (_e) {}
 
-            // Hide candidate details modal
-            candidateDetailsModal.classList.remove('show');
-            candidateDetailsModal.setAttribute('aria-hidden', 'true');
+            if (!window._autoProceedLoader) {
+              startBtn.textContent = 'Start Test';
+              startBtn.disabled = false;
+              candidateDetailsModal.classList.remove('show');
+              candidateDetailsModal.setAttribute('aria-hidden', 'true');
+              gate.style.display = 'none';
+              window.speakingExamStartTime = Date.now();
+              _showTutorial();
+            }
 
             alert(`Could not load ${selectedFile}. Using default mock test instead.\n\nPlease create ${selectedFile} using the test builder if you want to use it.`);
-
-            gate.style.display = 'none';
-            window.speakingExamStartTime = Date.now();
-            _showTutorial();
           } catch (fallbackError) {
+            // Both loads failed — reject the ready promise so a waiting
+            // Begin tap surfaces an error instead of spinning forever.
+            try { if (window._rejectSpeakingMockReady) window._rejectSpeakingMockReady(fallbackError); } catch (_e) {}
             startBtn.textContent = 'Next';
             startBtn.disabled = false;
             alert('Failed to load any question files. Please make sure questions.js exists in the questions S folder.');
@@ -11211,6 +11244,30 @@
             return;
           }
           _iosUnlockAudio();
+
+          // Mock data may still be loading in background (auto-proceed
+          // shows the tutorial before the Supabase fetch finishes).
+          // Show feedback inside Begin while we wait — on a typical
+          // connection the promise has already resolved.
+          if (!window._speakingMockReady && window._speakingMockReadyPromise) {
+            const __origHtml = btn.innerHTML;
+            btn.disabled = true;
+            btn.setAttribute('aria-busy', 'true');
+            btn.innerHTML = '<span class="tut2-en">Loading mock…</span><span class="tut2-uz">Test yuklanmoqda…</span>';
+            try {
+              await window._speakingMockReadyPromise;
+            } catch (_err) {
+              btn.innerHTML = __origHtml;
+              btn.disabled = false;
+              btn.removeAttribute('aria-busy');
+              alert('Could not load the mock. Please refresh and try again.');
+              return;
+            }
+            btn.innerHTML = __origHtml;
+            btn.disabled = false;
+            btn.removeAttribute('aria-busy');
+          }
+
           modal.classList.remove('show');
           modal.setAttribute('aria-hidden', 'true');
           await _beginFlowFromTutorial();
