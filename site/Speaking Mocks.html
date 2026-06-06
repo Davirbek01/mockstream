@@ -5630,7 +5630,7 @@
             <div class="tut2-sub">Record a short sample to verify your microphone</div>
           </div>
         </div>
-        <button id="closeMicCheck" class="tut2-btn tut2-btn-ghost" style="padding:6px 12px;font-size:16px;line-height:1" aria-label="Close">✕</button>
+        <button id="closeMicCheck" class="tut2-btn tut2-btn-ghost" style="padding:6px 12px;font-size:16px;line-height:1" aria-label="Close" tabindex="-1">✕</button>
       </header>
 
       <!-- Tap-to-read sample, kept short so the modal stays compact. -->
@@ -11134,8 +11134,28 @@
 
       function showMicCheckModal() {
         const modal = $('#micCheckModal');
+        // Belt-and-braces focus reset BEFORE the modal becomes visible.
+        // The redesigned modal's first tabbable element is the small ✕
+        // close button (#closeMicCheck). When the tutorial modal hides
+        // and this one shows, some browsers move focus to that close
+        // button — and if the user's "Test microphone" tap fires a
+        // delayed Enter keyup (keyboard nav) or the click lands near
+        // the close button, closeMicCheck triggers and the modal
+        // bounces shut immediately. Blurring the active element here +
+        // tabindex="-1" on closeMicCheck (above) prevents the race.
+        try { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); } catch (_e) {}
         modal.classList.add('show');
         modal.setAttribute('aria-hidden', 'false');
+        // Park focus on the record orb so subsequent Enter/Space activates
+        // the recording, not the close button. Defer to next frame so the
+        // .show transition has applied display:flex (focusing a
+        // display:none element is a no-op).
+        try {
+          requestAnimationFrame(function () {
+            var rec = document.getElementById('micTestRecordBtn');
+            if (rec) rec.focus({ preventScroll: true });
+          });
+        } catch (_e) {}
         // Reset state
         micTestAudioBlob = null;
         micTestRecording = false;
