@@ -1210,22 +1210,37 @@
   }
 
   // ── Renderers ──────────────────────────────────────────────────
+  // Generic part-type labels. The per-mock topic (Schnauzer dogs /
+  // Dinosaurs / Rhinos / Burglars / etc.) is appended dynamically by
+  // getPartName() from whichever title field the data carries.
   var PART_NAMES = {
     '1':  'Match the notices',
-    '2':  'Sentence gap-fill · birthday',
+    '2':  'Sentence gap-fill',
     '3a': 'Conversation replies',
-    '3b': 'Conversation at a garage',
-    '4':  'Three book reviews',
-    '5':  'Cloze passage · Schnauzer dogs',
-    '6':  'Vocabulary · holidays & travel',
-    '7':  'Open cloze letter · Maria',
-    '8':  'Andy’s notes',
-    '9':  'Postcard writing'
+    '3b': 'Conversation matching',
+    '4':  'Reading passage',
+    '5':  'Cloze passage',
+    '6':  'Vocabulary',
+    '7':  'Open cloze',
+    '8':  'Information transfer',
+    '9':  'Writing'
   };
 
-  function renderPartHeader(part) {
+  function getPartName(part) {
     var key = part.partNumber + (part.partLetter || '');
-    var name = PART_NAMES[key] || ('Part ' + key);
+    var base = PART_NAMES[key] || ('Part ' + key);
+    // Per-mock topic suffix; first available field wins.
+    var topic = part.passageTitle || part.articleTitle || part.heading
+             || (part.notice && part.notice.title) || part.notesTitle;
+    if (topic) {
+      var clean = String(topic).replace(/\s+/g, ' ').trim();
+      if (clean) return base + ' · ' + clean;
+    }
+    return base;
+  }
+
+  function renderPartHeader(part) {
+    var name = getPartName(part);
     var instrHtml = (part.instruction || []).map(function (l) { return '<p>' + escapeHtml(l) + '</p>'; }).join('');
     var n = (part.items || []).length;
     return ''
