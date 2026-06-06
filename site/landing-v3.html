@@ -15299,6 +15299,12 @@
       // if the slug is bogus).
       var _takeHideSplash = function () {
         try { if (typeof window.__msv3HideInlineSplash === 'function') window.__msv3HideInlineSplash(); } catch (_e) {}
+        // ALSO drop the data-takelink curtain. The CSS rule at the top of
+        // the file hides every body child EXCEPT splash + access-code
+        // modals while data-takelink is set — so mode-chooser modals
+        // (cefrReadingModeModal etc.) open invisibly for VIP / premium
+        // users whose _openTakeModalEarly bails before clearing it.
+        try { document.documentElement.removeAttribute('data-takelink'); } catch (_e) {}
       };
       try {
         var takeParam = null;
