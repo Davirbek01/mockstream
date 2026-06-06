@@ -1,338 +1,512 @@
-// KET (A2 Key) Reading & Writing — Mock 02
-// Post-2020 Cambridge format: 60 min, 7 parts, 32 questions
-// All content is original AI-authored material (Mock Stream).
+// Cambridge KET (Key English Test) — Paper 1 Reading and Writing — Test 2
+// VERBATIM transcription from the official Cambridge KET 1 book.
+// 9 parts · 56 questions · 1 hour 10 minutes.
 
 window.KET_RW_TEST = {
   testInfo: {
     id: "ket-rw-02",
-    title: "KET Reading & Writing Mock 02",
+    title: "KET Reading & Writing — Test 2",
+    paper: "Paper 1",
     level: "A2",
-    totalTime: 60,
-    totalQuestions: 32,
-    readingQuestions: 30,
-    writingTasks: 2
+    totalTime: 70,
+    totalQuestions: 56,
+    parts: 9
   },
 
-  reading: {
-    parts: [
+  parts: [
 
-      // ───────── PART 1 (Q1-6) — real-world MCQ ─────────
-      {
-        partNumber: 1,
-        type: "real-world-mcq",
-        instruction: "Read the text. Choose the correct answer (A, B or C).",
-        items: [
-          {
-            id: 1,
-            sourceType: "notice",
-            source: "GREENFIELD LIBRARY\n\nReturn books on time, please.\nLate fees: 50p per book per day.",
-            question: "What does the notice say?",
-            options: [
-              { letter: "A", text: "The library is closed today." },
-              { letter: "B", text: "You must pay if your books are late." },
-              { letter: "C", text: "You can borrow only one book." }
-            ],
-            correct: "B"
-          },
-          {
-            id: 2,
-            sourceType: "text-message",
-            source: "Hi Joe!\n\nTonight's drum lesson is cancelled because Mr Banks is sick. The next class is on Friday at the same time. Sorry!",
-            question: "Why is Mr Banks writing to Joe?",
-            options: [
-              { letter: "A", text: "to invite Joe to a new class" },
-              { letter: "B", text: "to tell Joe that today's class is not happening" },
-              { letter: "C", text: "to ask Joe to bring a friend" }
-            ],
-            correct: "B"
-          },
-          {
-            id: 3,
-            sourceType: "email",
-            source: "Hello Mrs Smith,\n\nMy dog Pepper is at your front gate. She is friendly but please don't give her any food. I will come to take her home in twenty minutes. Sorry!\n\nAdam (house number 22)",
-            question: "Adam wants Mrs Smith to",
-            options: [
-              { letter: "A", text: "give Pepper some food." },
-              { letter: "B", text: "wait until he arrives." },
-              { letter: "C", text: "take Pepper to her own house." }
-            ],
-            correct: "B"
-          },
-          {
-            id: 4,
-            sourceType: "sign",
-            source: "GUESTS\n\nBreakfast: 7:00–10:00\nCheck-out: by 11:00 a.m.\nWe keep your bags free of charge after check-out.",
-            question: "After 11:00 a.m. you can",
-            options: [
-              { letter: "A", text: "still eat breakfast." },
-              { letter: "B", text: "leave your bags at the hotel." },
-              { letter: "C", text: "use a free hotel room." }
-            ],
-            correct: "B"
-          },
-          {
-            id: 5,
-            sourceType: "note",
-            source: "Dad,\n\nI have taken your camera to the school trip. I will bring it back tomorrow night.\n\nThanks,\nAnna",
-            question: "Why is Anna writing to her dad?",
-            options: [
-              { letter: "A", text: "to ask if she can use his camera" },
-              { letter: "B", text: "to tell him she has his camera" },
-              { letter: "C", text: "to say sorry for losing his camera" }
-            ],
-            correct: "B"
-          },
-          {
-            id: 6,
-            sourceType: "notice",
-            source: "BLUE BAY BEACH\n\nLifeguard on duty: 10:00–18:00.\nPlease only swim between the red and yellow flags.",
-            question: "What does the notice tell you?",
-            options: [
-              { letter: "A", text: "The beach is closed at 6 p.m." },
-              { letter: "B", text: "There is a lifeguard all day and night." },
-              { letter: "C", text: "You must swim in one safe area." }
-            ],
-            correct: "C"
-          }
-        ]
-      },
+    // ─────────────────── PART 1 (Q1–5) ───────────────────
+    {
+      partNumber: 1,
+      label: "PART 1",
+      questionsLabel: "QUESTIONS 1–5",
+      type: "match-notices",
+      instruction: [
+        "Which notice (A–H) says this (1–5)?",
+        "For questions 1–5, mark the correct letter A–H on the answer sheet."
+      ],
+      example: { number: 0, prompt: "You can leave your suitcase here.", answer: "C" },
+      notices: [
+        { letter: "A", text: "NO SERVICE\nSTATION ON\nMOTORWAY" },
+        { letter: "B", text: "Travel Express\nNEW BUSINESS HOURS\n9 A.M–6 P.M." },
+        { letter: "C", text: "LEFT LUGGAGE\nOPEN 24 HOURS" },
+        { letter: "D", text: "PLEASE USE OTHER DOOR" },
+        { letter: "E", text: "Camp-site Open All Year" },
+        { letter: "F", text: "JOB AGENCY\nWe've got the right\njob for you!" },
+        { letter: "G", text: "Joe's Snack Bar\nLowest Prices in Town!" },
+        { letter: "H", text: "DANGER!\nICE ON ROAD" }
+      ],
+      items: [
+        { id: 1, prompt: "You must drive carefully here.", answer: "H" },
+        { id: 2, prompt: "You can eat cheaply here.",      answer: "G" },
+        { id: 3, prompt: "You can stay here on holiday.",  answer: "E" },
+        { id: 4, prompt: "You can find work here.",        answer: "F" },
+        { id: 5, prompt: "You must not go in this way.",   answer: "D" }
+      ]
+    },
 
-      // ───────── PART 2 (Q7-13) — multi-text matching ─────────
-      {
-        partNumber: 2,
-        type: "multi-text-matching",
-        instruction: "Read the questions and the three texts. For each question, choose the correct answer (A, B or C).",
-        topic: "Three friends are learning a new musical instrument.",
-        texts: [
-          {
-            id: "A",
-            title: "Maria",
-            body: "I started piano lessons six months ago. My teacher comes to my house every Saturday morning. I practise for thirty minutes before school each day, but my mum says I should practise for longer at the weekend. The pieces I'm playing are getting harder now, so sometimes I feel a little tired, but I really enjoy it. I want to play in our school concert next year."
-          },
-          {
-            id: "B",
-            title: "James",
-            body: "My older brother gave me his old guitar last summer. He showed me a few songs but he isn't a great teacher, so now I learn from videos online. I practise in my bedroom every evening for about an hour. My neighbours don't mind because the guitar is acoustic, not electric. I want to write my own songs one day, but I think I need to learn many more chords first."
-          },
-          {
-            id: "C",
-            title: "Lily",
-            body: "I started learning the drums three months ago because my best friend already plays. She is much better than me! I have lessons at a music school in town twice a week, on Mondays and Thursdays after school. Drums are very loud, so I can only practise at the school — there is no space for a drum kit at home. My teacher says I am improving quickly."
-          }
+    // ─────────────────── PART 2 (Q6–10) ──────────────────
+    {
+      partNumber: 2,
+      label: "PART 2",
+      questionsLabel: "QUESTIONS 6–10",
+      type: "mcq-gap-fill-sentences",
+      instruction: [
+        "Read the sentences (6–10) about a trip to the country.",
+        "Choose the best word (A, B or C) for each space.",
+        "For questions 6–10, mark A, B or C on the answer sheet."
+      ],
+      example: {
+        number: 0,
+        sentence: "Nick and Charles wanted to spend a _____ in the country.",
+        options: [
+          { letter: "A", text: "day" },
+          { letter: "B", text: "time" },
+          { letter: "C", text: "moment" }
         ],
-        questions: [
-          { id: 7,  prompt: "Which person learned a little from a family member?",          correct: "B" },
-          { id: 8,  prompt: "Which person practises in their bedroom every evening?",       correct: "B" },
-          { id: 9,  prompt: "Which person has lessons at home?",                            correct: "A" },
-          { id: 10, prompt: "Which person says they want to perform soon?",                 correct: "A" },
-          { id: 11, prompt: "Which person started because of a friend?",                    correct: "C" },
-          { id: 12, prompt: "Which person learns from videos?",                             correct: "B" },
-          { id: 13, prompt: "Which person can't practise at home?",                         correct: "C" }
-        ]
+        answer: "A"
       },
+      items: [
+        {
+          id: 6,
+          sentence: "They got off the bus when the _____ stopped outside a small village.",
+          options: [
+            { letter: "A", text: "pilot" },
+            { letter: "B", text: "driver" },
+            { letter: "C", text: "passenger" }
+          ],
+          answer: "B"
+        },
+        {
+          id: 7,
+          sentence: "There was a _____ into a field so they climbed over it.",
+          options: [
+            { letter: "A", text: "door" },
+            { letter: "B", text: "garden" },
+            { letter: "C", text: "gate" }
+          ],
+          answer: "C"
+        },
+        {
+          id: 8,
+          sentence: "They _____ at the map to check which way to go.",
+          options: [
+            { letter: "A", text: "watched" },
+            { letter: "B", text: "looked" },
+            { letter: "C", text: "saw" }
+          ],
+          answer: "B"
+        },
+        {
+          id: 9,
+          sentence: "They walked for two hours until they _____ to a river.",
+          options: [
+            { letter: "A", text: "arrived" },
+            { letter: "B", text: "came" },
+            { letter: "C", text: "crossed" }
+          ],
+          answer: "B"
+        },
+        {
+          id: 10,
+          sentence: "It was a lovely place so they _____ down and had a picnic on the grass.",
+          options: [
+            { letter: "A", text: "sat" },
+            { letter: "B", text: "put" },
+            { letter: "C", text: "stood" }
+          ],
+          answer: "A"
+        }
+      ]
+    },
 
-      // ───────── PART 3 (Q14-18) — long-text MCQ ─────────
-      {
-        partNumber: 3,
-        type: "long-text-mcq",
-        instruction: "Read the text and questions. For each question, choose the correct answer (A, B or C).",
-        title: "Diego's Bicycle Workshop",
-        passage:
-          "Diego is thirteen years old. He lives in a small town where many families do not have much money. Two years ago, Diego's grandfather gave him an old bicycle that needed a lot of work. Diego repaired it himself, using YouTube videos and books from the library. When the bicycle was ready, he rode it to school every day. He felt very proud.\n\nAfter that, Diego started looking for other broken bicycles. People in his town gave him bikes that they did not want any more. Sometimes he found old bikes left near the rubbish bins. Diego cleaned them, fixed the broken parts and painted them. Then he gave them to younger children who didn't have a bicycle of their own.\n\nSo far, Diego has fixed twenty-five bicycles. He keeps a list of all of them in a small notebook. He writes the date he got the bike, the date he finished repairing it, and the name of the child who received it. Diego works in his uncle's small garage at the weekend. His uncle gives him tools and sometimes helps with difficult jobs. Diego says that the most exciting moment is always when a child sits on their new bike for the first time.",
-        questions: [
-          {
-            id: 14,
-            prompt: "How did Diego learn to fix bicycles?",
-            options: [
-              { letter: "A", text: "His grandfather taught him." },
-              { letter: "B", text: "He used videos and books." },
-              { letter: "C", text: "His uncle showed him." }
-            ],
-            correct: "B"
-          },
-          {
-            id: 15,
-            prompt: "What did Diego do after he repaired his first bicycle?",
-            options: [
-              { letter: "A", text: "He used it to go to school." },
-              { letter: "B", text: "He sold it for money." },
-              { letter: "C", text: "He gave it to a younger child." }
-            ],
-            correct: "A"
-          },
-          {
-            id: 16,
-            prompt: "Where does Diego sometimes find broken bicycles?",
-            options: [
-              { letter: "A", text: "at school" },
-              { letter: "B", text: "near the rubbish bins" },
-              { letter: "C", text: "on YouTube" }
-            ],
-            correct: "B"
-          },
-          {
-            id: 17,
-            prompt: "What does Diego write in his notebook?",
-            options: [
-              { letter: "A", text: "drawings of the bicycles" },
-              { letter: "B", text: "the names of children and the dates" },
-              { letter: "C", text: "videos he has watched" }
-            ],
-            correct: "B"
-          },
-          {
-            id: 18,
-            prompt: "What does Diego enjoy most about his work?",
-            options: [
-              { letter: "A", text: "when he finds a new bicycle" },
-              { letter: "B", text: "when his uncle helps him" },
-              { letter: "C", text: "when a child rides their new bike" }
-            ],
-            correct: "C"
-          }
-        ]
-      },
-
-      // ───────── PART 4 (Q19-24) — cloze MCQ (vocabulary) ─────────
-      {
-        partNumber: 4,
-        type: "cloze-mcq",
-        instruction: "Read the text. Choose the best word (A, B or C) for each space.",
-        title: "Bees",
-        text:
-          "Bees are very important little animals. They ___1___ from flower to flower, looking for sweet liquid to ___2___ back to their nests. When they do this, they also help flowers to make new seeds. Without bees, ___3___ of the foods we eat every day would not exist.\n\nThere are about 20,000 ___4___ kinds of bees in the world. Most bees are not dangerous to people. They only sting if they ___5___ afraid. Sadly, in some countries the ___6___ of bees is becoming smaller because there are fewer wild flowers.",
-        gaps: [
-          {
-            id: 19,
-            options: [
-              { letter: "A", text: "fly" },
-              { letter: "B", text: "drive" },
-              { letter: "C", text: "walk" }
-            ],
-            correct: "A"
-          },
-          {
-            id: 20,
-            options: [
-              { letter: "A", text: "give" },
-              { letter: "B", text: "take" },
-              { letter: "C", text: "put" }
-            ],
-            correct: "B"
-          },
-          {
-            id: 21,
-            options: [
-              { letter: "A", text: "all" },
-              { letter: "B", text: "many" },
-              { letter: "C", text: "both" }
-            ],
-            correct: "B"
-          },
-          {
-            id: 22,
-            options: [
-              { letter: "A", text: "same" },
-              { letter: "B", text: "different" },
-              { letter: "C", text: "equal" }
-            ],
-            correct: "B"
-          },
-          {
-            id: 23,
-            options: [
-              { letter: "A", text: "find" },
-              { letter: "B", text: "feel" },
-              { letter: "C", text: "look" }
-            ],
-            correct: "B"
-          },
-          {
-            id: 24,
-            options: [
-              { letter: "A", text: "piece" },
-              { letter: "B", text: "size" },
-              { letter: "C", text: "number" }
-            ],
-            correct: "C"
-          }
-        ]
-      },
-
-      // ───────── PART 5 (Q25-30) — open cloze (1 word, email format) ─────────
-      {
-        partNumber: 5,
-        type: "cloze-open",
-        instruction: "Read the email. Write ONE word for each space.",
-        text:
-          "Hi Sara,\n\nHow ___1___ you? I'm writing to tell you ___2___ my weekend. On Saturday I ___3___ going to a basketball game with my brother. The tickets are free for students who are under sixteen. Would you like to come ___4___ us? Please tell me ___5___ Friday so I can book another ticket. After the game, we can ___6___ pizza in a small restaurant.\n\nWrite back soon!\nDan",
-        gaps: [
-          { id: 25, accept: ["are"] },
-          { id: 26, accept: ["about"] },
-          { id: 27, accept: ["am","'m"] },
-          { id: 28, accept: ["with"] },
-          { id: 29, accept: ["before","by"] },
-          { id: 30, accept: ["have","get","eat","try"] }
-        ]
-      }
-    ]
-  },
-
-  writing: {
-    parts: [
-
-      // ───────── PART 6 (Q31) — guided writing (email/note, 25+ words) ─────────
-      {
-        partNumber: 6,
-        type: "guided-writing",
-        taskType: "Email",
-        recipient: "Pat",
-        instruction: "Your friend Pat loves football. Write an email inviting Pat to play with you on Saturday.",
-        instructionDetail: "In your email:",
-        bullets: [
-          "say what you are doing on Saturday",
-          "tell Pat where and what time to meet",
-          "ask Pat to bring something"
+    // ─────────────────── PART 3 (Q11–15) ─────────────────
+    {
+      partNumber: 3,
+      partLetter: "a",
+      label: "PART 3",
+      questionsLabel: "QUESTIONS 11–15",
+      type: "mcq-response",
+      instruction: [
+        "Complete the five conversations.",
+        "For conversations 11–15, mark A, B or C on the answer sheet."
+      ],
+      example: {
+        number: 0,
+        prompt: "How old are you?",
+        options: [
+          { letter: "A", text: "I'm 18." },
+          { letter: "B", text: "I'm Peter." },
+          { letter: "C", text: "I'm fine." }
         ],
-        wordMin: 25,
-        wordMax: 50,
-        scoringRubric:
-          "Award full marks if the candidate addresses all three bullets clearly, uses A2-appropriate vocabulary and grammar, and writes 25 words or more. Penalise if a bullet is missing, the response is fewer than 25 words, or the email format is not recognisable."
+        answer: "A"
       },
+      items: [
+        {
+          id: 11,
+          prompt: "Hello, Sue. This is my boss, Mrs Smith.",
+          options: [
+            { letter: "A", text: "How old is she?" },
+            { letter: "B", text: "How much is it?" },
+            { letter: "C", text: "How do you do?" }
+          ],
+          answer: "C"
+        },
+        {
+          id: 12,
+          prompt: "Tell Ben to come upstairs.",
+          options: [
+            { letter: "A", text: "That's right." },
+            { letter: "B", text: "All right." },
+            { letter: "C", text: "Is that right?" }
+          ],
+          answer: "B"
+        },
+        {
+          id: 13,
+          prompt: "Have you got a ticket?",
+          options: [
+            { letter: "A", text: "At the ticket office." },
+            { letter: "B", text: "Here it is." },
+            { letter: "C", text: "Yes, please." }
+          ],
+          answer: "B"
+        },
+        {
+          id: 14,
+          prompt: "Let's go to Brighton tomorrow.",
+          options: [
+            { letter: "A", text: "What a pity!" },
+            { letter: "B", text: "OK. Why not?" },
+            { letter: "C", text: "It doesn't matter." }
+          ],
+          answer: "B"
+        },
+        {
+          id: 15,
+          prompt: "Can I open the window, please?",
+          options: [
+            { letter: "A", text: "You don't." },
+            { letter: "B", text: "It isn't." },
+            { letter: "C", text: "Of course." }
+          ],
+          answer: "C"
+        }
+      ]
+    },
 
-      // ───────── PART 7 (Q32) — picture story (35+ words, 3 pictures) ─────────
-      {
-        partNumber: 7,
-        type: "picture-story",
-        taskType: "Story",
-        instruction: "Look at the three pictures. Write the story shown in the pictures.",
-        wordMin: 35,
-        wordMax: 60,
-        // Pexels-licensed photographs (Kh Ali Li, free for commercial use)
-        // Hosted at gs://mockstream-listening-audio/KET/test 2/picture-story/
-        pictures: [
-          {
-            id: 1,
-            alt: "A young girl holding a small fluffy red kitten in her hands, looking thoughtful in a park.",
-            caption: "1. The girl finds a kitten.",
-            imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%202/picture-story/scene-1.jpg"
-          },
-          {
-            id: 2,
-            alt: "Close-up of the same girl with the kitten meowing in her arms.",
-            caption: "2. The kitten meows at her.",
-            imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%202/picture-story/scene-2.jpg"
-          },
-          {
-            id: 3,
-            alt: "The girl gently embracing the fluffy red kitten and smiling.",
-            caption: "3. They become best friends.",
-            imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%202/picture-story/scene-3.jpg"
-          }
+    // ─────────────── PART 3 (Q16–20) ────────────────
+    {
+      partNumber: 3,
+      partLetter: "b",
+      questionsLabel: "QUESTIONS 16–20",
+      type: "match-dialogue",
+      instruction: [
+        "Complete the telephone conversation.",
+        "What does Peter say to James?",
+        "For questions 16–20, mark the correct letter A–H on the answer sheet."
+      ],
+      example: { number: 0, answer: "G" },
+      dialogue: [
+        { speaker: "James", line: "Hello, 345920." },
+        { speaker: "Peter", gap: 0 },
+        { speaker: "James", line: "No, I don't think so. Why?" },
+        { speaker: "Peter", gap: 16 },
+        { speaker: "James", line: "Where are they playing?" },
+        { speaker: "Peter", gap: 17 },
+        { speaker: "James", line: "I'd love to come. How much are the tickets?" },
+        { speaker: "Peter", gap: 18 },
+        { speaker: "James", line: "Will we have to leave early?" },
+        { speaker: "Peter", gap: 19 },
+        { speaker: "James", line: "What time should we meet?" },
+        { speaker: "Peter", gap: 20 },
+        { speaker: "James", line: "Thanks, Peter. Goodbye." },
+        { speaker: "Peter", line: "Goodbye." }
+      ],
+      options: [
+        { letter: "A", text: "They're free. My father gave them to me." },
+        { letter: "B", text: "In London. We can go in my car." },
+        { letter: "C", text: "I'll call you again on Friday to arrange the time." },
+        { letter: "D", text: "My car's very small." },
+        { letter: "E", text: "I've got some tickets for the football — England against France." },
+        { letter: "F", text: "We can meet in the town centre." },
+        { letter: "G", text: "Hello, it's Peter. Are you busy on Saturday?" },
+        { letter: "H", text: "I suppose so. There may be a lot of traffic." }
+      ],
+      items: [
+        { id: 16, answer: "E" },
+        { id: 17, answer: "B" },
+        { id: 18, answer: "A" },
+        { id: 19, answer: "H" },
+        { id: 20, answer: "C" }
+      ]
+    },
+
+    // ─────────────────── PART 4 (Q21–27) ─────────────────
+    {
+      partNumber: 4,
+      label: "PART 4",
+      questionsLabel: "QUESTIONS 21–27",
+      type: "mcq-passage-stems",
+      instruction: [
+        "Read the article about the London police and answer the questions.",
+        "For questions 21–27, mark A, B or C on the answer sheet."
+      ],
+      articleTitle: "THE HISTORY OF THE LONDON POLICE",
+      article:
+        "Today there are policemen everywhere, but in 1700 London had no policemen at all. A few old men used to protect the city streets at night and they were not paid very much.\n\n" +
+        "About 300 years ago, London was starting to get bigger. The city was very dirty and many people were poor. There were so many thieves who stole money in the streets that people stayed in their homes as much as possible.\n\n" +
+        "In 1750, Henry Fielding started to pay a group of people to stop thieves. They were like policemen and were called 'Bow Street Runners' because they worked near Bow Street.\n\n" +
+        "Fifty years later, there were 120 Bow Street Runners, but London had become very big and needed more policemen. So, in 1829, the first Metropolitan (or London) Police Force was started with 3000 officers. Most of the men worked on foot, but a few rode horses. Until 1920 all the police in London were men.\n\n" +
+        "Today, London police are quite well paid and for the few police officers who still ride horses, the pay is even better than for the others.",
+      example: {
+        number: 0,
+        stem: "In 1700, there were",
+        options: [
+          { letter: "A", text: "policemen everywhere." },
+          { letter: "B", text: "policemen only in London." },
+          { letter: "C", text: "no policemen in London." }
         ],
-        scoringRubric:
-          "Award full marks if the response describes all three pictures, uses A2-appropriate past or present tense, and writes 35 words or more. Penalise if pictures are skipped, the story is incoherent, or the response is fewer than 35 words."
-      }
-    ]
-  }
+        answer: "C"
+      },
+      items: [
+        {
+          id: 21,
+          stem: "In 1700, the men who protected the streets were paid",
+          options: [
+            { letter: "A", text: "a lot." },
+            { letter: "B", text: "a little." },
+            { letter: "C", text: "nothing." }
+          ],
+          answer: "B"
+        },
+        {
+          id: 22,
+          stem: "300 years ago, many people",
+          options: [
+            { letter: "A", text: "came to live in London." },
+            { letter: "B", text: "wanted to leave London." },
+            { letter: "C", text: "had big houses in London." }
+          ],
+          answer: "A"
+        },
+        {
+          id: 23,
+          stem: "People did not leave their houses because",
+          options: [
+            { letter: "A", text: "the city was not clean." },
+            { letter: "B", text: "they had no money." },
+            { letter: "C", text: "they were afraid." }
+          ],
+          answer: "C"
+        },
+        {
+          id: 24,
+          stem: "The Bow Street Runners",
+          options: [
+            { letter: "A", text: "stole money." },
+            { letter: "B", text: "stopped people stealing." },
+            { letter: "C", text: "paid people to steal." }
+          ],
+          answer: "B"
+        },
+        {
+          id: 25,
+          stem: "In 1800, there were",
+          options: [
+            { letter: "A", text: "enough policemen." },
+            { letter: "B", text: "not enough policemen." },
+            { letter: "C", text: "too many policemen." }
+          ],
+          answer: "B"
+        },
+        {
+          id: 26,
+          stem: "Of the first 3000 Metropolitan policemen,",
+          options: [
+            { letter: "A", text: "all of them rode horses." },
+            { letter: "B", text: "some of them rode horses." },
+            { letter: "C", text: "most of them rode horses." }
+          ],
+          answer: "B"
+        },
+        {
+          id: 27,
+          stem: "Today, police officers who work with horses are paid",
+          options: [
+            { letter: "A", text: "more than their colleagues." },
+            { letter: "B", text: "the same as their colleagues." },
+            { letter: "C", text: "half as much as their colleagues." }
+          ],
+          answer: "A"
+        }
+      ]
+    },
+
+    // ─────────────────── PART 5 (Q28–35) ─────────────────
+    {
+      partNumber: 5,
+      label: "PART 5",
+      questionsLabel: "QUESTIONS 28–35",
+      type: "mcq-cloze-passage",
+      instruction: [
+        "Read the information about dinosaurs.",
+        "Choose the best word (A, B or C) for each space (28–35).",
+        "For questions 28–35, mark A, B or C on the answer sheet."
+      ],
+      passageTitle: "Dinosaurs",
+      passage:
+        "No one has {0} seen a dinosaur. The last dinosaur died about 60 million years ago, a long time {28} there were any people on the earth. {29} knows for sure why they all died. The nearest living relatives of dinosaurs are birds.\n\n" +
+        "Dinosaurs didn't all look the same. There were more {30} 5000 kinds. Some were very small, {31} others were giants. The largest were bigger than any other animals that ever lived {32} land. The Brontosaurus, for example, was twenty metres long, and it {33} plants. The Tyrannosaurus Rex was not as {34}, but it was stronger. It had sharp teeth for eating meat. Also it could run fast {35} it had long back legs.",
+      example: {
+        number: 0,
+        options: [
+          { letter: "A", text: "ever" },
+          { letter: "B", text: "never" },
+          { letter: "C", text: "yet" }
+        ],
+        answer: "A"
+      },
+      items: [
+        { id: 28, options: [ { letter: "A", text: "that" },      { letter: "B", text: "when" },     { letter: "C", text: "before" } ], answer: "C" },
+        { id: 29, options: [ { letter: "A", text: "Everybody" }, { letter: "B", text: "People" },   { letter: "C", text: "Nobody" } ],  answer: "C" },
+        { id: 30, options: [ { letter: "A", text: "than" },      { letter: "B", text: "that" },     { letter: "C", text: "as" } ],     answer: "A" },
+        { id: 31, options: [ { letter: "A", text: "as" },        { letter: "B", text: "but" },      { letter: "C", text: "or" } ],     answer: "B" },
+        { id: 32, options: [ { letter: "A", text: "in" },        { letter: "B", text: "on" },       { letter: "C", text: "at" } ],     answer: "B" },
+        { id: 33, options: [ { letter: "A", text: "ate" },       { letter: "B", text: "eat" },      { letter: "C", text: "eats" } ],   answer: "A" },
+        { id: 34, options: [ { letter: "A", text: "bigger" },    { letter: "B", text: "biggest" },  { letter: "C", text: "big" } ],    answer: "C" },
+        { id: 35, options: [ { letter: "A", text: "that" },      { letter: "B", text: "because" },  { letter: "C", text: "where" } ],  answer: "B" }
+      ]
+    },
+
+    // ─────────────────── PART 6 (Q36–40) ─────────────────
+    {
+      partNumber: 6,
+      label: "PART 6",
+      questionsLabel: "QUESTIONS 36–40",
+      type: "vocab-first-letter",
+      instruction: [
+        "Read the descriptions (36–40) of some places.",
+        "What is the word for each description?",
+        "The first letter is already there. There is one space for each other letter in the word.",
+        "For questions 36–40, write the words on the answer sheet."
+      ],
+      example: {
+        number: 0,
+        prompt: "You can take the train from here.",
+        firstLetter: "s",
+        answer: "station"
+      },
+      items: [
+        { id: 36, prompt: "A mechanic will repair your car here.",                                                     firstLetter: "g", letters: 6, answer: "garage"   },
+        { id: 37, prompt: "If you are ill, you may stay here.",                                                        firstLetter: "h", letters: 8, answer: "hospital" },
+        { id: 38, prompt: "You can cross a river here.",                                                               firstLetter: "b", letters: 6, answer: "bridge"   },
+        { id: 39, prompt: "You buy a ticket and watch a football match here with hundreds of other people.",           firstLetter: "s", letters: 7, answer: "stadium"  },
+        { id: 40, prompt: "You go here to see a play.",                                                                firstLetter: "t", letters: 7, answer: "theatre"  }
+      ]
+    },
+
+    // ─────────────────── PART 7 (Q41–50) ─────────────────
+    {
+      partNumber: 7,
+      label: "PART 7",
+      questionsLabel: "QUESTIONS 41–50",
+      type: "open-cloze-letter",
+      instruction: [
+        "Complete these letters.",
+        "Write ONE word for each space (41–50).",
+        "For questions 41–50, write your words on the answer sheet."
+      ],
+      // Test 2 has TWO letters (Joan and Mary). The runner renders them as
+      // sequential letter cards when `letters` is an array.
+      letters: [
+        {
+          header: "14 Sheffield Road\nRotherham\n\n20th May 2002",
+          greeting: "Dear Mary,",
+          body:
+            "I will (Example: be) in London {41} Thursday morning. Would you like to have lunch {42} me? Write and tell {43} when you are free and where I {44} meet you.\n\n" +
+            "Hope to see you then.",
+          closing: "Yours\nJoan"
+        },
+        {
+          header: "20 DIDSBURY DRIVE LONDON NW1\n22 May 2002",
+          greeting: "Dear Joan,",
+          body:
+            "Thanks {45} your letter. I got it this morning. Yes, I'd {46} to see you. How about meeting outside {47} office at one o'clock? There's {48} good Italian restaurant near there. {49} you like Italian food?\n\n" +
+            "I have to be back at work by two o'clock, so please don't {50} late!",
+          closing: "Yours\nMary"
+        }
+      ],
+      example: { number: 0, answer: "be" },
+      items: [
+        { id: 41, answer: "on" },
+        { id: 42, answer: "with" },
+        { id: 43, answer: "me" },
+        { id: 44, answer: "can" },
+        { id: 45, answer: "for" },
+        { id: 46, answer: "like" },
+        { id: 47, answer: "the" },
+        { id: 48, answer: "a" },
+        { id: 49, answer: "Do" },
+        { id: 50, answer: "be" }
+      ]
+    },
+
+    // ─────────────────── PART 8 (Q51–55) ─────────────────
+    {
+      partNumber: 8,
+      label: "PART 8",
+      questionsLabel: "QUESTIONS 51–55",
+      type: "info-transfer-notes",
+      instruction: [
+        "Read the message to Mrs Jones.",
+        "Fill in the information in her notebook.",
+        "For questions 51–55, write the information on the answer sheet."
+      ],
+      notice: {
+        title: "Message",
+        body:
+          "To: Mrs Jones\nFrom: Cathy, Asia Travel\n\n" +
+          "Here is the latest information about your trip to Hong Kong.\n\n" +
+          "You will fly from London Airport on 13th September at 10.15 a.m. Terminal 4 is closed so please go to Terminal 3 at 8 a.m.\n\n" +
+          "You will get back to the UK a day earlier than we first said, on 19th September (not 20th) at 21.45. I have booked a taxi because the last airport bus goes at 21.30."
+      },
+      note: { dateLine: "", body: "", signature: "" },
+      notesTitle: "Trip to Hong Kong",
+      notesSubtitle: "On: 13th September",
+      rows: [
+        { label: "Leave from:",            id: 51, suffix: ", London Airport", answer: "Terminal 3" },
+        { label: "Be there at:",           id: 52, answer: "8 a.m." },
+        { label: "Date of return flight:", id: 53, answer: "19th September" },
+        { label: "UK arrival time:",       id: 54, answer: "21.45" },
+        { label: "Travel home from airport by:", id: 55, answer: "taxi" }
+      ]
+    },
+
+    // ─────────────────── PART 9 (Q56) ────────────────────
+    {
+      partNumber: 9,
+      label: "PART 9",
+      questionsLabel: "QUESTION 56",
+      type: "writing-postcard",
+      instruction: [
+        "Read the note from your friend Leslie.",
+        "Write a note to Leslie and answer his questions."
+      ],
+      prompt:
+        "I'm having a party at my house on Saturday.\n\n" +
+        "Can you come?\n\n" +
+        "Would you like to bring a friend?\n\n" +
+        "What do you like doing at parties?",
+      promptSignature: "Leslie",
+      wordCount: "25–35 words",
+      footer: [
+        "Write 25–35 words.",
+        "Write your note on the answer sheet."
+      ],
+      items: [
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+      ]
+    }
+  ]
 };

@@ -40,7 +40,7 @@
     { id: 'c3', label: 'Amber / red' },
     { id: 'c4', label: 'Emerald / green' }
   ];
-  var EXAM_TYPES = ['IELTS Academic','IELTS General','CEFR Multilevel','Cambridge KET','Cambridge PET','Cambridge FCE','Cambridge CAE','Cambridge CPE','SAT','TOEFL','Other'];
+  var EXAM_TYPES = ['IELTS Academic','IELTS General','CEFR Multilevel','Cambridge PET','Cambridge FCE','Cambridge CAE','Cambridge CPE','SAT','TOEFL','Other'];
   var VISIBILITY = [
     { id: 'full',     label: 'Full name' },
     { id: 'first',    label: 'First name only' },

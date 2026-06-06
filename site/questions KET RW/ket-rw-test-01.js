@@ -1,338 +1,474 @@
-// KET (A2 Key) Reading & Writing — Mock 01
-// Post-2020 Cambridge format: 60 min, 7 parts, 32 questions
-// All content is original AI-authored material (Mock Stream).
+// Cambridge KET (Key English Test) — Paper 1 Reading and Writing — Test 1
+// VERBATIM transcription from the official Cambridge KET book.
+// 9 parts · 56 questions · 1 hour 10 minutes.
+//
+// Part format (Cambridge KET, pre-2020 edition):
+//   Part 1 (Q1-5)   match-notices              — match descriptions to 8 notices A-H
+//   Part 2 (Q6-10)  mcq-gap-fill-sentences     — A/B/C gap-fill (birthday)
+//   Part 3a (Q11-15) mcq-response              — pick A/B/C reply to a statement
+//   Part 3b (Q16-20) match-dialogue             — match A-H lines into a conversation
+//   Part 4 (Q21-27) match-three-texts           — A/B/C which text (3 books)
+//   Part 5 (Q28-35) mcq-cloze-passage           — A/B/C cloze (Schnauzer Dogs)
+//   Part 6 (Q36-40) vocab-first-letter          — write a word given the first letter
+//   Part 7 (Q41-50) open-cloze-letter           — write ONE word for each gap (Maria's letter)
+//   Part 8 (Q51-55) info-transfer-notes         — complete Andy's notes
+//   Part 9 (Q56)    writing-postcard            — write a 25-35 word postcard
 
 window.KET_RW_TEST = {
   testInfo: {
     id: "ket-rw-01",
-    title: "KET Reading & Writing Mock 01",
+    title: "KET Reading & Writing — Test 1",
+    paper: "Paper 1",
     level: "A2",
-    totalTime: 60,
-    totalQuestions: 32,
-    readingQuestions: 30,
-    writingTasks: 2
+    totalTime: 70,           // 1 hour 10 minutes
+    totalQuestions: 56,
+    parts: 9
   },
 
-  reading: {
-    parts: [
+  parts: [
 
-      // ───────── PART 1 (Q1-6) — real-world MCQ ─────────
-      {
-        partNumber: 1,
-        type: "real-world-mcq",
-        instruction: "Read the text. Choose the correct answer (A, B or C).",
-        items: [
-          {
-            id: 1,
-            sourceType: "notice",
-            source: "BLUEWATER SWIMMING POOL\n\nWe close at 8 p.m. on weekdays.\nLast swimmers must leave the water by 7:45 p.m.",
-            question: "What does the notice say?",
-            options: [
-              { letter: "A", text: "You must finish swimming before 8 p.m." },
-              { letter: "B", text: "The pool is open until 7:45 p.m." },
-              { letter: "C", text: "You can stay in the water until 8 p.m." }
-            ],
-            correct: "A"
-          },
-          {
-            id: 2,
-            sourceType: "text-message",
-            source: "From: Mia\n\nHi Tom! I'm at the cafe but I can't see you. Are you here yet? Let me know — I'll wait for 10 more minutes then go home.",
-            question: "Mia is writing to Tom because",
-            options: [
-              { letter: "A", text: "she wants Tom to leave the cafe." },
-              { letter: "B", text: "she does not know where Tom is." },
-              { letter: "C", text: "she is going to be late." }
-            ],
-            correct: "B"
-          },
-          {
-            id: 3,
-            sourceType: "email",
-            source: "Hello readers!\n\nOur next book club meeting is on Friday at 6 p.m. We will talk about chapters 1 to 4. Please bring your copy of the book and a pen.\n\nGreta",
-            question: "Greta wants the book club members to",
-            options: [
-              { letter: "A", text: "read four chapters before Friday." },
-              { letter: "B", text: "buy a new book this week." },
-              { letter: "C", text: "write something for the meeting." }
-            ],
-            correct: "A"
-          },
-          {
-            id: 4,
-            sourceType: "sign",
-            source: "MUSEUM RULES\n\nNo food or drinks.\nPhotos with phones are OK.\nPlease do not use camera flash.",
-            question: "What is NOT allowed?",
-            options: [
-              { letter: "A", text: "taking phone photos" },
-              { letter: "B", text: "eating inside" },
-              { letter: "C", text: "wearing a coat" }
-            ],
-            correct: "B"
-          },
-          {
-            id: 5,
-            sourceType: "note",
-            source: "Hi Sam,\n\nI used the last of the milk for my coffee this morning. Sorry! I'll buy some more on my way home tonight.\n\nLena",
-            question: "Why is Lena writing to Sam?",
-            options: [
-              { letter: "A", text: "to ask Sam to buy milk" },
-              { letter: "B", text: "to tell Sam there is no milk now" },
-              { letter: "C", text: "to invite Sam for coffee" }
-            ],
-            correct: "B"
-          },
-          {
-            id: 6,
-            sourceType: "notice",
-            source: "GREEN BEAN CAFE\n\nFree wifi for customers.\nAsk us for the password when you order.",
-            question: "To use the wifi, you must",
-            options: [
-              { letter: "A", text: "buy something at the cafe." },
-              { letter: "B", text: "stay for less than one hour." },
-              { letter: "C", text: "bring your own password." }
-            ],
-            correct: "A"
-          }
-        ]
-      },
+    // ───────────────────── PART 1 (Q1–5) ─────────────────────
+    {
+      partNumber: 1,
+      label: "PART 1",
+      questionsLabel: "QUESTIONS 1–5",
+      type: "match-notices",
+      instruction: [
+        "Which notice (A–H) says this (1–5)?",
+        "For questions 1–5, mark the correct letter A–H on the answer sheet."
+      ],
+      example: { number: 0, prompt: "We can answer your questions.", answer: "E" },
+      notices: [
+        { letter: "A", text: "Adults £2.50\nUnder 12s FREE" },
+        { letter: "B", text: "Shoes repaired while you wait" },
+        { letter: "C", text: "MIND YOUR HEAD" },
+        { letter: "D", text: "Open 24 hours a day" },
+        { letter: "E", text: "INFORMATION" },
+        { letter: "F", text: "Police Notice\nRoad Closed" },
+        { letter: "G", text: "Open daily 10–6\n(except Mondays)" },
+        { letter: "H", text: "WAITING ROOM" }
+      ],
+      items: [
+        { id: 1, prompt: "You can't drive this way.",          answer: "F" },
+        { id: 2, prompt: "Children do not have to pay.",        answer: "A" },
+        { id: 3, prompt: "You can shop here six days a week.",  answer: "G" },
+        { id: 4, prompt: "Be careful when you stand up.",       answer: "C" },
+        { id: 5, prompt: "We work quickly.",                    answer: "B" }
+      ]
+    },
 
-      // ───────── PART 2 (Q7-13) — multi-text matching ─────────
-      {
-        partNumber: 2,
-        type: "multi-text-matching",
-        instruction: "Read the questions and the three texts. For each question, choose the correct answer (A, B or C).",
-        topic: "Three teenagers describe their summer holidays.",
-        texts: [
-          {
-            id: "A",
-            title: "Maya",
-            body: "I went to the mountains with my aunt and uncle for two weeks. We walked a long way every day. The weather was very hot, so we always started early in the morning. I made friends with two girls who were staying at the same hotel, and we still send messages to each other now. My aunt took lots of photos and put them in a small book for me to keep. It was my favourite holiday ever."
-          },
-          {
-            id: "B",
-            title: "Leo",
-            body: "I didn't go away this summer because my parents were busy at work. I stayed at home, but it wasn't boring. I learned how to cook three new things, and now I make dinner for my family one evening every week. I also watched a lot of films from different countries. My older sister came home for one week and we played computer games together. I think next summer I want to travel somewhere new."
-          },
-          {
-            id: "C",
-            title: "Nia",
-            body: "I spent three weeks at my grandparents' house. They live in a small city by the sea. My grandmother runs a small bakery, and I helped her every morning before the shop opened. I learned how to make bread and small cakes. In the afternoons I walked on the beach with my grandfather and took photos of the sea birds. I'm going to print the best photos and give them to my grandparents."
-          }
+    // ───────────────────── PART 2 (Q6–10) ────────────────────
+    {
+      partNumber: 2,
+      label: "PART 2",
+      questionsLabel: "QUESTIONS 6–10",
+      type: "mcq-gap-fill-sentences",
+      instruction: [
+        "Read the sentences (6–10) about a birthday.",
+        "Choose the best word (A, B or C) for each space.",
+        "For questions 6–10, mark A, B or C on the answer sheet."
+      ],
+      example: {
+        number: 0,
+        sentence: "Nina _____ up early that morning because it was her birthday.",
+        options: [
+          { letter: "A", text: "stood" },
+          { letter: "B", text: "woke" },
+          { letter: "C", text: "came" }
         ],
-        questions: [
-          { id: 7,  prompt: "Which person stayed in the same place for the whole holiday?", correct: "B" },
-          { id: 8,  prompt: "Which person learned how to make food?",                       correct: "C" },
-          { id: 9,  prompt: "Which person made new friends on holiday?",                    correct: "A" },
-          { id: 10, prompt: "Which person did the same activity every morning?",            correct: "C" },
-          { id: 11, prompt: "Which person wants to go away next summer?",                   correct: "B" },
-          { id: 12, prompt: "Which person was given a present after the holiday?",          correct: "A" },
-          { id: 13, prompt: "Which person is going to give photos to someone else?",        correct: "C" }
-        ]
+        answer: "B"
       },
+      items: [
+        {
+          id: 6,
+          sentence: "Nina was very _____ because she got lots of presents.",
+          options: [
+            { letter: "A", text: "interesting" },
+            { letter: "B", text: "lovely" },
+            { letter: "C", text: "happy" }
+          ],
+          answer: "C"
+        },
+        {
+          id: 7,
+          sentence: "She _____ some friends to her house for a party.",
+          options: [
+            { letter: "A", text: "decided" },
+            { letter: "B", text: "agreed" },
+            { letter: "C", text: "invited" }
+          ],
+          answer: "C"
+        },
+        {
+          id: 8,
+          sentence: "Her mother made a big chocolate _____ with 'Happy Birthday' on the top.",
+          options: [
+            { letter: "A", text: "meal" },
+            { letter: "B", text: "cake" },
+            { letter: "C", text: "dish" }
+          ],
+          answer: "B"
+        },
+        {
+          id: 9,
+          sentence: "Nina and her friends had a great time, singing and dancing and _____ to their favourite music.",
+          options: [
+            { letter: "A", text: "listening" },
+            { letter: "B", text: "hearing" },
+            { letter: "C", text: "looking" }
+          ],
+          answer: "A"
+        },
+        {
+          id: 10,
+          sentence: "When they had to go, everybody _____ Nina and her mother for the party.",
+          options: [
+            { letter: "A", text: "said" },
+            { letter: "B", text: "thanked" },
+            { letter: "C", text: "told" }
+          ],
+          answer: "B"
+        }
+      ]
+    },
 
-      // ───────── PART 3 (Q14-18) — long-text MCQ ─────────
-      {
-        partNumber: 3,
-        type: "long-text-mcq",
-        instruction: "Read the text and questions. For each question, choose the correct answer (A, B or C).",
-        title: "Sara's Greeting Cards",
-        passage:
-          "Sara Patel is fourteen years old. She lives with her parents and her younger brother in a small town. Two years ago, Sara started making her own birthday cards because she could not find any nice ones in the shops near her house. She used coloured paper and old buttons from her grandmother's sewing box. Her first cards were for her family, but soon her mother's friends began asking for them too.\n\nLast year, Sara's cousin showed her how to make a simple website. Now Sara sells her cards to people who live in different parts of the country. She makes about thirty cards every week. Each card costs six pounds. She uses some of the money to buy more paper and buttons, and she saves the rest. Sara wants to study art at university one day.\n\nMaking the cards takes a lot of time, so Sara only works on them at the weekend and for one hour after school. Her brother helps her by putting the cards into envelopes. Her mother takes the envelopes to the post office every Tuesday. Sara says that the most difficult part is not making the cards — it is answering all the messages from customers!",
-        questions: [
-          {
-            id: 14,
-            prompt: "Why did Sara start making cards?",
-            options: [
-              { letter: "A", text: "because she likes selling things" },
-              { letter: "B", text: "because the cards in the shops were not nice enough for her" },
-              { letter: "C", text: "because her grandmother asked her to" }
-            ],
-            correct: "B"
-          },
-          {
-            id: 15,
-            prompt: "Where did Sara get the buttons for her first cards?",
-            options: [
-              { letter: "A", text: "from her grandmother" },
-              { letter: "B", text: "from a shop in town" },
-              { letter: "C", text: "from her mother's friends" }
-            ],
-            correct: "A"
-          },
-          {
-            id: 16,
-            prompt: "How does Sara sell her cards now?",
-            options: [
-              { letter: "A", text: "She sells them at school." },
-              { letter: "B", text: "She uses a website." },
-              { letter: "C", text: "Her cousin sells them for her." }
-            ],
-            correct: "B"
-          },
-          {
-            id: 17,
-            prompt: "What does Sara do with the money she earns?",
-            options: [
-              { letter: "A", text: "She gives some to her brother." },
-              { letter: "B", text: "She uses all of it to buy paper." },
-              { letter: "C", text: "She buys more materials and saves some." }
-            ],
-            correct: "C"
-          },
-          {
-            id: 18,
-            prompt: "What is the hardest part of Sara's work?",
-            options: [
-              { letter: "A", text: "writing back to customers" },
-              { letter: "B", text: "going to the post office" },
-              { letter: "C", text: "making the cards" }
-            ],
-            correct: "A"
-          }
-        ]
-      },
-
-      // ───────── PART 4 (Q19-24) — cloze MCQ (vocabulary) ─────────
-      {
-        partNumber: 4,
-        type: "cloze-mcq",
-        instruction: "Read the text. Choose the best word (A, B or C) for each space.",
-        title: "Octopuses",
-        text:
-          "Octopuses are amazing animals that ___1___ in the sea. They have eight long arms, and they use them to swim and to ___2___ for food. Some octopuses are very small — only ten centimetres long — but other ___3___ can grow to nine metres. Most octopuses live alone, and they like to ___4___ in small holes between the rocks.\n\nOctopuses are very ___5___ animals. Scientists say they can solve simple problems and even open jars. In some sea parks, octopuses learn to recognise the people who ___6___ them every day.",
-        gaps: [
-          {
-            id: 19,
-            options: [
-              { letter: "A", text: "live" },
-              { letter: "B", text: "stay" },
-              { letter: "C", text: "rest" }
-            ],
-            correct: "A"
-          },
-          {
-            id: 20,
-            options: [
-              { letter: "A", text: "watch" },
-              { letter: "B", text: "look" },
-              { letter: "C", text: "find" }
-            ],
-            correct: "C"
-          },
-          {
-            id: 21,
-            options: [
-              { letter: "A", text: "kinds" },
-              { letter: "B", text: "groups" },
-              { letter: "C", text: "parts" }
-            ],
-            correct: "A"
-          },
-          {
-            id: 22,
-            options: [
-              { letter: "A", text: "hide" },
-              { letter: "B", text: "lose" },
-              { letter: "C", text: "miss" }
-            ],
-            correct: "A"
-          },
-          {
-            id: 23,
-            options: [
-              { letter: "A", text: "famous" },
-              { letter: "B", text: "clever" },
-              { letter: "C", text: "popular" }
-            ],
-            correct: "B"
-          },
-          {
-            id: 24,
-            options: [
-              { letter: "A", text: "feed" },
-              { letter: "B", text: "eat" },
-              { letter: "C", text: "drink" }
-            ],
-            correct: "A"
-          }
-        ]
-      },
-
-      // ───────── PART 5 (Q25-30) — open cloze (1 word, email format) ─────────
-      {
-        partNumber: 5,
-        type: "cloze-open",
-        instruction: "Read the email. Write ONE word for each space.",
-        text:
-          "Hi Alex,\n\nHow ___1___ you? I'm writing because I want to tell you ___2___ my new pet. Her name is Coco and ___3___ is a small black cat. We got her last week ___4___ my aunt because my aunt is moving ___5___ a smaller flat. Coco is very friendly and she sleeps on my bed every night. Why don't you come and meet ___6___ at the weekend?\n\nWrite soon!\nJamie",
-        gaps: [
-          { id: 25, accept: ["are"] },
-          { id: 26, accept: ["about"] },
-          { id: 27, accept: ["she"] },
-          { id: 28, accept: ["from"] },
-          { id: 29, accept: ["to","into"] },
-          { id: 30, accept: ["her"] }
-        ]
-      }
-    ]
-  },
-
-  writing: {
-    parts: [
-
-      // ───────── PART 6 (Q31) — guided writing (email/note, 25+ words) ─────────
-      {
-        partNumber: 6,
-        type: "guided-writing",
-        taskType: "Email",
-        recipient: "Sam",
-        instruction: "You are going to a music concert next Saturday. Write an email to your English friend Sam.",
-        instructionDetail: "In your email:",
-        bullets: [
-          "tell Sam about the concert",
-          "say where it is",
-          "invite Sam to come with you"
+    // ───────────────── PART 3 (Q11–15) — Conversations ───────
+    {
+      partNumber: 3,
+      partLetter: "a",
+      label: "PART 3",
+      questionsLabel: "QUESTIONS 11–15",
+      type: "mcq-response",
+      instruction: [
+        "Complete the five conversations.",
+        "For conversations 11–15, mark A, B or C on the answer sheet."
+      ],
+      example: {
+        number: 0,
+        prompt: "How are you?",
+        options: [
+          { letter: "A", text: "I'm 18." },
+          { letter: "B", text: "I'm Peter." },
+          { letter: "C", text: "I'm fine." }
         ],
-        wordMin: 25,
-        wordMax: 50,
-        scoringRubric:
-          "Award full marks if the candidate addresses all three bullets clearly, uses A2-appropriate vocabulary and grammar, and writes 25 words or more. Penalise if a bullet is missing, the response is fewer than 25 words, or the email format is not recognisable."
+        answer: "C"
       },
+      items: [
+        {
+          id: 11,
+          prompt: "It's time for lunch.",
+          options: [
+            { letter: "A", text: "Oh good!" },
+            { letter: "B", text: "One hour." },
+            { letter: "C", text: "Half past twelve." }
+          ],
+          answer: "A"
+        },
+        {
+          id: 12,
+          prompt: "Would you like a drink?",
+          options: [
+            { letter: "A", text: "I don't like coffee." },
+            { letter: "B", text: "I prefer tea." },
+            { letter: "C", text: "Coffee, please." }
+          ],
+          answer: "C"
+        },
+        {
+          id: 13,
+          prompt: "How much was your new shirt?",
+          options: [
+            { letter: "A", text: "It's a red shirt." },
+            { letter: "B", text: "It was very cheap." },
+            { letter: "C", text: "It was in a shop." }
+          ],
+          answer: "B"
+        },
+        {
+          id: 14,
+          prompt: "I'm very sorry.",
+          options: [
+            { letter: "A", text: "I'm afraid so." },
+            { letter: "B", text: "I think so." },
+            { letter: "C", text: "That's all right." }
+          ],
+          answer: "C"
+        },
+        {
+          id: 15,
+          prompt: "Do you speak English?",
+          options: [
+            { letter: "A", text: "No, I'm not." },
+            { letter: "B", text: "Only a little." },
+            { letter: "C", text: "Yes, very much." }
+          ],
+          answer: "B"
+        }
+      ]
+    },
 
-      // ───────── PART 7 (Q32) — picture story (35+ words, 3 pictures) ─────────
-      {
-        partNumber: 7,
-        type: "picture-story",
-        taskType: "Story",
-        instruction: "Look at the three pictures. Write the story shown in the pictures.",
-        wordMin: 35,
-        wordMax: 60,
-        // 3 sequential scenes — Pexels-licensed photographs (free for commercial use)
-        // Hosted in our GCS bucket: gs://mockstream-listening-audio/KET/test 1/picture-story/
-        pictures: [
-          {
-            id: 1,
-            alt: "A child sleeping peacefully on a pillow.",
-            caption: "1. A child is sleeping.",
-            imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%201/picture-story/scene-1.jpg"
-          },
-          {
-            id: 2,
-            alt: "A child waking up and stretching her arms in bed.",
-            caption: "2. The child wakes up.",
-            imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%201/picture-story/scene-2.jpg"
-          },
-          {
-            id: 3,
-            alt: "A child eating breakfast.",
-            caption: "3. Eating breakfast.",
-            imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%201/picture-story/scene-3.jpg"
-          }
+    // ───────── PART 3 (Q16–20) — Garage dialogue match A–H ─────
+    {
+      partNumber: 3,
+      partLetter: "b",
+      questionsLabel: "QUESTIONS 16–20",
+      type: "match-dialogue",
+      instruction: [
+        "Complete this conversation at a garage.",
+        "What does the woman say to the car mechanic?",
+        "For questions 16–20, mark the correct letter A–H on the answer sheet."
+      ],
+      example: { number: 0, answer: "B" },
+      // The "Woman" lines marked 0/16/17/18/19/20 are the ones the student fills.
+      dialogue: [
+        { speaker: "Mechanic", line: "Good morning, Madam. What's the problem?" },
+        { speaker: "Woman",    gap: 0 },
+        { speaker: "Mechanic", line: "What do you mean?" },
+        { speaker: "Woman",    gap: 16 },
+        { speaker: "Mechanic", line: "I see. We can probably repair that easily. Can you leave the car now?" },
+        { speaker: "Woman",    gap: 17 },
+        { speaker: "Mechanic", line: "I'm sorry. We're completely full on Saturday." },
+        { speaker: "Woman",    gap: 18 },
+        { speaker: "Mechanic", line: "Yes, all right. Could you come in the morning?" },
+        { speaker: "Woman",    gap: 19 },
+        { speaker: "Mechanic", line: "OK." },
+        { speaker: "Woman",    gap: 20 },
+        { speaker: "Mechanic", line: "I'm not sure, but probably about £30." },
+        { speaker: "Woman",    line: "That's fine. I'll see you on Monday." }
+      ],
+      options: [
+        { letter: "A", text: "I'd prefer the afternoon." },
+        { letter: "B", text: "I'm not sure. The brakes aren't working very well." },
+        { letter: "C", text: "Oh! One other thing, how much will it cost?" },
+        { letter: "D", text: "The engine is hard to start in the morning." },
+        { letter: "E", text: "I work on Mondays." },
+        { letter: "F", text: "I'm afraid I need it today. How about the weekend?" },
+        { letter: "G", text: "When I brake, the car goes to the left." },
+        { letter: "H", text: "Oh. Could you do it on Monday?" }
+      ],
+      items: [
+        { id: 16, answer: "G" },
+        { id: 17, answer: "F" },
+        { id: 18, answer: "H" },
+        { id: 19, answer: "A" },
+        { id: 20, answer: "C" }
+      ]
+    },
+
+    // ───────────────────── PART 4 (Q21–27) ────────────────────
+    {
+      partNumber: 4,
+      label: "PART 4",
+      questionsLabel: "QUESTIONS 21–27",
+      type: "match-three-texts",
+      instruction: [
+        "Read the information about three books and then answer the questions.",
+        "For questions 21–27, mark A, B or C on the answer sheet."
+      ],
+      heading: "New books this month",
+      texts: [
+        {
+          letter: "A",
+          title: "The Long Night",
+          body:
+            "This is David Reilly's first book. David became a writer after teaching English for several years.\n\n" +
+            "Maha is a nurse in northern Australia, where she works in a small hospital. One day a baby is so ill that Maha has to drive all night to get her to the nearest big city. They have a lot of problems getting there and ..."
+        },
+        {
+          letter: "B",
+          title: "Hard Work",
+          body:
+            "This exciting story is Joanna Jones's twentieth.\n\n" +
+            "Hard Work is about Sombat, who works with his father, a carpenter, in Thailand. They work long, hard hours making tables and chairs, but they do not have any money. Then one day a man dressed all in black buys the most beautiful table in the shop ..."
+        },
+        {
+          letter: "C",
+          title: "Hospital or Cinema?",
+          body:
+            "Marcie Jacome, who studies English in London, wrote this story earlier this year.\n\n" +
+            "Tina is a young Brazilian woman whose dream is to become a doctor. She goes to London to study English and medicine but one day she meets a man who asks her to go to the USA with him to become a film star ... What will Tina do?"
+        }
+      ],
+      example: {
+        number: 0,
+        prompt: "Which book is about somebody who works with doctors?",
+        answer: "A"
+      },
+      items: [
+        { id: 21, prompt: "Which book is by somebody who has written a lot of books?",   answer: "B" },
+        { id: 22, prompt: "Which book is about somebody who is very poor?",              answer: "B" },
+        { id: 23, prompt: "Which book is about somebody who would like to work in a hospital?", answer: "C" },
+        { id: 24, prompt: "Which book is by somebody who worked in a school?",           answer: "A" },
+        { id: 25, prompt: "Which book is about a difficult journey?",                    answer: "A" },
+        { id: 26, prompt: "Which book is about a man and his son?",                      answer: "B" },
+        { id: 27, prompt: "Which book is by a student?",                                 answer: "C" }
+      ]
+    },
+
+    // ───────────────────── PART 5 (Q28–35) ────────────────────
+    {
+      partNumber: 5,
+      label: "PART 5",
+      questionsLabel: "QUESTIONS 28–35",
+      type: "mcq-cloze-passage",
+      instruction: [
+        "Read the information about Schnauzer dogs.",
+        "Choose the best word (A, B or C) for each space (28–35).",
+        "For questions 28–35, mark A, B or C on the answer sheet."
+      ],
+      passageTitle: "Schnauzer Dogs",
+      // The passage uses {N} placeholders for gaps.
+      passage:
+        "There are three sizes {0} Schnauzer dog.\n\n" +
+        "The two smaller sizes first {28} to England over 50 years ago, but the Giant Schnauzer has not {29} here very long. The name Giant is a good one because the dogs are 65 to 67.5 cm high.\n\n" +
+        "All the dogs {30} long hair, which should be cut quite often. Most smaller Schnauzers {31} grey in colour, {32} the Giant Schnauzer is usually black.\n\n" +
+        "Schnauzers come from Germany, where farmers use the dogs to help {33} with their sheep, and they are also used {34} the police, because Schnauzer dogs are very intelligent.\n\n" +
+        "A Schnauzer makes {35} nice family dog. It is friendly and very good with young children.",
+      example: {
+        number: 0,
+        options: [
+          { letter: "A", text: "with" },
+          { letter: "B", text: "of" },
+          { letter: "C", text: "in" }
         ],
-        scoringRubric:
-          "Award full marks if the response describes all three pictures, uses A2-appropriate past or present tense, and writes 35 words or more. Penalise if pictures are skipped, the story is incoherent, or the response is fewer than 35 words."
-      }
-    ]
-  }
+        answer: "B"
+      },
+      items: [
+        { id: 28, options: [ { letter: "A", text: "came" },  { letter: "B", text: "come" },  { letter: "C", text: "comes" } ], answer: "A" },
+        { id: 29, options: [ { letter: "A", text: "being" }, { letter: "B", text: "be" },    { letter: "C", text: "been" } ],  answer: "C" },
+        { id: 30, options: [ { letter: "A", text: "has" },   { letter: "B", text: "have" },  { letter: "C", text: "had" } ],   answer: "B" },
+        { id: 31, options: [ { letter: "A", text: "were" },  { letter: "B", text: "is" },    { letter: "C", text: "are" } ],   answer: "C" },
+        { id: 32, options: [ { letter: "A", text: "or" },    { letter: "B", text: "if" },    { letter: "C", text: "but" } ],   answer: "C" },
+        { id: 33, options: [ { letter: "A", text: "them" },  { letter: "B", text: "him" },   { letter: "C", text: "us" } ],    answer: "A" },
+        { id: 34, options: [ { letter: "A", text: "from" },  { letter: "B", text: "by" },    { letter: "C", text: "to" } ],    answer: "B" },
+        { id: 35, options: [ { letter: "A", text: "the" },   { letter: "B", text: "a" },     { letter: "C", text: "any" } ],   answer: "B" }
+      ]
+    },
+
+    // ───────────────────── PART 6 (Q36–40) ────────────────────
+    {
+      partNumber: 6,
+      label: "PART 6",
+      questionsLabel: "QUESTIONS 36–40",
+      type: "vocab-first-letter",
+      instruction: [
+        "Read the descriptions (36–40) of some words about holidays and travel.",
+        "What is the word for each description?",
+        "The first letter is already there. There is one space for each other letter in the word.",
+        "For questions 36–40, write the words on the answer sheet."
+      ],
+      example: {
+        number: 0,
+        prompt: "You can take photos of your holiday with this.",
+        firstLetter: "c",
+        answer: "camera"
+      },
+      items: [
+        { id: 36, prompt: "You need this to travel to some foreign countries.", firstLetter: "p", letters: 8, answer: "passport" },
+        { id: 37, prompt: "You need to buy this before you get on a plane.",    firstLetter: "t", letters: 6, answer: "ticket"   },
+        { id: 38, prompt: "This is where you go to get a plane.",               firstLetter: "a", letters: 7, answer: "airport"  },
+        { id: 39, prompt: "You put your clothes in this when you travel.",      firstLetter: "s", letters: 8, answer: "suitcase" },
+        { id: 40, prompt: "This person likes visiting different places.",       firstLetter: "t", letters: 7, answer: "tourist"  }
+      ]
+    },
+
+    // ───────────────────── PART 7 (Q41–50) ────────────────────
+    {
+      partNumber: 7,
+      label: "PART 7",
+      questionsLabel: "QUESTIONS 41–50",
+      type: "open-cloze-letter",
+      instruction: [
+        "Complete this letter.",
+        "Write ONE word for each space (41–50).",
+        "For questions 41–50, write your words on the answer sheet."
+      ],
+      header: "28 Long Road\nBrighton\n\n22nd March",
+      greeting: "Dear Pat,",
+      // {N} placeholders inside the letter body
+      body:
+        "I arrived ({0}) three weeks ago. I'm studying at a language school {41} Brighton. The students come {42} many different countries and I {43} made a lot of new friends.\n\n" +
+        "There {44} classes for five hours every day. I like {45} teacher very much. {46} name is John and he helps me {47} I make a mistake.\n\n" +
+        "I want {48} visit London next weekend because I {49} going back to my country on Monday. Can I see you there? Please write to {50} soon.",
+      closing: "With best wishes from\nMaria",
+      example: { number: 0, answer: "here" },
+      items: [
+        { id: 41, answer: "in" },
+        { id: 42, answer: "from" },
+        { id: 43, answer: "have" },
+        { id: 44, answer: "are" },
+        { id: 45, answer: "the" },
+        { id: 46, answer: "His" },
+        { id: 47, answer: "when" },
+        { id: 48, answer: "to" },
+        { id: 49, answer: "am" },
+        { id: 50, answer: "me" }
+      ]
+    },
+
+    // ───────────────────── PART 8 (Q51–55) ────────────────────
+    {
+      partNumber: 8,
+      label: "PART 8",
+      questionsLabel: "QUESTIONS 51–55",
+      type: "info-transfer-notes",
+      instruction: [
+        "Read the notice and the note from Sheila.",
+        "Complete Andy's notes.",
+        "For questions 51–55, write the information on the answer sheet."
+      ],
+      notice: {
+        title: "WALTON COLLEGE FILM CLUB",
+        body:
+          "Every Tuesday 8 p.m.\nIn the DRAMA STUDIO\n\n" +
+          "2 April    City Lights\n" +
+          "9 April    The Last King\n\n" +
+          "Tickets    Students £3.50\n" +
+          "           Visitors £5.00"
+      },
+      note: {
+        dateLine: "2 April",
+        body:
+          "Andy,\n\n" +
+          "Let's go to the Film Club next week. Can you get the tickets from the college office? Remember we pay the cheaper price. I must study at home for our exam on 8 April. Thanks!\n\n" +
+          "See you next Tuesday in the Coffee Bar at 7.45, before it starts!",
+        signature: "Sheila"
+      },
+      notesTitle: "Andy's Notes",
+      notesSubtitle: "Film Club with Sheila",
+      // Andy's Notes form rows. Filled rows have prefilled=true and no id.
+      rows: [
+        { label: "Day:",            prefilled: "Tuesday" },
+        { label: "Date:",           id: 51, answer: "9 April" },
+        { label: "Name of film:",   id: 52, answer: "The Last King" },
+        { label: "Starting time:",  id: 53, answer: "8 p.m." },
+        { label: "Ticket price:",   id: 54, prefix: "£", answer: "3.50" },
+        { label: "Meet Sheila in:", id: 55, answer: "the Coffee Bar" }
+      ]
+    },
+
+    // ───────────────────── PART 9 (Q56) ───────────────────────
+    {
+      partNumber: 9,
+      label: "PART 9",
+      questionsLabel: "QUESTION 56",
+      type: "writing-postcard",
+      instruction: [
+        "Read the note from your friend Richard.",
+        "Write a postcard to tell him what he wants to know."
+      ],
+      prompt:
+        "It's great that you're coming to see me in England. Tell me when you are coming, how long you want to stay and what you want to do.\n\n" +
+        "Write soon!",
+      promptSignature: "Richard",
+      wordCount: "25–35 words",
+      footer: [
+        "Write 25–35 words.",
+        "Write your postcard on the answer sheet."
+      ],
+      items: [
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+      ]
+    }
+  ]
 };

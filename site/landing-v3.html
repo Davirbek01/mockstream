@@ -1921,7 +1921,7 @@
 
     /* ═══════════════════════════════════════════════════════
        International Exams — horizontal slider rail
-       Cambridge (KET → CPE) + SAT, scroll-snap so future exams just append.
+       Cambridge (PET → CPE) + SAT, scroll-snap so future exams just append.
        ═══════════════════════════════════════════════════════ */
     .exams-rail {
       display: flex;
@@ -15422,21 +15422,29 @@
     window._processDeepLinkTakeV3 = _processDeepLinkTakeV3;
 
     // ═══════════════════════════════════════════════════════════════
-    // Cambridge KET / PET / FCE / CAE / CPE — Phase 6-B
+    // Cambridge PET / FCE / CAE / CPE — Phase 6-B
     // Single modal driven by exam-data table. Only RW paper is active;
     // Listening + Speaking marked SOON. Direct navigation to runner
     // pages (no access-code gate — exam runners handle premium check).
     // ═══════════════════════════════════════════════════════════════
     var CAMBRIDGE_EXAMS = {
-      ket: { code: 'KET', tag: 'A2 Key',         rwLabel: 'Reading & Writing',     rwDur: '60 min · 32 questions',           listDur: '30 min · 25 questions',  spkDur: '8–10 min (paired)' },
+      ket: { code: 'KET', tag: 'A2 Key',         rwLabel: 'Reading & Writing',     rwDur: '70 min · 56 questions',           listDur: '30 min · 25 questions',  spkDur: '8–10 min (paired)' },
       pet: { code: 'PET', tag: 'B1 Preliminary', rwLabel: 'Reading & Writing',     rwDur: '90 min · 32 reading + 2 writing', listDur: '~30 min · 25 questions', spkDur: '~12 min (paired)' },
       fce: { code: 'FCE', tag: 'B2 First',       rwLabel: 'Reading, UoE & Writing', rwDur: '155 min · 52 reading + 2 writing', listDur: '~40 min · 30 questions', spkDur: '~14 min (paired)' },
       cae: { code: 'CAE', tag: 'C1 Advanced',    rwLabel: 'Reading, UoE & Writing', rwDur: '180 min · 56 reading + 2 writing', listDur: '~40 min · 30 questions', spkDur: '~15 min (paired)' },
       cpe: { code: 'CPE', tag: 'C2 Proficiency', rwLabel: 'Reading, UoE & Writing', rwDur: '180 min · 53 reading + 2 writing', listDur: '~40 min · 30 questions', spkDur: '~16 min (paired)' }
     };
+    // Mocks available per Cambridge exam · paper. Only listed exams get
+    // the multi-mock picker — others fall back to direct navigation.
+    var CAMBRIDGE_MOCK_COUNTS = { ket: { rw: 4 } };
+
     function showCambridgeModal(exam) {
       var e = CAMBRIDGE_EXAMS[exam];
       if (!e) return;
+      // Reset to the paper-pick step (in case modal was previously left
+      // on the mock-pick step from a prior open).
+      document.getElementById('cambridgePapers').style.display = '';
+      document.getElementById('cambridgeMocks').style.display = 'none';
       document.getElementById('cambridgeModalTitle').textContent = '🎓 ' + e.code + ' (' + e.tag + ')';
       document.getElementById('cambridgeRwLabel').textContent = e.rwLabel;
       document.getElementById('cambridgeRwDur').textContent = e.rwDur;
@@ -15454,15 +15462,51 @@
     function _selectCambridge(exam, type) {
       var e = CAMBRIDGE_EXAMS[exam];
       if (!e) return;
+      // Multi-mock exams (e.g. KET R&W has 4) show a mock-pick step
+      // before routing. Single-mock exams route directly.
+      var mockCount = CAMBRIDGE_MOCK_COUNTS[exam] && CAMBRIDGE_MOCK_COUNTS[exam][type];
+      if (mockCount && mockCount > 1) {
+        _showCambridgeMockPicker(exam, type, mockCount);
+        return;
+      }
       closeCambridgeModal();
-      // Use href (push) so browser-back from the runner lands on v3.
-      // Absolute /paths in case the runner ever loads from a /take/-style URL.
       var url;
       if (type === 'rw') url = '/' + e.code + ' Reading & Writing Mocks.html';
       else if (type === 'listening') url = '/' + e.code + ' Listening Mocks.html';
       else url = '/' + e.code + ' Speaking Mocks.html';
       window.location.href = url;
     }
+    function _showCambridgeMockPicker(exam, type, mockCount) {
+      var e = CAMBRIDGE_EXAMS[exam];
+      var list = document.getElementById('cambridgeMocksList');
+      list.innerHTML = '';
+      for (var n = 1; n <= mockCount; n++) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'cambridge-mock-btn';
+        btn.setAttribute('data-mock', n);
+        btn.innerHTML = '<span class="cm-num">' + n + '</span><span class="cm-label">Test ' + n + '</span><span class="cm-arrow">→</span>';
+        (function (mockN) {
+          btn.onclick = function () {
+            closeCambridgeModal();
+            var paperPath;
+            if (type === 'rw') paperPath = e.code + ' Reading & Writing Mocks.html';
+            else if (type === 'listening') paperPath = e.code + ' Listening Mocks.html';
+            else paperPath = e.code + ' Speaking Mocks.html';
+            window.location.href = '/' + paperPath + '?mock=' + mockN;
+          };
+        })(n);
+        list.appendChild(btn);
+      }
+      document.getElementById('cambridgeMocksTitle').textContent = e.code + ' · ' + (type === 'rw' ? e.rwLabel : (type === 'listening' ? 'Listening' : 'Speaking'));
+      document.getElementById('cambridgePapers').style.display = 'none';
+      document.getElementById('cambridgeMocks').style.display = '';
+    }
+    function _cambridgeBackToPapers() {
+      document.getElementById('cambridgeMocks').style.display = 'none';
+      document.getElementById('cambridgePapers').style.display = '';
+    }
+    window._cambridgeBackToPapers = _cambridgeBackToPapers;
     window.showCambridgeModal = showCambridgeModal;
     window.closeCambridgeModal = closeCambridgeModal;
     // Wire the .cambridge-card tiles (skip the SAT card which has no data-cambridge).
@@ -16644,7 +16688,7 @@
   </div>
 
   <!-- ═══════════════════════════════════════════════════════
-       Cambridge KET / PET / FCE / CAE / CPE — single modal,
+       Cambridge PET / FCE / CAE / CPE — single modal,
        content swaps per exam via CAMBRIDGE_EXAMS data. Wired
        to the .cambridge-card tiles in #examsRail.
        ═══════════════════════════════════════════════════════ -->
@@ -16656,7 +16700,7 @@
       onclick="event.stopPropagation()">
       <h3 id="cambridgeModalTitle" style="font-size:20px;color:var(--brand);margin-bottom:4px;font-weight:800;">🎓 Cambridge Exam</h3>
       <p style="font-size:13px;color:var(--muted);margin-bottom:18px;">Select a paper to practice</p>
-      <div style="display:flex;flex-direction:column;gap:10px;">
+      <div id="cambridgePapers" style="display:flex;flex-direction:column;gap:10px;">
         <button id="cambridgeRwBtn" type="button"
           style="padding:14px 18px;border:2px solid var(--ring);border-radius:14px;font-size:14px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.15s;display:flex;align-items:center;gap:12px;background:var(--card);">
           <span style="font-size:24px;flex-shrink:0;">📝</span>
@@ -16684,10 +16728,45 @@
           </span>
         </button>
       </div>
+      <!-- Mock-picker step — shown after the student picks a paper for an
+           exam that has multiple mocks (KET R&W: 4 tests). -->
+      <div id="cambridgeMocks" style="display:none;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+          <button type="button" onclick="_cambridgeBackToPapers()"
+            style="background:transparent;border:1.5px solid var(--ring);color:var(--ink-2);padding:6px 10px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;">← Back</button>
+          <div id="cambridgeMocksTitle" style="flex:1;font-weight:800;color:var(--ink);font-size:14px;text-align:left;"></div>
+        </div>
+        <p style="font-size:12.5px;color:var(--muted);margin:0 0 12px;text-align:left;">Choose which test you want to take:</p>
+        <div id="cambridgeMocksList" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"></div>
+      </div>
       <button onclick="closeCambridgeModal()" type="button"
         style="margin-top:18px;padding:8px 24px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;">Cancel</button>
     </div>
   </div>
+  <style>
+    .cambridge-mock-btn {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 14px;
+      background: var(--card); color: var(--ink);
+      border: 2px solid var(--ring); border-radius: 12px;
+      font-family: inherit; font-size: 14px; font-weight: 700;
+      cursor: pointer; transition: all .15s ease;
+      text-align: left;
+    }
+    .cambridge-mock-btn:hover { border-color: var(--brand); transform: translateY(-1px); box-shadow: 0 6px 18px rgba(0,0,0,0.08); }
+    .cambridge-mock-btn .cm-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: linear-gradient(135deg, #0b1d3a, #1a3a7e);
+      color: #fff;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 13px; flex-shrink: 0;
+    }
+    .cambridge-mock-btn .cm-label { flex: 1; }
+    .cambridge-mock-btn .cm-arrow { color: var(--muted); font-weight: 800; }
+    @media (max-width: 480px) {
+      #cambridgeMocksList { grid-template-columns: 1fr !important; }
+    }
+  </style>
 
   <!-- ═══════════════════════════════════════════════════════
        Learning Tools picker — Phase 6-D
@@ -18496,7 +18575,7 @@
           var nm = c.querySelector('.tool-name');
           if (nm) c.setAttribute('data-tooltip', nm.textContent.trim());
         });
-        // International Exam cards (KET / PET / FCE / SAT…): full name
+        // International Exam cards (PET / FCE / SAT…): full name
         // sits in .cb-desc, the badge in .cb-name. Tooltip shows both.
         s.querySelectorAll('.msv3-intl-exams .cambridge-card').forEach(function (c) {
           if (c.hasAttribute('data-tooltip')) return;
@@ -18599,7 +18678,7 @@
         });
       }
 
-      // Move International Exams (KET/PET/FCE/CAE/CPE/SAT + soon TOEFL/GRE/TKT)
+      // Move International Exams (PET/FCE/CAE/CPE/SAT + soon TOEFL/GRE/TKT)
       // into the sidebar, stacked below Learning Tools.
       function ensureIntlExams() {
         var s = document.getElementById('msv3Sidebar');
