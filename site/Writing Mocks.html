@@ -267,17 +267,24 @@
         // skip the Choose Exam Format dialog and go straight to the
         // computer-delivered path — same shortcut already used for
         // _practiceMode. Greyed-out single option is just friction.
+        // Keep the autoProceedLoader visible UNTIL startComputerExam
+        // finishes setting up, then drop it in one go — otherwise the
+        // exam UI flashes between loader-remove and startComputerExam
+        // running, which the student perceives as "exam → loading → exam".
         var __paperDisabled = window._centerConfig && window._centerConfig.writingPaperMode === false;
+        var __dropLoader = function () {
+          var loader = document.getElementById('autoProceedLoader');
+          if (loader) loader.remove();
+          if (window._autoHideGateStyle) window._autoHideGateStyle.remove();
+        };
         if (window._practiceMode || __paperDisabled) {
-          setTimeout(function(){ startComputerExam(); }, 100);
+          // Run startComputerExam first so the runtime UI is fully wired,
+          // then peel back the splash without leaving any bare-DOM frame.
+          Promise.resolve().then(startComputerExam).finally(__dropLoader);
         } else {
           formatChoice.style.display = 'flex';
+          __dropLoader();
         }
-
-        // Remove loader
-        var loader = document.getElementById('autoProceedLoader');
-        if (loader) loader.remove();
-        if (window._autoHideGateStyle) window._autoHideGateStyle.remove();
 
         console.log('[Auto-Proceed Writing] Went straight to format choice for Mock ' + mockNum);
       }
@@ -7687,10 +7694,14 @@
                 // Name available — skip modal entirely, go straight to format choice
                 const candInput = document.getElementById('cand');
                 if (candInput) candInput.value = storedCandName;
-                // Remove auto-proceed loader
-                const loader = document.getElementById('autoProceedLoader');
-                if (loader) loader.remove();
-                if (window._autoHideGateStyle) window._autoHideGateStyle.remove();
+                // Defer loader-remove + _autoHideGateStyle teardown so the
+                // student doesn't see a bare-DOM frame between gate-hide
+                // and either formatChoice-show or startComputerExam-setup.
+                const __dropLoader = function () {
+                  const loader = document.getElementById('autoProceedLoader');
+                  if (loader) loader.remove();
+                  if (window._autoHideGateStyle) window._autoHideGateStyle.remove();
+                };
                 // Go straight to format choice (or skip it if paper mode
                 // is off at the centre — same logic as proceedToFormatChoice).
                 setTimeout(() => {
@@ -7699,9 +7710,10 @@
                   gate.style.display = 'none';
                   var __paperDisabled = window._centerConfig && window._centerConfig.writingPaperMode === false;
                   if (__paperDisabled && typeof startComputerExam === 'function') {
-                    startComputerExam();
+                    Promise.resolve().then(startComputerExam).finally(__dropLoader);
                   } else {
                     formatChoice.style.display = 'flex';
+                    __dropLoader();
                   }
                 }, 300);
                 return;
@@ -7974,8 +7986,15 @@
       // turned Paper-Based Writing Exam off, same as practice mode).
       gate.style.display = 'none';
       var __paperDisabled = window._centerConfig && window._centerConfig.writingPaperMode === false;
+      var __dropLoaderSB = function () {
+        var loader = document.getElementById('autoProceedLoader');
+        if (loader) loader.remove();
+        if (window._autoHideGateStyle) window._autoHideGateStyle.remove();
+      };
       if (window._practiceMode || __paperDisabled) {
-        setTimeout(function(){ startComputerExam(); }, 100);
+        // Keep any in-flight splash up until startComputerExam finishes
+        // wiring the timer + textareas, so there's no bare-DOM flash.
+        Promise.resolve().then(startComputerExam).finally(__dropLoaderSB);
       } else {
         formatChoice.style.display = 'flex';
       }
