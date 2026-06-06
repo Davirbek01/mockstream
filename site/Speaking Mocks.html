@@ -5614,36 +5614,42 @@
     </div>
   </div>
 
-  <!-- ===== Mic Check Modal ===== -->
-  <div id="micCheckModal" class="tutorial" aria-hidden="true" style="background:#2563eb;backdrop-filter:none;">
-    <div class="tutorial-card" style="max-width:500px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-        <h2 style="margin:0;color:var(--brand);font-size:clamp(20px,4vw,24px)">🎙️ Audio & Video Setup</h2>
-        <button id="closeMicCheck" class="btn ghost" style="font-size:24px;padding:4px 12px">✕</button>
-      </div>
-
-      <div style="background:var(--brand-weak);padding:16px;border-radius:12px;margin-bottom:20px">
-        <p style="margin:0 0 12px;font-weight:600;color:var(--ink)">The browser will request access to your microphone
-          for exam proctoring. Please allow access, then read the sample text:</p>
-        <div
-          style="background:white;padding:14px;border-radius:8px;border-left:4px solid var(--brand);line-height:1.8;color:var(--ink-light)">
-          "Hello, this is a microphone test. I am checking if my voice is clear and the recording quality is good. If
-          you can hear this message clearly, your microphone is working properly."
+  <!-- ===== Mic Check Modal (v2 — compact) =====
+       Condensed pass over the original Audio & Video Setup card:
+       short sample sentence, smaller record orb, single CTA. The
+       button IDs / class hooks below are unchanged so the existing
+       JS handlers (micTestRecordBtn, micCheckDone, closeMicCheck)
+       keep working without edits. -->
+  <div id="micCheckModal" class="tutorial" aria-hidden="true">
+    <div class="tutorial-card tut2-card" style="max-width:420px">
+      <header class="tut2-header" style="margin-bottom:14px">
+        <div class="tut2-brand">
+          <div class="tut2-brand-icon" style="background:linear-gradient(135deg,#667eea,#764ba2);box-shadow:0 4px 12px rgba(118,75,162,0.32)">🎙️</div>
+          <div class="tut2-brand-text">
+            <div class="tut2-title">Mic Check</div>
+            <div class="tut2-sub">Record a short sample to verify your microphone</div>
+          </div>
         </div>
-      </div>
+        <button id="closeMicCheck" class="tut2-btn tut2-btn-ghost" style="padding:6px 12px;font-size:16px;line-height:1" aria-label="Close">✕</button>
+      </header>
 
-      <div style="text-align:center;margin:30px 0">
+      <!-- Tap-to-read sample, kept short so the modal stays compact. -->
+      <p style="background:#f0fdfa;border:1px solid #99f6e4;border-left:4px solid #0d9488;border-radius:10px;padding:12px 14px;margin:0 0 16px;color:#0f172a;font-size:13.5px;line-height:1.5;font-weight:500">
+        "Hello, this is a microphone test — one, two, three."
+      </p>
+
+      <!-- Record orb — slightly smaller than before, still touchable. -->
+      <div style="text-align:center;margin:8px 0 14px">
         <button id="micTestRecordBtn"
-          style="width:120px;height:120px;border-radius:50%;border:none;background:linear-gradient(135deg,#667eea,#764ba2);color:white;font-size:48px;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 20px rgba(102,126,234,0.4)"
-          onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+          style="width:88px;height:88px;border-radius:50%;border:none;background:linear-gradient(135deg,#667eea,#764ba2);color:white;font-size:36px;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease;box-shadow:0 6px 18px rgba(102,126,234,0.42)"
+          onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'">
           🎙️
         </button>
-        <div id="micTestStatus" style="margin-top:12px;font-weight:600;color:var(--ink-light);font-size:16px">Click to
-          start recording</div>
-        <div id="micTestTimer" style="margin-top:8px;font-size:14px;color:var(--muted)"></div>
+        <div id="micTestStatus" style="margin-top:10px;font-weight:700;color:#475569;font-size:13.5px">Click to start recording</div>
+        <div id="micTestTimer" style="margin-top:4px;font-size:12px;color:#94a3b8;font-variant-numeric:tabular-nums"></div>
       </div>
 
-      <button id="micCheckDone" class="t-btn" style="width:100%">All Good! Start Test</button>
+      <button id="micCheckDone" class="tut2-btn tut2-btn-success" style="width:100%">All Good — Continue</button>
     </div>
   </div>
 
