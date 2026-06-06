@@ -123,8 +123,22 @@
       // This prevents the brief flash of the old gate UI
       if (autoMode === '1') {
         var style = document.createElement('style');
-        style.textContent = '.gate { display: none !important; }';
+        // Plus a full body-content curtain: hide every body child except
+        // the splash, the tutorial modal, the connection-reminder
+        // (legacy), and the audio-preload modal until the student taps
+        // Begin → _beginFlowFromTutorial lifts the curtain by removing
+        // data-tut-open. Otherwise the bare exam toolbar (Day/Night,
+        // 0/8, Pause) bleeds through the tutorial backdrop AND shows
+        // in the brief gap between the v3-picker splash unloading and
+        // the in-runner splash mounting.
+        style.textContent = ''
+          + '.gate { display: none !important; }'
+          + 'html[data-tut-open] body > *:not(#tutorialModal):not(#_msv3LaunchSplash):not(#audioPreloadModal):not(script):not(style) {'
+          + '  visibility: hidden !important;'
+          + '}';
         document.head.appendChild(style);
+        // Curtain on — lifted inside _beginFlowFromTutorial.
+        document.documentElement.setAttribute('data-tut-open', '1');
         // Store ref so we can remove it later if needed
         window._autoHideGateStyle = style;
 
@@ -10552,6 +10566,11 @@
       // Modified to include audio preloading for OpenAI TTS, Gemini TTS and GTTS
       window._beginFlowFromTutorial = async function () {
         try {
+          // Lift the body-content curtain — the student has confirmed
+          // they're ready to start, so the exam UI underneath needs to
+          // become visible behind any subsequent overlays (audio
+          // preload, etc.).
+          try { document.documentElement.removeAttribute('data-tut-open'); } catch (_e) {}
           var _resumeSession = false;
 
           // Check if this mock has pre-generated audio files (skip all TTS preloading)
