@@ -128,16 +128,65 @@
         // Store ref so we can remove it later if needed
         window._autoHideGateStyle = style;
 
-        // (Previously also injected a full-screen blue spinner overlay
-        //  here — purely cosmetic, no progress tracking, removed at admin
-        //  request. The .gate display:none above still suppresses the
-        //  entry-chrome flash. We still set window._autoProceedLoader to
-        //  a sentinel because downstream code (e.g. the mic-permission
-        //  gate at startBtn click) uses its truthiness as a proxy for
-        //  "auto-proceed mode is active". Any later
-        //  getElementById('autoProceedLoader').remove() calls are
-        //  null-safe no-ops.)
+        // Auto-proceed sentinel — downstream code (mic permission
+        // gate, etc.) checks window._autoProceedLoader's truthiness.
+        // Older code added a blue full-screen spinner here; we removed
+        // it, but we keep the flag set so the proxy keeps working.
         window._autoProceedLoader = true;
+
+        // ── Hand-off splash ────────────────────────────────────────
+        // Carry the v3 picker's "Loading mock…" purple splash across to
+        // the runner so the bare exam toolbar (Day/Night, 0/8, Pause)
+        // doesn't flash for the ~600 ms between page load and the
+        // tutorial modal appearing. Visually identical to
+        // _msv3LaunchSplash on landing-v3 so the transition feels like
+        // a single continuous loading state. Fades out via
+        // _hideSpeakingLaunchSplash() — called inside _showTutorial.
+        (function () {
+          var brand = (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream';
+          var logo = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl)
+            || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+          var s = document.createElement('div');
+          s.id = '_msv3LaunchSplash';
+          s.style.cssText = [
+            'position:fixed', 'inset:0', 'z-index:2147483647',
+            'display:flex', 'flex-direction:column', 'align-items:center', 'justify-content:center',
+            'gap:18px',
+            'background:linear-gradient(135deg,#7c3aed 0%,#a855f7 55%,#c084fc 100%)',
+            'color:#fff',
+            'font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif',
+            'opacity:1', 'transition:opacity 280ms ease-out', 'pointer-events:auto'
+          ].join(';');
+          s.innerHTML = ''
+            + '<img src="' + logo + '" alt="" style="width:72px;height:72px;border-radius:18px;'
+            + 'box-shadow:0 12px 30px rgba(0,0,0,.25);background:#fff;padding:8px;object-fit:contain;">'
+            + '<div style="font-size:18px;font-weight:700;letter-spacing:.2px;">' + brand + '</div>'
+            + '<div style="display:flex;align-items:center;gap:10px;font-size:14px;opacity:.92;">'
+            +   '<span style="width:18px;height:18px;border-radius:50%;border:2.5px solid rgba(255,255,255,.4);'
+            +   'border-top-color:#fff;animation:_msv3Spin .8s linear infinite;"></span>'
+            +   '<span>Loading mock…</span>'
+            + '</div>';
+          if (!document.getElementById('_msv3SplashStyle')) {
+            var st = document.createElement('style');
+            st.id = '_msv3SplashStyle';
+            st.textContent = '@keyframes _msv3Spin{to{transform:rotate(360deg)}}';
+            document.head.appendChild(st);
+          }
+          if (document.body) document.body.appendChild(s);
+          else document.addEventListener('DOMContentLoaded', function () { document.body.appendChild(s); });
+          // 10 s safety net: if the tutorial somehow never opens, drop
+          // the splash so the student isn't stuck staring at it.
+          setTimeout(function () { _hideSpeakingLaunchSplash(); }, 10000);
+        })();
+      }
+      window._hideSpeakingLaunchSplash = function () {
+        var s = document.getElementById('_msv3LaunchSplash');
+        if (!s) return;
+        s.style.opacity = '0';
+        setTimeout(function () { try { s.remove(); } catch (_e) {} }, 320);
+      };
+      function _hideSpeakingLaunchSplash() {
+        if (typeof window._hideSpeakingLaunchSplash === 'function') window._hideSpeakingLaunchSplash();
       }
 
       if (autoMode === '1' && (testParam || sbMockParam)) {
@@ -11181,9 +11230,12 @@
             _exitMicTestState(_speakingMicVerified ? 'verified' : 'pending');
             return;
           }
-          // From the blocked state, Back returns the student to the
-          // landing-page picker so they can pick a different device or
-          // skill instead of bouncing between settings and us.
+          // From pending / verified / blocked, Back returns to the v3
+          // picker. Suppress the browser "Leave site? Changes you made
+          // may not be saved" dialog — startAntiCheat already flipped
+          // window.testStarted=true on page load, which is what the
+          // beforeunload guard listens for. __okToLeave bypasses it.
+          try { window.__okToLeave = true; if (typeof __okToLeave !== 'undefined') __okToLeave = true; } catch (_e) {}
           modal.classList.remove('show');
           modal.setAttribute('aria-hidden', 'true');
           if (window.goToLanding) window.goToLanding();
@@ -11353,6 +11405,11 @@
         modal.setAttribute('data-mic-state', _speakingMicVerified ? 'verified' : 'pending');
         modal.classList.add('show');
         modal.setAttribute('aria-hidden', 'false');
+        // Drop the hand-off splash now that the tutorial is on screen —
+        // the student no longer needs the "Loading mock…" cover.
+        if (typeof window._hideSpeakingLaunchSplash === 'function') {
+          window._hideSpeakingLaunchSplash();
+        }
       }
 
       // ===== Mic Check Modal =====
