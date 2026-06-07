@@ -68,6 +68,28 @@
     .match-slot .slot-x{font-size:14px;color:#9aa4c8;margin-left:8px;font-weight:800}
     .match-slot.filled:hover .slot-x{color:var(--rose)}
     .match-select{display:none;padding:7px 10px;border:2px solid var(--line);border-radius:8px;font-size:14px;font-weight:600;color:var(--navy-800);background:#fff;flex:1 1 auto;min-width:0}
+    /* Custom dropdown (mobile-only) ─────────────────────────── */
+    .dd-mob{display:none;position:relative;flex:1 1 auto;min-width:0}
+    .dd-mob-btn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;background:#fff;border:2px solid var(--line);border-radius:10px;font-size:15px;font-weight:600;color:var(--navy-800);cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent}
+    .dd-mob-btn:active{transform:scale(.99)}
+    .dd-mob-btn.has-pick{border-color:var(--blue-500);background:#eaf2ff}
+    .dd-mob-btn .dd-current{display:flex;align-items:center;gap:8px;flex:1;text-align:left;min-width:0}
+    .dd-mob-btn .dd-current-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}
+    .dd-mob-btn .dd-current.empty{color:#9aa4c8;font-weight:500}
+    .dd-mob-btn .dd-mini-chip{background:var(--navy-700);color:#fff;width:24px;height:24px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;flex:0 0 24px}
+    .dd-mob-btn.has-pick .dd-mini-chip{background:var(--blue-500)}
+    .dd-mob-btn .dd-arrow{color:var(--navy-700);font-size:12px;transition:transform .2s}
+    .dd-mob.open .dd-arrow{transform:rotate(180deg)}
+    .dd-mob-pop{position:absolute;top:calc(100% + 6px);left:0;right:0;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 32px rgba(11,19,48,.18);max-height:320px;overflow-y:auto;z-index:40;padding:6px;display:none}
+    .dd-mob.open .dd-mob-pop{display:block;animation:ddFadeIn .15s ease}
+    @keyframes ddFadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+    .dd-mob-opt{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;background:transparent;border:none;border-radius:8px;cursor:pointer;font-size:15px;font-weight:600;color:var(--navy-800);text-align:left;-webkit-tap-highlight-color:transparent;transition:background .12s}
+    .dd-mob-opt:hover,.dd-mob-opt:focus{background:#eef2ff;outline:none}
+    .dd-mob-opt.active{background:#eaf2ff}
+    .dd-mob-opt .dd-mini-chip{background:var(--navy-700);color:#fff;width:26px;height:26px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex:0 0 26px}
+    .dd-mob-opt.clear-opt .dd-mini-chip{background:#cbd2e5;color:#fff}
+    .dd-mob-overlay{position:fixed;inset:0;background:transparent;display:none;z-index:35}
+    .dd-mob-overlay.show{display:block}
     .opt-list{display:flex;flex-direction:column;gap:4px}
     .opt-tile{display:flex;align-items:center;gap:12px;padding:5px 8px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:500;color:var(--navy-800);transition:background .12s;user-select:none}
     .opt-tile:hover{background:#eef2ff}
@@ -109,7 +131,8 @@
       .match-row{flex-wrap:wrap}
       .match-row > span:nth-child(2){flex:1 1 auto;min-width:0}
       .match-slot{display:none}
-      .match-select{display:block;flex:0 0 calc(100% - 34px);margin-left:34px;width:calc(100% - 34px)}
+      .match-select{display:none}
+      .dd-mob{display:block;flex:0 0 calc(100% - 34px);margin-left:34px;width:calc(100% - 34px)}
       .arm-banner{display:none !important}
       .matching-grid > div:nth-child(2){display:none}
       .notes-row{flex-wrap:wrap;padding:10px 0}
@@ -274,14 +297,24 @@ function renderMatchingList(part){
       + ' ondragleave="onSlotDragLeave(this)"'
       + ' ondrop="onSlotDrop(event, ' + item.id + ', this)">'
       + '<span class="slot-empty">— drop here —</span></div>';
-    // Mobile fallback: native <select> dropdown (visible only at ≤600px)
-    html += '<select class="match-select" data-id="' + item.id + '"'
-      + ' onchange="pickMatch(' + item.id + ', this.value)">';
-    html += '<option value="">—</option>';
+    // Mobile fallback: custom dropdown (visible only at ≤600px)
+    html += '<div class="dd-mob" data-id="' + item.id + '">';
+    html += '<button type="button" class="dd-mob-btn" id="dd-btn-' + item.id + '"'
+      + ' onclick="ddMobToggle(' + item.id + ', event)">'
+      + '<span class="dd-current empty"><span class="dd-current-text">— choose a job —</span></span>'
+      + '<span class="dd-arrow">▾</span>'
+      + '</button>';
+    html += '<div class="dd-mob-pop">';
+    html += '<button type="button" class="dd-mob-opt clear-opt" onclick="ddMobPick(' + item.id + ',\'\', this, event)">'
+      + '<span class="dd-mini-chip">—</span><span>Clear</span></button>';
     part.options.forEach(function(o){
-      html += '<option value="' + o.letter + '">' + escapeHtml(o.letter + ' — ' + o.text) + '</option>';
+      html += '<button type="button" class="dd-mob-opt" data-letter="' + o.letter + '"'
+        + ' onclick="ddMobPick(' + item.id + ',\'' + o.letter + '\', this, event)">'
+        + '<span class="dd-mini-chip">' + escapeHtml(o.letter) + '</span>'
+        + '<span>' + escapeHtml(o.text) + '</span>'
+        + '</button>';
     });
-    html += '</select>';
+    html += '</div></div>';
     html += '</div>';
   });
   html += '</div>';
@@ -376,6 +409,49 @@ function pickMatch(id, letter){
   if (letter) picks[id] = letter;
   else delete picks[id];
 }
+
+// Custom mobile dropdown ─────────────────────────────────────────
+function __ddMobCloseAll(except){
+  document.querySelectorAll('.dd-mob.open').forEach(function(d){
+    if (d !== except) d.classList.remove('open');
+  });
+}
+function ddMobToggle(id, ev){
+  ev && ev.stopPropagation();
+  var wrap = document.querySelector('.dd-mob[data-id="' + id + '"]');
+  if (!wrap) return;
+  var isOpen = wrap.classList.contains('open');
+  __ddMobCloseAll(wrap);
+  wrap.classList.toggle('open', !isOpen);
+}
+function ddMobPick(id, letter, optEl, ev){
+  ev && ev.stopPropagation();
+  var wrap = document.querySelector('.dd-mob[data-id="' + id + '"]');
+  if (!wrap) return;
+  var btn = wrap.querySelector('.dd-mob-btn');
+  if (letter){
+    picks[id] = letter;
+    var txt = (optEl ? optEl.querySelector('span:last-child').textContent : letter);
+    btn.classList.add('has-pick');
+    btn.querySelector('.dd-current').classList.remove('empty');
+    btn.querySelector('.dd-current').innerHTML =
+      '<span class="dd-mini-chip">' + letter + '</span>'
+      + '<span class="dd-current-text">' + escapeHtml(txt) + '</span>';
+    // Mark active in popover
+    wrap.querySelectorAll('.dd-mob-opt').forEach(function(x){x.classList.remove('active');});
+    if (optEl) optEl.classList.add('active');
+  } else {
+    delete picks[id];
+    btn.classList.remove('has-pick');
+    btn.querySelector('.dd-current').classList.add('empty');
+    btn.querySelector('.dd-current').innerHTML =
+      '<span class="dd-current-text">— choose a job —</span>';
+    wrap.querySelectorAll('.dd-mob-opt').forEach(function(x){x.classList.remove('active');});
+  }
+  wrap.classList.remove('open');
+}
+// Close on outside click
+document.addEventListener('click', function(){ __ddMobCloseAll(null); });
 function onOptTap(el){
   if (el.classList.contains('used')) return;
   var letter = el.getAttribute('data-letter');
