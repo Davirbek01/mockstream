@@ -1090,19 +1090,20 @@
     }
     .leave-go:hover { background: #fee2e2; border-color: var(--rose-500) !important; }
 
-    /* Results modal */
+    /* Results panel — drops in at the END of the page (matches Listening UX) */
     .results-modal {
-      position: fixed; inset: 0;
-      background: rgba(11,29,58,0.85); backdrop-filter: blur(10px);
-      display: none; align-items: center; justify-content: center;
-      z-index: 200; padding: 20px;
+      display: none;
+      max-width: 780px;
+      margin: 24px auto 60px;
+      padding: 0 22px;
     }
-    .results-modal.show { display: flex; }
+    .results-modal.show { display: block; }
     .results-card {
       background: var(--paper); border-radius: 22px;
-      max-width: 780px; width: 100%; max-height: 90vh; overflow-y: auto;
+      width: 100%;
       padding: 32px 36px;
       box-shadow: var(--shadow-pop);
+      border: 1px solid var(--ring);
       animation: cardFadeIn .4s ease both;
     }
     .results-card h2 {
@@ -2040,7 +2041,9 @@
     html += '<button class="btn-retry" onclick="window.location.reload()">Try again ↻</button>';
     html += '</div>';
     document.getElementById('resultsCard').innerHTML = html;
-    document.getElementById('resultsModal').classList.add('show');
+    var panel = document.getElementById('resultsModal');
+    panel.classList.add('show');
+    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   // Reflect active mock number in topbar pills, subtitle, hero card +
