@@ -67,15 +67,19 @@
     .match-slot .slot-empty{color:#9aa4c8;font-weight:600}
     .match-slot .slot-x{font-size:14px;color:#9aa4c8;margin-left:8px;font-weight:800}
     .match-slot.filled:hover .slot-x{color:var(--rose)}
-    .opt-list{display:flex;flex-direction:column;gap:6px}
-    .opt-tile{display:flex;align-items:center;gap:8px;padding:8px 12px;border:2px solid var(--line);border-radius:8px;background:#fff;cursor:grab;font-size:14px;font-weight:600;color:var(--navy-800);transition:all .12s;user-select:none}
-    .opt-tile:active{cursor:grabbing}
-    .opt-tile:hover{border-color:var(--blue-400);background:#eef2ff}
-    .opt-tile.selected{border-color:var(--gold-400);background:#fff8e6;box-shadow:0 0 0 3px rgba(242,193,78,.3)}
-    .opt-tile.used{opacity:.4;cursor:not-allowed;background:#f4f4f4}
-    .opt-tile.used:hover{border-color:var(--line);background:#f4f4f4}
-    .opt-tile .ltr{font-weight:800;color:var(--navy-700);width:22px;text-align:center;flex:0 0 22px}
-    .opt-tile.dragging{opacity:.5}
+    .opt-list{display:flex;flex-direction:column;gap:4px}
+    .opt-tile{display:flex;align-items:center;gap:12px;padding:5px 8px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:500;color:var(--navy-800);transition:background .12s;user-select:none}
+    .opt-tile:hover{background:#eef2ff}
+    .opt-tile.used{opacity:.45}
+    .opt-tile.used:hover{background:transparent}
+    .opt-tile.dragging{opacity:.4}
+    .opt-text{flex:1;min-width:0}
+    .opt-grab{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;background:var(--navy-700);color:#fff;border-radius:7px;font-weight:800;font-size:13px;cursor:grab;user-select:none;transition:transform .12s,background .12s,box-shadow .12s;flex:0 0 30px}
+    .opt-grab:active{cursor:grabbing}
+    .opt-grab:hover{transform:scale(1.08);background:var(--blue-500)}
+    .opt-tile.selected .opt-grab{background:var(--gold-400);color:#0b1330;transform:scale(1.08);box-shadow:0 0 0 3px rgba(242,193,78,.4)}
+    .opt-tile.used .opt-grab{background:#cbd2e5;cursor:not-allowed}
+    .opt-tile.used .opt-grab:hover{transform:none}
     .arm-banner{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--navy-800);color:#fff;padding:10px 18px;border-radius:999px;font-weight:600;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.3);display:none;z-index:50}
     .arm-banner.show{display:block}
     .notes-card{background:#fff8e6;border:1px solid #ffe79b;border-radius:12px;padding:18px;margin-top:10px}
@@ -273,12 +277,14 @@ function renderMatchingList(part){
   // RIGHT — draggable option tiles
   html += '<div><h4>' + escapeHtml(part.rightLabel || 'OPTIONS') + '</h4><div class="opt-list">';
   part.options.forEach(function(o){
-    html += '<div class="opt-tile" draggable="true" data-letter="' + o.letter + '" data-text="' + escapeHtml(o.text) + '"'
-      + ' onclick="onOptTap(this)"'
-      + ' ondragstart="onOptDragStart(event, this)"'
-      + ' ondragend="onOptDragEnd(this)">'
-      + '<span class="ltr">' + escapeHtml(o.letter) + '</span>'
-      + '<span>' + escapeHtml(o.text) + '</span>'
+    html += '<div class="opt-tile" data-letter="' + o.letter + '" data-text="' + escapeHtml(o.text) + '"'
+      + ' onclick="onOptTap(this)">'
+      + '<span class="opt-grab" draggable="true"'
+      +   ' ondragstart="onOptDragStart(event, this.parentElement)"'
+      +   ' ondragend="onOptDragEnd(this.parentElement)">'
+      +   escapeHtml(o.letter)
+      + '</span>'
+      + '<span class="opt-text">' + escapeHtml(o.text) + '</span>'
       + '</div>';
   });
   html += '</div></div>';
