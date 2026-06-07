@@ -41,7 +41,7 @@
   <!-- Paper tabs -->
   <nav class="hub-tabs" id="hubTabs" role="tablist">
     <button class="tab active" type="button" data-paper="rw" role="tab">📝 Reading & Writing<span class="tab-badge">28 mocks</span></button>
-    <button class="tab disabled" type="button" data-paper="listening" role="tab" disabled aria-disabled="true">🎧 Listening<span class="tab-badge soon">SOON</span></button>
+    <button class="tab" type="button" data-paper="listening" role="tab">🎧 Listening<span class="tab-badge">4 mocks</span></button>
     <button class="tab disabled" type="button" data-paper="speaking" role="tab" disabled aria-disabled="true">🎤 Speaking<span class="tab-badge soon">SOON</span></button>
   </nav>
 
@@ -59,11 +59,11 @@
 
     <!-- Listening -->
     <section class="paper-pane" data-pane="listening" hidden>
-      <div class="coming-soon">
-        <div class="cs-icon">🎧</div>
-        <h2>Listening — Paper 2</h2>
-        <p>Approximately 30 minutes · 5 parts · 25 questions. Audio-driven mocks with pre-recorded conversations and announcements are arriving in v2.</p>
+      <div class="paper-intro">
+        <h2>🎧 Listening — Paper 2</h2>
+        <p>Approximately 30 minutes · 5 parts · 25 questions. Audio-driven mocks with pre-recorded conversations and announcements. Mocks 1–4 are from Cambridge KET Book 1. <strong>Note:</strong> Mock 4 Part 3 audio is currently unavailable; questions still display.</p>
       </div>
+      <div class="mock-grid" id="lMockGrid"></div>
     </section>
 
     <!-- Speaking -->
@@ -89,6 +89,15 @@
     parts:      9,
     questions:  56,
     duration:   '70 min'
+  });
+  Cambridge.renderMockGrid('lMockGrid', {
+    count:      4,
+    runnerPath: '/KET Listening Mocks.html',
+    mockParam:  'mock',
+    paperLabel: 'Listening',
+    parts:      5,
+    questions:  25,
+    duration:   '30 min'
   });
   Cambridge.wireTabs('hubTabs');
 </script>

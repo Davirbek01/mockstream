@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>KET Listening — Mock Stream</title>
+  <script src="center-id.js"></script>
+  <script src="site-config/site-config.js"></script>
+  <script>document.addEventListener('DOMContentLoaded',function(){document.title=((window.SITE_CONFIG&&window.SITE_CONFIG.brandName)||'Mock Stream')+' · KET Listening';});</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="cambridge/shared.css" />
+  <style>
+    :root{
+      --navy-900:#0b1330; --navy-800:#0f1a3f; --navy-700:#162356; --navy-600:#1f307a;
+      --blue-500:#3b66d6; --blue-400:#5b87f0;
+      --gold-400:#f2c14e; --gold-300:#ffe79b;
+      --paper:#fafbff; --line:#dde3f3; --ink:#0b1330;
+      --emerald:#10b981; --rose:#ef4444;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--paper);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+    .topbar{position:sticky;top:0;z-index:30;background:linear-gradient(180deg,var(--navy-900),var(--navy-800));color:#fff;padding:12px 18px;display:flex;align-items:center;gap:16px;border-bottom:3px solid var(--gold-400)}
+    .topbar .back{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#fff;padding:6px 14px;border-radius:999px;text-decoration:none;font-weight:600;font-size:14px;cursor:pointer}
+    .topbar .back:hover{background:rgba(255,255,255,.18)}
+    .topbar .title{font-family:'Playfair Display',serif;font-size:22px;font-weight:800;flex:1}
+    .topbar .ms-pill{display:inline-block;margin:0 2px;padding:3px 9px;border-radius:8px;background:rgba(255,255,255,.08);color:#fff;text-decoration:none;font-size:12px;font-weight:600;border:1px solid rgba(255,255,255,.14)}
+    .topbar .ms-pill:hover{background:rgba(255,255,255,.16)}
+    .topbar .timer{font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:var(--gold-300);background:rgba(0,0,0,.25);padding:6px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.18)}
+    .topbar .submit{background:var(--gold-400);color:#0b1330;border:none;padding:8px 18px;border-radius:999px;font-weight:800;cursor:pointer;font-size:14px}
+    .topbar .submit:hover{background:var(--gold-300)}
+    .nav-strip{display:flex;gap:6px;justify-content:center;padding:10px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:64px;z-index:25;flex-wrap:wrap}
+    .nav-strip a{padding:6px 14px;background:#eef2ff;color:var(--navy-700);text-decoration:none;border-radius:999px;font-weight:700;font-size:13px;border:1px solid var(--line)}
+    .nav-strip a.active{background:var(--navy-700);color:#fff}
+    .page{max-width:920px;margin:30px auto;padding:0 20px}
+    .hero{margin-bottom:30px;text-align:center}
+    .hero h1{font-family:'Playfair Display',serif;font-size:30px;color:var(--navy-800);margin:0 0 6px}
+    .hero p{color:#46527d;margin:0;font-size:14px}
+    .part{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:28px;box-shadow:0 4px 12px rgba(11,19,48,.04)}
+    .part-head{display:flex;align-items:center;gap:14px;margin-bottom:14px;padding-bottom:14px;border-bottom:2px solid var(--line)}
+    .part-num{background:var(--navy-700);color:#fff;font-weight:800;padding:6px 14px;border-radius:999px;font-size:13px}
+    .part-q{color:#46527d;font-weight:600;font-size:14px}
+    .audio-box{background:#f4f7fe;border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:14px 0}
+    .audio-box audio{width:100%}
+    .audio-unavailable{background:#fff3cd;border-color:#ffe69c;color:#8a6d3b;padding:10px 14px;border-radius:8px;font-size:13px;text-align:center}
+    .instruction{background:#eef2ff;border-left:4px solid var(--blue-500);padding:10px 14px;border-radius:6px;color:var(--navy-700);font-size:14px;line-height:1.6;margin:14px 0}
+    .instruction p{margin:0 0 4px}
+    .example-card{background:#fafbff;border:1px dashed var(--line);border-radius:10px;padding:12px 14px;margin:12px 0}
+    .example-card .ex-label{font-weight:700;color:var(--navy-700);font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+    .example-card .ex-answer-pill{background:var(--gold-400);color:#0b1330;padding:3px 10px;border-radius:999px;font-weight:800;font-size:13px}
+    .q{margin:14px 0;padding:14px;border:1px solid var(--line);border-radius:10px}
+    .q-num{display:inline-block;background:var(--navy-700);color:#fff;width:28px;height:28px;line-height:28px;text-align:center;border-radius:50%;font-weight:800;font-size:13px;margin-right:10px}
+    .q-stem{font-weight:600;color:var(--navy-800);font-size:15px;margin-bottom:10px}
+    .mcq-opt{display:flex;align-items:center;gap:10px;padding:9px 12px;margin:6px 0;background:#fafbff;border:2px solid var(--line);border-radius:8px;cursor:pointer;font-size:14px;transition:all .12s}
+    .mcq-opt:hover{border-color:var(--blue-400);background:#eef2ff}
+    .mcq-opt.picked{border-color:var(--blue-500);background:#dbe6ff}
+    .mcq-opt .ltr{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#fff;border:1px solid var(--line);border-radius:50%;font-weight:700;font-size:12px;color:var(--navy-700)}
+    .mcq-opt.picked .ltr{background:var(--blue-500);color:#fff;border-color:var(--blue-500)}
+    .matching-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:10px}
+    .matching-grid h4{margin:0 0 8px;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--navy-700)}
+    .match-row{display:flex;align-items:center;gap:10px;margin:6px 0}
+    .match-row select{padding:6px 10px;border:2px solid var(--line);border-radius:6px;font-size:14px;font-weight:600;color:var(--navy-800);background:#fff}
+    .match-row .num{background:var(--navy-700);color:#fff;width:24px;height:24px;line-height:24px;text-align:center;border-radius:50%;font-weight:700;font-size:12px;display:inline-flex;align-items:center;justify-content:center}
+    .opt-list{font-size:14px}
+    .opt-list .opt{display:flex;gap:8px;padding:4px 0}
+    .opt-list .ltr{font-weight:800;color:var(--navy-700);width:22px}
+    .notes-card{background:#fff8e6;border:1px solid #ffe79b;border-radius:12px;padding:18px;margin-top:10px}
+    .notes-card h3{margin:0 0 10px;font-family:'Playfair Display',serif;color:var(--navy-800)}
+    .notes-card .subtitle{color:#46527d;font-size:13px;margin-bottom:10px;white-space:pre-line}
+    .notes-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px dashed #ffe9b0}
+    .notes-row .lbl{flex:0 0 200px;font-weight:600;color:var(--navy-700);font-size:14px}
+    .notes-row .num{background:var(--navy-700);color:#fff;width:24px;height:24px;line-height:24px;text-align:center;border-radius:50%;font-weight:700;font-size:12px;display:inline-flex;align-items:center;justify-content:center}
+    .notes-row input{padding:6px 10px;border:2px solid #ffe9b0;border-radius:6px;font-size:14px;font-weight:600;color:var(--navy-800);background:#fff;flex:1}
+    .notes-row .pre,.notes-row .suf{font-weight:700;color:var(--navy-700);font-size:13px}
+    .notes-row .prefilled{color:#46527d;font-style:italic;font-size:14px}
+    .results-card{background:linear-gradient(135deg,var(--navy-700),var(--blue-500));color:#fff;border-radius:14px;padding:24px;margin:20px 0;text-align:center;display:none}
+    .results-card.show{display:block}
+    .results-card .score{font-size:42px;font-weight:900;font-family:'Playfair Display',serif}
+    .results-card .desc{font-size:14px;opacity:.85;margin-top:6px}
+    .results-card .breakdown{margin-top:14px;text-align:left;background:rgba(0,0,0,.15);padding:12px;border-radius:10px;font-size:13px}
+    .leave-modal{position:fixed;inset:0;background:rgba(11,19,48,.55);display:none;align-items:center;justify-content:center;z-index:100}
+    .leave-modal.show{display:flex}
+    .leave-modal .card{background:#fff;border:1px solid #fde68a;border-radius:14px;padding:24px;max-width:380px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+    .leave-modal h3{font-family:'Playfair Display',serif;color:var(--navy-800);margin:0 0 6px}
+    .leave-modal p{color:#46527d;font-size:14px;margin:0 0 14px}
+    .leave-modal .btn-keep{background:var(--emerald);color:#fff;border:none;padding:9px 18px;border-radius:999px;font-weight:700;cursor:pointer;margin-right:8px}
+    .leave-modal .btn-leave{background:var(--rose);color:#fff;border:none;padding:9px 18px;border-radius:999px;font-weight:700;cursor:pointer}
+    @media (max-width:600px){
+      .matching-grid{grid-template-columns:1fr}
+      .notes-row .lbl{flex:0 0 130px;font-size:13px}
+      .topbar .title{font-size:16px}
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <button class="back" onclick="goBack()">← Back</button>
+  <div class="title" id="heroTitle">KET Listening — Test 1</div>
+  <span class="timer" id="timer">30:00</span>
+  <button class="submit" onclick="submitTest()">Submit</button>
+</header>
+
+<nav class="nav-strip" id="navStrip">
+  <a class="ms-pill" href="?mock=1">1</a>
+  <a class="ms-pill" href="?mock=2">2</a>
+  <a class="ms-pill" href="?mock=3">3</a>
+  <a class="ms-pill" href="?mock=4">4</a>
+</nav>
+
+<script>
+  // Dynamic mock loader. ?mock=2 → questions KET L/ket-listening-test-02.js.
+  (function () {
+    var p = new URLSearchParams(location.search);
+    var n = parseInt(p.get('mock') || '1', 10);
+    if (!n || n < 1 || n > 99) n = 1;
+    var pad = (n < 10 ? '0' : '') + n;
+    window._KET_L_MOCK_NUM = pad;
+    document.write('<script src="questions KET L/ket-listening-test-' + pad + '.js"><\/script>');
+  })();
+</script>
+
+<div class="page" id="page"></div>
+
+<div class="results-card" id="results">
+  <div class="score" id="scoreNum">0/25</div>
+  <div class="desc" id="scoreDesc">You scored</div>
+  <div class="breakdown" id="breakdown"></div>
+</div>
+
+<div class="leave-modal" id="leaveModal" onclick="if(event.target===this) closeLeaveModal()">
+  <div class="card">
+    <h3>Leave this mock?</h3>
+    <p>Your progress will be lost. Are you sure?</p>
+    <button class="btn-keep" onclick="closeLeaveModal()">Keep Going</button>
+    <button class="btn-leave" onclick="window.location.href='/ket.html?paper=listening'">Leave Anyway</button>
+  </div>
+</div>
+
+<script>
+function escapeHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];});}
+function goBack(){var m=document.getElementById('leaveModal');if(m) m.classList.add('show');}
+function closeLeaveModal(){var m=document.getElementById('leaveModal');if(m) m.classList.remove('show');}
+
+window.addEventListener('DOMContentLoaded', function () {
+  var data = window.KET_L_TEST;
+  if (!data) return;
+  var n = parseInt(window._KET_L_MOCK_NUM || '1', 10);
+  document.getElementById('heroTitle').textContent = data.testInfo.title;
+  document.title = ((window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream') + ' · ' + data.testInfo.title;
+  // Mark active pill
+  document.querySelectorAll('#navStrip .ms-pill').forEach(function(a){
+    if (a.getAttribute('href') === '?mock='+n) a.classList.add('active');
+  });
+
+  var page = document.getElementById('page');
+  page.innerHTML = renderHero(data) + data.parts.map(function(p){return renderPart(p, data.audio);}).join('');
+
+  startTimer(data.testInfo.totalTime || 30);
+});
+
+function renderHero(data){
+  return '<div class="hero">'
+    + '<h1>' + escapeHtml(data.testInfo.title) + '</h1>'
+    + '<p>' + escapeHtml(data.testInfo.paper) + ' · 5 parts · 25 questions · ~30 min</p>'
+    + '</div>';
+}
+
+function renderPart(part, audio){
+  var html = '<section class="part" id="part-' + part.partNumber + '">';
+  html += '<div class="part-head">'
+    + '<span class="part-num">' + escapeHtml(part.label) + '</span>'
+    + '<span class="part-q">' + escapeHtml(part.questionsLabel) + '</span>'
+    + '</div>';
+
+  // Audio
+  var audioUnavailable = (part.audioUnavailable) || (audio && audio.unavailable && audio.unavailable.indexOf(part.partNumber) >= 0);
+  if (audioUnavailable) {
+    html += '<div class="audio-unavailable">🔇 ' + escapeHtml(part.audioUnavailableNote || 'Audio for this part is currently unavailable.') + '</div>';
+  } else if (audio && audio.base && audio.files && audio.files[part.partNumber]) {
+    html += '<div class="audio-box">'
+      + '<audio controls preload="none" src="' + escapeHtml(audio.base + audio.files[part.partNumber]) + '"></audio>'
+      + '</div>';
+  }
+
+  // Instruction
+  if (part.instruction && part.instruction.length){
+    html += '<div class="instruction">';
+    part.instruction.forEach(function(line){ html += '<p>' + escapeHtml(line) + '</p>'; });
+    html += '</div>';
+  }
+
+  if (part.type === 'picture-mcq')          html += renderPictureMcq(part);
+  else if (part.type === 'matching-list')    html += renderMatchingList(part);
+  else if (part.type === 'mcq-conversation') html += renderMcqConversation(part);
+  else if (part.type === 'note-completion')  html += renderNoteCompletion(part);
+
+  html += '</section>';
+  return html;
+}
+
+function renderPictureMcq(part){
+  var ex = part.example;
+  var html = '';
+  if (ex){
+    html += '<div class="example-card">'
+      + '<div style="display:flex;justify-content:space-between;align-items:center"><div class="ex-label">Example 0</div><div><span class="ex-label">Answer</span> <span class="ex-answer-pill">' + escapeHtml(ex.answer) + '</span></div></div>'
+      + '<div style="margin:8px 0;font-weight:600">' + escapeHtml(ex.question) + '</div>'
+      + ex.options.map(function(o){return '<div class="mcq-opt" style="cursor:default"><span class="ltr">'+escapeHtml(o.letter)+'</span>'+escapeHtml(o.text)+'</div>';}).join('')
+      + '</div>';
+  }
+  part.items.forEach(function(item){
+    html += '<div class="q" data-qslot="' + item.id + '">';
+    html += '<div class="q-stem"><span class="q-num">' + item.id + '</span>' + escapeHtml(item.question) + '</div>';
+    item.options.forEach(function(o){
+      html += '<div class="mcq-opt" data-id="' + item.id + '" data-letter="' + o.letter + '" onclick="pickMcq(' + item.id + ',\'' + o.letter + '\',this)">'
+        + '<span class="ltr">' + escapeHtml(o.letter) + '</span>' + escapeHtml(o.text)
+        + '</div>';
+    });
+    html += '</div>';
+  });
+  return html;
+}
+
+function renderMatchingList(part){
+  var ex = part.example;
+  var html = '';
+  if (ex){
+    html += '<div class="example-card">'
+      + '<div style="display:flex;justify-content:space-between;align-items:center"><div class="ex-label">Example 0 – ' + escapeHtml(ex.name) + '</div><div><span class="ex-label">Answer</span> <span class="ex-answer-pill">' + escapeHtml(ex.answer) + '</span></div></div>'
+      + '</div>';
+  }
+  html += '<div class="matching-grid">';
+  html += '<div><h4>' + escapeHtml(part.leftLabel || 'PEOPLE') + '</h4>';
+  part.items.forEach(function(item){
+    html += '<div class="match-row" data-qslot="' + item.id + '">';
+    html += '<span class="num">' + item.id + '</span>';
+    html += '<span style="flex:1;font-weight:600">' + escapeHtml(item.name) + '</span>';
+    html += '<select onchange="pickMatch(' + item.id + ', this.value, this)">';
+    html += '<option value="">—</option>';
+    part.options.forEach(function(o){ html += '<option value="' + o.letter + '">' + o.letter + '</option>'; });
+    html += '</select>';
+    html += '</div>';
+  });
+  html += '</div>';
+  html += '<div><h4>' + escapeHtml(part.rightLabel || 'OPTIONS') + '</h4><div class="opt-list">';
+  part.options.forEach(function(o){
+    html += '<div class="opt"><span class="ltr">' + escapeHtml(o.letter) + '</span><span>' + escapeHtml(o.text) + '</span></div>';
+  });
+  html += '</div></div>';
+  html += '</div>';
+  return html;
+}
+
+function renderMcqConversation(part){
+  var ex = part.example;
+  var html = '';
+  if (ex){
+    html += '<div class="example-card">'
+      + '<div style="display:flex;justify-content:space-between;align-items:center"><div class="ex-label">Example 0</div><div><span class="ex-label">Answer</span> <span class="ex-answer-pill">' + escapeHtml(ex.answer) + '</span></div></div>'
+      + '<div style="margin:8px 0;font-weight:600">' + escapeHtml(ex.stem) + '</div>'
+      + ex.options.map(function(o){return '<div class="mcq-opt" style="cursor:default"><span class="ltr">'+escapeHtml(o.letter)+'</span>'+escapeHtml(o.text)+'</div>';}).join('')
+      + '</div>';
+  }
+  part.items.forEach(function(item){
+    html += '<div class="q" data-qslot="' + item.id + '">';
+    html += '<div class="q-stem"><span class="q-num">' + item.id + '</span>' + escapeHtml(item.stem) + '</div>';
+    item.options.forEach(function(o){
+      html += '<div class="mcq-opt" data-id="' + item.id + '" data-letter="' + o.letter + '" onclick="pickMcq(' + item.id + ',\'' + o.letter + '\',this)">'
+        + '<span class="ltr">' + escapeHtml(o.letter) + '</span>' + escapeHtml(o.text)
+        + '</div>';
+    });
+    html += '</div>';
+  });
+  return html;
+}
+
+function renderNoteCompletion(part){
+  var html = '<div class="notes-card">';
+  html += '<h3>' + escapeHtml(part.noteTitle || 'Notes') + '</h3>';
+  if (part.subtitle) html += '<div class="subtitle">' + escapeHtml(part.subtitle) + '</div>';
+  part.rows.forEach(function(row){
+    if (row.prefilled !== undefined && row.id === undefined){
+      html += '<div class="notes-row"><span class="lbl">' + escapeHtml(row.label) + '</span><span class="prefilled">' + escapeHtml(row.prefilled) + '</span></div>';
+      return;
+    }
+    html += '<div class="notes-row" data-qslot="' + row.id + '">';
+    html += '<span class="lbl">' + escapeHtml(row.label) + '</span>';
+    html += '<span class="num">' + row.id + '</span>';
+    if (row.prefix) html += '<span class="pre">' + escapeHtml(row.prefix) + '</span>';
+    html += '<input type="text" data-id="' + row.id + '" oninput="pickInput(' + row.id + ', this.value)" placeholder="..." />';
+    if (row.suffix) html += '<span class="suf">' + escapeHtml(row.suffix) + '</span>';
+    html += '</div>';
+  });
+  html += '</div>';
+  return html;
+}
+
+// State
+var picks = {};
+function pickMcq(id, letter, el){
+  picks[id] = letter;
+  el.parentElement.querySelectorAll('.mcq-opt').forEach(function(x){ x.classList.remove('picked'); });
+  el.classList.add('picked');
+}
+function pickMatch(id, letter, el){ picks[id] = letter || ''; }
+function pickInput(id, value){ picks[id] = (value || '').trim(); }
+
+// Timer
+function startTimer(mins){
+  var total = mins * 60;
+  var t = document.getElementById('timer');
+  function tick(){
+    var m = Math.floor(total/60), s = total%60;
+    t.textContent = (m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+    if (total <= 0) { submitTest(); return; }
+    total -= 1;
+  }
+  tick(); setInterval(tick, 1000);
+}
+
+// Scoring
+function submitTest(){
+  var data = window.KET_L_TEST;
+  if (!data) return;
+  var correct = 0, total = 0, parts = {};
+  data.parts.forEach(function(p){
+    parts[p.partNumber] = { correct: 0, total: 0 };
+    (p.items || []).forEach(function(it){
+      total++;
+      parts[p.partNumber].total++;
+      var ans = picks[it.id];
+      var key = it.answer;
+      var ok = false;
+      if (typeof key === 'string'){
+        // Accept any of /-separated alternatives
+        var alts = key.split('/').map(function(x){return x.trim().toLowerCase();});
+        if (ans && alts.indexOf(String(ans).trim().toLowerCase()) >= 0) ok = true;
+      }
+      if (ok) { correct++; parts[p.partNumber].correct++; }
+    });
+    (p.rows || []).forEach(function(row){
+      if (row.id === undefined) return;
+      total++;
+      parts[p.partNumber].total++;
+      var ans = picks[row.id];
+      var key = row.answer;
+      var ok = false;
+      if (typeof key === 'string'){
+        var alts = key.split('/').map(function(x){return x.trim().toLowerCase();});
+        if (ans && alts.indexOf(String(ans).trim().toLowerCase()) >= 0) ok = true;
+      }
+      if (ok) { correct++; parts[p.partNumber].correct++; }
+    });
+  });
+  var card = document.getElementById('results');
+  card.classList.add('show');
+  document.getElementById('scoreNum').textContent = correct + '/' + total;
+  document.getElementById('scoreDesc').textContent = 'You scored ' + correct + ' out of ' + total + ' correct.';
+  var bd = '';
+  Object.keys(parts).forEach(function(k){
+    bd += 'Part ' + k + ': ' + parts[k].correct + '/' + parts[k].total + '<br>';
+  });
+  document.getElementById('breakdown').innerHTML = bd;
+  card.scrollIntoView({behavior:'smooth'});
+}
+</script>
+
+</body>
+</html>
