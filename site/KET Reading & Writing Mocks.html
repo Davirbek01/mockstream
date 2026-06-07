@@ -1160,13 +1160,27 @@
       .part-card { padding: 22px 18px; border-radius: 18px; }
       .part-card::before { left: 0; top: 22px; bottom: 22px; }
       .paper-hero { padding: 28px 22px; border-radius: 18px; }
-      .topbar { padding: 10px 14px; gap: 10px; }
-      .topbar .titlewrap { display: none; }
+      .topbar { padding: 8px 12px; gap: 8px; }
+      .topbar .crest { display: none; }
+      .topbar .brand { gap: 0; }
+      .topbar .titlewrap .t1 { font-size: 15px; font-weight: 700; font-family: Inter, sans-serif; }
+      .topbar .titlewrap .t2 { display: none; }
+      .topbar .back { padding: 6px 10px; font-size: 13px; }
+      .topbar .timer { padding: 6px 10px; font-size: 13.5px; }
+      .topbar .submit { padding: 7px 14px; font-size: 13.5px; }
       .nav-strip { padding: 8px 12px; top: 60px; }
+      .mock-switcher { top: 52px; }
       .q-row { grid-template-columns: 36px 1fr; }
       .q-row .q-answer-select { grid-column: 1 / -1; justify-content: flex-start; }
       .vocab-row { grid-template-columns: 36px 1fr; }
       .vocab-row .vocab-input-wrap { grid-column: 1 / -1; }
+
+      /* Compact leave-modal to match the Listening runner's look */
+      .leave-card { padding: 22px 20px 18px; border-radius: 16px; max-width: 360px; }
+      .leave-card .leave-icon { display: none; }
+      .leave-card h2 { font-family: Inter, sans-serif; font-size: 18px; margin-bottom: 6px; }
+      .leave-card p { font-size: 13px; margin-bottom: 16px; }
+      .leave-actions button { padding: 10px 14px; font-size: 13.5px; border-radius: 10px; }
     }
   </style>
 </head>
@@ -1243,11 +1257,11 @@
 <div class="leave-modal" id="leaveModal" onclick="closeLeaveModal(event)">
   <div class="leave-card" onclick="event.stopPropagation()">
     <div class="leave-icon">⚠️</div>
-    <h2>Leave this test?</h2>
-    <p>If you exit now, all your answers and your remaining time will be lost. You can come back from the KET hub and start any test fresh.</p>
+    <h2>Leave this mock?</h2>
+    <p>Your progress will be lost. Are you sure?</p>
     <div class="leave-actions">
-      <button type="button" class="leave-stay" onclick="closeLeaveModal()">Keep going</button>
-      <button type="button" class="leave-go" onclick="confirmLeave()">Leave anyway</button>
+      <button type="button" class="leave-stay" onclick="closeLeaveModal()">Keep Going</button>
+      <button type="button" class="leave-go" onclick="confirmLeave()">Leave Anyway</button>
     </div>
   </div>
 </div>
