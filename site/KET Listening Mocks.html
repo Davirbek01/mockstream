@@ -67,6 +67,7 @@
     .match-slot .slot-empty{color:#9aa4c8;font-weight:600}
     .match-slot .slot-x{font-size:14px;color:#9aa4c8;margin-left:8px;font-weight:800}
     .match-slot.filled:hover .slot-x{color:var(--rose)}
+    .match-select{display:none;padding:7px 10px;border:2px solid var(--line);border-radius:8px;font-size:14px;font-weight:600;color:var(--navy-800);background:#fff;flex:1 1 auto;min-width:0}
     .opt-list{display:flex;flex-direction:column;gap:4px}
     .opt-tile{display:flex;align-items:center;gap:12px;padding:5px 8px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:500;color:var(--navy-800);transition:background .12s;user-select:none}
     .opt-tile:hover{background:#eef2ff}
@@ -107,8 +108,10 @@
       .matching-grid{grid-template-columns:1fr}
       .match-row{flex-wrap:wrap}
       .match-row > span:nth-child(2){flex:1 1 auto;min-width:0}
-      .match-slot{flex:0 0 calc(100% - 34px);margin-left:34px}
-      .opt-tile{padding:10px 14px;font-size:15px}
+      .match-slot{display:none}
+      .match-select{display:block;flex:0 0 calc(100% - 34px);margin-left:34px;width:calc(100% - 34px)}
+      .arm-banner{display:none !important}
+      .matching-grid > div:nth-child(2){display:none}
       .notes-row{flex-wrap:wrap;padding:10px 0}
       .notes-row .lbl{flex:1 1 100%;font-size:13px;margin-bottom:4px}
       .notes-row .num{margin-left:0}
@@ -271,6 +274,14 @@ function renderMatchingList(part){
       + ' ondragleave="onSlotDragLeave(this)"'
       + ' ondrop="onSlotDrop(event, ' + item.id + ', this)">'
       + '<span class="slot-empty">— drop here —</span></div>';
+    // Mobile fallback: native <select> dropdown (visible only at ≤600px)
+    html += '<select class="match-select" data-id="' + item.id + '"'
+      + ' onchange="pickMatch(' + item.id + ', this.value)">';
+    html += '<option value="">—</option>';
+    part.options.forEach(function(o){
+      html += '<option value="' + o.letter + '">' + escapeHtml(o.letter + ' — ' + o.text) + '</option>';
+    });
+    html += '</select>';
     html += '</div>';
   });
   html += '</div>';
@@ -361,6 +372,10 @@ function __clearSlot(id){
   var s = __getSlot(id); if (s) __clearSlotEl(s);
 }
 
+function pickMatch(id, letter){
+  if (letter) picks[id] = letter;
+  else delete picks[id];
+}
 function onOptTap(el){
   if (el.classList.contains('used')) return;
   var letter = el.getAttribute('data-letter');
