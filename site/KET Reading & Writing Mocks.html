@@ -547,6 +547,15 @@
       font-weight: 900; font-size: 15px;
     }
     .q-row.answered .q-num { background: var(--emerald-500); color: #fff; box-shadow: 0 4px 12px rgba(16,185,129,0.35); }
+
+    /* ── Post-submit review marking ───────────────────────── */
+    .opt-pill.is-correct, .mcq-opt.is-correct, .p4-opt.is-correct, .dd-opt.is-correct { border-color: var(--emerald-500) !important; background: #d1fae5 !important; color: var(--navy-900) !important; box-shadow: 0 4px 12px rgba(16,185,129,0.32) !important; }
+    .opt-pill.is-wrong,   .mcq-opt.is-wrong,   .p4-opt.is-wrong,   .dd-opt.is-wrong   { border-color: var(--rose-500)   !important; background: #fee2e2 !important; color: #7f1d1d        !important; }
+    .vocab-input.is-correct, .inline-input.is-correct, .an-input.is-correct { border-color: var(--emerald-500) !important; background: #ecfdf5 !important; color: var(--navy-900) !important; }
+    .vocab-input.is-wrong,   .inline-input.is-wrong,   .an-input.is-wrong   { border-color: var(--rose-500)   !important; background: #fef2f2 !important; color: #7f1d1d        !important; text-decoration: line-through; }
+    .ans-key { display:inline-flex; align-items:center; background: var(--emerald-500); color:#fff; font-weight:700; font-size:11.5px; padding:2px 9px; border-radius:999px; margin-left:8px; vertical-align:middle; white-space:nowrap; }
+    body.submitted .opt-pill, body.submitted .mcq-opt, body.submitted .p4-opt, body.submitted .dd-btn, body.submitted .dd-opt { pointer-events: none; }
+    body.submitted .vocab-input, body.submitted .inline-input, body.submitted .an-input, body.submitted textarea { pointer-events: none; }
     .q-text { font-size: 14.5px; line-height: 1.55; color: var(--ink); }
     .q-answer-select { display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
     .opt-pill {
@@ -1948,7 +1957,46 @@
       report.totalScore += partRow.score;
       report.totalAuto += partRow.max;
     });
+    markAnswers();
     showResults(report);
+  }
+
+  // Mark every gradable question right/wrong inline + fill the correct answer
+  // for empties/wrongs. Writing items keep their sample-answer panel in the
+  // results modal (the free-text-review block).
+  function markAnswers() {
+    var data = window.KET_RW_TEST;
+    if (!data) return;
+    data.parts.forEach(function (p) {
+      if (!isAutoGradable(p.type)) return;
+      (p.items || []).forEach(function (item) {
+        var given    = normalize(getAns(item.id));
+        var expected = normalize(item.answer);
+        var ok = given && given === expected;
+        var row = document.querySelector('[data-qslot="' + item.id + '"]');
+        // Pill / dropdown / mcq button row
+        var pickedBtn  = row && row.querySelector('.opt-pill.picked, .mcq-opt.picked, .p4-opt.picked, .dd-opt.picked');
+        var correctBtn = row && row.querySelector('[data-letter="' + item.answer + '"]');
+        if (correctBtn) correctBtn.classList.add('is-correct');
+        if (pickedBtn && !ok) pickedBtn.classList.add('is-wrong');
+        // Text inputs (vocab / inline cloze / info-transfer)
+        var input = (row && (row.querySelector('.vocab-input') || row.querySelector('.inline-input') || row.querySelector('.an-input')))
+                    || document.querySelector('.inline-input[data-id="' + item.id + '"], .an-input[data-id="' + item.id + '"]');
+        if (input) {
+          input.classList.add(ok ? 'is-correct' : 'is-wrong');
+          if (!ok) {
+            var hint = document.createElement('span');
+            hint.className = 'ans-key';
+            hint.textContent = '✓ ' + (item.answer || '');
+            (input.parentElement || row).appendChild(hint);
+          }
+        }
+        // Dropdown trigger (Part 1 mobile)
+        var ddBtn = row && row.querySelector('.dd-btn');
+        if (ddBtn) ddBtn.classList.add(ok ? 'is-correct' : 'is-wrong');
+      });
+    });
+    document.body.classList.add('submitted');
   }
 
   function isAutoGradable(t) {

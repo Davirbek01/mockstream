@@ -142,6 +142,21 @@
     .notes-row input{padding:6px 10px;border:2px solid #ffe9b0;border-radius:6px;font-size:14px;font-weight:600;color:var(--navy-800);background:#fff;flex:1 1 auto;min-width:0;width:100%}
     .notes-row .pre,.notes-row .suf{font-weight:700;color:var(--navy-700);font-size:13px}
     .notes-row .prefilled{color:#46527d;font-style:italic;font-size:14px}
+
+    /* ── Post-submit review marking ───────────────────────── */
+    .mcq-opt.is-correct{border-color:var(--emerald)!important;background:#d1fae5!important;position:relative}
+    .mcq-opt.is-correct::after{content:'✓';position:absolute;top:4px;right:6px;width:18px;height:18px;border-radius:50%;background:var(--emerald);color:#fff;font-weight:900;font-size:11px;display:flex;align-items:center;justify-content:center}
+    .mcq-opt.is-wrong{border-color:var(--rose)!important;background:#fee2e2!important;position:relative}
+    .mcq-opt.is-wrong::after{content:'✗';position:absolute;top:4px;right:6px;width:18px;height:18px;border-radius:50%;background:var(--rose);color:#fff;font-weight:900;font-size:11px;display:flex;align-items:center;justify-content:center}
+    .notes-row input.is-correct{border-color:var(--emerald)!important;background:#ecfdf5!important;color:var(--navy-800)}
+    .notes-row input.is-wrong{border-color:var(--rose)!important;background:#fef2f2!important;color:#7f1d1d;text-decoration:line-through}
+    .notes-row .ans-key,.match-slot .ans-key,.dd-mob .ans-key{display:inline-block;background:var(--emerald);color:#fff;font-weight:700;font-size:11.5px;padding:2px 8px;border-radius:999px;margin-left:8px;white-space:nowrap;vertical-align:middle}
+    .match-slot.is-correct{border-color:var(--emerald)!important;background:#d1fae5!important}
+    .match-slot.is-wrong{border-color:var(--rose)!important;background:#fee2e2!important;color:#7f1d1d}
+    .dd-mob-btn.is-correct{border-color:var(--emerald)!important;background:#d1fae5!important}
+    .dd-mob-btn.is-wrong{border-color:var(--rose)!important;background:#fee2e2!important}
+    body.submitted .mcq-opt,body.submitted .match-slot,body.submitted .opt-tile,body.submitted .dd-mob-btn{pointer-events:none}
+    body.submitted .notes-row input{pointer-events:none}
     .results-card{background:linear-gradient(135deg,var(--navy-700),var(--blue-500));color:#fff;border-radius:14px;padding:24px;margin:20px 0;text-align:center;display:none}
     .results-card.show{display:block}
     .results-card .score{font-size:42px;font-weight:900;font-family:'Playfair Display',serif}
@@ -706,7 +721,82 @@ function submitTest(){
     bd += 'Part ' + k + ': ' + parts[k].correct + '/' + parts[k].total + '<br>';
   });
   document.getElementById('breakdown').innerHTML = bd;
+  markAnswers();
   card.scrollIntoView({behavior:'smooth'});
+}
+
+// Walk every answer-bearing item/row and tag the corresponding DOM nodes
+// with .is-correct / .is-wrong + a small key chip for wrong/empty entries.
+function markAnswers(){
+  var data = window.KET_L_TEST;
+  if (!data) return;
+  function isOk(picked, key){
+    if (typeof key !== 'string' || !picked) return false;
+    var alts = key.split('/').map(function(x){return x.trim().toLowerCase();});
+    return alts.indexOf(String(picked).trim().toLowerCase()) >= 0;
+  }
+  function firstAlt(key){ return String(key || '').split('/')[0].trim(); }
+
+  data.parts.forEach(function(p){
+    // Build a flat list of answerable entries (items + completion rows)
+    var entries = [];
+    (p.items || []).forEach(function(it){ if (it.id !== undefined && it.answer !== undefined) entries.push(it); });
+    (p.rows  || []).forEach(function(r){  if (r.id  !== undefined && r.answer !== undefined) entries.push(r); });
+
+    entries.forEach(function(it){
+      var picked = picks[it.id];
+      var ok = isOk(picked, it.answer);
+
+      // MCQ-style buttons (picture-mcq, mcq-conversation)
+      var opts = document.querySelectorAll('.mcq-opt[data-id="'+it.id+'"]');
+      if (opts.length){
+        opts.forEach(function(opt){
+          var letter = opt.getAttribute('data-letter');
+          if (letter === it.answer) opt.classList.add('is-correct');
+          else if (letter === picked) opt.classList.add('is-wrong');
+        });
+        return;
+      }
+
+      // note-completion input
+      var input = document.querySelector('.notes-row input[data-id="'+it.id+'"]');
+      if (input){
+        input.classList.add(ok ? 'is-correct' : 'is-wrong');
+        if (!ok){
+          var key = document.createElement('span');
+          key.className = 'ans-key';
+          key.textContent = '✓ ' + firstAlt(it.answer);
+          input.parentElement.appendChild(key);
+        }
+        return;
+      }
+
+      // matching-list drop slot (drag-drop on desktop)
+      var slot = document.querySelector('.match-slot[data-id="'+it.id+'"]');
+      if (slot){
+        slot.classList.add(ok ? 'is-correct' : 'is-wrong');
+        if (!ok){
+          var key = document.createElement('span');
+          key.className = 'ans-key';
+          key.textContent = '✓ ' + it.answer;
+          slot.appendChild(key);
+        }
+      }
+      // matching-list mobile dropdown
+      var dd = document.querySelector('.dd-mob[data-id="'+it.id+'"]');
+      if (dd){
+        var btn = dd.querySelector('.dd-mob-btn');
+        if (btn) btn.classList.add(ok ? 'is-correct' : 'is-wrong');
+        if (!ok){
+          var key = document.createElement('span');
+          key.className = 'ans-key';
+          key.textContent = '✓ ' + it.answer;
+          dd.appendChild(key);
+        }
+      }
+    });
+  });
+  document.body.classList.add('submitted');
 }
 </script>
 
