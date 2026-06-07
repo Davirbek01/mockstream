@@ -68,8 +68,8 @@
     .notes-card .subtitle{color:#46527d;font-size:13px;margin-bottom:10px;white-space:pre-line}
     .notes-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px dashed #ffe9b0}
     .notes-row .lbl{flex:0 0 200px;font-weight:600;color:var(--navy-700);font-size:14px}
-    .notes-row .num{background:var(--navy-700);color:#fff;width:24px;height:24px;line-height:24px;text-align:center;border-radius:50%;font-weight:700;font-size:12px;display:inline-flex;align-items:center;justify-content:center}
-    .notes-row input{padding:6px 10px;border:2px solid #ffe9b0;border-radius:6px;font-size:14px;font-weight:600;color:var(--navy-800);background:#fff;flex:1}
+    .notes-row .num{background:var(--navy-700);color:#fff;width:24px;height:24px;line-height:24px;text-align:center;border-radius:50%;font-weight:700;font-size:12px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 24px}
+    .notes-row input{padding:6px 10px;border:2px solid #ffe9b0;border-radius:6px;font-size:14px;font-weight:600;color:var(--navy-800);background:#fff;flex:1 1 auto;min-width:0;width:100%}
     .notes-row .pre,.notes-row .suf{font-weight:700;color:var(--navy-700);font-size:13px}
     .notes-row .prefilled{color:#46527d;font-style:italic;font-size:14px}
     .results-card{background:linear-gradient(135deg,var(--navy-700),var(--blue-500));color:#fff;border-radius:14px;padding:24px;margin:20px 0;text-align:center;display:none}
@@ -89,7 +89,10 @@
       .match-row{flex-wrap:wrap}
       .match-row > span:nth-child(2){flex:1 1 auto;min-width:0}
       .match-row select{flex:0 0 calc(100% - 34px);margin-left:34px;width:calc(100% - 34px)}
-      .notes-row .lbl{flex:0 0 130px;font-size:13px}
+      .notes-row{flex-wrap:wrap;padding:10px 0}
+      .notes-row .lbl{flex:1 1 100%;font-size:13px;margin-bottom:4px}
+      .notes-row .num{margin-left:0}
+      .notes-row input{flex:1 1 auto;min-width:0}
       .topbar .title{font-size:16px}
     }
   </style>
