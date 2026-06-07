@@ -22,7 +22,7 @@
     .topbar{position:sticky;top:0;z-index:30;background:linear-gradient(180deg,var(--navy-900),var(--navy-800));color:#fff;padding:12px 18px;display:flex;align-items:center;gap:16px;border-bottom:3px solid var(--gold-400)}
     .topbar .back{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#fff;padding:6px 14px;border-radius:999px;text-decoration:none;font-weight:600;font-size:14px;cursor:pointer}
     .topbar .back:hover{background:rgba(255,255,255,.18)}
-    .topbar .title{font-family:'Playfair Display',serif;font-size:22px;font-weight:800;flex:1}
+    .topbar .title{font-family:'Playfair Display',serif;font-size:22px;font-weight:800;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
     .topbar .ms-pill{display:inline-block;margin:0 2px;padding:3px 9px;border-radius:8px;background:rgba(255,255,255,.08);color:#fff;text-decoration:none;font-size:12px;font-weight:600;border:1px solid rgba(255,255,255,.14)}
     .topbar .ms-pill:hover{background:rgba(255,255,255,.16)}
     .topbar .timer{font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:var(--gold-300);background:rgba(0,0,0,.25);padding:6px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.18)}
@@ -155,7 +155,13 @@
       .notes-row .lbl{flex:1 1 100%;font-size:13px;margin-bottom:4px}
       .notes-row .num{margin-left:0}
       .notes-row input{flex:1 1 auto;min-width:0}
-      .topbar .title{font-size:16px}
+      .topbar{padding:10px 12px;gap:8px}
+      .topbar .back{padding:6px 10px;font-size:13px}
+      .topbar .back .lbl-full{display:none}
+      .topbar .title{font-size:15px;font-family:Inter,sans-serif;font-weight:700}
+      .topbar .title .ms-prefix{display:none}
+      .topbar .timer{font-size:14px;padding:5px 8px}
+      .topbar .submit{padding:6px 12px;font-size:13px}
     }
   </style>
 </head>
@@ -225,7 +231,16 @@ window.addEventListener('DOMContentLoaded', function () {
   var data = window.KET_L_TEST;
   if (!data) return;
   var n = parseInt(window._KET_L_MOCK_NUM || '1', 10);
-  document.getElementById('heroTitle').textContent = data.testInfo.title;
+  // Split title into prefix ("KET Listening — ") + suffix ("Test N") so we can hide prefix on mobile.
+  var fullTitle = data.testInfo.title || '';
+  var dashIdx = fullTitle.indexOf('—');
+  if (dashIdx > 0) {
+    var prefix = fullTitle.slice(0, dashIdx + 1);
+    var suffix = fullTitle.slice(dashIdx + 1).trim();
+    document.getElementById('heroTitle').innerHTML = '<span class="ms-prefix">' + escapeHtml(prefix) + ' </span>' + escapeHtml(suffix);
+  } else {
+    document.getElementById('heroTitle').textContent = fullTitle;
+  }
   document.title = ((window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream') + ' · ' + data.testInfo.title;
   // Mark active pill
   document.querySelectorAll('#navStrip .ms-pill').forEach(function(a){
