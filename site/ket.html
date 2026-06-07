@@ -29,19 +29,19 @@
   <section class="hub-hero">
     <span class="lvl-chip">⭐ A2 · CEFR Level</span>
     <h1>Key English Test</h1>
-    <p class="hero-sub">Cambridge English's foundation-level qualification — built for learners proving they can use everyday English to read, write, listen, and speak with confidence. The full paper is 1 hour 10 minutes, nine parts, fifty-six questions.</p>
+    <p class="hero-sub">Cambridge English's foundation-level A2 qualification. Two papers: Reading &amp; Writing (1 h 10 min) and Listening (~30 min).</p>
     <div class="hero-stats">
-      <div class="m"><span class="m-num">28</span><span class="m-label">Reading & Writing mocks ready</span></div>
-      <div class="m"><span class="m-num">70 min</span><span class="m-label">per paper</span></div>
-      <div class="m"><span class="m-num">56</span><span class="m-label">questions / mock</span></div>
-      <div class="m"><span class="m-num">9</span><span class="m-label">parts / mock</span></div>
+      <div class="m"><span class="m-num">28</span><span class="m-label">R&amp;W mocks</span></div>
+      <div class="m"><span class="m-num">16</span><span class="m-label">Listening mocks</span></div>
+      <div class="m"><span class="m-num">81</span><span class="m-label">questions / pair</span></div>
+      <div class="m"><span class="m-num">~1 h 40</span><span class="m-label">per full sitting</span></div>
     </div>
   </section>
 
   <!-- Paper tabs -->
   <nav class="hub-tabs" id="hubTabs" role="tablist">
     <button class="tab active" type="button" data-paper="rw" role="tab">📝 Reading & Writing<span class="tab-badge">28 mocks</span></button>
-    <button class="tab" type="button" data-paper="listening" role="tab">🎧 Listening<span class="tab-badge">12 mocks</span></button>
+    <button class="tab" type="button" data-paper="listening" role="tab">🎧 Listening<span class="tab-badge">16 mocks</span></button>
   </nav>
 
   <!-- Paper bodies -->
@@ -51,7 +51,7 @@
     <section class="paper-pane" data-pane="rw">
       <div class="paper-intro">
         <h2>📝 Reading & Writing — Paper 1</h2>
-        <p>1 hour 10 minutes · 9 parts · 56 questions. Pick any test below to start — your timer starts the moment you open it. Mocks 1–4 are from Cambridge KET Book 1; mocks 5–8 from Book 2; mocks 9–12 from Book 3; mocks 13–16 from Book 4; mocks 17–20 from Book 5; mocks 21–24 from Book 6; mocks 25–28 from Book 7. Verbatim transcription, no paraphrasing.</p>
+        <p>1 hour 10 minutes · 9 parts · 56 questions. Verbatim from Cambridge KET Books 1–7.</p>
       </div>
       <div class="mock-grid" id="rwMockGrid"></div>
     </section>
@@ -60,7 +60,7 @@
     <section class="paper-pane" data-pane="listening" hidden>
       <div class="paper-intro">
         <h2>🎧 Listening — Paper 2</h2>
-        <p>Approximately 30 minutes · 5 parts · 25 questions. Audio-driven mocks with pre-recorded conversations and announcements. Mocks 1–4 are from Cambridge KET Book 1; mocks 5–8 from Book 2.</p>
+        <p>~30 minutes · 5 parts · 25 questions. Verbatim from Cambridge KET Books 1–4.</p>
       </div>
       <div class="mock-grid" id="lMockGrid"></div>
     </section>
@@ -81,7 +81,7 @@
     duration:   '70 min'
   });
   Cambridge.renderMockGrid('lMockGrid', {
-    count:      12,
+    count:      16,
     runnerPath: '/KET Listening Mocks.html',
     mockParam:  'mock',
     paperLabel: 'Listening',

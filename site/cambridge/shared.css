@@ -265,7 +265,15 @@ a { color: inherit; text-decoration: none; }
 /* ───────────────── Mobile ───────────────── */
 @media (max-width: 640px) {
   .hub-page { margin: 18px auto 80px; padding: 0 14px; }
-  .hub-hero { padding: 28px 22px; border-radius: 18px; }
+  .hub-hero { padding: 20px 18px 18px; border-radius: 18px; }
+  .hub-hero h1 { font-size: 30px; margin: 10px 0 6px; }
+  .hub-hero .hero-sub { font-size: 13px; margin-bottom: 12px; }
+  .hub-hero .hero-stats {
+    grid-template-columns: 1fr 1fr; /* 2x2 instead of stacked 4-tall column */
+    gap: 10px 14px; margin-top: 12px; padding-top: 12px;
+  }
+  .hub-hero .m-num { font-size: 18px; }
+  .hub-hero .m-label { font-size: 11px; }
   .hub-top { padding: 10px 14px; }
   .hub-top .brand-text { font-size: 13px; }
   /* Stack icon/title/badge into a tidy column inside each tab */

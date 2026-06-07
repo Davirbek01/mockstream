@@ -107,13 +107,23 @@
       letter-spacing: 0.3px;
     }
     .topbar .submit:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(212,167,44,0.55); }
-    /* Mock switcher (Test 1 / 2 / 3 / 4) */
-    .mock-switcher { display: inline-flex; gap: 4px; background: rgba(255,255,255,0.08); padding: 4px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15); }
+    /* Mock switcher (1..28) — sticky bar under topbar, sideways scroll on mobile + desktop */
+    .mock-switcher {
+      position: sticky; top: 64px; z-index: 95;
+      display: flex; flex-wrap: nowrap; gap: 6px;
+      background: linear-gradient(180deg, var(--navy-800), var(--navy-900));
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 8px 14px;
+      overflow-x: auto; -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .mock-switcher::-webkit-scrollbar { display: none; }
     .mock-switcher .ms-pill {
+      flex-shrink: 0;
       display: inline-flex; align-items: center; justify-content: center;
-      width: 28px; height: 28px; border-radius: 7px;
-      color: rgba(255,255,255,0.75);
-      font-weight: 800; font-size: 12.5px;
+      min-width: 32px; height: 28px; padding: 0 10px; border-radius: 8px;
+      color: rgba(255,255,255,0.78);
+      font-weight: 800; font-size: 13px;
       text-decoration: none;
       transition: all .12s ease;
     }
@@ -123,7 +133,8 @@
       color: var(--navy-900); font-weight: 900;
       box-shadow: 0 4px 12px rgba(212,167,44,0.4);
     }
-    @media (max-width: 720px) { .mock-switcher { display: none; } }
+    /* Old part-progress strip removed in favour of mock-switcher */
+    .nav-strip { display: none !important; }
 
     /* ─── Part progress strip ─────────────────────────────────── */
     .nav-strip {
@@ -536,6 +547,15 @@
       font-weight: 900; font-size: 15px;
     }
     .q-row.answered .q-num { background: var(--emerald-500); color: #fff; box-shadow: 0 4px 12px rgba(16,185,129,0.35); }
+
+    /* ── Post-submit review marking ───────────────────────── */
+    .opt-pill.is-correct, .mcq-opt.is-correct, .p4-opt.is-correct, .dd-opt.is-correct { border-color: var(--emerald-500) !important; background: #d1fae5 !important; color: var(--navy-900) !important; box-shadow: 0 4px 12px rgba(16,185,129,0.32) !important; }
+    .opt-pill.is-wrong,   .mcq-opt.is-wrong,   .p4-opt.is-wrong,   .dd-opt.is-wrong   { border-color: var(--rose-500)   !important; background: #fee2e2 !important; color: #7f1d1d        !important; }
+    .vocab-input.is-correct, .inline-input.is-correct, .an-input.is-correct { border-color: var(--emerald-500) !important; background: #ecfdf5 !important; color: var(--navy-900) !important; }
+    .vocab-input.is-wrong,   .inline-input.is-wrong,   .an-input.is-wrong   { border-color: var(--rose-500)   !important; background: #fef2f2 !important; color: #7f1d1d        !important; text-decoration: line-through; }
+    .ans-key { display:inline-flex; align-items:center; background: var(--emerald-500); color:#fff; font-weight:700; font-size:11.5px; padding:2px 9px; border-radius:999px; margin-left:8px; vertical-align:middle; white-space:nowrap; }
+    body.submitted .opt-pill, body.submitted .mcq-opt, body.submitted .p4-opt, body.submitted .dd-btn, body.submitted .dd-opt { pointer-events: none; }
+    body.submitted .vocab-input, body.submitted .inline-input, body.submitted .an-input, body.submitted textarea { pointer-events: none; }
     .q-text { font-size: 14.5px; line-height: 1.55; color: var(--ink); }
     .q-answer-select { display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
     .opt-pill {
@@ -1012,7 +1032,7 @@
       box-shadow: 0 12px 30px rgba(212,167,44,0.55);
       cursor: pointer;
     }
-    @media (max-width: 720px) { .float-submit { display: inline-flex; align-items: center; gap: 8px; } }
+    /* Floating submit removed on mobile — top-bar Submit is enough. */
 
     /* Leave-test dialog — replaces window.confirm. Soft amber-themed
        card with two clear actions (keep going / leave anyway). */
@@ -1070,19 +1090,20 @@
     }
     .leave-go:hover { background: #fee2e2; border-color: var(--rose-500) !important; }
 
-    /* Results modal */
+    /* Results panel — drops in at the END of the page (matches Listening UX) */
     .results-modal {
-      position: fixed; inset: 0;
-      background: rgba(11,29,58,0.85); backdrop-filter: blur(10px);
-      display: none; align-items: center; justify-content: center;
-      z-index: 200; padding: 20px;
+      display: none;
+      max-width: 780px;
+      margin: 24px auto 60px;
+      padding: 0 22px;
     }
-    .results-modal.show { display: flex; }
+    .results-modal.show { display: block; }
     .results-card {
       background: var(--paper); border-radius: 22px;
-      max-width: 780px; width: 100%; max-height: 90vh; overflow-y: auto;
+      width: 100%;
       padding: 32px 36px;
       box-shadow: var(--shadow-pop);
+      border: 1px solid var(--ring);
       animation: cardFadeIn .4s ease both;
     }
     .results-card h2 {
@@ -1144,18 +1165,33 @@
     }
     .btn-retry:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(28,91,216,0.45); }
 
+    .topbar-mobile-title { display: none; }
     @media (max-width: 720px) {
       .page { margin: 18px auto 100px; padding: 0 12px; }
       .part-card { padding: 22px 18px; border-radius: 18px; }
       .part-card::before { left: 0; top: 22px; bottom: 22px; }
       .paper-hero { padding: 28px 22px; border-radius: 18px; }
-      .topbar { padding: 10px 14px; gap: 10px; }
+      .topbar { padding: 8px 12px; gap: 8px; }
+      .topbar .crest { display: none; }
+      .topbar .brand { gap: 0; }
       .topbar .titlewrap { display: none; }
+      .topbar-mobile-title { display: inline-block; font-weight: 700; font-size: 15px; color: #fff; white-space: nowrap; }
+      .topbar .back { padding: 6px 10px; font-size: 13px; }
+      .topbar .timer { padding: 6px 10px; font-size: 13.5px; }
+      .topbar .submit { padding: 7px 14px; font-size: 13.5px; }
       .nav-strip { padding: 8px 12px; top: 60px; }
+      .mock-switcher { top: 52px; }
       .q-row { grid-template-columns: 36px 1fr; }
       .q-row .q-answer-select { grid-column: 1 / -1; justify-content: flex-start; }
       .vocab-row { grid-template-columns: 36px 1fr; }
       .vocab-row .vocab-input-wrap { grid-column: 1 / -1; }
+
+      /* Compact leave-modal to match the Listening runner's look */
+      .leave-card { padding: 22px 20px 18px; border-radius: 16px; max-width: 360px; }
+      .leave-card .leave-icon { display: none; }
+      .leave-card h2 { font-family: Inter, sans-serif; font-size: 18px; margin-bottom: 6px; }
+      .leave-card p { font-size: 13px; margin-bottom: 16px; }
+      .leave-actions button { padding: 10px 14px; font-size: 13.5px; border-radius: 10px; }
     }
   </style>
 </head>
@@ -1169,41 +1205,43 @@
       <div class="t1">KET · Key English Test</div>
       <div class="t2" id="topbarSub">Paper 1 · Reading and Writing</div>
     </div>
+    <div class="topbar-mobile-title" id="topbarMobileTitle">Test 1</div>
   </div>
   <span class="spacer"></span>
-  <div class="mock-switcher" id="mockSwitcher">
-    <a class="ms-pill" href="?mock=1">1</a>
-    <a class="ms-pill" href="?mock=2">2</a>
-    <a class="ms-pill" href="?mock=3">3</a>
-    <a class="ms-pill" href="?mock=4">4</a>
-    <a class="ms-pill" href="?mock=5">5</a>
-    <a class="ms-pill" href="?mock=6">6</a>
-    <a class="ms-pill" href="?mock=7">7</a>
-    <a class="ms-pill" href="?mock=8">8</a>
-    <a class="ms-pill" href="?mock=9">9</a>
-    <a class="ms-pill" href="?mock=10">10</a>
-    <a class="ms-pill" href="?mock=11">11</a>
-    <a class="ms-pill" href="?mock=12">12</a>
-    <a class="ms-pill" href="?mock=13">13</a>
-    <a class="ms-pill" href="?mock=14">14</a>
-    <a class="ms-pill" href="?mock=15">15</a>
-    <a class="ms-pill" href="?mock=16">16</a>
-    <a class="ms-pill" href="?mock=17">17</a>
-    <a class="ms-pill" href="?mock=18">18</a>
-    <a class="ms-pill" href="?mock=19">19</a>
-    <a class="ms-pill" href="?mock=20">20</a>
-    <a class="ms-pill" href="?mock=21">21</a>
-    <a class="ms-pill" href="?mock=22">22</a>
-    <a class="ms-pill" href="?mock=23">23</a>
-    <a class="ms-pill" href="?mock=24">24</a>
-    <a class="ms-pill" href="?mock=25">25</a>
-    <a class="ms-pill" href="?mock=26">26</a>
-    <a class="ms-pill" href="?mock=27">27</a>
-    <a class="ms-pill" href="?mock=28">28</a>
-  </div>
   <span class="timer" id="timer">1:10:00</span>
   <button class="submit" onclick="submitTest()">Submit</button>
 </div>
+
+<nav class="mock-switcher" id="mockSwitcher">
+  <a class="ms-pill" href="?mock=1">1</a>
+  <a class="ms-pill" href="?mock=2">2</a>
+  <a class="ms-pill" href="?mock=3">3</a>
+  <a class="ms-pill" href="?mock=4">4</a>
+  <a class="ms-pill" href="?mock=5">5</a>
+  <a class="ms-pill" href="?mock=6">6</a>
+  <a class="ms-pill" href="?mock=7">7</a>
+  <a class="ms-pill" href="?mock=8">8</a>
+  <a class="ms-pill" href="?mock=9">9</a>
+  <a class="ms-pill" href="?mock=10">10</a>
+  <a class="ms-pill" href="?mock=11">11</a>
+  <a class="ms-pill" href="?mock=12">12</a>
+  <a class="ms-pill" href="?mock=13">13</a>
+  <a class="ms-pill" href="?mock=14">14</a>
+  <a class="ms-pill" href="?mock=15">15</a>
+  <a class="ms-pill" href="?mock=16">16</a>
+  <a class="ms-pill" href="?mock=17">17</a>
+  <a class="ms-pill" href="?mock=18">18</a>
+  <a class="ms-pill" href="?mock=19">19</a>
+  <a class="ms-pill" href="?mock=20">20</a>
+  <a class="ms-pill" href="?mock=21">21</a>
+  <a class="ms-pill" href="?mock=22">22</a>
+  <a class="ms-pill" href="?mock=23">23</a>
+  <a class="ms-pill" href="?mock=24">24</a>
+  <a class="ms-pill" href="?mock=25">25</a>
+  <a class="ms-pill" href="?mock=26">26</a>
+  <a class="ms-pill" href="?mock=27">27</a>
+  <a class="ms-pill" href="?mock=28">28</a>
+</nav>
 
 <div class="nav-strip" id="navStrip"></div>
 
@@ -1231,11 +1269,11 @@
 <div class="leave-modal" id="leaveModal" onclick="closeLeaveModal(event)">
   <div class="leave-card" onclick="event.stopPropagation()">
     <div class="leave-icon">⚠️</div>
-    <h2>Leave this test?</h2>
-    <p>If you exit now, all your answers and your remaining time will be lost. You can come back from the KET hub and start any test fresh.</p>
+    <h2>Leave this mock?</h2>
+    <p>Your progress will be lost. Are you sure?</p>
     <div class="leave-actions">
-      <button type="button" class="leave-stay" onclick="closeLeaveModal()">Keep going</button>
-      <button type="button" class="leave-go" onclick="confirmLeave()">Leave anyway</button>
+      <button type="button" class="leave-stay" onclick="closeLeaveModal()">Keep Going</button>
+      <button type="button" class="leave-go" onclick="confirmLeave()">Leave Anyway</button>
     </div>
   </div>
 </div>
@@ -1920,7 +1958,46 @@
       report.totalScore += partRow.score;
       report.totalAuto += partRow.max;
     });
+    markAnswers();
     showResults(report);
+  }
+
+  // Mark every gradable question right/wrong inline + fill the correct answer
+  // for empties/wrongs. Writing items keep their sample-answer panel in the
+  // results modal (the free-text-review block).
+  function markAnswers() {
+    var data = window.KET_RW_TEST;
+    if (!data) return;
+    data.parts.forEach(function (p) {
+      if (!isAutoGradable(p.type)) return;
+      (p.items || []).forEach(function (item) {
+        var given    = normalize(getAns(item.id));
+        var expected = normalize(item.answer);
+        var ok = given && given === expected;
+        var row = document.querySelector('[data-qslot="' + item.id + '"]');
+        // Pill / dropdown / mcq button row
+        var pickedBtn  = row && row.querySelector('.opt-pill.picked, .mcq-opt.picked, .p4-opt.picked, .dd-opt.picked');
+        var correctBtn = row && row.querySelector('[data-letter="' + item.answer + '"]');
+        if (correctBtn) correctBtn.classList.add('is-correct');
+        if (pickedBtn && !ok) pickedBtn.classList.add('is-wrong');
+        // Text inputs (vocab / inline cloze / info-transfer)
+        var input = (row && (row.querySelector('.vocab-input') || row.querySelector('.inline-input') || row.querySelector('.an-input')))
+                    || document.querySelector('.inline-input[data-id="' + item.id + '"], .an-input[data-id="' + item.id + '"]');
+        if (input) {
+          input.classList.add(ok ? 'is-correct' : 'is-wrong');
+          if (!ok) {
+            var hint = document.createElement('span');
+            hint.className = 'ans-key';
+            hint.textContent = '✓ ' + (item.answer || '');
+            (input.parentElement || row).appendChild(hint);
+          }
+        }
+        // Dropdown trigger (Part 1 mobile)
+        var ddBtn = row && row.querySelector('.dd-btn');
+        if (ddBtn) ddBtn.classList.add(ok ? 'is-correct' : 'is-wrong');
+      });
+    });
+    document.body.classList.add('submitted');
   }
 
   function isAutoGradable(t) {
@@ -1964,7 +2041,9 @@
     html += '<button class="btn-retry" onclick="window.location.reload()">Try again ↻</button>';
     html += '</div>';
     document.getElementById('resultsCard').innerHTML = html;
-    document.getElementById('resultsModal').classList.add('show');
+    var panel = document.getElementById('resultsModal');
+    panel.classList.add('show');
+    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   // Reflect active mock number in topbar pills, subtitle, hero card +
@@ -1973,15 +2052,22 @@
   (function () {
     var n = parseInt((window._KET_MOCK_NUM || '01'), 10);
     var pills = document.querySelectorAll('.mock-switcher .ms-pill');
+    var activePill = null;
     pills.forEach(function (p) {
       var pn = parseInt(p.textContent.trim(), 10);
-      if (pn === n) p.classList.add('active');
+      if (pn === n) { p.classList.add('active'); activePill = p; }
     });
+    // Scroll active pill into view so users on higher-numbered mocks land near their pill.
+    if (activePill) {
+      try { activePill.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'instant' }); } catch (_e) {}
+    }
     var sub = document.getElementById('topbarSub');
     var hero = document.getElementById('heroTestNo');
+    var mobTitle = document.getElementById('topbarMobileTitle');
     var info = window.KET_RW_TEST && window.KET_RW_TEST.testInfo;
     if (sub && info && info.title) sub.textContent = info.title;
     if (hero) hero.textContent = 'Test ' + n;
+    if (mobTitle) mobTitle.textContent = 'Test ' + n;
     try {
       var brand = (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream';
       document.title = brand + ' · KET R&W · Test ' + n;
