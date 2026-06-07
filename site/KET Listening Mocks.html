@@ -36,9 +36,21 @@
       .nav-strip::-webkit-scrollbar{display:none}
     }
     .page{max-width:920px;margin:30px auto;padding:0 20px}
-    .hero{margin-bottom:30px;text-align:center}
-    .hero h1{font-family:'Playfair Display',serif;font-size:30px;color:var(--navy-800);margin:0 0 6px}
-    .hero p{color:#46527d;margin:0;font-size:14px}
+    /* Hero banner — navy gradient card with chip + test no + meta row (mirrors R&W) */
+    .hero{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--navy-900),var(--navy-800) 60%,var(--navy-700));color:#fff;border-radius:20px;padding:28px 30px 24px;margin-bottom:24px;box-shadow:0 6px 22px rgba(11,29,48,.18)}
+    .hero::after{content:'';position:absolute;inset:-50% -10% auto auto;width:280px;height:280px;background:radial-gradient(circle,rgba(242,193,78,.22),transparent 65%);pointer-events:none}
+    .hero .lvl-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(242,193,78,.18);color:var(--gold-300);padding:4px 12px;border-radius:999px;font-size:11.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;border:1px solid rgba(242,193,78,.35)}
+    .hero .test-no{font-family:'Playfair Display',serif;font-size:42px;font-weight:900;line-height:1;margin:14px 0 6px;letter-spacing:-0.5px}
+    .hero .paper-line{font-size:13px;color:rgba(255,255,255,.85);font-weight:500}
+    .hero .paper-line strong{font-weight:800;letter-spacing:.5px}
+    .hero .meta-row{display:flex;gap:24px;flex-wrap:wrap;margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1);font-size:14px;color:rgba(255,255,255,.92)}
+    .hero .meta-row b{color:#fff;font-weight:800}
+    @media (max-width:600px){
+      .hero{padding:22px 20px 18px;border-radius:18px}
+      .hero .test-no{font-size:32px;margin:10px 0 4px}
+      .hero .paper-line{font-size:12px}
+      .hero .meta-row{gap:14px;font-size:13px}
+    }
     .part{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:28px;box-shadow:0 4px 12px rgba(11,19,48,.04)}
     .part-head{display:flex;align-items:center;gap:14px;margin-bottom:14px;padding-bottom:14px;border-bottom:2px solid var(--line)}
     .part-num{background:var(--navy-700);color:#fff;font-weight:800;padding:6px 14px;border-radius:999px;font-size:13px}
@@ -258,9 +270,17 @@ window.addEventListener('DOMContentLoaded', function () {
 });
 
 function renderHero(data){
+  var info = data.testInfo || {};
+  var n = parseInt(window._KET_L_MOCK_NUM || '1', 10);
   return '<div class="hero">'
-    + '<h1>' + escapeHtml(data.testInfo.title) + '</h1>'
-    + '<p>' + escapeHtml(data.testInfo.paper) + ' · 5 parts · 25 questions · ~30 min</p>'
+    + '<span class="lvl-chip">⭐ A2 · KEY ENGLISH TEST</span>'
+    + '<div class="test-no">Test ' + n + '</div>'
+    + '<div class="paper-line"><strong>PAPER 2</strong> &nbsp; LISTENING &nbsp;·&nbsp; ~30 minutes</div>'
+    + '<div class="meta-row">'
+    +   '<div class="m">📑 <b>' + (info.parts || 5) + ' parts</b></div>'
+    +   '<div class="m">❓ <b>' + (info.totalQuestions || 25) + ' questions</b></div>'
+    +   '<div class="m">⏱ <b>' + (info.totalTime || 30) + ' min</b></div>'
+    + '</div>'
     + '</div>';
 }
 
