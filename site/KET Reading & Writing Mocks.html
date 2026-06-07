@@ -107,13 +107,23 @@
       letter-spacing: 0.3px;
     }
     .topbar .submit:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(212,167,44,0.55); }
-    /* Mock switcher (Test 1 / 2 / 3 / 4) */
-    .mock-switcher { display: inline-flex; gap: 4px; background: rgba(255,255,255,0.08); padding: 4px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15); }
+    /* Mock switcher (1..28) — sticky bar under topbar, sideways scroll on mobile + desktop */
+    .mock-switcher {
+      position: sticky; top: 64px; z-index: 95;
+      display: flex; flex-wrap: nowrap; gap: 6px;
+      background: linear-gradient(180deg, var(--navy-800), var(--navy-900));
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 8px 14px;
+      overflow-x: auto; -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .mock-switcher::-webkit-scrollbar { display: none; }
     .mock-switcher .ms-pill {
+      flex-shrink: 0;
       display: inline-flex; align-items: center; justify-content: center;
-      width: 28px; height: 28px; border-radius: 7px;
-      color: rgba(255,255,255,0.75);
-      font-weight: 800; font-size: 12.5px;
+      min-width: 32px; height: 28px; padding: 0 10px; border-radius: 8px;
+      color: rgba(255,255,255,0.78);
+      font-weight: 800; font-size: 13px;
       text-decoration: none;
       transition: all .12s ease;
     }
@@ -123,7 +133,8 @@
       color: var(--navy-900); font-weight: 900;
       box-shadow: 0 4px 12px rgba(212,167,44,0.4);
     }
-    @media (max-width: 720px) { .mock-switcher { display: none; } }
+    /* Old part-progress strip removed in favour of mock-switcher */
+    .nav-strip { display: none !important; }
 
     /* ─── Part progress strip ─────────────────────────────────── */
     .nav-strip {
@@ -1171,39 +1182,40 @@
     </div>
   </div>
   <span class="spacer"></span>
-  <div class="mock-switcher" id="mockSwitcher">
-    <a class="ms-pill" href="?mock=1">1</a>
-    <a class="ms-pill" href="?mock=2">2</a>
-    <a class="ms-pill" href="?mock=3">3</a>
-    <a class="ms-pill" href="?mock=4">4</a>
-    <a class="ms-pill" href="?mock=5">5</a>
-    <a class="ms-pill" href="?mock=6">6</a>
-    <a class="ms-pill" href="?mock=7">7</a>
-    <a class="ms-pill" href="?mock=8">8</a>
-    <a class="ms-pill" href="?mock=9">9</a>
-    <a class="ms-pill" href="?mock=10">10</a>
-    <a class="ms-pill" href="?mock=11">11</a>
-    <a class="ms-pill" href="?mock=12">12</a>
-    <a class="ms-pill" href="?mock=13">13</a>
-    <a class="ms-pill" href="?mock=14">14</a>
-    <a class="ms-pill" href="?mock=15">15</a>
-    <a class="ms-pill" href="?mock=16">16</a>
-    <a class="ms-pill" href="?mock=17">17</a>
-    <a class="ms-pill" href="?mock=18">18</a>
-    <a class="ms-pill" href="?mock=19">19</a>
-    <a class="ms-pill" href="?mock=20">20</a>
-    <a class="ms-pill" href="?mock=21">21</a>
-    <a class="ms-pill" href="?mock=22">22</a>
-    <a class="ms-pill" href="?mock=23">23</a>
-    <a class="ms-pill" href="?mock=24">24</a>
-    <a class="ms-pill" href="?mock=25">25</a>
-    <a class="ms-pill" href="?mock=26">26</a>
-    <a class="ms-pill" href="?mock=27">27</a>
-    <a class="ms-pill" href="?mock=28">28</a>
-  </div>
   <span class="timer" id="timer">1:10:00</span>
   <button class="submit" onclick="submitTest()">Submit</button>
 </div>
+
+<nav class="mock-switcher" id="mockSwitcher">
+  <a class="ms-pill" href="?mock=1">1</a>
+  <a class="ms-pill" href="?mock=2">2</a>
+  <a class="ms-pill" href="?mock=3">3</a>
+  <a class="ms-pill" href="?mock=4">4</a>
+  <a class="ms-pill" href="?mock=5">5</a>
+  <a class="ms-pill" href="?mock=6">6</a>
+  <a class="ms-pill" href="?mock=7">7</a>
+  <a class="ms-pill" href="?mock=8">8</a>
+  <a class="ms-pill" href="?mock=9">9</a>
+  <a class="ms-pill" href="?mock=10">10</a>
+  <a class="ms-pill" href="?mock=11">11</a>
+  <a class="ms-pill" href="?mock=12">12</a>
+  <a class="ms-pill" href="?mock=13">13</a>
+  <a class="ms-pill" href="?mock=14">14</a>
+  <a class="ms-pill" href="?mock=15">15</a>
+  <a class="ms-pill" href="?mock=16">16</a>
+  <a class="ms-pill" href="?mock=17">17</a>
+  <a class="ms-pill" href="?mock=18">18</a>
+  <a class="ms-pill" href="?mock=19">19</a>
+  <a class="ms-pill" href="?mock=20">20</a>
+  <a class="ms-pill" href="?mock=21">21</a>
+  <a class="ms-pill" href="?mock=22">22</a>
+  <a class="ms-pill" href="?mock=23">23</a>
+  <a class="ms-pill" href="?mock=24">24</a>
+  <a class="ms-pill" href="?mock=25">25</a>
+  <a class="ms-pill" href="?mock=26">26</a>
+  <a class="ms-pill" href="?mock=27">27</a>
+  <a class="ms-pill" href="?mock=28">28</a>
+</nav>
 
 <div class="nav-strip" id="navStrip"></div>
 
@@ -1973,10 +1985,15 @@
   (function () {
     var n = parseInt((window._KET_MOCK_NUM || '01'), 10);
     var pills = document.querySelectorAll('.mock-switcher .ms-pill');
+    var activePill = null;
     pills.forEach(function (p) {
       var pn = parseInt(p.textContent.trim(), 10);
-      if (pn === n) p.classList.add('active');
+      if (pn === n) { p.classList.add('active'); activePill = p; }
     });
+    // Scroll active pill into view so users on higher-numbered mocks land near their pill.
+    if (activePill) {
+      try { activePill.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'instant' }); } catch (_e) {}
+    }
     var sub = document.getElementById('topbarSub');
     var hero = document.getElementById('heroTestNo');
     var info = window.KET_RW_TEST && window.KET_RW_TEST.testInfo;

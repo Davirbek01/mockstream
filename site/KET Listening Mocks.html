@@ -242,10 +242,14 @@ window.addEventListener('DOMContentLoaded', function () {
     document.getElementById('heroTitle').textContent = fullTitle;
   }
   document.title = ((window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream') + ' · ' + data.testInfo.title;
-  // Mark active pill
+  // Mark active pill + scroll it into view (sideways)
+  var activePill = null;
   document.querySelectorAll('#navStrip .ms-pill').forEach(function(a){
-    if (a.getAttribute('href') === '?mock='+n) a.classList.add('active');
+    if (a.getAttribute('href') === '?mock='+n) { a.classList.add('active'); activePill = a; }
   });
+  if (activePill) {
+    try { activePill.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'instant' }); } catch (_e) {}
+  }
 
   var page = document.getElementById('page');
   page.innerHTML = renderHero(data) + data.parts.map(function(p){return renderPart(p, data.audio);}).join('');
