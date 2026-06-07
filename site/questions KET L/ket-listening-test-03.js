@@ -31,22 +31,19 @@ window.KET_L_TEST = {
         "There is one question for each conversation.",
         "For questions 1–5, put a tick (✓) under the right answer."
       ],
+      imageBase: "https://storage.googleapis.com/mockstream-listening-audio/KET-Listening/test3/p1/",
       example: {
         number: 0,
         question: "What time is it?",
-        options: [
-          { letter: "A", text: "06:00" },
-          { letter: "B", text: "08:00" },
-          { letter: "C", text: "09:00" }
-        ],
+        options: [ { letter: "A", image: "q0A.png" }, { letter: "B", image: "q0B.png" }, { letter: "C", image: "q0C.png" } ],
         answer: "C"
       },
       items: [
-        { id: 1, question: "How does the man travel to Liverpool?", options: [ { letter: "A", text: "train" },     { letter: "B", text: "car" },             { letter: "C", text: "bus" } ],          answer: "C" },
-        { id: 2, question: "Which bill has just arrived?",            options: [ { letter: "A", text: "gas" },       { letter: "B", text: "water" },           { letter: "C", text: "electricity" } ],  answer: "B" },
-        { id: 3, question: "What will they do tomorrow afternoon?",   options: [ { letter: "A", text: "walking" },    { letter: "B", text: "swimming" },         { letter: "C", text: "sailing" } ],       answer: "B" },
-        { id: 4, question: "How did the man hear about the fire?",     options: [ { letter: "A", text: "newspaper" },  { letter: "B", text: "television" },       { letter: "C", text: "telephone" } ],    answer: "C" },
-        { id: 5, question: "What time did Mr Thompson ring?",          options: [ { letter: "A", text: "clock A" },     { letter: "B", text: "clock B" },           { letter: "C", text: "clock C" } ],      answer: "A" }
+        { id: 1, question: "How does the man travel to Liverpool?",  options: [{letter:"A",image:"q1A.png"},{letter:"B",image:"q1B.png"},{letter:"C",image:"q1C.png"}], answer: "C" },
+        { id: 2, question: "Which bill has just arrived?",             options: [{letter:"A",image:"q2A.png"},{letter:"B",image:"q2B.png"},{letter:"C",image:"q2C.png"}], answer: "B" },
+        { id: 3, question: "What will they do tomorrow afternoon?",   options: [{letter:"A",image:"q3A.png"},{letter:"B",image:"q3B.png"},{letter:"C",image:"q3C.png"}], answer: "B" },
+        { id: 4, question: "How did the man hear about the fire?",     options: [{letter:"A",image:"q4A.png"},{letter:"B",image:"q4B.png"},{letter:"C",image:"q4C.png"}], answer: "C" },
+        { id: 5, question: "What time did Mr Thompson ring?",          options: [{letter:"A",image:"q5A.png"},{letter:"B",image:"q5B.png"},{letter:"C",image:"q5C.png"}], answer: "A" }
       ]
     },
 

@@ -31,22 +31,19 @@ window.KET_L_TEST = {
         "There is one question for each conversation.",
         "For questions 1–5, put a tick (✓) under the right answer."
       ],
+      imageBase: "https://storage.googleapis.com/mockstream-listening-audio/KET-Listening/test2/p1/",
       example: {
         number: 0,
         question: "How many people were at the meeting?",
-        options: [
-          { letter: "A", text: "13" },
-          { letter: "B", text: "300" },
-          { letter: "C", text: "30" }
-        ],
+        options: [ { letter: "A", image: "q0A.png" }, { letter: "B", image: "q0B.png" }, { letter: "C", image: "q0C.png" } ],
         answer: "C"
       },
       items: [
-        { id: 1, question: "What is John going to do tonight?",  options: [ { letter: "A", text: "swimming" },   { letter: "B", text: "motorbike riding" }, { letter: "C", text: "running" } ], answer: "C" },
-        { id: 2, question: "Which is Ben's family?",              options: [ { letter: "A", text: "family A" },    { letter: "B", text: "family B" },           { letter: "C", text: "family C" } ], answer: "A" },
-        { id: 3, question: "Which bag does the woman buy?",        options: [ { letter: "A", text: "handbag" },     { letter: "B", text: "evening bag" },         { letter: "C", text: "purse" } ],     answer: "C" },
-        { id: 4, question: "How much did the woman pay for the apples?", options: [ { letter: "A", text: "30p" },  { letter: "B", text: "35p" },                  { letter: "C", text: "40p" } ],       answer: "A" },
-        { id: 5, question: "What time does the film start?",        options: [ { letter: "A", text: "clock A" },     { letter: "B", text: "clock B" },              { letter: "C", text: "clock C" } ],   answer: "A" }
+        { id: 1, question: "What is John going to do tonight?",            options: [{letter:"A",image:"q1A.png"},{letter:"B",image:"q1B.png"},{letter:"C",image:"q1C.png"}], answer: "C" },
+        { id: 2, question: "Which is Ben's family?",                        options: [{letter:"A",image:"q2A.png"},{letter:"B",image:"q2B.png"},{letter:"C",image:"q2C.png"}], answer: "A" },
+        { id: 3, question: "Which bag does the woman buy?",                  options: [{letter:"A",image:"q3A.png"},{letter:"B",image:"q3B.png"},{letter:"C",image:"q3C.png"}], answer: "C" },
+        { id: 4, question: "How much did the woman pay for the apples?",     options: [{letter:"A",image:"q4A.png"},{letter:"B",image:"q4B.png"},{letter:"C",image:"q4C.png"}], answer: "A" },
+        { id: 5, question: "What time does the film start?",                  options: [{letter:"A",image:"q5A.png"},{letter:"B",image:"q5B.png"},{letter:"C",image:"q5C.png"}], answer: "A" }
       ]
     },
 

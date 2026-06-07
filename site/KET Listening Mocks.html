@@ -55,6 +55,18 @@
     .mcq-opt.picked{border-color:var(--blue-500);background:#dbe6ff}
     .mcq-opt .ltr{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#fff;border:1px solid var(--line);border-radius:50%;font-weight:700;font-size:12px;color:var(--navy-700)}
     .mcq-opt.picked .ltr{background:var(--blue-500);color:#fff;border-color:var(--blue-500)}
+    /* Picture-MCQ ─────────────────── */
+    .opt-pic-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+    .mcq-opt.opt-pic{flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:8px;background:#fff;text-align:center}
+    .mcq-opt.opt-pic .ltr{order:2;margin-top:4px}
+    .mcq-opt.opt-pic .opt-img{order:1;width:100%;height:auto;max-height:170px;object-fit:contain;background:#fff;border-radius:4px}
+    .opt-pic-composite{display:flex;flex-direction:column;align-items:center;gap:10px;padding:10px}
+    .opt-pic-composite .opt-img-large{max-width:520px;width:100%;height:auto;object-fit:contain;background:#fff;border-radius:8px;border:1px solid var(--line)}
+    .opt-pic-composite .opt-pic-row{max-width:520px;width:100%}
+    @media (max-width:600px){
+      .opt-pic-row{gap:6px}
+      .mcq-opt.opt-pic .opt-img{max-height:140px}
+    }
     .matching-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:10px}
     .matching-grid h4{margin:0 0 8px;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--navy-700)}
     .match-row{display:flex;align-items:center;gap:10px;margin:6px 0}
@@ -157,6 +169,10 @@
   <a class="ms-pill" href="?mock=2">2</a>
   <a class="ms-pill" href="?mock=3">3</a>
   <a class="ms-pill" href="?mock=4">4</a>
+  <a class="ms-pill" href="?mock=5">5</a>
+  <a class="ms-pill" href="?mock=6">6</a>
+  <a class="ms-pill" href="?mock=7">7</a>
+  <a class="ms-pill" href="?mock=8">8</a>
 </nav>
 
 <script>
@@ -252,22 +268,65 @@ function renderPart(part, audio){
 
 function renderPictureMcq(part){
   var ex = part.example;
+  var base = part.imageBase || '';
+  function optBody(o, picked){
+    if (o.image){
+      var src = (base + o.image);
+      return '<span class="ltr">' + escapeHtml(o.letter) + '</span><img class="opt-img" src="' + escapeHtml(src) + '" alt="Option ' + escapeHtml(o.letter) + '">';
+    }
+    return '<span class="ltr">' + escapeHtml(o.letter) + '</span>' + escapeHtml(o.text || '');
+  }
+  // Is this part using pictures? Detect from first item with image.
+  var hasImages = (ex && ex.options[0].image) || (part.items[0] && part.items[0].options[0].image);
+  // Composite case: if every option of a Q points to the same image, render the image once + 3 letter buttons below.
+  function isCompositeQuestion(opts){
+    if (!opts[0].image) return false;
+    return opts.every(function(o){ return o.image === opts[0].image && o.composite; });
+  }
   var html = '';
   if (ex){
     html += '<div class="example-card">'
       + '<div style="display:flex;justify-content:space-between;align-items:center"><div class="ex-label">Example 0</div><div><span class="ex-label">Answer</span> <span class="ex-answer-pill">' + escapeHtml(ex.answer) + '</span></div></div>'
-      + '<div style="margin:8px 0;font-weight:600">' + escapeHtml(ex.question) + '</div>'
-      + ex.options.map(function(o){return '<div class="mcq-opt" style="cursor:default"><span class="ltr">'+escapeHtml(o.letter)+'</span>'+escapeHtml(o.text)+'</div>';}).join('')
-      + '</div>';
+      + '<div style="margin:8px 0;font-weight:600">' + escapeHtml(ex.question) + '</div>';
+    if (hasImages && isCompositeQuestion(ex.options)){
+      html += '<div class="opt-pic-composite">'
+        + '<img class="opt-img-large" src="' + escapeHtml(base + ex.options[0].image) + '">'
+        + '<div class="opt-pic-row">' + ex.options.map(function(o){return '<div class="mcq-opt opt-pic" style="cursor:default"><span class="ltr">' + escapeHtml(o.letter) + '</span></div>';}).join('') + '</div>'
+        + '</div>';
+    } else if (hasImages){
+      html += '<div class="opt-pic-row">' + ex.options.map(function(o){return '<div class="mcq-opt opt-pic" style="cursor:default">' + optBody(o) + '</div>';}).join('') + '</div>';
+    } else {
+      html += ex.options.map(function(o){return '<div class="mcq-opt" style="cursor:default">' + optBody(o) + '</div>';}).join('');
+    }
+    html += '</div>';
   }
   part.items.forEach(function(item){
     html += '<div class="q" data-qslot="' + item.id + '">';
     html += '<div class="q-stem"><span class="q-num">' + item.id + '</span>' + escapeHtml(item.question) + '</div>';
-    item.options.forEach(function(o){
-      html += '<div class="mcq-opt" data-id="' + item.id + '" data-letter="' + o.letter + '" onclick="pickMcq(' + item.id + ',\'' + o.letter + '\',this)">'
-        + '<span class="ltr">' + escapeHtml(o.letter) + '</span>' + escapeHtml(o.text)
-        + '</div>';
-    });
+    if (hasImages && isCompositeQuestion(item.options)){
+      html += '<div class="opt-pic-composite">'
+        + '<img class="opt-img-large" src="' + escapeHtml(base + item.options[0].image) + '">'
+        + '<div class="opt-pic-row">';
+      item.options.forEach(function(o){
+        html += '<div class="mcq-opt opt-pic" data-id="' + item.id + '" data-letter="' + o.letter + '" onclick="pickMcq(' + item.id + ',\'' + o.letter + '\',this)">'
+          + '<span class="ltr">' + escapeHtml(o.letter) + '</span></div>';
+      });
+      html += '</div></div>';
+    } else if (hasImages){
+      html += '<div class="opt-pic-row">';
+      item.options.forEach(function(o){
+        html += '<div class="mcq-opt opt-pic" data-id="' + item.id + '" data-letter="' + o.letter + '" onclick="pickMcq(' + item.id + ',\'' + o.letter + '\',this)">'
+          + optBody(o)
+          + '</div>';
+      });
+      html += '</div>';
+    } else {
+      item.options.forEach(function(o){
+        html += '<div class="mcq-opt" data-id="' + item.id + '" data-letter="' + o.letter + '" onclick="pickMcq(' + item.id + ',\'' + o.letter + '\',this)">'
+          + optBody(o)
+          + '</div>';
+      });
+    }
     html += '</div>';
   });
   return html;
