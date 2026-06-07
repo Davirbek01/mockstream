@@ -23,13 +23,14 @@ window.KET_L_TEST = {
       partNumber: 1, label: "PART 1", questionsLabel: "QUESTIONS 1–5",
       type: "picture-mcq",
       instruction: ["You will hear five short conversations.","You will hear each conversation twice.","There is one question for each conversation.","For questions 1–5, put a tick (✓) under the right answer."],
-      example: { number: 0, question: "What time is it?", options: [{letter:"A",text:"06.00"},{letter:"B",text:"08.00"},{letter:"C",text:"09.00"}], answer: "C" },
+      imageBase: "https://storage.googleapis.com/mockstream-listening-audio/KET-Listening/test8/p1/",
+      example: { number: 0, question: "What time is it?", options: [{letter:"A",image:"q0A.png"},{letter:"B",image:"q0B.png"},{letter:"C",image:"q0C.png"}], answer: "C" },
       items: [
-        { id: 1, question: "What was the weather like on Wednesday?", options: [{letter:"A",text:"rainy all day"},{letter:"B",text:"morning rain, afternoon sun"},{letter:"C",text:"sunny all day"}], answer: "B" },
-        { id: 2, question: "How much did Mark's pullover cost?", options: [{letter:"A",text:"£14.99"},{letter:"B",text:"£40.99"},{letter:"C",text:"£44.99"}], answer: "A" },
-        { id: 3, question: "What did Raquel buy today?", options: [{letter:"A",text:"jacket"},{letter:"B",text:"skirt"},{letter:"C",text:"boots"}], answer: "C" },
-        { id: 4, question: "How many students are there at the college?", options: [{letter:"A",text:"300"},{letter:"B",text:"600"},{letter:"C",text:"750"}], answer: "C" },
-        { id: 5, question: "What is David going to buy?", options: [{letter:"A",text:"book"},{letter:"B",text:"video"},{letter:"C",text:"CD"}], answer: "A" }
+        { id: 1, question: "What was the weather like on Wednesday?",        options: [{letter:"A",image:"q1A.png"},{letter:"B",image:"q1B.png"},{letter:"C",image:"q1C.png"}], answer: "B" },
+        { id: 2, question: "How much did Mark's pullover cost?",              options: [{letter:"A",image:"q2A.png"},{letter:"B",image:"q2B.png"},{letter:"C",image:"q2C.png"}], answer: "A" },
+        { id: 3, question: "What did Raquel buy today?",                       options: [{letter:"A",image:"q3A.png"},{letter:"B",image:"q3B.png"},{letter:"C",image:"q3C.png"}], answer: "C" },
+        { id: 4, question: "How many students are there at the college?",     options: [{letter:"A",image:"q4A.png"},{letter:"B",image:"q4B.png"},{letter:"C",image:"q4C.png"}], answer: "C" },
+        { id: 5, question: "What is David going to buy?",                      options: [{letter:"A",image:"q5A.png"},{letter:"B",image:"q5B.png"},{letter:"C",image:"q5C.png"}], answer: "A" }
       ]
     },
     {

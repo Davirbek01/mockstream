@@ -23,13 +23,15 @@ window.KET_L_TEST = {
       partNumber: 1, label: "PART 1", questionsLabel: "QUESTIONS 1–5",
       type: "picture-mcq",
       instruction: ["You will hear five short conversations.","You will hear each conversation twice.","There is one question for each conversation.","For questions 1–5, put a tick (✓) under the right answer."],
+      imageBase: "https://storage.googleapis.com/mockstream-listening-audio/KET-Listening/test7/p1/",
+      // Q0 (day names) and Q2 (petrol amounts) shown as text — book renders them plain.
       example: { number: 0, question: "When's the school trip?", options: [{letter:"A",text:"Tuesday"},{letter:"B",text:"Wednesday"},{letter:"C",text:"Thursday"}], answer: "C" },
       items: [
-        { id: 1, question: "Where's the sports centre?", options: [{letter:"A",text:"A (corner with arrow)"},{letter:"B",text:"B (middle of block)"},{letter:"C",text:"C (next to bank)"}], answer: "A" },
+        { id: 1, question: "Where's the sports centre?", options: [{letter:"A",image:"q1full.png",composite:true},{letter:"B",image:"q1full.png",composite:true},{letter:"C",image:"q1full.png",composite:true}], answer: "A" },
         { id: 2, question: "How much petrol does the woman want?", options: [{letter:"A",text:"13 litres"},{letter:"B",text:"30 litres"},{letter:"C",text:"33 litres"}], answer: "B" },
-        { id: 3, question: "Which table do they buy?", options: [{letter:"A",text:"round (4 legs)"},{letter:"B",text:"round (3 legs)"},{letter:"C",text:"square"}], answer: "C" },
-        { id: 4, question: "What time does the class start?", options: [{letter:"A",text:"2 o'clock"},{letter:"B",text:"2.30"},{letter:"C",text:"3 o'clock"}], answer: "A" },
-        { id: 5, question: "What was the weather like on Emma's holiday?", options: [{letter:"A",text:"sunny"},{letter:"B",text:"cloudy"},{letter:"C",text:"rainy"}], answer: "C" }
+        { id: 3, question: "Which table do they buy?",                       options: [{letter:"A",image:"q3A.png"},{letter:"B",image:"q3B.png"},{letter:"C",image:"q3C.png"}], answer: "C" },
+        { id: 4, question: "What time does the class start?",                 options: [{letter:"A",image:"q4A.png"},{letter:"B",image:"q4B.png"},{letter:"C",image:"q4C.png"}], answer: "A" },
+        { id: 5, question: "What was the weather like on Emma's holiday?", options: [{letter:"A",image:"q5A.png"},{letter:"B",image:"q5B.png"},{letter:"C",image:"q5C.png"}], answer: "C" }
       ]
     },
     {

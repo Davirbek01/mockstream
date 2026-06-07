@@ -23,13 +23,14 @@ window.KET_L_TEST = {
       partNumber: 1, label: "PART 1", questionsLabel: "QUESTIONS 1–5",
       type: "picture-mcq",
       instruction: ["You will hear five short conversations.","You will hear each conversation twice.","There is one question for each conversation.","For questions 1–5, put a tick (✓) under the right answer."],
-      example: { number: 0, question: "How many people were at the meeting?", options: [{letter:"A",text:"3"},{letter:"B",text:"13"},{letter:"C",text:"30"}], answer: "C" },
+      imageBase: "https://storage.googleapis.com/mockstream-listening-audio/KET-Listening/test5/p1/",
+      example: { number: 0, question: "How many people were at the meeting?", options: [{letter:"A",image:"q0A.png"},{letter:"B",image:"q0B.png"},{letter:"C",image:"q0C.png"}], answer: "C" },
       items: [
-        { id: 1, question: "What will they eat for dinner this evening?", options: [{letter:"A",text:"chicken"},{letter:"B",text:"fish"},{letter:"C",text:"salad"}], answer: "B" },
-        { id: 2, question: "What time is it?", options: [{letter:"A",text:"2:10"},{letter:"B",text:"2:20"},{letter:"C",text:"2:30"}], answer: "C" },
-        { id: 3, question: "What's Michele going to read?", options: [{letter:"A",text:"book"},{letter:"B",text:"newspaper"},{letter:"C",text:"window-display poster"}], answer: "B" },
-        { id: 4, question: "How much did the tickets cost?", options: [{letter:"A",text:"$19"},{letter:"B",text:"$90"},{letter:"C",text:"$99"}], answer: "B" },
-        { id: 5, question: "Where is the chemist's?", options: [{letter:"A",text:"A (top of map)"},{letter:"B",text:"B (middle)"},{letter:"C",text:"C (bottom right)"}], answer: "C" }
+        { id: 1, question: "What will they eat for dinner this evening?", options: [{letter:"A",image:"q1A.png"},{letter:"B",image:"q1B.png"},{letter:"C",image:"q1C.png"}], answer: "B" },
+        { id: 2, question: "What time is it?",                              options: [{letter:"A",image:"q2A.png"},{letter:"B",image:"q2B.png"},{letter:"C",image:"q2C.png"}], answer: "C" },
+        { id: 3, question: "What's Michele going to read?",                  options: [{letter:"A",image:"q3A.png"},{letter:"B",image:"q3B.png"},{letter:"C",image:"q3C.png"}], answer: "B" },
+        { id: 4, question: "How much did the tickets cost?",                  options: [{letter:"A",image:"q4A.png"},{letter:"B",image:"q4B.png"},{letter:"C",image:"q4C.png"}], answer: "B" },
+        { id: 5, question: "Where is the chemist's?", options: [{letter:"A",image:"q5full.png",composite:true},{letter:"B",image:"q5full.png",composite:true},{letter:"C",image:"q5full.png",composite:true}], answer: "C" }
       ]
     },
     {

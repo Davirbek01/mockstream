@@ -23,13 +23,14 @@ window.KET_L_TEST = {
       partNumber: 1, label: "PART 1", questionsLabel: "QUESTIONS 1–5",
       type: "picture-mcq",
       instruction: ["You will hear five short conversations.","You will hear each conversation twice.","There is one question for each conversation.","For questions 1–5, put a tick (✓) under the right answer."],
-      example: { number: 0, question: "How many people were at the meeting?", options: [{letter:"A",text:"3"},{letter:"B",text:"13"},{letter:"C",text:"30"}], answer: "C" },
+      imageBase: "https://storage.googleapis.com/mockstream-listening-audio/KET-Listening/test6/p1/",
+      example: { number: 0, question: "How many people were at the meeting?", options: [{letter:"A",image:"q0A.png"},{letter:"B",image:"q0B.png"},{letter:"C",image:"q0C.png"}], answer: "C" },
       items: [
-        { id: 1, question: "How will Mary travel to Scotland?", options: [{letter:"A",text:"bus"},{letter:"B",text:"car"},{letter:"C",text:"train"}], answer: "B" },
-        { id: 2, question: "Where are the shoes?", options: [{letter:"A",text:"on the rug"},{letter:"B",text:"under the table"},{letter:"C",text:"on the chair"}], answer: "A" },
-        { id: 3, question: "When will the football match start next week?", options: [{letter:"A",text:"11.45 a.m."},{letter:"B",text:"12.15 p.m."},{letter:"C",text:"2.00 p.m."}], answer: "C" },
-        { id: 4, question: "Which box of chocolates do they buy?", options: [{letter:"A",text:"round with tree"},{letter:"B",text:"round with grapes"},{letter:"C",text:"rectangular with flowers"}], answer: "B" },
-        { id: 5, question: "When's Wendy's birthday?", options: [{letter:"A",text:"16 May"},{letter:"B",text:"18 May"},{letter:"C",text:"21 May"}], answer: "B" }
+        { id: 1, question: "How will Mary travel to Scotland?",         options: [{letter:"A",image:"q1A.png"},{letter:"B",image:"q1B.png"},{letter:"C",image:"q1C.png"}], answer: "B" },
+        { id: 2, question: "Where are the shoes?",                       options: [{letter:"A",image:"q2A.png"},{letter:"B",image:"q2B.png"},{letter:"C",image:"q2C.png"}], answer: "A" },
+        { id: 3, question: "When will the football match start next week?", options: [{letter:"A",image:"q3A.png"},{letter:"B",image:"q3B.png"},{letter:"C",image:"q3C.png"}], answer: "C" },
+        { id: 4, question: "Which box of chocolates do they buy?",        options: [{letter:"A",image:"q4A.png"},{letter:"B",image:"q4B.png"},{letter:"C",image:"q4C.png"}], answer: "B" },
+        { id: 5, question: "When's Wendy's birthday?",                     options: [{letter:"A",image:"q5A.png"},{letter:"B",image:"q5B.png"},{letter:"C",image:"q5C.png"}], answer: "B" }
       ]
     },
     {
