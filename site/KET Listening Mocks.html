@@ -237,7 +237,7 @@ function renderMatchingList(part){
     html += '<span style="flex:1;font-weight:600">' + escapeHtml(item.name) + '</span>';
     html += '<select onchange="pickMatch(' + item.id + ', this.value, this)">';
     html += '<option value="">—</option>';
-    part.options.forEach(function(o){ html += '<option value="' + o.letter + '">' + o.letter + '</option>'; });
+    part.options.forEach(function(o){ html += '<option value="' + o.letter + '">' + escapeHtml(o.letter + ' — ' + o.text) + '</option>'; });
     html += '</select>';
     html += '</div>';
   });
