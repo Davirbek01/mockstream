@@ -32,22 +32,23 @@ window.KET_L_TEST = {
         "There is one question for each conversation.",
         "For questions 1–5, put a tick (✓) under the right answer."
       ],
+      imageBase: "https://storage.googleapis.com/mockstream-listening-audio/KET-Listening/test1/p1/",
       example: {
         number: 0,
         question: "What time is it?",
         options: [
-          { letter: "A", text: "05:00" },
-          { letter: "B", text: "08:00" },
-          { letter: "C", text: "09:00" }
+          { letter: "A", image: "q0A.png" },
+          { letter: "B", image: "q0B.png" },
+          { letter: "C", image: "q0C.png" }
         ],
         answer: "C"
       },
       items: [
-        { id: 1, question: "What have they forgotten?",  options: [ { letter: "A", text: "tickets" },    { letter: "B", text: "camera" },         { letter: "C", text: "diary" } ],         answer: "B" },
-        { id: 2, question: "What time does the train go?", options: [ { letter: "A", text: "6:15" },     { letter: "B", text: "6:00" },           { letter: "C", text: "6:45" } ],          answer: "A" },
-        { id: 3, question: "Where is Room 22?",            options: [ { letter: "A", text: "A (above main hall)" }, { letter: "B", text: "B (below main hall)" }, { letter: "C", text: "C (bottom right)" } ], answer: "B" },
-        { id: 4, question: "Which man wants to see him?",   options: [ { letter: "A", text: "man with hat & beard" }, { letter: "B", text: "man with hat, glasses & beard" }, { letter: "C", text: "man with beard only" } ], answer: "A" },
-        { id: 5, question: "How did the woman get to work?", options: [ { letter: "A", text: "bicycle" },   { letter: "B", text: "bus" },             { letter: "C", text: "car" } ],            answer: "C" }
+        { id: 1, question: "What have they forgotten?",       options: [ { letter: "A", image: "q1A.png" }, { letter: "B", image: "q1B.png" }, { letter: "C", image: "q1C.png" } ], answer: "B" },
+        { id: 2, question: "What time does the train go?",    options: [ { letter: "A", image: "q2A.png" }, { letter: "B", image: "q2B.png" }, { letter: "C", image: "q2C.png" } ], answer: "A" },
+        { id: 3, question: "Where is Room 22?",                options: [ { letter: "A", image: "q3full.png", composite: true }, { letter: "B", image: "q3full.png", composite: true }, { letter: "C", image: "q3full.png", composite: true } ], answer: "B" },
+        { id: 4, question: "Which man wants to see him?",       options: [ { letter: "A", image: "q4A.png" }, { letter: "B", image: "q4B.png" }, { letter: "C", image: "q4C.png" } ], answer: "A" },
+        { id: 5, question: "How did the woman get to work?",    options: [ { letter: "A", image: "q5A.png" }, { letter: "B", image: "q5B.png" }, { letter: "C", image: "q5C.png" } ], answer: "C" }
       ]
     },
 

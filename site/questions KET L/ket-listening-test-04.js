@@ -31,22 +31,19 @@ window.KET_L_TEST = {
         "There is one question for each conversation.",
         "For questions 1–5, put a tick (✓) under the right answer."
       ],
+      imageBase: "https://storage.googleapis.com/mockstream-listening-audio/KET-Listening/test4/p1/",
       example: {
         number: 0,
         question: "How many people were at the meeting?",
-        options: [
-          { letter: "A", text: "13" },
-          { letter: "B", text: "300" },
-          { letter: "C", text: "30" }
-        ],
+        options: [ { letter: "A", image: "q0A.png" }, { letter: "B", image: "q0B.png" }, { letter: "C", image: "q0C.png" } ],
         answer: "C"
       },
       items: [
-        { id: 1, question: "When is the party?",                options: [ { letter: "A", text: "TUESDAY" },     { letter: "B", text: "WEDNESDAY" },     { letter: "C", text: "THURSDAY" } ],   answer: "C" },
-        { id: 2, question: "Where are the glasses?",             options: [ { letter: "A", text: "on the table" },{ letter: "B", text: "in the cupboard" }, { letter: "C", text: "on the chair" } ], answer: "A" },
-        { id: 3, question: "How much are the shoes?",            options: [ { letter: "A", text: "shoe price A" },{ letter: "B", text: "shoe price B" },    { letter: "C", text: "shoe price C" } ], answer: "C" },
-        { id: 4, question: "What will the weather be like in the afternoon?", options: [ { letter: "A", text: "rainy" }, { letter: "B", text: "sunny" }, { letter: "C", text: "cloudy" } ], answer: "A" },
-        { id: 5, question: "What time will she take the train?",  options: [ { letter: "A", text: "clock A" },     { letter: "B", text: "clock B" },        { letter: "C", text: "clock C" } ],     answer: "C" }
+        { id: 1, question: "When is the party?",                              options: [{letter:"A",image:"q1A.png"},{letter:"B",image:"q1B.png"},{letter:"C",image:"q1C.png"}], answer: "C" },
+        { id: 2, question: "Where are the glasses?",                          options: [{letter:"A",image:"q2A.png"},{letter:"B",image:"q2B.png"},{letter:"C",image:"q2C.png"}], answer: "A" },
+        { id: 3, question: "How much are the shoes?",                          options: [{letter:"A",image:"q3A.png"},{letter:"B",image:"q3B.png"},{letter:"C",image:"q3C.png"}], answer: "C" },
+        { id: 4, question: "What will the weather be like in the afternoon?", options: [{letter:"A",image:"q4A.png"},{letter:"B",image:"q4B.png"},{letter:"C",image:"q4C.png"}], answer: "A" },
+        { id: 5, question: "What time will she take the train?",               options: [{letter:"A",image:"q5A.png"},{letter:"B",image:"q5B.png"},{letter:"C",image:"q5C.png"}], answer: "C" }
       ]
     },
 
