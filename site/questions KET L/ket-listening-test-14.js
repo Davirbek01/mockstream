@@ -24,10 +24,11 @@ window.KET_L_TEST = {
       type: "picture-mcq",
       instruction: ["You will hear five short conversations.","You will hear each conversation twice.","There is one question for each conversation.","For questions 1–5, put a tick (✓) under the right answer."],
       imageBase: "https://storage.googleapis.com/mockstream-listening-audio/KET-Listening/test14/p1/",
+      // Q2 (day names) shown as text — book renders them on plain calendar cards.
       example: { number: 0, question: "How many people were at the meeting?", options: [{letter:"A",image:"q0A.png"},{letter:"B",image:"q0B.png"},{letter:"C",image:"q0C.png"}], answer: "C" },
       items: [
         { id: 1, question: "What are they going to buy for Pam?",         options: [{letter:"A",image:"q1A.png"},{letter:"B",image:"q1B.png"},{letter:"C",image:"q1C.png"}], answer: "B" },
-        { id: 2, question: "What is the man's appointment?",                options: [{letter:"A",image:"q2A.png"},{letter:"B",image:"q2B.png"},{letter:"C",image:"q2C.png"}], answer: "B" },
+        { id: 2, question: "When is the man's appointment?",                options: [{letter:"A",text:"Wednesday"},{letter:"B",text:"Thursday"},{letter:"C",text:"Friday"}], answer: "B" },
         { id: 3, question: "Which is the aunt's postcard?",                  options: [{letter:"A",image:"q3A.png"},{letter:"B",image:"q3B.png"},{letter:"C",image:"q3C.png"}], answer: "C" },
         { id: 4, question: "What time will the plane to Milan leave?",      options: [{letter:"A",image:"q4A.png"},{letter:"B",image:"q4B.png"},{letter:"C",image:"q4C.png"}], answer: "C" },
         { id: 5, question: "What does Sue's father do?",                     options: [{letter:"A",image:"q5A.png"},{letter:"B",image:"q5B.png"},{letter:"C",image:"q5C.png"}], answer: "A" }
