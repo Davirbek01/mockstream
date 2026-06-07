@@ -1,9 +1,6 @@
 // Cambridge KET (Key English Test) — Paper 2 Listening — Test 4
 // VERBATIM transcription from the official Cambridge KET Book 1 · Test 4.
 // 5 parts · 25 questions · approximately 30 minutes (including 8 minutes transfer time).
-//
-// NOTE: Part 3 audio (Q11–15) is currently unavailable — questions display but
-// audio is a silent placeholder. Replace site-side once the file is supplied.
 
 window.KET_L_TEST = {
   testInfo: {
@@ -18,8 +15,7 @@ window.KET_L_TEST = {
 
   audio: {
     base: "https://storage.googleapis.com/mockstream-listening-audio/KET-Listening/test4/",
-    files: { 1: "PART1.mp3", 2: "PART2.mp3", 3: "PART3.mp3", 4: "PART4.mp3", 5: "PART5.mp3" },
-    unavailable: [3]
+    files: { 1: "PART1.mp3", 2: "PART2.mp3", 3: "PART3.mp3", 4: "PART4.mp3", 5: "PART5.mp3" }
   },
 
   parts: [
@@ -93,8 +89,6 @@ window.KET_L_TEST = {
       label: "PART 3",
       questionsLabel: "QUESTIONS 11–15",
       type: "mcq-conversation",
-      audioUnavailable: true,
-      audioUnavailableNote: "Audio for Part 3 is currently unavailable. Questions are shown so you can read the answer key.",
       instruction: [
         "Listen to Carlos asking for information about a library.",
         "For questions 11–15, tick (✓) A, B or C.",
