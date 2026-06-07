@@ -58,11 +58,26 @@
     .matching-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:10px}
     .matching-grid h4{margin:0 0 8px;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--navy-700)}
     .match-row{display:flex;align-items:center;gap:10px;margin:6px 0}
-    .match-row select{padding:6px 10px;border:2px solid var(--line);border-radius:6px;font-size:14px;font-weight:600;color:var(--navy-800);background:#fff}
-    .match-row .num{background:var(--navy-700);color:#fff;width:24px;height:24px;line-height:24px;text-align:center;border-radius:50%;font-weight:700;font-size:12px;display:inline-flex;align-items:center;justify-content:center}
-    .opt-list{font-size:14px}
-    .opt-list .opt{display:flex;gap:8px;padding:4px 0}
-    .opt-list .ltr{font-weight:800;color:var(--navy-700);width:22px}
+    .match-row .num{background:var(--navy-700);color:#fff;width:24px;height:24px;line-height:24px;text-align:center;border-radius:50%;font-weight:700;font-size:12px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 24px}
+    .match-slot{flex:1 1 auto;min-width:0;min-height:38px;border:2px dashed var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;background:#fff;cursor:pointer;font-weight:700;color:var(--navy-700);font-size:14px;padding:6px 10px;transition:all .12s;user-select:none}
+    .match-slot:hover{border-style:solid;border-color:var(--blue-400);background:#eef2ff}
+    .match-slot.drag-over{border-style:solid;border-color:var(--blue-500);background:#dbe6ff;transform:scale(1.02)}
+    .match-slot.filled{border-style:solid;border-color:var(--blue-500);background:#eaf2ff;color:var(--navy-800);justify-content:space-between}
+    .match-slot.slot-armed{border-style:solid;border-color:var(--gold-400);background:#fff8e6}
+    .match-slot .slot-empty{color:#9aa4c8;font-weight:600}
+    .match-slot .slot-x{font-size:14px;color:#9aa4c8;margin-left:8px;font-weight:800}
+    .match-slot.filled:hover .slot-x{color:var(--rose)}
+    .opt-list{display:flex;flex-direction:column;gap:6px}
+    .opt-tile{display:flex;align-items:center;gap:8px;padding:8px 12px;border:2px solid var(--line);border-radius:8px;background:#fff;cursor:grab;font-size:14px;font-weight:600;color:var(--navy-800);transition:all .12s;user-select:none}
+    .opt-tile:active{cursor:grabbing}
+    .opt-tile:hover{border-color:var(--blue-400);background:#eef2ff}
+    .opt-tile.selected{border-color:var(--gold-400);background:#fff8e6;box-shadow:0 0 0 3px rgba(242,193,78,.3)}
+    .opt-tile.used{opacity:.4;cursor:not-allowed;background:#f4f4f4}
+    .opt-tile.used:hover{border-color:var(--line);background:#f4f4f4}
+    .opt-tile .ltr{font-weight:800;color:var(--navy-700);width:22px;text-align:center;flex:0 0 22px}
+    .opt-tile.dragging{opacity:.5}
+    .arm-banner{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--navy-800);color:#fff;padding:10px 18px;border-radius:999px;font-weight:600;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.3);display:none;z-index:50}
+    .arm-banner.show{display:block}
     .notes-card{background:#fff8e6;border:1px solid #ffe79b;border-radius:12px;padding:18px;margin-top:10px}
     .notes-card h3{margin:0 0 10px;font-family:'Playfair Display',serif;color:var(--navy-800)}
     .notes-card .subtitle{color:#46527d;font-size:13px;margin-bottom:10px;white-space:pre-line}
@@ -88,7 +103,8 @@
       .matching-grid{grid-template-columns:1fr}
       .match-row{flex-wrap:wrap}
       .match-row > span:nth-child(2){flex:1 1 auto;min-width:0}
-      .match-row select{flex:0 0 calc(100% - 34px);margin-left:34px;width:calc(100% - 34px)}
+      .match-slot{flex:0 0 calc(100% - 34px);margin-left:34px}
+      .opt-tile{padding:10px 14px;font-size:15px}
       .notes-row{flex-wrap:wrap;padding:10px 0}
       .notes-row .lbl{flex:1 1 100%;font-size:13px;margin-bottom:4px}
       .notes-row .num{margin-left:0}
@@ -235,26 +251,143 @@ function renderMatchingList(part){
       + '<div style="display:flex;justify-content:space-between;align-items:center"><div class="ex-label">Example 0 – ' + escapeHtml(ex.name) + '</div><div><span class="ex-label">Answer</span> <span class="ex-answer-pill">' + escapeHtml(ex.answer) + '</span></div></div>'
       + '</div>';
   }
+  // Build option text map for filled-slot display
+  var optTextMap = {};
+  part.options.forEach(function(o){ optTextMap[o.letter] = o.text; });
   html += '<div class="matching-grid">';
+  // LEFT — people rows with drop slots
   html += '<div><h4>' + escapeHtml(part.leftLabel || 'PEOPLE') + '</h4>';
   part.items.forEach(function(item){
     html += '<div class="match-row" data-qslot="' + item.id + '">';
     html += '<span class="num">' + item.id + '</span>';
-    html += '<span style="flex:1;font-weight:600">' + escapeHtml(item.name) + '</span>';
-    html += '<select onchange="pickMatch(' + item.id + ', this.value, this)">';
-    html += '<option value="">—</option>';
-    part.options.forEach(function(o){ html += '<option value="' + o.letter + '">' + escapeHtml(o.letter + ' — ' + o.text) + '</option>'; });
-    html += '</select>';
+    html += '<span style="flex:0 0 auto;font-weight:600;min-width:90px">' + escapeHtml(item.name) + '</span>';
+    html += '<div class="match-slot" data-id="' + item.id + '" data-letter=""'
+      + ' onclick="onSlotTap(' + item.id + ', this)"'
+      + ' ondragover="onSlotDragOver(event, this)"'
+      + ' ondragleave="onSlotDragLeave(this)"'
+      + ' ondrop="onSlotDrop(event, ' + item.id + ', this)">'
+      + '<span class="slot-empty">— drop here —</span></div>';
     html += '</div>';
   });
   html += '</div>';
+  // RIGHT — draggable option tiles
   html += '<div><h4>' + escapeHtml(part.rightLabel || 'OPTIONS') + '</h4><div class="opt-list">';
   part.options.forEach(function(o){
-    html += '<div class="opt"><span class="ltr">' + escapeHtml(o.letter) + '</span><span>' + escapeHtml(o.text) + '</span></div>';
+    html += '<div class="opt-tile" draggable="true" data-letter="' + o.letter + '" data-text="' + escapeHtml(o.text) + '"'
+      + ' onclick="onOptTap(this)"'
+      + ' ondragstart="onOptDragStart(event, this)"'
+      + ' ondragend="onOptDragEnd(this)">'
+      + '<span class="ltr">' + escapeHtml(o.letter) + '</span>'
+      + '<span>' + escapeHtml(o.text) + '</span>'
+      + '</div>';
   });
   html += '</div></div>';
   html += '</div>';
   return html;
+}
+
+// ─── Matching state + handlers (drag&drop on PC, tap-to-fill on mobile) ───
+var __armedOpt = null; // currently armed letter
+var __optTextCache = {};
+
+function __ensureArmBanner(){
+  var b = document.getElementById('armBanner');
+  if (!b){
+    b = document.createElement('div');
+    b.id = 'armBanner';
+    b.className = 'arm-banner';
+    document.body.appendChild(b);
+  }
+  return b;
+}
+function __setArmed(letter, tile){
+  __armedOpt = letter;
+  document.querySelectorAll('.opt-tile.selected').forEach(function(x){x.classList.remove('selected');});
+  document.querySelectorAll('.match-slot.slot-armed').forEach(function(x){x.classList.remove('slot-armed');});
+  var b = __ensureArmBanner();
+  if (letter && tile){
+    tile.classList.add('selected');
+    // Highlight empty slots so user sees where to tap
+    document.querySelectorAll('.match-slot:not(.filled)').forEach(function(s){s.classList.add('slot-armed');});
+    b.textContent = '👉 Tap a person to assign ' + letter + ' — ' + (__optTextCache[letter] || '');
+    b.classList.add('show');
+  } else {
+    b.classList.remove('show');
+  }
+}
+function __cacheOptText(){
+  document.querySelectorAll('.opt-tile').forEach(function(t){
+    __optTextCache[t.getAttribute('data-letter')] = t.getAttribute('data-text') || '';
+  });
+}
+function __getSlot(id){ return document.querySelector('.match-slot[data-id="'+id+'"]'); }
+function __getTile(letter){ return document.querySelector('.opt-tile[data-letter="'+letter+'"]'); }
+
+function __fillSlot(id, letter){
+  __cacheOptText();
+  var slot = __getSlot(id);
+  if (!slot) return;
+  // Find any other slot that already has this letter and clear it (move semantics)
+  document.querySelectorAll('.match-slot[data-letter="'+letter+'"]').forEach(function(s){
+    if (s !== slot) __clearSlotEl(s);
+  });
+  // Return previous occupant of this slot to the pool
+  var prev = slot.getAttribute('data-letter');
+  if (prev) { var pt = __getTile(prev); if (pt) pt.classList.remove('used'); delete picks[id]; }
+  slot.setAttribute('data-letter', letter);
+  slot.classList.add('filled');
+  slot.classList.remove('slot-armed');
+  slot.innerHTML = '<span><strong>' + letter + '</strong> — ' + escapeHtml(__optTextCache[letter] || '') + '</span><span class="slot-x" title="Tap to remove">✕</span>';
+  var tile = __getTile(letter);
+  if (tile) tile.classList.add('used');
+  picks[id] = letter;
+}
+function __clearSlotEl(slot){
+  var prev = slot.getAttribute('data-letter');
+  if (prev) { var pt = __getTile(prev); if (pt) pt.classList.remove('used'); }
+  var id = slot.getAttribute('data-id');
+  delete picks[parseInt(id, 10)];
+  slot.setAttribute('data-letter', '');
+  slot.classList.remove('filled');
+  slot.innerHTML = '<span class="slot-empty">— drop here —</span>';
+}
+function __clearSlot(id){
+  var s = __getSlot(id); if (s) __clearSlotEl(s);
+}
+
+function onOptTap(el){
+  if (el.classList.contains('used')) return;
+  var letter = el.getAttribute('data-letter');
+  if (__armedOpt === letter){ __setArmed(null); return; }
+  __cacheOptText();
+  __setArmed(letter, el);
+}
+function onSlotTap(id, el){
+  if (el.classList.contains('filled')){
+    __clearSlot(id);
+    return;
+  }
+  if (__armedOpt){
+    var letter = __armedOpt;
+    __setArmed(null);
+    __fillSlot(id, letter);
+  }
+}
+function onOptDragStart(e, el){
+  if (el.classList.contains('used')){ e.preventDefault(); return; }
+  el.classList.add('dragging');
+  e.dataTransfer.setData('text/letter', el.getAttribute('data-letter'));
+  e.dataTransfer.effectAllowed = 'move';
+}
+function onOptDragEnd(el){ el.classList.remove('dragging'); }
+function onSlotDragOver(e, el){ e.preventDefault(); el.classList.add('drag-over'); }
+function onSlotDragLeave(el){ el.classList.remove('drag-over'); }
+function onSlotDrop(e, id, el){
+  e.preventDefault();
+  el.classList.remove('drag-over');
+  var letter = e.dataTransfer.getData('text/letter');
+  if (!letter) return;
+  __fillSlot(id, letter);
 }
 
 function renderMcqConversation(part){
@@ -308,7 +441,6 @@ function pickMcq(id, letter, el){
   el.parentElement.querySelectorAll('.mcq-opt').forEach(function(x){ x.classList.remove('picked'); });
   el.classList.add('picked');
 }
-function pickMatch(id, letter, el){ picks[id] = letter || ''; }
 function pickInput(id, value){ picks[id] = (value || '').trim(); }
 
 // Timer
