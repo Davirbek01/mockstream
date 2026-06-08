@@ -2013,7 +2013,25 @@
           }
         }
         var ddBtn = row && row.querySelector('.dd-btn');
-        if (ddBtn) ddBtn.classList.add(ok ? 'is-correct' : 'is-wrong');
+        if (ddBtn) {
+          ddBtn.classList.add(ok ? 'is-correct' : 'is-wrong');
+          // If candidate left it blank, paint the correct letter into the trigger so the
+          // dialogue reads naturally — same in-place fill as Listening note rows.
+          if (!given && item.answer) {
+            var circle = ddBtn.querySelector('.dd-circle');
+            if (circle) {
+              circle.classList.remove('empty');
+              circle.textContent = item.answer;
+            }
+            var current = ddBtn.querySelector('.dd-current');
+            if (current) {
+              current.textContent = item.answer;
+              current.classList.add('picked');
+            }
+            var clozeNum = ddBtn.querySelector('.cloze-num');
+            if (clozeNum) clozeNum.textContent = item.answer;
+          }
+        }
       });
     });
     document.body.classList.add('submitted');
