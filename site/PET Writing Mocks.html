@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>PET Reading — Mock</title>
+  <title>PET Writing — Mock</title>
   <script src="center-id.js"></script>
   <script src="site-config/site-config.js"></script>
-  <script>document.addEventListener('DOMContentLoaded',function(){document.title=((window.SITE_CONFIG&&window.SITE_CONFIG.brandName)||'Mock Stream')+' · PET Reading';});</script>
+  <script>document.addEventListener('DOMContentLoaded',function(){document.title=((window.SITE_CONFIG&&window.SITE_CONFIG.brandName)||'Mock Stream')+' · PET Writing';});</script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Caveat:wght@500;700&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -1195,92 +1195,6 @@
       .leave-card p { font-size: 13px; margin-bottom: 16px; }
       .leave-actions button { padding: 10px 14px; font-size: 13.5px; border-radius: 10px; }
     }
-
-    /* ─── PET-specific styles ─────────────────────────────────────── */
-    .q-num { width: 32px; height: 32px; flex-shrink: 0; border-radius: 999px; background: var(--blue-500); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; }
-    .q-num.inline { display: inline-flex; margin-right: 10px; vertical-align: middle; }
-
-    /* Part 1 — short signs/notices */
-    .pet-p1-list { display: flex; flex-direction: column; gap: 24px; }
-    .pet-p1-row { display: grid; grid-template-columns: 36px 1fr 1fr; gap: 18px; align-items: start; }
-    .pet-notice { background: var(--paper-warm); border: 1.5px solid var(--ring-strong); border-radius: 12px; padding: 14px 16px; min-height: 90px; box-shadow: 0 2px 6px rgba(11,29,58,0.05); position: relative; }
-    .pet-notice-formal { background: #fff; border-color: var(--navy-800); }
-    .pet-notice-formal .pet-notice-title { background: var(--navy-800); color: #fff; margin: -14px -16px 12px; padding: 8px 12px; border-radius: 11px 11px 0 0; font-weight: 800; font-size: 13.5px; letter-spacing: 1px; text-align: center; text-transform: uppercase; }
-    .pet-notice-note { background: #fef9c3; border-color: #fde047; transform: rotate(-0.5deg); }
-    .pet-notice-note .pet-notice-title { font-family: 'Caveat', cursive; font-size: 22px; color: #713f12; margin-bottom: 6px; }
-    .pet-notice-note .pet-notice-body, .pet-notice-note .pet-notice-sig { font-family: 'Caveat', cursive; font-size: 19px; color: #713f12; line-height: 1.35; }
-    .pet-notice-message { background: #e0f2fe; border-color: #7dd3fc; border-radius: 14px 14px 14px 4px; }
-    .pet-notice-message .pet-notice-title { font-weight: 800; color: var(--navy-800); margin-bottom: 4px; font-size: 13px; }
-    .pet-notice-sign { background: #fff; border: 2px solid var(--navy-700); }
-    .pet-notice-sign .pet-notice-title { text-align: center; font-weight: 900; font-size: 15px; color: var(--navy-900); letter-spacing: 0.5px; padding-bottom: 8px; margin-bottom: 8px; border-bottom: 1px solid var(--ring); }
-    .pet-notice-sign .pet-notice-body { text-align: center; }
-    .pet-notice-body { font-size: 13.5px; line-height: 1.55; color: var(--ink); }
-    .pet-notice-sig { margin-top: 8px; font-weight: 700; color: var(--ink-2); text-align: right; font-size: 13px; }
-    .pet-p1-q { display: flex; flex-direction: column; gap: 10px; }
-    .pet-p1-stem { font-weight: 700; color: var(--ink); font-size: 14.5px; }
-    .pet-mcq-list { display: flex; flex-direction: column; gap: 8px; }
-    .mcq-opt { background: #fff; border: 1.5px solid var(--ring); border-radius: 12px; padding: 12px 14px; cursor: pointer; display: flex; gap: 12px; align-items: flex-start; text-align: left; font-family: inherit; font-size: 14px; color: var(--ink); transition: all .12s ease; }
-    .mcq-opt:hover { border-color: var(--blue-400); background: #f0f9ff; }
-    .mcq-opt.selected, .mcq-opt.picked { border-color: var(--blue-500); background: #dbeafe; box-shadow: 0 2px 8px rgba(28,91,216,0.15); }
-    .mcq-opt.is-correct { border-color: var(--emerald-500) !important; background: #ecfdf5 !important; }
-    .mcq-opt.is-wrong { border-color: var(--rose-500) !important; background: #fef2f2 !important; }
-    .mcq-letter { flex-shrink: 0; font-weight: 900; color: var(--navy-700); width: 22px; }
-    .mcq-text { flex: 1; line-height: 1.45; }
-    @media (max-width: 760px) {
-      .pet-p1-row { grid-template-columns: 28px 1fr; }
-      .pet-p1-row .pet-notice { grid-column: 1 / -1; margin-left: 28px; }
-      .pet-p1-row .pet-p1-q { grid-column: 1 / -1; margin-left: 28px; }
-      .pet-p1-row .q-num { grid-row: 1; }
-    }
-
-    /* Part 2 — people / texts matching */
-    .pet-p2-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
-    .pet-section-head { font-size: 11px; font-weight: 900; letter-spacing: 1.6px; text-transform: uppercase; color: var(--navy-700); margin: 0 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--ring); }
-    .pet-p2-people { display: flex; flex-direction: column; gap: 16px; }
-    .pet-p2-person { display: flex; gap: 12px; align-items: flex-start; background: var(--bg-soft); border-radius: 12px; padding: 14px; border-left: 3px solid var(--blue-500); }
-    .pet-person-body { flex: 1; }
-    .pet-person-name { font-weight: 800; color: var(--ink); font-size: 14.5px; margin-bottom: 4px; }
-    .pet-person-desc { font-size: 13.5px; line-height: 1.55; color: var(--ink-2); margin-bottom: 10px; }
-    .pet-p2-letters { display: flex; flex-wrap: wrap; gap: 6px; }
-    .opt-pill { background: #fff; border: 1.5px solid var(--ring); border-radius: 999px; min-width: 38px; height: 34px; padding: 0 12px; font-weight: 800; cursor: pointer; font-family: inherit; font-size: 13px; color: var(--navy-700); transition: all .12s ease; display: inline-flex; align-items: center; justify-content: center; }
-    .opt-pill:hover { border-color: var(--blue-400); background: #f0f9ff; }
-    .opt-pill.selected, .opt-pill.picked { background: var(--blue-500); color: #fff; border-color: var(--blue-500); }
-    .opt-pill.is-correct { background: var(--emerald-500) !important; color: #fff !important; border-color: var(--emerald-500) !important; }
-    .opt-pill.is-wrong { background: var(--rose-500) !important; color: #fff !important; border-color: var(--rose-500) !important; }
-    .pet-p2-texts { display: flex; flex-direction: column; gap: 12px; }
-    .pet-text-card { background: #fff; border: 1px solid var(--ring); border-radius: 10px; padding: 12px 14px; display: flex; gap: 12px; }
-    .pet-text-letter { flex-shrink: 0; width: 30px; height: 30px; border-radius: 999px; background: var(--navy-800); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-weight: 900; font-size: 14px; }
-    .pet-text-body { font-size: 13px; line-height: 1.55; color: var(--ink); flex: 1; }
-    @media (max-width: 820px) {
-      .pet-p2-grid { grid-template-columns: 1fr; gap: 18px; }
-      .pet-p2-texts { order: -1; }
-    }
-
-    /* Part 3 — passage + T/F */
-    .pet-passage { background: var(--paper-warm); border: 1px solid var(--ring); border-radius: 14px; padding: 22px 26px; margin-bottom: 22px; font-size: 14.5px; line-height: 1.7; color: var(--ink); }
-    .pet-passage-title { font-family: 'Playfair Display', serif; font-size: 24px; margin: 0 0 4px; color: var(--navy-900); text-align: center; }
-    .pet-passage-sub { font-size: 13px; color: var(--muted); margin-bottom: 14px; text-align: center; font-style: italic; }
-    .pet-passage p { margin: 0 0 12px; }
-    .pet-passage p:last-child { margin-bottom: 0; }
-    .pet-tf-list { display: flex; flex-direction: column; gap: 12px; }
-    .pet-tf-row { display: grid; grid-template-columns: 36px 1fr; gap: 12px; align-items: start; padding: 12px; background: #fff; border: 1px solid var(--ring); border-radius: 10px; }
-    .pet-tf-stem { font-size: 14px; line-height: 1.55; color: var(--ink); grid-column: 2; }
-    .pet-tf-buttons { grid-column: 2; display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
-    .pet-tf-btn { padding: 0 16px; }
-
-    /* Part 4 — passage + MCQ A/B/C/D */
-    .pet-mcq-block { display: flex; flex-direction: column; gap: 18px; }
-    .pet-mcq-row { background: #fff; border: 1px solid var(--ring); border-radius: 12px; padding: 14px 16px; }
-    .pet-mcq-stem { font-weight: 700; color: var(--ink); font-size: 14.5px; margin-bottom: 10px; line-height: 1.5; }
-
-    /* Part 5 — cloze with inline gap pills */
-    .pet-cloze-passage .pet-gap-inline { display: inline-block; min-width: 50px; padding: 1px 10px; margin: 0 3px; border-radius: 999px; background: var(--amber-200); border: 1px solid var(--gold-400); font-weight: 800; color: var(--navy-800); text-align: center; font-size: 13.5px; }
-    .pet-cloze-block .pet-mcq-row { padding: 12px 14px; }
-    .pet-cloze-options { flex-direction: row !important; flex-wrap: wrap; gap: 8px; }
-    .pet-cloze-options .mcq-opt { flex: 1 1 calc(50% - 4px); min-width: 0; padding: 8px 10px; font-size: 13.5px; }
-    @media (min-width: 720px) {
-      .pet-cloze-options .mcq-opt { flex: 1 1 calc(25% - 6px); }
-    }
   </style>
 </head>
 <body>
@@ -1313,11 +1227,11 @@
   <div class="paper-hero">
     <span class="lvl-chip">⭐ B1 · Preliminary English Test</span>
     <div class="test-no" id="heroTestNo">Test 1</div>
-    <div class="paper-line"><strong>PAPER 1</strong> &nbsp; READING &nbsp;·&nbsp; 50 minutes</div>
+    <div class="paper-line"><strong>PAPER 1</strong> &nbsp; WRITING &nbsp;·&nbsp; 45 minutes</div>
     <div class="meta-row">
-      <div class="m">📑 <b>5 parts</b></div>
-      <div class="m">❓ <b>35 questions</b></div>
-      <div class="m">⏱ <b>50 min</b></div>
+      <div class="m">📑 <b>3 parts</b></div>
+      <div class="m">❓ <b>7 questions</b></div>
+      <div class="m">⏱ <b>45 min</b></div>
     </div>
   </div>
   <div id="partsRoot"></div>
@@ -1343,15 +1257,15 @@
 </div>
 
 <script>
-  // Dynamic mock loader. ?mock=02 (or 2) → questions PET R/pet-reading-test-02.js.
+  // Dynamic mock loader. ?mock=02 (or 2) → questions PET W/pet-writing-test-02.js.
   // Defaults to mock 01 when the param is absent or invalid.
   (function () {
     var p = new URLSearchParams(location.search);
     var n = parseInt(p.get('mock') || '1', 10);
     if (!n || n < 1 || n > 99) n = 1;
     var pad = (n < 10 ? '0' : '') + n;
-    window._PET_MOCK_NUM = pad;
-    document.write('<script src="questions PET R/pet-reading-test-' + pad + '.js"><\/script>');
+    window._PET_W_MOCK_NUM = pad;
+    document.write('<script src="questions PET W/pet-writing-test-' + pad + '.js"><\/script>');
   })();
 </script>
 <script>
@@ -1385,22 +1299,6 @@
   }
   function getAns(id) { return window.__ANS[id] || ''; }
 
-  // Pill / MCQ pickers — set both `selected` (visual) and `picked` (for markAnswers query)
-  function pickPill(id, letter, btn) {
-    setAns(id, letter);
-    var parent = btn.parentElement;
-    parent.querySelectorAll('.opt-pill').forEach(function (p) { p.classList.remove('selected'); p.classList.remove('picked'); });
-    btn.classList.add('selected');
-    btn.classList.add('picked');
-  }
-  function pickMcq(id, letter, btn) {
-    setAns(id, letter);
-    var parent = btn.parentElement;
-    parent.querySelectorAll('.mcq-opt').forEach(function (p) { p.classList.remove('selected'); p.classList.remove('picked'); });
-    btn.classList.add('selected');
-    btn.classList.add('picked');
-  }
-
   function refreshAnsweredMarkers(id) {
     // Mark parent .q-row / .sentence-q answered when any input/pill is filled
     document.querySelectorAll('[data-qslot="' + id + '"]').forEach(function (el) {
@@ -1410,11 +1308,11 @@
   }
 
   function refreshNavStrip() {
-    if (!window.PET_R_TEST) return;
+    if (!window.PET_W_TEST) return;
     var strip = document.getElementById('navStrip');
     if (!strip) return;
     strip.innerHTML = '';
-    var parts = window.PET_R_TEST.parts;
+    var parts = window.PET_W_TEST.parts;
     var partGroups = {};
     parts.forEach(function (p) {
       var key = p.partNumber + (p.partLetter || '');
@@ -1488,156 +1386,106 @@
       + '</div>';
   }
 
-  // ─── PART 1: short signs/notices, 5 questions, MCQ A/B/C ─────────
-  function renderPart1(part) {
+  // PET Part 1 — sentence transformation (Q1-5)
+  function renderSentenceTransformation(part) {
     var html = renderPartHeader(part);
-    html += renderExampleSimple(part.example.prompt, part.example.answer);
-    html += '<div class="pet-p1-list">';
-    part.items.forEach(function (item) {
-      var styleClass = item.style ? 'pet-notice pet-notice-' + item.style : 'pet-notice';
-      html += '<div class="pet-p1-row" data-qslot="' + item.id + '">';
-      html += '<div class="q-num">' + item.id + '</div>';
-      html += '<div class="' + styleClass + '">';
-      if (item.noticeTitle) html += '<div class="pet-notice-title">' + escapeHtml(item.noticeTitle) + '</div>';
-      html += '<div class="pet-notice-body">' + escapeHtml(item.noticeText).replace(/\n/g, '<br>') + '</div>';
-      if (item.noticeSig) html += '<div class="pet-notice-sig">' + escapeHtml(item.noticeSig) + '</div>';
+    if (part.topic) html += '<div style="margin:0 0 14px;font-size:14px;color:var(--ink-2);font-style:italic">' + escapeHtml(part.topic) + '</div>';
+    html += '<div class="part-instr-note" style="background:#fef3c7;border-left:3px solid var(--gold-500);border-radius:8px;padding:10px 14px;margin:0 0 18px;font-weight:700;font-size:13.5px;color:var(--navy-800)">Use no more than three words.</div>';
+    if (part.example) {
+      html += '<div class="example-card vert" style="display:block">';
+      html += '<div class="ex-label">Example 0</div>';
+      html += '<div style="margin:6px 0 4px;font-size:14.5px"><strong>' + escapeHtml(part.example.first) + '</strong></div>';
+      html += '<div style="font-size:14.5px">' + escapeHtml(part.example.beforeBlank || '') + ' <span class="ex-answer-pill" style="vertical-align:middle">' + escapeHtml(part.example.answer) + '</span> ' + escapeHtml(part.example.afterBlank || '') + '</div>';
       html += '</div>';
-      html += '<div class="pet-p1-q">';
-      html += '<div class="pet-p1-stem">' + escapeHtml(item.prompt) + '</div>';
-      html += '<div class="pet-mcq-list">';
-      item.options.forEach(function (o) {
-        html += '<button class="mcq-opt" data-letter="' + o.letter + '" onclick="pickMcq(' + item.id + ',\'' + o.letter + '\',this)">';
-        html += '<span class="mcq-letter">' + o.letter + '</span><span class="mcq-text">' + escapeHtml(o.text) + '</span>';
-        html += '</button>';
-      });
+    }
+    part.items.forEach(function (it) {
+      html += '<div class="st-row" data-qslot="' + it.id + '" style="background:#fff;border:1px solid var(--ring);border-radius:12px;padding:14px 16px;margin-bottom:12px">';
+      html += '<div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:8px"><div class="q-num">' + it.id + '</div>';
+      html += '<div style="flex:1;font-weight:700;color:var(--ink);font-size:14.5px">' + escapeHtml(it.first) + '</div></div>';
+      html += '<div style="font-size:14.5px;color:var(--ink);line-height:1.7;padding-left:44px">';
+      html += escapeHtml(it.beforeBlank || '') + ' <input type="text" class="an-input st-input" data-id="' + it.id + '" oninput="setAns(' + it.id + ', this.value)" placeholder="(' + it.id + ')" style="min-width:160px;display:inline-block"> ' + escapeHtml(it.afterBlank || '');
       html += '</div></div>';
+    });
+    return html;
+  }
+
+  // PET Part 2 (Q6) + Part 3 (Q7/Q8) — long-form writing tasks with sample answer auto-fill
+  function renderWritingTask(part) {
+    var html = renderPartHeader(part);
+    // Two-prompt choice (Q7 OR Q8 in Part 3): render side-by-side
+    if (part.choices) {
+      html += '<div style="font-weight:700;color:var(--navy-800);margin:0 0 8px">Choose ONE question (Q7 or Q8) and write your answer.</div>';
+      html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">';
+      part.choices.forEach(function (c) {
+        html += '<div style="background:var(--bg-soft);border:1px solid var(--ring);border-radius:12px;padding:14px">';
+        html += '<div style="font-weight:800;color:var(--navy-800);margin-bottom:6px">Question ' + c.id + '</div>';
+        html += '<div style="font-size:13.5px;line-height:1.55;color:var(--ink-2)">' + escapeHtml(c.prompt).replace(/\n/g, '<br>') + '</div>';
+        html += '</div>';
+      });
       html += '</div>';
-    });
+      html += '<div style="font-weight:700;color:var(--navy-800);margin:14px 0 6px">Write your answer (' + escapeHtml(part.wordCount || 'about 100 words') + '):</div>';
+    } else {
+      // Single-prompt task (Q6)
+      html += '<div class="postcard-prompt-card" style="background:#fef9c3;border:1px solid #fde047;border-radius:14px;padding:18px 22px;margin:0 0 14px;font-size:14.5px;line-height:1.6;color:var(--ink)">' + escapeHtml(part.prompt).replace(/\n/g, '<br>') + '</div>';
+      html += '<div style="font-weight:700;color:var(--navy-800);margin:14px 0 6px">Write your answer (' + escapeHtml(part.wordCount || '35–45 words') + '):</div>';
+    }
+    var item = part.items[0];
+    html += '<div class="postcard-frame" data-qslot="' + item.id + '" style="background:#fffef9;border:1.5px solid var(--ring-strong);border-radius:14px;padding:14px">';
+    html += '<textarea class="postcard-textarea" data-id="' + item.id + '" oninput="setAns(' + item.id + ', this.value)" placeholder="Write your reply here..." style="width:100%;min-height:200px;padding:14px 16px;border:1.5px dashed var(--ring-strong);border-radius:10px;font-family:inherit;font-size:14.5px;line-height:1.65;resize:vertical;background:transparent;color:var(--ink)"></textarea>';
     html += '</div>';
     return html;
   }
 
-  // ─── PART 2: 5 people → 8 texts (A-H) matching ────────────────────
-  function renderPart2(part) {
+  // PART 9 — postcard writing (kept for KET-style postcards but not used by PET)
+  function renderPart9(part) {
     var html = renderPartHeader(part);
-    var letters = part.texts.map(function (t) { return t.letter; });
-    html += '<div class="pet-p2-grid">';
-    // Left: people
-    html += '<div class="pet-p2-people"><div class="pet-section-head">People</div>';
-    part.items.forEach(function (item) {
-      html += '<div class="pet-p2-person" data-qslot="' + item.id + '">';
-      html += '<div class="q-num">' + item.id + '</div>';
-      html += '<div class="pet-person-body">';
-      html += '<div class="pet-person-name">' + escapeHtml(item.name) + '</div>';
-      html += '<div class="pet-person-desc">' + escapeHtml(item.description) + '</div>';
-      html += '<div class="pet-p2-letters">';
-      letters.forEach(function (l) {
-        html += '<button class="opt-pill" data-letter="' + l + '" onclick="pickPill(' + item.id + ',\'' + l + '\',this)">' + l + '</button>';
-      });
-      html += '</div></div></div>';
-    });
-    html += '</div>';
-    // Right: texts
-    html += '<div class="pet-p2-texts"><div class="pet-section-head">' + escapeHtml(part.textsTitle || 'Texts') + '</div>';
-    part.texts.forEach(function (t) {
-      html += '<div class="pet-text-card">';
-      html += '<div class="pet-text-letter">' + t.letter + '</div>';
-      html += '<div class="pet-text-body">';
-      if (t.title) html += '<strong>' + escapeHtml(t.title) + '</strong> ';
-      html += escapeHtml(t.body);
-      html += '</div></div>';
-    });
-    html += '</div></div>';
-    return html;
-  }
-
-  // ─── PART 3: 10 True/False statements about a long passage ────────
-  function renderPart3(part) {
-    var html = renderPartHeader(part);
-    html += '<div class="pet-passage">';
-    if (part.passageTitle) html += '<h3 class="pet-passage-title">' + escapeHtml(part.passageTitle) + '</h3>';
-    if (part.passageSubtitle) html += '<div class="pet-passage-sub">' + escapeHtml(part.passageSubtitle) + '</div>';
-    part.passage.split(/\n\n+/).forEach(function (para) {
-      html += '<p>' + escapeHtml(para).replace(/\n/g, '<br>') + '</p>';
-    });
-    html += '</div>';
-    html += '<div class="pet-tf-list">';
-    part.items.forEach(function (item) {
-      html += '<div class="pet-tf-row" data-qslot="' + item.id + '">';
-      html += '<div class="q-num">' + item.id + '</div>';
-      html += '<div class="pet-tf-stem">' + escapeHtml(item.statement) + '</div>';
-      html += '<div class="pet-tf-buttons">';
-      ['A','B'].forEach(function (l) {
-        var label = l === 'A' ? 'A · Correct' : 'B · Incorrect';
-        html += '<button class="opt-pill pet-tf-btn" data-letter="' + l + '" onclick="pickPill(' + item.id + ',\'' + l + '\',this)">' + label + '</button>';
-      });
-      html += '</div></div>';
-    });
+    html += '<div class="postcard-prompt-card">' + escapeHtml(part.prompt) + '<div class="sig">' + escapeHtml(part.promptSignature) + '</div></div>';
+    html += '<div style="font-weight:700;color:var(--navy-800);margin:14px 0 6px">Write your postcard:</div>';
+    html += '<div class="postcard-frame" data-qslot="56">';
+    html += '<textarea class="postcard-textarea" data-id="56" oninput="setAns(56, this.value); updateWordCount(this);" placeholder="Write your reply here..."></textarea>';
+    html += '<div class="wc-row"><div class="wc-bar"><div class="wc-fill" id="wc-fill"></div></div><div class="wc-label" id="wc-line"><span id="wc-count">0</span> words · target 25–35</div></div>';
     html += '</div>';
     return html;
   }
 
-  // ─── PART 4: long passage + 5 MCQ A/B/C/D ─────────────────────────
-  function renderPart4(part) {
-    var html = renderPartHeader(part);
-    html += '<div class="pet-passage">';
-    if (part.passageTitle) html += '<h3 class="pet-passage-title">' + escapeHtml(part.passageTitle) + '</h3>';
-    if (part.passageSubtitle) html += '<div class="pet-passage-sub">' + escapeHtml(part.passageSubtitle) + '</div>';
-    part.passage.split(/\n\n+/).forEach(function (para) {
-      html += '<p>' + escapeHtml(para).replace(/\n/g, '<br>') + '</p>';
-    });
-    html += '</div>';
-    html += '<div class="pet-mcq-block">';
-    part.items.forEach(function (item) {
-      html += '<div class="pet-mcq-row" data-qslot="' + item.id + '">';
-      html += '<div class="pet-mcq-stem"><span class="q-num inline">' + item.id + '</span>' + escapeHtml(item.prompt) + '</div>';
-      html += '<div class="pet-mcq-list">';
-      item.options.forEach(function (o) {
-        html += '<button class="mcq-opt" data-letter="' + o.letter + '" onclick="pickMcq(' + item.id + ',\'' + o.letter + '\',this)">';
-        html += '<span class="mcq-letter">' + o.letter + '</span><span class="mcq-text">' + escapeHtml(o.text) + '</span>';
-        html += '</button>';
-      });
-      html += '</div></div>';
-    });
-    html += '</div>';
-    return html;
+  function updateWordCount(textarea) {
+    var txt = (textarea.value || '').trim();
+    var n = txt ? txt.split(/\s+/).length : 0;
+    var el = document.getElementById('wc-count');
+    var line = document.getElementById('wc-line');
+    var fill = document.getElementById('wc-fill');
+    if (el) el.textContent = n;
+    if (fill) {
+      var pct = Math.min(100, (n / 35) * 100);
+      fill.style.width = pct + '%';
+    }
+    if (line) {
+      line.classList.remove('in-range', 'out-range');
+      if (n >= 25 && n <= 35) line.classList.add('in-range');
+      else if (n > 35) line.classList.add('out-range');
+    }
   }
 
-  // ─── PART 5: short text with inline gaps + 10 MCQ A/B/C/D ─────────
-  function renderPart5(part) {
-    var html = renderPartHeader(part);
-    html += renderExampleSimple(part.example.prompt, part.example.answer);
-    html += '<div class="pet-passage pet-cloze-passage">';
-    if (part.passageTitle) html += '<h3 class="pet-passage-title">' + escapeHtml(part.passageTitle) + '</h3>';
-    if (part.passageSubtitle) html += '<div class="pet-passage-sub">' + escapeHtml(part.passageSubtitle) + '</div>';
-    // Replace {{N}} placeholders with inline gap pills displaying the question number
-    var passage = part.passage.split(/\n\n+/).map(function (para) {
-      var html2 = escapeHtml(para).replace(/\n/g, '<br>');
-      // Cambridge format: "(N) ___" or "(N) _____" — collapse the gap-number + blank line into a single styled pill.
-      html2 = html2.replace(/\((\d+)\)\s*_+/g, function (_, n) {
-        return '<span class="pet-gap-inline" data-gap="' + n + '">(' + n + ')</span>';
-      });
-      // Also accept {{N}} template form
-      html2 = html2.replace(/\{\{(\d+)\}\}/g, function (_, n) {
-        return '<span class="pet-gap-inline" data-gap="' + n + '">(' + n + ')</span>';
-      });
-      return '<p>' + html2 + '</p>';
-    }).join('');
-    html += passage + '</div>';
-    html += '<div class="pet-mcq-block pet-cloze-block">';
-    part.items.forEach(function (item) {
-      html += '<div class="pet-mcq-row" data-qslot="' + item.id + '">';
-      html += '<div class="pet-mcq-stem"><span class="q-num inline">' + item.id + '</span></div>';
-      html += '<div class="pet-mcq-list pet-cloze-options">';
-      item.options.forEach(function (o) {
-        html += '<button class="mcq-opt" data-letter="' + o.letter + '" onclick="pickMcq(' + item.id + ',\'' + o.letter + '\',this)">';
-        html += '<span class="mcq-letter">' + o.letter + '</span><span class="mcq-text">' + escapeHtml(o.text) + '</span>';
-        html += '</button>';
-      });
-      html += '</div></div>';
-    });
-    html += '</div>';
-    return html;
+  // ── Pickers ─────────────────────────────────────────────────────
+  function pickPill(id, letter, btn) {
+    setAns(id, letter);
+    var parent = btn.parentElement;
+    parent.querySelectorAll('.opt-pill').forEach(function (p) { p.classList.remove('selected'); });
+    btn.classList.add('selected');
+  }
+  function pickPillCloze(id, letter, text, btn) {
+    setAns(id, letter);
+    var parent = btn.parentElement;
+    parent.querySelectorAll('.opt-pill').forEach(function (p) { p.classList.remove('selected'); });
+    btn.classList.add('selected');
+    var pill = document.getElementById('gap-pill-' + id);
+    if (pill) { pill.textContent = letter + ' · ' + text; pill.style.background = '#d1fae5'; pill.style.borderColor = 'var(--emerald-500)'; pill.style.color = '#065f46'; }
+  }
+  function pickMcq(id, letter, el) {
+    setAns(id, letter);
+    var siblings = el.parentElement.querySelectorAll('.mcq-opt[data-id="' + id + '"]');
+    siblings.forEach(function (s) { s.classList.remove('selected'); });
+    el.classList.add('selected');
   }
 
   function escapeHtml(s) {
@@ -1649,18 +1497,16 @@
     return String(s == null ? '' : s).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
   }
 
+  // ── Build page ─────────────────────────────────────────────────
   function build() {
-    var data = window.PET_R_TEST;
+    var data = window.PET_W_TEST;
     if (!data) {
       document.getElementById('partsRoot').innerHTML = '<div style="padding:40px;text-align:center;color:var(--rose-500);background:#fff;border-radius:12px">Failed to load the test data.</div>';
       return;
     }
     var renderers = {
-      'sign-mcq':            renderPart1,
-      'match-people-texts':  renderPart2,
-      'true-false':          renderPart3,
-      'passage-mcq':         renderPart4,
-      'passage-cloze':       renderPart5
+      'sentence-transformation': renderSentenceTransformation,
+      'writing-task':            renderWritingTask
     };
     var rootHtml = '';
     data.parts.forEach(function (p, idx) {
@@ -1673,7 +1519,7 @@
   }
 
   // ── Timer ───────────────────────────────────────────────────────
-  var totalSeconds = (window.PET_R_TEST && window.PET_R_TEST.testInfo.totalTime || 50) * 60;
+  var totalSeconds = (window.PET_W_TEST && window.PET_W_TEST.testInfo.totalTime || 45) * 60;
   var endAt = Date.now() + totalSeconds * 1000;
   function fmt(s) {
     var h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
@@ -1691,7 +1537,7 @@
 
   // ── Submit + grade ──────────────────────────────────────────────
   function submitTest() {
-    var data = window.PET_R_TEST;
+    var data = window.PET_W_TEST;
     if (!data) return;
     var report = { perPart: [], totalScore: 0, totalAuto: 0, freeText: [] };
     data.parts.forEach(function (p) {
@@ -1720,9 +1566,36 @@
   // empties/wrongs. Same UX as the Listening runner: nothing lives below the
   // score card — all review happens inline up in the test window.
   function markAnswers() {
-    var data = window.PET_R_TEST;
+    var data = window.PET_W_TEST;
     if (!data) return;
     data.parts.forEach(function (p) {
+      // PET writing-task (Q6/Q7/Q8): no right/wrong — surface the verbatim Band-5 sample.
+      if (p.type === 'writing-task') {
+        (p.items || []).forEach(function (item) {
+          var ta = document.querySelector('.postcard-textarea[data-id="' + item.id + '"]');
+          if (!ta) return;
+          var sample = item.answer || '';
+          var hasOwn = ta.value && ta.value.trim().length > 0;
+          if (!hasOwn && sample) { ta.value = sample; }
+          function appendSample(label, band, body) {
+            if (!body) return;
+            var lbl = document.createElement('div');
+            lbl.style.cssText = 'margin-top:10px;padding:10px 12px;background:#ecfdf5;border-left:3px solid var(--emerald-500);border-radius:8px;font-size:13px;color:var(--navy-800);line-height:1.55';
+            var bandTag = band ? ' <span style="background:var(--emerald-600);color:#fff;padding:1px 8px;border-radius:999px;font-size:11px;font-weight:800;margin-left:6px">Band ' + escapeHtml(band) + '</span>' : '';
+            lbl.innerHTML = '<strong style="color:var(--emerald-600)">' + escapeHtml(label) + bandTag + ':</strong><br>' + escapeHtml(body).replace(/\n/g, '<br>');
+            var frame = ta.closest('.postcard-frame');
+            if (frame && frame.parentElement) frame.parentElement.insertBefore(lbl, frame.nextSibling);
+          }
+          if (sample) {
+            var primaryLabel = (p.choices ? 'Sample answer for Q' + item.id : 'Sample answer');
+            appendSample(primaryLabel, item.band, sample);
+          }
+          if (item.altSample) {
+            appendSample('Sample answer for Q' + item.altSample.q, item.altSample.band, item.altSample.text);
+          }
+        });
+        return;
+      }
       if (!isAutoGradable(p.type)) return;
       // Part 8 uses `rows` instead of `items` — normalise so both shapes mark.
       (p.items || p.rows || []).forEach(function (item) {
@@ -1779,8 +1652,7 @@
   }
 
   function isAutoGradable(t) {
-    return t === 'sign-mcq' || t === 'match-people-texts' || t === 'true-false'
-        || t === 'passage-mcq' || t === 'passage-cloze';
+    return t === 'sentence-transformation';
   }
   function normalize(s) {
     return String(s == null ? '' : s).trim().toLowerCase().replace(/\s+/g, ' ');
@@ -1816,7 +1688,7 @@
   // browser tab. Without this the hero stays "Test 1" even when
   // ?mock=2 is loaded because the markup pre-fills "Test 1".
   (function () {
-    var n = parseInt((window._PET_MOCK_NUM || '01'), 10);
+    var n = parseInt((window._PET_W_MOCK_NUM || '01'), 10);
     var pills = document.querySelectorAll('.mock-switcher .ms-pill');
     var activePill = null;
     pills.forEach(function (p) {
@@ -1830,13 +1702,13 @@
     var sub = document.getElementById('topbarSub');
     var hero = document.getElementById('heroTestNo');
     var mobTitle = document.getElementById('topbarMobileTitle');
-    var info = window.PET_R_TEST && window.PET_R_TEST.testInfo;
+    var info = window.PET_W_TEST && window.PET_W_TEST.testInfo;
     if (sub && info && info.title) sub.textContent = info.title;
     if (hero) hero.textContent = 'Test ' + n;
     if (mobTitle) mobTitle.textContent = 'Test ' + n;
     try {
       var brand = (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream';
-      document.title = brand + ' · PET Reading · Test ' + n;
+      document.title = brand + ' · PET Writing · Test ' + n;
     } catch (_e) {}
   })();
 

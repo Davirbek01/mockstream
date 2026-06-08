@@ -29,11 +29,12 @@
   <section class="hub-hero">
     <span class="lvl-chip">⭐ B1 · CEFR Level</span>
     <h1>Preliminary English Test</h1>
-    <p class="hero-sub">Cambridge English's intermediate B1 qualification. Reading (~50 min · 5 parts · 35 questions), Listening, Writing and Speaking papers — Reading is live; the others arrive next.</p>
+    <p class="hero-sub">Cambridge English's intermediate B1 qualification. Reading, Listening and Writing papers are live — verbatim from "Preliminary English Test for Schools" books. Cambridge Band-5 sample answers auto-fill on Writing submit.</p>
     <div class="hero-stats">
       <div class="m"><span class="m-num">4</span><span class="m-label">Reading mocks</span></div>
-      <div class="m"><span class="m-num">35</span><span class="m-label">questions / paper</span></div>
-      <div class="m"><span class="m-num">~50 min</span><span class="m-label">per Reading sitting</span></div>
+      <div class="m"><span class="m-num">4</span><span class="m-label">Listening mocks</span></div>
+      <div class="m"><span class="m-num">4</span><span class="m-label">Writing mocks</span></div>
+      <div class="m"><span class="m-num">~2h 10</span><span class="m-label">full Reading+Writing+Listening</span></div>
     </div>
   </section>
 
@@ -41,6 +42,7 @@
   <nav class="hub-tabs" id="hubTabs" role="tablist">
     <button class="tab active" type="button" data-paper="reading" role="tab">📖 Reading<span class="tab-badge">4 mocks</span></button>
     <button class="tab" type="button" data-paper="listening" role="tab">🎧 Listening<span class="tab-badge">4 mocks</span></button>
+    <button class="tab" type="button" data-paper="writing" role="tab">✍️ Writing<span class="tab-badge">4 mocks</span></button>
   </nav>
 
   <!-- Paper bodies -->
@@ -62,6 +64,15 @@
         <p>~35 minutes · 4 parts · 25 questions. Verbatim from Cambridge "Preliminary English Test for Schools" books.</p>
       </div>
       <div class="mock-grid" id="lMockGrid"></div>
+    </section>
+
+    <!-- Writing -->
+    <section class="paper-pane" data-pane="writing" hidden>
+      <div class="paper-intro">
+        <h2>✍️ Writing — Paper 1</h2>
+        <p>~45 minutes · 3 parts · 7 questions. Verbatim from Cambridge "Preliminary English Test for Schools" books. Cambridge Band-5 sample answers auto-fill on submit.</p>
+      </div>
+      <div class="mock-grid" id="wMockGrid"></div>
     </section>
 
   </main>
@@ -87,6 +98,15 @@
     parts:      4,
     questions:  25,
     duration:   '35 min'
+  });
+  Cambridge.renderMockGrid('wMockGrid', {
+    count:      4,
+    runnerPath: '/PET Writing Mocks.html',
+    mockParam:  'mock',
+    paperLabel: 'Writing',
+    parts:      3,
+    questions:  7,
+    duration:   '45 min'
   });
   Cambridge.wireTabs('hubTabs');
 </script>
