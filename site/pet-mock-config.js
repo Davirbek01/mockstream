@@ -5,10 +5,10 @@
 window.PET_MOCK_CONFIG = {
     // Number of available STATIC tests for each module
     // Dynamic mocks from Supabase (mock_tests table) are loaded automatically
-    reading: 4,          // questions PET R/pet-reading-test-01.js .. -04.js (all 4 Tests from "Preliminary English Test for Schools 1")
+    reading: 5,          // questions PET R/pet-reading-test-01.js .. -05.js (Tests 1-4 from "Preliminary English Test for Schools 1"; Test 5 from "Cambridge Preliminary English Test 2"; Tests 6-8 next session)
     reading_writing: 0,  // pre-2020 combined paper format — currently splitting Reading and Writing into separate runners
     writing: 4,          // questions PET W/pet-writing-test-01.js .. -04.js (3 parts: sentence transformation + Q6 short + Q7/Q8 long; verbatim Band-5 samples auto-fill on submit)
-    listening: 4,        // questions PET L/pet-listening-test-01.js .. -04.js (per-part audio splits)
+    listening: 8,        // questions PET L/pet-listening-test-01.js .. -08.js (per-part audio splits; Tests 5-8 from "Cambridge Preliminary English Test 2")
     speaking: 0,         // arriving in v2
 
     // File naming patterns (for reference)
