@@ -5,7 +5,8 @@
 window.FCE_MOCK_CONFIG = {
     // Number of available STATIC tests for each module
     // Dynamic mocks from Supabase (mock_tests table) are loaded automatically
-    reading_writing: 3,  // questions FCE RW/fce-rw-test-01.js to fce-rw-test-NN.js
+    reading_writing: 0,  // AI-authored mocks removed 2026-06-08; rebuilding from Cambridge FCE 1 (verbatim)
+    reading: 0,          // Cambridge FCE 1 Test 1 Reading in progress (Reading only — Writing/Listening/Speaking later)
     listening: 0,        // arriving in v2
     speaking: 0,         // arriving in v2
 
