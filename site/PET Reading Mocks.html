@@ -1255,7 +1255,9 @@
     .pet-section-head { font-size: 11px; font-weight: 900; letter-spacing: 1.6px; text-transform: uppercase; color: var(--navy-700); margin: 0 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--ring); }
     .pet-p2-people { display: flex; flex-direction: column; gap: 16px; }
     .pet-p2-person { display: flex; gap: 12px; align-items: flex-start; background: var(--bg-soft); border-radius: 12px; padding: 14px; border-left: 3px solid var(--blue-500); }
-    .pet-person-body { flex: 1; }
+    .pet-person-img { flex: 0 0 90px; background: #fff; border: 1px solid var(--ring); border-radius: 8px; padding: 4px; display: flex; align-items: center; justify-content: center; }
+    .pet-person-img img { max-width: 100%; max-height: 120px; height: auto; display: block; }
+    .pet-person-body { flex: 1; min-width: 0; }
     .pet-person-name { font-weight: 800; color: var(--ink); font-size: 14.5px; margin-bottom: 4px; }
     .pet-person-desc { font-size: 13.5px; line-height: 1.55; color: var(--ink-2); margin-bottom: 10px; }
     .pet-p2-letters { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -1583,6 +1585,9 @@
     part.items.forEach(function (item) {
       html += '<div class="pet-p2-person" data-qslot="' + item.id + '">';
       html += '<div class="q-num">' + item.id + '</div>';
+      if (item.image) {
+        html += '<div class="pet-person-img"><img src="' + item.image + '" alt="' + escapeHtml(item.name || ('Person ' + item.id)) + '" loading="lazy"></div>';
+      }
       html += '<div class="pet-person-body">';
       html += '<div class="pet-person-name">' + escapeHtml(item.name) + '</div>';
       html += '<div class="pet-person-desc">' + escapeHtml(item.description) + '</div>';

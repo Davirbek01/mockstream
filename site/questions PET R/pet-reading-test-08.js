@@ -83,11 +83,11 @@ window.PET_R_TEST = {
       ],
       textsTitle: "Short Trips",
       items: [
-        { id: 6,  name: "Ray and three friends", description: "Ray and three of his friends would like to spend a whole weekend driving around in nice scenery and enjoying some of the local food.", answer: "C" },
-        { id: 7,  name: "Phil and Adam",          description: "Phil and Adam want to go on a comfortable trip which takes them quickly to an interesting city. Then they want to enjoy at least two days of sightseeing.", answer: "F" },
-        { id: 8,  name: "Mike, Kathy and family", description: "Mike, Kathy and their three children don't have much money, but they want a special day out this Saturday. They must be back home by 9 p.m.", answer: "D" },
-        { id: 9,  name: "Kirsten",                description: "Kirsten is a Dutch student who is studying in Scotland. She doesn't drive, but wants a day trip to see some beautiful scenery and spend a little time by the sea.", answer: "H" },
-        { id: 10, name: "Clare and Robert",       description: "Clare and Robert want to enjoy some good food, but would also like to give their two young children a day to remember. They don't mind if they spend a lot of money.", answer: "A" }
+        { id: 6,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/p6.png",  name: "Ray and three friends", description: "Ray and three of his friends would like to spend a whole weekend driving around in nice scenery and enjoying some of the local food.", answer: "C" },
+        { id: 7,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/p7.png",  name: "Phil and Adam",          description: "Phil and Adam want to go on a comfortable trip which takes them quickly to an interesting city. Then they want to enjoy at least two days of sightseeing.", answer: "F" },
+        { id: 8,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/p8.png",  name: "Mike, Kathy and family", description: "Mike, Kathy and their three children don't have much money, but they want a special day out this Saturday. They must be back home by 9 p.m.", answer: "D" },
+        { id: 9,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/p9.png",  name: "Kirsten",                description: "Kirsten is a Dutch student who is studying in Scotland. She doesn't drive, but wants a day trip to see some beautiful scenery and spend a little time by the sea.", answer: "H" },
+        { id: 10, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/p10.png", name: "Clare and Robert",       description: "Clare and Robert want to enjoy some good food, but would also like to give their two young children a day to remember. They don't mind if they spend a lot of money.", answer: "A" }
       ],
       texts: [
         { letter: "A", title: "Marine Life, France",                 body: "The chance to experience the oceans of the world. Children will love the observatory, with water all around them and enormous fish swimming above their heads! Afterwards you eat at a world-famous local restaurant before boarding the ferry at 9 p.m. Not cheap, but a great day out!" },

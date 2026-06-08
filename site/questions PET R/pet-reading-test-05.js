@@ -83,11 +83,11 @@ window.PET_R_TEST = {
       ],
       textsTitle: "Films",
       items: [
-        { id: 6,  name: "Jo",            description: "Jo is studying art at university. She usually goes to the cinema on Friday evenings. She enjoys films that are based on real life and from which she can learn something.", answer: "C" },
-        { id: 7,  name: "Sheila",        description: "Sheila has decided to take her mother to the cinema for her birthday. They both like love stories that have happy endings.", answer: "F" },
-        { id: 8,  name: "Brian",         description: "Brian is a hard-working medical student. He doesn't have very much free time, but he likes going to the cinema to relax, and enjoys a good laugh.", answer: "G" },
-        { id: 9,  name: "Adam",           description: "Adam wants to take his 8-year-old son Mark to the cinema at the weekend. They want to see a film with plenty of excitement.", answer: "D" },
-        { id: 10, name: "Harry and Joyce", description: "Harry and Joyce go to the cinema about twice a month. They particularly like detective stories and do not pay much attention to which actors are in the film.", answer: "B" }
+        { id: 6,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test5/p6.png",  name: "Jo",            description: "Jo is studying art at university. She usually goes to the cinema on Friday evenings. She enjoys films that are based on real life and from which she can learn something.", answer: "C" },
+        { id: 7,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test5/p7.png",  name: "Sheila",        description: "Sheila has decided to take her mother to the cinema for her birthday. They both like love stories that have happy endings.", answer: "F" },
+        { id: 8,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test5/p8.png",  name: "Brian",         description: "Brian is a hard-working medical student. He doesn't have very much free time, but he likes going to the cinema to relax, and enjoys a good laugh.", answer: "G" },
+        { id: 9,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test5/p9.png",  name: "Adam",          description: "Adam wants to take his 8-year-old son Mark to the cinema at the weekend. They want to see a film with plenty of excitement.", answer: "D" },
+        { id: 10, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test5/p10.png", name: "Harry and Joyce", description: "Harry and Joyce go to the cinema about twice a month. They particularly like detective stories and do not pay much attention to which actors are in the film.", answer: "B" }
       ],
       texts: [
         { letter: "A", title: "The Delivery",         body: "Jim Treace stars in this well-known comedy about two workmen who have to deliver a long piece of wood to a house. But unfortunately the performances are poor, and the film is too long for such a simple joke." },

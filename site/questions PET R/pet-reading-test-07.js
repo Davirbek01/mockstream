@@ -83,11 +83,11 @@ window.PET_R_TEST = {
       ],
       textsTitle: "English Colleges in Britain",
       items: [
-        { id: 6,  name: "Marta",  description: "Marta wants a course in Business Studies and English, starting in September. She would prefer to be in a city, but wants a college which will organise visits, so she can see something of Britain.", answer: "H" },
-        { id: 7,  name: "Jean",   description: "Jean wants to attend classes for a few hours a week in July, so that he has plenty of free time to visit the countryside. He wants to stay in a city, with a family.", answer: "A" },
-        { id: 8,  name: "Laura",  description: "Laura is looking for a full-time beginners' course and can come to Britain at any time. She is keen on sport and wants to stay with a family.", answer: "F" },
-        { id: 9,  name: "Marek",  description: "Marek likes big cities. He hopes to find work during the day, so he is looking for an evening class. He wants to live in a flat or house.", answer: "C" },
-        { id: 10, name: "Birgit", description: "Birgit is going to spend August in Britain. She knows some English already and wants a full-time course. She wants to meet people through the college and live with a family.", answer: "E" }
+        { id: 6,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test7/p6.png",  name: "Marta",  description: "Marta wants a course in Business Studies and English, starting in September. She would prefer to be in a city, but wants a college which will organise visits, so she can see something of Britain.", answer: "H" },
+        { id: 7,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test7/p7.png",  name: "Jean",   description: "Jean wants to attend classes for a few hours a week in July, so that he has plenty of free time to visit the countryside. He wants to stay in a city, with a family.", answer: "A" },
+        { id: 8,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test7/p8.png",  name: "Laura",  description: "Laura is looking for a full-time beginners' course and can come to Britain at any time. She is keen on sport and wants to stay with a family.", answer: "F" },
+        { id: 9,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test7/p9.png",  name: "Marek",  description: "Marek likes big cities. He hopes to find work during the day, so he is looking for an evening class. He wants to live in a flat or house.", answer: "C" },
+        { id: 10, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test7/p10.png", name: "Birgit", description: "Birgit is going to spend August in Britain. She knows some English already and wants a full-time course. She wants to meet people through the college and live with a family.", answer: "E" }
       ],
       texts: [
         { letter: "A", title: "Lowton College",     body: "Situated in a pleasant area of the city close to the river. Convenient for North Wales and the English Lake District.\n• Courses in English run all year.\n• Part-time courses available in the evenings/days.\n• We will arrange accommodation with an English family." },

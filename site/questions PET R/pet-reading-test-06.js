@@ -83,11 +83,11 @@ window.PET_R_TEST = {
       ],
       textsTitle: "Travel books",
       items: [
-        { id: 6,  name: "Robert",        description: "Robert is planning to travel round the world by train. He would like a book with pictures and maps to take with him on his long journeys.", answer: "D" },
-        { id: 7,  name: "Mrs Jones",     description: "Mrs Jones used to love visiting France, but now she is too old to travel. She wants a book with lots of photographs which will help her to remember everything she enjoyed.", answer: "G" },
-        { id: 8,  name: "The Harpers",   description: "The Harpers are planning to go on holiday round Europe. They intend to drive their car and go for walks, so they need a book with maps and pictures to guide them on their way.", answer: "F" },
-        { id: 9,  name: "Clive",         description: "Clive wants to buy a book as a present for his friend Tom. Tom enjoys fishing and driving round England.", answer: "B" },
-        { id: 10, name: "Peter",         description: "Peter has to write something for his history teacher about world explorers. He wants to know about explorers from the past and their travels to different parts of the world.", answer: "C" }
+        { id: 6,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test6/p6.png",  name: "Robert",        description: "Robert is planning to travel round the world by train. He would like a book with pictures and maps to take with him on his long journeys.", answer: "D" },
+        { id: 7,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test6/p7.png",  name: "Mrs Jones",     description: "Mrs Jones used to love visiting France, but now she is too old to travel. She wants a book with lots of photographs which will help her to remember everything she enjoyed.", answer: "G" },
+        { id: 8,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test6/p8.png",  name: "The Harpers",   description: "The Harpers are planning to go on holiday round Europe. They intend to drive their car and go for walks, so they need a book with maps and pictures to guide them on their way.", answer: "F" },
+        { id: 9,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test6/p9.png",  name: "Clive",         description: "Clive wants to buy a book as a present for his friend Tom. Tom enjoys fishing and driving round England.", answer: "B" },
+        { id: 10, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test6/p10.png", name: "Peter",         description: "Peter has to write something for his history teacher about world explorers. He wants to know about explorers from the past and their travels to different parts of the world.", answer: "C" }
       ],
       texts: [
         { letter: "A", title: "Allan Jowett — Jowett's Railway Centres: Volume I", body: "Packed with information about 20 British railway centres, this wonderful book is handwritten and illustrated throughout with clear hand-drawn maps – a true collector's piece for those who are interested in railways." },
