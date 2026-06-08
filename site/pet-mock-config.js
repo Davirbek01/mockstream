@@ -5,7 +5,7 @@
 window.PET_MOCK_CONFIG = {
     // Number of available STATIC tests for each module
     // Dynamic mocks from Supabase (mock_tests table) are loaded automatically
-    reading: 1,          // questions PET R/pet-reading-test-01.js (Test 1 from "Preliminary English Test for Schools 1")
+    reading: 4,          // questions PET R/pet-reading-test-01.js .. -04.js (all 4 Tests from "Preliminary English Test for Schools 1")
     reading_writing: 0,  // pre-2020 combined paper format — currently splitting into reading-only mocks
     listening: 0,        // arriving when audio is provided
     speaking: 0,         // arriving in v2
