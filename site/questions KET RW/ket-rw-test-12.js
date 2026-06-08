@@ -332,7 +332,10 @@ window.KET_RW_TEST = {
         "Write your note on the answer sheet."
       ],
       items: [
-        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35, answer:
+            "Hi Peter\n" +
+            "Let's go walking in my town and go to the park. I will wearing my new skirt bring a camera to the park we will taking some photos,\n" +
+            "Love Nicole" }
       ]
     }
   ]

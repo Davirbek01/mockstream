@@ -352,7 +352,11 @@ window.KET_RW_TEST = {
         "Write the email on your answer sheet."
       ],
       items: [
-        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35, answer:
+            "Hi Charley\n" +
+            "How are you? I'm going to ask you one thing, can you come to La Antilla next Saturday? Because I'm planning a picnic. And if you can come, can you bring sweets and potatoes chips?\n" +
+            "See you\n" +
+            "Maria" }
       ]
     }
   ]

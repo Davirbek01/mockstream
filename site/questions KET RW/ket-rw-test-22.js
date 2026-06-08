@@ -338,7 +338,12 @@ window.KET_RW_TEST = {
         "Write the email on your answer sheet."
       ],
       items: [
-        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35, answer:
+            "Hi Pat,\n" +
+            "How are you? I'm good. I've got a new job. It's teaching Japanese.\n" +
+            "I teach every Thursday. I like my new job because the teaching is very interesting for me.\n" +
+            "See you.\n" +
+            "Keiko" }
       ]
     }
   ]

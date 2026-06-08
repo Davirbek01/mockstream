@@ -332,7 +332,12 @@ window.KET_RW_TEST = {
         "Write the note on your answer sheet."
       ],
       items: [
-        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35, answer:
+            "DEAR SAM,\n" +
+            "TOMORROW YOU SHOULD ARRIVE AT 6.00p.m.\n" +
+            "YOU SHOULD BRING SOME MONEY FOR THE TICKET OF THE CINEMA.\n" +
+            "WHEN YOU ARRIVE AT THE STATION PHONE ME AND I'LL COME TO PICK YOU UP!\n" +
+            "LOVE FROM LUCA" }
       ]
     }
   ]

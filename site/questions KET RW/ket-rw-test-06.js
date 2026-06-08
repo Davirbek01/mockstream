@@ -414,7 +414,10 @@ window.KET_RW_TEST = {
         "Write your postcard on the answer sheet."
       ],
       items: [
-        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35, answer:
+            "Hello. Thank you for your letter. Of corse, I want to see you too.\n" +
+            "Well, My country is very cold. So you should bring many sweaters, jeanse, coats etc. I think soll\n" +
+            "Love, Lola" }
       ]
     }
   ]

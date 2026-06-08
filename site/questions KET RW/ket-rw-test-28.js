@@ -339,7 +339,14 @@ window.KET_RW_TEST = {
         "Write the postcard on your answer sheet."
       ],
       items: [
-        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35, answer:
+            "Hey Jo,\n" +
+            "Paris is wonderful.\n" +
+            "Yesterday I visited the eiffel tower, which is very impressive.\n" +
+            "The weather is lovely, it is always sunny and about 25°C.\n" +
+            "I will be back in 2 weeks.\n" +
+            "See you,\n" +
+            "Anna" }
       ]
     }
   ]

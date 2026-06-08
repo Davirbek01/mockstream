@@ -443,7 +443,10 @@ window.KET_RW_TEST = {
         "Write your note on the answer sheet."
       ],
       items: [
-        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35, answer:
+            "Tomorrow morning at nine o'clock, my father will arrive at Birmingham New Street station.\n" +
+            "He is a Japanese. And he is taller than me. He is wearing glasses and he hasn't got a lot of hair on his head.\n" +
+            "Thanks, Michitaka" }
       ]
     }
   ]

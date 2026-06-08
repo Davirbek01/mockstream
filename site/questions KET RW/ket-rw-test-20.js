@@ -335,7 +335,11 @@ window.KET_RW_TEST = {
         "Write the note on your answer sheet."
       ],
       items: [
-        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35, answer:
+            "Dear Sarah,\n" +
+            "I'm happy to hear you would like to play tennis this evening. We should come 4 o'clock this evening to my house. We can go by my car to the sport centre. You should wear a shorts and a T-shirt.\n" +
+            "Bye.\n" +
+            "Sachini" }
       ]
     }
   ]

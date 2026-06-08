@@ -330,7 +330,8 @@ window.KET_RW_TEST = {
         "Write the email on your answer sheet."
       ],
       items: [
-        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35, answer:
+            "Yeah, it is true. I lost it. I saw it yesterday at school. So, it is red and black with funny pictures. It was empty. If you see it, please tell me." }
       ]
     }
   ]

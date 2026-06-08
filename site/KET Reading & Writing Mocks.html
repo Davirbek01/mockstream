@@ -1993,7 +1993,8 @@
         return;
       }
       if (!isAutoGradable(p.type)) return;
-      (p.items || []).forEach(function (item) {
+      // Part 8 uses `rows` instead of `items` — normalise so both shapes mark.
+      (p.items || p.rows || []).forEach(function (item) {
         var given    = normalize(getAns(item.id));
         var expected = normalize(item.answer);
         var ok = given && given === expected;
@@ -2006,7 +2007,9 @@
                     || document.querySelector('.inline-input[data-id="' + item.id + '"], .an-input[data-id="' + item.id + '"]');
         if (input) {
           input.classList.add(ok ? 'is-correct' : 'is-wrong');
-          if (!ok) {
+          if (!given && item.answer) {
+            input.value = item.answer;
+          } else if (!ok) {
             var hint = document.createElement('span');
             hint.className = 'ans-key';
             hint.textContent = '✓ ' + (item.answer || '');

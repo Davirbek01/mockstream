@@ -332,7 +332,11 @@ window.KET_RW_TEST = {
         "Write your note on the answer sheet."
       ],
       items: [
-        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35, answer:
+            "Gary Jones\n" +
+            "I want to sell my bicycle. I bought it 3 years ago, but I've never used it. It costs £25. You can see it every afternoon, Call me at home:\n" +
+            "3642562\n" +
+            "Lucey" }
       ]
     }
   ]

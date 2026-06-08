@@ -347,7 +347,11 @@ window.KET_RW_TEST = {
         "Write your note on the answer sheet."
       ],
       items: [
-        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35, answer:
+            "Dear Chris\n" +
+            "Hello Chris, do you remember that I lent you my cassette recorder? Yes, I'm very sure that you can remember. But I need to use that cassette recorder. I'll use it to help me in the class because my teachers speak very fast. I'll need it on Friday. So you must bring it to me on Thursday\n" +
+            "Thank you\n" +
+            "Korin" }
       ]
     }
   ]

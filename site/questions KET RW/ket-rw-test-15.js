@@ -336,7 +336,10 @@ window.KET_RW_TEST = {
         "Write the postcard on your answer sheet."
       ],
       items: [
-        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35, answer:
+            "Hello my dear friend,\n" +
+            "I want you to know I have finished my birthday. I have a motorbike present. My brother buy me the motorbike. Do you know, I like it so much because I want to race with the other motorbikes. Okay. See you soon\n" +
+            "Bye." }
       ]
     }
   ]

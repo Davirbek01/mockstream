@@ -338,7 +338,10 @@ window.KET_RW_TEST = {
         "Write the email on your answer sheet."
       ],
       items: [
-        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35, answer:
+            "Dear Jools,\n" +
+            "thanks for your email. I go every Monday to the music club on the High Street. I'm studying to play the piano. Come to hear me,\n" +
+            "with love Maria" }
       ]
     }
   ]

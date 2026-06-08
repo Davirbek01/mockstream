@@ -339,7 +339,10 @@ window.KET_RW_TEST = {
         "Write the note on your answer sheet."
       ],
       items: [
-        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35, answer:
+            "Dear Penfriend,\n" +
+            "My name is Omar and I'm 16 years. I am have three brothers and no sisters. My favourite hobby is playing football with my brothers.\n" +
+            "Omar" }
       ]
     }
   ]
