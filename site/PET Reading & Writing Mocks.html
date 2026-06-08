@@ -48,22 +48,22 @@
   <div class="container">
     <a class="back-btn" href="javascript:history.back()">← Back</a>
     <div class="header">
-      <h1>📝 PET Reading &amp; Writing</h1>
-      <div class="sub">Combined paper • 90 minutes • 32 reading + 2 writing tasks</div>
+      <h1>📝 PET Reading</h1>
+      <div class="sub">Paper 1 Reading • 50 minutes • 5 parts • 35 questions</div>
       <div class="level-badge">B1 PRELIMINARY</div>
     </div>
     <div id="mockGrid" class="grid"></div>
     <div id="emptyState" class="empty" style="display:none;">
       <div class="icon">📚</div>
       <h3>No mocks available yet</h3>
-      <p>PET Reading &amp; Writing mocks are being prepared. Check back soon.</p>
+      <p>PET Reading mocks are being prepared. Check back soon.</p>
     </div>
   </div>
 
   <script>
     (function () {
-      var cfg = window.PET_MOCK_CONFIG || { reading_writing: 0 };
-      var n = cfg.reading_writing || 0;
+      var cfg = window.PET_MOCK_CONFIG || { reading: 0 };
+      var n = cfg.reading || cfg.reading_writing || 0;
       var grid = document.getElementById('mockGrid');
       var empty = document.getElementById('emptyState');
       if (!n) {
@@ -78,10 +78,10 @@
         card.dataset.mockNumber = num;
         card.innerHTML =
           '<div class="num">MOCK ' + num + '</div>' +
-          '<h3>PET R&amp;W Mock ' + num + '</h3>' +
-          '<div class="meta">⏱️ 90 min · 32 reading + 2 writing</div>';
+          '<h3>PET Reading Mock ' + num + '</h3>' +
+          '<div class="meta">⏱️ 50 min · 5 parts · 35 questions</div>';
         card.addEventListener('click', (function (n) {
-          return function () { window.location.href = 'PET Reading & Writing.html?mock=' + n; };
+          return function () { window.location.href = 'PET Reading Mocks.html?mock=' + n; };
         })(num));
         grid.appendChild(card);
       }
