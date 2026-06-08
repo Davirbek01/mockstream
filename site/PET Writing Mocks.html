@@ -277,6 +277,10 @@
     }
     .part-instr p { margin: 0 0 4px; }
     .part-instr p:last-child { margin: 0; }
+    .part-instr ul { margin: 0; padding-left: 22px; }
+    .part-instr li { margin: 0 0 4px; }
+    .part-instr li:last-child { margin: 0; }
+    .part-instr li::marker { color: var(--blue-500); }
 
     /* Example */
     .example-card {
@@ -1338,16 +1342,9 @@
   // Dinosaurs / Rhinos / Burglars / etc.) is appended dynamically by
   // getPartName() from whichever title field the data carries.
   var PART_NAMES = {
-    '1':  'Match the notices',
-    '2':  'Sentence gap-fill',
-    '3a': 'Conversation replies',
-    '3b': 'Conversation matching',
-    '4':  'Reading passage',
-    '5':  'Cloze passage',
-    '6':  'Vocabulary',
-    '7':  'Open cloze',
-    '8':  'Information transfer',
-    '9':  'Writing'
+    '1':  'Sentence transformations',
+    '2':  'Short message (35–45 words)',
+    '3':  'Story or letter (≈100 words)'
   };
 
   function getPartName(part) {
@@ -1366,7 +1363,10 @@
 
   function renderPartHeader(part) {
     var name = getPartName(part);
-    var instrHtml = (part.instruction || []).map(function (l) { return '<p>' + escapeHtml(l) + '</p>'; }).join('');
+    var instrLines = part.instruction || [];
+    var instrHtml = instrLines.length
+      ? '<ul>' + instrLines.map(function (l) { return '<li>' + escapeHtml(l) + '</li>'; }).join('') + '</ul>'
+      : '';
     var n = (part.items || []).length;
     return ''
       + '<div class="part-head">'

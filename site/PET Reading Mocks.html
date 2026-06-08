@@ -277,6 +277,10 @@
     }
     .part-instr p { margin: 0 0 4px; }
     .part-instr p:last-child { margin: 0; }
+    .part-instr ul { margin: 0; padding-left: 22px; }
+    .part-instr li { margin: 0 0 4px; }
+    .part-instr li:last-child { margin: 0; }
+    .part-instr li::marker { color: var(--blue-500); }
 
     /* Example */
     .ex-img { margin-top: 8px; background: #fff; border-radius: 10px; padding: 6px; border: 1px solid #bae6fd; max-width: 100%; }
@@ -1276,10 +1280,12 @@
     .pet-p2-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
     .pet-section-head { font-size: 11px; font-weight: 900; letter-spacing: 1.6px; text-transform: uppercase; color: var(--navy-700); margin: 0 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--ring); }
     .pet-p2-people { display: flex; flex-direction: column; gap: 16px; }
-    .pet-p2-person { display: flex; gap: 12px; align-items: flex-start; background: var(--bg-soft); border-radius: 12px; padding: 14px; border-left: 3px solid var(--blue-500); }
-    .pet-person-img { flex: 0 0 90px; background: #fff; border: 1px solid var(--ring); border-radius: 8px; padding: 4px; display: flex; align-items: center; justify-content: center; }
-    .pet-person-img img { max-width: 100%; max-height: 120px; height: auto; display: block; }
-    .pet-person-body { flex: 1; min-width: 0; }
+    .pet-p2-person { display: block; background: var(--bg-soft); border-radius: 12px; padding: 14px; padding-left: 54px; border-left: 3px solid var(--blue-500); position: relative; }
+    .pet-p2-person::after { content: ""; display: block; clear: both; }
+    .pet-p2-person > .q-num { position: absolute; top: 14px; left: 14px; }
+    .pet-person-img { float: left; width: 100px; margin: 2px 14px 6px 0; background: #fff; border: 1px solid var(--ring); border-radius: 8px; padding: 4px; display: flex; align-items: center; justify-content: center; }
+    .pet-person-img img { max-width: 100%; max-height: 130px; height: auto; display: block; }
+    .pet-person-body { min-width: 0; }
     .pet-person-name { font-weight: 800; color: var(--ink); font-size: 14.5px; margin-bottom: 4px; }
     .pet-person-desc { font-size: 13.5px; line-height: 1.55; color: var(--ink-2); margin-bottom: 10px; }
     .pet-p2-letters { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -1502,16 +1508,11 @@
   // Dinosaurs / Rhinos / Burglars / etc.) is appended dynamically by
   // getPartName() from whichever title field the data carries.
   var PART_NAMES = {
-    '1':  'Match the notices',
-    '2':  'Sentence gap-fill',
-    '3a': 'Conversation replies',
-    '3b': 'Conversation matching',
-    '4':  'Reading passage',
-    '5':  'Cloze passage',
-    '6':  'Vocabulary',
-    '7':  'Open cloze',
-    '8':  'Information transfer',
-    '9':  'Writing'
+    '1':  'Signs and notices',
+    '2':  'Match people to texts',
+    '3':  'True / False statements',
+    '4':  'Multiple choice',
+    '5':  'Cloze passage'
   };
 
   function getPartName(part) {
@@ -1530,7 +1531,10 @@
 
   function renderPartHeader(part) {
     var name = getPartName(part);
-    var instrHtml = (part.instruction || []).map(function (l) { return '<p>' + escapeHtml(l) + '</p>'; }).join('');
+    var instrLines = part.instruction || [];
+    var instrHtml = instrLines.length
+      ? '<ul>' + instrLines.map(function (l) { return '<li>' + escapeHtml(l) + '</li>'; }).join('') + '</ul>'
+      : '';
     var n = (part.items || []).length;
     return ''
       + '<div class="part-head">'
