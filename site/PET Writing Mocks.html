@@ -1272,7 +1272,7 @@
   function goBack() {
     var m = document.getElementById('leaveModal');
     if (m) { m.classList.add('show'); }
-    else { window.location.href = '/ket.html?paper=rw'; }
+    else { window.location.href = '/pet.html?paper=writing'; }
   }
   function closeLeaveModal(ev) {
     if (ev && ev.type === 'click' && ev.target.id !== 'leaveModal') return;
@@ -1280,7 +1280,7 @@
     if (m) m.classList.remove('show');
   }
   function confirmLeave() {
-    window.location.href = '/ket.html?paper=rw';
+    window.location.href = '/pet.html?paper=writing';
   }
   // Esc dismisses the dialog
   document.addEventListener('keydown', function (e) {
@@ -1675,7 +1675,7 @@
     });
     html += '</div>';
     html += '<div class="results-actions">';
-    html += '<button class="btn-back" onclick="window.location.href=\'/ket.html?paper=rw\'">← Back to picker</button>';
+    html += '<button class="btn-back" onclick="window.location.href=\'/pet.html?paper=writing\'">← Back to picker</button>';
     html += '<button class="btn-retry" onclick="window.location.reload()">Try again ↻</button>';
     html += '</div>';
     document.getElementById('resultsCard').innerHTML = html;
