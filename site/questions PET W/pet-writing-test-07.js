@@ -41,6 +41,9 @@ window.PET_W_TEST = {
     {
       partNumber: 2, label: "PART 2", questionsLabel: "QUESTION 6",
       type: "writing-task",
+      promptIntro: "You have recently moved to a town and have bought this postcard of the town to send to your penfriend.",
+      promptImage: "https://storage.googleapis.com/mockstream-listening-audio/PET-Writing/test7/q6_postcard.jpg",
+      promptOutro: "In your postcard to your penfriend, you should\n\n• explain why you have moved\n• tell your friend what facilities the town has\n• say what you dislike about living there.\n\nWrite 35–45 words on your answer sheet.",
       prompt: "You have recently moved to a town and have bought this postcard of the town to send to your penfriend.\n\nIn your postcard to your penfriend, you should\n\n• explain why you have moved\n• tell your friend what facilities the town has\n• say what you dislike about living there.\n\nWrite 35–45 words on your answer sheet.",
       wordCount: "35–45 words",
       items: [
@@ -60,7 +63,10 @@ window.PET_W_TEST = {
       partNumber: 3, label: "PART 3", questionsLabel: "QUESTIONS 7 or 8",
       type: "writing-task",
       choices: [
-        { id: 7, prompt: "Your English teacher has asked you to write a story.\n\nYour story must begin with this sentence:\n\n  It was a fantastic party.\n\nWrite your story in about 100 words on your answer sheet." },
+        { id: 7,
+          intro: "Your English teacher has asked you to write a story.\n\nYour story must begin with this sentence:",
+          highlight: "It was a fantastic party.",
+          outro: "Write your story in about 100 words on your answer sheet." },
         { id: 8,
           intro: "This is part of a letter you receive from an English friend.",
           image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Writing/test7/q8_ribbon.png",

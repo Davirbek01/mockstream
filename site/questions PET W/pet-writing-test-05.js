@@ -61,7 +61,10 @@ window.PET_W_TEST = {
       partNumber: 3, label: "PART 3", questionsLabel: "QUESTIONS 7 or 8",
       type: "writing-task",
       choices: [
-        { id: 7, prompt: "Your English teacher has asked you to write a story.\n\nYour story must begin with this sentence:\n\n  Carla looked at the car in surprise.\n\nWrite your story in about 100 words on your answer sheet." },
+        { id: 7,
+          intro: "Your English teacher has asked you to write a story.\n\nYour story must begin with this sentence:",
+          highlight: "Carla looked at the car in surprise.",
+          outro: "Write your story in about 100 words on your answer sheet." },
         { id: 8,
           intro: "This is part of a letter you receive from an English friend.",
           image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Writing/test5/q8_ribbon.png",

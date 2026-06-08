@@ -110,6 +110,7 @@ window.PET_R_TEST = {
         "If it is correct, mark A on your answer sheet.",
         "If it is not correct, mark B on your answer sheet."
       ],
+      passageImage: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test7/passage3.jpg",
       passageTitle: "Norwich",
       passage:
         "Norwich, the capital of the part of Britain known as East Anglia, has existed as a place to live for more than two thousand years. It began as a small village beside the River Wensum. At the time of the Norman invasion in 1066 it had grown to become one of the largest towns in England.\n\n" +

@@ -110,6 +110,7 @@ window.PET_R_TEST = {
         "If it is correct, mark A on your answer sheet.",
         "If it is not correct, mark B on your answer sheet."
       ],
+      passageImage: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/passage3.jpg",
       passageTitle: "NENE VALLEY RAILWAY",
       passage:
         "About the Railway\nThe twelve kilometre-long Nene Valley Railway passes through the lovely Nene Park, from an Eastern terminus at Peterborough to the Railway's headquarters in Wansford (next to the A1 main road). A two-kilometre extension of the Railway takes passengers through Wansford Tunnel to the quiet beauty of Yarwell, the present Western end of the line.\n\n" +
