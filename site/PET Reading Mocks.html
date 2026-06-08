@@ -1229,6 +1229,8 @@
     .pet-notice-sign { background: #fff; border: 2px solid var(--navy-700); }
     .pet-notice-img { display: flex; align-items: center; justify-content: center; padding: 8px; background: #fff; border-radius: 12px; border: 1px solid var(--ring); }
     .pet-notice-img img { max-width: 100%; width: 100%; height: auto; display: block; }
+    .pet-passage-img { margin: 14px 0 20px; background: #fff; border-radius: 12px; padding: 10px; border: 1px solid var(--ring); box-shadow: 0 2px 6px rgba(11,29,58,0.05); }
+    .pet-passage-img img { max-width: 100%; width: 100%; height: auto; display: block; border-radius: 6px; }
     .pet-notice-sign .pet-notice-title { text-align: center; font-weight: 900; font-size: 15px; color: var(--navy-900); letter-spacing: 0.5px; padding-bottom: 8px; margin-bottom: 8px; border-bottom: 1px solid var(--ring); }
     .pet-notice-sign .pet-notice-body { text-align: center; }
     .pet-notice-body { font-size: 13.5px; line-height: 1.55; color: var(--ink); }
@@ -1615,13 +1617,17 @@
   // ─── PART 3: 10 True/False statements about a long passage ────────
   function renderPart3(part) {
     var html = renderPartHeader(part);
-    html += '<div class="pet-passage">';
-    if (part.passageTitle) html += '<h3 class="pet-passage-title">' + escapeHtml(part.passageTitle) + '</h3>';
-    if (part.passageSubtitle) html += '<div class="pet-passage-sub">' + escapeHtml(part.passageSubtitle) + '</div>';
-    part.passage.split(/\n\n+/).forEach(function (para) {
-      html += '<p>' + escapeHtml(para).replace(/\n/g, '<br>') + '</p>';
-    });
-    html += '</div>';
+    if (part.passageImage) {
+      html += '<div class="pet-passage-img"><img src="' + part.passageImage + '" alt="' + escapeHtml(part.passageTitle || 'Reading passage') + '" loading="lazy"></div>';
+    } else {
+      html += '<div class="pet-passage">';
+      if (part.passageTitle) html += '<h3 class="pet-passage-title">' + escapeHtml(part.passageTitle) + '</h3>';
+      if (part.passageSubtitle) html += '<div class="pet-passage-sub">' + escapeHtml(part.passageSubtitle) + '</div>';
+      part.passage.split(/\n\n+/).forEach(function (para) {
+        html += '<p>' + escapeHtml(para).replace(/\n/g, '<br>') + '</p>';
+      });
+      html += '</div>';
+    }
     html += '<div class="pet-tf-list">';
     part.items.forEach(function (item) {
       html += '<div class="pet-tf-row" data-qslot="' + item.id + '">';
