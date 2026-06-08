@@ -22,47 +22,47 @@ window.PET_R_TEST = {
         "What does it say?",
         "Mark the letter next to the correct explanation – A, B or C – on your answer sheet."
       ],
-      example: { number: 0, prompt: "NO BICYCLES AGAINST GLASS PLEASE", answer: "C" },
+      example: {
+        number: 0,
+        prompt: "NO BICYCLES AGAINST GLASS PLEASE",
+        answer: "C",
+        image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/q0.png",
+        options: [
+          { letter: "A", text: "Do not leave your bicycle touching the window." },
+          { letter: "B", text: "Do not ride your bicycle in this area." },
+          { letter: "C", text: "Broken glass may damage your bicycle tyres." }
+        ]
+      },
       items: [
-        { id: 1, style: "sign",
-          noticeTitle: "PARKING IN THIS SPACE FOR DOCTOR ON DUTY ONLY",
-          noticeText: " ",
+        { id: 1, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/q1.png",
           prompt: " ",
           options: [
             { letter: "A", text: "Tell the doctor if you need to park here." },
             { letter: "B", text: "Only the doctor working today can park here." },
             { letter: "C", text: "Park in this space only in an emergency." }
           ], answer: "B" },
-        { id: 2, style: "message",
-          noticeTitle: "To: Heidi  ·  From: Ruth",
-          noticeText: "Congratulations on the new job. Do you think they'll take me as well? Like you, I'm available until September. Could you tell them about me?",
+        { id: 2, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/q2.png",
           prompt: " ",
           options: [
             { letter: "A", text: "Heidi will start her new job in September." },
             { letter: "B", text: "Ruth wants Heidi to help her find employment." },
             { letter: "C", text: "Ruth has offered to talk to Heidi's boss about her." }
           ], answer: "B" },
-        { id: 3, style: "formal",
-          noticeTitle: "WARNING —",
-          noticeText: "SECURITY CAMERAS IN USE AROUND THIS BUILDING",
+        { id: 3, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/q3.png",
           prompt: " ",
           options: [
             { letter: "A", text: "Cameras cannot be used near this building." },
             { letter: "B", text: "You must look after your cameras here." },
             { letter: "C", text: "This building is guarded by cameras." }
           ], answer: "C" },
-        { id: 4, style: "message",
-          noticeTitle: "📞 Message",
-          noticeText: "Helena\nRonan called from the theatre: the café opposite is closing so everyone's going down to the club early. Join them there when you can.",
+        { id: 4, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/q4.png",
           prompt: "Where should Helena meet the others?",
           options: [
             { letter: "A", text: "at the café" },
             { letter: "B", text: "at the theatre" },
             { letter: "C", text: "at the club" }
           ], answer: "C" },
-        { id: 5, style: "formal",
-          noticeTitle: "WE HAVE MANY FLATS AVAILABLE TO RENT IN THIS AREA",
-          noticeText: " ",
+        { id: 5, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/q5.png",
           prompt: " ",
           options: [
             { letter: "A", text: "We offer a choice of flats to rent in this area." },

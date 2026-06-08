@@ -22,46 +22,47 @@ window.PET_R_TEST = {
         "What does it say?",
         "Mark the letter next to the correct explanation – A, B or C – on your answer sheet."
       ],
-      example: { number: 0, prompt: "NO BICYCLES AGAINST GLASS PLEASE", answer: "C" },
+      example: {
+        number: 0,
+        prompt: "NO BICYCLES AGAINST GLASS PLEASE",
+        answer: "C",
+        image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test6/q0.png",
+        options: [
+          { letter: "A", text: "Do not leave your bike touching the window." },
+          { letter: "B", text: "Do not ride your bicycle in this area." },
+          { letter: "C", text: "Broken glass may damage your bicycle tyres." }
+        ]
+      },
       items: [
-        { id: 1, style: "sign",
-          noticeTitle: "LUGGAGE CANNOT BE REMOVED WITHOUT A RECEIPT",
-          noticeText: " ",
+        { id: 1, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test6/q1.png",
           prompt: " ",
           options: [
             { letter: "A", text: "You must show a receipt if you want to remove luggage." },
             { letter: "B", text: "When you remove your luggage you are given a receipt." },
             { letter: "C", text: "You can leave your luggage here without change." }
           ], answer: "A" },
-        { id: 2, style: "message",
-          noticeTitle: "📞 Message",
-          noticeText: "Anna,\nJeff rang: suggests taking a blanket (cold there!) No need to bring programme now. He'll meet you at the festival entrance with your ticket.",
+        { id: 2, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test6/q2.png",
           prompt: "For the festival, Anna should bring",
           options: [
             { letter: "A", text: "her ticket." },
             { letter: "B", text: "a blanket." },
             { letter: "C", text: "the programme." }
           ], answer: "B" },
-        { id: 3, style: "formal",
-          noticeTitle: "Will the last person to leave please switch off the lights",
-          noticeText: " ",
+        { id: 3, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test6/q3.png",
           prompt: " ",
           options: [
             { letter: "A", text: "Don't turn the lights on until it's necessary." },
             { letter: "B", text: "Switch the lights on when you're in the room." },
             { letter: "C", text: "Don't leave the lights on if the room is empty." }
           ], answer: "C" },
-        { id: 4, style: "note",
-          noticeText: "Has anyone seen my gold chain? I took it off before athletics. It's a present from my boyfriend – he mustn't find out it's lost!",
-          noticeSig: "Sally",
+        { id: 4, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test6/q4.png",
           prompt: " ",
           options: [
             { letter: "A", text: "Sally has given a chain to someone as a present." },
             { letter: "B", text: "Sally's boyfriend knows about the missing chain." },
             { letter: "C", text: "Sally lost her chain when she got changed for sport." }
           ], answer: "C" },
-        { id: 5, style: "note",
-          noticeText: "Assistants needed because of new opening hours – apply inside",
+        { id: 5, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test6/q5.png",
           prompt: "This shop",
           options: [
             { letter: "A", text: "has just opened and jobs are available." },

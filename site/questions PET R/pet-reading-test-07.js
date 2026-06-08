@@ -22,47 +22,47 @@ window.PET_R_TEST = {
         "What does it say?",
         "Mark the letter next to the correct explanation – A, B or C – on your answer sheet."
       ],
-      example: { number: 0, prompt: "NO BICYCLES AGAINST GLASS PLEASE", answer: "C" },
+      example: {
+        number: 0,
+        prompt: "NO BICYCLES AGAINST GLASS PLEASE",
+        answer: "C",
+        image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test7/q0.png",
+        options: [
+          { letter: "A", text: "Do not leave your bicycle touching the window." },
+          { letter: "B", text: "Do not ride your bicycle in this area." },
+          { letter: "C", text: "Broken glass may damage your bicycle tyres." }
+        ]
+      },
       items: [
-        { id: 1, style: "message",
-          noticeTitle: "To: All students  ·  From: College Secretary",
-          noticeText: "Monday 6 May\nCan I remind you that all essays are due this Friday. No late work will be accepted unless accompanied by a doctor's letter.",
+        { id: 1, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test7/q1.png",
           prompt: " ",
           options: [
             { letter: "A", text: "The college secretary will post students their essays on Friday." },
             { letter: "B", text: "Students may hand in their essays after Friday if they can prove illness." },
             { letter: "C", text: "Unless your essay is due by Friday, you do not need to reply." }
           ], answer: "B" },
-        { id: 2, style: "formal",
-          noticeTitle: "PRESCRIPTION",
-          noticeText: "TAKE ONE TABLET THREE TIMES A DAY AFTER MEALS. FINISH THE PRESCRIPTION.",
+        { id: 2, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test7/q2.png",
           prompt: " ",
           options: [
             { letter: "A", text: "Take the tablets regularly until the bottle is empty." },
             { letter: "B", text: "Take one tablet every day until they are finished." },
             { letter: "C", text: "Take three tablets after meals until you feel better." }
           ], answer: "A" },
-        { id: 3, style: "note",
-          noticeText: "Ben,\nWhy not bring your new game round tonight – we can use my brother's TV. I'm playing football till 7.00, so anytime after that.",
-          noticeSig: "Kim",
+        { id: 3, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test7/q3.png",
           prompt: "Kim suggests",
           options: [
             { letter: "A", text: "meeting at the football match." },
             { letter: "B", text: "going to Ben's house later." },
             { letter: "C", text: "playing on his brother's computer." }
           ], answer: "C" },
-        { id: 4, style: "note",
-          noticeTitle: "FREE SOFA! (Owner moving back to New Zealand)",
-          noticeText: "Must have transport – collect from John any evening this week. Phone 452611 to arrange a suitable time.",
+        { id: 4, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test7/q4.png",
           prompt: " ",
           options: [
             { letter: "A", text: "John can deliver the sofa if the time is convenient." },
             { letter: "B", text: "Anyone wanting this sofa must pick it up this week." },
             { letter: "C", text: "Call John with advice on how he can transport his sofa." }
           ], answer: "B" },
-        { id: 5, style: "formal",
-          noticeTitle: "BOAT HIRE",
-          noticeText: "INSURANCE INCLUDED · FUEL EXTRA · NO HIDDEN CHARGES",
+        { id: 5, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test7/q5.png",
           prompt: "The hire charge covers all the costs",
           options: [
             { letter: "A", text: "including fuel and insurance." },

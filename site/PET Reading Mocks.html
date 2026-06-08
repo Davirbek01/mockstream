@@ -279,6 +279,21 @@
     .part-instr p:last-child { margin: 0; }
 
     /* Example */
+    .ex-img { margin-top: 8px; background: #fff; border-radius: 10px; padding: 6px; border: 1px solid #bae6fd; max-width: 100%; }
+    .ex-img img { max-width: 100%; height: auto; display: block; }
+    .example-card--wide { align-items: flex-start; }
+    .example-card--wide .ex-left { flex: 1 1 0; min-width: 0; max-width: 50%; }
+    .example-card--wide .ex-right { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+    .ex-opts { display: flex; flex-direction: column; gap: 6px; }
+    .ex-opt { display: flex; gap: 10px; padding: 6px 10px; background: #fff; border: 1px solid #bae6fd; border-radius: 8px; font-size: 13.5px; line-height: 1.4; color: #1e3a5f; }
+    .ex-opt.is-correct { background: #dcfce7; border-color: #86efac; color: #14532d; font-weight: 600; }
+    .ex-opt-letter { font-weight: 800; min-width: 16px; }
+    .ex-opt-text { flex: 1; min-width: 0; }
+    .ex-ans-row { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
+    @media (max-width: 720px) {
+      .example-card--wide { flex-direction: column; align-items: stretch; gap: 12px; }
+      .example-card--wide .ex-left, .example-card--wide .ex-right { max-width: 100%; flex: none; width: 100%; }
+    }
     .example-card {
       background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
       border: 1px solid #bae6fd;
@@ -1212,6 +1227,8 @@
     .pet-notice-message { background: #e0f2fe; border-color: #7dd3fc; border-radius: 14px 14px 14px 4px; }
     .pet-notice-message .pet-notice-title { font-weight: 800; color: var(--navy-800); margin-bottom: 4px; font-size: 13px; }
     .pet-notice-sign { background: #fff; border: 2px solid var(--navy-700); }
+    .pet-notice-img { display: flex; align-items: center; justify-content: center; padding: 8px; background: #fff; border-radius: 12px; border: 1px solid var(--ring); }
+    .pet-notice-img img { max-width: 100%; width: 100%; height: auto; display: block; }
     .pet-notice-sign .pet-notice-title { text-align: center; font-weight: 900; font-size: 15px; color: var(--navy-900); letter-spacing: 0.5px; padding-bottom: 8px; margin-bottom: 8px; border-bottom: 1px solid var(--ring); }
     .pet-notice-sign .pet-notice-body { text-align: center; }
     .pet-notice-body { font-size: 13.5px; line-height: 1.55; color: var(--ink); }
@@ -1502,27 +1519,45 @@
       + '<div class="part-instr">' + instrHtml + '</div>';
   }
 
-  function renderExampleSimple(prompt, answer) {
-    return '<div class="example-card">'
-      + '<div><div class="ex-label">Example</div><div style="margin-top:4px"><b>0</b> ' + escapeHtml(prompt) + '</div></div>'
-      + '<div style="text-align:right"><div class="ex-label">Answer</div><div style="margin-top:6px"><span class="ex-answer-pill">' + escapeHtml(answer) + '</span></div></div>'
+  function renderExampleSimple(prompt, answer, image, options) {
+    var body = image
+      ? '<div class="ex-img"><img src="' + image + '" alt="Example notice"></div>'
+      : '<div style="margin-top:4px"><b>0</b> ' + escapeHtml(prompt) + '</div>';
+    var optsHtml = '';
+    if (options && options.length) {
+      optsHtml = '<div class="ex-opts">';
+      options.forEach(function (o) {
+        var on = (o.letter === answer) ? ' is-correct' : '';
+        optsHtml += '<div class="ex-opt' + on + '"><span class="ex-opt-letter">' + escapeHtml(o.letter) + '</span><span class="ex-opt-text">' + escapeHtml(o.text) + '</span></div>';
+      });
+      optsHtml += '</div>';
+    }
+    return '<div class="example-card example-card--wide">'
+      + '<div class="ex-left"><div class="ex-label">Example</div>' + body + '</div>'
+      + '<div class="ex-right">' + optsHtml
+      + '<div class="ex-ans-row"><div class="ex-label">Answer</div><span class="ex-answer-pill">' + escapeHtml(answer) + '</span></div>'
+      + '</div>'
       + '</div>';
   }
 
   // ─── PART 1: short signs/notices, 5 questions, MCQ A/B/C ─────────
   function renderPart1(part) {
     var html = renderPartHeader(part);
-    html += renderExampleSimple(part.example.prompt, part.example.answer);
+    html += renderExampleSimple(part.example.prompt, part.example.answer, part.example.image, part.example.options);
     html += '<div class="pet-p1-list">';
     part.items.forEach(function (item) {
-      var styleClass = item.style ? 'pet-notice pet-notice-' + item.style : 'pet-notice';
       html += '<div class="pet-p1-row" data-qslot="' + item.id + '">';
       html += '<div class="q-num">' + item.id + '</div>';
-      html += '<div class="' + styleClass + '">';
-      if (item.noticeTitle) html += '<div class="pet-notice-title">' + escapeHtml(item.noticeTitle) + '</div>';
-      html += '<div class="pet-notice-body">' + escapeHtml(item.noticeText).replace(/\n/g, '<br>') + '</div>';
-      if (item.noticeSig) html += '<div class="pet-notice-sig">' + escapeHtml(item.noticeSig) + '</div>';
-      html += '</div>';
+      if (item.image) {
+        html += '<div class="pet-notice-img"><img src="' + item.image + '" alt="Question ' + item.id + ' notice" loading="lazy"></div>';
+      } else {
+        var styleClass = item.style ? 'pet-notice pet-notice-' + item.style : 'pet-notice';
+        html += '<div class="' + styleClass + '">';
+        if (item.noticeTitle) html += '<div class="pet-notice-title">' + escapeHtml(item.noticeTitle) + '</div>';
+        html += '<div class="pet-notice-body">' + escapeHtml(item.noticeText).replace(/\n/g, '<br>') + '</div>';
+        if (item.noticeSig) html += '<div class="pet-notice-sig">' + escapeHtml(item.noticeSig) + '</div>';
+        html += '</div>';
+      }
       html += '<div class="pet-p1-q">';
       html += '<div class="pet-p1-stem">' + escapeHtml(item.prompt) + '</div>';
       html += '<div class="pet-mcq-list">';
