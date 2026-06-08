@@ -5,7 +5,7 @@
 window.PET_MOCK_CONFIG = {
     // Number of available STATIC tests for each module
     // Dynamic mocks from Supabase (mock_tests table) are loaded automatically
-    reading_writing: 3,  // questions PET RW/pet-rw-test-01.js to pet-rw-test-NN.js
+    reading_writing: 0,  // questions PET RW/pet-rw-test-01.js to pet-rw-test-NN.js
     listening: 0,        // arriving in v2
     speaking: 0,         // arriving in v2
 
