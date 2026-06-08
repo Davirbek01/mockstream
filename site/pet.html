@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PET · Preliminary English Test — Mock Stream</title>
+  <script src="center-id.js"></script>
+  <script src="site-config/site-config.js"></script>
+  <script>document.addEventListener('DOMContentLoaded',function(){document.title=((window.SITE_CONFIG&&window.SITE_CONFIG.brandName)||'Mock Stream')+' · PET (B1 Preliminary)';});</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="cambridge/shared.css" />
+</head>
+<body>
+
+<header class="hub-top">
+  <a class="back-link" href="/landing-v3.html">← Back</a>
+  <div class="brand">
+    <div class="crest">PE</div>
+    <div class="brand-text">
+      <div class="brand-name">PET</div>
+      <div class="brand-sub">Cambridge English · B1 Preliminary</div>
+    </div>
+  </div>
+</header>
+
+<div class="hub-page">
+
+  <!-- Hero -->
+  <section class="hub-hero">
+    <span class="lvl-chip">⭐ B1 · CEFR Level</span>
+    <h1>Preliminary English Test</h1>
+    <p class="hero-sub">Cambridge English's intermediate B1 qualification. Reading (~50 min · 5 parts · 35 questions), Listening, Writing and Speaking papers — Reading is live; the others arrive next.</p>
+    <div class="hero-stats">
+      <div class="m"><span class="m-num">1</span><span class="m-label">Reading mock</span></div>
+      <div class="m"><span class="m-num">35</span><span class="m-label">questions / paper</span></div>
+      <div class="m"><span class="m-num">~50 min</span><span class="m-label">per Reading sitting</span></div>
+    </div>
+  </section>
+
+  <!-- Paper tabs -->
+  <nav class="hub-tabs" id="hubTabs" role="tablist">
+    <button class="tab active" type="button" data-paper="reading" role="tab">📖 Reading<span class="tab-badge">1 mock</span></button>
+  </nav>
+
+  <!-- Paper bodies -->
+  <main>
+
+    <!-- Reading -->
+    <section class="paper-pane" data-pane="reading">
+      <div class="paper-intro">
+        <h2>📖 Reading — Paper 1</h2>
+        <p>~50 minutes · 5 parts · 35 questions. Verbatim from Cambridge "Preliminary English Test for Schools" books.</p>
+      </div>
+      <div class="mock-grid" id="rMockGrid"></div>
+    </section>
+
+  </main>
+</div>
+
+<script src="cambridge/shared.js"></script>
+<script>
+  // PET-specific paper config — wired to the new runner.
+  Cambridge.renderMockGrid('rMockGrid', {
+    count:      1,
+    runnerPath: '/PET Reading Mocks.html',
+    mockParam:  'mock',
+    paperLabel: 'Reading',
+    parts:      5,
+    questions:  35,
+    duration:   '50 min'
+  });
+  Cambridge.wireTabs('hubTabs');
+</script>
+
+</body>
+</html>
