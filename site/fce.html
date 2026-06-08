@@ -29,11 +29,11 @@
   <section class="hub-hero">
     <span class="lvl-chip">⭐ B2 · CEFR Level</span>
     <h1>First Certificate in English</h1>
-    <p class="hero-sub">Cambridge English's upper-intermediate B2 qualification. Reading and Writing papers are live — verbatim from "Cambridge First Certificate in English 1". Listening and Speaking arriving soon.</p>
+    <p class="hero-sub">Cambridge English's upper-intermediate B2 qualification. Reading, Writing and Listening papers are live — verbatim from "Cambridge First Certificate in English 1". Speaking arriving soon.</p>
     <div class="hero-stats">
       <div class="m"><span class="m-num">1</span><span class="m-label">Reading mock</span></div>
       <div class="m"><span class="m-num">1</span><span class="m-label">Writing mock</span></div>
-      <div class="m"><span class="m-num">soon</span><span class="m-label">Listening</span></div>
+      <div class="m"><span class="m-num">1</span><span class="m-label">Listening mock</span></div>
       <div class="m"><span class="m-num">soon</span><span class="m-label">Speaking</span></div>
     </div>
   </section>
@@ -42,7 +42,7 @@
   <nav class="hub-tabs" id="hubTabs" role="tablist">
     <button class="tab active" type="button" data-paper="reading" role="tab">📖 Reading<span class="tab-badge">1 mock</span></button>
     <button class="tab" type="button" data-paper="writing" role="tab">✍️ Writing<span class="tab-badge">1 mock</span></button>
-    <button class="tab" type="button" data-paper="listening" role="tab">🎧 Listening<span class="tab-badge">coming soon</span></button>
+    <button class="tab" type="button" data-paper="listening" role="tab">🎧 Listening<span class="tab-badge">1 mock</span></button>
   </nav>
 
   <!-- Paper bodies -->
@@ -69,10 +69,10 @@
     <!-- Listening -->
     <section class="paper-pane" data-pane="listening" hidden>
       <div class="paper-intro">
-        <h2>🎧 Listening — Paper 3</h2>
-        <p>~40 minutes · 4 parts · 30 questions. Audio splits + per-part transcripts arriving alongside Writing.</p>
+        <h2>🎧 Listening — Paper 4</h2>
+        <p>~40 minutes · 4 parts · 30 questions. Verbatim from "Cambridge FCE 1" (Test 1). Each part audio plays twice; answers auto-marked on submit.</p>
       </div>
-      <div class="empty-pane">FCE Listening mocks are being prepared. Check back soon.</div>
+      <div class="mock-grid" id="lMockGrid"></div>
     </section>
 
   </main>
@@ -101,6 +101,15 @@
     parts:      2,
     questions:  2,
     duration:   '80 min'
+  });
+  Cambridge.renderMockGrid('lMockGrid', {
+    count:      1,
+    runnerPath: '/FCE Listening.html',
+    mockParam:  'mock',
+    paperLabel: 'Listening',
+    parts:      4,
+    questions:  30,
+    duration:   '40 min'
   });
   Cambridge.wireTabs('hubTabs');
 </script>

@@ -5,8 +5,8 @@
 window.FCE_MOCK_CONFIG = {
     // Number of available STATIC tests for each module
     // Dynamic mocks from Supabase (mock_tests table) are loaded automatically
-    reading_writing: 1,  // Cambridge FCE 1 Test 1 (Reading only; Writing block is placeholder pending later session)
-    listening: 0,        // arriving in v2
+    reading_writing: 1,  // Cambridge FCE 1 Test 1 (Reading + Writing)
+    listening: 1,        // Cambridge FCE 1 Test 1 (Listening — 4 parts, audio split + verbatim)
     speaking: 0,         // arriving in v2
 
     // File naming patterns (for reference)
