@@ -64,7 +64,10 @@ window.PET_W_TEST = {
           intro: "This is part of a letter you receive from your penfriend.",
           image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Writing/test8/q7_ribbon.png",
           outro: "Now write a letter to your penfriend.\nWrite your letter in about 100 words on your answer sheet." },
-        { id: 8, prompt: "You have to write a story for your English teacher.\n\nYour story must have this title:\n\n  A broken window\n\nWrite your story in about 100 words on your answer sheet." }
+        { id: 8,
+          intro: "You have to write a story for your English teacher.\n\nYour story must have this title:",
+          highlight: "A broken window",
+          outro: "Write your story in about 100 words on your answer sheet." }
       ],
       wordCount: "about 100 words",
       items: [

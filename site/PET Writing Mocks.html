@@ -283,6 +283,14 @@
     .part-instr li::marker { color: var(--blue-500); }
     .writing-ribbon { margin: 6px 0; }
     .writing-ribbon img { max-width: 100%; height: auto; display: block; }
+    .writing-highlight {
+      font-family: 'Caveat', 'Segoe Script', 'Bradley Hand', cursive;
+      font-size: 24px; line-height: 1.35; font-weight: 600;
+      color: var(--navy-800); text-align: center;
+      margin: 10px 0; padding: 14px 18px;
+      background: #fffbe8; border-left: 4px solid #f59e0b;
+      border-radius: 8px;
+    }
     .pet-w-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
     @media (max-width: 720px) { .pet-w-choices { grid-template-columns: 1fr; } }
 
@@ -1426,6 +1434,10 @@
         if (c.image) {
           if (c.intro) html += '<div style="font-size:13.5px;line-height:1.55;color:var(--ink-2);margin-bottom:10px">' + escapeHtml(c.intro).replace(/\n/g, '<br>') + '</div>';
           html += '<div class="writing-ribbon"><img src="' + c.image + '" alt="Letter excerpt for Question ' + c.id + '" loading="lazy"></div>';
+          if (c.outro) html += '<div style="font-size:13.5px;line-height:1.55;color:var(--ink-2);margin-top:10px">' + escapeHtml(c.outro).replace(/\n/g, '<br>') + '</div>';
+        } else if (c.highlight) {
+          if (c.intro) html += '<div style="font-size:13.5px;line-height:1.55;color:var(--ink-2);margin-bottom:8px">' + escapeHtml(c.intro).replace(/\n/g, '<br>') + '</div>';
+          html += '<div class="writing-highlight">' + escapeHtml(c.highlight) + '</div>';
           if (c.outro) html += '<div style="font-size:13.5px;line-height:1.55;color:var(--ink-2);margin-top:10px">' + escapeHtml(c.outro).replace(/\n/g, '<br>') + '</div>';
         } else {
           html += '<div style="font-size:13.5px;line-height:1.55;color:var(--ink-2)">' + escapeHtml(c.prompt).replace(/\n/g, '<br>') + '</div>';
