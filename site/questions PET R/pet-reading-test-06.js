@@ -182,11 +182,13 @@ window.PET_R_TEST = {
             { letter: "D", text: "to show how it can be spilled" }
           ], answer: "A" },
         { id: 25, prompt: "Which traffic sign shows the main idea of the text?",
+          cardLayout: true,
+          cardStyle: "sign",
           options: [
-            { letter: "A", text: "DRIVE CAREFULLY / ICE ON ROAD AHEAD" },
-            { letter: "B", text: "REDUCE SPEED NOW / FOG AHEAD" },
-            { letter: "C", text: "DRIVE CAREFULLY / ROAD REPAIRS AHEAD" },
-            { letter: "D", text: "SLOW DOWN / ACCIDENT AHEAD" }
+            { letter: "A", title: "DRIVE CAREFULLY",  body: "ICE ON ROAD AHEAD" },
+            { letter: "B", title: "REDUCE SPEED NOW", body: "FOG AHEAD" },
+            { letter: "C", title: "DRIVE CAREFULLY",  body: "ROAD REPAIRS AHEAD" },
+            { letter: "D", title: "SLOW DOWN",        body: "ACCIDENT AHEAD" }
           ], answer: "A" }
       ]
     },

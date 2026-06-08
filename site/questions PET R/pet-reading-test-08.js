@@ -174,11 +174,12 @@ window.PET_R_TEST = {
             { letter: "D", text: "sick" }
           ], answer: "D" },
         { id: 25, prompt: "Which of the following describes New Writing 3?",
+          cardLayout: true,
           options: [
-            { letter: "A", text: "Great value: two novels, poems and articles for only £6.99" },
-            { letter: "B", text: "Great value: the best of new writing for only £6.99" },
-            { letter: "C", text: "Great value: poems by Tremain, Harris and Burnside for only £6.99" },
-            { letter: "D", text: "Great value: newspapers for a whole year for only £6.99" }
+            { letter: "A", title: "Great value:", body: "two novels, poems and articles for only £6.99" },
+            { letter: "B", title: "Great value:", body: "the best of new writing for only £6.99" },
+            { letter: "C", title: "Great value:", body: "poems by Tremain, Harris and Burnside for only £6.99" },
+            { letter: "D", title: "Great value:", body: "newspapers for a whole year for only £6.99" }
           ], answer: "B" }
       ]
     },

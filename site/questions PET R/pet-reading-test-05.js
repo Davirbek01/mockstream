@@ -171,11 +171,12 @@ window.PET_R_TEST = {
             { letter: "D", text: "They came from the same city." }
           ], answer: "C" },
         { id: 25, prompt: "Which of the following advertisements describes the Activity Centre?",
+          cardLayout: true,
           options: [
-            { letter: "A", text: "ACTIVITY CENTRE — Set in beautiful countryside. Accommodation and meals provided. Make up your own timetable – choose from a variety of activities (horse-riding, fishing, hill-walking, sailing, mountain-biking)." },
-            { letter: "B", text: "ACTIVITY CENTRE — Set in beautiful countryside. Accommodation provided. Work with a group – we show you a range of outdoor activities that you didn't realise you could do!" },
-            { letter: "C", text: "ACTIVITY CENTRE — Set in beautiful countryside. Enjoy the luxury of our accommodation – each room has its own bathroom. Work with a group, or have individual teaching." },
-            { letter: "D", text: "ACTIVITY CENTRE — Set in beautiful countryside. You can spend the day doing outdoor activities and we will find your accommodation with a local family." }
+            { letter: "A", title: "ACTIVITY CENTRE", body: "Set in beautiful countryside. Accommodation and meals provided. Make up your own timetable – choose from a variety of activities (horse-riding, fishing, hill-walking, sailing, mountain-biking)." },
+            { letter: "B", title: "ACTIVITY CENTRE", body: "Set in beautiful countryside. Accommodation provided. Work with a group – we show you a range of outdoor activities that you didn't realise you could do!" },
+            { letter: "C", title: "ACTIVITY CENTRE", body: "Set in beautiful countryside. Enjoy the luxury of our accommodation – each room has its own bathroom. Work with a group, or have individual teaching." },
+            { letter: "D", title: "ACTIVITY CENTRE", body: "Set in beautiful countryside. You can spend the day doing outdoor activities and we will find your accommodation with a local family." }
           ], answer: "B" }
       ]
     },

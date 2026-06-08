@@ -1231,6 +1231,26 @@
     .pet-notice-img img { max-width: 100%; width: 100%; height: auto; display: block; }
     .pet-passage-img { margin: 14px 0 20px; background: #fff; border-radius: 12px; padding: 10px; border: 1px solid var(--ring); box-shadow: 0 2px 6px rgba(11,29,58,0.05); }
     .pet-passage-img img { max-width: 100%; width: 100%; height: auto; display: block; border-radius: 6px; }
+    /* Q25-style ad / sign cards (2x2 grid on wide screens, stacked on mobile) */
+    .pet-card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 8px; }
+    .pet-ad-card { display: flex; gap: 10px; align-items: flex-start; padding: 14px 16px; background: #fff; border: 1.5px solid var(--ring); border-radius: 10px; box-shadow: 3px 3px 0 rgba(11,29,58,0.08); font-family: inherit; font-size: 14px; line-height: 1.5; color: var(--ink); text-align: left; cursor: pointer; min-height: 100px; transition: all .12s ease; }
+    .pet-ad-card:hover { border-color: var(--blue-500); transform: translate(-1px,-1px); box-shadow: 4px 4px 0 rgba(11,29,58,0.12); }
+    .pet-ad-letter { flex: 0 0 26px; height: 26px; background: var(--blue-500); color: #fff; font-weight: 800; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; }
+    .pet-ad-body { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 0; }
+    .pet-ad-title { font-weight: 800; color: var(--navy-800); font-size: 14px; letter-spacing: 0.2px; }
+    .pet-ad-text { color: var(--ink-2); }
+    .pet-ad-card.is-picked { background: #dbeafe; border-color: var(--blue-500); }
+    .pet-ad-card.is-correct { background: #dcfce7; border-color: #86efac; color: #14532d; }
+    .pet-ad-card.is-wrong { background: #fee2e2; border-color: #fca5a5; color: #7f1d1d; }
+    /* Sign variant — centered uppercase title + body */
+    .pet-card-sign .pet-ad-card { background: #fff; border: 3px double var(--navy-800); box-shadow: 5px 5px 0 rgba(11,29,58,0.15); min-height: 120px; align-items: center; justify-content: center; flex-direction: column; text-align: center; }
+    .pet-card-sign .pet-ad-letter { position: absolute; top: 8px; left: 8px; }
+    .pet-card-sign .pet-ad-card { position: relative; padding-top: 38px; }
+    .pet-card-sign .pet-ad-title { font-weight: 900; letter-spacing: 0.8px; font-size: 15px; text-transform: uppercase; }
+    .pet-card-sign .pet-ad-text { font-weight: 700; font-size: 13.5px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--ink); }
+    @media (max-width: 720px) {
+      .pet-card-grid { grid-template-columns: 1fr; }
+    }
     .pet-notice-sign .pet-notice-title { text-align: center; font-weight: 900; font-size: 15px; color: var(--navy-900); letter-spacing: 0.5px; padding-bottom: 8px; margin-bottom: 8px; border-bottom: 1px solid var(--ring); }
     .pet-notice-sign .pet-notice-body { text-align: center; }
     .pet-notice-body { font-size: 13.5px; line-height: 1.55; color: var(--ink); }
@@ -1658,13 +1678,29 @@
     part.items.forEach(function (item) {
       html += '<div class="pet-mcq-row" data-qslot="' + item.id + '">';
       html += '<div class="pet-mcq-stem"><span class="q-num inline">' + item.id + '</span>' + escapeHtml(item.prompt) + '</div>';
-      html += '<div class="pet-mcq-list">';
-      item.options.forEach(function (o) {
-        html += '<button class="mcq-opt" data-letter="' + o.letter + '" onclick="pickMcq(' + item.id + ',\'' + o.letter + '\',this)">';
-        html += '<span class="mcq-letter">' + o.letter + '</span><span class="mcq-text">' + escapeHtml(o.text) + '</span>';
-        html += '</button>';
-      });
-      html += '</div></div>';
+      if (item.cardLayout) {
+        var gridClass = 'pet-card-grid' + (item.cardStyle ? ' pet-card-' + item.cardStyle : '');
+        html += '<div class="' + gridClass + '">';
+        item.options.forEach(function (o) {
+          html += '<button class="pet-ad-card mcq-opt" data-letter="' + o.letter + '" onclick="pickMcq(' + item.id + ',\'' + o.letter + '\',this)">';
+          html += '<span class="pet-ad-letter">' + o.letter + '</span>';
+          html += '<span class="pet-ad-body">';
+          if (o.title) html += '<span class="pet-ad-title">' + escapeHtml(o.title) + '</span>';
+          if (o.body)  html += '<span class="pet-ad-text">'  + escapeHtml(o.body)  + '</span>';
+          html += '</span>';
+          html += '</button>';
+        });
+        html += '</div>';
+      } else {
+        html += '<div class="pet-mcq-list">';
+        item.options.forEach(function (o) {
+          html += '<button class="mcq-opt" data-letter="' + o.letter + '" onclick="pickMcq(' + item.id + ',\'' + o.letter + '\',this)">';
+          html += '<span class="mcq-letter">' + o.letter + '</span><span class="mcq-text">' + escapeHtml(o.text) + '</span>';
+          html += '</button>';
+        });
+        html += '</div>';
+      }
+      html += '</div>';
     });
     html += '</div>';
     return html;
