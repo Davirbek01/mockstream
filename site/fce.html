@@ -29,10 +29,10 @@
   <section class="hub-hero">
     <span class="lvl-chip">⭐ B2 · CEFR Level</span>
     <h1>First Certificate in English</h1>
-    <p class="hero-sub">Cambridge English's upper-intermediate B2 qualification. Reading paper is live — verbatim from "Cambridge First Certificate in English 1". Writing, Listening and Speaking arriving soon.</p>
+    <p class="hero-sub">Cambridge English's upper-intermediate B2 qualification. Reading and Writing papers are live — verbatim from "Cambridge First Certificate in English 1". Listening and Speaking arriving soon.</p>
     <div class="hero-stats">
       <div class="m"><span class="m-num">1</span><span class="m-label">Reading mock</span></div>
-      <div class="m"><span class="m-num">soon</span><span class="m-label">Writing</span></div>
+      <div class="m"><span class="m-num">1</span><span class="m-label">Writing mock</span></div>
       <div class="m"><span class="m-num">soon</span><span class="m-label">Listening</span></div>
       <div class="m"><span class="m-num">soon</span><span class="m-label">Speaking</span></div>
     </div>
@@ -41,7 +41,7 @@
   <!-- Paper tabs -->
   <nav class="hub-tabs" id="hubTabs" role="tablist">
     <button class="tab active" type="button" data-paper="reading" role="tab">📖 Reading<span class="tab-badge">1 mock</span></button>
-    <button class="tab" type="button" data-paper="writing" role="tab">✍️ Writing<span class="tab-badge">coming soon</span></button>
+    <button class="tab" type="button" data-paper="writing" role="tab">✍️ Writing<span class="tab-badge">1 mock</span></button>
     <button class="tab" type="button" data-paper="listening" role="tab">🎧 Listening<span class="tab-badge">coming soon</span></button>
   </nav>
 
@@ -61,9 +61,9 @@
     <section class="paper-pane" data-pane="writing" hidden>
       <div class="paper-intro">
         <h2>✍️ Writing — Paper 2</h2>
-        <p>~80 minutes · 2 tasks (compulsory essay + choice of three). Arriving in a future session — Cambridge Band-5 student samples will auto-fill on submit.</p>
+        <p>~80 minutes · 2 tasks (compulsory letter + choice of one from 4 prompts: letter of application, TV review, story, set-text essay/letter). Verbatim from "Cambridge FCE 1" (Test 1). Cambridge sample answers shown as references.</p>
       </div>
-      <div class="empty-pane">FCE Writing mocks are being prepared. Check back soon.</div>
+      <div class="mock-grid" id="wMockGrid"></div>
     </section>
 
     <!-- Listening -->
@@ -92,6 +92,15 @@
     parts:      3,
     questions:  30,
     duration:   '60 min'
+  });
+  Cambridge.renderMockGrid('wMockGrid', {
+    count:      1,
+    runnerPath: '/FCE Reading & Writing.html',
+    mockParam:  'mock',
+    paperLabel: 'Writing',
+    parts:      2,
+    questions:  2,
+    duration:   '80 min'
   });
   Cambridge.wireTabs('hubTabs');
 </script>

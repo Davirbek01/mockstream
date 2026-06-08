@@ -450,6 +450,14 @@
     .choice-tab:hover { border-color:var(--primary); color:var(--primary-dark); }
     .choice-tab.active { background:var(--primary); border-color:var(--primary); color:#fff; }
 
+    /* Sample answers (Writing) */
+    .writing-sample { background:#fffefb; border:1px solid #e8e2d3; border-radius:10px; padding:0; margin-bottom:14px; box-shadow:0 1px 4px rgba(11,29,58,0.04); overflow:hidden; }
+    .writing-sample summary { cursor:pointer; padding:11px 16px; font-family:'Inter',sans-serif; font-weight:700; font-size:13.5px; color:#0b1d3a; background:linear-gradient(135deg,#fef9c3,#fde68a); border-bottom:1px solid #e8e2d3; list-style:none; }
+    .writing-sample summary::-webkit-details-marker { display:none; }
+    .writing-sample summary::before { content:'▸ '; display:inline-block; transition:transform .15s; }
+    .writing-sample[open] summary::before { content:'▾ '; }
+    .writing-sample-body { padding:16px 20px; font-family:'Crimson Pro',Georgia,serif; font-size:15px; line-height:1.7; color:#1a2336; white-space:pre-wrap; }
+
     /* Submit bar */
     .submit-bar { position:fixed; bottom:0; left:0; right:0; background:#fff; border-top:1px solid var(--border); padding:12px 16px; display:flex; gap:10px; justify-content:center; align-items:center; box-shadow:0 -2px 10px rgba(0,0,0,.06); z-index:50; }
     .btn { padding:10px 22px; border-radius:10px; font-size:14px; font-weight:700; border:none; cursor:pointer; transition:.15s; }
@@ -544,8 +552,8 @@
   var ALL_PART_PAGES = [];
   var PART_META = [];
   var CURRENT_IDX = 0;
-  var TOTAL_QUESTIONS = 54;
-  var READING_PART_COUNT = 7;
+  var TOTAL_QUESTIONS = 30;
+  var READING_PART_COUNT = 3;
   var WRITING_PART_COUNT = 2;
 
   // ───── Renderer ─────
@@ -556,7 +564,9 @@
     document.getElementById('partNav').style.display = '';
     document.getElementById('progressRow').style.display = '';
 
-    TOTAL_QUESTIONS = test.testInfo.totalQuestions || 54;
+    TOTAL_QUESTIONS = test.testInfo.totalQuestions || 30;
+    READING_PART_COUNT = (test.reading && test.reading.parts) ? test.reading.parts.length : 3;
+    WRITING_PART_COUNT = (test.writing && test.writing.parts) ? test.writing.parts.length : 2;
 
     test.reading.parts.forEach(function (p) {
       var m = meta(p, false);
@@ -594,8 +604,8 @@
     if (p.type === 'long-text-mcq')             return { partNumber: p.partNumber, displayNumber: p.partNumber, isWriting: false, qStart: p.questions[0].id, qEnd: p.questions[p.questions.length-1].id };
     if (p.type === 'gapped-text')               return { partNumber: p.partNumber, displayNumber: p.partNumber, isWriting: false, qStart: p.gaps[0].id,      qEnd: p.gaps[p.gaps.length-1].id };
     if (p.type === 'multiple-matching')         return { partNumber: p.partNumber, displayNumber: p.partNumber, isWriting: false, qStart: p.questions[0].id, qEnd: p.questions[p.questions.length-1].id };
-    if (p.type === 'essay')                     return { partNumber: p.partNumber, displayNumber: p.writingPartNumber || 1, isWriting: true,  qStart: 53, qEnd: 53 };
-    if (p.type === 'choice-of-three')           return { partNumber: p.partNumber, displayNumber: p.writingPartNumber || 2, isWriting: true,  qStart: 54, qEnd: 54 };
+    if (p.type === 'essay')                     return { partNumber: p.partNumber, displayNumber: p.writingPartNumber || 1, isWriting: true,  qStart: 1, qEnd: 1 };
+    if (p.type === 'choice-of-three')           return { partNumber: p.partNumber, displayNumber: p.writingPartNumber || 2, isWriting: true,  qStart: 2, qEnd: 5 };
     return { partNumber: p.partNumber, displayNumber: p.partNumber, isWriting: isWriting, qStart: 0, qEnd: 0 };
   }
 
@@ -606,7 +616,8 @@
       tile.type = 'button';
       tile.className = 'part-tile';
       tile.dataset.idx = idx;
-      var qLabel = 'Q' + m.qStart + (m.qStart !== m.qEnd ? '–' + m.qEnd : '');
+      var qPrefix = m.isWriting ? (m.qStart === m.qEnd ? 'Task ' : 'Q') : 'Q';
+      var qLabel = qPrefix + m.qStart + (m.qStart !== m.qEnd ? '–' + m.qEnd : '');
       tile.innerHTML =
         '<span class="part-tile-label">' + (m.isWriting ? 'Writing' : 'Reading') + '</span>' +
         '<span class="part-tile-name">Part ' + m.displayNumber + '</span>' +
@@ -639,7 +650,8 @@
     return '<div class="part-instruction" data-instruction-text>' + text + '</div>';
   }
   function partHeader(displayNumber, qStart, qEnd, isWriting) {
-    var qLabel = qStart === qEnd ? 'Question ' + qStart : 'Questions ' + qStart + '–' + qEnd;
+    var unit = isWriting ? 'Task' : 'Question';
+    var qLabel = qStart === qEnd ? unit + ' ' + qStart : (unit === 'Task' ? 'Questions ' : unit + 's ') + qStart + '–' + qEnd;
     var paperLabel = isWriting ? 'Paper 2 · Writing' : 'Paper 1 · Reading';
     return '<div class="part-header">' +
       '<span class="part-header-rule"></span>' +
@@ -812,13 +824,15 @@
     return h;
   }
 
-  // Writing Part 1 — compulsory essay (140-190 words)
+  // Writing Part 1 — compulsory task (letter / essay / email / review etc.)
   function renderEssay(p) {
     var wMin = p.wordMin || 140;
     var wMax = p.wordMax || 190;
+    var typeLabel = (p.taskType || 'Essay');
+    var typeLower = typeLabel.toLowerCase();
 
-    var h = partInstruction('Write your <strong>essay</strong> in <strong>' + wMin + '–' + wMax + ' words</strong>.');
-    h += '<div class="task-type-heading">Writing Part 1 — <strong>' + escapeHtml(p.taskType || 'Essay') + '</strong> (compulsory)</div>';
+    var h = partInstruction('Write your <strong>' + escapeHtml(typeLower) + '</strong> in <strong>' + wMin + '–' + wMax + ' words</strong>.');
+    h += '<div class="task-type-heading">Writing Part 1 — <strong>' + escapeHtml(typeLabel) + '</strong> (compulsory)</div>';
     h += '<div class="writing-subtitle">' + escapeHtml(p.instruction) + '</div>';
     if (p.topic) h += '<div class="essay-topic-box">' + escapeHtml(p.topic) + '</div>';
     if (p.notes && p.notes.length) {
@@ -829,18 +843,23 @@
       h += '</ul>';
       h += '</div>';
     }
-    h += '<textarea class="writing-area" data-task="8" placeholder="Write your essay here..."></textarea>';
+    h += '<textarea class="writing-area" data-task="8" placeholder="Write your ' + escapeHtml(typeLower) + ' here..."></textarea>';
     h += '<div class="word-count short" data-for="8" data-min="' + wMin + '" data-max="' + wMax + '">0 / ' + wMin + '–' + wMax + ' words</div>';
     return h;
   }
 
-  // Writing Part 2 — choose 1 of 3 (140-190 words)
+  // Writing Part 2 — choose 1 of N (120-180 words)
   function renderChoiceOfThree(p) {
     var wMin = p.wordMin || 140;
     var wMax = p.wordMax || 190;
     var choices = p.choices || [];
+    var samples = p.samples || [];
     var defaultId = (choices[0] && choices[0].id) || 'article';
     WRITING_CHOICE[9] = defaultId;
+
+    function sampleFor(choiceId) {
+      return samples.filter(function (s) { return s.forChoice === choiceId; });
+    }
 
     var h = partInstruction('Choose <strong>ONE</strong> of the tasks below and write <strong>' + wMin + '–' + wMax + ' words</strong>.');
     h += '<div class="task-type-heading">Writing Part 2 — Choose ONE</div>';
@@ -854,6 +873,13 @@
     choices.forEach(function (c, idx) {
       h += '<div class="choice-panel" data-choice="' + escapeHtml(c.id) + '" style="display:' + (idx === 0 ? 'block' : 'none') + '">';
       h += '<div class="writing-prompt-box">' + escapeHtml(c.prompt) + '<span class="prompt-pencil" aria-hidden="true">✏️</span></div>';
+      var mySamples = sampleFor(c.id);
+      mySamples.forEach(function (s) {
+        h += '<details class="writing-sample">';
+        h += '<summary>📝 View ' + escapeHtml(s.title || ('Band ' + s.band + ' sample')) + '</summary>';
+        h += '<div class="writing-sample-body">' + escapeHtml(s.text) + '</div>';
+        h += '</details>';
+      });
       h += '</div>';
     });
     h += '<textarea class="writing-area" data-task="9" placeholder="Write your answer here..."></textarea>';
