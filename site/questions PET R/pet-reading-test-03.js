@@ -29,14 +29,18 @@ window.PET_R_TEST = {
       example: {
         number: 0,
         prompt: "LOST FLOPPY DISC — Lost on Tuesday - contains important schoolwork. Hand in to office.",
-        answer: "A"
+        answer: "A",
+        image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test3/q0.png",
+        options: [
+          { letter: "A", text: "Go to the office if you have lost a floppy disc." },
+          { letter: "B", text: "Make sure all schoolwork is given in on floppy disc to the office." },
+          { letter: "C", text: "If you have found a floppy disc, please leave it at the office." }
+        ]
       },
       items: [
         {
-          id: 1, style: "message",
-          noticeTitle: "From: Juan  ·  To: Maria",
-          noticeText: "I want to sell my guitar. Pedro wants it too, but you asked me first. Let me know tomorrow at school.",
-          prompt: " ",
+          id: 1, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test3/q1.png",
+                    prompt: " ",
           options: [
             { letter: "A", text: "Juan will sell Maria his guitar if she wants it." },
             { letter: "B", text: "Pedro has a guitar which Maria might want to buy." },
@@ -45,11 +49,8 @@ window.PET_R_TEST = {
           answer: "A"
         },
         {
-          id: 2, style: "note",
-          noticeTitle: "Maths Homework",
-          noticeText: "Some of you have told me the homework is a bit difficult. So if you haven't finished it by Friday, you can hand it in on Monday.",
-          noticeSig: "Mr Peters",
-          prompt: " ",
+          id: 2, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test3/q2.png",
+                    prompt: " ",
           options: [
             { letter: "A", text: "The homework given out on Friday must be returned by Monday." },
             { letter: "B", text: "Students who wish to hand in their homework on Monday should tell Mr Peters." },
@@ -58,11 +59,8 @@ window.PET_R_TEST = {
           answer: "C"
         },
         {
-          id: 3, style: "note",
-          noticeTitle: "Dan,",
-          noticeText: "Don't forget to put your football shirt in the washing machine as soon as you get home from the match. Add soap powder and turn dial to number 3.",
-          noticeSig: "Mum",
-          prompt: "What does Dan have to do?",
+          id: 3, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test3/q3.png",
+                    prompt: "What does Dan have to do?",
           options: [
             { letter: "A", text: "Remember to make sure his football shirt is clean in time for the match." },
             { letter: "B", text: "Remember where he put the football shirt that he needs for the match." },
@@ -71,11 +69,8 @@ window.PET_R_TEST = {
           answer: "C"
         },
         {
-          id: 4, style: "message",
-          noticeTitle: "From: Sarah  ·  To: Janine",
-          noticeText: "Janine - my birthday meal's booked for 6.30 Saturday at Luigi's restaurant. I know there are things you can't eat, so I've attached a menu. Tell me if it's OK.",
-          noticeSig: "Sarah",
-          prompt: "What does Sarah need to know?",
+          id: 4, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test3/q4.png",
+                    prompt: "What does Sarah need to know?",
           options: [
             { letter: "A", text: "if Janine will be available to go to the restaurant" },
             { letter: "B", text: "if the food at the restaurant will be all right for Janine" },
@@ -84,10 +79,8 @@ window.PET_R_TEST = {
           answer: "B"
         },
         {
-          id: 5, style: "formal",
-          noticeTitle: "PARKSIDE POOL",
-          noticeText: "BEYOND THIS RED LINE THE WATER IS VERY SHALLOW – NO DIVING IN THIS AREA",
-          prompt: " ",
+          id: 5, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test3/q5.png",
+                    prompt: " ",
           options: [
             { letter: "A", text: "Part of the pool is not deep enough for diving." },
             { letter: "B", text: "Diving is forbidden in all areas of the pool." },
@@ -112,11 +105,11 @@ window.PET_R_TEST = {
       ],
       textsTitle: "Clothes Shops",
       items: [
-        { id: 6,  name: "George", description: "George has to buy some new jeans but hasn't much money to spend. He's quite tall, so he likes to try on clothes to check that they fit.", answer: "F" },
-        { id: 7,  name: "Rosa",   description: "Rosa would like a beautiful dress for her school's end-of-year party, with earrings to match. Her mother has given her quite a lot of money to spend, and she'd like to buy everything in one store.", answer: "D" },
-        { id: 8,  name: "Stefan", description: "Stefan wants to get a smart designer rugby shirt, and doesn't mind how expensive it is. He prefers to choose his clothes online before he goes to town to buy anything.", answer: "A" },
-        { id: 9,  name: "Tanya",  description: "Tanya wants to buy some skirts and tops that are a bit unusual, so that she'll look different from everyone else at school. She wants to try things on in the shop to make sure they suit her.", answer: "H" },
-        { id: 10, name: "Suzie",  description: "Suzie needs to get some fairly cheap sports clothes for wearing at the gym. She's in a hurry, so doesn't want to spend too long shopping.", answer: "B" }
+        { id: 6, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test3/p6.jpg", name: "George", description: "George has to buy some new jeans but hasn't much money to spend. He's quite tall, so he likes to try on clothes to check that they fit.", answer: "F" },
+        { id: 7, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test3/p7.jpg", name: "Rosa",   description: "Rosa would like a beautiful dress for her school's end-of-year party, with earrings to match. Her mother has given her quite a lot of money to spend, and she'd like to buy everything in one store.", answer: "D" },
+        { id: 8, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test3/p8.jpg", name: "Stefan", description: "Stefan wants to get a smart designer rugby shirt, and doesn't mind how expensive it is. He prefers to choose his clothes online before he goes to town to buy anything.", answer: "A" },
+        { id: 9, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test3/p9.jpg", name: "Tanya",  description: "Tanya wants to buy some skirts and tops that are a bit unusual, so that she'll look different from everyone else at school. She wants to try things on in the shop to make sure they suit her.", answer: "H" },
+        { id: 10, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test3/p10.jpg", name: "Suzie",  description: "Suzie needs to get some fairly cheap sports clothes for wearing at the gym. She's in a hurry, so doesn't want to spend too long shopping.", answer: "B" }
       ],
       texts: [
         { letter: "A", title: "Streetwear", body: "This shop has all the top-of-the-range sports and leisurewear labels. The clothes aren't cheap but they're all high quality. Keep up-to-date with their latest styles by going to their website." },
@@ -142,6 +135,7 @@ window.PET_R_TEST = {
         "If it is correct, mark A on your answer sheet.",
         "If it is not correct, mark B on your answer sheet."
       ],
+      passageImage: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test3/passage3.jpg",
       passageTitle: "Citisport in Newport",
       passage:
         "We at Citisport aim to improve sports training and facilities in Newport, giving you more opportunity to try both new and traditional sports.\n\n" +

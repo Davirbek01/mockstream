@@ -59,8 +59,14 @@ window.PET_W_TEST = {
       partNumber: 3, label: "PART 3", questionsLabel: "QUESTIONS 7 or 8",
       type: "writing-task",
       choices: [
-        { id: 7, prompt: "This is part of a letter you receive from an English friend.\n\n  \"I'm starting a new school next term and I'm worried because I won't know anyone there. What do you think are the best ways to make new friends? Please write back soon.\"\n\nNow write a letter giving your friend some advice.\nWrite your letter on your answer sheet." },
-        { id: 8, prompt: "Your English teacher has asked you to write a story.\n\nYour story must begin with this sentence:\n\n  As soon as I woke up I knew that it was going to be a special day.\n\nWrite your story on your answer sheet." }
+        { id: 7,
+          intro: "This is part of a letter you receive from an English friend.",
+          image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Writing/test4/q7_ribbon.png",
+          outro: "Now write a letter giving your friend some advice.\nWrite your letter on your answer sheet." },
+        { id: 8,
+          intro: "Your English teacher has asked you to write a story.\n\nYour story must begin with this sentence:",
+          highlight: "As soon as I woke up I knew that it was going to be a special day.",
+          outro: "Write your story on your answer sheet." }
       ],
       wordCount: "about 100 words",
       items: [
