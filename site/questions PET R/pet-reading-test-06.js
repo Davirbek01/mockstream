@@ -110,6 +110,7 @@ window.PET_R_TEST = {
         "If it is correct, mark A on your answer sheet.",
         "If it is not correct, mark B on your answer sheet."
       ],
+      passageImage: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test6/passage3.jpg",
       passageTitle: "A JOURNEY ALONG THE BEAUTIFUL DOURO RIVER",
       passageSubtitle: "7 nights from £1050",
       passage:

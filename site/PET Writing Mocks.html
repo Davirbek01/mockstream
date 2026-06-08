@@ -1436,7 +1436,16 @@
       html += '<div style="font-weight:700;color:var(--navy-800);margin:14px 0 6px">Write your answer (' + escapeHtml(part.wordCount || 'about 100 words') + '):</div>';
     } else {
       // Single-prompt task (Q6)
-      html += '<div class="postcard-prompt-card" style="background:#fef9c3;border:1px solid #fde047;border-radius:14px;padding:18px 22px;margin:0 0 14px;font-size:14.5px;line-height:1.6;color:var(--ink)">' + escapeHtml(part.prompt).replace(/\n/g, '<br>') + '</div>';
+      var q6Body;
+      if (part.promptImage) {
+        q6Body = '';
+        if (part.promptIntro) q6Body += escapeHtml(part.promptIntro).replace(/\n/g, '<br>');
+        q6Body += '<div style="margin:12px 0"><img src="' + part.promptImage + '" alt="Question 6 image" loading="lazy" style="max-width:100%;height:auto;display:block;border-radius:8px;border:1px solid var(--ring)"></div>';
+        if (part.promptOutro) q6Body += escapeHtml(part.promptOutro).replace(/\n/g, '<br>');
+      } else {
+        q6Body = escapeHtml(part.prompt).replace(/\n/g, '<br>');
+      }
+      html += '<div class="postcard-prompt-card" style="background:#fef9c3;border:1px solid #fde047;border-radius:14px;padding:18px 22px;margin:0 0 14px;font-size:14.5px;line-height:1.6;color:var(--ink)">' + q6Body + '</div>';
       html += '<div style="font-weight:700;color:var(--navy-800);margin:14px 0 6px">Write your answer (' + escapeHtml(part.wordCount || '35–45 words') + '):</div>';
     }
     var item = part.items[0];
