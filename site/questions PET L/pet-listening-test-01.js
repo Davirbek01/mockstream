@@ -3,9 +3,8 @@
 // Paper 2 Listening: ~35 min · 4 parts · 25 questions.
 // Source pages: Test 1 listening = pp.24-30; key = p.111 of book (PDF page 120).
 //
-// NOTE: Part 1 picture-MCQ options use text descriptions until cropped images
-// from book pages are uploaded to GCS. The questions, options A/B/C semantics,
-// and answer keys are verbatim from the book.
+// Part 1 picture-MCQ options are real cropped images from book pp.25-27,
+// ESRGAN-upscaled x4 (realesrgan-x4plus-anime) and hosted on GCS.
 
 window.PET_L_TEST = {
   testInfo: {
@@ -34,37 +33,34 @@ window.PET_L_TEST = {
         "For each question there are three pictures and a short recording.",
         "For each question, choose the correct answer A, B or C."
       ],
+      imageBase: "https://storage.googleapis.com/mockstream-listening-audio/PET-Listening/test1/p1/",
       example: {
         number: 0,
         question: "Where is the girl's hat?",
-        options: [
-          { letter: "A", text: "in the wardrobe" },
-          { letter: "B", text: "in the backpack" },
-          { letter: "C", text: "on the bus seat" }
-        ],
+        options: [ { letter: "A", image: "q0A.png" }, { letter: "B", image: "q0B.png" }, { letter: "C", image: "q0C.png" } ],
         answer: "A"
       },
       items: [
         { id: 1, question: "Which dish did Mark cook in the competition?",
-          options: [ { letter: "A", text: "Dish A" }, { letter: "B", text: "Dish B" }, { letter: "C", text: "Dish C" } ],
+          options: [ { letter: "A", image: "q1A.png" }, { letter: "B", image: "q1B.png" }, { letter: "C", image: "q1C.png" } ],
           answer: "C" },
         { id: 2, question: "Where is the girl's book now?",
-          options: [ { letter: "A", text: "Location A" }, { letter: "B", text: "Location B" }, { letter: "C", text: "Location C" } ],
+          options: [ { letter: "A", image: "q2A.png" }, { letter: "B", image: "q2B.png" }, { letter: "C", image: "q2C.png" } ],
           answer: "B" },
         { id: 3, question: "Who lives with Josh in his house?",
-          options: [ { letter: "A", text: "Family group A" }, { letter: "B", text: "Family group B" }, { letter: "C", text: "Family group C" } ],
+          options: [ { letter: "A", image: "q3A.png" }, { letter: "B", image: "q3B.png" }, { letter: "C", image: "q3C.png" } ],
           answer: "A" },
         { id: 4, question: "What will the girl take with her on holiday?",
-          options: [ { letter: "A", text: "Item A" }, { letter: "B", text: "Item B" }, { letter: "C", text: "Item C" } ],
+          options: [ { letter: "A", image: "q4A.png" }, { letter: "B", image: "q4B.png" }, { letter: "C", image: "q4C.png" } ],
           answer: "B" },
         { id: 5, question: "What time will the train to Manchester leave?",
-          options: [ { letter: "A", text: "11:30" }, { letter: "B", text: "11:45" }, { letter: "C", text: "11:50" } ],
+          options: [ { letter: "A", image: "q5A.png" }, { letter: "B", image: "q5B.png" }, { letter: "C", image: "q5C.png" } ],
           answer: "C" },
         { id: 6, question: "Where will the friends meet?",
-          options: [ { letter: "A", text: "Location A" }, { letter: "B", text: "Location B" }, { letter: "C", text: "Location C" } ],
+          options: [ { letter: "A", image: "q6A.png" }, { letter: "B", image: "q6B.png" }, { letter: "C", image: "q6C.png" } ],
           answer: "A" },
         { id: 7, question: "Which sport will the boy do soon at the centre?",
-          options: [ { letter: "A", text: "Sport A" }, { letter: "B", text: "Sport B" }, { letter: "C", text: "Sport C" } ],
+          options: [ { letter: "A", image: "q7A.png" }, { letter: "B", image: "q7B.png" }, { letter: "C", image: "q7C.png" } ],
           answer: "C" }
       ]
     },
