@@ -339,7 +339,10 @@ window.KET_RW_TEST = {
         "Write the email on your answer sheet."
       ],
       items: [
-        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35, answer:
+            "Hi Sami!\n" +
+            "The concert is in the front of Palas Jasi. It's start at 6pm, but we cam be there at 5pm because will be crowded. We will get there by a taxi.\n" +
+            "Your friend, Rares" }
       ]
     }
   ]

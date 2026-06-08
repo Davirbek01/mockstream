@@ -333,7 +333,10 @@ window.KET_RW_TEST = {
         "Write your note on the answer sheet."
       ],
       items: [
-        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35, answer:
+            "Chris I'm sory I could not come on the party last night because I met. my old friends and I went with them to the cinema.\n" +
+            "I can meet you on Saterday and we can go to restaurant.\n" +
+            "bye Sophia" }
       ]
     }
   ]

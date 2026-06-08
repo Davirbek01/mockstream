@@ -340,7 +340,11 @@ window.KET_RW_TEST = {
         "Write the postcard on your answer sheet."
       ],
       items: [
-        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35, answer:
+            "How are you?\n" +
+            "Yesterday I went shopping for clothes. I bought two trousers and one pair of shoes. I bought them because I have a birthday partie. Trousers cost each £20 and the pair of shoes it was free because direktor of this shop is my father.\n" +
+            "See you soon\n" +
+            "Željka" }
       ]
     }
   ]

@@ -352,7 +352,11 @@ window.KET_RW_TEST = {
         "Write your note on the answer sheet."
       ],
       items: [
-        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35, answer:
+            "Hi Susi\n" +
+            "Would you like to come to the party with me today? The party is in my house at 7.00pm. If you are not busy today, please call me as soon as posible.\n" +
+            "See you!\n" +
+            "Alana" }
       ]
     }
   ]

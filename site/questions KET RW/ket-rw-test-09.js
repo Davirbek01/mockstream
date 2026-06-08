@@ -334,7 +334,13 @@ window.KET_RW_TEST = {
         "Write your postcard on the answer sheet."
       ],
       items: [
-        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35, answer:
+            "Dear Paul,\n" +
+            "I'm going to visit you on Saturday.\n" +
+            "I will come with my car. I will arrive on Saturday morning. First I want to see you, then we're going to the cinema. After that we're going to the football match.\n" +
+            "See you on Saturday\n" +
+            "Yours,\n" +
+            "Diego" }
       ]
     }
   ]

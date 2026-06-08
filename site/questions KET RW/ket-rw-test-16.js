@@ -332,7 +332,11 @@ window.KET_RW_TEST = {
         "Write the note on your answer sheet."
       ],
       items: [
-        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35, answer:
+            "Dear Ally,\n" +
+            "At the party I ate a pizza with my friends, Jean and Marie. We saw a film and that I had presents: a lot of CDs and a computer game. It was very good.\n" +
+            "Bey\n" +
+            "Luke" }
       ]
     }
   ]

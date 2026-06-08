@@ -386,7 +386,13 @@ window.KET_RW_TEST = {
         "Write the email on your answer sheet."
       ],
       items: [
-        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35, answer:
+            "Hi Elena,\n" +
+            "Saturday night, there is a big concert in Nantes\n" +
+            "Do you want to go there with me?\n" +
+            "It starts at 8:00 pm and a ticket cost £6.\n" +
+            "I hope you'll come.\n" +
+            "See you later." }
       ]
     }
   ]

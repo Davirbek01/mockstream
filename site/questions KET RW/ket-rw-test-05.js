@@ -341,7 +341,11 @@ window.KET_RW_TEST = {
         "Write your note on the answer sheet."
       ],
       items: [
-        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35, answer:
+            "Dear Lina,\n" +
+            "I am sorry I can't because I go to the cinema. Can we go to the swimming on Sunday at 6.30 in the evening. If you want to go. come to the bus station on Sunday at 6.00 o'clock.\n" +
+            "See you later\n" +
+            "Yours Shida" }
       ]
     }
   ]

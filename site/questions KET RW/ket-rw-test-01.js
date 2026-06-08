@@ -467,7 +467,11 @@ window.KET_RW_TEST = {
         "Write your postcard on the answer sheet."
       ],
       items: [
-        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35, answer:
+            "Dear Richard,\n" +
+            "I am going to England next Monday for three months and I would like to do an excursion with you around London.\n" +
+            "See you soon,\n" +
+            "Lily" }
       ]
     }
   ]

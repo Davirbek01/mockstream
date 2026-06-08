@@ -336,7 +336,13 @@ window.KET_RW_TEST = {
         "Write the email on your answer sheet."
       ],
       items: [
-        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35, answer:
+            "Hi Mike! My new mobile is fantastic!\n" +
+            "The best of it is its camera. It has got five mega pixels.\n" +
+            "It's too exspensive. It cost 400€ I've chosen my fovorit black colour.\n" +
+            "I love it. Now I have to buy some cheese.\n" +
+            "See you soon, XXX\n" +
+            "Alex" }
       ]
     }
   ]

@@ -505,7 +505,10 @@ window.KET_RW_TEST = {
         "Write your note on the answer sheet."
       ],
       items: [
-        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35, answer:
+            "Dear Leslie,\n" +
+            "Thank you for your letter. I'm very happy, you now, I like a lot of a party and I like listening to music at parties. Yes, I'm going to come with my girlfriend Judy. You will be happy. She is very nice and friendly. See you on Saturday at 5 o'clock.\n" +
+            "David" }
       ]
     }
   ]

@@ -438,7 +438,11 @@ window.KET_RW_TEST = {
         "Write your note on the answer sheet."
       ],
       items: [
-        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35, answer:
+            "Dear Eric,\n" +
+            "Thanks for make the meal tonight. I'd like meat and I want beans. I'll be home at half past seven.\n" +
+            "Best wishes\n" +
+            "Iñigo" }
       ]
     }
   ]

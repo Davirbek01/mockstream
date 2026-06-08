@@ -331,7 +331,9 @@ window.KET_RW_TEST = {
         "Write the note on your answer sheet."
       ],
       items: [
-        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35, answer:
+            "Hello Spenser! We can eat in 'La Farinda' restaurant. I can come at nine oclock. You can park your car in a free car park behind of the restaurant.\n" +
+            "Kisses, Anna" }
       ]
     }
   ]

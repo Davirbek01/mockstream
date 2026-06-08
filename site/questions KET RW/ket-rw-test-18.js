@@ -353,7 +353,11 @@ window.KET_RW_TEST = {
         "Write the note on your answer sheet."
       ],
       items: [
-        { id: 56, type: "free-text", minWords: 25, maxWords: 35 }
+        { id: 56, type: "free-text", minWords: 25, maxWords: 35, answer:
+            "Dear Marey,\n" +
+            "How are you? I watched a competition horse riding in the evening. I watched this competition with my friend called Tome. I like horse riding because my father likes it too.\n" +
+            "With my best wishes,\n" +
+            "Mohamad" }
       ]
     }
   ]
