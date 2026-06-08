@@ -5105,8 +5105,13 @@
            rendered as outlined strokes on a tinted background, so the
            relationship is clear at a glance ("lighter version of this
            skill") without competing with the bold solid icons above.
-           Label is a uniform "Plus" — the icon carries the skill. -->
-      <div class="msv3-section">
+           Label is a uniform "Plus" — the icon carries the skill.
+           HIDDEN: the same Plus buttons live on each skill card in the
+           main grid (see Speaking/Writing/Listening/Reading cards), so
+           this sidebar block is a duplicate. Keep the DOM in place so
+           the ensurePlusBelowLearning() ordering helper still no-ops
+           cleanly. Toggle display: '' to restore. -->
+      <div class="msv3-section" style="display:none">
         <div class="msv3-section-head">
           Plus Modes
           <span class="msv3-tag msv3-tag-plus">Extra practice</span>

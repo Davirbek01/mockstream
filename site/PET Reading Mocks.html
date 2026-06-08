@@ -556,7 +556,7 @@
     .vocab-input.is-wrong,   .inline-input.is-wrong,   .an-input.is-wrong   { border-color: var(--rose-500)   !important; background: #fef2f2 !important; color: #7f1d1d        !important; text-decoration: line-through; }
     .vocab-input.is-revealed, .inline-input.is-revealed, .an-input.is-revealed { border-color: var(--gold-500) !important; background: #fffbeb !important; color: var(--navy-900) !important; font-weight: 700; }
     .ans-key { display:inline-flex; align-items:center; background: var(--emerald-500); color:#fff; font-weight:700; font-size:11.5px; padding:2px 9px; border-radius:999px; margin-left:8px; vertical-align:middle; white-space:nowrap; }
-    body.submitted .opt-pill, body.submitted .mcq-opt, body.submitted .p4-opt, body.submitted .dd-btn, body.submitted .dd-opt { pointer-events: none; }
+    body.submitted .opt-pill, body.submitted .mcq-opt, body.submitted .p4-opt, body.submitted .dd-btn, body.submitted .dd-opt, body.submitted .pet-cloze-btn, body.submitted .pet-cloze-opt { pointer-events: none; }
     body.submitted .vocab-input, body.submitted .inline-input, body.submitted .an-input, body.submitted textarea { pointer-events: none; }
     .q-text { font-size: 14.5px; line-height: 1.55; color: var(--ink); }
     .q-answer-select { display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
@@ -1281,6 +1281,27 @@
     @media (min-width: 720px) {
       .pet-cloze-options .mcq-opt { flex: 1 1 calc(25% - 6px); }
     }
+
+    /* Part 5 cloze — inline dropdown picker per gap */
+    .pet-cloze-wrap { position: relative; display: inline-block; margin: 0 3px; vertical-align: baseline; }
+    .pet-cloze-btn { background: var(--amber-200); border: 1.5px solid var(--gold-400); border-radius: 999px; padding: 2px 10px 2px 12px; font-weight: 800; color: var(--navy-800); font-size: 13.5px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-family: inherit; transition: all .12s ease; }
+    .pet-cloze-btn:hover { background: #fef3c7; border-color: var(--gold-500); }
+    .pet-cloze-btn.picked { background: #dbeafe; border-color: var(--blue-500); color: var(--navy-900); }
+    .pet-cloze-btn.is-correct { background: #ecfdf5 !important; border-color: var(--emerald-500) !important; color: var(--navy-900); }
+    .pet-cloze-btn.is-wrong { background: #fef2f2 !important; border-color: var(--rose-500) !important; color: #7f1d1d; }
+    .pet-cloze-btn.is-revealed { background: #fffbeb !important; border-color: var(--gold-500) !important; color: var(--navy-900); font-weight: 800; }
+    .pet-cloze-num { line-height: 1.1; }
+    .pet-cloze-arrow { font-size: 10px; opacity: .7; }
+    .pet-cloze-pop { position: absolute; top: calc(100% + 6px); left: 0; z-index: 50; background: #fff; border: 1.5px solid var(--ring-strong); border-radius: 12px; box-shadow: 0 12px 30px rgba(11,29,58,.18); padding: 6px; min-width: 220px; display: flex; flex-direction: column; gap: 4px; }
+    .pet-cloze-pop[hidden] { display: none; }
+    .pet-cloze-opt { background: transparent; border: 1px solid transparent; border-radius: 8px; padding: 8px 12px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-family: inherit; font-size: 13.5px; color: var(--ink); text-align: left; transition: all .12s ease; }
+    .pet-cloze-opt:hover { background: #f0f9ff; border-color: var(--blue-400); }
+    .pet-cloze-opt.picked { background: #dbeafe; border-color: var(--blue-500); }
+    .pet-cloze-opt.is-correct { background: #ecfdf5 !important; border-color: var(--emerald-500) !important; }
+    .pet-cloze-opt.is-wrong { background: #fef2f2 !important; border-color: var(--rose-500) !important; }
+    .pet-cloze-opt-letter { flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; background: var(--bg-soft); color: var(--navy-700); display: inline-flex; align-items: center; justify-content: center; font-weight: 900; font-size: 11.5px; }
+    .pet-cloze-opt.picked .pet-cloze-opt-letter, .pet-cloze-opt.is-correct .pet-cloze-opt-letter { background: var(--navy-700); color: #fff; }
+    .pet-cloze-opt-text { flex: 1; line-height: 1.4; }
   </style>
 </head>
 <body>
@@ -1603,42 +1624,80 @@
     return html;
   }
 
-  // ─── PART 5: short text with inline gaps + 10 MCQ A/B/C/D ─────────
+  // ─── PART 5: short text with inline-dropdown gaps (A/B/C/D per gap) ───
   function renderPart5(part) {
     var html = renderPartHeader(part);
     html += renderExampleSimple(part.example.prompt, part.example.answer);
+    // Build id → options map for inline dropdown rendering.
+    var optsMap = {};
+    part.items.forEach(function (it) { optsMap[it.id] = it.options; });
+
     html += '<div class="pet-passage pet-cloze-passage">';
     if (part.passageTitle) html += '<h3 class="pet-passage-title">' + escapeHtml(part.passageTitle) + '</h3>';
     if (part.passageSubtitle) html += '<div class="pet-passage-sub">' + escapeHtml(part.passageSubtitle) + '</div>';
-    // Replace {{N}} placeholders with inline gap pills displaying the question number
+
+    function gapHtml(n) {
+      var id = parseInt(n, 10);
+      var opts = optsMap[id] || [];
+      // Worked example (Q0): show the answer letter inline, non-interactive.
+      if (!opts.length && id === 0 && part.example && part.example.answer) {
+        return '<span class="pet-cloze-wrap"><span class="pet-cloze-btn is-correct" style="cursor:default"><span class="pet-cloze-num">(0) ' + escapeHtml(part.example.answer) + '</span></span></span>';
+      }
+      var s = '<span class="pet-cloze-wrap" data-qslot="' + id + '">';
+      s += '<button type="button" class="pet-cloze-btn" id="cloze-btn-' + id + '" onclick="toggleCloze(' + id + ', event)">';
+      s += '<span class="pet-cloze-num">(' + id + ')</span>';
+      s += '<span class="pet-cloze-arrow">▾</span></button>';
+      // Popover container must be a <span> too — HTML5 forbids block-level <div> inside <span>,
+      // and the browser auto-ejects the popover out of the wrap when that happens.
+      s += '<span class="pet-cloze-pop" id="cloze-pop-' + id + '" hidden>';
+      opts.forEach(function (o) {
+        var safeText = String(o.text || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+        s += '<button type="button" class="pet-cloze-opt" data-letter="' + o.letter + '" onclick="pickCloze(' + id + ',\'' + o.letter + '\',\'' + safeText + '\',this)">';
+        s += '<span class="pet-cloze-opt-letter">' + o.letter + '</span><span class="pet-cloze-opt-text">' + escapeHtml(o.text) + '</span>';
+        s += '</button>';
+      });
+      s += '</span></span>';
+      return s;
+    }
+
     var passage = part.passage.split(/\n\n+/).map(function (para) {
       var html2 = escapeHtml(para).replace(/\n/g, '<br>');
-      // Cambridge format: "(N) ___" or "(N) _____" — collapse the gap-number + blank line into a single styled pill.
-      html2 = html2.replace(/\((\d+)\)\s*_+/g, function (_, n) {
-        return '<span class="pet-gap-inline" data-gap="' + n + '">(' + n + ')</span>';
-      });
-      // Also accept {{N}} template form
-      html2 = html2.replace(/\{\{(\d+)\}\}/g, function (_, n) {
-        return '<span class="pet-gap-inline" data-gap="' + n + '">(' + n + ')</span>';
-      });
+      html2 = html2.replace(/\((\d+)\)\s*_+/g, function (_, n) { return gapHtml(n); });
+      html2 = html2.replace(/\{\{(\d+)\}\}/g, function (_, n) { return gapHtml(n); });
       return '<p>' + html2 + '</p>';
     }).join('');
     html += passage + '</div>';
-    html += '<div class="pet-mcq-block pet-cloze-block">';
-    part.items.forEach(function (item) {
-      html += '<div class="pet-mcq-row" data-qslot="' + item.id + '">';
-      html += '<div class="pet-mcq-stem"><span class="q-num inline">' + item.id + '</span></div>';
-      html += '<div class="pet-mcq-list pet-cloze-options">';
-      item.options.forEach(function (o) {
-        html += '<button class="mcq-opt" data-letter="' + o.letter + '" onclick="pickMcq(' + item.id + ',\'' + o.letter + '\',this)">';
-        html += '<span class="mcq-letter">' + o.letter + '</span><span class="mcq-text">' + escapeHtml(o.text) + '</span>';
-        html += '</button>';
-      });
-      html += '</div></div>';
-    });
-    html += '</div>';
     return html;
   }
+
+  function toggleCloze(id, ev) {
+    if (ev) ev.stopPropagation();
+    if (document.body.classList.contains('submitted')) return;
+    document.querySelectorAll('.pet-cloze-pop').forEach(function (p) {
+      if (p.id !== 'cloze-pop-' + id) p.hidden = true;
+    });
+    var pop = document.getElementById('cloze-pop-' + id);
+    if (pop) pop.hidden = !pop.hidden;
+  }
+  function pickCloze(id, letter, text, el) {
+    setAns(id, letter);
+    var pop = document.getElementById('cloze-pop-' + id);
+    if (pop) {
+      pop.querySelectorAll('.pet-cloze-opt').forEach(function (o) { o.classList.remove('picked'); });
+      pop.hidden = true;
+    }
+    el.classList.add('picked');
+    var btn = document.getElementById('cloze-btn-' + id);
+    if (btn) {
+      btn.classList.add('picked');
+      var num = btn.querySelector('.pet-cloze-num');
+      if (num) num.textContent = letter + ' · ' + text;
+    }
+  }
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('.pet-cloze-wrap')) return;
+    document.querySelectorAll('.pet-cloze-pop').forEach(function (p) { p.hidden = true; });
+  });
 
   function escapeHtml(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -1730,10 +1789,29 @@
         var expected = normalize(item.answer);
         var ok = given && given === expected;
         var row = document.querySelector('[data-qslot="' + item.id + '"]');
-        var pickedBtn  = row && row.querySelector('.opt-pill.picked, .mcq-opt.picked, .p4-opt.picked, .dd-opt.picked');
-        var correctBtn = row && row.querySelector('[data-letter="' + item.answer + '"]');
-        if (correctBtn) correctBtn.classList.add('is-correct');
-        if (pickedBtn && !ok) pickedBtn.classList.add('is-wrong');
+        var pickedBtn  = row && row.querySelector('.opt-pill.picked, .mcq-opt.picked, .p4-opt.picked, .dd-opt.picked, .pet-cloze-opt.picked');
+        // Mark the correct option in the popover (filter to a direct option of THIS row, not nested cloze-pop)
+        if (row) {
+          var directOptions = row.querySelectorAll('.opt-pill[data-letter], .mcq-opt[data-letter], .pet-cloze-opt[data-letter]');
+          directOptions.forEach(function (b) {
+            if (b.getAttribute('data-letter') === item.answer) b.classList.add('is-correct');
+            else if (b === pickedBtn && !ok) b.classList.add('is-wrong');
+          });
+        }
+        // Part 5 inline cloze button: paint green/red/amber + show the answer text inline.
+        var clozeBtn = row && row.querySelector('.pet-cloze-btn');
+        if (clozeBtn) {
+          var numEl = clozeBtn.querySelector('.pet-cloze-num');
+          var answerOpt = row.querySelector('.pet-cloze-opt[data-letter="' + item.answer + '"]');
+          var answerText = answerOpt ? (answerOpt.querySelector('.pet-cloze-opt-text')?.textContent || '') : '';
+          if (!given && item.answer) {
+            clozeBtn.classList.add('is-revealed');
+            if (numEl) numEl.textContent = item.answer + ' · ' + answerText;
+          } else {
+            clozeBtn.classList.add(ok ? 'is-correct' : 'is-wrong');
+            if (numEl && ok) numEl.textContent = item.answer + ' · ' + answerText;
+          }
+        }
         var input = (row && (row.querySelector('.vocab-input') || row.querySelector('.inline-input') || row.querySelector('.an-input')))
                     || document.querySelector('.inline-input[data-id="' + item.id + '"], .an-input[data-id="' + item.id + '"]');
         if (input) {
