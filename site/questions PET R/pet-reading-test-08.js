@@ -25,7 +25,7 @@ window.PET_R_TEST = {
       example: {
         number: 0,
         prompt: "NO BICYCLES AGAINST GLASS PLEASE",
-        answer: "C",
+        answer: "A",
         image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/q0.png",
         options: [
           { letter: "A", text: "Do not leave your bicycle touching the window." },
