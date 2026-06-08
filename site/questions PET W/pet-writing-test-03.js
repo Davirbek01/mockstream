@@ -60,8 +60,14 @@ window.PET_W_TEST = {
       partNumber: 3, label: "PART 3", questionsLabel: "QUESTIONS 7 or 8",
       type: "writing-task",
       choices: [
-        { id: 7, prompt: "This is part of a letter you receive from an English friend.\n\n  \"We might have a school trip to your country next year. What do you think is the best time of year to visit? What are the most interesting things for teenagers to do in your area?\"\n\nNow write a letter, answering your friend's questions.\nWrite your letter on your answer sheet." },
-        { id: 8, prompt: "Your English teacher wants you to write a story.\n\nYour story must begin with this sentence:\n\n  I was on the bus when I got a text message.\n\nWrite your story on your answer sheet." }
+        { id: 7,
+          intro: "This is part of a letter you receive from an English friend.",
+          image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Writing/test3/q7_ribbon.png",
+          outro: "Now write a letter, answering your friend's questions.\nWrite your letter on your answer sheet." },
+        { id: 8,
+          intro: "Your English teacher wants you to write a story.\n\nYour story must begin with this sentence:",
+          highlight: "I was on the bus when I got a text message.",
+          outro: "Write your story on your answer sheet." }
       ],
       wordCount: "about 100 words",
       items: [

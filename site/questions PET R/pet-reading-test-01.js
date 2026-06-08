@@ -29,14 +29,18 @@ window.PET_R_TEST = {
       example: {
         number: 0,
         prompt: "LOST FLOPPY DISC — Lost on Tuesday - contains important schoolwork. Hand in to office.",
-        answer: "A"
+        answer: "A",
+        image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test1/q0.png",
+        options: [
+          { letter: "A", text: "Go to the office if you have lost a floppy disc." },
+          { letter: "B", text: "Make sure all schoolwork is given in on floppy disc to the office." },
+          { letter: "C", text: "If you have found a floppy disc, please leave it at the office." }
+        ]
       },
       items: [
         {
-          id: 1, style: "formal",
-          noticeTitle: "STUDENTS!",
-          noticeText: "YOUR 6€ DEPOSIT FOR LOCKER KEYS WON'T BE REFUNDED IF KEYS ARE LOST.",
-          prompt: " ",
+          id: 1, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test1/q1.png",
+                    prompt: " ",
           options: [
             { letter: "A", text: "Lost locker keys can be replaced for a charge of 6€." },
             { letter: "B", text: "You cannot collect your locker key until you have paid a 6€ deposit." },
@@ -45,11 +49,8 @@ window.PET_R_TEST = {
           answer: "C"
         },
         {
-          id: 2, style: "message",
-          noticeTitle: "Jo",
-          noticeText: "Can you get me a 'Fast Boys' T-shirt from their concert tomorrow? I like the purple ones, but another colour OK if they haven't got one in my size.\nThanks",
-          noticeSig: "Hannah",
-          prompt: " ",
+          id: 2, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test1/q2.png",
+                    prompt: " ",
           options: [
             { letter: "A", text: "Hannah has got a purple 'Fast Boys' T-shirt and wants one in another colour." },
             { letter: "B", text: "Hannah would rather have a purple 'Fast Boys' T-shirt if possible." },
@@ -58,10 +59,8 @@ window.PET_R_TEST = {
           answer: "B"
         },
         {
-          id: 3, style: "note",
-          noticeTitle: "Class 5 Garden Party",
-          noticeText: "17 July  3.30pm\n\nBecause of bad weather, tomorrow's party will now be in the School Hall. Please give party food and drink to Mrs Bloom by 11am.",
-          prompt: "What has changed about Class 5's party?",
+          id: 3, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test1/q3.png",
+                    prompt: "What has changed about Class 5's party?",
           options: [
             { letter: "A", text: "the time" },
             { letter: "B", text: "the place" },
@@ -70,11 +69,8 @@ window.PET_R_TEST = {
           answer: "B"
         },
         {
-          id: 4, style: "note",
-          noticeTitle: "Becky,",
-          noticeText: "Don't forget your Aunt Jane's coming to stay tonight, so can you make sure the house is neat when you go out this afternoon?",
-          noticeSig: "Mum",
-          prompt: "Mum is writing to",
+          id: 4, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test1/q4.png",
+                    prompt: "Mum is writing to",
           options: [
             { letter: "A", text: "tell Becky to stay at home to see her aunt." },
             { letter: "B", text: "ask Becky to tidy the house before she leaves." },
@@ -83,10 +79,8 @@ window.PET_R_TEST = {
           answer: "B"
         },
         {
-          id: 5, style: "sign",
-          noticeTitle: "School Fitness Centre",
-          noticeText: "From the end of August, the fitness centre will be closed during the weekends and evenings.",
-          prompt: "The school fitness centre will",
+          id: 5, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test1/q5.png",
+                    prompt: "The school fitness centre will",
           options: [
             { letter: "A", text: "change its opening hours at the end of August." },
             { letter: "B", text: "have shorter opening hours until the end of August." },
@@ -111,11 +105,11 @@ window.PET_R_TEST = {
       ],
       textsTitle: "Short Art Courses",
       items: [
-        { id: 6,  name: "Alice",  description: "Alice wants a course to help her with her drawing skills, particularly with drawing the latest styles of clothes, shoes and bags, because she wants to study this later at college.", answer: "E" },
-        { id: 7,  name: "Darius", description: "Darius loves making comic books, but isn't confident about his drawing. He wants to draw superheroes and animals and create adventures about them, but doesn't want to display his work.", answer: "C" },
-        { id: 8,  name: "Cassie", description: "Cassie enjoys making pictures and objects from different materials. During the course she'd like to use her love of sport in her designs, and visit an exhibition to get new ideas.", answer: "B" },
-        { id: 9,  name: "Marc",   description: "Marc is talented at drawing, but also likes filming his friends on an old digital camera. He wants to develop this skill by learning to use more advanced equipment, and prepare for further study.", answer: "D" },
-        { id: 10, name: "Harry",  description: "Harry has done a course about printing on paper, and would like to learn how to print on other materials. He also wants to produce something to take home and wear.", answer: "H" }
+        { id: 6, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test1/p6.jpg", name: "Alice",  description: "Alice wants a course to help her with her drawing skills, particularly with drawing the latest styles of clothes, shoes and bags, because she wants to study this later at college.", answer: "E" },
+        { id: 7, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test1/p7.jpg", name: "Darius", description: "Darius loves making comic books, but isn't confident about his drawing. He wants to draw superheroes and animals and create adventures about them, but doesn't want to display his work.", answer: "C" },
+        { id: 8, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test1/p8.jpg", name: "Cassie", description: "Cassie enjoys making pictures and objects from different materials. During the course she'd like to use her love of sport in her designs, and visit an exhibition to get new ideas.", answer: "B" },
+        { id: 9, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test1/p9.jpg", name: "Marc",   description: "Marc is talented at drawing, but also likes filming his friends on an old digital camera. He wants to develop this skill by learning to use more advanced equipment, and prepare for further study.", answer: "D" },
+        { id: 10, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test1/p10.jpg", name: "Harry",  description: "Harry has done a course about printing on paper, and would like to learn how to print on other materials. He also wants to produce something to take home and wear.", answer: "H" }
       ],
       texts: [
         { letter: "A", title: "Wild Art",     body: "This course concentrates on teaching drawing and painting, and you'll use your new skills to make a wall poster on the theme of animals, to take home. And we've got lots of picture books from galleries around the world to give you ideas! There'll be an exhibition of everyone's work at the end, too." },
@@ -141,6 +135,7 @@ window.PET_R_TEST = {
         "If it is correct, mark A on your answer sheet.",
         "If it is not correct, mark B on your answer sheet."
       ],
+      passageImage: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test1/passage3.jpg",
       passageTitle: "Dolphin Trip",
       passageSubtitle: "By Paul Hannan",
       passage:

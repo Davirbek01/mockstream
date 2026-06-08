@@ -29,14 +29,18 @@ window.PET_R_TEST = {
       example: {
         number: 0,
         prompt: "LOST FLOPPY DISC — Lost on Tuesday - contains important schoolwork. Hand in to office.",
-        answer: "A"
+        answer: "A",
+        image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test4/q0.png",
+        options: [
+          { letter: "A", text: "Go to the office if you have lost a floppy disc." },
+          { letter: "B", text: "Make sure all schoolwork is given in on floppy disc to the office." },
+          { letter: "C", text: "If you have found a floppy disc, please leave it at the office." }
+        ]
       },
       items: [
         {
-          id: 1, style: "message",
-          noticeTitle: "From: Miss Phelps  ·  To: Class 9",
-          noticeText: "Sorry – there are no theatre tickets left. Anyone who's ordered a ticket but not given me the money yet has until tomorrow to do so.",
-          prompt: " ",
+          id: 1, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test4/q1.png",
+                    prompt: " ",
           options: [
             { letter: "A", text: "You can order your tickets for the trip tomorrow." },
             { letter: "B", text: "Reserved tickets must be paid for by tomorrow." },
@@ -45,11 +49,8 @@ window.PET_R_TEST = {
           answer: "B"
         },
         {
-          id: 2, style: "note",
-          noticeTitle: "Nick,",
-          noticeText: "Your swimming teacher called about this week's lesson. It'll be on Tuesday, not Thursday as it usually is. It's still at 6 o'clock, but we'll have to leave earlier – by 5.30.",
-          noticeSig: "Dad",
-          prompt: " ",
+          id: 2, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test4/q2.png",
+                    prompt: " ",
           options: [
             { letter: "A", text: "Nick's lesson will be on Tuesdays from now on." },
             { letter: "B", text: "The time of Nick's lesson has changed." },
@@ -58,10 +59,8 @@ window.PET_R_TEST = {
           answer: "C"
         },
         {
-          id: 3, style: "formal",
-          noticeTitle: "HIGHCLIFFE SCHOOL GALLERY",
-          noticeText: "TAKING PHOTOS OF THE ART DISPLAYED HERE IS NOT PERMITTED",
-          prompt: " ",
+          id: 3, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test4/q3.png",
+                    prompt: " ",
           options: [
             { letter: "A", text: "You are not allowed to remove any of the pictures here." },
             { letter: "B", text: "You are not allowed to display any of your photos here." },
@@ -70,9 +69,8 @@ window.PET_R_TEST = {
           answer: "C"
         },
         {
-          id: 4, style: "sign",
-          noticeText: "After inserting CD, wait for computer to load it before clicking on 'start'.",
-          prompt: "What should you do?",
+          id: 4, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test4/q4.png",
+                    prompt: "What should you do?",
           options: [
             { letter: "A", text: "Insert CD, click on 'start' and then wait." },
             { letter: "B", text: "Click on 'start', insert CD and then wait." },
@@ -81,11 +79,8 @@ window.PET_R_TEST = {
           answer: "C"
         },
         {
-          id: 5, style: "message",
-          noticeTitle: "From: Eve  ·  To: Lara",
-          noticeText: "Hi Lara, That video game I borrowed from you was great! I've lent it to Mick. He'll give it back to you on Monday. Hope that's OK.",
-          noticeSig: "Eve xx",
-          prompt: " ",
+          id: 5, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test4/q5.png",
+                    prompt: " ",
           options: [
             { letter: "A", text: "Mick will return Lara's computer game to her on Monday." },
             { letter: "B", text: "Lara will give Eve's computer game to Mick on Monday." },
@@ -110,11 +105,11 @@ window.PET_R_TEST = {
       ],
       textsTitle: "Special Events this Saturday",
       items: [
-        { id: 6,  name: "Angela",            description: "Angela wants to go out with her younger sister in the evening. They both love learning about wildlife and would like to take part in an organised activity.", answer: "E" },
-        { id: 7,  name: "Vic",               description: "Vic would like to go with his friends to listen to several different kinds of music. They also want to be able to buy something to eat.",                       answer: "B" },
-        { id: 8,  name: "Beth and her sister", description: "Beth and her twin sister are interested in art and would like to make something which they can take home as a souvenir of their day. They also want a nice place to eat their packed lunch.", answer: "F" },
-        { id: 9,  name: "Mike",              description: "Mike wants to spend the day with a couple of friends. They all enjoy water sports and the open air and are also keen on history.",                              answer: "H" },
-        { id: 10, name: "Molly and her friend", description: "Molly and her friend are enjoying a school project on the environment and are keen to discover more about this topic. They want to go somewhere where they can spend the day and also get some lunch.", answer: "A" }
+        { id: 6, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test4/p6.jpg", name: "Angela",            description: "Angela wants to go out with her younger sister in the evening. They both love learning about wildlife and would like to take part in an organised activity.", answer: "E" },
+        { id: 7, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test4/p7.jpg", name: "Vic",               description: "Vic would like to go with his friends to listen to several different kinds of music. They also want to be able to buy something to eat.",                       answer: "B" },
+        { id: 8, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test4/p8.jpg", name: "Beth and her sister", description: "Beth and her twin sister are interested in art and would like to make something which they can take home as a souvenir of their day. They also want a nice place to eat their packed lunch.", answer: "F" },
+        { id: 9, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test4/p9.jpg", name: "Mike",              description: "Mike wants to spend the day with a couple of friends. They all enjoy water sports and the open air and are also keen on history.",                              answer: "H" },
+        { id: 10, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test4/p10.jpg", name: "Molly and her friend", description: "Molly and her friend are enjoying a school project on the environment and are keen to discover more about this topic. They want to go somewhere where they can spend the day and also get some lunch.", answer: "A" }
       ],
       texts: [
         { letter: "A", title: "Waspbrook Park",      body: "Have fun finding out how you can help save the planet. Learn from the experts who will give entertaining hands-on demonstrations about everything from water saving to energy efficiency. Everything sold in the park's restaurant is made from ingredients from the local area. 10 am – 6 pm." },
@@ -140,6 +135,7 @@ window.PET_R_TEST = {
         "If it is correct, mark A on your answer sheet.",
         "If it is not correct, mark B on your answer sheet."
       ],
+      passageImage: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test4/passage3.jpg",
       passageTitle: "A visit to the Ocean Centre",
       passageSubtitle: "by Rebecca Hardy, aged 13",
       passage:

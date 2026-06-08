@@ -63,8 +63,14 @@ window.PET_W_TEST = {
       partNumber: 3, label: "PART 3", questionsLabel: "QUESTIONS 7 or 8",
       type: "writing-task",
       choices: [
-        { id: 7, prompt: "This is part of a letter you receive from a British friend.\n\n  \"I went to a great restaurant with my family last night. Which do you prefer: eating at home or in restaurants? Tell me about your favourite place to eat.\"\n\nNow write a letter to your friend.\nWrite your letter on your answer sheet." },
-        { id: 8, prompt: "Your English teacher wants you to write a story.\n\nThis is the title for your story:\n\n  How I met my best friend\n\nWrite your story in about 100 words on your answer sheet." }
+        { id: 7,
+          intro: "This is part of a letter you receive from a British friend.",
+          image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Writing/test1/q7_ribbon.png",
+          outro: "Now write a letter to your friend.\nWrite your letter on your answer sheet." },
+        { id: 8,
+          intro: "Your English teacher wants you to write a story.\n\nThis is the title for your story:",
+          highlight: "How I met my best friend",
+          outro: "Write your story in about 100 words on your answer sheet." }
       ],
       wordCount: "about 100 words",
       items: [
