@@ -60,7 +60,10 @@ window.PET_W_TEST = {
       partNumber: 3, label: "PART 3", questionsLabel: "QUESTIONS 7 or 8",
       type: "writing-task",
       choices: [
-        { id: 7, prompt: "This is part of a letter you receive from your penfriend.\n\n  \"I'm glad you like learning English. Your teacher sounds really nice — and your friends do too! Tell me all about your English classes.\"\n\nNow write a letter to your penfriend.\nWrite your letter in about 100 words on your answer sheet." },
+        { id: 7,
+          intro: "This is part of a letter you receive from your penfriend.",
+          image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Writing/test8/q7_ribbon.png",
+          outro: "Now write a letter to your penfriend.\nWrite your letter in about 100 words on your answer sheet." },
         { id: 8, prompt: "You have to write a story for your English teacher.\n\nYour story must have this title:\n\n  A broken window\n\nWrite your story in about 100 words on your answer sheet." }
       ],
       wordCount: "about 100 words",

@@ -61,7 +61,10 @@ window.PET_W_TEST = {
       type: "writing-task",
       choices: [
         { id: 7, prompt: "Your English teacher has asked you to write a story.\n\nYour story must begin with this sentence:\n\n  It was a fantastic party.\n\nWrite your story in about 100 words on your answer sheet." },
-        { id: 8, prompt: "This is part of a letter you receive from an English friend.\n\n  \"I want to find out about music in your country. Are there many live concerts? What music do you like listening to?\"\n\nNow write a letter, answering your friend's questions.\nWrite your letter in about 100 words on your answer sheet." }
+        { id: 8,
+          intro: "This is part of a letter you receive from an English friend.",
+          image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Writing/test7/q8_ribbon.png",
+          outro: "Now write a letter, answering your friend's questions.\nWrite your letter in about 100 words on your answer sheet." }
       ],
       wordCount: "about 100 words",
       items: [
