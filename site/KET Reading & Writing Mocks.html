@@ -1962,25 +1962,45 @@
     showResults(report);
   }
 
-  // Mark every gradable question right/wrong inline + fill the correct answer
-  // for empties/wrongs. Writing items keep their sample-answer panel in the
-  // results modal (the free-text-review block).
+  // Mark every question right/wrong inline + fill the correct answer for
+  // empties/wrongs. Same UX as the Listening runner: nothing lives below the
+  // score card — all review happens inline up in the test window.
   function markAnswers() {
     var data = window.KET_RW_TEST;
     if (!data) return;
     data.parts.forEach(function (p) {
+      // Writing (Part 9 postcard): no right/wrong — just surface the sample answer.
+      if (p.type === 'writing-postcard') {
+        (p.items || []).forEach(function (item) {
+          var ta = document.querySelector('.postcard-textarea[data-id="' + item.id + '"]');
+          if (!ta) return;
+          var sample = item.answer || '';
+          var hasOwn = ta.value && ta.value.trim().length > 0;
+          if (!hasOwn && sample) {
+            ta.value = sample;
+            var wc = document.getElementById('wc-count');
+            if (wc) wc.textContent = sample.trim().split(/\s+/).length;
+          }
+          if (sample) {
+            var lbl = document.createElement('div');
+            lbl.style.cssText = 'margin-top:10px;padding:10px 12px;background:#ecfdf5;border-left:3px solid var(--emerald-500);border-radius:8px;font-size:13px;color:var(--navy-800);line-height:1.55';
+            lbl.innerHTML = '<strong style="color:var(--emerald-600)">Sample answer:</strong> ' + escapeHtml(sample);
+            var frame = ta.closest('.postcard-frame');
+            if (frame && frame.parentElement) frame.parentElement.insertBefore(lbl, frame.nextSibling);
+          }
+        });
+        return;
+      }
       if (!isAutoGradable(p.type)) return;
       (p.items || []).forEach(function (item) {
         var given    = normalize(getAns(item.id));
         var expected = normalize(item.answer);
         var ok = given && given === expected;
         var row = document.querySelector('[data-qslot="' + item.id + '"]');
-        // Pill / dropdown / mcq button row
         var pickedBtn  = row && row.querySelector('.opt-pill.picked, .mcq-opt.picked, .p4-opt.picked, .dd-opt.picked');
         var correctBtn = row && row.querySelector('[data-letter="' + item.answer + '"]');
         if (correctBtn) correctBtn.classList.add('is-correct');
         if (pickedBtn && !ok) pickedBtn.classList.add('is-wrong');
-        // Text inputs (vocab / inline cloze / info-transfer)
         var input = (row && (row.querySelector('.vocab-input') || row.querySelector('.inline-input') || row.querySelector('.an-input')))
                     || document.querySelector('.inline-input[data-id="' + item.id + '"], .an-input[data-id="' + item.id + '"]');
         if (input) {
@@ -1992,7 +2012,6 @@
             (input.parentElement || row).appendChild(hint);
           }
         }
-        // Dropdown trigger (Part 1 mobile)
         var ddBtn = row && row.querySelector('.dd-btn');
         if (ddBtn) ddBtn.classList.add(ok ? 'is-correct' : 'is-wrong');
       });
@@ -2003,6 +2022,7 @@
   function isAutoGradable(t) {
     return t === 'match-notices' || t === 'mcq-gap-fill-sentences' || t === 'mcq-response'
         || t === 'match-dialogue' || t === 'match-three-texts' || t === 'mcq-cloze-passage'
+        || t === 'mcq-passage-stems' || t === 'mcq-passage-rws'
         || t === 'vocab-first-letter' || t === 'open-cloze-letter' || t === 'info-transfer-notes';
   }
   function normalize(s) {
@@ -2017,7 +2037,6 @@
     html += '<div class="score-big">' + report.totalScore + '<span style="font-size:24px;color:rgba(255,255,255,0.5)">/' + report.totalAuto + '</span></div>';
     html += '<div class="score-meta"><div style="font-size:18px;font-weight:800;color:#fff;margin-bottom:4px">' + verdict + '</div>';
     html += '<div><strong>' + pct + '%</strong> on auto-graded items</div>';
-    if (report.freeText.length > 0) html += '<div style="margin-top:6px;font-size:12.5px;color:rgba(255,255,255,0.65)">Part 9 postcard is collected for review below</div>';
     html += '</div></div>';
     html += '<div class="score-breakdown">';
     report.perPart.forEach(function (r) {
@@ -2026,16 +2045,6 @@
       }
     });
     html += '</div>';
-    if (report.freeText.length > 0) {
-      html += '<h3 style="margin:20px 0 10px;font-family:Playfair Display,serif;color:var(--navy-800)">Free-text — for self-review</h3>';
-      report.freeText.forEach(function (ft) {
-        html += '<div class="free-text-review">';
-        html += '<div class="qhead">Q' + ft.id + ' · Part ' + ft.partNumber + '</div>';
-        html += '<div class="their-ans">' + (escapeHtml(ft.given) || '<em style="color:var(--muted)">— blank —</em>') + '</div>';
-        if (ft.expected) html += '<div class="expected"><strong>Sample answer:</strong> ' + escapeHtml(ft.expected) + '</div>';
-        html += '</div>';
-      });
-    }
     html += '<div class="results-actions">';
     html += '<button class="btn-back" onclick="window.location.href=\'/ket.html?paper=rw\'">← Back to picker</button>';
     html += '<button class="btn-retry" onclick="window.location.reload()">Try again ↻</button>';
