@@ -20,7 +20,7 @@ window.PET_L_TEST = {
   audio: {
     base: "https://storage.googleapis.com/mockstream-listening-audio/PET-Listening/test1/",
     // Single full-length recording until per-part splits are produced.
-    files: { 1: "FULL.mp3", 2: "FULL.mp3", 3: "FULL.mp3", 4: "FULL.mp3" }
+    files: { 1: "PART1.mp3", 2: "PART2.mp3", 3: "PART3.mp3", 4: "PART4.mp3" }
   },
 
   parts: [
