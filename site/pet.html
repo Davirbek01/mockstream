@@ -40,6 +40,7 @@
   <!-- Paper tabs -->
   <nav class="hub-tabs" id="hubTabs" role="tablist">
     <button class="tab active" type="button" data-paper="reading" role="tab">📖 Reading<span class="tab-badge">4 mocks</span></button>
+    <button class="tab" type="button" data-paper="listening" role="tab">🎧 Listening<span class="tab-badge">1 mock</span></button>
   </nav>
 
   <!-- Paper bodies -->
@@ -52,6 +53,15 @@
         <p>~50 minutes · 5 parts · 35 questions. Verbatim from Cambridge "Preliminary English Test for Schools" books.</p>
       </div>
       <div class="mock-grid" id="rMockGrid"></div>
+    </section>
+
+    <!-- Listening -->
+    <section class="paper-pane" data-pane="listening" hidden>
+      <div class="paper-intro">
+        <h2>🎧 Listening — Paper 2</h2>
+        <p>~35 minutes · 4 parts · 25 questions. Verbatim from Cambridge "Preliminary English Test for Schools" books.</p>
+      </div>
+      <div class="mock-grid" id="lMockGrid"></div>
     </section>
 
   </main>
@@ -68,6 +78,15 @@
     parts:      5,
     questions:  35,
     duration:   '50 min'
+  });
+  Cambridge.renderMockGrid('lMockGrid', {
+    count:      1,
+    runnerPath: '/PET Listening Mocks.html',
+    mockParam:  'mock',
+    paperLabel: 'Listening',
+    parts:      4,
+    questions:  25,
+    duration:   '35 min'
   });
   Cambridge.wireTabs('hubTabs');
 </script>
