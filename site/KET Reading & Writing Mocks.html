@@ -104,15 +104,19 @@
       letter-spacing: 0.3px;
     }
     .topbar .submit:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(212,167,44,0.55); }
-    /* Mock switcher (1..28) — sticky white strip under topbar, sideways scroll. Mirrors Listening runner. */
+    /* Mock switcher (1..28) — sticky white strip under topbar, centered on desktop, sideways scroll on mobile. */
     .mock-switcher {
       position: sticky; top: 64px; z-index: 95;
-      display: flex; flex-wrap: nowrap; gap: 8px;
+      display: flex; flex-wrap: wrap; gap: 8px;
+      justify-content: center;
       background: #fff;
       border-bottom: 1px solid var(--ring);
       padding: 10px 18px;
       overflow-x: auto; -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
+    }
+    @media (max-width: 720px) {
+      .mock-switcher { flex-wrap: nowrap; justify-content: flex-start; padding: 10px 12px; }
     }
     .mock-switcher::-webkit-scrollbar { display: none; }
     .mock-switcher .ms-pill {
