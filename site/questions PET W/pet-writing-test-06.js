@@ -61,7 +61,10 @@ window.PET_W_TEST = {
       partNumber: 3, label: "PART 3", questionsLabel: "QUESTIONS 7 or 8",
       type: "writing-task",
       choices: [
-        { id: 7, prompt: "This is part of a letter you receive from your penfriend.\n\n  \"In your next letter, could you give me some advice? Tell me how you keep fit and healthy!\"\n\nNow write a letter to your penfriend.\nWrite your letter in about 100 words on your answer sheet." },
+        { id: 7,
+          intro: "This is part of a letter you receive from your penfriend.",
+          image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Writing/test6/q7_ribbon.png",
+          outro: "Now write a letter to your penfriend.\nWrite your letter in about 100 words on your answer sheet." },
         { id: 8, prompt: "You have to write a story for your English homework.\n\nYour story must have this title:\n\n  An exciting adventure\n\nWrite your story in about 100 words on your answer sheet." }
       ],
       wordCount: "about 100 words",
