@@ -22,47 +22,47 @@ window.PET_R_TEST = {
         "What does it say?",
         "Mark the letter next to the correct explanation – A, B or C – on your answer sheet."
       ],
-      example: { number: 0, prompt: "NO BICYCLES AGAINST GLASS PLEASE", answer: "C" },
+      example: {
+        number: 0,
+        prompt: "NO BICYCLES AGAINST GLASS PLEASE",
+        answer: "A",
+        image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/q0.png",
+        options: [
+          { letter: "A", text: "Do not leave your bicycle touching the window." },
+          { letter: "B", text: "Do not ride your bicycle in this area." },
+          { letter: "C", text: "Broken glass may damage your bicycle tyres." }
+        ]
+      },
       items: [
-        { id: 1, style: "sign",
-          noticeTitle: "PARKING IN THIS SPACE FOR DOCTOR ON DUTY ONLY",
-          noticeText: " ",
+        { id: 1, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/q1.png",
           prompt: " ",
           options: [
             { letter: "A", text: "Tell the doctor if you need to park here." },
             { letter: "B", text: "Only the doctor working today can park here." },
             { letter: "C", text: "Park in this space only in an emergency." }
           ], answer: "B" },
-        { id: 2, style: "message",
-          noticeTitle: "To: Heidi  ·  From: Ruth",
-          noticeText: "Congratulations on the new job. Do you think they'll take me as well? Like you, I'm available until September. Could you tell them about me?",
+        { id: 2, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/q2.png",
           prompt: " ",
           options: [
             { letter: "A", text: "Heidi will start her new job in September." },
             { letter: "B", text: "Ruth wants Heidi to help her find employment." },
             { letter: "C", text: "Ruth has offered to talk to Heidi's boss about her." }
           ], answer: "B" },
-        { id: 3, style: "formal",
-          noticeTitle: "WARNING —",
-          noticeText: "SECURITY CAMERAS IN USE AROUND THIS BUILDING",
+        { id: 3, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/q3.png",
           prompt: " ",
           options: [
             { letter: "A", text: "Cameras cannot be used near this building." },
             { letter: "B", text: "You must look after your cameras here." },
             { letter: "C", text: "This building is guarded by cameras." }
           ], answer: "C" },
-        { id: 4, style: "message",
-          noticeTitle: "📞 Message",
-          noticeText: "Helena\nRonan called from the theatre: the café opposite is closing so everyone's going down to the club early. Join them there when you can.",
+        { id: 4, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/q4.png",
           prompt: "Where should Helena meet the others?",
           options: [
             { letter: "A", text: "at the café" },
             { letter: "B", text: "at the theatre" },
             { letter: "C", text: "at the club" }
           ], answer: "C" },
-        { id: 5, style: "formal",
-          noticeTitle: "WE HAVE MANY FLATS AVAILABLE TO RENT IN THIS AREA",
-          noticeText: " ",
+        { id: 5, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/q5.png",
           prompt: " ",
           options: [
             { letter: "A", text: "We offer a choice of flats to rent in this area." },
@@ -83,11 +83,11 @@ window.PET_R_TEST = {
       ],
       textsTitle: "Short Trips",
       items: [
-        { id: 6,  name: "Ray and three friends", description: "Ray and three of his friends would like to spend a whole weekend driving around in nice scenery and enjoying some of the local food.", answer: "C" },
-        { id: 7,  name: "Phil and Adam",          description: "Phil and Adam want to go on a comfortable trip which takes them quickly to an interesting city. Then they want to enjoy at least two days of sightseeing.", answer: "F" },
-        { id: 8,  name: "Mike, Kathy and family", description: "Mike, Kathy and their three children don't have much money, but they want a special day out this Saturday. They must be back home by 9 p.m.", answer: "D" },
-        { id: 9,  name: "Kirsten",                description: "Kirsten is a Dutch student who is studying in Scotland. She doesn't drive, but wants a day trip to see some beautiful scenery and spend a little time by the sea.", answer: "H" },
-        { id: 10, name: "Clare and Robert",       description: "Clare and Robert want to enjoy some good food, but would also like to give their two young children a day to remember. They don't mind if they spend a lot of money.", answer: "A" }
+        { id: 6,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/p6.png",  name: "Ray and three friends", description: "Ray and three of his friends would like to spend a whole weekend driving around in nice scenery and enjoying some of the local food.", answer: "C" },
+        { id: 7,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/p7.png",  name: "Phil and Adam",          description: "Phil and Adam want to go on a comfortable trip which takes them quickly to an interesting city. Then they want to enjoy at least two days of sightseeing.", answer: "F" },
+        { id: 8,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/p8.png",  name: "Mike, Kathy and family", description: "Mike, Kathy and their three children don't have much money, but they want a special day out this Saturday. They must be back home by 9 p.m.", answer: "D" },
+        { id: 9,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/p9.png",  name: "Kirsten",                description: "Kirsten is a Dutch student who is studying in Scotland. She doesn't drive, but wants a day trip to see some beautiful scenery and spend a little time by the sea.", answer: "H" },
+        { id: 10, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test8/p10.png", name: "Clare and Robert",       description: "Clare and Robert want to enjoy some good food, but would also like to give their two young children a day to remember. They don't mind if they spend a lot of money.", answer: "A" }
       ],
       texts: [
         { letter: "A", title: "Marine Life, France",                 body: "The chance to experience the oceans of the world. Children will love the observatory, with water all around them and enormous fish swimming above their heads! Afterwards you eat at a world-famous local restaurant before boarding the ferry at 9 p.m. Not cheap, but a great day out!" },
@@ -174,11 +174,12 @@ window.PET_R_TEST = {
             { letter: "D", text: "sick" }
           ], answer: "D" },
         { id: 25, prompt: "Which of the following describes New Writing 3?",
+          cardLayout: true,
           options: [
-            { letter: "A", text: "Great value: two novels, poems and articles for only £6.99" },
-            { letter: "B", text: "Great value: the best of new writing for only £6.99" },
-            { letter: "C", text: "Great value: poems by Tremain, Harris and Burnside for only £6.99" },
-            { letter: "D", text: "Great value: newspapers for a whole year for only £6.99" }
+            { letter: "A", title: "Great value:", body: "two novels, poems and articles for only £6.99" },
+            { letter: "B", title: "Great value:", body: "the best of new writing for only £6.99" },
+            { letter: "C", title: "Great value:", body: "poems by Tremain, Harris and Burnside for only £6.99" },
+            { letter: "D", title: "Great value:", body: "newspapers for a whole year for only £6.99" }
           ], answer: "B" }
       ]
     },

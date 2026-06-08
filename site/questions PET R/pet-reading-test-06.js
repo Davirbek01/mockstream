@@ -22,46 +22,47 @@ window.PET_R_TEST = {
         "What does it say?",
         "Mark the letter next to the correct explanation – A, B or C – on your answer sheet."
       ],
-      example: { number: 0, prompt: "NO BICYCLES AGAINST GLASS PLEASE", answer: "C" },
+      example: {
+        number: 0,
+        prompt: "NO BICYCLES AGAINST GLASS PLEASE",
+        answer: "A",
+        image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test6/q0.png",
+        options: [
+          { letter: "A", text: "Do not leave your bike touching the window." },
+          { letter: "B", text: "Do not ride your bicycle in this area." },
+          { letter: "C", text: "Broken glass may damage your bicycle tyres." }
+        ]
+      },
       items: [
-        { id: 1, style: "sign",
-          noticeTitle: "LUGGAGE CANNOT BE REMOVED WITHOUT A RECEIPT",
-          noticeText: " ",
+        { id: 1, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test6/q1.png",
           prompt: " ",
           options: [
             { letter: "A", text: "You must show a receipt if you want to remove luggage." },
             { letter: "B", text: "When you remove your luggage you are given a receipt." },
             { letter: "C", text: "You can leave your luggage here without change." }
           ], answer: "A" },
-        { id: 2, style: "message",
-          noticeTitle: "📞 Message",
-          noticeText: "Anna,\nJeff rang: suggests taking a blanket (cold there!) No need to bring programme now. He'll meet you at the festival entrance with your ticket.",
+        { id: 2, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test6/q2.png",
           prompt: "For the festival, Anna should bring",
           options: [
             { letter: "A", text: "her ticket." },
             { letter: "B", text: "a blanket." },
             { letter: "C", text: "the programme." }
           ], answer: "B" },
-        { id: 3, style: "formal",
-          noticeTitle: "Will the last person to leave please switch off the lights",
-          noticeText: " ",
+        { id: 3, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test6/q3.png",
           prompt: " ",
           options: [
             { letter: "A", text: "Don't turn the lights on until it's necessary." },
             { letter: "B", text: "Switch the lights on when you're in the room." },
             { letter: "C", text: "Don't leave the lights on if the room is empty." }
           ], answer: "C" },
-        { id: 4, style: "note",
-          noticeText: "Has anyone seen my gold chain? I took it off before athletics. It's a present from my boyfriend – he mustn't find out it's lost!",
-          noticeSig: "Sally",
+        { id: 4, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test6/q4.png",
           prompt: " ",
           options: [
             { letter: "A", text: "Sally has given a chain to someone as a present." },
             { letter: "B", text: "Sally's boyfriend knows about the missing chain." },
             { letter: "C", text: "Sally lost her chain when she got changed for sport." }
           ], answer: "C" },
-        { id: 5, style: "note",
-          noticeText: "Assistants needed because of new opening hours – apply inside",
+        { id: 5, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test6/q5.png",
           prompt: "This shop",
           options: [
             { letter: "A", text: "has just opened and jobs are available." },
@@ -82,11 +83,11 @@ window.PET_R_TEST = {
       ],
       textsTitle: "Travel books",
       items: [
-        { id: 6,  name: "Robert",        description: "Robert is planning to travel round the world by train. He would like a book with pictures and maps to take with him on his long journeys.", answer: "D" },
-        { id: 7,  name: "Mrs Jones",     description: "Mrs Jones used to love visiting France, but now she is too old to travel. She wants a book with lots of photographs which will help her to remember everything she enjoyed.", answer: "G" },
-        { id: 8,  name: "The Harpers",   description: "The Harpers are planning to go on holiday round Europe. They intend to drive their car and go for walks, so they need a book with maps and pictures to guide them on their way.", answer: "F" },
-        { id: 9,  name: "Clive",         description: "Clive wants to buy a book as a present for his friend Tom. Tom enjoys fishing and driving round England.", answer: "B" },
-        { id: 10, name: "Peter",         description: "Peter has to write something for his history teacher about world explorers. He wants to know about explorers from the past and their travels to different parts of the world.", answer: "C" }
+        { id: 6,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test6/p6.png",  name: "Robert",        description: "Robert is planning to travel round the world by train. He would like a book with pictures and maps to take with him on his long journeys.", answer: "D" },
+        { id: 7,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test6/p7.png",  name: "Mrs Jones",     description: "Mrs Jones used to love visiting France, but now she is too old to travel. She wants a book with lots of photographs which will help her to remember everything she enjoyed.", answer: "G" },
+        { id: 8,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test6/p8.png",  name: "The Harpers",   description: "The Harpers are planning to go on holiday round Europe. They intend to drive their car and go for walks, so they need a book with maps and pictures to guide them on their way.", answer: "F" },
+        { id: 9,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test6/p9.png",  name: "Clive",         description: "Clive wants to buy a book as a present for his friend Tom. Tom enjoys fishing and driving round England.", answer: "B" },
+        { id: 10, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test6/p10.png", name: "Peter",         description: "Peter has to write something for his history teacher about world explorers. He wants to know about explorers from the past and their travels to different parts of the world.", answer: "C" }
       ],
       texts: [
         { letter: "A", title: "Allan Jowett — Jowett's Railway Centres: Volume I", body: "Packed with information about 20 British railway centres, this wonderful book is handwritten and illustrated throughout with clear hand-drawn maps – a true collector's piece for those who are interested in railways." },
@@ -181,11 +182,13 @@ window.PET_R_TEST = {
             { letter: "D", text: "to show how it can be spilled" }
           ], answer: "A" },
         { id: 25, prompt: "Which traffic sign shows the main idea of the text?",
+          cardLayout: true,
+          cardStyle: "sign",
           options: [
-            { letter: "A", text: "DRIVE CAREFULLY / ICE ON ROAD AHEAD" },
-            { letter: "B", text: "REDUCE SPEED NOW / FOG AHEAD" },
-            { letter: "C", text: "DRIVE CAREFULLY / ROAD REPAIRS AHEAD" },
-            { letter: "D", text: "SLOW DOWN / ACCIDENT AHEAD" }
+            { letter: "A", title: "DRIVE CAREFULLY",  body: "ICE ON ROAD AHEAD" },
+            { letter: "B", title: "REDUCE SPEED NOW", body: "FOG AHEAD" },
+            { letter: "C", title: "DRIVE CAREFULLY",  body: "ROAD REPAIRS AHEAD" },
+            { letter: "D", title: "SLOW DOWN",        body: "ACCIDENT AHEAD" }
           ], answer: "A" }
       ]
     },

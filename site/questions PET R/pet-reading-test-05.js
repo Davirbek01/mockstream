@@ -22,46 +22,47 @@ window.PET_R_TEST = {
         "What does it say?",
         "Mark the letter next to the correct explanation – A, B or C – on your answer sheet."
       ],
-      example: { number: 0, prompt: "NO BICYCLES AGAINST GLASS PLEASE", answer: "C" },
+      example: {
+        number: 0,
+        prompt: "NO BICYCLES AGAINST GLASS PLEASE",
+        answer: "A",
+        image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test5/q0.png",
+        options: [
+          { letter: "A", text: "Do not leave your bicycle touching the window." },
+          { letter: "B", text: "Do not ride your bicycle in this area." },
+          { letter: "C", text: "Broken glass may damage your bicycle tyres." }
+        ]
+      },
       items: [
-        { id: 1, style: "note",
-          noticeText: "Francescol Problem – Maria's borrowed my history textbook and she's away. Could you lend me yours? Leave it with Ken when you see him. Thanks, Natalia",
+        { id: 1, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test5/q1.png",
           prompt: "Whose textbook does Natalie want to borrow?",
           options: [
             { letter: "A", text: "Ken's" },
             { letter: "B", text: "Maria's" },
             { letter: "C", text: "Francesco's" }
           ], answer: "C" },
-        { id: 2, style: "sign",
-          noticeTitle: "THIS CAR PARK IS LOCKED AFTER BUSINESS HOURS EACH DAY",
-          noticeText: " ",
+        { id: 2, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test5/q2.png",
           prompt: " ",
           options: [
             { letter: "A", text: "Users must lock the car park after leaving." },
             { letter: "B", text: "People can park here while they are at work." },
             { letter: "C", text: "This car park is for employees only." }
           ], answer: "B" },
-        { id: 3, style: "note",
-          noticeTitle: "PLAYERS WANTED",
-          noticeText: "for Friday's basketball match against Barton College – can YOU help the team? Come to the gym at 3 p.m. today, whatever your level.",
+        { id: 3, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test5/q3.png",
           prompt: " ",
           options: [
             { letter: "A", text: "The basketball team only wants to see experienced players." },
             { letter: "B", text: "There aren't enough team members available on Friday." },
             { letter: "C", text: "The Barton College team will visit the gym later today." }
           ], answer: "B" },
-        { id: 4, style: "formal",
-          noticeTitle: "JAZZ ON A SUMMER EVENING",
-          noticeText: "NO TICKETS LEFT FOR SUNDAY'S PERFORMANCE",
+        { id: 4, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test5/q4.png",
           prompt: " ",
           options: [
             { letter: "A", text: "All Sunday evening tickets are already sold." },
             { letter: "B", text: "You must book tickets for Sunday in advance." },
             { letter: "C", text: "A ticket is not necessary for Sunday evening." }
           ], answer: "A" },
-        { id: 5, style: "message",
-          noticeTitle: "To: Charlotte  ·  From: Giacomo",
-          noticeText: "What time does your flight arrive tomorrow? Can't pick you up if it's earlier than midday as I'm holding a meeting at our office – sorry.",
+        { id: 5, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test5/q5.png",
           prompt: " ",
           options: [
             { letter: "A", text: "Giacomo will be able to see Charlotte early tomorrow morning." },
@@ -82,11 +83,11 @@ window.PET_R_TEST = {
       ],
       textsTitle: "Films",
       items: [
-        { id: 6,  name: "Jo",            description: "Jo is studying art at university. She usually goes to the cinema on Friday evenings. She enjoys films that are based on real life and from which she can learn something.", answer: "C" },
-        { id: 7,  name: "Sheila",        description: "Sheila has decided to take her mother to the cinema for her birthday. They both like love stories that have happy endings.", answer: "F" },
-        { id: 8,  name: "Brian",         description: "Brian is a hard-working medical student. He doesn't have very much free time, but he likes going to the cinema to relax, and enjoys a good laugh.", answer: "G" },
-        { id: 9,  name: "Adam",           description: "Adam wants to take his 8-year-old son Mark to the cinema at the weekend. They want to see a film with plenty of excitement.", answer: "D" },
-        { id: 10, name: "Harry and Joyce", description: "Harry and Joyce go to the cinema about twice a month. They particularly like detective stories and do not pay much attention to which actors are in the film.", answer: "B" }
+        { id: 6,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test5/p6.png",  name: "Jo",            description: "Jo is studying art at university. She usually goes to the cinema on Friday evenings. She enjoys films that are based on real life and from which she can learn something.", answer: "C" },
+        { id: 7,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test5/p7.png",  name: "Sheila",        description: "Sheila has decided to take her mother to the cinema for her birthday. They both like love stories that have happy endings.", answer: "F" },
+        { id: 8,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test5/p8.png",  name: "Brian",         description: "Brian is a hard-working medical student. He doesn't have very much free time, but he likes going to the cinema to relax, and enjoys a good laugh.", answer: "G" },
+        { id: 9,  image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test5/p9.png",  name: "Adam",          description: "Adam wants to take his 8-year-old son Mark to the cinema at the weekend. They want to see a film with plenty of excitement.", answer: "D" },
+        { id: 10, image: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test5/p10.png", name: "Harry and Joyce", description: "Harry and Joyce go to the cinema about twice a month. They particularly like detective stories and do not pay much attention to which actors are in the film.", answer: "B" }
       ],
       texts: [
         { letter: "A", title: "The Delivery",         body: "Jim Treace stars in this well-known comedy about two workmen who have to deliver a long piece of wood to a house. But unfortunately the performances are poor, and the film is too long for such a simple joke." },
@@ -109,6 +110,7 @@ window.PET_R_TEST = {
         "If it is correct, mark A on your answer sheet.",
         "If it is not correct, mark B on your answer sheet."
       ],
+      passageImage: "https://storage.googleapis.com/mockstream-listening-audio/PET-Reading/test5/passage3.jpg",
       passageTitle: "GLOBEWISE — Australia",
       passageSubtitle: "We'll show you the very best of Australia on a fully guided 22-day tour",
       passage:
@@ -169,11 +171,12 @@ window.PET_R_TEST = {
             { letter: "D", text: "They came from the same city." }
           ], answer: "C" },
         { id: 25, prompt: "Which of the following advertisements describes the Activity Centre?",
+          cardLayout: true,
           options: [
-            { letter: "A", text: "ACTIVITY CENTRE — Set in beautiful countryside. Accommodation and meals provided. Make up your own timetable – choose from a variety of activities (horse-riding, fishing, hill-walking, sailing, mountain-biking)." },
-            { letter: "B", text: "ACTIVITY CENTRE — Set in beautiful countryside. Accommodation provided. Work with a group – we show you a range of outdoor activities that you didn't realise you could do!" },
-            { letter: "C", text: "ACTIVITY CENTRE — Set in beautiful countryside. Enjoy the luxury of our accommodation – each room has its own bathroom. Work with a group, or have individual teaching." },
-            { letter: "D", text: "ACTIVITY CENTRE — Set in beautiful countryside. You can spend the day doing outdoor activities and we will find your accommodation with a local family." }
+            { letter: "A", title: "ACTIVITY CENTRE", body: "Set in beautiful countryside. Accommodation and meals provided. Make up your own timetable – choose from a variety of activities (horse-riding, fishing, hill-walking, sailing, mountain-biking)." },
+            { letter: "B", title: "ACTIVITY CENTRE", body: "Set in beautiful countryside. Accommodation provided. Work with a group – we show you a range of outdoor activities that you didn't realise you could do!" },
+            { letter: "C", title: "ACTIVITY CENTRE", body: "Set in beautiful countryside. Enjoy the luxury of our accommodation – each room has its own bathroom. Work with a group, or have individual teaching." },
+            { letter: "D", title: "ACTIVITY CENTRE", body: "Set in beautiful countryside. You can spend the day doing outdoor activities and we will find your accommodation with a local family." }
           ], answer: "B" }
       ]
     },

@@ -60,6 +60,10 @@
     .audio-unavailable{background:#fff3cd;border-color:#ffe69c;color:#8a6d3b;padding:10px 14px;border-radius:8px;font-size:13px;text-align:center}
     .instruction{background:#eef2ff;border-left:4px solid var(--blue-500);padding:10px 14px;border-radius:6px;color:var(--navy-700);font-size:14px;line-height:1.6;margin:14px 0}
     .instruction p{margin:0 0 4px}
+    .instruction ul{margin:0;padding-left:22px}
+    .instruction li{margin:0 0 4px}
+    .instruction li:last-child{margin:0}
+    .instruction li::marker{color:var(--blue-500)}
     .example-card{background:#fafbff;border:1px dashed var(--line);border-radius:10px;padding:12px 14px;margin:12px 0}
     .example-card .ex-label{font-weight:700;color:var(--navy-700);font-size:12px;letter-spacing:.1em;text-transform:uppercase}
     .example-card .ex-answer-pill{background:var(--gold-400);color:#0b1330;padding:3px 10px;border-radius:999px;font-weight:800;font-size:13px}
@@ -241,7 +245,7 @@
     <h3>Leave this mock?</h3>
     <p>Your progress will be lost. Are you sure?</p>
     <button class="btn-keep" onclick="closeLeaveModal()">Keep Going</button>
-    <button class="btn-leave" onclick="window.location.href='/ket.html?paper=listening'">Leave Anyway</button>
+    <button class="btn-leave" onclick="window.location.href='/pet.html?paper=listening'">Leave Anyway</button>
   </div>
 </div>
 
@@ -314,9 +318,9 @@ function renderPart(part, audio){
 
   // Instruction
   if (part.instruction && part.instruction.length){
-    html += '<div class="instruction">';
-    part.instruction.forEach(function(line){ html += '<p>' + escapeHtml(line) + '</p>'; });
-    html += '</div>';
+    html += '<div class="instruction"><ul>';
+    part.instruction.forEach(function(line){ html += '<li>' + escapeHtml(line) + '</li>'; });
+    html += '</ul></div>';
   }
 
   if (part.type === 'picture-mcq')          html += renderPictureMcq(part);
