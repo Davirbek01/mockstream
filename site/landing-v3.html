@@ -15323,7 +15323,7 @@
         if (!takeParam) { _takeHideSplash(); return; }
         // Match the same slugs landing.html accepts.
         var m = takeParam.match(/^(cefr|ielts)-(reading|listening)-(\d+)$/i)
-             || takeParam.match(/^(cefr)-(speaking)-(\d+)$/i)
+             || takeParam.match(/^(cefr|ielts)-(speaking)-(\d+)$/i)
              || takeParam.match(/^(ielts|cefr)-(writing)-(\d+)$/i);
         if (!m) {
           console.warn('[deep-link v3] Unrecognised slug:', takeParam);
@@ -15356,12 +15356,15 @@
 
         if (skill === 'speaking') {
           if (!sbMockId) {
-            alert('CEFR Speaking Mock ' + mockNum + ' is not available right now.');
+            alert(exam.toUpperCase() + ' Speaking Mock ' + mockNum + ' is not available right now.');
             return;
           }
           // Absolute /paths so the runner URL doesn't get /take/ prefix
           // when window.location.replace resolves it from /take/<slug>.
-          var pageUrlSpk = '/Speaking Mocks.html?sbmock=' + encodeURIComponent(sbMockId)
+          // Exam-aware runner (mirrors the writing branch below): CEFR →
+          // Speaking Mocks.html, IELTS → IELTS Speaking Mocks.html.
+          var runnerSpk = (exam === 'cefr') ? '/Speaking Mocks.html' : '/IELTS Speaking Mocks.html';
+          var pageUrlSpk = runnerSpk + '?sbmock=' + encodeURIComponent(sbMockId)
                          + '&num=' + encodeURIComponent(String(mockNum).padStart(2, '0'))
                          + '&auto=1&action=practice';
           if (typeof handleSpeakingMockClick === 'function') {
