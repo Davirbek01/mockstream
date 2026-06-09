@@ -555,6 +555,7 @@
   var TOTAL_QUESTIONS = 30;
   var READING_PART_COUNT = 3;
   var WRITING_PART_COUNT = 2;
+  var UOE_PART_COUNT = 4;
 
   // ───── Renderer ─────
   function renderTest(test) {
@@ -567,21 +568,33 @@
     TOTAL_QUESTIONS = test.testInfo.totalQuestions || 30;
     READING_PART_COUNT = (test.reading && test.reading.parts) ? test.reading.parts.length : 3;
     WRITING_PART_COUNT = (test.writing && test.writing.parts) ? test.writing.parts.length : 2;
+    UOE_PART_COUNT = (test.useOfEnglish && test.useOfEnglish.parts) ? test.useOfEnglish.parts.length : 0;
 
     test.reading.parts.forEach(function (p) {
-      var m = meta(p, false);
+      var m = meta(p, false, false);
       var page = document.createElement('div');
       page.className = 'part-page';
-      page.innerHTML = partHeader(m.displayNumber, m.qStart, m.qEnd, false) + renderReadingPart(p);
+      page.innerHTML = partHeader(m.displayNumber, m.qStart, m.qEnd, false, false) + renderReadingPart(p);
       c.appendChild(page);
       ALL_PART_PAGES.push(page);
       PART_META.push(m);
     });
+    if (test.useOfEnglish && test.useOfEnglish.parts) {
+      test.useOfEnglish.parts.forEach(function (p) {
+        var m = meta(p, false, true);
+        var page = document.createElement('div');
+        page.className = 'part-page';
+        page.innerHTML = partHeader(m.displayNumber, m.qStart, m.qEnd, false, true) + renderReadingPart(p);
+        c.appendChild(page);
+        ALL_PART_PAGES.push(page);
+        PART_META.push(m);
+      });
+    }
     test.writing.parts.forEach(function (p) {
-      var m = meta(p, true);
+      var m = meta(p, true, false);
       var page = document.createElement('div');
       page.className = 'part-page';
-      page.innerHTML = partHeader(m.displayNumber, m.qStart, m.qEnd, true) + renderWritingPart(p);
+      page.innerHTML = partHeader(m.displayNumber, m.qStart, m.qEnd, true, false) + renderWritingPart(p);
       c.appendChild(page);
       ALL_PART_PAGES.push(page);
       PART_META.push(m);
@@ -596,17 +609,18 @@
     showPart(0);
   }
 
-  function meta(p, isWriting) {
-    if (p.type === 'cloze-mcq')                 return { partNumber: p.partNumber, displayNumber: p.partNumber, isWriting: false, qStart: p.gaps[0].id,      qEnd: p.gaps[p.gaps.length-1].id };
-    if (p.type === 'cloze-open')                return { partNumber: p.partNumber, displayNumber: p.partNumber, isWriting: false, qStart: p.gaps[0].id,      qEnd: p.gaps[p.gaps.length-1].id };
-    if (p.type === 'word-formation')            return { partNumber: p.partNumber, displayNumber: p.partNumber, isWriting: false, qStart: p.gaps[0].id,      qEnd: p.gaps[p.gaps.length-1].id };
-    if (p.type === 'key-word-transformation')   return { partNumber: p.partNumber, displayNumber: p.partNumber, isWriting: false, qStart: p.items[0].id,     qEnd: p.items[p.items.length-1].id };
-    if (p.type === 'long-text-mcq')             return { partNumber: p.partNumber, displayNumber: p.partNumber, isWriting: false, qStart: p.questions[0].id, qEnd: p.questions[p.questions.length-1].id };
-    if (p.type === 'gapped-text')               return { partNumber: p.partNumber, displayNumber: p.partNumber, isWriting: false, qStart: p.gaps[0].id,      qEnd: p.gaps[p.gaps.length-1].id };
-    if (p.type === 'multiple-matching')         return { partNumber: p.partNumber, displayNumber: p.partNumber, isWriting: false, qStart: p.questions[0].id, qEnd: p.questions[p.questions.length-1].id };
-    if (p.type === 'essay')                     return { partNumber: p.partNumber, displayNumber: p.writingPartNumber || 1, isWriting: true,  qStart: 1, qEnd: 1 };
-    if (p.type === 'choice-of-three')           return { partNumber: p.partNumber, displayNumber: p.writingPartNumber || 2, isWriting: true,  qStart: 2, qEnd: 5 };
-    return { partNumber: p.partNumber, displayNumber: p.partNumber, isWriting: isWriting, qStart: 0, qEnd: 0 };
+  function meta(p, isWriting, isUoE) {
+    isUoE = !!isUoE;
+    if (p.type === 'cloze-mcq')                 return { partNumber: p.partNumber, displayNumber: p.partNumber, isWriting: false, isUoE: isUoE, qStart: p.gaps[0].id,      qEnd: p.gaps[p.gaps.length-1].id };
+    if (p.type === 'cloze-open')                return { partNumber: p.partNumber, displayNumber: p.partNumber, isWriting: false, isUoE: isUoE, qStart: p.gaps[0].id,      qEnd: p.gaps[p.gaps.length-1].id };
+    if (p.type === 'word-formation')            return { partNumber: p.partNumber, displayNumber: p.partNumber, isWriting: false, isUoE: isUoE, qStart: p.gaps[0].id,      qEnd: p.gaps[p.gaps.length-1].id };
+    if (p.type === 'key-word-transformation')   return { partNumber: p.partNumber, displayNumber: p.partNumber, isWriting: false, isUoE: isUoE, qStart: p.items[0].id,     qEnd: p.items[p.items.length-1].id };
+    if (p.type === 'long-text-mcq')             return { partNumber: p.partNumber, displayNumber: p.partNumber, isWriting: false, isUoE: false, qStart: p.questions[0].id, qEnd: p.questions[p.questions.length-1].id };
+    if (p.type === 'gapped-text')               return { partNumber: p.partNumber, displayNumber: p.partNumber, isWriting: false, isUoE: false, qStart: p.gaps[0].id,      qEnd: p.gaps[p.gaps.length-1].id };
+    if (p.type === 'multiple-matching')         return { partNumber: p.partNumber, displayNumber: p.partNumber, isWriting: false, isUoE: false, qStart: p.questions[0].id, qEnd: p.questions[p.questions.length-1].id };
+    if (p.type === 'essay')                     return { partNumber: p.partNumber, displayNumber: p.writingPartNumber || 1, isWriting: true,  isUoE: false, qStart: 1, qEnd: 1 };
+    if (p.type === 'choice-of-three')           return { partNumber: p.partNumber, displayNumber: p.writingPartNumber || 2, isWriting: true,  isUoE: false, qStart: 2, qEnd: 5 };
+    return { partNumber: p.partNumber, displayNumber: p.partNumber, isWriting: isWriting, isUoE: isUoE, qStart: 0, qEnd: 0 };
   }
 
   function populatePartJump() {
@@ -618,8 +632,9 @@
       tile.dataset.idx = idx;
       var qPrefix = m.isWriting ? (m.qStart === m.qEnd ? 'Task ' : 'Q') : 'Q';
       var qLabel = qPrefix + m.qStart + (m.qStart !== m.qEnd ? '–' + m.qEnd : '');
+      var tabLabel = m.isWriting ? 'Writing' : (m.isUoE ? 'Use of English' : 'Reading');
       tile.innerHTML =
-        '<span class="part-tile-label">' + (m.isWriting ? 'Writing' : 'Reading') + '</span>' +
+        '<span class="part-tile-label">' + tabLabel + '</span>' +
         '<span class="part-tile-name">Part ' + m.displayNumber + '</span>' +
         '<span class="part-tile-qs">' + qLabel + '</span>';
       tile.addEventListener('click', function () { showPart(idx); });
@@ -640,8 +655,9 @@
       if (i === idx) t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     });
     document.getElementById('progressLabel').textContent = m.qStart === m.qEnd ? 'Question ' + m.qStart : 'Questions ' + m.qStart + '–' + m.qEnd;
-    var ofN = m.isWriting ? WRITING_PART_COUNT : READING_PART_COUNT;
-    document.getElementById('progressPart').textContent = (m.isWriting ? 'Writing Part ' : 'Reading Part ') + m.displayNumber + ' of ' + ofN;
+    var ofN = m.isWriting ? WRITING_PART_COUNT : (m.isUoE ? UOE_PART_COUNT : READING_PART_COUNT);
+    var paperPrefix = m.isWriting ? 'Writing Part ' : (m.isUoE ? 'Use of English Part ' : 'Reading Part ');
+    document.getElementById('progressPart').textContent = paperPrefix + m.displayNumber + ' of ' + ofN;
     document.getElementById('progressFill').style.width = ((m.qEnd / TOTAL_QUESTIONS) * 100).toFixed(1) + '%';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -649,10 +665,10 @@
   function partInstruction(text) {
     return '<div class="part-instruction" data-instruction-text>' + text + '</div>';
   }
-  function partHeader(displayNumber, qStart, qEnd, isWriting) {
+  function partHeader(displayNumber, qStart, qEnd, isWriting, isUoE) {
     var unit = isWriting ? 'Task' : 'Question';
     var qLabel = qStart === qEnd ? unit + ' ' + qStart : (unit === 'Task' ? 'Questions ' : unit + 's ') + qStart + '–' + qEnd;
-    var paperLabel = isWriting ? 'Paper 2 · Writing' : 'Paper 1 · Reading';
+    var paperLabel = isWriting ? 'Paper 2 · Writing' : (isUoE ? 'Paper 3 · Use of English' : 'Paper 1 · Reading');
     return '<div class="part-header">' +
       '<span class="part-header-rule"></span>' +
       '<div class="part-header-inner">' +
@@ -1028,7 +1044,7 @@
     var rTotal = 0, rCorrect = 0;
     SCORE_BY_PART = {};
 
-    t.reading.parts.forEach(function (p) {
+    function gradePart(p, paperLabel) {
       var partTotal = 0, partCorrect = 0;
       function check(qid, expected, gotRaw) {
         partTotal++; rTotal++;
@@ -1047,8 +1063,12 @@
         case 'gapped-text':              p.gaps.forEach(function (g) { check(g.id, g.correct, ANSWERS[g.id]); }); break;
         case 'multiple-matching':        p.questions.forEach(function (q) { check(q.id, q.correct, ANSWERS[q.id]); }); break;
       }
-      SCORE_BY_PART['Reading Part ' + p.partNumber] = partCorrect + ' / ' + partTotal;
-    });
+      SCORE_BY_PART[paperLabel + ' Part ' + p.partNumber] = partCorrect + ' / ' + partTotal;
+    }
+    t.reading.parts.forEach(function (p) { gradePart(p, 'Reading'); });
+    if (t.useOfEnglish && t.useOfEnglish.parts) {
+      t.useOfEnglish.parts.forEach(function (p) { gradePart(p, 'Use of English'); });
+    }
 
     t.writing.parts.forEach(function (p) {
       if (p.type === 'essay') {

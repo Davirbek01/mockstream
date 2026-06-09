@@ -29,18 +29,19 @@
   <section class="hub-hero">
     <span class="lvl-chip">⭐ B2 · CEFR Level</span>
     <h1>First Certificate in English</h1>
-    <p class="hero-sub">Cambridge English's upper-intermediate B2 qualification. Reading, Writing and Listening papers are live — verbatim from "Cambridge First Certificate in English 1". Speaking arriving soon.</p>
+    <p class="hero-sub">Cambridge English's upper-intermediate B2 qualification. Reading, Use of English, Writing and Listening papers are live — verbatim from "Cambridge First Certificate in English 1". Speaking arriving soon.</p>
     <div class="hero-stats">
       <div class="m"><span class="m-num">1</span><span class="m-label">Reading mock</span></div>
+      <div class="m"><span class="m-num">1</span><span class="m-label">Use of English</span></div>
       <div class="m"><span class="m-num">1</span><span class="m-label">Writing mock</span></div>
       <div class="m"><span class="m-num">1</span><span class="m-label">Listening mock</span></div>
-      <div class="m"><span class="m-num">soon</span><span class="m-label">Speaking</span></div>
     </div>
   </section>
 
   <!-- Paper tabs -->
   <nav class="hub-tabs" id="hubTabs" role="tablist">
     <button class="tab active" type="button" data-paper="reading" role="tab">📖 Reading<span class="tab-badge">1 mock</span></button>
+    <button class="tab" type="button" data-paper="uoe" role="tab">🔤 Use of English<span class="tab-badge">1 mock</span></button>
     <button class="tab" type="button" data-paper="writing" role="tab">✍️ Writing<span class="tab-badge">1 mock</span></button>
     <button class="tab" type="button" data-paper="listening" role="tab">🎧 Listening<span class="tab-badge">1 mock</span></button>
   </nav>
@@ -55,6 +56,15 @@
         <p>~60 minutes · 3 parts · 30 questions. Verbatim from Cambridge "First Certificate in English 1" (Test 1). Multiple choice on long text · Gapped text · Multiple matching.</p>
       </div>
       <div class="mock-grid" id="rMockGrid"></div>
+    </section>
+
+    <!-- Use of English -->
+    <section class="paper-pane" data-pane="uoe" hidden>
+      <div class="paper-intro">
+        <h2>🔤 Use of English — Paper 3</h2>
+        <p>~45 minutes · 4 parts · 42 questions. Multiple-choice cloze · open cloze · word formation · key word transformation. Verbatim from "Cambridge FCE 1" (Test 1). Opens inside the Reading runner — tile nav jumps to UoE parts.</p>
+      </div>
+      <div class="mock-grid" id="uMockGrid"></div>
     </section>
 
     <!-- Writing -->
@@ -92,6 +102,15 @@
     parts:      3,
     questions:  30,
     duration:   '60 min'
+  });
+  Cambridge.renderMockGrid('uMockGrid', {
+    count:      1,
+    runnerPath: '/FCE Reading & Writing.html',
+    mockParam:  'mock',
+    paperLabel: 'Use of English',
+    parts:      4,
+    questions:  42,
+    duration:   '45 min'
   });
   Cambridge.renderMockGrid('wMockGrid', {
     count:      1,
