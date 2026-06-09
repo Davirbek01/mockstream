@@ -23759,10 +23759,10 @@
       }
     }
 
-    // ========== FCE (B2 First) OPTIONS MODAL ==========
+    // ========== FCE (B2 First) — direct redirect to fullscreen hub ==========
     function showFCEOptions() {
-      var m = document.getElementById('fceModal');
-      if (m) m.classList.add('show');
+      // Modal retired — hand off to /fce.html (matches PET/KET hub pattern)
+      window.location.href = '/fce.html';
     }
     function closeFCEModal(event) {
       var m = document.getElementById('fceModal');
