@@ -6,12 +6,12 @@
 window.FCE_RW_TEST = {
   testInfo: {
     id: "fce-rw-01",
-    title: "FCE Reading & Writing — Test 1 (Cambridge FCE 1)",
-    paper: "Paper 1 · Reading + Paper 2 · Writing",
+    title: "FCE Reading + Use of English + Writing — Test 1 (Cambridge FCE 1)",
+    paper: "Paper 1 · Reading + Paper 3 · Use of English + Paper 2 · Writing",
     level: "B2",
-    totalTime: 140,
-    totalQuestions: 30,
-    parts: 5
+    totalTime: 185,
+    totalQuestions: 72,
+    parts: 9
   },
 
   reading: { parts: [
@@ -108,6 +108,114 @@ window.FCE_RW_TEST = {
         { id: 28, prompt: "corresponding with the public?", correct: "D" },
         { id: 29, prompt: "working in an area that has personal meaning for them?", correct: "C" },
         { id: 30, prompt: "working with a team of colleagues?", correct: "D" }
+      ]
+    }
+
+  ] },
+
+  useOfEnglish: { parts: [
+
+    {
+      partNumber: 1, label: "PART 1", questionsLabel: "QUESTIONS 1–12",
+      type: "cloze-mcq",
+      instruction: "For questions 1–12, read the text below and decide which answer (A, B, C or D) best fits each gap. There is an example at the beginning (0). Mark your answers on the separate answer sheet.",
+      title: "PAPER",
+      text: "'Just (0) imagine a day without paper,' reads one advertisement for a Finnish paper company. It adds, 'You almost ___1___ see our products every day.' And they're right. But in most industrial countries, people are so ___2___ to paper – whether it's for holding their groceries, for drying their hands or for ___3___ them with the daily news – that its ___4___ in their daily lives passes largely unnoticed.\n\nAt one ___5___ paper was in short supply and was used mainly for important documents, but more recently, growing economies and new technologies have ___6___ a dramatic increase in the ___7___ of paper used. Today, there are more than 450 different grades of paper, all designed for a different ___8___.\n\nDecades ago, some people predicted a 'paperless office'. ___9___, the widespread use of new technologies has gone hand-in-hand with an increased use of paper. Research into the relationship between paper use and the use of computers has shown that the general ___10___ is likely to be one of growth and interdependence. However, the costs ___11___ in paper production, in terms of the world's land, water and air resources, are high. This ___12___ some important questions. How much paper do we really need and how much is wasted?",
+      gaps: [
+        { id: 1,  options: [{letter:"A",text:"positively"},{letter:"B",text:"obviously"},{letter:"C",text:"certainly"},{letter:"D",text:"absolutely"}], correct: "C" },
+        { id: 2,  options: [{letter:"A",text:"conscious"},{letter:"B",text:"acquainted"},{letter:"C",text:"familiar"},{letter:"D",text:"accustomed"}], correct: "D" },
+        { id: 3,  options: [{letter:"A",text:"providing"},{letter:"B",text:"delivering"},{letter:"C",text:"contributing"},{letter:"D",text:"giving"}], correct: "A" },
+        { id: 4,  options: [{letter:"A",text:"task"},{letter:"B",text:"operation"},{letter:"C",text:"service"},{letter:"D",text:"role"}], correct: "D" },
+        { id: 5,  options: [{letter:"A",text:"time"},{letter:"B",text:"instance"},{letter:"C",text:"date"},{letter:"D",text:"occasion"}], correct: "A" },
+        { id: 6,  options: [{letter:"A",text:"called on"},{letter:"B",text:"come around"},{letter:"C",text:"brought about"},{letter:"D",text:"drawn up"}], correct: "C" },
+        { id: 7,  options: [{letter:"A",text:"total"},{letter:"B",text:"portion"},{letter:"C",text:"number"},{letter:"D",text:"amount"}], correct: "D" },
+        { id: 8,  options: [{letter:"A",text:"point"},{letter:"B",text:"goal"},{letter:"C",text:"purpose"},{letter:"D",text:"result"}], correct: "C" },
+        { id: 9,  options: [{letter:"A",text:"Instead"},{letter:"B",text:"Besides"},{letter:"C",text:"Otherwise"},{letter:"D",text:"Alternatively"}], correct: "A" },
+        { id: 10, options: [{letter:"A",text:"method"},{letter:"B",text:"order"},{letter:"C",text:"trend"},{letter:"D",text:"system"}], correct: "C" },
+        { id: 11, options: [{letter:"A",text:"involved"},{letter:"B",text:"contained"},{letter:"C",text:"held"},{letter:"D",text:"connected"}], correct: "A" },
+        { id: 12, options: [{letter:"A",text:"puts"},{letter:"B",text:"raises"},{letter:"C",text:"gets"},{letter:"D",text:"places"}], correct: "B" }
+      ]
+    },
+
+    {
+      partNumber: 2, label: "PART 2", questionsLabel: "QUESTIONS 13–24",
+      type: "cloze-open",
+      instruction: "For questions 13–24, read the text below and think of the word which best fits each gap. Use only one word in each gap. There is an example at the beginning (0). Write your answers IN CAPITAL LETTERS on the separate answer sheet.",
+      title: "COMPETITION: YOUR IDEAL SCHOOL",
+      text: "Is your school just as you want (0) IT to be? Or are there things you and your classmates ___1___ change, given the opportunity? This is your chance to express your ideas about ___2___ the ideal school is like. Our competition is open to ___3___ student between the ages of twelve and eighteen. You can enter ___4___ an individual or your whole class can work together on a team entry. Your entry can take any form – a piece of writing, a picture, or even architectural plans. It is completely ___5___ to you. What we are looking for is evidence ___6___ originality, imagination and, above ___7___, the genuine views of young people.\n\nBy ___8___ part in this, you will help in a study being carried out at a leading university. All work entered ___9___ the competition will be kept at the university and used in research. Entries cannot be returned ___10___ of this. But it also means that, even ___11___ you do not win, your views will still be heard and will remain for future educationalists to study.\n\nEntries must reach us no later ___12___ Friday 30 April. Winners will receive valuable prizes of computer equipment and software for their schools.",
+      gaps: [
+        { id: 13, accept: ["would","could","might"] },
+        { id: 14, accept: ["what"] },
+        { id: 15, accept: ["any","every"] },
+        { id: 16, accept: ["as"] },
+        { id: 17, accept: ["up","down"] },
+        { id: 18, accept: ["of"] },
+        { id: 19, accept: ["all","everything"] },
+        { id: 20, accept: ["taking"] },
+        { id: 21, accept: ["for","in"] },
+        { id: 22, accept: ["because"] },
+        { id: 23, accept: ["if"] },
+        { id: 24, accept: ["than"] }
+      ]
+    },
+
+    {
+      partNumber: 3, label: "PART 3", questionsLabel: "QUESTIONS 25–34",
+      type: "word-formation",
+      instruction: "For questions 25–34, read the text below. Use the word given in capitals at the end of some of the lines to form a word that fits in the gap in the same line. There is an example at the beginning (0). Write your answers IN CAPITAL LETTERS on the separate answer sheet.",
+      title: "NEW WATERPROOF CLOTHING",
+      text: "There are few experiences as unpleasant as being (0) bitterly [BITTER] cold and dripping wet on board a boat. The ___1___ that you may be several hours away from warm, dry clothing is enough to slow down even the ___2___ sailor.\n\nHowever, recent ___3___ developments in the types of material used to make waterproof clothes have, hopefully, put an end to the ___4___ of the sailor. New suits, trousers and jackets have been designed which allow people to stay warm and dry at sea and can be worn ___5___ for days on end.\n\nThe new clothing is by no means cheap, but that will not stop it from selling well, and not just in the sailing market. ___6___ previous types of waterproof clothing, which tended to leave the wearer hot, sweaty and sticky even after a ___7___ short burst of ___8___ activity, these new clothes are manufactured with an ___9___ inner layer. This is made of a special material which allows the clothes to 'breathe' – in other words, body heat can escape so that the body stays dry, but still maintains its ___10___ in all weathers.",
+      gaps: [
+        { id: 25, root: "KNOW",      accept: ["knowledge"] },
+        { id: 26, root: "TOUGH",     accept: ["toughest"] },
+        { id: 27, root: "SCIENCE",   accept: ["scientific"] },
+        { id: 28, root: "SUFFER",    accept: ["suffering"] },
+        { id: 29, root: "COMFORT",   accept: ["comfortably"] },
+        { id: 30, root: "LIKE",      accept: ["unlike","Unlike"] },
+        { id: 31, root: "RELATIVE",  accept: ["relatively"] },
+        { id: 32, root: "ENERGY",    accept: ["energetic"] },
+        { id: 33, root: "ADDITION",  accept: ["additional"] },
+        { id: 34, root: "WARM",      accept: ["warmth"] }
+      ]
+    },
+
+    {
+      partNumber: 4, label: "PART 4", questionsLabel: "QUESTIONS 35–42",
+      type: "key-word-transformation",
+      instruction: "For questions 35–42, complete the second sentence so that it has a similar meaning to the first sentence, using the word given. Do not change the word given. You must use between two and five words, including the word given. Here is an example (0). Write only the missing words IN CAPITAL LETTERS on the separate answer sheet.",
+      items: [
+        { id: 35, original: "Marcella left home very early because she wanted to be sure of catching the train.",
+          keyWord: "ORDER",
+          gapped: "Marcella left home very early ___ miss the train.",
+          accept: ["in order not to"] },
+        { id: 36, original: "You must show your student card as you enter the library.",
+          keyWord: "REQUIRED",
+          gapped: "You ___ student card as you enter the library.",
+          accept: ["are required to show your","'re required to show your"] },
+        { id: 37, original: "On arriving at an airport, I usually go straight to the check-in desk.",
+          keyWord: "SOON",
+          gapped: "I usually go straight to the check-in desk as ___ to an airport.",
+          accept: ["soon as I get","soon as I arrive"] },
+        { id: 38, original: "Patrick hadn't heard from his uncle in Australia for over five years.",
+          keyWord: "MORE",
+          gapped: "It was ___ Patrick had heard from his uncle in Australia.",
+          accept: ["more than five years since","more than 5 years since"] },
+        { id: 39, original: "On business trips, I prefer driving home to staying in a hotel overnight.",
+          keyWord: "RATHER",
+          gapped: "On business trips, I'd ___ in a hotel overnight.",
+          accept: ["rather drive home than stay"] },
+        { id: 40, original: "Jack found it difficult to control his skis on the steep slope.",
+          keyWord: "UNDER",
+          gapped: "Jack found it difficult to ___ on the steep slope.",
+          accept: ["keep his skis under control","get his skis under control","have his skis under control"] },
+        { id: 41, original: "They say the fashion model was discovered by her agent while working at a restaurant.",
+          keyWord: "SAID",
+          gapped: "The fashion model is ___ discovered by her agent while working at a restaurant.",
+          accept: ["said to have been"] },
+        { id: 42, original: "Such success has not been achieved by many players in the world of ice hockey.",
+          keyWord: "FEW",
+          gapped: "Only ___ such success in the world of ice hockey.",
+          accept: ["a few players have achieved","a few people have achieved"] }
       ]
     }
 
