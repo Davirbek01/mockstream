@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FCE Listening — Mock Stream</title>
+  <script src="center-id.js"></script>
+  <script src="site-config/site-config.js"></script>
+  <script>document.addEventListener('DOMContentLoaded',function(){document.title=((window.SITE_CONFIG&&window.SITE_CONFIG.brandName)||'Mock Stream')+' · FCE Listening';});</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="cambridge/shared.css" />
+  <style>
+    :root{
+      --navy-900:#0b1330; --navy-800:#0f1a3f; --navy-700:#162356; --navy-600:#1f307a;
+      --blue-500:#3b66d6; --blue-400:#5b87f0;
+      --gold-400:#f2c14e; --gold-300:#ffe79b;
+      --paper:#fafbff; --line:#dde3f3; --ink:#0b1330;
+      --emerald:#10b981; --rose:#ef4444;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--paper);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+    .topbar{position:sticky;top:0;z-index:30;background:linear-gradient(180deg,var(--navy-900),var(--navy-800));color:#fff;padding:12px 18px;display:flex;align-items:center;gap:16px;border-bottom:3px solid var(--gold-400)}
+    .topbar .back{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#fff;padding:6px 14px;border-radius:999px;text-decoration:none;font-weight:600;font-size:14px;cursor:pointer}
+    .topbar .back:hover{background:rgba(255,255,255,.18)}
+    .topbar .title{font-family:'Playfair Display',serif;font-size:22px;font-weight:800;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+    .topbar .ms-pill{display:inline-block;margin:0 2px;padding:3px 9px;border-radius:8px;background:rgba(255,255,255,.08);color:#fff;text-decoration:none;font-size:12px;font-weight:600;border:1px solid rgba(255,255,255,.14)}
+    .topbar .ms-pill:hover{background:rgba(255,255,255,.16)}
+    .topbar .timer{font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:var(--gold-300);background:rgba(0,0,0,.25);padding:6px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.18)}
+    .topbar .submit{background:var(--gold-400);color:#0b1330;border:none;padding:8px 18px;border-radius:999px;font-weight:800;cursor:pointer;font-size:14px}
+    .topbar .submit:hover{background:var(--gold-300)}
+    .nav-strip{display:flex;gap:6px;justify-content:center;padding:10px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:64px;z-index:25;flex-wrap:wrap;overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .nav-strip a{padding:6px 14px;background:#eef2ff;color:var(--navy-700);text-decoration:none;border-radius:999px;font-weight:700;font-size:13px;border:1px solid var(--line);flex-shrink:0}
+    .nav-strip a.active{background:var(--navy-700);color:#fff}
+    @media (max-width:600px){
+      .nav-strip{flex-wrap:nowrap;justify-content:flex-start;padding:10px 12px;scrollbar-width:none}
+      .nav-strip::-webkit-scrollbar{display:none}
+    }
+    .page{max-width:920px;margin:30px auto;padding:0 20px}
+    /* Hero banner — navy gradient card with chip + test no + meta row (mirrors R&W) */
+    .hero{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--navy-900),var(--navy-800) 60%,var(--navy-700));color:#fff;border-radius:20px;padding:28px 30px 24px;margin-bottom:24px;box-shadow:0 6px 22px rgba(11,29,48,.18)}
+    .hero::after{content:'';position:absolute;inset:-50% -10% auto auto;width:280px;height:280px;background:radial-gradient(circle,rgba(242,193,78,.22),transparent 65%);pointer-events:none}
+    .hero .lvl-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(242,193,78,.18);color:var(--gold-300);padding:4px 12px;border-radius:999px;font-size:11.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;border:1px solid rgba(242,193,78,.35)}
+    .hero .test-no{font-family:'Playfair Display',serif;font-size:42px;font-weight:900;line-height:1;margin:14px 0 6px;letter-spacing:-0.5px}
+    .hero .paper-line{font-size:13px;color:rgba(255,255,255,.85);font-weight:500}
+    .hero .paper-line strong{font-weight:800;letter-spacing:.5px}
+    .hero .meta-row{display:flex;gap:24px;flex-wrap:wrap;margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1);font-size:14px;color:rgba(255,255,255,.92)}
+    .hero .meta-row b{color:#fff;font-weight:800}
+    @media (max-width:600px){
+      .hero{padding:22px 20px 18px;border-radius:18px}
+      .hero .test-no{font-size:32px;margin:10px 0 4px}
+      .hero .paper-line{font-size:12px}
+      .hero .meta-row{gap:14px;font-size:13px}
+    }
+    .part{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:28px;box-shadow:0 4px 12px rgba(11,19,48,.04)}
+    .part-head{display:flex;align-items:center;gap:14px;margin-bottom:14px;padding-bottom:14px;border-bottom:2px solid var(--line)}
+    .part-num{background:var(--navy-700);color:#fff;font-weight:800;padding:6px 14px;border-radius:999px;font-size:13px}
+    .part-q{color:#46527d;font-weight:600;font-size:14px}
+    .audio-box{background:#f4f7fe;border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:14px 0}
+    .audio-box audio{width:100%}
+    .audio-unavailable{background:#fff3cd;border-color:#ffe69c;color:#8a6d3b;padding:10px 14px;border-radius:8px;font-size:13px;text-align:center}
+    .instruction{background:#eef2ff;border-left:4px solid var(--blue-500);padding:10px 14px;border-radius:6px;color:var(--navy-700);font-size:14px;line-height:1.6;margin:14px 0}
+    .instruction p{margin:0 0 4px}
+    .instruction ul{margin:0;padding-left:22px}
+    .instruction li{margin:0 0 4px}
+    .instruction li:last-child{margin:0}
+    .instruction li::marker{color:var(--blue-500)}
+    .example-card{background:#fafbff;border:1px dashed var(--line);border-radius:10px;padding:12px 14px;margin:12px 0}
+    .example-card .ex-label{font-weight:700;color:var(--navy-700);font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+    .example-card .ex-answer-pill{background:var(--gold-400);color:#0b1330;padding:3px 10px;border-radius:999px;font-weight:800;font-size:13px}
+    .q{margin:14px 0;padding:14px;border:1px solid var(--line);border-radius:10px}
+    .q-num{display:inline-block;background:var(--navy-700);color:#fff;width:28px;height:28px;line-height:28px;text-align:center;border-radius:50%;font-weight:800;font-size:13px;margin-right:10px}
+    .q-stem{font-weight:600;color:var(--navy-800);font-size:15px;margin-bottom:10px}
+    .mcq-opt{display:flex;align-items:center;gap:10px;padding:9px 12px;margin:6px 0;background:#fafbff;border:2px solid var(--line);border-radius:8px;cursor:pointer;font-size:14px;transition:all .12s}
+    .mcq-opt:hover{border-color:var(--blue-400);background:#eef2ff}
+    .mcq-opt.picked{border-color:var(--blue-500);background:#dbe6ff}
+    .mcq-opt .ltr{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#fff;border:1px solid var(--line);border-radius:50%;font-weight:700;font-size:12px;color:var(--navy-700)}
+    .mcq-opt.picked .ltr{background:var(--blue-500);color:#fff;border-color:var(--blue-500)}
+    /* Picture-MCQ ─────────────────── */
+    .opt-pic-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+    .mcq-opt.opt-pic{flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:8px;background:#fff;text-align:center}
+    .mcq-opt.opt-pic .ltr{order:2;margin-top:4px}
+    .mcq-opt.opt-pic .opt-img{order:1;width:100%;height:auto;max-height:170px;object-fit:contain;background:#fff;border-radius:4px}
+    .opt-pic-composite{display:flex;flex-direction:column;align-items:center;gap:10px;padding:10px}
+    .opt-pic-composite .opt-img-large{max-width:520px;width:100%;height:auto;object-fit:contain;background:#fff;border-radius:8px;border:1px solid var(--line)}
+    .opt-pic-composite .opt-pic-row{max-width:520px;width:100%}
+    @media (max-width:600px){
+      .opt-pic-row{gap:6px}
+      .mcq-opt.opt-pic .opt-img{max-height:140px}
+    }
+    .matching-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:10px}
+    .matching-grid h4{margin:0 0 8px;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--navy-700)}
+    .match-row{display:flex;align-items:center;gap:10px;margin:6px 0}
+    .match-row .num{background:var(--navy-700);color:#fff;width:24px;height:24px;line-height:24px;text-align:center;border-radius:50%;font-weight:700;font-size:12px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 24px}
+    .match-slot{flex:1 1 auto;min-width:0;min-height:38px;border:2px dashed var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;background:#fff;cursor:pointer;font-weight:700;color:var(--navy-700);font-size:14px;padding:6px 10px;transition:all .12s;user-select:none}
+    .match-slot:hover{border-style:solid;border-color:var(--blue-400);background:#eef2ff}
+    .match-slot.drag-over{border-style:solid;border-color:var(--blue-500);background:#dbe6ff;transform:scale(1.02)}
+    .match-slot.filled{border-style:solid;border-color:var(--blue-500);background:#eaf2ff;color:var(--navy-800);justify-content:space-between}
+    .match-slot.slot-armed{border-style:solid;border-color:var(--gold-400);background:#fff8e6}
+    .match-slot .slot-empty{color:#9aa4c8;font-weight:600}
+    .match-slot .slot-x{font-size:14px;color:#9aa4c8;margin-left:8px;font-weight:800}
+    .match-slot.filled:hover .slot-x{color:var(--rose)}
+    .match-select{display:none;padding:7px 10px;border:2px solid var(--line);border-radius:8px;font-size:14px;font-weight:600;color:var(--navy-800);background:#fff;flex:1 1 auto;min-width:0}
+    /* Custom dropdown (mobile-only) ─────────────────────────── */
+    .dd-mob{display:none;position:relative;flex:1 1 auto;min-width:0}
+    .dd-mob-btn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;background:#fff;border:2px solid var(--line);border-radius:10px;font-size:15px;font-weight:600;color:var(--navy-800);cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent}
+    .dd-mob-btn:active{transform:scale(.99)}
+    .dd-mob-btn.has-pick{border-color:var(--blue-500);background:#eaf2ff}
+    .dd-mob-btn .dd-current{display:flex;align-items:center;gap:8px;flex:1;text-align:left;min-width:0}
+    .dd-mob-btn .dd-current-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}
+    .dd-mob-btn .dd-current.empty{color:#9aa4c8;font-weight:500}
+    .dd-mob-btn .dd-mini-chip{background:var(--navy-700);color:#fff;width:24px;height:24px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;flex:0 0 24px}
+    .dd-mob-btn.has-pick .dd-mini-chip{background:var(--blue-500)}
+    .dd-mob-btn .dd-arrow{color:var(--navy-700);font-size:12px;transition:transform .2s}
+    .dd-mob.open .dd-arrow{transform:rotate(180deg)}
+    .dd-mob-pop{position:absolute;top:calc(100% + 6px);left:0;right:0;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 32px rgba(11,19,48,.18);max-height:320px;overflow-y:auto;z-index:40;padding:6px;display:none}
+    .dd-mob.open .dd-mob-pop{display:block;animation:ddFadeIn .15s ease}
+    @keyframes ddFadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+    .dd-mob-opt{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;background:transparent;border:none;border-radius:8px;cursor:pointer;font-size:15px;font-weight:600;color:var(--navy-800);text-align:left;-webkit-tap-highlight-color:transparent;transition:background .12s}
+    .dd-mob-opt:hover,.dd-mob-opt:focus{background:#eef2ff;outline:none}
+    .dd-mob-opt.active{background:#eaf2ff}
+    .dd-mob-opt .dd-mini-chip{background:var(--navy-700);color:#fff;width:26px;height:26px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex:0 0 26px}
+    .dd-mob-opt.clear-opt .dd-mini-chip{background:#cbd2e5;color:#fff}
+    .dd-mob-overlay{position:fixed;inset:0;background:transparent;display:none;z-index:35}
+    .dd-mob-overlay.show{display:block}
+    .opt-list{display:flex;flex-direction:column;gap:4px}
+    .opt-tile{display:flex;align-items:center;gap:12px;padding:5px 8px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:500;color:var(--navy-800);transition:background .12s;user-select:none}
+    .opt-tile:hover{background:#eef2ff}
+    .opt-tile.used{opacity:.45}
+    .opt-tile.used:hover{background:transparent}
+    .opt-tile.dragging{opacity:.4}
+    .opt-text{flex:1;min-width:0}
+    .opt-grab{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;background:var(--navy-700);color:#fff;border-radius:7px;font-weight:800;font-size:13px;cursor:grab;user-select:none;transition:transform .12s,background .12s,box-shadow .12s;flex:0 0 30px}
+    .opt-grab:active{cursor:grabbing}
+    .opt-grab:hover{transform:scale(1.08);background:var(--blue-500)}
+    .opt-tile.selected .opt-grab{background:var(--gold-400);color:#0b1330;transform:scale(1.08);box-shadow:0 0 0 3px rgba(242,193,78,.4)}
+    .opt-tile.used .opt-grab{background:#cbd2e5;cursor:not-allowed}
+    .opt-tile.used .opt-grab:hover{transform:none}
+    .arm-banner{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--navy-800);color:#fff;padding:10px 18px;border-radius:999px;font-weight:600;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.3);display:none;z-index:50}
+    .arm-banner.show{display:block}
+    .notes-card{background:#fff8e6;border:1px solid #ffe79b;border-radius:12px;padding:18px;margin-top:10px}
+    .notes-card h3{margin:0 0 10px;font-family:'Playfair Display',serif;color:var(--navy-800)}
+    .notes-card .subtitle{color:#46527d;font-size:13px;margin-bottom:10px;white-space:pre-line}
+    .notes-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px dashed #ffe9b0}
+    .notes-row .lbl{flex:0 0 200px;font-weight:600;color:var(--navy-700);font-size:14px}
+    .notes-row .num{background:var(--navy-700);color:#fff;width:24px;height:24px;line-height:24px;text-align:center;border-radius:50%;font-weight:700;font-size:12px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 24px}
+    .notes-row input{padding:6px 10px;border:2px solid #ffe9b0;border-radius:6px;font-size:14px;font-weight:600;color:var(--navy-800);background:#fff;flex:1 1 auto;min-width:0;width:100%}
+    .notes-row .pre,.notes-row .suf{font-weight:700;color:var(--navy-700);font-size:13px}
+    .notes-row .prefilled{color:#46527d;font-style:italic;font-size:14px}
+
+    /* ── Post-submit review marking ───────────────────────── */
+    .mcq-opt.is-correct{border-color:var(--emerald)!important;background:#d1fae5!important;position:relative}
+    .mcq-opt.is-correct::after{content:'✓';position:absolute;top:4px;right:6px;width:18px;height:18px;border-radius:50%;background:var(--emerald);color:#fff;font-weight:900;font-size:11px;display:flex;align-items:center;justify-content:center}
+    .mcq-opt.is-wrong{border-color:var(--rose)!important;background:#fee2e2!important;position:relative}
+    .mcq-opt.is-wrong::after{content:'✗';position:absolute;top:4px;right:6px;width:18px;height:18px;border-radius:50%;background:var(--rose);color:#fff;font-weight:900;font-size:11px;display:flex;align-items:center;justify-content:center}
+    .notes-row input.is-correct{border-color:var(--emerald)!important;background:#ecfdf5!important;color:var(--navy-800)}
+    .notes-row input.is-wrong{border-color:var(--rose)!important;background:#fef2f2!important;color:#7f1d1d;text-decoration:line-through}
+    .notes-row input.is-revealed{border-color:#d4a72c!important;background:#fffbeb!important;color:var(--navy-800);font-weight:700}
+    .notes-row .ans-key,.match-slot .ans-key,.dd-mob .ans-key{display:inline-block;background:var(--emerald);color:#fff;font-weight:700;font-size:11.5px;padding:2px 8px;border-radius:999px;margin-left:8px;white-space:nowrap;vertical-align:middle}
+    .match-slot.is-correct{border-color:var(--emerald)!important;background:#d1fae5!important}
+    .match-slot.is-wrong{border-color:var(--rose)!important;background:#fee2e2!important;color:#7f1d1d}
+    .dd-mob-btn.is-correct{border-color:var(--emerald)!important;background:#d1fae5!important}
+    .dd-mob-btn.is-wrong{border-color:var(--rose)!important;background:#fee2e2!important}
+    body.submitted .mcq-opt,body.submitted .match-slot,body.submitted .opt-tile,body.submitted .dd-mob-btn{pointer-events:none}
+    body.submitted .notes-row input{pointer-events:none}
+    .results-card{background:linear-gradient(135deg,var(--navy-700),var(--blue-500));color:#fff;border-radius:14px;padding:24px;margin:20px 0;text-align:center;display:none}
+    .results-card.show{display:block}
+    .results-card .score{font-size:42px;font-weight:900;font-family:'Playfair Display',serif}
+    .results-card .desc{font-size:14px;opacity:.85;margin-top:6px}
+    .results-card .breakdown{margin-top:14px;text-align:left;background:rgba(0,0,0,.15);padding:12px;border-radius:10px;font-size:13px}
+    .leave-modal{position:fixed;inset:0;background:rgba(11,19,48,.55);display:none;align-items:center;justify-content:center;z-index:100}
+    .leave-modal.show{display:flex}
+    .leave-modal .card{background:#fff;border:1px solid #fde68a;border-radius:14px;padding:24px;max-width:380px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+    .leave-modal h3{font-family:'Playfair Display',serif;color:var(--navy-800);margin:0 0 6px}
+    .leave-modal p{color:#46527d;font-size:14px;margin:0 0 14px}
+    .leave-modal .btn-keep{background:var(--emerald);color:#fff;border:none;padding:9px 18px;border-radius:999px;font-weight:700;cursor:pointer;margin-right:8px}
+    .leave-modal .btn-leave{background:var(--rose);color:#fff;border:none;padding:9px 18px;border-radius:999px;font-weight:700;cursor:pointer}
+    @media (max-width:600px){
+      .matching-grid{grid-template-columns:1fr}
+      .match-row{flex-wrap:wrap}
+      .match-row > span:nth-child(2){flex:1 1 auto;min-width:0}
+      .match-slot{display:none}
+      .match-select{display:none}
+      .dd-mob{display:block;flex:0 0 calc(100% - 34px);margin-left:34px;width:calc(100% - 34px)}
+      .arm-banner{display:none !important}
+      .matching-grid > div:nth-child(2){display:none}
+      .notes-row{flex-wrap:wrap;padding:10px 0}
+      .notes-row .lbl{flex:1 1 100%;font-size:13px;margin-bottom:4px}
+      .notes-row .num{margin-left:0}
+      .notes-row input{flex:1 1 auto;min-width:0}
+      .topbar{padding:10px 12px;gap:8px}
+      .topbar .back{padding:6px 10px;font-size:13px}
+      .topbar .back .lbl-full{display:none}
+      .topbar .title{font-size:15px;font-family:Inter,sans-serif;font-weight:700}
+      .topbar .title .ms-prefix{display:none}
+      .topbar .timer{font-size:14px;padding:5px 8px}
+      .topbar .submit{padding:6px 12px;font-size:13px}
+    }
+
+    /* PET Part 4 — true/false */
+    .tf-list{display:flex;flex-direction:column;gap:14px;margin-top:18px}
+    .tf-row{background:#fff;border:1px solid var(--ring);border-radius:12px;padding:14px 16px}
+    .tf-buttons{display:flex;gap:10px;margin-top:10px}
+    .tf-btn{flex:0 0 auto;padding:8px 18px;font-weight:800}
+    .tf-btn .ltr{margin-right:8px}
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <button class="back" onclick="goBack()">← Back</button>
+  <div class="title" id="heroTitle">FCE Listening — Test 1</div>
+  <span class="timer" id="timer">40:00</span>
+  <button class="submit" onclick="submitTest()">Submit</button>
+</header>
+
+<nav class="nav-strip" id="navStrip">
+    <a class="ms-pill" href="?mock=1">1</a>
+</nav>
+
+<script>
+  // Dynamic mock loader. ?mock=2 → questions FCE L/fce-listening-test-02.js.
+  (function () {
+    var p = new URLSearchParams(location.search);
+    var n = parseInt(p.get('mock') || '1', 10);
+    if (!n || n < 1 || n > 99) n = 1;
+    var pad = (n < 10 ? '0' : '') + n;
+    window._FCE_L_MOCK_NUM = pad;
+    document.write('<script src="questions FCE L/fce-listening-test-' + pad + '.js"><\/script>');
+  })();
+</script>
+
+<div class="page" id="page"></div>
+
+<div class="results-card" id="results">
+  <div class="score" id="scoreNum">0/30</div>
+  <div class="desc" id="scoreDesc">You scored</div>
+  <div class="breakdown" id="breakdown"></div>
+</div>
+
+<div class="leave-modal" id="leaveModal" onclick="if(event.target===this) closeLeaveModal()">
+  <div class="card">
+    <h3>Leave this mock?</h3>
+    <p>Your progress will be lost. Are you sure?</p>
+    <button class="btn-keep" onclick="closeLeaveModal()">Keep Going</button>
+    <button class="btn-leave" onclick="window.location.href='/fce.html?paper=listening'">Leave Anyway</button>
+  </div>
+</div>
+
+<script>
+function escapeHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];});}
+function goBack(){var m=document.getElementById('leaveModal');if(m) m.classList.add('show');}
+function closeLeaveModal(){var m=document.getElementById('leaveModal');if(m) m.classList.remove('show');}
+
+window.addEventListener('DOMContentLoaded', function () {
+  var data = window.FCE_L_TEST;
+  if (!data) return;
+  var n = parseInt(window._FCE_L_MOCK_NUM || '1', 10);
+  // Split title into prefix ("FCE Listening — ") + suffix ("Test N") so we can hide prefix on mobile.
+  var fullTitle = data.testInfo.title || '';
+  var dashIdx = fullTitle.indexOf('—');
+  if (dashIdx > 0) {
+    var prefix = fullTitle.slice(0, dashIdx + 1);
+    var suffix = fullTitle.slice(dashIdx + 1).trim();
+    document.getElementById('heroTitle').innerHTML = '<span class="ms-prefix">' + escapeHtml(prefix) + ' </span>' + escapeHtml(suffix);
+  } else {
+    document.getElementById('heroTitle').textContent = fullTitle;
+  }
+  document.title = ((window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream') + ' · ' + data.testInfo.title;
+  // Mark active pill + scroll it into view (sideways)
+  var activePill = null;
+  document.querySelectorAll('#navStrip .ms-pill').forEach(function(a){
+    if (a.getAttribute('href') === '?mock='+n) { a.classList.add('active'); activePill = a; }
+  });
+  if (activePill) {
+    try { activePill.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'instant' }); } catch (_e) {}
+  }
+
+  var page = document.getElementById('page');
+  page.innerHTML = renderHero(data) + data.parts.map(function(p){return renderPart(p, data.audio);}).join('');
+
+  startTimer(data.testInfo.totalTime || 40);
+});
+
+function renderHero(data){
+  var info = data.testInfo || {};
+  var n = parseInt(window._FCE_L_MOCK_NUM || '1', 10);
+  return '<div class="hero">'
+    + '<span class="lvl-chip">⭐ B2 · FIRST CERTIFICATE IN ENGLISH</span>'
+    + '<div class="test-no">Test ' + n + '</div>'
+    + '<div class="paper-line"><strong>PAPER 4</strong> &nbsp; LISTENING &nbsp;·&nbsp; ~40 minutes</div>'
+    + '<div class="meta-row">'
+    +   '<div class="m">📑 <b>' + (info.parts || 4) + ' parts</b></div>'
+    +   '<div class="m">❓ <b>' + (info.totalQuestions || 30) + ' questions</b></div>'
+    +   '<div class="m">⏱ <b>' + (info.totalTime || 40) + ' min</b></div>'
+    + '</div>'
+    + '</div>';
+}
+
+function renderPart(part, audio){
+  var html = '<section class="part" id="part-' + part.partNumber + '">';
+  html += '<div class="part-head">'
+    + '<span class="part-num">' + escapeHtml(part.label) + '</span>'
+    + '<span class="part-q">' + escapeHtml(part.questionsLabel) + '</span>'
+    + '</div>';
+
+  // Audio
+  var audioUnavailable = (part.audioUnavailable) || (audio && audio.unavailable && audio.unavailable.indexOf(part.partNumber) >= 0);
+  if (audioUnavailable) {
+    html += '<div class="audio-unavailable">🔇 ' + escapeHtml(part.audioUnavailableNote || 'Audio for this part is currently unavailable.') + '</div>';
+  } else if (audio && audio.base && audio.files && audio.files[part.partNumber]) {
+    html += '<div class="audio-box">'
+      + '<audio controls preload="none" src="' + escapeHtml(audio.base + audio.files[part.partNumber]) + '"></audio>'
+      + '</div>';
+  }
+
+  // Instruction
+  if (part.instruction && part.instruction.length){
+    html += '<div class="instruction"><ul>';
+    part.instruction.forEach(function(line){ html += '<li>' + escapeHtml(line) + '</li>'; });
+    html += '</ul></div>';
+  }
+
+  if (part.type === 'picture-mcq')          html += renderPictureMcq(part);
+  else if (part.type === 'matching-list')    html += renderMatchingList(part);
+  else if (part.type === 'mcq-conversation') html += renderMcqConversation(part);
+  else if (part.type === 'note-completion')  html += renderNoteCompletion(part);
+  else if (part.type === 'true-false')       html += renderTrueFalse(part);
+
+  html += '</section>';
+  return html;
+}
+
+function renderPictureMcq(part){
+  var ex = part.example;
+  var base = part.imageBase || '';
+  function optBody(o, picked){
+    if (o.image){
+      var src = (base + o.image);
+      return '<span class="ltr">' + escapeHtml(o.letter) + '</span><img class="opt-img" src="' + escapeHtml(src) + '" alt="Option ' + escapeHtml(o.letter) + '">';
+    }
+    return '<span class="ltr">' + escapeHtml(o.letter) + '</span>' + escapeHtml(o.text || '');
+  }
+  // Is this part using pictures? Detect from first item with image.
+  var hasImages = (ex && ex.options[0].image) || (part.items[0] && part.items[0].options[0].image);
+  // Composite case: if every option of a Q points to the same image, render the image once + 3 letter buttons below.
+  function isCompositeQuestion(opts){
+    if (!opts[0].image) return false;
+    return opts.every(function(o){ return o.image === opts[0].image && o.composite; });
+  }
+  var html = '';
+  if (ex){
+    html += '<div class="example-card">'
+      + '<div style="display:flex;justify-content:space-between;align-items:center"><div class="ex-label">Example 0</div><div><span class="ex-label">Answer</span> <span class="ex-answer-pill">' + escapeHtml(ex.answer) + '</span></div></div>'
+      + '<div style="margin:8px 0;font-weight:600">' + escapeHtml(ex.question) + '</div>';
+    if (hasImages && isCompositeQuestion(ex.options)){
+      html += '<div class="opt-pic-composite">'
+        + '<img class="opt-img-large" src="' + escapeHtml(base + ex.options[0].image) + '">'
+        + '<div class="opt-pic-row">' + ex.options.map(function(o){return '<div class="mcq-opt opt-pic" style="cursor:default"><span class="ltr">' + escapeHtml(o.letter) + '</span></div>';}).join('') + '</div>'
+        + '</div>';
+    } else if (hasImages){
+      html += '<div class="opt-pic-row">' + ex.options.map(function(o){return '<div class="mcq-opt opt-pic" style="cursor:default">' + optBody(o) + '</div>';}).join('') + '</div>';
+    } else {
+      html += ex.options.map(function(o){return '<div class="mcq-opt" style="cursor:default">' + optBody(o) + '</div>';}).join('');
+    }
+    html += '</div>';
+  }
+  part.items.forEach(function(item){
+    html += '<div class="q" data-qslot="' + item.id + '">';
+    html += '<div class="q-stem"><span class="q-num">' + item.id + '</span>' + escapeHtml(item.question) + '</div>';
+    if (hasImages && isCompositeQuestion(item.options)){
+      html += '<div class="opt-pic-composite">'
+        + '<img class="opt-img-large" src="' + escapeHtml(base + item.options[0].image) + '">'
+        + '<div class="opt-pic-row">';
+      item.options.forEach(function(o){
+        html += '<div class="mcq-opt opt-pic" data-id="' + item.id + '" data-letter="' + o.letter + '" onclick="pickMcq(' + item.id + ',\'' + o.letter + '\',this)">'
+          + '<span class="ltr">' + escapeHtml(o.letter) + '</span></div>';
+      });
+      html += '</div></div>';
+    } else if (hasImages){
+      html += '<div class="opt-pic-row">';
+      item.options.forEach(function(o){
+        html += '<div class="mcq-opt opt-pic" data-id="' + item.id + '" data-letter="' + o.letter + '" onclick="pickMcq(' + item.id + ',\'' + o.letter + '\',this)">'
+          + optBody(o)
+          + '</div>';
+      });
+      html += '</div>';
+    } else {
+      item.options.forEach(function(o){
+        html += '<div class="mcq-opt" data-id="' + item.id + '" data-letter="' + o.letter + '" onclick="pickMcq(' + item.id + ',\'' + o.letter + '\',this)">'
+          + optBody(o)
+          + '</div>';
+      });
+    }
+    html += '</div>';
+  });
+  return html;
+}
+
+function renderMatchingList(part){
+  var ex = part.example;
+  var html = '';
+  if (ex){
+    html += '<div class="example-card">'
+      + '<div style="display:flex;justify-content:space-between;align-items:center"><div class="ex-label">Example 0 – ' + escapeHtml(ex.name) + '</div><div><span class="ex-label">Answer</span> <span class="ex-answer-pill">' + escapeHtml(ex.answer) + '</span></div></div>'
+      + '</div>';
+  }
+  // Build option text map for filled-slot display
+  var optTextMap = {};
+  part.options.forEach(function(o){ optTextMap[o.letter] = o.text; });
+  html += '<div class="matching-grid">';
+  // LEFT — people rows with drop slots
+  html += '<div><h4>' + escapeHtml(part.leftLabel || 'PEOPLE') + '</h4>';
+  part.items.forEach(function(item){
+    html += '<div class="match-row" data-qslot="' + item.id + '">';
+    html += '<span class="num">' + item.id + '</span>';
+    html += '<span style="flex:0 0 auto;font-weight:600;min-width:90px">' + escapeHtml(item.name) + '</span>';
+    html += '<div class="match-slot" data-id="' + item.id + '" data-letter=""'
+      + ' onclick="onSlotTap(' + item.id + ', this)"'
+      + ' ondragover="onSlotDragOver(event, this)"'
+      + ' ondragleave="onSlotDragLeave(this)"'
+      + ' ondrop="onSlotDrop(event, ' + item.id + ', this)">'
+      + '<span class="slot-empty">— drop here —</span></div>';
+    // Mobile fallback: custom dropdown (visible only at ≤600px)
+    html += '<div class="dd-mob" data-id="' + item.id + '">';
+    html += '<button type="button" class="dd-mob-btn" id="dd-btn-' + item.id + '"'
+      + ' onclick="ddMobToggle(' + item.id + ', event)">'
+      + '<span class="dd-current empty"><span class="dd-current-text">— choose a job —</span></span>'
+      + '<span class="dd-arrow">▾</span>'
+      + '</button>';
+    html += '<div class="dd-mob-pop">';
+    html += '<button type="button" class="dd-mob-opt clear-opt" onclick="ddMobPick(' + item.id + ',\'\', this, event)">'
+      + '<span class="dd-mini-chip">—</span><span>Clear</span></button>';
+    part.options.forEach(function(o){
+      html += '<button type="button" class="dd-mob-opt" data-letter="' + o.letter + '"'
+        + ' onclick="ddMobPick(' + item.id + ',\'' + o.letter + '\', this, event)">'
+        + '<span class="dd-mini-chip">' + escapeHtml(o.letter) + '</span>'
+        + '<span>' + escapeHtml(o.text) + '</span>'
+        + '</button>';
+    });
+    html += '</div></div>';
+    html += '</div>';
+  });
+  html += '</div>';
+  // RIGHT — draggable option tiles
+  html += '<div><h4>' + escapeHtml(part.rightLabel || 'OPTIONS') + '</h4><div class="opt-list">';
+  part.options.forEach(function(o){
+    html += '<div class="opt-tile" data-letter="' + o.letter + '" data-text="' + escapeHtml(o.text) + '"'
+      + ' onclick="onOptTap(this)">'
+      + '<span class="opt-grab" draggable="true"'
+      +   ' ondragstart="onOptDragStart(event, this.parentElement)"'
+      +   ' ondragend="onOptDragEnd(this.parentElement)">'
+      +   escapeHtml(o.letter)
+      + '</span>'
+      + '<span class="opt-text">' + escapeHtml(o.text) + '</span>'
+      + '</div>';
+  });
+  html += '</div></div>';
+  html += '</div>';
+  return html;
+}
+
+// ─── Matching state + handlers (drag&drop on PC, tap-to-fill on mobile) ───
+var __armedOpt = null; // currently armed letter
+var __optTextCache = {};
+
+function __ensureArmBanner(){
+  var b = document.getElementById('armBanner');
+  if (!b){
+    b = document.createElement('div');
+    b.id = 'armBanner';
+    b.className = 'arm-banner';
+    document.body.appendChild(b);
+  }
+  return b;
+}
+function __setArmed(letter, tile){
+  __armedOpt = letter;
+  document.querySelectorAll('.opt-tile.selected').forEach(function(x){x.classList.remove('selected');});
+  document.querySelectorAll('.match-slot.slot-armed').forEach(function(x){x.classList.remove('slot-armed');});
+  var b = __ensureArmBanner();
+  if (letter && tile){
+    tile.classList.add('selected');
+    // Highlight empty slots so user sees where to tap
+    document.querySelectorAll('.match-slot:not(.filled)').forEach(function(s){s.classList.add('slot-armed');});
+    b.textContent = '👉 Tap a person to assign ' + letter + ' — ' + (__optTextCache[letter] || '');
+    b.classList.add('show');
+  } else {
+    b.classList.remove('show');
+  }
+}
+function __cacheOptText(){
+  document.querySelectorAll('.opt-tile').forEach(function(t){
+    __optTextCache[t.getAttribute('data-letter')] = t.getAttribute('data-text') || '';
+  });
+}
+function __getSlot(id){ return document.querySelector('.match-slot[data-id="'+id+'"]'); }
+function __getTile(letter){ return document.querySelector('.opt-tile[data-letter="'+letter+'"]'); }
+
+function __fillSlot(id, letter){
+  __cacheOptText();
+  var slot = __getSlot(id);
+  if (!slot) return;
+  // Find any other slot that already has this letter and clear it (move semantics)
+  document.querySelectorAll('.match-slot[data-letter="'+letter+'"]').forEach(function(s){
+    if (s !== slot) __clearSlotEl(s);
+  });
+  // Return previous occupant of this slot to the pool
+  var prev = slot.getAttribute('data-letter');
+  if (prev) { var pt = __getTile(prev); if (pt) pt.classList.remove('used'); delete picks[id]; }
+  slot.setAttribute('data-letter', letter);
+  slot.classList.add('filled');
+  slot.classList.remove('slot-armed');
+  slot.innerHTML = '<span><strong>' + letter + '</strong> — ' + escapeHtml(__optTextCache[letter] || '') + '</span><span class="slot-x" title="Tap to remove">✕</span>';
+  var tile = __getTile(letter);
+  if (tile) tile.classList.add('used');
+  picks[id] = letter;
+}
+function __clearSlotEl(slot){
+  var prev = slot.getAttribute('data-letter');
+  if (prev) { var pt = __getTile(prev); if (pt) pt.classList.remove('used'); }
+  var id = slot.getAttribute('data-id');
+  delete picks[parseInt(id, 10)];
+  slot.setAttribute('data-letter', '');
+  slot.classList.remove('filled');
+  slot.innerHTML = '<span class="slot-empty">— drop here —</span>';
+}
+function __clearSlot(id){
+  var s = __getSlot(id); if (s) __clearSlotEl(s);
+}
+
+function pickMatch(id, letter){
+  if (letter) picks[id] = letter;
+  else delete picks[id];
+}
+
+// Custom mobile dropdown ─────────────────────────────────────────
+function __ddMobCloseAll(except){
+  document.querySelectorAll('.dd-mob.open').forEach(function(d){
+    if (d !== except) d.classList.remove('open');
+  });
+}
+function ddMobToggle(id, ev){
+  ev && ev.stopPropagation();
+  var wrap = document.querySelector('.dd-mob[data-id="' + id + '"]');
+  if (!wrap) return;
+  var isOpen = wrap.classList.contains('open');
+  __ddMobCloseAll(wrap);
+  wrap.classList.toggle('open', !isOpen);
+}
+function ddMobPick(id, letter, optEl, ev){
+  ev && ev.stopPropagation();
+  var wrap = document.querySelector('.dd-mob[data-id="' + id + '"]');
+  if (!wrap) return;
+  var btn = wrap.querySelector('.dd-mob-btn');
+  if (letter){
+    picks[id] = letter;
+    var txt = (optEl ? optEl.querySelector('span:last-child').textContent : letter);
+    btn.classList.add('has-pick');
+    btn.querySelector('.dd-current').classList.remove('empty');
+    btn.querySelector('.dd-current').innerHTML =
+      '<span class="dd-mini-chip">' + letter + '</span>'
+      + '<span class="dd-current-text">' + escapeHtml(txt) + '</span>';
+    // Mark active in popover
+    wrap.querySelectorAll('.dd-mob-opt').forEach(function(x){x.classList.remove('active');});
+    if (optEl) optEl.classList.add('active');
+  } else {
+    delete picks[id];
+    btn.classList.remove('has-pick');
+    btn.querySelector('.dd-current').classList.add('empty');
+    btn.querySelector('.dd-current').innerHTML =
+      '<span class="dd-current-text">— choose a job —</span>';
+    wrap.querySelectorAll('.dd-mob-opt').forEach(function(x){x.classList.remove('active');});
+  }
+  wrap.classList.remove('open');
+}
+// Close on outside click
+document.addEventListener('click', function(){ __ddMobCloseAll(null); });
+function onOptTap(el){
+  if (el.classList.contains('used')) return;
+  var letter = el.getAttribute('data-letter');
+  if (__armedOpt === letter){ __setArmed(null); return; }
+  __cacheOptText();
+  __setArmed(letter, el);
+}
+function onSlotTap(id, el){
+  if (el.classList.contains('filled')){
+    __clearSlot(id);
+    return;
+  }
+  if (__armedOpt){
+    var letter = __armedOpt;
+    __setArmed(null);
+    __fillSlot(id, letter);
+  }
+}
+function onOptDragStart(e, el){
+  if (el.classList.contains('used')){ e.preventDefault(); return; }
+  el.classList.add('dragging');
+  e.dataTransfer.setData('text/letter', el.getAttribute('data-letter'));
+  e.dataTransfer.effectAllowed = 'move';
+}
+function onOptDragEnd(el){ el.classList.remove('dragging'); }
+function onSlotDragOver(e, el){ e.preventDefault(); el.classList.add('drag-over'); }
+function onSlotDragLeave(el){ el.classList.remove('drag-over'); }
+function onSlotDrop(e, id, el){
+  e.preventDefault();
+  el.classList.remove('drag-over');
+  var letter = e.dataTransfer.getData('text/letter');
+  if (!letter) return;
+  __fillSlot(id, letter);
+}
+
+function renderMcqConversation(part){
+  var ex = part.example;
+  var html = '';
+  if (ex){
+    html += '<div class="example-card">'
+      + '<div style="display:flex;justify-content:space-between;align-items:center"><div class="ex-label">Example 0</div><div><span class="ex-label">Answer</span> <span class="ex-answer-pill">' + escapeHtml(ex.answer) + '</span></div></div>'
+      + '<div style="margin:8px 0;font-weight:600">' + escapeHtml(ex.stem) + '</div>'
+      + ex.options.map(function(o){return '<div class="mcq-opt" style="cursor:default"><span class="ltr">'+escapeHtml(o.letter)+'</span>'+escapeHtml(o.text)+'</div>';}).join('')
+      + '</div>';
+  }
+  part.items.forEach(function(item){
+    html += '<div class="q" data-qslot="' + item.id + '">';
+    html += '<div class="q-stem"><span class="q-num">' + item.id + '</span>' + escapeHtml(item.stem) + '</div>';
+    item.options.forEach(function(o){
+      html += '<div class="mcq-opt" data-id="' + item.id + '" data-letter="' + o.letter + '" onclick="pickMcq(' + item.id + ',\'' + o.letter + '\',this)">'
+        + '<span class="ltr">' + escapeHtml(o.letter) + '</span>' + escapeHtml(o.text)
+        + '</div>';
+    });
+    html += '</div>';
+  });
+  return html;
+}
+
+function renderNoteCompletion(part){
+  var html = '<div class="notes-card">';
+  html += '<h3>' + escapeHtml(part.noteTitle || 'Notes') + '</h3>';
+  if (part.subtitle) html += '<div class="subtitle">' + escapeHtml(part.subtitle) + '</div>';
+  part.rows.forEach(function(row){
+    if (row.prefilled !== undefined && row.id === undefined){
+      html += '<div class="notes-row"><span class="lbl">' + escapeHtml(row.label) + '</span><span class="prefilled">' + escapeHtml(row.prefilled) + '</span></div>';
+      return;
+    }
+    html += '<div class="notes-row" data-qslot="' + row.id + '">';
+    html += '<span class="lbl">' + escapeHtml(row.label) + '</span>';
+    html += '<span class="num">' + row.id + '</span>';
+    if (row.prefix) html += '<span class="pre">' + escapeHtml(row.prefix) + '</span>';
+    html += '<input type="text" data-id="' + row.id + '" oninput="pickInput(' + row.id + ', this.value)" placeholder="..." />';
+    if (row.suffix) html += '<span class="suf">' + escapeHtml(row.suffix) + '</span>';
+    html += '</div>';
+  });
+  html += '</div>';
+  return html;
+}
+
+// PART 4 (PET only) — 6 YES/NO sentences about a conversation
+function renderTrueFalse(part){
+  var html = '';
+  if (part.scenario) html += '<div class="scenario">' + escapeHtml(part.scenario) + '</div>';
+  html += '<div class="tf-list">';
+  part.items.forEach(function(item){
+    html += '<div class="q tf-row" data-qslot="' + item.id + '">';
+    html += '<div class="q-stem"><span class="q-num">' + item.id + '</span>' + escapeHtml(item.statement) + '</div>';
+    html += '<div class="tf-buttons">';
+    [['A','YES'],['B','NO']].forEach(function(pair){
+      var l = pair[0], lbl = pair[1];
+      html += '<button class="mcq-opt tf-btn" data-id="' + item.id + '" data-letter="' + l + '" onclick="pickMcq(' + item.id + ',\'' + l + '\',this)">'
+        + '<span class="ltr">' + l + '</span>' + lbl + '</button>';
+    });
+    html += '</div></div>';
+  });
+  html += '</div>';
+  return html;
+}
+
+// State
+var picks = {};
+function pickMcq(id, letter, el){
+  picks[id] = letter;
+  el.parentElement.querySelectorAll('.mcq-opt').forEach(function(x){ x.classList.remove('picked'); });
+  el.classList.add('picked');
+}
+function pickInput(id, value){ picks[id] = (value || '').trim(); }
+
+// Timer
+function startTimer(mins){
+  var total = mins * 60;
+  var t = document.getElementById('timer');
+  function tick(){
+    var m = Math.floor(total/60), s = total%60;
+    t.textContent = (m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+    if (total <= 0) { submitTest(); return; }
+    total -= 1;
+  }
+  tick(); setInterval(tick, 1000);
+}
+
+// Scoring
+function submitTest(){
+  var data = window.FCE_L_TEST;
+  if (!data) return;
+  var correct = 0, total = 0, parts = {};
+  data.parts.forEach(function(p){
+    parts[p.partNumber] = { correct: 0, total: 0 };
+    (p.items || []).forEach(function(it){
+      total++;
+      parts[p.partNumber].total++;
+      var ans = picks[it.id];
+      var key = it.answer;
+      var ok = false;
+      if (typeof key === 'string'){
+        // Accept any of /-separated alternatives
+        var alts = key.split('/').map(function(x){return x.trim().toLowerCase();});
+        if (ans && alts.indexOf(String(ans).trim().toLowerCase()) >= 0) ok = true;
+      }
+      if (ok) { correct++; parts[p.partNumber].correct++; }
+    });
+    (p.rows || []).forEach(function(row){
+      if (row.id === undefined) return;
+      total++;
+      parts[p.partNumber].total++;
+      var ans = picks[row.id];
+      var key = row.answer;
+      var ok = false;
+      if (typeof key === 'string'){
+        var alts = key.split('/').map(function(x){return x.trim().toLowerCase();});
+        if (ans && alts.indexOf(String(ans).trim().toLowerCase()) >= 0) ok = true;
+      }
+      if (ok) { correct++; parts[p.partNumber].correct++; }
+    });
+  });
+  var card = document.getElementById('results');
+  card.classList.add('show');
+  document.getElementById('scoreNum').textContent = correct + '/' + total;
+  document.getElementById('scoreDesc').textContent = 'You scored ' + correct + ' out of ' + total + ' correct.';
+  var bd = '';
+  Object.keys(parts).forEach(function(k){
+    bd += 'Part ' + k + ': ' + parts[k].correct + '/' + parts[k].total + '<br>';
+  });
+  document.getElementById('breakdown').innerHTML = bd;
+  markAnswers();
+  card.scrollIntoView({behavior:'smooth'});
+}
+
+// Walk every answer-bearing item/row and tag the corresponding DOM nodes
+// with .is-correct / .is-wrong + a small key chip for wrong/empty entries.
+function markAnswers(){
+  var data = window.FCE_L_TEST;
+  if (!data) return;
+  function isOk(picked, key){
+    if (typeof key !== 'string' || !picked) return false;
+    var alts = key.split('/').map(function(x){return x.trim().toLowerCase();});
+    return alts.indexOf(String(picked).trim().toLowerCase()) >= 0;
+  }
+  function firstAlt(key){ return String(key || '').split('/')[0].trim(); }
+
+  data.parts.forEach(function(p){
+    // Build a flat list of answerable entries (items + completion rows)
+    var entries = [];
+    (p.items || []).forEach(function(it){ if (it.id !== undefined && it.answer !== undefined) entries.push(it); });
+    (p.rows  || []).forEach(function(r){  if (r.id  !== undefined && r.answer !== undefined) entries.push(r); });
+
+    entries.forEach(function(it){
+      var picked = picks[it.id];
+      var ok = isOk(picked, it.answer);
+
+      // MCQ-style buttons (picture-mcq, mcq-conversation)
+      var opts = document.querySelectorAll('.mcq-opt[data-id="'+it.id+'"]');
+      if (opts.length){
+        opts.forEach(function(opt){
+          var letter = opt.getAttribute('data-letter');
+          if (letter === it.answer) opt.classList.add('is-correct');
+          else if (letter === picked) opt.classList.add('is-wrong');
+        });
+        return;
+      }
+
+      // note-completion input
+      var input = document.querySelector('.notes-row input[data-id="'+it.id+'"]');
+      if (input){
+        if (!picked && it.answer){
+          // Blank — fill verbatim key in an amber "revealed" treatment.
+          input.value = firstAlt(it.answer);
+          input.classList.add('is-revealed');
+        } else {
+          input.classList.add(ok ? 'is-correct' : 'is-wrong');
+          if (!ok){
+            var key = document.createElement('span');
+            key.className = 'ans-key';
+            key.textContent = '✓ ' + firstAlt(it.answer);
+            input.parentElement.appendChild(key);
+          }
+        }
+        return;
+      }
+
+      // matching-list drop slot (drag-drop on desktop)
+      var slot = document.querySelector('.match-slot[data-id="'+it.id+'"]');
+      if (slot){
+        slot.classList.add(ok ? 'is-correct' : 'is-wrong');
+        if (!ok){
+          var key = document.createElement('span');
+          key.className = 'ans-key';
+          key.textContent = '✓ ' + it.answer;
+          slot.appendChild(key);
+        }
+      }
+      // matching-list mobile dropdown
+      var dd = document.querySelector('.dd-mob[data-id="'+it.id+'"]');
+      if (dd){
+        var btn = dd.querySelector('.dd-mob-btn');
+        if (btn) btn.classList.add(ok ? 'is-correct' : 'is-wrong');
+        if (!ok){
+          var key = document.createElement('span');
+          key.className = 'ans-key';
+          key.textContent = '✓ ' + it.answer;
+          dd.appendChild(key);
+        }
+      }
+    });
+  });
+  document.body.classList.add('submitted');
+}
+</script>
+
+</body>
+</html>

@@ -6,12 +6,12 @@
 window.FCE_RW_TEST = {
   testInfo: {
     id: "fce-rw-01",
-    title: "FCE Reading — Test 1 (Reading only — Writing/Listening/Speaking later)",
-    paper: "Paper 1 · Reading",
+    title: "FCE Reading & Writing — Test 1 (Cambridge FCE 1)",
+    paper: "Paper 1 · Reading + Paper 2 · Writing",
     level: "B2",
-    totalTime: 60,
+    totalTime: 140,
     totalQuestions: 30,
-    parts: 3
+    parts: 5
   },
 
   reading: { parts: [
@@ -113,5 +113,75 @@ window.FCE_RW_TEST = {
 
   ] },
 
-  writing: { parts: [] }  // Writing tasks for Cambridge FCE 1 Test 1 — coming in a later session
+  writing: { parts: [
+
+    {
+      partNumber: 1, label: "PART 1", questionsLabel: "QUESTION 1",
+      type: "essay",
+      taskType: "Letter",
+      instruction: "You must answer this question. Write your answer in 120–150 words in an appropriate style. You are planning to visit your friend Robin in Canada. Robin has written to you. Read Robin's letter and the notes you have made. Then write a letter to Robin, using all your notes.",
+      topic: "My friends and I are going to a sports camp in the mountains in July. We'd love you to join us there. We can play tennis, hockey, football, basketball and other sports. We can stay in rooms or sleep in tents. Which would you prefer? We'll cook together in the evenings. Is there something special from your country that you could cook?\n\nYou could fly over to Canada a few days before the sports camp and stay with me here in the city. What would you like to do before we go to the camp?\n\nWrite soon.\nRobin",
+      notes: [
+        "Yes! Great because … — make a positive comment about the sports camp",
+        "Explain … — state your preference for sleeping arrangements (rooms or tents)",
+        "Say which and why — give details of something special from your country that you could cook",
+        "Tell Robin — what you would like to do before the camp"
+      ],
+      wordMin: 120, wordMax: 150
+    },
+
+    {
+      partNumber: 2, label: "PART 2", questionsLabel: "QUESTIONS 2–5",
+      type: "choice-of-three",
+      instruction: "Write an answer to ONE of the questions 2–5 in this part. Write your answer in 120–180 words in an appropriate style.",
+      wordMin: 120, wordMax: 180,
+      choices: [
+        {
+          id: "q2-application",
+          heading: "Q2 · Letter of Application",
+          taskType: "Letter of Application",
+          prompt: "You see this advertisement in an English language newspaper:\n\nINTERNATIONAL BOOKSHOP REQUIRES SUMMER STAFF\n• Do you like books and reading?\n• Do you speak English?\n• Do you have any useful experience?\nApply to the manager, Mrs Benson, saying why you think you are suitable for a job in our international bookshop.\n\nWrite your letter of application. Do not write any postal addresses."
+        },
+        {
+          id: "q3-review",
+          heading: "Q3 · TV Review",
+          taskType: "Review",
+          prompt: "You recently saw this notice in an international entertainment magazine:\n\nReviews needed!\nWe are starting a new section in the magazine called 'Great TV Programmes around the World'. Could you write a review of your favourite TV programme for this section? In your review, say what kind of programme it is, what happens in the programme and why you like it so much. The best reviews will be published in the magazine.\n\nWrite your review."
+        },
+        {
+          id: "q4-story",
+          heading: "Q4 · Story",
+          taskType: "Story",
+          prompt: "You have decided to enter a short story competition in an international magazine. The story must begin with the following words:\n\nAlison read the note, smiled, and immediately put on her coat.\n\nWrite your story."
+        },
+        {
+          id: "q5a-citadel",
+          heading: "Q5(a) · The Citadel — Essay",
+          taskType: "Essay",
+          prompt: "Answer based on the following title:\n\n(a) The Citadel by A. J. Cronin\n\nOn several occasions in The Citadel, Andrew Manson meets a person who deliberately makes life difficult for him. Write an essay describing one of these situations and saying how Andrew deals with it.\n\nWrite your essay."
+        },
+        {
+          id: "q5b-around-world",
+          heading: "Q5(b) · Around the World in 80 Days — Letter",
+          taskType: "Letter",
+          prompt: "Answer based on the following title:\n\n(b) Around the World in 80 Days by Jules Verne\n\nThis is part of a letter from your English-speaking penfriend:\n\n\"Having read Around the World in 80 Days, it's easy to see that travelling was more enjoyable in the days before the invention of the aeroplane — don't you agree?\"\n\nWrite a letter to your penfriend giving your opinion. Do not write any postal addresses."
+        }
+      ],
+      samples: [
+        {
+          forChoice: "q2-application",
+          band: 2,
+          title: "Sample A — Band 2 (verbatim from book p. 109)",
+          text: "International Book Shop Manager\nDear Mrs Benson\nRe: Application\n\nI am writing to apply for international Book Shop Job. I saw your advertisement in an English language newspaper.\n\nI have certificate in English. I am intersting in reading books especially English book.\n\nLast summer I worked in Tower Hamlet Book Shop which abeted me to developed a skills of working in difficult situation and team work.\n\nI believed, I am a hard worker, good listener and friendly.\n\nI look forward to hearing from you.\n\nYour sincerely"
+        },
+        {
+          forChoice: "q3-review",
+          band: 3,
+          title: "Sample B — Band 3 (verbatim from book p. 110)",
+          text: "I usually not watch TV programmes because I prefer reading a book and seeing a film to watching TV but I always make sure to watch one programme on TV which is 'Open Concert'. It is a kind of music programme that shows once a week. 'Open Concert' is consist of several guests and a MC. The guests sing a song and talk with the MC about thier music which is like a real concert.\n\nLast week I also saw that programme and the guest was very famos singer who songs lots of his song which was brilliant. I would like to see him again.\n\nHowever, they changed their programme's timetable which is a little bit confused because I didn't know that so I missed one which was three weeks ago. therefore I was a bit disappointed. They should have noticed but they didn't. Although they had a mistake, I still like this programme."
+        }
+      ]
+    }
+
+  ] }
 };
