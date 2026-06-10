@@ -213,6 +213,8 @@
         'Content-Type': 'application/json',
         'apikey': SB_KEY,
         'Authorization': 'Bearer ' + SB_KEY,
+        'x-ms-center': ((typeof window !== 'undefined' && window.__CENTER_ID) || 'mockstream'),
+        'x-ms-skill': 'vision',
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify(body)
