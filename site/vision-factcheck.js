@@ -152,7 +152,7 @@
     };
     var res = await fetch(PROVIDER_ENDPOINTS.gemini, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'x-ms-center': ((typeof window !== 'undefined' && window.__CENTER_ID) || 'mockstream'), 'x-ms-skill': 'vision' },
+      headers: { 'Content-Type': 'application/json', 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'x-ms-center': ((typeof window !== 'undefined' && window.__CENTER_ID) || 'mock_stream'), 'x-ms-skill': 'vision' },
       body: JSON.stringify(body)
     });
     if (!res.ok) {
@@ -183,7 +183,7 @@
     };
     var res = await fetch(endpoint, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'x-ms-center': ((typeof window !== 'undefined' && window.__CENTER_ID) || 'mockstream'), 'x-ms-skill': 'vision' },
+      headers: { 'Content-Type': 'application/json', 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'x-ms-center': ((typeof window !== 'undefined' && window.__CENTER_ID) || 'mock_stream'), 'x-ms-skill': 'vision' },
       body: JSON.stringify(body)
     });
     if (!res.ok) {
@@ -213,7 +213,7 @@
         'Content-Type': 'application/json',
         'apikey': SB_KEY,
         'Authorization': 'Bearer ' + SB_KEY,
-        'x-ms-center': ((typeof window !== 'undefined' && window.__CENTER_ID) || 'mockstream'),
+        'x-ms-center': ((typeof window !== 'undefined' && window.__CENTER_ID) || 'mock_stream'),
         'x-ms-skill': 'vision',
         'anthropic-version': '2023-06-01'
       },
