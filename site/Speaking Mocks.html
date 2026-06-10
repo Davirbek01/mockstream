@@ -14700,6 +14700,15 @@ function printAiModal() {
         if (practiceAiBtn && !isPremiumEntry) {
           practiceAiBtn.style.display = 'block';
         }
+        // Regular (non-premium) users get no auto AI scoring — surface a
+        // prominent upgrade card in the finish card instead of a dead-end.
+        if (!isPremiumEntry && window.PremiumGate && PremiumGate.renderUpsellCard) {
+          const _disp = document.getElementById('aiScoreDisplay');
+          if (_disp && _disp.parentNode) {
+            const _uc = PremiumGate.renderUpsellCard(_disp.parentNode, 'speaking');
+            if (_uc) _disp.parentNode.insertBefore(_uc, _disp);
+          }
+        }
       })();
 
       document.addEventListener('click', async e => {

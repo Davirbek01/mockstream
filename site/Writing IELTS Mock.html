@@ -6205,8 +6205,15 @@
           document.getElementById('practiceScoreLabel').textContent = tNames[tid];
           document.getElementById('practiceScoreSection').style.display = 'block';
           document.getElementById('practiceScoreBar').style.display = 'none';
-          // Show disabled AI Score button for non-premium
-          document.getElementById('practiceAiScoreBtn').style.display = 'block';
+          // Regular users get no AI grade — show a prominent upgrade card
+          // instead of the disabled AI Score button.
+          if (window.PremiumGate && PremiumGate.renderUpsellCard) {
+            const _pBtn = document.getElementById('practiceAiScoreBtn');
+            if (_pBtn && _pBtn.parentNode) {
+              const _uc = PremiumGate.renderUpsellCard(_pBtn.parentNode, 'writing');
+              if (_uc) _pBtn.parentNode.insertBefore(_uc, _pBtn);
+            }
+          }
         }
 
         document.getElementById('practiceFinish').style.display = 'flex';
@@ -6415,6 +6422,15 @@
 
         // Single-take: mark this writing mock as taken for non-premium users
         if (!isPremiumEntry) {
+          // Regular users get no AI grade — surface a prominent upgrade card
+          // in the finish card instead of a silent dead-end.
+          if (window.PremiumGate && PremiumGate.renderUpsellCard) {
+            const _disp = document.getElementById('aiScoreDisplay');
+            if (_disp && _disp.parentNode) {
+              const _uc = PremiumGate.renderUpsellCard(_disp.parentNode, 'writing');
+              if (_uc) _disp.parentNode.insertBefore(_uc, _disp);
+            }
+          }
         }
 
         // Silent auto-submit for regular codes (no AI)

@@ -282,6 +282,43 @@
     });
   }
 
+  // Render an inline "upgrade to unlock AI feedback" card into a container.
+  // Shown to REGULAR-tier users on result/finish screens where the premium
+  // auto-AI analysis does not run, instead of leaving a silent dead-end.
+  // Clicking opens the existing upgrade modal (with the Telegram purchase CTA).
+  // No-op for premium/admin, and idempotent per container.
+  function renderUpsellCard(container, skill, opts) {
+    try {
+      if (typeof container === 'string') container = document.querySelector(container);
+      if (!container) return null;
+      if ((skill && isPremiumTier(skill)) || isAdmin()) return null;
+      var existing = container.querySelector(':scope > .pg-upsell-card');
+      if (existing) { existing.style.display = ''; return existing; }
+      var card = document.createElement('div');
+      card.className = 'pg-upsell-card';
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.style.cssText = 'margin-top:16px;padding:18px 20px;border-radius:14px;cursor:pointer;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;box-shadow:0 6px 18px rgba(124,58,237,0.35);text-align:left;transition:transform .15s ease,box-shadow .15s ease;';
+      card.innerHTML =
+        '<div style="display:flex;align-items:center;gap:12px;">' +
+          '<div style="font-size:30px;line-height:1;">🔒</div>' +
+          '<div style="flex:1;min-width:0;">' +
+            '<div style="font-weight:900;font-size:16px;margin-bottom:3px;">Unlock your AI band score &amp; feedback</div>' +
+            '<div style="font-size:12.5px;opacity:0.92;line-height:1.5;">See your real band, detailed corrections and model answers. Upgrade to <b>Premium</b> — one code unlocks instant AI scoring across all skills.</div>' +
+          '</div>' +
+          '<div style="background:rgba(255,255,255,0.18);border-radius:10px;padding:9px 14px;font-weight:800;font-size:13px;white-space:nowrap;">💎 Upgrade</div>' +
+        '</div>';
+      function go() { openUpgradeModal((skill || 'result') + '_result_upsell'); }
+      card.addEventListener('click', go);
+      card.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+      card.addEventListener('mouseover', function () { card.style.transform = 'translateY(-2px)'; card.style.boxShadow = '0 8px 22px rgba(124,58,237,0.45)'; });
+      card.addEventListener('mouseout',  function () { card.style.transform = 'translateY(0)';     card.style.boxShadow = '0 6px 18px rgba(124,58,237,0.35)'; });
+      if (opts && opts.prepend && container.firstChild) container.insertBefore(card, container.firstChild);
+      else container.appendChild(card);
+      return card;
+    } catch (e) { return null; }
+  }
+
   // Derive the skill name from the reason string so applyLockBadge can re-check
   // isPremiumTier(skill) at click time. Reasons follow the convention
   //   <prefix>_<skill>[_<exam>]  (e.g. 'plus_speaking', 'part_practice_listening_cefr',
@@ -359,6 +396,7 @@
     recordSubmit:      recordSubmit,
     fetchTakenForUser: fetchTakenForUser,
     openUpgradeModal:  openUpgradeModal,
+    renderUpsellCard:  renderUpsellCard,
     applyLockBadge:    applyLockBadge,
     _normName:         _normName,
     _center:           _center,
