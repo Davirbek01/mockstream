@@ -50,6 +50,8 @@
 ▸ GRAMMATICAL RANGE & ACCURACY (both tasks):
 9: wide range with full flexibility & control; punctuation & grammar appropriate throughout; minor errors extremely rare. 8: wide range, flexibly & accurately used; majority of sentences error-free; occasional non-systematic errors, minimal impact. 7: variety of complex structures with some flexibility & accuracy; generally well controlled, error-free sentences frequent; a few errors persist but don't impede. 6: mix of simple & complex forms, limited flexibility; complex structures less accurate than simple; errors occur but rarely impede. 5: limited & repetitive range; complex sentences attempted but faulty; greatest accuracy on simple sentences; errors may be frequent & cause difficulty; punctuation may be faulty. 4: very limited range; subordinate clauses rare, simple sentences predominate; some accurate but frequent errors may impede; punctuation often faulty.
 
+📌 MODEL ANSWERS: any sample/model answer you generate MUST itself fully satisfy the Band 9 descriptors above (TR/TA, CC, LR, GRA) — write it as a genuine Band-9 exemplar that visibly demonstrates those features (fully developed position, wide accurate range of structures, precise wide vocabulary, skilful cohesion). For any band-specific sample (e.g. Band 5/6/7/8/9), make it match THAT band's descriptors precisely — no higher, no lower.
+
 ⚠️ PENALTIES:
 - Below the required word count → cap the affected criteria around 5 (especially Task Achievement).
 - Memorised or off-topic content → cap Task Achievement at 4.
@@ -139,6 +141,8 @@ Five criteria are judged: (1) Task fulfilment, (2) Grammatical structures, (3) V
 1 (A2): very little attention to the task; ideas unclear / partly off-topic; sentence-level with many errors; insufficient vocabulary; no coherent text; very short (≤37 words).
 0: no meaningful text / heavy L1 / memorised / blank.
 
+📌 MODEL ANSWERS: any sample/model answer you generate MUST itself fully satisfy the TOP-band descriptor above for that part (max 5 for Task 1.1/1.2, max 6 for Part 2) — write it as a genuine top-band exemplar that visibly demonstrates those exact features (full content-point coverage, accurate complex structures, rich vocabulary, appropriate register, skilful cohesion). For any band-specific sample, make it match THAT band's descriptor precisely — no higher, no lower.
+
 RAW SCORE → CERTIFICATE CONVERSION (use exactly):
 16→75, 15→69, 14→65, 13→63, 12→61, 11→57, 10→53, 9→50, 8→47, 7→43, 6→40, 5→37, 4→33, 3→28, 2→21, 1→14, 0→0
 
@@ -183,6 +187,8 @@ PART 3 CRITERIA (Q8 For-&-Against discussion) — Max 6 (B1–C1+ range):
 4 (Higher B2): covers the conditions of EACH section | 3 (Lower B2): covers only ONE section — some complex structures accurate, errors don't distort meaning; vocabulary sufficient, wrong choices don't impede; intelligible pronunciation, word-search pauses don't strain; a limited range of connectors.
 2 (Higher B1): cannot form coherent speech and over-relies on the input prompts | 1 (Lower B1): reads the input text directly — simple grammar correct, errors in complex; vocabulary shortage hinders the task; pronunciation occasionally causes difficulty.
 0: below B1 / meaningless / memorised.
+
+📌 MODEL ANSWERS: any sample/model response you generate MUST itself fully satisfy the TOP-band descriptor above for that part (max 5 for Parts 1.1/1.2/2, max 6 for Part 3) — write it as a genuine top-band exemplar that demonstrates those exact features (full coverage of all questions/sub-questions, accurate complex structures, wide vocabulary, clear pronunciation cues, wide range of connectors). For any band-specific sample, make it match THAT band's descriptor precisely.
 
 CERTIFICATE CONVERSION: 21→75, 20→71, 19→67, 18→64, 17→61, 16→57, 15→54, 14→51, 13→49, 12→46, 11→43, 10→40, 9→38, 8→35, 7→32, 6→29, 5→26, 4→23, 3→19, 2→15, 1→11, 0→0
 
@@ -254,6 +260,8 @@ Band 1: Can produce occasional individual words and phonemes that are recognisab
 Band 0: Does not attend.
 
 OVERALL BAND SCORE: The average of the four criteria scores, rounded to the nearest 0.5.
+
+📌 MODEL ANSWERS: any sample/model response you generate MUST itself fully satisfy the Band 9 descriptors above (FC, LR, GRA, P) — write it as a genuine Band-9 exemplar demonstrating those features. For any band-specific sample, make it match THAT band's descriptors precisely.
 
 ═══════════════════════════════════════════════════════════════════════════════
                     IELTS SPEAKING TEST STRUCTURE
