@@ -334,6 +334,9 @@
           <div class="sysprompt-field">
             <textarea id="sp_view_cefr_writing_core" readonly placeholder="Loading rubric…" style="min-height:340px;background:#f1f5f9;color:#475569;cursor:default;"></textarea>
           </div>
+          <div style="margin:10px 0 0;padding:8px 12px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;font-size:11px;color:#92400e;line-height:1.5;">
+            🎯 <b>Practice mode</b> uses this <b>same rubric</b> — there is no separate practice rubric. It only prepends a scoping note: score ONLY the selected task on its own band scale (Task 1.1 &amp; 1.2 → 0–5, Part 2 → 0–6), return 0 for the other tasks, with an encouraging-but-fair calibration. (The half-point "selected-tasks" practice variant is the one exception — it runs on its own ½-point model.)
+          </div>
         </div>
         <!-- CEFR Speaking -->
         <div class="sysprompt-section" id="sec-cefr-speaking">
@@ -343,6 +346,9 @@
           </div>
           <div class="sysprompt-field">
             <textarea id="sp_view_cefr_speaking_core" readonly placeholder="Loading rubric…" style="min-height:340px;background:#f1f5f9;color:#475569;cursor:default;"></textarea>
+          </div>
+          <div style="margin:10px 0 0;padding:8px 12px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;font-size:11px;color:#92400e;line-height:1.5;">
+            🎯 <b>Practice mode</b> uses this <b>same rubric</b> — there is no separate practice rubric. Single-part practice only prepends a scoping note: score ONLY the selected part on its own band scale (Parts 1.1/1.2/2 → 0–5, Part 3 → 0–6) and return 0 for the others.
           </div>
         </div>
         <!-- IELTS Writing -->
@@ -354,6 +360,9 @@
           <div class="sysprompt-field">
             <textarea id="sp_view_ielts_writing_core" readonly placeholder="Loading rubric…" style="min-height:340px;background:#f1f5f9;color:#475569;cursor:default;"></textarea>
           </div>
+          <div style="margin:10px 0 0;padding:8px 12px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;font-size:11px;color:#92400e;line-height:1.5;">
+            🎯 <b>Practice mode</b> uses this <b>same rubric</b> — there is no separate practice rubric. Single-task practice only prepends a scoping note: score ONLY the selected task (TA or TR + CC/LR/GRA, each 0–9) and return 0 for the other task.
+          </div>
         </div>
         <!-- IELTS Speaking -->
         <div class="sysprompt-section" id="sec-ielts-speaking">
@@ -363,6 +372,9 @@
           </div>
           <div class="sysprompt-field">
             <textarea id="sp_view_ielts_speaking_core" readonly placeholder="Loading rubric…" style="min-height:340px;background:#f1f5f9;color:#475569;cursor:default;"></textarea>
+          </div>
+          <div style="margin:10px 0 0;padding:8px 12px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;font-size:11px;color:#92400e;line-height:1.5;">
+            🎯 <b>Practice mode</b> uses this <b>same rubric</b> — there is no separate practice rubric. Part practice only prepends a scoping note: score the selected part on FC/LR/GRA/P (each 0–9).
           </div>
         </div>
 
