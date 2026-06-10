@@ -4380,6 +4380,12 @@
     // ===== FULLSCREEN TOGGLE =====
     function toggleExamFullscreen() {
       try {
+        if (window.top === window.self) {
+          var _fsEl = document.documentElement;
+          if (document.fullscreenElement || document.webkitFullscreenElement) { (document.exitFullscreen||document.webkitExitFullscreen||function(){}).call(document); }
+          else { (_fsEl.requestFullscreen||_fsEl.webkitRequestFullscreen||function(){}).call(_fsEl); }
+          return;
+        }
         window.top.postMessage('toggleFullscreen', '*');
       } catch(e) {
         // Fallback if not in iframe
