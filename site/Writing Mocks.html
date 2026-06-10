@@ -14869,6 +14869,15 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
 
         // Single-take: mark this writing mock as taken for non-premium users
         if (!isPremiumEntry) {
+          // Regular users get no AI grade — surface a prominent upgrade card
+          // in the finish card instead of a silent dead-end.
+          if (window.PremiumGate && PremiumGate.renderUpsellCard) {
+            const _disp = document.getElementById('aiScoreDisplay');
+            if (_disp && _disp.parentNode) {
+              const _uc = PremiumGate.renderUpsellCard(_disp.parentNode, 'writing');
+              if (_uc) _disp.parentNode.insertBefore(_uc, _disp);
+            }
+          }
         }
       } catch (err) {
         if (window._hideProcessing) window._hideProcessing();
