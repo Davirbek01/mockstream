@@ -9901,6 +9901,9 @@
 
             // Mark that code was validated (for PDF download access)
             sessionStorage.setItem('speakingCodeValidated', 'true');
+            if (window.PremiumGate && PremiumGate.showTierNotice) {
+              await new Promise(function (resolve) { PremiumGate.showTierNotice({ tier: validationResult.premiumEntry ? 'premium' : 'regular', skill: 'speaking', onContinue: resolve }); });
+            }
           }
         }
 
