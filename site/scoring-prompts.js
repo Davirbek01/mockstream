@@ -97,11 +97,33 @@ CEFR exams test COMMUNICATIVE COMPETENCE, not perfection. These are ESL/EFL lear
 - [L1: foreign word]
 Never write a tag without the correction (e.g. NOT "[PUNCT: for->]").
 
-=== CALIBRATION SAMPLES (use to judge level) ===
-A1–A2 (1–2/5, cert 30–45): "Hi my freind, I get message from coordnator today. They ask what project we want do for comunity." — missing articles, wrong verb forms, spelling errors, basic vocabulary.
-B1 (3/5, cert 47–55): "I got a message from the coordinator yesterday, and they asked us to share some ideas for the next community project. I believe we should focus on something that really bring benefit to local people." — subject–verb disagreement, article issues, weak connectors.
-B2 (4/5, cert 57–65): "I received the coordinator's message earlier today, and it seems they want us to propose some ideas for improving the community work next term." — minor slips, accurate but not sophisticated.
-C1 (5/5, cert 67–75): "I've just read the coordinator's announcement, and it appears they are expecting us to design several potential initiatives for next term." — near-flawless, sophisticated.
+=== OFFICIAL PER-PART BAND DESCRIPTORS (score each part on its OWN scale) ===
+Five criteria are judged: (1) Task fulfilment, (2) Grammatical structures, (3) Vocabulary, (4) Coherence & cohesion, (5) Punctuation & spelling. Within a part, the band is driven by HOW MANY of the task's content points/conditions are addressed AND the quality features below. Score each part independently.
+
+▸ TASK 1.1 — informal email to a friend (~50 words, B1 target) — 0–5:
+5: performance above B1.
+4 (Higher B1): on-topic; MOST content points covered; register may not always be consistent; simple structures well-controlled but errors when attempting complex ones; punctuation/spelling mostly correct (errors don't impede); vocabulary sufficient; simple linkers used.
+3 (Lower B1): partly on-topic; AT LEAST ONE content point addressed; grammar/vocabulary/cohesion otherwise as band 4.
+2 (A2): at least one condition met; only sentence-level simple structures; frequent errors in simple structures sometimes impede understanding; punctuation/spelling errors noticeable; vocabulary insufficient / wrong word choices impede; may lack coherence; length may be ≤50% of required.
+1 (A1): below A2, or heavy L1 use, or no meaningful language, or fully off-topic/memorised.
+0: blank / no attempt.
+
+▸ TASK 1.2 — formal reply email (120–150 words, B2 target) — 0–5:
+5 (C1): ALL conditions covered; formal register always appropriate; wide range of complex structures accurate (minor errors don't impede); no spelling/punctuation errors; rich vocabulary (occasional slightly inappropriate choice); varied complex linkers.
+4 (Higher B2): on-topic; all conditions covered; register consistently appropriate; some complex structures accurate, errors don't distort meaning; minor spelling/punctuation errors don't impede; sufficient vocabulary; a limited range of linkers.
+3 (Lower B2): MOST conditions covered; register may not always match; grammar/spelling/vocabulary/linkers otherwise as band 4.
+2 (B1): SOME conditions met; register not always appropriate; simple structures well-controlled, errors in complex; spelling/punctuation mostly correct; vocabulary sufficient; simple linkers; may be short (~25–60 words).
+1 (A2): some conditions; no sense of formal/informal register; only simple sentences; frequent simple-grammar errors impede; spelling errors noticeable; vocabulary insufficient; no coherence; very short (≤24 words).
+0: no meaningful writing / heavy L1 / blank.
+
+▸ PART 2 — informational text: blog/forum/article (180–200 words, C1 target) — 0–6:
+6 (C2): performance above C1.
+5 (C1): fully addresses the question with a clear viewpoint + relevant arguments; varied complex structures accurate (minor errors don't impede); rich, varied vocabulary covering the topic broadly; well-organised paragraphs; smooth flow with natural linking expressions.
+4 (Higher B2): question clearly addressed (minor digressions possible); position clearly discernible; some complex structures accurate, errors don't distort; minor spelling/punctuation don't impede; sufficient vocabulary; clear structure, some linkers, logical flow.
+3 (Lower B2): mostly on-topic but position unclear OR some off-topic sections; grammar/spelling/vocabulary otherwise as band 4; some organisation, transitions vague or mechanical; may be incomplete.
+2 (B1): mostly relevant but position unclear; simple structures well-controlled, errors in complex; spelling mostly correct; occasional wrong word choice causes misunderstanding; simple linkers; may be short (38–90 words).
+1 (A2): very little attention to the task; ideas unclear / partly off-topic; sentence-level with many errors; insufficient vocabulary; no coherent text; very short (≤37 words).
+0: no meaningful text / heavy L1 / memorised / blank.
 
 RAW SCORE → CERTIFICATE CONVERSION (use exactly):
 16→75, 15→69, 14→65, 13→63, 12→61, 11→57, 10→53, 9→50, 8→47, 7→43, 6→40, 5→37, 4→33, 3→28, 2→21, 1→14, 0→0
@@ -119,38 +141,34 @@ SCORING STRUCTURE:
 • Part 3 (Q8): Discussion → ONE score 0-6 (C1 target)
 TOTAL RAW: 21 points (5+5+5+6)
 
-PART 1.1 CRITERIA (Q1-3) — Max 5:
-5 = Above A2 level
-4 = ALL THREE on-topic, simple grammar with systematic errors, sufficient vocabulary
-3 = TWO on-topic with same features
-2 = TWO on-topic but limited to words/phrases, basic errors impede understanding
-1 = ONE on-topic OR all responses off-topic but candidate spoke (participation credit)
-0 = No meaningful language at all (silence / no speech detected)
+Within a part, the band is driven by HOW MANY answers/sub-questions are on-topic AND the quality features below (official descriptors).
 
-PART 1.2 CRITERIA (Q4-6) — Max 5:
-5 = Above B1 level
-4 = ALL THREE on-topic, simple structures correct, errors in complex structures
-3 = TWO on-topic with same features
-2 = TWO on-topic but basic mistakes systematically occur
-1 = ONE on-topic OR all responses off-topic but candidate spoke (participation credit)
-0 = No meaningful speech detected
+PART 1.1 CRITERIA (Q1-3, personal questions) — Max 5 (A1–A2+ range):
+5: above A2.
+4: ALL THREE answers on-topic | 3: TWO on-topic — both share these features: some simple structures used correctly but elementary errors occur regularly; vocabulary sufficient to answer but wrong word choices noticeable; pronunciation errors noticeable and frequently strain the listener; frequent pauses, false starts and reformulations, but the idea is understandable.
+2 (Higher A1): at least TWO on-topic — grammar limited to isolated words/simple phrases; errors in basic patterns impede understanding; vocabulary limited to the most basic personal-information words; pronunciation mostly unintelligible apart from isolated words; frequent pauses/reformulations impede.
+1 (Lower A1): only ONE on-topic; otherwise same features as band 2.
+0: no meaningful speech, or all answers fully off-topic/memorised.
 
-PART 2 CRITERIA (Q7) — Max 5:
-5 = Above B2 level
-4 = ALL THREE bullet points addressed, complex grammar with minor errors
-3 = TWO bullet points addressed
-2 = TWO addressed but simple structures only
-1 = ONE addressed OR response off-topic but candidate spoke (participation credit)
-0 = No meaningful speech detected
+PART 1.2 CRITERIA (Q4-6, picture-based) — Max 5 (A2–B1+ range):
+5: above B1.
+4: ALL THREE on-topic | 3: TWO on-topic — simple structures used correctly, errors only when attempting complex ones; vocabulary controlled enough for the task (errors when expressing complex ideas); pronunciation mostly intelligible, some mispronounced words occasionally cause difficulty; some pauses/false starts/reformulations; only simple connectors, links between ideas not always clear.
+2 (Higher A2): at least TWO on-topic — some simple grammar may be correct but basic errors still occur regularly; vocabulary sufficient but inappropriate choices noticeable; pronunciation errors noticeable and cause difficulty; very limited cohesion — answers resemble a list of points.
+1 (Lower A2): only ONE on-topic; otherwise same as band 2.
+0: below A2 / no meaningful speech / memorised-off-topic.
 
-PART 3 CRITERIA (Q8) — Max 6:
-6 = Above C1 level
-5 = Points from EACH SECTION (For & Against), complex grammar, range of vocabulary
-4 = Points from EACH SECTION, some complex grammar
-3 = Points from ONLY ONE SECTION
-2 = Heavily dependent on input prompts
-1 = Reads directly from prompts OR response off-topic but candidate spoke (participation credit)
-0 = No meaningful speech detected
+PART 2 CRITERIA (Q7 monologue, 3 sub-questions) — Max 5 (B1–B2+ range):
+5: above B2.
+4: ALL THREE sub-questions answered | 3: TWO answered — some complex structures used accurately, errors don't impede; vocabulary enough to discuss the topics comfortably, inappropriate choices don't impede; pronunciation intelligible, mispronunciations don't strain or distract; some pauses searching for words but they don't burden listening; a limited range of connectors.
+2 (Higher B1): at least TWO sub-questions on-topic | 1 (Lower B1): only ONE — simple structures correct, errors in complex ones; vocabulary limitations make full completion hard; pronunciation mostly intelligible but occasionally causes difficulty; some pauses/reformulations; only simple connectors.
+0: below B1 / meaningless / fully off-topic.
+
+PART 3 CRITERIA (Q8 For-&-Against discussion) — Max 6 (B1–C1+ range):
+6: above C1.
+5 (C1): very clear presentation highlighting the key points of EACH section; explains reasons FOR and AGAINST a viewpoint; wide range of complex structures used accurately (minor errors don't impede); wide-ranging vocabulary (occasional odd usage); very clear, intelligible pronunciation; backtracking/reformulation doesn't stop the flow; wide range of complex connectors clearly linking ideas.
+4 (Higher B2): covers the conditions of EACH section | 3 (Lower B2): covers only ONE section — some complex structures accurate, errors don't distort meaning; vocabulary sufficient, wrong choices don't impede; intelligible pronunciation, word-search pauses don't strain; a limited range of connectors.
+2 (Higher B1): cannot form coherent speech and over-relies on the input prompts | 1 (Lower B1): reads the input text directly — simple grammar correct, errors in complex; vocabulary shortage hinders the task; pronunciation occasionally causes difficulty.
+0: below B1 / meaningless / memorised.
 
 CERTIFICATE CONVERSION: 21→75, 20→71, 19→67, 18→64, 17→61, 16→57, 15→54, 14→51, 13→49, 12→46, 11→43, 10→40, 9→38, 8→35, 7→32, 6→29, 5→26, 4→23, 3→19, 2→15, 1→11, 0→0
 
