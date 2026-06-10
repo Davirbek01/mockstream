@@ -6348,22 +6348,8 @@
     // ── AI Routing Mode (Gemma4 / API / BOTH) per skill ─────────────────────
     var _aiRoutingModeCache = {}, _aiRoutingModeCacheTime = {};
     async function _getAiRoutingMode(skill) {
-      skill = skill || 'speaking';
-      if (_aiRoutingModeCache[skill] && Date.now() - (_aiRoutingModeCacheTime[skill] || 0) < 60000) return _aiRoutingModeCache[skill];
-      try {
-        var centerId = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
-        var skillKey = 'ai_routing_mode_' + skill + '_' + centerId;
-        var legacyKey = 'ai_routing_mode_' + centerId;
-        var r = await fetch('https://zknyukkbtbcqgvkgjktb.supabase.co/rest/v1/site_settings?key=in.(' + skillKey + ',' + legacyKey + ')&select=key,value', {
-          headers: { 'apikey': 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2', 'Authorization': 'Bearer sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2' }
-        });
-        var rows = await r.json();
-        var skillRow = Array.isArray(rows) && rows.find(function(x){ return x.key === skillKey; });
-        var legacyRow = Array.isArray(rows) && rows.find(function(x){ return x.key === legacyKey; });
-        _aiRoutingModeCache[skill] = (skillRow && skillRow.value) || (legacyRow && legacyRow.value) || 'api';
-      } catch(e) { _aiRoutingModeCache[skill] = 'api'; }
-      _aiRoutingModeCacheTime[skill] = Date.now();
-      return _aiRoutingModeCache[skill];
+      // Gemma4 / local-AI routing removed — always use the selected cloud provider.
+      return 'api';
     }
 
     var _GEMMA4_URL = 'https://ai.mock-stream.com';

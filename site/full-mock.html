@@ -15,6 +15,7 @@
     <script src="center-id.js"></script>
     <script src="site-config/site-config.js"></script>
     <script src="supabase-send.js"></script>
+    <script src="scoring-prompts.js"></script>
     <script src="session-recovery.js"></script>
     <script>
         if (window.SITE_CONFIG) {
@@ -8726,23 +8727,9 @@
         // ── AI Routing Mode (Gemma4 / API / BOTH) per skill ─────────────────────
         var _aiRoutingModeCache = {}, _aiRoutingModeCacheTime = {};
         async function _getAiRoutingMode(skill) {
-          skill = skill || 'writing';
-          if (_aiRoutingModeCache[skill] && Date.now() - (_aiRoutingModeCacheTime[skill] || 0) < 60000) return _aiRoutingModeCache[skill];
-          try {
-            var centerId = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
-            // Try skill-specific key first, fallback to legacy key
-            var skillKey = 'ai_routing_mode_' + skill + '_' + centerId;
-            var legacyKey = 'ai_routing_mode_' + centerId;
-            var r = await fetch('https://zknyukkbtbcqgvkgjktb.supabase.co/rest/v1/site_settings?key=in.(' + skillKey + ',' + legacyKey + ')&select=key,value', {
-              headers: { 'apikey': 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2', 'Authorization': 'Bearer sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2' }
-            });
-            var rows = await r.json();
-            var skillRow = Array.isArray(rows) && rows.find(function(x){ return x.key === skillKey; });
-            var legacyRow = Array.isArray(rows) && rows.find(function(x){ return x.key === legacyKey; });
-            _aiRoutingModeCache[skill] = (skillRow && skillRow.value) || (legacyRow && legacyRow.value) || 'api';
-          } catch(e) { _aiRoutingModeCache[skill] = 'api'; }
-          _aiRoutingModeCacheTime[skill] = Date.now();
-          return _aiRoutingModeCache[skill];
+          // Gemma4 / local-AI routing removed — always use the selected cloud
+          // provider (scoring_ai_provider / per-centre). Never 'gemma4' or 'both'.
+          return 'api';
         }
 
         var _GEMMA4_URL = 'https://ai.mock-stream.com';
@@ -9159,96 +9146,10 @@
                 const t12Words = t12.split(/\s+/).filter(x => x).length;
                 const t2Words = t2.split(/\s+/).filter(x => x).length;
 
-                const systemPrompt = 'You are an expert examiner providing CONSTRUCTIVE feedback. FEEDBACK STYLE: Give specific, actionable improvement points in bullet format (• point). Focus on WHAT TO IMPROVE, not compliments. Identify: grammar patterns (fossilized errors, systematic mistakes, basic vs complex structures), vocabulary limitations, spelling patterns, redundancy, punctuation issues. SCORING: Focus on communication success. Minor errors are normal. Score what students CAN do. CALIBRATION: Your scores tend to be too LOW — adjust UP by 1 point per task to match human examiners. ANTI-BOILERPLATE: NEVER include generic feedback (e.g. Improve article usage, Vary sentence structure) unless you can cite the EXACT sentence from the student text where the error occurs. Every feedback point MUST quote a specific example from the text and show the CORRECTED version. NEVER say Consider rephrasing without showing the fix. USE WHOLE NUMBER SCORES ONLY.';
+                // Shared rubric core (single source of truth — scoring-prompts.js).
+                const prompt = `${window.ScoringPrompts.CEFR_WRITING_CORE}
 
-                const prompt = `${systemPrompt}
-
-⚠️ SCORING RULES - USE WHOLE NUMBERS ONLY:
-- Scores MUST be whole integers: 0, 1, 2, 3, 4, 5 (or 6 for Part 2). NO DECIMALS like 3.5.
-- Score FAIRLY - neither too strict nor too generous. Be realistic.
-- Consider the overall quality holistically, not just error counting.
-- Minor errors (typos, small punctuation) should NOT heavily impact scores.
-- Average student work with some errors typically scores 3.
-- Work with good ideas but grammar issues can still score 3-4 if communicative.
-- Only give 1-2 if the writing is very poor or completely fails the task.
-- BALANCE: Good content + some errors = 3; Good content + few errors = 4; Excellent = 5.
-- KEY: If errors don't impair understanding, minimum score should be 3 for on-topic writing.
-- Good structure + clear ideas + minor errors = score 4, NOT 3.
-- When in doubt between two scores, give the HIGHER score — underscoring demotivates learners.
-
-🚫 ANTI-BOILERPLATE RULE (CRITICAL):
-- EVERY feedback point MUST reference a SPECIFIC error or pattern FROM the student's actual text
-- Do NOT insert generic comments like 'Improve article usage (a/an/the)' unless you can cite the EXACT sentence where articles are misused
-- Do NOT insert 'Vary sentence structure' unless the student genuinely uses the same pattern repeatedly
-- FEWER accurate feedback points are BETTER than generic filler advice
-- NEVER say 'Consider rephrasing for better flow' or 'sounds unnatural' without showing the CORRECTED version
-- Every feedback bullet MUST include a PRACTICAL EXAMPLE: quote the error → show the improved version
-- BAD: 'Awkward phrasing: "Tobe honest" sounds unnatural. Consider rephrasing.'
-- GOOD: '"Tobe honest" → "To be honest" (missing space). Alternative: "Honestly, I am quite thrilled."'
-
-🚫 NON-ENGLISH LANGUAGE PENALTY (CRITICAL):
-- This is an ENGLISH exam. ALL text must be in English.
-- If candidate uses ANY non-English words (Uzbek, Russian, or other languages), mark them with [L1: word] tag.
-- Penalty: Each non-English word = -1 from the task score.
-- Multiple non-English words (3+) = maximum score 2 for that task.
-
-⚠️ OFF-TOPIC SCORING GUIDANCE (VERY IMPORTANT):
-- COMPLETELY OFF-TOPIC (writes about totally different subject): Score 0-1 MAXIMUM
-- PARTIALLY OFF-TOPIC (addresses topic but misses key points): Score 2 max  
-- OVERGENERALIZED (addresses topic broadly without specifics): Score 2-3 depending on quality
-- ON-TOPIC: Score based on other criteria normally
-
-🚨 REPETITION/COPYING DETECTION (CRITICAL - CHECK THIS!):
-- Compare ALL THREE responses (Task 1.1, Task 1.2, Part 2) for similarities.
-- If Task 1.1 and Task 1.2 contain SUBSTANTIALLY the same text (>70% identical): Mark BOTH as "REPEATED" and give maximum score of 1 for the copied task.
-- If ANY task contains text copied from another task: Score the COPIED task as 0-1 maximum.
-- If ALL tasks are essentially the same text: Give 0-1 for each task. Maximum total raw score: 3.
-- In the feedback, explicitly state: "[REPETITION DETECTED: This answer was copied from Task X.X]" 
-- Common cheat pattern: Student writes one answer and pastes it for all tasks. This must be SEVERELY penalized.
-- Even if the copied text is well-written, repetition = automatic score reduction.
-
-📝 ERROR ANNOTATION FORMAT - CRITICAL:
-ALWAYS use this EXACT format with BOTH error AND correction:
-- [GRAMMAR: wrong text -> correct text]
-- [SPELL: misspeled -> misspelled]
-- [VOCAB: basic word -> better word]
-- [PUNCT: missing punctuation -> added punctuation]
-- [L1: foreign word]
-
-⚠️ IMPORTANT: NEVER write annotations like [PUNCT: for->] without the correction!
-ALWAYS include BOTH the error AND the correction after ->.
-
-=== CALIBRATION SAMPLES - USE THESE TO JUDGE LEVEL ===
-
-**A1-A2 LEVEL (Score: 1-2/5, Certificate: 30-45)**
-Example: "Hi my freind, I get message from coordnator today. They ask what project we want do for comunity."
-ERRORS: Missing articles, wrong verb forms, spelling errors, very basic vocabulary.
-
-**B1 LEVEL (Score: 3/5, Certificate: 47-55)**
-Example: "I got a message from the coordinator yesterday, and they asked us to share some ideas for the next community project. I believe we should focus on something that really bring benefit to local people."
-ERRORS: Subject-verb disagreement, article issues, weak connectors, awkward phrasing.
-
-**B2 LEVEL (Score: 4/5, Certificate: 57-65)**
-Example: "I received the coordinator's message earlier today, and it seems they want us to propose some ideas for improving the community work next term."
-ERRORS: Minor article slips, mostly accurate but not sophisticated.
-
-**C1 LEVEL (Score: 5/5, Certificate: 67-75)**
-Example: "I've just read the coordinator's announcement, and it appears they are expecting us to design several potential initiatives for next term."
-Near-flawless with sophisticated vocabulary and complex structures.
-
-⚠️ CEFR LEVEL CONVERSION (STRICTLY FOLLOW):
-- Certificate 0-34: Below B1 (A1-A2)
-- Certificate 35-50: B1
-- Certificate 51-64: B2
-- Certificate 65-75: C1
-
-⚠️ MINIMUM WORD COUNT REQUIREMENTS:
-- Task 1.1: Minimum 50 words (deduct 1 point if under 30 words)
-- Task 1.2: Minimum 120 words (deduct 1 point if under 100 words)
-- Task 2: Minimum 180 words (deduct 1 point if under 160 words)
-
-RAW SCORE TO CERTIFICATE CONVERSION TABLE (USE THIS EXACTLY):
-16→75, 15→69, 14→65, 13→63, 12→61, 11→57, 10→53, 9→50, 8→47, 7→43, 6→40, 5→37, 4→33, 3→28, 2→21, 1→14, 0→0
+⚠️ MINIMUM WORD COUNTS — set the matching word_penalty to 1 when under: Task 1.1 < 30 words, Task 1.2 < 100 words, Part 2 < 160 words (target lengths 50 / 120 / 180).
 
 === PART 1 CONTEXT (READ CAREFULLY - Task 1.1 and 1.2 MUST BE ABOUT THIS) ===
 **CONTEXT:** ${contextT1}
@@ -9309,7 +9210,9 @@ For inline corrections, mark ALL errors in the student's text:
 Empty responses = 0 points and skip analysis for that task.`;
 
                 var _cpW = await _loadScoringPrompts();
-                var _sysW = _cpW['scoring_cefr_writing_full_system'] || '';
+                // Rubric lives in the user prompt via the shared CEFR core
+                // (scoring-prompts.js). No separate DB system instruction.
+                var _sysW = '';
                 const text = await _callScoringAI(_sysW, prompt, { temperature: 0.3, maxTokens: 6000, jsonMode: true, skill: 'writing' });
 
                 // Parse JSON from response
