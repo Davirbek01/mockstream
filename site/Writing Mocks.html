@@ -13698,7 +13698,7 @@ This is a PRACTICE session. The student ONLY wrote ${practiceTaskNames[practiceT
 ` : '';
 
       // Comprehensive prompt matching manual AI Checker for consistent scores
-      const prompt = `${window.ScoringPrompts.CEFR_WRITING_CORE}
+      const prompt = `${window.ScoringPrompts.requireCore('CEFR_WRITING_CORE')}
 ${practiceNote}
 
 === ORIGINAL TASK PROMPTS (CHECK FOR RELEVANCE) ===

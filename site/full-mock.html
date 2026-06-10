@@ -9154,7 +9154,7 @@
                 const t2Words = t2.split(/\s+/).filter(x => x).length;
 
                 // Shared rubric core (single source of truth — scoring-prompts.js).
-                const prompt = `${window.ScoringPrompts.CEFR_WRITING_CORE}
+                const prompt = `${window.ScoringPrompts.requireCore('CEFR_WRITING_CORE')}
 
 ⚠️ MINIMUM WORD COUNTS — set the matching word_penalty to 1 when under: Task 1.1 < 30 words, Task 1.2 < 100 words, Part 2 < 160 words (target lengths 50 / 120 / 180).
 
@@ -9586,7 +9586,7 @@ Empty responses = 0 points and skip analysis for that task.`;
                     }
                 }
 
-                let prompt = `${window.ScoringPrompts.CEFR_SPEAKING_CORE}
+                let prompt = `${window.ScoringPrompts.requireCore('CEFR_SPEAKING_CORE')}
 
 📌 IMAGES: Q4-Q6 are picture-based. Two images are attached as inline_data — look at them directly to judge relevance and to ground the Q4-Q6 sample answers in what is actually shown. If a response is unrelated to the images, reduce the score accordingly.
 

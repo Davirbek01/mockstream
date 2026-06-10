@@ -16082,7 +16082,7 @@ This is a PRACTICE session. ONLY ${practicePartNames[practicePart]} (Q${practice
           const analysisResp = await attemptWithRetry(async () => {
             // Build content parts - start with the prompt text
             const contentParts = [{
-              text: `${window.ScoringPrompts.CEFR_SPEAKING_CORE}
+              text: `${window.ScoringPrompts.requireCore('CEFR_SPEAKING_CORE')}
 ${practiceNote}
 ${pictureContext}
 

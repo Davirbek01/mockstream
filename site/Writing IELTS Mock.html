@@ -10228,7 +10228,7 @@ This is a PRACTICE session. The student ONLY wrote ${practiceTaskNames[practiceT
 ` : '';
 
       // IELTS-specific scoring prompt
-      const prompt = `${window.ScoringPrompts.IELTS_WRITING_CORE}
+      const prompt = `${window.ScoringPrompts.requireCore('IELTS_WRITING_CORE')}
 ${practiceNote}
 🚨 MANDATORY PROCESS: Before assigning scores, fill the "t1_analysis"/"t2_analysis" fields with (a) the grammar-error count, (b) vocabulary range/repetition, (c) how well each task prompt is addressed, (d) organization quality. Then make the criterion scores match that analysis, and ensure at least 2 of the 4 criteria differ.
 - Mark any non-English words inline with a [L1: word] tag (penalty already covered by the rubric above).
