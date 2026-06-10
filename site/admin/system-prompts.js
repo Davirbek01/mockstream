@@ -327,30 +327,12 @@
       <div class="sysprompt-body" id="sysPromptBody">
         <!-- CEFR Writing -->
         <div class="sysprompt-section active" id="sec-cefr-writing">
-          <h4 style="margin:0 0 12px;font-size:15px;">CEFR Writing Prompts</h4>
-          <div class="sysprompt-field">
-            <label>Regular — System Instruction</label>
-            <textarea id="sp_scoring_cefr_writing_system" placeholder="System instruction for CEFR writing scoring..."></textarea>
+          <h4 style="margin:0 0 6px;font-size:15px;">CEFR Writing — Grading Rubric</h4>
+          <div style="margin:0 0 12px;padding:8px 12px;background:#eef2ff;border:1px solid #c7d2fe;border-radius:8px;font-size:11px;color:#4338ca;line-height:1.5;">
+            🔒 <b>Read-only.</b> The unified CEFR Writing rubric, maintained in code (<code>scoring-prompts.js</code>). Used by the standalone CEFR Writing mock (full + single-task practice); the 4-skill Full Mock Exam is being migrated to it. To change it, ask Claude — it cannot be edited here.
           </div>
           <div class="sysprompt-field">
-            <label>Regular — User Prompt Template</label>
-            <textarea id="sp_scoring_cefr_writing_prompt" placeholder="User prompt template for CEFR writing scoring..."></textarea>
-          </div>
-          <div class="sysprompt-field">
-            <label>Task Mode — System Instruction</label>
-            <textarea id="sp_scoring_cefr_writing_task_system" placeholder="System instruction for CEFR writing task scoring..."></textarea>
-          </div>
-          <div class="sysprompt-field">
-            <label>Task Mode — User Prompt Template</label>
-            <textarea id="sp_scoring_cefr_writing_task_prompt" placeholder="User prompt template for CEFR writing task scoring..."></textarea>
-          </div>
-          <div class="sysprompt-field">
-            <label>Full Mock — System Instruction</label>
-            <textarea id="sp_scoring_cefr_writing_full_system" placeholder="System instruction for CEFR full mock writing..."></textarea>
-          </div>
-          <div class="sysprompt-field">
-            <label>Full Mock — User Prompt Template</label>
-            <textarea id="sp_scoring_cefr_writing_full_prompt" placeholder="User prompt template for CEFR full mock writing..."></textarea>
+            <textarea id="sp_view_cefr_writing_core" readonly placeholder="Loading rubric…" style="min-height:340px;background:#f1f5f9;color:#475569;cursor:default;"></textarea>
           </div>
         </div>
         <!-- CEFR Speaking -->
@@ -750,7 +732,10 @@
         var SP = window.ScoringPrompts || {};
         // Map of read-only view <textarea> id → the code core it mirrors.
         // (More skills get added here as they are unified.)
-        var map = { sp_view_ielts_writing_core: SP.IELTS_WRITING_CORE };
+        var map = {
+          sp_view_ielts_writing_core: SP.IELTS_WRITING_CORE,
+          sp_view_cefr_writing_core: SP.CEFR_WRITING_CORE
+        };
         Object.keys(map).forEach(function (id) {
           var el = document.getElementById(id);
           if (el) el.value = map[id] || '(could not load scoring-prompts.js)';
