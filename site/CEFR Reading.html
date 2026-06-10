@@ -3106,18 +3106,23 @@
 
     // ===== FULLSCREEN TOGGLE =====
     function toggleExamFullscreen() {
-      try {
-        window.top.postMessage('toggleFullscreen', '*');
-      } catch(e) {
-        var isFS = !!(document.fullscreenElement || document.webkitFullscreenElement);
-        if (isFS) {
-          if (document.exitFullscreen) document.exitFullscreen();
-          else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-        } else {
-          var el = document.documentElement;
-          if (el.requestFullscreen) el.requestFullscreen().catch(function(){});
-          else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-        }
+      // When iframed in the legacy landing host, ask the parent to toggle
+      // (it owns the fullscreen element). When served top-level (deep-link
+      // / v3 navigation), window.top === window, so posting to ourselves
+      // does nothing AND never throws — handle fullscreen directly here.
+      var iframed = false;
+      try { iframed = (window.top !== window.self); } catch(e) { iframed = true; }
+      if (iframed) {
+        try { window.top.postMessage('toggleFullscreen', '*'); return; } catch(e) { /* cross-origin — fall through */ }
+      }
+      var isFS = !!(document.fullscreenElement || document.webkitFullscreenElement);
+      if (isFS) {
+        if (document.exitFullscreen) document.exitFullscreen();
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      } else {
+        var el = document.documentElement;
+        if (el.requestFullscreen) el.requestFullscreen().catch(function(){});
+        else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
       }
     }
     function _updateFSBtnIcons(isFS) {
@@ -3357,7 +3362,11 @@
           var practiceTimeLookup = { 1: 10, 2: 12, 3: 14, 4: 12, 5: 12 };
           timeRemaining = (practiceTimeLookup[window._practicePart] || 15) * 60;
         } else {
-          timeRemaining = TEST_DATA.testInfo.totalTime * 60;
+          // Guard against mocks with a missing / empty / non-numeric
+          // totalTime (was producing "-NaN:NaN"). Standard CEFR reading
+          // is 60 min, so fall back to that.
+          var _tt = parseInt(TEST_DATA.testInfo && TEST_DATA.testInfo.totalTime, 10);
+          timeRemaining = (_tt > 0 ? _tt : 60) * 60;
         }
         
         // Generate part navigation
