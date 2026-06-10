@@ -16,6 +16,7 @@
   <script src="premium-gate.js" defer></script>
   <script src="human-expert.js"></script>
   <script src="supabase-send.js"></script>
+  <script src="scoring-prompts.js"></script>
   <script src="session-recovery.js"></script>
   <!-- Redirect to index on page reload/refresh -->
   <script>
@@ -13699,114 +13700,8 @@ This is a PRACTICE session. The student ONLY wrote ${practiceTaskNames[practiceT
 ` : '';
 
       // Comprehensive prompt matching manual AI Checker for consistent scores
-      const prompt = `You are a FAIR and BALANCED expert examiner for CEFR Multilevel Writing Papers. Analyze student responses THOROUGHLY and provide detailed feedback with color-coded error annotations.
+      const prompt = `${window.ScoringPrompts.CEFR_WRITING_CORE}
 ${practiceNote}
-
-⚠️ SCORING RULES - USE WHOLE NUMBERS ONLY:
-- Scores MUST be whole integers: 0, 1, 2, 3, 4, 5 (or 6 for Part 2). NO DECIMALS like 3.5.
-- Score FAIRLY - neither too strict nor too generous. Be realistic.
-- Consider the overall quality holistically, not just error counting.
-- Minor errors (typos, small punctuation) should NOT heavily impact scores.
-- Average student work with some errors typically scores 3.
-- Work with good ideas but grammar issues can still score 3-4 if communicative.
-- Only give 1-2 if the writing is very poor or completely fails the task.
-- BALANCE: Good content + some errors = 3; Good content + few errors = 4; Excellent = 5.
-
-🧑‍🏫 HUMANISTIC SCORING — YOU ARE A SUPPORTIVE EXAMINER:
-CEFR exams test COMMUNICATIVE COMPETENCE and ACCOMPLISHMENT, NOT perfection. These are ESL/EFL learners studying English as a second/foreign language — they do NOT live in English-speaking countries. Score what they CAN do, not nitpick every slip.
-
-✅ IGNORE / DO NOT PENALIZE these minor slips:
-- Missing full stops, commas, or minor punctuation omissions
-- Inconsistent or accidental capitalization (e.g., "caR", "cAr", "THe") — treat as typing slips, NOT errors
-- Extra or missing spaces between words (e.g., "my friend" vs "myfriend" vs "my  friend")
-- Minor/obvious spelling typos where meaning is perfectly clear (e.g., "freind" for "friend", "becuase" for "because")
-- These surface-level slips should NOT reduce any task score
-
-⚠️ DO PENALIZE (appropriately, not harshly):
-- Systematic grammar errors (wrong tense throughout, missing articles consistently, subject-verb disagreement patterns)
-- Very limited or repetitive vocabulary that affects communication
-- Poor task achievement (not addressing the prompt, off-topic)
-- Lack of coherence/organization that makes the writing hard to follow
-- Serious word choice errors that change meaning
-
-💡 SCORING MINDSET:
-- Imagine these students are YOUR OWN students — underscoring will demotivate them
-- If the message is communicated clearly despite surface errors, reward the communication
-- A student who addresses the task well with some grammar mistakes deserves 3, NOT 2
-- A student with good structure, clear ideas, and only minor errors deserves 4, NOT 3
-- Do NOT raise the bar to native-speaker level — score against CEFR descriptors for L2 learners
-- When in doubt between two scores, give the HIGHER score
-- KEY: If NO errors seriously impair understanding, the minimum score should be 3 for on-topic writing
-
-🚫 ANTI-BOILERPLATE RULE (CRITICAL):
-- EVERY feedback point MUST reference a SPECIFIC error or pattern you found IN THE STUDENT'S ACTUAL TEXT
-- Do NOT insert generic comments like 'Improve article usage (a/an/the)' unless you can cite the EXACT sentence where articles are misused
-- Do NOT insert 'Vary sentence structure' unless the student genuinely uses the same pattern repeatedly
-- If you cannot find a specific example from the text, DO NOT include that feedback point
-- FEWER accurate feedback points are better than more generic ones
-- NEVER say 'Consider rephrasing for better flow' or 'sounds unnatural' without showing the CORRECTED version
-- Every feedback bullet MUST include a PRACTICAL EXAMPLE showing the fix: quote the error → show the improved version
-- BAD feedback: 'Awkward phrasing: "Tobe honest" sounds unnatural. Consider rephrasing for better flow.'
-- GOOD feedback: 'Grammar: "Tobe honest" → "To be honest" (missing space). Consider: "Honestly, I am really thrilled" for more natural flow.'
-
-🚫 NON-ENGLISH LANGUAGE PENALTY (CRITICAL):
-- This is an ENGLISH exam. ALL text must be in English.
-- If candidate uses ANY non-English words (Uzbek, Russian, or other languages), mark them with [L1: word] tag.
-- Penalty: Each non-English word = -1 from the task score.
-- Multiple non-English words (3+) = maximum score 2 for that task.
-
-⚠️ OFF-TOPIC SCORING GUIDANCE (VERY IMPORTANT):
-- COMPLETELY OFF-TOPIC (writes about totally different subject): Score exactly 1 (participation credit — the candidate did submit work, even if irrelevant). NEVER give 0 when there is a written attempt.
-- PARTIALLY OFF-TOPIC (addresses topic but misses key points): Score 2 max
-- OVERGENERALIZED (addresses topic broadly without specifics): Score 2-3 depending on quality
-- ON-TOPIC: Score based on other criteria normally
-- Reserve a score of 0 ONLY for blank/no-attempt tasks where the candidate wrote nothing meaningful at all.
-
-🚨 REPETITION/COPYING DETECTION (CRITICAL - CHECK THIS!):
-- Compare ALL THREE responses (Task 1.1, Task 1.2, Part 2) for similarities.
-- If Task 1.1 and Task 1.2 contain SUBSTANTIALLY the same text (>70% identical): Mark BOTH as "REPEATED" and give maximum score of 1 for the copied task.
-- If ANY task contains text copied from another task: Score the COPIED task as 0-1 maximum.
-- If ALL tasks are essentially the same text: Give 0-1 for each task. Maximum total raw score: 3.
-- In the feedback, explicitly state: "[REPETITION DETECTED: This answer was copied from Task X.X]"
-- Common cheat pattern: Student writes one answer and pastes it for all tasks. This must be SEVERELY penalized.
-- Even if the copied text is well-written, repetition = automatic score reduction.
-
-📝 ERROR ANNOTATION FORMAT - CRITICAL:
-ALWAYS use this EXACT format with BOTH error AND correction:
-- [GRAMMAR: wrong text -> correct text]
-- [SPELL: misspeled -> misspelled]
-- [VOCAB: basic word -> better word]
-- [PUNCT: missing punctuation -> added punctuation]
-- [L1: foreign word]
-
-⚠️ IMPORTANT: NEVER write annotations like [PUNCT: for->] or [GRAMMAR: of->] without the correction!
-ALWAYS include BOTH the error AND the correction after ->.
-CORRECT: [PUNCT: for -> for,] or [GRAMMAR: of -> about]
-WRONG: [PUNCT: for->] or [GRAMMAR: of->]
-
-=== CALIBRATION SAMPLES - USE THESE TO JUDGE LEVEL ===
-
-**A1-A2 LEVEL (Score: 1-2/5, Certificate: 30-45)**
-Example: "Hi my freind, I get message from coordnator today. They ask what project we want do for comunity."
-ERRORS: Missing articles, wrong verb forms, spelling errors, very basic vocabulary.
-
-**B1 LEVEL (Score: 3/5, Certificate: 47-55)**
-Example: "I got a message from the coordinator yesterday, and they asked us to share some ideas for the next community project. I believe we should focus on something that really bring benefit to local people."
-ERRORS: Subject-verb disagreement, article issues, weak connectors, awkward phrasing.
-
-**B2 LEVEL (Score: 4/5, Certificate: 57-65)**
-Example: "I received the coordinator's message earlier today, and it seems they want us to propose some ideas for improving the community work next term. One idea is to create a small mentoring programme."
-ERRORS: Minor article slips, mostly accurate but not sophisticated.
-
-**C1 LEVEL (Score: 5/5, Certificate: 67-75)**
-Example: "I've just read the coordinator's announcement, and it appears they are expecting us to design several potential initiatives for next term. One possibility is to design a long-term community mentorship scheme."
-Near-flawless with sophisticated vocabulary and complex structures.
-
-SCORE CONVERSION TABLE (Raw to Certificate):
-16→75, 15→69, 14→65, 13→63, 12→61, 11→57, 10→53, 9→50, 8→47, 7→43, 6→40, 5→37, 4→33, 3→28, 2→21, 1→14, 0→0
-
-CEFR LEVELS (BY CERTIFICATE SCORE):
-- 0-34: Below B1 (A1-A2) | 35-50: B1 | 51-64: B2 | 65-75: C1
 
 === ORIGINAL TASK PROMPTS (CHECK FOR RELEVANCE) ===
 **TASK 1 CONTEXT (Incoming Letter/Email):** ${contextT1}
@@ -13858,7 +13753,9 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
 
       const resultText = await attemptWithRetry(async () => {
         var _cp = await _loadScoringPrompts();
-        var _sysInstr = _cp['scoring_cefr_writing_system'] || '';
+        // Rubric now lives in the user prompt via the shared core
+        // (scoring-prompts.js → CEFR_WRITING_CORE). No separate DB system row.
+        var _sysInstr = '';
         return await _callScoringAI(_sysInstr, prompt, { temperature: 0.3, maxTokens: 16384, jsonMode: true, skill: 'writing' });
       });
 
