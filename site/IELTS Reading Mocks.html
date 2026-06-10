@@ -766,6 +766,9 @@
           }
           status.style.color = '#059669';
           status.textContent = result.premiumEntry ? '✅ Premium access verified!' : '✅ Access verified!';
+          if (window.PremiumGate && PremiumGate.showTierNotice) {
+            await new Promise(function (resolve) { PremiumGate.showTierNotice({ tier: result.premiumEntry ? 'premium' : 'regular', skill: 'reading', onContinue: resolve }); });
+          }
           setTimeout(function() { window.location.href = window._pendingReadingTest.url; }, 600);
         } else {
           status.style.color = '#dc2626'; status.textContent = '❌ ' + result.error;

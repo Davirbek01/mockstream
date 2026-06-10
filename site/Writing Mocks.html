@@ -7886,6 +7886,7 @@
       const paddedMockNumber = mockNumber.padStart(2, '0');
 
       // Check if this mock requires promocode validation
+      let _inPageTier = null; // set when a code is validated in-page → show tier notice
       if (window.writingMockRequiresPromocode && window.writingMockRequiresPromocode(paddedMockNumber)) {
         // Skip validation if already validated from landing page
         const alreadyValidated = sessionStorage.getItem('writingCodeValidated') === 'true';
@@ -7943,6 +7944,7 @@
             promocodeStatus.style.color = '#059669';
             promocodeStatus.textContent = validationResult.isPremium ? '✅ Premium access verified!' : '✅ Access code verified!';
           }
+          _inPageTier = validationResult.premiumEntry ? 'premium' : 'regular';
 
           startBtn.textContent = 'Start Test';
           startBtn.disabled = false;
@@ -7956,12 +7958,21 @@
 
       // Hide gate and show format choice (or skip it if centre admin
       // turned Paper-Based Writing Exam off, same as practice mode).
-      gate.style.display = 'none';
       var __paperDisabled = window._centerConfig && window._centerConfig.writingPaperMode === false;
-      if (window._practiceMode || __paperDisabled) {
-        setTimeout(function(){ startComputerExam(); }, 100);
+      var _proceedToExam = function () {
+        gate.style.display = 'none';
+        if (window._practiceMode || __paperDisabled) {
+          setTimeout(function(){ startComputerExam(); }, 100);
+        } else {
+          formatChoice.style.display = 'flex';
+        }
+      };
+      // Tier notice only when a code was validated in-page (landing entries
+      // were already notified there).
+      if (_inPageTier && window.PremiumGate && PremiumGate.showTierNotice) {
+        PremiumGate.showTierNotice({ tier: _inPageTier, skill: 'writing', onContinue: _proceedToExam });
       } else {
-        formatChoice.style.display = 'flex';
+        _proceedToExam();
       }
     });
 
