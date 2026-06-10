@@ -35,7 +35,7 @@
   // stay server-side). Models are picked to match the cheapest /
   // fastest vision-capable tier each provider offers.
   var PROVIDER_ENDPOINTS = {
-    gemini:        SB_URL + '/functions/v1/ai-proxy/gemini/v1beta/models/gemini-2.0-flash:generateContent',
+    gemini:        SB_URL + '/functions/v1/ai-proxy/gemini/v1beta/models/gemini-flash-latest:generateContent',
     openai:        SB_URL + '/functions/v1/ai-proxy/openai/v1/chat/completions',
     claude:        SB_URL + '/functions/v1/ai-proxy/claude/v1/messages',
     'llama-scout': SB_URL + '/functions/v1/ai-proxy/groq/openai/v1/chat/completions'
@@ -152,7 +152,7 @@
     };
     var res = await fetch(PROVIDER_ENDPOINTS.gemini, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY },
+      headers: { 'Content-Type': 'application/json', 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'x-ms-center': ((typeof window !== 'undefined' && window.__CENTER_ID) || 'mockstream'), 'x-ms-skill': 'vision' },
       body: JSON.stringify(body)
     });
     if (!res.ok) {
@@ -183,7 +183,7 @@
     };
     var res = await fetch(endpoint, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY },
+      headers: { 'Content-Type': 'application/json', 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'x-ms-center': ((typeof window !== 'undefined' && window.__CENTER_ID) || 'mockstream'), 'x-ms-skill': 'vision' },
       body: JSON.stringify(body)
     });
     if (!res.ok) {
