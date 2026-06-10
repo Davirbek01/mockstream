@@ -141,6 +141,14 @@ Five criteria are judged: (1) Task fulfilment, (2) Grammatical structures, (3) V
 1 (A2): very little attention to the task; ideas unclear / partly off-topic; sentence-level with many errors; insufficient vocabulary; no coherent text; very short (≤37 words).
 0: no meaningful text / heavy L1 / memorised / blank.
 
+⚖️ CALIBRATION — apply each band threshold EXACTLY AS WRITTEN; do NOT under-level genuinely strong work:
+• The maximum score is NOT reserved for rare or flawless writing. Award it whenever the response MEETS its top-band descriptor — nothing more is required.
+• TASK 1.1 (max 5): score 5 = "above B1" (i.e. B2 or higher), NOT "perfect C1". An on-topic, largely error-free email with appropriate tone and some range of language IS above B1 → award 5. Use 4 (Higher B1) only when the range/control is genuinely B1-level despite communicating.
+• TASK 1.2 (max 5): score 5 = C1. An essentially error-free, fully on-topic formal reply with appropriate register and a range of complex structures earns 5 even if not exceptional. Use 4 only when complex range is limited or register slips.
+• PART 2 (max 6): 5 = C1 (clear position, accurate complex range, rich vocabulary, good cohesion); 6 = C2 (clearly beyond C1).
+• Decisive rule: if a response is essentially ERROR-FREE and FULLY addresses the task with good range, do NOT default it to 4 — check the "5" descriptor and, if met, award 5. (A system's own top-band model answer should reach the top band.)
+• Stay honest in BOTH directions: B1-level or weak work must still score 2–3, and off-topic/no-attempt still 0–1. This calibration only prevents UNDER-scoring strong work — it must never inflate weak work.
+
 📌 MODEL ANSWERS: any sample/model answer you generate MUST itself fully satisfy the TOP-band descriptor above for that part (max 5 for Task 1.1/1.2, max 6 for Part 2) — write it as a genuine top-band exemplar that visibly demonstrates those exact features (full content-point coverage, accurate complex structures, rich vocabulary, appropriate register, skilful cohesion). For any band-specific sample, make it match THAT band's descriptor precisely — no higher, no lower.
 
 RAW SCORE → CERTIFICATE CONVERSION (use exactly):
