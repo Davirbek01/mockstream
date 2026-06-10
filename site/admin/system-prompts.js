@@ -383,30 +383,12 @@
         </div>
         <!-- IELTS Writing -->
         <div class="sysprompt-section" id="sec-ielts-writing">
-          <h4 style="margin:0 0 12px;font-size:15px;">IELTS Writing Prompts</h4>
-          <div class="sysprompt-field">
-            <label>Regular — System Instruction</label>
-            <textarea id="sp_scoring_ielts_writing_system" placeholder="System instruction for IELTS writing scoring..."></textarea>
+          <h4 style="margin:0 0 6px;font-size:15px;">IELTS Writing — Grading Rubric</h4>
+          <div style="margin:0 0 12px;padding:8px 12px;background:#eef2ff;border:1px solid #c7d2fe;border-radius:8px;font-size:11px;color:#4338ca;line-height:1.5;">
+            🔒 <b>Read-only.</b> This single rubric grades <b>all</b> IELTS Writing — standalone full mock, single-task practice, and the 4-skill Full Mock Exam. It is maintained in code (<code>scoring-prompts.js</code>). To change it, ask Claude — it cannot be edited here.
           </div>
           <div class="sysprompt-field">
-            <label>Regular — User Prompt Template</label>
-            <textarea id="sp_scoring_ielts_writing_prompt" placeholder="User prompt template for IELTS writing scoring..."></textarea>
-          </div>
-          <div class="sysprompt-field">
-            <label>Task Mode — System Instruction</label>
-            <textarea id="sp_scoring_ielts_writing_task_system" placeholder="System instruction for IELTS writing task scoring..."></textarea>
-          </div>
-          <div class="sysprompt-field">
-            <label>Task Mode — User Prompt Template</label>
-            <textarea id="sp_scoring_ielts_writing_task_prompt" placeholder="User prompt template for IELTS writing task scoring..."></textarea>
-          </div>
-          <div class="sysprompt-field">
-            <label>Full Mock — System Instruction</label>
-            <textarea id="sp_scoring_ielts_writing_full_system" placeholder="System instruction for IELTS full mock writing..."></textarea>
-          </div>
-          <div class="sysprompt-field">
-            <label>Full Mock — User Prompt Template</label>
-            <textarea id="sp_scoring_ielts_writing_full_prompt" placeholder="User prompt template for IELTS full mock writing..."></textarea>
+            <textarea id="sp_view_ielts_writing_core" readonly placeholder="Loading rubric…" style="min-height:340px;background:#f1f5f9;color:#475569;cursor:default;"></textarea>
           </div>
         </div>
         <!-- IELTS Speaking -->
@@ -752,9 +734,34 @@
       setTimeout(function() { overlay.style.display = 'none'; }, 300);
     }
 
+    // Load the shared grading-prompt module (single source of truth) so the
+    // read-only rubric views can mirror exactly what the runners use.
+    function _spEnsureScoringPrompts(cb) {
+      if (window.ScoringPrompts && window.ScoringPrompts.IELTS_WRITING_CORE) { cb(); return; }
+      var existing = document.querySelector('script[data-sp-core]');
+      if (existing) { existing.addEventListener('load', cb); existing.addEventListener('error', cb); return; }
+      var s = document.createElement('script');
+      s.src = 'scoring-prompts.js'; s.setAttribute('data-sp-core', '1');
+      s.onload = cb; s.onerror = cb;
+      document.head.appendChild(s);
+    }
+    function _spPopulateUnifiedCores() {
+      _spEnsureScoringPrompts(function () {
+        var SP = window.ScoringPrompts || {};
+        // Map of read-only view <textarea> id → the code core it mirrors.
+        // (More skills get added here as they are unified.)
+        var map = { sp_view_ielts_writing_core: SP.IELTS_WRITING_CORE };
+        Object.keys(map).forEach(function (id) {
+          var el = document.getElementById(id);
+          if (el) el.value = map[id] || '(could not load scoring-prompts.js)';
+        });
+      });
+    }
+
     async function loadScoringPrompts() {
       var status = document.getElementById('sysPromptStatus');
       status.innerHTML = '<span style="color:var(--muted);">Loading prompts...</span>';
+      _spPopulateUnifiedCores();
       try {
         var resp = await fetch(_SP_SB_URL + '/rest/v1/site_settings?key=like.scoring_*&select=key,value', {
           headers: { 'apikey': _SP_SB_KEY, 'Authorization': 'Bearer ' + _SP_SB_KEY }

@@ -9050,7 +9050,9 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
 
             try {
                 var _cpW = await _loadScoringPrompts();
-                var _sysW = _cpW['scoring_ielts_writing_full_system'] || '';
+                // Rubric lives in the user prompt via the shared core
+                // (scoring-prompts.js). No separate DB system instruction.
+                var _sysW = '';
                 const txt = await _callScoringAI(_sysW, prompt, { temperature: 0.5, jsonMode: true, skill: 'writing' });
                 if (!txt) throw new Error('Empty response from AI');
 
