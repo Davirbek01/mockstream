@@ -14,6 +14,7 @@
     <script src="center-id.js"></script>
     <script src="site-config/site-config.js"></script>
     <script src="supabase-send.js"></script>
+    <script src="scoring-prompts.js"></script>
     <script src="session-recovery.js"></script>
     <script>
         if (window.SITE_CONFIG) {
@@ -9020,26 +9021,10 @@
                 return { band: 5, feedback: 'Unable to grade.' };
             }
 
-            let prompt = `You are a STRICT but FAIR expert IELTS Writing examiner. Grade the following IELTS Writing responses using the official IELTS band descriptors (Task Achievement, Coherence & Cohesion, Lexical Resource, Grammatical Range & Accuracy).
-
-🧑‍🏫 SCORING PHILOSOPHY:
-- Score HONESTLY based on what you see. Each criterion MUST be scored INDEPENDENTLY.
-- DIFFERENTIATE between criteria — it is extremely rare for all 4 scores to be identical. A student with good ideas but poor grammar should get higher TA/CC but lower GRA.
-- IGNORE minor slips: missing commas/full stops, accidental capitalization, spacing, obvious typos where meaning is clear.
-- PENALIZE: systematic grammar errors (subject-verb agreement, tense errors, article misuse), limited vocabulary range, poor task achievement, lack of coherence.
-- GRA CALIBRATION: Count the grammar errors. 5+ systematic errors in a task = max GRA 5.5. 3-4 systematic errors = max GRA 6.0. Mostly accurate with occasional errors = 6.5. A wide range of structures used flexibly with very few errors = 7.0-9.0.
-- LR CALIBRATION: Repetitive vocabulary or lack of less common words = max LR 5.5-6.0. Some less common items with occasional errors = 6.0-6.5. Wide range used flexibly and precisely, incl. less common items = 7.0-9.0.
-- TA CALIBRATION: Fully addresses all parts with well-developed, extended ideas = 7.0-9.0. Addresses all parts of the task clearly = 6.0-6.5. Partially addresses = 5.0-5.5.
-- CC CALIBRATION: Clear overall progression with some lapses = 6.0-6.5. Mechanical linking = 5.5. Logically sequenced and well-organized with skilful cohesion = 7.0-9.0.
-- Do NOT anchor scores to any expected average — award the exact band each criterion earns against the descriptors, in both directions.
-
-🚫 ANTI-BOILERPLATE RULE:
-- Every feedback point MUST quote a SPECIFIC error from the student's text and show the CORRECTED version.
-- NEVER include generic advice like 'Improve article usage' or 'Vary sentence structure' without citing the exact sentence.
-- NEVER say 'Consider rephrasing' without showing the actual improved version.
-- Format: "wrong text" → "correct text" (explanation).
-
-`;
+            // Shared rubric core (single source of truth — scoring-prompts.js).
+            // Lean output (band + short feedback) is appended below, matching
+            // this page's result parser.
+            let prompt = window.ScoringPrompts.IELTS_WRITING_CORE + '\n\n';
             // IELTS writing data stores tasks as object {task1:{...}, task2:{...}}, convert to array
             const tasksArr = Array.isArray(data.tasks) ? data.tasks : Object.values(data.tasks);
             tasksArr.forEach((task, i) => {

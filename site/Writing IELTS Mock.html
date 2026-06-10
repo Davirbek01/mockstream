@@ -16,6 +16,7 @@
   <script src="premium-gate.js" defer></script>
   <script src="human-expert.js"></script>
   <script src="supabase-send.js"></script>
+  <script src="scoring-prompts.js"></script>
   <script src="session-recovery.js"></script>
   <!-- Redirect to index on page reload/refresh -->
   <script>
@@ -10211,69 +10212,10 @@ This is a PRACTICE session. The student ONLY wrote ${practiceTaskNames[practiceT
 ` : '';
 
       // IELTS-specific scoring prompt
-      const prompt = `You are a STRICT but FAIR expert IELTS examiner. Analyze IELTS Academic Writing Task 1 and Task 2 responses. Provide detailed feedback with color-coded error annotations and IELTS band scores.
+      const prompt = `${window.ScoringPrompts.IELTS_WRITING_CORE}
 ${practiceNote}
-⚠️ SCORING RULES - IELTS BAND SCORES:
-- INDIVIDUAL CRITERION SCORES (TA, CC, LR, GRA) MUST be WHOLE NUMBERS ONLY: 1, 2, 3, 4, 5, 6, 7, 8, 9 — NO half bands like 5.5 or 6.5 for criteria
-- Score each criterion INDEPENDENTLY for both tasks
-- Four criteria: Task Achievement/Response (TA/TR), Coherence & Cohesion (CC), Lexical Resource (LR), Grammatical Range & Accuracy (GRA)
-- Task 1 band = average of 4 criteria (can be half band since it's an average)
-- Task 2 band = average of 4 criteria (can be half band since it's an average)
-- Overall band = (Task1_band + 2 * Task2_band) / 3 (rounded to nearest 0.5)
-
-🚨 MANDATORY SCORING PROCESS (you MUST follow these steps IN ORDER):
-STEP 1 — Before assigning ANY score, analyze the text and fill in the "t1_analysis" and "t2_analysis" fields.
-STEP 2 — Count grammar errors. If you found 3+ grammar errors, GRA MUST be at least 1 band BELOW the highest criterion.
-STEP 3 — Check vocabulary range. If vocabulary is repetitive, LR MUST be lower than TA.
-STEP 4 — Assign scores BASED ON your analysis. The scores MUST logically match your error counts.
-STEP 5 — VERIFY: At least 2 of the 4 criteria scores MUST be different from each other. If all 4 are the same, go back and re-assess.
-
-🧑‍🏫 SCORING CALIBRATION BY CRITERION:
-- GRA: Count the grammar errors. 5+ systematic errors = max GRA 5.0-5.5. 3-4 systematic errors = max GRA 5.5-6.0. Only give GRA 6.5+ if grammar is mostly accurate with only occasional errors.
-- LR: Repetitive vocabulary or lack of less common words = max LR 5.5-6.0. Some less common items with occasional errors = 6.0-6.5. Wide range with flexibility = 7.0+.
-- TA: Fully addresses all parts with well-developed, extended ideas = 7.0-9.0. Addresses all parts clearly with relevant examples = 6.0-6.5. Partially addresses = 5.0-5.5. Off-topic = 3.0-4.0.
-- CC: Clear progression with appropriate paragraphing = 6.0-6.5. Mechanical or overused linking = 5.5. Logical and well-organized = 7.0+.
-
-✅ IGNORE / DO NOT PENALIZE these minor slips:
-- Missing full stops, commas, or minor punctuation omissions
-- Inconsistent or accidental capitalization (e.g., "caR", "cAr", "THe") — treat as typing slips, NOT errors
-- Extra or missing spaces between words
-- Minor/obvious spelling typos where meaning is perfectly clear (e.g., "freind" for "friend")
-- These surface-level slips should NOT reduce any criterion score
-
-⚠️ DO PENALIZE (appropriately):
-- Systematic grammar errors (wrong tense throughout, missing articles consistently, subject-verb disagreement patterns)
-- Very limited or repetitive vocabulary that affects communication
-- Poor task achievement (not addressing the prompt, off-topic)
-- Lack of coherence/organization that makes the writing hard to follow
-- Serious word choice errors that change meaning
-
-🚫 ANTI-BOILERPLATE RULE (CRITICAL):
-- EVERY feedback point MUST reference a SPECIFIC error or pattern you found IN THE STUDENT'S ACTUAL TEXT
-- Do NOT insert generic comments like 'Improve article usage (a/an/the)' unless you can cite the EXACT sentence where articles are misused
-- Do NOT insert 'Vary sentence structure' unless the student genuinely uses the same pattern repeatedly
-- NEVER say 'Consider rephrasing for better flow' or 'sounds unnatural' without showing the CORRECTED version
-- Every feedback bullet MUST include a PRACTICAL EXAMPLE showing the fix: quote the error → show the improved version
-- BAD feedback: 'Awkward phrasing: sounds unnatural. Consider rephrasing for better flow.'
-- GOOD feedback: '"the number of student" → "the number of students" (plural noun needed after "number of")'
-- If you cannot find a specific example from the text, DO NOT include that feedback point
-- FEWER accurate feedback points with real corrections are better than generic filler advice
-
-🚫 NON-ENGLISH LANGUAGE PENALTY (CRITICAL):
-- This is an ENGLISH exam. ALL text must be in English.
-- If candidate uses ANY non-English words (Uzbek, Russian, or other languages), mark them with [L1: word] tag.
-- Penalty: Each non-English word = -0.5 from the task band.
-- Multiple non-English words (3+) = maximum band 4.0 for that task.
-
-⚠️ OFF-TOPIC SCORING:
-- COMPLETELY OFF-TOPIC: Band 2.0-3.0 MAXIMUM
-- PARTIALLY OFF-TOPIC: Band 4.0 max
-- ON-TOPIC: Score based on criteria normally
-
-🚨 REPETITION/COPYING DETECTION:
-- Compare Task 1 and Task 2 responses for similarities.
-- If responses contain SUBSTANTIALLY the same text (>70% identical): maximum band 3.0 for the copied task.
-- Even if well-written, repetition = automatic band reduction.
+🚨 MANDATORY PROCESS: Before assigning scores, fill the "t1_analysis"/"t2_analysis" fields with (a) the grammar-error count, (b) vocabulary range/repetition, (c) how well each task prompt is addressed, (d) organization quality. Then make the criterion scores match that analysis, and ensure at least 2 of the 4 criteria differ.
+- Mark any non-English words inline with a [L1: word] tag (penalty already covered by the rubric above).
 
 📝 ERROR ANNOTATION FORMAT (for corrected text fields ONLY — NOT for feedback):
 In t1_corrected and t2_corrected, mark errors inline using these tag types:
