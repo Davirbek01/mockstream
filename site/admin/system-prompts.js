@@ -337,30 +337,12 @@
         </div>
         <!-- CEFR Speaking -->
         <div class="sysprompt-section" id="sec-cefr-speaking">
-          <h4 style="margin:0 0 12px;font-size:15px;">CEFR Speaking Prompts</h4>
-          <div class="sysprompt-field">
-            <label>Regular — System Instruction</label>
-            <textarea id="sp_scoring_cefr_speaking_system" placeholder="System instruction for CEFR speaking scoring..."></textarea>
+          <h4 style="margin:0 0 6px;font-size:15px;">CEFR Speaking — Grading Rubric</h4>
+          <div style="margin:0 0 12px;padding:8px 12px;background:#eef2ff;border:1px solid #c7d2fe;border-radius:8px;font-size:11px;color:#4338ca;line-height:1.5;">
+            🔒 <b>Read-only.</b> The unified CEFR Speaking rubric (part-based, /21 → certificate), maintained in code (<code>scoring-prompts.js</code>). Used by the standalone Speaking mock (full + single-part practice) and the 4-skill Full Mock Exam. To change it, ask Claude — it cannot be edited here.
           </div>
           <div class="sysprompt-field">
-            <label>Regular — User Prompt Template</label>
-            <textarea id="sp_scoring_cefr_speaking_prompt" placeholder="User prompt template for CEFR speaking scoring..."></textarea>
-          </div>
-          <div class="sysprompt-field">
-            <label>Part Mode — System Instruction</label>
-            <textarea id="sp_scoring_cefr_speaking_part_system" placeholder="System instruction for CEFR speaking part scoring..."></textarea>
-          </div>
-          <div class="sysprompt-field">
-            <label>Part Mode — User Prompt Template</label>
-            <textarea id="sp_scoring_cefr_speaking_part_prompt" placeholder="User prompt template for CEFR speaking part scoring..."></textarea>
-          </div>
-          <div class="sysprompt-field">
-            <label>Full Mock — System Instruction</label>
-            <textarea id="sp_scoring_cefr_speaking_full_system" placeholder="System instruction for CEFR full mock speaking..."></textarea>
-          </div>
-          <div class="sysprompt-field">
-            <label>Full Mock — User Prompt Template</label>
-            <textarea id="sp_scoring_cefr_speaking_full_prompt" placeholder="User prompt template for CEFR full mock speaking..."></textarea>
+            <textarea id="sp_view_cefr_speaking_core" readonly placeholder="Loading rubric…" style="min-height:340px;background:#f1f5f9;color:#475569;cursor:default;"></textarea>
           </div>
         </div>
         <!-- IELTS Writing -->
@@ -734,7 +716,8 @@
         // (More skills get added here as they are unified.)
         var map = {
           sp_view_ielts_writing_core: SP.IELTS_WRITING_CORE,
-          sp_view_cefr_writing_core: SP.CEFR_WRITING_CORE
+          sp_view_cefr_writing_core: SP.CEFR_WRITING_CORE,
+          sp_view_cefr_speaking_core: SP.CEFR_SPEAKING_CORE
         };
         Object.keys(map).forEach(function (id) {
           var el = document.getElementById(id);
