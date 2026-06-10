@@ -13681,6 +13681,7 @@ ${aiSectionHtml}
       const practiceNote = (isPractice && practiceTask) ? `
 ⚠️⚠️⚠️ PRACTICE MODE — SINGLE TASK ASSESSMENT ⚠️⚠️⚠️
 This is a PRACTICE session. The student ONLY wrote ${practiceTaskNames[practiceTask]}.
+• ${practiceTaskNames[practiceTask]} is marked on its OWN band scale: 0–${practiceTask === 't2' ? 6 : 5} (Task 1.1 & Task 1.2 = max 5; Part 2 = max 6). Score it out of ${practiceTask === 't2' ? 6 : 5} — NOT as a fraction of the full 16-point test.
 • Score ONLY the ${practiceTask}_score field. Return 0 for ALL other task scores.
 • Provide feedback, corrected text, and sample answer ONLY for ${practiceTaskNames[practiceTask]}. Use empty strings for all other tasks.
 • The student intentionally skipped the other tasks — do NOT mention missing tasks in overall_feedback.
