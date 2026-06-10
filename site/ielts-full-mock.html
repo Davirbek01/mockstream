@@ -9116,9 +9116,9 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
                 return { band: 5, feedback: 'No responses to grade.' };
             }
 
-            let prompt = `You are an IELTS Speaking examiner. Grade the following IELTS Speaking responses using the official IELTS band descriptors (Fluency & Coherence, Lexical Resource, Grammatical Range & Accuracy, Pronunciation approximated from text).
+            let prompt = `${window.ScoringPrompts.IELTS_SPEAKING_CORE}
 
-CRITICAL: Score each criterion INDEPENDENTLY — it is extremely rare for all 4 scores to be identical. A student may be fluent but have weak grammar, or have good vocabulary but poor coherence. DIFFERENTIATE the scores based on actual evidence.
+(Note: pronunciation is approximated from the transcribed text.)
 
 `;
             speakingResponses.forEach((item, i) => {
@@ -9140,7 +9140,9 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
 
             try {
                 var _cpS = await _loadScoringPrompts();
-                var _sysS = _cpS['scoring_ielts_speaking_full_system'] || '';
+                // Rubric lives in the prompt via the shared IELTS speaking core
+                // (scoring-prompts.js). No separate DB system instruction.
+                var _sysS = '';
                 const txt = await _callScoringAI(_sysS, prompt, { temperature: 0.3, skill: 'speaking' });
                 if (!txt) throw new Error('Empty response from AI');
 

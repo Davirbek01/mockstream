@@ -33,6 +33,7 @@
   <script src="site-config/site-config.js"></script>
   <script src="human-expert.js"></script>
   <script src="supabase-send.js"></script>
+  <script src="scoring-prompts.js"></script>
   <!-- Redirect to index on page reload/refresh -->
   <script>
     (function () {
@@ -10544,73 +10545,7 @@
           // Send to Gemini for IELTS band scoring with retry
           const analysisResp = await attemptWithRetry(async () => {
             const contentParts = [{
-              text: `You are an expert IELTS Speaking examiner. Score this candidate's responses using the OFFICIAL IELTS Speaking Band Descriptors.
-
-═══════════════════════════════════════════════════════════════════════════════
-                    IELTS SPEAKING BAND DESCRIPTORS
-═══════════════════════════════════════════════════════════════════════════════
-
-IELTS Speaking is scored on FOUR criteria, each receiving a band score from 0-9:
-
-1. FLUENCY AND COHERENCE (FC)
-Band 9: Fluent with only very occasional repetition or self-correction. Any hesitation is content-related, not to find words or grammar. Speech is situationally appropriate and cohesive. Topic development is fully coherent and appropriately extended.
-Band 8: Fluent with only very occasional repetition or self-correction. Hesitation is usually content-related; only rarely to search for language. Topic development is coherent, appropriate and relevant.
-Band 7: Able to keep going and readily produce long turns without noticeable effort. Some hesitation, repetition and/or self-correction may occur, often mid-sentence, but these will not affect coherence. Flexible use of spoken discourse markers, connectives and cohesive features.
-Band 6: Able to keep going and demonstrates a willingness to produce long turns. Coherence may be lost at times as a result of hesitation, repetition and/or self-correction. Uses a range of discourse markers, connectives and cohesive features though not always appropriately.
-Band 5: Usually able to keep going, but relies on repetition and self-correction and/or on slow speech. Hesitations are often for fairly basic lexis and grammar. Overuse of certain discourse markers/connectives. More complex speech usually causes disfluency.
-Band 4: Unable to keep going without noticeable pauses. Speech may be slow with frequent repetition. Often self-corrects. Can link simple sentences but often with repetitious use of connectives. Some breakdowns in coherence.
-Band 3: Frequent, sometimes long, pauses while candidate searches for words. Limited ability to link simple sentences and go beyond simple responses. Frequently unable to convey basic message.
-Band 2: Lengthy pauses before nearly every word. Isolated words may be recognisable but speech is of virtually no communicative significance.
-Band 1: Essentially none. Speech is totally incoherent.
-Band 0: Does not attend.
-
-2. LEXICAL RESOURCE (LR)
-Band 9: Total flexibility and precise use in all contexts. Sustained use of accurate and idiomatic language.
-Band 8: Wide resource, readily and flexibly used to discuss all topics and convey precise meaning. Skilful use of less common/idiomatic items despite occasional inaccuracies. Effective use of paraphrase as required.
-Band 7: Resource flexibly used to discuss a variety of topics. Some ability to use less common and idiomatic items with awareness of style and collocation. Effective use of paraphrase as required.
-Band 6: Resource sufficient to discuss topics at length. Vocabulary use may be inappropriate but meaning is clear. Generally able to paraphrase successfully.
-Band 5: Resource sufficient to discuss familiar and unfamiliar topics but limited flexibility. Attempts paraphrase but not always with success.
-Band 4: Resource sufficient for familiar topics but only basic meaning on unfamiliar topics. Frequent inappropriacies and errors in word choice. Rarely attempts paraphrase.
-Band 3: Resource limited to simple vocabulary used primarily to convey personal information. Vocabulary inadequate for unfamiliar topics.
-Band 2: Very limited resource. Utterances consist of isolated words or memorised utterances. Little communication possible without support of mime or gesture.
-Band 1: No resource bar a few isolated words. No communication possible.
-Band 0: Does not attend.
-
-3. GRAMMATICAL RANGE AND ACCURACY (GRA)
-Band 9: Structures are precise and accurate at all times, apart from 'mistakes' characteristic of native speaker speech.
-Band 8: Wide range of structures, flexibly used. The majority of sentences are error free. Occasional inappropriacies and non-systematic errors occur. A few basic errors may persist.
-Band 7: A range of structures flexibly used. Error-free sentences are frequent. Both simple and complex sentences are used effectively despite some errors. A few basic errors persist.
-Band 6: Produces a mix of short and complex sentence forms and a variety of structures with limited flexibility. Though errors frequently occur in complex structures, these rarely impede communication.
-Band 5: Basic sentence forms are fairly well controlled for accuracy. Complex structures are attempted but these are limited in range, nearly always contain errors and may lead to the need for reformulation.
-Band 4: Can produce basic sentence forms and some short utterances are error-free. Subordinate clauses are rare and, overall, turns are short, structures are repetitive and errors are frequent.
-Band 3: Basic sentence forms are attempted but grammatical errors are numerous except in apparently memorised utterances.
-Band 2: No evidence of basic sentence forms.
-Band 1: No rateable language unless memorised.
-Band 0: Does not attend.
-
-4. PRONUNCIATION (P)
-Band 9: Uses a full range of phonological features to convey precise and/or subtle meaning. Can be effortlessly understood throughout. Accent has no effect on intelligibility.
-Band 8: Uses a wide range of phonological features to convey precise and/or subtle meaning. Can sustain appropriate rhythm. Can be easily understood throughout. Accent has minimal effect on intelligibility.
-Band 7: Displays all the positive features of band 6, and some, but not all, of the positive features of band 8.
-Band 6: Uses a range of phonological features, but control is variable. Some effective use of intonation and stress, but this is not sustained. Can generally be understood throughout without much effort.
-Band 5: Displays all the positive features of band 4, and some, but not all, of the positive features of band 6.
-Band 4: Uses some acceptable phonological features, but the range is limited. Produces some acceptable chunking, but there are frequent lapses in overall rhythm. Attempts to use intonation and stress, but control is limited. Individual words or phonemes are frequently mispronounced, causing lack of clarity. Understanding requires some effort and there may be patches of speech that cannot be understood.
-Band 3: Displays some features of band 2, and some, but not all, of the positive features of band 4.
-Band 2: Uses few acceptable phonological features. Overall problems with delivery impair attempts at connected speech. Individual words and phonemes are mainly mispronounced and little meaning is conveyed. Often unintelligible.
-Band 1: Can produce occasional individual words and phonemes that are recognisable, but no overall meaning is conveyed. Unintelligible.
-Band 0: Does not attend.
-
-OVERALL BAND SCORE: The average of the four criteria scores, rounded to the nearest 0.5.
-
-═══════════════════════════════════════════════════════════════════════════════
-                    IELTS SPEAKING TEST STRUCTURE
-═══════════════════════════════════════════════════════════════════════════════
-
-Part 1 - Introduction & Interview (Q1-Q7): The examiner asks general questions on familiar topics (home, family, work, studies, interests).
-
-Part 2 - Individual Long Turn (Q8 = Cue Card): The candidate is given a task card with a topic and bullet points. They have 1 minute to prepare, then speak for 1-2 minutes. Q9-Q10 are follow-up questions to the cue card topic.
-
-Part 3 - Two-way Discussion (Q11-Q17): The examiner asks deeper, more abstract questions related to Part 2 topic. Requires discussion, analysis, and opinion.
+              text: `${window.ScoringPrompts.IELTS_SPEAKING_CORE}
 
 ═══════════════════════════════════════════════════════════════════════════════
                     CANDIDATE'S RESPONSES
@@ -10639,19 +10574,6 @@ Match the length to the speaking time allocated:
 - Q11-Q17 Part 3 (45 seconds each): ~80-120 words
 Use sophisticated vocabulary, complex grammar, and natural fluency appropriate for Band 8-9.
 
-IMPORTANT SCORING NOTES:
-- Score each criterion INDEPENDENTLY — it is extremely rare for all 4 scores to be identical. A student may be fluent but have weak grammar, or have good vocabulary but poor coherence. DIFFERENTIATE scores based on actual evidence.
-- Criterion scores (FC, LR, GRA, P) MUST be WHOLE NUMBERS ONLY (5, 6, 7, 8) — NO half bands like 5.5 or 6.5 for individual criteria
-- Consider the OVERALL impression, not just individual questions
-- Even if some individual responses are weak, a candidate can still score well if overall performance is good
-- Do NOT give band 0 unless there is literally no speech at all
-
-⚠️ CRITICAL RULES — ALWAYS RETURN VALID JSON:
-• If a response is "[No speech]", "[Transcription failed]" or "[Error]", treat it as band 0 for that question. In the feedback explain: "No speech was detected in this response."
-• If a response is completely off-topic or unintelligible, give a very low band score (0-1) with feedback explaining WHY (e.g. "Response was completely unrelated to the question").
-• NEVER refuse to score. ALWAYS return the full JSON with numeric band scores, even if all bands are 0.
-• A band of 0 is a valid IELTS assessment — it means the candidate did not attempt or produced no assessable language.
-
 RETURN ONLY THIS JSON FORMAT (no other text):
 {
   "fc": <FLUENCY AND COHERENCE band 0-9 as WHOLE NUMBER e.g. 6>,
@@ -10664,7 +10586,9 @@ ${qJsonLines}
 }` }];
 
             var _cp = await _loadScoringPrompts();
-            var _sysS = _cp['scoring_ielts_speaking_system'] || '';
+            // Rubric lives in the prompt via the shared core (scoring-prompts.js
+            // → IELTS_SPEAKING_CORE). No separate DB system instruction.
+            var _sysS = '';
             return await _callScoringAI(_sysS, '', { temperature: 0.3, maxTokens: 16384, jsonMode: true, contentParts: contentParts, skill: 'speaking' });
           });
 
