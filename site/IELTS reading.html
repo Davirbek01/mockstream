@@ -4380,14 +4380,17 @@
                 // Full mock counts DOWN from 60 min (real exam). Practice /
                 // passage modes (window._practicePassage set) keep the
                 // count-UP stopwatch (~20 min per passage).
+                // Full mock counts DOWN from 60 min, then into NEGATIVE
+                // (red blink, no auto-submit) — matches CEFR Reading.
+                // Practice/passage modes (window._practicePassage) count UP.
                 var isFull = !window._practicePassage;
                 var FULL_SECS = 60 * 60;
-                var remaining = FULL_SECS - elapsedSeconds;
-                if (remaining < 0) remaining = 0;
-                var displaySecs = isFull ? remaining : elapsedSeconds;
-                var m = Math.floor(displaySecs / 60);
-                var s = displaySecs % 60;
-                var t = pad(m) + ':' + pad(s);
+                var displaySecs = isFull ? (FULL_SECS - elapsedSeconds) : elapsedSeconds;
+                var neg = displaySecs < 0;
+                var absSecs = Math.abs(displaySecs);
+                var m = Math.floor(absSecs / 60);
+                var s = absSecs % 60;
+                var t = (neg ? '-' : '') + pad(m) + ':' + pad(s);
 
                 // Update all stopwatch elements (desktop and mobile)
                 var timeElements = document.querySelectorAll('#stopwatch time, #stopwatchMobile time');
@@ -4399,53 +4402,25 @@
                 if (hidden) hidden.value = t;
 
                 var clockDivs = document.querySelectorAll('.clock');
+                for (var c = 0; c < clockDivs.length; c++) {
+                    clockDivs[c].classList.remove('timer-warning', 'timer-overtime');
+                }
 
                 if (isFull) {
-                    // 5 minutes remaining — warn and turn red
-                    if (remaining === 300 && !fifteenMinuteWarningShown) {
-                        fifteenMinuteWarningShown = true;
-                        try {
-                            showFriendlyPopup('⏰ 5 minutes remaining — keep going!', { duration: 3000, icon: '⏰' });
-                        } catch (e) {
-                            try { alert('Time Alert: You have 5 minutes remaining!'); } catch (err) { /* ignore */ }
-                        }
-                        for (var j = 0; j < clockDivs.length; j++) {
-                            clockDivs[j].classList.add('timer-warning');
-                        }
-                    }
-                    // Time up — freeze at 00:00, warn, do NOT auto-submit
-                    if (remaining <= 0) {
-                        for (var k = 0; k < clockDivs.length; k++) {
-                            clockDivs[k].classList.remove('timer-warning');
-                            clockDivs[k].classList.add('timer-overtime');
-                        }
-                        stopTimer();
-                        try {
-                            showFriendlyPopup('⏰ Time is up! Please review your answers and submit.', { duration: 5000, icon: '⏰' });
-                        } catch (e) { /* ignore */ }
+                    // Full mock: ≤5 min → red warning; ≤0 → overtime red blink
+                    // (timer keeps running into negative; never auto-submits).
+                    if (displaySecs <= 0) {
+                        for (var k = 0; k < clockDivs.length; k++) clockDivs[k].classList.add('timer-overtime');
+                    } else if (displaySecs <= 300) {
+                        for (var j = 0; j < clockDivs.length; j++) clockDivs[j].classList.add('timer-warning');
                     }
                 } else {
-                    // Practice (passage) mode — count-up stopwatch
-                    // 15 minutes (900 seconds) - 5-min warning of the ~20-min slot
-                    if (elapsedSeconds === 900 && !fifteenMinuteWarningShown) {
-                        fifteenMinuteWarningShown = true;
-                        try {
-                            showFriendlyPopup('⏰ 5 minutes remaining — keep going!', { duration: 3000, icon: '⏰' });
-                        } catch (e) {
-                            try { alert('Time Alert: You have 5 minutes remaining!'); } catch (err) { /* ignore */ }
-                        }
-                        for (var j2 = 0; j2 < clockDivs.length; j2++) {
-                            clockDivs[j2].classList.add('timer-warning');
-                        }
-                    }
-                    // 20 minutes (1200 seconds) - overtime animation
+                    // Practice (passage) mode — count-UP stopwatch (visual cue
+                    // only: red after ~15 min, blink after ~20 min; no popup).
                     if (elapsedSeconds >= 1200) {
-                        for (var k2 = 0; k2 < clockDivs.length; k2++) {
-                            if (!clockDivs[k2].classList.contains('timer-overtime')) {
-                                clockDivs[k2].classList.add('timer-overtime');
-                                clockDivs[k2].classList.remove('timer-warning');
-                            }
-                        }
+                        for (var k2 = 0; k2 < clockDivs.length; k2++) clockDivs[k2].classList.add('timer-overtime');
+                    } else if (elapsedSeconds >= 900) {
+                        for (var j2 = 0; j2 < clockDivs.length; j2++) clockDivs[j2].classList.add('timer-warning');
                     }
                 }
             }

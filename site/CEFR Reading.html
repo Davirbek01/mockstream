@@ -3159,7 +3159,7 @@
     let currentPart = 0;
     let userAnswers = {};
     let timerInterval = null;
-    let timeRemaining = window._practicePart ? 15 * 60 : 60 * 60; // 15 min practice / 60 min full
+    let timeRemaining = window._practicePart ? 0 : 60 * 60; // practice: count UP from 0 / full: 60-min countdown
     let isReviewMode = false;
 
     // British ↔ American spelling variant pairs
@@ -3359,8 +3359,8 @@
         mockStartTime = new Date();
         // Set timer (practice mode uses shorter time)
         if (window._practicePart) {
-          var practiceTimeLookup = { 1: 10, 2: 12, 3: 14, 4: 12, 5: 12 };
-          timeRemaining = (practiceTimeLookup[window._practicePart] || 15) * 60;
+          // Practice (part) mode = count-UP stopwatch from 0 (no limit)
+          timeRemaining = 0;
         } else {
           // Guard against mocks with a missing / empty / non-numeric
           // totalTime (was producing "-NaN:NaN"). Standard CEFR reading
@@ -4468,9 +4468,10 @@
     function startTimer() {
       updateTimerDisplay();
       timerInterval = setInterval(() => {
-        timeRemaining--;
+        // Practice counts UP (elapsed); full mock counts DOWN into negative
+        // (red blink, no auto submit).
+        if (window._practicePart) timeRemaining++; else timeRemaining--;
         updateTimerDisplay();
-        // Timer continues into negative - no auto submit
       }, 1000);
     }
 
@@ -4482,11 +4483,17 @@
       timerBox.classList.remove('warning', 'danger', 'overtime');
       
       let timerText = "";
-      if (timeRemaining >= 0) {
+      if (window._practicePart) {
+        // Practice mode — plain count-UP stopwatch (no limit, no warnings)
+        const up = timeRemaining < 0 ? 0 : timeRemaining;
+        const minutes = Math.floor(up / 60);
+        const seconds = up % 60;
+        timerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      } else if (timeRemaining >= 0) {
         const minutes = Math.floor(timeRemaining / 60);
         const seconds = timeRemaining % 60;
         timerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        
+
         if (timeRemaining <= 300) timerBox.classList.add('danger');
         else if (timeRemaining <= 600) timerBox.classList.add('warning');
       } else {
