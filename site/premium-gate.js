@@ -319,6 +319,47 @@
     } catch (e) { return null; }
   }
 
+  // Show a tier-confirmation step right after a code validates, BEFORE the test
+  // starts, so the candidate knows whether they have AI scoring. Premium → a
+  // quick positive confirm; Regular → a heads-up + an Upgrade option (and a
+  // "Continue as regular" path). opts.onContinue() proceeds into the test.
+  // Admins skip the notice. Reuses openUpgradeModal for the purchase CTA.
+  function showTierNotice(opts) {
+    opts = opts || {};
+    var onContinue = typeof opts.onContinue === 'function' ? opts.onContinue : function () {};
+    try {
+      if (typeof document === 'undefined' || isAdmin()) { onContinue(); return null; }
+      var premium = (opts.tier === 'premium') || (opts.premiumEntry === true);
+      var skill = opts.skill || '';
+      var overlay = document.createElement('div');
+      overlay.className = 'pg-tier-overlay';
+      overlay.style.cssText = 'position:fixed;inset:0;z-index:100000;background:rgba(15,23,42,0.55);display:flex;align-items:center;justify-content:center;padding:20px;';
+      overlay.innerHTML =
+        '<div role="dialog" aria-modal="true" style="background:#fff;border-radius:18px;max-width:420px;width:100%;padding:26px 24px;box-shadow:0 20px 60px rgba(0,0,0,0.35);text-align:center;font-family:inherit;">' +
+          (premium
+            ? '<div style="font-size:44px;line-height:1;margin-bottom:10px;">✅</div>' +
+              '<h3 style="margin:0 0 8px;font-size:20px;color:#16a34a;">Premium unlocked</h3>' +
+              '<p style="margin:0 0 20px;font-size:14px;color:#475569;line-height:1.55;">You\'ll get <b>instant AI band scoring &amp; detailed feedback</b> at the end of this test.</p>' +
+              '<button class="pg-tier-go" style="width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;font-weight:800;font-size:15px;cursor:pointer;">Start test →</button>'
+            : '<div style="font-size:44px;line-height:1;margin-bottom:10px;">ℹ️</div>' +
+              '<h3 style="margin:0 0 8px;font-size:20px;color:#d97706;">Regular access</h3>' +
+              '<p style="margin:0 0 8px;font-size:14px;color:#475569;line-height:1.55;">This code does <b>not</b> include AI scoring. You\'ll still get your answers, <b>model samples</b> and <b>topic vocabulary</b> — but <b>no AI band score</b>.</p>' +
+              '<p style="margin:0 0 18px;font-size:12.5px;color:#92400e;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:8px 10px;">💡 Want your real band, corrections &amp; AI feedback? Upgrade to Premium.</p>' +
+              '<button class="pg-tier-up" style="width:100%;padding:13px;border:none;border-radius:12px;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;font-weight:800;font-size:15px;cursor:pointer;margin-bottom:8px;">💎 Upgrade to Premium</button>' +
+              '<button class="pg-tier-go" style="width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:12px;background:#f8fafc;color:#475569;font-weight:700;font-size:14px;cursor:pointer;">Continue as regular →</button>') +
+        '</div>';
+      document.body.appendChild(overlay);
+      var done = false;
+      function close() { if (overlay.parentNode) overlay.parentNode.removeChild(overlay); }
+      function go() { if (done) return; done = true; close(); try { onContinue(); } catch (e) {} }
+      var goBtn = overlay.querySelector('.pg-tier-go');
+      if (goBtn) goBtn.addEventListener('click', go);
+      var upBtn = overlay.querySelector('.pg-tier-up');
+      if (upBtn) upBtn.addEventListener('click', function () { openUpgradeModal((skill || 'entry') + '_tier_upsell'); });
+      return overlay;
+    } catch (e) { onContinue(); return null; }
+  }
+
   // Derive the skill name from the reason string so applyLockBadge can re-check
   // isPremiumTier(skill) at click time. Reasons follow the convention
   //   <prefix>_<skill>[_<exam>]  (e.g. 'plus_speaking', 'part_practice_listening_cefr',
@@ -397,6 +438,7 @@
     fetchTakenForUser: fetchTakenForUser,
     openUpgradeModal:  openUpgradeModal,
     renderUpsellCard:  renderUpsellCard,
+    showTierNotice:    showTierNotice,
     applyLockBadge:    applyLockBadge,
     _normName:         _normName,
     _center:           _center,

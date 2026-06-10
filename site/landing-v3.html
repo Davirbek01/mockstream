@@ -11844,7 +11844,12 @@
         const _wResumeUrl = _pendingWritingMock.pageUrl;
         const _wResumeCategory = _pendingWritingMock.category;
         closeWritingAccessCodeModal();
-        setTimeout(() => _launchWritingMock(_wResumeUrl, _wResumeCategory), 300);
+        const _wProceed = () => _launchWritingMock(_wResumeUrl, _wResumeCategory);
+        if (window.PremiumGate && PremiumGate.showTierNotice) {
+          PremiumGate.showTierNotice({ tier: result.premiumEntry ? 'premium' : 'regular', skill: 'writing', onContinue: () => setTimeout(_wProceed, 150) });
+        } else {
+          setTimeout(_wProceed, 300);
+        }
       } catch (_err) {
         error.style.color = '#dc2626'; error.textContent = '❌ Connection error. Please try again.';
         btn.textContent = 'Verify & Start'; btn.disabled = false;
@@ -12843,7 +12848,12 @@
         const _rdResumeUrl = _pendingReadingMock.pageUrl;
         const _rdResumeCategory = _pendingReadingMock.category;
         closeReadingAccessCodeModal();
-        setTimeout(() => _loadReadingMockOrShowMode(_rdResumeUrl, _rdResumeCategory), 300);
+        const _rdProceed = () => _loadReadingMockOrShowMode(_rdResumeUrl, _rdResumeCategory);
+        if (window.PremiumGate && PremiumGate.showTierNotice) {
+          PremiumGate.showTierNotice({ tier: result.premiumEntry ? 'premium' : 'regular', skill: 'reading', onContinue: () => setTimeout(_rdProceed, 150) });
+        } else {
+          setTimeout(_rdProceed, 300);
+        }
       } catch (_err) {
         error.style.color = '#dc2626'; error.textContent = '❌ Connection error. Please try again.';
         btn.textContent = 'Verify & Start'; btn.disabled = false;
@@ -14452,7 +14462,12 @@
         const _lsResumeUrl = _pendingListeningMock.pageUrl;
         const _lsResumeCategory = _pendingListeningMock.category;
         closeListeningAccessCodeModal();
-        setTimeout(() => _loadListeningMockOrShowMode(_lsResumeUrl, _lsResumeCategory), 300);
+        const _lsProceed = () => _loadListeningMockOrShowMode(_lsResumeUrl, _lsResumeCategory);
+        if (window.PremiumGate && PremiumGate.showTierNotice) {
+          PremiumGate.showTierNotice({ tier: result.premiumEntry ? 'premium' : 'regular', skill: 'listening', onContinue: () => setTimeout(_lsProceed, 150) });
+        } else {
+          setTimeout(_lsProceed, 300);
+        }
       } catch (_err) {
         error.style.color = '#dc2626'; error.textContent = '❌ Connection error. Please try again.';
         btn.textContent = 'Verify & Start'; btn.disabled = false;
@@ -17109,7 +17124,12 @@
         const _spResumeUrl = _pendingSpeakingMock.pageUrl;
         const _spResumeCategory = _pendingSpeakingMock.category;
         closeSpeakingAccessCodeModal();
-        setTimeout(() => _launchSpeakingMock(_spResumeUrl, _spResumeCategory), 300);
+        const _spProceed = () => _launchSpeakingMock(_spResumeUrl, _spResumeCategory);
+        if (window.PremiumGate && PremiumGate.showTierNotice) {
+          PremiumGate.showTierNotice({ tier: result.premiumEntry ? 'premium' : 'regular', skill: 'speaking', onContinue: () => setTimeout(_spProceed, 150) });
+        } else {
+          setTimeout(_spProceed, 300);
+        }
       } catch (_err) {
         error.style.color = '#dc2626'; error.textContent = '❌ Connection error. Please try again.';
         btn.textContent = 'Verify & Start'; btn.disabled = false;
