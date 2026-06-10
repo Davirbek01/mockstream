@@ -10522,7 +10522,7 @@
           // Send to Gemini for IELTS band scoring with retry
           const analysisResp = await attemptWithRetry(async () => {
             const contentParts = [{
-              text: `${window.ScoringPrompts.IELTS_SPEAKING_CORE}
+              text: `${window.ScoringPrompts.requireCore('IELTS_SPEAKING_CORE')}
 
 ═══════════════════════════════════════════════════════════════════════════════
                     CANDIDATE'S RESPONSES

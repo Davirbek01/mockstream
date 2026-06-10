@@ -9017,7 +9017,7 @@
             // Shared rubric core (single source of truth — scoring-prompts.js).
             // Lean output (band + short feedback) is appended below, matching
             // this page's result parser.
-            let prompt = window.ScoringPrompts.IELTS_WRITING_CORE + '\n\n';
+            let prompt = window.ScoringPrompts.requireCore('IELTS_WRITING_CORE') + '\n\n';
             // IELTS writing data stores tasks as object {task1:{...}, task2:{...}}, convert to array
             const tasksArr = Array.isArray(data.tasks) ? data.tasks : Object.values(data.tasks);
             tasksArr.forEach((task, i) => {
@@ -9123,7 +9123,7 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
                 return { band: 5, feedback: 'No responses to grade.' };
             }
 
-            let prompt = `${window.ScoringPrompts.IELTS_SPEAKING_CORE}
+            let prompt = `${window.ScoringPrompts.requireCore('IELTS_SPEAKING_CORE')}
 
 (Note: pronunciation is approximated from the transcribed text.)
 

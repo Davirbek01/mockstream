@@ -290,4 +290,19 @@ IMPORTANT SCORING NOTES:
   window.ScoringPrompts.CEFR_WRITING_CORE = CEFR_WRITING_CORE;
   window.ScoringPrompts.CEFR_SPEAKING_CORE = CEFR_SPEAKING_CORE;
   window.ScoringPrompts.IELTS_SPEAKING_CORE = IELTS_SPEAKING_CORE;
+
+  // Safety guard: pages call requireCore('X_CORE') instead of reading the
+  // constant directly when building a grading prompt. If the rubric failed to
+  // load (e.g. this file 404'd on a fresh client before the SW cached it), this
+  // throws + alerts INSTEAD of letting a prompt go out with the rubric missing
+  // — which would make the AI grade with no criteria and return a plausible but
+  // ungoverned band. Fail loud + safe, never silently mis-grade.
+  window.ScoringPrompts.requireCore = function (name) {
+    var v = window.ScoringPrompts && window.ScoringPrompts[name];
+    if (typeof v !== 'string' || v.length < 100) {
+      try { if (typeof alert === 'function') alert('The scoring engine did not finish loading, so grading was stopped to avoid an inaccurate score. Please refresh the page and try again.'); } catch (e) {}
+      throw new Error('SCORING_RUBRIC_NOT_LOADED:' + name);
+    }
+    return v;
+  };
 })();
