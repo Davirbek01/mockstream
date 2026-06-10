@@ -5240,7 +5240,7 @@
             else if (document.msExitFullscreen) document.msExitFullscreen();
         }
         function toggleExamFullscreen() {
-            try { window.top.postMessage('toggleFullscreen', '*'); } catch(e) {
+            try { if (window.top === window.self) { if (document.fullscreenElement || document.webkitFullscreenElement) exitFullscreen(); else enterFullscreen(); } else { window.top.postMessage('toggleFullscreen', '*'); } } catch(e) {
                 if (document.fullscreenElement || document.webkitFullscreenElement) exitFullscreen();
                 else enterFullscreen();
             }

@@ -2834,7 +2834,7 @@ ${aiSectionHtml}
 
     // ===== FULLSCREEN =====
     function toggleExamFullscreen() {
-      try { window.top.postMessage('toggleFullscreen', '*'); } catch(e) {}
+      try { if (window.top === window.self) { var _el = document.documentElement; if (document.fullscreenElement || document.webkitFullscreenElement) { (document.exitFullscreen||document.webkitExitFullscreen||function(){}).call(document); } else { (_el.requestFullscreen||_el.webkitRequestFullscreen||function(){}).call(_el); } } else { window.top.postMessage('toggleFullscreen', '*'); } } catch(e) {}
     }
     window.toggleExamFullscreen = toggleExamFullscreen;
 
