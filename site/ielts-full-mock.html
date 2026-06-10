@@ -9404,6 +9404,14 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
             `;
 
             document.getElementById('results-content').innerHTML = html;
+            // Regular (no AI scoring): add a prominent upgrade urge to the results,
+            // instead of only passive "Premium Feature" badges.
+            if (!state.isPremiumVip && window.PremiumGate && PremiumGate.renderUpsellCard) {
+              const _rc = document.getElementById('results-content');
+              const _btns = _rc.lastElementChild;
+              const _uc = PremiumGate.renderUpsellCard(_rc, 'fullmock');
+              if (_uc && _btns) _rc.insertBefore(_uc, _btns);
+            }
         }
 
         function renderScoreCard(name, band, rawData) {

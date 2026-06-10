@@ -10099,6 +10099,15 @@ Respond ONLY in JSON format:
 
                 console.log('[Results] Regular VIP Dashboard Complete (no AI scoring)');
                 await sendFullMockToTelegram(null, null);
+                // Regular: no AI scoring — add a prominent upgrade urge to the
+                // results overlay instead of only passive "Premium Feature" badges.
+                if (window.PremiumGate && PremiumGate.renderUpsellCard) {
+                  const _ra = document.getElementById('results-actions');
+                  if (_ra && _ra.parentNode) {
+                    const _uc = PremiumGate.renderUpsellCard(_ra.parentNode, 'fullmock');
+                    if (_uc) _ra.parentNode.insertBefore(_uc, _ra);
+                  }
+                }
                 // Hide processing spinner and show results overlay
                 if (window._hideProcessing) window._hideProcessing();
                 overlay.style.display = 'flex';
