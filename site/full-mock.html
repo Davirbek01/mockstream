@@ -5956,10 +5956,17 @@
                 state.candidateName = result.name;
                 document.getElementById('display-name').textContent = result.name;
 
-                // Dropdowns already populated at page load - just show the overlay
-                // Hide gate, show mock selection overlay
-                document.getElementById('gate').style.display = 'none';
-                document.getElementById('mock-selection-overlay').style.display = 'flex';
+                // Dropdowns already populated at page load - just show the overlay.
+                // Tier notice first: premium = AI scoring; regular = no AI + upgrade urge.
+                const _fmProceed = function () {
+                    document.getElementById('gate').style.display = 'none';
+                    document.getElementById('mock-selection-overlay').style.display = 'flex';
+                };
+                if (window.PremiumGate && PremiumGate.showTierNotice) {
+                    PremiumGate.showTierNotice({ tier: premium ? 'premium' : 'regular', skill: 'fullmock', onContinue: _fmProceed });
+                } else {
+                    _fmProceed();
+                }
             } catch (error) {
                 console.error('Verification error:', error);
                 passcodeError.textContent = 'Connection error. Please check your internet and try again.';
