@@ -9579,38 +9579,9 @@ Empty responses = 0 points and skip analysis for that task.`;
                     }
                 }
 
-                let prompt = `You are an ENCOURAGING Uzbek Multilevel Speaking examiner. Focus on COMMUNICATION SUCCESS, not perfection. Students are nervous in exams, so reward effort and comprehensible responses.
+                let prompt = `${window.ScoringPrompts.CEFR_SPEAKING_CORE}
 
-FAIR SCORING: Give the score the candidate DESERVES based on their communication ability. Focus on whether the message was communicated effectively.
-
-📌 TOPIC RELEVANCE (VERY IMPORTANT - BE FAIR!):
-- FOR Q1-3: If the student ADDRESSES the question AT ALL = ON-TOPIC ✓
-  Example: "Do you go to bed early or late?" → talking about sleep schedule, work affecting bedtime = ON-TOPIC!
-  Only mark off-topic if response is about a COMPLETELY DIFFERENT subject
-- FOR Q4-6: If they describe the pictures even partially = ON-TOPIC
-- Personal examples and reasoning = GOOD responses, not off-topic!
-                
-RAW SCORING (Max 21): P1.1 (Q1-3): 0-5, P1.2 (Q4-6): 0-5, P2 (Q7): 0-5, P3 (Q8): 0-6.
-- If student communicates the basic idea = at least 3-4 points per section
-- If student answers with decent fluency and content = 4-5 points per section
-- If student gives detailed examples and good vocabulary = 5+ points
-- Only give 0-1 for NO response or completely incomprehensible speech
-
-IMPORTANT: Questions 4-6 are IMAGE-BASED questions. Two images are attached as inline_data in this request - you can see them directly.
-- Q4 asks to describe what they see in both pictures - LOOK at the actual attached images to judge relevance AND generate sample answer
-- Q5 asks to compare the pictures - use the visual details from the attached images
-- Q6 asks a follow-up question about the pictures
-For Q4 sample answer: DESCRIBE EXACTLY what you see in the two attached images (people, settings, activities, objects, colors, etc.). Do NOT make up generic descriptions.
-If the response is completely unrelated to the images, reduce the score accordingly.
-
-⚠️ RAW TO CERTIFICATE CONVERSION TABLE (USE THIS EXACTLY - DO NOT CALCULATE LINEARLY):
-21→75, 20.5→73, 20→71, 19.5→69, 19→67, 18.5→65, 18→64, 17.5→63, 17→61, 16.5→59, 16→57, 15.5→56, 15→54, 14.5→52, 14→51, 13.5→50, 13→49, 12.5→47, 12→46, 11.5→45, 11→43, 10.5→42, 10→40, 9.5→39, 9→38, 8.5→37, 8→35, 7.5→33, 7→32, 6.5→30, 6→29, 5.5→27, 5→26, 4.5→24, 4→23, 3.5→21, 3→19, 2.5→17, 2→15, 1.5→13, 1→11, 0.5→10, 0→0
-
-⚠️ CEFR LEVEL FROM CERTIFICATE SCORE (STRICTLY FOLLOW):
-- Certificate 0-34: Below B1 (A1-A2)
-- Certificate 35-50: B1
-- Certificate 51-64: B2
-- Certificate 65-75: C1
+📌 IMAGES: Q4-Q6 are picture-based. Two images are attached as inline_data — look at them directly to judge relevance and to ground the Q4-Q6 sample answers in what is actually shown. If a response is unrelated to the images, reduce the score accordingly.
 
 RESPONSES:
 `;
@@ -9731,7 +9702,9 @@ Respond ONLY in JSON format:
                 }
 
                 var _cpS = await _loadScoringPrompts();
-                var _sysS = _cpS['scoring_cefr_speaking_full_system'] || '';
+                // Rubric lives in the prompt via the shared CEFR speaking core
+                // (scoring-prompts.js). No separate DB system instruction.
+                var _sysS = '';
                 const _analysisText = await _callScoringAI(_sysS, '', { temperature: 0.2, jsonMode: true, contentParts: contentParts, skill: 'speaking' });
                 const result = JSON.parse(_analysisText);
 
