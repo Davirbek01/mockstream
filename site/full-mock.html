@@ -9258,13 +9258,12 @@ Empty responses = 0 points and skip analysis for that task.`;
                         }
                     }
 
-                    // User-requested simplification: keep only inline corrections
+                    // Keep inline corrections AND the AI's fresh high-level sample
+                    // per task (samples render in the per-task "See Sample Answer"
+                    // panel). Examiner-note feedback stays suppressed.
                     result.t11_analysis.examiner_feedback = '';
                     result.t12_analysis.examiner_feedback = '';
                     result.t2_analysis.examiner_feedback = '';
-                    result.t11_analysis.sample_answer = '';
-                    result.t12_analysis.sample_answer = '';
-                    result.t2_analysis.sample_answer = '';
 
                     console.log('[AI] Writing analysis complete:', result);
                     return result;
