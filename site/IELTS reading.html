@@ -4377,8 +4377,16 @@
 
 
             function renderTime() {
-                var m = Math.floor(elapsedSeconds / 60);
-                var s = elapsedSeconds % 60;
+                // Full mock counts DOWN from 60 min (real exam). Practice /
+                // passage modes (window._practicePassage set) keep the
+                // count-UP stopwatch (~20 min per passage).
+                var isFull = !window._practicePassage;
+                var FULL_SECS = 60 * 60;
+                var remaining = FULL_SECS - elapsedSeconds;
+                if (remaining < 0) remaining = 0;
+                var displaySecs = isFull ? remaining : elapsedSeconds;
+                var m = Math.floor(displaySecs / 60);
+                var s = displaySecs % 60;
                 var t = pad(m) + ':' + pad(s);
 
                 // Update all stopwatch elements (desktop and mobile)
@@ -4392,27 +4400,51 @@
 
                 var clockDivs = document.querySelectorAll('.clock');
 
-                // 15 minutes (900 seconds) - show warning and turn red
-                if (elapsedSeconds === 900 && !fifteenMinuteWarningShown) {
-                    fifteenMinuteWarningShown = true;
-                    // Non-blocking friendly popup (auto-dismisses)
-                    try {
-                        showFriendlyPopup('⏰ 5 minutes remaining — keep going!', { duration: 3000, icon: '⏰' });
-                    } catch (e) {
-                        // Fallback to alert if something goes wrong
-                        try { alert('Time Alert: You have 5 minutes remaining!'); } catch (err) { /* ignore */ }
+                if (isFull) {
+                    // 5 minutes remaining — warn and turn red
+                    if (remaining === 300 && !fifteenMinuteWarningShown) {
+                        fifteenMinuteWarningShown = true;
+                        try {
+                            showFriendlyPopup('⏰ 5 minutes remaining — keep going!', { duration: 3000, icon: '⏰' });
+                        } catch (e) {
+                            try { alert('Time Alert: You have 5 minutes remaining!'); } catch (err) { /* ignore */ }
+                        }
+                        for (var j = 0; j < clockDivs.length; j++) {
+                            clockDivs[j].classList.add('timer-warning');
+                        }
                     }
-                    for (var j = 0; j < clockDivs.length; j++) {
-                        clockDivs[j].classList.add('timer-warning');
-                    }
-                }
-
-                // 20 minutes (1200 seconds) - overtime animation
-                if (elapsedSeconds >= 1200) {
-                    for (var k = 0; k < clockDivs.length; k++) {
-                        if (!clockDivs[k].classList.contains('timer-overtime')) {
-                            clockDivs[k].classList.add('timer-overtime');
+                    // Time up — freeze at 00:00, warn, do NOT auto-submit
+                    if (remaining <= 0) {
+                        for (var k = 0; k < clockDivs.length; k++) {
                             clockDivs[k].classList.remove('timer-warning');
+                            clockDivs[k].classList.add('timer-overtime');
+                        }
+                        stopTimer();
+                        try {
+                            showFriendlyPopup('⏰ Time is up! Please review your answers and submit.', { duration: 5000, icon: '⏰' });
+                        } catch (e) { /* ignore */ }
+                    }
+                } else {
+                    // Practice (passage) mode — count-up stopwatch
+                    // 15 minutes (900 seconds) - 5-min warning of the ~20-min slot
+                    if (elapsedSeconds === 900 && !fifteenMinuteWarningShown) {
+                        fifteenMinuteWarningShown = true;
+                        try {
+                            showFriendlyPopup('⏰ 5 minutes remaining — keep going!', { duration: 3000, icon: '⏰' });
+                        } catch (e) {
+                            try { alert('Time Alert: You have 5 minutes remaining!'); } catch (err) { /* ignore */ }
+                        }
+                        for (var j2 = 0; j2 < clockDivs.length; j2++) {
+                            clockDivs[j2].classList.add('timer-warning');
+                        }
+                    }
+                    // 20 minutes (1200 seconds) - overtime animation
+                    if (elapsedSeconds >= 1200) {
+                        for (var k2 = 0; k2 < clockDivs.length; k2++) {
+                            if (!clockDivs[k2].classList.contains('timer-overtime')) {
+                                clockDivs[k2].classList.add('timer-overtime');
+                                clockDivs[k2].classList.remove('timer-warning');
+                            }
                         }
                     }
                 }
@@ -4426,8 +4458,9 @@
                     var n = parseInt(saved, 10);
                     if (!isNaN(n)) {
                         elapsedSeconds = n;
-                        // Check if warning already passed
-                        if (elapsedSeconds > 900) {
+                        // Suppress re-showing the 5-min warning on resume if it
+                        // already passed (full mock: 55:00 elapsed; practice: 15:00)
+                        if (elapsedSeconds > (!window._practicePassage ? 3300 : 900)) {
                             fifteenMinuteWarningShown = true;
                         }
                     }
