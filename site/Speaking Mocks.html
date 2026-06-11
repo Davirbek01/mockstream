@@ -8858,9 +8858,12 @@
           if (!stream) return;
 
           try {
-            // Use browser-compatible MIME type
+            // Use browser-compatible MIME type. Cap the bitrate — speech is fully
+            // intelligible (and transcribes fine) at 48 kbps, and the browser default
+            // can be 10-20× larger, which bloats the submission ZIP past the storage/
+            // Telegram size limits.
             const mimeType = getSupportedMimeType();
-            const options = mimeType ? { mimeType: mimeType } : {};
+            const options = mimeType ? { mimeType: mimeType, audioBitsPerSecond: 48000 } : { audioBitsPerSecond: 48000 };
 
             mediaRecorder = new MediaRecorder(stream, options);
             mediaRecorder.ondataavailable = e => {
