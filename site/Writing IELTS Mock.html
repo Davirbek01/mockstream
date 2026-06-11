@@ -3885,6 +3885,28 @@
       return false;
     };
 
+    // Resolve the real IELTS Writing mock number for captions / filenames.
+    // Priority: Supabase row's mock_number (set on load) → deep-link URL params →
+    // static selector value (ielts-mock-NN) → '01'. Fixes the "always Mock 01" caption
+    // for Supabase mocks (selector value is only "supabase:<id>").
+    window.getIeltsWritingMockNum = function () {
+      if (window._sbMockNumber != null && window._sbMockNumber !== '') return String(window._sbMockNumber).padStart(2, '0');
+      try {
+        var qs = new URLSearchParams(location.search);
+        var t = qs.get('test') || '';
+        var m = t.match(/mock[_-]?(\d+)/i) || t.match(/(\d+)$/);
+        if (m) return m[1].padStart(2, '0');
+        var n = qs.get('num'); if (n && /^\d+$/.test(n)) return n.padStart(2, '0');
+        var mp = qs.get('mock'); if (mp && /^\d+$/.test(mp)) return mp.padStart(2, '0');
+      } catch (e) {}
+      try {
+        var v = (document.getElementById('mockSelector') || {}).value || '';
+        var vm = v.match(/ielts-mock-(\d+)/);
+        if (vm) return vm[1].padStart(2, '0');
+      } catch (e) {}
+      return '01';
+    };
+
     // Function to dynamically load a new question file
     window.loadNewIELTSQuestions = function (scriptSrc) {
       return new Promise((resolve, reject) => {
@@ -3894,14 +3916,19 @@
           console.log('🌐 Loading IELTS Writing from Supabase, id=' + mockId);
           const SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
           const SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
-          fetch(SB_URL + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(mockId) + '&select=mock_data', {
+          fetch(SB_URL + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(mockId) + '&select=mock_data,mock_number,title', {
             headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
           })
           .then(function(r) { if (!r.ok) throw new Error('Supabase ' + r.status); return r.json(); })
           .then(function(rows) {
             if (!rows || !rows.length || !rows[0].mock_data) throw new Error('Empty response');
             window.IELTS_WRITING_TEST_DATA = rows[0].mock_data;
-            console.log('✅ Loaded IELTS Writing from Supabase');
+            // Remember the real mock number from the DB row — the selector value is only
+            // "supabase:<id>", so the Telegram caption / PDF would otherwise default to Mock 01.
+            window._sbMockNumber = (rows[0].mock_number != null && rows[0].mock_number !== '')
+              ? rows[0].mock_number
+              : (function () { var tm = (rows[0].title || '').match(/(\d+)/); return tm ? tm[1] : null; })();
+            console.log('✅ Loaded IELTS Writing from Supabase (mock #' + window._sbMockNumber + ')');
             if (window.loadIELTSTestData()) {
               resolve();
             } else {
@@ -3924,6 +3951,7 @@
 
         // Reset the data
         window.IELTS_WRITING_TEST_DATA = null;
+        window._sbMockNumber = null; // static mock — number comes from the file path
 
         // Create and load new script
         const script = document.createElement('script');
@@ -5505,12 +5533,7 @@
       const chartUrl = document.getElementById('chartImage')?.src || tasks.task1.chartImageUrl || '';
 
       // Get selected mock number
-      const mockSelector = document.getElementById('mockSelector');
-      let mockNumber = 'Default';
-      if (mockSelector && mockSelector.value) {
-        const match = mockSelector.value.match(/\d+/);
-        mockNumber = match ? match[0] : 'Default';
-      }
+      let mockNumber = window.getIeltsWritingMockNum ? window.getIeltsWritingMockNum() : 'Default';
 
       // Load both logo and chart images
       let logoImg = null;
@@ -6597,12 +6620,7 @@
 
     async function openTelegramWithMessage() {
       const candName = studentName || document.getElementById('nameInput')?.value?.trim() || 'Unknown';
-      const mockSelector = document.getElementById('mockSelector');
-      let mockNum = '01';
-      if (mockSelector && mockSelector.value) {
-        const match = mockSelector.value.match(/\d+/);
-        mockNum = match ? match[0].padStart(2, '0') : '01';
-      }
+      let mockNum = window.getIeltsWritingMockNum ? window.getIeltsWritingMockNum() : '01';
       const now = new Date();
       const testDate = String(now.getDate()).padStart(2, '0') + '.' + String(now.getMonth() + 1).padStart(2, '0') + '.' + now.getFullYear();
       const testId = (window._siteTestId || (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream');
@@ -7309,12 +7327,7 @@ Respond in JSON format:
         if (window.exitFullscreenForDownload) window.exitFullscreenForDownload();
 
         // Get mock number for filename
-        const mockSelector = document.getElementById('mockSelector');
-        let mockNumber = '';
-        if (mockSelector && mockSelector.value) {
-          const match = mockSelector.value.match(/\d+/);
-          mockNumber = match ? '_Mock' + match[0] : '';
-        }
+        let mockNumber = window.getIeltsWritingMockNum ? '_Mock' + window.getIeltsWritingMockNum() : '';
 
         pdf.save(`IELTS_Writing_Sample_Answers${mockNumber}.pdf`);
 
@@ -10638,11 +10651,9 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (Criteria scores MUST be whole numbers �
       const filename = `${safeName(student)}_${ddmm()}_${testIdentifier}.html`;
       fd.append('file', new File([htmlBlob], filename, { type: 'text/html' }));
 
-      // Extract mock number from the mock selector dropdown (e.g., "questions IELTS W/ielts-mock-15.js" -> "15")
-      const selectorEl = document.getElementById('mockSelector');
-      const selectorVal = selectorEl ? selectorEl.value : '';
-      const mockFromSelector = selectorVal.match(/ielts-mock-(\d+)/);
-      const mockNum = mockFromSelector ? mockFromSelector[1].padStart(2, '0') : (testIdentifier.match(/(\d+)/) ? testIdentifier.match(/(\d+)/)[1].padStart(2, '0') : '01');
+      // Real mock number (Supabase row number → deep-link → selector). Was defaulting to
+      // "01" for Supabase mocks because the selector value is only "supabase:<id>".
+      const mockNum = window.getIeltsWritingMockNum ? window.getIeltsWritingMockNum() : '01';
 
       // Build caption with test info and hashtags
       const now = new Date();
@@ -10904,12 +10915,7 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (Criteria scores MUST be whole numbers �
       telegramContactLink.addEventListener('click', function(e) {
         e.preventDefault();
         const candName = studentName || document.getElementById('nameInput')?.value?.trim() || 'Unknown';
-        const mockSelector = document.getElementById('mockSelector');
-        let mockNum = '01';
-        if (mockSelector && mockSelector.value) {
-          const match = mockSelector.value.match(/\d+/);
-          mockNum = match ? match[0].padStart(2, '0') : '01';
-        }
+        let mockNum = window.getIeltsWritingMockNum ? window.getIeltsWritingMockNum() : '01';
         const now = new Date();
         const testDate = String(now.getDate()).padStart(2, '0') + '.' + String(now.getMonth() + 1).padStart(2, '0') + '.' + now.getFullYear();
         const testId = (window._siteTestId || (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream');
