@@ -115,19 +115,31 @@
         return r.blob();
       })
       .then(function (blob) {
-        return new Promise(function (resolve, reject) {
-          var reader = new FileReader();
-          reader.onloadend = function () {
-            try {
+        // Downscale before sending — large originals blow past provider request-size
+        // limits (Groq/Llama-Scout returns 413 "request_too_large" on multi-MB images).
+        function rawBytes() {
+          return new Promise(function (resolve, reject) {
+            var reader = new FileReader();
+            reader.onloadend = function () {
               var s = reader.result || '';
               var commaAt = s.indexOf(',');
-              var b64 = commaAt >= 0 ? s.slice(commaAt + 1) : s;
-              resolve({ mime: blob.type || 'image/png', b64: b64 });
-            } catch (e) { reject(e); }
-          };
-          reader.onerror = reject;
-          reader.readAsDataURL(blob);
-        });
+              resolve({ mime: blob.type || 'image/png', b64: commaAt >= 0 ? s.slice(commaAt + 1) : s });
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(blob);
+          });
+        }
+        if (typeof createImageBitmap !== 'function' || typeof document === 'undefined') return rawBytes();
+        return createImageBitmap(blob).then(function (bmp) {
+          var maxDim = 1024, w = bmp.width, h = bmp.height;
+          var scale = Math.min(1, maxDim / Math.max(w, h));
+          w = Math.round(w * scale); h = Math.round(h * scale);
+          var c = document.createElement('canvas'); c.width = w; c.height = h;
+          c.getContext('2d').drawImage(bmp, 0, 0, w, h);
+          try { bmp.close(); } catch (e) {}
+          var dataUrl = c.toDataURL('image/jpeg', 0.72);
+          return { mime: 'image/jpeg', b64: dataUrl.split(',')[1] };
+        }).catch(function () { return rawBytes(); });
       })
       .catch(function (e) {
         console.warn('[Vision] image fetch failed:', url, e.message || e);
