@@ -8080,6 +8080,21 @@ Respond in JSON format:
 
     /* ===== BUILD HTML REPORT ===== */
     async function buildHTMLReport(student, receipt, aiResult = null) {
+      // Defensive: the AI occasionally returns feedback/sample/corrected fields as arrays or
+      // objects instead of strings. Downstream code calls .replace() on them, which threw
+      // "(...).replace is not a function" and silently killed the Telegram + Supabase send.
+      if (aiResult) {
+        var _asText = function (v) {
+          if (v == null) return '';
+          if (typeof v === 'string') return v;
+          if (Array.isArray(v)) return v.map(_asText).join('\n');
+          if (typeof v === 'object') { try { return Object.values(v).map(_asText).join('\n'); } catch (e) { return String(v); } }
+          return String(v);
+        };
+        ['t1_feedback','t2_feedback','overall_feedback','t1_sample','t2_sample','t1_corrected','t2_corrected','t1_analysis','t2_analysis','feedback'].forEach(function (k) {
+          if (aiResult[k] != null && typeof aiResult[k] !== 'string') aiResult[k] = _asText(aiResult[k]);
+        });
+      }
       // Convert text with line breaks into HTML with paragraph structure
       function textToHTML(text) {
         const escaped = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
