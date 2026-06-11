@@ -16106,14 +16106,18 @@ ${(img1Base64 || img2Base64) ? `IMPORTANT: Two images are attached as inline_dat
 For Q4 (picture description): If candidate describes something completely unrelated to the ATTACHED pictures OR the text prompt, mark as OFF-TOPIC.
 For Q5-Q6: If answer doesn't relate to the pictures, the prompt or the follow-up topic, mark as OFF-TOPIC/PARTIALLY OFF-TOPIC.
 
-📝 INLINE CORRECTION FORMAT - MUST USE:
-Copy the ENTIRE response and mark ALL errors using these EXACT formats:
-- [GRAMMAR: wrong text -> correct text] - for grammar errors
-- [VOCAB: basic word -> better word] - for vocabulary improvements  
-- [FLUENCY: incomplete/repeated -> improved version] - for fluency issues
-- [PRON: unclear pronunciation hint] - for pronunciation notes (based on likely mispronunciations)
+📝 INLINE CORRECTION FORMAT - MUST USE FOR EVERY ANSWER:
+Copy the ENTIRE response into q*_corrected and mark issues inline using these EXACT formats:
+- [GRAMMAR: wrong text -> correct text] - grammar errors
+- [VOCAB: basic/weak word -> better word] - weak, imprecise or repetitive word choices
+- [FLUENCY: filler/repetition/redundant -> improved version] - fillers ("you know", "kind of", "like", "I think", "I guess"), repetition, false starts, redundancy
+- [PRON: unclear pronunciation hint] - likely mispronunciations
 
-Example: "I [GRAMMAR: go -> went] to the [VOCAB: place -> destination] yesterday and [FLUENCY: I, I was -> I was] very happy."
+🚫 CRITICAL — DO NOT leave any answer unmarked: Almost every spoken answer contains at least fillers, repetition, redundancy, or imprecise wording — you MUST mark these inline, not only mention them in the note. Fillers and repetition ALWAYS count as [FLUENCY: ...]. If you describe an issue in the examiner note, you MUST also mark it inline in q*_corrected. EVERY q*_corrected field MUST contain at least one [TYPE: ...] marker — the ONLY exception is a genuinely flawless, native-like answer. NEVER leave the text after "->" empty: for words that should simply be deleted, write (omit) as the replacement, e.g. [FLUENCY: you know -> (omit)].
+
+Examples:
+- "I [GRAMMAR: go -> went] to the [VOCAB: place -> destination] yesterday and [FLUENCY: I, I was -> I was] very happy."
+- "My school is big and there are [VOCAB: big spacious gardens -> spacious gardens] where students learn gardening and [FLUENCY: just kind of, you know -> (omit)] facilities, [FLUENCY: I think -> (omit)] which creates a [VOCAB: very splendid -> vibrant] atmosphere."
 
 📌 MODEL SAMPLE ANSWERS - MUST GENERATE:
 For each question, write a BRAND NEW high-level model answer that would score at the highest CEFR level.
