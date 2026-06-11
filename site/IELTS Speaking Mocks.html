@@ -10926,6 +10926,7 @@ ${qJsonLines}
                 ${getRelevanceBadge(relevance)}
               </div>
               ${qPromptHtml}
+              <div data-aqwrap="${q}" style="margin:8px 0 12px;"><audio class="ai-q-audio" data-aq="${q}" controls preload="metadata" style="width:100%;height:38px;"></audio></div>
               ${displayText ? `
                 <div style="background:white;border-radius:8px;padding:12px;margin-bottom:10px;">
                   <div style="font-size:12px;color:#6b7280;font-weight:600;margin-bottom:6px;">${hasCorrections ? '📝 Inline Corrections:' : '🎤 Your response:'}</div>
@@ -10959,6 +10960,21 @@ ${qJsonLines}
         }
 
         content.innerHTML = html;
+        // Populate each question's recording from IndexedDB (live recordings); hide the player if none
+        try {
+          for (var _q = 1; _q <= 17; _q++) (function (q) {
+            getAudioFromDB('speaking_audio_q' + q).then(function (blob) {
+              var wrap = content.querySelector('[data-aqwrap="' + q + '"]');
+              if (!wrap) return;
+              var el = wrap.querySelector('audio');
+              if (blob && el) { el.src = URL.createObjectURL(blob); }
+              else { wrap.style.display = 'none'; }
+            }).catch(function () {
+              var wrap = content.querySelector('[data-aqwrap="' + q + '"]');
+              if (wrap) wrap.style.display = 'none';
+            });
+          })(_q);
+        } catch (e) {}
         modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
       }
