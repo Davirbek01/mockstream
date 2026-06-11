@@ -17744,7 +17744,7 @@ Please contact your instructor or upgrade to the full version with speech recogn
   <div class="container">
     <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #dc2626;padding-bottom:15px;margin-bottom:20px;">
       <h1 style="color:#dc2626;margin:0;font-size:1.8rem;">🎤 IELTS Speaking Mock - Examiner Report</h1>
-      ${autoAiResult ? '<div style="display:inline-flex;gap:6px;background:#fee2e2;padding:5px;border-radius:10px;"><button onclick="openAiModal()" style="background:transparent;border:none;color:#b91c1c;padding:8px 16px;border-radius:7px;font-weight:700;cursor:pointer;font-size:14px;white-space:nowrap;">🤖 AI Analysis</button><button onclick="closeAiModal()" style="background:linear-gradient(135deg,#dc2626,#b91c1c);border:none;color:#fff;padding:8px 16px;border-radius:7px;font-weight:700;cursor:pointer;font-size:14px;white-space:nowrap;">👤 Examiner</button></div>' : ''}
+      ${autoAiResult ? '<div style="display:inline-flex;gap:4px;background:#fee2e2;padding:4px;border-radius:9px;"><button onclick="openAiModal()" style="background:transparent;border:none;color:#b91c1c;padding:7px 13px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;">🤖 AI Score</button><button onclick="closeAiModal()" style="background:linear-gradient(135deg,#dc2626,#b91c1c);border:none;color:#fff;padding:7px 13px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;">👤 Examiner</button></div>' : ''}
     </div>
     <div class="meta">
       <b>👤 Candidate:</b> ${studentName || 'Unknown Student'}<br>
@@ -17896,17 +17896,20 @@ ${autoAiResult ? `
 <div id="aiScoreResultModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;z-index:10000;">
   <div onclick="closeAiModal()" style="position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;background:rgba(0,0,0,0.5);backdrop-filter:blur(8px);"></div>
   <div style="position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;background:white;overflow:hidden;display:flex;flex-direction:column;">
-    <div style="background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-shrink:0;">
-      <div style="display:flex;align-items:center;gap:10px;min-width:0;flex:1;">
-        <span style="font-size:24px;flex-shrink:0;">🤖</span>
+    <div style="background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px 14px;flex-shrink:0;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:10px;min-width:0;">
+        <span style="font-size:22px;flex-shrink:0;">🤖</span>
         <div style="min-width:0;">
-          <h2 style="margin:0;font-size:18px;font-weight:700;">IELTS AI Speaking Assessment</h2>
-          <div style="font-size:12px;opacity:0.85;margin-top:2px;">${studentName || 'Unknown Student'}</div>
+          <h2 style="margin:0;font-size:16px;font-weight:700;line-height:1.2;">IELTS AI Speaking Assessment</h2>
+          <div style="font-size:12px;opacity:0.85;margin-top:1px;">${studentName || 'Unknown Student'}</div>
         </div>
       </div>
-      <div style="display:flex;gap:8px;align-items:center;flex-shrink:0;">
-        <button onclick="printAiModal()" style="background:rgba(255,255,255,0.9);border:none;color:#dc2626;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;">📄 Save as PDF</button>
-        <button onclick="closeAiModal()" style="background:rgba(255,255,255,0.2);border:none;color:white;padding:9px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;display:flex;align-items:center;gap:6px;">👤 Examiner View →</button>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <div style="display:inline-flex;gap:4px;background:rgba(255,255,255,0.18);padding:4px;border-radius:9px;">
+          <button onclick="openAiModal()" style="background:#fff;color:#b91c1c;border:none;padding:7px 13px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;">🤖 AI Score</button>
+          <button onclick="closeAiModal()" style="background:transparent;color:#fff;border:none;padding:7px 13px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;">👤 Examiner</button>
+        </div>
+        <button onclick="printAiModal()" style="background:rgba(255,255,255,0.92);border:none;color:#b91c1c;padding:8px 13px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;white-space:nowrap;">📄 PDF</button>
       </div>
     </div>
     <div style="flex:1;overflow-y:auto;padding:20px;-webkit-overflow-scrolling:touch;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
