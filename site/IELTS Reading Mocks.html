@@ -149,6 +149,18 @@
             color: var(--text);
         }
 
+        .mock-source-badge {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #0e7490;
+            background: #ecfeff;
+            border: 1px solid #a5f3fc;
+            border-radius: 999px;
+            padding: 2px 10px;
+            margin-bottom: 8px;
+        }
+
         .passage-meta {
             display: flex;
             gap: 16px;
@@ -797,7 +809,7 @@
         var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
         var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
         var res = await fetch(
-          SB_URL + '/rest/v1/mock_tests?mock_type=eq.ielts-reading&status=eq.published&select=id,mock_number,title&order=mock_number.asc',
+          SB_URL + '/rest/v1/mock_tests?mock_type=eq.ielts-reading&status=eq.published&select=id,mock_number,title,source:mock_data->>source&order=mock_number.asc',
           { headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY } }
         );
         if (!res.ok) return;
@@ -817,6 +829,7 @@
             + '<div class="passage-info">'
             + '<div class="passage-label">Test ' + nextIndex + ' <span style="color:#6366f1;font-weight:600;">(Dynamic)</span></div>'
             + '<div class="passage-title">' + (m.title || 'Mock ' + m.mock_number) + '</div>'
+            + (m.source ? '<div class="mock-source-badge">📚 ' + m.source + '</div>' : '')
             + '</div></div>'
             + '<div class="test-mode-row">'
             + '<button class="mode-btn mode-full" data-url="IELTS reading.html?sbmock=' + m.id + '" data-mock-num="' + mockNum + '" style="border-color:#6366f1;">'
