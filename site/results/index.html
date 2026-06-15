@@ -2789,7 +2789,7 @@
         <!-- Cleanup Settings -->
         <div style="margin-bottom:24px;">
           <label style="display:block;font-weight:700;font-size:14px;margin-bottom:8px;color:var(--ink);">🧹 Auto-Cleanup Settings</label>
-          <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Automatically delete old report files (ZIP/HTML) to free storage. Statistics are always kept — only the downloadable report files are removed.</p>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Automatically free storage nightly. By default it deletes old recordings (audio/.zip) and keeps the report pages. Scores &amp; stats are always kept.</p>
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
             <label style="font-size:13px;font-weight:600;color:var(--ink);white-space:nowrap;">Auto-Cleanup:</label>
             <select id="cleanupEnabled" onchange="onCleanupSettingChange()" style="flex:1;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--surface);color:var(--ink);outline:none;cursor:pointer;">
@@ -2807,6 +2807,17 @@
               <option value="90">90 days</option>
             </select>
           </div>
+          <div id="cleanupTypesRow" style="display:none;flex-direction:column;align-items:flex-start;gap:8px;margin-bottom:12px;">
+            <label style="font-size:13px;font-weight:600;color:var(--ink);">Delete which files:</label>
+            <label style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink);cursor:pointer;">
+              <input type="checkbox" id="cleanupDeleteAudio" checked style="width:16px;height:16px;accent-color:#6366f1;cursor:pointer;">
+              <span>🔊 Recordings &amp; bundles (.m4a / .zip) <span style="color:var(--muted);">— frees the space</span></span>
+            </label>
+            <label style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink);cursor:pointer;">
+              <input type="checkbox" id="cleanupDeleteReports" style="width:16px;height:16px;accent-color:#6366f1;cursor:pointer;">
+              <span>📄 Report pages (.html) <span style="color:var(--muted);">— tiny; usually keep</span></span>
+            </label>
+          </div>
           <div style="display:flex;gap:8px;">
             <button onclick="saveCleanupSettings()" style="padding:10px 20px;border:none;border-radius:10px;background:linear-gradient(135deg,#6366f1,#4f46e5);color:white;font-weight:600;cursor:pointer;">💾 Save Cleanup Settings</button>
             <button onclick="refreshStorageStats()" style="padding:10px 20px;border:none;border-radius:10px;background:var(--border);color:var(--ink);font-weight:600;cursor:pointer;">🔄 Refresh Stats</button>
@@ -2817,7 +2828,7 @@
         <!-- Manual Deletion -->
         <div style="margin-bottom:24px;">
           <label style="display:block;font-weight:700;font-size:14px;margin-bottom:8px;color:var(--ink);">🗑️ Manual Deletion</label>
-          <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Delete report files (ZIP/HTML) from Supabase Storage for a specific date range.</p>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Delete files from Supabase Storage for a date range. Choose what to remove — audio recordings (the big files) and/or the report documents.</p>
 
           <div style="display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap;">
             <div style="flex:1;min-width:140px;">
@@ -2839,6 +2850,20 @@
                 <option value="muzaffars">Muzaffars English</option>
               </select>
             </div>
+          </div>
+          <div style="margin-bottom:10px;">
+            <label style="display:block;font-size:12px;font-weight:600;color:var(--ink);margin-bottom:6px;">What to delete:</label>
+            <div style="display:flex;gap:16px;flex-wrap:wrap;">
+              <label style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink);cursor:pointer;">
+                <input type="checkbox" id="manualDeleteAudio" checked style="width:16px;height:16px;accent-color:#6366f1;cursor:pointer;">
+                <span>🔊 Recordings &amp; bundles (.m4a / .zip) <span style="color:var(--muted);">— biggest space</span></span>
+              </label>
+              <label style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink);cursor:pointer;">
+                <input type="checkbox" id="manualDeleteReports" checked style="width:16px;height:16px;accent-color:#6366f1;cursor:pointer;">
+                <span>📄 Report pages (.html)</span>
+              </label>
+            </div>
+            <p style="font-size:11px;color:var(--muted);margin:6px 0 0;">Keep <b>Report pages</b> unchecked to free space from recordings while preserving the (tiny) HTML reports. Legacy web <b>.zip</b> speaking files bundle report+audio, so they go with Recordings.</p>
           </div>
           <div style="margin-bottom:10px;">
             <label style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink);cursor:pointer;">
@@ -9064,11 +9089,16 @@
         var ratio = map.billing_ratio ? parseFloat(map.billing_ratio) : 0;
         var lastManual = map.billing_storage_gb ? parseFloat(map.billing_storage_gb) : 0;
 
-        if (ratio > 0 && metadataGB > 0) {
-          // Auto-estimate using saved ratio
+        if (ratio > 0.2 && ratio <= 5 && metadataGB > 0) {
+          // Auto-estimate using a plausible saved ratio
           var estimated = (metadataGB * ratio).toFixed(3);
           el.textContent = '~' + estimated + ' GB';
           hintEl.textContent = '(estimated ×' + ratio.toFixed(2) + ' — click to recalibrate)';
+        } else if (metadataGB > 0) {
+          // Saved ratio is missing or implausible (e.g. a mis-entered calibration
+          // produced ×1000+). Fall back to the actual measured file size.
+          el.textContent = '~' + metadataGB.toFixed(3) + ' GB';
+          hintEl.textContent = '(based on file sizes — click to calibrate)';
         } else if (lastManual > 0) {
           el.textContent = lastManual.toFixed(3) + ' GB';
           hintEl.textContent = '(manual — click to recalibrate)';
@@ -9113,7 +9143,7 @@
 
     async function loadCleanupSettings() {
       try {
-        var resp = await fetch(SUPABASE_URL + '/rest/v1/site_settings?select=key,value&key=in.(cleanup_enabled,cleanup_retention_days)', {
+        var resp = await fetch(SUPABASE_URL + '/rest/v1/site_settings?select=key,value&key=in.(cleanup_enabled,cleanup_retention_days,cleanup_delete_audio,cleanup_delete_reports)', {
           headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
         });
         var rows = await resp.json();
@@ -9125,7 +9155,9 @@
 
         document.getElementById('cleanupEnabled').value = enabled;
         document.getElementById('cleanupRetentionDays').value = days;
-        onCleanupSettingChange(); // show/hide retention row
+        document.getElementById('cleanupDeleteAudio').checked = (map['cleanup_delete_audio'] || 'on') !== 'off';
+        document.getElementById('cleanupDeleteReports').checked = (map['cleanup_delete_reports'] || 'off') === 'on';
+        onCleanupSettingChange(); // show/hide retention + type rows
       } catch(e) {
         // defaults are fine
       }
@@ -9134,6 +9166,8 @@
     function onCleanupSettingChange() {
       var enabled = document.getElementById('cleanupEnabled').value === 'on';
       document.getElementById('cleanupRetentionRow').style.display = enabled ? 'flex' : 'none';
+      var tr = document.getElementById('cleanupTypesRow');
+      if (tr) tr.style.display = enabled ? 'flex' : 'none';
     }
 
     async function saveCleanupSettings() {
@@ -9144,7 +9178,9 @@
         var days = document.getElementById('cleanupRetentionDays').value;
         await upsertSetting('cleanup_enabled', enabled);
         await upsertSetting('cleanup_retention_days', days);
-        statusEl.innerHTML = '<span style="color:#059669;">✅ Cleanup settings saved! The cron job will apply these on its next run.</span>';
+        await upsertSetting('cleanup_delete_audio', document.getElementById('cleanupDeleteAudio').checked ? 'on' : 'off');
+        await upsertSetting('cleanup_delete_reports', document.getElementById('cleanupDeleteReports').checked ? 'on' : 'off');
+        statusEl.innerHTML = '<span style="color:#059669;">✅ Cleanup settings saved! The nightly job will apply these on its next run.</span>';
       } catch(e) {
         statusEl.innerHTML = '<span style="color:#dc2626;">❌ Failed to save cleanup settings</span>';
       }
@@ -9153,26 +9189,43 @@
     // ── Manual Deletion ────────────────────────────────────────────────────
     var _manualDeleteFiles = []; // files found in preview
 
-    async function _listStorageFiles(center, fromDate, toDate) {
-      // List all files from the reports bucket for the given center(s) within date range
+    async function _listStorageFiles(center, fromDate, toDate, opts) {
+      // List files from the reports bucket for the given center(s) within a date range.
+      // opts = { audio: bool, reports: bool }. Top-level files are .html/.zip reports;
+      // mobile speaking audio lives one level deeper in <id>/qN.m4a folders.
+      opts = opts || { audio: true, reports: true };
       var centers = center === '__all__'
         ? ['mock_stream', 'bek', 'global', 'niners', 'muzaffars']
         : [center];
-      // Also discover dynamic centers
-      try {
-        var body = JSON.stringify({ prefix: '', limit: 100, offset: 0 });
-        var resp = await fetch(SUPABASE_URL + '/storage/v1/object/list/reports', {
-          method: 'POST',
-          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY, 'Content-Type': 'application/json' },
-          body: body
-        });
-        var folders = await resp.json();
-        if (Array.isArray(folders)) {
-          folders.forEach(function(f) {
-            if (f.name && centers.indexOf(f.name) === -1 && center === '__all__') centers.push(f.name);
-          });
+
+      async function listPrefix(prefix) {
+        var out = [], offset = 0;
+        while (true) {
+          try {
+            var resp = await fetch(SUPABASE_URL + '/storage/v1/object/list/reports', {
+              method: 'POST',
+              headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY, 'Content-Type': 'application/json' },
+              body: JSON.stringify({ prefix: prefix, limit: 1000, offset: offset, sortBy: { column: 'name', order: 'asc' } })
+            });
+            var arr = await resp.json();
+            if (!Array.isArray(arr) || !arr.length) break;
+            out = out.concat(arr);
+            if (arr.length < 1000) break;
+            offset += 1000;
+          } catch(e) { break; }
         }
-      } catch(e) {}
+        return out;
+      }
+
+      // Discover dynamic center folders
+      if (center === '__all__') {
+        try {
+          var roots = await listPrefix('');
+          if (Array.isArray(roots)) roots.forEach(function(f) {
+            if (f.name && centers.indexOf(f.name) === -1) centers.push(f.name);
+          });
+        } catch(e) {}
+      }
 
       var fromTs = new Date(fromDate + 'T00:00:00Z').getTime();
       var toTs = new Date(toDate + 'T23:59:59.999Z').getTime();
@@ -9180,27 +9233,38 @@
 
       for (var i = 0; i < centers.length; i++) {
         var c = centers[i];
-        var offset = 0;
-        while (true) {
-          try {
-            var body2 = JSON.stringify({ prefix: c + '/', limit: 1000, offset: offset, sortBy: { column: 'created_at', order: 'asc' } });
-            var resp2 = await fetch(SUPABASE_URL + '/storage/v1/object/list/reports', {
-              method: 'POST',
-              headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY, 'Content-Type': 'application/json' },
-              body: body2
-            });
-            var files = await resp2.json();
-            if (!Array.isArray(files) || !files.length) break;
-            files.forEach(function(f) {
-              if (!f.name || !f.created_at) return;
-              var ts = new Date(f.created_at).getTime();
-              if (ts >= fromTs && ts <= toTs) {
-                allFiles.push({ name: f.name, path: c + '/' + f.name, center: c, created_at: f.created_at, size: (f.metadata && f.metadata.size) || 0 });
+        var entries = await listPrefix(c + '/');
+        var audioFolders = [];
+        for (var j = 0; j < entries.length; j++) {
+          var f = entries[j];
+          if (!f.name) continue;
+          // Storage "folders" come back with id === null and no metadata.
+          if (f.id == null) { audioFolders.push(f.name); continue; }
+          if (!f.created_at) continue;
+          var ts = new Date(f.created_at).getTime();
+          if (ts >= fromTs && ts <= toTs) {
+            if (/\.html$/i.test(f.name)) {
+              if (opts.reports) allFiles.push({ type: 'report', isReportPath: true, name: f.name, path: c + '/' + f.name, center: c, created_at: f.created_at, size: (f.metadata && f.metadata.size) || 0 });
+            } else if (/\.zip$/i.test(f.name)) {
+              if (opts.audio) allFiles.push({ type: 'bundle', isReportPath: true, name: f.name, path: c + '/' + f.name, center: c, created_at: f.created_at, size: (f.metadata && f.metadata.size) || 0 });
+            }
+          }
+        }
+        // Descend into <id>/ folders for mobile speaking audio (.m4a)
+        if (opts.audio) {
+          for (var k = 0; k < audioFolders.length; k++) {
+            var folder = audioFolders[k];
+            var inner = await listPrefix(c + '/' + folder + '/');
+            for (var m = 0; m < inner.length; m++) {
+              var af = inner[m];
+              if (!af.name || af.id == null || !af.created_at) continue;
+              if (!/\.m4a$/i.test(af.name)) continue;
+              var ats = new Date(af.created_at).getTime();
+              if (ats >= fromTs && ats <= toTs) {
+                allFiles.push({ type: 'audio', isReportPath: false, name: folder + '/' + af.name, path: c + '/' + folder + '/' + af.name, center: c, created_at: af.created_at, size: (af.metadata && af.metadata.size) || 0 });
               }
-            });
-            if (files.length < 1000) break;
-            offset += 1000;
-          } catch(e) { break; }
+            }
+          }
         }
       }
       return allFiles;
@@ -9210,12 +9274,15 @@
       var from = document.getElementById('manualDeleteFrom').value;
       var to = document.getElementById('manualDeleteTo').value;
       var center = document.getElementById('manualDeleteCenter').value;
+      var optAudio = document.getElementById('manualDeleteAudio').checked;
+      var optReports = document.getElementById('manualDeleteReports').checked;
       var statusEl = document.getElementById('manualDeleteStatus');
       var previewEl = document.getElementById('manualDeletePreview');
       var deleteBtn = document.getElementById('manualDeleteBtn');
 
       if (!from || !to) { statusEl.innerHTML = '<span style="color:#dc2626;">Please select both From and To dates.</span>'; return; }
       if (from > to) { statusEl.innerHTML = '<span style="color:#dc2626;">From date must be before To date.</span>'; return; }
+      if (!optAudio && !optReports) { statusEl.innerHTML = '<span style="color:#dc2626;">Select at least one type to delete (audio and/or reports).</span>'; return; }
 
       statusEl.innerHTML = '<span style="color:var(--muted);">🔍 Scanning files...</span>';
       previewEl.style.display = 'none';
@@ -9223,7 +9290,7 @@
       _manualDeleteFiles = [];
 
       try {
-        _manualDeleteFiles = await _listStorageFiles(center, from, to);
+        _manualDeleteFiles = await _listStorageFiles(center, from, to, { audio: optAudio, reports: optReports });
 
         if (!_manualDeleteFiles.length) {
           statusEl.innerHTML = '<span style="color:#059669;">No files found in the selected date range.</span>';
@@ -9250,7 +9317,7 @@
           var fSize = f.size > 1024*1024 ? (f.size/(1024*1024)).toFixed(1) + ' MB' : (f.size/1024).toFixed(1) + ' KB';
           var fDate = '';
           try { var d = new Date(f.created_at); fDate = d.toLocaleDateString([], {month:'short',day:'numeric'}) + ' ' + d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}); } catch(e){}
-          var icon = f.name.endsWith('.zip') ? '📦' : '📄';
+          var icon = f.type === 'audio' ? '🔊' : (f.name.endsWith('.zip') ? '📦' : '📄');
           html += '<tr style="border-bottom:1px solid var(--border);">' +
             '<td style="padding:4px 6px;">' + icon + ' ' + f.name + '</td>' +
             '<td style="padding:4px 6px;color:var(--muted);">' + (centerNames[f.center] || f.center) + '</td>' +
@@ -9276,8 +9343,11 @@
         ? (totalBytes / (1024*1024*1024)).toFixed(2) + ' GB'
         : (totalBytes / (1024*1024)).toFixed(1) + ' MB';
 
-      var alsoDeleteRecords = document.getElementById('manualDeleteRecords').checked;
-      var confirmMsg = 'Permanently delete <b>' + count + ' report file' + (count !== 1 ? 's' : '') + '</b> (' + sizeStr + ')?' +
+      var optReports = document.getElementById('manualDeleteReports').checked;
+      // Only delete DB records when report docs are being removed — never when
+      // we're only purging audio (the report must survive).
+      var alsoDeleteRecords = document.getElementById('manualDeleteRecords').checked && optReports;
+      var confirmMsg = 'Permanently delete <b>' + count + ' file' + (count !== 1 ? 's' : '') + '</b> (' + sizeStr + ')?' +
         (alsoDeleteRecords
           ? '<br><br><span style="color:#dc2626;font-weight:700;">⚠️ This will also DELETE the database records — scores and stats will be permanently removed from Total Results.</span>'
           : '<br><br>Only the downloadable ZIP/HTML files are removed. Database records (scores, stats) are kept.') +
@@ -9354,9 +9424,10 @@
           }
         } catch(e) { /* non-critical */ }
       } else {
-        // Just clear report_path in the results table for deleted files
+        // Just clear report_path in the results table for deleted REPORT docs
+        // (never for audio-only deletions — the report row stays intact).
         try {
-          var fileNames = _manualDeleteFiles.map(function(f) { return f.path; });
+          var fileNames = _manualDeleteFiles.filter(function(f) { return f.isReportPath; }).map(function(f) { return f.path; });
           for (var j = 0; j < fileNames.length; j += 100) {
             var pathBatch = fileNames.slice(j, j + 100);
             var inFilter = pathBatch.map(function(p) { return '"' + p + '"'; }).join(',');
