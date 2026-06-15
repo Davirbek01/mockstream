@@ -2789,7 +2789,7 @@
         <!-- Cleanup Settings -->
         <div style="margin-bottom:24px;">
           <label style="display:block;font-weight:700;font-size:14px;margin-bottom:8px;color:var(--ink);">🧹 Auto-Cleanup Settings</label>
-          <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Automatically delete old report files (ZIP/HTML) to free storage. Statistics are always kept — only the downloadable report files are removed.</p>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Automatically free storage nightly. By default it deletes old recordings (audio/.zip) and keeps the report pages. Scores &amp; stats are always kept.</p>
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
             <label style="font-size:13px;font-weight:600;color:var(--ink);white-space:nowrap;">Auto-Cleanup:</label>
             <select id="cleanupEnabled" onchange="onCleanupSettingChange()" style="flex:1;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--surface);color:var(--ink);outline:none;cursor:pointer;">
@@ -2806,6 +2806,17 @@
               <option value="60">60 days</option>
               <option value="90">90 days</option>
             </select>
+          </div>
+          <div id="cleanupTypesRow" style="display:none;flex-direction:column;align-items:flex-start;gap:8px;margin-bottom:12px;">
+            <label style="font-size:13px;font-weight:600;color:var(--ink);">Delete which files:</label>
+            <label style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink);cursor:pointer;">
+              <input type="checkbox" id="cleanupDeleteAudio" checked style="width:16px;height:16px;accent-color:#6366f1;cursor:pointer;">
+              <span>🔊 Recordings &amp; bundles (.m4a / .zip) <span style="color:var(--muted);">— frees the space</span></span>
+            </label>
+            <label style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink);cursor:pointer;">
+              <input type="checkbox" id="cleanupDeleteReports" style="width:16px;height:16px;accent-color:#6366f1;cursor:pointer;">
+              <span>📄 Report pages (.html) <span style="color:var(--muted);">— tiny; usually keep</span></span>
+            </label>
           </div>
           <div style="display:flex;gap:8px;">
             <button onclick="saveCleanupSettings()" style="padding:10px 20px;border:none;border-radius:10px;background:linear-gradient(135deg,#6366f1,#4f46e5);color:white;font-weight:600;cursor:pointer;">💾 Save Cleanup Settings</button>
@@ -2845,14 +2856,14 @@
             <div style="display:flex;gap:16px;flex-wrap:wrap;">
               <label style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink);cursor:pointer;">
                 <input type="checkbox" id="manualDeleteAudio" checked style="width:16px;height:16px;accent-color:#6366f1;cursor:pointer;">
-                <span>🔊 Audio (.m4a) <span style="color:var(--muted);">— biggest space</span></span>
+                <span>🔊 Recordings &amp; bundles (.m4a / .zip) <span style="color:var(--muted);">— biggest space</span></span>
               </label>
               <label style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink);cursor:pointer;">
                 <input type="checkbox" id="manualDeleteReports" checked style="width:16px;height:16px;accent-color:#6366f1;cursor:pointer;">
-                <span>📄 Report files (.html / .zip)</span>
+                <span>📄 Report pages (.html)</span>
               </label>
             </div>
-            <p style="font-size:11px;color:var(--muted);margin:6px 0 0;">Uncheck <b>Report files</b> to free audio space while keeping reports (they stay openable). Web .zip reports bundle their audio, so they only go when Report files is on.</p>
+            <p style="font-size:11px;color:var(--muted);margin:6px 0 0;">Keep <b>Report pages</b> unchecked to free space from recordings while preserving the (tiny) HTML reports. Legacy web <b>.zip</b> speaking files bundle report+audio, so they go with Recordings.</p>
           </div>
           <div style="margin-bottom:10px;">
             <label style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink);cursor:pointer;">
@@ -9132,7 +9143,7 @@
 
     async function loadCleanupSettings() {
       try {
-        var resp = await fetch(SUPABASE_URL + '/rest/v1/site_settings?select=key,value&key=in.(cleanup_enabled,cleanup_retention_days)', {
+        var resp = await fetch(SUPABASE_URL + '/rest/v1/site_settings?select=key,value&key=in.(cleanup_enabled,cleanup_retention_days,cleanup_delete_audio,cleanup_delete_reports)', {
           headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
         });
         var rows = await resp.json();
@@ -9144,7 +9155,9 @@
 
         document.getElementById('cleanupEnabled').value = enabled;
         document.getElementById('cleanupRetentionDays').value = days;
-        onCleanupSettingChange(); // show/hide retention row
+        document.getElementById('cleanupDeleteAudio').checked = (map['cleanup_delete_audio'] || 'on') !== 'off';
+        document.getElementById('cleanupDeleteReports').checked = (map['cleanup_delete_reports'] || 'off') === 'on';
+        onCleanupSettingChange(); // show/hide retention + type rows
       } catch(e) {
         // defaults are fine
       }
@@ -9153,6 +9166,8 @@
     function onCleanupSettingChange() {
       var enabled = document.getElementById('cleanupEnabled').value === 'on';
       document.getElementById('cleanupRetentionRow').style.display = enabled ? 'flex' : 'none';
+      var tr = document.getElementById('cleanupTypesRow');
+      if (tr) tr.style.display = enabled ? 'flex' : 'none';
     }
 
     async function saveCleanupSettings() {
@@ -9163,7 +9178,9 @@
         var days = document.getElementById('cleanupRetentionDays').value;
         await upsertSetting('cleanup_enabled', enabled);
         await upsertSetting('cleanup_retention_days', days);
-        statusEl.innerHTML = '<span style="color:#059669;">✅ Cleanup settings saved! The cron job will apply these on its next run.</span>';
+        await upsertSetting('cleanup_delete_audio', document.getElementById('cleanupDeleteAudio').checked ? 'on' : 'off');
+        await upsertSetting('cleanup_delete_reports', document.getElementById('cleanupDeleteReports').checked ? 'on' : 'off');
+        statusEl.innerHTML = '<span style="color:#059669;">✅ Cleanup settings saved! The nightly job will apply these on its next run.</span>';
       } catch(e) {
         statusEl.innerHTML = '<span style="color:#dc2626;">❌ Failed to save cleanup settings</span>';
       }
@@ -9225,8 +9242,12 @@
           if (f.id == null) { audioFolders.push(f.name); continue; }
           if (!f.created_at) continue;
           var ts = new Date(f.created_at).getTime();
-          if (opts.reports && /\.(html|zip)$/i.test(f.name) && ts >= fromTs && ts <= toTs) {
-            allFiles.push({ type: 'report', name: f.name, path: c + '/' + f.name, center: c, created_at: f.created_at, size: (f.metadata && f.metadata.size) || 0 });
+          if (ts >= fromTs && ts <= toTs) {
+            if (/\.html$/i.test(f.name)) {
+              if (opts.reports) allFiles.push({ type: 'report', isReportPath: true, name: f.name, path: c + '/' + f.name, center: c, created_at: f.created_at, size: (f.metadata && f.metadata.size) || 0 });
+            } else if (/\.zip$/i.test(f.name)) {
+              if (opts.audio) allFiles.push({ type: 'bundle', isReportPath: true, name: f.name, path: c + '/' + f.name, center: c, created_at: f.created_at, size: (f.metadata && f.metadata.size) || 0 });
+            }
           }
         }
         // Descend into <id>/ folders for mobile speaking audio (.m4a)
@@ -9240,7 +9261,7 @@
               if (!/\.m4a$/i.test(af.name)) continue;
               var ats = new Date(af.created_at).getTime();
               if (ats >= fromTs && ats <= toTs) {
-                allFiles.push({ type: 'audio', name: folder + '/' + af.name, path: c + '/' + folder + '/' + af.name, center: c, created_at: af.created_at, size: (af.metadata && af.metadata.size) || 0 });
+                allFiles.push({ type: 'audio', isReportPath: false, name: folder + '/' + af.name, path: c + '/' + folder + '/' + af.name, center: c, created_at: af.created_at, size: (af.metadata && af.metadata.size) || 0 });
               }
             }
           }
@@ -9406,7 +9427,7 @@
         // Just clear report_path in the results table for deleted REPORT docs
         // (never for audio-only deletions — the report row stays intact).
         try {
-          var fileNames = _manualDeleteFiles.filter(function(f) { return f.type === 'report'; }).map(function(f) { return f.path; });
+          var fileNames = _manualDeleteFiles.filter(function(f) { return f.isReportPath; }).map(function(f) { return f.path; });
           for (var j = 0; j < fileNames.length; j += 100) {
             var pathBatch = fileNames.slice(j, j + 100);
             var inFilter = pathBatch.map(function(p) { return '"' + p + '"'; }).join(',');
