@@ -4058,6 +4058,7 @@
   <script src="/site-config/site-config.js"></script>
   <script src="/premium-gate.js" defer></script>
   <script src="/mock-code-verifier.js?v=2"></script>
+  <script src="/pdf-menu.js" defer></script>
 
   <script>
     /* Same data fetch as v2 — uses the mock_attempt_stats RPC + a few
@@ -4982,6 +4983,14 @@
           My Results
           <span class="msv3-row-arrow">→</span>
         </a>
+        <!-- Download Mock PDFs — its own row (separate from System Administration).
+             Visible to everyone; opens only for an admin (super-admin OR clone
+             admin — both have role 'admin'). Arrow flips 🔒→→ via _applyAdminLockUI. -->
+        <button type="button" class="msv3-row" id="msv3PdfBtn" aria-label="Download mock PDFs">
+          <span class="msv3-row-icon">📥</span>
+          Download Mock PDFs
+          <span class="msv3-row-arrow">🔒</span>
+        </button>
       </div>
 
       <div class="msv3-section" id="msv3VipSection">
@@ -5598,7 +5607,7 @@
     // result on window so subsequent opens are instant, and update the
     // lock badge based on the actual role.
     function _applyAdminLockUI(isAdmin) {
-      document.querySelectorAll('#msv3AdminBtn .msv3-row-arrow, #msv3PlatformBtn .msv3-row-arrow, #msv3AdminPanelBtn .msv3-row-arrow, #msv3ForceRefreshBtn .msv3-row-arrow, #msv3MockMgmtBtn .msv3-row-arrow, #msv3BillboardBtn .msv3-row-arrow')
+      document.querySelectorAll('#msv3AdminBtn .msv3-row-arrow, #msv3PlatformBtn .msv3-row-arrow, #msv3AdminPanelBtn .msv3-row-arrow, #msv3ForceRefreshBtn .msv3-row-arrow, #msv3MockMgmtBtn .msv3-row-arrow, #msv3BillboardBtn .msv3-row-arrow, #msv3PdfBtn .msv3-row-arrow')
         .forEach(function (el) { el.textContent = isAdmin ? '→' : '🔒'; });
     }
     function refreshAdminLocks() {
@@ -5880,6 +5889,25 @@
         }
       } catch (_e) { /* fall through to navigation */ }
       window.location.href = '/landing.html?openMockMgmt=1';
+    });
+    // Download Mock PDFs — open the unified picker for any admin (super-admin OR
+    // clone admin; both are role 'admin'). Non-admins get the same gate modal.
+    var _msv3PdfBtn = document.getElementById('msv3PdfBtn');
+    if (_msv3PdfBtn) _msv3PdfBtn.addEventListener('click', async function () {
+      try {
+        if (window.MockStream && window.MockStream.auth &&
+            typeof window.MockStream.auth.checkPremiumRole === 'function') {
+          var info = await window.MockStream.auth.checkPremiumRole();
+          if (!info || !info.isAdmin) {
+            _showAdminGateModal('Downloading mock PDFs is for admins only. Sign in with your admin (super-admin or clone-admin) account to continue.');
+            return;
+          }
+        }
+      } catch (_e) { return; }
+      if (window.MockPdfMenu && typeof window.MockPdfMenu.open === 'function') {
+        requestSidebarClose();
+        window.MockPdfMenu.open();
+      }
     });
     // Force-refresh button. Checks the caller's super-admin role via
     // AdminAuth (Google email OR Telegram username, since admin-auth.js
