@@ -1,0 +1,9 @@
+# Functions-only config. NO [build] section on purpose: the 7 sites' publish dir
+# and per-centre center-id.js build step stay exactly as configured in the Netlify
+# UI. This file only tells Netlify where the serverless functions live and how to
+# bundle the headless-Chrome PDF function (mock-pdf).
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+  # @sparticuz/chromium ships its own Chromium binary — don't let esbuild bundle it.
+  external_node_modules = ["@sparticuz/chromium"]

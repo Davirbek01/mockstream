@@ -1,0 +1,10 @@
+{
+  "name": "mock-stream-functions",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Netlify serverless functions for Mock Stream (PDF rendering). The site itself is static under site/ and has no build step.",
+  "dependencies": {
+    "@sparticuz/chromium": "^131.0.1",
+    "puppeteer-core": "^23.11.1"
+  }
+}
