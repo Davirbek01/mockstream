@@ -129,7 +129,8 @@
     // it identically to landing.html.
     window._centerAccess = {
       globalAccess: cc.globalAccess || 'off',
-      skillAccess:  cc.skillAccess  || {}
+      skillAccess:  cc.skillAccess  || {},
+      mockAccess:   cc.mockAccess   || {}
     };
     try { document.dispatchEvent(new CustomEvent('mockStream:centerConfigLoaded', { detail: cc })); } catch (e) {}
     // ─── 1. ACTIVE CHECK ────────────────────────────────────────────────
@@ -194,7 +195,7 @@
     }
 
     // ─── 7. MOCK ACCESS LEVEL (override access) ────────────────────────
-    if (mockKey && cc.mocks) {
+    if (mockKey && cc.mocks && !(window._cgApplyMockTier && window._cgApplyMockTier(mockKey))) {
       var lvl = cc.mocks[mockKey];
       var _isVipPremiumEmail = false;
       try { _isVipPremiumEmail = localStorage.getItem('ms_vip_tier') === 'premium'; } catch(e){}
@@ -581,6 +582,49 @@
   window._cgIncrementDaily = function () { return true; };
   window._cgCheckAttempts  = function (_mockKey) { return true; };
 
+  // Per-mock admin unlock tier for a single mock, or null. `examHint` may be a
+  // page URL or an exam id ('cefr'/'ielts'); exam is inferred from it. Honors
+  // expiry (ignored once expiresAt < today). Used by landing mock-click gates.
+  window._cgMockTier = function (examHint, skill, mockNumber) {
+    try {
+      var ma = (window._centerAccess && window._centerAccess.mockAccess) || {};
+      var exam = /ielts/i.test(String(examHint || '')) ? 'ielts' : 'cefr';
+      var ent = ma[exam + '_' + skill + '_' + mockNumber];
+      if (!ent) return null;
+      if (ent.expiresAt && ent.expiresAt < new Date().toISOString().slice(0, 10)) return null;
+      return ent.tier === 'regular' ? 'regular' : 'premium';
+    } catch (e) { return null; }
+  };
+
+  // On a mock page, apply the per-mock admin tier (if any) for the mock the
+  // landing just launched (number read from <skill>LandingValidated). Premium →
+  // AI on; Regular → AI off (premium accounts still keep AI). Returns true when
+  // a per-mock tier was applied, so the caller skips the skill-status override.
+  window._cgApplyMockTier = function (mockKey) {
+    try {
+      var skill = mockKey.indexOf('speaking') !== -1 ? 'speaking'
+                : mockKey.indexOf('writing') !== -1 ? 'writing'
+                : mockKey.indexOf('listening') !== -1 ? 'listening'
+                : mockKey.indexOf('reading') !== -1 ? 'reading' : null;
+      if (!skill) return false;
+      var lv = JSON.parse(sessionStorage.getItem(skill + 'LandingValidated') || 'null');
+      if (!lv || lv.mock == null) return false;
+      var tier = window._cgMockTier(mockKey, skill, lv.mock);
+      if (!tier) return false;
+      var premEmail = false;
+      try { premEmail = localStorage.getItem('ms_vip_tier') === 'premium'; } catch (e) {}
+      sessionStorage.setItem('vipSessionAccess', 'true');
+      if (tier === 'premium' || premEmail) {
+        sessionStorage.setItem('vipPremiumAi', 'true');
+      } else {
+        sessionStorage.removeItem('vipPremiumAi');
+        if (skill === 'speaking') sessionStorage.removeItem('speakingPremiumEntry');
+        if (skill === 'writing') sessionStorage.removeItem('writingPremiumEntry');
+      }
+      return true;
+    } catch (e) { return false; }
+  };
+
   // ── Apply access overrides immediately (before DOM ready) ─────────────────
   function _cgApplyAccessNow(cc) {
     if (!cc) return;
@@ -590,11 +634,12 @@
     // sees the right values, not just after _cgEnforce has run.
     window._centerAccess = {
       globalAccess: cc.globalAccess || 'off',
-      skillAccess:  cc.skillAccess  || {}
+      skillAccess:  cc.skillAccess  || {},
+      mockAccess:   cc.mockAccess   || {}
     };
     try { document.dispatchEvent(new CustomEvent('mockStream:centerConfigLoaded', { detail: cc })); } catch (e) {}
     var mockKey = _cgDetectMockKey();
-    if (mockKey && cc.mocks) {
+    if (mockKey && cc.mocks && !(window._cgApplyMockTier && window._cgApplyMockTier(mockKey))) {
       var lvl = cc.mocks[mockKey];
       var _isVipPremiumEmail = false;
       try { _isVipPremiumEmail = localStorage.getItem('ms_vip_tier') === 'premium'; } catch(e){}

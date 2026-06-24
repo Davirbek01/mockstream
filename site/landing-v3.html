@@ -11796,7 +11796,7 @@
         return;
       }
       if (window._centerAccess) {
-        var _caLevel = window._centerAccess.globalAccess !== 'off' ? window._centerAccess.globalAccess : (window._centerAccess.skillAccess && window._centerAccess.skillAccess.writing) || 'off';
+        var _caLevel = window._cgMockTier(pageUrl, 'writing', mockNumber) || (window._centerAccess.globalAccess !== 'off' ? window._centerAccess.globalAccess : (window._centerAccess.skillAccess && window._centerAccess.skillAccess.writing)) || 'off';
         if (_caLevel !== 'off') {
           var _caPrem = _caLevel === 'premium';
           sessionStorage.setItem('writingPremiumEntry', _caPrem ? 'true' : 'false');
@@ -12778,7 +12778,7 @@
         return;
       }
       if (window._centerAccess) {
-        var _caLevel = window._centerAccess.globalAccess !== 'off' ? window._centerAccess.globalAccess : (window._centerAccess.skillAccess && window._centerAccess.skillAccess.reading) || 'off';
+        var _caLevel = window._cgMockTier(pageUrl, 'reading', mockNumber) || (window._centerAccess.globalAccess !== 'off' ? window._centerAccess.globalAccess : (window._centerAccess.skillAccess && window._centerAccess.skillAccess.reading)) || 'off';
         if (_caLevel !== 'off') {
           var _caPrem = _caLevel === 'premium';
           sessionStorage.setItem('readingPremiumEntry', _caPrem ? 'true' : 'false');
@@ -14408,7 +14408,7 @@
         return;
       }
       if (window._centerAccess) {
-        var _caLevel = window._centerAccess.globalAccess !== 'off' ? window._centerAccess.globalAccess : (window._centerAccess.skillAccess && window._centerAccess.skillAccess.listening) || 'off';
+        var _caLevel = window._cgMockTier(pageUrl, 'listening', mockNumber) || (window._centerAccess.globalAccess !== 'off' ? window._centerAccess.globalAccess : (window._centerAccess.skillAccess && window._centerAccess.skillAccess.listening)) || 'off';
         if (_caLevel !== 'off') {
           var _caPrem = _caLevel === 'premium';
           sessionStorage.setItem('listeningPremiumEntry', _caPrem ? 'true' : 'false');
@@ -17076,7 +17076,7 @@
         return;
       }
       if (window._centerAccess) {
-        var _caLevel = window._centerAccess.globalAccess !== 'off' ? window._centerAccess.globalAccess : (window._centerAccess.skillAccess && window._centerAccess.skillAccess.speaking) || 'off';
+        var _caLevel = window._cgMockTier(pageUrl, 'speaking', mockNumber) || (window._centerAccess.globalAccess !== 'off' ? window._centerAccess.globalAccess : (window._centerAccess.skillAccess && window._centerAccess.skillAccess.speaking)) || 'off';
         if (_caLevel !== 'off') {
           var _caPrem = _caLevel === 'premium';
           sessionStorage.setItem('speakingPremiumEntry', _caPrem ? 'true' : 'false');
