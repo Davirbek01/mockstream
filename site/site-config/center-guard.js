@@ -524,6 +524,22 @@
         document.querySelectorAll('[data-open="' + mk.replace(/_/g, '-') + '"]').forEach(function (b) { b.style.display = 'none'; });
         if (_v3FullMap[mk]) { var fb = document.getElementById(_v3FullMap[mk]); if (fb) fb.style.display = 'none'; }
       });
+      // Practice Mode disabled → hide the "Part Based Practice" buttons in the
+      // skill-picker modals. The same button IDs exist in landing-v3 (inline
+      // pickers) and landing.html (handoff picker), so one map covers both.
+      // (The legacy `.mode-practice` selector no longer matches the live UI.)
+      var _practiceBtnMap = {
+        cefr_speaking: 'speakingPracticeBtn', cefr_writing: 'cefrWritingPracticeBtn',
+        ielts_writing: 'ieltsWritingPracticeBtn', cefr_reading: 'cefrReadingPracticeBtn',
+        ielts_reading: 'ieltsReadingPracticeBtn', cefr_listening: 'cefrListeningPracticeBtn',
+        ielts_listening: 'ieltsListeningPracticeBtn'
+      };
+      Object.keys(_practiceBtnMap).forEach(function (sk) {
+        if (cc.mocks[sk + '_practice'] === 'disabled') {
+          var pb = document.getElementById(_practiceBtnMap[sk]);
+          if (pb) pb.style.display = 'none';
+        }
+      });
       document.querySelectorAll('.skill-card[data-skill], .secondary-card.full').forEach(function (card) {
         var btns = card.querySelectorAll('.sc-cta');
         if (!btns.length) return;
