@@ -416,6 +416,43 @@
             h += '</div>';
           }
 
+          // ═══════════════ PER-MOCK ACCESS ═══════════════
+          h += _cmSectionHeader(cid, 'mockAccess', '🎟️', 'Per-Mock Access (unlock one mock)');
+          if (_cmExpandedSections[cid + '_mockAccess']) {
+            var ma = cfg.mockAccess || {};
+            var _today = new Date().toISOString().slice(0, 10);
+            h += '<div style="padding:12px 16px;">';
+            h += '<p style="font-size:11px;color:#64748b;margin:0 0 10px;">Unlock a single mock with no code. <strong>Premium</strong> = with AI · <strong>Regular</strong> = without AI. Optional expiry re-locks it automatically. Overrides Skill/Global Access for that one mock.</p>';
+            h += '<div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:10px;">';
+            h += '<select id="cmMa_exam_' + cid + '" style="font-size:11px;padding:5px 8px;border-radius:6px;border:1px solid #cbd5e1;"><option value="cefr">CEFR</option><option value="ielts">IELTS</option></select>';
+            h += '<select id="cmMa_skill_' + cid + '" style="font-size:11px;padding:5px 8px;border-radius:6px;border:1px solid #cbd5e1;"><option value="speaking">Speaking</option><option value="writing">Writing</option><option value="listening">Listening</option><option value="reading">Reading</option><option value="full_mock">Full Mock</option></select>';
+            h += '<input id="cmMa_num_' + cid + '" type="number" min="1" placeholder="Mock #" style="width:74px;font-size:11px;padding:5px 8px;border-radius:6px;border:1px solid #cbd5e1;">';
+            h += '<select id="cmMa_tier_' + cid + '" style="font-size:11px;padding:5px 8px;border-radius:6px;border:1px solid #cbd5e1;"><option value="premium">⭐ Premium</option><option value="regular">📗 Regular</option></select>';
+            h += '<input id="cmMa_exp_' + cid + '" type="date" title="Optional expiry date" style="font-size:11px;padding:5px 8px;border-radius:6px;border:1px solid #cbd5e1;">';
+            h += '<button onclick="_cmAddMockAccess(\'' + cid + '\')" style="font-size:11px;padding:6px 12px;border-radius:6px;border:none;background:#7c3aed;color:#fff;font-weight:600;cursor:pointer;">+ Add</button>';
+            h += '</div>';
+            var maKeys = Object.keys(ma);
+            if (!maKeys.length) {
+              h += '<p style="font-size:11px;color:#94a3b8;margin:0;">No per-mock unlocks yet.</p>';
+            } else {
+              maKeys.forEach(function(k) {
+                var ent = ma[k] || {};
+                var segs = k.split('_');
+                var num = segs[segs.length - 1];
+                var exam = segs[0];
+                var skill = segs.slice(1, segs.length - 1).join(' ');
+                var tierLabel = ent.tier === 'regular' ? '📗 Regular' : '⭐ Premium';
+                var expired = ent.expiresAt && ent.expiresAt < _today;
+                var expLabel = ent.expiresAt ? (expired ? ' · expired ' + ent.expiresAt : ' · until ' + ent.expiresAt) : '';
+                h += '<div style="display:flex;align-items:center;justify-content:space-between;padding:6px 10px;border:1px solid #e5e7eb;border-radius:6px;margin-bottom:5px;' + (expired ? 'opacity:0.5;' : '') + '">';
+                h += '<span style="font-size:12px;">' + exam.toUpperCase() + ' ' + skill + ' #' + num + ' · ' + tierLabel + expLabel + '</span>';
+                h += '<button onclick="_cmRemoveMockAccess(\'' + cid + '\',\'' + k + '\')" style="font-size:11px;padding:3px 8px;border-radius:5px;border:1px solid #dc2626;color:#dc2626;background:#fff;cursor:pointer;">Remove</button>';
+                h += '</div>';
+              });
+            }
+            h += '</div>';
+          }
+
           // ═══════════════ BRANDING & IDENTITY ═══════════════
           h += _cmSectionHeader(cid, 'branding', '🎨', 'Branding & Identity');
           if (_cmExpandedSections[cid + '_branding']) {
@@ -929,6 +966,35 @@
         if (!window._centerAccess) window._centerAccess = { globalAccess: 'off', skillAccess: {} };
         if (!window._centerAccess.skillAccess) window._centerAccess.skillAccess = {};
         window._centerAccess.skillAccess[skill] = val;
+      }
+    };
+
+    // Per-mock access (single-mock unlock, optional expiry). Key shape:
+    // "<exam>_<skill>_<num>" (skill may be 'full_mock'). Value: {tier, expiresAt?}.
+    window._cmAddMockAccess = function(centerId) {
+      var examEl = document.getElementById('cmMa_exam_' + centerId);
+      var skillEl = document.getElementById('cmMa_skill_' + centerId);
+      var numEl = document.getElementById('cmMa_num_' + centerId);
+      var tierEl = document.getElementById('cmMa_tier_' + centerId);
+      var expEl = document.getElementById('cmMa_exp_' + centerId);
+      var exam = examEl && examEl.value;
+      var skill = skillEl && skillEl.value;
+      var num = parseInt(numEl && numEl.value, 10);
+      if (!exam || !skill || !num || num < 1) { alert('Pick exam, skill and a valid mock number.'); return; }
+      if (!_cmConfigs[centerId]) _cmConfigs[centerId] = _cmDefaultConfig();
+      if (!_cmConfigs[centerId].mockAccess) _cmConfigs[centerId].mockAccess = {};
+      var entry = { tier: (tierEl && tierEl.value === 'regular') ? 'regular' : 'premium' };
+      if (expEl && expEl.value) entry.expiresAt = expEl.value; // YYYY-MM-DD
+      _cmConfigs[centerId].mockAccess[exam + '_' + skill + '_' + num] = entry;
+      _cmRenderBody();
+      _cmAutoSave(centerId);
+    };
+
+    window._cmRemoveMockAccess = function(centerId, key) {
+      if (_cmConfigs[centerId] && _cmConfigs[centerId].mockAccess) {
+        delete _cmConfigs[centerId].mockAccess[key];
+        _cmRenderBody();
+        _cmAutoSave(centerId);
       }
     };
 
