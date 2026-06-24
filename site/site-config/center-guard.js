@@ -513,6 +513,24 @@
           });
         }
       }
+
+      // ─── MOCK ACCESS — landing-v3 cards (hide deactivated skills) ──────
+      // v3 exposes data-open hooks ([data-open="cefr-speaking"] etc.) and the
+      // Full Mock buttons by id. Hide deactivated exam buttons, then collapse
+      // any card left with no visible buttons. (No-op on the old landing.html.)
+      var _v3FullMap = { cefr_full_mock: 'msv3MainCefrFullMock', ielts_full_mock: 'msv3MainIeltsFullMock' };
+      Object.keys(cc.mocks).forEach(function (mk) {
+        if (cc.mocks[mk] !== 'disabled') return;
+        document.querySelectorAll('[data-open="' + mk.replace(/_/g, '-') + '"]').forEach(function (b) { b.style.display = 'none'; });
+        if (_v3FullMap[mk]) { var fb = document.getElementById(_v3FullMap[mk]); if (fb) fb.style.display = 'none'; }
+      });
+      document.querySelectorAll('.skill-card[data-skill], .secondary-card.full').forEach(function (card) {
+        var btns = card.querySelectorAll('.sc-cta');
+        if (!btns.length) return;
+        var anyVisible = false;
+        btns.forEach(function (b) { if (b.style.display !== 'none') anyVisible = true; });
+        if (!anyVisible) card.style.display = 'none';
+      });
     }
 
     // ─── LIMITS (daily mock limit & max attempts) ───────────────────────
