@@ -57,7 +57,10 @@
   .err{ text-align:center; color:#b91c1c; padding:60px 20px; }
 
   /* Listening-specific */
-  .gap-input{ border:none !important; border-bottom:1px solid #94a3b8 !important; min-width:90px !important; background:transparent !important; box-shadow:none !important; }
+  .gap-input{ border:none !important; border-bottom:1px solid #94a3b8 !important; min-width:150px !important; background:transparent !important; box-shadow:none !important; }
+  /* Writable inline answer blank for gap-fill / sentence-completion (handwriting space) */
+  .pdf-gap{ display:inline-block; min-width:150px; border-bottom:1px solid #475569; margin:0 4px; vertical-align:baseline; }
+  .pdf-gap-n{ font-weight:bold; color:var(--accent); margin-right:3px; }
   .map-img{ max-width:100%; height:auto; display:block; margin:10px auto; border:1px solid var(--line); }
   .labels{ font-size:13px; }
   .labels span{ display:inline-block; margin:2px 10px 2px 0; }
@@ -105,6 +108,22 @@
   function esc(s){ return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
   // Passage/question text is authored HTML in mock_data — render as-is (trusted content).
   function html(s){ return (s==null?'':String(s)); }
+
+  // gap-fill hint → swap the gap marker (run of underscores / dots) for a wide
+  // writable blank; if no marker present, append one. No separate "Answer:" line.
+  function inlineGap(text){
+    var t = String(text==null?'':text);
+    if (/_{2,}|\.{3,}|…/.test(t)) return t.replace(/_{2,}|\.{3,}|…/g, '<span class="pdf-gap"></span>');
+    return t + ' <span class="pdf-gap"></span>';
+  }
+  // sentence-completion passage → turn each <span class="gap-input" data-gap="N">…</span>
+  // into "(N) ____" : number AHEAD of a wide writable blank (not mid-line).
+  function fmtSentenceGaps(s){
+    return String(s==null?'':s).replace(
+      /<span[^>]*class="gap-input"[^>]*data-gap="([^"]+)"[^>]*>[\s\S]*?<\/span>/g,
+      '<span class="pdf-gap-n">($1)</span><span class="pdf-gap"></span>'
+    );
+  }
 
   function fail(msg){
     document.getElementById('sheet').innerHTML = '<div class="err">'+esc(msg)+'</div>';
@@ -240,13 +259,18 @@
     var s = '';
     if (node.instruction) s += '<div class="instruction">'+html(node.instruction)+'</div>';
     if (node.passageTitle) s += '<div class="passage-title">'+html(node.passageTitle)+'</div>';
-    if (node.passageContent) s += '<div class="passage"><div class="passage-content">'+html(node.passageContent)+'</div></div>';
+    if (node.passageContent) s += '<div class="passage"><div class="passage-content">'+fmtSentenceGaps(html(node.passageContent))+'</div></div>';
 
     if (t === 'gap-fill-form'){
       if (typeof node.formContent === 'string' && node.formContent.trim()){
-        s += '<div class="passage">'+html(node.formContent)+'</div>';          // IELTS: authored HTML w/ gap-inputs
+        s += '<div class="passage">'+fmtSentenceGaps(html(node.formContent))+'</div>'; // IELTS: authored HTML w/ gap-inputs
       } else if (Array.isArray(node.questions)){
-        node.questions.forEach(function(q){ s += renderQ(q); });               // CEFR: questions[].hint
+        // CEFR: questions[].hint — render the hint with a writable inline blank,
+        // number ahead, and NO separate "Answer:" line.
+        node.questions.forEach(function(q){
+          var lbl = (q.id!=null ? esc(q.id)+'. ' : (q.number!=null ? esc(q.number)+'. ' : ''));
+          s += '<div class="q"><div class="q-text">'+lbl+inlineGap(html(q.hint||q.text||''))+'</div></div>';
+        });
       }
       return s;
     }
