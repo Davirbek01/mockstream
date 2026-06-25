@@ -57,10 +57,24 @@
   .err{ text-align:center; color:#b91c1c; padding:60px 20px; }
 
   /* Listening-specific */
-  .gap-input{ border:none !important; border-bottom:1px solid #94a3b8 !important; min-width:150px !important; background:transparent !important; box-shadow:none !important; }
+  .gap-input{ border:none !important; border-bottom:1px solid #475569 !important; min-width:110px !important; background:transparent !important; box-shadow:none !important; color:transparent; }
   /* Writable inline answer blank for gap-fill / sentence-completion (handwriting space) */
   .pdf-gap{ display:inline-block; min-width:150px; border-bottom:1px solid #475569; margin:0 4px; vertical-align:baseline; }
   .pdf-gap-n{ font-weight:bold; color:var(--accent); margin-right:3px; }
+  /* IELTS / structured form (array formContent) */
+  .form-heading{ font-weight:bold; color:var(--accent); margin:12px 0 6px; font-size:15px; }
+  .form-block{ margin:0 0 10px; }
+  .form-block table, .form table{ border-collapse:collapse; width:100%; margin:6px 0; }
+  .form-block th, .form-block td, .form th, .form td{ border:1px solid #cbd5e1; padding:6px 9px; text-align:left; vertical-align:top; }
+  /* Drag-and-drop matching (IELTS) → static, paper-friendly */
+  .dnd-options-box{ border:1px solid var(--line); border-radius:6px; padding:10px 12px; margin:6px 0 12px; background:#f0fdfa; }
+  .dnd-option-item{ margin:4px 0; }
+  .dnd-question-row{ display:flex; align-items:center; gap:10px; margin:7px 0; }
+  .dnd-q-num{ font-weight:bold; min-width:22px; }
+  .dnd-q-text{ flex:1; }
+  .dnd-drop-zone{ display:inline-block; min-width:90px; border:1px solid #475569; border-radius:4px;
+    padding:1px 6px; color:transparent !important; } /* hides "tap to fill", keeps a writable box */
+  .dnd-hidden-input, input[type=hidden]{ display:none !important; }
   .map-img{ max-width:100%; height:auto; display:block; margin:10px auto; border:1px solid var(--line); }
   .labels{ font-size:13px; }
   .labels span{ display:inline-block; margin:2px 10px 2px 0; }
@@ -269,14 +283,33 @@
     if (node.passageContent) s += '<div class="passage"><div class="passage-content">'+fmtSentenceGaps(html(node.passageContent))+'</div></div>';
 
     if (t === 'gap-fill-form'){
-      if (typeof node.formContent === 'string' && node.formContent.trim()){
-        s += '<div class="passage">'+fmtSentenceGaps(html(node.formContent))+'</div>'; // IELTS: authored HTML w/ gap-inputs
-      } else if (Array.isArray(node.questions)){
+      var gffQs = node.questions || [];
+      var hasHints = gffQs.some(function(q){ return (q.hint || q.text); });
+      if (hasHints){
         // CEFR: questions[].hint — render the hint with a writable inline blank,
         // number ahead, and NO separate "Answer:" line.
-        node.questions.forEach(function(q){
+        gffQs.forEach(function(q){
           var lbl = (q.id!=null ? esc(q.id)+'. ' : (q.number!=null ? esc(q.number)+'. ' : ''));
           s += '<div class="q"><div class="q-text">'+lbl+inlineGap(html(q.hint||q.text||''))+'</div></div>';
+        });
+      } else if (Array.isArray(node.formContent) && node.formContent.length){
+        // IELTS / structured form: items carry authored HTML; gaps are
+        // <input class="gap-input"> with the (N) number already inline.
+        s += '<div class="form">';
+        node.formContent.forEach(function(it){
+          var ty = it.type||'', tx = html(it.text||'');
+          if (ty === 'heading') s += '<div class="form-heading">'+tx+'</div>';
+          else if (ty === 'instruction') s += '<div class="instruction">'+tx+'</div>';
+          else s += '<div class="form-block">'+tx+'</div>';
+        });
+        s += '</div>';
+      } else if (typeof node.formContent === 'string' && node.formContent.trim()){
+        s += '<div class="passage">'+fmtSentenceGaps(html(node.formContent))+'</div>'; // legacy IELTS string HTML
+      } else if (gffQs.length){
+        // last resort: bare numbered writable blanks
+        gffQs.forEach(function(q){
+          var lbl = (q.id!=null ? esc(q.id)+'. ' : '');
+          s += '<div class="q"><div class="q-text">'+lbl+'<span class="pdf-gap"></span></div></div>';
         });
       }
       return s;
