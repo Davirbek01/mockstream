@@ -90,7 +90,10 @@
      the space left under the header, so avoiding its split forces it onto a fresh
      page and leaves the first page half-empty. Parts must flow; only keep their
      inner items (questions/boxes/passages) intact. */
-  .passage, .para, .box, .q, .sec, .extract, .answer-key{ break-inside:avoid; page-break-inside:avoid; }
+  /* NOTE: .passage is intentionally NOT here — an IELTS reading passage spans
+     multiple pages, so avoiding its split forces it onto a fresh page and it
+     overflows, leaving the previous page empty. Passages must flow. */
+  .para, .box, .q, .sec, .extract, .answer-key{ break-inside:avoid; page-break-inside:avoid; }
   .part-title{ break-after:avoid; page-break-after:avoid; }
 
   /* Per-part audio QR (listening papers) */
@@ -123,7 +126,8 @@
 (function(){
   var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
   var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
-  var MOCK_ID = null;  // row id, set after fetch — used for per-part audio QR links
+  var MOCK_ID = null;    // row id, set after fetch — used for per-part audio QR links
+  var MOCK_TITLE = null; // row title fallback (some mocks have no testInfo.title)
 
   function qp(name){ return new URLSearchParams(location.search).get(name); }
   function esc(s){ return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
@@ -144,6 +148,14 @@
       /<span[^>]*class="gap-input"[^>]*data-gap="([^"]+)"[^>]*>[\s\S]*?<\/span>/g,
       '<span class="pdf-gap-n">($1)</span><span class="pdf-gap"></span>'
     );
+  }
+
+  // roman numerals for matching-headings banks (i, ii, iii, …)
+  function roman(n){
+    var map=[[10,'x'],[9,'ix'],[5,'v'],[4,'iv'],[1,'i']], r='';
+    n=parseInt(n,10)||0;
+    for (var i=0;i<map.length;i++){ while(n>=map[i][0]){ r+=map[i][1]; n-=map[i][0]; } }
+    return r;
   }
 
   function fail(msg){
@@ -167,24 +179,32 @@
     return a;
   }
 
-  // ---- Reading renderer (cefr-reading / ielts-reading share this shape) ----
+  // ---- Reading renderer (cefr-reading = md.parts[passage:object]; ielts-reading = md.passages[passage:string]) ----
   function renderReading(md){
-    var parts = md.parts || [];
+    var parts = md.parts || md.passages || [];
     var out = '';
     parts.forEach(function(part){
       out += '<div class="part">';
-      out += '<div class="part-title">'+esc(part.title||('Part '+(part.partNumber||'')))+ (part.questionRange?(' ('+esc(part.questionRange)+')'):'') +'</div>';
-      if (part.instruction) out += '<div class="instruction">'+html(part.instruction)+'</div>';
+      var ph = part.passageHeader;  // IELTS: { title:'READING PASSAGE 1', instruction:'…' }
+      var headTitle = (ph && ph.title) ? ph.title : (part.title || ('Part '+(part.partNumber||part.passageNumber||'')));
+      out += '<div class="part-title">'+esc(headTitle)+ (part.questionRange?(' ('+esc(part.questionRange)+')'):'') +'</div>';
+      if (ph && ph.instruction) out += '<div class="instruction">'+html(ph.instruction)+'</div>';
+      else if (part.instruction) out += '<div class="instruction">'+html(part.instruction)+'</div>';
 
-      // Passage (gap-fill / single text)
+      // Passage — string (IELTS authored HTML) or object (CEFR)
       if (part.passage){
         out += '<div class="passage">';
-        if (part.passage.title) out += '<div class="passage-title">'+html(part.passage.title)+'</div>';
-        if (part.passage.content) out += '<div class="passage-content">'+html(part.passage.content)+'</div>';
-        if (Array.isArray(part.passage.paragraphs)){
-          part.passage.paragraphs.forEach(function(p){
-            out += '<div class="para"><div class="para-num">Paragraph '+esc(p.number)+(p.questionId?(' — Q'+esc(p.questionId)):'')+'</div>'+html(p.content)+'</div>';
-          });
+        if (typeof part.passage === 'string'){
+          if (ph && ph.title && part.title) out += '<div class="passage-title">'+html(part.title)+'</div>'; // article title
+          out += '<div class="passage-content">'+html(part.passage)+'</div>';
+        } else {
+          if (part.passage.title) out += '<div class="passage-title">'+html(part.passage.title)+'</div>';
+          if (part.passage.content) out += '<div class="passage-content">'+html(part.passage.content)+'</div>';
+          if (Array.isArray(part.passage.paragraphs)){
+            part.passage.paragraphs.forEach(function(p){
+              out += '<div class="para"><div class="para-num">Paragraph '+esc(p.number)+(p.questionId?(' — Q'+esc(p.questionId)):'')+'</div>'+html(p.content)+'</div>';
+            });
+          }
         }
         out += '</div>';
       }
@@ -224,8 +244,23 @@
       // Question sections
       if (Array.isArray(part.questionSections)){
         part.questionSections.forEach(function(sec){
-          out += '<div class="sec"><div class="sec-title">'+html(sec.title||'')+'</div>';
+          out += '<div class="sec">';
+          if (sec.title) out += '<div class="sec-title">'+html(sec.title)+'</div>';
           if (sec.instruction) out += '<div class="sec-instr">'+html(sec.instruction)+'</div>';
+          // Reference bank (IELTS matching / list-selection / headings)
+          var bank = sec.featuresList || sec.headingsList;
+          if (Array.isArray(bank) && bank.length){
+            var isHead = !!sec.headingsList;
+            out += '<div class="box"><div class="box-title">'+html(sec.boxTitle||(isHead?'List of Headings':'Options'))+'</div>';
+            bank.forEach(function(b, i){
+              if (isHead) out += '<div class="box-item"><strong>'+roman(i+1)+'</strong>&nbsp; '+html(b)+'</div>';
+              else if (typeof b === 'string') out += '<div class="box-item">'+html(b)+'</div>';   // already "A …"
+              else out += '<div class="box-item"><strong>'+esc(b.letter)+'.</strong> '+html(b.text||'')+'</div>';
+            });
+            out += '</div>';
+          } else if (sec.boxTitle){
+            out += '<div class="form-heading">'+html(sec.boxTitle)+'</div>'; // e.g. summary-completion title
+          }
           (sec.questions||[]).forEach(function(q){ out += renderQuestion(q); });
           out += '</div>';
         });
@@ -237,10 +272,18 @@
   }
 
   function renderQuestion(q){
-    var s = '<div class="q"><div class="q-text">'+esc(q.id)+'. '+html(q.text||q.hint||'')+'</div>';
-    if (Array.isArray(q.options) && q.options.length){
-      q.options.forEach(function(o){
-        s += '<div class="opt"><span class="opt-letter">'+esc(o.letter)+'</span>'+html(o.text)+'</div>';
+    var txt = html(q.text||q.hint||'');
+    // completion / list-selection: {INPUT}/{BLANK} → writable inline blank (number already inline)
+    var inlineGap = /\{INPUT\}|\{BLANK\}|\{ANSWER\}/.test(txt);
+    if (inlineGap) txt = txt.replace(/\{INPUT\}|\{BLANK\}|\{ANSWER\}/g, '<span class="pdf-gap"></span>');
+    var label = inlineGap ? '' : (q.id!=null ? esc(q.id)+'. ' : '');
+    var s = '<div class="q"><div class="q-text">'+label+txt+'</div>';
+    if (inlineGap){
+      // blank already rendered inline
+    } else if (Array.isArray(q.options) && q.options.length){
+      q.options.forEach(function(o, i){
+        if (typeof o === 'string') s += '<div class="opt"><span class="opt-letter">'+String.fromCharCode(65+i)+'</span>'+html(o)+'</div>';
+        else s += '<div class="opt"><span class="opt-letter">'+esc(o.letter)+'</span>'+html(o.text)+'</div>';
       });
     } else {
       s += '<div class="opt">Answer: <span class="write">&nbsp;</span></div>';
@@ -250,11 +293,12 @@
 
   function renderAnswerKey(md){
     var rows = [];
-    (md.parts||[]).forEach(function(part){
-      var a = part.answers||{};
-      Object.keys(a).sort(function(x,y){return (parseInt(x,10)||0)-(parseInt(y,10)||0);}).forEach(function(qId){
+    (md.parts || md.passages || []).forEach(function(part){
+      // CEFR: part.answers {qid:val}; IELTS reading: part.correctAnswers {"q1":[val]}
+      var a = part.answers || part.correctAnswers || {};
+      Object.keys(a).sort(function(x,y){return (parseInt(String(x).replace(/\D/g,''),10)||0)-(parseInt(String(y).replace(/\D/g,''),10)||0);}).forEach(function(qId){
         var v = a[qId]; if (Array.isArray(v)) v = v.join(' / ');
-        rows.push('<div><strong>'+esc(qId)+'.</strong> '+esc(v)+'</div>');
+        rows.push('<div><strong>'+esc(String(qId).replace(/^q/i,''))+'.</strong> '+esc(v)+'</div>');
       });
     });
     if (!rows.length) return '';
@@ -491,7 +535,7 @@
       '<img src="'+esc(b.logo)+'" alt="" onerror="this.style.display=\'none\'">'+
       '<div class="brand">'+esc(b.name)+'</div>'+
       (b.sub?'<div class="subbrand">'+esc(b.sub)+'</div>':'')+
-      '<div class="doc-title">'+esc(ti.title || md.title || 'Mock Test')+'</div>'+
+      '<div class="doc-title">'+esc(ti.title || md.title || MOCK_TITLE || 'Mock Test')+'</div>'+
       '<div class="doc-meta">'+
         (ti.level?('Level: '+esc(ti.level)+' &nbsp;|&nbsp; '):'')+
         (ti.totalTime?('Time: '+esc(ti.totalTime)+' min &nbsp;|&nbsp; '):'')+
@@ -533,9 +577,9 @@
     if (!type){ return fail('Missing ?type'); }
     var url;
     if (id){
-      url = SB_URL+'/rest/v1/mock_tests?id=eq.'+encodeURIComponent(id)+'&select=id,mock_data,mock_type';
+      url = SB_URL+'/rest/v1/mock_tests?id=eq.'+encodeURIComponent(id)+'&select=id,title,mock_data,mock_type';
     } else if (number){
-      url = SB_URL+'/rest/v1/mock_tests?mock_type=eq.'+encodeURIComponent(type)+'&mock_number=eq.'+encodeURIComponent(number)+'&status=eq.published&select=id,mock_data,mock_type';
+      url = SB_URL+'/rest/v1/mock_tests?mock_type=eq.'+encodeURIComponent(type)+'&mock_number=eq.'+encodeURIComponent(number)+'&status=eq.published&select=id,title,mock_data,mock_type';
     } else {
       return fail('Missing ?id or ?number');
     }
@@ -545,6 +589,7 @@
       var rows = await r.json();
       if (!rows || !rows.length){ return fail('Mock not found'); }
       MOCK_ID = (rows[0].id != null) ? rows[0].id : id;
+      MOCK_TITLE = rows[0].title || null;
       var md = rows[0].mock_data;
       if (typeof md === 'string'){ try{ md = JSON.parse(md); }catch(e){ return fail('Bad mock_data'); } }
       render(type, md);
