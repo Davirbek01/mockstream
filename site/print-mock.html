@@ -76,12 +76,21 @@
   .passage, .para, .box, .q, .sec, .extract, .answer-key{ break-inside:avoid; page-break-inside:avoid; }
   .part-title{ break-after:avoid; page-break-after:avoid; }
 
+  /* Per-part audio QR (listening papers) */
+  .part-head{ display:flex; justify-content:space-between; align-items:center; gap:14px;
+    border-bottom:2px solid var(--line); padding-bottom:6px; margin:0 0 10px; }
+  .part-head .part-title{ border:none; padding:0; margin:0; }
+  .part-qr{ flex:0 0 auto; text-align:center; width:88px; }
+  .part-qr svg{ width:80px; height:80px; display:block; margin:0 auto; }
+  .part-qr-cap{ font-size:8.5px; color:var(--muted); line-height:1.2; margin-top:2px; }
+
   @page{ size:A4; margin:14mm 12mm; }
   @media print{
     .sheet{ max-width:none; margin:0; padding:0; }
     body{ font-size:12.5px; }
   }
 </style>
+<script src="qrcode.min.js"></script>
 </head>
 <body>
 <div class="sheet" id="sheet"><div class="loading">Loading mock paper…</div></div>
@@ -90,6 +99,7 @@
 (function(){
   var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
   var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+  var MOCK_ID = null;  // row id, set after fetch — used for per-part audio QR links
 
   function qp(name){ return new URLSearchParams(location.search).get(name); }
   function esc(s){ return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
@@ -285,12 +295,26 @@
     return s;
   }
 
+  // Per-part audio QR → branded player page (listen.html) on whatever host this
+  // PDF was generated from (so a clone's PDF opens that clone's player). Inline
+  // SVG so it renders in the headless-Chrome PDF with no image-load wait.
+  function qrBlock(part){
+    if (!MOCK_ID || typeof qrcode === 'undefined') return '';
+    var pn = part.partNumber || '';
+    var url = location.origin + '/listen.html?sbmock=' + encodeURIComponent(MOCK_ID) + (pn ? ('&part=' + encodeURIComponent(pn)) : '');
+    try{
+      var qr = qrcode(0, 'M'); qr.addData(url); qr.make();
+      var svg = qr.createSvgTag({ cellSize:2, margin:0, scalable:true });
+      return '<div class="part-qr">'+svg+'<div class="part-qr-cap">Scan for<br>Part '+esc(pn)+' audio</div></div>';
+    }catch(e){ return ''; }
+  }
+
   function renderListening(md){
     var parts = md.parts || [];
     var out = '';
     parts.forEach(function(part){
       out += '<div class="part">';
-      out += '<div class="part-title">'+esc(part.title||('Part '+(part.partNumber||'')))+ (part.questionRange?(' ('+esc(part.questionRange)+')'):'') +'</div>';
+      out += '<div class="part-head"><div class="part-title">'+esc(part.title||('Part '+(part.partNumber||'')))+ (part.questionRange?(' ('+esc(part.questionRange)+')'):'') +'</div>'+ qrBlock(part) +'</div>';
       if (Array.isArray(part.subParts) && part.subParts.length){
         if (part.instruction) out += '<div class="instruction">'+html(part.instruction)+'</div>';
         part.subParts.forEach(function(sp){ out += renderListNode(sp); });
@@ -437,9 +461,9 @@
     if (!type){ return fail('Missing ?type'); }
     var url;
     if (id){
-      url = SB_URL+'/rest/v1/mock_tests?id=eq.'+encodeURIComponent(id)+'&select=mock_data,mock_type';
+      url = SB_URL+'/rest/v1/mock_tests?id=eq.'+encodeURIComponent(id)+'&select=id,mock_data,mock_type';
     } else if (number){
-      url = SB_URL+'/rest/v1/mock_tests?mock_type=eq.'+encodeURIComponent(type)+'&mock_number=eq.'+encodeURIComponent(number)+'&status=eq.published&select=mock_data,mock_type';
+      url = SB_URL+'/rest/v1/mock_tests?mock_type=eq.'+encodeURIComponent(type)+'&mock_number=eq.'+encodeURIComponent(number)+'&status=eq.published&select=id,mock_data,mock_type';
     } else {
       return fail('Missing ?id or ?number');
     }
@@ -448,6 +472,7 @@
       if (!r.ok){ return fail('Fetch failed ('+r.status+')'); }
       var rows = await r.json();
       if (!rows || !rows.length){ return fail('Mock not found'); }
+      MOCK_ID = (rows[0].id != null) ? rows[0].id : id;
       var md = rows[0].mock_data;
       if (typeof md === 'string'){ try{ md = JSON.parse(md); }catch(e){ return fail('Bad mock_data'); } }
       render(type, md);
