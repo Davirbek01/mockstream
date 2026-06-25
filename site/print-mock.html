@@ -550,24 +550,51 @@
     document.getElementById('sheet').innerHTML = head + body + key + foot;
     document.title = (ti.title || md.title || 'Mock paper');
 
-    // Centre-logo watermark on every page (fixed → repeats per printed page)
-    if (b.logo){
-      var wm = document.createElement('div');
-      wm.className = 'watermark';
-      wm.innerHTML = '<img src="'+esc(b.logo)+'" alt="" onerror="this.parentNode.style.display=\'none\'">';
-      document.body.appendChild(wm);
-    }
+    // Build the watermark (downscaled — a fixed image is re-embedded on EVERY
+    // page, so a full-size logo blows past Netlify's 6MB response limit on long
+    // papers), then signal readiness.
+    buildWatermark(b.logo, function(){
+      var imgs = Array.prototype.slice.call(document.images);
+      var pending = imgs.filter(function(i){ return !i.complete; }).length;
+      if (!pending){ window.__printReady = true; }
+      else {
+        imgs.forEach(function(i){ i.addEventListener('load', done); i.addEventListener('error', done); });
+        function done(){ if (--pending<=0) window.__printReady = true; }
+        setTimeout(function(){ window.__printReady = true; }, 4000); // safety
+      }
+      if (qp('auto')==='print'){ setTimeout(function(){ try{ window.print(); }catch(e){} }, 600); }
+    });
+  }
 
-    // Signal readiness to a headless renderer after images settle.
-    var imgs = Array.prototype.slice.call(document.images);
-    var pending = imgs.filter(function(i){ return !i.complete; }).length;
-    if (!pending){ window.__printReady = true; }
-    else {
-      imgs.forEach(function(i){ i.addEventListener('load', done); i.addEventListener('error', done); });
-      function done(){ if (--pending<=0) window.__printReady = true; }
-      setTimeout(function(){ window.__printReady = true; }, 4000); // safety
+  // Centre-logo watermark on every page (position:fixed repeats per printed
+  // page). Downscale the logo to ~340px so each per-page copy is tiny. CORS-ok
+  // logos go through canvas (self-contained); otherwise fall back to a resize
+  // proxy. Always calls done() (with a safety timeout) so rendering never hangs.
+  function buildWatermark(logo, done){
+    var finished = false;
+    function fin(){ if (finished) return; finished = true; done(); }
+    setTimeout(fin, 6000); // never block the PDF on a slow/blocked logo
+    if (!logo){ fin(); return; }
+    var proxy = 'https://images.weserv.nl/?url='+encodeURIComponent(String(logo).replace(/^https?:\/\//,''))+'&w=340&output=png';
+    function place(src){
+      var wm = document.createElement('div'); wm.className = 'watermark';
+      var im = document.createElement('img'); im.alt = '';
+      im.onload = fin; im.onerror = function(){ wm.style.display = 'none'; fin(); };
+      im.src = src; wm.appendChild(im); document.body.appendChild(wm);
     }
-    if (qp('auto')==='print'){ setTimeout(function(){ try{ window.print(); }catch(e){} }, 600); }
+    var loader = new Image(); loader.crossOrigin = 'anonymous';
+    loader.onload = function(){
+      try{
+        var max = 340, w = loader.naturalWidth||max, h = loader.naturalHeight||max;
+        var sc = Math.min(max/w, max/h, 1);
+        var c = document.createElement('canvas');
+        c.width = Math.max(1, Math.round(w*sc)); c.height = Math.max(1, Math.round(h*sc));
+        c.getContext('2d').drawImage(loader, 0, 0, c.width, c.height);
+        place(c.toDataURL('image/png'));      // tiny embedded copy
+      } catch(e){ place(proxy); }             // cross-origin taint → resize proxy
+    };
+    loader.onerror = function(){ place(proxy); };
+    loader.src = logo;
   }
 
   async function main(){
