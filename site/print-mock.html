@@ -548,7 +548,7 @@
     var foot = '<div class="foot">© '+new Date().getFullYear()+' '+esc(b.name)+'. Practice paper — unauthorized reproduction prohibited.</div>';
 
     document.getElementById('sheet').innerHTML = head + body + key + foot;
-    document.title = (ti.title || md.title || 'Mock paper');
+    document.title = (ti.title || md.title || MOCK_TITLE || 'Mock paper');
 
     // Build the watermark (downscaled — a fixed image is re-embedded on EVERY
     // page, so a full-size logo blows past Netlify's 6MB response limit on long
