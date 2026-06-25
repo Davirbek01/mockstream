@@ -68,8 +68,12 @@
   .task-meta{ font-size:12px; color:var(--muted); margin:0 0 8px; }
   .write-area{ min-height:130px; border:1px dashed #cbd5e1; border-radius:6px; margin-top:8px; background:repeating-linear-gradient(transparent,transparent 26px,#eef2f7 27px); }
 
-  /* Break rules so nothing is ever split mid-block. */
-  .part, .passage, .para, .box, .q, .sec, .answer-key{ break-inside:avoid; page-break-inside:avoid; }
+  /* Break rules so individual blocks aren't split mid-item. NOTE: do NOT put
+     break-inside:avoid on .part — a whole part (e.g. 8 questions) is taller than
+     the space left under the header, so avoiding its split forces it onto a fresh
+     page and leaves the first page half-empty. Parts must flow; only keep their
+     inner items (questions/boxes/passages) intact. */
+  .passage, .para, .box, .q, .sec, .extract, .answer-key{ break-inside:avoid; page-break-inside:avoid; }
   .part-title{ break-after:avoid; page-break-after:avoid; }
 
   @page{ size:A4; margin:14mm 12mm; }
@@ -268,7 +272,15 @@
       });
       return s;
     }
-    // mcq, mcq-reply, sentence-completion, and any default → questions list
+    if (t === 'sentence-completion'){
+      // The passage (rendered above) already has inline gap-input blanks the
+      // student writes into — so do NOT also emit a separate "Answer:" list.
+      // Fall back to a questions list only if there's no inline passage.
+      if (node.passageContent && String(node.passageContent).trim()) return s;
+      (node.questions||[]).forEach(function(q){ s += renderQ(q); });
+      return s;
+    }
+    // mcq, mcq-reply, and any default → questions list
     (node.questions||[]).forEach(function(q){ s += renderQ(q); });
     return s;
   }
