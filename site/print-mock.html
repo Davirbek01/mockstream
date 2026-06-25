@@ -87,6 +87,13 @@
   .part-qr svg{ width:80px; height:80px; display:block; margin:0 auto; }
   .part-qr-cap{ font-size:8.5px; color:var(--muted); line-height:1.2; margin-top:2px; }
 
+  /* Centre-logo watermark — position:fixed repeats on every printed page in
+     Chrome's PDF engine. A very faint overlay so the perfect layout underneath
+     stays crisp; pointer-events off so it never blocks anything. */
+  .watermark{ position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+    z-index:50; pointer-events:none; }
+  .watermark img{ width:62%; max-width:460px; opacity:0.05; filter:grayscale(35%); }
+
   @page{ size:A4; margin:14mm 12mm; }
   @media print{
     .sheet{ max-width:none; margin:0; padding:0; }
@@ -465,6 +472,14 @@
 
     document.getElementById('sheet').innerHTML = head + body + key + foot;
     document.title = (ti.title || md.title || 'Mock paper');
+
+    // Centre-logo watermark on every page (fixed → repeats per printed page)
+    if (b.logo){
+      var wm = document.createElement('div');
+      wm.className = 'watermark';
+      wm.innerHTML = '<img src="'+esc(b.logo)+'" alt="" onerror="this.parentNode.style.display=\'none\'">';
+      document.body.appendChild(wm);
+    }
 
     // Signal readiness to a headless renderer after images settle.
     var imgs = Array.prototype.slice.call(document.images);
