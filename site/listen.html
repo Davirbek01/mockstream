@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Listen — Mock Stream</title>
+<link rel="shortcut icon" id="site-favicon" href="https://i.ibb.co/WN0XY5Lv/logo.png">
+<!--
+  listen.html — branded audio player for a downloaded listening mock paper.
+  Opened from the per-part QR codes on the PDF: listen.html?sbmock=<row id>&part=<N>
+  Plays each part's audio (from mock_data.parts[].audioFile) one at a time.
+  Brands per-clone via center-id.js + site-config.js (window.SITE_CONFIG).
+-->
+<style>
+  :root{ --ink:#0f172a; --muted:#64748b; --accent:#0d9488; --line:#e2e8f0; --soft:#f8fafc; }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; background:#f1f5f9; color:var(--ink);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; line-height:1.5; }
+  .wrap{ max-width:560px; margin:0 auto; padding:18px 16px 48px; }
+  .brandbar{ display:flex; align-items:center; gap:12px; justify-content:center; margin:10px 0 6px; }
+  .brandbar img{ height:40px; }
+  .brandbar .bn{ font-size:20px; font-weight:800; color:var(--accent); }
+  .title{ text-align:center; font-size:18px; font-weight:700; margin:6px 0 2px; }
+  .meta{ text-align:center; color:var(--muted); font-size:13px; margin-bottom:16px; }
+  .hint{ text-align:center; color:var(--muted); font-size:12.5px; margin:0 0 16px; }
+  .part{ background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px 16px;
+    margin:0 0 12px; box-shadow:0 1px 3px rgba(15,23,42,.05); scroll-margin-top:14px; }
+  .part.focus{ border-color:var(--accent); box-shadow:0 0 0 3px rgba(13,148,136,.18); }
+  .part h2{ margin:0 0 4px; font-size:15px; color:var(--accent); }
+  .part .pt{ color:var(--muted); font-size:12.5px; margin:0 0 10px; }
+  audio{ width:100%; }
+  .loading,.err{ text-align:center; color:var(--muted); padding:60px 18px; }
+  .err{ color:#b91c1c; }
+  .foot{ text-align:center; color:#94a3b8; font-size:11px; margin-top:22px; }
+</style>
+</head>
+<body>
+<div class="wrap" id="app"><div class="loading">Loading audio…</div></div>
+
+<script src="center-id.js"></script>
+<script src="site-config/site-config.js"></script>
+<script>
+(function(){
+  var SB_URL='https://zknyukkbtbcqgvkgjktb.supabase.co';
+  var SB_KEY='sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+  function qp(n){ return new URLSearchParams(location.search).get(n); }
+  function esc(s){ return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  var id=qp('sbmock')||qp('id');
+  var focusPart=parseInt(qp('part')||'0',10)||0;
+  var app=document.getElementById('app');
+
+  function brand(){
+    var c=window.SITE_CONFIG||{};
+    return { name:c.brandName||'Mock Stream', logo:c.logoUrl||'https://i.ibb.co/WN0XY5Lv/logo.png' };
+  }
+  function applyBrand(){
+    var b=brand();
+    var img=document.getElementById('bImg'), nm=document.getElementById('bName');
+    if(img) img.src=b.logo;
+    if(nm) nm.textContent=b.name;
+    var fav=document.getElementById('site-favicon'); if(fav) fav.href=b.logo;
+  }
+
+  if(!id){ app.innerHTML='<div class="err">Missing mock reference. Please scan the QR code from your paper again.</div>'; return; }
+
+  fetch(SB_URL+'/rest/v1/mock_tests?id=eq.'+encodeURIComponent(id)+'&select=mock_data,title',
+        { headers:{ apikey:SB_KEY, Authorization:'Bearer '+SB_KEY } })
+    .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+    .then(function(rows){
+      if(!rows||!rows.length||!rows[0].mock_data) throw new Error('not found');
+      var md=rows[0].mock_data; if(typeof md==='string') md=JSON.parse(md);
+      render(md);
+    })
+    .catch(function(){ app.innerHTML='<div class="err">Could not load the audio for this mock. Please check your connection and try again.</div>'; });
+
+  function render(md){
+    var ti=md.testInfo||{};
+    var parts=(md.parts||[]).filter(function(p){ return p && p.audioFile; });
+    var b=brand();
+    var h='<div class="brandbar"><img id="bImg" src="'+esc(b.logo)+'" alt="" onerror="this.style.display=\'none\'"><span class="bn" id="bName">'+esc(b.name)+'</span></div>';
+    h+='<div class="title">'+esc(ti.title||md.title||'Listening Mock')+'</div>';
+    h+='<div class="meta">🎧 '+parts.length+' parts · tap a part to listen</div>';
+    h+='<div class="hint">Each part plays once through (with the exam pauses built in). Only one part plays at a time.</div>';
+    parts.forEach(function(p){
+      var pn=p.partNumber||'';
+      h+='<div class="part" id="part-'+esc(pn)+'">'+
+           '<h2>Part '+esc(pn)+(p.questionRange?(' ('+esc(p.questionRange)+')'):'')+'</h2>'+
+           (p.title&&p.title!=('Part '+pn)?'<div class="pt">'+esc(p.title)+'</div>':'')+
+           '<audio controls preload="none" src="'+esc(p.audioFile)+'"></audio>'+
+         '</div>';
+    });
+    h+='<div class="foot">© '+new Date().getFullYear()+' '+esc(b.name)+'</div>';
+    app.innerHTML=h;
+
+    // one part at a time
+    var auds=[].slice.call(app.querySelectorAll('audio'));
+    auds.forEach(function(a){ a.addEventListener('play', function(){ auds.forEach(function(o){ if(o!==a) o.pause(); }); }); });
+
+    // focus + try to start the scanned part (autoplay may be blocked → controls are there)
+    if(focusPart){
+      var el=document.getElementById('part-'+focusPart);
+      if(el){ el.classList.add('focus'); el.scrollIntoView({block:'center'});
+        var a=el.querySelector('audio'); if(a){ var pr=a.play(); if(pr&&pr.catch) pr.catch(function(){}); } }
+    }
+  }
+
+  // brand may resolve asynchronously on real centres
+  applyBrand();
+  setTimeout(applyBrand,1200); setTimeout(applyBrand,2800);
+})();
+</script>
+</body>
+</html>
