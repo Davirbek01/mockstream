@@ -273,14 +273,18 @@
 
   function renderQuestion(q){
     var txt = html(q.text||q.hint||'');
-    // completion / list-selection: {INPUT}/{BLANK} → writable inline blank (number already inline)
-    var inlineGap = /\{INPUT\}|\{BLANK\}|\{ANSWER\}/.test(txt);
-    if (inlineGap) txt = txt.replace(/\{INPUT\}|\{BLANK\}|\{ANSWER\}/g, '<span class="pdf-gap"></span>');
-    var label = inlineGap ? '' : (q.id!=null ? esc(q.id)+'. ' : '');
-    var s = '<div class="q"><div class="q-text">'+label+txt+'</div>';
-    if (inlineGap){
-      // blank already rendered inline
-    } else if (Array.isArray(q.options) && q.options.length){
+    // completion / list-selection / note gaps: {INPUT}/{BLANK} → "(N) ____" so the
+    // question number sits AT the blank (some mocks pre-embed "N {INPUT}", others
+    // don't — strip a redundant leading N, then always insert (N) at the gap).
+    if (/\{INPUT\}|\{BLANK\}|\{ANSWER\}/.test(txt)){
+      var idStr = (q.id!=null ? String(q.id) : '');
+      if (idStr) txt = txt.replace(new RegExp('(^|\\s)'+idStr+'\\s*(\\{INPUT\\}|\\{BLANK\\}|\\{ANSWER\\})'), '$1$2');
+      var num = idStr ? '<span class="pdf-gap-n">('+esc(idStr)+')</span>' : '';
+      txt = txt.replace(/\{INPUT\}|\{BLANK\}|\{ANSWER\}/g, num+'<span class="pdf-gap"></span>');
+      return '<div class="q"><div class="q-text">'+txt+'</div></div>';
+    }
+    var s = '<div class="q"><div class="q-text">'+(q.id!=null?esc(q.id)+'. ':'')+txt+'</div>';
+    if (Array.isArray(q.options) && q.options.length){
       q.options.forEach(function(o, i){
         if (typeof o === 'string') s += '<div class="opt"><span class="opt-letter">'+String.fromCharCode(65+i)+'</span>'+html(o)+'</div>';
         else s += '<div class="opt"><span class="opt-letter">'+esc(o.letter)+'</span>'+html(o.text)+'</div>';
