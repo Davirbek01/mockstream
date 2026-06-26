@@ -85,6 +85,30 @@
   .task-meta{ font-size:12px; color:var(--muted); margin:0 0 8px; }
   .write-area{ min-height:130px; border:1px dashed #cbd5e1; border-radius:6px; margin-top:8px; background:repeating-linear-gradient(transparent,transparent 26px,#eef2f7 27px); }
 
+  /* Speaking — Part 1 picture pair (Q4 only): two framed images side by side at a
+     moderate, print-friendly size. No captions — the global img*Alt values are
+     generic/stale and would mislabel the picture-description task. */
+  .sp-imgs{ display:flex; gap:14px; align-items:flex-start; justify-content:center; margin:10px 0 2px; }
+  .sp-imgs figure{ flex:1 1 0; max-width:50%; margin:0; }
+  .sp-imgs img{ display:block; width:100%; height:auto;
+    border:1px solid #cbd5e1; border-radius:8px; padding:5px; background:#fff;
+    box-shadow:0 1px 4px rgba(15,23,42,.10); }
+  /* Speaking — Part 2 contextual image (Q7): primes the topic, not a describe task. */
+  .sp-context{ text-align:center; margin:10px 0 2px; }
+  .sp-context img{ display:inline-block; width:60%; max-width:420px; height:auto;
+    border:1px solid #cbd5e1; border-radius:8px; padding:5px; background:#fff;
+    box-shadow:0 1px 4px rgba(15,23,42,.10); }
+  .sp-context-cap{ font-size:11px; color:var(--muted); font-style:italic; margin-top:4px; }
+  /* Speaking — Part 3 discussion (Q8): For / Against argument columns. */
+  .sp-debate{ display:flex; gap:12px; margin:8px 0 2px; }
+  .sp-debate .col{ flex:1 1 0; border:1px solid var(--line); border-radius:8px; padding:9px 12px; }
+  .sp-debate .for{ background:rgba(16,185,129,0.08); border-color:#10b981; }
+  .sp-debate .against{ background:rgba(239,68,68,0.07); border-color:#ef4444; }
+  .sp-debate .col-h{ font-weight:bold; margin:0 0 5px; font-size:13px; }
+  .sp-debate .for .col-h{ color:#059669; }
+  .sp-debate .against .col-h{ color:#dc2626; }
+  .sp-debate .col-item{ margin:4px 0; font-size:12.5px; line-height:1.5; }
+
   /* Break rules so individual blocks aren't split mid-item. NOTE: do NOT put
      break-inside:avoid on .part — a whole part (e.g. 8 questions) is taller than
      the space left under the header, so avoiding its split forces it onto a fresh
@@ -440,12 +464,23 @@
     return out;
   }
 
-  // ---- Speaking renderer (questions[] grouped by part; IELTS P2 cue-card bullets; CEFR P2 images) ----
+  // ---- Speaking renderer (questions[] grouped by part) ----
+  // CEFR layout mirrors the live runner / mobile app:
+  //   • Part 1 picture-description (Q4): the global md.images pair, side by side,
+  //     framed at a moderate size — shown ONLY on the first hasImages question.
+  //     The follow-ups (Q5/Q6) carry hasImages:true so the on-screen runner can
+  //     keep the pictures visible, but the printed paper must NOT repeat them.
+  //   • Part 2 cue card (Q7): "You should say" points + optional contextImage
+  //     (topic primer, not a describe-the-picture task).
+  //   • Part 3 discussion (Q8): statement + debatePoints {for,against} columns.
+  // IELTS P2 cue cards reuse bulletPoints; the additive blocks below only fire
+  // when their fields are present, so IELTS papers are unaffected.
   function renderSpeaking(md){
     var qs = md.questions || [];
     var images = md.images || {};
     var out = '';
     var curPart = null;
+    var picsShown = false; // the global picture pair belongs to the first hasImages question
     qs.forEach(function(q){
       if (q.part !== curPart){
         if (curPart !== null) out += '</div>';
@@ -458,15 +493,40 @@
       if (q.speakTime) meta.push('Speak: '+esc(q.speakTime)+'s');
       else if (q.badge) meta.push(esc(q.badge));
       if (meta.length) out += '<div class="task-meta">'+meta.join(' &nbsp;·&nbsp; ')+'</div>';
+
+      // Part 1 picture pair (Q4 only — first hasImages question)
+      if (q.hasImages && !picsShown && (images.img1 || images.img2)){
+        picsShown = true;
+        out += '<div class="sp-imgs">';
+        if (images.img1) out += '<figure><img src="'+esc(images.img1)+'" alt="'+esc(images.img1Alt||'')+'"></figure>';
+        if (images.img2) out += '<figure><img src="'+esc(images.img2)+'" alt="'+esc(images.img2Alt||'')+'"></figure>';
+        out += '</div>';
+      }
+
+      // Part 2 cue card (Q7): "You should say" points + optional contextual image
       if (Array.isArray(q.bulletPoints) && q.bulletPoints.length){
         out += '<div class="box"><div class="box-title">You should say:</div>';
         q.bulletPoints.forEach(function(b){ out += '<div class="box-item">&bull; '+html(b)+'</div>'; });
         out += '</div>';
       }
-      if (q.hasImages && (images.img1 || images.img2)){
-        if (images.img1) out += '<img class="map-img" src="'+esc(images.img1)+'" alt="'+esc(images.img1Alt||'')+'">';
-        if (images.img2) out += '<img class="map-img" src="'+esc(images.img2)+'" alt="'+esc(images.img2Alt||'')+'">';
+      if (q.contextImage){
+        out += '<div class="sp-context"><img src="'+esc(q.contextImage)+'" alt="Topic context">'+
+               '<div class="sp-context-cap">Topic context — you don’t need to describe this picture</div></div>';
       }
+
+      // Part 3 discussion (Q8): For / Against columns
+      var dp = q.debatePoints;
+      if (dp && !Array.isArray(dp) && ((dp.for && dp.for.length) || (dp.against && dp.against.length))){
+        out += '<div class="sp-debate">';
+        out += '<div class="col for"><div class="col-h">✓ For</div>';
+        (dp.for||[]).forEach(function(p){ out += '<div class="col-item">&bull; '+html(p)+'</div>'; });
+        out += '</div>';
+        out += '<div class="col against"><div class="col-h">✗ Against</div>';
+        (dp.against||[]).forEach(function(p){ out += '<div class="col-item">&bull; '+html(p)+'</div>'; });
+        out += '</div>';
+        out += '</div>';
+      }
+
       out += '</div>';
     });
     if (curPart !== null) out += '</div>';
