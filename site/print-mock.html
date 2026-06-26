@@ -160,6 +160,22 @@
   // Passage/question text is authored HTML in mock_data — render as-is (trusted content).
   function html(s){ return (s==null?'':String(s)); }
 
+  // Downscale + recompress content images through a resize proxy so the embedded
+  // PDF stays under Netlify's 6MB function-response cap. Source exam photos can be
+  // many MB (a CEFR speaking PNG was 11MB; reading/listening maps are ESRGAN-
+  // upscaled) and Chrome embeds them at full resolution — one image-heavy mock
+  // blows past the limit → 502 Function.ResponseSizeTooLarge. Print only needs
+  // ~A4-width resolution. data:/blob: URIs and already-proxied URLs pass through.
+  function imgProxy(url, w){
+    if (!url) return url;
+    var s = String(url);
+    if (/^(data:|blob:)/.test(s) || s.indexOf('images.weserv.nl') !== -1) return s;
+    // bg=white: JPG can't hold alpha, so flatten any transparency to white (correct
+    // on a paper) instead of weserv's default black — protects transparent maps/diagrams.
+    return 'https://images.weserv.nl/?url=' + encodeURIComponent(s.replace(/^https?:\/\//,'')) +
+           '&w=' + (w||1000) + '&output=jpg&q=82&bg=white';
+  }
+
   // gap-fill hint → swap the gap marker (run of underscores / dots) for a wide
   // writable blank; if no marker present, append one. No separate "Answer:" line.
   function inlineGap(text){
@@ -390,7 +406,7 @@
     }
     if (t === 'map-labeling'){
       if (node.mapTitle) s += '<div class="passage-title">'+html(node.mapTitle)+'</div>';
-      if (node.mapImage) s += '<img class="map-img" src="'+esc(node.mapImage)+'" alt="">';
+      if (node.mapImage) s += '<img class="map-img" src="'+esc(imgProxy(node.mapImage,1500))+'" alt="">';
       if (Array.isArray(node.mapLabels) && node.mapLabels.length){
         s += '<div class="box"><div class="box-title">Labels</div><div class="labels">'+
              node.mapLabels.map(function(l){ return '<span><strong>'+esc(l)+'</strong></span>'; }).join('')+'</div></div>';
@@ -484,7 +500,7 @@
         if (meta.length) out += '<div class="task-meta">'+meta.join(' &nbsp;·&nbsp; ')+'</div>';
         if (t.instruction) out += '<div class="instruction">'+html(t.instruction)+'</div>';
         if (t.prompt) out += '<div class="prompt-box">'+html(t.prompt)+'</div>';
-        if (t.chartImageUrl) out += '<img class="map-img" src="'+esc(t.chartImageUrl)+'" alt="">';
+        if (t.chartImageUrl) out += '<img class="map-img" src="'+esc(imgProxy(t.chartImageUrl,1500))+'" alt="">';
         out += '<div class="write-area"></div>';
         out += '</div>';
       });
@@ -548,8 +564,8 @@
       if (q.hasImages && !picsShown && (images.img1 || images.img2)){
         picsShown = true;
         out += '<div class="sp-imgs">';
-        if (images.img1) out += '<figure><img src="'+esc(images.img1)+'" alt="'+esc(images.img1Alt||'')+'"></figure>';
-        if (images.img2) out += '<figure><img src="'+esc(images.img2)+'" alt="'+esc(images.img2Alt||'')+'"></figure>';
+        if (images.img1) out += '<figure><img src="'+esc(imgProxy(images.img1,900))+'" alt="'+esc(images.img1Alt||'')+'"></figure>';
+        if (images.img2) out += '<figure><img src="'+esc(imgProxy(images.img2,900))+'" alt="'+esc(images.img2Alt||'')+'"></figure>';
         out += '</div>';
       }
 
@@ -560,7 +576,7 @@
         out += '</div>';
       }
       if (q.contextImage){
-        out += '<div class="sp-context"><img src="'+esc(q.contextImage)+'" alt="Topic context">'+
+        out += '<div class="sp-context"><img src="'+esc(imgProxy(q.contextImage,900))+'" alt="Topic context">'+
                '<div class="sp-context-cap">Topic context — you don’t need to describe this picture</div></div>';
       }
 
