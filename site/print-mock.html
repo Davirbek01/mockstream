@@ -90,9 +90,10 @@
      generic/stale and would mislabel the picture-description task. */
   .sp-imgs{ display:flex; gap:14px; align-items:stretch; justify-content:center; margin:10px 0 2px; }
   .sp-imgs figure{ flex:1 1 0; max-width:50%; margin:0; }
-  /* Fixed aspect-ratio box + object-fit:cover so BOTH frames are an identical
-     size regardless of each source image's native resolution. */
-  .sp-imgs img{ display:block; width:100%; aspect-ratio:3/2; object-fit:cover;
+  /* Both images are pre-cropped to 3:2 server-side (weserv fit=cover), so a plain
+     width:100% keeps the frames identical WITHOUT object-fit — object-fit would
+     force Chromium to rasterise the photo into a multi-MB lossless bitmap. */
+  .sp-imgs img{ display:block; width:100%; height:auto;
     border:1px solid #cbd5e1; border-radius:8px; padding:5px; background:#fff;
     box-shadow:0 1px 4px rgba(15,23,42,.10); }
   /* Speaking — Part 2 contextual image (Q7): primes the topic, not a describe task. */
@@ -166,14 +167,19 @@
   // upscaled) and Chrome embeds them at full resolution — one image-heavy mock
   // blows past the limit → 502 Function.ResponseSizeTooLarge. Print only needs
   // ~A4-width resolution. data:/blob: URIs and already-proxied URLs pass through.
-  function imgProxy(url, w){
+  // When h is given, weserv crops to w×h (fit=cover) SERVER-SIDE so the image
+  // arrives at its final size. Critical: doing the cover-crop in CSS
+  // (object-fit:cover) makes Chromium's page.pdf rasterise the image to a
+  // lossless bitmap (a 900px photo → ~1.3MB FlateDecode), pushing the PDF back
+  // toward the 6MB cap. Pre-cropped images stay small JPEGs (DCTDecode).
+  function imgProxy(url, w, h){
     if (!url) return url;
     var s = String(url);
     if (/^(data:|blob:)/.test(s) || s.indexOf('images.weserv.nl') !== -1) return s;
     // bg=white: JPG can't hold alpha, so flatten any transparency to white (correct
     // on a paper) instead of weserv's default black — protects transparent maps/diagrams.
     return 'https://images.weserv.nl/?url=' + encodeURIComponent(s.replace(/^https?:\/\//,'')) +
-           '&w=' + (w||1000) + '&output=jpg&q=82&bg=white';
+           '&w=' + (w||1000) + (h ? '&h=' + h + '&fit=cover' : '') + '&output=jpg&q=82&bg=white';
   }
 
   // gap-fill hint → swap the gap marker (run of underscores / dots) for a wide
@@ -564,8 +570,8 @@
       if (q.hasImages && !picsShown && (images.img1 || images.img2)){
         picsShown = true;
         out += '<div class="sp-imgs">';
-        if (images.img1) out += '<figure><img src="'+esc(imgProxy(images.img1,900))+'" alt="'+esc(images.img1Alt||'')+'"></figure>';
-        if (images.img2) out += '<figure><img src="'+esc(imgProxy(images.img2,900))+'" alt="'+esc(images.img2Alt||'')+'"></figure>';
+        if (images.img1) out += '<figure><img src="'+esc(imgProxy(images.img1,900,600))+'" alt="'+esc(images.img1Alt||'')+'"></figure>';
+        if (images.img2) out += '<figure><img src="'+esc(imgProxy(images.img2,900,600))+'" alt="'+esc(images.img2Alt||'')+'"></figure>';
         out += '</div>';
       }
 
