@@ -333,7 +333,7 @@
       var skill = opts.skill || '';
       var overlay = document.createElement('div');
       overlay.className = 'pg-tier-overlay';
-      overlay.style.cssText = 'position:fixed;inset:0;z-index:100000;background:rgba(15,23,42,0.55);display:flex;align-items:center;justify-content:center;padding:20px;';
+      overlay.style.cssText = 'position:fixed;inset:0;z-index:100050;background:rgba(15,23,42,0.55);display:flex;align-items:center;justify-content:center;padding:20px;';
       overlay.innerHTML =
         '<div role="dialog" aria-modal="true" style="background:#fff;border-radius:18px;max-width:420px;width:100%;padding:26px 24px;box-shadow:0 20px 60px rgba(0,0,0,0.35);text-align:center;font-family:inherit;">' +
           (premium
