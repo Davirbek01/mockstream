@@ -495,21 +495,21 @@
     out += '<div class="part"><div class="part-title">Part 1'+((md.part1&&md.part1.topic)?(' — '+esc(md.part1.topic)):'')+'</div>';
     if (tasks.p1_context) out += '<div class="instruction">'+textBlock(tasks.p1_context)+'</div>';
     if (tasks.p1_scenario) out += '<div class="prompt-box">'+textBlock(tasks.p1_scenario)+'</div>';
-    [['t11','Option 1'],['t12','Option 2']].forEach(function(pair){
+    [['t11','Task 1.1'],['t12','Task 1.2']].forEach(function(pair){
       var t = tasks[pair[0]]; if(!t) return;
       out += '<div class="q"><div class="q-text">'+pair[1]+(t.title?(' — '+esc(t.title)):'')+'</div>';
       if (t.prompt) out += '<div>'+textBlock(t.prompt)+'</div>';
       if (t.target) out += '<div class="task-meta">('+esc(t.target)+')</div>';
       out += '</div>';
     });
-    out += '<div class="write-area"></div></div>';
+    out += '</div>';
 
     if (tasks.t2){
       var t2 = tasks.t2;
       out += '<div class="part"><div class="part-title">Part 2'+(t2.title?(' — '+esc(t2.title)):'')+'</div>';
       if (t2.genre) out += '<div class="task-meta">Genre: '+esc(t2.genre)+(t2.target?(' &nbsp;·&nbsp; '+esc(t2.target)):'')+'</div>';
       if (t2.prompt) out += '<div class="prompt-box">'+textBlock(t2.prompt)+'</div>';
-      out += '<div class="write-area"></div></div>';
+      out += '</div>';
     }
     return out;
   }
