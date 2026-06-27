@@ -112,6 +112,9 @@
     btn.disabled = true; btn.textContent = 'Generating PDF…';
     msg.className = 'mpm-msg'; msg.textContent = 'This can take a few seconds.';
     var url = '/.netlify/functions/mock-pdf?type=' + encodeURIComponent(type) + '&id=' + encodeURIComponent(id);
+    // Reading & Listening papers get an Answer Key appended at the end (print-mock.html
+    // renders it on &key=1). Speaking/Writing have no objective key, so it's omitted.
+    if (/reading|listening/.test(type)) url += '&key=1';
     try {
       var r = await fetch(url);
       if (!r.ok) throw new Error('Server returned ' + r.status);
