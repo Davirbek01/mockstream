@@ -7,3 +7,19 @@
   node_bundler = "esbuild"
   # @sparticuz/chromium ships its own Chromium binary — don't let esbuild bundle it.
   external_node_modules = ["@sparticuz/chromium"]
+
+# Short, shareable link to the desktop app download page (hosted in the GCS
+# release bucket). Lets us hand students "mock-stream.com/desktop" instead of the
+# long storage.googleapis.com URL. /download is an alias. 302 so we can re-point
+# the target later (e.g. to a custom domain) without students' links breaking.
+[[redirects]]
+  from = "/desktop"
+  to = "https://storage.googleapis.com/mockstream-desktop-releases/download.html"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/download"
+  to = "https://storage.googleapis.com/mockstream-desktop-releases/download.html"
+  status = 302
+  force = true
