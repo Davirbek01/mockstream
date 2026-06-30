@@ -47,7 +47,9 @@
       var msg = document.getElementById('msg');
       var spin = document.getElementById('spin');
       var btnWrap = document.getElementById('btn');
-      var okScheme = /^(mockstream:\/\/|exp:\/\/|exps:\/\/)/.test(to);
+      // Allow Mock Stream + every clone deep-link scheme (mockstream://,
+      // mockstreambek://, …) plus Expo dev schemes. Clones return to their OWN app.
+      var okScheme = /^(mockstream[a-z]*:\/\/|exp:\/\/|exps:\/\/)/.test(to);
 
       function fail(text) { spin.style.display = 'none'; btnWrap.innerHTML = ''; msg.className = 'err'; msg.textContent = text; }
       if (!to || !okScheme) { fail('Invalid return link. Please reopen the app and try again.'); return; }
