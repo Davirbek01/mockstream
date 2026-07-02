@@ -72,6 +72,7 @@
         maintenanceMode: false,
         iosAppDisabled: false, // mobile-app-only kill switch (web unaffected)
         androidAppDisabled: false,
+        desktopAppDisabled: false,
         // Analytics
         resultsVisible: true, exportPermission: true, dataIsolation: false,
         // Limits
@@ -289,6 +290,7 @@
         if (cfg.maintenanceMode) h += ' <span style="background:#f59e0b;color:#fff;font-size:10px;padding:2px 6px;border-radius:4px;font-weight:600;">🔧 MAINTENANCE</span>';
         if (cfg.iosAppDisabled) h += ' <span style="background:#6b7280;color:#fff;font-size:10px;padding:2px 6px;border-radius:4px;font-weight:600;">📵 iOS APP OFF</span>';
         if (cfg.androidAppDisabled) h += ' <span style="background:#6b7280;color:#fff;font-size:10px;padding:2px 6px;border-radius:4px;font-weight:600;">📵 ANDROID APP OFF</span>';
+        if (cfg.desktopAppDisabled) h += ' <span style="background:#6b7280;color:#fff;font-size:10px;padding:2px 6px;border-radius:4px;font-weight:600;">💻 DESKTOP APP OFF</span>';
         h += '<br><span style="font-size:11px;color:#888;">' + cid + '</span></div>';
 
         // Active toggle
@@ -724,6 +726,7 @@
             h += _cmToggleInput(cid, 'maintenanceMode', '🔧 Maintenance Mode', cfg.maintenanceMode);
             h += _cmToggleInput(cid, 'iosAppDisabled', '📵 iOS App Maintenance (mobile app only — website unaffected)', cfg.iosAppDisabled);
             h += _cmToggleInput(cid, 'androidAppDisabled', '📵 Android App Maintenance (mobile app only — website unaffected)', cfg.androidAppDisabled);
+            h += _cmToggleInput(cid, 'desktopAppDisabled', '💻 Desktop App Maintenance (desktop app only — website unaffected)', cfg.desktopAppDisabled);
             h += '<div style="border-top:1px solid var(--ring,#e5e7eb);margin:8px 0;"></div>';
             h += _cmToggleInput(cid, 'operatingHoursEnabled', '⏰ Restrict Operating Hours', cfg.operatingHoursEnabled);
             if (cfg.operatingHoursEnabled) {
@@ -907,7 +910,7 @@
         _cmConfigs[centerId].transcriberGeminiPlan = 'default';
       }
       // Re-render only for toggles that show/hide sub-fields
-      if (prop === 'operatingHoursEnabled' || prop === 'examScheduleMode' || prop === 'maintenanceMode' || prop === 'iosAppDisabled' || prop === 'androidAppDisabled'
+      if (prop === 'operatingHoursEnabled' || prop === 'examScheduleMode' || prop === 'maintenanceMode' || prop === 'iosAppDisabled' || prop === 'androidAppDisabled' || prop === 'desktopAppDisabled'
           || prop === 'aiProvider' || prop === 'transcriberProvider'
           || prop === 'visionFactCheck') {
         _cmRenderBody();
