@@ -70,6 +70,7 @@
         operatingHoursEnabled: false, operatingHoursStart: '09:00', operatingHoursEnd: '18:00',
         examScheduleMode: false, examScheduleDate: '',
         maintenanceMode: false,
+        iosAppDisabled: false, // mobile-app-only kill switch (web unaffected)
         // Analytics
         resultsVisible: true, exportPermission: true, dataIsolation: false,
         // Limits
@@ -285,6 +286,7 @@
         h += '<img src="' + center.logo + '" style="width:36px;height:36px;border-radius:8px;object-fit:contain;background:#fff;border:1px solid #e5e7eb;" onerror="this.style.display=\'none\'">';
         h += '<div style="flex:1;"><strong style="font-size:14px;">' + center.name + '</strong>';
         if (cfg.maintenanceMode) h += ' <span style="background:#f59e0b;color:#fff;font-size:10px;padding:2px 6px;border-radius:4px;font-weight:600;">🔧 MAINTENANCE</span>';
+        if (cfg.iosAppDisabled) h += ' <span style="background:#6b7280;color:#fff;font-size:10px;padding:2px 6px;border-radius:4px;font-weight:600;">📵 iOS APP OFF</span>';
         h += '<br><span style="font-size:11px;color:#888;">' + cid + '</span></div>';
 
         // Active toggle
@@ -718,6 +720,7 @@
           if (_cmExpandedSections[cid + '_schedule']) {
             h += '<div style="padding:10px 16px;">';
             h += _cmToggleInput(cid, 'maintenanceMode', '🔧 Maintenance Mode', cfg.maintenanceMode);
+            h += _cmToggleInput(cid, 'iosAppDisabled', '📵 iOS App Maintenance (mobile app only — website unaffected)', cfg.iosAppDisabled);
             h += '<div style="border-top:1px solid var(--ring,#e5e7eb);margin:8px 0;"></div>';
             h += _cmToggleInput(cid, 'operatingHoursEnabled', '⏰ Restrict Operating Hours', cfg.operatingHoursEnabled);
             if (cfg.operatingHoursEnabled) {
@@ -901,7 +904,7 @@
         _cmConfigs[centerId].transcriberGeminiPlan = 'default';
       }
       // Re-render only for toggles that show/hide sub-fields
-      if (prop === 'operatingHoursEnabled' || prop === 'examScheduleMode' || prop === 'maintenanceMode'
+      if (prop === 'operatingHoursEnabled' || prop === 'examScheduleMode' || prop === 'maintenanceMode' || prop === 'iosAppDisabled'
           || prop === 'aiProvider' || prop === 'transcriberProvider'
           || prop === 'visionFactCheck') {
         _cmRenderBody();
