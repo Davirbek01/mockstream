@@ -71,6 +71,7 @@
         examScheduleMode: false, examScheduleDate: '',
         maintenanceMode: false,
         iosAppDisabled: false, // mobile-app-only kill switch (web unaffected)
+        androidAppDisabled: false,
         // Analytics
         resultsVisible: true, exportPermission: true, dataIsolation: false,
         // Limits
@@ -287,6 +288,7 @@
         h += '<div style="flex:1;"><strong style="font-size:14px;">' + center.name + '</strong>';
         if (cfg.maintenanceMode) h += ' <span style="background:#f59e0b;color:#fff;font-size:10px;padding:2px 6px;border-radius:4px;font-weight:600;">🔧 MAINTENANCE</span>';
         if (cfg.iosAppDisabled) h += ' <span style="background:#6b7280;color:#fff;font-size:10px;padding:2px 6px;border-radius:4px;font-weight:600;">📵 iOS APP OFF</span>';
+        if (cfg.androidAppDisabled) h += ' <span style="background:#6b7280;color:#fff;font-size:10px;padding:2px 6px;border-radius:4px;font-weight:600;">📵 ANDROID APP OFF</span>';
         h += '<br><span style="font-size:11px;color:#888;">' + cid + '</span></div>';
 
         // Active toggle
@@ -721,6 +723,7 @@
             h += '<div style="padding:10px 16px;">';
             h += _cmToggleInput(cid, 'maintenanceMode', '🔧 Maintenance Mode', cfg.maintenanceMode);
             h += _cmToggleInput(cid, 'iosAppDisabled', '📵 iOS App Maintenance (mobile app only — website unaffected)', cfg.iosAppDisabled);
+            h += _cmToggleInput(cid, 'androidAppDisabled', '📵 Android App Maintenance (mobile app only — website unaffected)', cfg.androidAppDisabled);
             h += '<div style="border-top:1px solid var(--ring,#e5e7eb);margin:8px 0;"></div>';
             h += _cmToggleInput(cid, 'operatingHoursEnabled', '⏰ Restrict Operating Hours', cfg.operatingHoursEnabled);
             if (cfg.operatingHoursEnabled) {
@@ -904,7 +907,7 @@
         _cmConfigs[centerId].transcriberGeminiPlan = 'default';
       }
       // Re-render only for toggles that show/hide sub-fields
-      if (prop === 'operatingHoursEnabled' || prop === 'examScheduleMode' || prop === 'maintenanceMode' || prop === 'iosAppDisabled'
+      if (prop === 'operatingHoursEnabled' || prop === 'examScheduleMode' || prop === 'maintenanceMode' || prop === 'iosAppDisabled' || prop === 'androidAppDisabled'
           || prop === 'aiProvider' || prop === 'transcriberProvider'
           || prop === 'visionFactCheck') {
         _cmRenderBody();
