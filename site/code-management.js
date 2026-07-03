@@ -728,21 +728,17 @@
     }
     state.mockCounts = state.mockCounts || null;
     (async function loadCounts() {
-      var local = detectLocalCounts();
-      var hasLocal = local.listening + local.reading + local.writing + local.speaking > 0;
-      // Always try to fetch the server's view first
+      // The server (codes-manager get_mock_counts) now computes counts LIVE
+      // from the mock_tests table — highest mock_number per skill, unioned
+      // across CEFR + IELTS. It is the single source of truth, so the panel
+      // just trusts it. (The legacy detectLocalCounts()/set_mock_counts sync
+      // from the static *_MOCK_PROMOCODES dicts is deliberately no longer used
+      // — it capped at ~99 and drifted from reality.)
       var server = await call('get_mock_counts', {});
-      var counts = (server && server.ok && server.counts) ? server.counts : null;
-      // If we detected fresh dicts locally and they differ (or server has no record), sync.
-      if (hasLocal && (!counts ||
-          local.listening !== counts.listening || local.reading !== counts.reading ||
-          local.writing   !== counts.writing   || local.speaking !== counts.speaking)) {
-        var pushed = await call('set_mock_counts', { counts: local });
-        if (pushed && pushed.ok) counts = pushed.counts;
-      }
-      if (!counts) counts = local.listening ? local : { listening: 100, reading: 99, writing: 99, speaking: 99 };
+      var counts = (server && server.ok && server.counts) ? server.counts
+                 : { listening: 100, reading: 99, writing: 99, speaking: 99 };
       state.mockCounts = counts;
-      var src = hasLocal ? 'detected from this page' : (server && server.ok && server.source === 'site_settings' ? 'last synced' : 'default');
+      var src = (server && server.ok && server.source === 'mock_tests') ? 'live from mocks' : 'default';
       if (bulkCountsEl) bulkCountsEl.innerHTML = '📊 Mocks per skill (' + src + '): ' + countsFmt(counts);
       if (bulkMissingBtn) bulkMissingBtn.disabled = false;
       if (bulkAllBtn)     bulkAllBtn.disabled     = false;
