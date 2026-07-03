@@ -4950,6 +4950,23 @@
         roleSelect.disabled = true;
       }
 
+      // Apply the SAME clone-scoping to the Telegram add-form. Previously
+      // only the email form's center/role were locked, so on a clone site
+      // the Telegram path kept the full "All Centers" list (and User/Admin
+      // role) open — a clone admin could grant premium to another centre,
+      // or mint an admin, via Telegram. Lock both to match the email form.
+      var tgCenterSelect = document.getElementById('premiumTgCenter');
+      if (premiumLockedCenter && tgCenterSelect) {
+        tgCenterSelect.innerHTML = '<option value="' + premiumLockedCenter + '">' + (CENTER_NAMES[premiumLockedCenter] || premiumLockedCenter) + '</option>';
+        tgCenterSelect.value = premiumLockedCenter;
+        tgCenterSelect.disabled = true;
+      }
+      var tgRoleSelect = document.getElementById('premiumTgRole');
+      if (premiumLockedCenter && tgRoleSelect) {
+        tgRoleSelect.innerHTML = '<option value="user">User</option>';
+        tgRoleSelect.disabled = true;
+      }
+
       try {
         var url = SUPABASE_URL + '/rest/v1/premium_emails?select=*&order=created_at.desc';
         var devUrl = SUPABASE_URL + '/rest/v1/premium_devices?select=email,device_id,device_info,last_seen,created_at';
