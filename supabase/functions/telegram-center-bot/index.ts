@@ -645,17 +645,33 @@ async function sendAdminMockSkills(cfg: CenterConfig, chatId: number, message_id
   if (message_id) return editMessageText(cfg.bot_token, chatId, message_id, text, { reply_markup: kb });
   return send(cfg.bot_token, chatId, text, { reply_markup: kb });
 }
-async function sendAdminMockList(cfg: CenterConfig, chatId: number, skill: Skill, message_id?: number) {
+async function sendAdminMockList(cfg: CenterConfig, chatId: number, skill: Skill, message_id?: number, page = 0) {
   const hideReg = await shouldHideRegulars(cfg.center_id);
   let q = sb.from('mock_codes').select('mock_number, tier').eq('center', cfg.center_id).eq('skill', skill);
   if (hideReg) q = q.eq('tier', 'premium');
   const { data } = await q;
   const nums = Array.from(new Set((data ?? []).map(m => m.mock_number))).sort((a, b) => a - b);
+  // Telegram rejects/truncates inline keyboards past ~100 buttons, so page the
+  // grid (40 numbers/page) with ◀️/▶️ nav once a skill exceeds one page.
+  const PAGE = 40;
+  const pageCount = Math.max(1, Math.ceil(nums.length / PAGE));
+  const p = Math.min(Math.max(0, page), pageCount - 1);
+  const slice = nums.slice(p * PAGE, (p + 1) * PAGE);
   const lines = [`<b>${esc(cfg.center_id)}</b>`, `${SKILL_LABEL[skill]} — mock codes`, ''];
   if (!nums.length) lines.push(`<i>No mock codes yet.</i>`, `Tap ➕ to add one.`);
-  else lines.push(`Tap a number to view its ${hideReg ? 'premium' : '🟢 regular &amp; 🔥 premium'} code(s).`);
+  else {
+    lines.push(`Tap a number to view its ${hideReg ? 'premium' : '🟢 regular &amp; 🔥 premium'} code(s).`);
+    if (pageCount > 1) lines.push('', `Page <b>${p + 1}</b>/${pageCount} · #${slice[0]}–#${slice[slice.length - 1]}`);
+  }
   const buttons: Array<Array<{ text: string; callback_data: string }>> = [];
-  for (let i = 0; i < nums.length; i += 4) buttons.push(nums.slice(i, i + 4).map(n => ({ text: `#${n}`, callback_data: `adm_mock_n:${skill}:${n}` })));
+  for (let i = 0; i < slice.length; i += 4) buttons.push(slice.slice(i, i + 4).map(n => ({ text: `#${n}`, callback_data: `adm_mock_n:${skill}:${n}` })));
+  if (pageCount > 1) {
+    const nav: Array<{ text: string; callback_data: string }> = [];
+    if (p > 0) nav.push({ text: '◀️ Prev', callback_data: `adm_mock_pg:${skill}:${p - 1}` });
+    nav.push({ text: `${p + 1}/${pageCount}`, callback_data: 'adm_noop' });
+    if (p < pageCount - 1) nav.push({ text: 'Next ▶️', callback_data: `adm_mock_pg:${skill}:${p + 1}` });
+    buttons.push(nav);
+  }
   buttons.push([{ text: '➕ New mock #', callback_data: `adm_mock_new:${skill}` }]);
   buttons.push([{ text: '⬅️ Skills', callback_data: 'adm_mock' }]);
   const kb = { inline_keyboard: buttons };
@@ -882,6 +898,14 @@ async function handleCallback(cfg: CenterConfig, cb: Record<string, unknown>) {
       if (!SKILLS.includes(skill)) { await answerCb(cfg.bot_token, cbId); return; }
       await answerCb(cfg.bot_token, cbId);
       await sendAdminMockList(cfg, chatId, skill, messageId);
+      return;
+    }
+    if (data === 'adm_noop') { await answerCb(cfg.bot_token, cbId); return; }
+    if (data.startsWith('adm_mock_pg:')) {
+      const [, pgSkill, pgStr] = data.split(':');
+      if (!SKILLS.includes(pgSkill as Skill)) { await answerCb(cfg.bot_token, cbId); return; }
+      await answerCb(cfg.bot_token, cbId);
+      await sendAdminMockList(cfg, chatId, pgSkill as Skill, messageId, parseInt(pgStr, 10) || 0);
       return;
     }
     if (data.startsWith('adm_mock_n:')) {

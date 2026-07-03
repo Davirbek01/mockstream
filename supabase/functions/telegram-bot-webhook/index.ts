@@ -300,7 +300,7 @@ async function sendMockSkillsMenu(chat_id: number, center_id: string, center_nam
 }
 
 async function sendMockListMenu(
-  chat_id: number, center_id: string, center_name: string, skill: Skill, message_id?: number
+  chat_id: number, center_id: string, center_name: string, skill: Skill, message_id?: number, page = 0
 ) {
   const { data } = await sb.from('mock_codes')
     .select('mock_number')
@@ -308,6 +308,12 @@ async function sendMockListMenu(
 
   // Distinct mock numbers (a mock # can have up to 2 rows: regular + premium)
   const nums = Array.from(new Set((data ?? []).map(m => m.mock_number))).sort((a, b) => a - b);
+  // Telegram rejects/truncates inline keyboards past ~100 buttons, so page the
+  // grid (40 numbers/page) with ◀️/▶️ nav once a skill exceeds one page.
+  const PAGE = 40;
+  const pageCount = Math.max(1, Math.ceil(nums.length / PAGE));
+  const p = Math.min(Math.max(0, page), pageCount - 1);
+  const slice = nums.slice(p * PAGE, (p + 1) * PAGE);
   const lines = [
     `🏫 <b>${esc(center_name)}</b>`,
     `${SKILL_LABEL[skill]} — mock codes`,
@@ -317,14 +323,22 @@ async function sendMockListMenu(
     lines.push('<i>No mock codes yet.</i>', 'Tap ➕ to add one.');
   } else {
     lines.push(`Tap a number to view its 🟢 regular & 🔥 premium codes.`);
+    if (pageCount > 1) lines.push('', `Page <b>${p + 1}</b>/${pageCount} · #${slice[0]}–#${slice[slice.length - 1]}`);
   }
 
   const buttons: Array<Array<{ text: string; callback_data: string }>> = [];
-  for (let i = 0; i < nums.length; i += 4) {
-    buttons.push(nums.slice(i, i + 4).map(n => ({
+  for (let i = 0; i < slice.length; i += 4) {
+    buttons.push(slice.slice(i, i + 4).map(n => ({
       text: `#${n}`,
       callback_data: `mock_code:${center_id}:${skill}:${n}`
     })));
+  }
+  if (pageCount > 1) {
+    const nav: Array<{ text: string; callback_data: string }> = [];
+    if (p > 0) nav.push({ text: '◀️ Prev', callback_data: `mock_pg:${center_id}:${skill}:${p - 1}` });
+    nav.push({ text: `${p + 1}/${pageCount}`, callback_data: 'noop' });
+    if (p < pageCount - 1) nav.push({ text: 'Next ▶️', callback_data: `mock_pg:${center_id}:${skill}:${p + 1}` });
+    buttons.push(nav);
   }
   buttons.push([{ text: '➕ New mock #', callback_data: `mock_new:${center_id}:${skill}` }]);
   buttons.push([
@@ -617,6 +631,20 @@ async function handleCallback(cb: any) {
     await answerCb(cb.id);
     return sendMockListMenu(chat_id, center_id, c.display_name, skill as Skill, message_id);
   }
+
+  // mock_pg:<center>:<skill>:<page> — paginated grid navigation
+  if (data.startsWith('mock_pg:')) {
+    const [, center_id, skill, pgStr] = data.split(':');
+    if (!SKILLS.includes(skill as Skill)) { await answerCb(cb.id); return; }
+    if (!await ownsCenter({ ...session, current_center: center_id }, center_id) && session.role !== 'super') {
+      await answerCb(cb.id, 'Forbidden'); return;
+    }
+    const { data: c } = await sb.from('centers').select('display_name').eq('id', center_id).maybeSingle();
+    if (!c) { await answerCb(cb.id); return; }
+    await answerCb(cb.id);
+    return sendMockListMenu(chat_id, center_id, c.display_name, skill as Skill, message_id, parseInt(pgStr, 10) || 0);
+  }
+  if (data === 'noop') { await answerCb(cb.id); return; }
 
   // mock_bulk:<center>  → show detected counts + mode buttons
   if (data.startsWith('mock_bulk:')) {
