@@ -70,16 +70,23 @@ function esc(s: string): string {
 // Per-skill mock counts, synced into site_settings(key='mock_counts') by the
 // admin panel whenever it loads on landing.html (where the promocode dicts live).
 async function fetchMockCounts(): Promise<Record<'listening'|'reading'|'writing'|'speaking', number>> {
+  // Live from mock_tests: highest mock_number per skill, unioned across
+  // CEFR + IELTS (a code is keyed by skill+number, no exam dimension). Matches
+  // codes-manager get_mock_counts so bot + panel + auto-gen trigger all agree.
+  // (Formerly read the stale site_settings.mock_counts blob, which drifted.)
   const def = { listening: 100, reading: 99, writing: 99, speaking: 99 };
+  const skills = ['listening', 'reading', 'writing', 'speaking'] as const;
+  const out: Record<string, number> = { ...def };
   try {
-    const { data } = await sb.from('site_settings')
-      .select('value').eq('key', 'mock_counts').maybeSingle();
-    const v = (data?.value ?? null) as Record<string, unknown> | null;
-    if (!v || typeof v !== 'object') return def;
-    const out: Record<string, number> = { ...def };
-    for (const k of Object.keys(def)) {
-      const n = parseInt(String((v as Record<string, unknown>)[k] ?? ''), 10);
-      if (Number.isInteger(n) && n >= 1 && n <= 200) out[k] = n;
+    for (const s of skills) {
+      const { data, error } = await sb.from('mock_tests')
+        .select('mock_number')
+        .in('mock_type', ['cefr-' + s, 'ielts-' + s])
+        .order('mock_number', { ascending: false })
+        .limit(1);
+      if (error) throw error;
+      const n = data && data[0] ? parseInt(String(data[0].mock_number), 10) : 0;
+      if (Number.isInteger(n) && n >= 1) out[s] = n;
     }
     return out as typeof def;
   } catch {
