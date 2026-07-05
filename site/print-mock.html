@@ -119,7 +119,13 @@
   .sample-head{ font-weight:bold; color:var(--accent); font-size:15px; margin-bottom:2px; }
   .sample-prompt{ font-size:12.5px; color:var(--muted); margin:0 0 8px; }
   .sample-prompt .sp-label{ font-weight:bold; }
-  .sample-body{ margin:6px 0 4px; text-align:justify; }
+  .sample-body{ margin:6px 0 4px; }
+  .sample-body .sample-para{ margin:0 0 9px; text-align:justify; }
+  .sample-body .sample-para:last-child{ margin-bottom:0; }
+  .sample-qtext{ font-weight:normal; color:var(--muted); font-size:13.5px; }
+  .sample-imgs{ display:flex; gap:10px; margin:8px 0; }
+  .sample-imgs img{ width:150px; height:auto; border:1px solid #cbd5e1; border-radius:6px;
+    padding:3px; background:#fff; box-shadow:0 1px 3px rgba(15,23,42,.1); }
   .sample-wc{ font-size:11.5px; color:var(--muted); text-align:right; }
   .sample-missing{ font-style:italic; color:#b91c1c; font-size:12.5px; }
   .sample-gloss{ margin-top:8px; padding-top:6px; border-top:1px dotted var(--line);
@@ -633,9 +639,24 @@
   }
 
   // ---- Samples (model-answer booklet) helpers ----
-  // Authored samples are HTML that may carry <span class="ml-token TYPE"> spans.
-  // Convert bare newlines to <br> for paragraph breaks; inline HTML passes through.
-  function sampleBlock(s){ return String(s==null?'':s).replace(/\n/g,'<br>'); }
+  // Authored samples are inconsistent HTML: some use <p>…</p><p>…</p>, some a
+  // single <p> with <br> between paragraphs, some bare \n. ml-token spans must
+  // survive normalisation (we only split on paragraph/line tags, never spans).
+  //
+  // Writing → real spaced paragraphs (letters/essays have paragraph structure):
+  // split on any </p>, <p>, <br>, or \n and re-wrap each block in <p>.
+  function samplePara(s){
+    var segs = String(s==null?'':s).split(/<\/p\s*>|<p[^>]*>|<br\s*\/?>|\n+/i);
+    var out = '';
+    segs.forEach(function(seg){ var t = seg.replace(/^\s+|\s+$/g,''); if (t) out += '<p class="sample-para">'+t+'</p>'; });
+    return out || ('<p class="sample-para">'+String(s==null?'':s)+'</p>');
+  }
+  // Speaking → one flowing paragraph (a spoken monologue is not multi-paragraph):
+  // collapse all <p>/<br>/\n to spaces, keep spans.
+  function sampleFlow(s){
+    var t = String(s==null?'':s).replace(/<\/p\s*>|<p[^>]*>|<br\s*\/?>/gi,' ').replace(/\n+/g,' ').replace(/\s{2,}/g,' ').replace(/^\s+|\s+$/g,'');
+    return t ? '<p class="sample-para">'+t+'</p>' : '';
+  }
   // Count words in a sample (strip tags + entities).
   function wordCount(s){
     var t = String(s==null?'':s).replace(/<[^>]+>/g,' ').replace(/&[a-z]+;/gi,' ');
@@ -676,7 +697,7 @@
       if (meta.length) out += '<div class="task-meta">'+meta.join(' &nbsp;·&nbsp; ')+'</div>';
       if (t.prompt) out += '<div class="sample-prompt"><span class="sp-label">Prompt:</span> '+textBlock(t.prompt)+'</div>';
       if (sample){
-        out += '<div class="sample-body">'+sampleBlock(sample)+'</div>';
+        out += '<div class="sample-body">'+samplePara(sample)+'</div>';
         out += '<div class="sample-wc">('+wordCount(sample)+' words)</div>';
         out += glossFor(sample, tt);
       } else {
@@ -689,8 +710,8 @@
 
   // ---- CEFR Speaking samples (questions[] → B2 model answers, grouped by part) ----
   function renderSpeakingSamples(md){
-    var qs = md.questions || [], tt = md.tokenTranslations || {};
-    var out = '', curPart = null, any = false;
+    var qs = md.questions || [], tt = md.tokenTranslations || {}, images = md.images || {};
+    var out = '', curPart = null, any = false, picsShown = false;
     qs.forEach(function(q){
       var sample = b2Of(q);
       if (!sample && !q.prompt) return;
@@ -701,10 +722,20 @@
         out += '<div class="part"><div class="part-title">'+esc(curPart||'')+'</div>';
       }
       out += '<div class="q sample-block">';
-      out += '<div class="sample-head">'+(q.number!=null?('Q'+esc(q.number)):'')+'</div>';
-      if (q.prompt) out += '<div class="sample-prompt">'+html(q.prompt)+'</div>';
+      // Q-number and question text on ONE line.
+      out += '<div class="sample-head">'+(q.number!=null?('Q'+esc(q.number)):'')+
+             (q.prompt?(' <span class="sample-qtext">'+html(q.prompt)+'</span>'):'')+'</div>';
+      // Part 1 picture pair (Q4): the model answer describes them, so show a small
+      // version (mini — smaller than the question paper's) on the first hasImages Q.
+      if (q.hasImages && !picsShown && (images.img1 || images.img2)){
+        picsShown = true;
+        out += '<div class="sample-imgs">';
+        if (images.img1) out += '<img src="'+esc(imgProxy(images.img1,420,280))+'" alt="">';
+        if (images.img2) out += '<img src="'+esc(imgProxy(images.img2,420,280))+'" alt="">';
+        out += '</div>';
+      }
       if (sample){
-        out += '<div class="sample-body">'+sampleBlock(sample)+'</div>';
+        out += '<div class="sample-body">'+sampleFlow(sample)+'</div>';  // spoken answer flows
         out += glossFor(sample, tt);
       } else {
         out += '<div class="sample-missing">— sample not available —</div>';
