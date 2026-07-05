@@ -34,6 +34,8 @@
       + '.mpm-pick select{width:100%;padding:11px 12px;border:1px solid #cbd5e1;border-radius:10px;font-size:14px;margin-bottom:14px;}'
       + '.mpm-btn{width:100%;padding:12px;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;color:#fff;background:linear-gradient(135deg,#6366f1,#4f46e5);}'
       + '.mpm-btn:disabled{opacity:.6;cursor:default;}'
+      + '.mpm-btn-alt{margin-top:8px;background:linear-gradient(135deg,#0d9488,#0f766e);}'
+      + '.mpm-btn-note{font-size:11px;color:#94a3b8;margin:8px 0 0;text-align:center;}'
       + '.mpm-back{background:transparent;border:none;color:#6366f1;cursor:pointer;font-size:13px;padding:0;margin-bottom:12px;}'
       + '.mpm-msg{font-size:13px;margin-top:10px;min-height:18px;}'
       + '.mpm-msg.err{color:#dc2626;} .mpm-msg.ok{color:#0d9488;}';
@@ -100,14 +102,21 @@
       var label = (m.title && m.title.trim()) ? m.title : (skill.label + ' Mock ' + String(m.mock_number).padStart(2, '0'));
       return '<option value="' + m.id + '">' + label.replace(/</g, '&lt;') + '</option>';
     }).join('');
+    // CEFR Writing & Speaking also offer a separate B2 model-answer booklet.
+    var hasSamples = (type === 'cefr-writing' || type === 'cefr-speaking');
+    var btns = '<button class="mpm-btn" id="mpm-dl">⬇ ' + (hasSamples ? 'Questions PDF' : 'Download PDF') + '</button>';
+    if (hasSamples) {
+      btns += '<button class="mpm-btn mpm-btn-alt" id="mpm-dl-s">⬇ Samples PDF (B2)</button>'
+        + '<p class="mpm-btn-note">Samples = B2 model answers with key vocabulary.</p>';
+    }
     pick.querySelector('.mpm-pick').innerHTML =
-      '<label>Select a mock</label><select id="mpm-sel">' + opts + '</select>'
-      + '<button class="mpm-btn" id="mpm-dl">⬇ Download PDF</button>';
-    el('mpm-dl').addEventListener('click', function () { download(type, el('mpm-sel').value); });
+      '<label>Select a mock</label><select id="mpm-sel">' + opts + '</select>' + btns;
+    el('mpm-dl').addEventListener('click', function () { download(type, el('mpm-sel').value, null, this); });
+    if (hasSamples) el('mpm-dl-s').addEventListener('click', function () { download(type, el('mpm-sel').value, 'samples', this); });
   }
 
-  async function download(type, id){
-    var btn = el('mpm-dl'); var msg = el('mpm-msg');
+  async function download(type, id, variant, btn){
+    btn = btn || el('mpm-dl'); var msg = el('mpm-msg');
     var orig = btn.textContent;
     btn.disabled = true; btn.textContent = 'Generating PDF…';
     msg.className = 'mpm-msg'; msg.textContent = 'This can take a few seconds.';
@@ -115,6 +124,8 @@
     // Reading & Listening papers get an Answer Key appended at the end (print-mock.html
     // renders it on &key=1). Speaking/Writing have no objective key, so it's omitted.
     if (/reading|listening/.test(type)) url += '&key=1';
+    // Samples variant → B2 model-answer booklet instead of the question paper.
+    if (variant === 'samples') url += '&variant=samples';
     try {
       var r = await fetch(url);
       if (!r.ok) throw new Error('Server returned ' + r.status);
