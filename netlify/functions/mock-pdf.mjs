@@ -37,6 +37,8 @@ export const handler = async (event) => {
   const qs = new URLSearchParams({ type });
   if (id) qs.set('id', id); else qs.set('number', number);
   if (p.key === '1') qs.set('key', '1');
+  // Samples variant → model-answer booklet (B2) instead of the question paper.
+  if (p.variant === 'samples') qs.set('variant', 'samples');
   const printUrl = `${proto}://${host}/print-mock.html?${qs.toString()}`;
 
   let browser;

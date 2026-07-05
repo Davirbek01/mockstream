@@ -112,6 +112,33 @@
   .sp-debate .against .col-h{ color:#dc2626; }
   .sp-debate .col-item{ margin:4px 0; font-size:12.5px; line-height:1.5; }
 
+  /* ── Samples (model-answer booklet, &variant=samples) ── */
+  .doc-samples-badge{ display:inline-block; margin-top:8px; background:var(--accent); color:#fff;
+    font-size:12px; font-weight:bold; padding:3px 12px; border-radius:20px; letter-spacing:.3px; }
+  .sample-block{ background:#fbfdff; }
+  .sample-head{ font-weight:bold; color:var(--accent); font-size:15px; margin-bottom:2px; }
+  .sample-prompt{ font-size:12.5px; color:var(--muted); margin:0 0 8px; }
+  .sample-prompt .sp-label{ font-weight:bold; }
+  .sample-body{ margin:6px 0 4px; text-align:justify; }
+  .sample-wc{ font-size:11.5px; color:var(--muted); text-align:right; }
+  .sample-missing{ font-style:italic; color:#b91c1c; font-size:12.5px; }
+  .sample-gloss{ margin-top:8px; padding-top:6px; border-top:1px dotted var(--line);
+    font-size:11.5px; color:var(--muted); line-height:1.6; }
+  .sample-gloss .gloss-label{ font-weight:bold; color:var(--accent); }
+  .sample-gloss .gloss-en{ font-weight:bold; color:var(--ink); }
+  /* ml-token vocabulary highlights — colour-only, parity with the on-screen
+     samples modal + the Writing mock's own PDF export palette. */
+  .ml-token{ font-weight:600; }
+  .ml-token.colloc{ color:#2563eb; }
+  .ml-token.phrasal{ color:#059669; }
+  .ml-token.idiom{ color:#7c3aed; }
+  .ml-token.academic{ color:#c2410c; }
+  .ml-token.linking{ color:#0891b2; }
+  .ml-token.modal{ color:#dc2626; }
+  .ml-token.adv{ color:#d97706; font-style:italic; }
+  .ml-token.proverb{ color:#db2777; font-style:italic; }
+  .ml-token.time{ color:#059669; }
+
   /* Break rules so individual blocks aren't split mid-item. NOTE: do NOT put
      break-inside:avoid on .part — a whole part (e.g. 8 questions) is taller than
      the space left under the header, so avoiding its split forces it onto a fresh
@@ -605,6 +632,94 @@
     return out;
   }
 
+  // ---- Samples (model-answer booklet) helpers ----
+  // Authored samples are HTML that may carry <span class="ml-token TYPE"> spans.
+  // Convert bare newlines to <br> for paragraph breaks; inline HTML passes through.
+  function sampleBlock(s){ return String(s==null?'':s).replace(/\n/g,'<br>'); }
+  // Count words in a sample (strip tags + entities).
+  function wordCount(s){
+    var t = String(s==null?'':s).replace(/<[^>]+>/g,' ').replace(/&[a-z]+;/gi,' ');
+    var m = t.trim().match(/\S+/g); return m ? m.length : 0;
+  }
+  // B2 sample with fallback to the top sample (writing) / sampleAnswer (speaking).
+  function b2Of(o){ return (o && (o.sampleB2 || o.sample || o.sampleAnswer)) || ''; }
+  // Build the "Key vocabulary" gloss from the ml-token phrases present in this
+  // sample, looked up in md.tokenTranslations { phrase:{uz,type} }. Print has no
+  // hover tooltips, so surface the Uzbek inline. Dedupes; skips if none resolve.
+  function glossFor(sampleHtml, tt){
+    if (!tt) return '';
+    var seen = {}, items = [], re = /<span class="ml-token[^"]*">([\s\S]*?)<\/span>/g, m;
+    while ((m = re.exec(String(sampleHtml||''))) !== null){
+      var phrase = m[1].replace(/<[^>]+>/g,'').trim();
+      if (!phrase || seen[phrase]) continue;
+      seen[phrase] = 1;
+      var e = tt[phrase];
+      if (e && e.uz) items.push('<span class="gloss-en">'+esc(phrase)+'</span> — '+esc(e.uz));
+    }
+    if (!items.length) return '';
+    return '<div class="sample-gloss"><span class="gloss-label">Key vocabulary:</span> '+items.join(' &nbsp;·&nbsp; ')+'</div>';
+  }
+
+  // ---- CEFR Writing samples (t11/t12/t2 → B2 model answers) ----
+  function renderWritingSamples(md){
+    var tasks = md.tasks || {}, tt = md.tokenTranslations || {};
+    var out = '', any = false;
+    [['t11','Task 1.1'],['t12','Task 1.2'],['t2','Part 2']].forEach(function(pair){
+      var t = tasks[pair[0]]; if (!t) return;
+      any = true;
+      var sample = b2Of(t);
+      out += '<div class="q sample-block">';
+      out += '<div class="sample-head">'+pair[1]+(t.title?(' — '+esc(t.title)):'')+'</div>';
+      var meta = [];
+      if (t.genre || t.chip) meta.push(esc(t.genre||t.chip));
+      if (t.target) meta.push(esc(t.target));
+      if (meta.length) out += '<div class="task-meta">'+meta.join(' &nbsp;·&nbsp; ')+'</div>';
+      if (t.prompt) out += '<div class="sample-prompt"><span class="sp-label">Prompt:</span> '+textBlock(t.prompt)+'</div>';
+      if (sample){
+        out += '<div class="sample-body">'+sampleBlock(sample)+'</div>';
+        out += '<div class="sample-wc">('+wordCount(sample)+' words)</div>';
+        out += glossFor(sample, tt);
+      } else {
+        out += '<div class="sample-missing">— sample not available —</div>';
+      }
+      out += '</div>';
+    });
+    return any ? out : '<div class="err">No writing samples in this mock.</div>';
+  }
+
+  // ---- CEFR Speaking samples (questions[] → B2 model answers, grouped by part) ----
+  function renderSpeakingSamples(md){
+    var qs = md.questions || [], tt = md.tokenTranslations || {};
+    var out = '', curPart = null, any = false;
+    qs.forEach(function(q){
+      var sample = b2Of(q);
+      if (!sample && !q.prompt) return;
+      any = true;
+      if (q.part !== curPart){
+        if (curPart !== null) out += '</div>';
+        curPart = q.part;
+        out += '<div class="part"><div class="part-title">'+esc(curPart||'')+'</div>';
+      }
+      out += '<div class="q sample-block">';
+      out += '<div class="sample-head">'+(q.number!=null?('Q'+esc(q.number)):'')+'</div>';
+      if (q.prompt) out += '<div class="sample-prompt">'+html(q.prompt)+'</div>';
+      if (sample){
+        out += '<div class="sample-body">'+sampleBlock(sample)+'</div>';
+        out += glossFor(sample, tt);
+      } else {
+        out += '<div class="sample-missing">— sample not available —</div>';
+      }
+      out += '</div>';
+    });
+    if (curPart !== null) out += '</div>';
+    return any ? out : '<div class="err">No speaking samples in this mock.</div>';
+  }
+
+  var SAMPLES_RENDERERS = {
+    'cefr-writing': renderWritingSamples,
+    'cefr-speaking': renderSpeakingSamples
+  };
+
   var RENDERERS = {
     'cefr-reading': renderReading,
     'ielts-reading': renderReading,
@@ -619,24 +734,29 @@
   function render(type, md){
     var b = brand();
     var ti = md.testInfo || {};
+    var isSamples = (qp('variant')==='samples') && !!SAMPLES_RENDERERS[type];
+    var baseTitle = ti.title || md.title || MOCK_TITLE || 'Mock Test';
     var head = '<div class="doc-header">'+
       '<img src="'+esc(b.logo)+'" alt="" onerror="this.style.display=\'none\'">'+
       '<div class="brand">'+esc(b.name)+'</div>'+
       (b.sub?'<div class="subbrand">'+esc(b.sub)+'</div>':'')+
-      '<div class="doc-title">'+esc(ti.title || md.title || MOCK_TITLE || 'Mock Test')+'</div>'+
-      '<div class="doc-meta">'+
-        (ti.level?('Level: '+esc(ti.level)+' &nbsp;|&nbsp; '):'')+
-        (ti.totalTime?('Time: '+esc(ti.totalTime)+' min &nbsp;|&nbsp; '):'')+
-        (ti.totalQuestions?('Questions: '+esc(ti.totalQuestions)):'')+
-      '</div></div>';
+      '<div class="doc-title">'+esc(baseTitle)+'</div>'+
+      (isSamples
+        ? '<div class="doc-samples-badge">Model Answers — B2 Level</div>'
+        : '<div class="doc-meta">'+
+            (ti.level?('Level: '+esc(ti.level)+' &nbsp;|&nbsp; '):'')+
+            (ti.totalTime?('Time: '+esc(ti.totalTime)+' min &nbsp;|&nbsp; '):'')+
+            (ti.totalQuestions?('Questions: '+esc(ti.totalQuestions)):'')+
+          '</div>')+
+      '</div>';
 
-    var renderer = RENDERERS[type];
+    var renderer = isSamples ? SAMPLES_RENDERERS[type] : RENDERERS[type];
     var body = renderer ? renderer(md) : '<div class="err">No print layout for type: '+esc(type)+' yet.</div>';
-    var key = (qp('key')==='1') ? renderAnswerKey(md) : '';
+    var key = (!isSamples && qp('key')==='1') ? renderAnswerKey(md) : '';
     var foot = '<div class="foot">© '+new Date().getFullYear()+' '+esc(b.name)+'. Practice paper — unauthorized reproduction prohibited.</div>';
 
     document.getElementById('sheet').innerHTML = head + body + key + foot;
-    document.title = (ti.title || md.title || MOCK_TITLE || 'Mock paper');
+    document.title = isSamples ? (baseTitle + ' — Model Answers B2') : baseTitle;
 
     // Build the watermark (downscaled — a fixed image is re-embedded on EVERY
     // page, so a full-size logo blows past Netlify's 6MB response limit on long
