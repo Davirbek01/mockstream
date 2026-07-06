@@ -20,7 +20,7 @@
 <style>
   :root{
     --ink:#1e293b; --muted:#64748b; --accent:#0d9488; --accent2:#0f766e;
-    --line:#e2e8f0; --soft:#f8fafc; --card:#fff;
+    --line:#e2e8f0; --soft:#f8fafc; --card:rgba(255,255,255,0.66);
     --colloc:#2563eb; --phrasal:#059669; --idiom:#7c3aed; --academic:#c2410c;
     --linking:#0891b2; --modal:#dc2626; --adv:#d97706; --proverb:#db2777; --time:#059669;
   }
@@ -28,6 +28,10 @@
   html,body{ margin:0; padding:0; background:#eef2f5; color:var(--ink);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
   .wrap{ max-width:760px; margin:0 auto; padding:0 16px 60px; }
+  /* Centre-logo watermark behind the content (matches the Samples PDF) */
+  .wm{ position:fixed; inset:0; z-index:0; display:flex; align-items:center; justify-content:center; pointer-events:none; }
+  .wm img{ width:82%; max-width:450px; opacity:.13; filter:grayscale(35%); }
+  .top, .wrap{ position:relative; z-index:1; }
 
   /* Header */
   .top{ background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff;
@@ -76,6 +80,7 @@
 </style>
 </head>
 <body>
+<div class="wm"><img id="wmimg" alt=""></div>
 <div class="top" id="top">
   <div class="bname">Mock Stream</div>
   <div class="ttl">Model Answers — Read Aloud</div>
@@ -109,6 +114,7 @@
   }
   function paintBrand(mockTitle){
     var b=brand();
+    var wm=document.getElementById('wmimg'); if(wm){ wm.src=b.logo; wm.onerror=function(){ this.style.display='none'; }; }
     var t=document.getElementById('top');
     t.innerHTML='<img src="'+esc(b.logo)+'" alt="" onerror="this.style.display=\'none\'">'+
       '<div class="bname">'+esc(b.name)+'</div>'+
