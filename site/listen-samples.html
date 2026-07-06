@@ -74,6 +74,16 @@
   .w.adv{ color:var(--adv); font-style:italic; } .w.proverb{ color:var(--proverb); font-style:italic; } .w.time{ color:var(--time); }
   .w.pl{ background:#fef3c7; }  /* transient tap flash */
 
+  /* Uzbek-gloss tooltip on tapping a highlighted phrase */
+  .tip{ position:absolute; z-index:50; transform:translate(-50%,calc(-100% - 9px));
+    background:#0f172a; color:#fff; padding:7px 12px; border-radius:9px; max-width:250px;
+    text-align:center; box-shadow:0 6px 20px rgba(15,23,42,.3); opacity:0; pointer-events:none; transition:opacity .12s; }
+  .tip.show{ opacity:1; }
+  .tip b{ display:block; font-size:13px; font-weight:700; }
+  .tip .tip-uz{ display:block; font-size:12.5px; color:#7dd3fc; margin-top:1px; }
+  .tip:after{ content:''; position:absolute; left:50%; top:100%; transform:translateX(-50%);
+    border:6px solid transparent; border-top-color:#0f172a; }
+
   .foot{ text-align:center; color:var(--muted); font-size:11px; margin-top:26px; }
   .state{ text-align:center; color:var(--muted); padding:60px 20px; font-size:15px; }
   .state.err{ color:#b91c1c; }
@@ -126,6 +136,9 @@
   // Parse a sample's highlighted HTML into ordered words carrying ml-token type + phrase id.
   // Returns [[wordObj,...] per paragraph]. wordObj = {text,type,phrase}.
   var phraseSeq=0;
+  var TT={};            // tokenTranslations: phrase -> {uz,type}
+  var PHRASE_TEXT={};   // phrase id -> the exact highlighted phrase text
+  var SEEK_PREROLL=0.13; // seek a hair early so a tapped word's onset isn't clipped
   function parseSample(htmlStr){
     var paras=String(htmlStr==null?'':htmlStr).split(/\n+/);
     var out=[];
@@ -144,7 +157,7 @@
             var cls=ch.className||'', t=type, p=phrase;
             if(/\bml-token\b/.test(cls)){
               var m=cls.match(/\b(colloc|phrasal|idiom|academic|linking|modal|adv|proverb|time)\b/);
-              t=m?m[1]:'colloc'; p=(++phraseSeq);
+              t=m?m[1]:'colloc'; p=(++phraseSeq); PHRASE_TEXT[p]=(ch.textContent||'').replace(/\s+/g,' ').trim();
             }
             walk(ch,t,p);
           }
@@ -179,6 +192,25 @@
     var q=(md.questions||[]).filter(function(x){return 'q'+x.number===key;})[0]||{};
     return q.sampleB2||'';
   }
+
+  // Uzbek-gloss tooltip
+  var tipEl=null;
+  function tip(){ if(!tipEl){ tipEl=document.createElement('div'); tipEl.className='tip'; document.body.appendChild(tipEl); } return tipEl; }
+  function hideTip(){ if(tipEl) tipEl.classList.remove('show'); }
+  function showTip(el, pid){
+    var phrase=PHRASE_TEXT[pid]||''; var g=TT[phrase]||TT[phrase.toLowerCase()];
+    if(!g||!g.uz){ hideTip(); return; }
+    var t=tip(); t.innerHTML='<b>'+esc(phrase)+'</b><span class="tip-uz">'+esc(g.uz)+'</span>';
+    var r=el.getBoundingClientRect();
+    t.style.left=(r.left+r.width/2+window.pageXOffset)+'px';
+    t.style.top=(r.top+window.pageYOffset)+'px';
+    t.classList.add('show');
+    var tr=t.getBoundingClientRect(), pad=8;  // keep inside the viewport
+    if(tr.left<pad) t.style.left=(parseFloat(t.style.left)+(pad-tr.left))+'px';
+    else if(tr.right>window.innerWidth-pad) t.style.left=(parseFloat(t.style.left)-(tr.right-(window.innerWidth-pad)))+'px';
+    clearTimeout(t._h); t._h=setTimeout(hideTip,3500);
+  }
+  window.addEventListener('scroll',hideTip,{passive:true});
 
   var players=[];  // for pausing others
   function buildCard(md,key,n){
@@ -257,15 +289,17 @@
     // tap word / phrase
     card.querySelector('.txt').addEventListener('click',function(e){
       var el=e.target.closest('.w'); if(!el) return;
+      var p=el.getAttribute('data-p');
+      if(p) showTip(el,p); else hideTip();   // instant gloss, doesn't wait on audio
       ensure().then(function(){
-        var i=+el.getAttribute('data-i'), p=el.getAttribute('data-p');
+        var i=+el.getAttribute('data-i');
         var from, to;
         if(p){ // whole phrase: first→last word with this phrase id
           var same=flat.map(function(w,k){return {w:w,k:k};}).filter(function(x){ return wordEls[x.k].getAttribute('data-p')===p; });
           from=same[0].w.start; to=same[same.length-1].w.end;
         } else { from=flat[i].start; to=(flat[i].end!=null?flat[i].end+0.06:null); }
         el.classList.add('pl'); setTimeout(function(){ el.classList.remove('pl'); },600);
-        if(from!=null) playFrom(from,to);
+        if(from!=null) playFrom(Math.max(0,from-SEEK_PREROLL),to);  // pre-roll so the onset isn't clipped
       });
     });
 
@@ -275,6 +309,7 @@
 
   function render(md,n,mockTitle){
     paintBrand(mockTitle);
+    TT=md.tokenTranslations||{};
     var list=document.getElementById('list'); list.innerHTML='';
     var keys=keysOf(md);
     if(!keys.length){ list.innerHTML='<div class="state err">No B2 samples found for this mock.</div>'; return; }
