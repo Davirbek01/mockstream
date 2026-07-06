@@ -159,7 +159,8 @@
       return {lab:map[key]||key, q:(t.title||'')+(bits?(' — '+bits):'')};
     } else {
       var q=(md.questions||[]).filter(function(x){return 'q'+x.number===key;})[0]||{};
-      return {lab:'Q'+(q.number||'')+(q.part?(' · Part '+q.part):''), q:q.prompt||''};
+      var part=q.part==null?'':(/^part/i.test(String(q.part))?String(q.part):('Part '+q.part));
+      return {lab:'Q'+(q.number||'')+(part?(' · '+part):''), q:q.prompt||''};
     }
   }
 
