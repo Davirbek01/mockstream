@@ -21,7 +21,7 @@
   html,body{ margin:0; padding:0; background:#fff; color:var(--ink);
     font-family:Georgia,"Times New Roman",serif; line-height:1.6; font-size:14px; }
   .sheet{ max-width:794px; margin:0 auto; padding:24px 28px 40px; }
-  .doc-header{ text-align:center; border-bottom:3px solid var(--accent); padding-bottom:14px; margin-bottom:22px; }
+  .doc-header{ text-align:center; border-bottom:3px solid var(--accent); padding-bottom:14px; margin-bottom:22px; position:relative; }
   .doc-header img{ height:46px; margin-bottom:6px; }
   .brand{ font-weight:bold; color:var(--accent); font-size:18px; letter-spacing:.3px; }
   .subbrand{ color:var(--muted); font-size:12px; }
@@ -115,10 +115,10 @@
   /* ── Samples (model-answer booklet, &variant=samples) ── */
   .doc-samples-badge{ display:inline-block; margin-top:8px; background:var(--accent); color:#fff;
     font-size:12px; font-weight:bold; padding:3px 12px; border-radius:20px; letter-spacing:.3px; }
-  /* Samples audio QR → listen-samples.html player */
-  .samples-qr{ margin:12px auto 0; text-align:center; }
-  .samples-qr svg{ width:96px; height:96px; display:block; margin:0 auto; }
-  .samples-qr-cap{ font-size:9.5px; color:var(--muted); margin-top:3px; line-height:1.3; font-weight:bold; }
+  /* Samples audio QR → listen-samples.html player (top-right corner of the header) */
+  .samples-qr{ position:absolute; top:0; right:0; margin:0; text-align:center; width:86px; }
+  .samples-qr svg{ width:82px; height:82px; display:block; margin:0 auto; }
+  .samples-qr-cap{ font-size:8px; color:var(--muted); margin-top:2px; line-height:1.25; font-weight:bold; }
   .sample-block{ background:#fbfdff; }
   .sample-head{ font-weight:bold; color:var(--accent); font-size:15px; margin-bottom:2px; }
   .sample-prompt{ font-size:12.5px; color:var(--muted); margin:0 0 8px; }
@@ -173,7 +173,7 @@
      stays crisp; pointer-events off so it never blocks anything. */
   .watermark{ position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
     z-index:50; pointer-events:none; }
-  .watermark img{ width:62%; max-width:460px; opacity:0.05; filter:grayscale(35%); }
+  .watermark img{ width:62%; max-width:460px; opacity:0.09; filter:grayscale(35%); }
 
   @page{ size:A4; margin:14mm 12mm; }
   @media print{
