@@ -61,6 +61,10 @@
   .seek .fill{ position:absolute; left:0; top:0; bottom:0; width:0; background:var(--accent); border-radius:4px; }
   .tm{ flex:0 0 auto; font-size:11.5px; color:var(--muted); font-variant-numeric:tabular-nums; min-width:74px; text-align:right; }
 
+  /* Part-1 picture pair (Q4) — mini, side by side, above the answer */
+  .qimgs{ display:flex; gap:10px; justify-content:center; margin:2px 0 14px; }
+  .qimgs img{ width:46%; max-width:185px; height:auto; border:1px solid var(--line); border-radius:9px; box-shadow:0 1px 4px rgba(15,23,42,.08); }
+
   /* Sample text + words */
   .txt{ font-family:Georgia,"Times New Roman",serif; font-size:15.5px; line-height:1.85; color:var(--ink); }
   .txt p{ margin:0 0 10px; }
@@ -139,6 +143,7 @@
   var TT={};            // tokenTranslations: phrase -> {uz,type}
   var PHRASE_TEXT={};   // phrase id -> the exact highlighted phrase text
   var SEEK_PREROLL=0.13; // seek a hair early so a tapped word's onset isn't clipped
+  var picsShown=false;   // Part-1 picture pair shown once (on the first hasImages Q)
   function parseSample(htmlStr){
     var paras=String(htmlStr==null?'':htmlStr).split(/\n+/);
     var out=[];
@@ -169,6 +174,13 @@
   }
 
   function fetchJSON(url){ return fetch(url).then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; }); }
+
+  // Downscale exam photos through a resize proxy so the mini pictures load fast.
+  function imgMini(u){
+    if(!u) return u; var s=String(u);
+    if(/^(data:|blob:)/.test(s)||s.indexOf('images.weserv.nl')!==-1) return s;
+    return 'https://images.weserv.nl/?url='+encodeURIComponent(s.replace(/^https?:\/\//,''))+'&w=360&output=jpg&q=82';
+  }
 
   function labelFor(md,key){
     if(skill==='writing'){
@@ -231,7 +243,19 @@
       body+='</p>';
     });
     body+='</div>';
-    card.innerHTML=head+bar+body;
+    // Part-1 picture pair (Q4) — the answer describes them, so show mini versions
+    var imgsHtml='';
+    if(skill==='speaking'){
+      var qobj=(md.questions||[]).filter(function(x){return 'q'+x.number===key;})[0]||{};
+      var imgs=md.images||{};
+      if(qobj.hasImages && !picsShown && (imgs.img1||imgs.img2)){
+        picsShown=true;   // Q4 only — Q5/Q6 are follow-ups, don't repeat the pair
+        imgsHtml='<div class="qimgs">'+
+          (imgs.img1?'<img src="'+esc(imgMini(imgs.img1))+'" alt="">':'')+
+          (imgs.img2?'<img src="'+esc(imgMini(imgs.img2))+'" alt="">':'')+'</div>';
+      }
+    }
+    card.innerHTML=head+bar+imgsHtml+body;
 
     var audio=new Audio(); audio.preload='auto';
     audio.src=AUDIO_BASE+'/cefr-'+skill+'/mock-'+n+'/'+key+'.mp3';
@@ -309,7 +333,7 @@
 
   function render(md,n,mockTitle){
     paintBrand(mockTitle);
-    TT=md.tokenTranslations||{};
+    TT=md.tokenTranslations||{}; picsShown=false;
     var list=document.getElementById('list'); list.innerHTML='';
     var keys=keysOf(md);
     if(!keys.length){ list.innerHTML='<div class="state err">No B2 samples found for this mock.</div>'; return; }
