@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Model Answers — Read Aloud</title>
+<!--
+  listen-samples.html — branded audio player for the B2 model-answer samples.
+  Opened from the QR on the Samples PDF. Plays edge-tts (en-GB-RyanNeural) audio
+  with word-level karaoke highlighting; tap any word to hear it, tap a highlighted
+  vocabulary phrase to hear the whole phrase.
+    Usage: listen-samples.html?skill=writing|speaking&number=<n>
+           listen-samples.html?skill=writing|speaking&id=<row id>
+    Optional: &audiobase=<url>  (override the audio host, for local testing)
+  Audio + timings live at  <base>/cefr-<skill>/mock-<n>/<key>.{mp3,json}
+  where <key> = t11|t12|t2 (writing) or q1..q8 (speaking).
+-->
+<script src="center-id.js"></script>
+<script src="site-config/site-config.js"></script>
+<style>
+  :root{
+    --ink:#1e293b; --muted:#64748b; --accent:#0d9488; --accent2:#0f766e;
+    --line:#e2e8f0; --soft:#f8fafc; --card:#fff;
+    --colloc:#2563eb; --phrasal:#059669; --idiom:#7c3aed; --academic:#c2410c;
+    --linking:#0891b2; --modal:#dc2626; --adv:#d97706; --proverb:#db2777; --time:#059669;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; background:#eef2f5; color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
+  .wrap{ max-width:760px; margin:0 auto; padding:0 16px 60px; }
+
+  /* Header */
+  .top{ background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff;
+    text-align:center; padding:26px 20px 22px; border-radius:0 0 20px 20px; box-shadow:0 6px 20px rgba(15,118,110,.25); }
+  .top img{ height:46px; width:auto; margin-bottom:8px; filter:drop-shadow(0 1px 2px rgba(0,0,0,.2)); }
+  .top .bname{ font-size:19px; font-weight:700; letter-spacing:.3px; }
+  .top .ttl{ font-size:13.5px; opacity:.92; margin-top:3px; }
+  .badge{ display:inline-block; margin-top:12px; background:rgba(255,255,255,.18);
+    border:1px solid rgba(255,255,255,.35); padding:4px 13px; border-radius:20px; font-size:12.5px; font-weight:600; }
+  .hint{ text-align:center; color:var(--muted); font-size:12.5px; margin:16px 4px 20px; line-height:1.5; }
+  .hint b{ color:var(--accent2); }
+
+  /* Sample card */
+  .card{ background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:16px 18px 18px; margin:0 0 16px; box-shadow:0 2px 8px rgba(15,23,42,.05); }
+  .lab{ font-size:12px; font-weight:700; color:var(--accent2); text-transform:uppercase; letter-spacing:.5px; }
+  .q{ font-size:14.5px; color:var(--muted); font-weight:500; margin:3px 0 12px; line-height:1.45; }
+
+  /* Player bar */
+  .bar{ display:flex; align-items:center; gap:12px; background:var(--soft);
+    border:1px solid var(--line); border-radius:30px; padding:7px 14px 7px 8px; margin-bottom:14px; }
+  .pp{ flex:0 0 auto; width:38px; height:38px; border-radius:50%; border:none; cursor:pointer;
+    background:var(--accent); color:#fff; font-size:16px; display:flex; align-items:center; justify-content:center;
+    transition:background .15s; }
+  .pp:hover{ background:var(--accent2); }
+  .seek{ flex:1 1 auto; height:6px; background:#dde5ea; border-radius:4px; position:relative; cursor:pointer; }
+  .seek .fill{ position:absolute; left:0; top:0; bottom:0; width:0; background:var(--accent); border-radius:4px; }
+  .tm{ flex:0 0 auto; font-size:11.5px; color:var(--muted); font-variant-numeric:tabular-nums; min-width:74px; text-align:right; }
+
+  /* Sample text + words */
+  .txt{ font-family:Georgia,"Times New Roman",serif; font-size:15.5px; line-height:1.85; color:var(--ink); }
+  .txt p{ margin:0 0 10px; }
+  .txt p:last-child{ margin-bottom:0; }
+  .w{ cursor:pointer; border-radius:3px; padding:0 .5px; transition:background .1s,color .1s; }
+  .w:hover{ background:#e6f7f4; }
+  .w.active{ background:var(--accent); color:#fff !important; }
+  .w.ml{ font-weight:600; }
+  .w.colloc{ color:var(--colloc); } .w.phrasal{ color:var(--phrasal); } .w.idiom{ color:var(--idiom); }
+  .w.academic{ color:var(--academic); } .w.linking{ color:var(--linking); } .w.modal{ color:var(--modal); }
+  .w.adv{ color:var(--adv); font-style:italic; } .w.proverb{ color:var(--proverb); font-style:italic; } .w.time{ color:var(--time); }
+  .w.pl{ background:#fef3c7; }  /* transient tap flash */
+
+  .foot{ text-align:center; color:var(--muted); font-size:11px; margin-top:26px; }
+  .state{ text-align:center; color:var(--muted); padding:60px 20px; font-size:15px; }
+  .state.err{ color:#b91c1c; }
+</style>
+</head>
+<body>
+<div class="top" id="top">
+  <div class="bname">Mock Stream</div>
+  <div class="ttl">Model Answers — Read Aloud</div>
+  <div class="badge">B2 Level · tap a word to hear it</div>
+</div>
+<div class="wrap">
+  <div class="hint">▶ plays the whole answer with the words lighting up as you follow.<br>
+    Tap <b>any word</b> to hear it, or a <b>coloured phrase</b> to replay the whole phrase.</div>
+  <div id="list"><div class="state">Loading model answers…</div></div>
+  <div class="foot" id="foot"></div>
+</div>
+
+<script>
+(function(){
+  var SB='https://zknyukkbtbcqgvkgjktb.supabase.co';
+  var KEY='sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+  var GCS_DEFAULT='https://storage.googleapis.com/mockstream-samples-audio';
+
+  function qp(n){ return new URLSearchParams(location.search).get(n); }
+  var skill=(qp('skill')||'').replace(/^cefr-/,'');           // writing | speaking
+  var number=qp('number'); var id=qp('id');
+  var AUDIO_BASE=(qp('audiobase')||GCS_DEFAULT).replace(/\/$/,'');
+
+  function esc(s){ return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function fmt(t){ t=Math.max(0,t||0); var m=Math.floor(t/60), s=Math.floor(t%60); return m+':'+(s<10?'0':'')+s; }
+  function norm(s){ return String(s||'').toLowerCase().replace(/[^a-z0-9']/g,''); }
+
+  function brand(){
+    var c=window.SITE_CONFIG||{};
+    return { name:c.brandName||'Mock Stream', logo:c.logoUrl||'https://i.ibb.co/WN0XY5Lv/logo.png' };
+  }
+  function paintBrand(mockTitle){
+    var b=brand();
+    var t=document.getElementById('top');
+    t.innerHTML='<img src="'+esc(b.logo)+'" alt="" onerror="this.style.display=\'none\'">'+
+      '<div class="bname">'+esc(b.name)+'</div>'+
+      '<div class="ttl">'+esc(mockTitle||'Model Answers')+' — Read Aloud</div>'+
+      '<div class="badge">B2 Level · tap a word to hear it</div>';
+    document.title=(mockTitle||'Model Answers')+' — Read Aloud';
+  }
+
+  // Parse a sample's highlighted HTML into ordered words carrying ml-token type + phrase id.
+  // Returns [[wordObj,...] per paragraph]. wordObj = {text,type,phrase}.
+  var phraseSeq=0;
+  function parseSample(htmlStr){
+    var paras=String(htmlStr==null?'':htmlStr).split(/\n+/);
+    var out=[];
+    paras.forEach(function(ph){
+      if(!ph.replace(/<[^>]+>/g,'').trim()) return;
+      var div=document.createElement('div'); div.innerHTML=ph;
+      var words=[];
+      (function walk(node, type, phrase){
+        for(var i=0;i<node.childNodes.length;i++){
+          var ch=node.childNodes[i];
+          if(ch.nodeType===3){
+            ch.nodeValue.split(/(\s+)/).forEach(function(tok){
+              if(tok && !/^\s+$/.test(tok)) words.push({text:tok,type:type,phrase:phrase});
+            });
+          } else if(ch.nodeType===1){
+            var cls=ch.className||'', t=type, p=phrase;
+            if(/\bml-token\b/.test(cls)){
+              var m=cls.match(/\b(colloc|phrasal|idiom|academic|linking|modal|adv|proverb|time)\b/);
+              t=m?m[1]:'colloc'; p=(++phraseSeq);
+            }
+            walk(ch,t,p);
+          }
+        }
+      })(div,null,null);
+      if(words.length) out.push(words);
+    });
+    return out;
+  }
+
+  function fetchJSON(url){ return fetch(url).then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; }); }
+
+  function labelFor(md,key){
+    if(skill==='writing'){
+      var map={t11:'Task 1.1',t12:'Task 1.2',t2:'Part 2'};
+      var t=(md.tasks||{})[key]||{};
+      var bits=[t.genre].filter(Boolean).join(' · ');
+      return {lab:map[key]||key, q:(t.title||'')+(bits?(' — '+bits):'')};
+    } else {
+      var q=(md.questions||[]).filter(function(x){return 'q'+x.number===key;})[0]||{};
+      return {lab:'Q'+(q.number||'')+(q.part?(' · Part '+q.part):''), q:q.prompt||''};
+    }
+  }
+
+  function keysOf(md){
+    if(skill==='writing') return ['t11','t12','t2'].filter(function(k){ return (md.tasks||{})[k] && (md.tasks||{})[k].sampleB2; });
+    return (md.questions||[]).filter(function(q){ return q.sampleB2; }).map(function(q){ return 'q'+q.number; });
+  }
+  function sampleHTML(md,key){
+    if(skill==='writing') return ((md.tasks||{})[key]||{}).sampleB2||'';
+    var q=(md.questions||[]).filter(function(x){return 'q'+x.number===key;})[0]||{};
+    return q.sampleB2||'';
+  }
+
+  var players=[];  // for pausing others
+  function buildCard(md,key,n){
+    var meta=labelFor(md,key), paras=parseSample(sampleHTML(md,key));
+    var card=document.createElement('div'); card.className='card';
+    var head='<div class="lab">'+esc(meta.lab)+'</div>'+(meta.q?('<div class="q">'+esc(meta.q)+'</div>'):'');
+    var bar='<div class="bar"><button class="pp">▶</button>'+
+            '<div class="seek"><div class="fill"></div></div><div class="tm">0:00</div></div>';
+    // words
+    var wi=0, flat=[], body='<div class="txt">';
+    paras.forEach(function(words){
+      body+='<p>';
+      words.forEach(function(w){
+        var cls='w'+(w.type?(' ml '+w.type):'');
+        body+='<span class="'+cls+'" data-i="'+wi+'"'+(w.phrase?(' data-p="'+w.phrase+'"'):'')+'>'+esc(w.text)+'</span> ';
+        flat.push(w); wi++;
+      });
+      body+='</p>';
+    });
+    body+='</div>';
+    card.innerHTML=head+bar+body;
+
+    var audio=new Audio(); audio.preload='auto';
+    audio.src=AUDIO_BASE+'/cefr-'+skill+'/mock-'+n+'/'+key+'.mp3';
+    var pp=card.querySelector('.pp'), seek=card.querySelector('.seek'),
+        fill=card.querySelector('.fill'), tm=card.querySelector('.tm');
+    var wordEls=card.querySelectorAll('.w'), timing=null, stopAt=null, loaded=false;
+
+    function loadTiming(){
+      if(timing) return Promise.resolve();
+      return fetchJSON(AUDIO_BASE+'/cefr-'+skill+'/mock-'+n+'/'+key+'.json').then(function(arr){
+        timing=arr||[];
+        var real=flat.map(function(w,i){ return {i:i,ok:!!norm(w.text)}; }).filter(function(x){return x.ok;});
+        for(var k=0;k<real.length && k<timing.length;k++){ flat[real[k].i].start=timing[k].start; flat[real[k].i].end=timing[k].end; }
+      });
+    }
+    function activeAt(t){
+      var lo=-1;
+      for(var i=0;i<flat.length;i++){ if(flat[i].start!=null && flat[i].start<=t+0.02) lo=i; else if(flat[i].start!=null) break; }
+      return lo;
+    }
+    var lastActive=-1;
+    function paint(){
+      var t=audio.currentTime, idx=activeAt(t);
+      if(idx!==lastActive){
+        if(lastActive>=0 && wordEls[lastActive]) wordEls[lastActive].classList.remove('active');
+        if(idx>=0 && wordEls[idx] && flat[idx].end==null || (idx>=0 && flat[idx].end>t-0.05)){
+          if(idx>=0 && wordEls[idx]) wordEls[idx].classList.add('active');
+        }
+        lastActive=idx;
+      }
+      fill.style.width=(audio.duration?(t/audio.duration*100):0)+'%';
+      tm.textContent=fmt(t)+' / '+fmt(audio.duration||0);
+      if(stopAt!=null && t>=stopAt){ audio.pause(); stopAt=null; }
+    }
+    audio.addEventListener('timeupdate',paint);
+    audio.addEventListener('ended',function(){ pp.textContent='▶'; if(lastActive>=0&&wordEls[lastActive])wordEls[lastActive].classList.remove('active'); lastActive=-1; });
+    audio.addEventListener('play',function(){ pp.textContent='❚❚'; });
+    audio.addEventListener('pause',function(){ pp.textContent='▶'; });
+
+    function ensure(){ if(loaded) return Promise.resolve(); loaded=true; return loadTiming(); }
+    function playFrom(from,to){
+      players.forEach(function(a){ if(a!==audio) a.pause(); });
+      ensure().then(function(){ stopAt=(to!=null?to:null); audio.currentTime=from||0; audio.play(); });
+    }
+    pp.addEventListener('click',function(){
+      if(audio.paused){ players.forEach(function(a){ if(a!==audio) a.pause(); }); ensure().then(function(){ stopAt=null; audio.play(); }); }
+      else audio.pause();
+    });
+    seek.addEventListener('click',function(e){
+      ensure().then(function(){
+        var r=seek.getBoundingClientRect(); var frac=(e.clientX-r.left)/r.width;
+        if(audio.duration){ stopAt=null; audio.currentTime=frac*audio.duration; if(audio.paused) audio.play(); }
+      });
+    });
+    // tap word / phrase
+    card.querySelector('.txt').addEventListener('click',function(e){
+      var el=e.target.closest('.w'); if(!el) return;
+      ensure().then(function(){
+        var i=+el.getAttribute('data-i'), p=el.getAttribute('data-p');
+        var from, to;
+        if(p){ // whole phrase: first→last word with this phrase id
+          var same=flat.map(function(w,k){return {w:w,k:k};}).filter(function(x){ return wordEls[x.k].getAttribute('data-p')===p; });
+          from=same[0].w.start; to=same[same.length-1].w.end;
+        } else { from=flat[i].start; to=(flat[i].end!=null?flat[i].end+0.06:null); }
+        el.classList.add('pl'); setTimeout(function(){ el.classList.remove('pl'); },600);
+        if(from!=null) playFrom(from,to);
+      });
+    });
+
+    players.push(audio);
+    return card;
+  }
+
+  function render(md,n,mockTitle){
+    paintBrand(mockTitle);
+    var list=document.getElementById('list'); list.innerHTML='';
+    var keys=keysOf(md);
+    if(!keys.length){ list.innerHTML='<div class="state err">No B2 samples found for this mock.</div>'; return; }
+    keys.forEach(function(k){ list.appendChild(buildCard(md,k,n)); });
+    document.getElementById('foot').textContent='© '+new Date().getFullYear()+' '+brand().name+' · pronunciation practice';
+  }
+
+  function boot(){
+    if(!skill || (!number && !id)){ document.getElementById('list').innerHTML='<div class="state err">Missing skill/number.</div>'; return; }
+    var q= id ? ('id=eq.'+encodeURIComponent(id)) : ('mock_type=eq.cefr-'+skill+'&mock_number=eq.'+encodeURIComponent(number));
+    fetch(SB+'/rest/v1/mock_tests?'+q+'&select=id,mock_number,title,mock_data',
+      {headers:{apikey:KEY,Authorization:'Bearer '+KEY}})
+      .then(function(r){ return r.json(); })
+      .then(function(rows){
+        if(!rows||!rows.length){ document.getElementById('list').innerHTML='<div class="state err">Mock not found.</div>'; return; }
+        var row=rows[0], md=row.mock_data||{};
+        var ttl=(md.testInfo&&md.testInfo.title)||row.title||('CEFR '+skill.charAt(0).toUpperCase()+skill.slice(1)+' Mock '+(row.mock_number||''));
+        render(md,row.mock_number||number,ttl);
+      })
+      .catch(function(){ document.getElementById('list').innerHTML='<div class="state err">Could not load this mock.</div>'; });
+  }
+
+  // SITE_CONFIG may load async on real centres; give it a brief head start.
+  if(window.SITE_CONFIG) boot(); else setTimeout(boot,350);
+})();
+</script>
+</body>
+</html>
