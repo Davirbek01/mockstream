@@ -6780,6 +6780,9 @@
           if (hasContent) {
             btn.style.display = '';
             availableBands.push(b);
+            // Per-mock chip label override (e.g. band-7 slot shown as "Band 6.5-7")
+            var _bl = (testData.bandLabels || {})[b];
+            if (_bl) btn.textContent = _bl;
           } else {
             btn.style.display = 'none';
           }
@@ -6816,8 +6819,8 @@
       const badge = document.getElementById(taskKey + 'BandBadge');
       const isTranslated = window._ieltsTranslateMode[taskKey];
 
-      // Update badge
-      badge.textContent = 'Band ' + band;
+      // Update badge (honour per-mock bandLabels override, e.g. "Band 6.5-7")
+      badge.textContent = (testData.bandLabels || {})[band] || ('Band ' + band);
       badge.className = 'band-indicator-' + band;
 
       // Get the sample HTML
@@ -12138,7 +12141,7 @@ document.querySelectorAll('#hsPanel .hs-action[href]').forEach(function(a){
     const SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
     const SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
     const res = await fetch(
-      SB_URL + '/rest/v1/mock_tests?mock_type=eq.ielts-writing&status=eq.published&select=id,mock_number,title&order=mock_number.asc',
+      SB_URL + '/rest/v1/mock_tests?mock_type=eq.ielts-writing&status=eq.published&select=id,mock_number,title,examDate:mock_data->>examDate&order=mock_number.asc',
       { headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY } }
     );
     if (!res.ok) return;
@@ -12148,15 +12151,27 @@ document.querySelectorAll('#hsPanel .hs-action[href]').forEach(function(a){
     const selector = document.getElementById('mockSelector');
     if (!selector) return;
 
+    // Format examDate "YYYY-MM-DD" -> " · 3 Jul 2026" for the picker label.
+    const _MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    function _examSuffix(d) {
+      if (!d) return '';
+      const p = String(d).split('-');
+      if (p.length !== 3) return '';
+      const mo = parseInt(p[1], 10), da = parseInt(p[2], 10);
+      if (!mo || !da || mo < 1 || mo > 12) return '';
+      return ' · ' + da + ' ' + _MONTHS[mo - 1] + ' ' + p[0];
+    }
+
     let upgraded = 0, added = 0;
     mocks.forEach(function(m) {
       const num = String(m.mock_number).padStart(2, '0');
+      const label = '🟢 ' + m.title + _examSuffix(m.examDate);
       // Try to find a hardcoded option with matching mock number
       const existing = selector.querySelector('option[value="questions IELTS W/ielts-mock-' + num + '.js"]');
       if (existing) {
         // Upgrade: change value to supabase, update text & style
         existing.value = 'supabase:' + m.id;
-        existing.textContent = '🟢 ' + m.title;
+        existing.textContent = label;
         existing.style.cssText = 'background:white;color:#6366f1;font-weight:600;';
         existing.removeAttribute('data-coming-soon');
         upgraded++;
@@ -12164,7 +12179,7 @@ document.querySelectorAll('#hsPanel .hs-action[href]').forEach(function(a){
         // New mock not in hardcoded list — append
         var opt = document.createElement('option');
         opt.value = 'supabase:' + m.id;
-        opt.textContent = '🟢 ' + m.title;
+        opt.textContent = label;
         opt.style.cssText = 'background:white;color:#6366f1;font-weight:600;';
         selector.appendChild(opt);
         added++;
