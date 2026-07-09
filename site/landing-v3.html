@@ -461,6 +461,48 @@
     .icon-btn .dot.hidden { display: none; }
 
     /* ═══════════════════════════════════════════════════════
+       "Obuna bo'lish" subscribe CTA (topbar) — gradient pill
+       sitting with the bell / profile actions. VISUAL ONLY for
+       now: not wired to anything. The solid gradient reads well
+       on both the light and dark-navy topbar themes, so it needs
+       no per-theme override. Collapses to icon-only on mobile.
+       ═══════════════════════════════════════════════════════ */
+    .topbar-subscribe {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      height: 40px;
+      padding: 0 16px;
+      border: 0;
+      border-radius: 12px;
+      font: 700 13.5px/1 inherit;
+      letter-spacing: -0.01em;
+      color: #fff;
+      white-space: nowrap;
+      cursor: pointer;
+      background: linear-gradient(135deg, #fb923c 0%, #f97316 45%, #ea580c 100%);
+      box-shadow: 0 4px 14px rgba(234, 88, 12, 0.35),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.20);
+      transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+    }
+    .topbar-subscribe:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(234, 88, 12, 0.45),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.24);
+      filter: saturate(1.06) brightness(1.03);
+    }
+    .topbar-subscribe:active { transform: translateY(0); }
+    .topbar-subscribe:focus-visible {
+      outline: 2px solid #fdba74;
+      outline-offset: 2px;
+    }
+    .topbar-subscribe svg { width: 16px; height: 16px; flex-shrink: 0; }
+    @media (max-width: 560px) {
+      .topbar-subscribe { padding: 0 11px; }
+      .topbar-subscribe .ts-label { display: none; }
+    }
+
+    /* ═══════════════════════════════════════════════════════
        Bell popover — "What's new" feed
        Anchored under the notifications bell. Lists the latest
        published mocks from mock_tests; click jumps to the matching picker.
@@ -2294,6 +2336,15 @@
       </button>
       <div class="topbar-spacer"></div>
       <div class="topbar-actions">
+        <!-- Subscribe CTA ("Obuna bo'lish"). Visual only for now — NOT
+             wired to anything yet. id kept for a future handler. -->
+        <button type="button" class="topbar-subscribe" id="topbarSubscribeBtn"
+                title="Obuna bo'lish" aria-label="Obuna bo'lish">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 2.2l2.9 6.02 6.63.55-5.04 4.35 1.53 6.48L12 16.9l-6.05 3.66 1.53-6.48L2.44 8.77l6.63-.55z"></path>
+          </svg>
+          <span class="ts-label">Obuna bo'lish</span>
+        </button>
         <!-- Notifications bell with "What's new" popover. Shows the most
              recently published mocks (last 7 days). Reuses the same
              fetchJustAdded() that powers the Just-added rail below. The
