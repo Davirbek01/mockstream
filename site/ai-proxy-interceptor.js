@@ -72,6 +72,21 @@
   }
 
   window.fetch = function (input, init) {
+    // Short-circuit the dead legacy browser key-fetch. Older pages still call
+    // davirbek.alwaysdata.net/key?model=<provider> to grab a raw client-side
+    // key before making the AI call. That host is retired and now throws
+    // ("Failed to fetch"), aborting grading. The real key is injected
+    // server-side by ai-proxy, so any non-empty stub key lets the page proceed.
+    try {
+      var _raw = (typeof input === 'string') ? input : (input && input.url) ? input.url : '';
+      if (/(?:^|\/\/)[^/]*alwaysdata\.net\/key\b/.test(_raw)) {
+        return Promise.resolve(new Response(
+          JSON.stringify({ key: 'via-ai-proxy' }),
+          { status: 200, headers: { 'Content-Type': 'application/json' } }
+        ));
+      }
+    } catch (_e) {}
+
     var newUrl = rewriteUrl(input);
     if (!newUrl) return origFetch(input, init);
 
