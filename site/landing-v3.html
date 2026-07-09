@@ -1353,6 +1353,49 @@
     }
     .msv3-contact:hover .msv3-contact-arrow { transform: translateX(3px); }
 
+    /* ══ Subscription ("Obuna bo'lish") modal content ══ */
+    /* These elements set an explicit display, which would override the
+       [hidden] attribute's UA display:none — force it back so JS toggling
+       .hidden actually hides them on centres without a config. */
+    .sub-price[hidden], .sub-pay[hidden], .sub-tg-btn[hidden], .sub-soon[hidden] { display: none !important; }
+    .sub-card { max-width: 500px; }
+    .sub-price {
+      display: flex; flex-direction: column; align-items: center; gap: 2px;
+      background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+      border: 1px solid #fed7aa; border-radius: 14px;
+      padding: 14px 18px; margin-bottom: 16px;
+    }
+    .sub-price-period { font: 700 12px/1 'Inter', sans-serif; color: var(--orange-deep); text-transform: uppercase; letter-spacing: 0.06em; }
+    .sub-price-amt { font: 800 26px/1.1 'Inter', sans-serif; color: var(--ink); letter-spacing: -0.02em; }
+    .sub-intro { font-size: 14px; color: var(--ink-2); margin: 0 0 16px; text-align: center; }
+    .sub-benefits { list-style: none; padding: 0; margin: 0 0 18px; display: flex; flex-direction: column; gap: 10px; }
+    .sub-benefits li { display: flex; align-items: flex-start; gap: 11px; font-size: 13.5px; line-height: 1.4; color: var(--ink-2); }
+    .sub-benefits li b { color: var(--ink); font-weight: 700; }
+    .sub-b-ico { width: 30px; height: 30px; flex-shrink: 0; display: grid; place-items: center; background: var(--line-soft); border-radius: 9px; font-size: 15px; }
+    .sub-preview-wrap { margin: 0 0 18px; }
+    .sub-preview-title { font: 800 11.5px/1 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 9px; }
+    .sub-preview { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 6px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
+    .sub-preview img { height: 150px; width: auto; border-radius: 11px; border: 1px solid var(--line); box-shadow: 0 3px 10px rgba(15,23,42,0.08); scroll-snap-align: start; flex-shrink: 0; background: #fff; }
+    .sub-pay { background: #f8fafc; border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; }
+    .sub-pay-title { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 10px; }
+    .sub-card-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .sub-card-num { flex: 1; font: 700 16px/1.2 ui-monospace, 'SF Mono', Menlo, monospace; letter-spacing: 0.04em; color: var(--ink); background: #fff; border: 1px dashed #cbd5e1; border-radius: 10px; padding: 9px 12px; user-select: all; }
+    .sub-copy { flex-shrink: 0; font: 600 12.5px/1 'Inter', sans-serif; color: var(--indigo); background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 10px; padding: 10px 12px; cursor: pointer; transition: all 150ms ease; }
+    .sub-copy:hover { background: #e0e7ff; }
+    .sub-copy.copied { background: #dcfce7; border-color: #86efac; color: #15803d; }
+    .sub-card-holder { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--ink-2); }
+    .sub-card-holder span:last-child { font-weight: 600; color: var(--ink); }
+    .sub-pay-note { font-size: 12.5px; color: var(--muted); margin: 10px 0 0; }
+    .sub-tg-btn { display: flex; align-items: center; justify-content: center; gap: 9px; width: 100%; padding: 14px; border-radius: 13px; background: linear-gradient(135deg, #2AABEE 0%, #229ED9 100%); color: #fff !important; font: 800 15px/1 'Inter', sans-serif; text-decoration: none !important; border: 0; cursor: pointer; box-shadow: 0 6px 16px rgba(34,158,217,0.32); transition: transform 160ms ease, box-shadow 160ms ease; }
+    .sub-tg-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(34,158,217,0.42); }
+    .sub-tg-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .sub-soon { text-align: center; font-size: 13px; color: var(--muted); background: var(--line-soft); border-radius: 12px; padding: 14px; margin: 0; }
+    @media (max-width: 540px) {
+      .sub-price-amt { font-size: 23px; }
+      .sub-preview img { height: 128px; }
+      .sub-card-num { font-size: 14px; padding: 8px 10px; }
+    }
+
     @media (max-width: 540px) {
       .msv3-panel-overlay { padding: 12px; }
       .msv3-panel-card { max-height: calc(100vh - 24px); border-radius: 14px; }
@@ -5304,6 +5347,63 @@
     </div>
   </div>
 
+  <!-- ══ Subscription ("Obuna bo'lish") modal — opened by #topbarSubscribeBtn.
+       Benefits + preview are static (shown on every centre). Price / card /
+       Telegram are populated at runtime from the center_subscription table and
+       only shown where the centre has a published config (record for now).
+       Editable via the Billboard admin "Obuna" tab. ══ -->
+  <div class="msv3-panel-overlay" id="msv3SubPanel" hidden role="dialog" aria-modal="true" aria-labelledby="msv3SubTitle">
+    <div class="msv3-panel-card sub-card">
+      <div class="msv3-panel-head">
+        <h3 id="msv3SubTitle">⭐ Premium obuna</h3>
+        <button type="button" class="msv3-panel-close" aria-label="Yopish">×</button>
+      </div>
+      <div class="msv3-panel-body sub-body">
+        <div class="sub-price" id="msv3SubPrice" hidden>
+          <span class="sub-price-period" id="msv3SubPeriod"></span>
+          <span class="sub-price-amt" id="msv3SubAmount"></span>
+        </div>
+
+        <p class="sub-intro">AI yordamida <b>Writing &amp; Speaking</b> uchun mukammal feedback, imtihon formatidagi <b>Reading &amp; Listening</b> testlari — hammasi bir platformada.</p>
+
+        <ul class="sub-benefits">
+          <li><span class="sub-b-ico">✍️</span><div><b>AI Writing &amp; Speaking feedback</b> — grammatik xatolarni to'g'rilaydi va taxminiy ball beradi</div></li>
+          <li><span class="sub-b-ico">📖</span><div><b>Reading &amp; Listening</b> — imtihon formatidagi real testlar</div></li>
+          <li><span class="sub-b-ico">🎮</span><div><b>Vocabulary o'yinlari</b> — so'z boyligingizni oshiring</div></li>
+          <li><span class="sub-b-ico">📊</span><div><b>Natijalarni kuzatish</b> — CEFR daraja va IELTS ball dinamikasi</div></li>
+          <li><span class="sub-b-ico">🔁</span><div><b>1 oy cheksiz</b> — hohlagancha Writing tekshiruvi va Speaking Mock</div></li>
+        </ul>
+
+        <div class="sub-preview-wrap">
+          <div class="sub-preview-title">Platforma AI feedback'i</div>
+          <div class="sub-preview" id="msv3SubPreview">
+            <img loading="lazy" src="https://storage.googleapis.com/mockstream-listening-audio/subscription-preview/sub-writing-feedback.png" alt="AI Writing feedback">
+            <img loading="lazy" src="https://storage.googleapis.com/mockstream-listening-audio/subscription-preview/sub-speaking-feedback.png" alt="AI Speaking feedback">
+            <img loading="lazy" src="https://storage.googleapis.com/mockstream-listening-audio/subscription-preview/sub-live-speaking.png" alt="Live speaking exam">
+            <img loading="lazy" src="https://storage.googleapis.com/mockstream-listening-audio/subscription-preview/sub-results-dashboard.png" alt="Results dashboard">
+          </div>
+        </div>
+
+        <div class="sub-pay" id="msv3SubPay" hidden>
+          <div class="sub-pay-title">💳 To'lovni quyidagi kartaga o'tkazing:</div>
+          <div class="sub-card-row">
+            <span class="sub-card-num" id="msv3SubCardNum"></span>
+            <button type="button" class="sub-copy" id="msv3SubCopy">Nusxa olish</button>
+          </div>
+          <div class="sub-card-holder"><span>👤</span><span id="msv3SubHolder"></span></div>
+          <p class="sub-pay-note">To'lovni amalga oshirgach, chekni quyidagi tugma orqali yuboring 👇</p>
+        </div>
+
+        <a class="sub-tg-btn" id="msv3SubTg" href="#" target="_blank" rel="noopener" hidden>
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71l-4.14-3.05-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+          Obuna bo'lish — Telegram orqali
+        </a>
+
+        <p class="sub-soon" id="msv3SubSoon" hidden>Obuna tez orada shu yerda faollashtiriladi.</p>
+      </div>
+    </div>
+  </div>
+
   <script>
   (function () {
     'use strict';
@@ -6376,7 +6476,7 @@
       e.preventDefault();
       openPanel('msv3TermsPanel');
     });
-    ['msv3HelpPanel', 'msv3TermsPanel'].forEach(function (id) {
+    ['msv3HelpPanel', 'msv3TermsPanel', 'msv3SubPanel'].forEach(function (id) {
       var el = document.getElementById(id);
       if (!el) return;
       // Close on backdrop click.
@@ -6390,12 +6490,78 @@
     // Escape closes any open panel before falling through to sidebar close.
     document.addEventListener('keydown', function (e) {
       if (e.key !== 'Escape') return;
-      var openId = ['msv3HelpPanel', 'msv3TermsPanel'].find(function (id) {
+      var openId = ['msv3HelpPanel', 'msv3TermsPanel', 'msv3SubPanel'].find(function (id) {
         var el = document.getElementById(id);
         return el && !el.hidden && el.classList.contains('show');
       });
       if (openId) { e.stopPropagation(); closePanel(openId); }
     }, true);
+
+    // ─────── Subscription ("Obuna bo'lish") modal ───────
+    // First click opens the panel (benefits + preview are static, shown on
+    // every centre). Price / card / Telegram are fetched from
+    // center_subscription and only appear where the centre has a published
+    // config. The in-modal button deep-links to the centre's Telegram.
+    (function () {
+      var subBtn = document.getElementById('topbarSubscribeBtn');
+      if (!subBtn) return;
+      var _SUB_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var _SUB_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var _subLoaded = false, _subCfg = null;
+      function _subCenter() { return (window.__CENTER_ID || 'mockstream').toString().trim(); }
+      function _subApply(cfg) {
+        var priceBox = document.getElementById('msv3SubPrice');
+        var payBox   = document.getElementById('msv3SubPay');
+        var tgBtn    = document.getElementById('msv3SubTg');
+        var soon     = document.getElementById('msv3SubSoon');
+        var hasCard  = !!(cfg && cfg.card_number);
+        var hasTg    = !!(cfg && cfg.telegram_username);
+        if (cfg && (cfg.price_text || cfg.period_label)) {
+          document.getElementById('msv3SubPeriod').textContent = cfg.period_label || '';
+          document.getElementById('msv3SubAmount').textContent = cfg.price_text || '';
+          priceBox.hidden = false;
+        } else { priceBox.hidden = true; }
+        if (hasCard) {
+          document.getElementById('msv3SubCardNum').textContent = cfg.card_number;
+          document.getElementById('msv3SubHolder').textContent = cfg.card_holder || '';
+          payBox.hidden = false;
+        } else { payBox.hidden = true; }
+        if (hasTg) {
+          tgBtn.href = 'https://t.me/' + encodeURIComponent(String(cfg.telegram_username).replace(/^@/, ''));
+          tgBtn.hidden = false;
+        } else { tgBtn.hidden = true; }
+        soon.hidden = (hasCard || hasTg);
+      }
+      async function _subLoad() {
+        if (_subLoaded) return _subCfg;
+        _subLoaded = true;
+        try {
+          var url = _SUB_SB_URL + '/rest/v1/center_subscription?center_id=eq.'
+                  + encodeURIComponent(_subCenter())
+                  + '&status=eq.published&select=price_text,period_label,card_number,card_holder,telegram_username&limit=1';
+          var r = await fetch(url, { headers: { apikey: _SUB_SB_KEY, Authorization: 'Bearer ' + _SUB_SB_KEY } });
+          if (r.ok) { var rows = await r.json(); _subCfg = (rows && rows[0]) || null; }
+        } catch (_e) { _subCfg = null; }
+        return _subCfg;
+      }
+      subBtn.addEventListener('click', async function () {
+        openPanel('msv3SubPanel');
+        _subApply(await _subLoad());
+      });
+      var copyBtn = document.getElementById('msv3SubCopy');
+      if (copyBtn) copyBtn.addEventListener('click', function () {
+        var num = (document.getElementById('msv3SubCardNum').textContent || '').replace(/\s+/g, '');
+        var done = function () {
+          copyBtn.textContent = '✓ Nusxa olindi'; copyBtn.classList.add('copied');
+          setTimeout(function () { copyBtn.textContent = 'Nusxa olish'; copyBtn.classList.remove('copied'); }, 1800);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(num).then(done).catch(function () {});
+        } else {
+          try { var t = document.createElement('textarea'); t.value = num; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); done(); } catch (_e) {}
+        }
+      });
+    })();
     document.getElementById('msv3LogoutBtn').addEventListener('click', async function () {
       // Disable the button while we work — sign-out is async (Supabase call).
       var btn = this;

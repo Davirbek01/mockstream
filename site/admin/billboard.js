@@ -229,6 +229,12 @@
     .bbA-field input,.bbA-field textarea,.bbA-field select{padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13.5px;font-family:inherit;background:#fff;color:#0f172a;transition:border-color .15s,box-shadow .15s;}\
     .bbA-field input:focus,.bbA-field textarea:focus,.bbA-field select:focus{outline:none;border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.18);}\
     .bbA-field textarea{min-height:60px;resize:vertical;}\
+    .bbA-subform{max-width:560px;display:flex;flex-direction:column;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:18px 20px;box-shadow:0 2px 10px rgba(15,23,42,.05);}\
+    .bbA-subhint{margin:0;font-size:12.5px;line-height:1.55;color:#475569;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:11px 13px;}\
+    .bbA-subgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}\
+    .bbA-subfoot{display:flex;align-items:center;gap:12px;justify-content:flex-end;margin-top:2px;}\
+    .bbA-subfoot .msg{flex:1;font-size:12.5px;font-weight:600;}\
+    @media(max-width:560px){.bbA-subgrid{grid-template-columns:1fr;}}\
     .bbA-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}\
     .bbA-foot{display:flex;justify-content:flex-end;align-items:center;gap:8px;padding:11px 18px;border-top:1px solid #eef2ff;background:linear-gradient(180deg,#f8fafc 0%,#f5f3ff 100%);flex-wrap:wrap;}\
     .bbA-foot .msg{font-size:12px;color:#475569;flex:1;}\
@@ -309,12 +315,13 @@
           <div class="bbA-tabs">\
             <button class="bbA-tab' + (state.tab === 'announcements' ? ' active' : '') + '" data-tab="announcements">📢 Announcements</button>\
             <button class="bbA-tab' + (state.tab === 'certificates' ? ' active' : '') + '" data-tab="certificates">🏆 Achievements</button>\
+            <button class="bbA-tab' + (state.tab === 'subscription' ? ' active' : '') + '" data-tab="subscription">💳 Obuna</button>\
           </div>\
         </div>\
         <div class="bbA-toolbar">\
           ' + (isSuper ? _centerSelectHtml() : '<span style="font-size:13px;color:#475569;">Centre: <b>' + _esc(centerLabel(state.centerId)) + '</b></span>') + '\
           <span style="flex:1;"></span>\
-          <button class="bbA-btn" id="bbAAdd">+ Add new</button>\
+          ' + (state.tab === 'subscription' ? '' : '<button class="bbA-btn" id="bbAAdd">+ Add new</button>') + '\
           <button class="bbA-btn ghost" id="bbARefresh">↻ Refresh</button>\
         </div>\
         <div id="bbAList"><div class="bbA-loading">Loading…</div></div>\
@@ -327,7 +334,8 @@
         render();
       });
     });
-    c.querySelector('#bbAAdd').addEventListener('click', function () { openForm(null); });
+    var _addBtn = c.querySelector('#bbAAdd');
+    if (_addBtn) _addBtn.addEventListener('click', function () { openForm(null); });
     c.querySelector('#bbARefresh').addEventListener('click', function () { renderList(); });
     if (isSuper) {
       c.querySelector('#bbACenter').addEventListener('change', function (e) {
@@ -348,6 +356,7 @@
   async function renderList() {
     var list = document.getElementById('bbAList');
     if (!list) return;
+    if (state.tab === 'subscription') return renderSubscription(list);
     list.innerHTML = '<div class="bbA-loading">Loading…</div>';
     try {
       var rows = await fetchList(
@@ -365,6 +374,62 @@
       _wireCardActions(list);
     } catch (e) {
       list.innerHTML = '<div class="bbA-empty" style="color:#991b1b;background:#fef2f2;border-color:#fca5a5;"><b>Failed to load:</b><br><code style="font-size:11px;">' + _esc(e && e.message ? e.message : e) + '</code></div>';
+    }
+  }
+
+  // ── Subscription ("Obuna") config — one row per centre in center_subscription.
+  // Benefits + preview in the landing modal are static/global; these fields set
+  // the price, payment card and Telegram username shown for this centre.
+  async function renderSubscription(list) {
+    list.innerHTML = '<div class="bbA-loading">Loading…</div>';
+    var row = {};
+    try {
+      var url = SB_URL + '/rest/v1/center_subscription?center_id=eq.'
+              + encodeURIComponent(state.centerId) + '&select=*&limit=1';
+      var r = await window.AdminAuth.fetch(url, { method: 'GET' });
+      if (r.ok) { var rows = await r.json(); row = (rows && rows[0]) || {}; }
+    } catch (_e) {}
+    var pub = row.status === 'published';
+    list.innerHTML =
+      '<div class="bbA-subform">' +
+        '<p class="bbA-subhint">The <b>Obuna bo\'lish</b> panel\'s benefits &amp; screenshots are the same on every site. The fields below set the <b>price, payment card and Telegram</b> shown for <b>' + _esc(centerLabel(state.centerId)) + '</b>. Leave a field empty to hide it. Set <b>Status = Published</b> for the payment details to go live.</p>' +
+        '<div class="bbA-field"><label>Status</label><select id="fs_status">' +
+          '<option value="draft"' + (!pub ? ' selected' : '') + '>Draft — hidden (visitors see benefits only)</option>' +
+          '<option value="published"' + (pub ? ' selected' : '') + '>Published — live</option>' +
+        '</select></div>' +
+        '<div class="bbA-subgrid">' +
+          '<div class="bbA-field"><label>Period label</label><input id="fs_period" type="text" value="' + _attr(row.period_label) + '" placeholder="1 oylik obuna" /></div>' +
+          '<div class="bbA-field"><label>Price</label><input id="fs_price" type="text" value="' + _attr(row.price_text) + '" placeholder="119 000 so&#39;m" /></div>' +
+        '</div>' +
+        '<div class="bbA-field"><label>Card number</label><input id="fs_card" type="text" value="' + _attr(row.card_number) + '" placeholder="5614 6814 2820 6829" /></div>' +
+        '<div class="bbA-field"><label>Card holder</label><input id="fs_holder" type="text" value="' + _attr(row.card_holder) + '" placeholder="Dilshodbek Abdullajonov" /></div>' +
+        '<div class="bbA-field"><label>Telegram username <span style="color:#94a3b8;font-weight:600;">(no @ — receipts go here)</span></label><input id="fs_tg" type="text" value="' + _attr(row.telegram_username) + '" placeholder="DilshodbekAbdullajonov" /></div>' +
+        '<div class="bbA-subfoot"><span class="msg" id="bbASubMsg"></span><button class="bbA-btn" id="bbASubSave">💾 Save</button></div>' +
+      '</div>';
+    document.getElementById('bbASubSave').addEventListener('click', function () { saveSubscription(row.id); });
+  }
+
+  async function saveSubscription(existingId) {
+    var msg = document.getElementById('bbASubMsg');
+    function _v(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+    var data = {
+      center_id:         state.centerId,
+      status:            document.getElementById('fs_status').value,
+      period_label:      _v('fs_period') || null,
+      price_text:        _v('fs_price') || null,
+      card_number:       _v('fs_card') || null,
+      card_holder:       _v('fs_holder') || null,
+      telegram_username: _v('fs_tg').replace(/^@/, '') || null,
+      updated_at:        new Date().toISOString()
+    };
+    if (msg) { msg.textContent = 'Saving…'; msg.style.color = '#475569'; }
+    try {
+      await saveRow('center_subscription', data, existingId);
+      if (msg) { msg.textContent = '✓ Saved'; msg.style.color = '#15803d'; }
+      // Reload so a freshly-created row picks up its id for the next save.
+      setTimeout(function () { if (state.tab === 'subscription') renderList(); }, 700);
+    } catch (e) {
+      if (msg) { msg.textContent = 'Failed: ' + (e && e.message ? e.message : e); msg.style.color = '#991b1b'; }
     }
   }
 
