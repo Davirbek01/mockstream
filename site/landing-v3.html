@@ -6571,6 +6571,16 @@
         var quote = document.getElementById('msv3SubQuote');
         if (cfg && cfg.quote) { document.getElementById('msv3SubQuoteText').textContent = cfg.quote; quote.hidden = false; }
         else { quote.hidden = true; }
+        // Per-centre preview images override the hardcoded default gallery.
+        var prev = document.getElementById('msv3SubPreview');
+        if (prev && cfg && Array.isArray(cfg.preview_images) && cfg.preview_images.length) {
+          prev.innerHTML = '';
+          cfg.preview_images.forEach(function (u) {
+            var img = document.createElement('img');
+            img.loading = 'lazy'; img.src = String(u); img.alt = 'Preview';
+            prev.appendChild(img);
+          });
+        }
         // "How it works" — only when there's a payment path to follow.
         document.getElementById('msv3SubHow').hidden = !(hasCard || hasTg);
         if (hasCard) {
@@ -6590,7 +6600,7 @@
         try {
           var url = _SUB_SB_URL + '/rest/v1/center_subscription?center_id=eq.'
                   + encodeURIComponent(_subCenter())
-                  + '&status=eq.published&select=price_text,period_label,card_number,card_holder,telegram_username,pitch,quote,instructor&limit=1';
+                  + '&status=eq.published&select=price_text,period_label,card_number,card_holder,telegram_username,pitch,quote,instructor,preview_images&limit=1';
           var r = await fetch(url, { headers: { apikey: _SUB_SB_KEY, Authorization: 'Bearer ' + _SUB_SB_KEY } });
           if (r.ok) { var rows = await r.json(); _subCfg = (rows && rows[0]) || null; }
         } catch (_e) { _subCfg = null; }
