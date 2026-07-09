@@ -497,10 +497,8 @@
       outline-offset: 2px;
     }
     .topbar-subscribe svg { width: 16px; height: 16px; flex-shrink: 0; }
-    @media (max-width: 560px) {
-      .topbar-subscribe { padding: 0 11px; }
-      .topbar-subscribe .ts-label { display: none; }
-    }
+    /* Hidden on mobile (≤1023px) alongside .topbar-my-results — see that
+       media query below. Keeps the topbar from overflowing the hamburger. */
 
     /* ═══════════════════════════════════════════════════════
        Bell popover — "What's new" feed
@@ -18110,6 +18108,10 @@
       /* My Results moves into the sidebar drawer on mobile (see msv3
          Account Access section) so the topbar has room for hamburger. */
       .topbar-my-results { display: none !important; }
+      /* Subscribe CTA hides on mobile too — otherwise it crowds the bar
+         and pushes the hamburger past the edge. Belongs in the drawer
+         once wired. */
+      .topbar-subscribe { display: none !important; }
       /* Contact-admin card is a PC-only rail flourish; the rail itself
          collapses inline on mobile so the gold pill would feel out of
          place between announcement and achievement cards. */
