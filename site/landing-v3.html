@@ -1357,8 +1357,27 @@
     /* These elements set an explicit display, which would override the
        [hidden] attribute's UA display:none — force it back so JS toggling
        .hidden actually hides them on centres without a config. */
-    .sub-price[hidden], .sub-pay[hidden], .sub-tg-btn[hidden], .sub-soon[hidden] { display: none !important; }
+    .sub-price[hidden], .sub-pay[hidden], .sub-tg-btn[hidden], .sub-soon[hidden],
+    .sub-instructor[hidden], .sub-pitch[hidden], .sub-quote[hidden], .sub-how[hidden] { display: none !important; }
     .sub-card { max-width: 500px; }
+    /* Instructor branding badge */
+    .sub-instructor { display: flex; align-items: center; gap: 10px; background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 12px; padding: 9px 13px; margin-bottom: 14px; }
+    .sub-instr-ico { font-size: 20px; }
+    .sub-instr-body { display: flex; flex-direction: column; line-height: 1.25; }
+    .sub-instr-label { font: 700 10.5px/1 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.06em; color: #6366f1; }
+    .sub-instr-name { font: 700 14px/1.2 'Inter', sans-serif; color: var(--ink); }
+    /* Pitch / "about the platform" block */
+    .sub-pitch { background: #f8fafc; border: 1px solid var(--line); border-radius: 14px; padding: 13px 15px; margin: 0 0 18px; }
+    .sub-pitch-title { font: 800 12px/1 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink); margin-bottom: 8px; }
+    .sub-pitch-text { font-size: 13px; line-height: 1.6; color: var(--ink-2); white-space: pre-line; }
+    /* Highlighted tagline */
+    .sub-quote { text-align: center; font: 700 14.5px/1.4 'Inter', sans-serif; color: var(--orange-deep); background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%); border: 1px solid #fed7aa; border-radius: 12px; padding: 13px 15px; margin: 0 0 16px; }
+    /* "How it works" numbered steps */
+    .sub-how { margin: 0 0 14px; }
+    .sub-how-title { font: 800 11.5px/1 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 9px; }
+    .sub-how-list { margin: 0; padding: 0; list-style: none; counter-reset: how; display: flex; flex-direction: column; gap: 8px; }
+    .sub-how-list li { counter-increment: how; position: relative; padding-left: 32px; font-size: 13px; line-height: 1.4; color: var(--ink-2); }
+    .sub-how-list li::before { content: counter(how); position: absolute; left: 0; top: -1px; width: 22px; height: 22px; border-radius: 50%; background: var(--indigo); color: #fff; font: 800 12px/22px 'Inter', sans-serif; text-align: center; }
     .sub-price {
       display: flex; flex-direction: column; align-items: center; gap: 2px;
       background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
@@ -5364,6 +5383,11 @@
           <span class="sub-price-amt" id="msv3SubAmount"></span>
         </div>
 
+        <div class="sub-instructor" id="msv3SubInstructor" hidden>
+          <span class="sub-instr-ico">👨‍🏫</span>
+          <span class="sub-instr-body"><span class="sub-instr-label">O'qituvchingiz</span><span class="sub-instr-name" id="msv3SubInstrName"></span></span>
+        </div>
+
         <p class="sub-intro">AI yordamida <b>Writing &amp; Speaking</b> uchun mukammal feedback, imtihon formatidagi <b>Reading &amp; Listening</b> testlari — hammasi bir platformada.</p>
 
         <ul class="sub-benefits">
@@ -5374,6 +5398,11 @@
           <li><span class="sub-b-ico">🔁</span><div><b>1 oy cheksiz</b> — hohlagancha Writing tekshiruvi va Speaking Mock</div></li>
         </ul>
 
+        <div class="sub-pitch" id="msv3SubPitch" hidden>
+          <div class="sub-pitch-title">📚 Platforma haqida</div>
+          <div class="sub-pitch-text" id="msv3SubPitchText"></div>
+        </div>
+
         <div class="sub-preview-wrap">
           <div class="sub-preview-title">Platforma AI feedback'i</div>
           <div class="sub-preview" id="msv3SubPreview">
@@ -5382,6 +5411,17 @@
             <img loading="lazy" src="https://storage.googleapis.com/mockstream-listening-audio/subscription-preview/sub-live-speaking.png" alt="Live speaking exam">
             <img loading="lazy" src="https://storage.googleapis.com/mockstream-listening-audio/subscription-preview/sub-results-dashboard.png" alt="Results dashboard">
           </div>
+        </div>
+
+        <div class="sub-quote" id="msv3SubQuote" hidden><span id="msv3SubQuoteText"></span></div>
+
+        <div class="sub-how" id="msv3SubHow" hidden>
+          <div class="sub-how-title">Qanday ishlaydi?</div>
+          <ol class="sub-how-list">
+            <li>To'lovni quyidagi kartaga o'tkazing</li>
+            <li>Chekni Telegram tugmasi orqali yuboring</li>
+            <li>1 oy davomida to'liq kirish ochiladi</li>
+          </ol>
         </div>
 
         <div class="sub-pay" id="msv3SubPay" hidden>
@@ -6521,6 +6561,18 @@
           document.getElementById('msv3SubAmount').textContent = cfg.price_text || '';
           priceBox.hidden = false;
         } else { priceBox.hidden = true; }
+        // Per-centre extra details: instructor badge, pitch, quote.
+        var instr = document.getElementById('msv3SubInstructor');
+        if (cfg && cfg.instructor) { document.getElementById('msv3SubInstrName').textContent = cfg.instructor; instr.hidden = false; }
+        else { instr.hidden = true; }
+        var pitch = document.getElementById('msv3SubPitch');
+        if (cfg && cfg.pitch) { document.getElementById('msv3SubPitchText').textContent = cfg.pitch; pitch.hidden = false; }
+        else { pitch.hidden = true; }
+        var quote = document.getElementById('msv3SubQuote');
+        if (cfg && cfg.quote) { document.getElementById('msv3SubQuoteText').textContent = cfg.quote; quote.hidden = false; }
+        else { quote.hidden = true; }
+        // "How it works" — only when there's a payment path to follow.
+        document.getElementById('msv3SubHow').hidden = !(hasCard || hasTg);
         if (hasCard) {
           document.getElementById('msv3SubCardNum').textContent = cfg.card_number;
           document.getElementById('msv3SubHolder').textContent = cfg.card_holder || '';
@@ -6538,7 +6590,7 @@
         try {
           var url = _SUB_SB_URL + '/rest/v1/center_subscription?center_id=eq.'
                   + encodeURIComponent(_subCenter())
-                  + '&status=eq.published&select=price_text,period_label,card_number,card_holder,telegram_username&limit=1';
+                  + '&status=eq.published&select=price_text,period_label,card_number,card_holder,telegram_username,pitch,quote,instructor&limit=1';
           var r = await fetch(url, { headers: { apikey: _SUB_SB_KEY, Authorization: 'Bearer ' + _SUB_SB_KEY } });
           if (r.ok) { var rows = await r.json(); _subCfg = (rows && rows[0]) || null; }
         } catch (_e) { _subCfg = null; }
