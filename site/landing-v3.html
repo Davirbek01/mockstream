@@ -497,8 +497,9 @@
       outline-offset: 2px;
     }
     .topbar-subscribe svg { width: 16px; height: 16px; flex-shrink: 0; }
-    /* Hidden on mobile (≤1023px) alongside .topbar-my-results — see that
-       media query below. Keeps the topbar from overflowing the hamburger. */
+    /* Phone-fit rules live in a later @media block (see "Phones: keep the
+       subscribe star visible…") so they win source-order over the mobile
+       focus-button sizing. */
 
     /* ═══════════════════════════════════════════════════════
        Bell popover — "What's new" feed
@@ -18108,14 +18109,36 @@
       /* My Results moves into the sidebar drawer on mobile (see msv3
          Account Access section) so the topbar has room for hamburger. */
       .topbar-my-results { display: none !important; }
-      /* Subscribe CTA hides on mobile too — otherwise it crowds the bar
-         and pushes the hamburger past the edge. Belongs in the drawer
-         once wired. */
-      .topbar-subscribe { display: none !important; }
       /* Contact-admin card is a PC-only rail flourish; the rail itself
          collapses inline on mobile so the gold pill would feel out of
          place between announcement and achievement cards. */
       #bbBillboardSection .bb-rail-contact { display: none !important; }
+    }
+
+    /* Phones: keep the subscribe star visible in the topbar (shown on ALL
+       devices) but tighten the whole action cluster so focus + subscribe +
+       bell + hamburger all fit without pushing anything off the edge. The
+       CTA collapses to an icon-only star; the full "Obuna bo'lish" label
+       returns on tablet/desktop (≥601px). This block sits after the
+       ≤1023px rules so its sizing wins source-order. */
+    @media (max-width: 600px) {
+      .topbar-inner { padding-left: 12px; padding-right: 12px; gap: 8px; }
+      .topbar-actions { gap: 6px; }
+      .topbar .icon-btn,
+      .topbar-fs-btn,
+      .topbar-subscribe { width: 38px !important; height: 38px !important; }
+      .topbar-subscribe {
+        padding: 0 !important;
+        gap: 0 !important;
+        justify-content: center;
+      }
+      .topbar-subscribe .ts-label { display: none; }
+      .topbar-subscribe svg { width: 17px; height: 17px; }
+    }
+    @media (max-width: 380px) {
+      /* Very small phones: drop the decorative "visitors today" chip so the
+         four action buttons are guaranteed to fit. */
+      .topbar .brand-live { display: none !important; }
     }
 
     /* ── 3-COL: sidebar (left) + content (middle) + announcements rail (right) ──
