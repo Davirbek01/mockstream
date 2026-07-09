@@ -234,6 +234,16 @@
     .bbA-subgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}\
     .bbA-subfoot{display:flex;align-items:center;gap:12px;justify-content:flex-end;margin-top:2px;}\
     .bbA-subfoot .msg{flex:1;font-size:12.5px;font-weight:600;}\
+    .bbA-subimgs{display:flex;flex-wrap:wrap;gap:10px;}\
+    .bbA-subimg{position:relative;width:120px;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;background:#f8fafc;}\
+    .bbA-subimg img{display:block;width:100%;height:78px;object-fit:cover;}\
+    .bbA-subimg-ctl{display:flex;border-top:1px solid #e2e8f0;}\
+    .bbA-subimg-ctl button{flex:1;border:0;background:#fff;padding:5px 0;font-size:12px;cursor:pointer;color:#475569;border-right:1px solid #f1f5f9;}\
+    .bbA-subimg-ctl button:last-child{border-right:0;color:#dc2626;}\
+    .bbA-subimg-ctl button:disabled{opacity:.35;cursor:default;}\
+    .bbA-subimg-ctl button:hover:not(:disabled){background:#f8fafc;}\
+    .bbA-subimg-empty{font-size:12.5px;color:#94a3b8;padding:8px 0;}\
+    .bbA-subimg-actions{display:flex;align-items:center;gap:8px;margin-top:8px;}\
     @media(max-width:560px){.bbA-subgrid{grid-template-columns:1fr;}}\
     .bbA-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}\
     .bbA-foot{display:flex;justify-content:flex-end;align-items:center;gap:8px;padding:11px 18px;border-top:1px solid #eef2ff;background:linear-gradient(180deg,#f8fafc 0%,#f5f3ff 100%);flex-wrap:wrap;}\
@@ -307,11 +317,14 @@
   async function render() {
     var c = state.container;
     var isSuper = state.role && state.role.role === 'super_admin';
+    // The centre picker only appears for a super-admin ON THE MAIN SITE.
+    // On a clone site the centre is locked to that clone.
+    var showPicker = isSuper && _isMainSite();
 
     c.innerHTML = STYLES + '\
       <div class="bbA-wrap">\
         <div class="bbA-head">\
-          <h2 class="bbA-title">📢 Billboard <span style="font-size:11px;background:#fef3c7;color:#92400e;border:1px solid #fde68a;padding:3px 8px;border-radius:999px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;">' + (isSuper ? 'Super-admin · all centres' : 'Centre admin') + '</span></h2>\
+          <h2 class="bbA-title">📢 Billboard <span style="font-size:11px;background:#fef3c7;color:#92400e;border:1px solid #fde68a;padding:3px 8px;border-radius:999px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;">' + (showPicker ? 'Super-admin · all centres' : (isSuper ? 'Super-admin · ' + _esc(centerLabel(state.centerId)) + ' only' : 'Centre admin')) + '</span></h2>\
           <div class="bbA-tabs">\
             <button class="bbA-tab' + (state.tab === 'announcements' ? ' active' : '') + '" data-tab="announcements">📢 Announcements</button>\
             <button class="bbA-tab' + (state.tab === 'certificates' ? ' active' : '') + '" data-tab="certificates">🏆 Achievements</button>\
@@ -319,7 +332,7 @@
           </div>\
         </div>\
         <div class="bbA-toolbar">\
-          ' + (isSuper ? _centerSelectHtml() : '<span style="font-size:13px;color:#475569;">Centre: <b>' + _esc(centerLabel(state.centerId)) + '</b></span>') + '\
+          ' + (showPicker ? _centerSelectHtml() : '<span style="font-size:13px;color:#475569;">Centre: <b>' + _esc(centerLabel(state.centerId)) + '</b></span>') + '\
           <span style="flex:1;"></span>\
           ' + (state.tab === 'subscription' ? '' : '<button class="bbA-btn" id="bbAAdd">+ Add new</button>') + '\
           <button class="bbA-btn ghost" id="bbARefresh">↻ Refresh</button>\
@@ -337,7 +350,7 @@
     var _addBtn = c.querySelector('#bbAAdd');
     if (_addBtn) _addBtn.addEventListener('click', function () { openForm(null); });
     c.querySelector('#bbARefresh').addEventListener('click', function () { renderList(); });
-    if (isSuper) {
+    if (showPicker) {
       c.querySelector('#bbACenter').addEventListener('change', function (e) {
         state.centerId = e.target.value;
         renderList();
@@ -407,8 +420,57 @@
         '<div class="bbA-field"><label>Instructor / teacher name <span style="color:#94a3b8;font-weight:600;">(optional)</span></label><input id="fs_instr" type="text" value="' + _attr(row.instructor) + '" placeholder="Dilshodbek Abdullajonov" /></div>' +
         '<div class="bbA-field"><label>Tagline / quote <span style="color:#94a3b8;font-weight:600;">(optional)</span></label><input id="fs_quote" type="text" value="' + _attr(row.quote) + '" placeholder="🚀 Writing &amp; Speaking balingizni keyingi darajaga olib chiqing!" /></div>' +
         '<div class="bbA-field"><label>Pitch / about the platform <span style="color:#94a3b8;font-weight:600;">(optional — line breaks kept)</span></label><textarea id="fs_pitch" rows="6" placeholder="Marketing description shown in the modal.">' + _esc(row.pitch) + '</textarea></div>' +
+        '<div class="bbA-field"><label>Preview images <span style="color:#94a3b8;font-weight:600;">(optional — empty = default screenshots)</span></label>' +
+          '<div id="fs_imgs_list" class="bbA-subimgs"></div>' +
+          '<div class="bbA-subimg-actions"><input type="file" id="fs_imgfile" accept="image/*" /><span style="font-size:12px;color:#94a3b8;">Upload a screenshot to add it</span></div>' +
+        '</div>' +
         '<div class="bbA-subfoot"><span class="msg" id="bbASubMsg"></span><button class="bbA-btn" id="bbASubSave">💾 Save</button></div>' +
       '</div>';
+    // ── preview-image manager ──
+    state.subImgs = Array.isArray(row.preview_images) ? row.preview_images.slice() : [];
+    function _renderSubImgs() {
+      var box = document.getElementById('fs_imgs_list');
+      if (!box) return;
+      if (!state.subImgs.length) {
+        box.innerHTML = '<div class="bbA-subimg-empty">No custom images — visitors see the default screenshots.</div>';
+        return;
+      }
+      box.innerHTML = state.subImgs.map(function (u, i) {
+        return '<div class="bbA-subimg" data-i="' + i + '"><img src="' + _attr(u) + '" alt="" />' +
+          '<div class="bbA-subimg-ctl">' +
+            '<button type="button" data-act="up" title="Move left"' + (i === 0 ? ' disabled' : '') + '>↑</button>' +
+            '<button type="button" data-act="down" title="Move right"' + (i === state.subImgs.length - 1 ? ' disabled' : '') + '>↓</button>' +
+            '<button type="button" data-act="del" title="Remove">✕</button>' +
+          '</div></div>';
+      }).join('');
+      box.querySelectorAll('button[data-act]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var i = parseInt(b.closest('.bbA-subimg').getAttribute('data-i'), 10);
+          var act = b.getAttribute('data-act'), a = state.subImgs;
+          if (act === 'del') a.splice(i, 1);
+          else if (act === 'up' && i > 0) { var t = a[i - 1]; a[i - 1] = a[i]; a[i] = t; }
+          else if (act === 'down' && i < a.length - 1) { var t2 = a[i + 1]; a[i + 1] = a[i]; a[i] = t2; }
+          _renderSubImgs();
+        });
+      });
+    }
+    _renderSubImgs();
+    var imgfile = document.getElementById('fs_imgfile');
+    if (imgfile) imgfile.addEventListener('change', async function () {
+      var f = imgfile.files && imgfile.files[0];
+      if (!f) return;
+      var msg = document.getElementById('bbASubMsg');
+      if (msg) { msg.textContent = 'Uploading image…'; msg.style.color = '#475569'; }
+      try {
+        var url = await uploadImage(f, state.centerId, 'subscription');
+        state.subImgs.push(url); _renderSubImgs();
+        if (msg) { msg.textContent = '✓ Image added — remember to Save'; msg.style.color = '#15803d'; }
+      } catch (e) {
+        if (msg) { msg.textContent = 'Upload failed: ' + (e && e.message ? e.message : e); msg.style.color = '#991b1b'; }
+      }
+      imgfile.value = '';
+    });
+
     document.getElementById('bbASubSave').addEventListener('click', function () { saveSubscription(row.id); });
   }
 
@@ -426,6 +488,7 @@
       instructor:        _v('fs_instr') || null,
       quote:             _v('fs_quote') || null,
       pitch:             _v('fs_pitch') || null,
+      preview_images:    (state.subImgs || []),
       updated_at:        new Date().toISOString()
     };
     if (msg) { msg.textContent = 'Saving…'; msg.style.color = '#475569'; }
@@ -943,11 +1006,20 @@
       return;
     }
     var isSuper = state.role.role === 'super_admin';
-    if (!state.centerId) {
+    // On a clone site, scope everything to that clone — even a super-admin
+    // cannot manage other centres' billboards from a clone URL. Only the
+    // main site (mock_stream) exposes the full centre picker.
+    if (!_isMainSite()) {
+      state.centerId = _siteCenter();
+    } else if (!state.centerId) {
       state.centerId = isSuper ? 'mock_stream' : (state.role.center || 'mock_stream');
     }
     render();
   }
+
+  // Current site's centre id, from the Netlify-injected window.__CENTER_ID.
+  function _siteCenter() { return String(window.__CENTER_ID || 'mock_stream').trim() || 'mock_stream'; }
+  function _isMainSite() { return _siteCenter() === 'mock_stream'; }
 
   window.AdminPanels = window.AdminPanels || {};
   window.AdminPanels.billboard = { open: open };
