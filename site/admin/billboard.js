@@ -404,6 +404,9 @@
         '<div class="bbA-field"><label>Card number</label><input id="fs_card" type="text" value="' + _attr(row.card_number) + '" placeholder="5614 6814 2820 6829" /></div>' +
         '<div class="bbA-field"><label>Card holder</label><input id="fs_holder" type="text" value="' + _attr(row.card_holder) + '" placeholder="Dilshodbek Abdullajonov" /></div>' +
         '<div class="bbA-field"><label>Telegram username <span style="color:#94a3b8;font-weight:600;">(no @ — receipts go here)</span></label><input id="fs_tg" type="text" value="' + _attr(row.telegram_username) + '" placeholder="DilshodbekAbdullajonov" /></div>' +
+        '<div class="bbA-field"><label>Instructor / teacher name <span style="color:#94a3b8;font-weight:600;">(optional)</span></label><input id="fs_instr" type="text" value="' + _attr(row.instructor) + '" placeholder="Dilshodbek Abdullajonov" /></div>' +
+        '<div class="bbA-field"><label>Tagline / quote <span style="color:#94a3b8;font-weight:600;">(optional)</span></label><input id="fs_quote" type="text" value="' + _attr(row.quote) + '" placeholder="🚀 Writing &amp; Speaking balingizni keyingi darajaga olib chiqing!" /></div>' +
+        '<div class="bbA-field"><label>Pitch / about the platform <span style="color:#94a3b8;font-weight:600;">(optional — line breaks kept)</span></label><textarea id="fs_pitch" rows="6" placeholder="Marketing description shown in the modal.">' + _esc(row.pitch) + '</textarea></div>' +
         '<div class="bbA-subfoot"><span class="msg" id="bbASubMsg"></span><button class="bbA-btn" id="bbASubSave">💾 Save</button></div>' +
       '</div>';
     document.getElementById('bbASubSave').addEventListener('click', function () { saveSubscription(row.id); });
@@ -420,6 +423,9 @@
       card_number:       _v('fs_card') || null,
       card_holder:       _v('fs_holder') || null,
       telegram_username: _v('fs_tg').replace(/^@/, '') || null,
+      instructor:        _v('fs_instr') || null,
+      quote:             _v('fs_quote') || null,
+      pitch:             _v('fs_pitch') || null,
       updated_at:        new Date().toISOString()
     };
     if (msg) { msg.textContent = 'Saving…'; msg.style.color = '#475569'; }
