@@ -6681,7 +6681,10 @@
         'ms_candidate_name', 'ms_avatar_url',
         'CANDIDATE_SURNAME', 'CANDIDATE_FIRSTNAME',
         'ms_is_admin', 'ms_oauth_next',
-        'ms_bell_last_seen'
+        'ms_bell_last_seen',
+        // Persistent guest "entered" marker (index.html autoResume) — clear it
+        // so an explicit sign-out lands on a fresh Welcome instead of skipping it.
+        'ms_entered_app'
       ];
       localKeys.forEach(function (k) {
         try { localStorage.removeItem(k); } catch (_e) {}
