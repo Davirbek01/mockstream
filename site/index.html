@@ -5261,7 +5261,7 @@
     // built-in 2/hour mailer quota). Flip to true after SMTP → open to all.
     // Either way premium auto-activates only for allowlisted emails via
     // auth.js checkPremiumRole — login method never grants premium.
-    var EMAIL_LOGIN_OPEN_TO_ALL = false;
+    var EMAIL_LOGIN_OPEN_TO_ALL = true;
 
     function toggleWelcomeEmail() {
       var reveal = document.getElementById('emailReveal');

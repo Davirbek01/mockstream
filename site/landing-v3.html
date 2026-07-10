@@ -5919,7 +5919,7 @@
     // only allowlisted premium emails get a link (protects the 2/hour mailer
     // quota). Flip to true after SMTP → open to everyone. Premium still
     // auto-activates only for allowlisted emails via auth.js checkPremiumRole.
-    window.EMAIL_LOGIN_OPEN_TO_ALL = false;
+    window.EMAIL_LOGIN_OPEN_TO_ALL = true;
     (function () {
       var input = document.getElementById('msv3EmailInput');
       var btn = document.getElementById('msv3EmailBtn');
