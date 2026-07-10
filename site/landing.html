@@ -67,6 +67,7 @@
   <script src="site-config/pwa-manifest.js"></script>
   <link rel="stylesheet" href="premium-gate.css">
   <script src="premium-gate.js" defer></script>
+  <script src="code-persistence.js" defer></script>
   <!-- Reroute legacy alwaysdata /verify calls to the Supabase verify-passcode edge function.
        Both backends share the same JSON body shape ({code|passcode, center, ...}) and same
        response shape ({access, valid, role}), so this shim is fully transparent. The new
@@ -7110,6 +7111,10 @@
                   inputmode="numeric" pattern="[0-9]*" oninput="this.value=this.value.replace(/\D/g,'')">
                 <button id="vipSidebarBtn" onclick="validateVipFromSidebar()">→</button>
               </div>
+              <label id="vipRememberRow" style="display:flex;align-items:center;gap:7px;margin-top:9px;font-size:11.5px;color:#cbd5e1;cursor:pointer;user-select:none;">
+                <input type="checkbox" id="vipRememberChk" checked style="width:14px;height:14px;accent-color:#7c3aed;cursor:pointer;flex:0 0 auto;">
+                <span>Remember on this device</span>
+              </label>
               <button type="button" class="vip-sidebar-signin-link" onclick="openVipSignInModal()" style="margin-top:8px;background:none;border:0;color:#7c3aed;font-size:11.5px;font-weight:600;cursor:pointer;text-decoration:underline;padding:2px 4px;">Sign in with email instead</button>
             </div>
             <div class="vip-sidebar-status" id="vipSidebarStatus"></div>
@@ -27698,6 +27703,23 @@
       if (vipInput) {
         vipInput.addEventListener('keydown', function (e) {
           if (e.key === 'Enter') validateVipFromSidebar();
+        });
+      }
+      // "Remember on this device" — reflects + writes the ms_remember_codes pref
+      // that code-persistence.js reads. Default ON; unchecking forgets any
+      // stored code (for shared / public computers).
+      const vipRemember = document.getElementById('vipRememberChk');
+      if (vipRemember) {
+        try {
+          const cm = window.MockStream && window.MockStream.codeMemory;
+          vipRemember.checked = cm ? cm.isRemembering() : (localStorage.getItem('ms_remember_codes') !== '0');
+        } catch (_e) {}
+        vipRemember.addEventListener('change', function () {
+          try {
+            const cm = window.MockStream && window.MockStream.codeMemory;
+            if (cm) cm.setRemember(vipRemember.checked);
+            else localStorage.setItem('ms_remember_codes', vipRemember.checked ? '1' : '0');
+          } catch (_e) {}
         });
       }
       const vipEmailInput = document.getElementById('vipEmailInput');

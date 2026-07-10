@@ -4169,6 +4169,7 @@
        v3 now correctly respects centre status too. ───────────────── -->
   <script src="/site-config/site-config.js"></script>
   <script src="/premium-gate.js" defer></script>
+  <script src="/code-persistence.js" defer></script>
   <script src="/mock-code-verifier.js?v=2"></script>
   <script src="/pdf-menu.js" defer></script>
 
@@ -5115,6 +5116,10 @@
           <button type="button" id="msv3VipBtn" aria-label="Activate VIP">→</button>
         </div>
         <div class="msv3-vip-sub" id="msv3VipSub">Activate for all features</div>
+        <label id="msv3VipRememberRow" style="display:flex;align-items:center;gap:7px;margin-top:8px;font-size:11.5px;color:var(--msv3-muted,#94a3b8);cursor:pointer;user-select:none;">
+          <input type="checkbox" id="msv3VipRememberChk" checked style="width:14px;height:14px;accent-color:#7c3aed;cursor:pointer;flex:0 0 auto;">
+          <span>Remember on this device</span>
+        </label>
         <button type="button" id="msv3VipReplaceBtn" class="msv3-vip-replace" hidden>✎ Replace code</button>
       </div>
 
@@ -5845,6 +5850,24 @@
     document.getElementById('msv3VipInput').addEventListener('keydown', function (e) {
       if (e.key === 'Enter') submitVip();
     });
+    // "Remember on this device" — reflects + writes the ms_remember_codes pref
+    // that code-persistence.js reads. Default ON; unchecking forgets any stored
+    // code so a shared / public computer doesn't keep the VIP active.
+    (function () {
+      var chk = document.getElementById('msv3VipRememberChk');
+      if (!chk) return;
+      try {
+        var cm = window.MockStream && window.MockStream.codeMemory;
+        chk.checked = cm ? cm.isRemembering() : (localStorage.getItem('ms_remember_codes') !== '0');
+      } catch (_e) {}
+      chk.addEventListener('change', function () {
+        try {
+          var cm = window.MockStream && window.MockStream.codeMemory;
+          if (cm) cm.setRemember(chk.checked);
+          else localStorage.setItem('ms_remember_codes', chk.checked ? '1' : '0');
+        } catch (_e) {}
+      });
+    })();
     // Replace-code link re-enables the input + button so a student can
     // swap to a new VIP code mid-session without having to log out.
     document.getElementById('msv3VipReplaceBtn').addEventListener('click', function () {
