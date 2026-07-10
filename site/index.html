@@ -6164,7 +6164,13 @@
       var hasEntered = sessionStorage.getItem('ms_entered_app') === '1'
                     || (remembering && localStorage.getItem('ms_entered_app') === '1');
       var hasGoogleSession = !!sessionStorage.getItem('CANDIDATE_FULL_NAME');
-      var hasOAuthHash = /access_token=|provider_token=/.test(window.location.hash || '');
+      // Auth callback in flight? OAuth/implicit flow (Google) puts tokens in the
+      // URL hash (#access_token=…); email magic-link (PKCE) puts ?code=… in the
+      // query string. Supabase finishes the session restore asynchronously, so
+      // we must WAIT for it before leaving this page — even for a returning
+      // guest — else the redirect drops the token and lands the user signed-out.
+      var hasAuthCallback = /access_token=|provider_token=/.test(window.location.hash || '')
+                         || /[?&](code|error|error_description)=/.test(window.location.search || '');
       function _go() {
         sessionStorage.setItem('ms_entered_app', '1');
         // Honor an OAuth "next" target if a sub-page (e.g. results/my-results.html)
@@ -6182,24 +6188,38 @@
         // replace() so welcome page does not stay in history
         window.location.replace('landing-v3.html');
       }
-      if (hasEntered || hasGoogleSession) { _go(); return; }
-      if (hasOAuthHash) {
-        // OAuth callback in flight — auth.js will fire userSignedIn when ready.
+      // A pending auth callback takes PRIORITY over the "already a guest → skip
+      // welcome" shortcut. Otherwise a returning guest who clicks a magic link
+      // gets redirected to landing-v3 before Supabase reads the token, dropping
+      // the login and leaving them signed-out (the Guest bug).
+      if (hasAuthCallback) {
+        // detectSessionInUrl restores the session asynchronously; auth.js fires
+        // userSignedIn when done. Wait for it, then continue into the app.
         window.addEventListener('mockStream:userSignedIn', _go, { once: true });
-        // Safety fallback: poll once a second for up to 8s in case the event
-        // fires before this listener is wired or the session restores via a
-        // different code path.
+        // Safety fallback: poll for up to 10s in case the event fired before the
+        // listener was wired. Magic-link (email) users carry no name, so we test
+        // the actual session — not just CANDIDATE_FULL_NAME — before giving up.
         var tries = 0;
         var iv = setInterval(function () {
           tries++;
-          if (sessionStorage.getItem('CANDIDATE_FULL_NAME')) {
+          var signedIn = false;
+          try {
+            signedIn = !!(window.MockStream && window.MockStream.auth &&
+                          typeof window.MockStream.auth.isSignedIn === 'function' &&
+                          window.MockStream.auth.isSignedIn());
+          } catch (_e) {}
+          if (signedIn || sessionStorage.getItem('CANDIDATE_FULL_NAME')) {
             clearInterval(iv);
             _go();
-          } else if (tries > 8) {
+          } else if (tries > 10) {
             clearInterval(iv);
+            // Session never restored — don't strand the user on a blank welcome.
+            if (hasEntered || hasGoogleSession) _go();
           }
         }, 1000);
+        return;
       }
+      if (hasEntered || hasGoogleSession) { _go(); return; }
     })();
 
     // Note: Exiting fullscreen no longer resets to welcome screen
