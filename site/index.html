@@ -5649,6 +5649,18 @@
       localStorage.setItem('CANDIDATE_SURNAME', surname);
       localStorage.setItem('CANDIDATE_FIRSTNAME', firstname);
 
+      // Persist the guest identity + an "entered" marker so reopening the site
+      // in a fresh tab/window skips the welcome screen next time (guests have
+      // no Supabase session to restore, so without this they were bounced back
+      // to Welcome every launch). Mirrors the VIP-code "remember on this
+      // device" behaviour and honours the same shared-computer opt-out.
+      try {
+        if (localStorage.getItem('ms_remember_codes') !== '0') {
+          localStorage.setItem('ms_candidate_name', fullName);
+          localStorage.setItem('ms_entered_app', '1');
+        }
+      } catch (_e) {}
+
       // Microphone permission is now requested on landing.html instead. The
       // welcome page is skipped entirely on Google-restored sessions, so a
       // prompt fired here would flash for a fraction of a second before the
@@ -5988,7 +6000,24 @@
       //   (c) the URL hash contains an OAuth access_token — Supabase will
       //       finish session-restore asynchronously, so we also wait for
       //       the 'mockStream:userSignedIn' event before redirecting.
-      var hasEntered = sessionStorage.getItem('ms_entered_app') === '1';
+      // "Remember on this device" master switch (default ON). When a guest opts
+      // out on a shared computer, persistent resume is ignored (session-only).
+      var remembering = true;
+      try { remembering = localStorage.getItem('ms_remember_codes') !== '0'; } catch (_e) {}
+      // Rehydrate a remembered guest's name into THIS fresh tab's sessionStorage
+      // so downstream pages (results, premium-gate) + landing-v3's profile card
+      // have it — guests carry no Supabase session to repopulate it for them.
+      if (remembering && !sessionStorage.getItem('CANDIDATE_FULL_NAME')) {
+        var _gn = '';
+        try {
+          _gn = localStorage.getItem('ms_candidate_name')
+             || ((localStorage.getItem('CANDIDATE_SURNAME') || '') + ' ' +
+                 (localStorage.getItem('CANDIDATE_FIRSTNAME') || '')).trim();
+        } catch (_e) {}
+        if (_gn) { try { sessionStorage.setItem('CANDIDATE_FULL_NAME', _gn); } catch (_e) {} }
+      }
+      var hasEntered = sessionStorage.getItem('ms_entered_app') === '1'
+                    || (remembering && localStorage.getItem('ms_entered_app') === '1');
       var hasGoogleSession = !!sessionStorage.getItem('CANDIDATE_FULL_NAME');
       var hasOAuthHash = /access_token=|provider_token=/.test(window.location.hash || '');
       function _go() {
