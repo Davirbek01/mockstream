@@ -2060,6 +2060,29 @@
     .wv2-provider.wv2-guest:hover .wv2-arrow    { color: #f97316; }
     .wv2-provider.wv2-guest svg { color: #94a3b8; }
     .wv2-provider.wv2-guest:hover svg { color: #f97316; }
+    .wv2-provider.wv2-email:hover { border-color: #6366f1; }
+    .wv2-provider.wv2-email:hover .wv2-arrow { color: #6366f1; }
+    .wv2-provider.wv2-email svg { color: #6366f1; }
+
+    /* Email / magic-link inline reveal — expands under the Email button. */
+    .wv2-email-reveal {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 260ms ease, opacity 200ms ease, margin 200ms ease;
+      margin: 0;
+    }
+    .wv2-email-reveal.open { max-height: 180px; opacity: 1; margin: 2px 0 0; }
+    .wv2-email-reveal-inner {
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 12px 13px;
+    }
+    .wv2-email-hint { font: 500 12px/1.4 'Inter', sans-serif; color: #64748b; margin: 0 0 8px; }
+    .wv2-email-status { font: 600 12.5px/1.4 'Inter', sans-serif; margin: 8px 0 0; min-height: 1em; }
+    .wv2-email-status.ok  { color: #15803d; }
+    .wv2-email-status.err { color: #dc2626; }
 
     .wv2-or {
       display: flex;
@@ -3388,6 +3411,31 @@
               <span class="wv2-label">Telegram bilan davom etish</span>
               <span class="wv2-arrow">→</span>
             </button>
+
+            <button type="button" class="wv2-provider wv2-email" id="emailSigninBtn" onclick="toggleWelcomeEmail()" aria-expanded="false">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="5" width="18" height="14" rx="2"/>
+                <path d="m3 7 9 6 9-6"/>
+              </svg>
+              <span class="wv2-label">Email bilan kirish</span>
+              <span class="wv2-arrow">→</span>
+            </button>
+
+            <!-- Email / magic-link reveal (open to all once SMTP is live; premium
+                 auto-activates for allowlisted emails via checkPremiumRole). -->
+            <div class="wv2-email-reveal" id="emailReveal">
+              <div class="wv2-email-reveal-inner">
+                <p class="wv2-email-hint">Emailingizni kiriting — kirish havolasini yuboramiz.</p>
+                <div class="wv2-input-row">
+                  <input type="email" id="welcomeEmailInput" placeholder="email@example.com"
+                         inputmode="email" autocomplete="email" autocorrect="off" spellcheck="false"
+                         onkeydown="if(event.key==='Enter'){event.preventDefault();submitWelcomeEmail();}">
+                  <button type="button" class="wv2-submit" onclick="submitWelcomeEmail()"
+                          id="welcomeEmailBtn" aria-label="Havola yuborish" title="Havola yuborish">→</button>
+                </div>
+                <p class="wv2-email-status" id="welcomeEmailStatus"></p>
+              </div>
+            </div>
 
             <button type="button" class="wv2-provider wv2-guest" onclick="openWelcomeGuest()">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -5205,6 +5253,101 @@
         }
         alert('Google sign-in failed: ' + (e && e.message ? e.message : 'unknown error'));
       });
+    }
+
+    // ===== Email / magic-link sign-in =====
+    // FEATURE FLAG: keep false until Resend custom SMTP is live in Supabase.
+    // While false, only allowlisted premium emails get a link (protects the
+    // built-in 2/hour mailer quota). Flip to true after SMTP → open to all.
+    // Either way premium auto-activates only for allowlisted emails via
+    // auth.js checkPremiumRole — login method never grants premium.
+    var EMAIL_LOGIN_OPEN_TO_ALL = false;
+
+    function toggleWelcomeEmail() {
+      var reveal = document.getElementById('emailReveal');
+      var btn = document.getElementById('emailSigninBtn');
+      if (!reveal) return;
+      var open = reveal.classList.toggle('open');
+      if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) { var inp = document.getElementById('welcomeEmailInput'); if (inp) setTimeout(function () { inp.focus(); }, 120); }
+    }
+
+    function _welcomeEmailStatus(msg, kind) {
+      var el = document.getElementById('welcomeEmailStatus');
+      if (!el) return;
+      el.textContent = msg || '';
+      el.className = 'wv2-email-status' + (kind ? ' ' + kind : '');
+    }
+
+    async function submitWelcomeEmail() {
+      var inp = document.getElementById('welcomeEmailInput');
+      var btn = document.getElementById('welcomeEmailBtn');
+      var email = (inp && inp.value || '').trim().toLowerCase();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        _welcomeEmailStatus('❌ To\'g\'ri email kiriting', 'err');
+        if (inp) inp.classList.add('invalid');
+        return;
+      }
+      if (inp) inp.classList.remove('invalid');
+
+      // 60s per-email client cooldown — avoids double-sends burning quota.
+      var cdKey = 'ms_email_cd_' + email;
+      try {
+        var last = parseInt(localStorage.getItem(cdKey) || '0', 10);
+        if (Date.now() - last < 60000) {
+          var secs = Math.ceil((60000 - (Date.now() - last)) / 1000);
+          _welcomeEmailStatus('⏳ ' + secs + ' soniyadan so\'ng qayta urinib ko\'ring', 'err');
+          return;
+        }
+      } catch (_e) {}
+
+      if (btn) { btn.disabled = true; }
+      _welcomeEmailStatus('⏳ Yuborilmoqda…', '');
+
+      var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+
+      // Eligibility gate — skipped once open-to-all + SMTP is live. Until then,
+      // only allowlisted emails reach signInWithOtp so the 2/hour built-in
+      // mailer quota can't be drained by the public.
+      if (!EMAIL_LOGIN_OPEN_TO_ALL) {
+        try {
+          var elig = await fetch(SB + '/rest/v1/rpc/_email_eligible_for_magic_link', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'apikey': KEY, 'Authorization': 'Bearer ' + KEY },
+            body: JSON.stringify({ p_email: email })
+          });
+          var ok = elig.ok ? await elig.json() : false;
+          if (ok !== true) {
+            _welcomeEmailStatus('❌ Bu email hozircha ruxsat etilmagan', 'err');
+            if (btn) btn.disabled = false;
+            return;
+          }
+        } catch (_e) {
+          _welcomeEmailStatus('❌ Xatolik. Qayta urinib ko\'ring', 'err');
+          if (btn) btn.disabled = false;
+          return;
+        }
+      }
+
+      try {
+        var client = (window.MockStream && window.MockStream.auth &&
+                      typeof window.MockStream.auth.getClient === 'function')
+                       ? window.MockStream.auth.getClient() : null;
+        if (!client || !client.auth) throw new Error('auth client missing');
+        var res = await client.auth.signInWithOtp({
+          email: email,
+          options: { emailRedirectTo: window.location.origin + '/index.html' }
+        });
+        if (res.error) throw res.error;
+        try { localStorage.setItem(cdKey, String(Date.now())); } catch (_e) {}
+        _welcomeEmailStatus('✅ Kirish havolasi yuborildi. Emailingizni tekshiring.', 'ok');
+        if (btn) btn.textContent = '✓';
+      } catch (e) {
+        console.warn('[index] magic link failed:', e);
+        _welcomeEmailStatus('❌ Havola yuborilmadi. Keyinroq urinib ko\'ring', 'err');
+        if (btn) btn.disabled = false;
+      }
     }
 
     // ===== Telegram Login (custom button, JS API) =====
