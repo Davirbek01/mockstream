@@ -7167,20 +7167,37 @@
                             html += '<div style="border:1px solid #bdbdbd; padding:12px; border-radius:6px; background:#fff; margin-top:10px;">';
                             html += '<div style="text-align:center; font-weight:700; margin-bottom:8px;">' + section.boxTitle + '</div>';
                             html += '<ul style="margin:0; padding-left:18px;">';
-                            section.questions.forEach(function (q) {
-                                var inputHtml = _completionInputHtml(q.id);
+                            function _boxGapHtml(id) {
+                                return '<span class="inline-gap-with-number"><span class="gap-number-badge">' + id + '</span>' + _completionInputHtml(id) + '</span>';
+                            }
+                            var _boxSkip = 0;
+                            section.questions.forEach(function (q, qi) {
+                                if (_boxSkip > 0) { _boxSkip--; return; }
+                                var gapCount = (q.text.match(/\{INPUT\}/g) || []).length;
+                                // Skip standalone "(second answer...)" markers — their gap is embedded in the previous row
+                                if (gapCount === 0 && /^\(second answer/i.test(q.text)) { return; }
                                 var hasGapToken = /\{INPUT\}|[\._…]{3,}/.test(q.text);
-                                var inlineGapHtml = '<span class="inline-gap-with-number"><span class="gap-number-badge">' + q.id + '</span>' + inputHtml + '</span>';
                                 // Strip embedded duplicate question number before {INPUT}
                                 var text = q.text.replace(new RegExp('\\b' + q.id + '\\s+(?=\\{INPUT\\})'), '');
-                                // Replace {INPUT} or visual placeholders (dots, underscores, ellipses)
-                                text = text.replace(/\{INPUT\}|[\._…]{3,}/, (!skipPrefix && hasGapToken) ? inlineGapHtml : inputHtml);
-                                if (skipPrefix) {
-                                    html += '<li style="margin-bottom:10px;"><span id="q' + q.id + '-container">' + text + '</span></li>';
-                                } else if (hasGapToken) {
+                                if (gapCount > 1) {
+                                    // Multi-gap row: first {INPUT} = this q.id, each subsequent = the next question id
+                                    var gi = 0;
+                                    text = text.replace(/\{INPUT\}/g, function () {
+                                        var id = gi === 0 ? q.id : (section.questions[qi + gi] || {}).id;
+                                        gi++;
+                                        return skipPrefix ? _completionInputHtml(id) : _boxGapHtml(id);
+                                    });
+                                    _boxSkip = gapCount - 1;
                                     html += '<li style="margin-bottom:10px;"><span id="q' + q.id + '-container">' + text + '</span></li>';
                                 } else {
-                                    html += '<li style="margin-bottom:10px;"><span id="q' + q.id + '-container"><b>' + q.id + '.</b> ' + text + '</span></li>';
+                                    var inputHtml = _completionInputHtml(q.id);
+                                    // Replace {INPUT} or visual placeholders (dots, underscores, ellipses)
+                                    text = text.replace(/\{INPUT\}|[\._…]{3,}/, (!skipPrefix && hasGapToken) ? _boxGapHtml(q.id) : inputHtml);
+                                    if (skipPrefix || hasGapToken) {
+                                        html += '<li style="margin-bottom:10px;"><span id="q' + q.id + '-container">' + text + '</span></li>';
+                                    } else {
+                                        html += '<li style="margin-bottom:10px;"><span id="q' + q.id + '-container"><b>' + q.id + '.</b> ' + text + '</span></li>';
+                                    }
                                 }
                             });
                             html += '</ul></div>';
