@@ -39057,13 +39057,26 @@
       var skill = _mmgCurrentType(); // 'cefr-speaking' | 'ielts-speaking'
       var mockNumber = parseInt(document.getElementById('mmgFldNum').value || '0', 10) || 0;
 
+      // IELTS Speaking Part 2 cue cards keep their bullets in q.bulletPoints
+      // (split out of q.prompt for the runner's structured display). The
+      // examiner audio must read the WHOLE cue card, so re-attach the
+      // "You should say:" bullets for TTS — otherwise only the topic line
+      // is spoken.
+      var ttsText = promptText;
+      if (skill === 'ielts-speaking' && q.part === 'Part 2'
+          && Array.isArray(q.bulletPoints) && q.bulletPoints.length) {
+        ttsText = promptText + '\n\nYou should say:\n'
+                + q.bulletPoints.map(function (b) { return String(b || '').trim(); })
+                                .filter(Boolean).join('\n');
+      }
+
       var btnEl = document.querySelector('.mmg-audio-row [onclick*="_mmgGenerateAudio(' + qIndex + ',"]');
       if (btnEl) { btnEl.disabled = true; btnEl.textContent = '⏳'; }
 
       try {
         var j = await _mmgCall('generate_speaking_audio', {
           skill: skill, mock_number: mockNumber, question_number: q.number || (qIndex + 1),
-          text: promptText, voice: voice, model: model
+          text: ttsText, voice: voice, model: model
         });
         if (!j || !j.publicUrl) throw new Error((j && j.error) || 'no publicUrl');
         var input = document.getElementById(id);
