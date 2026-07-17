@@ -2235,6 +2235,21 @@
             '02': 'https://storage.googleapis.com/mockstream-listening-audio/Read%20an%20Understand/Read%20and%20Understand%201_Betty%20Kirkpatrick%20%26%20Rebecca%20Mok_2005_(%20%2BAudio%20-%20wma)/02-Too-Much-Traffic.mp3'
         };
 
+        // Level-specific natural-voice audio (edge-tts, en-GB-RyanNeural) hosted on GCS.
+        // article num -> [levels that have generated audio]. Read-aloud = <level>.mp3 (whole passage);
+        // dictation = dictation-<level>/sentence<i>.mp3 (one per sentence, matching the article's sentence split).
+        const LEVEL_AUDIO_BASE = 'https://storage.googleapis.com/mockstream-samples-audio/cefr-articles';
+        const LEVEL_AUDIO_ARTICLES = { '01': ['B1'] };
+        function hasLevelAudio(num, level) {
+            return !!(level && LEVEL_AUDIO_ARTICLES[num] && LEVEL_AUDIO_ARTICLES[num].indexOf(level) !== -1);
+        }
+        function levelAudioUrl(num, level) {
+            return `${LEVEL_AUDIO_BASE}/article-${num}/${level.toLowerCase()}.mp3`;
+        }
+        function levelDictationUrl(num, level, i) {
+            return `${LEVEL_AUDIO_BASE}/article-${num}/dictation-${level.toLowerCase()}/sentence${i}.mp3`;
+        }
+
         var currentArticle = null;
         var currentArticleNum = null; // Track article number for audio URL lookup
         var currentView = 'normal'; // normal, practice, translation, lexical
@@ -2321,6 +2336,18 @@
             // Update word count
             const wordCount = passage.replace(/<[^>]*>/g, '').split(/\s+/).filter(w => w).length;
             document.getElementById('articleWordCount').textContent = `${wordCount} words`;
+
+            // Level changed → drop any loaded passage audio so the next play loads the
+            // correct level's audio (B1 natural TTS vs original narration/gTTS).
+            if (window.currentPassageAudio) { try { window.currentPassageAudio.pause(); } catch (e) {} }
+            window.currentPassageAudio = null;
+            window.currentAudioArticleNum = null;
+            window.currentPassageAudioSrc = null;
+            window.isPreGenAudio = false;
+            const _pb = document.getElementById('audioPlayerBar');
+            if (_pb) _pb.classList.remove('active');
+            const _sb = document.getElementById('speakerBtn');
+            if (_sb) _sb.classList.remove('playing', 'has-paused');
 
             // Update toolbar button labels
             updateLevelUI(level);
@@ -2917,9 +2944,11 @@
         async function renderDictationView() {
             if (!currentArticle) return;
 
-            // Split passage into sentences
+            // Split passage into sentences (respect the selected reading level so the
+            // chunks match the level-specific dictation audio).
+            const dictPassage = (currentLevel && currentArticle['passage' + currentLevel]) || currentArticle.passage;
             const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = currentArticle.passage;
+            tempDiv.innerHTML = dictPassage;
             const plainText = tempDiv.textContent || tempDiv.innerText;
 
             // Split by sentences (period, question mark, exclamation mark followed by space or end)
@@ -3000,6 +3029,32 @@
 
         async function preloadDictationGTTS() {
             if (dictationChunks.length === 0) return false;
+
+            // ── Level-specific natural TTS (edge-tts): fetch pre-generated per-sentence
+            // files from GCS instead of the gTTS server. Falls through on any error. ──
+            if (hasLevelAudio(currentArticleNum, currentLevel)) {
+                try {
+                    updateDictationProgress(10, '10% - Loading audio...');
+                    for (let i = 0; i < dictationChunks.length; i++) {
+                        const resp = await fetch(levelDictationUrl(currentArticleNum, currentLevel, i));
+                        if (!resp.ok) throw new Error('missing sentence ' + i + ' (' + resp.status + ')');
+                        dictationGTTSCache['sentence' + i] = await resp.blob();
+                        updateDictationProgress(10 + Math.round(((i + 1) / dictationChunks.length) * 90),
+                            (10 + Math.round(((i + 1) / dictationChunks.length) * 90)) + '% - Loading ' + (i + 1) + '/' + dictationChunks.length + '...');
+                    }
+                    dictationAudioReady = true;
+                    document.querySelectorAll('.chunk-audio-btn').forEach((btn) => {
+                        btn.classList.remove('loading'); btn.disabled = false;
+                        btn.innerHTML = '<span>▶️</span> Play';
+                    });
+                    console.log('✅ Level dictation audio (' + currentLevel + ') loaded from GCS');
+                    return true;
+                } catch (err) {
+                    console.warn('Level dictation audio failed, falling back to gTTS server:', err);
+                    dictationGTTSCache = {};
+                    // fall through to the gTTS-server path below
+                }
+            }
 
             // Build request body with all sentences
             const requestBody = {};
@@ -3540,6 +3595,32 @@
             // Already loading? Ignore
             if (window.isLoadingPassageAudio) return;
 
+            // ── Level-specific natural TTS (edge-tts) — single-file playback for B1 etc. ──
+            // Matches the currently selected reading level; overrides the original narration/gTTS.
+            if (hasLevelAudio(currentArticleNum, currentLevel)) {
+                const url = levelAudioUrl(currentArticleNum, currentLevel);
+                if (window.currentPassageAudio && window.currentPassageAudioSrc === url) {
+                    playerBar.classList.add('active');
+                    if (window.currentPassageAudio.paused) { window.currentPassageAudio.play(); }
+                    else { window.currentPassageAudio.pause(); }
+                    updateAudioUI();
+                    return;
+                }
+                if (window.currentPassageAudio) { window.currentPassageAudio.pause(); window.currentPassageAudio = null; }
+                window.isPreGenAudio = true;
+                const audio = new Audio(url);
+                audio.volume = 1.0;
+                window.currentPassageAudio = audio;
+                window.currentAudioArticleNum = currentArticleNum;
+                window.currentPassageAudioSrc = url;
+                setupAudioListeners(audio);
+                playerBar.classList.add('active');
+                btn.classList.add('playing');
+                updateAudioUI();
+                await audio.play();
+                return;
+            }
+
             // Check if audio exists and is for the current article
             const audioExistsForCurrentArticle = window.currentPassageAudio &&
                 window.currentAudioArticleNum === currentArticleNum;
@@ -3878,6 +3959,20 @@
                     window.currentPassageAudio.pause();
                 }
                 updateAudioUI();
+            } else if (hasLevelAudio(currentArticleNum, currentLevel)) {
+                // Level-specific natural TTS (edge-tts) - recreate and play the whole-passage file
+                const url = levelAudioUrl(currentArticleNum, currentLevel);
+                window.isPreGenAudio = true;
+                const audio = new Audio(url);
+                audio.volume = 1.0;
+                window.currentPassageAudio = audio;
+                window.currentAudioArticleNum = currentArticleNum;
+                window.currentPassageAudioSrc = url;
+                setupAudioListeners(audio);
+                document.getElementById('audioPlayerBar').classList.add('active');
+                document.getElementById('speakerBtn').classList.add('playing');
+                updateAudioUI();
+                audio.play();
             } else if (PRE_GEN_AUDIO_ARTICLES.includes(currentArticleNum)) {
                 // Pre-gen audio - recreate and play
                 const preGenPath = `questions Articles/audio/article-${currentArticleNum}.mp3`;
