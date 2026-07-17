@@ -39019,7 +39019,8 @@
     // Generate audio for question `qIndex` and fill the URL input at `id`.
     // Reads the current text from mock_data.questions[qIndex].prompt and the
     // per-Q voice/model overrides from the row's selects (defaulting to mock-level).
-    window._mmgGenerateAudio = async function (qIndex, id) {
+    window._mmgGenerateAudio = async function (qIndex, id, opts) {
+      opts = opts || {};
       // Flush the currently-edited Part pane back into the JSON textarea so
       // the prompt the user just typed (and any other unsaved field edits)
       // are visible to this generate call. Without this, q.prompt would be
@@ -39066,6 +39067,13 @@
           text: promptText, voice: voice, model: model
         });
         if (!j || !j.publicUrl) throw new Error((j && j.error) || 'no publicUrl');
+        // Persist the URL into the DATA MODEL (the mmgFldData JSON) — this is
+        // the source of truth. The per-question audio <input> only exists when
+        // that Part's tab is currently rendered, so writing solely to the input
+        // silently loses the URL when generating from the Settings tab (where
+        // the "generate all" button lives). Always write to md.questions[i].
+        q.audioFile = j.publicUrl;
+        _mmgSetMockData(md);
         var input = document.getElementById(id);
         if (input) {
           input.value = j.publicUrl;
@@ -39073,6 +39081,9 @@
         }
         _mmgStatus('🎙 Generated ' + (j.durationSec || '?') + 's audio for Q' + (q.number || (qIndex + 1)), '#15803d');
       } catch (e) {
+        // In bulk mode let the caller record which question failed and continue;
+        // for a single manual click, surface the error to the user directly.
+        if (opts.bulk) throw e;
         alert('Audio generation failed: ' + (e.message || e));
       } finally {
         if (btnEl) { btnEl.disabled = false; btnEl.textContent = '🎙'; }
@@ -39090,18 +39101,33 @@
       if (!indices.length) { alert('No questions found for scope: ' + scope); return; }
       if (!confirm('Generate audio for ' + indices.length + ' question(s)? Existing URLs will be overwritten.')) return;
 
+      var ok = 0;
+      var failed = [];
       for (var k = 0; k < indices.length; k++) {
         var qIndex = indices[k];
-        _mmgStatus('Generating ' + (k + 1) + ' / ' + indices.length + ' (Q' + (md.questions[qIndex].number || (qIndex + 1)) + ')…');
+        var qNum = md.questions[qIndex].number || (qIndex + 1);
+        _mmgStatus('Generating ' + (k + 1) + ' / ' + indices.length + ' (Q' + qNum + ')…');
         var id = 'spQ' + qIndex + '_audio';
         try {
-          await window._mmgGenerateAudio(qIndex, id);
+          await window._mmgGenerateAudio(qIndex, id, { bulk: true });
+          ok++;
         } catch (e) {
-          _mmgStatus('Stopped at Q' + (md.questions[qIndex].number || (qIndex + 1)) + ' — ' + e.message, '#dc2626');
-          return;
+          // Record and keep going — one rate-limited/failed question shouldn't
+          // abort the whole batch. The summary tells the user what to re-run.
+          failed.push('Q' + qNum);
+        }
+        // Small gap between calls so a burst of requests doesn't trip the
+        // TTS provider's rate limit (a common cause of tail-end failures).
+        if (k < indices.length - 1) {
+          await new Promise(function (r) { setTimeout(r, 400); });
         }
       }
-      _mmgStatus('✓ All ' + indices.length + ' audios generated.', '#15803d');
+      if (failed.length) {
+        _mmgStatus('⚠ ' + ok + ' generated, ' + failed.length + ' failed: ' + failed.join(', ')
+          + '. Re-run to retry the failed ones.', '#dc2626');
+      } else {
+        _mmgStatus('✓ All ' + ok + ' audios generated & saved.', '#15803d');
+      }
     };
 
     // Map a question's `part` field to one of the 4 Part tab keys.
