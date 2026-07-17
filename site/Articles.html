@@ -2239,14 +2239,24 @@
         // article num -> [levels that have generated audio]. Read-aloud = <level>.mp3 (whole passage);
         // dictation = dictation-<level>/sentence<i>.mp3 (one per sentence, matching the article's sentence split).
         const LEVEL_AUDIO_BASE = 'https://storage.googleapis.com/mockstream-samples-audio/cefr-articles';
+        // Legacy hardcoded map (pre-migration). Migrated articles instead carry an
+        // `audio` object in their row: { B1:{whole,timings,dictationBase}, B2:{...}, C1:{...} }.
         const LEVEL_AUDIO_ARTICLES = { '01': ['B1'] };
+        function _rowLevelAudio(level) {
+            return (currentArticle && currentArticle.audio && level) ? currentArticle.audio[level] : null;
+        }
         function hasLevelAudio(num, level) {
+            if (_rowLevelAudio(level)) return true;
             return !!(level && LEVEL_AUDIO_ARTICLES[num] && LEVEL_AUDIO_ARTICLES[num].indexOf(level) !== -1);
         }
         function levelAudioUrl(num, level) {
+            const a = _rowLevelAudio(level);
+            if (a && a.whole) return a.whole;
             return `${LEVEL_AUDIO_BASE}/article-${num}/${level.toLowerCase()}.mp3`;
         }
         function levelDictationUrl(num, level, i) {
+            const a = _rowLevelAudio(level);
+            if (a && a.dictationBase) return a.dictationBase + 'sentence' + i + '.mp3';
             return `${LEVEL_AUDIO_BASE}/article-${num}/dictation-${level.toLowerCase()}/sentence${i}.mp3`;
         }
 
@@ -2257,7 +2267,7 @@
         // Only these article numbers are served from Supabase (migrated); everything else
         // stays on its static file. Expand this set as articles are migrated; eventually
         // replace with a blanket "all" once the full set is loaded.
-        const SUPABASE_ARTICLE_NUMS = new Set(['01']);
+        const SUPABASE_ARTICLE_NUMS = new Set(['01', '02']);
         const ART_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
         const ART_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
         async function fetchSupabaseArticle(num) {
