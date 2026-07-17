@@ -2937,6 +2937,7 @@
         const GTTS_SERVER_URL = 'https://english-server-p7y6.onrender.com/tts/audio';
         let dictationChunks = [];
         let dictationGTTSCache = {}; // Cache for GTTS audio blobs
+        let dictationDirectUrls = {}; // index -> direct GCS mp3 URL for pre-generated level audio (no preload)
         let currentDictationAudio = null;
         let currentPlayingChunk = null;
         let dictationAudioReady = false;
@@ -2957,20 +2958,25 @@
 
             const container = document.getElementById('dictationChunks');
 
-            // Show loading state with progress bar
-            container.innerHTML = `
-                <div class="dictation-loading">
-                    <div class="dictation-loading-spinner"></div>
-                    <div class="dictation-loading-text">Generating audio for ${dictationChunks.length} sentences...<br><small>This may take up to 60 seconds on first load</small></div>
-                    <div class="dictation-progress-container">
-                        <div class="dictation-progress-bar" id="dictationProgressBar"></div>
+            // Show loading state with progress bar — but only when we actually need to
+            // generate/download audio. Pre-generated level audio (edge-tts) is ready
+            // instantly, so skip the spinner entirely to avoid a flash.
+            if (!hasLevelAudio(currentArticleNum, currentLevel)) {
+                container.innerHTML = `
+                    <div class="dictation-loading">
+                        <div class="dictation-loading-spinner"></div>
+                        <div class="dictation-loading-text">Generating audio for ${dictationChunks.length} sentences...<br><small>This may take up to 60 seconds on first load</small></div>
+                        <div class="dictation-progress-container">
+                            <div class="dictation-progress-bar" id="dictationProgressBar"></div>
+                        </div>
+                        <div class="dictation-progress-text" id="dictationProgressText">0%</div>
                     </div>
-                    <div class="dictation-progress-text" id="dictationProgressText">0%</div>
-                </div>
-            `;
+                `;
+            }
 
             // Reset cache and state
             dictationGTTSCache = {};
+            dictationDirectUrls = {};
             dictationAudioReady = false;
             dictationUseBrowserTTS = false;
             dictationAudioInstances = {};
@@ -3030,30 +3036,16 @@
         async function preloadDictationGTTS() {
             if (dictationChunks.length === 0) return false;
 
-            // ── Level-specific natural TTS (edge-tts): fetch pre-generated per-sentence
-            // files from GCS instead of the gTTS server. Falls through on any error. ──
+            // ── Level-specific natural TTS (edge-tts): pre-generated per-sentence files
+            // exist on GCS, so DON'T download them up front — just map each sentence to
+            // its URL and mark ready instantly. Each file streams/caches on first play. ──
             if (hasLevelAudio(currentArticleNum, currentLevel)) {
-                try {
-                    updateDictationProgress(10, '10% - Loading audio...');
-                    for (let i = 0; i < dictationChunks.length; i++) {
-                        const resp = await fetch(levelDictationUrl(currentArticleNum, currentLevel, i));
-                        if (!resp.ok) throw new Error('missing sentence ' + i + ' (' + resp.status + ')');
-                        dictationGTTSCache['sentence' + i] = await resp.blob();
-                        updateDictationProgress(10 + Math.round(((i + 1) / dictationChunks.length) * 90),
-                            (10 + Math.round(((i + 1) / dictationChunks.length) * 90)) + '% - Loading ' + (i + 1) + '/' + dictationChunks.length + '...');
-                    }
-                    dictationAudioReady = true;
-                    document.querySelectorAll('.chunk-audio-btn').forEach((btn) => {
-                        btn.classList.remove('loading'); btn.disabled = false;
-                        btn.innerHTML = '<span>▶️</span> Play';
-                    });
-                    console.log('✅ Level dictation audio (' + currentLevel + ') loaded from GCS');
-                    return true;
-                } catch (err) {
-                    console.warn('Level dictation audio failed, falling back to gTTS server:', err);
-                    dictationGTTSCache = {};
-                    // fall through to the gTTS-server path below
+                for (let i = 0; i < dictationChunks.length; i++) {
+                    dictationDirectUrls[i] = levelDictationUrl(currentArticleNum, currentLevel, i);
                 }
+                dictationAudioReady = true;
+                console.log('✅ Level dictation audio (' + currentLevel + ') ready instantly (' + dictationChunks.length + ' sentences)');
+                return true;
             }
 
             // Build request body with all sentences
@@ -3218,13 +3210,13 @@
             // Stop any currently playing audio (different chunk)
             stopAllDictationAudio();
 
-            // Check if we have cached GTTS audio
-            if (dictationGTTSCache[cacheKey]) {
-                console.log(`🔊 Playing GTTS audio for sentence ${index}`);
+            // Check if we have cached GTTS audio OR a direct pre-generated URL
+            if (dictationGTTSCache[cacheKey] || dictationDirectUrls[index]) {
+                console.log(`🔊 Playing audio for sentence ${index}`);
 
                 // Reuse or create audio instance for this chunk
                 if (!dictationAudioInstances[index]) {
-                    const audioUrl = URL.createObjectURL(dictationGTTSCache[cacheKey]);
+                    const audioUrl = dictationDirectUrls[index] || URL.createObjectURL(dictationGTTSCache[cacheKey]);
                     const audio = new Audio(audioUrl);
                     audio.volume = 1.0;
 
