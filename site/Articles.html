@@ -2250,6 +2250,28 @@
             return `${LEVEL_AUDIO_BASE}/article-${num}/dictation-${level.toLowerCase()}/sentence${i}.mp3`;
         }
 
+        // ── Article source: Supabase (migrating) with static-file fallback ──
+        // When on, per-article load fetches mock_type='article' rows; any article not
+        // yet migrated falls back to its static questions Articles/article-NN.js.
+        const USE_SUPABASE_ARTICLES = true;
+        // Only these article numbers are served from Supabase (migrated); everything else
+        // stays on its static file. Expand this set as articles are migrated; eventually
+        // replace with a blanket "all" once the full set is loaded.
+        const SUPABASE_ARTICLE_NUMS = new Set(['01']);
+        const ART_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+        const ART_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+        async function fetchSupabaseArticle(num) {
+            const n = parseInt(num, 10);
+            if (!USE_SUPABASE_ARTICLES || !n || !SUPABASE_ARTICLE_NUMS.has(String(num))) return null;
+            try {
+                const r = await fetch(`${ART_SB_URL}/rest/v1/mock_tests?mock_type=eq.article&mock_number=eq.${n}&status=eq.published&select=mock_data`,
+                    { headers: { apikey: ART_SB_KEY, Authorization: 'Bearer ' + ART_SB_KEY } });
+                if (!r.ok) return null;
+                const rows = await r.json();
+                return (rows && rows[0] && rows[0].mock_data) ? rows[0].mock_data : null;
+            } catch (e) { console.warn('Supabase article fetch failed, will fall back to static:', e); return null; }
+        }
+
         var currentArticle = null;
         var currentArticleNum = null; // Track article number for audio URL lookup
         var currentView = 'normal'; // normal, practice, translation, lexical
@@ -2543,7 +2565,15 @@
             openLevelPicker(num);
         }
 
-        function loadArticleScript(num) {
+        async function loadArticleScript(num) {
+            // Prefer the Supabase row (migrated articles); fall back to the static JS file.
+            const sbData = await fetchSupabaseArticle(num);
+            if (sbData) {
+                window.ARTICLE_DATA = sbData;
+                const existing = document.getElementById('articleScript');
+                if (existing) existing.remove();
+                return;
+            }
             return new Promise((resolve, reject) => {
                 const existing = document.getElementById('articleScript');
                 if (existing) existing.remove();
@@ -2678,10 +2708,11 @@
 
                 document.getElementById('articleTitle').textContent = currentArticle.title;
 
-                // Try to load article header image
+                // Try to load article header image — prefer the migrated GCS imageUrl,
+                // else the legacy local per-number PNG.
                 const headerImg = document.getElementById('articleHeaderImage');
                 const padded = String(num).padStart(2, '0');
-                const imgPath = `questions Articles/article-${padded}.png`;
+                const imgPath = currentArticle.imageUrl || `questions Articles/article-${padded}.png`;
                 headerImg.style.display = 'none';
                 headerImg.onload = function() { this.style.display = 'block'; };
                 headerImg.onerror = function() { this.style.display = 'none'; };
