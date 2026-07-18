@@ -16016,7 +16016,7 @@
     (function () {
       var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var K  = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
-      fetch(SB + '/rest/v1/mock_tests?mock_type=eq.flashcard&status=eq.published&select=mock_data->slug,mock_data->brand&order=mock_number',
+      fetch(SB + '/rest/v1/mock_tests?mock_type=eq.flashcard&status=eq.published&select=mock_data->slug,mock_data->brand,mock_data->imageUrl&order=mock_number',
             { headers: { apikey: K, Authorization: 'Bearer ' + K } })
         .then(function (r) { return r.ok ? r.json() : []; })
         .then(function (rows) {
@@ -16026,7 +16026,7 @@
             var slug = row.slug || ''; if (!slug) return;
             var base = slug.replace(/-(intermediate|upper-intermediate|advanced)$/, '');
             if (seen[base]) return; seen[base] = true;
-            flashcardTopics.push({ file: base + '01.js', name: row.brand || base, icon: '🃏' });
+            flashcardTopics.push({ file: base + '01.js', name: row.brand || base, icon: '🃏', cover: row.imageUrl || '' });
           });
           flashcardTopics.sort(function (a, b) { return String(a.name).localeCompare(String(b.name)); });
           var _b1 = document.getElementById('flashcardsCountSidebar'); if (_b1) _b1.textContent = flashcardTopics.length;
@@ -17529,13 +17529,16 @@
       } else {
         listEl.innerHTML = items.map(item => {
           let itemIcon = item.icon || defaultIcon;
-          // Grammar/vocab rows: swap the emoji for the topic's cover thumbnail.
+          // Grammar/vocab/flashcard rows: swap the emoji for the topic's cover thumbnail.
+          let _cover = '';
           if (category === 'grammar' || category === 'vocabulary') {
             const _sm = item.file && item.file.match(/test=([^&]+)/);
             const _tb = _sm && _sm[1];
-            const _cover = _tb && window._gvImageMap && window._gvImageMap[_tb];
-            if (_cover) itemIcon = `<img src="${_cover}" alt="" loading="lazy" style="width:34px;height:34px;border-radius:8px;object-fit:cover;display:block;">`;
+            _cover = _tb && window._gvImageMap && window._gvImageMap[_tb];
+          } else if (category === 'flashcards') {
+            _cover = item.cover || '';
           }
+          if (_cover) itemIcon = `<img src="${_cover}" alt="" loading="lazy" data-fallback="${item.icon || '🃏'}" onerror="this.replaceWith(document.createTextNode(this.dataset.fallback))" style="width:34px;height:34px;border-radius:8px;object-fit:cover;display:block;">`;
           let pageUrl = '';
           let loadType = category;
           if (category === 'flashcards') {

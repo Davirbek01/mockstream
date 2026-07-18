@@ -118,6 +118,26 @@
       pointer-events: none;
     }
 
+    /* Topic cover photo shown as a soft watermark behind the flashcards */
+    #fcWatermark {
+      position: fixed;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      filter: blur(2px) saturate(1.05);
+      pointer-events: none;
+      z-index: 0;
+      transition: opacity .7s ease;
+    }
+    #fcWatermark::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(102, 126, 234, .72) 0%, rgba(139, 92, 246, .72) 100%);
+    }
+    .header, .wrap, .controls, .back-btn-wrap { position: relative; z-index: 1; }
+
     .header {
       text-align: center;
       margin-bottom: 2rem;
@@ -547,6 +567,7 @@
 </head>
 
 <body>
+  <div id="fcWatermark"></div>
   <button class="download-pdf-btn" id="downloadPdfBtn" title="Download as PDF">
     <svg viewBox="0 0 24 24">
       <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z" />
@@ -836,6 +857,16 @@
       // Get cards from loaded file
       CARDS = window.FLASHCARD_DATA ? window.FLASHCARD_DATA.cards : [];
       const data = window.FLASHCARD_DATA || {};
+
+      // Topic cover as a soft watermark behind the cards
+      if (data.imageUrl) {
+        const _wm = document.getElementById('fcWatermark');
+        if (_wm) {
+          const _im = new Image();
+          _im.onload = function () { _wm.style.backgroundImage = 'url("' + data.imageUrl + '")'; _wm.style.opacity = '1'; };
+          _im.src = data.imageUrl;
+        }
+      }
 
       // Update page title
       if (data.title) {
