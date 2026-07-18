@@ -16197,7 +16197,7 @@
     (function () {
       var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var K  = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
-      fetch(SB + '/rest/v1/mock_tests?mock_type=eq.flashcard&status=eq.published&select=mock_data->slug,mock_data->brand&order=mock_number',
+      fetch(SB + '/rest/v1/mock_tests?mock_type=eq.flashcard&status=eq.published&select=mock_data->slug,mock_data->brand,mock_data->imageUrl&order=mock_number',
             { headers: { apikey: K, Authorization: 'Bearer ' + K } })
         .then(function (r) { return r.ok ? r.json() : []; })
         .then(function (rows) {
@@ -16207,7 +16207,7 @@
             var slug = row.slug || ''; if (!slug) return;
             var base = slug.replace(/-(intermediate|upper-intermediate|advanced)$/, '');
             if (seen[base]) return; seen[base] = true;
-            FLASHCARD_TOPICS.push({ file: base + '01.js', name: row.brand || base, icon: '🃏' });
+            FLASHCARD_TOPICS.push({ file: base + '01.js', name: row.brand || base, icon: '🃏', cover: row.imageUrl || '' });
           });
           FLASHCARD_TOPICS.sort(function (a, b) { return String(a.name).localeCompare(String(b.name)); });
           try {
@@ -16398,7 +16398,9 @@
         if (cat === 'grammar' || cat === 'vocabulary') {
           var _tb = (item.file.match(/test=([^&]+)/) || [])[1];
           var _cover = _tb && _gvImageMap[_tb];
-          if (_cover) coverHtml = '<div class="learn-card-cover"><img src="' + _escLearn(_cover) + '" alt="" loading="lazy"></div>';
+          if (_cover) coverHtml = '<div class="learn-card-cover"><img src="' + _escLearn(_cover) + '" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>';
+        } else if (cat === 'flashcards' && item.cover) {
+          coverHtml = '<div class="learn-card-cover"><img src="' + _escLearn(item.cover) + '" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>';
         }
         return '<article class="learn-card">'
           + coverHtml
