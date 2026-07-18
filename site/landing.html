@@ -17308,6 +17308,26 @@
     }
 
     // ===== CATEGORY MODAL FUNCTIONS =====
+    // Per-topic cover thumbnails for grammar/vocab list rows (from migrated
+    // Supabase rows). Keyed by topicBase. Loaded once per category, cached.
+    window._gvImageMap = window._gvImageMap || {};
+    var _gvImageLoaded = {};
+    function _loadGvImages(category) {
+      if (category !== 'grammar' && category !== 'vocabulary') return Promise.resolve();
+      if (_gvImageLoaded[category]) return Promise.resolve();
+      _gvImageLoaded[category] = true;
+      var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var K = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      return fetch(SB + '/rest/v1/mock_tests?mock_type=eq.' + category + '&status=eq.published&select=mock_data->>topicBase,mock_data->>imageUrl',
+            { headers: { apikey: K, Authorization: 'Bearer ' + K } })
+        .then(function (r) { return r.ok ? r.json() : []; })
+        .then(function (rows) {
+          rows.forEach(function (row) {
+            if (row.topicBase && row.imageUrl && !window._gvImageMap[row.topicBase]) window._gvImageMap[row.topicBase] = row.imageUrl;
+          });
+        })
+        .catch(function (e) { _gvImageLoaded[category] = false; console.warn('gv image map load failed:', e); });
+    }
     async function openCategoryModal(category) {
       // Full-screen IELTS Reading picker — replaces the popup for this category
       // when the feature flag is on. Set SITE_CONFIG.useNewIeltsReadingPicker
@@ -17363,6 +17383,11 @@
         _categoryModalParent = showTestsSubmenu;
       } else {
         _categoryModalParent = null;
+      }
+
+      // Preload per-topic cover thumbnails so grammar/vocab rows can show them.
+      if (category === 'grammar' || category === 'vocabulary') {
+        try { await _loadGvImages(category); } catch (_e) {}
       }
 
       let items = [];
@@ -17503,7 +17528,14 @@
           </div>`;
       } else {
         listEl.innerHTML = items.map(item => {
-          const itemIcon = item.icon || defaultIcon;
+          let itemIcon = item.icon || defaultIcon;
+          // Grammar/vocab rows: swap the emoji for the topic's cover thumbnail.
+          if (category === 'grammar' || category === 'vocabulary') {
+            const _sm = item.file && item.file.match(/test=([^&]+)/);
+            const _tb = _sm && _sm[1];
+            const _cover = _tb && window._gvImageMap && window._gvImageMap[_tb];
+            if (_cover) itemIcon = `<img src="${_cover}" alt="" loading="lazy" style="width:34px;height:34px;border-radius:8px;object-fit:cover;display:block;">`;
+          }
           let pageUrl = '';
           let loadType = category;
           if (category === 'flashcards') {

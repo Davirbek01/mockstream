@@ -8144,6 +8144,16 @@
       box-shadow: 0 8px 20px rgba(139,92,246,.12);
       border-color: #c4b5fd;
     }
+    .learn-card-cover {
+      margin: -14px -14px 0;
+      height: 84px;
+      border-radius: 12px 12px 0 0;
+      overflow: hidden;
+      background: #f1f5f9;
+    }
+    .learn-card-cover img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
     .learn-card-head {
       display: flex; align-items: flex-start; gap: 10px;
       min-height: 40px;
@@ -16376,6 +16386,7 @@
       document.getElementById('learnCount').textContent = _learnCurrentItems.length;
       var search = document.getElementById('learnSearch');
       if (search) search.value = '';
+      _loadGvImages(category);
       _renderLearnGrid(_learnCurrentItems);
       var overlay = document.getElementById('learnPicker');
       overlay.classList.add('learn-open');
@@ -16441,6 +16452,27 @@
         _learnCurrentCategory = null;
       }
     });
+    // Per-topic cover images for grammar/vocab cards (from migrated Supabase
+    // rows). Keyed by topicBase (the ?test=<base> slug). Loaded once per category.
+    var _gvImageMap = {};
+    var _gvImageLoaded = {};
+    function _loadGvImages(category) {
+      if (category !== 'grammar' && category !== 'vocabulary') return;
+      if (_gvImageLoaded[category]) return;
+      _gvImageLoaded[category] = true;
+      var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var K = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      fetch(SB + '/rest/v1/mock_tests?mock_type=eq.' + category + '&status=eq.published&select=mock_data->>topicBase,mock_data->>imageUrl',
+            { headers: { apikey: K, Authorization: 'Bearer ' + K } })
+        .then(function (r) { return r.ok ? r.json() : []; })
+        .then(function (rows) {
+          rows.forEach(function (row) {
+            if (row.topicBase && row.imageUrl && !_gvImageMap[row.topicBase]) _gvImageMap[row.topicBase] = row.imageUrl;
+          });
+          if (_learnCurrentCategory === category && typeof _renderLearnGrid === 'function') _renderLearnGrid(_learnCurrentItems);
+        })
+        .catch(function (e) { console.warn('gv image map load failed:', e); });
+    }
     function _renderLearnGrid(items) {
       var grid = document.getElementById('learnGrid');
       var empty = document.getElementById('learnEmpty');
@@ -16466,7 +16498,14 @@
             + '<button class="learn-level-btn open-only" type="button" data-idx="' + idx + '" data-level="open">Open →</button>'
             + '</div>';
         }
+        var coverHtml = '';
+        if (cat === 'grammar' || cat === 'vocabulary') {
+          var _tb = (item.file.match(/test=([^&]+)/) || [])[1];
+          var _cover = _tb && _gvImageMap[_tb];
+          if (_cover) coverHtml = '<div class="learn-card-cover"><img src="' + _escLearn(_cover) + '" alt="" loading="lazy"></div>';
+        }
         return '<article class="learn-card">'
+          + coverHtml
           + '<div class="learn-card-head">'
           +   '<span class="learn-card-icon">' + _escLearn(item.icon || '📄') + '</span>'
           +   '<span class="learn-card-name" title="' + _escLearn(item.name) + '">' + _escLearn(item.name) + '</span>'
