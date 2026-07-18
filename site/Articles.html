@@ -2264,15 +2264,13 @@
         // When on, per-article load fetches mock_type='article' rows; any article not
         // yet migrated falls back to its static questions Articles/article-NN.js.
         const USE_SUPABASE_ARTICLES = true;
-        // Only these article numbers are served from Supabase (migrated); everything else
-        // stays on its static file. Expand this set as articles are migrated; eventually
-        // replace with a blanket "all" once the full set is loaded.
-        const SUPABASE_ARTICLE_NUMS = new Set(['01', '02']);
+        // All 220 articles are migrated to Supabase; any row that's somehow missing
+        // still falls back to its static file inside loadArticleScript.
         const ART_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
         const ART_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
         async function fetchSupabaseArticle(num) {
             const n = parseInt(num, 10);
-            if (!USE_SUPABASE_ARTICLES || !n || !SUPABASE_ARTICLE_NUMS.has(String(num))) return null;
+            if (!USE_SUPABASE_ARTICLES || !n) return null;
             try {
                 const r = await fetch(`${ART_SB_URL}/rest/v1/mock_tests?mock_type=eq.article&mock_number=eq.${n}&status=eq.published&select=mock_data`,
                     { headers: { apikey: ART_SB_KEY, Authorization: 'Bearer ' + ART_SB_KEY } });
@@ -2555,19 +2553,38 @@
                 grid.appendChild(card);
             });
 
-            AVAILABLE_ARTICLES.forEach(async (num, index) => {
-                try {
-                    await loadArticleScript(num);
-                    if (window.ARTICLE_DATA) {
-                        const card = grid.children[index];
-                        if (card) {
-                            card.querySelector('h3').textContent = window.ARTICLE_DATA.title;
-                            const vocabCount = Object.keys(window.ARTICLE_DATA.vocabulary).length;
-                            card.querySelector('p').textContent = `${vocabCount} vocabulary words`;
+            // Titles come from ONE Supabase query (all migrated articles) instead of
+            // loading 220 static scripts. Falls back to per-script load if it fails.
+            (async () => {
+                if (USE_SUPABASE_ARTICLES) {
+                    try {
+                        const r = await fetch(`${ART_SB_URL}/rest/v1/mock_tests?mock_type=eq.article&status=eq.published&select=mock_number,title&order=mock_number`,
+                            { headers: { apikey: ART_SB_KEY, Authorization: 'Bearer ' + ART_SB_KEY } });
+                        if (r.ok) {
+                            const rows = await r.json();
+                            rows.forEach(row => {
+                                const card = grid.children[row.mock_number - 1];
+                                if (card && row.title) card.querySelector('h3').textContent = row.title;
+                            });
+                            return;
                         }
-                    }
-                } catch (e) { console.log('Could not load article', num); }
-            });
+                    } catch (e) { console.warn('Article list query failed, falling back to static:', e); }
+                }
+                // legacy fallback: per-article static title load
+                AVAILABLE_ARTICLES.forEach(async (num, index) => {
+                    try {
+                        await loadArticleScript(num);
+                        if (window.ARTICLE_DATA) {
+                            const card = grid.children[index];
+                            if (card) {
+                                card.querySelector('h3').textContent = window.ARTICLE_DATA.title;
+                                const vocabCount = Object.keys(window.ARTICLE_DATA.vocabulary || {}).length;
+                                card.querySelector('p').textContent = `${vocabCount} vocabulary words`;
+                            }
+                        }
+                    } catch (e) { console.log('Could not load article', num); }
+                });
+            })();
         }
 
         // Start article: show level picker immediately, load script after choice
