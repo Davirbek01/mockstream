@@ -628,16 +628,29 @@
       if (levelsParam) availableLevels = JSON.parse(levelsParam);
     } catch(e) {}
 
-    // Dynamically load the flashcard JS file
-    const script = document.createElement('script');
-    script.src = `flashcards/${topic}.js`;
-    script.onload = function () {
-      initFlashcards();
-    };
-    script.onerror = function () {
-      alert('Failed to load flashcard topic: ' + topic);
-    };
-    document.head.appendChild(script);
+    // Load the flashcard set — Supabase first (migrated: mock_type='flashcard'),
+    // falling back to the static JS file for any set not yet migrated.
+    (async function loadFlashcardSet() {
+      try {
+        const SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+        const K  = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+        const r = await fetch(SB + '/rest/v1/mock_tests?mock_type=eq.flashcard&status=eq.published&mock_data->>slug=eq.' + encodeURIComponent(topic) + '&select=mock_data',
+          { headers: { apikey: K, Authorization: 'Bearer ' + K } });
+        if (r.ok) {
+          const rows = await r.json();
+          if (rows && rows[0] && rows[0].mock_data) {
+            window.FLASHCARD_DATA = rows[0].mock_data;
+            initFlashcards();
+            return;
+          }
+        }
+      } catch (e) { console.warn('Supabase flashcard load failed, falling back to static:', e); }
+      const script = document.createElement('script');
+      script.src = `flashcards/${topic}.js`;
+      script.onload = function () { initFlashcards(); };
+      script.onerror = function () { alert('Failed to load flashcard topic: ' + topic); };
+      document.head.appendChild(script);
+    })();
 
     let CARDS = [];
     let index = 0;
@@ -672,6 +685,20 @@
         gttsUtterance = null;
         btn.classList.remove('playing', 'loading');
         btn.innerHTML = '🔊';
+        return;
+      }
+
+      // Pre-generated edge-tts clip (migrated sets) — play THIS card's file directly.
+      // audioUrl lives on the card object so it stays correct after the deck shuffles.
+      if (c && c.audioUrl) {
+        const url = c.audioUrl;
+        const audio = new Audio(url);
+        gttsCurrentAudio = audio;
+        btn.classList.add('loading'); btn.innerHTML = '';
+        audio.onplaying = function () { btn.classList.remove('loading'); btn.classList.add('playing'); btn.innerHTML = '🔊'; };
+        audio.onended = function () { btn.classList.remove('playing', 'loading'); btn.innerHTML = '🔊'; gttsCurrentAudio = null; };
+        audio.onerror = function () { btn.classList.remove('loading', 'playing'); btn.innerHTML = '🔊'; gttsCurrentAudio = null; };
+        audio.play().catch(function () { btn.classList.remove('loading'); btn.innerHTML = '🔊'; });
         return;
       }
 
