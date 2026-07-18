@@ -24585,7 +24585,7 @@
             await new Promise((r, j) => { const s = document.createElement('script'); s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'; s.onload = r; s.onerror = j; document.head.appendChild(s); });
           }
 
-          let jsFile, globalVar;
+          let jsFile = null, globalVar;
           if (_lrPdfCategory === 'grammar') {
             const testName = fileUrl.match(/[?&]test=([^&]+)/)?.[1] || '';
             jsFile = 'questions G/' + testName + '.js';
@@ -24595,25 +24595,39 @@
             jsFile = 'questions V/' + testName + '.js';
             globalVar = 'ALL_QUESTIONS';
           } else if (_lrPdfCategory === 'flashcards') {
-            const topicName = fileUrl.match(/[?&]topic=([^&]+)/)?.[1] || '';
-            jsFile = 'flashcards/' + topicName + '.js';
-            globalVar = 'FLASHCARD_DATA';
+            globalVar = 'FLASHCARD_DATA';  // migrated to Supabase
           } else if (_lrPdfCategory === 'articles') {
-            const articleNum = fileUrl.match(/[?&]article=([^&]+)/)?.[1] || '01';
-            jsFile = 'questions Articles/article-' + articleNum + '.js';
-            globalVar = 'ARTICLE_DATA';
+            globalVar = 'ARTICLE_DATA';    // migrated to Supabase
           }
 
-          // Load the data file
+          // Load the data — articles & flashcards come from Supabase (mock_tests);
+          // grammar & vocabulary still load their static JS file.
           const oldData = window[globalVar];
           window[globalVar] = undefined;
-          await new Promise((resolve, reject) => {
-            const s = document.createElement('script');
-            s.src = jsFile;
-            s.onload = () => { if (window[globalVar]) resolve(); else reject(new Error('Data not found')); };
-            s.onerror = () => reject(new Error('Failed to load file'));
-            document.head.appendChild(s);
-          });
+          if (_lrPdfCategory === 'articles' || _lrPdfCategory === 'flashcards') {
+            const _SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+            const _SK = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+            let _q;
+            if (_lrPdfCategory === 'articles') {
+              const articleNum = parseInt(fileUrl.match(/[?&]article=([^&]+)/)?.[1] || '1', 10);
+              _q = _SB + '/rest/v1/mock_tests?mock_type=eq.article&mock_number=eq.' + articleNum + '&select=mock_data';
+            } else {
+              const topicName = fileUrl.match(/[?&]topic=([^&]+)/)?.[1] || '';
+              _q = _SB + '/rest/v1/mock_tests?mock_type=eq.flashcard&mock_data->>slug=eq.' + encodeURIComponent(topicName) + '&select=mock_data';
+            }
+            const _r = await fetch(_q, { headers: { apikey: _SK, Authorization: 'Bearer ' + _SK } });
+            const _rows = _r.ok ? await _r.json() : [];
+            if (_rows && _rows[0] && _rows[0].mock_data) window[globalVar] = _rows[0].mock_data;
+            else throw new Error('Data not found');
+          } else {
+            await new Promise((resolve, reject) => {
+              const s = document.createElement('script');
+              s.src = jsFile;
+              s.onload = () => { if (window[globalVar]) resolve(); else reject(new Error('Data not found')); };
+              s.onerror = () => reject(new Error('Failed to load file'));
+              document.head.appendChild(s);
+            });
+          }
 
           _updatePdfProgress(30, 'Generating PDF...');
 
