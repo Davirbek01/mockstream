@@ -2539,7 +2539,11 @@
         background:#fef3c7; color:#92400e; border:1px solid #fde68a;
         border-radius:999px; padding:3px 8px; text-transform:uppercase;
       }
-      .bb-dots { display:flex; gap:6px; align-items:center; }
+      /* Dots + title wording removed 2026-07-20 per user — the header row
+         is now empty, so collapse it. The #bbDots element stays in the DOM
+         (the rotator JS still writes into it) but is never shown. */
+      .bb-dots { display:none; }
+      .bb-head { display:none; }
       .bb-dot {
         width:7px; height:7px; border-radius:50%;
         background:#cbd5e1; transition: background .25s, transform .25s;
