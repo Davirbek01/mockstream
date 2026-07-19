@@ -9990,8 +9990,15 @@
     async function _cspetLoadAllMockMeta() {
       try {
         const cached = JSON.parse(localStorage.getItem(_CSPET_CACHE_KEY) || 'null');
-        if (cached && cached.ts && cached.data && (Date.now() - cached.ts) < _CSPET_CACHE_TTL) {
+        // Stale-while-revalidate (2026-07-20): serve any cache < 60 min
+        // INSTANTLY; if past the freshness TTL, silently refetch in the
+        // background so the next open is fresh. Catalogs change rarely.
+        const _age = (cached && cached.ts) ? (Date.now() - cached.ts) : Infinity;
+        if (cached && cached.data && _age < 3600000) {
           Object.assign(_cspetMockMeta, cached.data);
+          if (_age >= _CSPET_CACHE_TTL) {
+            setTimeout(function () { try { localStorage.removeItem(_CSPET_CACHE_KEY); _cspetLoadAllMockMeta(); } catch (_e) {} }, 1500);
+          }
         } else {
           // Slim RPC first (34-51x smaller); legacy full fetch as fallback.
           let rows = null;
@@ -10564,8 +10571,15 @@
     async function _ispetLoadAllMockMeta() {
       try {
         const cached = JSON.parse(localStorage.getItem(_ISPET_CACHE_KEY) || 'null');
-        if (cached && cached.ts && cached.data && (Date.now() - cached.ts) < _ISPET_CACHE_TTL) {
+        // Stale-while-revalidate (2026-07-20): serve any cache < 60 min
+        // INSTANTLY; if past the freshness TTL, silently refetch in the
+        // background so the next open is fresh. Catalogs change rarely.
+        const _age = (cached && cached.ts) ? (Date.now() - cached.ts) : Infinity;
+        if (cached && cached.data && _age < 3600000) {
           Object.assign(_ispetMockMeta, cached.data);
+          if (_age >= _ISPET_CACHE_TTL) {
+            setTimeout(function () { try { localStorage.removeItem(_ISPET_CACHE_KEY); _ispetLoadAllMockMeta(); } catch (_e) {} }, 1500);
+          }
         } else {
           // Slim RPC first (11.3MB -> 247KB); legacy full fetch as fallback.
           let rows = null;
@@ -12771,9 +12785,17 @@
       let cachedData = {};
       try {
         const cached = JSON.parse(localStorage.getItem(_CRET_CACHE_KEY) || 'null');
-        if (cached && cached.ts && (Date.now() - cached.ts) < _CRET_CACHE_TTL && cached.data) {
+        // Stale-while-revalidate: serve any cache within the _CRET_CACHE_TTL
+        // ceiling INSTANTLY; if older than 5 min, silently refetch in the
+        // background so newly-added mocks appear on the next open (the old
+        // behaviour served a 24h-stale catalog with no refresh at all).
+        const _age = (cached && cached.ts) ? (Date.now() - cached.ts) : Infinity;
+        if (cached && cached.data && _age < _CRET_CACHE_TTL) {
           cachedData = cached.data;
           Object.assign(_cretMockMeta, cachedData);
+          if (_age >= 5 * 60 * 1000) {
+            setTimeout(function () { try { localStorage.removeItem(_CRET_CACHE_KEY); _cretLoadAllMockMeta(); } catch (_e) {} }, 1500);
+          }
         }
       } catch (_e) {}
       const items = (typeof cefrReadingTests !== 'undefined' && Array.isArray(cefrReadingTests))
@@ -13717,9 +13739,17 @@
       let cachedData = {};
       try {
         const cached = JSON.parse(localStorage.getItem(_IRET_CACHE_KEY) || 'null');
-        if (cached && cached.ts && (Date.now() - cached.ts) < _IRET_CACHE_TTL && cached.data) {
+        // Stale-while-revalidate: serve any cache within the _IRET_CACHE_TTL
+        // ceiling INSTANTLY; if older than 5 min, silently refetch in the
+        // background so newly-added mocks appear on the next open (the old
+        // behaviour served a 24h-stale catalog with no refresh at all).
+        const _age = (cached && cached.ts) ? (Date.now() - cached.ts) : Infinity;
+        if (cached && cached.data && _age < _IRET_CACHE_TTL) {
           cachedData = cached.data;
           Object.assign(_iretMockMeta, cachedData);
+          if (_age >= 5 * 60 * 1000) {
+            setTimeout(function () { try { localStorage.removeItem(_IRET_CACHE_KEY); _iretLoadAllMockMeta(); } catch (_e) {} }, 1500);
+          }
         }
       } catch (_e) {}
       const items = (typeof ieltsReadingTests !== 'undefined' && Array.isArray(ieltsReadingTests))
@@ -14413,9 +14443,17 @@
       let cachedData = {};
       try {
         const cached = JSON.parse(localStorage.getItem(_clet_CACHE_KEY) || 'null');
-        if (cached && cached.ts && (Date.now() - cached.ts) < _clet_CACHE_TTL && cached.data) {
+        // Stale-while-revalidate: serve any cache within the _clet_CACHE_TTL
+        // ceiling INSTANTLY; if older than 5 min, silently refetch in the
+        // background so newly-added mocks appear on the next open (the old
+        // behaviour served a 24h-stale catalog with no refresh at all).
+        const _age = (cached && cached.ts) ? (Date.now() - cached.ts) : Infinity;
+        if (cached && cached.data && _age < _clet_CACHE_TTL) {
           cachedData = cached.data;
           Object.assign(_cletMockMeta, cachedData);
+          if (_age >= 5 * 60 * 1000) {
+            setTimeout(function () { try { localStorage.removeItem(_clet_CACHE_KEY); _cletLoadAllMockMeta(); } catch (_e) {} }, 1500);
+          }
         }
       } catch (_e) {}
       const items = (typeof cefrListeningTests !== 'undefined' && Array.isArray(cefrListeningTests))
@@ -15383,9 +15421,17 @@
       let cachedData = {};
       try {
         const cached = JSON.parse(localStorage.getItem(_ilet_CACHE_KEY) || 'null');
-        if (cached && cached.ts && (Date.now() - cached.ts) < _ilet_CACHE_TTL && cached.data) {
+        // Stale-while-revalidate: serve any cache within the _ilet_CACHE_TTL
+        // ceiling INSTANTLY; if older than 5 min, silently refetch in the
+        // background so newly-added mocks appear on the next open (the old
+        // behaviour served a 24h-stale catalog with no refresh at all).
+        const _age = (cached && cached.ts) ? (Date.now() - cached.ts) : Infinity;
+        if (cached && cached.data && _age < _ilet_CACHE_TTL) {
           cachedData = cached.data;
           Object.assign(_iletMockMeta, cachedData);
+          if (_age >= 5 * 60 * 1000) {
+            setTimeout(function () { try { localStorage.removeItem(_ilet_CACHE_KEY); _iletLoadAllMockMeta(); } catch (_e) {} }, 1500);
+          }
         }
       } catch (_e) {}
       const items = (typeof ieltsListeningTests !== 'undefined' && Array.isArray(ieltsListeningTests))
