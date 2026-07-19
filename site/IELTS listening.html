@@ -3979,7 +3979,7 @@
   <header class="header">
     <div class="header-content">
       <div class="header-left">
-        <a href="landing.html" onclick="goBack(); return false;" class="back-btn">←</a>
+        <a href="landing-v3.html" onclick="goBack(); return false;" class="back-btn">←</a>
         <span class="header-title" id="desktopTitle">🎧 IELTS Listening Mock</span>
         <span class="mock-number" id="mockNumber">№1</span>
 
@@ -6075,7 +6075,7 @@
                 console.error('Error updating Full Mock data:', e);
               }
             }
-            try { window.top.location.href = 'landing.html'; } catch (e) { window.location.href = 'landing.html'; }
+            try { window.top.location.href = 'landing-v3.html'; } catch (e) { window.location.href = 'landing-v3.html'; }
           }
         });
       }
@@ -6605,7 +6605,7 @@
         sessionStorage.setItem('listeningMockReturnCategory', 'ielts-listening');
         window.__okToLeave = true;
         if (typeof _navToLanding === 'function') _navToLanding();
-        else window.location.href = 'landing.html';
+        else window.location.href = 'landing-v3.html';
         return;
       }
     };
@@ -9411,7 +9411,7 @@
 <div class="hs-panel" id="hsPanel">
   <button class="hs-close" onclick="closeHomeSidebar()">✕</button>
   <div class="hs-title">Menu</div>
-  <a href="landing.html" class="hs-action" style="margin-bottom:8px;"><span class="hs-ai">🏠</span> Home</a>
+  <a href="landing-v3.html" class="hs-action" style="margin-bottom:8px;"><span class="hs-ai">🏠</span> Home</a>
   <div class="hs-section">
     <div class="hs-section-hdr cefr"><span>🎯</span> CEFR</div>
     <div class="hs-grid">
@@ -9435,7 +9435,7 @@
     <div class="hs-grid">
       <a href="Articles.html" class="hs-btn"><span class="hs-icon">📰</span>Articles</a>
       <a href="flashcards.html" class="hs-btn"><span class="hs-icon">🃏</span>Flashcards</a>
-      <a href="landing.html" class="hs-btn"><span class="hs-icon">📝</span>Tests</a>
+      <a href="landing-v3.html" class="hs-btn"><span class="hs-icon">📝</span>Tests</a>
       <a href="https://www.youtube.com/@MockStream" target="_blank" class="hs-btn"><span class="hs-icon">🎥</span>Video Guides</a>
     </div>
   </div>
@@ -9443,7 +9443,7 @@
 <script>
 function openHomeSidebar(){var m=document.getElementById('mobileToolsMenu'),f=document.getElementById('mobileFab'),o=document.getElementById('mobileMenuOverlay'),ic=document.getElementById('fabIcon');if(m)m.classList.remove('active');if(f){f.classList.remove('open');f.classList.add('idle');}if(o)o.classList.remove('active');if(ic)ic.className='fa fa-plus';document.getElementById('hsOverlay').classList.add('active');document.getElementById('hsPanel').classList.add('active');}
 function closeHomeSidebar(){document.getElementById('hsOverlay').classList.remove('active');document.getElementById('hsPanel').classList.remove('active');}
-function goToMockSelector(url){var m={"Speaking Mocks.html":"landing.html?openSelector=cefr-speaking","IELTS Speaking Mocks.html":"landing.html?openSelector=ielts-speaking","Writing Mocks.html":"landing.html?openSelector=cefr-writing","Writing IELTS Mock.html":"landing.html?openSelector=ielts-writing","CEFR Listening Mocks.html":"landing.html?openSelector=cefr-listening","IELTS Listening Mocks.html":"landing.html?openSelector=ielts-listening","CEFR Reading Mocks.html":"landing.html?openSelector=cefr-reading","IELTS Reading Mocks.html":"landing.html?openSelector=ielts-reading"};promptFriendlyLeave(function(){window.__okToLeave=true;window.location.replace(m[url]||url);});}
+function goToMockSelector(url){var m={"Speaking Mocks.html":"landing-v3.html?reopen=cefr-speaking","IELTS Speaking Mocks.html":"landing-v3.html?reopen=ielts-speaking","Writing Mocks.html":"landing-v3.html?reopen=cefr-writing","Writing IELTS Mock.html":"landing-v3.html?reopen=ielts-writing","CEFR Listening Mocks.html":"landing-v3.html?reopen=cefr-listening","IELTS Listening Mocks.html":"landing-v3.html?reopen=ielts-listening","CEFR Reading Mocks.html":"landing-v3.html?reopen=cefr-reading","IELTS Reading Mocks.html":"landing-v3.html?reopen=ielts-reading"};promptFriendlyLeave(function(){window.__okToLeave=true;window.location.replace(m[url]||url);});}
 document.querySelectorAll('#hsPanel .hs-btn[href]').forEach(function(a){var h=a.getAttribute('href');if(a.getAttribute('target')){{a.addEventListener('click',function(){window.__okToLeave=true;});return;}}a.addEventListener('click',function(e){e.preventDefault();goToMockSelector(h);});});
 document.querySelectorAll('#hsPanel .hs-action[href], #hsPanel a[href][style]').forEach(function(a){if(!a.getAttribute('target')){a.addEventListener('click',function(e){e.preventDefault();promptFriendlyLeave(function(){window.__okToLeave=true;window.location.href=a.getAttribute('href');});});}else{a.addEventListener('click',function(){window.__okToLeave=true;});}});
 </script>

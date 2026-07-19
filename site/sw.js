@@ -1,7 +1,7 @@
 // Mock Stream Service Worker
 // Strategy: Network-first for HTML/JS, Cache-first for icons/images
 
-const CACHE_NAME = 'mockstream-v785';
+const CACHE_NAME = 'mockstream-v790';
 
 // Core shell files to pre-cache on install
 // Icons & manifest are per-clone (inside site-config/<clone>/), so they are
@@ -66,9 +66,9 @@ self.addEventListener('fetch', event => {
       return caches.match(request).then(cached => {
         if (cached) return cached;
 
-        // For navigation requests, return the cached landing page
+        // For navigation requests, return the cached v3 landing (Phase A)
         if (request.mode === 'navigate') {
-          return caches.match('landing.html');
+          return caches.match('landing-v3.html');
         }
 
         // Nothing in cache either
