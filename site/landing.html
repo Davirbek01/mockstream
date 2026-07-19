@@ -28102,7 +28102,10 @@
     function openAdminDashboard() {
       requireAdminAuth(function () {
         // No per-feature passcode — Google admin is enough for view-only.
-        try { if (typeof toggleSidebar === 'function') toggleSidebar(); } catch (e) {}
+        try {
+          var _sm2 = document.getElementById('sidebarMenu');
+          if (_sm2 && _sm2.classList.contains('active') && typeof toggleSidebar === 'function') toggleSidebar();
+        } catch (e) {}
         window.location.href = 'results/index.html';
       }, 'admindash');
     }
@@ -28126,7 +28129,16 @@
         _spAdminUnlocked = true;
         _ruAdminUnlocked = true;
         _markPasscodeUnlocked();
-        try { if (typeof toggleSidebar === 'function') toggleSidebar(); } catch (e) {}
+        // CLOSE-only (2026-07-20): the blind toggle assumed the legacy
+        // sidebar was open (pre-v3 entry point). Via the v3 handoff the
+        // sidebar is closed, so toggling OPENED it behind the grid — on
+        // grid close the user was "returned" to the old sidebar, and
+        // #sidebarMenu.active kept the discovery watcher from bouncing
+        // them back to v3.
+        try {
+          var _sm = document.getElementById('sidebarMenu');
+          if (_sm && _sm.classList.contains('active') && typeof toggleSidebar === 'function') toggleSidebar();
+        } catch (e) {}
         _showSiteMgmtGrid();
       }, 'sitemgmt');
     }
@@ -35894,14 +35906,16 @@
       var jwt = await _mmgGetJwt();
       if (jwt) {
         try {
-          // Cheap auth ping — list_backups with a dummy id returns 200 on
-          // valid admin auth and 401 otherwise, without downloading the
-          // full 2,175-row mock list twice (the panel's _mmgRefresh loads
-          // it once right after).
+          // Cheap auth ping — list_backups with dummy id '0' returns 200
+          // ({backups:[]}) on valid admin auth and 401 otherwise, without
+          // downloading the full 2,175-row mock list twice (the panel's
+          // _mmgRefresh loads it once right after). NOTE: mock ids are
+          // BIGINT — a uuid-string dummy makes Postgres 500 and silently
+          // kicked signed-in admins to the passcode modal.
           var probe = await fetch(_MMG_FN_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'apikey': _MMG_ANON, 'Authorization': 'Bearer ' + _MMG_ANON },
-            body: JSON.stringify({ action: 'list_backups', id: '00000000-0000-0000-0000-000000000000', userJwt: jwt })
+            body: JSON.stringify({ action: 'list_backups', id: '0', userJwt: jwt })
           });
           if (probe.ok) {
             // JWT auth works — skip the legacy passcode modal.
