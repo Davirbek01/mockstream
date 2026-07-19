@@ -35879,13 +35879,29 @@
       // succeeds we set _mmgJwtMode and _mmgCall sends userJwt on every
       // future request.
       window._mmgJwtMode = false;
+      // Show the panel shell IMMEDIATELY (2026-07-20): the discovery-return
+      // watcher bounces to v3 after 2s if no known overlay is open, and the
+      // auth probe below can exceed that on real network latency now that
+      // the mock list spans 2,000+ rows. Opening the overlay first keeps
+      // the watcher satisfied while auth + data load finish.
+      try {
+        var _mmgOvEarly = document.getElementById('mmgOverlay');
+        if (_mmgOvEarly) {
+          _mmgOvEarly.style.display = 'flex';
+          requestAnimationFrame(function () { _mmgOvEarly.style.opacity = '1'; });
+        }
+      } catch (_e) {}
       var jwt = await _mmgGetJwt();
       if (jwt) {
         try {
+          // Cheap auth ping — list_backups with a dummy id returns 200 on
+          // valid admin auth and 401 otherwise, without downloading the
+          // full 2,175-row mock list twice (the panel's _mmgRefresh loads
+          // it once right after).
           var probe = await fetch(_MMG_FN_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'apikey': _MMG_ANON, 'Authorization': 'Bearer ' + _MMG_ANON },
-            body: JSON.stringify({ action: 'list', userJwt: jwt })
+            body: JSON.stringify({ action: 'list_backups', id: '00000000-0000-0000-0000-000000000000', userJwt: jwt })
           });
           if (probe.ok) {
             // JWT auth works — skip the legacy passcode modal.
