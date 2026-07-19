@@ -12636,7 +12636,7 @@ Respond ONLY in JSON format:
 <script>
 function _iframeNav(url){
   if(window!==window.top){
-    try{var o=url.indexOf('landing.html')!==-1?{action:'closeLearningTool',openModal:(url.match(/openSelector=([^&]+)/)||url.match(/openModal=([^&]+)/)|| [])[1]||''}:{action:'closeLearningTool',openModal:''};window.parent.postMessage(o,'*');return;}catch(e){}
+    try{var o=url.indexOf('landing-v3.html')!==-1?{action:'closeLearningTool',openModal:(url.match(/openSelector=([^&]+)/)||url.match(/openModal=([^&]+)/)|| [])[1]||''}:{action:'closeLearningTool',openModal:''};window.parent.postMessage(o,'*');return;}catch(e){}
   }
   window.location.href=url;
 }
@@ -12646,7 +12646,7 @@ function createLeaveWarningModal(){if(document.getElementById('leaveWarningModal
 function showLeaveWarningModal(){try{if(typeof closeHomeSidebar==='function')closeHomeSidebar();}catch(_e){}createLeaveWarningModal();var m=document.getElementById('leaveWarningModal');if(m)m.style.display='flex';}
 function hideLeaveWarningModal(){var m=document.getElementById('leaveWarningModal');if(m)m.style.display='none';window.__pendingLeaveAction=null;}
 function promptFriendlyLeave(leaveAction){closeHomeSidebar();var tm=document.getElementById('mobToolsMenu'),to=document.getElementById('mobMenuOverlay');if(tm)tm.classList.remove('show');if(to)to.classList.remove('show');window.__pendingLeaveAction=(typeof leaveAction==='function')?leaveAction:null;showLeaveWarningModal();}
-function goToMockSelector(url){var m={"Speaking Mocks.html":"landing.html?openSelector=cefr-speaking","IELTS Speaking Mocks.html":"landing.html?openSelector=ielts-speaking","Writing Mocks.html":"landing.html?openSelector=cefr-writing","Writing IELTS Mock.html":"landing.html?openSelector=ielts-writing","CEFR Listening Mocks.html":"landing.html?openSelector=cefr-listening","IELTS Listening Mocks.html":"landing.html?openSelector=ielts-listening","CEFR Reading Mocks.html":"landing.html?openSelector=cefr-reading","IELTS Reading Mocks.html":"landing.html?openSelector=ielts-reading"};promptFriendlyLeave(function(){window.__okToLeave=true;_iframeNav(m[url]||url);});}
+function goToMockSelector(url){var m={"Speaking Mocks.html":"landing-v3.html?reopen=cefr-speaking","IELTS Speaking Mocks.html":"landing-v3.html?reopen=ielts-speaking","Writing Mocks.html":"landing-v3.html?reopen=cefr-writing","Writing IELTS Mock.html":"landing-v3.html?reopen=ielts-writing","CEFR Listening Mocks.html":"landing-v3.html?reopen=cefr-listening","IELTS Listening Mocks.html":"landing-v3.html?reopen=ielts-listening","CEFR Reading Mocks.html":"landing-v3.html?reopen=cefr-reading","IELTS Reading Mocks.html":"landing-v3.html?reopen=ielts-reading"};promptFriendlyLeave(function(){window.__okToLeave=true;_iframeNav(m[url]||url);});}
 document.querySelectorAll('#hsPanel .hs-btn[href]').forEach(function(a){var h=a.getAttribute('href');if(a.getAttribute('target')){{a.addEventListener('click',function(){window.__okToLeave=true;});return;}}a.addEventListener('click',function(e){e.preventDefault();goToMockSelector(h);});});
 document.querySelectorAll('#hsPanel .hs-action[href], #hsPanel a[href][style]').forEach(function(a){if(!a.getAttribute('target')){a.addEventListener('click',function(e){e.preventDefault();promptFriendlyLeave(function(){window.__okToLeave=true;_iframeNav(a.getAttribute('href'));});});}else{a.addEventListener('click',function(){window.__okToLeave=true;});}});
 // Gate back button: this fires BEFORE "Begin Session" — no exam in

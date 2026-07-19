@@ -139,7 +139,7 @@
         document.head.appendChild(style);
         window._autoHideGateStyle = style;
         if (window.goToLanding) { window.goToLanding(); }
-        else { window.location.href = 'landing.html'; }
+        else { window.location.href = 'landing-v3.html'; }
         return;
       }
 
@@ -3028,7 +3028,7 @@
 
       <!-- Logo + Mock Stream Label (Combined) -->
       <div style="margin: 16px auto 20px; max-width: 90%; text-align: center;">
-        <a id="gateLogoLink" href="landing.html" target="_top" style="text-decoration:none;display:inline-block;"
+        <a id="gateLogoLink" href="landing-v3.html" target="_top" style="text-decoration:none;display:inline-block;"
           onclick="event.preventDefault(); goBack();">
           <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; margin-bottom: 16px;">
             <img id="gateLogo" alt="Logo" class="logo" src=""
@@ -12073,7 +12073,7 @@ ${questionsContent}
 
         // Return to landing page (gate is no longer used)
         if (window.goToLanding) window.goToLanding();
-        else window.location.href = 'landing.html';
+        else window.location.href = 'landing-v3.html';
       }
       // Make functions globally accessible
       window.closeAlreadyUsedPopup = closeAlreadyUsedPopup;
@@ -15800,7 +15800,7 @@ IMPORTANT: Score FAIRLY - award B2 or C1 if the candidate truly deserves it base
           if (window.goToLanding) {
             window.goToLanding();
           } else {
-            window.location.href = 'landing.html';
+            window.location.href = 'landing-v3.html';
           }
         }
 
@@ -16873,7 +16873,7 @@ Please contact your instructor or upgrade to the full version with speech recogn
       const mainTestContent = document.getElementById('mainTestContent');
       if (gate && !window._autoHideGateStyle) {
         if (window.goToLanding) window.goToLanding();
-        else window.location.href = 'landing.html';
+        else window.location.href = 'landing-v3.html';
       }
 
       // Always clear promocode input on page load (no caching)
@@ -18374,7 +18374,7 @@ try { if (document.getElementById('aiScoreResultModal')) { openAiModal(); } } ca
           hidePasscodeModal();
           // Return to landing page (gate is no longer used)
           if (window.goToLanding) window.goToLanding();
-          else window.location.href = 'landing.html';
+          else window.location.href = 'landing-v3.html';
         });
       }
 
@@ -18771,7 +18771,7 @@ try { if (document.getElementById('aiScoreResultModal')) { openAiModal(); } } ca
   <div class="hs-panel" id="hsPanel">
     <button class="hs-close" onclick="closeHomeSidebar()">✕</button>
     <div class="hs-title">Menu</div>
-    <a href="landing.html" class="hs-action" style="margin-bottom:8px;"><span class="hs-ai">🏠</span> Home</a>
+    <a href="landing-v3.html" class="hs-action" style="margin-bottom:8px;"><span class="hs-ai">🏠</span> Home</a>
     <div class="hs-section">
       <div class="hs-section-hdr cefr"><span>🎯</span> CEFR</div>
       <div class="hs-grid">
@@ -18795,7 +18795,7 @@ try { if (document.getElementById('aiScoreResultModal')) { openAiModal(); } } ca
       <div class="hs-grid">
         <a href="Articles.html" class="hs-btn"><span class="hs-icon">📰</span>Articles</a>
         <a href="flashcards.html" class="hs-btn"><span class="hs-icon">🃏</span>Flashcards</a>
-        <a href="landing.html" class="hs-btn"><span class="hs-icon">📝</span>Tests</a>
+        <a href="landing-v3.html" class="hs-btn"><span class="hs-icon">📝</span>Tests</a>
         <a href="https://www.youtube.com/@MockStream" target="_blank" class="hs-btn"><span class="hs-icon">🎥</span>Video Guides</a>
       </div>
     </div>
@@ -18929,7 +18929,7 @@ try { if (document.getElementById('aiScoreResultModal')) { openAiModal(); } } ca
 
     function openHomeSidebar() { closeSpkToolsMenu(); document.getElementById('hsOverlay').classList.add('active'); document.getElementById('hsPanel').classList.add('active'); }
     function closeHomeSidebar() { document.getElementById('hsOverlay').classList.remove('active'); document.getElementById('hsPanel').classList.remove('active'); }
-    function goToMockSelector(url) { var m = {"Speaking Mocks.html":"landing.html?openSelector=cefr-speaking","IELTS Speaking Mocks.html":"landing.html?openSelector=ielts-speaking","Writing Mocks.html":"landing.html?openSelector=cefr-writing","Writing IELTS Mock.html":"landing.html?openSelector=ielts-writing","CEFR Listening Mocks.html":"landing.html?openSelector=cefr-listening","IELTS Listening Mocks.html":"landing.html?openSelector=ielts-listening","CEFR Reading Mocks.html":"landing.html?openSelector=cefr-reading","IELTS Reading Mocks.html":"landing.html?openSelector=ielts-reading"}; var targetUrl = m[url] || url; promptFriendlyLeave(function () { __okToLeave = true; window.__okToLeave = true; window.location.replace(targetUrl); }); }
+    function goToMockSelector(url) { var m = {"Speaking Mocks.html":"landing-v3.html?reopen=cefr-speaking","IELTS Speaking Mocks.html":"landing-v3.html?reopen=ielts-speaking","Writing Mocks.html":"landing-v3.html?reopen=cefr-writing","Writing IELTS Mock.html":"landing-v3.html?reopen=ielts-writing","CEFR Listening Mocks.html":"landing-v3.html?reopen=cefr-listening","IELTS Listening Mocks.html":"landing-v3.html?reopen=ielts-listening","CEFR Reading Mocks.html":"landing-v3.html?reopen=cefr-reading","IELTS Reading Mocks.html":"landing-v3.html?reopen=ielts-reading"}; var targetUrl = m[url] || url; promptFriendlyLeave(function () { __okToLeave = true; window.__okToLeave = true; window.location.replace(targetUrl); }); }
     document.querySelectorAll('#hsPanel .hs-btn[href]').forEach(function (a) { var h=a.getAttribute('href'); if(a.getAttribute('target')){a.addEventListener('click',function(){window.__okToLeave=true;});return;} a.addEventListener('click', function (e) { e.preventDefault(); goToMockSelector(h); }); });
     document.querySelectorAll('#hsPanel .hs-action[href]:not([target="_blank"])').forEach(function (a) {
       a.addEventListener('click', function (e) {

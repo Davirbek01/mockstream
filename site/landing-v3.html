@@ -4645,7 +4645,7 @@
       if (slug === 'ielts-listening' && typeof window.iletOpen === 'function') {
         try { iletOpen(); return; } catch (_e) {}
       }
-      window.location.href = '/landing.html?openSelector=' + encodeURIComponent(slug);
+      window.location.href = '/landing-v3.html'; // Phase A: legacy handoff retired — degrade to v3 home
     }
     // Mirrors the matchers in landing.html's _processDeepLinkTake so we
     // only build a take URL for combos that route actually supports.
@@ -6509,10 +6509,9 @@
     })();
 
     // CEFR — direct page navigation (these pages exist standalone)
-    // Sidebar skill buttons mirror the main landing tile behaviour: route
-    // through /landing.html?openSelector=<slug> so the inline fullscreen
-    // picker opens, instead of landing on a runner page that immediately
-    // bounces back.
+    // Sidebar skill buttons mirror the main landing tile behaviour: open
+    // the inline fullscreen picker directly (Phase A: the legacy
+    // landing.html handoff is retired; degrade = v3 home reload).
     document.getElementById('msv3CefrSpeaking').addEventListener('click', function () {
       // Same engine-migration check as the main tile in navToPicker:
       // prefer the inline picker; fall back to the handoff if it isn't
@@ -6520,25 +6519,25 @@
       if (typeof window.cspetOpen === 'function') {
         try { requestSidebarClose(); cspetOpen(); return; } catch (_e) {}
       }
-      window.location.href = '/landing.html?openSelector=cefr-speaking';
+      window.location.href = '/landing-v3.html'; // Phase A: legacy handoff retired
     });
     document.getElementById('msv3CefrWriting').addEventListener('click', function () {
       if (typeof window.cwetOpen === 'function') {
         try { requestSidebarClose(); cwetOpen(); return; } catch (_e) {}
       }
-      window.location.href = '/landing.html?openSelector=cefr-writing';
+      window.location.href = '/landing-v3.html'; // Phase A: legacy handoff retired
     });
     document.getElementById('msv3CefrListening').addEventListener('click', function () {
       if (typeof window.cletOpen === 'function') {
         try { requestSidebarClose(); cletOpen(); return; } catch (_e) {}
       }
-      window.location.href = '/landing.html?openSelector=cefr-listening';
+      window.location.href = '/landing-v3.html'; // Phase A: legacy handoff retired
     });
     document.getElementById('msv3CefrReading').addEventListener('click', function () {
       if (typeof window.cretOpen === 'function') {
         try { requestSidebarClose(); cretOpen(); return; } catch (_e) {}
       }
-      window.location.href = '/landing.html?openSelector=cefr-reading';
+      window.location.href = '/landing-v3.html'; // Phase A: legacy handoff retired
     });
     document.getElementById('msv3CefrFullMock').addEventListener('click', function () {
       // CEFR Full Mock — generate random L/R/W/S mock numbers (mirrors
@@ -6564,25 +6563,25 @@
       if (typeof window.ispetOpen === 'function') {
         try { requestSidebarClose(); ispetOpen(); return; } catch (_e) {}
       }
-      window.location.href = '/landing.html?openSelector=ielts-speaking';
+      window.location.href = '/landing-v3.html'; // Phase A: legacy handoff retired
     });
     document.getElementById('msv3IeltsWriting').addEventListener('click', function () {
       if (typeof window.iwetOpen === 'function') {
         try { requestSidebarClose(); iwetOpen(); return; } catch (_e) {}
       }
-      window.location.href = '/landing.html?openSelector=ielts-writing';
+      window.location.href = '/landing-v3.html'; // Phase A: legacy handoff retired
     });
     document.getElementById('msv3IeltsListening').addEventListener('click', function () {
       if (typeof window.iletOpen === 'function') {
         try { requestSidebarClose(); iletOpen(); return; } catch (_e) {}
       }
-      window.location.href = '/landing.html?openSelector=ielts-listening';
+      window.location.href = '/landing-v3.html'; // Phase A: legacy handoff retired
     });
     document.getElementById('msv3IeltsReading').addEventListener('click', function () {
       if (typeof window.iretOpen === 'function') {
         try { requestSidebarClose(); iretOpen(); return; } catch (_e) {}
       }
-      window.location.href = '/landing.html?openSelector=ielts-reading';
+      window.location.href = '/landing-v3.html'; // Phase A: legacy handoff retired
     });
     document.getElementById('msv3IeltsFullMock').addEventListener('click', function () {
       // IELTS Full Mock — direct navigation (runner page picks its own

@@ -405,11 +405,11 @@
 
   <div class="container">
     <div class="header">
-      <a href="landing.html" target="_top" class="back-btn">← Back to Home</a>
+      <a href="landing-v3.html" target="_top" class="back-btn">← Back to Home</a>
 
       <div class="header-top">
         <div class="logo-section">
-          <a href="landing.html" target="_top" style="text-decoration:none;display:flex;align-items:center;gap:12px;"
+          <a href="landing-v3.html" target="_top" style="text-decoration:none;display:flex;align-items:center;gap:12px;"
             onclick="event.preventDefault(); goBack();">
             <div class="header-logo">
               <img id="logoImg" src="" alt="Logo">
@@ -978,10 +978,10 @@
           window.parent.postMessage('returnToLanding', '*');
           return;
         }
-        window.location.href = 'landing.html';
+        window.location.href = 'landing-v3.html';
       } catch (e) {
         console.log('Error calling parent:', e);
-        window.location.href = 'landing.html'; // Fallback in case of error
+        window.location.href = 'landing-v3.html'; // Fallback in case of error
       }
     }
 

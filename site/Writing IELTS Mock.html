@@ -2603,7 +2603,7 @@
 
     <!-- Logo -->
     <div style="text-align: center; margin-bottom: 20px;">
-      <a href="landing.html" target="_top" onclick="event.preventDefault(); goBack();">
+      <a href="landing-v3.html" target="_top" onclick="event.preventDefault(); goBack();">
         <img id="gateLogo" src="" alt="logo" border="0"
           style="width: 220px; height: 220px; object-fit: cover; border-radius: 50%;">
         <script>document.getElementById('gateLogo').src=(window.SITE_CONFIG&&window.SITE_CONFIG.logoUrl)||'https://i.ibb.co/WN0XY5Lv/logo.png';</script>
@@ -3701,7 +3701,7 @@
       Computer version: Type your answers online
     </p>
 
-    <button id="formatBackBtn" onclick="window.__okToLeave=true;sessionStorage.setItem('writingMockReturnCategory','ielts-writing');if(window.goToLanding) window.goToLanding(); else window.location.href='landing.html';"
+    <button id="formatBackBtn" onclick="window.__okToLeave=true;sessionStorage.setItem('writingMockReturnCategory','ielts-writing');if(window.goToLanding) window.goToLanding(); else window.location.href='landing-v3.html?reopen=ielts-writing';"
       style="margin-top:24px;padding:12px 24px;background:#64748b;color:white;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;width:100%;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px;"
       onmouseover="this.style.background='#475569'"
       onmouseout="this.style.background='#64748b'">← Back to Mock Selection</button>
@@ -10463,7 +10463,7 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (Criteria scores MUST be whole numbers �
         window.__okToLeave = true;
         sessionStorage.setItem('writingMockReturnCategory', 'ielts-writing');
         if (window.goToLanding) window.goToLanding();
-        else window.location.href = 'landing.html';
+        else window.location.href = 'landing-v3.html';
       }
 
       function practiceFullMock() {
@@ -11993,7 +11993,7 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (Criteria scores MUST be whole numbers �
       __okToLeave = true;
       sessionStorage.setItem('writingMockReturnCategory', 'ielts-writing');
       if (window.goToLanding) window.goToLanding();
-      else window.location.href = 'landing.html';
+      else window.location.href = 'landing-v3.html';
     });
 
     document.getElementById('mobSubmitBtn').addEventListener('click', () => {
@@ -12044,7 +12044,7 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (Criteria scores MUST be whole numbers �
 <div class="hs-panel" id="hsPanel">
   <button class="hs-close" onclick="closeHomeSidebar()">✕</button>
   <div class="hs-title">Menu</div>
-  <a href="landing.html" class="hs-action" style="margin-bottom:8px;"><span class="hs-ai">🏠</span> Home</a>
+  <a href="landing-v3.html" class="hs-action" style="margin-bottom:8px;"><span class="hs-ai">🏠</span> Home</a>
   <div class="hs-section">
     <div class="hs-section-hdr cefr"><span>🎯</span> CEFR</div>
     <div class="hs-grid">
@@ -12068,7 +12068,7 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (Criteria scores MUST be whole numbers �
     <div class="hs-grid">
       <a href="Articles.html" class="hs-btn"><span class="hs-icon">📰</span>Articles</a>
       <a href="flashcards.html" class="hs-btn"><span class="hs-icon">🃏</span>Flashcards</a>
-      <a href="landing.html" class="hs-btn"><span class="hs-icon">📝</span>Tests</a>
+      <a href="landing-v3.html" class="hs-btn"><span class="hs-icon">📝</span>Tests</a>
       <a href="https://www.youtube.com/@MockStream" target="_blank" class="hs-btn"><span class="hs-icon">🎥</span>Video Guides</a>
     </div>
   </div>
@@ -12099,14 +12099,14 @@ function promptFriendlyLeave(leaveAction){
 }
 function goToMockSelector(url){
   var m={
-    "Speaking Mocks.html":"landing.html?openSelector=cefr-speaking",
-    "IELTS Speaking Mocks.html":"landing.html?openSelector=ielts-speaking",
-    "Writing Mocks.html":"landing.html?openSelector=cefr-writing",
-    "Writing IELTS Mock.html":"landing.html?openSelector=ielts-writing",
-    "CEFR Listening Mocks.html":"landing.html?openSelector=cefr-listening",
-    "IELTS Listening Mocks.html":"landing.html?openSelector=ielts-listening",
-    "CEFR Reading Mocks.html":"landing.html?openSelector=cefr-reading",
-    "IELTS Reading Mocks.html":"landing.html?openSelector=ielts-reading"
+    "Speaking Mocks.html":"landing-v3.html?reopen=cefr-speaking",
+    "IELTS Speaking Mocks.html":"landing-v3.html?reopen=ielts-speaking",
+    "Writing Mocks.html":"landing-v3.html?reopen=cefr-writing",
+    "Writing IELTS Mock.html":"landing-v3.html?reopen=ielts-writing",
+    "CEFR Listening Mocks.html":"landing-v3.html?reopen=cefr-listening",
+    "IELTS Listening Mocks.html":"landing-v3.html?reopen=ielts-listening",
+    "CEFR Reading Mocks.html":"landing-v3.html?reopen=cefr-reading",
+    "IELTS Reading Mocks.html":"landing-v3.html?reopen=ielts-reading"
   };
   promptFriendlyLeave(function(){
     window.__okToLeave=true;

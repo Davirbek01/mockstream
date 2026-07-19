@@ -2941,7 +2941,7 @@
     <div class="controller-section">
         <div class="controller-inner">
             <div class="controller-upper">
-                <a href="landing.html" class="btn-back" title="Back to Reading Tests">
+                <a href="landing-v3.html" class="btn-back" title="Back to Reading Tests">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
                 </a>
                 <!-- PDF download button removed – use passcode-protected download from mock selection page -->
@@ -2973,7 +2973,7 @@
             </div>
             <div class="controller-lower">
                 <div class="controller-row-2">
-                    <a href="landing.html" class="btn-back" title="Back to Reading Tests">
+                    <a href="landing-v3.html" class="btn-back" title="Back to Reading Tests">
                         <i class="fa fa-arrow-left" aria-hidden="true"></i>
                     </a>
                     <!-- PDF download button removed – use passcode-protected download from mock selection page -->
@@ -3035,7 +3035,7 @@
             <a href="#" onclick="openHomeSidebar();return false;" class="btn-home-sidebar" title="Home" style="display:flex;align-items:center;justify-content:center;width:40px;height:40px;background:linear-gradient(135deg,#0d9488,#0f766e);border-radius:50%;text-decoration:none;color:#fff;font-size:20px;line-height:1;box-shadow:0 2px 8px rgba(13,148,136,0.4);flex-shrink:0;">
                 ☰
             </a>
-            <a href="landing.html" class="btn-back" title="Back">
+            <a href="landing-v3.html" class="btn-back" title="Back">
                 <i class="fa fa-arrow-left" aria-hidden="true"></i>
             </a>
             <a href="#" class="btn-theme-toggle mobile-theme-toggle" title="Theme">
@@ -3297,7 +3297,7 @@
           <button class="ir-btn-review" id="btnShowSolutions">Review Answers</button>
           <button class="ir-btn-expl" id="btnShowExpl" onclick="showIrExplPanel()" style="display:none;">💡 Explanations</button>
           <button class="ir-btn-tryagain" id="btnTryAgain" onclick="window.__okToLeave=true;location.reload()">🔄 Try Again</button>
-          <button class="ir-btn-back" onclick="window.__okToLeave=true;sessionStorage.setItem('readingMockReturnCategory','ielts-reading');try{if(window.top&&window.top!==window&&typeof window.top.returnToLanding==='function'){window.top.returnToLanding();return;}}catch(e1){}try{if(window.parent&&window.parent!==window&&typeof window.parent.returnToLanding==='function'){window.parent.returnToLanding();return;}}catch(e2){}try{if(window.top&&window.top!==window){window.top.postMessage('returnToLanding','*');return;}}catch(e3){}try{window.top.location.href='landing.html';}catch(e4){window.location.href='landing.html';}">← Back to Mock Selection</button>
+          <button class="ir-btn-back" onclick="window.__okToLeave=true;sessionStorage.setItem('readingMockReturnCategory','ielts-reading');try{if(window.top&&window.top!==window&&typeof window.top.returnToLanding==='function'){window.top.returnToLanding();return;}}catch(e1){}try{if(window.parent&&window.parent!==window&&typeof window.parent.returnToLanding==='function'){window.parent.returnToLanding();return;}}catch(e2){}try{if(window.top&&window.top!==window){window.top.postMessage('returnToLanding','*');return;}}catch(e3){}try{window.top.location.href='landing-v3.html?reopen=ielts-reading';}catch(e4){window.location.href='landing-v3.html?reopen=ielts-reading';}">← Back to Mock Selection</button>
                     <button class="ir-btn-restore" id="btnRestoreResults">↗ Restore Results</button>
         </div>
       </div>
@@ -3440,7 +3440,7 @@
                 .catch(function(err) {
                     console.error('❌ Supabase load failed:', err);
                     alert('Failed to load test from Supabase');
-                    window.location.href = 'landing.html';
+                    window.location.href = 'landing-v3.html';
                 });
                 return;
             }
@@ -3455,7 +3455,7 @@
             };
             script.onerror = function () {
                 alert('Error loading test file: ' + testFile);
-                window.location.href = 'landing.html';
+                window.location.href = 'landing-v3.html';
             };
             document.head.appendChild(script);
         })();
@@ -7484,7 +7484,7 @@
                     sessionStorage.setItem('readingMockReturnCategory', 'ielts-reading');
                     window.__okToLeave = true;
                     if (typeof _navToLanding === 'function') _navToLanding();
-                    else window.location.href = 'landing.html';
+                    else window.location.href = 'landing-v3.html';
                     return;
                 }
             };
@@ -8286,7 +8286,7 @@
 <div class="hs-panel" id="hsPanel">
   <button class="hs-close" onclick="closeHomeSidebar()">✕</button>
   <div class="hs-title">Menu</div>
-  <a href="landing.html" class="hs-action" style="margin-bottom:8px;"><span class="hs-ai">🏠</span> Home</a>
+  <a href="landing-v3.html" class="hs-action" style="margin-bottom:8px;"><span class="hs-ai">🏠</span> Home</a>
   <div class="hs-section">
     <div class="hs-section-hdr cefr"><span>🎯</span> CEFR</div>
     <div class="hs-grid">
@@ -8310,7 +8310,7 @@
     <div class="hs-grid">
       <a href="Articles.html" class="hs-btn"><span class="hs-icon">📰</span>Articles</a>
       <a href="flashcards.html" class="hs-btn"><span class="hs-icon">🃏</span>Flashcards</a>
-      <a href="landing.html" class="hs-btn"><span class="hs-icon">📝</span>Tests</a>
+      <a href="landing-v3.html" class="hs-btn"><span class="hs-icon">📝</span>Tests</a>
       <a href="https://www.youtube.com/@MockStream" target="_blank" class="hs-btn"><span class="hs-icon">🎥</span>Video Guides</a>
     </div>
   </div>
@@ -8318,7 +8318,7 @@
 <script>
 function openHomeSidebar(){var m=document.getElementById('mobileToolsMenu'),f=document.getElementById('mobileFab'),o=document.getElementById('mobileMenuOverlay'),ic=document.getElementById('fabIcon');if(m)m.classList.remove('active');if(f){f.classList.remove('open');f.classList.add('idle');}if(o)o.classList.remove('active');if(ic)ic.className='fa fa-plus';document.getElementById('hsOverlay').classList.add('active');document.getElementById('hsPanel').classList.add('active');}
 function closeHomeSidebar(){document.getElementById('hsOverlay').classList.remove('active');document.getElementById('hsPanel').classList.remove('active');}
-function goToMockSelector(url){var m={"Speaking Mocks.html":"landing.html?openSelector=cefr-speaking","IELTS Speaking Mocks.html":"landing.html?openSelector=ielts-speaking","Writing Mocks.html":"landing.html?openSelector=cefr-writing","Writing IELTS Mock.html":"landing.html?openSelector=ielts-writing","CEFR Listening Mocks.html":"landing.html?openSelector=cefr-listening","IELTS Listening Mocks.html":"landing.html?openSelector=ielts-listening","CEFR Reading Mocks.html":"landing.html?openSelector=cefr-reading","IELTS Reading Mocks.html":"landing.html?openSelector=ielts-reading"};promptFriendlyLeave(function(){window.__okToLeave=true;window.location.replace(m[url]||url);});}
+function goToMockSelector(url){var m={"Speaking Mocks.html":"landing-v3.html?reopen=cefr-speaking","IELTS Speaking Mocks.html":"landing-v3.html?reopen=ielts-speaking","Writing Mocks.html":"landing-v3.html?reopen=cefr-writing","Writing IELTS Mock.html":"landing-v3.html?reopen=ielts-writing","CEFR Listening Mocks.html":"landing-v3.html?reopen=cefr-listening","IELTS Listening Mocks.html":"landing-v3.html?reopen=ielts-listening","CEFR Reading Mocks.html":"landing-v3.html?reopen=cefr-reading","IELTS Reading Mocks.html":"landing-v3.html?reopen=ielts-reading"};promptFriendlyLeave(function(){window.__okToLeave=true;window.location.replace(m[url]||url);});}
 document.querySelectorAll('#hsPanel .hs-btn[href]').forEach(function(a){var h=a.getAttribute('href');if(a.getAttribute('target')){{a.addEventListener('click',function(){window.__okToLeave=true;});return;}}a.addEventListener('click',function(e){e.preventDefault();goToMockSelector(h);});});
 document.querySelectorAll('#hsPanel .hs-action[href], #hsPanel a[href][style]').forEach(function(a){if(!a.getAttribute('target')){a.addEventListener('click',function(e){e.preventDefault();promptFriendlyLeave(function(){window.__okToLeave=true;window.location.href=a.getAttribute('href');});});}else{a.addEventListener('click',function(){window.__okToLeave=true;});}});
 </script>
