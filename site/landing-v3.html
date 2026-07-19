@@ -3935,6 +3935,62 @@
       </div>
     </section>
 
+    <!-- ── LEARNING TOOLS ─────────────────────────────────── -->
+    <section class="section">
+      <div class="section-head">
+        <h2 class="section-title">
+          Learning Tools
+          <span class="badge new">📚 Practice</span>
+        </h2>
+      </div>
+      <div class="tools-grid tools-grid-3">
+        <!-- Flashcards — uses the same _gateLearningTool('flashcards', ...)
+             pipeline as landing.html's in-page card. Closing the modal
+             returns to v3 via the discovery-handoff watcher. -->
+        <a class="tool-card" href="javascript:void(0)" data-learn="flashcards">
+          <div class="tool-icon" style="background: linear-gradient(135deg, #fb923c, #ea580c);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="14" rx="2"></rect>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+          </div>
+          <div class="tool-body">
+            <div class="tool-name">Flashcards</div>
+            <div class="tool-sub">Build &amp; drill vocab decks <span class="tool-count" id="ltCountFlashcards"></span></div>
+          </div>
+          <div class="tool-arrow">→</div>
+        </a>
+        <a class="tool-card" href="javascript:void(0)" data-learn="articles">
+          <div class="tool-icon" style="background: linear-gradient(135deg, #34d399, #059669);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="8"  y1="13" x2="16" y2="13"></line>
+              <line x1="8"  y1="17" x2="16" y2="17"></line>
+            </svg>
+          </div>
+          <div class="tool-body">
+            <div class="tool-name">Articles</div>
+            <div class="tool-sub">Long-form reading practice <span class="tool-count" id="ltCountArticles"></span></div>
+          </div>
+          <div class="tool-arrow">→</div>
+        </a>
+        <a class="tool-card" href="javascript:void(0)" data-learn="tests">
+          <div class="tool-icon" style="background: linear-gradient(135deg, #a78bfa, #7c3aed);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 11l3 3L22 4"></path>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+            </svg>
+          </div>
+          <div class="tool-body">
+            <div class="tool-name">Tests</div>
+            <div class="tool-sub">Grammar &amp; vocabulary drills <span class="tool-count" id="ltCountTests"></span></div>
+          </div>
+          <div class="tool-arrow">→</div>
+        </a>
+      </div>
+    </section>
+
     <!-- ── SECONDARY: FULL MOCK + CAMBRIDGE ──────────────── -->
     <section class="section">
       <div class="secondary">
@@ -3988,62 +4044,6 @@
             <button class="sc-cta ghost"   id="msv3MainIeltsFullMock" type="button">IELTS →</button>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- ── LEARNING TOOLS ─────────────────────────────────── -->
-    <section class="section">
-      <div class="section-head">
-        <h2 class="section-title">
-          Learning Tools
-          <span class="badge new">📚 Practice</span>
-        </h2>
-      </div>
-      <div class="tools-grid tools-grid-3">
-        <!-- Flashcards — uses the same _gateLearningTool('flashcards', ...)
-             pipeline as landing.html's in-page card. Closing the modal
-             returns to v3 via the discovery-handoff watcher. -->
-        <a class="tool-card" href="javascript:void(0)" data-learn="flashcards">
-          <div class="tool-icon" style="background: linear-gradient(135deg, #fb923c, #ea580c);">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="4" width="18" height="14" rx="2"></rect>
-              <line x1="3" y1="10" x2="21" y2="10"></line>
-            </svg>
-          </div>
-          <div class="tool-body">
-            <div class="tool-name">Flashcards</div>
-            <div class="tool-sub">Build &amp; drill vocab decks</div>
-          </div>
-          <div class="tool-arrow">→</div>
-        </a>
-        <a class="tool-card" href="javascript:void(0)" data-learn="articles">
-          <div class="tool-icon" style="background: linear-gradient(135deg, #34d399, #059669);">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="8"  y1="13" x2="16" y2="13"></line>
-              <line x1="8"  y1="17" x2="16" y2="17"></line>
-            </svg>
-          </div>
-          <div class="tool-body">
-            <div class="tool-name">Articles</div>
-            <div class="tool-sub">Long-form reading practice</div>
-          </div>
-          <div class="tool-arrow">→</div>
-        </a>
-        <a class="tool-card" href="javascript:void(0)" data-learn="tests">
-          <div class="tool-icon" style="background: linear-gradient(135deg, #a78bfa, #7c3aed);">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 11l3 3L22 4"></path>
-              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-            </svg>
-          </div>
-          <div class="tool-body">
-            <div class="tool-name">Tests</div>
-            <div class="tool-sub">Grammar &amp; vocabulary drills</div>
-          </div>
-          <div class="tool-arrow">→</div>
-        </a>
       </div>
     </section>
 
@@ -16276,14 +16276,14 @@
     (function () {
       var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var K  = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
-      fetch(SB + '/rest/v1/mock_tests?mock_type=eq.article&status=eq.published&select=mock_number,title&order=mock_number',
+      fetch(SB + '/rest/v1/mock_tests?mock_type=eq.article&status=eq.published&select=mock_number,title,mock_data->imageUrl&order=mock_number',
             { headers: { apikey: K, Authorization: 'Bearer ' + K } })
         .then(function (r) { return r.ok ? r.json() : []; })
         .then(function (rows) {
           READING_ARTICLES.length = 0;
           rows.forEach(function (row) {
             var pad = String(row.mock_number).padStart(2, '0');
-            READING_ARTICLES.push({ file: 'Articles.html?article=' + pad, name: 'Article ' + pad + ': ' + (row.title || ''), icon: '📰' });
+            READING_ARTICLES.push({ file: 'Articles.html?article=' + pad, name: 'Article ' + pad + ': ' + (row.title || ''), icon: '📰', cover: row.imageUrl || '' });
           });
           try {
             if (typeof _learnCurrentCategory !== 'undefined' && _learnCurrentCategory === 'articles' && typeof _renderLearnGrid === 'function') {
@@ -16512,7 +16512,7 @@
           var _tb = (item.file.match(/test=([^&]+)/) || [])[1];
           var _cover = _tb && _gvImageMap[_tb];
           if (_cover) coverHtml = '<div class="learn-card-cover"><img src="' + _escLearn(_cover) + '" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>';
-        } else if (cat === 'flashcards' && item.cover) {
+        } else if ((cat === 'flashcards' || cat === 'articles') && item.cover) {
           coverHtml = '<div class="learn-card-cover"><img src="' + _escLearn(item.cover) + '" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>';
         }
         return '<article class="learn-card">'
@@ -16672,6 +16672,37 @@
       } else {
         go();
       }
+    })();
+
+    /* Learning-tools count badges (section moved up 2026-07-20 for
+       visibility — students weren't finding the tools below the fold). */
+    (function () {
+      var css = document.createElement('style');
+      css.textContent = '.tool-count{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:999px;background:rgba(124,58,237,.12);color:#7c3aed;font-size:11px;font-weight:700;vertical-align:1px;}';
+      document.head.appendChild(css);
+      var tries = 0;
+      function upd() {
+        tries++;
+        var fc = (typeof FLASHCARD_TOPICS !== 'undefined') ? FLASHCARD_TOPICS.length : 0;
+        var ar = (typeof READING_ARTICLES !== 'undefined') ? READING_ARTICLES.length : 0;
+        var ts = ((typeof GRAMMAR_TESTS !== 'undefined') ? GRAMMAR_TESTS.length : 0)
+               + ((typeof VOCAB_TESTS   !== 'undefined') ? VOCAB_TESTS.length   : 0);
+        var e1 = document.getElementById('ltCountFlashcards');
+        var e2 = document.getElementById('ltCountArticles');
+        var e3 = document.getElementById('ltCountTests');
+        if (e1 && fc) e1.textContent = fc + ' decks';
+        if (e2 && ar) e2.textContent = ar + ' articles';
+        if (e3 && ts) e3.textContent = ts + ' topics';
+        // Sidebar clone badges mirror the originals (ids stripped on clone).
+        document.querySelectorAll('[data-ltc-copy]').forEach(function (c) {
+          var src = document.getElementById(c.getAttribute('data-ltc-copy'));
+          if (src && src.textContent) c.textContent = src.textContent;
+        });
+        // catalogs load async — retry until both dynamic ones are in (max ~10s)
+        if ((!fc || !ar) && tries < 10) setTimeout(upd, 1000);
+      }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', upd);
+      else upd();
     })();
 
     // Picker-reopen on Back from a runner. The runner's "Leave Anyway"
@@ -18739,9 +18770,27 @@
         head.className = 'msv3-section-head';
         head.textContent = 'Learning Tools';
         wrap.appendChild(head);
-        wrap.appendChild(origGrid); // MOVE preserves click handlers
+        // CLONE (2026-07-20): the old MOVE stripped the grid out of the
+        // main column, leaving Learning Tools sidebar-only — students
+        // couldn't find them. Keep the original section visible and give
+        // the sidebar its own wired copy.
+        var grid = origGrid.cloneNode(true);
+        grid.querySelectorAll('[id]').forEach(function (el) {
+          el.setAttribute('data-ltc-copy', el.id);
+          el.removeAttribute('id');
+        });
+        grid.querySelectorAll('.tool-card[data-learn]').forEach(function (a) {
+          var key = a.getAttribute('data-learn');
+          a.addEventListener('click', function (e) {
+            e.preventDefault();
+            if (key === 'flashcards') openLearningCategory('flashcards');
+            else if (key === 'tests') showTestsSubmenu();
+            else if (key === 'articles') openLearningCategory('articles');
+          });
+        });
+        wrap.appendChild(grid);
         examPrep.parentNode.insertBefore(wrap, examPrep);
-        if (origSection) origSection.style.display = 'none';
+        void origSection; // stays visible in the main column
       }
 
       // In collapsed PC view the text labels disappear, so seed each
