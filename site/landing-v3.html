@@ -9950,17 +9950,52 @@
       if (empty) empty.style.display = 'none';
     }
 
+    // Shared slim card-meta batch loader (perf, 2026-07-20). One RPC call
+    // returns every published mock's card-relevant fields (server-side
+    // projection incl. inside-array slimming the REST select can't do).
+    // Payloads: ielts-speaking 11.3MB->247KB, cefr-speaking 4.1MB->80KB,
+    // ielts-writing 1.65MB->39KB, readings/listenings 1.7-3.9MB->96-207KB.
+    // Returns { <rowId>: {id, mock_number, title, created_at, md} } or null
+    // on any failure — callers fall back to their original heavy path.
+    window._mockCardMetaBatch = async function (mockType) {
+      try {
+        const r = await fetch('https://zknyukkbtbcqgvkgjktb.supabase.co/rest/v1/rpc/mock_card_meta', {
+          method: 'POST',
+          headers: {
+            'apikey': 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2',
+            'Authorization': 'Bearer sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ p_mock_type: mockType })
+        });
+        if (!r.ok) return null;
+        const rows = await r.json();
+        if (!Array.isArray(rows) || !rows.length) return null;
+        const map = {};
+        rows.forEach(x => { if (x && x.id != null) map[x.id] = x; });
+        map.__rows = rows;
+        return map;
+      } catch (_e) { return null; }
+    };
+
     async function _cspetLoadAllMockMeta() {
       try {
         const cached = JSON.parse(localStorage.getItem(_CSPET_CACHE_KEY) || 'null');
         if (cached && cached.ts && cached.data && (Date.now() - cached.ts) < _CSPET_CACHE_TTL) {
           Object.assign(_cspetMockMeta, cached.data);
         } else {
-          const resp = await fetch(`${_CSPET_SB_URL}/rest/v1/mock_tests?mock_type=eq.cefr-speaking&status=eq.published&select=id,mock_number,mock_data,title,created_at`, {
-            headers: { 'apikey': _CSPET_SB_KEY, 'Authorization': 'Bearer ' + _CSPET_SB_KEY }
-          });
-          if (resp.ok) {
-            const rows = await resp.json();
+          // Slim RPC first (34-51x smaller); legacy full fetch as fallback.
+          let rows = null;
+          const batch = await window._mockCardMetaBatch('cefr-speaking');
+          if (batch && batch.__rows) {
+            rows = batch.__rows.map(x => ({ id: x.id, mock_number: x.mock_number, title: x.title, created_at: x.created_at, mock_data: x.md }));
+          } else {
+            const resp = await fetch(`${_CSPET_SB_URL}/rest/v1/mock_tests?mock_type=eq.cefr-speaking&status=eq.published&select=id,mock_number,mock_data,title,created_at`, {
+              headers: { 'apikey': _CSPET_SB_KEY, 'Authorization': 'Bearer ' + _CSPET_SB_KEY }
+            });
+            if (resp.ok) rows = await resp.json();
+          }
+          if (rows) {
             for (const r of rows) {
               const padded = String(r.mock_number).padStart(2, '0');
               const meta = _cspetBuildMetaFromMockData(r.mock_data);
@@ -10523,11 +10558,18 @@
         if (cached && cached.ts && cached.data && (Date.now() - cached.ts) < _ISPET_CACHE_TTL) {
           Object.assign(_ispetMockMeta, cached.data);
         } else {
-          const resp = await fetch(`${_ISPET_SB_URL}/rest/v1/mock_tests?mock_type=eq.ielts-speaking&status=eq.published&select=id,mock_number,mock_data,title,created_at`, {
-            headers: { 'apikey': _ISPET_SB_KEY, 'Authorization': 'Bearer ' + _ISPET_SB_KEY }
-          });
-          if (resp.ok) {
-            const rows = await resp.json();
+          // Slim RPC first (11.3MB -> 247KB); legacy full fetch as fallback.
+          let rows = null;
+          const batch = await window._mockCardMetaBatch('ielts-speaking');
+          if (batch && batch.__rows) {
+            rows = batch.__rows.map(x => ({ id: x.id, mock_number: x.mock_number, title: x.title, created_at: x.created_at, mock_data: x.md }));
+          } else {
+            const resp = await fetch(`${_ISPET_SB_URL}/rest/v1/mock_tests?mock_type=eq.ielts-speaking&status=eq.published&select=id,mock_number,mock_data,title,created_at`, {
+              headers: { 'apikey': _ISPET_SB_KEY, 'Authorization': 'Bearer ' + _ISPET_SB_KEY }
+            });
+            if (resp.ok) rows = await resp.json();
+          }
+          if (rows) {
             for (const r of rows) {
               const padded = String(r.mock_number).padStart(2, '0');
               const meta = _ispetBuildMetaFromMockData(r.mock_data);
@@ -11686,10 +11728,16 @@
         .map((t, idx) => ({ t, key: String(idx + 1).padStart(2, '0') }))
         .filter(({ key }) => !_iwetMockMeta[key]);
       if (missing.length) {
+        // Slim RPC batch (one call) replaces N per-id full-mock_data
+        // fetches; the per-id path remains as fallback if the RPC fails.
+        const batch = await window._mockCardMetaBatch('ielts-writing');
         await Promise.all(missing.map(async ({ t, key }) => {
           const spec = _iwetParseFileSpec(t && t.file);
           if (spec.kind !== 'sb') return;
-          const meta = await _iwetLoadSupabaseMockMeta(spec.id);
+          let meta = null;
+          const hit = batch && batch[spec.id];
+          if (hit) { meta = _iwetBuildMetaFromMockData(hit.md || {}); if (meta) meta.createdAt = hit.created_at; }
+          if (!meta) meta = await _iwetLoadSupabaseMockMeta(spec.id);
           if (meta) _iwetMockMeta[key] = meta;
         }));
       }
@@ -12725,11 +12773,18 @@
         .map((t, idx) => ({ t, key: String(idx + 1).padStart(2, '0') }))
         .filter(({ key }) => !cachedData[key]);
       if (missing.length) {
+        // Slim RPC batch (one call) replaces N per-id full-mock_data
+        // fetches; the per-id path remains as fallback if the RPC fails.
+        const batch = await window._mockCardMetaBatch('cefr-reading');
         await Promise.all(missing.map(async ({ t, key }) => {
           const spec = _cretParseFileSpec(t && t.file);
           let meta = null;
           if (spec.kind === 'static') meta = await _cretLoadStaticMockMeta(spec.filename);
-          else if (spec.kind === 'sb') meta = await _cretLoadSupabaseMockMeta(spec.id);
+          else if (spec.kind === 'sb') {
+            const hit = batch && batch[spec.id];
+            if (hit) { meta = _cretBuildMetaFromMockData(hit.md || {}); if (meta) meta.createdAt = hit.created_at; }
+            if (!meta) meta = await _cretLoadSupabaseMockMeta(spec.id);
+          }
           if (meta) _cretMockMeta[key] = meta;
         }));
         try { localStorage.setItem(_CRET_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: _cretMockMeta })); } catch (_e) {}
@@ -13664,11 +13719,18 @@
         .map((t, idx) => ({ t, key: String(idx + 1).padStart(2, '0') }))
         .filter(({ key }) => !cachedData[key]);
       if (missing.length) {
+        // Slim RPC batch (one call) replaces N per-id full-mock_data
+        // fetches; the per-id path remains as fallback if the RPC fails.
+        const batch = await window._mockCardMetaBatch('ielts-reading');
         await Promise.all(missing.map(async ({ t, key }) => {
           const spec = _iretParseFileSpec(t && t.file);
           let meta = null;
           if (spec.kind === 'static') meta = await _iretLoadStaticMockMeta(spec.filename);
-          else if (spec.kind === 'sb') meta = await _iretLoadSupabaseMockMeta(spec.id);
+          else if (spec.kind === 'sb') {
+            const hit = batch && batch[spec.id];
+            if (hit) { meta = _iretBuildMetaFromMockData(hit.md || {}); if (meta) meta.createdAt = hit.created_at; }
+            if (!meta) meta = await _iretLoadSupabaseMockMeta(spec.id);
+          }
           if (meta) _iretMockMeta[key] = meta;
         }));
         try { localStorage.setItem(_IRET_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: _iretMockMeta })); } catch (_e) {}
@@ -14359,11 +14421,18 @@
           return readyCount < sections.length;
         });
       if (missing.length) {
+        // Slim RPC batch (one call) replaces N per-id full-mock_data
+        // fetches; the per-id path remains as fallback if the RPC fails.
+        const batch = await window._mockCardMetaBatch('cefr-listening');
         await Promise.all(missing.map(async ({ t, key }) => {
           const spec = _cletParseFileSpec(t && t.file);
           let meta = null;
           if (spec.kind === 'static') meta = await _cletLoadStaticMockMeta(spec.filename);
-          else if (spec.kind === 'sb') meta = await _cletLoadSupabaseMockMeta(spec.id);
+          else if (spec.kind === 'sb') {
+            const hit = batch && batch[spec.id];
+            if (hit) { meta = _cletBuildMetaFromMockData(hit.md || {}); if (meta) meta.createdAt = hit.created_at; }
+            if (!meta) meta = await _cletLoadSupabaseMockMeta(spec.id);
+          }
           if (meta) _cletMockMeta[key] = meta;
         }));
         try { localStorage.setItem(_clet_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: _cletMockMeta })); } catch (_e) {}
@@ -15316,11 +15385,18 @@
         .map((t, idx) => ({ t, key: String(idx + 1).padStart(2, '0') }))
         .filter(({ key }) => !cachedData[key]);
       if (missing.length) {
+        // Slim RPC batch (one call) replaces N per-id full-mock_data
+        // fetches; the per-id path remains as fallback if the RPC fails.
+        const batch = await window._mockCardMetaBatch('ielts-listening');
         await Promise.all(missing.map(async ({ t, key }) => {
           const spec = _iletParseFileSpec(t && t.file);
           let meta = null;
           if (spec.kind === 'static') meta = await _iletLoadStaticMockMeta(spec.filename);
-          else if (spec.kind === 'sb') meta = await _iletLoadSupabaseMockMeta(spec.id);
+          else if (spec.kind === 'sb') {
+            const hit = batch && batch[spec.id];
+            if (hit) { meta = _iletBuildMetaFromMockData(hit.md || {}); if (meta) meta.createdAt = hit.created_at; }
+            if (!meta) meta = await _iletLoadSupabaseMockMeta(spec.id);
+          }
           if (meta) _iletMockMeta[key] = meta;
         }));
         try { localStorage.setItem(_ilet_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: _iletMockMeta })); } catch (_e) {}
