@@ -8182,6 +8182,10 @@
         // openFullMock + openIeltsFullMock removed 2026-05-21 — v3 owns
         // the Full Mock launch flow now. Legacy URLs with those params
         // intentionally fall through and bounce to /landing-v3.html.
+        // Admin slim-boot (2026-07-20): when this load exists only to host an
+        // admin panel, skip the student-engine Supabase loaders below —
+        // catalogs/upgraders aren't needed and delay the panel open.
+        window.__MS_ADMIN_HANDOFF = /(openMockMgmt|openSiteMgmt|openAdminDashboard)=1/.test(window.location.search);
         var KNOWN_HANDOFF_PARAMS = [
           'openSelector', 'openSidebar', 'openModal',
           'msv3Vip', 'msv3TgAuth',
@@ -16014,6 +16018,7 @@
     // Loads the flashcard catalog from Supabase (mock_type='flashcard'), deduped to
     // base topics, so it mirrors the migrated data (no hardcoded list). Mutates flashcardTopics in place.
     (function () {
+      if (window.__MS_ADMIN_HANDOFF) return; // admin slim-boot
       var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var K  = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
       fetch(SB + '/rest/v1/mock_tests?mock_type=eq.flashcard&status=eq.published&select=mock_data->slug,mock_data->brand,mock_data->imageUrl&order=mock_number',
@@ -16678,7 +16683,9 @@
     // freshness before rendering. Without this, a user who opens a
     // picker faster than the upgrade fetches finish sees the static
     // array only (missing admin-created mocks).
-    window._mmgRefreshAllPickersPromise = window._mmgRefreshAllPickers();
+    // Admin slim-boot: skip the 10+ Supabase picker upgrades when only an
+    // admin panel is being hosted. Editor saves still call _mmgRefreshAllPickers().
+    window._mmgRefreshAllPickersPromise = window.__MS_ADMIN_HANDOFF ? Promise.resolve() : window._mmgRefreshAllPickers();
 
     const ieltsSpeakingTests = [];
     // Mock 01 was migrated to Supabase mock_tests (id=10). The renderer's
@@ -16910,6 +16917,7 @@
     // Loads the reading-articles catalog from the migrated Supabase rows so it always
     // mirrors the live data (no hardcoded list to drift). Mutates readingArticles in place.
     (function () {
+      if (window.__MS_ADMIN_HANDOFF) return; // admin slim-boot
       var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var K  = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
       fetch(SB + '/rest/v1/mock_tests?mock_type=eq.article&status=eq.published&select=mock_number,title&order=mock_number',
@@ -17038,6 +17046,7 @@
     // loads from Supabase. URL must include ?test= because Writing IELTS
     // Mock.html's auto-proceed gate bails to landing without it.
     (async function loadDynamicIeltsWritingMocks() {
+      if (window.__MS_ADMIN_HANDOFF) return; // admin slim-boot
       try {
         const SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
         const SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
@@ -17080,6 +17089,7 @@
     //   2. Existing sbmock=<id>  (Mock 01's static pin)
     // Either match short-circuits to the same upgrade, so we never duplicate.
     (async function loadDynamicCefrWritingMocks() {
+      if (window.__MS_ADMIN_HANDOFF) return; // admin slim-boot
       try {
         const SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
         const SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
