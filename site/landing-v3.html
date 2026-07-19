@@ -6955,7 +6955,11 @@
     }
     .ilet-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      /* minmax(0,1fr) — plain 1fr tracks have min-content minimums, so one
+         non-shrinkable head row (source chip + date) widened the whole card
+         past narrow viewports and clipped the Take button (mobile bug,
+         2026-07-20). cret-grid already did this. */
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 18px;
       padding: 18px 24px 40px;
       flex: 1;
@@ -6966,9 +6970,10 @@
       max-width: none;
       margin: 0;
     }
-    @media (max-width: 1279px) { .ilet-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 1023px) { .ilet-grid { grid-template-columns: 1fr; padding: 14px 16px 30px; } }
+    @media (max-width: 1279px) { .ilet-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 1023px) { .ilet-grid { grid-template-columns: minmax(0, 1fr); padding: 14px 16px 30px; } }
     .ilet-card {
+      min-width: 0;
       background: #fff;
       border: 1.5px solid #e2e8f0;
       border-radius: 14px;
@@ -8228,16 +8233,20 @@
     .iret-source-filter:focus { box-shadow: 0 0 0 3px rgba(249,115,22,.15); }
     .iret-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      /* minmax(0,1fr): plain 1fr tracks size to min-content, so the widest
+         nowrap card row (source chip + date) blew the single mobile column
+         past the viewport and clipped the Take button (2026-07-20 fix). */
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 18px;
       padding: 18px 24px 40px;
       flex: 1;
       max-width: none;
       margin: 0;
     }
-    @media (max-width: 1279px) { .iret-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 1023px) { .iret-grid { grid-template-columns: 1fr; padding: 14px 16px 30px; } }
+    @media (max-width: 1279px) { .iret-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 1023px) { .iret-grid { grid-template-columns: minmax(0, 1fr); padding: 14px 16px 30px; } }
     .iret-card {
+      min-width: 0;
       background: #fff;
       border: 1.5px solid #e2e8f0;
       border-radius: 14px;
