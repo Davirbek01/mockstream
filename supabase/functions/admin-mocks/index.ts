@@ -469,14 +469,25 @@ Deno.serve(async (req) => {
     switch (action) {
 
       // ── list ──────────────────────────────────────────────────────────
+      // Paginate past PostgREST's 1000-row cap: with grammar/vocab/flashcard/
+      // article rows now in mock_tests (2000+ total), a single unbounded select
+      // truncated at 1000 and evicted the alphabetically-later exam types
+      // (grammar, ielts-*, vocabulary) — IELTS mocks vanished from the panel.
       case 'list': {
-        const { data, error } = await sb
-          .from('mock_tests')
-          .select('id, mock_type, mock_number, title, status, updated_at')
-          .order('mock_type', { ascending: true })
-          .order('mock_number', { ascending: true });
-        if (error) return json(500, { error: error.message });
-        return json(200, { mocks: data || [] });
+        const pageSize = 1000;
+        let all: unknown[] = [];
+        for (let from = 0; ; from += pageSize) {
+          const { data, error } = await sb
+            .from('mock_tests')
+            .select('id, mock_type, mock_number, title, status, updated_at')
+            .order('mock_type', { ascending: true })
+            .order('mock_number', { ascending: true })
+            .range(from, from + pageSize - 1);
+          if (error) return json(500, { error: error.message });
+          all = all.concat(data || []);
+          if (!data || data.length < pageSize) break;
+        }
+        return json(200, { mocks: all });
       }
 
       // ── get full mock (incl. mock_data JSONB) ────────────────────────
