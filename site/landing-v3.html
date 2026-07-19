@@ -11019,14 +11019,37 @@
 
     async function _cwetLoadAllMockMeta() {
       try {
-        const resp = await fetch(`${_cwet_SB_URL}/rest/v1/mock_tests?mock_type=eq.cefr-writing&status=eq.published&select=mock_number,mock_data,created_at`, {
+        // Slim payload (2026-07-20): the cards only need part topics/chips,
+        // task titles, prompt-presence (ready check), examDate and level —
+        // project just those via PostgREST JSON paths instead of pulling the
+        // full mock_data JSONB (model answers, translations, vocab,
+        // glossaries) for every mock. 104 mocks: ~3.0MB -> ~88KB (34x).
+        const slim = 'select=mock_number,created_at'
+          + ',p1topic:mock_data->part1->>topic,p1chip:mock_data->part1->>chip'
+          + ',t11title:mock_data->tasks->t11->>title,t11prompt:mock_data->tasks->t11->>prompt'
+          + ',t12title:mock_data->tasks->t12->>title,t12prompt:mock_data->tasks->t12->>prompt'
+          + ',t2title:mock_data->tasks->t2->>title,t2prompt:mock_data->tasks->t2->>prompt'
+          + ',t2genre:mock_data->tasks->t2->>genre,t2chip:mock_data->tasks->t2->>chip'
+          + ',examDate:mock_data->>examDate,level:mock_data->>targetLevel';
+        const resp = await fetch(`${_cwet_SB_URL}/rest/v1/mock_tests?mock_type=eq.cefr-writing&status=eq.published&${slim}`, {
           headers: { 'apikey': _cwet_SB_KEY, 'Authorization': 'Bearer ' + _cwet_SB_KEY }
         });
         if (resp.ok) {
           const rows = await resp.json();
           for (const r of (rows || [])) {
             const padded = String(r.mock_number).padStart(2, '0');
-            _cwetMockMeta[padded] = _cwetBuildMetaFromMockData(r.mock_data);
+            // Rebuild the minimal mock_data shape the meta builder expects —
+            // _cwetBuildMetaFromMockData stays untouched, renderer unchanged.
+            _cwetMockMeta[padded] = _cwetBuildMetaFromMockData({
+              part1: { topic: r.p1topic, chip: r.p1chip },
+              examDate: r.examDate,
+              targetLevel: r.level,
+              tasks: {
+                t11: { title: r.t11title, prompt: r.t11prompt },
+                t12: { title: r.t12title, prompt: r.t12prompt },
+                t2:  { title: r.t2title,  prompt: r.t2prompt, genre: r.t2genre, chip: r.t2chip }
+              }
+            });
             _cwetCreatedAt[padded] = r.created_at;
           }
         }
