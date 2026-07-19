@@ -947,6 +947,28 @@
     }
     .msv3-vip-row button:hover { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(234, 88, 12, 0.36); }
     .msv3-vip-sub { font-size: 11.5px; color: var(--muted); margin-top: 4px; }
+    /* Email / magic-link sign-in row (indigo, mirrors the VIP row). */
+    .msv3-email-row { display: flex; gap: 7px; }
+    .msv3-email-row input {
+      flex: 1; min-width: 0; padding: 9px 11px;
+      background: #eef2ff; border: 1.5px solid #c7d2fe; border-radius: 9px;
+      font: 600 14px/1.4 'Inter', sans-serif; color: #3730a3; outline: none;
+      transition: border-color 160ms ease, box-shadow 160ms ease;
+    }
+    .msv3-email-row input::placeholder { color: #6366f1; opacity: 0.65; }
+    .msv3-email-row input:focus { border-color: #6366f1; box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.18); }
+    .msv3-email-row button {
+      width: 36px; height: 36px; border-radius: 9px; border: 0;
+      background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff;
+      font-size: 16px; font-weight: 700; cursor: pointer;
+      box-shadow: 0 4px 10px rgba(79, 70, 229, 0.30);
+      transition: transform 160ms ease, box-shadow 160ms ease; flex-shrink: 0;
+    }
+    .msv3-email-row button:hover { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(79, 70, 229, 0.36); }
+    .msv3-email-row button:disabled { opacity: 0.6; cursor: default; transform: none; }
+    .msv3-email-sub { font-size: 11.5px; color: var(--muted); margin-top: 4px; }
+    .msv3-email-sub.ok  { color: #15803d; }
+    .msv3-email-sub.err { color: #dc2626; }
     /* Disabled VIP input + button after activation — visible but uneditable. */
     .msv3-vip-row input:disabled {
       background: #fef3c7;
@@ -5123,6 +5145,19 @@
         <button type="button" id="msv3VipReplaceBtn" class="msv3-vip-replace" hidden>✎ Replace code</button>
       </div>
 
+      <!-- Email / magic-link sign-in — dedicated entry for guest users.
+           Sends a sign-in link; premium auto-activates for allowlisted emails.
+           Shares the EMAIL_LOGIN_OPEN_TO_ALL gate with the welcome card. -->
+      <div class="msv3-section" id="msv3EmailSection">
+        <div class="msv3-section-head">Email bilan kirish</div>
+        <div class="msv3-email-row">
+          <input type="email" id="msv3EmailInput" placeholder="email@example.com"
+                 inputmode="email" autocomplete="email" autocorrect="off" spellcheck="false">
+          <button type="button" id="msv3EmailBtn" aria-label="Send sign-in link">→</button>
+        </div>
+        <div class="msv3-email-sub" id="msv3EmailSub">Kirish havolasini emailingizga yuboramiz</div>
+      </div>
+
       <div class="msv3-section">
         <div class="msv3-section-head">System Administration</div>
         <button type="button" class="msv3-row" id="msv3AdminBtn">
@@ -5878,6 +5913,72 @@
       if (btn) btn.disabled = false;
       if (replaceBtn) replaceBtn.hidden = true;
     });
+
+    // ── Email / magic-link sign-in (sidebar) ──
+    // FEATURE FLAG: keep false until Resend custom SMTP is live. While false,
+    // only allowlisted premium emails get a link (protects the 2/hour mailer
+    // quota). Flip to true after SMTP → open to everyone. Premium still
+    // auto-activates only for allowlisted emails via auth.js checkPremiumRole.
+    window.EMAIL_LOGIN_OPEN_TO_ALL = true;
+    (function () {
+      var input = document.getElementById('msv3EmailInput');
+      var btn = document.getElementById('msv3EmailBtn');
+      var sub = document.getElementById('msv3EmailSub');
+      if (!input || !btn) return;
+      function _status(msg, kind) {
+        if (!sub) return;
+        sub.textContent = msg;
+        sub.className = 'msv3-email-sub' + (kind ? ' ' + kind : '');
+      }
+      var DEFAULT_SUB = sub ? sub.textContent : '';
+      async function send() {
+        var email = (input.value || '').trim().toLowerCase();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { _status('❌ To\'g\'ri email kiriting', 'err'); return; }
+        var cdKey = 'ms_email_cd_' + email;
+        try {
+          var last = parseInt(localStorage.getItem(cdKey) || '0', 10);
+          if (Date.now() - last < 60000) {
+            var secs = Math.ceil((60000 - (Date.now() - last)) / 1000);
+            _status('⏳ ' + secs + ' soniyadan so\'ng qayta urinib ko\'ring', 'err');
+            return;
+          }
+        } catch (_e) {}
+        btn.disabled = true;
+        _status('⏳ Yuborilmoqda…', '');
+        var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+        var KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+        if (!window.EMAIL_LOGIN_OPEN_TO_ALL) {
+          try {
+            var elig = await fetch(SB + '/rest/v1/rpc/_email_eligible_for_magic_link', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'apikey': KEY, 'Authorization': 'Bearer ' + KEY },
+              body: JSON.stringify({ p_email: email })
+            });
+            var ok = elig.ok ? await elig.json() : false;
+            if (ok !== true) { _status('❌ Bu email hozircha ruxsat etilmagan', 'err'); btn.disabled = false; return; }
+          } catch (_e) { _status('❌ Xatolik. Qayta urinib ko\'ring', 'err'); btn.disabled = false; return; }
+        }
+        try {
+          var client = (window.MockStream && window.MockStream.auth &&
+                        typeof window.MockStream.auth.getClient === 'function')
+                         ? window.MockStream.auth.getClient() : null;
+          if (!client || !client.auth) throw new Error('auth client missing');
+          var res = await client.auth.signInWithOtp({
+            email: email, options: { emailRedirectTo: window.location.origin + '/index.html' }
+          });
+          if (res.error) throw res.error;
+          try { localStorage.setItem(cdKey, String(Date.now())); } catch (_e) {}
+          _status('✅ Kirish havolasi yuborildi. Emailingizni tekshiring.', 'ok');
+          btn.textContent = '✓';
+        } catch (e) {
+          console.warn('[v3] sidebar magic link failed:', e);
+          _status('❌ Havola yuborilmadi. Keyinroq urinib ko\'ring', 'err');
+          btn.disabled = false;
+        }
+      }
+      btn.addEventListener('click', send);
+      input.addEventListener('keydown', function (e) { if (e.key === 'Enter') send(); });
+    })();
     // ── VIP Activation submit (inline; replaces the old landing.html bounce) ──
     // Dispatcher: looks at the input shape and routes to either the
     // VIP-code verify path OR the magic-link path. Email-shape detection
@@ -5997,28 +6098,31 @@
       // Layer A — eligibility gate. The RPC checks premium_emails server-
       // side; emails not on the allowlist NEVER reach Supabase Auth's
       // signInWithOtp, so they can't burn the 2/hour mailer quota.
-      try {
-        var elig = await fetch(SB_URL + '/rest/v1/rpc/_email_eligible_for_magic_link', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY },
-          body: JSON.stringify({ p_email: email })
-        });
-        if (!elig.ok) {
-          // Same silent-fail wording — no enumeration of admin emails.
+      // Skipped once EMAIL_LOGIN_OPEN_TO_ALL is true (Resend SMTP live).
+      if (!window.EMAIL_LOGIN_OPEN_TO_ALL) {
+        try {
+          var elig = await fetch(SB_URL + '/rest/v1/rpc/_email_eligible_for_magic_link', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY },
+            body: JSON.stringify({ p_email: email })
+          });
+          if (!elig.ok) {
+            // Same silent-fail wording — no enumeration of admin emails.
+            _v3VipShowStatus('❌ Code not recognised', 'error');
+            _v3VipResetUi();
+            return;
+          }
+          var ok = await elig.json();
+          if (ok !== true) {
+            _v3VipShowStatus('❌ Code not recognised', 'error');
+            _v3VipResetUi();
+            return;
+          }
+        } catch (_e) {
           _v3VipShowStatus('❌ Code not recognised', 'error');
           _v3VipResetUi();
           return;
         }
-        var ok = await elig.json();
-        if (ok !== true) {
-          _v3VipShowStatus('❌ Code not recognised', 'error');
-          _v3VipResetUi();
-          return;
-        }
-      } catch (_e) {
-        _v3VipShowStatus('❌ Code not recognised', 'error');
-        _v3VipResetUi();
-        return;
       }
 
       // Eligible — call Supabase Auth signInWithOtp via the shared client.
@@ -14162,7 +14266,7 @@
     }
     window.loadDynamicCefrListeningMocks = loadDynamicCefrListeningMocks;
 
-    const _clet_CACHE_KEY = 'ms_clet_meta_v26';
+    const _clet_CACHE_KEY = 'ms_clet_meta_v27';
     const _clet_CACHE_TTL = 24 * 60 * 60 * 1000;
     const _clet_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
     const _clet_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';

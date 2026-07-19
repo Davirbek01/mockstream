@@ -69,7 +69,10 @@ export const handler = async (event) => {
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `attachment; filename="${fname}.pdf"`,
-        'Cache-Control': 'public, max-age=600'
+        // Must NOT cache: every mock is a different PDF at the same function path.
+        // A public cache made Netlify's CDN return the first PDF for every later
+        // request (e.g. picking any IELTS reading returned IELTS listening 10).
+        'Cache-Control': 'no-store, max-age=0'
       },
       body: Buffer.from(pdf).toString('base64'),
       isBase64Encoded: true
