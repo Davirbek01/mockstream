@@ -6195,16 +6195,31 @@
     // sent to landing.html only to fail at the legacy passcode prompt.
     // Super-admins (Google OR Telegram) bounce through to the panel.
     document.getElementById('msv3MockMgmtBtn').addEventListener('click', async function () {
+      // Instant feedback: the role check below is a network round-trip
+      // (Supabase premium_emails + possible token refresh) — without a
+      // spinner the button feels dead for 1-3s on a cold cache.
+      var _mmBtn = this;
+      var _mmArrow = _mmBtn.querySelector('.msv3-row-arrow');
+      var _mmPrev = _mmArrow ? _mmArrow.textContent : '';
+      if (_mmArrow) _mmArrow.textContent = '⏳';
+      _mmBtn.disabled = true;
+      function _mmRestore() {
+        _mmBtn.disabled = false;
+        if (_mmArrow) _mmArrow.textContent = _mmPrev;
+      }
       try {
         if (window.MockStream && window.MockStream.auth &&
             typeof window.MockStream.auth.checkPremiumRole === 'function') {
           var info = await window.MockStream.auth.checkPremiumRole();
           if (!info || !info.isAdmin) {
+            _mmRestore();
             _showAdminGateModal('Mock Settings is restricted to the super-admin account. Sign in to continue.');
             return;
           }
         }
       } catch (_e) { /* fall through to navigation */ }
+      // Keep the ⏳ up through the navigation — continuous feedback while
+      // the admin page loads.
       window.location.href = '/landing.html?openMockMgmt=1';
     });
     // Download Mock PDFs — open the unified picker for any admin (super-admin OR
