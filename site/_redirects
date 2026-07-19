@@ -13,3 +13,7 @@
 # back to /landing-v3.html instead of opening the speaking mock on first
 # code submit.
 /take/* /landing-v3.html?take=:splat 200
+
+# landing-v2.html was an abandoned design iteration (deleted 2026-07-20).
+# 301 any stray old bookmark to the live landing.
+/landing-v2.html /landing-v3.html 301
