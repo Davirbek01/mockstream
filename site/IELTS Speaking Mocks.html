@@ -6956,8 +6956,11 @@
           getTestId: function() { return window.SELECTED_MOCK_NUMBER || ''; },
           getState: function() {
             if (examCompleted) return null;
+            // Save from the moment the exam is active (getState only runs after
+            // SessionRecovery.start()), even before the first question is recorded
+            // — so leaving mid-speaking is resumable + shows the dashboard banner,
+            // matching Writing. questionIndex reflects progress (0 = resume at Q1).
             var started = document.querySelectorAll('.q[data-started]').length;
-            if (started === 0) return null;
             return { questionIndex: started, mockNumber: window.SELECTED_MOCK_NUMBER || '01', totalQuestions: document.querySelectorAll('.q').length };
           }
         });
