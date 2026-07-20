@@ -18,7 +18,10 @@
   'use strict';
 
   var SUPABASE_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
-  var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inprbnl1a2tidGJjcWd2a2dqa3RiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzgzMTc2NTgsImV4cCI6MjA1Mzg5MzY1OH0.VETrnOjJMGpPHSIFMRBSFkB-iCNTbMVFFkIhLKjJBSY';
+  // Current legacy anon key (matches landing-v3 / index.html). The previous key
+  // (iat 1738…) was rotated and now 401s, which had silently broken all Supabase
+  // session save/restore — fixed here.
+  var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inprbnl1a2tidGJjcWd2a2dqa3RiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ3MTUyODIsImV4cCI6MjA5MDI5MTI4Mn0.gGRtl2TVCn_PnY1aITFdX76yxZu3QZsbdrqI5hXioEw';
   var SAVE_INTERVAL = 30000;   // 30 seconds
   var EXPIRY_HOURS  = 72;
 
@@ -49,6 +52,17 @@
     },
 
     // ── Supabase fetch helper ───────────────────────────────────────────
+    // Shallow-copy the runner's state and stamp the exact URL that reopens this
+    // mock, so the dashboard "Continue" banner can resume without guessing the
+    // runner page / mock param. Backward-compatible: unknown key, ignored on restore.
+    _enrich: function (state) {
+      var sd = {};
+      try { for (var k in state) { if (Object.prototype.hasOwnProperty.call(state, k)) sd[k] = state[k]; } }
+      catch (e) { sd = state; }
+      try { sd.__resumeUrl = location.pathname + location.search; } catch (e) { /* ignore */ }
+      return sd;
+    },
+
     _fetch: function (path, opts) {
       opts = opts || {};
       var h = {
@@ -274,7 +288,7 @@
         user_identifier: uid,
         test_type: this._config.testType,
         test_id: this._config.getTestId ? this._config.getTestId() : '',
-        session_data: state,
+        session_data: this._enrich(state),
         updated_at: new Date().toISOString(),
         expires_at: new Date(Date.now() + EXPIRY_HOURS * 3600000).toISOString()
       };
@@ -305,7 +319,7 @@
         user_identifier: uid,
         test_type: this._config.testType,
         test_id: this._config.getTestId ? this._config.getTestId() : '',
-        session_data: state,
+        session_data: this._enrich(state),
         updated_at: new Date().toISOString(),
         expires_at: new Date(Date.now() + EXPIRY_HOURS * 3600000).toISOString()
       };
@@ -365,6 +379,29 @@
         await this._fetch('test_sessions?id=eq.' + id, { method: 'DELETE' });
       } catch (e) { /* ignore */ }
     },
+
+    // ── Dashboard support: list this DEVICE's active (unexpired) sessions ──
+    // Keyed by ms_device_id (the tail of user_identifier "name::device"), so it
+    // works regardless of which candidate-name key a runner saved under, and is
+    // device-scoped for privacy. Returns [] when no device id / none active.
+    listActiveOnDevice: async function () {
+      var did = '';
+      try { did = localStorage.getItem('ms_device_id') || ''; } catch (e) { /* ignore */ }
+      if (!did) return [];
+      try {
+        var r = await this._fetch(
+          'test_sessions?user_identifier=like.*' + encodeURIComponent('::' + did)
+          + '&select=*&order=updated_at.desc'
+        );
+        if (!r || !r.ok) return [];
+        var rows = await r.json();
+        var now = Date.now();
+        return (rows || []).filter(function (x) { return new Date(x.expires_at).getTime() > now; });
+      } catch (e) { return []; }
+    },
+
+    // Delete one session row by id (dashboard "Discard").
+    discard: function (id) { return this._deleteById(id); },
 
     // ── Generic answer restoration ──────────────────────────────────────
     // Tries common DOM patterns to restore answers.

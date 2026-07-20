@@ -2550,6 +2550,153 @@
       </div>
     </section>
 
+    <!-- ── CONTINUE / RESUME BANNER ─────────────────────────────────────────
+         Surfaces this DEVICE's unfinished mocks (SessionRecovery / test_sessions)
+         directly under the stats. Newest = the hero card; others = chips.
+         Auto-hidden when there are no live sessions. Resume opens the exact
+         runner URL the session stored (__resumeUrl); the runner's own
+         Resume/Start-Fresh prompt then restores the answers. ──────────────── -->
+    <style>
+      .msr-section { padding: 6px 0 0; }
+      .msr-card { position:relative; background:#fff; border:1px solid #e6eaf1; border-radius:18px;
+        padding:16px 18px 16px 20px; box-shadow:0 14px 34px -20px rgba(124,58,237,.40); overflow:hidden; }
+      .msr-rail { position:absolute; left:0; top:0; bottom:0; width:5px; background:#7c3aed; }
+      .msr-top { display:flex; align-items:center; gap:16px; }
+      .msr-ic { width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center;
+        font-size:24px; color:#fff; flex:0 0 auto; background:#7c3aed; }
+      .msr-main { flex:1 1 auto; min-width:0; }
+      .msr-eyebrow { font-size:11px; letter-spacing:.12em; text-transform:uppercase; font-weight:800; color:#7c3aed;
+        display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+      .msr-badge { background:#7c3aed; color:#fff; padding:2px 7px; border-radius:20px; font-size:9.5px; letter-spacing:.06em; }
+      .msr-count { font-size:9.5px; font-weight:800; color:#64748b; background:#f1f5f9; border:1px solid #e2e8f0;
+        padding:2px 8px; border-radius:20px; text-transform:none; }
+      .msr-count[hidden] { display:none; }
+      .msr-title { font-size:18px; font-weight:800; color:#0f172a; letter-spacing:-.01em; margin:4px 0 2px; }
+      .msr-meta { font-size:13px; color:#64748b; }
+      .msr-cta { display:flex; align-items:center; gap:10px; flex:0 0 auto; margin-left:auto; }
+      .msr-discard { background:transparent; border:0; color:#64748b; font:inherit; font-size:13px; font-weight:600;
+        cursor:pointer; padding:8px; border-radius:8px; }
+      .msr-discard:hover { color:#dc2626; }
+      .msr-resume { display:inline-flex; align-items:center; gap:8px; background:#7c3aed; color:#fff; border:0;
+        padding:12px 22px; border-radius:12px; font:inherit; font-size:15px; font-weight:750; cursor:pointer;
+        box-shadow:0 10px 20px -8px rgba(124,58,237,.6); }
+      .msr-more { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:12px 2px 0; padding-top:12px;
+        border-top:1px dashed #e6eaf1; }
+      .msr-more[hidden] { display:none; }
+      .msr-more .cap { font-size:12px; color:#64748b; font-weight:600; margin-right:2px; }
+      .msr-chip { display:inline-flex; align-items:center; gap:8px; background:#f8fafc; border:1px solid #e6eaf1;
+        border-radius:20px; padding:5px 12px 5px 6px; font-size:12.5px; font-weight:650; color:#0f172a; cursor:pointer; }
+      .msr-chip .cd { width:20px; height:20px; border-radius:6px; display:flex; align-items:center; justify-content:center;
+        color:#fff; font-size:11px; }
+      @media (max-width:640px){
+        .msr-top { flex-wrap:wrap; }
+        .msr-cta { margin-top:8px; width:100%; justify-content:flex-end; }
+        .msr-resume { flex:1; justify-content:center; }
+      }
+    </style>
+    <section class="section msr-section" id="msrResumeSection" style="display:none;">
+      <div class="msr-card">
+        <span class="msr-rail" id="msrRail"></span>
+        <div class="msr-top">
+          <span class="msr-ic" id="msrIc">✍️</span>
+          <div class="msr-main">
+            <div class="msr-eyebrow">Continue where you left off
+              <span class="msr-badge">RESUME</span>
+              <span class="msr-count" id="msrCount" hidden></span>
+            </div>
+            <div class="msr-title" id="msrTitle"></div>
+            <div class="msr-meta" id="msrMeta"></div>
+          </div>
+          <div class="msr-cta">
+            <button class="msr-discard" id="msrDiscard" type="button">Discard</button>
+            <button class="msr-resume" id="msrResume" type="button">Resume &rarr;</button>
+          </div>
+        </div>
+        <div class="msr-more" id="msrMore" hidden></div>
+      </div>
+    </section>
+    <script>
+      (function () {
+        var TYPE = {
+          'cefr-listening':  { s:'Listening', e:'CEFR',  a:'#0284c7', i:'🎧' },
+          'ielts-listening': { s:'Listening', e:'IELTS', a:'#0284c7', i:'🎧' },
+          'cefr-reading':    { s:'Reading',   e:'CEFR',  a:'#d97706', i:'📖' },
+          'ielts-reading':   { s:'Reading',   e:'IELTS', a:'#d97706', i:'📖' },
+          'cefr-writing':    { s:'Writing',   e:'CEFR',  a:'#7c3aed', i:'✍️' },
+          'ielts-writing':   { s:'Writing',   e:'IELTS', a:'#7c3aed', i:'✍️' },
+          'cefr-speaking':   { s:'Speaking',  e:'CEFR',  a:'#059669', i:'🎤' },
+          'ielts-speaking':  { s:'Speaking',  e:'IELTS', a:'#059669', i:'🎤' },
+          'cefr-full-mock':  { s:'Full Mock', e:'CEFR',  a:'#4f46e5', i:'🎯' },
+          'ielts-full-mock': { s:'Full Mock', e:'IELTS', a:'#4f46e5', i:'🎯' }
+        };
+        function meta(t) { return TYPE[t] || { s: t || 'Mock', e:'', a:'#4f46e5', i:'📝' }; }
+        function agoText(ts) {
+          var m = Math.round((Date.now() - new Date(ts).getTime()) / 60000);
+          if (m < 1) return 'just now';
+          if (m < 60) return 'saved ' + m + ' min ago';
+          var h = Math.round(m / 60);
+          return 'saved ' + h + ' hour' + (h !== 1 ? 's' : '') + ' ago';
+        }
+        function titleOf(row) {
+          var t = meta(row.test_type);
+          var id = (row.test_id == null ? '' : String(row.test_id)).trim();
+          var mk = id ? (/^\d+$/.test(id) ? ('Mock ' + parseInt(id, 10)) : id) : '';
+          return (t.e ? (t.e + ' ') : '') + t.s + (mk ? (' · ' + mk) : '');
+        }
+        // Require the runner-stored resume URL — no guessing which mock to open.
+        function resumeUrl(row) { var sd = row.session_data || {}; return sd.__resumeUrl || null; }
+        function detail(sd) {
+          if (!sd) return '';
+          var n = 0;
+          if (sd.userAnswers) n += Object.keys(sd.userAnswers).length;
+          if (sd.answers && typeof sd.answers === 'object') {
+            Object.keys(sd.answers).forEach(function (k) { var v = sd.answers[k]; if (v && typeof v === 'object') n += Object.keys(v).length; });
+          }
+          return n ? (' · ' + n + ' answer' + (n !== 1 ? 's' : '') + ' saved') : '';
+        }
+        function render() {
+          if (!window.SessionRecovery || !SessionRecovery.listActiveOnDevice) return;
+          SessionRecovery.listActiveOnDevice().then(function (rows) {
+            var sec = document.getElementById('msrResumeSection');
+            if (!sec) return;
+            rows = (rows || []).filter(function (r) { return resumeUrl(r); });
+            if (!rows.length) { sec.style.display = 'none'; return; }
+            var latest = rows[0], extras = rows.slice(1), t = meta(latest.test_type), sd = latest.session_data || {};
+            document.getElementById('msrRail').style.background = t.a;
+            var ic = document.getElementById('msrIc'); ic.textContent = t.i; ic.style.background = t.a;
+            var eb = sec.querySelector('.msr-eyebrow'); if (eb) eb.style.color = t.a;
+            var bd = sec.querySelector('.msr-badge'); if (bd) bd.style.background = t.a;
+            document.getElementById('msrTitle').textContent = titleOf(latest);
+            document.getElementById('msrMeta').textContent = agoText(latest.updated_at) + detail(sd) + ' · on this device';
+            var rb = document.getElementById('msrResume');
+            rb.style.background = t.a; rb.style.boxShadow = '0 10px 20px -8px ' + t.a + '99';
+            rb.onclick = function () { var u = resumeUrl(latest); if (u) window.location.href = u; };
+            var db = document.getElementById('msrDiscard');
+            db.disabled = false;
+            db.onclick = function () { db.disabled = true; SessionRecovery.discard(latest.id).then(render).catch(render); };
+            var cnt = document.getElementById('msrCount');
+            if (rows.length > 1) { cnt.hidden = false; cnt.textContent = rows.length + ' in progress'; } else { cnt.hidden = true; }
+            var more = document.getElementById('msrMore');
+            if (extras.length) {
+              var html = '<span class="cap">Also in progress:</span>';
+              extras.forEach(function (r) {
+                var m = meta(r.test_type);
+                html += '<span class="msr-chip" data-url="' + encodeURIComponent(resumeUrl(r) || '') + '">'
+                  + '<span class="cd" style="background:' + m.a + '">' + m.i + '</span>' + titleOf(r) + '</span>';
+              });
+              more.innerHTML = html; more.hidden = false;
+              more.querySelectorAll('.msr-chip').forEach(function (ch) {
+                ch.onclick = function () { var u = decodeURIComponent(ch.getAttribute('data-url') || ''); if (u) window.location.href = u; };
+              });
+            } else { more.hidden = true; more.innerHTML = ''; }
+            sec.style.display = '';
+          }).catch(function () { /* ignore */ });
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', render);
+        else render();
+      })();
+    </script>
+
     <!-- ── BILLBOARDS — single row, side-by-side, auto-rotating (mock test) ── -->
     <style>
       .bb-section { padding: 18px 0 8px; }
@@ -4237,6 +4384,7 @@
   <script src="/code-persistence.js" defer></script>
   <script src="/mock-code-verifier.js?v=2"></script>
   <script src="/pdf-menu.js" defer></script>
+  <script src="/session-recovery.js" defer></script>
 
   <script>
     /* Same data fetch as v2 — uses the mock_attempt_stats RPC + a few
