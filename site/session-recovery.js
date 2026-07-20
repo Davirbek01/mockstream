@@ -385,23 +385,62 @@
     // works regardless of which candidate-name key a runner saved under, and is
     // device-scoped for privacy. Returns [] when no device id / none active.
     listActiveOnDevice: async function () {
+      var now = Date.now();
+      var byType = {};
+      // 1) localStorage sr_* — written synchronously on EVERY save (before the
+      //    Supabase POST, so it survives an offline/blocked backend). Device-local,
+      //    so this is the reliable primary source for the dashboard banner.
+      try {
+        for (var i = 0; i < localStorage.length; i++) {
+          var k = localStorage.key(i);
+          if (!k || k.indexOf('sr_') !== 0) continue;
+          try {
+            var p = JSON.parse(localStorage.getItem(k));
+            if (p && p.test_type && p.expires_at && new Date(p.expires_at).getTime() > now) {
+              byType[p.test_type] = p;
+            }
+          } catch (e) { /* skip malformed entry */ }
+        }
+      } catch (e) { /* ignore */ }
+      // 2) Supabase (same device) — adds sessions not in localStorage and keeps
+      //    the fresher copy where both exist.
       var did = '';
       try { did = localStorage.getItem('ms_device_id') || ''; } catch (e) { /* ignore */ }
-      if (!did) return [];
-      try {
-        var r = await this._fetch(
-          'test_sessions?user_identifier=like.*' + encodeURIComponent('::' + did)
-          + '&select=*&order=updated_at.desc'
-        );
-        if (!r || !r.ok) return [];
-        var rows = await r.json();
-        var now = Date.now();
-        return (rows || []).filter(function (x) { return new Date(x.expires_at).getTime() > now; });
-      } catch (e) { return []; }
+      if (did) {
+        try {
+          var r = await this._fetch(
+            'test_sessions?user_identifier=like.*' + encodeURIComponent('::' + did) + '&select=*&order=updated_at.desc'
+          );
+          if (r && r.ok) {
+            var rows = await r.json();
+            (rows || []).forEach(function (x) {
+              if (!x || new Date(x.expires_at).getTime() <= now) return;
+              var ex = byType[x.test_type];
+              if (!ex || new Date(x.updated_at).getTime() > new Date(ex.updated_at || 0).getTime()) byType[x.test_type] = x;
+            });
+          }
+        } catch (e) { /* ignore — localStorage already covers it */ }
+      }
+      var arr = Object.keys(byType).map(function (kk) { return byType[kk]; });
+      arr.sort(function (a, b) { return new Date(b.updated_at || 0).getTime() - new Date(a.updated_at || 0).getTime(); });
+      return arr;
     },
 
-    // Delete one session row by id (dashboard "Discard").
-    discard: function (id) { return this._deleteById(id); },
+    // Discard one session everywhere — localStorage + Supabase (by id if known,
+    // else by user_identifier+test_type). Accepts a session ROW.
+    discard: function (row) {
+      if (!row) return Promise.resolve();
+      try { if (row.test_type) localStorage.removeItem('sr_' + row.test_type); } catch (e) { /* ignore */ }
+      if (row.id) return this._deleteById(row.id);
+      if (row.user_identifier && row.test_type) {
+        return this._fetch(
+          'test_sessions?user_identifier=eq.' + encodeURIComponent(row.user_identifier)
+          + '&test_type=eq.' + encodeURIComponent(row.test_type),
+          { method: 'DELETE' }
+        ).catch(function () {});
+      }
+      return Promise.resolve();
+    },
 
     // ── Generic answer restoration ──────────────────────────────────────
     // Tries common DOM patterns to restore answers.

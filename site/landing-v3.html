@@ -2673,7 +2673,7 @@
             rb.onclick = function () { var u = resumeUrl(latest); if (u) window.location.href = u; };
             var db = document.getElementById('msrDiscard');
             db.disabled = false;
-            db.onclick = function () { db.disabled = true; SessionRecovery.discard(latest.id).then(render).catch(render); };
+            db.onclick = function () { db.disabled = true; Promise.resolve(SessionRecovery.discard(latest)).then(render).catch(render); };
             var cnt = document.getElementById('msrCount');
             if (rows.length > 1) { cnt.hidden = false; cnt.textContent = rows.length + ' in progress'; } else { cnt.hidden = true; }
             var more = document.getElementById('msrMore');
