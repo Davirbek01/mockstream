@@ -2069,8 +2069,20 @@
     @media (max-width: 540px) {
       .exams-rail > .cambridge-card { flex: 0 0 96px; }
     }
+    /* Pexels cover strip on exam cards (2026-07-20) — full-bleed top,
+       clipped by the card radius; missing image removes the band. */
+    .cb-cover {
+      margin: -12px -10px 8px;
+      height: 54px;
+      overflow: hidden;
+      background: #f1f5f9;
+    }
+    .cb-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .msv3-intl-exams .cb-cover { margin: -9px -12px 6px -14px; height: 44px; }
+    .msv3-intl-exams .cambridge-card { overflow: hidden !important; }
     .cambridge-card {
       position: relative;
+      overflow: hidden;
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: var(--r);
@@ -2955,13 +2967,13 @@
       </div>
       <div class="bb-row" id="bbRow">
         <div class="bb-slot" id="bbSlotAnn">
-          <span class="bb-slot-label">📢 <span class="bb-slot-count" id="bbAnnCount"><b>1</b> / 4</span></span>
+          <span class="bb-slot-label" style="display:none;">📢 <span class="bb-slot-count" id="bbAnnCount"><b>1</b> / 4</span></span>
           <button class="bb-nav prev" id="bbAnnPrev" aria-label="Previous announcement">‹</button>
           <button class="bb-nav next" id="bbAnnNext" aria-label="Next announcement">›</button>
           <div class="bb-ann-stage" id="bbAnnStage"></div>
         </div>
         <div class="bb-slot" id="bbSlotCert">
-          <span class="bb-slot-label">🏆 <span class="bb-slot-count" id="bbCertCount"><b>1</b> / 8</span></span>
+          <span class="bb-slot-label" style="display:none;">🏆 <span class="bb-slot-count" id="bbCertCount"><b>1</b> / 8</span></span>
           <button class="bb-nav prev" id="bbCertPrev" aria-label="Previous certificate">‹</button>
           <button class="bb-nav next" id="bbCertNext" aria-label="Next certificate">›</button>
           <div class="bb-cert-stage" id="bbCertStage"></div>
@@ -4040,31 +4052,37 @@
       </div>
       <div class="exams-rail" id="examsRail">
         <a class="cambridge-card" href="javascript:void(0)" data-cambridge="ket">
+          <div class="cb-cover"><img src="https://storage.googleapis.com/mockstream-samples-audio/intl-exam-covers/ket.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
           <div class="cb-level">A2</div>
           <div class="cb-code">KET</div>
           <div class="cb-name">Key English Test</div>
         </a>
         <a class="cambridge-card" href="javascript:void(0)" data-cambridge="pet">
+          <div class="cb-cover"><img src="https://storage.googleapis.com/mockstream-samples-audio/intl-exam-covers/pet.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
           <div class="cb-level">B1</div>
           <div class="cb-code">PET</div>
           <div class="cb-name">Preliminary</div>
         </a>
         <a class="cambridge-card" href="javascript:void(0)" data-cambridge="fce">
+          <div class="cb-cover"><img src="https://storage.googleapis.com/mockstream-samples-audio/intl-exam-covers/fce.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
           <div class="cb-level">B2</div>
           <div class="cb-code">FCE</div>
           <div class="cb-name">First</div>
         </a>
         <a class="cambridge-card" href="javascript:void(0)" data-cambridge="cae">
+          <div class="cb-cover"><img src="https://storage.googleapis.com/mockstream-samples-audio/intl-exam-covers/cae.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
           <div class="cb-level">C1</div>
           <div class="cb-code">CAE</div>
           <div class="cb-name">Advanced</div>
         </a>
         <a class="cambridge-card" href="javascript:void(0)" data-cambridge="cpe">
+          <div class="cb-cover"><img src="https://storage.googleapis.com/mockstream-samples-audio/intl-exam-covers/cpe.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
           <div class="cb-level">C2</div>
           <div class="cb-code">CPE</div>
           <div class="cb-name">Proficiency</div>
         </a>
         <a class="cambridge-card sat-card" href="/SAT Mocks.html">
+          <div class="cb-cover"><img src="https://storage.googleapis.com/mockstream-samples-audio/intl-exam-covers/sat.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
           <div class="cb-level cb-level-sat">College</div>
           <div class="cb-code">SAT</div>
           <div class="cb-name">Digital Adaptive</div>
@@ -4072,24 +4090,28 @@
         <!-- Coming-soon tiles — fill the row visually. No href so they're
              not navigable. .soon greys them out and adds the Soon pill. -->
         <a class="cambridge-card soon toefl-card" href="javascript:void(0)" data-exam-soon="toefl-ibt">
+          <div class="cb-cover"><img src="https://storage.googleapis.com/mockstream-samples-audio/intl-exam-covers/toefl-ibt.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
           <span class="cb-soon">Soon</span>
           <div class="cb-level cb-level-toefl">Uni</div>
           <div class="cb-code">TOEFL</div>
           <div class="cb-name">iBT</div>
         </a>
         <a class="cambridge-card soon toefl-card" href="javascript:void(0)" data-exam-soon="toefl-itp">
+          <div class="cb-cover"><img src="https://storage.googleapis.com/mockstream-samples-audio/intl-exam-covers/toefl-itp.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
           <span class="cb-soon">Soon</span>
           <div class="cb-level cb-level-toefl">Inst</div>
           <div class="cb-code">TOEFL</div>
           <div class="cb-name">ITP</div>
         </a>
         <a class="cambridge-card soon gre-card" href="javascript:void(0)" data-exam-soon="gre">
+          <div class="cb-cover"><img src="https://storage.googleapis.com/mockstream-samples-audio/intl-exam-covers/gre.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
           <span class="cb-soon">Soon</span>
           <div class="cb-level cb-level-gre">Grad</div>
           <div class="cb-code">GRE</div>
           <div class="cb-name">General Test</div>
         </a>
         <a class="cambridge-card soon tkt-card" href="javascript:void(0)" data-exam-soon="tkt">
+          <div class="cb-cover"><img src="https://storage.googleapis.com/mockstream-samples-audio/intl-exam-covers/tkt.jpg" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
           <span class="cb-soon">Soon</span>
           <div class="cb-level cb-level-tkt">Teach</div>
           <div class="cb-code">TKT</div>
