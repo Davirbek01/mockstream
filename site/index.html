@@ -5978,6 +5978,13 @@
         return;
       }
 
+      // From here on we WILL run the async verify. Flag it so autoResume()
+      // below DEFERS instead of instantly redirecting a remembered (guest)
+      // identity to landing-v3 — that race unloaded the page mid-verify and
+      // signed every returning Mini App user in as Guest (regression from
+      // the "remember guest choice" persistent ms_entered_app marker).
+      window.__tmaAuthInFlight = true;
+
       var SB_URL = window.SUPABASE_URL || 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       // Legacy anon JWT (not the newer sb_publishable_ key). The Edge
       // Function was deployed with verify_jwt=true (MCP default and can't
@@ -6003,6 +6010,16 @@
         // Hold the splash until the welcome card has finished its own
         // loading animation, so we don't expose its half-loaded state.
         _removeSplashOnWelcomeReady();
+        // Verify failed — hand control back to the deferred autoResume()
+        // so a remembered user still skips Welcome (same UX as the plain
+        // web flow). No-op on the early bails above (nothing deferred yet).
+        try {
+          if (typeof window.__tmaDeferredResume === 'function') {
+            var _r = window.__tmaDeferredResume;
+            window.__tmaDeferredResume = null;
+            _r();
+          }
+        } catch (_e) {}
       }
 
       (async function () {
@@ -6138,7 +6155,11 @@
     })();
 
     // ===== AUTO-RESUME: skip welcome entirely if user already entered or is signed in =====
-    (function autoResume() {
+    // NOTE: when the TMA auto sign-in above is mid-verify (__tmaAuthInFlight)
+    // this must NOT run immediately — its instant landing-v3 redirect would
+    // unload the page before verifyOtp completes and land the Mini App user
+    // as a remembered Guest. Instead it's stashed as the failure fallback.
+    var _autoResumeRun = function autoResume() {
       //   (a) the user previously entered the app in this session, OR
       //   (b) the user is signed in with Google (auth.js restored the
       //       session on load — CANDIDATE_FULL_NAME is populated), OR
@@ -6220,7 +6241,14 @@
         return;
       }
       if (hasEntered || hasGoogleSession) { _go(); return; }
-    })();
+    };
+    if (window.__tmaAuthInFlight) {
+      // TMA sign-in owns the entry: it redirects itself on success and
+      // calls this stash from _restoreWelcome() on failure.
+      window.__tmaDeferredResume = _autoResumeRun;
+    } else {
+      _autoResumeRun();
+    }
 
     // Note: Exiting fullscreen no longer resets to welcome screen
     // Users can tap/click anywhere to re-enter fullscreen
