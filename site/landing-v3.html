@@ -2172,12 +2172,13 @@
        ═══════════════════════════════════════════════════════ */
     .tools-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 14px;
     }
     @media (max-width: 920px) { .tools-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 460px) { .tools-grid { grid-template-columns: 1fr; } }
     .tool-card {
+      min-width: 0;
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: var(--r);
@@ -2224,9 +2225,21 @@
       color: var(--muted);
       margin-top: 2px;
       font-weight: 500;
+      /* Flex row so the description ellipsizes while the count badge
+         always stays fully visible (was one nowrap line clipping the
+         badge in both the main column and the sidebar clone). */
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
+      overflow: hidden;
+    }
+    .tool-sub-text {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      min-width: 0;
+      flex: 0 1 auto;
     }
     .tool-arrow {
       color: var(--muted-2);
@@ -2235,7 +2248,7 @@
       flex-shrink: 0;
     }
     .tool-card:hover .tool-arrow { transform: translateX(3px); color: var(--indigo); }
-    .tools-grid.tools-grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .tools-grid.tools-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     /* Mobile: keep 3 columns by switching to a tight vertical tile
        (icon on top, name below — no sub, no arrow). */
     @media (max-width: 460px) {
@@ -3982,7 +3995,7 @@
           </div>
           <div class="tool-body">
             <div class="tool-name">Flashcards</div>
-            <div class="tool-sub">Build &amp; drill vocab decks <span class="tool-count" id="ltCountFlashcards"></span></div>
+            <div class="tool-sub"><span class="tool-sub-text">Build &amp; drill vocab decks</span> <span class="tool-count" id="ltCountFlashcards"></span></div>
           </div>
           <div class="tool-arrow">→</div>
         </a>
@@ -3997,7 +4010,7 @@
           </div>
           <div class="tool-body">
             <div class="tool-name">Articles</div>
-            <div class="tool-sub">Long-form reading practice <span class="tool-count" id="ltCountArticles"></span></div>
+            <div class="tool-sub"><span class="tool-sub-text">Long-form reading practice</span> <span class="tool-count" id="ltCountArticles"></span></div>
           </div>
           <div class="tool-arrow">→</div>
         </a>
@@ -4010,66 +4023,10 @@
           </div>
           <div class="tool-body">
             <div class="tool-name">Tests</div>
-            <div class="tool-sub">Grammar &amp; vocabulary drills <span class="tool-count" id="ltCountTests"></span></div>
+            <div class="tool-sub"><span class="tool-sub-text">Grammar &amp; vocabulary drills</span> <span class="tool-count" id="ltCountTests"></span></div>
           </div>
           <div class="tool-arrow">→</div>
         </a>
-      </div>
-    </section>
-
-    <!-- ── SECONDARY: FULL MOCK + CAMBRIDGE ──────────────── -->
-    <section class="section">
-      <div class="secondary">
-        <!-- Full Mock — CEFR + IELTS split buttons mirror the skill-card
-             pattern (Reading/Listening above). Each launches its runner
-             inline; same handlers as the sidebar msv3CefrFullMock /
-             msv3IeltsFullMock buttons. -->
-        <div class="secondary-card full split">
-          <div class="full-skills-strip" aria-hidden="true">
-            <span class="fs-icon spk" title="Speaking">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
-                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-                <line x1="12" y1="19" x2="12" y2="23"></line>
-                <line x1="8" y1="23" x2="16" y2="23"></line>
-              </svg>
-            </span>
-            <span class="fs-plus">+</span>
-            <span class="fs-icon wrt" title="Writing">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 20h9"></path>
-                <path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
-              </svg>
-            </span>
-            <span class="fs-plus">+</span>
-            <span class="fs-icon lst" title="Listening">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
-                <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
-              </svg>
-            </span>
-            <span class="fs-plus">+</span>
-            <span class="fs-icon rdg" title="Reading">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-              </svg>
-            </span>
-          </div>
-          <div class="body">
-            <div class="title">Full Mock Experience</div>
-            <div class="sub">All 4 skills sequenced · most realistic exam run</div>
-          </div>
-          <div class="sc-stats">
-            <span>⚡ <span class="num" id="fullMockToday">0</span> taken today</span>
-            <span style="opacity:.55;margin:0 6px;">·</span>
-            <span><span class="num" id="fullMockAllTime">0</span> all-time</span>
-          </div>
-          <div class="sc-ctas">
-            <button class="sc-cta primary" id="msv3MainCefrFullMock" type="button">CEFR →</button>
-            <button class="sc-cta ghost"   id="msv3MainIeltsFullMock" type="button">IELTS →</button>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -4138,6 +4095,62 @@
           <div class="cb-code">TKT</div>
           <div class="cb-name">Teaching Knowledge</div>
         </a>
+      </div>
+    </section>
+
+    <!-- ── SECONDARY: FULL MOCK + CAMBRIDGE ──────────────── -->
+    <section class="section">
+      <div class="secondary">
+        <!-- Full Mock — CEFR + IELTS split buttons mirror the skill-card
+             pattern (Reading/Listening above). Each launches its runner
+             inline; same handlers as the sidebar msv3CefrFullMock /
+             msv3IeltsFullMock buttons. -->
+        <div class="secondary-card full split">
+          <div class="full-skills-strip" aria-hidden="true">
+            <span class="fs-icon spk" title="Speaking">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                <line x1="12" y1="19" x2="12" y2="23"></line>
+                <line x1="8" y1="23" x2="16" y2="23"></line>
+              </svg>
+            </span>
+            <span class="fs-plus">+</span>
+            <span class="fs-icon wrt" title="Writing">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9"></path>
+                <path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+              </svg>
+            </span>
+            <span class="fs-plus">+</span>
+            <span class="fs-icon lst" title="Listening">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+                <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+              </svg>
+            </span>
+            <span class="fs-plus">+</span>
+            <span class="fs-icon rdg" title="Reading">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+              </svg>
+            </span>
+          </div>
+          <div class="body">
+            <div class="title">Full Mock Experience</div>
+            <div class="sub">All 4 skills sequenced · most realistic exam run</div>
+          </div>
+          <div class="sc-stats">
+            <span>⚡ <span class="num" id="fullMockToday">0</span> taken today</span>
+            <span style="opacity:.55;margin:0 6px;">·</span>
+            <span><span class="num" id="fullMockAllTime">0</span> all-time</span>
+          </div>
+          <div class="sc-ctas">
+            <button class="sc-cta primary" id="msv3MainCefrFullMock" type="button">CEFR →</button>
+            <button class="sc-cta ghost"   id="msv3MainIeltsFullMock" type="button">IELTS →</button>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -16841,7 +16854,7 @@
        visibility — students weren't finding the tools below the fold). */
     (function () {
       var css = document.createElement('style');
-      css.textContent = '.tool-count{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:999px;background:rgba(124,58,237,.12);color:#7c3aed;font-size:11px;font-weight:700;vertical-align:1px;}';
+      css.textContent = '.tool-count{display:inline-block;flex-shrink:0;white-space:nowrap;padding:1px 8px;border-radius:999px;background:rgba(124,58,237,.12);color:#7c3aed;font-size:11px;font-weight:700;}';
       document.head.appendChild(css);
       var tries = 0;
       function upd() {
@@ -18633,17 +18646,19 @@
     }
     .msv3-collapsible.msv3-coll-open { margin-top: 12px; }
 
-    /* ── International Exams inside the sidebar — stacked 1-col ── */
+    /* ── International Exams inside the sidebar — horizontal scroll row ── */
     .msv3-intl-exams .exams-rail {
-        flex-direction: column !important;
-        gap: 6px !important;
-        padding: 4px 0 6px !important;
+        flex-direction: row !important;
+        gap: 8px !important;
+        padding: 4px 0 8px !important;
         margin: 0 !important;
-        overflow: visible !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        scrollbar-width: thin;
       }
       .msv3-intl-exams .cambridge-card {
         flex: 0 0 auto !important;
-        width: 100% !important;
+        width: 168px !important;
         min-height: 0 !important;
         padding: 9px 12px 9px 14px !important;
         background: rgba(255,255,255,0.04) !important;
@@ -19120,10 +19135,24 @@
         head.className = 'msv3-section-head';
         head.textContent = 'International Exams';
         wrap.appendChild(head);
-        wrap.appendChild(origRail);  // MOVE preserves click handlers + cards
+        // CLONE (2026-07-20): the old MOVE stripped the exams rail out of
+        // the main column (sidebar-only, stacked tall). The main section
+        // now stays visible as a horizontal scroll row below Learning
+        // Tools; the sidebar gets its own wired copy.
+        var rail = origRail.cloneNode(true);
+        rail.removeAttribute('id');
+        rail.querySelectorAll('[id]').forEach(function (el) { el.removeAttribute('id'); });
+        rail.querySelectorAll('.cambridge-card[data-cambridge]').forEach(function (a) {
+          a.addEventListener('click', function (e) {
+            e.preventDefault();
+            var exam = a.getAttribute('data-cambridge');
+            if (exam && typeof showCambridgeModal === 'function') showCambridgeModal(exam);
+          });
+        });
+        wrap.appendChild(rail);
         examPrep.parentNode.insertBefore(wrap, examPrep);
-        if (origSection) origSection.style.display = 'none';
-        enhanceExamCards(origRail);
+        void origSection; // stays visible in the main column
+        enhanceExamCards(rail);
       }
 
       // Add difficulty dots + status icon (✓ live, ⧗ soon) to each exam card.
