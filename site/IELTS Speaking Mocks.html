@@ -21,6 +21,7 @@
     } catch (_e) {}
   </script>
   <script src="finish-gate.js" defer></script>
+  <script src="session-recovery.js"></script>
   <script src="./ai-proxy-interceptor.js"></script>
   <link rel="stylesheet" href="premium-gate.css">
   <script src="premium-gate.js" defer></script>
@@ -4699,6 +4700,82 @@
   </div>
 
   <!-- ===== Part Intro Card Overlay ===== -->
+  <style id="vaTimerStrip">
+    /* ── Variant A single-focus timer strip + frameless surface (2026-07-21,
+       ported from CEFR Speaking Mocks.html). One phase on screen at a time:
+       the ACTIVE dial (amber prep → green speak — green matches this page's
+       speak-label; the red brand stays on REC/warnings), chip ABOVE the
+       dial, inactive dial hidden, prep hint, full-width live wave row and
+       the phase-action button. Frameless: html/body are the surface. ── */
+    .dialrow { flex-direction: column; align-items: center; gap: 12px; width: 100%; }
+    .dial-container.inactive { display: none; }
+    .dial-container { gap: 12px; }
+    .dial-label { order: -1; border-radius: 999px; letter-spacing: .6px; }
+    .dial-label.prep-label {
+      background: rgba(245, 158, 11, .10);
+      color: var(--amber);
+      border: 1.5px solid rgba(245, 158, 11, .38);
+    }
+    .dial-label.prep-label::before { content: "⏳ "; }
+    .dial-label.speak-label::before {
+      content: ""; display: inline-block; width: 8px; height: 8px;
+      border-radius: 50%; background: var(--red); margin-right: 8px;
+      animation: blink 1s steps(1) infinite;
+    }
+    .dialrow .dial.prep { --dial-color: var(--amber); }
+    .dialrow .dial.speak { --dial-color: #16a34a; }
+    .dialrow .dial {
+      width: clamp(112px, 30vw, 136px) !important;
+      height: clamp(112px, 30vw, 136px) !important;
+    }
+    .dialrow .dial .time { font-size: clamp(20px, 5vw, 26px); }
+    .rec { width: 100%; max-width: 520px; flex: 0 1 auto; background: rgba(22, 163, 74, .08); border-radius: 14px; padding: 12px 16px; gap: 14px; min-width: 0; }
+    .rec .rec-tag { flex: 0 0 auto; }
+    .rec .bars { height: 40px; width: auto; flex: 1; justify-content: center; gap: 4px; overflow: hidden; min-width: 0; }
+    .rec .bars i { width: 5px; border-radius: 3px; background: linear-gradient(to top, #16a34a, rgba(22, 163, 74, .55)); }
+    @media (min-width: 720px) { .rec { padding: 14px 18px; } .rec .bars { height: 48px; } }
+    /* Part 2 context image: compact media-object beside the cue-card box. */
+    .q7-ctx-row { display: flex; gap: 12px; align-items: stretch; width: 100%; margin-bottom: 16px; }
+    .q7-ctx-row .q7-context-img { flex: 0 0 clamp(110px, 32%, 230px); width: auto; height: auto; aspect-ratio: auto; object-fit: cover; border-radius: 12px; margin: 0; min-width: 0; min-height: 0; max-height: 260px; align-self: stretch; }
+    .q7-ctx-row > div { flex: 1; min-width: 0; margin-bottom: 0 !important; }
+    .next-hint { display: none; color: var(--muted); font-size: 13px; text-align: center; }
+    .next-hint b { color: var(--ink); font-weight: 800; }
+    .dialrow[data-phase="prep"] .next-hint { display: block; }
+    .phase-skip { display: none; width: 100%; max-width: 520px; border: 0; border-radius: 12px; padding: 13px 16px; background: var(--brand); color: #fff; font-weight: 800; font-size: 15px; letter-spacing: .3px; cursor: pointer; }
+    .phase-skip:active { transform: scale(.98); }
+    .dialrow[data-armed="1"] .phase-skip { display: block; }
+    .dialrow[data-phase="prep"] .ps-speak { display: none; }
+    .dialrow[data-phase="speak"] .ps-prep { display: none; }
+    @media (min-width: 720px) {
+      .dialrow { flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: center; gap: 26px; }
+      .dial-container { flex: 0 0 auto; }
+      .rec { flex: 1; max-width: none; align-self: center; }
+      .next-hint { flex: 1; align-self: center; border: 1.5px dashed rgba(148, 163, 184, .5); border-radius: 14px; padding: 16px; font-size: 13.5px; }
+      .phase-skip { flex: 1 0 100%; max-width: none; }
+    }
+    /* frameless minimal (user-approved on CEFR): page IS the surface */
+    html, body { background: var(--card); }
+    aside.sidebar { background: transparent; border: 0; padding: 0; box-shadow: none; }
+    details.q { background: transparent; border: 0; border-radius: 0; margin: 0; box-shadow: none; }
+    details.q[open] { outline: none; } /* the old card style drew a 3px pale outline — the last remaining "frame" */
+    #completedQuestionsList details.q { border-bottom: 1px solid rgba(148, 163, 184, .25); margin: 0 0 10px; }
+
+    /* ── Minimal chrome (2026-07-21, ported from CEFR) ── */
+    details.q summary { display: none; }
+    #completedQuestionsList details.q summary { display: flex; justify-content: space-between; }
+    .q-body { border-top: 0; }
+    .top .chip, #zoomBtn, #btnFS { display: none !important; }
+    .top-center { display: flex; align-items: center; gap: 14px; margin: 0 auto; }
+    .top-right-spacer { width: 74px; }
+    .top-ind-slot, .smb-ind-slot { display: flex; align-items: center; overflow-x: auto; max-width: 62vw; }
+    .top-ind-slot .part-indicator, .smb-ind-slot .part-indicator { margin: 0; }
+    .top-ind-slot .part-step, .smb-ind-slot .part-step { width: 30px; height: 30px; font-size: 13px; box-shadow: none; }
+    .top-ind-slot .part-connector, .smb-ind-slot .part-connector { width: 14px; }
+    @media (max-width: 719px) {
+      .q7-ctx-row { flex-direction: column; align-items: stretch; gap: 10px; }
+      .q7-ctx-row .q7-context-img { flex: none; width: 100%; max-height: 150px; align-self: auto; }
+    }
+  </style>
   <div id="partIntroOverlay"
     style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.85);z-index:10002;align-items:center;justify-content:center;animation:partIntroFadeIn 0.4s ease;">
     <div id="partIntroCard"
@@ -6956,8 +7033,11 @@
           getTestId: function() { return window.SELECTED_MOCK_NUMBER || ''; },
           getState: function() {
             if (examCompleted) return null;
+            // Save from the moment the exam is active (getState only runs after
+            // SessionRecovery.start()), even before the first question is recorded
+            // — so leaving mid-speaking is resumable + shows the dashboard banner,
+            // matching Writing. questionIndex reflects progress (0 = resume at Q1).
             var started = document.querySelectorAll('.q[data-started]').length;
-            if (started === 0) return null;
             return { questionIndex: started, mockNumber: window.SELECTED_MOCK_NUMBER || '01', totalQuestions: document.querySelectorAll('.q').length };
           }
         });
@@ -7320,13 +7400,75 @@
                 });
             };
             mediaRecorder.start();
+            // Start the live voice-responsive waveform for this question's .rec.
+            try {
+              ensureWaveformAnalyser(stream);
+              const _qEl = document.querySelectorAll('.q')[qIndex];
+              const _recEl = _qEl ? _qEl.querySelector('.rec') : null;
+              if (_recEl) startWaveform(_recEl);
+            } catch (e) { /* waveform is cosmetic — never block recording */ }
           } catch (err) {
             console.error('[Recording Error]', err);
             alert('Recording not supported on this browser. Please use Chrome, Firefox, or Safari.');
           }
         });
       }
+      // ── Live voice-responsive waveform (ported from CEFR speaking) ──────
+      // Drives the .rec .bars from an AnalyserNode on the recording stream so
+      // the wave reacts to the student's actual voice, replacing the cosmetic
+      // CSS `eq` animation.
+      let _wfAnalyser = null, _wfCtx = null, _wfData = null, _wfRAF = null, _wfBars = null;
+      function ensureWaveformAnalyser(stream) {
+        try {
+          if (_wfAnalyser) return _wfAnalyser;
+          const AC = window.AudioContext || window.webkitAudioContext;
+          if (!AC || !stream) return null;
+          _wfCtx = new AC();
+          const src = _wfCtx.createMediaStreamSource(stream);
+          _wfAnalyser = _wfCtx.createAnalyser();
+          _wfAnalyser.fftSize = 64;
+          _wfAnalyser.smoothingTimeConstant = 0.72;
+          src.connect(_wfAnalyser);
+          _wfData = new Uint8Array(_wfAnalyser.frequencyBinCount);
+        } catch (e) { console.warn('[Waveform] analyser init failed', e); _wfAnalyser = null; }
+        return _wfAnalyser;
+      }
+      function startWaveform(recEl) {
+        stopWaveform();
+        if (!recEl || !_wfAnalyser) return;
+        try { if (_wfCtx && _wfCtx.state === 'suspended') _wfCtx.resume(); } catch (e) { }
+        // Fill the row: top up the 12 static bars so the wave spans the strip
+        // on wide screens (the analyser mapping handles any bar count).
+        const barsEl = recEl.querySelector('.bars');
+        if (barsEl) {
+          const want = Math.max(12, Math.min(64, Math.floor((barsEl.clientWidth || 0) / 9) || 12));
+          while (barsEl.children.length < want) barsEl.appendChild(document.createElement('i'));
+          while (barsEl.children.length > want) barsEl.lastElementChild.remove(); // shrink after a resize
+        }
+        const bars = recEl.querySelectorAll('.bars i');
+        if (!bars.length) return;
+        _wfBars = bars;
+        bars.forEach(b => { b.style.animation = 'none'; b.style.transition = 'height 70ms ease-out'; });
+        const N = bars.length, bins = _wfData.length;
+        const loop = () => {
+          _wfAnalyser.getByteFrequencyData(_wfData);
+          for (let i = 0; i < N; i++) {
+            const idx = 1 + Math.floor((i / N) * (bins * 0.6));
+            const v = (_wfData[idx] || 0) / 255;
+            const h = Math.max(14, Math.min(100, v * 135));
+            bars[i].style.height = h + '%';
+          }
+          _wfRAF = requestAnimationFrame(loop);
+        };
+        loop();
+      }
+      function stopWaveform() {
+        if (_wfRAF) { cancelAnimationFrame(_wfRAF); _wfRAF = null; }
+        if (_wfBars) { _wfBars.forEach(b => { b.style.height = '18%'; }); _wfBars = null; }
+      }
+
       function stopRecording() {
+        stopWaveform();
         if (!mediaRecorder || mediaRecorder.state === 'inactive') {
           return Promise.resolve();
         }
@@ -8495,9 +8637,51 @@
       }
       $$('.q').forEach(initDialPair);
 
+      // Variant A timer strip: inject the prep-phase "then 🎙 Speak · M:SS"
+      // hint + the phase-action button once per question; startTimers flips
+      // dialrow[data-phase] and arms the button. IMPORTANT: IELTS rebuilds
+      // the .q elements from a template when the mock loads
+      // (updateSidebarQuestions → insertAdjacentHTML), which wipes load-time
+      // injections — so this is a FUNCTION, idempotent per row, re-run at
+      // beginFlow (which always executes after any rebuild).
+      function injectTimerStripExtras() {
+        $$('.q').forEach(function (q) {
+          var row = q.querySelector('.dialrow');
+          if (!row || row.querySelector('.next-hint')) return;
+          var s = Number(q.dataset.speak || 0);
+          var hint = document.createElement('div');
+          hint.className = 'next-hint';
+          hint.innerHTML = 'then <b>🎙 Speak · ' + Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0') + '</b>';
+          row.appendChild(hint);
+          var pbtn = document.createElement('button');
+          pbtn.type = 'button';
+          pbtn.className = 'phase-skip';
+          pbtn.innerHTML = '<span class="ps-prep">🎙 Start speaking</span><span class="ps-speak">Next question →</span>';
+          row.appendChild(pbtn);
+          row.dataset.phase = 'prep';
+        });
+      }
+      injectTimerStripExtras();
+
       /* FLOW */
       async function beginFlow() {
         ensureAudio();
+        injectTimerStripExtras(); // re-run: the mock loader rebuilds .q elements
+
+        // Auto-fullscreen fallback: flows with no in-page gesture yet (fast
+        // resume, auto-proceed) can't request fullscreen directly — browsers
+        // require user activation. Enter on the student's FIRST tap instead;
+        // one-shot, and never re-forced if they deliberately Esc out later.
+        if (!window._fsAutoBound) {
+          window._fsAutoBound = true;
+          var _fsOnce = function () {
+            document.removeEventListener('pointerdown', _fsOnce, true);
+            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+              try { enterFullscreen(); } catch (e) { }
+            }
+          };
+          document.addEventListener('pointerdown', _fsOnce, true);
+        }
 
         // Show loading overlay while preparing first question
         const loadingOverlay = document.getElementById('firstQuestionLoadingOverlay');
@@ -8782,6 +8966,12 @@
         }
         // ===== END PART INTRO CARD SYSTEM =====
 
+        // Timer state — MUST be declared before the resume fast-forward below
+        // (it starts a question and used to early-return, leaving these lets in
+        // the temporal dead zone → startTimers threw and the timer froze; same
+        // bug fixed on the CEFR page).
+        let timerId = null, mode = 'prep', remaining = 0, total = 0, _didResume = false;
+
         // Session recovery: fast-forward past completed questions
         if (window._srResumeIndex > 0 && !window._practiceMode) {
           var resumeIdx = window._srResumeIndex;
@@ -8798,10 +8988,14 @@
             answered = resumeIdx; scoreDone.textContent = answered;
             runQuestion(resumeIdx); updatePartIndicator(resumeIdx);
             if (loadingOverlay) loadingOverlay.style.display = 'none';
-            return;
+            // Do NOT return — execution continues so every later `let` in
+            // beginFlow initialises before the async startTimers fires. The
+            // normal first-question start below is skipped via _didResume.
+            _didResume = true;
           }
         }
 
+        if (!_didResume) {
         // Practice mode: only show the selected part's questions
         if (window._practiceMode && window._practiceQRange) {
           var pr = window._practiceQRange;
@@ -8822,6 +9016,7 @@
           runQuestion(0);
           updatePartIndicator(0);
         }
+        } // end if(!_didResume) — resume already started its question above
         // Don't show download buttons during exam
         // updateDownloadButtons();
 
@@ -8834,7 +9029,8 @@
           });
         });
 
-        let timerId = null, mode = 'prep', remaining = 0, total = 0;
+        // (timerId/mode/remaining/total declared above, before the resume
+        // fast-forward, so startTimers() works on the resume path too.)
 
         // ===== TEACHER TURNOVER SHORTCUT =====
         // Skip to next question for testing purposes
@@ -9063,6 +9259,8 @@
           currentQuestionIndex = i; // Track current question for teacher skip
           const prepContainer = prepDial.closest('.dial-container');
           const speakContainer = speakDial.closest('.dial-container');
+          const dialRow = prepDial.closest('.dialrow');
+          if (dialRow) dialRow.dataset.phase = 'prep'; // Variant A: prep dial + hint
           if (prepContainer) prepContainer.classList.remove('inactive');
           if (speakContainer) speakContainer.classList.add('inactive');
           if (rec) rec.style.display = 'none';
@@ -9071,9 +9269,12 @@
           if (waitAnim) waitAnim.style.display = '';
           mode = 'prep'; remaining = prepSec; total = prepSec;
           setDial(prepDial, remaining, total); setDial(speakDial, speakSec, speakSec);
+          // Keep the hint honest — dynamic mocks override data-speak after load.
+          const hintEl = dialRow ? dialRow.querySelector('.next-hint b') : null;
+          if (hintEl) hintEl.textContent = '🎙 Speak · ' + Math.floor(speakSec / 60) + ':' + String(speakSec % 60).padStart(2, '0');
           $('.status', q).textContent = 'Prepare…';
           if (timerId) clearInterval(timerId);
-          timerId = setInterval(() => {
+          const tick = () => {
             if (paused) return;
             remaining = Math.max(0, remaining - 1);
             if (mode === 'prep') {
@@ -9099,6 +9300,7 @@
                 if (prepContainer) prepContainer.classList.add('inactive');
                 if (speakContainer) speakContainer.classList.remove('inactive');
                 if (rec) rec.style.display = 'flex';
+                if (dialRow) dialRow.dataset.phase = 'speak'; // Variant A: speak dial + wave
                 mode = 'speak'; remaining = speakSec; total = speakSec;
 
                 $('.status', q).textContent = 'Speak now…';
@@ -9148,7 +9350,25 @@
                 });
               }
             }
-          }, 1000);
+          };
+          timerId = setInterval(tick, 1000);
+          // Phase-action button: forces the current phase to its final second
+          // and runs the SAME tick transition (recording start/stop, beeps and
+          // question advance stay consistent).
+          const skipBtn = q.querySelector('.phase-skip');
+          if (skipBtn) {
+            const speakLabel = skipBtn.querySelector('.ps-speak');
+            const isLastQ = window._practiceMode && window._practiceQRange
+              ? i >= window._practiceQRange[1]
+              : !qs[i + 1];
+            if (speakLabel && isLastQ) speakLabel.textContent = '✓ Finish';
+            skipBtn.onclick = () => {
+              if (paused || !timerId) return;
+              remaining = 1;
+              tick();
+            };
+          }
+          if (dialRow) dialRow.dataset.armed = '1';
         }
 
         // Handle transitions between questions with appropriate announcements
@@ -9339,19 +9559,25 @@
           // Session recovery check
           if (window.SessionRecovery) {
             try {
-              var session = await SessionRecovery.check();
-              if (session && session.session_data.mockNumber === (window.SELECTED_MOCK_NUMBER || '01')) {
-                var choice = await SessionRecovery.prompt(session);
-                if (choice === 'resume') {
-                  _resumeSession = true;
-                  window._srResumeIndex = session.session_data.questionIndex || 0;
-                } else {
+              if (window._speakingAutoResume) {
+                // Dashboard-banner fast resume — decision already made (skip
+                // everything → straight to the question); _srResumeIndex is set.
+                _resumeSession = true;
+              } else {
+                var session = await SessionRecovery.check();
+                if (session && session.session_data.mockNumber === (window.SELECTED_MOCK_NUMBER || '01')) {
+                  var choice = await SessionRecovery.prompt(session);
+                  if (choice === 'resume') {
+                    _resumeSession = true;
+                    window._srResumeIndex = session.session_data.questionIndex || 0;
+                  } else {
+                    await SessionRecovery.clear();
+                    await clearAudioDB();
+                  }
+                } else if (session) {
                   await SessionRecovery.clear();
                   await clearAudioDB();
                 }
-              } else if (session) {
-                await SessionRecovery.clear();
-                await clearAudioDB();
               }
             } catch(e) { console.warn('Session recovery check failed:', e); }
             SessionRecovery.start();
@@ -9454,6 +9680,31 @@
           if (modalTitle) {
             modalTitle.textContent = `Mock ${formattedMockNumber} - Enter Details`;
           }
+
+          // ── Dashboard-banner fast resume (ported from CEFR): a saved
+          //    in-progress session for THIS mock skips name/mic/intro and
+          //    drops straight into the recorded question. Synchronous
+          //    localStorage read — no race with auto-proceed's click.
+          try {
+            var _srRaw = localStorage.getItem('sr_ielts-speaking');
+            if (_srRaw && !window._practiceMode) {
+              var _srP = JSON.parse(_srRaw);
+              var _srSd = _srP && _srP.session_data;
+              var _srLive = (_srP && _srP.expires_at) ? (new Date(_srP.expires_at) > new Date()) : true;
+              if (_srSd && _srLive && String(_srSd.mockNumber) === String(formattedMockNumber) && (_srSd.questionIndex || 0) > 0) {
+                window._speakingAutoResume = true;
+                window._srResumeIndex = _srSd.questionIndex || 0;
+                try {
+                  var _cdm = document.getElementById('candidateDetailsModal');
+                  if (_cdm) { _cdm.classList.remove('show'); _cdm.setAttribute('aria-hidden', 'true'); }
+                } catch (e) {}
+                window.speakingExamStartTime = window.speakingExamStartTime || Date.now();
+                var _srStartBtn = document.getElementById('startBtn');
+                if (_srStartBtn) { setTimeout(function () { _srStartBtn.click(); }, 30); return; }
+                window._speakingAutoResume = false;
+              }
+            }
+          } catch (e) { console.warn('[Resume] fast-path check failed, using normal flow:', e); }
 
           // Show/hide promocode section based on mock requirements
           const promocodeSection = document.getElementById('promocodeSection');
@@ -10007,6 +10258,9 @@
             return;
           }
           _iosUnlockAudio();
+          // Auto-fullscreen: this tap is a real user gesture, so the request
+          // is allowed. Silently no-ops where unsupported (e.g. iPhone).
+          try { enterFullscreen(); } catch (e) { }
 
           // Mock data may still be loading in background (auto-proceed
           // shows the tutorial before the Supabase fetch finishes).
@@ -10192,6 +10446,16 @@
       // primary CTA label, and Begin button visibility in one place.
       let _speakingMicVerified = false;
       function _showTutorial() {
+        // Dashboard-banner fast resume: skip the mic-check + intro entirely,
+        // wait for the mock data, prime the mic in the background, then jump
+        // straight into the recorded question.
+        if (window._speakingAutoResume) {
+          Promise.resolve(window._speakingMockReadyPromise).then(function () {
+            try { ensureMediaStream(); } catch (e) {}
+            _beginFlowFromTutorial();
+          });
+          return;
+        }
         const modal = $('#tutorialModal');
         modal.setAttribute('data-mic-state', _speakingMicVerified ? 'verified' : 'pending');
         modal.classList.add('show');
@@ -10359,6 +10623,7 @@
       /* Finish modal helper */
       function showFinishModal() {
         if (window.SessionRecovery) SessionRecovery.clear();
+        try { exitFullscreen(); } catch (e) { } // exam over — leave fullscreen
         try { if ('speechSynthesis' in window) window.speechSynthesis.cancel(); } catch (e) { }
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -17048,13 +17313,19 @@ Please contact your instructor or upgrade to the full version with speech recogn
             </li>`
           ).join('');
 
-          questionContent = `
-            <div class="prompt" style="display:none">${q.prompt}. You should say: ${q.bulletPoints.join('. ')}. You have one minute to prepare.</div>
-            <div style="font-weight:700;font-size:clamp(15px,2.2vw,18px);margin-bottom:12px;color:var(--brand);text-align:center">${q.prompt}</div>
+          // Cue-card box; when the mock provides a context image, wrap image +
+          // box in a .q7-ctx-row so they sit side by side (pc AND mobile).
+          const cueBoxHtml = `
             <div style="background:var(--brand-weak);border-left:4px solid var(--brand);padding:14px 16px;border-radius:8px;margin-bottom:16px">
               <div style="font-weight:600;font-size:13px;color:var(--brand);margin-bottom:8px">You should say:</div>
               <ul style="margin:0;padding-left:0;list-style:none;font-size:clamp(14px,2vw,16px);line-height:1.6;color:var(--ink)">${bulletPointsHtml}</ul>
-            </div>
+            </div>`;
+          questionContent = `
+            <div class="prompt" style="display:none">${q.prompt}. You should say: ${q.bulletPoints.join('. ')}. You have one minute to prepare.</div>
+            <div style="font-weight:700;font-size:clamp(15px,2.2vw,18px);margin-bottom:12px;color:var(--brand);text-align:center">${q.prompt}</div>
+            ${q.contextImage
+              ? `<div class="q7-ctx-row"><img class="q7-context-img" src="${q.contextImage}" alt="Topic context" loading="lazy">${cueBoxHtml}</div>`
+              : cueBoxHtml}
           `;
         } else {
           // Regular question (Part 1, Part 2 Follow-up, Part 3)
@@ -18766,6 +19037,85 @@ try { if (document.getElementById('aiScoreResultModal')) { openAiModal(); } } ca
       <button class="spk-act close" onclick="closeSpkToolsMenu()">✕ Close</button>
     </div>
   </div>
+
+  <!-- ── Mobile inline toolbar (ported from CEFR speaking) ──────────────
+       Replaces the floating 🛠️ FAB + pop-up Toolkit on ≤900px with a slim
+       fixed bar: menu · progress · theme · zoom · pause · fullscreen · leave. -->
+  <style>
+    .spk-mobile-bar { display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 5000; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 10px; background: var(--card); border-bottom: 1px solid rgba(148, 163, 184, .28); box-shadow: 0 2px 10px rgba(15, 23, 42, .06); }
+    .smb-left, .smb-right { display: flex; align-items: center; gap: 6px; }
+    .smb-btn { width: 38px; height: 38px; border: 1px solid rgba(148, 163, 184, .35); border-radius: 10px; background: transparent; color: var(--ink); font-size: 17px; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; }
+    .smb-btn:active { transform: scale(.93); }
+    .smb-btn.is-paused { color: #16a34a; border-color: #16a34a; background: rgba(22, 163, 74, .08); }
+    .smb-progress { font-weight: 800; font-size: 13px; color: var(--ink); background: rgba(148, 163, 184, .14); border-radius: 999px; padding: 5px 11px; font-variant-numeric: tabular-nums; }
+    @media (max-width: 900px) {
+      .spk-mobile-bar { display: flex; }
+      .spk-fab-container { display: none !important; }
+      body { padding-top: 54px !important; }
+    }
+  </style>
+  <div class="spk-mobile-bar" id="spkMobileBar">
+    <button class="smb-btn" id="smbPause" title="Pause">⏸️</button>
+    <div class="smb-ind-slot" id="smbIndicatorSlot"></div>
+    <button class="smb-btn" id="smbTheme" title="Day / Night">🌓</button>
+  </div>
+  <script>
+    (function initSpkTopBars() {
+      // Minimal chrome (ported from CEFR): both bars carry only Pause · part
+      // indicator · theme; desktop keeps ← Back; legacy controls stay hidden
+      // in the DOM (their state/logic is read elsewhere).
+      var themeSwitch = document.getElementById('themeSwitch');
+      var pauseBtn = document.getElementById('pauseBtn');
+      var bar = document.getElementById('spkMobileBar');
+      var pb = document.getElementById('smbPause');
+      if (bar && pb) {
+        document.getElementById('smbTheme').onclick = function () { if (themeSwitch) themeSwitch.click(); };
+        pb.onclick = function () { if (pauseBtn) pauseBtn.click(); setTimeout(syncPause, 50); };
+      }
+      function syncPause() {
+        if (pb && pauseBtn) {
+          var isPaused = /resume/i.test(pauseBtn.textContent);
+          pb.textContent = isPaused ? '▶️' : '⏸️';
+          pb.classList.toggle('is-paused', isPaused);
+        }
+      }
+      syncPause();
+      setInterval(syncPause, 500);
+
+      var topInner = document.querySelector('.top .top-inner');
+      if (topInner && !document.getElementById('topIndicatorSlot')) {
+        var center = document.createElement('div');
+        center.className = 'top-center';
+        var slot = document.createElement('div');
+        slot.id = 'topIndicatorSlot';
+        slot.className = 'top-ind-slot';
+        var themeBtnTop = document.createElement('button');
+        themeBtnTop.className = 'zoom-btn';
+        themeBtnTop.id = 'themeBtnTop';
+        themeBtnTop.title = 'Day / Night';
+        themeBtnTop.textContent = '🌓';
+        themeBtnTop.onclick = function () { if (themeSwitch) themeSwitch.click(); };
+        if (pauseBtn) center.appendChild(pauseBtn);
+        center.appendChild(slot);
+        center.appendChild(themeBtnTop);
+        topInner.appendChild(center);
+        var spacer = document.createElement('div');
+        spacer.className = 'top-right-spacer';
+        spacer.setAttribute('aria-hidden', 'true');
+        topInner.appendChild(spacer);
+      }
+
+      function mountPartIndicator() {
+        var pi = document.getElementById('partIndicator');
+        if (!pi) return;
+        var mobile = window.matchMedia('(max-width: 900px)').matches;
+        var slot = document.getElementById(mobile ? 'smbIndicatorSlot' : 'topIndicatorSlot');
+        if (slot && pi.parentElement !== slot) slot.appendChild(pi);
+      }
+      mountPartIndicator();
+      window.addEventListener('resize', mountPartIndicator);
+    })();
+  </script>
 
   <div class="hs-overlay" id="hsOverlay" onclick="closeHomeSidebar()"></div>
   <div class="hs-panel" id="hsPanel">

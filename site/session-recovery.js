@@ -18,7 +18,10 @@
   'use strict';
 
   var SUPABASE_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
-  var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inprbnl1a2tidGJjcWd2a2dqa3RiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzgzMTc2NTgsImV4cCI6MjA1Mzg5MzY1OH0.VETrnOjJMGpPHSIFMRBSFkB-iCNTbMVFFkIhLKjJBSY';
+  // Current legacy anon key (matches landing-v3 / index.html). The previous key
+  // (iat 1738…) was rotated and now 401s, which had silently broken all Supabase
+  // session save/restore — fixed here.
+  var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inprbnl1a2tidGJjcWd2a2dqa3RiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ3MTUyODIsImV4cCI6MjA5MDI5MTI4Mn0.gGRtl2TVCn_PnY1aITFdX76yxZu3QZsbdrqI5hXioEw';
   var SAVE_INTERVAL = 30000;   // 30 seconds
   var EXPIRY_HOURS  = 72;
 
@@ -42,13 +45,37 @@
     // ── User identifier (name + device) ─────────────────────────────────
     _uid: function () {
       if (!this._config || !this._config.getUserId) return null;
+      var did = localStorage.getItem('ms_device_id');
+      if (!did) {
+        // Generate + persist a device id if none exists yet, so the guest
+        // fallback below keys consistently across leave/return on this device.
+        did = 'dev_' + Date.now() + '_' + Math.random().toString(36).slice(2, 11);
+        try { localStorage.setItem('ms_device_id', did); } catch (e) { did = 'unknown'; }
+      }
       var name = (this._config.getUserId() || '').toLowerCase().trim();
-      if (!name) return null;
-      var did = localStorage.getItem('ms_device_id') || 'unknown';
+      // The candidate name isn't always captured before the exam starts — the
+      // frictionless speaking deep-link skips name entry, so getUserId() is ''.
+      // Previously this returned null and save()/_saveSync() bailed, so speaking
+      // sessions were NEVER persisted and the dashboard "Continue" banner never
+      // appeared for speaking (Reading/Listening/Writing capture a name, so they
+      // saved fine). Fall back to a device-scoped guest id — the banner is
+      // device-scoped anyway — so speaking saves + resumes like the other skills.
+      if (!name) name = 'guest';
       return name + '::' + did;
     },
 
     // ── Supabase fetch helper ───────────────────────────────────────────
+    // Shallow-copy the runner's state and stamp the exact URL that reopens this
+    // mock, so the dashboard "Continue" banner can resume without guessing the
+    // runner page / mock param. Backward-compatible: unknown key, ignored on restore.
+    _enrich: function (state) {
+      var sd = {};
+      try { for (var k in state) { if (Object.prototype.hasOwnProperty.call(state, k)) sd[k] = state[k]; } }
+      catch (e) { sd = state; }
+      try { sd.__resumeUrl = location.pathname + location.search; } catch (e) { /* ignore */ }
+      return sd;
+    },
+
     _fetch: function (path, opts) {
       opts = opts || {};
       var h = {
@@ -274,7 +301,7 @@
         user_identifier: uid,
         test_type: this._config.testType,
         test_id: this._config.getTestId ? this._config.getTestId() : '',
-        session_data: state,
+        session_data: this._enrich(state),
         updated_at: new Date().toISOString(),
         expires_at: new Date(Date.now() + EXPIRY_HOURS * 3600000).toISOString()
       };
@@ -305,7 +332,7 @@
         user_identifier: uid,
         test_type: this._config.testType,
         test_id: this._config.getTestId ? this._config.getTestId() : '',
-        session_data: state,
+        session_data: this._enrich(state),
         updated_at: new Date().toISOString(),
         expires_at: new Date(Date.now() + EXPIRY_HOURS * 3600000).toISOString()
       };
@@ -364,6 +391,68 @@
       try {
         await this._fetch('test_sessions?id=eq.' + id, { method: 'DELETE' });
       } catch (e) { /* ignore */ }
+    },
+
+    // ── Dashboard support: list this DEVICE's active (unexpired) sessions ──
+    // Keyed by ms_device_id (the tail of user_identifier "name::device"), so it
+    // works regardless of which candidate-name key a runner saved under, and is
+    // device-scoped for privacy. Returns [] when no device id / none active.
+    listActiveOnDevice: async function () {
+      var now = Date.now();
+      var byType = {};
+      // 1) localStorage sr_* — written synchronously on EVERY save (before the
+      //    Supabase POST, so it survives an offline/blocked backend). Device-local,
+      //    so this is the reliable primary source for the dashboard banner.
+      try {
+        for (var i = 0; i < localStorage.length; i++) {
+          var k = localStorage.key(i);
+          if (!k || k.indexOf('sr_') !== 0) continue;
+          try {
+            var p = JSON.parse(localStorage.getItem(k));
+            if (p && p.test_type && p.expires_at && new Date(p.expires_at).getTime() > now) {
+              byType[p.test_type] = p;
+            }
+          } catch (e) { /* skip malformed entry */ }
+        }
+      } catch (e) { /* ignore */ }
+      // 2) Supabase (same device) — adds sessions not in localStorage and keeps
+      //    the fresher copy where both exist.
+      var did = '';
+      try { did = localStorage.getItem('ms_device_id') || ''; } catch (e) { /* ignore */ }
+      if (did) {
+        try {
+          var r = await this._fetch(
+            'test_sessions?user_identifier=like.*' + encodeURIComponent('::' + did) + '&select=*&order=updated_at.desc'
+          );
+          if (r && r.ok) {
+            var rows = await r.json();
+            (rows || []).forEach(function (x) {
+              if (!x || new Date(x.expires_at).getTime() <= now) return;
+              var ex = byType[x.test_type];
+              if (!ex || new Date(x.updated_at).getTime() > new Date(ex.updated_at || 0).getTime()) byType[x.test_type] = x;
+            });
+          }
+        } catch (e) { /* ignore — localStorage already covers it */ }
+      }
+      var arr = Object.keys(byType).map(function (kk) { return byType[kk]; });
+      arr.sort(function (a, b) { return new Date(b.updated_at || 0).getTime() - new Date(a.updated_at || 0).getTime(); });
+      return arr;
+    },
+
+    // Discard one session everywhere — localStorage + Supabase (by id if known,
+    // else by user_identifier+test_type). Accepts a session ROW.
+    discard: function (row) {
+      if (!row) return Promise.resolve();
+      try { if (row.test_type) localStorage.removeItem('sr_' + row.test_type); } catch (e) { /* ignore */ }
+      if (row.id) return this._deleteById(row.id);
+      if (row.user_identifier && row.test_type) {
+        return this._fetch(
+          'test_sessions?user_identifier=eq.' + encodeURIComponent(row.user_identifier)
+          + '&test_type=eq.' + encodeURIComponent(row.test_type),
+          { method: 'DELETE' }
+        ).catch(function () {});
+      }
+      return Promise.resolve();
     },
 
     // ── Generic answer restoration ──────────────────────────────────────
