@@ -10804,19 +10804,26 @@
           // Session recovery check
           if (window.SessionRecovery) {
             try {
-              var session = await SessionRecovery.check();
-              if (session && session.session_data.mockNumber === (window.SELECTED_MOCK_NUMBER || '01')) {
-                var choice = await SessionRecovery.prompt(session);
-                if (choice === 'resume') {
-                  _resumeSession = true;
-                  window._srResumeIndex = session.session_data.questionIndex || 0;
-                } else {
+              if (window._speakingAutoResume) {
+                // Dashboard-banner fast resume — the decision was already made
+                // (skip everything → straight to the recorded question) and
+                // window._srResumeIndex is already set; don't prompt again.
+                _resumeSession = true;
+              } else {
+                var session = await SessionRecovery.check();
+                if (session && session.session_data.mockNumber === (window.SELECTED_MOCK_NUMBER || '01')) {
+                  var choice = await SessionRecovery.prompt(session);
+                  if (choice === 'resume') {
+                    _resumeSession = true;
+                    window._srResumeIndex = session.session_data.questionIndex || 0;
+                  } else {
+                    await SessionRecovery.clear();
+                    await clearAudioDB();
+                  }
+                } else if (session) {
                   await SessionRecovery.clear();
                   await clearAudioDB();
                 }
-              } else if (session) {
-                await SessionRecovery.clear();
-                await clearAudioDB();
               }
             } catch(e) { console.warn('Session recovery check failed:', e); }
             SessionRecovery.start();
@@ -10933,6 +10940,32 @@
               }
             }
           })();
+
+          // ── Dashboard-banner resume: if a saved in-progress session for THIS
+          //    mock exists, skip the name gate + mic-check + intro and drop
+          //    straight into the recorded question (chosen UX: "skip everything").
+          //    Synchronous localStorage read (sr_cefr-speaking is written on every
+          //    save) so there's no race with the auto-proceed continueBtn.click().
+          //    The mic is re-acquired lazily by ensureMediaStream() when recording
+          //    starts (permission persists across the reload), so no mic-test is
+          //    needed. Any failure falls through to the normal gated flow.
+          try {
+            var _srRaw = localStorage.getItem('sr_cefr-speaking');
+            if (_srRaw && !window._practiceMode) {
+              var _srP = JSON.parse(_srRaw);
+              var _srSd = _srP && _srP.session_data;
+              var _srLive = (_srP && _srP.expires_at) ? (new Date(_srP.expires_at) > new Date()) : true;
+              if (_srSd && _srLive && String(_srSd.mockNumber) === String(formattedMockNumber) && (_srSd.questionIndex || 0) > 0) {
+                window._speakingAutoResume = true;
+                window._srResumeIndex = _srSd.questionIndex || 0;
+                try { candidateDetailsModal.classList.remove('show'); candidateDetailsModal.setAttribute('aria-hidden', 'true'); } catch (e) {}
+                window.speakingExamStartTime = window.speakingExamStartTime || Date.now();
+                var _srStartBtn = document.getElementById('startBtn');
+                if (_srStartBtn) { setTimeout(function () { _srStartBtn.click(); }, 30); return; }
+                window._speakingAutoResume = false; // no start button — abandon fast path
+              }
+            }
+          } catch (e) { console.warn('[Resume] fast-path check failed, using normal flow:', e); }
 
           // Show/hide promocode section based on mock requirements
           const promocodeSection = document.getElementById('promocodeSection');
@@ -11678,6 +11711,16 @@
       // and the Begin button visibility in one place.
       let _speakingMicVerified = false;
       function _showTutorial() {
+        // Dashboard-banner fast resume: don't show the mic-check + intro at all.
+        // Wait until the mock data has loaded, prime the mic in the background,
+        // then jump straight into the recorded question via _beginFlowFromTutorial.
+        if (window._speakingAutoResume) {
+          Promise.resolve(window._speakingMockReadyPromise).then(function () {
+            try { ensureMediaStream(); } catch (e) {}
+            _beginFlowFromTutorial();
+          });
+          return;
+        }
         const modal = $('#tutorialModal');
         modal.setAttribute('data-mic-state', _speakingMicVerified ? 'verified' : 'pending');
         modal.classList.add('show');
