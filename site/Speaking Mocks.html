@@ -10263,6 +10263,14 @@
         // Hide loading overlay immediately since no pre-loading is needed
         if (loadingOverlay) loadingOverlay.style.display = 'none';
 
+        // Timer state — MUST be declared before the resume fast-forward below,
+        // which calls runQuestion()/startTimers() and then early-returns. Left
+        // at its old spot (after that return), these `let`s stayed in the
+        // temporal dead zone on resume, so startTimers() threw a ReferenceError
+        // on `mode = 'prep'` and the prep timer froze at its start value. Normal
+        // start reached the old declaration, so only resume was affected.
+        let timerId = null, mode = 'prep', remaining = 0, total = 0;
+
         // Session recovery: fast-forward past completed questions
         if (window._srResumeIndex > 0 && !window._practiceMode) {
           var resumeIdx = window._srResumeIndex;
@@ -10315,7 +10323,8 @@
           });
         });
 
-        let timerId = null, mode = 'prep', remaining = 0, total = 0;
+        // (timerId/mode/remaining/total are declared above, before the resume
+        // fast-forward, so startTimers() works on the resume path too.)
 
         // ===== TEACHER TURNOVER SHORTCUT =====
         // Skip to next question for testing purposes
