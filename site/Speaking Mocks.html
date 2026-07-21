@@ -5801,6 +5801,51 @@
        Q8 (Part 3). Audio is fixed Cloud-TTS Achird MP3s hosted on
        GCS — no per-session TTS calls. Continue is hidden until the
        narration ends (or the student taps Skip). -->
+  <style id="vaTimerStrip">
+    /* ── Variant A single-focus timer strip (2026-07-21) ──────────────────
+       One phase on screen at a time: the ACTIVE dial (amber prep → green
+       speak) with its label restyled as a chip ABOVE it; the inactive dial
+       is hidden; prep shows a "then 🎙 Speak · M:SS" hint; speak shows the
+       full-width live wave row. Mobile stacks vertically; ≥720px goes
+       horizontal (dial left · wave/hint right). Overrides the base dial
+       styles by specificity — no timer JS changes beyond data-phase. */
+    .dialrow { flex-direction: column; align-items: center; gap: 12px; width: 100%; /* .q-head is align-items:flex-start — span it */ }
+    .dial-container.inactive { display: none; }
+    .dial-container { gap: 12px; }
+    .dial-label { order: -1; border-radius: 999px; letter-spacing: .6px; }
+    .dial-label.prep-label {
+      background: rgba(217, 119, 6, .10);
+      color: var(--amber);
+      border: 1.5px solid rgba(217, 119, 6, .38);
+    }
+    .dial-label.prep-label::before { content: "⏳ "; }
+    .dial-label.speak-label::before {
+      content: ""; display: inline-block; width: 8px; height: 8px;
+      border-radius: 50%; background: var(--red); margin-right: 8px;
+      animation: blink 1s steps(1) infinite;
+    }
+    .dialrow .dial.prep { --dial-color: var(--amber); }
+    .dialrow .dial.speak { --dial-color: var(--brand); }
+    .dialrow .dial {
+      width: clamp(112px, 30vw, 136px) !important;
+      height: clamp(112px, 30vw, 136px) !important;
+    }
+    .dialrow .dial .time { font-size: clamp(20px, 5vw, 26px); }
+    /* wave row: full width, brand green (red stays on REC + ring end) */
+    .rec { width: 100%; max-width: 520px; flex: 0 1 auto; background: var(--brand-weak); border-radius: 14px; padding: 10px 14px; min-width: 0; }
+    .rec .bars { height: 38px; width: auto; flex: 1; justify-content: center; }
+    .rec .bars i { background: linear-gradient(to top, var(--brand), rgba(16, 185, 129, .55)); }
+    /* prep-phase hint replacing the hidden speak dial */
+    .next-hint { display: none; color: var(--muted); font-size: 13px; text-align: center; }
+    .next-hint b { color: var(--ink); font-weight: 800; }
+    .dialrow[data-phase="prep"] .next-hint { display: block; }
+    @media (min-width: 720px) {
+      .dialrow { flex-direction: row; justify-content: center; align-items: center; gap: 26px; }
+      .dial-container { flex: 0 0 auto; }
+      .rec { flex: 1; max-width: none; align-self: center; }
+      .next-hint { flex: 1; align-self: center; border: 1.5px dashed rgba(148, 163, 184, .5); border-radius: 14px; padding: 16px; font-size: 13.5px; }
+    }
+  </style>
   <div id="partIntroOverlay"
     style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.85);z-index:10002;align-items:center;justify-content:center;animation:partIntroFadeIn 0.4s ease;">
     <div id="partIntroCard"
@@ -10062,15 +10107,19 @@
       }
       $$('.q').forEach(initDialPair);
 
-      // Place the live voice waveform (.rec) BETWEEN the prep and speak dialers
-      // (it renders after both in the static markup). Runs once on load.
-      $$('.dialrow').forEach(function (row) {
-        var rec = row.querySelector('.rec');
-        var speakDial = row.querySelector('.dial.speak');
-        var speakC = speakDial ? speakDial.closest('.dial-container') : null;
-        if (rec && speakC && rec.parentNode === row && speakC.parentNode === row) {
-          row.insertBefore(rec, speakC);
-        }
+      // Variant A timer strip: inject the prep-phase "then 🎙 Speak · M:SS"
+      // hint once per question and initialise the phase attribute. The
+      // inactive dial is hidden by CSS (#vaTimerStrip); startTimers flips
+      // dialrow[data-phase] between 'prep' and 'speak'.
+      $$('.q').forEach(function (q) {
+        var row = q.querySelector('.dialrow');
+        if (!row || row.querySelector('.next-hint')) return;
+        var s = Number(q.dataset.speak || 0);
+        var hint = document.createElement('div');
+        hint.className = 'next-hint';
+        hint.innerHTML = 'then <b>🎙 Speak · ' + Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0') + '</b>';
+        row.appendChild(hint);
+        row.dataset.phase = 'prep';
       });
 
       /* FLOW */
@@ -10631,6 +10680,8 @@
           currentQuestionIndex = i; // Track current question for teacher skip
           const prepContainer = prepDial.closest('.dial-container');
           const speakContainer = speakDial.closest('.dial-container');
+          const dialRow = prepDial.closest('.dialrow');
+          if (dialRow) dialRow.dataset.phase = 'prep'; // Variant A: show prep dial + next-hint
           if (prepContainer) prepContainer.classList.remove('inactive');
           if (speakContainer) speakContainer.classList.add('inactive');
           if (rec) rec.style.display = 'none';
@@ -10667,6 +10718,7 @@
                 if (prepContainer) prepContainer.classList.add('inactive');
                 if (speakContainer) speakContainer.classList.remove('inactive');
                 if (rec) rec.style.display = 'flex';
+                if (dialRow) dialRow.dataset.phase = 'speak'; // Variant A: swap to speak dial + wave
                 mode = 'speak'; remaining = speakSec; total = speakSec;
                 $('.status', q).textContent = 'Speak now…';
                 // Start audio recording automatically for this question
