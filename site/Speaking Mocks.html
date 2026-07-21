@@ -5845,6 +5845,22 @@
       .rec { flex: 1; max-width: none; align-self: center; }
       .next-hint { flex: 1; align-self: center; border: 1.5px dashed rgba(148, 163, 184, .5); border-radius: 14px; padding: 16px; font-size: 13.5px; }
     }
+
+    /* ── Single frame: the sidebar wrapper used to draw its own bordered
+       card AROUND the question card (double framing). Flatten the wrapper;
+       the question card carries the surface. ── */
+    aside.sidebar { background: transparent; border: 0; padding: 0; box-shadow: none; }
+    details.q { background: var(--card); margin: 10px 0; box-shadow: 0 10px 30px rgba(15, 23, 42, .08); }
+
+    /* ── Q4: the two pictures side by side on every screen size ── */
+    .gallery.two { grid-template-columns: 1fr 1fr; }
+    @media (max-width: 699px) {
+      .gallery.two img { height: clamp(120px, 34vw, 200px); }
+    }
+
+    /* ── Q8: FOR / AGAINST side by side on every screen size (the inline
+       style is 1fr, so !important mirrors the existing ≥700px rule) ── */
+    .q8-arguments { grid-template-columns: 1fr 1fr !important; }
   </style>
   <div id="partIntroOverlay"
     style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.85);z-index:10002;align-items:center;justify-content:center;animation:partIntroFadeIn 0.4s ease;">
@@ -22221,6 +22237,70 @@ Please contact your instructor or upgrade to the full version with speech recogn
       <button class="spk-act close" onclick="closeSpkToolsMenu()">✕ Close</button>
     </div>
   </div>
+
+  <!-- ── Mobile inline toolbar (2026-07-21) ─────────────────────────────
+       Replaces the floating 🛠️ FAB + pop-up Toolkit on ≤900px: the same
+       tools (menu · progress · theme · zoom · pause · fullscreen · leave)
+       as a slim fixed bar at the top of the test window. Proxies the
+       existing topbar controls, exactly like the FAB did. -->
+  <style>
+    .spk-mobile-bar { display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 5000; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 10px; background: var(--card); border-bottom: 1px solid rgba(148, 163, 184, .28); box-shadow: 0 2px 10px rgba(15, 23, 42, .06); }
+    .smb-left, .smb-right { display: flex; align-items: center; gap: 6px; }
+    .smb-btn { width: 38px; height: 38px; border: 1px solid rgba(148, 163, 184, .35); border-radius: 10px; background: transparent; color: var(--ink); font-size: 17px; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; }
+    .smb-btn:active { transform: scale(.93); }
+    .smb-btn.is-paused { color: #16a34a; border-color: #16a34a; background: rgba(22, 163, 74, .08); }
+    .smb-progress { font-weight: 800; font-size: 13px; color: var(--ink); background: rgba(148, 163, 184, .14); border-radius: 999px; padding: 5px 11px; font-variant-numeric: tabular-nums; }
+    @media (max-width: 900px) {
+      .spk-mobile-bar { display: flex; }
+      .spk-fab-container { display: none !important; }
+      body { padding-top: 54px !important; }
+    }
+  </style>
+  <div class="spk-mobile-bar" id="spkMobileBar">
+    <div class="smb-left">
+      <button class="smb-btn" id="smbHome" title="Menu">☰</button>
+      <span class="smb-progress" id="smbProgress">0 / 8</span>
+    </div>
+    <div class="smb-right">
+      <button class="smb-btn" id="smbTheme" title="Theme">🎨</button>
+      <button class="smb-btn" id="smbZoom" title="Zoom">🔍</button>
+      <button class="smb-btn" id="smbPause" title="Pause">⏸️</button>
+      <button class="smb-btn" id="smbFS" title="Fullscreen">⛶</button>
+      <button class="smb-btn" id="smbLeave" title="Leave">🚪</button>
+    </div>
+  </div>
+  <script>
+    (function initSpkMobileBar() {
+      var bar = document.getElementById('spkMobileBar');
+      if (!bar) return;
+      var themeSwitch = document.getElementById('themeSwitch');
+      var zoomBtn = document.getElementById('zoomBtn');
+      var pauseBtn = document.getElementById('pauseBtn');
+      var scoreDone = document.getElementById('scoreDone');
+      var scoreTotal = document.getElementById('scoreTotal');
+      var prog = document.getElementById('smbProgress');
+      var pb = document.getElementById('smbPause');
+      document.getElementById('smbHome').onclick = function () { if (window.openHomeSidebar) openHomeSidebar(); };
+      document.getElementById('smbTheme').onclick = function () { if (themeSwitch) themeSwitch.click(); };
+      document.getElementById('smbZoom').onclick = function () { if (zoomBtn) zoomBtn.click(); };
+      pb.onclick = function () { if (pauseBtn) pauseBtn.click(); setTimeout(sync, 50); };
+      document.getElementById('smbFS').onclick = function () { if (window.toggleExamFullscreen) toggleExamFullscreen(); };
+      document.getElementById('smbLeave').onclick = function () {
+        if (window.promptFriendlyLeave) promptFriendlyLeave(function () { goBack(); });
+        else if (window.goBack) goBack();
+      };
+      function sync() {
+        if (prog && scoreDone && scoreTotal) prog.textContent = (scoreDone.textContent || '0') + ' / ' + (scoreTotal.textContent || '0');
+        if (pb && pauseBtn) {
+          var isPaused = /resume/i.test(pauseBtn.textContent);
+          pb.textContent = isPaused ? '▶️' : '⏸️';
+          pb.classList.toggle('is-paused', isPaused);
+        }
+      }
+      sync();
+      setInterval(sync, 500);
+    })();
+  </script>
 
   <div class="hs-overlay" id="hsOverlay" onclick="closeHomeSidebar()"></div>
   <div class="hs-panel" id="hsPanel">
