@@ -8887,13 +8887,70 @@
                 });
             };
             mediaRecorder.start();
+            // Start the live voice-responsive waveform for this question's .rec.
+            try {
+              ensureWaveformAnalyser(stream);
+              const _qEl = document.querySelectorAll('.q')[qIndex];
+              const _recEl = _qEl ? _qEl.querySelector('.rec') : null;
+              if (_recEl) startWaveform(_recEl);
+            } catch (e) { /* waveform is cosmetic — never block recording */ }
           } catch (err) {
             console.error('[Recording Error]', err);
             alert('Recording not supported on this browser. Please use Chrome, Firefox, or Safari.');
           }
         });
       }
+      // ── Live voice-responsive waveform ──────────────────────────────────
+      // Drives the .rec .bars from an AnalyserNode on the recording stream so the
+      // wave reacts to the student's actual voice (mirrors the desktop apps),
+      // replacing the purely-cosmetic CSS `eq` animation. The .rec is moved
+      // between the two dialers on exam start (see beginFlow).
+      let _wfAnalyser = null, _wfCtx = null, _wfData = null, _wfRAF = null, _wfBars = null;
+      function ensureWaveformAnalyser(stream) {
+        try {
+          if (_wfAnalyser) return _wfAnalyser;
+          const AC = window.AudioContext || window.webkitAudioContext;
+          if (!AC || !stream) return null;
+          _wfCtx = new AC();
+          const src = _wfCtx.createMediaStreamSource(stream);
+          _wfAnalyser = _wfCtx.createAnalyser();
+          _wfAnalyser.fftSize = 64;                 // 32 frequency bins
+          _wfAnalyser.smoothingTimeConstant = 0.72; // smooth but responsive
+          src.connect(_wfAnalyser);
+          _wfData = new Uint8Array(_wfAnalyser.frequencyBinCount);
+        } catch (e) { console.warn('[Waveform] analyser init failed', e); _wfAnalyser = null; }
+        return _wfAnalyser;
+      }
+      function startWaveform(recEl) {
+        stopWaveform();
+        if (!recEl || !_wfAnalyser) return;
+        try { if (_wfCtx && _wfCtx.state === 'suspended') _wfCtx.resume(); } catch (e) { }
+        const bars = recEl.querySelectorAll('.bars i');
+        if (!bars.length) return;
+        _wfBars = bars;
+        bars.forEach(b => { b.style.animation = 'none'; b.style.transition = 'height 70ms ease-out'; });
+        const N = bars.length, bins = _wfData.length;
+        const loop = () => {
+          _wfAnalyser.getByteFrequencyData(_wfData);
+          for (let i = 0; i < N; i++) {
+            // Spread the bars across the low/mid (speech) part of the spectrum.
+            const idx = 1 + Math.floor((i / N) * (bins * 0.6));
+            const v = (_wfData[idx] || 0) / 255;               // 0..1
+            const h = Math.max(14, Math.min(100, v * 135));    // % of bar track
+            bars[i].style.height = h + '%';
+          }
+          _wfRAF = requestAnimationFrame(loop);
+        };
+        loop();
+      }
+      function stopWaveform() {
+        if (_wfRAF) { cancelAnimationFrame(_wfRAF); _wfRAF = null; }
+        // Relax the bars back to a low resting height when not recording.
+        if (_wfBars) { _wfBars.forEach(b => { b.style.height = '18%'; }); _wfBars = null; }
+      }
+
       function stopRecording() {
+        stopWaveform();
         if (!mediaRecorder || mediaRecorder.state === 'inactive') {
           return Promise.resolve();
         }
@@ -10005,6 +10062,17 @@
       }
       $$('.q').forEach(initDialPair);
 
+      // Place the live voice waveform (.rec) BETWEEN the prep and speak dialers
+      // (it renders after both in the static markup). Runs once on load.
+      $$('.dialrow').forEach(function (row) {
+        var rec = row.querySelector('.rec');
+        var speakDial = row.querySelector('.dial.speak');
+        var speakC = speakDial ? speakDial.closest('.dial-container') : null;
+        if (rec && speakC && rec.parentNode === row && speakC.parentNode === row) {
+          row.insertBefore(rec, speakC);
+        }
+      });
+
       /* FLOW */
       async function beginFlow() {
         ensureAudio();
@@ -10283,6 +10351,9 @@
           if (resumeIdx > 0) {
             for (var k = 0; k < resumeIdx; k++) {
               var q = qs[k]; if (q) { q.dataset.started = '1'; q.classList.add('done', 'hidden'); }
+              // Mark the part intro of each already-completed question as seen, so
+              // resuming past Q1 doesn't replay the Part 1 intro at Q4 (Part 1.2).
+              if (PART_INTRO_INDEX[k]) _partIntrosShown[PART_INTRO_INDEX[k]] = true;
             }
             answered = resumeIdx; scoreDone.textContent = answered;
             runQuestion(resumeIdx); updatePartIndicator(resumeIdx);
@@ -20925,12 +20996,11 @@ Please contact your instructor or upgrade to the full version with speech recogn
             if (bulletContainer) {
               const ul = bulletContainer.querySelector('ul');
               if (ul) {
-                // Include main prompt as the first bullet (bold + underlined)
-                const promptLi = isDuplicate ? '' :
-                  `<li style="margin-bottom:8px;position:relative;padding-left:24px">
-                    <span style="position:absolute;left:0;color:var(--brand);font-weight:900">•</span>
-                    <span>${q.prompt}</span>
-                  </li>`;
+                // Q7: the "Discuss the following points" prompt (q.prompt) is
+                // SPOKEN — it's kept in the hidden .prompt TTS text above — but
+                // NOT shown as a visible bullet. Only the actual discussion
+                // points below are displayed.
+                const promptLi = '';
                 ul.innerHTML = promptLi + q.bulletPoints.map(point =>
                   `<li style="margin-bottom:8px;position:relative;padding-left:24px">
                     <span style="position:absolute;left:0;color:var(--brand);font-weight:900">•</span>
