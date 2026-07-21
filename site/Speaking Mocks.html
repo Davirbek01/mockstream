@@ -10206,6 +10206,21 @@
       async function beginFlow() {
         ensureAudio();
 
+        // Auto-fullscreen fallback: flows with no in-page gesture yet (fast
+        // resume, auto-proceed) can't request fullscreen directly — browsers
+        // require user activation. Enter on the student's FIRST tap instead;
+        // one-shot, and never re-forced if they deliberately Esc out later.
+        if (!window._fsAutoBound) {
+          window._fsAutoBound = true;
+          var _fsOnce = function () {
+            document.removeEventListener('pointerdown', _fsOnce, true);
+            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+              try { enterFullscreen(); } catch (e) { }
+            }
+          };
+          document.addEventListener('pointerdown', _fsOnce, true);
+        }
+
         // ===== PART INTRO CARD SYSTEM (2026-06-08) =====
         // One narrated intro card per CEFR Speaking part:
         //   Part 1 (Q1–Q6): introduction + photo Qs
@@ -11748,6 +11763,9 @@
             return;
           }
           _iosUnlockAudio();
+          // Auto-fullscreen: this tap is a real user gesture, so the request
+          // is allowed. Silently no-ops where unsupported (e.g. iPhone).
+          try { enterFullscreen(); } catch (e) { }
 
           // Mock data may still be loading in background (auto-proceed
           // shows the tutorial before the Supabase fetch finishes).
@@ -12180,6 +12198,7 @@
       /* Finish modal helper */
       function showFinishModal() {
         if (window.SessionRecovery) SessionRecovery.clear();
+        try { exitFullscreen(); } catch (e) { } // exam over — leave fullscreen
         try { if ('speechSynthesis' in window) window.speechSynthesis.cancel(); } catch (e) { }
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -12225,6 +12244,7 @@
 
       /* Practice mode finish */
       function showPracticeFinish() {
+        try { exitFullscreen(); } catch (e) { } // practice over — leave fullscreen
         try { if ('speechSynthesis' in window) window.speechSynthesis.cancel(); } catch (e) { }
         var partNames = { p11: 'Part 1.1', p12: 'Part 1.2', p2: 'Part 2', p3: 'Part 3' };
         var partKeys = { p11: 'p11', p12: 'p12', p2: 'p2', p3: 'p3' };

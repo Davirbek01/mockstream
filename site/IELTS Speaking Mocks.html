@@ -8668,6 +8668,21 @@
         ensureAudio();
         injectTimerStripExtras(); // re-run: the mock loader rebuilds .q elements
 
+        // Auto-fullscreen fallback: flows with no in-page gesture yet (fast
+        // resume, auto-proceed) can't request fullscreen directly — browsers
+        // require user activation. Enter on the student's FIRST tap instead;
+        // one-shot, and never re-forced if they deliberately Esc out later.
+        if (!window._fsAutoBound) {
+          window._fsAutoBound = true;
+          var _fsOnce = function () {
+            document.removeEventListener('pointerdown', _fsOnce, true);
+            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+              try { enterFullscreen(); } catch (e) { }
+            }
+          };
+          document.addEventListener('pointerdown', _fsOnce, true);
+        }
+
         // Show loading overlay while preparing first question
         const loadingOverlay = document.getElementById('firstQuestionLoadingOverlay');
         if (loadingOverlay) loadingOverlay.style.display = 'flex';
@@ -10243,6 +10258,9 @@
             return;
           }
           _iosUnlockAudio();
+          // Auto-fullscreen: this tap is a real user gesture, so the request
+          // is allowed. Silently no-ops where unsupported (e.g. iPhone).
+          try { enterFullscreen(); } catch (e) { }
 
           // Mock data may still be loading in background (auto-proceed
           // shows the tutorial before the Supabase fetch finishes).
@@ -10605,6 +10623,7 @@
       /* Finish modal helper */
       function showFinishModal() {
         if (window.SessionRecovery) SessionRecovery.clear();
+        try { exitFullscreen(); } catch (e) { } // exam over — leave fullscreen
         try { if ('speechSynthesis' in window) window.speechSynthesis.cancel(); } catch (e) { }
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
