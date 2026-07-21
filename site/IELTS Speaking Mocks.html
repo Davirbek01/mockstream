@@ -4759,6 +4759,22 @@
     details.q { background: transparent; border: 0; border-radius: 0; margin: 0; box-shadow: none; }
     details.q[open] { outline: none; } /* the old card style drew a 3px pale outline — the last remaining "frame" */
     #completedQuestionsList details.q { border-bottom: 1px solid rgba(148, 163, 184, .25); margin: 0 0 10px; }
+
+    /* ── Minimal chrome (2026-07-21, ported from CEFR) ── */
+    details.q summary { display: none; }
+    #completedQuestionsList details.q summary { display: flex; justify-content: space-between; }
+    .q-body { border-top: 0; }
+    .top .chip, #zoomBtn, #btnFS { display: none !important; }
+    .top-center { display: flex; align-items: center; gap: 14px; margin: 0 auto; }
+    .top-right-spacer { width: 74px; }
+    .top-ind-slot, .smb-ind-slot { display: flex; align-items: center; overflow-x: auto; max-width: 62vw; }
+    .top-ind-slot .part-indicator, .smb-ind-slot .part-indicator { margin: 0; }
+    .top-ind-slot .part-step, .smb-ind-slot .part-step { width: 30px; height: 30px; font-size: 13px; box-shadow: none; }
+    .top-ind-slot .part-connector, .smb-ind-slot .part-connector { width: 14px; }
+    @media (max-width: 719px) {
+      .q7-ctx-row { flex-direction: column; align-items: stretch; gap: 10px; }
+      .q7-ctx-row .q7-context-img { flex: none; width: 100%; max-height: 150px; align-self: auto; }
+    }
   </style>
   <div id="partIntroOverlay"
     style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.85);z-index:10002;align-items:center;justify-content:center;animation:partIntroFadeIn 0.4s ease;">
@@ -19020,48 +19036,65 @@ try { if (document.getElementById('aiScoreResultModal')) { openAiModal(); } } ca
     }
   </style>
   <div class="spk-mobile-bar" id="spkMobileBar">
-    <div class="smb-left">
-      <button class="smb-btn" id="smbHome" title="Menu">☰</button>
-      <span class="smb-progress" id="smbProgress">0 / 8</span>
-    </div>
-    <div class="smb-right">
-      <button class="smb-btn" id="smbTheme" title="Theme">🎨</button>
-      <button class="smb-btn" id="smbZoom" title="Zoom">🔍</button>
-      <button class="smb-btn" id="smbPause" title="Pause">⏸️</button>
-      <button class="smb-btn" id="smbFS" title="Fullscreen">⛶</button>
-      <button class="smb-btn" id="smbLeave" title="Leave">🚪</button>
-    </div>
+    <button class="smb-btn" id="smbPause" title="Pause">⏸️</button>
+    <div class="smb-ind-slot" id="smbIndicatorSlot"></div>
+    <button class="smb-btn" id="smbTheme" title="Day / Night">🌓</button>
   </div>
   <script>
-    (function initSpkMobileBar() {
-      var bar = document.getElementById('spkMobileBar');
-      if (!bar) return;
+    (function initSpkTopBars() {
+      // Minimal chrome (ported from CEFR): both bars carry only Pause · part
+      // indicator · theme; desktop keeps ← Back; legacy controls stay hidden
+      // in the DOM (their state/logic is read elsewhere).
       var themeSwitch = document.getElementById('themeSwitch');
-      var zoomBtn = document.getElementById('zoomBtn');
       var pauseBtn = document.getElementById('pauseBtn');
-      var scoreDone = document.getElementById('scoreDone');
-      var scoreTotal = document.getElementById('scoreTotal');
-      var prog = document.getElementById('smbProgress');
+      var bar = document.getElementById('spkMobileBar');
       var pb = document.getElementById('smbPause');
-      document.getElementById('smbHome').onclick = function () { if (window.openHomeSidebar) openHomeSidebar(); };
-      document.getElementById('smbTheme').onclick = function () { if (themeSwitch) themeSwitch.click(); };
-      document.getElementById('smbZoom').onclick = function () { if (zoomBtn) zoomBtn.click(); };
-      pb.onclick = function () { if (pauseBtn) pauseBtn.click(); setTimeout(sync, 50); };
-      document.getElementById('smbFS').onclick = function () { if (window.toggleExamFullscreen) toggleExamFullscreen(); };
-      document.getElementById('smbLeave').onclick = function () {
-        if (window.promptFriendlyLeave) promptFriendlyLeave(function () { goBack(); });
-        else if (window.goBack) goBack();
-      };
-      function sync() {
-        if (prog && scoreDone && scoreTotal) prog.textContent = (scoreDone.textContent || '0') + ' / ' + (scoreTotal.textContent || '0');
+      if (bar && pb) {
+        document.getElementById('smbTheme').onclick = function () { if (themeSwitch) themeSwitch.click(); };
+        pb.onclick = function () { if (pauseBtn) pauseBtn.click(); setTimeout(syncPause, 50); };
+      }
+      function syncPause() {
         if (pb && pauseBtn) {
           var isPaused = /resume/i.test(pauseBtn.textContent);
           pb.textContent = isPaused ? '▶️' : '⏸️';
           pb.classList.toggle('is-paused', isPaused);
         }
       }
-      sync();
-      setInterval(sync, 500);
+      syncPause();
+      setInterval(syncPause, 500);
+
+      var topInner = document.querySelector('.top .top-inner');
+      if (topInner && !document.getElementById('topIndicatorSlot')) {
+        var center = document.createElement('div');
+        center.className = 'top-center';
+        var slot = document.createElement('div');
+        slot.id = 'topIndicatorSlot';
+        slot.className = 'top-ind-slot';
+        var themeBtnTop = document.createElement('button');
+        themeBtnTop.className = 'zoom-btn';
+        themeBtnTop.id = 'themeBtnTop';
+        themeBtnTop.title = 'Day / Night';
+        themeBtnTop.textContent = '🌓';
+        themeBtnTop.onclick = function () { if (themeSwitch) themeSwitch.click(); };
+        if (pauseBtn) center.appendChild(pauseBtn);
+        center.appendChild(slot);
+        center.appendChild(themeBtnTop);
+        topInner.appendChild(center);
+        var spacer = document.createElement('div');
+        spacer.className = 'top-right-spacer';
+        spacer.setAttribute('aria-hidden', 'true');
+        topInner.appendChild(spacer);
+      }
+
+      function mountPartIndicator() {
+        var pi = document.getElementById('partIndicator');
+        if (!pi) return;
+        var mobile = window.matchMedia('(max-width: 900px)').matches;
+        var slot = document.getElementById(mobile ? 'smbIndicatorSlot' : 'topIndicatorSlot');
+        if (slot && pi.parentElement !== slot) slot.appendChild(pi);
+      }
+      mountPartIndicator();
+      window.addEventListener('resize', mountPartIndicator);
     })();
   </script>
 
