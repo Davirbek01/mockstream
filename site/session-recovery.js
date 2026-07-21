@@ -45,9 +45,22 @@
     // ── User identifier (name + device) ─────────────────────────────────
     _uid: function () {
       if (!this._config || !this._config.getUserId) return null;
+      var did = localStorage.getItem('ms_device_id');
+      if (!did) {
+        // Generate + persist a device id if none exists yet, so the guest
+        // fallback below keys consistently across leave/return on this device.
+        did = 'dev_' + Date.now() + '_' + Math.random().toString(36).slice(2, 11);
+        try { localStorage.setItem('ms_device_id', did); } catch (e) { did = 'unknown'; }
+      }
       var name = (this._config.getUserId() || '').toLowerCase().trim();
-      if (!name) return null;
-      var did = localStorage.getItem('ms_device_id') || 'unknown';
+      // The candidate name isn't always captured before the exam starts — the
+      // frictionless speaking deep-link skips name entry, so getUserId() is ''.
+      // Previously this returned null and save()/_saveSync() bailed, so speaking
+      // sessions were NEVER persisted and the dashboard "Continue" banner never
+      // appeared for speaking (Reading/Listening/Writing capture a name, so they
+      // saved fine). Fall back to a device-scoped guest id — the banner is
+      // device-scoped anyway — so speaking saves + resumes like the other skills.
+      if (!name) name = 'guest';
       return name + '::' + did;
     },
 
