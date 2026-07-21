@@ -5839,18 +5839,31 @@
     .next-hint { display: none; color: var(--muted); font-size: 13px; text-align: center; }
     .next-hint b { color: var(--ink); font-weight: 800; }
     .dialrow[data-phase="prep"] .next-hint { display: block; }
+    /* phase-action button (bottom of the strip): prep → start speaking now;
+       speak → next question. Armed by startTimers so taps during the
+       question audio are inert. */
+    .phase-skip { display: none; width: 100%; max-width: 520px; border: 0; border-radius: 12px; padding: 13px 16px; background: var(--brand); color: #fff; font-weight: 800; font-size: 15px; letter-spacing: .3px; cursor: pointer; }
+    .phase-skip:active { transform: scale(.98); }
+    .dialrow[data-armed="1"] .phase-skip { display: block; }
+    .dialrow[data-phase="prep"] .ps-speak { display: none; }
+    .dialrow[data-phase="speak"] .ps-prep { display: none; }
     @media (min-width: 720px) {
-      .dialrow { flex-direction: row; justify-content: center; align-items: center; gap: 26px; }
+      .dialrow { flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: center; gap: 26px; }
       .dial-container { flex: 0 0 auto; }
       .rec { flex: 1; max-width: none; align-self: center; }
       .next-hint { flex: 1; align-self: center; border: 1.5px dashed rgba(148, 163, 184, .5); border-radius: 14px; padding: 16px; font-size: 13.5px; }
+      .phase-skip { flex: 1 0 100%; max-width: none; }
     }
 
-    /* ── Single frame: the sidebar wrapper used to draw its own bordered
-       card AROUND the question card (double framing). Flatten the wrapper;
-       the question card carries the surface. ── */
+    /* ── Frameless minimal: no card boxes at all. The PAGE becomes the
+       surface (body takes the card colour edge-to-edge) and the only
+       separation is the existing hairline between the question header and
+       body. Completed-list clones get a hairline between entries so they
+       don't run together. ── */
+    html, body { background: var(--card); }
     aside.sidebar { background: transparent; border: 0; padding: 0; box-shadow: none; }
-    details.q { background: var(--card); margin: 10px 0; box-shadow: 0 10px 30px rgba(15, 23, 42, .08); }
+    details.q { background: transparent; border: 0; border-radius: 0; margin: 0; box-shadow: none; }
+    #completedQuestionsList details.q { border-bottom: 1px solid rgba(148, 163, 184, .25); margin: 0 0 10px; }
 
     /* ── Q4: the two pictures side by side on every screen size ── */
     .gallery.two { grid-template-columns: 1fr 1fr; }
@@ -10135,6 +10148,14 @@
         hint.className = 'next-hint';
         hint.innerHTML = 'then <b>🎙 Speak · ' + Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0') + '</b>';
         row.appendChild(hint);
+        // Phase-action button (bottom of the strip): prep → skip straight to
+        // speaking; speak → end early and move on. Hidden until startTimers
+        // arms it (so taps during the question audio do nothing).
+        var pbtn = document.createElement('button');
+        pbtn.type = 'button';
+        pbtn.className = 'phase-skip';
+        pbtn.innerHTML = '<span class="ps-prep">🎙 Start speaking</span><span class="ps-speak">Next question →</span>';
+        row.appendChild(pbtn);
         row.dataset.phase = 'prep';
       });
 
@@ -10708,7 +10729,7 @@
           setDial(prepDial, remaining, total); setDial(speakDial, speakSec, speakSec);
           $('.status', q).textContent = 'Prepare…';
           if (timerId) clearInterval(timerId);
-          timerId = setInterval(() => {
+          const tick = () => {
             if (paused) return;
             remaining = Math.max(0, remaining - 1);
             if (mode === 'prep') {
@@ -10778,7 +10799,26 @@
                 });
               }
             }
-          }, 1000);
+          };
+          timerId = setInterval(tick, 1000);
+          // Phase-action button: skipping = force the current phase to its
+          // final second and run the SAME tick transition (so recording
+          // start/stop, beeps, and question advance stay consistent).
+          const skipBtn = q.querySelector('.phase-skip');
+          if (skipBtn) {
+            const speakLabel = skipBtn.querySelector('.ps-speak');
+            const isLastQ = window._practiceMode && window._practiceQRange
+              ? i >= window._practiceQRange[1]
+              : !qs[i + 1];
+            if (speakLabel && isLastQ) speakLabel.textContent = '✓ Finish';
+            skipBtn.onclick = () => {
+              if (paused || !timerId) return;
+              remaining = 1;
+              tick();
+            };
+          }
+          const _row = prepDial.closest('.dialrow');
+          if (_row) _row.dataset.armed = '1';
         }
 
         function runQuestion(i) {
