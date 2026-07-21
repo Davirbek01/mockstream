@@ -10269,7 +10269,7 @@
         // temporal dead zone on resume, so startTimers() threw a ReferenceError
         // on `mode = 'prep'` and the prep timer froze at its start value. Normal
         // start reached the old declaration, so only resume was affected.
-        let timerId = null, mode = 'prep', remaining = 0, total = 0;
+        let timerId = null, mode = 'prep', remaining = 0, total = 0, _didResume = false;
 
         // Session recovery: fast-forward past completed questions
         if (window._srResumeIndex > 0 && !window._practiceMode) {
@@ -10287,10 +10287,18 @@
             answered = resumeIdx; scoreDone.textContent = answered;
             runQuestion(resumeIdx); updatePartIndicator(resumeIdx);
             if (loadingOverlay) loadingOverlay.style.display = 'none';
-            return;
+            // Do NOT return here. Execution must continue through the rest of
+            // beginFlow so its later `let` declarations (currentQuestionIndex, …)
+            // are initialized before the async startTimers() fires. An early
+            // return left them in the temporal dead zone, so startTimers() threw
+            // on resume and the prep timer froze. The normal first-question start
+            // below is skipped via _didResume.
+            _didResume = true;
           }
         }
 
+        // Practice mode / normal first-question start — skipped after a resume.
+        if (!_didResume) {
         // Practice mode: only show the selected part's questions
         if (window._practiceMode && window._practiceQRange) {
           var pr = window._practiceQRange;
@@ -10311,6 +10319,7 @@
           runQuestion(0);
           updatePartIndicator(0);
         }
+        } // end if(!_didResume) — resume already started its question above
         // Don't show download buttons during exam
         // updateDownloadButtons();
 
