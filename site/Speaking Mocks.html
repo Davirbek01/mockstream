@@ -10727,6 +10727,9 @@
           if (waitAnim) waitAnim.style.display = '';
           mode = 'prep'; remaining = prepSec; total = prepSec;
           setDial(prepDial, remaining, total); setDial(speakDial, speakSec, speakSec);
+          // Keep the hint honest — dynamic mocks override data-speak after load.
+          const hintEl = dialRow ? dialRow.querySelector('.next-hint b') : null;
+          if (hintEl) hintEl.textContent = '🎙 Speak · ' + Math.floor(speakSec / 60) + ':' + String(speakSec % 60).padStart(2, '0');
           $('.status', q).textContent = 'Prepare…';
           if (timerId) clearInterval(timerId);
           const tick = () => {
@@ -21115,6 +21118,19 @@ Please contact your instructor or upgrade to the full version with speech recogn
                     <span>${point}</span>
                   </li>`
                 ).join('');
+              }
+              // Q7 context image (parity with mobile + desktop apps): shown
+              // ABOVE the discussion points when the mock provides one.
+              const oldCtx = qElement.querySelector('.q7-context-img');
+              if (oldCtx) oldCtx.remove();
+              if (q.contextImage) {
+                const ctxImg = document.createElement('img');
+                ctxImg.className = 'q7-context-img';
+                ctxImg.src = q.contextImage;
+                ctxImg.alt = 'Topic context';
+                ctxImg.loading = 'lazy';
+                ctxImg.style.cssText = 'width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px;margin-bottom:12px;border:1px solid rgba(148,163,184,.35);display:block';
+                bulletContainer.parentNode.insertBefore(ctxImg, bulletContainer);
               }
             }
           } else if (q.number === 8) {
