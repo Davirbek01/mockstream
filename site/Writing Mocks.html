@@ -20681,8 +20681,8 @@ AREAS TO IMPROVE:
       .prompt-header, .answer-header { display: none !important; }
       /* task wording: bold, a touch bigger */
       .prompt-task { border: 1.5px solid rgba(148, 163, 184, .3); border-radius: 12px; padding: 12px 14px; background: var(--card); }
-      .prompt-task strong { font-size: 15px; color: var(--brand); }
-      .prompt-task .note { font-weight: 700; font-size: 15px; line-height: 1.55; margin-top: 4px; }
+      .prompt-task strong { font-size: calc(15px * var(--font-scale, 1)); color: var(--brand); }
+      .prompt-task .note { font-weight: 700; font-size: calc(15px * var(--font-scale, 1)) !important; line-height: 1.55; margin-top: 4px; }
       /* in-field word counter */
       .wm-ta-wrap { display: block; position: relative; }
       .wm-wc { display: block; position: absolute; right: 14px; bottom: 12px; font-size: 11.5px; font-weight: 800; color: #94a3b8; pointer-events: none; }
@@ -20691,10 +20691,22 @@ AREAS TO IMPROVE:
     }
     /* ── combined scenario + letter box (all widths): scenario small bold
        italic on top, the email below styled like a real letter ── */
-    details.ctx-dd .prompt-context { padding: 12px 14px 0; margin: 0; font-size: 12.5px; font-style: italic; font-weight: 700; line-height: 1.6; opacity: .92; background: transparent; border: 0; box-shadow: none; border-radius: 0; }
+    /* NOTE: a global rule sets `.note { font-size: calc(16px * --font-scale)
+       !important }` — these sizes must be !important AND carry --font-scale
+       so the 🔤 font changer scales scenario/email/task together. */
+    details.ctx-dd .prompt-context { padding: 12px 14px 0; margin: 0; font-size: calc(12.5px * var(--font-scale, 1)) !important; font-style: italic; font-weight: 700; line-height: 1.6; opacity: .92; background: transparent; border: 0; box-shadow: none; border-radius: 0; }
     details.ctx-dd .prompt-context strong { display: none; } /* drop the "Context:" label — the box speaks for itself */
     details.ctx-dd .prompt-scenario { padding: 10px 14px 14px; margin: 0; background: transparent; border: 0; box-shadow: none; border-radius: 0; white-space: normal; /* base pre-wrap renders the markup indentation as blank lines */ }
-    details.ctx-dd .prompt-scenario .note { background: var(--card); border: 1px solid rgba(148, 163, 184, .35); border-left: 3px solid var(--brand); border-radius: 10px; padding: 12px 14px; font-style: italic; font-size: 11.5px; line-height: 1.65; box-shadow: 0 1px 4px rgba(15, 23, 42, .06); }
+    /* the email: a little mail window — traffic-light dots + title bar */
+    .wm-mail { border: 1px solid rgba(148, 163, 184, .38); border-radius: 12px; overflow: hidden; background: var(--card); box-shadow: 0 2px 10px rgba(15, 23, 42, .08); }
+    .wm-mail-head { display: flex; align-items: center; gap: 9px; padding: 8px 12px; background: rgba(148, 163, 184, .12); border-bottom: 1px solid rgba(148, 163, 184, .22); }
+    .wm-mail-dots { display: flex; gap: 5px; }
+    .wm-mail-dots i { width: 9px; height: 9px; border-radius: 50%; display: block; }
+    .wm-mail-dots i:nth-child(1) { background: #ff5f57; }
+    .wm-mail-dots i:nth-child(2) { background: #febc2e; }
+    .wm-mail-dots i:nth-child(3) { background: #28c840; }
+    .wm-mail-title { font-size: 11px; font-weight: 800; color: var(--muted); letter-spacing: .4px; }
+    details.ctx-dd .wm-mail .note { background: transparent; border: 0; border-radius: 0; box-shadow: none; padding: 12px 14px; font-style: italic; font-size: calc(12.5px * var(--font-scale, 1)) !important; line-height: 1.65; }
   </style>
   <div class="wm-bar" id="wmBar">
     <div class="wm-side">
@@ -20805,6 +20817,18 @@ AREAS TO IMPROVE:
         // (small bold italic vs. the letter's letter-paper styling).
         var ctx = document.getElementById(id === 'prompt_p1_scenario' ? 'context_t11' : 'context_t12');
         if (ctx) dd.insertBefore(ctx, box);
+        // Dress the letter as a little mail window (traffic-light dots +
+        // "New message" title bar, body below).
+        if (!box.querySelector('.wm-mail')) {
+          var mail = document.createElement('div');
+          mail.className = 'wm-mail';
+          var head = document.createElement('div');
+          head.className = 'wm-mail-head';
+          head.innerHTML = '<span class="wm-mail-dots"><i></i><i></i><i></i></span><span class="wm-mail-title">✉️ New message</span>';
+          note.parentNode.insertBefore(mail, note);
+          mail.appendChild(head);
+          mail.appendChild(note);
+        }
       });
 
       // Mobile single-column: the answer textarea auto-grows (no inner
