@@ -8255,6 +8255,21 @@
     }
     function startTimer() {
       startedAt = Date.now();
+      // Auto-fullscreen (same as speaking): works directly when the exam was
+      // started by a real tap (Start Test click chain); for gesture-less
+      // flows (auto-start/resume) a one-shot listener enters on the first
+      // tap. Never re-forced if the student deliberately exits with Esc.
+      try { enterFullscreen(); } catch (e) { }
+      if (!window._fsAutoBound) {
+        window._fsAutoBound = true;
+        var _fsOnce = function () {
+          document.removeEventListener('pointerdown', _fsOnce, true);
+          if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+            try { enterFullscreen(); } catch (e) { }
+          }
+        };
+        document.addEventListener('pointerdown', _fsOnce, true);
+      }
       const mobDisplay = document.getElementById('mobTimerDisplay');
       if (window._practiceMode) {
         remaining = 0;
@@ -14877,6 +14892,7 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
         const finishEl = document.getElementById('finish');
         finishEl.classList.add('show');
         finishEl.setAttribute('aria-hidden', 'false');
+        try { exitFullscreen(); } catch (e) { } // exam over — leave fullscreen
         window.scrollTo({ top: 0, behavior: 'smooth' });
         ['t11', 't12', 't2'].forEach(id => { const el = document.getElementById(id); el.readOnly = true; });
         __okToLeave = true;
@@ -20612,6 +20628,249 @@ AREAS TO IMPROVE:
       </button>
     </div>
   </div>
+
+  <!-- ── Mobile writing toolbar, Variant B (2026-07-22) ─────────────────
+       Replaces the 🛠️ FAB + pop-up menu on ≤768px:
+       top bar  = ⏸ pause · timer (center) · 🔤 font · 🌓 theme
+       chip row = task switcher (T1.1 · T1.2 · T2, ✓ when word target met)
+       bottom   = fixed full-width ✓ Submit
+       Plus: incoming-letter dropdown (all widths) and keyboard-safe layout
+       (visualViewport → --wm-kb; textarea keeps its own scroll so the caret
+       can never hide behind the keyboard). -->
+  <style id="wmMobileBar">
+    /* incoming letter / context as a collapsible (all widths) */
+    details.ctx-dd { border: 1.5px solid rgba(148, 163, 184, .4); border-radius: 12px; margin-bottom: 12px; background: var(--card); overflow: hidden; }
+    details.ctx-dd > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 10px 14px; font-weight: 800; font-size: 13px; color: var(--brand); background: var(--brand-weak); }
+    details.ctx-dd > summary::-webkit-details-marker { display: none; }
+    details.ctx-dd > summary::after { content: "▾"; margin-left: auto; transition: transform .2s; }
+    details.ctx-dd:not([open]) > summary::after { transform: rotate(-90deg); }
+
+    /* answer textarea wrapper: inert on desktop (display:contents keeps the
+       flex layout), a positioning context on mobile for the in-field word
+       counter */
+    .wm-ta-wrap { display: contents; }
+    .wm-wc { display: none; }
+
+    .wm-bar, .wm-submit, .wm-task-badge { display: none; }
+    @media (max-width: 768px) {
+      .mobile-fab-container { display: none !important; }
+      .top, .timebar { display: none !important; }
+      body { overflow: hidden; }
+      /* ── top bar: ⏸ + task badge · timer center · 🔤 🌓 ── */
+      .wm-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 5000; display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 54px; padding: 0 12px; background: var(--card); border-bottom: 1px solid rgba(148, 163, 184, .22); box-shadow: 0 2px 14px rgba(15, 23, 42, .06); }
+      .wm-ibtn { width: 40px; height: 40px; border: 1px solid rgba(148, 163, 184, .32); border-radius: 12px; background: var(--card); color: var(--ink); font-size: 17px; display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer; box-shadow: 0 1px 3px rgba(15, 23, 42, .07); }
+      .wm-side { display: flex; align-items: center; gap: 7px; }
+      .wm-task-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 40px; height: 40px; padding: 0 10px; border-radius: 12px; background: linear-gradient(135deg, var(--brand), #0d9488); color: #fff; font-weight: 900; font-size: 14.5px; letter-spacing: .3px; box-shadow: 0 2px 8px rgba(17, 106, 96, .3); }
+      .wm-timer { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 800; font-size: 19px; color: var(--brand); background: var(--brand-weak); border-radius: 999px; padding: 7px 18px; letter-spacing: .5px; font-variant-numeric: tabular-nums; }
+      .wm-timer.warn { color: #dc2626; background: rgba(220, 38, 38, .12); }
+      /* ── bottom row: task chips + Submit (Variant C) ── */
+      .wm-submit { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5000; display: flex; gap: 6px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px)); background: var(--card); border-top: 1px solid rgba(148, 163, 184, .22); box-shadow: 0 -2px 14px rgba(15, 23, 42, .05); transition: transform .2s ease; }
+      .wm-chip { flex: 1; border: 1.5px solid rgba(148, 163, 184, .35); border-radius: 12px; padding: 12px 0; background: rgba(148, 163, 184, .10); color: var(--muted); font-weight: 800; font-size: 13px; cursor: pointer; }
+      .wm-chip.on { background: var(--brand); border-color: var(--brand); color: #fff; }
+      .wm-submit #wmSubmit { flex: 1.6; border: 0; border-radius: 12px; padding: 12px 0; background: var(--brand); color: #fff; font-weight: 800; font-size: 14px; letter-spacing: .3px; cursor: pointer; }
+      /* ── app frame: ONE scrollable column, textarea auto-grows ── */
+      .layout { position: fixed; top: 54px; bottom: calc(64px + var(--wm-kb, 0px)); left: 0; right: 0; margin: 0; padding: 0; overflow: hidden; height: calc(100dvh - 118px - var(--wm-kb, 0px)) !important; /* a base rule pins height:100vh, which beats bottom-anchoring */ }
+      .task-container.active { height: 100% !important; } /* base pins .task-container to 100vh !important */
+      .task-split { display: block !important; height: 100% !important; overflow-y: auto; }
+      .task-prompt-side { flex: none; min-height: 0; max-height: none; overflow: visible; padding: 12px 14px 2px; border-bottom: 0; }
+      .resize-handle { display: none !important; }
+      .task-answer-side { flex: none; min-height: 0; overflow: visible; padding: 8px 14px 20px; border-top: 0 !important; }
+      /* the input fits the visible frame (top bar 54 + bottom row 64 + padding
+         ≈ 162) and scrolls INTERNALLY — its bottom edge with the word counter
+         is always on screen, and the browser keeps the caret in view */
+      .task-answer-side textarea { height: calc(100dvh - 162px - var(--wm-kb, 0px)); min-height: 240px; overflow-y: auto; padding-bottom: 34px; }
+      /* minimal chrome: the task header + "Your Answer" header duplicate
+         info that's already in the task wording / in-field counter */
+      .prompt-header, .answer-header { display: none !important; }
+      /* task card: tinted, brand left edge, ✍️ eyebrow header — the task is
+         the star of the pane */
+      .prompt-task { border: 0; border-left: 4px solid var(--brand); border-radius: 12px; padding: 12px 16px 14px; background: var(--brand-weak); box-shadow: 0 1px 6px rgba(15, 23, 42, .05); }
+      .prompt-task strong { display: block; font-size: calc(11.5px * var(--font-scale, 1)) !important; letter-spacing: .8px; text-transform: uppercase; font-weight: 900; color: var(--brand); margin-bottom: 4px; }
+      .prompt-task strong::before { content: "✍️ "; }
+      .prompt-task .note { font-weight: 700; font-size: calc(15px * var(--font-scale, 1)) !important; line-height: 1.55; margin-top: 4px; }
+      /* in-field word counter */
+      .wm-ta-wrap { display: block; position: relative; }
+      .wm-wc { display: block; position: absolute; right: 14px; bottom: 12px; font-size: 11.5px; font-weight: 800; color: #94a3b8; pointer-events: none; }
+      /* keyboard open: hide the bottom row (closing the keyboard restores it) */
+      .wm-kb-open .wm-submit { transform: translateY(130%); }
+    }
+    /* ── combined scenario + letter box (all widths): scenario small bold
+       italic on top, the email below styled like a real letter ── */
+    /* NOTE: a global rule sets `.note { font-size: calc(16px * --font-scale)
+       !important }` — these sizes must be !important AND carry --font-scale
+       so the 🔤 font changer scales scenario/email/task together. */
+    details.ctx-dd .prompt-context { padding: 12px 14px 0; margin: 0; font-size: calc(12.5px * var(--font-scale, 1)) !important; font-style: italic; font-weight: 700; line-height: 1.6; opacity: .92; background: transparent; border: 0; box-shadow: none; border-radius: 0; }
+    details.ctx-dd .prompt-context strong { display: none; } /* drop the "Context:" label — the box speaks for itself */
+    details.ctx-dd .prompt-scenario { padding: 10px 14px 14px; margin: 0; background: transparent; border: 0; box-shadow: none; border-radius: 0; white-space: normal; /* base pre-wrap renders the markup indentation as blank lines */ }
+    /* the email: a little mail window — traffic-light dots + title bar */
+    .wm-mail { border: 1px solid rgba(148, 163, 184, .38); border-radius: 12px; overflow: hidden; background: var(--card); box-shadow: 0 2px 10px rgba(15, 23, 42, .08); }
+    .wm-mail-head { display: flex; align-items: center; gap: 9px; padding: 8px 12px; background: rgba(148, 163, 184, .12); border-bottom: 1px solid rgba(148, 163, 184, .22); }
+    .wm-mail-dots { display: flex; gap: 5px; }
+    .wm-mail-dots i { width: 9px; height: 9px; border-radius: 50%; display: block; }
+    .wm-mail-dots i:nth-child(1) { background: #ff5f57; }
+    .wm-mail-dots i:nth-child(2) { background: #febc2e; }
+    .wm-mail-dots i:nth-child(3) { background: #28c840; }
+    .wm-mail-title { font-size: 11px; font-weight: 800; color: var(--muted); letter-spacing: .4px; }
+    details.ctx-dd .wm-mail .note { background: transparent; border: 0; border-radius: 0; box-shadow: none; padding: 12px 14px; font-style: italic; font-size: calc(12.5px * var(--font-scale, 1)) !important; line-height: 1.65; }
+  </style>
+  <div class="wm-bar" id="wmBar">
+    <div class="wm-side">
+      <button class="wm-ibtn" id="wmPause" title="Pause">⏸️</button>
+      <span class="wm-task-badge" id="wmTaskBadge">1.1</span>
+    </div>
+    <div class="wm-timer" id="wmTimer">60:00</div>
+    <div class="wm-side">
+      <button class="wm-ibtn" id="wmFont" title="Zoom text">🔤</button>
+      <button class="wm-ibtn" id="wmTheme" title="Day / Night">🌓</button>
+    </div>
+  </div>
+  <div class="wm-submit" id="wmSubmitWrap"><button id="wmSubmit">✓ Submit</button></div>
+  <script>
+    (function initWmMobileBar() {
+      var pauseBtn = document.getElementById('pauseBtn');
+      var themeSwitch = document.getElementById('themeSwitch');
+      var fontBtn = document.getElementById('fontMagnifier');
+      var submitBtn = document.getElementById('submitBtn');
+      var timerEl = document.getElementById('timer');
+      var wmTimer = document.getElementById('wmTimer');
+      var chipsWrap = document.getElementById('wmSubmitWrap');
+      var wmSubmitBtn = document.getElementById('wmSubmit');
+      var taskBadge = document.getElementById('wmTaskBadge');
+
+      document.getElementById('wmPause').onclick = function () { if (pauseBtn) pauseBtn.click(); };
+      document.getElementById('wmTheme').onclick = function () { if (themeSwitch) themeSwitch.click(); };
+      document.getElementById('wmFont').onclick = function () { if (fontBtn) fontBtn.click(); };
+      document.getElementById('wmSubmit').onclick = function () { if (submitBtn) submitBtn.click(); };
+
+      // Task chips (bottom row, before Submit — Variant C) — proxy the main
+      // .task-nav-btn tabs; ✓ once the task's minimum word target is reached.
+      // Practice mode shows only its task. The top-bar badge mirrors the
+      // active task (1.1 / 1.2 / 2).
+      var MIN_WORDS = { task11: 50, task12: 120, task2: 180 };
+      var WC_IDS = { task11: 'wc11', task12: 'wc12', task2: 'wc2' };
+      var mainBtns = Array.prototype.slice.call(document.querySelectorAll('.task-nav-btn'));
+      mainBtns.forEach(function (mb) {
+        var chip = document.createElement('button');
+        chip.className = 'wm-chip';
+        chip.dataset.task = mb.dataset.task;
+        chip.textContent = mb.textContent.replace(/^Task\s*/i, '');
+        chip.onclick = function () { mb.click(); syncChips(); };
+        chipsWrap.insertBefore(chip, wmSubmitBtn);
+      });
+      function syncChips() {
+        var single = window._practiceMode ? window._singleTaskId : null;
+        chipsWrap.querySelectorAll('.wm-chip').forEach(function (chip) {
+          var tid = chip.dataset.task;
+          chip.style.display = (single && tid !== single) ? 'none' : '';
+          var mb = document.querySelector('.task-nav-btn[data-task="' + tid + '"]');
+          var active = !!(mb && mb.classList.contains('active'));
+          chip.classList.toggle('on', active);
+          var wcEl = document.getElementById(WC_IDS[tid]);
+          var words = wcEl ? parseInt(wcEl.textContent, 10) || 0 : 0;
+          var base = chip.textContent.replace(/^✓ /, '');
+          chip.textContent = (words >= (MIN_WORDS[tid] || 9e9) ? '✓ ' : '') + base;
+          if (active && taskBadge) taskBadge.textContent = base;
+          // mirror the in-field word counter for this task
+          var wrap = document.querySelector('.wm-ta-wrap[data-task="' + tid + '"] .wm-wc');
+          if (wrap) wrap.textContent = words + ' words';
+        });
+      }
+      function syncTimer() {
+        if (timerEl && wmTimer) {
+          var t = timerEl.textContent || '';
+          wmTimer.textContent = t;
+          wmTimer.classList.toggle('warn', /^\s*0?[0-4]:/.test(t));
+        }
+      }
+      syncChips(); syncTimer();
+      setInterval(function () { syncChips(); syncTimer(); }, 500);
+
+      // Keyboard-safe layout: track the on-screen keyboard height via
+      // visualViewport → --wm-kb shrinks the app frame so the textarea (its
+      // own scroller — browsers keep the caret visible inside it) always
+      // ends ABOVE the keyboard, no matter how long the text gets.
+      if (window.visualViewport) {
+        var vv = window.visualViewport;
+        var kbAdjust = function () {
+          var kb = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+          document.documentElement.style.setProperty('--wm-kb', kb + 'px');
+          document.documentElement.classList.toggle('wm-kb-open', kb > 60);
+        };
+        vv.addEventListener('resize', kbAdjust);
+        vv.addEventListener('scroll', kbAdjust);
+        kbAdjust();
+      }
+
+      // Incoming letter → collapsible dropdown (Tasks 1.1 + 1.2, all
+      // widths). The LETTER lives in .prompt-scenario (#prompt_p1_scenario /
+      // _2) — NOT the context/task lines, which stay visible. Open by
+      // default; students collapse it after reading to write freely.
+      ['prompt_p1_scenario', 'prompt_p1_scenario_2'].forEach(function (id) {
+        var note = document.getElementById(id);
+        if (!note) return;
+        var box = note.closest('.prompt-scenario') || note;
+        if (box.closest('details.ctx-dd')) return;
+        var dd = document.createElement('details');
+        dd.className = 'ctx-dd';
+        dd.open = true;
+        var sm = document.createElement('summary');
+        sm.textContent = '📩 Incoming message';
+        box.parentNode.insertBefore(dd, box);
+        dd.appendChild(sm);
+        dd.appendChild(box);
+        // ONE box: pull the scenario/Context line in above the letter
+        // (small bold italic vs. the letter's letter-paper styling).
+        var ctx = document.getElementById(id === 'prompt_p1_scenario' ? 'context_t11' : 'context_t12');
+        if (ctx) dd.insertBefore(ctx, box);
+        // Dress the letter as a little mail window (traffic-light dots +
+        // "New message" title bar, body below).
+        if (!box.querySelector('.wm-mail')) {
+          var mail = document.createElement('div');
+          mail.className = 'wm-mail';
+          var head = document.createElement('div');
+          head.className = 'wm-mail-head';
+          head.innerHTML = '<span class="wm-mail-dots"><i></i><i></i><i></i></span><span class="wm-mail-title">✉️ New message</span>';
+          note.parentNode.insertBefore(mail, note);
+          mail.appendChild(head);
+          mail.appendChild(note);
+        }
+      });
+
+      // Mobile single-column: the answer textarea auto-grows (no inner
+      // scrollbar) and the COLUMN scrolls. While typing at the end, keep the
+      // caret above the keyboard by following the textarea's bottom edge.
+      // Wrap each textarea for the in-field word counter (bottom-right inside
+      // the input). display:contents keeps the desktop flex layout intact.
+      var TA_TASK = { t11: 'task11', t12: 'task12', t2: 'task2' };
+      ['t11', 't12', 't2'].forEach(function (id) {
+        var ta = document.getElementById(id);
+        if (!ta || ta.parentElement.classList.contains('wm-ta-wrap')) return;
+        var wrap = document.createElement('div');
+        wrap.className = 'wm-ta-wrap';
+        wrap.dataset.task = TA_TASK[id];
+        ta.parentNode.insertBefore(wrap, ta);
+        wrap.appendChild(ta);
+        var wc = document.createElement('span');
+        wc.className = 'wm-wc';
+        wc.textContent = '0 words';
+        wrap.appendChild(wc);
+      });
+      // The input scrolls internally (fixed frame-fitting height), so the
+      // caret always stays visible in its own scrollport. On focus, glide
+      // the column so the whole input (incl. its bottom word counter) is on
+      // screen.
+      ['t11', 't12', 't2'].forEach(function (id) {
+        var ta = document.getElementById(id);
+        if (!ta) return;
+        ta.style.height = ''; // clear any stale inline height
+        ta.addEventListener('focus', function () {
+          if (window.innerWidth > 768) return;
+          var wrap = ta.closest('.wm-ta-wrap');
+          if (wrap) setTimeout(function () { wrap.scrollIntoView({ block: 'start', behavior: 'smooth' }); }, 120);
+        });
+      });
+    })();
+  </script>
 
 <!-- Home Sidebar -->
 <style>
