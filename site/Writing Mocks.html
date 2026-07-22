@@ -20669,19 +20669,24 @@ AREAS TO IMPROVE:
       .wm-chip.on { background: var(--brand); border-color: var(--brand); color: #fff; }
       .wm-submit #wmSubmit { flex: 1.6; border: 0; border-radius: 12px; padding: 12px 0; background: var(--brand); color: #fff; font-weight: 800; font-size: 14px; letter-spacing: .3px; cursor: pointer; }
       /* ── app frame: ONE scrollable column, textarea auto-grows ── */
-      .layout { position: fixed; top: 54px; bottom: calc(64px + var(--wm-kb, 0px)); left: 0; right: 0; margin: 0; padding: 0; overflow: hidden; }
-      .task-container.active { height: 100%; }
+      .layout { position: fixed; top: 54px; bottom: calc(64px + var(--wm-kb, 0px)); left: 0; right: 0; margin: 0; padding: 0; overflow: hidden; height: calc(100dvh - 118px - var(--wm-kb, 0px)) !important; /* a base rule pins height:100vh, which beats bottom-anchoring */ }
+      .task-container.active { height: 100% !important; } /* base pins .task-container to 100vh !important */
       .task-split { display: block !important; height: 100% !important; overflow-y: auto; }
       .task-prompt-side { flex: none; min-height: 0; max-height: none; overflow: visible; padding: 12px 14px 2px; border-bottom: 0; }
       .resize-handle { display: none !important; }
       .task-answer-side { flex: none; min-height: 0; overflow: visible; padding: 8px 14px 20px; border-top: 0 !important; }
-      .task-answer-side textarea { min-height: 58vh; overflow: hidden; padding-bottom: 34px; }
+      /* the input fits the visible frame (top bar 54 + bottom row 64 + padding
+         ≈ 162) and scrolls INTERNALLY — its bottom edge with the word counter
+         is always on screen, and the browser keeps the caret in view */
+      .task-answer-side textarea { height: calc(100dvh - 162px - var(--wm-kb, 0px)); min-height: 240px; overflow-y: auto; padding-bottom: 34px; }
       /* minimal chrome: the task header + "Your Answer" header duplicate
          info that's already in the task wording / in-field counter */
       .prompt-header, .answer-header { display: none !important; }
-      /* task wording: bold, a touch bigger */
-      .prompt-task { border: 1.5px solid rgba(148, 163, 184, .3); border-radius: 12px; padding: 12px 14px; background: var(--card); }
-      .prompt-task strong { font-size: calc(15px * var(--font-scale, 1)); color: var(--brand); }
+      /* task card: tinted, brand left edge, ✍️ eyebrow header — the task is
+         the star of the pane */
+      .prompt-task { border: 0; border-left: 4px solid var(--brand); border-radius: 12px; padding: 12px 16px 14px; background: var(--brand-weak); box-shadow: 0 1px 6px rgba(15, 23, 42, .05); }
+      .prompt-task strong { display: block; font-size: calc(11.5px * var(--font-scale, 1)) !important; letter-spacing: .8px; text-transform: uppercase; font-weight: 900; color: var(--brand); margin-bottom: 4px; }
+      .prompt-task strong::before { content: "✍️ "; }
       .prompt-task .note { font-weight: 700; font-size: calc(15px * var(--font-scale, 1)) !important; line-height: 1.55; margin-top: 4px; }
       /* in-field word counter */
       .wm-ta-wrap { display: block; position: relative; }
@@ -20834,10 +20839,6 @@ AREAS TO IMPROVE:
       // Mobile single-column: the answer textarea auto-grows (no inner
       // scrollbar) and the COLUMN scrolls. While typing at the end, keep the
       // caret above the keyboard by following the textarea's bottom edge.
-      function autoGrow(ta) {
-        ta.style.height = 'auto';
-        ta.style.height = (ta.scrollHeight + 2) + 'px';
-      }
       // Wrap each textarea for the in-field word counter (bottom-right inside
       // the input). display:contents keeps the desktop flex layout intact.
       var TA_TASK = { t11: 'task11', t12: 'task12', t2: 'task2' };
@@ -20854,27 +20855,20 @@ AREAS TO IMPROVE:
         wc.textContent = '0 words';
         wrap.appendChild(wc);
       });
+      // The input scrolls internally (fixed frame-fitting height), so the
+      // caret always stays visible in its own scrollport. On focus, glide
+      // the column so the whole input (incl. its bottom word counter) is on
+      // screen.
       ['t11', 't12', 't2'].forEach(function (id) {
         var ta = document.getElementById(id);
         if (!ta) return;
-        ta.addEventListener('input', function () {
-          if (window.innerWidth > 768) { ta.style.height = ''; return; }
-          autoGrow(ta);
-          if (ta.selectionEnd >= ta.value.length - 1) {
-            var split = ta.closest('.task-split');
-            if (split) split.scrollTop = split.scrollHeight;
-          }
+        ta.style.height = ''; // clear any stale inline height
+        ta.addEventListener('focus', function () {
+          if (window.innerWidth > 768) return;
+          var wrap = ta.closest('.wm-ta-wrap');
+          if (wrap) setTimeout(function () { wrap.scrollIntoView({ block: 'start', behavior: 'smooth' }); }, 120);
         });
       });
-      // Restored drafts / task switches: keep heights in sync (cheap check
-      // piggybacked on the 500ms sync).
-      setInterval(function () {
-        if (window.innerWidth > 768) return;
-        ['t11', 't12', 't2'].forEach(function (id) {
-          var ta = document.getElementById(id);
-          if (ta && ta.offsetParent && ta.scrollHeight > ta.clientHeight + 4) autoGrow(ta);
-        });
-      }, 500);
     })();
   </script>
 
