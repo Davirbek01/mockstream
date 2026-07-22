@@ -20644,46 +20644,69 @@ AREAS TO IMPROVE:
     details.ctx-dd > summary::-webkit-details-marker { display: none; }
     details.ctx-dd > summary::after { content: "▾"; margin-left: auto; transition: transform .2s; }
     details.ctx-dd:not([open]) > summary::after { transform: rotate(-90deg); }
-    details.ctx-dd > div { padding: 10px 14px; margin: 0; }
 
-    .wm-bar, .wm-chips, .wm-submit { display: none; }
+    /* answer textarea wrapper: inert on desktop (display:contents keeps the
+       flex layout), a positioning context on mobile for the in-field word
+       counter */
+    .wm-ta-wrap { display: contents; }
+    .wm-wc { display: none; }
+
+    .wm-bar, .wm-submit, .wm-task-badge { display: none; }
     @media (max-width: 768px) {
       .mobile-fab-container { display: none !important; }
       .top, .timebar { display: none !important; }
       body { overflow: hidden; }
-      .wm-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 5000; display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 48px; padding: 0 10px; background: var(--card); border-bottom: 1px solid rgba(148, 163, 184, .28); }
-      .wm-ibtn { width: 36px; height: 36px; border: 1px solid rgba(148, 163, 184, .4); border-radius: 10px; background: transparent; color: var(--ink); font-size: 16px; display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer; }
-      .wm-side { display: flex; align-items: center; gap: 6px; }
-      .wm-timer { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 800; font-size: 18px; color: var(--brand); background: var(--brand-weak); border-radius: 999px; padding: 5px 16px; letter-spacing: .5px; font-variant-numeric: tabular-nums; }
+      /* ── top bar: ⏸ + task badge · timer center · 🔤 🌓 ── */
+      .wm-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 5000; display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 54px; padding: 0 12px; background: var(--card); border-bottom: 1px solid rgba(148, 163, 184, .22); box-shadow: 0 2px 14px rgba(15, 23, 42, .06); }
+      .wm-ibtn { width: 40px; height: 40px; border: 1px solid rgba(148, 163, 184, .32); border-radius: 12px; background: var(--card); color: var(--ink); font-size: 17px; display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer; box-shadow: 0 1px 3px rgba(15, 23, 42, .07); }
+      .wm-side { display: flex; align-items: center; gap: 7px; }
+      .wm-task-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 40px; height: 40px; padding: 0 10px; border-radius: 12px; background: linear-gradient(135deg, var(--brand), #0d9488); color: #fff; font-weight: 900; font-size: 14.5px; letter-spacing: .3px; box-shadow: 0 2px 8px rgba(17, 106, 96, .3); }
+      .wm-timer { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 800; font-size: 19px; color: var(--brand); background: var(--brand-weak); border-radius: 999px; padding: 7px 18px; letter-spacing: .5px; font-variant-numeric: tabular-nums; }
       .wm-timer.warn { color: #dc2626; background: rgba(220, 38, 38, .12); }
-      .wm-chips { position: fixed; top: 48px; left: 0; right: 0; z-index: 5000; display: flex; gap: 6px; justify-content: center; padding: 6px 10px; background: var(--card); border-bottom: 1px solid rgba(148, 163, 184, .28); }
-      .wm-chip { font-size: 12px; font-weight: 800; padding: 5px 14px; border-radius: 999px; border: 1.5px solid rgba(148, 163, 184, .4); background: transparent; color: var(--muted); cursor: pointer; }
+      /* ── bottom row: task chips + Submit (Variant C) ── */
+      .wm-submit { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5000; display: flex; gap: 6px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px)); background: var(--card); border-top: 1px solid rgba(148, 163, 184, .22); box-shadow: 0 -2px 14px rgba(15, 23, 42, .05); transition: transform .2s ease; }
+      .wm-chip { flex: 1; border: 1.5px solid rgba(148, 163, 184, .35); border-radius: 12px; padding: 12px 0; background: rgba(148, 163, 184, .10); color: var(--muted); font-weight: 800; font-size: 13px; cursor: pointer; }
       .wm-chip.on { background: var(--brand); border-color: var(--brand); color: #fff; }
-      .wm-submit { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5000; display: block; padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px)); background: var(--card); border-top: 1px solid rgba(148, 163, 184, .28); transition: transform .2s ease; }
-      .wm-submit button { width: 100%; border: 0; border-radius: 12px; padding: 14px; background: var(--brand); color: #fff; font-weight: 800; font-size: 15px; letter-spacing: .3px; cursor: pointer; }
-      /* app frame: bars fixed, the task area owns the remaining height and
-         is ONE scrollable column (no split panes on mobile) — prompt, letter
-         dropdown, then the answer, which AUTO-GROWS as the student types */
-      .layout { position: fixed; top: 86px; bottom: calc(64px + var(--wm-kb, 0px)); left: 0; right: 0; margin: 0; padding: 0; overflow: hidden; }
+      .wm-submit #wmSubmit { flex: 1.6; border: 0; border-radius: 12px; padding: 12px 0; background: var(--brand); color: #fff; font-weight: 800; font-size: 14px; letter-spacing: .3px; cursor: pointer; }
+      /* ── app frame: ONE scrollable column, textarea auto-grows ── */
+      .layout { position: fixed; top: 54px; bottom: calc(64px + var(--wm-kb, 0px)); left: 0; right: 0; margin: 0; padding: 0; overflow: hidden; }
       .task-container.active { height: 100%; }
       .task-split { display: block !important; height: 100% !important; overflow-y: auto; }
-      .task-prompt-side { flex: none; min-height: 0; max-height: none; overflow: visible; padding: 14px; border-bottom: 0; }
+      .task-prompt-side { flex: none; min-height: 0; max-height: none; overflow: visible; padding: 12px 14px 2px; border-bottom: 0; }
       .resize-handle { display: none !important; }
-      .task-answer-side { flex: none; min-height: 0; overflow: visible; padding: 12px 14px 20px; }
-      .task-answer-side textarea { min-height: 58vh; overflow: hidden; }
-      /* keyboard open: hide the submit bar (closing the keyboard restores it) */
+      .task-answer-side { flex: none; min-height: 0; overflow: visible; padding: 8px 14px 20px; border-top: 0 !important; }
+      .task-answer-side textarea { min-height: 58vh; overflow: hidden; padding-bottom: 34px; }
+      /* minimal chrome: the task header + "Your Answer" header duplicate
+         info that's already in the task wording / in-field counter */
+      .prompt-header, .answer-header { display: none !important; }
+      /* task wording: bold, a touch bigger */
+      .prompt-task { border: 1.5px solid rgba(148, 163, 184, .3); border-radius: 12px; padding: 12px 14px; background: var(--card); }
+      .prompt-task strong { font-size: 15px; color: var(--brand); }
+      .prompt-task .note { font-weight: 700; font-size: 15px; line-height: 1.55; margin-top: 4px; }
+      /* in-field word counter */
+      .wm-ta-wrap { display: block; position: relative; }
+      .wm-wc { display: block; position: absolute; right: 14px; bottom: 12px; font-size: 11.5px; font-weight: 800; color: #94a3b8; pointer-events: none; }
+      /* keyboard open: hide the bottom row (closing the keyboard restores it) */
       .wm-kb-open .wm-submit { transform: translateY(130%); }
     }
+    /* ── combined scenario + letter box (all widths): scenario small bold
+       italic on top, the email below styled like a real letter ── */
+    details.ctx-dd .prompt-context { padding: 12px 14px 0; margin: 0; font-size: 12.5px; font-style: italic; font-weight: 700; line-height: 1.6; opacity: .92; background: transparent; border: 0; box-shadow: none; border-radius: 0; }
+    details.ctx-dd .prompt-context strong { display: none; } /* drop the "Context:" label — the box speaks for itself */
+    details.ctx-dd .prompt-scenario { padding: 10px 14px 14px; margin: 0; background: transparent; border: 0; box-shadow: none; border-radius: 0; white-space: normal; /* base pre-wrap renders the markup indentation as blank lines */ }
+    details.ctx-dd .prompt-scenario .note { background: var(--card); border: 1px solid rgba(148, 163, 184, .35); border-left: 3px solid var(--brand); border-radius: 10px; padding: 14px 16px; font-style: italic; font-size: 13px; line-height: 1.75; box-shadow: 0 1px 4px rgba(15, 23, 42, .06); }
   </style>
   <div class="wm-bar" id="wmBar">
-    <div class="wm-side"><button class="wm-ibtn" id="wmPause" title="Pause">⏸</button></div>
+    <div class="wm-side">
+      <button class="wm-ibtn" id="wmPause" title="Pause">⏸️</button>
+      <span class="wm-task-badge" id="wmTaskBadge">1.1</span>
+    </div>
     <div class="wm-timer" id="wmTimer">60:00</div>
     <div class="wm-side">
       <button class="wm-ibtn" id="wmFont" title="Zoom text">🔤</button>
       <button class="wm-ibtn" id="wmTheme" title="Day / Night">🌓</button>
     </div>
   </div>
-  <div class="wm-chips" id="wmChips"></div>
   <div class="wm-submit" id="wmSubmitWrap"><button id="wmSubmit">✓ Submit</button></div>
   <script>
     (function initWmMobileBar() {
@@ -20693,15 +20716,19 @@ AREAS TO IMPROVE:
       var submitBtn = document.getElementById('submitBtn');
       var timerEl = document.getElementById('timer');
       var wmTimer = document.getElementById('wmTimer');
-      var chipsWrap = document.getElementById('wmChips');
+      var chipsWrap = document.getElementById('wmSubmitWrap');
+      var wmSubmitBtn = document.getElementById('wmSubmit');
+      var taskBadge = document.getElementById('wmTaskBadge');
 
       document.getElementById('wmPause').onclick = function () { if (pauseBtn) pauseBtn.click(); };
       document.getElementById('wmTheme').onclick = function () { if (themeSwitch) themeSwitch.click(); };
       document.getElementById('wmFont').onclick = function () { if (fontBtn) fontBtn.click(); };
       document.getElementById('wmSubmit').onclick = function () { if (submitBtn) submitBtn.click(); };
 
-      // Task chips — proxy the main .task-nav-btn tabs; ✓ once the task's
-      // minimum word target is reached. Practice mode shows only its task.
+      // Task chips (bottom row, before Submit — Variant C) — proxy the main
+      // .task-nav-btn tabs; ✓ once the task's minimum word target is reached.
+      // Practice mode shows only its task. The top-bar badge mirrors the
+      // active task (1.1 / 1.2 / 2).
       var MIN_WORDS = { task11: 50, task12: 120, task2: 180 };
       var WC_IDS = { task11: 'wc11', task12: 'wc12', task2: 'wc2' };
       var mainBtns = Array.prototype.slice.call(document.querySelectorAll('.task-nav-btn'));
@@ -20709,9 +20736,9 @@ AREAS TO IMPROVE:
         var chip = document.createElement('button');
         chip.className = 'wm-chip';
         chip.dataset.task = mb.dataset.task;
-        chip.textContent = mb.textContent.replace(/^Task\s*/i, 'T');
+        chip.textContent = mb.textContent.replace(/^Task\s*/i, '');
         chip.onclick = function () { mb.click(); syncChips(); };
-        chipsWrap.appendChild(chip);
+        chipsWrap.insertBefore(chip, wmSubmitBtn);
       });
       function syncChips() {
         var single = window._practiceMode ? window._singleTaskId : null;
@@ -20719,11 +20746,16 @@ AREAS TO IMPROVE:
           var tid = chip.dataset.task;
           chip.style.display = (single && tid !== single) ? 'none' : '';
           var mb = document.querySelector('.task-nav-btn[data-task="' + tid + '"]');
-          chip.classList.toggle('on', !!(mb && mb.classList.contains('active')));
+          var active = !!(mb && mb.classList.contains('active'));
+          chip.classList.toggle('on', active);
           var wcEl = document.getElementById(WC_IDS[tid]);
           var words = wcEl ? parseInt(wcEl.textContent, 10) || 0 : 0;
           var base = chip.textContent.replace(/^✓ /, '');
           chip.textContent = (words >= (MIN_WORDS[tid] || 9e9) ? '✓ ' : '') + base;
+          if (active && taskBadge) taskBadge.textContent = base;
+          // mirror the in-field word counter for this task
+          var wrap = document.querySelector('.wm-ta-wrap[data-task="' + tid + '"] .wm-wc');
+          if (wrap) wrap.textContent = words + ' words';
         });
       }
       function syncTimer() {
@@ -20769,6 +20801,10 @@ AREAS TO IMPROVE:
         box.parentNode.insertBefore(dd, box);
         dd.appendChild(sm);
         dd.appendChild(box);
+        // ONE box: pull the scenario/Context line in above the letter
+        // (small bold italic vs. the letter's letter-paper styling).
+        var ctx = document.getElementById(id === 'prompt_p1_scenario' ? 'context_t11' : 'context_t12');
+        if (ctx) dd.insertBefore(ctx, box);
       });
 
       // Mobile single-column: the answer textarea auto-grows (no inner
@@ -20778,6 +20814,22 @@ AREAS TO IMPROVE:
         ta.style.height = 'auto';
         ta.style.height = (ta.scrollHeight + 2) + 'px';
       }
+      // Wrap each textarea for the in-field word counter (bottom-right inside
+      // the input). display:contents keeps the desktop flex layout intact.
+      var TA_TASK = { t11: 'task11', t12: 'task12', t2: 'task2' };
+      ['t11', 't12', 't2'].forEach(function (id) {
+        var ta = document.getElementById(id);
+        if (!ta || ta.parentElement.classList.contains('wm-ta-wrap')) return;
+        var wrap = document.createElement('div');
+        wrap.className = 'wm-ta-wrap';
+        wrap.dataset.task = TA_TASK[id];
+        ta.parentNode.insertBefore(wrap, ta);
+        wrap.appendChild(ta);
+        var wc = document.createElement('span');
+        wc.className = 'wm-wc';
+        wc.textContent = '0 words';
+        wrap.appendChild(wc);
+      });
       ['t11', 't12', 't2'].forEach(function (id) {
         var ta = document.getElementById(id);
         if (!ta) return;
