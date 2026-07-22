@@ -20644,7 +20644,7 @@ AREAS TO IMPROVE:
     details.ctx-dd > summary::-webkit-details-marker { display: none; }
     details.ctx-dd > summary::after { content: "▾"; margin-left: auto; transition: transform .2s; }
     details.ctx-dd:not([open]) > summary::after { transform: rotate(-90deg); }
-    details.ctx-dd > .prompt-context { padding: 10px 14px; margin: 0; }
+    details.ctx-dd > div { padding: 10px 14px; margin: 0; }
 
     .wm-bar, .wm-chips, .wm-submit { display: none; }
     @media (max-width: 768px) {
@@ -20661,15 +20661,17 @@ AREAS TO IMPROVE:
       .wm-chip.on { background: var(--brand); border-color: var(--brand); color: #fff; }
       .wm-submit { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5000; display: block; padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px)); background: var(--card); border-top: 1px solid rgba(148, 163, 184, .28); transition: transform .2s ease; }
       .wm-submit button { width: 100%; border: 0; border-radius: 12px; padding: 14px; background: var(--brand); color: #fff; font-weight: 800; font-size: 15px; letter-spacing: .3px; cursor: pointer; }
-      /* app frame: bars fixed, the task area owns the remaining height, the
-         textarea scrolls internally → the caret is always visible */
-      .layout { position: fixed; top: 86px; bottom: calc(64px + var(--wm-kb, 0px)); left: 0; right: 0; margin: 0; padding: 6px 8px; overflow: hidden; }
+      /* app frame: bars fixed, the task area owns the remaining height and
+         is ONE scrollable column (no split panes on mobile) — prompt, letter
+         dropdown, then the answer, which AUTO-GROWS as the student types */
+      .layout { position: fixed; top: 86px; bottom: calc(64px + var(--wm-kb, 0px)); left: 0; right: 0; margin: 0; padding: 0; overflow: hidden; }
       .task-container.active { height: 100%; }
-      .task-split { height: 100% !important; }
-      /* keyboard open: shrink the prompt pane, hide the submit bar (closing
-         the keyboard brings it back) */
-      .wm-kb-open .task-prompt-side { flex: 0 0 auto; min-height: 0; max-height: 96px; }
-      .wm-kb-open .resize-handle { display: none; }
+      .task-split { display: block !important; height: 100% !important; overflow-y: auto; }
+      .task-prompt-side { flex: none; min-height: 0; max-height: none; overflow: visible; padding: 14px; border-bottom: 0; }
+      .resize-handle { display: none !important; }
+      .task-answer-side { flex: none; min-height: 0; overflow: visible; padding: 12px 14px 20px; }
+      .task-answer-side textarea { min-height: 58vh; overflow: hidden; }
+      /* keyboard open: hide the submit bar (closing the keyboard restores it) */
       .wm-kb-open .wm-submit { transform: translateY(130%); }
     }
   </style>
@@ -20750,21 +20752,53 @@ AREAS TO IMPROVE:
         kbAdjust();
       }
 
-      // Incoming letter / context → collapsible dropdown (Tasks 1.1 + 1.2,
-      // all widths): open by default, students collapse it after reading to
-      // write with the full pane.
-      ['context_t11', 'context_t12'].forEach(function (id) {
-        var el = document.getElementById(id);
-        if (!el || el.closest('details.ctx-dd')) return;
+      // Incoming letter → collapsible dropdown (Tasks 1.1 + 1.2, all
+      // widths). The LETTER lives in .prompt-scenario (#prompt_p1_scenario /
+      // _2) — NOT the context/task lines, which stay visible. Open by
+      // default; students collapse it after reading to write freely.
+      ['prompt_p1_scenario', 'prompt_p1_scenario_2'].forEach(function (id) {
+        var note = document.getElementById(id);
+        if (!note) return;
+        var box = note.closest('.prompt-scenario') || note;
+        if (box.closest('details.ctx-dd')) return;
         var dd = document.createElement('details');
         dd.className = 'ctx-dd';
         dd.open = true;
         var sm = document.createElement('summary');
         sm.textContent = '📩 Incoming message';
-        el.parentNode.insertBefore(dd, el);
+        box.parentNode.insertBefore(dd, box);
         dd.appendChild(sm);
-        dd.appendChild(el);
+        dd.appendChild(box);
       });
+
+      // Mobile single-column: the answer textarea auto-grows (no inner
+      // scrollbar) and the COLUMN scrolls. While typing at the end, keep the
+      // caret above the keyboard by following the textarea's bottom edge.
+      function autoGrow(ta) {
+        ta.style.height = 'auto';
+        ta.style.height = (ta.scrollHeight + 2) + 'px';
+      }
+      ['t11', 't12', 't2'].forEach(function (id) {
+        var ta = document.getElementById(id);
+        if (!ta) return;
+        ta.addEventListener('input', function () {
+          if (window.innerWidth > 768) { ta.style.height = ''; return; }
+          autoGrow(ta);
+          if (ta.selectionEnd >= ta.value.length - 1) {
+            var split = ta.closest('.task-split');
+            if (split) split.scrollTop = split.scrollHeight;
+          }
+        });
+      });
+      // Restored drafts / task switches: keep heights in sync (cheap check
+      // piggybacked on the 500ms sync).
+      setInterval(function () {
+        if (window.innerWidth > 768) return;
+        ['t11', 't12', 't2'].forEach(function (id) {
+          var ta = document.getElementById(id);
+          if (ta && ta.offsetParent && ta.scrollHeight > ta.clientHeight + 4) autoGrow(ta);
+        });
+      }, 500);
     })();
   </script>
 
