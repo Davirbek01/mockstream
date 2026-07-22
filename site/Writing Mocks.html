@@ -8255,6 +8255,21 @@
     }
     function startTimer() {
       startedAt = Date.now();
+      // Auto-fullscreen (same as speaking): works directly when the exam was
+      // started by a real tap (Start Test click chain); for gesture-less
+      // flows (auto-start/resume) a one-shot listener enters on the first
+      // tap. Never re-forced if the student deliberately exits with Esc.
+      try { enterFullscreen(); } catch (e) { }
+      if (!window._fsAutoBound) {
+        window._fsAutoBound = true;
+        var _fsOnce = function () {
+          document.removeEventListener('pointerdown', _fsOnce, true);
+          if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+            try { enterFullscreen(); } catch (e) { }
+          }
+        };
+        document.addEventListener('pointerdown', _fsOnce, true);
+      }
       const mobDisplay = document.getElementById('mobTimerDisplay');
       if (window._practiceMode) {
         remaining = 0;
@@ -14877,6 +14892,7 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
         const finishEl = document.getElementById('finish');
         finishEl.classList.add('show');
         finishEl.setAttribute('aria-hidden', 'false');
+        try { exitFullscreen(); } catch (e) { } // exam over — leave fullscreen
         window.scrollTo({ top: 0, behavior: 'smooth' });
         ['t11', 't12', 't2'].forEach(id => { const el = document.getElementById(id); el.readOnly = true; });
         __okToLeave = true;
@@ -20612,6 +20628,145 @@ AREAS TO IMPROVE:
       </button>
     </div>
   </div>
+
+  <!-- ── Mobile writing toolbar, Variant B (2026-07-22) ─────────────────
+       Replaces the 🛠️ FAB + pop-up menu on ≤768px:
+       top bar  = ⏸ pause · timer (center) · 🔤 font · 🌓 theme
+       chip row = task switcher (T1.1 · T1.2 · T2, ✓ when word target met)
+       bottom   = fixed full-width ✓ Submit
+       Plus: incoming-letter dropdown (all widths) and keyboard-safe layout
+       (visualViewport → --wm-kb; textarea keeps its own scroll so the caret
+       can never hide behind the keyboard). -->
+  <style id="wmMobileBar">
+    /* incoming letter / context as a collapsible (all widths) */
+    details.ctx-dd { border: 1.5px solid rgba(148, 163, 184, .4); border-radius: 12px; margin-bottom: 12px; background: var(--card); overflow: hidden; }
+    details.ctx-dd > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 10px 14px; font-weight: 800; font-size: 13px; color: var(--brand); background: var(--brand-weak); }
+    details.ctx-dd > summary::-webkit-details-marker { display: none; }
+    details.ctx-dd > summary::after { content: "▾"; margin-left: auto; transition: transform .2s; }
+    details.ctx-dd:not([open]) > summary::after { transform: rotate(-90deg); }
+    details.ctx-dd > .prompt-context { padding: 10px 14px; margin: 0; }
+
+    .wm-bar, .wm-chips, .wm-submit { display: none; }
+    @media (max-width: 768px) {
+      .mobile-fab-container { display: none !important; }
+      .top, .timebar { display: none !important; }
+      body { overflow: hidden; }
+      .wm-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 5000; display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 48px; padding: 0 10px; background: var(--card); border-bottom: 1px solid rgba(148, 163, 184, .28); }
+      .wm-ibtn { width: 36px; height: 36px; border: 1px solid rgba(148, 163, 184, .4); border-radius: 10px; background: transparent; color: var(--ink); font-size: 16px; display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer; }
+      .wm-side { display: flex; align-items: center; gap: 6px; }
+      .wm-timer { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 800; font-size: 18px; color: var(--brand); background: var(--brand-weak); border-radius: 999px; padding: 5px 16px; letter-spacing: .5px; font-variant-numeric: tabular-nums; }
+      .wm-timer.warn { color: #dc2626; background: rgba(220, 38, 38, .12); }
+      .wm-chips { position: fixed; top: 48px; left: 0; right: 0; z-index: 5000; display: flex; gap: 6px; justify-content: center; padding: 6px 10px; background: var(--card); border-bottom: 1px solid rgba(148, 163, 184, .28); }
+      .wm-chip { font-size: 12px; font-weight: 800; padding: 5px 14px; border-radius: 999px; border: 1.5px solid rgba(148, 163, 184, .4); background: transparent; color: var(--muted); cursor: pointer; }
+      .wm-chip.on { background: var(--brand); border-color: var(--brand); color: #fff; }
+      .wm-submit { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5000; display: block; padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px)); background: var(--card); border-top: 1px solid rgba(148, 163, 184, .28); transition: transform .2s ease; }
+      .wm-submit button { width: 100%; border: 0; border-radius: 12px; padding: 14px; background: var(--brand); color: #fff; font-weight: 800; font-size: 15px; letter-spacing: .3px; cursor: pointer; }
+      /* app frame: bars fixed, the task area owns the remaining height, the
+         textarea scrolls internally → the caret is always visible */
+      .layout { position: fixed; top: 86px; bottom: calc(64px + var(--wm-kb, 0px)); left: 0; right: 0; margin: 0; padding: 6px 8px; overflow: hidden; }
+      .task-container.active { height: 100%; }
+      .task-split { height: 100% !important; }
+      /* keyboard open: shrink the prompt pane, hide the submit bar (closing
+         the keyboard brings it back) */
+      .wm-kb-open .task-prompt-side { flex: 0 0 auto; min-height: 0; max-height: 96px; }
+      .wm-kb-open .resize-handle { display: none; }
+      .wm-kb-open .wm-submit { transform: translateY(130%); }
+    }
+  </style>
+  <div class="wm-bar" id="wmBar">
+    <div class="wm-side"><button class="wm-ibtn" id="wmPause" title="Pause">⏸</button></div>
+    <div class="wm-timer" id="wmTimer">60:00</div>
+    <div class="wm-side">
+      <button class="wm-ibtn" id="wmFont" title="Zoom text">🔤</button>
+      <button class="wm-ibtn" id="wmTheme" title="Day / Night">🌓</button>
+    </div>
+  </div>
+  <div class="wm-chips" id="wmChips"></div>
+  <div class="wm-submit" id="wmSubmitWrap"><button id="wmSubmit">✓ Submit</button></div>
+  <script>
+    (function initWmMobileBar() {
+      var pauseBtn = document.getElementById('pauseBtn');
+      var themeSwitch = document.getElementById('themeSwitch');
+      var fontBtn = document.getElementById('fontMagnifier');
+      var submitBtn = document.getElementById('submitBtn');
+      var timerEl = document.getElementById('timer');
+      var wmTimer = document.getElementById('wmTimer');
+      var chipsWrap = document.getElementById('wmChips');
+
+      document.getElementById('wmPause').onclick = function () { if (pauseBtn) pauseBtn.click(); };
+      document.getElementById('wmTheme').onclick = function () { if (themeSwitch) themeSwitch.click(); };
+      document.getElementById('wmFont').onclick = function () { if (fontBtn) fontBtn.click(); };
+      document.getElementById('wmSubmit').onclick = function () { if (submitBtn) submitBtn.click(); };
+
+      // Task chips — proxy the main .task-nav-btn tabs; ✓ once the task's
+      // minimum word target is reached. Practice mode shows only its task.
+      var MIN_WORDS = { task11: 50, task12: 120, task2: 180 };
+      var WC_IDS = { task11: 'wc11', task12: 'wc12', task2: 'wc2' };
+      var mainBtns = Array.prototype.slice.call(document.querySelectorAll('.task-nav-btn'));
+      mainBtns.forEach(function (mb) {
+        var chip = document.createElement('button');
+        chip.className = 'wm-chip';
+        chip.dataset.task = mb.dataset.task;
+        chip.textContent = mb.textContent.replace(/^Task\s*/i, 'T');
+        chip.onclick = function () { mb.click(); syncChips(); };
+        chipsWrap.appendChild(chip);
+      });
+      function syncChips() {
+        var single = window._practiceMode ? window._singleTaskId : null;
+        chipsWrap.querySelectorAll('.wm-chip').forEach(function (chip) {
+          var tid = chip.dataset.task;
+          chip.style.display = (single && tid !== single) ? 'none' : '';
+          var mb = document.querySelector('.task-nav-btn[data-task="' + tid + '"]');
+          chip.classList.toggle('on', !!(mb && mb.classList.contains('active')));
+          var wcEl = document.getElementById(WC_IDS[tid]);
+          var words = wcEl ? parseInt(wcEl.textContent, 10) || 0 : 0;
+          var base = chip.textContent.replace(/^✓ /, '');
+          chip.textContent = (words >= (MIN_WORDS[tid] || 9e9) ? '✓ ' : '') + base;
+        });
+      }
+      function syncTimer() {
+        if (timerEl && wmTimer) {
+          var t = timerEl.textContent || '';
+          wmTimer.textContent = t;
+          wmTimer.classList.toggle('warn', /^\s*0?[0-4]:/.test(t));
+        }
+      }
+      syncChips(); syncTimer();
+      setInterval(function () { syncChips(); syncTimer(); }, 500);
+
+      // Keyboard-safe layout: track the on-screen keyboard height via
+      // visualViewport → --wm-kb shrinks the app frame so the textarea (its
+      // own scroller — browsers keep the caret visible inside it) always
+      // ends ABOVE the keyboard, no matter how long the text gets.
+      if (window.visualViewport) {
+        var vv = window.visualViewport;
+        var kbAdjust = function () {
+          var kb = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+          document.documentElement.style.setProperty('--wm-kb', kb + 'px');
+          document.documentElement.classList.toggle('wm-kb-open', kb > 60);
+        };
+        vv.addEventListener('resize', kbAdjust);
+        vv.addEventListener('scroll', kbAdjust);
+        kbAdjust();
+      }
+
+      // Incoming letter / context → collapsible dropdown (Tasks 1.1 + 1.2,
+      // all widths): open by default, students collapse it after reading to
+      // write with the full pane.
+      ['context_t11', 'context_t12'].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (!el || el.closest('details.ctx-dd')) return;
+        var dd = document.createElement('details');
+        dd.className = 'ctx-dd';
+        dd.open = true;
+        var sm = document.createElement('summary');
+        sm.textContent = '📩 Incoming message';
+        el.parentNode.insertBefore(dd, el);
+        dd.appendChild(sm);
+        dd.appendChild(el);
+      });
+    })();
+  </script>
 
 <!-- Home Sidebar -->
 <style>
