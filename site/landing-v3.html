@@ -18068,8 +18068,12 @@
     /* Original foot-links container hidden — now moved to quick-links above */
     .msv3-sidebar .msv3-foot-links { display: none !important; }
 
-    /* ── DESKTOP LAYOUT (≥1024px) — pin the sidebar to the left ── */
-    @media (min-width: 1024px) {
+    /* ── DESKTOP LAYOUT (≥1024px) — pin the sidebar to the left ──
+       RETIRED 2026-07-23 by the tab-navigation redesign (see the msv3TabNav
+       block at the end of body): the sidebar is a drawer again (Account tab)
+       and the left column is the new tab rail. Media query bumped to a
+       never-matching width instead of deleting, so it can be restored. */
+    @media (min-width: 99999px) {
       .msv3-sidebar {
         position: fixed !important;
         top: 0 !important;
@@ -18448,8 +18452,10 @@
       .msv3-collapse-toggle { display: none !important; }
     }
 
-    /* ── Full-width "umbrella" top bar on desktop ─────────────────────── */
-    @media (min-width: 1024px) {
+    /* ── Full-width "umbrella" top bar on desktop ───────────────────────
+       RETIRED 2026-07-23 by the tab-navigation redesign — the desktop topbar
+       dissolves into a floating bell + Obuna pill (msv3TabNav block). */
+    @media (min-width: 99999px) {
       /* My Results in the sidebar is mobile-only; PC has it in the topbar. */
       .msv3-sidebar .msv3-my-results { display: none !important; }
       .topbar {
@@ -18603,8 +18609,10 @@
 
     /* ── 3-COL: sidebar (left) + content (middle) + announcements rail (right) ──
        Active on any laptop/MacBook/tablet-landscape (≥1024px). The rail width
-       scales fluidly so a narrow laptop doesn't get a starved middle column. */
-    @media (min-width: 1024px) {
+       scales fluidly so a narrow laptop doesn't get a starved middle column.
+       RETIRED 2026-07-23 by the tab-navigation redesign — billboards render
+       in normal flow on the Home tab only (msv3TabNav block). */
+    @media (min-width: 99999px) {
       body { padding-right: clamp(260px, 24vw, 340px); }
       body.msv3-collapsed { padding-right: clamp(260px, 24vw, 340px); }
       .topbar-inner { padding-right: calc(clamp(260px, 24vw, 340px) + 20px); }
@@ -19474,7 +19482,9 @@
         // check above (that was the v647 PC regression — hint + sign-in
         // buttons never rendered because the "?" got there first).
         ensureCollapsedAvatarFallback();
-        if (isDesktop()) {
+        // RETIRED 2026-07-23 (tab-nav redesign): the sidebar is the Account
+        // drawer on every viewport now — never pin it open on desktop.
+        if (false) {
           s.classList.add('show');
           s.setAttribute('aria-hidden', 'false');
           ensureCollapseToggle();
@@ -19787,6 +19797,381 @@
           });
         });
       } catch (e) { }
+    })();
+  </script>
+  <!-- ── TAB NAVIGATION (2026-07-23) ────────────────────────────────────
+       A-hybrid redesign: PC gets a dark vertical rail (Home / Mocks /
+       Other exams / Learn / My results / Notifications / Account), mobile
+       gets a floating liquid-glass bottom bar. Existing <main> sections are
+       tagged with data-msv3sec and shown per-tab via body[data-msv3-tab]
+       CSS — no section is moved or rebuilt, so all existing scripts keep
+       working. The old persistent sidebar / umbrella topbar / fixed
+       billboard rail blocks above are retired (media queries bumped).
+       Focus mode is retired; Obuna bo'lish stays as the floating accent
+       pill; the sidebar is now the Account drawer on every viewport. -->
+  <style id="msv3TabNav">
+    /* Retired / relocated topbar controls (all viewports) */
+    #topbarFsBtn { display: none !important; }          /* Focus mode retired */
+    #msv3HamburgerBtn { display: none !important; }     /* Account tab opens the drawer */
+    .msv3-collapse-toggle { display: none !important; } /* old sidebar collapse chevron */
+    .topbar-my-results { display: none !important; }    /* My results is a tab now */
+    /* Contact-admin pill was a Focus-mode-only rail feature — retired with it */
+    #bbBillboardSection .bb-rail-contact { display: none !important; }
+
+    /* ── Per-tab section visibility ──
+       Hide-only rules (no display overrides on the active tab) so each
+       section keeps its own display type (hero is flex) and inline
+       style.display toggles from existing scripts still win. */
+    body[data-msv3-tab="home"]    main > section:not([data-msv3sec="home"]),
+    body[data-msv3-tab="mocks"]   main > section:not([data-msv3sec="mocks"]),
+    body[data-msv3-tab="exams"]   main > section:not([data-msv3sec="exams"]),
+    body[data-msv3-tab="learn"]   main > section:not([data-msv3sec="learn"]),
+    body[data-msv3-tab="results"] main > section:not([data-msv3sec="results"]) { display: none; }
+
+    /* Non-home tabs get a little headroom since the hero is hidden */
+    body[data-msv3-tab]:not([data-msv3-tab="home"]) main { padding-top: 26px; }
+
+    /* ── Shared nav-item look ── */
+    .msv3-rail, .msv3-glassbar { font-family: inherit; }
+    .msv3-rail button, .msv3-glassbar button {
+      font-family: inherit; border: 0; background: none; cursor: pointer; padding: 0;
+    }
+
+    /* ── PC rail (≥1024px) ── */
+    .msv3-rail {
+      display: none;
+      position: fixed; top: 0; left: 0; bottom: 0;
+      width: 224px;
+      z-index: 95;
+      background: linear-gradient(180deg, #1a1d24 0%, #23262e 100%);
+      border-right: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 6px 0 22px rgba(15,23,42,0.10);
+      flex-direction: column;
+      padding: 18px 12px 16px;
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+    .msv3-rail::-webkit-scrollbar { width: 0; display: none; }
+    .rail-brand {
+      display: flex; align-items: center; gap: 10px;
+      padding: 4px 10px 16px;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      margin-bottom: 14px;
+    }
+    .rail-logo {
+      width: 34px; height: 34px; border-radius: 10px; flex: 0 0 auto;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: #fff; font-weight: 800; font-size: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.35);
+    }
+    .rail-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .rail-name {
+      color: #f1f5f9; font-weight: 800; font-size: 14.5px; letter-spacing: 0.01em;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0;
+    }
+    .rail-items { display: flex; flex-direction: column; gap: 4px; }
+    .rail-item {
+      position: relative;
+      display: flex; align-items: center; gap: 12px;
+      width: 100%;
+      padding: 11px 12px;
+      border-radius: 11px;
+      color: #cbd5e1; font-size: 13.5px; font-weight: 600; letter-spacing: 0.01em;
+      text-align: left;
+      transition: background 160ms ease, color 160ms ease;
+    }
+    .rail-item svg { width: 18px; height: 18px; flex: 0 0 auto; }
+    .rail-item:hover { background: rgba(255,255,255,0.06); color: #ffffff; }
+    .rail-item.active {
+      background: linear-gradient(135deg, rgba(99,102,241,0.28), rgba(79,70,229,0.22));
+      color: #ffffff;
+      box-shadow: inset 0 0 0 1px rgba(99,102,241,0.45);
+    }
+    .rail-item.active::before {
+      content: ""; position: absolute; left: -12px; top: 9px; bottom: 9px; width: 3px;
+      border-radius: 0 3px 3px 0; background: #6366f1;
+    }
+    .rail-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #f97316; margin-left: auto; flex: 0 0 auto;
+      box-shadow: 0 0 0 2px #1e222a;
+    }
+    .rail-account {
+      margin-top: auto;
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px;
+      border-radius: 12px;
+      color: #e2e8f0; font-size: 13.5px; font-weight: 700;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.10) !important;
+      transition: background 160ms ease, border-color 160ms ease;
+    }
+    .rail-account svg { width: 18px; height: 18px; }
+    .rail-account:hover { background: rgba(255,255,255,0.10); border-color: rgba(99,102,241,0.5) !important; }
+
+    /* ── Mobile floating liquid-glass bar (<1024px) ── */
+    .msv3-glassbar {
+      display: none;
+      position: fixed;
+      left: 10px; right: 10px;
+      bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+      z-index: 60;
+      background: rgba(255,255,255,0.74);
+      backdrop-filter: blur(20px) saturate(170%);
+      -webkit-backdrop-filter: blur(20px) saturate(170%);
+      border: 1px solid rgba(226,232,240,0.75);
+      border-radius: 24px;
+      box-shadow: 0 14px 38px rgba(15,23,42,0.16), 0 2px 8px rgba(15,23,42,0.08);
+      padding: 7px 6px;
+      justify-content: space-around; align-items: stretch;
+    }
+    .gb-item {
+      flex: 1 1 0; min-width: 0;
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
+      padding: 6px 2px;
+      border-radius: 16px;
+      color: #64748b; font-size: 10px; font-weight: 700; letter-spacing: 0.01em;
+      transition: color 160ms ease, background 160ms ease;
+    }
+    .gb-item svg { width: 21px; height: 21px; }
+    .gb-item.active { color: #4f46e5; background: rgba(99,102,241,0.12); }
+    .gb-item span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+
+    /* ── Results panel ── */
+    #msv3ResultsPanel .res-card {
+      display: flex; align-items: center; gap: 16px;
+      padding: 18px 20px;
+      background: var(--card, #fff);
+      border: 1px solid var(--line, #e2e8f0);
+      border-radius: 16px;
+      box-shadow: 0 10px 26px rgba(15,23,42,0.06);
+      text-decoration: none; color: inherit;
+      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+      margin-bottom: 12px;
+    }
+    #msv3ResultsPanel .res-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(99,102,241,0.45);
+      box-shadow: 0 16px 34px rgba(79,70,229,0.14);
+    }
+    #msv3ResultsPanel .res-ico {
+      width: 46px; height: 46px; border-radius: 13px; flex: 0 0 auto;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      background: linear-gradient(135deg, rgba(99,102,241,0.14), rgba(79,70,229,0.10));
+    }
+    #msv3ResultsPanel .res-body { flex: 1 1 auto; min-width: 0; }
+    #msv3ResultsPanel .res-title { font-weight: 800; font-size: 15px; margin: 0 0 2px; }
+    #msv3ResultsPanel .res-sub { font-size: 12.5px; color: #64748b; margin: 0; line-height: 1.45; }
+    #msv3ResultsPanel .res-arrow { font-size: 18px; color: #94a3b8; flex: 0 0 auto; }
+    #msv3ResultsPanel .res-hint { font-size: 12px; color: #94a3b8; margin-top: 10px; line-height: 1.5; }
+
+    @media (min-width: 1024px) {
+      .msv3-rail { display: flex; }
+      body { padding-left: 224px; }
+      /* Topbar dissolves into a floating top-right cluster: Obuna pill + bell */
+      .topbar {
+        position: fixed !important;
+        top: 12px !important; right: 16px !important; left: auto !important;
+        width: auto !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        z-index: 96;
+      }
+      .topbar-inner { max-width: none; padding: 0; height: auto; gap: 10px; }
+      .topbar .brand, .topbar-spacer { display: none !important; }
+      .topbar-actions { gap: 10px; }
+      /* Bell gets a soft card look so it reads on the bright hero */
+      .topbar .icon-btn {
+        background: rgba(255,255,255,0.92);
+        border: 1px solid var(--line, #e2e8f0);
+        box-shadow: 0 6px 16px rgba(15,23,42,0.10);
+      }
+      #msv3ResultsPanel .res-card { max-width: 640px; }
+    }
+    @media (max-width: 1023.98px) {
+      .msv3-glassbar { display: flex; }
+      main { padding-bottom: 118px !important; }
+      footer { padding-bottom: 96px; }
+    }
+  </style>
+
+  <nav class="msv3-rail" id="msv3Rail" aria-label="Primary">
+    <a class="rail-brand" href="/landing-v3.html">
+      <span class="rail-logo" id="railLogo">MS</span>
+      <span class="rail-name" id="railName">Mock Stream</span>
+    </a>
+    <div class="rail-items">
+      <button type="button" class="rail-item" data-msv3-go="home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        Home
+      </button>
+      <button type="button" class="rail-item" data-msv3-go="mocks">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+        Mocks
+      </button>
+      <button type="button" class="rail-item" data-msv3-go="exams">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"></circle><path d="M15.5 13l1.5 8-5-3-5 3 1.5-8"></path></svg>
+        Other exams
+      </button>
+      <button type="button" class="rail-item" data-msv3-go="learn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+        Learn
+      </button>
+      <button type="button" class="rail-item" data-msv3-go="results">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+        My results
+      </button>
+      <button type="button" class="rail-item" id="railBellBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
+        Notifications
+        <span class="rail-dot" id="railBellDot" style="display:none"></span>
+      </button>
+    </div>
+    <button type="button" class="rail-account" id="railAccountBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"></path></svg>
+      Account
+    </button>
+  </nav>
+
+  <nav class="msv3-glassbar" id="msv3GlassBar" aria-label="Primary">
+    <button type="button" class="gb-item" data-msv3-go="home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+      <span>Home</span>
+    </button>
+    <button type="button" class="gb-item" data-msv3-go="mocks">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+      <span>Mocks</span>
+    </button>
+    <button type="button" class="gb-item" data-msv3-go="exams">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"></circle><path d="M15.5 13l1.5 8-5-3-5 3 1.5-8"></path></svg>
+      <span>Exams</span>
+    </button>
+    <button type="button" class="gb-item" data-msv3-go="learn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+      <span>Learn</span>
+    </button>
+    <button type="button" class="gb-item" data-msv3-go="results">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+      <span>Results</span>
+    </button>
+    <button type="button" class="gb-item" id="gbAccountBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"></path></svg>
+      <span>Account</span>
+    </button>
+  </nav>
+
+  <script>
+    (function () {
+      'use strict';
+      var TABS = { home: 1, mocks: 1, exams: 1, learn: 1, results: 1 };
+
+      // ── 1. Tag every <main> section with its tab ──
+      function tag(el, t) {
+        if (!el) return;
+        var s = el.closest('main > section');
+        if (s && !s.hasAttribute('data-msv3sec')) s.setAttribute('data-msv3sec', t);
+      }
+      tag(document.querySelector('main > section.hero'), 'home');
+      tag(document.getElementById('msrResumeSection'), 'home');
+      tag(document.getElementById('bbBillboardSection'), 'home');
+      tag(document.querySelector('.skill-grid'), 'mocks');
+      tag(document.querySelector('.tools-grid'), 'learn');
+      tag(document.getElementById('examsRail'), 'exams');
+      tag(document.getElementById('trendingRail'), 'home');
+      tag(document.getElementById('addedRail'), 'home');
+      // Full Mock section (.secondary) → Mocks; anything else untagged → Home
+      document.querySelectorAll('main > section:not([data-msv3sec])').forEach(function (s) {
+        s.setAttribute('data-msv3sec', s.querySelector('.secondary') ? 'mocks' : 'home');
+      });
+
+      // ── 2. My results panel ──
+      var mainEl = document.querySelector('main');
+      if (mainEl && !document.getElementById('msv3ResultsPanel')) {
+        var rp = document.createElement('section');
+        rp.className = 'section';
+        rp.id = 'msv3ResultsPanel';
+        rp.setAttribute('data-msv3sec', 'results');
+        rp.innerHTML =
+          '<div class="section-head"><h2 class="section-title">My results</h2></div>' +
+          '<a class="res-card" href="/results/my-results.html">' +
+            '<span class="res-ico">📊</span>' +
+            '<span class="res-body">' +
+              '<p class="res-title">All my attempts &amp; scores</p>' +
+              '<p class="res-sub">Every mock you have taken — scores, AI feedback and examiner marks in one place.</p>' +
+            '</span>' +
+            '<span class="res-arrow">→</span>' +
+          '</a>' +
+          '<p class="res-hint">Tip: results are saved to your signed-in account. If you took a mock as a guest, sign in with the same name to keep your history together.</p>';
+        mainEl.appendChild(rp);
+      }
+
+      // ── 3. Tab router (hash-based: #home / #mocks / …) ──
+      function paintActive(tab) {
+        document.querySelectorAll('[data-msv3-go]').forEach(function (b) {
+          b.classList.toggle('active', b.getAttribute('data-msv3-go') === tab);
+        });
+      }
+      function setTab(tab, opts) {
+        opts = opts || {};
+        if (!TABS[tab]) tab = 'home';
+        document.body.setAttribute('data-msv3-tab', tab);
+        paintActive(tab);
+        if (opts.updateHash !== false && location.hash !== '#' + tab) {
+          try { history.replaceState(history.state, '', '#' + tab); } catch (_e) { }
+        }
+        if (opts.scroll !== false) window.scrollTo({ top: 0, behavior: 'instant' in window ? 'auto' : 'auto' });
+      }
+      document.querySelectorAll('[data-msv3-go]').forEach(function (b) {
+        b.addEventListener('click', function () { setTab(b.getAttribute('data-msv3-go')); });
+      });
+      window.addEventListener('hashchange', function () {
+        var h = (location.hash || '').replace(/^#/, '');
+        if (TABS[h]) { setTab(h, { updateHash: false }); return; }
+        // Bell popover's "View all just-added" links to #addedRail → Home + scroll
+        if (h === 'addedRail') {
+          setTab('home', { updateHash: false, scroll: false });
+          var r = document.getElementById('addedRail');
+          if (r) setTimeout(function () { r.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 60);
+        }
+      });
+      var initHash = (location.hash || '').replace(/^#/, '');
+      setTab(TABS[initHash] ? initHash : 'home', { updateHash: false, scroll: false });
+
+      // ── 4. Account + Notifications proxies (reuse existing handlers) ──
+      function proxyClick(id) { var el = document.getElementById(id); if (el) el.click(); }
+      var acc1 = document.getElementById('railAccountBtn');
+      var acc2 = document.getElementById('gbAccountBtn');
+      if (acc1) acc1.addEventListener('click', function () { proxyClick('msv3HamburgerBtn'); });
+      if (acc2) acc2.addEventListener('click', function () { proxyClick('msv3HamburgerBtn'); });
+      var rb = document.getElementById('railBellBtn');
+      if (rb) rb.addEventListener('click', function () { proxyClick('bellBtn'); });
+
+      // Old collapsed-sidebar state must never linger (rail replaces it)
+      document.body.classList.remove('msv3-collapsed');
+
+      // ── 5. Brand + unread-dot sync (branding applies async via site-config) ──
+      function syncBrand() {
+        var lg = document.getElementById('brandLogo'), nm = document.getElementById('brandName');
+        var rl = document.getElementById('railLogo'), rn = document.getElementById('railName');
+        if (lg && rl && rl.innerHTML !== lg.innerHTML) rl.innerHTML = lg.innerHTML;
+        if (nm && rn && rn.textContent !== nm.textContent) rn.textContent = nm.textContent;
+      }
+      function syncDot() {
+        var d = document.getElementById('bellDot'), r = document.getElementById('railBellDot');
+        if (!d || !r) return;
+        var vis = !d.classList.contains('hidden') && getComputedStyle(d).display !== 'none';
+        r.style.display = vis ? '' : 'none';
+      }
+      syncBrand(); syncDot();
+      [800, 2500, 6000].forEach(function (ms) { setTimeout(function () { syncBrand(); syncDot(); }, ms); });
+      setInterval(syncDot, 5000);
     })();
   </script>
 </body>
