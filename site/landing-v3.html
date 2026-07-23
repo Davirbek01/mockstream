@@ -20175,6 +20175,14 @@
     .msw-skill .ct { font-size: 10.5px; color: #94a3b8; margin-top: 1px; }
     .msw-empty { font-size: 12.5px; color: #64748b; padding: 6px 0; line-height: 1.5; }
 
+    /* Coming-soon fillers */
+    .msv3-flagcover {
+      display: flex; align-items: center; justify-content: center;
+      font-size: 34px; min-height: 64px;
+      background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 55%, #fce7f3 100%);
+    }
+    .msv3-emoji-icon { font-size: 17px; display: inline-flex; align-items: center; justify-content: center; }
+
     @media (min-width: 1024px) {
       .msv3-rail { display: flex; }
       body { padding-left: 224px; }
@@ -20235,11 +20243,6 @@
       <button type="button" class="rail-item" data-msv3-go="results">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
         My results
-      </button>
-      <button type="button" class="rail-item" id="railBellBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
-        Notifications
-        <span class="rail-dot" id="railBellDot" style="display:none"></span>
       </button>
     </div>
     <button type="button" class="rail-account" data-msv3-go="account">
@@ -20704,6 +20707,52 @@
             renderStats(rows || []);
           } catch (_e2) { renderStats([]); }
         })();
+      })();
+
+      // ── 2d. Coming-soon fillers: language exams + learn tools ──
+      // Pure visual intrigue for now — .soon cards are non-navigable and
+      // reuse the existing greyed-out Soon styling.
+      (function soonFillers() {
+        var rail = document.getElementById('examsRail');
+        if (rail && !rail.querySelector('[data-exam-soon="torfl"]')) {
+          var EXAMS = [
+            ['torfl', '🇷🇺', 'Rus', 'TORFL', 'Russian Proficiency'],
+            ['testdaf', '🇩🇪', 'Ger', 'TestDaF', 'German for Study'],
+            ['delf', '🇫🇷', 'Fra', 'DELF', 'French Diploma'],
+            ['dele', '🇪🇸', 'Spa', 'DELE', 'Spanish Diploma'],
+            ['topik', '🇰🇷', 'Kor', 'TOPIK', 'Korean Proficiency'],
+            ['jlpt', '🇯🇵', 'Jpn', 'JLPT', 'Japanese Proficiency']
+          ];
+          rail.insertAdjacentHTML('beforeend', EXAMS.map(function (e) {
+            return '<a class="cambridge-card soon" href="javascript:void(0)" data-exam-soon="' + e[0] + '">' +
+              '<div class="cb-cover msv3-flagcover">' + e[1] + '</div>' +
+              '<span class="cb-soon">Soon</span>' +
+              '<div class="cb-level">' + e[2] + '</div>' +
+              '<div class="cb-code">' + e[3] + '</div>' +
+              '<div class="cb-name">' + e[4] + '</div>' +
+            '</a>';
+          }).join(''));
+        }
+        var grid = document.querySelector('.tools-grid.tools-grid-3');
+        if (grid && !grid.querySelector('[data-learn-soon]')) {
+          var TOOLS = [
+            ['wordgames', '🎮', 'linear-gradient(135deg, #a78bfa, #7c3aed)', 'Word Games', 'Play & learn vocabulary'],
+            ['dailyquiz', '⚡', 'linear-gradient(135deg, #fbbf24, #d97706)', 'Daily Quiz', '5-minute daily challenge'],
+            ['pronlab', '🗣️', 'linear-gradient(135deg, #34d399, #059669)', 'Pronunciation Lab', 'Record & compare sounds'],
+            ['idioms', '🧩', 'linear-gradient(135deg, #f472b6, #db2777)', 'Idioms & Phrasals', 'Master natural English'],
+            ['dictation', '🎧', 'linear-gradient(135deg, #60a5fa, #2563eb)', 'Dictation', 'Type what you hear']
+          ];
+          grid.insertAdjacentHTML('beforeend', TOOLS.map(function (t) {
+            return '<a class="tool-card soon" href="javascript:void(0)" data-learn-soon="' + t[0] + '">' +
+              '<div class="tool-icon msv3-emoji-icon" style="background:' + t[2] + '">' + t[1] + '</div>' +
+              '<div class="tool-body">' +
+                '<div class="tool-name">' + t[3] + '</div>' +
+                '<div class="tool-sub"><span class="tool-sub-text">' + t[4] + '</span> <span class="soon-pill">Soon</span></div>' +
+              '</div>' +
+              '<div class="tool-arrow">→</div>' +
+            '</a>';
+          }).join(''));
+        }
       })();
 
       // ── 3. Tab router (hash-based: #home / #mocks / …) ──
