@@ -14,6 +14,19 @@
        inline page guard at the bottom (line ~4045) is a second copy with
        an onerror fallback for the early-paint case. -->
   <script src="/center-id.js"></script>
+  <!-- PWA / iOS install identity (2026-07-23). Students live on THIS page,
+       and iOS "Add to Home Screen" reads the CURRENT page's tags — without
+       these an iPhone install got a generic icon + Safari chrome. Manifest
+       is per-clone via pwa-manifest.js (needs __CENTER_ID above). Hrefs are
+       made absolute because /take/<slug> rewrites serve this file from a
+       sub-path where relative URLs resolve wrong. -->
+  <meta name="theme-color" content="#0d9488" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Mock Stream" />
+  <link rel="apple-touch-icon" href="/site-config/icons/icon-192.png" />
+  <script src="/site-config/pwa-manifest.js"></script>
+  <script>(function () { var l = document.querySelector('link[rel="manifest"]'); if (l) { var h = l.getAttribute('href') || ''; if (h && h.charAt(0) !== '/') l.setAttribute('href', '/' + h); } })();</script>
   <script>
     // ─── Self-healing premium unlock ─────────────────────────────────────
     // Every approach via localStorage backup, cross-page sessionStorage,
@@ -5062,6 +5075,8 @@
       document.getElementById('vitalToday').textContent    = fmtNumber(today);
       document.getElementById('vitalNewWeek').textContent  = fmtNumber(newWeek);
 
+      // Expose per-exam-per-skill totals for the Home-tab Mock Library widget
+      try { window.__msv3SkillTotals = totals; window.dispatchEvent(new Event('msv3-totals-ready')); } catch (_e) {}
       const skillTotalMap = {
         speaking:  totals['cefr-speaking']  + totals['ielts-speaking'],
         writing:   totals['cefr-writing']   + totals['ielts-writing'],
@@ -5386,7 +5401,7 @@
         </button>
       </div>
 
-      <div class="msv3-section">
+      <div class="msv3-section msv3-sec-skills">
         <div class="msv3-section-head">
           Exam Prep &amp; Skills
           <span class="msv3-tag">CEFR · Uzbekistan</span>
@@ -5414,7 +5429,7 @@
         </button>
       </div>
 
-      <div class="msv3-section">
+      <div class="msv3-section msv3-sec-ielts">
         <div class="msv3-section-head">
           IELTS Practice
           <span class="msv3-tag msv3-tag-ielts">International</span>
@@ -18055,8 +18070,12 @@
     /* Original foot-links container hidden — now moved to quick-links above */
     .msv3-sidebar .msv3-foot-links { display: none !important; }
 
-    /* ── DESKTOP LAYOUT (≥1024px) — pin the sidebar to the left ── */
-    @media (min-width: 1024px) {
+    /* ── DESKTOP LAYOUT (≥1024px) — pin the sidebar to the left ──
+       RETIRED 2026-07-23 by the tab-navigation redesign (see the msv3TabNav
+       block at the end of body): the sidebar is a drawer again (Account tab)
+       and the left column is the new tab rail. Media query bumped to a
+       never-matching width instead of deleting, so it can be restored. */
+    @media (min-width: 99999px) {
       .msv3-sidebar {
         position: fixed !important;
         top: 0 !important;
@@ -18435,8 +18454,10 @@
       .msv3-collapse-toggle { display: none !important; }
     }
 
-    /* ── Full-width "umbrella" top bar on desktop ─────────────────────── */
-    @media (min-width: 1024px) {
+    /* ── Full-width "umbrella" top bar on desktop ───────────────────────
+       RETIRED 2026-07-23 by the tab-navigation redesign — the desktop topbar
+       dissolves into a floating bell + Obuna pill (msv3TabNav block). */
+    @media (min-width: 99999px) {
       /* My Results in the sidebar is mobile-only; PC has it in the topbar. */
       .msv3-sidebar .msv3-my-results { display: none !important; }
       .topbar {
@@ -18590,8 +18611,10 @@
 
     /* ── 3-COL: sidebar (left) + content (middle) + announcements rail (right) ──
        Active on any laptop/MacBook/tablet-landscape (≥1024px). The rail width
-       scales fluidly so a narrow laptop doesn't get a starved middle column. */
-    @media (min-width: 1024px) {
+       scales fluidly so a narrow laptop doesn't get a starved middle column.
+       RETIRED 2026-07-23 by the tab-navigation redesign — billboards render
+       in normal flow on the Home tab only (msv3TabNav block). */
+    @media (min-width: 99999px) {
       body { padding-right: clamp(260px, 24vw, 340px); }
       body.msv3-collapsed { padding-right: clamp(260px, 24vw, 340px); }
       .topbar-inner { padding-right: calc(clamp(260px, 24vw, 340px) + 20px); }
@@ -19461,7 +19484,9 @@
         // check above (that was the v647 PC regression — hint + sign-in
         // buttons never rendered because the "?" got there first).
         ensureCollapsedAvatarFallback();
-        if (isDesktop()) {
+        // RETIRED 2026-07-23 (tab-nav redesign): the sidebar is the Account
+        // drawer on every viewport now — never pin it open on desktop.
+        if (false) {
           s.classList.add('show');
           s.setAttribute('aria-hidden', 'false');
           ensureCollapseToggle();
@@ -19563,6 +19588,1429 @@
         clearTimeout(_rt);
         _rt = setTimeout(function () { applyState(); relocateFsButton(); }, 150);
       });
+    })();
+  </script>
+
+  <!-- ── iOS install hint (2026-07-23) ──────────────────────────────────
+       Safari never announces PWA installability (no beforeinstallprompt on
+       iOS), so iPhone/iPad users get a one-time dismissible hint with the
+       manual Share → Add to Home Screen steps. Hidden when already running
+       standalone, inside the Telegram Mini App, or after dismissal. -->
+  <style>
+    #iosA2hs { position: fixed; left: 12px; right: 12px; bottom: 14px; z-index: 99990; background: var(--card, #fff); color: var(--ink, #0f172a); border: 1px solid rgba(148, 163, 184, .35); border-radius: 16px; box-shadow: 0 14px 40px rgba(15, 23, 42, .22); padding: 14px 44px 14px 14px; display: flex; align-items: flex-start; gap: 12px; opacity: 0; transform: translateY(16px); transition: opacity .3s ease, transform .3s ease; }
+    #iosA2hs.show { opacity: 1; transform: translateY(0); }
+    #iosA2hs[hidden] { display: none; }
+    #iosA2hs .a2hs-icon { width: 42px; height: 42px; border-radius: 11px; flex: 0 0 auto; object-fit: cover; box-shadow: 0 2px 8px rgba(15, 23, 42, .18); }
+    #iosA2hs .a2hs-title { font-weight: 800; font-size: 14.5px; margin: 0 0 3px; }
+    #iosA2hs .a2hs-steps { font-size: 13px; line-height: 1.55; color: #475569; margin: 0; }
+    #iosA2hs .a2hs-glyph { display: inline-block; vertical-align: -3px; }
+    #iosA2hs .a2hs-close { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border: 0; border-radius: 50%; background: rgba(148, 163, 184, .16); color: #64748b; font-size: 14px; cursor: pointer; }
+    #iosA2hs .a2hs-actions { display: flex; gap: 8px; margin-top: 9px; flex-wrap: wrap; }
+    #iosA2hs .a2hs-btn { border: 0; border-radius: 10px; padding: 9px 20px; background: linear-gradient(135deg, #0d9488, #116a60); color: #fff; font-weight: 800; font-size: 13.5px; letter-spacing: .3px; cursor: pointer; box-shadow: 0 4px 12px rgba(13, 148, 136, .3); }
+    #iosA2hs .a2hs-ghost { border: 1.5px solid rgba(148, 163, 184, .45); border-radius: 10px; padding: 8px 16px; background: transparent; color: #64748b; font-weight: 700; font-size: 13px; cursor: pointer; }
+    @media (min-width: 769px) {
+      /* desktop: compact card bottom-right instead of full-width */
+      #iosA2hs { left: auto; right: 20px; bottom: 20px; max-width: 390px; }
+    }
+  </style>
+  <div id="iosA2hs" hidden>
+    <img class="a2hs-icon" src="/site-config/icons/icon-192.png" alt="" onerror="this.style.display='none'">
+    <div>
+      <p class="a2hs-title">📲 Install this app</p>
+      <p class="a2hs-steps" id="a2hsSteps">Tap
+        <svg class="a2hs-glyph" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0b84fe" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="M8 7l4-4 4 4"/><rect x="4" y="11" width="16" height="10" rx="2"/></svg>
+        <b>Share</b>, then <b>“Add to Home Screen”</b>
+        <svg class="a2hs-glyph" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 9v6M9 12h6"/></svg>
+      </p>
+      <div class="a2hs-actions">
+        <button class="a2hs-btn" id="a2hsInstall" hidden>Install</button>
+        <button class="a2hs-ghost" id="a2hsHave">Already installed</button>
+      </div>
+    </div>
+    <button class="a2hs-close" id="iosA2hsClose" aria-label="Dismiss">✕</button>
+  </div>
+  <script>
+    (function () {
+      try {
+        var el = document.getElementById('iosA2hs');
+        var close = document.getElementById('iosA2hsClose');
+        var steps = document.getElementById('a2hsSteps');
+        var installBtn = document.getElementById('a2hsInstall');
+        if (!el || !close) return;
+        var standalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
+        // Fresh-opening policy (2026-07-23): the banner offers itself on ANY
+        // visit where the app is installable — being installed is what stops
+        // it (no beforeinstallprompt fires then). ✕ only snoozes the current
+        // session. Clear the legacy permanent flags from the first build.
+        try {
+          localStorage.removeItem('ms_a2hs_dismissed');
+          localStorage.removeItem('ms_ios_a2hs_dismissed');
+          localStorage.removeItem('ms_a2hs_installed');
+        } catch (e) { }
+        try { sessionStorage.removeItem('ms_a2hs_snoozed'); } catch (e) { } // legacy snooze retired
+        var saysInstalled = localStorage.getItem('ms_a2hs_have'); // "Already installed" — the ONLY permanent opt-out
+        var inTMA = window.Telegram && Telegram.WebApp && Telegram.WebApp.initData;
+        if (standalone || saysInstalled || inTMA) return;
+        function show() {
+          el.hidden = false;
+          requestAnimationFrame(function () { el.classList.add('show'); });
+        }
+        function dismiss() {
+          // hides for THIS page view only — any refresh/fresh opening re-offers
+          el.classList.remove('show');
+          setTimeout(function () { el.hidden = true; }, 300);
+        }
+        close.addEventListener('click', function () { dismiss(true); });
+        var haveBtn = document.getElementById('a2hsHave');
+        if (haveBtn) haveBtn.addEventListener('click', function () {
+          // permanent opt-out — the one thing that silences the banner forever
+          try { localStorage.setItem('ms_a2hs_have', '1'); } catch (e2) { }
+          dismiss(false);
+        });
+        window.__a2hsVisible = function () { return !el.hidden; };
+
+        var ua = navigator.userAgent || '';
+        var isIOS = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        if (isIOS) {
+          // iOS: no install API — show the manual Share → A2HS steps.
+          setTimeout(show, 2500);
+          return;
+        }
+
+        // Android + Windows/Mac Chromium (Chrome/Edge): intercept the native
+        // prompt and offer a real one-tap/one-click Install button in our own
+        // banner. If the browser never fires beforeinstallprompt (already
+        // installed / unsupported browser) the banner simply never appears.
+        // Note: on desktop, preventDefault does NOT remove the omnibox
+        // install icon — both paths stay available.
+        var isAndroid = /Android/i.test(ua);
+        var deferred = null;
+        window.addEventListener('beforeinstallprompt', function (e) {
+          e.preventDefault(); // suppress the browser's own auto-prompt — ours instead
+          deferred = e;
+          if (steps) steps.innerHTML = isAndroid
+            ? 'One tap adds it to your home screen — <b>full screen</b>, right from your launcher.'
+            : 'One click installs it as a <b>desktop app</b> in its own window — launch it straight from your taskbar or Dock.';
+          if (installBtn) installBtn.hidden = false;
+          setTimeout(show, isAndroid ? 1500 : 2200);
+        });
+        if (installBtn) installBtn.addEventListener('click', function () {
+          if (!deferred) { dismiss(true); return; }
+          deferred.prompt();
+          deferred.userChoice.then(function () {
+            deferred = null;
+            // installed OR declined: hide for this session; a fresh opening
+            // re-offers whenever the browser says the app is installable
+            dismiss(true);
+          }).catch(function () { dismiss(true); });
+        });
+        window.addEventListener('appinstalled', function () { dismiss(true); });
+
+        // Mac Safari (no install API, like iOS): manual steps — Safari 17+
+        // installs web apps via File → Add to Dock.
+        var isMacSafari = /Macintosh/.test(ua) && /Safari\//.test(ua) && !/Chrome|Chromium|CriOS|Edg|OPR|Firefox/.test(ua);
+        if (isMacSafari && !('onbeforeinstallprompt' in window)) {
+          if (steps) steps.innerHTML = 'In Safari’s menu bar, choose <b>File → “Add to Dock…”</b> to install this app.';
+          setTimeout(show, 2500);
+        }
+      } catch (e) { }
+    })();
+  </script>
+
+  <!-- ── Web Push: "new mock" alerts (2026-07-23) ───────────────────────
+       SW registration (landing-v3 is where students actually live — only
+       index.html registered it before, so direct visits missed it) +
+       push-client.js + a one-time opt-in card. Sends fan out from the
+       web-push Edge Function via the notify_new_mock_web DB trigger. -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(function () { });
+    }
+    // Lock the installed PHONE app to portrait. The manifests now declare
+    // "orientation":"portrait", but already-installed apps keep their frozen
+    // manifest (Chrome refreshes it lazily) — and the old "any" maps to
+    // Android full-sensor, which IGNORES the system rotation lock. Runtime
+    // lock covers those installs. Phone-sized screens only; desktop throws
+    // NotSupportedError (caught), iOS has no lock API (caught).
+    try {
+      var _standalone = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
+      if (_standalone && screen.orientation && screen.orientation.lock && Math.min(screen.width, screen.height) < 820) {
+        screen.orientation.lock('portrait').catch(function () { });
+      }
+    } catch (e) { }
+  </script>
+  <script src="/push-client.js"></script>
+  <style>
+    #pushNudge { position: fixed; left: 12px; right: 12px; bottom: 14px; z-index: 99989; background: var(--card, #fff); color: var(--ink, #0f172a); border: 1px solid rgba(148, 163, 184, .35); border-radius: 16px; box-shadow: 0 14px 40px rgba(15, 23, 42, .22); padding: 14px 44px 14px 14px; display: flex; align-items: flex-start; gap: 12px; opacity: 0; transform: translateY(16px); transition: opacity .3s ease, transform .3s ease; }
+    #pushNudge.show { opacity: 1; transform: translateY(0); }
+    #pushNudge[hidden] { display: none; }
+    #pushNudge .pn-emoji { font-size: 30px; line-height: 1; flex: 0 0 auto; margin-top: 2px; }
+    #pushNudge .pn-title { font-weight: 800; font-size: 14.5px; margin: 0 0 3px; }
+    #pushNudge .pn-text { font-size: 13px; line-height: 1.55; color: #475569; margin: 0; }
+    #pushNudge .pn-btn { margin-top: 8px; border: 0; border-radius: 10px; padding: 9px 20px; background: linear-gradient(135deg, #7c3aed, #6d28d9); color: #fff; font-weight: 800; font-size: 13.5px; cursor: pointer; box-shadow: 0 4px 12px rgba(124, 58, 237, .3); }
+    #pushNudge .pn-close { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border: 0; border-radius: 50%; background: rgba(148, 163, 184, .16); color: #64748b; font-size: 14px; cursor: pointer; }
+    @media (min-width: 769px) { #pushNudge { left: auto; right: 20px; bottom: 20px; max-width: 390px; } }
+  </style>
+  <div id="pushNudge" hidden>
+    <span class="pn-emoji">🔔</span>
+    <div>
+      <p class="pn-title">Never miss a new mock</p>
+      <p class="pn-text" id="pnText">Get a notification the moment a new mock goes live — right on this device.</p>
+      <button class="pn-btn" id="pnEnable">Turn on alerts</button>
+    </div>
+    <button class="pn-close" id="pnClose" aria-label="Dismiss">✕</button>
+  </div>
+  <script>
+    (function () {
+      try {
+        if (!window.MSPush || !MSPush.supported()) return;
+        if (Notification.permission !== 'default') return; // granted → auto-refreshed; denied → browser blocks re-ask
+        if (localStorage.getItem('ms_push_dismissed')) return;
+        if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initData) return;
+        var ua = navigator.userAgent || '';
+        var isIOS = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        var standalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
+        if (isIOS && !standalone) return; // iOS: push only exists in the installed app
+        var el = document.getElementById('pushNudge');
+        var btn = document.getElementById('pnEnable');
+        var closeBtn = document.getElementById('pnClose');
+        setTimeout(function () {
+          // don't stack on top of the install banner — try again next visit
+          if (window.__a2hsVisible && window.__a2hsVisible()) return;
+          el.hidden = false;
+          requestAnimationFrame(function () { el.classList.add('show'); });
+        }, 9000);
+        function dismiss(remember) {
+          el.classList.remove('show');
+          setTimeout(function () { el.hidden = true; }, 300);
+          if (remember) { try { localStorage.setItem('ms_push_dismissed', '1'); } catch (e) { } }
+        }
+        closeBtn.addEventListener('click', function () { dismiss(true); });
+        btn.addEventListener('click', function () {
+          btn.disabled = true;
+          MSPush.enable().then(function (res) {
+            if (res === 'granted') {
+              document.getElementById('pnText').innerHTML = '✅ Done — you\'ll get an alert when new mocks arrive.';
+              btn.style.display = 'none';
+              setTimeout(function () { dismiss(true); }, 2600);
+            } else {
+              dismiss(true);
+            }
+          });
+        });
+      } catch (e) { }
+    })();
+  </script>
+  <!-- ── TAB NAVIGATION (2026-07-23) ────────────────────────────────────
+       A-hybrid redesign: PC gets a dark vertical rail (Home / Mocks /
+       Other exams / Learn / My results / Notifications / Account), mobile
+       gets a floating liquid-glass bottom bar. Existing <main> sections are
+       tagged with data-msv3sec and shown per-tab via body[data-msv3-tab]
+       CSS — no section is moved or rebuilt, so all existing scripts keep
+       working. The old persistent sidebar / umbrella topbar / fixed
+       billboard rail blocks above are retired (media queries bumped).
+       Focus mode is retired; Obuna bo'lish stays as the floating accent
+       pill; the sidebar is now the Account drawer on every viewport. -->
+  <style id="msv3TabNav">
+    /* Retired / relocated topbar controls (all viewports) */
+    #topbarFsBtn { display: none !important; }          /* Focus mode retired */
+    #msv3HamburgerBtn { display: none !important; }     /* Account tab opens the drawer */
+    .msv3-collapse-toggle { display: none !important; } /* old sidebar collapse chevron */
+    .topbar-my-results { display: none !important; }    /* My results is a tab now */
+    /* Contact-admin pill was a Focus-mode-only rail feature — retired with it */
+    #bbBillboardSection .bb-rail-contact { display: none !important; }
+
+    /* ── Slim the Account drawer ──
+       Everything that now lives in its own tab is dropped from the drawer:
+       skills + IELTS launchers (Mocks tab), Learning Tools clone (Learn),
+       International Exams clone (Other exams), My Results row (Results).
+       What stays: sign-in, VIP code, email login, PDFs, System
+       Administration, Support/Terms and the profile/logout foot. */
+    .msv3-sidebar .msv3-sec-skills,
+    .msv3-sidebar .msv3-sec-ielts,
+    .msv3-sidebar .msv3-learning-tools,
+    .msv3-sidebar .msv3-intl-exams,
+    .msv3-sidebar .msv3-my-results,
+    .msv3-sidebar .msv3-avatar-placeholder { display: none !important; }
+
+    /* ── Per-tab section visibility ──
+       Hide-only rules (no display overrides on the active tab) so each
+       section keeps its own display type (hero is flex) and inline
+       style.display toggles from existing scripts still win. */
+    /* ~= matches space-separated lists, so a section can live in several
+       tabs (e.g. the resume banner on both Home and Mocks). */
+    body[data-msv3-tab="home"]    main > section:not([data-msv3sec~="home"]),
+    body[data-msv3-tab="mocks"]   main > section:not([data-msv3sec~="mocks"]),
+    body[data-msv3-tab="exams"]   main > section:not([data-msv3sec~="exams"]),
+    body[data-msv3-tab="learn"]   main > section:not([data-msv3sec~="learn"]),
+    body[data-msv3-tab="results"] main > section:not([data-msv3sec~="results"]),
+    body[data-msv3-tab="account"] main > section:not([data-msv3sec~="account"]) { display: none; }
+
+    /* ── Account tab: the old sidebar rendered as an in-page card ──
+       The <aside id="msv3Sidebar"> is moved into #msv3AccountPanel by the
+       router script; these rules undo its fixed-drawer geometry (kept in
+       base CSS) so it flows as a centered card like any other tab panel. */
+    #msv3AccountPanel .msv3-sidebar {
+      position: static !important;
+      transform: none !important;
+      width: 100% !important;
+      max-width: none !important;
+      min-width: 0 !important;
+      height: auto !important;
+      min-height: calc(100dvh - 230px);
+      margin: 0;
+      border: 1px solid rgba(255,255,255,0.08) !important;
+      border-radius: 18px;
+      box-shadow: 0 18px 44px rgba(15,23,42,0.18) !important;
+      z-index: auto !important;
+      overflow: hidden;
+    }
+    #msv3AccountPanel .msv3-sidebar .msv3-head { display: none; }      /* brand + X — panel has its own title */
+    #msv3AccountPanel .msv3-sidebar .msv3-body { overflow: visible !important; }
+    /* Desktop: settings-page layout — sections flow into two columns */
+    @media (min-width: 1024px) {
+      #msv3AccountPanel .msv3-sidebar .msv3-body {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 4px 36px;
+        align-items: start;
+        padding: 14px 26px 20px !important;
+      }
+      #msv3AccountPanel .msv3-sidebar .msv3-body > * { min-width: 0; }
+      #msv3AccountPanel .msv3-sidebar .msv3-foot,
+      #msv3AccountPanel .msv3-sidebar .msv3-body > .msv3-logout,
+      #msv3AccountPanel .msv3-sidebar .msv3-body > hr { grid-column: 1 / -1; }
+    }
+    .msv3-danger { max-width: none; }
+
+    /* Non-home tabs get a little headroom since the hero is hidden */
+    body[data-msv3-tab]:not([data-msv3-tab="home"]) main { padding-top: 26px; }
+
+    /* ── Shared nav-item look ── */
+    .msv3-rail, .msv3-glassbar { font-family: inherit; }
+    .msv3-rail button, .msv3-glassbar button {
+      font-family: inherit; border: 0; background: none; cursor: pointer; padding: 0;
+    }
+
+    /* ── PC rail (≥1024px) ── */
+    .msv3-rail {
+      display: none;
+      position: fixed; top: 0; left: 0; bottom: 0;
+      width: 224px;
+      z-index: 95;
+      background: linear-gradient(180deg, #1a1d24 0%, #23262e 100%);
+      border-right: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 6px 0 22px rgba(15,23,42,0.10);
+      flex-direction: column;
+      padding: 18px 12px 16px;
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+    .msv3-rail::-webkit-scrollbar { width: 0; display: none; }
+    .rail-brand {
+      display: flex; align-items: center; gap: 10px;
+      padding: 4px 10px 16px;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      margin-bottom: 14px;
+    }
+    .rail-logo {
+      width: 34px; height: 34px; border-radius: 10px; flex: 0 0 auto;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: #fff; font-weight: 800; font-size: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.35);
+    }
+    .rail-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .rail-name {
+      color: #f1f5f9; font-weight: 800; font-size: 14.5px; letter-spacing: 0.01em;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0;
+    }
+    .rail-items { display: flex; flex-direction: column; gap: 4px; }
+    .rail-item {
+      position: relative;
+      display: flex; align-items: center; gap: 12px;
+      width: 100%;
+      padding: 11px 12px;
+      border-radius: 11px;
+      color: #cbd5e1; font-size: 13.5px; font-weight: 600; letter-spacing: 0.01em;
+      text-align: left;
+      transition: background 160ms ease, color 160ms ease;
+    }
+    .rail-item svg { width: 18px; height: 18px; flex: 0 0 auto; }
+    .rail-item:hover { background: rgba(255,255,255,0.06); color: #ffffff; }
+    .rail-item.active {
+      background: linear-gradient(135deg, rgba(99,102,241,0.28), rgba(79,70,229,0.22));
+      color: #ffffff;
+      box-shadow: inset 0 0 0 1px rgba(99,102,241,0.45);
+    }
+    .rail-item.active::before {
+      content: ""; position: absolute; left: -12px; top: 9px; bottom: 9px; width: 3px;
+      border-radius: 0 3px 3px 0; background: #6366f1;
+    }
+    .rail-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #f97316; margin-left: auto; flex: 0 0 auto;
+      box-shadow: 0 0 0 2px #1e222a;
+    }
+    .rail-account {
+      margin-top: auto;
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px;
+      border-radius: 12px;
+      color: #e2e8f0; font-size: 13.5px; font-weight: 700;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.10) !important;
+      transition: background 160ms ease, border-color 160ms ease;
+    }
+    .rail-account svg { width: 18px; height: 18px; }
+    .rail-account:hover { background: rgba(255,255,255,0.10); border-color: rgba(99,102,241,0.5) !important; }
+    .rail-account.active {
+      background: linear-gradient(135deg, rgba(99,102,241,0.28), rgba(79,70,229,0.22));
+      border-color: rgba(99,102,241,0.55) !important;
+      color: #ffffff;
+    }
+    /* Identity chip inside the Account button (avatar + name + status) */
+    .rail-acc-avatar {
+      width: 30px; height: 30px; border-radius: 50%; flex: 0 0 auto;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.10);
+      color: #e2e8f0; font-weight: 800; font-size: 13px;
+      overflow: hidden;
+    }
+    .rail-acc-avatar svg { width: 16px; height: 16px; }
+    .rail-acc-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .rail-acc-avatar.has-user { background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff; }
+    .rail-acc-text { display: flex; flex-direction: column; min-width: 0; text-align: left; gap: 1px; }
+    .rail-acc-name {
+      font-size: 13px; font-weight: 700; line-height: 1.15;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 128px;
+    }
+    .rail-acc-sub { font-size: 10.5px; font-weight: 600; color: #94a3b8; line-height: 1.15; }
+    /* Mobile bar: tiny avatar replaces the generic user icon when known */
+    .gb-avatar {
+      width: 21px; height: 21px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: #fff; font-weight: 800; font-size: 10px;
+      overflow: hidden;
+    }
+    .gb-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .gb-avatar[hidden] { display: none; }
+
+    /* ── Mobile floating liquid-glass bar (<1024px) ── */
+    .msv3-glassbar {
+      display: none;
+      position: fixed;
+      left: 10px; right: 10px;
+      bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+      z-index: 60;
+      /* iOS-style liquid glass: half-transparent, heavy blur, top sheen */
+      background: linear-gradient(165deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.34) 100%);
+      backdrop-filter: blur(28px) saturate(200%);
+      -webkit-backdrop-filter: blur(28px) saturate(200%);
+      border: 1px solid rgba(255,255,255,0.62);
+      border-radius: 24px;
+      box-shadow:
+        0 14px 38px rgba(15,23,42,0.18),
+        0 2px 8px rgba(15,23,42,0.08),
+        inset 0 1px 0 rgba(255,255,255,0.70);
+      padding: 7px 6px;
+      justify-content: space-around; align-items: stretch;
+    }
+    .gb-item.active { background: rgba(99,102,241,0.16); }
+    .gb-item {
+      flex: 1 1 0; min-width: 0;
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
+      padding: 6px 2px;
+      border-radius: 16px;
+      color: #64748b; font-size: 10px; font-weight: 700; letter-spacing: 0.01em;
+      transition: color 160ms ease, background 160ms ease;
+    }
+    .gb-item svg { width: 21px; height: 21px; }
+    .gb-item.active { color: #4f46e5; background: rgba(99,102,241,0.12); }
+    .gb-item span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+
+    /* ── Results panel ── */
+    #msv3ResultsPanel .res-card {
+      display: flex; align-items: center; gap: 16px;
+      padding: 18px 20px;
+      background: var(--card, #fff);
+      border: 1px solid var(--line, #e2e8f0);
+      border-radius: 16px;
+      box-shadow: 0 10px 26px rgba(15,23,42,0.06);
+      text-decoration: none; color: inherit;
+      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+      margin-bottom: 12px;
+    }
+    #msv3ResultsPanel .res-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(99,102,241,0.45);
+      box-shadow: 0 16px 34px rgba(79,70,229,0.14);
+    }
+    #msv3ResultsPanel .res-ico {
+      width: 46px; height: 46px; border-radius: 13px; flex: 0 0 auto;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      background: linear-gradient(135deg, rgba(99,102,241,0.14), rgba(79,70,229,0.10));
+    }
+    #msv3ResultsPanel .res-body { flex: 1 1 auto; min-width: 0; }
+    #msv3ResultsPanel .res-title { font-weight: 800; font-size: 15px; margin: 0 0 2px; }
+    #msv3ResultsPanel .res-sub { font-size: 12.5px; color: #64748b; margin: 0; line-height: 1.45; }
+    #msv3ResultsPanel .res-arrow { font-size: 18px; color: #94a3b8; flex: 0 0 auto; }
+    #msv3ResultsPanel .res-hint { font-size: 12px; color: #94a3b8; margin-top: 10px; line-height: 1.5; }
+
+    /* ── Other exams: grid layout — the tab has the full page, no need for
+       a sideways-scrolling rail anymore ── */
+    body[data-msv3-tab="exams"] .exams-rail {
+      display: grid !important;
+      grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+      gap: 16px;
+      overflow: visible !important;
+    }
+    body[data-msv3-tab="exams"] .exams-rail .cambridge-card {
+      width: auto !important; min-width: 0 !important; flex: initial !important;
+    }
+
+    /* ── My results: embedded results page (no two-step link) ──
+       No card chrome — the embedded page IS the tab content, full-bleed,
+       so it reads as native rather than a window-in-window. */
+    .res-embed {
+      height: calc(100dvh - 175px);
+      min-height: 480px;
+      overflow: hidden;
+    }
+    .res-embed iframe { width: 100%; height: 100%; border: 0; display: block; }
+    @media (min-width: 1024px) { .res-embed { height: calc(100dvh - 110px); } }
+    body[data-msv3-tab="results"] main { padding-top: 56px; }
+    #msv3ResultsPanel { margin-bottom: 0; }
+
+    /* ── Account tab: danger zone ── */
+    .msv3-danger {
+      max-width: 560px; margin: 16px auto 0;
+      border: 1px solid rgba(239,68,68,0.35);
+      background: rgba(239,68,68,0.04);
+      border-radius: 16px;
+      padding: 16px 18px;
+    }
+    .msv3-danger .dz-head { font-weight: 800; font-size: 13.5px; color: #dc2626; letter-spacing: 0.02em; margin-bottom: 6px; }
+    .msv3-danger .dz-sub { font-size: 12.5px; color: #64748b; line-height: 1.5; margin: 0 0 12px; }
+    .msv3-danger .dz-btn {
+      border: 1.5px solid rgba(239,68,68,0.5); background: transparent; color: #dc2626;
+      font-weight: 700; font-size: 13px; padding: 9px 16px; border-radius: 10px; cursor: pointer;
+      transition: background 160ms ease, color 160ms ease;
+    }
+    .msv3-danger .dz-btn:hover { background: #dc2626; color: #fff; }
+    .msv3-danger .dz-confirm { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .msv3-danger .dz-confirm p { flex: 1 1 100%; font-size: 12.5px; color: #475569; margin: 0 0 2px; }
+    .msv3-danger .dz-confirm input {
+      flex: 1 1 140px; padding: 9px 12px; border: 1px solid var(--line, #e2e8f0);
+      border-radius: 10px; font-size: 13px; letter-spacing: 0.08em;
+    }
+    .msv3-danger .dz-go {
+      border: 0; background: #dc2626; color: #fff; font-weight: 800; font-size: 13px;
+      padding: 10px 16px; border-radius: 10px; cursor: pointer;
+    }
+    .msv3-danger .dz-go:disabled { opacity: 0.4; cursor: not-allowed; }
+    .msv3-danger .dz-cancel { border: 0; background: transparent; color: #64748b; font-weight: 700; font-size: 13px; cursor: pointer; }
+    .msv3-danger .dz-msg { flex: 1 1 100%; font-size: 12.5px; margin: 4px 0 0; color: #64748b; }
+    .msv3-danger[hidden] { display: none; }
+
+    /* ── Home widgets (native-app parity) — static DOM + tiny SVG only ── */
+    #msv3HomeWidgets .msw-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    @media (min-width: 900px) {
+      #msv3HomeWidgets .msw-grid { grid-template-columns: 1fr 1fr; }
+      #msv3HomeWidgets .msw-span2 { grid-column: 1 / -1; }
+    }
+    .msw-card {
+      background: var(--card, #fff);
+      border: 1px solid var(--line, #e2e8f0);
+      border-radius: 16px;
+      padding: 16px 18px;
+      box-shadow: 0 8px 22px rgba(15,23,42,0.05);
+    }
+    .msw-eyebrow { font-size: 10.5px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #64748b; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+    .msw-eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+    /* stat chips */
+    .msw-chips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    @media (min-width: 900px) { .msw-chips { grid-template-columns: repeat(6, 1fr); } }
+    .msw-chip {
+      border-radius: 14px; padding: 12px 10px; text-align: center;
+      border: 1px solid var(--line, #e2e8f0); background: var(--card, #fff);
+    }
+    .msw-chip .v { font-size: 19px; font-weight: 800; line-height: 1.1; }
+    .msw-chip .l { font-size: 10.5px; font-weight: 600; color: #64748b; margin-top: 3px; }
+    .msw-chip.c1 { background: linear-gradient(135deg, rgba(16,185,129,0.10), rgba(16,185,129,0.03)); } .msw-chip.c1 .v { color: #059669; }
+    .msw-chip.c2 { background: linear-gradient(135deg, rgba(59,130,246,0.10), rgba(59,130,246,0.03)); } .msw-chip.c2 .v { color: #2563eb; }
+    .msw-chip.c3 { background: linear-gradient(135deg, rgba(245,158,11,0.12), rgba(245,158,11,0.03)); } .msw-chip.c3 .v { color: #d97706; }
+    .msw-chip.c4 { background: linear-gradient(135deg, rgba(239,68,68,0.09), rgba(239,68,68,0.02)); }  .msw-chip.c4 .v { color: #dc2626; }
+    .msw-chip.c5 .v { color: #0d9488; }
+    .msw-chip.c6 .v { color: #7c3aed; }
+    /* mock library */
+    .msw-lib-cols { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    @media (min-width: 640px) { .msw-lib-cols { grid-template-columns: 1fr 1fr; } }
+    .msw-lib-exam { border: 1px solid var(--line, #e2e8f0); border-radius: 13px; padding: 12px 14px; }
+    .msw-lib-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 9px; }
+    .msw-lib-head .nm { font-weight: 800; font-size: 14px; }
+    .msw-lib-head .tot { font-weight: 800; font-size: 21px; }
+    .msw-lib-row { display: flex; align-items: center; gap: 8px; margin: 6px 0; font-size: 12px; color: #475569; }
+    .msw-lib-row .ic { width: 18px; flex: 0 0 auto; text-align: center; }
+    .msw-lib-row .bar { flex: 1 1 auto; height: 7px; border-radius: 4px; background: rgba(148,163,184,0.22); overflow: hidden; }
+    .msw-lib-row .bar i { display: block; height: 100%; border-radius: 4px; }
+    .msw-lib-row .n { width: 32px; text-align: right; font-weight: 700; color: var(--ink, #0f172a); }
+    /* word of the day */
+    .msw-word { background: linear-gradient(135deg, rgba(245,158,11,0.07), rgba(245,158,11,0.02)); }
+    .msw-word .w { font-size: 24px; font-weight: 800; }
+    .msw-word .ipa { font-size: 13px; color: #92400e; margin-left: 8px; }
+    .msw-word .pos { font-size: 12px; font-style: italic; color: #b45309; margin-left: 6px; }
+    .msw-word .def { font-size: 13px; color: #475569; margin-top: 6px; line-height: 1.5; }
+    /* learning curve */
+    .msw-curve-top { display: flex; align-items: baseline; gap: 10px; }
+    .msw-curve-top .lvl { font-size: 24px; font-weight: 800; }
+    .msw-curve-top .delta { font-size: 12.5px; font-weight: 700; color: #059669; }
+    .msw-curve-top .cap { margin-left: auto; font-size: 11.5px; color: #94a3b8; }
+    .msw-curve svg { width: 100%; height: 88px; display: block; margin-top: 8px; }
+    /* day vs night */
+    .msw-dn { display: flex; align-items: center; gap: 18px; }
+    .msw-donut { width: 92px; height: 92px; border-radius: 50%; flex: 0 0 auto; position: relative; }
+    .msw-donut::after {
+      content: attr(data-total); position: absolute; inset: 13px;
+      background: var(--card, #fff); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 16px;
+    }
+    .msw-dn-rows { font-size: 13px; color: #475569; display: flex; flex-direction: column; gap: 7px; }
+    .msw-dn-rows b { color: var(--ink, #0f172a); }
+    /* this week bars */
+    .msw-week-bars { display: flex; align-items: flex-end; gap: 10px; height: 86px; margin-top: 6px; }
+    .msw-week-col { flex: 1 1 0; display: flex; flex-direction: column; align-items: center; gap: 5px; height: 100%; justify-content: flex-end; }
+    .msw-week-col .b { width: 60%; max-width: 26px; border-radius: 6px 6px 3px 3px; background: linear-gradient(180deg, #10b981, #059669); min-height: 3px; }
+    .msw-week-col .d { font-size: 10.5px; color: #94a3b8; font-weight: 600; }
+    .msw-week-cap { font-size: 12px; color: #64748b; margin-top: 8px; }
+    /* level by skill */
+    .msw-skills { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 4px; }
+    .msw-skill { text-align: center; }
+    .msw-skill .lv { font-weight: 800; font-size: 14px; margin-bottom: 6px; }
+    .msw-skill .tube { height: 110px; width: 44px; margin: 0 auto; border-radius: 14px; position: relative; overflow: hidden; }
+    .msw-skill .tube i { position: absolute; left: 0; right: 0; bottom: 0; border-radius: 12px; }
+    .msw-skill .nm { font-size: 12px; font-weight: 700; margin-top: 7px; }
+    .msw-skill .ct { font-size: 10.5px; color: #94a3b8; margin-top: 1px; }
+    .msw-empty { font-size: 12.5px; color: #64748b; padding: 6px 0; line-height: 1.5; }
+
+    /* Learn tab: app-launcher square tiles instead of long rows */
+    body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 {
+      display: grid !important;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 14px;
+    }
+    @media (max-width: 640px) {
+      body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 {
+        grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+        gap: 10px;
+      }
+    }
+    body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-card {
+      position: relative;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      text-align: center;
+      gap: 8px;
+      padding: 0 8px 12px;
+      min-height: 0;
+      overflow: hidden;
+    }
+    body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .msv3-tool-cover {
+      width: calc(100% + 16px); margin: 0 -8px; height: 88px; flex: 0 0 auto; overflow: hidden;
+    }
+    body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .msv3-tool-cover img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    /* Icon becomes a small badge overlapping the photo */
+    body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-card:has(.msv3-tool-cover) .tool-icon {
+      margin-top: -26px; z-index: 1;
+      box-shadow: 0 4px 12px rgba(15,23,42,0.22), 0 0 0 3px var(--card, #fff);
+    }
+    body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-card:not(:has(.msv3-tool-cover)) { justify-content: center; padding-top: 14px; }
+    body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-icon {
+      width: 44px; height: 44px; border-radius: 13px; font-size: 21px; flex: 0 0 auto;
+    }
+    body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-icon svg { width: 24px; height: 24px; }
+    body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-body { min-width: 0; width: 100%; }
+    body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-name { font-size: 13px; line-height: 1.2; }
+    body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-sub {
+      justify-content: center; font-size: 10.5px; margin-top: 3px;
+      display: flex; flex-wrap: wrap; gap: 4px; align-items: center;
+    }
+    body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-arrow { display: none; }
+    body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .soon-pill {
+      position: absolute; top: 8px; right: 8px; margin: 0;
+    }
+    @media (max-width: 640px) {
+      body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-icon { width: 36px; height: 36px; font-size: 17px; border-radius: 11px; }
+      body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-card:has(.msv3-tool-cover) .tool-icon { margin-top: -20px; }
+      body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .msv3-tool-cover { height: 62px; }
+      body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-name { font-size: 11.5px; }
+      body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-sub .tool-sub-text { display: none; }
+    }
+
+    /* Coming-soon fillers */
+    .msv3-flagcover {
+      display: flex; align-items: center; justify-content: center;
+      font-size: 34px; min-height: 64px;
+      background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 55%, #fce7f3 100%);
+    }
+    .msv3-emoji-icon { font-size: 17px; display: inline-flex; align-items: center; justify-content: center; }
+
+    @media (min-width: 1024px) {
+      .msv3-rail { display: flex; }
+      body { padding-left: 224px; }
+      /* Topbar dissolves into a floating top-right cluster: Obuna pill + bell */
+      .topbar {
+        position: fixed !important;
+        top: 12px !important; right: 16px !important; left: auto !important;
+        width: auto !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        z-index: 96;
+      }
+      .topbar-inner { max-width: none; padding: 0; height: auto; gap: 10px; }
+      .topbar .brand, .topbar-spacer { display: none !important; }
+      .topbar-actions { gap: 10px; }
+      /* Bell gets a soft card look so it reads on the bright hero */
+      .topbar .icon-btn {
+        background: rgba(255,255,255,0.92);
+        border: 1px solid var(--line, #e2e8f0);
+        box-shadow: 0 6px 16px rgba(15,23,42,0.10);
+      }
+      /* Clear the floating Obuna + bell cluster on tabs without the hero */
+      body[data-msv3-tab]:not([data-msv3-tab="home"]) main { padding-top: 88px; }
+      #msv3ResultsPanel .res-card { max-width: 640px; }
+    }
+    @media (max-width: 1023.98px) {
+      .msv3-glassbar { display: flex; }
+      main { padding-bottom: 118px !important; }
+      footer { padding-bottom: 96px; }
+    }
+  </style>
+
+  <nav class="msv3-rail" id="msv3Rail" aria-label="Primary">
+    <a class="rail-brand" href="/landing-v3.html">
+      <span class="rail-logo" id="railLogo">MS</span>
+      <span class="rail-name" id="railName">Mock Stream</span>
+    </a>
+    <div class="rail-items">
+      <button type="button" class="rail-item" data-msv3-go="home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        Home
+      </button>
+      <button type="button" class="rail-item" data-msv3-go="mocks">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+        Mocks
+      </button>
+      <button type="button" class="rail-item" data-msv3-go="exams">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"></circle><path d="M15.5 13l1.5 8-5-3-5 3 1.5-8"></path></svg>
+        Other exams
+      </button>
+      <button type="button" class="rail-item" data-msv3-go="learn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+        Learn
+      </button>
+      <button type="button" class="rail-item" data-msv3-go="results">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+        My results
+      </button>
+    </div>
+    <button type="button" class="rail-account" data-msv3-go="account">
+      <span class="rail-acc-avatar" id="railAccAvatar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"></path></svg>
+      </span>
+      <span class="rail-acc-text">
+        <span class="rail-acc-name" id="railAccName">Account</span>
+        <span class="rail-acc-sub" id="railAccSub">Sign in</span>
+      </span>
+    </button>
+  </nav>
+
+  <nav class="msv3-glassbar" id="msv3GlassBar" aria-label="Primary">
+    <button type="button" class="gb-item" data-msv3-go="home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+      <span>Home</span>
+    </button>
+    <button type="button" class="gb-item" data-msv3-go="mocks">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+      <span>Mocks</span>
+    </button>
+    <button type="button" class="gb-item" data-msv3-go="exams">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"></circle><path d="M15.5 13l1.5 8-5-3-5 3 1.5-8"></path></svg>
+      <span>Exams</span>
+    </button>
+    <button type="button" class="gb-item" data-msv3-go="learn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+      <span>Learn</span>
+    </button>
+    <button type="button" class="gb-item" data-msv3-go="results">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+      <span>Results</span>
+    </button>
+    <button type="button" class="gb-item" data-msv3-go="account">
+      <span class="gb-avatar" id="gbAccAvatar" hidden></span>
+      <svg id="gbAccIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"></path></svg>
+      <span>Account</span>
+    </button>
+  </nav>
+
+  <script>
+    (function () {
+      'use strict';
+      var TABS = { home: 1, mocks: 1, exams: 1, learn: 1, results: 1, account: 1 };
+
+      // ── 1. Tag every <main> section with its tab ──
+      function tag(el, t) {
+        if (!el) return;
+        var s = el.closest('main > section');
+        if (s && !s.hasAttribute('data-msv3sec')) s.setAttribute('data-msv3sec', t);
+      }
+      tag(document.querySelector('main > section.hero'), 'home');
+      tag(document.getElementById('msrResumeSection'), 'home mocks');
+      tag(document.getElementById('bbBillboardSection'), 'home');
+      tag(document.querySelector('.skill-grid'), 'mocks');
+      tag(document.querySelector('.tools-grid'), 'learn');
+      tag(document.getElementById('examsRail'), 'exams');
+      tag(document.getElementById('trendingRail'), 'home');
+      tag(document.getElementById('addedRail'), 'home');
+      // Full Mock section (.secondary) → Mocks; anything else untagged → Home
+      document.querySelectorAll('main > section:not([data-msv3sec])').forEach(function (s) {
+        s.setAttribute('data-msv3sec', s.querySelector('.secondary') ? 'mocks' : 'home');
+      });
+
+      // ── 2. My results panel — the results page embedded directly (same
+      // origin), created lazily on first visit so Home stays light ──
+      var mainEl = document.querySelector('main');
+      if (mainEl && !document.getElementById('msv3ResultsPanel')) {
+        var rp = document.createElement('section');
+        rp.className = 'section';
+        rp.id = 'msv3ResultsPanel';
+        rp.setAttribute('data-msv3sec', 'results');
+        rp.innerHTML = '<div class="res-embed" id="msv3ResEmbed"></div>';
+        mainEl.appendChild(rp);
+      }
+      function ensureResultsFrame() {
+        var host = document.getElementById('msv3ResEmbed');
+        if (!host || host.querySelector('iframe')) return;
+        var fr = document.createElement('iframe');
+        fr.src = '/results/my-results.html';
+        fr.title = 'My results';
+        fr.addEventListener('load', function () {
+          // Same-origin: hide the embedded page's own Home / Sign out chrome
+          // (navigation lives in the tabs now; Dark + Refresh stay useful).
+          try {
+            var d = fr.contentDocument;
+            var st = d.createElement('style');
+            st.textContent =
+              // The tab shell already provides navigation + title, so the
+              // embedded page's own topbar and back-link disappear entirely.
+              '.dashboard .topbar, .name-back { display: none !important; }' +
+              'body { padding-top: 0 !important; }' +
+              '.dashboard { padding-top: 10px !important; }';
+            d.head.appendChild(st);
+          } catch (_e) { }
+        });
+        host.appendChild(fr);
+      }
+
+      // ── 2b. Account panel: relocate the old sidebar into a full-page tab ──
+      if (mainEl && !document.getElementById('msv3AccountPanel')) {
+        var ap = document.createElement('section');
+        ap.className = 'section';
+        ap.id = 'msv3AccountPanel';
+        ap.setAttribute('data-msv3sec', 'account');
+        ap.innerHTML = '<div class="section-head"><h2 class="section-title">Account</h2></div>';
+        var aside = document.getElementById('msv3Sidebar');
+        if (aside) {
+          ap.appendChild(aside);
+          aside.setAttribute('aria-hidden', 'false');
+        }
+        // Danger zone — account deletion (signed-in users only; shown/hidden
+        // by syncAccountChip). Two-step: expand → type DELETE → call the
+        // delete-account Edge Function with the user's own session token.
+        var dz = document.createElement('div');
+        dz.className = 'msv3-danger';
+        dz.id = 'msv3DangerZone';
+        dz.hidden = true;
+        dz.innerHTML =
+          '<div class="dz-head">⚠️ Danger zone</div>' +
+          '<p class="dz-sub">Permanently delete your account and all saved results from Mock Stream. This cannot be undone.</p>' +
+          '<button type="button" class="dz-btn" id="dzOpenBtn">Delete my account…</button>' +
+          '<div class="dz-confirm" id="dzConfirm" hidden>' +
+            '<p>This wipes your sign-in and every saved result. Type <b>DELETE</b> to confirm.</p>' +
+            '<input id="dzInput" autocomplete="off" spellcheck="false" placeholder="DELETE">' +
+            '<button type="button" class="dz-go" id="dzGoBtn" disabled>Permanently delete</button>' +
+            '<button type="button" class="dz-cancel" id="dzCancelBtn">Cancel</button>' +
+            '<p class="dz-msg" id="dzMsg"></p>' +
+          '</div>';
+        ap.appendChild(dz);
+        var dzOpen = dz.querySelector('#dzOpenBtn'), dzConf = dz.querySelector('#dzConfirm'),
+            dzIn = dz.querySelector('#dzInput'), dzGo = dz.querySelector('#dzGoBtn'),
+            dzCancel = dz.querySelector('#dzCancelBtn'), dzMsg = dz.querySelector('#dzMsg');
+        dzOpen.addEventListener('click', function () { dzConf.hidden = false; dzOpen.hidden = true; dzIn.focus(); });
+        dzCancel.addEventListener('click', function () { dzConf.hidden = true; dzOpen.hidden = false; dzIn.value = ''; dzGo.disabled = true; dzMsg.textContent = ''; });
+        dzIn.addEventListener('input', function () { dzGo.disabled = dzIn.value.trim().toUpperCase() !== 'DELETE'; });
+        dzGo.addEventListener('click', function () {
+          dzGo.disabled = true; dzMsg.textContent = 'Deleting…';
+          (async function () {
+            var token = '';
+            try {
+              var client = window.MockStream && window.MockStream.auth && window.MockStream.auth.getClient && window.MockStream.auth.getClient();
+              var sess = client && await client.auth.getSession();
+              token = sess && sess.data && sess.data.session && sess.data.session.access_token || '';
+            } catch (_e) { }
+            if (!token) { dzMsg.textContent = 'You need to be signed in to delete your account.'; return; }
+            try {
+              var resp = await fetch('https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/delete-account', {
+                method: 'POST',
+                headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+                body: '{}'
+              });
+              var out = await resp.json().catch(function () { return {}; });
+              if (resp.ok && out.ok) {
+                dzMsg.textContent = 'Account deleted. Signing you out…';
+                setTimeout(function () {
+                  var lb = document.getElementById('msv3LogoutBtn');
+                  if (lb) { lb.click(); }
+                  else { try { localStorage.clear(); sessionStorage.clear(); } catch (_e) { } window.location.replace('/index.html'); }
+                }, 900);
+              } else {
+                dzMsg.textContent = 'Could not delete the account (' + (out.error || resp.status) + '). Please try again or contact support.';
+                dzGo.disabled = false;
+              }
+            } catch (_e2) {
+              dzMsg.textContent = 'Network error — please try again.';
+              dzGo.disabled = false;
+            }
+          })();
+        });
+        mainEl.appendChild(ap);
+      }
+
+      // ── 2c. Home widgets (native-app parity) ──
+      // One results fetch + pure DOM/CSS/SVG rendering — no timers, no
+      // canvas, nothing per-frame, so there is zero lag/heat cost.
+      (function homeWidgets() {
+        var heroSec = document.querySelector('main > section.hero');
+        if (!heroSec || document.getElementById('msv3HomeWidgets')) return;
+        var ws = document.createElement('section');
+        ws.className = 'section';
+        ws.id = 'msv3HomeWidgets';
+        ws.setAttribute('data-msv3sec', 'home');
+        ws.innerHTML =
+          '<div class="msw-grid">' +
+            '<div class="msw-chips msw-span2" id="mswChips"></div>' +
+            '<div class="msw-card msw-span2" id="mswLibrary">' +
+              '<div class="msw-eyebrow">Mock library</div>' +
+              '<div class="msw-lib-cols" id="mswLibCols"><div class="msw-empty">Loading counts…</div></div>' +
+            '</div>' +
+            '<div class="msw-card msw-word msw-span2" id="mswWord"></div>' +
+            '<div class="msw-card msw-curve msw-span2" id="mswCurve">' +
+              '<div class="msw-eyebrow"><span class="dot" style="background:#0d9488"></span>Learning curve</div>' +
+              '<div id="mswCurveBody" class="msw-empty">Take a few mocks to see your progress curve.</div>' +
+            '</div>' +
+            '<div class="msw-card" id="mswDayNight">' +
+              '<div class="msw-eyebrow"><span class="dot" style="background:#f59e0b"></span>Day vs night</div>' +
+              '<div id="mswDnBody" class="msw-empty">Your practice-time split appears here.</div>' +
+            '</div>' +
+            '<div class="msw-card" id="mswWeek">' +
+              '<div class="msw-eyebrow"><span class="dot" style="background:#10b981"></span>This week</div>' +
+              '<div id="mswWeekBody" class="msw-empty">Attempts from the last 7 days appear here.</div>' +
+            '</div>' +
+            '<div class="msw-card msw-span2" id="mswLevels">' +
+              '<div class="msw-eyebrow">Level by skill · Multilevel</div>' +
+              '<div id="mswLevelsBody" class="msw-empty">Finish a mock in each skill to see your levels.</div>' +
+            '</div>' +
+          '</div>';
+        heroSec.insertAdjacentElement('afterend', ws);
+        // Resume banner sits at the TOP: right under the hero on Home, and
+        // (hero hidden there) first thing on the Mocks tab.
+        var rs = document.getElementById('msrResumeSection');
+        if (rs) heroSec.insertAdjacentElement('afterend', rs);
+
+        // Word of the day — embedded list, deterministic by date, zero network
+        var WORDS = [
+          ['ambiguous', '/æmˈbɪɡjuəs/', 'adjective', 'open to more than one interpretation; not having a clear meaning'],
+          ['resilient', '/rɪˈzɪliənt/', 'adjective', 'able to recover quickly from difficult conditions'],
+          ['meticulous', '/məˈtɪkjələs/', 'adjective', 'showing great attention to detail; very careful'],
+          ['advocate', '/ˈædvəkeɪt/', 'verb', 'to publicly support or recommend a cause or policy'],
+          ['plausible', '/ˈplɔːzəbl/', 'adjective', 'seeming reasonable or probable'],
+          ['diligent', '/ˈdɪlɪdʒənt/', 'adjective', 'showing steady, earnest effort in work or duties'],
+          ['inevitable', '/ɪnˈevɪtəbl/', 'adjective', 'certain to happen; unavoidable'],
+          ['profound', '/prəˈfaʊnd/', 'adjective', 'very great or intense; showing deep insight'],
+          ['scrutinize', '/ˈskruːtənaɪz/', 'verb', 'to examine closely and thoroughly'],
+          ['versatile', '/ˈvɜːsətaɪl/', 'adjective', 'able to adapt to many different functions or activities'],
+          ['coherent', '/kəʊˈhɪərənt/', 'adjective', 'logical and consistent; clearly connected'],
+          ['deteriorate', '/dɪˈtɪəriəreɪt/', 'verb', 'to become progressively worse'],
+          ['empirical', '/ɪmˈpɪrɪkl/', 'adjective', 'based on observation or experience rather than theory'],
+          ['facilitate', '/fəˈsɪlɪteɪt/', 'verb', 'to make an action or process easier'],
+          ['inherent', '/ɪnˈhɪərənt/', 'adjective', 'existing as a natural or permanent quality'],
+          ['justify', '/ˈdʒʌstɪfaɪ/', 'verb', 'to show or prove to be right or reasonable'],
+          ['notion', '/ˈnəʊʃn/', 'noun', 'a belief or idea about something'],
+          ['pragmatic', '/præɡˈmætɪk/', 'adjective', 'dealing with things sensibly and realistically'],
+          ['reluctant', '/rɪˈlʌktənt/', 'adjective', 'unwilling and hesitant'],
+          ['substantial', '/səbˈstænʃl/', 'adjective', 'of considerable importance, size, or value'],
+          ['ambivalent', '/æmˈbɪvələnt/', 'adjective', 'having mixed feelings about something'],
+          ['concise', '/kənˈsaɪs/', 'adjective', 'giving much information clearly in few words'],
+          ['deduce', '/dɪˈdjuːs/', 'verb', 'to reach a conclusion from evidence and reasoning'],
+          ['elaborate', '/ɪˈlæbərət/', 'adjective', 'involving many careful details; very detailed'],
+          ['feasible', '/ˈfiːzəbl/', 'adjective', 'possible to do easily or conveniently'],
+          ['hypothesis', '/haɪˈpɒθəsɪs/', 'noun', 'a proposed explanation made as a starting point for investigation'],
+          ['implication', '/ˌɪmplɪˈkeɪʃn/', 'noun', 'a likely consequence; something suggested without being said'],
+          ['legitimate', '/lɪˈdʒɪtɪmət/', 'adjective', 'conforming to the law or rules; fair and acceptable'],
+          ['mitigate', '/ˈmɪtɪɡeɪt/', 'verb', 'to make something less severe or serious'],
+          ['persistent', '/pəˈsɪstənt/', 'adjective', 'continuing firmly despite difficulty'],
+          ['redundant', '/rɪˈdʌndənt/', 'adjective', 'not needed; superfluous'],
+          ['skeptical', '/ˈskeptɪkl/', 'adjective', 'not easily convinced; having doubts'],
+          ['tangible', '/ˈtændʒəbl/', 'adjective', 'clear enough to be seen, touched, or measured'],
+          ['undermine', '/ˌʌndəˈmaɪn/', 'verb', 'to weaken gradually or secretly'],
+          ['viable', '/ˈvaɪəbl/', 'adjective', 'capable of working successfully'],
+          ['articulate', '/ɑːˈtɪkjələt/', 'adjective', 'able to express ideas clearly and effectively'],
+          ['benevolent', '/bəˈnevələnt/', 'adjective', 'well-meaning and kindly'],
+          ['comprehensive', '/ˌkɒmprɪˈhensɪv/', 'adjective', 'including all or nearly all elements or aspects'],
+          ['discrepancy', '/dɪˈskrepənsi/', 'noun', 'a difference between things that should match'],
+          ['eloquent', '/ˈeləkwənt/', 'adjective', 'fluent and persuasive in speaking or writing'],
+          ['fluctuate', '/ˈflʌktʃueɪt/', 'verb', 'to rise and fall irregularly in number or amount'],
+          ['gratitude', '/ˈɡrætɪtjuːd/', 'noun', 'the quality of being thankful'],
+          ['imperative', '/ɪmˈperətɪv/', 'adjective', 'of vital importance; crucial']
+        ];
+        var wd = WORDS[Math.floor(Date.now() / 86400000) % WORDS.length];
+        document.getElementById('mswWord').innerHTML =
+          '<div class="msw-eyebrow" style="color:#b45309"><span class="dot" style="background:#f59e0b"></span>Word of the day</div>' +
+          '<div><span class="w">' + wd[0] + '</span><span class="ipa">' + wd[1] + '</span><span class="pos">' + wd[2] + '</span></div>' +
+          '<p class="def">' + wd[3] + '</p>';
+
+        // Mock library — per-exam per-skill counts from the skill-card data
+        var LIB_SKILLS = [
+          ['listening', '🎧', 'Listening', '#3b82f6'],
+          ['reading', '📖', 'Reading', '#10b981'],
+          ['writing', '✍️', 'Writing', '#f59e0b'],
+          ['speaking', '🎤', 'Speaking', '#8b5cf6']
+        ];
+        function renderLib() {
+          var t = window.__msv3SkillTotals;
+          if (!t) return false;
+          function col(examKey, label) {
+            var vals = LIB_SKILLS.map(function (s) { return Number(t[examKey + '-' + s[0]]) || 0; });
+            var tot = vals.reduce(function (a, b) { return a + b; }, 0);
+            var max = Math.max.apply(null, vals.concat([1]));
+            var rows = LIB_SKILLS.map(function (s, i) {
+              return '<div class="msw-lib-row"><span class="ic">' + s[1] + '</span>' + s[2] +
+                '<span class="bar"><i style="width:' + Math.round(vals[i] / max * 100) + '%;background:' + s[3] + '"></i></span>' +
+                '<span class="n">' + vals[i] + '</span></div>';
+            }).join('');
+            return '<div class="msw-lib-exam"><div class="msw-lib-head"><span class="nm">' + label + '</span><span class="tot">' + tot + '</span></div>' + rows + '</div>';
+          }
+          document.getElementById('mswLibCols').innerHTML = col('cefr', 'Multilevel') + col('ielts', 'IELTS');
+          return true;
+        }
+        if (!renderLib()) window.addEventListener('msv3-totals-ready', renderLib, { once: true });
+
+        // Personal stats — one fetch of this student's results, then render
+        var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+        var PK = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+        function pct(row) {
+          var s = String(row.score || '');
+          if (s.indexOf('/') > -1) {
+            var a = parseFloat(s.split('/')[0]), b = parseFloat(s.split('/')[1]);
+            if (!isNaN(a) && b > 0) return Math.min(100, a / b * 100);
+            return null;
+          }
+          var m = s.match(/(\d+(?:\.\d+)?)/);
+          if (!m) return null;
+          var n = parseFloat(m[1]);
+          if (/band/i.test(s) || /ielts/i.test(String(row.exam_type || ''))) return n <= 9 ? n / 9 * 100 : null;
+          return n <= 75 ? n / 75 * 100 : (n <= 100 ? n : null);
+        }
+        function skillOf(sk) {
+          sk = String(sk || '').toLowerCase();
+          if (sk.indexOf('speak') > -1) return 'speaking';
+          if (sk.indexOf('writ') > -1) return 'writing';
+          if (sk.indexOf('listen') > -1) return 'listening';
+          if (sk.indexOf('read') > -1) return 'reading';
+          return null;
+        }
+        function renderStats(rows) {
+          if (!rows || !rows.length) {
+            document.getElementById('mswChips').innerHTML =
+              '<div class="msw-chip c1" style="grid-column:1/-1"><div class="v">📈 Your progress lives here</div><div class="l">Sign in on the Account tab (or take your first mock) to unlock streaks, levels and charts</div></div>';
+            return;
+          }
+          var now = new Date();
+          var dayKey = function (d) { return d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate(); };
+          var days = {}, today = 0, week = 0, dayN = 0, nightN = 0;
+          var weekCounts = [0, 0, 0, 0, 0, 0, 0], weekLabels = [];
+          for (var i = 6; i >= 0; i--) {
+            var d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
+            weekLabels.push(d.toLocaleDateString('en', { weekday: 'short' }).slice(0, 2));
+          }
+          var todayKey = dayKey(now);
+          rows.forEach(function (r) {
+            var d = new Date(r.created_at);
+            if (isNaN(d)) return;
+            days[dayKey(d)] = 1;
+            var diff = Math.floor((new Date(now.getFullYear(), now.getMonth(), now.getDate()) -
+                                   new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 86400000);
+            if (dayKey(d) === todayKey) today++;
+            if (diff >= 0 && diff <= 6) { week++; weekCounts[6 - diff]++; }
+            var h = d.getHours();
+            if (h >= 6 && h < 18) dayN++; else nightN++;
+          });
+          var streak = 0, cur = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+          if (!days[dayKey(cur)]) cur.setDate(cur.getDate() - 1);
+          while (days[dayKey(cur)]) { streak++; cur.setDate(cur.getDate() - 1); }
+          // best level: highest-percentage CEFR row that carries a level label
+          var best = null, bestLevel = '';
+          rows.forEach(function (r) {
+            var p = pct(r);
+            if (p === null) return;
+            if (!best || p > best) {
+              best = p;
+              if (r.level) bestLevel = String(r.level);
+            }
+            if (!bestLevel && r.level) bestLevel = String(r.level);
+          });
+          document.getElementById('mswChips').innerHTML =
+            '<div class="msw-chip c1"><div class="v">' + rows.length + '</div><div class="l">Mocks taken</div></div>' +
+            '<div class="msw-chip c2"><div class="v">' + (bestLevel || '—') + '</div><div class="l">Best level</div></div>' +
+            '<div class="msw-chip c3"><div class="v">🔥 ' + streak + '</div><div class="l">days streak</div></div>' +
+            '<div class="msw-chip c4"><div class="v">' + today + '</div><div class="l">today</div></div>' +
+            '<div class="msw-chip c5"><div class="v">' + week + '</div><div class="l">this week</div></div>' +
+            '<div class="msw-chip c6"><div class="v">' + Object.keys(days).length + '</div><div class="l">active days</div></div>';
+
+          // learning curve — last 16 scored attempts, oldest → newest
+          var scored = rows.map(function (r) { return pct(r); }).filter(function (p) { return p !== null; });
+          scored = scored.slice(0, 16).reverse();
+          if (scored.length >= 2) {
+            var W = 600, H = 88, step = W / (scored.length - 1);
+            var ptsArr = scored.map(function (p, i) { return [Math.round(i * step), Math.round(H - 8 - (p / 100) * (H - 20))]; });
+            var line = ptsArr.map(function (p, i) { return (i ? 'L' : 'M') + p[0] + ',' + p[1]; }).join(' ');
+            var area = line + ' L' + W + ',' + H + ' L0,' + H + ' Z';
+            var delta = Math.round(scored[scored.length - 1] - scored[0]);
+            document.getElementById('mswCurveBody').className = '';
+            document.getElementById('mswCurveBody').innerHTML =
+              '<div class="msw-curve-top"><span class="lvl">' + (bestLevel || Math.round(best) + '%') + '</span>' +
+              '<span class="delta" style="color:' + (delta >= 0 ? '#059669' : '#dc2626') + '">' + (delta >= 0 ? '▲' : '▼') + ' ' + Math.abs(delta) + '%</span>' +
+              '<span class="cap">last ' + scored.length + ' mocks</span></div>' +
+              '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" aria-hidden="true">' +
+                '<defs><linearGradient id="mswCg" x1="0" y1="0" x2="0" y2="1">' +
+                  '<stop offset="0" stop-color="#0d9488" stop-opacity="0.22"/><stop offset="1" stop-color="#0d9488" stop-opacity="0"/>' +
+                '</linearGradient></defs>' +
+                '<line x1="0" y1="12" x2="' + W + '" y2="12" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="3 5"/>' +
+                '<path d="' + area + '" fill="url(#mswCg)"/>' +
+                '<path d="' + line + '" fill="none" stroke="#0d9488" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>' +
+              '</svg>';
+          }
+
+          // day vs night donut (conic-gradient — no canvas)
+          var tot = dayN + nightN;
+          if (tot > 0) {
+            var dp = Math.round(dayN / tot * 100);
+            document.getElementById('mswDnBody').className = 'msw-dn';
+            document.getElementById('mswDnBody').innerHTML =
+              '<div class="msw-donut" data-total="' + tot + '" style="background:conic-gradient(#f59e0b 0 ' + dp + '%, #6366f1 ' + dp + '% 100%)"></div>' +
+              '<div class="msw-dn-rows">' +
+                '<span>🌞 Day <b>' + dayN + '</b> ' + dp + '%</span>' +
+                '<span>🌙 Night <b>' + nightN + '</b> ' + (100 - dp) + '%</span>' +
+              '</div>';
+          }
+
+          // this week bars
+          var wmax = Math.max.apply(null, weekCounts.concat([1]));
+          document.getElementById('mswWeekBody').className = '';
+          document.getElementById('mswWeekBody').innerHTML =
+            '<div class="msw-week-bars">' + weekCounts.map(function (c, i) {
+              return '<div class="msw-week-col"><span class="b" style="height:' + Math.max(3, Math.round(c / wmax * 100)) + '%;opacity:' + (c ? 1 : 0.25) + '"></span><span class="d">' + weekLabels[i] + '</span></div>';
+            }).join('') + '</div>' +
+            '<div class="msw-week-cap">' + week + ' attempt' + (week !== 1 ? 's' : '') + ' this week</div>';
+
+          // level by skill (Multilevel / CEFR rows only)
+          var perSkill = {};
+          rows.forEach(function (r) {
+            if (/ielts/i.test(String(r.exam_type || ''))) return;
+            var sk = skillOf(r.skill);
+            if (!sk) return;
+            var p = pct(r);
+            perSkill[sk] = perSkill[sk] || { n: 0, best: null, level: '' };
+            perSkill[sk].n++;
+            if (p !== null && (perSkill[sk].best === null || p > perSkill[sk].best)) {
+              perSkill[sk].best = p;
+              if (r.level) perSkill[sk].level = String(r.level);
+            }
+          });
+          if (Object.keys(perSkill).length) {
+            document.getElementById('mswLevelsBody').className = 'msw-skills';
+            document.getElementById('mswLevelsBody').innerHTML = LIB_SKILLS.map(function (s) {
+              var d2 = perSkill[s[0]] || { n: 0, best: null, level: '' };
+              var fill = d2.best === null ? 0 : Math.max(8, Math.round(d2.best));
+              return '<div class="msw-skill">' +
+                '<div class="lv" style="color:' + s[3] + '">' + (d2.level || (d2.best !== null ? Math.round(d2.best) + '%' : '—')) + '</div>' +
+                '<div class="tube" style="background:' + s[3] + '22"><i style="height:' + fill + '%;background:' + s[3] + '"></i></div>' +
+                '<div class="nm">' + s[1] + ' ' + s[2] + '</div>' +
+                '<div class="ct">' + d2.n + ' mock' + (d2.n !== 1 ? 's' : '') + '</div>' +
+              '</div>';
+            }).join('');
+          }
+        }
+        (async function loadStats() {
+          // Identity resolution can lag behind auth.js session restore —
+          // wait for DOM-ready plus a beat, mirroring my-results.html.
+          await new Promise(function (r) {
+            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', r);
+            else r();
+          });
+          await new Promise(function (r) { setTimeout(r, 600); });
+          var email = '', token = '';
+          try {
+            var client = window.MockStream && window.MockStream.auth && window.MockStream.auth.getClient && window.MockStream.auth.getClient();
+            var sess = client && await client.auth.getSession();
+            var s2 = sess && sess.data && sess.data.session;
+            email = (s2 && s2.user && s2.user.email || '').toLowerCase();
+            token = s2 && s2.access_token || '';
+          } catch (_e) { }
+          var name = '';
+          try {
+            name = sessionStorage.getItem('CANDIDATE_FULL_NAME') || localStorage.getItem('ms_candidate_name') || '';
+          } catch (_e) { }
+          var url;
+          if (email) url = SB + '/rest/v1/results?user_email=eq.' + encodeURIComponent(email);
+          else if (name) url = SB + '/rest/v1/results?student_name=eq.' + encodeURIComponent(name);
+          else { renderStats([]); return; }
+          url += '&select=created_at,exam_type,skill,score,level&order=created_at.desc&limit=400';
+          try {
+            var resp = await fetch(url, { headers: { apikey: PK, Authorization: 'Bearer ' + (token || PK) } });
+            var rows = resp.ok ? await resp.json() : [];
+            renderStats(rows || []);
+          } catch (_e2) { renderStats([]); }
+        })();
+      })();
+
+      // ── 2d. Coming-soon fillers: language exams + learn tools ──
+      // Pure visual intrigue for now — .soon cards are non-navigable and
+      // reuse the existing greyed-out Soon styling.
+      (function soonFillers() {
+        var rail = document.getElementById('examsRail');
+        if (rail && !rail.querySelector('[data-exam-soon="torfl"]')) {
+          var EXAMS = [
+            ['torfl', '🇷🇺', 'Rus', 'TORFL', 'Russian Proficiency'],
+            ['testdaf', '🇩🇪', 'Ger', 'TestDaF', 'German for Study'],
+            ['delf', '🇫🇷', 'Fra', 'DELF', 'French Diploma'],
+            ['dele', '🇪🇸', 'Spa', 'DELE', 'Spanish Diploma'],
+            ['topik', '🇰🇷', 'Kor', 'TOPIK', 'Korean Proficiency'],
+            ['jlpt', '🇯🇵', 'Jpn', 'JLPT', 'Japanese Proficiency']
+          ];
+          rail.insertAdjacentHTML('beforeend', EXAMS.map(function (e) {
+            return '<a class="cambridge-card soon" href="javascript:void(0)" data-exam-soon="' + e[0] + '">' +
+              '<div class="cb-cover"><img src="https://storage.googleapis.com/mockstream-samples-audio/intl-exam-covers/' + e[0] + '.jpg" alt="" loading="lazy" ' +
+                'onerror="this.parentElement.className=\'cb-cover msv3-flagcover\';this.parentElement.textContent=\'' + e[1] + '\'"></div>' +
+              '<span class="cb-soon">Soon</span>' +
+              '<div class="cb-level">' + e[2] + '</div>' +
+              '<div class="cb-code">' + e[3] + '</div>' +
+              '<div class="cb-name">' + e[4] + '</div>' +
+            '</a>';
+          }).join(''));
+        }
+        var grid = document.querySelector('.tools-grid.tools-grid-3');
+        if (grid && !grid.querySelector('[data-learn-soon]')) {
+          var TOOLS = [
+            ['wordgames', '🎮', 'linear-gradient(135deg, #a78bfa, #7c3aed)', 'Word Games', 'Play & learn vocabulary'],
+            ['dailyquiz', '⚡', 'linear-gradient(135deg, #fbbf24, #d97706)', 'Daily Quiz', '5-minute daily challenge'],
+            ['pronlab', '🗣️', 'linear-gradient(135deg, #34d399, #059669)', 'Pronunciation Lab', 'Record & compare sounds'],
+            ['idioms', '🧩', 'linear-gradient(135deg, #f472b6, #db2777)', 'Idioms & Phrasals', 'Master natural English'],
+            ['dictation', '🎧', 'linear-gradient(135deg, #60a5fa, #2563eb)', 'Dictation', 'Type what you hear'],
+            ['speakingclub', '🎙️', 'linear-gradient(135deg, #fb7185, #e11d48)', 'Speaking Club', 'Live practice rooms'],
+            ['podcasts', '📻', 'linear-gradient(135deg, #38bdf8, #0284c7)', 'Podcasts', 'Graded listening series'],
+            ['essaybank', '📝', 'linear-gradient(135deg, #818cf8, #4f46e5)', 'Essay Bank', 'Model answers library'],
+            ['spellingbee', '🐝', 'linear-gradient(135deg, #facc15, #ca8a04)', 'Spelling Bee', 'Beat the dictionary'],
+            ['collocations', '🔗', 'linear-gradient(135deg, #2dd4bf, #0d9488)', 'Collocations', 'Words that go together'],
+            ['movieclips', '🎬', 'linear-gradient(135deg, #c084fc, #9333ea)', 'Movie Clips', 'Learn from real scenes'],
+            ['newsdigest', '📰', 'linear-gradient(135deg, #94a3b8, #475569)', 'News Digest', 'Simplified daily news']
+          ];
+          grid.insertAdjacentHTML('beforeend', TOOLS.map(function (t) {
+            return '<a class="tool-card soon" href="javascript:void(0)" data-learn-soon="' + t[0] + '">' +
+              '<div class="tool-icon msv3-emoji-icon" style="background:' + t[2] + '">' + t[1] + '</div>' +
+              '<div class="tool-body">' +
+                '<div class="tool-name">' + t[3] + '</div>' +
+                '<div class="tool-sub"><span class="tool-sub-text">' + t[4] + '</span> <span class="soon-pill">Soon</span></div>' +
+              '</div>' +
+              '<div class="tool-arrow">→</div>' +
+            '</a>';
+          }).join(''));
+          // Real photo covers (Pexels → GCS) on every Learn tile, incl. the
+          // three live tools. Cover load failure just leaves the icon tile.
+          grid.querySelectorAll('.tool-card').forEach(function (card) {
+            if (card.querySelector('.msv3-tool-cover')) return;
+            var key = card.getAttribute('data-learn-soon') || card.getAttribute('data-learn');
+            if (!key) return;
+            var cov = document.createElement('div');
+            cov.className = 'msv3-tool-cover';
+            var im = document.createElement('img');
+            im.src = 'https://storage.googleapis.com/mockstream-samples-audio/learn-tool-covers/' + key + '.jpg';
+            im.alt = ''; im.loading = 'lazy';
+            im.onerror = function () { cov.remove(); };
+            cov.appendChild(im);
+            card.insertBefore(cov, card.firstChild);
+          });
+        }
+      })();
+
+      // ── 3. Tab router (hash-based: #home / #mocks / …) ──
+      function paintActive(tab) {
+        document.querySelectorAll('[data-msv3-go]').forEach(function (b) {
+          b.classList.toggle('active', b.getAttribute('data-msv3-go') === tab);
+        });
+      }
+      function setTab(tab, opts) {
+        opts = opts || {};
+        if (!TABS[tab]) tab = 'home';
+        document.body.setAttribute('data-msv3-tab', tab);
+        paintActive(tab);
+        if (opts.updateHash !== false && location.hash !== '#' + tab) {
+          try { history.replaceState(history.state, '', '#' + tab); } catch (_e) { }
+        }
+        if (opts.scroll !== false) window.scrollTo({ top: 0, behavior: 'instant' in window ? 'auto' : 'auto' });
+        if (tab === 'results') ensureResultsFrame();
+        // Account tab: refresh the sign-in slot / admin locks / VIP badge
+        // (normally done by the old drawer's open handler).
+        if (tab === 'account') {
+          try {
+            if (typeof window.__msv3RenderAccount === 'function') {
+              var slot = document.getElementById('msv3AccountSlot');
+              if (slot && !slot.children.length) window.__msv3RenderAccount();
+            }
+            if (typeof window.__msv3RefreshAdminLocks === 'function') window.__msv3RefreshAdminLocks();
+            if (typeof window.__msv3RefreshVipBadge === 'function') window.__msv3RefreshVipBadge();
+          } catch (_e) { }
+        }
+      }
+      // PUSH-mode navigation (2026-07-23): assigning location.hash creates a
+      // real history entry per tab change, so browser back/forward, the
+      // Android back gesture, iOS edge-swipe and the TMA back arrow all walk
+      // the tab stack like a native app. Duplicate clicks don't stack.
+      document.querySelectorAll('[data-msv3-go]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var t = b.getAttribute('data-msv3-go');
+          if (!TABS[t]) return;
+          if (document.body.getAttribute('data-msv3-tab') === t) { window.scrollTo(0, 0); return; }
+          location.hash = '#' + t;
+        });
+      });
+      window.addEventListener('hashchange', function () {
+        var h = (location.hash || '').replace(/^#/, '');
+        if (TABS[h]) { setTab(h, { updateHash: false }); return; }
+        // Backed past the first pushed tab → the entry has no hash → Home
+        if (!h) { setTab('home', { updateHash: false }); return; }
+        // Bell popover's "View all just-added" links to #addedRail → Home + scroll
+        if (h === 'addedRail') {
+          setTab('home', { updateHash: false, scroll: false });
+          var r = document.getElementById('addedRail');
+          if (r) setTimeout(function () { r.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 60);
+        }
+      });
+      var initHash = (location.hash || '').replace(/^#/, '');
+      setTab(TABS[initHash] ? initHash : 'home', { updateHash: false, scroll: false });
+
+      // ── 4. Notifications proxy (reuses the existing bell handler) ──
+      var rb = document.getElementById('railBellBtn');
+      if (rb) rb.addEventListener('click', function () {
+        var el = document.getElementById('bellBtn'); if (el) el.click();
+      });
+
+      // Old collapsed-sidebar state must never linger (rail replaces it)
+      document.body.classList.remove('msv3-collapsed');
+
+      // ── 5. Brand + unread-dot sync (branding applies async via site-config) ──
+      function syncBrand() {
+        var lg = document.getElementById('brandLogo'), nm = document.getElementById('brandName');
+        var rl = document.getElementById('railLogo'), rn = document.getElementById('railName');
+        if (lg && rl && rl.innerHTML !== lg.innerHTML) rl.innerHTML = lg.innerHTML;
+        if (nm && rn && rn.textContent !== nm.textContent) rn.textContent = nm.textContent;
+      }
+      function syncDot() {
+        var d = document.getElementById('bellDot'), r = document.getElementById('railBellDot');
+        if (!d || !r) return;
+        var vis = !d.classList.contains('hidden') && getComputedStyle(d).display !== 'none';
+        r.style.display = vis ? '' : 'none';
+      }
+      // Identity chip: mirror the same sources renderAccount() reads, so the
+      // Account button shows who is signed in (name + Google/Telegram/Guest).
+      function syncAccountChip() {
+        var name = '', avatar = '', provider = '';
+        try {
+          name = sessionStorage.getItem('CANDIDATE_FULL_NAME')
+              || localStorage.getItem('ms_candidate_name') || '';
+        } catch (_e) { }
+        try { avatar = localStorage.getItem('ms_avatar_url') || ''; } catch (_e) { }
+        try { provider = localStorage.getItem('ms_auth_provider') || ''; } catch (_e) { }
+        var hasSession = false;
+        try {
+          hasSession = !!(window.MockStream && window.MockStream.auth &&
+                          typeof window.MockStream.auth.isSignedIn === 'function' &&
+                          window.MockStream.auth.isSignedIn());
+        } catch (_e) { }
+        name = (name || '').trim();
+        var dzEl = document.getElementById('msv3DangerZone');
+        if (dzEl) dzEl.hidden = !(name && hasSession);
+        var initial = (name[0] || '').toUpperCase();
+        var status = !name ? '' : (hasSession
+          ? ({ google: 'Google', telegram: 'Telegram', email: 'Email' })[provider] || 'Signed in'
+          : 'Guest');
+
+        var av = document.getElementById('railAccAvatar');
+        var nm = document.getElementById('railAccName');
+        var sb = document.getElementById('railAccSub');
+        if (av && nm && sb) {
+          if (name) {
+            av.classList.add('has-user');
+            if (avatar && hasSession) {
+              if (!av.querySelector('img') || av.querySelector('img').src !== avatar) {
+                av.innerHTML = '';
+                var im = document.createElement('img'); im.src = avatar; im.alt = '';
+                im.onerror = function () { av.textContent = initial; };
+                av.appendChild(im);
+              }
+            } else { av.textContent = initial; }
+            nm.textContent = name;
+            sb.textContent = status;
+          } else if (!av.querySelector('svg')) {
+            av.classList.remove('has-user');
+            av.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"></path></svg>';
+            nm.textContent = 'Account';
+            sb.textContent = 'Sign in';
+          }
+        }
+        var ga = document.getElementById('gbAccAvatar');
+        var gi = document.getElementById('gbAccIcon');
+        if (ga && gi) {
+          if (name) {
+            if (avatar && hasSession) {
+              if (!ga.querySelector('img') || ga.querySelector('img').src !== avatar) {
+                ga.innerHTML = '';
+                var im2 = document.createElement('img'); im2.src = avatar; im2.alt = '';
+                im2.onerror = function () { ga.textContent = initial; };
+                ga.appendChild(im2);
+              }
+            } else { ga.textContent = initial; }
+            ga.hidden = false; gi.style.display = 'none';
+          } else {
+            ga.hidden = true; gi.style.display = '';
+          }
+        }
+      }
+      syncBrand(); syncDot(); syncAccountChip();
+      [800, 2500, 6000].forEach(function (ms) { setTimeout(function () { syncBrand(); syncDot(); syncAccountChip(); }, ms); });
+      setInterval(function () { syncDot(); syncAccountChip(); }, 5000);
+      window.addEventListener('storage', syncAccountChip);
     })();
   </script>
 </body>
