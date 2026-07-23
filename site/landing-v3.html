@@ -19692,6 +19692,18 @@
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js').catch(function () { });
     }
+    // Lock the installed PHONE app to portrait. The manifests now declare
+    // "orientation":"portrait", but already-installed apps keep their frozen
+    // manifest (Chrome refreshes it lazily) — and the old "any" maps to
+    // Android full-sensor, which IGNORES the system rotation lock. Runtime
+    // lock covers those installs. Phone-sized screens only; desktop throws
+    // NotSupportedError (caught), iOS has no lock API (caught).
+    try {
+      var _standalone = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
+      if (_standalone && screen.orientation && screen.orientation.lock && Math.min(screen.width, screen.height) < 820) {
+        screen.orientation.lock('portrait').catch(function () { });
+      }
+    } catch (e) { }
   </script>
   <script src="/push-client.js"></script>
   <style>
