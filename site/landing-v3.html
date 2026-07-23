@@ -5399,7 +5399,7 @@
         </button>
       </div>
 
-      <div class="msv3-section">
+      <div class="msv3-section msv3-sec-skills">
         <div class="msv3-section-head">
           Exam Prep &amp; Skills
           <span class="msv3-tag">CEFR · Uzbekistan</span>
@@ -5427,7 +5427,7 @@
         </button>
       </div>
 
-      <div class="msv3-section">
+      <div class="msv3-section msv3-sec-ielts">
         <div class="msv3-section-head">
           IELTS Practice
           <span class="msv3-tag msv3-tag-ielts">International</span>
@@ -19818,6 +19818,18 @@
     /* Contact-admin pill was a Focus-mode-only rail feature — retired with it */
     #bbBillboardSection .bb-rail-contact { display: none !important; }
 
+    /* ── Slim the Account drawer ──
+       Everything that now lives in its own tab is dropped from the drawer:
+       skills + IELTS launchers (Mocks tab), Learning Tools clone (Learn),
+       International Exams clone (Other exams), My Results row (Results).
+       What stays: sign-in, VIP code, email login, PDFs, System
+       Administration, Support/Terms and the profile/logout foot. */
+    .msv3-sidebar .msv3-sec-skills,
+    .msv3-sidebar .msv3-sec-ielts,
+    .msv3-sidebar .msv3-learning-tools,
+    .msv3-sidebar .msv3-intl-exams,
+    .msv3-sidebar .msv3-my-results { display: none !important; }
+
     /* ── Per-tab section visibility ──
        Hide-only rules (no display overrides on the active tab) so each
        section keeps its own display type (hero is flex) and inline
@@ -19993,6 +20005,8 @@
         border: 1px solid var(--line, #e2e8f0);
         box-shadow: 0 6px 16px rgba(15,23,42,0.10);
       }
+      /* Clear the floating Obuna + bell cluster on tabs without the hero */
+      body[data-msv3-tab]:not([data-msv3-tab="home"]) main { padding-top: 88px; }
       #msv3ResultsPanel .res-card { max-width: 640px; }
     }
     @media (max-width: 1023.98px) {
