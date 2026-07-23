@@ -965,8 +965,11 @@
         var messages = [];
         if (systemText) messages.push({ role: 'system', content: systemText });
         messages.push({ role: 'user', content: userPrompt });
-        var body = { model: 'gpt-4o-mini', messages: messages, temperature: opts.temperature || 0.3 };
-        if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+        var _mdlO = ((typeof cp !== 'undefined' && cp && cp['scoring_model_openai']) || '').trim() || 'gpt-4o-mini';
+        var body = { model: _mdlO, messages: messages, temperature: opts.temperature || 0.3 };
+        // gpt-5.x rejects sampling params — API default temperature only.
+        if (/^gpt-5/.test(_mdlO)) delete body.temperature;
+        if (opts.maxTokens) body.max_completion_tokens = opts.maxTokens; // modern param (gpt-4o + gpt-5.x)
         if (opts.jsonMode) body.response_format = { type: 'json_object' };
         var r = await fetch('https://api.openai.com/v1/chat/completions', {
           method: 'POST',

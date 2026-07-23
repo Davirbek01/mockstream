@@ -6482,7 +6482,9 @@
         uText += _imgNote;
         messages.push({ role: 'user', content: uText });
         var body = { model: _mdlOpenAI, messages: messages, temperature: opts.temperature || 0.3 };
-        if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+        // gpt-5.x rejects sampling params — API default temperature only.
+        if (/^gpt-5/.test(_mdlOpenAI)) delete body.temperature;
+        if (opts.maxTokens) body.max_completion_tokens = opts.maxTokens; // modern param (gpt-4o + gpt-5.x)
         if (opts.jsonMode) body.response_format = { type: 'json_object' };
         var r = await fetch('https://api.openai.com/v1/chat/completions', {
           method: 'POST',
@@ -6872,7 +6874,7 @@
             if (!r.ok) throw new Error('Whisper error: ' + r.status);
             var j = await r.json();
             return (j.text || '[No speech detected]').trim();
-          } catch(e) { console.warn('[Transcribe] Whisper failed, falling back to Gemini:', e.message); }
+          } catch(e) { throw new Error('OpenAI Whisper transcription failed (no fallback — transcriber pinned): ' + e.message); }
         }
       }
 
@@ -6894,7 +6896,7 @@
             var j = await r.json();
             if (j.error) throw new Error(j.error.message);
             return (j.content[0].text || '[No speech detected]').trim();
-          } catch(e) { console.warn('[Transcribe] Claude audio failed, falling back to Gemini:', e.message); }
+          } catch(e) { throw new Error('Claude audio transcription failed (no fallback — transcriber pinned): ' + e.message); }
         }
       }
 
@@ -6904,7 +6906,8 @@
         try {
           var grqT = await _groqTranscribe(blob, cp);
           if (grqT) return grqT;
-        } catch(e) { console.warn('[Transcribe] Groq failed, falling back to Gemini:', e.message); }
+          throw new Error('Groq transcription returned empty (no fallback)');
+        } catch(e) { throw new Error('Groq Whisper transcription failed (no fallback — transcriber pinned): ' + e.message); }
       }
 
       // AssemblyAI — cheap, fast (cloud-side ASR via proxy: upload → request → poll)
@@ -6912,10 +6915,11 @@
         try {
           var aaT = await _assemblyAiTranscribe(blob);
           if (aaT) return aaT;
-        } catch(e) { console.warn('[Transcribe] AssemblyAI failed, falling back to Gemini:', e.message); }
+          throw new Error('AssemblyAI transcription returned empty (no fallback)');
+        } catch(e) { throw new Error('AssemblyAI transcription failed (no fallback — transcriber pinned): ' + e.message); }
       }
 
-      // Gemini (primary for 'gemini'; fallback for grok, deepseek, gemma4)
+      // Gemini (only reached when gemini IS the configured transcriber)
       if (!GEMINI_KEY) { try { await getGeminiKey(); } catch(e){} }
       if (!GEMINI_KEY) throw new Error('No API key for transcription');
       var b64g = await new Promise(function(res, rej) { var rd = new FileReader(); rd.onloadend = function(){ res(rd.result.split(',')[1]); }; rd.onerror = rej; rd.readAsDataURL(blob); });

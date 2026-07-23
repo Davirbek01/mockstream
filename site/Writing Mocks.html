@@ -5835,7 +5835,9 @@
         if (systemText) messages.push({ role: 'system', content: systemText });
         messages.push({ role: 'user', content: userPrompt });
         var body = { model: _mdlOpenAI, messages: messages, temperature: opts.temperature || 0.3 };
-        if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+        // gpt-5.x rejects sampling params — API default temperature only.
+        if (/^gpt-5/.test(_mdlOpenAI)) delete body.temperature;
+        if (opts.maxTokens) body.max_completion_tokens = opts.maxTokens; // modern param (gpt-4o + gpt-5.x)
         if (opts.jsonMode) body.response_format = { type: 'json_object' };
         return await _callWithKeyRotation('openai', API_KEY, _getServerBackupKeys('openai').concat(_getBackupKeys('openai', cp)), async function(key) {
           var r = await fetch('https://api.openai.com/v1/chat/completions', {

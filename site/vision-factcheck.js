@@ -266,8 +266,10 @@
 
     var provider = (opts.provider || window.SITE_CONFIG.visionFactCheckProvider || 'gemini').toLowerCase();
     if (!PROVIDER_ENDPOINTS[provider]) {
-      console.warn('[Vision] unknown provider "' + provider + '", falling back to gemini');
-      provider = 'gemini';
+      // NO silent provider substitution (2026-07-24): an unknown vision
+      // provider skips the fact-check entirely rather than billing gemini.
+      console.warn('[Vision] unknown provider "' + provider + '" — fact-check skipped (no fallback)');
+      return null;
     }
 
     try {
