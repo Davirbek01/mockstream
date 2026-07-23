@@ -20600,11 +20600,27 @@
           ['gratitude', '/ˈɡrætɪtjuːd/', 'noun', 'the quality of being thankful'],
           ['imperative', '/ɪmˈperətɪv/', 'adjective', 'of vital importance; crucial']
         ];
-        var wd = WORDS[Math.floor(Date.now() / 86400000) % WORDS.length];
-        document.getElementById('mswWord').innerHTML =
-          '<div class="msw-eyebrow" style="color:#b45309"><span class="dot" style="background:#f59e0b"></span>Word of the day</div>' +
-          '<div><span class="w">' + wd[0] + '</span><span class="ipa">' + wd[1] + '</span><span class="pos">' + wd[2] + '</span></div>' +
-          '<p class="def">' + wd[3] + '</p>';
+        // LOCAL-date index (matches the native apps' midnight flip — UTC
+        // indexing lagged 5h behind in Tashkent), re-rendered when a
+        // backgrounded PWA is resumed so the word rolls over without a
+        // manual reload.
+        var _wotdIdx = -1;
+        function renderWotd() {
+          var d = new Date();
+          var idx = Math.floor((d.getTime() - d.getTimezoneOffset() * 60000) / 86400000) % WORDS.length;
+          if (idx === _wotdIdx) return;
+          _wotdIdx = idx;
+          var wd = WORDS[idx];
+          document.getElementById('mswWord').innerHTML =
+            '<div class="msw-eyebrow" style="color:#b45309"><span class="dot" style="background:#f59e0b"></span>Word of the day</div>' +
+            '<div><span class="w">' + wd[0] + '</span><span class="ipa">' + wd[1] + '</span><span class="pos">' + wd[2] + '</span></div>' +
+            '<p class="def">' + wd[3] + '</p>';
+        }
+        renderWotd();
+        document.addEventListener('visibilitychange', function () {
+          if (!document.hidden) renderWotd();
+        });
+        window.addEventListener('focus', renderWotd);
 
         // Mock library — per-exam per-skill counts from the skill-card data
         var LIB_SKILLS = [
