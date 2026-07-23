@@ -14,7 +14,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   2. `ninersacademy.com` (center id `niners`)
   3. `global-education.netlify.app` (center id `global`)
   4. `muzaffars-english.netlify.app` (center id `muzaffars`)
-  5. `acheivers-mocks.netlify.app` (center id `achievers` — the "acheivers" misspelling in the subdomain is intentional)
+  5. `achievers-mocks.netlify.app` (center id `achievers` — correctly spelled; an older "acheivers-mocks" misspelled subdomain exists but is DEAD, never probe it to verify deploys)
   6. `multilevelrecord.com` (center id `record`)
 
 All 7 sites (mock-stream.com + 6 clones) share identical code/content. They differ only by branding (logo, name) and per-center VIP code, both injected at runtime. Each Netlify build overwrites `site/center-id.js` with `window.__CENTER_ID = '<id>';` — that ID is what `site/site-config/site-config.js` and `center-guard.js` use to fetch per-center settings from Supabase (`site_settings` rows keyed `center_config_<id>` and `center_site_config_<id>`), with a 5-min localStorage cache. To verify which centre any URL is serving: `curl https://<url>/center-id.js`.
