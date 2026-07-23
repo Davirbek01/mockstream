@@ -290,6 +290,8 @@
       font-size: 28px;
       font-weight: 800;
       color: white;
+      overflow: hidden;
+      flex-shrink: 0;
       flex-shrink: 0;
     }
 
@@ -364,6 +366,7 @@
       color: var(--accent);
     }
 
+    .exam-toggle { padding-top: 0; margin-top: -6px; }
     .filter-tab.active {
       background: var(--accent);
       color: white;
@@ -435,39 +438,55 @@
       font-weight: 600;
     }
 
+    /* Modern skill-colored result cards: accent rail + tinted score tile.
+       Each rc-<skill> class sets the card's accent pair. */
     .result-card {
+      --rc-c: var(--accent);
+      --rc-soft: rgba(16, 185, 129, 0.10);
+      position: relative;
+      overflow: hidden;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 16px;
+      padding: 16px 16px 16px 21px;
       margin-bottom: 10px;
       display: flex;
       align-items: flex-start;
       gap: 14px;
       cursor: pointer;
-      transition: all 0.15s;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+      transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
     }
+    .result-card::before {
+      content: "";
+      position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+      background: linear-gradient(180deg, var(--rc-c), color-mix(in srgb, var(--rc-c) 55%, transparent));
+    }
+    .result-card.rc-speaking  { --rc-c: #8b5cf6; --rc-soft: rgba(139, 92, 246, 0.10); }
+    .result-card.rc-writing   { --rc-c: #f59e0b; --rc-soft: rgba(245, 158, 11, 0.12); }
+    .result-card.rc-listening { --rc-c: #3b82f6; --rc-soft: rgba(59, 130, 246, 0.10); }
+    .result-card.rc-reading   { --rc-c: #10b981; --rc-soft: rgba(16, 185, 129, 0.10); }
+    .result-card.rc-full-mock { --rc-c: #ef4444; --rc-soft: rgba(239, 68, 68, 0.09); }
 
     .result-card:hover {
-      border-color: var(--accent);
-      background: var(--accent-light);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      border-color: color-mix(in srgb, var(--rc-c) 55%, transparent);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px color-mix(in srgb, var(--rc-c) 18%, transparent);
     }
 
     .result-score-box {
-      min-width: 60px;
+      min-width: 64px;
       text-align: center;
-      background: var(--surface-alt);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 10px 8px;
+      background: linear-gradient(145deg, var(--rc-soft), transparent 80%);
+      border: 1px solid color-mix(in srgb, var(--rc-c) 26%, transparent);
+      border-radius: 14px;
+      padding: 11px 8px;
     }
 
     .result-score-box .big {
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 800;
-      color: var(--accent);
+      color: var(--rc-c);
       line-height: 1;
     }
 
@@ -478,10 +497,15 @@
     }
 
     .result-score-box .level {
-      font-size: 10px;
-      color: var(--purple);
+      display: inline-block;
+      font-size: 9.5px;
       font-weight: 700;
-      margin-top: 3px;
+      margin-top: 5px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: var(--rc-soft);
+      color: var(--rc-c);
+      white-space: nowrap;
     }
 
     .result-info { flex: 1; min-width: 0; }
@@ -814,6 +838,13 @@
       <button class="filter-tab" data-filter="full-mock">🎯 Full Mock</button>
     </div>
 
+    <!-- Exam-type toggle (results mix Multilevel + IELTS) -->
+    <div class="filter-tabs exam-toggle" id="examTabs">
+      <button class="filter-tab active" data-exam="all">All exams</button>
+      <button class="filter-tab" data-exam="cefr">🎓 Multilevel · CEFR</button>
+      <button class="filter-tab" data-exam="ielts">🌍 IELTS</button>
+    </div>
+
     <!-- Score chart -->
     <div class="chart-section" id="chartSection">
       <div class="chart-card">
@@ -861,6 +892,7 @@
     var allResults = [];
     var filteredResults = [];
     var activeFilter = 'all';
+    var activeExam = 'all';
 
     // ====================================================================
     // THEME
@@ -1018,13 +1050,21 @@
         window.addEventListener('mockStream:userSignedIn', _afterAuthReady, { once: true });
       }
 
-      // Filter tabs
+      // Filter tabs (skill row + exam row are independent groups)
       document.getElementById('filterTabs').addEventListener('click', function (e) {
         var btn = e.target.closest('.filter-tab');
         if (!btn) return;
-        document.querySelectorAll('.filter-tab').forEach(function (b) { b.classList.remove('active'); });
+        document.querySelectorAll('#filterTabs .filter-tab').forEach(function (b) { b.classList.remove('active'); });
         btn.classList.add('active');
         activeFilter = btn.getAttribute('data-filter');
+        applyFilter();
+      });
+      document.getElementById('examTabs').addEventListener('click', function (e) {
+        var btn = e.target.closest('.filter-tab');
+        if (!btn) return;
+        document.querySelectorAll('#examTabs .filter-tab').forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        activeExam = btn.getAttribute('data-exam');
         applyFilter();
       });
     });
@@ -1041,7 +1081,21 @@
       // Set student display
       document.getElementById('studentNameDisplay').textContent = studentName;
       var initials = studentName.split(' ').map(function (w) { return w.charAt(0).toUpperCase(); }).join('');
-      document.getElementById('studentAvatar').textContent = initials.substring(0, 2);
+      var avEl = document.getElementById('studentAvatar');
+      avEl.textContent = initials.substring(0, 2);
+      // Profile photo from the signed-in account (saved by auth.js at
+      // sign-in) — initials stay as the fallback if it fails to load.
+      try {
+        var avUrl = localStorage.getItem('ms_avatar_url') || '';
+        if (avUrl) {
+          var avImg = document.createElement('img');
+          avImg.src = avUrl; avImg.alt = '';
+          avImg.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;border-radius:50%;';
+          avImg.onerror = function () { avEl.textContent = initials.substring(0, 2); };
+          avEl.textContent = '';
+          avEl.appendChild(avImg);
+        }
+      } catch (_e) {}
 
       fetchResults();
     }
@@ -1242,13 +1296,15 @@
     // FILTER & RENDER
     // ====================================================================
     function applyFilter() {
-      if (activeFilter === 'all') {
-        filteredResults = allResults.slice();
-      } else {
-        filteredResults = allResults.filter(function (r) { return r.skill === activeFilter; });
-      }
+      filteredResults = allResults.filter(function (r) {
+        var okSkill = activeFilter === 'all' || r.skill === activeFilter;
+        var okExam = activeExam === 'all' || String(r.exam_type || '').toLowerCase() === activeExam;
+        return okSkill && okExam;
+      });
 
-      document.getElementById('resultsCount').textContent = '📋 ' + (activeFilter === 'all' ? 'All' : capitalize(activeFilter)) + ' Results (' + filteredResults.length + ')';
+      var label = (activeExam === 'all' ? '' : (activeExam === 'cefr' ? 'Multilevel ' : 'IELTS '))
+                + (activeFilter === 'all' ? (activeExam === 'all' ? 'All' : '') : capitalize(activeFilter));
+      document.getElementById('resultsCount').textContent = '📋 ' + (label.trim() || 'All') + ' Results (' + filteredResults.length + ')';
       updateStats(filteredResults);
       renderChart(filteredResults);
       renderResults(filteredResults);
@@ -1301,7 +1357,7 @@
           if (m.is_practice && m.task) details += '<span class="dl">Task:</span> ' + m.task.toUpperCase() + '<br>';
         }
 
-        html += '<div class="result-card" onclick="viewResult(\'' + escapeAttr(r.id || '') + '\')">'
+        html += '<div class="result-card rc-' + (String(r.skill || 'other').replace(/[^a-z-]/g, '')) + '" onclick="viewResult(\'' + escapeAttr(r.id || '') + '\')">'
           + '<div class="result-score-box">'
           + '<div class="big">' + escapeHtml(bigNum) + '</div>'
           + (unitText ? '<div class="unit">' + escapeHtml(unitText) + '</div>' : '')
