@@ -826,6 +826,41 @@
         // also special-cases it to allow clearing back to empty/no-fallback).
         var fbEl = document.getElementById('sp_scoring_ai_fallback');
         if (fbEl) fbEl.value = map['scoring_ai_fallback'] || '';
+        // ── AI model health banner ──
+        // Written monthly by the ai-health-check Edge Function (pg_cron job
+        // 'ai-health-monthly'): probes every wired model so silent vendor
+        // retirements (Groq/Scout, Google/3-pro…) surface HERE, not in a
+        // student's broken scoring run.
+        try {
+          var _hr = map['scoring_ai_health_report'] ? JSON.parse(map['scoring_ai_health_report']) : null;
+          var _hb = document.getElementById('_spHealthBanner');
+          if (!_hb) {
+            _hb = document.createElement('div');
+            _hb.id = '_spHealthBanner';
+            _hb.style.cssText = 'margin:8px 20px 0;padding:9px 14px;border-radius:10px;font-size:12px;font-weight:600;line-height:1.5;';
+            var _pr = document.querySelector('.sysprompt-provider-row');
+            if (_pr) _pr.parentNode.insertBefore(_hb, _pr);
+          }
+          if (!_hr) {
+            _hb.style.background = '#fef3c7'; _hb.style.color = '#92400e';
+            _hb.textContent = '🩺 AI model health: no report yet — the monthly check runs on the 1st, or trigger ai-health-check manually.';
+          } else {
+            var _age = (Date.now() - new Date(_hr.ts).getTime()) / 86400000;
+            var _when = new Date(_hr.ts).toLocaleDateString();
+            if (_hr.fail > 0) {
+              _hb.style.background = '#fee2e2'; _hb.style.color = '#991b1b';
+              _hb.innerHTML = '🩺 <b>AI model health: ' + _hr.fail + ' of ' + _hr.total + ' FAILED</b> (checked ' + _when + '): ' +
+                _hr.fails.map(function (f) { return f.name; }).join(' · ') +
+                ' — a wired model may be retired; update the tier buttons / model strings.';
+            } else if (_age > 40) {
+              _hb.style.background = '#fef3c7'; _hb.style.color = '#92400e';
+              _hb.textContent = '🩺 AI model health: last report is ' + Math.round(_age) + ' days old (' + _when + ') — the monthly cron may have stopped.';
+            } else {
+              _hb.style.background = '#dcfce7'; _hb.style.color = '#166534';
+              _hb.textContent = '🩺 AI model health: all ' + _hr.total + ' wired models verified working · checked ' + _when;
+            }
+          }
+        } catch (_he) { }
         // Load Gemini active plan + bind button selector
         try {
           var gResp = await fetch(_SP_SB_URL + '/rest/v1/site_settings?key=eq.gemini_active_plan&select=value', {
