@@ -19655,6 +19655,10 @@
         window.addEventListener('beforeinstallprompt', function (e) {
           e.preventDefault(); // suppress the browser's own auto-prompt — ours instead
           deferred = e;
+          // This event firing proves the app is NOT currently installed — if a
+          // previous session recorded a successful install, the user has since
+          // uninstalled it, so the offer is valid again.
+          try { localStorage.removeItem('ms_a2hs_installed'); } catch (e2) { }
           if (steps) steps.innerHTML = isAndroid
             ? 'One tap adds it to your home screen — <b>full screen</b>, right from your launcher.'
             : 'One click installs it as a <b>desktop app</b> in its own window — launch it straight from your taskbar or Dock.';
@@ -19666,11 +19670,21 @@
           deferred.prompt();
           deferred.userChoice.then(function (choice) {
             deferred = null;
-            // accepted → installed; declined the NATIVE dialog → don't nag again
-            dismiss(true);
-          }).catch(function () { dismiss(true); });
+            if (choice && choice.outcome === 'accepted') {
+              // installed — remember as INSTALLED (re-offerable after an
+              // uninstall), NOT as a permanent dismissal
+              try { localStorage.setItem('ms_a2hs_installed', '1'); } catch (e2) { }
+              dismiss(false);
+            } else {
+              // declined the NATIVE dialog → don't nag again
+              dismiss(true);
+            }
+          }).catch(function () { dismiss(false); });
         });
-        window.addEventListener('appinstalled', function () { dismiss(true); });
+        window.addEventListener('appinstalled', function () {
+          try { localStorage.setItem('ms_a2hs_installed', '1'); } catch (e2) { }
+          dismiss(false);
+        });
 
         // Mac Safari (no install API, like iOS): manual steps — Safari 17+
         // installs web apps via File → Add to Dock.
