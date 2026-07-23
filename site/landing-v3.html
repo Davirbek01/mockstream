@@ -297,6 +297,22 @@
        don't make the browser resolve these to /take/auth.js, which the
        Netlify rewrite then turns into HTML — script load fails and
        mock-code-verifier ends up undefined, blocking access-code verify. -->
+  <!-- OAuth-hash normalizer: the tab router keeps a #home/#account style
+       hash, so a Supabase implicit-flow callback can land as
+       "#account#access_token=..." — which the client can't parse and the
+       session silently fails. Strip the leading tab fragment BEFORE
+       auth.js initialises so detectSessionInUrl sees a clean token hash. -->
+  <script>
+    (function () {
+      try {
+        var h = window.location.hash || '';
+        var i = Math.max(h.indexOf('#access_token='), h.indexOf('#error='), h.indexOf('#error_description='));
+        if (i > 0) {
+          history.replaceState(null, '', window.location.pathname + window.location.search + h.slice(i));
+        }
+      } catch (_e) { }
+    })();
+  </script>
   <script src="/auth.js" defer></script>
   <!-- "New version available · Refresh" banner — same module as landing.html. -->
   <script src="/version-banner.js" defer></script>
@@ -5924,7 +5940,7 @@
       if (gb) gb.addEventListener('click', function () {
         try {
           if (window.MockStream && window.MockStream.auth && typeof window.MockStream.auth.signInWithGoogle === 'function') {
-            window.MockStream.auth.signInWithGoogle(window.location.href);
+            window.MockStream.auth.signInWithGoogle(window.location.origin + window.location.pathname);
           } else {
             window.location.href = '/index.html';
           }
@@ -6591,7 +6607,7 @@
         try {
           if (window.MockStream && window.MockStream.auth &&
               typeof window.MockStream.auth.signInWithGoogle === 'function') {
-            window.MockStream.auth.signInWithGoogle(window.location.href);
+            window.MockStream.auth.signInWithGoogle(window.location.origin + window.location.pathname);
           } else {
             window.location.href = '/index.html';
           }
