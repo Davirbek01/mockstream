@@ -535,7 +535,7 @@
       });
       var labels = {
         'default':    isTextOnly ? ('Default — system prompts helper') : ('Default — ' + providerLabel + ' transcribes its own audio'),
-        'gemini':     'Gemini 2.0 Flash',
+        'gemini':     'Gemini Flash (latest)',
         'openai':     'OpenAI Whisper',
         'assemblyai': 'AssemblyAI Universal',
         'groq':       'Groq Whisper Turbo'

@@ -675,7 +675,7 @@
                 var _dropDisabled = !_vfcOn;
                 h += '<div style="margin-top:10px;' + (_dropDisabled ? 'opacity:.55;pointer-events:none;' : '') + '">';
                 h += _cmSelectInput(cid, 'visionFactCheckProvider', '↳ Vision provider', _vfcProv, [
-                  { val: 'gemini',      label: 'Gemini 2.0 Flash (cheapest · default)' },
+                  { val: 'gemini',      label: 'Gemini Flash (latest · cheapest · default)' },
                   { val: 'openai',      label: 'OpenAI gpt-4o-mini' },
                   { val: 'claude',      label: 'Claude Haiku 4.5' },
                   { val: 'grok',        label: 'Grok 4.20 · xAI (fast vision · recommended)' }
