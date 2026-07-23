@@ -8038,11 +8038,21 @@
         if (!_GROK_KEY) throw new Error('No Grok API key available');
         var messages = [];
         if (systemText) messages.push({ role: 'system', content: systemText });
-        var uMsg = userPrompt;
-        if (opts.contentParts) uMsg = opts.contentParts.filter(function(p){ return p.text; }).map(function(p){ return p.text; }).join('\n');
-        uMsg += _imgNote;
-        messages.push({ role: 'user', content: uMsg });
-        var body = { model: _mdlGrok, messages: messages, temperature: opts.temperature || 0.3 };
+        // Vision-capable (2026): grok-4.x accepts image_url parts via the
+        // OpenAI-compatible API. Attach images when present; text-only
+        // requests keep the configured text model, image requests
+        // auto-upgrade to a vision-capable grok-4 model.
+        var _grokModel = _mdlGrok;
+        if (opts.contentParts && _hasImages) {
+          _grokModel = (cp['scoring_model_grok_vision'] || '').trim() || 'grok-4.3';
+          messages.push({ role: 'user', content: _toOpenAiMultimodal(opts.contentParts) });
+        } else {
+          var uMsg = userPrompt;
+          if (opts.contentParts) uMsg = opts.contentParts.filter(function(p){ return p.text; }).map(function(p){ return p.text; }).join('\n');
+          uMsg += _imgNote;
+          messages.push({ role: 'user', content: uMsg });
+        }
+        var body = { model: _grokModel, messages: messages, temperature: opts.temperature || 0.3 };
         if (opts.maxTokens) body.max_tokens = opts.maxTokens;
         if (opts.jsonMode) body.response_format = { type: 'json_object' };
         var r = await fetch('https://api.x.ai/v1/chat/completions', {

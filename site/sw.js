@@ -8,7 +8,7 @@
 //     focuses/opens the target page. Subscriptions are managed by
 //     site/push-client.js; sends fan out from the web-push Edge Function.
 
-const CACHE_NAME = 'mockstream-v834';
+const CACHE_NAME = 'mockstream-v835';
 const CONTENT_CACHE = 'mockstream-content-v1'; // NOT versioned with the shell
 
 const SUPABASE_HOST = 'zknyukkbtbcqgvkgjktb.supabase.co';
@@ -66,7 +66,13 @@ self.addEventListener('fetch', event => {
     event.respondWith(
       caches.open(CONTENT_CACHE).then(cache =>
         cache.match(request).then(cached => {
-          if (cached) return cached;
+          // An opaque entry (cached from a no-cors <img>/<audio> load) can
+          // NEVER satisfy a cors-mode fetch() — the browser rejects it as a
+          // network error. That silently broke the vision fact-check, which
+          // fetch()es the same image the student is already viewing. Bypass
+          // the cache for that combination; the fresh cors response then
+          // replaces the opaque entry (cors responses satisfy both modes).
+          if (cached && !(request.mode === 'cors' && cached.type === 'opaque')) return cached;
           return fetch(request).then(response => {
             if (response && (response.status === 200 || response.type === 'opaque')) {
               cache.put(request, response.clone());
@@ -74,7 +80,7 @@ self.addEventListener('fetch', event => {
             return response;
           });
         })
-      )
+      ).catch(() => fetch(request))
     );
     return;
   }

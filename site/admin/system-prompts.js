@@ -294,12 +294,10 @@
         <button class="sysprompt-provider-btn active" id="spProviderGemini" onclick="_spSetProvider('gemini')">✨ Gemini</button>
         <button class="sysprompt-provider-btn" id="spProviderOpenai" onclick="_spSetProvider('openai')">🤖 OpenAI</button>
         <button class="sysprompt-provider-btn" id="spProviderClaude" onclick="_spSetProvider('claude')">🟣 Claude</button>
-        <button class="sysprompt-provider-btn" id="spProviderLlamaScout" onclick="_spSetProvider('llama-scout')" title="Vision-capable — image prompts work. Hosted on Groq, no native audio (transcriber required for Speaking).">🦙 Llama 4 Scout 🖼️</button>
-        <button class="sysprompt-provider-btn" id="spProviderGrok" onclick="_spSetProvider('grok')" title="⚠️ Text only — Speaking mocks will use transcript-based scoring (no audio)">⚡ Grok ⚠️</button>
+        <button class="sysprompt-provider-btn" id="spProviderGrok" onclick="_spSetProvider('grok')" title="Vision-capable (grok-4.x) — image prompts work. No native audio (transcriber required for Speaking).">⚡ Grok 🖼️</button>
         <button class="sysprompt-provider-btn" id="spProviderDeepseek" onclick="_spSetProvider('deepseek')" title="⚠️ Text only — Speaking mocks will use transcript-based scoring (no audio)">🔵 DeepSeek ⚠️</button>
-        <button class="sysprompt-provider-btn" id="spProviderGroqQwen" onclick="_spSetGroqVariant('qwen/qwen3-32b','spProviderGroqQwen')" title="⚠️ Text only — Speaking mocks use transcript-based scoring (no audio)">⚡ Groq Qwen 3 32B ⚠️</button>
+        <button class="sysprompt-provider-btn" id="spProviderGroqQwen" onclick="_spSetGroqVariant('qwen/qwen3.6-27b','spProviderGroqQwen')" title="⚠️ Text only — Speaking mocks use transcript-based scoring (no audio)">⚡ Groq Qwen 3.6 27B ⚠️</button>
         <button class="sysprompt-provider-btn" id="spProviderGroqLlama70B" onclick="_spSetGroqVariant('llama-3.3-70b-versatile','spProviderGroqLlama70B')" title="⚠️ Text only — Speaking mocks use transcript-based scoring (no audio)">⚡ Groq Llama 3.3 70B ⚠️</button>
-        <button class="sysprompt-provider-btn" id="spProviderGroqLlama4Scout" onclick="_spSetGroqVariant('meta-llama/llama-4-scout-17b-16e-instruct','spProviderGroqLlama4Scout')" title="Vision-capable — image prompts work">⚡ Groq Llama 4 Scout 🖼️</button>
       </div>
       <div class="sysprompt-provider-row" style="margin-top:6px;align-items:center;">
         <span style="font-size:12px;color:#6b7280;font-weight:600;">🛟 Fallback if primary fails:</span>
@@ -308,12 +306,10 @@
           <option value="gemini">Gemini</option>
           <option value="openai">OpenAI</option>
           <option value="claude">Claude</option>
-          <option value="llama-scout">Llama 4 Scout (Groq · vision)</option>
-          <option value="grok">Grok (text only)</option>
+          <option value="grok">Grok (vision · grok-4.x)</option>
           <option value="deepseek">DeepSeek (text only)</option>
           <option value="groq:llama-3.3-70b-versatile">Groq Llama 3.3 70B</option>
-          <option value="groq:qwen/qwen3-32b">Groq Qwen 3 32B</option>
-          <option value="groq:meta-llama/llama-4-scout-17b-16e-instruct">Groq Llama 4 Scout</option>
+          <option value="groq:qwen/qwen3.6-27b">Groq Qwen 3.6 27B</option>
         </select>
         <span style="font-size:11px;color:#9ca3af;">Tried only when ALL primary keys fail terminally. Leave empty to disable.</span>
       </div>
@@ -409,7 +405,7 @@
             </div>
             <div class="sysprompt-field" style="margin:0;grid-column:1 / -1">
               <label>Groq model (clicking a Groq provider button above prefills this)</label>
-              <input type="text" id="sp_scoring_model_groq" placeholder="llama-3.3-70b-versatile · qwen/qwen3-32b · meta-llama/llama-4-scout-17b-16e-instruct" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+              <input type="text" id="sp_scoring_model_groq" placeholder="llama-3.3-70b-versatile · qwen/qwen3.6-27b" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
             </div>
             <div class="sysprompt-field" style="margin:0;grid-column:1 / -1">
               <label>Llama 4 Scout model (Groq · vision)</label>

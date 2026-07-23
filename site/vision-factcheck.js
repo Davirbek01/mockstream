@@ -38,12 +38,19 @@
     gemini:        SB_URL + '/functions/v1/ai-proxy/gemini/v1beta/models/gemini-flash-latest:generateContent',
     openai:        SB_URL + '/functions/v1/ai-proxy/openai/v1/chat/completions',
     claude:        SB_URL + '/functions/v1/ai-proxy/claude/v1/messages',
-    'llama-scout': SB_URL + '/functions/v1/ai-proxy/groq/openai/v1/chat/completions'
+    // Groq RETIRED Llama 4 Scout (404 as of 2026-07) and hosts no vision
+    // model anymore — the 'llama-scout' key is kept as an ALIAS routed to
+    // Grok vision so centres with the old value keep working.
+    'llama-scout': SB_URL + '/functions/v1/ai-proxy/grok/v1/chat/completions',
+    grok:          SB_URL + '/functions/v1/ai-proxy/grok/v1/chat/completions'
   };
   var PROVIDER_MODELS = {
     openai:        'gpt-4o-mini',
     claude:        'claude-haiku-4-5',
-    'llama-scout': 'meta-llama/llama-4-scout-17b-16e-instruct'
+    'llama-scout': 'grok-4.20-0309-non-reasoning',  // alias → Grok (see above)
+    // grok-4.x is vision-capable via the OpenAI-compatible API; the 4.20
+    // non-reasoning variant is the fastest for fact-check work (~2s).
+    grok:          'grok-4.20-0309-non-reasoning'
   };
 
   // System prompts per task type — kept here so the helper is the single
