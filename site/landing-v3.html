@@ -19593,40 +19593,75 @@
     #iosA2hs .a2hs-steps { font-size: 13px; line-height: 1.55; color: #475569; margin: 0; }
     #iosA2hs .a2hs-glyph { display: inline-block; vertical-align: -3px; }
     #iosA2hs .a2hs-close { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border: 0; border-radius: 50%; background: rgba(148, 163, 184, .16); color: #64748b; font-size: 14px; cursor: pointer; }
+    #iosA2hs .a2hs-btn { margin-top: 8px; border: 0; border-radius: 10px; padding: 9px 20px; background: linear-gradient(135deg, #0d9488, #116a60); color: #fff; font-weight: 800; font-size: 13.5px; letter-spacing: .3px; cursor: pointer; box-shadow: 0 4px 12px rgba(13, 148, 136, .3); }
   </style>
   <div id="iosA2hs" hidden>
     <img class="a2hs-icon" src="/site-config/icons/icon-192.png" alt="" onerror="this.style.display='none'">
     <div>
       <p class="a2hs-title">📲 Install this app</p>
-      <p class="a2hs-steps">Tap
+      <p class="a2hs-steps" id="a2hsSteps">Tap
         <svg class="a2hs-glyph" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0b84fe" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="M8 7l4-4 4 4"/><rect x="4" y="11" width="16" height="10" rx="2"/></svg>
         <b>Share</b>, then <b>“Add to Home Screen”</b>
         <svg class="a2hs-glyph" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 9v6M9 12h6"/></svg>
       </p>
+      <button class="a2hs-btn" id="a2hsInstall" hidden>Install</button>
     </div>
     <button class="a2hs-close" id="iosA2hsClose" aria-label="Dismiss">✕</button>
   </div>
   <script>
     (function () {
       try {
-        var ua = navigator.userAgent || '';
-        var isIOS = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-        var standalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
-        if (!isIOS || standalone) return;
-        if (localStorage.getItem('ms_ios_a2hs_dismissed')) return;
-        if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initData) return; // Mini App webview
         var el = document.getElementById('iosA2hs');
         var close = document.getElementById('iosA2hsClose');
+        var steps = document.getElementById('a2hsSteps');
+        var installBtn = document.getElementById('a2hsInstall');
         if (!el || !close) return;
-        setTimeout(function () {
+        var standalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
+        var dismissed = localStorage.getItem('ms_a2hs_dismissed') || localStorage.getItem('ms_ios_a2hs_dismissed');
+        var inTMA = window.Telegram && Telegram.WebApp && Telegram.WebApp.initData;
+        if (standalone || dismissed || inTMA) return;
+        function show() {
           el.hidden = false;
           requestAnimationFrame(function () { el.classList.add('show'); });
-        }, 2500);
-        close.addEventListener('click', function () {
+        }
+        function dismiss(remember) {
           el.classList.remove('show');
           setTimeout(function () { el.hidden = true; }, 300);
-          try { localStorage.setItem('ms_ios_a2hs_dismissed', '1'); } catch (e) { }
+          if (remember) { try { localStorage.setItem('ms_a2hs_dismissed', '1'); } catch (e) { } }
+        }
+        close.addEventListener('click', function () { dismiss(true); });
+
+        var ua = navigator.userAgent || '';
+        var isIOS = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        if (isIOS) {
+          // iOS: no install API — show the manual Share → A2HS steps.
+          setTimeout(show, 2500);
+          return;
+        }
+
+        // Android (Chromium): intercept the native prompt and offer a real
+        // one-tap Install button in our own banner. If the browser never
+        // fires beforeinstallprompt (already installed / unsupported), the
+        // banner simply never appears.
+        if (!/Android/i.test(ua)) return;
+        var deferred = null;
+        window.addEventListener('beforeinstallprompt', function (e) {
+          e.preventDefault(); // suppress Chrome's own mini-infobar — ours instead
+          deferred = e;
+          if (steps) steps.innerHTML = 'One tap adds it to your home screen — <b>full screen</b>, right from your launcher.';
+          if (installBtn) installBtn.hidden = false;
+          setTimeout(show, 1500);
         });
+        if (installBtn) installBtn.addEventListener('click', function () {
+          if (!deferred) { dismiss(false); return; }
+          deferred.prompt();
+          deferred.userChoice.then(function (choice) {
+            deferred = null;
+            // accepted → installed; declined the NATIVE dialog → don't nag again
+            dismiss(true);
+          }).catch(function () { dismiss(true); });
+        });
+        window.addEventListener('appinstalled', function () { dismiss(true); });
       } catch (e) { }
     })();
   </script>
