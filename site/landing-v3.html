@@ -20888,12 +20888,23 @@
           } catch (_e) { }
         }
       }
+      // PUSH-mode navigation (2026-07-23): assigning location.hash creates a
+      // real history entry per tab change, so browser back/forward, the
+      // Android back gesture, iOS edge-swipe and the TMA back arrow all walk
+      // the tab stack like a native app. Duplicate clicks don't stack.
       document.querySelectorAll('[data-msv3-go]').forEach(function (b) {
-        b.addEventListener('click', function () { setTab(b.getAttribute('data-msv3-go')); });
+        b.addEventListener('click', function () {
+          var t = b.getAttribute('data-msv3-go');
+          if (!TABS[t]) return;
+          if (document.body.getAttribute('data-msv3-tab') === t) { window.scrollTo(0, 0); return; }
+          location.hash = '#' + t;
+        });
       });
       window.addEventListener('hashchange', function () {
         var h = (location.hash || '').replace(/^#/, '');
         if (TABS[h]) { setTab(h, { updateHash: false }); return; }
+        // Backed past the first pushed tab → the entry has no hash → Home
+        if (!h) { setTab('home', { updateHash: false }); return; }
         // Bell popover's "View all just-added" links to #addedRail → Home + scroll
         if (h === 'addedRail') {
           setTab('home', { updateHash: false, scroll: false });
