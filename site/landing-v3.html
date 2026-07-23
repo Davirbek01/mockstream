@@ -19828,7 +19828,8 @@
     .msv3-sidebar .msv3-sec-ielts,
     .msv3-sidebar .msv3-learning-tools,
     .msv3-sidebar .msv3-intl-exams,
-    .msv3-sidebar .msv3-my-results { display: none !important; }
+    .msv3-sidebar .msv3-my-results,
+    .msv3-sidebar .msv3-avatar-placeholder { display: none !important; }
 
     /* ── Per-tab section visibility ──
        Hide-only rules (no display overrides on the active tab) so each
@@ -19838,7 +19839,29 @@
     body[data-msv3-tab="mocks"]   main > section:not([data-msv3sec="mocks"]),
     body[data-msv3-tab="exams"]   main > section:not([data-msv3sec="exams"]),
     body[data-msv3-tab="learn"]   main > section:not([data-msv3sec="learn"]),
-    body[data-msv3-tab="results"] main > section:not([data-msv3sec="results"]) { display: none; }
+    body[data-msv3-tab="results"] main > section:not([data-msv3sec="results"]),
+    body[data-msv3-tab="account"] main > section:not([data-msv3sec="account"]) { display: none; }
+
+    /* ── Account tab: the old sidebar rendered as an in-page card ──
+       The <aside id="msv3Sidebar"> is moved into #msv3AccountPanel by the
+       router script; these rules undo its fixed-drawer geometry (kept in
+       base CSS) so it flows as a centered card like any other tab panel. */
+    #msv3AccountPanel .msv3-sidebar {
+      position: static !important;
+      transform: none !important;
+      width: 100% !important;
+      max-width: 560px !important;
+      min-width: 0 !important;
+      height: auto !important;
+      margin: 0 auto;
+      border: 1px solid rgba(255,255,255,0.08) !important;
+      border-radius: 18px;
+      box-shadow: 0 18px 44px rgba(15,23,42,0.18) !important;
+      z-index: auto !important;
+      overflow: hidden;
+    }
+    #msv3AccountPanel .msv3-sidebar .msv3-head { display: none; }      /* brand + X — panel has its own title */
+    #msv3AccountPanel .msv3-sidebar .msv3-body { overflow: visible !important; }
 
     /* Non-home tabs get a little headroom since the hero is hidden */
     body[data-msv3-tab]:not([data-msv3-tab="home"]) main { padding-top: 26px; }
@@ -19923,6 +19946,11 @@
     }
     .rail-account svg { width: 18px; height: 18px; }
     .rail-account:hover { background: rgba(255,255,255,0.10); border-color: rgba(99,102,241,0.5) !important; }
+    .rail-account.active {
+      background: linear-gradient(135deg, rgba(99,102,241,0.28), rgba(79,70,229,0.22));
+      border-color: rgba(99,102,241,0.55) !important;
+      color: #ffffff;
+    }
 
     /* ── Mobile floating liquid-glass bar (<1024px) ── */
     .msv3-glassbar {
@@ -20048,7 +20076,7 @@
         <span class="rail-dot" id="railBellDot" style="display:none"></span>
       </button>
     </div>
-    <button type="button" class="rail-account" id="railAccountBtn">
+    <button type="button" class="rail-account" data-msv3-go="account">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"></path></svg>
       Account
     </button>
@@ -20075,7 +20103,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
       <span>Results</span>
     </button>
-    <button type="button" class="gb-item" id="gbAccountBtn">
+    <button type="button" class="gb-item" data-msv3-go="account">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"></path></svg>
       <span>Account</span>
     </button>
@@ -20084,7 +20112,7 @@
   <script>
     (function () {
       'use strict';
-      var TABS = { home: 1, mocks: 1, exams: 1, learn: 1, results: 1 };
+      var TABS = { home: 1, mocks: 1, exams: 1, learn: 1, results: 1, account: 1 };
 
       // ── 1. Tag every <main> section with its tab ──
       function tag(el, t) {
@@ -20126,6 +20154,21 @@
         mainEl.appendChild(rp);
       }
 
+      // ── 2b. Account panel: relocate the old sidebar into a full-page tab ──
+      if (mainEl && !document.getElementById('msv3AccountPanel')) {
+        var ap = document.createElement('section');
+        ap.className = 'section';
+        ap.id = 'msv3AccountPanel';
+        ap.setAttribute('data-msv3sec', 'account');
+        ap.innerHTML = '<div class="section-head"><h2 class="section-title">Account</h2></div>';
+        var aside = document.getElementById('msv3Sidebar');
+        if (aside) {
+          ap.appendChild(aside);
+          aside.setAttribute('aria-hidden', 'false');
+        }
+        mainEl.appendChild(ap);
+      }
+
       // ── 3. Tab router (hash-based: #home / #mocks / …) ──
       function paintActive(tab) {
         document.querySelectorAll('[data-msv3-go]').forEach(function (b) {
@@ -20141,6 +20184,18 @@
           try { history.replaceState(history.state, '', '#' + tab); } catch (_e) { }
         }
         if (opts.scroll !== false) window.scrollTo({ top: 0, behavior: 'instant' in window ? 'auto' : 'auto' });
+        // Account tab: refresh the sign-in slot / admin locks / VIP badge
+        // (normally done by the old drawer's open handler).
+        if (tab === 'account') {
+          try {
+            if (typeof window.__msv3RenderAccount === 'function') {
+              var slot = document.getElementById('msv3AccountSlot');
+              if (slot && !slot.children.length) window.__msv3RenderAccount();
+            }
+            if (typeof window.__msv3RefreshAdminLocks === 'function') window.__msv3RefreshAdminLocks();
+            if (typeof window.__msv3RefreshVipBadge === 'function') window.__msv3RefreshVipBadge();
+          } catch (_e) { }
+        }
       }
       document.querySelectorAll('[data-msv3-go]').forEach(function (b) {
         b.addEventListener('click', function () { setTab(b.getAttribute('data-msv3-go')); });
@@ -20158,14 +20213,11 @@
       var initHash = (location.hash || '').replace(/^#/, '');
       setTab(TABS[initHash] ? initHash : 'home', { updateHash: false, scroll: false });
 
-      // ── 4. Account + Notifications proxies (reuse existing handlers) ──
-      function proxyClick(id) { var el = document.getElementById(id); if (el) el.click(); }
-      var acc1 = document.getElementById('railAccountBtn');
-      var acc2 = document.getElementById('gbAccountBtn');
-      if (acc1) acc1.addEventListener('click', function () { proxyClick('msv3HamburgerBtn'); });
-      if (acc2) acc2.addEventListener('click', function () { proxyClick('msv3HamburgerBtn'); });
+      // ── 4. Notifications proxy (reuses the existing bell handler) ──
       var rb = document.getElementById('railBellBtn');
-      if (rb) rb.addEventListener('click', function () { proxyClick('bellBtn'); });
+      if (rb) rb.addEventListener('click', function () {
+        var el = document.getElementById('bellBtn'); if (el) el.click();
+      });
 
       // Old collapsed-sidebar state must never linger (rail replaces it)
       document.body.classList.remove('msv3-collapsed');
