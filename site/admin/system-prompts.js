@@ -293,7 +293,9 @@
         <span>AI Provider:</span>
         <button class="sysprompt-provider-btn active" id="spProviderGemini" onclick="_spSetProvider('gemini')">✨ Gemini</button>
         <button class="sysprompt-provider-btn" id="spProviderOpenai" onclick="_spSetProvider('openai')">🤖 OpenAI</button>
-        <button class="sysprompt-provider-btn" id="spProviderClaude" onclick="_spSetProvider('claude')">🟣 Claude</button>
+        <button class="sysprompt-provider-btn" id="spProviderClaudeHaiku" onclick="_spSetClaudeVariant('claude-haiku-4-5','spProviderClaudeHaiku')" title="Fastest & cheapest Claude — vision-capable; no native audio (transcriber required for Speaking)">🟣 Claude Haiku 4.5 🖼️</button>
+        <button class="sysprompt-provider-btn" id="spProviderClaudeSonnet" onclick="_spSetClaudeVariant('claude-sonnet-5','spProviderClaudeSonnet')" title="Balanced Claude — vision-capable; no native audio (transcriber required for Speaking)">🟣 Claude Sonnet 5 🖼️</button>
+        <button class="sysprompt-provider-btn" id="spProviderClaudeOpus" onclick="_spSetClaudeVariant('claude-opus-4-8','spProviderClaudeOpus')" title="Most capable Claude (highest cost) — vision-capable; no native audio (transcriber required for Speaking)">🟣 Claude Opus 4.8 🖼️</button>
         <button class="sysprompt-provider-btn" id="spProviderGrok" onclick="_spSetProvider('grok')" title="Vision-capable (grok-4.x) — image prompts work. No native audio (transcriber required for Speaking).">⚡ Grok 🖼️</button>
         <button class="sysprompt-provider-btn" id="spProviderDeepseek" onclick="_spSetProvider('deepseek')" title="⚠️ Text only — Speaking mocks will use transcript-based scoring (no audio)">🔵 DeepSeek ⚠️</button>
         <button class="sysprompt-provider-btn" id="spProviderGroqQwen" onclick="_spSetGroqVariant('qwen/qwen3.6-27b','spProviderGroqQwen')" title="⚠️ Text only — Speaking mocks use transcript-based scoring (no audio)">⚡ Groq Qwen 3.6 27B ⚠️</button>
@@ -393,7 +395,7 @@
             </div>
             <div class="sysprompt-field" style="margin:0">
               <label>Claude model</label>
-              <input type="text" id="sp_scoring_model_claude" placeholder="claude-sonnet-4-20250514" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+              <input type="text" id="sp_scoring_model_claude" placeholder="claude-haiku-4-5 · claude-sonnet-5 · claude-opus-4-8" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
             </div>
             <div class="sysprompt-field" style="margin:0">
               <label>Grok model</label>
@@ -546,7 +548,12 @@
       var _scoutBtn = document.getElementById('spProviderLlamaScout');
       document.getElementById('spProviderGemini').classList.toggle('active', p === 'gemini');
       document.getElementById('spProviderOpenai').classList.toggle('active', p === 'openai');
-      document.getElementById('spProviderClaude').classList.toggle('active', p === 'claude');
+      // Claude variant buttons share provider id 'claude' (model differs);
+      // _spSetClaudeVariant() lights the exact one clicked.
+      var claudeBtns = ['spProviderClaudeHaiku', 'spProviderClaudeSonnet', 'spProviderClaudeOpus'];
+      if (p !== 'claude') {
+        claudeBtns.forEach(function (id) { var b = document.getElementById(id); if (b) b.classList.remove('active'); });
+      }
       if (_scoutBtn) _scoutBtn.classList.toggle('active', p === 'llama-scout');
       document.getElementById('spProviderGrok').classList.toggle('active', p === 'grok');
       document.getElementById('spProviderDeepseek').classList.toggle('active', p === 'deepseek');
@@ -600,6 +607,20 @@
     // a different model string in sp_scoring_model_groq. Backend code only
     // sees provider='groq' + model=<chosen>, so a single 'groq' branch in
     // each scoring page handles all three.
+    // Same pattern for the three Claude tiers: provider stays 'claude',
+    // only scoring_model_claude changes, so the pages' single claude
+    // branch serves Haiku / Sonnet / Opus alike.
+    function _spSetClaudeVariant(modelString, btnId) {
+      _spSetProvider('claude');
+      var fld = document.getElementById('sp_scoring_model_claude');
+      if (fld) fld.value = modelString;
+      var claudeBtns = ['spProviderClaudeHaiku', 'spProviderClaudeSonnet', 'spProviderClaudeOpus'];
+      claudeBtns.forEach(function (id) {
+        var b = document.getElementById(id);
+        if (b) b.classList.toggle('active', id === btnId);
+      });
+    }
+
     function _spSetGroqVariant(modelString, btnId) {
       _spSetProvider('groq');
       var fld = document.getElementById('sp_scoring_model_groq');
@@ -734,6 +755,14 @@
           if (el) el.value = map[key] || '';
         });
         if (map['scoring_ai_provider']) _spSetProvider(map['scoring_ai_provider']);
+        if (map['scoring_ai_provider'] === 'claude') {
+          var _cm = (map['scoring_model_claude'] || '').trim();
+          var _cBtn = _cm.indexOf('haiku') > -1 ? 'spProviderClaudeHaiku'
+                    : _cm.indexOf('opus') > -1 ? 'spProviderClaudeOpus'
+                    : 'spProviderClaudeSonnet';
+          var _cEl = document.getElementById(_cBtn);
+          if (_cEl) _cEl.classList.add('active');
+        }
         if (map['scoring_transcription_provider']) { _spTranscriptionProvider = map['scoring_transcription_provider']; _spSetTranscriptionHelper(_spTranscriptionProvider); }
         // Load fallback selector (separate from generic loop since saveScoringPrompts
         // also special-cases it to allow clearing back to empty/no-fallback).
