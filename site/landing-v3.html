@@ -19951,6 +19951,33 @@
       border-color: rgba(99,102,241,0.55) !important;
       color: #ffffff;
     }
+    /* Identity chip inside the Account button (avatar + name + status) */
+    .rail-acc-avatar {
+      width: 30px; height: 30px; border-radius: 50%; flex: 0 0 auto;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.10);
+      color: #e2e8f0; font-weight: 800; font-size: 13px;
+      overflow: hidden;
+    }
+    .rail-acc-avatar svg { width: 16px; height: 16px; }
+    .rail-acc-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .rail-acc-avatar.has-user { background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff; }
+    .rail-acc-text { display: flex; flex-direction: column; min-width: 0; text-align: left; gap: 1px; }
+    .rail-acc-name {
+      font-size: 13px; font-weight: 700; line-height: 1.15;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 128px;
+    }
+    .rail-acc-sub { font-size: 10.5px; font-weight: 600; color: #94a3b8; line-height: 1.15; }
+    /* Mobile bar: tiny avatar replaces the generic user icon when known */
+    .gb-avatar {
+      width: 21px; height: 21px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: #fff; font-weight: 800; font-size: 10px;
+      overflow: hidden;
+    }
+    .gb-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .gb-avatar[hidden] { display: none; }
 
     /* ── Mobile floating liquid-glass bar (<1024px) ── */
     .msv3-glassbar {
@@ -20077,8 +20104,13 @@
       </button>
     </div>
     <button type="button" class="rail-account" data-msv3-go="account">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"></path></svg>
-      Account
+      <span class="rail-acc-avatar" id="railAccAvatar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"></path></svg>
+      </span>
+      <span class="rail-acc-text">
+        <span class="rail-acc-name" id="railAccName">Account</span>
+        <span class="rail-acc-sub" id="railAccSub">Sign in</span>
+      </span>
     </button>
   </nav>
 
@@ -20104,7 +20136,8 @@
       <span>Results</span>
     </button>
     <button type="button" class="gb-item" data-msv3-go="account">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"></path></svg>
+      <span class="gb-avatar" id="gbAccAvatar" hidden></span>
+      <svg id="gbAccIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"></path></svg>
       <span>Account</span>
     </button>
   </nav>
@@ -20235,9 +20268,73 @@
         var vis = !d.classList.contains('hidden') && getComputedStyle(d).display !== 'none';
         r.style.display = vis ? '' : 'none';
       }
-      syncBrand(); syncDot();
-      [800, 2500, 6000].forEach(function (ms) { setTimeout(function () { syncBrand(); syncDot(); }, ms); });
-      setInterval(syncDot, 5000);
+      // Identity chip: mirror the same sources renderAccount() reads, so the
+      // Account button shows who is signed in (name + Google/Telegram/Guest).
+      function syncAccountChip() {
+        var name = '', avatar = '', provider = '';
+        try {
+          name = sessionStorage.getItem('CANDIDATE_FULL_NAME')
+              || localStorage.getItem('ms_candidate_name') || '';
+        } catch (_e) { }
+        try { avatar = localStorage.getItem('ms_avatar_url') || ''; } catch (_e) { }
+        try { provider = localStorage.getItem('ms_auth_provider') || ''; } catch (_e) { }
+        var hasSession = false;
+        try {
+          hasSession = !!(window.MockStream && window.MockStream.auth &&
+                          typeof window.MockStream.auth.isSignedIn === 'function' &&
+                          window.MockStream.auth.isSignedIn());
+        } catch (_e) { }
+        name = (name || '').trim();
+        var initial = (name[0] || '').toUpperCase();
+        var status = !name ? '' : (hasSession
+          ? ({ google: 'Google', telegram: 'Telegram', email: 'Email' })[provider] || 'Signed in'
+          : 'Guest');
+
+        var av = document.getElementById('railAccAvatar');
+        var nm = document.getElementById('railAccName');
+        var sb = document.getElementById('railAccSub');
+        if (av && nm && sb) {
+          if (name) {
+            av.classList.add('has-user');
+            if (avatar && hasSession) {
+              if (!av.querySelector('img') || av.querySelector('img').src !== avatar) {
+                av.innerHTML = '';
+                var im = document.createElement('img'); im.src = avatar; im.alt = '';
+                im.onerror = function () { av.textContent = initial; };
+                av.appendChild(im);
+              }
+            } else { av.textContent = initial; }
+            nm.textContent = name;
+            sb.textContent = status;
+          } else if (!av.querySelector('svg')) {
+            av.classList.remove('has-user');
+            av.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"></path></svg>';
+            nm.textContent = 'Account';
+            sb.textContent = 'Sign in';
+          }
+        }
+        var ga = document.getElementById('gbAccAvatar');
+        var gi = document.getElementById('gbAccIcon');
+        if (ga && gi) {
+          if (name) {
+            if (avatar && hasSession) {
+              if (!ga.querySelector('img') || ga.querySelector('img').src !== avatar) {
+                ga.innerHTML = '';
+                var im2 = document.createElement('img'); im2.src = avatar; im2.alt = '';
+                im2.onerror = function () { ga.textContent = initial; };
+                ga.appendChild(im2);
+              }
+            } else { ga.textContent = initial; }
+            ga.hidden = false; gi.style.display = 'none';
+          } else {
+            ga.hidden = true; gi.style.display = '';
+          }
+        }
+      }
+      syncBrand(); syncDot(); syncAccountChip();
+      [800, 2500, 6000].forEach(function (ms) { setTimeout(function () { syncBrand(); syncDot(); syncAccountChip(); }, ms); });
+      setInterval(function () { syncDot(); syncAccountChip(); }, 5000);
+      window.addEventListener('storage', syncAccountChip);
     })();
   </script>
 </body>
