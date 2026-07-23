@@ -20208,16 +20208,28 @@
     body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-card {
       position: relative;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
       text-align: center;
-      aspect-ratio: 1 / 1;
-      gap: 10px;
-      padding: 14px 10px;
+      gap: 8px;
+      padding: 0 8px 12px;
       min-height: 0;
+      overflow: hidden;
     }
+    body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .msv3-tool-cover {
+      width: calc(100% + 16px); margin: 0 -8px; height: 88px; flex: 0 0 auto; overflow: hidden;
+    }
+    body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .msv3-tool-cover img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    /* Icon becomes a small badge overlapping the photo */
+    body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-card:has(.msv3-tool-cover) .tool-icon {
+      margin-top: -26px; z-index: 1;
+      box-shadow: 0 4px 12px rgba(15,23,42,0.22), 0 0 0 3px var(--card, #fff);
+    }
+    body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-card:not(:has(.msv3-tool-cover)) { justify-content: center; padding-top: 14px; }
     body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-icon {
-      width: 52px; height: 52px; border-radius: 15px; font-size: 25px;
+      width: 44px; height: 44px; border-radius: 13px; font-size: 21px; flex: 0 0 auto;
     }
     body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-icon svg { width: 24px; height: 24px; }
     body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-body { min-width: 0; width: 100%; }
@@ -20231,7 +20243,9 @@
       position: absolute; top: 8px; right: 8px; margin: 0;
     }
     @media (max-width: 640px) {
-      body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-icon { width: 42px; height: 42px; font-size: 20px; }
+      body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-icon { width: 36px; height: 36px; font-size: 17px; border-radius: 11px; }
+      body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-card:has(.msv3-tool-cover) .tool-icon { margin-top: -20px; }
+      body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .msv3-tool-cover { height: 62px; }
       body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-name { font-size: 11.5px; }
       body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-sub .tool-sub-text { display: none; }
     }
@@ -20792,7 +20806,8 @@
           ];
           rail.insertAdjacentHTML('beforeend', EXAMS.map(function (e) {
             return '<a class="cambridge-card soon" href="javascript:void(0)" data-exam-soon="' + e[0] + '">' +
-              '<div class="cb-cover msv3-flagcover">' + e[1] + '</div>' +
+              '<div class="cb-cover"><img src="https://storage.googleapis.com/mockstream-samples-audio/intl-exam-covers/' + e[0] + '.jpg" alt="" loading="lazy" ' +
+                'onerror="this.parentElement.className=\'cb-cover msv3-flagcover\';this.parentElement.textContent=\'' + e[1] + '\'"></div>' +
               '<span class="cb-soon">Soon</span>' +
               '<div class="cb-level">' + e[2] + '</div>' +
               '<div class="cb-code">' + e[3] + '</div>' +
@@ -20826,6 +20841,21 @@
               '<div class="tool-arrow">→</div>' +
             '</a>';
           }).join(''));
+          // Real photo covers (Pexels → GCS) on every Learn tile, incl. the
+          // three live tools. Cover load failure just leaves the icon tile.
+          grid.querySelectorAll('.tool-card').forEach(function (card) {
+            if (card.querySelector('.msv3-tool-cover')) return;
+            var key = card.getAttribute('data-learn-soon') || card.getAttribute('data-learn');
+            if (!key) return;
+            var cov = document.createElement('div');
+            cov.className = 'msv3-tool-cover';
+            var im = document.createElement('img');
+            im.src = 'https://storage.googleapis.com/mockstream-samples-audio/learn-tool-covers/' + key + '.jpg';
+            im.alt = ''; im.loading = 'lazy';
+            im.onerror = function () { cov.remove(); };
+            cov.appendChild(im);
+            card.insertBefore(cov, card.firstChild);
+          });
         }
       })();
 
