@@ -20006,15 +20006,20 @@
       left: 10px; right: 10px;
       bottom: calc(10px + env(safe-area-inset-bottom, 0px));
       z-index: 60;
-      background: rgba(255,255,255,0.74);
-      backdrop-filter: blur(20px) saturate(170%);
-      -webkit-backdrop-filter: blur(20px) saturate(170%);
-      border: 1px solid rgba(226,232,240,0.75);
+      /* iOS-style liquid glass: half-transparent, heavy blur, top sheen */
+      background: linear-gradient(165deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.34) 100%);
+      backdrop-filter: blur(28px) saturate(200%);
+      -webkit-backdrop-filter: blur(28px) saturate(200%);
+      border: 1px solid rgba(255,255,255,0.62);
       border-radius: 24px;
-      box-shadow: 0 14px 38px rgba(15,23,42,0.16), 0 2px 8px rgba(15,23,42,0.08);
+      box-shadow:
+        0 14px 38px rgba(15,23,42,0.18),
+        0 2px 8px rgba(15,23,42,0.08),
+        inset 0 1px 0 rgba(255,255,255,0.70);
       padding: 7px 6px;
       justify-content: space-around; align-items: stretch;
     }
+    .gb-item.active { background: rgba(99,102,241,0.16); }
     .gb-item {
       flex: 1 1 0; min-width: 0;
       display: flex; flex-direction: column; align-items: center; gap: 3px;
