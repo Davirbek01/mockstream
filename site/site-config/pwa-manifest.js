@@ -46,4 +46,38 @@
     link.href = href;
     document.head.appendChild(link);
   }
+
+  // ── iOS / macOS Safari branding ────────────────────────────────────────
+  // Safari's Add-to-Home-Screen and Add-to-Dock IGNORE manifest icons/name
+  // and read <link rel="apple-touch-icon"> + <meta name="apple-mobile-web-
+  // app-title"> instead. Those tags ship hardcoded to Mock Stream, so
+  // clones installed on iPhone/Mac showed the wrong logo + name (Android,
+  // which uses the manifest, was fine). Retarget them per clone here.
+  // Keep this table in sync with manifest-<slug>.json (short_name + 192px icon).
+  var APPLE = {
+    mock_stream: { title: 'Mock Stream',        icon: '/site-config/icons/icon-192.png' },
+    bek:         { title: 'Bekzods Multilevel', icon: '/site-config/icons-bek/icon-192.png' },
+    niners:      { title: 'Niners Academy',     icon: '/site-config/icons-niners/icon-192.png' },
+    global:      { title: 'Global Education LC',icon: '/site-config/icons-global/icon-192.png' },
+    muzaffars:   { title: 'Muzaffars English',  icon: '/site-config/icons-muzaffars/icon-192.png' },
+    achievers:   { title: 'Achievers',          icon: 'https://i.ibb.co/GfTQMD79/image.png' },
+    record:      { title: 'Multilevel Record',  icon: 'https://i.ibb.co/5xn3Cxms/image.png' }
+  };
+  var brand = APPLE[slug] || APPLE.mock_stream;
+
+  var ti = document.querySelector('meta[name="apple-mobile-web-app-title"]');
+  if (!ti) {
+    ti = document.createElement('meta');
+    ti.name = 'apple-mobile-web-app-title';
+    document.head.appendChild(ti);
+  }
+  ti.content = brand.title;
+
+  var ic = document.querySelector('link[rel="apple-touch-icon"]');
+  if (!ic) {
+    ic = document.createElement('link');
+    ic.rel = 'apple-touch-icon';
+    document.head.appendChild(ic);
+  }
+  ic.href = brand.icon;
 })();
