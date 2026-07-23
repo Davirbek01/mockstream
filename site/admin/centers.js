@@ -551,8 +551,7 @@
               { val: 'gemini', label: 'Gemini (vision)' },
               { val: 'openai', label: 'OpenAI (vision)' },
               { val: 'claude', label: 'Claude (vision)' },
-              { val: 'llama-scout', label: 'Llama 4 Scout · Groq (vision)' },
-              { val: 'grok', label: 'Grok ⚠️ (text only)' },
+              { val: 'grok', label: 'Grok (vision · grok-4.x)' },
               { val: 'deepseek', label: 'DeepSeek ⚠️ (text only)' },
               { val: 'groq', label: 'Groq (uses System Prompts model)' }
             ]);
@@ -565,12 +564,10 @@
               { val: 'gemini', label: 'Gemini' },
               { val: 'openai', label: 'OpenAI' },
               { val: 'claude', label: 'Claude' },
-              { val: 'llama-scout', label: 'Llama 4 Scout · Groq (vision)' },
-              { val: 'grok', label: 'Grok (text only)' },
+              { val: 'grok', label: 'Grok (vision · grok-4.x)' },
               { val: 'deepseek', label: 'DeepSeek (text only)' },
               { val: 'groq:llama-3.3-70b-versatile', label: 'Groq Llama 3.3 70B' },
-              { val: 'groq:qwen/qwen3-32b', label: 'Groq Qwen 3 32B' },
-              { val: 'groq:meta-llama/llama-4-scout-17b-16e-instruct', label: 'Groq Llama 4 Scout (vision)' }
+              { val: 'groq:qwen/qwen3.6-27b', label: 'Groq Qwen 3.6 27B' }
             ]);
 
             // ── Gemini billing-slot picker (shown only when Gemini is the per-center pick)
@@ -643,7 +640,8 @@
                 cfg.aiProvider === 'gemini' ||
                 cfg.aiProvider === 'openai' ||
                 cfg.aiProvider === 'claude' ||
-                cfg.aiProvider === 'llama-scout'
+                cfg.aiProvider === 'llama-scout' ||
+                cfg.aiProvider === 'grok'
               );
               var _vfcOn = cfg.visionFactCheck === true;
               var _vfcProv = (cfg.visionFactCheckProvider || 'gemini');
@@ -678,9 +676,9 @@
                 h += '<div style="margin-top:10px;' + (_dropDisabled ? 'opacity:.55;pointer-events:none;' : '') + '">';
                 h += _cmSelectInput(cid, 'visionFactCheckProvider', '↳ Vision provider', _vfcProv, [
                   { val: 'gemini',      label: 'Gemini 2.0 Flash (cheapest · default)' },
-                  { val: 'llama-scout', label: 'Llama 4 Scout · Groq (bundle w/ Whisper)' },
                   { val: 'openai',      label: 'OpenAI gpt-4o-mini' },
-                  { val: 'claude',      label: 'Claude Haiku 4.5' }
+                  { val: 'claude',      label: 'Claude Haiku 4.5' },
+                  { val: 'grok',        label: 'Grok 4.20 · xAI (fast vision · recommended)' }
                 ]);
                 h += '</div>';
               }
