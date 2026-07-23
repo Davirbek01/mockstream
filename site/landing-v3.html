@@ -19594,6 +19594,10 @@
     #iosA2hs .a2hs-glyph { display: inline-block; vertical-align: -3px; }
     #iosA2hs .a2hs-close { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border: 0; border-radius: 50%; background: rgba(148, 163, 184, .16); color: #64748b; font-size: 14px; cursor: pointer; }
     #iosA2hs .a2hs-btn { margin-top: 8px; border: 0; border-radius: 10px; padding: 9px 20px; background: linear-gradient(135deg, #0d9488, #116a60); color: #fff; font-weight: 800; font-size: 13.5px; letter-spacing: .3px; cursor: pointer; box-shadow: 0 4px 12px rgba(13, 148, 136, .3); }
+    @media (min-width: 769px) {
+      /* desktop: compact card bottom-right instead of full-width */
+      #iosA2hs { left: auto; right: 20px; bottom: 20px; max-width: 390px; }
+    }
   </style>
   <div id="iosA2hs" hidden>
     <img class="a2hs-icon" src="/site-config/icons/icon-192.png" alt="" onerror="this.style.display='none'">
@@ -19639,18 +19643,22 @@
           return;
         }
 
-        // Android (Chromium): intercept the native prompt and offer a real
-        // one-tap Install button in our own banner. If the browser never
-        // fires beforeinstallprompt (already installed / unsupported), the
-        // banner simply never appears.
-        if (!/Android/i.test(ua)) return;
+        // Android + Windows/Mac Chromium (Chrome/Edge): intercept the native
+        // prompt and offer a real one-tap/one-click Install button in our own
+        // banner. If the browser never fires beforeinstallprompt (already
+        // installed / unsupported browser) the banner simply never appears.
+        // Note: on desktop, preventDefault does NOT remove the omnibox
+        // install icon — both paths stay available.
+        var isAndroid = /Android/i.test(ua);
         var deferred = null;
         window.addEventListener('beforeinstallprompt', function (e) {
-          e.preventDefault(); // suppress Chrome's own mini-infobar — ours instead
+          e.preventDefault(); // suppress the browser's own auto-prompt — ours instead
           deferred = e;
-          if (steps) steps.innerHTML = 'One tap adds it to your home screen — <b>full screen</b>, right from your launcher.';
+          if (steps) steps.innerHTML = isAndroid
+            ? 'One tap adds it to your home screen — <b>full screen</b>, right from your launcher.'
+            : 'One click installs it as a <b>desktop app</b> in its own window — launch it straight from your taskbar or Dock.';
           if (installBtn) installBtn.hidden = false;
-          setTimeout(show, 1500);
+          setTimeout(show, isAndroid ? 1500 : 2200);
         });
         if (installBtn) installBtn.addEventListener('click', function () {
           if (!deferred) { dismiss(false); return; }
@@ -19662,6 +19670,14 @@
           }).catch(function () { dismiss(true); });
         });
         window.addEventListener('appinstalled', function () { dismiss(true); });
+
+        // Mac Safari (no install API, like iOS): manual steps — Safari 17+
+        // installs web apps via File → Add to Dock.
+        var isMacSafari = /Macintosh/.test(ua) && /Safari\//.test(ua) && !/Chrome|Chromium|CriOS|Edg|OPR|Firefox/.test(ua);
+        if (isMacSafari && !('onbeforeinstallprompt' in window)) {
+          if (steps) steps.innerHTML = 'In Safari’s menu bar, choose <b>File → “Add to Dock…”</b> to install this app.';
+          setTimeout(show, 2500);
+        }
       } catch (e) { }
     })();
   </script>
