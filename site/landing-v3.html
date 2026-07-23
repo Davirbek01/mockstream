@@ -5075,6 +5075,8 @@
       document.getElementById('vitalToday').textContent    = fmtNumber(today);
       document.getElementById('vitalNewWeek').textContent  = fmtNumber(newWeek);
 
+      // Expose per-exam-per-skill totals for the Home-tab Mock Library widget
+      try { window.__msv3SkillTotals = totals; window.dispatchEvent(new Event('msv3-totals-ready')); } catch (_e) {}
       const skillTotalMap = {
         speaking:  totals['cefr-speaking']  + totals['ielts-speaking'],
         writing:   totals['cefr-writing']   + totals['ielts-writing'],
@@ -20036,6 +20038,143 @@
     #msv3ResultsPanel .res-arrow { font-size: 18px; color: #94a3b8; flex: 0 0 auto; }
     #msv3ResultsPanel .res-hint { font-size: 12px; color: #94a3b8; margin-top: 10px; line-height: 1.5; }
 
+    /* ── Other exams: grid layout — the tab has the full page, no need for
+       a sideways-scrolling rail anymore ── */
+    body[data-msv3-tab="exams"] .exams-rail {
+      display: grid !important;
+      grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+      gap: 16px;
+      overflow: visible !important;
+    }
+    body[data-msv3-tab="exams"] .exams-rail .cambridge-card {
+      width: auto !important; min-width: 0 !important; flex: initial !important;
+    }
+
+    /* ── My results: embedded results page (no two-step link) ── */
+    .res-embed {
+      height: calc(100dvh - 235px);
+      min-height: 480px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--line, #e2e8f0);
+      box-shadow: 0 10px 26px rgba(15,23,42,0.08);
+      background: #fff;
+    }
+    .res-embed iframe { width: 100%; height: 100%; border: 0; display: block; }
+    @media (min-width: 1024px) { .res-embed { height: calc(100dvh - 165px); } }
+
+    /* ── Account tab: danger zone ── */
+    .msv3-danger {
+      max-width: 560px; margin: 16px auto 0;
+      border: 1px solid rgba(239,68,68,0.35);
+      background: rgba(239,68,68,0.04);
+      border-radius: 16px;
+      padding: 16px 18px;
+    }
+    .msv3-danger .dz-head { font-weight: 800; font-size: 13.5px; color: #dc2626; letter-spacing: 0.02em; margin-bottom: 6px; }
+    .msv3-danger .dz-sub { font-size: 12.5px; color: #64748b; line-height: 1.5; margin: 0 0 12px; }
+    .msv3-danger .dz-btn {
+      border: 1.5px solid rgba(239,68,68,0.5); background: transparent; color: #dc2626;
+      font-weight: 700; font-size: 13px; padding: 9px 16px; border-radius: 10px; cursor: pointer;
+      transition: background 160ms ease, color 160ms ease;
+    }
+    .msv3-danger .dz-btn:hover { background: #dc2626; color: #fff; }
+    .msv3-danger .dz-confirm { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .msv3-danger .dz-confirm p { flex: 1 1 100%; font-size: 12.5px; color: #475569; margin: 0 0 2px; }
+    .msv3-danger .dz-confirm input {
+      flex: 1 1 140px; padding: 9px 12px; border: 1px solid var(--line, #e2e8f0);
+      border-radius: 10px; font-size: 13px; letter-spacing: 0.08em;
+    }
+    .msv3-danger .dz-go {
+      border: 0; background: #dc2626; color: #fff; font-weight: 800; font-size: 13px;
+      padding: 10px 16px; border-radius: 10px; cursor: pointer;
+    }
+    .msv3-danger .dz-go:disabled { opacity: 0.4; cursor: not-allowed; }
+    .msv3-danger .dz-cancel { border: 0; background: transparent; color: #64748b; font-weight: 700; font-size: 13px; cursor: pointer; }
+    .msv3-danger .dz-msg { flex: 1 1 100%; font-size: 12.5px; margin: 4px 0 0; color: #64748b; }
+    .msv3-danger[hidden] { display: none; }
+
+    /* ── Home widgets (native-app parity) — static DOM + tiny SVG only ── */
+    #msv3HomeWidgets .msw-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    @media (min-width: 900px) {
+      #msv3HomeWidgets .msw-grid { grid-template-columns: 1fr 1fr; }
+      #msv3HomeWidgets .msw-span2 { grid-column: 1 / -1; }
+    }
+    .msw-card {
+      background: var(--card, #fff);
+      border: 1px solid var(--line, #e2e8f0);
+      border-radius: 16px;
+      padding: 16px 18px;
+      box-shadow: 0 8px 22px rgba(15,23,42,0.05);
+    }
+    .msw-eyebrow { font-size: 10.5px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #64748b; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+    .msw-eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+    /* stat chips */
+    .msw-chips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    @media (min-width: 900px) { .msw-chips { grid-template-columns: repeat(6, 1fr); } }
+    .msw-chip {
+      border-radius: 14px; padding: 12px 10px; text-align: center;
+      border: 1px solid var(--line, #e2e8f0); background: var(--card, #fff);
+    }
+    .msw-chip .v { font-size: 19px; font-weight: 800; line-height: 1.1; }
+    .msw-chip .l { font-size: 10.5px; font-weight: 600; color: #64748b; margin-top: 3px; }
+    .msw-chip.c1 { background: linear-gradient(135deg, rgba(16,185,129,0.10), rgba(16,185,129,0.03)); } .msw-chip.c1 .v { color: #059669; }
+    .msw-chip.c2 { background: linear-gradient(135deg, rgba(59,130,246,0.10), rgba(59,130,246,0.03)); } .msw-chip.c2 .v { color: #2563eb; }
+    .msw-chip.c3 { background: linear-gradient(135deg, rgba(245,158,11,0.12), rgba(245,158,11,0.03)); } .msw-chip.c3 .v { color: #d97706; }
+    .msw-chip.c4 { background: linear-gradient(135deg, rgba(239,68,68,0.09), rgba(239,68,68,0.02)); }  .msw-chip.c4 .v { color: #dc2626; }
+    .msw-chip.c5 .v { color: #0d9488; }
+    .msw-chip.c6 .v { color: #7c3aed; }
+    /* mock library */
+    .msw-lib-cols { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    @media (min-width: 640px) { .msw-lib-cols { grid-template-columns: 1fr 1fr; } }
+    .msw-lib-exam { border: 1px solid var(--line, #e2e8f0); border-radius: 13px; padding: 12px 14px; }
+    .msw-lib-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 9px; }
+    .msw-lib-head .nm { font-weight: 800; font-size: 14px; }
+    .msw-lib-head .tot { font-weight: 800; font-size: 21px; }
+    .msw-lib-row { display: flex; align-items: center; gap: 8px; margin: 6px 0; font-size: 12px; color: #475569; }
+    .msw-lib-row .ic { width: 18px; flex: 0 0 auto; text-align: center; }
+    .msw-lib-row .bar { flex: 1 1 auto; height: 7px; border-radius: 4px; background: rgba(148,163,184,0.22); overflow: hidden; }
+    .msw-lib-row .bar i { display: block; height: 100%; border-radius: 4px; }
+    .msw-lib-row .n { width: 32px; text-align: right; font-weight: 700; color: var(--ink, #0f172a); }
+    /* word of the day */
+    .msw-word { background: linear-gradient(135deg, rgba(245,158,11,0.07), rgba(245,158,11,0.02)); }
+    .msw-word .w { font-size: 24px; font-weight: 800; }
+    .msw-word .ipa { font-size: 13px; color: #92400e; margin-left: 8px; }
+    .msw-word .pos { font-size: 12px; font-style: italic; color: #b45309; margin-left: 6px; }
+    .msw-word .def { font-size: 13px; color: #475569; margin-top: 6px; line-height: 1.5; }
+    /* learning curve */
+    .msw-curve-top { display: flex; align-items: baseline; gap: 10px; }
+    .msw-curve-top .lvl { font-size: 24px; font-weight: 800; }
+    .msw-curve-top .delta { font-size: 12.5px; font-weight: 700; color: #059669; }
+    .msw-curve-top .cap { margin-left: auto; font-size: 11.5px; color: #94a3b8; }
+    .msw-curve svg { width: 100%; height: 88px; display: block; margin-top: 8px; }
+    /* day vs night */
+    .msw-dn { display: flex; align-items: center; gap: 18px; }
+    .msw-donut { width: 92px; height: 92px; border-radius: 50%; flex: 0 0 auto; position: relative; }
+    .msw-donut::after {
+      content: attr(data-total); position: absolute; inset: 13px;
+      background: var(--card, #fff); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 16px;
+    }
+    .msw-dn-rows { font-size: 13px; color: #475569; display: flex; flex-direction: column; gap: 7px; }
+    .msw-dn-rows b { color: var(--ink, #0f172a); }
+    /* this week bars */
+    .msw-week-bars { display: flex; align-items: flex-end; gap: 10px; height: 86px; margin-top: 6px; }
+    .msw-week-col { flex: 1 1 0; display: flex; flex-direction: column; align-items: center; gap: 5px; height: 100%; justify-content: flex-end; }
+    .msw-week-col .b { width: 60%; max-width: 26px; border-radius: 6px 6px 3px 3px; background: linear-gradient(180deg, #10b981, #059669); min-height: 3px; }
+    .msw-week-col .d { font-size: 10.5px; color: #94a3b8; font-weight: 600; }
+    .msw-week-cap { font-size: 12px; color: #64748b; margin-top: 8px; }
+    /* level by skill */
+    .msw-skills { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 4px; }
+    .msw-skill { text-align: center; }
+    .msw-skill .lv { font-weight: 800; font-size: 14px; margin-bottom: 6px; }
+    .msw-skill .tube { height: 110px; width: 44px; margin: 0 auto; border-radius: 14px; position: relative; overflow: hidden; }
+    .msw-skill .tube i { position: absolute; left: 0; right: 0; bottom: 0; border-radius: 12px; }
+    .msw-skill .nm { font-size: 12px; font-weight: 700; margin-top: 7px; }
+    .msw-skill .ct { font-size: 10.5px; color: #94a3b8; margin-top: 1px; }
+    .msw-empty { font-size: 12.5px; color: #64748b; padding: 6px 0; line-height: 1.5; }
+
     @media (min-width: 1024px) {
       .msv3-rail { display: flex; }
       body { padding-left: 224px; }
@@ -20166,7 +20305,8 @@
         s.setAttribute('data-msv3sec', s.querySelector('.secondary') ? 'mocks' : 'home');
       });
 
-      // ── 2. My results panel ──
+      // ── 2. My results panel — the results page embedded directly (same
+      // origin), created lazily on first visit so Home stays light ──
       var mainEl = document.querySelector('main');
       if (mainEl && !document.getElementById('msv3ResultsPanel')) {
         var rp = document.createElement('section');
@@ -20175,16 +20315,27 @@
         rp.setAttribute('data-msv3sec', 'results');
         rp.innerHTML =
           '<div class="section-head"><h2 class="section-title">My results</h2></div>' +
-          '<a class="res-card" href="/results/my-results.html">' +
-            '<span class="res-ico">📊</span>' +
-            '<span class="res-body">' +
-              '<p class="res-title">All my attempts &amp; scores</p>' +
-              '<p class="res-sub">Every mock you have taken — scores, AI feedback and examiner marks in one place.</p>' +
-            '</span>' +
-            '<span class="res-arrow">→</span>' +
-          '</a>' +
-          '<p class="res-hint">Tip: results are saved to your signed-in account. If you took a mock as a guest, sign in with the same name to keep your history together.</p>';
+          '<div class="res-embed" id="msv3ResEmbed"></div>';
         mainEl.appendChild(rp);
+      }
+      function ensureResultsFrame() {
+        var host = document.getElementById('msv3ResEmbed');
+        if (!host || host.querySelector('iframe')) return;
+        var fr = document.createElement('iframe');
+        fr.src = '/results/my-results.html';
+        fr.title = 'My results';
+        fr.addEventListener('load', function () {
+          // Same-origin: hide the embedded page's own Home / Sign out chrome
+          // (navigation lives in the tabs now; Dark + Refresh stay useful).
+          try {
+            var d = fr.contentDocument;
+            var st = d.createElement('style');
+            st.textContent =
+              '.name-back, .topbar-btn[onclick*="landing"], .topbar-btn[onclick*="signOut"] { display: none !important; }';
+            d.head.appendChild(st);
+          } catch (_e) { }
+        });
+        host.appendChild(fr);
       }
 
       // ── 2b. Account panel: relocate the old sidebar into a full-page tab ──
@@ -20199,8 +20350,360 @@
           ap.appendChild(aside);
           aside.setAttribute('aria-hidden', 'false');
         }
-        mainEl.appendChild(ap);
+        // Danger zone — account deletion (signed-in users only; shown/hidden
+        // by syncAccountChip). Two-step: expand → type DELETE → call the
+        // delete-account Edge Function with the user's own session token.
+        var dz = document.createElement('div');
+        dz.className = 'msv3-danger';
+        dz.id = 'msv3DangerZone';
+        dz.hidden = true;
+        dz.innerHTML =
+          '<div class="dz-head">⚠️ Danger zone</div>' +
+          '<p class="dz-sub">Permanently delete your account and all saved results from Mock Stream. This cannot be undone.</p>' +
+          '<button type="button" class="dz-btn" id="dzOpenBtn">Delete my account…</button>' +
+          '<div class="dz-confirm" id="dzConfirm" hidden>' +
+            '<p>This wipes your sign-in and every saved result. Type <b>DELETE</b> to confirm.</p>' +
+            '<input id="dzInput" autocomplete="off" spellcheck="false" placeholder="DELETE">' +
+            '<button type="button" class="dz-go" id="dzGoBtn" disabled>Permanently delete</button>' +
+            '<button type="button" class="dz-cancel" id="dzCancelBtn">Cancel</button>' +
+            '<p class="dz-msg" id="dzMsg"></p>' +
+          '</div>';
+        ap.appendChild(dz);
+        var dzOpen = dz.querySelector('#dzOpenBtn'), dzConf = dz.querySelector('#dzConfirm'),
+            dzIn = dz.querySelector('#dzInput'), dzGo = dz.querySelector('#dzGoBtn'),
+            dzCancel = dz.querySelector('#dzCancelBtn'), dzMsg = dz.querySelector('#dzMsg');
+        dzOpen.addEventListener('click', function () { dzConf.hidden = false; dzOpen.hidden = true; dzIn.focus(); });
+        dzCancel.addEventListener('click', function () { dzConf.hidden = true; dzOpen.hidden = false; dzIn.value = ''; dzGo.disabled = true; dzMsg.textContent = ''; });
+        dzIn.addEventListener('input', function () { dzGo.disabled = dzIn.value.trim().toUpperCase() !== 'DELETE'; });
+        dzGo.addEventListener('click', function () {
+          dzGo.disabled = true; dzMsg.textContent = 'Deleting…';
+          (async function () {
+            var token = '';
+            try {
+              var client = window.MockStream && window.MockStream.auth && window.MockStream.auth.getClient && window.MockStream.auth.getClient();
+              var sess = client && await client.auth.getSession();
+              token = sess && sess.data && sess.data.session && sess.data.session.access_token || '';
+            } catch (_e) { }
+            if (!token) { dzMsg.textContent = 'You need to be signed in to delete your account.'; return; }
+            try {
+              var resp = await fetch('https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/delete-account', {
+                method: 'POST',
+                headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+                body: '{}'
+              });
+              var out = await resp.json().catch(function () { return {}; });
+              if (resp.ok && out.ok) {
+                dzMsg.textContent = 'Account deleted. Signing you out…';
+                setTimeout(function () {
+                  var lb = document.getElementById('msv3LogoutBtn');
+                  if (lb) { lb.click(); }
+                  else { try { localStorage.clear(); sessionStorage.clear(); } catch (_e) { } window.location.replace('/index.html'); }
+                }, 900);
+              } else {
+                dzMsg.textContent = 'Could not delete the account (' + (out.error || resp.status) + '). Please try again or contact support.';
+                dzGo.disabled = false;
+              }
+            } catch (_e2) {
+              dzMsg.textContent = 'Network error — please try again.';
+              dzGo.disabled = false;
+            }
+          })();
+        });
       }
+
+      // ── 2c. Home widgets (native-app parity) ──
+      // One results fetch + pure DOM/CSS/SVG rendering — no timers, no
+      // canvas, nothing per-frame, so there is zero lag/heat cost.
+      (function homeWidgets() {
+        var heroSec = document.querySelector('main > section.hero');
+        if (!heroSec || document.getElementById('msv3HomeWidgets')) return;
+        var ws = document.createElement('section');
+        ws.className = 'section';
+        ws.id = 'msv3HomeWidgets';
+        ws.setAttribute('data-msv3sec', 'home');
+        ws.innerHTML =
+          '<div class="msw-grid">' +
+            '<div class="msw-chips msw-span2" id="mswChips"></div>' +
+            '<div class="msw-card msw-span2" id="mswLibrary">' +
+              '<div class="msw-eyebrow">Mock library</div>' +
+              '<div class="msw-lib-cols" id="mswLibCols"><div class="msw-empty">Loading counts…</div></div>' +
+            '</div>' +
+            '<div class="msw-card msw-word msw-span2" id="mswWord"></div>' +
+            '<div class="msw-card msw-curve msw-span2" id="mswCurve">' +
+              '<div class="msw-eyebrow"><span class="dot" style="background:#0d9488"></span>Learning curve</div>' +
+              '<div id="mswCurveBody" class="msw-empty">Take a few mocks to see your progress curve.</div>' +
+            '</div>' +
+            '<div class="msw-card" id="mswDayNight">' +
+              '<div class="msw-eyebrow"><span class="dot" style="background:#f59e0b"></span>Day vs night</div>' +
+              '<div id="mswDnBody" class="msw-empty">Your practice-time split appears here.</div>' +
+            '</div>' +
+            '<div class="msw-card" id="mswWeek">' +
+              '<div class="msw-eyebrow"><span class="dot" style="background:#10b981"></span>This week</div>' +
+              '<div id="mswWeekBody" class="msw-empty">Attempts from the last 7 days appear here.</div>' +
+            '</div>' +
+            '<div class="msw-card msw-span2" id="mswLevels">' +
+              '<div class="msw-eyebrow">Level by skill · Multilevel</div>' +
+              '<div id="mswLevelsBody" class="msw-empty">Finish a mock in each skill to see your levels.</div>' +
+            '</div>' +
+          '</div>';
+        heroSec.insertAdjacentElement('afterend', ws);
+
+        // Word of the day — embedded list, deterministic by date, zero network
+        var WORDS = [
+          ['ambiguous', '/æmˈbɪɡjuəs/', 'adjective', 'open to more than one interpretation; not having a clear meaning'],
+          ['resilient', '/rɪˈzɪliənt/', 'adjective', 'able to recover quickly from difficult conditions'],
+          ['meticulous', '/məˈtɪkjələs/', 'adjective', 'showing great attention to detail; very careful'],
+          ['advocate', '/ˈædvəkeɪt/', 'verb', 'to publicly support or recommend a cause or policy'],
+          ['plausible', '/ˈplɔːzəbl/', 'adjective', 'seeming reasonable or probable'],
+          ['diligent', '/ˈdɪlɪdʒənt/', 'adjective', 'showing steady, earnest effort in work or duties'],
+          ['inevitable', '/ɪnˈevɪtəbl/', 'adjective', 'certain to happen; unavoidable'],
+          ['profound', '/prəˈfaʊnd/', 'adjective', 'very great or intense; showing deep insight'],
+          ['scrutinize', '/ˈskruːtənaɪz/', 'verb', 'to examine closely and thoroughly'],
+          ['versatile', '/ˈvɜːsətaɪl/', 'adjective', 'able to adapt to many different functions or activities'],
+          ['coherent', '/kəʊˈhɪərənt/', 'adjective', 'logical and consistent; clearly connected'],
+          ['deteriorate', '/dɪˈtɪəriəreɪt/', 'verb', 'to become progressively worse'],
+          ['empirical', '/ɪmˈpɪrɪkl/', 'adjective', 'based on observation or experience rather than theory'],
+          ['facilitate', '/fəˈsɪlɪteɪt/', 'verb', 'to make an action or process easier'],
+          ['inherent', '/ɪnˈhɪərənt/', 'adjective', 'existing as a natural or permanent quality'],
+          ['justify', '/ˈdʒʌstɪfaɪ/', 'verb', 'to show or prove to be right or reasonable'],
+          ['notion', '/ˈnəʊʃn/', 'noun', 'a belief or idea about something'],
+          ['pragmatic', '/præɡˈmætɪk/', 'adjective', 'dealing with things sensibly and realistically'],
+          ['reluctant', '/rɪˈlʌktənt/', 'adjective', 'unwilling and hesitant'],
+          ['substantial', '/səbˈstænʃl/', 'adjective', 'of considerable importance, size, or value'],
+          ['ambivalent', '/æmˈbɪvələnt/', 'adjective', 'having mixed feelings about something'],
+          ['concise', '/kənˈsaɪs/', 'adjective', 'giving much information clearly in few words'],
+          ['deduce', '/dɪˈdjuːs/', 'verb', 'to reach a conclusion from evidence and reasoning'],
+          ['elaborate', '/ɪˈlæbərət/', 'adjective', 'involving many careful details; very detailed'],
+          ['feasible', '/ˈfiːzəbl/', 'adjective', 'possible to do easily or conveniently'],
+          ['hypothesis', '/haɪˈpɒθəsɪs/', 'noun', 'a proposed explanation made as a starting point for investigation'],
+          ['implication', '/ˌɪmplɪˈkeɪʃn/', 'noun', 'a likely consequence; something suggested without being said'],
+          ['legitimate', '/lɪˈdʒɪtɪmət/', 'adjective', 'conforming to the law or rules; fair and acceptable'],
+          ['mitigate', '/ˈmɪtɪɡeɪt/', 'verb', 'to make something less severe or serious'],
+          ['persistent', '/pəˈsɪstənt/', 'adjective', 'continuing firmly despite difficulty'],
+          ['redundant', '/rɪˈdʌndənt/', 'adjective', 'not needed; superfluous'],
+          ['skeptical', '/ˈskeptɪkl/', 'adjective', 'not easily convinced; having doubts'],
+          ['tangible', '/ˈtændʒəbl/', 'adjective', 'clear enough to be seen, touched, or measured'],
+          ['undermine', '/ˌʌndəˈmaɪn/', 'verb', 'to weaken gradually or secretly'],
+          ['viable', '/ˈvaɪəbl/', 'adjective', 'capable of working successfully'],
+          ['articulate', '/ɑːˈtɪkjələt/', 'adjective', 'able to express ideas clearly and effectively'],
+          ['benevolent', '/bəˈnevələnt/', 'adjective', 'well-meaning and kindly'],
+          ['comprehensive', '/ˌkɒmprɪˈhensɪv/', 'adjective', 'including all or nearly all elements or aspects'],
+          ['discrepancy', '/dɪˈskrepənsi/', 'noun', 'a difference between things that should match'],
+          ['eloquent', '/ˈeləkwənt/', 'adjective', 'fluent and persuasive in speaking or writing'],
+          ['fluctuate', '/ˈflʌktʃueɪt/', 'verb', 'to rise and fall irregularly in number or amount'],
+          ['gratitude', '/ˈɡrætɪtjuːd/', 'noun', 'the quality of being thankful'],
+          ['imperative', '/ɪmˈperətɪv/', 'adjective', 'of vital importance; crucial']
+        ];
+        var wd = WORDS[Math.floor(Date.now() / 86400000) % WORDS.length];
+        document.getElementById('mswWord').innerHTML =
+          '<div class="msw-eyebrow" style="color:#b45309"><span class="dot" style="background:#f59e0b"></span>Word of the day</div>' +
+          '<div><span class="w">' + wd[0] + '</span><span class="ipa">' + wd[1] + '</span><span class="pos">' + wd[2] + '</span></div>' +
+          '<p class="def">' + wd[3] + '</p>';
+
+        // Mock library — per-exam per-skill counts from the skill-card data
+        var LIB_SKILLS = [
+          ['listening', '🎧', 'Listening', '#3b82f6'],
+          ['reading', '📖', 'Reading', '#10b981'],
+          ['writing', '✍️', 'Writing', '#f59e0b'],
+          ['speaking', '🎤', 'Speaking', '#8b5cf6']
+        ];
+        function renderLib() {
+          var t = window.__msv3SkillTotals;
+          if (!t) return false;
+          function col(examKey, label) {
+            var vals = LIB_SKILLS.map(function (s) { return Number(t[examKey + '-' + s[0]]) || 0; });
+            var tot = vals.reduce(function (a, b) { return a + b; }, 0);
+            var max = Math.max.apply(null, vals.concat([1]));
+            var rows = LIB_SKILLS.map(function (s, i) {
+              return '<div class="msw-lib-row"><span class="ic">' + s[1] + '</span>' + s[2] +
+                '<span class="bar"><i style="width:' + Math.round(vals[i] / max * 100) + '%;background:' + s[3] + '"></i></span>' +
+                '<span class="n">' + vals[i] + '</span></div>';
+            }).join('');
+            return '<div class="msw-lib-exam"><div class="msw-lib-head"><span class="nm">' + label + '</span><span class="tot">' + tot + '</span></div>' + rows + '</div>';
+          }
+          document.getElementById('mswLibCols').innerHTML = col('cefr', 'Multilevel') + col('ielts', 'IELTS');
+          return true;
+        }
+        if (!renderLib()) window.addEventListener('msv3-totals-ready', renderLib, { once: true });
+
+        // Personal stats — one fetch of this student's results, then render
+        var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+        var PK = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+        function pct(row) {
+          var s = String(row.score || '');
+          if (s.indexOf('/') > -1) {
+            var a = parseFloat(s.split('/')[0]), b = parseFloat(s.split('/')[1]);
+            if (!isNaN(a) && b > 0) return Math.min(100, a / b * 100);
+            return null;
+          }
+          var m = s.match(/(\d+(?:\.\d+)?)/);
+          if (!m) return null;
+          var n = parseFloat(m[1]);
+          if (/band/i.test(s) || /ielts/i.test(String(row.exam_type || ''))) return n <= 9 ? n / 9 * 100 : null;
+          return n <= 75 ? n / 75 * 100 : (n <= 100 ? n : null);
+        }
+        function skillOf(sk) {
+          sk = String(sk || '').toLowerCase();
+          if (sk.indexOf('speak') > -1) return 'speaking';
+          if (sk.indexOf('writ') > -1) return 'writing';
+          if (sk.indexOf('listen') > -1) return 'listening';
+          if (sk.indexOf('read') > -1) return 'reading';
+          return null;
+        }
+        function renderStats(rows) {
+          if (!rows || !rows.length) {
+            document.getElementById('mswChips').innerHTML =
+              '<div class="msw-chip c1" style="grid-column:1/-1"><div class="v">📈 Your progress lives here</div><div class="l">Sign in on the Account tab (or take your first mock) to unlock streaks, levels and charts</div></div>';
+            return;
+          }
+          var now = new Date();
+          var dayKey = function (d) { return d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate(); };
+          var days = {}, today = 0, week = 0, dayN = 0, nightN = 0;
+          var weekCounts = [0, 0, 0, 0, 0, 0, 0], weekLabels = [];
+          for (var i = 6; i >= 0; i--) {
+            var d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
+            weekLabels.push(d.toLocaleDateString('en', { weekday: 'short' }).slice(0, 2));
+          }
+          var todayKey = dayKey(now);
+          rows.forEach(function (r) {
+            var d = new Date(r.created_at);
+            if (isNaN(d)) return;
+            days[dayKey(d)] = 1;
+            var diff = Math.floor((new Date(now.getFullYear(), now.getMonth(), now.getDate()) -
+                                   new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 86400000);
+            if (dayKey(d) === todayKey) today++;
+            if (diff >= 0 && diff <= 6) { week++; weekCounts[6 - diff]++; }
+            var h = d.getHours();
+            if (h >= 6 && h < 18) dayN++; else nightN++;
+          });
+          var streak = 0, cur = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+          if (!days[dayKey(cur)]) cur.setDate(cur.getDate() - 1);
+          while (days[dayKey(cur)]) { streak++; cur.setDate(cur.getDate() - 1); }
+          // best level: highest-percentage CEFR row that carries a level label
+          var best = null, bestLevel = '';
+          rows.forEach(function (r) {
+            var p = pct(r);
+            if (p === null) return;
+            if (!best || p > best) {
+              best = p;
+              if (r.level) bestLevel = String(r.level);
+            }
+            if (!bestLevel && r.level) bestLevel = String(r.level);
+          });
+          document.getElementById('mswChips').innerHTML =
+            '<div class="msw-chip c1"><div class="v">' + rows.length + '</div><div class="l">Mocks taken</div></div>' +
+            '<div class="msw-chip c2"><div class="v">' + (bestLevel || '—') + '</div><div class="l">Best level</div></div>' +
+            '<div class="msw-chip c3"><div class="v">🔥 ' + streak + '</div><div class="l">days streak</div></div>' +
+            '<div class="msw-chip c4"><div class="v">' + today + '</div><div class="l">today</div></div>' +
+            '<div class="msw-chip c5"><div class="v">' + week + '</div><div class="l">this week</div></div>' +
+            '<div class="msw-chip c6"><div class="v">' + Object.keys(days).length + '</div><div class="l">active days</div></div>';
+
+          // learning curve — last 16 scored attempts, oldest → newest
+          var scored = rows.map(function (r) { return pct(r); }).filter(function (p) { return p !== null; });
+          scored = scored.slice(0, 16).reverse();
+          if (scored.length >= 2) {
+            var W = 600, H = 88, step = W / (scored.length - 1);
+            var ptsArr = scored.map(function (p, i) { return [Math.round(i * step), Math.round(H - 8 - (p / 100) * (H - 20))]; });
+            var line = ptsArr.map(function (p, i) { return (i ? 'L' : 'M') + p[0] + ',' + p[1]; }).join(' ');
+            var area = line + ' L' + W + ',' + H + ' L0,' + H + ' Z';
+            var delta = Math.round(scored[scored.length - 1] - scored[0]);
+            document.getElementById('mswCurveBody').className = '';
+            document.getElementById('mswCurveBody').innerHTML =
+              '<div class="msw-curve-top"><span class="lvl">' + (bestLevel || Math.round(best) + '%') + '</span>' +
+              '<span class="delta" style="color:' + (delta >= 0 ? '#059669' : '#dc2626') + '">' + (delta >= 0 ? '▲' : '▼') + ' ' + Math.abs(delta) + '%</span>' +
+              '<span class="cap">last ' + scored.length + ' mocks</span></div>' +
+              '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" aria-hidden="true">' +
+                '<defs><linearGradient id="mswCg" x1="0" y1="0" x2="0" y2="1">' +
+                  '<stop offset="0" stop-color="#0d9488" stop-opacity="0.22"/><stop offset="1" stop-color="#0d9488" stop-opacity="0"/>' +
+                '</linearGradient></defs>' +
+                '<line x1="0" y1="12" x2="' + W + '" y2="12" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="3 5"/>' +
+                '<path d="' + area + '" fill="url(#mswCg)"/>' +
+                '<path d="' + line + '" fill="none" stroke="#0d9488" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>' +
+              '</svg>';
+          }
+
+          // day vs night donut (conic-gradient — no canvas)
+          var tot = dayN + nightN;
+          if (tot > 0) {
+            var dp = Math.round(dayN / tot * 100);
+            document.getElementById('mswDnBody').className = 'msw-dn';
+            document.getElementById('mswDnBody').innerHTML =
+              '<div class="msw-donut" data-total="' + tot + '" style="background:conic-gradient(#f59e0b 0 ' + dp + '%, #6366f1 ' + dp + '% 100%)"></div>' +
+              '<div class="msw-dn-rows">' +
+                '<span>🌞 Day <b>' + dayN + '</b> ' + dp + '%</span>' +
+                '<span>🌙 Night <b>' + nightN + '</b> ' + (100 - dp) + '%</span>' +
+              '</div>';
+          }
+
+          // this week bars
+          var wmax = Math.max.apply(null, weekCounts.concat([1]));
+          document.getElementById('mswWeekBody').className = '';
+          document.getElementById('mswWeekBody').innerHTML =
+            '<div class="msw-week-bars">' + weekCounts.map(function (c, i) {
+              return '<div class="msw-week-col"><span class="b" style="height:' + Math.max(3, Math.round(c / wmax * 100)) + '%;opacity:' + (c ? 1 : 0.25) + '"></span><span class="d">' + weekLabels[i] + '</span></div>';
+            }).join('') + '</div>' +
+            '<div class="msw-week-cap">' + week + ' attempt' + (week !== 1 ? 's' : '') + ' this week</div>';
+
+          // level by skill (Multilevel / CEFR rows only)
+          var perSkill = {};
+          rows.forEach(function (r) {
+            if (/ielts/i.test(String(r.exam_type || ''))) return;
+            var sk = skillOf(r.skill);
+            if (!sk) return;
+            var p = pct(r);
+            perSkill[sk] = perSkill[sk] || { n: 0, best: null, level: '' };
+            perSkill[sk].n++;
+            if (p !== null && (perSkill[sk].best === null || p > perSkill[sk].best)) {
+              perSkill[sk].best = p;
+              if (r.level) perSkill[sk].level = String(r.level);
+            }
+          });
+          if (Object.keys(perSkill).length) {
+            document.getElementById('mswLevelsBody').className = 'msw-skills';
+            document.getElementById('mswLevelsBody').innerHTML = LIB_SKILLS.map(function (s) {
+              var d2 = perSkill[s[0]] || { n: 0, best: null, level: '' };
+              var fill = d2.best === null ? 0 : Math.max(8, Math.round(d2.best));
+              return '<div class="msw-skill">' +
+                '<div class="lv" style="color:' + s[3] + '">' + (d2.level || (d2.best !== null ? Math.round(d2.best) + '%' : '—')) + '</div>' +
+                '<div class="tube" style="background:' + s[3] + '22"><i style="height:' + fill + '%;background:' + s[3] + '"></i></div>' +
+                '<div class="nm">' + s[1] + ' ' + s[2] + '</div>' +
+                '<div class="ct">' + d2.n + ' mock' + (d2.n !== 1 ? 's' : '') + '</div>' +
+              '</div>';
+            }).join('');
+          }
+        }
+        (async function loadStats() {
+          // Identity resolution can lag behind auth.js session restore —
+          // wait for DOM-ready plus a beat, mirroring my-results.html.
+          await new Promise(function (r) {
+            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', r);
+            else r();
+          });
+          await new Promise(function (r) { setTimeout(r, 600); });
+          var email = '', token = '';
+          try {
+            var client = window.MockStream && window.MockStream.auth && window.MockStream.auth.getClient && window.MockStream.auth.getClient();
+            var sess = client && await client.auth.getSession();
+            var s2 = sess && sess.data && sess.data.session;
+            email = (s2 && s2.user && s2.user.email || '').toLowerCase();
+            token = s2 && s2.access_token || '';
+          } catch (_e) { }
+          var name = '';
+          try {
+            name = sessionStorage.getItem('CANDIDATE_FULL_NAME') || localStorage.getItem('ms_candidate_name') || '';
+          } catch (_e) { }
+          var url;
+          if (email) url = SB + '/rest/v1/results?user_email=eq.' + encodeURIComponent(email);
+          else if (name) url = SB + '/rest/v1/results?student_name=eq.' + encodeURIComponent(name);
+          else { renderStats([]); return; }
+          url += '&select=created_at,exam_type,skill,score,level&order=created_at.desc&limit=400';
+          try {
+            var resp = await fetch(url, { headers: { apikey: PK, Authorization: 'Bearer ' + (token || PK) } });
+            var rows = resp.ok ? await resp.json() : [];
+            renderStats(rows || []);
+          } catch (_e2) { renderStats([]); }
+        })();
+      })();
 
       // ── 3. Tab router (hash-based: #home / #mocks / …) ──
       function paintActive(tab) {
@@ -20217,6 +20720,7 @@
           try { history.replaceState(history.state, '', '#' + tab); } catch (_e) { }
         }
         if (opts.scroll !== false) window.scrollTo({ top: 0, behavior: 'instant' in window ? 'auto' : 'auto' });
+        if (tab === 'results') ensureResultsFrame();
         // Account tab: refresh the sign-in slot / admin locks / VIP badge
         // (normally done by the old drawer's open handler).
         if (tab === 'account') {
@@ -20285,6 +20789,8 @@
                           window.MockStream.auth.isSignedIn());
         } catch (_e) { }
         name = (name || '').trim();
+        var dzEl = document.getElementById('msv3DangerZone');
+        if (dzEl) dzEl.hidden = !(name && hasSession);
         var initial = (name[0] || '').toUpperCase();
         var status = !name ? '' : (hasSession
           ? ({ google: 'Google', telegram: 'Telegram', email: 'Email' })[provider] || 'Signed in'
