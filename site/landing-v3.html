@@ -20175,6 +20175,49 @@
     .msw-skill .ct { font-size: 10.5px; color: #94a3b8; margin-top: 1px; }
     .msw-empty { font-size: 12.5px; color: #64748b; padding: 6px 0; line-height: 1.5; }
 
+    /* Learn tab: app-launcher square tiles instead of long rows */
+    body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 {
+      display: grid !important;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 14px;
+    }
+    @media (max-width: 640px) {
+      body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 {
+        grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+        gap: 10px;
+      }
+    }
+    body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-card {
+      position: relative;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      aspect-ratio: 1 / 1;
+      gap: 10px;
+      padding: 14px 10px;
+      min-height: 0;
+    }
+    body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-icon {
+      width: 52px; height: 52px; border-radius: 15px; font-size: 25px;
+    }
+    body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-icon svg { width: 24px; height: 24px; }
+    body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-body { min-width: 0; width: 100%; }
+    body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-name { font-size: 13px; line-height: 1.2; }
+    body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-sub {
+      justify-content: center; font-size: 10.5px; margin-top: 3px;
+      display: flex; flex-wrap: wrap; gap: 4px; align-items: center;
+    }
+    body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-arrow { display: none; }
+    body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .soon-pill {
+      position: absolute; top: 8px; right: 8px; margin: 0;
+    }
+    @media (max-width: 640px) {
+      body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-icon { width: 42px; height: 42px; font-size: 20px; }
+      body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-name { font-size: 11.5px; }
+      body[data-msv3-tab="learn"] main .tools-grid.tools-grid-3 .tool-sub .tool-sub-text { display: none; }
+    }
+
     /* Coming-soon fillers */
     .msv3-flagcover {
       display: flex; align-items: center; justify-content: center;
@@ -20740,7 +20783,14 @@
             ['dailyquiz', '⚡', 'linear-gradient(135deg, #fbbf24, #d97706)', 'Daily Quiz', '5-minute daily challenge'],
             ['pronlab', '🗣️', 'linear-gradient(135deg, #34d399, #059669)', 'Pronunciation Lab', 'Record & compare sounds'],
             ['idioms', '🧩', 'linear-gradient(135deg, #f472b6, #db2777)', 'Idioms & Phrasals', 'Master natural English'],
-            ['dictation', '🎧', 'linear-gradient(135deg, #60a5fa, #2563eb)', 'Dictation', 'Type what you hear']
+            ['dictation', '🎧', 'linear-gradient(135deg, #60a5fa, #2563eb)', 'Dictation', 'Type what you hear'],
+            ['speakingclub', '🎙️', 'linear-gradient(135deg, #fb7185, #e11d48)', 'Speaking Club', 'Live practice rooms'],
+            ['podcasts', '📻', 'linear-gradient(135deg, #38bdf8, #0284c7)', 'Podcasts', 'Graded listening series'],
+            ['essaybank', '📝', 'linear-gradient(135deg, #818cf8, #4f46e5)', 'Essay Bank', 'Model answers library'],
+            ['spellingbee', '🐝', 'linear-gradient(135deg, #facc15, #ca8a04)', 'Spelling Bee', 'Beat the dictionary'],
+            ['collocations', '🔗', 'linear-gradient(135deg, #2dd4bf, #0d9488)', 'Collocations', 'Words that go together'],
+            ['movieclips', '🎬', 'linear-gradient(135deg, #c084fc, #9333ea)', 'Movie Clips', 'Learn from real scenes'],
+            ['newsdigest', '📰', 'linear-gradient(135deg, #94a3b8, #475569)', 'News Digest', 'Simplified daily news']
           ];
           grid.insertAdjacentHTML('beforeend', TOOLS.map(function (t) {
             return '<a class="tool-card soon" href="javascript:void(0)" data-learn-soon="' + t[0] + '">' +
