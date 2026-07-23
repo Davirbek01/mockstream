@@ -7983,7 +7983,9 @@
           messages.push({ role: 'user', content: uText });
         }
         var body = { model: _mdlOpenAI, messages: messages, temperature: opts.temperature || 0.3 };
-        if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+        // gpt-5.x rejects sampling params — API default temperature only.
+        if (/^gpt-5/.test(_mdlOpenAI)) delete body.temperature;
+        if (opts.maxTokens) body.max_completion_tokens = opts.maxTokens; // modern param (gpt-4o + gpt-5.x)
         if (opts.jsonMode) body.response_format = { type: 'json_object' };
         var r = await fetch('https://api.openai.com/v1/chat/completions', {
           method: 'POST',
@@ -8483,21 +8485,22 @@
       // Groq Whisper turbo — fastest + cheapest (single POST, OpenAI-compatible
       // multipart form, server-side key via ai-proxy interceptor).
       if (provider === 'groq') {
-        try {
-          var grqT = await _groqTranscribe(blob, cp);
-          if (grqT) return grqT;
-        } catch (e) { console.warn('[Transcribe] Groq failed, falling back to Gemini:', e.message); }
+        // NO cross-provider fallback (2026-07-24): the transcriber is pinned —
+        // a Groq failure surfaces as an error instead of silently billing Gemini.
+        var grqT = await _groqTranscribe(blob, cp);
+        if (grqT) return grqT;
+        throw new Error('Groq Whisper transcription failed (no fallback — transcriber pinned to Groq)');
       }
 
       // AssemblyAI — cheap, fast (cloud-side ASR via proxy: upload → request → poll)
       if (provider === 'assemblyai') {
-        try {
-          var aaT = await _assemblyAiTranscribe(blob);
-          if (aaT) return aaT;
-        } catch (e) { console.warn('[Transcribe] AssemblyAI failed, falling back to Gemini:', e.message); }
+        // NO cross-provider fallback (2026-07-24) — see Groq note above.
+        var aaT = await _assemblyAiTranscribe(blob);
+        if (aaT) return aaT;
+        throw new Error('AssemblyAI transcription failed (no fallback — transcriber pinned to AssemblyAI)');
       }
 
-      // Gemini transcription (primary for gemini; fallback for others)
+      // Gemini transcription (only reached when gemini IS the configured transcriber)
       if (!GEMINI_KEY) { try { await getGeminiKey(); } catch (e) {} }
       if (!GEMINI_KEY) throw new Error('No API key for transcription');
       var b64g = await _blobToBase64(blob);

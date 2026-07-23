@@ -8776,32 +8776,6 @@
           if (!r.ok) throw new Error('Failed to fetch ' + m + ' key'); var d = await r.json(); return d.key;
         }
 
-        // ── AI Routing Mode (Gemma4 / API / BOTH) per skill ─────────────────────
-        var _aiRoutingModeCache = {}, _aiRoutingModeCacheTime = {};
-        async function _getAiRoutingMode(skill) {
-          // Gemma4 / local-AI routing removed — always use the selected cloud provider.
-          return 'api';
-        }
-
-        var _GEMMA4_URL = 'https://ai.mock-stream.com';
-        async function _callGemma4(promptText, timeoutMs) {
-          timeoutMs = timeoutMs || 120000;
-          var ctrl = new AbortController();
-          var timer = setTimeout(function(){ ctrl.abort(); }, timeoutMs);
-          try {
-            var resp = await fetch(_GEMMA4_URL + '/grade', {
-              method: 'POST', headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ type: 'scoring', prompt: promptText, text: '' }),
-              signal: ctrl.signal
-            });
-            clearTimeout(timer);
-            if (!resp.ok) throw new Error('Gemma4 HTTP ' + resp.status);
-            var d = await resp.json();
-            if (!d.ok) throw new Error(d.error || 'Gemma4 error');
-            return d.result;
-          } catch(e) { clearTimeout(timer); throw e; }
-        }
-
         async function _callScoringAI(systemText, userPrompt, opts) {
           opts = opts || {};
           // Cross-provider fallback wrapper — see Writing Mocks.html.
@@ -8828,10 +8802,7 @@
                       if (centerProvider) provider = centerProvider;
                     }
 
-          var routingMode = await _getAiRoutingMode(opts.skill || 'writing');
-          if (routingMode === 'gemma4') { provider = 'gemma4'; }
-
-          console.log('%c[AI Scoring] Provider: ' + provider.toUpperCase() + ' | Routing: ' + routingMode, 'color:#fff;background:#6d28d9;padding:2px 8px;border-radius:4px;font-weight:bold');
+          console.log('%c[AI Scoring] Provider: ' + provider.toUpperCase(), 'color:#fff;background:#6d28d9;padding:2px 8px;border-radius:4px;font-weight:bold');
           (function(p){ var d=document.getElementById('_aiProviderBadge'); if(!d){d=document.createElement('div');d.id='_aiProviderBadge';d.style.cssText='position:fixed;top:12px;right:12px;z-index:999999;padding:6px 16px;border-radius:8px;font:bold 13px system-ui;color:#fff;background:#6d28d9;box-shadow:0 2px 12px rgba(0,0,0,.25);transition:opacity .5s;pointer-events:none';document.body.appendChild(d)} d.textContent='\u{1F916} AI: '+p.toUpperCase();d.style.opacity='1';clearTimeout(d._t);d._t=setTimeout(function(){d.style.opacity='0'},6000); })(provider);
           document.querySelectorAll('#aiStep2 span, #wpAiStep2 span').forEach(function(s){ s.textContent = 'Connecting to ' + provider.charAt(0).toUpperCase() + provider.slice(1) + ' AI...'; });
           if (provider === 'openai') {
@@ -8844,8 +8815,11 @@
             var messages = [];
             if (systemText) messages.push({ role: 'system', content: systemText });
             messages.push({ role: 'user', content: userPrompt });
-            var body = { model: 'gpt-4o-mini', messages: messages, temperature: opts.temperature || 0.3 };
-            if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+            var _mdlO = ((typeof cp !== 'undefined' && cp && cp['scoring_model_openai']) || '').trim() || 'gpt-4o-mini';
+        var body = { model: _mdlO, messages: messages, temperature: opts.temperature || 0.3 };
+        // gpt-5.x rejects sampling params — API default temperature only.
+        if (/^gpt-5/.test(_mdlO)) delete body.temperature;
+            if (opts.maxTokens) body.max_completion_tokens = opts.maxTokens; // modern param (gpt-4o + gpt-5.x)
             if (opts.jsonMode) body.response_format = { type: 'json_object' };
             var r = await fetch('https://api.openai.com/v1/chat/completions', {
               method: 'POST',
@@ -8960,30 +8934,6 @@
             var _lm = _ls.match(/```(?:json)?\s*([\s\S]*?)```/);
             if (_lm) _ls = _lm[1].trim();
             return _ls;
-          } else if (provider === 'gemma4') {
-            var _g4Text = (systemText ? systemText + '\n\n' : '') + userPrompt;
-            return await _callGemma4(_g4Text, 180000);
-          } else if (routingMode === 'both') {
-            var _bothText = (systemText ? systemText + '\n\n' : '') + userPrompt;
-            try {
-              console.log('[AI Routing] BOTH mode: trying Gemma4 first...');
-              return await _callGemma4(_bothText, 30000);
-            } catch(e) {
-              console.warn('[AI Routing] Gemma4 failed, falling back to Gemini:', e.message);
-            }
-            if (!GEMINI_KEY) { try { await getGeminiKey(); } catch(e){} }
-            if (!GEMINI_KEY) throw new Error('No Gemini API key available');
-            var gBody = { contents: [{ parts: [{ text: userPrompt }] }], generationConfig: { temperature: opts.temperature || 0.3, maxOutputTokens: opts.maxTokens || 16000, thinkingConfig: { thinkingBudget: 2000 } } };
-            if (opts.jsonMode) gBody.generationConfig.response_mime_type = 'application/json';
-            if (systemText) gBody.systemInstruction = { parts: [{ text: systemText }] };
-            var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=' + GEMINI_KEY, {
-              method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(gBody)
-            });
-            if (!r.ok) throw new Error('AI API error: ' + r.status);
-            var j = await r.json();
-            if (j.error) throw new Error(j.error.message || 'API error');
-            if (!j.candidates || !j.candidates.length) throw new Error('No response from AI');
-            return j.candidates[0].content.parts[0].text;
           } else {
             if (!GEMINI_KEY) { try { await getGeminiKey(); } catch(e){} }
             if (!GEMINI_KEY) throw new Error('No Gemini API key available');

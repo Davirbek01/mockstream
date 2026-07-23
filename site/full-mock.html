@@ -8731,38 +8731,6 @@
           throw lastErr;
         }
 
-        // ── AI Routing Mode (Gemma4 / API / BOTH) per skill ─────────────────────
-        var _aiRoutingModeCache = {}, _aiRoutingModeCacheTime = {};
-        async function _getAiRoutingMode(skill) {
-          // Gemma4 / local-AI routing removed — always use the selected cloud
-          // provider (scoring_ai_provider / per-centre). Never 'gemma4' or 'both'.
-          return 'api';
-        }
-
-        var _GEMMA4_URL = 'https://ai.mock-stream.com';
-
-        async function _callGemma4(promptText, timeoutMs) {
-          timeoutMs = timeoutMs || 120000;
-          var ctrl = new AbortController();
-          var timer = setTimeout(function(){ ctrl.abort(); }, timeoutMs);
-          try {
-            var resp = await fetch(_GEMMA4_URL + '/grade', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ type: 'scoring', prompt: promptText, text: '' }),
-              signal: ctrl.signal
-            });
-            clearTimeout(timer);
-            if (!resp.ok) throw new Error('Gemma4 HTTP ' + resp.status);
-            var d = await resp.json();
-            if (!d.ok) throw new Error(d.error || 'Gemma4 error');
-            return d.result;
-          } catch(e) {
-            clearTimeout(timer);
-            throw e;
-          }
-        }
-
         async function _callScoringAI(systemText, userPrompt, opts) {
           opts = opts || {};
           // Cross-provider fallback wrapper — see Writing Mocks.html for the
@@ -8800,10 +8768,8 @@
                     }
 
           // Check AI routing mode per skill (writing/speaking)
-          var routingMode = await _getAiRoutingMode(opts.skill || 'writing');
-          if (routingMode === 'gemma4') { provider = 'gemma4'; }
 
-          console.log('%c[AI Scoring] Provider: ' + provider.toUpperCase() + ' | Routing: ' + routingMode, 'color:#fff;background:#6d28d9;padding:2px 8px;border-radius:4px;font-weight:bold');
+          console.log('%c[AI Scoring] Provider: ' + provider.toUpperCase(), 'color:#fff;background:#6d28d9;padding:2px 8px;border-radius:4px;font-weight:bold');
           (function(p){ var d=document.getElementById('_aiProviderBadge'); if(!d){d=document.createElement('div');d.id='_aiProviderBadge';d.style.cssText='position:fixed;top:12px;right:12px;z-index:999999;padding:6px 16px;border-radius:8px;font:bold 13px system-ui;color:#fff;background:#6d28d9;box-shadow:0 2px 12px rgba(0,0,0,.25);transition:opacity .5s;pointer-events:none';document.body.appendChild(d)} d.textContent='\u{1F916} AI: '+p.toUpperCase();d.style.opacity='1';clearTimeout(d._t);d._t=setTimeout(function(){d.style.opacity='0'},6000); })(provider);
           document.querySelectorAll('#aiStep2 span, #wpAiStep2 span').forEach(function(s){ s.textContent = 'Connecting to ' + provider.charAt(0).toUpperCase() + provider.slice(1) + ' AI...'; });
           var _mdlOpenAI    = (cp['scoring_model_openai']   || '').trim() || 'gpt-4o-mini';
@@ -8828,7 +8794,9 @@
             uText += _imgNote;
             messages.push({ role: 'user', content: uText });
             var body = { model: _mdlOpenAI, messages: messages, temperature: opts.temperature || 0.3 };
-            if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+        // gpt-5.x rejects sampling params — API default temperature only.
+        if (/^gpt-5/.test(_mdlOpenAI)) delete body.temperature;
+            if (opts.maxTokens) body.max_completion_tokens = opts.maxTokens; // modern param (gpt-4o + gpt-5.x)
             if (opts.jsonMode) body.response_format = { type: 'json_object' };
             return await _callWithKeyRotation('openai', API_KEY, _getServerBackupKeys('openai').concat(_getBackupKeys('openai', cp)), async function(key) {
               var r = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -8956,50 +8924,6 @@
               if (_lm) _ls = _lm[1].trim();
               return _ls;
             });
-                    } else if (provider === 'gemma4') {
-                        if (opts && opts.gemmaTask === 'inline_corrections') {
-                            var _g4InlineUserText = opts.contentParts ? opts.contentParts.filter(function(p){ return p.text; }).map(function(p){ return p.text; }).join('\n') : userPrompt;
-                            return await _callGemma4((systemText ? systemText + '\n\n' : '') + _g4InlineUserText, 120000);
-                        }
-            // Local Gemma4 via Ollama — use simplified prompt for better reliability
-            var _skill = (opts && opts.skill) || 'writing';
-            var _g4UserText = opts.contentParts ? opts.contentParts.filter(function(p){ return p.text; }).map(function(p){ return p.text; }).join('\n') : userPrompt;
-            var _g4System;
-            if (_skill === 'speaking') {
-              _g4System = 'You are a CEFR speaking examiner. Score the candidate responses below.\n\nReturn ONLY valid JSON (no markdown) with this structure:\n{"overall_score":<0-100>,"cefr_level":"<Below B1|B1|B2|C1>","fluency":<0-25>,"vocabulary":<0-25>,"grammar":<0-25>,"pronunciation":<0-25>,"feedback":"<2 sentences>","strengths":["s1"],"improvements":["i1","i2"]}';
-            } else {
-                            _g4System = 'You are a CEFR writing scorer. Return ONLY valid JSON (no markdown) with this exact structure:\n{"t11_score":0,"t12_score":0,"t2_score":0,"raw_score":0,"certificate_score":0,"cefr_level":"Below B1","feedback":"","t11_analysis":{"relevance":"ON-TOPIC","word_penalty":0,"corrected_text":"","examiner_feedback":"","sample_answer":""},"t12_analysis":{"relevance":"ON-TOPIC","word_penalty":0,"corrected_text":"","examiner_feedback":"","sample_answer":""},"t2_analysis":{"relevance":"ON-TOPIC","word_penalty":0,"corrected_text":"","examiner_feedback":"","sample_answer":""},"top_improvements":[]}\nUse integer scores only (t11 0-5, t12 0-5, t2 0-6). Set raw_score=t11+t12+t2. Use score map 16=75,15=69,14=65,13=63,12=61,11=57,10=53,9=50,8=47,7=43,6=40,5=37,4=33,3=28,2=21,1=14,0=0. Set CEFR by certificate: 0-34 Below B1, 35-50 B1, 51-64 B2, 65-75 C1. Leave ALL string fields empty (feedback, corrected_text, examiner_feedback, sample_answer must all be empty strings). Only fill numeric scores and cefr_level.';
-            }
-            return await _callGemma4(_g4System + '\n\n' + _g4UserText, 180000);
-          } else if (routingMode === 'both') {
-            // Try Gemma4 first (15s timeout), fallback to configured provider (Gemini)
-            var _bothText = (systemText ? systemText + '\n\n' : '') + (opts.contentParts ? opts.contentParts.filter(function(p){ return p.text; }).map(function(p){ return p.text; }).join('\n') : userPrompt);
-            _bothText += _imgNote;
-            try {
-              console.log('[AI Routing] BOTH mode: trying Gemma4 first...');
-              return await _callGemma4(_bothText, 30000);
-            } catch(e) {
-              console.warn('[AI Routing] Gemma4 failed, falling back to Gemini:', e.message);
-            }
-            // Fallback: Gemini
-            if (!GEMINI_KEY) { try { await getGeminiKey(); } catch(e){} }
-            if (!GEMINI_KEY) throw new Error('No Gemini API key available');
-            var gBody = {
-              contents: [{ parts: opts.contentParts || [{ text: userPrompt }] }],
-              generationConfig: { temperature: opts.temperature || 0.3, maxOutputTokens: opts.maxTokens || 16000, thinkingConfig: { thinkingBudget: 2000 } }
-            };
-            if (opts.jsonMode) gBody.generationConfig.response_mime_type = 'application/json';
-            if (systemText) gBody.systemInstruction = { parts: [{ text: systemText }] };
-            return await _callWithKeyRotation('gemini', GEMINI_KEY, _getServerBackupKeys('gemini').concat(_getBackupKeys('gemini', cp)), async function(key) {
-              var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + _mdlGemini + ':generateContent?key=' + key, {
-                method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(gBody)
-              });
-              if (!r.ok) throw new Error('AI API error: ' + r.status);
-              var j = await r.json();
-              if (j.error) throw new Error(j.error.message || 'API error');
-              if (!j.candidates || !j.candidates.length) throw new Error('No response from AI');
-              return j.candidates[0].content.parts[0].text;
-            });
           } else {
             if (!GEMINI_KEY) { try { await getGeminiKey(); } catch(e){} }
             if (!GEMINI_KEY) throw new Error('No Gemini API key available');
@@ -9077,8 +9001,7 @@
                         temperature: 0.1,
                         maxTokens: 4096,
                         jsonMode: true,
-                        skill: 'writing',
-                        gemmaTask: 'inline_corrections'
+                        skill: 'writing'
                     });
                     return _extractJsonObject(correctionText);
                 }
@@ -9371,8 +9294,6 @@ Empty responses = 0 points and skip analysis for that task.`;
                     var provider = (cp['scoring_ai_provider'] || 'gemini').toString().trim().toLowerCase();
                     var centerProvider = await _getCenterAiProviderOverride();
                     if (centerProvider) provider = centerProvider;
-          var routingMode = await _getAiRoutingMode('speaking');
-          if (routingMode === 'gemma4') provider = 'gemma4';
           // Per-center explicit transcriber override applies to ALL base providers.
           // Default = use the base provider itself for transcription (native).
           var centerTranscriber = '';
@@ -9397,7 +9318,7 @@ Empty responses = 0 points and skip analysis for that task.`;
                 || globalTr === 'groq') {
               console.log('[Transcribe] Global transcriber default:', globalTr, '(base scoring AI: ' + provider + ')');
               provider = globalTr;
-            } else if (provider === 'grok' || provider === 'deepseek' || provider === 'gemma4') {
+            } else if (provider === 'grok' || provider === 'deepseek') {
               console.log('[Transcribe] Text-only provider (' + provider + ') with no override, defaulting to gemini.');
               provider = 'gemini';
             } else {
@@ -9438,7 +9359,7 @@ Empty responses = 0 points and skip analysis for that task.`;
                   var j = await r.json();
                   return (j.text || '[No speech detected]').trim();
                 });
-              } catch(e) { console.warn('[Transcribe] Whisper failed, falling back to Gemini:', e.message); }
+              } catch(e) { throw new Error('OpenAI Whisper transcription failed (no fallback — transcriber pinned): ' + e.message); }
             }
           }
 
@@ -9462,7 +9383,7 @@ Empty responses = 0 points and skip analysis for that task.`;
                   if (j.error) throw new Error(j.error.message);
                   return (j.content[0].text || '[No speech detected]').trim();
                 });
-              } catch(e) { console.warn('[Transcribe] Claude audio failed, falling back to Gemini:', e.message); }
+              } catch(e) { throw new Error('Claude audio transcription failed (no fallback — transcriber pinned): ' + e.message); }
             }
           }
 
@@ -9472,7 +9393,8 @@ Empty responses = 0 points and skip analysis for that task.`;
             try {
               var grqT = await _groqTranscribe(blob, cp);
               if (grqT) return grqT;
-            } catch(e) { console.warn('[Transcribe] Groq failed, falling back to Gemini:', e.message); }
+              throw new Error('Groq transcription returned empty (no fallback)');
+            } catch(e) { throw new Error('Groq Whisper transcription failed (no fallback — transcriber pinned): ' + e.message); }
           }
 
           // AssemblyAI — cheap, fast (cloud-side ASR via proxy: upload → request → poll)
@@ -9480,10 +9402,11 @@ Empty responses = 0 points and skip analysis for that task.`;
             try {
               var aaT = await _assemblyAiTranscribe(blob);
               if (aaT) return aaT;
-            } catch(e) { console.warn('[Transcribe] AssemblyAI failed, falling back to Gemini:', e.message); }
+              throw new Error('AssemblyAI transcription returned empty (no fallback)');
+            } catch(e) { throw new Error('AssemblyAI transcription failed (no fallback — transcriber pinned): ' + e.message); }
           }
 
-          // Gemini (primary for 'gemini'; fallback for grok, deepseek, gemma4)
+          // Gemini (only reached when gemini IS the configured transcriber)
           if (!GEMINI_KEY) { try { await getGeminiKey(); } catch(e){} }
           if (!GEMINI_KEY) throw new Error('No API key for transcription');
           var b64g = await new Promise(function(res, rej) { var rd = new FileReader(); rd.onloadend = function(){ res(rd.result.split(',')[1]); }; rd.onerror = rej; rd.readAsDataURL(blob); });

@@ -291,12 +291,23 @@
       </div>
       <div class="sysprompt-provider-row">
         <span>AI Provider:</span>
-        <button class="sysprompt-provider-btn active" id="spProviderGemini" onclick="_spSetProvider('gemini')">✨ Gemini</button>
-        <button class="sysprompt-provider-btn" id="spProviderOpenai" onclick="_spSetProvider('openai')">🤖 OpenAI</button>
-        <button class="sysprompt-provider-btn" id="spProviderClaude" onclick="_spSetProvider('claude')">🟣 Claude</button>
-        <button class="sysprompt-provider-btn" id="spProviderGrok" onclick="_spSetProvider('grok')" title="Vision-capable (grok-4.x) — image prompts work. No native audio (transcriber required for Speaking).">⚡ Grok 🖼️</button>
-        <button class="sysprompt-provider-btn" id="spProviderDeepseek" onclick="_spSetProvider('deepseek')" title="⚠️ Text only — Speaking mocks will use transcript-based scoring (no audio)">🔵 DeepSeek ⚠️</button>
-        <button class="sysprompt-provider-btn" id="spProviderGroqQwen" onclick="_spSetGroqVariant('qwen/qwen3.6-27b','spProviderGroqQwen')" title="⚠️ Text only — Speaking mocks use transcript-based scoring (no audio)">⚡ Groq Qwen 3.6 27B ⚠️</button>
+        <button class="sysprompt-provider-btn active" id="spProviderGeminiLite" onclick="_spSetTierVariant('gemini','gemini-3.1-flash-lite','spProviderGeminiLite')" title="Cheapest Gemini — native audio + vision, no helpers needed">✨ Gemini Flash-Lite 3.1</button>
+        <button class="sysprompt-provider-btn" id="spProviderGeminiFlash" onclick="_spSetTierVariant('gemini','gemini-flash-latest','spProviderGeminiFlash')" title="Balanced Gemini (auto-tracks latest flash) — native audio + vision">✨ Gemini Flash</button>
+        <button class="sysprompt-provider-btn" id="spProviderGeminiPro" onclick="_spSetTierVariant('gemini','gemini-2.5-pro','spProviderGeminiPro')" title="Most capable stable Gemini — native audio + vision, higher cost">✨ Gemini Pro 2.5</button>
+        <button class="sysprompt-provider-btn" id="spProviderOpenaiNano" onclick="_spSetTierVariant('openai','gpt-5.4-nano','spProviderOpenaiNano')" title="Cheapest OpenAI — vision + own Whisper on the same key">🤖 GPT-5.4 Nano</button>
+        <button class="sysprompt-provider-btn" id="spProviderOpenaiMini" onclick="_spSetTierVariant('openai','gpt-5.4-mini','spProviderOpenaiMini')" title="Balanced OpenAI — vision + own Whisper">🤖 GPT-5.4 Mini</button>
+        <button class="sysprompt-provider-btn" id="spProviderOpenaiFull" onclick="_spSetTierVariant('openai','gpt-5.4','spProviderOpenaiFull')" title="Most capable OpenAI chat model (runs at API default temperature — sampling params unsupported)">🤖 GPT-5.4</button>
+        <button class="sysprompt-provider-btn" id="spProviderClaudeHaiku" onclick="_spSetClaudeVariant('claude-haiku-4-5','spProviderClaudeHaiku')" title="Fastest & cheapest Claude — vision-capable; no native audio (transcriber required for Speaking)">🟣 Claude Haiku 4.5 🖼️</button>
+        <button class="sysprompt-provider-btn" id="spProviderClaudeSonnet" onclick="_spSetClaudeVariant('claude-sonnet-5','spProviderClaudeSonnet')" title="Balanced Claude — vision-capable; no native audio (transcriber required for Speaking)">🟣 Claude Sonnet 5 🖼️</button>
+        <button class="sysprompt-provider-btn" id="spProviderClaudeOpus" onclick="_spSetClaudeVariant('claude-opus-4-8','spProviderClaudeOpus')" title="Most capable Claude (highest cost) — vision-capable; no native audio (transcriber required for Speaking)">🟣 Claude Opus 4.8 🖼️</button>
+        <button class="sysprompt-provider-btn" id="spProviderGrokFast" onclick="_spSetTierVariant('grok','grok-4.20-0309-non-reasoning','spProviderGrokFast')" title="Fastest/cheapest Grok — vision-capable; transcriber required for Speaking">⚡ Grok 4.20 Fast 🖼️</button>
+        <button class="sysprompt-provider-btn" id="spProviderGrok43" onclick="_spSetTierVariant('grok','grok-4.3','spProviderGrok43')" title="Balanced Grok — vision-capable; transcriber required for Speaking">⚡ Grok 4.3 🖼️</button>
+        <button class="sysprompt-provider-btn" id="spProviderGrok45" onclick="_spSetTierVariant('grok','grok-4.5','spProviderGrok45')" title="Most capable Grok — vision-capable; transcriber required for Speaking">⚡ Grok 4.5 🖼️</button>
+        <button class="sysprompt-provider-btn" id="spProviderDeepseekChat" onclick="_spSetTierVariant('deepseek','deepseek-chat','spProviderDeepseekChat')" title="⚠️ Text only — fast, cheapest frontier-class; transcript-based Speaking">🔵 DeepSeek Chat ⚠️</button>
+        <button class="sysprompt-provider-btn" id="spProviderDeepseekReasoner" onclick="_spSetTierVariant('deepseek','deepseek-reasoner','spProviderDeepseekReasoner')" title="⚠️ Text only — thinking mode, 2-3× slower & more output tokens; transcript-based Speaking">🔵 DeepSeek Reasoner ⚠️</button>
+        <button class="sysprompt-provider-btn" id="spProviderGroqLlama8B" onclick="_spSetGroqVariant('llama-3.1-8b-instant','spProviderGroqLlama8B')" title="⚠️ Text only — cheapest/fastest on Groq LPU">🟢 Groq Llama 8B Instant ⚠️</button>
+        <button class="sysprompt-provider-btn" id="spProviderGroqQwen" onclick="_spSetGroqVariant('qwen/qwen3.6-27b','spProviderGroqQwen')" title="⚠️ Text only — emits <think> preamble; avoid for JSON scoring">⚡ Groq Qwen 3.6 27B ⚠️</button>
+        <button class="sysprompt-provider-btn" id="spProviderGroqOss" onclick="_spSetGroqVariant('openai/gpt-oss-120b','spProviderGroqOss')" title="⚠️ Text only — largest open-weight on Groq">🟢 Groq GPT-OSS 120B ⚠️</button>
         <button class="sysprompt-provider-btn" id="spProviderGroqLlama70B" onclick="_spSetGroqVariant('llama-3.3-70b-versatile','spProviderGroqLlama70B')" title="⚠️ Text only — Speaking mocks use transcript-based scoring (no audio)">⚡ Groq Llama 3.3 70B ⚠️</button>
       </div>
       <div class="sysprompt-provider-row" style="margin-top:6px;align-items:center;">
@@ -381,7 +392,7 @@
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
             <div class="sysprompt-field" style="margin:0">
               <label>OpenAI — Scoring model</label>
-              <input type="text" id="sp_scoring_model_openai" placeholder="gpt-4o-mini" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+              <input type="text" id="sp_scoring_model_openai" placeholder="gpt-5.4-nano · gpt-5.4-mini · gpt-5.4" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
             </div>
             <div class="sysprompt-field" style="margin:0">
               <label>OpenAI — Transcription model (Whisper)</label>
@@ -389,23 +400,23 @@
             </div>
             <div class="sysprompt-field" style="margin:0">
               <label>Gemini — Scoring &amp; Transcription model</label>
-              <input type="text" id="sp_scoring_model_gemini" placeholder="gemini-flash-latest" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+              <input type="text" id="sp_scoring_model_gemini" placeholder="gemini-3.1-flash-lite · gemini-flash-latest · gemini-2.5-pro" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
             </div>
             <div class="sysprompt-field" style="margin:0">
               <label>Claude model</label>
-              <input type="text" id="sp_scoring_model_claude" placeholder="claude-sonnet-4-20250514" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+              <input type="text" id="sp_scoring_model_claude" placeholder="claude-haiku-4-5 · claude-sonnet-5 · claude-opus-4-8" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
             </div>
             <div class="sysprompt-field" style="margin:0">
               <label>Grok model</label>
-              <input type="text" id="sp_scoring_model_grok" placeholder="grok-3-mini" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+              <input type="text" id="sp_scoring_model_grok" placeholder="grok-4.20-0309-non-reasoning · grok-4.3 · grok-4.5" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
             </div>
             <div class="sysprompt-field" style="margin:0">
               <label>DeepSeek model</label>
-              <input type="text" id="sp_scoring_model_deepseek" placeholder="deepseek-chat" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+              <input type="text" id="sp_scoring_model_deepseek" placeholder="deepseek-chat · deepseek-reasoner" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
             </div>
             <div class="sysprompt-field" style="margin:0;grid-column:1 / -1">
               <label>Groq model (clicking a Groq provider button above prefills this)</label>
-              <input type="text" id="sp_scoring_model_groq" placeholder="llama-3.3-70b-versatile · qwen/qwen3.6-27b" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+              <input type="text" id="sp_scoring_model_groq" placeholder="llama-3.1-8b-instant · llama-3.3-70b-versatile · qwen/qwen3.6-27b · openai/gpt-oss-120b" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
             </div>
             <div class="sysprompt-field" style="margin:0;grid-column:1 / -1">
               <label>Llama 4 Scout model (Groq · vision)</label>
@@ -544,12 +555,26 @@
     function _spSetProvider(p) {
       _spCurrentProvider = p;
       var _scoutBtn = document.getElementById('spProviderLlamaScout');
-      document.getElementById('spProviderGemini').classList.toggle('active', p === 'gemini');
-      document.getElementById('spProviderOpenai').classList.toggle('active', p === 'openai');
-      document.getElementById('spProviderClaude').classList.toggle('active', p === 'claude');
+      // Tier-variant groups: buttons share a provider id and differ only by
+      // the model they preset; _spSetTierVariant() lights the exact one.
+      var _tierGroups = {
+        gemini:   ['spProviderGeminiLite', 'spProviderGeminiFlash', 'spProviderGeminiPro'],
+        openai:   ['spProviderOpenaiNano', 'spProviderOpenaiMini', 'spProviderOpenaiFull'],
+        grok:     ['spProviderGrokFast', 'spProviderGrok43', 'spProviderGrok45'],
+        deepseek: ['spProviderDeepseekChat', 'spProviderDeepseekReasoner']
+      };
+      Object.keys(_tierGroups).forEach(function (prov) {
+        if (p !== prov) _tierGroups[prov].forEach(function (id) {
+          var b = document.getElementById(id); if (b) b.classList.remove('active');
+        });
+      });
+      // Claude variant buttons share provider id 'claude' (model differs);
+      // _spSetClaudeVariant() lights the exact one clicked.
+      var claudeBtns = ['spProviderClaudeHaiku', 'spProviderClaudeSonnet', 'spProviderClaudeOpus'];
+      if (p !== 'claude') {
+        claudeBtns.forEach(function (id) { var b = document.getElementById(id); if (b) b.classList.remove('active'); });
+      }
       if (_scoutBtn) _scoutBtn.classList.toggle('active', p === 'llama-scout');
-      document.getElementById('spProviderGrok').classList.toggle('active', p === 'grok');
-      document.getElementById('spProviderDeepseek').classList.toggle('active', p === 'deepseek');
       // The three Groq variant buttons are deactivated when a non-Groq provider
       // is picked. _spSetGroqVariant() handles activating exactly the variant
       // the user clicked (since they all share provider id 'groq').
@@ -600,6 +625,39 @@
     // a different model string in sp_scoring_model_groq. Backend code only
     // sees provider='groq' + model=<chosen>, so a single 'groq' branch in
     // each scoring page handles all three.
+    // Same pattern for the three Claude tiers: provider stays 'claude',
+    // only scoring_model_claude changes, so the pages' single claude
+    // branch serves Haiku / Sonnet / Opus alike.
+    function _spSetClaudeVariant(modelString, btnId) {
+      _spSetProvider('claude');
+      var fld = document.getElementById('sp_scoring_model_claude');
+      if (fld) fld.value = modelString;
+      var claudeBtns = ['spProviderClaudeHaiku', 'spProviderClaudeSonnet', 'spProviderClaudeOpus'];
+      claudeBtns.forEach(function (id) {
+        var b = document.getElementById(id);
+        if (b) b.classList.toggle('active', id === btnId);
+      });
+    }
+
+    // Generic tier setter: provider stays the family id, only its
+    // scoring_model_<provider> field changes — pages need no edits.
+    var _SP_TIER_FIELDS = { gemini: 'sp_scoring_model_gemini', openai: 'sp_scoring_model_openai', grok: 'sp_scoring_model_grok', deepseek: 'sp_scoring_model_deepseek', claude: 'sp_scoring_model_claude' };
+    var _SP_TIER_BTNS = {
+      gemini:   ['spProviderGeminiLite', 'spProviderGeminiFlash', 'spProviderGeminiPro'],
+      openai:   ['spProviderOpenaiNano', 'spProviderOpenaiMini', 'spProviderOpenaiFull'],
+      grok:     ['spProviderGrokFast', 'spProviderGrok43', 'spProviderGrok45'],
+      deepseek: ['spProviderDeepseekChat', 'spProviderDeepseekReasoner']
+    };
+    function _spSetTierVariant(provider, modelString, btnId) {
+      _spSetProvider(provider);
+      var fld = document.getElementById(_SP_TIER_FIELDS[provider]);
+      if (fld) fld.value = modelString;
+      (_SP_TIER_BTNS[provider] || []).forEach(function (id) {
+        var b = document.getElementById(id);
+        if (b) b.classList.toggle('active', id === btnId);
+      });
+    }
+
     function _spSetGroqVariant(modelString, btnId) {
       _spSetProvider('groq');
       var fld = document.getElementById('sp_scoring_model_groq');
@@ -734,6 +792,35 @@
           if (el) el.value = map[key] || '';
         });
         if (map['scoring_ai_provider']) _spSetProvider(map['scoring_ai_provider']);
+        // Light the tier button matching the saved model for variant families
+        (function () {
+          var _prov = map['scoring_ai_provider'];
+          var _tierMatch = {
+            gemini:   [['lite', 'spProviderGeminiLite'], ['pro', 'spProviderGeminiPro'], ['', 'spProviderGeminiFlash']],
+            openai:   [['nano', 'spProviderOpenaiNano'], ['mini', 'spProviderOpenaiMini'], ['', 'spProviderOpenaiFull']],
+            grok:     [['4.20', 'spProviderGrokFast'], ['4.5', 'spProviderGrok45'], ['', 'spProviderGrok43']],
+            deepseek: [['reasoner', 'spProviderDeepseekReasoner'], ['', 'spProviderDeepseekChat']],
+            groq:     [['8b', 'spProviderGroqLlama8B'], ['qwen', 'spProviderGroqQwen'], ['oss', 'spProviderGroqOss'], ['', 'spProviderGroqLlama70B']]
+          };
+          if (!_tierMatch[_prov]) return;
+          var _mv = (map['scoring_model_' + _prov] || '').trim().toLowerCase();
+          for (var _ti = 0; _ti < _tierMatch[_prov].length; _ti++) {
+            var _pair = _tierMatch[_prov][_ti];
+            if (!_pair[0] || _mv.indexOf(_pair[0]) > -1) {
+              var _bEl = document.getElementById(_pair[1]);
+              if (_bEl) _bEl.classList.add('active');
+              break;
+            }
+          }
+        })();
+        if (map['scoring_ai_provider'] === 'claude') {
+          var _cm = (map['scoring_model_claude'] || '').trim();
+          var _cBtn = _cm.indexOf('haiku') > -1 ? 'spProviderClaudeHaiku'
+                    : _cm.indexOf('opus') > -1 ? 'spProviderClaudeOpus'
+                    : 'spProviderClaudeSonnet';
+          var _cEl = document.getElementById(_cBtn);
+          if (_cEl) _cEl.classList.add('active');
+        }
         if (map['scoring_transcription_provider']) { _spTranscriptionProvider = map['scoring_transcription_provider']; _spSetTranscriptionHelper(_spTranscriptionProvider); }
         // Load fallback selector (separate from generic loop since saveScoringPrompts
         // also special-cases it to allow clearing back to empty/no-fallback).

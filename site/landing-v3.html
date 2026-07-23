@@ -20554,57 +20554,88 @@
         var rs = document.getElementById('msrResumeSection');
         if (rs) heroSec.insertAdjacentElement('afterend', rs);
 
-        // Word of the day — embedded list, deterministic by date, zero network
+        // Word of the day — SAME source as the native apps (2026-07-24):
+        // instant render from the app's static list (identical order + local
+        // calendar-day index), then upgraded to the shared AI word from the
+        // word-of-day Edge Function (one DeepSeek-generated word per day for
+        // every user on every platform, day-cached in localStorage).
         var WORDS = [
-          ['ambiguous', '/æmˈbɪɡjuəs/', 'adjective', 'open to more than one interpretation; not having a clear meaning'],
-          ['resilient', '/rɪˈzɪliənt/', 'adjective', 'able to recover quickly from difficult conditions'],
-          ['meticulous', '/məˈtɪkjələs/', 'adjective', 'showing great attention to detail; very careful'],
-          ['advocate', '/ˈædvəkeɪt/', 'verb', 'to publicly support or recommend a cause or policy'],
-          ['plausible', '/ˈplɔːzəbl/', 'adjective', 'seeming reasonable or probable'],
-          ['diligent', '/ˈdɪlɪdʒənt/', 'adjective', 'showing steady, earnest effort in work or duties'],
-          ['inevitable', '/ɪnˈevɪtəbl/', 'adjective', 'certain to happen; unavoidable'],
-          ['profound', '/prəˈfaʊnd/', 'adjective', 'very great or intense; showing deep insight'],
-          ['scrutinize', '/ˈskruːtənaɪz/', 'verb', 'to examine closely and thoroughly'],
-          ['versatile', '/ˈvɜːsətaɪl/', 'adjective', 'able to adapt to many different functions or activities'],
-          ['coherent', '/kəʊˈhɪərənt/', 'adjective', 'logical and consistent; clearly connected'],
-          ['deteriorate', '/dɪˈtɪəriəreɪt/', 'verb', 'to become progressively worse'],
-          ['empirical', '/ɪmˈpɪrɪkl/', 'adjective', 'based on observation or experience rather than theory'],
-          ['facilitate', '/fəˈsɪlɪteɪt/', 'verb', 'to make an action or process easier'],
-          ['inherent', '/ɪnˈhɪərənt/', 'adjective', 'existing as a natural or permanent quality'],
-          ['justify', '/ˈdʒʌstɪfaɪ/', 'verb', 'to show or prove to be right or reasonable'],
-          ['notion', '/ˈnəʊʃn/', 'noun', 'a belief or idea about something'],
-          ['pragmatic', '/præɡˈmætɪk/', 'adjective', 'dealing with things sensibly and realistically'],
-          ['reluctant', '/rɪˈlʌktənt/', 'adjective', 'unwilling and hesitant'],
-          ['substantial', '/səbˈstænʃl/', 'adjective', 'of considerable importance, size, or value'],
-          ['ambivalent', '/æmˈbɪvələnt/', 'adjective', 'having mixed feelings about something'],
-          ['concise', '/kənˈsaɪs/', 'adjective', 'giving much information clearly in few words'],
-          ['deduce', '/dɪˈdjuːs/', 'verb', 'to reach a conclusion from evidence and reasoning'],
-          ['elaborate', '/ɪˈlæbərət/', 'adjective', 'involving many careful details; very detailed'],
-          ['feasible', '/ˈfiːzəbl/', 'adjective', 'possible to do easily or conveniently'],
-          ['hypothesis', '/haɪˈpɒθəsɪs/', 'noun', 'a proposed explanation made as a starting point for investigation'],
-          ['implication', '/ˌɪmplɪˈkeɪʃn/', 'noun', 'a likely consequence; something suggested without being said'],
-          ['legitimate', '/lɪˈdʒɪtɪmət/', 'adjective', 'conforming to the law or rules; fair and acceptable'],
-          ['mitigate', '/ˈmɪtɪɡeɪt/', 'verb', 'to make something less severe or serious'],
-          ['persistent', '/pəˈsɪstənt/', 'adjective', 'continuing firmly despite difficulty'],
-          ['redundant', '/rɪˈdʌndənt/', 'adjective', 'not needed; superfluous'],
-          ['skeptical', '/ˈskeptɪkl/', 'adjective', 'not easily convinced; having doubts'],
-          ['tangible', '/ˈtændʒəbl/', 'adjective', 'clear enough to be seen, touched, or measured'],
-          ['undermine', '/ˌʌndəˈmaɪn/', 'verb', 'to weaken gradually or secretly'],
-          ['viable', '/ˈvaɪəbl/', 'adjective', 'capable of working successfully'],
-          ['articulate', '/ɑːˈtɪkjələt/', 'adjective', 'able to express ideas clearly and effectively'],
-          ['benevolent', '/bəˈnevələnt/', 'adjective', 'well-meaning and kindly'],
-          ['comprehensive', '/ˌkɒmprɪˈhensɪv/', 'adjective', 'including all or nearly all elements or aspects'],
-          ['discrepancy', '/dɪˈskrepənsi/', 'noun', 'a difference between things that should match'],
-          ['eloquent', '/ˈeləkwənt/', 'adjective', 'fluent and persuasive in speaking or writing'],
-          ['fluctuate', '/ˈflʌktʃueɪt/', 'verb', 'to rise and fall irregularly in number or amount'],
-          ['gratitude', '/ˈɡrætɪtjuːd/', 'noun', 'the quality of being thankful'],
-          ['imperative', '/ɪmˈperətɪv/', 'adjective', 'of vital importance; crucial']
+          ['meticulous', '/m\u0259\u02c8t\u026akj\u0259l\u0259s/', 'adjective', 'Showing great attention to detail; very careful and precise.'],
+          ['ubiquitous', '/ju\u02d0\u02c8b\u026akw\u026at\u0259s/', 'adjective', 'Present, appearing, or found everywhere.'],
+          ['inevitable', '/\u026an\u02c8ev\u026at\u0259bl/', 'adjective', 'Certain to happen; unavoidable.'],
+          ['pragmatic', '/pr\u00e6\u0261\u02c8m\u00e6t\u026ak/', 'adjective', 'Dealing with things sensibly and realistically.'],
+          ['alleviate', '/\u0259\u02c8li\u02d0vie\u026at/', 'verb', 'To make suffering or a problem less severe.'],
+          ['diverse', '/da\u026a\u02c8v\u025c\u02d0s/', 'adjective', 'Showing a great deal of variety; very different.'],
+          ['sustainable', '/s\u0259\u02c8ste\u026an\u0259bl/', 'adjective', 'Able to be maintained without harming the environment.'],
+          ['consequently', '/\u02c8k\u0252ns\u026akw\u0259ntli/', 'adverb', 'As a result; therefore.'],
+          ['prominent', '/\u02c8pr\u0252m\u026an\u0259nt/', 'adjective', 'Important, famous, or noticeable.'],
+          ['deteriorate', '/d\u026a\u02c8t\u026a\u0259ri\u0259re\u026at/', 'verb', 'To become progressively worse.'],
+          ['substantial', '/s\u0259b\u02c8st\u00e6n\u0283l/', 'adjective', 'Of considerable importance, size, or worth.'],
+          ['facilitate', '/f\u0259\u02c8s\u026al\u026ate\u026at/', 'verb', 'To make an action or process easier.'],
+          ['notion', '/\u02c8n\u0259\u028a\u0283n/', 'noun', 'A belief or idea about something.'],
+          ['coincide', '/\u02cck\u0259\u028a\u026an\u02c8sa\u026ad/', 'verb', 'To happen at the same time; to agree.'],
+          ['compelling', '/k\u0259m\u02c8pel\u026a\u014b/', 'adjective', 'Evoking strong interest or conviction.'],
+          ['abundant', '/\u0259\u02c8b\u028cnd\u0259nt/', 'adjective', 'Existing in large quantities; plentiful.'],
+          ['reluctant', '/r\u026a\u02c8l\u028ckt\u0259nt/', 'adjective', 'Unwilling and hesitant.'],
+          ['implement', '/\u02c8\u026ampl\u026ament/', 'verb', 'To put a decision or plan into effect.'],
+          ['inherent', '/\u026an\u02c8h\u026a\u0259r\u0259nt/', 'adjective', 'Existing as a natural or permanent part of something.'],
+          ['scrutiny', '/\u02c8skru\u02d0t\u0259ni/', 'noun', 'Close and critical examination.'],
+          ['tedious', '/\u02c8ti\u02d0di\u0259s/', 'adjective', 'Too long, slow, or dull; tiresome.'],
+          ['viable', '/\u02c8va\u026a\u0259bl/', 'adjective', 'Capable of working successfully; feasible.'],
+          ['undermine', '/\u02cc\u028cnd\u0259\u02c8ma\u026an/', 'verb', 'To gradually weaken or damage.'],
+          ['prevalent', '/\u02c8prev\u0259l\u0259nt/', 'adjective', 'Widespread in a particular area or time.'],
+          ['articulate', '/\u0251\u02d0\u02c8t\u026akj\u028ale\u026at/', 'verb', 'To express an idea clearly and effectively.'],
+          ['diminish', '/d\u026a\u02c8m\u026an\u026a\u0283/', 'verb', 'To make or become less.'],
+          ['lucrative', '/\u02c8lu\u02d0kr\u0259t\u026av/', 'adjective', 'Producing a great deal of profit.'],
+          ['ambiguous', '/\u00e6m\u02c8b\u026a\u0261ju\u0259s/', 'adjective', 'Open to more than one interpretation; unclear.'],
+          ['resilient', '/r\u026a\u02c8z\u026ali\u0259nt/', 'adjective', 'Able to recover quickly from difficulties.'],
+          ['comprehensive', '/\u02cck\u0252mpr\u026a\u02c8hens\u026av/', 'adjective', 'Complete; including all or nearly all elements.']
         ];
-        var wd = WORDS[Math.floor(Date.now() / 86400000) % WORDS.length];
-        document.getElementById('mswWord').innerHTML =
-          '<div class="msw-eyebrow" style="color:#b45309"><span class="dot" style="background:#f59e0b"></span>Word of the day</div>' +
-          '<div><span class="w">' + wd[0] + '</span><span class="ipa">' + wd[1] + '</span><span class="pos">' + wd[2] + '</span></div>' +
-          '<p class="def">' + wd[3] + '</p>';
+        function _wotdCard(w, ipa, pos, def) {
+          document.getElementById('mswWord').innerHTML =
+            '<div class="msw-eyebrow" style="color:#b45309"><span class="dot" style="background:#f59e0b"></span>Word of the day</div>' +
+            '<div><span class="w">' + w + '</span><span class="ipa">' + ipa + '</span><span class="pos">' + pos + '</span></div>' +
+            '<p class="def">' + def + '</p>';
+        }
+        var _wotdDayKey = '';
+        function renderWotd() {
+          var d = new Date();
+          var dayKey = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+          if (dayKey === _wotdDayKey) return;
+          _wotdDayKey = dayKey;
+          // 1. Instant: static word (same list + local-day index as the apps)
+          var idx = Math.floor(new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime() / 86400000) % WORDS.length;
+          var wd = WORDS[((idx % WORDS.length) + WORDS.length) % WORDS.length];
+          _wotdCard(wd[0], wd[1], wd[2], wd[3]);
+          // 2. Upgrade: the shared AI word (same one the native apps show)
+          try {
+            var cached = localStorage.getItem('ms_wod_ai_' + dayKey);
+            if (cached) {
+              var cw = JSON.parse(cached);
+              _wotdCard(cw.word, cw.phonetic || '', cw.pos || 'word', cw.meaning || '');
+              return;
+            }
+          } catch (_e) { }
+          fetch('https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/word-of-day', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'apikey': 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2',
+              'Authorization': 'Bearer sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2'
+            }
+          }).then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (j) {
+              var w = j && j.data;
+              if (!w || !w.word || !w.meaning || dayKey !== _wotdDayKey) return;
+              try { localStorage.setItem('ms_wod_ai_' + dayKey, JSON.stringify(w)); } catch (_e) { }
+              _wotdCard(w.word, w.phonetic || '', w.pos || 'word', w.meaning);
+            }).catch(function () { /* static word stays */ });
+        }
+        renderWotd();
+        document.addEventListener('visibilitychange', function () {
+          if (!document.hidden) renderWotd();
+        });
+        window.addEventListener('focus', renderWotd);
 
         // Mock library — per-exam per-skill counts from the skill-card data
         var LIB_SKILLS = [

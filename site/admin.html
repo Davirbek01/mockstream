@@ -317,18 +317,6 @@
         }
       }
     },
-    'ai-router': {
-      label: 'AI Grading Router',
-      icon: '🤖',
-      script: '/admin/ai-router.js',
-      open: function (container) {
-        if (window.AdminPanels && window.AdminPanels.aiRouter && typeof window.AdminPanels.aiRouter.open === 'function') {
-          window.AdminPanels.aiRouter.open(container);
-        } else {
-          container.innerHTML = '<div class="adm-loading"><div>AI Grading Router script loaded but did not register correctly.</div></div>';
-        }
-      }
-    },
     'system-prompts': {
       label: 'System Prompts',
       icon: '📝',
