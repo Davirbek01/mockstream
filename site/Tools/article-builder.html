@@ -669,7 +669,7 @@ async function callDeepseek(apiKey, systemPrompt, userMsg) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
     body: JSON.stringify({
-      model: 'deepseek-chat', max_tokens: 16384,
+      model: 'deepseek-v4-flash', max_tokens: 16384,
       messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: userMsg }],
     }),
   });

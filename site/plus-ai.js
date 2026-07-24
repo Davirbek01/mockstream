@@ -27,7 +27,7 @@
   var DEFAULT_MODELS = {
     gemini:   'gemini-2.5-flash',
     openai:   'gpt-4o-mini',
-    deepseek: 'deepseek-chat',
+    deepseek: 'deepseek-v4-flash',
     grok:     'grok-2-latest',
     groq:     'llama-3.3-70b-versatile',
     claude:   'claude-3-5-haiku-latest'

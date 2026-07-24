@@ -70,8 +70,8 @@ check("grok grok-4.3", lambda: openai_chat("/grok/v1/chat/completions", "grok-4.
 check("grok grok-4.5", lambda: openai_chat("/grok/v1/chat/completions", "grok-4.5", {"temperature": 0.3, "max_tokens": 30}))
 check("grok grok-3-mini (legacy default)", lambda: openai_chat("/grok/v1/chat/completions", "grok-3-mini", {"temperature": 0.3, "max_tokens": 30}))
 
-check("deepseek deepseek-chat", lambda: openai_chat("/deepseek/chat/completions", "deepseek-chat", {"temperature": 0.3, "max_tokens": 30}))
-check("deepseek deepseek-reasoner", lambda: openai_chat("/deepseek/chat/completions", "deepseek-reasoner", {"max_tokens": 100}))
+check("deepseek deepseek-v4-flash", lambda: openai_chat("/deepseek/chat/completions", "deepseek-v4-flash", {"temperature": 0.3, "max_tokens": 30}))
+check("deepseek deepseek-v4-pro", lambda: openai_chat("/deepseek/chat/completions", "deepseek-v4-pro", {"max_tokens": 100}))
 
 check("groq llama-3.1-8b-instant", lambda: openai_chat("/groq/openai/v1/chat/completions", "llama-3.1-8b-instant", {"temperature": 0.3, "max_tokens": 30}))
 check("groq llama-3.3-70b-versatile", lambda: openai_chat("/groq/openai/v1/chat/completions", "llama-3.3-70b-versatile", {"temperature": 0.3, "max_tokens": 30}))

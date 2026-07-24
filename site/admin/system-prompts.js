@@ -303,8 +303,8 @@
         <button class="sysprompt-provider-btn" id="spProviderGrokFast" onclick="_spSetTierVariant('grok','grok-4.20-0309-non-reasoning','spProviderGrokFast')" title="Fastest/cheapest Grok — vision-capable; transcriber required for Speaking">⚡ Grok 4.20 Fast 🖼️</button>
         <button class="sysprompt-provider-btn" id="spProviderGrok43" onclick="_spSetTierVariant('grok','grok-4.3','spProviderGrok43')" title="Balanced Grok — vision-capable; transcriber required for Speaking">⚡ Grok 4.3 🖼️</button>
         <button class="sysprompt-provider-btn" id="spProviderGrok45" onclick="_spSetTierVariant('grok','grok-4.5','spProviderGrok45')" title="Most capable Grok — vision-capable; transcriber required for Speaking">⚡ Grok 4.5 🖼️</button>
-        <button class="sysprompt-provider-btn" id="spProviderDeepseekChat" onclick="_spSetTierVariant('deepseek','deepseek-chat','spProviderDeepseekChat')" title="⚠️ Text only — fast, cheapest frontier-class; transcript-based Speaking">🔵 DeepSeek Chat ⚠️</button>
-        <button class="sysprompt-provider-btn" id="spProviderDeepseekReasoner" onclick="_spSetTierVariant('deepseek','deepseek-reasoner','spProviderDeepseekReasoner')" title="⚠️ Text only — thinking mode, 2-3× slower & more output tokens; transcript-based Speaking">🔵 DeepSeek Reasoner ⚠️</button>
+        <button class="sysprompt-provider-btn" id="spProviderDeepseekChat" onclick="_spSetTierVariant('deepseek','deepseek-v4-flash','spProviderDeepseekChat')" title="⚠️ Text only — V4 hybrid (light thinking), cheapest tier; replaces retired deepseek-chat; transcript-based Speaking">🔵 DeepSeek V4 Flash ⚠️</button>
+        <button class="sysprompt-provider-btn" id="spProviderDeepseekReasoner" onclick="_spSetTierVariant('deepseek','deepseek-v4-pro','spProviderDeepseekReasoner')" title="⚠️ Text only — V4 top tier, deeper reasoning & more output tokens; replaces retired deepseek-reasoner; transcript-based Speaking">🔵 DeepSeek V4 Pro ⚠️</button>
         <button class="sysprompt-provider-btn" id="spProviderGroqLlama8B" onclick="_spSetGroqVariant('llama-3.1-8b-instant','spProviderGroqLlama8B')" title="⚠️ Text only — cheapest/fastest on Groq LPU">🟢 Groq Llama 8B Instant ⚠️</button>
         <button class="sysprompt-provider-btn" id="spProviderGroqQwen" onclick="_spSetGroqVariant('qwen/qwen3.6-27b','spProviderGroqQwen')" title="⚠️ Text only — emits <think> preamble; avoid for JSON scoring">⚡ Groq Qwen 3.6 27B ⚠️</button>
         <button class="sysprompt-provider-btn" id="spProviderGroqOss" onclick="_spSetGroqVariant('openai/gpt-oss-120b','spProviderGroqOss')" title="⚠️ Text only — largest open-weight on Groq">🟢 Groq GPT-OSS 120B ⚠️</button>
@@ -412,7 +412,7 @@
             </div>
             <div class="sysprompt-field" style="margin:0">
               <label>DeepSeek model</label>
-              <input type="text" id="sp_scoring_model_deepseek" placeholder="deepseek-chat · deepseek-reasoner" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+              <input type="text" id="sp_scoring_model_deepseek" placeholder="deepseek-v4-flash · deepseek-v4-pro" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
             </div>
             <div class="sysprompt-field" style="margin:0;grid-column:1 / -1">
               <label>Groq model (clicking a Groq provider button above prefills this)</label>
@@ -799,7 +799,7 @@
             gemini:   [['lite', 'spProviderGeminiLite'], ['pro', 'spProviderGeminiPro'], ['', 'spProviderGeminiFlash']],
             openai:   [['nano', 'spProviderOpenaiNano'], ['mini', 'spProviderOpenaiMini'], ['', 'spProviderOpenaiFull']],
             grok:     [['4.20', 'spProviderGrokFast'], ['4.5', 'spProviderGrok45'], ['', 'spProviderGrok43']],
-            deepseek: [['reasoner', 'spProviderDeepseekReasoner'], ['', 'spProviderDeepseekChat']],
+            deepseek: [['pro', 'spProviderDeepseekReasoner'], ['', 'spProviderDeepseekChat']],
             groq:     [['8b', 'spProviderGroqLlama8B'], ['qwen', 'spProviderGroqQwen'], ['oss', 'spProviderGroqOss'], ['', 'spProviderGroqLlama70B']]
           };
           if (!_tierMatch[_prov]) return;
