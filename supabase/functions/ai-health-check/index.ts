@@ -135,6 +135,70 @@ Deno.serve(async (req) => {
       if (!ids.has(need)) throw new Error('RETIRED from xAI catalog: ' + need);
   }, R);
 
+  // ── Capability drift probes ────────────────────────────────────────
+  // Vendors also change MODALITIES silently (grok-4.x gained vision; Groq
+  // dropped it entirely). Probe image + audio acceptance per provider
+  // representative and diff against last month's stored map — changes are
+  // reported (not failed) so the admin banner can announce e.g.
+  // "deepseek-chat: image ✗→✓" the month a model turns multimodal.
+  const PNG = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==';
+  const WAV = 'UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA=';
+  const tryBool = async (fn: () => Promise<unknown>) => { try { await fn(); return true; } catch { return false; } };
+  const oaiImg = (url: string, key: string, model: string, extra: Record<string, unknown> = {}) => () =>
+    post(url, { Authorization: 'Bearer ' + key },
+      { model, messages: [{ role: 'user', content: [{ type: 'text', text: 'Reply OK' },
+        { type: 'image_url', image_url: { url: 'data:image/png;base64,' + PNG } }] }], ...extra });
+  const oaiAud = (url: string, key: string, model: string, extra: Record<string, unknown> = {}) => () =>
+    post(url, { Authorization: 'Bearer ' + key },
+      { model, messages: [{ role: 'user', content: [{ type: 'text', text: 'Reply OK' },
+        { type: 'input_audio', input_audio: { data: WAV, format: 'wav' } }] }], ...extra });
+
+  const caps: Record<string, { image: boolean; audio: boolean }> = {};
+  caps['gemini-flash-latest'] = {
+    image: await tryBool(() => post(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${KEYS.gemini}`, {},
+      { contents: [{ parts: [{ text: 'Reply OK' }, { inline_data: { mime_type: 'image/png', data: PNG } }] }], generationConfig: { maxOutputTokens: 100 } })),
+    audio: await tryBool(() => post(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${KEYS.gemini}`, {},
+      { contents: [{ parts: [{ text: 'Reply OK' }, { inline_data: { mime_type: 'audio/wav', data: WAV } }] }], generationConfig: { maxOutputTokens: 100 } })),
+  };
+  caps['gpt-4o-mini'] = {
+    image: await tryBool(oaiImg('https://api.openai.com/v1/chat/completions', KEYS.openai, 'gpt-4o-mini', { max_tokens: 30 })),
+    audio: await tryBool(oaiAud('https://api.openai.com/v1/chat/completions', KEYS.openai, 'gpt-4o-mini', { max_tokens: 30 })),
+  };
+  caps['claude-haiku-4-5'] = {
+    image: await tryBool(() => post('https://api.anthropic.com/v1/messages',
+      { 'x-api-key': KEYS.claude, 'anthropic-version': '2023-06-01' },
+      { model: 'claude-haiku-4-5', max_tokens: 10, messages: [{ role: 'user', content: [{ type: 'text', text: 'Reply OK' },
+        { type: 'image', source: { type: 'base64', media_type: 'image/png', data: PNG } }] }] })),
+    audio: await tryBool(() => post('https://api.anthropic.com/v1/messages',
+      { 'x-api-key': KEYS.claude, 'anthropic-version': '2023-06-01' },
+      { model: 'claude-haiku-4-5', max_tokens: 10, messages: [{ role: 'user', content: [{ type: 'text', text: 'Reply OK' },
+        { type: 'document', source: { type: 'base64', media_type: 'audio/wav', data: WAV } }] }] })),
+  };
+  caps['grok-4.20-0309-non-reasoning'] = {
+    image: await tryBool(oaiImg('https://api.x.ai/v1/chat/completions', KEYS.grok, 'grok-4.20-0309-non-reasoning', { max_tokens: 30 })),
+    audio: await tryBool(oaiAud('https://api.x.ai/v1/chat/completions', KEYS.grok, 'grok-4.20-0309-non-reasoning', { max_tokens: 30 })),
+  };
+  caps['deepseek-chat'] = {
+    image: await tryBool(oaiImg('https://api.deepseek.com/chat/completions', KEYS.deepseek, 'deepseek-chat', { max_tokens: 30 })),
+    audio: await tryBool(oaiAud('https://api.deepseek.com/chat/completions', KEYS.deepseek, 'deepseek-chat', { max_tokens: 30 })),
+  };
+  caps['llama-3.3-70b-versatile'] = {
+    image: await tryBool(oaiImg('https://api.groq.com/openai/v1/chat/completions', KEYS.groq, 'llama-3.3-70b-versatile', { max_tokens: 30 })),
+    audio: await tryBool(oaiAud('https://api.groq.com/openai/v1/chat/completions', KEYS.groq, 'llama-3.3-70b-versatile', { max_tokens: 30 })),
+  };
+
+  const capability_changes: string[] = [];
+  try {
+    const { data: prevRow } = await sb.from('site_settings').select('value').eq('key', 'scoring_ai_health_report').maybeSingle();
+    const prevCaps = prevRow ? (JSON.parse(prevRow.value).capabilities || {}) : {};
+    for (const [m, c] of Object.entries(caps)) {
+      const o = prevCaps[m];
+      if (!o) continue;
+      if (o.image !== c.image) capability_changes.push(`${m}: image ${o.image ? '✓' : '✗'}→${c.image ? '✓' : '✗'}`);
+      if (o.audio !== c.audio) capability_changes.push(`${m}: audio ${o.audio ? '✓' : '✗'}→${c.audio ? '✓' : '✗'}`);
+    }
+  } catch (_e) { /* first run or unparsable previous report */ }
+
   const fails = R.filter((r) => !r.ok);
   const report = {
     ts: new Date().toISOString(),
@@ -142,6 +206,8 @@ Deno.serve(async (req) => {
     pass: R.length - fails.length,
     fail: fails.length,
     fails: fails.map((f) => ({ name: f.name, info: f.info })),
+    capabilities: caps,
+    capability_changes,
     results: R,
   };
   await sb.from('site_settings').upsert({ key: 'scoring_ai_health_report', value: JSON.stringify(report) }, { onConflict: 'key' });
