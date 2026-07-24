@@ -8817,7 +8817,7 @@
             uMsg += _imgNote;
             var cBody = { model: _mdlClaude, max_tokens: opts.maxTokens || 8192, messages: [{ role: 'user', content: uMsg }] };
             if (systemText) cBody.system = systemText;
-            if (opts.temperature !== undefined) cBody.temperature = opts.temperature;
+            if (opts.temperature !== undefined && !/claude-(sonnet-5|opus)/.test(cBody.model)) cBody.temperature = opts.temperature; // Claude 5-gen rejects temperature (deprecated)
             return await _callWithKeyRotation('claude', _CLAUDE_KEY, _getServerBackupKeys('claude').concat(_getBackupKeys('claude', cp)), async function(key) {
               var r = await fetch('https://api.anthropic.com/v1/messages', {
                 method: 'POST',
@@ -8827,7 +8827,7 @@
               if (!r.ok) throw new Error('AI API error: ' + r.status);
               var j = await r.json();
               if (j.error) throw new Error(j.error.message || 'API error');
-              return j.content[0].text;
+              return (j.content.filter(function(c){ return c.type === 'text'; })[0] || j.content[0] || {}).text;
             });
           } else if (provider === 'grok') {
             if (!_GROK_KEY) { try { _GROK_KEY = await _fetchProviderKey('grok'); } catch(e){} }
@@ -9381,7 +9381,7 @@ Empty responses = 0 points and skip analysis for that task.`;
                   if (!r.ok) throw new Error('Claude audio error: ' + r.status);
                   var j = await r.json();
                   if (j.error) throw new Error(j.error.message);
-                  return (j.content[0].text || '[No speech detected]').trim();
+                  return ((j.content.filter(function(c){ return c.type === 'text'; })[0] || j.content[0] || {}).text || '[No speech detected]').trim();
                 });
               } catch(e) { throw new Error('Claude audio transcription failed (no fallback — transcriber pinned): ' + e.message); }
             }
