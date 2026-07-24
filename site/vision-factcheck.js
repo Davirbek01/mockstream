@@ -243,7 +243,7 @@
       throw new Error('Claude ' + res.status + ': ' + t.slice(0, 300));
     }
     var data = await res.json();
-    return data && data.content && data.content[0] && data.content[0].text;
+    return data && data.content && ((data.content.filter(function (c) { return c.type === 'text'; })[0] || data.content[0] || {}).text);
   }
 
   /**
