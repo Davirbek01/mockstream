@@ -143,6 +143,12 @@ Deno.serve(async (req) => {
     for (const need of ['grok-4.20-0309-non-reasoning', 'grok-4.3', 'grok-4.5'])
       if (!ids.has(need)) throw new Error('RETIRED from xAI catalog: ' + need);
   }, R);
+  await probe('deepseek catalog (v4-flash/v4-pro)', async () => {
+    const j = await get('https://api.deepseek.com/models', { Authorization: 'Bearer ' + KEYS.deepseek });
+    const ids = new Set((j.data || []).map((m: { id: string }) => m.id));
+    for (const need of ['deepseek-v4-flash', 'deepseek-v4-pro'])
+      if (!ids.has(need)) throw new Error('RETIRED from DeepSeek catalog: ' + need);
+  }, R);
 
   // ── Capability drift probes ────────────────────────────────────────
   // Vendors also change MODALITIES silently (grok-4.x gained vision; Groq
