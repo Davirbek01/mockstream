@@ -4015,7 +4015,7 @@ async function callDeepseek(apiKey, imageBlocks, systemPrompt, userMsg) {
       'Authorization': `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: 'deepseek-chat',
+      model: 'deepseek-v4-flash',
       max_tokens: 16384,
       messages: [
         { role: 'system', content: systemPrompt },
