@@ -859,6 +859,14 @@
               _hb.style.background = '#dcfce7'; _hb.style.color = '#166534';
               _hb.textContent = '🩺 AI model health: all ' + _hr.total + ' wired models verified working · checked ' + _when;
             }
+            // Capability drift (a model gained/lost image or audio support)
+            if (_hr.capability_changes && _hr.capability_changes.length) {
+              var _cd = document.createElement('div');
+              _cd.style.cssText = 'margin-top:6px;padding-top:6px;border-top:1px dashed rgba(0,0,0,0.15);';
+              _cd.innerHTML = '🔀 <b>Capability changes since last check:</b> ' + _hr.capability_changes.join(' · ') +
+                ' — a model changed modalities; review the provider table / helper choices.';
+              _hb.appendChild(_cd);
+            }
           }
         } catch (_he) { }
         // Load Gemini active plan + bind button selector
