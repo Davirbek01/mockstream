@@ -9143,12 +9143,37 @@ Empty responses = 0 points and skip analysis for that task.`;
                 // Rubric lives in the user prompt via the shared CEFR core
                 // (scoring-prompts.js). No separate DB system instruction.
                 var _sysW = '';
-                const text = await _callScoringAI(_sysW, prompt, { temperature: 0.3, maxTokens: 6000, jsonMode: true, skill: 'writing' });
-
-                // Parse JSON from response
-                const jsonMatch = text.match(/\{[\s\S]*\}/);
-                if (jsonMatch) {
-                    const result = _extractJsonObject(jsonMatch[0]);
+                // Up to 3 attempts: DeepSeek v4-flash spends reasoning tokens out
+                // of the same max_tokens budget, so long submissions can come back
+                // truncated (HTTP 200 but unparseable JSON). One silent failure
+                // used to zero the whole writing module in the report.
+                var result = null, _wLastErr = null;
+                for (var _wTry = 1; _wTry <= 3 && !result; _wTry++) {
+                    try {
+                        const text = await _callScoringAI(_sysW, prompt, { temperature: 0.3, maxTokens: 8192, jsonMode: true, skill: 'writing' });
+                        const jsonMatch = text.match(/\{[\s\S]*\}/);
+                        if (!jsonMatch) throw new Error('Invalid response format');
+                        result = _extractJsonObject(jsonMatch[0]);
+                    } catch (_we) {
+                        _wLastErr = _we;
+                        console.warn('[AI] Writing analysis attempt ' + _wTry + '/3 failed:', _we && _we.message);
+                        if (_wTry < 3) await new Promise(function (r) { setTimeout(r, 1500 * _wTry); });
+                    }
+                }
+                if (!result) {
+                    // Scores-only rescue: tiny output that cannot hit the token
+                    // cap — real scores still reach the report even when the full
+                    // analysis (corrections + samples) cannot be generated.
+                    const _miniPrompt = prompt.split('RESPOND IN THIS EXACT JSON FORMAT')[0] +
+                        'RESPOND IN THIS EXACT JSON FORMAT (SCORES ONLY, NO ANALYSIS):\n' +
+                        '{"t11_score": <0-5 INTEGER>, "t12_score": <0-5 INTEGER>, "t2_score": <0-6 INTEGER>, "raw_score": <sum>, "certificate_score": <0-75 from conversion table above>, "cefr_level": "<Below B1/B1/B2/C1>", "feedback": "<2-3 sentences>"}';
+                    const _miniText = await _callScoringAI(_sysW, _miniPrompt, { temperature: 0.3, maxTokens: 1500, jsonMode: true, skill: 'writing' });
+                    const _miniMatch = _miniText.match(/\{[\s\S]*\}/);
+                    if (!_miniMatch) throw (_wLastErr || new Error('Invalid response format'));
+                    result = _extractJsonObject(_miniMatch[0]);
+                    console.warn('[AI] Writing scored via scores-only rescue (full analysis unavailable).');
+                }
+                if (result) {
 
                     result.t11_analysis = result.t11_analysis || {};
                     result.t12_analysis = result.t12_analysis || {};
@@ -9191,7 +9216,7 @@ Empty responses = 0 points and skip analysis for that task.`;
                     console.log('[AI] Writing analysis complete:', result);
                     return result;
                 }
-                throw new Error('Invalid response format');
+                throw (_wLastErr || new Error('Invalid response format'));
             } catch (err) {
                 console.error('[AI] Writing analysis error:', err);
                 return { certificate_score: 0, cefr_level: 'N/A', feedback: 'Analysis unavailable. Please have an examiner review.' };
