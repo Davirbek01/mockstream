@@ -9115,21 +9115,29 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
                 // Rubric lives in the prompt via the shared IELTS speaking core
                 // (scoring-prompts.js). No separate DB system instruction.
                 var _sysS = '';
-                const txt = await _callScoringAI(_sysS, prompt, { temperature: 0.3, skill: 'speaking' });
-                if (!txt) throw new Error('Empty response from AI');
-
-                // Sanitize control characters that break JSON.parse
-                const cleanTxt = txt.replace(/[\x00-\x09\x0B\x0C\x0E-\x1F\x7F]/g, ' ');
-                const match = cleanTxt.match(/\{[\s\S]*\}/);
-                if (match) {
-                    const parsed = JSON.parse(match[0]);
-
-                    // Validate that we got actual scores (not 0 or missing)
-                    const overallBand = parsed.overall?.band;
-                    if (typeof overallBand !== 'number' || overallBand < 1 || overallBand > 9) {
-                        throw new Error('AI returned invalid scores. Please retry.');
+                // Up to 3 attempts with an explicit token cap — same hardening as
+                // the writing grader: an uncapped DeepSeek call defaults to ~4k
+                // output and truncates (HTTP 200 but unparseable JSON), which
+                // used to silently become a fake band 6.5.
+                var parsed = null, _sLastErr = null;
+                for (var _sTry = 1; _sTry <= 3 && !parsed; _sTry++) {
+                    try {
+                        const txt = await _callScoringAI(_sysS, prompt, { temperature: 0.3, maxTokens: 8192, skill: 'speaking' });
+                        if (!txt) throw new Error('Empty response from AI');
+                        // Sanitize control characters that break JSON.parse
+                        const cleanTxt = txt.replace(/[\x00-\x09\x0B\x0C\x0E-\x1F\x7F]/g, ' ');
+                        const match = cleanTxt.match(/\{[\s\S]*\}/);
+                        if (!match) throw new Error('Could not parse AI response');
+                        parsed = JSON.parse(match[0]);
+                        const _ob = parsed.overall && parsed.overall.band;
+                        if (typeof _ob !== 'number' || _ob < 1 || _ob > 9) { parsed = null; throw new Error('AI returned invalid scores. Please retry.'); }
+                    } catch (_se) {
+                        _sLastErr = _se;
+                        console.warn('[AI] IELTS speaking grade attempt ' + _sTry + '/3 failed:', _se && _se.message);
+                        if (_sTry < 3) await new Promise(function (r) { setTimeout(r, 1500 * _sTry); });
                     }
-
+                }
+                if (parsed) {
                     state.aiResults.speaking = parsed;
                     state.aiFailed.speaking = false;
                     state.aiError.speaking = '';
@@ -9138,7 +9146,7 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
                     state.scaledScores.s = Math.min(9, rawBand + _sBoost);
                     return parsed;
                 } else {
-                    throw new Error('Could not parse AI response');
+                    throw (_sLastErr || new Error('Could not parse AI response'));
                 }
             } catch (e) {
                 console.error('AI Speaking grade error:', e);
