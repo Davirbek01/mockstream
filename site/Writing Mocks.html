@@ -13704,7 +13704,7 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
         // Rubric now lives in the user prompt via the shared core
         // (scoring-prompts.js → CEFR_WRITING_CORE). No separate DB system row.
         var _sysInstr = '';
-        return await _callScoringAI(_sysInstr, prompt, { temperature: 0.3, maxTokens: 16384, jsonMode: true, skill: 'writing' });
+        return await _callScoringAI(_sysInstr, prompt, { temperature: 0.3, maxTokens: 32768, jsonMode: true, skill: 'writing' });
       });
 
       // Continue progress animation
@@ -17052,7 +17052,7 @@ ONLY ANALYZE THE TASKS SHOWN ABOVE (${selectedTaskNames.join(', ')}). PROVIDE CO
         // AI analysis (provider selected via System Prompts panel)
         {
           console.log('Running AI analysis...');
-          feedback = await _callScoringAI(systemPrompt, prompt, { temperature: 0.2, maxTokens: 16384, skill: 'writing' });
+          feedback = await _callScoringAI(systemPrompt, prompt, { temperature: 0.2, maxTokens: 32768, skill: 'writing' });
         }
 
         console.log('AI analysis complete');

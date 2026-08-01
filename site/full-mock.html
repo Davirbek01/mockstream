@@ -9150,7 +9150,7 @@ Empty responses = 0 points and skip analysis for that task.`;
                 var result = null, _wLastErr = null;
                 for (var _wTry = 1; _wTry <= 3 && !result; _wTry++) {
                     try {
-                        const text = await _callScoringAI(_sysW, prompt, { temperature: 0.3, maxTokens: 8192, jsonMode: true, skill: 'writing' });
+                        const text = await _callScoringAI(_sysW, prompt, { temperature: 0.3, maxTokens: 32768, jsonMode: true, skill: 'writing' });
                         const jsonMatch = text.match(/\{[\s\S]*\}/);
                         if (!jsonMatch) throw new Error('Invalid response format');
                         result = _extractJsonObject(jsonMatch[0]);
