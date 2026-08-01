@@ -160,7 +160,9 @@
       flex-shrink: 0;
       flex-wrap: wrap;
     }
-    .sysprompt-provider-row span {
+    /* Direct child only — the capability matrix has its own nested spans
+       (pills, tags) that must not inherit this label styling. */
+    .sysprompt-provider-row > span {
       font-size: 13px;
       font-weight: 600;
       color: var(--foreground);
@@ -185,6 +187,85 @@
       border-color: var(--muted);
       color: var(--foreground);
     }
+    /* ── Provider capability matrix ─────────────────────────────────────
+       Replaces the flat button wall. Same element ids + .active contract
+       as the old buttons, so _spSetProvider/_spSetTierVariant are unchanged;
+       only the presentation is a table. Kept inside .sysprompt-provider-row
+       because _spSetProvider inserts the transcriber banner via .after(). */
+    .sysprompt-provider-row.sp-matrix-wrap {
+      display: block;
+      overflow-x: auto;
+      padding: 10px 20px 12px;
+    }
+    .sp-matrix-head {
+      display: flex; align-items: baseline; gap: 10px;
+      margin: 0 0 7px; flex-wrap: wrap;
+    }
+    .sp-matrix-head b { font-size: 13px; color: var(--foreground); }
+    .sp-matrix-head i {
+      font-style: normal; font-size: 10.5px; color: var(--muted); letter-spacing: .02em;
+    }
+    table.sp-matrix {
+      border-collapse: separate; border-spacing: 0;
+      width: 100%; min-width: 620px;
+      font-size: 11.5px;
+    }
+    table.sp-matrix thead th {
+      text-align: left; font-size: 9.5px; font-weight: 700;
+      letter-spacing: .09em; text-transform: uppercase;
+      color: var(--muted); padding: 0 8px 6px;
+      border-bottom: 1px solid var(--ring); white-space: nowrap;
+    }
+    table.sp-matrix thead th.sp-c { text-align: center; }
+    table.sp-matrix thead th.sp-r { text-align: right; }
+    table.sp-matrix tbody tr.sp-vendor td {
+      padding: 9px 8px 3px; font-size: 9.5px; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+      border: 0; background: transparent;
+    }
+    /* Row = the old button. Neutralise the button chrome, keep the contract. */
+    table.sp-matrix tbody tr.sysprompt-provider-btn {
+      display: table-row; padding: 0; border: 0; border-radius: 0;
+      background: transparent; cursor: pointer; transition: background .15s;
+    }
+    table.sp-matrix tbody tr.sysprompt-provider-btn > td {
+      padding: 5px 8px; border-bottom: 1px solid var(--ring);
+      color: var(--foreground); white-space: nowrap; background: transparent;
+      /* reset the inherited .sysprompt-provider-btn button type-scale */
+      font-size: 11.5px; font-weight: 500;
+    }
+    table.sp-matrix tbody tr.sysprompt-provider-btn:hover:not(.active) > td {
+      background: color-mix(in srgb, var(--muted) 12%, transparent);
+      border-color: var(--ring);
+    }
+    table.sp-matrix tbody tr.sysprompt-provider-btn.active > td {
+      background: linear-gradient(90deg, #7c3aed26, #7c3aed0d);
+      color: #7c3aed; font-weight: 700;
+    }
+    table.sp-matrix tbody tr.sysprompt-provider-btn.active > td:first-child {
+      box-shadow: inset 3px 0 0 #7c3aed;
+    }
+    .sp-cap { text-align: center; font-weight: 700; font-size: 12px; }
+    .sp-yes { color: #16a34a; }
+    .sp-no  { color: #cbd5e1; }
+    .sp-num {
+      text-align: right;
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+      font-size: 10.5px; letter-spacing: -.02em;
+    }
+    .sp-need {
+      font-size: 10px; font-weight: 700; padding: 1.5px 7px;
+      border-radius: 999px; display: inline-block;
+    }
+    .sp-need-none { background: #dcfce7; color: #15803d; }
+    .sp-need-tr   { background: #fef3c7; color: #92400e; }
+    .sp-need-both { background: #fee2e2; color: #b91c1c; }
+    .sp-tag {
+      font-size: 8.5px; font-weight: 700; letter-spacing: .05em;
+      padding: 1px 5px; border-radius: 4px; margin-left: 6px;
+      background: #7c3aed1a; color: #7c3aed; vertical-align: middle;
+    }
+    .sp-tag-warn { background: #fef3c7; color: #92400e; }
     .sysprompt-actions {
       display: flex;
       gap: 8px;
@@ -278,6 +359,93 @@
     document.head.appendChild(s);
   }
 
+  // ── Provider capability matrix data ────────────────────────────────────
+  // cap: [text, image, audio]. need: 'none' | 'tr' (transcriber) | 'both'.
+  // sec/rel: ONLY from real measurements against the live CEFR prompts —
+  // '' means not benchmarked, never a guess. Re-measure before editing.
+  var _SP_MATRIX = [
+    { v: 'Groq · LPU', dot: '⚡', rows: [
+      { id: 'spProviderGroqQwen',      name: 'Qwen 3.6 27B',      call: "_spSetGroqVariant('qwen/qwen3.6-27b','spProviderGroqQwen')",
+        cap: [1,1,0], need: 'tr', sec: '21s', rel: '9/9', tag: 'FASTEST',
+        note: 'Vision-capable (confirmed by Groq support + verified). JSON mode suppresses the <think> preamble. Groq caps output at 16k.' },
+      { id: 'spProviderGroqLlama70B',  name: 'Llama 3.3 70B',     call: "_spSetGroqVariant('llama-3.3-70b-versatile','spProviderGroqLlama70B')",
+        cap: [1,0,0], need: 'both', sec: '', rel: '', note: 'Text only — needs both helpers.' },
+      { id: 'spProviderGroqOss',       name: 'GPT-OSS 120B',      call: "_spSetGroqVariant('openai/gpt-oss-120b','spProviderGroqOss')",
+        cap: [1,0,0], need: 'both', sec: '', rel: '', note: 'Largest open-weight on Groq. Text only.' },
+      { id: 'spProviderGroqLlama8B',   name: 'Llama 8B Instant',  call: "_spSetGroqVariant('llama-3.1-8b-instant','spProviderGroqLlama8B')",
+        cap: [1,0,0], need: 'both', sec: '', rel: '', tagWarn: 'WEAK', note: 'Cheapest/fastest, but benchmarked poorly for scoring (hallucinated + arithmetic errors).' },
+    ]},
+    { v: 'Google · Gemini', dot: '✨', rows: [
+      { id: 'spProviderGeminiFlash',   name: 'Gemini Flash',      call: "_spSetTierVariant('gemini','gemini-flash-latest','spProviderGeminiFlash')",
+        cap: [1,1,1], need: 'none', sec: '32s', rel: '6/7', note: 'Balanced, auto-tracks latest flash. Native audio + vision — no helpers at all.' },
+      { id: 'spProviderGeminiLite',    name: 'Gemini Flash-Lite 3.1', call: "_spSetTierVariant('gemini','gemini-3.1-flash-lite','spProviderGeminiLite')",
+        cap: [1,1,1], need: 'none', sec: '', rel: '', note: 'Cheapest Gemini. Native audio + vision.' },
+      { id: 'spProviderGeminiPro',     name: 'Gemini Pro 2.5',    call: "_spSetTierVariant('gemini','gemini-2.5-pro','spProviderGeminiPro')",
+        cap: [1,1,1], need: 'none', sec: '', rel: '', note: 'Most capable stable Gemini, higher cost.' },
+    ]},
+    { v: 'OpenAI', dot: '🤖', rows: [
+      { id: 'spProviderOpenaiMini',    name: 'GPT-5.4 Mini',      call: "_spSetTierVariant('openai','gpt-5.4-mini','spProviderOpenaiMini')",
+        cap: [1,1,1], need: 'none', sec: '', rel: '', note: 'Balanced. Vision + its own Whisper on the same key.' },
+      { id: 'spProviderOpenaiNano',    name: 'GPT-5.4 Nano',      call: "_spSetTierVariant('openai','gpt-5.4-nano','spProviderOpenaiNano')",
+        cap: [1,1,1], need: 'none', sec: '', rel: '', note: 'Cheapest OpenAI tier.' },
+      { id: 'spProviderOpenaiFull',    name: 'GPT-5.4',           call: "_spSetTierVariant('openai','gpt-5.4','spProviderOpenaiFull')",
+        cap: [1,1,1], need: 'none', sec: '', rel: '', note: 'Top tier. Runs at API default temperature (sampling params unsupported).' },
+    ]},
+    { v: 'Anthropic · Claude', dot: '🟣', rows: [
+      { id: 'spProviderClaudeHaiku',   name: 'Claude Haiku 4.5',  call: "_spSetClaudeVariant('claude-haiku-4-5','spProviderClaudeHaiku')",
+        cap: [1,1,0], need: 'tr', sec: '', rel: '', note: 'Fastest/cheapest Claude. Also the default vision helper.' },
+      { id: 'spProviderClaudeSonnet',  name: 'Claude Sonnet 5',   call: "_spSetClaudeVariant('claude-sonnet-5','spProviderClaudeSonnet')",
+        cap: [1,1,0], need: 'tr', sec: '', rel: '', note: 'Balanced Claude.' },
+      { id: 'spProviderClaudeOpus',    name: 'Claude Opus 4.8',   call: "_spSetClaudeVariant('claude-opus-4-8','spProviderClaudeOpus')",
+        cap: [1,1,0], need: 'tr', sec: '', rel: '', note: 'Most capable Claude — highest cost per check.' },
+    ]},
+    { v: 'xAI · Grok', dot: '⚡', rows: [
+      { id: 'spProviderGrokFast',      name: 'Grok 4.20 Fast',    call: "_spSetTierVariant('grok','grok-4.20-0309-non-reasoning','spProviderGrokFast')",
+        cap: [1,1,0], need: 'tr', sec: '', rel: '', note: 'Cheapest Grok. Currently the platform-wide vision fact-checker.' },
+      { id: 'spProviderGrok43',        name: 'Grok 4.3',          call: "_spSetTierVariant('grok','grok-4.3','spProviderGrok43')",
+        cap: [1,1,0], need: 'tr', sec: '', rel: '', note: 'Balanced Grok.' },
+      { id: 'spProviderGrok45',        name: 'Grok 4.5',          call: "_spSetTierVariant('grok','grok-4.5','spProviderGrok45')",
+        cap: [1,1,0], need: 'tr', sec: '', rel: '', note: 'Most capable Grok.' },
+    ]},
+    { v: 'DeepSeek', dot: '🔵', rows: [
+      { id: 'spProviderDeepseekChat',  name: 'DeepSeek V4 Flash', call: "_spSetTierVariant('deepseek','deepseek-v4-flash','spProviderDeepseekChat')",
+        cap: [1,0,0], need: 'both', sec: '123s', rel: '17/18', tagWarn: 'SLOW',
+        note: 'Successor to the retired deepseek-chat. Hybrid reasoner: thinking shares the token budget, so checks take ~2 min.' },
+      { id: 'spProviderDeepseekReasoner', name: 'DeepSeek V4 Pro', call: "_spSetTierVariant('deepseek','deepseek-v4-pro','spProviderDeepseekReasoner')",
+        cap: [1,0,0], need: 'both', sec: '119s', rel: '', tagWarn: 'SLOW',
+        note: 'Successor to the retired deepseek-reasoner. Deepest reasoning, highest DeepSeek cost.' },
+    ]},
+  ];
+
+  function _spMatrixRows() {
+    var NEED = {
+      none: ['sp-need-none', 'none needed'],
+      tr:   ['sp-need-tr',   '🎤 transcriber'],
+      both: ['sp-need-both', '🎤 + 🖼️ both']
+    };
+    var mark = function (on) {
+      return on ? '<td class="sp-cap sp-yes">✓</td>' : '<td class="sp-cap sp-no">✗</td>';
+    };
+    return _SP_MATRIX.map(function (grp) {
+      var head = '<tr class="sp-vendor"><td colspan="6">' + grp.dot + ' ' + grp.v + '</td></tr>';
+      return head + grp.rows.map(function (r) {
+        var n = NEED[r.need];
+        var tag = r.tag ? '<span class="sp-tag">' + r.tag + '</span>'
+                : r.tagWarn ? '<span class="sp-tag sp-tag-warn">' + r.tagWarn + '</span>' : '';
+        // cap[0] (text) is intentionally not rendered — every scorer does text,
+        // so the column carried no signal and only widened the table.
+        return '<tr class="sysprompt-provider-btn" id="' + r.id + '" onclick="' + r.call + '" title="' +
+          String(r.note || '').replace(/"/g, '&quot;') + '">' +
+          '<td>' + r.name + tag + '</td>' +
+          mark(r.cap[1]) + mark(r.cap[2]) +
+          '<td class="sp-num">' + (r.sec || '<span class="sp-no">—</span>') + '</td>' +
+          '<td class="sp-num">' + (r.rel || '<span class="sp-no">—</span>') + '</td>' +
+          '<td><span class="sp-need ' + n[0] + '">' + n[1] + '</span></td>' +
+        '</tr>';
+      }).join('');
+    }).join('');
+  }
+
   function _injectHtml(container) {
     container.innerHTML = `
   <div class="sysprompt-overlay" id="sysPromptOverlay" onclick="closeSystemPromptsPanel()">
@@ -289,26 +457,22 @@
       <div style="margin:4px 0 8px;padding:6px 12px;background:#eef2ff;border:1px solid #c7d2fe;border-radius:8px;font-size:11px;color:#4338ca;line-height:1.5;">
         💡 This provider also runs <b>Reading Plus</b> + <b>Listening Plus</b>. Per-centre AI in the Centers panel only affects graded mocks, not Plus modules.
       </div>
-      <div class="sysprompt-provider-row">
-        <span>AI Provider:</span>
-        <button class="sysprompt-provider-btn active" id="spProviderGeminiLite" onclick="_spSetTierVariant('gemini','gemini-3.1-flash-lite','spProviderGeminiLite')" title="Cheapest Gemini — native audio + vision, no helpers needed">✨ Gemini Flash-Lite 3.1</button>
-        <button class="sysprompt-provider-btn" id="spProviderGeminiFlash" onclick="_spSetTierVariant('gemini','gemini-flash-latest','spProviderGeminiFlash')" title="Balanced Gemini (auto-tracks latest flash) — native audio + vision">✨ Gemini Flash</button>
-        <button class="sysprompt-provider-btn" id="spProviderGeminiPro" onclick="_spSetTierVariant('gemini','gemini-2.5-pro','spProviderGeminiPro')" title="Most capable stable Gemini — native audio + vision, higher cost">✨ Gemini Pro 2.5</button>
-        <button class="sysprompt-provider-btn" id="spProviderOpenaiNano" onclick="_spSetTierVariant('openai','gpt-5.4-nano','spProviderOpenaiNano')" title="Cheapest OpenAI — vision + own Whisper on the same key">🤖 GPT-5.4 Nano</button>
-        <button class="sysprompt-provider-btn" id="spProviderOpenaiMini" onclick="_spSetTierVariant('openai','gpt-5.4-mini','spProviderOpenaiMini')" title="Balanced OpenAI — vision + own Whisper">🤖 GPT-5.4 Mini</button>
-        <button class="sysprompt-provider-btn" id="spProviderOpenaiFull" onclick="_spSetTierVariant('openai','gpt-5.4','spProviderOpenaiFull')" title="Most capable OpenAI chat model (runs at API default temperature — sampling params unsupported)">🤖 GPT-5.4</button>
-        <button class="sysprompt-provider-btn" id="spProviderClaudeHaiku" onclick="_spSetClaudeVariant('claude-haiku-4-5','spProviderClaudeHaiku')" title="Fastest & cheapest Claude — vision-capable; no native audio (transcriber required for Speaking)">🟣 Claude Haiku 4.5 🖼️</button>
-        <button class="sysprompt-provider-btn" id="spProviderClaudeSonnet" onclick="_spSetClaudeVariant('claude-sonnet-5','spProviderClaudeSonnet')" title="Balanced Claude — vision-capable; no native audio (transcriber required for Speaking)">🟣 Claude Sonnet 5 🖼️</button>
-        <button class="sysprompt-provider-btn" id="spProviderClaudeOpus" onclick="_spSetClaudeVariant('claude-opus-4-8','spProviderClaudeOpus')" title="Most capable Claude (highest cost) — vision-capable; no native audio (transcriber required for Speaking)">🟣 Claude Opus 4.8 🖼️</button>
-        <button class="sysprompt-provider-btn" id="spProviderGrokFast" onclick="_spSetTierVariant('grok','grok-4.20-0309-non-reasoning','spProviderGrokFast')" title="Fastest/cheapest Grok — vision-capable; transcriber required for Speaking">⚡ Grok 4.20 Fast 🖼️</button>
-        <button class="sysprompt-provider-btn" id="spProviderGrok43" onclick="_spSetTierVariant('grok','grok-4.3','spProviderGrok43')" title="Balanced Grok — vision-capable; transcriber required for Speaking">⚡ Grok 4.3 🖼️</button>
-        <button class="sysprompt-provider-btn" id="spProviderGrok45" onclick="_spSetTierVariant('grok','grok-4.5','spProviderGrok45')" title="Most capable Grok — vision-capable; transcriber required for Speaking">⚡ Grok 4.5 🖼️</button>
-        <button class="sysprompt-provider-btn" id="spProviderDeepseekChat" onclick="_spSetTierVariant('deepseek','deepseek-v4-flash','spProviderDeepseekChat')" title="⚠️ Text only — V4 hybrid (light thinking), cheapest tier; replaces retired deepseek-chat; transcript-based Speaking">🔵 DeepSeek V4 Flash ⚠️</button>
-        <button class="sysprompt-provider-btn" id="spProviderDeepseekReasoner" onclick="_spSetTierVariant('deepseek','deepseek-v4-pro','spProviderDeepseekReasoner')" title="⚠️ Text only — V4 top tier, deeper reasoning & more output tokens; replaces retired deepseek-reasoner; transcript-based Speaking">🔵 DeepSeek V4 Pro ⚠️</button>
-        <button class="sysprompt-provider-btn" id="spProviderGroqLlama8B" onclick="_spSetGroqVariant('llama-3.1-8b-instant','spProviderGroqLlama8B')" title="⚠️ Text only — cheapest/fastest on Groq LPU">🟢 Groq Llama 8B Instant ⚠️</button>
-        <button class="sysprompt-provider-btn" id="spProviderGroqQwen" onclick="_spSetGroqVariant('qwen/qwen3.6-27b','spProviderGroqQwen')" title="⚠️ Text only — emits <think> preamble; avoid for JSON scoring">⚡ Groq Qwen 3.6 27B ⚠️</button>
-        <button class="sysprompt-provider-btn" id="spProviderGroqOss" onclick="_spSetGroqVariant('openai/gpt-oss-120b','spProviderGroqOss')" title="⚠️ Text only — largest open-weight on Groq">🟢 Groq GPT-OSS 120B ⚠️</button>
-        <button class="sysprompt-provider-btn" id="spProviderGroqLlama70B" onclick="_spSetGroqVariant('llama-3.3-70b-versatile','spProviderGroqLlama70B')" title="⚠️ Text only — Speaking mocks use transcript-based scoring (no audio)">⚡ Groq Llama 3.3 70B ⚠️</button>
+      <div class="sysprompt-provider-row sp-matrix-wrap">
+        <div class="sp-matrix-head">
+          <b>AI Provider</b>
+          <i>click a row to select · ✓ = the model does it itself · speed &amp; passes are measured on the live CEFR prompts, “—” = not benchmarked</i>
+        </div>
+        <table class="sp-matrix">
+          <thead><tr>
+            <th>Model</th>
+            <th class="sp-c" title="Reads charts (IELTS Task 1) and picture-comparison images (CEFR Speaking Q4) by itself">🖼️ image</th>
+            <th class="sp-c" title="Accepts student audio directly — no separate transcriber needed">🎤 audio</th>
+            <th class="sp-r" title="Median seconds for one full CEFR writing check, measured on the live prompt">Speed</th>
+            <th class="sp-r" title="Complete, parseable results out of N measured runs">Passes</th>
+            <th title="Secondary AI you must configure for this model">Needs helper</th>
+          </tr></thead>
+          <tbody>${_spMatrixRows()}</tbody>
+        </table>
       </div>
       <div class="sysprompt-provider-row" style="margin-top:6px;align-items:center;">
         <span style="font-size:12px;color:#6b7280;font-weight:600;">🛟 Fallback if primary fails:</span>
@@ -522,7 +686,11 @@
     function _spSetTranscriptionHelper(h) {
       _spTranscriptionProvider = h;
       var providerLabel = _spCurrentProvider.charAt(0).toUpperCase() + _spCurrentProvider.slice(1);
-      var isTextOnly = (_spCurrentProvider === 'grok' || _spCurrentProvider === 'deepseek');
+      // Must match the list in _spSetProvider — 'groq' and 'llama-scout' were
+      // missing here, so the footnote claimed Groq transcribes its own audio.
+      // No Groq chat model accepts audio; Whisper is a separate endpoint.
+      var isTextOnly = (_spCurrentProvider === 'grok' || _spCurrentProvider === 'deepseek' ||
+                        _spCurrentProvider === 'groq' || _spCurrentProvider === 'llama-scout');
       var theme = isTextOnly
         ? { active: '#f59e0b', text: '#92400e', border: '#f59e0b' }
         : { active: '#2563eb', text: '#1e40af', border: '#3b82f6' };
@@ -600,8 +768,14 @@
         ? { bg: '#fef3c7', border: '#f59e0b', text: '#92400e', divider: 'rgba(245,158,11,0.35)' }
         : { bg: '#dbeafe', border: '#3b82f6', text: '#1e40af', divider: 'rgba(59,130,246,0.35)' };
       box.style.cssText = 'margin:6px 0 0;padding:6px 12px;background:' + theme.bg + ';border:1px solid ' + theme.border + ';border-radius:8px;font-size:11px;color:' + theme.text + ';flex-shrink:0;';
+      // Vision status is per-MODEL, not per-provider: Groq is text-only except
+      // qwen3.6-27b, which gained image input (verified 2026-08-01).
+      var _mdlNow = (document.getElementById('sp_scoring_model_groq') || {}).value || '';
+      var _needsVision = (p === 'deepseek') ||
+        (p === 'groq' && _mdlNow.indexOf('qwen3.6') === -1) ||
+        (p === 'llama-scout' && false);
       var headline = isTextOnly
-        ? '⚠️ ' + providerLabel + ' cannot process audio. Pick transcriber:'
+        ? '⚠️ ' + providerLabel + ' cannot process audio' + (_needsVision ? ' or images' : '') + '. Pick transcriber:'
         : '🎙️ Transcriber (default = ' + providerLabel + ' itself):';
       box.innerHTML =
         '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">' +
@@ -659,9 +833,12 @@
     }
 
     function _spSetGroqVariant(modelString, btnId) {
-      _spSetProvider('groq');
+      // Set the model BEFORE _spSetProvider: the transcriber banner reads this
+      // field to decide whether the picked Groq model also needs a vision
+      // helper (qwen3.6-27b sees images; the Llama/OSS models do not).
       var fld = document.getElementById('sp_scoring_model_groq');
       if (fld) fld.value = modelString;
+      _spSetProvider('groq');
       var groqBtns = ['spProviderGroqQwen', 'spProviderGroqLlama70B', 'spProviderGroqLlama4Scout'];
       groqBtns.forEach(function (id) {
         var b = document.getElementById(id);
@@ -1058,6 +1235,12 @@
   // Expose handlers referenced from inline onclick="..." attributes.
   window._spSetProvider           = _spSetProvider;
   window._spSetGroqVariant        = _spSetGroqVariant;
+  // These two back 14 of the 18 provider rows but were never exported, so the
+  // inline onclick="" threw ReferenceError and picking Gemini/OpenAI/Claude/
+  // Grok/DeepSeek from this panel silently did nothing (only the Groq rows
+  // worked). Found 2026-08-01 while rebuilding the picker as a table.
+  window._spSetTierVariant        = _spSetTierVariant;
+  window._spSetClaudeVariant      = _spSetClaudeVariant;
   window._spSetTranscriptionHelper= _spSetTranscriptionHelper;
   window._spSetGeminiPlan         = _spSetGeminiPlan;
   window._verifySpPasscode        = _verifySpPasscode;
