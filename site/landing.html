@@ -28173,16 +28173,23 @@
       document.querySelectorAll('.smg-back-native, .smg-back-inline, #smgBackPill')
         .forEach(function (n) { n.remove(); });
       var items = [
-        { icon: '📝', label: 'System Prompts',   fn: function(){ openSystemPromptsPanel(); } },
+        // ── MIGRATED PANELS ────────────────────────────────────────────
+        // These now live in /admin.html and are maintained there. The copies
+        // still embedded in this file are FROZEN and out of date (they show
+        // retired models, the removed fallback selector, no capability
+        // matrix), yet they write to the SAME site_settings rows — so opening
+        // them here is a footgun. Send the admin to the real panel instead.
+        // Do NOT re-point the unmigrated cards below; those only exist here.
+        { icon: '📝', label: 'System Prompts',   moved: '#system-prompts' },
         { icon: '🛠️', label: 'Test Maker',       fn: function(){ openTestMakerModal(); } },
-        { icon: '👥', label: 'Registered Users', fn: function(){ openRegisteredUsersPanel(); } },
-        { icon: '✏️', label: 'Writing Plus',     fn: function(){ openWritingPlusPanel(); } },
-        { icon: '🎙️', label: 'Voice Sessions',   fn: function(){ window.open('/admin-realtime-review.html', '_blank'); } },
+        { icon: '👥', label: 'Registered Users', moved: '#registered-users' },
+        { icon: '✏️', label: 'Writing Plus',     moved: '#writing-plus' },
+        { icon: '🎙️', label: 'Voice Sessions',   moved: '#voice-sessions' },
         { icon: '📖', label: 'Reading Plus',     fn: function(){ openReadingPlusPanel(); } },
         { icon: '🎧', label: 'Listening Plus',   fn: function(){ openListeningPlusPanel(); } },
-        { icon: '🏢', label: 'Centers',          fn: function(){ openCentersPanel(); } },
+        { icon: '🏢', label: 'Centers',          moved: '#centers' },
         { icon: '🧪', label: 'Mock Settings',    fn: function(){ openMockMgmtPanel(); } },
-        { icon: '🔑', label: 'Code Management',  fn: function(){ if (typeof openCodesPanel === 'function') openCodesPanel(true); else alert('Code Management not loaded'); } },
+        { icon: '🔑', label: 'Code Management',  moved: '#codes' },
         { icon: '🤖', label: 'AI Grading Router',fn: function(){ openAiRouterPanel(); } },
         { icon: '✉️', label: 'Private Messages', fn: function(){ openPrivateMessagesPanel(); } },
         { icon: '💬', label: 'Support Messages', fn: function(){ openSupportMessagesPanel(); } },
@@ -28195,9 +28202,10 @@
       // testmaker 10000) so the grid is always interactive on top.
       div.style.cssText = 'position:fixed;inset:0;z-index:10250;background:rgba(15,23,42,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto;animation:adminAuthFadeIn .2s ease;';
       var cards = items.map(function (it, i) {
-        return '<button data-idx="' + i + '" class="smg-card">' +
+        return '<button data-idx="' + i + '" class="smg-card' + (it.moved ? ' smg-moved' : '') + '">' +
                  '<span class="smg-icon">' + it.icon + '</span>' +
                  '<span class="smg-label">' + it.label + '</span>' +
+                 (it.moved ? '<span class="smg-moved-tag">opens Admin Panel</span>' : '') +
                '</button>';
       }).join('');
       div.innerHTML =
@@ -28223,6 +28231,9 @@
           var idx = parseInt(btn.getAttribute('data-idx'), 10);
           var it = items[idx];
           div.remove();
+          // Migrated panels: hand off to /admin.html instead of opening the
+          // frozen in-file copy, so settings are only ever edited in one place.
+          if (it.moved) { window.location.href = '/admin.html' + it.moved; return; }
           try { it.fn(); } catch (e) { console.error('[siteMgmtGrid] handler error:', e); }
           _showSmgBackButton();
         });
@@ -28238,6 +28249,10 @@
           '.smg-title{font:700 18px system-ui,-apple-system,Segoe UI,sans-serif;}' +
           '.smg-close{background:none;border:0;font-size:22px;cursor:pointer;color:#64748b;line-height:1;padding:4px 8px;}' +
           '.smg-sub{font-size:12.5px;color:#64748b;margin-bottom:16px;}' +
+          /* Migrated cards hand off to /admin.html — flagged so an admin can
+             see at a glance which tools have already moved. */
+          '.smg-card.smg-moved{position:relative;border-color:#c7d2fe !important;background:linear-gradient(180deg,#eef2ff,#fff) !important;}' +
+          '.smg-moved-tag{position:absolute;bottom:6px;left:0;right:0;font-size:9px;font-weight:700;letter-spacing:.03em;color:#4f46e5;text-transform:uppercase;}' +
           '.smg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;}' +
           '.smg-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:18px 8px;min-height:108px;background:var(--surface,#fff);border:1px solid rgba(148,163,184,.25);border-radius:14px;cursor:pointer;transition:transform .15s, box-shadow .15s, border-color .15s;color:var(--ink,#0f172a);font:600 12.5px system-ui,-apple-system,Segoe UI,sans-serif;text-align:center;line-height:1.25;}' +
           '.smg-card:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.12);border-color:rgba(217,119,6,.5);}' +
