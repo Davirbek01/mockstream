@@ -5808,7 +5808,7 @@
         var body = { model: _mdlOpenAI, messages: messages, temperature: opts.temperature || 0.3 };
         // gpt-5.x rejects sampling params — API default temperature only.
         if (/^gpt-5/.test(_mdlOpenAI)) delete body.temperature;
-        if (opts.maxTokens) body.max_completion_tokens = opts.maxTokens; // modern param (gpt-4o + gpt-5.x)
+        if (opts.maxTokens) body.max_completion_tokens = Math.min(opts.maxTokens, /^gpt-4/.test(_mdlOpenAI) ? 16384 : 32768); // gpt-4o family hard-caps at 16384; gpt-5.x accepts more
         if (opts.jsonMode) body.response_format = { type: 'json_object' };
         return await _callWithKeyRotation('openai', API_KEY, _getServerBackupKeys('openai').concat(_getBackupKeys('openai', cp)), async function(key) {
           var r = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -5889,7 +5889,7 @@
         messages.push({ role: 'user', content: userPrompt });
         if (opts.jsonMode && messages.length > 0) { var _last = messages[messages.length - 1]; _last.content += '\n\nIMPORTANT: Respond with valid JSON only, no markdown.'; }
         var body = { model: _mdlGroq, messages: messages, temperature: opts.temperature || 0.3 };
-        if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+        if (opts.maxTokens) body.max_tokens = Math.min(opts.maxTokens, 16384); // Groq hard cap — qwen3.6-27b rejects >16384
         if (opts.jsonMode) body.response_format = { type: 'json_object' };
         return await _callWithKeyRotation('groq', _GROQ_KEY, _getServerBackupKeys('groq').concat(_getBackupKeys('groq', cp)), async function(key) {
           var r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -5915,7 +5915,7 @@
           if (opts.jsonMode) uMsg += '\n\nIMPORTANT: Respond with valid JSON only, no markdown.';
           messages.push({ role: 'user', content: uMsg });
           var body = { model: _mdlLlamaScout, messages: messages, temperature: opts.temperature || 0.3 };
-          if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+          if (opts.maxTokens) body.max_tokens = Math.min(opts.maxTokens, 16384); // Groq API hard cap (qwen3.6-27b rejects >16384)
           if (opts.jsonMode) body.response_format = { type: 'json_object' };
           var r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
             method: 'POST',
