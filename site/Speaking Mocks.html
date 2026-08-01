@@ -8108,11 +8108,23 @@
         if (!_GROQ_KEY) throw new Error('No Groq API key available');
         var messages = [];
         if (systemText) messages.push({ role: 'system', content: systemText });
-        var uMsg = userPrompt;
-        if (opts.contentParts) uMsg = opts.contentParts.filter(function(p){ return p.text; }).map(function(p){ return p.text; }).join('\n');
-        uMsg += _imgNote;
-        if (opts.jsonMode) uMsg += '\n\nIMPORTANT: Respond with valid JSON only, no markdown.';
-        messages.push({ role: 'user', content: uMsg });
+        // qwen3.6-27b gained image input (verified 2026-08); every other Groq
+        // chat model is text-only, so images are stripped for those. Without
+        // this branch Qwen silently lost the pictures and the scorer graded
+        // Q4 blind while still being labelled "vision-capable" in the admin UI.
+        var _groqSeesImages = /qwen3\.6/.test(_mdlGroq) &&
+          !!(opts.contentParts && opts.contentParts.some(function (p) { return p.inline_data || p.inlineData; }));
+        if (_groqSeesImages) {
+          var _gParts = _toOpenAiMultimodal(opts.contentParts);
+          if (opts.jsonMode) _gParts.push({ type: 'text', text: '\n\nIMPORTANT: Respond with valid JSON only, no markdown.' });
+          messages.push({ role: 'user', content: _gParts });
+        } else {
+          var uMsg = userPrompt;
+          if (opts.contentParts) uMsg = opts.contentParts.filter(function(p){ return p.text; }).map(function(p){ return p.text; }).join('\n');
+          uMsg += _imgNote;
+          if (opts.jsonMode) uMsg += '\n\nIMPORTANT: Respond with valid JSON only, no markdown.';
+          messages.push({ role: 'user', content: uMsg });
+        }
         var body = { model: _mdlGroq, messages: messages, temperature: opts.temperature || 0.3 };
         if (opts.maxTokens) body.max_tokens = Math.min(opts.maxTokens, 16384); // Groq API hard cap (qwen3.6-27b rejects >16384)
         if (opts.jsonMode) body.response_format = { type: 'json_object' };
@@ -16329,9 +16341,21 @@ Do NOT artificially limit scores. Award the level the candidate truly deserves b
             const _ovrPrimary = await _getCenterAiProviderOverride();
             if (_ovrPrimary) _resolvedPrimary = _ovrPrimary;
           } catch (_e) {}
+          // Which providers can take the Q4 images INSIDE the scoring call.
+          // Grok 4.x reads images, and Groq's qwen3.6-27b gained image input in
+          // 2026-08 — both now attach images directly instead of paying for a
+          // separate vision pre-pass. Other Groq models stay text-only.
+          let _resolvedModel = '';
+          try {
+            const _cpV = await _loadScoringPrompts();
+            _resolvedModel = ((window._centerConfig && window._centerConfig.aiModel) ||
+                              _cpV['scoring_model_' + _resolvedPrimary] || '').toString();
+          } catch (_e) {}
           const _primaryIsVisionCapable = (
             _resolvedPrimary === 'gemini' || _resolvedPrimary === 'openai' ||
-            _resolvedPrimary === 'claude' || _resolvedPrimary === 'llama-scout'
+            _resolvedPrimary === 'claude' || _resolvedPrimary === 'llama-scout' ||
+            _resolvedPrimary === 'grok' ||
+            (_resolvedPrimary === 'groq' && /qwen3\.6/.test(_resolvedModel))
           );
           const _visionToggleOn = (window.SITE_CONFIG && window.SITE_CONFIG.visionFactCheck === true);
           const _needsImagesAttached = _primaryIsVisionCapable;
