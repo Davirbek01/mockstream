@@ -47,6 +47,9 @@
     })();
 
     var _cmInlineContainer = null;  // set by AdminPanels.centers.open(container)
+    // Global scoring defaults, loaded from site_settings on open. Lets a centre
+    // set to "Default" display the provider/model/helper it actually inherits.
+    var _cmGlobalAI = { provider: '', model: '', transcriber: 'default', vision: 'grok' };
     var CM_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
     var CM_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
 
@@ -298,16 +301,32 @@
         return '<td class="cm-need"><span style="font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:999px;' +
                'background:' + M[0] + ';color:' + M[1] + ';white-space:nowrap;">' + M[2] + '</span></td>';
       };
+      var isDefaultMode = (curP === 'default' || !curP);
+      // When the centre inherits, mark the row the global setting resolves to,
+      // so "Default" is verifiable at a glance instead of being a black box.
+      // Model match is loose: System Prompts may leave scoring_model_<p> empty,
+      // in which case the vendor's first row represents the inherited default.
+      var gProv = (_cmGlobalAI.provider || '').toLowerCase();
+      var gModel = (_cmGlobalAI.model || '').trim();
+      var _gSeen = {};
       var row = function (prov, model, name, cap, needKey, sec, tag) {
-        var on = (curP === prov) && (curM === model);
-        var bg = on ? 'background:linear-gradient(90deg,#7c3aed26,#7c3aed0d);' : '';
-        var bar = on ? 'box-shadow:inset 3px 0 0 #7c3aed;' : '';
+        var on = !isDefaultMode && (curP === prov) && (curM === model);
+        var inherited = false;
+        if (isDefaultMode && prov === gProv) {
+          if (gModel) inherited = (model === gModel);
+          else if (!_gSeen[prov]) { inherited = true; _gSeen[prov] = true; }
+        }
+        var bg = on ? 'background:linear-gradient(90deg,#7c3aed26,#7c3aed0d);'
+               : inherited ? 'background:repeating-linear-gradient(45deg,#7c3aed0d,#7c3aed0d 6px,transparent 6px,transparent 12px);' : '';
+        var bar = on ? 'box-shadow:inset 3px 0 0 #7c3aed;'
+                : inherited ? 'box-shadow:inset 3px 0 0 #a78bfa;' : '';
+        if (inherited) tag = 'INHERITED';
         return '<tr onclick="_cmSetAiRow(\'' + cid + '\',\'' + prov + '\',\'' + model + '\')" ' +
           'style="cursor:pointer;' + bg + '" onmouseover="if(!this.dataset.on)this.style.background=\'rgba(100,116,139,.08)\'" ' +
           'onmouseout="this.style.background=\'' + (on ? 'linear-gradient(90deg,#7c3aed26,#7c3aed0d)' : 'transparent') + '\'"' +
           (on ? ' data-on="1"' : '') + '>' +
           '<td style="padding:4px 8px;border-bottom:1px solid var(--ring,#e5e7eb);' + bar +
-            (on ? 'font-weight:700;color:#7c3aed;' : '') + '">' + name +
+            (on ? 'font-weight:700;color:#7c3aed;' : inherited ? 'font-weight:600;color:#6d28d9;' : '') + '">' + name +
             (tag ? '<span class="cm-tag" style="font-size:8px;font-weight:700;padding:1px 4px;border-radius:3px;margin-left:5px;background:#7c3aed1a;color:#7c3aed;">' + tag + '</span>' : '') +
           '</td>' + mark(cap[0]) + mark(cap[1]) +
           '<td class="cm-speed" style="text-align:right;font-size:10px;color:var(--muted,#64748b);">' + (sec || '—') + '</td>' +
@@ -327,13 +346,27 @@
           '<th class="cm-speed" style="text-align:right;font-size:9px;color:var(--muted,#64748b);padding:0 4px 4px;border-bottom:1px solid var(--ring,#e5e7eb);">Speed</th>' +
           '<th style="text-align:left;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted,#64748b);padding:0 8px 4px;border-bottom:1px solid var(--ring,#e5e7eb);">Needs helper</th>' +
         '</tr></thead><tbody>';
-      // Inherit row — clears both fields.
-      var isDef = (curP === 'default' || !curP);
+      // Inherit row — clears both fields and spells out what it resolves to.
+      var isDef = isDefaultMode;
+      var NAMES = { claude: 'Claude', openai: 'OpenAI', gemini: 'Gemini', grok: 'Grok',
+                    deepseek: 'DeepSeek', groq: 'Groq' };
+      var resolved = gProv
+        ? (NAMES[gProv] || gProv) + (gModel ? ' · ' + gModel : ' · (model unset)')
+        : 'loading…';
+      var TR = { 'default': 'provider itself / global helper', groq: 'Groq Whisper Turbo',
+                 gemini: 'Gemini', openai: 'OpenAI Whisper', assemblyai: 'AssemblyAI' };
       h += '<tr onclick="_cmSetAiRow(\'' + cid + '\',\'default\',\'\')" style="cursor:pointer;' +
         (isDef ? 'background:linear-gradient(90deg,#7c3aed26,#7c3aed0d);' : '') + '">' +
-        '<td colspan="5" style="padding:5px 8px;border-bottom:1px solid var(--ring,#e5e7eb);' +
-        (isDef ? 'box-shadow:inset 3px 0 0 #7c3aed;font-weight:700;color:#7c3aed;' : '') +
-        '">⚙ Default — inherit System Prompts</td></tr>';
+        '<td colspan="5" style="padding:6px 8px;border-bottom:1px solid var(--ring,#e5e7eb);' +
+        (isDef ? 'box-shadow:inset 3px 0 0 #7c3aed;color:#7c3aed;' : '') + '">' +
+        '<span style="' + (isDef ? 'font-weight:700;' : '') + '">⚙ Default — inherit System Prompts</span>' +
+        (isDef
+          ? '<div style="font-size:10px;font-weight:600;color:#6d28d9;margin-top:2px;">' +
+              '→ currently resolves to <b>' + resolved + '</b>' +
+              '<span style="color:var(--muted,#64748b);font-weight:500;"> · 🎤 ' +
+              (TR[_cmGlobalAI.transcriber] || _cmGlobalAI.transcriber) + '</span></div>'
+          : '') +
+        '</td></tr>';
       h += vendor('🟣 Anthropic · Claude', '#7c3aed');
       h += row('claude', 'claude-sonnet-5',  'Claude Sonnet 5',  [1,0], 'tr', '');
       h += row('claude', 'claude-haiku-4-5', 'Claude Haiku 4.5', [1,0], 'tr', '');
@@ -742,20 +775,12 @@
             // System Prompts picker) rather than two dependent dropdowns —
             // clicking a row sets both at once and shows what it can/can't do.
             h += _cmProviderMatrix(cid, cfg);
-            // Per-centre fallback override. "default" = inherit global
-            // scoring_ai_fallback. Empty / "none" = no fallback. Other values
-            // are tried only when ALL primary keys fail terminally.
-            h += _cmSelectInput(cid, 'aiFallback', 'Fallback if primary fails', cfg.aiFallback || 'default', [
-              { val: 'default', label: 'Default (use global fallback)' },
-              { val: 'none', label: 'None (show error if primary fails)' },
-              { val: 'gemini', label: 'Gemini' },
-              { val: 'openai', label: 'OpenAI' },
-              { val: 'claude', label: 'Claude' },
-              { val: 'grok', label: 'Grok (vision · grok-4.x)' },
-              { val: 'deepseek', label: 'DeepSeek (text only)' },
-              { val: 'groq:llama-3.3-70b-versatile', label: 'Groq Llama 3.3 70B' },
-              { val: 'groq:qwen/qwen3.6-27b', label: 'Groq Qwen 3.6 27B' }
-            ]);
+            // Cross-provider fallback was REMOVED (zero-fallback mandate): a
+            // failed primary must never silently bill a different vendor.
+            h += '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;flex-wrap:wrap;">' +
+              '<span style="font-size:11.5px;font-weight:700;color:#15803d;">🔒 Zero fallback</span>' +
+              '<span style="font-size:10.5px;color:var(--muted,#64748b);">A failed check retries on the SAME AI and then errors — it never switches provider, so cost stays attributable.</span>' +
+            '</div>';
 
             // ── Gemini billing-slot picker (shown only when Gemini is the per-center pick)
             if (cfg.aiProvider === 'gemini') {
@@ -781,12 +806,18 @@
             h += _cmGroupLabel('2 · Secondary helper AIs',
               'Only the skills the scoring AI cannot do itself are handled here');
             {
-              var _isTextOnly = (cfg.aiProvider === 'grok' || cfg.aiProvider === 'deepseek' ||
-                                 cfg.aiProvider === 'llama-scout' || cfg.aiProvider === 'groq');
-              var _providerLabel = (cfg.aiProvider === 'llama-scout' ? 'Llama Scout' :
-                                    (cfg.aiProvider || 'gemini').charAt(0).toUpperCase() + (cfg.aiProvider || 'gemini').slice(1));
+              // "default" is not a provider — resolve it to whatever System
+              // Prompts is set to, otherwise the notes below read
+              // "By default Default transcribes its own audio".
+              var _isInherit = (!cfg.aiProvider || cfg.aiProvider === 'default');
+              var _effProv = _isInherit ? (_cmGlobalAI.provider || 'gemini') : cfg.aiProvider;
+              var _isTextOnly = (_effProv === 'grok' || _effProv === 'deepseek' ||
+                                 _effProv === 'llama-scout' || _effProv === 'groq');
+              var _providerLabel = (_effProv === 'llama-scout' ? 'Llama Scout' :
+                                    _effProv.charAt(0).toUpperCase() + _effProv.slice(1)) +
+                                   (_isInherit ? ' (inherited)' : '');
               if (_isTextOnly) {
-                var _audioNote = (cfg.aiProvider === 'llama-scout')
+                var _audioNote = (_effProv === 'llama-scout')
                   ? '⚠️ ' + _providerLabel + ' has vision but no native audio. Pick a transcriber to convert speech first:'
                   : '⚠️ ' + _providerLabel + ' cannot process speaking-mock audio. Pick an assistant AI to transcribe audio first:';
                 h += '<div style="padding:6px 0 4px 0;font-size:11px;color:#92400e;background:#fef3c7;border:1px solid #fde68a;border-radius:6px;margin:4px 0;padding:6px 10px;">' +
@@ -794,11 +825,19 @@
                 '</div>';
               } else {
                 h += '<div style="padding:6px 0 4px 0;font-size:11px;color:#1e3a8a;background:#dbeafe;border:1px solid #93c5fd;border-radius:6px;margin:4px 0;padding:6px 10px;">' +
-                  '💡 By default ' + _providerLabel + ' transcribes its own audio. Override to use a cheaper / faster transcriber (e.g. AssemblyAI):' +
+                  '💡 ' + _providerLabel + ' transcribes its own audio. Override to use a cheaper / faster transcriber (e.g. AssemblyAI):' +
                 '</div>';
               }
-              var _defaultLabel = _isTextOnly ? 'Default (system prompts)' : 'Default (' + _providerLabel + ' itself)';
-              h += _cmSelectInput(cid, 'transcriberProvider', '↳ Transcriber AI', cfg.transcriberProvider || 'default', [
+              // Name the value "Default" actually inherits, so the admin can
+              // confirm the global helper is right without leaving this panel.
+              var _TRNAMES = { 'default': '', groq: 'Groq Whisper Turbo', gemini: 'Gemini',
+                               openai: 'OpenAI Whisper', assemblyai: 'AssemblyAI' };
+              var _gTr = _cmGlobalAI.transcriber || 'default';
+              var _inheritedTr = (_gTr !== 'default' && _TRNAMES[_gTr])
+                ? _TRNAMES[_gTr]
+                : (_isTextOnly ? 'system-prompts helper' : _providerLabel.replace(' (inherited)', '') + ' itself');
+              var _defaultLabel = 'Default → ' + _inheritedTr;
+              h += _cmSelectInput(cid, 'transcriberProvider', '↳ 🎤 Transcriber AI', cfg.transcriberProvider || 'default', [
                 { val: 'default',    label: _defaultLabel },
                 { val: 'gemini',     label: 'Gemini' },
                 { val: 'openai',     label: 'OpenAI (Whisper)' },
@@ -825,12 +864,17 @@
             // greyed-out with an "auto-vision via primary AI" note, because
             // the primary already sees the images in the main scoring call.
             {
+              // Uses the RESOLVED provider (_effProv), so a centre on "Default"
+              // reflects what System Prompts is actually set to. Groq is a
+              // special case: only qwen3.6-27b reads images.
+              var _effModel = _isInherit ? (_cmGlobalAI.model || '') : (cfg.aiModel || '');
               var _primaryHasVision = (
-                cfg.aiProvider === 'gemini' ||
-                cfg.aiProvider === 'openai' ||
-                cfg.aiProvider === 'claude' ||
-                cfg.aiProvider === 'llama-scout' ||
-                cfg.aiProvider === 'grok'
+                _effProv === 'gemini' ||
+                _effProv === 'openai' ||
+                _effProv === 'claude' ||
+                _effProv === 'llama-scout' ||
+                _effProv === 'grok' ||
+                (_effProv === 'groq' && _effModel.indexOf('qwen3.6') > -1)
               );
               var _vfcOn = cfg.visionFactCheck === true;
               var _vfcProv = (cfg.visionFactCheckProvider || 'gemini');
@@ -844,8 +888,9 @@
               h += '<div style="font-size:13px;font-weight:700;color:' + _ttl + ';">Vision fact-check</div>';
               if (_primaryHasVision) {
                 h += '<div style="font-size:11.5px;color:#64748b;margin-top:2px;line-height:1.4;">'
-                  +    'Not needed — the selected primary AI (<strong>' + _providerLabel + '</strong>) is vision-capable. '
-                  +    'Images are sent straight to it inside the main scoring call. This toggle is ignored.'
+                  +    'Not needed — <strong>' + _providerLabel
+                  +    (_effModel ? ' (' + _effModel + ')' : '') + '</strong> reads images itself, so they go '
+                  +    'straight into the main scoring call. This whole card is ignored.'
                   + '</div>';
               } else {
                 h += '<div style="font-size:11.5px;color:#475569;margin-top:2px;line-height:1.4;">'
@@ -863,8 +908,12 @@
               if (!_primaryHasVision) {
                 var _dropDisabled = !_vfcOn;
                 h += '<div style="margin-top:10px;' + (_dropDisabled ? 'opacity:.55;pointer-events:none;' : '') + '">';
+                var _VNAMES = { grok: 'Grok 4.20', groq: 'Groq Qwen 3.6 27B', gemini: 'Gemini Flash',
+                                openai: 'OpenAI gpt-4o-mini', claude: 'Claude Haiku 4.5' };
+                var _gVis = (_cmGlobalAI.vision || 'grok');
                 h += _cmSelectInput(cid, 'visionFactCheckProvider', '↳ 🖼️ Vision helper', _vfcProv, [
-                  { val: 'grok',        label: 'Grok 4.20 · xAI — fast, currently in use' },
+                  { val: 'default',     label: 'Default → ' + (_VNAMES[_gVis] || _gVis) + ' (System Prompts)' },
+                  { val: 'grok',        label: 'Grok 4.20 · xAI — fast' },
                   { val: 'groq',        label: 'Groq Qwen 3.6 27B — same key as Whisper, cheapest' },
                   { val: 'gemini',      label: 'Gemini Flash (latest)' },
                   { val: 'openai',      label: 'OpenAI gpt-4o-mini' },
@@ -1218,6 +1267,27 @@
     // ── Load / Save ─────────────────────────────────────────────────────────
     async function _cmLoadAll() {
       try {
+        // Global scoring defaults (System Prompts). Needed so a centre set to
+        // "Default" can SHOW what it actually inherits — otherwise the admin
+        // has to open the other panel to find out what Default means.
+        try {
+          var gRes = await fetch(CM_SB_URL + '/rest/v1/site_settings?key=like.scoring_*&select=key,value', {
+            headers: { 'apikey': CM_SB_KEY, 'Authorization': 'Bearer ' + CM_SB_KEY }
+          });
+          var gRows = await gRes.json();
+          if (Array.isArray(gRows)) {
+            var g = {};
+            gRows.forEach(function (r) { g[r.key] = r.value; });
+            var gp = (g['scoring_ai_provider'] || 'gemini').toString().trim().toLowerCase();
+            _cmGlobalAI = {
+              provider: gp,
+              model: (g['scoring_model_' + gp] || '').toString().trim(),
+              transcriber: (g['scoring_transcription_provider'] || 'default').toString().trim(),
+              vision: (g['scoring_vision_provider'] || 'grok').toString().trim()
+            };
+          }
+        } catch (e) { /* non-fatal — the matrix just won't show the inherited row */ }
+
         // Fetch ALL center_config_* entries (not just known ones)
         var res = await fetch(CM_SB_URL + '/rest/v1/site_settings?key=like.center_config_*&select=key,value', {
           headers: { 'apikey': CM_SB_KEY, 'Authorization': 'Bearer ' + CM_SB_KEY }

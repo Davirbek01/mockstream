@@ -5746,37 +5746,22 @@
 
     async function _callScoringAI(systemText, userPrompt, opts) {
       opts = opts || {};
-      // Cross-provider fallback wrapper. First call enters this block, recurses
-      // into the same function with _fallbackHandled=true so the second pass
-      // skips the wrapper and runs the real body. On a terminal error, if an
-      // aiFallback / scoring_ai_fallback is configured, we recurse once with
-      // _forceProvider / _forceModel set so the body uses the fallback.
+      // Single-entry guard: the first call recurses once with
+      // _fallbackHandled=true so the second pass runs the real body. The name
+      // is historical — cross-provider fallback was REMOVED (zero-fallback
+      // mandate); this wrapper now only validates the JSON shape.
       if (!opts._fallbackHandled) {
         opts._fallbackHandled = true;
-        try {
-          var _ret = await _callScoringAI(systemText, userPrompt, opts);
-          // If caller asked for JSON, prove the AI actually returned parseable
-          // JSON before claiming success. Gemini occasionally emits trailing
-          // garbage / truncated output that the downstream JSON.parse chokes
-          // on — without this check that error happens AFTER _callScoringAI
-          // returns, so the fallback wrapper never sees it. Validating here
-          // makes parse failures trigger the same fallback path as 429/5xx.
-          if (opts.jsonMode === true && typeof _ret === 'string') {
-            try { _extractJsonObject(_ret); }
-            catch (pe) { throw new Error('json_parse_failed: ' + (pe && pe.message)); }
-          }
-          return _ret;
-        } catch (e) {
-          var _cpFb = await _loadScoringPrompts();
-          var _rawFb = ((_cpFb['aiFallback'] && _cpFb['aiFallback'] !== 'default') ? _cpFb['aiFallback'] : (_cpFb['scoring_ai_fallback'] || '')).toString().trim().toLowerCase();
-          if (!_rawFb || _rawFb === 'none' || _rawFb === 'default') throw e;
-          var _fbProv = _rawFb, _fbModel = null;
-          if (_rawFb.indexOf('groq:') === 0) { _fbProv = 'groq'; _fbModel = _rawFb.slice(5); }
-          var _primary = (_cpFb['scoring_ai_provider'] || 'gemini').toString().trim().toLowerCase();
-          if (_fbProv === _primary) throw e;
-          console.warn('[Scoring] Primary "' + _primary + '" failed, falling back to "' + _fbProv + '"' + (_fbModel ? ' (' + _fbModel + ')' : '') + ': ' + (e && e.message));
-          return await _callScoringAI(systemText, userPrompt, Object.assign({}, opts, { _fallbackHandled: true, _forceProvider: _fbProv, _forceModel: _fbModel }));
+        // Zero-fallback (user mandate): a failed primary NEVER silently
+        // switches provider — cost must stay attributable to the AI you
+        // chose. The JSON pre-check below stays: it turns a late
+        // downstream parse crash into a clean error the caller can retry.
+        var _ret = await _callScoringAI(systemText, userPrompt, opts);
+        if (opts.jsonMode === true && typeof _ret === 'string') {
+          try { _extractJsonObject(_ret); }
+          catch (pe) { throw new Error('json_parse_failed: ' + (pe && pe.message)); }
         }
+        return _ret;
       }
       var cp = await _loadScoringPrompts();
       var provider = (opts._forceProvider || cp['scoring_ai_provider'] || 'gemini').toString().trim().toLowerCase();

@@ -545,18 +545,8 @@
         </table>
       </div>
       <div class="sysprompt-provider-row" style="margin-top:6px;align-items:center;">
-        <span style="font-size:12px;color:#6b7280;font-weight:600;">🛟 Fallback if primary fails:</span>
-        <select id="sp_scoring_ai_fallback" style="padding:6px 10px;border:1px solid var(--ring);border-radius:6px;font-size:12px;background:var(--bg);color:var(--text);">
-          <option value="">— None (show error) —</option>
-          <option value="gemini">Gemini</option>
-          <option value="openai">OpenAI</option>
-          <option value="claude">Claude</option>
-          <option value="grok">Grok (vision · grok-4.x)</option>
-          <option value="deepseek">DeepSeek (text only)</option>
-          <option value="groq:llama-3.3-70b-versatile">Groq Llama 3.3 70B</option>
-          <option value="groq:qwen/qwen3.6-27b">Groq Qwen 3.6 27B</option>
-        </select>
-        <span style="font-size:11px;color:#9ca3af;">Tried only when ALL primary keys fail terminally. Leave empty to disable.</span>
+        <span style="font-size:11.5px;color:#15803d;font-weight:600;">🔒 Zero fallback</span>
+        <span style="font-size:11px;color:var(--muted);">If the chosen AI fails, the check errors and retries on that same AI — it never silently switches provider, so every cost stays attributable to the model you picked.</span>
       </div>
       <div class="sysprompt-tabs" id="sysPromptTabs">
         <button class="sysprompt-tab active" data-tab="cefr-writing">CEFR Writing</button>
@@ -647,6 +637,10 @@
             <div class="sysprompt-field" style="margin:0">
               <label>DeepSeek model</label>
               <input type="text" id="sp_scoring_model_deepseek" placeholder="deepseek-v4-flash · deepseek-v4-pro" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+            </div>
+            <div class="sysprompt-field" style="margin:0;grid-column:1 / -1">
+              <label>🖼️ Global vision helper — used by every image-incapable scorer unless a centre overrides it</label>
+              <input type="text" id="sp_scoring_vision_provider" placeholder="grok · groq · gemini · openai · claude" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
             </div>
             <div class="sysprompt-field" style="margin:0;grid-column:1 / -1">
               <label>Groq model (clicking a Groq provider button above prefills this)</label>
@@ -745,13 +739,25 @@
       'scoring_model_openai','scoring_model_whisper',
       'scoring_model_gemini','scoring_model_claude',
       'scoring_model_grok','scoring_model_deepseek','scoring_model_groq',
-      'scoring_model_llama_scout'
-      // 'scoring_ai_fallback' is special-cased in saveScoringPrompts so it can
-      // be cleared back to "no fallback" (empty value still gets upserted).
+      'scoring_model_llama_scout',
+      // Global helper defaults. scoring_vision_provider is the universal
+      // vision AI for image-incapable scorers; centres can still override.
+      'scoring_transcription_provider','scoring_vision_provider'
     ];
 
     var _spCurrentProvider = 'gemini';
     var _spTranscriptionProvider = 'gemini'; // helper AI for text-only providers
+    // Global vision helper (site_settings.scoring_vision_provider). Universal
+    // default for scorers that cannot read images; centres may override.
+    var _spVisionProvider = 'grok';
+
+    function _spSetVisionHelper(v) {
+      _spVisionProvider = v;
+      var fld = document.getElementById('sp_scoring_vision_provider');
+      if (fld) fld.value = v;
+      var sel = document.getElementById('_spVisionSelect');
+      if (sel && sel.value !== v) sel.value = v;
+    }
 
     function _spSetTranscriptionHelper(h) {
       _spTranscriptionProvider = h;
@@ -861,9 +867,23 @@
       ].map(function (o) {
         return '<option value="' + o[0] + '"' + (o[0] === (_spTranscriptionProvider || 'default') ? ' selected' : '') + '>' + o[1] + '</option>';
       }).join('');
+      // Global vision helper — the universal default for image-incapable
+      // scorers (DeepSeek, Llama/OSS). A centre may still override it, but
+      // when the centre says "Default" this is what runs.
+      var _vsOpts = [
+        ['grok',       '⚡ Grok 4.20 · xAI — fast'],
+        ['groq',       '🟢 Groq Qwen 3.6 27B — same key as Whisper, cheapest'],
+        ['gemini',     '✨ Gemini Flash (latest)'],
+        ['openai',     '🤖 OpenAI gpt-4o-mini'],
+        ['claude',     '🟣 Claude Haiku 4.5']
+      ].map(function (o) {
+        return '<option value="' + o[0] + '"' + (o[0] === (_spVisionProvider || 'grok') ? ' selected' : '') + '>' + o[1] + '</option>';
+      }).join('');
       var _visionLine = _needsVision
-        ? '<div class="sp-helper-item"><label>🖼️ Vision helper</label>' +
-            '<span style="font-size:10.5px;color:#92400e;">set per-centre in <b>Centers → AI &amp; Scoring</b></span></div>'
+        ? '<div class="sp-helper-item">' +
+            '<label>🖼️ Vision helper</label>' +
+            '<select id="_spVisionSelect" onchange="_spSetVisionHelper(this.value)">' + _vsOpts + '</select>' +
+          '</div>'
         : '';
       box.innerHTML =
         '<div class="sp-helper-grid">' +
@@ -1110,15 +1130,15 @@
           if (_cEl) _cEl.classList.add('active');
         }
         if (map['scoring_transcription_provider']) { _spTranscriptionProvider = map['scoring_transcription_provider']; _spSetTranscriptionHelper(_spTranscriptionProvider); }
+        // Global vision helper — restore before the helper strip is docked so
+        // the dropdown opens on the saved value rather than the code default.
+        _spVisionProvider = (map['scoring_vision_provider'] || 'grok').trim() || 'grok';
+        _spSetVisionHelper(_spVisionProvider);
         // Row was lit above by the tier/claude restore — dock the helper strip
         // under it now (the earlier call inside _spSetProvider ran too early).
         _spPlaceHelperRow();
         var _trSel = document.getElementById('_spTrHelperSelect');
         if (_trSel) _trSel.value = _spTranscriptionProvider || 'default';
-        // Load fallback selector (separate from generic loop since saveScoringPrompts
-        // also special-cases it to allow clearing back to empty/no-fallback).
-        var fbEl = document.getElementById('sp_scoring_ai_fallback');
-        if (fbEl) fbEl.value = map['scoring_ai_fallback'] || '';
         // ── AI model health banner ──
         // Written monthly by the ai-health-check Edge Function (pg_cron job
         // 'ai-health-monthly'): probes every wired model so silent vendor
@@ -1257,12 +1277,9 @@
         // Always persist transcriber-provider override (applies to ALL base providers now)
         await _spUpsertSetting('scoring_transcription_provider', _spTranscriptionProvider || 'default');
         saved++;
-        // Always persist the fallback selector — even when set to empty
-        // ("None"), so changing FROM a real fallback TO "no fallback" actually
-        // takes effect. The generic loop below would otherwise skip-save
-        // empty values (intentional safeguard for prompt textareas).
-        var fbEl = document.getElementById('sp_scoring_ai_fallback');
-        await _spUpsertSetting('scoring_ai_fallback', (fbEl ? fbEl.value : '').trim());
+        // Fallback feature removed (zero-fallback mandate). Force the stored
+        // row to empty so any previously saved provider can never revive.
+        await _spUpsertSetting('scoring_ai_fallback', '');
         saved++;
         for (var i = 0; i < _SP_ALL_KEYS.length; i++) {
           var key = _SP_ALL_KEYS[i];
@@ -1358,6 +1375,7 @@
   window._spSetTierVariant        = _spSetTierVariant;
   window._spSetClaudeVariant      = _spSetClaudeVariant;
   window._spSetTranscriptionHelper= _spSetTranscriptionHelper;
+  window._spSetVisionHelper       = _spSetVisionHelper;
   window._spSetGeminiPlan         = _spSetGeminiPlan;
   window._verifySpPasscode        = _verifySpPasscode;
   window._closeSpPasscode         = _closeSpPasscode;

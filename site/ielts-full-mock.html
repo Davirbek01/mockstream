@@ -8781,19 +8781,16 @@
           // Cross-provider fallback wrapper — see Writing Mocks.html.
           if (!opts._fallbackHandled) {
             opts._fallbackHandled = true;
-            try {
-              return await _callScoringAI(systemText, userPrompt, opts);
-            } catch (e) {
-              var _cpFb = await _loadScoringPrompts();
-              var _rawFb = ((_cpFb['aiFallback'] && _cpFb['aiFallback'] !== 'default') ? _cpFb['aiFallback'] : (_cpFb['scoring_ai_fallback'] || '')).toString().trim().toLowerCase();
-              if (!_rawFb || _rawFb === 'none' || _rawFb === 'default') throw e;
-              var _fbProv = _rawFb, _fbModel = null;
-              if (_rawFb.indexOf('groq:') === 0) { _fbProv = 'groq'; _fbModel = _rawFb.slice(5); }
-              var _primary = (_cpFb['scoring_ai_provider'] || 'gemini').toString().trim().toLowerCase();
-              if (_fbProv === _primary) throw e;
-              console.warn('[Scoring] Primary "' + _primary + '" failed, falling back to "' + _fbProv + '"' + (_fbModel ? ' (' + _fbModel + ')' : '') + ': ' + (e && e.message));
-              return await _callScoringAI(systemText, userPrompt, Object.assign({}, opts, { _fallbackHandled: true, _forceProvider: _fbProv, _forceModel: _fbModel }));
+            // Zero-fallback (user mandate): a failed primary NEVER silently
+            // switches provider — cost must stay attributable to the AI you
+            // chose. The JSON pre-check below stays: it turns a late
+            // downstream parse crash into a clean error the caller can retry.
+            var _ret = await _callScoringAI(systemText, userPrompt, opts);
+            if (opts.jsonMode === true && typeof _ret === 'string') {
+              try { _extractJsonObject(_ret); }
+              catch (pe) { throw new Error('json_parse_failed: ' + (pe && pe.message)); }
             }
+            return _ret;
           }
           var cp = await _loadScoringPrompts();
                     var provider = (opts._forceProvider || cp['scoring_ai_provider'] || 'gemini').toString().trim().toLowerCase();
