@@ -969,7 +969,7 @@
         var body = { model: _mdlO, messages: messages, temperature: opts.temperature || 0.3 };
         // gpt-5.x rejects sampling params — API default temperature only.
         if (/^gpt-5/.test(_mdlO)) delete body.temperature;
-        if (opts.maxTokens) body.max_completion_tokens = opts.maxTokens; // modern param (gpt-4o + gpt-5.x)
+        if (opts.maxTokens) body.max_completion_tokens = Math.min(opts.maxTokens, /^gpt-4/.test(_mdlOpenAI) ? 16384 : 32768); // gpt-4o family hard-caps at 16384; gpt-5.x accepts more
         if (opts.jsonMode) body.response_format = { type: 'json_object' };
         var r = await fetch('https://api.openai.com/v1/chat/completions', {
           method: 'POST',
