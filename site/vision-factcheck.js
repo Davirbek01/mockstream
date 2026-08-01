@@ -42,7 +42,12 @@
     // model anymore — the 'llama-scout' key is kept as an ALIAS routed to
     // Grok vision so centres with the old value keep working.
     'llama-scout': SB_URL + '/functions/v1/ai-proxy/grok/v1/chat/completions',
-    grok:          SB_URL + '/functions/v1/ai-proxy/grok/v1/chat/completions'
+    grok:          SB_URL + '/functions/v1/ai-proxy/grok/v1/chat/completions',
+    // Groq is vision-capable AGAIN via qwen3.6-27b (Groq support confirmed
+    // 2026-08-01; verified against a control image — 6/6 on shapes, colours,
+    // counts and OCR, matching Grok). Same key as Whisper, so a centre can run
+    // transcription + vision on one bill.
+    groq:          SB_URL + '/functions/v1/ai-proxy/groq/openai/v1/chat/completions'
   };
   var PROVIDER_MODELS = {
     openai:        'gpt-4o-mini',
@@ -50,7 +55,8 @@
     'llama-scout': 'grok-4.20-0309-non-reasoning',  // alias → Grok (see above)
     // grok-4.x is vision-capable via the OpenAI-compatible API; the 4.20
     // non-reasoning variant is the fastest for fact-check work (~2s).
-    grok:          'grok-4.20-0309-non-reasoning'
+    grok:          'grok-4.20-0309-non-reasoning',
+    groq:          'qwen/qwen3.6-27b'
   };
 
   // System prompts per task type — kept here so the helper is the single
@@ -296,7 +302,12 @@
         );
       }
       if (!text) { console.warn('[Vision] empty response from ' + provider); return null; }
-      var report = JSON.parse(text);
+      // Reasoning models (qwen3.6) can wrap the answer in <think>…</think>.
+      // json_object mode suppresses it, but strip defensively and fall back to
+      // the first {...} block so one chatty response can't kill the pre-pass.
+      var clean = String(text).replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+      var brace = clean.match(/\{[\s\S]*\}/);
+      var report = JSON.parse(brace ? brace[0] : clean);
       report._provider = provider;
       console.log('[Vision] ' + provider + ' fact-check ' + (Date.now() - t0) + 'ms', report);
       return report;

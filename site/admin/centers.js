@@ -207,6 +207,42 @@
       return s;
     }
 
+    // Numbered group heading — splits AI & Scoring into "who grades" and
+    // "who covers what the grader can't do", so the helper pickers read as
+    // consequences of the provider choice instead of loose extra fields.
+    function _cmGroupLabel(title, sub) {
+      return '<div style="margin:14px 0 6px;padding:6px 10px;background:var(--surface2,#f1f5f9);' +
+        'border-left:3px solid #7c3aed;border-radius:4px;">' +
+        '<div style="font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#7c3aed;">' + title + '</div>' +
+        (sub ? '<div style="font-size:10.5px;color:var(--muted,#64748b);margin-top:1px;">' + sub + '</div>' : '') +
+        '</div>';
+    }
+
+    // One-line capability read-out for the selected scoring AI, in the same
+    // 🖼️/🎤 language as the System Prompts matrix, so an admin never has to
+    // open the other panel to learn which helpers this pick will demand.
+    function _cmCapabilityStrip(prov) {
+      var CAP = {
+        'default':  [null, null, 'Follows whatever is selected in System Prompts.'],
+        'claude':   [true,  false, 'Reads charts &amp; picture pairs itself. Needs a transcriber for Speaking.'],
+        'openai':   [true,  true,  'Sees images and hears audio on the same key — nothing else to set.'],
+        'gemini':   [true,  true,  'Sees images and hears audio natively — nothing else to set.'],
+        'grok':     [true,  false, 'Grok 4.x reads images. Needs a transcriber for Speaking.'],
+        'deepseek': [false, false, 'Text only — needs a transcriber AND a vision helper.'],
+        'groq':     [null,  false, 'Depends on the model in System Prompts: Qwen 3.6 reads images; Llama / GPT-OSS do not. No Groq chat model hears audio.']
+      };
+      var c = CAP[prov] || CAP['default'];
+      var pill = function (state, on, off) {
+        if (state === null) return '<span style="padding:1px 7px;border-radius:999px;background:#e2e8f0;color:#475569;font-weight:700;">' + on + ' ?</span>';
+        return state
+          ? '<span style="padding:1px 7px;border-radius:999px;background:#dcfce7;color:#15803d;font-weight:700;">' + on + ' ✓</span>'
+          : '<span style="padding:1px 7px;border-radius:999px;background:#fee2e2;color:#b91c1c;font-weight:700;">' + off + ' ✗</span>';
+      };
+      return '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:2px 0 6px 148px;font-size:10.5px;">' +
+        pill(c[0], '🖼️ images', '🖼️ images') + pill(c[1], '🎤 audio', '🎤 audio') +
+        '<span style="color:var(--muted,#64748b);">' + c[2] + '</span></div>';
+    }
+
     // Compact colour-input row used by the Branding section. Empty string for
     // `value` means "unset" — the swatch falls back to the placeholder hint
     // and the label says "default" so the admin sees the field is overridable.
@@ -545,16 +581,22 @@
           h += _cmSectionHeader(cid, 'ai', '🤖', 'AI & Scoring');
           if (_cmExpandedSections[cid + '_ai']) {
             h += '<div style="padding:10px 16px;">';
+            h += _cmGroupLabel('1 · Scoring AI', 'Who grades this centre\'s writing &amp; speaking');
             h += _cmNumberInput(cid, 'scoreBoost', 'Score Boost', cfg.scoreBoost, '0-3');
+            // Labels state the two capabilities that decide whether helpers are
+            // needed, in the same 🖼️/🎤 language as the System Prompts matrix.
             h += _cmSelectInput(cid, 'aiProvider', 'AI Provider', cfg.aiProvider || 'default', [
-              { val: 'default', label: 'Default (system prompts)' },
-              { val: 'gemini', label: 'Gemini (vision)' },
-              { val: 'openai', label: 'OpenAI (vision)' },
-              { val: 'claude', label: 'Claude (vision)' },
-              { val: 'grok', label: 'Grok (vision · grok-4.x)' },
-              { val: 'deepseek', label: 'DeepSeek ⚠️ (text only)' },
-              { val: 'groq', label: 'Groq (uses System Prompts model)' }
+              { val: 'default',  label: 'Default — inherit System Prompts' },
+              { val: 'claude',   label: 'Claude · 🖼️ images — needs transcriber' },
+              { val: 'openai',   label: 'OpenAI · 🖼️ 🎤 — no helpers needed' },
+              { val: 'gemini',   label: 'Gemini · 🖼️ 🎤 — no helpers needed' },
+              { val: 'grok',     label: 'Grok 4.x · 🖼️ images — needs transcriber' },
+              { val: 'deepseek', label: 'DeepSeek · text only — needs BOTH helpers' },
+              { val: 'groq',     label: 'Groq · model picked in System Prompts' }
             ]);
+            // Capability strip for the CURRENT pick — the same answer the
+            // matrix gives, without making the admin cross-reference panels.
+            h += _cmCapabilityStrip(cfg.aiProvider || 'default');
             // Per-centre fallback override. "default" = inherit global
             // scoring_ai_fallback. Empty / "none" = no fallback. Other values
             // are tried only when ALL primary keys fail terminally.
@@ -589,6 +631,10 @@
             // none of them transcribe audio. For OpenAI / Gemini / Claude
             // the default = use itself (native), but admins can still
             // override to a cheaper transcriber (e.g. AssemblyAI).
+            h += _cmNumberInput(cid, 'maxAiCallsDay', 'Max AI Calls/Day', cfg.maxAiCallsDay, '0 = unlimited');
+
+            h += _cmGroupLabel('2 · Secondary helper AIs',
+              'Only the skills the scoring AI cannot do itself are handled here');
             {
               var _isTextOnly = (cfg.aiProvider === 'grok' || cfg.aiProvider === 'deepseek' ||
                                  cfg.aiProvider === 'llama-scout' || cfg.aiProvider === 'groq');
@@ -627,8 +673,6 @@
                 ]);
               }
             }
-
-            h += _cmNumberInput(cid, 'maxAiCallsDay', 'Max AI Calls/Day', cfg.maxAiCallsDay, '0 = unlimited');
 
             // ── Vision fact-check — separate pre-pass for text-only AIs.
             // When the primary AI is itself vision-capable (gemini / openai
@@ -674,11 +718,12 @@
               if (!_primaryHasVision) {
                 var _dropDisabled = !_vfcOn;
                 h += '<div style="margin-top:10px;' + (_dropDisabled ? 'opacity:.55;pointer-events:none;' : '') + '">';
-                h += _cmSelectInput(cid, 'visionFactCheckProvider', '↳ Vision provider', _vfcProv, [
-                  { val: 'gemini',      label: 'Gemini Flash (latest · cheapest · default)' },
+                h += _cmSelectInput(cid, 'visionFactCheckProvider', '↳ 🖼️ Vision helper', _vfcProv, [
+                  { val: 'grok',        label: 'Grok 4.20 · xAI — fast, currently in use' },
+                  { val: 'groq',        label: 'Groq Qwen 3.6 27B — same key as Whisper, cheapest' },
+                  { val: 'gemini',      label: 'Gemini Flash (latest)' },
                   { val: 'openai',      label: 'OpenAI gpt-4o-mini' },
-                  { val: 'claude',      label: 'Claude Haiku 4.5' },
-                  { val: 'grok',        label: 'Grok 4.20 · xAI (fast vision · recommended)' }
+                  { val: 'claude',      label: 'Claude Haiku 4.5' }
                 ]);
                 h += '</div>';
               }
