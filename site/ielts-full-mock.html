@@ -9003,7 +9003,7 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
                 var parsed = null, _wLastErr = null;
                 for (var _wTry = 1; _wTry <= 3 && !parsed; _wTry++) {
                     try {
-                        const txt = await _callScoringAI(_sysW, prompt, { temperature: 0.5, maxTokens: 8192, jsonMode: true, skill: 'writing' });
+                        const txt = await _callScoringAI(_sysW, prompt, { temperature: 0.5, maxTokens: 32768, jsonMode: true, skill: 'writing' });
                         if (!txt) throw new Error('Empty response from AI');
                         // Sanitize control characters that break JSON.parse
                         const cleanTxt = txt.replace(/[\x00-\x09\x0B\x0C\x0E-\x1F\x7F]/g, ' ');
@@ -9122,7 +9122,7 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
                 var parsed = null, _sLastErr = null;
                 for (var _sTry = 1; _sTry <= 3 && !parsed; _sTry++) {
                     try {
-                        const txt = await _callScoringAI(_sysS, prompt, { temperature: 0.3, maxTokens: 8192, skill: 'speaking' });
+                        const txt = await _callScoringAI(_sysS, prompt, { temperature: 0.3, maxTokens: 32768, skill: 'speaking' });
                         if (!txt) throw new Error('Empty response from AI');
                         // Sanitize control characters that break JSON.parse
                         const cleanTxt = txt.replace(/[\x00-\x09\x0B\x0C\x0E-\x1F\x7F]/g, ' ');

@@ -10780,7 +10780,7 @@ ${qJsonLines}
             // Rubric lives in the prompt via the shared core (scoring-prompts.js
             // → IELTS_SPEAKING_CORE). No separate DB system instruction.
             var _sysS = '';
-            return await _callScoringAI(_sysS, '', { temperature: 0.3, maxTokens: 16384, jsonMode: true, contentParts: contentParts, skill: 'speaking' });
+            return await _callScoringAI(_sysS, '', { temperature: 0.3, maxTokens: 32768, jsonMode: true, contentParts: contentParts, skill: 'speaking' });
           });
 
           let jsonText = analysisResp || '';
@@ -13798,7 +13798,7 @@ IMPORTANT: Score FAIRLY - award B2 or C1 if the candidate truly deserves it base
 
             var _cpInd = await _loadScoringPrompts();
             var _sysInd = _cpInd['scoring_ielts_speaking_part_system'] || '';
-            feedback = await _callScoringAI(_sysInd, '', { temperature: 0.7, maxTokens: 8192, contentParts: geminiParts, skill: 'speaking' });
+            feedback = await _callScoringAI(_sysInd, '', { temperature: 0.7, maxTokens: 32768, contentParts: geminiParts, skill: 'speaking' });
             console.log('AI analysis completed successfully');
           }
 

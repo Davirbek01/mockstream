@@ -10345,7 +10345,7 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (Criteria scores MUST be whole numbers â€
         // (scoring-prompts.js â†’ IELTS_WRITING_CORE). No separate DB system
         // instruction, so the code core is the single source of truth.
         var _sysInstr = '';
-        return await _callScoringAI(_sysInstr, prompt, { temperature: 0.5, maxTokens: 16384, jsonMode: true });
+        return await _callScoringAI(_sysInstr, prompt, { temperature: 0.5, maxTokens: 32768, jsonMode: true });
       });
 
       // Continue progress animation

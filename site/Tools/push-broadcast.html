@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>📣 Push Broadcast — Mock Stream</title>
+  <style>
+    :root { --brand:#0d9488; --ink:#0f172a; --muted:#64748b; --line:#e2e8f0; --bg:#f1f5f9; }
+    * { box-sizing:border-box; }
+    body { margin:0; font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif; background:var(--bg); color:var(--ink); }
+    .top { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; background:#fff; border-bottom:1px solid var(--line); }
+    .top h1 { font-size:17px; margin:0; }
+    .top .who { font-size:12.5px; color:var(--muted); }
+    .top .who b { color:var(--ink); }
+    .btn { padding:9px 16px; border:0; border-radius:10px; font:600 14px system-ui; cursor:pointer; background:var(--brand); color:#fff; }
+    .btn:disabled { opacity:.5; cursor:not-allowed; }
+    .btn.ghost { background:transparent; color:var(--muted); border:1px solid var(--line); }
+    .wrap { max-width:560px; margin:24px auto; padding:0 16px; }
+    .card { background:#fff; border:1px solid var(--line); border-radius:16px; padding:22px; box-shadow:0 8px 30px rgba(15,23,42,.05); }
+    label { display:block; font:600 12.5px system-ui; color:var(--muted); margin:16px 0 6px; text-transform:uppercase; letter-spacing:.4px; }
+    label:first-child { margin-top:0; }
+    input, textarea, select { width:100%; padding:11px 13px; border:1.5px solid var(--line); border-radius:11px; font:15px system-ui; color:var(--ink); background:#fff; outline:none; }
+    input:focus, textarea:focus, select:focus { border-color:var(--brand); }
+    textarea { resize:vertical; min-height:84px; }
+    .count { float:right; font:500 11px system-ui; color:var(--muted); text-transform:none; letter-spacing:0; }
+    .preview { margin-top:18px; border:1px dashed var(--line); border-radius:14px; padding:14px; background:#f8fafc; }
+    .preview .pt { font-size:11px; color:var(--muted); margin-bottom:8px; }
+    .notif { display:flex; gap:11px; align-items:flex-start; background:#fff; border-radius:12px; padding:11px 12px; box-shadow:0 2px 10px rgba(15,23,42,.08); }
+    .notif .ico { width:36px; height:36px; border-radius:9px; background:var(--brand); color:#fff; display:flex; align-items:center; justify-content:center; font-size:18px; flex:0 0 auto; }
+    .notif .nt { font:700 13.5px system-ui; }
+    .notif .nb { font:13px system-ui; color:#334155; }
+    .actions { display:flex; gap:10px; margin-top:22px; }
+    .actions .btn { flex:1; }
+    .msg { margin-top:14px; padding:11px 13px; border-radius:11px; font-size:13.5px; display:none; }
+    .msg.ok { background:rgba(16,185,129,.12); color:#047857; display:block; }
+    .msg.err { background:rgba(220,38,38,.12); color:#b91c1c; display:block; }
+    .hint { font-size:12px; color:var(--muted); margin-top:6px; }
+  </style>
+</head>
+<body>
+  <div class="top">
+    <h1>📣 Push Broadcast</h1>
+    <div style="display:flex;align-items:center;gap:14px;">
+      <span class="who">Signed in: <b id="who">…</b></span>
+      <button class="btn ghost" id="logout">Log out</button>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="card">
+      <label>Audience
+        <select id="audience"></select>
+      </label>
+      <div class="hint">Sends an instant push to everyone who has the mobile app installed and notifications enabled.</div>
+
+      <label>Title <span class="count" id="cTitle">0/65</span>
+        <input id="title" maxlength="80" placeholder="e.g. New IELTS Reading mock!" />
+      </label>
+
+      <label>Message <span class="count" id="cBody">0/178</span>
+        <textarea id="body" maxlength="240" placeholder="e.g. Test 81 is now live — tap to start practicing."></textarea>
+      </label>
+
+      <div class="preview">
+        <div class="pt">Preview</div>
+        <div class="notif">
+          <div class="ico">📘</div>
+          <div>
+            <div class="nt" id="pvTitle">Title</div>
+            <div class="nb" id="pvBody">Your message will appear here.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn" id="send" disabled>Send broadcast</button>
+      </div>
+      <div class="msg" id="msg"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="../admin-auth.js"></script>
+  <script>
+  (function () {
+    'use strict';
+    var FN_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/send-push';
+
+    var $ = function (id) { return document.getElementById(id); };
+    var titleEl = $('title'), bodyEl = $('body'), sendBtn = $('send'),
+        msgEl = $('msg'), audEl = $('audience');
+
+    // Audience options. push_tokens stores the app's flavor id ('mock_stream').
+    // 'all' targets every app/centre; add clone ids here as clone apps ship.
+    var AUDIENCES = [
+      { v: 'all',         label: 'All app users' },
+      { v: 'mock_stream', label: 'Mock Stream only' }
+    ];
+
+    function refresh() {
+      var t = titleEl.value.trim(), b = bodyEl.value.trim();
+      $('cTitle').textContent = titleEl.value.length + '/65';
+      $('cBody').textContent  = bodyEl.value.length + '/178';
+      $('pvTitle').textContent = t || 'Title';
+      $('pvBody').textContent  = b || 'Your message will appear here.';
+      sendBtn.disabled = !(t && b);
+    }
+    titleEl.oninput = refresh; bodyEl.oninput = refresh;
+
+    function flash(kind, text) { msgEl.className = 'msg ' + kind; msgEl.textContent = text; }
+
+    // ---- auth gate ----
+    (async function init() {
+      AUDIENCES.forEach(function (a) {
+        var o = document.createElement('option'); o.value = a.v; o.textContent = a.label; audEl.appendChild(o);
+      });
+      try {
+        var role = await window.AdminAuth.requireLogin();
+        var em = await window.AdminAuth.currentEmail();
+        $('who').textContent = em || (role && role.role) || 'admin';
+        // Centre admins can only message their own centre — lock the dropdown.
+        if (role && role.role && role.role !== 'super_admin') {
+          audEl.innerHTML = '';
+          var o = document.createElement('option');
+          o.value = role.center || 'all'; o.textContent = 'Your centre (' + (role.center || '—') + ')';
+          audEl.appendChild(o);
+        }
+      } catch (e) { console.warn(e); $('who').textContent = '(not signed in)'; }
+      refresh();
+    })();
+
+    $('logout').onclick = async function () { try { await window.AdminAuth.logout(); } catch (e) {} location.reload(); };
+
+    // ---- send ----
+    sendBtn.onclick = async function () {
+      var t = titleEl.value.trim(), b = bodyEl.value.trim();
+      if (!t || !b) return;
+      sendBtn.disabled = true; flash('ok', 'Sending…');
+      try {
+        var resp = await window.AdminAuth.fetch(FN_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ center: audEl.value, title: t, body: b, data: { type: 'broadcast' } })
+        });
+        var j = {}; try { j = await resp.json(); } catch (e) {}
+        if (!resp.ok || !j.ok) throw new Error(j.error || ('HTTP ' + resp.status));
+        if (!j.devices) flash('ok', '✅ Sent — but no devices are registered yet for this audience.');
+        else flash('ok', '✅ Delivered to ' + j.sent + ' of ' + j.devices + ' device(s).' +
+          (j.failed ? '  (' + j.failed + ' failed)' : '') + (j.pruned ? '  Pruned ' + j.pruned + ' stale.' : ''));
+      } catch (e) {
+        flash('err', '❌ ' + (e.message || 'Send failed'));
+      } finally {
+        sendBtn.disabled = false;
+      }
+    };
+  })();
+  </script>
+</body>
+</html>

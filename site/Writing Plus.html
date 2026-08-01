@@ -2011,7 +2011,7 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY:
   "overall_feedback": "<3-4 sentence assessment>"
 }`;
 
-        const feedback = await _callScoringAI(systemPrompt, userPrompt, { temperature: 0.3, maxTokens: 16384, jsonMode: true });
+        const feedback = await _callScoringAI(systemPrompt, userPrompt, { temperature: 0.3, maxTokens: 32768, jsonMode: true });
 
         // Parse AI response into structured aiResult (same format as Writing Mocks)
         let aiResult = { rawFeedback: feedback };
