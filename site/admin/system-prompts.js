@@ -219,9 +219,34 @@
     table.sp-matrix thead th.sp-c { text-align: center; }
     table.sp-matrix thead th.sp-r { text-align: right; }
     table.sp-matrix tbody tr.sp-vendor td {
-      padding: 9px 8px 3px; font-size: 9.5px; font-weight: 700;
-      letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
-      border: 0; background: transparent;
+      padding: 7px 10px; margin-top: 10px;
+      font-size: 11px; font-weight: 800;
+      letter-spacing: .06em; text-transform: uppercase;
+      color: var(--v); border: 0;
+      background: color-mix(in srgb, var(--v) 9%, transparent);
+      border-left: 3px solid var(--v);
+      border-radius: 4px 0 0 4px;
+    }
+    table.sp-matrix tbody tr.sp-vendor + tr td { border-top: 0; }
+    .sp-vendor-dot { margin-right: 7px; font-size: 12px; }
+    /* Inline helper strip — appears under the SELECTED model when it needs one */
+    tr.sp-helper td {
+      padding: 8px 10px 10px !important;
+      background: #fffbeb; border-bottom: 1px solid var(--ring) !important;
+      white-space: normal !important;
+    }
+    .sp-helper-grid { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+    .sp-helper-item { display: flex; align-items: center; gap: 7px; }
+    .sp-helper-item label {
+      font-size: 10.5px; font-weight: 700; color: #92400e; white-space: nowrap;
+    }
+    .sp-helper-item select {
+      padding: 4px 8px; border: 1px solid #f59e0b; border-radius: 6px;
+      font-size: 11px; font-weight: 600; background: var(--bg); color: var(--text);
+      cursor: pointer;
+    }
+    .sp-helper-note {
+      flex-basis: 100%; font-size: 10px; color: #92400e; opacity: .85;
     }
     /* Row = the old button. Neutralise the button chrome, keep the contract. */
     table.sp-matrix tbody tr.sysprompt-provider-btn {
@@ -363,8 +388,50 @@
   // cap: [text, image, audio]. need: 'none' | 'tr' (transcriber) | 'both'.
   // sec/rel: ONLY from real measurements against the live CEFR prompts —
   // '' means not benchmarked, never a guess. Re-measure before editing.
+  // Vendor order: best-known / premium first, down to the open-weight hosts.
   var _SP_MATRIX = [
-    { v: 'Groq · LPU', dot: '⚡', rows: [
+    { v: 'Anthropic · Claude', dot: '🟣', tone: '#7c3aed', rows: [
+      { id: 'spProviderClaudeSonnet',  name: 'Claude Sonnet 5',   call: "_spSetClaudeVariant('claude-sonnet-5','spProviderClaudeSonnet')",
+        cap: [1,1,0], need: 'tr', sec: '', rel: '', note: 'Balanced Claude.' },
+      { id: 'spProviderClaudeHaiku',   name: 'Claude Haiku 4.5',  call: "_spSetClaudeVariant('claude-haiku-4-5','spProviderClaudeHaiku')",
+        cap: [1,1,0], need: 'tr', sec: '', rel: '', note: 'Fastest/cheapest Claude. Also the default vision helper.' },
+      { id: 'spProviderClaudeOpus',    name: 'Claude Opus 4.8',   call: "_spSetClaudeVariant('claude-opus-4-8','spProviderClaudeOpus')",
+        cap: [1,1,0], need: 'tr', sec: '', rel: '', tagWarn: 'COSTLY', note: 'Most capable Claude — highest cost per check.' },
+    ]},
+    { v: 'OpenAI', dot: '🤖', tone: '#0f766e', rows: [
+      { id: 'spProviderOpenaiMini',    name: 'GPT-5.4 Mini',      call: "_spSetTierVariant('openai','gpt-5.4-mini','spProviderOpenaiMini')",
+        cap: [1,1,1], need: 'none', sec: '', rel: '', note: 'Balanced. Vision + its own Whisper on the same key.' },
+      { id: 'spProviderOpenaiNano',    name: 'GPT-5.4 Nano',      call: "_spSetTierVariant('openai','gpt-5.4-nano','spProviderOpenaiNano')",
+        cap: [1,1,1], need: 'none', sec: '', rel: '', note: 'Cheapest OpenAI tier.' },
+      { id: 'spProviderOpenaiFull',    name: 'GPT-5.4',           call: "_spSetTierVariant('openai','gpt-5.4','spProviderOpenaiFull')",
+        cap: [1,1,1], need: 'none', sec: '', rel: '', note: 'Top tier. Runs at API default temperature (sampling params unsupported).' },
+    ]},
+    { v: 'Google · Gemini', dot: '✨', tone: '#1d4ed8', rows: [
+      { id: 'spProviderGeminiFlash',   name: 'Gemini Flash',      call: "_spSetTierVariant('gemini','gemini-flash-latest','spProviderGeminiFlash')",
+        cap: [1,1,1], need: 'none', sec: '32s', rel: '6/7', tag: 'NO HELPERS',
+        note: 'Balanced, auto-tracks latest flash. Native audio + vision — nothing else to configure.' },
+      { id: 'spProviderGeminiLite',    name: 'Gemini Flash-Lite 3.1', call: "_spSetTierVariant('gemini','gemini-3.1-flash-lite','spProviderGeminiLite')",
+        cap: [1,1,1], need: 'none', sec: '', rel: '', note: 'Cheapest Gemini. Native audio + vision.' },
+      { id: 'spProviderGeminiPro',     name: 'Gemini Pro 2.5',    call: "_spSetTierVariant('gemini','gemini-2.5-pro','spProviderGeminiPro')",
+        cap: [1,1,1], need: 'none', sec: '', rel: '', note: 'Most capable stable Gemini, higher cost.' },
+    ]},
+    { v: 'xAI · Grok', dot: '⚡', tone: '#b45309', rows: [
+      { id: 'spProviderGrokFast',      name: 'Grok 4.20 Fast',    call: "_spSetTierVariant('grok','grok-4.20-0309-non-reasoning','spProviderGrokFast')",
+        cap: [1,1,0], need: 'tr', sec: '', rel: '', note: 'Cheapest Grok. Currently the platform-wide vision fact-checker.' },
+      { id: 'spProviderGrok43',        name: 'Grok 4.3',          call: "_spSetTierVariant('grok','grok-4.3','spProviderGrok43')",
+        cap: [1,1,0], need: 'tr', sec: '', rel: '', note: 'Balanced Grok.' },
+      { id: 'spProviderGrok45',        name: 'Grok 4.5',          call: "_spSetTierVariant('grok','grok-4.5','spProviderGrok45')",
+        cap: [1,1,0], need: 'tr', sec: '', rel: '', note: 'Most capable Grok.' },
+    ]},
+    { v: 'DeepSeek', dot: '🔵', tone: '#1e40af', rows: [
+      { id: 'spProviderDeepseekChat',  name: 'DeepSeek V4 Flash', call: "_spSetTierVariant('deepseek','deepseek-v4-flash','spProviderDeepseekChat')",
+        cap: [1,0,0], need: 'both', sec: '123s', rel: '17/18', tagWarn: 'SLOW',
+        note: 'Successor to the retired deepseek-chat. Hybrid reasoner: thinking shares the token budget, so checks take ~2 min.' },
+      { id: 'spProviderDeepseekReasoner', name: 'DeepSeek V4 Pro', call: "_spSetTierVariant('deepseek','deepseek-v4-pro','spProviderDeepseekReasoner')",
+        cap: [1,0,0], need: 'both', sec: '119s', rel: '', tagWarn: 'SLOW',
+        note: 'Successor to the retired deepseek-reasoner. Deepest reasoning, highest DeepSeek cost.' },
+    ]},
+    { v: 'Groq · LPU (open-weight hosts)', dot: '🟢', tone: '#15803d', rows: [
       { id: 'spProviderGroqQwen',      name: 'Qwen 3.6 27B',      call: "_spSetGroqVariant('qwen/qwen3.6-27b','spProviderGroqQwen')",
         cap: [1,1,0], need: 'tr', sec: '21s', rel: '9/9', tag: 'FASTEST',
         note: 'Vision-capable (confirmed by Groq support + verified). JSON mode suppresses the <think> preamble. Groq caps output at 16k.' },
@@ -375,47 +442,15 @@
       { id: 'spProviderGroqLlama8B',   name: 'Llama 8B Instant',  call: "_spSetGroqVariant('llama-3.1-8b-instant','spProviderGroqLlama8B')",
         cap: [1,0,0], need: 'both', sec: '', rel: '', tagWarn: 'WEAK', note: 'Cheapest/fastest, but benchmarked poorly for scoring (hallucinated + arithmetic errors).' },
     ]},
-    { v: 'Google · Gemini', dot: '✨', rows: [
-      { id: 'spProviderGeminiFlash',   name: 'Gemini Flash',      call: "_spSetTierVariant('gemini','gemini-flash-latest','spProviderGeminiFlash')",
-        cap: [1,1,1], need: 'none', sec: '32s', rel: '6/7', note: 'Balanced, auto-tracks latest flash. Native audio + vision — no helpers at all.' },
-      { id: 'spProviderGeminiLite',    name: 'Gemini Flash-Lite 3.1', call: "_spSetTierVariant('gemini','gemini-3.1-flash-lite','spProviderGeminiLite')",
-        cap: [1,1,1], need: 'none', sec: '', rel: '', note: 'Cheapest Gemini. Native audio + vision.' },
-      { id: 'spProviderGeminiPro',     name: 'Gemini Pro 2.5',    call: "_spSetTierVariant('gemini','gemini-2.5-pro','spProviderGeminiPro')",
-        cap: [1,1,1], need: 'none', sec: '', rel: '', note: 'Most capable stable Gemini, higher cost.' },
-    ]},
-    { v: 'OpenAI', dot: '🤖', rows: [
-      { id: 'spProviderOpenaiMini',    name: 'GPT-5.4 Mini',      call: "_spSetTierVariant('openai','gpt-5.4-mini','spProviderOpenaiMini')",
-        cap: [1,1,1], need: 'none', sec: '', rel: '', note: 'Balanced. Vision + its own Whisper on the same key.' },
-      { id: 'spProviderOpenaiNano',    name: 'GPT-5.4 Nano',      call: "_spSetTierVariant('openai','gpt-5.4-nano','spProviderOpenaiNano')",
-        cap: [1,1,1], need: 'none', sec: '', rel: '', note: 'Cheapest OpenAI tier.' },
-      { id: 'spProviderOpenaiFull',    name: 'GPT-5.4',           call: "_spSetTierVariant('openai','gpt-5.4','spProviderOpenaiFull')",
-        cap: [1,1,1], need: 'none', sec: '', rel: '', note: 'Top tier. Runs at API default temperature (sampling params unsupported).' },
-    ]},
-    { v: 'Anthropic · Claude', dot: '🟣', rows: [
-      { id: 'spProviderClaudeHaiku',   name: 'Claude Haiku 4.5',  call: "_spSetClaudeVariant('claude-haiku-4-5','spProviderClaudeHaiku')",
-        cap: [1,1,0], need: 'tr', sec: '', rel: '', note: 'Fastest/cheapest Claude. Also the default vision helper.' },
-      { id: 'spProviderClaudeSonnet',  name: 'Claude Sonnet 5',   call: "_spSetClaudeVariant('claude-sonnet-5','spProviderClaudeSonnet')",
-        cap: [1,1,0], need: 'tr', sec: '', rel: '', note: 'Balanced Claude.' },
-      { id: 'spProviderClaudeOpus',    name: 'Claude Opus 4.8',   call: "_spSetClaudeVariant('claude-opus-4-8','spProviderClaudeOpus')",
-        cap: [1,1,0], need: 'tr', sec: '', rel: '', note: 'Most capable Claude — highest cost per check.' },
-    ]},
-    { v: 'xAI · Grok', dot: '⚡', rows: [
-      { id: 'spProviderGrokFast',      name: 'Grok 4.20 Fast',    call: "_spSetTierVariant('grok','grok-4.20-0309-non-reasoning','spProviderGrokFast')",
-        cap: [1,1,0], need: 'tr', sec: '', rel: '', note: 'Cheapest Grok. Currently the platform-wide vision fact-checker.' },
-      { id: 'spProviderGrok43',        name: 'Grok 4.3',          call: "_spSetTierVariant('grok','grok-4.3','spProviderGrok43')",
-        cap: [1,1,0], need: 'tr', sec: '', rel: '', note: 'Balanced Grok.' },
-      { id: 'spProviderGrok45',        name: 'Grok 4.5',          call: "_spSetTierVariant('grok','grok-4.5','spProviderGrok45')",
-        cap: [1,1,0], need: 'tr', sec: '', rel: '', note: 'Most capable Grok.' },
-    ]},
-    { v: 'DeepSeek', dot: '🔵', rows: [
-      { id: 'spProviderDeepseekChat',  name: 'DeepSeek V4 Flash', call: "_spSetTierVariant('deepseek','deepseek-v4-flash','spProviderDeepseekChat')",
-        cap: [1,0,0], need: 'both', sec: '123s', rel: '17/18', tagWarn: 'SLOW',
-        note: 'Successor to the retired deepseek-chat. Hybrid reasoner: thinking shares the token budget, so checks take ~2 min.' },
-      { id: 'spProviderDeepseekReasoner', name: 'DeepSeek V4 Pro', call: "_spSetTierVariant('deepseek','deepseek-v4-pro','spProviderDeepseekReasoner')",
-        cap: [1,0,0], need: 'both', sec: '119s', rel: '', tagWarn: 'SLOW',
-        note: 'Successor to the retired deepseek-reasoner. Deepest reasoning, highest DeepSeek cost.' },
-    ]},
   ];
+
+  // Row ids per provider family, derived from the table above so the
+  // activate/deactivate lists can never drift out of sync with the rows.
+  function _spRowIdsFor(vendorPrefix) {
+    var grp = _SP_MATRIX.filter(function (g) { return g.v.indexOf(vendorPrefix) === 0; })[0];
+    return grp ? grp.rows.map(function (r) { return r.id; }) : [];
+  }
+  function _spGroqRowIds() { return _spRowIdsFor('Groq'); }
 
   function _spMatrixRows() {
     var NEED = {
@@ -427,7 +462,8 @@
       return on ? '<td class="sp-cap sp-yes">✓</td>' : '<td class="sp-cap sp-no">✗</td>';
     };
     return _SP_MATRIX.map(function (grp) {
-      var head = '<tr class="sp-vendor"><td colspan="6">' + grp.dot + ' ' + grp.v + '</td></tr>';
+      var head = '<tr class="sp-vendor"><td colspan="6" style="--v:' + (grp.tone || '#64748b') + '">' +
+        '<span class="sp-vendor-dot">' + grp.dot + '</span>' + grp.v + '</td></tr>';
       return head + grp.rows.map(function (r) {
         var n = NEED[r.need];
         var tag = r.tag ? '<span class="sp-tag">' + r.tag + '</span>'
@@ -743,10 +779,11 @@
         claudeBtns.forEach(function (id) { var b = document.getElementById(id); if (b) b.classList.remove('active'); });
       }
       if (_scoutBtn) _scoutBtn.classList.toggle('active', p === 'llama-scout');
-      // The three Groq variant buttons are deactivated when a non-Groq provider
-      // is picked. _spSetGroqVariant() handles activating exactly the variant
-      // the user clicked (since they all share provider id 'groq').
-      var groqBtns = ['spProviderGroqQwen', 'spProviderGroqLlama70B', 'spProviderGroqLlama4Scout'];
+      // Groq rows all share provider id 'groq'; _spSetGroqVariant() lights the
+      // exact one clicked. Derived from _SP_MATRIX so the list can never drift
+      // again — the old hardcoded array named a row that doesn't exist and
+      // omitted GPT-OSS 120B + Llama 8B, which made them unselectable.
+      var groqBtns = _spGroqRowIds();
       if (p !== 'groq') {
         groqBtns.forEach(function (id) { var b = document.getElementById(id); if (b) b.classList.remove('active'); });
       }
@@ -777,22 +814,59 @@
       var headline = isTextOnly
         ? '⚠️ ' + providerLabel + ' cannot process audio' + (_needsVision ? ' or images' : '') + '. Pick transcriber:'
         : '🎙️ Transcriber (default = ' + providerLabel + ' itself):';
+      // Helper pickers are dropdowns and live INSIDE the matrix, directly under
+      // the selected model, so "what this model can't do" and "who does it
+      // instead" read as one thought. _spSetTranscriptionHelper still drives
+      // state; its chip-styling loop no-ops safely when the chips are absent.
+      var _trOpts = [
+        ['default',    isTextOnly ? '⚙ Default (system-prompts helper)' : '⚙ Default — ' + providerLabel + ' itself'],
+        ['groq',       '⚡ Groq Whisper Turbo — cheapest'],
+        ['gemini',     '✨ Gemini Flash (latest)'],
+        ['openai',     '🤖 OpenAI Whisper'],
+        ['assemblyai', '📝 AssemblyAI Universal']
+      ].map(function (o) {
+        return '<option value="' + o[0] + '"' + (o[0] === (_spTranscriptionProvider || 'default') ? ' selected' : '') + '>' + o[1] + '</option>';
+      }).join('');
+      var _visionLine = _needsVision
+        ? '<div class="sp-helper-item"><label>🖼️ Vision helper</label>' +
+            '<span style="font-size:10.5px;color:#92400e;">set per-centre in <b>Centers → AI &amp; Scoring</b></span></div>'
+        : '';
       box.innerHTML =
-        '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">' +
-          '<span style="font-weight:600;font-size:11px;">' + headline + '</span>' +
-          '<button id="_spTrHelper_default" onclick="_spSetTranscriptionHelper(\'default\')" style="padding:3px 10px;border-radius:6px;border:1px solid ' + theme.border + ';background:transparent;cursor:pointer;font-size:11px;font-weight:600;color:' + theme.text + ';">⚙ Default</button>' +
-          '<button id="_spTrHelper_gemini" onclick="_spSetTranscriptionHelper(\'gemini\')" style="padding:3px 10px;border-radius:6px;border:1px solid ' + theme.border + ';background:transparent;cursor:pointer;font-size:11px;font-weight:600;color:' + theme.text + ';">✨ Gemini</button>' +
-          '<button id="_spTrHelper_openai" onclick="_spSetTranscriptionHelper(\'openai\')" style="padding:3px 10px;border-radius:6px;border:1px solid ' + theme.border + ';background:transparent;cursor:pointer;font-size:11px;font-weight:600;color:' + theme.text + ';">🤖 OpenAI</button>' +
-          '<button id="_spTrHelper_assemblyai" onclick="_spSetTranscriptionHelper(\'assemblyai\')" style="padding:3px 10px;border-radius:6px;border:1px solid ' + theme.border + ';background:transparent;cursor:pointer;font-size:11px;font-weight:600;color:' + theme.text + ';">📝 AssemblyAI</button>' +
-          '<button id="_spTrHelper_groq" onclick="_spSetTranscriptionHelper(\'groq\')" style="padding:3px 10px;border-radius:6px;border:1px solid ' + theme.border + ';background:transparent;cursor:pointer;font-size:11px;font-weight:600;color:' + theme.text + ';">⚡ Groq</button>' +
-          '<span id="_spTrHelperNote" style="font-size:10px;opacity:0.7;flex-basis:100%;"></span>' +
+        '<div class="sp-helper-grid">' +
+          '<span style="font-weight:700;font-size:11px;flex-basis:100%;">' + headline + '</span>' +
+          '<div class="sp-helper-item">' +
+            '<label>🎤 Transcriber</label>' +
+            '<select id="_spTrHelperSelect" onchange="_spSetTranscriptionHelper(this.value)">' + _trOpts + '</select>' +
+          '</div>' +
+          _visionLine +
+          '<span id="_spTrHelperNote" class="sp-helper-note"></span>' +
         '</div>';
       // For text-only providers, "default" maps to system-prompt helper (i.e. gemini-by-default).
       // For native providers, "default" means "use itself".
       _spSetTranscriptionHelper(_spTranscriptionProvider || 'default');
+      _spPlaceHelperRow();
       // Scroll body back to top so the prompt fields are visible after banner re-flow.
       var body = document.getElementById('sysPromptBody');
       if (body) body.scrollTop = 0;
+    }
+
+    // Dock the helper panel into the matrix, immediately beneath the selected
+    // model. Falls back to leaving it under the table if no row is lit yet.
+    function _spPlaceHelperRow() {
+      var box = document.getElementById('_spAudioWarning');
+      var active = document.querySelector('table.sp-matrix tr.sysprompt-provider-btn.active');
+      if (!box || !active) return;
+      var row = document.getElementById('_spHelperRow');
+      if (!row) {
+        row = document.createElement('tr');
+        row.id = '_spHelperRow';
+        row.className = 'sp-helper';
+        row.appendChild(document.createElement('td')).colSpan = 6;
+      }
+      if (active.nextElementSibling !== row) active.after(row);
+      var cell = row.firstElementChild;
+      if (box.parentNode !== cell) cell.appendChild(box);
+      box.style.margin = '0';
     }
 
     // Three Groq variant buttons all share provider id 'groq' but preset
@@ -811,6 +885,7 @@
         var b = document.getElementById(id);
         if (b) b.classList.toggle('active', id === btnId);
       });
+      _spPlaceHelperRow();
     }
 
     // Generic tier setter: provider stays the family id, only its
@@ -830,6 +905,7 @@
         var b = document.getElementById(id);
         if (b) b.classList.toggle('active', id === btnId);
       });
+      _spPlaceHelperRow();
     }
 
     function _spSetGroqVariant(modelString, btnId) {
@@ -839,11 +915,12 @@
       var fld = document.getElementById('sp_scoring_model_groq');
       if (fld) fld.value = modelString;
       _spSetProvider('groq');
-      var groqBtns = ['spProviderGroqQwen', 'spProviderGroqLlama70B', 'spProviderGroqLlama4Scout'];
+      var groqBtns = _spGroqRowIds();
       groqBtns.forEach(function (id) {
         var b = document.getElementById(id);
         if (b) b.classList.toggle('active', id === btnId);
       });
+      _spPlaceHelperRow();
     }
 
     var _spAdminUnlocked = false;
@@ -999,6 +1076,11 @@
           if (_cEl) _cEl.classList.add('active');
         }
         if (map['scoring_transcription_provider']) { _spTranscriptionProvider = map['scoring_transcription_provider']; _spSetTranscriptionHelper(_spTranscriptionProvider); }
+        // Row was lit above by the tier/claude restore — dock the helper strip
+        // under it now (the earlier call inside _spSetProvider ran too early).
+        _spPlaceHelperRow();
+        var _trSel = document.getElementById('_spTrHelperSelect');
+        if (_trSel) _trSel.value = _spTranscriptionProvider || 'default';
         // Load fallback selector (separate from generic loop since saveScoringPrompts
         // also special-cases it to allow clearing back to empty/no-fallback).
         var fbEl = document.getElementById('sp_scoring_ai_fallback');
