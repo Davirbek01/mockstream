@@ -10,7 +10,46 @@
 // Exposes window.AdminPanels.centers.open(container).
 // ═══════════════════════════════════════════════════════════════════════
 (function() {
+    // ── Styles for the AI provider matrix ────────────────────────────────
+    // The matrix is a real table, so on a phone it would otherwise force the
+    // whole page to scroll sideways. Injected once; media queries drop the
+    // least-decisive column (Speed) and tighten padding so the essential
+    // Model / 🖼️ / 🎤 / Needs-helper columns fit a 360px screen.
+    (function _cmInjectMatrixCss() {
+      if (document.getElementById('cm-matrix-css')) return;
+      var st = document.createElement('style');
+      st.id = 'cm-matrix-css';
+      st.textContent =
+        '.cm-matrix-wrap{margin:6px 0 2px;overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%;}' +
+        '.cm-matrix{border-collapse:separate;border-spacing:0;width:100%;min-width:520px;font-size:11px;}' +
+        '@media (max-width:640px){' +
+          '.cm-matrix{min-width:0;font-size:10.5px;}' +
+          '.cm-matrix .cm-speed{display:none;}' +      /* least decisive column */
+          '.cm-matrix th,.cm-matrix td{padding-left:5px !important;padding-right:5px !important;}' +
+          '.cm-matrix .cm-need span{font-size:8.5px !important;padding:1px 4px !important;}' +
+          '.cm-matrix .cm-tag{display:none;}' +        /* FASTEST / NO HELPERS chips */
+        '}' +
+        '@media (max-width:400px){' +
+          '.cm-matrix{font-size:10px;}' +
+          '.cm-matrix .cm-need span{font-size:8px !important;}' +
+        '}' +
+        /* Select rows: a fixed 140px label + a wide <select> overflowed a
+           phone and made the whole page scroll sideways. Let them wrap and
+           cap the control at the container width. Pre-existing issue — the
+           dropdowns are used throughout this panel, not just in AI. */
+        '.cm-select{max-width:100%;box-sizing:border-box;}' +
+        '@media (max-width:640px){' +
+          '.cm-row{flex-wrap:wrap;}' +
+          '.cm-row>span{min-width:0 !important;flex-basis:100%;}' +
+          '.cm-select{width:100%;}' +
+        '}';
+      document.head.appendChild(st);
+    })();
+
     var _cmInlineContainer = null;  // set by AdminPanels.centers.open(container)
+    // Global scoring defaults, loaded from site_settings on open. Lets a centre
+    // set to "Default" display the provider/model/helper it actually inherits.
+    var _cmGlobalAI = { provider: '', model: '', transcriber: 'default', vision: 'grok' };
     var CM_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
     var CM_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
 
@@ -197,14 +236,199 @@
     }
 
     function _cmSelectInput(centerId, prop, label, value, options) {
-      var s = '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;">' +
+      var s = '<div class="cm-row" style="display:flex;align-items:center;gap:8px;padding:6px 0;">' +
         '<span style="font-size:12px;min-width:140px;">' + label + '</span>' +
-        '<select onchange="_cmSetProp(\'' + centerId + '\',\'' + prop + '\',this.value)" style="padding:5px 8px;border:1px solid var(--ring,#e5e7eb);border-radius:6px;font-size:12px;background:var(--surface,#fff);color:var(--ink,#333);cursor:pointer;">';
+        '<select class="cm-select" onchange="_cmSetProp(\'' + centerId + '\',\'' + prop + '\',this.value)" style="padding:5px 8px;border:1px solid var(--ring,#e5e7eb);border-radius:6px;font-size:12px;background:var(--surface,#fff);color:var(--ink,#333);cursor:pointer;">';
       options.forEach(function(o) {
         s += '<option value="' + o.val + '"' + (value === o.val ? ' selected' : '') + '>' + o.label + '</option>';
       });
       s += '</select></div>';
       return s;
+    }
+
+    // Per-provider model lists — mirrors the System Prompts matrix so a centre
+    // can pin a specific tier, not just a vendor. Values are the exact model
+    // strings the scoring pages send. Keep in sync with _SP_MATRIX.
+    var _CM_MODELS = {
+      claude: [
+        { val: 'claude-sonnet-5',  label: 'Claude Sonnet 5 — balanced' },
+        { val: 'claude-haiku-4-5', label: 'Claude Haiku 4.5 — cheapest' },
+        { val: 'claude-opus-4-8',  label: 'Claude Opus 4.8 — costly' }
+      ],
+      openai: [
+        { val: 'gpt-5.4-mini', label: 'GPT-5.4 Mini — balanced' },
+        { val: 'gpt-5.4-nano', label: 'GPT-5.4 Nano — cheapest' },
+        { val: 'gpt-5.4',      label: 'GPT-5.4 — top tier' }
+      ],
+      gemini: [
+        { val: 'gemini-flash-latest',   label: 'Gemini Flash — balanced (~32s)' },
+        { val: 'gemini-3.1-flash-lite', label: 'Gemini Flash-Lite 3.1 — cheapest' },
+        { val: 'gemini-2.5-pro',        label: 'Gemini Pro 2.5 — top tier' }
+      ],
+      grok: [
+        { val: 'grok-4.20-0309-non-reasoning', label: 'Grok 4.20 Fast — cheapest' },
+        { val: 'grok-4.3', label: 'Grok 4.3 — balanced' },
+        { val: 'grok-4.5', label: 'Grok 4.5 — top tier' }
+      ],
+      deepseek: [
+        { val: 'deepseek-v4-flash', label: 'DeepSeek V4 Flash — ~123s ⚠ slow' },
+        { val: 'deepseek-v4-pro',   label: 'DeepSeek V4 Pro — ~119s ⚠ slow' }
+      ],
+      groq: [
+        { val: 'qwen/qwen3.6-27b',        label: 'Qwen 3.6 27B — 🖼️ vision, ~21s, fastest' },
+        { val: 'llama-3.3-70b-versatile', label: 'Llama 3.3 70B — text only' },
+        { val: 'openai/gpt-oss-120b',     label: 'GPT-OSS 120B — text only' },
+        { val: 'llama-3.1-8b-instant',    label: 'Llama 8B Instant — text only ⚠ weak' }
+      ]
+    };
+
+    // Per-centre provider+model matrix. Same information architecture as the
+    // System Prompts picker: one row per model, capabilities that decide which
+    // helper is required, and the measured numbers where they exist. Clicking a
+    // row writes aiProvider AND aiModel together, so the two can never disagree.
+    function _cmProviderMatrix(cid, cfg) {
+      var curP = cfg.aiProvider || 'default';
+      var curM = (cfg.aiModel || '').trim();
+      var mark = function (on) {
+        return on
+          ? '<td style="text-align:center;color:#16a34a;font-weight:700;">✓</td>'
+          : '<td style="text-align:center;color:#cbd5e1;font-weight:700;">✗</td>';
+      };
+      var need = function (k) {
+        var M = { none: ['#dcfce7', '#15803d', 'none needed'],
+                  tr:   ['#fef3c7', '#92400e', '🎤 transcriber'],
+                  both: ['#fee2e2', '#b91c1c', '🎤 + 🖼️ both'] }[k];
+        return '<td class="cm-need"><span style="font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:999px;' +
+               'background:' + M[0] + ';color:' + M[1] + ';white-space:nowrap;">' + M[2] + '</span></td>';
+      };
+      var isDefaultMode = (curP === 'default' || !curP);
+      // When the centre inherits, mark the row the global setting resolves to,
+      // so "Default" is verifiable at a glance instead of being a black box.
+      // Model match is loose: System Prompts may leave scoring_model_<p> empty,
+      // in which case the vendor's first row represents the inherited default.
+      var gProv = (_cmGlobalAI.provider || '').toLowerCase();
+      var gModel = (_cmGlobalAI.model || '').trim();
+      var _gSeen = {};
+      var row = function (prov, model, name, cap, needKey, sec, tag) {
+        var on = !isDefaultMode && (curP === prov) && (curM === model);
+        var inherited = false;
+        if (isDefaultMode && prov === gProv) {
+          if (gModel) inherited = (model === gModel);
+          else if (!_gSeen[prov]) { inherited = true; _gSeen[prov] = true; }
+        }
+        var bg = on ? 'background:linear-gradient(90deg,#7c3aed26,#7c3aed0d);'
+               : inherited ? 'background:repeating-linear-gradient(45deg,#7c3aed0d,#7c3aed0d 6px,transparent 6px,transparent 12px);' : '';
+        var bar = on ? 'box-shadow:inset 3px 0 0 #7c3aed;'
+                : inherited ? 'box-shadow:inset 3px 0 0 #a78bfa;' : '';
+        if (inherited) tag = 'INHERITED';
+        return '<tr onclick="_cmSetAiRow(\'' + cid + '\',\'' + prov + '\',\'' + model + '\')" ' +
+          'style="cursor:pointer;' + bg + '" onmouseover="if(!this.dataset.on)this.style.background=\'rgba(100,116,139,.08)\'" ' +
+          'onmouseout="this.style.background=\'' + (on ? 'linear-gradient(90deg,#7c3aed26,#7c3aed0d)' : 'transparent') + '\'"' +
+          (on ? ' data-on="1"' : '') + '>' +
+          '<td style="padding:4px 8px;border-bottom:1px solid var(--ring,#e5e7eb);' + bar +
+            (on ? 'font-weight:700;color:#7c3aed;' : inherited ? 'font-weight:600;color:#6d28d9;' : '') + '">' + name +
+            (tag ? '<span class="cm-tag" style="font-size:8px;font-weight:700;padding:1px 4px;border-radius:3px;margin-left:5px;background:#7c3aed1a;color:#7c3aed;">' + tag + '</span>' : '') +
+          '</td>' + mark(cap[0]) + mark(cap[1]) +
+          '<td class="cm-speed" style="text-align:right;font-size:10px;color:var(--muted,#64748b);">' + (sec || '—') + '</td>' +
+          need(needKey) + '</tr>';
+      };
+      var vendor = function (label, tone) {
+        return '<tr><td colspan="5" style="padding:6px 8px;font-size:9.5px;font-weight:800;letter-spacing:.06em;' +
+          'text-transform:uppercase;color:' + tone + ';background:color-mix(in srgb,' + tone + ' 9%,transparent);' +
+          'border-left:3px solid ' + tone + ';">' + label + '</td></tr>';
+      };
+      var h = '<div class="cm-matrix-wrap">' +
+        '<table class="cm-matrix">' +
+        '<thead><tr>' +
+          '<th style="text-align:left;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted,#64748b);padding:0 8px 4px;border-bottom:1px solid var(--ring,#e5e7eb);">Model</th>' +
+          '<th style="text-align:center;font-size:9px;color:var(--muted,#64748b);padding:0 4px 4px;border-bottom:1px solid var(--ring,#e5e7eb);">🖼️</th>' +
+          '<th style="text-align:center;font-size:9px;color:var(--muted,#64748b);padding:0 4px 4px;border-bottom:1px solid var(--ring,#e5e7eb);">🎤</th>' +
+          '<th class="cm-speed" style="text-align:right;font-size:9px;color:var(--muted,#64748b);padding:0 4px 4px;border-bottom:1px solid var(--ring,#e5e7eb);">Speed</th>' +
+          '<th style="text-align:left;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted,#64748b);padding:0 8px 4px;border-bottom:1px solid var(--ring,#e5e7eb);">Needs helper</th>' +
+        '</tr></thead><tbody>';
+      // Inherit row — clears both fields and spells out what it resolves to.
+      var isDef = isDefaultMode;
+      var NAMES = { claude: 'Claude', openai: 'OpenAI', gemini: 'Gemini', grok: 'Grok',
+                    deepseek: 'DeepSeek', groq: 'Groq' };
+      var resolved = gProv
+        ? (NAMES[gProv] || gProv) + (gModel ? ' · ' + gModel : ' · (model unset)')
+        : 'loading…';
+      var TR = { 'default': 'provider itself / global helper', groq: 'Groq Whisper Turbo',
+                 gemini: 'Gemini', openai: 'OpenAI Whisper', assemblyai: 'AssemblyAI' };
+      h += '<tr onclick="_cmSetAiRow(\'' + cid + '\',\'default\',\'\')" style="cursor:pointer;' +
+        (isDef ? 'background:linear-gradient(90deg,#7c3aed26,#7c3aed0d);' : '') + '">' +
+        '<td colspan="5" style="padding:6px 8px;border-bottom:1px solid var(--ring,#e5e7eb);' +
+        (isDef ? 'box-shadow:inset 3px 0 0 #7c3aed;color:#7c3aed;' : '') + '">' +
+        '<span style="' + (isDef ? 'font-weight:700;' : '') + '">⚙ Default — inherit System Prompts</span>' +
+        (isDef
+          ? '<div style="font-size:10px;font-weight:600;color:#6d28d9;margin-top:2px;">' +
+              '→ currently resolves to <b>' + resolved + '</b>' +
+              '<span style="color:var(--muted,#64748b);font-weight:500;"> · 🎤 ' +
+              (TR[_cmGlobalAI.transcriber] || _cmGlobalAI.transcriber) + '</span></div>'
+          : '') +
+        '</td></tr>';
+      h += vendor('🟣 Anthropic · Claude', '#7c3aed');
+      h += row('claude', 'claude-sonnet-5',  'Claude Sonnet 5',  [1,0], 'tr', '');
+      h += row('claude', 'claude-haiku-4-5', 'Claude Haiku 4.5', [1,0], 'tr', '');
+      h += row('claude', 'claude-opus-4-8',  'Claude Opus 4.8',  [1,0], 'tr', '');
+      h += vendor('🤖 OpenAI', '#0f766e');
+      h += row('openai', 'gpt-5.4-mini', 'GPT-5.4 Mini', [1,1], 'none', '');
+      h += row('openai', 'gpt-5.4-nano', 'GPT-5.4 Nano', [1,1], 'none', '');
+      h += row('openai', 'gpt-5.4',      'GPT-5.4',      [1,1], 'none', '');
+      h += vendor('✨ Google · Gemini', '#1d4ed8');
+      h += row('gemini', 'gemini-flash-latest',   'Gemini Flash',          [1,1], 'none', '32s', 'NO HELPERS');
+      h += row('gemini', 'gemini-3.1-flash-lite', 'Gemini Flash-Lite 3.1', [1,1], 'none', '');
+      h += row('gemini', 'gemini-2.5-pro',        'Gemini Pro 2.5',        [1,1], 'none', '');
+      h += vendor('⚡ xAI · Grok', '#b45309');
+      h += row('grok', 'grok-4.20-0309-non-reasoning', 'Grok 4.20 Fast', [1,0], 'tr', '');
+      h += row('grok', 'grok-4.3', 'Grok 4.3', [1,0], 'tr', '');
+      h += row('grok', 'grok-4.5', 'Grok 4.5', [1,0], 'tr', '');
+      h += vendor('🔵 DeepSeek', '#1e40af');
+      h += row('deepseek', 'deepseek-v4-flash', 'DeepSeek V4 Flash', [0,0], 'both', '123s');
+      h += row('deepseek', 'deepseek-v4-pro',   'DeepSeek V4 Pro',   [0,0], 'both', '119s');
+      h += vendor('🟢 Groq · LPU', '#15803d');
+      h += row('groq', 'qwen/qwen3.6-27b',        'Qwen 3.6 27B',      [1,0], 'tr',   '21s', 'FASTEST');
+      h += row('groq', 'llama-3.3-70b-versatile', 'Llama 3.3 70B',     [0,0], 'both', '');
+      h += row('groq', 'openai/gpt-oss-120b',     'GPT-OSS 120B',      [0,0], 'both', '');
+      h += row('groq', 'llama-3.1-8b-instant',    'Llama 8B Instant',  [0,0], 'both', '');
+      h += '</tbody></table></div>';
+      return h;
+    }
+
+    // Numbered group heading — splits AI & Scoring into "who grades" and
+    // "who covers what the grader can't do", so the helper pickers read as
+    // consequences of the provider choice instead of loose extra fields.
+    function _cmGroupLabel(title, sub) {
+      return '<div style="margin:14px 0 6px;padding:6px 10px;background:var(--surface2,#f1f5f9);' +
+        'border-left:3px solid #7c3aed;border-radius:4px;">' +
+        '<div style="font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#7c3aed;">' + title + '</div>' +
+        (sub ? '<div style="font-size:10.5px;color:var(--muted,#64748b);margin-top:1px;">' + sub + '</div>' : '') +
+        '</div>';
+    }
+
+    // One-line capability read-out for the selected scoring AI, in the same
+    // 🖼️/🎤 language as the System Prompts matrix, so an admin never has to
+    // open the other panel to learn which helpers this pick will demand.
+    function _cmCapabilityStrip(prov) {
+      var CAP = {
+        'default':  [null, null, 'Follows whatever is selected in System Prompts.'],
+        'claude':   [true,  false, 'Reads charts &amp; picture pairs itself. Needs a transcriber for Speaking.'],
+        'openai':   [true,  true,  'Sees images and hears audio on the same key — nothing else to set.'],
+        'gemini':   [true,  true,  'Sees images and hears audio natively — nothing else to set.'],
+        'grok':     [true,  false, 'Grok 4.x reads images. Needs a transcriber for Speaking.'],
+        'deepseek': [false, false, 'Text only — needs a transcriber AND a vision helper.'],
+        'groq':     [null,  false, 'Depends on the model in System Prompts: Qwen 3.6 reads images; Llama / GPT-OSS do not. No Groq chat model hears audio.']
+      };
+      var c = CAP[prov] || CAP['default'];
+      var pill = function (state, on, off) {
+        if (state === null) return '<span style="padding:1px 7px;border-radius:999px;background:#e2e8f0;color:#475569;font-weight:700;">' + on + ' ?</span>';
+        return state
+          ? '<span style="padding:1px 7px;border-radius:999px;background:#dcfce7;color:#15803d;font-weight:700;">' + on + ' ✓</span>'
+          : '<span style="padding:1px 7px;border-radius:999px;background:#fee2e2;color:#b91c1c;font-weight:700;">' + off + ' ✗</span>';
+      };
+      return '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:2px 0 6px 148px;font-size:10.5px;">' +
+        pill(c[0], '🖼️ images', '🖼️ images') + pill(c[1], '🎤 audio', '🎤 audio') +
+        '<span style="color:var(--muted,#64748b);">' + c[2] + '</span></div>';
     }
 
     // Compact colour-input row used by the Branding section. Empty string for
@@ -545,30 +769,18 @@
           h += _cmSectionHeader(cid, 'ai', '🤖', 'AI & Scoring');
           if (_cmExpandedSections[cid + '_ai']) {
             h += '<div style="padding:10px 16px;">';
+            h += _cmGroupLabel('1 · Scoring AI', 'Who grades this centre\'s writing &amp; speaking');
             h += _cmNumberInput(cid, 'scoreBoost', 'Score Boost', cfg.scoreBoost, '0-3');
-            h += _cmSelectInput(cid, 'aiProvider', 'AI Provider', cfg.aiProvider || 'default', [
-              { val: 'default', label: 'Default (system prompts)' },
-              { val: 'gemini', label: 'Gemini (vision)' },
-              { val: 'openai', label: 'OpenAI (vision)' },
-              { val: 'claude', label: 'Claude (vision)' },
-              { val: 'grok', label: 'Grok (vision · grok-4.x)' },
-              { val: 'deepseek', label: 'DeepSeek ⚠️ (text only)' },
-              { val: 'groq', label: 'Groq (uses System Prompts model)' }
-            ]);
-            // Per-centre fallback override. "default" = inherit global
-            // scoring_ai_fallback. Empty / "none" = no fallback. Other values
-            // are tried only when ALL primary keys fail terminally.
-            h += _cmSelectInput(cid, 'aiFallback', 'Fallback if primary fails', cfg.aiFallback || 'default', [
-              { val: 'default', label: 'Default (use global fallback)' },
-              { val: 'none', label: 'None (show error if primary fails)' },
-              { val: 'gemini', label: 'Gemini' },
-              { val: 'openai', label: 'OpenAI' },
-              { val: 'claude', label: 'Claude' },
-              { val: 'grok', label: 'Grok (vision · grok-4.x)' },
-              { val: 'deepseek', label: 'DeepSeek (text only)' },
-              { val: 'groq:llama-3.3-70b-versatile', label: 'Groq Llama 3.3 70B' },
-              { val: 'groq:qwen/qwen3.6-27b', label: 'Groq Qwen 3.6 27B' }
-            ]);
+            // Provider + model are chosen from ONE matrix (same shape as the
+            // System Prompts picker) rather than two dependent dropdowns —
+            // clicking a row sets both at once and shows what it can/can't do.
+            h += _cmProviderMatrix(cid, cfg);
+            // Cross-provider fallback was REMOVED (zero-fallback mandate): a
+            // failed primary must never silently bill a different vendor.
+            h += '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;flex-wrap:wrap;">' +
+              '<span style="font-size:11.5px;font-weight:700;color:#15803d;">🔒 Zero fallback</span>' +
+              '<span style="font-size:10.5px;color:var(--muted,#64748b);">A failed check retries on the SAME AI and then errors — it never switches provider, so cost stays attributable.</span>' +
+            '</div>';
 
             // ── Gemini billing-slot picker (shown only when Gemini is the per-center pick)
             if (cfg.aiProvider === 'gemini') {
@@ -589,13 +801,23 @@
             // none of them transcribe audio. For OpenAI / Gemini / Claude
             // the default = use itself (native), but admins can still
             // override to a cheaper transcriber (e.g. AssemblyAI).
+            h += _cmNumberInput(cid, 'maxAiCallsDay', 'Max AI Calls/Day', cfg.maxAiCallsDay, '0 = unlimited');
+
+            h += _cmGroupLabel('2 · Secondary helper AIs',
+              'Only the skills the scoring AI cannot do itself are handled here');
             {
-              var _isTextOnly = (cfg.aiProvider === 'grok' || cfg.aiProvider === 'deepseek' ||
-                                 cfg.aiProvider === 'llama-scout' || cfg.aiProvider === 'groq');
-              var _providerLabel = (cfg.aiProvider === 'llama-scout' ? 'Llama Scout' :
-                                    (cfg.aiProvider || 'gemini').charAt(0).toUpperCase() + (cfg.aiProvider || 'gemini').slice(1));
+              // "default" is not a provider — resolve it to whatever System
+              // Prompts is set to, otherwise the notes below read
+              // "By default Default transcribes its own audio".
+              var _isInherit = (!cfg.aiProvider || cfg.aiProvider === 'default');
+              var _effProv = _isInherit ? (_cmGlobalAI.provider || 'gemini') : cfg.aiProvider;
+              var _isTextOnly = (_effProv === 'grok' || _effProv === 'deepseek' ||
+                                 _effProv === 'llama-scout' || _effProv === 'groq');
+              var _providerLabel = (_effProv === 'llama-scout' ? 'Llama Scout' :
+                                    _effProv.charAt(0).toUpperCase() + _effProv.slice(1)) +
+                                   (_isInherit ? ' (inherited)' : '');
               if (_isTextOnly) {
-                var _audioNote = (cfg.aiProvider === 'llama-scout')
+                var _audioNote = (_effProv === 'llama-scout')
                   ? '⚠️ ' + _providerLabel + ' has vision but no native audio. Pick a transcriber to convert speech first:'
                   : '⚠️ ' + _providerLabel + ' cannot process speaking-mock audio. Pick an assistant AI to transcribe audio first:';
                 h += '<div style="padding:6px 0 4px 0;font-size:11px;color:#92400e;background:#fef3c7;border:1px solid #fde68a;border-radius:6px;margin:4px 0;padding:6px 10px;">' +
@@ -603,11 +825,19 @@
                 '</div>';
               } else {
                 h += '<div style="padding:6px 0 4px 0;font-size:11px;color:#1e3a8a;background:#dbeafe;border:1px solid #93c5fd;border-radius:6px;margin:4px 0;padding:6px 10px;">' +
-                  '💡 By default ' + _providerLabel + ' transcribes its own audio. Override to use a cheaper / faster transcriber (e.g. AssemblyAI):' +
+                  '💡 ' + _providerLabel + ' transcribes its own audio. Override to use a cheaper / faster transcriber (e.g. AssemblyAI):' +
                 '</div>';
               }
-              var _defaultLabel = _isTextOnly ? 'Default (system prompts)' : 'Default (' + _providerLabel + ' itself)';
-              h += _cmSelectInput(cid, 'transcriberProvider', '↳ Transcriber AI', cfg.transcriberProvider || 'default', [
+              // Name the value "Default" actually inherits, so the admin can
+              // confirm the global helper is right without leaving this panel.
+              var _TRNAMES = { 'default': '', groq: 'Groq Whisper Turbo', gemini: 'Gemini',
+                               openai: 'OpenAI Whisper', assemblyai: 'AssemblyAI' };
+              var _gTr = _cmGlobalAI.transcriber || 'default';
+              var _inheritedTr = (_gTr !== 'default' && _TRNAMES[_gTr])
+                ? _TRNAMES[_gTr]
+                : (_isTextOnly ? 'system-prompts helper' : _providerLabel.replace(' (inherited)', '') + ' itself');
+              var _defaultLabel = 'Default → ' + _inheritedTr;
+              h += _cmSelectInput(cid, 'transcriberProvider', '↳ 🎤 Transcriber AI', cfg.transcriberProvider || 'default', [
                 { val: 'default',    label: _defaultLabel },
                 { val: 'gemini',     label: 'Gemini' },
                 { val: 'openai',     label: 'OpenAI (Whisper)' },
@@ -628,20 +858,23 @@
               }
             }
 
-            h += _cmNumberInput(cid, 'maxAiCallsDay', 'Max AI Calls/Day', cfg.maxAiCallsDay, '0 = unlimited');
-
             // ── Vision fact-check — separate pre-pass for text-only AIs.
             // When the primary AI is itself vision-capable (gemini / openai
             // / claude / llama-scout), this card is ignored and shown
             // greyed-out with an "auto-vision via primary AI" note, because
             // the primary already sees the images in the main scoring call.
             {
+              // Uses the RESOLVED provider (_effProv), so a centre on "Default"
+              // reflects what System Prompts is actually set to. Groq is a
+              // special case: only qwen3.6-27b reads images.
+              var _effModel = _isInherit ? (_cmGlobalAI.model || '') : (cfg.aiModel || '');
               var _primaryHasVision = (
-                cfg.aiProvider === 'gemini' ||
-                cfg.aiProvider === 'openai' ||
-                cfg.aiProvider === 'claude' ||
-                cfg.aiProvider === 'llama-scout' ||
-                cfg.aiProvider === 'grok'
+                _effProv === 'gemini' ||
+                _effProv === 'openai' ||
+                _effProv === 'claude' ||
+                _effProv === 'llama-scout' ||
+                _effProv === 'grok' ||
+                (_effProv === 'groq' && _effModel.indexOf('qwen3.6') > -1)
               );
               var _vfcOn = cfg.visionFactCheck === true;
               var _vfcProv = (cfg.visionFactCheckProvider || 'gemini');
@@ -655,8 +888,9 @@
               h += '<div style="font-size:13px;font-weight:700;color:' + _ttl + ';">Vision fact-check</div>';
               if (_primaryHasVision) {
                 h += '<div style="font-size:11.5px;color:#64748b;margin-top:2px;line-height:1.4;">'
-                  +    'Not needed — the selected primary AI (<strong>' + _providerLabel + '</strong>) is vision-capable. '
-                  +    'Images are sent straight to it inside the main scoring call. This toggle is ignored.'
+                  +    'Not needed — <strong>' + _providerLabel
+                  +    (_effModel ? ' (' + _effModel + ')' : '') + '</strong> reads images itself, so they go '
+                  +    'straight into the main scoring call. This whole card is ignored.'
                   + '</div>';
               } else {
                 h += '<div style="font-size:11.5px;color:#475569;margin-top:2px;line-height:1.4;">'
@@ -674,11 +908,16 @@
               if (!_primaryHasVision) {
                 var _dropDisabled = !_vfcOn;
                 h += '<div style="margin-top:10px;' + (_dropDisabled ? 'opacity:.55;pointer-events:none;' : '') + '">';
-                h += _cmSelectInput(cid, 'visionFactCheckProvider', '↳ Vision provider', _vfcProv, [
-                  { val: 'gemini',      label: 'Gemini Flash (latest · cheapest · default)' },
+                var _VNAMES = { grok: 'Grok 4.20', groq: 'Groq Qwen 3.6 27B', gemini: 'Gemini Flash',
+                                openai: 'OpenAI gpt-4o-mini', claude: 'Claude Haiku 4.5' };
+                var _gVis = (_cmGlobalAI.vision || 'grok');
+                h += _cmSelectInput(cid, 'visionFactCheckProvider', '↳ 🖼️ Vision helper', _vfcProv, [
+                  { val: 'default',     label: 'Default → ' + (_VNAMES[_gVis] || _gVis) + ' (System Prompts)' },
+                  { val: 'grok',        label: 'Grok 4.20 · xAI — fast' },
+                  { val: 'groq',        label: 'Groq Qwen 3.6 27B — same key as Whisper, cheapest' },
+                  { val: 'gemini',      label: 'Gemini Flash (latest)' },
                   { val: 'openai',      label: 'OpenAI gpt-4o-mini' },
-                  { val: 'claude',      label: 'Claude Haiku 4.5' },
-                  { val: 'grok',        label: 'Grok 4.20 · xAI (fast vision · recommended)' }
+                  { val: 'claude',      label: 'Claude Haiku 4.5' }
                 ]);
                 h += '</div>';
               }
@@ -892,12 +1131,32 @@
       _cmAutoSave(centerId);
     };
 
+    // One click in the provider matrix = provider AND model together, so the
+    // pair can never disagree (the old two-dropdown flow could leave a Claude
+    // model selected under Gemini until the reset fired).
+    window._cmSetAiRow = function(centerId, provider, model) {
+      if (!_cmConfigs[centerId]) _cmConfigs[centerId] = {};
+      var c = _cmConfigs[centerId];
+      c.aiProvider = provider;
+      c.aiModel = (provider === 'default') ? '' : (model || '');
+      if (provider !== 'gemini') c.geminiPlan = 'default';
+      if (provider !== 'grok' && provider !== 'deepseek') {
+        c.transcriberProvider = 'default';
+        c.transcriberGeminiPlan = 'default';
+      }
+      _cmRenderBody();
+      _cmAutoSave(centerId);
+    };
+
     window._cmSetProp = function(centerId, prop, val) {
       if (!_cmConfigs[centerId]) _cmConfigs[centerId] = _cmDefaultConfig();
       _cmConfigs[centerId][prop] = val;
       // Reset dependent sub-fields when the parent picker changes so a stale
       // (now-hidden) value can't accidentally get sent on the next request.
       if (prop === 'aiProvider') {
+        // Model strings are provider-specific — a Claude id would be garbage
+        // under Gemini. Always reset to "inherit global" on a provider switch.
+        _cmConfigs[centerId].aiModel = '';
         if (val !== 'gemini') _cmConfigs[centerId].geminiPlan = 'default';
         if (val !== 'grok' && val !== 'deepseek') {
           _cmConfigs[centerId].transcriberProvider = 'default';
@@ -1008,6 +1267,27 @@
     // ── Load / Save ─────────────────────────────────────────────────────────
     async function _cmLoadAll() {
       try {
+        // Global scoring defaults (System Prompts). Needed so a centre set to
+        // "Default" can SHOW what it actually inherits — otherwise the admin
+        // has to open the other panel to find out what Default means.
+        try {
+          var gRes = await fetch(CM_SB_URL + '/rest/v1/site_settings?key=like.scoring_*&select=key,value', {
+            headers: { 'apikey': CM_SB_KEY, 'Authorization': 'Bearer ' + CM_SB_KEY }
+          });
+          var gRows = await gRes.json();
+          if (Array.isArray(gRows)) {
+            var g = {};
+            gRows.forEach(function (r) { g[r.key] = r.value; });
+            var gp = (g['scoring_ai_provider'] || 'gemini').toString().trim().toLowerCase();
+            _cmGlobalAI = {
+              provider: gp,
+              model: (g['scoring_model_' + gp] || '').toString().trim(),
+              transcriber: (g['scoring_transcription_provider'] || 'default').toString().trim(),
+              vision: (g['scoring_vision_provider'] || 'grok').toString().trim()
+            };
+          }
+        } catch (e) { /* non-fatal — the matrix just won't show the inherited row */ }
+
         // Fetch ALL center_config_* entries (not just known ones)
         var res = await fetch(CM_SB_URL + '/rest/v1/site_settings?key=like.center_config_*&select=key,value', {
           headers: { 'apikey': CM_SB_KEY, 'Authorization': 'Bearer ' + CM_SB_KEY }

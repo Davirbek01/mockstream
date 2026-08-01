@@ -5746,37 +5746,22 @@
 
     async function _callScoringAI(systemText, userPrompt, opts) {
       opts = opts || {};
-      // Cross-provider fallback wrapper. First call enters this block, recurses
-      // into the same function with _fallbackHandled=true so the second pass
-      // skips the wrapper and runs the real body. On a terminal error, if an
-      // aiFallback / scoring_ai_fallback is configured, we recurse once with
-      // _forceProvider / _forceModel set so the body uses the fallback.
+      // Single-entry guard: the first call recurses once with
+      // _fallbackHandled=true so the second pass runs the real body. The name
+      // is historical — cross-provider fallback was REMOVED (zero-fallback
+      // mandate); this wrapper now only validates the JSON shape.
       if (!opts._fallbackHandled) {
         opts._fallbackHandled = true;
-        try {
-          var _ret = await _callScoringAI(systemText, userPrompt, opts);
-          // If caller asked for JSON, prove the AI actually returned parseable
-          // JSON before claiming success. Gemini occasionally emits trailing
-          // garbage / truncated output that the downstream JSON.parse chokes
-          // on — without this check that error happens AFTER _callScoringAI
-          // returns, so the fallback wrapper never sees it. Validating here
-          // makes parse failures trigger the same fallback path as 429/5xx.
-          if (opts.jsonMode === true && typeof _ret === 'string') {
-            try { _extractJsonObject(_ret); }
-            catch (pe) { throw new Error('json_parse_failed: ' + (pe && pe.message)); }
-          }
-          return _ret;
-        } catch (e) {
-          var _cpFb = await _loadScoringPrompts();
-          var _rawFb = ((_cpFb['aiFallback'] && _cpFb['aiFallback'] !== 'default') ? _cpFb['aiFallback'] : (_cpFb['scoring_ai_fallback'] || '')).toString().trim().toLowerCase();
-          if (!_rawFb || _rawFb === 'none' || _rawFb === 'default') throw e;
-          var _fbProv = _rawFb, _fbModel = null;
-          if (_rawFb.indexOf('groq:') === 0) { _fbProv = 'groq'; _fbModel = _rawFb.slice(5); }
-          var _primary = (_cpFb['scoring_ai_provider'] || 'gemini').toString().trim().toLowerCase();
-          if (_fbProv === _primary) throw e;
-          console.warn('[Scoring] Primary "' + _primary + '" failed, falling back to "' + _fbProv + '"' + (_fbModel ? ' (' + _fbModel + ')' : '') + ': ' + (e && e.message));
-          return await _callScoringAI(systemText, userPrompt, Object.assign({}, opts, { _fallbackHandled: true, _forceProvider: _fbProv, _forceModel: _fbModel }));
+        // Zero-fallback (user mandate): a failed primary NEVER silently
+        // switches provider — cost must stay attributable to the AI you
+        // chose. The JSON pre-check below stays: it turns a late
+        // downstream parse crash into a clean error the caller can retry.
+        var _ret = await _callScoringAI(systemText, userPrompt, opts);
+        if (opts.jsonMode === true && typeof _ret === 'string') {
+          try { _extractJsonObject(_ret); }
+          catch (pe) { throw new Error('json_parse_failed: ' + (pe && pe.message)); }
         }
+        return _ret;
       }
       var cp = await _loadScoringPrompts();
       var provider = (opts._forceProvider || cp['scoring_ai_provider'] || 'gemini').toString().trim().toLowerCase();
@@ -5786,6 +5771,14 @@
         var centerProvider = await _getCenterAiProviderOverride();
         if (centerProvider) provider = centerProvider;
       }
+
+      // Per-centre MODEL override (Centers → AI & Scoring → Model). Empty or
+      // absent = inherit the global scoring_model_<provider> from System
+      // Prompts. Lets two centres share a vendor on different tiers.
+      var _cmModel = '';
+      try {
+        _cmModel = String((window._centerConfig && window._centerConfig.aiModel) || '').trim();
+      } catch (e) { _cmModel = ''; }
 
       console.log('%c[AI Scoring] Provider: ' + provider.toUpperCase(), 'color:#fff;background:#6d28d9;padding:2px 8px;border-radius:4px;font-weight:bold');
       (function(p){ var d=document.getElementById('_aiProviderBadge'); if(!d){d=document.createElement('div');d.id='_aiProviderBadge';d.style.cssText='position:fixed;top:12px;right:12px;z-index:999999;padding:6px 16px;border-radius:8px;font:bold 13px system-ui;color:#fff;background:#6d28d9;box-shadow:0 2px 12px rgba(0,0,0,.25);transition:opacity .5s;pointer-events:none';document.body.appendChild(d)} d.textContent='\u{1F916} AI: '+p.toUpperCase();d.style.opacity='1';clearTimeout(d._t);d._t=setTimeout(function(){d.style.opacity='0'},6000); })(provider);
@@ -5797,6 +5790,15 @@
       var _mdlDeepseek = (cp['scoring_model_deepseek'] || '').trim() || 'deepseek-v4-flash';
       var _mdlGroq     = (cp['scoring_model_groq']     || '').trim() || 'llama-3.3-70b-versatile';
       var _mdlLlamaScout = (cp['scoring_model_llama_scout'] || '').trim() || 'meta-llama/llama-4-scout-17b-16e-instruct';
+      if (_cmModel && !opts._forceModel) {
+        if (provider === 'deepseek') _mdlDeepseek = _cmModel;
+        else if (provider === 'gemini') _mdlGemini = _cmModel;
+        else if (provider === 'openai') _mdlOpenAI = _cmModel;
+        else if (provider === 'claude') _mdlClaude = _cmModel;
+        else if (provider === 'grok') _mdlGrok = _cmModel;
+        else if (provider === 'groq') _mdlGroq = _cmModel;
+        console.log('[AI Scoring] per-centre model override: ' + _cmModel);
+      }
       if (opts._forceModel && provider === 'groq') _mdlGroq = opts._forceModel;
       if (opts._forceModel && provider === 'llama-scout') _mdlLlamaScout = opts._forceModel;
       if (provider === 'openai') {

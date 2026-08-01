@@ -144,21 +144,32 @@ window.SITE_CONFIG = {
   } catch (e) {}
   // Background refresh
   try {
-    fetch(SB_URL + '/rest/v1/site_settings?key=eq.center_config_' +
-      encodeURIComponent(centerId) + '&select=value', {
+    // Fetch the centre row AND the global vision default together, so a centre
+    // left on "default" resolves to the universal helper picked in System
+    // Prompts instead of silently falling back to a hardcoded provider.
+    fetch(SB_URL + '/rest/v1/site_settings?key=in.(center_config_' +
+      encodeURIComponent(centerId) + ',scoring_vision_provider)&select=key,value', {
       headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
     })
     .then(function (r) { return r.json(); })
     .then(function (rows) {
-      if (rows && rows.length && rows[0].value) {
-        var cc = typeof rows[0].value === 'string' ? JSON.parse(rows[0].value) : rows[0].value;
+      if (!rows || !rows.length) return;
+      var ccRow = null, globalVision = '';
+      rows.forEach(function (r) {
+        if (r.key === 'scoring_vision_provider') globalVision = (r.value || '').toString().trim();
+        else ccRow = r;
+      });
+      if (ccRow && ccRow.value) {
+        var cc = typeof ccRow.value === 'string' ? JSON.parse(ccRow.value) : ccRow.value;
         // PICK: only the AI/runtime fields the runner pages actually need.
         // Keeps SITE_CONFIG focused; admin-only fields stay in center_config.
+        var ccVision = (cc.visionFactCheckProvider || '').toString().trim();
         var picked = {
           visionFactCheck: cc.visionFactCheck === true,
-          // New: which vision AI handles the pre-pass. Defaults to gemini
-          // when unset so existing centres keep their current behaviour.
-          visionFactCheckProvider: (cc.visionFactCheckProvider || 'gemini')
+          // Precedence: centre override → global default (System Prompts) →
+          // grok. '' or 'default' both mean "inherit the global".
+          visionFactCheckProvider:
+            (ccVision && ccVision !== 'default') ? ccVision : (globalVision || 'grok')
         };
         Object.assign(window.SITE_CONFIG, picked);
         try {

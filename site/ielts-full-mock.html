@@ -8781,19 +8781,16 @@
           // Cross-provider fallback wrapper — see Writing Mocks.html.
           if (!opts._fallbackHandled) {
             opts._fallbackHandled = true;
-            try {
-              return await _callScoringAI(systemText, userPrompt, opts);
-            } catch (e) {
-              var _cpFb = await _loadScoringPrompts();
-              var _rawFb = ((_cpFb['aiFallback'] && _cpFb['aiFallback'] !== 'default') ? _cpFb['aiFallback'] : (_cpFb['scoring_ai_fallback'] || '')).toString().trim().toLowerCase();
-              if (!_rawFb || _rawFb === 'none' || _rawFb === 'default') throw e;
-              var _fbProv = _rawFb, _fbModel = null;
-              if (_rawFb.indexOf('groq:') === 0) { _fbProv = 'groq'; _fbModel = _rawFb.slice(5); }
-              var _primary = (_cpFb['scoring_ai_provider'] || 'gemini').toString().trim().toLowerCase();
-              if (_fbProv === _primary) throw e;
-              console.warn('[Scoring] Primary "' + _primary + '" failed, falling back to "' + _fbProv + '"' + (_fbModel ? ' (' + _fbModel + ')' : '') + ': ' + (e && e.message));
-              return await _callScoringAI(systemText, userPrompt, Object.assign({}, opts, { _fallbackHandled: true, _forceProvider: _fbProv, _forceModel: _fbModel }));
+            // Zero-fallback (user mandate): a failed primary NEVER silently
+            // switches provider — cost must stay attributable to the AI you
+            // chose. The JSON pre-check below stays: it turns a late
+            // downstream parse crash into a clean error the caller can retry.
+            var _ret = await _callScoringAI(systemText, userPrompt, opts);
+            if (opts.jsonMode === true && typeof _ret === 'string') {
+              try { _extractJsonObject(_ret); }
+              catch (pe) { throw new Error('json_parse_failed: ' + (pe && pe.message)); }
             }
+            return _ret;
           }
           var cp = await _loadScoringPrompts();
                     var provider = (opts._forceProvider || cp['scoring_ai_provider'] || 'gemini').toString().trim().toLowerCase();
@@ -8801,6 +8798,11 @@
                       var centerProvider = await _getCenterAiProviderOverride();
                       if (centerProvider) provider = centerProvider;
                     }
+
+                      // Per-centre MODEL override (Centers -> AI & Scoring -> Model). Empty or
+                      // absent = inherit the global scoring_model_<provider> from System Prompts.
+                      var _cmModel = '';
+                      try { _cmModel = String((window._centerConfig && window._centerConfig.aiModel) || '').trim(); } catch (e) { _cmModel = ''; }
 
           console.log('%c[AI Scoring] Provider: ' + provider.toUpperCase(), 'color:#fff;background:#6d28d9;padding:2px 8px;border-radius:4px;font-weight:bold');
           (function(p){ var d=document.getElementById('_aiProviderBadge'); if(!d){d=document.createElement('div');d.id='_aiProviderBadge';d.style.cssText='position:fixed;top:12px;right:12px;z-index:999999;padding:6px 16px;border-radius:8px;font:bold 13px system-ui;color:#fff;background:#6d28d9;box-shadow:0 2px 12px rgba(0,0,0,.25);transition:opacity .5s;pointer-events:none';document.body.appendChild(d)} d.textContent='\u{1F916} AI: '+p.toUpperCase();d.style.opacity='1';clearTimeout(d._t);d._t=setTimeout(function(){d.style.opacity='0'},6000); })(provider);
@@ -8815,7 +8817,7 @@
             var messages = [];
             if (systemText) messages.push({ role: 'system', content: systemText });
             messages.push({ role: 'user', content: userPrompt });
-            var _mdlO = ((typeof cp !== 'undefined' && cp && cp['scoring_model_openai']) || '').trim() || 'gpt-4o-mini';
+            var _mdlO = _cmModel || (((typeof cp !== 'undefined' && cp && cp['scoring_model_openai']) || '').trim() || 'gpt-4o-mini');
         var body = { model: _mdlO, messages: messages, temperature: opts.temperature || 0.3 };
         // gpt-5.x rejects sampling params — API default temperature only.
         if (/^gpt-5/.test(_mdlO)) delete body.temperature;
@@ -8833,7 +8835,8 @@
           } else if (provider === 'claude') {
             if (!_CLAUDE_KEY) { try { _CLAUDE_KEY = await _fetchProviderKey('claude'); } catch(e){} }
             if (!_CLAUDE_KEY) throw new Error('No Claude API key available');
-            var cBody = { model: 'claude-sonnet-4-20250514', max_tokens: opts.maxTokens || 8192, messages: [{ role: 'user', content: userPrompt }] };
+            var _mdlC = _cmModel || ((cp['scoring_model_claude'] || '').trim() || 'claude-sonnet-5');
+            var cBody = { model: _mdlC, max_tokens: opts.maxTokens || 8192, messages: [{ role: 'user', content: userPrompt }] };
             if (systemText) cBody.system = systemText;
             if (opts.temperature !== undefined && !/claude-(sonnet-5|opus)/.test(cBody.model)) cBody.temperature = opts.temperature; // Claude 5-gen rejects temperature (deprecated)
             var r = await fetch('https://api.anthropic.com/v1/messages', {
@@ -8851,7 +8854,8 @@
             var messages = [];
             if (systemText) messages.push({ role: 'system', content: systemText });
             messages.push({ role: 'user', content: userPrompt });
-            var body = { model: 'grok-3-mini', messages: messages, temperature: opts.temperature || 0.3 };
+            var _mdlGk = _cmModel || ((cp['scoring_model_grok'] || '').trim() || 'grok-4.20-0309-non-reasoning');
+            var body = { model: _mdlGk, messages: messages, temperature: opts.temperature || 0.3 };
             if (opts.maxTokens) body.max_tokens = opts.maxTokens;
             if (opts.jsonMode) body.response_format = { type: 'json_object' };
             var r = await fetch('https://api.x.ai/v1/chat/completions', {
@@ -8871,7 +8875,8 @@
             var uMsg = userPrompt;
             if (opts.jsonMode) uMsg += '\n\nIMPORTANT: Respond with valid JSON only, no markdown.';
             messages.push({ role: 'user', content: uMsg });
-            var body = { model: 'deepseek-v4-flash', messages: messages, temperature: opts.temperature || 0.3 };
+            var _mdlDs = _cmModel || ((cp['scoring_model_deepseek'] || '').trim() || 'deepseek-v4-flash');
+            var body = { model: _mdlDs, messages: messages, temperature: opts.temperature || 0.3 };
             if (opts.maxTokens) body.max_tokens = Math.min(opts.maxTokens, 32768); // 8192 was the OLD deepseek-chat ceiling; v4 is a hybrid reasoner whose thinking eats the same budget — an 8192 cap burned 100% of it on reasoning and returned EMPTY content
             var r = await fetch('https://api.deepseek.com/chat/completions', {
               method: 'POST',
@@ -8886,7 +8891,7 @@
             // Groq hosts open-weight chat models via OpenAI-compatible API.
             if (!_GROQ_KEY) { try { _GROQ_KEY = await _fetchProviderKey('groq'); } catch(e){} }
             if (!_GROQ_KEY) throw new Error('No Groq API key available');
-            var _mdlGroqLocal = (opts._forceModel && opts._forceProvider === 'groq') ? opts._forceModel : ((cp['scoring_model_groq'] || '').trim() || 'llama-3.3-70b-versatile');
+            var _mdlGroqLocal = (opts._forceModel && opts._forceProvider === 'groq') ? opts._forceModel : (_cmModel || ((cp['scoring_model_groq'] || '').trim() || 'llama-3.3-70b-versatile'));
             var messages = [];
             if (systemText) messages.push({ role: 'system', content: systemText });
             var uMsg = userPrompt;

@@ -201,6 +201,14 @@ Deno.serve(async (req) => {
     image: await tryBool(oaiImg('https://api.groq.com/openai/v1/chat/completions', KEYS.groq, 'llama-3.3-70b-versatile', { max_tokens: 30 })),
     audio: await tryBool(oaiAud('https://api.groq.com/openai/v1/chat/completions', KEYS.groq, 'llama-3.3-70b-versatile', { max_tokens: 30 })),
   };
+  // Qwen 3.6 gained image input in 2026-07/08 (Groq support confirmed, verified
+  // against a control image). It is now both a scorer AND a vision-helper
+  // candidate, so drift on THIS model matters as much as on the rest.
+  // Groq caps max_tokens at 16384 — never send more here.
+  caps['qwen/qwen3.6-27b'] = {
+    image: await tryBool(oaiImg('https://api.groq.com/openai/v1/chat/completions', KEYS.groq, 'qwen/qwen3.6-27b', { max_tokens: 30 })),
+    audio: await tryBool(oaiAud('https://api.groq.com/openai/v1/chat/completions', KEYS.groq, 'qwen/qwen3.6-27b', { max_tokens: 30 })),
+  };
 
   const capability_changes: string[] = [];
   try {
