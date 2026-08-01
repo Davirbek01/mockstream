@@ -20134,6 +20134,41 @@
     .msv3-danger[hidden] { display: none; }
 
     /* ── Home widgets (native-app parity) — static DOM + tiny SVG only ── */
+    /* ── Greeting card ─────────────────────────────────────────────────
+       Two states: signed-in (avatar + name + live stats) and guest (the
+       ~77% case) which sells the reason to sign in instead of showing an
+       empty avatar. */
+    #mswGreet .mswg-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    #mswGreet .mswg-av {
+      width: 46px; height: 46px; border-radius: 50%; flex: 0 0 46px;
+      object-fit: cover; display: flex; align-items: center; justify-content: center;
+      font-size: 19px; font-weight: 800; color: #fff;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      box-shadow: 0 2px 10px rgba(99,102,241,.35);
+    }
+    #mswGreet .mswg-av-ghost {
+      background: linear-gradient(135deg, #94a3b8, #64748b);
+      box-shadow: 0 2px 10px rgba(100,116,139,.3); font-size: 18px;
+    }
+    #mswGreet .mswg-txt { flex: 1 1 190px; min-width: 0; }
+    #mswGreet .mswg-title { font-weight: 800; font-size: 15.5px; line-height: 1.25; }
+    #mswGreet .mswg-sub {
+      font-size: 12px; opacity: .72; margin-top: 3px; line-height: 1.4;
+    }
+    #mswGreet .mswg-cta {
+      flex: 0 0 auto; border: 0; cursor: pointer;
+      padding: 9px 18px; border-radius: 999px;
+      font-size: 13px; font-weight: 700; color: #fff;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      box-shadow: 0 4px 14px rgba(99,102,241,.35);
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    #mswGreet .mswg-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(99,102,241,.45); }
+    #mswGreet.mswg-guest { border-color: rgba(99,102,241,.35); }
+    @media (max-width: 420px) {
+      #mswGreet .mswg-cta { width: 100%; }
+    }
+
     #msv3HomeWidgets .msw-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
     @media (min-width: 900px) {
       #msv3HomeWidgets .msw-grid { grid-template-columns: 1fr 1fr; }
@@ -20525,6 +20560,7 @@
         ws.setAttribute('data-msv3sec', 'home');
         ws.innerHTML =
           '<div class="msw-grid">' +
+            '<div class="msw-card msw-span2" id="mswGreet"></div>' +
             '<div class="msw-chips msw-span2" id="mswChips"></div>' +
             '<div class="msw-card msw-span2" id="mswLibrary">' +
               '<div class="msw-eyebrow">Mock library</div>' +
@@ -20687,8 +20723,76 @@
           if (sk.indexOf('read') > -1) return 'reading';
           return null;
         }
+        // ── Greeting card ──────────────────────────────────────────────
+        // Renders INSTANTLY from cached local values (no network), then gets
+        // re-rendered with stats once the single results fetch lands. Guests
+        // are ~77% of visitors, so their state is the primary design: instead
+        // of an empty avatar it offers the reason to sign in.
+        function renderGreeting(stats) {
+          var el = document.getElementById('mswGreet');
+          if (!el) return;
+          var name = '', avatar = '', signedIn = false;
+          try {
+            name = sessionStorage.getItem('CANDIDATE_FULL_NAME') ||
+                   localStorage.getItem('ms_candidate_name') || '';
+          } catch (_e) {}
+          try { avatar = localStorage.getItem('ms_avatar_url') || ''; } catch (_e) {}
+          try {
+            signedIn = !!(window.MockStream && window.MockStream.auth &&
+                          typeof window.MockStream.auth.isSignedIn === 'function' &&
+                          window.MockStream.auth.isSignedIn());
+          } catch (_e) {}
+          var first = String(name || '').trim().split(/\s+/)[0] || '';
+          var h = new Date().getHours();
+          var part = h < 12 ? 'Good morning' : (h < 18 ? 'Good afternoon' : 'Good evening');
+
+          if (!signedIn) {
+            el.className = 'msw-card msw-span2 mswg-guest';
+            el.innerHTML =
+              '<div class="mswg-row">' +
+                '<div class="mswg-av mswg-av-ghost">🔒</div>' +
+                '<div class="mswg-txt">' +
+                  '<div class="mswg-title">' + (first ? part + ', ' + _mswEsc(first) : 'Save your results') + '</div>' +
+                  '<div class="mswg-sub">Sign in to keep every score, track your streak and reopen past reports on any device.</div>' +
+                '</div>' +
+                '<button type="button" class="mswg-cta" id="mswGreetSignIn">Sign in</button>' +
+              '</div>';
+            var b = document.getElementById('mswGreetSignIn');
+            // Route to the Account tab rather than cloning the provider
+            // buttons — duplicate element ids would break the existing
+            // _msv3WireSignInButtons() lookups.
+            if (b) b.addEventListener('click', function () { location.hash = '#account'; });
+            return;
+          }
+          el.className = 'msw-card msw-span2 mswg-in';
+          var initials = first ? first.slice(0, 1).toUpperCase() : '👤';
+          var av = avatar
+            ? '<img class="mswg-av" src="' + _mswEsc(avatar) + '" alt="" referrerpolicy="no-referrer" ' +
+              'onerror="this.outerHTML=\'<div class=&quot;mswg-av mswg-av-ini&quot;>' + initials + '</div>\'">'
+            : '<div class="mswg-av mswg-av-ini">' + initials + '</div>';
+          var line = stats
+            ? (stats.total + ' mock' + (stats.total === 1 ? '' : 's') +
+               (stats.bestLevel ? ' · best ' + _mswEsc(stats.bestLevel) : '') +
+               (stats.streak ? ' · 🔥 ' + stats.streak + '-day streak' : ''))
+            : 'Loading your progress…';
+          el.innerHTML =
+            '<div class="mswg-row">' + av +
+              '<div class="mswg-txt">' +
+                '<div class="mswg-title">' + part + (first ? ', ' + _mswEsc(first) : '') + '</div>' +
+                '<div class="mswg-sub">' + line + '</div>' +
+              '</div>' +
+            '</div>';
+        }
+        function _mswEsc(s) {
+          return String(s == null ? '' : s)
+            .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+        renderGreeting(null);   // paint immediately; stats fill in later
+
         function renderStats(rows) {
           if (!rows || !rows.length) {
+            renderGreeting(null);
             document.getElementById('mswChips').innerHTML =
               '<div class="msw-chip c1" style="grid-column:1/-1"><div class="v">📈 Your progress lives here</div><div class="l">Sign in on the Account tab (or take your first mock) to unlock streaks, levels and charts</div></div>';
             return;
@@ -20727,6 +20831,8 @@
             }
             if (!bestLevel && r.level) bestLevel = String(r.level);
           });
+          // Same numbers the chips use — no extra fetch, no extra work.
+          renderGreeting({ total: rows.length, bestLevel: bestLevel, streak: streak });
           document.getElementById('mswChips').innerHTML =
             '<div class="msw-chip c1"><div class="v">' + rows.length + '</div><div class="l">Mocks taken</div></div>' +
             '<div class="msw-chip c2"><div class="v">' + (bestLevel || '—') + '</div><div class="l">Best level</div></div>' +

@@ -246,17 +246,41 @@
         }
       } catch (_e) {}
       try {
-        var [candResp, premResp] = await Promise.all([
-          // Fetch ALL candidates so we can split into Google-account vs Guest tabs
-          fetch(SB_URL + '/rest/v1/candidates?select=*&order=updated_at.desc&limit=5000', {
-            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token }
-          }),
+        // PostgREST enforces a SERVER-side max-rows cap (1000 on this project).
+        // `limit=5000` was therefore silently truncated and the panel showed a
+        // hard 1000 no matter how many users existed — 1080 real rows meant 80
+        // people simply missing from every tab and from the counts. Page through
+        // with Range headers until a short page proves we reached the end.
+        async function _fetchAllCandidates() {
+          var PAGE = 1000, from = 0, all = [];
+          for (var guard = 0; guard < 50; guard++) {   // 50k ceiling, never infinite
+            var resp = await fetch(
+              SB_URL + '/rest/v1/candidates?select=*&order=updated_at.desc',
+              { headers: {
+                  'apikey': SB_KEY,
+                  'Authorization': 'Bearer ' + token,
+                  'Range-Unit': 'items',
+                  'Range': from + '-' + (from + PAGE - 1)
+                } });
+            if (!resp.ok) {
+              if (from === 0) throw new Error('HTTP ' + resp.status);
+              break;                                   // keep what we already have
+            }
+            var batch = await resp.json();
+            if (!Array.isArray(batch) || !batch.length) break;
+            all = all.concat(batch);
+            if (batch.length < PAGE) break;             // last page
+            from += PAGE;
+          }
+          return all;
+        }
+        var [cands, premResp] = await Promise.all([
+          _fetchAllCandidates(),
           fetch(SB_URL + '/rest/v1/premium_emails?select=email,telegram_username,tier,role,center,active', {
             headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token }
           })
         ]);
-        if (!candResp.ok) throw new Error('HTTP ' + candResp.status);
-        _ruData = await candResp.json();
+        _ruData = cands;
         var premRows = premResp.ok ? await premResp.json() : [];
         // Build email→role lookup: { email: { tier, role, center, active, premiumEmail } }
         window._ruPremiumMap = {};

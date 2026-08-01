@@ -403,12 +403,90 @@
     }
   };
 
-  // ─── CAPTION HELPER ───────────────────────────────────────────────────────
+  // ─── LOGIN IDENTITY ───────────────────────────────────────────────────────
+  // Which account submitted this result: Google email, Telegram @handle, or
+  // Guest. Deliberately reads ONLY synchronous local sources (in-memory auth
+  // object, localStorage) — never a network call — so it can never delay a
+  // student's submission. If a Telegram handle isn't already cached we print
+  // "Telegram user" rather than querying for it.
+  //
+  // NOTE: this is the account used to sign in, NOT proof of who sat the exam
+  // (the candidate name is typed by the student). A mismatch between the two
+  // is itself useful signal for the examiner.
+  function _readSessionUser() {
+    try {
+      if (window.MockStream && window.MockStream.auth &&
+          typeof window.MockStream.auth.getCurrentUser === 'function') {
+        var u = window.MockStream.auth.getCurrentUser();
+        if (u) return u;
+      }
+    } catch (_e) {}
+    try {
+      var raw = localStorage.getItem('ms_auth_session');
+      if (raw) {
+        var s = JSON.parse(raw);
+        return (s && s.user) || (s && s.currentSession && s.currentSession.user) || null;
+      }
+    } catch (_e) {}
+    return null;
+  }
+
+  window.getLoginIdentity = function getLoginIdentity() {
+    var email = '', tg = '';
+    var u = _readSessionUser();
+    try {
+      if (u) {
+        if (u.email) email = String(u.email).toLowerCase();
+        var meta = u.user_metadata || u.userMetadata || u.raw_user_meta_data || {};
+        if (typeof meta.telegram_username === 'string') tg = meta.telegram_username;
+      }
+    } catch (_e) {}
+    // Cached profile / VIP email fallbacks (same sources the row stamp uses).
+    if (!email) {
+      try {
+        var p = JSON.parse(localStorage.getItem('ms_candidate_profile') || 'null');
+        if (p) {
+          if (p.email) email = String(p.email).toLowerCase();
+          if (!tg && typeof p.telegram_username === 'string') tg = p.telegram_username;
+        }
+      } catch (_e) {}
+    }
+    if (!email) {
+      try { email = (localStorage.getItem('ms_vip_email') || '').toLowerCase(); } catch (_e) {}
+    }
+    tg = String(tg || '').replace(/^@/, '').trim();
+    // Telegram sign-ins carry a synthetic address (tg_<id>@telegram.…) that is
+    // meaningless to an examiner — show the handle instead.
+    var isSyntheticTg = /^tg_\d+@telegram\./i.test(email);
+    if (tg)            return { kind: 'telegram', label: '@' + tg };
+    if (isSyntheticTg) return { kind: 'telegram', label: 'Telegram user' };
+    if (email)         return { kind: 'google',   label: email };
+    return { kind: 'guest', label: 'Guest' };
+  };
+
+  // ─── CAPTION HELPERS ──────────────────────────────────────────────────────
+  // Adds the "🔐 Login:" line. Idempotent — safe if a page ever calls twice.
+  window.appendLoginIdentity = function appendLoginIdentity(caption) {
+    caption = caption || '';
+    // Guard on the text, not the icon — the icon varies per sign-in kind
+    // (📧 / ✈️ / 👥), so an icon-specific check never matched and a second
+    // call stamped a duplicate line.
+    if (/(^|\n)\S* ?Login: /.test(caption)) return caption;
+    var id;
+    try { id = window.getLoginIdentity(); } catch (_e) { return caption; }
+    if (!id) return caption;
+    var ICON = { google: '📧', telegram: '✈️', guest: '👥' };
+    return caption + '\n' + (ICON[id.kind] || '🔐') + ' Login: ' + id.label;
+  };
+
   // Appends a "📎 View Report" link to an existing Telegram caption.
   // Always appends `&lock=1` so the report viewer requires the BSB
   // management code before opening — protects student work even if the
   // channel link is forwarded outside the team.
+  // Also stamps the login identity, so every page that already calls this
+  // gets it without needing its own edit.
   window.appendResultLink = function appendResultLink(caption, viewUrl) {
+    caption = window.appendLoginIdentity(caption);
     if (!viewUrl) return caption;
     var locked = viewUrl + (viewUrl.indexOf('?') === -1 ? '?' : '&') + 'lock=1';
     return caption + '\n\n📎 View Report: ' + locked;
