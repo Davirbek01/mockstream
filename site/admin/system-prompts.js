@@ -291,6 +291,40 @@
       background: #7c3aed1a; color: #7c3aed; vertical-align: middle;
     }
     .sp-tag-warn { background: #fef3c7; color: #92400e; }
+    /* ── Phone / narrow admin pane ──────────────────────────────────────
+       620px of table would otherwise force a sideways swipe. Drop the two
+       "nice to know" numeric columns so the decisive ones — model, 🖼️, 🎤
+       and which helper it needs — fit a 360px screen unscrolled. */
+    @media (max-width: 640px) {
+      table.sp-matrix { min-width: 0; font-size: 10.5px; }
+      table.sp-matrix th.sp-r,
+      table.sp-matrix td.sp-num { display: none; }
+      table.sp-matrix th,
+      table.sp-matrix tbody tr.sysprompt-provider-btn > td {
+        padding-left: 5px !important; padding-right: 5px !important;
+      }
+      .sp-need { font-size: 9px !important; padding: 1px 5px !important; white-space: nowrap; }
+      .sp-tag { display: none; }
+      .sp-matrix-head i { font-size: 9.5px; }
+      .sysprompt-provider-row.sp-matrix-wrap { padding: 8px 10px 10px; }
+      .sp-helper-grid { gap: 8px; }
+      .sp-helper-item { flex-wrap: wrap; }
+      .sp-helper-item select { max-width: 100%; }
+      /* Pre-existing: the rubric tab strip is a single non-wrapping flex row,
+         so on a phone the last tabs sat off-screen and were unreachable. */
+      .sysprompt-tabs { flex-wrap: wrap; row-gap: 4px; }
+      .sysprompt-tab { font-size: 11px; padding: 6px 9px; }
+      /* Kill the last few px of table overshoot inside the padded wrapper. */
+      table.sp-matrix { table-layout: auto; width: 100%; }
+      table.sp-matrix td:first-child, table.sp-matrix th:first-child { max-width: 42vw; }
+      table.sp-matrix tbody tr.sysprompt-provider-btn > td:first-child {
+        white-space: normal; line-height: 1.25;
+      }
+    }
+    @media (max-width: 400px) {
+      table.sp-matrix { font-size: 10px; }
+      .sp-need { font-size: 8.5px !important; }
+    }
     .sysprompt-actions {
       display: flex;
       gap: 8px;
@@ -491,7 +525,7 @@
         <button class="sysprompt-close" onclick="closeSystemPromptsPanel()">✕</button>
       </div>
       <div style="margin:4px 0 8px;padding:6px 12px;background:#eef2ff;border:1px solid #c7d2fe;border-radius:8px;font-size:11px;color:#4338ca;line-height:1.5;">
-        💡 This provider also runs <b>Reading Plus</b> + <b>Listening Plus</b>. Per-centre AI in the Centers panel only affects graded mocks, not Plus modules.
+        💡 This is the <b>global default</b> — it applies wherever a centre is set to “Default”. <b>Reading Plus</b> + <b>Listening Plus</b> always use it and ignore per-centre AI. Graded mocks <i>and</i> Writing/Speaking Plus follow the centre's own pick when one is set.
       </div>
       <div class="sysprompt-provider-row sp-matrix-wrap">
         <div class="sp-matrix-head">

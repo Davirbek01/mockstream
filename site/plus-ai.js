@@ -25,10 +25,10 @@
   // Defaults if scoring_model_<provider> is unset. Kept conservative —
   // cheap models for everything except Claude (no haiku in current keys).
   var DEFAULT_MODELS = {
-    gemini:   'gemini-2.5-flash',
+    gemini:   'gemini-flash-latest',
     openai:   'gpt-4o-mini',
     deepseek: 'deepseek-v4-flash',
-    grok:     'grok-2-latest',
+    grok:     'grok-4.20-0309-non-reasoning',
     groq:     'llama-3.3-70b-versatile',
     claude:   'claude-3-5-haiku-latest'
   };

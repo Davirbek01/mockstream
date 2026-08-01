@@ -10,6 +10,42 @@
 // Exposes window.AdminPanels.centers.open(container).
 // ═══════════════════════════════════════════════════════════════════════
 (function() {
+    // ── Styles for the AI provider matrix ────────────────────────────────
+    // The matrix is a real table, so on a phone it would otherwise force the
+    // whole page to scroll sideways. Injected once; media queries drop the
+    // least-decisive column (Speed) and tighten padding so the essential
+    // Model / 🖼️ / 🎤 / Needs-helper columns fit a 360px screen.
+    (function _cmInjectMatrixCss() {
+      if (document.getElementById('cm-matrix-css')) return;
+      var st = document.createElement('style');
+      st.id = 'cm-matrix-css';
+      st.textContent =
+        '.cm-matrix-wrap{margin:6px 0 2px;overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%;}' +
+        '.cm-matrix{border-collapse:separate;border-spacing:0;width:100%;min-width:520px;font-size:11px;}' +
+        '@media (max-width:640px){' +
+          '.cm-matrix{min-width:0;font-size:10.5px;}' +
+          '.cm-matrix .cm-speed{display:none;}' +      /* least decisive column */
+          '.cm-matrix th,.cm-matrix td{padding-left:5px !important;padding-right:5px !important;}' +
+          '.cm-matrix .cm-need span{font-size:8.5px !important;padding:1px 4px !important;}' +
+          '.cm-matrix .cm-tag{display:none;}' +        /* FASTEST / NO HELPERS chips */
+        '}' +
+        '@media (max-width:400px){' +
+          '.cm-matrix{font-size:10px;}' +
+          '.cm-matrix .cm-need span{font-size:8px !important;}' +
+        '}' +
+        /* Select rows: a fixed 140px label + a wide <select> overflowed a
+           phone and made the whole page scroll sideways. Let them wrap and
+           cap the control at the container width. Pre-existing issue — the
+           dropdowns are used throughout this panel, not just in AI. */
+        '.cm-select{max-width:100%;box-sizing:border-box;}' +
+        '@media (max-width:640px){' +
+          '.cm-row{flex-wrap:wrap;}' +
+          '.cm-row>span{min-width:0 !important;flex-basis:100%;}' +
+          '.cm-select{width:100%;}' +
+        '}';
+      document.head.appendChild(st);
+    })();
+
     var _cmInlineContainer = null;  // set by AdminPanels.centers.open(container)
     var CM_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
     var CM_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
@@ -197,9 +233,9 @@
     }
 
     function _cmSelectInput(centerId, prop, label, value, options) {
-      var s = '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;">' +
+      var s = '<div class="cm-row" style="display:flex;align-items:center;gap:8px;padding:6px 0;">' +
         '<span style="font-size:12px;min-width:140px;">' + label + '</span>' +
-        '<select onchange="_cmSetProp(\'' + centerId + '\',\'' + prop + '\',this.value)" style="padding:5px 8px;border:1px solid var(--ring,#e5e7eb);border-radius:6px;font-size:12px;background:var(--surface,#fff);color:var(--ink,#333);cursor:pointer;">';
+        '<select class="cm-select" onchange="_cmSetProp(\'' + centerId + '\',\'' + prop + '\',this.value)" style="padding:5px 8px;border:1px solid var(--ring,#e5e7eb);border-radius:6px;font-size:12px;background:var(--surface,#fff);color:var(--ink,#333);cursor:pointer;">';
       options.forEach(function(o) {
         s += '<option value="' + o.val + '"' + (value === o.val ? ' selected' : '') + '>' + o.label + '</option>';
       });
@@ -242,6 +278,89 @@
         { val: 'llama-3.1-8b-instant',    label: 'Llama 8B Instant — text only ⚠ weak' }
       ]
     };
+
+    // Per-centre provider+model matrix. Same information architecture as the
+    // System Prompts picker: one row per model, capabilities that decide which
+    // helper is required, and the measured numbers where they exist. Clicking a
+    // row writes aiProvider AND aiModel together, so the two can never disagree.
+    function _cmProviderMatrix(cid, cfg) {
+      var curP = cfg.aiProvider || 'default';
+      var curM = (cfg.aiModel || '').trim();
+      var mark = function (on) {
+        return on
+          ? '<td style="text-align:center;color:#16a34a;font-weight:700;">✓</td>'
+          : '<td style="text-align:center;color:#cbd5e1;font-weight:700;">✗</td>';
+      };
+      var need = function (k) {
+        var M = { none: ['#dcfce7', '#15803d', 'none needed'],
+                  tr:   ['#fef3c7', '#92400e', '🎤 transcriber'],
+                  both: ['#fee2e2', '#b91c1c', '🎤 + 🖼️ both'] }[k];
+        return '<td class="cm-need"><span style="font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:999px;' +
+               'background:' + M[0] + ';color:' + M[1] + ';white-space:nowrap;">' + M[2] + '</span></td>';
+      };
+      var row = function (prov, model, name, cap, needKey, sec, tag) {
+        var on = (curP === prov) && (curM === model);
+        var bg = on ? 'background:linear-gradient(90deg,#7c3aed26,#7c3aed0d);' : '';
+        var bar = on ? 'box-shadow:inset 3px 0 0 #7c3aed;' : '';
+        return '<tr onclick="_cmSetAiRow(\'' + cid + '\',\'' + prov + '\',\'' + model + '\')" ' +
+          'style="cursor:pointer;' + bg + '" onmouseover="if(!this.dataset.on)this.style.background=\'rgba(100,116,139,.08)\'" ' +
+          'onmouseout="this.style.background=\'' + (on ? 'linear-gradient(90deg,#7c3aed26,#7c3aed0d)' : 'transparent') + '\'"' +
+          (on ? ' data-on="1"' : '') + '>' +
+          '<td style="padding:4px 8px;border-bottom:1px solid var(--ring,#e5e7eb);' + bar +
+            (on ? 'font-weight:700;color:#7c3aed;' : '') + '">' + name +
+            (tag ? '<span class="cm-tag" style="font-size:8px;font-weight:700;padding:1px 4px;border-radius:3px;margin-left:5px;background:#7c3aed1a;color:#7c3aed;">' + tag + '</span>' : '') +
+          '</td>' + mark(cap[0]) + mark(cap[1]) +
+          '<td class="cm-speed" style="text-align:right;font-size:10px;color:var(--muted,#64748b);">' + (sec || '—') + '</td>' +
+          need(needKey) + '</tr>';
+      };
+      var vendor = function (label, tone) {
+        return '<tr><td colspan="5" style="padding:6px 8px;font-size:9.5px;font-weight:800;letter-spacing:.06em;' +
+          'text-transform:uppercase;color:' + tone + ';background:color-mix(in srgb,' + tone + ' 9%,transparent);' +
+          'border-left:3px solid ' + tone + ';">' + label + '</td></tr>';
+      };
+      var h = '<div class="cm-matrix-wrap">' +
+        '<table class="cm-matrix">' +
+        '<thead><tr>' +
+          '<th style="text-align:left;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted,#64748b);padding:0 8px 4px;border-bottom:1px solid var(--ring,#e5e7eb);">Model</th>' +
+          '<th style="text-align:center;font-size:9px;color:var(--muted,#64748b);padding:0 4px 4px;border-bottom:1px solid var(--ring,#e5e7eb);">🖼️</th>' +
+          '<th style="text-align:center;font-size:9px;color:var(--muted,#64748b);padding:0 4px 4px;border-bottom:1px solid var(--ring,#e5e7eb);">🎤</th>' +
+          '<th class="cm-speed" style="text-align:right;font-size:9px;color:var(--muted,#64748b);padding:0 4px 4px;border-bottom:1px solid var(--ring,#e5e7eb);">Speed</th>' +
+          '<th style="text-align:left;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted,#64748b);padding:0 8px 4px;border-bottom:1px solid var(--ring,#e5e7eb);">Needs helper</th>' +
+        '</tr></thead><tbody>';
+      // Inherit row — clears both fields.
+      var isDef = (curP === 'default' || !curP);
+      h += '<tr onclick="_cmSetAiRow(\'' + cid + '\',\'default\',\'\')" style="cursor:pointer;' +
+        (isDef ? 'background:linear-gradient(90deg,#7c3aed26,#7c3aed0d);' : '') + '">' +
+        '<td colspan="5" style="padding:5px 8px;border-bottom:1px solid var(--ring,#e5e7eb);' +
+        (isDef ? 'box-shadow:inset 3px 0 0 #7c3aed;font-weight:700;color:#7c3aed;' : '') +
+        '">⚙ Default — inherit System Prompts</td></tr>';
+      h += vendor('🟣 Anthropic · Claude', '#7c3aed');
+      h += row('claude', 'claude-sonnet-5',  'Claude Sonnet 5',  [1,0], 'tr', '');
+      h += row('claude', 'claude-haiku-4-5', 'Claude Haiku 4.5', [1,0], 'tr', '');
+      h += row('claude', 'claude-opus-4-8',  'Claude Opus 4.8',  [1,0], 'tr', '');
+      h += vendor('🤖 OpenAI', '#0f766e');
+      h += row('openai', 'gpt-5.4-mini', 'GPT-5.4 Mini', [1,1], 'none', '');
+      h += row('openai', 'gpt-5.4-nano', 'GPT-5.4 Nano', [1,1], 'none', '');
+      h += row('openai', 'gpt-5.4',      'GPT-5.4',      [1,1], 'none', '');
+      h += vendor('✨ Google · Gemini', '#1d4ed8');
+      h += row('gemini', 'gemini-flash-latest',   'Gemini Flash',          [1,1], 'none', '32s', 'NO HELPERS');
+      h += row('gemini', 'gemini-3.1-flash-lite', 'Gemini Flash-Lite 3.1', [1,1], 'none', '');
+      h += row('gemini', 'gemini-2.5-pro',        'Gemini Pro 2.5',        [1,1], 'none', '');
+      h += vendor('⚡ xAI · Grok', '#b45309');
+      h += row('grok', 'grok-4.20-0309-non-reasoning', 'Grok 4.20 Fast', [1,0], 'tr', '');
+      h += row('grok', 'grok-4.3', 'Grok 4.3', [1,0], 'tr', '');
+      h += row('grok', 'grok-4.5', 'Grok 4.5', [1,0], 'tr', '');
+      h += vendor('🔵 DeepSeek', '#1e40af');
+      h += row('deepseek', 'deepseek-v4-flash', 'DeepSeek V4 Flash', [0,0], 'both', '123s');
+      h += row('deepseek', 'deepseek-v4-pro',   'DeepSeek V4 Pro',   [0,0], 'both', '119s');
+      h += vendor('🟢 Groq · LPU', '#15803d');
+      h += row('groq', 'qwen/qwen3.6-27b',        'Qwen 3.6 27B',      [1,0], 'tr',   '21s', 'FASTEST');
+      h += row('groq', 'llama-3.3-70b-versatile', 'Llama 3.3 70B',     [0,0], 'both', '');
+      h += row('groq', 'openai/gpt-oss-120b',     'GPT-OSS 120B',      [0,0], 'both', '');
+      h += row('groq', 'llama-3.1-8b-instant',    'Llama 8B Instant',  [0,0], 'both', '');
+      h += '</tbody></table></div>';
+      return h;
+    }
 
     // Numbered group heading — splits AI & Scoring into "who grades" and
     // "who covers what the grader can't do", so the helper pickers read as
@@ -619,30 +738,10 @@
             h += '<div style="padding:10px 16px;">';
             h += _cmGroupLabel('1 · Scoring AI', 'Who grades this centre\'s writing &amp; speaking');
             h += _cmNumberInput(cid, 'scoreBoost', 'Score Boost', cfg.scoreBoost, '0-3');
-            // Labels state the two capabilities that decide whether helpers are
-            // needed, in the same 🖼️/🎤 language as the System Prompts matrix.
-            h += _cmSelectInput(cid, 'aiProvider', 'AI Provider', cfg.aiProvider || 'default', [
-              { val: 'default',  label: 'Default — inherit System Prompts' },
-              { val: 'claude',   label: 'Claude · 🖼️ images — needs transcriber' },
-              { val: 'openai',   label: 'OpenAI · 🖼️ 🎤 — no helpers needed' },
-              { val: 'gemini',   label: 'Gemini · 🖼️ 🎤 — no helpers needed' },
-              { val: 'grok',     label: 'Grok 4.x · 🖼️ images — needs transcriber' },
-              { val: 'deepseek', label: 'DeepSeek · text only — needs BOTH helpers' },
-              { val: 'groq',     label: 'Groq · model picked in System Prompts' }
-            ]);
-            // Capability strip for the CURRENT pick — the same answer the
-            // matrix gives, without making the admin cross-reference panels.
-            h += _cmCapabilityStrip(cfg.aiProvider || 'default');
-            // Per-centre MODEL override. Without this a centre could pick the
-            // vendor but not the tier — "Groq" gave you whatever single model
-            // System Prompts had globally. Empty = inherit the global model.
-            {
-              var _mdlOpts = _CM_MODELS[cfg.aiProvider || 'default'];
-              if (_mdlOpts && _mdlOpts.length) {
-                h += _cmSelectInput(cid, 'aiModel', '↳ Model', cfg.aiModel || '',
-                  [{ val: '', label: 'Default — model set in System Prompts' }].concat(_mdlOpts));
-              }
-            }
+            // Provider + model are chosen from ONE matrix (same shape as the
+            // System Prompts picker) rather than two dependent dropdowns —
+            // clicking a row sets both at once and shows what it can/can't do.
+            h += _cmProviderMatrix(cid, cfg);
             // Per-centre fallback override. "default" = inherit global
             // scoring_ai_fallback. Empty / "none" = no fallback. Other values
             // are tried only when ALL primary keys fail terminally.
@@ -979,6 +1078,23 @@
     window._cmToggle = function(centerId, prop, val) {
       if (!_cmConfigs[centerId]) _cmConfigs[centerId] = _cmDefaultConfig();
       _cmConfigs[centerId][prop] = val;
+      _cmRenderBody();
+      _cmAutoSave(centerId);
+    };
+
+    // One click in the provider matrix = provider AND model together, so the
+    // pair can never disagree (the old two-dropdown flow could leave a Claude
+    // model selected under Gemini until the reset fired).
+    window._cmSetAiRow = function(centerId, provider, model) {
+      if (!_cmConfigs[centerId]) _cmConfigs[centerId] = {};
+      var c = _cmConfigs[centerId];
+      c.aiProvider = provider;
+      c.aiModel = (provider === 'default') ? '' : (model || '');
+      if (provider !== 'gemini') c.geminiPlan = 'default';
+      if (provider !== 'grok' && provider !== 'deepseek') {
+        c.transcriberProvider = 'default';
+        c.transcriberGeminiPlan = 'default';
+      }
       _cmRenderBody();
       _cmAutoSave(centerId);
     };
