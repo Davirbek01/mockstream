@@ -207,6 +207,42 @@
       return s;
     }
 
+    // Per-provider model lists — mirrors the System Prompts matrix so a centre
+    // can pin a specific tier, not just a vendor. Values are the exact model
+    // strings the scoring pages send. Keep in sync with _SP_MATRIX.
+    var _CM_MODELS = {
+      claude: [
+        { val: 'claude-sonnet-5',  label: 'Claude Sonnet 5 — balanced' },
+        { val: 'claude-haiku-4-5', label: 'Claude Haiku 4.5 — cheapest' },
+        { val: 'claude-opus-4-8',  label: 'Claude Opus 4.8 — costly' }
+      ],
+      openai: [
+        { val: 'gpt-5.4-mini', label: 'GPT-5.4 Mini — balanced' },
+        { val: 'gpt-5.4-nano', label: 'GPT-5.4 Nano — cheapest' },
+        { val: 'gpt-5.4',      label: 'GPT-5.4 — top tier' }
+      ],
+      gemini: [
+        { val: 'gemini-flash-latest',   label: 'Gemini Flash — balanced (~32s)' },
+        { val: 'gemini-3.1-flash-lite', label: 'Gemini Flash-Lite 3.1 — cheapest' },
+        { val: 'gemini-2.5-pro',        label: 'Gemini Pro 2.5 — top tier' }
+      ],
+      grok: [
+        { val: 'grok-4.20-0309-non-reasoning', label: 'Grok 4.20 Fast — cheapest' },
+        { val: 'grok-4.3', label: 'Grok 4.3 — balanced' },
+        { val: 'grok-4.5', label: 'Grok 4.5 — top tier' }
+      ],
+      deepseek: [
+        { val: 'deepseek-v4-flash', label: 'DeepSeek V4 Flash — ~123s ⚠ slow' },
+        { val: 'deepseek-v4-pro',   label: 'DeepSeek V4 Pro — ~119s ⚠ slow' }
+      ],
+      groq: [
+        { val: 'qwen/qwen3.6-27b',        label: 'Qwen 3.6 27B — 🖼️ vision, ~21s, fastest' },
+        { val: 'llama-3.3-70b-versatile', label: 'Llama 3.3 70B — text only' },
+        { val: 'openai/gpt-oss-120b',     label: 'GPT-OSS 120B — text only' },
+        { val: 'llama-3.1-8b-instant',    label: 'Llama 8B Instant — text only ⚠ weak' }
+      ]
+    };
+
     // Numbered group heading — splits AI & Scoring into "who grades" and
     // "who covers what the grader can't do", so the helper pickers read as
     // consequences of the provider choice instead of loose extra fields.
@@ -597,6 +633,16 @@
             // Capability strip for the CURRENT pick — the same answer the
             // matrix gives, without making the admin cross-reference panels.
             h += _cmCapabilityStrip(cfg.aiProvider || 'default');
+            // Per-centre MODEL override. Without this a centre could pick the
+            // vendor but not the tier — "Groq" gave you whatever single model
+            // System Prompts had globally. Empty = inherit the global model.
+            {
+              var _mdlOpts = _CM_MODELS[cfg.aiProvider || 'default'];
+              if (_mdlOpts && _mdlOpts.length) {
+                h += _cmSelectInput(cid, 'aiModel', '↳ Model', cfg.aiModel || '',
+                  [{ val: '', label: 'Default — model set in System Prompts' }].concat(_mdlOpts));
+              }
+            }
             // Per-centre fallback override. "default" = inherit global
             // scoring_ai_fallback. Empty / "none" = no fallback. Other values
             // are tried only when ALL primary keys fail terminally.
@@ -943,6 +989,9 @@
       // Reset dependent sub-fields when the parent picker changes so a stale
       // (now-hidden) value can't accidentally get sent on the next request.
       if (prop === 'aiProvider') {
+        // Model strings are provider-specific — a Claude id would be garbage
+        // under Gemini. Always reset to "inherit global" on a provider switch.
+        _cmConfigs[centerId].aiModel = '';
         if (val !== 'gemini') _cmConfigs[centerId].geminiPlan = 'default';
         if (val !== 'grok' && val !== 'deepseek') {
           _cmConfigs[centerId].transcriberProvider = 'default';

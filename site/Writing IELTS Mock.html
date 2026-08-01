@@ -9989,6 +9989,10 @@ function printWritingAiModal() {
       var cp = await _loadScoringPrompts();
       var provider = opts._forceProvider || cp['scoring_ai_provider'] || 'gemini';
       if (!opts._forceProvider && window._centerConfig && window._centerConfig.aiProvider && window._centerConfig.aiProvider !== 'default') provider = window._centerConfig.aiProvider;
+      // Per-centre MODEL override (Centers → AI & Scoring → Model). Empty or
+      // absent = inherit the global scoring_model_<provider> from System Prompts.
+      var _cmModel = '';
+      try { _cmModel = String((window._centerConfig && window._centerConfig.aiModel) || '').trim(); } catch (e) { _cmModel = ''; }
       console.log('%c[AI Scoring] Provider: ' + provider.toUpperCase(), 'color:#fff;background:#6d28d9;padding:2px 8px;border-radius:4px;font-weight:bold');
       (function(p){ var d=document.getElementById('_aiProviderBadge'); if(!d){d=document.createElement('div');d.id='_aiProviderBadge';d.style.cssText='position:fixed;top:12px;right:12px;z-index:999999;padding:6px 16px;border-radius:8px;font:bold 13px system-ui;color:#fff;background:#6d28d9;box-shadow:0 2px 12px rgba(0,0,0,.25);transition:opacity .5s;pointer-events:none';document.body.appendChild(d)} d.textContent='\u{1F916} AI: '+p.toUpperCase();d.style.opacity='1';clearTimeout(d._t);d._t=setTimeout(function(){d.style.opacity='0'},6000); })(provider);
       document.querySelectorAll('#aiStep2 span, #wpAiStep2 span').forEach(function(s){ s.textContent = 'Connecting to ' + provider.charAt(0).toUpperCase() + provider.slice(1) + ' AI...'; });
@@ -10000,6 +10004,7 @@ function printWritingAiModal() {
         if (systemText) messages.push({ role: 'system', content: systemText });
         messages.push({ role: 'user', content: userPrompt });
         var _mdlO = ((typeof cp !== 'undefined' && cp && cp['scoring_model_openai']) || '').trim() || 'gpt-4o-mini';
+        if (_cmModel) _mdlO = _cmModel;
         var body = { model: _mdlO, messages: messages, temperature: opts.temperature || 0.3 };
         // gpt-5.x rejects sampling params — API default temperature only.
         if (/^gpt-5/.test(_mdlO)) delete body.temperature;
@@ -10017,7 +10022,10 @@ function printWritingAiModal() {
       } else if (provider === 'claude') {
         if (!_CLAUDE_KEY) { try { _CLAUDE_KEY = await _fetchProviderKey('claude'); } catch(e){} }
         if (!_CLAUDE_KEY) throw new Error('No Claude API key available');
-        var cBody = { model: 'claude-sonnet-4-20250514', max_tokens: opts.maxTokens || 8192, messages: [{ role: 'user', content: userPrompt }] };
+        // Was hardcoded to claude-sonnet-4-20250514, so this page ignored both
+        // the System Prompts tier and the per-centre model. Now honours both.
+        var _mdlC = _cmModel || ((cp['scoring_model_claude'] || '').trim() || 'claude-sonnet-5');
+        var cBody = { model: _mdlC, max_tokens: opts.maxTokens || 8192, messages: [{ role: 'user', content: userPrompt }] };
         if (systemText) cBody.system = systemText;
         if (opts.temperature !== undefined && !/claude-(sonnet-5|opus)/.test(cBody.model)) cBody.temperature = opts.temperature; // Claude 5-gen rejects temperature (deprecated)
         var r = await fetch('https://api.anthropic.com/v1/messages', {
@@ -10035,7 +10043,10 @@ function printWritingAiModal() {
         var messages = [];
         if (systemText) messages.push({ role: 'system', content: systemText });
         messages.push({ role: 'user', content: userPrompt });
-        var body = { model: 'grok-3-mini', messages: messages, temperature: opts.temperature || 0.3 };
+        // Was hardcoded to the legacy grok-3-mini (text-only); now follows the
+        // System Prompts tier and any per-centre override.
+        var _mdlGk = _cmModel || ((cp['scoring_model_grok'] || '').trim() || 'grok-4.20-0309-non-reasoning');
+        var body = { model: _mdlGk, messages: messages, temperature: opts.temperature || 0.3 };
         if (opts.maxTokens) body.max_tokens = opts.maxTokens;
         if (opts.jsonMode) body.response_format = { type: 'json_object' };
         var r = await fetch('https://api.x.ai/v1/chat/completions', {
@@ -10054,7 +10065,8 @@ function printWritingAiModal() {
         if (systemText) messages.push({ role: 'system', content: systemText });
         messages.push({ role: 'user', content: userPrompt });
         if (opts.jsonMode && messages.length > 0) { var _last = messages[messages.length - 1]; _last.content += '\n\nIMPORTANT: Respond with valid JSON only, no markdown.'; }
-        var body = { model: 'deepseek-v4-flash', messages: messages, temperature: opts.temperature || 0.3 };
+        var _mdlDs = _cmModel || ((cp['scoring_model_deepseek'] || '').trim() || 'deepseek-v4-flash');
+        var body = { model: _mdlDs, messages: messages, temperature: opts.temperature || 0.3 };
         if (opts.maxTokens) body.max_tokens = Math.min(opts.maxTokens, 32768); // 8192 was the OLD deepseek-chat ceiling; v4 is a hybrid reasoner whose thinking eats the same budget — an 8192 cap burned 100% of it on reasoning and returned EMPTY content
         var r = await fetch('https://api.deepseek.com/chat/completions', {
           method: 'POST',
@@ -10070,6 +10082,7 @@ function printWritingAiModal() {
         if (!_GROQ_KEY) { try { _GROQ_KEY = await _fetchProviderKey('groq'); } catch(e){} }
         if (!_GROQ_KEY) throw new Error('No Groq API key available');
         var _mdlGroqLocal = (opts._forceModel && opts._forceProvider === 'groq') ? opts._forceModel : ((cp['scoring_model_groq'] || '').trim() || 'llama-3.3-70b-versatile');
+        if (_cmModel && !opts._forceModel) _mdlGroqLocal = _cmModel;
         var messages = [];
         if (systemText) messages.push({ role: 'system', content: systemText });
         var uMsg = userPrompt;
