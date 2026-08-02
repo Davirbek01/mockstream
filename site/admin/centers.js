@@ -97,6 +97,9 @@
         // straight to the primary in the same scoring call.
         visionFactCheck: false,
         visionFactCheckProvider: 'gemini',
+        // Report depth: 'default' inherits scoring_prompt_tier from System
+        // Prompts. Only affects how much the model writes, never the scores.
+        promptTier: 'default',
         // Full Mock AI sub-controls
         fullMockAi: {
           cefr_speaking: 'premium', cefr_writing: 'premium',
@@ -278,6 +281,7 @@
         { val: 'qwen/qwen3.6-27b',        label: 'Qwen 3.6 27B — 🖼️ vision, ~21s, fastest' },
         { val: 'llama-3.3-70b-versatile', label: 'Llama 3.3 70B — text only' },
         { val: 'openai/gpt-oss-120b',     label: 'GPT-OSS 120B — text only' },
+        { val: 'openai/gpt-oss-20b',      label: 'GPT-OSS 20B — text only, cheapest ⚠ unproven' },
         { val: 'llama-3.1-8b-instant',    label: 'Llama 8B Instant — text only ⚠ weak' }
       ]
     };
@@ -390,6 +394,7 @@
       h += row('groq', 'qwen/qwen3.6-27b',        'Qwen 3.6 27B',      [1,0], 'tr',   '21s', 'FASTEST');
       h += row('groq', 'llama-3.3-70b-versatile', 'Llama 3.3 70B',     [0,0], 'both', '');
       h += row('groq', 'openai/gpt-oss-120b',     'GPT-OSS 120B',      [0,0], 'both', '');
+      h += row('groq', 'openai/gpt-oss-20b',      'GPT-OSS 20B',       [0,0], 'both', '', 'CHEAPEST');
       h += row('groq', 'llama-3.1-8b-instant',    'Llama 8B Instant',  [0,0], 'both', '');
       h += '</tbody></table></div>';
       return h;
@@ -781,6 +786,19 @@
               '<span style="font-size:11.5px;font-weight:700;color:#15803d;">🔒 Zero fallback</span>' +
               '<span style="font-size:10.5px;color:var(--muted,#64748b);">A failed check retries on the SAME AI and then errors — it never switches provider, so cost stays attributable.</span>' +
             '</div>';
+
+            // ── Report depth (2026-08-02) ────────────────────────────────
+            // Scores are IDENTICAL either way — the marking criteria never
+            // change, so results stay comparable across centres. This only
+            // changes how much the model has to WRITE, which is ~90% of the
+            // spend: Standard returns error deltas instead of echoing the
+            // whole answer back, and skips AI-written samples (the mock's own
+            // authored samples still show under "See Samples").
+            h += _cmSelectInput(cid, 'promptTier', '📄 Report depth', cfg.promptTier || 'default', [
+              { val: 'default',  label: 'Default (system prompts)' },
+              { val: 'premium',  label: 'Premium — inline corrections + AI model answers' },
+              { val: 'standard', label: 'Standard — corrections only, no AI samples (budget)' }
+            ]);
 
             // ── Gemini billing-slot picker (shown only when Gemini is the per-center pick)
             if (cfg.aiProvider === 'gemini') {

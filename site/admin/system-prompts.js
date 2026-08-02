@@ -472,7 +472,11 @@
       { id: 'spProviderGroqLlama70B',  name: 'Llama 3.3 70B',     call: "_spSetGroqVariant('llama-3.3-70b-versatile','spProviderGroqLlama70B')",
         cap: [1,0,0], need: 'both', sec: '', rel: '', note: 'Text only — needs both helpers.' },
       { id: 'spProviderGroqOss',       name: 'GPT-OSS 120B',      call: "_spSetGroqVariant('openai/gpt-oss-120b','spProviderGroqOss')",
-        cap: [1,0,0], need: 'both', sec: '', rel: '', note: 'Largest open-weight on Groq. Text only.' },
+        cap: [1,0,0], need: 'both', sec: '', rel: '',
+        note: 'Largest open-weight on Groq. Text only. Supports prompt caching (input halves to $0.075/1M on a cache hit); output $0.60/1M — 5x cheaper than Qwen.' },
+      { id: 'spProviderGroqOss20',     name: 'GPT-OSS 20B',       call: "_spSetGroqVariant('openai/gpt-oss-20b','spProviderGroqOss20')",
+        cap: [1,0,0], need: 'both', sec: '', rel: '', tag: 'CHEAPEST',
+        note: 'Cheapest on Groq: $0.075 in / $0.30 out per 1M — output 10x cheaper than Qwen, and 1000 TPS (2x faster). Supports prompt caching (input halves to $0.0375 on a hit). Text only. UNPROVEN for scoring — A/B against Qwen before trusting it on live mocks.' },
       { id: 'spProviderGroqLlama8B',   name: 'Llama 8B Instant',  call: "_spSetGroqVariant('llama-3.1-8b-instant','spProviderGroqLlama8B')",
         cap: [1,0,0], need: 'both', sec: '', rel: '', tagWarn: 'WEAK', note: 'Cheapest/fastest, but benchmarked poorly for scoring (hallucinated + arithmetic errors).' },
     ]},
@@ -639,12 +643,19 @@
               <input type="text" id="sp_scoring_model_deepseek" placeholder="deepseek-v4-flash · deepseek-v4-pro" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
             </div>
             <div class="sysprompt-field" style="margin:0;grid-column:1 / -1">
+              <label>📄 Global report depth — how much the AI writes back. Same scores either way; centres can override.</label>
+              <select id="sp_scoring_prompt_tier" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+                <option value="premium">Premium — inline corrections + AI-written model answers (current)</option>
+                <option value="standard">Standard — error corrections only, no AI samples (budget)</option>
+              </select>
+            </div>
+            <div class="sysprompt-field" style="margin:0;grid-column:1 / -1">
               <label>🖼️ Global vision helper — used by every image-incapable scorer unless a centre overrides it</label>
               <input type="text" id="sp_scoring_vision_provider" placeholder="grok · groq · gemini · openai · claude" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
             </div>
             <div class="sysprompt-field" style="margin:0;grid-column:1 / -1">
               <label>Groq model (clicking a Groq provider button above prefills this)</label>
-              <input type="text" id="sp_scoring_model_groq" placeholder="llama-3.1-8b-instant · llama-3.3-70b-versatile · qwen/qwen3.6-27b · openai/gpt-oss-120b" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+              <input type="text" id="sp_scoring_model_groq" placeholder="llama-3.1-8b-instant · llama-3.3-70b-versatile · qwen/qwen3.6-27b · openai/gpt-oss-120b · openai/gpt-oss-20b" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
             </div>
             <div class="sysprompt-field" style="margin:0;grid-column:1 / -1">
               <label>Llama 4 Scout model (Groq · vision)</label>
@@ -742,7 +753,10 @@
       'scoring_model_llama_scout',
       // Global helper defaults. scoring_vision_provider is the universal
       // vision AI for image-incapable scorers; centres can still override.
-      'scoring_transcription_provider','scoring_vision_provider'
+      'scoring_transcription_provider','scoring_vision_provider',
+      // Global report depth. Centres set to "Default" inherit this. Affects
+      // only how much the model writes — never the marking criteria.
+      'scoring_prompt_tier'
     ];
 
     var _spCurrentProvider = 'gemini';
