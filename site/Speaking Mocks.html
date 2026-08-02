@@ -5806,10 +5806,12 @@
        One phase on screen at a time: the ACTIVE dial (amber prep → green
        speak) with its label restyled as a chip ABOVE it; the inactive dial
        is hidden; prep shows a "then 🎙 Speak · M:SS" hint; speak shows the
-       full-width live wave row. Mobile stacks vertically; ≥720px goes
-       horizontal (dial left · wave/hint right). Overrides the base dial
+       full-width live wave row. Dial left · wave/hint right on EVERY width
+       (2026-08-02: mobile used to stack these vertically, which pushed the
+       wave below the fold on phones — it now matches the pc layout, with the
+       action button wrapping to its own line). Overrides the base dial
        styles by specificity — no timer JS changes beyond data-phase. */
-    .dialrow { flex-direction: column; align-items: center; gap: 12px; width: 100%; /* .q-head is align-items:flex-start — span it */ }
+    .dialrow { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; width: 100%; /* .q-head is align-items:flex-start — span it */ }
     .dial-container.inactive { display: none; }
     .dial-container { gap: 12px; }
     .dial-label { order: -1; border-radius: 999px; letter-spacing: .6px; }
@@ -5854,6 +5856,53 @@
     .dialrow[data-armed="1"] .phase-skip { display: block; }
     .dialrow[data-phase="prep"] .ps-speak { display: none; }
     .dialrow[data-phase="speak"] .ps-prep { display: none; }
+    /* ── Phone: dial + wave share one row (pc parity). The dial gives up a
+       little size so the wave keeps a usable width; the action button is
+       forced onto its own line. Below ~320px the wave wraps under the dial
+       on its own rather than being crushed. ── */
+    @media (max-width: 719.98px) {
+      /* Question text: bigger + centred on phones. Scoped to the live exam
+         (aside.sidebar) so the completed-answers clones in #completedList
+         keep their compact review styling.
+           Q1–Q6 → .prompt (Q7/Q8 hide theirs inline, so they're untouched here)
+           Q8    → the centred title div the loader fills via
+                   promptEl.nextElementSibling; !important is required because
+                   that div carries an inline font-size.
+         Q7 is deliberately left alone — its bullet box + context image
+         already fill the width and would overflow if scaled up. */
+      aside.sidebar .q-head .prompt {
+        font-size: clamp(21px, 5.6vw, 27px);
+        text-align: center;
+        align-self: stretch;
+        max-width: none;
+      }
+      aside.sidebar details[data-q="8"] .q-head .prompt + div {
+        font-size: clamp(19px, 5vw, 24px) !important;
+      }
+      .dialrow { gap: 10px; }
+      .dialrow .dial {
+        width: clamp(100px, 27vw, 128px) !important;
+        height: clamp(100px, 27vw, 128px) !important;
+      }
+      .dialrow .dial .time { font-size: clamp(18px, 4.6vw, 24px); }
+      .dial-container { flex: 0 0 auto; gap: 8px; }
+      .rec { flex: 1 1 165px; width: auto; max-width: none; padding: 10px 12px; gap: 10px; }
+      .rec .bars { height: 36px; gap: 3px; }
+      .next-hint { flex: 1 1 165px; }
+      /* Slimmer action button on phones — the desktop 13px/15px block reads
+         far too thick at this width. */
+      .phase-skip { flex: 1 0 100%; max-width: none; padding: 9px 14px; font-size: 14px; border-radius: 10px; }
+    }
+    /* Small phones (≤360px): the phase chip above the dial is what makes the
+       left column wide, so trim the chip and the wave's basis — otherwise the
+       wave wraps under the dial. Still wraps gracefully below ~300px. */
+    @media (max-width: 360px) {
+      .dialrow { gap: 8px; }
+      .dial-label { padding: 5px 10px; font-size: 12px; }
+      .rec { flex: 1 1 132px; padding: 8px 10px; gap: 8px; }
+      .rec .rec-tag { font-size: 12px; }
+      .rec .bars { height: 32px; }
+    }
     @media (min-width: 720px) {
       .dialrow { flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: center; gap: 26px; }
       .dial-container { flex: 0 0 auto; }
@@ -7895,6 +7944,35 @@
       if (exclude) url += '&exclude=' + encodeURIComponent(exclude);
       var r = await fetch(url, { method: 'GET', headers: { 'Content-Type': 'application/json' } });
       if (!r.ok) throw new Error('Failed to fetch ' + m + ' key'); var d = await r.json(); return d.key;
+    }
+
+    // Pull the first balanced { ... } out of an AI reply: strips ```json
+    // fences, ignores braces inside string literals, and stops at the first
+    // complete object so trailing thinking-text (Qwen's <think>, a second
+    // JSON blob) can't break the parse. Kept in sync with the copy in
+    // Writing Mocks.html / full-mock.html.
+    function _extractJsonObject(rawText) {
+      var text = String(rawText || '').trim();
+      // Qwen 3.6 (and other reasoners) can prepend a <think>...</think> block.
+      // Drop it first: a brace anywhere in that prose would otherwise be read
+      // as the start of the JSON object and blow up the parse.
+      text = text.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+      var fenceMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/i);
+      if (fenceMatch) text = fenceMatch[1].trim();
+      var start = text.indexOf('{');
+      if (start === -1) throw new Error('No JSON object in AI response');
+      var depth = 0, inString = false, escape = false, end = -1;
+      for (var i = start; i < text.length; i++) {
+        var ch = text.charAt(i);
+        if (escape)         { escape = false; continue; }
+        if (ch === '\\')    { escape = true;  continue; }
+        if (ch === '"')     { inString = !inString; continue; }
+        if (inString) continue;
+        if (ch === '{')     depth++;
+        else if (ch === '}'){ depth--; if (depth === 0) { end = i; break; } }
+      }
+      if (end === -1) throw new Error('Unbalanced JSON in AI response');
+      return JSON.parse(text.slice(start, end + 1));
     }
 
     async function _callScoringAI(systemText, userPrompt, opts) {

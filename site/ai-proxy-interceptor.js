@@ -147,6 +147,35 @@
       }
     }
 
+    // ── "Which AI actually ran" badge ─────────────────────────────────
+    // Scoring pages render #_aiProviderBadge with the PROVIDER only (e.g.
+    // "GROQ"). Hosts like Groq serve many different models, so the provider
+    // alone never says whether Qwen or Llama did the scoring. Every provider
+    // request funnels through this wrapper, so take the provider from the
+    // rewritten URL and the model from the outgoing body and show
+    // "GROQ · qwen3.6-27b". Doing it here means it works on every page and
+    // stays correct for models added later — no per-page edits.
+    // Cosmetic only, fully guarded: it must never affect the request.
+    try {
+      var _bodyStr = (typeof nextInit.body === 'string') ? nextInit.body : '';
+      if (_bodyStr && _bodyStr.charAt(0) === '{') {
+        var _mm = /"model"\s*:\s*"([^"]+)"/.exec(_bodyStr);
+        var _pm = /\/ai-proxy\/([a-z0-9_-]+)\//i.exec(newUrl);
+        // Skip the transcriber — it's a separate model from the scorer and
+        // would otherwise overwrite the label mid-run.
+        if (_mm && _pm && !/whisper/i.test(_mm[1])) {
+          var _short = String(_mm[1])
+            .replace(/^[^/]+\//, '')                              // drop org prefix: qwen/… meta-llama/…
+            .replace(/-(versatile|instruct|latest|preview)$/i, ''); // drop marketing suffixes
+          var _label = _pm[1].toUpperCase() + ' · ' + _short;
+          var _badge = document.getElementById('_aiProviderBadge');
+          // Text only — leave the page's own show/fade timing alone.
+          if (_badge) _badge.textContent = '\u{1F916} AI: ' + _label;
+          console.log('%c[AI] ' + _label, 'color:#fff;background:#0f766e;padding:2px 8px;border-radius:4px;font-weight:bold');
+        }
+      }
+    } catch (_e) {}
+
     return origFetch(newUrl, nextInit);
   };
 })();

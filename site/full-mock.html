@@ -8952,6 +8952,11 @@
 
                 function _extractJsonObject(rawText) {
                     var text = String(rawText || '').trim();
+                    // Qwen 3.6 (and other reasoners) can prepend a
+                    // <think>...</think> block. Drop it first: a brace anywhere
+                    // in that prose would otherwise be read as the start of the
+                    // JSON object.
+                    text = text.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
                     var fenceMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/i);
                     if (fenceMatch) text = fenceMatch[1].trim();
                     // Brace-balanced first-object extractor. Same fix as
