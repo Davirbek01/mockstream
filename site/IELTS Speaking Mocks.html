@@ -6785,7 +6785,33 @@
     }
 
     // Transcribe a single audio blob using the admin-selected AI provider
-    async function _transcribeAudioBlob(blob) {
+
+    // ── Transcription retry (2026-08-02) ─────────────────────────────────
+    // This used to be a SINGLE attempt: any transient failure (provider 400,
+    // rate limit, timeout) replaced the answer with '[Error]', and the scorer
+    // then correctly scored that part 0. A student lost the whole of Part 2
+    // that way on 2026-08-02 despite 1:59 of perfectly good audio.
+    // Three attempts with growing backoff; '[Error]' only after all fail.
+    async function _transcribeWithRetry(blob, cp, qNum) {
+      var ATTEMPTS = 3, lastErr = null;
+      for (var a = 1; a <= ATTEMPTS; a++) {
+        try {
+          var t = await _transcribeAudioBlob(blob, cp);
+          if (a > 1) console.log('%c[Transcribe] Q' + qNum + ' recovered on attempt ' + a,
+            'color:#fff;background:#15803d;padding:2px 8px;border-radius:4px');
+          return t;
+        } catch (e) {
+          lastErr = e;
+          console.warn('[Transcribe] Q' + qNum + ' attempt ' + a + '/' + ATTEMPTS +
+                       ' failed: ' + ((e && e.message) || e));
+          if (a < ATTEMPTS) await new Promise(function (r) { setTimeout(r, a * 2500); });
+        }
+      }
+      console.error('[Transcribe] Q' + qNum + ' FAILED after ' + ATTEMPTS + ' attempts');
+      throw lastErr || new Error('transcription failed');
+    }
+
+        async function _transcribeAudioBlob(blob) {
       var cp = await _loadScoringPrompts();
       var provider = (cp['scoring_ai_provider'] || 'gemini').toString().trim().toLowerCase();
       var centerProvider = await _getCenterAiProviderOverride();
@@ -10725,7 +10751,7 @@
 
             try {
               if (i > 0) await delay(1500);
-              const text = await _transcribeAudioBlob(blob);
+              const text = await _transcribeWithRetry(blob, undefined, qNum);
               transcriptions.push({ questionNum: qNum, text });
               console.log(`✅ Q${qNum} transcribed`);
             } catch (err) {
@@ -12730,7 +12756,7 @@ ${questionsContent}
 
             try {
               if (i > 0) await new Promise(r => setTimeout(r, 1500));
-              const transcribedText = await _transcribeAudioBlob(blob);
+              const transcribedText = await _transcribeWithRetry(blob, undefined, actualQuestionNum);
               transcriptions.push({ questionNum: actualQuestionNum, text: transcribedText });
             } catch (err) {
               transcriptions.push({ questionNum: actualQuestionNum, text: '[Transcription error]' });
@@ -13437,7 +13463,7 @@ Do NOT artificially limit scores. Award the level the candidate truly deserves b
                 </div>
               `;
               if (i > 0) await new Promise(r => setTimeout(r, 1500));
-              const transcribedText = await _transcribeAudioBlob(blob);
+              const transcribedText = await _transcribeWithRetry(blob, undefined, actualQuestionNum);
               transcriptions.push({ questionNum: actualQuestionNum, text: transcribedText });
               console.log(`Q${actualQuestionNum} transcribed successfully`);
             } catch (err) {
