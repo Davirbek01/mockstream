@@ -642,12 +642,16 @@
               <label>DeepSeek model</label>
               <input type="text" id="sp_scoring_model_deepseek" placeholder="deepseek-v4-flash · deepseek-v4-pro" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
             </div>
+            <div class="sysprompt-field" style="margin:0">
+              <label>📄 Report depth · SPEAKING (CEFR)</label>
+              <select id="sp_scoring_prompt_tier_speaking" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)"><option value="premium">Premium — inline corrections + AI-written model answers</option><option value="standard">Standard — error corrections only, no AI samples (budget)</option></select>
+            </div>
+            <div class="sysprompt-field" style="margin:0">
+              <label>📄 Report depth · WRITING (CEFR)</label>
+              <select id="sp_scoring_prompt_tier_writing" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)"><option value="premium">Premium — inline corrections + AI-written model answers</option><option value="standard">Standard — error corrections only, no AI samples (budget)</option></select>
+            </div>
             <div class="sysprompt-field" style="margin:0;grid-column:1 / -1">
-              <label>📄 Global report depth — how much the AI writes back. Same scores either way; centres can override.</label>
-              <select id="sp_scoring_prompt_tier" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
-                <option value="premium">Premium — inline corrections + AI-written model answers (current)</option>
-                <option value="standard">Standard — error corrections only, no AI samples (budget)</option>
-              </select>
+              <div style="font-size:10.5px;color:var(--muted);margin:-4px 0 6px;">📄 Report depth changes how much the AI <b>writes back</b> — never the marking criteria, so scores stay comparable. IELTS and full mocks always use Premium.</div>
             </div>
             <div class="sysprompt-field" style="margin:0;grid-column:1 / -1">
               <label>🖼️ Global vision helper — used by every image-incapable scorer unless a centre overrides it</label>
@@ -754,9 +758,11 @@
       // Global helper defaults. scoring_vision_provider is the universal
       // vision AI for image-incapable scorers; centres can still override.
       'scoring_transcription_provider','scoring_vision_provider',
-      // Global report depth. Centres set to "Default" inherit this. Affects
-      // only how much the model writes — never the marking criteria.
-      'scoring_prompt_tier'
+      // Global report depth, PER SKILL. Centres set to "Default" inherit these.
+      // Affects only how much the model writes — never the marking criteria.
+      // 'scoring_prompt_tier' (no suffix) stays a legacy fallback: the pages
+      // still honour it when no per-skill value is set.
+      'scoring_prompt_tier_speaking', 'scoring_prompt_tier_writing'
     ];
 
     var _spCurrentProvider = 'gemini';
