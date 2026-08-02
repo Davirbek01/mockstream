@@ -7986,19 +7986,34 @@
     //              same annotated answer either way.
     // Per-centre setting wins; else the global default; else premium, so
     // nothing changes for anyone until a centre is switched over.
+    // Resolved PER SKILL so speaking and writing can run different depths.
+    // Cascade, first hit wins:
+    //   1. centre, this skill   (promptTierSpeaking)
+    //   2. centre, both skills  (promptTier)            - legacy
+    //   3. global, this skill   (scoring_prompt_tier_speaking)
+    //   4. global, both skills  (scoring_prompt_tier)   - legacy
+    //   5. premium
+    // The legacy levels mean an existing global setting keeps applying until a
+    // per-skill value is chosen, so nothing flips unexpectedly on deploy.
+    var _TIER_SKILL = 'speaking';
     async function _getPromptTier() {
-      try { await _getCenterAiProviderOverride(); } catch (e) {}   // ensures _centerConfig is loaded
+      try { await _getCenterAiProviderOverride(); } catch (e) {}
+      var pick = function (v) {
+        v = String(v || '').trim().toLowerCase();
+        return (v === 'standard' || v === 'premium') ? v : '';
+      };
       var tier = '';
       try {
-        tier = String((window._centerConfig && window._centerConfig.promptTier) || '').trim().toLowerCase();
+        var cc = window._centerConfig || {};
+        tier = pick(cc['promptTierSpeaking']) || pick(cc.promptTier);
       } catch (e) {}
-      if (!tier || tier === 'default') {
+      if (!tier) {
         try {
           var cp = await _loadScoringPrompts();
-          tier = String(cp['scoring_prompt_tier'] || '').trim().toLowerCase();
+          tier = pick(cp['scoring_prompt_tier_' + _TIER_SKILL]) || pick(cp['scoring_prompt_tier']);
         } catch (e) {}
       }
-      return tier === 'standard' ? 'standard' : 'premium';
+      return tier || 'premium';
     }
 
     // Rebuild the premium-format annotated string from the transcript we

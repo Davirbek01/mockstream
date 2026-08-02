@@ -97,9 +97,10 @@
         // straight to the primary in the same scoring call.
         visionFactCheck: false,
         visionFactCheckProvider: 'gemini',
-        // Report depth: 'default' inherits scoring_prompt_tier from System
+        // Report depth, per skill: 'default' inherits the global from System
         // Prompts. Only affects how much the model writes, never the scores.
-        promptTier: 'default',
+        promptTierSpeaking: 'default',
+        promptTierWriting: 'default',
         // Full Mock AI sub-controls
         fullMockAi: {
           cefr_speaking: 'premium', cefr_writing: 'premium',
@@ -794,11 +795,17 @@
             // spend: Standard returns error deltas instead of echoing the
             // whole answer back, and skips AI-written samples (the mock's own
             // authored samples still show under "See Samples").
-            h += _cmSelectInput(cid, 'promptTier', '📄 Report depth', cfg.promptTier || 'default', [
+            var _tierOpts = [
               { val: 'default',  label: 'Default (system prompts)' },
               { val: 'premium',  label: 'Premium — inline corrections + AI model answers' },
               { val: 'standard', label: 'Standard — corrections only, no AI samples (budget)' }
-            ]);
+            ];
+            h += _cmSelectInput(cid, 'promptTierSpeaking', '📄 Report depth · Speaking (CEFR)',
+                                cfg.promptTierSpeaking || 'default', _tierOpts);
+            h += _cmSelectInput(cid, 'promptTierWriting',  '📄 Report depth · Writing (CEFR)',
+                                cfg.promptTierWriting || 'default', _tierOpts);
+            h += '<div style="font-size:10px;color:var(--muted,#64748b);padding:0 0 6px 148px;">' +
+                 'IELTS and full mocks always use Premium — the tier only applies to CEFR speaking &amp; writing.</div>';
 
             // ── Gemini billing-slot picker (shown only when Gemini is the per-center pick)
             if (cfg.aiProvider === 'gemini') {
