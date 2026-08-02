@@ -142,7 +142,21 @@
             reader.readAsDataURL(blob);
           });
         }
-        if (typeof createImageBitmap !== 'function' || typeof document === 'undefined') return rawBytes();
+        // Raw fallback is only safe for small originals. Base64 inflates by
+        // ~33%, and providers reject oversized bodies outright — mock 5 (8.8MB)
+        // and mock 11 (11.0MB) become 11.7MB / 14.7MB and return
+        // 400 "Request Entity Too Large". Verified 2026-08-02.
+        var RAW_FALLBACK_LIMIT = 2 * 1024 * 1024;   // 2MB raw ≈ 2.7MB base64
+        function rawBytesIfSmall(why) {
+          if (blob.size > RAW_FALLBACK_LIMIT) {
+            console.warn('[Vision] skipping image: downscale unavailable (' + why +
+                         ') and original is ' + Math.round(blob.size / 1024) +
+                         'KB — sending it raw would be rejected by the provider.');
+            return null;
+          }
+          return rawBytes();
+        }
+        if (typeof createImageBitmap !== 'function' || typeof document === 'undefined') return rawBytesIfSmall('no canvas');
         return createImageBitmap(blob).then(function (bmp) {
           var maxDim = 1024, w = bmp.width, h = bmp.height;
           var scale = Math.min(1, maxDim / Math.max(w, h));
@@ -152,7 +166,7 @@
           try { bmp.close(); } catch (e) {}
           var dataUrl = c.toDataURL('image/jpeg', 0.72);
           return { mime: 'image/jpeg', b64: dataUrl.split(',')[1] };
-        }).catch(function () { return rawBytes(); });
+        }).catch(function (e) { return rawBytesIfSmall((e && e.message) || 'decode failed'); });
       })
       .catch(function (e) {
         console.warn('[Vision] image fetch failed:', url, e.message || e);
@@ -204,7 +218,14 @@
       ],
       response_format: { type: 'json_object' },
       temperature: 0.2,
-      max_tokens: 1200
+      // 1200 starved Qwen 3.6 (a REASONER): on a complex image it spends
+      // ~3,300 tokens thinking before emitting any JSON, so the cap truncated
+      // it to an empty completion and Groq returned
+      // 400 json_validate_failed with failed_generation:"".
+      // Measured 2026-08-02: the same 162KB image fails at 1200 and succeeds
+      // at 4000 using 3,267 output tokens. 8000 leaves headroom for harder
+      // images; unused tokens are never billed, so the ceiling is free.
+      max_tokens: 8000
     };
     var res = await fetch(endpoint, {
       method: 'POST',

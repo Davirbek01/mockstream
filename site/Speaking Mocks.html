@@ -8556,7 +8556,33 @@
       return ((j.text || '').trim()) || '[No speech detected]';
     }
 
-    async function _transcribeAudioBlob(blob, cpOverride) {
+
+    // ── Transcription retry (2026-08-02) ─────────────────────────────────
+    // This used to be a SINGLE attempt: any transient failure (provider 400,
+    // rate limit, timeout) replaced the answer with '[Error]', and the scorer
+    // then correctly scored that part 0. A student lost the whole of Part 2
+    // that way on 2026-08-02 despite 1:59 of perfectly good audio.
+    // Three attempts with growing backoff; '[Error]' only after all fail.
+    async function _transcribeWithRetry(blob, cp, qNum) {
+      var ATTEMPTS = 3, lastErr = null;
+      for (var a = 1; a <= ATTEMPTS; a++) {
+        try {
+          var t = await _transcribeAudioBlob(blob, cp);
+          if (a > 1) console.log('%c[Transcribe] Q' + qNum + ' recovered on attempt ' + a,
+            'color:#fff;background:#15803d;padding:2px 8px;border-radius:4px');
+          return t;
+        } catch (e) {
+          lastErr = e;
+          console.warn('[Transcribe] Q' + qNum + ' attempt ' + a + '/' + ATTEMPTS +
+                       ' failed: ' + ((e && e.message) || e));
+          if (a < ATTEMPTS) await new Promise(function (r) { setTimeout(r, a * 2500); });
+        }
+      }
+      console.error('[Transcribe] Q' + qNum + ' FAILED after ' + ATTEMPTS + ' attempts');
+      throw lastErr || new Error('transcription failed');
+    }
+
+        async function _transcribeAudioBlob(blob, cpOverride) {
       var cp = cpOverride || await _loadScoringPrompts();
       var centerProvider = await _getCenterAiProviderOverride();
       var provider = _resolveSpeakingTranscriptionProvider(cp, centerProvider);
@@ -16463,7 +16489,7 @@ Do NOT artificially limit scores. Award the level the candidate truly deserves b
               // Add delay between requests to avoid rate limiting
               if (i > 0) await new Promise(r => setTimeout(r, 2000));
 
-              const transcribedText = await _transcribeAudioBlob(blob, _cpTranscribe);
+              const transcribedText = await _transcribeWithRetry(blob, _cpTranscribe, qNum);
               transcriptions.push({ questionNum: qNum, text: transcribedText });
               console.log(`✅ Q${qNum} transcribed`);
             } catch (err) {
