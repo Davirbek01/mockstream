@@ -5744,6 +5744,75 @@
       throw lastErr;
     }
 
+    // ── Report tier (2026-08-02) — kept in sync with Speaking Mocks.html ──
+    // 'premium'  = the model echoes each task back with inline markers and
+    //              writes a fresh C1 sample per task.
+    // 'standard' = it returns only the error DELTAS and no samples. Output is
+    //              where the spend is, and every mock already ships authored
+    //              samples (t11/t12/t2 + A1..B2), so nothing is lost.
+    // Per-centre wins, then the global default, then premium — so nothing
+    // changes for anyone until a centre is switched over.
+    async function _getPromptTier() {
+      try { await _getCenterAiProviderOverride(); } catch (e) {}
+      var tier = '';
+      try {
+        tier = String((window._centerConfig && window._centerConfig.promptTier) || '').trim().toLowerCase();
+      } catch (e) {}
+      if (!tier || tier === 'default') {
+        try {
+          var cp = await _loadScoringPrompts();
+          tier = String(cp['scoring_prompt_tier'] || '').trim().toLowerCase();
+        } catch (e) {}
+      }
+      return tier === 'standard' ? 'standard' : 'premium';
+    }
+
+    // Rebuild the premium-format annotated string from the text we already
+    // hold plus the model's deltas, so highlightCorr() and every other
+    // consumer keep working unchanged. One forward cursor means an inserted
+    // marker can never be re-matched; anything unlocatable is appended rather
+    // than silently dropped.
+    function _correctedFromDeltas(text, errors) {
+      var src = String(text || '');
+      if (!src) return '';
+      if (!errors || !errors.length) return src;
+      // Word-boundary aware search. Without it a one-character delta such as
+      // {"from":"i","to":"I"} matches the "i" INSIDE "Hi" and mangles the word.
+      var _isWord = function (ch) { return !!ch && /[A-Za-z0-9_\u00C0-\u024F']/.test(ch); };
+      var _find = function (hay, needle, from_i) {
+        if (!needle) return -1;
+        var needStart = _isWord(needle.charAt(0));
+        var needEnd   = _isWord(needle.charAt(needle.length - 1));
+        var i = from_i;
+        while (i <= hay.length - needle.length) {
+          var idx = hay.indexOf(needle, i);
+          if (idx === -1) return -1;
+          var okS = !needStart || !_isWord(idx > 0 ? hay.charAt(idx - 1) : '');
+          var okE = !needEnd   || !_isWord(hay.charAt(idx + needle.length));
+          if (okS && okE) return idx;
+          i = idx + 1;
+        }
+        return -1;
+      };
+      var out = '', cursor = 0, unmatched = [];
+      errors.forEach(function (e) {
+        if (!e) return;
+        var type = String(e.t || e.type || 'GRAMMAR').toUpperCase();
+        var from = String(e.from || '').trim();
+        var to   = String(e.to || '').trim();
+        if (!from) return;
+        var marker = '[' + type + ': ' + from + ' -> ' + (to || '(omit)') + ']';
+        var idx = _find(src, from, cursor);
+        if (idx === -1) idx = _find(src.toLowerCase(), from.toLowerCase(), cursor);
+        if (idx === -1) { unmatched.push(marker); return; }
+        out += src.slice(cursor, idx) + marker;
+        cursor = idx + from.length;
+      });
+      out += src.slice(cursor);
+      if (unmatched.length) out += ' ' + unmatched.join(' ');
+      return out;
+    }
+
     async function _callScoringAI(systemText, userPrompt, opts) {
       opts = opts || {};
       // Single-entry guard: the first call recurses once with
@@ -13654,22 +13723,42 @@ This is a PRACTICE session. The student ONLY wrote ${practiceTaskNames[practiceT
 ` : '';
 
       // Comprehensive prompt matching manual AI Checker for consistent scores
-      const prompt = `${window.ScoringPrompts.requireCore('CEFR_WRITING_CORE')}
-${practiceNote}
-
-=== ORIGINAL TASK PROMPTS (CHECK FOR RELEVANCE) ===
-**TASK 1 CONTEXT (Incoming Letter/Email):** ${contextT1}
-**TASK 1 SCENARIO:** ${scenarioT1}
-**TASK 1.1 PROMPT (max 5, ~50-70 words):** ${promptT11}
-**TASK 1.2 PROMPT (max 5, ~120-150 words):** ${promptT12}
-**PART 2 PROMPT (max 6, ~180-200 words):** ${promptT2}
-
-=== STUDENT RESPONSES ===
-**TASK 1.1:** ${t11 || '[No response]'}
-**TASK 1.2:** ${t12 || '[No response]'}
-**PART 2:** ${t2 || '[No response]'}
-
-RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
+      // Report tier (2026-08-02). PREMIUM is the schema that has always
+      // shipped, lifted verbatim; STANDARD swaps the full-text echo for error
+      // deltas and drops generated samples (every mock already ships authored
+      // ones). Output is ~90% of the spend, so this is where the saving is.
+      const _wTier = await _getPromptTier();
+      console.log('%c[AI Scoring] Report tier: ' + _wTier.toUpperCase(),
+        'color:#fff;background:#0369a1;padding:2px 8px;border-radius:4px;font-weight:bold');
+      const _wReportSpec = _wTier === 'standard'
+        ? `RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
+⚠️ Do NOT copy the student's text back anywhere — we already have it. Report only the error DELTAS.
+⚠️ Do NOT write model/sample answers — they are supplied separately.
+Each error item: {"t":"GRAMMAR|SPELL|VOCAB|PUNCT|L1","from":"<exact text from the student>","to":"<replacement>"}
+• "from" MUST be copied EXACTLY as the student wrote it — same spelling, same case, same order — so it can be located. Do NOT paraphrase.
+• Keep "from" to the few words that are actually wrong, not the whole sentence.
+• Use "to":"(omit)" for text that should simply be deleted.
+• List errors in the order they appear in the text.
+• At most 5 per task, prioritising errors that impede meaning, then accuracy, then style.
+{
+  "t11_score": <0-5 INTEGER ONLY>,
+  "t11_relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC>",
+  "t11_feedback": "<MAX 3 bullet points. Each MUST quote the exact error and show the fix with →. Format: • 'wrong text' → 'correct text' (explanation). NEVER give vague advice.>",
+  "t11_errors": [{"t":"GRAMMAR","from":"","to":""}],
+  "t12_score": <0-5 INTEGER ONLY>,
+  "t12_relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC>",
+  "t12_feedback": "<MAX 3 bullet points, each quoting the exact error and showing the fix with →>",
+  "t12_errors": [],
+  "t2_score": <0-6 INTEGER ONLY>,
+  "t2_relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC>",
+  "t2_feedback": "<MAX 3 bullet points, each quoting the exact error and showing the fix with →>",
+  "t2_errors": [],
+  "raw_score": <sum of all task scores, INTEGER>,
+  "certificate_score": <from conversion table above>,
+  "cefr_level": "<Below B1/B1/B2/C1 based on certificate score>",
+  "overall_feedback": "<3-4 sentence overall assessment with specific strengths and key areas to improve>"
+}`
+        : `RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
 {
   "t11_score": <0-5 INTEGER ONLY>,
   "t11_relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC>",
@@ -13691,6 +13780,23 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
   "cefr_level": "<Below B1/B1/B2/C1 based on certificate score>",
   "overall_feedback": "<3-4 sentence overall assessment with specific strengths and key areas to improve>"
 }`;
+
+      const prompt = `${window.ScoringPrompts.requireCore('CEFR_WRITING_CORE')}
+${practiceNote}
+
+=== ORIGINAL TASK PROMPTS (CHECK FOR RELEVANCE) ===
+**TASK 1 CONTEXT (Incoming Letter/Email):** ${contextT1}
+**TASK 1 SCENARIO:** ${scenarioT1}
+**TASK 1.1 PROMPT (max 5, ~50-70 words):** ${promptT11}
+**TASK 1.2 PROMPT (max 5, ~120-150 words):** ${promptT12}
+**PART 2 PROMPT (max 6, ~180-200 words):** ${promptT2}
+
+=== STUDENT RESPONSES ===
+**TASK 1.1:** ${t11 || '[No response]'}
+**TASK 1.2:** ${t12 || '[No response]'}
+**PART 2:** ${t2 || '[No response]'}
+
+${_wReportSpec}`;
 
       // Animate progress bars during API call
       if (isPractice) {
@@ -13757,6 +13863,13 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
       if (result.t11_analysis && !result.t11_corrected) result.t11_corrected = result.t11_analysis.corrected_text || '';
       if (result.t12_analysis && !result.t12_corrected) result.t12_corrected = result.t12_analysis.corrected_text || '';
       if (result.t2_analysis && !result.t2_corrected) result.t2_corrected = result.t2_analysis.corrected_text || '';
+      // Standard tier returns t*_errors (deltas) instead of t*_corrected (a
+      // full echo). Rebuild the annotated text from the student's own writing
+      // so highlightCorr() and the rest of the report need no changes.
+      // Premium still sends the echo, so these are no-ops there.
+      if (!result.t11_corrected && result.t11_errors) result.t11_corrected = _correctedFromDeltas(t11, result.t11_errors);
+      if (!result.t12_corrected && result.t12_errors) result.t12_corrected = _correctedFromDeltas(t12, result.t12_errors);
+      if (!result.t2_corrected  && result.t2_errors)  result.t2_corrected  = _correctedFromDeltas(t2,  result.t2_errors);
       result.t11_score = Math.round(Number(result.t11_score || result.t1_score || 0));
       result.t12_score = Math.round(Number(result.t12_score || 0));
       result.t2_score = Math.round(Number(result.t2_score || 0));

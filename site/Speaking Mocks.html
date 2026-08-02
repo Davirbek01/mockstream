@@ -7975,6 +7975,80 @@
       return JSON.parse(text.slice(start, end + 1));
     }
 
+    // ── Report tier (2026-08-02) ──────────────────────────────────────────
+    // 'premium'  = the full report: the model echoes every answer back with
+    //              inline markers and writes a fresh C1 sample per question.
+    // 'standard' = budget report: the model returns only the error DELTAS and
+    //              no samples. Output is where the money goes (Qwen bills
+    //              output at 5x input), and echoing the candidate's own words
+    //              back is pure waste — we already hold the transcript. The
+    //              inline view is rebuilt client-side, so the student sees the
+    //              same annotated answer either way.
+    // Per-centre setting wins; else the global default; else premium, so
+    // nothing changes for anyone until a centre is switched over.
+    async function _getPromptTier() {
+      try { await _getCenterAiProviderOverride(); } catch (e) {}   // ensures _centerConfig is loaded
+      var tier = '';
+      try {
+        tier = String((window._centerConfig && window._centerConfig.promptTier) || '').trim().toLowerCase();
+      } catch (e) {}
+      if (!tier || tier === 'default') {
+        try {
+          var cp = await _loadScoringPrompts();
+          tier = String(cp['scoring_prompt_tier'] || '').trim().toLowerCase();
+        } catch (e) {}
+      }
+      return tier === 'standard' ? 'standard' : 'premium';
+    }
+
+    // Rebuild the premium-format annotated string from the transcript we
+    // already have plus the model's deltas, so every downstream consumer
+    // (_renderCorrected, the PDF, Telegram, the results page) keeps working
+    // untouched. A single forward cursor means an inserted marker can never
+    // be re-matched by a later error; anything that can't be located is
+    // appended rather than silently dropped.
+    function _correctedFromDeltas(text, errors) {
+      var src = String(text || '');
+      if (!src) return '';
+      if (!errors || !errors.length) return src;
+      // Word-boundary aware search. Without it a one-character delta such as
+      // {"from":"i","to":"I"} matches the "i" INSIDE "Hi" and mangles the word.
+      var _isWord = function (ch) { return !!ch && /[A-Za-z0-9_\u00C0-\u024F']/.test(ch); };
+      var _find = function (hay, needle, from_i) {
+        if (!needle) return -1;
+        var needStart = _isWord(needle.charAt(0));
+        var needEnd   = _isWord(needle.charAt(needle.length - 1));
+        var i = from_i;
+        while (i <= hay.length - needle.length) {
+          var idx = hay.indexOf(needle, i);
+          if (idx === -1) return -1;
+          var okS = !needStart || !_isWord(idx > 0 ? hay.charAt(idx - 1) : '');
+          var okE = !needEnd   || !_isWord(hay.charAt(idx + needle.length));
+          if (okS && okE) return idx;
+          i = idx + 1;
+        }
+        return -1;
+      };
+      var out = '', cursor = 0, unmatched = [];
+      errors.forEach(function (e) {
+        if (!e) return;
+        var type = String(e.t || e.type || 'GRAMMAR').toUpperCase();
+        var from = String(e.from || '').trim();
+        var to   = String(e.to || '').trim();
+        if (type === 'PRON') { unmatched.push('[PRON: ' + (to || from) + ']'); return; }
+        if (!from) return;
+        var marker = '[' + type + ': ' + from + ' -> ' + (to || '(omit)') + ']';
+        var idx = _find(src, from, cursor);
+        if (idx === -1) idx = _find(src.toLowerCase(), from.toLowerCase(), cursor);
+        if (idx === -1) { unmatched.push(marker); return; }
+        out += src.slice(cursor, idx) + marker;
+        cursor = idx + from.length;
+      });
+      out += src.slice(cursor);
+      if (unmatched.length) out += ' ' + unmatched.join(' ');
+      return out;
+    }
+
     async function _callScoringAI(systemText, userPrompt, opts) {
       opts = opts || {};
       // Cross-provider fallback wrapper — see comment in Writing Mocks.html for
@@ -16552,28 +16626,60 @@ This is a PRACTICE session. ONLY ${practicePartNames[practicePart]} (Q${practice
 ═══════════════════════════════════════════════════════════════════════════════
 ` : '';
 
-          // Send to Gemini for detailed scoring with full marking criteria (with retry)
-          const analysisResp = await attemptWithRetry(async () => {
-            // Build content parts - start with the prompt text
-            const contentParts = [{
-              text: `${window.ScoringPrompts.requireCore('CEFR_SPEAKING_CORE')}
-${practiceNote}
-${pictureContext}
+          // Report tier (2026-08-02). PREMIUM is the block that has always
+          // shipped, lifted verbatim; STANDARD asks for error deltas instead of a
+          // full echo of the answer and skips generated samples, because output is
+          // ~90% of the spend. Resolved once here, not inside the retry loop.
+          const _tier = await _getPromptTier();
+          console.log('%c[AI Scoring] Report tier: ' + _tier.toUpperCase(),
+            'color:#fff;background:#0369a1;padding:2px 8px;border-radius:4px;font-weight:bold');
+          const _reportSpec = _tier === 'standard'
+            ? `📝 ERROR REPORTING — DELTAS ONLY (do NOT echo the answer back):
+For each question return a q*_errors ARRAY containing AT MOST 3 of the most useful corrections.
+Do NOT copy the candidate's response anywhere — we already have the transcript. Return only the fragment to fix and its replacement.
+Each item: {"t":"GRAMMAR|VOCAB|FLUENCY|PRON","from":"<exact text as spoken>","to":"<replacement>"}
+• "from" MUST be copied EXACTLY as it appears in the response above — same words, same order, same spelling — so it can be located in the transcript. Do NOT paraphrase, re-punctuate or re-case it.
+• Keep "from" short: the few words that are actually wrong, not the whole sentence.
+• For words that should simply be deleted, use "to":"(omit)".
+• For PRON, name the mispronounced word in "from" and put the hint in "to".
+• Prioritise in this order: errors that impede understanding, then weak/imprecise vocabulary, then fillers and repetition.
+• If an answer is genuinely flawless, return an empty array [].
 
-═══════════════════════════════════════════════════════════════════════════════
-                         CANDIDATE'S RESPONSES
-═══════════════════════════════════════════════════════════════════════════════
+⚠️ Do NOT write model/sample answers — they are supplied separately. Return no sample text.
 
-${responsesText}
-
-═══════════════════════════════════════════════════════════════════════════════
-
-⚠️ OFF-TOPIC DETECTION (CRITICAL FOR Q4-Q6):
-${(img1Base64 || img2Base64) ? `IMPORTANT: Two images are attached as inline_data in this request - LOOK at them directly to judge relevance and generate accurate sample answers.` : `(Note: No images were provided, use the text prompt for relevance checking).`}
-For Q4 (picture description): If candidate describes something completely unrelated to the ATTACHED pictures OR the text prompt, mark as OFF-TOPIC.
-For Q5-Q6: If answer doesn't relate to the pictures, the prompt or the follow-up topic, mark as OFF-TOPIC/PARTIALLY OFF-TOPIC.
-
-📝 INLINE CORRECTION FORMAT - MUST USE FOR EVERY ANSWER:
+RETURN ONLY THIS JSON FORMAT (no other text):
+{
+  "p11": <0-5 INTEGER>,
+  "p12": <0-5 INTEGER>,
+  "p2": <0-5 INTEGER>,
+  "p3": <0-6 INTEGER>,
+  "feedback": "<2-3 sentence overall assessment>",
+  "q1_relevance": "<ON-TOPIC/OFF-TOPIC>",
+  "q1_feedback": "<MAX 2 short bullets: • Point 1 • Point 2>",
+  "q1_errors": [{"t":"GRAMMAR","from":"","to":""}],
+  "q2_relevance": "<ON-TOPIC/OFF-TOPIC>",
+  "q2_feedback": "<MAX 2 short bullets>",
+  "q2_errors": [],
+  "q3_relevance": "<ON-TOPIC/OFF-TOPIC>",
+  "q3_feedback": "<MAX 2 short bullets>",
+  "q3_errors": [],
+  "q4_relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC - CHECK AGAINST THE PICTURES>",
+  "q4_feedback": "<MAX 2 short bullets - include a note if off-topic from the pictures>",
+  "q4_errors": [],
+  "q5_relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC>",
+  "q5_feedback": "<MAX 2 short bullets>",
+  "q5_errors": [],
+  "q6_relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC>",
+  "q6_feedback": "<MAX 2 short bullets>",
+  "q6_errors": [],
+  "q7_relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC>",
+  "q7_feedback": "<MAX 2 short bullets>",
+  "q7_errors": [],
+  "q8_relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC>",
+  "q8_feedback": "<MAX 2 short bullets>",
+  "q8_errors": []
+}`
+            : `📝 INLINE CORRECTION FORMAT - MUST USE FOR EVERY ANSWER:
 Copy the ENTIRE response into q*_corrected and mark issues inline using these EXACT formats:
 - [GRAMMAR: wrong text -> correct text] - grammar errors
 - [VOCAB: basic/weak word -> better word] - weak, imprecise or repetitive word choices
@@ -16636,7 +16742,30 @@ RETURN ONLY THIS JSON FORMAT (no other text):
   "q8_corrected": "<Copy ENTIRE response with inline annotations>",
   "q8_feedback": "<MAX 3 bullet points of specific improvement areas>",
   "q8_sample": "<Independent C1-level model answer discussing both sides with opinion, ~180-250 words>"
-}` }];
+}`;
+
+          // Send to Gemini for detailed scoring with full marking criteria (with retry)
+          const analysisResp = await attemptWithRetry(async () => {
+            // Build content parts - start with the prompt text
+            const contentParts = [{
+              text: `${window.ScoringPrompts.requireCore('CEFR_SPEAKING_CORE')}
+${practiceNote}
+${pictureContext}
+
+═══════════════════════════════════════════════════════════════════════════════
+                         CANDIDATE'S RESPONSES
+═══════════════════════════════════════════════════════════════════════════════
+
+${responsesText}
+
+═══════════════════════════════════════════════════════════════════════════════
+
+⚠️ OFF-TOPIC DETECTION (CRITICAL FOR Q4-Q6):
+${(img1Base64 || img2Base64) ? `IMPORTANT: Two images are attached as inline_data in this request - LOOK at them directly to judge relevance and generate accurate sample answers.` : `(Note: No images were provided, use the text prompt for relevance checking).`}
+For Q4 (picture description): If candidate describes something completely unrelated to the ATTACHED pictures OR the text prompt, mark as OFF-TOPIC.
+For Q5-Q6: If answer doesn't relate to the pictures, the prompt or the follow-up topic, mark as OFF-TOPIC/PARTIALLY OFF-TOPIC.
+
+${_reportSpec}` }];
 
             // Add images to the content parts for visual analysis
             if (img1Base64) {
@@ -16821,16 +16950,27 @@ RETURN ONLY THIS JSON FORMAT (no other text):
               q7: result.q7_relevance || 'ON-TOPIC',
               q8: result.q8_relevance || 'ON-TOPIC'
             },
-            questionCorrected: {
-              q1: result.q1_corrected || '',
-              q2: result.q2_corrected || '',
-              q3: result.q3_corrected || '',
-              q4: result.q4_corrected || '',
-              q5: result.q5_corrected || '',
-              q6: result.q6_corrected || '',
-              q7: result.q7_corrected || '',
-              q8: result.q8_corrected || ''
-            },
+            // Standard tier returns q*_errors (deltas) instead of q*_corrected
+            // (a full echo). Rebuild the annotated string from the transcript we
+            // already hold so every downstream consumer sees the identical
+            // format and needs no changes. Premium keeps returning the echo, so
+            // the || fallback below leaves it untouched.
+            questionCorrected: (function () {
+              var out = {};
+              for (var _n = 1; _n <= 8; _n++) {
+                var k = 'q' + _n;
+                var echoed = result[k + '_corrected'];
+                if (echoed) { out[k] = echoed; continue; }
+                var deltas = result[k + '_errors'];
+                if (deltas && deltas.length) {
+                  var t = (transcriptions.find(function (x) { return x.questionNum === _n; }) || {}).text || '';
+                  out[k] = _correctedFromDeltas(t, deltas);
+                } else {
+                  out[k] = '';
+                }
+              }
+              return out;
+            })(),
             questionSample: {
               q1: result.q1_sample || '',
               q2: result.q2_sample || '',
