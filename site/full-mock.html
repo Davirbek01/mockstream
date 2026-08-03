@@ -8883,7 +8883,18 @@
             if (!_GROQ_KEY) throw new Error('No Groq API key available');
             var messages = [];
             if (systemText) messages.push({ role: 'system', content: systemText });
-            messages.push({ role: 'user', content: userPrompt });
+            // Callers that attach images (speaking Q4) put the WHOLE prompt in
+            // opts.contentParts and pass userPrompt as ''. Every other provider
+            // branch flattens contentParts back to text; groq did not, so it
+            // was sent an empty user message and returned a minimal all-zero
+            // JSON — no error, no retry, just a 0 speaking score.
+            var _gMsg = userPrompt;
+            if (opts.contentParts) {
+              _gMsg = opts.contentParts.filter(function (p) { return p.text; })
+                                       .map(function (p) { return p.text; }).join('\n');
+            }
+            _gMsg += _imgNote;   // gpt-oss-120b is text-only; say so rather than penalise
+            messages.push({ role: 'user', content: _gMsg });
             if (opts.jsonMode && messages.length > 0) { var _last = messages[messages.length - 1]; _last.content += '\n\nIMPORTANT: Respond with valid JSON only, no markdown.'; }
             var body = { model: _mdlGroq, messages: messages, temperature: opts.temperature || 0.3 };
             if (opts.maxTokens) body.max_tokens = Math.min(opts.maxTokens, 16384); // Groq API hard cap (qwen3.6-27b rejects >16384)
@@ -9694,7 +9705,11 @@ Respond ONLY in JSON format:
                 // Rubric lives in the prompt via the shared CEFR speaking core
                 // (scoring-prompts.js). No separate DB system instruction.
                 var _sysS = '';
-                const _analysisText = await _callScoringAI(_sysS, '', { temperature: 0.2, jsonMode: true, contentParts: contentParts, skill: 'speaking' });
+                // maxTokens matches writing: eight questions each need a
+                // correction plus a 100-300 word model answer, and groq only
+                // sets a limit when one is supplied.
+                const _analysisText = await _callScoringAI(_sysS, '', { temperature: 0.2, maxTokens: 16384, jsonMode: true, contentParts: contentParts, skill: 'speaking' });
+                console.log('[AI] Speaking raw response:', _analysisText.length, 'chars');
                 // Reasoning models (gpt-oss-120b, Qwen) wrap the JSON in a
                 // <think> block, a ```json fence, or trailing prose, so a raw
                 // JSON.parse throws on a response the provider returned 200 for.
