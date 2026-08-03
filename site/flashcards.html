@@ -646,6 +646,85 @@
     const urlParams = new URLSearchParams(window.location.search);
     const topic = urlParams.get('topic') || 'idioms01';
 
+    // ── Level-free deep links + open counter ──────────────────────────
+  var _LV = ['intermediate', 'upper-intermediate', 'advanced'];
+  var _LVMETA = { 'intermediate': ['B1', 'Intermediate'],
+                  'upper-intermediate': ['B2', 'Upper-Intermediate'],
+                  'advanced': ['C1', 'Advanced'] };
+  function _lvSplit(slug) {
+    for (var i = 0; i < _LV.length; i++) {
+      if (slug && slug.slice(-(_LV[i].length + 1)) === '-' + _LV[i]) {
+        return { base: slug.slice(0, -(_LV[i].length + 1)), level: _LV[i] };
+      }
+    }
+    return { base: slug || '', level: null };
+  }
+  // Count one open of this SET (all levels share a count), once per day per
+  // browser. Fire-and-forget: a failure must never affect the runner.
+  function _lvBump(kind, base) {
+    if (!base) return;
+    try {
+      var d = new Date();
+      var today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+      var k = '_learnViewsSeen';
+      var seen = {};
+      try { seen = JSON.parse(localStorage.getItem(k) || '{}') || {}; } catch (e) {}
+      if (seen.date !== today) seen = { date: today, keys: [] };
+      var tag = kind + ':' + base;
+      if (seen.keys.indexOf(tag) !== -1) return;
+      seen.keys.push(tag);
+      try { localStorage.setItem(k, JSON.stringify(seen)); } catch (e) {}
+      var K = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      fetch('https://zknyukkbtbcqgvkgjktb.supabase.co/rest/v1/rpc/learn_view_bump', {
+        method: 'POST',
+        headers: { apikey: K, Authorization: 'Bearer ' + K, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ p_kind: kind, p_key: base }),
+        keepalive: true
+      }).catch(function () {});
+    } catch (e) {}
+  }
+  // Level-free link: ask, then continue to the level-specific URL. Mirrors
+  // the article reader, so one shared link serves every level.
+  function _lvChoose(title, onPick) {
+    var bd = document.createElement('div');
+    bd.style.cssText = 'position:fixed;inset:0;z-index:2147483600;background:rgba(15,23,42,.55);' +
+      'display:flex;align-items:center;justify-content:center;padding:20px;' +
+      '-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)';
+    var card = document.createElement('div');
+    card.style.cssText = 'background:#fff;border-radius:18px;padding:22px;max-width:340px;width:100%;' +
+      'box-shadow:0 20px 60px rgba(0,0,0,.3);font-family:system-ui,-apple-system,sans-serif';
+    var html = '<div style="font:800 19px system-ui;color:#0f172a;text-align:center">Choose Your Level</div>' +
+      '<div style="font:500 13px system-ui;color:#64748b;text-align:center;margin:6px 0 16px">' +
+      (title ? String(title).replace(/[<>&]/g, '') : 'Select the version that matches your English level') + '</div>';
+    _LV.forEach(function (l) {
+      var m = _LVMETA[l];
+      html += '<button data-l="' + l + '" style="display:flex;align-items:center;gap:12px;width:100%;' +
+        'background:#f8fafc;border:2px solid #e2e8f0;border-radius:13px;padding:13px 15px;margin-bottom:9px;' +
+        'cursor:pointer;text-align:left">' +
+        '<span style="font:800 14px system-ui;background:#e2e8f0;color:#334155;border-radius:8px;' +
+        'padding:5px 9px">' + m[0] + '</span>' +
+        '<span style="font:700 14px system-ui;color:#4c1d95">' + m[1] + '</span></button>';
+    });
+    card.innerHTML = html;
+    bd.appendChild(card);
+    document.body.appendChild(bd);
+    card.querySelectorAll('button').forEach(function (b) {
+      b.addEventListener('click', function () { onPick(b.getAttribute('data-l')); });
+    });
+  }
+
+    var _lvInfo = _lvSplit(topic || '');
+    if (topic && !_lvInfo.level) {
+      window.__awaitLevel = true;
+      document.addEventListener('DOMContentLoaded', function () {
+        _lvChoose('', function (l) {
+          location.replace(location.pathname + '?topic=' + encodeURIComponent(_lvInfo.base + '-' + l));
+        });
+      });
+    } else if (_lvInfo.base) {
+      _lvBump('flashcard', _lvInfo.base);
+    }
+
     // Parse available levels for level switching
     let availableLevels = null;
     try {
@@ -656,6 +735,7 @@
     // Load the flashcard set — Supabase first (migrated: mock_type='flashcard'),
     // falling back to the static JS file for any set not yet migrated.
     (async function loadFlashcardSet() {
+      if (window.__awaitLevel) return;   // waiting on the level chooser
       try {
         const SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
         const K  = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
