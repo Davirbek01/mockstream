@@ -16687,7 +16687,36 @@
           } catch (_e) {}
         })
         .catch(function (e) { console.warn('Articles catalog load failed:', e); });
+
+      // All-time read counts, keyed by the same zero-padded number the cards
+      // use. One small RPC (~4 KB for 220 articles). If it fails the cards
+      // simply render without badges — exactly today's behaviour.
+      fetch(SB + '/rest/v1/rpc/article_view_counts',
+            { method: 'POST',
+              headers: { apikey: K, Authorization: 'Bearer ' + K, 'Content-Type': 'application/json' },
+              body: '{}' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (map) {
+          if (!map || typeof map !== 'object') return;
+          window._ARTICLE_VIEWS = map;
+          try {
+            if (typeof _learnCurrentCategory !== 'undefined' && _learnCurrentCategory === 'articles'
+                && typeof _renderLearnGrid === 'function' && READING_ARTICLES.length) {
+              _renderLearnGrid(READING_ARTICLES);
+            }
+          } catch (_e) {}
+        })
+        .catch(function () {});
     })();
+    window._ARTICLE_VIEWS = window._ARTICLE_VIEWS || {};
+    // 1..999 verbatim, then 1.2k / 12k — a bare "1" is intentional: a real
+    // first read is more honest than hiding the article behind a threshold.
+    function _fmtViews(n) {
+      n = Number(n) || 0;
+      if (n < 1000) return String(n);
+      if (n < 10000) return (Math.floor(n / 100) / 10).toFixed(1).replace(/\.0$/, '') + 'k';
+      return Math.round(n / 1000) + 'k';
+    }
     var _LEARN_CATALOGS = {
       grammar:    { items: GRAMMAR_TESTS,    icon: '📖', title: 'Grammar Tests',     desc: 'Choose a grammar topic to practice' },
       vocabulary: { items: VOCAB_TESTS,      icon: '📚', title: 'Vocabulary Tests',  desc: 'Choose a vocabulary topic to test' },
@@ -16925,7 +16954,18 @@
           'font:700 13px system-ui;color:#4c1d95;cursor:pointer}' +
         '.art-lvl-menu button:last-child{margin-bottom:0}' +
         '.art-lvl-menu button:hover{background:#f5f3ff;border-color:#6d28d9}' +
-        '.art-lvl-menu button i{font-style:normal;font-weight:600;font-size:11px;color:#64748b}';
+        '.art-lvl-menu button i{font-style:normal;font-weight:600;font-size:11px;color:#64748b}' +
+        // ── 👁 read count ───────────────────────────────────────────────
+        // Sits ON the cover so it costs no vertical space and the title keeps
+        // its full two lines. pointer-events:none so it never eats the tap
+        // that opens the level chooser.
+        '.learn-grid.lg-articles .learn-card-cover{position:relative}' +
+        '.art-eye{position:absolute;left:8px;bottom:8px;z-index:3;display:flex;align-items:center;gap:5px;' +
+          'background:rgba(15,23,42,.72);color:#fff;font:700 11.5px/1 system-ui;padding:4px 9px;' +
+          'border-radius:20px;pointer-events:none;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}' +
+        '.art-eye svg{width:13px;height:13px;fill:none;stroke:#fff;stroke-width:2;flex:none}' +
+        '@media (max-width:560px){.art-eye{left:6px;bottom:6px;padding:3px 7px;font-size:10.5px;gap:4px}' +
+          '.art-eye svg{width:11px;height:11px}}';
       document.head.appendChild(st);
     })();
     // Level chooser for the article picker. Keeps the list uncluttered: the
@@ -16995,7 +17035,16 @@
           var _cover = _tb && _gvImageMap[_tb];
           if (_cover) coverHtml = '<div class="learn-card-cover"><img src="' + _escLearn(_cover) + '" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>';
         } else if ((cat === 'flashcards' || cat === 'articles') && item.cover) {
-          coverHtml = '<div class="learn-card-cover"><img src="' + _escLearn(item.cover) + '" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>';
+          var eyeHtml = '';
+          if (cat === 'articles') {
+            var _v = Number((window._ARTICLE_VIEWS || {})[item.num]) || 0;
+            if (_v > 0) {
+              eyeHtml = '<span class="art-eye" title="' + _v + ' read' + (_v === 1 ? '' : 's') + '">'
+                + '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/>'
+                + '<circle cx="12" cy="12" r="3"/></svg>' + _fmtViews(_v) + '</span>';
+            }
+          }
+          coverHtml = '<div class="learn-card-cover">' + eyeHtml + '<img src="' + _escLearn(item.cover) + '" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>';
         }
         // Articles get the same 🔗 share affordance as the skill-mock cards,
         // so a teacher can assign one specific article to a group.
