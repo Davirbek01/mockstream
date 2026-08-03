@@ -2254,6 +2254,14 @@
             if (a && a.whole) return a.whole;
             return `${LEVEL_AUDIO_BASE}/article-${num}/${level.toLowerCase()}.mp3`;
         }
+        // Word-level karaoke timings shipped beside the level audio:
+        // [{"w":"Many","start":0.1,"end":0.4}, ...]. Migrated rows carry the
+        // URL in audio.<level>.timings; articles without it simply keep the
+        // existing sentence highlighting.
+        function levelTimingsUrl(num, level) {
+            const a = _rowLevelAudio(level);
+            return (a && a.timings) ? a.timings : null;
+        }
         function levelDictationUrl(num, level, i) {
             const a = _rowLevelAudio(level);
             if (a && a.dictationBase) return a.dictationBase + 'sentence' + i + '.mp3';
@@ -3967,6 +3975,11 @@
         }
 
         function setupAudioListeners(audio) {
+            // Karaoke: load this article+level's word timings. Safe to call on
+            // every path — it no-ops when the article has none.
+            try {
+                if (window._kkInit) window._kkInit(levelTimingsUrl(currentArticleNum, currentLevel));
+            } catch (e) { console.warn('[Karaoke] init skipped:', e && e.message); }
             const playerBar = document.getElementById('audioPlayerBar');
             const progressBar = document.getElementById('audioProgressBar');
             const currentTimeEl = document.getElementById('audioCurrentTime');
@@ -3979,6 +3992,7 @@
                     currentTimeEl.textContent = formatTime(audio.currentTime);
                     // Trigger highlighting
                     updateSentenceHighlight(audio.currentTime);
+                    if (window._kkTick) window._kkTick(audio.currentTime);
                 }
             });
 
@@ -3988,6 +4002,7 @@
 
             audio.addEventListener('play', updateAudioUI);
             audio.addEventListener('pause', updateAudioUI);
+            audio.addEventListener('ended', function () { if (window._kkStop) window._kkStop(); });
 
             audio.addEventListener('ended', () => {
                 playerBar.classList.remove('active');
@@ -4592,7 +4607,14 @@
             window.addEventListener('scroll', hideVocabTooltip, { passive: true });
 
             const urlParams = new URLSearchParams(window.location.search);
-            const article = urlParams.get('article');
+            // Article ids are zero-padded ('01'..'09'), so a hand-typed or
+            // forwarded ?article=1 silently failed the AVAILABLE_ARTICLES
+            // check. Normalise so both forms open the same article.
+            let article = urlParams.get('article');
+            if (article && !AVAILABLE_ARTICLES.includes(article)) {
+                const padded = String(parseInt(article, 10)).padStart(2, '0');
+                if (AVAILABLE_ARTICLES.includes(padded)) article = padded;
+            }
             const urlLevel = urlParams.get('level');
             if (urlLevel && ['B1', 'B2', 'C1'].includes(urlLevel)) {
                 currentLevel = urlLevel;
@@ -4894,6 +4916,271 @@
 })();
 </script>
 <script src="chat-bubble.js"></script>
+
+<!-- ══ Reader upgrade (2026-08-03): karaoke word-sync, app-style tab bar, copy link ══ -->
+<style id="artReaderUpgrade">
+  /* ── Karaoke ─────────────────────────────────────────────────────────
+     One <span class="kk-w"> per word, injected AFTER the vocabulary pass so
+     the existing vocab spans and click handler are untouched. Only the
+     active word carries .kk-on, so switching a word is two class writes. */
+  .kk-w { border-radius: 5px; transition: background-color .12s linear; }
+  .kk-on {
+    background: #b7f0dd;
+    box-shadow: 0 0 0 2px #b7f0dd;
+  }
+  @media (prefers-color-scheme: dark) {
+    .kk-on { background: #14603f; box-shadow: 0 0 0 2px #14603f; }
+  }
+
+  /* ── App-style horizontal tab bar (mobile only) ───────────────────────
+     Replaces the vertical FAB stack. Mirrors the native reader:
+     icon over label, active item on a mint pill. */
+  .art-tabbar { display: none; }
+  @media (max-width: 900px) {
+    .art-tabbar {
+      display: flex;
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 1200;
+      background: rgba(255,255,255,.97);
+      backdrop-filter: saturate(180%) blur(12px);
+      border-top: 1px solid rgba(0,0,0,.08);
+      padding: 4px 2px calc(4px + env(safe-area-inset-bottom, 0px));
+      justify-content: space-around; align-items: stretch;
+    }
+    .art-tabbar button {
+      flex: 1 1 0; min-width: 0; border: 0; background: transparent;
+      display: flex; flex-direction: column; align-items: center; gap: 2px;
+      padding: 6px 2px; border-radius: 12px; cursor: pointer;
+      font: 600 10.5px/1.1 system-ui, -apple-system, "Segoe UI", sans-serif;
+      color: #64748b; -webkit-tap-highlight-color: transparent;
+    }
+    .art-tabbar button .ic { font-size: 19px; line-height: 1; }
+    .art-tabbar button.on { background: #d8f5ea; color: #0f766e; }
+    .art-tabbar button:active { transform: scale(.94); }
+    /* the level chip reads as text, not an emoji */
+    .art-tabbar button#tbLevel .ic {
+      font: 800 12px/1.35 system-ui; letter-spacing: .3px;
+      background: #e2e8f0; color: #334155; border-radius: 5px; padding: 1px 5px;
+    }
+    .art-tabbar button#tbLevel.on .ic { background: #0f766e; color: #fff; }
+
+    /* the old vertical FAB is replaced by the bar */
+    .mobile-fab-toggle, .mobile-fab-menu { display: none !important; }
+
+    /* float the audio player just above the bar, like the native pill */
+    .audio-player-bar.active { bottom: 66px !important; }
+    /* keep the last paragraph clear of the bar */
+    .article-view { padding-bottom: 76px; }
+  }
+
+  /* overflow sheet for the actions that don't fit five slots */
+  .art-sheet {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 1250;
+    background: #fff; border-radius: 16px 16px 0 0;
+    box-shadow: 0 -8px 30px rgba(0,0,0,.18);
+    padding: 10px 12px calc(14px + env(safe-area-inset-bottom, 0px));
+    transform: translateY(110%); transition: transform .22s ease;
+  }
+  .art-sheet.open { transform: translateY(0); }
+  .art-sheet .row {
+    display: flex; align-items: center; gap: 12px; width: 100%;
+    padding: 12px 10px; border: 0; background: transparent; cursor: pointer;
+    font: 600 14px system-ui; color: #1e293b; border-radius: 10px;
+  }
+  .art-sheet .row:active { background: #f1f5f9; }
+  .art-sheet .row span.ic { font-size: 18px; width: 24px; text-align: center; }
+  .art-scrim {
+    position: fixed; inset: 0; background: rgba(15,23,42,.35);
+    z-index: 1240; opacity: 0; pointer-events: none; transition: opacity .2s;
+  }
+  .art-scrim.open { opacity: 1; pointer-events: auto; }
+</style>
+
+<nav class="art-tabbar" id="artTabbar" aria-label="Reader tools">
+  <button id="tbLevel"     onclick="_tbLevel()">    <span class="ic" id="tbLevelTxt">B1</span><span>Level</span></button>
+  <button id="tbListen"    onclick="_tbListen()">   <span class="ic">🎧</span><span>Listen</span></button>
+  <button id="tbDictation" onclick="_tbDictation()"><span class="ic">✏️</span><span>Dictation</span></button>
+  <button id="tbTranslate" onclick="_tbTranslate()"><span class="ic">🌐</span><span>Translate</span></button>
+  <button id="tbMore"      onclick="_tbSheet(true)"><span class="ic">⚙️</span><span>Settings</span></button>
+</nav>
+<div class="art-scrim" id="artScrim" onclick="_tbSheet(false)"></div>
+<div class="art-sheet" id="artSheet">
+  <button class="row" onclick="_tbSheet(false); _artCopyLink()"><span class="ic">🔗</span>Copy link to this article</button>
+  <button class="row" onclick="_tbSheet(false); toggleArticleSidebar()"><span class="ic">☰</span>All articles</button>
+  <button class="row" onclick="_tbSheet(false); togglePractice()"><span class="ic">✏️</span>Practice</button>
+  <button class="row" onclick="_tbSheet(false); toggleLexical()"><span class="ic">📚</span>Lexical notes</button>
+  <button class="row" onclick="cycleFontSize()"><span class="ic">🅰️</span>Text size</button>
+  <button class="row" onclick="_tbSheet(false); goBack()"><span class="ic">←</span>Back</button>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // ── Copy link ────────────────────────────────────────────────────────
+  // The receiver already exists: Articles.html?article=NN[&level=B1] opens
+  // straight into the article. This just hands the teacher that URL.
+  window._artCopyLink = function () {
+    var n = window.currentArticleNum;
+    if (!n) { _artToast('Open an article first'); return; }
+    var lvl = window.currentLevel || '';
+    var url = location.origin + location.pathname + '?article=' + n + (lvl ? '&level=' + lvl : '');
+    var done = function () { _artToast('Link copied — share it with your students'); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(done).catch(function () { _artFallbackCopy(url, done); });
+    } else { _artFallbackCopy(url, done); }
+  };
+  function _artFallbackCopy(text, cb) {
+    var t = document.createElement('textarea');
+    t.value = text; t.style.cssText = 'position:fixed;opacity:0';
+    document.body.appendChild(t); t.select();
+    try { document.execCommand('copy'); cb(); } catch (e) { prompt('Copy this link:', text); }
+    document.body.removeChild(t);
+  }
+  function _artToast(msg) {
+    var d = document.getElementById('_artToast');
+    if (!d) {
+      d = document.createElement('div'); d.id = '_artToast';
+      d.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);bottom:88px;z-index:1400;' +
+        'background:#0f172a;color:#fff;padding:10px 16px;border-radius:10px;font:600 13px system-ui;' +
+        'box-shadow:0 6px 20px rgba(0,0,0,.3);opacity:0;transition:opacity .2s;pointer-events:none';
+      document.body.appendChild(d);
+    }
+    d.textContent = msg; d.style.opacity = '1';
+    clearTimeout(d._t); d._t = setTimeout(function () { d.style.opacity = '0'; }, 2200);
+  }
+
+  // ── Tab bar actions ──────────────────────────────────────────────────
+  window._tbLevel     = function () { if (window.cycleLevelSwitch) cycleLevelSwitch(); _tbSync(); };
+  window._tbListen    = function () { if (window.togglePassageAudio) togglePassageAudio(); setTimeout(_tbSync, 60); };
+  window._tbDictation = function () { if (window.toggleDictation) toggleDictation(); setTimeout(_tbSync, 60); };
+  window._tbTranslate = function () { if (window.toggleTranslation) toggleTranslation(); setTimeout(_tbSync, 60); };
+  window._tbSheet = function (open) {
+    document.getElementById('artSheet').classList.toggle('open', !!open);
+    document.getElementById('artScrim').classList.toggle('open', !!open);
+  };
+
+  // Reflect real state on the bar: which tools are on, the current level,
+  // and whether the tab bar should be visible at all (article open vs list).
+  function _tbSync() {
+    var bar = document.getElementById('artTabbar');
+    if (!bar) return;
+    var view = document.getElementById('articleView');
+    var open = view && getComputedStyle(view).display !== 'none';
+    bar.style.display = open ? '' : 'none';
+    var lvl = document.getElementById('tbLevelTxt');
+    if (lvl) lvl.textContent = window.currentLevel || 'B1';
+    var a = window.currentPassageAudio;
+    _on('tbListen', !!(a && !a.paused));
+    _on('tbDictation', document.body.classList.contains('dictation-mode') ||
+                       !!document.querySelector('.dictation-panel.active, #dictationPanel.active'));
+    _on('tbTranslate', document.body.classList.contains('translation-mode') ||
+                       !!document.querySelector('.translation-active'));
+  }
+  function _on(id, state) { var b = document.getElementById(id); if (b) b.classList.toggle('on', !!state); }
+  window._tbSync = _tbSync;
+  setInterval(_tbSync, 700);
+
+  // ── Karaoke ──────────────────────────────────────────────────────────
+  // Word timings live beside the audio: {"w":"Many","start":0.1,"end":0.4}.
+  // Wrap each passage word in a span once, align the two sequences by
+  // normalised text, then highlight on timeupdate.
+  var _kk = { words: [], spans: [], map: [], i: -1, url: '' };
+
+  function _norm(t) { return String(t || '').toLowerCase().replace(/[^a-z0-9']/g, ''); }
+
+  function _kkWrap() {
+    var root = document.getElementById('articlePassage');
+    if (!root) return [];
+    if (root.querySelector('.kk-w')) return Array.prototype.slice.call(root.querySelectorAll('.kk-w'));
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+    var nodes = [], n;
+    while ((n = walker.nextNode())) { if (n.nodeValue && n.nodeValue.trim()) nodes.push(n); }
+    nodes.forEach(function (node) {
+      var parts = node.nodeValue.split(/(\s+)/);
+      if (parts.length === 1 && !parts[0].trim()) return;
+      var frag = document.createDocumentFragment();
+      parts.forEach(function (p) {
+        if (!p) return;
+        if (/^\s+$/.test(p) || !_norm(p)) { frag.appendChild(document.createTextNode(p)); return; }
+        var sp = document.createElement('span');
+        sp.className = 'kk-w'; sp.textContent = p;
+        frag.appendChild(sp);
+      });
+      node.parentNode.replaceChild(frag, node);
+    });
+    return Array.prototype.slice.call(root.querySelectorAll('.kk-w'));
+  }
+
+  // Greedy alignment with a small look-ahead — the TTS token list and the
+  // rendered text can differ slightly (punctuation, vocab markup), so a
+  // strict 1:1 index map would drift and highlight the wrong word.
+  function _kkAlign(timings, spans) {
+    var map = new Array(timings.length).fill(-1), si = 0;
+    for (var ti = 0; ti < timings.length; ti++) {
+      var want = _norm(timings[ti].w);
+      if (!want) continue;
+      for (var look = 0; look < 6 && si + look < spans.length; look++) {
+        if (_norm(spans[si + look].textContent) === want) { map[ti] = si + look; si = si + look + 1; break; }
+      }
+      if (map[ti] === -1 && si < spans.length) { map[ti] = si; si++; }
+    }
+    return map;
+  }
+
+  window._kkInit = async function (timingsUrl) {
+    try {
+      if (!timingsUrl) { _kkStop(); return; }
+      var spans = _kkWrap();
+      if (!spans.length) return;
+      if (_kk.url !== timingsUrl) {
+        var r = await fetch(timingsUrl, { cache: 'force-cache' });
+        if (!r.ok) throw new Error('timings ' + r.status);
+        _kk.words = await r.json();
+        _kk.url = timingsUrl;
+      }
+      _kk.spans = spans;
+      _kk.map = _kkAlign(_kk.words, spans);
+      _kk.i = -1;
+      console.log('[Karaoke] ready:', _kk.words.length, 'timings ->', spans.length, 'words');
+    } catch (e) {
+      console.warn('[Karaoke] unavailable:', e.message || e);
+      _kk.words = [];
+    }
+  };
+
+  function _kkStop() {
+    if (_kk.i >= 0 && _kk.map[_kk.i] >= 0 && _kk.spans[_kk.map[_kk.i]]) {
+      _kk.spans[_kk.map[_kk.i]].classList.remove('kk-on');
+    }
+    _kk.i = -1;
+  }
+  window._kkStop = _kkStop;
+
+  window._kkTick = function (t) {
+    if (!_kk.words.length || !_kk.spans.length) return;
+    var w = _kk.words, lo = 0, hi = w.length - 1, found = -1;
+    while (lo <= hi) {
+      var mid = (lo + hi) >> 1;
+      if (t < w[mid].start) hi = mid - 1;
+      else if (t > w[mid].end) lo = mid + 1;
+      else { found = mid; break; }
+    }
+    if (found === -1) found = Math.max(0, hi);       // between words: keep the last one lit
+    if (found === _kk.i) return;
+    if (_kk.i >= 0 && _kk.map[_kk.i] >= 0 && _kk.spans[_kk.map[_kk.i]]) {
+      _kk.spans[_kk.map[_kk.i]].classList.remove('kk-on');
+    }
+    _kk.i = found;
+    var el = _kk.spans[_kk.map[found]];
+    if (!el) return;
+    el.classList.add('kk-on');
+    var r = el.getBoundingClientRect();
+    if (r.top < 90 || r.bottom > innerHeight - 150) {
+      el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    }
+  };
+})();
+</script>
 </body>
 
 </html>
