@@ -516,35 +516,77 @@
                 font-size: 14px;
             }
 
+            /* Compact instructions: six stacked cards with a centred icon
+               above the text pushed "Start Exam" about two screens down, so
+               students could not see how to begin. Each item is now a single
+               row — icon in a narrow left column, text beside it — and the
+               button is pinned to the bottom of the card, always in view. */
+            .tutorial-card {
+                display: flex;
+                flex-direction: column;
+                max-height: 92vh;
+                padding-bottom: 0;
+            }
+
             .tutorial-grid {
                 grid-template-columns: 1fr;
-                gap: 10px;
-                margin-bottom: 16px;
+                gap: 8px;
+                margin-bottom: 0;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
             }
 
             .tutorial-item {
-                text-align: center;
-                padding: 14px;
-                border-radius: 14px;
+                display: grid;
+                grid-template-columns: 24px 1fr;
+                gap: 10px;
+                align-items: start;
+                text-align: left;
+                padding: 10px 12px;
+                border-radius: 12px;
             }
 
+            /* Three children in a two-column grid: without these the third
+               (the description) wraps back into the 24px icon column and
+               renders one word per line. Icon spans both rows on the left;
+               title and description stack in the right column. */
             .tutorial-icon {
-                margin: 0 auto 8px;
-                font-size: 20px;
+                margin: 0;
+                font-size: 17px;
+                line-height: 1.3;
+                grid-row: span 2;
             }
 
             .tutorial-item-title {
-                font-size: 15px;
-                margin-bottom: 4px;
+                grid-column: 2;
+                font-size: 13.5px;
+                margin-bottom: 2px;
             }
 
             .tutorial-item-desc {
-                font-size: 13px;
+                grid-column: 2;
+                font-size: 12px;
                 line-height: 1.4;
             }
 
+            /* Pinned to the bottom of the scrolling card, so "Start Exam" is
+               visible the moment the instructions open — no scrolling needed
+               to discover it. Negative margins let the bar span the card's
+               padding, and the shadow signals there is more above. */
             .tutorial-footer {
-                margin-top: 16px;
+                position: sticky;
+                bottom: 0;
+                margin: 0 -16px;
+                padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+                background: #fff;
+                box-shadow: 0 -8px 18px rgba(15, 23, 42, .10);
+                z-index: 2;
+            }
+
+            .tutorial-footer .tutorial-btn {
+                width: 100%;
+                padding: 13px 18px;
+                font-size: 15px;
             }
 
             #tutorial-overlay {
@@ -4296,7 +4338,7 @@
                 <div class="mod-tut-actions">
                     <div class="mod-tut-timer-info">
                         <span style="font-size: 18px;">⏳</span>
-                        <span>Auto-advance in 10s</span>
+                        <span>Auto-start in 20s</span>
                     </div>
                     <button class="mod-tut-btn" onclick="handleTutorialNext()">
                         <span id="mod-tut-btn-text">Next Page</span>
@@ -5180,20 +5222,32 @@
             const page = data.pages[tutCurrentPage];
             const content = document.getElementById('mod-tut-content');
 
-            content.innerHTML = `
-                <div class="mod-tut-page active">
-                    <div class="mod-tut-page-icon">${page.icon}</div>
-                    <div class="mod-tut-page-title">${page.title}</div>
-                    <div class="mod-tut-page-desc">${page.desc}</div>
-                </div>
-            `;
+            // One card per module instead of a two-page walk-through: every
+            // page is rendered in the same scrollable body, so the student
+            // reads it once and starts. The pages data is untouched — only
+            // how many are shown at a time changed.
+            content.innerHTML = data.pages.map(function (p, i) {
+                return `
+                <div class="mod-tut-page active"${i ? ' style="margin-top:14px; padding-top:14px; border-top:1px solid rgba(148,163,184,.28);"' : ''}>
+                    <div class="mod-tut-page-icon">${p.icon}</div>
+                    <div class="mod-tut-page-title">${p.title}</div>
+                    <div class="mod-tut-page-desc">${p.desc}</div>
+                </div>`;
+            }).join('');
 
-            document.getElementById('mod-tut-step-text').textContent = `Page ${tutCurrentPage + 1} of ${data.pages.length}`;
-            document.getElementById('mod-tut-btn-text').textContent = (tutCurrentPage < data.pages.length - 1) ? 'Next Page' : 'Start Module';
+            // The "Page 1 of 2" pill has nothing left to count, and repeating
+            // the module name beside the title just reads as a duplicate.
+            var _stepPill = document.getElementById('mod-tut-step-text');
+            if (_stepPill) _stepPill.style.display = 'none';
+            document.getElementById('mod-tut-btn-text').textContent = 'Start Module';
 
             resetTutorialTimer();
         }
 
+        // Both pages are on one card now, so the auto-advance covers what
+        // used to be two 10s pages — otherwise students get half the
+        // reading time they had before.
+        const TUT_AUTO_MS = 20000;
         function resetTutorialTimer() {
             if (tutTimer) clearTimeout(tutTimer);
             if (tutProgressInterval) clearInterval(tutProgressInterval);
@@ -5204,23 +5258,19 @@
             tutStartTime = Date.now();
             tutProgressInterval = setInterval(() => {
                 const elapsed = Date.now() - tutStartTime;
-                const percent = Math.min((elapsed / 10000) * 100, 100);
+                const percent = Math.min((elapsed / TUT_AUTO_MS) * 100, 100);
                 progressFill.style.width = percent + '%';
             }, 100);
 
             tutTimer = setTimeout(() => {
                 handleTutorialNext();
-            }, 10000);
+            }, TUT_AUTO_MS);
         }
 
         function handleTutorialNext() {
-            const data = MOD_TUTORIAL_DATA[tutCurrentStepIdx];
-            if (tutCurrentPage < data.pages.length - 1) {
-                tutCurrentPage++;
-                renderTutorialPage();
-            } else {
-                finishTutorial();
-            }
+            // All pages are shown together now, so this always starts the
+            // module — there is no second page to advance to.
+            finishTutorial();
         }
 
         function finishTutorial() {
@@ -12074,6 +12124,42 @@ Respond ONLY in JSON format:
             `;
 
             body.innerHTML = html;
+            _fmHydrateAnswerAudio();
+        }
+
+        // Attach a player to each speaking answer in the detailed report.
+        // The clips live in IndexedDB as Blobs, so the ZIP report's relative
+        // <source src="answer_qN.webm"> can't work on screen — those files only
+        // exist once the ZIP is extracted. Object URLs are created here and
+        // revoked when the overlay closes, so nothing leaks between openings.
+        var _fmAnswerAudioUrls = [];
+        function _fmRevokeAnswerAudio() {
+            _fmAnswerAudioUrls.forEach(function (u) { try { URL.revokeObjectURL(u); } catch (e) {} });
+            _fmAnswerAudioUrls = [];
+        }
+        function _fmHydrateAnswerAudio() {
+            var slots = document.querySelectorAll('.fm-answer-audio');
+            if (!slots.length) return;
+            _fmRevokeAnswerAudio();
+            slots.forEach(function (slot) {
+                var qn = slot.getAttribute('data-q');
+                if (!qn) return;
+                getSpeakingAudio('q' + qn).then(function (blob) {
+                    if (!blob || !blob.size) return;          // skipped question — leave it out
+                    var url = URL.createObjectURL(blob);
+                    _fmAnswerAudioUrls.push(url);
+                    var wrap = document.createElement('div');
+                    wrap.style.cssText = 'margin-top:10px; display:flex; align-items:center; gap:8px;';
+                    wrap.innerHTML = '<span style="font-size:11px; color:#6b7280; font-weight:600; flex:none;">🎧 Your recording</span>';
+                    var audio = document.createElement('audio');
+                    audio.controls = true;
+                    audio.preload = 'none';
+                    audio.src = url;
+                    audio.style.cssText = 'flex:1; min-width:0; height:34px;';
+                    wrap.appendChild(audio);
+                    slot.appendChild(wrap);
+                }).catch(function () { /* no clip for this question — silent */ });
+            });
         }
 
         function switchDetailsTab(tabName, tabEl) {
@@ -12377,6 +12463,10 @@ Respond ONLY in JSON format:
                     <div style="background:white; border-radius:8px; padding:12px; margin-top:10px; margin-bottom:10px;">
                         <div style="font-size:12px; color:#6b7280; font-weight:600; margin-bottom:6px;">${hasCorrections ? '📝 Inline Corrections:' : '🎤 Your response:'}</div>
                         <div style="font-size:14px; color:#374151; line-height:1.8;">${hasCorrections ? renderCorrectedText(corrected) : `"${transcribedText}"`}</div>
+                        <!-- Filled in by _fmHydrateAnswerAudio() once this HTML is in
+                             the DOM: the recording is a Blob in IndexedDB, so it needs
+                             an object URL that only exists at runtime. -->
+                        <div class="fm-answer-audio" data-q="${q.number}"></div>
                     </div>
                     ` : ''}
                     ${feedback ? `
@@ -12470,6 +12560,7 @@ Respond ONLY in JSON format:
 
         function closeDetailedResults() {
             document.getElementById('details-overlay').classList.remove('show');
+            _fmRevokeAnswerAudio();   // release the recording object URLs
         }
 
         // Mobile Passage Toggle Logic - REMOVED
