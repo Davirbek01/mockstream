@@ -2288,6 +2288,35 @@
             } catch (e) { console.warn('Supabase article fetch failed, will fall back to static:', e); return null; }
         }
 
+        // Read counter for the picker's 👁 badge. Deliberately defensive: it
+        // runs after the article is on screen, never blocks it, and swallows
+        // every error — a lost count must never cost a student their reading.
+        // One count per article per day per browser; the guard is a single
+        // localStorage entry that resets itself when the date rolls over.
+        function _bumpArticleView(num) {
+            try {
+                var n = parseInt(num, 10);
+                if (!n || n < 1) return;
+                var pad = String(n).padStart(2, '0');
+                var d = new Date();
+                var today = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0')
+                          + '-' + String(d.getDate()).padStart(2, '0');
+                var seen = {};
+                try { seen = JSON.parse(localStorage.getItem('_artViewsSeen') || '{}') || {}; } catch (e) {}
+                if (seen.date !== today) seen = { date: today, nums: [] };
+                if (seen.nums.indexOf(pad) !== -1) return;          // already counted today
+                seen.nums.push(pad);
+                try { localStorage.setItem('_artViewsSeen', JSON.stringify(seen)); } catch (e) {}
+                fetch(ART_SB_URL + '/rest/v1/rpc/article_view_bump', {
+                    method: 'POST',
+                    headers: { apikey: ART_SB_KEY, Authorization: 'Bearer ' + ART_SB_KEY,
+                               'Content-Type': 'application/json' },
+                    body: JSON.stringify({ p_article: pad }),
+                    keepalive: true
+                }).catch(function () {});
+            } catch (e) {}
+        }
+
         var currentArticle = null;
         var currentArticleNum = null; // Track article number for audio URL lookup
         var currentView = 'normal'; // normal, practice, translation, lexical
@@ -2740,6 +2769,7 @@
                 await loadArticleScript(num);
                 currentArticle = window.ARTICLE_DATA;
                 currentArticleNum = num; // Store article number for audio lookup
+                setTimeout(function () { _bumpArticleView(num); }, 0);  // after render, never blocking
 
                 document.getElementById('articleTitle').textContent = currentArticle.title;
 
@@ -4966,11 +4996,188 @@
     /* the old vertical FAB is replaced by the bar */
     .mobile-fab-toggle, .mobile-fab-menu { display: none !important; }
 
-    /* float the audio player just above the bar, like the native pill */
-    .audio-player-bar.active { bottom: 66px !important; }
-    /* keep the last paragraph clear of the bar */
-    .article-view { padding-bottom: 76px; }
+    /* ── Audio player, lifted out of the header ────────────────────────
+       It used to sit top-right inside .header — visually a "corner" control
+       and unreachable one-handed. Now it docks directly above the tab bar,
+       where the thumb already is. .header has no transform/filter, so a
+       fixed child resolves against the viewport as intended.
+
+       Liquid-glass treatment: the bar is a translucent lens rather than a
+       solid slab — the article text stays faintly readable through it, which
+       is what makes it feel like it hovers over the page instead of covering
+       it. Three layers do the work: a soft white gradient tint, a heavy
+       backdrop blur with a saturation lift (so colour behind glows through),
+       and a specular sheen on the top-left edge. Shadows are NOT clipped
+       (no overflow:hidden) so the play button keeps its glow. */
+    .audio-player-bar.active {
+      position: fixed; left: 12px; right: 12px;
+      bottom: calc(66px + env(safe-area-inset-bottom, 0px));
+      z-index: 1210; margin: 0; gap: 10px;
+      padding: 8px 12px; border-radius: 999px;
+      color: #0f172a;
+      background: linear-gradient(135deg, rgba(255,255,255,.60), rgba(255,255,255,.34));
+      -webkit-backdrop-filter: blur(22px) saturate(190%);
+      backdrop-filter: blur(22px) saturate(190%);
+      border: 1px solid rgba(255,255,255,.65);
+      box-shadow:
+        0 12px 34px rgba(15,23,42,.20),
+        0 2px 8px rgba(15,23,42,.10),
+        inset 0 1px 0 rgba(255,255,255,.9),
+        inset 0 -1px 0 rgba(255,255,255,.35);
+      animation: plRise .3s cubic-bezier(.22, 1, .36, 1);
+    }
+    /* specular highlight — the "wet" edge that sells the glass */
+    .audio-player-bar.active::before {
+      content: ''; position: absolute; inset: 0; border-radius: inherit;
+      pointer-events: none;
+      background: linear-gradient(158deg, rgba(255,255,255,.55) 0%, rgba(255,255,255,.06) 40%, rgba(255,255,255,0) 62%);
+    }
+    @keyframes plRise {
+      from { opacity: 0; transform: translateY(12px) scale(.96); }
+      to   { opacity: 1; transform: none; }
+    }
+    .audio-player-bar.active .audio-control-btn {
+      width: 34px; height: 34px; flex: none; border-radius: 50%;
+      background: rgba(255,255,255,.5);
+      border: 1px solid rgba(255,255,255,.75);
+      color: #1e293b;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 1px 3px rgba(15,23,42,.12), inset 0 1px 0 rgba(255,255,255,.8);
+    }
+    .audio-player-bar.active .audio-control-btn svg { width: 14px; height: 14px; }
+    .audio-player-bar.active .audio-control-btn.play-pause {
+      width: 42px; height: 42px; color: #fff;
+      background: linear-gradient(160deg, #34d399, #059669);
+      border: 1px solid rgba(255,255,255,.55);
+      box-shadow: 0 5px 16px rgba(5,150,105,.45), inset 0 1px 0 rgba(255,255,255,.5);
+    }
+    .audio-player-bar.active .audio-control-btn.play-pause svg { width: 17px; height: 17px; }
+    /* The header-era rule hid the scrubber and times on mobile because there
+       was no room for them. The docked bar has room, so bring them back —
+       a seek control the student can actually reach is the whole point. */
+    .audio-player-bar.active .audio-time {
+      display: block; font-size: 11px; font-weight: 700; color: #334155;
+      flex: none; min-width: 32px;
+    }
+    .audio-player-bar.active .audio-progress-container {
+      display: block; flex: 1 1 auto; min-width: 0; height: 6px; border-radius: 99px;
+      background: rgba(15,23,42,.16);
+      box-shadow: inset 0 1px 2px rgba(15,23,42,.14);
+    }
+    .audio-player-bar.active .audio-progress-bar {
+      background: linear-gradient(90deg, #34d399, #059669); border-radius: 99px;
+    }
+    /* no hover on touch — keep the scrub handle permanently visible */
+    .audio-player-bar.active .audio-progress-head {
+      transform: translateY(-50%) scale(1);
+      background: #fff; box-shadow: 0 1px 5px rgba(15,23,42,.4);
+    }
+
+    /* Dark mode: smoked glass instead of frosted, same construction. */
+    @media (prefers-color-scheme: dark) {
+      .audio-player-bar.active {
+        color: #e2e8f0;
+        background: linear-gradient(135deg, rgba(30,41,59,.62), rgba(15,23,42,.42));
+        border-color: rgba(255,255,255,.16);
+        box-shadow: 0 12px 34px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.15);
+      }
+      .audio-player-bar.active::before {
+        background: linear-gradient(158deg, rgba(255,255,255,.18) 0%, rgba(255,255,255,0) 55%);
+      }
+      .audio-player-bar.active .audio-control-btn {
+        background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.18); color: #e2e8f0;
+      }
+      .audio-player-bar.active .audio-time { color: #cbd5e1; }
+      .audio-player-bar.active .audio-progress-container { background: rgba(255,255,255,.22); }
+    }
+
+    /* keep the last paragraph clear of the bar (and of the player when shown) */
+    #articleView, #splitView, #translationView, #lexicalView, #dictationView { padding-bottom: 76px; }
+    body.aud-on #articleView, body.aud-on #splitView, body.aud-on #translationView,
+    body.aud-on #lexicalView, body.aud-on #dictationView { padding-bottom: 140px; }
   }
+
+  /* ── Reader chrome: give the article the top of the screen ───────────
+     Two things were eating ~130px before a single word appeared:
+       1. the orange "📰 Articles" bar, redundant once the tab bar exists;
+       2. .main-layout's 100px bottom padding, reserved for the old floating
+          FAB — all three of its children are already display:none here.
+     The header is COLLAPSED, not display:none, because the audio player is
+     one of its children: display:none would take the player with it. A
+     sticky ancestor doesn't clip fixed descendants, so the player still
+     renders normally. Gated on body.tabbar-on so the article LIST keeps
+     its header and branding. */
+  @media (max-width: 900px) {
+    body.tabbar-on .header {
+      height: 0; min-height: 0; padding: 0; overflow: hidden;
+      box-shadow: none; border: 0; font-size: 0; line-height: 0;
+      /* belt and braces: even a residual pixel must not show orange */
+      background: none;
+    }
+    body.tabbar-on .header .header-title { display: none; }
+    body.tabbar-on .main-layout { padding-bottom: 0; }
+    body.tabbar-on .content-area { padding-top: 10px; }
+  }
+
+  /* Editorial order: image first, then the headline under it. Done with
+     flex `order` so the markup and every script that targets these ids are
+     untouched. */
+  .article-header { display: flex; flex-direction: column; }
+  .article-header-image { order: -1; margin-top: 0; margin-bottom: 16px; }
+  .article-header .article-title { margin-top: 0; }
+  .article-header .article-level-badge { align-self: center; }
+
+  /* ── Reading settings sheet ─────────────────────────────────────────
+     Text size is a percentage stepper rather than the old 4-step cycle, so
+     the student can see where they are. Themes recolour the reading
+     surfaces only — the tab bar and chrome stay put. */
+  .art-sheet-grab {
+    width: 38px; height: 4px; border-radius: 99px; background: #cbd5e1;
+    margin: 2px auto 10px;
+  }
+  .art-sheet-h { font: 800 20px system-ui; color: #0f172a; padding: 0 4px 4px; }
+  .art-set-label { font: 600 12.5px system-ui; color: #94a3b8; padding: 12px 4px 8px; }
+  .art-size-row { display: flex; align-items: center; justify-content: center; gap: 18px; }
+  .art-size-btn {
+    min-width: 74px; padding: 12px 0; border: 1.5px solid #e2e8f0; background: #fff;
+    border-radius: 12px; font: 700 19px system-ui; color: #0f172a; cursor: pointer;
+  }
+  .art-size-btn:active { transform: scale(.96); }
+  .art-size-btn:disabled { opacity: .4; }
+  .art-size-val { font: 800 15px system-ui; color: #0f172a; min-width: 56px; text-align: center; }
+  .art-theme-row { display: flex; gap: 10px; }
+  .art-theme-btn {
+    flex: 1; border: 2px solid #e2e8f0; border-radius: 13px; padding: 12px 4px;
+    display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;
+  }
+  .art-theme-btn b { font: 700 17px system-ui; }
+  .art-theme-btn span { font: 600 11.5px system-ui; opacity: .75; }
+  .art-theme-btn.th-default { background: #fff; color: #0f172a; }
+  .art-theme-btn.th-sepia { background: #f6ecd8; color: #6b5636; }
+  .art-theme-btn.th-dark { background: #1c222b; color: #e8eef7; }
+  .art-theme-btn.on { border-color: #0f766e; }
+  .art-sheet-sep { height: 1px; background: #eef2f7; margin: 16px 0 6px; }
+
+  /* Sepia */
+  body.art-sepia .content-area { background: #f4ecd8; }
+  body.art-sepia .passage-card { background: #fbf5e7; border-color: #e7dbc0; color: #4a3f2f; }
+  body.art-sepia .article-title, body.art-sepia .translation-view,
+  body.art-sepia .lexical-view { color: #4a3f2f; }
+  /* Dark */
+  body.art-dark .content-area { background: #0f141b; }
+  body.art-dark .passage-card { background: #161d27; border-color: #27313f; color: #e6edf6; }
+  body.art-dark .article-title, body.art-dark .article-meta,
+  body.art-dark .translation-view, body.art-dark .lexical-view { color: #e6edf6; }
+  body.art-dark .art-sheet { background: #161d27; }
+  body.art-dark .art-sheet-h, body.art-dark .art-sheet .row { color: #e6edf6; }
+  body.art-dark .art-sheet-sep { background: #27313f; }
+  body.art-dark .art-size-btn { background: #1c222b; border-color: #2f3a49; color: #e6edf6; }
+  body.art-dark .art-size-val { color: #e6edf6; }
+
+  /* Passage audio is part of the reading view — hide it anywhere else.
+     Not inside the mobile media query: Dictation has its own per-sentence
+     players on desktop too, so the same rule applies there. */
+  body.pl-away .audio-player-bar.active { display: none !important; }
 
   /* overflow sheet for the actions that don't fit five slots */
   .art-sheet {
@@ -5004,11 +5211,31 @@
 </nav>
 <div class="art-scrim" id="artScrim" onclick="_tbSheet(false)"></div>
 <div class="art-sheet" id="artSheet">
+  <div class="art-sheet-grab"></div>
+  <div class="art-sheet-h">Reading settings</div>
+
+  <div class="art-set-label">Text size</div>
+  <div class="art-size-row">
+    <button class="art-size-btn" type="button" onclick="_artFont(-1)" aria-label="Smaller text">A&minus;</button>
+    <span class="art-size-val" id="artFontVal">100%</span>
+    <button class="art-size-btn" type="button" onclick="_artFont(1)" aria-label="Larger text">A+</button>
+  </div>
+
+  <div class="art-set-label">Reading theme</div>
+  <div class="art-theme-row">
+    <button class="art-theme-btn th-default" type="button" data-theme="default" onclick="_artTheme('default')">
+      <b>Aa</b><span>Default</span></button>
+    <button class="art-theme-btn th-sepia" type="button" data-theme="sepia" onclick="_artTheme('sepia')">
+      <b>Aa</b><span>Sepia</span></button>
+    <button class="art-theme-btn th-dark" type="button" data-theme="dark" onclick="_artTheme('dark')">
+      <b>Aa</b><span>Dark</span></button>
+  </div>
+
+  <div class="art-sheet-sep"></div>
   <button class="row" onclick="_tbSheet(false); _artCopyLink()"><span class="ic">🔗</span>Copy link to this article</button>
   <button class="row" onclick="_tbSheet(false); toggleArticleSidebar()"><span class="ic">☰</span>All articles</button>
   <button class="row" onclick="_tbSheet(false); togglePractice()"><span class="ic">✏️</span>Practice</button>
   <button class="row" onclick="_tbSheet(false); toggleLexical()"><span class="ic">📚</span>Lexical notes</button>
-  <button class="row" onclick="cycleFontSize()"><span class="ic">🅰️</span>Text size</button>
   <button class="row" onclick="_tbSheet(false); goBack()"><span class="ic">←</span>Back</button>
 </div>
 
@@ -5049,11 +5276,119 @@
     clearTimeout(d._t); d._t = setTimeout(function () { d.style.opacity = '0'; }, 2200);
   }
 
+  // ── Reading settings ─────────────────────────────────────────────────
+  // Text size is applied inline to the same nodes the legacy cycleFontSize
+  // touches, so whichever the student uses last wins and they never fight.
+  var _artFS = { pct: 100, min: 70, max: 170, step: 10 };
+  function _artFontBase() { return matchMedia('(max-width: 900px)').matches ? 15 : 19; }
+  function _artFontApply() {
+    var px = Math.round(_artFontBase() * _artFS.pct / 100) + 'px';
+    document.querySelectorAll('.passage-card').forEach(function (e) {
+      if (e.style.fontSize !== px) e.style.fontSize = px;
+    });
+    ['translationContent', 'practiceInput'].forEach(function (id) {
+      var e = document.getElementById(id);
+      if (e && e.style.fontSize !== px) e.style.fontSize = px;
+    });
+    var v = document.getElementById('artFontVal');
+    if (v) v.textContent = _artFS.pct + '%';
+  }
+  window._artFont = function (dir) {
+    _artFS.pct = Math.max(_artFS.min, Math.min(_artFS.max, _artFS.pct + dir * _artFS.step));
+    try { localStorage.setItem('_artFontPct', String(_artFS.pct)); } catch (e) {}
+    _artFontApply();
+  };
+  window._artTheme = function (t) {
+    document.body.classList.remove('art-sepia', 'art-dark');
+    if (t === 'sepia') document.body.classList.add('art-sepia');
+    else if (t === 'dark') document.body.classList.add('art-dark');
+    try { localStorage.setItem('_artTheme', t); } catch (e) {}
+    document.querySelectorAll('.art-theme-btn').forEach(function (b) {
+      b.classList.toggle('on', b.getAttribute('data-theme') === t);
+    });
+  };
+  (function _artSettingsRestore() {
+    var p = 0, t = 'default';
+    try { p = parseInt(localStorage.getItem('_artFontPct'), 10) || 0; } catch (e) {}
+    try { t = localStorage.getItem('_artTheme') || 'default'; } catch (e) {}
+    if (p >= _artFS.min && p <= _artFS.max) _artFS.pct = p;
+    var go = function () { _artTheme(t); _artFontApply(); };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
+    else go();
+  })();
+
+  // ── Passage audio parking ────────────────────────────────────────────
+  // The article audio belongs to the reading view only. Dictation has its
+  // own per-sentence players, so leaving the article with the passage still
+  // running gave two audio sources at once and a floating bar on top of
+  // Dictation's own controls. Leaving parks the audio (remember position,
+  // pause, hide); coming back restores that exact position.
+  var _plMemo = { t: 0, wasPlaying: false, parked: false };
+
+  function _plOnArticle() {
+    var el = document.getElementById('articleView');
+    return !!(el && el.getClientRects().length);
+  }
+  function _plPark() {
+    if (_plMemo.parked) return;
+    var a = window.currentPassageAudio;
+    _plMemo.t = a ? a.currentTime : 0;
+    _plMemo.wasPlaying = !!(a && !a.paused);
+    if (a && !a.paused) { try { a.pause(); } catch (e) {} }
+    _plMemo.parked = true;
+    document.body.classList.add('pl-away');
+  }
+  function _plUnpark(forcePlay) {
+    document.body.classList.remove('pl-away');
+    if (!_plMemo.parked && !forcePlay) return;
+    var a = window.currentPassageAudio;
+    var resume = _plMemo.wasPlaying || forcePlay;
+    _plMemo.parked = false;
+    if (!a) return;
+    var seek = function () { try { if (_plMemo.t) a.currentTime = _plMemo.t; } catch (e) {} };
+    if (a.readyState >= 1) seek();
+    else a.addEventListener('loadedmetadata', seek, { once: true });
+    if (resume) { var p = a.play(); if (p && p.catch) p.catch(function () {}); }
+  }
+  // Turn off whichever view is covering the article and return to it.
+  function _plBackToArticle() {
+    if (_plOnArticle()) return;
+    [['dictationView', 'toggleDictation'], ['translationView', 'toggleTranslation'],
+     ['lexicalView', 'toggleLexical'], ['splitView', 'togglePractice']].forEach(function (p) {
+      var el = document.getElementById(p[0]);
+      if (el && el.getClientRects().length && typeof window[p[1]] === 'function') window[p[1]]();
+    });
+  }
+
   // ── Tab bar actions ──────────────────────────────────────────────────
   window._tbLevel     = function () { if (window.cycleLevelSwitch) cycleLevelSwitch(); _tbSync(); };
-  window._tbListen    = function () { if (window.togglePassageAudio) togglePassageAudio(); setTimeout(_tbSync, 60); };
-  window._tbDictation = function () { if (window.toggleDictation) toggleDictation(); setTimeout(_tbSync, 60); };
-  window._tbTranslate = function () { if (window.toggleTranslation) toggleTranslation(); setTimeout(_tbSync, 60); };
+  window._tbListen    = function () {
+    // From another tab, Listen means "take me back to the article and carry
+    // on from where I was" — not "toggle audio while I sit in Dictation".
+    if (!_plOnArticle()) {
+      _plBackToArticle();
+      setTimeout(function () { _plUnpark(true); setTimeout(_tbSync, 60); }, 130);
+      return;
+    }
+    if (window.togglePassageAudio) togglePassageAudio();
+    setTimeout(_tbSync, 60);
+  };
+  // Toggling a tool OFF lands back on the article. Restore the audio right
+  // here, inside the click, rather than waiting for the 700ms sync tick —
+  // a play() call outside a user gesture is blocked by autoplay policy.
+  function _tbToggle(fn) {
+    return function () {
+      if (typeof window[fn] === 'function') window[fn]();
+      // The view swap is not always visible on the same tick, so try now and
+      // again just after. _plUnpark no-ops when there is nothing parked.
+      var tryUnpark = function () { if (_plOnArticle()) _plUnpark(false); };
+      tryUnpark();
+      setTimeout(tryUnpark, 90);
+      setTimeout(_tbSync, 60);
+    };
+  }
+  window._tbDictation = _tbToggle('toggleDictation');
+  window._tbTranslate = _tbToggle('toggleTranslation');
   window._tbSheet = function (open) {
     document.getElementById('artSheet').classList.toggle('open', !!open);
     document.getElementById('artScrim').classList.toggle('open', !!open);
@@ -5061,12 +5396,28 @@
 
   // Reflect real state on the bar: which tools are on, the current level,
   // and whether the tab bar should be visible at all (article open vs list).
+  var _TB_VIEWS = ['articleView', 'splitView', 'translationView', 'lexicalView', 'dictationView'];
   function _tbSync() {
     var bar = document.getElementById('artTabbar');
     if (!bar) return;
-    var view = document.getElementById('articleView');
-    var open = view && getComputedStyle(view).display !== 'none';
+    // The bar must survive every reader view, not just the plain article:
+    // Practice swaps in #splitView, Dictation #dictationView, and so on, so
+    // keying off #articleView alone made the bar disappear mid-session.
+    // It hides only on the article LIST, where no reader view is displayed.
+    var open = _TB_VIEWS.some(function (id) {
+      var el = document.getElementById(id);
+      return el && getComputedStyle(el).display !== 'none';
+    });
     bar.style.display = open ? '' : 'none';
+    // Park / restore the passage audio as the reading view comes and goes.
+    // Driven from here so it covers every route in and out — tab bar, the
+    // Settings sheet, and the desktop buttons alike.
+    if (open) { if (_plOnArticle()) _plUnpark(false); else _plPark(); }
+    _artFontApply();   // passages are re-rendered on level/article change
+    // Content padding depends on whether the audio player is also showing.
+    var pb = document.getElementById('audioPlayerBar');
+    document.body.classList.toggle('aud-on', !!(pb && pb.classList.contains('active')));
+    document.body.classList.toggle('tabbar-on', open);
     var lvl = document.getElementById('tbLevelTxt');
     if (lvl) lvl.textContent = window.currentLevel || 'B1';
     var a = window.currentPassageAudio;
