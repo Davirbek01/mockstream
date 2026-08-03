@@ -9516,8 +9516,10 @@ Empty responses = 0 points and skip analysis for that task.`;
                     const currentProgress = Math.round(transcribeStartProgress + (i * progressPerRecording));
                     try {
                         if (i > 0) await new Promise(r => setTimeout(r, 1500));
-                        console.log(`[AI] Transcribing ${rec.q}/${recordings.length}...`);
-                        updateSpeakingProgress(`Transcribing Q${rec.q}/${recordings.length}...`, currentProgress);
+                        // Progress counts recordings, not question numbers —
+                        // skipped questions made this read "Transcribing Q8/3".
+                        console.log(`[AI] Transcribing Q${rec.q} (${i + 1}/${recordings.length})...`);
+                        updateSpeakingProgress(`Transcribing ${i + 1}/${recordings.length}...`, currentProgress);
                         const text = await _transcribeWithRetry(rec.blob, undefined, rec.q);
                         transcriptions.push({ q: rec.q, text });
                     } catch (e) {
@@ -9693,7 +9695,14 @@ Respond ONLY in JSON format:
                 // (scoring-prompts.js). No separate DB system instruction.
                 var _sysS = '';
                 const _analysisText = await _callScoringAI(_sysS, '', { temperature: 0.2, jsonMode: true, contentParts: contentParts, skill: 'speaking' });
-                const result = JSON.parse(_analysisText);
+                // Reasoning models (gpt-oss-120b, Qwen) wrap the JSON in a
+                // <think> block, a ```json fence, or trailing prose, so a raw
+                // JSON.parse throws on a response the provider returned 200 for.
+                // The retry then fails identically and the student gets 0 with
+                // no feedback. Writing already went through _extractJsonObject;
+                // speaking did not — which is exactly why writing was scored in
+                // the full mock and speaking was not.
+                const result = _extractJsonObject(_analysisText);
 
                 // Apply score boost from site config (temporary measure)
                 const _sBoost = (window.SITE_CONFIG && window.SITE_CONFIG.scoreBoost) || 0;
