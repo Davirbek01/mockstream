@@ -9801,12 +9801,23 @@
       } catch (_e) {}
     }
 
+    // Reading Articles share the same popover, pointing at the article deep
+    // link instead of /take/. No level is included so the student still picks
+    // B1/B2/C1 — assign a level by editing the link if you need to pin one.
+    function _pickerShareArticle(artNum, artName, btnEl) {
+      if (!artNum) return;
+      var url = window.location.origin + '/Articles.html?article=' + encodeURIComponent(artNum);
+      return _pickerShareMock(null, null, artNum, btnEl, 'learn-share-copied', url, artName || ('Article ' + artNum));
+    }
+
     // _pickerShareMock — copy/share link popover for any picker's card.
     // Ported verbatim from landing.html so the share UX is identical.
-    async function _pickerShareMock(slugBase, titleBase, mockN, btnEl, copiedClass) {
+    async function _pickerShareMock(slugBase, titleBase, mockN, btnEl, copiedClass, urlOverride, titleOverride) {
       if (!mockN) return;
-      var url = window.location.origin + '/take/' + slugBase + '-' + encodeURIComponent(mockN);
-      var title = titleBase + ' ' + mockN;
+      // urlOverride/titleOverride let non-/take/ items (Reading Articles) reuse
+      // this exact popover. Existing callers pass 5 args and are unaffected.
+      var url = urlOverride || (window.location.origin + '/take/' + slugBase + '-' + encodeURIComponent(mockN));
+      var title = titleOverride || (titleBase + ' ' + mockN);
       var existing = document.getElementById('_pickerShareBackdrop');
       if (existing) existing.remove();
       var backdrop = document.createElement('div');
@@ -16664,7 +16675,8 @@
           READING_ARTICLES.length = 0;
           rows.forEach(function (row) {
             var pad = String(row.mock_number).padStart(2, '0');
-            READING_ARTICLES.push({ file: 'Articles.html?article=' + pad, name: 'Article ' + pad + ': ' + (row.title || ''), icon: '📰', cover: row.imageUrl || '' });
+            READING_ARTICLES.push({ file: 'Articles.html?article=' + pad, name: 'Article ' + pad + ': ' + (row.title || ''), icon: '📰', cover: row.imageUrl || '',
+                                    num: pad, title: (row.title || '') });
           });
           try {
             if (typeof _learnCurrentCategory !== 'undefined' && _learnCurrentCategory === 'articles' && typeof _renderLearnGrid === 'function') {
@@ -16863,6 +16875,92 @@
         })
         .catch(function (e) { console.warn('gv image map load failed:', e); });
     }
+    (function () {
+      if (document.getElementById('learnShareCss')) return;
+      var st = document.createElement('style'); st.id = 'learnShareCss';
+      st.textContent =
+        '.learn-card{position:relative}' +
+        '.learn-share-btn{position:absolute;top:8px;right:8px;z-index:3;width:30px;height:30px;' +
+          'border:1px solid #e2e8f0;border-radius:8px;background:rgba(255,255,255,.94);cursor:pointer;' +
+          'font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center;' +
+          'box-shadow:0 1px 4px rgba(15,23,42,.12);transition:background .15s,border-color .15s}' +
+        '.learn-share-btn:hover{background:#f5f3ff;border-color:#6d28d9}' +
+        '.learn-share-btn.learn-share-copied{background:#dcfce7;border-color:#16a34a;color:#15803d}' +
+        // ── Article picker layout ──────────────────────────────────────
+        // Desktop: one full-width row per article (compact, scannable).
+        // Mobile: a 2-up grid of small cards. Levels are NOT shown inline —
+        // tapping opens a chooser, so the list stays quiet.
+        // ── Article picker: one grid at every width ─────────────────────
+        // Cover on top, a small muted "ARTICLE NN" label, then the title in
+        // full weight. Columns adapt from 2 on a phone up to ~6 on a wide
+        // monitor, so 220 articles stay scannable without a giant list.
+        // no max-width/margin here: .learn-grid is a flex child with its own
+        // padding, and constraining it made auto-fill compute columns against
+        // the wrong width, overflowing the viewport.
+        '.learn-grid.lg-articles{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}' +
+        '.learn-grid.lg-articles .learn-card{flex-direction:column;align-items:stretch;gap:0;' +
+          'padding:0 0 12px;cursor:pointer;overflow:hidden}' +
+        '.learn-grid.lg-articles .learn-card-cover{margin:0;width:auto;height:118px;flex:none;' +
+          'border-radius:13px 13px 0 0}' +
+        '.learn-grid.lg-articles .learn-card-head{display:block;padding:10px 12px 0;min-height:0}' +
+        '.learn-grid.lg-articles .learn-card-icon{display:none}' +
+        '.learn-grid.lg-articles .art-num{display:block;font:800 10px/1.2 system-ui;' +
+          'letter-spacing:.09em;text-transform:uppercase;color:#94a3b8;margin-bottom:3px}' +
+        '.learn-grid.lg-articles .art-title{display:block;font:700 14.5px/1.32 system-ui;' +
+          'color:#0f172a;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;' +
+          '-webkit-box-orient:vertical}' +
+        '.learn-grid.lg-articles .learn-share-btn{position:absolute;top:8px;right:8px;margin:0}' +
+        '.learn-grid.lg-articles .art-go{display:none}' +
+        '@media (max-width:560px){' +
+          '.learn-grid.lg-articles{grid-template-columns:repeat(2,1fr);gap:10px}' +
+          '.learn-grid.lg-articles .learn-card-cover{height:92px}' +
+          '.learn-grid.lg-articles .art-title{font-size:13px}' +
+        '}' +
+        '.art-lvl-menu{position:fixed;z-index:2147483601;background:#fff;border:1px solid #e2e8f0;' +
+          'border-radius:12px;box-shadow:0 10px 30px rgba(15,23,42,.2);padding:8px;min-width:210px}' +
+        '.art-lvl-menu .t{font:700 11px system-ui;color:#64748b;padding:4px 8px 8px;text-transform:uppercase;' +
+          'letter-spacing:.06em}' +
+        '.art-lvl-menu button{display:flex;align-items:center;justify-content:space-between;width:100%;' +
+          'background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:9px;padding:10px 12px;margin-bottom:6px;' +
+          'font:700 13px system-ui;color:#4c1d95;cursor:pointer}' +
+        '.art-lvl-menu button:last-child{margin-bottom:0}' +
+        '.art-lvl-menu button:hover{background:#f5f3ff;border-color:#6d28d9}' +
+        '.art-lvl-menu button i{font-style:normal;font-weight:600;font-size:11px;color:#64748b}';
+      document.head.appendChild(st);
+    })();
+    // Level chooser for the article picker. Keeps the list uncluttered: the
+    // card shows only the cover and title, and B1/B2/C1 appear on demand.
+    function _artOpenLevels(item, anchorEl) {
+      if (!item) return;
+      var old = document.getElementById('_artLvlBackdrop');
+      if (old) old.remove();
+      var bd = document.createElement('div');
+      bd.id = '_artLvlBackdrop';
+      bd.style.cssText = 'position:fixed;inset:0;z-index:2147483600;background:transparent';
+      bd.addEventListener('click', function (e) { if (e.target === bd) bd.remove(); });
+      var m = document.createElement('div');
+      m.className = 'art-lvl-menu';
+      m.innerHTML = '<div class="t">Choose level</div>' +
+        '<button data-l="intermediate">B1 <i>Intermediate</i></button>' +
+        '<button data-l="upper-intermediate">B2 <i>Upper-Intermediate</i></button>' +
+        '<button data-l="advanced">C1 <i>Advanced</i></button>';
+      bd.appendChild(m);
+      document.body.appendChild(bd);
+      // position under the tapped card, flipped up / clamped if it would overflow
+      var r = (anchorEl || document.body).getBoundingClientRect();
+      var mw = m.offsetWidth || 210, mh = m.offsetHeight || 180;
+      var left = Math.min(Math.max(8, r.left), innerWidth - mw - 8);
+      var top = (r.bottom + mh + 8 < innerHeight) ? r.bottom + 6 : Math.max(8, r.top - mh - 6);
+      m.style.left = left + 'px';
+      m.style.top = top + 'px';
+      m.querySelectorAll('button').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var url = _learnRunnerUrl('articles', item, b.getAttribute('data-l'));
+          bd.remove();
+          if (url) window.location.href = url;
+        });
+      });
+    }
     function _renderLearnGrid(items) {
       var grid = document.getElementById('learnGrid');
       var empty = document.getElementById('learnEmpty');
@@ -16877,7 +16975,10 @@
       var cards = items.map(function (item, idx) {
         var levels = _hasLevels(cat, item);
         var buttons;
-        if (levels) {
+        if (cat === 'articles') {
+          // Levels live in a popover now — see _artOpenLevels().
+          buttons = '<button class="art-go" type="button" data-idx="' + idx + '">Read \u2192</button>';
+        } else if (levels) {
           buttons = '<div class="learn-card-levels cols-3">'
             + '<button class="learn-level-btn" type="button" data-idx="' + idx + '" data-level="intermediate">B1</button>'
             + '<button class="learn-level-btn" type="button" data-idx="' + idx + '" data-level="upper-intermediate">B2</button>'
@@ -16896,16 +16997,55 @@
         } else if ((cat === 'flashcards' || cat === 'articles') && item.cover) {
           coverHtml = '<div class="learn-card-cover"><img src="' + _escLearn(item.cover) + '" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>';
         }
+        // Articles get the same 🔗 share affordance as the skill-mock cards,
+        // so a teacher can assign one specific article to a group.
+        var shareHtml = '';
+        if (cat === 'articles') {
+          var _artNum = (item.file.match(/article=([0-9]+)/) || [])[1] || '';
+          shareHtml = '<button class="learn-share-btn _learnShareBtn" type="button" title="Copy link to this article"'
+                    + ' data-art="' + _escLearn(_artNum) + '" data-name="' + _escLearn(item.name) + '">🔗</button>';
+        }
+        // Articles show the number small and the title big; everything else
+        // keeps the original icon + single-line name.
+        var headHtml;
+        if (cat === 'articles') {
+          headHtml = '<div class="learn-card-head">'
+            + '<span class="art-num">Article ' + _escLearn(item.num || '') + '</span>'
+            + '<span class="art-title" title="' + _escLearn(item.title || item.name) + '">'
+            +   _escLearn(item.title || item.name) + '</span>'
+            + '</div>';
+        } else {
+          headHtml = '<div class="learn-card-head">'
+            + '<span class="learn-card-icon">' + _escLearn(item.icon || '📄') + '</span>'
+            + '<span class="learn-card-name" title="' + _escLearn(item.name) + '">' + _escLearn(item.name) + '</span>'
+            + '</div>';
+        }
         return '<article class="learn-card">'
+          + shareHtml
           + coverHtml
-          + '<div class="learn-card-head">'
-          +   '<span class="learn-card-icon">' + _escLearn(item.icon || '📄') + '</span>'
-          +   '<span class="learn-card-name" title="' + _escLearn(item.name) + '">' + _escLearn(item.name) + '</span>'
-          + '</div>'
+          + headHtml
           + buttons
           + '</article>';
       }).join('');
+      grid.classList.toggle('lg-articles', cat === 'articles');
       grid.innerHTML = cards;
+      // Wire the article share buttons — reuses the picker's share popover
+      // so Copy link / Share to Telegram behave exactly like the mock cards.
+      grid.querySelectorAll('._learnShareBtn').forEach(function (b) {
+        b.addEventListener('click', function (e) {
+          e.stopPropagation();
+          _pickerShareArticle(b.getAttribute('data-art'), b.getAttribute('data-name'), b);
+        });
+      });
+      // Articles: tapping the row/card (or Read) opens the level chooser.
+      if (cat === 'articles') {
+        grid.querySelectorAll('.learn-card').forEach(function (card, i) {
+          card.addEventListener('click', function (e) {
+            if (e.target.closest('._learnShareBtn')) return;   // share has its own popover
+            _artOpenLevels(items[i], e.target.closest('.art-go') || card);
+          });
+        });
+      }
       // Wire level-button clicks
       grid.querySelectorAll('.learn-level-btn').forEach(function (b) {
         b.addEventListener('click', function () {
