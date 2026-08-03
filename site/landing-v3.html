@@ -1889,6 +1889,24 @@
       gap: 10px;
       flex-wrap: wrap;
     }
+    /* 🔗 beside each full-mock CTA. flex:0 0 auto so it never steals width
+       from the button it belongs to — the CTAs keep their flex:1 split. */
+    .sc-cta-share {
+      flex: 0 0 auto;
+      width: 40px;
+      border: 1.5px solid #e2e8f0;
+      background: #fff;
+      border-radius: 11px;
+      font-size: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 140ms ease, border-color 140ms ease;
+    }
+    .sc-cta-share:hover { background: #f5f3ff; border-color: #6d28d9; }
+    .sc-cta-share.learn-share-copied { background: #dcfce7; border-color: #16a34a; }
+    @media (max-width: 560px) { .sc-cta-share { width: 34px; font-size: 13px; } }
     .sc-cta {
       flex: 1;
       padding: 11px 16px;
@@ -4350,7 +4368,11 @@
           </div>
           <div class="sc-ctas">
             <button class="sc-cta primary" id="msv3MainCefrFullMock" type="button">CEFR →</button>
+            <button class="sc-cta-share" id="msv3ShareCefrFullMock" type="button"
+                    title="Copy link to the CEFR full mock">🔗</button>
             <button class="sc-cta ghost"   id="msv3MainIeltsFullMock" type="button">IELTS →</button>
+            <button class="sc-cta-share" id="msv3ShareIeltsFullMock" type="button"
+                    title="Copy link to the IELTS full mock">🔗</button>
           </div>
         </div>
       </div>
@@ -6846,6 +6868,22 @@
     if (_mainCefrFM) _mainCefrFM.addEventListener('click', _msv3LaunchCefrFullMock);
     var _mainIeltsFM = document.getElementById('msv3MainIeltsFullMock');
     if (_mainIeltsFM) _mainIeltsFM.addEventListener('click', _msv3LaunchIeltsFullMock);
+
+    // Full-mock share links. Deliberately parameter-free: the launch buttons
+    // pick random L/R/W/S per student, so pinning them in a shared link would
+    // hand every student the same four mocks. full-mock.html generates its own
+    // test IDs when none are supplied, so a bare link lands on the name +
+    // passcode gate and each student still gets a fresh set.
+    function _wireFullMockShare(btnId, path, label) {
+      var b = document.getElementById(btnId);
+      if (!b) return;
+      b.addEventListener('click', function (e) {
+        e.stopPropagation();
+        _pickerShareLearn(window.location.origin + path, label, b);
+      });
+    }
+    _wireFullMockShare('msv3ShareCefrFullMock',  '/full-mock.html',       'CEFR Full Mock Exam');
+    _wireFullMockShare('msv3ShareIeltsFullMock', '/ielts-full-mock.html', 'IELTS Full Mock Exam');
 
     // Help Center + Terms panels — inline overlays, no navigation.
     function openPanel(id) {
