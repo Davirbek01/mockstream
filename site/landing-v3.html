@@ -9804,10 +9804,11 @@
     // Reading Articles share the same popover, pointing at the article deep
     // link instead of /take/. No level is included so the student still picks
     // B1/B2/C1 — assign a level by editing the link if you need to pin one.
-    function _pickerShareArticle(artNum, artName, btnEl) {
-      if (!artNum) return;
-      var url = window.location.origin + '/Articles.html?article=' + encodeURIComponent(artNum);
-      return _pickerShareMock(null, null, artNum, btnEl, 'learn-share-copied', url, artName || ('Article ' + artNum));
+    // Share a Learn card. The URL is precomputed per category on the button
+    // (level-free, so one link covers B1/B2/C1 — the runner asks).
+    function _pickerShareLearn(url, name, btnEl) {
+      if (!url) return;
+      return _pickerShareMock(null, null, 'x', btnEl, 'learn-share-copied', url, name || 'Mock Stream');
     }
 
     // _pickerShareMock — copy/share link popover for any picker's card.
@@ -16688,27 +16689,9 @@
         })
         .catch(function (e) { console.warn('Articles catalog load failed:', e); });
 
-      // All-time read counts, keyed by the same zero-padded number the cards
-      // use. One small RPC (~4 KB for 220 articles). If it fails the cards
-      // simply render without badges — exactly today's behaviour.
-      fetch(SB + '/rest/v1/rpc/article_view_counts',
-            { method: 'POST',
-              headers: { apikey: K, Authorization: 'Bearer ' + K, 'Content-Type': 'application/json' },
-              body: '{}' })
-        .then(function (r) { return r.ok ? r.json() : null; })
-        .then(function (map) {
-          if (!map || typeof map !== 'object') return;
-          window._ARTICLE_VIEWS = map;
-          try {
-            if (typeof _learnCurrentCategory !== 'undefined' && _learnCurrentCategory === 'articles'
-                && typeof _renderLearnGrid === 'function' && READING_ARTICLES.length) {
-              _renderLearnGrid(READING_ARTICLES);
-            }
-          } catch (_e) {}
-        })
-        .catch(function () {});
     })();
-    window._ARTICLE_VIEWS = window._ARTICLE_VIEWS || {};
+    // View counts are loaded per category by _loadLearnViews() when a picker
+    // opens, so nothing is fetched for a tab the student never visits.
     // 1..999 verbatim, then 1.2k / 12k — a bare "1" is intentional: a real
     // first read is more honest than hiding the article behind a threshold.
     function _fmtViews(n) {
@@ -16926,24 +16909,24 @@
         // no max-width/margin here: .learn-grid is a flex child with its own
         // padding, and constraining it made auto-fill compute columns against
         // the wrong width, overflowing the viewport.
-        '.learn-grid.lg-articles{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}' +
-        '.learn-grid.lg-articles .learn-card{flex-direction:column;align-items:stretch;gap:0;' +
+        '.learn-grid.lg-cards{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}' +
+        '.learn-grid.lg-cards .learn-card{flex-direction:column;align-items:stretch;gap:0;' +
           'padding:0 0 12px;cursor:pointer;overflow:hidden}' +
-        '.learn-grid.lg-articles .learn-card-cover{margin:0;width:auto;height:118px;flex:none;' +
+        '.learn-grid.lg-cards .learn-card-cover{margin:0;width:auto;height:118px;flex:none;' +
           'border-radius:13px 13px 0 0}' +
-        '.learn-grid.lg-articles .learn-card-head{display:block;padding:10px 12px 0;min-height:0}' +
-        '.learn-grid.lg-articles .learn-card-icon{display:none}' +
-        '.learn-grid.lg-articles .art-num{display:block;font:800 10px/1.2 system-ui;' +
+        '.learn-grid.lg-cards .learn-card-head{display:block;padding:10px 12px 0;min-height:0}' +
+        '.learn-grid.lg-cards .learn-card-icon{display:none}' +
+        '.learn-grid.lg-cards .art-num{display:block;font:800 10px/1.2 system-ui;' +
           'letter-spacing:.09em;text-transform:uppercase;color:#94a3b8;margin-bottom:3px}' +
-        '.learn-grid.lg-articles .art-title{display:block;font:700 14.5px/1.32 system-ui;' +
+        '.learn-grid.lg-cards .art-title{display:block;font:700 14.5px/1.32 system-ui;' +
           'color:#0f172a;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;' +
           '-webkit-box-orient:vertical}' +
-        '.learn-grid.lg-articles .learn-share-btn{position:absolute;top:8px;right:8px;margin:0}' +
-        '.learn-grid.lg-articles .art-go{display:none}' +
+        '.learn-grid.lg-cards .learn-share-btn{position:absolute;top:8px;right:8px;margin:0}' +
+        '.learn-grid.lg-cards .art-go{display:none}' +
         '@media (max-width:560px){' +
-          '.learn-grid.lg-articles{grid-template-columns:repeat(2,1fr);gap:10px}' +
-          '.learn-grid.lg-articles .learn-card-cover{height:92px}' +
-          '.learn-grid.lg-articles .art-title{font-size:13px}' +
+          '.learn-grid.lg-cards{grid-template-columns:repeat(2,1fr);gap:10px}' +
+          '.learn-grid.lg-cards .learn-card-cover{height:92px}' +
+          '.learn-grid.lg-cards .art-title{font-size:13px}' +
         '}' +
         '.art-lvl-menu{position:fixed;z-index:2147483601;background:#fff;border:1px solid #e2e8f0;' +
           'border-radius:12px;box-shadow:0 10px 30px rgba(15,23,42,.2);padding:8px;min-width:210px}' +
@@ -16959,19 +16942,92 @@
         // Sits ON the cover so it costs no vertical space and the title keeps
         // its full two lines. pointer-events:none so it never eats the tap
         // that opens the level chooser.
-        '.learn-grid.lg-articles .learn-card-cover{position:relative}' +
+        '.learn-grid.lg-cards .learn-card-cover{position:relative}' +
         '.art-eye{position:absolute;left:8px;bottom:8px;z-index:3;display:flex;align-items:center;gap:5px;' +
           'background:rgba(15,23,42,.72);color:#fff;font:700 11.5px/1 system-ui;padding:4px 9px;' +
           'border-radius:20px;pointer-events:none;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}' +
         '.art-eye svg{width:13px;height:13px;fill:none;stroke:#fff;stroke-width:2;flex:none}' +
+        // Grammar cover: shared photo + per-topic tint + topic icon.
+        // multiply keeps the paper texture readable under the colour.
+        '.learn-card-cover.gv-shot{position:relative;overflow:hidden}' +
+        '.learn-card-cover.gv-shot .gv-tint{position:absolute;inset:0;z-index:1;' +
+          'background:linear-gradient(150deg,var(--gv1),var(--gv2));mix-blend-mode:multiply}' +
+        '.learn-card-cover.gv-shot .gv-ic{position:absolute;inset:0;z-index:2;display:flex;' +
+          'align-items:center;justify-content:center;font-size:40px;line-height:1;' +
+          'filter:drop-shadow(0 3px 8px rgba(0,0,0,.45))}' +
+        '@media (max-width:560px){.learn-card-cover.gv-shot .gv-ic{font-size:30px}}' +
+        // variant switches, for side-by-side comparison only
+        'body.gv-a .gv-shot .gv-ic{display:none}' +
+        'body.gv-b .gv-shot .gv-tint{display:none}' +
         '@media (max-width:560px){.art-eye{left:6px;bottom:6px;padding:3px 7px;font-size:10.5px;gap:4px}' +
           '.art-eye svg{width:11px;height:11px}}';
       document.head.appendChild(st);
     })();
-    // Level chooser for the article picker. Keeps the list uncluttered: the
-    // card shows only the cover and title, and B1/B2/C1 appear on demand.
-    function _artOpenLevels(item, anchorEl) {
+    // Categories that use the cover-grid treatment: one card per SET, with
+    // the level chosen afterwards in a popover.
+    var _LEARN_GRID_CATS = ['articles', 'flashcards', 'grammar', 'vocabulary'];
+    function _isGridCat(c) { return _LEARN_GRID_CATS.indexOf(c) !== -1; }
+
+    // learn_views.kind for each picker category (singular in the DB).
+    var _LEARN_KIND = { articles: 'article', flashcards: 'flashcard',
+                        grammar: 'grammar', vocabulary: 'vocabulary' };
+
+    // The key a card is counted and shared under — always the BASE set, so
+    // B1/B2/C1 of the same topic share one count and one link.
+    function _learnKey(cat, item) {
+      if (!item) return '';
+      if (cat === 'articles') return item.num || '';
+      if (cat === 'grammar' || cat === 'vocabulary') {
+        return (String(item.file).match(/test=([^&]+)/) || [])[1] || '';
+      }
+      if (cat === 'flashcards') {
+        return _stripSlugDigits(String(item.file).replace(/\.js$/, ''));
+      }
+      return '';
+    }
+
+    // A level-free deep link for the set. The runners show their own level
+    // chooser when the slug carries no -<level> suffix, so one link serves
+    // every level — the teacher doesn't have to know the student's.
+    function _learnShareUrl(cat, item) {
+      var key = _learnKey(cat, item);
+      if (!key) return '';
+      var o = window.location.origin;
+      if (cat === 'articles')   return o + '/Articles.html?article=' + encodeURIComponent(key);
+      if (cat === 'flashcards') return o + '/flashcards.html?topic=' + encodeURIComponent(key);
+      return o + '/test.html?test=' + encodeURIComponent(key) + '&type=' + cat;
+    }
+
+    // All-time view counts per category, fetched once and cached.
+    window._LEARN_VIEWS = window._LEARN_VIEWS || {};
+    var _learnViewsPending = {};
+    function _loadLearnViews(cat) {
+      var kind = _LEARN_KIND[cat];
+      if (!kind || _learnViewsPending[cat]) return;
+      _learnViewsPending[cat] = true;
+      fetch('https://zknyukkbtbcqgvkgjktb.supabase.co/rest/v1/rpc/learn_view_counts', {
+        method: 'POST',
+        headers: { apikey: 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2',
+                   Authorization: 'Bearer sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2',
+                   'Content-Type': 'application/json' },
+        body: JSON.stringify({ p_kind: kind })
+      }).then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (map) {
+          if (!map || typeof map !== 'object') return;
+          window._LEARN_VIEWS[cat] = map;
+          if (_learnCurrentCategory === cat && typeof _renderLearnGrid === 'function'
+              && _learnCurrentItems && _learnCurrentItems.length) {
+            _renderLearnGrid(_learnCurrentItems);
+          }
+        }).catch(function () {});
+    }
+
+    // Level chooser. Keeps the list uncluttered: the card shows only the
+    // cover and title, and B1/B2/C1 appear on demand.
+    var _artLvlCat = 'articles';
+    function _artOpenLevels(item, anchorEl, cat) {
       if (!item) return;
+      _artLvlCat = cat || _learnCurrentCategory || 'articles';
       var old = document.getElementById('_artLvlBackdrop');
       if (old) old.remove();
       var bd = document.createElement('div');
@@ -16995,7 +17051,7 @@
       m.style.top = top + 'px';
       m.querySelectorAll('button').forEach(function (b) {
         b.addEventListener('click', function () {
-          var url = _learnRunnerUrl('articles', item, b.getAttribute('data-l'));
+          var url = _learnRunnerUrl(_artLvlCat || 'articles', item, b.getAttribute('data-l'));
           bd.remove();
           if (url) window.location.href = url;
         });
@@ -17015,7 +17071,7 @@
       var cards = items.map(function (item, idx) {
         var levels = _hasLevels(cat, item);
         var buttons;
-        if (cat === 'articles') {
+        if (_isGridCat(cat)) {
           // Levels live in a popover now — see _artOpenLevels().
           buttons = '<button class="art-go" type="button" data-idx="' + idx + '">Read \u2192</button>';
         } else if (levels) {
@@ -17029,35 +17085,56 @@
             + '<button class="learn-level-btn open-only" type="button" data-idx="' + idx + '" data-level="open">Open →</button>'
             + '</div>';
         }
+        // 👁 read/open count — shown from 1 up, nothing at 0.
+        var eyeHtml = '';
+        if (_isGridCat(cat)) {
+          var _v = Number((window._LEARN_VIEWS[cat] || {})[_learnKey(cat, item)]) || 0;
+          if (_v > 0) {
+            eyeHtml = '<span class="art-eye" title="' + _v + (_v === 1 ? ' open' : ' opens') + '">'
+              + '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/>'
+              + '<circle cx="12" cy="12" r="3"/></svg>' + _fmtViews(_v) + '</span>';
+          }
+        }
         var coverHtml = '';
         if (cat === 'grammar' || cat === 'vocabulary') {
           var _tb = (item.file.match(/test=([^&]+)/) || [])[1];
           var _cover = _tb && _gvImageMap[_tb];
-          if (_cover) coverHtml = '<div class="learn-card-cover"><img src="' + _escLearn(_cover) + '" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>';
+          // Grammar shares ONE stock photo across all 402 tests, so a plain
+          // photo grid gives the student nothing to navigate by except the
+          // title. Tint it a per-topic colour and stamp the topic icon on it:
+          // the photo stays, but every card becomes recognisable at a glance.
+          // Hue is derived from the slug, so a topic keeps its colour forever.
+          if (_cover && cat === 'grammar') {
+            var _gk = _tb || '', _h = 0;
+            for (var _i = 0; _i < _gk.length; _i++) _h = (_h * 31 + _gk.charCodeAt(_i)) % 360;
+            coverHtml = '<div class="learn-card-cover gv-shot" style="'
+              + '--gv1:hsla(' + _h + ',72%,56%,.80);'
+              + '--gv2:hsla(' + ((_h + 42) % 360) + ',66%,36%,.88)">'
+              + eyeHtml
+              + '<img src="' + _escLearn(_cover) + '" alt="" loading="lazy" onerror="this.parentElement.remove()">'
+              + '<span class="gv-tint"></span>'
+              + '<span class="gv-ic">' + _escLearn(item.icon || '📝') + '</span>'
+              + '</div>';
+          } else if (_cover) coverHtml = '<div class="learn-card-cover">' + eyeHtml + '<img src="' + _escLearn(_cover) + '" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>';
         } else if ((cat === 'flashcards' || cat === 'articles') && item.cover) {
-          var eyeHtml = '';
-          if (cat === 'articles') {
-            var _v = Number((window._ARTICLE_VIEWS || {})[item.num]) || 0;
-            if (_v > 0) {
-              eyeHtml = '<span class="art-eye" title="' + _v + ' read' + (_v === 1 ? '' : 's') + '">'
-                + '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/>'
-                + '<circle cx="12" cy="12" r="3"/></svg>' + _fmtViews(_v) + '</span>';
-            }
-          }
           coverHtml = '<div class="learn-card-cover">' + eyeHtml + '<img src="' + _escLearn(item.cover) + '" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>';
         }
         // Articles get the same 🔗 share affordance as the skill-mock cards,
         // so a teacher can assign one specific article to a group.
         var shareHtml = '';
-        if (cat === 'articles') {
-          var _artNum = (item.file.match(/article=([0-9]+)/) || [])[1] || '';
-          shareHtml = '<button class="learn-share-btn _learnShareBtn" type="button" title="Copy link to this article"'
-                    + ' data-art="' + _escLearn(_artNum) + '" data-name="' + _escLearn(item.name) + '">🔗</button>';
+        if (_isGridCat(cat)) {
+          shareHtml = '<button class="learn-share-btn _learnShareBtn" type="button" title="Copy link"'
+                    + ' data-url="' + _escLearn(_learnShareUrl(cat, item)) + '"'
+                    + ' data-name="' + _escLearn(item.name) + '">🔗</button>';
         }
         // Articles show the number small and the title big; everything else
         // keeps the original icon + single-line name.
         var headHtml;
-        if (cat === 'articles') {
+        if (_isGridCat(cat) && cat !== 'articles') {
+          headHtml = '<div class="learn-card-head">'
+            + '<span class="art-title" title="' + _escLearn(item.name) + '">'
+            +   _escLearn(item.name) + '</span></div>';
+        } else if (cat === 'articles') {
           headHtml = '<div class="learn-card-head">'
             + '<span class="art-num">Article ' + _escLearn(item.num || '') + '</span>'
             + '<span class="art-title" title="' + _escLearn(item.title || item.name) + '">'
@@ -17076,22 +17153,23 @@
           + buttons
           + '</article>';
       }).join('');
-      grid.classList.toggle('lg-articles', cat === 'articles');
+      grid.classList.toggle('lg-cards', _isGridCat(cat));
       grid.innerHTML = cards;
-      // Wire the article share buttons — reuses the picker's share popover
-      // so Copy link / Share to Telegram behave exactly like the mock cards.
+      // Wire the share buttons — reuses the picker's share popover so
+      // Copy link / Share to Telegram behave exactly like the mock cards.
       grid.querySelectorAll('._learnShareBtn').forEach(function (b) {
         b.addEventListener('click', function (e) {
           e.stopPropagation();
-          _pickerShareArticle(b.getAttribute('data-art'), b.getAttribute('data-name'), b);
+          _pickerShareLearn(b.getAttribute('data-url'), b.getAttribute('data-name'), b);
         });
       });
-      // Articles: tapping the row/card (or Read) opens the level chooser.
-      if (cat === 'articles') {
+      // Grid categories: tapping the card opens the level chooser.
+      if (_isGridCat(cat)) {
+        _loadLearnViews(cat);
         grid.querySelectorAll('.learn-card').forEach(function (card, i) {
           card.addEventListener('click', function (e) {
             if (e.target.closest('._learnShareBtn')) return;   // share has its own popover
-            _artOpenLevels(items[i], e.target.closest('.art-go') || card);
+            _artOpenLevels(items[i], e.target.closest('.art-go') || card, cat);
           });
         });
       }
