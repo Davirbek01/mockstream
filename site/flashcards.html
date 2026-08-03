@@ -651,10 +651,15 @@
   var _LVMETA = { 'intermediate': ['B1', 'Intermediate'],
                   'upper-intermediate': ['B2', 'Upper-Intermediate'],
                   'advanced': ['C1', 'Advanced'] };
+  // Longest suffix FIRST: 'x-upper-intermediate' also ends with
+  // '-intermediate', and matching the short one leaves '-upper' stuck on
+  // the base, filing every B2 open under a key nothing looks up.
+  var _LV_MATCH = ['upper-intermediate', 'intermediate', 'advanced'];
   function _lvSplit(slug) {
-    for (var i = 0; i < _LV.length; i++) {
-      if (slug && slug.slice(-(_LV[i].length + 1)) === '-' + _LV[i]) {
-        return { base: slug.slice(0, -(_LV[i].length + 1)), level: _LV[i] };
+    for (var i = 0; i < _LV_MATCH.length; i++) {
+      var suf = '-' + _LV_MATCH[i];
+      if (slug && slug.length > suf.length && slug.slice(-suf.length) === suf) {
+        return { base: slug.slice(0, -suf.length), level: _LV_MATCH[i] };
       }
     }
     return { base: slug || '', level: null };
