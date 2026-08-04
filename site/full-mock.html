@@ -4,6 +4,7 @@
 <head>
   <script src="finish-gate.js" defer></script>
   <script src="./ai-proxy-interceptor.js"></script>
+  <script src="./q4-descriptions.js"></script>
   <script src="./mock-code-verifier.js?v=2"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9594,11 +9595,16 @@ Empty responses = 0 points and skip analysis for that task.`;
                 const questions = speakingData.questions || [];
                 const images = speakingData.images || {};
 
-                // Fetch images for Q4-Q6 (image-based questions)
+                // Fetch images for Q4-Q6 (image-based questions).
+                // Skipped entirely when stored descriptions are available and
+                // stamped against these exact URLs — that removes both the
+                // image download and the vision tokens from every attempt.
                 let img1Base64 = null;
                 let img2Base64 = null;
+                const _storedQ4 = (typeof window.getStoredQ4Descriptions === 'function')
+                  ? window.getStoredQ4Descriptions(images) : null;
 
-                if (images.img1) {
+                if (!_storedQ4 && images.img1) {
                     try {
                         updateSpeakingProgress('Loading images for analysis...', 78);
                         const imgResponse = await fetch(images.img1);
@@ -9614,7 +9620,7 @@ Empty responses = 0 points and skip analysis for that task.`;
                     }
                 }
 
-                if (images.img2) {
+                if (!_storedQ4 && images.img2) {
                     try {
                         const imgResponse = await fetch(images.img2);
                         const imgBlob = await imgResponse.blob();
@@ -9630,20 +9636,24 @@ Empty responses = 0 points and skip analysis for that task.`;
                 }
 
                 let prompt = `${window.ScoringPrompts.requireCore('CEFR_SPEAKING_CORE')}
-
-📌 IMAGES: Q4-Q6 are picture-based. Two images are attached as inline_data — look at them directly to judge relevance and to ground the Q4-Q6 sample answers in what is actually shown. If a response is unrelated to the images, reduce the score accordingly.
-
-RESPONSES:
 `;
-                // Add picture descriptions for relevance checking
-                const img1Desc = images.img1Alt || 'Image 1';
-                const img2Desc = images.img2Alt || 'Image 2';
-                prompt += `PICTURE DESCRIPTIONS (For Q4-Q6 Relevance Checking):
-• Picture 1: ${img1Desc}
-• Picture 2: ${img2Desc}
-Note: Q4 asks about BOTH pictures. Q5-Q6 are follow-up questions about these pictures.
-If candidate's response does NOT relate to these pictures, mark as OFF-TOPIC.
-
+                if (_storedQ4) {
+                    prompt += window.formatStoredQ4ForScoring(_storedQ4);
+                    console.log('%c[Vision] Full mock using stored Q4 descriptions — no images sent',
+                      'color:#fff;background:#0d9488;padding:2px 8px;border-radius:4px;font-weight:bold');
+                } else {
+                    // No stored text: fall back to attaching the real images.
+                    // The old code also pasted img1Alt/img2Alt in as "PICTURE
+                    // DESCRIPTIONS", but those alts are unreliable — three
+                    // unrelated photos all read "Festival event" — so the
+                    // scorer was being told the wrong scene while looking at
+                    // the right one. Only the attached images are trusted now.
+                    prompt += `
+📌 IMAGES: Q4-Q6 are picture-based. Two images are attached as inline_data — look at them directly to judge relevance and to ground the Q4-Q6 sample answers in what is actually shown. If a response is unrelated to the images, reduce the score accordingly.
+Q4 asks about BOTH pictures. Q5-Q6 are follow-up questions about these pictures.
+`;
+                }
+                prompt += `
 RESPONSES:
 `;
                 transcriptions.forEach(t => {
