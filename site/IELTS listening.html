@@ -3955,6 +3955,79 @@
        change part. They are now docked at the bottom, permanently visible.
        The nodes are relocated at runtime, so their listeners are intact —
        this stylesheet only re-homes them. */
+
+    /* Reading themes. The page already drives its colours from these
+       variables, so overriding them here re-skins the whole content area
+       without touching a single component rule. */
+    /* Scoped to #mainContent, NOT body. Remapping these on <body> leaked into
+       every overlay that keeps its own white background — the "Audio Ready!"
+       intro turned pale-grey-on-white and its secondary button all but
+       vanished. Only the reading surface should change colour. */
+    body.lt-sepia #mainContent {
+      --bg: #f4ecd8; --card: #fbf5e7; --border: #e7dbc0;
+      --text: #4a3f2f; --text-light: #6b5a44;
+    }
+    body.lt-dark #mainContent {
+      --bg: #0f141b; --card: #161d27; --border: #27313f;
+      --text: #e6edf6; --text-light: #94a3b8;
+    }
+    body.lt-dark .mobile-tools-menu { background: #161d27; }
+    /* The content surfaces hardcode `background: white`, so the variable
+       remap above is not enough on its own — without these the cards stayed
+       white under light text. Scoped to #mainContent so exam chrome, modals
+       and the header keep their own colours. */
+    body.lt-sepia #mainContent { background: #f4ecd8; }
+    body.lt-sepia #mainContent .question-card,
+    body.lt-sepia #mainContent .part-block,
+    body.lt-sepia #mainContent .option-item,
+    body.lt-sepia #mainContent .question-item {
+      background: #fbf5e7 !important; border-color: #e7dbc0 !important; color: #4a3f2f;
+    }
+    body.lt-sepia #mainContent input,
+    body.lt-sepia #mainContent textarea,
+    body.lt-sepia #mainContent select,
+    body.lt-sepia #mainContent .gap-input {
+      background: #fffdf6 !important; color: #4a3f2f !important; border-color: #e7dbc0 !important;
+    }
+
+    body.lt-dark #mainContent { background: #0f141b; }
+    body.lt-dark #mainContent .question-card,
+    body.lt-dark #mainContent .part-block,
+    body.lt-dark #mainContent .option-item,
+    body.lt-dark #mainContent .question-item {
+      background: #161d27 !important; border-color: #27313f !important; color: #e6edf6;
+    }
+    body.lt-dark #mainContent input,
+    body.lt-dark #mainContent textarea,
+    body.lt-dark #mainContent select,
+    body.lt-dark #mainContent .gap-input {
+      background: #0f141b !important; color: #e6edf6 !important; border-color: #2f3a49 !important;
+    }
+    body.lt-dark #mainContent .option-letter { background: #223042 !important; color: #cbd5e1 !important; }
+    body.lt-dark #mainContent .question-text,
+    body.lt-dark #mainContent .part-title,
+    body.lt-dark #mainContent .passage-title,
+    body.lt-dark #mainContent p,
+    body.lt-dark #mainContent li,
+    body.lt-dark #mainContent div { color: #e6edf6; }
+    body.lt-dark #mainContent img { opacity: .92; }
+    /* .part-header (the "Part 1 (Questions 1-8)" strip) and the transcript /
+       review surfaces are separate from the question cards and were left
+       white — pale teal on white is unreadable in dark mode. */
+    body.lt-sepia #mainContent .part-header,
+    body.lt-sepia #mainContent .transcript-box,
+    body.lt-sepia #mainContent .passage-box {
+      background: #f6efe0 !important; border-color: #e7dbc0 !important; color: #4a3f2f !important;
+    }
+    body.lt-dark #mainContent .part-header,
+    body.lt-dark #mainContent .transcript-box,
+    body.lt-dark #mainContent .passage-box {
+      background: #1a2230 !important; border-color: #27313f !important; color: #e6edf6 !important;
+    }
+    body.lt-dark #mainContent .part-header * { color: #e6edf6 !important; }
+    body.lt-sepia #mainContent .part-header * { color: #4a3f2f !important; }
+
+
     .listen-dock { display: none; }
     @media (max-width: 768px) {
       .listen-dock {
@@ -3994,6 +4067,76 @@
         background: #ccfbf1; border-color: #0d9488; color: #0f766e;
       }
       .listen-dock .part-tab:active { transform: scale(.96); }
+      /* Liquid glass, same construction as the article player: a white
+         gradient tint, a heavy backdrop blur with a saturation lift so
+         colour behind glows through, and a specular top edge. The question
+         underneath stays faintly visible, which is what makes it read as
+         floating rather than as a solid slab bolted to the screen. */
+      .listen-dock {
+        background: linear-gradient(135deg, rgba(255,255,255,.72), rgba(255,255,255,.52));
+        -webkit-backdrop-filter: blur(22px) saturate(190%);
+        backdrop-filter: blur(22px) saturate(190%);
+        border-top: 1px solid rgba(255,255,255,.7);
+        box-shadow: 0 -10px 30px rgba(15,23,42,.14),
+                    inset 0 1px 0 rgba(255,255,255,.9);
+      }
+      .listen-dock .part-tab {
+        background: rgba(255,255,255,.55);
+        border-color: rgba(255,255,255,.75);
+        -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(6px);
+      }
+      .listen-dock .part-tab.active {
+        background: rgba(204,251,241,.92);
+        border-color: #0d9488;
+      }
+      .ld-gear {
+        background: rgba(255,255,255,.6);
+        border-color: rgba(255,255,255,.8);
+      }
+      /* Sepia / dark keep the glass, just smoked */
+      body.lt-sepia .listen-dock {
+        background: linear-gradient(135deg, rgba(250,243,228,.78), rgba(244,236,216,.6));
+        border-top-color: rgba(255,255,255,.6);
+      }
+      body.lt-dark .listen-dock {
+        background: linear-gradient(135deg, rgba(30,41,59,.72), rgba(15,23,42,.55));
+        border-top-color: rgba(255,255,255,.16);
+        box-shadow: 0 -10px 30px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.14);
+      }
+      body.lt-dark .listen-dock .part-tab {
+        background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.18); color: #cbd5e1;
+      }
+      body.lt-dark .ld-gear { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.2); }
+
+      /* ── Reading settings block inside the ⚙️ sheet ─────────────────── */
+      .lt-set { padding: 2px 0 4px; }
+      .lt-set-label {
+        font: 700 11px system-ui; color: #94a3b8; text-transform: uppercase;
+        letter-spacing: .06em; margin: 8px 0 6px;
+      }
+      .lt-size-row { display: flex; align-items: center; justify-content: center; gap: 14px; }
+      .lt-size-btn {
+        min-width: 66px; padding: 10px 0; border: 1.5px solid var(--border);
+        background: var(--card); border-radius: 11px; font: 700 17px system-ui;
+        color: var(--text); cursor: pointer;
+      }
+      .lt-size-btn:active { transform: scale(.96); }
+      .lt-size-val { font: 800 14px system-ui; color: var(--text); min-width: 52px; text-align: center; }
+      .lt-theme-row { display: flex; gap: 8px; }
+      .lt-theme-btn {
+        flex: 1; border: 2px solid var(--border); border-radius: 12px; padding: 10px 4px;
+        display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;
+      }
+      .lt-theme-btn b { font: 700 15px system-ui; }
+      .lt-theme-btn span { font: 600 10.5px system-ui; opacity: .75; }
+      .lt-theme-btn.t-def { background: #fff; color: #0f172a; }
+      .lt-theme-btn.t-sep { background: #f6ecd8; color: #6b5636; }
+      .lt-theme-btn.t-drk { background: #1c222b; color: #e8eef7; }
+      .lt-theme-btn.on { border-color: #0d9488; }
+      /* one text-size control, not two — the 🔍 cycle is superseded */
+      .mobile-tools-menu #mobileZoomBtn { display: none !important; }
+
 
       .ld-gear {
         flex: none; width: 34px; height: 34px; border: 1.5px solid #e2e8f0;
@@ -9521,6 +9664,77 @@ document.querySelectorAll('#hsPanel .hs-action[href], #hsPanel a[href][style]').
     var m = document.getElementById('mobileToolsMenu');
     if (m && m.classList.contains('active') && typeof toggleMobileMenu === 'function') toggleMobileMenu();
   };
+
+  // ── Reading settings (text size + theme) ─────────────────────────────
+  // Text size reuses the page's existing zoom mechanism rather than adding a
+  // competing font system: the 🔍 button cycled 100/115/130/145 and wrapped
+  // around, which meant shrinking required cycling all the way through. This
+  // is the same scaling, as a two-way stepper that shows the actual number.
+  (function _ltReadingSettings() {
+    var MIN = 80, MAX = 170, STEP = 10;
+    var st = { pct: 100, theme: 'default' };
+    try {
+      var raw = JSON.parse(localStorage.getItem('_ltReadPrefs') || '{}');
+      if (raw && raw.pct >= MIN && raw.pct <= MAX) st.pct = raw.pct;
+      if (raw && (raw.theme === 'sepia' || raw.theme === 'dark')) st.theme = raw.theme;
+    } catch (e) {}
+
+    function save() { try { localStorage.setItem('_ltReadPrefs', JSON.stringify(st)); } catch (e) {} }
+
+    function applySize() {
+      var mc = document.getElementById('mainContent');
+      if (mc) {
+        mc.classList.remove('zoom-1', 'zoom-2', 'zoom-3');   // the old cycle
+        mc.style.zoom = (st.pct / 100);
+      }
+      var v = document.getElementById('ltSizeVal');
+      if (v) v.textContent = st.pct + '%';
+    }
+    function applyTheme() {
+      document.body.classList.remove('lt-sepia', 'lt-dark');
+      if (st.theme === 'sepia') document.body.classList.add('lt-sepia');
+      else if (st.theme === 'dark') document.body.classList.add('lt-dark');
+      document.querySelectorAll('.lt-theme-btn').forEach(function (b) {
+        b.classList.toggle('on', b.getAttribute('data-t') === st.theme);
+      });
+    }
+    window._ltFont = function (dir) {
+      st.pct = Math.max(MIN, Math.min(MAX, st.pct + dir * STEP));
+      save(); applySize();
+    };
+    window._ltTheme = function (t) { st.theme = t; save(); applyTheme(); };
+
+    function mount() {
+      var menu = document.getElementById('mobileToolsMenu');
+      if (!menu || document.getElementById('ltSettings')) return;
+      var box = document.createElement('div');
+      box.className = 'lt-set';
+      box.id = 'ltSettings';
+      box.innerHTML =
+        '<div class="lt-set-label">Text size</div>' +
+        '<div class="lt-size-row">' +
+          '<button class="lt-size-btn" type="button" onclick="_ltFont(-1)">A&minus;</button>' +
+          '<span class="lt-size-val" id="ltSizeVal">100%</span>' +
+          '<button class="lt-size-btn" type="button" onclick="_ltFont(1)">A+</button>' +
+        '</div>' +
+        '<div class="lt-set-label">Reading theme</div>' +
+        '<div class="lt-theme-row">' +
+          '<button class="lt-theme-btn t-def" type="button" data-t="default" onclick="_ltTheme(\'default\')"><b>Aa</b><span>Default</span></button>' +
+          '<button class="lt-theme-btn t-sep" type="button" data-t="sepia" onclick="_ltTheme(\'sepia\')"><b>Aa</b><span>Sepia</span></button>' +
+          '<button class="lt-theme-btn t-drk" type="button" data-t="dark" onclick="_ltTheme(\'dark\')"><b>Aa</b><span>Dark</span></button>' +
+        '</div>';
+      // after the header row, above Leave/Finish
+      var first = menu.querySelector('.mobile-tools-row');
+      if (first && first.nextSibling) menu.insertBefore(box, first.nextSibling);
+      else menu.appendChild(box);
+      applySize(); applyTheme();
+    }
+
+    function boot() { mount(); applySize(); applyTheme(); }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+    else boot();
+    var n = 0, iv = setInterval(function () { mount(); if (++n > 20) clearInterval(iv); }, 500);
+  })();
   (function _initListenDock() {
     function build() {
       if (document.getElementById('listenDock')) return;
