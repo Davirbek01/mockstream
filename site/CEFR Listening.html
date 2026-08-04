@@ -4233,7 +4233,9 @@
          the part tabs, so the audio reads as a separate control rather
          than one band of buttons. */
       .listen-dock .mobile-playback-row {
-        position: fixed; left: 10px; right: 10px;
+        /* width:auto — the row inherits a width from the old menu layout,
+           which with left/right:10px pushed it 10px past the right edge. */
+        position: fixed; left: 10px; right: 10px; width: auto; box-sizing: border-box;
         bottom: calc(58px + env(safe-area-inset-bottom, 0px));
         z-index: 1401;
         display: flex; align-items: center; gap: 9px;
@@ -4261,6 +4263,16 @@
         box-shadow: 0 2px 8px rgba(13,148,136,.4);
       }
       .ld-finish:active { transform: scale(.96); }
+      /* The dock and its island are position:fixed at z-index 1400+, so they
+         floated ON TOP of every overlay — the intro card, the "audio
+         preparing" popup and the finish/results modal. Hidden whenever one
+         of those is up; _ldOverlayWatch() below sets the flag. */
+      body.ld-hidden .listen-dock,
+      body.ld-hidden .listen-dock .mobile-playback-row { display: none !important; }
+      /* Retired: ✓ Finish now lives in the dock, so the legacy red floating
+         submit button in the last part is a second, conflicting control. */
+      .mobile-floating-submit { display: none !important; }
+
       body.has-listen-dock { padding-bottom: 118px; }
 
       /* Liquid glass, same construction as the article player: a white
@@ -8846,6 +8858,29 @@ document.querySelectorAll('#hsPanel .hs-action[href], #hsPanel a[href][style]').
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
     else boot();
     var n = 0, iv = setInterval(function () { mount(); if (++n > 20) clearInterval(iv); }, 500);
+  })();
+
+  // Any modal/overlay must sit above the dock, not under it. Rather than
+  // hunt z-indexes across a dozen components, hide the dock while one is
+  // open — polled with the same 500ms tick the dock already uses.
+  (function _ldOverlayWatch() {
+    var IDS = ['loadingScreen', 'readyPopup', 'confirmModal', 'resultsModal',
+               'leaveWarningModal', 'transcriptsOverlay', 'mapPreviewOverlay',
+               'hsOverlay', 'mobileMenuOverlay', 'levelPickerOverlay'];
+    function visible(el) {
+      if (!el) return false;
+      if (!el.getClientRects().length) return false;
+      var cs = getComputedStyle(el);
+      return cs.display !== 'none' && cs.visibility !== 'hidden' && cs.opacity !== '0';
+    }
+    function tick() {
+      var open = IDS.some(function (id) { return visible(document.getElementById(id)); });
+      // the tools sheet itself is fine — it is opened FROM the dock
+      document.body.classList.toggle('ld-hidden', open);
+    }
+    setInterval(tick, 400);
+    document.addEventListener('click', function () { setTimeout(tick, 60); }, true);
+    tick();
   })();
   (function _initListenDock() {
     function build() {
