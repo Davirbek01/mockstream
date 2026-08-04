@@ -2987,7 +2987,16 @@
         display: flex; gap: 6px; padding: 0 8px 0 10px; margin: 0;
         flex: 1; min-width: 0; overflow-x: auto;
         scrollbar-width: none; -ms-overflow-style: none;
+        /* In practice mode the strip holds a single tab and collapsed to
+           0 height, so the chosen part was invisible. Give the row a floor
+           and centre its children. */
+        align-items: center; min-height: 34px;
       }
+      .listen-dock .part-tab { min-height: 30px; line-height: 16px; }
+      /* practice mode: no tabs, so the strip must not reserve space */
+      body.ld-practice .listen-dock .part-tabs { display: none !important; }
+      body.ld-practice .ld-partrow { justify-content: flex-end; padding-left: 10px; }
+      body.ld-practice .ld-finish { flex: 1 1 auto; }
       .listen-dock .part-tabs::-webkit-scrollbar { width: 0; height: 0; display: none; }
       .listen-dock .part-tab {
         flex: 1 1 0; min-width: 44px; padding: 7px 0; border-radius: 9px;
@@ -2997,7 +3006,14 @@
       }
       .listen-dock .part-tab.active { background: rgba(204,251,241,.92); border-color: #0d9488; color: #0f766e; }
       .listen-dock .part-tab:active { transform: scale(.96); }
-      body.lt-dark .listen-dock .part-tab { background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.18); color: #cbd5e1; }
+      body.lt-dark .listen-dock .part-tab {
+        background: rgba(255,255,255,.16) !important;
+        border-color: rgba(255,255,255,.30) !important;
+        color: #e8eef7 !important;
+      }
+      body.lt-dark .listen-dock .part-tab.active {
+        background: #0d9488 !important; border-color: #5eead4 !important; color: #fff !important;
+      }
       .listen-dock #fabBackBtn { display: none !important; }
       .ld-gear {
         flex: none; width: 34px; height: 34px; border: 1.5px solid rgba(255,255,255,.8);
@@ -3659,7 +3675,14 @@
       // Mobile FAB menu tabs (new logic)
       const fabTabs = document.getElementById('mobilePartTabs');
       if (fabTabs) {
-        fabTabs.innerHTML = visible.map(({ part, index }) => `
+        // Practice mode runs ONE part. Listing all five gave four tabs that
+        // went nowhere; showing just the chosen one gave a label, not a
+        // control (and it collapsed to 0 height inside the strip). So render
+        // no tabs at all and let ✓ Finish own the dock — there is nothing to
+        // switch between. body.ld-practice hides the empty strip.
+        if (window._practicePart) document.body.classList.add('ld-practice');
+        const _vis = window._practicePart ? [] : visible;
+        fabTabs.innerHTML = _vis.map(({ part, index }) => `
           <div class="part-tab ${index === currentPart ? 'active' : ''}" data-part="${index}">
             Part ${part.partNumber || (index + 1)}
           </div>
