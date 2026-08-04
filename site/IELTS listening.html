@@ -4147,7 +4147,33 @@
       body.ld-hidden .listen-dock .mobile-playback-row { display: none !important; }
       /* Retired: ✓ Finish now lives in the dock, so the legacy red floating
          submit button in the last part is a second, conflicting control. */
-      .mobile-floating-submit { display: none !important; }
+
+      /* .mobile-floating-submit.visible is `display:flex !important`, which
+         out-specifies a bare class + !important — the red Submit Test button
+         kept showing behind the dock. Match the .visible state too. */
+      .mobile-floating-submit,
+      .mobile-floating-submit.visible { display: none !important; }
+
+      /* The part strip scrolls, and the scrollbar handle sat across the tabs
+         looking like a stray line. Hidden; swiping still works. */
+      .listen-dock .part-tabs { scrollbar-width: none; -ms-overflow-style: none; }
+      .listen-dock .part-tabs::-webkit-scrollbar { width: 0; height: 0; display: none; }
+
+      /* Map letter buttons are white (they sit on the white map image) but
+         took their colour from --text, which is light in dark mode — white
+         on white, invisible. Pin the text dark; the map stays white paper. */
+      body.lt-dark #mainContent .map-letter-btn,
+      body.lt-dark #mainContent .drawing-btn,
+      body.lt-sepia #mainContent .map-letter-btn,
+      body.lt-sepia #mainContent .drawing-btn {
+        color: #0f172a !important;
+        border-color: #94a3b8 !important;
+      }
+      body.lt-dark #mainContent .map-letter-btn.selected,
+      body.lt-dark #mainContent .map-letter-btn.active {
+        background: #0d9488 !important; color: #fff !important;
+      }
+
 
       body.has-listen-dock { padding-bottom: 118px; }
 
