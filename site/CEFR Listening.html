@@ -4072,7 +4072,67 @@
     .mobile-part-nav {
       display: none;
     }
-  </style>
+  
+    /* ── Listening dock (replaces the 🛠️ FAB on phones) ────────────────
+       The playback controls and part switcher used to live inside the FAB
+       menu, so a student had to find the bubble before they could pause or
+       change part. They are now docked at the bottom, permanently visible.
+       The nodes are relocated at runtime, so their listeners are intact —
+       this stylesheet only re-homes them. */
+    .listen-dock { display: none; }
+    @media (max-width: 768px) {
+      .listen-dock {
+        display: block;
+        position: fixed; left: 0; right: 0; bottom: 0; z-index: 1400;
+        background: #fff;
+        border-top: 1px solid #e2e8f0;
+        box-shadow: 0 -6px 18px rgba(15, 23, 42, .10);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      /* the relocated playback row */
+      .listen-dock .mobile-playback-row {
+        display: flex; align-items: center; gap: 9px;
+        margin: 0; padding: 8px 11px 6px; border: 0; background: transparent;
+      }
+      .listen-dock .mob-menu-progress-container { flex: 1; min-width: 0; }
+      .listen-dock .mob-menu-play-btn { flex: none; }
+      .listen-dock .mob-menu-speed-btn { flex: none; }
+      /* the relocated part tabs */
+      .listen-dock .part-tabs {
+        display: flex; gap: 6px; padding: 0 11px 9px; margin: 0;
+        overflow-x: auto; -webkit-overflow-scrolling: touch;
+      }
+      .listen-dock .part-tabs > * { flex: 1 1 0; min-width: 42px; }
+      /* menu-only affordance; the dock is always visible */
+      .listen-dock #clFabBackBtn { display: none !important; }
+      /* .part-tab styling was scoped to .mobile-tools-menu, so the relocated
+         tabs rendered as bare text. Restated here, sized for a single row. */
+      .listen-dock .part-tab {
+        padding: 7px 0; border-radius: 9px;
+        background: #f8fafc; border: 1.5px solid #e2e8f0;
+        color: #64748b; font-weight: 800; font-size: 11.5px;
+        text-align: center; cursor: pointer; white-space: nowrap;
+        transition: background .15s, border-color .15s, color .15s;
+      }
+      .listen-dock .part-tab.active {
+        background: #ccfbf1; border-color: #0d9488; color: #0f766e;
+      }
+      .listen-dock .part-tab:active { transform: scale(.96); }
+
+      .ld-gear {
+        flex: none; width: 34px; height: 34px; border: 1.5px solid #e2e8f0;
+        background: #fff; border-radius: 9px; font-size: 14px; cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+      }
+      .ld-gear:active { background: #f1f5f9; }
+      /* keep the last question clear of the dock */
+      body.has-listen-dock { padding-bottom: 104px; }
+      /* the FAB is what this replaces */
+      .mobile-fab-container { display: none !important; }
+      /* the menu's own "Jump to Part" caption has nothing left under it */
+      .ld-moved-label { display: none !important; }
+    }
+</style>
 </head>
 
 <body>
@@ -8183,7 +8243,7 @@
         mobilePartTabs.innerHTML = window.TEST_DATA.parts.map((part, i) => {
           if (practiceIdx !== null && i !== practiceIdx) return '';
           const isActive = i === currentPart;
-          return `<div class="part-tab ${isActive ? 'active' : ''}" onclick="showPart(${i}); toggleMobileMenu();">Part ${i + 1}</div>`;
+          return `<div class="part-tab ${isActive ? 'active' : ''}" onclick="showPart(${i}); _ldCloseMenu();">Part ${i + 1}</div>`;
         }).join('') + '<div class="cl-fab-back-btn" id="clFabBackBtn" onclick="window._clFabBack()">↩ Back</div>';
       }
 
@@ -8488,6 +8548,81 @@ document.querySelectorAll('#hsPanel .hs-btn[href]').forEach(function(a){var h=a.
 document.querySelectorAll('#hsPanel .hs-action[href], #hsPanel a[href][style]').forEach(function(a){if(!a.getAttribute('target')){a.addEventListener('click',function(e){e.preventDefault();promptFriendlyLeave(function(){window.__okToLeave=true;window.location.href=a.getAttribute('href');});});}else{a.addEventListener('click',function(){window.__okToLeave=true;});}});
 </script>
 <script src="chat-bubble.js"></script>
+<script>
+  // ── Listening dock ───────────────────────────────────────────────────
+  // Moves the existing playback row and part tabs out of the FAB menu into
+  // a permanently visible bottom bar. Moving (not cloning) is deliberate:
+  // the IDs stay unique and every listener, progress-fill write and time
+  // update in the page keeps working with no other change.
+  // Part tabs used to close the FAB menu after jumping. In the dock the
+  // menu is already closed, so calling toggleMobileMenu() would OPEN it.
+  // Close-only, and a no-op when nothing is open.
+  window._ldCloseMenu = function () {
+    var m = document.getElementById('mobileToolsMenu');
+    if (m && m.classList.contains('active') && typeof toggleMobileMenu === 'function') toggleMobileMenu();
+  };
+  (function _initListenDock() {
+    function build() {
+      if (document.getElementById('listenDock')) return;
+      if (!window.matchMedia || !matchMedia('(max-width: 768px)').matches) return;
+      var play = document.querySelector('.mobile-playback-row');
+      var tabs = document.getElementById('mobilePartTabs');
+      if (!play || !tabs) return;               // markup changed — leave the FAB alone
+
+      var dock = document.createElement('div');
+      dock.className = 'listen-dock';
+      dock.id = 'listenDock';
+
+      // hide the now-orphaned "Jump to Part" caption in the menu
+      var cap = tabs.previousElementSibling;
+      if (cap && /jump to part/i.test(cap.textContent || '')) cap.classList.add('ld-moved-label');
+
+      dock.appendChild(play);                   // relocate, keeping listeners
+      var gear = document.createElement('button');
+      gear.className = 'ld-gear';
+      gear.type = 'button';
+      gear.title = 'More tools';
+      gear.textContent = '\u2699\uFE0F';
+      gear.addEventListener('click', function () {
+        if (typeof toggleMobileMenu === 'function') toggleMobileMenu();
+      });
+      play.appendChild(gear);
+      dock.appendChild(tabs);
+
+      document.body.appendChild(dock);
+      document.body.classList.add('has-listen-dock');
+
+      // The part tabs are rendered by updateMobileMenuStatus(), which only
+      // ran when the FAB menu was OPENED. The dock never opens it, so the
+      // tabs stayed empty — populate now, and refresh after every part
+      // change so the active tab tracks the question on screen.
+      var refresh = function () {
+        if (typeof updateMobileMenuStatus === 'function') {
+          try { updateMobileMenuStatus(); } catch (e) {}
+        }
+      };
+      refresh();
+      if (typeof window.showPart === 'function' && !window._ldWrappedShowPart) {
+        window._ldWrappedShowPart = true;
+        var _orig = window.showPart;
+        window.showPart = function () {
+          var r = _orig.apply(this, arguments);
+          setTimeout(refresh, 0);
+          return r;
+        };
+      }
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function () { setTimeout(build, 0); });
+    } else {
+      setTimeout(build, 0);
+    }
+    // Part tabs are populated by JS after the test loads; the dock may be
+    // built first, so re-check briefly rather than racing it.
+    var tries = 0;
+    var iv = setInterval(function () { build(); if (++tries > 20) clearInterval(iv); }, 500);
+  })();
+</script>
 </body>
 
 </html>
