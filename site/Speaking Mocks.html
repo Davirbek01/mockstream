@@ -24,6 +24,7 @@
   <script src="session-recovery.js"></script>
   <script src="./ai-proxy-interceptor.js"></script>
   <script src="./vision-factcheck.js"></script>
+  <script src="./q4-descriptions.js"></script>
   <script src="./mock-code-verifier.js?v=2"></script>
   <link rel="stylesheet" href="premium-gate.css">
   <script src="premium-gate.js" defer></script>
@@ -16551,9 +16552,15 @@ Do NOT artificially limit scores. Award the level the candidate truly deserves b
             (_resolvedPrimary === 'groq' && /qwen3\.6/.test(_resolvedModel))
           );
           const _visionToggleOn = (window.SITE_CONFIG && window.SITE_CONFIG.visionFactCheck === true);
-          const _needsImagesAttached = _primaryIsVisionCapable;
-          const _needsPrePass        = !_primaryIsVisionCapable && _visionToggleOn;
-          console.log('[Vision] strategy', { primary: _resolvedPrimary, capable: _primaryIsVisionCapable, toggle: _visionToggleOn });
+          // Stored descriptions win over both branches when present and
+          // stamped against the current images: the photos are fixed for the
+          // life of the mock, so re-deriving them per attempt was pure waste.
+          // Returns null on any mismatch → we fall through to live vision.
+          const _storedQ4 = (typeof window.getStoredQ4Descriptions === 'function')
+            ? window.getStoredQ4Descriptions(testData.images) : null;
+          const _needsImagesAttached = _primaryIsVisionCapable && !_storedQ4;
+          const _needsPrePass        = !_primaryIsVisionCapable && _visionToggleOn && !_storedQ4;
+          console.log('[Vision] strategy', { primary: _resolvedPrimary, capable: _primaryIsVisionCapable, toggle: _visionToggleOn, stored: !!_storedQ4 });
 
           // Fetch images for Q4-Q6 analysis (only when the primary AI will
           // actually consume them; the vision pre-pass fetches its own).
@@ -16610,7 +16617,12 @@ Do NOT artificially limit scores. Award the level the candidate truly deserves b
           //      that explicitly tells the scorer not to grade image
           //      relevance — only language criteria.
           let pictureContext = '';
-          if (_needsImagesAttached) {
+          if (_storedQ4) {
+            // No image bytes, no pre-pass call — the whole point.
+            pictureContext = window.formatStoredQ4ForScoring(_storedQ4);
+            console.log('%c[Vision] Using stored Q4 descriptions — no vision call',
+              'color:#fff;background:#0d9488;padding:2px 8px;border-radius:4px;font-weight:bold');
+          } else if (_needsImagesAttached) {
             pictureContext =
               '\n=== Q4-Q6 PICTURES ===\n' +
               'Two images are attached for Part 1.2 (Q4-Q6). LOOK at them directly to judge relevance and to ground sample answers in what is actually shown.\n' +
