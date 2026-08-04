@@ -2865,7 +2865,129 @@
       border-left-color: #10b981;
       background-color: rgba(16,185,129,.04);
     }
-  </style>
+  
+    /* ── Reading dock (replaces the 🛠️ FAB on phones) ───────────────────
+       Same treatment as CEFR Listening, without the audio island: the part
+       switcher and Finish are docked and permanently visible, so neither
+       depends on a student noticing a floating bubble. Nodes are relocated
+       at runtime, so their listeners survive. */
+    .listen-dock { display: none; }
+    /* Reading themes, scoped to the passage/question surface only — putting
+       these on <body> leaks into overlays that keep white backgrounds. */
+    body.lt-sepia #mainContainer {
+      --bg: #f4ecd8; --card: #fbf5e7; --border: #e7dbc0;
+      --text: #4a3f2f; --text-light: #6b5a44;
+    }
+    body.lt-dark #mainContainer {
+      --bg: #0f141b; --card: #161d27; --border: #27313f;
+      /* --text-light is brighter here than in Listening on purpose: in a
+         reading test the passage IS the content, and #94a3b8 left it looking
+         greyed-out rather than merely secondary. */
+      --text: #f1f5f9; --text-light: #cbd5e1;
+    }
+    body.lt-dark #mainContainer p,
+    body.lt-dark #mainContainer .passage-text,
+    body.lt-dark #mainContainer .passage-card { color: #e8eef7 !important; }
+    body.lt-dark #mainContainer { color: #e6edf6; }
+    /* Strip backgrounds rather than enumerate them: this file hardcodes
+       white in dozens of places, and any surface missed would render light
+       text on white. Buttons/inputs/images keep their own colours. */
+    body.lt-dark #mainContainer *:not(button):not(input):not(select):not(textarea):not(img):not(svg):not(canvas) {
+      background-color: transparent !important;
+      background-image: none !important;
+    }
+    body.lt-dark #mainContainer .question-card,
+    body.lt-dark #mainContainer .passage-card,
+    body.lt-dark #mainContainer .part-header,
+    body.lt-dark #mainContainer .option-item,
+    body.lt-dark #mainContainer .question-item {
+      background-color: #161d27 !important; border-color: #27313f !important;
+    }
+    body.lt-dark #mainContainer input,
+    body.lt-dark #mainContainer textarea,
+    body.lt-dark #mainContainer select {
+      background-color: #0f141b !important; color: #e6edf6 !important; border-color: #2f3a49 !important;
+    }
+    body.lt-dark #mainContainer img { background: #fff !important; border-radius: 8px; }
+    body.lt-sepia #mainContainer .question-card,
+    body.lt-sepia #mainContainer .passage-card,
+    body.lt-sepia #mainContainer .part-header,
+    body.lt-sepia #mainContainer .option-item,
+    body.lt-sepia #mainContainer .question-item {
+      background-color: #fbf5e7 !important; border-color: #e7dbc0 !important;
+    }
+
+    @media (max-width: 768px) {
+      .listen-dock {
+        display: block;
+        position: fixed; left: 0; right: 0; bottom: 0; z-index: 1400;
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        background: linear-gradient(135deg, rgba(255,255,255,.72), rgba(255,255,255,.52));
+        -webkit-backdrop-filter: blur(22px) saturate(190%);
+        backdrop-filter: blur(22px) saturate(190%);
+        border-top: 1px solid rgba(255,255,255,.7);
+        box-shadow: 0 -10px 30px rgba(15,23,42,.14), inset 0 1px 0 rgba(255,255,255,.9);
+      }
+      body.lt-dark .listen-dock {
+        background: linear-gradient(135deg, rgba(30,41,59,.72), rgba(15,23,42,.55));
+        border-top-color: rgba(255,255,255,.16);
+        box-shadow: 0 -10px 30px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.14);
+      }
+      .ld-partrow { display: flex; align-items: center; gap: 8px; padding: 8px 10px 8px 0; }
+      .listen-dock .part-tabs {
+        display: flex; gap: 6px; padding: 0 8px 0 10px; margin: 0;
+        flex: 1; min-width: 0; overflow-x: auto;
+        scrollbar-width: none; -ms-overflow-style: none;
+      }
+      .listen-dock .part-tabs::-webkit-scrollbar { width: 0; height: 0; display: none; }
+      .listen-dock .part-tab {
+        flex: 1 1 0; min-width: 44px; padding: 7px 0; border-radius: 9px;
+        background: rgba(255,255,255,.55); border: 1.5px solid rgba(255,255,255,.75);
+        color: #64748b; font-weight: 800; font-size: 11.5px; text-align: center;
+        cursor: pointer; white-space: nowrap;
+      }
+      .listen-dock .part-tab.active { background: rgba(204,251,241,.92); border-color: #0d9488; color: #0f766e; }
+      .listen-dock .part-tab:active { transform: scale(.96); }
+      body.lt-dark .listen-dock .part-tab { background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.18); color: #cbd5e1; }
+      .listen-dock #fabBackBtn { display: none !important; }
+      .ld-gear {
+        flex: none; width: 34px; height: 34px; border: 1.5px solid rgba(255,255,255,.8);
+        background: rgba(255,255,255,.6); border-radius: 9px; font-size: 14px; cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+      }
+      body.lt-dark .ld-gear { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.2); }
+      .ld-finish {
+        flex: none; padding: 7px 13px; border: 0; border-radius: 9px;
+        background: #0d9488; color: #fff; font: 800 11.5px system-ui;
+        cursor: pointer; white-space: nowrap; box-shadow: 0 2px 8px rgba(13,148,136,.4);
+      }
+      .ld-finish:active { transform: scale(.96); }
+      /* the FAB and the legacy red submit are what this replaces */
+      .mobile-fab-container { display: none !important; }
+      .mobile-floating-submit,
+      .mobile-floating-submit.visible { display: none !important; }
+      body.ld-hidden .listen-dock { display: none !important; }
+      body.has-listen-dock { padding-bottom: 74px; }
+      .mobile-tools-menu #mobileZoomBtn { display: none !important; }
+      /* reading settings block */
+      .lt-set-label { font: 700 11px system-ui; color: #94a3b8; text-transform: uppercase;
+        letter-spacing: .06em; margin: 8px 0 6px; }
+      .lt-size-row { display: flex; align-items: center; justify-content: center; gap: 14px; }
+      .lt-size-btn { min-width: 66px; padding: 10px 0; border: 1.5px solid #e2e8f0;
+        background: #fff; border-radius: 11px; font: 700 17px system-ui; color: #0f172a; cursor: pointer; }
+      .lt-size-val { font: 800 14px system-ui; min-width: 52px; text-align: center; }
+      .lt-theme-row { display: flex; gap: 8px; }
+      .lt-theme-btn { flex: 1; border: 2px solid #e2e8f0; border-radius: 12px; padding: 10px 4px;
+        display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; }
+      .lt-theme-btn b { font: 700 15px system-ui; }
+      .lt-theme-btn span { font: 600 10.5px system-ui; opacity: .75; }
+      .lt-theme-btn.t-def { background: #fff; color: #0f172a; }
+      .lt-theme-btn.t-sep { background: #f6ecd8; color: #6b5636; }
+      .lt-theme-btn.t-drk { background: #1c222b; color: #e8eef7; }
+      .lt-theme-btn.on { border-color: #0d9488; }
+      body.lt-dark .mobile-tools-menu { background: #161d27; }
+    }
+</style>
 </head>
 <body>
   <!-- Header -->
@@ -3496,7 +3618,7 @@
         fabTabs.querySelectorAll('.part-tab').forEach(tab => {
           tab.addEventListener('click', () => {
             showPart(parseInt(tab.dataset.part));
-            toggleMobileMenu();
+            _ldCloseMenu();
           });
         });
       }
@@ -7363,5 +7485,126 @@ document.querySelectorAll('#hsPanel .hs-btn[href]').forEach(function(a){var h=a.
 document.querySelectorAll('#hsPanel .hs-action[href], #hsPanel a[href][style]').forEach(function(a){if(!a.getAttribute('target')){a.addEventListener('click',function(e){e.preventDefault();promptFriendlyLeave(function(){window.__okToLeave=true;window.location.href=a.getAttribute('href');});});}else{a.addEventListener('click',function(){window.__okToLeave=true;});}});
 </script>
 <script src="chat-bubble.js"></script>
+
+<script>
+(function () {
+  'use strict';
+  // Close-only: part tabs called toggleMobileMenu() to dismiss the FAB menu.
+  // From the dock the menu is already closed, so that would OPEN it.
+  window._ldCloseMenu = function () {
+    var m = document.getElementById('mobileToolsMenu');
+    if (m && m.classList.contains('active') && typeof toggleMobileMenu === 'function') toggleMobileMenu();
+  };
+
+  // ── Reading settings ────────────────────────────────────────────────
+  var MIN = 80, MAX = 170, STEP = 10;
+  var st = { pct: 100, theme: 'default' };
+  try {
+    var raw = JSON.parse(localStorage.getItem('_ltReadPrefs') || '{}');
+    if (raw && raw.pct >= MIN && raw.pct <= MAX) st.pct = raw.pct;
+    if (raw && (raw.theme === 'sepia' || raw.theme === 'dark')) st.theme = raw.theme;
+  } catch (e) {}
+  function save() { try { localStorage.setItem('_ltReadPrefs', JSON.stringify(st)); } catch (e) {} }
+  function applySize() {
+    var mc = document.getElementById('mainContainer');
+    if (mc) mc.style.zoom = (st.pct / 100);
+    var v = document.getElementById('ltSizeVal');
+    if (v) v.textContent = st.pct + '%';
+  }
+  function applyTheme() {
+    document.body.classList.remove('lt-sepia', 'lt-dark');
+    if (st.theme === 'sepia') document.body.classList.add('lt-sepia');
+    else if (st.theme === 'dark') document.body.classList.add('lt-dark');
+    document.querySelectorAll('.lt-theme-btn').forEach(function (b) {
+      b.classList.toggle('on', b.getAttribute('data-t') === st.theme);
+    });
+  }
+  window._ltFont = function (d) { st.pct = Math.max(MIN, Math.min(MAX, st.pct + d * STEP)); save(); applySize(); };
+  window._ltTheme = function (t) { st.theme = t; save(); applyTheme(); };
+
+  function mountSettings() {
+    var menu = document.getElementById('mobileToolsMenu');
+    if (!menu || document.getElementById('ltSettings')) return;
+    var box = document.createElement('div');
+    box.id = 'ltSettings';
+    box.innerHTML =
+      '<div class="lt-set-label">Text size</div>' +
+      '<div class="lt-size-row">' +
+        '<button class="lt-size-btn" type="button" onclick="_ltFont(-1)">A&minus;</button>' +
+        '<span class="lt-size-val" id="ltSizeVal">100%</span>' +
+        '<button class="lt-size-btn" type="button" onclick="_ltFont(1)">A+</button>' +
+      '</div>' +
+      '<div class="lt-set-label">Reading theme</div>' +
+      '<div class="lt-theme-row">' +
+        '<button class="lt-theme-btn t-def" type="button" data-t="default" onclick="_ltTheme(\'default\')"><b>Aa</b><span>Default</span></button>' +
+        '<button class="lt-theme-btn t-sep" type="button" data-t="sepia" onclick="_ltTheme(\'sepia\')"><b>Aa</b><span>Sepia</span></button>' +
+        '<button class="lt-theme-btn t-drk" type="button" data-t="dark" onclick="_ltTheme(\'dark\')"><b>Aa</b><span>Dark</span></button>' +
+      '</div>';
+    var first = menu.querySelector('.mobile-tools-row') || menu.firstElementChild;
+    if (first && first.nextSibling) menu.insertBefore(box, first.nextSibling);
+    else menu.appendChild(box);
+    applySize(); applyTheme();
+  }
+
+  // ── The dock ────────────────────────────────────────────────────────
+  function build() {
+    if (document.getElementById('listenDock')) return;
+    if (!window.matchMedia || !matchMedia('(max-width: 768px)').matches) return;
+    var tabs = document.getElementById('mobilePartTabs');
+    if (!tabs) return;
+    var dock = document.createElement('div');
+    dock.className = 'listen-dock';
+    dock.id = 'listenDock';
+    var cap = tabs.previousElementSibling;
+    if (cap && /jump to part/i.test(cap.textContent || '')) cap.style.display = 'none';
+
+    var row = document.createElement('div');
+    row.className = 'ld-partrow';
+    row.appendChild(tabs);                      // relocate, keeping listeners
+
+    var gear = document.createElement('button');
+    gear.className = 'ld-gear'; gear.type = 'button'; gear.title = 'More tools';
+    gear.textContent = '\u2699\uFE0F';
+    gear.addEventListener('click', function () {
+      if (typeof toggleMobileMenu === 'function') toggleMobileMenu();
+    });
+    // Finish lives OUTSIDE #mobilePartTabs: generatePartNav() rewrites that
+    // element's innerHTML on every part change and would delete it.
+    var fin = document.createElement('button');
+    fin.className = 'ld-finish'; fin.type = 'button';
+    fin.textContent = '\u2713 Finish';
+    fin.addEventListener('click', function () {
+      var m = document.getElementById('confirmModal');
+      if (m) m.classList.add('active');
+    });
+    row.appendChild(fin);
+    row.appendChild(gear);
+    dock.appendChild(row);
+    document.body.appendChild(dock);
+    document.body.classList.add('has-listen-dock');
+    if (typeof generatePartNav === 'function') { try { generatePartNav(); } catch (e) {} }
+  }
+
+  // Overlays must sit above the dock, not under it.
+  var IDS = ['confirmModal', 'resultsModal', 'leaveWarningModal', 'loadingScreen',
+             'mobileMenuOverlay', 'hsOverlay', 'transcriptsOverlay'];
+  function overlayTick() {
+    var open = IDS.some(function (id) {
+      var el = document.getElementById(id);
+      if (!el || !el.getClientRects().length) return false;
+      var cs = getComputedStyle(el);
+      return cs.display !== 'none' && cs.visibility !== 'hidden' && cs.opacity !== '0';
+    });
+    document.body.classList.toggle('ld-hidden', open);
+  }
+
+  function boot() { build(); mountSettings(); applySize(); applyTheme(); overlayTick(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+  var n = 0, iv = setInterval(function () { boot(); if (++n > 25) clearInterval(iv); }, 500);
+  setInterval(overlayTick, 400);
+  document.addEventListener('click', function () { setTimeout(overlayTick, 60); }, true);
+})();
+</script>
 </body>
 </html>
