@@ -3948,7 +3948,320 @@
         transform: rotate(-360deg);
       }
     }
-  </style>
+  
+    /* ── Listening dock (replaces the 🛠️ FAB on phones) ────────────────
+       The playback controls and part switcher used to live inside the FAB
+       menu, so a student had to find the bubble before they could pause or
+       change part. They are now docked at the bottom, permanently visible.
+       The nodes are relocated at runtime, so their listeners are intact —
+       this stylesheet only re-homes them. */
+
+    /* Reading themes. The page already drives its colours from these
+       variables, so overriding them here re-skins the whole content area
+       without touching a single component rule. */
+    /* Scoped to #mainContent, NOT body. Remapping these on <body> leaked into
+       every overlay that keeps its own white background — the "Audio Ready!"
+       intro turned pale-grey-on-white and its secondary button all but
+       vanished. Only the reading surface should change colour. */
+    body.lt-sepia #mainContent {
+      --bg: #f4ecd8; --card: #fbf5e7; --border: #e7dbc0;
+      --text: #4a3f2f; --text-light: #6b5a44;
+    }
+    body.lt-dark #mainContent {
+      --bg: #0f141b; --card: #161d27; --border: #27313f;
+      --text: #e6edf6; --text-light: #94a3b8;
+    }
+    body.lt-dark .mobile-tools-menu { background: #161d27; }
+    /* The content surfaces hardcode `background: white`, so the variable
+       remap above is not enough on its own — without these the cards stayed
+       white under light text. Scoped to #mainContent so exam chrome, modals
+       and the header keep their own colours. */
+    body.lt-sepia #mainContent { background: #f4ecd8; }
+    body.lt-sepia #mainContent .question-card,
+    body.lt-sepia #mainContent .part-block,
+    body.lt-sepia #mainContent .option-item,
+    body.lt-sepia #mainContent .question-item {
+      background: #fbf5e7 !important; border-color: #e7dbc0 !important; color: #4a3f2f;
+    }
+    body.lt-sepia #mainContent input,
+    body.lt-sepia #mainContent textarea,
+    body.lt-sepia #mainContent select,
+    body.lt-sepia #mainContent .gap-input {
+      background: #fffdf6 !important; color: #4a3f2f !important; border-color: #e7dbc0 !important;
+    }
+
+    body.lt-dark #mainContent { background: #0f141b; }
+    body.lt-dark #mainContent .question-card,
+    body.lt-dark #mainContent .part-block,
+    body.lt-dark #mainContent .option-item,
+    body.lt-dark #mainContent .question-item {
+      background: #161d27 !important; border-color: #27313f !important; color: #e6edf6;
+    }
+    body.lt-dark #mainContent input,
+    body.lt-dark #mainContent textarea,
+    body.lt-dark #mainContent select,
+    body.lt-dark #mainContent .gap-input {
+      background: #0f141b !important; color: #e6edf6 !important; border-color: #2f3a49 !important;
+    }
+    body.lt-dark #mainContent .option-letter { background: #223042 !important; color: #cbd5e1 !important; }
+    /* Text colour comes from --text on #mainContent; a blanket `div {color}`
+       here is what made every unthemed white box unreadable. */
+    body.lt-dark #mainContent { color: #e6edf6; }
+
+    /* Dark mode, take two. Enumerating every container was wrong: the file
+       has 48 hardcoded whites plus inline styles, so anything I missed
+       rendered light text on a white box — Parts 2, 3, 4 and 6 were all
+       unreadable. Strip the background off everything inside the reading
+       surface instead, let the dark page show through, then re-apply a
+       surface to the cards. Buttons, inputs and images keep their own
+       colours so nothing loses meaning. */
+    body.lt-dark #mainContent *:not(button):not(input):not(select):not(textarea):not(img):not(svg):not(canvas) {
+      background-color: transparent !important;
+      background-image: none !important;
+    }
+    body.lt-dark #mainContent .question-card,
+    body.lt-dark #mainContent .part-header,
+    body.lt-dark #mainContent .part-block,
+    body.lt-dark #mainContent .option-item,
+    body.lt-dark #mainContent .question-item,
+    body.lt-dark #mainContent .form-item {
+      background-color: #161d27 !important; border-color: #27313f !important;
+    }
+    body.lt-dark #mainContent input,
+    body.lt-dark #mainContent textarea,
+    body.lt-dark #mainContent select,
+    body.lt-dark #mainContent .gap-input {
+      background-color: #0f141b !important; color: #e6edf6 !important; border-color: #33405233 !important;
+    }
+    /* images carry their own white paper (maps, diagrams) — leave them be */
+    body.lt-dark #mainContent img { background: #fff !important; border-radius: 8px; }
+
+    /* Sepia degrades safely: its text stays DARK, so any surface this misses
+       is still readable — the opposite of dark, where a missed surface hides
+       the text completely. */
+    body.lt-sepia #mainContent .question-card,
+    body.lt-sepia #mainContent .part-header,
+    body.lt-sepia #mainContent .part-block,
+    body.lt-sepia #mainContent .option-item,
+    body.lt-sepia #mainContent .question-item,
+    body.lt-sepia #mainContent .form-item {
+      background-color: #fbf5e7 !important; border-color: #e7dbc0 !important;
+    }
+
+    /* .part-header (the "Part 1 (Questions 1-8)" strip) and the transcript /
+       review surfaces are separate from the question cards and were left
+       white — pale teal on white is unreadable in dark mode. */
+    body.lt-sepia #mainContent .part-header,
+    body.lt-sepia #mainContent .transcript-box,
+    body.lt-sepia #mainContent .passage-box {
+      background: #f6efe0 !important; border-color: #e7dbc0 !important; color: #4a3f2f !important;
+    }
+    body.lt-dark #mainContent .part-header,
+    body.lt-dark #mainContent .transcript-box,
+    body.lt-dark #mainContent .passage-box {
+      background: #1a2230 !important; border-color: #27313f !important; color: #e6edf6 !important;
+    }
+    body.lt-dark #mainContent .part-header * { color: #e6edf6 !important; }
+    body.lt-sepia #mainContent .part-header * { color: #4a3f2f !important; }
+
+
+    .listen-dock { display: none; }
+    @media (max-width: 768px) {
+      .listen-dock {
+        display: block;
+        position: fixed; left: 0; right: 0; bottom: 0; z-index: 1400;
+        background: #fff;
+        border-top: 1px solid #e2e8f0;
+        box-shadow: 0 -6px 18px rgba(15, 23, 42, .10);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      /* the relocated playback row */
+      .listen-dock .mobile-playback-row {
+        display: flex; align-items: center; gap: 9px;
+        margin: 0; padding: 8px 11px 6px; border: 0; background: transparent;
+      }
+      .listen-dock .mob-menu-progress-container { flex: 1; min-width: 0; }
+      .listen-dock .mob-menu-play-btn { flex: none; }
+      .listen-dock .mob-menu-speed-btn { flex: none; }
+      /* the relocated part tabs */
+      .listen-dock .part-tabs {
+        display: flex; gap: 6px; padding: 0 11px 9px; margin: 0;
+        overflow-x: auto; -webkit-overflow-scrolling: touch;
+      }
+      .listen-dock .part-tabs > * { flex: 1 1 0; min-width: 42px; }
+      /* menu-only affordance; the dock is always visible */
+      .listen-dock #clFabBackBtn { display: none !important; }
+      /* .part-tab styling was scoped to .mobile-tools-menu, so the relocated
+         tabs rendered as bare text. Restated here, sized for a single row. */
+      .listen-dock .part-tab {
+        padding: 7px 0; border-radius: 9px;
+        background: #f8fafc; border: 1.5px solid #e2e8f0;
+        color: #64748b; font-weight: 800; font-size: 11.5px;
+        text-align: center; cursor: pointer; white-space: nowrap;
+        transition: background .15s, border-color .15s, color .15s;
+      }
+      .listen-dock .part-tab.active {
+        background: #ccfbf1; border-color: #0d9488; color: #0f766e;
+      }
+      .listen-dock .part-tab:active { transform: scale(.96); }
+      /* ── Playback as a floating island ─────────────────────────────────
+         Detached from the dock: its own rounded glass pill sitting above
+         the part tabs, so the audio reads as a separate control rather
+         than one band of buttons. */
+      .listen-dock .mobile-playback-row {
+        /* width:auto — the row inherits a width from the old menu layout,
+           which with left/right:10px pushed it 10px past the right edge. */
+        position: fixed; left: 10px; right: 10px; width: auto; box-sizing: border-box;
+        bottom: calc(58px + env(safe-area-inset-bottom, 0px));
+        z-index: 1401;
+        display: flex; align-items: center; gap: 9px;
+        margin: 0; padding: 7px 11px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, rgba(255,255,255,.62), rgba(255,255,255,.40));
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid rgba(255,255,255,.62);
+        box-shadow: 0 8px 26px rgba(15,23,42,.20), inset 0 1px 0 rgba(255,255,255,.85);
+      }
+      body.lt-dark .listen-dock .mobile-playback-row {
+        background: linear-gradient(135deg, rgba(30,41,59,.66), rgba(15,23,42,.5));
+        border-color: rgba(255,255,255,.16);
+        box-shadow: 0 8px 26px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.14);
+      }
+      /* the dock itself is now just the part strip + finish */
+      .listen-dock { padding-top: 6px; }
+      .listen-dock .part-tabs { padding: 0 8px 0 10px; margin: 0; flex: 1; min-width: 0; }
+      .ld-partrow { display: flex; align-items: center; gap: 8px; padding: 0 10px 8px 0; }
+      .ld-finish {
+        flex: none; padding: 7px 13px; border: 0; border-radius: 9px;
+        background: #0d9488; color: #fff; font: 800 11.5px system-ui;
+        cursor: pointer; white-space: nowrap;
+        box-shadow: 0 2px 8px rgba(13,148,136,.4);
+      }
+      .ld-finish:active { transform: scale(.96); }
+      /* The dock and its island are position:fixed at z-index 1400+, so they
+         floated ON TOP of every overlay — the intro card, the "audio
+         preparing" popup and the finish/results modal. Hidden whenever one
+         of those is up; _ldOverlayWatch() below sets the flag. */
+      body.ld-hidden .listen-dock,
+      body.ld-hidden .listen-dock .mobile-playback-row { display: none !important; }
+      /* Retired: ✓ Finish now lives in the dock, so the legacy red floating
+         submit button in the last part is a second, conflicting control. */
+
+      /* .mobile-floating-submit.visible is `display:flex !important`, which
+         out-specifies a bare class + !important — the red Submit Test button
+         kept showing behind the dock. Match the .visible state too. */
+      .mobile-floating-submit,
+      .mobile-floating-submit.visible { display: none !important; }
+
+      /* The part strip scrolls, and the scrollbar handle sat across the tabs
+         looking like a stray line. Hidden; swiping still works. */
+      .listen-dock .part-tabs { scrollbar-width: none; -ms-overflow-style: none; }
+      .listen-dock .part-tabs::-webkit-scrollbar { width: 0; height: 0; display: none; }
+
+      /* Map letter buttons are white (they sit on the white map image) but
+         took their colour from --text, which is light in dark mode — white
+         on white, invisible. Pin the text dark; the map stays white paper. */
+      body.lt-dark #mainContent .map-letter-btn,
+      body.lt-dark #mainContent .drawing-btn,
+      body.lt-sepia #mainContent .map-letter-btn,
+      body.lt-sepia #mainContent .drawing-btn {
+        color: #0f172a !important;
+        border-color: #94a3b8 !important;
+      }
+      body.lt-dark #mainContent .map-letter-btn.selected,
+      body.lt-dark #mainContent .map-letter-btn.active {
+        background: #0d9488 !important; color: #fff !important;
+      }
+
+
+      body.has-listen-dock { padding-bottom: 118px; }
+
+      /* Liquid glass, same construction as the article player: a white
+         gradient tint, a heavy backdrop blur with a saturation lift so
+         colour behind glows through, and a specular top edge. The question
+         underneath stays faintly visible, which is what makes it read as
+         floating rather than as a solid slab bolted to the screen. */
+      .listen-dock {
+        background: linear-gradient(135deg, rgba(255,255,255,.72), rgba(255,255,255,.52));
+        -webkit-backdrop-filter: blur(22px) saturate(190%);
+        backdrop-filter: blur(22px) saturate(190%);
+        border-top: 1px solid rgba(255,255,255,.7);
+        box-shadow: 0 -10px 30px rgba(15,23,42,.14),
+                    inset 0 1px 0 rgba(255,255,255,.9);
+      }
+      .listen-dock .part-tab {
+        background: rgba(255,255,255,.55);
+        border-color: rgba(255,255,255,.75);
+        -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(6px);
+      }
+      .listen-dock .part-tab.active {
+        background: rgba(204,251,241,.92);
+        border-color: #0d9488;
+      }
+      .ld-gear {
+        background: rgba(255,255,255,.6);
+        border-color: rgba(255,255,255,.8);
+      }
+      /* Sepia / dark keep the glass, just smoked */
+      body.lt-sepia .listen-dock {
+        background: linear-gradient(135deg, rgba(250,243,228,.78), rgba(244,236,216,.6));
+        border-top-color: rgba(255,255,255,.6);
+      }
+      body.lt-dark .listen-dock {
+        background: linear-gradient(135deg, rgba(30,41,59,.72), rgba(15,23,42,.55));
+        border-top-color: rgba(255,255,255,.16);
+        box-shadow: 0 -10px 30px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.14);
+      }
+      body.lt-dark .listen-dock .part-tab {
+        background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.18); color: #cbd5e1;
+      }
+      body.lt-dark .ld-gear { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.2); }
+
+      /* ── Reading settings block inside the ⚙️ sheet ─────────────────── */
+      .lt-set { padding: 2px 0 4px; }
+      .lt-set-label {
+        font: 700 11px system-ui; color: #94a3b8; text-transform: uppercase;
+        letter-spacing: .06em; margin: 8px 0 6px;
+      }
+      .lt-size-row { display: flex; align-items: center; justify-content: center; gap: 14px; }
+      .lt-size-btn {
+        min-width: 66px; padding: 10px 0; border: 1.5px solid var(--border);
+        background: var(--card); border-radius: 11px; font: 700 17px system-ui;
+        color: var(--text); cursor: pointer;
+      }
+      .lt-size-btn:active { transform: scale(.96); }
+      .lt-size-val { font: 800 14px system-ui; color: var(--text); min-width: 52px; text-align: center; }
+      .lt-theme-row { display: flex; gap: 8px; }
+      .lt-theme-btn {
+        flex: 1; border: 2px solid var(--border); border-radius: 12px; padding: 10px 4px;
+        display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;
+      }
+      .lt-theme-btn b { font: 700 15px system-ui; }
+      .lt-theme-btn span { font: 600 10.5px system-ui; opacity: .75; }
+      .lt-theme-btn.t-def { background: #fff; color: #0f172a; }
+      .lt-theme-btn.t-sep { background: #f6ecd8; color: #6b5636; }
+      .lt-theme-btn.t-drk { background: #1c222b; color: #e8eef7; }
+      .lt-theme-btn.on { border-color: #0d9488; }
+      /* one text-size control, not two — the 🔍 cycle is superseded */
+      .mobile-tools-menu #mobileZoomBtn { display: none !important; }
+
+
+      .ld-gear {
+        flex: none; width: 34px; height: 34px; border: 1.5px solid #e2e8f0;
+        background: #fff; border-radius: 9px; font-size: 14px; cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+      }
+      .ld-gear:active { background: #f1f5f9; }
+      /* keep the last question clear of the dock */
+      body.has-listen-dock { padding-bottom: 104px; }
+      /* the FAB is what this replaces */
+      .mobile-fab-container { display: none !important; }
+      /* the menu's own "Jump to Part" caption has nothing left under it */
+      .ld-moved-label { display: none !important; }
+    }
+</style>
 </head>
 
 <body class="ielts-listening">
@@ -4487,9 +4800,14 @@
       // Sync Part Tabs
       const mobilePartTabs = document.getElementById('mobilePartTabs');
       if (mobilePartTabs && window.TEST_DATA) {
+        // Practice mode runs a single part, so listing all four in the dock
+        // invites a tap that goes nowhere. CEFR Listening already filters
+        // this way; IELTS did not.
+        const practiceIdx = window._practicePart ? (window._practicePart - 1) : null;
         mobilePartTabs.innerHTML = window.TEST_DATA.parts.map((part, i) => {
+          if (practiceIdx !== null && i !== practiceIdx) return '';
           const isActive = i === currentPart;
-          return `<div class="part-tab ${isActive ? 'active' : ''}" onclick="showPart(${i}); toggleMobileMenu();">Part ${i + 1}</div>`;
+          return `<div class="part-tab ${isActive ? 'active' : ''}" onclick="showPart(${i}); _ldCloseMenu();">Part ${i + 1}</div>`;
         }).join('') + '<div class="il-fab-back-btn" id="ilFabBackBtn" onclick="window._ilFabBack()">↩ Back</div>';
       }
 
@@ -9448,6 +9766,191 @@ document.querySelectorAll('#hsPanel .hs-btn[href]').forEach(function(a){var h=a.
 document.querySelectorAll('#hsPanel .hs-action[href], #hsPanel a[href][style]').forEach(function(a){if(!a.getAttribute('target')){a.addEventListener('click',function(e){e.preventDefault();promptFriendlyLeave(function(){window.__okToLeave=true;window.location.href=a.getAttribute('href');});});}else{a.addEventListener('click',function(){window.__okToLeave=true;});}});
 </script>
 <script src="chat-bubble.js"></script>
+<script>
+  // ── Listening dock ───────────────────────────────────────────────────
+  // Moves the existing playback row and part tabs out of the FAB menu into
+  // a permanently visible bottom bar. Moving (not cloning) is deliberate:
+  // the IDs stay unique and every listener, progress-fill write and time
+  // update in the page keeps working with no other change.
+  // Part tabs used to close the FAB menu after jumping. In the dock the
+  // menu is already closed, so calling toggleMobileMenu() would OPEN it.
+  // Close-only, and a no-op when nothing is open.
+  window._ldCloseMenu = function () {
+    var m = document.getElementById('mobileToolsMenu');
+    if (m && m.classList.contains('active') && typeof toggleMobileMenu === 'function') toggleMobileMenu();
+  };
+
+  // ── Reading settings (text size + theme) ─────────────────────────────
+  // Text size reuses the page's existing zoom mechanism rather than adding a
+  // competing font system: the 🔍 button cycled 100/115/130/145 and wrapped
+  // around, which meant shrinking required cycling all the way through. This
+  // is the same scaling, as a two-way stepper that shows the actual number.
+  (function _ltReadingSettings() {
+    var MIN = 80, MAX = 170, STEP = 10;
+    var st = { pct: 100, theme: 'default' };
+    try {
+      var raw = JSON.parse(localStorage.getItem('_ltReadPrefs') || '{}');
+      if (raw && raw.pct >= MIN && raw.pct <= MAX) st.pct = raw.pct;
+      if (raw && (raw.theme === 'sepia' || raw.theme === 'dark')) st.theme = raw.theme;
+    } catch (e) {}
+
+    function save() { try { localStorage.setItem('_ltReadPrefs', JSON.stringify(st)); } catch (e) {} }
+
+    function applySize() {
+      var mc = document.getElementById('mainContent');
+      if (mc) {
+        mc.classList.remove('zoom-1', 'zoom-2', 'zoom-3');   // the old cycle
+        mc.style.zoom = (st.pct / 100);
+      }
+      var v = document.getElementById('ltSizeVal');
+      if (v) v.textContent = st.pct + '%';
+    }
+    function applyTheme() {
+      document.body.classList.remove('lt-sepia', 'lt-dark');
+      if (st.theme === 'sepia') document.body.classList.add('lt-sepia');
+      else if (st.theme === 'dark') document.body.classList.add('lt-dark');
+      document.querySelectorAll('.lt-theme-btn').forEach(function (b) {
+        b.classList.toggle('on', b.getAttribute('data-t') === st.theme);
+      });
+    }
+    window._ltFont = function (dir) {
+      st.pct = Math.max(MIN, Math.min(MAX, st.pct + dir * STEP));
+      save(); applySize();
+    };
+    window._ltTheme = function (t) { st.theme = t; save(); applyTheme(); };
+
+    function mount() {
+      var menu = document.getElementById('mobileToolsMenu');
+      if (!menu || document.getElementById('ltSettings')) return;
+      var box = document.createElement('div');
+      box.className = 'lt-set';
+      box.id = 'ltSettings';
+      box.innerHTML =
+        '<div class="lt-set-label">Text size</div>' +
+        '<div class="lt-size-row">' +
+          '<button class="lt-size-btn" type="button" onclick="_ltFont(-1)">A&minus;</button>' +
+          '<span class="lt-size-val" id="ltSizeVal">100%</span>' +
+          '<button class="lt-size-btn" type="button" onclick="_ltFont(1)">A+</button>' +
+        '</div>' +
+        '<div class="lt-set-label">Reading theme</div>' +
+        '<div class="lt-theme-row">' +
+          '<button class="lt-theme-btn t-def" type="button" data-t="default" onclick="_ltTheme(\'default\')"><b>Aa</b><span>Default</span></button>' +
+          '<button class="lt-theme-btn t-sep" type="button" data-t="sepia" onclick="_ltTheme(\'sepia\')"><b>Aa</b><span>Sepia</span></button>' +
+          '<button class="lt-theme-btn t-drk" type="button" data-t="dark" onclick="_ltTheme(\'dark\')"><b>Aa</b><span>Dark</span></button>' +
+        '</div>';
+      // after the header row, above Leave/Finish
+      var first = menu.querySelector('.mobile-tools-row');
+      if (first && first.nextSibling) menu.insertBefore(box, first.nextSibling);
+      else menu.appendChild(box);
+      applySize(); applyTheme();
+    }
+
+    function boot() { mount(); applySize(); applyTheme(); }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+    else boot();
+    var n = 0, iv = setInterval(function () { mount(); if (++n > 20) clearInterval(iv); }, 500);
+  })();
+
+  // Any modal/overlay must sit above the dock, not under it. Rather than
+  // hunt z-indexes across a dozen components, hide the dock while one is
+  // open — polled with the same 500ms tick the dock already uses.
+  (function _ldOverlayWatch() {
+    var IDS = ['loadingScreen', 'readyPopup', 'confirmModal', 'resultsModal',
+               'leaveWarningModal', 'transcriptsOverlay', 'mapPreviewOverlay',
+               'hsOverlay', 'mobileMenuOverlay', 'levelPickerOverlay'];
+    function visible(el) {
+      if (!el) return false;
+      if (!el.getClientRects().length) return false;
+      var cs = getComputedStyle(el);
+      return cs.display !== 'none' && cs.visibility !== 'hidden' && cs.opacity !== '0';
+    }
+    function tick() {
+      var open = IDS.some(function (id) { return visible(document.getElementById(id)); });
+      // the tools sheet itself is fine — it is opened FROM the dock
+      document.body.classList.toggle('ld-hidden', open);
+    }
+    setInterval(tick, 400);
+    document.addEventListener('click', function () { setTimeout(tick, 60); }, true);
+    tick();
+  })();
+  (function _initListenDock() {
+    function build() {
+      if (document.getElementById('listenDock')) return;
+      if (!window.matchMedia || !matchMedia('(max-width: 768px)').matches) return;
+      var play = document.querySelector('.mobile-playback-row');
+      var tabs = document.getElementById('mobilePartTabs');
+      if (!play || !tabs) return;               // markup changed — leave the FAB alone
+
+      var dock = document.createElement('div');
+      dock.className = 'listen-dock';
+      dock.id = 'listenDock';
+
+      // hide the now-orphaned "Jump to Part" caption in the menu
+      var cap = tabs.previousElementSibling;
+      if (cap && /jump to part/i.test(cap.textContent || '')) cap.classList.add('ld-moved-label');
+
+      dock.appendChild(play);                   // relocate, keeping listeners
+      var gear = document.createElement('button');
+      gear.className = 'ld-gear';
+      gear.type = 'button';
+      gear.title = 'More tools';
+      gear.textContent = '\u2699\uFE0F';
+      gear.addEventListener('click', function () {
+        if (typeof toggleMobileMenu === 'function') toggleMobileMenu();
+      });
+      play.appendChild(gear);
+      // Finish must live OUTSIDE #mobilePartTabs: updateMobileMenuStatus()
+      // rewrites that element's innerHTML on every part change, which
+      // silently deleted the button the first time round.
+      var row = document.createElement('div');
+      row.className = 'ld-partrow';
+      row.appendChild(tabs);
+      // Submitting was only reachable from the gear sheet, and the page's own
+      // finish control sits below the fold behind the dock.
+      var fin = document.createElement('button');
+      fin.className = 'ld-finish';
+      fin.type = 'button';
+      fin.textContent = '\u2713 Finish';
+      fin.addEventListener('click', function () {
+        if (typeof handleFabFinish === 'function') handleFabFinish();
+      });
+      row.appendChild(fin);
+      dock.appendChild(row);
+
+      document.body.appendChild(dock);
+      document.body.classList.add('has-listen-dock');
+
+      // The part tabs are rendered by updateMobileMenuStatus(), which only
+      // ran when the FAB menu was OPENED. The dock never opens it, so the
+      // tabs stayed empty — populate now, and refresh after every part
+      // change so the active tab tracks the question on screen.
+      var refresh = function () {
+        if (typeof updateMobileMenuStatus === 'function') {
+          try { updateMobileMenuStatus(); } catch (e) {}
+        }
+      };
+      refresh();
+      if (typeof window.showPart === 'function' && !window._ldWrappedShowPart) {
+        window._ldWrappedShowPart = true;
+        var _orig = window.showPart;
+        window.showPart = function () {
+          var r = _orig.apply(this, arguments);
+          setTimeout(refresh, 0);
+          return r;
+        };
+      }
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function () { setTimeout(build, 0); });
+    } else {
+      setTimeout(build, 0);
+    }
+    // Part tabs are populated by JS after the test loads; the dock may be
+    // built first, so re-check briefly rather than racing it.
+    var tries = 0;
+    var iv = setInterval(function () { build(); if (++tries > 20) clearInterval(iv); }, 500);
+  })();
+</script>
 </body>
 
 </html>
