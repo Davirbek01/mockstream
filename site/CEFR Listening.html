@@ -4128,13 +4128,50 @@
       background: #0f141b !important; color: #e6edf6 !important; border-color: #2f3a49 !important;
     }
     body.lt-dark #mainContent .option-letter { background: #223042 !important; color: #cbd5e1 !important; }
-    body.lt-dark #mainContent .question-text,
-    body.lt-dark #mainContent .part-title,
-    body.lt-dark #mainContent .passage-title,
-    body.lt-dark #mainContent p,
-    body.lt-dark #mainContent li,
-    body.lt-dark #mainContent div { color: #e6edf6; }
-    body.lt-dark #mainContent img { opacity: .92; }
+    /* Text colour comes from --text on #mainContent; a blanket `div {color}`
+       here is what made every unthemed white box unreadable. */
+    body.lt-dark #mainContent { color: #e6edf6; }
+
+    /* Dark mode, take two. Enumerating every container was wrong: the file
+       has 48 hardcoded whites plus inline styles, so anything I missed
+       rendered light text on a white box — Parts 2, 3, 4 and 6 were all
+       unreadable. Strip the background off everything inside the reading
+       surface instead, let the dark page show through, then re-apply a
+       surface to the cards. Buttons, inputs and images keep their own
+       colours so nothing loses meaning. */
+    body.lt-dark #mainContent *:not(button):not(input):not(select):not(textarea):not(img):not(svg):not(canvas) {
+      background-color: transparent !important;
+      background-image: none !important;
+    }
+    body.lt-dark #mainContent .question-card,
+    body.lt-dark #mainContent .part-header,
+    body.lt-dark #mainContent .part-block,
+    body.lt-dark #mainContent .option-item,
+    body.lt-dark #mainContent .question-item,
+    body.lt-dark #mainContent .form-item {
+      background-color: #161d27 !important; border-color: #27313f !important;
+    }
+    body.lt-dark #mainContent input,
+    body.lt-dark #mainContent textarea,
+    body.lt-dark #mainContent select,
+    body.lt-dark #mainContent .gap-input {
+      background-color: #0f141b !important; color: #e6edf6 !important; border-color: #33405233 !important;
+    }
+    /* images carry their own white paper (maps, diagrams) — leave them be */
+    body.lt-dark #mainContent img { background: #fff !important; border-radius: 8px; }
+
+    /* Sepia degrades safely: its text stays DARK, so any surface this misses
+       is still readable — the opposite of dark, where a missed surface hides
+       the text completely. */
+    body.lt-sepia #mainContent .question-card,
+    body.lt-sepia #mainContent .part-header,
+    body.lt-sepia #mainContent .part-block,
+    body.lt-sepia #mainContent .option-item,
+    body.lt-sepia #mainContent .question-item,
+    body.lt-sepia #mainContent .form-item {
+      background-color: #fbf5e7 !important; border-color: #e7dbc0 !important;
+    }
+
     /* .part-header (the "Part 1 (Questions 1-8)" strip) and the transcript /
        review surfaces are separate from the question cards and were left
        white — pale teal on white is unreadable in dark mode. */
@@ -4191,6 +4228,41 @@
         background: #ccfbf1; border-color: #0d9488; color: #0f766e;
       }
       .listen-dock .part-tab:active { transform: scale(.96); }
+      /* ── Playback as a floating island ─────────────────────────────────
+         Detached from the dock: its own rounded glass pill sitting above
+         the part tabs, so the audio reads as a separate control rather
+         than one band of buttons. */
+      .listen-dock .mobile-playback-row {
+        position: fixed; left: 10px; right: 10px;
+        bottom: calc(58px + env(safe-area-inset-bottom, 0px));
+        z-index: 1401;
+        display: flex; align-items: center; gap: 9px;
+        margin: 0; padding: 7px 11px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, rgba(255,255,255,.62), rgba(255,255,255,.40));
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid rgba(255,255,255,.62);
+        box-shadow: 0 8px 26px rgba(15,23,42,.20), inset 0 1px 0 rgba(255,255,255,.85);
+      }
+      body.lt-dark .listen-dock .mobile-playback-row {
+        background: linear-gradient(135deg, rgba(30,41,59,.66), rgba(15,23,42,.5));
+        border-color: rgba(255,255,255,.16);
+        box-shadow: 0 8px 26px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.14);
+      }
+      /* the dock itself is now just the part strip + finish */
+      .listen-dock { padding-top: 6px; }
+      .listen-dock .part-tabs { padding: 0 8px 0 10px; margin: 0; flex: 1; min-width: 0; }
+      .ld-partrow { display: flex; align-items: center; gap: 8px; padding: 0 10px 8px 0; }
+      .ld-finish {
+        flex: none; padding: 7px 13px; border: 0; border-radius: 9px;
+        background: #0d9488; color: #fff; font: 800 11.5px system-ui;
+        cursor: pointer; white-space: nowrap;
+        box-shadow: 0 2px 8px rgba(13,148,136,.4);
+      }
+      .ld-finish:active { transform: scale(.96); }
+      body.has-listen-dock { padding-bottom: 118px; }
+
       /* Liquid glass, same construction as the article player: a white
          gradient tint, a heavy backdrop blur with a saturation lift so
          colour behind glows through, and a specular top edge. The question
@@ -8801,7 +8873,23 @@ document.querySelectorAll('#hsPanel .hs-action[href], #hsPanel a[href][style]').
         if (typeof toggleMobileMenu === 'function') toggleMobileMenu();
       });
       play.appendChild(gear);
-      dock.appendChild(tabs);
+      // Finish must live OUTSIDE #mobilePartTabs: updateMobileMenuStatus()
+      // rewrites that element's innerHTML on every part change, which
+      // silently deleted the button the first time round.
+      var row = document.createElement('div');
+      row.className = 'ld-partrow';
+      row.appendChild(tabs);
+      // Submitting was only reachable from the gear sheet, and the page's own
+      // finish control sits below the fold behind the dock.
+      var fin = document.createElement('button');
+      fin.className = 'ld-finish';
+      fin.type = 'button';
+      fin.textContent = '\u2713 Finish';
+      fin.addEventListener('click', function () {
+        if (typeof handleFabFinish === 'function') handleFabFinish();
+      });
+      row.appendChild(fin);
+      dock.appendChild(row);
 
       document.body.appendChild(dock);
       document.body.classList.add('has-listen-dock');
