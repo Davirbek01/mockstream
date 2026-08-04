@@ -8,7 +8,7 @@
 //     focuses/opens the target page. Subscriptions are managed by
 //     site/push-client.js; sends fan out from the web-push Edge Function.
 
-const CACHE_NAME = 'mockstream-v871';
+const CACHE_NAME = 'mockstream-v873';
 const CONTENT_CACHE = 'mockstream-content-v1'; // NOT versioned with the shell
 
 const SUPABASE_HOST = 'zknyukkbtbcqgvkgjktb.supabase.co';
@@ -55,13 +55,26 @@ self.addEventListener('fetch', event => {
   // Only handle GET requests
   if (request.method !== 'GET') return;
 
+  // ── Media range requests: never answer from the SW ───────────────────
+  // Safari does not fetch audio in one piece. It sends Range: bytes=... and
+  // expects 206 Partial Content. A service worker replying with a full 200 —
+  // or an opaque response, which has no readable status or headers at all —
+  // makes Safari refuse to play: it sits at 0:00 with no error. Chrome on
+  // Android accepts the 200 and buffers the whole file, which is why article
+  // playback and full-mock listening worked on Android and not on iPhone.
+  // Letting range requests through means GCS answers 206 itself. Android
+  // still gets its cached audio for non-range requests, so offline playback
+  // there is unchanged.
+  if (request.headers.has('range')) return;
+
   let url;
   try { url = new URL(request.url); } catch (e) { return; }
 
   // ── Offline mock content ─────────────────────────────────────────────
   // GCS audio (listening/speaking mp3s, immutable files): cache-first.
-  // <audio src> requests are no-cors → opaque responses, which still play
-  // back fine from the cache.
+  // <audio src> requests are no-cors → opaque responses. Those replay fine
+  // in Chrome, but NOT in Safari — see the range guard above, which is why
+  // media never reaches this branch on iOS.
   if (url.hostname === GCS_HOST) {
     event.respondWith(
       caches.open(CONTENT_CACHE).then(cache =>

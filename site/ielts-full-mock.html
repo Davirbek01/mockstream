@@ -9100,6 +9100,52 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
             return { overall: { band: 5, summary: 'Grading unavailable.' } };
         }
 
+        // ── Speaking transcription ───────────────────────────────────────────
+        // startRecording() stores a Blob in state.answers.speaking[key]. The
+        // grader used to interpolate that straight into the prompt, so the AI
+        // was handed the literal string "[object Blob]" for every question and
+        // graded that. There was no transcription step at all — this adds one.
+        // Auth 'proxy' is rewritten by ai-proxy-interceptor.js, so the key stays
+        // server-side (same call the CEFR full mock makes).
+        async function _ifmGroqTranscribe(blob, cp) {
+            const model = (cp && (cp['scoring_model_groq_whisper'] || '').toString().trim())
+                          || 'whisper-large-v3-turbo';
+            const fd = new FormData();
+            fd.append('file', new File([blob], 'audio.webm', { type: blob.type || 'audio/webm' }));
+            fd.append('model', model);
+            fd.append('response_format', 'json');
+            fd.append('language', 'en');
+            const r = await fetch('https://api.groq.com/openai/v1/audio/transcriptions', {
+                method: 'POST', headers: { 'Authorization': 'proxy' }, body: fd
+            });
+            if (!r.ok) {
+                let e = ''; try { e = await r.text(); } catch (_) {}
+                throw new Error('Groq transcribe error: ' + r.status + ' ' + e.slice(0, 200));
+            }
+            const j = await r.json();
+            return ((j.text || '').trim()) || '[No speech detected]';
+        }
+
+        // Three attempts with growing backoff — a transient 400 or rate limit
+        // must not cost a student a whole part, which is why the CEFR side
+        // gained the same retry on 2026-08-02.
+        async function _ifmTranscribeWithRetry(blob, cp, label) {
+            let lastErr = null;
+            for (let a = 1; a <= 3; a++) {
+                try {
+                    const t = await _ifmGroqTranscribe(blob, cp);
+                    if (a > 1) console.log('[Transcribe] ' + label + ' recovered on attempt ' + a);
+                    return t;
+                } catch (e) {
+                    lastErr = e;
+                    console.warn('[Transcribe] ' + label + ' attempt ' + a + '/3 failed: ' + ((e && e.message) || e));
+                    if (a < 3) await new Promise(r => setTimeout(r, a * 2500));
+                }
+            }
+            console.error('[Transcribe] ' + label + ' FAILED after 3 attempts');
+            throw lastErr || new Error('transcription failed');
+        }
+
         async function gradeSpeakingWithAI() {
             const data = state.moduleData.speaking;
             if (!data) {
@@ -9108,12 +9154,28 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
                 return { band: 6.5, feedback: 'Unable to grade.' };
             }
 
-            // Collect speaking answers
+            // Collect speaking answers, transcribing any audio blobs first.
             let speakingResponses = [];
-            Object.keys(state.answers.speaking).forEach(key => {
-                const answer = state.answers.speaking[key];
-                if (answer) speakingResponses.push({ question: key, answer });
-            });
+            const _spKeys = Object.keys(state.answers.speaking).sort();
+            const _cpT = await _loadScoringPrompts().catch(() => ({}));
+            state.speakingTranscripts = state.speakingTranscripts || {};
+            for (let i = 0; i < _spKeys.length; i++) {
+                const key = _spKeys[i];
+                const raw = state.answers.speaking[key];
+                if (!raw) continue;
+                let answer = raw;
+                if (raw instanceof Blob) {
+                    if (!raw.size) continue;                  // nothing recorded
+                    try {
+                        console.log('[AI] Transcribing ' + key + ' (' + (i + 1) + '/' + _spKeys.length + ')...');
+                        answer = await _ifmTranscribeWithRetry(raw, _cpT, key);
+                    } catch (_te) {
+                        answer = '[Error: transcription unavailable]';
+                    }
+                    state.speakingTranscripts[key] = answer;   // report + Telegram reuse this
+                }
+                if (answer && String(answer).trim()) speakingResponses.push({ question: key, answer });
+            }
 
             if (speakingResponses.length === 0) {
                 state.aiFailed.speaking = true;
