@@ -8404,6 +8404,16 @@
       gap: 14px;
       padding: 18px 24px 40px;
       flex: 1;
+      /* Same trap .ilet-grid documents below: this is a <main>, so v3's
+         global `main { max-width: 1180px; margin: 0 auto; }` applies. With
+         auto-fill the track count was computed against 1180px rather than
+         the width actually available, giving 5x200px columns inside a ~985px
+         overlay — the last column clipped and the page scrolled sideways at
+         roughly 1000-1180px. min-width:0 stops the flex item refusing to
+         shrink below its min-content width. */
+      max-width: none;
+      margin: 0;
+      min-width: 0;
     }
     @media (max-width: 1199px) { .learn-grid { grid-template-columns: repeat(3, 1fr); } }
     @media (max-width: 899px)  { .learn-grid { grid-template-columns: repeat(2, 1fr); padding: 14px 16px 30px; } }
