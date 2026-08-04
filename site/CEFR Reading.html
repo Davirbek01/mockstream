@@ -2889,6 +2889,34 @@
     body.lt-dark #mainContainer .passage-text,
     body.lt-dark #mainContainer .passage-card { color: #e8eef7 !important; }
     body.lt-dark #mainContainer { color: #e6edf6; }
+    /* The child backgrounds are stripped to transparent, so SOMETHING has to
+       supply the dark canvas — without this the light page showed through
+       under light text and the question pane, headings pane and Part 2 were
+       all unreadable. Listening had this; reading did not. */
+    body.lt-dark { background: #0f141b; }
+    body.lt-dark #mainContainer { background: #0f141b; }
+    body.lt-dark .split-pane,
+    body.lt-dark .split-pane-left,
+    body.lt-dark .split-pane-right,
+    body.lt-dark .mh-split-container,
+    body.lt-dark .mh-headings-pane,
+    body.lt-dark .mh-paragraphs-pane {
+      background: #0f141b !important; border-color: #27313f !important; color: #e6edf6 !important;
+    }
+    body.lt-dark .mh-headings-pane { background: #131b26 !important; }
+    body.lt-dark .mh-heading-item,
+    body.lt-dark .mh-para-card,
+    body.lt-dark .mh-slot {
+      background: #161d27 !important; border-color: #27313f !important; color: #e6edf6 !important;
+    }
+    body.lt-dark .split-divider { background: #27313f !important; }
+    /* headers/badges inside the panes must not stay near-black on dark */
+    body.lt-dark .mh-para-title,
+    body.lt-dark .mh-headings-title,
+    body.lt-dark .part-title { color: #5eead4 !important; }
+    body.lt-sepia { background: #f4ecd8; }
+    body.lt-sepia #mainContainer { background: #f4ecd8; }
+
     /* Strip backgrounds rather than enumerate them: this file hardcodes
        white in dozens of places, and any surface missed would render light
        text on white. Buttons/inputs/images keep their own colours. */
