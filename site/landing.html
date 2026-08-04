@@ -36958,6 +36958,7 @@
           html += '<div class="mmg-section-title">Top-level images (used by hasImages questions)</div>';
           html += _mmgImageRow('img1', images.img1, images.img1Alt);
           html += _mmgImageRow('img2', images.img2, images.img2Alt);
+          html += _mmgQ4DescSection(images);
         }
         html += _mmgRenderVoicePreviewGrid(md);
         if (type === 'ielts-speaking') {
@@ -37107,6 +37108,33 @@
           if (get('mmgSetImg1Alt') !== undefined) md.images.img1Alt = get('mmgSetImg1Alt');
           if (get('mmgSetImg2')    !== undefined) md.images.img2    = get('mmgSetImg2');
           if (get('mmgSetImg2Alt') !== undefined) md.images.img2Alt = get('mmgSetImg2Alt');
+
+          // Q4 descriptions the AI examiner reads instead of the pictures.
+          // descImg1/descImg2 stamp WHICH images the text describes: the
+          // runners compare them to the live URLs and fall back to real
+          // vision if they differ, so changing a photo can never leave a
+          // stale description scoring students against a picture they
+          // never saw. Cleared together when the text is emptied, so a
+          // blank description can't masquerade as a valid one.
+          var _q4b = get('mmgQ4Both'), _q4d = get('mmgQ4Diff');
+          var _q4p1 = get('mmgQ4P1'),  _q4p2 = get('mmgQ4P2');
+          if (_q4p1 !== undefined || _q4p2 !== undefined) {
+            var _hasBoth = String(_q4p1 || '').trim() && String(_q4p2 || '').trim();
+            if (_hasBoth) {
+              md.images.img1Desc  = String(_q4p1).trim();
+              md.images.img2Desc  = String(_q4p2).trim();
+              md.images.pairBoth  = String(_q4b || '').trim();
+              md.images.pairDiff  = String(_q4d || '').trim();
+              md.images.descImg1  = md.images.img1 || '';
+              md.images.descImg2  = md.images.img2 || '';
+              md.images.descSource = 'mock-settings';
+            } else {
+              delete md.images.img1Desc;  delete md.images.img2Desc;
+              delete md.images.pairBoth;  delete md.images.pairDiff;
+              delete md.images.descImg1;  delete md.images.descImg2;
+              delete md.images.descSource;
+            }
+          }
         }
 
         if (type === 'ielts-speaking') {
@@ -39265,6 +39293,142 @@
         + '<img id="' + inputId + '_thumb" src="' + _mmgEsc(url || '') + '" style="' + (url ? '' : 'display:none;') + 'max-width:160px;max-height:100px;border:1px solid #e2e8f0;border-radius:6px;margin-top:6px;">'
         + '<div id="' + inputId + '_upprog" class="mmg-upload-progress"></div>';
     }
+
+    // ── Q4 picture descriptions ────────────────────────────────────────
+    // The scorer reads these INSTEAD of looking at the photographs, which
+    // removed ~7,450 vision calls a month. Written once here, at authoring
+    // time, rather than re-derived on every student attempt.
+    //
+    // descImg1/descImg2 stamp the URLs the text was written against. The
+    // runtime compares them to the live img1/img2 and falls back to real
+    // vision on any mismatch — a stale description is worse than none,
+    // because it reads as authoritative while describing a photo the
+    // candidate never saw. Swap an image and this section goes amber.
+    function _mmgQ4DescSection(images) {
+      var im = images || {};
+      var fresh = im.img1Desc && im.img2Desc &&
+                  im.descImg1 === im.img1 && im.descImg2 === im.img2;
+      var stale = im.img1Desc && im.img2Desc && !fresh;
+      var status = fresh
+        ? '<span style="color:#0f766e;font-weight:700;">✅ Stored &amp; current — no vision call at scoring time</span>'
+        : stale
+          ? '<span style="color:#b45309;font-weight:700;">⚠️ Out of date — an image changed since these were written. The exam falls back to live vision until you regenerate.</span>'
+          : '<span style="color:#b91c1c;font-weight:700;">❌ None — every attempt pays for a live vision call. Generate to stop that.</span>';
+
+      return '<div class="mmg-section-title">Q4 picture descriptions (read by the AI examiner)</div>'
+        + '<div id="mmgQ4Status" style="font-size:12.5px;margin:-4px 0 8px;">' + status + '</div>'
+        + '<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap;">'
+        +   '<button type="button" class="mmg-add-btn" id="mmgQ4GenBtn" onclick="_mmgGenerateQ4Desc()">⚡ Generate from the images</button>'
+        +   '<span id="mmgQ4Msg" style="font-size:12px;color:#64748b;"></span>'
+        + '</div>'
+        + '<div class="mmg-field"><label>Both pictures (shared theme)</label>'
+        +   '<textarea id="mmgQ4Both" rows="2">' + _mmgEsc(im.pairBoth || '') + '</textarea></div>'
+        + '<div class="mmg-field"><label>Main difference</label>'
+        +   '<textarea id="mmgQ4Diff" rows="2">' + _mmgEsc(im.pairDiff || '') + '</textarea></div>'
+        + '<div class="mmg-field"><label>Picture 1</label>'
+        +   '<textarea id="mmgQ4P1" rows="3">' + _mmgEsc(im.img1Desc || '') + '</textarea></div>'
+        + '<div class="mmg-field"><label>Picture 2</label>'
+        +   '<textarea id="mmgQ4P2" rows="3">' + _mmgEsc(im.img2Desc || '') + '</textarea></div>'
+        + '<div style="font-size:11.5px;color:#64748b;margin:-2px 0 10px;">'
+        +   'Keep these short — about 90 words for the pair, 130 at the very most. '
+        +   'The examiner is told this is not a model answer, but an exhaustive '
+        +   'description still drags scores down: candidates speaking for one '
+        +   'minute cannot match written prose, and the AI starts reading normal '
+        +   'answers as thin.</div>';
+    }
+
+    /** Fetch an image through the page and return raw base64 (no data: prefix). */
+    async function _mmgImgToBase64(url) {
+      var r = await fetch(url, { cache: 'no-store' });
+      if (!r.ok) throw new Error('image ' + r.status);
+      var blob = await r.blob();
+      return await new Promise(function (resolve, reject) {
+        var fr = new FileReader();
+        fr.onloadend = function () { resolve(String(fr.result).split(',')[1]); };
+        fr.onerror = reject;
+        fr.readAsDataURL(blob);
+      });
+    }
+
+    window._mmgGenerateQ4Desc = async function () {
+      var btn = document.getElementById('mmgQ4GenBtn');
+      var msg = document.getElementById('mmgQ4Msg');
+      var u1 = (document.getElementById('mmgSetImg1') || {}).value || '';
+      var u2 = (document.getElementById('mmgSetImg2') || {}).value || '';
+      var say = function (t, colour) { if (msg) { msg.textContent = t; msg.style.color = colour || '#64748b'; } };
+
+      if (!u1 || !u2) { say('Both image URLs are needed first.', '#b91c1c'); return; }
+      if (btn) { btn.disabled = true; btn.textContent = '⏳ Looking at the pictures…'; }
+      say('');
+
+      try {
+        var b1 = await _mmgImgToBase64(u1);
+        var b2 = await _mmgImgToBase64(u2);
+        var mime = function (u) { return /\.png(\?|$)/i.test(u) ? 'image/png' : 'image/jpeg'; };
+
+        // Written as a PAIR on purpose: Q4 asks the candidate to compare the
+        // two photographs, so the shared theme and the contrast matter more
+        // than an exhaustive inventory of either one.
+        var instruction =
+          'You are preparing reference notes for an English speaking exam.\n\n' +
+          'Two photographs are attached. A candidate will be asked to describe and compare them. ' +
+          'An AI examiner will later score spoken answers using ONLY your notes — it never sees the images.\n\n' +
+          'Return JSON only: {"both":"...","diff":"...","p1":"...","p2":"..."}\n' +
+          '  both — one sentence: the theme BOTH pictures share. Start with "Both photos show ".\n' +
+          '  diff — one sentence: the key difference. Name them as "The first ..." and "the second ...".\n' +
+          '  p1   — 2 sentences on picture 1: where it is, who is there, what they are doing.\n' +
+          '  p2   — 2 sentences on picture 2, same treatment.\n\n' +
+          'RULES:\n' +
+          '- 90 words TOTAL across all four fields. Never exceed 130.\n' +
+          '- Plain, simple English — the vocabulary a B1/B2 candidate would use. ' +
+          'If your notes are written in stronger English than a candidate can speak, ' +
+          'the examiner starts marking normal answers as weak.\n' +
+          '- Only what is visibly there. No interpretation, no symbolism, no guessing ' +
+          'at names, nationalities or relationships.\n' +
+          '- Do NOT mention watermarks, logos, image quality or anything about the ' +
+          'photograph as an object. Describe the scene only.\n' +
+          '- No headings, no bullets, no markdown.';
+
+        var res = await fetch(
+          'https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ role: 'user', parts: [
+                { text: instruction },
+                { inline_data: { mime_type: mime(u1), data: b1 } },
+                { inline_data: { mime_type: mime(u2), data: b2 } }
+              ]}],
+              // gemini-flash-latest reasons before answering and that reasoning
+              // counts against the output budget — at 2048 it truncated mid
+              // sentence and once returned its own checklist as the answer.
+              generationConfig: { temperature: 0.3, maxOutputTokens: 4096,
+                                  responseMimeType: 'application/json' }
+            })
+          }
+        );
+        var j = await res.json();
+        if (!res.ok) throw new Error((j && j.error && j.error.message) || ('HTTP ' + res.status));
+        var txt = ((((j.candidates || [])[0] || {}).content || {}).parts || [])
+                    .map(function (p) { return p.text; }).filter(Boolean).join('');
+        if (!txt) throw new Error('empty response');
+        var out = JSON.parse(txt.replace(/^```json\s*|\s*```$/g, ''));
+
+        var set = function (id, v) { var e = document.getElementById(id); if (e) e.value = v || ''; };
+        set('mmgQ4Both', out.both); set('mmgQ4Diff', out.diff);
+        set('mmgQ4P1', out.p1);     set('mmgQ4P2', out.p2);
+
+        var words = [out.both, out.diff, out.p1, out.p2].join(' ').trim().split(/\s+/).length;
+        say('Generated — ' + words + ' words. Read it over, edit if needed, then Save.' +
+            (words > 130 ? ' ⚠️ Over 130 words; trim it.' : ''),
+            words > 130 ? '#b45309' : '#0f766e');
+      } catch (e) {
+        say('Failed: ' + (e && e.message ? e.message : e), '#b91c1c');
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = '⚡ Generate from the images'; }
+      }
+    };
 
     window._mmgRebindThumb = function (id) {
       var input = document.getElementById(id);
