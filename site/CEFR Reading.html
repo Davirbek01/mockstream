@@ -2665,6 +2665,11 @@
         gap: 0;
         height: calc(100dvh - 100px);
         min-height: 540px;
+        /* The base rule sets align-items:flex-start. In a COLUMN flex that
+           makes children shrink to their content width, so the divider —
+           whose only content is a 56px grip — rendered as a short stub on
+           the left instead of a full-width bar. */
+        align-items: stretch;
       }
       .mh-headings-pane {
         position: relative;             /* not sticky — internal scroll handles it */
@@ -2914,6 +2919,22 @@
     body.lt-dark .mh-para-title,
     body.lt-dark .mh-headings-title,
     body.lt-dark .part-title { color: #5eead4 !important; }
+
+    /* The matching-headings pane hardcodes near-black text (.mh-heading-text
+       #1e293b, .mh-headings-hint #475569, .mh-slot #64748b) and dark teal
+       titles (#0f766e). Against the dark canvas those read as barely-there
+       grey — the heading labels and paragraph body were the worst. */
+    body.lt-dark .mh-heading-text { color: #e6edf6 !important; }
+    body.lt-dark .mh-headings-hint { color: #a8b6c8 !important; }
+    body.lt-dark .mh-slot { color: #a8b6c8 !important; }
+    body.lt-dark .mh-headings-title,
+    body.lt-dark .mh-para-num { color: #5eead4 !important; }
+    body.lt-dark .mh-para-card,
+    body.lt-dark .mh-para-card p,
+    body.lt-dark .mh-para-card div:not(.mh-slot):not(.mh-para-head) { color: #e8eef7 !important; }
+    body.lt-dark .mh-heading-chip { background: #1a2230 !important; border-color: #2f3a49 !important; }
+    body.lt-dark .mh-heading-chip.mh-chip-selected { border-color: #14b8a6 !important; background: #16323a !important; }
+    body.lt-dark .mh-slot { border-color: #2f3a49 !important; background: #131b26 !important; }
     body.lt-sepia { background: #f4ecd8; }
     body.lt-sepia #mainContainer { background: #f4ecd8; }
 
