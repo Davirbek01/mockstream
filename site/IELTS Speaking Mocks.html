@@ -12773,21 +12773,16 @@ ${questionsContent}
             <p style="margin-top:16px;color:var(--muted);font-weight:600">Analyzing with OpenAI GPT-4...</p>
           `;
 
-          // Get question texts and images
-          const q4Images = (window.SPEAKING_TEST_DATA_CACHED && window.SPEAKING_TEST_DATA_CACHED.images)
-            ? [window.SPEAKING_TEST_DATA_CACHED.images.img1, window.SPEAKING_TEST_DATA_CACHED.images.img2]
-            : ['https://i.ibb.co/SDwRVyw8/image.png', 'https://i.ibb.co/rT8fKFs/image.png'];
+          // IELTS Speaking is a verbal exam — no question here sets hasImages, so
+          // the candidate is never shown a picture. Attaching mock_data.images
+          // (copied from the CEFR page) described pictures they never saw, and
+          // the old hardcoded i.ibb.co fallback fired even for mocks with none.
+          const q4Images = [];
 
-          const questionTexts = window.SPEAKING_TEST_DATA_CACHED ? generateQuestionTexts(window.SPEAKING_TEST_DATA_CACHED) : [
-            'Question 1: What is the best book you\'ve ever read?',
-            'Question 2: Would you want to be an actor in the future?',
-            'Question 3: Where do you usually buy your clothes?',
-            'Question 4: What do you see in these pictures?',
-            'Question 5: What are the advantages of attending a festival compared to a museum visit?',
-            'Question 6: Why might some people find museums boring?',
-            'Question 7: Discuss the following points about traveling.',
-            'Question 8: Art classes should be mandatory in schools.'
-          ];
+          // Never hardcode questions here: a CEFR list used to sit in this
+          // fallback, so a failed data load would grade an IELTS candidate
+          // against festival/museum prompts they were never asked.
+          const questionTexts = window.SPEAKING_TEST_DATA_CACHED ? generateQuestionTexts(window.SPEAKING_TEST_DATA_CACHED) : [];
 
           // Build analysis prompt
           const analysisPrompt = buildDualAnalysisPrompt(transcriptions, questionNumbers, questionTexts, candidateName);
@@ -13479,22 +13474,15 @@ Do NOT artificially limit scores. Award the level the candidate truly deserves b
             <p style="margin-top:8px;color:var(--muted);font-size:14px">Evaluating grammar, vocabulary, and topic relevance</p>
           `;
 
-          // Get Image URLs for Question 4 from loaded questions.js (DYNAMIC)
-          const q4Images = (window.SPEAKING_TEST_DATA_CACHED && window.SPEAKING_TEST_DATA_CACHED.images)
-            ? [window.SPEAKING_TEST_DATA_CACHED.images.img1, window.SPEAKING_TEST_DATA_CACHED.images.img2]
-            : ['https://i.ibb.co/SDwRVyw8/image.png', 'https://i.ibb.co/rT8fKFs/image.png']; // Fallback only
+          // No images on the IELTS page — see the note in generateDualAiScore().
+          const q4Images = [];
 
           // Extract question texts from the page (DYNAMIC - uses loaded questions.js data)
-          const questionTexts = window.SPEAKING_TEST_DATA_CACHED ? generateQuestionTexts(window.SPEAKING_TEST_DATA_CACHED) : [
-            'Question 1: What is the best book you\'ve ever read?',
-            'Question 2: Would you want to be an actor in the future?',
-            'Question 3: Where do you usually buy your clothes?',
-            'Question 4: What do you see in these pictures? (IMAGES ARE PROVIDED - You will see them below)',
-            'Question 5: What are the advantages of attending a festival compared to a museum visit?',
-            'Question 6: Why might some people find museums boring?',
-            'Question 7: Discuss the following points about traveling: Can you describe a trip that left a lasting impression on you? What do you think made a trip special? How does traveling affect one\'s attitude toward life and cultures?',
-            'Question 8: Art classes should be mandatory in schools. - Discuss both sides and give your opinion'
-          ];
+          // Never hardcode questions here: a CEFR list used to sit in this
+          // fallback, so a failed data load would grade an IELTS candidate
+          // against festival/museum prompts they were never asked — and told
+          // the model images were provided when this exam shows none.
+          const questionTexts = window.SPEAKING_TEST_DATA_CACHED ? generateQuestionTexts(window.SPEAKING_TEST_DATA_CACHED) : [];
 
           // Build message content with images for GPT-4 Vision
           const messageContent = [
@@ -13669,7 +13657,7 @@ ${questionNumbers.includes(4) ? `\n🖼️ FOR QUESTION 4, the candidate was sho
 
           // Add Q4 images only if Question 4 is selected
           // Convert images to base64 to avoid OpenAI timeout errors when fetching external URLs
-          if (questionNumbers.includes(4)) {
+          if (questionNumbers.includes(4) && q4Images.length >= 2) {
             try {
               // Pre-convert images to base64 to avoid OpenAI URL fetch timeouts
               const [img1Base64, img2Base64] = await Promise.all([
