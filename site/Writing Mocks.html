@@ -13758,15 +13758,15 @@ Each error item: {"t":"GRAMMAR|SPELL|VOCAB|PUNCT|L1","from":"<exact text from th
 {
   "t11_score": <0-5 INTEGER ONLY>,
   "t11_relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC>",
-  "t11_feedback": "<MAX 3 bullet points. Each MUST quote the exact error and show the fix with →. Format: • 'wrong text' → 'correct text' (explanation). NEVER give vague advice.>",
+  "t11_feedback": "<MAX 2 short bullets of EXAMINER COMMENTARY on how the task was performed — e.g. was the task fully answered, is it organised, is the register/tone right, is the length appropriate, and the ONE change that would most raise the score. Format: • Point 1 • Point 2. ⚠️ Do NOT quote or repeat individual grammar/spelling/vocabulary corrections — those are already shown to the student inline. This note must add something the corrections do not.>",
   "t11_errors": [{"t":"GRAMMAR","from":"","to":""}],
   "t12_score": <0-5 INTEGER ONLY>,
   "t12_relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC>",
-  "t12_feedback": "<MAX 3 bullet points, each quoting the exact error and showing the fix with →>",
+  "t12_feedback": "<MAX 2 short bullets of EXAMINER COMMENTARY on how the task was performed — e.g. was the task fully answered, is it organised, is the register/tone right, is the length appropriate, and the ONE change that would most raise the score. Format: • Point 1 • Point 2. ⚠️ Do NOT quote or repeat individual grammar/spelling/vocabulary corrections — those are already shown to the student inline. This note must add something the corrections do not.>",
   "t12_errors": [],
   "t2_score": <0-6 INTEGER ONLY>,
   "t2_relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC>",
-  "t2_feedback": "<MAX 3 bullet points, each quoting the exact error and showing the fix with →>",
+  "t2_feedback": "<MAX 2 short bullets of EXAMINER COMMENTARY on how the task was performed — e.g. was the task fully answered, is it organised, is the register/tone right, is the length appropriate, and the ONE change that would most raise the score. Format: • Point 1 • Point 2. ⚠️ Do NOT quote or repeat individual grammar/spelling/vocabulary corrections — those are already shown to the student inline. This note must add something the corrections do not.>",
   "t2_errors": [],
   "raw_score": <sum of all task scores, INTEGER>,
   "certificate_score": <from conversion table above>,
@@ -13777,17 +13777,17 @@ Each error item: {"t":"GRAMMAR|SPELL|VOCAB|PUNCT|L1","from":"<exact text from th
 {
   "t11_score": <0-5 INTEGER ONLY>,
   "t11_relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC>",
-  "t11_feedback": "<MAX 4 bullet points. Each bullet MUST: 1) Quote the exact error from the student's text, 2) Show the corrected version with →. Format: • 'wrong text' → 'correct text' (explanation). Example: • 'participations to join' → 'participants to join' (noun form needed). NEVER say 'Consider rephrasing' without showing HOW. NEVER include generic advice without quoting the exact error.>",
+  "t11_feedback": "<MAX 2 short bullets of EXAMINER COMMENTARY on how the task was performed — e.g. was the task fully answered, is it organised, is the register/tone right, is the length appropriate, and the ONE change that would most raise the score. Format: • Point 1 • Point 2. ⚠️ Do NOT quote or repeat individual grammar/spelling/vocabulary corrections — those are already shown to the student inline. This note must add something the corrections do not.>",
   "t11_corrected": "<Copy ENTIRE text. Mark ALL errors as [TYPE: error -> correction]. Example: 'I [GRAMMAR: go -> went] to [SPELL: scool -> school]'>",
   "t11_sample": "<Write a BRAND NEW, INDEPENDENT high-level C1 model answer for Task 1.1. Target 80-90 words (minimum 50 words). DO NOT revise or improve the student's answer. Write a completely new response using sophisticated vocabulary and grammar. Make it a complete, well-formed response.>",
   "t12_score": <0-5 INTEGER ONLY>,
   "t12_relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC>",
-  "t12_feedback": "<MAX 4 bullet points. Each bullet MUST quote the exact error from text and show the fix with →. Format: • 'wrong text' → 'correct text' (explanation). NEVER say 'Consider rephrasing' or 'sounds unnatural' without showing the corrected version.>",
+  "t12_feedback": "<MAX 2 short bullets of EXAMINER COMMENTARY on how the task was performed — e.g. was the task fully answered, is it organised, is the register/tone right, is the length appropriate, and the ONE change that would most raise the score. Format: • Point 1 • Point 2. ⚠️ Do NOT quote or repeat individual grammar/spelling/vocabulary corrections — those are already shown to the student inline. This note must add something the corrections do not.>",
   "t12_corrected": "<Copy ENTIRE text with [TYPE: error -> correction] inline>",
   "t12_sample": "<Write a BRAND NEW, INDEPENDENT high-level C1 model answer for Task 1.2. Target 160-180 words (minimum 120 words). DO NOT revise the student's answer. Write a completely new, detailed response with sophisticated vocabulary and varied grammar structures.>",
   "t2_score": <0-6 INTEGER ONLY>,
   "t2_relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC>",
-  "t2_feedback": "<MAX 4 bullet points. Each bullet MUST quote the exact error from text and show the fix with →. Format: • 'wrong text' → 'correct text' (explanation). NEVER give vague advice like 'Improve vocabulary' — always show the specific word and its better alternative.>",
+  "t2_feedback": "<MAX 2 short bullets of EXAMINER COMMENTARY on how the task was performed — e.g. was the task fully answered, is it organised, is the register/tone right, is the length appropriate, and the ONE change that would most raise the score. Format: • Point 1 • Point 2. ⚠️ Do NOT quote or repeat individual grammar/spelling/vocabulary corrections — those are already shown to the student inline. This note must add something the corrections do not.>",
   "t2_corrected": "<Copy ENTIRE text with [TYPE: error -> correction] inline>",
   "t2_sample": "<Write a BRAND NEW, INDEPENDENT high-level C1 model answer for Part 2. Target 250-300 words (minimum 180 words). DO NOT revise the student's answer. Write a comprehensive essay with clear introduction, well-developed body paragraphs with examples, and a strong conclusion. Use advanced vocabulary and complex grammar structures.>",
   "raw_score": <sum of all task scores, INTEGER>,
@@ -13943,13 +13943,15 @@ ${_wReportSpec}`;
         }
       }
 
-      // Keep inline corrections AND the AI's fresh high-level sample per task
-      // (samples render in View Details, just below each task's answer — see
-      // 13996/14006/14016). Examiner-note feedback stays suppressed per the
-      // earlier "inline corrections only" preference.
-      result.t11_feedback = '';
-      result.t12_feedback = '';
-      result.t2_feedback = '';
+      // Examiner notes were suppressed here because the old prompt told the
+      // model to "quote the exact error and show the fix with →" — which just
+      // restated the inline corrections the student can already see. The spec
+      // now asks for performance commentary (task achievement, organisation,
+      // register, the one change that would raise the score) and explicitly
+      // forbids repeating corrections, so the note adds something. Keep it.
+      result.t11_feedback = result.t11_feedback || '';
+      result.t12_feedback = result.t12_feedback || '';
+      result.t2_feedback = result.t2_feedback || '';
 
       // Recalculate certificate score based on integer raw score
       const scoreMap = { 16: 75, 15: 69, 14: 65, 13: 63, 12: 61, 11: 57, 10: 53, 9: 50, 8: 47, 7: 43, 6: 40, 5: 37, 4: 33, 3: 28, 2: 21, 1: 14, 0: 0 };
