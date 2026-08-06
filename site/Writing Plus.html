@@ -6,6 +6,7 @@
   <script src="finish-gate.js" defer></script>
   <script>window.__MS_SKILL_HINT = 'writing-plus';</script>
   <script src="./ai-proxy-interceptor.js"></script>
+  <script src="./scoring-tier.js"></script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Writing Plus</title>
@@ -1968,6 +1969,14 @@
         const t11Ans = document.getElementById('ans-t11')?.value?.trim() || '';
         const t12Ans = document.getElementById('ans-t12')?.value?.trim() || '';
         const t2Ans  = document.getElementById('ans-t2')?.value?.trim() || '';
+        // Report tier. standard asks for error DELTAS instead of echoing all
+        // three answers back, and no model answers; the annotated text is
+        // rebuilt below from the responses we already hold, so the result
+        // renderer and highlightCorr() are untouched.
+        const _wTier = (typeof window.getPromptTier === 'function')
+            ? await window.getPromptTier('writing') : 'premium';
+        const _wD = _wTier === 'standard';
+        console.log('[AI] Writing Plus tier:', _wTier);
         const promptT11 = taskDefs.find(t => t.id === 't11')?.prompt || '';
         const promptT12 = taskDefs.find(t => t.id === 't12')?.prompt || '';
         const promptT2  = taskDefs.find(t => t.id === 't2')?.prompt  || '';
@@ -1997,23 +2006,27 @@ CEFR LEVELS: 0-34\u2192Below B1, 35-50\u2192B1, 51-64\u2192B2, 65-75\u2192C1
 **TASK 1.2:** ${t12Ans || '[No response]'}
 **PART 2:** ${t2Ans || '[No response]'}
 
-RESPOND IN THIS EXACT JSON FORMAT ONLY:
+${_wD ? ('RESPOND IN THIS EXACT JSON FORMAT ONLY:\n'
+  + '\u26A0\uFE0F Do NOT copy any response back -- we already have all three. Report only error DELTAS in t11_errors / t12_errors / t2_errors.\n'
+  + '\u26A0\uFE0F Do NOT write model answers -- omit every *_sample.\n'
+  + (window.SCORING_DELTA_RULES || '') + '\nAt most 5 errors per task.')
+  : 'RESPOND IN THIS EXACT JSON FORMAT ONLY:'}
 {
   "t11_score": <0-5 INTEGER>,
   "t11_relevance": "<ON-TOPIC/OFF-TOPIC>",
   "t11_feedback": "<bullet points quoting errors with corrections>",
-  "t11_corrected": "<full text with [TYPE: error -> correction] inline>",
-  "t11_sample": "<C1 model answer, 80-90 words>",
+  ${_wD ? '' : '"t11_corrected": "<full text with [TYPE: error -> correction] inline>",'}
+  ${_wD ? '"t11_errors": [],' : '"t11_sample": "<C1 model answer, 80-90 words>",'}
   "t12_score": <0-5 INTEGER>,
   "t12_relevance": "<ON-TOPIC/OFF-TOPIC>",
   "t12_feedback": "<bullet points quoting errors with corrections>",
-  "t12_corrected": "<full text with [TYPE: error -> correction] inline>",
-  "t12_sample": "<C1 model answer, 160-180 words>",
+  ${_wD ? '' : '"t12_corrected": "<full text with [TYPE: error -> correction] inline>",'}
+  ${_wD ? '"t12_errors": [],' : '"t12_sample": "<C1 model answer, 160-180 words>",'}
   "t2_score": <0-6 INTEGER>,
   "t2_relevance": "<ON-TOPIC/OFF-TOPIC>",
   "t2_feedback": "<bullet points quoting errors with corrections>",
-  "t2_corrected": "<full text with [TYPE: error -> correction] inline>",
-  "t2_sample": "<C1 model answer, 250-300 words>",
+  ${_wD ? '' : '"t2_corrected": "<full text with [TYPE: error -> correction] inline>",'}
+  ${_wD ? '"t2_errors": [],' : '"t2_sample": "<C1 model answer, 250-300 words>",'}
   "raw_score": <sum of all task scores>,
   "certificate_score": <from conversion table>,
   "cefr_level": "<Below B1/B1/B2/C1>",
@@ -2038,6 +2051,16 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY:
           console.warn('Could not parse AI scoring response as JSON, using raw feedback');
         }
 
+        // standard tier returns deltas; rebuild the marked-up text from the
+        // answers we already hold, before anything downstream reads it.
+        if (_wD && typeof window.correctedFromDeltas === 'function') {
+          const _src = { t11: t11Ans, t12: t12Ans, t2: t2Ans };
+          ['t11', 't12', 't2'].forEach(function (k) {
+            if (!aiResult[k + '_corrected']) {
+              aiResult[k + '_corrected'] = window.correctedFromDeltas(_src[k] || '', aiResult[k + '_errors']);
+            }
+          });
+        }
         // Recalculate scores (same as Writing Mocks) to ensure consistency
         if (aiResult.t11_score !== undefined || aiResult.t12_score !== undefined || aiResult.t2_score !== undefined) {
           aiResult.t11_score = Math.round(aiResult.t11_score || 0);
