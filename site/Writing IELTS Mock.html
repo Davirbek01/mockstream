@@ -7,6 +7,7 @@
   <script src="./ai-proxy-interceptor.js"></script>
   <script src="./vision-factcheck.js"></script>
   <script src="./task1-chart-data.js"></script>
+  <script src="./scoring-tier.js"></script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>IELTS Academic Writing Mock Test</title>
@@ -10313,6 +10314,20 @@ This is a PRACTICE session. The student ONLY wrote ${practiceTaskNames[practiceT
 ` : '';
 
       // IELTS-specific scoring prompt
+      // Report tier. standard asks for error DELTAS instead of the whole answer
+      // echoed back, and no model answers; t1_corrected/t2_corrected are rebuilt
+      // from the text we already hold so the annotation renderer, the PDF and
+      // the Telegram report are untouched.
+      const _wTier = (typeof window.getPromptTier === 'function')
+          ? await window.getPromptTier('writing') : 'premium';
+      const _wD = _wTier === 'standard';
+      const _wSpec = _wD
+          ? ('RESPOND IN THIS EXACT JSON FORMAT ONLY (Criteria scores MUST be whole numbers \u2014 NOT 5.5 or 6.5):\n'
+             + '\u26A0\uFE0F Do NOT copy either response back -- we already have both. Report only error DELTAS in t1_errors / t2_errors.\n'
+             + '\u26A0\uFE0F Do NOT write model answers -- omit t1_sample and t2_sample.\n'
+             + (window.SCORING_DELTA_RULES || '') + '\nAt most 6 errors per task.')
+          : 'RESPOND IN THIS EXACT JSON FORMAT ONLY (Criteria scores MUST be whole numbers \u2014 NOT 5.5 or 6.5):';
+      console.log('[AI] IELTS writing tier:', _wTier);
       const prompt = `${window.ScoringPrompts.requireCore('IELTS_WRITING_CORE')}
 ${practiceNote}
 🚨 MANDATORY PROCESS: Before assigning scores, fill the "t1_analysis"/"t2_analysis" fields with (a) the grammar-error count, (b) vocabulary range/repetition, (c) how well each task prompt is addressed, (d) organization quality. Then make the criterion scores match that analysis, and ensure at least 2 of the 4 criteria differ.
@@ -10356,7 +10371,7 @@ ${visionBlockT1}
 **TASK 1 Response:** ${t1Text || '[No response]'}
 **TASK 2 Response:** ${t2Text || '[No response]'}
 
-RESPOND IN THIS EXACT JSON FORMAT ONLY (Criteria scores MUST be whole numbers — NOT 5.5 or 6.5):
+${_wSpec}
 {
   "t1_analysis": "<REQUIRED: Before scoring Task 1, list: (a) number of grammar errors found, (b) examples of vocabulary range or repetition, (c) how well the task prompt is addressed, (d) quality of organization/paragraphing. Be specific.>",
   "t1_band": <task band = average of 4 criteria, can be half band e.g. 5.5>,
@@ -10366,8 +10381,8 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (Criteria scores MUST be whole numbers �
   "t1_gra": <Grammatical Range & Accuracy WHOLE NUMBER — must match your grammar error count>,
   "t1_relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC>",
   "t1_feedback": "MAX 4 bullet points in PLAIN ENGLISH. Format each as: • 'exact wrong words from student text' → 'corrected version' (brief explanation). Do NOT use [SPELL:], [GRAMMAR:] or any annotation tags here. Do NOT flag words that are actually correct. Only mention errors that genuinely exist in the text.",
-  "t1_corrected": "Copy the student's ENTIRE text. Insert annotation tags ONLY where real errors exist: [SPELL: actual_error -> correction], [GRAMMAR: actual_error -> correction], etc. Do NOT insert tags for correct words.",
-  "t1_sample": "<Write a Band 8-9 model answer for Task 1. Target 180-200 words. Write a completely new response.>",
+  ${_wD ? '"t1_errors": [],' : '"t1_corrected": "Copy the student\'s ENTIRE text. Insert annotation tags ONLY where real errors exist: [SPELL: actual_error -> correction], [GRAMMAR: actual_error -> correction], etc. Do NOT insert tags for correct words.",'}
+  ${_wD ? '' : '"t1_sample": "<Write a Band 8-9 model answer for Task 1. Target 180-200 words. Write a completely new response.>",'}
   "t2_analysis": "<REQUIRED: Before scoring Task 2, list: (a) number of grammar errors found, (b) examples of vocabulary range or repetition, (c) how well the argument addresses the prompt, (d) quality of coherence/paragraphing. Be specific.>",
   "t2_band": <task band = average of 4 criteria, can be half band>,
   "t2_ta": <Task Response WHOLE NUMBER — must match your analysis of argument quality>,
@@ -10376,8 +10391,8 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (Criteria scores MUST be whole numbers �
   "t2_gra": <Grammatical Range & Accuracy WHOLE NUMBER — must match your error count>,
   "t2_relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC>",
   "t2_feedback": "MAX 4 bullet points in PLAIN ENGLISH. Format each as: • 'exact wrong words from student text' → 'corrected version' (brief explanation). Do NOT use [SPELL:], [GRAMMAR:] or any annotation tags here. Do NOT flag words that are actually correct. Only mention errors that genuinely exist in the text.",
-  "t2_corrected": "Copy the student's ENTIRE text. Insert annotation tags ONLY where real errors exist: [SPELL: actual_error -> correction], [GRAMMAR: actual_error -> correction], etc. Do NOT insert tags for correct words.",
-  "t2_sample": "<Write a Band 8-9 model answer for Task 2. Target 280-320 words. Write a completely new essay.>",
+  ${_wD ? '"t2_errors": [],' : '"t2_corrected": "Copy the student\'s ENTIRE text. Insert annotation tags ONLY where real errors exist: [SPELL: actual_error -> correction], [GRAMMAR: actual_error -> correction], etc. Do NOT insert tags for correct words.",'}
+  ${_wD ? '' : '"t2_sample": "<Write a Band 8-9 model answer for Task 2. Target 280-320 words. Write a completely new essay.>",'}
   "overall_band": <overall band score, calculated as (t1_band + 2*t2_band)/3 rounded to nearest 0.5>,
   "overall_feedback": "<3-4 sentence overall assessment with specific strengths and key areas to improve>"
 }`;
@@ -10423,6 +10438,12 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (Criteria scores MUST be whole numbers �
       // Parse and validate
       const result = JSON.parse(cleanedText);
 
+      // standard tier: rebuild the annotated text from the deltas and the
+      // responses we already hold, before anything downstream reads the field.
+      if (_wD && typeof window.correctedFromDeltas === 'function') {
+          if (!result.t1_corrected) result.t1_corrected = window.correctedFromDeltas(t1Text || '', result.t1_errors);
+          if (!result.t2_corrected) result.t2_corrected = window.correctedFromDeltas(t2Text || '', result.t2_errors);
+      }
       // Ensure valid band scores
       const roundHalf = (v) => Math.round((Number(v) || 0) * 2) / 2;  // for task bands & overall (half bands OK)
       const roundWhole = (v) => Math.round(Number(v) || 0);           // for criteria (whole numbers only per IELTS rules)

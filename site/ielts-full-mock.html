@@ -15,6 +15,7 @@
     <script src="site-config/site-config.js"></script>
     <script src="supabase-send.js"></script>
     <script src="scoring-prompts.js" onerror="(function(el){var n=window.__spTries=(window.__spTries||0)+1;if(n>4)return;setTimeout(function(){var s=document.createElement('script');s.src='scoring-prompts.js?retry='+n;s.onerror=el.onerror;document.head.appendChild(s);},300*n);})(this)"></script>
+    <script src="./scoring-tier.js"></script>
     <script src="session-recovery.js"></script>
     <script>
         if (window.SITE_CONFIG) {
@@ -9001,6 +9002,14 @@
             // Shared rubric core (single source of truth — scoring-prompts.js).
             // Lean output (band + short feedback) is appended below, matching
             // this page's result parser.
+            // Report tier. This page never echoed the answer back, so standard's only
+            // effect here is dropping the Band 8-9 model answers -- which is the bulk
+            // of the output tokens anyway. The renderer already guards on `if (sample)`,
+            // so their absence shows as no panel rather than an empty one.
+            const _wTier = (typeof window.getPromptTier === 'function')
+                ? await window.getPromptTier('writing') : 'premium';
+            const _wD = _wTier === 'standard';
+            console.log('[AI] IELTS full-mock writing tier:', _wTier);
             let prompt = window.ScoringPrompts.requireCore('IELTS_WRITING_CORE') + '\n\n';
             // IELTS writing data stores tasks as object {task1:{...}, task2:{...}}, convert to array
             const tasksArr = Array.isArray(data.tasks) ? data.tasks : Object.values(data.tasks);
@@ -9017,10 +9026,10 @@ ${response}
             });
 
             prompt += `
-Provide your assessment in this exact JSON format (NOTE: scores MUST vary across criteria — identical scores across all 4 is almost never correct. CRITERION SCORES must be WHOLE NUMBERS like 5, 6, 7 — NOT half bands):
+Provide your assessment in this exact JSON format (NOTE: scores MUST vary across criteria — identical scores across all 4 is almost never correct. CRITERION SCORES must be WHOLE NUMBERS like 5, 6, 7 — NOT half bands):${_wD ? '\n\u26A0\uFE0F Do NOT write model answers -- omit the "sample" field entirely.' : ''}
 {
-  "task1": { "band": 5.75, "ta": 6, "cc": 6, "lr": 5, "gra": 6, "feedback": "MAX 3 bullet points in PLAIN ENGLISH. Format: 'exact wrong words' → 'correction' (brief explanation). No annotation tags like [SPELL:]. Only flag words that are genuinely wrong.", "sample": "<Write a BRAND NEW, INDEPENDENT Band 8-9 model answer for Task 1, ~170-190 words. DO NOT revise the student's answer — write a fresh top-band response that fully satisfies the Band 9 descriptors.>" },
-  "task2": { "band": 5.75, "ta": 6, "cc": 6, "lr": 6, "gra": 5, "feedback": "MAX 3 bullet points in PLAIN ENGLISH. Format: 'exact wrong words' → 'correction' (brief explanation). No annotation tags like [SPELL:]. Only flag words that are genuinely wrong.", "sample": "<Write a BRAND NEW, INDEPENDENT Band 8-9 model answer for Task 2, ~280-320 words. DO NOT revise the student's answer — write a fresh top-band essay that fully satisfies the Band 9 descriptors.>" },
+  "task1": { "band": 5.75, "ta": 6, "cc": 6, "lr": 5, "gra": 6, "feedback": "MAX 3 bullet points in PLAIN ENGLISH. Format: 'exact wrong words' → 'correction' (brief explanation). No annotation tags like [SPELL:]. Only flag words that are genuinely wrong."${_wD ? '' : ', "sample": "<Write a BRAND NEW, INDEPENDENT Band 8-9 model answer for Task 1, ~170-190 words. DO NOT revise the student\'s answer — write a fresh top-band response that fully satisfies the Band 9 descriptors.>"'} },
+  "task2": { "band": 5.75, "ta": 6, "cc": 6, "lr": 6, "gra": 5, "feedback": "MAX 3 bullet points in PLAIN ENGLISH. Format: 'exact wrong words' → 'correction' (brief explanation). No annotation tags like [SPELL:]. Only flag words that are genuinely wrong."${_wD ? '' : ', "sample": "<Write a BRAND NEW, INDEPENDENT Band 8-9 model answer for Task 2, ~280-320 words. DO NOT revise the student\'s answer — write a fresh top-band essay that fully satisfies the Band 9 descriptors.>"'} },
   "overall": { "band": 6.0, "summary": "Overall summary with specific strengths and 1-2 key areas to improve" }
 }`;
 
