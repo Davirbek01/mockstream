@@ -5,6 +5,7 @@
   <script src="finish-gate.js" defer></script>
   <script src="./ai-proxy-interceptor.js"></script>
   <script src="./q4-descriptions.js"></script>
+  <script src="./scoring-tier.js"></script>
   <script src="./mock-code-verifier.js?v=2"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9146,6 +9147,21 @@
                 const t2Words = t2.split(/\s+/).filter(x => x).length;
 
                 // Shared rubric core (single source of truth — scoring-prompts.js).
+                // Report tier. The full mock used to ignore it completely, so the same
+                // student was graded premium here and standard on the standalone writing
+                // mock -- same skill, same setting, two different reports. standard asks
+                // for error DELTAS instead of echoing the whole answer back; the marked-up
+                // text is rebuilt client-side below so every renderer, the PDF and the
+                // Telegram caption keep working unchanged.
+                const _wTier = (typeof window.getPromptTier === 'function')
+                    ? await window.getPromptTier('writing') : 'premium';
+                const _wSpec = _wTier === 'standard'
+                    ? ('RESPOND IN THIS EXACT JSON FORMAT:\n'
+                       + '\u26A0\uFE0F Do NOT copy the student text back anywhere -- we already have it. Report only the error DELTAS in each task errors array.\n'
+                       + '\u26A0\uFE0F Do NOT write sample answers -- omit sample_answer entirely.\n'
+                       + (window.SCORING_DELTA_RULES || '') + '\nAt most 5 errors per task.')
+                    : 'RESPOND IN THIS EXACT JSON FORMAT:';
+                console.log('[AI] Full-mock writing tier:', _wTier);
                 const prompt = `${window.ScoringPrompts.requireCore('CEFR_WRITING_CORE')}
 
 ⚠️ MINIMUM WORD COUNTS — set the matching word_penalty to 1 when under: Task 1.1 < 30 words, Task 1.2 < 100 words, Part 2 < 160 words (target lengths 50 / 120 / 180).
@@ -9164,7 +9180,7 @@
 **TASK 1.2 (${t12Words} words, min required: 120):** ${t12 || '[No response]'}
 **PART 2 (${t2Words} words, min required: 180):** ${t2 || '[No response]'}
 
-RESPOND IN THIS EXACT JSON FORMAT:
+${_wSpec}
 {
     "t11_score": <number 0-5 INTEGER ONLY>,
     "t11_words": <actual word count>,
@@ -9179,23 +9195,23 @@ RESPOND IN THIS EXACT JSON FORMAT:
     "t11_analysis": {
         "relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC>",
         "word_penalty": <0 or 1 if under minimum>,
-        "corrected_text": "<Copy entire Task 1.1 response with inline corrections using tags: [GRAMMAR: wrong -> correct], [SPELL: wrong -> correct], [VOCAB: wrong -> correct], [L1: word]>",
-        "examiner_feedback": "<MAX 4 bullet points. Each bullet MUST: 1) Quote the exact error from student's text, 2) Show the corrected version with →. Format: • 'wrong text' → 'correct text' (explanation). NEVER say 'Consider rephrasing' without showing HOW. NEVER include generic advice without quoting the exact error.>",
-        "sample_answer": "<Write a BRAND NEW, INDEPENDENT high-level C1 model answer for this task (MINIMUM 100 words, aim for 100-130 words). DO NOT revise the student's answer. Use sophisticated vocabulary and grammar.>"
+        ${_wTier === 'standard' ? '"errors": [{"t":"GRAMMAR","from":"","to":""}],' : '"corrected_text": "<Copy entire Task 1.1 response with inline corrections using tags: [GRAMMAR: wrong -> correct], [SPELL: wrong -> correct], [VOCAB: wrong -> correct], [L1: word]>",'}
+        "examiner_feedback": "<MAX 2 short bullets of EXAMINER COMMENTARY on how the task was performed \u2014 was the task fully answered, is it organised, is the register right, and the ONE change that would most raise the score. \u26A0\uFE0F Do NOT quote or repeat individual grammar/spelling/vocabulary corrections \u2014 those are already shown inline.>"${_wTier === 'standard' ? '' : ','}
+        ${_wTier === 'standard' ? '' : '"sample_answer": "<Write a BRAND NEW, INDEPENDENT high-level C1 model answer for this task (MINIMUM 100 words, aim for 100-130 words). DO NOT revise the student\'s answer. Use sophisticated vocabulary and grammar.>"'}
     },
     "t12_analysis": {
         "relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC>",
         "word_penalty": <0 or 1 if under minimum>,
-        "corrected_text": "<Copy entire Task 1.2 response with inline corrections>",
-        "examiner_feedback": "<MAX 4 bullet points. Each bullet MUST quote the exact error and show the fix with →. NEVER say 'Consider rephrasing' or 'sounds unnatural' without showing the corrected version.>",
-        "sample_answer": "<Write a BRAND NEW, INDEPENDENT high-level C1 model answer for this task (MINIMUM 170 words, aim for 170-200 words). DO NOT revise the student's answer.>"
+        ${_wTier === 'standard' ? '"errors": [],' : '"corrected_text": "<Copy entire Task 1.2 response with inline corrections>",'}
+        "examiner_feedback": "<MAX 2 short bullets of EXAMINER COMMENTARY on how the task was performed \u2014 was the task fully answered, is it organised, is the register right, and the ONE change that would most raise the score. \u26A0\uFE0F Do NOT quote or repeat individual grammar/spelling/vocabulary corrections \u2014 those are already shown inline.>"${_wTier === 'standard' ? '' : ','}
+        ${_wTier === 'standard' ? '' : '"sample_answer": "<Write a BRAND NEW, INDEPENDENT high-level C1 model answer for this task (MINIMUM 170 words, aim for 170-200 words). DO NOT revise the student\'s answer.>"'}
     },
     "t2_analysis": {
         "relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC>",
         "word_penalty": <0 or 1 if under minimum>,
-        "corrected_text": "<Copy entire Part 2 response with inline corrections>",
-        "examiner_feedback": "<MAX 4 bullet points. Each bullet MUST quote the exact error and show the fix with →. NEVER give vague advice like 'Improve vocabulary' — always show the specific word and its better alternative.>",
-        "sample_answer": "<Write a BRAND NEW, INDEPENDENT high-level C1 model answer for this task (MINIMUM 230 words, aim for 230-280 words). DO NOT revise the student's answer. Include clear introduction, body paragraphs, and conclusion.>"
+        ${_wTier === 'standard' ? '"errors": [],' : '"corrected_text": "<Copy entire Part 2 response with inline corrections>",'}
+        "examiner_feedback": "<MAX 2 short bullets of EXAMINER COMMENTARY on how the task was performed \u2014 was the task fully answered, is it organised, is the register right, and the ONE change that would most raise the score. \u26A0\uFE0F Do NOT quote or repeat individual grammar/spelling/vocabulary corrections \u2014 those are already shown inline.>"${_wTier === 'standard' ? '' : ','}
+        ${_wTier === 'standard' ? '' : '"sample_answer": "<Write a BRAND NEW, INDEPENDENT high-level C1 model answer for this task (MINIMUM 230 words, aim for 230-280 words). DO NOT revise the student\'s answer. Include clear introduction, body paragraphs, and conclusion.>"'}
     },
     "top_improvements": ["<improvement 1>", "<improvement 2>", "<improvement 3>"]
 }
@@ -9275,12 +9291,23 @@ Empty responses = 0 points and skip analysis for that task.`;
                         }
                     }
 
-                    // Keep inline corrections AND the AI's fresh high-level sample
-                    // per task (samples render in the per-task "See Sample Answer"
-                    // panel). Examiner-note feedback stays suppressed.
-                    result.t11_analysis.examiner_feedback = '';
-                    result.t12_analysis.examiner_feedback = '';
-                    result.t2_analysis.examiner_feedback = '';
+                    // standard tier returns deltas rather than the echoed answer; rebuild
+                    // the marked-up text from the response we already hold, so the
+                    // renderers, the PDF and the Telegram caption need no changes.
+                    if (_wTier === 'standard') {
+                        const _srcText = { t11: t11, t12: t12, t2: t2 };
+                        ['t11', 't12', 't2'].forEach(function (k) {
+                            const a = result[k + '_analysis'];
+                            if (a && !a.corrected_text && typeof window.correctedFromDeltas === 'function') {
+                                a.corrected_text = window.correctedFromDeltas(_srcText[k] || '', a.errors);
+                            }
+                        });
+                    }
+
+                    // The examiner note used to be blanked here because the spec asked the
+                    // model to quote each error and show the fix -- that just restated the
+                    // inline corrections. The spec now asks for performance commentary
+                    // instead, so it earns its place. Keep it.
 
                     console.log('[AI] Writing analysis complete:', result);
                     return result;
@@ -9635,6 +9662,22 @@ Empty responses = 0 points and skip analysis for that task.`;
                     }
                 }
 
+                // Report tier. Same reasoning as the writing half above: the full mock
+                // ignored the setting entirely, so a student was graded premium here
+                // while the standalone speaking mock gave them standard. In standard the
+                // model returns error DELTAS per question instead of echoing every answer
+                // back, and writes no model answers; the annotated text is rebuilt from
+                // the transcripts we already hold.
+                const _sTier = (typeof window.getPromptTier === 'function')
+                    ? await window.getPromptTier('speaking') : 'premium';
+                const _sD = _sTier === 'standard';
+                const _sSpec = _sD
+                    ? ('Respond ONLY in JSON format:\n'
+                       + '\u26A0\uFE0F Do NOT copy any response back -- we already have the transcripts. Report only error DELTAS in each qN_errors array.\n'
+                       + '\u26A0\uFE0F Do NOT write model answers -- omit every qN_sample.\n'
+                       + (window.SCORING_DELTA_RULES || '') + '\nAt most 5 errors per question.')
+                    : 'Respond ONLY in JSON format:';
+                console.log('[AI] Full-mock speaking tier:', _sTier);
                 let prompt = `${window.ScoringPrompts.requireCore('CEFR_SPEAKING_CORE')}
 `;
                 if (_storedQ4) {
@@ -9696,7 +9739,7 @@ Match the length to the speaking time allocated (MINIMUM words required):
 - Q8 (2 minutes): MINIMUM 230 words, aim for 230-300 words
 Use sophisticated vocabulary, complex grammar, and natural fluency appropriate for C1 level.
 
-Respond ONLY in JSON format:
+${_sSpec}
 {
   "p11_score": <0-5>,
   "p12_score": <0-5>,
@@ -9707,37 +9750,37 @@ Respond ONLY in JSON format:
   "cefr_level": "<level>",
   "feedback": "Overall encouraging assessment",
   "q1_relevance": "<ON-TOPIC/OFF-TOPIC>",
-  "q1_corrected": "<Copy ENTIRE response with [TYPE: error -> correction] inline annotations>",
+  ${_sD ? '' : '"q1_corrected": "<Copy ENTIRE response with [TYPE: error -> correction] inline annotations>",'}
   "q1_feedback": "<MAX 3 bullet points: • Point 1 • Point 2 • Point 3>",
-  "q1_sample": "<Independent C1-level model answer, MINIMUM 100 words>",
+  ${_sD ? '"q1_errors": []' : '"q1_sample": "<Independent C1-level model answer, MINIMUM 100 words>"'},
   "q2_relevance": "<ON-TOPIC/OFF-TOPIC>",
-  "q2_corrected": "<Copy ENTIRE response with inline annotations>",
+  ${_sD ? '' : '"q2_corrected": "<Copy ENTIRE response with inline annotations>",'}
   "q2_feedback": "<MAX 3 bullet points>",
-  "q2_sample": "<Independent C1-level model answer, MINIMUM 100 words>",
+  ${_sD ? '"q2_errors": []' : '"q2_sample": "<Independent C1-level model answer, MINIMUM 100 words>"'},
   "q3_relevance": "<ON-TOPIC/OFF-TOPIC>",
-  "q3_corrected": "<Copy ENTIRE response with inline annotations>",
+  ${_sD ? '' : '"q3_corrected": "<Copy ENTIRE response with inline annotations>",'}
   "q3_feedback": "<MAX 3 bullet points>",
-  "q3_sample": "<Independent C1-level model answer, MINIMUM 100 words>",
+  ${_sD ? '"q3_errors": []' : '"q3_sample": "<Independent C1-level model answer, MINIMUM 100 words>"'},
   "q4_relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC - CHECK AGAINST PICTURE DESCRIPTIONS>",
-  "q4_corrected": "<Copy ENTIRE response with inline annotations>",
+  ${_sD ? '' : '"q4_corrected": "<Copy ENTIRE response with inline annotations>",'}
   "q4_feedback": "<MAX 3 bullet points - include note if off-topic from pictures>",
-  "q4_sample": "<Write a C1-level model answer describing the TWO ATTACHED IMAGES in detail - describe what you actually SEE in each picture (people, objects, setting, actions). MINIMUM 130 words>",
+  ${_sD ? '"q4_errors": []' : '"q4_sample": "<Write a C1-level model answer describing the TWO ATTACHED IMAGES in detail - describe what you actually SEE in each picture (people, objects, setting, actions). MINIMUM 130 words>"'},
   "q5_relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC>",
-  "q5_corrected": "<Copy ENTIRE response with inline annotations>",
+  ${_sD ? '' : '"q5_corrected": "<Copy ENTIRE response with inline annotations>",'}
   "q5_feedback": "<MAX 3 bullet points>",
-  "q5_sample": "<Independent C1-level model answer, MINIMUM 100 words>",
+  ${_sD ? '"q5_errors": []' : '"q5_sample": "<Independent C1-level model answer, MINIMUM 100 words>"'},
   "q6_relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC>",
-  "q6_corrected": "<Copy ENTIRE response with inline annotations>",
+  ${_sD ? '' : '"q6_corrected": "<Copy ENTIRE response with inline annotations>",'}
   "q6_feedback": "<MAX 3 bullet points>",
-  "q6_sample": "<Independent C1-level model answer, MINIMUM 100 words>",
+  ${_sD ? '"q6_errors": []' : '"q6_sample": "<Independent C1-level model answer, MINIMUM 100 words>"'},
   "q7_relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC>",
-  "q7_corrected": "<Copy ENTIRE response with inline annotations>",
+  ${_sD ? '' : '"q7_corrected": "<Copy ENTIRE response with inline annotations>",'}
   "q7_feedback": "<MAX 3 bullet points>",
-  "q7_sample": "<Independent C1-level model answer addressing all bullet points, MINIMUM 230 words>",
+  ${_sD ? '"q7_errors": []' : '"q7_sample": "<Independent C1-level model answer addressing all bullet points, MINIMUM 230 words>"'},
   "q8_relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC>",
-  "q8_corrected": "<Copy ENTIRE response with inline annotations>",
+  ${_sD ? '' : '"q8_corrected": "<Copy ENTIRE response with inline annotations>",'}
   "q8_feedback": "<MAX 3 bullet points>",
-  "q8_sample": "<Independent C1-level model answer discussing both sides with opinion, MINIMUM 230 words>"
+  ${_sD ? '"q8_errors": []' : '"q8_sample": "<Independent C1-level model answer discussing both sides with opinion, MINIMUM 230 words>"'}
 }`;
 
                 updateSpeakingProgress('AI analyzing responses...', 85);
@@ -9789,6 +9832,17 @@ Respond ONLY in JSON format:
                     result.cefr_level = cs >= 65 ? 'C1' : cs >= 51 ? 'B2' : cs >= 35 ? 'B1' : 'Below B1';
                 }
 
+                // standard tier: rebuild qN_corrected from the deltas plus the transcript
+                // we already hold, so the results screen, the examiner portal, the PDF and
+                // the Telegram report all keep reading the field they always read.
+                if (_sD && typeof window.correctedFromDeltas === 'function') {
+                    for (let i = 1; i <= 8; i++) {
+                        const k = 'q' + i;
+                        if (result[k + '_corrected']) continue;
+                        const t = (transcriptions.find(x => x.q === i) || {}).text || '';
+                        if (t) result[k + '_corrected'] = window.correctedFromDeltas(t, result[k + '_errors']);
+                    }
+                }
                 result.recorded_count = recordings.length;
                 // Store transcriptions in result for reports
                 result.transcriptions = transcriptions;

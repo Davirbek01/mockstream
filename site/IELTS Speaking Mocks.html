@@ -37,6 +37,7 @@
   <script src="human-expert.js"></script>
   <script src="supabase-send.js"></script>
   <script src="scoring-prompts.js" onerror="(function(el){var n=window.__spTries=(window.__spTries||0)+1;if(n>4)return;setTimeout(function(){var s=document.createElement('script');s.src='scoring-prompts.js?retry='+n;s.onerror=el.onerror;document.head.appendChild(s);},300*n);})(this)"></script>
+  <script src="./scoring-tier.js"></script>
   <!-- Redirect to index on page reload/refresh -->
   <script>
     (function () {
@@ -10790,13 +10791,34 @@
 
           // Build per-question JSON format dynamically based on practiced questions
           const practicedQNums = transcriptions.map(t => t.questionNum);
+          // Report tier. standard asks for error DELTAS per question instead of
+          // the whole response echoed back, and no model answers; q*_corrected is
+          // rebuilt below from the transcripts we already hold, so the results
+          // screen, the examiner portal and the PDF read the same field as ever.
+          const _sTier = (typeof window.getPromptTier === 'function')
+              ? await window.getPromptTier('speaking') : 'premium';
+          const _sD = _sTier === 'standard';
+          console.log('[AI] IELTS speaking tier:', _sTier);
+
           const qJsonLines = practicedQNums.map(q => {
             const sampleNote = q === 8 ? '<Independent Band 8+ model answer addressing all bullet points, ~200-280 words>' : '<...>';
+            if (_sD) {
+              return `  "q${q}_relevance": "<ON-TOPIC/OFF-TOPIC>", "q${q}_errors": [], "q${q}_feedback": "<MAX 3 bullet points>"`;
+            }
             if (q === practicedQNums[0]) {
               return `  "q${q}_relevance": "<ON-TOPIC/OFF-TOPIC>",\n  "q${q}_corrected": "<Copy ENTIRE response with [TYPE: error -> correction] inline annotations>",\n  "q${q}_feedback": "<MAX 3 bullet points: \\u2022 Point 1 \\u2022 Point 2 \\u2022 Point 3>",\n  "q${q}_sample": "<Independent Band 8-9 model answer>"`;
             }
             return `  "q${q}_relevance": "<ON-TOPIC/OFF-TOPIC>", "q${q}_corrected": "${sampleNote}", "q${q}_feedback": "<...>", "q${q}_sample": "${sampleNote}"`;
           }).join(',\n');
+
+          // Header instruction. Only the first question spells the delta contract
+          // out in full, so standard needs it stated once for the whole object.
+          const _sSpecHdr = _sD
+              ? ('RETURN ONLY THIS JSON FORMAT (no other text):\n'
+                 + '\u26A0\uFE0F Do NOT copy any response back -- we already have the transcripts. Report only error DELTAS in each q*_errors array.\n'
+                 + '\u26A0\uFE0F Do NOT write model answers -- omit every q*_sample.\n'
+                 + (window.SCORING_DELTA_RULES || '') + '\nAt most 5 errors per question.')
+              : 'RETURN ONLY THIS JSON FORMAT (no other text):';
 
           // Send to Gemini for IELTS band scoring with retry
           const analysisResp = await attemptWithRetry(async () => {
@@ -10834,7 +10856,7 @@ Match the length to the speaking time allocated:
 - Q11-Q17 Part 3 (45 seconds each): ~80-120 words
 Use sophisticated vocabulary, complex grammar, and natural fluency appropriate for Band 8-9.
 
-RETURN ONLY THIS JSON FORMAT (no other text):
+${_sSpecHdr}
 {
   "fc": <FLUENCY AND COHERENCE band 0-9 as WHOLE NUMBER e.g. 6>,
   "lr": <LEXICAL RESOURCE band 0-9 as WHOLE NUMBER>,
@@ -10887,6 +10909,16 @@ ${qJsonLines}
             }
           }
 
+          // standard tier: rebuild q*_corrected from the deltas plus the transcript
+          // we already hold. Driven off transcriptions rather than a fixed range,
+          // because practice mode scores only one part.
+          if (_sD && typeof window.correctedFromDeltas === 'function') {
+              transcriptions.forEach(function (t) {
+                  const k = 'q' + t.questionNum;
+                  if (result[k + '_corrected'] || !t.text) return;
+                  result[k + '_corrected'] = window.correctedFromDeltas(t.text, result[k + '_errors']);
+              });
+          }
           // Extract and validate IELTS band scores
           const _boost = (window.SITE_CONFIG && window.SITE_CONFIG.scoreBoost) || 0;
           const fc = Math.min(9, Math.max(0, Math.round(parseFloat(result.fc) || 0) + _boost));
