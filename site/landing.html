@@ -36671,6 +36671,7 @@
               +     '<span style="font-size:11.5px;color:#64748b;flex:1;min-width:200px;">Two Gemini variants side-by-side: visual cleanup vs. re-render from data. Pick the cleaner one to replace the chart.</span>'
               +   '</div>'
               + '</div>';
+        html += _mmgT1ChartDataSection(t1Chart);
       }
 
       // CEFR Writing — picker tags section. Editable fields the cwetPicker
@@ -37054,6 +37055,32 @@
         if (setNatEl) {
           var nv = (setNatEl.value || '').trim();
           if (nv) md.tasks.task1.dataNature = nv; else delete md.tasks.task1.dataNature;
+        }
+
+        // Chart data record the AI examiner reads instead of the image.
+        // chartDescImg stamps WHICH chart the record describes: the runners
+        // compare it to the live chartImageUrl and fall back to real vision on
+        // any mismatch, so replacing a chart can never leave a stale record
+        // marking a correct student wrong. All three keys are cleared together
+        // when the box is emptied, so a half-saved record cannot masquerade as
+        // a valid one. Invalid JSON is refused rather than silently dropped —
+        // saving a broken record would quietly disable the whole mechanism.
+        var t1DescEl = document.getElementById('mmgT1DescJson');
+        if (t1DescEl) {
+          var rawDesc = (t1DescEl.value || '').trim();
+          if (!rawDesc) {
+            delete md.tasks.task1.chartDesc;
+            delete md.tasks.task1.chartDescImg;
+            delete md.tasks.task1.chartDescSource;
+          } else {
+            try {
+              md.tasks.task1.chartDesc = JSON.parse(rawDesc);
+              md.tasks.task1.chartDescImg = md.tasks.task1.chartImageUrl || '';
+              md.tasks.task1.chartDescSource = 'mock-settings';
+            } catch (e) {
+              throw new Error('Task 1 chart data is not valid JSON — fix it or clear the box before saving. (' + e.message + ')');
+            }
+          }
         }
       }
 
@@ -39427,6 +39454,140 @@
         say('Failed: ' + (e && e.message ? e.message : e), '#b91c1c');
       } finally {
         if (btn) { btn.disabled = false; btn.textContent = '⚡ Generate from the images'; }
+      }
+    };
+
+
+    // ── IELTS Task 1 chart data record ──────────────────────────────────
+    // The scorer reads this INSTEAD of the chart. Task 1 marking turns on
+    // whether the candidate reported the figures accurately, so the chart used
+    // to be re-read by a vision model on every submission — paid work on a
+    // static image, and NON-DETERMINISTIC: vision misreads charts differently
+    // run to run, so two identical essays could be told different things about
+    // the same graph.
+    //
+    // chartDescImg stamps the image the record describes. Swap the chart and
+    // the runtimes fall back to live vision rather than marking a CORRECT
+    // student wrong against a picture they never saw.
+    function _mmgT1ChartDataSection(t1) {
+      var im = t1 || {};
+      var rec = im.chartDesc || null;
+      var fresh = rec && im.chartDescImg && im.chartDescImg === im.chartImageUrl;
+      var stale = rec && !fresh;
+      var status = fresh
+        ? '<span style="color:#0f766e;font-weight:700;">&#9989; Stored &amp; current &mdash; no vision call at scoring time</span>'
+        : stale
+          ? '<span style="color:#b45309;font-weight:700;">&#9888;&#65039; Out of date &mdash; the chart changed since this was extracted. The exam falls back to live vision until you regenerate.</span>'
+          : '<span style="color:#b91c1c;font-weight:700;">&#10060; None &mdash; every attempt pays for a live vision call. Generate to stop that.</span>';
+
+      var pretty = rec ? JSON.stringify(rec, null, 2) : '';
+      return '<div class="mmg-section-title" style="margin-top:20px;">Task 1 chart data (read by the AI examiner)</div>'
+        + '<div id="mmgT1DescStatus" style="font-size:12.5px;margin:-4px 0 8px;">' + status + '</div>'
+        + '<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap;">'
+        +   '<button type="button" class="mmg-add-btn" id="mmgT1GenBtn" onclick="_mmgGenerateT1ChartData()">&#9889; Extract data from the chart</button>'
+        +   '<span id="mmgT1DescMsg" style="font-size:12px;color:#64748b;"></span>'
+        + '</div>'
+        + '<div class="mmg-field"><label for="mmgT1DescJson">Data record (JSON)</label>'
+        +   '<textarea id="mmgT1DescJson" rows="12" style="font:12px ui-monospace,Consolas,monospace;">' + _mmgEsc(pretty) + '</textarea>'
+        +   '<div class="mmg-field-help">Check the figures against the chart above before saving. A WRONG value here marks a correct student wrong on every future attempt of this mock &mdash; worse than having no record at all. Leave empty to keep using live vision.</div>'
+        + '</div>';
+    }
+
+    window._mmgGenerateT1ChartData = async function () {
+      var btn  = document.getElementById('mmgT1GenBtn');
+      var msg  = document.getElementById('mmgT1DescMsg');
+      var out  = document.getElementById('mmgT1DescJson');
+      var urlEl  = document.getElementById('mmgIwSet_chartImageUrl');
+      var typeEl = document.getElementById('mmgIwSet_chartType');
+      var url = urlEl ? urlEl.value : '';
+      var ctype = (typeEl ? typeEl.value : '') || 'line_graph';
+      var say = function (t, c) { if (msg) { msg.textContent = t; msg.style.color = c || '#64748b'; } };
+
+      if (!url) { say('Add the chart image first.', '#b91c1c'); return; }
+      if (btn) { btn.disabled = true; btn.textContent = '\u23F3 Reading the chart\u2026'; }
+      say('');
+
+      // Four shapes, because one schema does not fit these. process/map carry
+      // no numbers at all, and "mixed" holds several visuals whose figures
+      // must NOT be merged into a single series list.
+      var COMMON =
+        'You are reading an IELTS Academic Writing Task 1 visual so an AI examiner can mark essays about it.\n' +
+        'The examiner NEVER sees the image \u2014 your record is all it has to check whether a candidate reported the data accurately.\n\n' +
+        'ABSOLUTE RULES\n' +
+        '- Transcribe ONLY what you can actually read. Never estimate, never interpolate, never invent a value.\n' +
+        '- If a value is unclear, OMIT that point rather than guessing. A missing point is harmless; a wrong one fails students who were right.\n' +
+        '- Copy labels, units and years EXACTLY as printed.\n' +
+        '- "confidence" must be honest: "high" only if every figure was clearly legible.\n' +
+        '- Do NOT write a model answer or any essay prose.';
+
+      var DATA = COMMON + '\n\nReturn JSON only:\n{"chartType":"<line graph|bar chart|pie chart|table>","title":"","xAxis":"","yAxis":"","period":"",' +
+        '"series":[{"name":"","points":[{"at":"","value":0}]}],"overview":"<1-2 sentences: the main trend a candidate MUST notice>",' +
+        '"keyFeatures":["<highest/lowest/biggest change/crossover \u2014 with figures>"],"confidence":"high|medium|low","unreadable":[""]}';
+      var PROCESS = COMMON + '\n\nThis is a PROCESS DIAGRAM \u2014 no numeric data. Sequence, inputs/outputs and equipment matter.\n' +
+        'Return JSON only:\n{"chartType":"process","title":"","stages":[{"n":1,"label":"","detail":""}],' +
+        '"overview":"","keyFeatures":[""],"confidence":"high|medium|low","unreadable":[""]}';
+      var MAP = COMMON + '\n\nThis is a MAP / PLAN comparison \u2014 usually one place at two dates. What CHANGED matters.\n' +
+        'Return JSON only:\n{"chartType":"map","title":"","views":[{"name":"","features":[""]}],"changes":[""],"unchanged":[""],' +
+        '"overview":"","keyFeatures":[""],"confidence":"high|medium|low","unreadable":[""]}';
+      var MIXED = COMMON + '\n\nThis image holds MORE THAN ONE visual. Extract EACH separately \u2014 do NOT merge their figures.\n' +
+        'Return JSON only:\n{"chartType":"mixed","title":"","visuals":[{"kind":"","caption":"","xAxis":"","yAxis":"",' +
+        '"series":[{"name":"","points":[{"at":"","value":0}]}]}],"overview":"","keyFeatures":[""],"confidence":"high|medium|low","unreadable":[""]}';
+
+      var schema = ctype === 'process' ? PROCESS
+                 : ctype === 'map'     ? MAP
+                 : ctype === 'mixed'   ? MIXED
+                 : DATA;
+
+      try {
+        var r = await fetch(url, { cache: 'no-store' });
+        if (!r.ok) throw new Error('image ' + r.status);
+        var blob = await r.blob();
+        var b64 = await new Promise(function (res, rej) {
+          var fr = new FileReader();
+          fr.onloadend = function () { res(String(fr.result).split(',')[1]); };
+          fr.onerror = rej;
+          fr.readAsDataURL(blob);
+        });
+
+        var res2 = await fetch(
+          'https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ role: 'user', parts: [
+                { text: schema },
+                { inline_data: { mime_type: blob.type || 'image/png', data: b64 } }
+              ]}],
+              // flash-latest reasons before answering and that reasoning counts
+              // against the output budget \u2014 too small a cap truncates the JSON.
+              generationConfig: { temperature: 0.1, maxOutputTokens: 8192,
+                                  responseMimeType: 'application/json' }
+            })
+          }
+        );
+        var j = await res2.json();
+        if (!res2.ok) throw new Error((j && j.error && j.error.message) || ('HTTP ' + res2.status));
+        var txt = ((((j.candidates || [])[0] || {}).content || {}).parts || [])
+                    .map(function (p) { return p.text; }).filter(Boolean).join('');
+        if (!txt) throw new Error('empty response');
+        var rec = JSON.parse(txt.replace(/^```json\s*|\s*```$/g, ''));
+        if (out) out.value = JSON.stringify(rec, null, 2);
+
+        var pts = (rec.series || []).reduce(function (n, sv) { return n + ((sv.points || []).length); }, 0);
+        var shape = rec.stages  ? rec.stages.length + ' stages'
+                  : rec.views   ? rec.views.length + ' views'
+                  : rec.visuals ? rec.visuals.length + ' visuals'
+                  : (rec.series || []).length + ' series / ' + pts + ' points';
+        var conf = String(rec.confidence || '?').toLowerCase();
+        say('Extracted \u2014 ' + shape + ', confidence ' + conf +
+            ((rec.unreadable || []).length ? ', ' + rec.unreadable.length + ' item(s) it refused to guess' : '') +
+            '. CHECK THE FIGURES against the chart, then Save.',
+            conf === 'high' ? '#0f766e' : '#b45309');
+      } catch (e) {
+        say('Failed: ' + (e && e.message ? e.message : e), '#b91c1c');
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = '\u26A1 Extract data from the chart'; }
       }
     };
 
