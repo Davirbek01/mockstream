@@ -14463,10 +14463,10 @@ ${autoAiResult ? (() => {
           <div style="font-size:22px;font-weight:800;color:#db2777;">${autoAiResult.p3}/6</div>
         </div>
       </div>
-      <!-- Overall Feedback -->
-      ${autoAiResult.feedback ? '<div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid #22c55e;border-radius:12px;padding:18px;margin-bottom:20px;"><h4 style="margin:0 0 10px;color:#166534;font-size:15px;">📊 Overall Assessment</h4><p style="margin:0;font-size:14px;color:#15803d;line-height:1.7;">' + autoAiResult.feedback + '</p></div>' : ''}
       <!-- Question Details Section -->
       ${questionDetailsHtml}
+      <!-- Overall Feedback (after the details: it refers back to specific answers) -->
+      ${autoAiResult.feedback ? '<div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid #22c55e;border-radius:12px;padding:18px;margin-bottom:20px;"><h4 style="margin:0 0 10px;color:#166534;font-size:15px;">📊 Overall Assessment</h4><p style="margin:0;font-size:14px;color:#15803d;line-height:1.7;">' + autoAiResult.feedback + '</p></div>' : ''}
     </div>
   </div>
 </div>
