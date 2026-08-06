@@ -9748,7 +9748,7 @@ ${_sSpec}
   "raw_score": <0-21>,
   "certificate_score": <0-75>,
   "cefr_level": "<level>",
-  "feedback": "Overall encouraging assessment",
+  "feedback": "<2-3 sentence overall assessment of the candidate's speaking performance across all four parts>",
   "q1_relevance": "<ON-TOPIC/OFF-TOPIC>",
   ${_sD ? '' : '"q1_corrected": "<Copy ENTIRE response with [TYPE: error -> correction] inline annotations>",'}
   "q1_feedback": "<MAX 3 bullet points: • Point 1 • Point 2 • Point 3>",
@@ -10976,7 +10976,7 @@ ${_sSpec}
     ${createTaskSection('Task 1.2', result.t12_score, 5, t12Analysis, t12Prompt, t12, t12Words, 120, '#8b5cf6')}
     ${createTaskSection('Part 2', result.t2_score, 6, t2Analysis, t2Prompt, t2, t2Words, 180, '#0ea5e9')}
     <div class="feedback">
-        <h3>📝 Overall AI Feedback</h3>
+        <h3>📊 Overall Assessment</h3>
         <p>${result.feedback || 'No feedback available.'}</p>
     </div>
     <div style="text-align:center;">
@@ -11164,7 +11164,7 @@ ${_sSpec}
     </div>
     ${questionsHTML}
     <div class="feedback">
-        <h3>🎤 AI Feedback</h3>
+        <h3>📊 Overall Assessment</h3>
         <p>${result.feedback || 'No feedback available.'}</p>
     </div>
     <div style="text-align:center;">
