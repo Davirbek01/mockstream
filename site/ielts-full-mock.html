@@ -8996,7 +8996,26 @@
             if (!data?.tasks) {
                 state.aiFailed.writing = true;
                 state.aiError.writing = 'No writing data available.';
-                return { band: 5, feedback: 'Unable to grade.' };
+                state.scaledScores.w = 0;
+                return { overall: { band: null, summary: 'Not graded — writing data unavailable.' } };
+            }
+
+            // A blank submission is a real, correct score of ZERO — decided here,
+            // deterministically, before any AI call. It used to fall through to
+            // the grader, fail validation, and land in the catch below, which
+            // awarded band 5 for writing nothing.
+            const _wTexts = Object.keys(state.answers.writing || {})
+                .map(function (k) { return String(state.answers.writing[k] || '').trim(); });
+            const _wWords = _wTexts.join(' ').split(/\s+/).filter(Boolean).length;
+            if (_wWords < 5) {
+                state.aiFailed.writing = false;   // not a failure — an empty answer
+                state.aiError.writing = '';
+                state.scaledScores.w = 0;
+                return {
+                    overall: { band: 0, summary: 'No answer was submitted, so this module scores 0.' },
+                    task1: { band: 0, ta: 0, cc: 0, lr: 0, gra: 0 },
+                    task2: { band: 0, ta: 0, cc: 0, lr: 0, gra: 0 },
+                };
             }
 
             // Shared rubric core (single source of truth — scoring-prompts.js).
@@ -9105,8 +9124,11 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
                 state.aiFailed.writing = true;
                 state.aiError.writing = e.message || 'Network error. Check your connection.';
             }
-            state.scaledScores.w = 5;
-            return { overall: { band: 5, summary: 'Grading unavailable.' } };
+            // Technical failure: do NOT invent a band. aiFailed keeps this module
+            // out of the overall average (see _avail below) so a broken grader
+            // can never masquerade as a mid-band result.
+            state.scaledScores.w = 0;
+            return { overall: { band: null, summary: 'Not graded — please retry.' } };
         }
 
         // ── Speaking transcription ───────────────────────────────────────────
@@ -9160,11 +9182,14 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
             if (!data) {
                 state.aiFailed.speaking = true;
                 state.aiError.speaking = 'No speaking data available.';
-                return { band: 6.5, feedback: 'Unable to grade.' };
+                state.scaledScores.s = 0;
+                return { band: null, feedback: 'Not graded — speaking data unavailable.' };
             }
 
             // Collect speaking answers, transcribing any audio blobs first.
             let speakingResponses = [];
+            let _spFailed = 0;    // recorded, but transcription failed
+            let _spRecorded = 0;  // recorded and transcribed
             const _spKeys = Object.keys(state.answers.speaking).sort();
             const _cpT = await _loadScoringPrompts().catch(() => ({}));
             state.speakingTranscripts = state.speakingTranscripts || {};
@@ -9183,14 +9208,27 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
                     }
                     state.speakingTranscripts[key] = answer;   // report + Telegram reuse this
                 }
-                if (answer && String(answer).trim()) speakingResponses.push({ question: key, answer });
+                // The failure placeholder is truthy, so it used to be pushed as if
+                // it were an answer — the AI then graded the literal string
+                // "[Error: transcription unavailable]" and returned a real-looking
+                // band for it. Count it as a failure instead.
+                if (answer === '[Error: transcription unavailable]') { _spFailed++; continue; }
+                if (answer && String(answer).trim()) { _spRecorded++; speakingResponses.push({ question: key, answer }); }
             }
 
             if (speakingResponses.length === 0) {
-                state.aiFailed.speaking = true;
-                state.aiError.speaking = 'No speaking responses found.';
-                state.scaledScores.s = 5;
-                return { band: 5, feedback: 'No responses to grade.' };
+                if (_spFailed > 0) {
+                    // Audio existed but nothing transcribed: technical failure.
+                    state.aiFailed.speaking = true;
+                    state.aiError.speaking = 'Speaking answers could not be transcribed.';
+                    state.scaledScores.s = 0;
+                    return { band: null, feedback: 'Not graded — transcription failed. Please retry.' };
+                }
+                // Nothing was recorded at all: a real zero.
+                state.aiFailed.speaking = false;
+                state.aiError.speaking = '';
+                state.scaledScores.s = 0;
+                return { band: 0, feedback: 'No answer was recorded, so this module scores 0.' };
             }
 
             let prompt = `${window.ScoringPrompts.requireCore('IELTS_SPEAKING_CORE')}
@@ -9258,8 +9296,9 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
                 state.aiFailed.speaking = true;
                 state.aiError.speaking = e.message || 'Network error. Check your connection.';
             }
-            state.scaledScores.s = 6.5;
-            return { overall: { band: 6.5, summary: 'Grading unavailable.' } };
+            // As with writing: no invented band. aiFailed excludes it below.
+            state.scaledScores.s = 0;
+            return { overall: { band: null, summary: 'Not graded — please retry.' } };
         }
 
         // Retry functions for AI grading
@@ -9386,9 +9425,13 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
                 }
 
                 // Calculate overall from skills that have AI scoring
+                // A module that FAILED to grade is excluded from the average — its
+                // score is unknown, and averaging in a 0 (or a fabricated 5) both
+                // misreport the candidate. An empty answer is different: that is a
+                // genuine 0 and it counts.
                 const _avail = [state.scaledScores.l, state.scaledScores.r];
-                if (_canAiW) _avail.push(state.scaledScores.w);
-                if (_canAiS) _avail.push(state.scaledScores.s);
+                if (_canAiW && !state.aiFailed.writing) _avail.push(state.scaledScores.w);
+                if (_canAiS && !state.aiFailed.speaking) _avail.push(state.scaledScores.s);
                 const avg = _avail.reduce((a, b) => a + b, 0) / _avail.length;
                 state.overall.band = Math.round(avg * 2) / 2; // Round to nearest 0.5
 

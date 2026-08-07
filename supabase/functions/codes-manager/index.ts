@@ -400,23 +400,36 @@ Deno.serve(async (req) => {
       }
 
       // Mock count registry — tells the panel/bot how many mocks exist per skill.
-      // Stored in site_settings(key='mock_counts', value=jsonb).
+      // Computed LIVE from mock_tests (the source of truth) as the highest
+      // mock_number per skill, unioned across both exams (cefr-<skill> +
+      // ielts-<skill>), since a per-mock code is keyed by (skill, number) with
+      // no exam dimension. All statuses count, so the ceiling is aware of a
+      // mock the moment it's created — never lags. Falls back to a sane default
+      // per skill if a query fails or a skill has no mocks yet.
       case 'get_mock_counts': {
-        const { data } = await sb.from('site_settings')
-          .select('value, updated_at').eq('key', 'mock_counts').maybeSingle();
-        const v = (data?.value ?? null) as Record<string, unknown> | null;
-        const def = { listening: 100, reading: 99, writing: 99, speaking: 99 };
+        const def: Record<string, number> = { listening: 100, reading: 99, writing: 99, speaking: 99 };
+        const skills = ['listening', 'reading', 'writing', 'speaking'];
         const counts: Record<string, number> = { ...def };
-        if (v && typeof v === 'object') {
-          for (const k of Object.keys(def)) {
-            const n = parseInt(String((v as Record<string, unknown>)[k] ?? ''), 10);
-            if (Number.isInteger(n) && n >= 1 && n <= 200) counts[k] = n;
-          }
+        let source = 'mock_tests';
+        try {
+          const maxes = await Promise.all(skills.map(async (s) => {
+            const { data, error } = await sb.from('mock_tests')
+              .select('mock_number')
+              .in('mock_type', ['cefr-' + s, 'ielts-' + s])
+              .order('mock_number', { ascending: false })
+              .limit(1);
+            if (error) throw error;
+            const n = data && data[0] ? parseInt(String(data[0].mock_number), 10) : 0;
+            return Number.isInteger(n) && n >= 1 ? n : def[s];
+          }));
+          skills.forEach((s, i) => { counts[s] = maxes[i]; });
+        } catch (_e) {
+          source = 'default';
         }
         return json(200, {
           ok: true, counts,
-          source: data ? 'site_settings' : 'default',
-          updated_at: data?.updated_at ?? null
+          source,
+          updated_at: new Date().toISOString()
         });
       }
 
