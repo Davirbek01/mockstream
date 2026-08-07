@@ -10380,7 +10380,7 @@ ${_wSpec}
   "t1_lr": <Lexical Resource WHOLE NUMBER — must match your vocab range assessment>,
   "t1_gra": <Grammatical Range & Accuracy WHOLE NUMBER — must match your grammar error count>,
   "t1_relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC>",
-  "t1_feedback": "MAX 4 bullet points in PLAIN ENGLISH. Format each as: • 'exact wrong words from student text' → 'corrected version' (brief explanation). Do NOT use [SPELL:], [GRAMMAR:] or any annotation tags here. Do NOT flag words that are actually correct. Only mention errors that genuinely exist in the text.",
+  "t1_feedback": "<MAX 2 short bullets of EXAMINER COMMENTARY on how the task was performed — was the task fully addressed, is the response organised with clear progression, are lexical range and grammatical variety adequate for a higher band, and the ONE change that would most raise the band. Format: • Point 1 • Point 2. ⚠️ Do NOT quote or repeat individual grammar/spelling/vocabulary corrections — those are already shown to the student inline. This note must add something the corrections do not.>",
   ${_wD ? '"t1_errors": [],' : '"t1_corrected": "Copy the student\'s ENTIRE text. Insert annotation tags ONLY where real errors exist: [SPELL: actual_error -> correction], [GRAMMAR: actual_error -> correction], etc. Do NOT insert tags for correct words.",'}
   ${_wD ? '' : '"t1_sample": "<Write a Band 8-9 model answer for Task 1. Target 180-200 words. Write a completely new response.>",'}
   "t2_analysis": "<REQUIRED: Before scoring Task 2, list: (a) number of grammar errors found, (b) examples of vocabulary range or repetition, (c) how well the argument addresses the prompt, (d) quality of coherence/paragraphing. Be specific.>",
@@ -10390,7 +10390,7 @@ ${_wSpec}
   "t2_lr": <Lexical Resource WHOLE NUMBER — must match your vocab assessment>,
   "t2_gra": <Grammatical Range & Accuracy WHOLE NUMBER — must match your error count>,
   "t2_relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC>",
-  "t2_feedback": "MAX 4 bullet points in PLAIN ENGLISH. Format each as: • 'exact wrong words from student text' → 'corrected version' (brief explanation). Do NOT use [SPELL:], [GRAMMAR:] or any annotation tags here. Do NOT flag words that are actually correct. Only mention errors that genuinely exist in the text.",
+  "t2_feedback": "<MAX 2 short bullets of EXAMINER COMMENTARY on how the task was performed — was the task fully addressed, is the response organised with clear progression, are lexical range and grammatical variety adequate for a higher band, and the ONE change that would most raise the band. Format: • Point 1 • Point 2. ⚠️ Do NOT quote or repeat individual grammar/spelling/vocabulary corrections — those are already shown to the student inline. This note must add something the corrections do not.>",
   ${_wD ? '"t2_errors": [],' : '"t2_corrected": "Copy the student\'s ENTIRE text. Insert annotation tags ONLY where real errors exist: [SPELL: actual_error -> correction], [GRAMMAR: actual_error -> correction], etc. Do NOT insert tags for correct words.",'}
   ${_wD ? '' : '"t2_sample": "<Write a Band 8-9 model answer for Task 2. Target 280-320 words. Write a completely new essay.>",'}
   "overall_band": <overall band score, calculated as (t1_band + 2*t2_band)/3 rounded to nearest 0.5>,
