@@ -8633,12 +8633,20 @@ ${aiResult ? '<div class="font-controller">' +
           // existing #downloadPdfBtn so the export cannot drift from the one
           // at the bottom of the page.
           '<div style="display:flex;align-items:center;gap:10px;min-width:0;flex-wrap:wrap;width:100%;justify-content:space-between;">' +
-            '<span style="font-size:13px;font-weight:700;white-space:nowrap;">🎓 IELTS Writing Report</span>' +
+            '<div style="display:flex;align-items:center;gap:8px;min-width:0;">' +
+              '<span style="font-size:18px;line-height:1;flex-shrink:0;">🎓</span>' +
+              '<div style="min-width:0;">' +
+                '<div style="font-size:13px;font-weight:700;line-height:1.2;white-space:nowrap;">IELTS Writing Report</div>' +
+                '<div style="font-size:11px;opacity:0.85;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + (student || '') + '</div>' +
+              '</div>' +
+            '</div>' +
+            '<div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">' +
             '<div style="display:inline-flex;gap:4px;background:rgba(255,255,255,0.18);padding:3px;border-radius:9px;">' +
               '<button type="button" class="ai-score-btn" onclick="openAiModal()" style="background:transparent;color:#fff;border:none;padding:6px 12px;border-radius:6px;font-weight:700;cursor:pointer;font-size:12.5px;white-space:nowrap;width:auto;height:auto;min-width:0;flex:0 0 auto;">🤖 AI Score</button>' +
               '<button type="button" onclick="closeAiModal()" style="background:#fff;color:#116a60;border:none;padding:6px 12px;border-radius:6px;font-weight:700;cursor:pointer;font-size:12.5px;white-space:nowrap;width:auto;height:auto;min-width:0;flex:0 0 auto;">👤 Examiner</button>' +
             '</div>' +
             '<button type="button" onclick="var b=document.getElementById(&quot;downloadPdfBtn&quot;); if(b) b.click();" style="background:rgba(255,255,255,0.92);color:#116a60;border:none;padding:6px 12px;border-radius:6px;font-weight:700;cursor:pointer;font-size:12.5px;white-space:nowrap;width:auto;height:auto;min-width:0;flex:0 0 auto;">📄 PDF</button>' +
+            '</div>' +
           '</div>' +
           '<div class="font-controls" style="display:none;"><span style="font-size:12px;">📝 Font Size:</span></div>' +
           '<div></div></div>' : ''}
