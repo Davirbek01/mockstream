@@ -13456,8 +13456,7 @@ ${questionsContent}
     <div style="display:flex;align-items:center;gap:10px;min-width:0;">
       <span style="font-size:18px;line-height:1;flex-shrink:0;">📝</span>
       <div style="min-width:0;">
-        <h2 style="margin:0;font-size:13px;font-weight:700;line-height:1.2;color:#fff;">Speaking Mock Exam Report</h2>
-        <div style="font-size:11px;opacity:0.85;margin-top:1px;">${getStudentName()}</div>
+        <h2 style="margin:0;font-size:13px;font-weight:700;line-height:1.2;color:#fff;">Speaking Report</h2>
       </div>
     </div>
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
@@ -14054,7 +14053,7 @@ ${reportQuestions ? reportQuestions.q8 : `
         // Title
         pdf.setFontSize(20);
         pdf.setTextColor(17, 106, 96);
-        pdf.text((window._siteLogoWording || (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream') + ' Speaking Mock Exam Report', pageWidth / 2, yPos, { align: 'center' });
+        pdf.text((window._siteLogoWording || (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream') + ' Speaking Report', pageWidth / 2, yPos, { align: 'center' });
         yPos += 15;
         
         // Student info (transliterated for PDF compatibility)
@@ -14428,8 +14427,7 @@ ${autoAiResult ? (() => {
       <div style="display:flex;align-items:center;gap:10px;min-width:0;">
         <span style="font-size:18px;line-height:1;flex-shrink:0;">🤖</span>
         <div style="min-width:0;">
-          <h2 style="margin:0;font-size:13px;font-weight:700;line-height:1.2;">AI Speaking Assessment</h2>
-          <div style="font-size:11px;opacity:0.85;margin-top:1px;">${getStudentName()}</div>
+          <h2 style="margin:0;font-size:13px;font-weight:700;line-height:1.2;">AI Assessment</h2>
         </div>
       </div>
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
