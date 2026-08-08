@@ -9920,6 +9920,20 @@ function closeAiModal() {
   document.body.style.overflow = '';
 }
 
+// Open on the AI view by default, like the speaking reports. This lives in the
+// report's OWN script rather than a new tag: writing a closing script tag into
+// this template literal is what broke the page earlier — the HTML parser sees
+// it inside the string and ends the page's script block there.
+// readyState is checked because this may already run after DOMContentLoaded.
+(function () {
+  function _openAiByDefault() {
+    try { if (document.getElementById('aiScoreModal')) openAiModal(); } catch (e) {}
+  }
+  if (document.readyState === 'loading') window.addEventListener('DOMContentLoaded', _openAiByDefault);
+  else _openAiByDefault();
+})();
+
+
 function printWritingAiModal() {
   var allDetails = document.querySelectorAll('#aiScoreModal details');
   allDetails.forEach(function(d) { d.setAttribute('open', ''); });
