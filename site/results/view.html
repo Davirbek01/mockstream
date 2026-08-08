@@ -13,6 +13,10 @@
     }
 
     body {
+      /* Without this the browser's default 8px body margin offsets the
+         report iframe — visible as a grey strip above a report's own header.
+         The AI modal escaped it only by being position:fixed. */
+      margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: #f0fdf4;
       min-height: 100vh;
@@ -184,6 +188,7 @@
       border-radius: 3px;
       transition: width 0.2s ease;
     }
+      #reportFrame { display: block; border: 0; width: 100%; height: 100%; }
   </style>
 </head>
 
