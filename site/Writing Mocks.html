@@ -9422,13 +9422,25 @@
       // via a bare robot icon with no way back and a PDF button buried at the
       // bottom of the page. The PDF button clicks the existing
       // #downloadPdfBtn rather than reimplementing it, so it cannot drift.
-      const aiButtonHtml = aiResult ? `<div style="display:flex;align-items:center;gap:10px;min-width:0;flex-wrap:wrap;width:100%;justify-content:space-between;">
-        <span style="font-size:13px;font-weight:700;white-space:nowrap;">📝 Writing Report</span>
-        <div style="display:inline-flex;gap:4px;background:rgba(255,255,255,0.18);padding:3px;border-radius:9px;">
-          <button type="button" id="aiScoreToggleBtn" onclick="openAiModal()" style="background:transparent;color:#fff;border:none;padding:6px 12px;border-radius:6px;font-weight:700;cursor:pointer;font-size:12.5px;white-space:nowrap;width:auto;height:auto;min-width:0;flex:0 0 auto;">🤖 AI Score</button>
-          <button type="button" onclick="closeAiModal()" style="background:#fff;color:#116a60;border:none;padding:6px 12px;border-radius:6px;font-weight:700;cursor:pointer;font-size:12.5px;white-space:nowrap;width:auto;height:auto;min-width:0;flex:0 0 auto;">👤 Examiner</button>
+      // Two blocks, like the speaking header: the title block, then the controls
+      // as ONE group. The toggle and PDF used to be separate children of a
+      // space-between row, so when it wrapped only PDF dropped and sat orphaned
+      // on its own line.
+      const aiButtonHtml = aiResult ? `<div style="display:flex;align-items:center;gap:8px 12px;min-width:0;flex-wrap:wrap;width:100%;justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:8px;min-width:0;">
+          <span style="font-size:18px;line-height:1;flex-shrink:0;">📝</span>
+          <div style="min-width:0;">
+            <div style="font-size:13px;font-weight:700;line-height:1.2;white-space:nowrap;">Writing Report</div>
+            <div style="font-size:11px;opacity:0.85;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(student)}</div>
+          </div>
         </div>
-        <button type="button" onclick="var b=document.getElementById('downloadPdfBtn'); if(b) b.click();"; if(b) b.click();" style="background:rgba(255,255,255,0.92);color:#116a60;border:none;padding:6px 12px;border-radius:6px;font-weight:700;cursor:pointer;font-size:12.5px;white-space:nowrap;width:auto;height:auto;min-width:0;flex:0 0 auto;">📄 PDF</button>
+        <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+          <div style="display:inline-flex;gap:4px;background:rgba(255,255,255,0.18);padding:3px;border-radius:9px;">
+            <button type="button" id="aiScoreToggleBtn" onclick="openAiModal()" style="background:transparent;color:#fff;border:none;padding:6px 12px;border-radius:6px;font-weight:700;cursor:pointer;font-size:12.5px;white-space:nowrap;width:auto;height:auto;min-width:0;flex:0 0 auto;">🤖 AI Score</button>
+            <button type="button" onclick="closeAiModal()" style="background:#fff;color:#116a60;border:none;padding:6px 12px;border-radius:6px;font-weight:700;cursor:pointer;font-size:12.5px;white-space:nowrap;width:auto;height:auto;min-width:0;flex:0 0 auto;">👤 Examiner</button>
+          </div>
+          <button type="button" onclick="document.getElementById('downloadPdfBtn').click()" style="background:rgba(255,255,255,0.92);color:#116a60;border:none;padding:6px 12px;border-radius:6px;font-weight:700;cursor:pointer;font-size:12.5px;white-space:nowrap;width:auto;height:auto;min-width:0;flex:0 0 auto;">📄 PDF</button>
+        </div>
       </div>` : '';
 
       // Store AI data as JSON including task prompts
@@ -9484,7 +9496,6 @@
           <button onclick="closeAiModal()" style="background:transparent;color:#fff;border:none;padding:6px 12px;border-radius:6px;font-weight:700;cursor:pointer;font-size:12.5px;white-space:nowrap;width:auto;height:auto;min-width:0;flex:0 0 auto;">👤 Examiner</button>
         </div>
         <button onclick="printWritingAiModal()" style="background:rgba(255,255,255,0.9);border:none;color:#7c3aed;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;display:flex;align-items:center;gap:6px;">📄 PDF</button>
-        <button onclick="closeAiModal()" style="background:rgba(255,255,255,0.2);border:none;color:white;width:36px;height:36px;min-width:36px;border-radius:50%;cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;">×</button>
       </div>
     </div>
     
