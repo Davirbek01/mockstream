@@ -18066,10 +18066,22 @@ Please contact your instructor or upgrade to the full version with speech recogn
   </style>
 </head>
 <body>
+  <div style="position:sticky;top:0;z-index:50;background:linear-gradient(135deg,#dc2626 0%,#b91c1c 100%);color:#fff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px 14px;flex-wrap:wrap;box-shadow:0 2px 10px rgba(0,0,0,0.15);">
+    <div style="display:flex;align-items:center;gap:10px;min-width:0;">
+      <span style="font-size:22px;flex-shrink:0;">🎤</span>
+      <div style="min-width:0;">
+        <h2 style="margin:0;font-size:16px;font-weight:700;line-height:1.2;color:#fff;">IELTS Speaking — Examiner Report</h2>
+        <div style="font-size:12px;opacity:0.85;margin-top:1px;">${studentName || 'Unknown Student'}</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+      ${autoAiResult ? `<div style="display:inline-flex;gap:4px;background:rgba(255,255,255,0.18);padding:4px;border-radius:9px;"><button onclick="openAiModal()" style="background:transparent;color:#fff;border:none;padding:7px 13px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;">🤖 AI Score</button><button onclick="closeAiModal()" style="background:#fff;color:#b91c1c;border:none;padding:7px 13px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;">👤 Examiner</button></div>` : ''}
+      <button onclick="generateExaminerPDF()" style="background:rgba(255,255,255,0.92);border:none;color:#b91c1c;padding:8px 13px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;white-space:nowrap;">📄 PDF</button>
+    </div>
+  </div>
   <div class="container">
     <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #dc2626;padding-bottom:15px;margin-bottom:20px;">
       <h1 style="color:#dc2626;margin:0;font-size:1.8rem;">🎤 IELTS Speaking Mock - Examiner Report</h1>
-      ${autoAiResult ? '<div style="display:inline-flex;gap:4px;background:#fee2e2;padding:4px;border-radius:9px;"><button onclick="openAiModal()" style="background:transparent;border:none;color:#b91c1c;padding:7px 13px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;">🤖 AI Score</button><button onclick="closeAiModal()" style="background:linear-gradient(135deg,#dc2626,#b91c1c);border:none;color:#fff;padding:7px 13px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;">👤 Examiner</button></div>' : ''}
     </div>
     <div class="meta">
       <b>👤 Candidate:</b> ${studentName || 'Unknown Student'}<br>
