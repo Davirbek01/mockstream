@@ -8517,7 +8517,15 @@ Respond in JSON format:
       color: white;
       font-weight: 600;
       font-size: 13px;
-      margin: 0 0 20px 0;
+      /* Full-bleed: the report body is inset, so a normal block header sits
+         inside that padding and looks like a floating card. The AI modal is
+         position:fixed so it ignores the body box entirely — this makes the
+         examiner header span the viewport the same way. */
+      margin: 0 calc(50% - 50vw) 20px;
+      width: 100vw;
+      max-width: 100vw;
+      box-sizing: border-box;
+      border-radius: 0;
     }
     .font-controls {
       display: flex;
