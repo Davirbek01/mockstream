@@ -9415,7 +9415,21 @@
       const promptT2 = document.getElementById('prompt_t2')?.innerText?.trim() || '';
 
       // Build AI button for dropdown toggle
-      const aiButtonHtml = aiResult ? `<button id="aiScoreToggleBtn" class="ai-score-btn" onclick="openAiModal()" title="AI Score">🤖</button>` : '';
+      // Unified header group, matching the speaking reports: title, the
+      // AI/Examiner toggle and a PDF button, all in the bar that was already
+      // there. "AI Score" opens the assessment modal and "Examiner" closes it
+      // back to this report — the same two views, previously reachable only
+      // via a bare robot icon with no way back and a PDF button buried at the
+      // bottom of the page. The PDF button clicks the existing
+      // #downloadPdfBtn rather than reimplementing it, so it cannot drift.
+      const aiButtonHtml = aiResult ? `<div style="display:flex;align-items:center;gap:10px;min-width:0;flex-wrap:wrap;">
+        <span style="font-size:13px;font-weight:700;white-space:nowrap;">📝 Writing Report</span>
+        <div style="display:inline-flex;gap:4px;background:rgba(255,255,255,0.18);padding:3px;border-radius:9px;">
+          <button type="button" id="aiScoreToggleBtn" onclick="openAiModal()" style="background:transparent;color:#fff;border:none;padding:6px 12px;border-radius:6px;font-weight:700;cursor:pointer;font-size:12.5px;white-space:nowrap;">🤖 AI Score</button>
+          <button type="button" onclick="closeAiModal()" style="background:#fff;color:#116a60;border:none;padding:6px 12px;border-radius:6px;font-weight:700;cursor:pointer;font-size:12.5px;white-space:nowrap;">👤 Examiner</button>
+        </div>
+        <button type="button" onclick="var b=document.getElementById('downloadPdfBtn'); if(b) b.click();" style="background:rgba(255,255,255,0.92);color:#116a60;border:none;padding:6px 12px;border-radius:6px;font-weight:700;cursor:pointer;font-size:12.5px;white-space:nowrap;">📄 PDF</button>
+      </div>` : '';
 
       // Store AI data as JSON including task prompts
       const aiDataJson = aiResult ? JSON.stringify({
