@@ -10550,14 +10550,17 @@ function printWritingAiModal() {
 <!-- Font Size Controller -->
 <div class="font-controller">
   ${aiButtonHtml}
-  <div class="font-controls">
+  <!-- Font-size and theme controls retired from the header: it now matches the
+       speaking reports, which carry only title / view toggle / PDF. Kept in the
+       DOM but hidden so the listeners that bind to these ids still find them. -->
+  <div class="font-controls" style="display:none;">
     <span style="font-size:12px;">📝 Font Size:</span>
     <button id="decreaseFontBtn" title="Decrease font size">−</button>
     <span class="size-display" id="fontSizeDisplay">100%</span>
     <button id="increaseFontBtn" title="Increase font size">+</button>
     <button id="resetFontBtn" title="Reset to default" style="width:auto;padding:0 8px;font-size:11px;">↺</button>
   </div>
-  <div class="theme-toggle">
+  <div class="theme-toggle" style="display:none;">
     <button id="themeToggleBtn" title="Toggle dark/light theme">☀️</button>
   </div>
 </div>
