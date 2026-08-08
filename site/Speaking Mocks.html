@@ -4274,7 +4274,7 @@
       <!-- AI Score Display (shown after auto AI analysis) -->
       <div id="aiScoreDisplay"
         style="display:none;background:linear-gradient(135deg,#f8fafc,#f1f5f9);border:2px solid #7c3aed;border-radius:16px;padding:20px;margin:16px 0;">
-        <h4 style="margin:0 0 16px;text-align:center;color:#7c3aed;font-size:18px;font-weight:800;">🤖 AI Score Results
+        <h4 style="margin:0 0 16px;text-align:center;color:#7c3aed;font-size:18px;font-weight:800;">🤖 AI Results
         </h4>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;">
           <div
@@ -4475,7 +4475,6 @@
         style="background:linear-gradient(135deg,#7c3aed 0%,#6d28d9 100%);color:white;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-shrink:0;">
         <div style="display:flex;align-items:center;gap:10px;">
           <span style="font-size:24px;">🤖</span>
-          <h2 style="margin:0;font-size:18px;font-weight:700;">AI Speaking Analysis</h2>
         </div>
         <div style="display:flex;gap:8px;align-items:center;">
           <button onclick="window.printSpeakingDetailedReport()" class="print-btn-speaking"
@@ -4664,7 +4663,7 @@
       </div>
 
       <div id="aiScoreResultSection" style="display:none">
-        <h3 style="margin:0 0 20px;font-size:clamp(22px,4vw,28px);color:var(--brand);text-align:center">🤖 AI Score
+        <h3 style="margin:0 0 20px;font-size:clamp(22px,4vw,28px);color:var(--brand);text-align:center">🤖 AI
           Report</h3>
 
         <div id="aiScoreLoading" style="text-align:center;padding:40px">
@@ -7439,7 +7438,7 @@
         // Common CSS styles
         const commonStyles = `
     * { box-sizing: border-box; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-    body { font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.6; color: #000000; margin: 0; padding: 20px; max-width: 800px; margin: 0 auto; background: #ffffff; }
+    body { font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.6; color: #000000; margin: 0; padding: 0; max-width: 800px; margin: 0 auto; background: #ffffff; }
     .header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 3px solid #059669; }
     .header img { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid #e5e7eb; }
     .header-text { font-size: 20px; font-weight: 800; color: #059669; }
@@ -12701,7 +12700,7 @@
                 var _partScore = _aiRpt[_partId];
                 var _pMax = _maxScoresRpt[_partId];
                 _aiBanner = '<div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border:2px solid #f59e0b;border-radius:12px;padding:18px;margin:16px 0">'
-                  + '<h2 style="color:#92400e;margin:0 0 8px;font-size:1.3rem">🤖 AI Score — ' + _esc(_partName) + '</h2>'
+                  + '<h2 style="color:#92400e;margin:0 0 8px;font-size:1.3rem">🤖 AI — ' + _esc(_partName) + '</h2>'
                   + '<div style="font-size:1.6rem;font-weight:800;color:#b45309">' + (_partScore != null ? _partScore : '—') + '<span style="font-size:1rem;color:#92400e">/' + _pMax + '</span></div>'
                   + (_aiRpt.cefrLevel ? '<div style="margin-top:6px;color:#78350f"><b>CEFR Level:</b> ' + _esc(_aiRpt.cefrLevel) + '</div>' : '')
                   + (_aiRpt.feedback ? '<div style="margin-top:10px;background:white;padding:12px;border-radius:8px;line-height:1.6">' + _esc(_aiRpt.feedback) + '</div>' : '')
@@ -13456,11 +13455,10 @@ ${questionsContent}
     <div style="display:flex;align-items:center;gap:10px;min-width:0;">
       <span style="font-size:18px;line-height:1;flex-shrink:0;">📝</span>
       <div style="min-width:0;">
-        <h2 style="margin:0;font-size:13px;font-weight:700;line-height:1.2;color:#fff;">Speaking Report</h2>
       </div>
     </div>
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-      ${autoAiResult ? `<div style="display:inline-flex;gap:4px;background:rgba(255,255,255,0.18);padding:4px;border-radius:9px;"><button onclick="openAiModal()" style="background:transparent;color:#fff;border:none;padding:7px 13px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;">🤖 AI Score</button><button onclick="closeAiModal()" style="background:#fff;color:#115e59;border:none;padding:7px 13px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;">👤 Examiner</button></div>` : ''}
+      ${autoAiResult ? `<div style="display:inline-flex;gap:4px;background:rgba(255,255,255,0.18);padding:4px;border-radius:9px;"><button onclick="openAiModal()" style="background:transparent;color:#fff;border:none;padding:7px 13px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;">🤖 AI</button><button onclick="closeAiModal()" style="background:#fff;color:#115e59;border:none;padding:7px 13px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;">👤 Examiner</button></div>` : ''}
       <button onclick="generatePDF()" style="background:rgba(255,255,255,0.92);border:none;color:#115e59;border:none;padding:6px 12px;border-radius:6px;font-weight:700;cursor:pointer;font-size:12.5px;white-space:nowrap;width:auto;height:auto;min-width:0;flex:0 0 auto;">📄 PDF</button>
     </div>
   </div>
@@ -14427,12 +14425,12 @@ ${autoAiResult ? (() => {
       <div style="display:flex;align-items:center;gap:10px;min-width:0;">
         <span style="font-size:18px;line-height:1;flex-shrink:0;">🤖</span>
         <div style="min-width:0;">
-          <h2 style="margin:0;font-size:13px;font-weight:700;line-height:1.2;">AI Assessment</h2>
+          
         </div>
       </div>
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
         <div style="display:inline-flex;gap:4px;background:rgba(255,255,255,0.18);padding:4px;border-radius:9px;">
-          <button onclick="openAiModal()" style="background:#fff;color:#6d28d9;border:none;padding:7px 13px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;">🤖 AI Score</button>
+          <button onclick="openAiModal()" style="background:#fff;color:#6d28d9;border:none;padding:7px 13px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;">🤖 AI</button>
           <button onclick="closeAiModal()" style="background:transparent;color:#fff;border:none;padding:7px 13px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;">👤 Examiner</button>
         </div>
         <button onclick="printAiModal()" style="background:rgba(255,255,255,0.92);border:none;color:#6d28d9;border:none;padding:6px 12px;border-radius:6px;font-weight:700;cursor:pointer;font-size:12.5px;white-space:nowrap;width:auto;height:auto;min-width:0;flex:0 0 auto;">📄 PDF</button>
@@ -15325,7 +15323,7 @@ try { if (document.getElementById('aiScoreModal')) { openAiModal(); } } catch (e
 
             $('#aiScoreContent').innerHTML = `
               <div style="text-align:center;margin-bottom:20px">
-                <h3 style="color:#7c3aed;font-weight:900;font-size:20px;margin:0 0 16px">🤖 AI Score Results</h3>
+                <h3 style="color:#7c3aed;font-weight:900;font-size:20px;margin:0 0 16px">🤖 AI Results</h3>
                 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;">
                   <div style="background:linear-gradient(135deg,#116a60,#0d9488);padding:14px;border-radius:10px;text-align:center;color:white;">
                     <div style="font-size:11px;opacity:0.8;">Raw Score</div>

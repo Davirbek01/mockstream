@@ -3644,7 +3644,7 @@
       </div>
 
       <div id="aiScoreResultSection" style="display:none">
-        <h3 style="margin:0 0 20px;font-size:clamp(22px,4vw,28px);color:var(--brand);text-align:center">🤖 AI Score
+        <h3 style="margin:0 0 20px;font-size:clamp(22px,4vw,28px);color:var(--brand);text-align:center">🤖 AI
           Report</h3>
 
         <div id="aiScoreLoading" style="text-align:center;padding:40px">
@@ -6117,7 +6117,7 @@
         // Common CSS styles
         const commonStyles = `
     * { box-sizing: border-box; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-    body { font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.6; color: #000000; margin: 0; padding: 20px; max-width: 800px; margin: 0 auto; background: #ffffff; }
+    body { font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.6; color: #000000; margin: 0; padding: 0; max-width: 800px; margin: 0 auto; background: #ffffff; }
     .header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 3px solid #059669; }
     .header img { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid #e5e7eb; }
     .header-text { font-size: 20px; font-weight: 800; color: #059669; }
@@ -18070,11 +18070,10 @@ Please contact your instructor or upgrade to the full version with speech recogn
     <div style="display:flex;align-items:center;gap:10px;min-width:0;">
       <span style="font-size:18px;line-height:1;flex-shrink:0;">🎤</span>
       <div style="min-width:0;">
-        <h2 style="margin:0;font-size:13px;font-weight:700;line-height:1.2;color:#fff;">Speaking Report</h2>
       </div>
     </div>
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-      ${autoAiResult ? `<div style="display:inline-flex;gap:4px;background:rgba(255,255,255,0.18);padding:4px;border-radius:9px;"><button onclick="openAiModal()" style="background:transparent;color:#fff;border:none;padding:7px 13px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;">🤖 AI Score</button><button onclick="closeAiModal()" style="background:#fff;color:#b91c1c;border:none;padding:7px 13px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;">👤 Examiner</button></div>` : ''}
+      ${autoAiResult ? `<div style="display:inline-flex;gap:4px;background:rgba(255,255,255,0.18);padding:4px;border-radius:9px;"><button onclick="openAiModal()" style="background:transparent;color:#fff;border:none;padding:7px 13px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;">🤖 AI</button><button onclick="closeAiModal()" style="background:#fff;color:#b91c1c;border:none;padding:7px 13px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;">👤 Examiner</button></div>` : ''}
       <button onclick="generateExaminerPDF()" style="background:rgba(255,255,255,0.92);border:none;color:#b91c1c;border:none;padding:6px 12px;border-radius:6px;font-weight:700;cursor:pointer;font-size:12.5px;white-space:nowrap;width:auto;height:auto;min-width:0;flex:0 0 auto;">📄 PDF</button>
     </div>
   </div>
@@ -18236,12 +18235,12 @@ ${autoAiResult ? `
       <div style="display:flex;align-items:center;gap:10px;min-width:0;">
         <span style="font-size:18px;line-height:1;flex-shrink:0;">🤖</span>
         <div style="min-width:0;">
-          <h2 style="margin:0;font-size:13px;font-weight:700;line-height:1.2;">IELTS AI Speaking Assessment</h2>
+          
         </div>
       </div>
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
         <div style="display:inline-flex;gap:4px;background:rgba(255,255,255,0.18);padding:4px;border-radius:9px;">
-          <button onclick="openAiModal()" style="background:#fff;color:#b91c1c;border:none;padding:7px 13px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;">🤖 AI Score</button>
+          <button onclick="openAiModal()" style="background:#fff;color:#b91c1c;border:none;padding:7px 13px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;">🤖 AI</button>
           <button onclick="closeAiModal()" style="background:transparent;color:#fff;border:none;padding:7px 13px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;">👤 Examiner</button>
         </div>
         <button onclick="printAiModal()" style="background:rgba(255,255,255,0.92);border:none;color:#b91c1c;border:none;padding:6px 12px;border-radius:6px;font-weight:700;cursor:pointer;font-size:12.5px;white-space:nowrap;width:auto;height:auto;min-width:0;flex:0 0 auto;">📄 PDF</button>
