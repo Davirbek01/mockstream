@@ -10979,6 +10979,61 @@ ${_sSpec}
         <h3>📊 Overall Assessment</h3>
         <p>${result.feedback || 'No feedback available.'}</p>
     </div>
+
+    <!-- ── Examiner scoring (ported from the standalone Writing Mocks form) ── -->
+    <div style="background:#fff;border:2px solid #116a60;border-radius:14px;padding:18px;margin:26px 0;">
+      <h3 style="margin:0 0 4px;color:#116a60;">📝 Examiner Scoring</h3>
+      <p style="margin:0 0 14px;color:#64748b;font-size:13px;">Enter a score per task — the total, certificate score and CEFR level calculate automatically.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <label style="flex:1 1 150px;font-size:13px;font-weight:700;color:#334155;">Task 1.1 <span style="font-weight:400;color:#94a3b8;">/ 5</span><br>
+          <input type="number" id="exT11" min="0" max="5" step="0.5" placeholder="0-5" style="width:100%;margin-top:4px;padding:9px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;">
+        </label>
+        <label style="flex:1 1 150px;font-size:13px;font-weight:700;color:#334155;">Task 1.2 <span style="font-weight:400;color:#94a3b8;">/ 5</span><br>
+          <input type="number" id="exT12" min="0" max="5" step="0.5" placeholder="0-5" style="width:100%;margin-top:4px;padding:9px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;">
+        </label>
+        <label style="flex:1 1 150px;font-size:13px;font-weight:700;color:#334155;">Part 2 <span style="font-weight:400;color:#94a3b8;">/ 6</span><br>
+          <input type="number" id="exT2" min="0" max="6" step="0.5" placeholder="0-6" style="width:100%;margin-top:4px;padding:9px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;">
+        </label>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;">
+        <label style="flex:1 1 150px;font-size:13px;font-weight:700;color:#334155;">Raw total <span style="font-weight:400;color:#94a3b8;">/ 16</span><br>
+          <input type="number" id="exTotal" readonly style="width:100%;margin-top:4px;padding:9px;border:1px solid #cbd5e1;border-radius:8px;background:#e8f5e9;font-weight:800;font-size:19px;color:#116a60;">
+        </label>
+        <label style="flex:1 1 150px;font-size:13px;font-weight:700;color:#334155;">Certificate <span style="font-weight:400;color:#94a3b8;">/ 75</span><br>
+          <input type="text" id="exCert" readonly style="width:100%;margin-top:4px;padding:9px;border:1px solid #cbd5e1;border-radius:8px;background:#e3f2fd;font-weight:800;font-size:19px;color:#1565c0;">
+        </label>
+        <label style="flex:1 1 150px;font-size:13px;font-weight:700;color:#334155;">CEFR level<br>
+          <input type="text" id="exCefr" readonly style="width:100%;margin-top:4px;padding:9px;border:1px solid #cbd5e1;border-radius:8px;font-weight:800;font-size:19px;text-align:center;">
+        </label>
+      </div>
+    </div>
+    <script>
+      // Conversion table copied verbatim from the standalone examiner form, so
+      // the same criteria scores always produce the same certificate and CEFR.
+      var EX_CONV = {16:{cert:75,cefr:'C1'},15.5:{cert:72,cefr:'C1'},15:{cert:69,cefr:'C1'},14.5:{cert:67,cefr:'C1'},14:{cert:65,cefr:'C1'},13.5:{cert:64,cefr:'B2'},13:{cert:63,cefr:'B2'},12.5:{cert:62,cefr:'B2'},12:{cert:61,cefr:'B2'},11.5:{cert:59,cefr:'B2'},11:{cert:57,cefr:'B2'},10.5:{cert:55,cefr:'B2'},10:{cert:53,cefr:'B2'},9.5:{cert:51,cefr:'B2'},9:{cert:50,cefr:'B1'},8.5:{cert:48,cefr:'B1'},8:{cert:47,cefr:'B1'},7.5:{cert:45,cefr:'B1'},7:{cert:43,cefr:'B1'},6.5:{cert:41,cefr:'B1'},6:{cert:40,cefr:'B1'},5.5:{cert:38,cefr:'B1'},5:{cert:37,cefr:'A1-A2'},4.5:{cert:35,cefr:'A1-A2'},4:{cert:33,cefr:'A1-A2'},3.5:{cert:31,cefr:'A1-A2'},3:{cert:28,cefr:'A1-A2'},2.5:{cert:25,cefr:'A1-A2'},2:{cert:21,cefr:'A1-A2'},1.5:{cert:17,cefr:'A1-A2'},1:{cert:14,cefr:'A1-A2'},0.5:{cert:10,cefr:'A1-A2'},0:{cert:0,cefr:'A1-A2'}};
+      (function () {
+        var t11 = document.getElementById('exT11'), t12 = document.getElementById('exT12'),
+            t2  = document.getElementById('exT2'),  tot = document.getElementById('exTotal'),
+            cert = document.getElementById('exCert'), cefr = document.getElementById('exCefr');
+        function recalc() {
+          var v = (parseFloat(t11.value) || 0) + (parseFloat(t12.value) || 0) + (parseFloat(t2.value) || 0);
+          tot.value = v.toFixed(1);
+          var rounded = Math.round(v * 2) / 2;
+          var c = (v >= 0 && v <= 16) ? EX_CONV[rounded] : null;
+          if (c) {
+            cert.value = c.cert; cefr.value = c.cefr;
+            var lv = c.cefr;
+            if (lv.indexOf('C1') > -1 || lv.indexOf('C2') > -1) { cefr.style.backgroundColor = '#c8e6c9'; cefr.style.color = '#1b5e20'; }
+            else if (lv.indexOf('B2') > -1) { cefr.style.backgroundColor = '#fff9c4'; cefr.style.color = '#f57f17'; }
+            else if (lv.indexOf('B1') > -1) { cefr.style.backgroundColor = '#ffecb3'; cefr.style.color = '#e65100'; }
+            else { cefr.style.backgroundColor = '#ffcdd2'; cefr.style.color = '#b71c1c'; }
+          } else {
+            cert.value = ''; cefr.value = ''; cefr.style.backgroundColor = '#fff'; cefr.style.color = '#000';
+          }
+        }
+        [t11, t12, t2].forEach(function (el) { if (el) el.addEventListener('input', recalc); });
+      })();
+    <\/script>
     <div style="text-align:center;">
         <button class="print-btn" onclick="window.print()">📄 Save as PDF</button>
     </div>
