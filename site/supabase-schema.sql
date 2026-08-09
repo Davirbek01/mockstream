@@ -357,3 +357,66 @@ CREATE POLICY "candidates_insert" ON candidates
 
 CREATE POLICY "candidates_update" ON candidates
   FOR UPDATE TO anon USING (true) WITH CHECK (true);
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- Device registry phase 1 (detect-only) — applied 2026-08-09.
+-- Spec: docs/superpowers/specs/2026-08-09-device-limit-enforcement-design.md
+-- Fed by: premium_devices mirror trigger (web) + register_device_session RPC
+-- (apps). ONE-WAY premium_devices → device_sessions; never the reverse.
+-- Scope: identities with an active premium_emails row ONLY.
+-- ═══════════════════════════════════════════════════════════════════════════
+CREATE OR REPLACE FUNCTION _norm_center(c text) RETURNS text
+LANGUAGE sql IMMUTABLE AS $$
+  SELECT CASE
+    WHEN c IS NULL OR btrim(c) = '' OR lower(c) IN ('mock_stream','mockstream')
+      THEN 'mockstream'
+    ELSE lower(btrim(c))
+  END
+$$;
+
+CREATE OR REPLACE FUNCTION _req_ip() RETURNS inet
+LANGUAGE plpgsql STABLE AS $$
+BEGIN
+  RETURN split_part(
+    current_setting('request.headers', true)::json->>'x-forwarded-for',
+    ',', 1)::inet;
+EXCEPTION WHEN OTHERS THEN RETURN NULL;
+END $$;
+
+CREATE TABLE IF NOT EXISTS device_sessions (
+  id           uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  email        text NOT NULL,
+  center_id    text NOT NULL,             -- ALWAYS _norm_center()'d
+  device_key   text NOT NULL,
+  platform     text NOT NULL CHECK (platform IN ('web','android','ios','windows','mac')),
+  device_label text,
+  hardware_fp  text,
+  first_seen   timestamptz NOT NULL DEFAULT now(),
+  last_seen    timestamptz NOT NULL DEFAULT now(),
+  last_ip      inet,
+  last_geo     text,
+  blocked_at   timestamptz,               -- honoured only from phase 3
+  blocked_by   text,
+  source       text NOT NULL DEFAULT 'native' CHECK (source IN ('native','mirrored')),
+  CONSTRAINT device_sessions_uniq UNIQUE (email, center_id, device_key)
+);
+CREATE INDEX IF NOT EXISTS idx_device_sessions_email  ON device_sessions (email);
+CREATE INDEX IF NOT EXISTS idx_device_sessions_center ON device_sessions (center_id);
+
+CREATE TABLE IF NOT EXISTS device_session_events (
+  id         bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  email      text NOT NULL,
+  center_id  text NOT NULL,
+  device_key text NOT NULL,
+  ip         inet,
+  country    text,
+  at         timestamptz NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS idx_dse_email_at ON device_session_events (email, at);
+
+ALTER TABLE device_sessions       ENABLE ROW LEVEL SECURITY;
+ALTER TABLE device_session_events ENABLE ROW LEVEL SECURITY;
+CREATE POLICY dev_sessions_admin_read ON device_sessions
+  FOR SELECT USING (is_any_admin());
+CREATE POLICY dev_events_admin_read ON device_session_events
+  FOR SELECT USING (is_any_admin());
