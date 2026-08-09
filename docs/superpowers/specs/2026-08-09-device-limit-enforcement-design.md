@@ -25,20 +25,28 @@ than living inside the premium panel.
 
 ## Who is in scope — premium accounts ONLY
 
-There are two ways students reach premium features:
+**The source of truth is the `premium_emails` table** — the exact list the
+premium panel manages, matched by email (Google / Apple) or `telegram_username`
+(Telegram), rows with `active = true`. Device tracking applies to identities on
+that list and to no one else.
 
-1. **Premium accounts** (Google / Apple / Telegram identity with a purchased
-   entitlement) — **this is the entire scope of this design.**
-2. **Daily activation codes** handed out by B2B partner teachers, one per mock.
-   These are shared by design — one code can be used by any number of students
-   once issued. **They are explicitly OUT of scope:** no device registration,
-   no counting, no signals, no gating. A classroom redeeming one daily code
-   must never appear in the flagged list; if it did, every partner class would
-   flag as severe "sharing" on day one.
+Everything else is out of scope, and "signed in" does not mean "premium":
+
+1. A student who signs in with Google or Telegram but has **no active
+   `premium_emails` row** is NOT tracked — even if they redeem activation
+   codes. Sign-in method is irrelevant; only presence on the premium list
+   matters.
+2. **Daily activation codes** handed out by B2B partner teachers, one per mock,
+   are shared by design — one code can be used by any number of students once
+   issued. Code redemption never creates device rows and never makes an
+   account "premium" for tracking purposes. A classroom redeeming one daily
+   code must never appear in the flagged list; if it did, every partner class
+   would flag as severe "sharing" on day one.
 
 Concretely: `device-gate` and client-side registration fire only when the
-session belongs to an account with an active premium entitlement. Code-based
-access paths skip the registry entirely.
+session's identity matches an active `premium_emails` row (the same check
+`auth.js` already performs to open premium gates). All other paths — guests,
+plain sign-ins, code-based access — skip the registry entirely.
 
 ## Goals
 
@@ -219,5 +227,6 @@ stated plainly so the limitation is not discovered later.
   not affect the same email at another centre.
 - Each signal fires on a synthetic fixture and does not fire on a
   single-student-three-devices control case.
-- **Scope guard:** a session using a daily activation code (no premium
-  entitlement) creates **zero** rows in `device_sessions` on every platform.
+- **Scope guard:** neither a daily-activation-code session nor a signed-in
+  account absent from `premium_emails` creates any row in `device_sessions`,
+  on any platform. Only active `premium_emails` identities are registered.
