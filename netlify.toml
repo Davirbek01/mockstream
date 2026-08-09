@@ -47,3 +47,11 @@
 [[edge_functions]]
   path = "/test"
   function = "og-tests"
+
+[[edge_functions]]
+  path = "/flashcards.html"
+  function = "og-flashcards"
+
+[[edge_functions]]
+  path = "/flashcards"
+  function = "og-flashcards"
