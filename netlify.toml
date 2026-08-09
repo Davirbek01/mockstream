@@ -39,3 +39,19 @@
 [[edge_functions]]
   path = "/articles"
   function = "og-articles"
+
+[[edge_functions]]
+  path = "/test.html"
+  function = "og-tests"
+
+[[edge_functions]]
+  path = "/test"
+  function = "og-tests"
+
+[[edge_functions]]
+  path = "/flashcards.html"
+  function = "og-flashcards"
+
+[[edge_functions]]
+  path = "/flashcards"
+  function = "og-flashcards"
