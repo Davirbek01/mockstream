@@ -9153,6 +9153,12 @@
       <div style="font-size:36px;margin-bottom:8px;">🔐</div>
       <h3 style="font-size:20px;color:var(--brand);margin-bottom:4px;">Access Code Required</h3>
       <p id="writingAccessMockLabel" style="font-size:13px;color:var(--muted);margin-bottom:18px;">Mock 01 requires an access code</p>
+      <div id="writingAccessNameWrap" style="display:none;margin-bottom:10px;text-align:left;">
+        <input type="text" id="writingAccessNameInput" placeholder="Your full name" autocomplete="name" spellcheck="false"
+          style="width:100%;padding:12px 16px;border:2px solid var(--ring);border-radius:10px;font-size:15px;font-weight:600;box-sizing:border-box;background:var(--bg);color:var(--ink);transition:border-color 0.2s;"
+          onfocus="this.style.borderColor='var(--brand)';this.style.boxShadow='0 0 0 3px rgba(16,185,129,0.15)'"
+          onblur="this.style.borderColor='var(--ring)';this.style.boxShadow='none'">
+      </div>
       <input type="text" id="writingAccessCodeInput" placeholder="Enter your access code" autocomplete="off"
         autocorrect="off" spellcheck="false" inputmode="numeric" pattern="[0-9]*"
         style="width:100%;padding:12px 16px;border:2px solid var(--ring);border-radius:10px;font-size:15px;font-weight:600;box-sizing:border-box;background:var(--bg);color:var(--ink);letter-spacing:2px;transition:border-color 0.2s;"
@@ -9676,6 +9682,12 @@
       <div style="font-size:36px;margin-bottom:8px;">🔐</div>
       <h3 style="font-size:20px;color:var(--brand);margin-bottom:4px;">Access Code Required</h3>
       <p id="listeningAccessMockLabel" style="font-size:13px;color:var(--muted);margin-bottom:18px;">Mock 01 requires an access code</p>
+      <div id="listeningAccessNameWrap" style="display:none;margin-bottom:10px;text-align:left;">
+        <input type="text" id="listeningAccessNameInput" placeholder="Your full name" autocomplete="name" spellcheck="false"
+          style="width:100%;padding:12px 16px;border:2px solid var(--ring);border-radius:10px;font-size:15px;font-weight:600;box-sizing:border-box;background:var(--bg);color:var(--ink);transition:border-color 0.2s;"
+          onfocus="this.style.borderColor='var(--brand)';this.style.boxShadow='0 0 0 3px rgba(16,185,129,0.15)'"
+          onblur="this.style.borderColor='var(--ring)';this.style.boxShadow='none'">
+      </div>
       <input type="text" id="listeningAccessCodeInput" placeholder="Enter your access code" autocomplete="off"
         autocorrect="off" spellcheck="false" inputmode="numeric" pattern="[0-9]*"
         style="width:100%;padding:12px 16px;border:2px solid var(--ring);border-radius:10px;font-size:15px;font-weight:600;box-sizing:border-box;background:var(--bg);color:var(--ink);letter-spacing:2px;transition:border-color 0.2s;"
@@ -12653,8 +12665,20 @@
       error.textContent = ''; error.style.color = '';
       input.value = '';
       btn.textContent = 'Verify & Start'; btn.disabled = false;
+      // Deep-link name capture (parity with the reading modal): without this
+      // the runner falls back to prompt(), which Telegram's in-app browser
+      // shows over a blank page and the flow dies.
+      const nameWrap  = document.getElementById('writingAccessNameWrap');
+      const nameInput = document.getElementById('writingAccessNameInput');
+      const existingName = (sessionStorage.getItem('CANDIDATE_FULL_NAME') || '').trim();
+      const needName = nameWrap && nameInput && !existingName;
+      if (nameWrap)  nameWrap.style.display = needName ? '' : 'none';
+      if (nameInput) {
+        nameInput.value = existingName;
+        if (needName) nameInput.onkeypress = function (e) { if (e.key === 'Enter') document.getElementById('writingAccessCodeInput').focus(); };
+      }
       modal.style.display = 'flex';
-      setTimeout(() => input.focus(), 100);
+      setTimeout(() => (needName ? nameInput : input).focus(), 100);
       input.onkeypress = function (e) { if (e.key === 'Enter') verifyWritingAccessCode(); };
     }
     function closeWritingAccessCodeModal() {
@@ -12668,6 +12692,13 @@
       const error = document.getElementById('writingAccessCodeError');
       const btn   = document.getElementById('writingAccessCodeSubmitBtn');
       const inputValue = input.value.trim();
+      const nameWrap  = document.getElementById('writingAccessNameWrap');
+      const nameInput = document.getElementById('writingAccessNameInput');
+      if (nameWrap && nameWrap.style.display !== 'none' && nameInput) {
+        const nameVal = (nameInput.value || '').trim();
+        if (!nameVal) { error.style.color = '#dc2626'; error.textContent = '❌ Please enter your full name'; return; }
+        sessionStorage.setItem('CANDIDATE_FULL_NAME', nameVal);
+      }
       if (!inputValue) { error.style.color = '#dc2626'; error.textContent = '❌ Please enter your access code'; return; }
       btn.textContent = 'Validating...'; btn.disabled = true;
       error.style.color = '#f59e0b'; error.textContent = '🔄 Validating access code...';
@@ -15308,8 +15339,20 @@
       error.textContent = ''; error.style.color = '';
       input.value = '';
       btn.textContent = 'Verify & Start'; btn.disabled = false;
+      // Deep-link name capture (parity with the reading modal): without this
+      // the runner falls back to prompt(), which Telegram's in-app browser
+      // shows over a blank page and the flow dies.
+      const nameWrap  = document.getElementById('listeningAccessNameWrap');
+      const nameInput = document.getElementById('listeningAccessNameInput');
+      const existingName = (sessionStorage.getItem('CANDIDATE_FULL_NAME') || '').trim();
+      const needName = nameWrap && nameInput && !existingName;
+      if (nameWrap)  nameWrap.style.display = needName ? '' : 'none';
+      if (nameInput) {
+        nameInput.value = existingName;
+        if (needName) nameInput.onkeypress = function (e) { if (e.key === 'Enter') document.getElementById('listeningAccessCodeInput').focus(); };
+      }
       modal.style.display = 'flex';
-      setTimeout(() => input.focus(), 100);
+      setTimeout(() => (needName ? nameInput : input).focus(), 100);
       input.onkeypress = function (e) { if (e.key === 'Enter') verifyListeningAccessCode(); };
     }
     function closeListeningAccessCodeModal() {
@@ -15331,6 +15374,13 @@
       const error = document.getElementById('listeningAccessCodeError');
       const btn = document.getElementById('listeningAccessCodeSubmitBtn');
       const inputValue = input.value.trim();
+      const nameWrap  = document.getElementById('listeningAccessNameWrap');
+      const nameInput = document.getElementById('listeningAccessNameInput');
+      if (nameWrap && nameWrap.style.display !== 'none' && nameInput) {
+        const nameVal = (nameInput.value || '').trim();
+        if (!nameVal) { error.style.color = '#dc2626'; error.textContent = '❌ Please enter your full name'; return; }
+        sessionStorage.setItem('CANDIDATE_FULL_NAME', nameVal);
+      }
       if (!inputValue) { error.style.color = '#dc2626'; error.textContent = '❌ Please enter your access code'; return; }
       btn.textContent = 'Validating...'; btn.disabled = true;
       error.style.color = '#f59e0b'; error.textContent = '🔄 Validating access code...';
@@ -17756,6 +17806,12 @@
       <div style="font-size:36px;margin-bottom:8px;">🔐</div>
       <h3 style="font-size:20px;color:var(--brand);margin-bottom:4px;">Access Code Required</h3>
       <p id="speakingAccessMockLabel" style="font-size:13px;color:var(--muted);margin-bottom:18px;">Mock 01 requires an access code</p>
+      <div id="speakingAccessNameWrap" style="display:none;margin-bottom:10px;text-align:left;">
+        <input type="text" id="speakingAccessNameInput" placeholder="Your full name" autocomplete="name" spellcheck="false"
+          style="width:100%;padding:12px 16px;border:2px solid var(--ring);border-radius:10px;font-size:15px;font-weight:600;box-sizing:border-box;background:var(--bg);color:var(--ink);transition:border-color 0.2s;"
+          onfocus="this.style.borderColor='var(--brand)';this.style.boxShadow='0 0 0 3px rgba(16,185,129,0.15)'"
+          onblur="this.style.borderColor='var(--ring)';this.style.boxShadow='none'">
+      </div>
       <input type="text" id="speakingAccessCodeInput" placeholder="Enter your access code" autocomplete="off"
         autocorrect="off" spellcheck="false" inputmode="numeric" pattern="[0-9]*"
         style="width:100%;padding:12px 16px;border:2px solid var(--ring);border-radius:10px;font-size:15px;font-weight:600;box-sizing:border-box;background:var(--bg);color:var(--ink);letter-spacing:2px;transition:border-color 0.2s;"
@@ -17968,8 +18024,20 @@
       error.textContent = ''; error.style.color = '';
       input.value = '';
       btn.textContent = 'Verify & Start'; btn.disabled = false;
+      // Deep-link name capture (parity with the reading modal): without this
+      // the runner falls back to prompt(), which Telegram's in-app browser
+      // shows over a blank page and the flow dies.
+      const nameWrap  = document.getElementById('speakingAccessNameWrap');
+      const nameInput = document.getElementById('speakingAccessNameInput');
+      const existingName = (sessionStorage.getItem('CANDIDATE_FULL_NAME') || '').trim();
+      const needName = nameWrap && nameInput && !existingName;
+      if (nameWrap)  nameWrap.style.display = needName ? '' : 'none';
+      if (nameInput) {
+        nameInput.value = existingName;
+        if (needName) nameInput.onkeypress = function (e) { if (e.key === 'Enter') document.getElementById('speakingAccessCodeInput').focus(); };
+      }
       modal.style.display = 'flex';
-      setTimeout(() => input.focus(), 100);
+      setTimeout(() => (needName ? nameInput : input).focus(), 100);
       input.onkeypress = function (e) { if (e.key === 'Enter') verifySpeakingAccessCode(); };
     }
     function closeSpeakingAccessCodeModal() {
@@ -17983,6 +18051,13 @@
       const error = document.getElementById('speakingAccessCodeError');
       const btn   = document.getElementById('speakingAccessCodeSubmitBtn');
       const inputValue = input.value.trim();
+      const nameWrap  = document.getElementById('speakingAccessNameWrap');
+      const nameInput = document.getElementById('speakingAccessNameInput');
+      if (nameWrap && nameWrap.style.display !== 'none' && nameInput) {
+        const nameVal = (nameInput.value || '').trim();
+        if (!nameVal) { error.style.color = '#dc2626'; error.textContent = '❌ Please enter your full name'; return; }
+        sessionStorage.setItem('CANDIDATE_FULL_NAME', nameVal);
+      }
       if (!inputValue) { error.style.color = '#dc2626'; error.textContent = '❌ Please enter your access code'; return; }
       btn.textContent = 'Validating...'; btn.disabled = true;
       error.style.color = '#f59e0b'; error.textContent = '🔄 Validating access code...';
