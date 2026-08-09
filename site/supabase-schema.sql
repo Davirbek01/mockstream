@@ -518,3 +518,11 @@ DROP TRIGGER IF EXISTS trg_mirror_premium_device ON premium_devices;
 CREATE TRIGGER trg_mirror_premium_device
   AFTER INSERT OR UPDATE ON premium_devices
   FOR EACH ROW EXECUTE FUNCTION _mirror_premium_device();
+
+-- Phase 2: policy + the two admin RPCs behind the Devices panel.
+-- device_policy: email IS NULL = per-centre settings row (auto_block_enabled,
+-- default_limit); email set = per-account override. Writes only via
+-- device_admin_action() (SECURITY DEFINER, is_any_admin() + centre scope).
+-- device_admin_overview() returns the panel's full payload; centre-scoped
+-- admins see only their centre (current_admin_center()), supers see all.
+-- Full definitions in migration 'device_registry_admin' (2026-08-09).
