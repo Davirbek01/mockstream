@@ -473,3 +473,48 @@ END $$;
 
 GRANT EXECUTE ON FUNCTION register_device_session(text,text,text,text,text,text)
   TO anon, authenticated;
+
+-- ONE-WAY mirror premium_devices -> device_sessions (never the reverse:
+-- app devices in premium_devices would trip the legacy >5 web rule).
+-- Backfilled 2026-08-09: 169 device rows across 23 premium accounts.
+CREATE OR REPLACE FUNCTION _mirror_premium_device() RETURNS trigger
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+DECLARE v_center text; v_ip inet; v_geo text;
+BEGIN
+  v_ip := _req_ip();
+  BEGIN
+    v_geo := current_setting('request.headers', true)::json->>'cf-ipcountry';
+  EXCEPTION WHEN OTHERS THEN v_geo := NULL; END;
+  FOR v_center IN
+    SELECT DISTINCT _norm_center(center) FROM premium_emails
+    WHERE active = true AND tier = 'premium'
+      AND (expires_at IS NULL OR expires_at > now())
+      AND (lower(email) = lower(NEW.email)
+           OR lower(telegram_username) = lower(NEW.email))
+  LOOP
+    INSERT INTO device_sessions
+      (email, center_id, device_key, platform, device_label, hardware_fp,
+       last_ip, last_geo, source, first_seen, last_seen)
+    VALUES
+      (lower(NEW.email), v_center, NEW.device_id, 'web',
+       nullif(concat_ws(' · ', NEW.device_info->>'model', NEW.device_info->>'os'), ''),
+       NEW.hardware_fp, v_ip, v_geo, 'mirrored', NEW.created_at, NEW.last_seen)
+    ON CONFLICT (email, center_id, device_key) DO UPDATE SET
+      last_seen   = greatest(device_sessions.last_seen, EXCLUDED.last_seen),
+      last_ip     = coalesce(EXCLUDED.last_ip, device_sessions.last_ip),
+      last_geo    = coalesce(EXCLUDED.last_geo, device_sessions.last_geo),
+      hardware_fp = coalesce(EXCLUDED.hardware_fp, device_sessions.hardware_fp);
+    IF TG_OP = 'INSERT'
+       OR OLD.last_seen IS NULL
+       OR NEW.last_seen > OLD.last_seen + interval '10 minutes' THEN
+      INSERT INTO device_session_events (email, center_id, device_key, ip, country)
+      VALUES (lower(NEW.email), v_center, NEW.device_id, v_ip, v_geo);
+    END IF;
+  END LOOP;
+  RETURN NEW;
+END $$;
+
+DROP TRIGGER IF EXISTS trg_mirror_premium_device ON premium_devices;
+CREATE TRIGGER trg_mirror_premium_device
+  AFTER INSERT OR UPDATE ON premium_devices
+  FOR EACH ROW EXECUTE FUNCTION _mirror_premium_device();
