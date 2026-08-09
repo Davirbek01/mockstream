@@ -420,3 +420,56 @@ CREATE POLICY dev_sessions_admin_read ON device_sessions
   FOR SELECT USING (is_any_admin());
 CREATE POLICY dev_events_admin_read ON device_session_events
   FOR SELECT USING (is_any_admin());
+
+-- Registers the calling device for EVERY active premium centre of the given
+-- identity (centres derived server-side; the client cannot claim one).
+-- Returns rows touched; 0 = not premium (the scope guard).
+CREATE OR REPLACE FUNCTION register_device_session(
+  p_email text, p_telegram text, p_device_key text,
+  p_platform text, p_label text DEFAULT NULL, p_hardware_fp text DEFAULT NULL
+) RETURNS integer
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+DECLARE
+  v_center text; v_n integer := 0;
+  v_ip inet := _req_ip();
+  v_geo text;
+BEGIN
+  IF p_device_key IS NULL OR btrim(p_device_key) = '' THEN RETURN 0; END IF;
+  IF p_platform NOT IN ('web','android','ios','windows','mac') THEN RETURN 0; END IF;
+  BEGIN
+    v_geo := current_setting('request.headers', true)::json->>'cf-ipcountry';
+  EXCEPTION WHEN OTHERS THEN v_geo := NULL; END;
+
+  FOR v_center IN
+    SELECT DISTINCT _norm_center(center) FROM premium_emails
+    WHERE active = true
+      AND tier = 'premium'
+      AND (expires_at IS NULL OR expires_at > now())
+      AND (   (p_email    IS NOT NULL AND btrim(p_email) <> ''
+               AND (lower(email) = lower(p_email)
+                    OR lower(telegram_username) = lower(p_email)))
+           OR (p_telegram IS NOT NULL AND btrim(p_telegram) <> ''
+               AND lower(telegram_username) = lower(p_telegram)))
+  LOOP
+    INSERT INTO device_sessions
+      (email, center_id, device_key, platform, device_label, hardware_fp,
+       last_ip, last_geo, source)
+    VALUES
+      (lower(coalesce(nullif(btrim(p_email),''), p_telegram)), v_center,
+       p_device_key, p_platform, p_label, p_hardware_fp, v_ip, v_geo, 'native')
+    ON CONFLICT (email, center_id, device_key) DO UPDATE SET
+      last_seen = now(), last_ip = coalesce(EXCLUDED.last_ip, device_sessions.last_ip),
+      last_geo = coalesce(EXCLUDED.last_geo, device_sessions.last_geo),
+      device_label = coalesce(EXCLUDED.device_label, device_sessions.device_label),
+      hardware_fp = coalesce(EXCLUDED.hardware_fp, device_sessions.hardware_fp);
+
+    INSERT INTO device_session_events (email, center_id, device_key, ip, country)
+    VALUES (lower(coalesce(nullif(btrim(p_email),''), p_telegram)), v_center,
+            p_device_key, v_ip, v_geo);
+    v_n := v_n + 1;
+  END LOOP;
+  RETURN v_n;
+END $$;
+
+GRANT EXECUTE ON FUNCTION register_device_session(text,text,text,text,text,text)
+  TO anon, authenticated;
