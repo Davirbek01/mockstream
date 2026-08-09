@@ -23,3 +23,11 @@
   to = "https://storage.googleapis.com/mockstream-desktop-releases/download.html"
   status = 302
   force = true
+
+# OG link previews for /take/<slug> deep links (Telegram/WhatsApp covers).
+# The function transforms the response the /take/* rewrite already produces —
+# see netlify/edge-functions/og-take.ts (path binding via its own `config`
+# export). Declared here too so the binding survives if that export changes.
+[[edge_functions]]
+  path = "/take/*"
+  function = "og-take"
