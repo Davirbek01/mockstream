@@ -1,7 +1,9 @@
 # Device-limit enforcement & account-sharing detection
 
 **Date:** 2026-08-09
-**Status:** design approved, not yet implemented
+**Status:** phase 1 (detect-only) IMPLEMENTED 2026-08-09 — tables, RPC, mirror
+trigger + backfill live in prod DB; desktop + mobile registration committed
+(desktop rides next release; mobile awaits OTA go). Phases 2–3 not started.
 **Scope:** web (7 Netlify sites), mobile (iOS + Android), desktop (Windows + Mac), admin panel
 
 ## Problem
