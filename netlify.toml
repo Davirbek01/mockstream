@@ -35,3 +35,7 @@
 [[edge_functions]]
   path = "/Articles.html"
   function = "og-articles"
+
+[[edge_functions]]
+  path = "/articles"
+  function = "og-articles"

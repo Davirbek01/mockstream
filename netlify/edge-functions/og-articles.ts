@@ -47,4 +47,7 @@ export default async (request: Request, context: { next: () => Promise<Response>
   return new Response(out, { status: response.status, headers: response.headers });
 };
 
-export const config = { path: "/Articles.html" };
+// Netlify Pretty URLs 301s /Articles.html -> /articles; crawlers follow the
+// redirect, so the FINAL path needs the binding too (the .html form only ever
+// answers 301, which this function passes through untouched).
+export const config = { path: ["/articles", "/Articles.html"] };
