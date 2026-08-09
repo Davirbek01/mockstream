@@ -534,3 +534,9 @@ CREATE TRIGGER trg_mirror_premium_device
 -- (_prem_matches) now feeds the RPC, the mirror trigger and the backfill;
 -- registry identity = email, else @username, else tg:<id> (unifies one
 -- person across sign-in methods). Full defs in the migration.
+
+-- device_admin_overview() v2 (migration device_overview_full_roster):
+-- starts from the ACTIVE PREMIUM ROSTER (premium_emails, canonical identity
+-- email -> @username -> tg:<id>) and LEFT JOINs observed devices, so the
+-- Devices panel lists every premium account -- 'seen': false where no device
+-- has been observed yet. Read-only; premium panel and tables untouched.

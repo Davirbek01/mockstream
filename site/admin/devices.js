@@ -185,6 +185,18 @@
     var key = a.email + '|' + a.center_id;
     var open = !!_expanded[key];
     var over = a.slots > (a.policy_status === 'exempt' ? Infinity : (a.policy_max || DEFAULT_LIMIT));
+    // Roster row with no observed devices yet: compact grey card, no expand.
+    if (a.seen === false) {
+      return '<div style="background:#fafafa;border:1px dashed #e2e8f0;border-radius:12px;margin-bottom:6px;' +
+        'display:flex;align-items:center;gap:12px;padding:8px 14px;opacity:.75;">' +
+        '<div style="min-width:210px;flex:1;">' +
+          '<span style="font-weight:600;color:#475569;font-size:13px;">' + _esc(a.email) + '</span> ' +
+          '<span style="font-size:11px;color:#94a3b8;">' + _esc(_label(a.center_id)) + '</span>' +
+        '</div>' +
+        '<span style="font-size:11px;color:#94a3b8;font-style:italic;">no devices seen yet</span>' +
+        '<div>' + _statusBadge(a) + '</div>' +
+      '</div>';
+    }
     return '<div data-card="' + _esc(key) + '" style="background:#fff;border:1px solid ' +
       (over ? '#fca5a5' : '#e2e8f0') + ';border-radius:12px;margin-bottom:10px;overflow:hidden;">' +
       '<div data-toggle="' + _esc(key) + '" style="display:flex;align-items:center;gap:12px;padding:12px 14px;cursor:pointer;flex-wrap:wrap;">' +
@@ -230,7 +242,13 @@
     var accounts = (_data.accounts || []).filter(function (a) {
       return !_centerFilter || a.center_id === _centerFilter;
     });
-    accounts.sort(function (x, y) { return (y.risk - x.risk) || (y.slots - x.slots); });
+    // seen accounts first (by risk, then slots); unseen roster rows trail
+    accounts.sort(function (x, y) {
+      var sx = x.seen === false ? 0 : 1, sy = y.seen === false ? 0 : 1;
+      return (sy - sx) || (y.risk - x.risk) || (y.slots - x.slots) ||
+             String(x.email).localeCompare(String(y.email));
+    });
+    var seen = accounts.filter(function (a) { return a.seen !== false; }).length;
     var over = accounts.filter(function (a) {
       return a.slots > (a.policy_status === 'exempt' ? Infinity : (a.policy_max || DEFAULT_LIMIT));
     }).length;
@@ -257,7 +275,7 @@
               'Auto-block over-limit accounts <span style="color:#94a3b8;">(bites in phase 3)</span></label>'
           : '<span style="font-size:12px;color:#94a3b8;">pick a centre to see its auto-block toggle</span>') +
         '<span style="margin-left:auto;font-size:12.5px;color:#64748b;">' +
-          accounts.length + ' premium accounts · <b style="color:' + (over ? '#b91c1c' : '#15803d') + ';">' + over + ' over limit</b></span>' +
+          accounts.length + ' premium accounts · ' + seen + ' seen · <b style="color:' + (over ? '#b91c1c' : '#15803d') + ';">' + over + ' over limit</b></span>' +
       '</div>' +
       (accounts.length
         ? accounts.map(_accountCard).join('')
