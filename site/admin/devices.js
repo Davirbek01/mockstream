@@ -83,6 +83,7 @@
   // ── state ────────────────────────────────────────────────────────────────
   var _data = null;          // last overview payload
   var _centerFilter = '';    // '' = all
+  var _search = '';          // free-text account filter
   var _expanded = {};        // email|center -> bool
   var _container = null;
 
@@ -239,8 +240,11 @@
 
   function _render() {
     if (!_container || !_data) return;
+    var q = _search.trim().toLowerCase().replace(/^@/, '');
     var accounts = (_data.accounts || []).filter(function (a) {
-      return !_centerFilter || a.center_id === _centerFilter;
+      if (_centerFilter && a.center_id !== _centerFilter) return false;
+      if (q && String(a.email).toLowerCase().indexOf(q) === -1) return false;
+      return true;
     });
     // seen accounts first (by risk, then slots); unseen roster rows trail
     accounts.sort(function (x, y) {
@@ -267,6 +271,8 @@
         '⚠️ <b>Detection is live; enforcement is not.</b> Blocks and limits set here are recorded policy — students feel nothing until the device-gate (phase 3) ships. Signals need app data: web history is backfilled, app devices appear as students update.' +
       '</div>' +
       '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:14px;">' +
+        '<input type="search" id="devSearch" placeholder="🔍 Search account…" autocomplete="off" value="' + _esc(_search) + '"' +
+          ' style="flex:1 1 180px;min-width:140px;padding:7px 10px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;">' +
         '<select id="devCenterFilter" style="padding:7px 10px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;background:#fff;">' +
           '<option value="">All centres</option>' + centerOpts + '</select>' +
         (_centerFilter
@@ -282,6 +288,18 @@
         : '<p style="color:#64748b;font-style:italic;">No device data' + (_centerFilter ? ' for this centre yet' : ' yet') + '.</p>');
 
     // wire events
+    var srch = _container.querySelector('#devSearch');
+    if (srch) srch.oninput = function () {
+      _search = srch.value;
+      _render();
+      // _render rebuilds the DOM, which drops focus mid-typing — restore it.
+      var again = _container.querySelector('#devSearch');
+      if (again) {
+        again.focus();
+        var n = again.value.length;
+        try { again.setSelectionRange(n, n); } catch (_e) {}
+      }
+    };
     var sel = _container.querySelector('#devCenterFilter');
     if (sel) sel.onchange = function () { _centerFilter = sel.value; _render(); };
     var ab = _container.querySelector('#devAutoBlock');

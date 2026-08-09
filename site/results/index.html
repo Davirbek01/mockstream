@@ -2121,6 +2121,9 @@
 
         <!-- Filter + sort toolbar — applies to the rendered list only. -->
         <div class="premium-filter-bar">
+          <input type="search" id="premiumSearch" placeholder="🔍 Search email / @username…"
+                 oninput="renderPremiumList()" autocomplete="off"
+                 style="flex:1 1 100%;min-width:0;padding:8px 10px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;">
           <select id="premiumFilterRole" onchange="renderPremiumList()">
             <option value="all">All roles</option>
             <option value="super_admin">⚡ Super Admins</option>
@@ -5085,6 +5088,8 @@
       var fIdentity = fIdentityEl ? fIdentityEl.value : 'all';
       var fCenter   = fCenterEl   ? fCenterEl.value   : 'all';
       var fSort     = fSortEl     ? fSortEl.value     : 'desc';
+      var fSearchEl = document.getElementById('premiumSearch');
+      var fSearch   = fSearchEl ? fSearchEl.value.trim().toLowerCase().replace(/^@/, '') : '';
 
       var now = new Date();
 
@@ -5107,6 +5112,12 @@
         if (fCenter !== 'all') {
           var rowCenter = item.center || '__none__';
           if (rowCenter !== fCenter) return false;
+        }
+
+        // Free-text search over both identity columns (leading @ ignored).
+        if (fSearch) {
+          var hay = ((item.email || '') + ' ' + (item.telegram_username || '')).toLowerCase();
+          if (hay.indexOf(fSearch) === -1) return false;
         }
         return true;
       });
