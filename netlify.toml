@@ -31,3 +31,11 @@
 [[edge_functions]]
   path = "/take/*"
   function = "og-take"
+
+[[edge_functions]]
+  path = "/Articles.html"
+  function = "og-articles"
+
+[[edge_functions]]
+  path = "/articles"
+  function = "og-articles"
