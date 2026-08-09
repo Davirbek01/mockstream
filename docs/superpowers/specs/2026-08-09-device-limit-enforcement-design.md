@@ -23,6 +23,23 @@ Net effect: a shared premium account is effectively unlimited today. This is
 directly revenue-relevant, which is why it gets its own admin surface rather
 than living inside the premium panel.
 
+## Who is in scope — premium accounts ONLY
+
+There are two ways students reach premium features:
+
+1. **Premium accounts** (Google / Apple / Telegram identity with a purchased
+   entitlement) — **this is the entire scope of this design.**
+2. **Daily activation codes** handed out by B2B partner teachers, one per mock.
+   These are shared by design — one code can be used by any number of students
+   once issued. **They are explicitly OUT of scope:** no device registration,
+   no counting, no signals, no gating. A classroom redeeming one daily code
+   must never appear in the flagged list; if it did, every partner class would
+   flag as severe "sharing" on day one.
+
+Concretely: `device-gate` and client-side registration fire only when the
+session belongs to an account with an active premium entitlement. Code-based
+access paths skip the registry entirely.
+
 ## Goals
 
 - Count devices across **all five platform identities**: web, Android, iOS,
@@ -42,7 +59,10 @@ than living inside the premium panel.
   current leak is casual password sharing rather than deliberate evasion, and
   the enforcement point — not signal quality — is what is broken. Revisit only
   if the data shows evasion via browser-storage clearing.
-- No IAP / paid extra-device slot in this phase (noted as a future option).
+- No IAP / paid extra-device slot. Proposed and declined 2026-08-09 (the
+  mechanism — an extra-slot code type feeding `extra_slots` in
+  `device_policy` — is recorded here in case it is wanted later).
+- No tracking of daily-activation-code users (see scope section above).
 
 ## The regression this avoids
 
@@ -199,3 +219,5 @@ stated plainly so the limitation is not discovered later.
   not affect the same email at another centre.
 - Each signal fires on a synthetic fixture and does not fire on a
   single-student-three-devices control case.
+- **Scope guard:** a session using a daily activation code (no premium
+  entitlement) creates **zero** rows in `device_sessions` on every platform.
