@@ -61,7 +61,12 @@ export default async (request: Request, context: { next: () => Promise<Response>
     `\n<meta name="twitter:title" content="${esc(title)}">` +
     `\n<meta name="twitter:image" content="${esc(image)}">\n`;
 
-  const html = await response.text();
+  let html = await response.text();
+  // landing-v3 carries STATIC og tags (its own direct-share preview). Crawlers
+  // honour the FIRST og:title they meet, so leaving both sets in place made
+  // every /take/ link preview as the generic landing card. Strip the static
+  // set, then inject the slug-specific one.
+  html = html.replace(/<meta\s+(?:property="og:|name="twitter:)[^>]*>\s*/g, "");
   // Inject just before </head>; if the marker is somehow missing, serve as-is.
   const out = html.includes("</head>") ? html.replace("</head>", tags + "</head>") : html;
 
