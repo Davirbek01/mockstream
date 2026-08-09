@@ -7,6 +7,8 @@
 __pycache__/
 *.pyc
 *.py
+# exception: the OG cover generator is repo tooling, not a scratch script
+!tools/og-covers/generate.py
 desktop.ini
 
 # Local SQL migrations that contain secrets (service role key, etc.)
