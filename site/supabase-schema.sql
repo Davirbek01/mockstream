@@ -526,3 +526,11 @@ CREATE TRIGGER trg_mirror_premium_device
 -- device_admin_overview() returns the panel's full payload; centre-scoped
 -- admins see only their centre (current_admin_center()), supers see all.
 -- Full definitions in migration 'device_registry_admin' (2026-08-09).
+
+-- Telegram-identity fix (2026-08-09, migration device_registry_tg_identity):
+-- web Telegram sign-ins carry a SYNTHETIC email tg_<id>@... whose bigint id
+-- matches premium_emails.telegram_id -- previously matched nothing, hiding
+-- 104 of 171 active premium rows from the registry. One matcher
+-- (_prem_matches) now feeds the RPC, the mirror trigger and the backfill;
+-- registry identity = email, else @username, else tg:<id> (unifies one
+-- person across sign-in methods). Full defs in the migration.
