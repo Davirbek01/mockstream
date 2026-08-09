@@ -355,6 +355,18 @@
         }
       }
     },
+    devices: {
+      label: 'Devices',
+      icon: '📱',
+      script: '/admin/devices.js',
+      open: function (container) {
+        if (window.AdminPanels && window.AdminPanels.devices && typeof window.AdminPanels.devices.open === 'function') {
+          window.AdminPanels.devices.open(container);
+        } else {
+          container.innerHTML = '<div class="adm-loading"><div>Devices script loaded but did not register correctly.</div></div>';
+        }
+      }
+    },
     'visitor-stats': {
       label: 'Visitor Statistics',
       icon: '📈',

@@ -357,3 +357,186 @@ CREATE POLICY "candidates_insert" ON candidates
 
 CREATE POLICY "candidates_update" ON candidates
   FOR UPDATE TO anon USING (true) WITH CHECK (true);
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- Device registry phase 1 (detect-only) — applied 2026-08-09.
+-- Spec: docs/superpowers/specs/2026-08-09-device-limit-enforcement-design.md
+-- Fed by: premium_devices mirror trigger (web) + register_device_session RPC
+-- (apps). ONE-WAY premium_devices → device_sessions; never the reverse.
+-- Scope: identities with an active premium_emails row ONLY.
+-- ═══════════════════════════════════════════════════════════════════════════
+CREATE OR REPLACE FUNCTION _norm_center(c text) RETURNS text
+LANGUAGE sql IMMUTABLE AS $$
+  SELECT CASE
+    WHEN c IS NULL OR btrim(c) = '' OR lower(c) IN ('mock_stream','mockstream')
+      THEN 'mockstream'
+    ELSE lower(btrim(c))
+  END
+$$;
+
+CREATE OR REPLACE FUNCTION _req_ip() RETURNS inet
+LANGUAGE plpgsql STABLE AS $$
+BEGIN
+  RETURN split_part(
+    current_setting('request.headers', true)::json->>'x-forwarded-for',
+    ',', 1)::inet;
+EXCEPTION WHEN OTHERS THEN RETURN NULL;
+END $$;
+
+CREATE TABLE IF NOT EXISTS device_sessions (
+  id           uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  email        text NOT NULL,
+  center_id    text NOT NULL,             -- ALWAYS _norm_center()'d
+  device_key   text NOT NULL,
+  platform     text NOT NULL CHECK (platform IN ('web','android','ios','windows','mac')),
+  device_label text,
+  hardware_fp  text,
+  first_seen   timestamptz NOT NULL DEFAULT now(),
+  last_seen    timestamptz NOT NULL DEFAULT now(),
+  last_ip      inet,
+  last_geo     text,
+  blocked_at   timestamptz,               -- honoured only from phase 3
+  blocked_by   text,
+  source       text NOT NULL DEFAULT 'native' CHECK (source IN ('native','mirrored')),
+  CONSTRAINT device_sessions_uniq UNIQUE (email, center_id, device_key)
+);
+CREATE INDEX IF NOT EXISTS idx_device_sessions_email  ON device_sessions (email);
+CREATE INDEX IF NOT EXISTS idx_device_sessions_center ON device_sessions (center_id);
+
+CREATE TABLE IF NOT EXISTS device_session_events (
+  id         bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  email      text NOT NULL,
+  center_id  text NOT NULL,
+  device_key text NOT NULL,
+  ip         inet,
+  country    text,
+  at         timestamptz NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS idx_dse_email_at ON device_session_events (email, at);
+
+ALTER TABLE device_sessions       ENABLE ROW LEVEL SECURITY;
+ALTER TABLE device_session_events ENABLE ROW LEVEL SECURITY;
+CREATE POLICY dev_sessions_admin_read ON device_sessions
+  FOR SELECT USING (is_any_admin());
+CREATE POLICY dev_events_admin_read ON device_session_events
+  FOR SELECT USING (is_any_admin());
+
+-- Registers the calling device for EVERY active premium centre of the given
+-- identity (centres derived server-side; the client cannot claim one).
+-- Returns rows touched; 0 = not premium (the scope guard).
+CREATE OR REPLACE FUNCTION register_device_session(
+  p_email text, p_telegram text, p_device_key text,
+  p_platform text, p_label text DEFAULT NULL, p_hardware_fp text DEFAULT NULL
+) RETURNS integer
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+DECLARE
+  v_center text; v_n integer := 0;
+  v_ip inet := _req_ip();
+  v_geo text;
+BEGIN
+  IF p_device_key IS NULL OR btrim(p_device_key) = '' THEN RETURN 0; END IF;
+  IF p_platform NOT IN ('web','android','ios','windows','mac') THEN RETURN 0; END IF;
+  BEGIN
+    v_geo := current_setting('request.headers', true)::json->>'cf-ipcountry';
+  EXCEPTION WHEN OTHERS THEN v_geo := NULL; END;
+
+  FOR v_center IN
+    SELECT DISTINCT _norm_center(center) FROM premium_emails
+    WHERE active = true
+      AND tier = 'premium'
+      AND (expires_at IS NULL OR expires_at > now())
+      AND (   (p_email    IS NOT NULL AND btrim(p_email) <> ''
+               AND (lower(email) = lower(p_email)
+                    OR lower(telegram_username) = lower(p_email)))
+           OR (p_telegram IS NOT NULL AND btrim(p_telegram) <> ''
+               AND lower(telegram_username) = lower(p_telegram)))
+  LOOP
+    INSERT INTO device_sessions
+      (email, center_id, device_key, platform, device_label, hardware_fp,
+       last_ip, last_geo, source)
+    VALUES
+      (lower(coalesce(nullif(btrim(p_email),''), p_telegram)), v_center,
+       p_device_key, p_platform, p_label, p_hardware_fp, v_ip, v_geo, 'native')
+    ON CONFLICT (email, center_id, device_key) DO UPDATE SET
+      last_seen = now(), last_ip = coalesce(EXCLUDED.last_ip, device_sessions.last_ip),
+      last_geo = coalesce(EXCLUDED.last_geo, device_sessions.last_geo),
+      device_label = coalesce(EXCLUDED.device_label, device_sessions.device_label),
+      hardware_fp = coalesce(EXCLUDED.hardware_fp, device_sessions.hardware_fp);
+
+    INSERT INTO device_session_events (email, center_id, device_key, ip, country)
+    VALUES (lower(coalesce(nullif(btrim(p_email),''), p_telegram)), v_center,
+            p_device_key, v_ip, v_geo);
+    v_n := v_n + 1;
+  END LOOP;
+  RETURN v_n;
+END $$;
+
+GRANT EXECUTE ON FUNCTION register_device_session(text,text,text,text,text,text)
+  TO anon, authenticated;
+
+-- ONE-WAY mirror premium_devices -> device_sessions (never the reverse:
+-- app devices in premium_devices would trip the legacy >5 web rule).
+-- Backfilled 2026-08-09: 169 device rows across 23 premium accounts.
+CREATE OR REPLACE FUNCTION _mirror_premium_device() RETURNS trigger
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+DECLARE v_center text; v_ip inet; v_geo text;
+BEGIN
+  v_ip := _req_ip();
+  BEGIN
+    v_geo := current_setting('request.headers', true)::json->>'cf-ipcountry';
+  EXCEPTION WHEN OTHERS THEN v_geo := NULL; END;
+  FOR v_center IN
+    SELECT DISTINCT _norm_center(center) FROM premium_emails
+    WHERE active = true AND tier = 'premium'
+      AND (expires_at IS NULL OR expires_at > now())
+      AND (lower(email) = lower(NEW.email)
+           OR lower(telegram_username) = lower(NEW.email))
+  LOOP
+    INSERT INTO device_sessions
+      (email, center_id, device_key, platform, device_label, hardware_fp,
+       last_ip, last_geo, source, first_seen, last_seen)
+    VALUES
+      (lower(NEW.email), v_center, NEW.device_id, 'web',
+       nullif(concat_ws(' · ', NEW.device_info->>'model', NEW.device_info->>'os'), ''),
+       NEW.hardware_fp, v_ip, v_geo, 'mirrored', NEW.created_at, NEW.last_seen)
+    ON CONFLICT (email, center_id, device_key) DO UPDATE SET
+      last_seen   = greatest(device_sessions.last_seen, EXCLUDED.last_seen),
+      last_ip     = coalesce(EXCLUDED.last_ip, device_sessions.last_ip),
+      last_geo    = coalesce(EXCLUDED.last_geo, device_sessions.last_geo),
+      hardware_fp = coalesce(EXCLUDED.hardware_fp, device_sessions.hardware_fp);
+    IF TG_OP = 'INSERT'
+       OR OLD.last_seen IS NULL
+       OR NEW.last_seen > OLD.last_seen + interval '10 minutes' THEN
+      INSERT INTO device_session_events (email, center_id, device_key, ip, country)
+      VALUES (lower(NEW.email), v_center, NEW.device_id, v_ip, v_geo);
+    END IF;
+  END LOOP;
+  RETURN NEW;
+END $$;
+
+DROP TRIGGER IF EXISTS trg_mirror_premium_device ON premium_devices;
+CREATE TRIGGER trg_mirror_premium_device
+  AFTER INSERT OR UPDATE ON premium_devices
+  FOR EACH ROW EXECUTE FUNCTION _mirror_premium_device();
+
+-- Phase 2: policy + the two admin RPCs behind the Devices panel.
+-- device_policy: email IS NULL = per-centre settings row (auto_block_enabled,
+-- default_limit); email set = per-account override. Writes only via
+-- device_admin_action() (SECURITY DEFINER, is_any_admin() + centre scope).
+-- device_admin_overview() returns the panel's full payload; centre-scoped
+-- admins see only their centre (current_admin_center()), supers see all.
+-- Full definitions in migration 'device_registry_admin' (2026-08-09).
+
+-- Telegram-identity fix (2026-08-09, migration device_registry_tg_identity):
+-- web Telegram sign-ins carry a SYNTHETIC email tg_<id>@... whose bigint id
+-- matches premium_emails.telegram_id -- previously matched nothing, hiding
+-- 104 of 171 active premium rows from the registry. One matcher
+-- (_prem_matches) now feeds the RPC, the mirror trigger and the backfill;
+-- registry identity = email, else @username, else tg:<id> (unifies one
+-- person across sign-in methods). Full defs in the migration.
+
+-- device_admin_overview() v2 (migration device_overview_full_roster):
+-- starts from the ACTIVE PREMIUM ROSTER (premium_emails, canonical identity
+-- email -> @username -> tg:<id>) and LEFT JOINs observed devices, so the
+-- Devices panel lists every premium account -- 'seen': false where no device
+-- has been observed yet. Read-only; premium panel and tables untouched.
