@@ -10200,7 +10200,7 @@
         return '<li class="ilet-section cspet-part-heading">' + label + text + '</li>';
       };
       const doneBadge = doneInfo && doneInfo.done
-        ? '<span class="cspet-pill" style="background:#dcfce7;color:#15803d;border-color:#86efac;">★ Done</span>'
+        ? window._pickerDoneLink('<span class="cspet-pill" style="background:#dcfce7;color:#15803d;border-color:#86efac;">★ Done</span>', 'speaking', 'cefr', mockNum)
         : '';
       const dateBadge = meta.examDate
         ? '<span class="cspet-exam-date">📅 ' + _cspetFmtDate(meta.examDate) + '</span>'
@@ -10217,6 +10217,7 @@
       if (badgeChipCs) csStatsRowParts.push(badgeChipCs);
       csStatsRowParts.push('<span>👥 ' + stats.total + '</span>');
       csStatsRowParts.push('<span>⚡ ' + stats.today + ' today</span>');
+      if (doneBadge) csStatsRowParts.push(doneBadge);
       const csStatsRow = '<div class="cspet-stat-row" style="display:flex;gap:8px;font-size:11.5px;color:#475569;margin:4px 0 8px;flex-wrap:wrap;align-items:center;">'
                        + csStatsRowParts.join('<span style="color:#cbd5e1;">·</span>')
                        + '</div>';
@@ -10230,7 +10231,6 @@
         +   '</div>'
         +   '<h3 class="ilet-mock-title">' + _cspetEsc(titleText) + '</h3>'
         +   csStatsRow
-        +   (doneBadge ? '<div style="margin:4px 0 6px;">' + doneBadge + '</div>' : '')
         +   '<ul class="ilet-sections" style="list-style:none;padding:0;margin:8px 0;display:flex;flex-direction:column;gap:0;">'
         +     partRow('1.1', meta.p11Topic, '— topic not tagged —')
         +     partRow('1.2', meta.p12Topic, 'Picture pair (not tagged)')
@@ -10271,6 +10271,59 @@
     // ielts-writing 1.65MB->39KB, readings/listenings 1.7-3.9MB->96-207KB.
     // Returns { <rowId>: {id, mock_number, title, created_at, md} } or null
     // on any failure — callers fall back to their original heavy path.
+    // Shared "done" fetch for every skill picker (2026-08-12). Reads the
+    // CURRENT student's SUBMITTED attempts from mock_attempts — recordOpen
+    // rows (merely opened) never count. Returns a map keyed by BOTH padded
+    // and raw mock numbers, each value {done:true}, so every picker's
+    // doneInfo convention works (cspet checks .done; iwet checks truthiness).
+    // Name = the same fallback chain PremiumGate._candidateName uses.
+    // Makes a "★ Done" pill open the matching past report: deep-links
+    // /results/my-results.html#open=<skill>|<exam>|<num> (auto-opens viewer).
+    // stopPropagation so card-level click handlers don't also fire.
+    window._pickerDoneLink = function (innerHtml, skill, examType, mockNum) {
+      var n = parseInt(mockNum, 10);
+      if (!isFinite(n)) return innerHtml;
+      return '<a href="/results/my-results.html#open=' + skill + '|' + examType + '|' + n + '"'
+        + ' title="View your previous result" style="text-decoration:none;cursor:pointer;"'
+        + ' onclick="event.stopPropagation();">' + innerHtml + ' ↗</a>';
+    };
+
+    window._pickerFetchServerDone = async function (skill, examType) {
+      try {
+        var name = '';
+        try { name = sessionStorage.getItem('CANDIDATE_FULL_NAME') || ''; } catch (_e) {}
+        if (!name) { try { name = localStorage.getItem('ms_candidate_name') || ''; } catch (_e) {} }
+        if (!name) {
+          try {
+            var sn = (localStorage.getItem('CANDIDATE_SURNAME') || '').trim();
+            var fn = (localStorage.getItem('CANDIDATE_FIRSTNAME') || '').trim();
+            if (sn || fn) name = (sn + ' ' + fn).trim();
+          } catch (_e) {}
+        }
+        name = (name || '').trim().toLowerCase();
+        if (!name) return {};
+        var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+        var KEY = (window.PremiumGate && window.PremiumGate._SB_ANON) || 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+        var url = SB + '/rest/v1/mock_attempts'
+          + '?candidate_name=eq.' + encodeURIComponent(name)
+          + '&skill=eq.' + encodeURIComponent(skill)
+          + '&exam_type=eq.' + encodeURIComponent(examType)
+          + '&submitted_at=not.is.null&select=mock_number';
+        var r = await fetch(url, { headers: { apikey: KEY, Authorization: 'Bearer ' + KEY } });
+        if (!r.ok) return {};
+        var rows = await r.json();
+        var out = {};
+        (rows || []).forEach(function (row) {
+          var n = parseInt(row.mock_number, 10);
+          if (!isFinite(n)) return;
+          var v = { done: true };
+          out[String(n)] = v;
+          out[String(n).padStart(2, '0')] = v;
+        });
+        return out;
+      } catch (_e) { return {}; }
+    };
+
     window._mockCardMetaBatch = async function (mockType) {
       try {
         const r = await fetch('https://zknyukkbtbcqgvkgjktb.supabase.co/rest/v1/rpc/mock_card_meta', {
@@ -10433,9 +10486,7 @@
     }
 
     async function _cspetFetchServerDone() {
-      // Stub matching landing.html — done-status fetch lands with the
-      // PremiumGate plumbing in a later phase.
-      return {};
+      return window._pickerFetchServerDone('speaking', 'cefr');
     }
 
     function _cspetBuildTopicFilterOptions() {
@@ -10812,7 +10863,7 @@
         return '<li class="ilet-section ispet-part-heading">' + label + text + '</li>';
       };
       const doneBadge = doneInfo && doneInfo.done
-        ? '<span class="ispet-pill" style="background:#dcfce7;color:#15803d;border-color:#86efac;">★ Done</span>'
+        ? window._pickerDoneLink('<span class="ispet-pill" style="background:#dcfce7;color:#15803d;border-color:#86efac;">★ Done</span>', 'speaking', 'ielts', mockNum)
         : '';
       const dateBadge = meta.examDate
         ? '<span class="ispet-exam-date">📅 ' + _ispetFmtDate(meta.examDate) + '</span>'
@@ -10829,6 +10880,7 @@
       if (badgeChip) statsRowParts.push(badgeChip);
       statsRowParts.push('<span>👥 ' + stats.total + '</span>');
       statsRowParts.push('<span>⚡ ' + stats.today + ' today</span>');
+      if (doneBadge) statsRowParts.push(doneBadge);
       const statsRow = '<div class="ispet-stat-row" style="display:flex;gap:8px;font-size:11.5px;color:#475569;margin:4px 0 8px;flex-wrap:wrap;align-items:center;">'
                      + statsRowParts.join('<span style="color:#cbd5e1;">·</span>')
                      + '</div>';
@@ -10842,7 +10894,6 @@
         +   '</div>'
         +   '<h3 class="ilet-mock-title">' + _ispetEsc(titleText) + '</h3>'
         +   statsRow
-        +   (doneBadge ? '<div style="margin:4px 0 6px;">' + doneBadge + '</div>' : '')
         +   '<ul class="ilet-sections" style="list-style:none;padding:0;margin:8px 0;display:flex;flex-direction:column;gap:0;">'
         +     partRow(1, meta.p1Topic)
         +     partRow(2, meta.p2Topic)
@@ -11011,38 +11062,8 @@
       }
     }
 
-    async function _ispetFetchServerDone() { return {}; }
-
-    function _ispetBuildTopicFilterOptions() {
-      const sel = document.getElementById('ispetTopicFilter');
-      if (!sel) return;
-      const all = new Set();
-      Object.values(_ispetMockMeta).forEach(m => {
-        (m.topicsAll || []).forEach(t => { if (t) all.add(t); });
-      });
-      const PART_RANK = { P1: 0, P2: 1, P3: 2 };
-      const TOPIC_ICON = { trending: '🔥 ', popular: '👑 ', gem: '💎 ' };
-      const sorted = Array.from(all).sort((a, b) => {
-        const [pa, ta] = a.split('::');
-        const [pb, tb] = b.split('::');
-        const r = (PART_RANK[pa] ?? 99) - (PART_RANK[pb] ?? 99);
-        if (r !== 0) return r;
-        const ca = (_ispetTopicCounts[a] && _ispetTopicCounts[a].total) || 0;
-        const cb = (_ispetTopicCounts[b] && _ispetTopicCounts[b].total) || 0;
-        return (cb - ca) || ta.localeCompare(tb);
-      });
-      const current = sel.value;
-      sel.innerHTML = '<option value="">🏷 All topics</option>'
-        + sorted.map(composite => {
-            const [part, topic] = composite.split('::');
-            const tc    = _ispetTopicCounts[composite] || { total: 0 };
-            const badge = _ispetTopicBadges[composite];
-            const icon  = (badge && TOPIC_ICON[badge]) || '';
-            const countSuffix = tc.total > 0 ? ' (' + tc.total + ')' : '';
-            const label = part + ' — ' + icon + topic.charAt(0).toUpperCase() + topic.slice(1) + countSuffix;
-            return '<option value="' + _ispetEsc(composite) + '">' + _ispetEsc(label) + '</option>';
-          }).join('');
-      if (current) sel.value = current;
+    async function _ispetFetchServerDone() {
+      return window._pickerFetchServerDone('speaking', 'ielts');
     }
 
     function _ispetRenderAll() {
@@ -11436,9 +11457,9 @@
         ? '<span class="cwet-exam-date" title="Exam date ' + _cwetEsc(meta.examDate) + '">📅 ' + _cwetEsc(examLabel) + '</span>'
         : '';
       const doneHtml = doneInfo
-        ? (typeof doneInfo.percent === 'number'
+        ? window._pickerDoneLink(typeof doneInfo.percent === 'number'
             ? '<span class="ilet-done">★ Done · ' + doneInfo.percent + '%</span>'
-            : '<span class="ilet-done">★ Done</span>')
+            : '<span class="ilet-done">★ Done</span>', 'writing', 'cefr', mockNum)
         : '';
       const shareBtnHtml = noneReady
         ? ''
@@ -11683,6 +11704,10 @@
         const localDone = JSON.parse(localStorage.getItem('ms_cefrWriting_done') || '{}');
         _cwetServerDone = localDone || {};
       } catch (_e) { _cwetServerDone = {}; }
+      // Server truth (submitted attempts) layered over the legacy local map.
+      window._pickerFetchServerDone('writing', 'cefr').then(function (d) {
+        try { Object.assign(_cwetServerDone, d || {}); _cwetApplyFiltersAndSort(); } catch (_e) {}
+      });
 
       const overlay = document.getElementById('cwetPicker');
       overlay.classList.add('ilet-open');
@@ -12091,21 +12116,7 @@
     }
 
     async function _iwetFetchServerDone() {
-      try {
-        if (!window.PremiumGate || !window.PremiumGate._normName) return {};
-        const candidateName = sessionStorage.getItem('CANDIDATE_NAME') || '';
-        const name = window.PremiumGate._normName(candidateName);
-        if (!name) return {};
-        const url = _iwet_SB_URL + '/rest/v1/mock_attempts'
-          + '?candidate_name=eq.' + encodeURIComponent(name)
-          + '&skill=eq.writing&exam_type=eq.ielts&submitted_at=not.is.null&select=mock_number';
-        const r = await fetch(url, { headers: { apikey: _iwet_SB_KEY, Authorization: 'Bearer ' + _iwet_SB_KEY } });
-        if (!r.ok) return {};
-        const rows = await r.json();
-        const out = {};
-        (rows || []).forEach(row => { out[String(row.mock_number).padStart(2, '0')] = true; });
-        return out;
-      } catch (_e) { return {}; }
+      return window._pickerFetchServerDone('writing', 'ielts');
     }
 
     function _iwetSkeletonHtml() {
@@ -12176,9 +12187,9 @@
           + '</li>';
       }).join('');
       const doneHtml = doneInfo
-        ? (typeof doneInfo.percent === 'number'
+        ? window._pickerDoneLink(typeof doneInfo.percent === 'number'
             ? '<span class="ilet-done">★ Done · ' + doneInfo.percent + '%</span>'
-            : '<span class="ilet-done">★ Done</span>')
+            : '<span class="ilet-done">★ Done</span>', 'writing', 'ielts', mockNum)
         : '';
       const shareBtnHtml = noneReady
         ? ''
@@ -13165,21 +13176,7 @@
     }
 
     async function _cretFetchServerDone() {
-      try {
-        if (!window.PremiumGate || !window.PremiumGate._normName) return {};
-        const candidateName = sessionStorage.getItem('CANDIDATE_NAME') || '';
-        const name = window.PremiumGate._normName(candidateName);
-        if (!name) return {};
-        const url = _CRET_SB_URL + '/rest/v1/mock_attempts'
-          + '?candidate_name=eq.' + encodeURIComponent(name)
-          + '&skill=eq.reading&exam_type=eq.cefr&submitted_at=not.is.null&select=mock_number';
-        const r = await fetch(url, { headers: { apikey: _CRET_SB_KEY, Authorization: 'Bearer ' + _CRET_SB_KEY } });
-        if (!r.ok) return {};
-        const rows = await r.json();
-        const out = {};
-        (rows || []).forEach(row => { out[String(row.mock_number).padStart(2, '0')] = true; });
-        return out;
-      } catch (_e) { return {}; }
+      return window._pickerFetchServerDone('reading', 'cefr');
     }
 
     function _cretSkeletonHtml() {
@@ -13251,9 +13248,9 @@
         + '</li>'
       ).join('');
       const doneHtml = doneInfo
-        ? (typeof doneInfo.percent === 'number'
+        ? window._pickerDoneLink(typeof doneInfo.percent === 'number'
             ? '<span class="cret-done">★ Done · ' + doneInfo.percent + '%</span>'
-            : '<span class="cret-done">★ Done</span>')
+            : '<span class="cret-done">★ Done</span>', 'reading', 'cefr', mockNum)
         : '';
       const shareBtnHtml = noneReady
         ? ''
@@ -14118,21 +14115,7 @@
     }
 
     async function _iretFetchServerDone() {
-      try {
-        if (!window.PremiumGate || !window.PremiumGate._normName) return {};
-        const candidateName = sessionStorage.getItem('CANDIDATE_NAME') || '';
-        const name = window.PremiumGate._normName(candidateName);
-        if (!name) return {};
-        const url = _IRET_SB_URL + '/rest/v1/mock_attempts'
-          + '?candidate_name=eq.' + encodeURIComponent(name)
-          + '&skill=eq.reading&exam_type=eq.ielts&submitted_at=not.is.null&select=mock_number';
-        const r = await fetch(url, { headers: { apikey: _IRET_SB_KEY, Authorization: 'Bearer ' + _IRET_SB_KEY } });
-        if (!r.ok) return {};
-        const rows = await r.json();
-        const out = {};
-        (rows || []).forEach(row => { out[String(row.mock_number).padStart(2, '0')] = true; });
-        return out;
-      } catch (_e) { return {}; }
+      return window._pickerFetchServerDone('reading', 'ielts');
     }
 
     function _iretSkeletonHtml() {
@@ -14194,9 +14177,9 @@
         + '</li>'
       ).join('');
       const doneHtml = doneInfo
-        ? (typeof doneInfo.percent === 'number'
+        ? window._pickerDoneLink(typeof doneInfo.percent === 'number'
             ? '<span class="iret-done">★ Done · ' + doneInfo.percent + '%</span>'
-            : '<span class="iret-done">★ Done</span>')
+            : '<span class="iret-done">★ Done</span>', 'reading', 'ielts', mockNum)
         : '';
       const shareBtnHtml = noneReady
         ? ''
@@ -14828,21 +14811,7 @@
     }
 
     async function _cletFetchServerDone() {
-      try {
-        if (!window.PremiumGate || !window.PremiumGate._normName) return {};
-        const candidateName = sessionStorage.getItem('CANDIDATE_NAME') || '';
-        const name = window.PremiumGate._normName(candidateName);
-        if (!name) return {};
-        const url = _clet_SB_URL + '/rest/v1/mock_attempts'
-          + '?candidate_name=eq.' + encodeURIComponent(name)
-          + '&skill=eq.listening&exam_type=eq.cefr&submitted_at=not.is.null&select=mock_number';
-        const r = await fetch(url, { headers: { apikey: _clet_SB_KEY, Authorization: 'Bearer ' + _clet_SB_KEY } });
-        if (!r.ok) return {};
-        const rows = await r.json();
-        const out = {};
-        (rows || []).forEach(row => { out[String(row.mock_number).padStart(2, '0')] = true; });
-        return out;
-      } catch (_e) { return {}; }
+      return window._pickerFetchServerDone('listening', 'cefr');
     }
 
     function _cletSkeletonHtml() {
@@ -14891,9 +14860,9 @@
         + '</li>'
       ).join('');
       const doneHtml = doneInfo
-        ? (typeof doneInfo.percent === 'number'
+        ? window._pickerDoneLink(typeof doneInfo.percent === 'number'
             ? '<span class="ilet-done">★ Done · ' + doneInfo.percent + '%</span>'
-            : '<span class="ilet-done">★ Done</span>')
+            : '<span class="ilet-done">★ Done</span>', 'listening', 'cefr', mockNum)
         : '';
       const shareBtnHtml = noneReady
         ? ''
@@ -15819,21 +15788,7 @@
     }
 
     async function _iletFetchServerDone() {
-      try {
-        if (!window.PremiumGate || !window.PremiumGate._normName) return {};
-        const candidateName = sessionStorage.getItem('CANDIDATE_NAME') || '';
-        const name = window.PremiumGate._normName(candidateName);
-        if (!name) return {};
-        const url = _ilet_SB_URL + '/rest/v1/mock_attempts'
-          + '?candidate_name=eq.' + encodeURIComponent(name)
-          + '&skill=eq.listening&exam_type=eq.ielts&submitted_at=not.is.null&select=mock_number';
-        const r = await fetch(url, { headers: { apikey: _ilet_SB_KEY, Authorization: 'Bearer ' + _ilet_SB_KEY } });
-        if (!r.ok) return {};
-        const rows = await r.json();
-        const out = {};
-        (rows || []).forEach(row => { out[String(row.mock_number).padStart(2, '0')] = true; });
-        return out;
-      } catch (_e) { return {}; }
+      return window._pickerFetchServerDone('listening', 'ielts');
     }
 
     function _iletSkeletonHtml() {
@@ -15882,9 +15837,9 @@
         + '</li>'
       ).join('');
       const doneHtml = doneInfo
-        ? (typeof doneInfo.percent === 'number'
+        ? window._pickerDoneLink(typeof doneInfo.percent === 'number'
             ? '<span class="ilet-done">★ Done · ' + doneInfo.percent + '%</span>'
-            : '<span class="ilet-done">★ Done</span>')
+            : '<span class="ilet-done">★ Done</span>', 'listening', 'ielts', mockNum)
         : '';
       const shareBtnHtml = noneReady
         ? ''
