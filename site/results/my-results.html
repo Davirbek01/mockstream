@@ -1175,6 +1175,7 @@
 
           updateStats();
           applyFilter();
+          _autoOpenFromHash();
         })
         .catch(function (err) {
           console.error('Fetch error:', err);
@@ -1446,6 +1447,27 @@
     }
     function showIframe() { hideLoader(); document.getElementById('viewerIframe').style.display = ''; document.getElementById('viewerContent').classList.remove('show'); }
     function showContent(html) { hideLoader(); document.getElementById('viewerIframe').style.display = 'none'; var el = document.getElementById('viewerContent'); el.innerHTML = html; el.classList.add('show'); }
+
+    // Deep-link: #open=<skill>|<exam>|<mockNum> auto-opens the latest matching
+    // report. Used by the pickers' "★ Done" pill (view-past-result parity with
+    // the desktop app's dialog button). Silently does nothing on no match.
+    function _autoOpenFromHash() {
+      try {
+        var m = (location.hash || '').match(/#open=([a-z-]+)\|([a-z]+)\|(\d+)/i);
+        if (!m) return;
+        var wantSkill = m[1].toLowerCase(), wantExam = m[2].toLowerCase(), wantNum = parseInt(m[3], 10);
+        var row = allResults.find(function (r) {
+          if (!r.report_path) return false;
+          if ((r.exam_type || '').toLowerCase() !== wantExam) return false;
+          if ((r.skill || '').toLowerCase().indexOf(wantSkill) === -1) return false;
+          var n = String(r.mock_number || '').match(/\d+/);
+          return !!n && parseInt(n[0], 10) === wantNum;
+        });
+        // rows arrive newest-first (order=created_at.desc), so find() = latest
+        if (row) viewResult(row.id);
+        history.replaceState(null, '', location.pathname + location.search);
+      } catch (_e) {}
+    }
 
     function viewResult(resultId) {
       if (!resultId) return;
