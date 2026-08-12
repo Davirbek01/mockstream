@@ -11258,7 +11258,7 @@
       const mocks = [];
       mocks.push({
         file: 'Writing Mocks.html?test=cefr-writing-mock-01&sbmock=9&auto=1',
-        name: '🧪 CEFR Writing Mock 01 (Supabase pilot)',
+        name: 'CEFR Writing Mock 01',
         icon: '✍️',
         actionText: 'Start'
       });
@@ -11871,7 +11871,7 @@
       const mocks = [];
       mocks.push({
         file: 'Writing IELTS Mock.html?test=ielts-writing-mock-01&sbmock=8&auto=1',
-        name: '🧪 IELTS Writing Mock 01 (Supabase pilot)',
+        name: 'IELTS Writing Mock 01',
         icon: '✍️',
         actionText: 'Start'
       });
@@ -12930,8 +12930,8 @@
       const label = 'CEFR Reading Test';
       for (const row of rows) {
         const padded = String(row.mock_number).padStart(2, '0');
-        const isPilot = row.mock_number === 1;
-        const displayName = isPilot ? '🧪 ' + label + ' ' + padded + ' (Supabase pilot)' : label + ' ' + padded;
+        // Pilot decoration retired 2026-08-12 — every mock lives in Supabase now.
+        const displayName = label + ' ' + padded;
         const fileUrl = 'CEFR Reading.html?sbmock=' + row.id;
         const plainName = label + ' ' + padded;
         const idx = cefrReadingTests.findIndex(t =>
@@ -13827,7 +13827,7 @@
     // ===== IELTS Reading picker (iretPicker) — Phase 5b =====
     // 50 mocks, all Supabase-backed via ?sbmock=<id>.
     const ieltsReadingTests = [
-      { file: 'IELTS reading.html?sbmock=4',   name: '🧪 IELTS Reading Practice Test 01 (Supabase pilot)', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?sbmock=4',   name: 'IELTS Reading Practice Test 01', icon: '📖', actionText: 'Take Test' },
       { file: 'IELTS reading.html?sbmock=294', name: 'IELTS Reading Practice Test 02', icon: '📖', actionText: 'Take Test' },
       { file: 'IELTS reading.html?sbmock=295', name: 'IELTS Reading Practice Test 03', icon: '📖', actionText: 'Take Test' },
       { file: 'IELTS reading.html?sbmock=296', name: 'IELTS Reading Practice Test 04', icon: '📖', actionText: 'Take Test' },
@@ -13900,8 +13900,8 @@
       const label = 'IELTS Reading Practice Test';
       for (const row of rows) {
         const padded = String(row.mock_number).padStart(2, '0');
-        const isPilot = row.mock_number === 1;
-        const displayName = isPilot ? '🧪 ' + label + ' ' + padded + ' (Supabase pilot)' : label + ' ' + padded;
+        // Pilot decoration retired 2026-08-12 — every mock lives in Supabase now.
+        const displayName = label + ' ' + padded;
         const fileUrl = 'IELTS reading.html?sbmock=' + row.id;
         const plainName = label + ' ' + padded;
         const idx = ieltsReadingTests.findIndex(t =>
@@ -14548,8 +14548,8 @@
       const label = 'CEFR Listening Test';
       for (const row of rows) {
         const padded = String(row.mock_number).padStart(2, '0');
-        const isPilot = row.mock_number === 1;
-        const displayName = isPilot ? '🧪 ' + label + ' ' + padded + ' (Supabase pilot)' : label + ' ' + padded;
+        // Pilot decoration retired 2026-08-12 — every mock lives in Supabase now.
+        const displayName = label + ' ' + padded;
         const fileUrl = 'CEFR Listening.html?sbmock=' + row.id;
         const plainName = label + ' ' + padded;
         const idx = cefrListeningTests.findIndex(t =>
@@ -15508,7 +15508,7 @@
     // ===== IELTS Listening picker (iletPicker) — Phase 5c-ilet =====
     // 50 mocks, all Supabase-backed via ?sbmock=<id>. Card has 4 sections.
     const ieltsListeningTests = [
-      { file: 'IELTS listening.html?sbmock=7',   name: '🧪 IELTS Listening Practice Test 01 (Supabase pilot)', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?sbmock=7',   name: 'IELTS Listening Practice Test 01', icon: '🎧', actionText: 'Take Test' },
       { file: 'IELTS listening.html?sbmock=390', name: 'IELTS Listening Practice Test 02', icon: '🎧', actionText: 'Take Test' },
       { file: 'IELTS listening.html?sbmock=391', name: 'IELTS Listening Practice Test 03', icon: '🎧', actionText: 'Take Test' },
       { file: 'IELTS listening.html?sbmock=392', name: 'IELTS Listening Practice Test 04', icon: '🎧', actionText: 'Take Test' },
@@ -15576,8 +15576,8 @@
       const label = 'IELTS Listening Practice Test';
       for (const row of rows) {
         const padded = String(row.mock_number).padStart(2, '0');
-        const isPilot = row.mock_number === 1;
-        const displayName = isPilot ? '🧪 ' + label + ' ' + padded + ' (Supabase pilot)' : label + ' ' + padded;
+        // Pilot decoration retired 2026-08-12 — every mock lives in Supabase now.
+        const displayName = label + ' ' + padded;
         const fileUrl = 'IELTS listening.html?sbmock=' + row.id;
         const plainName = label + ' ' + padded;
         const idx = ieltsListeningTests.findIndex(t =>
