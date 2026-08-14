@@ -27,13 +27,25 @@ Deno.serve(async (req) => {
 
   const sb = createClient(SB_URL, SB_KEY, { auth: { persistSession: false } });
   const { data, error } = await sb.storage.from('reports').download(p);
+  let html: string;
   if (error || !data) {
-    return new Response('Report not found — it may have been cleared.', {
-      status: 404,
-      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
-    });
+    // Retention deleted it from Supabase — serve the permanent GCS archive copy.
+    const arch = await fetch('https://storage.googleapis.com/mockstream-report-archive/' + encodeURI(p));
+    if (!arch.ok) {
+      return new Response('Report not found — it may have been cleared.', {
+        status: 404,
+        headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+      });
+    }
+    html = await arch.text();
+  } else {
+    html = await data.text();
   }
-  const html = await data.text();
+  // Speaking reports embed reports-bucket audio URLs; retention deletes the
+  // audio before the html. Inject a capture-phase error handler that retries
+  // any failed <audio> from the permanent GCS archive.
+  const AUDIO_FALLBACK = `<script>(function(){var A='https://storage.googleapis.com/mockstream-report-archive/';var P='/storage/v1/object/public/reports/';function swap(el){var s=el.currentSrc||el.src||'';if(s.indexOf(P)<0||el.dataset.archRetry)return;el.dataset.archRetry='1';el.src=A+s.split(P)[1];if(el.load)el.load();}document.addEventListener('error',function(e){var t=e.target;if(!t||!t.tagName)return;if(t.tagName==='AUDIO')swap(t);else if(t.tagName==='SOURCE'&&t.parentElement&&t.parentElement.tagName==='AUDIO')swap(t.parentElement);},true);})();</script>`;
+  html = html.includes('</body>') ? html.replace('</body>', AUDIO_FALLBACK + '</body>') : html + AUDIO_FALLBACK;
   return new Response(html, {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',

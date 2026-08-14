@@ -1488,7 +1488,7 @@
       iframe.src = 'about:blank';
       showLoader();
 
-      var fileUrl = SUPABASE_URL + '/storage/v1/object/public/reports/' + result.report_path;
+      _resolveReportUrl(result.report_path).then(function (fileUrl) {
 
       if (result.report_path.endsWith('.zip')) {
         loadZipReport(fileUrl, result);
@@ -1499,6 +1499,8 @@
           .then(function (blob) {
             var htmlBlob = new Blob([blob], { type: 'text/html' });
             return htmlBlob.text().then(function (text) {
+              text = _injectArchiveAudioFallback(text);
+              htmlBlob = new Blob([text], { type: 'text/html' });
               var skill = (result.skill || '').toLowerCase();
               if (skill === 'speaking' || skill === 'writing') {
                 showContent(extractCleanView(text, skill, null));
@@ -1514,7 +1516,41 @@
             iframe.srcdoc = '<p style="padding:40px;text-align:center;color:#888;">Failed to load report.</p>';
           });
       }
+
+      });
     }
+
+    // Old reports move to a permanent GCS archive after Supabase retention.
+    var REPORT_ARCHIVE_BASE = 'https://storage.googleapis.com/mockstream-report-archive/';
+    function _resolveReportUrl(reportPath) {
+      var primary = SUPABASE_URL + '/storage/v1/object/public/reports/' + reportPath;
+      return fetch(primary, { method: 'HEAD' })
+        .then(function (head) { return head.ok ? primary : REPORT_ARCHIVE_BASE + reportPath; })
+        .catch(function () { return REPORT_ARCHIVE_BASE + reportPath; });
+    }
+
+    // Speaking reports embed reports-bucket audio URLs; retention deletes the
+    // audio before the html. Retry failed <audio> from the archive.
+    var _ARCHIVE_AUDIO_SCRIPT = "<script>(function(){var A='https://storage.googleapis.com/mockstream-report-archive/';var P='/storage/v1/object/public/reports/';function swap(el){var s=el.currentSrc||el.src||'';if(s.indexOf(P)<0||el.dataset.archRetry)return;el.dataset.archRetry='1';el.src=A+s.split(P)[1];if(el.load)el.load();}document.addEventListener('error',function(e){var t=e.target;if(!t||!t.tagName)return;if(t.tagName==='AUDIO')swap(t);else if(t.tagName==='SOURCE'&&t.parentElement&&t.parentElement.tagName==='AUDIO')swap(t.parentElement);},true);})();<\/script>";
+    function _injectArchiveAudioFallback(html) {
+      if (!html || html.indexOf('archRetry') !== -1) return html;
+      return html.indexOf('</body>') !== -1 ? html.replace('</body>', _ARCHIVE_AUDIO_SCRIPT + '</body>') : html + _ARCHIVE_AUDIO_SCRIPT;
+    }
+    // Same fallback for audio rendered directly into this page (extracted
+    // speaking view in #viewerContent).
+    document.addEventListener('error', function (e) {
+      var t = e.target;
+      if (!t || !t.tagName) return;
+      var el = t.tagName === 'AUDIO' ? t : (t.tagName === 'SOURCE' && t.parentElement && t.parentElement.tagName === 'AUDIO' ? t.parentElement : null);
+      if (!el) return;
+      var s = el.currentSrc || el.src || '';
+      var P = '/storage/v1/object/public/reports/';
+      if (s.indexOf(P) < 0 || el.dataset.archRetry) return;
+      el.dataset.archRetry = '1';
+      var srcEl = el.querySelector('source');
+      if (srcEl) srcEl.src = REPORT_ARCHIVE_BASE + s.split(P)[1]; else el.src = REPORT_ARCHIVE_BASE + s.split(P)[1];
+      if (el.load) el.load();
+    }, true);
 
     function loadZipReport(fileUrl, result) {
       var iframe = document.getElementById('viewerIframe');

@@ -1052,8 +1052,6 @@
       overlay.classList.add('active');
       _ruShowLoading();
 
-      var url = 'https://zknyukkbtbcqgvkgjktb.supabase.co/storage/v1/object/public/reports/' + reportPath;
-
       if (reportPath.toLowerCase().endsWith('.zip')) {
         _ruProgress(15);
         var loadJSZip = typeof JSZip !== 'undefined'
@@ -1067,7 +1065,7 @@
             });
 
         loadJSZip
-          .then(function() { _ruProgress(25); return fetch(url); })
+          .then(function() { _ruProgress(25); return _ruFetchReport(reportPath); })
           .then(function(r) { _ruProgress(50); return r.arrayBuffer(); })
           .then(function(buf) { _ruProgress(65); return JSZip.loadAsync(buf); })
           .then(function(zip) {
@@ -1093,10 +1091,11 @@
           });
       } else {
         _ruProgress(20);
-        fetch(url)
+        _ruFetchReport(reportPath)
           .then(function(r) { _ruProgress(60); return r.text(); })
           .then(function(html) {
             _ruProgress(90);
+            html = _ruInjectArchiveAudio(html);
             var blob = new Blob([html], { type: 'text/html' });
             iframe.src = URL.createObjectURL(blob);
             title.textContent = reportPath.split('/').pop();
@@ -1108,6 +1107,28 @@
             _ruHideLoading();
           });
       }
+    }
+
+    // Old reports move to a permanent GCS archive after Supabase retention;
+    // try live storage first, then the archive.
+    function _ruFetchReport(reportPath) {
+      var primary = 'https://zknyukkbtbcqgvkgjktb.supabase.co/storage/v1/object/public/reports/' + reportPath;
+      var archive = 'https://storage.googleapis.com/mockstream-report-archive/' + reportPath;
+      return fetch(primary).then(function (r) {
+        if (r.ok) return r;
+        return fetch(archive).then(function (a) {
+          if (!a.ok) throw new Error('report missing: ' + a.status);
+          return a;
+        });
+      }, function () { return fetch(archive); });
+    }
+
+    // Speaking reports embed reports-bucket audio URLs; retention deletes the
+    // audio before the html. Retry failed <audio> from the archive.
+    function _ruInjectArchiveAudio(html) {
+      if (!html || html.indexOf('archRetry') !== -1) return html;
+      var s = "<script>(function(){var A='https://storage.googleapis.com/mockstream-report-archive/';var P='/storage/v1/object/public/reports/';function swap(el){var s=el.currentSrc||el.src||'';if(s.indexOf(P)<0||el.dataset.archRetry)return;el.dataset.archRetry='1';el.src=A+s.split(P)[1];if(el.load)el.load();}document.addEventListener('error',function(e){var t=e.target;if(!t||!t.tagName)return;if(t.tagName==='AUDIO')swap(t);else if(t.tagName==='SOURCE'&&t.parentElement&&t.parentElement.tagName==='AUDIO')swap(t.parentElement);},true);})();<\/script>";
+      return html.indexOf('</body>') !== -1 ? html.replace('</body>', s + '</body>') : html + s;
     }
 
     function _closeRuReport() {
