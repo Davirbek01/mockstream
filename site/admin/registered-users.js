@@ -1095,6 +1095,7 @@
           .then(function(r) { _ruProgress(60); return r.text(); })
           .then(function(html) {
             _ruProgress(90);
+            html = _ruInjectArchiveAudio(html);
             var blob = new Blob([html], { type: 'text/html' });
             iframe.src = URL.createObjectURL(blob);
             title.textContent = reportPath.split('/').pop();
@@ -1120,6 +1121,14 @@
           return a;
         });
       }, function () { return fetch(archive); });
+    }
+
+    // Speaking reports embed reports-bucket audio URLs; retention deletes the
+    // audio before the html. Retry failed <audio> from the archive.
+    function _ruInjectArchiveAudio(html) {
+      if (!html || html.indexOf('archRetry') !== -1) return html;
+      var s = "<script>(function(){var A='https://storage.googleapis.com/mockstream-report-archive/';var P='/storage/v1/object/public/reports/';function swap(el){var s=el.currentSrc||el.src||'';if(s.indexOf(P)<0||el.dataset.archRetry)return;el.dataset.archRetry='1';el.src=A+s.split(P)[1];if(el.load)el.load();}document.addEventListener('error',function(e){var t=e.target;if(!t||!t.tagName)return;if(t.tagName==='AUDIO')swap(t);else if(t.tagName==='SOURCE'&&t.parentElement&&t.parentElement.tagName==='AUDIO')swap(t.parentElement);},true);})();<\/script>";
+      return html.indexOf('</body>') !== -1 ? html.replace('</body>', s + '</body>') : html + s;
     }
 
     function _closeRuReport() {

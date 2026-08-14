@@ -380,7 +380,7 @@
           fetch(fileUrl)
             .then(function (resp) { return resp.text(); })
             .then(function (htmlText) {
-              loadIframeContent(iframe, htmlText);
+              loadIframeContent(iframe, _injectArchiveAudioFallback(htmlText));
               iframe.onload = function () {
                 showReportContainer();
               };
@@ -418,6 +418,14 @@
         if (head.ok) return primary;
       } catch (e) {}
       return REPORT_ARCHIVE_BASE + reportPath;
+    }
+
+    // Speaking reports embed reports-bucket audio URLs; retention deletes the
+    // audio before the html. Retry failed <audio> from the archive.
+    var _ARCHIVE_AUDIO_SCRIPT = "<script>(function(){var A='https://storage.googleapis.com/mockstream-report-archive/';var P='/storage/v1/object/public/reports/';function swap(el){var s=el.currentSrc||el.src||'';if(s.indexOf(P)<0||el.dataset.archRetry)return;el.dataset.archRetry='1';el.src=A+s.split(P)[1];if(el.load)el.load();}document.addEventListener('error',function(e){var t=e.target;if(!t||!t.tagName)return;if(t.tagName==='AUDIO')swap(t);else if(t.tagName==='SOURCE'&&t.parentElement&&t.parentElement.tagName==='AUDIO')swap(t.parentElement);},true);})();<\/script>";
+    function _injectArchiveAudioFallback(html) {
+      if (!html || html.indexOf('archRetry') !== -1) return html;
+      return html.indexOf('</body>') !== -1 ? html.replace('</body>', _ARCHIVE_AUDIO_SCRIPT + '</body>') : html + _ARCHIVE_AUDIO_SCRIPT;
     }
 
     function showReportContainer() {
