@@ -1052,8 +1052,6 @@
       overlay.classList.add('active');
       _ruShowLoading();
 
-      var url = 'https://zknyukkbtbcqgvkgjktb.supabase.co/storage/v1/object/public/reports/' + reportPath;
-
       if (reportPath.toLowerCase().endsWith('.zip')) {
         _ruProgress(15);
         var loadJSZip = typeof JSZip !== 'undefined'
@@ -1067,7 +1065,7 @@
             });
 
         loadJSZip
-          .then(function() { _ruProgress(25); return fetch(url); })
+          .then(function() { _ruProgress(25); return _ruFetchReport(reportPath); })
           .then(function(r) { _ruProgress(50); return r.arrayBuffer(); })
           .then(function(buf) { _ruProgress(65); return JSZip.loadAsync(buf); })
           .then(function(zip) {
@@ -1093,7 +1091,7 @@
           });
       } else {
         _ruProgress(20);
-        fetch(url)
+        _ruFetchReport(reportPath)
           .then(function(r) { _ruProgress(60); return r.text(); })
           .then(function(html) {
             _ruProgress(90);
@@ -1108,6 +1106,20 @@
             _ruHideLoading();
           });
       }
+    }
+
+    // Old reports move to a permanent GCS archive after Supabase retention;
+    // try live storage first, then the archive.
+    function _ruFetchReport(reportPath) {
+      var primary = 'https://zknyukkbtbcqgvkgjktb.supabase.co/storage/v1/object/public/reports/' + reportPath;
+      var archive = 'https://storage.googleapis.com/mockstream-report-archive/' + reportPath;
+      return fetch(primary).then(function (r) {
+        if (r.ok) return r;
+        return fetch(archive).then(function (a) {
+          if (!a.ok) throw new Error('report missing: ' + a.status);
+          return a;
+        });
+      }, function () { return fetch(archive); });
     }
 
     function _closeRuReport() {

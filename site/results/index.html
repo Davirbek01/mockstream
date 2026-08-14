@@ -4436,7 +4436,7 @@
 
       // Load the report from Supabase Storage using report_path
       var reportPath = result ? result.report_path : (resultId + '.html');
-      var reportUrl = SUPABASE_URL + '/storage/v1/object/public/reports/' + reportPath;
+      _resolveReportUrl(reportPath).then(function (reportUrl) {
 
       if (reportPath && reportPath.endsWith('.zip')) {
         // ZIP files (speaking, full-mock) — extract and show in iframe with tabs
@@ -4481,6 +4481,17 @@
           // Fallback: try direct URL
           iframe.src = reportUrl;
         });
+
+      });
+    }
+
+    // Old reports move to a permanent GCS archive after Supabase retention.
+    var REPORT_ARCHIVE_BASE = 'https://storage.googleapis.com/mockstream-report-archive/';
+    function _resolveReportUrl(reportPath) {
+      var primary = SUPABASE_URL + '/storage/v1/object/public/reports/' + reportPath;
+      return fetch(primary, { method: 'HEAD' })
+        .then(function (head) { return head.ok ? primary : REPORT_ARCHIVE_BASE + reportPath; })
+        .catch(function () { return REPORT_ARCHIVE_BASE + reportPath; });
     }
 
     // ===== ZIP VIEWER (full-mock + speaking) =====

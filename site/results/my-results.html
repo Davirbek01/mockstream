@@ -1488,7 +1488,7 @@
       iframe.src = 'about:blank';
       showLoader();
 
-      var fileUrl = SUPABASE_URL + '/storage/v1/object/public/reports/' + result.report_path;
+      _resolveReportUrl(result.report_path).then(function (fileUrl) {
 
       if (result.report_path.endsWith('.zip')) {
         loadZipReport(fileUrl, result);
@@ -1514,6 +1514,17 @@
             iframe.srcdoc = '<p style="padding:40px;text-align:center;color:#888;">Failed to load report.</p>';
           });
       }
+
+      });
+    }
+
+    // Old reports move to a permanent GCS archive after Supabase retention.
+    var REPORT_ARCHIVE_BASE = 'https://storage.googleapis.com/mockstream-report-archive/';
+    function _resolveReportUrl(reportPath) {
+      var primary = SUPABASE_URL + '/storage/v1/object/public/reports/' + reportPath;
+      return fetch(primary, { method: 'HEAD' })
+        .then(function (head) { return head.ok ? primary : REPORT_ARCHIVE_BASE + reportPath; })
+        .catch(function () { return REPORT_ARCHIVE_BASE + reportPath; });
     }
 
     function loadZipReport(fileUrl, result) {

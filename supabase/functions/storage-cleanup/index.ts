@@ -110,12 +110,24 @@ Deno.serve(async (req) => {
     if (!error) deleted += Array.isArray(data) ? data.length : batch.length;
   }
 
-  // Null report_path for deleted top-level docs (center/file.html|zip) so the
-  // dashboard stops linking to a gone file. (No-op for already-orphaned rows.)
+  // Deleted docs that made it into the permanent GCS archive keep their
+  // report_path — the viewers fall back to the archive. Null only paths that
+  // were never archived, so no row ever points at a file that exists nowhere.
+  const ARCHIVE_BASE = 'https://storage.googleapis.com/mockstream-report-archive/';
   const docPaths = toDelete.filter((p) => p.split('/').length === 2 && /\.(html|zip)$/i.test(p));
-  for (let i = 0; i < docPaths.length; i += 100) {
-    await sb.from('results').update({ report_path: null }).in('report_path', docPaths.slice(i, i + 100));
+  const notArchived: string[] = [];
+  for (let i = 0; i < docPaths.length; i += 20) {
+    const checks = docPaths.slice(i, i + 20).map(async (p) => {
+      try {
+        const h = await fetch(ARCHIVE_BASE + encodeURI(p), { method: 'HEAD' });
+        if (!h.ok) notArchived.push(p);
+      } catch { notArchived.push(p); }
+    });
+    await Promise.all(checks);
+  }
+  for (let i = 0; i < notArchived.length; i += 100) {
+    await sb.from('results').update({ report_path: null }).in('report_path', notArchived.slice(i, i + 100));
   }
 
-  return json({ ok: true, days, delAudio, delReports, deleted, html, zip, m4a });
+  return json({ ok: true, days, delAudio, delReports, deleted, html, zip, m4a, archivedKept: docPaths.length - notArchived.length, unarchivedNulled: notArchived.length });
 });

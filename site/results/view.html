@@ -358,13 +358,18 @@
           result = rows[0];
         }
         var reportPath = result.report_path;
+        if (!reportPath) {
+          showError('Report Expired', 'This report was removed before the permanent archive existed, so the file is no longer available.');
+          return;
+        }
 
         // Update page title
         var titleParts = [result.student_name, (result.exam_type || '').toUpperCase(), result.skill].filter(Boolean);
         if (titleParts.length) document.title = titleParts.join(' — ') + ' | Mock Stream';
 
-        // 2. Build the public storage URL
-        var fileUrl = SUPABASE_URL + '/storage/v1/object/public/reports/' + reportPath;
+        // 2. Resolve the file URL: Supabase storage while the file is within
+        // retention, then the permanent GCS archive after cleanup removes it.
+        var fileUrl = await _resolveReportUrl(reportPath);
 
         // 3. If ZIP, extract and render the HTML report inline; if HTML, display in iframe
         if (reportPath.endsWith('.zip')) {
@@ -403,6 +408,18 @@
     })();
 
     // ===== HELPERS =====
+    // Old reports are copied nightly to a permanent GCS archive before the
+    // storage-cleanup retention window deletes them from Supabase.
+    var REPORT_ARCHIVE_BASE = 'https://storage.googleapis.com/mockstream-report-archive/';
+    async function _resolveReportUrl(reportPath) {
+      var primary = SUPABASE_URL + '/storage/v1/object/public/reports/' + reportPath;
+      try {
+        var head = await fetch(primary, { method: 'HEAD' });
+        if (head.ok) return primary;
+      } catch (e) {}
+      return REPORT_ARCHIVE_BASE + reportPath;
+    }
+
     function showReportContainer() {
       document.getElementById('loadingScreen').style.display = 'none';
       document.getElementById('reportContainer').style.display = 'flex';
