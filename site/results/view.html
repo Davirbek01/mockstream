@@ -375,12 +375,24 @@
         //    review page (score strip + passage evidence) fresh on every open.
         //    ZIP → extract inline. Plain .html → the stored report as before.
         if (reportPath.endsWith('.json')) {
+          // Fetch the rendered page and inject it the same way stored reports
+          // are loaded (blob/srcdoc handling that in-app browsers need) —
+          // pointing the iframe straight at the cross-origin function URL made
+          // some browsers show the markup as plain text.
           var iframeJ = document.getElementById('reportFrame');
-          iframeJ.src = SUPABASE_URL + '/functions/v1/report?p=' + encodeURIComponent(reportPath);
-          iframeJ.onload = function () { showReportContainer(); };
-          setTimeout(function () {
-            if (document.getElementById('reportContainer').style.display !== 'flex') showReportContainer();
-          }, 8000);
+          fetch(SUPABASE_URL + '/functions/v1/report?p=' + encodeURIComponent(reportPath))
+            .then(function (resp) { return resp.text(); })
+            .then(function (htmlText) {
+              loadIframeContent(iframeJ, htmlText);
+              iframeJ.onload = function () { showReportContainer(); };
+              setTimeout(function () {
+                if (document.getElementById('reportContainer').style.display !== 'flex') showReportContainer();
+              }, 8000);
+            })
+            .catch(function (err) {
+              console.error('[Viewer] Payload render failed:', err);
+              showError('Connection Error', 'Could not load the result. Please try again later.');
+            });
         } else if (reportPath.endsWith('.zip')) {
           await handleZipReport(fileUrl, result);
         } else {
