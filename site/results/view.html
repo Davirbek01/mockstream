@@ -371,8 +371,17 @@
         // retention, then the permanent GCS archive after cleanup removes it.
         var fileUrl = await _resolveReportUrl(reportPath);
 
-        // 3. If ZIP, extract and render the HTML report inline; if HTML, display in iframe
-        if (reportPath.endsWith('.zip')) {
+        // 3. Attempt payload (.json) → the `report` Edge Function renders the
+        //    review page (score strip + passage evidence) fresh on every open.
+        //    ZIP → extract inline. Plain .html → the stored report as before.
+        if (reportPath.endsWith('.json')) {
+          var iframeJ = document.getElementById('reportFrame');
+          iframeJ.src = SUPABASE_URL + '/functions/v1/report?p=' + encodeURIComponent(reportPath);
+          iframeJ.onload = function () { showReportContainer(); };
+          setTimeout(function () {
+            if (document.getElementById('reportContainer').style.display !== 'flex') showReportContainer();
+          }, 8000);
+        } else if (reportPath.endsWith('.zip')) {
           await handleZipReport(fileUrl, result);
         } else {
           // HTML report — fetch and load into iframe

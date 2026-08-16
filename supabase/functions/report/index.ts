@@ -10,6 +10,8 @@
 // Deploy with --no-verify-jwt (report links are public, same as the bucket was).
 import 'jsr:@supabase/functions-js/edge-runtime.d.ts';
 import { createClient } from 'jsr:@supabase/supabase-js@2';
+// @ts-ignore - plain ESM module shared with the local prototype harness
+import { renderReadingReview } from './renderReadingReview.js';
 
 const SB_URL = Deno.env.get('SUPABASE_URL')!;
 const SB_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
@@ -20,10 +22,12 @@ Deno.serve(async (req) => {
   }
   const url = new URL(req.url);
   const p = (url.searchParams.get('p') || '').trim();
-  // Only serve report html: "<center>/<uuid>.html" — blocks traversal/other files.
-  if (!/^[a-z0-9_-]+\/[0-9a-fA-F-]+\.html$/.test(p)) {
+  // Serve "<center>/<uuid>.html" (legacy stored reports) or "<center>/<uuid>.json"
+  // (attempt payloads rendered on the fly). Anything else is blocked — no traversal.
+  if (!/^[a-z0-9_-]+\/[0-9a-fA-F-]+\.(html|json)$/.test(p)) {
     return new Response('Not found', { status: 404, headers: { 'Content-Type': 'text/plain' } });
   }
+  const isPayload = p.endsWith('.json');
 
   const sb = createClient(SB_URL, SB_KEY, { auth: { persistSession: false } });
   const { data, error } = await sb.storage.from('reports').download(p);
@@ -40,6 +44,19 @@ Deno.serve(async (req) => {
     html = await arch.text();
   } else {
     html = await data.text();
+  }
+
+  // Attempt payload → render the review page fresh on every open, so a design
+  // change here improves every past report at once.
+  if (isPayload) {
+    try {
+      html = renderReadingReview(JSON.parse(html));
+    } catch (e) {
+      return new Response('Could not render this report: ' + (e as Error).message, {
+        status: 500,
+        headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+      });
+    }
   }
   // Speaking reports embed reports-bucket audio URLs; retention deletes the
   // audio before the html. Inject a capture-phase error handler that retries
