@@ -282,8 +282,15 @@
       //    When opts.file is null/undefined (e.g. Human Expert request sent
       //    BEFORE the student runs AI Score), we auto-generate a minimal
       //    placeholder HTML so the admin view link is still valid.
-      var ext = (opts.fileType === 'zip') ? '.zip' : '.html';
-      var contentType = (opts.fileType === 'zip') ? 'application/zip' : 'text/html; charset=utf-8';
+      // 'payload' stores the attempt as JSON and lets the `report` Edge
+      // Function render the review page on every open (score strip, passage
+      // evidence, verdicts) — the same report the apps now save, so a student
+      // sees one format everywhere. 'zip'/'html' keep the legacy paths.
+      var isPayload = (opts.fileType === 'payload');
+      var ext = (opts.fileType === 'zip') ? '.zip' : (isPayload ? '.json' : '.html');
+      var contentType = (opts.fileType === 'zip')
+        ? 'application/zip'
+        : (isPayload ? 'application/json' : 'text/html; charset=utf-8');
       var storagePath = (cfg.testIdentifier || 'unknown') + '/' + id + ext;
 
       var fileToUpload = opts.file;
