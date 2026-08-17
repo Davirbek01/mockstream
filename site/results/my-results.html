@@ -1493,8 +1493,15 @@
       if (result.report_path.endsWith('.zip')) {
         loadZipReport(fileUrl, result);
       } else {
+        // A stored PAYLOAD (.json — a reading attempt or a full-mock manifest)
+        // is rendered by the `report` function on every open; storage holds the
+        // raw JSON, so fetching that directly would show the data, not a report.
+        var _isPayload = result.report_path.endsWith('.json');
+        var _fetchUrl = _isPayload
+          ? SUPABASE_URL + '/functions/v1/report?p=' + encodeURIComponent(result.report_path)
+          : fileUrl;
         // Single HTML file
-        fetch(fileUrl)
+        fetch(_fetchUrl)
           .then(function (r) { return r.blob(); })
           .then(function (blob) {
             var htmlBlob = new Blob([blob], { type: 'text/html' });
@@ -1502,7 +1509,7 @@
               text = _injectArchiveAudioFallback(text);
               htmlBlob = new Blob([text], { type: 'text/html' });
               var skill = (result.skill || '').toLowerCase();
-              if (skill === 'speaking' || skill === 'writing') {
+              if (!_isPayload && (skill === 'speaking' || skill === 'writing')) {
                 showContent(extractCleanView(text, skill, null));
               } else {
                 showIframe();

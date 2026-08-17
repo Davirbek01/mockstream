@@ -22,14 +22,18 @@
 // ============================================================================
 import 'jsr:@supabase/functions-js/edge-runtime.d.ts';
 import { createClient } from 'jsr:@supabase/supabase-js@2';
-// @ts-ignore - plain ESM module shared with the report function + local harness
-import { renderReadingReview } from '../report/renderReadingReview.js';
+// @ts-ignore - plain ESM modules shared with the report function + local harness
+import { renderStored } from '../report/renderStored.js';
+// @ts-ignore - shared with the report function
+import { withAudioFallback } from '../report/audioFallback.js';
 
 const SB_URL = Deno.env.get('SUPABASE_URL')!;
 const SB_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-// .json = attempt payload (rendered here); .html = a stored report (writing,
-// legacy reading…) which is encrypted as-is. Zips are not supported: their audio
-// must stay playable, so speaking keeps the plain bundle for now.
+// .json = attempt payload (rendered here); .html = a stored report (speaking,
+// writing, full mock…) encrypted as it stands. Reports that play audio keep
+// pointing at the hosted files — the archive-retry script travels INSIDE the
+// ciphertext, so a recording still plays long after retention clears Supabase.
+// Zips are never locked: encrypting a bundle would leave the audio unreadable.
 const PATH_RE = /^[a-z0-9_-]+\/[0-9a-fA-F-]+\.(json|html)$/;
 
 const cors = {
@@ -179,20 +183,12 @@ Deno.serve(async (req) => {
   const p = (url.searchParams.get('p') || '').trim();
   if (!PATH_RE.test(p)) return new Response('Not found', { status: 404, headers: cors });
 
-  const { data: file, error } = await sb.storage.from('reports').download(p);
-  if (error || !file) return new Response('Report not found', { status: 404, headers: cors });
-
-  let html: string;
-  const raw = await file.text();
-  if (p.endsWith('.json')) {
-    try {
-      html = renderReadingReview(JSON.parse(raw));
-    } catch (e) {
-      return new Response('Render failed: ' + (e as Error).message, { status: 500, headers: cors });
-    }
-  } else {
-    html = raw; // already a finished report — lock it as it stands
-  }
+  const out = await renderStored(sb, p);
+  if (out.error === 'not_found') return new Response('Report not found', { status: 404, headers: cors });
+  if (out.error) return new Response('Render failed: ' + out.error, { status: 500, headers: cors });
+  // Speaking / full-mock reports reference hosted audio; the retry script must
+  // be inside the ciphertext because unlocking replaces the whole document.
+  const html = withAudioFallback(out.html as string);
 
   // One key per report, reused if this runs twice for the same attempt.
   const existing = await sb.from('report_keys').select('key_b64').eq('report_path', p).maybeSingle();

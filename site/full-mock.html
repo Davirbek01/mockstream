@@ -28,6 +28,8 @@
     <script src="center-id.js"></script>
     <script src="site-config/site-config.js"></script>
     <script src="supabase-send.js"></script>
+    <!-- fetchLockedReportFile: the encrypted Telegram copy -->
+    <script src="attempt-payload.js"></script>
     <script src="scoring-prompts.js" onerror="(function(el){var n=window.__spTries=(window.__spTries||0)+1;if(n>4)return;setTimeout(function(){var s=document.createElement('script');s.src='scoring-prompts.js?retry='+n;s.onerror=el.onerror;document.head.appendChild(s);},300*n);})(this)"></script>
     <script src="session-recovery.js"></script>
     <script>
@@ -10293,13 +10295,13 @@ ${_sSpec}
                     zip.file('02_Reading_Report.html', readingHTML);
 
                     // 3. WRITING REPORT HTML
+                    let fullMockWritingHTML;
                     if (writingResult) {
-                        const writingHTML = generateWritingReportHTML(candidateName, reportDateStr, timeStr, writingResult);
-                        zip.file('03_Writing_Report.html', writingHTML);
+                        fullMockWritingHTML = generateWritingReportHTML(candidateName, reportDateStr, timeStr, writingResult);
                     } else {
-                        const writingHTML = generateRegularWritingReportHTML(candidateName, reportDateStr, timeStr);
-                        zip.file('03_Writing_Report.html', writingHTML);
+                        fullMockWritingHTML = generateRegularWritingReportHTML(candidateName, reportDateStr, timeStr);
                     }
+                    zip.file('03_Writing_Report.html', fullMockWritingHTML);
 
                     // 4. CERTIFICATE PDF
                     try {
@@ -10316,20 +10318,20 @@ ${_sSpec}
                     const speakingZip = new JSZip();
 
                     // Add questions HTML to speaking zip (always — premium has AI analysis, regular has questions for teacher)
-                    if (speakingResult) {
-                        const speakingQuestionsHTML = generateSpeakingQuestionsHTML(candidateName, reportDateStr, timeStr, speakingResult);
-                        speakingZip.file('Speaking_Report.html', speakingQuestionsHTML);
-                    } else {
-                        const speakingQuestionsHTML = generateRegularSpeakingReportHTML(candidateName, reportDateStr, timeStr);
-                        speakingZip.file('Speaking_Report.html', speakingQuestionsHTML);
-                    }
+                    const fullMockSpeakingHTML = speakingResult
+                        ? generateSpeakingQuestionsHTML(candidateName, reportDateStr, timeStr, speakingResult)
+                        : generateRegularSpeakingReportHTML(candidateName, reportDateStr, timeStr);
+                    speakingZip.file('Speaking_Report.html', fullMockSpeakingHTML);
 
-                    // Add audio recordings
+                    // Add audio recordings (also uploaded beside the manifest,
+                    // so the stored report plays without any bundle).
+                    const fullMockAudio = {};
                     for (let i = 1; i <= 8; i++) {
                         try {
                             const blob = await getSpeakingAudio(`q${i}`);
                             if (blob) {
                                 speakingZip.file(`answer_q${i}.webm`, blob);
+                                fullMockAudio[i] = blob;
                             }
                         } catch (e) {
                             console.log(`[Telegram] No audio for Q${i}`);
@@ -10404,12 +10406,39 @@ ${_sSpec}
                           score: overallScore + '/75',
                           level: overallLevel,
                           mockNumber: 'Full Mock',
-                          file: mainZipBlob,
-                          fileType: 'zip',
+                          file: null,
+                          fileType: 'payload',
+                          // Four reports stored side by side + a manifest: the
+                          // View Report link and the channel file then show the
+                          // SAME tabbed page, and the speaking answers play from
+                          // storage (then from the permanent GCS archive).
+                          fullMock: {
+                            exam: 'cefr',
+                            source: 'Website',
+                            overall: { label: overallScore + '/75 · ' + overallLevel, note: hasAiScores ? '' : 'Regular entry — no AI scoring' },
+                            skills: [
+                              { skill: 'listening', label: 'Listening', score: lScore + '/75', mock: lMock, html: listeningHTML },
+                              { skill: 'reading', label: 'Reading', score: rScore + '/75', mock: rMock, html: readingHTML },
+                              { skill: 'writing', label: 'Writing', score: hasAiScores ? wScore + '/75' : 'N/A', mock: wMock, html: fullMockWritingHTML },
+                              { skill: 'speaking', label: 'Speaking', score: hasAiScores ? sScore + '/75' : 'N/A', mock: sMock, html: fullMockSpeakingHTML }
+                            ],
+                            audio: fullMockAudio
+                          },
                           caption: caption,
                           metadata: { l: lScore, r: rScore, w: wScore, s: sScore, hasAi: hasAiScores }
                         });
-                        if (sbResult) finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
+                        if (sbResult) {
+                          finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
+                          if (!window.fetchLockedReportFile) console.warn('[locked report] attempt-payload.js not loaded');
+                if (window.fetchLockedReportFile) {
+                            var _lockedFM = await window.fetchLockedReportFile(
+                              (window.SITE_CONFIG || {}).testIdentifier, sbResult.id,
+                              'FullMock_' + safeName + '_' + dateTag, 'json');
+                            if (_lockedFM) { window._tgFile = _lockedFM;
+                              console.log('🔒 Channel copy: encrypted report —', _lockedFM.name); }
+                            else console.warn('[locked report] locker unavailable — falling back to the legacy zip');
+                          }
+                        }
                       } catch (e) { console.warn('[Supabase] skipped:', e); }
                     }
 
@@ -10420,7 +10449,11 @@ ${_sSpec}
                     // /send-full-mock removed: it was double-posting to the
                     // general channel.
                     if (window.sendToRoutingBackend) {
-                        await window.sendToRoutingBackend({ skill: 'full-mock', caption: finalCaption, file: new File([mainZipBlob], 'FullMock_' + safeName + '_' + dateTag + '.zip', { type: 'application/zip' }) });
+                        await window.sendToRoutingBackend({
+                            skill: 'full-mock', caption: finalCaption,
+                            file: window._tgFile || new File([mainZipBlob], 'FullMock_' + safeName + '_' + dateTag + '.zip', { type: 'application/zip' }),
+                        });
+                        window._tgFile = null;
                     }
                     telegramSentSuccessfully = true;
                     console.log('[Telegram] ✅ Full mock results sent successfully');
