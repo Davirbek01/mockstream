@@ -18,6 +18,7 @@
   <script src="code-persistence.js" defer></script>
   <script src="human-expert.js"></script>
   <script src="supabase-send.js"></script>
+  <script src="attempt-payload.js"></script>
   <script src="scoring-prompts.js" onerror="(function(el){var n=window.__spTries=(window.__spTries||0)+1;if(n>4)return;setTimeout(function(){var s=document.createElement('script');s.src='scoring-prompts.js?retry='+n;s.onerror=el.onerror;document.head.appendChild(s);},300*n);})(this)"></script>
   <script src="session-recovery.js"></script>
   <!-- Redirect to index on page reload/refresh -->
@@ -14275,8 +14276,21 @@ ${_wReportSpec}`;
         const raw = await resp.text().catch(() => '');
         throw new Error(`HTTP ${resp.status} ${resp.statusText}${raw ? ' — ' + raw.slice(0, 300) : ''}`);
       }
+      // Writing reports carry the student's essay and the examiner's marks, so
+      // the channel copy is encrypted like the View Report link: report-locked
+      // returns the same report behind a live access-code check.
+      var _wFile = new File([docBlob], filename, { type: 'text/html' });
+      if (sbResult && sbResult.id && window.fetchLockedReportFile) {
+        var _wLocked = await window.fetchLockedReportFile(
+          (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream',
+          sbResult.id,
+          filename.replace(/\.html?$/i, ''),
+          'html',
+        );
+        if (_wLocked) _wFile = _wLocked;
+      }
       if (window.sendToRoutingBackend) {
-        await window.sendToRoutingBackend({ skill: 'writing', caption: finalCaption, file: new File([docBlob], filename, { type: 'text/html' }) });
+        await window.sendToRoutingBackend({ skill: 'writing', caption: finalCaption, file: _wFile });
       }
       if (window.msProgress) window.msProgress.success('✅ Results saved successfully!');
       return true;
@@ -14509,9 +14523,21 @@ ${_wReportSpec}`;
           await fetch(ADMIN_TELEGRAM_ENDPOINT, { method: 'POST', body: fd });
           console.log('\u2705 Practice writing results sent to Telegram');
 
+          // Practice drills carry the same essay + marks, so the channel copy
+          // is encrypted exactly like a full mock's.
+          var _wpFile = new File([docBlob], filename, { type: 'text/html' });
+          if (sbResult && sbResult.id && window.fetchLockedReportFile) {
+            var _wpLocked = await window.fetchLockedReportFile(
+              (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream',
+              sbResult.id,
+              filename.replace(/\.html?$/i, ''),
+              'html',
+            );
+            if (_wpLocked) _wpFile = _wpLocked;
+          }
           // Send to routing backend
           if (window.sendToRoutingBackend) {
-            await window.sendToRoutingBackend({ skill: 'writing', caption: finalCaption, file: new File([docBlob], filename, { type: 'text/html' }) });
+            await window.sendToRoutingBackend({ skill: 'writing', caption: finalCaption, file: _wpFile });
           }
           if (window.msProgress) window.msProgress.success('✅ Results saved successfully!');
         } catch(err) {

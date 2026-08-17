@@ -240,11 +240,13 @@
    * @param centre  window.SITE_CONFIG.testIdentifier
    * @param id      the id sendToSupabase returned
    * @param name    base filename, e.g. 'Davirbek_IELTS_Reading_Mock02'
+   * @param ext     'json' (attempt payload, default) or 'html' (a stored report
+   *                such as writing — encrypted as it stands)
    */
-  async function fetchLockedReportFile(centre, id, name) {
+  async function fetchLockedReportFile(centre, id, name, ext) {
     try {
       var SB = (window.SUPABASE_URL || 'https://zknyukkbtbcqgvkgjktb.supabase.co');
-      var path = centre + '/' + id + '.json';
+      var path = centre + '/' + id + '.' + (ext === 'html' ? 'html' : 'json');
       var r = await fetch(SB + '/functions/v1/report-locked?p=' + encodeURIComponent(path));
       if (!r.ok) return null;
       var html = await r.text();

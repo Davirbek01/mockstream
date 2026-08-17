@@ -20,6 +20,7 @@
   <script src="code-persistence.js" defer></script>
   <script src="human-expert.js"></script>
   <script src="supabase-send.js"></script>
+  <script src="attempt-payload.js"></script>
   <script src="scoring-prompts.js" onerror="(function(el){var n=window.__spTries=(window.__spTries||0)+1;if(n>4)return;setTimeout(function(){var s=document.createElement('script');s.src='scoring-prompts.js?retry='+n;s.onerror=el.onerror;document.head.appendChild(s);},300*n);})(this)"></script>
   <script src="session-recovery.js"></script>
   <!-- Redirect to index on page reload/refresh -->
@@ -10911,9 +10912,22 @@ ${_wSpec}
         throw new Error(`HTTP ${resp.status} ${resp.statusText}${raw ? ' — ' + raw.slice(0, 300) : ''}`);
       }
 
+      // The report carries the student's essay and the examiner's marks, so the
+      // channel copy is encrypted behind the same live code as the View Report
+      // link. One path here serves both full mocks and single-task practice.
+      var _iwFile = new File([htmlBlob], filename, { type: 'text/html' });
+      if (sbResult && sbResult.id && window.fetchLockedReportFile) {
+        var _iwLocked = await window.fetchLockedReportFile(
+          (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream',
+          sbResult.id,
+          filename.replace(/\.html?$/i, ''),
+          'html',
+        );
+        if (_iwLocked) _iwFile = _iwLocked;
+      }
       // Send to routing backend
       if (window.sendToRoutingBackend) {
-        await window.sendToRoutingBackend({ skill: 'writing', caption: finalCaption, file: new File([htmlBlob], filename, { type: 'text/html' }) });
+        await window.sendToRoutingBackend({ skill: 'writing', caption: finalCaption, file: _iwFile });
       }
       if (window.msProgress) window.msProgress.success('✅ Results saved successfully!');
       return true;

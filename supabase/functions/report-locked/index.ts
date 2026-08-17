@@ -27,7 +27,10 @@ import { renderReadingReview } from '../report/renderReadingReview.js';
 
 const SB_URL = Deno.env.get('SUPABASE_URL')!;
 const SB_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-const PATH_RE = /^[a-z0-9_-]+\/[0-9a-fA-F-]+\.json$/;
+// .json = attempt payload (rendered here); .html = a stored report (writing,
+// legacy reading…) which is encrypted as-is. Zips are not supported: their audio
+// must stay playable, so speaking keeps the plain bundle for now.
+const PATH_RE = /^[a-z0-9_-]+\/[0-9a-fA-F-]+\.(json|html)$/;
 
 const cors = {
   'Access-Control-Allow-Origin': '*',
@@ -35,8 +38,17 @@ const cors = {
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
 };
 
-const b64 = (buf: ArrayBuffer | Uint8Array) =>
-  btoa(String.fromCharCode(...new Uint8Array(buf as ArrayBuffer)));
+/** Base64 in CHUNKS: spreading a whole report into String.fromCharCode blows
+ *  the argument limit (writing reports are hundreds of KB and returned a 500). */
+function b64(buf: ArrayBuffer | Uint8Array): string {
+  const bytes = new Uint8Array(buf as ArrayBuffer);
+  let out = '';
+  const CHUNK = 0x8000;
+  for (let i = 0; i < bytes.length; i += CHUNK) {
+    out += String.fromCharCode(...bytes.subarray(i, i + CHUNK));
+  }
+  return btoa(out);
+}
 
 /** Timing-safe compare so a wrong code can't be probed byte by byte. */
 function ctEq(a: string, b: string): boolean {
@@ -171,10 +183,15 @@ Deno.serve(async (req) => {
   if (error || !file) return new Response('Report not found', { status: 404, headers: cors });
 
   let html: string;
-  try {
-    html = renderReadingReview(JSON.parse(await file.text()));
-  } catch (e) {
-    return new Response('Render failed: ' + (e as Error).message, { status: 500, headers: cors });
+  const raw = await file.text();
+  if (p.endsWith('.json')) {
+    try {
+      html = renderReadingReview(JSON.parse(raw));
+    } catch (e) {
+      return new Response('Render failed: ' + (e as Error).message, { status: 500, headers: cors });
+    }
+  } else {
+    html = raw; // already a finished report — lock it as it stands
   }
 
   // One key per report, reused if this runs twice for the same attempt.
