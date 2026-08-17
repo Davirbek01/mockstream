@@ -210,6 +210,31 @@
     };
   }
 
+  /**
+   * Swap a page's plain report file for the ENCRYPTED locker file, so the
+   * Telegram attachment is protected exactly like the View Report link (the
+   * code is checked live, server-side; the app never sees it).
+   * Returns a File to attach, or null when the locker isn't available (caller
+   * then keeps its legacy html/zip).
+   * @param centre  window.SITE_CONFIG.testIdentifier
+   * @param id      the id sendToSupabase returned
+   * @param name    base filename, e.g. 'Davirbek_IELTS_Reading_Mock02'
+   */
+  async function fetchLockedReportFile(centre, id, name) {
+    try {
+      var SB = (window.SUPABASE_URL || 'https://zknyukkbtbcqgvkgjktb.supabase.co');
+      var path = centre + '/' + id + '.json';
+      var r = await fetch(SB + '/functions/v1/report-locked?p=' + encodeURIComponent(path));
+      if (!r.ok) return null;
+      var html = await r.text();
+      return new File([html], (name || 'report') + '_locked.html', { type: 'text/html' });
+    } catch (e) {
+      console.warn('[locked report] unavailable:', e);
+      return null;
+    }
+  }
+
   window.buildCefrReadingPayload = buildCefrReadingPayload;
   window.buildIeltsReadingPayload = buildIeltsReadingPayload;
+  window.fetchLockedReportFile = fetchLockedReportFile;
 })();

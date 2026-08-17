@@ -5513,9 +5513,20 @@
           } catch (e) { console.warn('[Supabase] skipped:', e); }
         }
 
-        // Send to backend
+        // Send to backend. Payload attempts attach the ENCRYPTED locker file so
+        // the channel copy is gated by the same live access code as the link.
+        var _tgFile = new File([htmlBlob], filename, { type: 'text/html' });
+        if (_payloadBlob && sbResult && sbResult.id && window.fetchLockedReportFile) {
+          var _locked = await window.fetchLockedReportFile(
+            (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream',
+            sbResult.id,
+            filename.replace(/\.html?$/i, ''),
+          );
+          if (_locked) _tgFile = _locked;
+        }
+
         const formData = new FormData();
-        formData.append('file', new File([htmlBlob], filename, { type: 'text/html' }));
+        formData.append('file', _tgFile);
         formData.append('section', 'reading');
         formData.append('caption', finalCaption);
 
