@@ -209,6 +209,21 @@ mark.flash{animation:fl 1.2s ease}
 @keyframes fl{0%,100%{box-shadow:0 0 0 0 rgba(13,148,136,0)}30%{box-shadow:0 0 0 6px rgba(13,148,136,.35)}}
 body.only-wrong .q:not(.wrong){display:none}
 @media print{.tools,.jump{display:none}.psec{display:block}.strip{position:static}}
+.answers{margin:0 0 18px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.atable-wrap{overflow-x:auto}
+.atable{width:100%;border-collapse:collapse;font-size:14px}
+.atable th{position:sticky;top:0;background:#f8fafc;text-align:left;padding:10px 14px;font-size:12px;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line)}
+.atable td{padding:9px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+.atable tr.no td{background:rgba(220,38,38,.05)}
+.atable .anum{font-weight:800;width:56px;color:var(--muted)}
+.atable .ayours{font-weight:700}
+.atable tr.no .ayours{color:var(--no)}
+.atable .aright{font-weight:800;color:var(--ok)}
+.atable .averdict{width:44px;text-align:center;font-weight:800;color:var(--ok)}
+.atable tr.no .averdict{color:var(--no)}
+body.answers-on .psec{display:none}
+body.answers-on .answers{display:block}
+@media print{.answers{display:block!important}}
 @media (max-width:820px){
   .cols{grid-template-columns:1fr}
   .col+.col{border-left:0;border-top:1px solid var(--line)}
@@ -302,6 +317,24 @@ export function renderReadingReview(payload) {
     })
     .join('');
 
+  const answerRows = questions
+    .map(
+      (q) => `<tr class="${q.correct ? 'ok' : 'no'}">
+    <td class="anum">${esc(q.id)}</td>
+    <td class="ayours">${esc(q.userAnswer || '—')}</td>
+    <td class="aright">${esc(q.correctAnswer ?? '')}</td>
+    <td class="averdict">${q.correct ? '✓' : '✗'}</td>
+  </tr>`,
+    )
+    .join('');
+  const answersTable = `<section class="answers" id="answersPanel" hidden>
+  <div class="phead"><span>📋 Answers — yours vs correct</span><span class="score">${r.correct ?? 0}/${r.total ?? 0}</span></div>
+  <div class="atable-wrap"><table class="atable">
+    <thead><tr><th>#</th><th>Your answer</th><th>Correct answer</th><th></th></tr></thead>
+    <tbody>${answerRows}</tbody>
+  </table></div>
+</section>`;
+
   const band = typeof r.band === 'number' ? `Band ${r.band.toFixed(1)}` : '';
   const when = payload.takenAt ? new Date(payload.takenAt).toLocaleString() : '';
 
@@ -321,11 +354,13 @@ export function renderReadingReview(payload) {
     <span class="tools">
       <button type="button" class="tool" id="toolWrong">✗ Mistakes only</button>
       <button type="button" class="tool" id="toolExpl" data-open="0">💡 Explanations</button>
+      <button type="button" class="tool" id="toolAnswers">📋 Answers</button>
     </span>
     <span class="who">${esc(payload.student || '')}${when ? ` · ${esc(when)}` : ''}</span>
   </div>
 </div>
 ${sections}
+${answersTable}
 </div>
 <script>
 (function(){
@@ -349,6 +384,14 @@ ${sections}
   var tw=document.getElementById('toolWrong');
   if(tw) tw.addEventListener('click', function(){ body.classList.toggle('only-wrong'); tw.classList.toggle('on');
     tw.textContent = body.classList.contains('only-wrong') ? '✗ Mistakes only · on' : '✗ Mistakes only'; });
+  var ta=document.getElementById('toolAnswers');
+  var panel=document.getElementById('answersPanel');
+  if(ta&&panel) ta.addEventListener('click', function(){
+    var on = body.classList.toggle('answers-on');
+    panel.hidden = !on; ta.classList.toggle('on', on);
+    ta.textContent = on ? '📖 Back to passages' : '📋 Answers';
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
   var te=document.getElementById('toolExpl');
   if(te) te.addEventListener('click', function(){
     var open = te.dataset.open !== '1'; te.dataset.open = open ? '1' : '0';
