@@ -65,29 +65,32 @@ function lockerPage(pathname: string, fnUrl: string, ivB64: string, dataB64: str
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Protected report — Mock Stream</title>
 <style>
+/* Mirrors the view.html lock gate so the file and the link feel identical. */
 :root{color-scheme:light}
-body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#f8fafc;
+body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;
+ background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);
  font:16px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;color:#0f172a}
-.card{width:min(420px,92vw);padding:28px 24px;background:#fff;border:1px solid #e5e7eb;border-radius:16px;
- box-shadow:0 18px 40px -24px rgba(0,0,0,.45);text-align:center}
-h1{margin:0 0 6px;font-size:20px}
-p{margin:0 0 18px;color:#64748b;font-size:14px}
-input{width:100%;padding:12px 14px;font:inherit;text-align:center;letter-spacing:.18em;
- border:2px solid #e5e7eb;border-radius:10px;margin-bottom:12px}
-input:focus{outline:none;border-color:#0d9488}
-button{width:100%;padding:12px 14px;font:inherit;font-weight:800;color:#fff;background:#0d9488;border:0;
- border-radius:10px;cursor:pointer}
+.card{background:#fff;border-radius:16px;padding:32px 28px;max-width:380px;width:100%;
+ box-shadow:0 20px 60px rgba(0,0,0,.4);text-align:center}
+.lock{font-size:42px;margin-bottom:8px}
+h1{color:#0d9488;font-size:20px;margin:0 0 6px}
+p{color:#64748b;font-size:13px;margin:0 0 16px}
+input{width:100%;padding:14px 16px;border:2px solid #e2e8f0;border-radius:12px;font-size:18px;text-align:center;
+ letter-spacing:3px;font-weight:700;margin-bottom:12px;box-sizing:border-box;outline:none}
+input:focus{border-color:#0d9488}
+.msg{font-size:12px;min-height:18px;margin-bottom:10px;color:#dc2626}
+button{width:100%;padding:12px;border:none;background:linear-gradient(135deg,#0d9488,#0f766e);color:#fff;
+ font-size:14px;font-weight:700;border-radius:10px;cursor:pointer;letter-spacing:.3px}
 button[disabled]{opacity:.6;cursor:default}
-.msg{margin-top:12px;font-size:13px;min-height:18px;color:#dc2626}
-.lock{font-size:34px}
 </style></head><body>
 <div class="card">
   <div class="lock">🔒</div>
-  <h1>Protected report</h1>
-  <p>Enter your access code to open this result.</p>
-  <input id="code" type="password" inputmode="numeric" autocomplete="one-time-code" placeholder="Access code" autofocus>
-  <button id="go">Unlock report</button>
+  <h1>Access Code Required</h1>
+  <p>This report is protected. Enter your management access code to view.</p>
+  <input id="code" type="password" inputmode="numeric" pattern="[0-9]*" autocomplete="off" autocorrect="off"
+         spellcheck="false" placeholder="Enter access code" autofocus>
   <div class="msg" id="msg"></div>
+  <button id="go">Unlock Report</button>
 </div>
 <script>
 (function(){
@@ -98,19 +101,19 @@ button[disabled]{opacity:.6;cursor:default}
   async function unlock(){
     var code=(inp.value||'').trim();
     if(!code){msg.textContent='Please enter your access code';return}
-    btn.disabled=true;btn.textContent='Checking…';msg.textContent='';
+    btn.disabled=true;btn.textContent='⏳ Verifying...';msg.textContent='';
     try{
       var r=await fetch(FN,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({p:P,code:code})});
       var j=await r.json().catch(function(){return{}});
       if(!r.ok||!j.key){msg.textContent=j.error==='rate'?'Too many attempts — wait a minute':'Invalid access code';
-        btn.disabled=false;btn.textContent='Unlock report';return}
+        btn.disabled=false;btn.textContent='Unlock Report';return}
       var key=await crypto.subtle.importKey('raw',bytes(j.key),{name:'AES-GCM'},false,['decrypt']);
       var plain=await crypto.subtle.decrypt({name:'AES-GCM',iv:bytes(IV)},key,bytes(DATA));
       var html=new TextDecoder().decode(plain);
       document.open();document.write(html);document.close();
     }catch(e){
       msg.textContent='Could not open the report — check your connection';
-      btn.disabled=false;btn.textContent='Unlock report';
+      btn.disabled=false;btn.textContent='Unlock Report';
     }
   }
   btn.addEventListener('click',unlock);
