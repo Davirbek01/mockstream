@@ -252,13 +252,13 @@ body.answers-on .answers{display:block}
 export function renderReadingReview(payload) {
   const r = payload.result || {};
   const questions = r.questions || [];
-  const perPassage = r.perPassage || [];
+  const perPassage = r.perPassage || r.perPart || [];
   const passages = payload.passages || [];
 
   const chips = passages
     .map((p, i) => {
       const pp = perPassage[i] || {};
-      const title = p.title || pp.title || `Passage ${i + 1}`;
+      const title = p.title || pp.title || `Part ${i + 1}`;
       return `<button type="button" class="chip${i === 0 ? ' on' : ''}" data-tab="${i}"><span>${esc(title)}</span><b>${pp.correct ?? 0}/${pp.total ?? 0}</b></button>`;
     })
     .join('');
@@ -308,7 +308,7 @@ export function renderReadingReview(payload) {
         .join('');
 
       return `<section class="psec${i === 0 ? ' on' : ''}" id="p${i}" data-panel="${i}">
-  <div class="phead"><span>${esc(p.title || `Passage ${i + 1}`)}</span><span class="score">${pp.correct ?? 0}/${pp.total ?? 0}</span></div>
+  <div class="phead"><span>${esc(p.title || `Part ${i + 1}`)}</span><span class="score">${pp.correct ?? 0}/${pp.total ?? 0}</span></div>
   <div class="cols">
     <div class="col ptext"><p>${markPassage(text, ranges)}</p></div>
     <div class="col">${qHtml}</div>
@@ -335,18 +335,28 @@ export function renderReadingReview(payload) {
   </table></div>
 </section>`;
 
-  const band = typeof r.band === 'number' ? `Band ${r.band.toFixed(1)}` : '';
+  // IELTS reports a band; CEFR reports a certificate score + level.
+  const band =
+    typeof r.band === 'number'
+      ? `Band ${r.band.toFixed(1)}`
+      : r.cefrLevel
+        ? `${r.cefrLevel}`
+        : '';
+  const subScore =
+    typeof r.band === 'number'
+      ? `${r.correct ?? 0}/${r.total ?? 0} correct`
+      : `${r.certificateScore ?? 0}/75 · ${r.correct ?? 0}/${r.total ?? 0} correct`;
   const when = payload.takenAt ? new Date(payload.takenAt).toLocaleString() : '';
 
   return `<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${esc(payload.student || 'Student')} — IELTS Reading${payload.mockNumber ? ` Mock ${payload.mockNumber}` : ''}</title>
+<title>${esc(payload.student || 'Student')} — ${payload.kind === 'cefr-reading' ? 'Multilevel' : 'IELTS'} Reading${payload.mockNumber ? ` Mock ${payload.mockNumber}` : ''}</title>
 <style>${CSS}</style></head><body><div class="wrap">
 <div class="strip">
   <div class="striprow">
     <span class="bandline">
       <span class="band">${esc(band)}</span>
-      <span class="correct">${r.correct ?? 0}/${r.total ?? 0} correct</span>
+      <span class="correct">${esc(subScore)}</span>
     </span>
     <span class="chips">${chips}</span>
   </div>
