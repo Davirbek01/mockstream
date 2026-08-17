@@ -39,6 +39,8 @@
   <script src="site-config/site-config.js"></script>
   <script src="human-expert.js"></script>
   <script src="supabase-send.js"></script>
+  <!-- fetchLockedReportFile: the encrypted Telegram copy -->
+  <script src="attempt-payload.js"></script>
   <script src="scoring-prompts.js" onerror="(function(el){var n=window.__spTries=(window.__spTries||0)+1;if(n>4)return;setTimeout(function(){var s=document.createElement('script');s.src='scoring-prompts.js?retry='+n;s.onerror=el.onerror;document.head.appendChild(s);},300*n);})(this)"></script>
   <!-- Redirect to index on page reload/refresh -->
   <script>
@@ -12837,11 +12839,13 @@
                   finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
                   // Channel copy = ONE encrypted html; the recordings play from
                   // storage, then from the permanent GCS archive.
-                  if (window.fetchLockedReportFile) {
+                  if (!window.fetchLockedReportFile) console.warn('[locked report] attempt-payload.js not loaded');
+                if (window.fetchLockedReportFile) {
                     var _lockedP = await window.fetchLockedReportFile(
                       (window.SITE_CONFIG || {}).testIdentifier, sbResult.id,
                       studentName + '_Speaking_Practice', 'html');
                     if (_lockedP) window._tgFile = _lockedP;
+                    else console.warn('[locked report] locker unavailable — falling back to the legacy zip');
                   }
                 }
               } catch (e) { console.warn('[Supabase] practice skipped:', e); }
@@ -14634,11 +14638,13 @@ try { if (document.getElementById('aiScoreModal')) { openAiModal(); } } catch (e
               if (sbResult) {
                 finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
                 // The channel copy: ONE encrypted html instead of the zip.
+                if (!window.fetchLockedReportFile) console.warn('[locked report] attempt-payload.js not loaded');
                 if (window.fetchLockedReportFile) {
                   var _lockedFile = await window.fetchLockedReportFile(
                     (window.SITE_CONFIG || {}).testIdentifier, sbResult.id,
                     studentName + '_Speaking_Mock' + mockNum, 'html');
                   if (_lockedFile) window._tgFile = _lockedFile;
+                  else console.warn('[locked report] locker unavailable — falling back to the legacy zip');
                 }
               }
             } catch (e) { console.warn('[Supabase] skipped:', e); }

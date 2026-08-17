@@ -28,6 +28,8 @@
     <script src="center-id.js"></script>
     <script src="site-config/site-config.js"></script>
     <script src="supabase-send.js"></script>
+    <!-- fetchLockedReportFile: the encrypted Telegram copy -->
+    <script src="attempt-payload.js"></script>
     <script src="scoring-prompts.js" onerror="(function(el){var n=window.__spTries=(window.__spTries||0)+1;if(n>4)return;setTimeout(function(){var s=document.createElement('script');s.src='scoring-prompts.js?retry='+n;s.onerror=el.onerror;document.head.appendChild(s);},300*n);})(this)"></script>
     <script src="session-recovery.js"></script>
     <script>
@@ -10427,11 +10429,13 @@ ${_sSpec}
                         });
                         if (sbResult) {
                           finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
-                          if (window.fetchLockedReportFile) {
+                          if (!window.fetchLockedReportFile) console.warn('[locked report] attempt-payload.js not loaded');
+                if (window.fetchLockedReportFile) {
                             var _lockedFM = await window.fetchLockedReportFile(
                               (window.SITE_CONFIG || {}).testIdentifier, sbResult.id,
                               'FullMock_' + safeName + '_' + dateTag, 'json');
                             if (_lockedFM) window._tgFile = _lockedFM;
+                            else console.warn('[locked report] locker unavailable — falling back to the legacy zip');
                           }
                         }
                       } catch (e) { console.warn('[Supabase] skipped:', e); }
