@@ -62,7 +62,12 @@
    * @param o.result      { correct, total, certificateScore, cefrLevel }
    */
   function buildCefrReadingPayload(o) {
-    var parts = (o.data && o.data.parts) || [];
+    var allParts = (o.data && o.data.parts) || [];
+    // Part practice: keep ONLY the practised part, else the report lists the
+    // whole mock and marks 29 untouched questions wrong.
+    var parts = o.onlyPart
+      ? allParts.filter(function (p, i) { return (p.partNumber || i + 1) === Number(o.onlyPart); })
+      : allParts;
     var questions = [];
     var perPart = [];
 
@@ -105,10 +110,14 @@
       mockNumber: o.mockNumber,
       takenAt: new Date().toISOString(),
       result: {
-        correct: (o.result && o.result.correct) != null ? o.result.correct : questions.filter(function (q) { return q.correct; }).length,
-        total: (o.result && o.result.total) != null ? o.result.total : questions.length,
-        certificateScore: o.result && o.result.certificateScore,
-        cefrLevel: o.result && o.result.cefrLevel,
+        // When practising, derive from the practised questions so the header
+        // agrees with what is shown.
+        correct: o.onlyPart || !(o.result && o.result.correct != null)
+          ? questions.filter(function (q) { return q.correct; }).length
+          : o.result.correct,
+        total: o.onlyPart || !(o.result && o.result.total != null) ? questions.length : o.result.total,
+        certificateScore: o.onlyPart ? undefined : (o.result && o.result.certificateScore),
+        cefrLevel: o.onlyPart ? undefined : (o.result && o.result.cefrLevel),
         perPart: perPart,
         questions: questions,
       },
@@ -134,7 +143,7 @@
    */
   function buildIeltsReadingPayload(o) {
     var data = o.data || {};
-    var passages = data.passages || [];
+    var allPassages = data.passages || [];
     var globalAnswers = data.correctAnswers || {};
     var globalExpl = data.explanations || {};
     var questions = [];
@@ -147,6 +156,10 @@
       .filter(function (n) { return isFinite(n); })
       .sort(function (a, b) { return a - b; });
     var cursor = 0;
+    // Passage practice keeps only the practised passage; ids are still derived
+    // from the full mock so numbering stays 1-13 / 14-26 / 27-40 as in the exam.
+    var keep = o.onlyPassage ? Number(o.onlyPassage) : 0;
+    var passages = allPassages;
 
     passages.forEach(function (pg, i) {
       var own = pg.correctAnswers || {};
@@ -160,12 +173,14 @@
         cursor += ids.length;
       }
       var c = 0;
+      var keepThis = !keep || i + 1 === keep;
       ids.forEach(function (id) {
         var raw = own['q' + id] || own[id] || globalAnswers['q' + id] || globalAnswers[id];
         var acc = Array.isArray(raw) ? raw : [raw];
         var user = String(o.getAnswer ? o.getAnswer(id) || '' : '').trim();
         var ok = !!user && (o.matches ? !!o.matches(user, acc) : String(acc[0]).toLowerCase() === user.toLowerCase());
         if (ok) c += 1;
+        if (!keepThis) return;
         questions.push({
           id: id,
           correct: ok,
@@ -177,6 +192,7 @@
           ),
         });
       });
+      if (keep && i + 1 !== keep) return; // practised passage only
       perPassage.push({
         passage: i + 1,
         title: pg.title || pg.shortName || 'Passage ' + (i + 1),
@@ -192,13 +208,18 @@
       mockNumber: o.mockNumber,
       takenAt: new Date().toISOString(),
       result: {
-        correct: (o.result && o.result.correct) != null ? o.result.correct : questions.filter(function (q) { return q.correct; }).length,
-        total: (o.result && o.result.total) != null ? o.result.total : questions.length,
-        band: o.result && o.result.band,
+        correct: keep || !(o.result && o.result.correct != null)
+          ? questions.filter(function (q) { return q.correct; }).length
+          : o.result.correct,
+        total: keep || !(o.result && o.result.total != null) ? questions.length : o.result.total,
+        band: keep ? undefined : (o.result && o.result.band),
         perPassage: perPassage,
         questions: questions,
       },
-      passages: passages.map(function (pg, i) {
+      passages: allPassages
+        .filter(function (pg, i) { return !keep || i + 1 === keep; })
+        .map(function (pg, i0) {
+        var i = keep ? keep - 1 : i0;
         return {
           title: pg.title || pg.shortName || 'Passage ' + (i + 1),
           text: String(pg.passage || pg.text || ''),
