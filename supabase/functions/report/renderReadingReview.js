@@ -278,11 +278,17 @@ export function renderReadingReview(payload) {
       const qHtml = qs
         .map((q) => {
           const cls = q.correct ? '' : 'no';
-          const expl = q.explanation
-            ? typeof q.explanation === 'object'
-              ? q.explanation
-              : { text: q.explanation }
-            : null;
+          // The apps flatten an explanation into ONE string: the reasoning, a
+          // newline, then the passage sentence in curly quotes. Split it back so
+          // the quote renders as a quote (raw {text,quote} objects pass through).
+          const expl = (() => {
+            const raw = q.explanation;
+            if (!raw) return null;
+            if (typeof raw === 'object') return raw;
+            const str = String(raw);
+            const m = str.match(/^([\s\S]*?)\s*“([\s\S]+)”\s*$/);
+            return m ? { text: m[1].trim(), quote: m[2].trim() } : { text: str };
+          })();
           return `<div class="q${q.correct ? '' : ' wrong'}" id="q${esc(q.id)}" data-q="${esc(q.id)}">
   <div class="qhead">
     <span class="qnum ${cls}">${esc(q.id)}</span>
