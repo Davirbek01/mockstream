@@ -11854,12 +11854,32 @@ ${questionsContent}
                 score: aiResult ? aiResult.overallBand + '/9.0' : '',
                 level: aiResult ? bandToCefr(aiResult.overallBand) : '',
                 mockNumber: _isPractice ? 'Practice ' + _practicePartLabel : 'Mock ' + mockNum,
-                file: content,
-                fileType: 'zip',
+                file: null,
+                fileType: 'html',
+                html: reportHTML,
+                audio: (function () {
+                  // The recordings are stored BESIDE the report (see
+                  // supabase-send.js), so the View Report link opens a real
+                  // speaking result and the channel copy can be encrypted.
+                  var m = {};
+                  answers.forEach(function (a) {
+                    var q = String(a.key).match(/q(\d+)/);
+                    if (q) m[q[1]] = a.blob;
+                  });
+                  return m;
+                })(),
                 caption: caption,
                 metadata: _sbMeta
               });
-              if (sbResult) finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
+              if (sbResult) {
+                finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
+                if (window.fetchLockedReportFile) {
+                  var _lockedI = await window.fetchLockedReportFile(
+                    (window.SITE_CONFIG || {}).testIdentifier, sbResult.id,
+                    studentName + '_IELTS_Speaking' + (_isPractice ? '_Practice' : '_Mock' + mockNum), 'html');
+                  if (_lockedI) window._tgFile = _lockedI;
+                }
+              }
             } catch (e) { console.warn('[Supabase] skipped:', e); }
           }
 
@@ -11870,7 +11890,11 @@ ${questionsContent}
           // fanout, with its own retries.
           try {
             if (window.sendToRoutingBackend) {
-              await window.sendToRoutingBackend({ skill: 'speaking', caption: finalCaption, file: fd.get('zip') });
+              await window.sendToRoutingBackend({
+                skill: 'speaking', caption: finalCaption,
+                file: window._tgFile || fd.get('zip'),
+              });
+              window._tgFile = null;
             }
             if (loadingEl) loadingEl.style.display = 'none';
             if (statusEl) statusEl.style.display = 'block';

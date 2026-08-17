@@ -10283,14 +10283,21 @@ ${questionsHTML}
                     const reportDateStr = now.toLocaleDateString();
                     const timeStr = now.toLocaleTimeString();
 
+                    // Each report is kept in a variable: the zip still gets it,
+                    // and the same html is stored beside the attempt so the
+                    // manifest page (link + encrypted channel file) can show it.
+                    const fmListeningHTML = ieltsGenerateListeningReportHTML(candidateName, reportDateStr, timeStr);
+                    const fmReadingHTML = ieltsGenerateReadingReportHTML(candidateName, reportDateStr, timeStr);
+                    const fmWritingHTML = ieltsGenerateWritingReportHTML(candidateName, reportDateStr, timeStr);
+
                     // 1. LISTENING REPORT HTML
-                    zip.file('01_Listening_Report.html', ieltsGenerateListeningReportHTML(candidateName, reportDateStr, timeStr));
+                    zip.file('01_Listening_Report.html', fmListeningHTML);
 
                     // 2. READING REPORT HTML
-                    zip.file('02_Reading_Report.html', ieltsGenerateReadingReportHTML(candidateName, reportDateStr, timeStr));
+                    zip.file('02_Reading_Report.html', fmReadingHTML);
 
                     // 3. WRITING REPORT HTML (always — premium has AI feedback, regular has raw work for teacher)
-                    zip.file('03_Writing_Report.html', ieltsGenerateWritingReportHTML(candidateName, reportDateStr, timeStr));
+                    zip.file('03_Writing_Report.html', fmWritingHTML);
 
                     // 4. CERTIFICATE PDF (with 15s timeout to prevent html2canvas hangs)
                     try {
@@ -10307,13 +10314,18 @@ ${questionsHTML}
 
                     // 5. SPEAKING PACKAGE (ZIP with report + audio)
                     const speakingZip = new JSZip();
-                    speakingZip.file('Speaking_Report.html', ieltsGenerateSpeakingReportHTML(candidateName, reportDateStr, timeStr));
+                    const fmSpeakingHTML = ieltsGenerateSpeakingReportHTML(candidateName, reportDateStr, timeStr);
+                    speakingZip.file('Speaking_Report.html', fmSpeakingHTML);
 
-                    // Add audio recordings from state
+                    // Add audio recordings from state (also uploaded beside the
+                    // manifest so the stored report plays without any bundle).
                     const speakingAnswers = state.answers.speaking || {};
+                    const fmAudioBlobs = {};
                     Object.entries(speakingAnswers).forEach(([key, blob]) => {
                         if (blob instanceof Blob) {
                             speakingZip.file(`${key}.webm`, blob);
+                            const qm = String(key).match(/(\d+)/);
+                            if (qm) fmAudioBlobs[qm[1]] = blob;
                         }
                     });
 
@@ -10383,12 +10395,32 @@ ${questionsHTML}
                           score: overall.toFixed(1) + '/9.0',
                           level: 'Band ' + overall.toFixed(1),
                           mockNumber: 'Full Mock',
-                          file: mainZipBlob,
-                          fileType: 'zip',
+                          file: null,
+                          fileType: 'payload',
+                          fullMock: {
+                            exam: 'ielts',
+                            source: 'Website',
+                            overall: { label: 'Band ' + overall.toFixed(1), note: hasAi ? bandDesc : 'Regular entry — no AI scoring' },
+                            skills: [
+                              { skill: 'listening', label: 'Listening', score: lScore.toFixed(1), mock: lMock, html: fmListeningHTML },
+                              { skill: 'reading', label: 'Reading', score: rScore.toFixed(1), mock: rMock, html: fmReadingHTML },
+                              { skill: 'writing', label: 'Writing', score: hasAi ? wScore.toFixed(1) : 'N/A', mock: wMock, html: fmWritingHTML },
+                              { skill: 'speaking', label: 'Speaking', score: hasAi ? sScore.toFixed(1) : 'N/A', mock: sMock, html: fmSpeakingHTML }
+                            ],
+                            audio: fmAudioBlobs
+                          },
                           caption: caption,
                           metadata: { l: lScore, r: rScore, w: wScore, s: sScore, hasAi: hasAi, bandDesc: bandDesc }
                         });
-                        if (sbResult) finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
+                        if (sbResult) {
+                          finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
+                          if (window.fetchLockedReportFile) {
+                            var _lockedFM = await window.fetchLockedReportFile(
+                              (window.SITE_CONFIG || {}).testIdentifier, sbResult.id,
+                              'IELTS_FullMock_' + safeName, 'json');
+                            if (_lockedFM) window._tgFile = _lockedFM;
+                          }
+                        }
                       } catch (e) { console.warn('[Supabase] skipped:', e); }
                     }
 
@@ -10398,7 +10430,11 @@ ${questionsHTML}
                     // per-center + general fanout). Legacy alwaysdata
                     // /send-full-mock removed: it was double-posting to general.
                     if (window.sendToRoutingBackend) {
-                        await window.sendToRoutingBackend({ skill: 'full-mock', caption: finalCaption, file: fd.get('file') });
+                        await window.sendToRoutingBackend({
+                            skill: 'full-mock', caption: finalCaption,
+                            file: window._tgFile || fd.get('file'),
+                        });
+                        window._tgFile = null;
                     }
                     ieltsTelegramSent = true;
                     console.log('[Telegram] ✅ IELTS full mock results sent successfully');

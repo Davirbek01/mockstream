@@ -10,8 +10,10 @@
 // Deploy with --no-verify-jwt (report links are public, same as the bucket was).
 import 'jsr:@supabase/functions-js/edge-runtime.d.ts';
 import { createClient } from 'jsr:@supabase/supabase-js@2';
-// @ts-ignore - plain ESM module shared with the local prototype harness
-import { renderReadingReview } from './renderReadingReview.js';
+// @ts-ignore - plain ESM modules shared with report-locked + the local harness
+import { renderStored } from './renderStored.js';
+// @ts-ignore - shared with report-locked
+import { withAudioFallback } from './audioFallback.js';
 
 const SB_URL = Deno.env.get('SUPABASE_URL')!;
 const SB_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
@@ -27,42 +29,25 @@ Deno.serve(async (req) => {
   if (!/^[a-z0-9_-]+\/[0-9a-fA-F-]+\.(html|json)$/.test(p)) {
     return new Response('Not found', { status: 404, headers: { 'Content-Type': 'text/plain' } });
   }
-  const isPayload = p.endsWith('.json');
-
   const sb = createClient(SB_URL, SB_KEY, { auth: { persistSession: false } });
-  const { data, error } = await sb.storage.from('reports').download(p);
-  let html: string;
-  if (error || !data) {
-    // Retention deleted it from Supabase — serve the permanent GCS archive copy.
-    const arch = await fetch('https://storage.googleapis.com/mockstream-report-archive/' + encodeURI(p));
-    if (!arch.ok) {
-      return new Response('Report not found — it may have been cleared.', {
-        status: 404,
-        headers: { 'Content-Type': 'text/plain; charset=utf-8' },
-      });
-    }
-    html = await arch.text();
-  } else {
-    html = await data.text();
+  // Stored html as it stands; a payload rendered fresh on every open, so a
+  // design change here improves every past report at once.
+  const out = await renderStored(sb, p);
+  if (out.error === 'not_found') {
+    return new Response('Report not found — it may have been cleared.', {
+      status: 404,
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+    });
   }
-
-  // Attempt payload → render the review page fresh on every open, so a design
-  // change here improves every past report at once.
-  if (isPayload) {
-    try {
-      html = renderReadingReview(JSON.parse(html));
-    } catch (e) {
-      return new Response('Could not render this report: ' + (e as Error).message, {
-        status: 500,
-        headers: { 'Content-Type': 'text/plain; charset=utf-8' },
-      });
-    }
+  if (out.error) {
+    return new Response('Could not render this report: ' + out.error, {
+      status: 500,
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+    });
   }
   // Speaking reports embed reports-bucket audio URLs; retention deletes the
-  // audio before the html. Inject a capture-phase error handler that retries
-  // any failed <audio> from the permanent GCS archive.
-  const AUDIO_FALLBACK = `<script>(function(){var A='https://storage.googleapis.com/mockstream-report-archive/';var P='/storage/v1/object/public/reports/';function swap(el){var s=el.currentSrc||el.src||'';if(s.indexOf(P)<0||el.dataset.archRetry)return;el.dataset.archRetry='1';el.src=A+s.split(P)[1];if(el.load)el.load();}document.addEventListener('error',function(e){var t=e.target;if(!t||!t.tagName)return;if(t.tagName==='AUDIO')swap(t);else if(t.tagName==='SOURCE'&&t.parentElement&&t.parentElement.tagName==='AUDIO')swap(t.parentElement);},true);})();</script>`;
-  html = html.includes('</body>') ? html.replace('</body>', AUDIO_FALLBACK + '</body>') : html + AUDIO_FALLBACK;
+  // audio before the html — retry any failed player from the GCS archive.
+  const html = withAudioFallback(out.html as string);
   return new Response(html, {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',

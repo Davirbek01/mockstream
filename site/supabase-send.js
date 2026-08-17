@@ -291,9 +291,129 @@
       var contentType = (opts.fileType === 'zip')
         ? 'application/zip'
         : (isPayload ? 'application/json' : 'text/html; charset=utf-8');
-      var storagePath = (cfg.testIdentifier || 'unknown') + '/' + id + ext;
+      var centreId = cfg.testIdentifier || 'unknown';
+      var storagePath = centreId + '/' + id + ext;
 
       var fileToUpload = opts.file;
+
+      // ── Full mock: four reports + the recordings, stored side by side ──
+      // Instead of one zip nobody can open from a link, each skill report is
+      // uploaded next to the attempt and a small MANIFEST names them; the
+      // `report` Edge Function assembles the tabbed page on every open.
+      //   opts.fullMock = { exam, overall:{label,note}, source,
+      //                     skills:[{skill,label,score,mock,html}],
+      //                     audio:{ 1: Blob, … } }
+      if (opts.fullMock) {
+        ext = '.json';
+        contentType = 'application/json';
+        storagePath = centreId + '/' + id + ext;
+        var fm = opts.fullMock;
+        var fmAudio = fm.audio || {};
+        if (window.msProgress) window.msProgress.update('📦 Saving your full mock...');
+        var fmUrls = {};
+        await Promise.all(Object.keys(fmAudio).map(async function (qn) {
+          var b = fmAudio[qn];
+          if (!b) return;
+          var aExt = (b.type && b.type.indexOf('mp4') > -1) ? 'm4a' : 'webm';
+          var aPath = centreId + '/' + id + '/q' + qn + '.' + aExt;
+          try {
+            var ar = await fetch(SUPABASE_URL + '/storage/v1/object/reports/' + aPath, {
+              method: 'POST',
+              headers: {
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+                'Content-Type': b.type || 'audio/webm',
+                'x-upsert': 'true'
+              },
+              body: b
+            });
+            if (ar.ok) fmUrls[qn] = SUPABASE_URL + '/storage/v1/object/public/reports/' + aPath;
+          } catch (e) { console.warn('[Supabase] full-mock audio q' + qn, e); }
+        }));
+
+        var fmSkills = [];
+        await Promise.all((fm.skills || []).map(async function (sk) {
+          if (!sk || !sk.html) return;
+          var body = String(sk.html);
+          Object.keys(fmUrls).forEach(function (qn) {
+            ['answer_q' + qn + '.webm', 'answer-q' + qn + '.m4a', 'answer_q' + qn + '.m4a']
+              .forEach(function (local) { body = body.split(local).join(fmUrls[qn]); });
+          });
+          var sPath = centreId + '/' + id + '/' + sk.skill + '.html';
+          try {
+            var sr = await fetch(SUPABASE_URL + '/storage/v1/object/reports/' + sPath, {
+              method: 'POST',
+              headers: {
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+                'Content-Type': 'text/html; charset=utf-8',
+                'x-upsert': 'true'
+              },
+              body: body
+            });
+            if (sr.ok) {
+              fmSkills.push({ skill: sk.skill, label: sk.label || sk.skill, score: sk.score || '', mock: sk.mock || '', path: sPath });
+            } else {
+              console.warn('[Supabase] full-mock report upload failed', sk.skill, sr.status);
+            }
+          } catch (e) { console.warn('[Supabase] full-mock report', sk.skill, e); }
+        }));
+
+        var ORDER_FM = ['listening', 'reading', 'writing', 'speaking'];
+        fmSkills.sort(function (a, b) { return ORDER_FM.indexOf(a.skill) - ORDER_FM.indexOf(b.skill); });
+        fileToUpload = new Blob([JSON.stringify({
+          v: 1,
+          kind: 'full-mock',
+          student: (opts.studentName || 'Student').substring(0, 200),
+          exam: fm.exam || opts.examType || 'cefr',
+          takenAt: new Date().toISOString(),
+          source: fm.source || 'Website',
+          overall: fm.overall || null,
+          skills: fmSkills
+        })], { type: 'application/json' });
+      }
+
+      // ── Speaking: the recordings live BESIDE the report, not inside a zip ──
+      // Each answer is uploaded to "<centre>/<id>/q<N>.<ext>" and the report's
+      // local <source src="answer_qN.webm"> is repointed at that public URL.
+      // That is what lets the report open from a link, be encrypted for the
+      // channel, and keep playing after retention (the GCS archive serves the
+      // same paths for ever).
+      if (opts.audio && typeof opts.html === 'string') {
+        var qNums = Object.keys(opts.audio).filter(function (k) { return opts.audio[k]; });
+        if (window.msProgress && qNums.length) window.msProgress.update('🎤 Saving your recordings...');
+        var reportHtml = opts.html;
+        var uploaded = await Promise.all(qNums.map(async function (qn) {
+          var blob = opts.audio[qn];
+          var aExt = (opts.audioExt || (blob.type && blob.type.indexOf('mp4') > -1 ? 'm4a' : 'webm'));
+          var aPath = centreId + '/' + id + '/q' + qn + '.' + aExt;
+          try {
+            var ar = await fetch(SUPABASE_URL + '/storage/v1/object/reports/' + aPath, {
+              method: 'POST',
+              headers: {
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+                'Content-Type': blob.type || 'audio/webm',
+                'x-upsert': 'true'
+              },
+              body: blob
+            });
+            if (!ar.ok) { console.warn('[Supabase] audio upload failed q' + qn, ar.status); return null; }
+            return { qn: qn, url: SUPABASE_URL + '/storage/v1/object/public/reports/' + aPath };
+          } catch (e) {
+            console.warn('[Supabase] audio upload error q' + qn, e);
+            return null;
+          }
+        }));
+        uploaded.forEach(function (u) {
+          if (!u) return;
+          // Every local spelling the report pages use for an answer file.
+          ['answer_q' + u.qn + '.webm', 'answer-q' + u.qn + '.m4a', 'answer_q' + u.qn + '.m4a']
+            .forEach(function (local) { reportHtml = reportHtml.split(local).join(u.url); });
+        });
+        fileToUpload = new Blob([reportHtml], { type: 'text/html;charset=utf-8' });
+        contentType = 'text/html; charset=utf-8';
+      }
       if (!fileToUpload) {
         var _placeholderHtml =
           '<!doctype html><html><head><meta charset="utf-8">' +
@@ -396,12 +516,13 @@
       try {
         window._lastSavedResultId = id;
         window._lastSavedViewUrl = viewUrl;
+        window._lastSavedReportPath = storagePath;
         try {
           sessionStorage.setItem('ms_lastSavedResultId', id);
           sessionStorage.setItem('ms_lastSavedViewUrl', viewUrl);
         } catch (_ss) {}
       } catch (_e) {}
-      return { id: id, viewUrl: viewUrl };
+      return { id: id, viewUrl: viewUrl, reportPath: storagePath };
 
     } catch (err) {
       console.warn('[Supabase] Error:', err);

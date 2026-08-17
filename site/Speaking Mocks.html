@@ -12604,10 +12604,12 @@
 
             var resultsZip = new JSZip();
             var hasAudio = false;
+            var _pAudio = {};
             for (var qi = range[0]; qi <= range[1]; qi++) {
               var blob = await getAudioFromDB('speaking_audio_q' + (qi + 1));
               if (blob) {
                 resultsZip.file('answer_q' + (qi + 1) + '.webm', blob);
+                _pAudio[qi + 1] = blob;   // uploaded beside the report
                 hasAudio = true;
               }
             }
@@ -12824,12 +12826,24 @@
                   score: practiceAi ? practiceAi.certificateScore + '/75' : '',
                   level: practiceAi ? practiceAi.cefrLevel : '',
                   mockNumber: 'Practice ' + (partNames[window._practicePartId] || ''),
-                  file: content,
-                  fileType: 'zip',
+                  file: null,
+                  fileType: 'html',
+                  html: (typeof _practiceReportHTML === 'string' ? _practiceReportHTML : ''),
+                  audio: _pAudio,
                   caption: caption,
                   metadata: { is_practice: true, part: window._practicePartId || '', rawScore: practiceAi ? practiceAi.rawScore : null }
                 });
-                if (sbResult) finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
+                if (sbResult) {
+                  finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
+                  // Channel copy = ONE encrypted html; the recordings play from
+                  // storage, then from the permanent GCS archive.
+                  if (window.fetchLockedReportFile) {
+                    var _lockedP = await window.fetchLockedReportFile(
+                      (window.SITE_CONFIG || {}).testIdentifier, sbResult.id,
+                      studentName + '_Speaking_Practice', 'html');
+                    if (_lockedP) window._tgFile = _lockedP;
+                  }
+                }
               } catch (e) { console.warn('[Supabase] practice skipped:', e); }
             }
 
@@ -12840,7 +12854,11 @@
             // fanout, with its own retries.
             try {
               if (window.sendToRoutingBackend) {
-                await window.sendToRoutingBackend({ skill: 'speaking', caption: finalCaption, file: fd.get('zip') });
+                await window.sendToRoutingBackend({
+                  skill: 'speaking', caption: finalCaption,
+                  file: window._tgFile || fd.get('zip'),
+                });
+                window._tgFile = null;
               }
               console.log('\u2705 Practice speaking results sent to Telegram');
             } catch (sendErr) {
@@ -14591,6 +14609,14 @@ try { if (document.getElementById('aiScoreModal')) { openAiModal(); } } catch (e
           var finalCaption = caption;
           if (window.sendToSupabase) {
             try {
+              // Store the report as HTML with the recordings BESIDE it (see
+              // supabase-send.js) — that is what makes the View Report link
+              // open a speaking result and lets the channel copy be encrypted.
+              var _audioMap = {};
+              answers.forEach(function (a) {
+                var m = String(a.key).match(/q(\d+)/);
+                if (m) _audioMap[m[1]] = a.blob;
+              });
               var sbResult = await window.sendToSupabase({
                 studentName: rawName,
                 examType: 'cefr',
@@ -14598,12 +14624,23 @@ try { if (document.getElementById('aiScoreModal')) { openAiModal(); } } catch (e
                 score: autoAiResult ? autoAiResult.certificateScore + '/75' : '',
                 level: autoAiResult ? autoAiResult.cefrLevel : '',
                 mockNumber: 'Mock ' + mockNum,
-                file: content,
-                fileType: 'zip',
+                file: null,
+                fileType: 'html',
+                html: reportHTML,
+                audio: _audioMap,
                 caption: caption,
                 metadata: autoAiResult ? { rawScore: autoAiResult.rawScore, p11: autoAiResult.p11, p12: autoAiResult.p12, p2: autoAiResult.p2, p3: autoAiResult.p3 } : {}
               });
-              if (sbResult) finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
+              if (sbResult) {
+                finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
+                // The channel copy: ONE encrypted html instead of the zip.
+                if (window.fetchLockedReportFile) {
+                  var _lockedFile = await window.fetchLockedReportFile(
+                    (window.SITE_CONFIG || {}).testIdentifier, sbResult.id,
+                    studentName + '_Speaking_Mock' + mockNum, 'html');
+                  if (_lockedFile) window._tgFile = _lockedFile;
+                }
+              }
             } catch (e) { console.warn('[Supabase] skipped:', e); }
           }
 
@@ -14614,7 +14651,11 @@ try { if (document.getElementById('aiScoreModal')) { openAiModal(); } } catch (e
           // fanout, with its own retries.
           try {
             if (window.sendToRoutingBackend) {
-              await window.sendToRoutingBackend({ skill: 'speaking', caption: finalCaption, file: fd.get('zip') });
+              await window.sendToRoutingBackend({
+                skill: 'speaking', caption: finalCaption,
+                file: window._tgFile || fd.get('zip'),
+              });
+              window._tgFile = null;
             }
             // Hide loading and show success tick
             if (loadingEl) loadingEl.style.display = 'none';
