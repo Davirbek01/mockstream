@@ -5534,7 +5534,7 @@
         // general fanout). Legacy alwaysdata /send-result removed: it was
         // double-posting to the general channel.
         if (window.sendToRoutingBackend) {
-          await window.sendToRoutingBackend({ skill: 'reading', caption: finalCaption, file: new File([htmlBlob], filename, { type: 'text/html' }) });
+          await window.sendToRoutingBackend({ skill: 'reading', caption: finalCaption, file: _tgFile });
         }
         if (window.msProgress) window.msProgress.success('✅ Results saved successfully!');
       } catch (error) {
