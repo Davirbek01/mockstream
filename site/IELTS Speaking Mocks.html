@@ -11595,7 +11595,7 @@ ${qJsonLines}
             resultsZip.file(`answer_q${qNum}.webm`, blob);
           });
 
-          console.log('📦 ZIP created with audio files');
+          console.log('📦 Audio bundled (fallback only — the channel gets the encrypted html)');
 
           // Create HTML file with questions (DYNAMIC - uses questions.js data)
           const questionsContent = window.SPEAKING_TEST_DATA_CACHED ? generateQuestionsHTML(window.SPEAKING_TEST_DATA_CACHED) : '';
@@ -11756,7 +11756,7 @@ ${questionsContent}
           const reportHTML = generateIeltsReportHTML(reportQuestions, violations, autoAiResult, studentNameForReport);
 
           resultsZip.file('Speaking_Mock_Report.html', reportHTML);
-          console.log('📄 Report HTML added to ZIP');
+          console.log('📄 Report HTML ready');
 
           // Add violation report to ZIP
           // Note: tabSwitchCount and blurCount are defined outside this IIFE, access via window
@@ -11770,10 +11770,12 @@ ${questionsContent}
             summary: violations.length === 0 ? 'No violations detected' : 'Violations detected - review required'
           };
           resultsZip.file('violation_report.json', JSON.stringify(violationReport, null, 2));
-          console.log('📋 Violation report added to ZIP');
+          console.log('📋 Violation report ready');
 
           const content = await resultsZip.generateAsync({ type: 'blob' });
-          console.log('✅ ZIP generated, size:', content.size);
+          // Kept for the AI-retry resend and as the fallback attachment — the
+          // channel copy is the ENCRYPTED html built after the Supabase save.
+          console.log('📦 Fallback ZIP ready, size:', content.size);
 
           // Store for potential AI retry resend
           window._ieltsZipBlob = content;
@@ -11880,7 +11882,8 @@ ${questionsContent}
                   var _lockedI = await window.fetchLockedReportFile(
                     (window.SITE_CONFIG || {}).testIdentifier, sbResult.id,
                     studentName + '_IELTS_Speaking' + (_isPractice ? '_Practice' : '_Mock' + mockNum), 'html');
-                  if (_lockedI) window._tgFile = _lockedI;
+                  if (_lockedI) { window._tgFile = _lockedI;
+                    console.log('🔒 Channel copy: encrypted report —', _lockedI.name); }
                   else console.warn('[locked report] locker unavailable — falling back to the legacy zip');
                 }
               }

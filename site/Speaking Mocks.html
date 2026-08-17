@@ -12740,10 +12740,18 @@
               console.warn('Practice report generation failed:', rptErr);
             }
 
-            var content = await resultsZip.generateAsync({ type: 'blob' });
             var studentName = getStudentNameForZip();
             var fd = new FormData();
-            fd.append('zip', new File([content], studentName + '.zip', { type: 'application/zip' }));
+            // Built only if the encrypted html can't be produced (see below).
+            var _zipBuiltP = false;
+            async function buildPracticeZipFallback() {
+              if (_zipBuiltP) return fd.get('zip');
+              var content = await resultsZip.generateAsync({ type: 'blob' });
+              console.log('📦 Fallback ZIP generated, size:', content.size);
+              fd.append('zip', new File([content], studentName + '.zip', { type: 'application/zip' }));
+              _zipBuiltP = true;
+              return fd.get('zip');
+            }
 
             var mockNum = window.SELECTED_MOCK_NUMBER || '01';
             var testIdentifier = (window._siteTestId || 'SM').trim();
@@ -12844,7 +12852,8 @@
                     var _lockedP = await window.fetchLockedReportFile(
                       (window.SITE_CONFIG || {}).testIdentifier, sbResult.id,
                       studentName + '_Speaking_Practice', 'html');
-                    if (_lockedP) window._tgFile = _lockedP;
+                    if (_lockedP) { window._tgFile = _lockedP;
+                      console.log('🔒 Channel copy: encrypted report —', _lockedP.name); }
                     else console.warn('[locked report] locker unavailable — falling back to the legacy zip');
                   }
                 }
@@ -12860,7 +12869,7 @@
               if (window.sendToRoutingBackend) {
                 await window.sendToRoutingBackend({
                   skill: 'speaking', caption: finalCaption,
-                  file: window._tgFile || fd.get('zip'),
+                  file: window._tgFile || await buildPracticeZipFallback(),
                 });
                 window._tgFile = null;
               }
@@ -13188,7 +13197,7 @@
             resultsZip.file(`answer_q${qNum}.webm`, blob);
           });
 
-          console.log('📦 ZIP created with audio files');
+          console.log('📦 Audio bundled (fallback only — the channel gets the encrypted html)');
 
           // Create HTML file with questions (DYNAMIC - uses questions.js data)
           const questionsContent = window.SPEAKING_TEST_DATA_CACHED ? generateQuestionsHTML(window.SPEAKING_TEST_DATA_CACHED) : '';
@@ -14545,7 +14554,7 @@ try { if (document.getElementById('aiScoreModal')) { openAiModal(); } } catch (e
 </html>`;
 
           resultsZip.file('Speaking_Mock_Report.html', reportHTML);
-          console.log('📄 Report HTML added to ZIP');
+          console.log('📄 Report HTML ready');
 
           // Add violation report to ZIP
           // Note: tabSwitchCount and blurCount are defined outside this IIFE, access via window
@@ -14559,17 +14568,23 @@ try { if (document.getElementById('aiScoreModal')) { openAiModal(); } } catch (e
             summary: violations.length === 0 ? 'No violations detected' : 'Violations detected - review required'
           };
           resultsZip.file('violation_report.json', JSON.stringify(violationReport, null, 2));
-          console.log('📋 Violation report added to ZIP');
-
-          const content = await resultsZip.generateAsync({ type: 'blob' });
-          console.log('✅ ZIP generated, size:', content.size);
+          console.log('📋 Violation report ready');
 
           const studentName = getStudentNameForZip();
 
-          // Send to Telegram (no local download)
+          // Send to Telegram (no local download). The channel copy is the
+          // ENCRYPTED html; the zip is only generated if that can't be built,
+          // so a normal submission never pays for packing several MB.
           const fd = new FormData();
-          const file = new File([content], `${studentName}.zip`, { type: 'application/zip' });
-          fd.append('zip', file);
+          let _zipBuilt = false;
+          async function buildZipFallback() {
+            if (_zipBuilt) return fd.get('zip');
+            const content = await resultsZip.generateAsync({ type: 'blob' });
+            console.log('📦 Fallback ZIP generated, size:', content.size);
+            fd.append('zip', new File([content], `${studentName}.zip`, { type: 'application/zip' }));
+            _zipBuilt = true;
+            return fd.get('zip');
+          }
 
           // Add caption with test info
           const mockNum = window.SELECTED_MOCK_NUMBER || '01';
@@ -14643,7 +14658,8 @@ try { if (document.getElementById('aiScoreModal')) { openAiModal(); } } catch (e
                   var _lockedFile = await window.fetchLockedReportFile(
                     (window.SITE_CONFIG || {}).testIdentifier, sbResult.id,
                     studentName + '_Speaking_Mock' + mockNum, 'html');
-                  if (_lockedFile) window._tgFile = _lockedFile;
+                  if (_lockedFile) { window._tgFile = _lockedFile;
+                    console.log('🔒 Channel copy: encrypted report —', _lockedFile.name); }
                   else console.warn('[locked report] locker unavailable — falling back to the legacy zip');
                 }
               }
@@ -14659,7 +14675,7 @@ try { if (document.getElementById('aiScoreModal')) { openAiModal(); } } catch (e
             if (window.sendToRoutingBackend) {
               await window.sendToRoutingBackend({
                 skill: 'speaking', caption: finalCaption,
-                file: window._tgFile || fd.get('zip'),
+                file: window._tgFile || await buildZipFallback(),
               });
               window._tgFile = null;
             }

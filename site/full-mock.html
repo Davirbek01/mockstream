@@ -10434,7 +10434,8 @@ ${_sSpec}
                             var _lockedFM = await window.fetchLockedReportFile(
                               (window.SITE_CONFIG || {}).testIdentifier, sbResult.id,
                               'FullMock_' + safeName + '_' + dateTag, 'json');
-                            if (_lockedFM) window._tgFile = _lockedFM;
+                            if (_lockedFM) { window._tgFile = _lockedFM;
+                              console.log('🔒 Channel copy: encrypted report —', _lockedFM.name); }
                             else console.warn('[locked report] locker unavailable — falling back to the legacy zip');
                           }
                         }
