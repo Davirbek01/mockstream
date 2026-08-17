@@ -14523,9 +14523,21 @@ ${_wReportSpec}`;
           await fetch(ADMIN_TELEGRAM_ENDPOINT, { method: 'POST', body: fd });
           console.log('\u2705 Practice writing results sent to Telegram');
 
+          // Practice drills carry the same essay + marks, so the channel copy
+          // is encrypted exactly like a full mock's.
+          var _wpFile = new File([docBlob], filename, { type: 'text/html' });
+          if (sbResult && sbResult.id && window.fetchLockedReportFile) {
+            var _wpLocked = await window.fetchLockedReportFile(
+              (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream',
+              sbResult.id,
+              filename.replace(/\.html?$/i, ''),
+              'html',
+            );
+            if (_wpLocked) _wpFile = _wpLocked;
+          }
           // Send to routing backend
           if (window.sendToRoutingBackend) {
-            await window.sendToRoutingBackend({ skill: 'writing', caption: finalCaption, file: new File([docBlob], filename, { type: 'text/html' }) });
+            await window.sendToRoutingBackend({ skill: 'writing', caption: finalCaption, file: _wpFile });
           }
           if (window.msProgress) window.msProgress.success('✅ Results saved successfully!');
         } catch(err) {
