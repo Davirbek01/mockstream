@@ -5267,6 +5267,8 @@
                               },
                               student: candidateName,
                               mockNumber: mockNum,
+                              // Passage practice: report only that passage.
+                              onlyPassage: window._practicePassage || 0,
                               result: { correct: correct, total: total, band: parseFloat(bandLabel) },
                             });
                             if (_pl && _pl.result && _pl.result.questions.length) {
