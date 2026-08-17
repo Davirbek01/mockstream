@@ -16,6 +16,7 @@
   <script src="premium-gate.js" defer></script>
   <script src="code-persistence.js" defer></script>
   <script src="supabase-send.js"></script>
+  <script src="attempt-payload.js"></script>
   <script src="session-recovery.js"></script>
   <script>if(window.SITE_CONFIG){var f=document.getElementById('site-favicon');if(f)f.href=window.SITE_CONFIG.logoUrl;}</script>
   <!-- Load global settings -->
@@ -5468,6 +5469,31 @@
         var finalCaption = caption;
         if (window.sendToSupabase) {
           try {
+            // Store the attempt as a PAYLOAD when we can build one: the saved
+            // report then IS the review page (same as the apps). Falls back to
+            // the legacy HTML report if anything is missing.
+            var _payloadBlob = null;
+            try {
+              if (window.buildCefrReadingPayload && TEST_DATA && TEST_DATA.parts) {
+                var _payload = window.buildCefrReadingPayload({
+                  data: TEST_DATA,
+                  userAnswers: userAnswers,
+                  matches: matchesAnswer,
+                  student: candidateName,
+                  mockNumber: mockNum,
+                  result: {
+                    correct: correct,
+                    total: total,
+                    certificateScore: certificateScore,
+                    cefrLevel: cefrResult.level,
+                  },
+                });
+                if (_payload && _payload.result && _payload.result.questions.length) {
+                  _payloadBlob = new Blob([JSON.stringify(_payload)], { type: 'application/json' });
+                }
+              }
+            } catch (e) { console.warn('[payload] falling back to html report:', e); }
+
             var sbResult = await window.sendToSupabase({
               studentName: candidateName,
               examType: 'cefr',
@@ -5475,8 +5501,8 @@
               score: certificateScore + '/75',
               level: cefrResult.level,
               mockNumber: window._practicePart ? ('Practice Part ' + window._practicePart + ' - Mock ' + mockNum) : ('Mock ' + mockNum),
-              file: htmlBlob,
-              fileType: 'html',
+              file: _payloadBlob || htmlBlob,
+              fileType: _payloadBlob ? 'payload' : 'html',
               caption: caption,
               metadata: Object.assign(
                 { raw: correct, total: total, percentage: percentage },
@@ -5487,9 +5513,20 @@
           } catch (e) { console.warn('[Supabase] skipped:', e); }
         }
 
-        // Send to backend
+        // Send to backend. Payload attempts attach the ENCRYPTED locker file so
+        // the channel copy is gated by the same live access code as the link.
+        var _tgFile = new File([htmlBlob], filename, { type: 'text/html' });
+        if (_payloadBlob && sbResult && sbResult.id && window.fetchLockedReportFile) {
+          var _locked = await window.fetchLockedReportFile(
+            (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream',
+            sbResult.id,
+            filename.replace(/\.html?$/i, ''),
+          );
+          if (_locked) _tgFile = _locked;
+        }
+
         const formData = new FormData();
-        formData.append('file', new File([htmlBlob], filename, { type: 'text/html' }));
+        formData.append('file', _tgFile);
         formData.append('section', 'reading');
         formData.append('caption', finalCaption);
 
@@ -5497,7 +5534,7 @@
         // general fanout). Legacy alwaysdata /send-result removed: it was
         // double-posting to the general channel.
         if (window.sendToRoutingBackend) {
-          await window.sendToRoutingBackend({ skill: 'reading', caption: finalCaption, file: new File([htmlBlob], filename, { type: 'text/html' }) });
+          await window.sendToRoutingBackend({ skill: 'reading', caption: finalCaption, file: _tgFile });
         }
         if (window.msProgress) window.msProgress.success('✅ Results saved successfully!');
       } catch (error) {

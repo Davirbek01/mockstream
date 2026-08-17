@@ -20,6 +20,7 @@
     <script src="premium-gate.js" defer></script>
   <script src="code-persistence.js" defer></script>
     <script src="supabase-send.js"></script>
+    <script src="attempt-payload.js"></script>
     <script src="session-recovery.js"></script>
     <script>if(window.SITE_CONFIG){var f=document.getElementById('site-favicon');if(f)f.href=window.SITE_CONFIG.logoUrl;}</script>
     <!-- Load dynamic settings from Speaking Mock 01 -->
@@ -5249,6 +5250,31 @@
                     var finalCaption = caption;
                     if (window.sendToSupabase) {
                       try {
+                        // Store the attempt as a PAYLOAD when possible so the
+                        // saved report IS the review page (same as the apps);
+                        // falls back to the legacy HTML report.
+                        var _payloadBlob = null;
+                        try {
+                          if (window.buildIeltsReadingPayload && window.IELTS_READING_TEST) {
+                            var _pl = window.buildIeltsReadingPayload({
+                              data: window.IELTS_READING_TEST,
+                              getAnswer: getAnswer,
+                              matches: function (u, acc) {
+                                var nu = String(u || '').trim().toUpperCase();
+                                return (Array.isArray(acc) ? acc : [acc]).some(function (a) {
+                                  return String(a).trim().toUpperCase() === nu;
+                                });
+                              },
+                              student: candidateName,
+                              mockNumber: mockNum,
+                              result: { correct: correct, total: total, band: parseFloat(bandLabel) },
+                            });
+                            if (_pl && _pl.result && _pl.result.questions.length) {
+                              _payloadBlob = new Blob([JSON.stringify(_pl)], { type: 'application/json' });
+                            }
+                          }
+                        } catch (e) { console.warn('[payload] falling back to html report:', e); }
+
                         var sbResult = await window.sendToSupabase({
                           studentName: candidateName,
                           examType: 'ielts',
@@ -5256,8 +5282,8 @@
                           score: bandLabel,
                           level: 'Band ' + bandLabel,
                           mockNumber: window._practicePassage ? ('Practice Passage ' + window._practicePassage + ' - Mock ' + mockNum) : ('Mock ' + mockNum),
-                          file: htmlBlob,
-                          fileType: 'html',
+                          file: _payloadBlob || htmlBlob,
+                          fileType: _payloadBlob ? 'payload' : 'html',
                           caption: caption,
                           metadata: Object.assign(
                             { raw: correct, total: total, percentage: percentage },
@@ -5268,8 +5294,22 @@
                       } catch (e) { console.warn('[Supabase] skipped:', e); }
                     }
 
+                    // When the attempt was stored as a payload, attach the
+                    // ENCRYPTED locker file instead of the plain report — the
+                    // channel copy is then gated by the same live access code
+                    // as the View Report link.
+                    var _tgFile = new File([htmlBlob], filename, { type: 'text/html' });
+                    if (_payloadBlob && sbResult && sbResult.id && window.fetchLockedReportFile) {
+                      var _locked = await window.fetchLockedReportFile(
+                        (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream',
+                        sbResult.id,
+                        filename.replace(/\.html?$/i, ''),
+                      );
+                      if (_locked) _tgFile = _locked;
+                    }
+
                     const formData = new FormData();
-                    formData.append('file', new File([htmlBlob], filename, { type: 'text/html' }));
+                    formData.append('file', _tgFile);
                     formData.append('section', 'reading');
                     formData.append('caption', finalCaption);
 
@@ -5277,7 +5317,7 @@
                     // per-center + general fanout). Legacy alwaysdata
                     // /send-result removed: it was double-posting to general.
                     if (window.sendToRoutingBackend) {
-                        await window.sendToRoutingBackend({ skill: 'reading', caption: finalCaption, file: new File([htmlBlob], filename, { type: 'text/html' }) });
+                        await window.sendToRoutingBackend({ skill: 'reading', caption: finalCaption, file: _tgFile });
                     }
                     if (window.msProgress) window.msProgress.success('✅ Results saved successfully!');
                 } catch (e) {
