@@ -167,7 +167,10 @@ body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 -apple-system,
 .phead{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 18px;background:#f1f5f9;border-bottom:1px solid var(--line);font-weight:800}
 .phead .score{color:var(--teal)}
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:0}
-.col{padding:16px 18px;min-width:0}
+/* Desktop: each side scrolls on its own, like the exam's split panes — the
+   passage stays put while you work down the questions. */
+.cols{height:calc(100vh - 150px);min-height:420px}
+.col{padding:16px 18px;min-width:0;overflow-y:auto;overscroll-behavior:contain}
 .col+.col{border-left:1px solid var(--line)}
 .ptext p{margin:0 0 12px}
 mark{background:var(--okbg);border-bottom:2px solid var(--ok);padding:1px 0;border-radius:2px}
@@ -223,9 +226,11 @@ body.only-wrong .q:not(.wrong){display:none}
 .atable tr.no .averdict{color:var(--no)}
 body.answers-on .psec{display:none}
 body.answers-on .answers{display:block}
-@media print{.answers{display:block!important}}
+@media print{.answers{display:block!important}.cols{height:auto}.col{overflow:visible}}
 @media (max-width:820px){
-  .cols{grid-template-columns:1fr}
+  /* Phones: one column, one page scroll (two nested scrollers is misery). */
+  .cols{grid-template-columns:1fr;height:auto;min-height:0}
+  .col{overflow:visible}
   .col+.col{border-left:0;border-top:1px solid var(--line)}
   /* Edge to edge on phones, and the score header scrolls away with the page
      (sticky ate a third of a small screen). */
