@@ -17,6 +17,7 @@ import { renderReadingReview } from './renderReadingReview.js';
 import { renderFullMock } from './renderFullMock.js';
 
 const ARCHIVE = 'https://storage.googleapis.com/mockstream-report-archive/';
+const STORAGE = 'https://zknyukkbtbcqgvkgjktb.supabase.co/storage/v1/object/public/reports/';
 
 /** Raw bytes of a stored path as text: bucket first, archive second, else null. */
 export async function loadRaw(sb, path) {
@@ -64,6 +65,17 @@ export async function renderStored(sb, path, raw) {
 
   if (payload && payload.kind === 'full-mock') {
     const centre = path.split('/')[0];
+    // Resolve the certificate ONCE, here: the bucket copy while it lasts, the
+    // permanent archive afterwards, so the tab never embeds a dead PDF.
+    let certHref = '';
+    if (payload.certificate) {
+      const live = STORAGE + encodeURI(payload.certificate);
+      certHref = ARCHIVE + encodeURI(payload.certificate);
+      try {
+        const head = await fetch(live, { method: 'HEAD' });
+        if (head.ok) certHref = live;
+      } catch { /* keep the archive URL */ }
+    }
     const html = await renderFullMock(payload, async (entry) => {
       const sp = await skillPath(sb, centre, entry);
       // A legacy zip skill report holds binary — embedding it would paint
@@ -83,7 +95,7 @@ export async function renderStored(sb, path, raw) {
       } catch {
         return null;
       }
-    });
+    }, certHref);
     return { html };
   }
 
