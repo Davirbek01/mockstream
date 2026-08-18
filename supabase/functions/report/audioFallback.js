@@ -18,7 +18,19 @@ export const AUDIO_FALLBACK =
   `if(el.load)el.load()}` +
   `document.addEventListener('error',function(e){var t=e.target;if(!t||!t.tagName)return;` +
   `if(t.tagName==='AUDIO')swap(t);` +
-  `else if(t.tagName==='SOURCE'&&t.parentElement&&t.parentElement.tagName==='AUDIO')swap(t.parentElement)},true)` +
+  `else if(t.tagName==='SOURCE'&&t.parentElement&&t.parentElement.tagName==='AUDIO')swap(t.parentElement)},true);` +
+  // A speaking report holds a player per answer TWICE (examiner + AI view). A
+  // phone will not keep sixteen media elements alive: the ones that asked to
+  // preload took the decoders and then refused to play. Ask for nothing up
+  // front, load on the tap that starts playback, and never leave two playing.
+  `function idle(){var l=document.querySelectorAll('audio');for(var i=0;i<l.length;i++){` +
+  `if(l[i].preload!=='none'){l[i].preload='none'}}}` +
+  `if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',idle);else idle();` +
+  `document.addEventListener('play',function(e){var t=e.target;if(!t||t.tagName!=='AUDIO')return;` +
+  `var l=document.querySelectorAll('audio');for(var i=0;i<l.length;i++){` +
+  `if(l[i]!==t&&!l[i].paused){try{l[i].pause()}catch(_){}}}},true);` +
+  `document.addEventListener('click',function(e){var t=e.target;` +
+  `if(t&&t.tagName==='AUDIO'&&t.readyState===0&&t.load){try{t.load()}catch(_){}}},true)` +
   `})();</script>`;
 
 /** Append the retry script to a finished report document. */

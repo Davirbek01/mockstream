@@ -7,7 +7,8 @@
 //
 //   <uuid>.html  → a finished report, served as it stands
 //   <uuid>.json  → an ATTEMPT PAYLOAD, rendered fresh:
-//                    kind 'ielts-reading' / 'cefr-reading' → the review page
+//                    kind '…-reading'   → the reading review page
+//                    kind '…-listening' → the same page, transcript + audio
 //                    kind 'full-mock'                      → the four-skill page
 //
 // Storage is checked first, then the permanent GCS archive (retention clears
@@ -15,6 +16,7 @@
 // ============================================================================
 import { renderReadingReview } from './renderReadingReview.js';
 import { renderFullMock } from './renderFullMock.js';
+import { renderListeningReview } from './renderListeningReview.js';
 import { repairStored } from './repairStored.js';
 
 const ARCHIVE = 'https://storage.googleapis.com/mockstream-report-archive/';
@@ -104,7 +106,10 @@ export async function renderStored(sb, path, raw) {
   }
 
   try {
-    return { html: renderReadingReview(payload) };
+    // Listening is the same review page with the transcript (and the part's
+    // audio) where reading shows the passage.
+    const listening = payload && String(payload.kind || '').endsWith('-listening');
+    return { html: listening ? renderListeningReview(payload) : renderReadingReview(payload) };
   } catch (e) {
     return { error: 'render_failed: ' + e.message };
   }
