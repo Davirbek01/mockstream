@@ -174,10 +174,12 @@ nav{background:#fff;border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-inde
   .tab .tl{display:none}.tab{flex:1 0 0;padding:10px 8px}
   header{padding:10px 12px}
   .hrow{gap:8px}
-  .hid{width:100%;text-align:center}
+  /* Name and the compact identity line share ONE row, so the phone header is
+     two rows (identity + buttons) instead of three. */
+  .hid{width:100%;text-align:center;display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;gap:8px}
   h1{font-size:15px;line-height:1.3}
   .hpfx{display:none}
-  .meta{font-size:11.5px}
+  .meta{font-size:11px}
   .mLong{display:none}.mShort{display:inline}
   .hbtns{width:100%;display:flex;gap:8px;justify-content:center;align-items:stretch}
   .cert,.ov{margin-left:0;flex:1 1 0;justify-content:center;padding:6px 10px;font-size:12.5px}

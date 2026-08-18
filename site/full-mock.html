@@ -1250,6 +1250,7 @@
             flex-direction: column;
             position: relative;
             animation: modTutPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-height: 92vh;
         }
 
         @keyframes modTutPop {
@@ -1265,7 +1266,7 @@
         }
 
         .mod-tut-header {
-            padding: 32px 40px;
+            padding: 18px 28px;
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: white;
             display: flex;
@@ -1313,6 +1314,9 @@
             flex-direction: column;
             justify-content: center;
             text-align: center;
+            overflow-y: auto;
+            flex: 1 1 auto;
+            min-height: 0;
         }
 
         .mod-tut-page {
@@ -1325,21 +1329,21 @@
         }
 
         .mod-tut-page-icon {
-            font-size: 48px;
-            margin-bottom: 12px;
+            font-size: 34px;
+            margin-bottom: 6px;
             filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.1));
         }
 
         .mod-tut-page-title {
-            font-size: 22px;
+            font-size: 19px;
             font-weight: 800;
             color: #0f172a;
             margin-bottom: 12px;
         }
 
         .mod-tut-page-desc {
-            font-size: 15px;
-            line-height: 1.5;
+            font-size: 13.5px;
+            line-height: 1.45;
             color: #64748b;
             max-width: 600px;
             margin: 0 auto;
@@ -1480,8 +1484,8 @@
 
             .mod-tut-card {
                 border-radius: 20px;
-                max-height: 90vh;
-                overflow-y: auto;
+                max-height: 92vh;
+                overflow: hidden;
             }
 
             #module-tutorial-overlay {
@@ -11126,6 +11130,9 @@ ${_sSpec}
                     </div>
                     <p class="prompt">${q.prompt}</p>
                     ${questionContext}
+                    <!-- The recording belongs right under the question: an examiner
+                         listens first and reads the analysis after. -->
+                    <div style="margin:10px 0 12px;"><audio controls style="width:100%;"><source src="answer_q${q.number}.webm" type="audio/webm"></audio></div>
                     ${hasCorrections ? `
                     <div class="corrections-box">
                         <div class="corrections-label">📝 Inline Corrections:</div>
@@ -11149,7 +11156,6 @@ ${_sSpec}
                         <div style="padding:12px 14px;background:#f0fdf4;font-size:14px;color:#064e3b;line-height:1.7;border-top:1px solid #a7f3d0;">${sampleAnswer}</div>
                     </details>
                     ` : ''}
-                    <div style="margin-top:12px;"><audio controls style="width:100%;"><source src="answer_q${q.number}.webm" type="audio/webm"></audio></div>
                 </div>`;
             });
 
