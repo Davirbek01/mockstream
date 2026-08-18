@@ -10304,11 +10304,16 @@ ${_sSpec}
                     zip.file('03_Writing_Report.html', fullMockWritingHTML);
 
                     // 4. CERTIFICATE PDF
+                    let fullMockCertificate = null;
                     try {
                         console.log('[Telegram] Generating certificate for ZIP...');
                         const certBlob = await generateCertificatePDF(true);
                         if (certBlob) {
                             zip.file('00_Official_Certificate.pdf', certBlob);
+                            // Also stored beside the attempt so the manifest page
+                            // (link + encrypted file) can offer it — the zip used
+                            // to be the only place it existed.
+                            fullMockCertificate = certBlob;
                         }
                     } catch (ce) {
                         console.error('[Telegram] Certificate generation failed for ZIP:', ce);
@@ -10422,7 +10427,8 @@ ${_sSpec}
                               { skill: 'writing', label: 'Writing', score: hasAiScores ? wScore + '/75' : 'N/A', mock: wMock, html: fullMockWritingHTML },
                               { skill: 'speaking', label: 'Speaking', score: hasAiScores ? sScore + '/75' : 'N/A', mock: sMock, html: fullMockSpeakingHTML }
                             ],
-                            audio: fullMockAudio
+                            audio: fullMockAudio,
+                            certificate: fullMockCertificate
                           },
                           caption: caption,
                           metadata: { l: lScore, r: rScore, w: wScore, s: sScore, hasAi: hasAiScores }
