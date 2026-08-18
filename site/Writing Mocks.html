@@ -3019,10 +3019,53 @@
       /* The AI view has no side panel, so on a wide screen it ran edge to edge
        while the examiner view (two panels) filled the width naturally. Cap the
        AI content and centre it; phones keep the full width. */
+    /* A tinted scroll area so the centred column reads as content on a page
+       rather than a stretched panel cropped at the sides. */
+    .ai-body { background: #f6f8fb; }
     @media (min-width: 1024px) {
       .ai-body { padding: 24px 28px !important; }
       .ai-body > * { max-width: 1200px; margin-left: auto !important; margin-right: auto !important; }
     }
+    .ai-rail { display: none; }
+    @media (min-width: 1024px) {
+      /* The width a wide screen leaves over goes to a question rail instead of
+         stretching one column edge to edge. */
+      .ai-body { padding: 22px 24px !important; display: grid;
+        grid-template-columns: 232px minmax(0, 1120px); justify-content: center;
+        gap: 24px; align-items: start; }
+      .ai-col { min-width: 0; }
+      .ai-rail { display: block; position: sticky; top: 0; background: #fff;
+        border: 1px solid #e5e7eb; border-radius: 14px; padding: 12px;
+        max-height: calc(100vh - 120px); overflow: auto; }
+      .ai-rail .rl-h { font-size: 11px; text-transform: uppercase; letter-spacing: .6px;
+        color: #94a3b8; font-weight: 700; margin: 2px 4px 8px; }
+      .ai-rail a { display: flex; align-items: center; gap: 8px; padding: 7px 9px;
+        border-radius: 9px; text-decoration: none; color: #334155; font-size: 13px;
+        font-weight: 600; }
+      .ai-rail a:hover { background: #f1f5f9; }
+      .ai-rail .dot { width: 8px; height: 8px; border-radius: 50%; flex: 0 0 auto; background: #cbd5e1; }
+      .ai-rail .dot.ok { background: #16a34a; }
+      .ai-rail .dot.part { background: #f59e0b; }
+      .ai-rail .dot.off { background: #dc2626; }
+      .ai-rail .pt { margin-left: auto; font-size: 11px; color: #94a3b8; font-weight: 600; }
+    }
+      /* Wider screens get a second rail: the score card stays visible after the
+         top cards scroll away, with a count of what the corrections flagged. */
+      .ai-side { display: none; }
+      @media (min-width: 1400px) {
+        .ai-body { grid-template-columns: 232px minmax(0, 1060px) 232px; }
+        .ai-side { display: block; position: sticky; top: 0; align-self: start;
+          background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 12px; }
+        .ai-side .rl-h { font-size: 11px; text-transform: uppercase; letter-spacing: .6px;
+          color: #94a3b8; font-weight: 700; margin: 2px 4px 8px; }
+        .ai-side .sc { display: flex; align-items: baseline; justify-content: space-between;
+          padding: 6px 6px; border-radius: 9px; font-size: 13px; color: #475569; font-weight: 600; }
+        .ai-side .sc b { font-size: 15px; color: #0f172a; }
+        .ai-side .sep { height: 1px; background: #eef2f7; margin: 10px 2px; }
+        .ai-side .er { display: flex; align-items: center; gap: 8px; padding: 5px 6px; font-size: 13px; font-weight: 600; }
+        .ai-side .er .n { margin-left: auto; color: #0f172a; }
+        .ai-side .er .sw { width: 10px; height: 10px; border-radius: 3px; flex: 0 0 auto; }
+      }
 </style>
 
   <script>
@@ -19438,7 +19481,89 @@ AREAS TO IMPROVE:
         setTimeout(() => successToast.remove(), 300);
       }, 2500);
     }
-  </script>
+  
+function buildAiRail() {
+  var body = document.querySelector('.ai-body');
+  if (!body || body.getAttribute('data-railed')) return;
+  var labels = [].slice.call(body.querySelectorAll('div,h3,h4')).filter(function (el) {
+    var t = (el.textContent || '').trim();
+    return el.children.length === 0 && (/^Q\d+\s*\(/.test(t) || /^(?:\s*\S{1,2}\s*)?(?:Task|Part)\s[\d.]+$/.test(t));
+  });
+  if (labels.length < 2) return;
+  body.setAttribute('data-railed', '1');
+  var col = document.createElement('div');
+  col.className = 'ai-col';
+  while (body.firstChild) col.appendChild(body.firstChild);
+  var rail = document.createElement('nav');
+  rail.className = 'ai-rail';
+  var html = '<div class="rl-h">Questions</div>';
+  labels.forEach(function (el, i) {
+    var card = el.closest('div[style*="border-radius:12px"]') || el.parentElement.parentElement;
+    var id = 'aiq' + (i + 1);
+    if (card && !card.id) card.id = id; else if (card) id = card.id;
+    var t = (el.textContent || '').trim();
+    var num = (t.match(/^Q\d+/) || t.match(/(?:Task|Part)\s[\d.]+/) || ['#' + (i + 1)])[0];
+    var part = (t.match(/\(([^)]*)\)/) || ['', ''])[1];
+    var badge = card ? (card.textContent || '') : '';
+    var cls = /PARTIALLY/.test(badge) ? 'part' : (/OFF-TOPIC/.test(badge) ? 'off' : (/ON-TOPIC/.test(badge) ? 'ok' : ''));
+    html += '<a href="#' + id + '" data-t="' + id + '"><span class="dot ' + cls + '"></span>' + num +
+            '<span class="pt">' + part + '</span></a>';
+  });
+  rail.innerHTML = html;
+
+  body.appendChild(rail);
+  body.appendChild(col);
+  rail.addEventListener('click', function (e) {
+    var a = e.target.closest('a');
+    if (!a) return;
+    e.preventDefault();
+    var t = document.getElementById(a.getAttribute('data-t'));
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+}
+
+function buildAiSide() {
+  var body = document.querySelector('.ai-body');
+  var col = document.querySelector('.ai-col');
+  if (!body || !col || document.querySelector('.ai-side')) return;
+  var sHtml = '';
+  // Score cards: label and value sit in two child nodes, so read those rather
+  // than the concatenated text ("Raw Score10/21" defeats any word boundary).
+  var seen = {};
+  [].slice.call(col.querySelectorAll('div')).forEach(function (el) {
+    if (el.children.length !== 2) return;
+    var k = (el.children[0].textContent || '').trim();
+    var v = (el.children[1].textContent || '').trim();
+    if (!/^(Raw Score|Certificate|CEFR|Overall)$/.test(k) || !v || v.length > 12 || seen[k]) return;
+    seen[k] = 1;
+    sHtml += '<div class="sc"><span>' + k + '</span><b>' + v + '</b></div>';
+  });
+  if (sHtml) sHtml = '<div class="rl-h">Result</div>' + sHtml + '<div class="sep"></div>';
+  var TYPES = [['GRAMMAR', '#fecaca'], ['VOCAB', '#bfdbfe'], ['FLUENCY', '#fde68a'], ['PRON', '#ddd6fe'], ['SPELL', '#fed7aa']];
+  var counts = {};
+  [].slice.call(col.querySelectorAll('span,b,strong')).forEach(function (el) {
+    if (el.children.length) return;
+    var t = (el.textContent || '').trim();
+    for (var i = 0; i < TYPES.length; i++) if (t === TYPES[i][0]) counts[t] = (counts[t] || 0) + 1;
+  });
+  var rows = '';
+  TYPES.forEach(function (ty) {
+    if (!counts[ty[0]]) return;
+    rows += '<div class="er"><span class="sw" style="background:' + ty[1] + '"></span>' +
+            ty[0].charAt(0) + ty[0].slice(1).toLowerCase() + '<span class="n">' + counts[ty[0]] + '</span></div>';
+  });
+  if (rows) sHtml += '<div class="rl-h">Corrections</div>' + rows;
+  if (!sHtml) return;
+  var side = document.createElement('aside');
+  side.className = 'ai-side';
+  side.innerHTML = sHtml;
+  body.appendChild(side);
+}
+try { buildAiRail(); buildAiSide(); } catch (e) {}
+// A late second pass: some reports finish painting their cards after this
+// script runs, and an empty rail is worse than a slightly late one.
+setTimeout(function () { try { buildAiSide(); } catch (e) {} }, 400);
+</script>
 
   <!-- Download Passcode Modal -->
   <div id="downloadPasscodeModal"
