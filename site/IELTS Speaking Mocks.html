@@ -19007,7 +19007,7 @@ function buildAiRail() {
   if (!body || body.getAttribute('data-railed')) return;
   var labels = [].slice.call(body.querySelectorAll('div,h3,h4')).filter(function (el) {
     var t = (el.textContent || '').trim();
-    return el.children.length === 0 && (/^Q\d+\s*\(/.test(t) || /^(?:\s*\S{1,2}\s*)?(?:Task|Part)\s[\d.]+$/.test(t));
+    return el.children.length === 0 && (/^Q\\d+\\s*\\(/.test(t) || /^(?:\\s*\\S{1,2}\\s*)?(?:Task|Part)\\s[\\d.]+$/.test(t));
   });
   if (labels.length < 2) return;
   body.setAttribute('data-railed', '1');
@@ -19022,7 +19022,7 @@ function buildAiRail() {
     var id = 'aiq' + (i + 1);
     if (card && !card.id) card.id = id; else if (card) id = card.id;
     var t = (el.textContent || '').trim();
-    var num = (t.match(/^Q\d+/) || t.match(/(?:Task|Part)\s[\d.]+/) || ['#' + (i + 1)])[0];
+    var num = (t.match(/^Q\\d+/) || t.match(/(?:Task|Part)\\s[\\d.]+/) || ['#' + (i + 1)])[0];
     var part = (t.match(/\(([^)]*)\)/) || ['', ''])[1];
     var badge = card ? (card.textContent || '') : '';
     var cls = /PARTIALLY/.test(badge) ? 'part' : (/OFF-TOPIC/.test(badge) ? 'off' : (/ON-TOPIC/.test(badge) ? 'ok' : ''));
