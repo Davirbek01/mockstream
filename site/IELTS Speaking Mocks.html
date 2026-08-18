@@ -11860,7 +11860,9 @@ ${questionsContent}
                 mockNumber: _isPractice ? 'Practice ' + _practicePartLabel : 'Mock ' + mockNum,
                 file: null,
                 fileType: 'html',
-                html: reportHTML,
+                html: (window.withViolationLog
+                  ? window.withViolationLog(reportHTML, violations, window.tabSwitchCount, window.blurCount)
+                  : reportHTML),
                 audio: (function () {
                   // The recordings are stored BESIDE the report (see
                   // supabase-send.js), so the View Report link opens a real

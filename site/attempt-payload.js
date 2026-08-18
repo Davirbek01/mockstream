@@ -257,6 +257,44 @@
     }
   }
 
+
+  // ── Violation log for the STORED report ─────────────────────────────────
+  // It used to travel as violation_report.json inside the zip; the encrypted
+  // html replaced the zip, so the detail now rides inside the report itself
+  // (the header already shows the count).
+  function violationDetailsHtml(list, tabSwitches, blurs) {
+    var esc = function (x) { return String(x == null ? '' : x).replace(/[<>&]/g, ''); };
+    var rows = (list || []).map(function (v) {
+      var t = '';
+      try { t = new Date(v.timestamp).toLocaleString('en-GB'); } catch (e) { t = String(v.timestamp || ''); }
+      return '<tr><td style="padding:6px">' + esc(v.type) + '</td>' +
+             '<td style="padding:6px;text-align:center">' + (v.count == null ? '' : esc(v.count)) + '</td>' +
+             '<td style="padding:6px">' + esc(t) + '</td></tr>';
+    }).join('');
+    if (!rows) {
+      return '<details style="margin:18px 0"><summary style="cursor:pointer;font-weight:700">' +
+        'Exam integrity — no violations detected</summary></details>';
+    }
+    return '<details style="margin:18px 0"><summary style="cursor:pointer;font-weight:700;color:#b91c1c">' +
+      'Exam integrity — ' + list.length + ' violation(s)</summary>' +
+      '<div style="font-size:13px;color:#475569;margin:8px 0">Tab switches: ' + (tabSwitches || 0) +
+      ' &middot; Window blurs: ' + (blurs || 0) + '</div>' +
+      '<table style="width:100%;border-collapse:collapse;font-size:13px;border:1px solid #e2e8f0">' +
+      '<tr style="background:#f1f5f9"><th style="text-align:left;padding:6px">Type</th>' +
+      '<th style="padding:6px">Count</th><th style="text-align:left;padding:6px">Time</th></tr>' +
+      rows + '</table></details>';
+  }
+
+  /** Append the violation log to a finished report, just before </body>. */
+  function withViolationLog(html, list, tabSwitches, blurs) {
+    var block = violationDetailsHtml(list, tabSwitches, blurs);
+    if (!html) return html;
+    return html.indexOf('</body>') !== -1 ? html.replace('</body>', block + '</body>') : html + block;
+  }
+
+  window.violationDetailsHtml = violationDetailsHtml;
+  window.withViolationLog = withViolationLog;
+
   window.buildCefrReadingPayload = buildCefrReadingPayload;
   window.buildIeltsReadingPayload = buildIeltsReadingPayload;
   window.fetchLockedReportFile = fetchLockedReportFile;
