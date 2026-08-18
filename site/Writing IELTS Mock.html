@@ -11143,12 +11143,51 @@ ${_wSpec}
 
   })();
 
+  function railPartOf(t) {
+    var a = t.indexOf('(');
+    if (a < 0) return '';
+    var b = t.indexOf(')', a + 1);
+    return b < 0 ? '' : t.slice(a + 1, b);
+  }
+  function railIsQLabel(t) {
+    if (t.charAt(0) !== 'Q') return false;
+    var i = 1;
+    while (i < t.length && t.charCodeAt(i) >= 48 && t.charCodeAt(i) <= 57) i++;
+    if (i === 1) return false;
+    while (i < t.length && t.charAt(i) === ' ') i++;
+    return t.charAt(i) === '(';
+  }
+  function railTaskLabel(t) {
+    var s = t;
+    while (s.length && !(s.charCodeAt(0) >= 65 && s.charCodeAt(0) <= 90)) s = s.slice(1);
+    var word = s.slice(0, 4) === 'Task' ? 'Task' : (s.slice(0, 4) === 'Part' ? 'Part' : '');
+    if (!word) return '';
+    var rest = s.slice(4);
+    if (rest.charAt(0) !== ' ') return '';
+    rest = rest.slice(1);
+    var num = '';
+    for (var i = 0; i < rest.length; i++) {
+      var ch = rest.charAt(i);
+      if ((ch >= '0' && ch <= '9') || ch === '.') num += ch;
+      else break;
+    }
+    if (!num || rest.length !== num.length) return '';
+    return word + ' ' + num;
+  }
+  function railNumberOf(t) {
+    if (railIsQLabel(t)) {
+      var i = 1, out = 'Q';
+      while (i < t.length && t.charCodeAt(i) >= 48 && t.charCodeAt(i) <= 57) { out += t.charAt(i); i++; }
+      return out;
+    }
+    return railTaskLabel(t);
+  }
 function buildAiRail() {
   var body = document.querySelector('.ai-body');
   if (!body || body.getAttribute('data-railed')) return;
   var labels = [].slice.call(body.querySelectorAll('div,h3,h4')).filter(function (el) {
     var t = (el.textContent || '').trim();
-    return el.children.length === 0 && (/^Q\\d+\\s*\\(/.test(t) || /^(?:\\s*\\S{1,2}\\s*)?(?:Task|Part)\\s[\\d.]+$/.test(t));
+    return el.children.length === 0 && (railIsQLabel(t) || !!railTaskLabel(t));
   });
   if (labels.length < 2) return;
   body.setAttribute('data-railed', '1');
@@ -11163,8 +11202,8 @@ function buildAiRail() {
     var id = 'aiq' + (i + 1);
     if (card && !card.id) card.id = id; else if (card) id = card.id;
     var t = (el.textContent || '').trim();
-    var num = (t.match(/^Q\\d+/) || t.match(/(?:Task|Part)\\s[\\d.]+/) || ['#' + (i + 1)])[0];
-    var part = (t.match(/\(([^)]*)\)/) || ['', ''])[1];
+    var num = (railNumberOf(t) || '#' + (i + 1));
+    var part = railPartOf(t);
     var badge = card ? (card.textContent || '') : '';
     var cls = /PARTIALLY/.test(badge) ? 'part' : (/OFF-TOPIC/.test(badge) ? 'off' : (/ON-TOPIC/.test(badge) ? 'ok' : ''));
     html += '<a href="#' + id + '" data-t="' + id + '"><span class="dot ' + cls + '"></span>' + num +
