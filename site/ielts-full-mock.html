@@ -9847,6 +9847,11 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
                 const { jsPDF } = window.jspdf;
                 const pdf = new jsPDF('p', 'mm', 'a4');
                 const imgData = canvas.toDataURL('image/png');
+                try {
+                    window._fmCertPngBlob = await new Promise(function (res) {
+                        canvas.toBlob(function (b) { res(b); }, 'image/png');
+                    });
+                } catch (e) { window._fmCertPngBlob = null; }
                 const pdfWidth = pdf.internal.pageSize.getWidth();
                 const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
                 pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
@@ -10416,7 +10421,8 @@ ${questionsHTML}
                               { skill: 'speaking', label: 'Speaking', score: hasAi ? sScore.toFixed(1) : 'N/A', mock: sMock, html: fmSpeakingHTML }
                             ],
                             audio: fmAudioBlobs,
-                            certificate: fmCertificate
+                            certificate: fmCertificate,
+                            certificateImage: (window._fmCertPngBlob || null)
                           },
                           caption: caption,
                           metadata: { l: lScore, r: rScore, w: wScore, s: sScore, hasAi: hasAi, bandDesc: bandDesc }

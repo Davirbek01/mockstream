@@ -13480,17 +13480,31 @@ ${questionsContent}
       .final-score-item { min-width: auto; }
       .section-divider { margin: 24px 0; }
     }
+    /* The view switcher used to wrap onto a second row on narrow screens: the
+       View Report link hid it because results/view.html injects its own mobile
+       CSS, but the Telegram file gets none. Keep the bar on ONE row and drop
+       the label instead. */
+    .rpt-bar { flex-wrap: nowrap !important; }
+    .rpt-actions { flex-wrap: nowrap !important; flex-shrink: 0; }
+    .rpt-brand { min-width: 0; overflow: hidden; }
+    @media (max-width: 560px) {
+      .rpt-brand h2 { display: none; }
+      .rpt-actions button { padding: 6px 10px !important; font-size: 12px !important; }
+    }
+    @media (max-width: 400px) {
+      .rpt-actions button { padding: 6px 8px !important; font-size: 11.5px !important; }
+    }
   </style>
 </head>
 <body>
-  <div style="position:sticky;top:0;z-index:50;background:linear-gradient(135deg,#0f766e 0%,#115e59 100%);color:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px 12px;box-shadow:0 2px 10px rgba(0,0,0,0.15);">
-    <div style="display:flex;align-items:center;gap:10px;min-width:0;">
+  <div class="rpt-bar" style="position:sticky;top:0;z-index:50;background:linear-gradient(135deg,#0f766e 0%,#115e59 100%);color:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px 12px;box-shadow:0 2px 10px rgba(0,0,0,0.15);">
+    <div class="rpt-brand" style="display:flex;align-items:center;gap:10px;min-width:0;">
       <span style="font-size:18px;line-height:1;flex-shrink:0;">📝</span>
       <div style="min-width:0;">
         <h2 style="margin:0;font-size:13px;font-weight:700;line-height:1.2;color:#fff;">Examiner</h2>
       </div>
     </div>
-    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+    <div class="rpt-actions" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
       ${autoAiResult ? `<div style="display:inline-flex;gap:4px;background:rgba(255,255,255,0.18);padding:4px;border-radius:9px;"><button onclick="openAiModal()" style="background:transparent;color:#fff;border:none;padding:7px 13px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;">🤖 AI Score</button><button onclick="closeAiModal()" style="background:#fff;color:#115e59;border:none;padding:7px 13px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;">👤 Examiner</button></div>` : ''}
       <button onclick="generatePDF()" style="background:rgba(255,255,255,0.92);border:none;color:#115e59;border:none;padding:6px 12px;border-radius:6px;font-weight:700;cursor:pointer;font-size:12.5px;white-space:nowrap;width:auto;height:auto;min-width:0;flex:0 0 auto;">📄 PDF</button>
     </div>
@@ -14455,13 +14469,13 @@ ${autoAiResult ? (() => {
   <div onclick="closeAiModal()" style="position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;background:rgba(0,0,0,0.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:1;"></div>
   <div style="position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;background:white;overflow:hidden;display:flex;flex-direction:column;z-index:2;">
     <div style="background:linear-gradient(135deg,#7c3aed 0%,#6d28d9 100%);color:white;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px 12px;flex-shrink:0;">
-      <div style="display:flex;align-items:center;gap:10px;min-width:0;">
+      <div class="rpt-brand" style="display:flex;align-items:center;gap:10px;min-width:0;">
         <span style="font-size:18px;line-height:1;flex-shrink:0;">🤖</span>
         <div style="min-width:0;">
           <h2 style="margin:0;font-size:13px;font-weight:700;line-height:1.2;">AI</h2>
         </div>
       </div>
-      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+      <div class="rpt-actions" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
         <div style="display:inline-flex;gap:4px;background:rgba(255,255,255,0.18);padding:4px;border-radius:9px;">
           <button onclick="openAiModal()" style="background:#fff;color:#6d28d9;border:none;padding:7px 13px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;">🤖 AI Score</button>
           <button onclick="closeAiModal()" style="background:transparent;color:#fff;border:none;padding:7px 13px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;">👤 Examiner</button>

@@ -10432,7 +10432,8 @@ ${_sSpec}
                               { skill: 'speaking', label: 'Speaking', score: hasAiScores ? sScore + '/75' : 'N/A', mock: sMock, html: fullMockSpeakingHTML }
                             ],
                             audio: fullMockAudio,
-                            certificate: fullMockCertificate
+                            certificate: fullMockCertificate,
+                            certificateImage: (window._fmCertPngBlob || null)
                           },
                           caption: caption,
                           metadata: { l: lScore, r: rScore, w: wScore, s: sScore, hasAi: hasAiScores }
@@ -12071,6 +12072,14 @@ ${_sSpec}
                 const { jsPDF } = window.jspdf;
                 const pdf = new jsPDF('p', 'mm', 'a4');
                 const imgData = canvas.toDataURL('image/png');
+                // Same pixels as the PDF, kept as a PNG: an Android browser shows
+                // an "Open" placeholder for an embedded PDF, so the report tab
+                // displays this image and the PDF stays for downloading.
+                try {
+                    window._fmCertPngBlob = await new Promise(function (res) {
+                        canvas.toBlob(function (b) { res(b); }, 'image/png');
+                    });
+                } catch (e) { window._fmCertPngBlob = null; }
                 const pdfWidth = pdf.internal.pageSize.getWidth();
                 const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 

@@ -55,7 +55,7 @@ function fmtDate(iso) {
  * @param load     async (skillEntry) => html string | null — supplied by the
  *                 Edge Function so this file stays free of Supabase imports
  */
-export async function renderFullMock(manifest, load, certHref) {
+export async function renderFullMock(manifest, load, certHref, certImgHref) {
   const m = manifest || {};
   const examLabel = m.exam === 'ielts' ? 'IELTS' : 'Multilevel (CEFR)';
   const skills = (m.skills || [])
@@ -76,34 +76,41 @@ export async function renderFullMock(manifest, load, certHref) {
   // button stays for downloading it, because phones usually refuse to preview
   // a PDF inline, so the pane carries its own open link too.
   const certUrl = m.certificate ? (certHref || STORAGE + m.certificate) : '';
-  const frames = certUrl
-    ? [{ skill: 'certificate', label: 'Certificate', score: '', pdf: certUrl }, ...skillFrames]
+  const certImg = m.certificateImage ? (certImgHref || STORAGE + m.certificateImage) : '';
+  const frames = (certUrl || certImg)
+    ? [{ skill: 'certificate', label: 'Certificate', score: '', pdf: certUrl, img: certImg }, ...skillFrames]
     : skillFrames;
-  const usable = frames.filter((f) => f.html || f.pdf);
-  const firstIdx = frames.findIndex((f) => f.html || f.pdf);
+  const usable = frames.filter((f) => f.html || f.pdf || f.img);
+  const firstIdx = frames.findIndex((f) => f.html || f.pdf || f.img);
 
   const tabs = frames
     .map((f, i) => {
-      const icon = f.pdf ? '📜' : (SKILL_ICON[f.skill] || '📄');
+      const has = f.html || f.pdf || f.img;
+      const icon = (f.pdf || f.img) ? '📜' : (SKILL_ICON[f.skill] || '📄');
       const label = esc(f.label || f.skill);
-      const dis = (f.html || f.pdf) ? '' : ' disabled';
+      const dis = has ? '' : ' disabled';
       return `<button class="tab${i === firstIdx ? ' on' : ''}" data-i="${i}"${dis}>` +
         `<span class="ic">${icon}</span><span class="tl">${label}</span>` +
-        `<span class="ts">${esc(f.score || (f.html || f.pdf ? '' : 'no report'))}</span></button>`;
+        `<span class="ts">${esc(f.score || (has ? '' : 'no report'))}</span></button>`;
     })
     .join('');
 
   const panes = frames
     .map((f, i) => {
       const on = i === firstIdx ? ' on' : '';
-      if (f.pdf) {
-        return `<div class="pane pdfpane${on}" data-i="${i}">` +
-          // #view=FitH makes the built-in PDF viewer fit the page WIDTH, so a
-          // phone shows the whole certificate instead of its left third.
-          `<iframe class="pdfframe" src="${esc(f.pdf)}#view=FitH" title="Certificate"></iframe>` +
-          `<div class="pdfnote">Not showing? <a href="${esc(f.pdf)}" target="_blank" rel="noopener">` +
-          `Open the certificate</a> in a new tab.</div>` +
-          `</div>`;
+      if (f.pdf || f.img) {
+        // An IMAGE renders everywhere; an embedded PDF does not — Android shows
+        // an "Open" placeholder instead of the certificate. So the tab shows the
+        // PNG twin when one exists, keeping the PDF behind a download link;
+        // attempts saved before the PNG existed still embed the PDF (#view=FitH
+        // at least fits it to the page width).
+        const view = f.img
+          ? `<div class="certwrap"><img class="certimg" src="${esc(f.img)}" alt="Certificate"></div>`
+          : `<iframe class="pdfframe" src="${esc(f.pdf)}#view=FitH" title="Certificate"></iframe>`;
+        const link = f.pdf
+          ? `<div class="pdfnote"><a href="${esc(f.pdf)}" target="_blank" rel="noopener">⬇ Download the certificate (PDF)</a></div>`
+          : '';
+        return `<div class="pane pdfpane${on}" data-i="${i}">${view}${link}</div>`;
       }
       return f.html
         ? `<iframe class="pane${on}" data-i="${i}" srcdoc="${srcdocAttr(f.html)}"></iframe>`
@@ -164,6 +171,8 @@ nav{background:#fff;border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-inde
 .pdfpane{position:relative;background:#f8fafc}
 .pdfpane.on{display:flex;flex-direction:column}
 .pdfframe{flex:1;width:100%;border:0;background:#fff}
+.certwrap{flex:1;min-height:0;overflow:auto;display:flex;align-items:flex-start;justify-content:center;padding:14px;background:#f1f5f9}
+.certimg{max-width:100%;height:auto;border-radius:8px;box-shadow:0 6px 24px rgba(15,23,42,.18);background:#fff}
 .pdfnote{padding:10px 14px;font-size:12.5px;color:#64748b;text-align:center;border-top:1px solid #e2e8f0;background:#fff}
 .pdfnote a{color:#0d9488;font-weight:600}
 .mShort{display:none}

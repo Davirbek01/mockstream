@@ -67,15 +67,17 @@ export async function renderStored(sb, path, raw) {
     const centre = path.split('/')[0];
     // Resolve the certificate ONCE, here: the bucket copy while it lasts, the
     // permanent archive afterwards, so the tab never embeds a dead PDF.
-    let certHref = '';
-    if (payload.certificate) {
-      const live = STORAGE + encodeURI(payload.certificate);
-      certHref = ARCHIVE + encodeURI(payload.certificate);
+    const resolveAsset = async (path) => {
+      if (!path) return '';
+      const live = STORAGE + encodeURI(path);
       try {
         const head = await fetch(live, { method: 'HEAD' });
-        if (head.ok) certHref = live;
-      } catch { /* keep the archive URL */ }
-    }
+        if (head.ok) return live;
+      } catch { /* fall through to the archive */ }
+      return ARCHIVE + encodeURI(path);
+    };
+    const certHref = await resolveAsset(payload.certificate);
+    const certImgHref = await resolveAsset(payload.certificateImage);
     const html = await renderFullMock(payload, async (entry) => {
       const sp = await skillPath(sb, centre, entry);
       // A legacy zip skill report holds binary — embedding it would paint
@@ -95,7 +97,7 @@ export async function renderStored(sb, path, raw) {
       } catch {
         return null;
       }
-    }, certHref);
+    }, certHref, certImgHref);
     return { html };
   }
 
