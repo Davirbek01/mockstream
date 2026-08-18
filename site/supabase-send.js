@@ -384,6 +384,28 @@
           } catch (e) { console.warn('[Supabase] certificate upload error', e); }
         }
 
+        // A PNG twin of the same certificate: an Android browser shows an
+        // "Open" placeholder instead of rendering an embedded PDF, so the tab
+        // displays this image while the button still downloads the PDF.
+        var fmCertImgPath = '';
+        if (fm.certificateImage) {
+          var iPath = centreId + '/' + id + '/certificate.png';
+          try {
+            var ir = await fetch(SUPABASE_URL + '/storage/v1/object/reports/' + iPath, {
+              method: 'POST',
+              headers: {
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+                'Content-Type': 'image/png',
+                'x-upsert': 'true'
+              },
+              body: fm.certificateImage
+            });
+            if (ir.ok) fmCertImgPath = iPath;
+            else console.warn('[Supabase] certificate image upload failed', ir.status);
+          } catch (e) { console.warn('[Supabase] certificate image error', e); }
+        }
+
         var ORDER_FM = ['listening', 'reading', 'writing', 'speaking'];
         fmSkills.sort(function (a, b) { return ORDER_FM.indexOf(a.skill) - ORDER_FM.indexOf(b.skill); });
         fileToUpload = new Blob([JSON.stringify({
@@ -395,6 +417,7 @@
           source: fm.source || 'Website',
           overall: fm.overall || null,
           certificate: fmCertPath || undefined,
+          certificateImage: fmCertImgPath || undefined,
           skills: fmSkills
         })], { type: 'application/json' });
       }
