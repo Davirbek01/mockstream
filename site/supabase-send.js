@@ -336,7 +336,10 @@
           if (!sk || !sk.html) return;
           var body = String(sk.html);
           Object.keys(fmUrls).forEach(function (qn) {
-            ['answer_q' + qn + '.webm', 'answer-q' + qn + '.m4a', 'answer_q' + qn + '.m4a']
+            // Every local name a report page uses for an answer file. IELTS full
+            // mocks name theirs "S-<index>.webm" — miss that and the stored
+            // report keeps a dead relative src and plays nothing.
+            ['answer_q' + qn + '.webm', 'answer-q' + qn + '.m4a', 'answer_q' + qn + '.m4a', 'S-' + qn + '.webm']
               .forEach(function (local) { body = body.split(local).join(fmUrls[qn]); });
           });
           var sPath = centreId + '/' + id + '/' + sk.skill + '.html';
@@ -431,7 +434,7 @@
         uploaded.forEach(function (u) {
           if (!u) return;
           // Every local spelling the report pages use for an answer file.
-          ['answer_q' + u.qn + '.webm', 'answer-q' + u.qn + '.m4a', 'answer_q' + u.qn + '.m4a']
+          ['answer_q' + u.qn + '.webm', 'answer-q' + u.qn + '.m4a', 'answer_q' + u.qn + '.m4a', 'S-' + u.qn + '.webm']
             .forEach(function (local) { reportHtml = reportHtml.split(local).join(u.url); });
         });
         fileToUpload = new Blob([reportHtml], { type: 'text/html;charset=utf-8' });

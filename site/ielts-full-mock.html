@@ -2571,6 +2571,7 @@
             flex-direction: column;
             position: relative;
             animation: imtPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-height: 92vh;
         }
 
         .imt-header {
@@ -2622,6 +2623,9 @@
             flex-direction: column;
             justify-content: center;
             text-align: center;
+            overflow-y: auto;
+            flex: 1 1 auto;
+            min-height: 0;
         }
 
         .imt-page {
@@ -2640,7 +2644,7 @@
         }
 
         .imt-page-title {
-            font-size: 22px;
+            font-size: 19px;
             font-weight: 800;
             color: #0f172a;
             margin-bottom: 10px;
@@ -2800,8 +2804,8 @@
 
             .imt-card {
                 border-radius: 20px;
-                max-height: 90vh;
-                overflow-y: auto;
+                max-height: 92vh;
+                overflow: hidden;
             }
 
             #ielts-mod-tut-overlay {

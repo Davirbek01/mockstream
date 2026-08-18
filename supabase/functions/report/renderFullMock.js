@@ -36,6 +36,12 @@ function srcdocAttr(html) {
   return String(html).replace(/&/g, '&amp;').replace(/"/g, '&quot;');
 }
 
+/** "18.08.26" — the phone header has no room for a four-digit year. */
+function fmtDateShort(iso) {
+  const long = fmtDate(iso);
+  return long ? long.replace(/\.(\d{2})(\d{2})$/, '.$2') : '';
+}
+
 function fmtDate(iso) {
   if (!iso) return '';
   const d = new Date(iso);
@@ -49,14 +55,14 @@ function fmtDate(iso) {
  * @param load     async (skillEntry) => html string | null — supplied by the
  *                 Edge Function so this file stays free of Supabase imports
  */
-export async function renderFullMock(manifest, load) {
+export async function renderFullMock(manifest, load, certHref) {
   const m = manifest || {};
   const examLabel = m.exam === 'ielts' ? 'IELTS' : 'Multilevel (CEFR)';
   const skills = (m.skills || [])
     .slice()
     .sort((a, b) => ORDER.indexOf(a.skill) - ORDER.indexOf(b.skill));
 
-  const frames = await Promise.all(
+  const skillFrames = await Promise.all(
     skills.map(async (s) => {
       let html = null;
       try {
@@ -65,25 +71,44 @@ export async function renderFullMock(manifest, load) {
       return { ...s, html: html ? withAudioFallback(html) : null };
     }),
   );
-  const usable = frames.filter((f) => f.html);
+
+  // The certificate opens FIRST — it is what a student looks for. The header
+  // button stays for downloading it, because phones usually refuse to preview
+  // a PDF inline, so the pane carries its own open link too.
+  const certUrl = m.certificate ? (certHref || STORAGE + m.certificate) : '';
+  const frames = certUrl
+    ? [{ skill: 'certificate', label: 'Certificate', score: '', pdf: certUrl }, ...skillFrames]
+    : skillFrames;
+  const usable = frames.filter((f) => f.html || f.pdf);
+  const firstIdx = frames.findIndex((f) => f.html || f.pdf);
 
   const tabs = frames
     .map((f, i) => {
-      const icon = SKILL_ICON[f.skill] || '📄';
+      const icon = f.pdf ? '📜' : (SKILL_ICON[f.skill] || '📄');
       const label = esc(f.label || f.skill);
-      const dis = f.html ? '' : ' disabled';
-      return `<button class="tab${i === 0 && f.html ? ' on' : ''}" data-i="${i}"${dis}>` +
+      const dis = (f.html || f.pdf) ? '' : ' disabled';
+      return `<button class="tab${i === firstIdx ? ' on' : ''}" data-i="${i}"${dis}>` +
         `<span class="ic">${icon}</span><span class="tl">${label}</span>` +
-        `<span class="ts">${esc(f.score || (f.html ? '' : 'no report'))}</span></button>`;
+        `<span class="ts">${esc(f.score || (f.html || f.pdf ? '' : 'no report'))}</span></button>`;
     })
     .join('');
 
   const panes = frames
-    .map((f, i) =>
-      f.html
-        ? `<iframe class="pane${i === 0 ? ' on' : ''}" data-i="${i}" srcdoc="${srcdocAttr(f.html)}"></iframe>`
-        : '',
-    )
+    .map((f, i) => {
+      const on = i === firstIdx ? ' on' : '';
+      if (f.pdf) {
+        return `<div class="pane pdfpane${on}" data-i="${i}">` +
+          // #view=FitH makes the built-in PDF viewer fit the page WIDTH, so a
+          // phone shows the whole certificate instead of its left third.
+          `<iframe class="pdfframe" src="${esc(f.pdf)}#view=FitH" title="Certificate"></iframe>` +
+          `<div class="pdfnote">Not showing? <a href="${esc(f.pdf)}" target="_blank" rel="noopener">` +
+          `Open the certificate</a> in a new tab.</div>` +
+          `</div>`;
+      }
+      return f.html
+        ? `<iframe class="pane${on}" data-i="${i}" srcdoc="${srcdocAttr(f.html)}"></iframe>`
+        : '';
+    })
     .join('');
 
   // The certificate PDF used to travel inside the zip. It is stored beside the
@@ -93,6 +118,10 @@ export async function renderFullMock(manifest, load) {
     ? `<a class="cert" id="certLink" href="${esc(STORAGE + m.certificate)}" target="_blank" rel="noopener"
          data-path="${esc(m.certificate)}">📜 Certificate</a>`
     : '';
+
+  // Phones get a compact identity line: "Website · CEFR · 18.08.26".
+  const shortExam = m.exam === 'ielts' ? 'IELTS' : 'CEFR';
+  const shortSource = String(m.source || '').replace(/\s*App$/i, '').replace(/^Website$/i, 'Web');
 
   const overall = m.overall && m.overall.label
     ? `<div class="ov"><span class="ovl">Overall</span><span class="ovv">${esc(m.overall.label)}</span>${
@@ -109,14 +138,14 @@ export async function renderFullMock(manifest, load) {
 body{margin:0;background:#f1f5f9;font:15px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;color:#0f172a}
 header{background:linear-gradient(135deg,#0f172a,#1e293b);color:#e2e8f0;padding:16px 20px}
 .hrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;max-width:1400px;margin:0 auto}
+.hbtns{margin-left:auto;display:flex;align-items:center;gap:10px}
 h1{font-size:17px;margin:0;font-weight:700;letter-spacing:.2px}
 .meta{font-size:12.5px;color:#94a3b8}
-.cert{margin-left:auto;display:inline-flex;align-items:center;gap:6px;background:rgba(94,234,212,.12);
+.cert{display:inline-flex;align-items:center;gap:6px;background:rgba(94,234,212,.12);
  border:1px solid rgba(94,234,212,.35);color:#5eead4;text-decoration:none;border-radius:10px;
  padding:7px 13px;font-size:13px;font-weight:600;white-space:nowrap}
 .cert:hover{background:rgba(94,234,212,.2)}
-.cert + .ov{margin-left:0}
-.ov{margin-left:auto;display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);
+.ov{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);
  border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:6px 12px}
 .ovl{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#94a3b8}
 .ovv{font-size:18px;font-weight:800;color:#5eead4}
@@ -132,19 +161,45 @@ nav{background:#fff;border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-inde
 .tab[disabled]{opacity:.4;cursor:default}
 .pane{display:none;width:100%;height:calc(100vh - 118px);border:0;background:#fff}
 .pane.on{display:block}
+.pdfpane{position:relative;background:#f8fafc}
+.pdfpane.on{display:flex;flex-direction:column}
+.pdfframe{flex:1;width:100%;border:0;background:#fff}
+.pdfnote{padding:10px 14px;font-size:12.5px;color:#64748b;text-align:center;border-top:1px solid #e2e8f0;background:#fff}
+.pdfnote a{color:#0d9488;font-weight:600}
+.mShort{display:none}
 .empty{padding:60px 20px;text-align:center;color:#64748b}
 @media print{nav{display:none}.pane{display:block!important;height:auto;page-break-after:always}}
-@media (max-width:640px){.tab .tl{display:none}.tab{flex:1 0 0}.ov{margin-left:0}}
+/* Phones: the header is a name, one compact line, and the two buttons. */
+@media (max-width:640px){
+  .tab .tl{display:none}.tab{flex:1 0 0;padding:10px 8px}
+  header{padding:10px 12px}
+  .hrow{gap:8px}
+  /* Name and the compact identity line share ONE row, so the phone header is
+     two rows (identity + buttons) instead of three. */
+  .hid{width:100%;text-align:center;display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;gap:8px}
+  h1{font-size:15px;line-height:1.3}
+  .hpfx{display:none}
+  .meta{font-size:11px}
+  .mLong{display:none}.mShort{display:inline}
+  .hbtns{width:100%;display:flex;gap:8px;justify-content:center;align-items:stretch}
+  .cert,.ov{margin-left:0;flex:1 1 0;justify-content:center;padding:6px 10px;font-size:12.5px}
+  .ovl{font-size:10px}.ovv{font-size:15px}.ovn{display:none}
+  .pane{height:calc(100vh - 150px)}
+}
 </style></head><body>
 <header><div class="hrow">
-  <div>
-    <h1>📋 Full Mock — ${esc(m.student || 'Student')}</h1>
-    <div class="meta">${esc(examLabel)}${m.takenAt ? ' · ' + esc(fmtDate(m.takenAt)) : ''}${
-      m.source ? ' · ' + esc(m.source) : ''
-    }</div>
+  <div class="hid">
+    <h1><span class="hpfx">📋 Full Mock — </span>${esc(m.student || 'Student')}</h1>
+    <div class="meta">
+      <span class="mLong">${esc(examLabel)}${m.takenAt ? ' · ' + esc(fmtDate(m.takenAt)) : ''}${
+        m.source ? ' · ' + esc(m.source) : ''
+      }</span>
+      <span class="mShort">${esc(shortSource)}${shortSource && shortExam ? ' · ' : ''}${esc(shortExam)}${
+        m.takenAt ? ' · ' + esc(fmtDateShort(m.takenAt)) : ''
+      }</span>
+    </div>
   </div>
-  ${cert}
-  ${overall}
+  <div class="hbtns">${cert}${overall}</div>
 </div></header>
 ${usable.length ? `<nav><div class="tabs">${tabs}</div></nav>${panes}` : '<div class="empty">No skill reports were saved for this full mock.</div>'}
 <script>
