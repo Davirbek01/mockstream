@@ -14645,7 +14645,11 @@ try { if (document.getElementById('aiScoreModal')) { openAiModal(); } } catch (e
                 mockNumber: 'Mock ' + mockNum,
                 file: null,
                 fileType: 'html',
-                html: reportHTML,
+                // The anti-cheat log used to ship as violation_report.json in
+                // the zip; it now rides inside the stored report.
+                html: (window.withViolationLog
+                  ? window.withViolationLog(reportHTML, violations, window.tabSwitchCount, window.blurCount)
+                  : reportHTML),
                 audio: _audioMap,
                 caption: caption,
                 metadata: autoAiResult ? { rawScore: autoAiResult.rawScore, p11: autoAiResult.p11, p12: autoAiResult.p12, p2: autoAiResult.p2, p3: autoAiResult.p3 } : {}

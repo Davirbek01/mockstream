@@ -359,6 +359,28 @@
           } catch (e) { console.warn('[Supabase] full-mock report', sk.skill, e); }
         }));
 
+        // The certificate PDF used to live in the zip and nowhere else; store it
+        // beside the attempt so the page can offer it from the link AND the
+        // encrypted file.
+        var fmCertPath = '';
+        if (fm.certificate) {
+          var cPath = centreId + '/' + id + '/certificate.pdf';
+          try {
+            var cr = await fetch(SUPABASE_URL + '/storage/v1/object/reports/' + cPath, {
+              method: 'POST',
+              headers: {
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+                'Content-Type': 'application/pdf',
+                'x-upsert': 'true'
+              },
+              body: fm.certificate
+            });
+            if (cr.ok) fmCertPath = cPath;
+            else console.warn('[Supabase] certificate upload failed', cr.status);
+          } catch (e) { console.warn('[Supabase] certificate upload error', e); }
+        }
+
         var ORDER_FM = ['listening', 'reading', 'writing', 'speaking'];
         fmSkills.sort(function (a, b) { return ORDER_FM.indexOf(a.skill) - ORDER_FM.indexOf(b.skill); });
         fileToUpload = new Blob([JSON.stringify({
@@ -369,6 +391,7 @@
           takenAt: new Date().toISOString(),
           source: fm.source || 'Website',
           overall: fm.overall || null,
+          certificate: fmCertPath || undefined,
           skills: fmSkills
         })], { type: 'application/json' });
       }

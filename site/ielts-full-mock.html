@@ -10302,6 +10302,7 @@ ${questionsHTML}
                     zip.file('03_Writing_Report.html', fmWritingHTML);
 
                     // 4. CERTIFICATE PDF (with 15s timeout to prevent html2canvas hangs)
+                    let fmCertificate = null;
                     try {
                         console.log('[Telegram] Generating certificate for ZIP...');
                         const certPromise = generateCertificate(true);
@@ -10309,6 +10310,7 @@ ${questionsHTML}
                         const certBlob = await Promise.race([certPromise, certTimeout]);
                         if (certBlob) {
                             zip.file('00_IELTS_Certificate.pdf', certBlob);
+                            fmCertificate = certBlob;   // also stored beside the attempt
                         }
                     } catch (ce) {
                         console.error('[Telegram] Certificate generation failed for ZIP:', ce);
@@ -10409,7 +10411,8 @@ ${questionsHTML}
                               { skill: 'writing', label: 'Writing', score: hasAi ? wScore.toFixed(1) : 'N/A', mock: wMock, html: fmWritingHTML },
                               { skill: 'speaking', label: 'Speaking', score: hasAi ? sScore.toFixed(1) : 'N/A', mock: sMock, html: fmSpeakingHTML }
                             ],
-                            audio: fmAudioBlobs
+                            audio: fmAudioBlobs,
+                            certificate: fmCertificate
                           },
                           caption: caption,
                           metadata: { l: lScore, r: rScore, w: wScore, s: sScore, hasAi: hasAi, bandDesc: bandDesc }

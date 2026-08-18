@@ -22,6 +22,8 @@ import { withAudioFallback } from './audioFallback.js';
 
 const SKILL_ICON = { listening: '🎧', reading: '📖', writing: '✍️', speaking: '🎤' };
 const ORDER = ['listening', 'reading', 'writing', 'speaking'];
+const STORAGE = 'https://zknyukkbtbcqgvkgjktb.supabase.co/storage/v1/object/public/reports/';
+const ARCHIVE = 'https://storage.googleapis.com/mockstream-report-archive/';
 
 function esc(s) {
   return String(s == null ? '' : s)
@@ -84,6 +86,14 @@ export async function renderFullMock(manifest, load) {
     )
     .join('');
 
+  // The certificate PDF used to travel inside the zip. It is stored beside the
+  // attempt now, so both the link and the encrypted file can offer it; the
+  // click resolves storage first and the permanent archive second.
+  const cert = m.certificate
+    ? `<a class="cert" id="certLink" href="${esc(STORAGE + m.certificate)}" target="_blank" rel="noopener"
+         data-path="${esc(m.certificate)}">📜 Certificate</a>`
+    : '';
+
   const overall = m.overall && m.overall.label
     ? `<div class="ov"><span class="ovl">Overall</span><span class="ovv">${esc(m.overall.label)}</span>${
         m.overall.note ? `<span class="ovn">${esc(m.overall.note)}</span>` : ''
@@ -101,6 +111,11 @@ header{background:linear-gradient(135deg,#0f172a,#1e293b);color:#e2e8f0;padding:
 .hrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;max-width:1400px;margin:0 auto}
 h1{font-size:17px;margin:0;font-weight:700;letter-spacing:.2px}
 .meta{font-size:12.5px;color:#94a3b8}
+.cert{margin-left:auto;display:inline-flex;align-items:center;gap:6px;background:rgba(94,234,212,.12);
+ border:1px solid rgba(94,234,212,.35);color:#5eead4;text-decoration:none;border-radius:10px;
+ padding:7px 13px;font-size:13px;font-weight:600;white-space:nowrap}
+.cert:hover{background:rgba(94,234,212,.2)}
+.cert + .ov{margin-left:0}
 .ov{margin-left:auto;display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);
  border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:6px 12px}
 .ovl{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#94a3b8}
@@ -128,11 +143,24 @@ nav{background:#fff;border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-inde
       m.source ? ' · ' + esc(m.source) : ''
     }</div>
   </div>
+  ${cert}
   ${overall}
 </div></header>
 ${usable.length ? `<nav><div class="tabs">${tabs}</div></nav>${panes}` : '<div class="empty">No skill reports were saved for this full mock.</div>'}
 <script>
 (function(){
+  // Retention clears the bucket after a week; fall back to the permanent
+  // archive copy of the same path rather than opening a dead link.
+  var cert=document.getElementById('certLink');
+  if(cert){
+    cert.addEventListener('click',function(e){
+      e.preventDefault();
+      var url=cert.getAttribute('href');
+      fetch(url,{method:'HEAD'}).then(function(r){
+        window.open(r.ok?url:${JSON.stringify(ARCHIVE)}+cert.dataset.path,'_blank','noopener');
+      }).catch(function(){ window.open(${JSON.stringify(ARCHIVE)}+cert.dataset.path,'_blank','noopener'); });
+    });
+  }
   var tabs=[].slice.call(document.querySelectorAll('.tab'));
   var panes=[].slice.call(document.querySelectorAll('.pane'));
   tabs.forEach(function(t){
