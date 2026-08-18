@@ -15,6 +15,7 @@
 // ============================================================================
 import { renderReadingReview } from './renderReadingReview.js';
 import { renderFullMock } from './renderFullMock.js';
+import { repairStored } from './repairStored.js';
 
 const ARCHIVE = 'https://storage.googleapis.com/mockstream-report-archive/';
 const STORAGE = 'https://zknyukkbtbcqgvkgjktb.supabase.co/storage/v1/object/public/reports/';
@@ -54,7 +55,8 @@ async function skillPath(sb, centre, entry) {
 export async function renderStored(sb, path, raw) {
   const text = raw != null ? raw : await loadRaw(sb, path);
   if (text == null) return { error: 'not_found' };
-  if (!path.endsWith('.json')) return { html: text };
+  // Stored reports from the broken-regex window carry a dead inline script.
+  if (!path.endsWith('.json')) return { html: repairStored(text) };
 
   let payload;
   try {
