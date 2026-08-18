@@ -5358,6 +5358,23 @@
                     return t;
                 }
 
+
+                function sameChoicePosition(a, b) {
+                    var ROMAN = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV'];
+                    var x = String(a || '').trim().toUpperCase();
+                    var y = String(b || '').trim().toUpperCase();
+                    if (!x || !y || x === y) return false;
+                    var pos = function (t) {
+                        var r = ROMAN.indexOf(t);
+                        if (r >= 0) return r;
+                        if (/^[A-N]$/.test(t)) return t.charCodeAt(0) - 65;
+                        return -1;
+                    };
+                    var mixed = (ROMAN.indexOf(x) >= 0 && /^[A-N]$/.test(y)) || (/^[A-N]$/.test(x) && ROMAN.indexOf(y) >= 0);
+                    if (!mixed) return false;
+                    var p = pos(x);
+                    return p >= 0 && p === pos(y);
+                }
                 // Canonicalise date-like answers so "5 NOVEMBER" and "NOVEMBER 5" match
                 var monthNames = ['JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE','JULY','AUGUST','SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER'];
                 function canonicalDate(norm) {
@@ -5451,6 +5468,14 @@
                     var acceptableNorm = acceptable.map(normalizeForCompare);
 
                     var ok = false;
+
+                    // A headings list is numbered i, ii, iii in the exam window,
+                    // but a few mocks store the key as A, B, C for the SAME
+                    // headings — the student picked the right heading and was
+                    // marked wrong every time (mocks 45 and 50). Compare a
+                    // roman-vs-letter pair by position; letter-only and
+                    // roman-only tasks are untouched.
+                    if (acceptableNorm.some(function (c) { return sameChoicePosition(normalizedUser, c); })) ok = true;
 
                     // Check if this is a merged pair — score as a set (either order)
                     if (mergedPairMap[i]) {

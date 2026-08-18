@@ -53,6 +53,59 @@
     return String(expl);
   }
 
+
+  /** Options can arrive as a real array or as a printed list ("['a', 'b']")
+   *  from the authoring tools; return an array either way. */
+  function toOptionArray(raw) {
+    if (Array.isArray(raw)) return raw;
+    if (typeof raw !== 'string') return null;
+    var t = raw.trim();
+    if (t.charAt(0) !== '[') return null;
+    try { return JSON.parse(t); } catch (e) {}
+    try { return JSON.parse(t.replace(/'/g, '"')); } catch (e) {}
+    return null;
+  }
+
+  /** question id → { prompt, options, optionLabels } for an IELTS reading mock.
+   *  The stored report used to be a bare answer key; carrying the wording and
+   *  the choices makes it the exam window the student actually saw. */
+  function ieltsQuestionMeta(data) {
+    var meta = {};
+    ((data && data.passages) || []).forEach(function (pg) {
+      (pg.questionSections || []).forEach(function (sec) {
+        var headings = sec.headingsList || sec.headings || null;
+        var features = sec.featuresList || null;
+        (sec.questions || []).forEach(function (q) {
+          var own = toOptionArray(q.options);
+          var opts = own || (headings && headings.length ? headings : null) || (features && features.length ? features : null);
+          meta[String(q.id)] = {
+            prompt: String(q.text || q.question || '').trim() || undefined,
+            options: opts && opts.length ? opts : undefined,
+            // A headings list is numbered i, ii, iii in the exam window.
+            optionLabels: !own && headings && headings.length ? 'roman' : undefined,
+          };
+        });
+      });
+    });
+    return meta;
+  }
+
+  /** Same for CEFR reading parts (questions live directly on the part). */
+  function cefrQuestionMeta(data) {
+    var meta = {};
+    ((data && data.parts) || []).forEach(function (part) {
+      var partOpts = toOptionArray(part.options);
+      (part.questions || []).forEach(function (q) {
+        var opts = toOptionArray(q.options) || partOpts;
+        meta[String(q.id)] = {
+          prompt: String(q.text || q.question || q.hint || '').trim() || undefined,
+          options: opts && opts.length ? opts : undefined,
+        };
+      });
+    });
+    return meta;
+  }
+
   /**
    * CEFR reading payload from the page's own state.
    * @param o.data        TEST_DATA (parts[])
@@ -63,6 +116,7 @@
    */
   function buildCefrReadingPayload(o) {
     var allParts = (o.data && o.data.parts) || [];
+    o._qmeta = cefrQuestionMeta(o.data);
     // Part practice: keep ONLY the practised part, else the report lists the
     // whole mock and marks 29 untouched questions wrong.
     var parts = o.onlyPart
@@ -83,11 +137,15 @@
         var ok = !!user && (o.matches ? !!o.matches(user, acc) : String(acc[0]).toLowerCase() === user.toLowerCase());
         total += 1;
         if (ok) correctCount += 1;
+        var cmeta = (o._qmeta || {})[String(id)] || {};
         questions.push({
           id: id,
           correct: ok,
           userAnswer: user,
           correctAnswer: acc.join(' / '),
+          prompt: cmeta.prompt,
+          options: cmeta.options,
+          optionLabels: cmeta.optionLabels,
           explanation: explToText((part.explanations || {})['q' + id] || (part.explanations || {})[id]),
         });
       });
@@ -143,6 +201,7 @@
    */
   function buildIeltsReadingPayload(o) {
     var data = o.data || {};
+    o._qmeta = ieltsQuestionMeta(data);
     var allPassages = data.passages || [];
     var globalAnswers = data.correctAnswers || {};
     var globalExpl = data.explanations || {};
@@ -181,11 +240,15 @@
         var ok = !!user && (o.matches ? !!o.matches(user, acc) : String(acc[0]).toLowerCase() === user.toLowerCase());
         if (ok) c += 1;
         if (!keepThis) return;
+        var imeta = (o._qmeta || {})[String(id)] || {};
         questions.push({
           id: id,
           correct: ok,
           userAnswer: user,
           correctAnswer: acc.join(' / '),
+          prompt: imeta.prompt,
+          options: imeta.options,
+          optionLabels: imeta.optionLabels,
           explanation: explToText(
             (pg.explanations || {})['q' + id] || (pg.explanations || {})[id] ||
             globalExpl['q' + id] || globalExpl[id],

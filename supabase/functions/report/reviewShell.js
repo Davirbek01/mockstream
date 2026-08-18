@@ -238,5 +238,25 @@ body.answers-on .answers{display:block}
   .chip>span{max-width:none;overflow:visible}
   .striprow2{flex-direction:row;flex-wrap:wrap;align-items:center}
 }
+
+/* The question as the student saw it in the exam window: the prompt, and for a
+   choice question every option, with the correct one marked and the student's
+   pick shown. Without these the report was a bare answer key. */
+.qtext{margin:6px 0 8px;font-weight:600;line-height:1.5}
+.ginstr{margin:14px 0 8px;padding:8px 12px;background:#f1f5f9;border-left:3px solid var(--teal);
+ border-radius:6px;font-size:13px;color:#475569}
+.opts{margin:6px 0 2px;display:flex;flex-direction:column;gap:6px}
+.opt{display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--line);
+ border-radius:8px;font-size:14px;background:var(--surface)}
+.opt .mk{width:16px;flex:0 0 auto;font-weight:800;color:transparent}
+.opt.right{border-color:var(--ok);background:var(--okbg)}
+.opt.right .mk{color:var(--ok)}
+.opt.chosen{border-color:var(--no);background:var(--nobg)}
+.opt.chosen .mk{color:var(--no)}
+.opt.right.chosen{border-color:var(--ok);background:var(--okbg)}
+.opt .badge{margin-left:auto;font-size:10px;font-weight:800;letter-spacing:.04em;padding:3px 8px;
+ border-radius:999px;background:var(--ok);color:#fff;white-space:nowrap}
+.opt .badge.you{background:var(--no)}
+.blank{margin:6px 0 0;font-size:13px;font-style:italic;color:var(--muted)}
 @media print{body{background:#fff}.psec{break-inside:avoid}}
 `;

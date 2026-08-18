@@ -62,17 +62,68 @@ export function renderReadingReview(payload) {
             const m = str.match(/^([\s\S]*?)\s*“([\s\S]+)”\s*$/);
             return m ? { text: m[1].trim(), quote: m[2].trim() } : { text: str };
           })();
+          // The question as it stood in the exam window: its wording, and for a
+          // choice question every option with the correct one marked. Payloads
+          // saved before this carried only the answer, so both are optional.
+          // A choice answer can be stored as the option's own letter, as a roman
+          // numeral (matching headings are numbered i, ii, iii in the exam) or
+          // as the option text. Resolve all three to a position in the list.
+          const ROMAN = ['i','ii','iii','iv','v','vi','vii','viii','ix','x','xi','xii'];
+          const optIndex = (val, options) => {
+            const v = String(val ?? '').trim().toLowerCase();
+            if (!v) return -1;
+            const r = ROMAN.indexOf(v);
+            if (r >= 0 && r < options.length) return r;
+            if (/^[a-z]$/.test(v)) {
+              const li = v.charCodeAt(0) - 97;
+              if (li >= 0 && li < options.length) return li;
+            }
+            return options.findIndex((o) => {
+              const t = (typeof o === 'string' ? o : String(o?.text ?? '')).trim().toLowerCase();
+              const l = typeof o === 'object' && o?.letter ? String(o.letter).trim().toLowerCase() : '';
+              return t === v || (!!l && l === v);
+            });
+          };
+          const optionRows = Array.isArray(q.options) && q.options.length
+            ? `<div class="opts">${q.options
+                .map((o, oi) => {
+                  const text = typeof o === 'string' ? o : String(o?.text ?? '');
+                  const letter = typeof o === 'object' && o?.letter
+                    ? String(o.letter)
+                    : (q.optionLabels === 'roman' ? ROMAN[oi] || String(oi + 1) : '');
+                  const isRight = oi === optIndex(q.correctAnswer, q.options);
+                  const isMine = oi === optIndex(q.userAnswer, q.options);
+                  const cls = `${isRight ? ' right' : ''}${isMine && !isRight ? ' chosen' : ''}`;
+                  const badge = isRight
+                    ? '<span class="badge">correct answer</span>'
+                    : isMine
+                      ? '<span class="badge you">your answer</span>'
+                      : '';
+                  return `<div class="opt${cls}"><span class="mk">${isRight ? '✓' : isMine ? '✗' : ''}</span>` +
+                    `<span>${letter ? `<b>${esc(letter)}</b> ` : ''}${esc(text)}</span>${badge}</div>`;
+                })
+                .join('')}</div>`
+            : '';
+          const blankNote = !String(q.userAnswer ?? '').trim()
+            ? '<div class="blank">You left this question blank.</div>'
+            : '';
           return `<div class="q${q.correct ? '' : ' wrong'}" id="q${esc(q.id)}" data-q="${esc(q.id)}">
   <div class="qhead">
     <span class="qnum ${cls}">${esc(q.id)}</span>
     <span class="verdict ${cls}">${q.correct ? '✓ Correct' : '✗ Incorrect'}</span>
     <button type="button" class="jump" data-jump="${esc(q.id)}" title="Show the evidence in the passage">🔍 evidence</button>
   </div>
-  <div class="ans">
+  ${q.prompt ? `<div class="qtext">${esc(q.prompt)}</div>` : ''}
+  ${optionRows}
+  ${
+    optionRows
+      ? blankNote
+      : `<div class="ans">
     <span class="lbl">Your answer:</span>
     <span class="yours ${cls}">${esc(q.userAnswer || '—')}</span>
     ${q.correct ? '' : `<span class="lbl"> · Correct:</span> <span class="right">${esc(q.correctAnswer ?? '')}</span>`}
-  </div>
+  </div>`
+  }
   ${
     expl?.text || expl?.quote
       ? `<details class="expl-wrap"${q.correct ? '' : ' open'}>
