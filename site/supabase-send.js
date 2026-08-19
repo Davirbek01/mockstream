@@ -566,6 +566,11 @@
         window._lastSavedResultId = id;
         window._lastSavedViewUrl = viewUrl;
         window._lastSavedReportPath = storagePath;
+        // The Telegram send that follows picks this up as its idempotency key,
+        // which is what ties telegram_send_log back to this row: without it the
+        // daily health report can count what never arrived but cannot name it.
+        // Read once and cleared there, so a later send can never inherit it.
+        window._pendingIdemResultId = id;
         try {
           sessionStorage.setItem('ms_lastSavedResultId', id);
           sessionStorage.setItem('ms_lastSavedViewUrl', viewUrl);
