@@ -122,6 +122,18 @@
     return out;
   }
 
+  /** Drop the clock lines from a re-sent caption.
+   *  Start / Finish / Duration describe the sitting itself, and beside a
+   *  message that arrives days later they read as if the exam had just been
+   *  taken. Everything else stays exactly as written. Two icon sets are in use
+   *  (🕐 / 🟢🔴 / ⏳), so the label decides, not the emoji. */
+  function stripTiming(caption) {
+    return String(caption || '').split('\n').filter(function (ln) {
+      var t = ln.replace(/^[^A-Za-z]+/, '').trim();
+      return !/^(Start|Finish|Duration)\s*:/i.test(t);
+    }).join('\n');
+  }
+
   /** The name the student's own send would have used, so the channel reads the
    *  same whether a report arrived the first time or the second. */
   function fileName(row, dateMode) {
@@ -182,7 +194,7 @@
     // The stored caption stops before two lines the sender adds at send time:
     // who was signed in, and the link to the report. Without them a re-sent
     // message reads as a lesser copy of the original, so put them back.
-    var caption = dateMode === 'today' ? retagCaption(row.caption, row.center) : (row.caption || '');
+    var caption = stripTiming(dateMode === 'today' ? retagCaption(row.caption, row.center) : (row.caption || ''));
     if (row.login_line && !/(^|\n)\S* ?Login: /.test(caption)) caption += '\n' + row.login_line;
     var link = viewLink(row);
     if (link && caption.indexOf('View Report') < 0) caption += '\n\n📎 View Report: ' + link;
