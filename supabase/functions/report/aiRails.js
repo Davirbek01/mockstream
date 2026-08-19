@@ -28,17 +28,26 @@ const RE_COMPACT_Q = /<(?:div|h[234])[^>]*>Q\d+\s*[^A-Za-z0-9<]/;
 /** Add the rails to a stored report that was saved without them. */
 export function withAiRails(html) {
   if (!html) return html;
-  if (html.indexOf('buildAiRail') >= 0) return html;  // already railed
-  // Only a page that actually holds an AI view is worth the extra 10 kB: the
-  // two modern markers, or a compact report's "Q1 - ..." question label.
+  const hasJs = html.indexOf('buildAiRail') >= 0;
+  const hasCss = html.indexOf('.ai-rail {') >= 0;
+  if (hasJs && hasCss) return html;                   // already railed
+  // The CEFR writing report kept its rail script but not the rules that style
+  // it, so the rails rendered as a bare list of links. Those reports need the
+  // stylesheet alone - adding the script twice would build the rail twice.
+  if (hasJs) return inject(html, '<style>' + RAIL_CSS + '</style>');
+  // Otherwise only a page that actually holds an AI view is worth the extra
+  // 10 kB: the two modern markers, or a compact "Q1 - ..." question label.
   const looksAi = html.indexOf('class="ai-body"') >= 0 ||
     html.indexOf('id="aiScoreModal"') >= 0 ||
     RE_COMPACT_Q.test(html);
   if (!looksAi) return html;
-  const style = '<style>' + RAIL_CSS + '</style>';
-  const script = '<' + 'script>' + RAIL_JS + '</' + 'script>';
-  if (html.indexOf('</body>') >= 0) return html.replace('</body>', style + script + '</body>');
-  return html + style + script;
+  return inject(html, '<style>' + RAIL_CSS + '</style>' +
+    '<' + 'script>' + RAIL_JS + '</' + 'script>');
+}
+
+function inject(html, tags) {
+  if (html.indexOf('</body>') >= 0) return html.replace('</body>', tags + '</body>');
+  return html + tags;
 }
 
 export default withAiRails;

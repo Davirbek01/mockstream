@@ -10750,6 +10750,54 @@ setTimeout(function () { try { buildAiSide(); } catch (e) {} }, 400);
       .task-scoring { padding: 15px !important; }
       .font-controller { padding: 6px 10px !important; gap: 6px !important; }
     }
+    /* The AI view is a centred column with a question rail either side, the
+       same as the report the speaking pages produce. These rules live in the
+       page stylesheet too, but a saved report carries only what is inline. */
+    .ai-body { background: #f6f8fb; }
+    @media (min-width: 1024px) {
+      .ai-body { padding: 24px 28px !important; }
+      .ai-body > * { max-width: 1200px; margin-left: auto !important; margin-right: auto !important; }
+    }
+    .ai-rail { display: none; }
+    @media (min-width: 1024px) {
+      /* The width a wide screen leaves over goes to a question rail instead of
+         stretching one column edge to edge. */
+      .ai-body { padding: 22px 24px !important; display: grid;
+        grid-template-columns: 232px minmax(0, 1120px); justify-content: center;
+        gap: 24px; align-items: start; }
+      .ai-col { min-width: 0; }
+      .ai-rail { display: block; position: sticky; top: 0; background: #fff;
+        border: 1px solid #e5e7eb; border-radius: 14px; padding: 12px;
+        max-height: calc(100vh - 120px); overflow: auto; }
+      .ai-rail .rl-h { font-size: 11px; text-transform: uppercase; letter-spacing: .6px;
+        color: #94a3b8; font-weight: 700; margin: 2px 4px 8px; }
+      .ai-rail a { display: flex; align-items: center; gap: 8px; padding: 7px 9px;
+        border-radius: 9px; text-decoration: none; color: #334155; font-size: 13px;
+        font-weight: 600; }
+      .ai-rail a:hover { background: #f1f5f9; }
+      .ai-rail .dot { width: 8px; height: 8px; border-radius: 50%; flex: 0 0 auto; background: #cbd5e1; }
+      .ai-rail .dot.ok { background: #16a34a; }
+      .ai-rail .dot.part { background: #f59e0b; }
+      .ai-rail .dot.off { background: #dc2626; }
+      .ai-rail .pt { margin-left: auto; font-size: 11px; color: #94a3b8; font-weight: 600; }
+    }
+      /* Wider screens get a second rail: the score card stays visible after the
+         top cards scroll away, with a count of what the corrections flagged. */
+      .ai-side { display: none; }
+      @media (min-width: 1400px) {
+        .ai-body { grid-template-columns: 232px minmax(0, 1060px) 232px; }
+        .ai-side { display: block; position: sticky; top: 0; align-self: start;
+          background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 12px; }
+        .ai-side .rl-h { font-size: 11px; text-transform: uppercase; letter-spacing: .6px;
+          color: #94a3b8; font-weight: 700; margin: 2px 4px 8px; }
+        .ai-side .sc { display: flex; align-items: baseline; justify-content: space-between;
+          padding: 6px 6px; border-radius: 9px; font-size: 13px; color: #475569; font-weight: 600; }
+        .ai-side .sc b { font-size: 15px; color: #0f172a; }
+        .ai-side .sep { height: 1px; background: #eef2f7; margin: 10px 2px; }
+        .ai-side .er { display: flex; align-items: center; gap: 8px; padding: 5px 6px; font-size: 13px; font-weight: 600; }
+        .ai-side .er .n { margin-left: auto; color: #0f172a; }
+        .ai-side .er .sw { width: 10px; height: 10px; border-radius: 3px; flex: 0 0 auto; }
+      }
   </style>
 </head>
 <body>
