@@ -46,6 +46,7 @@ returns table (
   report_path    text,
   user_email     text,
   caption        text,
+  login_line     text,
   is_practice    boolean,
   delivered      boolean,
   day_linked_pct numeric
@@ -78,6 +79,21 @@ select d.id, d.student_name, d.center, d.skill, d.exam_type, d.mock_number,
        d.score, d.level,
        to_char(d.created_at at time zone 'Asia/Tashkent', 'HH24:MI') as taken_at,
        d.report_path, d.user_email, d.caption,
+       -- The sender stamps this line at send time from the signed-in session,
+       -- so it is not in the stored caption. Rebuilt here in the same shapes
+       -- getLoginIdentity() produces, so a re-sent message reads identically.
+       case
+         when coalesce(d.user_email, '') = '' then '👥 Login: Guest'
+         when d.user_email ilike 'tg\_%@telegram.%' then
+           coalesce(
+             (select '✈️ Login: @' || l.telegram_username
+                from user_telegram_links l
+               where l.telegram_id::text = replace(split_part(d.user_email, '@', 1), 'tg_', '')
+                 and coalesce(l.telegram_username, '') <> ''
+               limit 1),
+             '✈️ Login: Telegram user')
+         else '📧 Login: ' || lower(d.user_email)
+       end as login_line,
        (coalesce(d.mock_number, '') ilike '%practice%' or coalesce(d.caption, '') ilike '%practice%') as is_practice,
        exists (select 1 from sent s where s.k = d.id::text) as delivered,
        (select pct from cover) as day_linked_pct

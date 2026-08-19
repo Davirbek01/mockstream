@@ -49,6 +49,23 @@
   function centreLabel(c) { return CENTER_LABELS[c] || c || '—'; }
   /** The routing id send-to-telegram expects (the main centre is 'mockstream'). */
   function routingId(c) { return c === 'mock_stream' ? 'mockstream' : c; }
+  // Where each centre's report viewer lives. A student's own send builds this
+  // from the page it ran on; this panel runs on the main site, so the centre's
+  // domain has to be named here. site_settings.siteDomain is NOT it — that
+  // field is a file:// fallback and reads 'mockstream.site' for four of seven.
+  var CENTER_HOST = {
+    'mock_stream': 'mock-stream.com',
+    'bek':         'bekzodsmultilevel.com',
+    'niners':      'ninersacademy.com',
+    'global':      'global-education.netlify.app',
+    'muzaffars':   'muzaffars-english.netlify.app',
+    'achievers':   'achievers-mocks.netlify.app',
+    'record':      'multilevelrecord.com'
+  };
+  function viewLink(row) {
+    var host = CENTER_HOST[row.center];
+    return host ? 'https://' + host + '/results/view.html?id=' + row.id + '&lock=1' : '';
+  }
   function todayISO() {
     var d = new Date(Date.now() + 5 * 3600000);          // Asia/Tashkent
     return d.toISOString().slice(0, 10);
@@ -134,7 +151,13 @@
     var html = await lr.text();
     var file = new File([html], fileName(row, dateMode), { type: 'text/html' });
 
+    // The stored caption stops before two lines the sender adds at send time:
+    // who was signed in, and the link to the report. Without them a re-sent
+    // message reads as a lesser copy of the original, so put them back.
     var caption = dateMode === 'today' ? retagCaption(row.caption, row.center) : (row.caption || '');
+    if (row.login_line && !/(^|\n)\S* ?Login: /.test(caption)) caption += '\n' + row.login_line;
+    var link = viewLink(row);
+    if (link && caption.indexOf('View Report') < 0) caption += '\n\n📎 View Report: ' + link;
 
     var fd = new FormData();
     fd.append('testIdentifier', routingId(row.center));
