@@ -142,14 +142,42 @@
            skill + (mock ? '_' + mock : '') + (src.endsWith('.json') ? '' : '') + '_locked.html';
   }
 
+  /** The report as a file to attach.
+   *  An attempt saved before 18 Aug 2026 is a ZIP — report-locked only knows
+   *  html and json and answers 404 for one — so those are sent as they were
+   *  sent originally: the zip itself, from storage, or from the permanent
+   *  archive once retention has cleared the bucket copy. */
+  async function reportFile(row, dateMode) {
+    var path = row.report_path || '';
+    if (!path) return { error: 'no report' };
+    var name = fileName(row, dateMode);
+
+    if (/\.zip$/i.test(path)) {
+      var urls = [
+        SB_URL + '/storage/v1/object/public/reports/' + encodeURI(path),
+        'https://storage.googleapis.com/mockstream-report-archive/' + encodeURI(path)
+      ];
+      for (var i = 0; i < urls.length; i++) {
+        var zr = await fetch(urls[i]);
+        if (zr.ok) {
+          var blob = await zr.blob();
+          return { file: new File([blob], name.replace(/_locked\.html$/, '.zip'), { type: 'application/zip' }) };
+        }
+      }
+      return { error: 'zip not found' };
+    }
+
+    var lr = await fetch(SB_URL + '/functions/v1/report-locked?p=' + encodeURIComponent(path));
+    if (!lr.ok) return { error: 'report-locked ' + lr.status };
+    var html = await lr.text();
+    return { file: new File([html], name, { type: 'text/html' }) };
+  }
+
   /** Post ONE stored report to its centre's channel. Resolves to a status. */
   async function resendOne(row, dateMode) {
-    var path = row.report_path || '';
-    if (!path) return { ok: false, error: 'no report' };
-    var lr = await fetch(SB_URL + '/functions/v1/report-locked?p=' + encodeURIComponent(path));
-    if (!lr.ok) return { ok: false, error: 'report-locked ' + lr.status };
-    var html = await lr.text();
-    var file = new File([html], fileName(row, dateMode), { type: 'text/html' });
+    var got = await reportFile(row, dateMode);
+    if (got.error) return { ok: false, error: got.error };
+    var file = got.file;
 
     // The stored caption stops before two lines the sender adds at send time:
     // who was signed in, and the link to the report. Without them a re-sent
@@ -255,6 +283,13 @@
       '</div>';
 
     container.querySelector('#rsrLoad').addEventListener('click', function () { load(container); });
+    // Changing a filter reloads. Without this the table kept the previous
+    // query while the controls showed the new one — a day of every centre
+    // read as one centre's, and the counts disagreed with the dropdowns.
+    ['#rsrDate', '#rsrCentre', '#rsrSkill', '#rsrType', '#rsrFrom', '#rsrTo'].forEach(function (sel) {
+      var el = container.querySelector(sel);
+      if (el) el.addEventListener('change', function () { load(container); });
+    });
     container.querySelector('#rsrSend').addEventListener('click', function () { send(container); });
     container.querySelectorAll('input[name="rsrDateMode"]').forEach(function (el) {
       el.addEventListener('change', function () {
