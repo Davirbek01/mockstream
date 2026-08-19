@@ -1518,25 +1518,26 @@
         // is rendered by the `report` function on every open; storage holds the
         // raw JSON, so fetching that directly would show the data, not a report.
         var _isPayload = result.report_path.endsWith('.json');
-        var _fetchUrl = _isPayload
-          ? SUPABASE_URL + '/functions/v1/report?p=' + encodeURIComponent(result.report_path)
-          : fileUrl;
+        // A stored .html goes through the function as well, so it gets its
+        // scripts mended and the AI rails it may have been saved without.
+        var _fetchUrl = SUPABASE_URL + '/functions/v1/report?p=' + encodeURIComponent(result.report_path);
         // Single HTML file
         fetch(_fetchUrl)
-          .then(function (r) { return r.blob(); })
-          .then(function (blob) {
-            var htmlBlob = new Blob([blob], { type: 'text/html' });
-            return htmlBlob.text().then(function (text) {
-              text = _injectArchiveAudioFallback(text);
-              htmlBlob = new Blob([text], { type: 'text/html' });
-              var skill = (result.skill || '').toLowerCase();
-              if (!_isPayload && (skill === 'speaking' || skill === 'writing')) {
-                showContent(extractCleanView(text, skill, null));
-              } else {
-                showIframe();
-                iframe.src = URL.createObjectURL(htmlBlob);
-              }
-            });
+          .then(function (r) {
+            if (!r.ok) throw new Error('report fn ' + r.status);
+            return r.text();
+          })
+          .catch(function () { return fetch(fileUrl).then(function (r) { return r.text(); }); })
+          .then(function (text) {
+            text = _injectArchiveAudioFallback(text);
+            var htmlBlob = new Blob([text], { type: 'text/html' });
+            var skill = (result.skill || '').toLowerCase();
+            if (!_isPayload && (skill === 'speaking' || skill === 'writing')) {
+              showContent(extractCleanView(text, skill, null));
+            } else {
+              showIframe();
+              iframe.src = URL.createObjectURL(htmlBlob);
+            }
           })
           .catch(function () {
             hideLoader();
