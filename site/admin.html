@@ -379,6 +379,18 @@
         }
       }
     },
+    'resend-reports': {
+      label: 'Resend Reports',
+      icon: '♻️',
+      script: '/admin/resend-reports.js',
+      open: function (container) {
+        if (window.AdminPanels && window.AdminPanels.resendReports && typeof window.AdminPanels.resendReports.open === 'function') {
+          window.AdminPanels.resendReports.open(container);
+        } else {
+          container.innerHTML = '<div class="adm-loading"><div>Resend Reports script loaded but did not register correctly.</div></div>';
+        }
+      }
+    },
     billboard: {
       label: 'Billboard',
       icon: '📢',
