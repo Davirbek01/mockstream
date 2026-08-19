@@ -1882,7 +1882,28 @@
       }
     }
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <!-- JSZip is only needed for a ZIP report. In the head it BLOCKED rendering:
+       where cdnjs is slow or filtered the page stayed blank. Fetched on demand
+       now, with a timeout instead of a hang. -->
+  <script>
+    window._ensureJSZip = function () {
+      if (window.JSZip) return Promise.resolve(window.JSZip);
+      if (window.__jszipP) return window.__jszipP;
+      window.__jszipP = new Promise(function (resolve, reject) {
+        var s = document.createElement('script');
+        var done = false;
+        var timer = setTimeout(function () {
+          if (!done) { done = true; reject(new Error('JSZip could not be loaded')); }
+        }, 15000);
+        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+        s.async = true;
+        s.onload = function () { if (!done) { done = true; clearTimeout(timer); resolve(window.JSZip); } };
+        s.onerror = function () { if (!done) { done = true; clearTimeout(timer); reject(new Error('JSZip could not be loaded')); } };
+        document.head.appendChild(s);
+      });
+      return window.__jszipP;
+    };
+  </script>
 </head>
 
 <body>
@@ -4518,6 +4539,7 @@
       var resp = await fetch(reportUrl);
       if (!resp.ok) throw new Error('Download failed: ' + resp.status);
       var buf = await resp.arrayBuffer();
+      await window._ensureJSZip();
       var zip = await JSZip.loadAsync(buf);
 
       // Categorize files
@@ -4667,6 +4689,7 @@
       // Nested speaking ZIP
       for (var z = 0; z < nestedZips.length; z++) {
         var nestedData = await zip.files[nestedZips[z]].async('arraybuffer');
+        await window._ensureJSZip();
         var speakingZip = await JSZip.loadAsync(nestedData);
         var speakingHtml = null;
         for (var sn in speakingZip.files) {
@@ -10091,6 +10114,7 @@
       if (statusEl) statusEl.innerHTML = '<span style="color:#2563eb;">⏳ Generating site-config bundle…</span>';
 
       try {
+        await window._ensureJSZip();
         var zip = new JSZip();
 
         // 1. site-config.js (generated)
