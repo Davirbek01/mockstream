@@ -4160,20 +4160,11 @@
         var devLabel = di.type ? (devIcon + ' ' + (di.os || '') + (di.model && di.model !== 'PC' && di.model !== 'Mac' ? ' · ' + di.model : '')) : '<span style="color:var(--ink-secondary);">—</span>';
 
         // A report the admin posted to the channel again shows up a second
-        // time, under the day it was re-sent. It is the SAME submission, not
-        // new work — the counts above come from the results table alone — so
-        // the row says which day it was really taken.
-        var resendOf = r.metadata && r.metadata.resend_of;
-        var resendTag = '';
-        if (resendOf) {
-          var origin = new Date(resendOf).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
-          tr.style.background = 'rgba(16,185,129,.06)';
-          resendTag = '<div style="font-size:11px;color:#0f766e;font-weight:700;margin-top:2px;">' +
-                      '♻️ re-sent · taken ' + origin + '</div>';
-        }
-
+        // time, under the day it was re-sent, and reads as any other entry —
+        // it is meant to be counted like one. metadata.resend_of still carries
+        // the original timestamp for anything that needs to tell them apart.
         tr.innerHTML =
-          '<td>' + dateStr + resendTag + '</td>' +
+          '<td>' + dateStr + '</td>' +
           '<td><strong><a class="student-link" onclick="showStudentTrack(\'' + escapeHtml((r.student_name || '').replace(/'/g, "\\'")) + '\')">' + escapeHtml(r.student_name || '—') + '</a></strong></td>' +
           '<td><span class="center-badge"><span class="center-dot" style="background:' + centerColor + '"></span>' + escapeHtml(centerName) + '</span></td>' +
           '<td><span class="badge ' + examClass + '">' + examLabel + '</span></td>' +
