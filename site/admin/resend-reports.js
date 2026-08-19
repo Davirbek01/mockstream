@@ -122,15 +122,17 @@
     return out;
   }
 
-  /** Drop the clock lines from a re-sent caption.
-   *  Start / Finish / Duration describe the sitting itself, and beside a
-   *  message that arrives days later they read as if the exam had just been
-   *  taken. Everything else stays exactly as written. Two icon sets are in use
-   *  (🕐 / 🟢🔴 / ⏳), so the label decides, not the emoji. */
+  /** Drop the clock-time lines from a re-sent caption.
+   *  Start and Finish are wall-clock times of the sitting, and beside a message
+   *  that arrives days later they read as if the exam had just been taken.
+   *  Duration STAYS — how long the student took is true whenever it is read.
+   *  Everything else keeps its wording. Two icon sets are in the stored
+   *  captions (🕐 and 🟢/🔴), so the label decides which line goes, not the
+   *  emoji. */
   function stripTiming(caption) {
     return String(caption || '').split('\n').filter(function (ln) {
       var t = ln.replace(/^[^A-Za-z]+/, '').trim();
-      return !/^(Start|Finish|Duration)\s*:/i.test(t);
+      return !/^(Start|Finish)\s*:/i.test(t);
     }).join('\n');
   }
 
