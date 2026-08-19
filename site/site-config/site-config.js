@@ -223,6 +223,19 @@ window.sendToRoutingBackend = function sendToRoutingBackend(opts) {
     // when a slow/failed response triggers a retry of an already-processed
     // upload. Generated ONCE per submission (outside attempt()).
     var idemKey = (function () {
+      // Prefer the id of the row this submission just saved (published by
+      // sendToSupabase). The sender stores it as center|skill|<key>, so using
+      // the result id makes telegram_send_log joinable to results — that is how
+      // the 08:00 health report can say WHICH student's report never arrived
+      // instead of only how many. Taken once and cleared: a stale id reused on
+      // a later send would be deduped away as a repeat.
+      try {
+        var pending = window._pendingIdemResultId;
+        if (typeof pending === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(pending)) {
+          window._pendingIdemResultId = null;
+          return pending;
+        }
+      } catch (_) {}
       try {
         if (window.crypto && typeof window.crypto.randomUUID === 'function') {
           return window.crypto.randomUUID();

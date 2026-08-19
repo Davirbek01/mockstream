@@ -508,15 +508,24 @@ Deno.serve(async (req) => {
     return jsonErr(502, 'upstream_fetch_failed', String(lastErr || 'fetch_failed'));
   }
 
-  // Log (don't block on log). Mark which key index served it when >1 configured.
+  // Mark which key index served it when >1 configured.
   const keyTag = (providerKeys.length > 1) ? `key#${usedKeyIdx + 1}` : '';
-  logCall({
+  const logOk = () => logCall({
     ip, userAgent, centerId, provider, skill: skillHint, studentName, userEmail,
-    status: upstream.ok ? 'ok' : 'provider_error',
-    errorMessage: upstream.ok
-      ? keyTag
-      : `HTTP ${upstream.status}${keyTag ? ` (${keyTag})` : ''}`
+    status: 'ok', errorMessage: keyTag,
   });
+  // A refusal is logged with the provider's own words. `HTTP 400` alone said
+  // nothing: 157 of them in a day and no way to tell a rate limit from an
+  // oversized context. The reply is buffered below anyway, so the explanation
+  // costs nothing to keep - trimmed to 300 characters, which holds the
+  // provider's message and not a student's essay.
+  const logFail = (detail: string) => logCall({
+    ip, userAgent, centerId, provider, skill: skillHint, studentName, userEmail,
+    status: 'provider_error',
+    errorMessage: (`HTTP ${upstream!.status}${keyTag ? ` (${keyTag})` : ''}` +
+                   (detail ? ` ${detail}` : '')).slice(0, 400),
+  });
+  if (upstream.ok) logOk();
 
   const respHeaders = new Headers(upstream.headers);
   // Strip hop-by-hop and replace CORS
@@ -535,6 +544,7 @@ Deno.serve(async (req) => {
   // page). A scoring reply is a few KB, so holding it costs nothing.
   const ctype = String(upstream.headers.get('content-type') || '');
   if (ctype.includes('text/event-stream')) {
+    if (!upstream.ok) logFail('');   // a stream must not be read to log it
     return new Response(upstream.body, {
       status: upstream.status,
       statusText: upstream.statusText,
@@ -542,6 +552,13 @@ Deno.serve(async (req) => {
     });
   }
   const buf = await upstream.arrayBuffer();
+  if (!upstream.ok) {
+    let detail = '';
+    try {
+      detail = new TextDecoder().decode(buf.slice(0, 1200)).replace(/\s+/g, ' ').trim().slice(0, 300);
+    } catch { /* a binary error body is not worth a crash */ }
+    logFail(detail);
+  }
   respHeaders.set('content-length', String(buf.byteLength));
   return new Response(buf, {
     status:     upstream.status,
