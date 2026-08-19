@@ -436,10 +436,17 @@
         } else if (reportPath.endsWith('.zip')) {
           await handleZipReport(fileUrl, result);
         } else {
-          // HTML report — fetch and load into iframe
+          // HTML report — served through the `report` function too, not
+          // straight from storage: it mends the scripts saved during the
+          // broken-regex window and adds the AI rails to reports saved before
+          // those shipped. Storage stays as the fallback if the call fails.
           var iframe = document.getElementById('reportFrame');
-          fetch(fileUrl)
-            .then(function (resp) { return resp.text(); })
+          fetch(SUPABASE_URL + '/functions/v1/report?p=' + encodeURIComponent(reportPath))
+            .then(function (resp) {
+              if (!resp.ok) throw new Error('report fn ' + resp.status);
+              return resp.text();
+            })
+            .catch(function () { return fetch(fileUrl).then(function (r) { return r.text(); }); })
             .then(function (htmlText) {
               loadIframeContent(iframe, _injectArchiveAudioFallback(htmlText));
               iframe.onload = function () {

@@ -4484,15 +4484,19 @@
       document.body.style.overflow = 'hidden';
       showViewerLoader();
 
-      // A stored PAYLOAD (.json — a reading attempt or a full-mock manifest) is
-      // not a document: the `report` function renders it into the page every
-      // time it is opened, so fetch it from there instead of from storage.
-      var _fetchUrl = (reportPath && reportPath.endsWith('.json'))
-        ? SUPABASE_URL + '/functions/v1/report?p=' + encodeURIComponent(reportPath)
-        : reportUrl;
+      // Every report is opened through the `report` function. A stored PAYLOAD
+      // (.json — a reading attempt or a full-mock manifest) is not a document
+      // and is rendered there on each open; a stored .html goes through it too,
+      // so it gets its scripts mended and the AI rails it may have been saved
+      // without. Storage stays as the fallback if the call fails.
+      var _fetchUrl = SUPABASE_URL + '/functions/v1/report?p=' + encodeURIComponent(reportPath);
 
       fetch(_fetchUrl)
-        .then(function (resp) { return resp.text(); })
+        .then(function (resp) {
+          if (!resp.ok) throw new Error('report fn ' + resp.status);
+          return resp.text();
+        })
+        .catch(function () { return fetch(reportUrl).then(function (r) { return r.text(); }); })
         .then(function (htmlText) {
           htmlText = injectMobileReportCSS(htmlText);
           htmlText = injectWritingMobileCSS(htmlText);
