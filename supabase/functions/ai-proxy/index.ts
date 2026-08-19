@@ -518,7 +518,6 @@ Deno.serve(async (req) => {
       : `HTTP ${upstream.status}${keyTag ? ` (${keyTag})` : ''}`
   });
 
-  // Stream upstream response back
   const respHeaders = new Headers(upstream.headers);
   // Strip hop-by-hop and replace CORS
   respHeaders.delete('content-encoding');
@@ -527,7 +526,24 @@ Deno.serve(async (req) => {
   respHeaders.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   respHeaders.set('Access-Control-Allow-Headers', '*');
 
-  return new Response(upstream.body, {
+  // Server-sent events must stay a stream; everything else is BUFFERED.
+  // Passing the upstream stream through dropped Content-Length and made every
+  // reply chunked, and a chunked reply is the one a school firewall or an
+  // antivirus HTTPS filter breaks halfway — the browser then reports "Failed to
+  // fetch" while our logs show a clean 200 (measured: one student retried a
+  // writing score 27 times, every call 200 at the gateway, nothing reached the
+  // page). A scoring reply is a few KB, so holding it costs nothing.
+  const ctype = String(upstream.headers.get('content-type') || '');
+  if (ctype.includes('text/event-stream')) {
+    return new Response(upstream.body, {
+      status: upstream.status,
+      statusText: upstream.statusText,
+      headers: respHeaders,
+    });
+  }
+  const buf = await upstream.arrayBuffer();
+  respHeaders.set('content-length', String(buf.byteLength));
+  return new Response(buf, {
     status:     upstream.status,
     statusText: upstream.statusText,
     headers:    respHeaders
