@@ -14689,7 +14689,7 @@ function buildAiRail() {
 function buildAiSide() {
   var body = document.querySelector('.ai-body');
   var col = document.querySelector('.ai-col');
-  if (!body || !col || document.querySelector('.ai-side')) return;
+  if (!body || !col) return;
   var sHtml = '';
   // Score cards: label and value sit in two child nodes, so read those rather
   // than the concatenated text ("Raw Score10/21" defeats any word boundary).
@@ -14703,7 +14703,10 @@ function buildAiSide() {
     sHtml += '<div class="sc"><span>' + k + '</span><b>' + v + '</b></div>';
   });
   if (sHtml) sHtml = '<div class="rl-h">Result</div>' + sHtml + '<div class="sep"></div>';
-  var TYPES = [['GRAMMAR', '#fecaca'], ['VOCAB', '#bfdbfe'], ['FLUENCY', '#fde68a'], ['PRON', '#ddd6fe'], ['SPELL', '#fed7aa']];
+  // Speaking marks fluency and pronunciation, writing marks spelling,
+  // punctuation and mother-tongue words. One list serves both.
+  var TYPES = [['GRAMMAR', '#fecaca'], ['VOCAB', '#bfdbfe'], ['FLUENCY', '#fde68a'], ['PRON', '#ddd6fe'], ['SPELL', '#fed7aa'],
+               ['PUNCT', '#c4b5fd'], ['L1', '#fecdd3']];
   var counts = {};
   [].slice.call(col.querySelectorAll('span,b,strong')).forEach(function (el) {
     if (el.children.length) return;
@@ -14718,15 +14721,22 @@ function buildAiSide() {
   });
   if (rows) sHtml += '<div class="rl-h">Corrections</div>' + rows;
   if (!sHtml) return;
-  var side = document.createElement('aside');
-  side.className = 'ai-side';
-  side.innerHTML = sHtml;
-  body.appendChild(side);
+  // A writing report paints its correction chips after this first runs, so a
+  // later pass refreshes the panel rather than finding it already there and
+  // leaving it without the counts.
+  var side = document.querySelector('.ai-side');
+  if (!side) {
+    side = document.createElement('aside');
+    side.className = 'ai-side';
+    body.appendChild(side);
+  }
+  if (side.innerHTML !== sHtml) side.innerHTML = sHtml;
 }
 try { buildAiRail(); buildAiSide(); } catch (e) {}
 // A late second pass: some reports finish painting their cards after this
 // script runs, and an empty rail is worse than a slightly late one.
 setTimeout(function () { try { buildAiSide(); } catch (e) {} }, 400);
+setTimeout(function () { try { buildAiSide(); } catch (e) {} }, 1500);
 // Default to the AI Score view when the report opens (this block is only emitted for premium/auto-AI reports; regular entries show the examiner page alone)
 try { if (document.getElementById('aiScoreModal')) { openAiModal(); } } catch (e) {}
 <\/script>
