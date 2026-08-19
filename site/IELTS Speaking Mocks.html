@@ -18388,6 +18388,126 @@ function closeAiModal() { document.getElementById('aiScoreResultModal').style.di
 function printAiModal() { var details = document.querySelectorAll('#aiScoreResultModal details'); details.forEach(function(d) { d.setAttribute('open', ''); }); document.body.classList.add('print-ai'); setTimeout(function() { window.print(); document.body.classList.remove('print-ai'); }, 100); }
 // Default to the AI Analysis view when the report opens (this block is only emitted for premium/auto-AI reports; regular entries show the examiner page alone)
 try { if (document.getElementById('aiScoreResultModal')) { openAiModal(); } } catch (e) {}
+  function railPartOf(t) {
+    var a = t.indexOf('(');
+    if (a < 0) return '';
+    var b = t.indexOf(')', a + 1);
+    return b < 0 ? '' : t.slice(a + 1, b);
+  }
+  function railIsQLabel(t) {
+    if (t.charAt(0) !== 'Q') return false;
+    var i = 1;
+    while (i < t.length && t.charCodeAt(i) >= 48 && t.charCodeAt(i) <= 57) i++;
+    if (i === 1) return false;
+    while (i < t.length && t.charAt(i) === ' ') i++;
+    return t.charAt(i) === '(';
+  }
+  function railTaskLabel(t) {
+    var s = t;
+    while (s.length && !(s.charCodeAt(0) >= 65 && s.charCodeAt(0) <= 90)) s = s.slice(1);
+    var word = s.slice(0, 4) === 'Task' ? 'Task' : (s.slice(0, 4) === 'Part' ? 'Part' : '');
+    if (!word) return '';
+    var rest = s.slice(4);
+    if (rest.charAt(0) !== ' ') return '';
+    rest = rest.slice(1);
+    var num = '';
+    for (var i = 0; i < rest.length; i++) {
+      var ch = rest.charAt(i);
+      if ((ch >= '0' && ch <= '9') || ch === '.') num += ch;
+      else break;
+    }
+    if (!num || rest.length !== num.length) return '';
+    return word + ' ' + num;
+  }
+  function railNumberOf(t) {
+    if (railIsQLabel(t)) {
+      var i = 1, out = 'Q';
+      while (i < t.length && t.charCodeAt(i) >= 48 && t.charCodeAt(i) <= 57) { out += t.charAt(i); i++; }
+      return out;
+    }
+    return railTaskLabel(t);
+  }
+function buildAiRail() {
+  var body = document.querySelector('.ai-body');
+  if (!body || body.getAttribute('data-railed')) return;
+  var labels = [].slice.call(body.querySelectorAll('div,h3,h4')).filter(function (el) {
+    var t = (el.textContent || '').trim();
+    return el.children.length === 0 && (railIsQLabel(t) || !!railTaskLabel(t));
+  });
+  if (labels.length < 2) return;
+  body.setAttribute('data-railed', '1');
+  var col = document.createElement('div');
+  col.className = 'ai-col';
+  while (body.firstChild) col.appendChild(body.firstChild);
+  var rail = document.createElement('nav');
+  rail.className = 'ai-rail';
+  var html = '<div class="rl-h">Questions</div>';
+  labels.forEach(function (el, i) {
+    var card = el.closest('div[style*="border-radius:12px"]') || el.parentElement.parentElement;
+    var id = 'aiq' + (i + 1);
+    if (card && !card.id) card.id = id; else if (card) id = card.id;
+    var t = (el.textContent || '').trim();
+    var num = (railNumberOf(t) || '#' + (i + 1));
+    var part = railPartOf(t);
+    var badge = card ? (card.textContent || '') : '';
+    var cls = /PARTIALLY/.test(badge) ? 'part' : (/OFF-TOPIC/.test(badge) ? 'off' : (/ON-TOPIC/.test(badge) ? 'ok' : ''));
+    html += '<a href="#' + id + '" data-t="' + id + '"><span class="dot ' + cls + '"></span>' + num +
+            '<span class="pt">' + part + '</span></a>';
+  });
+  rail.innerHTML = html;
+
+  body.appendChild(rail);
+  body.appendChild(col);
+  rail.addEventListener('click', function (e) {
+    var a = e.target.closest('a');
+    if (!a) return;
+    e.preventDefault();
+    var t = document.getElementById(a.getAttribute('data-t'));
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+}
+
+function buildAiSide() {
+  var body = document.querySelector('.ai-body');
+  var col = document.querySelector('.ai-col');
+  if (!body || !col || document.querySelector('.ai-side')) return;
+  var sHtml = '';
+  // Score cards: label and value sit in two child nodes, so read those rather
+  // than the concatenated text ("Raw Score10/21" defeats any word boundary).
+  var seen = {};
+  [].slice.call(col.querySelectorAll('div')).forEach(function (el) {
+    if (el.children.length !== 2) return;
+    var k = (el.children[0].textContent || '').trim();
+    var v = (el.children[1].textContent || '').trim();
+    if (!/^(Raw Score|Certificate|CEFR|Overall)$/.test(k) || !v || v.length > 12 || seen[k]) return;
+    seen[k] = 1;
+    sHtml += '<div class="sc"><span>' + k + '</span><b>' + v + '</b></div>';
+  });
+  if (sHtml) sHtml = '<div class="rl-h">Result</div>' + sHtml + '<div class="sep"></div>';
+  var TYPES = [['GRAMMAR', '#fecaca'], ['VOCAB', '#bfdbfe'], ['FLUENCY', '#fde68a'], ['PRON', '#ddd6fe'], ['SPELL', '#fed7aa']];
+  var counts = {};
+  [].slice.call(col.querySelectorAll('span,b,strong')).forEach(function (el) {
+    if (el.children.length) return;
+    var t = (el.textContent || '').trim();
+    for (var i = 0; i < TYPES.length; i++) if (t === TYPES[i][0]) counts[t] = (counts[t] || 0) + 1;
+  });
+  var rows = '';
+  TYPES.forEach(function (ty) {
+    if (!counts[ty[0]]) return;
+    rows += '<div class="er"><span class="sw" style="background:' + ty[1] + '"></span>' +
+            ty[0].charAt(0) + ty[0].slice(1).toLowerCase() + '<span class="n">' + counts[ty[0]] + '</span></div>';
+  });
+  if (rows) sHtml += '<div class="rl-h">Corrections</div>' + rows;
+  if (!sHtml) return;
+  var side = document.createElement('aside');
+  side.className = 'ai-side';
+  side.innerHTML = sHtml;
+  body.appendChild(side);
+}
+try { buildAiRail(); buildAiSide(); } catch (e) {}
+// A late second pass: some reports finish painting their cards after this
+// script runs, and an empty rail is worse than a slightly late one.
+setTimeout(function () { try { buildAiSide(); } catch (e) {} }, 400);
 <\/script>
 ` : ''}
 
@@ -19002,126 +19122,7 @@ try { if (document.getElementById('aiScoreResultModal')) { openAiModal(); } } ca
     }
 
   
-  function railPartOf(t) {
-    var a = t.indexOf('(');
-    if (a < 0) return '';
-    var b = t.indexOf(')', a + 1);
-    return b < 0 ? '' : t.slice(a + 1, b);
-  }
-  function railIsQLabel(t) {
-    if (t.charAt(0) !== 'Q') return false;
-    var i = 1;
-    while (i < t.length && t.charCodeAt(i) >= 48 && t.charCodeAt(i) <= 57) i++;
-    if (i === 1) return false;
-    while (i < t.length && t.charAt(i) === ' ') i++;
-    return t.charAt(i) === '(';
-  }
-  function railTaskLabel(t) {
-    var s = t;
-    while (s.length && !(s.charCodeAt(0) >= 65 && s.charCodeAt(0) <= 90)) s = s.slice(1);
-    var word = s.slice(0, 4) === 'Task' ? 'Task' : (s.slice(0, 4) === 'Part' ? 'Part' : '');
-    if (!word) return '';
-    var rest = s.slice(4);
-    if (rest.charAt(0) !== ' ') return '';
-    rest = rest.slice(1);
-    var num = '';
-    for (var i = 0; i < rest.length; i++) {
-      var ch = rest.charAt(i);
-      if ((ch >= '0' && ch <= '9') || ch === '.') num += ch;
-      else break;
-    }
-    if (!num || rest.length !== num.length) return '';
-    return word + ' ' + num;
-  }
-  function railNumberOf(t) {
-    if (railIsQLabel(t)) {
-      var i = 1, out = 'Q';
-      while (i < t.length && t.charCodeAt(i) >= 48 && t.charCodeAt(i) <= 57) { out += t.charAt(i); i++; }
-      return out;
-    }
-    return railTaskLabel(t);
-  }
-function buildAiRail() {
-  var body = document.querySelector('.ai-body');
-  if (!body || body.getAttribute('data-railed')) return;
-  var labels = [].slice.call(body.querySelectorAll('div,h3,h4')).filter(function (el) {
-    var t = (el.textContent || '').trim();
-    return el.children.length === 0 && (railIsQLabel(t) || !!railTaskLabel(t));
-  });
-  if (labels.length < 2) return;
-  body.setAttribute('data-railed', '1');
-  var col = document.createElement('div');
-  col.className = 'ai-col';
-  while (body.firstChild) col.appendChild(body.firstChild);
-  var rail = document.createElement('nav');
-  rail.className = 'ai-rail';
-  var html = '<div class="rl-h">Questions</div>';
-  labels.forEach(function (el, i) {
-    var card = el.closest('div[style*="border-radius:12px"]') || el.parentElement.parentElement;
-    var id = 'aiq' + (i + 1);
-    if (card && !card.id) card.id = id; else if (card) id = card.id;
-    var t = (el.textContent || '').trim();
-    var num = (railNumberOf(t) || '#' + (i + 1));
-    var part = railPartOf(t);
-    var badge = card ? (card.textContent || '') : '';
-    var cls = /PARTIALLY/.test(badge) ? 'part' : (/OFF-TOPIC/.test(badge) ? 'off' : (/ON-TOPIC/.test(badge) ? 'ok' : ''));
-    html += '<a href="#' + id + '" data-t="' + id + '"><span class="dot ' + cls + '"></span>' + num +
-            '<span class="pt">' + part + '</span></a>';
-  });
-  rail.innerHTML = html;
 
-  body.appendChild(rail);
-  body.appendChild(col);
-  rail.addEventListener('click', function (e) {
-    var a = e.target.closest('a');
-    if (!a) return;
-    e.preventDefault();
-    var t = document.getElementById(a.getAttribute('data-t'));
-    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-}
-
-function buildAiSide() {
-  var body = document.querySelector('.ai-body');
-  var col = document.querySelector('.ai-col');
-  if (!body || !col || document.querySelector('.ai-side')) return;
-  var sHtml = '';
-  // Score cards: label and value sit in two child nodes, so read those rather
-  // than the concatenated text ("Raw Score10/21" defeats any word boundary).
-  var seen = {};
-  [].slice.call(col.querySelectorAll('div')).forEach(function (el) {
-    if (el.children.length !== 2) return;
-    var k = (el.children[0].textContent || '').trim();
-    var v = (el.children[1].textContent || '').trim();
-    if (!/^(Raw Score|Certificate|CEFR|Overall)$/.test(k) || !v || v.length > 12 || seen[k]) return;
-    seen[k] = 1;
-    sHtml += '<div class="sc"><span>' + k + '</span><b>' + v + '</b></div>';
-  });
-  if (sHtml) sHtml = '<div class="rl-h">Result</div>' + sHtml + '<div class="sep"></div>';
-  var TYPES = [['GRAMMAR', '#fecaca'], ['VOCAB', '#bfdbfe'], ['FLUENCY', '#fde68a'], ['PRON', '#ddd6fe'], ['SPELL', '#fed7aa']];
-  var counts = {};
-  [].slice.call(col.querySelectorAll('span,b,strong')).forEach(function (el) {
-    if (el.children.length) return;
-    var t = (el.textContent || '').trim();
-    for (var i = 0; i < TYPES.length; i++) if (t === TYPES[i][0]) counts[t] = (counts[t] || 0) + 1;
-  });
-  var rows = '';
-  TYPES.forEach(function (ty) {
-    if (!counts[ty[0]]) return;
-    rows += '<div class="er"><span class="sw" style="background:' + ty[1] + '"></span>' +
-            ty[0].charAt(0) + ty[0].slice(1).toLowerCase() + '<span class="n">' + counts[ty[0]] + '</span></div>';
-  });
-  if (rows) sHtml += '<div class="rl-h">Corrections</div>' + rows;
-  if (!sHtml) return;
-  var side = document.createElement('aside');
-  side.className = 'ai-side';
-  side.innerHTML = sHtml;
-  body.appendChild(side);
-}
-try { buildAiRail(); buildAiSide(); } catch (e) {}
-// A late second pass: some reports finish painting their cards after this
-// script runs, and an empty rail is worse than a slightly late one.
-setTimeout(function () { try { buildAiSide(); } catch (e) {} }, 400);
 </script>
 
   <!-- Premium Passcode Modal -->

@@ -767,7 +767,28 @@
       .cbar-col:nth-child(3n+1) .cbar-day { display: block; }
     }
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <!-- JSZip is only needed for a ZIP report. In the head it BLOCKED rendering:
+       where cdnjs is slow or filtered the page stayed blank. Fetched on demand
+       now, with a timeout instead of a hang. -->
+  <script>
+    window._ensureJSZip = function () {
+      if (window.JSZip) return Promise.resolve(window.JSZip);
+      if (window.__jszipP) return window.__jszipP;
+      window.__jszipP = new Promise(function (resolve, reject) {
+        var s = document.createElement('script');
+        var done = false;
+        var timer = setTimeout(function () {
+          if (!done) { done = true; reject(new Error('JSZip could not be loaded')); }
+        }, 15000);
+        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+        s.async = true;
+        s.onload = function () { if (!done) { done = true; clearTimeout(timer); resolve(window.JSZip); } };
+        s.onerror = function () { if (!done) { done = true; clearTimeout(timer); reject(new Error('JSZip could not be loaded')); } };
+        document.head.appendChild(s);
+      });
+      return window.__jszipP;
+    };
+  </script>
 </head>
 
 <body>
@@ -1565,7 +1586,7 @@
 
       fetch(fileUrl)
         .then(function (r) { return r.arrayBuffer(); })
-        .then(function (buf) { return JSZip.loadAsync(buf); })
+        .then(function (buf) { return window._ensureJSZip().then(function () { return JSZip.loadAsync(buf); }); })
         .then(function (zip) {
           var htmlFiles = [];
           var pdfFiles = [];
@@ -1711,7 +1732,7 @@
         });
       } else if (item.type === 'nested-zip') {
         item.entry.async('arraybuffer').then(function (buf) {
-          return JSZip.loadAsync(buf);
+          return window._ensureJSZip().then(function () { return JSZip.loadAsync(buf); });
         }).then(function (innerZip) {
           var innerHtml = null;
           var innerAudio = {};
@@ -1740,7 +1761,7 @@
           console.error('[MyResults] Nested ZIP tab error:', e);
           // Fallback: try loading the nested zip as raw HTML in iframe
           item.entry.async('arraybuffer').then(function (buf) {
-            return JSZip.loadAsync(buf);
+            return window._ensureJSZip().then(function () { return JSZip.loadAsync(buf); });
           }).then(function (innerZip) {
             var htmlEntry = null;
             innerZip.forEach(function (p, e) { if (p.toLowerCase().endsWith('.html') && !htmlEntry) htmlEntry = e; });

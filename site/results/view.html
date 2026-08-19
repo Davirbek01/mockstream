@@ -235,8 +235,48 @@
     </div>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <!-- JSZip and pdf.js are only needed for a ZIP report or a PDF page, which
+       most reports are not. Loading them in the head BLOCKED rendering: on a
+       network where cdnjs is slow or filtered the viewer stayed a blank page
+       with a spinner (the report itself opens instantly — it needs neither).
+       They are fetched on demand now, with a timeout instead of a hang. -->
+  <script>
+    window._lazyLib = function (src, globalName, timeoutMs) {
+      window.__libCache = window.__libCache || {};
+      if (window.__libCache[src]) return window.__libCache[src];
+      var p = new Promise(function (resolve, reject) {
+        if (globalName && window[globalName]) return resolve(window[globalName]);
+        var s = document.createElement('script');
+        var done = false;
+        var timer = setTimeout(function () {
+          if (done) return;
+          done = true;
+          reject(new Error('Could not load ' + src + ' (network blocked or slow)'));
+        }, timeoutMs || 15000);
+        s.src = src;
+        s.async = true;
+        s.onload = function () {
+          if (done) return;
+          done = true; clearTimeout(timer);
+          resolve(globalName ? window[globalName] : true);
+        };
+        s.onerror = function () {
+          if (done) return;
+          done = true; clearTimeout(timer);
+          reject(new Error('Could not load ' + src));
+        };
+        document.head.appendChild(s);
+      });
+      window.__libCache[src] = p;
+      return p;
+    };
+    window._ensureJSZip = function () {
+      return window._lazyLib('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js', 'JSZip');
+    };
+    window._ensurePdfJs = function () {
+      return window._lazyLib('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js', 'pdfjsLib');
+    };
+  </script>
   <script>
     // ===== CONFIG =====
     var SUPABASE_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
@@ -486,6 +526,7 @@
     // ===== RENDER PDF AS IMAGES IN MAIN PAGE, RETURN HTML STRING =====
     async function _renderPdfAsHtmlString(pdfArrayBuffer) {
       // Set up PDF.js worker
+      await window._ensurePdfJs();
       pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
       var pdf = await pdfjsLib.getDocument({ data: new Uint8Array(pdfArrayBuffer) }).promise;
@@ -565,6 +606,7 @@
       loadingText.textContent = 'Extracting report...';
       progressText.textContent = '';
 
+      await window._ensureJSZip();
       return await JSZip.loadAsync(zipBuffer);
     }
 
@@ -850,6 +892,7 @@
       for (var z = 0; z < nestedZips.length; z++) {
         loadingText.textContent = 'Extracting speaking audio...';
         var nestedZipData = await zip.files[nestedZips[z]].async('arraybuffer');
+        await window._ensureJSZip();
         var speakingZip = await JSZip.loadAsync(nestedZipData);
 
         var speakingHtml = null;
