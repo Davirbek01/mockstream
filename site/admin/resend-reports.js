@@ -122,6 +122,20 @@
     return out;
   }
 
+  /** Drop the clock-time lines from a re-sent caption.
+   *  Start and Finish are wall-clock times of the sitting, and beside a message
+   *  that arrives days later they read as if the exam had just been taken.
+   *  Duration STAYS — how long the student took is true whenever it is read.
+   *  Everything else keeps its wording. Two icon sets are in the stored
+   *  captions (🕐 and 🟢/🔴), so the label decides which line goes, not the
+   *  emoji. */
+  function stripTiming(caption) {
+    return String(caption || '').split('\n').filter(function (ln) {
+      var t = ln.replace(/^[^A-Za-z]+/, '').trim();
+      return !/^(Start|Finish)\s*:/i.test(t);
+    }).join('\n');
+  }
+
   /** The name the student's own send would have used, so the channel reads the
    *  same whether a report arrived the first time or the second. */
   function fileName(row, dateMode) {
@@ -174,7 +188,7 @@
   }
 
   /** Post ONE stored report to its centre's channel. Resolves to a status. */
-  async function resendOne(row, dateMode) {
+  async function resendOne(row, dateMode, inDashboard) {
     var got = await reportFile(row, dateMode);
     if (got.error) return { ok: false, error: got.error };
     var file = got.file;
@@ -182,7 +196,7 @@
     // The stored caption stops before two lines the sender adds at send time:
     // who was signed in, and the link to the report. Without them a re-sent
     // message reads as a lesser copy of the original, so put them back.
-    var caption = dateMode === 'today' ? retagCaption(row.caption, row.center) : (row.caption || '');
+    var caption = stripTiming(dateMode === 'today' ? retagCaption(row.caption, row.center) : (row.caption || ''));
     if (row.login_line && !/(^|\n)\S* ?Login: /.test(caption)) caption += '\n' + row.login_line;
     var link = viewLink(row);
     if (link && caption.indexOf('View Report') < 0) caption += '\n\n📎 View Report: ' + link;
@@ -199,7 +213,15 @@
 
     var r = await fetch(SB_URL + '/functions/v1/send-to-telegram', { method: 'POST', body: fd });
     var j = await r.json().catch(function () { return {}; });
-    return (r.ok && j.ok !== false) ? { ok: true } : { ok: false, error: j.error || ('HTTP ' + r.status) };
+    if (!(r.ok && j.ok !== false)) return { ok: false, error: j.error || ('HTTP ' + r.status) };
+    // Recorded only after the channel took it, so the dashboard never shows a
+    // second appearance for a send that did not happen. A failure here is not
+    // the send failing, so it must not be reported as one.
+    if (inDashboard) {
+      try { await rpc('record_report_resend', { p_result_id: row.id }); }
+      catch (e) { console.warn('[resend] not recorded for the dashboard:', e.message); }
+    }
+    return { ok: true };
   }
 
   // ── UI ────────────────────────────────────────────────────────────────────
@@ -274,6 +296,8 @@
             '<span style="font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#94a3b8;font-weight:700">Caption date</span>' +
             '<label><input type="radio" name="rsrDateMode" value="original" checked> Original</label>' +
             '<label><input type="radio" name="rsrDateMode" value="today"> Today</label>' +
+            '<label style="margin-left:14px" title="The report appears in the Results Dashboard a second time, under today. Same submission — the totals still count it once.">' +
+              '<input type="checkbox" id="rsrDash" checked> Show in dashboard too</label>' +
           '</div>' +
           '<button class="rsr-btn p" id="rsrSend" disabled>Send to channel</button>' +
         '</div>' +
@@ -377,6 +401,8 @@
   async function send(container) {
     if (state.busy) return;
     var mode = (container.querySelector('input[name="rsrDateMode"]:checked') || {}).value || 'original';
+    var dashEl = container.querySelector('#rsrDash');
+    var inDashboard = !dashEl || dashEl.checked;
     var picked = [].slice.call(container.querySelectorAll('.rsr-cb'))
       .filter(function (b) { return b.checked; })
       .map(function (b) { return parseInt(b.dataset.i, 10); });
@@ -392,7 +418,7 @@
       var cell = container.querySelector('[data-st="' + i + '"]');
       if (cell) { cell.className = 'rsr-st go'; cell.textContent = 'sending…'; }
       var res;
-      try { res = await resendOne(state.rows[i], mode); }
+      try { res = await resendOne(state.rows[i], mode, inDashboard); }
       catch (e) { res = { ok: false, error: e.message }; }
       if (cell) {
         cell.className = 'rsr-st ' + (res.ok ? 'ok' : 'no');

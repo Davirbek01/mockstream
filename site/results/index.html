@@ -4159,6 +4159,10 @@
         var devIcon = di.type === 'Mobile' ? '📱' : di.type === 'Tablet' ? '📋' : '💻';
         var devLabel = di.type ? (devIcon + ' ' + (di.os || '') + (di.model && di.model !== 'PC' && di.model !== 'Mac' ? ' · ' + di.model : '')) : '<span style="color:var(--ink-secondary);">—</span>';
 
+        // A report the admin posted to the channel again shows up a second
+        // time, under the day it was re-sent, and reads as any other entry —
+        // it is meant to be counted like one. metadata.resend_of still carries
+        // the original timestamp for anything that needs to tell them apart.
         tr.innerHTML =
           '<td>' + dateStr + '</td>' +
           '<td><strong><a class="student-link" onclick="showStudentTrack(\'' + escapeHtml((r.student_name || '').replace(/'/g, "\\'")) + '\')">' + escapeHtml(r.student_name || '—') + '</a></strong></td>' +
