@@ -19,6 +19,7 @@ import { renderFullMock } from './renderFullMock.js';
 import { renderListeningReview } from './renderListeningReview.js';
 import { repairStored } from './repairStored.js';
 import { withAiRails } from './aiRails.js';
+import { withTwoUpImages } from './twoUpImages.js';
 
 const ARCHIVE = 'https://storage.googleapis.com/mockstream-report-archive/';
 const STORAGE = 'https://zknyukkbtbcqgvkgjktb.supabase.co/storage/v1/object/public/reports/';
@@ -61,7 +62,7 @@ export async function renderStored(sb, path, raw) {
   // Stored reports from the broken-regex window carry a dead inline script.
   // A stored report keeps the markup it was saved with; the rails are added
   // on the way out so older attempts read like today's.
-  if (!path.endsWith('.json')) return { html: withAiRails(repairStored(text)) };
+  if (!path.endsWith('.json')) return { html: withTwoUpImages(withAiRails(repairStored(text))) };
 
   let payload;
   try {
@@ -98,7 +99,7 @@ export async function renderStored(sb, path, raw) {
         if (sub != null) return sub;
       }
       if (sub == null) return null;
-      if (!sp.endsWith('.json')) return sub;
+      if (!sp.endsWith('.json')) return withTwoUpImages(sub);
       try {
         return renderReadingReview(JSON.parse(sub));
       } catch {
