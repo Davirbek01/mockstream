@@ -171,6 +171,13 @@
     '.rsr-sc{font-weight:700;color:#0f172a}',
     '.rsr-badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;background:#eef2f7;color:#475569}',
     '.rsr-st{font-size:12px;font-weight:700}.rsr-st.ok{color:#16a34a}.rsr-st.no{color:#dc2626}.rsr-st.go{color:#2563eb}',
+    '.rsr-miss td{background:#fef2f2}.rsr-miss:hover td{background:#fee2e2}',
+    '.rsr-miss td:first-child{box-shadow:inset 3px 0 0 #dc2626}',
+    '.rsr-dlv{white-space:nowrap}',
+    '.rsr-yes{color:#16a34a;font-weight:700}',
+    '.rsr-no{color:#dc2626;font-weight:700;font-size:12px}',
+    '.rsr-unk{color:#cbd5e1;font-weight:700;cursor:help}',
+    '.rsr-prac{display:inline-block;padding:1px 7px;border-radius:20px;font-size:10px;font-weight:700;background:#fef3c7;color:#92400e;margin-left:4px}',
     '.rsr-empty{padding:36px;text-align:center;color:#94a3b8}',
     '.rsr-count{margin-left:auto;font-size:13px;color:#64748b;font-weight:600}'
   ].join('');
@@ -202,6 +209,12 @@
           '<div class="rsr-f"><label>Centre</label><select id="rsrCentre">' + centreOpts + '</select></div>' +
           '<div class="rsr-f"><label>Skill</label><select id="rsrSkill">' +
             '<option value="">All skills</option>' + skillOpts + '</select></div>' +
+          '<div class="rsr-f"><label>Type</label><select id="rsrType">' +
+            '<option value="all">All</option>' +
+            '<option value="full">Full mocks</option>' +
+            '<option value="practice">Practice</option></select></div>' +
+          '<div class="rsr-f"><label>From</label><input type="time" id="rsrFrom"></div>' +
+          '<div class="rsr-f"><label>To</label><input type="time" id="rsrTo"></div>' +
           '<button class="rsr-btn s" id="rsrLoad">Show</button>' +
           '<span class="rsr-count" id="rsrCount"></span>' +
         '</div>' +
@@ -231,21 +244,29 @@
     if (!rows.length) {
       return '<div class="rsr-empty">Nothing submitted that day for this filter.</div>';
     }
+    // Below 60% linked the day predates the id-stamped senders, so an unmatched
+    // row means "cannot tell", not "lost". Painting those red would be a lie.
+    var known = rows.length ? Number(rows[0].day_linked_pct || 0) >= 60 : false;
     var body = rows.map(function (r, i) {
-      return '<tr data-i="' + i + '">' +
+      var miss = known && !r.delivered;
+      return '<tr data-i="' + i + '"' + (miss ? ' class="rsr-miss"' : '') + '>' +
         '<td><input type="checkbox" class="rsr-cb" data-i="' + i + '"></td>' +
         '<td>' + esc(r.taken_at) + '</td>' +
         '<td>' + esc(r.student_name || '—') + '</td>' +
-        '<td><span class="rsr-badge">' + (SKILL_ICON[r.skill] || '') + ' ' + esc(r.skill) + '</span></td>' +
+        '<td><span class="rsr-badge">' + (SKILL_ICON[r.skill] || '') + ' ' + esc(r.skill) + '</span>' +
+          (r.is_practice ? ' <span class="rsr-prac">practice</span>' : '') + '</td>' +
         '<td>' + esc(r.mock_number || '—') + '</td>' +
         '<td class="rsr-sc">' + esc(r.score || '—') + (r.level ? ' · ' + esc(r.level) : '') + '</td>' +
         '<td>' + esc(centreLabel(r.center)) + '</td>' +
+        '<td class="rsr-dlv">' + (!known ? '<span class="rsr-unk" title="This day was sent before the senders stamped the submission id, so delivery cannot be matched.">?</span>'
+          : r.delivered ? '<span class="rsr-yes">✓</span>'
+                        : '<span class="rsr-no">not delivered</span>') + '</td>' +
         '<td class="rsr-st" data-st="' + i + '"></td>' +
       '</tr>';
     }).join('');
     return '<table class="rsr-tbl"><thead><tr>' +
       '<th><input type="checkbox" id="rsrAll"></th><th>Time</th><th>Student</th><th>Skill</th>' +
-      '<th>Mock</th><th>Score</th><th>Centre</th><th></th>' +
+      '<th>Mock</th><th>Score</th><th>Centre</th><th>Telegram</th><th></th>' +
       '</tr></thead><tbody>' + body + '</tbody></table>';
   }
 
@@ -253,14 +274,25 @@
     var date = container.querySelector('#rsrDate').value;
     var centre = container.querySelector('#rsrCentre').value;
     var skill = container.querySelector('#rsrSkill').value;
+    var type = container.querySelector('#rsrType').value;
+    var from = container.querySelector('#rsrFrom').value;
+    var to = container.querySelector('#rsrTo').value;
     var body = container.querySelector('#rsrBody');
     body.innerHTML = '<div class="rsr-empty">Loading…</div>';
     try {
-      var rows = await rpc('admin_day_submissions', { p_date: date, p_center: centre, p_skill: skill });
+      var rows = await rpc('admin_day_submissions', {
+        p_date: date, p_center: centre, p_skill: skill,
+        p_type: type, p_from: from, p_to: to
+      });
       state.rows = rows || [];
       body.innerHTML = rowsHtml(state.rows);
-      container.querySelector('#rsrCount').textContent =
-        state.rows.length ? state.rows.length + ' submission' + (state.rows.length === 1 ? '' : 's') : '';
+      var missing = state.rows.filter(function (r) { return !r.delivered; }).length;
+      var linked = state.rows.length ? Number(state.rows[0].day_linked_pct || 0) : 0;
+      container.querySelector('#rsrCount').innerHTML = !state.rows.length ? '' :
+        state.rows.length + ' submission' + (state.rows.length === 1 ? '' : 's') +
+        (linked >= 60
+          ? (missing ? ' · <b style="color:#dc2626">' + missing + ' not delivered</b>' : ' · all delivered')
+          : ' · <span title="Senders started stamping the submission id on 19 Aug 2026; before that a send cannot be matched to its row.">delivery unknown for this day (' + linked + '% linked)</span>');
       wireTable(container);
     } catch (e) {
       body.innerHTML = '<div class="rsr-empty">Could not load — ' + esc(e.message) + '</div>';
