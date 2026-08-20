@@ -4875,7 +4875,10 @@
 
     async function fetchMockTotals() {
       const types = ['cefr-speaking','ielts-speaking','cefr-writing','ielts-writing',
-                     'cefr-listening','ielts-listening','cefr-reading','ielts-reading'];
+                     'cefr-listening','ielts-listening','cefr-reading','ielts-reading',
+                     // The Learn column of the library widget — counted here so
+                     // it rides the same parallel batch as everything else.
+                     'grammar','vocabulary','flashcard','article'];
       const results = {};
       await Promise.all(types.map(async t => {
         try {
@@ -21048,6 +21051,9 @@
     /* mock library */
     .msw-lib-cols { display: grid; grid-template-columns: 1fr; gap: 14px; }
     @media (min-width: 640px) { .msw-lib-cols { grid-template-columns: 1fr 1fr; } }
+    /* Three across on a wide screen: at two, each bar stretched to a quarter of
+       the window and a count of 57 drew a 500px line. */
+    @media (min-width: 1180px) { .msw-lib-cols { grid-template-columns: repeat(3, 1fr); } }
     .msw-lib-exam { border: 1px solid var(--line, #e2e8f0); border-radius: 13px; padding: 12px 14px; }
     .msw-lib-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 9px; }
     .msw-lib-head .nm { font-weight: 800; font-size: 14px; }
@@ -21771,6 +21777,13 @@
           ['writing', '✍️', 'Writing', '#f59e0b'],
           ['speaking', '🎤', 'Speaking', '#8b5cf6']
         ];
+        // The learning library: same four-row shape, its own rows.
+        var LIB_LEARN = [
+          ['grammar', '🧩', 'Grammar', '#6366f1'],
+          ['vocabulary', '🔤', 'Vocabulary', '#14b8a6'],
+          ['flashcard', '🃏', 'Flashcards', '#ec4899'],
+          ['article', '📰', 'Articles', '#f59e0b']
+        ];
         function renderLib() {
           var t = window.__msv3SkillTotals;
           if (!t) return false;
@@ -21785,7 +21798,22 @@
             }).join('');
             return '<div class="msw-lib-exam"><div class="msw-lib-head"><span class="nm">' + label + '</span><span class="tot">' + tot + '</span></div>' + rows + '</div>';
           }
-          document.getElementById('mswLibCols').innerHTML = col('cefr', 'Multilevel') + col('ielts', 'IELTS');
+          // Same markup, but keyed on the type itself rather than exam+skill.
+          function learnCol() {
+            var vals = LIB_LEARN.map(function (s) { return Number(t[s[0]]) || 0; });
+            if (!vals.some(function (v) { return v > 0; })) return '';
+            var tot = vals.reduce(function (a, b) { return a + b; }, 0);
+            var max = Math.max.apply(null, vals.concat([1]));
+            var rows = LIB_LEARN.map(function (s, i) {
+              return '<div class="msw-lib-row"><span class="ic">' + s[1] + '</span>' + s[2] +
+                '<span class="bar"><i style="width:' + Math.round(vals[i] / max * 100) + '%;background:' + s[3] + '"></i></span>' +
+                '<span class="n">' + vals[i] + '</span></div>';
+            }).join('');
+            return '<div class="msw-lib-exam"><div class="msw-lib-head"><span class="nm">Learn</span>' +
+                   '<span class="tot">' + tot + '</span></div>' + rows + '</div>';
+          }
+          document.getElementById('mswLibCols').innerHTML =
+            col('cefr', 'Multilevel') + learnCol() + col('ielts', 'IELTS');
           return true;
         }
         if (!renderLib()) window.addEventListener('msv3-totals-ready', renderLib, { once: true });
