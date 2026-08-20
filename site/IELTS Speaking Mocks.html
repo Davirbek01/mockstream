@@ -7375,6 +7375,26 @@
       // blob to IndexedDB, so callers can await persistence before reading IDB.
       let _audioStopResolve = null;
 
+      /** Say it while the candidate is still in the room: the exam is timed and
+       *  there is no re-record button, so a lost recording has to be raised now,
+       *  not discovered as a 0 afterwards. */
+      function notifyRecordingFailed(qIndex) {
+        try {
+          const qEl = document.querySelectorAll('.q')[qIndex];
+          const st = qEl ? qEl.querySelector('.status') : null;
+          if (st) {
+            st.textContent = '⚠️ Recording failed - tell your examiner';
+            st.style.color = '#dc2626';
+            st.style.fontWeight = '700';
+          }
+        } catch (e) { /* the alert below is what matters */ }
+        try {
+          alert('⚠️ Question ' + (qIndex + 1) + ': the microphone did not record anything.\n\n' +
+                'Your answer was NOT saved. Please tell your examiner now - this is a device ' +
+                'problem, not a scoring decision.');
+        } catch (e) { /* never block the exam on a dialog */ }
+      }
+
       function startRecording(qIndex) {
         currentQIndex = qIndex;
         audioChunks = [];
@@ -7401,17 +7421,30 @@
               if (e.data.size > 0) audioChunks.push(e.data);
             };
             mediaRecorder.onstop = () => {
-              const blob = new Blob(audioChunks, { type: mimeType || 'audio/webm' });
+              const blob = new Blob(audioChunks, { type: mediaRecorder.mimeType || mimeType || 'audio/webm' });
+              const done = () => {
+                const r = _audioStopResolve;
+                _audioStopResolve = null;
+                if (r) r();
+              };
+              // A recording that captured nothing is a DEVICE failure, not an
+              // answer. Silence is not this: a candidate who says nothing still
+              // produces a real ~15 KB file, stored and scored as today.
+              if (blob.size < 1024) {
+                console.warn('[Recording] empty blob for ' + key + ' - not saved');
+                notifyRecordingFailed(qIndex);
+                done();
+                return;
+              }
               saveAudioToDB(key, blob)
                 .then(() => updateDownloadButtons())
                 .catch(e => alert('Could not save audio: ' + e.message))
-                .finally(() => {
-                  const r = _audioStopResolve;
-                  _audioStopResolve = null;
-                  if (r) r();
-                });
+                .finally(done);
             };
-            mediaRecorder.start();
+            // A timeslice hands over a chunk every second; without it the single
+            // stop-time `dataavailable` can never arrive on iOS and the whole
+            // answer is lost.
+            mediaRecorder.start(1000);
             // Start the live voice-responsive waveform for this question's .rec.
             try {
               ensureWaveformAnalyser(stream);

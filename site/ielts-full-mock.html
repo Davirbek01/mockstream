@@ -8317,13 +8317,29 @@
                 mediaRecorder = new MediaRecorder(stream, options);
                 mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
                 mediaRecorder.onstop = () => {
-                    const blob = new Blob(audioChunks, { type: mimeType || 'audio/webm' });
-                    state.answers.speaking[key] = blob;
+                    const blob = new Blob(audioChunks, { type: mediaRecorder.mimeType || mimeType || 'audio/webm' });
+                    // Nothing captured = a device failure, not an answer. Keeping
+                    // it would send an unopenable file to the transcriber and the
+                    // paper would score 0 with no recording to appeal to. Silence
+                    // is not this: it still produces a real file.
+                    if (blob.size >= 1024) {
+                        state.answers.speaking[key] = blob;
+                    } else {
+                        console.warn('[Speaking] empty blob for ' + key + ' - not kept');
+                        try {
+                            alert('⚠️ Question ' + (qIdx + 1) + ': the microphone did not record anything.\n\n' +
+                                  'Your answer was NOT saved. Please tell your examiner now - this is a device ' +
+                                  'problem, not a scoring decision.');
+                        } catch (e) { /* never block the exam on a dialog */ }
+                    }
                     const r = _ifmAudioStopResolve;
                     _ifmAudioStopResolve = null;
                     if (r) r();
                 };
-                mediaRecorder.start();
+                // A timeslice hands over a chunk every second; without it the one
+                // stop-time `dataavailable` can fail to arrive on iOS and the
+                // whole answer is lost.
+                mediaRecorder.start(1000);
             } catch (err) {
                 console.warn('Recording error:', err);
             }
