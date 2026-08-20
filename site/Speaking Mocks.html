@@ -8110,7 +8110,7 @@
       var _mdlGrok     = (cp['scoring_model_grok']     || '').trim() || 'grok-3-mini';
       var _mdlDeepseek = (cp['scoring_model_deepseek'] || '').trim() || 'deepseek-v4-flash';
       var _mdlGroq     = (cp['scoring_model_groq']     || '').trim() || 'llama-3.3-70b-versatile';
-      var _mdlLlamaScout = (cp['scoring_model_llama_scout'] || '').trim() || 'meta-llama/llama-4-scout-17b-16e-instruct';
+      var _mdlLlamaScout = (cp['scoring_model_llama_scout'] || '').trim() || 'openai/gpt-oss-120b';
       if (_cmModel && !opts._forceModel) {
         if (provider === 'deepseek') _mdlDeepseek = _cmModel;
         else if (provider === 'gemini') _mdlGemini = _cmModel;
@@ -9193,6 +9193,29 @@
       // flow fires immediately after the final question's speak timer ends).
       let _audioStopResolve = null;
 
+      /** Say it while the candidate is still in the room.
+       *  The exam is timed and there is no re-record button, so the honest thing
+       *  is to tell them at once — a lost recording is something the examiner
+       *  can act on during the sitting, not a surprise 0 an hour later. The
+       *  question is marked as a failed recording rather than "Completed", so
+       *  the screen never claims an answer that does not exist. */
+      function notifyRecordingFailed(qIndex) {
+        try {
+          const qEl = document.querySelectorAll('.q')[qIndex];
+          const st = qEl ? qEl.querySelector('.status') : null;
+          if (st) {
+            st.textContent = '⚠️ Recording failed — tell your examiner';
+            st.style.color = '#dc2626';
+            st.style.fontWeight = '700';
+          }
+        } catch (e) { /* the alert below is what matters */ }
+        try {
+          alert('⚠️ Question ' + (qIndex + 1) + ': the microphone did not record anything.\n\n' +
+                'Your answer was NOT saved. Please tell your examiner now — this is a device ' +
+                'problem, not a scoring decision.');
+        } catch (e) { /* never block the exam on a dialog */ }
+      }
+
       function startRecording(qIndex) {
         currentQIndex = qIndex;
         audioChunks = [];
@@ -9219,17 +9242,36 @@
               if (e.data.size > 0) audioChunks.push(e.data);
             };
             mediaRecorder.onstop = () => {
-              const blob = new Blob(audioChunks, { type: mimeType || 'audio/webm' });
+              const blob = new Blob(audioChunks, { type: mediaRecorder.mimeType || mimeType || 'audio/webm' });
+              const done = () => {
+                const r = _audioStopResolve;
+                _audioStopResolve = null;
+                if (r) r();
+              };
+              // A recording that captured nothing is a DEVICE failure, not an
+              // answer: iOS Safari occasionally delivers no chunk at all and the
+              // blob comes out at 0 bytes. Saving it made the student's answer a
+              // file the transcriber cannot open — one iPhone sitting on 19 Aug
+              // failed 21 times and the paper scored 0/75 with the audio intact
+              // nowhere. Silence is NOT this: a candidate who says nothing still
+              // produces a real ~15 KB file, which is stored and scored as today.
+              if (blob.size < 1024) {
+                console.warn('[Recording] empty blob for ' + key + ' — not saved');
+                notifyRecordingFailed(qIndex);
+                done();
+                return;
+              }
               saveAudioToDB(key, blob)
                 .then(() => updateDownloadButtons())
                 .catch(e => alert('Could not save audio: ' + e.message))
-                .finally(() => {
-                  const r = _audioStopResolve;
-                  _audioStopResolve = null;
-                  if (r) r();
-                });
+                .finally(done);
             };
-            mediaRecorder.start();
+            // A timeslice makes the browser hand over a chunk every second.
+            // Without it `dataavailable` fires once, at stop — and if that one
+            // call never arrives (an interrupted audio session on iOS), the whole
+            // answer is lost. iPhones were losing 5.5% of speaking attempts this
+            // way, against 0% on Android.
+            mediaRecorder.start(1000);
             // Start the live voice-responsive waveform for this question's .rec.
             try {
               ensureWaveformAnalyser(stream);

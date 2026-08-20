@@ -8182,19 +8182,30 @@
                         if (r) r();
                     };
                     if (localChunks.length > 0) {
-                        const blob = new Blob(localChunks, { type: mimeType || 'audio/webm' });
+                        const blob = new Blob(localChunks, { type: recorder.mimeType || mimeType || 'audio/webm' });
                         console.log(`[Speaking] 💾 Finalizing ${key} (${blob.size} bytes)...`);
                         saveSpeakingAudio(key, blob)
                             .then(() => console.log(`[Speaking] ✅ Saved ${key}`))
                             .catch(e => console.error(`[Speaking] ❌ Save error ${key}:`, e))
                             .finally(finishStop);
                     } else {
+                        // Nothing was captured: a device failure, not an answer.
+                        // Silence still produces a real file, so this only fires
+                        // when the recorder handed over no chunk at all.
                         console.warn(`[Speaking] ⚠️ Empty recording for Q${qIndex + 1}`);
+                        try {
+                            alert('⚠️ Question ' + (qIndex + 1) + ': the microphone did not record anything.\n\n' +
+                                  'Your answer was NOT saved. Please tell your examiner now - this is a device ' +
+                                  'problem, not a scoring decision.');
+                        } catch (e) { /* never block the exam on a dialog */ }
                         finishStop();
                     }
                 };
 
-                recorder.start();
+                // A timeslice hands over a chunk every second; without it the one
+                // stop-time `dataavailable` can fail to arrive on iOS and the
+                // whole answer is lost.
+                recorder.start(1000);
                 console.log(`[Speaking] 🎤 Recording started for Q${qIndex + 1}`);
             } catch (err) {
                 console.error('[Speaking] Recording error:', err);
@@ -8841,7 +8852,7 @@
           var _mdlGrok     = (cp['scoring_model_grok']     || '').trim() || 'grok-3-mini';
           var _mdlDeepseek = (cp['scoring_model_deepseek'] || '').trim() || 'deepseek-v4-flash';
           var _mdlGroq     = (cp['scoring_model_groq']     || '').trim() || 'llama-3.3-70b-versatile';
-          var _mdlLlamaScout = (cp['scoring_model_llama_scout'] || '').trim() || 'meta-llama/llama-4-scout-17b-16e-instruct';
+          var _mdlLlamaScout = (cp['scoring_model_llama_scout'] || '').trim() || 'openai/gpt-oss-120b';
           if (_cmModel && !opts._forceModel) {
             if (provider === 'deepseek' && typeof _mdlDeepseek !== 'undefined') _mdlDeepseek = _cmModel;
             else if (provider === 'gemini' && typeof _mdlGemini !== 'undefined') _mdlGemini = _cmModel;
