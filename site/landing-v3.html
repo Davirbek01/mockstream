@@ -20512,6 +20512,44 @@
     .msv3-gate-checking { opacity: .55; }
     .msv3-gate-wrong { color: #ef4444 !important; }
 
+    /* The VIP activation card — the /vip link's front door. */
+    #msVipGate {
+      position: fixed; inset: 0; z-index: 2147483000;
+      background: rgba(15,23,42,.55); backdrop-filter: blur(3px);
+      display: flex; align-items: center; justify-content: center; padding: 20px;
+    }
+    #msVipGate .msvg-card {
+      width: 100%; max-width: 380px; background: #fff; border-radius: 20px;
+      padding: 26px 24px 20px; text-align: center;
+      box-shadow: 0 24px 60px rgba(15,23,42,.32);
+      border: 2px solid #f59e0b;
+    }
+    #msVipGate .msvg-ico { font-size: 42px; line-height: 1; margin-bottom: 8px; }
+    #msVipGate h3 { margin: 0 0 6px; font-size: 1.18rem; color: #b45309; }
+    #msVipGate p { margin: 0 0 16px; font-size: .88rem; color: #64748b; line-height: 1.45; }
+    #msVipGate input {
+      width: 100%; box-sizing: border-box; padding: 14px 16px; font-size: 16px;
+      border: 1px solid #e2e8f0; border-radius: 12px; outline: none; text-align: center;
+      letter-spacing: .08em; font-weight: 700; color: #0f172a; background: #f8fafc;
+    }
+    #msVipGate input:focus { border-color: #f59e0b; background: #fff; box-shadow: 0 0 0 3px rgba(245,158,11,.22); }
+    #msVipGate .msvg-msg { min-height: 20px; margin: 10px 0 2px; font-size: .84rem; color: #64748b; }
+    #msVipGate .msvg-msg.ok { color: #059669; font-weight: 700; }
+    #msVipGate .msvg-msg.err { color: #dc2626; font-weight: 700; }
+    #msVipGate .msvg-btns { display: flex; gap: 10px; margin-top: 8px; }
+    #msVipGate .msvg-btns button {
+      flex: 1 1 0; padding: 13px 10px; border-radius: 12px; font-size: .94rem;
+      font-weight: 700; cursor: pointer; border: 1px solid transparent;
+    }
+    #msVipGate .msvg-ghost { background: #fff; color: #475569; border-color: #e2e8f0; }
+    #msVipGate .msvg-go { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; }
+    @media (prefers-color-scheme: dark) {
+      #msVipGate .msvg-card { background: #111827; border-color: #b45309; }
+      #msVipGate h3 { color: #fbbf24; }
+      #msVipGate input { background: #0b1220; border-color: #1f2937; color: #e5e7eb; }
+      #msVipGate .msvg-ghost { background: transparent; color: #cbd5e1; border-color: #334155; }
+    }
+
     /* The ring the deep link leaves on the code box. */
     .msv3-vip-hint {
       box-shadow: 0 0 0 3px rgba(245,158,11,.45), 0 6px 18px rgba(245,158,11,.22) !important;
@@ -22317,33 +22355,101 @@
       })();
 
       // ── /vip deep link ──
-      // Students were told "open the menu, find the VIP field, type this" —
-      // three steps, and some never finished them. /vip/<code> now opens the
-      // Profile tab with the box focused and the code already in it.
-      //
-      // It stops there deliberately: the student sees what they are about to
-      // activate, and a link opened by accident cannot spend a code.
+      // Opens a card over Home, like a mock link does, instead of dropping the
+      // student on a settings page to hunt for a field. The code comes from the
+      // PATH (/vip/<code>) because Netlify's rewrite keeps the pretty URL in
+      // the address bar and passes ?vip= only internally; the query is still
+      // read as a fallback.
       (function vipDeepLink() {
-        var code = new URLSearchParams(location.search).get('vip');
-        if (!code) return;
-        // The bare /vip carries "1" as a placeholder — open the box, fill nothing.
-        var value = (code === '1') ? '' : decodeURIComponent(code).trim();
+        var code = '';
+        var m = location.pathname.match(/^\/vip\/([^\/?#]+)/i);
+        if (m) code = decodeURIComponent(m[1]);
+        if (!code) {
+          try { code = new URLSearchParams(location.search).get('vip') || ''; } catch (_e) {}
+        }
+        var onVipRoute = /^\/vip(\/|$)/i.test(location.pathname) || !!code;
+        if (!onVipRoute) return;
+        if (code === '1') code = '';                 // the bare /vip carries a placeholder
 
-        setTab('account', { updateHash: true, scroll: false });
-        setTimeout(function () {
-          var input = document.getElementById('msv3VipInput');
-          var sec = document.getElementById('msv3VipSection');
-          if (!input) return;
-          if (value) input.value = value;
-          if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          try { input.focus({ preventScroll: true }); } catch (_e) { input.focus(); }
-          // A ring rather than an animation: it says "here" without moving.
-          input.classList.add('msv3-vip-hint');
-          setTimeout(function () { input.classList.remove('msv3-vip-hint'); }, 2600);
-          // The code has done its job in the URL; leave it out of the address
-          // bar so a screenshot or a shared tab does not carry it onward.
-          try { history.replaceState(history.state, '', location.pathname + '#account'); } catch (_e) { }
-        }, 260);
+        function openCard() {
+          if (document.getElementById('msVipGate')) return;
+          var wrap = document.createElement('div');
+          wrap.id = 'msVipGate';
+          wrap.innerHTML =
+            '<div class="msvg-card" role="dialog" aria-modal="true" aria-labelledby="msvgTitle">' +
+              '<div class="msvg-ico">⭐</div>' +
+              '<h3 id="msvgTitle">Activate VIP access</h3>' +
+              '<p>Every mock, transcript and AI report unlocks on this device.</p>' +
+              '<input id="msvgInput" type="text" inputmode="numeric" autocomplete="off" placeholder="Enter your VIP code">' +
+              '<div class="msvg-msg" id="msvgMsg"></div>' +
+              '<div class="msvg-btns">' +
+                '<button type="button" class="msvg-ghost" id="msvgCancel">Cancel</button>' +
+                '<button type="button" class="msvg-go" id="msvgGo">Activate</button>' +
+              '</div>' +
+            '</div>';
+          document.body.appendChild(wrap);
+
+          var input = document.getElementById('msvgInput');
+          var msg = document.getElementById('msvgMsg');
+          if (code) input.value = code;
+          setTimeout(function () { try { input.focus(); } catch (_e) {} }, 60);
+
+          function close() {
+            try { wrap.dispatchEvent(new Event('msvg-closed')); } catch (_e) {}
+            wrap.remove();
+            // Leave the code out of the address bar: a screenshot or a shared
+            // tab should not carry it onward.
+            try { history.replaceState(history.state, '', '/landing-v3.html'); } catch (_e) {}
+          }
+          document.getElementById('msvgCancel').addEventListener('click', close);
+          wrap.addEventListener('click', function (e) { if (e.target === wrap) close(); });
+
+          function activate() {
+            var val = (input.value || '').trim();
+            if (!val) { input.focus(); return; }
+            var real = document.getElementById('msv3VipInput');
+            var realBtn = document.getElementById('msv3VipBtn');
+            if (!real || !realBtn) { msg.textContent = 'Try again in a moment.'; return; }
+            msg.className = 'msvg-msg';
+            msg.textContent = 'Checking…';
+            // Hand the code to the page's own VIP flow rather than repeating
+            // it here: one verification path, one set of rules.
+            real.value = val;
+            realBtn.click();
+          }
+          document.getElementById('msvgGo').addEventListener('click', activate);
+          input.addEventListener('keydown', function (e) { if (e.key === 'Enter') activate(); });
+
+          // The page announces a successful unlock; that is our cue to get out
+          // of the way and leave the student on Home.
+          window.addEventListener('mockStream:premiumUnlocked', function () {
+            msg.className = 'msvg-msg ok';
+            msg.textContent = '✅ Activated';
+            setTimeout(close, 900);
+          }, { once: true });
+
+          // A REFUSAL has to reach the card too, or a wrong code leaves it
+          // saying "Checking…" for ever. The VIP flow writes its verdict into
+          // the sidebar's own status line, so the card simply echoes it — one
+          // set of messages, not two that can disagree.
+          var sub = document.getElementById('msv3VipSub');
+          if (sub && window.MutationObserver) {
+            var obs = new MutationObserver(function () {
+              var t = (sub.textContent || '').trim();
+              if (!t || /checking/i.test(t)) return;
+              if (/✅|activ|unlock/i.test(t) && !/❌/.test(t)) return;   // success handled above
+              msg.className = 'msvg-msg err';
+              msg.textContent = t;
+              try { input.select(); } catch (_e) {}
+            });
+            obs.observe(sub, { childList: true, characterData: true, subtree: true });
+            wrap.addEventListener('msvg-closed', function () { obs.disconnect(); });
+          }
+        }
+
+        // After the router has settled on its tab, so nothing fights it.
+        if (document.readyState === 'complete') setTimeout(openCard, 120);
+        else window.addEventListener('load', function () { setTimeout(openCard, 120); });
       })();
 
       // ── Download Mock PDFs → the Mocks tab ──
