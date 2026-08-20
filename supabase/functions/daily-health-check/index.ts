@@ -71,14 +71,18 @@ async function sweepFunctions(): Promise<string[]> {
   for (const name of FUNCTIONS) {
     if (name === 'daily-health-check') continue;   // that is this call
     try {
+      // OPTIONS, not POST. The sweep exists to find functions that have lost
+      // their code, and the gateway answers that before any handler runs — but
+      // a POST with an empty body is a real call, and some functions do real
+      // work when they get one. This sweep commissioned ten Gemini-written
+      // channel posts between 19 and 20 Aug 2026 before anyone noticed, and
+      // it had been waking deliver-pending on every run.
       const r = await fetch(`${SUPABASE_URL}/functions/v1/${name}`, {
-        method: 'POST',
+        method: 'OPTIONS',
         headers: {
-          'Content-Type': 'application/json',
           apikey: ANON_KEY,
           Authorization: `Bearer ${ANON_KEY}`,
         },
-        body: '{}',
       });
       if (r.headers.get('sb-error-code') === 'NOT_FOUND_FUNCTION_BLOB') dead.push(name);
       await r.body?.cancel();

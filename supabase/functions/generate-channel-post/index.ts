@@ -154,6 +154,24 @@ Deno.serve(async (req) => {
     Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
   );
 
+  // KILL SWITCH. channel_post_settings.cron_preset = 'off' stops generation
+  // dead, whoever calls this and however they call it.
+  //
+  // This exists because the caller turned out not to be a schedule at all: the
+  // 08:00 health report sweeps every Edge Function by POSTing an empty body to
+  // it, to find the ones that have lost their code — and an empty body is
+  // exactly what the cron used to send here, so the sweep was quietly
+  // commissioning Gemini posts. Ten of them between 19 and 20 Aug 2026. The
+  // sweep now sends OPTIONS, but a guard that depends on every caller behaving
+  // is not a guard.
+  {
+    const { data: sw } = await supabase
+      .from('channel_post_settings').select('cron_preset').eq('id', 1).maybeSingle();
+    if ((sw?.cron_preset || '') === 'off') {
+      return jok({ skipped: 'channel posts are switched off (cron_preset = off)' });
+    }
+  }
+
   // Read settings (singleton row id=1)
   const { data: settings, error: settingsErr } = await supabase
     .from('channel_post_settings')
