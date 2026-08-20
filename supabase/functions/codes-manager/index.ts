@@ -168,6 +168,21 @@ Deno.serve(async (req) => {
         return json(200, { ok: true, centers: filtered, role: auth.role });
       }
 
+      // Does this passcode open System Administration on this site?
+      //
+      // The site asks before revealing the admin rows. A centre's own passcode
+      // opens that centre and nothing else; the super-admin passcode opens any
+      // of them. Nothing is returned but the verdict — no codes, no centre
+      // list — so the answer is useless to anyone guessing.
+      case 'admin_gate': {
+        const center = normCenter(body.center);
+        const ok = isSuper || (!!center && ownsCenter(center));
+        // A refusal says only "no": telling a wrong caller that their code is
+        // an admin code for SOME centre is a hint they should not get.
+        if (!ok) return json(403, { ok: false });
+        return json(200, { ok: true, role: auth.role, scope: isSuper ? 'super' : center });
+      }
+
       case 'list_codes': {
         const center = normCenter(body.center);
         if (!center)            return json(400, { ok: false, error: 'no_center' });

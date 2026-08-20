@@ -32,6 +32,16 @@
   path = "/take/*"
   function = "og-take"
 
+# The gold VIP cover for /vip and /vip/<code>. The code itself never reaches
+# the preview — see netlify/edge-functions/og-vip.ts.
+[[edge_functions]]
+  path = "/vip"
+  function = "og-vip"
+
+[[edge_functions]]
+  path = "/vip/*"
+  function = "og-vip"
+
 [[edge_functions]]
   path = "/Articles.html"
   function = "og-articles"

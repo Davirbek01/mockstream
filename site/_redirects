@@ -14,6 +14,13 @@
 # code submit.
 /take/* /landing-v3.html?take=:splat 200
 
+# VIP deep link: /vip/<code> → the Profile tab with the code box focused and
+# the code already typed in. Students were being told "open the menu, find the
+# VIP field, type this" — three steps that some never completed. A teacher can
+# now send one link. Bare /vip works too: it opens the box, empty.
+/vip /landing-v3.html?vip=1 200
+/vip/* /landing-v3.html?vip=:splat 200
+
 # landing-v2.html was an abandoned design iteration (deleted 2026-07-20).
 # 301 any stray old bookmark to the live landing.
 /landing-v2.html /landing-v3.html 301

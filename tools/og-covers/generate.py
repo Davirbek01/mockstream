@@ -89,3 +89,9 @@ cover("vocabulary", (131, 24, 67), (219, 39, 119), (249, 168, 212),
 cover("flashcards", (8, 51, 68), (6, 182, 212), (103, 232, 249),
       ["🗂️"], "VOCABULARY", "FLASHCARDS", "FLIP & LEARN",
       "Term audio · All levels · Study anywhere", hero_sz=112, hero_y=218, pill_w=390)
+
+# The VIP deep link — /vip/<code>. Gold, because it is the only cover that
+# stands for access rather than content.
+cover("vip", (69, 26, 3), (217, 119, 6), (253, 224, 71),
+      ["⭐"], "PREMIUM ACCESS", "VIP CODE", "TAP TO ACTIVATE",
+      "One tap · Opens the code box · Unlocks every mock", hero_sz=116, hero_y=214, pill_w=430)

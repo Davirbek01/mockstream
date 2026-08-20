@@ -395,6 +395,22 @@
   }
 
   /* ---- Codes tab ----------------------------------------------------- */
+  // Each centre hands out links on its own domain: a Bekzod's student sent a
+  // mock-stream.com link would activate the code on the wrong site.
+  var VIP_LINK_HOST = {
+    mock_stream: 'mock-stream.com',
+    bek: 'bekzodsmultilevel.com',
+    niners: 'ninersacademy.com',
+    global: 'global-education.netlify.app',
+    muzaffars: 'muzaffars-english.netlify.app',
+    achievers: 'achievers-mocks.netlify.app',
+    record: 'multilevelrecord.com'
+  };
+  function vipLink(code) {
+    var host = VIP_LINK_HOST[window.__CENTER_ID || 'mock_stream'] || location.host;
+    return 'https://' + host + '/vip/' + encodeURIComponent(code);
+  }
+
   async function renderCodesTab(body) {
     var center = state.currentCenter;
     var r = await call('list_codes', { center: center });
@@ -428,6 +444,9 @@
           '<span class="cm-label">Expiry:</span>' +
           '<select class="cm-select cm-vip-exp" data-type="'+type+'">'+EXPIRY_OPTIONS.map(function(o){return '<option value="'+o.v+'">'+o.label+'</option>';}).join('')+'</select>' +
           '<button class="cm-btn cm-renew-vip" data-type="'+type+'"'+(canEdit?'':' disabled')+'>↻ Renew</button>' +
+          // The link a student can simply tap: opens the code box with the code
+          // already in it, so nobody has to be talked through the menu.
+          (code ? '<button class="cm-btn cm-copy-link" data-link="'+vipLink(code)+'" title="'+vipLink(code)+'">🔗 Copy link</button>' : '') +
           (code ? '<button class="cm-btn danger cm-revoke-vip" data-type="'+type+'"'+(canEdit?'':' disabled')+'>Revoke</button>' : '') +
         '</div>' +
       '</div>';
@@ -570,6 +589,15 @@
 
     function wireVipCard() {
       var vc = document.getElementById('cmVipCard');
+      vc.querySelectorAll('.cm-copy-link').forEach(function(btn){
+        btn.onclick = function(){
+          navigator.clipboard.writeText(btn.dataset.link).then(function(){
+            var was = btn.textContent;
+            btn.textContent = '✅ Link copied';
+            setTimeout(function(){ btn.textContent = was; }, 1600);
+          });
+        };
+      });
       vc.querySelectorAll('[data-copy]').forEach(function(el){
         el.onclick = function(){
           navigator.clipboard.writeText(el.dataset.copy).then(function(){
