@@ -20314,7 +20314,6 @@
       display: flex; flex-direction: column; gap: 10px; transition: border-color .15s, transform .15s;
     }
     .app-card:hover { border-color: #cbd5e1; transform: translateY(-2px); }
-    .app-card .app-ico { width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center; color: #fff; }
     /* The store screenshot is a tall marketing image; show its top third,
        which is the part carrying the app's own screen. */
     .app-shot {
@@ -21059,32 +21058,6 @@
         var mob = APPS_MOBILE[centre] || {};
         var base = bucket ? 'https://storage.googleapis.com/' + bucket + '/' : '';
 
-        function ico(bg, path) {
-          return '<span class="app-ico" style="background:' + bg + '">' +
-            '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" ' +
-            'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + path + '</svg></span>';
-        }
-        function card(id, icon, title, desc, shot, art, frame) {
-          return '<div class="app-card" id="' + id + '">' +
-            (art || '') +
-            (shot ? '<div class="app-phone ' + (frame || '') + '">' +
-                    '<img src="' + shot + '" alt="' + title + ' app screenshot" ' +
-                    'loading="lazy" decoding="async" width="460" height="997"></div>' : '') +
-            icon + '<h3>' + title + '</h3><p>' + desc + '</p>' +
-            '<div class="app-btns"></div></div>';
-        }
-        function btn(host, label, href, ghost) {
-          var el = document.getElementById(host);
-          if (!el) return;
-          var a = document.createElement('a');
-          a.className = 'app-btn' + (ghost ? ' ghost' : '');
-          a.textContent = label;
-          a.href = href; a.target = '_blank'; a.rel = 'noopener';
-          el.querySelector('.app-btns').appendChild(a);
-        }
-
-        var DESK = '<rect x="3" y="4" width="18" height="12" rx="2"></rect><line x1="8" y1="20" x2="16" y2="20"></line>';
-
         // A drawing of the app's window, not a photograph of a computer: the
         // title bar, the skill rail down the left, the exam pane. Same height
         // as the phone screenshots so the four cards line up.
@@ -21109,7 +21082,26 @@
             '<rect x="96" y="122" width="74" height="22" rx="8" fill="' + accent + '"/>' +
             '</svg></div><div class="base"></div></div>';
         }
-        var PHONE = '<rect x="7" y="2" width="10" height="20" rx="2"></rect><line x1="11" y1="18" x2="13" y2="18"></line>';
+
+        function card(id, title, desc, shot, art, frame) {
+          return '<div class="app-card" id="' + id + '">' +
+            (art || '') +
+            (shot ? '<div class="app-phone ' + (frame || '') + '">' +
+                    '<img src="' + shot + '" alt="' + title + ' app screenshot" ' +
+                    'loading="lazy" decoding="async" width="460" height="997"></div>' : '') +
+            '<h3>' + title + '</h3><p>' + desc + '</p>' +
+            '<div class="app-btns"></div></div>';
+        }
+        function btn(host, label, href, ghost) {
+          var el = document.getElementById(host);
+          if (!el) return;
+          var a = document.createElement('a');
+          a.className = 'app-btn' + (ghost ? ' ghost' : '');
+          a.textContent = label;
+          a.href = href; a.target = '_blank'; a.rel = 'noopener';
+          el.querySelector('.app-btns').appendChild(a);
+        }
+
 
         // The screenshots are our own App Store listing images, and they carry
         // Mock Stream branding — so a clone, whose app says its own centre's
@@ -21119,16 +21111,16 @@
         // app's own screen is.)
         var ownShots = centre === 'mock_stream';
         grid.innerHTML =
-          card('appCardWin', ico('#0ea5e9', DESK),
+          card('appCardWin',
                'Windows', 'The full exam runner. Installs in a minute and updates itself.',
                '', deskArt('#0ea5e9')) +
-          card('appCardMac', ico('#334155', DESK),
+          card('appCardMac',
                'macOS', 'Signed and notarised, so there is no security warning on first launch.',
                '', deskArt('#475569')) +
-          card('appCardDroid', ico('#22c55e', PHONE),
+          card('appCardDroid',
                'Android', mob.store ? 'On Google Play.' : 'Installed from the file below. Updates arrive by themselves afterwards.',
                ownShots ? '/images/apps/phone-home.png' : '', '', 'droid') +
-          card('appCardIos', ico('#6366f1', PHONE),
+          card('appCardIos',
                'iPhone / iPad', mob.store ? 'On the App Store.' : 'Through TestFlight, Apple own installer for pre-release apps.',
                ownShots ? '/images/apps/phone-report.png' : '', '', 'ios');
 
