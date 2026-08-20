@@ -20427,6 +20427,11 @@
     @media (prefers-color-scheme: dark) {
       #msv3PdfSection .msv3-row { background: #111827; border-color: #1f2937; color: #e5e7eb; }
     }
+    /* The ring the deep link leaves on the code box. */
+    .msv3-vip-hint {
+      box-shadow: 0 0 0 3px rgba(245,158,11,.45), 0 6px 18px rgba(245,158,11,.22) !important;
+      border-color: #f59e0b !important;
+    }
     body[data-msv3-tab="account"] #msv3AccountPanel .section-title { color: #0f172a; text-align: center; width: 100%; }
     #msv3AccountPanel .msv3-sidebar .msv3-head { display: none; }      /* brand + X — panel has its own title */
     #msv3AccountPanel .msv3-sidebar .msv3-body { overflow: visible !important; }
@@ -22199,6 +22204,36 @@
       });
       var initHash = (location.hash || '').replace(/^#/, '');
       setTab(TABS[initHash] ? initHash : 'home', { updateHash: false, scroll: false });
+
+      // ── /vip deep link ──
+      // Students were told "open the menu, find the VIP field, type this" —
+      // three steps, and some never finished them. /vip/<code> now opens the
+      // Profile tab with the box focused and the code already in it.
+      //
+      // It stops there deliberately: the student sees what they are about to
+      // activate, and a link opened by accident cannot spend a code.
+      (function vipDeepLink() {
+        var code = new URLSearchParams(location.search).get('vip');
+        if (!code) return;
+        // The bare /vip carries "1" as a placeholder — open the box, fill nothing.
+        var value = (code === '1') ? '' : decodeURIComponent(code).trim();
+
+        setTab('account', { updateHash: true, scroll: false });
+        setTimeout(function () {
+          var input = document.getElementById('msv3VipInput');
+          var sec = document.getElementById('msv3VipSection');
+          if (!input) return;
+          if (value) input.value = value;
+          if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          try { input.focus({ preventScroll: true }); } catch (_e) { input.focus(); }
+          // A ring rather than an animation: it says "here" without moving.
+          input.classList.add('msv3-vip-hint');
+          setTimeout(function () { input.classList.remove('msv3-vip-hint'); }, 2600);
+          // The code has done its job in the URL; leave it out of the address
+          // bar so a screenshot or a shared tab does not carry it onward.
+          try { history.replaceState(history.state, '', location.pathname + '#account'); } catch (_e) { }
+        }, 260);
+      })();
 
       // ── Download Mock PDFs → the Mocks tab ──
       // It sat in the account drawer among the sign-in rows, which is where it
