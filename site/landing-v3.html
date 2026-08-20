@@ -3561,6 +3561,11 @@
           { quote:'Discipline is the bridge between goals and accomplishment.', author:'Jim Rohn',            img:_IMG('1497486751825-1233686d5d80') },
         ];
 
+        // The rail's inspiration card reads from here rather than keeping a
+        // second copy of the quotes — one list, so a centre that writes its own
+        // sees the same words in both places.
+        window.__msv3Quotes = DEFAULT_QUOTES.slice();
+
         const _ANN_IS_DEFAULT  = !ANN.length;
         const _CERT_IS_DEFAULT = !CERT.length;
         if (_ANN_IS_DEFAULT)  ANN.push(...DEFAULT_ANN.map(a => ({ ...a, _isDefault: true })));
@@ -20597,6 +20602,28 @@
       border-color: rgba(251,113,133,0.55) !important;
       color: #ffffff;
     }
+    /* Inspiration card — fills the rail's dead middle. */
+    .rail-quote {
+      margin: 18px 2px auto; padding: 0 0 12px; width: calc(100% - 4px);
+      border: 1px solid rgba(255,255,255,0.08); border-radius: 16px;
+      background: rgba(255,255,255,0.04); overflow: hidden; text-align: left;
+      display: block; position: relative; cursor: pointer;
+      transition: border-color 160ms ease, background 160ms ease;
+    }
+    .rail-quote:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.16); }
+    .rail-quote .rq-img { display: block; height: 92px; overflow: hidden; }
+    .rail-quote .rq-img img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: .92; }
+    .rail-quote .rq-mark {
+      position: absolute; top: 78px; left: 12px; font-size: 34px; line-height: 1;
+      color: rgba(255,255,255,0.22); font-family: Georgia, 'Times New Roman', serif;
+    }
+    .rail-quote .rq-text {
+      display: block; margin: 10px 12px 0 12px; color: #e2e8f0;
+      font-size: 12.5px; line-height: 1.45; font-weight: 500; font-style: italic;
+      display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .rail-quote .rq-by { display: block; margin: 7px 12px 0; color: #94a3b8; font-size: 11px; font-weight: 700; }
+
     /* Identity chip inside the Account button (avatar + name + status) */
     .rail-acc-avatar {
       width: 34px; height: 34px; border-radius: 10px; flex: 0 0 auto;
@@ -21063,6 +21090,19 @@
         Apps
       </button>
     </div>
+    <!-- The rail runs the full height of the window, so on any normal screen
+         there is a long empty stretch under the last item. It carries a quote
+         and its photograph — the same ones the billboard shows — and a click
+         moves to the next. No timer: nothing on this page animates by itself,
+         and a rail that changes while you are reading elsewhere is a
+         distraction, not a feature. -->
+    <button type="button" class="rail-quote" id="railQuote" hidden aria-label="Another quote">
+      <span class="rq-img"><img id="railQuoteImg" alt="" loading="lazy" decoding="async"></span>
+      <span class="rq-mark">&ldquo;</span>
+      <span class="rq-text" id="railQuoteText"></span>
+      <span class="rq-by" id="railQuoteBy"></span>
+    </button>
+
     <button type="button" class="rail-account" data-msv3-go="account">
       <span class="rail-acc-avatar" id="railAccAvatar">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"></path></svg>
@@ -21941,6 +21981,37 @@
       });
       var initHash = (location.hash || '').replace(/^#/, '');
       setTab(TABS[initHash] ? initHash : 'home', { updateHash: false, scroll: false });
+
+      // ── Inspiration card in the rail ──
+      // The billboard publishes the list once it has resolved which centre it
+      // is showing, so this waits for it rather than keeping its own copy —
+      // and simply stays hidden if the billboard never reports in.
+      (function railQuote() {
+        var box = document.getElementById('railQuote');
+        if (!box) return;
+        var tries = 0;
+        var at = 0;
+        function paint(list) {
+          var q = list[at % list.length];
+          document.getElementById('railQuoteText').textContent = q.quote || '';
+          document.getElementById('railQuoteBy').textContent = q.author ? '— ' + q.author : '';
+          var im = document.getElementById('railQuoteImg');
+          if (q.img) { im.src = q.img; im.parentNode.style.display = ''; }
+          else { im.removeAttribute('src'); im.parentNode.style.display = 'none'; }
+          box.hidden = false;
+        }
+        (function wait() {
+          var list = window.__msv3Quotes;
+          if (list && list.length) {
+            // A different one each visit, then in order from there.
+            at = Math.floor(Math.random() * list.length);
+            paint(list);
+            box.addEventListener('click', function () { at++; paint(list); });
+            return;
+          }
+          if (tries++ < 60) setTimeout(wait, 120);
+        })();
+      })();
 
       // ── 4. Notifications proxy (reuses the existing bell handler) ──
       var rb = document.getElementById('railBellBtn');
