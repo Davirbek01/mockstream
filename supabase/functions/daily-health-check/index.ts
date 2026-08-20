@@ -27,6 +27,7 @@
 // Deploy: supabase functions deploy daily-health-check --no-verify-jwt
 // =====================================================================
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { gcpSpend, type GcpSpend } from './gcpSpend.ts';
 
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
 const SERVICE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
@@ -108,7 +109,7 @@ function esc(s: string) {
  *  estimated from the bytes we uploaded at the configured bitrate. That part
  *  is marked ~ so it is never mistaken for a measurement.
  */
-function spendSection(rows: any[], prices: any): string[] {
+function spendSection(rows: any[], prices: any, gcp: GcpSpend | null): string[] {
   const L: string[] = [];
   if (!rows || !rows.length) return L;
 
@@ -144,7 +145,25 @@ function spendSection(rows: any[], prices: any): string[] {
   lines.sort((a, b) => b.usd - a.usd);
   const money = (n: number) => '$' + n.toFixed(2);
 
-  L.push(`💰 <b>AI spend</b> — ${money(total)}  <i>(est. ${money(total * 30)}/month at this rate)</i>`);
+  // Google's half is the finished invoice, ours is an estimate. They are added
+  // for the run rate — which is the number that matters — but kept on separate
+  // lines so it stays clear which is which.
+  const google = gcp && !gcp.note ? gcp.total : 0;
+  const grand = total + google;
+
+  L.push(`💰 <b>Spend</b> — ${money(grand)}  <i>(≈ ${money(grand * 30)}/month at this rate)</i>`);
+  if (gcp) {
+    if (gcp.note) {
+      L.push(`  <b>Google</b>: <i>${esc(gcp.note)}</i>`);
+    } else {
+      L.push(`  <b>Google</b> ${money(gcp.total)}` +
+             (gcp.day ? ` <i>(${esc(gcp.day)}, billed)</i>` : ''));
+      for (const g of gcp.by.slice(0, 5)) {
+        L.push(`   ${esc(g.service)}: ${money(g.cost)}`);
+      }
+    }
+  }
+  L.push(`  <b>AI</b> ${money(total)} <i>(estimated from our own logs)</i>`);
   for (const l of lines.slice(0, 6)) {
     L.push(`  ${esc(l.label)}: ${money(l.usd)}  <i>${esc(l.note)}</i>`);
   }
@@ -158,7 +177,7 @@ function spendSection(rows: any[], prices: any): string[] {
   return L;
 }
 
-function buildMessage(s: any, dead: string[], spend: any[], prices: any): string {
+function buildMessage(s: any, dead: string[], spend: any[], prices: any, gcp: GcpSpend | null): string {
   const L: string[] = [];
   const tg = s.telegram || {};
   const gate = s.gate || {};
@@ -243,7 +262,7 @@ function buildMessage(s: any, dead: string[], spend: any[], prices: any): string
   // description at all, and the examiner grades a picture task having seen
   // nothing. Small and shrinking on its own — this is here so that a centre
   // freezing on an old build shows up the next morning rather than never.
-  for (const line of spendSection(spend, prices)) L.push(line);
+  for (const line of spendSection(spend, prices, gcp)) L.push(line);
 
   const stale = s.stale_app || {};
   if (Number(stale.total) > 0) {
@@ -300,7 +319,11 @@ Deno.serve(async (req) => {
   let prices: any = {};
   try { prices = priceRow ? JSON.parse(priceRow.value) : {}; } catch { /* keep going without costs */ }
 
-  const text = buildMessage(snap, dead, spend || [], prices);
+  // Google's own numbers, if the billing export has been connected. A day
+  // behind by nature: the export is written after the day closes.
+  const gcp = await gcpSpend(daysBack);
+
+  const text = buildMessage(snap, dead, spend || [], prices, gcp);
 
   // Keep the last report where the admin panel can read it, the same place
   // ai-health-check writes to (scoring_* is on the anon read whitelist).
