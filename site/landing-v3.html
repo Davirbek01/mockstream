@@ -20604,7 +20604,12 @@
     }
     /* Inspiration card — fills the rail's dead middle. */
     .rail-quote {
-      margin: 18px 2px auto; padding: 0 0 12px; width: calc(100% - 4px);
+      /* Two auto margins — this one and the account row's — split the leftover
+         column between them, so the card floats in the middle of the gap
+         instead of hanging off the last nav item. */
+      margin: auto 2px 0; padding: 0 0 12px; width: calc(100% - 4px);
+      /* never collapse right onto the nav on a short window */
+      margin-top: auto;
       border: 1px solid rgba(255,255,255,0.08); border-radius: 16px;
       background: rgba(255,255,255,0.04); overflow: hidden; text-align: left;
       display: block; position: relative; cursor: pointer;
