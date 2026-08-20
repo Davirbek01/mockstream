@@ -4421,6 +4421,39 @@
       </div>
     </section>
 
+    <!-- Home teaser. The phone dock is full at six items, and a seventh
+         would crush the labels on a 360px screen — so on a phone this card is
+         the way into the Apps tab. Installing is a once-ever action; the dock
+         belongs to the places people go daily. -->
+    <section class="section" data-msv3sec="home">
+      <button type="button" class="apps-teaser" data-msv3-go="apps">
+        <span class="t-ico">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"></rect><line x1="11" y1="18" x2="13" y2="18"></line></svg>
+        </span>
+        <span class="t-txt">
+          <b>Get the apps</b>
+          <span>Windows, macOS, Android and iPhone — same mocks, your results in sync</span>
+        </span>
+        <span class="t-go">→</span>
+      </button>
+    </section>
+
+    <!-- ── APPS ────────────────────────────────────────────
+         Its own tab. The download targets are NOT written here: the desktop
+         links are read from the release bucket's latest.yml at load time, the
+         same file the installer's auto-updater reads, so a new release appears
+         without touching this page. -->
+    <section class="section" data-msv3sec="apps" id="msv3AppsSection">
+      <div class="section-head">
+        <h2 class="section-title">Get the apps</h2>
+      </div>
+      <p class="apps-intro" id="appsIntro">
+        The same mocks, offline-capable, with your results in sync. Install once and sign in with the account you already use.
+      </p>
+      <div class="apps-grid" id="appsGrid"></div>
+      <p class="apps-note" id="appsNote"></p>
+    </section>
+
   </main>
 
   <footer>
@@ -20216,6 +20249,7 @@
     body[data-msv3-tab="exams"]   main > section:not([data-msv3sec~="exams"]),
     body[data-msv3-tab="learn"]   main > section:not([data-msv3sec~="learn"]),
     body[data-msv3-tab="results"] main > section:not([data-msv3sec~="results"]),
+    body[data-msv3-tab="apps"]    main > section:not([data-msv3sec~="apps"]),
     body[data-msv3-tab="account"] main > section:not([data-msv3sec~="account"]) { display: none; }
 
     /* ── Account tab: the old sidebar rendered as an in-page card ──
@@ -20257,6 +20291,46 @@
 
     /* Non-home tabs get a little headroom since the hero is hidden */
     body[data-msv3-tab]:not([data-msv3-tab="home"]) main { padding-top: 26px; }
+
+
+    /* ── Apps tab ── */
+    .apps-intro { color: var(--muted, #64748b); margin: -4px 0 18px; max-width: 62ch; line-height: 1.55; }
+    .apps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+    .app-card {
+      border: 1px solid #e2e8f0; border-radius: 16px; padding: 18px; background: #fff;
+      display: flex; flex-direction: column; gap: 10px; transition: border-color .15s, transform .15s;
+    }
+    .app-card:hover { border-color: #cbd5e1; transform: translateY(-2px); }
+    .app-card .app-ico { width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center; color: #fff; }
+    .app-card h3 { margin: 0; font-size: 1.02rem; }
+    .app-card p { margin: 0; color: var(--muted, #64748b); font-size: .87rem; line-height: 1.45; }
+    .app-btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 6px; }
+    .app-btn {
+      display: inline-flex; align-items: center; gap: 6px; padding: 9px 14px; border-radius: 10px;
+      font-size: .87rem; font-weight: 600; text-decoration: none; border: 1px solid transparent;
+      background: #0f172a; color: #fff;
+    }
+    .app-btn.ghost { background: #fff; color: #0f172a; border-color: #cbd5e1; }
+    .app-btn[aria-disabled="true"] { opacity: .5; pointer-events: none; }
+    .apps-note { margin: 16px 0 0; font-size: .84rem; color: var(--muted, #64748b); }
+    @media (prefers-color-scheme: dark) {
+      .app-card { background: #111827; border-color: #1f2937; }
+      .app-btn.ghost { background: transparent; color: #e5e7eb; border-color: #374151; }
+    }
+    /* Home teaser — the way in on phones, where the dock is full */
+    .apps-teaser {
+      display: flex; align-items: center; gap: 14px; padding: 14px 16px; margin-top: 4px;
+      border: 1px solid #e2e8f0; border-radius: 16px; background: #fff; cursor: pointer; width: 100%;
+      text-align: left; font: inherit; color: inherit;
+    }
+    .apps-teaser:hover { border-color: #cbd5e1; }
+    .apps-teaser .t-ico { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #fff; flex: 0 0 auto; }
+    .apps-teaser .t-txt { flex: 1 1 auto; min-width: 0; }
+    .apps-teaser .t-txt b { display: block; font-size: .97rem; }
+    .apps-teaser .t-txt span { color: var(--muted, #64748b); font-size: .85rem; }
+    .apps-teaser .t-go { color: var(--muted, #64748b); flex: 0 0 auto; }
+    @media (prefers-color-scheme: dark) { .apps-teaser { background: #111827; border-color: #1f2937; } }
 
     /* ── Shared nav-item look ── */
     .msv3-rail, .msv3-glassbar { font-family: inherit; }
@@ -20731,6 +20805,10 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
         My results
       </button>
+      <button type="button" class="rail-item" data-msv3-go="apps">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"></rect><line x1="11" y1="18" x2="13" y2="18"></line></svg>
+        Apps
+      </button>
     </div>
     <button type="button" class="rail-account" data-msv3-go="account">
       <span class="rail-acc-avatar" id="railAccAvatar">
@@ -20774,7 +20852,126 @@
   <script>
     (function () {
       'use strict';
-      var TABS = { home: 1, mocks: 1, exams: 1, learn: 1, results: 1, account: 1 };
+      var TABS = { home: 1, mocks: 1, exams: 1, learn: 1, results: 1, apps: 1, account: 1 };
+
+
+      // ── Apps tab ──────────────────────────────────────────────────────
+      //
+      // Nothing about a release is written down here. The Windows and macOS
+      // links come from the bucket's latest.yml / latest-mac.yml — the very
+      // files the installed app's auto-updater reads — and the clone APK is
+      // found by listing the bucket, so its filename can change freely. That
+      // leaves only what genuinely never changes: which bucket belongs to
+      // which centre, and the store / TestFlight addresses.
+      //
+      // Clones are NOT on the public stores (verified 2026-08-12): they ship
+      // as a sideload APK and a TestFlight invite, and saying so plainly beats
+      // a Play button that 404s.
+      var APPS_BUCKET = {
+        mock_stream: 'mockstream-desktop-releases',
+        bek:         'bekzods-desktop-releases',
+        record:      'multilevelrecord-desktop-releases',
+        niners:      'niners-desktop-releases',
+        global:      'global-education-desktop-releases',
+        achievers:   'achievers-desktop-releases',
+        muzaffars:   'muzaffars-desktop-releases'
+      };
+      var APPS_MOBILE = {
+        mock_stream: { ios: 'https://apps.apple.com/app/id6780333629',
+                       android: 'https://play.google.com/store/apps/details?id=com.mockstream.app',
+                       store: true },
+        bek:       { ios: 'https://testflight.apple.com/join/twZAyKPd' },
+        record:    { ios: 'https://testflight.apple.com/join/6DjK9jsy' },
+        niners:    { ios: 'https://testflight.apple.com/join/cYNjge6E' },
+        global:    { ios: 'https://testflight.apple.com/join/2aZbwJ9W' },
+        achievers: { ios: 'https://testflight.apple.com/join/n6gfe7Sd' },
+        muzaffars: { ios: 'https://testflight.apple.com/join/ctf2ZS9w' }
+      };
+
+      var appsBuilt = false;
+      function buildAppsTab() {
+        if (appsBuilt) return;
+        appsBuilt = true;
+        var grid = document.getElementById('appsGrid');
+        if (!grid) return;
+
+        var centre = window.__CENTER_ID || 'mock_stream';
+        var bucket = APPS_BUCKET[centre];
+        var mob = APPS_MOBILE[centre] || {};
+        var base = bucket ? 'https://storage.googleapis.com/' + bucket + '/' : '';
+
+        function ico(bg, path) {
+          return '<span class="app-ico" style="background:' + bg + '">' +
+            '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" ' +
+            'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + path + '</svg></span>';
+        }
+        function card(id, icon, title, desc) {
+          return '<div class="app-card" id="' + id + '">' + icon +
+            '<h3>' + title + '</h3><p>' + desc + '</p>' +
+            '<div class="app-btns"></div></div>';
+        }
+        function btn(host, label, href, ghost) {
+          var el = document.getElementById(host);
+          if (!el) return;
+          var a = document.createElement('a');
+          a.className = 'app-btn' + (ghost ? ' ghost' : '');
+          a.textContent = label;
+          a.href = href; a.target = '_blank'; a.rel = 'noopener';
+          el.querySelector('.app-btns').appendChild(a);
+        }
+
+        var DESK = '<rect x="3" y="4" width="18" height="12" rx="2"></rect><line x1="8" y1="20" x2="16" y2="20"></line>';
+        var PHONE = '<rect x="7" y="2" width="10" height="20" rx="2"></rect><line x1="11" y1="18" x2="13" y2="18"></line>';
+
+        grid.innerHTML =
+          card('appCardWin', ico('#0ea5e9', DESK),
+               'Windows', 'The full exam runner. Installs in a minute and updates itself.') +
+          card('appCardMac', ico('#334155', DESK),
+               'macOS', 'Signed and notarised, so there is no security warning on first launch.') +
+          card('appCardDroid', ico('#22c55e', PHONE),
+               'Android', mob.store ? 'On Google Play.' : 'Installed from the file below. Updates arrive by themselves afterwards.') +
+          card('appCardIos', ico('#6366f1', PHONE),
+               'iPhone / iPad', mob.store ? 'On the App Store.' : 'Through TestFlight, Apple own installer for pre-release apps.');
+
+        if (mob.ios) btn('appCardIos', mob.store ? 'App Store' : 'Join on TestFlight', mob.ios);
+        if (mob.android) btn('appCardDroid', 'Google Play', mob.android);
+
+        if (!base) return;
+
+        // Desktop: read the same manifest the auto-updater reads.
+        function fromYml(url, re, host, label) {
+          fetch(url, { cache: 'no-store' })
+            .then(function (r) { return r.ok ? r.text() : ''; })
+            .then(function (t) {
+              var m = t.match(re);
+              if (!m) return;
+              var ver = (t.match(/^version:\s*(.+)$/m) || [])[1] || '';
+              btn(host, label + (ver ? ' · ' + ver.trim() : ''), base + m[1]);
+            })
+            .catch(function () { /* the card simply carries no button */ });
+        }
+        fromYml(base + 'latest.yml', /^path:\s*(\S+\.exe)\s*$/m, 'appCardWin', 'Download');
+        fromYml(base + 'latest-mac.yml', /url:\s*(\S+\.dmg)/, 'appCardMac', 'Download');
+
+        // Android sideload: find the APK rather than assume its name.
+        if (!mob.store) {
+          fetch('https://storage.googleapis.com/storage/v1/b/' + bucket + '/o?fields=items(name)&maxResults=200')
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (j) {
+              var apk = ((j && j.items) || []).map(function (i) { return i.name; })
+                .filter(function (n) { return /\.apk$/i.test(n); })[0];
+              if (apk) btn('appCardDroid', 'Download APK', base + apk);
+            })
+            .catch(function () { });
+        }
+
+        var note = document.getElementById('appsNote');
+        if (note) {
+          note.textContent = mob.store
+            ? 'Signing in with the same account keeps your results together across every device.'
+            : 'The phone apps are distributed by us rather than through the stores, so Android asks you to allow the install once, and iPhone goes through TestFlight. Your results stay in sync either way.';
+        }
+      }
 
       // ── 1. Tag every <main> section with its tab ──
       function tag(el, t) {
@@ -20794,6 +20991,10 @@
       document.querySelectorAll('main > section:not([data-msv3sec])').forEach(function (s) {
         s.setAttribute('data-msv3sec', s.querySelector('.secondary') ? 'mocks' : 'home');
       });
+
+      // The Apps tab does network work, so it is built the first time it is
+      // opened rather than on every page load.
+      window.__msv3BuildApps = buildAppsTab;
 
       // ── 2. My results panel — the results page embedded directly (same
       // origin), created lazily on first visit so Home stays light ──
@@ -21389,6 +21590,7 @@
         }
         if (opts.scroll !== false) window.scrollTo({ top: 0, behavior: 'instant' in window ? 'auto' : 'auto' });
         if (tab === 'results') ensureResultsFrame();
+        if (tab === 'apps') buildAppsTab();
         // Account tab: refresh the sign-in slot / admin locks / VIP badge
         // (normally done by the old drawer's open handler).
         if (tab === 'account') {
