@@ -5425,29 +5425,12 @@
     </div>
 
     <div class="msv3-body">
-      <div class="msv3-section">
-        <div class="msv3-section-head">Account Access</div>
-        <div class="msv3-account" id="msv3AccountSlot"></div>
-        <!-- My Results — mirrors the topbar icon. Visible inside the
-             sidebar drawer on mobile (where we hide the topbar icon to
-             save room for the hamburger); hidden on desktop where the
-             topbar already shows it. -->
-        <a class="msv3-row msv3-my-results" href="/results/my-results.html"
+        <a class="msv3-row msv3-my-results" href="#results"
            aria-label="My Results — your attempts and scores">
           <span class="msv3-row-icon">📊</span>
           My Results
           <span class="msv3-row-arrow">→</span>
         </a>
-        <!-- Download Mock PDFs — its own row (separate from System Administration).
-             Visible to everyone; opens only for an admin (super-admin OR clone
-             admin — both have role 'admin'). Arrow flips 🔒→→ via _applyAdminLockUI. -->
-        <button type="button" class="msv3-row" id="msv3PdfBtn" aria-label="Download mock PDFs">
-          <span class="msv3-row-icon">📥</span>
-          Download Mock PDFs
-          <span class="msv3-row-arrow">🔒</span>
-        </button>
-      </div>
-
       <div class="msv3-section" id="msv3VipSection">
         <div class="msv3-section-head">
           VIP Activation
@@ -5463,6 +5446,23 @@
           <span>Remember on this device</span>
         </label>
         <button type="button" id="msv3VipReplaceBtn" class="msv3-vip-replace" hidden>✎ Replace code</button>
+      </div>
+
+      <div class="msv3-section" id="msv3AccessSection">
+        <div class="msv3-section-head">Account Access</div>
+        <div class="msv3-account" id="msv3AccountSlot"></div>
+        <!-- My Results — mirrors the topbar icon. Visible inside the
+             sidebar drawer on mobile (where we hide the topbar icon to
+             save room for the hamburger); hidden on desktop where the
+             topbar already shows it. -->
+        <!-- Download Mock PDFs — its own row (separate from System Administration).
+             Visible to everyone; opens only for an admin (super-admin OR clone
+             admin — both have role 'admin'). Arrow flips 🔒→→ via _applyAdminLockUI. -->
+        <button type="button" class="msv3-row" id="msv3PdfBtn" aria-label="Download mock PDFs">
+          <span class="msv3-row-icon">📥</span>
+          Download Mock PDFs
+          <span class="msv3-row-arrow">🔒</span>
+        </button>
       </div>
 
       <!-- Email / magic-link sign-in — dedicated entry for guest users.
@@ -20297,27 +20297,159 @@
       height: auto !important;
       min-height: calc(100dvh - 230px);
       margin: 0;
-      border: 1px solid rgba(255,255,255,0.08) !important;
+      /* The page carries the same dark now, so the panel stops needing an edge
+         and a drop shadow to separate itself from it. */
+      border: 1px solid rgba(255,255,255,0.06) !important;
       border-radius: 18px;
-      box-shadow: 0 18px 44px rgba(15,23,42,0.18) !important;
+      box-shadow: none !important;
       z-index: auto !important;
       overflow: hidden;
     }
+    /* ── Profile tab: the same wash as Apps, and a panel to match ──
+       The charcoal belongs to the slide-out drawer, which sits over the site
+       and needs to be opaque. As a tab this is a page of its own, so it takes
+       the light background the Apps tab uses and the panel is re-skinned to
+       suit — scoped to the tab, so the drawer is untouched. */
+    body[data-msv3-tab="account"] {
+      background:
+        radial-gradient(760px 380px at 16% -8%, rgba(99,102,241,.30), transparent 72%),
+        radial-gradient(660px 360px at 96% 2%, rgba(13,148,136,.26), transparent 72%),
+        radial-gradient(620px 340px at 50% 106%, rgba(168,85,247,.18), transparent 72%),
+        linear-gradient(180deg, #eef2ff 0%, #f8fafc 70%);
+      background-attachment: fixed;
+    }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar {
+      background: rgba(255,255,255,0.72) !important;
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      backdrop-filter: blur(18px) saturate(160%);
+      border-color: rgba(15,23,42,0.08) !important;
+      color: #1e293b !important;
+      box-shadow: 0 10px 30px rgba(15,23,42,.08) !important;
+    }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-section-head { color: #64748b !important; }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-row,
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-provider,
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-profile,
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-plus,
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-skill,
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar input[type="text"],
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar input[type="email"],
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar input:not([type="checkbox"]) {
+      background: #ffffff !important;
+      border-color: rgba(15,23,42,0.10) !important;
+      color: #0f172a !important;
+      box-shadow: 0 1px 2px rgba(15,23,42,.04) !important;
+    }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-row:hover,
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-provider:hover,
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-plus:hover,
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-skill:hover {
+      background: #f8fafc !important;
+      border-color: rgba(99,102,241,0.35) !important;
+    }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-profile-name,
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-account-hint strong { color: #0f172a !important; }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-profile-role,
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-profile-role[style],
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-account-hint,
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-row-arrow { color: #64748b !important; }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-email-link { color: #4f46e5 !important; }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar hr { border-color: rgba(15,23,42,0.08) !important; }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-section-head .msv3-tag {
+      background: rgba(99,102,241,0.12) !important; color: #4338ca !important;
+    }
+    /* The quick links and the arrows on tinted buttons were still wearing the
+       dark theme's near-white, which is invisible now the panel is light. */
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-quick-links a {
+      background: #ffffff !important;
+      border-color: rgba(15,23,42,0.10) !important;
+      color: #334155 !important;
+    }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-quick-links a:hover {
+      background: #f8fafc !important; color: #0f172a !important;
+    }
+    /* First and largest: it is what a student comes to this tab for. */
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-my-results {
+      margin: 2px 0 16px !important;
+      padding: 16px 16px !important;
+      font-size: 16px !important; font-weight: 800 !important;
+      border-radius: 14px !important;
+      background: linear-gradient(135deg, rgba(99,102,241,.14), rgba(56,189,248,.12)) !important;
+      border: 1px solid rgba(99,102,241,.28) !important;
+      color: #1e1b4b !important;
+      box-shadow: 0 4px 14px rgba(79,70,229,.12) !important;
+    }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-my-results:hover {
+      background: linear-gradient(135deg, rgba(99,102,241,.20), rgba(56,189,248,.16)) !important;
+      border-color: rgba(99,102,241,.45) !important;
+    }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-my-results .msv3-row-icon { font-size: 22px !important; }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-my-results .msv3-row-arrow { color: #4f46e5 !important; font-size: 18px !important; }
+    /* "ACCOUNT ACCESS" and the sentence under it said what the two buttons
+       below already say. Gone from the tab; the slide-out drawer keeps them,
+       where there is no page title to give the section its context. */
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar #msv3AccessSection > .msv3-section-head,
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar #msv3VipSection > .msv3-section-head,
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-account-hint { display: none !important; }
+    /* The code field is the one thing on this tab a student types into, so it
+       gets a touch target rather than a footnote. */
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar #msv3VipSection { margin-bottom: 18px; }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-vip-row input {
+      padding: 14px 15px !important; font-size: 15px !important; border-radius: 12px !important;
+    }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-vip-row button {
+      width: 50px !important; height: 50px !important; border-radius: 12px !important; font-size: 19px !important;
+    }
+    /* "Remember on this device" is HIDDEN, not removed: the box stays in the
+       DOM and stays ticked, so the code is still remembered exactly as before —
+       the row was asking a question nobody wanted to be asked. */
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar #msv3VipRememberRow { display: none !important; }
+    /* Centred: the tab is a single narrow column on a phone, so a heading
+       hanging off the left edge reads as a list label rather than a title.
+       Applies to the page title and to whichever section heads remain. */
+    body[data-msv3-tab="account"] #msv3AccountPanel .section-head { justify-content: center; text-align: center; }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-section-head { text-align: center; justify-content: center; }
+    /* The PDF button, out of the drawer's dark row style and into a card the
+       width of the mock list above it. */
+    #msv3PdfSection .msv3-row {
+      display: flex; align-items: center; gap: 12px;
+      width: 100%; margin: 0; padding: 16px 18px;
+      font-size: 15px; font-weight: 700; color: #0f172a;
+      background: #fff; border: 1px solid #e2e8f0; border-radius: 16px;
+      box-shadow: 0 2px 10px rgba(15,23,42,.05);
+    }
+    #msv3PdfSection .msv3-row:hover { border-color: #cbd5e1; background: #f8fafc; }
+    #msv3PdfSection .msv3-row-icon { font-size: 22px; }
+    #msv3PdfSection .msv3-row-arrow { margin-left: auto; color: #64748b; font-size: 18px; }
+    @media (prefers-color-scheme: dark) {
+      #msv3PdfSection .msv3-row { background: #111827; border-color: #1f2937; color: #e5e7eb; }
+    }
+    body[data-msv3-tab="account"] #msv3AccountPanel .section-title { color: #0f172a; text-align: center; width: 100%; }
     #msv3AccountPanel .msv3-sidebar .msv3-head { display: none; }      /* brand + X — panel has its own title */
     #msv3AccountPanel .msv3-sidebar .msv3-body { overflow: visible !important; }
-    /* Desktop: settings-page layout — sections flow into two columns */
+    /* Desktop: one centred column, not two.
+       The two-column grid spread eight short rows across the full width of a
+       1500px screen, which left holes rather than balance — a settings page
+       reads better as a single column the eye can run down. */
     @media (min-width: 1024px) {
+      /* The drawer-geometry reset above sets max-width:none !important, so the
+         column width has to shout back. */
+      #msv3AccountPanel .msv3-sidebar {
+        max-width: 660px !important; margin: 0 auto !important;
+      }
       #msv3AccountPanel .msv3-sidebar .msv3-body {
-        display: grid !important;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 4px 36px;
-        align-items: start;
-        padding: 14px 26px 20px !important;
+        display: flex !important;
+        flex-direction: column;
+        gap: 0;
+        padding: 20px 28px 26px !important;
       }
       #msv3AccountPanel .msv3-sidebar .msv3-body > * { min-width: 0; }
-      #msv3AccountPanel .msv3-sidebar .msv3-foot,
-      #msv3AccountPanel .msv3-sidebar .msv3-body > .msv3-logout,
-      #msv3AccountPanel .msv3-sidebar .msv3-body > hr { grid-column: 1 / -1; }
+      /* The sign-in buttons stack instead of sitting side by side, so each is
+         a full-width target like every other row on the page. */
+      #msv3AccountPanel .msv3-sidebar .msv3-providers { grid-template-columns: 1fr !important; display: grid !important; gap: 10px; }
+      #msv3AccountPanel .msv3-sidebar .msv3-provider { width: 100%; justify-content: flex-start; padding: 14px 16px; font-size: 14.5px; }
+      #msv3AccountPanel .msv3-sidebar .msv3-quick-links { display: grid !important; grid-template-columns: 1fr 1fr; gap: 10px; }
+      #msv3AccountPanel .msv3-sidebar .msv3-section { margin-bottom: 16px; }
     }
     .msv3-danger { max-width: none; }
 
@@ -21057,6 +21189,38 @@
       body[data-msv3-tab]:not([data-msv3-tab="home"]) main { padding-top: 88px; }
       #msv3ResultsPanel .res-card { max-width: 640px; }
     }
+
+    /* ── Phone dock (the desktop rail is untouched) ──
+       Five items with Mocks in the middle, raised and filled: the thing a
+       student opens the app to do, under the thumb, instead of one of six
+       equal greys. Results is not here — it lives inside Profile. */
+    @media (max-width: 1023.98px) {
+      /* An earlier rule hides this row with !important, so this one needs
+         to be more specific rather than merely later. */
+      .msv3-sidebar .msv3-body .msv3-my-results { display: flex !important; }
+      .gb-item.gb-mid { position: relative; }
+      /* Bigger, not raised: the centre keeps the same baseline as the rest of
+         the bar and earns its emphasis from size and fill alone. */
+      /* Bigger, not raised: the centre keeps the bar's baseline and earns its
+         emphasis from size, a white face and a violet ring. White, because
+         four coloured glyphs need something to sit on. */
+      .gb-item.gb-mid svg {
+        width: 34px; height: 34px; padding: 4px; box-sizing: border-box;
+        border-radius: 13px; background: #fff;
+        box-shadow: 0 3px 10px rgba(15,23,42,.14), inset 0 0 0 1.5px rgba(139,92,246,.45);
+        transition: box-shadow 160ms ease;
+      }
+      .gb-item.gb-mid.active { background: transparent; }
+      .gb-item.gb-mid.active svg {
+        box-shadow: 0 6px 16px rgba(109,40,217,.30), inset 0 0 0 2px rgba(109,40,217,.85);
+      }
+      .gb-item.gb-mid.active span { color: #6d28d9; }
+      .gb-item.gb-mid span { font-weight: 800; }
+      /* Four items share the row with a raised fifth, so they can afford a
+         little more of everything. */
+      .gb-item { font-size: 10.5px; padding: 7px 2px; }
+      .gb-item svg { width: 23px; height: 23px; }
+    }
     @media (max-width: 1023.98px) {
       .msv3-glassbar { display: flex; }
       main { padding-bottom: 118px !important; }
@@ -21124,26 +21288,40 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
       <span>Home</span>
     </button>
-    <button type="button" class="gb-item" data-msv3-go="mocks">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
-      <span>Mocks</span>
-    </button>
     <button type="button" class="gb-item" data-msv3-go="exams">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"></circle><path d="M15.5 13l1.5 8-5-3-5 3 1.5-8"></path></svg>
       <span>Exams</span>
+    </button>
+    <button type="button" class="gb-item gb-mid" data-msv3-go="mocks">
+      <!-- The four skills, in the colours they wear across the site:
+           listening, reading, writing, speaking. -->
+      <svg class="gb-skills" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <g stroke="#0ea5e9" stroke-width="1.5" stroke-linecap="round">
+          <path d="M2.6 7.6a3.9 3.9 0 0 1 7.8 0"/>
+          <path d="M2.6 7.9v1.7M10.4 7.9v1.7"/>
+        </g>
+        <g fill="#10b981">
+          <rect x="13.3" y="3.4" width="3.9" height="7.2" rx="1"/>
+          <rect x="17.8" y="3.4" width="3.9" height="7.2" rx="1"/>
+        </g>
+        <g stroke="#f59e0b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 20.8l.7-2.3 5.1-5.1 1.6 1.6-5.1 5.1z"/>
+        </g>
+        <g stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round">
+          <rect x="16.1" y="13" width="3.5" height="5.4" rx="1.75"/>
+          <path d="M14.3 17.6a3.6 3.6 0 0 0 7.1 0M17.85 20.4v1.2"/>
+        </g>
+      </svg>
+      <span>Mocks</span>
     </button>
     <button type="button" class="gb-item" data-msv3-go="learn">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
       <span>Learn</span>
     </button>
-    <button type="button" class="gb-item" data-msv3-go="results">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
-      <span>Results</span>
-    </button>
     <button type="button" class="gb-item" data-msv3-go="account">
       <span class="gb-avatar" id="gbAccAvatar" hidden></span>
       <svg id="gbAccIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"></path></svg>
-      <span>Account</span>
+      <span>Profile</span>
     </button>
   </nav>
 
@@ -21386,7 +21564,7 @@
         ap.className = 'section';
         ap.id = 'msv3AccountPanel';
         ap.setAttribute('data-msv3sec', 'account');
-        ap.innerHTML = '<div class="section-head"><h2 class="section-title">Account</h2></div>';
+        ap.innerHTML = '<div class="section-head"><h2 class="section-title">Profile</h2></div>';
         var aside = document.getElementById('msv3Sidebar');
         if (aside) {
           ap.appendChild(aside);
@@ -21986,6 +22164,24 @@
       });
       var initHash = (location.hash || '').replace(/^#/, '');
       setTab(TABS[initHash] ? initHash : 'home', { updateHash: false, scroll: false });
+
+      // ── Download Mock PDFs → the Mocks tab ──
+      // It sat in the account drawer among the sign-in rows, which is where it
+      // was built, not where it belongs: it downloads mocks. The element is
+      // MOVED rather than rebuilt, so its click handler and the admin padlock
+      // logic follow it untouched.
+      (function movePdfButton() {
+        var btn = document.getElementById('msv3PdfBtn');
+        var full = document.querySelector('main > section .secondary-card.full');
+        var host = full && full.closest('main > section');
+        if (!btn || !host) return;
+        var wrap = document.createElement('section');
+        wrap.className = 'section';
+        wrap.id = 'msv3PdfSection';
+        wrap.setAttribute('data-msv3sec', 'mocks');
+        wrap.appendChild(btn);
+        host.insertAdjacentElement('afterend', wrap);
+      })();
 
       // ── Inspiration card in the rail ──
       // The billboard publishes the list once it has resolved which centre it
