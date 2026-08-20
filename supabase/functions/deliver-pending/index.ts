@@ -132,7 +132,11 @@ Deno.serve(async (req) => {
   let body: any = {};
   try { body = await req.json(); } catch { /* cron posts an empty body */ }
   const dry = body?.dry === true;
-  const limit = Number.isFinite(body?.limit) ? Number(body.limit) : 20;
+  // Each delivery costs about 3.2s (fetch the locker, upload to the channel).
+  // Twenty of them in one call overran the function's wall clock and the whole
+  // run answered 500 — so the batch stays small and the next sweep, five
+  // minutes later, takes the rest. A backlog drains in a few rounds.
+  const limit = Number.isFinite(body?.limit) ? Number(body.limit) : 6;
   // Old enough that the client has finished trying or died; young enough that
   // a message still means something in the channel.
   const minAge = Number.isFinite(body?.min_age_min) ? Number(body.min_age_min) : 2;
