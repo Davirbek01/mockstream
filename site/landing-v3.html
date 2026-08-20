@@ -21054,6 +21054,13 @@
     /* Three across on a wide screen: at two, each bar stretched to a quarter of
        the window and a count of 57 drew a 500px line. */
     @media (min-width: 1180px) { .msw-lib-cols { grid-template-columns: repeat(3, 1fr); } }
+    /* Stacked, Learn reads better after both exams than wedged between them.
+       Three abreast it belongs in the middle, which is where the markup puts
+       it — so the order is flipped only while the columns are stacked. */
+    @media (max-width: 1179.98px) {
+      .msw-lib-cols .msw-lib-exam:nth-child(2) { order: 3; }
+      .msw-lib-cols .msw-lib-exam:nth-child(3) { order: 2; }
+    }
     .msw-lib-exam { border: 1px solid var(--line, #e2e8f0); border-radius: 13px; padding: 12px 14px; }
     .msw-lib-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 9px; }
     .msw-lib-head .nm { font-weight: 800; font-size: 14px; }
