@@ -2690,6 +2690,10 @@
                since Microsoft licenses its logo instead of releasing it. -->
           <span class="t-marks">
             <svg viewBox="0 0 24 24" aria-label="Windows"><path d="M2.4 4.6l8.2-1.15v8.02H2.4zM12.2 3.2L22.4 1.8v9.67H12.2zM2.4 12.53h8.2v8.02L2.4 19.4zM12.2 12.53h10.2v9.67L12.2 20.8z"/></svg>
+            <!-- A laptop with the notch in its screen: drawn here, because the
+                 Apple mark alone stood for macOS and iPhone at once and the row
+                 is meant to name four platforms. -->
+            <svg viewBox="0 0 24 24" aria-label="macOS"><path d="M4 5.2c0-.66.54-1.2 1.2-1.2h13.6c.66 0 1.2.54 1.2 1.2v9.3H4V5.2zm6.1 0h3.8v1.15h-3.8V5.2zM2.3 15.6h19.4c.28 0 .45.3.31.54l-.7 1.2a1.2 1.2 0 0 1-1.04.6H3.73a1.2 1.2 0 0 1-1.04-.6l-.7-1.2a.35.35 0 0 1 .31-.54z"/></svg>
             <svg viewBox="0 0 24 24" aria-label="macOS and iPhone"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
             <svg viewBox="0 0 24 24" aria-label="Android"><path d="M18.4395 5.5586c-.675 1.1664-1.352 2.3318-2.0274 3.498-.0366-.0155-.0742-.0286-.1113-.043-1.8249-.6957-3.484-.8-4.42-.787-1.8551.0185-3.3544.4643-4.2597.8203-.084-.1494-1.7526-3.021-2.0215-3.4864a1.1451 1.1451 0 0 0-.1406-.1914c-.3312-.364-.9054-.4859-1.379-.203-.475.282-.7136.9361-.3886 1.5019 1.9466 3.3696-.0966-.2158 1.9473 3.3593.0172.031-.4946.2642-1.3926 1.0177C2.8987 12.176.452 14.772 0 18.9902h24c-.119-1.1108-.3686-2.099-.7461-3.0683-.7438-1.9118-1.8435-3.2928-2.7402-4.1836a12.1048 12.1048 0 0 0-2.1309-1.6875c.6594-1.122 1.312-2.2559 1.9649-3.3848.2077-.3615.1886-.7956-.0079-1.1191a1.1001 1.1001 0 0 0-.8515-.5332c-.5225-.0536-.9392.3128-1.0488.5449zm-.0391 8.461c.3944.5926.324 1.3306-.1563 1.6503-.4799.3197-1.188.0985-1.582-.4941-.3944-.5927-.324-1.3307.1563-1.6504.4727-.315 1.1812-.1086 1.582.4941zM7.207 13.5273c.4803.3197.5506 1.0577.1563 1.6504-.394.5926-1.1038.8138-1.584.4941-.48-.3197-.5503-1.0577-.1563-1.6504.4008-.6021 1.1087-.8106 1.584-.4941z"/></svg>
             <em>your results in sync</em>
@@ -20325,13 +20329,14 @@
     #msv3AppsSection {
       position: relative; border-radius: 24px; padding: 26px 24px 30px; overflow: hidden;
       background:
-        radial-gradient(680px 300px at 12% -10%, rgba(99,102,241,.16), transparent 70%),
-        radial-gradient(560px 300px at 96% 8%, rgba(13,148,136,.14), transparent 70%),
-        linear-gradient(180deg, #f8fafc 0%, #ffffff 60%);
+        radial-gradient(700px 340px at 10% -12%, rgba(99,102,241,.30), transparent 72%),
+        radial-gradient(600px 320px at 98% 4%, rgba(13,148,136,.26), transparent 72%),
+        radial-gradient(520px 300px at 52% 108%, rgba(168,85,247,.16), transparent 70%),
+        linear-gradient(180deg, #eef2ff 0%, #f8fafc 65%);
     }
     #msv3AppsSection::before {
       content: ''; position: absolute; inset: 0; pointer-events: none;
-      background-image: radial-gradient(rgba(15,23,42,.055) 1px, transparent 1px);
+      background-image: radial-gradient(rgba(15,23,42,.075) 1px, transparent 1px);
       background-size: 22px 22px;
       -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 78%);
       mask-image: linear-gradient(180deg, #000 0%, transparent 78%);
@@ -20456,9 +20461,10 @@
       width: 24px; height: 24px; padding: 4.5px; flex: 0 0 auto;
       background: #fff; border-radius: 7px; box-shadow: 0 1px 3px rgba(15,23,42,.22);
     }
-    .apps-teaser .t-txt .t-marks svg:nth-of-type(1) { fill: #00a4ef; }  /* Windows  */
-    .apps-teaser .t-txt .t-marks svg:nth-of-type(2) { fill: #0f172a; }  /* Apple    */
-    .apps-teaser .t-txt .t-marks svg:nth-of-type(3) { fill: #3ddc84; }  /* Android  */
+    .apps-teaser .t-txt .t-marks svg:nth-of-type(1) { fill: #00a4ef; }  /* Windows */
+    .apps-teaser .t-txt .t-marks svg:nth-of-type(2) { fill: #475569; }  /* MacBook */
+    .apps-teaser .t-txt .t-marks svg:nth-of-type(3) { fill: #0f172a; }  /* Apple   */
+    .apps-teaser .t-txt .t-marks svg:nth-of-type(4) { fill: #3ddc84; }  /* Android */
     .apps-teaser .t-txt .t-marks em {
       font-style: normal; font-size: .85rem; color: rgba(255,255,255,.82);
       margin-left: 3px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
@@ -21149,6 +21155,10 @@
         var MARK = {
           windows: '<svg class="app-mark" viewBox="0 0 24 24" fill="#0ea5e9" aria-hidden="true">' +
             '<path d="M2.4 4.6l8.2-1.15v8.02H2.4zM12.2 3.2L22.4 1.8v9.67H12.2zM2.4 12.53h8.2v8.02L2.4 19.4zM12.2 12.53h10.2v9.67L12.2 20.8z"/></svg>',
+          // macOS gets the laptop rather than the Apple mark, so the two Apple
+          // cards are not headed by the same symbol.
+          mac: '<svg class="app-mark" viewBox="0 0 24 24" fill="#475569" aria-hidden="true">' +
+            '<path d="M4 5.2c0-.66.54-1.2 1.2-1.2h13.6c.66 0 1.2.54 1.2 1.2v9.3H4V5.2zm6.1 0h3.8v1.15h-3.8V5.2zM2.3 15.6h19.4c.28 0 .45.3.31.54l-.7 1.2a1.2 1.2 0 0 1-1.04.6H3.73a1.2 1.2 0 0 1-1.04-.6l-.7-1.2a.35.35 0 0 1 .31-.54z"/></svg>',
           apple: '<svg class="app-mark" viewBox="0 0 24 24" fill="#0f172a" aria-hidden="true">' +
             '<path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>',
           android: '<svg class="app-mark" viewBox="0 0 24 24" fill="#3ddc84" aria-hidden="true">' +
@@ -21189,7 +21199,7 @@
                '', deskArt('#0ea5e9'), '', 'windows') +
           card('appCardMac',
                'macOS', 'Signed and notarised, so there is no security warning on first launch.',
-               '', deskArt('#475569'), '', 'apple') +
+               '', deskArt('#475569'), '', 'mac') +
           card('appCardDroid',
                'Android', mob.store ? 'On Google Play.' : 'Installed from the file below. Updates arrive by themselves afterwards.',
                ownShots ? '/images/apps/phone-home.png' : '', '', 'droid', 'android') +
