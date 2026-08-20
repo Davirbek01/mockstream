@@ -318,6 +318,38 @@ async function studentCapExceeded(
   return (count || 0) >= cap;
 }
 
+/** What the provider says the call cost, in its own dialect.
+ *
+ *  Groq has no billing API — the console shows a balance and nothing more — so
+ *  "what did yesterday cost" can only be answered from the replies themselves.
+ *  Every one already carries its usage block and the reply is buffered anyway,
+ *  so reading it is free.
+ *
+ *  Whisper is billed per hour of AUDIO rather than per token. `duration` is
+ *  present on a verbose_json transcription and absent otherwise, in which case
+ *  the seconds stay null and the daily total falls back to the request size.
+ *  Groq's `usage.total_time` is NOT it — that is how long the model spent
+ *  thinking, which on a chat call is a fraction of a second and has nothing to
+ *  do with the bill; reading it as audio put 0.07 seconds on a text call. */
+function readUsage(buf: ArrayBuffer, lane: string): { tokensIn: number | null; tokensOut: number | null; audioSec: number | null } {
+  const empty = { tokensIn: null, tokensOut: null, audioSec: null };
+  try {
+    if (buf.byteLength > 2_000_000) return empty;      // not a scoring reply
+    const j: any = JSON.parse(new TextDecoder().decode(buf));
+    const u = j?.usage || j?.usageMetadata || j?.x_groq?.usage || {};
+    const num = (v: any) => (typeof v === 'number' && isFinite(v) ? Math.round(v) : null);
+    return {
+      // openai/groq/deepseek/grok · anthropic · gemini
+      tokensIn:  num(u.prompt_tokens ?? u.input_tokens ?? u.promptTokenCount),
+      tokensOut: num(u.completion_tokens ?? u.output_tokens ?? u.candidatesTokenCount),
+      audioSec:  lane === 'transcribe' && typeof j?.duration === 'number'
+                 ? Math.round(j.duration * 100) / 100 : null,
+    };
+  } catch {
+    return empty;                                       // a non-JSON reply is not a failure
+  }
+}
+
 async function logCall(opts: {
   ip:       string;
   userAgent:string;
@@ -330,6 +362,9 @@ async function logCall(opts: {
   userEmail?:   string;
   bytesIn?: number;
   bytesOut?:number;
+  tokensIn?: number  | null;
+  tokensOut?: number | null;
+  audioSec?: number  | null;
   errorMessage?: string;
 }) {
   try {
@@ -345,6 +380,9 @@ async function logCall(opts: {
       status:        opts.status,
       bytes_in:      opts.bytesIn  ?? null,
       bytes_out:     opts.bytesOut ?? null,
+      tokens_in:     opts.tokensIn  ?? null,
+      tokens_out:    opts.tokensOut ?? null,
+      audio_sec:     opts.audioSec  ?? null,
       error_message: opts.errorMessage || null
     });
   } catch (_e) { /* non-fatal */ }
@@ -390,6 +428,10 @@ Deno.serve(async (req) => {
   const skillHint = (req.headers.get('x-ms-skill') || '').slice(0, 32);
   const studentName = (req.headers.get('x-ms-student') || '').slice(0, 120);
   const userEmail = (req.headers.get('x-ms-email') || '').slice(0, 160).toLowerCase();
+  // Audio has no token count. Its size is the only measure of a Whisper call
+  // that is always available, and the price is per hour, so the bytes are kept
+  // to estimate the minutes when the provider does not report them.
+  const reqBytes  = Number(req.headers.get('content-length') || 0) || undefined;
 
   // -------- gate 1: IP blocklist --------
   if (await isIpBlocked(ip)) {
@@ -526,10 +568,15 @@ Deno.serve(async (req) => {
 
   // Mark which key index served it when >1 configured.
   const keyTag = (providerKeys.length > 1) ? `key#${usedKeyIdx + 1}` : '';
-  const logOk = () => logCall({
-    ip, userAgent, centerId, provider, endpoint: lane, skill: skillHint, studentName, userEmail,
-    status: 'ok', errorMessage: keyTag,
-  });
+  const logOk = (usage?: { tokensIn?: number | null; tokensOut?: number | null; audioSec?: number | null }) =>
+    logCall({
+      ip, userAgent, centerId, provider, endpoint: lane, skill: skillHint, studentName, userEmail,
+      status: 'ok', errorMessage: keyTag,
+      bytesIn: reqBytes,
+      tokensIn: usage?.tokensIn ?? null,
+      tokensOut: usage?.tokensOut ?? null,
+      audioSec: usage?.audioSec ?? null,
+    });
   // A refusal is logged with the provider's own words. `HTTP 400` alone said
   // nothing: 157 of them in a day and no way to tell a rate limit from an
   // oversized context. The reply is buffered below anyway, so the explanation
@@ -541,7 +588,10 @@ Deno.serve(async (req) => {
     errorMessage: (`HTTP ${upstream!.status}${keyTag ? ` (${keyTag})` : ''}` +
                    (detail ? ` ${detail}` : '')).slice(0, 400),
   });
-  if (upstream.ok) logOk();
+  // The ok row is written after the reply is read, so it can carry what the
+  // call cost. A stream is the exception — it must not be read here.
+  const isStream = String(upstream.headers.get('content-type') || '').includes('text/event-stream');
+  if (upstream.ok && isStream) logOk();
 
   const respHeaders = new Headers(upstream.headers);
   // Strip hop-by-hop and replace CORS
@@ -568,6 +618,7 @@ Deno.serve(async (req) => {
     });
   }
   const buf = await upstream.arrayBuffer();
+  if (upstream.ok) logOk(readUsage(buf, lane));
   if (!upstream.ok) {
     let detail = '';
     try {

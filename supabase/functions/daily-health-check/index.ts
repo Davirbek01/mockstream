@@ -94,7 +94,71 @@ function esc(s: string) {
   return String(s).replace(/[<>&]/g, (c) => (c === '<' ? '&lt;' : c === '>' ? '&gt;' : '&amp;'));
 }
 
-function buildMessage(s: any, dead: string[]): string {
+/** Yesterday's AI bill, worked out from our own logs.
+ *
+ *  Groq publishes no billing API, so the only way to answer "what did
+ *  yesterday cost" is to price the usage ourselves: every reply carries its
+ *  token count, the proxy stores it, and site_settings.ai_price_table holds
+ *  the rates. That makes the figure an ESTIMATE, and it is labelled as one —
+ *  but an estimate that arrives every morning beats an exact number that
+ *  arrives when the credit is already gone.
+ *
+ *  Whisper is billed per hour of audio. A transcription reply carries no
+ *  duration unless it was requested, so when it is missing the audio is
+ *  estimated from the bytes we uploaded at the configured bitrate. That part
+ *  is marked ~ so it is never mistaken for a measurement.
+ */
+function spendSection(rows: any[], prices: any): string[] {
+  const L: string[] = [];
+  if (!rows || !rows.length) return L;
+
+  let total = 0, unpriced = 0, blind = 0, estimated = false;
+  const lines: Array<{ label: string; usd: number; note: string }> = [];
+
+  for (const r of rows) {
+    const key = `${r.provider}/${r.lane}`;
+    const p = prices[key] || prices[`${r.provider}/all`];
+    blind += Number(r.no_usage || 0);
+    if (!p) { unpriced++; continue; }
+
+    let usd = 0;
+    let note = '';
+    if (p.in || p.out) {
+      usd += (Number(r.tokens_in) / 1e6) * Number(p.in || 0);
+      usd += (Number(r.tokens_out) / 1e6) * Number(p.out || 0);
+      note = `${Math.round(Number(r.tokens_in) / 1000)}k in · ${Math.round(Number(r.tokens_out) / 1000)}k out`;
+    }
+    if (p.hour) {
+      let sec = Number(r.audio_sec || 0);
+      if (!sec && p.est_kbps && Number(r.bytes_in)) {
+        sec = (Number(r.bytes_in) * 8) / (Number(p.est_kbps) * 1000);
+        estimated = true;
+      }
+      usd += (sec / 3600) * Number(p.hour);
+      note = `${Math.round(sec / 60)} min audio${r.audio_sec ? '' : ' ~'}`;
+    }
+    total += usd;
+    lines.push({ label: key, usd, note });
+  }
+
+  lines.sort((a, b) => b.usd - a.usd);
+  const money = (n: number) => '$' + n.toFixed(2);
+
+  L.push(`💰 <b>AI spend</b> — ${money(total)}  <i>(est. ${money(total * 30)}/month at this rate)</i>`);
+  for (const l of lines.slice(0, 6)) {
+    L.push(`  ${esc(l.label)}: ${money(l.usd)}  <i>${esc(l.note)}</i>`);
+  }
+  if (estimated) L.push(`  <i>~ audio minutes estimated from upload size; the rest is the providers' own counts</i>`);
+  if (blind) L.push(`  <i>${blind} call(s) reported no usage — not counted</i>`);
+  if (unpriced) L.push(`  <i>${unpriced} lane(s) have no price set in ai_price_table</i>`);
+  if (prices._confirmed !== true) {
+    L.push(`  ⚠️ <i>prices not confirmed against the providers' consoles yet</i>`);
+  }
+  L.push('');
+  return L;
+}
+
+function buildMessage(s: any, dead: string[], spend: any[], prices: any): string {
   const L: string[] = [];
   const tg = s.telegram || {};
   const gate = s.gate || {};
@@ -179,6 +243,8 @@ function buildMessage(s: any, dead: string[]): string {
   // description at all, and the examiner grades a picture task having seen
   // nothing. Small and shrinking on its own — this is here so that a centre
   // freezing on an old build shows up the next morning rather than never.
+  for (const line of spendSection(spend, prices)) L.push(line);
+
   const stale = s.stale_app || {};
   if (Number(stale.total) > 0) {
     L.push(`📱 <b>Old app builds</b> — ${stale.total} picture task(s) graded without the stored description`);
@@ -225,7 +291,16 @@ Deno.serve(async (req) => {
   // can outlast the worker. skip_sweep lets a by-hand run check the numbers
   // without waking the rest of the estate.
   const dead = body?.skip_sweep === true ? [] : await sweepFunctions();
-  const text = buildMessage(snap, dead);
+  // Prices live in a setting, not in this file: a provider changing its rate
+  // should be a one-line edit, not a deploy.
+  const [{ data: spend }, { data: priceRow }] = await Promise.all([
+    sb.rpc('ai_spend_window', { p_days_back: daysBack }),
+    sb.from('site_settings').select('value').eq('key', 'ai_price_table').maybeSingle(),
+  ]);
+  let prices: any = {};
+  try { prices = priceRow ? JSON.parse(priceRow.value) : {}; } catch { /* keep going without costs */ }
+
+  const text = buildMessage(snap, dead, spend || [], prices);
 
   // Keep the last report where the admin panel can read it, the same place
   // ai-health-check writes to (scoring_* is on the anon read whitelist).
