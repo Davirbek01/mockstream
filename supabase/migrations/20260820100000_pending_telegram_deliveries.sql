@@ -84,3 +84,12 @@ comment on function public.pending_telegram_deliveries(int, int, int) is
 --         'Authorization','Bearer ' || (select decrypted_secret from vault.decrypted_secrets where name = 'service_role_key')),
 --       body := '{}'::jsonb, timeout_milliseconds := 120000)
 --   $job$);
+
+-- The sweep asks "is there a successful send for this row id?", and the id sits
+-- inside idem_key as center|skill|<uuid>. Without an index on that expression
+-- every run scanned 202k log rows and spilled to temp files (143ms, temp
+-- read/written 987 blocks); with it, 100ms and no spill. Partial on ok, because
+-- a failed send is never an answer to that question.
+create index if not exists telegram_send_log_result_id_idx
+  on public.telegram_send_log ((split_part(idem_key, '|', 3)))
+  where ok;
