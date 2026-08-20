@@ -2681,13 +2681,24 @@
          first visit this lands right under the hero. -->
     <section class="section" data-msv3sec="home">
       <button type="button" class="apps-teaser" data-msv3-go="apps">
-        <span class="t-ico">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"></rect><line x1="11" y1="18" x2="13" y2="18"></line></svg>
-        </span>
         <span class="t-txt">
           <b>Get the apps</b>
-          <span>Windows, macOS, Android and iPhone — same mocks, your results in sync</span>
+          <span>Windows · macOS · Android · iPhone — your results in sync</span>
         </span>
+        <!-- Four devices in one drawing: monitor, laptop, tablet, phone. Flat
+             shapes rather than product renders — nobody's hardware, everybody's
+             devices. -->
+        <svg class="t-devices" viewBox="0 0 132 68" fill="none" aria-hidden="true">
+          <g stroke="#fff" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+            <rect x="4" y="8" width="46" height="30" rx="3" fill="rgba(255,255,255,.14)"/>
+            <path d="M27 38v7M20 45h14"/>
+            <rect x="40" y="22" width="44" height="27" rx="3" fill="rgba(255,255,255,.2)"/>
+            <path d="M36 49h52l-4 5H40z" fill="rgba(255,255,255,.14)"/>
+            <rect x="90" y="16" width="24" height="34" rx="3.5" fill="rgba(255,255,255,.16)"/>
+            <rect x="116" y="26" width="14" height="24" rx="3" fill="rgba(255,255,255,.22)"/>
+            <path d="M122 46h2"/>
+          </g>
+        </svg>
         <span class="t-go">→</span>
       </button>
     </section>
@@ -20369,20 +20380,43 @@
       .app-card { background: #111827; border-color: #1f2937; }
       .app-btn.ghost { background: transparent; color: #e5e7eb; border-color: #374151; }
     }
-    /* Home teaser — the way in on phones, where the dock is full */
+    /* Home card — the way in on phones, where the dock is full at six items.
+       It carries its own colour because it is an offer, not another statistic,
+       and the four devices are drawn beside it so the point lands before the
+       sentence is read. */
     .apps-teaser {
-      display: flex; align-items: center; gap: 14px; padding: 14px 16px; margin-top: 4px;
-      border: 1px solid #e2e8f0; border-radius: 16px; background: #fff; cursor: pointer; width: 100%;
-      text-align: left; font: inherit; color: inherit;
+      display: flex; align-items: center; gap: 16px; padding: 18px 20px; width: 100%;
+      border: 0; border-radius: 18px; cursor: pointer; text-align: left; font: inherit;
+      color: #fff; overflow: hidden; position: relative;
+      background: linear-gradient(120deg, #4f46e5 0%, #7c3aed 55%, #9333ea 100%);
+      box-shadow: 0 10px 26px rgba(79, 70, 229, .28);
+      transition: transform .15s, box-shadow .15s;
     }
-    .apps-teaser:hover { border-color: #cbd5e1; }
-    .apps-teaser .t-ico { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center;
-      background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #fff; flex: 0 0 auto; }
+    .apps-teaser:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(79, 70, 229, .34); }
+    /* A soft light behind the devices, so the drawing sits in the card rather
+       than on it. */
+    .apps-teaser::after {
+      content: ''; position: absolute; right: -60px; top: -70px; width: 240px; height: 240px;
+      background: radial-gradient(circle, rgba(255,255,255,.18), transparent 62%);
+      pointer-events: none;
+    }
     .apps-teaser .t-txt { flex: 1 1 auto; min-width: 0; }
-    .apps-teaser .t-txt b { display: block; font-size: .97rem; }
-    .apps-teaser .t-txt span { color: var(--muted, #64748b); font-size: .85rem; }
-    .apps-teaser .t-go { color: var(--muted, #64748b); flex: 0 0 auto; }
-    @media (prefers-color-scheme: dark) { .apps-teaser { background: #111827; border-color: #1f2937; } }
+    .apps-teaser .t-txt b { display: block; font-size: 1.06rem; letter-spacing: -.01em; }
+    .apps-teaser .t-txt span {
+      display: block; margin-top: 3px; font-size: .85rem; color: rgba(255,255,255,.82);
+    }
+    .apps-teaser .t-go {
+      flex: 0 0 auto; width: 34px; height: 34px; border-radius: 50%;
+      display: grid; place-items: center; background: rgba(255,255,255,.16);
+      font-size: 1.05rem; line-height: 1;
+    }
+    .apps-teaser .t-devices { flex: 0 0 auto; width: 132px; height: 68px; opacity: .95; }
+    @media (max-width: 560px) {
+      .apps-teaser { padding: 16px; gap: 12px; }
+      .apps-teaser .t-devices { width: 92px; height: 50px; }
+      .apps-teaser .t-txt span { font-size: .8rem; }
+    }
+    @media (max-width: 380px) { .apps-teaser .t-devices { display: none; } }
 
     /* ── Shared nav-item look ── */
     .msv3-rail, .msv3-glassbar { font-family: inherit; }
@@ -20529,6 +20563,79 @@
     .gb-item svg { width: 21px; height: 21px; }
     .gb-item.active { color: #4f46e5; background: rgba(99,102,241,0.12); }
     .gb-item span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+
+    /* ── One colour per destination ──
+       The bar used to be six greys, readable only by its labels. Now the
+       icon carries the colour and the label stays quiet, so the eye can
+       aim before it reads; the selected item fills with its OWN tint
+       rather than the single indigo every tab used to share. */
+    .gb-item[data-msv3-go="home"] svg { color: #6366f1; }
+    .gb-item[data-msv3-go="home"].active { color: #6366f1; background: rgba(99,102,241,0.14); }
+    .rail-item[data-msv3-go="home"] svg { color: #6366f1; }
+    .rail-item[data-msv3-go="home"].active {
+      background: linear-gradient(135deg, rgba(99,102,241,0.30), rgba(99,102,241,0.16));
+      box-shadow: inset 0 0 0 1px rgba(99,102,241,0.50);
+    }
+    .rail-item[data-msv3-go="home"].active::before { background: #6366f1; }
+
+    .gb-item[data-msv3-go="mocks"] svg { color: #8b5cf6; }
+    .gb-item[data-msv3-go="mocks"].active { color: #8b5cf6; background: rgba(139,92,246,0.14); }
+    .rail-item[data-msv3-go="mocks"] svg { color: #8b5cf6; }
+    .rail-item[data-msv3-go="mocks"].active {
+      background: linear-gradient(135deg, rgba(139,92,246,0.30), rgba(139,92,246,0.16));
+      box-shadow: inset 0 0 0 1px rgba(139,92,246,0.50);
+    }
+    .rail-item[data-msv3-go="mocks"].active::before { background: #8b5cf6; }
+
+    .gb-item[data-msv3-go="exams"] svg { color: #f59e0b; }
+    .gb-item[data-msv3-go="exams"].active { color: #f59e0b; background: rgba(245,158,11,0.14); }
+    .rail-item[data-msv3-go="exams"] svg { color: #f59e0b; }
+    .rail-item[data-msv3-go="exams"].active {
+      background: linear-gradient(135deg, rgba(245,158,11,0.30), rgba(245,158,11,0.16));
+      box-shadow: inset 0 0 0 1px rgba(245,158,11,0.50);
+    }
+    .rail-item[data-msv3-go="exams"].active::before { background: #f59e0b; }
+
+    .gb-item[data-msv3-go="learn"] svg { color: #10b981; }
+    .gb-item[data-msv3-go="learn"].active { color: #10b981; background: rgba(16,185,129,0.14); }
+    .rail-item[data-msv3-go="learn"] svg { color: #10b981; }
+    .rail-item[data-msv3-go="learn"].active {
+      background: linear-gradient(135deg, rgba(16,185,129,0.30), rgba(16,185,129,0.16));
+      box-shadow: inset 0 0 0 1px rgba(16,185,129,0.50);
+    }
+    .rail-item[data-msv3-go="learn"].active::before { background: #10b981; }
+
+    .gb-item[data-msv3-go="results"] svg { color: #0ea5e9; }
+    .gb-item[data-msv3-go="results"].active { color: #0ea5e9; background: rgba(14,165,233,0.14); }
+    .rail-item[data-msv3-go="results"] svg { color: #0ea5e9; }
+    .rail-item[data-msv3-go="results"].active {
+      background: linear-gradient(135deg, rgba(14,165,233,0.30), rgba(14,165,233,0.16));
+      box-shadow: inset 0 0 0 1px rgba(14,165,233,0.50);
+    }
+    .rail-item[data-msv3-go="results"].active::before { background: #0ea5e9; }
+
+    .gb-item[data-msv3-go="apps"] svg { color: #ec4899; }
+    .gb-item[data-msv3-go="apps"].active { color: #ec4899; background: rgba(236,72,153,0.14); }
+    .rail-item[data-msv3-go="apps"] svg { color: #ec4899; }
+    .rail-item[data-msv3-go="apps"].active {
+      background: linear-gradient(135deg, rgba(236,72,153,0.30), rgba(236,72,153,0.16));
+      box-shadow: inset 0 0 0 1px rgba(236,72,153,0.50);
+    }
+    .rail-item[data-msv3-go="apps"].active::before { background: #ec4899; }
+
+    .gb-item[data-msv3-go="account"] svg { color: #f43f5e; }
+    .gb-item[data-msv3-go="account"].active { color: #f43f5e; background: rgba(244,63,94,0.14); }
+    .rail-item[data-msv3-go="account"] svg { color: #f43f5e; }
+    .rail-item[data-msv3-go="account"].active {
+      background: linear-gradient(135deg, rgba(244,63,94,0.30), rgba(244,63,94,0.16));
+      box-shadow: inset 0 0 0 1px rgba(244,63,94,0.50);
+    }
+    .rail-item[data-msv3-go="account"].active::before { background: #f43f5e; }
+
+    .rail-item.active svg { filter: saturate(1.25) brightness(1.15); }
+    .gb-item svg { transition: transform 160ms ease; }
+    .gb-item.active svg { transform: translateY(-1px) scale(1.06); }
+
 
     /* ── Results panel ── */
     #msv3ResultsPanel .res-card {
