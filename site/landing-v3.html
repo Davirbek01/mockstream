@@ -2673,6 +2673,25 @@
         <div class="msr-more" id="msrMore" hidden></div>
       </div>
     </section>
+    <!-- Home teaser — the way into the Apps tab on a phone, where the dock
+         is full at six items and a seventh would crush the labels at 360px.
+         It sits directly under the resume card: high enough to be seen without
+         scrolling, but below the one thing a returning student came back for.
+         The resume section hides itself when nothing is in progress, so on a
+         first visit this lands right under the hero. -->
+    <section class="section" data-msv3sec="home">
+      <button type="button" class="apps-teaser" data-msv3-go="apps">
+        <span class="t-ico">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"></rect><line x1="11" y1="18" x2="13" y2="18"></line></svg>
+        </span>
+        <span class="t-txt">
+          <b>Get the apps</b>
+          <span>Windows, macOS, Android and iPhone — same mocks, your results in sync</span>
+        </span>
+        <span class="t-go">→</span>
+      </button>
+    </section>
+
     <script>
       (function () {
         var TYPE = {
@@ -4419,23 +4438,6 @@
         <div class="mock-card fresh"><div class="skel short"></div><div class="skel tall"></div><div class="skel short"></div></div>
         <div class="mock-card fresh"><div class="skel short"></div><div class="skel tall"></div><div class="skel short"></div></div>
       </div>
-    </section>
-
-    <!-- Home teaser. The phone dock is full at six items, and a seventh
-         would crush the labels on a 360px screen — so on a phone this card is
-         the way into the Apps tab. Installing is a once-ever action; the dock
-         belongs to the places people go daily. -->
-    <section class="section" data-msv3sec="home">
-      <button type="button" class="apps-teaser" data-msv3-go="apps">
-        <span class="t-ico">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"></rect><line x1="11" y1="18" x2="13" y2="18"></line></svg>
-        </span>
-        <span class="t-txt">
-          <b>Get the apps</b>
-          <span>Windows, macOS, Android and iPhone — same mocks, your results in sync</span>
-        </span>
-        <span class="t-go">→</span>
-      </button>
     </section>
 
     <!-- ── APPS ────────────────────────────────────────────
@@ -21142,6 +21144,13 @@
             '</div>' +
           '</div>';
         heroSec.insertAdjacentElement('afterend', ws);
+        // The apps card is written near the top of the file but the widgets
+        // block is inserted here at runtime, which would leave the card below
+        // 900px of widgets — off the first two screens of a phone. Lift it to
+        // sit directly above them.
+        var teaserEl = document.querySelector('.apps-teaser');
+        var teaserSec = teaserEl && teaserEl.closest('section');
+        if (teaserSec) ws.insertAdjacentElement('beforebegin', teaserSec);
         // Resume banner sits at the TOP: right under the hero on Home, and
         // (hero hidden there) first thing on the Mocks tab.
         var rs = document.getElementById('msrResumeSection');
