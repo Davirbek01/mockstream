@@ -8981,7 +8981,7 @@
             if (!_GROQ_KEY) throw new Error('No Groq API key available');
             var _mdlScoutLocal = (opts._forceModel && opts._forceProvider === 'llama-scout')
               ? opts._forceModel
-              : ((cp['scoring_model_llama_scout'] || '').trim() || 'meta-llama/llama-4-scout-17b-16e-instruct');
+              : ((cp['scoring_model_llama_scout'] || '').trim() || 'qwen/qwen3.6-27b');
             var messages = [];
             if (systemText) messages.push({ role: 'system', content: systemText });
             var uMsg = userPrompt;
