@@ -19747,13 +19747,78 @@
         head.appendChild(arrow);
         // Restore state (default: collapsed)
         var key = 'msv3SysAdminOpen';
+        var CODE_KEY = 'msv3SysAdminCode';
         var open = false;
         try { open = localStorage.getItem(key) === '1'; } catch (_) {}
         if (open) sysSec.classList.add('msv3-coll-open');
+
+        var SB_FN = 'https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/codes-manager';
+        var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+
+        // Ask the server, never the page: the passcodes live in the database
+        // and the answer is a plain yes/no for THIS centre.
+        function verify(code) {
+          return fetch(SB_FN, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY },
+            body: JSON.stringify({
+              action: 'admin_gate',
+              adminPasscode: code,
+              center: window.__CENTER_ID || 'mock_stream'
+            })
+          }).then(function (r) { return r.json().catch(function () { return { ok: false }; }); })
+            .then(function (j) { return !!(j && j.ok); })
+            .catch(function () { return false; });
+        }
+
+        function savedCode() {
+          try { return localStorage.getItem(CODE_KEY) || ''; } catch (_) { return ''; }
+        }
+        function forget() {
+          try { localStorage.removeItem(CODE_KEY); localStorage.setItem(key, '0'); } catch (_) {}
+          sysSec.classList.remove('msv3-coll-open');
+        }
+
+        function askForCode() {
+          var code = window.prompt('Admin passcode');
+          if (code === null) return;                       // cancelled
+          code = String(code).trim();
+          if (!code) return;
+          head.classList.add('msv3-gate-checking');
+          verify(code).then(function (ok) {
+            head.classList.remove('msv3-gate-checking');
+            if (!ok) {
+              head.classList.add('msv3-gate-wrong');
+              setTimeout(function () { head.classList.remove('msv3-gate-wrong'); }, 1200);
+              return;
+            }
+            try { localStorage.setItem(CODE_KEY, code); localStorage.setItem(key, '1'); } catch (_) {}
+            sysSec.classList.add('msv3-coll-open');
+          });
+        }
+
         head.addEventListener('click', function () {
-          var nowOpen = sysSec.classList.toggle('msv3-coll-open');
-          try { localStorage.setItem(key, nowOpen ? '1' : '0'); } catch (_) {}
+          if (sysSec.classList.contains('msv3-coll-open')) {
+            sysSec.classList.remove('msv3-coll-open');
+            try { localStorage.setItem(key, '0'); } catch (_) {}
+            return;
+          }
+          var code = savedCode();
+          if (!code) { askForCode(); return; }
+          // Opens straight away on the remembered code, then confirms it in
+          // the background — so a rotated passcode closes the section on the
+          // next open instead of staying unlocked forever.
+          sysSec.classList.add('msv3-coll-open');
+          try { localStorage.setItem(key, '1'); } catch (_) {}
+          verify(code).then(function (ok) { if (!ok) { forget(); askForCode(); } });
         });
+
+        // Restored from a previous visit: re-check quietly on load too.
+        if (open) {
+          var c = savedCode();
+          if (!c) forget();
+          else verify(c).then(function (ok) { if (!ok) forget(); });
+        }
       }
 
       // Move International Exams (PET/FCE/CAE/CPE/SAT + soon TOEFL/GRE/TKT)
@@ -20443,6 +20508,9 @@
       background: #fff !important; border-color: rgba(15,23,42,.12) !important; color: #475569 !important;
       width: 50px !important; border-radius: 12px !important; font-size: 19px !important;
     }
+
+    .msv3-gate-checking { opacity: .55; }
+    .msv3-gate-wrong { color: #ef4444 !important; }
 
     /* The ring the deep link leaves on the code box. */
     .msv3-vip-hint {
