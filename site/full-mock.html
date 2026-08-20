@@ -8852,7 +8852,7 @@
           var _mdlGrok     = (cp['scoring_model_grok']     || '').trim() || 'grok-3-mini';
           var _mdlDeepseek = (cp['scoring_model_deepseek'] || '').trim() || 'deepseek-v4-flash';
           var _mdlGroq     = (cp['scoring_model_groq']     || '').trim() || 'llama-3.3-70b-versatile';
-          var _mdlLlamaScout = (cp['scoring_model_llama_scout'] || '').trim() || 'qwen/qwen3.6-27b';
+          var _mdlLlamaScout = (cp['scoring_model_llama_scout'] || '').trim() || 'openai/gpt-oss-120b';
           if (_cmModel && !opts._forceModel) {
             if (provider === 'deepseek' && typeof _mdlDeepseek !== 'undefined') _mdlDeepseek = _cmModel;
             else if (provider === 'gemini' && typeof _mdlGemini !== 'undefined') _mdlGemini = _cmModel;
