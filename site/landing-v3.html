@@ -2673,6 +2673,50 @@
         <div class="msr-more" id="msrMore" hidden></div>
       </div>
     </section>
+    <!-- Home teaser — the way into the Apps tab on a phone, where the dock
+         is full at six items and a seventh would crush the labels at 360px.
+         It sits directly under the resume card: high enough to be seen without
+         scrolling, but below the one thing a returning student came back for.
+         The resume section hides itself when nothing is in progress, so on a
+         first visit this lands right under the hero. -->
+    <section class="section" data-msv3sec="home">
+      <button type="button" class="apps-teaser" data-msv3-go="apps">
+        <span class="t-txt">
+          <b>Get the apps</b>
+          <!-- Marks rather than names: the Apple one stands for macOS and
+               iPhone both, which is exactly the ambiguity a promotional line
+               can afford and a download card cannot. Same CC0 Simple Icons
+               drawings as the Apps tab; Windows is the drawn four-pane glyph,
+               since Microsoft licenses its logo instead of releasing it. -->
+          <span class="t-marks">
+            <svg viewBox="0 0 24 24" aria-label="Windows"><path d="M2.4 4.6l8.2-1.15v8.02H2.4zM12.2 3.2L22.4 1.8v9.67H12.2zM2.4 12.53h8.2v8.02L2.4 19.4zM12.2 12.53h10.2v9.67L12.2 20.8z"/></svg>
+            <!-- A laptop with the notch in its screen: drawn here, because the
+                 Apple mark alone stood for macOS and iPhone at once and the row
+                 is meant to name four platforms. -->
+            <svg viewBox="0 0 24 24" aria-label="macOS"><path d="M4 5.2c0-.66.54-1.2 1.2-1.2h13.6c.66 0 1.2.54 1.2 1.2v9.3H4V5.2zm6.1 0h3.8v1.15h-3.8V5.2zM2.3 15.6h19.4c.28 0 .45.3.31.54l-.7 1.2a1.2 1.2 0 0 1-1.04.6H3.73a1.2 1.2 0 0 1-1.04-.6l-.7-1.2a.35.35 0 0 1 .31-.54z"/></svg>
+            <svg viewBox="0 0 24 24" aria-label="macOS and iPhone"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
+            <svg viewBox="0 0 24 24" aria-label="Android"><path d="M18.4395 5.5586c-.675 1.1664-1.352 2.3318-2.0274 3.498-.0366-.0155-.0742-.0286-.1113-.043-1.8249-.6957-3.484-.8-4.42-.787-1.8551.0185-3.3544.4643-4.2597.8203-.084-.1494-1.7526-3.021-2.0215-3.4864a1.1451 1.1451 0 0 0-.1406-.1914c-.3312-.364-.9054-.4859-1.379-.203-.475.282-.7136.9361-.3886 1.5019 1.9466 3.3696-.0966-.2158 1.9473 3.3593.0172.031-.4946.2642-1.3926 1.0177C2.8987 12.176.452 14.772 0 18.9902h24c-.119-1.1108-.3686-2.099-.7461-3.0683-.7438-1.9118-1.8435-3.2928-2.7402-4.1836a12.1048 12.1048 0 0 0-2.1309-1.6875c.6594-1.122 1.312-2.2559 1.9649-3.3848.2077-.3615.1886-.7956-.0079-1.1191a1.1001 1.1001 0 0 0-.8515-.5332c-.5225-.0536-.9392.3128-1.0488.5449zm-.0391 8.461c.3944.5926.324 1.3306-.1563 1.6503-.4799.3197-1.188.0985-1.582-.4941-.3944-.5927-.324-1.3307.1563-1.6504.4727-.315 1.1812-.1086 1.582.4941zM7.207 13.5273c.4803.3197.5506 1.0577.1563 1.6504-.394.5926-1.1038.8138-1.584.4941-.48-.3197-.5503-1.0577-.1563-1.6504.4008-.6021 1.1087-.8106 1.584-.4941z"/></svg>
+            <em>your results in sync</em>
+          </span>
+        </span>
+        <!-- Four devices in one drawing: monitor, laptop, tablet, phone. Flat
+             shapes rather than product renders — nobody's hardware, everybody's
+             devices. -->
+        <svg class="t-devices" viewBox="0 0 132 68" fill="none" aria-hidden="true">
+          <g stroke="#fff" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+            <rect x="4" y="8" width="46" height="30" rx="3" fill="rgba(255,255,255,.14)"/>
+            <path d="M27 38v7M20 45h14"/>
+            <rect x="40" y="22" width="44" height="27" rx="3" fill="rgba(255,255,255,.2)"/>
+            <path d="M36 49h52l-4 5H40z" fill="rgba(255,255,255,.14)"/>
+            <rect x="90" y="16" width="24" height="34" rx="3.5" fill="rgba(255,255,255,.16)"/>
+            <rect x="116" y="26" width="14" height="24" rx="3" fill="rgba(255,255,255,.22)"/>
+            <path d="M122 46h2"/>
+          </g>
+        </svg>
+        <span class="t-go">→</span>
+      </button>
+    </section>
+
     <script>
       (function () {
         var TYPE = {
@@ -3516,6 +3560,11 @@
           { quote:'The roots of education are bitter, but the fruit is sweet.', author:'Aristotle',           img:_IMG('1465056836041-7f43ac27dcb5') },
           { quote:'Discipline is the bridge between goals and accomplishment.', author:'Jim Rohn',            img:_IMG('1497486751825-1233686d5d80') },
         ];
+
+        // The rail's inspiration card reads from here rather than keeping a
+        // second copy of the quotes — one list, so a centre that writes its own
+        // sees the same words in both places.
+        window.__msv3Quotes = DEFAULT_QUOTES.slice();
 
         const _ANN_IS_DEFAULT  = !ANN.length;
         const _CERT_IS_DEFAULT = !CERT.length;
@@ -4419,6 +4468,22 @@
         <div class="mock-card fresh"><div class="skel short"></div><div class="skel tall"></div><div class="skel short"></div></div>
         <div class="mock-card fresh"><div class="skel short"></div><div class="skel tall"></div><div class="skel short"></div></div>
       </div>
+    </section>
+
+    <!-- ── APPS ────────────────────────────────────────────
+         Its own tab. The download targets are NOT written here: the desktop
+         links are read from the release bucket's latest.yml at load time, the
+         same file the installer's auto-updater reads, so a new release appears
+         without touching this page. -->
+    <section class="section" data-msv3sec="apps" id="msv3AppsSection">
+      <div class="section-head">
+        <h2 class="section-title">Get the apps</h2>
+      </div>
+      <p class="apps-intro" id="appsIntro">
+        The same mocks, offline-capable, with your results in sync. Install once and sign in with the account you already use.
+      </p>
+      <div class="apps-grid" id="appsGrid"></div>
+      <p class="apps-note" id="appsNote"></p>
     </section>
 
   </main>
@@ -5360,29 +5425,12 @@
     </div>
 
     <div class="msv3-body">
-      <div class="msv3-section">
-        <div class="msv3-section-head">Account Access</div>
-        <div class="msv3-account" id="msv3AccountSlot"></div>
-        <!-- My Results — mirrors the topbar icon. Visible inside the
-             sidebar drawer on mobile (where we hide the topbar icon to
-             save room for the hamburger); hidden on desktop where the
-             topbar already shows it. -->
-        <a class="msv3-row msv3-my-results" href="/results/my-results.html"
+        <a class="msv3-row msv3-my-results" href="#results"
            aria-label="My Results — your attempts and scores">
           <span class="msv3-row-icon">📊</span>
           My Results
           <span class="msv3-row-arrow">→</span>
         </a>
-        <!-- Download Mock PDFs — its own row (separate from System Administration).
-             Visible to everyone; opens only for an admin (super-admin OR clone
-             admin — both have role 'admin'). Arrow flips 🔒→→ via _applyAdminLockUI. -->
-        <button type="button" class="msv3-row" id="msv3PdfBtn" aria-label="Download mock PDFs">
-          <span class="msv3-row-icon">📥</span>
-          Download Mock PDFs
-          <span class="msv3-row-arrow">🔒</span>
-        </button>
-      </div>
-
       <div class="msv3-section" id="msv3VipSection">
         <div class="msv3-section-head">
           VIP Activation
@@ -5398,6 +5446,23 @@
           <span>Remember on this device</span>
         </label>
         <button type="button" id="msv3VipReplaceBtn" class="msv3-vip-replace" hidden>✎ Replace code</button>
+      </div>
+
+      <div class="msv3-section" id="msv3AccessSection">
+        <div class="msv3-section-head">Account Access</div>
+        <div class="msv3-account" id="msv3AccountSlot"></div>
+        <!-- My Results — mirrors the topbar icon. Visible inside the
+             sidebar drawer on mobile (where we hide the topbar icon to
+             save room for the hamburger); hidden on desktop where the
+             topbar already shows it. -->
+        <!-- Download Mock PDFs — its own row (separate from System Administration).
+             Visible to everyone; opens only for an admin (super-admin OR clone
+             admin — both have role 'admin'). Arrow flips 🔒→→ via _applyAdminLockUI. -->
+        <button type="button" class="msv3-row" id="msv3PdfBtn" aria-label="Download mock PDFs">
+          <span class="msv3-row-icon">📥</span>
+          Download Mock PDFs
+          <span class="msv3-row-arrow">🔒</span>
+        </button>
       </div>
 
       <!-- Email / magic-link sign-in — dedicated entry for guest users.
@@ -20216,6 +20281,7 @@
     body[data-msv3-tab="exams"]   main > section:not([data-msv3sec~="exams"]),
     body[data-msv3-tab="learn"]   main > section:not([data-msv3sec~="learn"]),
     body[data-msv3-tab="results"] main > section:not([data-msv3sec~="results"]),
+    body[data-msv3-tab="apps"]    main > section:not([data-msv3sec~="apps"]),
     body[data-msv3-tab="account"] main > section:not([data-msv3sec~="account"]) { display: none; }
 
     /* ── Account tab: the old sidebar rendered as an in-page card ──
@@ -20231,32 +20297,332 @@
       height: auto !important;
       min-height: calc(100dvh - 230px);
       margin: 0;
-      border: 1px solid rgba(255,255,255,0.08) !important;
+      /* The page carries the same dark now, so the panel stops needing an edge
+         and a drop shadow to separate itself from it. */
+      border: 1px solid rgba(255,255,255,0.06) !important;
       border-radius: 18px;
-      box-shadow: 0 18px 44px rgba(15,23,42,0.18) !important;
+      box-shadow: none !important;
       z-index: auto !important;
       overflow: hidden;
     }
+    /* ── Profile tab: the same wash as Apps, and a panel to match ──
+       The charcoal belongs to the slide-out drawer, which sits over the site
+       and needs to be opaque. As a tab this is a page of its own, so it takes
+       the light background the Apps tab uses and the panel is re-skinned to
+       suit — scoped to the tab, so the drawer is untouched. */
+    body[data-msv3-tab="account"] {
+      background:
+        radial-gradient(760px 380px at 16% -8%, rgba(99,102,241,.30), transparent 72%),
+        radial-gradient(660px 360px at 96% 2%, rgba(13,148,136,.26), transparent 72%),
+        radial-gradient(620px 340px at 50% 106%, rgba(168,85,247,.18), transparent 72%),
+        linear-gradient(180deg, #eef2ff 0%, #f8fafc 70%);
+      background-attachment: fixed;
+    }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar {
+      background: rgba(255,255,255,0.72) !important;
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      backdrop-filter: blur(18px) saturate(160%);
+      border-color: rgba(15,23,42,0.08) !important;
+      color: #1e293b !important;
+      box-shadow: 0 10px 30px rgba(15,23,42,.08) !important;
+    }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-section-head { color: #64748b !important; }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-row,
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-provider,
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-profile,
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-plus,
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-skill,
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar input[type="text"],
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar input[type="email"],
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar input:not([type="checkbox"]) {
+      background: #ffffff !important;
+      border-color: rgba(15,23,42,0.10) !important;
+      color: #0f172a !important;
+      box-shadow: 0 1px 2px rgba(15,23,42,.04) !important;
+    }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-row:hover,
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-provider:hover,
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-plus:hover,
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-skill:hover {
+      background: #f8fafc !important;
+      border-color: rgba(99,102,241,0.35) !important;
+    }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-profile-name,
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-account-hint strong { color: #0f172a !important; }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-profile-role,
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-profile-role[style],
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-account-hint,
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-row-arrow { color: #64748b !important; }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-email-link { color: #4f46e5 !important; }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar hr { border-color: rgba(15,23,42,0.08) !important; }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-section-head .msv3-tag {
+      background: rgba(99,102,241,0.12) !important; color: #4338ca !important;
+    }
+    /* The quick links and the arrows on tinted buttons were still wearing the
+       dark theme's near-white, which is invisible now the panel is light. */
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-quick-links a {
+      background: #ffffff !important;
+      border-color: rgba(15,23,42,0.10) !important;
+      color: #334155 !important;
+    }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-quick-links a:hover {
+      background: #f8fafc !important; color: #0f172a !important;
+    }
+    /* First and largest: it is what a student comes to this tab for. */
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-my-results {
+      margin: 2px 0 16px !important;
+      padding: 16px 16px !important;
+      font-size: 16px !important; font-weight: 800 !important;
+      border-radius: 14px !important;
+      background: linear-gradient(135deg, rgba(99,102,241,.14), rgba(56,189,248,.12)) !important;
+      border: 1px solid rgba(99,102,241,.28) !important;
+      color: #1e1b4b !important;
+      box-shadow: 0 4px 14px rgba(79,70,229,.12) !important;
+    }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-my-results:hover {
+      background: linear-gradient(135deg, rgba(99,102,241,.20), rgba(56,189,248,.16)) !important;
+      border-color: rgba(99,102,241,.45) !important;
+    }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-my-results .msv3-row-icon { font-size: 22px !important; }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-my-results .msv3-row-arrow { color: #4f46e5 !important; font-size: 18px !important; }
+    /* "ACCOUNT ACCESS" and the sentence under it said what the two buttons
+       below already say. Gone from the tab; the slide-out drawer keeps them,
+       where there is no page title to give the section its context. */
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar #msv3AccessSection > .msv3-section-head,
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar #msv3VipSection > .msv3-section-head,
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-account-hint { display: none !important; }
+    /* The code field is the one thing on this tab a student types into, so it
+       gets a touch target rather than a footnote. */
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar #msv3VipSection { margin-bottom: 18px; }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-vip-row input {
+      padding: 14px 15px !important; font-size: 15px !important; border-radius: 12px !important;
+    }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-vip-row button {
+      width: 50px !important; height: 50px !important; border-radius: 12px !important; font-size: 19px !important;
+    }
+    /* "Remember on this device" is HIDDEN, not removed: the box stays in the
+       DOM and stays ticked, so the code is still remembered exactly as before —
+       the row was asking a question nobody wanted to be asked. */
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar #msv3VipRememberRow { display: none !important; }
+    /* Centred: the tab is a single narrow column on a phone, so a heading
+       hanging off the left edge reads as a list label rather than a title.
+       Applies to the page title and to whichever section heads remain. */
+    body[data-msv3-tab="account"] #msv3AccountPanel .section-head { justify-content: center; text-align: center; }
+    body[data-msv3-tab="account"] #msv3AccountPanel .msv3-sidebar .msv3-section-head { text-align: center; justify-content: center; }
+    /* The PDF button, out of the drawer's dark row style and into a card the
+       width of the mock list above it. */
+    #msv3PdfSection .msv3-row {
+      display: flex; align-items: center; gap: 12px;
+      width: 100%; margin: 0; padding: 16px 18px;
+      font-size: 15px; font-weight: 700; color: #0f172a;
+      background: #fff; border: 1px solid #e2e8f0; border-radius: 16px;
+      box-shadow: 0 2px 10px rgba(15,23,42,.05);
+    }
+    #msv3PdfSection .msv3-row:hover { border-color: #cbd5e1; background: #f8fafc; }
+    #msv3PdfSection .msv3-row-icon { font-size: 22px; }
+    #msv3PdfSection .msv3-row-arrow { margin-left: auto; color: #64748b; font-size: 18px; }
+    @media (prefers-color-scheme: dark) {
+      #msv3PdfSection .msv3-row { background: #111827; border-color: #1f2937; color: #e5e7eb; }
+    }
+    body[data-msv3-tab="account"] #msv3AccountPanel .section-title { color: #0f172a; text-align: center; width: 100%; }
     #msv3AccountPanel .msv3-sidebar .msv3-head { display: none; }      /* brand + X — panel has its own title */
     #msv3AccountPanel .msv3-sidebar .msv3-body { overflow: visible !important; }
-    /* Desktop: settings-page layout — sections flow into two columns */
+    /* Desktop: one centred column, not two.
+       The two-column grid spread eight short rows across the full width of a
+       1500px screen, which left holes rather than balance — a settings page
+       reads better as a single column the eye can run down. */
     @media (min-width: 1024px) {
+      /* The drawer-geometry reset above sets max-width:none !important, so the
+         column width has to shout back. */
+      #msv3AccountPanel .msv3-sidebar {
+        max-width: 660px !important; margin: 0 auto !important;
+      }
       #msv3AccountPanel .msv3-sidebar .msv3-body {
-        display: grid !important;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 4px 36px;
-        align-items: start;
-        padding: 14px 26px 20px !important;
+        display: flex !important;
+        flex-direction: column;
+        gap: 0;
+        padding: 20px 28px 26px !important;
       }
       #msv3AccountPanel .msv3-sidebar .msv3-body > * { min-width: 0; }
-      #msv3AccountPanel .msv3-sidebar .msv3-foot,
-      #msv3AccountPanel .msv3-sidebar .msv3-body > .msv3-logout,
-      #msv3AccountPanel .msv3-sidebar .msv3-body > hr { grid-column: 1 / -1; }
+      /* The sign-in buttons stack instead of sitting side by side, so each is
+         a full-width target like every other row on the page. */
+      #msv3AccountPanel .msv3-sidebar .msv3-providers { grid-template-columns: 1fr !important; display: grid !important; gap: 10px; }
+      #msv3AccountPanel .msv3-sidebar .msv3-provider { width: 100%; justify-content: flex-start; padding: 14px 16px; font-size: 14.5px; }
+      #msv3AccountPanel .msv3-sidebar .msv3-quick-links { display: grid !important; grid-template-columns: 1fr 1fr; gap: 10px; }
+      #msv3AccountPanel .msv3-sidebar .msv3-section { margin-bottom: 16px; }
     }
     .msv3-danger { max-width: none; }
 
     /* Non-home tabs get a little headroom since the hero is hidden */
     body[data-msv3-tab]:not([data-msv3-tab="home"]) main { padding-top: 26px; }
+
+
+    /* ── Apps tab ── */
+    /* The tab is a short page — four cards and a sentence — so on a wide
+       screen it used to end in a lot of white. These are two soft washes and a
+       faint dot grid painted behind the section: no image to fetch, nothing
+       moving, and light enough that the screenshots stay the brightest thing
+       on it. */
+    /* The wash belongs to the PAGE while this tab is open, not to a box on
+       it: as a rounded panel it left a white margin all the way round, which
+       read as a card floating on nothing. Painted on the body it runs to every
+       edge and under the rail, and the section keeps only its spacing. */
+    body[data-msv3-tab="apps"] {
+      background:
+        radial-gradient(760px 380px at 16% -8%, rgba(99,102,241,.32), transparent 72%),
+        radial-gradient(660px 360px at 96% 2%, rgba(13,148,136,.28), transparent 72%),
+        radial-gradient(620px 340px at 50% 106%, rgba(168,85,247,.20), transparent 72%),
+        linear-gradient(180deg, #eef2ff 0%, #f8fafc 70%);
+      background-attachment: fixed;
+    }
+    /* The dot grid rides along, fixed to the viewport and behind everything. */
+    body[data-msv3-tab="apps"]::before {
+      content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background-image: radial-gradient(rgba(15,23,42,.075) 1px, transparent 1px);
+      background-size: 22px 22px;
+      -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 82%);
+      mask-image: linear-gradient(180deg, #000 0%, transparent 82%);
+    }
+    #msv3AppsSection { position: relative; padding: 26px 24px 30px; }
+    @media (prefers-color-scheme: dark) {
+      body[data-msv3-tab="apps"] {
+        background:
+          radial-gradient(760px 380px at 16% -8%, rgba(99,102,241,.26), transparent 72%),
+          radial-gradient(660px 360px at 96% 2%, rgba(13,148,136,.22), transparent 72%),
+          linear-gradient(180deg, #0b1220 0%, #0f172a 70%);
+      }
+      body[data-msv3-tab="apps"]::before { background-image: radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px); }
+    }
+    @media (max-width: 560px) { #msv3AppsSection { padding: 20px 16px 24px; } }
+    .apps-intro { color: var(--muted, #64748b); margin: -4px 0 18px; max-width: 62ch; line-height: 1.55; }
+    .apps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+    .app-card {
+      border: 1px solid #e2e8f0; border-radius: 16px; padding: 18px; background: #fff;
+      display: flex; flex-direction: column; gap: 10px; transition: border-color .15s, transform .15s;
+    }
+    .app-card:hover { border-color: #cbd5e1; transform: translateY(-2px); }
+    /* The store screenshot is a tall marketing image; show its top third,
+       which is the part carrying the app's own screen. */
+    .app-shot {
+      width: 100%; height: 190px; object-fit: cover; object-position: top center;
+      border-radius: 12px; display: block; background: #0f766e; margin-bottom: 4px;
+    }
+    .app-shot-art { object-fit: fill; background: transparent; }
+    /* Device frame. The bezel is a border, the screen is the image, and the
+       cutout is a pseudo-element — no mockup PNG to download or keep in step. */
+    .app-phone {
+      position: relative; width: 132px; height: 190px; margin: 0 auto 4px;
+      border: 4px solid #1e293b; border-bottom: none;
+      border-radius: 22px 22px 0 0; background: #0f766e;
+      box-shadow: 0 10px 24px rgba(15,23,42,.18);
+      overflow: hidden;
+    }
+    .app-phone img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+    .app-phone::before {
+      content: ''; position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
+      background: #0b1220; border-radius: 999px; z-index: 2;
+    }
+    .app-phone.ios::before    { width: 44px; height: 11px; }   /* island */
+    .app-phone.droid::before  { width: 8px;  height: 8px; }    /* punch-hole */
+    @media (prefers-color-scheme: dark) { .app-phone { border-color: #334155; } }
+    /* Laptop frame: lid, then the hinge bar with its notch. Same 190px block
+       as the phones so the four cards line up. */
+    .app-laptop { width: 100%; height: 190px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 0; margin-bottom: 4px; }
+    .app-laptop .lid {
+      width: 84%; border: 5px solid #1e293b; border-radius: 10px 10px 2px 2px;
+      background: #0f172a; overflow: hidden; line-height: 0; position: relative;
+    }
+    .app-laptop .lid::before {
+      content: ''; position: absolute; top: 2px; left: 50%; transform: translateX(-50%);
+      width: 26px; height: 5px; background: #1e293b; border-radius: 0 0 4px 4px; z-index: 2;
+    }
+    .app-laptop .lid svg { width: 100%; height: auto; display: block; }
+    .app-laptop .base {
+      width: 100%; height: 9px; background: linear-gradient(#cbd5e1, #94a3b8);
+      border-radius: 0 0 7px 7px; position: relative;
+    }
+    .app-laptop .base::after {
+      content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 26%; height: 4px; background: #94a3b8; border-radius: 0 0 6px 6px;
+    }
+    @media (prefers-color-scheme: dark) {
+      .app-laptop .lid { border-color: #334155; }
+      .app-laptop .base { background: linear-gradient(#475569, #334155); }
+      .app-laptop .base::after { background: #334155; }
+    }
+    .app-card h3 {
+      margin: 0; font-size: 1.02rem; display: flex; align-items: center; gap: 9px;
+    }
+    .app-mark { width: 20px; height: 20px; flex: 0 0 auto; }
+    @media (prefers-color-scheme: dark) { .app-mark[fill="#0f172a"] { fill: #e2e8f0; } }
+    .app-card p { margin: 0; color: var(--muted, #64748b); font-size: .87rem; line-height: 1.45; }
+    .app-btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 6px; }
+    .app-btn {
+      display: inline-flex; align-items: center; gap: 6px; padding: 9px 14px; border-radius: 10px;
+      font-size: .87rem; font-weight: 600; text-decoration: none; border: 1px solid transparent;
+      background: #0f172a; color: #fff;
+    }
+    .app-btn.ghost { background: #fff; color: #0f172a; border-color: #cbd5e1; }
+    .app-btn[aria-disabled="true"] { opacity: .5; pointer-events: none; }
+    .apps-note { margin: 16px 0 0; font-size: .84rem; color: var(--muted, #64748b); }
+    @media (prefers-color-scheme: dark) {
+      .app-card { background: #111827; border-color: #1f2937; }
+      .app-btn.ghost { background: transparent; color: #e5e7eb; border-color: #374151; }
+    }
+    /* Home card — the way in on phones, where the dock is full at six items.
+       It carries its own colour because it is an offer, not another statistic,
+       and the four devices are drawn beside it so the point lands before the
+       sentence is read. */
+    .apps-teaser {
+      display: flex; align-items: center; gap: 16px; padding: 18px 20px; width: 100%;
+      border: 0; border-radius: 18px; cursor: pointer; text-align: left; font: inherit;
+      color: #fff; overflow: hidden; position: relative;
+      background: linear-gradient(120deg, #4f46e5 0%, #7c3aed 55%, #9333ea 100%);
+      box-shadow: 0 10px 26px rgba(79, 70, 229, .28);
+      transition: transform .15s, box-shadow .15s;
+    }
+    .apps-teaser:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(79, 70, 229, .34); }
+    /* A soft light behind the devices, so the drawing sits in the card rather
+       than on it. */
+    .apps-teaser::after {
+      content: ''; position: absolute; right: -60px; top: -70px; width: 240px; height: 240px;
+      background: radial-gradient(circle, rgba(255,255,255,.18), transparent 62%);
+      pointer-events: none;
+    }
+    .apps-teaser .t-txt { flex: 1 1 auto; min-width: 0; }
+    .apps-teaser .t-txt b { display: block; font-size: 1.06rem; letter-spacing: -.01em; }
+    .apps-teaser .t-txt span {
+      display: block; margin-top: 3px; font-size: .85rem; color: rgba(255,255,255,.82);
+    }
+    .apps-teaser .t-txt .t-marks { display: flex; align-items: center; gap: 9px; margin-top: 7px; }
+    /* Each mark in its own white chip so the brand colours read against the
+       purple — Windows blue and Android green disappear when laid straight on
+       it, and Apple's mark has no colour of its own to lay down at all. */
+    .apps-teaser .t-txt .t-marks svg {
+      width: 24px; height: 24px; padding: 4.5px; flex: 0 0 auto;
+      background: #fff; border-radius: 7px; box-shadow: 0 1px 3px rgba(15,23,42,.22);
+    }
+    .apps-teaser .t-txt .t-marks svg:nth-of-type(1) { fill: #00a4ef; }  /* Windows */
+    .apps-teaser .t-txt .t-marks svg:nth-of-type(2) { fill: #475569; }  /* MacBook */
+    .apps-teaser .t-txt .t-marks svg:nth-of-type(3) { fill: #0f172a; }  /* Apple   */
+    .apps-teaser .t-txt .t-marks svg:nth-of-type(4) { fill: #3ddc84; }  /* Android */
+    .apps-teaser .t-txt .t-marks em {
+      font-style: normal; font-size: .85rem; color: rgba(255,255,255,.82);
+      margin-left: 3px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .apps-teaser .t-go {
+      flex: 0 0 auto; width: 34px; height: 34px; border-radius: 50%;
+      display: grid; place-items: center; background: rgba(255,255,255,.16);
+      font-size: 1.05rem; line-height: 1;
+    }
+    .apps-teaser .t-devices { flex: 0 0 auto; width: 132px; height: 68px; opacity: .95; }
+    @media (max-width: 560px) {
+      .apps-teaser { padding: 16px; gap: 12px; }
+      .apps-teaser .t-devices { width: 92px; height: 50px; }
+      .apps-teaser .t-txt span { font-size: .8rem; }
+    }
+    @media (max-width: 380px) { .apps-teaser .t-devices { display: none; } }
 
     /* ── Shared nav-item look ── */
     .msv3-rail, .msv3-glassbar { font-family: inherit; }
@@ -20268,7 +20634,7 @@
     .msv3-rail {
       display: none;
       position: fixed; top: 0; left: 0; bottom: 0;
-      width: 224px;
+      width: 244px;
       z-index: 95;
       background: linear-gradient(180deg, #1a1d24 0%, #23262e 100%);
       border-right: 1px solid rgba(255,255,255,0.06);
@@ -20299,18 +20665,43 @@
       color: #f1f5f9; font-weight: 800; font-size: 14.5px; letter-spacing: 0.01em;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0;
     }
-    .rail-items { display: flex; flex-direction: column; gap: 4px; }
+    .rail-items { display: flex; flex-direction: column; gap: 6px; }
     .rail-item {
       position: relative;
       display: flex; align-items: center; gap: 12px;
       width: 100%;
-      padding: 11px 12px;
-      border-radius: 11px;
-      color: #cbd5e1; font-size: 13.5px; font-weight: 600; letter-spacing: 0.01em;
+      padding: 9px 12px;
+      border-radius: 14px;
+      color: #cbd5e1; font-size: 15px; font-weight: 600; letter-spacing: 0.01em;
       text-align: left;
       transition: background 160ms ease, color 160ms ease;
     }
-    .rail-item svg { width: 18px; height: 18px; flex: 0 0 auto; }
+    .rail-item svg { flex: 0 0 auto; }
+    /* ── Rail icons in tinted tiles ──
+       A line drawing on a dark panel is thin and easy to miss. Each icon now
+       sits in a rounded tile carrying its own colour, the way a settings list
+       does — the tile is what the eye finds, the label only confirms it. The
+       selected row fills its tile solid and turns the glyph white. */
+    .rail-item svg {
+      width: 34px; height: 34px; padding: 7px; border-radius: 10px;
+      background: rgba(255,255,255,0.06); box-sizing: border-box;
+      transition: background 160ms ease, color 160ms ease;
+    }
+    .rail-item[data-msv3-go="home"] svg { background: rgba(129,140,248,0.16); color: #818cf8; }
+    .rail-item[data-msv3-go="home"].active svg { background: #818cf8; color: #0f172a; }
+    .rail-item[data-msv3-go="mocks"] svg { background: rgba(167,139,250,0.16); color: #a78bfa; }
+    .rail-item[data-msv3-go="mocks"].active svg { background: #a78bfa; color: #0f172a; }
+    .rail-item[data-msv3-go="exams"] svg { background: rgba(251,191,36,0.16); color: #fbbf24; }
+    .rail-item[data-msv3-go="exams"].active svg { background: #fbbf24; color: #0f172a; }
+    .rail-item[data-msv3-go="learn"] svg { background: rgba(52,211,153,0.16); color: #34d399; }
+    .rail-item[data-msv3-go="learn"].active svg { background: #34d399; color: #0f172a; }
+    .rail-item[data-msv3-go="results"] svg { background: rgba(56,189,248,0.16); color: #38bdf8; }
+    .rail-item[data-msv3-go="results"].active svg { background: #38bdf8; color: #0f172a; }
+    .rail-item[data-msv3-go="apps"] svg { background: rgba(244,114,182,0.16); color: #f472b6; }
+    .rail-item[data-msv3-go="apps"].active svg { background: #f472b6; color: #0f172a; }
+    .rail-item[data-msv3-go="account"] svg { background: rgba(251,113,133,0.16); color: #fb7185; }
+    .rail-item[data-msv3-go="account"].active svg { background: #fb7185; color: #0f172a; }
+
     .rail-item:hover { background: rgba(255,255,255,0.06); color: #ffffff; }
     .rail-item.active {
       background: linear-gradient(135deg, rgba(99,102,241,0.28), rgba(79,70,229,0.22));
@@ -20329,31 +20720,58 @@
     .rail-account {
       margin-top: auto;
       display: flex; align-items: center; gap: 12px;
-      padding: 12px;
-      border-radius: 12px;
-      color: #e2e8f0; font-size: 13.5px; font-weight: 700;
+      padding: 10px 12px;
+      border-radius: 14px;
+      color: #e2e8f0; font-size: 14px; font-weight: 700;
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.10) !important;
       transition: background 160ms ease, border-color 160ms ease;
     }
-    .rail-account svg { width: 18px; height: 18px; }
-    .rail-account:hover { background: rgba(255,255,255,0.10); border-color: rgba(99,102,241,0.5) !important; }
+
+    .rail-account:hover { background: rgba(255,255,255,0.10); border-color: rgba(251,113,133,0.45) !important; }
     .rail-account.active {
-      background: linear-gradient(135deg, rgba(99,102,241,0.28), rgba(79,70,229,0.22));
-      border-color: rgba(99,102,241,0.55) !important;
+      background: linear-gradient(135deg, rgba(251,113,133,0.28), rgba(225,29,72,0.20));
+      border-color: rgba(251,113,133,0.55) !important;
       color: #ffffff;
     }
+    /* Inspiration card — fills the rail's dead middle. */
+    .rail-quote {
+      /* Two auto margins — this one and the account row's — split the leftover
+         column between them, so the card floats in the middle of the gap
+         instead of hanging off the last nav item. */
+      margin: auto 2px 0; padding: 0 0 12px; width: calc(100% - 4px);
+      /* never collapse right onto the nav on a short window */
+      margin-top: auto;
+      border: 1px solid rgba(255,255,255,0.08); border-radius: 16px;
+      background: rgba(255,255,255,0.04); overflow: hidden; text-align: left;
+      display: block; position: relative; cursor: pointer;
+      transition: border-color 160ms ease, background 160ms ease;
+    }
+    .rail-quote:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.16); }
+    .rail-quote .rq-img { display: block; height: 92px; overflow: hidden; }
+    .rail-quote .rq-img img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: .92; }
+    .rail-quote .rq-mark {
+      position: absolute; top: 78px; left: 12px; font-size: 34px; line-height: 1;
+      color: rgba(255,255,255,0.22); font-family: Georgia, 'Times New Roman', serif;
+    }
+    .rail-quote .rq-text {
+      display: block; margin: 10px 12px 0 12px; color: #e2e8f0;
+      font-size: 12.5px; line-height: 1.45; font-weight: 500; font-style: italic;
+      display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .rail-quote .rq-by { display: block; margin: 7px 12px 0; color: #94a3b8; font-size: 11px; font-weight: 700; }
+
     /* Identity chip inside the Account button (avatar + name + status) */
     .rail-acc-avatar {
-      width: 30px; height: 30px; border-radius: 50%; flex: 0 0 auto;
+      width: 34px; height: 34px; border-radius: 10px; flex: 0 0 auto;
       display: inline-flex; align-items: center; justify-content: center;
-      background: rgba(255,255,255,0.10);
-      color: #e2e8f0; font-weight: 800; font-size: 13px;
+      background: rgba(251,113,133,0.16);
+      color: #fb7185; font-weight: 800; font-size: 13px;
       overflow: hidden;
     }
-    .rail-acc-avatar svg { width: 16px; height: 16px; }
+    .rail-acc-avatar svg { width: 19px; height: 19px; }
     .rail-acc-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .rail-acc-avatar.has-user { background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff; }
+    .rail-acc-avatar.has-user { background: linear-gradient(135deg, #fb7185, #e11d48); color: #fff; }
     .rail-acc-text { display: flex; flex-direction: column; min-width: 0; text-align: left; gap: 1px; }
     .rail-acc-name {
       font-size: 13px; font-weight: 700; line-height: 1.15;
@@ -20403,6 +20821,79 @@
     .gb-item svg { width: 21px; height: 21px; }
     .gb-item.active { color: #4f46e5; background: rgba(99,102,241,0.12); }
     .gb-item span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+
+    /* ── One colour per destination ──
+       The bar used to be six greys, readable only by its labels. Now the
+       icon carries the colour and the label stays quiet, so the eye can
+       aim before it reads; the selected item fills with its OWN tint
+       rather than the single indigo every tab used to share. */
+    .gb-item[data-msv3-go="home"] svg { color: #6366f1; }
+    .gb-item[data-msv3-go="home"].active { color: #6366f1; background: rgba(99,102,241,0.14); }
+    .rail-item[data-msv3-go="home"] svg { color: #6366f1; }
+    .rail-item[data-msv3-go="home"].active {
+      background: linear-gradient(135deg, rgba(99,102,241,0.30), rgba(99,102,241,0.16));
+      box-shadow: inset 0 0 0 1px rgba(99,102,241,0.50);
+    }
+    .rail-item[data-msv3-go="home"].active::before { background: #6366f1; }
+
+    .gb-item[data-msv3-go="mocks"] svg { color: #8b5cf6; }
+    .gb-item[data-msv3-go="mocks"].active { color: #8b5cf6; background: rgba(139,92,246,0.14); }
+    .rail-item[data-msv3-go="mocks"] svg { color: #8b5cf6; }
+    .rail-item[data-msv3-go="mocks"].active {
+      background: linear-gradient(135deg, rgba(139,92,246,0.30), rgba(139,92,246,0.16));
+      box-shadow: inset 0 0 0 1px rgba(139,92,246,0.50);
+    }
+    .rail-item[data-msv3-go="mocks"].active::before { background: #8b5cf6; }
+
+    .gb-item[data-msv3-go="exams"] svg { color: #f59e0b; }
+    .gb-item[data-msv3-go="exams"].active { color: #f59e0b; background: rgba(245,158,11,0.14); }
+    .rail-item[data-msv3-go="exams"] svg { color: #f59e0b; }
+    .rail-item[data-msv3-go="exams"].active {
+      background: linear-gradient(135deg, rgba(245,158,11,0.30), rgba(245,158,11,0.16));
+      box-shadow: inset 0 0 0 1px rgba(245,158,11,0.50);
+    }
+    .rail-item[data-msv3-go="exams"].active::before { background: #f59e0b; }
+
+    .gb-item[data-msv3-go="learn"] svg { color: #10b981; }
+    .gb-item[data-msv3-go="learn"].active { color: #10b981; background: rgba(16,185,129,0.14); }
+    .rail-item[data-msv3-go="learn"] svg { color: #10b981; }
+    .rail-item[data-msv3-go="learn"].active {
+      background: linear-gradient(135deg, rgba(16,185,129,0.30), rgba(16,185,129,0.16));
+      box-shadow: inset 0 0 0 1px rgba(16,185,129,0.50);
+    }
+    .rail-item[data-msv3-go="learn"].active::before { background: #10b981; }
+
+    .gb-item[data-msv3-go="results"] svg { color: #0ea5e9; }
+    .gb-item[data-msv3-go="results"].active { color: #0ea5e9; background: rgba(14,165,233,0.14); }
+    .rail-item[data-msv3-go="results"] svg { color: #0ea5e9; }
+    .rail-item[data-msv3-go="results"].active {
+      background: linear-gradient(135deg, rgba(14,165,233,0.30), rgba(14,165,233,0.16));
+      box-shadow: inset 0 0 0 1px rgba(14,165,233,0.50);
+    }
+    .rail-item[data-msv3-go="results"].active::before { background: #0ea5e9; }
+
+    .gb-item[data-msv3-go="apps"] svg { color: #ec4899; }
+    .gb-item[data-msv3-go="apps"].active { color: #ec4899; background: rgba(236,72,153,0.14); }
+    .rail-item[data-msv3-go="apps"] svg { color: #ec4899; }
+    .rail-item[data-msv3-go="apps"].active {
+      background: linear-gradient(135deg, rgba(236,72,153,0.30), rgba(236,72,153,0.16));
+      box-shadow: inset 0 0 0 1px rgba(236,72,153,0.50);
+    }
+    .rail-item[data-msv3-go="apps"].active::before { background: #ec4899; }
+
+    .gb-item[data-msv3-go="account"] svg { color: #f43f5e; }
+    .gb-item[data-msv3-go="account"].active { color: #f43f5e; background: rgba(244,63,94,0.14); }
+    .rail-item[data-msv3-go="account"] svg { color: #f43f5e; }
+    .rail-item[data-msv3-go="account"].active {
+      background: linear-gradient(135deg, rgba(244,63,94,0.30), rgba(244,63,94,0.16));
+      box-shadow: inset 0 0 0 1px rgba(244,63,94,0.50);
+    }
+    .rail-item[data-msv3-go="account"].active::before { background: #f43f5e; }
+
+
+    .gb-item svg { transition: transform 160ms ease; }
+    .gb-item.active svg { transform: translateY(-1px) scale(1.06); }
+
 
     /* ── Results panel ── */
     #msv3ResultsPanel .res-card {
@@ -20672,7 +21163,7 @@
 
     @media (min-width: 1024px) {
       .msv3-rail { display: flex; }
-      body { padding-left: 224px; }
+      body { padding-left: 244px; }
       /* Topbar dissolves into a floating top-right cluster: Obuna pill + bell */
       .topbar {
         position: fixed !important;
@@ -20697,6 +21188,38 @@
       /* Clear the floating Obuna + bell cluster on tabs without the hero */
       body[data-msv3-tab]:not([data-msv3-tab="home"]) main { padding-top: 88px; }
       #msv3ResultsPanel .res-card { max-width: 640px; }
+    }
+
+    /* ── Phone dock (the desktop rail is untouched) ──
+       Five items with Mocks in the middle, raised and filled: the thing a
+       student opens the app to do, under the thumb, instead of one of six
+       equal greys. Results is not here — it lives inside Profile. */
+    @media (max-width: 1023.98px) {
+      /* An earlier rule hides this row with !important, so this one needs
+         to be more specific rather than merely later. */
+      .msv3-sidebar .msv3-body .msv3-my-results { display: flex !important; }
+      .gb-item.gb-mid { position: relative; }
+      /* Bigger, not raised: the centre keeps the same baseline as the rest of
+         the bar and earns its emphasis from size and fill alone. */
+      /* Bigger, not raised: the centre keeps the bar's baseline and earns its
+         emphasis from size, a white face and a violet ring. White, because
+         four coloured glyphs need something to sit on. */
+      .gb-item.gb-mid svg {
+        width: 34px; height: 34px; padding: 4px; box-sizing: border-box;
+        border-radius: 13px; background: #fff;
+        box-shadow: 0 3px 10px rgba(15,23,42,.14), inset 0 0 0 1.5px rgba(139,92,246,.45);
+        transition: box-shadow 160ms ease;
+      }
+      .gb-item.gb-mid.active { background: transparent; }
+      .gb-item.gb-mid.active svg {
+        box-shadow: 0 6px 16px rgba(109,40,217,.30), inset 0 0 0 2px rgba(109,40,217,.85);
+      }
+      .gb-item.gb-mid.active span { color: #6d28d9; }
+      .gb-item.gb-mid span { font-weight: 800; }
+      /* Four items share the row with a raised fifth, so they can afford a
+         little more of everything. */
+      .gb-item { font-size: 10.5px; padding: 7px 2px; }
+      .gb-item svg { width: 23px; height: 23px; }
     }
     @media (max-width: 1023.98px) {
       .msv3-glassbar { display: flex; }
@@ -20731,7 +21254,24 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
         My results
       </button>
+      <button type="button" class="rail-item" data-msv3-go="apps">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"></rect><line x1="11" y1="18" x2="13" y2="18"></line></svg>
+        Apps
+      </button>
     </div>
+    <!-- The rail runs the full height of the window, so on any normal screen
+         there is a long empty stretch under the last item. It carries a quote
+         and its photograph — the same ones the billboard shows — and a click
+         moves to the next. No timer: nothing on this page animates by itself,
+         and a rail that changes while you are reading elsewhere is a
+         distraction, not a feature. -->
+    <button type="button" class="rail-quote" id="railQuote" hidden aria-label="Another quote">
+      <span class="rq-img"><img id="railQuoteImg" alt="" loading="lazy" decoding="async"></span>
+      <span class="rq-mark">&ldquo;</span>
+      <span class="rq-text" id="railQuoteText"></span>
+      <span class="rq-by" id="railQuoteBy"></span>
+    </button>
+
     <button type="button" class="rail-account" data-msv3-go="account">
       <span class="rail-acc-avatar" id="railAccAvatar">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"></path></svg>
@@ -20748,33 +21288,217 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
       <span>Home</span>
     </button>
-    <button type="button" class="gb-item" data-msv3-go="mocks">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
-      <span>Mocks</span>
-    </button>
     <button type="button" class="gb-item" data-msv3-go="exams">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"></circle><path d="M15.5 13l1.5 8-5-3-5 3 1.5-8"></path></svg>
       <span>Exams</span>
+    </button>
+    <button type="button" class="gb-item gb-mid" data-msv3-go="mocks">
+      <!-- The four skills, in the colours they wear across the site:
+           listening, reading, writing, speaking. -->
+      <svg class="gb-skills" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <g stroke="#0ea5e9" stroke-width="1.5" stroke-linecap="round">
+          <path d="M2.6 7.6a3.9 3.9 0 0 1 7.8 0"/>
+          <path d="M2.6 7.9v1.7M10.4 7.9v1.7"/>
+        </g>
+        <g fill="#10b981">
+          <rect x="13.3" y="3.4" width="3.9" height="7.2" rx="1"/>
+          <rect x="17.8" y="3.4" width="3.9" height="7.2" rx="1"/>
+        </g>
+        <g stroke="#f59e0b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 20.8l.7-2.3 5.1-5.1 1.6 1.6-5.1 5.1z"/>
+        </g>
+        <g stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round">
+          <rect x="16.1" y="13" width="3.5" height="5.4" rx="1.75"/>
+          <path d="M14.3 17.6a3.6 3.6 0 0 0 7.1 0M17.85 20.4v1.2"/>
+        </g>
+      </svg>
+      <span>Mocks</span>
     </button>
     <button type="button" class="gb-item" data-msv3-go="learn">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
       <span>Learn</span>
     </button>
-    <button type="button" class="gb-item" data-msv3-go="results">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
-      <span>Results</span>
-    </button>
     <button type="button" class="gb-item" data-msv3-go="account">
       <span class="gb-avatar" id="gbAccAvatar" hidden></span>
       <svg id="gbAccIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"></path></svg>
-      <span>Account</span>
+      <span>Profile</span>
     </button>
   </nav>
 
   <script>
     (function () {
       'use strict';
-      var TABS = { home: 1, mocks: 1, exams: 1, learn: 1, results: 1, account: 1 };
+      var TABS = { home: 1, mocks: 1, exams: 1, learn: 1, results: 1, apps: 1, account: 1 };
+
+
+      // ── Apps tab ──────────────────────────────────────────────────────
+      //
+      // Nothing about a release is written down here. The Windows and macOS
+      // links come from the bucket's latest.yml / latest-mac.yml — the very
+      // files the installed app's auto-updater reads — and the clone APK is
+      // found by listing the bucket, so its filename can change freely. That
+      // leaves only what genuinely never changes: which bucket belongs to
+      // which centre, and the store / TestFlight addresses.
+      //
+      // Clones are NOT on the public stores (verified 2026-08-12): they ship
+      // as a sideload APK and a TestFlight invite, and saying so plainly beats
+      // a Play button that 404s.
+      var APPS_BUCKET = {
+        mock_stream: 'mockstream-desktop-releases',
+        bek:         'bekzods-desktop-releases',
+        record:      'multilevelrecord-desktop-releases',
+        niners:      'niners-desktop-releases',
+        global:      'global-education-desktop-releases',
+        achievers:   'achievers-desktop-releases',
+        muzaffars:   'muzaffars-desktop-releases'
+      };
+      var APPS_MOBILE = {
+        mock_stream: { ios: 'https://apps.apple.com/app/id6780333629',
+                       android: 'https://play.google.com/store/apps/details?id=com.mockstream.app',
+                       store: true },
+        bek:       { ios: 'https://testflight.apple.com/join/twZAyKPd' },
+        record:    { ios: 'https://testflight.apple.com/join/6DjK9jsy' },
+        niners:    { ios: 'https://testflight.apple.com/join/cYNjge6E' },
+        global:    { ios: 'https://testflight.apple.com/join/2aZbwJ9W' },
+        achievers: { ios: 'https://testflight.apple.com/join/n6gfe7Sd' },
+        muzaffars: { ios: 'https://testflight.apple.com/join/ctf2ZS9w' }
+      };
+
+      var appsBuilt = false;
+      function buildAppsTab() {
+        if (appsBuilt) return;
+        appsBuilt = true;
+        var grid = document.getElementById('appsGrid');
+        if (!grid) return;
+
+        var centre = window.__CENTER_ID || 'mock_stream';
+        var bucket = APPS_BUCKET[centre];
+        var mob = APPS_MOBILE[centre] || {};
+        var base = bucket ? 'https://storage.googleapis.com/' + bucket + '/' : '';
+
+        // A drawing of the app's window, not a photograph of a computer: the
+        // title bar, the skill rail down the left, the exam pane. Same height
+        // as the phone screenshots so the four cards line up.
+        function deskArt(accent) {
+          return '<div class="app-laptop"><div class="lid">' +
+            '<svg viewBox="0 0 300 190" role="img" aria-label="The desktop app window">' +
+            '<rect width="300" height="190" fill="#f8fafc"/>' +
+            '<rect x="18" y="20" width="264" height="150" rx="8" fill="#f8fafc"/>' +
+            '<rect x="18" y="20" width="264" height="18" rx="8" fill="#e2e8f0"/>' +
+            '<circle cx="30" cy="29" r="3" fill="#f87171"/>' +
+            '<circle cx="41" cy="29" r="3" fill="#fbbf24"/>' +
+            '<circle cx="52" cy="29" r="3" fill="#34d399"/>' +
+            '<rect x="18" y="38" width="66" height="132" fill="#f1f5f9"/>' +
+            '<rect x="28" y="50" width="46" height="7" rx="3.5" fill="' + accent + '"/>' +
+            '<rect x="28" y="66" width="38" height="6" rx="3" fill="#cbd5e1"/>' +
+            '<rect x="28" y="80" width="42" height="6" rx="3" fill="#cbd5e1"/>' +
+            '<rect x="28" y="94" width="34" height="6" rx="3" fill="#cbd5e1"/>' +
+            '<rect x="96" y="52" width="120" height="9" rx="4.5" fill="#334155"/>' +
+            '<rect x="96" y="72" width="170" height="6" rx="3" fill="#e2e8f0"/>' +
+            '<rect x="96" y="86" width="158" height="6" rx="3" fill="#e2e8f0"/>' +
+            '<rect x="96" y="100" width="164" height="6" rx="3" fill="#e2e8f0"/>' +
+            '<rect x="96" y="122" width="74" height="22" rx="8" fill="' + accent + '"/>' +
+            '</svg></div><div class="base"></div></div>';
+        }
+
+        // Platform marks. Apple's and Android's are the Simple Icons drawings,
+        // published CC0; Microsoft licenses its logo rather than releasing it,
+        // so Windows is the plain four-pane glyph drawn below rather than a
+        // copy of their artwork.
+        var MARK = {
+          windows: '<svg class="app-mark" viewBox="0 0 24 24" fill="#0ea5e9" aria-hidden="true">' +
+            '<path d="M2.4 4.6l8.2-1.15v8.02H2.4zM12.2 3.2L22.4 1.8v9.67H12.2zM2.4 12.53h8.2v8.02L2.4 19.4zM12.2 12.53h10.2v9.67L12.2 20.8z"/></svg>',
+          // macOS gets the laptop rather than the Apple mark, so the two Apple
+          // cards are not headed by the same symbol.
+          mac: '<svg class="app-mark" viewBox="0 0 24 24" fill="#475569" aria-hidden="true">' +
+            '<path d="M4 5.2c0-.66.54-1.2 1.2-1.2h13.6c.66 0 1.2.54 1.2 1.2v9.3H4V5.2zm6.1 0h3.8v1.15h-3.8V5.2zM2.3 15.6h19.4c.28 0 .45.3.31.54l-.7 1.2a1.2 1.2 0 0 1-1.04.6H3.73a1.2 1.2 0 0 1-1.04-.6l-.7-1.2a.35.35 0 0 1 .31-.54z"/></svg>',
+          apple: '<svg class="app-mark" viewBox="0 0 24 24" fill="#0f172a" aria-hidden="true">' +
+            '<path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>',
+          android: '<svg class="app-mark" viewBox="0 0 24 24" fill="#3ddc84" aria-hidden="true">' +
+            '<path d="M18.4395 5.5586c-.675 1.1664-1.352 2.3318-2.0274 3.498-.0366-.0155-.0742-.0286-.1113-.043-1.8249-.6957-3.484-.8-4.42-.787-1.8551.0185-3.3544.4643-4.2597.8203-.084-.1494-1.7526-3.021-2.0215-3.4864a1.1451 1.1451 0 0 0-.1406-.1914c-.3312-.364-.9054-.4859-1.379-.203-.475.282-.7136.9361-.3886 1.5019 1.9466 3.3696-.0966-.2158 1.9473 3.3593.0172.031-.4946.2642-1.3926 1.0177C2.8987 12.176.452 14.772 0 18.9902h24c-.119-1.1108-.3686-2.099-.7461-3.0683-.7438-1.9118-1.8435-3.2928-2.7402-4.1836a12.1048 12.1048 0 0 0-2.1309-1.6875c.6594-1.122 1.312-2.2559 1.9649-3.3848.2077-.3615.1886-.7956-.0079-1.1191a1.1001 1.1001 0 0 0-.8515-.5332c-.5225-.0536-.9392.3128-1.0488.5449zm-.0391 8.461c.3944.5926.324 1.3306-.1563 1.6503-.4799.3197-1.188.0985-1.582-.4941-.3944-.5927-.324-1.3307.1563-1.6504.4727-.315 1.1812-.1086 1.582.4941zM7.207 13.5273c.4803.3197.5506 1.0577.1563 1.6504-.394.5926-1.1038.8138-1.584.4941-.48-.3197-.5503-1.0577-.1563-1.6504.4008-.6021 1.1087-.8106 1.584-.4941z"/></svg>'
+        };
+
+        function card(id, title, desc, shot, art, frame, mark) {
+          return '<div class="app-card" id="' + id + '">' +
+            (art || '') +
+            (shot ? '<div class="app-phone ' + (frame || '') + '">' +
+                    '<img src="' + shot + '" alt="' + title + ' app screenshot" ' +
+                    'loading="lazy" decoding="async" width="460" height="997"></div>' : '') +
+            '<h3>' + (MARK[mark] || '') + '<span>' + title + '</span></h3>' +
+            '<p>' + desc + '</p>' +
+            '<div class="app-btns"></div></div>';
+        }
+        function btn(host, label, href, ghost) {
+          var el = document.getElementById(host);
+          if (!el) return;
+          var a = document.createElement('a');
+          a.className = 'app-btn' + (ghost ? ' ghost' : '');
+          a.textContent = label;
+          a.href = href; a.target = '_blank'; a.rel = 'noopener';
+          el.querySelector('.app-btns').appendChild(a);
+        }
+
+
+        // The screenshots are our own App Store listing images, and they carry
+        // Mock Stream branding — so a clone, whose app says its own centre's
+        // name, gets the plain card rather than a picture of someone else's
+        // app. (Photographs of a real Galaxy or iPhone are Samsung's and
+        // Apple's property and are not ours to put on a commercial page; the
+        // app's own screen is.)
+        var ownShots = centre === 'mock_stream';
+        grid.innerHTML =
+          card('appCardWin',
+               'Windows', 'The full exam runner. Installs in a minute and updates itself.',
+               '', deskArt('#0ea5e9'), '', 'windows') +
+          card('appCardMac',
+               'macOS', 'Signed and notarised, so there is no security warning on first launch.',
+               '', deskArt('#475569'), '', 'mac') +
+          card('appCardDroid',
+               'Android', mob.store ? 'On Google Play.' : 'Installed from the file below. Updates arrive by themselves afterwards.',
+               ownShots ? '/images/apps/phone-home.png' : '', '', 'droid', 'android') +
+          card('appCardIos',
+               'iPhone / iPad', mob.store ? 'On the App Store.' : 'Through TestFlight, Apple own installer for pre-release apps.',
+               ownShots ? '/images/apps/phone-report.png' : '', '', 'ios', 'apple');
+
+        if (mob.ios) btn('appCardIos', mob.store ? 'App Store' : 'Join on TestFlight', mob.ios);
+        if (mob.android) btn('appCardDroid', 'Google Play', mob.android);
+
+        if (!base) return;
+
+        // Desktop: read the same manifest the auto-updater reads.
+        function fromYml(url, re, host, label) {
+          fetch(url, { cache: 'no-store' })
+            .then(function (r) { return r.ok ? r.text() : ''; })
+            .then(function (t) {
+              var m = t.match(re);
+              if (!m) return;
+              var ver = (t.match(/^version:\s*(.+)$/m) || [])[1] || '';
+              btn(host, label + (ver ? ' · ' + ver.trim() : ''), base + m[1]);
+            })
+            .catch(function () { /* the card simply carries no button */ });
+        }
+        fromYml(base + 'latest.yml', /^path:\s*(\S+\.exe)\s*$/m, 'appCardWin', 'Download');
+        fromYml(base + 'latest-mac.yml', /url:\s*(\S+\.dmg)/, 'appCardMac', 'Download');
+
+        // Android sideload: find the APK rather than assume its name.
+        if (!mob.store) {
+          fetch('https://storage.googleapis.com/storage/v1/b/' + bucket + '/o?fields=items(name)&maxResults=200')
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (j) {
+              var apk = ((j && j.items) || []).map(function (i) { return i.name; })
+                .filter(function (n) { return /\.apk$/i.test(n); })[0];
+              if (apk) btn('appCardDroid', 'Download APK', base + apk);
+            })
+            .catch(function () { });
+        }
+
+        var note = document.getElementById('appsNote');
+        if (note) {
+          note.textContent = mob.store
+            ? 'Signing in with the same account keeps your results together across every device.'
+            : 'The phone apps are distributed by us rather than through the stores, so Android asks you to allow the install once, and iPhone goes through TestFlight. Your results stay in sync either way.';
+        }
+      }
 
       // ── 1. Tag every <main> section with its tab ──
       function tag(el, t) {
@@ -20794,6 +21518,10 @@
       document.querySelectorAll('main > section:not([data-msv3sec])').forEach(function (s) {
         s.setAttribute('data-msv3sec', s.querySelector('.secondary') ? 'mocks' : 'home');
       });
+
+      // The Apps tab does network work, so it is built the first time it is
+      // opened rather than on every page load.
+      window.__msv3BuildApps = buildAppsTab;
 
       // ── 2. My results panel — the results page embedded directly (same
       // origin), created lazily on first visit so Home stays light ──
@@ -20836,7 +21564,7 @@
         ap.className = 'section';
         ap.id = 'msv3AccountPanel';
         ap.setAttribute('data-msv3sec', 'account');
-        ap.innerHTML = '<div class="section-head"><h2 class="section-title">Account</h2></div>';
+        ap.innerHTML = '<div class="section-head"><h2 class="section-title">Profile</h2></div>';
         var aside = document.getElementById('msv3Sidebar');
         if (aside) {
           ap.appendChild(aside);
@@ -20941,6 +21669,13 @@
             '</div>' +
           '</div>';
         heroSec.insertAdjacentElement('afterend', ws);
+        // The apps card is written near the top of the file but the widgets
+        // block is inserted here at runtime, which would leave the card below
+        // 900px of widgets — off the first two screens of a phone. Lift it to
+        // sit directly above them.
+        var teaserEl = document.querySelector('.apps-teaser');
+        var teaserSec = teaserEl && teaserEl.closest('section');
+        if (teaserSec) ws.insertAdjacentElement('beforebegin', teaserSec);
         // Resume banner sits at the TOP: right under the hero on Home, and
         // (hero hidden there) first thing on the Mocks tab.
         var rs = document.getElementById('msrResumeSection');
@@ -21389,6 +22124,7 @@
         }
         if (opts.scroll !== false) window.scrollTo({ top: 0, behavior: 'instant' in window ? 'auto' : 'auto' });
         if (tab === 'results') ensureResultsFrame();
+        if (tab === 'apps') buildAppsTab();
         // Account tab: refresh the sign-in slot / admin locks / VIP badge
         // (normally done by the old drawer's open handler).
         if (tab === 'account') {
@@ -21428,6 +22164,55 @@
       });
       var initHash = (location.hash || '').replace(/^#/, '');
       setTab(TABS[initHash] ? initHash : 'home', { updateHash: false, scroll: false });
+
+      // ── Download Mock PDFs → the Mocks tab ──
+      // It sat in the account drawer among the sign-in rows, which is where it
+      // was built, not where it belongs: it downloads mocks. The element is
+      // MOVED rather than rebuilt, so its click handler and the admin padlock
+      // logic follow it untouched.
+      (function movePdfButton() {
+        var btn = document.getElementById('msv3PdfBtn');
+        var full = document.querySelector('main > section .secondary-card.full');
+        var host = full && full.closest('main > section');
+        if (!btn || !host) return;
+        var wrap = document.createElement('section');
+        wrap.className = 'section';
+        wrap.id = 'msv3PdfSection';
+        wrap.setAttribute('data-msv3sec', 'mocks');
+        wrap.appendChild(btn);
+        host.insertAdjacentElement('afterend', wrap);
+      })();
+
+      // ── Inspiration card in the rail ──
+      // The billboard publishes the list once it has resolved which centre it
+      // is showing, so this waits for it rather than keeping its own copy —
+      // and simply stays hidden if the billboard never reports in.
+      (function railQuote() {
+        var box = document.getElementById('railQuote');
+        if (!box) return;
+        var tries = 0;
+        var at = 0;
+        function paint(list) {
+          var q = list[at % list.length];
+          document.getElementById('railQuoteText').textContent = q.quote || '';
+          document.getElementById('railQuoteBy').textContent = q.author ? '— ' + q.author : '';
+          var im = document.getElementById('railQuoteImg');
+          if (q.img) { im.src = q.img; im.parentNode.style.display = ''; }
+          else { im.removeAttribute('src'); im.parentNode.style.display = 'none'; }
+          box.hidden = false;
+        }
+        (function wait() {
+          var list = window.__msv3Quotes;
+          if (list && list.length) {
+            // A different one each visit, then in order from there.
+            at = Math.floor(Math.random() * list.length);
+            paint(list);
+            box.addEventListener('click', function () { at++; paint(list); });
+            return;
+          }
+          if (tries++ < 60) setTimeout(wait, 120);
+        })();
+      })();
 
       // ── 4. Notifications proxy (reuses the existing bell handler) ──
       var rb = document.getElementById('railBellBtn');
