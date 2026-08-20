@@ -20307,6 +20307,36 @@
 
 
     /* ── Apps tab ── */
+    /* The tab is a short page — four cards and a sentence — so on a wide
+       screen it used to end in a lot of white. These are two soft washes and a
+       faint dot grid painted behind the section: no image to fetch, nothing
+       moving, and light enough that the screenshots stay the brightest thing
+       on it. */
+    #msv3AppsSection {
+      position: relative; border-radius: 24px; padding: 26px 24px 30px; overflow: hidden;
+      background:
+        radial-gradient(680px 300px at 12% -10%, rgba(99,102,241,.16), transparent 70%),
+        radial-gradient(560px 300px at 96% 8%, rgba(13,148,136,.14), transparent 70%),
+        linear-gradient(180deg, #f8fafc 0%, #ffffff 60%);
+    }
+    #msv3AppsSection::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background-image: radial-gradient(rgba(15,23,42,.055) 1px, transparent 1px);
+      background-size: 22px 22px;
+      -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 78%);
+      mask-image: linear-gradient(180deg, #000 0%, transparent 78%);
+    }
+    #msv3AppsSection > * { position: relative; z-index: 1; }
+    @media (prefers-color-scheme: dark) {
+      #msv3AppsSection {
+        background:
+          radial-gradient(680px 300px at 12% -10%, rgba(99,102,241,.22), transparent 70%),
+          radial-gradient(560px 300px at 96% 8%, rgba(13,148,136,.18), transparent 70%),
+          linear-gradient(180deg, #0b1220 0%, #0f172a 60%);
+      }
+      #msv3AppsSection::before { background-image: radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px); }
+    }
+    @media (max-width: 560px) { #msv3AppsSection { padding: 20px 16px 24px; border-radius: 20px; } }
     .apps-intro { color: var(--muted, #64748b); margin: -4px 0 18px; max-width: 62ch; line-height: 1.55; }
     .apps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
     .app-card {
@@ -20364,7 +20394,11 @@
       .app-laptop .base { background: linear-gradient(#475569, #334155); }
       .app-laptop .base::after { background: #334155; }
     }
-    .app-card h3 { margin: 0; font-size: 1.02rem; }
+    .app-card h3 {
+      margin: 0; font-size: 1.02rem; display: flex; align-items: center; gap: 9px;
+    }
+    .app-mark { width: 20px; height: 20px; flex: 0 0 auto; }
+    @media (prefers-color-scheme: dark) { .app-mark[fill="#0f172a"] { fill: #e2e8f0; } }
     .app-card p { margin: 0; color: var(--muted, #64748b); font-size: .87rem; line-height: 1.45; }
     .app-btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 6px; }
     .app-btn {
@@ -21083,13 +21117,27 @@
             '</svg></div><div class="base"></div></div>';
         }
 
-        function card(id, title, desc, shot, art, frame) {
+        // Platform marks. Apple's and Android's are the Simple Icons drawings,
+        // published CC0; Microsoft licenses its logo rather than releasing it,
+        // so Windows is the plain four-pane glyph drawn below rather than a
+        // copy of their artwork.
+        var MARK = {
+          windows: '<svg class="app-mark" viewBox="0 0 24 24" fill="#0ea5e9" aria-hidden="true">' +
+            '<path d="M2.4 4.6l8.2-1.15v8.02H2.4zM12.2 3.2L22.4 1.8v9.67H12.2zM2.4 12.53h8.2v8.02L2.4 19.4zM12.2 12.53h10.2v9.67L12.2 20.8z"/></svg>',
+          apple: '<svg class="app-mark" viewBox="0 0 24 24" fill="#0f172a" aria-hidden="true">' +
+            '<path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>',
+          android: '<svg class="app-mark" viewBox="0 0 24 24" fill="#3ddc84" aria-hidden="true">' +
+            '<path d="M18.4395 5.5586c-.675 1.1664-1.352 2.3318-2.0274 3.498-.0366-.0155-.0742-.0286-.1113-.043-1.8249-.6957-3.484-.8-4.42-.787-1.8551.0185-3.3544.4643-4.2597.8203-.084-.1494-1.7526-3.021-2.0215-3.4864a1.1451 1.1451 0 0 0-.1406-.1914c-.3312-.364-.9054-.4859-1.379-.203-.475.282-.7136.9361-.3886 1.5019 1.9466 3.3696-.0966-.2158 1.9473 3.3593.0172.031-.4946.2642-1.3926 1.0177C2.8987 12.176.452 14.772 0 18.9902h24c-.119-1.1108-.3686-2.099-.7461-3.0683-.7438-1.9118-1.8435-3.2928-2.7402-4.1836a12.1048 12.1048 0 0 0-2.1309-1.6875c.6594-1.122 1.312-2.2559 1.9649-3.3848.2077-.3615.1886-.7956-.0079-1.1191a1.1001 1.1001 0 0 0-.8515-.5332c-.5225-.0536-.9392.3128-1.0488.5449zm-.0391 8.461c.3944.5926.324 1.3306-.1563 1.6503-.4799.3197-1.188.0985-1.582-.4941-.3944-.5927-.324-1.3307.1563-1.6504.4727-.315 1.1812-.1086 1.582.4941zM7.207 13.5273c.4803.3197.5506 1.0577.1563 1.6504-.394.5926-1.1038.8138-1.584.4941-.48-.3197-.5503-1.0577-.1563-1.6504.4008-.6021 1.1087-.8106 1.584-.4941z"/></svg>'
+        };
+
+        function card(id, title, desc, shot, art, frame, mark) {
           return '<div class="app-card" id="' + id + '">' +
             (art || '') +
             (shot ? '<div class="app-phone ' + (frame || '') + '">' +
                     '<img src="' + shot + '" alt="' + title + ' app screenshot" ' +
                     'loading="lazy" decoding="async" width="460" height="997"></div>' : '') +
-            '<h3>' + title + '</h3><p>' + desc + '</p>' +
+            '<h3>' + (MARK[mark] || '') + '<span>' + title + '</span></h3>' +
+            '<p>' + desc + '</p>' +
             '<div class="app-btns"></div></div>';
         }
         function btn(host, label, href, ghost) {
@@ -21113,16 +21161,16 @@
         grid.innerHTML =
           card('appCardWin',
                'Windows', 'The full exam runner. Installs in a minute and updates itself.',
-               '', deskArt('#0ea5e9')) +
+               '', deskArt('#0ea5e9'), '', 'windows') +
           card('appCardMac',
                'macOS', 'Signed and notarised, so there is no security warning on first launch.',
-               '', deskArt('#475569')) +
+               '', deskArt('#475569'), '', 'apple') +
           card('appCardDroid',
                'Android', mob.store ? 'On Google Play.' : 'Installed from the file below. Updates arrive by themselves afterwards.',
-               ownShots ? '/images/apps/phone-home.png' : '', '', 'droid') +
+               ownShots ? '/images/apps/phone-home.png' : '', '', 'droid', 'android') +
           card('appCardIos',
                'iPhone / iPad', mob.store ? 'On the App Store.' : 'Through TestFlight, Apple own installer for pre-release apps.',
-               ownShots ? '/images/apps/phone-report.png' : '', '', 'ios');
+               ownShots ? '/images/apps/phone-report.png' : '', '', 'ios', 'apple');
 
         if (mob.ios) btn('appCardIos', mob.store ? 'App Store' : 'Join on TestFlight', mob.ios);
         if (mob.android) btn('appCardDroid', 'Google Play', mob.android);
