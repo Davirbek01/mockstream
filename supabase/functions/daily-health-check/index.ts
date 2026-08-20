@@ -171,7 +171,28 @@ function buildMessage(s: any, dead: string[]): string {
   if (sample) L.push(`  <i>${esc(String(sample).slice(0, 160))}</i>`);
   L.push('');
 
-  // 5. Function sweep
+  // 5. Clients left behind on an old build
+  //
+  // Since 5 Aug every client grades picture tasks from the text stored with
+  // the mock, so a vision call means the caller is running older code. The
+  // ones asking for the withdrawn model are worse than wasteful: they get no
+  // description at all, and the examiner grades a picture task having seen
+  // nothing. Small and shrinking on its own — this is here so that a centre
+  // freezing on an old build shows up the next morning rather than never.
+  const stale = s.stale_app || {};
+  if (Number(stale.total) > 0) {
+    L.push(`📱 <b>Old app builds</b> — ${stale.total} picture task(s) graded without the stored description`);
+    for (const s2 of (stale.by || []).slice(0, 6)) {
+      L.push(`  ${esc(s2.center || '?')} / ${esc(s2.platform || '?')}: ${s2.n}` +
+             (Number(s2.failed) ? ` (${s2.failed} got nothing back)` : ''));
+    }
+    if (Number(stale.retired) > 0) {
+      L.push(`  <i>${stale.retired} asked for a model Groq withdrew — those images were never described</i>`);
+    }
+    L.push('');
+  }
+
+  // 6. Function sweep
   if (dead.length) {
     L.push(`🔴 <b>Edge Functions with no code</b> (${dead.length}/${FUNCTIONS.length - 1})`);
     for (const d of dead) L.push(`  ${esc(d)}`);
@@ -193,8 +214,17 @@ Deno.serve(async (req) => {
 
   const { data: snap, error } = await sb.rpc('daily_health_snapshot', { p_days_back: daysBack });
   if (error) return json(500, { ok: false, error: error.message });
+  // A crash below used to answer a bare 'Internal Server Error' — nothing to
+  // act on, on a report nobody looks at until 08:00 the next morning.
+  if (!snap) return json(500, { ok: false, error: 'snapshot returned no rows' });
+  try {
 
-  const dead = await sweepFunctions();
+  // The sweep POSTs an empty body to every function, and some of them do real
+  // work when they get one (deliver-pending sends the backlog). At 03:00 that
+  // is free — nothing is pending — but a manual run in the middle of the day
+  // can outlast the worker. skip_sweep lets a by-hand run check the numbers
+  // without waking the rest of the estate.
+  const dead = body?.skip_sweep === true ? [] : await sweepFunctions();
   const text = buildMessage(snap, dead);
 
   // Keep the last report where the admin panel can read it, the same place
@@ -223,4 +253,7 @@ Deno.serve(async (req) => {
   }
 
   return json(200, { ok: true, day: snap?.day, dead_functions: dead, sent, sendError, text });
+  } catch (e) {
+    return json(500, { ok: false, error: String((e as any)?.stack || e).slice(0, 700) });
+  }
 });
