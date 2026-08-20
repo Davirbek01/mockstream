@@ -20497,7 +20497,7 @@
     .msv3-rail {
       display: none;
       position: fixed; top: 0; left: 0; bottom: 0;
-      width: 224px;
+      width: 244px;
       z-index: 95;
       background: linear-gradient(180deg, #1a1d24 0%, #23262e 100%);
       border-right: 1px solid rgba(255,255,255,0.06);
@@ -20528,18 +20528,43 @@
       color: #f1f5f9; font-weight: 800; font-size: 14.5px; letter-spacing: 0.01em;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0;
     }
-    .rail-items { display: flex; flex-direction: column; gap: 4px; }
+    .rail-items { display: flex; flex-direction: column; gap: 6px; }
     .rail-item {
       position: relative;
       display: flex; align-items: center; gap: 12px;
       width: 100%;
-      padding: 11px 12px;
-      border-radius: 11px;
-      color: #cbd5e1; font-size: 13.5px; font-weight: 600; letter-spacing: 0.01em;
+      padding: 9px 12px;
+      border-radius: 14px;
+      color: #cbd5e1; font-size: 15px; font-weight: 600; letter-spacing: 0.01em;
       text-align: left;
       transition: background 160ms ease, color 160ms ease;
     }
-    .rail-item svg { width: 18px; height: 18px; flex: 0 0 auto; }
+    .rail-item svg { flex: 0 0 auto; }
+    /* ── Rail icons in tinted tiles ──
+       A line drawing on a dark panel is thin and easy to miss. Each icon now
+       sits in a rounded tile carrying its own colour, the way a settings list
+       does — the tile is what the eye finds, the label only confirms it. The
+       selected row fills its tile solid and turns the glyph white. */
+    .rail-item svg {
+      width: 34px; height: 34px; padding: 7px; border-radius: 10px;
+      background: rgba(255,255,255,0.06); box-sizing: border-box;
+      transition: background 160ms ease, color 160ms ease;
+    }
+    .rail-item[data-msv3-go="home"] svg { background: rgba(129,140,248,0.16); color: #818cf8; }
+    .rail-item[data-msv3-go="home"].active svg { background: #818cf8; color: #0f172a; }
+    .rail-item[data-msv3-go="mocks"] svg { background: rgba(167,139,250,0.16); color: #a78bfa; }
+    .rail-item[data-msv3-go="mocks"].active svg { background: #a78bfa; color: #0f172a; }
+    .rail-item[data-msv3-go="exams"] svg { background: rgba(251,191,36,0.16); color: #fbbf24; }
+    .rail-item[data-msv3-go="exams"].active svg { background: #fbbf24; color: #0f172a; }
+    .rail-item[data-msv3-go="learn"] svg { background: rgba(52,211,153,0.16); color: #34d399; }
+    .rail-item[data-msv3-go="learn"].active svg { background: #34d399; color: #0f172a; }
+    .rail-item[data-msv3-go="results"] svg { background: rgba(56,189,248,0.16); color: #38bdf8; }
+    .rail-item[data-msv3-go="results"].active svg { background: #38bdf8; color: #0f172a; }
+    .rail-item[data-msv3-go="apps"] svg { background: rgba(244,114,182,0.16); color: #f472b6; }
+    .rail-item[data-msv3-go="apps"].active svg { background: #f472b6; color: #0f172a; }
+    .rail-item[data-msv3-go="account"] svg { background: rgba(251,113,133,0.16); color: #fb7185; }
+    .rail-item[data-msv3-go="account"].active svg { background: #fb7185; color: #0f172a; }
+
     .rail-item:hover { background: rgba(255,255,255,0.06); color: #ffffff; }
     .rail-item.active {
       background: linear-gradient(135deg, rgba(99,102,241,0.28), rgba(79,70,229,0.22));
@@ -20701,7 +20726,7 @@
     }
     .rail-item[data-msv3-go="account"].active::before { background: #f43f5e; }
 
-    .rail-item.active svg { filter: saturate(1.25) brightness(1.15); }
+
     .gb-item svg { transition: transform 160ms ease; }
     .gb-item.active svg { transform: translateY(-1px) scale(1.06); }
 
@@ -20974,7 +20999,7 @@
 
     @media (min-width: 1024px) {
       .msv3-rail { display: flex; }
-      body { padding-left: 224px; }
+      body { padding-left: 244px; }
       /* Topbar dissolves into a floating top-right cluster: Obuna pill + bell */
       .topbar {
         position: fixed !important;
