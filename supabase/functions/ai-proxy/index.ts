@@ -323,6 +323,7 @@ async function logCall(opts: {
   userAgent:string;
   centerId: string;
   provider: string;
+  endpoint?: string;
   skill:    string;
   status:   string;
   studentName?: string;
@@ -339,6 +340,7 @@ async function logCall(opts: {
       student_name:  opts.studentName || null,
       user_email:    opts.userEmail || null,
       provider:      opts.provider,
+      endpoint:      opts.endpoint || null,
       skill:         opts.skill || null,
       status:        opts.status,
       bytes_in:      opts.bytesIn  ?? null,
@@ -362,6 +364,20 @@ Deno.serve(async (req) => {
   const restPath  = segs.join('/');
   const search    = url.search;
 
+  // Which lane of the provider this is. One Groq key serves two services —
+  // the scorer (chat/completions) and the transcriber (audio/transcriptions) —
+  // and logged as one provider they mask each other: Whisper refusing every
+  // file looks exactly like a quiet day for the scorer, while every speaking
+  // answer goes out at 0. Logged per call so the watcher can name the one
+  // that is actually down.
+  const lane = (() => {
+    const p = restPath.toLowerCase();
+    if (p.includes('audio/transcriptions') || p.includes('audio/translations')) return 'transcribe';
+    if (p.includes('chat/completions') || p.includes('generatecontent') ||
+        p.endsWith('v1/messages') || p.includes('/responses')) return 'chat';
+    return restPath.slice(0, 40) || 'other';
+  })();
+
   if (!provider) {
     return jsonErr(400, 'missing_provider',
       'Use /functions/v1/ai-proxy/<gemini|openai|claude|grok|deepseek|assemblyai|groq>/<provider-path>');
@@ -377,13 +393,13 @@ Deno.serve(async (req) => {
 
   // -------- gate 1: IP blocklist --------
   if (await isIpBlocked(ip)) {
-    logCall({ ip, userAgent, centerId, provider, skill: skillHint, studentName, userEmail, status: 'blocked_ip', errorMessage: ip });
+    logCall({ ip, userAgent, centerId, provider, endpoint: lane, skill: skillHint, studentName, userEmail, status: 'blocked_ip', errorMessage: ip });
     return jsonErr(403, 'blocked_ip', ip);
   }
 
   // -------- gate 6: per-account block (Google email) --------
   if (await isEmailBlocked(userEmail, centerId)) {
-    logCall({ ip, userAgent, centerId, provider, skill: skillHint, studentName, userEmail, status: 'blocked_email', errorMessage: userEmail });
+    logCall({ ip, userAgent, centerId, provider, endpoint: lane, skill: skillHint, studentName, userEmail, status: 'blocked_email', errorMessage: userEmail });
     return jsonErr(403, 'blocked_email',
       `Account ${userEmail} is blocked for center ${centerId}.`);
   }
@@ -391,7 +407,7 @@ Deno.serve(async (req) => {
   // -------- gate 2: center whitelist --------
   const gate = await getCenterGate(centerId);
   if (!gate.allowed) {
-    logCall({ ip, userAgent, centerId, provider, skill: skillHint, studentName, userEmail, status: 'bad_center', errorMessage: centerId });
+    logCall({ ip, userAgent, centerId, provider, endpoint: lane, skill: skillHint, studentName, userEmail, status: 'bad_center', errorMessage: centerId });
     return jsonErr(403, 'unknown_or_inactive_center',
       `centerId="${centerId}" not present in Center Hub or marked inactive.`);
   }
@@ -409,7 +425,7 @@ Deno.serve(async (req) => {
   };
   const plusKey = plusSkillMap[skillHint];
   if (plusKey && gate.plus[plusKey] === false) {
-    logCall({ ip, userAgent, centerId, provider, skill: skillHint, studentName, userEmail,
+    logCall({ ip, userAgent, centerId, provider, endpoint: lane, skill: skillHint, studentName, userEmail,
               status: 'plus_disabled', errorMessage: `${plusKey}=false for ${centerId}` });
     return jsonErr(403, 'plus_mode_disabled',
       `${plusKey} is disabled for centre "${centerId}". Contact your centre admin.`);
@@ -417,14 +433,14 @@ Deno.serve(async (req) => {
 
   // -------- gate 3: per-IP rate limit --------
   if (await ipRateExceeded(ip)) {
-    logCall({ ip, userAgent, centerId, provider, skill: skillHint, studentName, userEmail, status: 'rate_limited' });
+    logCall({ ip, userAgent, centerId, provider, endpoint: lane, skill: skillHint, studentName, userEmail, status: 'rate_limited' });
     return jsonErr(429, 'rate_limited',
       `>${RATE_LIMIT_PER_10MIN} calls in 10 min from this IP.`);
   }
 
   // -------- gate 4: per-center daily cap --------
   if (await dailyCapExceeded(centerId, gate.dailyCap)) {
-    logCall({ ip, userAgent, centerId, provider, skill: skillHint, studentName, userEmail, status: 'rate_limited',
+    logCall({ ip, userAgent, centerId, provider, endpoint: lane, skill: skillHint, studentName, userEmail, status: 'rate_limited',
              errorMessage: `daily_cap ${gate.dailyCap}` });
     return jsonErr(429, 'daily_cap_exceeded',
       `Center ${centerId} hit cap of ${gate.dailyCap}/day.`);
@@ -432,7 +448,7 @@ Deno.serve(async (req) => {
 
   // -------- gate 5: per-student daily cap --------
   if (await studentCapExceeded(centerId, userEmail, ip, gate.perStudentCap)) {
-    logCall({ ip, userAgent, centerId, provider, skill: skillHint, studentName, userEmail, status: 'rate_limited',
+    logCall({ ip, userAgent, centerId, provider, endpoint: lane, skill: skillHint, studentName, userEmail, status: 'rate_limited',
              errorMessage: `student_cap ${gate.perStudentCap}` });
     const who = userEmail ? `email ${userEmail}` : `IP ${ip}`;
     return jsonErr(429, 'student_cap_exceeded',
@@ -503,7 +519,7 @@ Deno.serve(async (req) => {
   }
 
   if (!upstream) {
-    logCall({ ip, userAgent, centerId, provider, skill: skillHint, studentName, userEmail, status: 'provider_error',
+    logCall({ ip, userAgent, centerId, provider, endpoint: lane, skill: skillHint, studentName, userEmail, status: 'provider_error',
              errorMessage: String(lastErr || 'fetch_failed').slice(0, 500) });
     return jsonErr(502, 'upstream_fetch_failed', String(lastErr || 'fetch_failed'));
   }
@@ -511,7 +527,7 @@ Deno.serve(async (req) => {
   // Mark which key index served it when >1 configured.
   const keyTag = (providerKeys.length > 1) ? `key#${usedKeyIdx + 1}` : '';
   const logOk = () => logCall({
-    ip, userAgent, centerId, provider, skill: skillHint, studentName, userEmail,
+    ip, userAgent, centerId, provider, endpoint: lane, skill: skillHint, studentName, userEmail,
     status: 'ok', errorMessage: keyTag,
   });
   // A refusal is logged with the provider's own words. `HTTP 400` alone said
@@ -520,7 +536,7 @@ Deno.serve(async (req) => {
   // costs nothing to keep - trimmed to 300 characters, which holds the
   // provider's message and not a student's essay.
   const logFail = (detail: string) => logCall({
-    ip, userAgent, centerId, provider, skill: skillHint, studentName, userEmail,
+    ip, userAgent, centerId, provider, endpoint: lane, skill: skillHint, studentName, userEmail,
     status: 'provider_error',
     errorMessage: (`HTTP ${upstream!.status}${keyTag ? ` (${keyTag})` : ''}` +
                    (detail ? ` ${detail}` : '')).slice(0, 400),
