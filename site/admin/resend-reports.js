@@ -119,6 +119,46 @@
   // ONE place. They used to live here as well, and two copies of a rule drift
   // apart the moment one of them is edited.
 
+  var CSS = [
+    '.rsr-wrap{padding:16px 18px;font-family:inherit}',
+    '.rsr-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin-bottom:14px}',
+    '.rsr-f{display:flex;flex-direction:column;gap:4px}',
+    '.rsr-f label{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#94a3b8;font-weight:700}',
+    '.rsr-f select,.rsr-f input{padding:8px 10px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;background:#fff;color:#111}',
+    '.rsr-btn{padding:9px 16px;border-radius:9px;border:none;font-weight:700;cursor:pointer;font-size:14px}',
+    '.rsr-btn.p{background:#116a60;color:#fff}.rsr-btn.p:disabled{background:#9ca3af;cursor:not-allowed}',
+    '.rsr-btn.s{background:#eef2f7;color:#334155}',
+    '.rsr-mode{display:flex;gap:14px;align-items:center;font-size:13px;color:#334155}',
+    '.rsr-mode label{display:flex;gap:5px;align-items:center;cursor:pointer;font-weight:600}',
+    '.rsr-note{font-size:12px;color:#b45309;background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;padding:8px 10px;margin:8px 0 12px;display:none}',
+    '.rsr-tbl{width:100%;border-collapse:collapse;font-size:14px}',
+    '.rsr-tbl th{background:#f8fafc;color:#475569;font-size:11px;text-transform:uppercase;letter-spacing:.5px;padding:8px;text-align:left;border-bottom:2px solid #e2e8f0;position:sticky;top:0}',
+    '.rsr-tbl td{padding:8px;border-bottom:1px solid #f1f5f9;vertical-align:middle}',
+    '.rsr-tbl tr:hover td{background:#f8fafc}',
+    '.rsr-sc{font-weight:700;color:#0f172a}',
+    '.rsr-badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;background:#eef2f7;color:#475569}',
+    '.rsr-st{font-size:12px;font-weight:700}.rsr-st.ok{color:#16a34a}.rsr-st.no{color:#dc2626}.rsr-st.go{color:#2563eb}',
+    '.rsr-miss td{background:#fef2f2}.rsr-miss:hover td{background:#fee2e2}',
+    '.rsr-miss td:first-child{box-shadow:inset 3px 0 0 #dc2626}',
+    '.rsr-dlv{white-space:nowrap}',
+    '.rsr-yes{color:#16a34a;font-weight:700}',
+    '.rsr-no{color:#dc2626;font-weight:700;font-size:12px}',
+    '.rsr-unk{color:#cbd5e1;font-weight:700;cursor:help}',
+    '.rsr-prac{display:inline-block;padding:1px 7px;border-radius:20px;font-size:10px;font-weight:700;background:#fef3c7;color:#92400e;margin-left:4px}',
+    '.rsr-exam{display:inline-block;padding:1px 7px;border-radius:20px;font-size:10px;font-weight:800;letter-spacing:.03em;background:rgba(99,102,241,.14);color:#4338ca;margin-left:4px}',
+    '.rsr-empty{padding:36px;text-align:center;color:#94a3b8}',
+    '.rsr-count{margin-left:auto;font-size:13px;color:#64748b;font-weight:600}'
+  ].join('');
+
+  function ensureCss() {
+    if (document.getElementById('rsr-css')) return;
+    var s = document.createElement('style');
+    s.id = 'rsr-css';
+    s.textContent = CSS;
+    document.head.appendChild(s);
+  }
+
+
   var state = { rows: [], busy: false, batch: null, watchStop: null };
 
   /** One line of feedback, in the slot the row count already occupies. */
