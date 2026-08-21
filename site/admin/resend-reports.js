@@ -36,14 +36,23 @@
     'achievers':   'Achievers Mocks',
     'record':      'Multilevel Record'
   };
-  // The two skills whose reports actually get re-sent by hand. Reading and
-  // listening are marked instantly and rarely need rescuing; a full mock is
-  // five reports in one and belongs to a different conversation. Add to this
-  // list to bring a skill back — nothing else needs changing.
-  var SKILLS = ['speaking', 'writing'];
+  // The skills whose reports get rescued by hand. Reading and listening are
+  // marked instantly and rarely need it. Add to this list to bring one back —
+  // the filter label and the row filter both read from here, so nothing else
+  // needs changing.
+  var SKILLS = ['speaking', 'writing', 'full-mock'];
   var SKILL_ICON = {
     speaking: '🎤', writing: '✍️', reading: '📖', listening: '🎧', 'full-mock': '🎯'
   };
+
+  /** "Speaking + Writing + Full mock" — built from SKILLS so the label can
+   *  never disagree with what the panel actually shows. */
+  function allSkillsLabel() {
+    return SKILLS.map(function (s) {
+      var t = s.replace('-', ' ');
+      return t.charAt(0).toUpperCase() + t.slice(1);
+    }).join(' + ');
+  }
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -285,7 +294,7 @@
           '<div class="rsr-f"><label>Date</label><input type="date" id="rsrDate" value="' + todayISO() + '"></div>' +
           '<div class="rsr-f"><label>Centre</label><select id="rsrCentre">' + centreOpts + '</select></div>' +
           '<div class="rsr-f"><label>Skill</label><select id="rsrSkill">' +
-            '<option value="">Speaking + Writing</option>' + skillOpts + '</select></div>' +
+            '<option value="">' + esc(allSkillsLabel()) + '</option>' + skillOpts + '</select></div>' +
           '<div class="rsr-f"><label>Type</label><select id="rsrType">' +
             '<option value="all">All</option>' +
             '<option value="full">Full mocks</option>' +
