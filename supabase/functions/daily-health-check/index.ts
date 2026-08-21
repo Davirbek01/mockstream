@@ -124,7 +124,15 @@ function spendSection(rows: any[], prices: any, gcp: GcpSpend | null): string[] 
     const key = `${r.provider}/${r.lane}`;
     const p = prices[key] || prices[`${r.provider}/all`];
     blind += Number(r.no_usage || 0);
-    if (!p) { unpriced++; continue; }
+    if (!p) {
+      // Rows logged before ai-proxy recorded the lane land in 'all' and carry
+      // no usage at all, so they cost nothing to price and nothing to skip.
+      // Counting them as "no price set" made the report nag about history.
+      const nothingToPrice = r.lane === 'all' &&
+        !Number(r.tokens_in) && !Number(r.tokens_out) && !Number(r.audio_sec) && !Number(r.bytes_in);
+      if (!nothingToPrice) unpriced++;
+      continue;
+    }
 
     let usd = 0;
     let note = '';
@@ -220,9 +228,18 @@ function buildMessage(s: any, dead: string[], spend: any[], prices: any, gcp: Gc
   L.push('');
 
   // 2. Telegram delivery
-  const gapLine = `${tg.gap} (${tg.gap_pct}%, usual ${tg.gap_pct_7d}%)`;
-  L.push(`📨 <b>Telegram</b> — sent ${tg.submissions}, failures ${tg.failed}`);
-  L.push(`  not delivered: ${gapLine}`);
+  //
+  // A NEGATIVE gap is normal and used to be printed as "-23% not delivered",
+  // which is not a number that can exist. Two causes, both benign: the sweep
+  // delivers the previous evening's stragglers after midnight, and a re-send
+  // writes its own key. Say what actually happened instead of the arithmetic.
+  L.push(`📨 <b>Telegram</b> — sent ${tg.submissions}, failures ${tg.failed}` +
+         (Number(tg.resends) ? ` · ${tg.resends} re-sent by hand` : ''));
+  if (Number(tg.gap) > 0) {
+    L.push(`  not delivered: ${tg.gap} (${tg.gap_pct}%, usual ${tg.gap_pct_7d}%)`);
+  } else {
+    L.push(`  ✅ every report delivered <i>(${Math.abs(Number(tg.gap))} of them last night's, arriving after midnight)</i>`);
+  }
   // A send carries the id of its submission, so a miss can be named — but only
   // once most clients send that way. Below that, the names would be a list of
   // everyone on an old build rather than everyone who lost a report.

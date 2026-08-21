@@ -153,6 +153,15 @@ export async function gcpSpend(daysBack: number): Promise<GcpSpend | null> {
     `);
 
     const by = rows.map((r) => ({ service: String(r.service || '?'), cost: Number(r.cost) }));
+    if (!by.length) {
+      // The table exists but Google has not written to it. Saying "$0.00" here
+      // would read as "we spent nothing", which is a different claim entirely —
+      // the export starts empty and fills within a day of being switched on.
+      const any = await bq(token, `select count(*) as n from \`${PROJECT}.${DATASET}.${tables[0]}\``);
+      const n = Number(any[0]?.n || 0);
+      if (!n) return { day: '', total: 0, by: [], tables: tables.length,
+                       note: 'export connected, Google has not written any rows yet (first data lands within a day)' };
+    }
     return {
       day: rows[0]?.day || '',
       total: by.reduce((a, b) => a + b.cost, 0),
