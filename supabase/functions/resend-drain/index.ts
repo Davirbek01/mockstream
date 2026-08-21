@@ -186,13 +186,15 @@ Deno.serve(async (req) => {
     return json(200, { ok: true, dry_run: true, due: (peek || []).length, rows: peek || [] });
   }
 
-  // A run that died mid-flight leaves rows marked 'sending' for ever. Anything
-  // stuck for more than ten minutes goes back in the queue — worst case a
-  // report is sent twice, which is far better than never.
+  // A run that died mid-flight leaves rows marked 'sending'. Recover on
+  // claimed_at, not created_at — a paced batch is queued once and claimed
+  // hours later, so created_at would strand exactly the rows this is for.
+  // Three minutes: longer than any single send, short enough that a dead run
+  // costs one cron tick rather than ten.
   await sb.from('resend_queue')
-    .update({ status: 'queued' })
+    .update({ status: 'queued', claimed_at: null })
     .eq('status', 'sending')
-    .lt('created_at', new Date(Date.now() - 10 * 60_000).toISOString());
+    .lt('claimed_at', new Date(Date.now() - 3 * 60_000).toISOString());
 
   const { data: due, error } = await sb.rpc('resend_take_due', { p_limit: limit });
   if (error) return json(500, { ok: false, error: error.message });
@@ -201,13 +203,40 @@ Deno.serve(async (req) => {
   let sent = 0;
   const failed: any[] = [];
   for (const row of rows) {
-    const res = await sendOne(row);            // serial: the channel has rate limits
+    // A throw here used to end the whole run — the first batch of three sent
+    // one report and left the other two claimed but never sent. Whatever one
+    // report does, the rest of the queue still gets its turn.
+    let res: { ok: boolean; error?: string };
+    try {
+      res = await sendOne(row);                // serial: the channel has rate limits
+    } catch (e) {
+      res = { ok: false, error: String((e as any)?.message || e).slice(0, 200) };
+    }
     if (res.ok) {
       sent++;
-      await sb.from('resend_queue').update({ status: 'sent', sent_at: new Date().toISOString() }).eq('id', row.queue_id);
+      // Marking it sent matters more than anything else in this loop: an
+      // unmarked row is a report the next tick would send AGAIN.
+      await sb.from('resend_queue')
+        .update({ status: 'sent', sent_at: new Date().toISOString() })
+        .eq('id', row.queue_id);
       if (row.in_dashboard) {
-        await sb.rpc('record_report_resend', { p_result_id: row.result_id, p_in_dashboard: true })
-          .catch(() => { /* the send is what matters; the dashboard row is a bonus */ });
+        // Written straight into the table, not through record_report_resend():
+        // that function demands a super-admin JWT and this runs with the
+        // service role, so every call was refused and no dashboard row
+        // appeared. The admin who asked is carried on the queue row.
+        //
+        // try/catch, NOT .catch() — a supabase query builder is only
+        // PromiseLike, so .catch on it throws a TypeError, and it threw AFTER
+        // the report had gone. That is what stranded the rest of the batch
+        // twice tonight: one report sent, the run dead, the rest left claimed
+        // and silent.
+        try {
+          await sb.from('report_resends').insert({
+            result_id: row.result_id,
+            by_email: row.requested_by || 'admin',
+            in_dashboard: true,
+          });
+        } catch (_e) { /* the send is what matters; the dashboard row is a bonus */ }
       }
     } else {
       failed.push({ id: row.result_id, error: res.error });

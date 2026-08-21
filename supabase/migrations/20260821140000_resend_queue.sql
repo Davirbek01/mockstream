@@ -29,3 +29,20 @@
 -- live in the Edge Function. They used to exist in the panel as well, and two
 -- copies of a rule drift apart the moment one is edited — the panel's copies
 -- were deleted rather than left behind.
+
+-- ── Same evening, after the first live batch ────────────────────────────────
+-- Three full mocks were queued; one went and two sat in 'sending' for ever.
+-- Three faults, each hidden by the one before it:
+--
+--  1. `sb.rpc(...).catch(...)` — a supabase query builder is only PromiseLike,
+--     so .catch on it throws a TypeError. It threw AFTER the report had been
+--     sent, killing the run and stranding the rest of the batch.
+--  2. record_report_resend() demands a super-admin JWT and the drain runs with
+--     the service role, so every dashboard row was refused. The drain now
+--     writes report_resends directly and carries requested_by from the queue.
+--  3. Recovery keyed on created_at, which is when a row was QUEUED — a paced
+--     batch is queued once and claimed hours later, so it would have stranded
+--     exactly the rows it exists for. Added claimed_at; recovery is 3 minutes.
+--
+-- Also: a throw inside the per-row send is now caught per row. One report
+-- failing must never cost the rest of the queue its turn.
