@@ -16,3 +16,23 @@
 -- ============================================================================
 -- (Function body applied via SQL; see the deployed definition — this file
 --  records WHY, and the change is a two-line filter in the tg / tg_week CTEs.)
+
+-- ── Follow-up the same morning ──────────────────────────────────────────────
+-- Davirbek asked the right question: would a report HE re-sent by hand now be
+-- reported as a failure? It would have. A re-send is keyed
+-- 'resend-<row id>-<epoch>' (the timestamp so a second re-send is not deduped
+-- against the first), and the missing-report list only matched bare row ids —
+-- so a report rescued through the panel still counted as never delivered.
+--
+--   tg_result_id(idem_key)  unwraps that key back to the row it rescued.
+--
+-- With every send resolving to a row id, the day's figure changed from
+-- "messages sent" to "reports delivered": of the reports taken today, how many
+-- reached Telegram. That cannot exceed the day's total, so the negative
+-- percentages are gone by construction rather than by special-casing.
+--
+--   tg_delivery_baseline(days, offset)  the 7-day comparison, counting ONLY
+--   days whose sends carried the report id. Sends became id-keyed on 20 Aug
+--   2026: 13-18 Aug read as "5% delivered" because there was nothing to match,
+--   not because anything was lost. Days under half are treated as unmeasurable
+--   and the digest says "baseline building" until three exist.
