@@ -138,6 +138,8 @@
     '.rsr-sc{font-weight:700;color:#0f172a}',
     '.rsr-badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;background:#eef2f7;color:#475569}',
     '.rsr-st{font-size:12px;font-weight:700}.rsr-st.ok{color:#16a34a}.rsr-st.no{color:#dc2626}.rsr-st.go{color:#2563eb}',
+    '.rsr-queue{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:#0f766e;background:#ecfdf5;border:1px solid #99f6e4;border-radius:10px;padding:6px 12px}',
+    '.rsr-qnote{font-size:11px;color:#64748b}',
     '.rsr-miss td{background:#fef2f2}.rsr-miss:hover td{background:#fee2e2}',
     '.rsr-miss td:first-child{box-shadow:inset 3px 0 0 #dc2626}',
     '.rsr-dlv{white-space:nowrap}',
@@ -159,7 +161,7 @@
   }
 
 
-  var state = { rows: [], busy: false, batch: null, watchStop: null };
+  var state = { rows: [], polling: false, pollTimer: null };
 
   /** One line of feedback, in the slot the row count already occupies. */
   function flash(container, msg) {
@@ -212,6 +214,7 @@
           '</div>' +
           '<button class="rsr-btn p" id="rsrSend" disabled>Send to channel</button>' +
           '<button class="rsr-btn" id="rsrStop" style="display:none">Stop</button>' +
+          '<span class="rsr-queue" id="rsrQueue" style="display:none"></span>' +
         '</div>' +
         '<div class="rsr-note" id="rsrNote">⚠️ “Today” moves the date line and every dated hashtag ' +
           '(#centre_dd_mm_yy, #all_dd_mm_yy) to today — the work will be counted on today in the channel statistics.</div>' +
@@ -228,7 +231,7 @@
     });
     container.querySelector('#rsrSend').addEventListener('click', function () { send(container); });
     var stopBtn = container.querySelector('#rsrStop');
-    if (stopBtn) stopBtn.addEventListener('click', function () { cancelBatch(container); });
+    if (stopBtn) stopBtn.addEventListener('click', function () { cancelQueue(container); });
     container.querySelectorAll('input[name="rsrDateMode"]').forEach(function (el) {
       el.addEventListener('change', function () {
         container.querySelector('#rsrNote').style.display = (el.value === 'today' && el.checked) ? 'block' : 'none';
@@ -304,15 +307,24 @@
     }
   }
 
+  /** The Send button, relabelled from whatever is ticked right now.
+   *
+   *  Separate from wireTable because wireTable ATTACHES listeners: the poller
+   *  calls this every few seconds, and calling wireTable there would stack a
+   *  fresh set of handlers on every tick. */
+  function refreshSendBtn(container) {
+    var n = [].slice.call(container.querySelectorAll('.rsr-cb'))
+      .filter(function (b) { return b.checked; }).length;
+    var btn = container.querySelector('#rsrSend');
+    if (!btn) return;
+    btn.disabled = !n;
+    btn.textContent = n ? 'Send ' + n + ' to channel' : 'Send to channel';
+  }
+
   function wireTable(container) {
     var all = container.querySelector('#rsrAll');
     var boxes = [].slice.call(container.querySelectorAll('.rsr-cb'));
-    function refresh() {
-      var n = boxes.filter(function (b) { return b.checked; }).length;
-      var btn = container.querySelector('#rsrSend');
-      btn.disabled = !n || state.busy;
-      btn.textContent = n ? 'Send ' + n + ' to channel' : 'Send to channel';
-    }
+    function refresh() { refreshSendBtn(container); }
     if (all) all.addEventListener('change', function () {
       boxes.forEach(function (b) { b.checked = all.checked; });
       refresh();
@@ -322,7 +334,6 @@
   }
 
   async function send(container) {
-    if (state.busy) return;
     var mode = (container.querySelector('input[name="rsrDateMode"]:checked') || {}).value || 'original';
     var dashEl = container.querySelector('#rsrDash');
     var inDashboard = !dashEl || dashEl.checked;
@@ -332,14 +343,11 @@
       .map(function (b) { return parseInt(b.dataset.i, 10); });
     if (!picked.length) return;
 
-    state.busy = true;
     var btn = container.querySelector('#rsrSend');
     btn.disabled = true;
-    btn.textContent = 'Queueing…';
+    btn.textContent = 'Queueing...';
 
     var ids = picked.map(function (i) { return state.rows[i].id; });
-    var byId = {};
-    picked.forEach(function (i) { byId[state.rows[i].id] = i; });
 
     var res;
     try {
@@ -348,83 +356,119 @@
         p_in_dashboard: inDashboard, p_interval_seconds: pace
       });
     } catch (e) {
-      state.busy = false;
-      btn.disabled = false;
-      btn.textContent = 'Send';
       flash(container, 'Could not queue: ' + e.message);
+      refreshSendBtn(container);
       return;
     }
 
-    var batch = (res && res[0] && res[0].batch_id) || null;
     var queued = (res && res[0] && res[0].queued) || 0;
-    if (!batch || !queued) {
-      state.busy = false; btn.disabled = false; btn.textContent = 'Send';
-      flash(container, 'Nothing to queue — those rows have no stored report.');
+    var skipped = (res && res[0] && res[0].skipped) || 0;
+    if (!queued) {
+      flash(container, skipped
+        ? skipped + ' already waiting in the queue \u2014 nothing added.'
+        : 'Nothing to queue \u2014 those rows have no stored report.');
+      refreshSendBtn(container);
       return;
     }
 
-    state.batch = batch;
+    // Untick what has just been handed over. The queue owns those reports
+    // now, and an unticked row cannot be sent again by an impatient second
+    // press.
     picked.forEach(function (i) {
+      var cb = container.querySelector('.rsr-cb[data-i="' + i + '"]');
+      if (cb) cb.checked = false;
       var cell = container.querySelector('[data-st="' + i + '"]');
       if (cell) { cell.className = 'rsr-st go'; cell.textContent = 'queued'; }
     });
-    showStop(container, true);
-    watch(container, batch, byId, queued);
+    var all = container.querySelector('#rsrAll');
+    if (all) all.checked = false;
+    flash(container, 'Queued ' + queued + ' for the channel' +
+      (skipped ? ' \u00b7 ' + skipped + ' already waiting' : ''));
+    refreshSendBtn(container);
+    poll(container, true);
   }
 
-  /** Follow the batch the server is working through.
+  /** Follow the QUEUE, not one batch.
    *
-   *  The polling lives in the page, but nothing depends on it: close the tab
-   *  and the cron finishes the batch anyway. This only paints what already
-   *  happened. */
-  function watch(container, batch, byId, total) {
-    var btn = container.querySelector('#rsrSend');
-    var stop = false;
-    state.watchStop = function () { stop = true; };
+   *  The first version followed the batch it had just created, in a closure
+   *  that died with the page. Leaving the panel and coming back left it
+   *  frozen on whatever it had last seen - one report sent of four - so the
+   *  admin pressed Send again and every report went to the channel twice.
+   *
+   *  Now the panel asks the server what is in the queue, every few seconds,
+   *  for as long as it is on screen. Nothing is remembered between visits and
+   *  nothing needs to be: reopen it, or open it in a second tab, and it shows
+   *  the same true state. The sending itself never depended on this. */
+  function poll(container, force) {
+    if (state.polling && !force) return;
+    state.polling = true;
+    if (state.pollTimer) { clearTimeout(state.pollTimer); state.pollTimer = null; }
 
     (async function tick() {
-      if (stop) return;
-      var rows = [];
-      try { rows = await rpc('resend_batch_rows', { p_batch: batch }); } catch (e) { /* keep watching */ }
-      var done = 0, failed = 0, pending = 0;
-      (rows || []).forEach(function (r) {
-        var i = byId[r.result_id];
-        var cell = (i === undefined) ? null : container.querySelector('[data-st="' + i + '"]');
-        if (r.status === 'sent') {
-          done++;
-          if (cell) { cell.className = 'rsr-st ok'; cell.textContent = '✓ sent'; }
-          var cb = (i === undefined) ? null : container.querySelector('.rsr-cb[data-i="' + i + '"]');
-          if (cb) cb.checked = false;
-        } else if (r.status === 'failed') {
-          failed++;
-          if (cell) { cell.className = 'rsr-st no'; cell.textContent = '✗ ' + (r.error || 'failed'); }
-        } else if (r.status === 'cancelled') {
-          if (cell) { cell.className = 'rsr-st'; cell.textContent = 'cancelled'; }
-        } else {
-          pending++;
-          if (cell && cell.textContent.indexOf('✓') < 0) {
-            var due = r.send_after ? new Date(r.send_after) : null;
-            var wait = due ? Math.max(0, Math.round((due - Date.now()) / 1000)) : 0;
-            cell.className = 'rsr-st go';
-            cell.textContent = r.status === 'sending' ? 'sending…'
-                             : (wait > 5 ? 'in ' + (wait >= 60 ? Math.round(wait / 60) + ' min' : wait + 's') : 'queued');
-          }
-        }
-      });
-
-      btn.textContent = pending
-        ? 'Sending ' + (done + failed) + '/' + total + '…'
-        : 'Sent ' + done + (failed ? ' · ' + failed + ' failed' : '');
-
-      if (!pending) {
-        state.busy = false;
-        btn.disabled = false;
-        showStop(container, false);
-        setTimeout(function () { wireTable(container); }, 1200);
-        return;
-      }
-      setTimeout(tick, 4000);
+      // A panel that has been closed and re-rendered has nothing to paint.
+      if (container.isConnected === false) { state.polling = false; return; }
+      var rows = null;
+      try { rows = await rpc('resend_queue_active'); } catch (e) { /* try again */ }
+      // A failed poll is NOT an empty queue. The old loop drew exactly that
+      // conclusion and declared the batch finished.
+      var wait = 15000;
+      if (rows) wait = paintQueue(container, rows) ? 4000 : 15000;
+      state.pollTimer = setTimeout(tick, wait);
     })();
+  }
+
+  /** Paint the queue onto the strip and the rows. Returns true while work is
+   *  still waiting, so the poller knows to come back sooner. */
+  function paintQueue(container, rows) {
+    var byId = {};
+    state.rows.forEach(function (r, i) { byId[r.id] = i; });
+
+    var pending = 0, sent = 0, failed = 0, next = null;
+    rows.forEach(function (r) {
+      var i = byId[r.result_id];
+      var cell = (i === undefined) ? null : container.querySelector('[data-st="' + i + '"]');
+      if (r.status === 'sent') {
+        sent++;
+        if (cell) { cell.className = 'rsr-st ok'; cell.textContent = '\u2713 sent'; }
+        var cb = (i === undefined) ? null : container.querySelector('.rsr-cb[data-i="' + i + '"]');
+        if (cb && cb.checked) { cb.checked = false; refreshSendBtn(container); }
+      } else if (r.status === 'failed') {
+        failed++;
+        if (cell) { cell.className = 'rsr-st no'; cell.textContent = '\u2717 ' + (r.error || 'failed'); }
+      } else if (r.status === 'cancelled') {
+        if (cell) { cell.className = 'rsr-st'; cell.textContent = 'cancelled'; }
+      } else {
+        pending++;
+        var due = r.send_after ? new Date(r.send_after) : null;
+        if (due && (!next || due < next)) next = due;
+        if (cell) {
+          var w = due ? Math.max(0, Math.round((due - Date.now()) / 1000)) : 0;
+          cell.className = 'rsr-st go';
+          cell.textContent = r.status === 'sending' ? 'sending...'
+                           : (w > 5 ? 'in ' + (w >= 60 ? Math.round(w / 60) + ' min' : w + 's') : 'queued');
+        }
+      }
+    });
+
+    var strip = container.querySelector('#rsrQueue');
+    if (strip) {
+      if (pending) {
+        var wn = next ? Math.max(0, Math.round((next - Date.now()) / 1000)) : 0;
+        strip.innerHTML = '<b>\u23f3 ' + pending + ' waiting</b>' +
+          (wn > 5 ? ' \u00b7 next in ' + (wn >= 60 ? Math.round(wn / 60) + ' min' : wn + 's') : ' \u00b7 sending now') +
+          (sent ? ' \u00b7 ' + sent + ' sent' : '') +
+          (failed ? ' \u00b7 <span style="color:#dc2626">' + failed + ' failed</span>' : '') +
+          '<span class="rsr-qnote">the server is sending these \u2014 you can close this page</span>';
+      } else if (sent || failed) {
+        strip.innerHTML = '<b>\u2713 ' + sent + ' sent</b>' +
+          (failed ? ' \u00b7 <span style="color:#dc2626">' + failed + ' failed</span>' : '');
+      } else {
+        strip.innerHTML = '';
+      }
+      strip.style.display = (pending || sent || failed) ? '' : 'none';
+    }
+    showStop(container, pending > 0);
+    return pending > 0;
   }
 
   function showStop(container, on) {
@@ -432,17 +476,12 @@
     if (b) b.style.display = on ? '' : 'none';
   }
 
-  /** Cancel what has not gone yet. Anything already sent stays sent. */
-  async function cancelBatch(container) {
-    if (!state.batch) return;
-    try { await rpc('resend_cancel', { p_batch: state.batch }); } catch (e) { /* nothing to undo */ }
-    if (state.watchStop) state.watchStop();
-    state.busy = false;
-    var btn = container.querySelector('#rsrSend');
-    btn.disabled = false;
-    btn.textContent = 'Send';
-    showStop(container, false);
-    wireTable(container);
+  /** Stop whatever has not gone yet - all of it, not one batch. After a
+   *  reload the panel does not know which batch it was, and "Stop" means
+   *  stop. Anything already sent stays sent. */
+  async function cancelQueue(container) {
+    try { await rpc('resend_cancel_all'); } catch (e) { flash(container, 'Could not stop: ' + e.message); }
+    poll(container, true);
   }
 
   window.AdminPanels = window.AdminPanels || {};
@@ -450,6 +489,9 @@
     open: function (container) {
       ensureCss();
       render(container);
+      // A batch queued in an earlier visit is still the server's; the panel
+      // has to show it the moment it opens, or it invites a second Send.
+      poll(container, true);
     }
   };
 })();
